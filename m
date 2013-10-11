@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D06B6D057
+	by mail.openembedded.org (Postfix) with ESMTP id C3A676D032
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 11 Oct 2013 15:27:31 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 Oct 2013 08:27:33 -0700
+	by azsmga101.ch.intel.com with ESMTP; 11 Oct 2013 08:27:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1081,1371106800"; d="scan'208";a="373506440"
+X-IronPort-AV: E=Sophos;i="4.90,1081,1371106800"; d="scan'208";a="373506444"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.234])
 	by azsmga001.ch.intel.com with ESMTP; 11 Oct 2013 08:27:33 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Oct 2013 08:27:18 -0700
-Message-Id: <3a89a2c8d9cc9a29a529338f671928ce4d4e1133.1381505051.git.sgw@linux.intel.com>
+Date: Fri, 11 Oct 2013 08:27:19 -0700
+Message-Id: <8679eec425909713b55c4bdb92b5d1891cc0709e.1381505051.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <664cd9c705a03b0529f30e091b6e8b721ef13a09.1381505051.git.sgw@linux.intel.com>
 References: <664cd9c705a03b0529f30e091b6e8b721ef13a09.1381505051.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1381505051.git.sgw@linux.intel.com>
 References: <cover.1381505051.git.sgw@linux.intel.com>
-Subject: [PATCH 12/18] tzdata: Update to 2013g
+Subject: [PATCH 13/18] lsbinitscripts: Update to 9.50
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2013 15:27:31 -0000
+X-List-Received-Date: Fri, 11 Oct 2013 15:27:32 -0000
 
-Add the README to LIC_FILES_CHKSUM and update LICESE since it now
-mentions that some files are licensed under BSD
-
-(From OE-Core rev: 1b9d54e446ba1e7f89d2cc19ba4ff4b008715fbc)
+(From OE-Core rev: 9fc6cf7a16b2c6e0f0e1bceec7e89a378b4bd9f6)
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../recipes-extended/tzdata/{tzdata_2013d.bb => tzdata_2013g.bb} | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/tzdata/{tzdata_2013d.bb => tzdata_2013g.bb} (96%)
+ .../lsb/{lsbinitscripts_9.48.bb => lsbinitscripts_9.50.bb}          | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.48.bb => lsbinitscripts_9.50.bb} (78%)
 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2013d.bb b/meta/recipes-extended/tzdata/tzdata_2013g.bb
-similarity index 96%
-rename from meta/recipes-extended/tzdata/tzdata_2013d.bb
-rename to meta/recipes-extended/tzdata/tzdata_2013g.bb
-index c0f1506..a2f6c63 100644
---- a/meta/recipes-extended/tzdata/tzdata_2013d.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2013g.bb
-@@ -1,8 +1,9 @@
- DESCRIPTION = "Timezone data"
- HOMEPAGE = "ftp://elsie.nci.nih.gov/pub/"
- SECTION = "base"
--LICENSE = "PD"
--LIC_FILES_CHKSUM = "file://asia;beginline=2;endline=3;md5=06468c0e84ef4d4c97045a4a29b08234"
-+LICENSE = "PD & BSD"
-+LIC_FILES_CHKSUM = "file://asia;beginline=2;endline=3;md5=06468c0e84ef4d4c97045a4a29b08234 \
-+                    file://README;md5=0b7570113550eb5d30aa4bd220964b8f"
- DEPENDS = "tzcode-native"
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.48.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.50.bb
+similarity index 78%
+rename from meta/recipes-extended/lsb/lsbinitscripts_9.48.bb
+rename to meta/recipes-extended/lsb/lsbinitscripts_9.50.bb
+index 3011f98..3071b6a 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts_9.48.bb
++++ b/meta/recipes-extended/lsb/lsbinitscripts_9.50.bb
+@@ -6,12 +6,12 @@ DEPENDS = "popt glib-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
  
- inherit allarch
-@@ -14,8 +15,8 @@ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarcti
+ S="${WORKDIR}/initscripts-${PV}"
+-SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.48.tar.bz2/7dfab81a5a8d3f0dea5ba55e391c26f3/initscripts-9.48.tar.bz2 \
++SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.50.tar.bz2/7252642952d33be10cc00beb862c7b7b/initscripts-9.50.tar.bz2 \
+            file://functions.patch \
+           " 
  
- SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+-SRC_URI[md5sum] = "7dfab81a5a8d3f0dea5ba55e391c26f3"
+-SRC_URI[sha256sum] = "5f786121269383d81117532877f6488b48c52a544e0013528dc52c8924f70455"
++SRC_URI[md5sum] = "7252642952d33be10cc00beb862c7b7b"
++SRC_URI[sha256sum] = "1d8fb32b9a7de0c24437acdab27d71deb58c05314f81978ec2aea574fba862e0"
  
--SRC_URI[tzdata.md5sum] = "65b6818162230fc02f86f293376c73df"
--SRC_URI[tzdata.sha256sum] = "cd1c96f0676e0edceebc6a418a2222ffb05becb41180dd9f847b9c7cef303b04"
-+SRC_URI[tzdata.md5sum] = "76dbc3b5a81913fc0d824376c44a5d15"
-+SRC_URI[tzdata.sha256sum] = "b6cdd3998dcc732a6ae5e101e1394f9d4d6dff68bd48a8fb78c44c2b997d3a4f"
- 
- S = "${WORKDIR}"
+ inherit update-alternatives
  
 -- 
 1.8.3.1
