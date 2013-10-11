@@ -1,40 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id F17ED6CE84
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 619866CE84
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 06:53:07 +0000 (UTC)
-Received: by mail-pd0-f174.google.com with SMTP id y13so3747924pdi.5
+	Fri, 11 Oct 2013 07:07:23 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id ld13so2509530vcb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 23:53:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=+zRr7lDn2fG4OqCqC0+XjQYZflQW0wI6KaY9XUEbLu8=;
-	b=tjhMzftt/RtzrSpLqpt+ByXT3zSxkOUfnk+dqodqkmTr1rJ9bsN6F06AX8IUukJ0aT
-	iSFczjAARkvzKSlMSFL/toJnSFWl1rpQFL8vxumkA61K5sZ7N7fqii/m0olJvrMYXz0K
-	kQye4Se3+I9mpi50igae2EFhmGAMjQzHp+z+nHpUogbXpmuSrn0VwDVewUkc7pbHWMov
-	T/temUFQuMW7h2oh9oofIO8RFPwuLIIPzijUvgv+pxtAgYU4hx7vZiXAG2JpY3yCcpLV
-	u/xKPH5HFHpDeHFYvvg6PVN+Q0oEwXFe+B6XIDCXstMic7grPV/zmYdFDyFadEoMqec1
-	GOig==
-X-Received: by 10.66.121.234 with SMTP id ln10mr19629041pab.20.1381474389920; 
-	Thu, 10 Oct 2013 23:53:09 -0700 (PDT)
-Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPSA id
-	7sm67751370paf.22.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 10 Oct 2013 23:53:09 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
-Date: Thu, 10 Oct 2013 23:53:08 -0700
-Message-Id: <F2DA74A1-4BC4-41A0-B1C3-BB6D787EF8AD@gmail.com>
+	Fri, 11 Oct 2013 00:07:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=/yQzI+ezjp1/5WbVLLf3ARAyG+hjzXCpb8lilMwOQoI=;
+	b=U8+ZsdCESKM1jEyYA9W8H6a33wNFap0WC7YtkNqT/J0c+ZY4sEn5A8wBzi+GMUPDyU
+	chCBouk56OsrGXHvlvPM0C1Mbm4FpIRNnqPYzsF0yxAOZX1ZbXk7yRqi1QT8VvDv8cEI
+	YNDSJoY51PbPp2jHGyC99hri/Gsuel5V+qpYvTNCZLpTQnT+CdURYP7klDPzWoBljnaK
+	OFxC+Q6VykKyzO2dOsjVaKnZyggF5QI2YukrPqlo6ZR6fyUtAUSjvp4abyGKh8i+GBSm
+	iM6rdaUuwjcXqHvIzvPajAXuUdcrG5n72Oc4QR+nRPoPg93f3wTYKsJ/zmsYKwyKMUZ3
+	Gj2Q==
+X-Gm-Message-State: ALoCoQnNknmCQFPo9BBS8EwWW+EqJf+EytaFb+BxcMYiEyrvqyZ7Dph7w7z80gnxhdwqg1krBNPM
+MIME-Version: 1.0
+X-Received: by 10.220.10.194 with SMTP id q2mr20018980vcq.2.1381475244633;
+	Fri, 11 Oct 2013 00:07:24 -0700 (PDT)
+Received: by 10.220.103.203 with HTTP; Fri, 11 Oct 2013 00:07:24 -0700 (PDT)
+In-Reply-To: <F2DA74A1-4BC4-41A0-B1C3-BB6D787EF8AD@gmail.com>
 References: <1381400211-28604-1-git-send-email-koen.kooi@linaro.org>
 	<CABMQnVJZCxvFgJNgtMZ=gp2BiWLofpFyXCZ9H1-xQhLM=hsd6g@mail.gmail.com>
 	<86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
-To: Koen Kooi <koen@dominion.thruhere.net>
-X-Mailer: Apple Mail (2.1510)
-Cc: "openembedded-core@lists.openembedded.org"
+	<F2DA74A1-4BC4-41A0-B1C3-BB6D787EF8AD@gmail.com>
+Date: Fri, 11 Oct 2013 10:07:24 +0300
+Message-ID: <CAGNsrLDDvoCmxsPG6sphmfJW8+Bd10GCQ5mYo26VQTQHMyYf9g@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] classes: add aarch64_be target
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -49,29 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2013 06:53:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 11 Oct 2013 07:07:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On 11 October 2013 09:53, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Oct 10, 2013, at 11:48 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>
+>>
+>> Op 11 okt. 2013, om 07:37 heeft Nobuhiro Iwamatsu <iwamatsu@nigauri.org> het volgende geschreven:
+>>
+>>> Hi,
+>>>
+>>> I have a question.
+>>> Why don't you unite  name rules of  other architecture?
+>>> Forexample, armeb is endian-big of arm.  mipsel is endian-little of mips.
+>>> If you can unified name, arm64eb is better, I think.
+>>
+>> In an ideal world I'd do that, but that ghastly 'aarch64_be' is already in upstream gcc, binutils and eglibc  :(
+>>
+>
+> Now that you work with them.
 
-On Oct 10, 2013, at 11:48 PM, Koen Kooi <koen@dominion.thruhere.net> =
-wrote:
+:) you can surely reached us before that...
 
->=20
-> Op 11 okt. 2013, om 07:37 heeft Nobuhiro Iwamatsu =
-<iwamatsu@nigauri.org> het volgende geschreven:
->=20
->> Hi,
->>=20
->> I have a question.
->> Why don't you unite  name rules of  other architecture?
->> Forexample, armeb is endian-big of arm.  mipsel is endian-little of =
-mips.
->> If you can unified name, arm64eb is better, I think.
->=20
-> In an ideal world I'd do that, but that ghastly 'aarch64_be' is =
-already in upstream gcc, binutils and eglibc  :(
->=20
+> can you find out the reasoning behind it ?
 
-Now that you work with them. can you find out the reasoning behind it ?=
+we can ask...but it has been decided by ARM 3 years ago and we're a
+bit late in the game. the we is including us, Linaro.
 
