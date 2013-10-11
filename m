@@ -1,36 +1,30 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id F3A7D6CEA5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 569616CC37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 15:59:52 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id o17so2567600oag.32
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 08:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=IOI8lVLG42Qa4UrP7gQan0sqVyUNtRCj/AmdMiYD/SI=;
-	b=LKxO72pEowWeDelyMNPWHEwMRNr1NdbmNRPOqDIHAoDtiunNGedlT5OjfhQs4GEWt4
-	wg9/NzeIJnSfAjQHIAntHCwM1CZaMf7RwkAK/nOAmY66u2pG3P6K/H6C/roqf+QNWP+e
-	vXHeoPx2qtqdFtVGCQMPlcYsr0o1Kzh+0YB06RRJzcwKcTLNZnete45yzOv/xS9LbBRn
-	VxJ1+4cHjRF/8gIIdVds6zdX0IFuqeik74GerLB7jCPs6pNyhKUeOONpVp3LNXsBkTvB
-	0GWfGSQ/P9EaLNe4EdPHHCg6gMYg7LgKNO9R+JXWvoxhWUFEBFGF62eLAQmJDgmIsf2P
-	FnKw==
-X-Received: by 10.60.43.131 with SMTP id w3mr14944057oel.10.1381507194012;
-	Fri, 11 Oct 2013 08:59:54 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id y1sm96145248oek.4.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 11 Oct 2013 08:59:53 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 Oct 2013 12:59:35 -0300
-Message-Id: <1381507175-5904-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.4.rc3
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2] uboot-config.bbclass: Raise an error for unknown configs
+	Fri, 11 Oct 2013 16:08:34 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r9BG8N0C020598; Fri, 11 Oct 2013 17:08:23 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eZBHN4C1b4L4; Fri, 11 Oct 2013 17:08:23 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r9BG8HXq020594
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 11 Oct 2013 17:08:18 +0100
+Message-ID: <1381507693.29912.185.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ml@communistcode.co.uk
+Date: Fri, 11 Oct 2013 17:08:13 +0100
+In-Reply-To: <5258178A.9060606@communistcode.co.uk>
+References: <5258178A.9060606@communistcode.co.uk>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Nasty tar breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +37,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2013 15:59:53 -0000
+X-List-Received-Date: Fri, 11 Oct 2013 16:08:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When passing the wrong value for UBOOT_CONFIG it ought to raise an
-error otherwise it is quite difficult for user to notice it didn't
-behave as expected.
+On Fri, 2013-10-11 at 16:21 +0100, Jack Mitchell wrote:
+> I upgraded my host distribution today which pulled in tar 1.27 [1] and
+> caused a nasty breakage. Downgrading to tar 1.26 fixed the problem, I
+> would expect this is something we want to fix before 1.5 goes out the door?
+> 
+> DEBUG: Executing python function sstate_task_prefunc
+> DEBUG: Python function sstate_task_prefunc finished
+> DEBUG: Executing python function do_populate_sysroot
+> DEBUG: Executing shell function sysroot_stage_all
+> tar: --same-order option cannot be used with -c
+> Try 'tar --help' or 'tar --usage' for more information.
+> tar: This does not look like a tar archive
+> tar: Exiting with failure status due to previous errors
+> WARNING:
+> /home/jack/Work/oe-core.git/test-build/tmp-eglibc/work/x86_64-linux/quilt-native/0.60-r0/temp/run.sysroot_stage_all.21827:1
+> exit 2 from
+>   tar -xf - -C "$dest"
+> DEBUG: Python function do_populate_sysroot finished
+> ERROR: Function failed: sysroot_stage_all (log file is located at
+> /home/jack/Work/oe-core.git/test-build/tmp-eglibc/work/x86_64-linux/quilt-native/0.60-r0/temp/log.do_populate_sysroot.21827)
+> 
+> [1] https://lists.gnu.org/archive/html/info-gnu/2013-10/msg00004.html
 
-Reported-by: Lauren Post <lauren.post@freescale.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-Changes in v2:
-- Use ValueError as exception
+Just to be clear, the command is:
 
- meta/classes/uboot-config.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+tar -cf - -C "$src" -ps . | tar -xf - -C "$dest"
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index ba01bff..5068f49 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -51,4 +51,9 @@ python () {
-             if len(items) > 1 and items[1]:
-                 bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
-                 d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-+
-+            # Go out as we found a match!
-+            break
-+    else:
-+        raise ValueError("UBOOT_CONFIG %s is not supported" % ubootconfig)
- }
--- 
-1.8.4.rc3
+from staging.bbclass. The fix is probably just to drop the s from the
+-ps.
+
+Cheers,
+
+Richard
 
 
