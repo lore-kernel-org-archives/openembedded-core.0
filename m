@@ -1,21 +1,22 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id E7CA66CF02
+	by mail.openembedded.org (Postfix) with ESMTP id 8835C6CF15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 15:27:22 +0000 (UTC)
+	Fri, 11 Oct 2013 15:27:27 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 Oct 2013 08:27:24 -0700
+	by azsmga101.ch.intel.com with ESMTP; 11 Oct 2013 08:27:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1081,1371106800"; d="scan'208";a="373506385"
+X-IronPort-AV: E=Sophos;i="4.90,1081,1371106800"; d="scan'208";a="373506397"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.234])
-	by azsmga001.ch.intel.com with ESMTP; 11 Oct 2013 08:27:23 -0700
+	by azsmga001.ch.intel.com with ESMTP; 11 Oct 2013 08:27:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Oct 2013 08:27:06 -0700
-Message-Id: <cover.1381505051.git.sgw@linux.intel.com>
+Date: Fri, 11 Oct 2013 08:27:07 -0700
+Message-Id: <664cd9c705a03b0529f30e091b6e8b721ef13a09.1381505051.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH 00/18] Package Updates and patches
+In-Reply-To: <cover.1381505051.git.sgw@linux.intel.com>
+References: <cover.1381505051.git.sgw@linux.intel.com>
+Subject: [PATCH 01/18] kmod-native: use bswap to work on older Linux hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,85 +29,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2013 15:27:24 -0000
+X-List-Received-Date: Fri, 11 Oct 2013 15:27:28 -0000
 
-Richard,
+From: Ting Liu <b28495@freescale.com>
 
-Here is a set of package updates along with a few patches, I included a couple
-of patches from others (out of master-next) here since I based my patches on 
-them.
+We can't use htobe* and be*toh functions because they are not
+available on older versions of glibc, For example, shipped on Centos 5.5.
 
-Sau!
+Change to directly calling bswap_* as defined in byteswap.h.
 
-The following changes since commit 1149b1fef8912f77d971242dfec151fff5a3aa51:
+(From OE-Core rev: c7577e0205af641171cf4eab12e98e865c4d2338)
 
-  build-appliance: Update SRCREV for release (2013-10-08 16:33:25 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
-
-Maxin B. John (1):
-  sqlite3: update to version 3.8.0.1
-
-Saul Wold (16):
-  xz: Add nativesdk for Python3 nativesdk dependency
-  cups: upgrade to 1.6.4
-  desktop-file-utils-native: upgrade to 0.22
-  libbsd: upgrade to 0.6.0
-  man-pages: upgrade to 3.54
-  rsync: upgrade to 3.1.0
-  util-macros: upgrade to 1.17.1
-  file: Update to 5.15
-  tzcode: Update to 2013g
-  tzdata: Update to 2013g
-  lsbinitscripts: Update to 9.50
-  libpng: Update to 1.6.6
-  sqlite3: update to 3.8.0.2
-  kconfig-frontends: Update to 3.11.0.0
-  kmod: Add patch to fix seperate build dir of ptest
-  kmod: Update to Rev 15 via git
-
-Ting Liu (1):
-  kmod-native: use bswap to work on older Linux hosts
-
- ...e_0.21.bb => desktop-file-utils-native_0.22.bb} |  4 +--
- .../file/{file_5.14.bb => file_5.15.bb}            |  5 ++-
- ...s_3.10.0.0.bb => kconfig-frontends_3.11.0.0.bb} |  4 +--
- .../rsync/{rsync_3.0.9.bb => rsync_3.1.0.bb}       |  5 ++-
- .../cups/{cups_1.6.3.bb => cups_1.6.4.bb}          |  4 +--
- ...binitscripts_9.48.bb => lsbinitscripts_9.50.bb} |  6 ++--
- .../{man-pages_3.53.bb => man-pages_3.54.bb}       |  4 +--
- ...code-native_2013d.bb => tzcode-native_2013g.bb} | 14 ++++----
- .../tzdata/{tzdata_2013d.bb => tzdata_2013g.bb}    |  9 ++---
- meta/recipes-extended/xz/xz_5.1.2alpha.bb          |  2 +-
- .../{util-macros_1.17.bb => util-macros_1.17.1.bb} |  5 ++-
- meta/recipes-kernel/kmod/kmod-native_git.bb        |  4 +--
- meta/recipes-kernel/kmod/kmod.inc                  | 13 ++++----
+Signed-off-by: Ting Liu <b28495@freescale.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-kernel/kmod/kmod-native_git.bb        |  1 +
  ...alling-bswap_-instead-of-htobe-and-be-toh.patch | 39 ++++++++++++++++++++++
- .../kmod/kmod/fix-seperatebuilddir.patch           | 34 +++++++++++++++++++
- meta/recipes-kernel/kmod/kmod_git.bb               |  6 ++--
- .../libpng/{libpng_1.6.3.bb => libpng_1.6.6.bb}    | 10 +++---
- .../libbsd/{libbsd_0.5.2.bb => libbsd_0.6.0.bb}    |  4 +--
- .../{sqlite3_3071700.bb => sqlite3_3080002.bb}     |  4 +--
- 19 files changed, 125 insertions(+), 51 deletions(-)
- rename meta/recipes-devtools/desktop-file-utils/{desktop-file-utils-native_0.21.bb => desktop-file-utils-native_0.22.bb} (76%)
- rename meta/recipes-devtools/file/{file_5.14.bb => file_5.15.bb} (85%)
- rename meta/recipes-devtools/kconfig-frontends/{kconfig-frontends_3.10.0.0.bb => kconfig-frontends_3.11.0.0.bb} (89%)
- rename meta/recipes-devtools/rsync/{rsync_3.0.9.bb => rsync_3.1.0.bb} (82%)
- rename meta/recipes-extended/cups/{cups_1.6.3.bb => cups_1.6.4.bb} (80%)
- rename meta/recipes-extended/lsb/{lsbinitscripts_9.48.bb => lsbinitscripts_9.50.bb} (78%)
- rename meta/recipes-extended/man-pages/{man-pages_3.53.bb => man-pages_3.54.bb} (82%)
- rename meta/recipes-extended/tzcode/{tzcode-native_2013d.bb => tzcode-native_2013g.bb} (48%)
- rename meta/recipes-extended/tzdata/{tzdata_2013d.bb => tzdata_2013g.bb} (96%)
- rename meta/recipes-graphics/xorg-util/{util-macros_1.17.bb => util-macros_1.17.1.bb} (74%)
+ 2 files changed, 40 insertions(+)
  create mode 100644 meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
- create mode 100644 meta/recipes-kernel/kmod/kmod/fix-seperatebuilddir.patch
- rename meta/recipes-multimedia/libpng/{libpng_1.6.3.bb => libpng_1.6.6.bb} (62%)
- rename meta/recipes-support/libbsd/{libbsd_0.5.2.bb => libbsd_0.6.0.bb} (83%)
- rename meta/recipes-support/sqlite/{sqlite3_3071700.bb => sqlite3_3080002.bb} (60%)
 
+diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
+index f22efc0..d008cbf 100644
+--- a/meta/recipes-kernel/kmod/kmod-native_git.bb
++++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
+@@ -6,6 +6,7 @@ inherit native
+ 
+ SRC_URI += "file://fix-undefined-O_CLOEXEC.patch \
+             file://0001-Fix-build-with-older-gcc-4.6.patch \
++            file://Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch \
+            "
+ 
+ do_install_append (){
+diff --git a/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch b/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
+new file mode 100644
+index 0000000..82b83b3
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/Change-to-calling-bswap_-instead-of-htobe-and-be-toh.patch
+@@ -0,0 +1,39 @@
++From 0c4dbadc9db3cda1cfca64e44ea08c6e89919ea7 Mon Sep 17 00:00:00 2001
++From: Ting Liu <b28495@freescale.com>
++Date: Tue, 10 Sep 2013 13:44:18 +0800
++Subject: [PATCH] Change to calling bswap_* instead of htobe* and be*toh
++
++We can't use htobe* and be*toh functions because they are not
++available on older versions of glibc, For example, shipped on Centos 5.5.
++
++Change to directly calling bswap_* as defined in+byteswap.h.
++
++Signed-off-by: Ting Liu <b28495@freescale.com>
++---
++ libkmod/libkmod-signature.c |    3 ++-
++ 1 files changed, 2 insertions(+), 1 deletions(-)
++
++diff --git a/libkmod/libkmod-signature.c b/libkmod/libkmod-signature.c
++index 6b80caa..3544a36 100644
++--- a/libkmod/libkmod-signature.c
+++++ b/libkmod/libkmod-signature.c
++@@ -19,6 +19,7 @@
++  */
++ 
++ #include <endian.h>
+++#include <byteswap.h>
++ #include <stdint.h>
++ #include <stdlib.h>
++ #include <string.h>
++@@ -121,7 +122,7 @@ bool kmod_module_signature_info(const struct kmod_file *file, struct kmod_signat
++ 			modsig->hash >= PKEY_HASH__LAST ||
++ 			modsig->id_type >= PKEY_ID_TYPE__LAST)
++ 		return false;
++-	sig_len = be32toh(modsig->sig_len);
+++	sig_len = bswap_32(modsig->sig_len);
++ 	if (size < (off_t)(modsig->signer_len + modsig->key_id_len + sig_len))
++ 		return false;
++ 
++-- 
++1.7.5.4
++
 -- 
 1.8.3.1
 
