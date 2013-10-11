@@ -1,37 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 1398260EA1
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A50E6CC7F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 11:54:22 +0000 (UTC)
-Received: by mail-ie0-f179.google.com with SMTP id aq17so6383761iec.10
+	Fri, 11 Oct 2013 13:37:55 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id cb5so1175454wib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 04:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=jGzTxH7n505Kt9iGg46QpB49TI9+qjmXb4iY/FRW9Cc=;
-	b=RorB7iIEUGXo12sf2qhfzUSLRFXs4FY4nEyUM4u2mlCraP8oVNiWmLPmV+bgVxe2LN
-	NBnsp+VQKSZEG3muWpyihi/zINE2DrDZxXJDPGlmVw2B9BvOkA8YrmO2BMfl5ldFSocI
-	RDVhHx3Tb2/ippFCwkZLd+baLYXOCzAbFmZ604nLN2Z1m4RF3VrifX020XH/fKTaDTeN
-	E5NDTvigNyMJpHTzEnTIE2N1CN94f51apqoNmiCpLATUvqZ1sucmx0ZsgeDDleYWs42I
-	2xA3hl9AVer/5BbUhWC0DUTVpv+Yc8oF3CaEqCu52OiUd3FGc1swHGey5HkEbnC2Qwru
-	lrqA==
-MIME-Version: 1.0
-X-Received: by 10.50.114.168 with SMTP id jh8mr2425977igb.6.1381492463601;
-	Fri, 11 Oct 2013 04:54:23 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.64.20.229 with HTTP; Fri, 11 Oct 2013 04:54:23 -0700 (PDT)
-In-Reply-To: <1381479495.29912.98.camel@ted>
-References: <1381428927-7057-1-git-send-email-otavio@ossystems.com.br>
-	<1381479495.29912.98.camel@ted>
-Date: Fri, 11 Oct 2013 08:54:23 -0300
-X-Google-Sender-Auth: g0vl25-dCiJ7OzSWgXulWu6Vp4Y
-Message-ID: <CAP9ODKro5_sftkjS0+WsPXyaa-oSYatbxBh6Y9ajsPtYzzDeGA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] uboot-config.bbclass; Raise an error for unknown configs
+	Fri, 11 Oct 2013 06:37:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ikpvomH1xI68js+NZvnfsgiCHPjj7479zZYQRL2W/JA=;
+	b=ZuASqDV/TcIAWWYOkFtxOfYVXNXr7lbm0AjH0H5sITq71g4YBjsroOQ3XHo4RktQx5
+	xhPR9H4Q36Mn/6raQPiP5bNvuibkZj5CcgF/S6oo+Ce1t9VqB4dQ/hE415AiOjr3CsrZ
+	7Nv0NFhHQuV4YsQgVcQMFTiZgduRPzGceooeu9F1YoRLoiAkKhiguRwTYosk24jnz7BZ
+	dZ/ThzyTs5P7fJjmqZKAMl2t5aYXd9InU+KMpm78EohxkGdHs38t87FzOOu9bERc2tGt
+	zR+UL+7RQ3tUBFYGNM0zow9Qc5hUy71/slpmUVazdYoO+XswgGHeT8MvHmPVphw1oTa4
+	CyPw==
+X-Gm-Message-State: ALoCoQl6qnswPlGdbeRf/G4HOtqStRZuHUPRISQLFNvKi6xOHFRZmhXC4Io3+u7oFAxhFTLoOKci
+X-Received: by 10.194.123.227 with SMTP id md3mr17218229wjb.17.1381498676375; 
+	Fri, 11 Oct 2013 06:37:56 -0700 (PDT)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPSA id ey4sm5790095wic.11.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Fri, 11 Oct 2013 06:37:54 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Oct 2013 15:37:44 +0200
+Message-Id: <1381498665-21514-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 1/2] openssh: package sshd PAM config inside openssh-sshd package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2013 11:54:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 11 Oct 2013 13:37:56 -0000
 
-On Fri, Oct 11, 2013 at 5:18 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2013-10-10 at 15:15 -0300, Otavio Salvador wrote:
->> When passing the wrong value for UBOOT_CONFIG it ought to raise an
->> error otherwise it is quite difficult for user to notice it didn't
->> behave as expected.
->>
->> Reported-by: Lauren Post <lauren.post@freescale.com>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->>  meta/classes/uboot-config.bbclass | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
->> index ba01bff..ff226a1 100644
->> --- a/meta/classes/uboot-config.bbclass
->> +++ b/meta/classes/uboot-config.bbclass
->> @@ -51,4 +51,9 @@ python () {
->>              if len(items) > 1 and items[1]:
->>                  bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
->>                  d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
->> +
->> +            # Go out as we found a match!
->> +            break
->> +    else:
->> +        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ubootconfig)
->>  }
->
-> Shouldn't this be an exception such as ValueError rather than
-> SkipPackage?
+Without this PAM integration is broken after installing openssh-sshd
 
-Good point; I will send a v2 fixing this.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-connectivity/openssh/openssh_6.2p2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for reviewing it.
-
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+index bb5c79e..4b44bf4 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+@@ -120,7 +120,7 @@ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc $
+ FILES_${PN}-scp = "${bindir}/scp.${BPN}"
+ FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
+ FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
+-FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd"
++FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
+ FILES_${PN}-sftp = "${bindir}/sftp"
+ FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
+ FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.3.1
+
 
