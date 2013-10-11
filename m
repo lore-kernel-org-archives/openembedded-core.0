@@ -1,28 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B80F6CC7F
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C46C66CC7F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 09:33:04 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 11 Oct 2013 02:33:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1079,1371106800"; d="scan'208";a="373385663"
-Received: from unknown (HELO helios.localnet) ([10.252.120.209])
-	by azsmga001.ch.intel.com with ESMTP; 11 Oct 2013 02:33:03 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Denys Dmytriyenko <denis@denix.org>,
-	"Franklin S. Cooper Jr" <fcooper@ti.com>
-Date: Fri, 11 Oct 2013 10:33:03 +0100
-Message-ID: <25585713.fM0EC1xtYq@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1398912.rgWHutAkox@helios>
-References: <1380045500-10798-1-git-send-email-fcooper@ti.com>
-	<20131004184116.GA8393@denix.org> <1398912.rgWHutAkox@helios>
+	Fri, 11 Oct 2013 10:06:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9BA680X013621
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Oct 2013 03:06:08 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 11 Oct 2013 03:06:07 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Oct 2013 06:06:05 -0400
+Message-ID: <cover.1381485178.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [for dylan][PATCH] kernel.bbclass: Correct post(inst|rm) package association
+Subject: [PATCH 0/1] populate_sdk_rpm: add python to nativesdk INSTALL_PROVIDESNAME_RPM list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2013 09:33:04 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 11 Oct 2013 10:06:08 -0000
+Content-Type: text/plain
 
-On Friday 04 October 2013 23:56:18 Paul Eggleton wrote:
-> On Friday 04 October 2013 14:41:16 Denys Dmytriyenko wrote:
-> > Ping. Is Dylan still alive?
-> 
-> It is yes. I pushed a paule/dylan-next poky-contrib branch the other day
-> including this fix but haven't had a chance to run it through the
-> autobuilder yet (been busy with 1.5 work). Will try to get it done next
-> week.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-FYI the patch has now been merged to the dylan branch along with a few other 
-fixes.
+If any native SDK packages involve python scripts that start with
+'#!/usr/bin/python', then the populate_sdk step will fail with:
 
-Cheers,
-Paul
+    error: Can't install nativesdk-xxx-$ver@x86_64_nativesdk: \
+    no package provides /usr/bin/python
+
+Just like perl, we also need to add python to INSTALL_PROVIDESNAME_RPM
+list to fix this issue.
+
+The following changes since commit 102bf5e0f640fe85068452a42b85077f1c81e0c9:
+
+  build-appliance: Update SRCREV for release (2013-10-08 16:33:43 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/nativesdk-ignore-python
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/nativesdk-ignore-python
+
+Wenzong Fan (1):
+  populate_sdk_rpm: add python to nativesdk INSTALL_PROVIDESNAME_RPM
+    list
+
+ meta/classes/populate_sdk_rpm.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
