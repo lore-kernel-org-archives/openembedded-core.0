@@ -1,39 +1,38 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id DE0B96CE84
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id F17ED6CE84
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 06:48:49 +0000 (UTC)
-Received: by mail-wg0-f46.google.com with SMTP id k14so3732221wgh.25
+	Fri, 11 Oct 2013 06:53:07 +0000 (UTC)
+Received: by mail-pd0-f174.google.com with SMTP id y13so3747924pdi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 23:48:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=xYceBfy+75OEu0iWRiRhnkkZLPw/L+JAkHjXYmHR0Qg=;
-	b=hXxi1w13T9RyG8Xv6ztY3HAmfF347LJ1oQo8FqDnfyh0BIh2a3fDTrfxI1Ixdmtry0
-	fxUFuBt35B41iAEUvAmRpMsTz3SPCuw1Lby/I63OsM1FiFcR4dcvQEpoMPp+HKcvOly3
-	VIXwpsVN8SC/pcNb9ALYUL2AjxjrSzWUA0P83v3uh87nvPR9E6hhXRI1kj8Tu1ha5QGH
-	l9Yoq1R5RrUy7sHSLpGVOT+bscP1gNIrKgdU2571WRMaQF0c9jsYpov6UlHWy2x6Zzf0
-	M33fVEnuYr0/RROShrXn3vyxk6w1eaHB6vrt9TU9z6uHr2qSNS7CFAIxrwxk2buaDaz0
-	Neag==
-X-Gm-Message-State: ALoCoQndUk+KF1SfWjo1bPHCJPet07wSgDIo/piEVUgbGOzrfPi7BeicWig0DN1lKb98OHpppzct
-X-Received: by 10.180.37.227 with SMTP id b3mr1865874wik.24.1381474130852;
-	Thu, 10 Oct 2013 23:48:50 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::f179:7f43:e390:81b2?
-	([2001:610:612:0:f179:7f43:e390:81b2])
-	by mx.google.com with ESMTPSA id om10sm2647948wic.5.2013.10.10.23.48.49
-	for <multiple recipients>
+	Thu, 10 Oct 2013 23:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=+zRr7lDn2fG4OqCqC0+XjQYZflQW0wI6KaY9XUEbLu8=;
+	b=tjhMzftt/RtzrSpLqpt+ByXT3zSxkOUfnk+dqodqkmTr1rJ9bsN6F06AX8IUukJ0aT
+	iSFczjAARkvzKSlMSFL/toJnSFWl1rpQFL8vxumkA61K5sZ7N7fqii/m0olJvrMYXz0K
+	kQye4Se3+I9mpi50igae2EFhmGAMjQzHp+z+nHpUogbXpmuSrn0VwDVewUkc7pbHWMov
+	T/temUFQuMW7h2oh9oofIO8RFPwuLIIPzijUvgv+pxtAgYU4hx7vZiXAG2JpY3yCcpLV
+	u/xKPH5HFHpDeHFYvvg6PVN+Q0oEwXFe+B6XIDCXstMic7grPV/zmYdFDyFadEoMqec1
+	GOig==
+X-Received: by 10.66.121.234 with SMTP id ln10mr19629041pab.20.1381474389920; 
+	Thu, 10 Oct 2013 23:53:09 -0700 (PDT)
+Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPSA id
+	7sm67751370paf.22.1969.12.31.16.00.00
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 10 Oct 2013 23:48:49 -0700 (PDT)
+	Thu, 10 Oct 2013 23:53:09 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CABMQnVJZCxvFgJNgtMZ=gp2BiWLofpFyXCZ9H1-xQhLM=hsd6g@mail.gmail.com>
-Date: Fri, 11 Oct 2013 08:48:48 +0200
-Message-Id: <86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
+Date: Thu, 10 Oct 2013 23:53:08 -0700
+Message-Id: <F2DA74A1-4BC4-41A0-B1C3-BB6D787EF8AD@gmail.com>
 References: <1381400211-28604-1-git-send-email-koen.kooi@linaro.org>
 	<CABMQnVJZCxvFgJNgtMZ=gp2BiWLofpFyXCZ9H1-xQhLM=hsd6g@mail.gmail.com>
-To: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+	<86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
+To: Koen Kooi <koen@dominion.thruhere.net>
 X-Mailer: Apple Mail (2.1510)
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
@@ -50,127 +49,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2013 06:48:51 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Fri, 11 Oct 2013 06:53:08 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 11 okt. 2013, om 07:37 heeft Nobuhiro Iwamatsu <iwamatsu@nigauri.org> =
-het volgende geschreven:
+On Oct 10, 2013, at 11:48 PM, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
 
-> Hi,
 >=20
-> I have a question.
-> Why don't you unite  name rules of  other architecture?
-> Forexample, armeb is endian-big of arm.  mipsel is endian-little of =
+> Op 11 okt. 2013, om 07:37 heeft Nobuhiro Iwamatsu =
+<iwamatsu@nigauri.org> het volgende geschreven:
+>=20
+>> Hi,
+>>=20
+>> I have a question.
+>> Why don't you unite  name rules of  other architecture?
+>> Forexample, armeb is endian-big of arm.  mipsel is endian-little of =
 mips.
-> If you can unified name, arm64eb is better, I think.
-
-In an ideal world I'd do that, but that ghastly 'aarch64_be' is already =
-in upstream gcc, binutils and eglibc  :(
-
-regards,
-
-Koen
-
+>> If you can unified name, arm64eb is better, I think.
 >=20
-> Best regards,
->  Nobuhiro
+> In an ideal world I'd do that, but that ghastly 'aarch64_be' is =
+already in upstream gcc, binutils and eglibc  :(
 >=20
-> 2013/10/10 Koen Kooi <koen@dominion.thruhere.net>:
->> From: Victor Kamensky <victor.kamensky@linaro.org>
->>=20
->> Add big endian ARMv8 target to OE infrastructure
->>=20
->> Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
->> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
->> ---
->> meta/classes/insane.bbclass       | 1 +
->> meta/classes/kernel-arch.bbclass  | 1 +
->> meta/classes/libc-package.bbclass | 1 +
->> meta/classes/siteinfo.bbclass     | 2 ++
->> 4 files changed, 5 insertions(+)
->>=20
->> diff --git a/meta/classes/insane.bbclass =
-b/meta/classes/insane.bbclass
->> index a784aff..f1c6d22 100644
->> --- a/meta/classes/insane.bbclass
->> +++ b/meta/classes/insane.bbclass
->> @@ -55,6 +55,7 @@ def package_qa_get_machine_dict():
->>                       },
->>             "linux" : {
->>                         "aarch64" :   (183,    0,    0,          =
-True,          64),
->> +                        "aarch64_be" :(183,    0,    0,          =
-False,         64),
->>                         "arm" :       (40,    97,    0,          =
-True,          32),
->>                         "armeb":      (40,    97,    0,          =
-False,         32),
->>                         "powerpc":    (20,     0,    0,          =
-False,         32),
->> diff --git a/meta/classes/kernel-arch.bbclass =
-b/meta/classes/kernel-arch.bbclass
->> index 4a140eb..6a6ad91 100644
->> --- a/meta/classes/kernel-arch.bbclass
->> +++ b/meta/classes/kernel-arch.bbclass
->> @@ -23,6 +23,7 @@ def map_kernel_arch(a, d):
->>     if   re.match('(i.86|athlon|x86.64)$', a):  return 'x86'
->>     elif re.match('armeb$', a):                 return 'arm'
->>     elif re.match('aarch64$', a):               return 'arm64'
->> +    elif re.match('aarch64_be$', a):            return 'arm64'
->>     elif re.match('mips(el|64|64el)$', a):      return 'mips'
->>     elif re.match('p(pc|owerpc)(|64)', a):      return 'powerpc'
->>     elif re.match('sh(3|4)$', a):               return 'sh'
->> diff --git a/meta/classes/libc-package.bbclass =
-b/meta/classes/libc-package.bbclass
->> index fd06c4a..de3ffe6 100644
->> --- a/meta/classes/libc-package.bbclass
->> +++ b/meta/classes/libc-package.bbclass
->> @@ -268,6 +268,7 @@ python package_do_split_gconvs () {
->>             locale_arch_options =3D { \
->>                 "arm":     " --uint32-align=3D4 --little-endian ", \
->>                 "armeb":   " --uint32-align=3D4 --big-endian ",    \
->> +                "aarch64_be": " --uint32-align=3D4 --big-endian ",   =
- \
->>                 "sh4":     " --uint32-align=3D4 --big-endian ",    \
->>                 "powerpc": " --uint32-align=3D4 --big-endian ",    \
->>                 "powerpc64": " --uint32-align=3D4 --big-endian ",  \
->> diff --git a/meta/classes/siteinfo.bbclass =
-b/meta/classes/siteinfo.bbclass
->> index 8705eaa..9ae2561 100644
->> --- a/meta/classes/siteinfo.bbclass
->> +++ b/meta/classes/siteinfo.bbclass
->> @@ -19,6 +19,7 @@ def siteinfo_data(d):
->>     archinfo =3D {
->>         "allarch": "endian-little bit-32", # bogus, but better than =
-special-casing the checks below for allarch
->>         "aarch64": "endian-little bit-64 arm-common",
->> +        "aarch64_be": "endian-big bit-64 arm-common",
->>         "arm": "endian-little bit-32 arm-common",
->>         "armeb": "endian-big bit-32 arm-common",
->>         "avr32": "endian-big bit-32 avr32-common",
->> @@ -63,6 +64,7 @@ def siteinfo_data(d):
->>     }
->>     targetinfo =3D {
->>         "aarch64-linux-gnu": "aarch64-linux",
->> +        "aarch64_be-linux-gnu": "aarch64_be-linux",
->>         "arm-linux-gnueabi": "arm-linux",
->>         "arm-linux-uclibceabi": "arm-linux-uclibc",
->>         "armeb-linux-gnueabi": "armeb-linux",
->> --
->> 1.8.3.1
->>=20
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
->=20
->=20
-> --=20
-> Nobuhiro Iwamatsu
->   iwamatsu at {nigauri.org / debian.org}
->   GPG ID: 40AD1FA6
 
+Now that you work with them. can you find out the reasoning behind it ?=
 
