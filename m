@@ -1,34 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0319E6CF1F
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id F33626CF35
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2013 08:37:46 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9C8bgns014287; Sat, 12 Oct 2013 09:37:42 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id U4au6tzs7lxA; Sat, 12 Oct 2013 09:37:41 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9C8bag8014281
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sat, 12 Oct 2013 09:37:38 +0100
-Message-ID: <1381567052.29912.206.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Sat, 12 Oct 2013 09:37:32 +0100
-In-Reply-To: <1381498665-21514-2-git-send-email-koen@dominion.thruhere.net>
-References: <1381498665-21514-1-git-send-email-koen@dominion.thruhere.net>
-	<1381498665-21514-2-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] openssh: allow empty passwords if PAM allows it as well
+	Sat, 12 Oct 2013 09:06:33 +0000 (UTC)
+Message-ID: <5259111A.3080808@communistcode.co.uk>
+Date: Sat, 12 Oct 2013 10:06:34 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+References: <5258178A.9060606@communistcode.co.uk>		<1381507693.29912.185.camel@ted>	<52582427.5000108@communistcode.co.uk>	<1381528029.29912.187.camel@ted>
+	<525904D4.9000200@communistcode.co.uk>
+In-Reply-To: <525904D4.9000200@communistcode.co.uk>
+Subject: Re: Nasty tar breakage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -38,35 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Oct 2013 08:37:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 12 Oct 2013 09:06:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-10-11 at 15:37 +0200, Koen Kooi wrote:
-> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> ---
->  meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
-> index 4f9b626..175e8f3 100644
-> --- a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
-> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
-> @@ -59,7 +59,7 @@ Protocol 2
->  
->  # To disable tunneled clear text passwords, change to no here!
->  #PasswordAuthentication yes
-> -#PermitEmptyPasswords no
-> +PermitEmptyPasswords yes
->  
->  # Change to no to disable s/key passwords
->  #ChallengeResponseAuthentication yes
+>
+> Ah ok, I did wonder but didn't have the time to check. I'll try to get
+> round to eliminating all the occurances on Monday and if it works I'll
+> put out an RFC with a view for 1.5.1.
+>
+> Cheers,
+>
 
-I'm struggling to connect the "if PAM allows it as well" part of the
-shortlog to this change? How is this conditional on PAM?
+Ignore. I've just seen your patches. Thanks for the help!
 
-Cheers,
-
-Richard
-
+-- 
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   Cambrideshire, UK
+   http://www.embed.me.uk
+--
 
