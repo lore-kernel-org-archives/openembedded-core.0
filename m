@@ -1,19 +1,19 @@
 Return-Path: <rpjday@crashcourse.ca>
 Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
 	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 04F5D6CEF0
+	by mail.openembedded.org (Postfix) with ESMTP id 9C8B66CEE2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 12 Oct 2013 10:45:29 +0000 (UTC)
-Received: from [173.34.6.101] (port=59890 helo=crashcourse.ca)
+	Sat, 12 Oct 2013 11:16:11 +0000 (UTC)
+Received: from [173.34.6.101] (port=60566 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VUwhN-0005Co-3F for openembedded-core@lists.openembedded.org;
-	Sat, 12 Oct 2013 06:45:29 -0400
-Date: Sat, 12 Oct 2013 06:45:20 -0400 (EDT)
+	id 1VUxB7-00062O-F3 for openembedded-core@lists.openembedded.org;
+	Sat, 12 Oct 2013 07:16:13 -0400
+Date: Sat, 12 Oct 2013 07:16:07 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
 To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1310120642340.21327@oneiric>
+Message-ID: <alpine.DEB.2.02.1310120713010.21588@oneiric>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -25,7 +25,7 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Subject: where is "packagegroup-core-qt-demoapps" defined?
+Subject: can one add a "packagegroup" simply by adding the recipe file for it?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,17 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 12 Oct 2013 10:45:29 -0000
+X-List-Received-Date: Sat, 12 Oct 2013 11:16:11 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
-  currently writing a tutorial on packagegroups and noticed in
-core-image.bbclass:
+  just to make sure i'm not missing anything subtle, i know you can
+add a "packagegroup" to your build using IMAGE_FEATURES, but given
+that there are *lots* more packagegroup recipe files in oe-core than
+have corresponding PACKAGE_GROUP_* definitions in core-image.bbclass:
 
-PACKAGE_GROUP_qt4-pkgs = "packagegroup-core-qt-demoapps"
+$ find . -name "packagegroup*bb"
+./recipes-gnome/packagegroups/packagegroup-core-standalone-gmae-sdk-target.bb
+./recipes-gnome/packagegroups/packagegroup-toolset-native.bb
+./recipes-gnome/packagegroups/packagegroup-core-sdk-gmae.bb
+./recipes-devtools/packagegroups/packagegroup-core-device-devel.bb
+./recipes-core/packagegroups/packagegroup-cross-canadian.bb
+./recipes-core/packagegroups/packagegroup-core-sdk.bb
+./recipes-core/packagegroups/packagegroup-core-ssh-openssh.bb
+./recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+./recipes-core/packagegroups/packagegroup-core-boot.bb
+./recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+./recipes-core/packagegroups/packagegroup-self-hosted.bb
+./recipes-core/packagegroups/packagegroup-core-ssh-dropbear.bb
+./recipes-core/packagegroups/packagegroup-core-tools-debug.bb
+./recipes-core/packagegroups/packagegroup-core-buildessential.bb
+./recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+./recipes-core/packagegroups/packagegroup-base.bb
+./recipes-core/packagegroups/packagegroup-core-nfs.bb
+./recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+./recipes-graphics/packagegroups/packagegroup-core-x11.bb
+./recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
+./recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
+./recipes-graphics/packagegroups/packagegroup-core-clutter.bb
+./recipes-graphics/packagegroups/packagegroup-core-directfb.bb
+./recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bb
+./recipes-qt/packagegroups/packagegroup-core-qt4e.bb
+./recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
+./recipes-qt/packagegroups/packagegroup-core-qt.bb
+./recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
+./recipes-extended/packagegroups/packagegroup-core-lsb.bb
+./recipes-extended/packagegroups/packagegroup-core-basic.bb
+$
 
-  is that packagegroup actually defined anywhere? i'm prepared to be
-told i'm being an idiot and that it's right under my nose.
+is it accurate to say that you can just as equivalently add the recipe
+file directly using, say, CORE_IMAGE_EXTRA_INSTALL? is there any
+functional difference between those two approaches?
 
 rday
 
