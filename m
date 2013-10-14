@@ -1,24 +1,35 @@
-Return-Path: <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-Received: from 92m-galaxy.eurogiciel.fr (mailhost2.eurogiciel.fr [93.17.39.83])
-	by mail.openembedded.org (Postfix) with SMTP id BAA336CC88
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 14:08:49 +0000 (UTC)
-Received: from 31l-syracuse.eurogiciel.fr ([172.16.88.4]) by
-	92m-galaxy.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959); 
-	Mon, 14 Oct 2013 16:08:47 +0200
-Received: from intel13.vannes ([172.16.100.253]) by 31l-syracuse.eurogiciel.fr
-	with Microsoft SMTPSVC(6.0.3790.3959); 
-	Mon, 14 Oct 2013 16:08:46 +0200
-From: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Oct 2013 16:08:38 +0200
-Message-Id: <1381759718-11554-3-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1381759718-11554-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-References: <1381759718-11554-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-X-OriginalArrivalTime: 14 Oct 2013 14:08:46.0837 (UTC)
-	FILETIME=[E6132250:01CEC8E6]
-Subject: [PATCH v4 3/3] Weston-init : changes for 1.3.0 version
+Return-Path: <chase.maupin@ti.com>
+Received: from devils.ext.ti.com (devils.ext.ti.com [198.47.26.153])
+	by mail.openembedded.org (Postfix) with ESMTP id A22C06CDD0
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 14 Oct 2013 14:09:31 +0000 (UTC)
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r9EE9T0C015059;
+	Mon, 14 Oct 2013 09:09:29 -0500
+Received: from DLEE70.ent.ti.com (dlee70.ent.ti.com [157.170.170.113])
+	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id r9EE9TVY004527;
+	Mon, 14 Oct 2013 09:09:29 -0500
+Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
+	DLEE70.ent.ti.com ([fe80::c4c6:f618:54e7:ad11%28]) with mapi id
+	14.02.0342.003; Mon, 14 Oct 2013 09:09:29 -0500
+From: "Maupin, Chase" <chase.maupin@ti.com>
+To: Andrea Adami <andrea.adami@gmail.com>,
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] udev: update local rules for new touchscreen
+	device
+Thread-Index: AQHOyOWfBvPDwy6rA0eQxnCPkTsj85n0O9og
+Date: Mon, 14 Oct 2013 14:09:28 +0000
+Message-ID: <7D46E86EC0A8354091174257B2FED101597AC445@DLEE11.ent.ti.com>
+References: <1381761079-8709-1-git-send-email-Chase.Maupin@ti.com>
+	<CAAQYJAtZYFkxBMHz8eO_KCnXrToKb1uocVsDtnoeOphqQCYkSA@mail.gmail.com>
+In-Reply-To: <CAAQYJAtZYFkxBMHz8eO_KCnXrToKb1uocVsDtnoeOphqQCYkSA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.247.5.50]
+MIME-Version: 1.0
+Subject: Re: [PATCH] udev: update local rules for new touchscreen	device
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +42,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2013 14:08:50 -0000
+X-List-Received-Date: Mon, 14 Oct 2013 14:09:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-added "weston-launch -u root" instead of weston due to new weston 1.3.0 version behavior
-Signed-off-by: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
----
- meta/recipes-graphics/wayland/weston-init/init |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>-----Original Message-----
+>From: openembedded-core-bounces@lists.openembedded.org
+>[mailto:openembedded-core-bounces@lists.openembedded.org] On
+>Behalf Of Andrea Adami
+>Sent: Monday, October 14, 2013 8:59 AM
+>To: Openembedded-core@lists.openembedded.org
+>Subject: Re: [OE-core] [PATCH] udev: update local rules for new
+>touchscreen device
+>
+>On Mon, Oct 14, 2013 at 4:31 PM, Chase Maupin
+><Chase.Maupin@ti.com> wrote:
+>> * While working with a new capacitive touchscreen it was found
+>>   that the existing udev rule that creates the
+>>   /dev/input/touchscreen0 symlink was too restrictive and did
+>not
+>>   match the MODALAIS entry for this touchscreen. which is:
+>>
+>>   MODALIAS=3Dinput:b0018v0000p0000e0000-
+>e0,1,3,k14A,ra0,1,2F,35,36,39,mlsfw
+>>
+>> * By looking at the input_print_modalias function in the Linux
+>>   kernel drivers/input/input.c file and referencing the meaning
+>>   of the evbits and attributes of the input_dev structure it
+>seems
+>>   that for identification of a touchscreen the match with ,18
+>>   which was matching part of the absbit structure is overkill.
+>>
+>> * It seems that the absbit entry is used for devices like
+>>   touchscreens and if that the the "a" is followed by 0 and 1
+>this
+>>   is sufficient.
+>>
+>> * So the logic has now been changed to check for the "e" 0 and 3
+>>   values which correspond to EV_SYN and EV_ABS, then check for
+>>   the "a" attribute with 0 and 1.
+>>
+>> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+>> ---
+>>  meta/recipes-core/udev/udev/local.rules |    4 +++-
+>>  meta/recipes-core/udev/udev_182.bb      |    2 +-
+>>  2 files changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/udev/udev/local.rules
+>b/meta/recipes-core/udev/udev/local.rules
+>> index 72d92ef..d0cbf91 100644
+>> --- a/meta/recipes-core/udev/udev/local.rules
+>> +++ b/meta/recipes-core/udev/udev/local.rules
+>> @@ -17,5 +17,7 @@
+>>  ACTION=3D=3D"add", DEVPATH=3D=3D"/devices/*", ENV{MODALIAS}=3D=3D"?*",
+>RUN+=3D"/sbin/modprobe $env{MODALIAS}"
+>>
+>>  # Create a symlink to any touchscreen input device
+>> -SUBSYSTEM=3D=3D"input", KERNEL=3D=3D"event[0-9]*",
+>ATTRS{modalias}=3D=3D"input:*-e0*,3,*a0,1,*18,*",
+>SYMLINK+=3D"input/touchscreen0"
+>> +# Trigger based on input type, that the evbit (-e) has EV_SYN
+>and EV_ABS,
+>> +# has an EV_ABS value (-a) which is used for touchscreen type
+>devices.
+>> +SUBSYSTEM=3D=3D"input", KERNEL=3D=3D"event[0-9]*",
+>ATTRS{modalias}=3D=3D"input:*-e0*,3,*a0,1,*",
+>SYMLINK+=3D"input/touchscreen0"
+>>
+>> diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-
+>core/udev/udev_182.bb
+>> index d66292e..a90c289 100644
+>> --- a/meta/recipes-core/udev/udev_182.bb
+>> +++ b/meta/recipes-core/udev/udev_182.bb
+>> @@ -1,6 +1,6 @@
+>>  include udev.inc
+>>
+>> -PR =3D "r7"
+>> +PR =3D "r8"
+>>
+>>  # module-init-tools from kmod_git will provide libkmod runtime
+>>  DEPENDS +=3D "module-init-tools"
+>> --
+>> 1.7.0.4
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>Agreed
+>
+>I noticed it some time ago but the patch is still on hold....
+>http://patchwork.openembedded.org/patch/25093/
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/init b/meta/recipes-graphics/wayland/weston-init/init
-index daa7f23..ca6cce5 100644
---- a/meta/recipes-graphics/wayland/weston-init/init
-+++ b/meta/recipes-graphics/wayland/weston-init/init
-@@ -34,7 +34,7 @@ case "$1" in
-                 chmod 0700 $XDG_RUNTIME_DIR
-         fi
- 
--        weston
-+        weston-launch -u root
-   ;;
- 
-   stop)
--- 
-1.7.10.4
+Thanks.  I missed this.  I can confirm this works for my TS device as well.
 
+>
+>
+>Acked-by: Andrea Adami <andrea.adami@gmail.com>
+>_______________________________________________
+>Openembedded-core mailing list
+>Openembedded-core@lists.openembedded.org
+>http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
