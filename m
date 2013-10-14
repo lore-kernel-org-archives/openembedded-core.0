@@ -1,37 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id E16A66CC8A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CE4B6CC8A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 09:32:57 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9E9WqAQ023834; Mon, 14 Oct 2013 10:32:52 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xHSMekUS1DsJ; Mon, 14 Oct 2013 10:32:52 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9E9WlZB023830
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 14 Oct 2013 10:32:48 +0100
-Message-ID: <1381743163.29912.259.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Mon, 14 Oct 2013 10:32:43 +0100
-In-Reply-To: <2A539B17-C625-4CA4-B21C-3A3BBFF60E93@dominion.thruhere.net>
-References: <1381498665-21514-1-git-send-email-koen@dominion.thruhere.net>
-	<1381498665-21514-2-git-send-email-koen@dominion.thruhere.net>
-	<1381567052.29912.206.camel@ted>
-	<8C777AF9-B935-4043-AC97-106EBA7BC89E@dominion.thruhere.net>
-	<1381671560.29912.221.camel@ted>
-	<284EA7A5-1C83-4B85-AC71-27CD9707EC5C@dominion.thruhere.net>
-	<1381739126.29912.239.camel@ted>
-	<2A539B17-C625-4CA4-B21C-3A3BBFF60E93@dominion.thruhere.net>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	Mon, 14 Oct 2013 09:48:28 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 14 Oct 2013 02:48:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,491,1378882800"; d="scan'208";a="307447615"
+Received: from unknown (HELO helios.localnet) ([10.252.120.188])
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Oct 2013 02:48:16 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chris Larson <clarson@kergoth.com>,
+	"Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Mon, 14 Oct 2013 10:48:16 +0100
+Message-ID: <5784034.W1sd5RUuTd@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <CABcZANmgG2Pv-XH+7t=Sd_KRRi=Qp=FXb7pnJLz4tp5aNGxRDA@mail.gmail.com>
+References: <alpine.DEB.2.02.1310120713010.21588@oneiric>
+	<alpine.DEB.2.02.1310120720030.21659@oneiric>
+	<CABcZANmgG2Pv-XH+7t=Sd_KRRi=Qp=FXb7pnJLz4tp5aNGxRDA@mail.gmail.com>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] openssh: allow empty passwords if PAM allows it as well
+Subject: Re: can one add a "packagegroup" simply by adding the recipe file for it?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,89 +35,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2013 09:32:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Oct 2013 09:48:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2013-10-14 at 10:51 +0200, Koen Kooi wrote:
-> Op 14 okt. 2013, om 10:25 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
-> 
-> > On Sun, 2013-10-13 at 17:30 +0200, Koen Kooi wrote:
-> >> Op 13 okt. 2013, om 15:39 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
-> >> 
-> >>> On Sun, 2013-10-13 at 12:01 +0200, Koen Kooi wrote:
-> >>>> Op 12 okt. 2013, om 10:37 heeft Richard Purdie <richard.purdie@linuxfoundation.org> het volgende geschreven:
-> >>>> 
-> >>>>> On Fri, 2013-10-11 at 15:37 +0200, Koen Kooi wrote:
-> >>>>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> >>>>>> ---
-> >>>>>> meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config | 2 +-
-> >>>>>> 1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>>> 
-> >>>>>> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
-> >>>>>> index 4f9b626..175e8f3 100644
-> >>>>>> --- a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
-> >>>>>> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
-> >>>>>> @@ -59,7 +59,7 @@ Protocol 2
-> >>>>>> 
-> >>>>>> # To disable tunneled clear text passwords, change to no here!
-> >>>>>> #PasswordAuthentication yes
-> >>>>>> -#PermitEmptyPasswords no
-> >>>>>> +PermitEmptyPasswords yes
-> >>>>>> 
-> >>>>>> # Change to no to disable s/key passwords
-> >>>>>> #ChallengeResponseAuthentication yes
-> >>>>> 
-> >>>>> I'm struggling to connect the "if PAM allows it as well" part of the
-> >>>>> shortlog to this change? How is this conditional on PAM?
-> >>>> 
-> >>>> If PAM disallows empty passwords this option doesn't do anything. The
-> >>>> PAM rules run before the openssh config options get applied.
-> >>> 
-> >>> What if PAM isn't being used?
-> >> 
-> >> I haven't tested that, but I suspect it will only allow empty passwords if you set it to 'yes'.
+On Saturday 12 October 2013 07:46:02 Chris Larson wrote:
+> On Sat, Oct 12, 2013 at 4:24 AM, Robert P. J. Day
+> <rpjday@crashcourse.ca>wrote:
+> >  wait, i think i might have just answered my own question ... see
+> > below ...
 > > 
-> > Let me put this a different way. I think this commit allows empty
-> > passwords for users both using PAM and those who are not.
+> > On Sat, 12 Oct 2013, Robert P. J. Day wrote:
+> > >   just to make sure i'm not missing anything subtle, i know you can
+> > > 
+> > > add a "packagegroup" to your build using IMAGE_FEATURES, but given
+> > > that there are *lots* more packagegroup recipe files in oe-core than
+> > > have corresponding PACKAGE_GROUP_* definitions in core-image.bbclass:
+> > > 
+> > > $ find . -name "packagegroup*bb"
+> > > ./recipes-gnome/packagegroups/
+> > 
+> > packagegroup-core-standalone-gmae-sdk-target.bb
+> > 
+> > > ./recipes-gnome/packagegroups/packagegroup-toolset-native.bb
+> > > ./recipes-gnome/packagegroups/packagegroup-core-sdk-gmae.bb
+> > > ./recipes-devtools/packagegroups/packagegroup-core-device-devel.bb
+> > > ./recipes-core/packagegroups/packagegroup-cross-canadian.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-sdk.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-ssh-openssh.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-boot.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+> > > ./recipes-core/packagegroups/packagegroup-self-hosted.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-ssh-dropbear.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-tools-debug.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-buildessential.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
+> > > ./recipes-core/packagegroups/packagegroup-base.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-nfs.bb
+> > > ./recipes-core/packagegroups/packagegroup-core-eclipse-debug.bb
+> > > ./recipes-graphics/packagegroups/packagegroup-core-x11.bb
+> > > ./recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
+> > > ./recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
+> > > ./recipes-graphics/packagegroups/packagegroup-core-clutter.bb
+> > > ./recipes-graphics/packagegroups/packagegroup-core-directfb.bb
+> > > ./recipes-qt/packagegroups/packagegroup-qte-toolchain-target.bb
+> > > ./recipes-qt/packagegroups/packagegroup-core-qt4e.bb
+> > > ./recipes-qt/packagegroups/packagegroup-qt-toolchain-target.bb
+> > > ./recipes-qt/packagegroups/packagegroup-core-qt.bb
+> > > ./recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
+> > > ./recipes-extended/packagegroups/packagegroup-core-lsb.bb
+> > > ./recipes-extended/packagegroups/packagegroup-core-basic.bb
+> > > $
+> > > 
+> > > is it accurate to say that you can just as equivalently add the recipe
+> > > file directly using, say, CORE_IMAGE_EXTRA_INSTALL? is there any
+> > > functional difference between those two approaches?
+> > > 
+> >   feeling a bit sheepish if this is the answer ... i notice that
+> > 
+> > core-image.bbclass defines:
+> >   PACKAGE_GROUP_nfs-server = "packagegroup-core-nfs-server"
+> > 
+> > however, while there is no recipe file named
+> > "packagegroup-core-nfs-server.bb", there is one named
+> > 
+> > "packagegroup-core-nfs.bb", which contains:
+> >   inherit packagegroup
+> >   
+> >   PACKAGES = "${PN}-server"
+> > 
+> > so does defining a PACKAGE_GROUP_* entry in core-image.bbclass allow
+> > the packagegroup definition search to examine the internals of a
+> > recipe file to check the definition of "PACKAGES" to find a match? as
+> > opposed to referring to a recipe file directly
 > 
-> Right
+> PACKAGE_GROUP_<some group that can be listed in IMAGE_FEATURES> = "<a list
+> of binary packages, just as you'd add to IMAGE_INSTALL or
+> CORE_IMAGE_EXTRA_INSTALL yourself>"
 > 
-> > I think the
-> > commit message needs to clearly say that as its a fairly serious
-> > security change for both cases.
+> That's all there is to it. packagegroup-core-nfs-server is a binary
+> package. PACKAGE_GROUP_nfs-server accepts lists of binary packages, not
+> lists of recipes.
 > 
-> Right again.
-> 
-> > I'm not actually sure this makes sense as a default and it may be better
-> > off being configurable, defaulting to off...
-> 
-> Allowing passwordless (well, null passwords to be exact) logins is the
-> current default for both PAM and dropbear, openssh is the odd one out.
-> I don't really care what the default should be, just that all 3 should
-> use the same :)
+> Things got a bit more confusing once tasks got renamed to packagegroups, as
+> the pure data driven package grouping mechanism (PACKAGE_GROUP) already
+> existed at that time.
 
-Agreed, and I wish you'd said that in the original commit message as it
-does make a difference ;-).
+Now that PACKAGE_GROUP has finally made it into the manual (for 1.5) we've 
+tried to explain that it's not the same thing as a packagegroup. Hopefully it 
+will dispel some of the confusion.
 
-> So should I resubmit this patch with an amended commit message or
-> rework it and change the defaults in PAM and dropbear as well?
-
-I'd resend with a revised commit message including the above
-justification. I'm not guaranteeing I'll take it, I'm hoping we'll get
-some further discussion on the subject.
-
-I think ultimately we need to have a config option for this which pam,
-dropbear and openssh all honour. Could you add an enhancement request to
-the Yocto bugzilla to that end please? That way people can clearly opt
-in to specific configurations. I think its important to get security
-details like this right.
+We could look at renaming PACKAGE_GROUP to something else in 1.6 (perhaps to 
+IMAGE_FEATURE_PACKAGES or something like that?) if people think that it would 
+help.
 
 Cheers,
+Paul
 
-Richard
+-- 
 
-
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
