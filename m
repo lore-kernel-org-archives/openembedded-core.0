@@ -1,36 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f170.google.com (mail-ve0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 563576CE3F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E7BE6CE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 15:40:51 +0000 (UTC)
-Received: by mail-ve0-f170.google.com with SMTP id db12so3778veb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 08:40:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=I+Wpmp+rnQqXI6ZPgO4Kr0xqBQ5iU+JNmP+cKd+0oZc=;
-	b=QCUyYGN3BouDz4Ve8AA/loYDnUBQIYpDmVpxPltP0dOCl623K4AbN1f3NLMMMqG/fX
-	niIiZ9dhrdnYYwp1u7EsdbZIiM9bJ5rFH2AFOHNdmc9ypFVqWKDArq2kxoOVsrLajbtH
-	2BWROOSPWVVkfm43ZvS/yNapR2d72YrMEl+quOUyR87ZGCiaOpeCnwqX7vTC+KdaEoDz
-	I/M2ZZywbDmXv+nzBLY1joU5VKlZ8uaIuU1Nkvv6YYsC0hRkuk9IYuFi0ADMctqv2Hz8
-	cpe0xS6kmv5i0n8FPLubwIpoclFC6EFdBO7J9M5brc61S1N2kV5pWlEaSLs4PWG+Jf3V
-	RI3A==
-X-Gm-Message-State: ALoCoQm6PaQdqF8+K+t3AjAq5PVTsgIrHWxNkX0x6IPjLj0MaRmQHzFr+engkXKnyDTS0MvXjsay
-X-Received: by 10.52.161.231 with SMTP id xv7mr29804105vdb.1.1381765252973;
-	Mon, 14 Oct 2013 08:40:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 14 Oct 2013 08:40:32 -0700 (PDT)
-In-Reply-To: <1381759718-11554-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-References: <1381759718-11554-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Oct 2013 16:40:32 +0100
-Message-ID: <CAJTo0LZkw-6jSdrmegNJfy8AcU5PvrFi0s=fSAQh4ic03CvfYg@mail.gmail.com>
-To: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 1/3] Wayland : Bump to version 1.3.0
+	Mon, 14 Oct 2013 15:42:42 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 14 Oct 2013 08:42:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,493,1378882800"; d="scan'208";a="410682305"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.188])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2013 08:42:42 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Oct 2013 16:42:39 +0100
+Message-Id: <1381765359-6786-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Cc: Nick Glynn <n.s.glynn@gmail.com>
+Subject: [meta-webserver][PATCH v3] sthttpd: add systemd service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,26 +28,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2013 15:40:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 14 Oct 2013 15:42:42 -0000
 
-On 14 October 2013 15:08, Ewan LE BIDEAU-CANEVET
-<Ewan.LEBIDEAU-CANEVET@eurogiciel.fr> wrote:
-> Remove do_configure_append_class-native() function useless for this version
-> (file wayland-scanner.m4.in does not exist anymore)
+From: Nick Glynn <n.s.glynn@gmail.com>
 
-When building weston:
+Signed-off-by: Nick Glynn <n.s.glynn@gmail.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
 
-| configure:17492: checking for WAYLAND_SCANNER
-| configure:17499: $PKG_CONFIG --exists --print-errors "wayland-scanner"
-| Package wayland-scanner was not found in the pkg-config search path.
-| Perhaps you should add the directory containing `wayland-scanner.pc'
-| to the PKG_CONFIG_PATH environment variable
-| No package 'wayland-scanner' found
+Fixes since v2:
+* Make it apply properly on top of master
+* Avoid hardcoded paths in service file
+* Tidy up commit message
 
-The script is calling pkg-config so is trying to find a target .pc
-file, but this is only installed by wayland-native so is in the host
-native sysroot.  I'll dig into this and work out a fix.
+ meta-webserver/recipes-httpd/sthttpd/sthttpd/thttpd.service | 10 ++++++++++
+ meta-webserver/recipes-httpd/sthttpd/sthttpd_2.26.4.bb      | 11 ++++++++++-
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+ create mode 100644 meta-webserver/recipes-httpd/sthttpd/sthttpd/thttpd.service
 
-Ross
+diff --git a/meta-webserver/recipes-httpd/sthttpd/sthttpd/thttpd.service b/meta-webserver/recipes-httpd/sthttpd/sthttpd/thttpd.service
+new file mode 100644
+index 0000000..e2dae61
+--- /dev/null
++++ b/meta-webserver/recipes-httpd/sthttpd/sthttpd/thttpd.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=Tiny/Turbo/Throttling Web Server
++
++[Service]
++Type=forking
++ExecStart=/usr/sbin/thttpd -d @@SRVDIR -c cgi-bin/* -i /var/run/thttpd.pid
++PIDFile=/var/run/thttpd.pid
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta-webserver/recipes-httpd/sthttpd/sthttpd_2.26.4.bb b/meta-webserver/recipes-httpd/sthttpd/sthttpd_2.26.4.bb
+index ba2f047..0abd131 100644
+--- a/meta-webserver/recipes-httpd/sthttpd/sthttpd_2.26.4.bb
++++ b/meta-webserver/recipes-httpd/sthttpd/sthttpd_2.26.4.bb
+@@ -5,6 +5,7 @@ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://src/thttpd.c;beginline=1;endline=26;md5=0c5762c2c34dcbe9eb18815516502872"
+ 
+ SRC_URI = "http://opensource.dyc.edu/pub/sthttpd/sthttpd-${PV}.tar.gz \
++           file://thttpd.service \
+            file://init"
+ 
+ SRC_URI[md5sum] = "e645a85a97d3cb883011a35bc2211815"
+@@ -12,7 +13,7 @@ SRC_URI[sha256sum] = "78e87979140cbda123c81b4051552242dbbffb5dec1a17e5f95ec4826b
+ 
+ S = "${WORKDIR}/sthttpd-${PV}"
+ 
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
+ 
+ EXTRA_OEMAKE += "'WEBDIR=${servicedir}/www'"
+ 
+@@ -21,11 +22,19 @@ do_install_append () {
+     install -c -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/thttpd
+     sed -i -e 's,@@SRVDIR,${servicedir}/www,g' ${D}${sysconfdir}/init.d/thttpd
+     sed -i 's!/usr/sbin/!${sbindir}/!g' ${D}${sysconfdir}/init.d/thttpd
++
++    install -d ${D}${systemd_unitdir}/system
++    install -m 0644 ${WORKDIR}/thttpd.service ${D}${systemd_unitdir}/system
++    sed -i 's!/usr/sbin/!${sbindir}/!g' ${D}${systemd_unitdir}/system/thttpd.service
++    sed -i 's!/var/!${localstatedir}/!g' ${D}${systemd_unitdir}/system/thttpd.service
++    sed -i -e 's,@@SRVDIR,${servicedir}/www,g' ${D}${systemd_unitdir}/system/thttpd.service
+ }
+ 
+ INITSCRIPT_NAME = "thttpd"
+ INITSCRIPT_PARAMS = "defaults"
+ 
++SYSTEMD_SERVICE_${PN} = "thttpd.service"
++
+ FILES_${PN} += "${servicedir}"
+ FILES_${PN}-dbg += "${servicedir}/www/cgi-bin/.debug"
+ 
+-- 
+1.8.1.2
+
 
