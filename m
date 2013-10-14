@@ -1,26 +1,30 @@
-Return-Path: <tom.zanussi@linux.intel.com>
+Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E9486CBAC
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 16:33:04 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 899DE6CBAC
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 14 Oct 2013 16:35:13 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Oct 2013 09:29:31 -0700
+	by orsmga102.jf.intel.com with ESMTP; 14 Oct 2013 09:31:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,493,1378882800"; d="scan'208";a="418975873"
-Received: from unknown (HELO [10.255.15.157]) ([10.255.15.157])
-	by orsmga002.jf.intel.com with ESMTP; 14 Oct 2013 09:32:47 -0700
-Message-ID: <1381768366.19281.64.camel@empanada>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: "Woegerer, Paul" <Paul_Woegerer@mentor.com>
-Date: Mon, 14 Oct 2013 11:32:46 -0500
-In-Reply-To: <525C13C0.4020805@mentor.com>
-References: <525C13C0.4020805@mentor.com>
-X-Mailer: Evolution 3.4.4 (3.4.4-2.fc17) 
-Mime-Version: 1.0
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: lttng-modules may trigger deadlock in the timekeeping subsystem with Linux <= 3.10.13, <= 3.11.2
+X-IronPort-AV: E=Sophos;i="4.93,493,1378882800"; d="scan'208";a="418977213"
+Received: from unknown (HELO [10.255.15.234]) ([10.255.15.234])
+	by orsmga002.jf.intel.com with ESMTP; 14 Oct 2013 09:35:13 -0700
+Message-ID: <525C1D41.2010008@linux.intel.com>
+Date: Mon, 14 Oct 2013 09:35:13 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
+MIME-Version: 1.0
+To: "Maupin, Chase" <chase.maupin@ti.com>
+References: <1381761079-8709-1-git-send-email-Chase.Maupin@ti.com>
+	<CAAQYJAtZYFkxBMHz8eO_KCnXrToKb1uocVsDtnoeOphqQCYkSA@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED101597AC445@DLEE11.ent.ti.com>
+	<525C152E.1040604@linux.intel.com>
+	<7D46E86EC0A8354091174257B2FED101597AD8FD@DLEE11.ent.ti.com>
+In-Reply-To: <7D46E86EC0A8354091174257B2FED101597AD8FD@DLEE11.ent.ti.com>
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] udev: update local rules for new touchscreen device
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +37,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2013 16:33:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 14 Oct 2013 16:35:13 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-10-14 at 17:54 +0200, Woegerer, Paul wrote:
-> Hi,
-> 
-> looking at the following commits shows that the current version of
-> lttng-modules 2.3.x can trigger a deadlock in the timekeeping subsystem
-> of Linux.
-> 
-> http://git.lttng.org/?p=lttng-modules.git;a=commit;h=fc8216ae9ec5d18172d8227d179475e7cc1fb45c
-> http://git.lttng.org/?p=lttng-modules.git;a=commit;h=9998f5216f4641a79e158135c4c1658dcc6cd2d8
-> http://git.lttng.org/?p=lttng-modules.git;a=commit;h=e14bf96416c39675a5f785b032d1c5279020b93d
-> 
-> This is caused by a bug in the kernel that was introduced in 3.10. The
-> problem is already fixed in Linux 3.10.14, 3.11.3 and 3.12. See:
-> http://marc.info/?l=linux-kernel&m=137894350929349
-> 
-> lttng-modules 2.3.2 contains preprocessor-code that makes sure that
-> building of lttng-modules fails for the unlucky combinations of kernel
-> and lttng-modules. The problem is when we update our lttng-modules 2.3.0
-> to 2.3.2 then we would have lttng-modules failing to build for our qemu*
-> MACHINEs.
-> 
-> Any recommendations on how we should address this ?
-> 
+On 10/14/2013 09:24 AM, Maupin, Chase wrote:
+>> -----Original Message-----
+>> From: Saul Wold [mailto:sgw@linux.intel.com]
+>> Sent: Monday, October 14, 2013 11:01 AM
+>> To: Maupin, Chase
+>> Cc: Andrea Adami; Openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH] udev: update local rules for new
+>> touchscreen device
+>>
+>> On 10/14/2013 07:09 AM, Maupin, Chase wrote:
+>>>> -----Original Message-----
+>>>> From: openembedded-core-bounces@lists.openembedded.org
+>>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On
+>>>> Behalf Of Andrea Adami
+>>>> Sent: Monday, October 14, 2013 8:59 AM
+>>>> To: Openembedded-core@lists.openembedded.org
+>>>> Subject: Re: [OE-core] [PATCH] udev: update local rules for new
+>>>> touchscreen device
+>>>>
+>>>> On Mon, Oct 14, 2013 at 4:31 PM, Chase Maupin
+>>>> <Chase.Maupin@ti.com> wrote:
+>>>>> * While working with a new capacitive touchscreen it was found
+>>>>>     that the existing udev rule that creates the
+>>>>>     /dev/input/touchscreen0 symlink was too restrictive and did
+>>>> not
+>>>>>     match the MODALAIS entry for this touchscreen. which is:
+>>>>>
+>>>>>     MODALIAS=input:b0018v0000p0000e0000-
+>>>> e0,1,3,k14A,ra0,1,2F,35,36,39,mlsfw
+>>>>>
+>>>>> * By looking at the input_print_modalias function in the Linux
+>>>>>     kernel drivers/input/input.c file and referencing the
+>> meaning
+>>>>>     of the evbits and attributes of the input_dev structure it
+>>>> seems
+>>>>>     that for identification of a touchscreen the match with ,18
+>>>>>     which was matching part of the absbit structure is
+>> overkill.
+>>>>>
+>>>>> * It seems that the absbit entry is used for devices like
+>>>>>     touchscreens and if that the the "a" is followed by 0 and 1
+>>>> this
+>>>>>     is sufficient.
+>>>>>
+>>>>> * So the logic has now been changed to check for the "e" 0 and
+>> 3
+>>>>>     values which correspond to EV_SYN and EV_ABS, then check
+>> for
+>>>>>     the "a" attribute with 0 and 1.
+>>>>>
+>>>>> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+>>>>> ---
+>>>>>    meta/recipes-core/udev/udev/local.rules |    4 +++-
+>>>>>    meta/recipes-core/udev/udev_182.bb      |    2 +-
+>>>>>    2 files changed, 4 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/meta/recipes-core/udev/udev/local.rules
+>>>> b/meta/recipes-core/udev/udev/local.rules
+>>>>> index 72d92ef..d0cbf91 100644
+>>>>> --- a/meta/recipes-core/udev/udev/local.rules
+>>>>> +++ b/meta/recipes-core/udev/udev/local.rules
+>>>>> @@ -17,5 +17,7 @@
+>>>>>    ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*",
+>>>> RUN+="/sbin/modprobe $env{MODALIAS}"
+>>>>>
+>>>>>    # Create a symlink to any touchscreen input device
+>>>>> -SUBSYSTEM=="input", KERNEL=="event[0-9]*",
+>>>> ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*",
+>>>> SYMLINK+="input/touchscreen0"
+>>>>> +# Trigger based on input type, that the evbit (-e) has EV_SYN
+>>>> and EV_ABS,
+>>>>> +# has an EV_ABS value (-a) which is used for touchscreen type
+>>>> devices.
+>>>>> +SUBSYSTEM=="input", KERNEL=="event[0-9]*",
+>>>> ATTRS{modalias}=="input:*-e0*,3,*a0,1,*",
+>>>> SYMLINK+="input/touchscreen0"
+>>>>>
+>>>>> diff --git a/meta/recipes-core/udev/udev_182.bb
+>> b/meta/recipes-
+>>>> core/udev/udev_182.bb
+>>>>> index d66292e..a90c289 100644
+>>>>> --- a/meta/recipes-core/udev/udev_182.bb
+>>>>> +++ b/meta/recipes-core/udev/udev_182.bb
+>>>>> @@ -1,6 +1,6 @@
+>>>>>    include udev.inc
+>>>>>
+>>>>> -PR = "r7"
+>>>>> +PR = "r8"
+>>>>>
+>> PR Bump is not needed anymore.
+>
+> Thanks, I can remove this, but I think maybe it would be best to take Andrea's patch since his was there first anyway and they are the same.  Whatever makes you happy though.
+>
+Same issue with his patch and it's against udev_164, if he wants to 
+resend a patch that's fine with me also.
 
-Probably just get Bruce to update linux-yocto-3.10 to 3.10.14, or pull
-the specific commit that fixes it in.
+Sau!
 
-Tom
-
-> Many thanks,
-> Paul
-> 
-
-
+>>
+>>>>>    # module-init-tools from kmod_git will provide libkmod
+>> runtime
+>>>>>    DEPENDS += "module-init-tools"
+>>>>> --
+>>>>> 1.7.0.4
+>>>>>
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-
+>> core
+>>>>
+>>>> Agreed
+>>>>
+>>>> I noticed it some time ago but the patch is still on hold....
+>>>> http://patchwork.openembedded.org/patch/25093/
+>>>
+>>> Thanks.  I missed this.  I can confirm this works for my TS
+>> device as well.
+>>>
+>> There was some discussion about this back then also, I would ask
+>> that
+>> Paul verifies that this patch is OK.
+>>
+>> Thanks
+>> 	Sau!
+>>
+>>
+>>
+>>>>
+>>>>
+>>>> Acked-by: Andrea Adami <andrea.adami@gmail.com>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-
+>> core
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>>
+>
+>
 
