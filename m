@@ -1,29 +1,37 @@
-Return-Path: <chase.maupin@ti.com>
-Received: from arroyo.ext.ti.com (arroyo.ext.ti.com [192.94.94.40])
-	by mail.openembedded.org (Postfix) with ESMTP id BB8D26D094
+Return-Path: <angstrom-dev@emagii.com>
+Received: from smtprelay-h22.telenor.se (smtprelay-h22.telenor.se
+	[195.54.99.197])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AC096D092
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 19:30:43 +0000 (UTC)
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r9EJUidX027857
+	Mon, 14 Oct 2013 19:37:38 +0000 (UTC)
+Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
+	by smtprelay-h22.telenor.se (Postfix) with ESMTP id 22CB2E9E38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 14:30:44 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id r9EJUin8008312
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 14:30:44 -0500
-Received: from dflp32.itg.ti.com (10.64.6.15) by DFLE73.ent.ti.com
-	(128.247.5.110) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 14 Oct 2013 14:30:44 -0500
-Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
-	dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id r9EJUfZX007553;
-	Mon, 14 Oct 2013 14:30:42 -0500
-From: Chase Maupin <Chase.Maupin@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Oct 2013 15:20:01 -0500
-Message-ID: <1381782001-9897-1-git-send-email-Chase.Maupin@ti.com>
-X-Mailer: git-send-email 1.7.0.4
+	Mon, 14 Oct 2013 21:37:38 +0200 (CEST)
+X-SENDER-IP: [83.227.59.84]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AvwVAHZHXFJT4ztUPGdsb2JhbAANTIM/wgJLgT0DAQEBATiCWgEBAQECAQEBATU2CgEQCxgJFg8JAwIBAgEVARsUBg0BBQIBAYd8Eqockz+PHjMHhCMDlTqCS4EvkjmBQA
+X-IronPort-AV: E=Sophos;i="4.93,493,1378850400"; d="scan'208";a="636586009"
+Received: from c-543be353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.199]) ([83.227.59.84])
+	by ipb1.telenor.se with ESMTP; 14 Oct 2013 21:37:38 +0200
+Message-ID: <525C4801.9000108@emagii.com>
+Date: Mon, 14 Oct 2013 21:37:37 +0200
+From: Ulf Samuelsson <angstrom-dev@emagii.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCHv2] udev: update local rules for new touchscreen device
+To: Khem Raj <raj.khem@gmail.com>
+References: <52580C02.2070507@emagii.com>
+	<BB75BD69-4EA8-475A-91A6-7C16557A0765@dominion.thruhere.net>
+	<52581A4C.20500@emagii.com>
+	<816000B3-7089-4028-B30A-6BB7E9CDF1BB@gmail.com>
+In-Reply-To: <816000B3-7089-4028-B30A-6BB7E9CDF1BB@gmail.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Angstrom-distro-devel@linuxtogo.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Problems when building Angstrom master & 1.3 & 1.4 for Beagleboard Black
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,59 +44,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2013 19:30:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Oct 2013 19:37:39 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-* While working with a new capacitive touchscreen it was found
-  that the existing udev rule that creates the
-  /dev/input/touchscreen0 symlink was too restrictive and did not
-  match the MODALAIS entry for this touchscreen. which is:
+On 2013-10-14 20:31, Khem Raj wrote:
+> On Oct 11, 2013, at 8:33 AM, Ulf Samuelsson <angstrom-dev@emagii.com> w=
+rote:
+>
+>> On 2013-10-11 16:58, Koen Kooi wrote:
+>>> Op 11 okt. 2013, om 16:32 heeft Ulf Samuelsson <angstrom-dev@emagii.c=
+om> het volgende geschreven:
+>>>
+>>>> Have tried out building Angstrom for Beaglebone Black on a Quad-Core=
+ i7/Ubuntu 12.04 i386 with:
+>>> I strongly recommend ditching ubuntu and installing linux instead. I =
+don't know what causes it, but switching to debian, arch, gentoo, fedora,=
+ opensuse or anything else not ubuntu based gets rid off all problems wit=
+h builds not working, not booting, etc.
+>> OK,  after installing 12.04LTS I have to
+>>
+>> 1. left-click (hold)
+>> 2. alt (hold)
+>> 3. right click
+>>
+>> just to add an item to the panel,
+>>
+>> I guess they are trying to prove that Ubuntu One is superior to gnome,=
 
-  MODALIAS=input:b0018v0000p0000e0000-e0,1,3,k14A,ra0,1,2F,35,36,39,mlsfw
+>> by making gnome successively worse.
+>>
+>> so I am quite pissed of with Ubuntu
+>>
+>> Getting a dual Xeon 6-core next week, so I'll wait until then,
+>> but that is not going to be exposed to Ubuntu ever=85
+>
+> What is your default shell ? I would recomment to use bash.
+>
 
-* By looking at the input_print_modalias function in the Linux
-  kernel drivers/input/input.c file and referencing the meaning
-  of the evbits and attributes of the input_dev structure it seems
-  that for identification of a touchscreen the match with ,18
-  which was matching part of the absbit structure is overkill.
+bash it is.
+BR
+Ulf
 
-* It seems that the absbit entry is used for devices like
-  touchscreens and if that the the "a" is followed by 0 and 1 this
-  is sufficient.
 
-* So the logic has now been changed to check for the "e" 0 and 3
-  values which correspond to EV_SYN and EV_ABS, then check for
-  the "a" attribute with 0 and 1.
 
-* More information and history for this can be found at:
-    http://patchwork.openembedded.org/patch/25093/
-    http://thread.gmane.org/gmane.comp.handhelds.openembedded.core
+>> BR
+>> Ulf
+>>
+>>>> PARALLEL_MAKE     =3D "-j8"
+>>>> BB_NUMBER_THREADS =3D "8"
+>>>>
+>>>> I bitbake "cloud9-gnome-image"
+>>>>
+>>>> RESULTS:
+>>>> * remotes/origin/angstrom-v2013.06-yocto1.4    commit 246357a1cc4977=
+683ada564d38218e837ac615e3
+>>>>
+>>>>     image builds but does not boot.
+>>>>
+>>>> * remotes/origin/angstrom-v2012.12-yocto1.3    commit 01984cc460acfe=
+5e7d5bab4feeb0888d5c6fe77f
+>>>>
+>>>>     image builds but does not boot.
+>>>>
+>>>> * origin/master commit 7a3b004f7bfa24ea54b0da78bd80e4dd7839321d
+>>>>
+>>>>     Build fails on two issues.
+>>>>
+>>>>     1.    libxklavier compile fails.
+>>>>             | xklavier.c: In function 'xkl_engine_class_init':
+>>>>             | xklavier.c:846:8: error: 'XKL_TYPE_ENGINE_FEATURES' un=
+declared (first use in this function)
+>>>>             ...
+>>>>             Summary: 1 task failed:
+>>>> /home/ulf/projects/ICU/Angstrom/setup-scripts/sources/meta-openembed=
+ded/meta-gnome/recipes-gnome/libxklavier/libxklavier_5.0.bb,
+>>>>             do_compile
+>>>>
+>>>>             Did "bitbake -c cleansstate libxklavier" and restarted, =
+and then it continued without problem,
+>>>>             so there seem to be a dependency problem.
+>>>>
+>>>>     2.    nodejs compiles fails with error:
+>>>>            |   arm-angstrom-linux-gnueabi-gcc  -march=3Darmv7-a -mth=
+umb-interwork -mfloat-abi=3Dsoftfp -mfpu=3Dneon -mtune=3Dcortex-a8 --sysr=
+oot=3D/home/ulf/projects/ICU/Angstrom/setup-scripts/build/tmp-angstrom_v2=
+012_12-eglibc/sysroots/beaglebone '-D_LARGEFILE_SOURCE' '-D_FILE_OFFSET_B=
+ITS=3D64' '-DL_ENDIAN' '-DOPENSSL_THREADS' '-DPURIFY' '-D_REENTRANT' '-DO=
+PENSSL_NO_DTLS1' '-DOPENSSL_NO_SOCK' '-DOPENSSL_NO_DGRAM' '-DOPENSSL_NO_G=
+OST' '-DOPENSSL_NO_HW_PADLOCK' '-DOPENSSL_NO_ASM' '-DENGINESDIR=3D"/dev/n=
+ull"' '-DOPENSSLDIR=3D"/etc/ssl"' '-DTERMIOS' -I../deps/openssl -I../deps=
+/openssl/openssl -I../deps/openssl/openssl/crypto -I../deps/openssl/opens=
+sl/crypto/asn1 -I../deps/openssl/openssl/crypto/evp -I../deps/openssl/ope=
+nssl/crypto/store -I../deps/openssl/openssl/include -I../deps/openssl/con=
+fig/android -Wall -pthread -O2 -fno-strict-aliasing -fno-tree-vrp  -MMD -=
+MF /home/ulf/projects/ICU/Angstrom/setup-scripts/build/tmp-angstrom_v2012=
+_12-eglibc/work/armv7a-vfp-neon-angstrom-linux-gnueabi/node
+>> js-0.8.22-r0/node-v0.8.22/out/Release/.deps//home/ulf/projects/ICU/Ang=
+strom/setup-scripts/build/tmp-angstrom_v2012_12-eglibc/work/armv7a-vfp-ne=
+on-angstrom-linux-gnueabi/nodejs-0.8.22-r0/node-v0.8.22/out/Release/obj.t=
+arget/openssl/deps/openssl/openssl/crypto/whrlpool/wp_block.o.d.raw -O2 -=
+pipe -g -feliminate-unused-debug-types -c -o /home/ulf/projects/ICU/Angst=
+rom/setup-scripts/build/tmp-angstrom_v2012_12-eglibc/work/armv7a-vfp-neon=
+-angstrom-linux-gnueabi/nodejs-0.8.22-r0/node-v0.8.22/out/Release/obj.tar=
+get/openssl/deps/openssl/openssl/crypto/whrlpool/wp_block.o ../deps/opens=
+sl/openssl/crypto/whrlpool/wp_block.c
+>>>> | make[1]: execvp: printf: Argument list too long
+>>>>
+>>>>     I get the second problem when I run from: "/home/ulf/projects/IC=
+U/Angstrom/setup-scripts/"
+>>>>     When I install Angstrom in "/home/icu/v2012.12" I do not see the=
+ problem.
+>>>>
+>>>> ---------------------------
+>>>>     Have tried recompiling my kernel changing include/linux/binfmts.=
+h
+>>>>
+>>>> <# define MAX_ARG_PAGES    32
+>>>>> # define MAX_ARG_PAGES    64
+>>>>     based on something I found on Internet, to no avail.
+>>>>
+>>>> Checking a little bit more, I see it looks like:
+>>>> #ifdef CONFIG_MMU
+>>>>     ...
+>>>> #else
+>>>> # define MAX_ARG_PAGES    64
+>>>>     struct page *page[MAX_ARG_PAGES];
+>>>> #endif
+>>>>     CONFIG_MMU is set,  so the change is in part of the code which i=
+s not used
+>>>>
+>>>>     Maybe there should be some kind of warning about how deep in the=
+ directory structure Angstrom can be.
+>>>>
+>>>> ---------------------------
+>>>>     The resulting kernel/filesystem will run on the Beagleboard Blac=
+k.
+>>>>
+>>>>     Anyone knows what to change to increase the argument area on lin=
+ux-3.2.x?
+>>>>
+>>>> BR
+>>>> Ulf Samuelsson
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-* This patch mirrors a patch done by:
-    Andrea Adami <andrea.adami@gmail.com>
-
-Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
----
-* Updated in version 2:
-    * Removed the PR bump
----
- meta/recipes-core/udev/udev/local.rules |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-core/udev/udev/local.rules b/meta/recipes-core/udev/udev/local.rules
-index 72d92ef..d0cbf91 100644
---- a/meta/recipes-core/udev/udev/local.rules
-+++ b/meta/recipes-core/udev/udev/local.rules
-@@ -17,5 +17,7 @@
- ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe $env{MODALIAS}"
- 
- # Create a symlink to any touchscreen input device
--SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*", SYMLINK+="input/touchscreen0"
-+# Trigger based on input type, that the evbit (-e) has EV_SYN and EV_ABS,
-+# has an EV_ABS value (-a) which is used for touchscreen type devices.
-+SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*", SYMLINK+="input/touchscreen0"
- 
--- 
-1.7.0.4
 
 
