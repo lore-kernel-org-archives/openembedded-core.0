@@ -1,29 +1,37 @@
-Return-Path: <denis@denix.org>
-Received: from vms173013pub.verizon.net (vms173013pub.verizon.net
-	[206.46.173.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B4DF46CE9F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 16:24:51 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173013.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MUO00FC52WPGP90@vms173013.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 14 Oct 2013 11:24:35 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id DE0C9200A9; Mon,
-	14 Oct 2013 12:24:23 -0400 (EDT)
-Date: Mon, 14 Oct 2013 12:24:23 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-id: <20131014162423.GF27046@denix.org>
-References: <1381573062-29065-1-git-send-email-fathi.boudra@linaro.org>
-	<CAP9ODKoO7xmkw0X39a7J2gQdzsjneBHLbV6hyF2JKKrvCaKDVA@mail.gmail.com>
-MIME-version: 1.0
-In-reply-to: <CAP9ODKoO7xmkw0X39a7J2gQdzsjneBHLbV6hyF2JKKrvCaKDVA@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] openssl: add Aarch64 bie-endian support
+Return-Path: <chase.maupin@ti.com>
+Received: from comal.ext.ti.com (comal.ext.ti.com [198.47.26.152])
+	by mail.openembedded.org (Postfix) with ESMTP id BDCB46CE9F
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 14 Oct 2013 16:25:04 +0000 (UTC)
+Received: from dflxv15.itg.ti.com ([128.247.5.124])
+	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id r9EGOKCl031320;
+	Mon, 14 Oct 2013 11:24:20 -0500
+Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
+	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id r9EGOK8D006788;
+	Mon, 14 Oct 2013 11:24:20 -0500
+Received: from DLEE11.ent.ti.com ([fe80::40fa:b936:da7c:d113]) by
+	DFLE72.ent.ti.com ([fe80::e5e2:bab6:34dc:a483%28]) with mapi id
+	14.02.0342.003; Mon, 14 Oct 2013 11:24:20 -0500
+From: "Maupin, Chase" <chase.maupin@ti.com>
+To: Saul Wold <sgw@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] udev: update local rules for new touchscreen
+	device
+Thread-Index: AQHOyPnWdMmzyurP/UaSbBPQvQu15Q==
+Date: Mon, 14 Oct 2013 16:24:20 +0000
+Message-ID: <7D46E86EC0A8354091174257B2FED101597AD8FD@DLEE11.ent.ti.com>
+References: <1381761079-8709-1-git-send-email-Chase.Maupin@ti.com>
+	<CAAQYJAtZYFkxBMHz8eO_KCnXrToKb1uocVsDtnoeOphqQCYkSA@mail.gmail.com>
+	<7D46E86EC0A8354091174257B2FED101597AC445@DLEE11.ent.ti.com>
+	<525C152E.1040604@linux.intel.com>
+In-Reply-To: <525C152E.1040604@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.247.5.50]
+MIME-Version: 1.0
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] udev: update local rules for new touchscreen device
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +44,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2013 16:24:53 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 14 Oct 2013 16:25:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Oct 12, 2013 at 02:59:19PM -0300, Otavio Salvador wrote:
-> On Sat, Oct 12, 2013 at 7:17 AM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
-> > Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
-> > Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
-> ...
-> > --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> > +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> > @@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
-> >
-> >  CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
-> >
-> > -PR = "${INC_PR}.0"
-> > +PR = "${INC_PR}.1"
-> >
-> >  LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
-> 
-> Please don't change PR here; this is not need anymore for general use
-> (but exceptions).
+>-----Original Message-----
+>From: Saul Wold [mailto:sgw@linux.intel.com]
+>Sent: Monday, October 14, 2013 11:01 AM
+>To: Maupin, Chase
+>Cc: Andrea Adami; Openembedded-core@lists.openembedded.org
+>Subject: Re: [OE-core] [PATCH] udev: update local rules for new
+>touchscreen device
+>
+>On 10/14/2013 07:09 AM, Maupin, Chase wrote:
+>>> -----Original Message-----
+>>> From: openembedded-core-bounces@lists.openembedded.org
+>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On
+>>> Behalf Of Andrea Adami
+>>> Sent: Monday, October 14, 2013 8:59 AM
+>>> To: Openembedded-core@lists.openembedded.org
+>>> Subject: Re: [OE-core] [PATCH] udev: update local rules for new
+>>> touchscreen device
+>>>
+>>> On Mon, Oct 14, 2013 at 4:31 PM, Chase Maupin
+>>> <Chase.Maupin@ti.com> wrote:
+>>>> * While working with a new capacitive touchscreen it was found
+>>>>    that the existing udev rule that creates the
+>>>>    /dev/input/touchscreen0 symlink was too restrictive and did
+>>> not
+>>>>    match the MODALAIS entry for this touchscreen. which is:
+>>>>
+>>>>    MODALIAS=3Dinput:b0018v0000p0000e0000-
+>>> e0,1,3,k14A,ra0,1,2F,35,36,39,mlsfw
+>>>>
+>>>> * By looking at the input_print_modalias function in the Linux
+>>>>    kernel drivers/input/input.c file and referencing the
+>meaning
+>>>>    of the evbits and attributes of the input_dev structure it
+>>> seems
+>>>>    that for identification of a touchscreen the match with ,18
+>>>>    which was matching part of the absbit structure is
+>overkill.
+>>>>
+>>>> * It seems that the absbit entry is used for devices like
+>>>>    touchscreens and if that the the "a" is followed by 0 and 1
+>>> this
+>>>>    is sufficient.
+>>>>
+>>>> * So the logic has now been changed to check for the "e" 0 and
+>3
+>>>>    values which correspond to EV_SYN and EV_ABS, then check
+>for
+>>>>    the "a" attribute with 0 and 1.
+>>>>
+>>>> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
+>>>> ---
+>>>>   meta/recipes-core/udev/udev/local.rules |    4 +++-
+>>>>   meta/recipes-core/udev/udev_182.bb      |    2 +-
+>>>>   2 files changed, 4 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-core/udev/udev/local.rules
+>>> b/meta/recipes-core/udev/udev/local.rules
+>>>> index 72d92ef..d0cbf91 100644
+>>>> --- a/meta/recipes-core/udev/udev/local.rules
+>>>> +++ b/meta/recipes-core/udev/udev/local.rules
+>>>> @@ -17,5 +17,7 @@
+>>>>   ACTION=3D=3D"add", DEVPATH=3D=3D"/devices/*", ENV{MODALIAS}=3D=3D"?*=
+",
+>>> RUN+=3D"/sbin/modprobe $env{MODALIAS}"
+>>>>
+>>>>   # Create a symlink to any touchscreen input device
+>>>> -SUBSYSTEM=3D=3D"input", KERNEL=3D=3D"event[0-9]*",
+>>> ATTRS{modalias}=3D=3D"input:*-e0*,3,*a0,1,*18,*",
+>>> SYMLINK+=3D"input/touchscreen0"
+>>>> +# Trigger based on input type, that the evbit (-e) has EV_SYN
+>>> and EV_ABS,
+>>>> +# has an EV_ABS value (-a) which is used for touchscreen type
+>>> devices.
+>>>> +SUBSYSTEM=3D=3D"input", KERNEL=3D=3D"event[0-9]*",
+>>> ATTRS{modalias}=3D=3D"input:*-e0*,3,*a0,1,*",
+>>> SYMLINK+=3D"input/touchscreen0"
+>>>>
+>>>> diff --git a/meta/recipes-core/udev/udev_182.bb
+>b/meta/recipes-
+>>> core/udev/udev_182.bb
+>>>> index d66292e..a90c289 100644
+>>>> --- a/meta/recipes-core/udev/udev_182.bb
+>>>> +++ b/meta/recipes-core/udev/udev_182.bb
+>>>> @@ -1,6 +1,6 @@
+>>>>   include udev.inc
+>>>>
+>>>> -PR =3D "r7"
+>>>> +PR =3D "r8"
+>>>>
+>PR Bump is not needed anymore.
 
-And please correct the typo in the subject - it's big-endian, not bie-endian. 
-Or did you mean bi-endian?
+Thanks, I can remove this, but I think maybe it would be best to take Andre=
+a's patch since his was there first anyway and they are the same.  Whatever=
+ makes you happy though.
 
--- 
-Denys
+>
+>>>>   # module-init-tools from kmod_git will provide libkmod
+>runtime
+>>>>   DEPENDS +=3D "module-init-tools"
+>>>> --
+>>>> 1.7.0.4
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-
+>core
+>>>
+>>> Agreed
+>>>
+>>> I noticed it some time ago but the patch is still on hold....
+>>> http://patchwork.openembedded.org/patch/25093/
+>>
+>> Thanks.  I missed this.  I can confirm this works for my TS
+>device as well.
+>>
+>There was some discussion about this back then also, I would ask
+>that
+>Paul verifies that this patch is OK.
+>
+>Thanks
+>	Sau!
+>
+>
+>
+>>>
+>>>
+>>> Acked-by: Andrea Adami <andrea.adami@gmail.com>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-
+>core
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
 
