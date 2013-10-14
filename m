@@ -1,35 +1,25 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B63406D0B0
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 17:48:33 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id gx14so5973319lab.37
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 14 Oct 2013 10:48:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=JLW8KpVPLB7SXG53jS1XbAZXZZAYPpXKXLoZaF8LAg8=;
-	b=bpjtwT0laFn1Qly5ZXuAtvmvboY0n+TuKIbKXZB7gF3Qp7YJO4JAiKYitDCqaVZCXJ
-	WNWgWcYrZvZzdXBPIf01wYS0YC4WovH6qb9d70d8T3qb8P9Pozuz8ScvV9dTndUWKhLd
-	ta9sFbZBOo0J4rEwnKRO0yAb+AXZ7Pcc7PjXqmT0QLRsXw40vKx/a+h7/QwZxd3m9Ydp
-	HpHYO3psLSf8wm0DOmZD/fSSuAkWixT1d+/Sa0n1iHESJttyhzRZkdTEkt53jcIwNMSE
-	BZ4UWgP9zE4V6X8JdxF7wkGDI6V/Sck8YOFOmepEPzWnGxMFOLMTaIL9Hf1ZY8wyPucd
-	5ybw==
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 05E4F6CBAC
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Oct 2013 17:57:49 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Oct 2013 10:57:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,493,1378882800"; d="scan'208";a="410744114"
+Received: from unknown (HELO [10.255.15.234]) ([10.255.15.234])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2013 10:57:51 -0700
+Message-ID: <525C309F.8080306@linux.intel.com>
+Date: Mon, 14 Oct 2013 10:57:51 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
 MIME-Version: 1.0
-X-Received: by 10.112.235.3 with SMTP id ui3mr2268485lbc.44.1381772914353;
-	Mon, 14 Oct 2013 10:48:34 -0700 (PDT)
-Received: by 10.112.52.74 with HTTP; Mon, 14 Oct 2013 10:48:34 -0700 (PDT)
-In-Reply-To: <7D46E86EC0A8354091174257B2FED101597ADD92@DLEE11.ent.ti.com>
-References: <1381761079-8709-1-git-send-email-Chase.Maupin@ti.com>
-	<CAAQYJAtZYFkxBMHz8eO_KCnXrToKb1uocVsDtnoeOphqQCYkSA@mail.gmail.com>
-	<7D46E86EC0A8354091174257B2FED101597ADD92@DLEE11.ent.ti.com>
-Date: Mon, 14 Oct 2013 19:48:34 +0200
-Message-ID: <CAAQYJAtS6ANoNCUONvY72ZRuALfaFRuok_N3SpN8mG18WKOu4A@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: "Maupin, Chase" <chase.maupin@ti.com>,
-	Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] udev: update local rules for new touchscreen device
+To: JC <jc@vtkloud.com>
+References: <1379429376-30184-1-git-send-email-jc@vtkloud.com>
+In-Reply-To: <1379429376-30184-1-git-send-email-jc@vtkloud.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libao: add version 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,110 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Oct 2013 17:48:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 14 Oct 2013 17:57:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 14, 2013 at 6:53 PM, Maupin, Chase <chase.maupin@ti.com> wrote:
-> Your call if you want to resend your patch and remove the PR bump.  Let me know what you would like.
+On 09/17/2013 07:49 AM, JC wrote:
+> This is basically a 99% import of Peter Tworek's recipe from tworaz666@gmail.com found in https://github.com/tworaz/oe-tworaz/blob/master/meta-jlime/recipes-support/libao/libao_1.1.0.bb
 >
->>-----Original Message-----
->>From: openembedded-core-bounces@lists.openembedded.org
->>[mailto:openembedded-core-bounces@lists.openembedded.org] On
->>Behalf Of Andrea Adami
->>Sent: Monday, October 14, 2013 8:59 AM
->>To: Openembedded-core@lists.openembedded.org
->>Subject: Re: [OE-core] [PATCH] udev: update local rules for new
->>touchscreen device
->>
->>On Mon, Oct 14, 2013 at 4:31 PM, Chase Maupin
->><Chase.Maupin@ti.com> wrote:
->>> * While working with a new capacitive touchscreen it was found
->>>   that the existing udev rule that creates the
->>>   /dev/input/touchscreen0 symlink was too restrictive and did
->>not
->>>   match the MODALAIS entry for this touchscreen. which is:
->>>
->>>   MODALIAS=input:b0018v0000p0000e0000-
->>e0,1,3,k14A,ra0,1,2F,35,36,39,mlsfw
->>>
->>> * By looking at the input_print_modalias function in the Linux
->>>   kernel drivers/input/input.c file and referencing the meaning
->>>   of the evbits and attributes of the input_dev structure it
->>seems
->>>   that for identification of a touchscreen the match with ,18
->>>   which was matching part of the absbit structure is overkill.
->>>
->>> * It seems that the absbit entry is used for devices like
->>>   touchscreens and if that the the "a" is followed by 0 and 1
->>this
->>>   is sufficient.
->>>
->>> * So the logic has now been changed to check for the "e" 0 and 3
->>>   values which correspond to EV_SYN and EV_ABS, then check for
->>>   the "a" attribute with 0 and 1.
->>>
->>> Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
->>> ---
->>>  meta/recipes-core/udev/udev/local.rules |    4 +++-
->>>  meta/recipes-core/udev/udev_182.bb      |    2 +-
->>>  2 files changed, 4 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/udev/udev/local.rules
->>b/meta/recipes-core/udev/udev/local.rules
->>> index 72d92ef..d0cbf91 100644
->>> --- a/meta/recipes-core/udev/udev/local.rules
->>> +++ b/meta/recipes-core/udev/udev/local.rules
->>> @@ -17,5 +17,7 @@
->>>  ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*",
->>RUN+="/sbin/modprobe $env{MODALIAS}"
->>>
->>>  # Create a symlink to any touchscreen input device
->>> -SUBSYSTEM=="input", KERNEL=="event[0-9]*",
->>ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*",
->>SYMLINK+="input/touchscreen0"
->>> +# Trigger based on input type, that the evbit (-e) has EV_SYN
->>and EV_ABS,
->>> +# has an EV_ABS value (-a) which is used for touchscreen type
->>devices.
->>> +SUBSYSTEM=="input", KERNEL=="event[0-9]*",
->>ATTRS{modalias}=="input:*-e0*,3,*a0,1,*",
->>SYMLINK+="input/touchscreen0"
->>>
->>> diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-
->>core/udev/udev_182.bb
->>> index d66292e..a90c289 100644
->>> --- a/meta/recipes-core/udev/udev_182.bb
->>> +++ b/meta/recipes-core/udev/udev_182.bb
->>> @@ -1,6 +1,6 @@
->>>  include udev.inc
->>>
->>> -PR = "r7"
->>> +PR = "r8"
->>>
->>>  # module-init-tools from kmod_git will provide libkmod runtime
->>>  DEPENDS += "module-init-tools"
->>> --
->>> 1.7.0.4
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>Agreed
->>
->>I noticed it some time ago but the patch is still on hold....
->>http://patchwork.openembedded.org/patch/25093/
->>
->>
->>Acked-by: Andrea Adami <andrea.adami@gmail.com>
->>_______________________________________________
->>Openembedded-core mailing list
->>Openembedded-core@lists.openembedded.org
->>http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Chase, please fix and resend the patch
+Can you give some details as to why we should included it in core vs 
+meta-oe?
 
-thanks
-Andrea
+
+Thanks
+	Sau!
+
+
+> Signed-off-by: JC <jc@vtkloud.com>
+> ---
+>   .../recipes-multimedia/libao/libao_1.1.0.bb        | 23 ++++++++++++++++++++++
+>   1 file changed, 23 insertions(+)
+>   create mode 100644 meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
+>
+> diff --git a/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb b/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
+> new file mode 100644
+> index 0000000..08950b5
+> --- /dev/null
+> +++ b/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
+> @@ -0,0 +1,23 @@
+> +SECTION = "multimedia"
+> +SUMMARY = "Libao is a cross-platform audio library that allows programs to output audio using a simple API on a wide variety of platforms"
+> +HOMEPAGE = "https://www.xiph.org/ao/"
+> +
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+> +
+> +SRC_URI="http://downloads.xiph.org/releases/ao/${BP}.tar.gz"
+> +SRC_URI[md5sum] = "2b2508c29bc97e4dc218fa162cf883c8"
+> +SRC_URI[sha256sum] = "29de5bb9b1726ba890455ef7e562d877df87811febb0d99ee69164b88c171bd4"
+> +
+> +inherit autotools
+> +
+> +do_install_append () {
+> +    find "${D}" -name '*.la' -exec rm -f {} +
+> +}
+> +
+> +python populate_packages_prepend () {
+> +    rootdir = bb.data.expand('${libdir}/ao/plugins-4', d)
+> +    rootdir_dbg = bb.data.expand('${libdir}/ao/plugins-4/.debug', d)
+> +    do_split_packages(d, rootdir, '^(.*)\.so$', output_pattern='${BPN}-plugin-%s', description='AO %s plugin')
+> +    do_split_packages(d, rootdir_dbg, '^(.*)\.so$', output_pattern='${BPN}-plugin-%s-dbg', description='AO %s plugin debug data')
+> +}
+>
 
