@@ -1,39 +1,26 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
-	[209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 371276CABC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C2BB16CABC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 08:37:28 +0000 (UTC)
-Received: by mail-la0-f52.google.com with SMTP id ev20so6497241lab.39
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 01:37:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=7NKyPL3hfJl2eBJ6uIW0QH1jFEnZX8zv3o/QNnsf7jM=;
-	b=YD21CuIpMXDRY7bRD0crEDJfUDpAZNRfDkmY8pIGA0yzTmvJ8kN7TyVGCovmC/FEST
-	4nAB0x18aBfo/IT7DKdQhZEmgErRFGhuNwXbF0wIOpW1Yg4rOUa+n1rQsaqO3VGui/sM
-	mc/5w/Y5e4krErG8+iJIi7atMI+Fk161QeiBkPVrF6WCKHmyj3RaLVHPVIEKZjr7xs3l
-	ph7TChhTJ0FuW7MlAjJgLVutcPW6rT6vJfxZECEMy8Cv0SIOTYBCN4U1HJOBU+q6hpHP
-	2QqPHeAqASIHui8veL2JZMuWQWIF5bEEkivR5G2fzwFXPEXkBGL71GvxOKPARSLVSEDU
-	tKZA==
-X-Gm-Message-State: ALoCoQlIfOYKcW+1C3Jx6AJlzOIXxcrpf9fo6DGeyaOBXT8QT8+pD5FG3CbsoF1HgfO4hJWj2aqQ
+	Tue, 15 Oct 2013 08:57:46 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 15 Oct 2013 01:57:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,497,1378882800"; d="scan'208";a="393078306"
+Received: from unknown (HELO helios.localnet) ([10.252.121.7])
+	by orsmga001.jf.intel.com with ESMTP; 15 Oct 2013 01:57:47 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 15 Oct 2013 09:57:44 +0100
+Message-ID: <4294043.nodQZTOtl3@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <525C309F.8080306@linux.intel.com>
+References: <1379429376-30184-1-git-send-email-jc@vtkloud.com>
+	<525C309F.8080306@linux.intel.com>
 MIME-Version: 1.0
-X-Received: by 10.152.3.201 with SMTP id e9mr35284734lae.24.1381826248942;
-	Tue, 15 Oct 2013 01:37:28 -0700 (PDT)
-Received: by 10.112.173.66 with HTTP; Tue, 15 Oct 2013 01:37:28 -0700 (PDT)
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16C495AA@IRSMSX105.ger.corp.intel.com>
-References: <1381168150-25518-1-git-send-email-ross.burton@intel.com>
-	<1381168150-25518-2-git-send-email-ross.burton@intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16C495AA@IRSMSX105.ger.corp.intel.com>
-Date: Tue, 15 Oct 2013 11:37:28 +0300
-Message-ID: <CAGNsrLAXyqZn38bY5WU=YcpOF4xhn0B+OA4Lr55cD=iQmKza4w@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] glib-2.0: upgrade to 2.28.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libao: add version 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,35 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2013 08:37:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 15 Oct 2013 08:57:47 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 15 October 2013 09:31, Iorga, Cristian <cristian.iorga@intel.com> wrote:
-> Hello,
+On Monday 14 October 2013 10:57:51 Saul Wold wrote:
+> On 09/17/2013 07:49 AM, JC wrote:
+> > This is basically a 99% import of Peter Tworek's recipe from
+> > tworaz666@gmail.com found in
+> > https://github.com/tworaz/oe-tworaz/blob/master/meta-jlime/recipes-suppor
+> > t/libao/libao_1.1.0.bb
 >
-> This patch has been merged with incorrect version in commit description.
-> Upgraded to version 2.38.0, not version 2.28.0, as in description.
-> Regards,
-> Cristian
->
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Ross Burton
-> Sent: Monday, October 07, 2013 8:49 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 2/5] glib-2.0: upgrade to 2.28.0
->
-> Drop the ptest patches and instead use --enable-installed-tests, updating run-ptest to invoke gnome-desktop-testing-runner.
->
-> Drop the x32 build patch, upstream has integrated a similar fix.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Can you give some details as to why we should included it in core vs
+> meta-oe?
 
-it fails to build on Aarch64:
-| gdbusprivate.c: In function 'write_message_print_transport_debug':
-| gdbusprivate.c:2164:12: error: format '%lu' expects argument of type
-'long unsigned int', but argument 2 has type 'gssize'
-[-Werror=format=]
-|             g_type_name (G_TYPE_FROM_INSTANCE
-(g_io_stream_get_output_stream (data->worker->stream))));
-|             ^
+It was sent to the wrong list; Jay re-sent it to the openembedded-devel list 
+and it has already been merged into meta-multimedia.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
