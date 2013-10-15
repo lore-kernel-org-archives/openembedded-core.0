@@ -1,21 +1,20 @@
-Return-Path: <riku.voipio@linaro.org>
-Received: from afflict.kos.to (afflict.kos.to [92.243.29.197])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BA4660EED
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C635C6CABC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 11:51:45 +0000 (UTC)
-Received: from localhost.localdomain (91-157-208-114.elisa-laajakaista.fi
-	[91.157.208.114])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by afflict.kos.to (Postfix) with ESMTPSA id 441BA26551;
-	Tue, 15 Oct 2013 13:51:44 +0200 (CEST)
-From: Riku Voipio <riku.voipio@linaro.org>
+	Tue, 15 Oct 2013 12:46:10 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Oct 2013 05:46:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,498,1378882800"; d="scan'208";a="417091158"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.41])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Oct 2013 05:46:11 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Oct 2013 14:51:05 +0300
-Message-Id: <1381837865-24381-1-git-send-email-riku.voipio@linaro.org>
-X-Mailer: git-send-email 1.8.3.1
-Cc: patches@linaro.org
-Subject: [PATCH] glib-2.0: fix build on Aarch64
+Date: Tue, 15 Oct 2013 15:45:57 +0300
+Message-Id: <cover.1381841061.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 00/10] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,92 +27,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2013 11:51:45 -0000
+X-List-Received-Date: Tue, 15 Oct 2013 12:46:11 -0000
 
-Backported patch from upstream
+Basic functionality tests done with a core-image-sato image for qemux86 and a
+lenovo s10-3t. Also, buildhistory didn't show major changes.
 
-Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
----
- ...ror-format-string-errors-from-mismatched-.patch | 56 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb      |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch
+The patchset was build tested on a local autobuilder too, for all major architectures, on
+top of the following commit: faf8f8660fae26a14578738b642fdeb08bcb9d54.
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch
-new file mode 100644
-index 0000000..9b87d9d
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch
-@@ -0,0 +1,56 @@
-+From 0167c3340d8201dca8e9031b61703bbc5ed6ce33 Mon Sep 17 00:00:00 2001
-+From: Jan Schmidt <thaytan@noraisin.net>
-+Date: Wed, 25 Sep 2013 19:22:26 +1000
-+Subject: [PATCH] gio: Fix -Werror format string errors from mismatched ints.
-+
-+Upstream-Status: Backport
-+
-+---
-+ gio/gdbusmessage.c | 8 ++++----
-+ gio/gdbusprivate.c | 4 ++--
-+ 2 files changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/gio/gdbusmessage.c b/gio/gdbusmessage.c
-+index ac233a3..ad77aa6 100644
-+--- a/gio/gdbusmessage.c
-++++ b/gio/gdbusmessage.c
-+@@ -3468,10 +3468,10 @@ g_dbus_message_print (GDBusMessage *message,
-+                                           statbuf.st_mode);
-+                   g_string_append_printf (fs, "%s" "ino=%" G_GUINT64_FORMAT, fs->len > 0 ? "," : "",
-+                                           (guint64) statbuf.st_ino);
-+-                  g_string_append_printf (fs, "%s" "uid=%d", fs->len > 0 ? "," : "",
-+-                                          statbuf.st_uid);
-+-                  g_string_append_printf (fs, "%s" "gid=%d", fs->len > 0 ? "," : "",
-+-                                          statbuf.st_gid);
-++                  g_string_append_printf (fs, "%s" "uid=%u", fs->len > 0 ? "," : "",
-++                                          (guint) statbuf.st_uid);
-++                  g_string_append_printf (fs, "%s" "gid=%u", fs->len > 0 ? "," : "",
-++                                          (guint) statbuf.st_gid);
-+                   g_string_append_printf (fs, "%s" "rdev=%d:%d", fs->len > 0 ? "," : "",
-+                                           major (statbuf.st_rdev), minor (statbuf.st_rdev));
-+                   g_string_append_printf (fs, "%s" "size=%" G_GUINT64_FORMAT, fs->len > 0 ? "," : "",
-+diff --git a/gio/gdbusprivate.c b/gio/gdbusprivate.c
-+index 0e5bef2..785a0c0 100644
-+--- a/gio/gdbusprivate.c
-++++ b/gio/gdbusprivate.c
-+@@ -2155,7 +2155,7 @@ write_message_print_transport_debug (gssize bytes_written,
-+   _g_dbus_debug_print_lock ();
-+   g_print ("========================================================================\n"
-+            "GDBus-debug:Transport:\n"
-+-           "  >>>> WROTE %" G_GSIZE_FORMAT " bytes of message with serial %d and\n"
-++           "  >>>> WROTE %" G_GSSIZE_FORMAT " bytes of message with serial %d and\n"
-+            "       size %" G_GSIZE_FORMAT " from offset %" G_GSIZE_FORMAT " on a %s\n",
-+            bytes_written,
-+            g_dbus_message_get_serial (data->message),
-+@@ -2206,7 +2206,7 @@ read_message_print_transport_debug (gssize bytes_read,
-+     _g_dbus_debug_print_lock ();
-+   g_print ("========================================================================\n"
-+            "GDBus-debug:Transport:\n"
-+-           "  <<<< READ %" G_GSIZE_FORMAT " bytes of message with serial %d and\n"
-++           "  <<<< READ %" G_GSSIZE_FORMAT " bytes of message with serial %d and\n"
-+            "       size %d to offset %" G_GSIZE_FORMAT " from a %s\n",
-+            bytes_read,
-+            serial,
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb
-index 4b9b112..5717bd2 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://add-march-i486-into-CFLAGS-automatically.patch \
-            file://glib-2.0-configure-readlink.patch \
-            file://run-ptest \
-+           file://0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch \
-           "
- 
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+Thanks,
+Laurentiu
+
+The following changes since commit 2b5bac02196b8bd30d223d508f5f7d4300889fd7:
+
+  poky: Update Version post release (2013-10-14 16:59:12 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/upgrades
+
+Laurentiu Palcu (10):
+  byacc: upgrade to 20130925
+  xkeyboard-config: upgrade to 2.10.1
+  xauth: upgrade to 1.0.8
+  xf86-input-evdev: upgrade to 2.8.2
+  libdrm: upgrade to 2.4.47
+  xset: upgrade to 1.2.3
+  xf86-video-intel: upgrade to 2.21.15
+  xinput: upgrade to 1.6.1
+  xprop: upgrade to 1.2.2
+  xf86-video-fbdev: upgrade to 0.4.4
+
+ .../byacc/{byacc_20130304.bb => byacc_20130925.bb} |    4 +--
+ .../drm/{libdrm_2.4.46.bb => libdrm_2.4.47.bb}     |    4 +--
+ .../xorg-app/{xauth_1.0.7.bb => xauth_1.0.8.bb}    |    5 ++-
+ .../xorg-app/{xinput_1.6.0.bb => xinput_1.6.1.bb}  |    5 ++-
+ .../xorg-app/{xprop_1.2.1.bb => xprop_1.2.2.bb}    |    5 ++-
+ .../xorg-app/{xset_1.2.2.bb => xset_1.2.3.bb}      |    5 ++-
+ ...ut-evdev_2.8.1.bb => xf86-input-evdev_2.8.2.bb} |    4 +--
+ .../xf86-video-fbdev/Remove-mibstore.h.patch       |   35 --------------------
+ ...eo-fbdev_0.4.3.bb => xf86-video-fbdev_0.4.4.bb} |    6 ++--
+ ...ntel_2.21.13.bb => xf86-video-intel_2.21.15.bb} |    4 +--
+ ...rd-config_2.9.bb => xkeyboard-config_2.10.1.bb} |    4 +--
+ 11 files changed, 20 insertions(+), 61 deletions(-)
+ rename meta/recipes-extended/byacc/{byacc_20130304.bb => byacc_20130925.bb} (74%)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.46.bb => libdrm_2.4.47.bb} (46%)
+ rename meta/recipes-graphics/xorg-app/{xauth_1.0.7.bb => xauth_1.0.8.bb} (65%)
+ rename meta/recipes-graphics/xorg-app/{xinput_1.6.0.bb => xinput_1.6.1.bb} (64%)
+ rename meta/recipes-graphics/xorg-app/{xprop_1.2.1.bb => xprop_1.2.2.bb} (77%)
+ rename meta/recipes-graphics/xorg-app/{xset_1.2.2.bb => xset_1.2.3.bb} (74%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.8.1.bb => xf86-input-evdev_2.8.2.bb} (83%)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-fbdev/Remove-mibstore.h.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-fbdev_0.4.3.bb => xf86-video-fbdev_0.4.4.bb} (44%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.21.13.bb => xf86-video-intel_2.21.15.bb} (88%)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.9.bb => xkeyboard-config_2.10.1.bb} (87%)
+
 -- 
-1.8.3.1
+1.7.9.5
 
 
