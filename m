@@ -1,40 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
-	[209.85.212.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 55D516CBAC
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E787A6CBAC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 09:44:13 +0000 (UTC)
-Received: by mail-vb0-f44.google.com with SMTP id p14so54125vbm.17
+	Tue, 15 Oct 2013 10:10:20 +0000 (UTC)
+Received: by mail-we0-f181.google.com with SMTP id t60so8363641wes.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 02:44:15 -0700 (PDT)
+	Tue, 15 Oct 2013 03:10:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0mqoptRN3zB4s8Nmt45J2bUrk4ooZDoJaTXe09/sVDc=;
-	b=Sfqoug78cvD/dMdssl1WZcCUQGjJb/o+L3D/kQNG4sKqIUTmJG30atmMJAvzcznWk2
-	jKv7ojqdgMZ+vb8xFzK74KsyRiQa5LiAeVyujvWD0izIMrnst+NM0/JqnuMi4taBTSCI
-	7smA8hnGPGZpYq4X6ZKLIyNcqBsIfi/zIoLGi8Y7mmOa3TjvSmkv1HOdV7l0hKyh5Xdp
-	eVB0/Gdlsva2l0d39c2qqBcSfkFIJezsKxS7v5w2piYciNjGWtlTa5Y3RZtd7BF3Ufzs
-	BK8Mb52WVKYH0OxESk+KzXAJji4maykVt+ggzo22a3/4qX+nElWMa0RNoA64090jtoDP
-	uzEA==
-X-Gm-Message-State: ALoCoQkiD4yp/pR+cTn2mpxl2CnSkFSqxer6YyeG2WDveS4gxui8eIM2fHgMTCmYh/5UlsYRv0yy
-X-Received: by 10.58.254.200 with SMTP id ak8mr11504938ved.12.1381830254893;
-	Tue, 15 Oct 2013 02:44:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 15 Oct 2013 02:43:54 -0700 (PDT)
-In-Reply-To: <CAGNsrLAXyqZn38bY5WU=YcpOF4xhn0B+OA4Lr55cD=iQmKza4w@mail.gmail.com>
-References: <1381168150-25518-1-git-send-email-ross.burton@intel.com>
-	<1381168150-25518-2-git-send-email-ross.burton@intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16C495AA@IRSMSX105.ger.corp.intel.com>
-	<CAGNsrLAXyqZn38bY5WU=YcpOF4xhn0B+OA4Lr55cD=iQmKza4w@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 15 Oct 2013 10:43:54 +0100
-Message-ID: <CAJTo0LYLUmi7_sL2zgveVhS3RaKJ90roc7HccATJ8mGca1pSQg@mail.gmail.com>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] glib-2.0: upgrade to 2.28.0
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=YdVbVYZ0ebZvAxcidtNosEHrodkhxrhfJUQi8D56u3o=;
+	b=hZii0jJEcQb64JuqbwbQTWXiDcDmy6/QTat8bHATLO/wwfghMfzgIaSE2rfRyHMbvM
+	s0CEyDY03IVwlwlj4pGntq++DR+QrXlrMN6m+DEpwGScAiEOaxjzX+C2pOJCYnqXeZ2J
+	VhgroPi3S53FXaqvVvT1zTpz8vVeJxCLrHonfdcr29GTZt8pEmeycBh0S06F5xniQxaW
+	rFF1bx6q/+pbXwmEdqC7OoKnHZVhkQ132TXMEDuaWVn9J2rxfFwrg1Ro4iiPUw8NfZrL
+	jG2hvCHcCpGzcdA7Z4ARBeYcqSLyk8lDCQoOlHugB6vkGpIUj1+zFqo1LTZWJPiojCTb
+	jxYg==
+X-Gm-Message-State: ALoCoQlm2FAO5T3s5hzlXTsOJiJAH23AxvykDRLbw1zYeoOp1s+8fNnJ4Jg0SW4ary6zVYrcAlhH
+X-Received: by 10.194.21.131 with SMTP id v3mr1157098wje.44.1381831821924;
+	Tue, 15 Oct 2013 03:10:21 -0700 (PDT)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id jf2sm4660429wic.2.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 15 Oct 2013 03:10:21 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1381824734-2946-1-git-send-email-rongqing.li@windriver.com>
+Date: Tue, 15 Oct 2013 12:10:21 +0200
+Message-Id: <E0C668BE-B0FA-4BE0-91E9-BB779A8ABDC3@dominion.thruhere.net>
+References: <1381824734-2946-1-git-send-email-rongqing.li@windriver.com>
+To: rongqing.li@windriver.com
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,21 +47,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2013 09:44:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 15 Oct 2013 10:10:23 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 15 October 2013 09:37, Fathi Boudra <fathi.boudra@linaro.org> wrote:
-> it fails to build on Aarch64:
-> | gdbusprivate.c: In function 'write_message_print_transport_debug':
-> | gdbusprivate.c:2164:12: error: format '%lu' expects argument of type
-> 'long unsigned int', but argument 2 has type 'gssize'
-> [-Werror=format=]
-> |             g_type_name (G_TYPE_FROM_INSTANCE
-> (g_io_stream_get_output_stream (data->worker->stream))));
-> |             ^
 
-I don't have any aarch64 hardware to test on, can you work with
-upstream to get a fix and submit it here?
+Op 15 okt. 2013, om 10:12 heeft rongqing.li@windriver.com het volgende =
+geschreven:
 
-Ross
+> From: Roy Li <rongqing.li@windriver.com>
+>=20
+> Otherwise system will hang since nfs is not disconnected
+>=20
+> and remove the judgement of initscript DISTRO_FEATURE when install =
+init
+> script connman, because inherit systemd will remove init script
+
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+
+[..]
+
+> diff --git =
+a/meta/recipes-connectivity/connman/connman/connman-nfs.service =
+b/meta/recipes-connectivity/connman/connman/connman-nfs.service
+> new file mode 100644
+> index 0000000..9f9b690
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/connman-nfs.service
+> @@ -0,0 +1,14 @@
+> +[Unit]
+> +Description=3DConnection service
+> +After=3Dsyslog.target
+> +
+> +[Service]
+> +Type=3Ddbus
+> +BusName=3Dnet.connman
+> +Restart=3Don-failure
+> +ExecStartPre=3D-/usr/lib64/connman/wired-setup
+> +ExecStart=3D/usr/bin/connman-nfs
+
+Those hardcoded paths aren't going to work. And isn't:
+
+ConditionKernelCommandLine!=3Droot=3D/dev/nfs=20
+
+A lot cleaner to use in systemd?=
 
