@@ -1,26 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 505BB6CF28
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 97D626CF28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 18:50:22 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 Oct 2013 11:46:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,501,1378882800"; d="scan'208";a="393368278"
-Received: from unknown (HELO [10.255.15.253]) ([10.255.15.253])
-	by orsmga001.jf.intel.com with ESMTP; 15 Oct 2013 11:50:07 -0700
-Message-ID: <525D8E5F.3020705@linux.intel.com>
-Date: Tue, 15 Oct 2013 11:50:07 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 15 Oct 2013 19:58:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9FJwJoa024609
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 15 Oct 2013 12:58:19 -0700 (PDT)
+Received: from [128.224.146.231] (128.224.146.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 15 Oct 2013 12:58:19 -0700
+Message-ID: <525D9E59.6010107@windriver.com>
+Date: Tue, 15 Oct 2013 15:58:17 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: Sujith H <sujith.h@gmail.com>
-References: <1381292732-5090-1-git-send-email-sujith.h@gmail.com>
-In-Reply-To: <1381292732-5090-1-git-send-email-sujith.h@gmail.com>
-Cc: Sujith H <Sujith_Haridasan@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Fixing the warning
+To: <openembedded-core@lists.openembedded.org>, ChenQi <Qi.Chen@windriver.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1380172958.git.Qi.Chen@windriver.com>	<d46d403192a73aaf1a5d61aefb890dcc03e41b25.1380172958.git.Qi.Chen@windriver.com>	<345142465.cI7Ru9Zzi7@helios>
+	<524B062E.7010901@windriver.com>
+In-Reply-To: <524B062E.7010901@windriver.com>
+X-Originating-IP: [128.224.146.231]
+Subject: Re: [PATCH 1/1] buildhistory.bbclass: always record PKG, PKGE, PKGV and PKGR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +36,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2013 18:50:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 15 Oct 2013 19:58:19 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/08/2013 09:25 PM, Sujith H wrote:
-> Warning: No GNU_HASH in the elf binary
+On 13-10-01 01:28 PM, Mark Hatle wrote:
+> On 9/30/13 11:26 AM, Paul Eggleton wrote:
+>> On Thursday 26 September 2013 13:23:32 Qi.Chen@windriver.com wrote:
+>>> From: Chen Qi <Qi.Chen@windriver.com>
+>>>
+>>> The buildhistory.bbclass always records PV instead of PKGV. However,
+>>> the buildhistory-diff script treats PKGV as a monitored variable
+>>> instead of PV.
+>>>
+>>> If a recipe's PV changes, for example, hello_1.0.bb is renamed to
+>>> hello_2.0.bb, then buildhistory-diff reports nothing because PV is
+>>> not monitored and PKGV is not recorded.
+>>>
+>>> So the buildhistory.bbclass should always record PKGV no matter it
+>>> equals to PV or not.
+>>>
+>>> The same logic applies to PKG, PKGE and PKGR.
+>>>
+>>> [YOCTO #5263]
+>>>
+>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> ---
+>>>   meta/classes/buildhistory.bbclass |    8 ++++----
+>>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/meta/classes/buildhistory.bbclass
+>>> b/meta/classes/buildhistory.bbclass index 3da03c8..cea917c 100644
+>>> --- a/meta/classes/buildhistory.bbclass
+>>> +++ b/meta/classes/buildhistory.bbclass
+>>> @@ -277,10 +277,10 @@ def write_pkghistory(pkginfo, d):
+>>>           f.write("PR = %s\n" %  pkginfo.pr)
+>>>
+>>>           pkgvars = {}
+>>> -        pkgvars['PKG'] = pkginfo.pkg if pkginfo.pkg != pkginfo.name
+>>> else ''
+>>> -        pkgvars['PKGE'] = pkginfo.pkge if pkginfo.pkge != pkginfo.pe
+>>> else
+>>> '' -        pkgvars['PKGV'] = pkginfo.pkgv if pkginfo.pkgv != pkginfo.pv
+>>> else '' -        pkgvars['PKGR'] = pkginfo.pkgr if pkginfo.pkgr !=
+>>> pkginfo.pr else '' +        pkgvars['PKG'] = pkginfo.pkg
+>>> +        pkgvars['PKGE'] = pkginfo.pkge
+>>> +        pkgvars['PKGV'] = pkginfo.pkgv
+>>> +        pkgvars['PKGR'] = pkginfo.pkgr
+>>>           for pkgvar in pkgvars:
+>>>               val = pkgvars[pkgvar]
+>>>               if val:
+>>
+>> Please see my comment on the bug (just added):
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5263
+>
+> Already added to the bug, but here so people not watching the bug can see:
+>
+> I believe this change is requested because otherwise there is no way to
+> detect a package upgrade/uprev when using buildhistory.  This type of
+> upgrade can happy when comparing no-GPLv3 and GPLv3 builds -- or just
+> simple software updates when a layer gets updated.
+>
+> We want to use the buildhistory from one build to the next to look for
+> changes that have occurred that may be unexpected.
+>
+> --Mark
+
+Paul,
+Any comments?
+Qi replied to your comment in bugzilla.
+
+Qi,
+Perhaps you need to post an example showing how this change
+helps for a package upgrade and compare it to what happens when
+the patch is not applied.
+
+// Randy
+
+
+>
+>> Cheers,
+>> Paul
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 >
 
-The short commit message needs to be in the format similar to
-nspr: Add LDFLAGS to TARGET_CC_ARCH to fix Warning
 
-Then more details in the commit message.
-
-Can you give more details about which target this is failing, I am not 
-sure we have seen these.
-
-1.5 is complete and will be released shortly.
-
-Thanks
-	Sau!
-
-> Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
-> ---
->   meta/recipes-support/nspr/nspr_4.10.bb | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-support/nspr/nspr_4.10.bb b/meta/recipes-support/nspr/nspr_4.10.bb
-> index fcecb95..4247fd0 100644
-> --- a/meta/recipes-support/nspr/nspr_4.10.bb
-> +++ b/meta/recipes-support/nspr/nspr_4.10.bb
-> @@ -19,6 +19,7 @@ SRC_URI[sha256sum] = "0cfbe561676b92e5af3ddc7ac77452014e3da8885da66baec811e73541
->   S = "${WORKDIR}/nspr-${PV}/nspr"
->
->   RDEPENDS_${PN}-dev += "perl"
-> +TARGET_CC_ARCH += "${LDFLAGS}"
->
->   TESTS = "runtests.pl \
->       runtests.sh \
->
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
