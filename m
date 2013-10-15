@@ -1,15 +1,39 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 09A626CBAC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f47.google.com (mail-vb0-f47.google.com
+	[209.85.212.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C38D6CBAC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 09:06:23 +0000 (UTC)
-From: Jack Mitchell <ml@communistcode.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Oct 2013 10:06:14 +0100
-Message-Id: <1381827974-19501-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.4
-Cc: Jack Mitchell <jmitchell@cbnl.com>
-Subject: [PATCH] crond: remove UID check in init script
+	Tue, 15 Oct 2013 09:30:34 +0000 (UTC)
+Received: by mail-vb0-f47.google.com with SMTP id h10so4878858vbh.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Oct 2013 02:30:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LPtLcJpUyATy/9XZTYAlQlYNEScCp3uwRtx0jeHdqNA=;
+	b=jKzrLulC9BoalrGzEKFmmbkMf3CBoXjyRBcmThjj4HjyHl3Z07v8aA0etq4SmCxLEU
+	eHHWLmtnhyJYBp0Ysa7gN3X3x+xvZ3+PjVD0Se4Tf1XDCYTPR6G5MdrZ1w1tIBIIt4bZ
+	N3YxbRkXGXft/Ak2t4gw3vcBa0SS1Auf6hzF9DguOOO7Mllwk/WI7a1cr1BvThRJ5Qpd
+	JVfPURd0MwxxjP1r8s1hzMo+o+0zhm0dotLlkFrR0jFb+4cTmk0B8adP5T49N0KeMSTD
+	xAFEhr8O9c2bPs7iFmXH2vIu5rAxyUQNRZ4a4qWtdCVKHBxJqgs3Fh9udkBsTbN01lg3
+	ppIw==
+X-Gm-Message-State: ALoCoQn9GY/Wmi7Yzf4sI687Ieoi9qN++ucFmxFWFQ/uNT7WLVgRPvs6y8OdXpje6kMqWbH4ARV8
+X-Received: by 10.52.22.110 with SMTP id c14mr29641vdf.28.1381829435733; Tue,
+	15 Oct 2013 02:30:35 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Tue, 15 Oct 2013 02:30:15 -0700 (PDT)
+In-Reply-To: <20131015052206.GB21985@lpalcu-linux>
+References: <1381505415-23693-1-git-send-email-konrad.scherer@windriver.com>
+	<1381505415-23693-2-git-send-email-konrad.scherer@windriver.com>
+	<525C31DD.6020900@linux.intel.com>
+	<20131015052206.GB21985@lpalcu-linux>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 15 Oct 2013 10:30:15 +0100
+Message-ID: <CAJTo0LZ4ZOnO5u_FD+Vxiej8U3+o8Cn-B5c10otx5=7S1FSWtg@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Allow script to work with Python 2.4 and 3.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -22,46 +46,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2013 09:06:23 -0000
+X-List-Received-Date: Tue, 15 Oct 2013 09:30:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jack Mitchell <jmitchell@cbnl.com>
+On 15 October 2013 06:22, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> Is it wise to encode the strings with latin_1 by default? Would it work
+> if the filename uses cyrillic characters? Or chinese?
 
-this init script fails when the default shell is busybox sh. This
-is because busybox sh doesn't set the UID. No other init scripts
-in oecore feel the need to check the UID so just remove the check.
+Especially not considering every modern distro defaults to UTF-8
+locales now.  Using the system encoding makes sense.
 
-Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
----
- meta/recipes-extended/cronie/cronie/crond.init | 8 --------
- 1 file changed, 8 deletions(-)
-
-diff --git a/meta/recipes-extended/cronie/cronie/crond.init b/meta/recipes-extended/cronie/cronie/crond.init
-index 08f34be..c8dffef 100755
---- a/meta/recipes-extended/cronie/cronie/crond.init
-+++ b/meta/recipes-extended/cronie/cronie/crond.init
-@@ -23,10 +23,6 @@ CONFIG=/etc/sysconfig/crond
- 
- case "$1" in
-   start)
--    if [ $UID -ne 0 ] ; then
--        echo "User has insufficient privilege."
--        exit 1
--    fi
-     echo -n "Starting crond: "
-     start-stop-daemon --start --quiet --exec $CROND -- $CRONDARGS
-     RETVAL=$?
-@@ -37,10 +33,6 @@ case "$1" in
-     fi
-     ;;
-   stop)
--    if [ $UID -ne 0 ] ; then
--        echo "User has insufficient privilege."
--        exit 1
--    fi
-     echo -n "Stopping crond: "
-     start-stop-daemon --stop --quiet --pidfile /var/run/crond.pid
-     RETVAL=$?
--- 
-1.8.4
-
+Ross
 
