@@ -1,36 +1,34 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E73A06CBA4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 40A30610FC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 13:55:23 +0000 (UTC)
-Received: by mail-wg0-f49.google.com with SMTP id x12so6197556wgg.16
+	Tue, 15 Oct 2013 14:45:55 +0000 (UTC)
+Received: by mail-ie0-f171.google.com with SMTP id tp5so1146366ieb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 06:55:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=x8IYZIIgbgGVT+Cg+KyijmHYDSEoMrp65YuufiiIO3Q=;
-	b=BE4jGZsepczTkAhNNbMoOUyopLsn+jQLe160lrFhaQKHYJnfftwO70a2v9ikfh9One
-	eSRZsKLIp2W3Kd7hAYaNrkrVUU/oCeCexrMojq6gcZPT/63v0xl+RMlQxt3XyOjIz5fs
-	udC0/TNuAnZgQP20++tdeZAdNr2YGMZ08Hd5e0GMI8Ljh7J3kX6dIpD7uYcPvTWp8D71
-	56WW9VBnYJB/M0h123D5HfFaIkBX3KaGyVWAVThii73W5AchSmnlEMH5QmXYZetWd04K
-	XWyQIYQ4NlQgLZ/kFwQpxJ9FpX7nq2YodRO4cqxhbeTjy5t3kOAYrEMmB2tVxgefo7wF
-	hXDA==
-X-Gm-Message-State: ALoCoQl65AR4mmsX6BoVbWzKDnFWM4Sjo5UR1kTtYFFmcrMQGlKZo5618iv8eYhxYyYtBl01JmfT
-X-Received: by 10.194.239.40 with SMTP id vp8mr2279812wjc.45.1381845324972;
-	Tue, 15 Oct 2013 06:55:24 -0700 (PDT)
-Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
-	[77.162.165.174])
-	by mx.google.com with ESMTPSA id e5sm273493wiy.2.2013.10.15.06.55.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
-	Tue, 15 Oct 2013 06:55:23 -0700 (PDT)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Oct 2013 15:55:18 +0200
-Message-Id: <1381845318-11254-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] openssl: switch ARM builds from linux-elf-arm to linux-armv4 config
+	Tue, 15 Oct 2013 07:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=aC9YNhzPfHihIKqPoGyQQtbEb19pRShR379BM5NNnk8=;
+	b=Zdc8hiNU2z6Fs4OxATtOoH9snTQSpxZMDXYGr0VLWHLeF9j7C7P0ZTRSmTsssHUG9V
+	BJ6Ws2IAtD+8ZN9w3looUKbt6aRKfGdJKPNmZXjiY+ViqW4go/Y8+FL6E0cv8YjuCDVo
+	rE1TBTcVW3RB5CtCehjTCF0nbWPSbUGqJV5e+mrnWEUomIP8wLpXmQ/hZkyPaa0onvoh
+	hvD/RDAtSFy5lwRsiCMfbg4zhglF29WJExWS715j4OlQWJymx9lx7S9DilKhS/fWnosO
+	UGj/BScBzCEY3Ld86060f/P6E5a3G7osSSBVLEjvo0pVOJy2gbMDPh7qG5mU7vCln7RM
+	+1KQ==
+X-Received: by 10.43.77.212 with SMTP id zj20mr23785524icb.5.1381848356686;
+	Tue, 15 Oct 2013 07:45:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.5.225 with HTTP; Tue, 15 Oct 2013 07:45:26 -0700 (PDT)
+In-Reply-To: <1381844435.29912.422.camel@ted>
+References: <1381844435.29912.422.camel@ted>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 15 Oct 2013 07:45:26 -0700
+Message-ID: <CAMKF1sr=L9W+T1izdxJGRznd3BnZLYW58qPs0y5EnRkETZp68A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cross-canadian: Fix SHLIBSDIR when using multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,100 +41,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2013 13:55:24 -0000
+X-List-Received-Date: Tue, 15 Oct 2013 14:45:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This enables aes and sha1 assembly at buildtime. Openssl does a
-runtime check to see which portion gets enabled.
+On Tue, Oct 15, 2013 at 6:40 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Both nativesdk and multilib use MLPREFIX for their partciular purposes. When
+> we have both set, cross-canadian can confuse SHLIBSDIR. This forces the
+> variable to the correct value for cross-canadian, fixing toolchains in
+> multilib builds.
+>
+> [YOCTO #5333]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+> index 4387d05..7181c60 100644
+> --- a/meta/classes/cross-canadian.bbclass
+> +++ b/meta/classes/cross-canadian.bbclass
+> @@ -95,3 +95,8 @@ USE_NLS = "${SDKUSE_NLS}"
+>  # We have to us TARGET_ARCH but we care about the absolute value
+>  # and not any particular tune that is enabled.
+>  TARGET_ARCH[vardepsexclude] = "TUNE_ARCH"
+> +
+> +# If MLPREFIX is set by multilib code, shlibs
+> +# points to the wrong place so force it
+> +SHLIBSDIRS = "${PKGDATA_DIR}/nativesdk-shlibs"
+> +SHLIBSWORKDIR = "${PKGDATA_DIR}/nativesdk-shlibs"
 
-'./Configure TABLE' gives the following:
+in the patch that did not work for me
+I was using ${SDKPKGSUFFIX} instead of hardcoding 'nativesdk'
+and += instead of =
 
-*** linux-elf-arm
-$cc           =
-$cflags       = -DL_ENDIAN      -DTERMIO  -O2 -pipe -g -feliminate-unused-debug-types -Wall -Wa,--noexecstack -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS
-$unistd       =
-$thread_cflag = -D_REENTRANT
-$sys_id       =
-$lflags       = -ldl
-$bn_ops       = BN_LLONG DES_RISC1
-$cpuid_obj    =
-$bn_obj       =
-$des_obj      =
-$aes_obj      =
-$bf_obj       =
-$md5_obj      =
-$sha1_obj     =
-$cast_obj     =
-$rc4_obj      =
-$rmd160_obj   =
-$rc5_obj      =
-$wp_obj       =
-$cmll_obj     =
-$modes_obj    =
-$engines_obj  =
-$perlasm_scheme = void
-$dso_scheme   = dlfcn
-$shared_target= linux-shared
-$shared_cflag = -fPIC
-$shared_ldflag =
-$shared_extension = .so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
-$ranlib       =
-$arflags      =
-$multilib     =
-
-*** linux-armv4
-$cc           = gcc
-$cflags       = -DTERMIO -O3 -Wall
-$unistd       =
-$thread_cflag = -D_REENTRANT
-$sys_id       =
-$lflags       = -ldl
-$bn_ops       = BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR
-$cpuid_obj    = armcap.o armv4cpuid.o
-$bn_obj       = bn_asm.o armv4-mont.o armv4-gf2m.o
-$des_obj      =
-$aes_obj      = aes_cbc.o aes-armv4.o bsaes-armv7.o
-$bf_obj       =
-$md5_obj      =
-$sha1_obj     = sha1-armv4-large.o sha256-armv4.o sha512-armv4.o
-$cast_obj     =
-$rc4_obj      =
-$rmd160_obj   =
-$rc5_obj      =
-$wp_obj       =
-$cmll_obj     =
-$modes_obj    = ghash-armv4.o
-$engines_obj  =
-$perlasm_scheme = void
-$dso_scheme   = dlfcn
-$shared_target= linux-shared
-$shared_cflag = -fPIC
-$shared_ldflag =
-$shared_extension = .so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
-$ranlib       =
-$arflags      =
-$multilib     =
-
-Build tested on armv7a/angstrom and armv8/distroless
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-connectivity/openssl/openssl.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 78ff7ae..8fb7fc6 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -61,7 +61,7 @@ do_configure () {
- 	target="$os-${HOST_ARCH}"
- 	case $target in
- 	linux-arm)
--		target=linux-elf-arm
-+		target=linux-armv4
- 		;;
- 	linux-armeb)
- 		target=linux-elf-armeb
--- 
-1.8.3.1
-
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
