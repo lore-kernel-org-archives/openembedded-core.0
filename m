@@ -1,41 +1,21 @@
 Return-Path: <riku.voipio@linaro.org>
-Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
-	[209.85.216.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 217796CBAC
+Received: from afflict.kos.to (afflict.kos.to [92.243.29.197])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BA4660EED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 11:05:21 +0000 (UTC)
-Received: by mail-qa0-f53.google.com with SMTP id k15so2946008qaq.19
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 04:05:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=gNZMf13jlPnZ4nRYDkFSSUHWInWQou8abbsIlI9Akqc=;
-	b=FKAGEH9Xka8rNhk6N24gZ3HUCx2rjn29/E2dEBEd485sMD6OJTsRzVfMVDP1ImfNEw
-	lz9o6eKvegE7PAyog5KvjkrKE+f+lOTb6WTYg3/Hnbp3BbSDTrnPGPj1nHG8bbaksN3X
-	IHInRjudr+y8xoRQ/MpsAu5QoG7M+61TRrWEQLXI29cYXVPlscDyaV+Sgbi5eF1nBgMH
-	K5x9e2yzU+5kqF8UGF/jk9p+dzL2HT1boR+dRwfKCeqdFyglPSibofdGo6mEzoPAnCeg
-	5vB2sSfMLOILK29LSU6KZmWGwFZ0GoL7e+xJrsDOlykugV9kv6+k6TeZ7w3Zc48/n5sp
-	orNw==
-X-Gm-Message-State: ALoCoQlYmWNSnCXggeHgt7n+aWRY3LyvCxQGe1CEYCX+fTodSG3BNeUc2vLD0ZGwwGkHwlEjMqXg
-MIME-Version: 1.0
-X-Received: by 10.224.20.198 with SMTP id g6mr42739514qab.24.1381835118912;
-	Tue, 15 Oct 2013 04:05:18 -0700 (PDT)
-Received: by 10.49.12.146 with HTTP; Tue, 15 Oct 2013 04:05:18 -0700 (PDT)
-In-Reply-To: <CAJTo0LYLUmi7_sL2zgveVhS3RaKJ90roc7HccATJ8mGca1pSQg@mail.gmail.com>
-References: <1381168150-25518-1-git-send-email-ross.burton@intel.com>
-	<1381168150-25518-2-git-send-email-ross.burton@intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16C495AA@IRSMSX105.ger.corp.intel.com>
-	<CAGNsrLAXyqZn38bY5WU=YcpOF4xhn0B+OA4Lr55cD=iQmKza4w@mail.gmail.com>
-	<CAJTo0LYLUmi7_sL2zgveVhS3RaKJ90roc7HccATJ8mGca1pSQg@mail.gmail.com>
-Date: Tue, 15 Oct 2013 14:05:18 +0300
-Message-ID: <CAAqcGHkVrJgnp8AqLtvCjJaj9DrCwvSaSLGdwuFxzKdP_Ehj+Q@mail.gmail.com>
+	Tue, 15 Oct 2013 11:51:45 +0000 (UTC)
+Received: from localhost.localdomain (91-157-208-114.elisa-laajakaista.fi
+	[91.157.208.114])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by afflict.kos.to (Postfix) with ESMTPSA id 441BA26551;
+	Tue, 15 Oct 2013 13:51:44 +0200 (CEST)
 From: Riku Voipio <riku.voipio@linaro.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] glib-2.0: upgrade to 2.28.0
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Oct 2013 14:51:05 +0300
+Message-Id: <1381837865-24381-1-git-send-email-riku.voipio@linaro.org>
+X-Mailer: git-send-email 1.8.3.1
+Cc: patches@linaro.org
+Subject: [PATCH] glib-2.0: fix build on Aarch64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,28 +28,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2013 11:05:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 15 Oct 2013 11:51:45 -0000
 
-On 15 October 2013 12:43, Burton, Ross <ross.burton@intel.com> wrote:
-> On 15 October 2013 09:37, Fathi Boudra <fathi.boudra@linaro.org> wrote:
->> it fails to build on Aarch64:
->> | gdbusprivate.c: In function 'write_message_print_transport_debug':
->> | gdbusprivate.c:2164:12: error: format '%lu' expects argument of type
->> 'long unsigned int', but argument 2 has type 'gssize'
->> [-Werror=format=]
->> |             g_type_name (G_TYPE_FROM_INSTANCE
->> (g_io_stream_get_output_stream (data->worker->stream))));
->> |             ^
->
-> I don't have any aarch64 hardware to test on, can you work with
-> upstream to get a fix and submit it here?
+Backported patch from upstream
 
-This is fixed upstream in:
+Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
+---
+ ...ror-format-string-errors-from-mismatched-.patch | 56 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb      |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch
 
-https://git.gnome.org/browse/glib/commit/?id=0167c3340d8201dca8e9031b61703bbc5ed6ce33
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch
+new file mode 100644
+index 0000000..9b87d9d
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch
+@@ -0,0 +1,56 @@
++From 0167c3340d8201dca8e9031b61703bbc5ed6ce33 Mon Sep 17 00:00:00 2001
++From: Jan Schmidt <thaytan@noraisin.net>
++Date: Wed, 25 Sep 2013 19:22:26 +1000
++Subject: [PATCH] gio: Fix -Werror format string errors from mismatched ints.
++
++Upstream-Status: Backport
++
++---
++ gio/gdbusmessage.c | 8 ++++----
++ gio/gdbusprivate.c | 4 ++--
++ 2 files changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/gio/gdbusmessage.c b/gio/gdbusmessage.c
++index ac233a3..ad77aa6 100644
++--- a/gio/gdbusmessage.c
+++++ b/gio/gdbusmessage.c
++@@ -3468,10 +3468,10 @@ g_dbus_message_print (GDBusMessage *message,
++                                           statbuf.st_mode);
++                   g_string_append_printf (fs, "%s" "ino=%" G_GUINT64_FORMAT, fs->len > 0 ? "," : "",
++                                           (guint64) statbuf.st_ino);
++-                  g_string_append_printf (fs, "%s" "uid=%d", fs->len > 0 ? "," : "",
++-                                          statbuf.st_uid);
++-                  g_string_append_printf (fs, "%s" "gid=%d", fs->len > 0 ? "," : "",
++-                                          statbuf.st_gid);
+++                  g_string_append_printf (fs, "%s" "uid=%u", fs->len > 0 ? "," : "",
+++                                          (guint) statbuf.st_uid);
+++                  g_string_append_printf (fs, "%s" "gid=%u", fs->len > 0 ? "," : "",
+++                                          (guint) statbuf.st_gid);
++                   g_string_append_printf (fs, "%s" "rdev=%d:%d", fs->len > 0 ? "," : "",
++                                           major (statbuf.st_rdev), minor (statbuf.st_rdev));
++                   g_string_append_printf (fs, "%s" "size=%" G_GUINT64_FORMAT, fs->len > 0 ? "," : "",
++diff --git a/gio/gdbusprivate.c b/gio/gdbusprivate.c
++index 0e5bef2..785a0c0 100644
++--- a/gio/gdbusprivate.c
+++++ b/gio/gdbusprivate.c
++@@ -2155,7 +2155,7 @@ write_message_print_transport_debug (gssize bytes_written,
++   _g_dbus_debug_print_lock ();
++   g_print ("========================================================================\n"
++            "GDBus-debug:Transport:\n"
++-           "  >>>> WROTE %" G_GSIZE_FORMAT " bytes of message with serial %d and\n"
+++           "  >>>> WROTE %" G_GSSIZE_FORMAT " bytes of message with serial %d and\n"
++            "       size %" G_GSIZE_FORMAT " from offset %" G_GSIZE_FORMAT " on a %s\n",
++            bytes_written,
++            g_dbus_message_get_serial (data->message),
++@@ -2206,7 +2206,7 @@ read_message_print_transport_debug (gssize bytes_read,
++     _g_dbus_debug_print_lock ();
++   g_print ("========================================================================\n"
++            "GDBus-debug:Transport:\n"
++-           "  <<<< READ %" G_GSIZE_FORMAT " bytes of message with serial %d and\n"
+++           "  <<<< READ %" G_GSSIZE_FORMAT " bytes of message with serial %d and\n"
++            "       size %d to offset %" G_GSIZE_FORMAT " from a %s\n",
++            bytes_read,
++            serial,
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb
+index 4b9b112..5717bd2 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://add-march-i486-into-CFLAGS-automatically.patch \
+            file://glib-2.0-configure-readlink.patch \
+            file://run-ptest \
++           file://0001-gio-Fix-Werror-format-string-errors-from-mismatched-.patch \
+           "
+ 
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
+-- 
+1.8.3.1
 
-I'll submit a patch in a moment.
-
-Riku
 
