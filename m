@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 53036610FC
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id E73A06CBA4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 13:40:49 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9FDej5J014995 for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 14:40:45 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id M6WkYFbOyvyu
+	Tue, 15 Oct 2013 13:55:23 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id x12so6197556wgg.16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 14:40:45 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9FDecwU014981
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 14:40:40 +0100
-Message-ID: <1381844435.29912.422.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Oct 2013 14:40:35 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] cross-canadian: Fix SHLIBSDIR when using multilib
+	Tue, 15 Oct 2013 06:55:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=x8IYZIIgbgGVT+Cg+KyijmHYDSEoMrp65YuufiiIO3Q=;
+	b=BE4jGZsepczTkAhNNbMoOUyopLsn+jQLe160lrFhaQKHYJnfftwO70a2v9ikfh9One
+	eSRZsKLIp2W3Kd7hAYaNrkrVUU/oCeCexrMojq6gcZPT/63v0xl+RMlQxt3XyOjIz5fs
+	udC0/TNuAnZgQP20++tdeZAdNr2YGMZ08Hd5e0GMI8Ljh7J3kX6dIpD7uYcPvTWp8D71
+	56WW9VBnYJB/M0h123D5HfFaIkBX3KaGyVWAVThii73W5AchSmnlEMH5QmXYZetWd04K
+	XWyQIYQ4NlQgLZ/kFwQpxJ9FpX7nq2YodRO4cqxhbeTjy5t3kOAYrEMmB2tVxgefo7wF
+	hXDA==
+X-Gm-Message-State: ALoCoQl65AR4mmsX6BoVbWzKDnFWM4Sjo5UR1kTtYFFmcrMQGlKZo5618iv8eYhxYyYtBl01JmfT
+X-Received: by 10.194.239.40 with SMTP id vp8mr2279812wjc.45.1381845324972;
+	Tue, 15 Oct 2013 06:55:24 -0700 (PDT)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPSA id e5sm273493wiy.2.2013.10.15.06.55.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Oct 2013 06:55:23 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Oct 2013 15:55:18 +0200
+Message-Id: <1381845318-11254-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] openssl: switch ARM builds from linux-elf-arm to linux-armv4 config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +43,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Oct 2013 13:40:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Oct 2013 13:55:24 -0000
 
-Both nativesdk and multilib use MLPREFIX for their partciular purposes. When
-we have both set, cross-canadian can confuse SHLIBSDIR. This forces the
-variable to the correct value for cross-canadian, fixing toolchains in
-multilib builds.
+This enables aes and sha1 assembly at buildtime. Openssl does a
+runtime check to see which portion gets enabled.
 
-[YOCTO #5333]
+'./Configure TABLE' gives the following:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+*** linux-elf-arm
+$cc           =
+$cflags       = -DL_ENDIAN      -DTERMIO  -O2 -pipe -g -feliminate-unused-debug-types -Wall -Wa,--noexecstack -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS
+$unistd       =
+$thread_cflag = -D_REENTRANT
+$sys_id       =
+$lflags       = -ldl
+$bn_ops       = BN_LLONG DES_RISC1
+$cpuid_obj    =
+$bn_obj       =
+$des_obj      =
+$aes_obj      =
+$bf_obj       =
+$md5_obj      =
+$sha1_obj     =
+$cast_obj     =
+$rc4_obj      =
+$rmd160_obj   =
+$rc5_obj      =
+$wp_obj       =
+$cmll_obj     =
+$modes_obj    =
+$engines_obj  =
+$perlasm_scheme = void
+$dso_scheme   = dlfcn
+$shared_target= linux-shared
+$shared_cflag = -fPIC
+$shared_ldflag =
+$shared_extension = .so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
+$ranlib       =
+$arflags      =
+$multilib     =
+
+*** linux-armv4
+$cc           = gcc
+$cflags       = -DTERMIO -O3 -Wall
+$unistd       =
+$thread_cflag = -D_REENTRANT
+$sys_id       =
+$lflags       = -ldl
+$bn_ops       = BN_LLONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR
+$cpuid_obj    = armcap.o armv4cpuid.o
+$bn_obj       = bn_asm.o armv4-mont.o armv4-gf2m.o
+$des_obj      =
+$aes_obj      = aes_cbc.o aes-armv4.o bsaes-armv7.o
+$bf_obj       =
+$md5_obj      =
+$sha1_obj     = sha1-armv4-large.o sha256-armv4.o sha512-armv4.o
+$cast_obj     =
+$rc4_obj      =
+$rmd160_obj   =
+$rc5_obj      =
+$wp_obj       =
+$cmll_obj     =
+$modes_obj    = ghash-armv4.o
+$engines_obj  =
+$perlasm_scheme = void
+$dso_scheme   = dlfcn
+$shared_target= linux-shared
+$shared_cflag = -fPIC
+$shared_ldflag =
+$shared_extension = .so.$(SHLIB_MAJOR).$(SHLIB_MINOR)
+$ranlib       =
+$arflags      =
+$multilib     =
+
+Build tested on armv7a/angstrom and armv8/distroless
+
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
-diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
-index 4387d05..7181c60 100644
---- a/meta/classes/cross-canadian.bbclass
-+++ b/meta/classes/cross-canadian.bbclass
-@@ -95,3 +95,8 @@ USE_NLS = "${SDKUSE_NLS}"
- # We have to us TARGET_ARCH but we care about the absolute value
- # and not any particular tune that is enabled.
- TARGET_ARCH[vardepsexclude] = "TUNE_ARCH"
-+
-+# If MLPREFIX is set by multilib code, shlibs
-+# points to the wrong place so force it
-+SHLIBSDIRS = "${PKGDATA_DIR}/nativesdk-shlibs"
-+SHLIBSWORKDIR = "${PKGDATA_DIR}/nativesdk-shlibs"
+ meta/recipes-connectivity/openssl/openssl.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 78ff7ae..8fb7fc6 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -61,7 +61,7 @@ do_configure () {
+ 	target="$os-${HOST_ARCH}"
+ 	case $target in
+ 	linux-arm)
+-		target=linux-elf-arm
++		target=linux-armv4
+ 		;;
+ 	linux-armeb)
+ 		target=linux-elf-armeb
+-- 
+1.8.3.1
 
 
