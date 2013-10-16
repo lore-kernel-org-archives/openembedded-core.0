@@ -1,28 +1,20 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 96C386CBA4
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D85AE6D087
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 00:46:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9G0kAsp027522
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Oct 2013 17:46:10 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 15 Oct 2013 17:46:10 -0700
-Message-ID: <525DE1D4.40109@windriver.com>
-Date: Wed, 16 Oct 2013 08:46:12 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1381824734-2946-1-git-send-email-rongqing.li@windriver.com>
-	<E0C668BE-B0FA-4BE0-91E9-BB779A8ABDC3@dominion.thruhere.net>
-In-Reply-To: <E0C668BE-B0FA-4BE0-91E9-BB779A8ABDC3@dominion.thruhere.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: ignore the networking device which nfs for rootfs is working on
+	Wed, 16 Oct 2013 02:51:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 15 Oct 2013 19:48:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,504,1378882800"; d="scan'208";a="393546431"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.253])
+	by orsmga001.jf.intel.com with ESMTP; 15 Oct 2013 19:51:31 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Oct 2013 19:51:30 -0700
+Message-Id: <1381891890-23822-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] busybox: Add depmod (adds 2240 bytes)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,62 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 00:46:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Oct 2013 02:51:30 -0000
 
+This will allow packages that update kernel modules to run correctly
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/busybox/busybox-1.21.1/defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 10/15/2013 06:10 PM, Koen Kooi wrote:
->
-> Op 15 okt. 2013, om 10:12 heeft rongqing.li@windriver.com het volgende geschreven:
->
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> Otherwise system will hang since nfs is not disconnected
->>
->> and remove the judgement of initscript DISTRO_FEATURE when install init
->> script connman, because inherit systemd will remove init script
->
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> ---
->
-> [..]
->
->> diff --git a/meta/recipes-connectivity/connman/connman/connman-nfs.service b/meta/recipes-connectivity/connman/connman/connman-nfs.service
->> new file mode 100644
->> index 0000000..9f9b690
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/connman/connman/connman-nfs.service
->> @@ -0,0 +1,14 @@
->> +[Unit]
->> +Description=Connection service
->> +After=syslog.target
->> +
->> +[Service]
->> +Type=dbus
->> +BusName=net.connman
->> +Restart=on-failure
->> +ExecStartPre=-/usr/lib64/connman/wired-setup
->> +ExecStart=/usr/bin/connman-nfs
->
-> Those hardcoded paths aren't going to work. And isn't:
->
-
-Thanks, I will fix it.
-
-> ConditionKernelCommandLine!=root=/dev/nfs
->
-
-What is your meaning?
-
--Roy
-
-
-> A lot cleaner to use in systemd?
->
-
+diff --git a/meta/recipes-core/busybox/busybox-1.21.1/defconfig b/meta/recipes-core/busybox/busybox-1.21.1/defconfig
+index 4526121..f0e63c2 100644
+--- a/meta/recipes-core/busybox/busybox-1.21.1/defconfig
++++ b/meta/recipes-core/busybox/busybox-1.21.1/defconfig
+@@ -504,7 +504,7 @@ CONFIG_LSMOD=y
+ # CONFIG_FEATURE_LSMOD_PRETTY_2_6_OUTPUT is not set
+ CONFIG_MODPROBE=y
+ # CONFIG_FEATURE_MODPROBE_BLACKLIST is not set
+-# CONFIG_DEPMOD is not set
++CONFIG_DEPMOD=y
+ 
+ #
+ # Options common to multiple modutils
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.8.3.1
+
 
