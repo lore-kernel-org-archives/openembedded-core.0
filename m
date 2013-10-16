@@ -1,31 +1,34 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A94E6CBAC
+	by mail.openembedded.org (Postfix) with ESMTP id C5E0B6CC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 12:09:21 +0000 (UTC)
+	Wed, 16 Oct 2013 12:12:44 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9GC9APS028699; Wed, 16 Oct 2013 13:09:10 +0100
+	r9GCCeIm028808; Wed, 16 Oct 2013 13:12:40 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id IhezpQ_PUkRO; Wed, 16 Oct 2013 13:09:10 +0100 (BST)
+	with LMTP id VuXkmG0aB2kY; Wed, 16 Oct 2013 13:12:40 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9GC93Rx028676
+	r9GCCXl8028802
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 16 Oct 2013 13:09:05 +0100
-Message-ID: <1381925340.29912.461.camel@ted>
+	verify=NOT); Wed, 16 Oct 2013 13:12:35 +0100
+Message-ID: <1381925550.29912.463.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Tom Zanussi <tom.zanussi@linux.intel.com>
-Date: Wed, 16 Oct 2013 13:09:00 +0100
-In-Reply-To: <3e3f7120140dc606369f19fbfca3e222db06274d.1381898855.git.tom.zanussi@linux.intel.com>
-References: <7df25a781aad32cb4f7deaa1c4af839e8dc604a2.1381898855.git.tom.zanussi@linux.intel.com>
-	<3e3f7120140dc606369f19fbfca3e222db06274d.1381898855.git.tom.zanussi@linux.intel.com>
+To: Rongqing Li <rongqing.li@windriver.com>
+Date: Wed, 16 Oct 2013 13:12:30 +0100
+In-Reply-To: <525E3378.3070604@windriver.com>
+References: <1381902795-3187-1-git-send-email-rongqing.li@windriver.com>
+	<CAP9ODKpm_zpo+TyFDe0TSAXHs=MvFjouPjRNE0GcE9i6Lk_7Aw@mail.gmail.com>
+	<525E3378.3070604@windriver.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] wic: add fakeroot to the populate-extfs step
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] populate_sdk_base: repeat to tar archive file five time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,35 +41,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 12:09:22 -0000
+X-List-Received-Date: Wed, 16 Oct 2013 12:12:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-10-16 at 00:14 -0500, Tom Zanussi wrote:
-> Without this, files in the generated filesystem pick up the wrong
-> ownership.
+On Wed, 2013-10-16 at 14:34 +0800, Rongqing Li wrote:
 > 
-> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
-> ---
->  scripts/lib/mic/kickstart/custom_commands/partition.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On 10/16/2013 02:24 PM, Otavio Salvador wrote:
+> > On Wed, Oct 16, 2013 at 2:53 AM,  <rongqing.li@windriver.com> wrote:
+> >> From: Roy Li <rongqing.li@windriver.com>
+> >>
+> >> [YOCTO #5287]
+> >>
+> >> tar failed and reported that file changed as we read it, now
+> >> we workaround it
+> >>
+> >> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> >
+> > You must be kidding right?! loop 5 times?!? why not fix the root cause
+> > of the change?
+> >
 > 
-> diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> index 302cace..309abee 100644
-> --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-> +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> @@ -216,7 +216,7 @@ class Wic_PartData(Mic_PartData):
->          """
->          Prepare content for an ext2/3/4 rootfs partition.
->          """
-> -        populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
-> +        populate_script = "fakeroot %s/usr/bin/populate-extfs.sh" % native_sysroot
->          image_extra_space = 10240
->  
->          image_rootfs = rootfs_dir
+> Sorry, I do not know the root cause, and I see many people spent
+> lots of efforts to investigate, but do not find the root cause,
+> sometime we suspect it is the building servers kernel issue,
+> if it is true, we can not fix the building servers, we only
+> workaround the code.
 
-We don't use fakeroot, please use pseudo. If pseudo doesn't work, we
-need to figure out why and fix it.
+This workaround is not going into master, its horrid. Do we know which
+versions of the kernel on the server have the issue. I'd much rather
+tell people to fix their broken filesystems for example and refuse to
+run on them.
 
 Cheers,
 
