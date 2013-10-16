@@ -1,36 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BB176D041
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 020546D126
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 21:30:57 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id ik5so686364vcb.7
+	Wed, 16 Oct 2013 21:51:53 +0000 (UTC)
+Received: by mail-lb0-f171.google.com with SMTP id u14so1163947lbd.16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 14:30:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=wVHwBt+O2xtqRYUPQuxXVMgzPUe5sgqaLg28k9dG5E8=;
-	b=e4wNfWiLZIVy9ajOGhlFL7ay7N9+oZ8oZH/evDuAHOvJ0nX/0IhZoDqAwvEgmUxrrQ
-	sRP2XEIkyidr9H1Tv3n48fm9IX83ms0IL3LRWNuYhC9g5/N2myeXZBqtIsYb/jtfWBZ4
-	iNRLxheheuR6KNG2Kq4b9fuHULbs/66wVz7BHcRLZbzdVTaNommpBfjjFQkw1PHuvhpk
-	tRzJFNosmffafaEkn1YhWHVtWdWxDRXZOlJJfgJ5pt6SUwCwFrrhoNTU0fMIcUr1s7ba
-	QeuIMD/C6g48AGJhDjRKluVX1NusUOpIghsZxsO/v/7q+BMSwbVHvmmV5Z0oLiDJSVnK
-	0v9w==
-X-Gm-Message-State: ALoCoQniNCJgMHgQYBD/EmacWZ9gD3wjoFnvd4SG3j5dG96WHFUSkdS7ULtIvQJmKjxVK0aWw61b
-X-Received: by 10.52.119.228 with SMTP id kx4mr3440518vdb.12.1381959059067;
-	Wed, 16 Oct 2013 14:30:59 -0700 (PDT)
+	Wed, 16 Oct 2013 14:51:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=GUR4fNp2z1coVdImOyALdU32PYKcaxiBAhugavbGTVE=;
+	b=a0R2JzeY1/dNH56f28s22DxjZ7XjvVdTRZT1oJ6Q0NAkrRg9UMU9hGoNugvFgbMIuL
+	5paYaHzmIHydI0ZHm/S6pIrltk3SZ2jVcEh/Mp6FOoXnlhESnf9rKRL8OlWTEGpyWFbd
+	92/bajmimL19+yQ3/bXNeogwB8bdTPaQyPm14SE9frn6bl6PEwW/RXDcUT8JroytGNOx
+	Zl3U0VuT8c60fVockv+tLXTwCaDkVa853+G3Na5I8vx1RVfkavmAloBex0+HOKzDHcbx
+	xWnr2AmLfC8eOapIZITxvbbSMaZrLtqP8EEA7C4a1qTO0wLnWGenzy+EGZ2M3avO14t5
+	/YyA==
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 16 Oct 2013 14:30:38 -0700 (PDT)
-In-Reply-To: <cover.1381944889.git.sgw@linux.intel.com>
-References: <cover.1381944889.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Oct 2013 22:30:38 +0100
-Message-ID: <CAJTo0La76+TFUnog4hGx=pAC=hYf6dJy=FiON2a+FYQYnRPzVw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/30] Package Updated & Fixes
+X-Received: by 10.112.168.3 with SMTP id zs3mr4503415lbb.2.1381960314476; Wed,
+	16 Oct 2013 14:51:54 -0700 (PDT)
+Received: by 10.112.52.74 with HTTP; Wed, 16 Oct 2013 14:51:54 -0700 (PDT)
+In-Reply-To: <1381954581-19306-1-git-send-email-andrea.adami@gmail.com>
+References: <1381954581-19306-1-git-send-email-andrea.adami@gmail.com>
+Date: Wed, 16 Oct 2013 23:51:54 +0200
+Message-ID: <CAAQYJAuJzyJ_JkvE_Nhtyt=4=QbnyoEe2QCk3ztwrq8j-TeW+Q@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image_types.bbclass: allow JFFS2 image with cleanmarkers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,16 +39,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 21:30:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 16 Oct 2013 21:51:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 16 October 2013 18:54, Saul Wold <sgw@linux.intel.com> wrote:
->   wayland: upgrade to 1.3.0
->   weston: upgrade to 1.3.0
->   weston-init: start weston on a new VT
+On Wed, Oct 16, 2013 at 10:16 PM, Andrea Adami <andrea.adami@gmail.com> wrote:
+> The creation of JFFS2 images was hardcoding the
+> --no-cleanmarkers option (-n) after those two commits:
+>
+> 70a276509f0f006fcc269296afc3dcc88d2825e1
+> 7c803cea58737ea0abc62cd21c3813d955f07224
+>
+> The documentation explains that the -n option is
+> intended for flash NAND only: devices with NOR flash
+> need the cleanmarkers and should not make use of this option.
+>
+> To add more flexibility, parametrize the padding size
+> as well, creating JFFS2_PADSIZE.
+>
+> Finally, add EXTRA_IMAGE_CMD_jffs2 in explicit form:
+> sumtool has slightly different options:
+>
+>  -l  --littleendian
+>  -p, --pad
+>
+> To give an idea about size differences:
+>
+> core-image-base-xxx.rootfs.jffs2     | 16496K
+> core-image-base-xxx.rootfs.sum.jffs2 | 22816K
+>
+> core-image-minimal-xxx.rootfs.jffs2     | 6160384
+> core-image-minimal-xxx.rootfs.sum.jffs2 | 9879552
+>
+> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+> ---
+>  meta/classes/image_types.bbclass | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 9ead059..2a1acfa 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -140,9 +140,9 @@ XZ_COMPRESSION_LEVEL ?= "-e -6"
+>  XZ_INTEGRITY_CHECK ?= "crc32"
+>  XZ_THREADS ?= "-T 0"
+>
+> -IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 -n ${EXTRA_IMAGECMD}"
+> +IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
+>  IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 \
+> -       -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sum.jffs2 -n ${EXTRA_IMAGECMD}"
+> +       -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sum.jffs2 ${EXTRA_IMAGECMD}"
+>
+>  IMAGE_CMD_cramfs = "mkfs.cramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
+>
+> @@ -209,9 +209,12 @@ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_
+>  EXTRA_IMAGECMD = ""
+>
+>  inherit siteinfo
+> -JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--little-endian', '--big-endian', d)}"
+> +JFFS2_PADSIZE ?= ""
+> +JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-l', '-b', d)}"
+>  JFFS2_ERASEBLOCK ?= "0x40000"
+> -EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
+> +JFFS2_NOCLEANMARKERS ?= "--no-cleanmarkers"
+> +EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_PADSIZE} ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} ${JFFS2_NOCLEANMARKERS}"
+> +EXTRA_IMAGECMD_sum.jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} ${JFFS2_NOCLEANMARKERS}"
+>
+>  # Change these if you want default mkfs behavior (i.e. create minimal inode number)
+>  EXTRA_IMAGECMD_ext2 ?= "-i 8192"
+> --
+> 1.8.1.5
+>
 
-Extended testing revealed some problems that I couldn't root-cause
-trivially, please don't pull these just yet.
+Well, this patch still works in the default case but has one flaw with
+regard to jffs2 summary images with specific padding size:
+it never uses the JFFS_PADSIZE size because EXTRA_IMAGECMD_sum.jffs2
+is the final value.
 
-Ross
+At the moment I'm tempted to remove the experimental sum.jffs2 support :/
+
+Thanks for suggestions
+
+Andrea
 
