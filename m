@@ -1,26 +1,29 @@
-Return-Path: <Konrad.Scherer@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 32BF66BA14
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D8F7615A9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 15:44:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9GFj1e4012684
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 08:45:01 -0700 (PDT)
-Received: from yow-kscherer-l1.wrs.com (128.224.147.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 16 Oct 2013 08:45:00 -0700
-From: Konrad Scherer <konrad.scherer@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Oct 2013 11:44:59 -0400
-Message-ID: <1381938299-19599-2-git-send-email-konrad.scherer@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <1381938299-19599-1-git-send-email-konrad.scherer@windriver.com>
-References: <1381938299-19599-1-git-send-email-konrad.scherer@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH] relocate_sdk.py: Allow script to work with Python 2.4 and 3.
+	Wed, 16 Oct 2013 16:06:25 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Oct 2013 09:05:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,508,1378882800"; d="scan'208";a="412005269"
+Received: from unknown (HELO [10.255.15.226]) ([10.255.15.226])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Oct 2013 09:05:47 -0700
+Message-ID: <1381939546.23041.123.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 16 Oct 2013 09:05:46 -0700
+In-Reply-To: <1381936247.23041.119.camel@dvhart-mobl4.amr.corp.intel.com>
+References: <7df25a781aad32cb4f7deaa1c4af839e8dc604a2.1381898855.git.tom.zanussi@linux.intel.com>
+	<3e3f7120140dc606369f19fbfca3e222db06274d.1381898855.git.tom.zanussi@linux.intel.com>
+	<1381925340.29912.461.camel@ted>
+	<1381936247.23041.119.camel@dvhart-mobl4.amr.corp.intel.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] wic: add fakeroot to the populate-extfs step
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,134 +36,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 15:44:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Oct 2013 16:06:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Konrad Scherer <Konrad.Scherer@windriver.com>
+On Wed, 2013-10-16 at 08:10 -0700, Darren Hart wrote:
+> On Wed, 2013-10-16 at 13:09 +0100, Richard Purdie wrote:
+> > On Wed, 2013-10-16 at 00:14 -0500, Tom Zanussi wrote:
+> > > Without this, files in the generated filesystem pick up the wrong
+> > > ownership.
+> > > 
+> > > Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+> > > ---
+> > >  scripts/lib/mic/kickstart/custom_commands/partition.py | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > index 302cace..309abee 100644
+> > > --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
+> > > @@ -216,7 +216,7 @@ class Wic_PartData(Mic_PartData):
+> > >          """
+> > >          Prepare content for an ext2/3/4 rootfs partition.
+> > >          """
+> > > -        populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
+> > > +        populate_script = "fakeroot %s/usr/bin/populate-extfs.sh" % native_sysroot
+> > >          image_extra_space = 10240
+> > >  
+> > >          image_rootfs = rootfs_dir
+> > 
+> > We don't use fakeroot, please use pseudo. If pseudo doesn't work, we
+> > need to figure out why and fix it.
+> > 
+> 
+> Ultimately this needs to work independently from bitbake. Is that
+> practical if we use pseudo here?
 
-Python 2.4 does not support the 'b' string literal or the
-keyword 'as' in exception handling. Python 3 does not accept
-the old method of exception handling and defaults to unicode.
-The b() function converts strings to bytes on Python 3 and
-using sys.exc_info() avoids the exception handling syntax.
+Starting to get a bit out of scope for this discussion, but it does
+impact the utility of the tool. I don't see a package for pseudo in
+either Ubuntu or Fedora. The lack of a package would definitely increase
+the barrier to use (lots of people really dislike having to build their
+own sources and muck up their filesystem with non-package files).
 
-Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
----
- scripts/relocate_sdk.py | 43 ++++++++++++++++++++++++++-----------------
- 1 file changed, 26 insertions(+), 17 deletions(-)
+Has any work already been kicked off to try and get pseudo packaged in
+the major distributions? Who would the right people be to work with on
+that?
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index fe6e4e0..a15302d 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -31,7 +31,15 @@ import os
- import re
- import errno
- 
--old_prefix = re.compile(b"##DEFAULT_INSTALL_DIR##")
-+if sys.version < '3':
-+    def b(x):
-+        return x
-+else:
-+    import codecs
-+    def b(x):
-+        return x.encode(sys.getfilesystemencoding())
-+
-+old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
- 
- def get_arch():
-     f.seek(0)
-@@ -92,15 +100,15 @@ def change_interpreter(elf_file_name):
-             # External SDKs with mixed pre-compiled binaries should not get
-             # relocated so look for some variant of /lib
-             fname = f.read(11)
--            if fname.startswith(b"/lib/") or fname.startswith(b"/lib64/") or \
--               fname.startswith(b"/lib32/") or fname.startswith(b"/usr/lib32/") or \
--               fname.startswith(b"/usr/lib32/") or fname.startswith(b"/usr/lib64/"):
-+            if fname.startswith(b("/lib/")) or fname.startswith(b("/lib64/")) or \
-+               fname.startswith(b("/lib32/")) or fname.startswith(b("/usr/lib32/")) or \
-+               fname.startswith(b("/usr/lib32/")) or fname.startswith(b("/usr/lib64/")):
-                 break
-             if (len(new_dl_path) >= p_filesz):
-                 print("ERROR: could not relocate %s, interp size = %i and %i is needed." \
-                     % (elf_file_name, p_memsz, len(new_dl_path) + 1))
-                 break
--            dl_path = new_dl_path + b"\0" * (p_filesz - len(new_dl_path))
-+            dl_path = new_dl_path + b("\0") * (p_filesz - len(new_dl_path))
-             f.seek(p_offset)
-             f.write(dl_path)
-             break
-@@ -132,40 +140,40 @@ def change_dl_sysdirs():
-         sh_name, sh_type, sh_flags, sh_addr, sh_offset, sh_size, sh_link,\
-             sh_info, sh_addralign, sh_entsize = struct.unpack(sh_fmt, sh_hdr)
- 
--        name = sh_strtab[sh_name:sh_strtab.find(b"\0", sh_name)]
-+        name = sh_strtab[sh_name:sh_strtab.find(b("\0"), sh_name)]
- 
-         """ look only into SHT_PROGBITS sections """
-         if sh_type == 1:
-             f.seek(sh_offset)
-             """ default library paths cannot be changed on the fly because  """
-             """ the string lengths have to be changed too.                  """
--            if name == b".sysdirs":
-+            if name == b(".sysdirs"):
-                 sysdirs = f.read(sh_size)
-                 sysdirs_off = sh_offset
-                 sysdirs_sect_size = sh_size
--            elif name == b".sysdirslen":
-+            elif name == b(".sysdirslen"):
-                 sysdirslen = f.read(sh_size)
-                 sysdirslen_off = sh_offset
--            elif name == b".ldsocache":
-+            elif name == b(".ldsocache"):
-                 ldsocache_path = f.read(sh_size)
-                 new_ldsocache_path = old_prefix.sub(new_prefix, ldsocache_path)
-                 # pad with zeros
--                new_ldsocache_path += b"\0" * (sh_size - len(new_ldsocache_path))
-+                new_ldsocache_path += b("\0") * (sh_size - len(new_ldsocache_path))
-                 # write it back
-                 f.seek(sh_offset)
-                 f.write(new_ldsocache_path)
- 
-     if sysdirs != "" and sysdirslen != "":
--        paths = sysdirs.split(b"\0")
--        sysdirs = b""
--        sysdirslen = b""
-+        paths = sysdirs.split(b("\0"))
-+        sysdirs = b("")
-+        sysdirslen = b("")
-         for path in paths:
-             """ exit the loop when we encounter first empty string """
--            if path == b"":
-+            if path == b(""):
-                 break
- 
-             new_path = old_prefix.sub(new_prefix, path)
--            sysdirs += new_path + b"\0"
-+            sysdirs += new_path + b("\0")
- 
-             if arch == 32:
-                 sysdirslen += struct.pack("<L", len(new_path))
-@@ -173,7 +181,7 @@ def change_dl_sysdirs():
-                 sysdirslen += struct.pack("<Q", len(new_path))
- 
-         """ pad with zeros """
--        sysdirs += b"\0" * (sysdirs_sect_size - len(sysdirs))
-+        sysdirs += b("\0") * (sysdirs_sect_size - len(sysdirs))
- 
-         """ write the sections back """
-         f.seek(sysdirs_off)
-@@ -205,7 +213,8 @@ for e in executables_list:
- 
-     try:
-         f = open(e, "r+b")
--    except IOError as ioex:
-+    except IOError:
-+        exctype, ioex = sys.exc_info()[:2]
-         if ioex.errno == errno.ETXTBSY:
-             print("Could not open %s. File used by another process.\nPlease "\
-                   "make sure you exit all processes that might use any SDK "\
+BTW, I'm not arguing for using fakeroot here, just trying to look at the
+big picture of using wic and what additional effort might be required to
+make it successful.
+
 -- 
-1.8.1.2
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
 
 
