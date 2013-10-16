@@ -1,26 +1,25 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A4BF06D090
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C16E6D041
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 21:13:56 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 16 Oct 2013 14:13:55 -0700
+	Wed, 16 Oct 2013 21:26:56 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Oct 2013 14:26:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,509,1378882800"; d="scan'208";a="420236659"
-Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.196.57]) ([10.7.196.57])
-	by orsmga002.jf.intel.com with ESMTP; 16 Oct 2013 14:13:55 -0700
-Message-ID: <1381958034.21283.0.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Tom Zanussi <tom.zanussi@linux.intel.com>
-Date: Wed, 16 Oct 2013 14:13:54 -0700
-In-Reply-To: <fd09f894b40dadb8bc8b267a26dbf52e22a53d66.1381954954.git.tom.zanussi@linux.intel.com>
-References: <cover.1381954954.git.tom.zanussi@linux.intel.com>
-	<fd09f894b40dadb8bc8b267a26dbf52e22a53d66.1381954954.git.tom.zanussi@linux.intel.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.93,509,1378882800"; d="scan'208";a="417963005"
+Received: from unknown (HELO [10.255.15.253]) ([10.255.15.253])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Oct 2013 14:26:53 -0700
+Message-ID: <525F049D.2090905@linux.intel.com>
+Date: Wed, 16 Oct 2013 14:26:53 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
+MIME-Version: 1.0
+To: wenzong.fan@windriver.com
+References: <cover.1381485178.git.wenzong.fan@windriver.com>
+In-Reply-To: <cover.1381485178.git.wenzong.fan@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] wic: add pseudo to the populate-extfs step
+Subject: Re: [PATCH 0/1] populate_sdk_rpm: add python to nativesdk INSTALL_PROVIDESNAME_RPM list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 21:13:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 16 Oct 2013 21:26:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-10-16 at 15:25 -0500, Tom Zanussi wrote:
-> Without this, files in the generated filesystem pick up the wrong
-> ownership.
-> 
-> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
-> ---
->  scripts/lib/mic/kickstart/custom_commands/partition.py | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> index 302cace..0eb0671 100644
-> --- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-> +++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-> @@ -216,7 +216,14 @@ class Wic_PartData(Mic_PartData):
->          """
->          Prepare content for an ext2/3/4 rootfs partition.
->          """
-> -        populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
-> +        populate_script = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
-> +        populate_script += "export PSEUDO_LOCALSTATEDIR=%s/../pseudo;" % rootfs_dir
-> +        populate_script += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-> +        populate_script += "export PSEUDO_NOSYMLINKEXP=1;"
-> +        populate_script += "export PSEUDO_DISABLED=0;"
-> +        populate_script += "%s/usr/bin/pseudo %s/usr/bin/populate-extfs.sh" % \
-> +            (native_sysroot, native_sysroot)
-> +
->          image_extra_space = 10240
->  
->          image_rootfs = rootfs_dir
+On 10/11/2013 03:06 AM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
+>
+> If any native SDK packages involve python scripts that start with
+> '#!/usr/bin/python', then the populate_sdk step will fail with:
+>
+>      error: Can't install nativesdk-xxx-$ver@x86_64_nativesdk: \
+>      no package provides /usr/bin/python
+>
+There is a different problem, these should be using /usr/bin/env python 
+not /usr/bin/python.  Since the nativesdk ships with a python binary to 
+ensure that we have a correct and known version of python to work with.
 
-This resolved the failure to login permissions issue.
+What every is getting packaged with /usr/bin/python needs to be fixed.
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
+> Just like perl, we also need to add python to INSTALL_PROVIDESNAME_RPM
+> list to fix this issue.
+>
+perl is different, we don't care so much about perl's version as we do 
+with python, perl is more forgiving.
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+> The following changes since commit 102bf5e0f640fe85068452a42b85077f1c81e0c9:
+>
+>    build-appliance: Update SRCREV for release (2013-10-08 16:33:43 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib wenzong/nativesdk-ignore-python
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/nativesdk-ignore-python
+>
+> Wenzong Fan (1):
+>    populate_sdk_rpm: add python to nativesdk INSTALL_PROVIDESNAME_RPM
+>      list
+>
+>   meta/classes/populate_sdk_rpm.bbclass |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
 
