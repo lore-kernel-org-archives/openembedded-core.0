@@ -1,24 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BE916D09D
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 96C386CBA4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 00:23:43 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 Oct 2013 17:20:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,503,1378882800"; d="scan'208";a="393490934"
-Received: from unknown (HELO [10.255.15.253]) ([10.255.15.253])
-	by orsmga001.jf.intel.com with ESMTP; 15 Oct 2013 17:23:44 -0700
-Message-ID: <525DDC90.4050700@linux.intel.com>
-Date: Tue, 15 Oct 2013 17:23:44 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 16 Oct 2013 00:46:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9G0kAsp027522
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 15 Oct 2013 17:46:10 -0700 (PDT)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 15 Oct 2013 17:46:10 -0700
+Message-ID: <525DE1D4.40109@windriver.com>
+Date: Wed, 16 Oct 2013 08:46:12 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-References: <525C2320.8000502@mlbassoc.com> <525DDB21.4060305@linux.intel.com>
-In-Reply-To: <525DDB21.4060305@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <1381824734-2946-1-git-send-email-rongqing.li@windriver.com>
+	<E0C668BE-B0FA-4BE0-91E9-BB779A8ABDC3@dominion.thruhere.net>
+In-Reply-To: <E0C668BE-B0FA-4BE0-91E9-BB779A8ABDC3@dominion.thruhere.net>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: kmod packaging question
+Subject: Re: [PATCH] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 00:23:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 16 Oct 2013 00:46:12 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/15/2013 05:17 PM, Saul Wold wrote:
-> On 10/14/2013 10:00 AM, Gary Thomas wrote:
->> I'm having some issues with the 'kmod' package.  In particular,
->> the package claims:
->>    commit b4bc0a7f1b90a51e26d6ab74d964ff81cfe05904
->>    Author: Khem Raj <raj.khem@gmail.com>
->>    Date:   Tue Jan 31 00:34:01 2012 -0800
->>
->>      kmod: Add recipes
->>
->>      kmod is replacement for module-init-tools
->>
->>      (From OE-Core rev: 716606f5446534e48b45fcc017e8bbdfe7f15e26)
->>
->>      Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>      Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> But is is really a "replacement"?  I know that there is a provides
->> which makes the build happy, but unless you explicitly install the
->> kmod package into your image, you don't end up with all of the module
->> tools.  The main missing piece is 'depmod' - the rest seem to come
->> from busybox, not kmod.
->>
->> I ran into this when trying to run 'opkg upgrade' which sucked in
->> some new kernel modules and found that 'depmod' was not installed.
->>
->> Did I miss something?
->>
-> Nope, it was a good catch, I will investigate the size increase for
-> adding depmod into busybox.
->
-Seems it adds 2240 bytes to the size of the busybox binary, that's far 
-better than 675K that kmod would bring in.  I will get the patch up shortly.
 
-Sau!
 
-> Sau!
+On 10/15/2013 06:10 PM, Koen Kooi wrote:
 >
->> n.b. this was tested using Poky/Yocto
->> 0fc8317c6385eb1ed69ca4522ee6424c456dbb92
->> which is a few days old.  I've not checked the very latest master (yet).
+> Op 15 okt. 2013, om 10:12 heeft rongqing.li@windriver.com het volgende geschreven:
+>
+>> From: Roy Li <rongqing.li@windriver.com>
 >>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> Otherwise system will hang since nfs is not disconnected
+>>
+>> and remove the judgement of initscript DISTRO_FEATURE when install init
+>> script connman, because inherit systemd will remove init script
 >
+>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> ---
 >
+> [..]
+>
+>> diff --git a/meta/recipes-connectivity/connman/connman/connman-nfs.service b/meta/recipes-connectivity/connman/connman/connman-nfs.service
+>> new file mode 100644
+>> index 0000000..9f9b690
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/connman/connman/connman-nfs.service
+>> @@ -0,0 +1,14 @@
+>> +[Unit]
+>> +Description=Connection service
+>> +After=syslog.target
+>> +
+>> +[Service]
+>> +Type=dbus
+>> +BusName=net.connman
+>> +Restart=on-failure
+>> +ExecStartPre=-/usr/lib64/connman/wired-setup
+>> +ExecStart=/usr/bin/connman-nfs
+>
+> Those hardcoded paths aren't going to work. And isn't:
+>
+
+Thanks, I will fix it.
+
+> ConditionKernelCommandLine!=root=/dev/nfs
+>
+
+What is your meaning?
+
+-Roy
+
+
+> A lot cleaner to use in systemd?
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
