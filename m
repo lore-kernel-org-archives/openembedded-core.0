@@ -1,40 +1,28 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 3ABB96CB44
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C2DF60D74
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 08:54:40 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id f12so368705wgh.19
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 01:54:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=khSzTVXMHxytF4X1ijEPJxOl743m6AMNn9ceoG494bo=;
-	b=J114ZzyjEqeBGNmYs2/nj9SEZc4iZX7FFSW95M/dBmJSSgt8zw1HwYHcjGCzy29ak8
-	oX/YeDopErcW9/385H/4A8XBFjnlwxFcMXy06scZ9JTB383TaFB8J7z0uW+D6g6hC5yD
-	KTw6KlJfyq/njslK9+gZrxF8oM5Hc9l1v1RZSLTzHfG7TtQQ36Qmhj2oX2uY+yzQ/Q7M
-	AXafJOOr5bVhSbWohWyU1pBnlMYRu7LeMHKdS9OgxoDH287A1dZSiJn6GHums+2I4d+w
-	f1Mcp+Q5k9RzpdW3pKG2dUHvHusQ2uDoMnqnk6JK33GecDGatiAN3LzP8g5klZBET0p1
-	8fXg==
-X-Gm-Message-State: ALoCoQmB0lqtpeFritZ2YO/YYsu1B0JIJewiKQ23zKUwjL1NBrcWUKJj8Lfm33NC4j6kkgSEjuyF
-X-Received: by 10.180.9.139 with SMTP id z11mr23308582wia.22.1381913681165;
-	Wed, 16 Oct 2013 01:54:41 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::403c:b6ec:4247:e13f?
-	([2001:610:612:0:403c:b6ec:4247:e13f])
-	by mx.google.com with ESMTPSA id q17sm3737459wiv.10.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 16 Oct 2013 01:54:40 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <525DE1D4.40109@windriver.com>
-Date: Wed, 16 Oct 2013 10:54:39 +0200
-Message-Id: <EF2228FC-1E37-435B-A76A-426E585A2E0E@dominion.thruhere.net>
+	Wed, 16 Oct 2013 09:10:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9G9AHqJ014610
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Oct 2013 02:10:17 -0700 (PDT)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 16 Oct 2013 02:10:16 -0700
+Message-ID: <525E57FA.6000200@windriver.com>
+Date: Wed, 16 Oct 2013 17:10:18 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Koen Kooi <koen@dominion.thruhere.net>
 References: <1381824734-2946-1-git-send-email-rongqing.li@windriver.com>
 	<E0C668BE-B0FA-4BE0-91E9-BB779A8ABDC3@dominion.thruhere.net>
 	<525DE1D4.40109@windriver.com>
-To: Rongqing Li <rongqing.li@windriver.com>
-X-Mailer: Apple Mail (2.1508)
+	<EF2228FC-1E37-435B-A76A-426E585A2E0E@dominion.thruhere.net>
+In-Reply-To: <EF2228FC-1E37-435B-A76A-426E585A2E0E@dominion.thruhere.net>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -49,75 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 08:54:41 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 16 Oct 2013 09:10:17 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Op 16 okt. 2013, om 02:46 heeft Rongqing Li <rongqing.li@windriver.com> =
-het volgende geschreven:
 
->=20
->=20
-> On 10/15/2013 06:10 PM, Koen Kooi wrote:
->>=20
->> Op 15 okt. 2013, om 10:12 heeft rongqing.li@windriver.com het =
-volgende geschreven:
->>=20
->>> From: Roy Li <rongqing.li@windriver.com>
->>>=20
->>> Otherwise system will hang since nfs is not disconnected
->>>=20
->>> and remove the judgement of initscript DISTRO_FEATURE when install =
-init
->>> script connman, because inherit systemd will remove init script
->>=20
->>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->>> ---
->>=20
->> [..]
->>=20
->>> diff --git =
-a/meta/recipes-connectivity/connman/connman/connman-nfs.service =
-b/meta/recipes-connectivity/connman/connman/connman-nfs.service
->>> new file mode 100644
->>> index 0000000..9f9b690
->>> --- /dev/null
->>> +++ b/meta/recipes-connectivity/connman/connman/connman-nfs.service
->>> @@ -0,0 +1,14 @@
->>> +[Unit]
->>> +Description=3DConnection service
->>> +After=3Dsyslog.target
->>> +
->>> +[Service]
->>> +Type=3Ddbus
->>> +BusName=3Dnet.connman
->>> +Restart=3Don-failure
->>> +ExecStartPre=3D-/usr/lib64/connman/wired-setup
->>> +ExecStart=3D/usr/bin/connman-nfs
->>=20
->> Those hardcoded paths aren't going to work. And isn't:
->>=20
->=20
-> Thanks, I will fix it.
->=20
->> ConditionKernelCommandLine!=3Droot=3D/dev/nfs
->>=20
->=20
-> What is your meaning?
+On 10/16/2013 04:54 PM, Koen Kooi wrote:
+>>> ConditionKernelCommandLine!=root=/dev/nfs
+>>> >>
+>> >
+>> >What is your meaning?
+> That's you are creating a huge script that does something built into systemd.
+>
 
-That's you are creating a huge script that does something built into =
-systemd.
 
->=20
-> -Roy
->=20
->=20
->> A lot cleaner to use in systemd?
->>=20
->=20
-> --=20
-> Best Reagrds,
-> Roy | RongQing Li
+Yes, I can not find a way to avoid to that,
 
+Do you have any advice?
+
+
+-Roy
+
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
