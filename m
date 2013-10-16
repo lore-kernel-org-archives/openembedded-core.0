@@ -1,35 +1,24 @@
-Return-Path: <sujith.h@gmail.com>
-Received: from mail-pb0-f45.google.com (mail-pb0-f45.google.com
-	[209.85.160.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EFBB06CCA3
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B1506CCA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 05:49:42 +0000 (UTC)
-Received: by mail-pb0-f45.google.com with SMTP id mc17so344055pbc.32
+	Wed, 16 Oct 2013 05:53:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9G5rEgN021003
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Oct 2013 22:49:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=G3kVsqvHYCCzE2nFI5Gf4Xa3ZULGXkLh8OVZmE189Ds=;
-	b=yRt+WNRFA0DWeyCiOcGH3bzUxtj4HtDwkEmorAGKzFIxLBy7jB+0KaQsB+kc5JIbon
-	0FSpCD9HELQhQZkQclljkaL4I27S/VezW9PdL7/xyMm2HBTxiVrwLHa6lpWa4fq7xwH8
-	tR8KUfene3NZhR5KJJSp+GwCI3dy2aKLfAyDRM4SD6ukVUr39vq077OVfN8QxyjN5i0G
-	Cd1JynuTerOKTi6VFuJBDdjKRxFyqfRy25f8c6tc4xQTKk39QQ/Zmyz3VriGXqFQzBVy
-	UYH+MyKeB22RaySMrLJTISgO8Va+NL0+0rDDG/9+/ZiHcnLy+slRQPk6GrLCajdoLnov
-	ccvg==
-X-Received: by 10.68.40.169 with SMTP id y9mr143668pbk.193.1381902584758;
-	Tue, 15 Oct 2013 22:49:44 -0700 (PDT)
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([139.181.35.34])
-	by mx.google.com with ESMTPSA id
-	fk4sm103852666pab.23.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 15 Oct 2013 22:49:44 -0700 (PDT)
-From: Sujith H <sujith.h@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Oct 2013 11:16:35 +0530
-Message-Id: <1381902395-24934-1-git-send-email-sujith.h@gmail.com>
-X-Mailer: git-send-email 1.8.1.4
-Cc: Sujith H <Sujith_Haridasan@mentor.com>
-Subject: [PATCH] nspr: Add LDFLAGS to TARGET_CC_ARCH to fix warning
+	Tue, 15 Oct 2013 22:53:14 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 15 Oct 2013 22:53:13 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Oct 2013 13:53:15 +0800
+Message-ID: <1381902795-3187-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH] populate_sdk_base: repeat to tar archive file five time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 05:49:43 -0000
+X-List-Received-Date: Wed, 16 Oct 2013 05:53:12 -0000
+Content-Type: text/plain
 
-WARNING: QA Issue: No GNU_HASH in the elf binary: 'armv7a-vfp-neon-mel-linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/usr/lib/nspr/tests/formattm'
-WARNING: QA Issue: No GNU_HASH in the elf binary: 'armv7a-vfp-neon-mel-linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/usr/lib/nspr/tests/threads'
-WARNING: QA Issue: No GNU_HASH in the elf binary: 'armv7a-vfp-neon-mel-linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/usr/lib/nspr/tests/semaerr'
-There are many QA Warnings thrown like the above for this recipe. This is observed for target imx6 sabrelite.
+From: Roy Li <rongqing.li@windriver.com>
 
-Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+[YOCTO #5287]
+
+tar failed and reported that file changed as we read it, now
+we workaround it
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- meta/recipes-support/nspr/nspr_4.10.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/populate_sdk_base.bbclass |   16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/nspr/nspr_4.10.bb b/meta/recipes-support/nspr/nspr_4.10.bb
-index fcecb95..4247fd0 100644
---- a/meta/recipes-support/nspr/nspr_4.10.bb
-+++ b/meta/recipes-support/nspr/nspr_4.10.bb
-@@ -19,6 +19,7 @@ SRC_URI[sha256sum] = "0cfbe561676b92e5af3ddc7ac77452014e3da8885da66baec811e73541
- S = "${WORKDIR}/nspr-${PV}/nspr"
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index b7ea851..87dea7b 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -111,7 +111,21 @@ fakeroot tar_sdk() {
+ 	# Package it up
+ 	mkdir -p ${SDK_DEPLOY}
+ 	cd ${SDK_OUTPUT}/${SDKPATH}
+-	tar ${SDKTAROPTS} -c --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
++	set +e
++	count=0
++	while true; do
++		tar ${SDKTAROPTS} -c --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
++		if [ $? -eq 0 ] ; then
++			set -e
++			exit 0
++		fi
++		count=`expr $count + 1`
++		rm -rf ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2
++		if [ $count -eq 5 ] ; then
++			set -e
++			exit 1
++		fi
++	done
+ }
  
- RDEPENDS_${PN}-dev += "perl"
-+TARGET_CC_ARCH += "${LDFLAGS}"
- 
- TESTS = "runtests.pl \
-     runtests.sh \
+ fakeroot create_shar() {
 -- 
-1.8.1.4
+1.7.10.4
 
 
