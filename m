@@ -1,55 +1,34 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D6AF6C856
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E9EB6C856
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 10:08:21 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r9GA8J7e029478
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Wed, 16 Oct 2013 10:23:12 +0000 (UTC)
+Received: by mail-vc0-f179.google.com with SMTP id ht10so237993vcb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 12:08:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1381918101;
-	bh=wYo0QvlUWbNAw8hWXKqMCe3+u1CAlo5RNYz3mGaNwjA=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=hswyU0ZauG1oI5j/BPtrJMFsWCDoSgDrfZXGyVy7iQYXTzMkREzjT/XHVEorOgYzL
-	1PLaaeLLt3H1SUeI5C8GYwLgF1SbUalPJyg+VdN1PUhlXJY/yA8ect/pODpRn19xb2
-	rzRsBE0/u5P4SBtUEA5nJl3U5r8o5gfrTmsPLLf4=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r9GA8F0n016306
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 12:08:15 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VWO1W-0005yK-HY
-	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Oct 2013 12:08:14 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1381824734-2946-1-git-send-email-rongqing.li@windriver.com>
-	<E0C668BE-B0FA-4BE0-91E9-BB779A8ABDC3@dominion.thruhere.net>
-	<525DE1D4.40109@windriver.com>
-	<EF2228FC-1E37-435B-A76A-426E585A2E0E@dominion.thruhere.net>
-	<525E57FA.6000200@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 16 Oct 2013 12:08:14 +0200
-In-Reply-To: <525E57FA.6000200@windriver.com> (Rongqing Li's message of "Wed, 
-	16 Oct 2013 17:10:18 +0800")
-Message-ID: <lyppr5plyp.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Wed, 16 Oct 2013 03:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=I9stO3ZUNIVIIkW+A2TVx1lpXo3XIcfejmsHi77+wJU=;
+	b=UzbI89EsuX92/iNgQNubRLdUDpaGnLIVn8aWxCSXO90H6J0TdsMeD53ASsKDIE8gvI
+	wv74p3jyEFEofVtURXSu18qpr2lgWyVuvjcjarlNUoOzf5HGxIIBaUlyhI4i439epRp+
+	57krWI34+j6SSCXzzExXUtFFcr2Fo9Iws2FKdmtf2VKG0uBQd8LH9ZMhFozXjKYX98j9
+	eTuGiSqwcmf9i92jHR2nltXVL5G+R219avgajZ4ZmOIlYBymnmqjV3IcEJxwqh9vve3D
+	47IuOxhmCpEVv0sugu56LKVkA5TH1mRyf9aQOZnTzyI5L0knsZDmspuDovSgYGV7RoiL
+	KMOQ==
+X-Received: by 10.52.118.73 with SMTP id kk9mr1413416vdb.13.1381918993595;
+	Wed, 16 Oct 2013 03:23:13 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.2
-X-Spam-Level: ----
-X-Spam-Tests: AWL,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Subject: Re: [PATCH] connman: ignore the networking device which nfs for rootfs is working on
+Received: by 10.220.205.17 with HTTP; Wed, 16 Oct 2013 03:22:53 -0700 (PDT)
+In-Reply-To: <1381902395-24934-1-git-send-email-sujith.h@gmail.com>
+References: <1381902395-24934-1-git-send-email-sujith.h@gmail.com>
+From: sujith h <sujith.h@gmail.com>
+Date: Wed, 16 Oct 2013 15:52:53 +0530
+Message-ID: <CADyYWL=8EiOTTmrR6v8QrQNRjb7=t1Gky7Ke5G_p3DdfrDYrRg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Sujith H <Sujith_Haridasan@mentor.com>
+Subject: Re: [PATCH] nspr: Add LDFLAGS to TARGET_CC_ARCH to fix warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,46 +41,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 10:08:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Oct 2013 10:23:12 -0000
+Content-Type: multipart/alternative; boundary=089e0122f0f2b8c4e204e8d916cd
 
-Rongqing Li <rongqing.li-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
-writes:
+--089e0122f0f2b8c4e204e8d916cd
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->>>> ConditionKernelCommandLine!=root=/dev/nfs
->>>> >>
->>> >
->>> >What is your meaning?
->> That's you are creating a huge script that does something built into systemd.
->>
+Hi,
+
+I hope the patch and the waning messages it addresses are ok. Else let me
+know, I will fix them.
+
+Thanks,
+
+Sujith H
+
+
+On Wed, Oct 16, 2013 at 11:16 AM, Sujith H <sujith.h@gmail.com> wrote:
+
+> WARNING: QA Issue: No GNU_HASH in the elf binary:
+> 'armv7a-vfp-neon-mel-linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/u=
+sr/lib/nspr/tests/formattm'
+> WARNING: QA Issue: No GNU_HASH in the elf binary:
+> 'armv7a-vfp-neon-mel-linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/u=
+sr/lib/nspr/tests/threads'
+> WARNING: QA Issue: No GNU_HASH in the elf binary:
+> 'armv7a-vfp-neon-mel-linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/u=
+sr/lib/nspr/tests/semaerr'
+> There are many QA Warnings thrown like the above for this recipe. This is
+> observed for target imx6 sabrelite.
+>
+> Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+> ---
+>  meta/recipes-support/nspr/nspr_4.10.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-support/nspr/nspr_4.10.bbb/meta/recipes-support=
+/nspr/
+> nspr_4.10.bb
+> index fcecb95..4247fd0 100644
+> --- a/meta/recipes-support/nspr/nspr_4.10.bb
+> +++ b/meta/recipes-support/nspr/nspr_4.10.bb
+> @@ -19,6 +19,7 @@ SRC_URI[sha256sum] =3D
+> "0cfbe561676b92e5af3ddc7ac77452014e3da8885da66baec811e73541
+>  S =3D "${WORKDIR}/nspr-${PV}/nspr"
+>
+>  RDEPENDS_${PN}-dev +=3D "perl"
+> +TARGET_CC_ARCH +=3D "${LDFLAGS}"
+>
+>  TESTS =3D "runtests.pl \
+>      runtests.sh \
+> --
+> 1.8.1.4
 >
 >
-> Yes, I can not find a way to avoid to that,
->
-> Do you have any advice?
-
-I would split the cmdline generation into a dedicated one-shot service;
-e.g. modify the original connman.service to have something like
-
-  [Service]
-  EnvironmentFile = -/run/connmand.env
-  ExecStart=/usr/sbin/connmand -n ${CONNMAND_OPTS}
 
 
-The '/run/connmand.env' is created by a service with
+--=20
+=E0=B4=B8=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=
+=E0=B4=BF=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D
+Bangalore
+<Project>Contributor to KDE project
+http://fci.wikia.com/wiki/Anti-DRM-Campaign
+<Blog> http://sujithh.info
 
-  [Unit]
-  Before = connman.service
-  ConditionKernelCommandLine!=root=/dev/nfs
-  
-  [Service]
-  Type = oneshot
-  ExecStart = /usr/sbin/create-run-connmand.env
+--089e0122f0f2b8c4e204e8d916cd
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-  [Install]
-  WantedBy = connman.service
+<div dir=3D"ltr"><div><div><div>Hi,<br><br></div>I hope the patch and the w=
+aning messages it addresses are ok. Else let me know, I will fix them.<br><=
+br></div>Thanks,<br><br></div>Sujith H<br><div><div><div><div><div class=3D=
+"gmail_extra">
 
+<br><br><div class=3D"gmail_quote">On Wed, Oct 16, 2013 at 11:16 AM, Sujith=
+ H <span dir=3D"ltr">&lt;<a href=3D"mailto:sujith.h@gmail.com" target=3D"_b=
+lank">sujith.h@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex">
 
+WARNING: QA Issue: No GNU_HASH in the elf binary: &#39;armv7a-vfp-neon-mel-=
+linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/usr/lib/nspr/tests/forma=
+ttm&#39;<br>
+WARNING: QA Issue: No GNU_HASH in the elf binary: &#39;armv7a-vfp-neon-mel-=
+linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/usr/lib/nspr/tests/threa=
+ds&#39;<br>
+WARNING: QA Issue: No GNU_HASH in the elf binary: &#39;armv7a-vfp-neon-mel-=
+linux-gnueabi/nspr/4.10-r0/packages-split/nspr-dev/usr/lib/nspr/tests/semae=
+rr&#39;<br>
+There are many QA Warnings thrown like the above for this recipe. This is o=
+bserved for target imx6 sabrelite.<br>
+<br>
+Signed-off-by: Sujith H &lt;<a href=3D"mailto:Sujith_Haridasan@mentor.com">=
+Sujith_Haridasan@mentor.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-support/nspr/<a href=3D"http://nspr_4.10.bb" target=3D"_=
+blank">nspr_4.10.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-support/nspr/<a href=3D"http://nspr_4.10.bb" targ=
+et=3D"_blank">nspr_4.10.bb</a> b/meta/recipes-support/nspr/<a href=3D"http:=
+//nspr_4.10.bb" target=3D"_blank">nspr_4.10.bb</a><br>
+index fcecb95..4247fd0 100644<br>
+--- a/meta/recipes-support/nspr/<a href=3D"http://nspr_4.10.bb" target=3D"_=
+blank">nspr_4.10.bb</a><br>
++++ b/meta/recipes-support/nspr/<a href=3D"http://nspr_4.10.bb" target=3D"_=
+blank">nspr_4.10.bb</a><br>
+@@ -19,6 +19,7 @@ SRC_URI[sha256sum] =3D &quot;0cfbe561676b92e5af3ddc7ac774=
+52014e3da8885da66baec811e73541<br>
+=C2=A0S =3D &quot;${WORKDIR}/nspr-${PV}/nspr&quot;<br>
+<br>
+=C2=A0RDEPENDS_${PN}-dev +=3D &quot;perl&quot;<br>
++TARGET_CC_ARCH +=3D &quot;${LDFLAGS}&quot;<br>
+<br>
+=C2=A0TESTS =3D &quot;<a href=3D"http://runtests.pl" target=3D"_blank">runt=
+ests.pl</a> \<br>
+=C2=A0 =C2=A0 =C2=A0runtests.sh \<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.8.1.4<br>
+<br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br>=E0=B4=B8=
+=E0=B5=81=E0=B4=9C=E0=B4=BF=E0=B4=A4=E0=B5=8D =E0=B4=B9=E0=B4=B0=E0=B4=BF=
+=E0=B4=A6=E0=B4=BE=E0=B4=B8=E0=B4=A8=E0=B5=8D<br>Bangalore<br>&lt;Project&g=
+t;Contributor to KDE project<br><a href=3D"http://fci.wikia.com/wiki/Anti-D=
+RM-Campaign" target=3D"_blank">http://fci.wikia.com/wiki/Anti-DRM-Campaign<=
+/a><br>
 
-Enrico
+&lt;Blog&gt; <a href=3D"http://sujithh.info" target=3D"_blank">http://sujit=
+hh.info</a><br>
+</div></div></div></div></div></div>
 
+--089e0122f0f2b8c4e204e8d916cd--
