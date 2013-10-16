@@ -1,30 +1,27 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 314006C856
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 11:42:42 +0000 (UTC)
-Received: by mail-la0-f42.google.com with SMTP id hp15so459664lab.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 04:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=mANz51hZHAer284qoGPDj+hU6w/6NbgtOZASgC8FLKE=;
-	b=KMyavFEhbPPihE+wDW2FEErN55HzAsN0JxXHAOJy2Kg2BCep4NpvHXH1Cpoz7An0vc
-	bteTyCTWAoNiaaKnHpMYs0YNib6xzzI23EXLW2G6QXdgDb/AHSoQroDR3c6pJu47LmAI
-	v24J/0N4WXe9kFjfNaxHfe2n9FETgaLc/o3VePPr/guniTqMrqPApk83IW1MHiMxvagU
-	4HrEzllY+8MDqtO0p3lR8npEjxveJJrXFtcpP1wcu0nYg6kPx4DGDLrPWEcSO+RQhbOj
-	oIqPpURqMcpP6z7mSUreIaqmCEWwFSbwY6LlzgcjWH0mj2rjn1neZfoIhxWGy4UoH/Um
-	lVfg==
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id D1CB56CC4B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2013 11:47:04 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 16 Oct 2013 04:47:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,507,1378882800"; d="scan'208";a="411879929"
+Received: from unknown (HELO helios.localnet) ([10.252.121.8])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Oct 2013 04:47:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Koen Kooi <koen@dominion.thruhere.net>, Saul Wold <sgw@linux.intel.com>
+Date: Wed, 16 Oct 2013 12:47:03 +0100
+Message-ID: <1578419.2XPu0WXrbc@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <8BAC7D9C-A794-42B2-B31A-9FDC3AEB9FDC@dominion.thruhere.net>
+References: <1381875766-20689-1-git-send-email-sgw@linux.intel.com>
+	<1517941.hq8ryEHxA8@helios>
+	<8BAC7D9C-A794-42B2-B31A-9FDC3AEB9FDC@dominion.thruhere.net>
 MIME-Version: 1.0
-X-Received: by 10.152.3.42 with SMTP id 10mr2144025laz.22.1381923763270; Wed,
-	16 Oct 2013 04:42:43 -0700 (PDT)
-Received: by 10.112.52.74 with HTTP; Wed, 16 Oct 2013 04:42:43 -0700 (PDT)
-Date: Wed, 16 Oct 2013 13:42:43 +0200
-Message-ID: <CAAQYJAt_8L4ESpzUiZ7EDW8w9gz1jn60WGkCHBUyCBE_rEik4w@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Subject: JFFS2 and -n, --no-cleanmarkers
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] packagegroup-core-basic: libuser has a hard depenency on libpam
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +34,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 11:42:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 16 Oct 2013 11:47:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi all,
+On Wednesday 16 October 2013 13:23:08 Koen Kooi wrote:
+> Op 16 okt. 2013, om 12:25 heeft Paul Eggleton
+> <paul.eggleton@linux.intel.com> het volgende geschreven:
+> > On Tuesday 15 October 2013 15:22:46 Saul Wold wrote:
+> >> Since libpam is only built when DISTRO_FEATURES pam is enabled we should
+> >> not be trying to build libuser also.
+> > 
+> > Should this packagegroup be bringing in libraries such as this at all,
+> > given that libraries are generally pulled in as dependencies of
+> > applications that link to them?
+> 
+> If it is a pure library, no. But libuser doesn't seem to be a pure library
+> package:
+> 
+> [koen@rrMBP libuser]$ cat libuser/latest
+> PV = 0.58
+> PR = r0
+> PKGR = r0.0
+> RPROVIDES =
+> RDEPENDS = eglibc (>= 2.17) glib-2.0 (>= 2.34.3) libffi (>= 3.0.11) libpam
+> (>= 1.1.6) popt (>= 1.16) RRECOMMENDS =
+> PKGSIZE = 283679
+> FILES = /usr/bin/* /usr/sbin/* /usr/lib/libuser/* /usr/lib/lib*.so.* /etc
+> /com /var /bin/* /sbin/* /lib/*.so.* /lib/udev/rules.d
+> /usr/lib/udev/rules.d /usr/share/libuser /usr/lib/libuser/*
+> /usr/share/pixmaps /usr/share/applications /usr/share/idl /usr/share/omf
+> /usr/share/sounds /usr/lib/bonobo/servers FILELIST = /etc/libuser.conf
+> /usr/bin/lchfn /usr/bin/lchsh /usr/lib/libuser.so.1
+> /usr/lib/libuser.so.1.4.0 /usr/lib/libuser/libuser_files.so
+> /usr/lib/libuser/libuser_shadow.so /usr/sbin/lchage /usr/sbin/lgroupadd
+> /usr/sbin/lgroupdel /usr/sbin/lgroupmod /usr/sbin/lid /usr/sbin/lnewusers
+> /usr/sbin/lpasswd /usr/sbin/luseradd /usr/sbin/luserdel /usr/sbin/lusermod
 
-unfortunately the creation of JFFS2 mages is hardcoding the
---no-cleanmarkers option (-n) after those two commits:
+Right, in that case, ignore me :)
 
-http://cgit.openembedded.org/openembedded-core/commit/meta/classes/image_types.bbclass?id=70a276509f0f006fcc269296afc3dcc88d2825e1
+Cheers,
+Paul
 
-http://cgit.openembedded.org/openembedded-core/commit/meta/classes/image_types.bbclass?id=7c803cea58737ea0abc62cd21c3813d955f07224
+-- 
 
-Now, my idea is to revert the first one:
-
-- IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime
---output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 -n
-${EXTRA_IMAGECMD}"
-
-+ IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime
---output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2
-${EXTRA_IMAGECMD}"
-
-About the second one, we could add a new var:
-
-+JFFS2_NOCLEANMARKERS = "-n"
-
--EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS}
---eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
-
-+EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS}
---eraseblock=${JFFS2_ERASEBLOCK} ${JFFS2_NOCLEANMARKERS}"
-
-
-Now my doubt is about the default value for this variable.
-Maybe better empty ?
-
-+JFFS2_NOCLEANMARKERS = ""
-
-The point is, only machines with NAND flash ough tto skip cleanmarkers
-in the image for these are in the OOB area.
-
-"On NOR memory every completely erased eraseblock begins with a
-cleanmarker, cln_mkr is the size of the cleanmarker, if there is no
-cleanmarker (NAND) then it is set to 0"
-
-http://www.linux-mtd.infradead.org/faq/jffs2.html
-http://www.inf.u-szeged.hu/jffs2/jffs2-anal/node23.html
-
-Once there is common agreement I'll send a patch.
-
-Thanks
-
-Andrea
+Paul Eggleton
+Intel Open Source Technology Centre
 
