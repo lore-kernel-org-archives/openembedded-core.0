@@ -1,37 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C4F26CBAC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A617F6C76F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 13:08:05 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id u57so671055wes.15
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 06:08:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=f1vaI3wsx27RQpmZ++QW1CBWhtschsuuuotaDXKU8ms=;
-	b=nF3bCsRU6LZw97A2rwaCTELGG3IlLTFOo4sSy6gnKRZDPggKJNF24772ny0dwtA9LS
-	N0ZPICU10EOUdBAg4kUPlo7Vr2446toqMl/fzzg00/nqi6QVBx4ze5XM5pJUV6Raftrk
-	TYjsUh+uAFPF5PCwelrqdLJ5xPupkKVXQ6Fy+hUw+c8nNpBMbthoTfMMPkvK+TSMoZ6x
-	zxcSSWug4dzaKnBXtAxqBT77+4BH/jCzvURyI+rzFGmo6gwvPQGnFSmOjMlU2L20C7fQ
-	1GSgm/+RC1TaYgayFihNNGZ8CNNqZ/Nh9ZAlT8Uzn3AbQcBmhEO2VI8AP1nJiRdW5s+x
-	bZRA==
-X-Gm-Message-State: ALoCoQmjrPEU3wivum3f2oCGlcT51LGaztTgBHihuZ7Lt2ys37yVcRmiZ48FEPcEQ+vNmRSBnJbC
-X-Received: by 10.180.100.33 with SMTP id ev1mr21142562wib.18.1381928884833;
-	Wed, 16 Oct 2013 06:08:04 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	bs15sm5756770wib.10.2013.10.16.06.08.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Oct 2013 06:08:04 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 16 Oct 2013 13:50:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 16 Oct 2013 06:50:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,507,1378882800"; d="scan'208";a="393811618"
+Received: from unknown (HELO helios.localnet) ([10.252.121.8])
+	by orsmga001.jf.intel.com with ESMTP; 16 Oct 2013 06:50:30 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Oct 2013 14:07:59 +0100
-Message-Id: <1381928879-17161-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] packagegroup-base: if zeroconf DISTRO_FEATURE enabled, add libnss-mdns
+Date: Wed, 16 Oct 2013 14:50:27 +0100
+Message-ID: <2444253.vL4HTbpqxr@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+MIME-Version: 1.0
+Subject: RFC: Using formfactor data in other recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +29,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 13:08:06 -0000
+X-List-Received-Date: Wed, 16 Oct 2013 13:50:56 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-mDNS name resolution is a key part of mDNS, so if the DISTRO_FEATURE is enabled
-then install libnss-mdns.
+Hi all,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/packagegroups/packagegroup-base.bb |    1 +
- 1 file changed, 1 insertion(+)
+Andrea has been doing some cleanup on meta-handheld, and he and I have come 
+across what seems to be a bit of a shortcoming with formfactor over the 
+variable-based alternative that was used in OE-Classic (MACHINE_GUI_CLASS, 
+MACHINE_DISPLAY_WIDTH_PIXELS, MACHINE_DISPLAY_HEIGHT_PIXELS etc.). In 
+meta-opie, the latter variables are still being used in a machine-specific 
+packagegroup recipe to select the appropriate set of pixmaps to be installed 
+for each machine based on the screen resolution, so you don't have to have 
+pixmaps installed that you're never going to use (which would waste storage 
+space).
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 1c0c757..eee8bd9 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -353,6 +353,7 @@ RRECOMMENDS_packagegroup-base-nfs = "\
- 
- SUMMARY_packagegroup-base-zeroconf = "Zeroconf support"
- RDEPENDS_packagegroup-base-zeroconf = "\
-+    libnss-mdns \
-     avahi-daemon"
- 
- SUMMARY_packagegroup-base-ipv6 = "IPv6 support"
+formfactor is the current method supported in OE-Core for representing 
+differences in machine display/input characteristics, however it seems only 
+queryable at runtime since its files are not written into the sysroot. We could 
+change it to stage to the sysroot, and therefore the data could be queried at 
+least at packaging time in other recipes that depend on formfactor. Does this 
+sound like a reasonable solution for this kind of problem, or is there a 
+better solution?
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
