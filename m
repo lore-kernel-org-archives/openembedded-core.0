@@ -1,35 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id C80AB6CBAC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C68536CBAC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 12:24:28 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9GCOGDQ029172; Wed, 16 Oct 2013 13:24:16 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CrTEkn74VZvx; Wed, 16 Oct 2013 13:24:16 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9GCOC14029166
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 16 Oct 2013 13:24:14 +0100
-Message-ID: <1381926249.29912.465.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Wed, 16 Oct 2013 13:24:09 +0100
-In-Reply-To: <4C04C210-DFEA-46BB-B322-9EB80ED0E0B5@dominion.thruhere.net>
-References: <1381875766-20689-1-git-send-email-sgw@linux.intel.com>
-	<1517941.hq8ryEHxA8@helios>
-	<8BAC7D9C-A794-42B2-B31A-9FDC3AEB9FDC@dominion.thruhere.net>
-	<1578419.2XPu0WXrbc@helios>
-	<4C04C210-DFEA-46BB-B322-9EB80ED0E0B5@dominion.thruhere.net>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] packagegroup-core-basic: libuser has a hard depenency on libpam
+	Wed, 16 Oct 2013 13:07:53 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id ey11so984038wid.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2013 06:07:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ohe5kkoqxxvLpZrjF9G544vxliLhUypfPpsx59dZock=;
+	b=YmQ3uojlqMFv7ZjiBl5LAbSweFTLvU3+gWXHtJTOqaAMBhJTgBXRs9H/kmWVhOOOAZ
+	I3YKZjcG8nHAnxLXw6xdc55ZN3G70zdwkUWd6/uTP59usqyki6/cLVvOeEukXOMXVq3N
+	b9Pk1MuBnDu4sopEbCK8WtGb7Q6BUHQQoNAcgSHu4HE3iG8HGRkVcnDlMvJW6f2akhtC
+	3Ull5SgqFeMu8TLIoI6+TCM7GjekYM6wh/Y0aAV8EOePNlPWHvAm5tr6j8N/iw4qBpMv
+	XYwbY8eewW2UhndyW3G8dLkj/tVtO61hWAiR6MMdEAtvUfeHIaJSCacPf8diwAt6sfru
+	qLZA==
+X-Gm-Message-State: ALoCoQkPevImf7PHhVtghnOGZOZHa2nUW9rkuU0OAsTH2GTlZ76dyd8pegygy5Tc2wk5UjIYDg/l
+X-Received: by 10.180.39.212 with SMTP id r20mr24471107wik.13.1381928874836;
+	Wed, 16 Oct 2013 06:07:54 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id d11sm5780575wic.4.2013.10.16.06.07.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 16 Oct 2013 06:07:54 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Oct 2013 14:07:51 +0100
+Message-Id: <1381928871-16782-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] update-rcd.bbclass: fix host/target test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,56 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 12:24:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Oct 2013 13:07:55 -0000
 
-On Wed, 2013-10-16 at 14:21 +0200, Koen Kooi wrote:
-> Op 16 okt. 2013, om 13:47 heeft Paul Eggleton <paul.eggleton@linux.intel.com> het volgende geschreven:
-> 
-> > On Wednesday 16 October 2013 13:23:08 Koen Kooi wrote:
-> >> Op 16 okt. 2013, om 12:25 heeft Paul Eggleton
-> >> <paul.eggleton@linux.intel.com> het volgende geschreven:
-> >>> On Tuesday 15 October 2013 15:22:46 Saul Wold wrote:
-> >>>> Since libpam is only built when DISTRO_FEATURES pam is enabled we should
-> >>>> not be trying to build libuser also.
-> >>> 
-> >>> Should this packagegroup be bringing in libraries such as this at all,
-> >>> given that libraries are generally pulled in as dependencies of
-> >>> applications that link to them?
-> >> 
-> >> If it is a pure library, no. But libuser doesn't seem to be a pure library
-> >> package:
-> >> 
-> >> [koen@rrMBP libuser]$ cat libuser/latest
-> >> PV = 0.58
-> >> PR = r0
-> >> PKGR = r0.0
-> >> RPROVIDES =
-> >> RDEPENDS = eglibc (>= 2.17) glib-2.0 (>= 2.34.3) libffi (>= 3.0.11) libpam
-> >> (>= 1.1.6) popt (>= 1.16) RRECOMMENDS =
-> >> PKGSIZE = 283679
-> >> FILES = /usr/bin/* /usr/sbin/* /usr/lib/libuser/* /usr/lib/lib*.so.* /etc
-> >> /com /var /bin/* /sbin/* /lib/*.so.* /lib/udev/rules.d
-> >> /usr/lib/udev/rules.d /usr/share/libuser /usr/lib/libuser/*
-> >> /usr/share/pixmaps /usr/share/applications /usr/share/idl /usr/share/omf
-> >> /usr/share/sounds /usr/lib/bonobo/servers FILELIST = /etc/libuser.conf
-> >> /usr/bin/lchfn /usr/bin/lchsh /usr/lib/libuser.so.1
-> >> /usr/lib/libuser.so.1.4.0 /usr/lib/libuser/libuser_files.so
-> >> /usr/lib/libuser/libuser_shadow.so /usr/sbin/lchage /usr/sbin/lgroupadd
-> >> /usr/sbin/lgroupdel /usr/sbin/lgroupmod /usr/sbin/lid /usr/sbin/lnewusers
-> >> /usr/sbin/lpasswd /usr/sbin/luseradd /usr/sbin/luserdel /usr/sbin/lusermod
-> > 
-> > Right, in that case, ignore me :)
-> 
-> But I still don't know what it does and why it needs to be in packagegroup-core-basic, though.
+"update-rc: Stop and remove service if updating package" (oe-core d91b08) had a
+bug in it's implementation of a "host or target" test which always resulted in
+"target", so the rootfs scripts were attempting to restart daemons on the host.
 
-Looks like it has a number of pam user tools (groupadd, useradd and so
-on) and this goes with the other contents of
-packagegroup-core-multiuser...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/update-rc.d.bbclass |    8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index d44d36c..e14659d 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -13,15 +13,13 @@ INITSCRIPT_PARAMS ?= "defaults"
+ INIT_D_DIR = "${sysconfdir}/init.d"
+ 
+ updatercd_postinst() {
+-IN_TARGET=`test "x$D" = "x"`
+-
+ # test if there is a previous init script there, ie, we are updating the package
+ # if so, we stop the service and remove it before we install from the new package
+ if type update-rc.d >/dev/null 2>/dev/null; then
+-	if [ $IN_TARGET -a `test -f "${INIT_D_DIR}/${INITSCRIPT_NAME}"` ]; then
++	if [ -z "$D" -a `test -f "${INIT_D_DIR}/${INITSCRIPT_NAME}"` ]; then
+ 		${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+ 	fi
+-	if [ ! $IN_TARGET ]; then
++	if [ -n "$D" ]; then
+ 		OPT="-f -r $D"
+ 	else
+ 		OPT="-f"
+@@ -29,7 +27,7 @@ if type update-rc.d >/dev/null 2>/dev/null; then
+ 	update-rc.d $OPT ${INITSCRIPT_NAME} remove
+ fi
+ 
+-if [ ! $IN_TARGET ]; then
++if [ -n "$D" ]; then
+ 	OPT="-r $D"
+ else
+ 	OPT="-s"
+-- 
+1.7.10.4
 
 
