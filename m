@@ -1,21 +1,23 @@
 Return-Path: <tom.zanussi@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 56BC36CCA3
+	by mail.openembedded.org (Postfix) with ESMTP id 7BCD86CCA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 05:14:29 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 15 Oct 2013 22:14:30 -0700
+	Wed, 16 Oct 2013 05:14:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 15 Oct 2013 22:14:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,505,1378882800"; d="scan'208";a="308360096"
+X-IronPort-AV: E=Sophos;i="4.93,505,1378882800"; d="scan'208";a="411686317"
 Received: from unknown (HELO localhost) ([10.255.15.157])
-	by AZSMGA002.ch.intel.com with ESMTP; 15 Oct 2013 22:14:30 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 15 Oct 2013 22:14:31 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Oct 2013 00:14:27 -0500
-Message-Id: <cover.1381898855.git.tom.zanussi@linux.intel.com>
+Date: Wed, 16 Oct 2013 00:14:29 -0500
+Message-Id: <7df25a781aad32cb4f7deaa1c4af839e8dc604a2.1381898855.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.7.11.4
+In-Reply-To: <cover.1381898855.git.tom.zanussi@linux.intel.com>
+References: <cover.1381898855.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 0/3] a few wic fixes
+Subject: [PATCH 1/3] wic: check for build artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,26 +32,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 16 Oct 2013 05:14:30 -0000
 
-For problems noticed while testing.
+wic needs to be given one form of build artifacts or another -
+complain if the user doesn't do that.
 
-The following changes since commit 2b5bac02196b8bd30d223d508f5f7d4300889fd7:
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ scripts/wic | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-  poky: Update Version post release (2013-10-14 16:59:12 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-fixes-0
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-fixes-0
-
-Tom Zanussi (3):
-  wic: check for build artifacts
-  wic: check passed-in build artifact directories
-  wic: add fakeroot to the populate-extfs step
-
- .../lib/mic/kickstart/custom_commands/partition.py   |  2 +-
- scripts/wic                                          | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+), 1 deletion(-)
-
+diff --git a/scripts/wic b/scripts/wic
+index 06e72bb..aa2791a 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -75,6 +75,14 @@ def wic_create_subcommand(args, usage_str):
+         parser.print_help()
+         sys.exit(1)
+ 
++    if not options.image_name and not (options.rootfs_dir and
++                                       options.bootimg_dir and
++                                       options.kernel_dir and
++                                       options.native_sysroot):
++        print "Build artifacts not completely specified, exiting."
++        print "  (Use 'wic -e' or 'wic -r -b -k -n' to specify artifacts)"
++        sys.exit(1)
++
+     if not options.image_name:
+         options.build_check = False
+ 
 -- 
 1.7.11.4
 
