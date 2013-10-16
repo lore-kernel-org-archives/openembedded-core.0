@@ -1,42 +1,37 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 23D5C6C856
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id CA7106C856
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 11:23:09 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id l12so6482270wiv.9
+	Wed, 16 Oct 2013 11:29:16 +0000 (UTC)
+Received: by mail-ea0-f173.google.com with SMTP id g10so287878eak.32
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 04:23:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=TDa7a436mhVS23JIZVrMzXTOOHP+MeI+CRrGSfKkB8c=;
-	b=YF13zrQJYoOwPO0g2jnmxBeH9uDU0x5wcloMT6czJRAD/+u1E2QG+pOBpDKWkHNFrp
-	tHc4lKbQNcKsXrRtj/XhUcDxelNUsibZA4bYqmMiqxM881TPOdNXh99Pi5zPM9TLQwec
-	MhrY8WGni0OVPm4OrGXghq+fsKUm1sdX/mOslEPH7izaddSvG1JU04rHb8b654uCE2Bc
-	MSROuXXUXIe7VBejURvjpZ2Swa5cxGH+MsARj+kP2RHyuq12CoteOyaFmBOyLPg+SgUt
-	GYztbqsKpqugdXXPw/wJqMhS99/z3W7Gg/iYWpXlLd0rL5gOsPds2Hu9t3VjVwCTcsSo
-	bZZw==
-X-Gm-Message-State: ALoCoQkQFtUjC9JHBHELtucYVWZEZJQ4vgjMVvlEpqGCWX2gG8TUJCzSgT2AvTB1IMnEPZnlV+iO
-X-Received: by 10.180.73.40 with SMTP id i8mr23801812wiv.37.1381922591288;
-	Wed, 16 Oct 2013 04:23:11 -0700 (PDT)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id lr3sm3649827wic.5.2013.10.16.04.23.09
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 16 Oct 2013 04:23:10 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1517941.hq8ryEHxA8@helios>
-Date: Wed, 16 Oct 2013 13:23:08 +0200
-Message-Id: <8BAC7D9C-A794-42B2-B31A-9FDC3AEB9FDC@dominion.thruhere.net>
-References: <1381875766-20689-1-git-send-email-sgw@linux.intel.com>
-	<1517941.hq8ryEHxA8@helios>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] packagegroup-core-basic: libuser has a hard depenency on libpam
+	Wed, 16 Oct 2013 04:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=gHqHodrjsQ0JOJizylk81YxbdqVrm5nZ93WXrUGX8Zs=;
+	b=S3e1m9PYe4hIp0VlWfyLyyCtv0zsITxyoY8alIlFLE8htt4+99PTPgas+ldb0hEyyg
+	prXxyt+UkJDHEIXjCXRarMGfUuLsRwGXtDGe8098McsPGFbdZMbD+CQYafliCdvAgSNw
+	RnovC+D+StO2pftoEOrwIcHNmReVGJvWhA1lz0pBSw7zhWUxh3qs8xp7A7iDz6YzFlPk
+	M+cP3jkxr8bA+QiUhIz09Yxi9mdwTYcJgKiOXGj2gNP0fPm3fAjZ8DReguNeY+AUx3bx
+	IojrkBq9TrYD7/YlD5P/+FUAgUAkh3/gmhTeWpSsJ/twkYwt8PPg5WabGunker+E+fbq
+	jtog==
+X-Received: by 10.15.61.137 with SMTP id i9mr3891027eex.50.1381922957883;
+	Wed, 16 Oct 2013 04:29:17 -0700 (PDT)
+Received: from localhost.localdomain (ip-178-200-247-59.unitymediagroup.de.
+	[178.200.247.59]) by mx.google.com with ESMTPSA id
+	z12sm178475827eev.6.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 16 Oct 2013 04:29:16 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Oct 2013 13:27:55 +0200
+Message-Id: <1381922875-4261-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [PATCH] systemd-compat-units: run-postinsts fix script link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,50 +44,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 11:23:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 16 Oct 2013 11:29:17 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+in
 
-Op 16 okt. 2013, om 12:25 heeft Paul Eggleton =
-<paul.eggleton@linux.intel.com> het volgende geschreven:
+commit fe039170236080291c0220476a5809774f82ee5c
+Author: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+Date:   Wed Oct 2 10:55:32 2013 +0000
 
-> On Tuesday 15 October 2013 15:22:46 Saul Wold wrote:
->> Since libpam is only built when DISTRO_FEATURES pam is enabled we =
-should
->> not be trying to build libuser also.
->=20
-> Should this packagegroup be bringing in libraries such as this at all, =
-given=20
-> that libraries are generally pulled in as dependencies of applications =
-that=20
-> link to them?
+    systemd-compat-units: Use correct run-postinsts script link
 
-If it is a pure library, no. But libuser doesn't seem to be a pure =
-library package:
+    OE-Core commit 75a14923da1ba91eddde47f0907345c19c82d6f0 has moved
+    run-postinsts script execution from S98 to S99 in rcS.d. run-postinsts.service
+    should check for this script and run it on first boot rather than
+    S98run-postinsts, which is for opkg/dpkg.
 
-[koen@rrMBP libuser]$ cat libuser/latest
-PV =3D 0.58
-PR =3D r0
-PKGR =3D r0.0
-RPROVIDES =3D=20
-RDEPENDS =3D eglibc (>=3D 2.17) glib-2.0 (>=3D 2.34.3) libffi (>=3D =
-3.0.11) libpam (>=3D 1.1.6) popt (>=3D 1.16)
-RRECOMMENDS =3D=20
-PKGSIZE =3D 283679
-FILES =3D /usr/bin/* /usr/sbin/* /usr/lib/libuser/* /usr/lib/lib*.so.* =
-/etc /com /var /bin/* /sbin/* /lib/*.so.* /lib/udev/rules.d =
-/usr/lib/udev/rules.d /usr/share/libuser /usr/lib/libuser/* =
-/usr/share/pixmaps /usr/share/applications /usr/share/idl /usr/share/omf =
-/usr/share/sounds /usr/lib/bonobo/servers
-FILELIST =3D /etc/libuser.conf /usr/bin/lchfn /usr/bin/lchsh =
-/usr/lib/libuser.so.1 /usr/lib/libuser.so.1.4.0 =
-/usr/lib/libuser/libuser_files.so /usr/lib/libuser/libuser_shadow.so =
-/usr/sbin/lchage /usr/sbin/lgroupadd /usr/sbin/lgroupdel =
-/usr/sbin/lgroupmod /usr/sbin/lid /usr/sbin/lnewusers /usr/sbin/lpasswd =
-/usr/sbin/luseradd /usr/sbin/luserdel /usr/sbin/lusermod
+the link was corrected but the mentioned commit is not available. Instead of
+reverting, we use the same variable as opkg for init script ordering and drop
+a note in case somebody wants to change default.
 
-regards,
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-core/systemd/systemd-compat-units.bb                 | 8 +++++++-
+ .../systemd/systemd-compat-units/run-postinsts.service            | 4 ++--
+ meta/recipes-devtools/opkg/opkg.inc                               | 2 ++
+ 3 files changed, 11 insertions(+), 3 deletions(-)
 
-Koen=
+diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
+index c47c14b..6eb5ffd 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units.bb
++++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+@@ -14,6 +14,8 @@ SRC_URI = "file://*.service"
+ do_install() {
+ 	install -d ${D}${systemd_unitdir}/system/basic.target.wants
+ 	install -d ${D}${systemd_unitdir}/system/sysinit.target.wants/
++	sed -i -e 's,@POSTINSTALL_INITPOSITION@,${POSTINSTALL_INITPOSITION},g' \
++			${WORKDIR}/run-postinsts.service
+ 	install -m 0644 ${WORKDIR}/run-postinsts.service ${D}${systemd_unitdir}/system
+ 	ln -sf ../run-postinsts.service ${D}${systemd_unitdir}/system/basic.target.wants/
+ 	ln -sf ../run-postinsts.service ${D}${systemd_unitdir}/system/sysinit.target.wants/
+@@ -53,4 +55,8 @@ pkg_postinst_${PN} () {
+ FILES_${PN} = "${systemd_unitdir}/system ${bindir}"
+ RDPEPENDS_${PN} = "systemd"
+ 
+-
++# Define a variable to allow distros to run configure earlier.
++# (for example, to enable loading of ethernet kernel modules before networking starts)
++# note: modifying name or default value for POSTINSTALL_INITPOSITION requires
++# changes in opkg.inc
++POSTINSTALL_INITPOSITION ?= "98"
+diff --git a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
+index 4ebc234..35cf3d3 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
++++ b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
+@@ -1,12 +1,12 @@
+ [Unit]
+ Description=Run pending postinsts
+ DefaultDependencies=no
+-ConditionPathExists=|/etc/rcS.d/S99run-postinsts
++ConditionPathExists=|/etc/rcS.d/S@POSTINSTALL_INITPOSITION@run-postinsts
+ After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
+ Before=sysinit.target
+ 
+ [Service]
+-ExecStart=/etc/rcS.d/S99run-postinsts
++ExecStart=/etc/rcS.d/S@POSTINSTALL_INITPOSITION@run-postinsts
+ RemainAfterExit=No
+ Type=oneshot
+ StandardOutput=syslog
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index 3d56886..78724f3 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -104,4 +104,6 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ # Define a variable to allow distros to run configure earlier.
+ # (for example, to enable loading of ethernet kernel modules before networking starts)
++# note: modifying name or default value for POSTINSTALL_INITPOSITION requires
++# changes in systemd-compat-units.bb
+ POSTINSTALL_INITPOSITION ?= "98"
+-- 
+1.8.3.1
+
 
