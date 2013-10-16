@@ -1,46 +1,24 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D3B0C6CB44
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D4606CB44
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 09:13:19 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id ez12so2838665wid.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 02:13:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=Hm5hybuLDXTmQpnOvjAMllLCbFLK9waivAc94N+wkn0=;
-	b=WSc7NtoqX7KctDfS4ViifSNZ/ycOgxQasi1Vw91Gy+NUUu4H2r7mZTtb1VMrhHbSTB
-	Pr0uh9bQdQvaYv4/mCoNTaZrbiChJir/J2pZno7xWe+kvzi/4rcYYDjXqMHu3dqVEGyn
-	gPQQxB/HCDPBJ2igdq51v6ZH8ydu305MoZqy3dpnDg8jyp54OqeJ6Bd+qLYZZ5LfXrYM
-	Bo1TIPKamxvstsuD1rsmvrYVuDdovaBJBtcfA7bSBbk2j54RpvmNFQj7PDjDK3004WkD
-	OYia1vu3eKtV5OfQ+aH/Sv+un6PmkqZHhJ/sEIHxoFAVRHq6/gsPINW5izsX53JsL46h
-	9nUw==
-X-Gm-Message-State: ALoCoQle9QnHmWZNtXvEW5JJijP6biKakT9CFHr7vC+8pO5monzyrblvbDkZ/ppMOah0soMl5w7i
-X-Received: by 10.180.75.232 with SMTP id f8mr1418170wiw.26.1381914801106;
-	Wed, 16 Oct 2013 02:13:21 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::403c:b6ec:4247:e13f?
-	([2001:610:612:0:403c:b6ec:4247:e13f])
-	by mx.google.com with ESMTPSA id ev4sm3900209wib.7.2013.10.16.02.13.20
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 16 Oct 2013 02:13:20 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <525E57FA.6000200@windriver.com>
-Date: Wed, 16 Oct 2013 11:13:19 +0200
-Message-Id: <727B405E-7E1D-4F53-8CC8-FE4F8B93D31E@dominion.thruhere.net>
-References: <1381824734-2946-1-git-send-email-rongqing.li@windriver.com>
-	<E0C668BE-B0FA-4BE0-91E9-BB779A8ABDC3@dominion.thruhere.net>
-	<525DE1D4.40109@windriver.com>
-	<EF2228FC-1E37-435B-A76A-426E585A2E0E@dominion.thruhere.net>
-	<525E57FA.6000200@windriver.com>
-To: Rongqing Li <rongqing.li@windriver.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: ignore the networking device which nfs for rootfs is working on
+	Wed, 16 Oct 2013 09:21:04 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.7])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1VWNHs-0000tJ-OX; Wed, 16 Oct 2013 11:21:04 +0200
+Message-ID: <1381915225.3917.45.camel@x121e.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Date: Wed, 16 Oct 2013 10:20:25 +0100
+In-Reply-To: <1381908355-18124-1-git-send-email-koen@dominion.thruhere.net>
+References: <1381908355-18124-1-git-send-email-koen@dominion.thruhere.net>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.4.4-3 
+Mime-Version: 1.0
+Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] openssl: switch ARM builds from linux-elf-arm to linux-armv4 config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,30 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 09:13:20 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 16 Oct 2013 09:21:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Wed, 2013-10-16 at 09:25 +0200, Koen Kooi wrote:
+> From: Koen Kooi <koen.kooi@linaro.org>
+> 
+> This enables aes and sha1 assembly at buildtime. Openssl does a
+> runtime check to see which portion gets enabled.
+
+[...]
+
+> Algo    blocksize       ops/s after
+>                 ops/s before    difference
+> -------------------------------------------
+> MD5	16	308,766	264,664	-14.28%
+> 	64	277,090	263,340	-4.96%
+> 	256	212,652	197,043	-7.34%
+> 	1024	103,604	100,157	-3.33%
+> 	8192	17,936	17,796	-0.78%
+
+Do you know why it's causing MD5 to get slower?  I guess md5 with
+blocksize=16 is not a very common case, but still.
+
+Also, it seems generally a bit unwholesome for openssl to be picking its
+own CFLAGS at all.  Would it be better to just make it use the same
+CFLAGS as everything else?
+
+p.
 
 
-Op 16 okt. 2013, om 11:10 heeft Rongqing Li <rongqing.li@windriver.com> =
-het volgende geschreven:
-
->=20
->=20
-> On 10/16/2013 04:54 PM, Koen Kooi wrote:
->>>> ConditionKernelCommandLine!=3Droot=3D/dev/nfs
->>>> >>
->>> >
->>> >What is your meaning?
->> That's you are creating a huge script that does something built into =
-systemd.
->>=20
->=20
->=20
-> Yes, I can not find a way to avoid to that,
->=20
-> Do you have any advice?
-
-Yes, as I said a few mails earlier: =
-ConditionKernelCommandLine!=3Droot=3D/dev/nfs=
 
