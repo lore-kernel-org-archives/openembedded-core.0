@@ -1,30 +1,33 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EAC360EAA
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A96C6D123
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 19:18:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9GJIMVL013446
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 16 Oct 2013 20:16:27 +0000 (UTC)
+Received: by mail-ee0-f48.google.com with SMTP id l10so617851eei.21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 12:18:22 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 16 Oct 2013 12:18:21 -0700
-Message-ID: <525EE67D.7040709@windriver.com>
-Date: Wed, 16 Oct 2013 14:18:21 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, "Seebach, Peter"
-	<Peter.Seebach@windriver.com>
-References: <cover.1381435139.git.peter.seebach@windriver.com>
-	<525EC341.9080407@linux.intel.com>
-In-Reply-To: <525EC341.9080407@linux.intel.com>
-Subject: Re: [PATCH 0/2] Use alternatives for all of binutils instead of -symlinks
+	Wed, 16 Oct 2013 13:16:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=8BWtBGWZVWQKWfbxH+R6ox4RfPbBueC13Do96PQIojU=;
+	b=jU1YsxqLSZ5Ynsxw2cw0wOl5KXP4hCNI6PUuSlVFi3nvDUrVfnsuKUL1hRyWBXCvyb
+	a7HGjjQaWS6MjvTQ8dz6zKCujuTBHfKVzYDIJCQw1yOjA2a68RoEldpJvH7lJ1Um6s+z
+	Vaf+blE/pTYyI037UnfPtfLrOCE2fdspIPuKBJujQnOIdU49spWUlhFvd2wE0dJ4osix
+	Stdbz8pAwFvXPlHpjaJo/EPlRcZ6fTA9dRXhuAp/1xbU8IiFVzRj+Pj5dqlX88qtdqJ2
+	eTWG1vhBEdCbH3mj5pkKuipK2SZcF24+c0klqCOtXMTz/Ci1lKP5Cy79w+TJR+9mrj/X
+	9cww==
+X-Received: by 10.15.98.194 with SMTP id bj42mr7451347eeb.12.1381954588411;
+	Wed, 16 Oct 2013 13:16:28 -0700 (PDT)
+Received: from mizar.localdomain ([95.237.174.211])
+	by mx.google.com with ESMTPSA id
+	f49sm183611235eec.7.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 16 Oct 2013 13:16:27 -0700 (PDT)
+From: Andrea Adami <andrea.adami@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Oct 2013 22:16:21 +0200
+Message-Id: <1381954581-19306-1-git-send-email-andrea.adami@gmail.com>
+X-Mailer: git-send-email 1.8.1.5
+Subject: [PATCH] image_types.bbclass: allow JFFS2 image with cleanmarkers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,84 +40,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Oct 2013 19:18:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Oct 2013 20:16:27 -0000
 
-On 10/16/13 11:48 AM, Saul Wold wrote:
->
-> During MUT builds, we saw a failure with the toolchain
->
->
-> | Computing transaction...error: Can't install
-> binutils-cross-canadian-arm-2.23.2-r4@i686_nativesdk: no package
-> provides update-alternatives-cworth
-> |
->
-> Can be seen all architectures.
+The creation of JFFS2 images was hardcoding the
+--no-cleanmarkers option (-n) after those two commits:
 
-Sounds like the new code needs to be restricted to 'class-target'.
+70a276509f0f006fcc269296afc3dcc88d2825e1
+7c803cea58737ea0abc62cd21c3813d955f07224
 
---Mark
+The documentation explains that the -n option is
+intended for flash NAND only: devices with NOR flash
+need the cleanmarkers and should not make use of this option.
 
->
-> Sau!
->
->
->
-> On 10/10/2013 01:06 PM, Peter Seebach wrote:
->> The original complaint that got me started on this was that someone
->> was using binutils on a target, and didn't have an ld command, so they
->> asked for it. We added binutils-symlinks, and that seemed to work, but
->> eventually we ran into a problem because "ar" and "strings" weren't
->> showing up.
->>
->> After some asking about as to why ar and strings might be omitted from
->> binutils, we concluded that it was probably because they were using
->> the alternatives mechanism. In a local branch, we experimented for a while
->> with just using that instead of the -symlinks package, and found that
->> it was overall better-behaved; in particular, it produces the desireable
->> result that you don't have to know about or add a "-symlinks" package
->> to use the utilities in the common case where you just install a package
->> and expect its binaries to show up. It also eliminates the odd special
->> case difference between ar/strings (which can be provided by busybox)
->> and the other utilities.
->>
->> This is implemented as two patches. The first switches to using the
->> alternatives mechanism, but leaves the alternatives in the -symlinks
->> package rather than in the base package. The second moves them into
->> the base package, and adds an RPROVIDES for the -symlinks name in
->> case anyone is using it.
->>
->> One caveat: This can produce warnings because the "embedspu" and "ld.gold"
->> binaries don't always exist, but they sometimes exist. I'm not sure whether
->> there's a good way to fix that...
->>
->> The following changes since commit 1149b1fef8912f77d971242dfec151fff5a3aa51:
->>
->>     build-appliance: Update SRCREV for release (2013-10-08 16:33:25 +0100)
->>
->> are available in the git repository at:
->>     git://git.yoctoproject.org/poky-contrib seebs/binutils-alternatives
->>     http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/binutils-alternatives
->>
->> Peter Seebach (2):
->>     Use alternatives for the binutils-symlinks package.
->>     Drop binutils-symlinks
->>
->>    meta/recipes-devtools/binutils/binutils.inc |   68 ++++++++++++++++-----------
->>    1 files changed, 40 insertions(+), 28 deletions(-)
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+To add more flexibility, parametrize the padding size
+as well, creating JFFS2_PADSIZE.
+
+Finally, add EXTRA_IMAGE_CMD_jffs2 in explicit form:
+sumtool has slightly different options:
+
+ -l  --littleendian
+ -p, --pad
+
+To give an idea about size differences:
+
+core-image-base-xxx.rootfs.jffs2     | 16496K
+core-image-base-xxx.rootfs.sum.jffs2 | 22816K
+
+core-image-minimal-xxx.rootfs.jffs2     | 6160384
+core-image-minimal-xxx.rootfs.sum.jffs2 | 9879552
+
+Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+---
+ meta/classes/image_types.bbclass | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 9ead059..2a1acfa 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -140,9 +140,9 @@ XZ_COMPRESSION_LEVEL ?= "-e -6"
+ XZ_INTEGRITY_CHECK ?= "crc32"
+ XZ_THREADS ?= "-T 0"
+ 
+-IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 -n ${EXTRA_IMAGECMD}"
++IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 ${EXTRA_IMAGECMD}"
+ IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.jffs2 \
+-	-o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sum.jffs2 -n ${EXTRA_IMAGECMD}"
++	-o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.sum.jffs2 ${EXTRA_IMAGECMD}"
+ 
+ IMAGE_CMD_cramfs = "mkfs.cramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
+ 
+@@ -209,9 +209,12 @@ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_
+ EXTRA_IMAGECMD = ""
+ 
+ inherit siteinfo
+-JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--little-endian', '--big-endian', d)}"
++JFFS2_PADSIZE ?= ""
++JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-l', '-b', d)}"
+ JFFS2_ERASEBLOCK ?= "0x40000"
+-EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
++JFFS2_NOCLEANMARKERS ?= "--no-cleanmarkers"
++EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_PADSIZE} ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} ${JFFS2_NOCLEANMARKERS}"
++EXTRA_IMAGECMD_sum.jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} ${JFFS2_NOCLEANMARKERS}"
+ 
+ # Change these if you want default mkfs behavior (i.e. create minimal inode number)
+ EXTRA_IMAGECMD_ext2 ?= "-i 8192"
+-- 
+1.8.1.5
 
 
