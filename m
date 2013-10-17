@@ -1,51 +1,30 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 078986CF0B
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DD96D6CD0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 10:36:05 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r9HAa4c9010901
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 12:36:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1382006167;
-	bh=vk9Q/7q7YDVOEZoJI0OYvB274PobWrhLv7id7i+C6dM=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=hKFVk6QDjyWIDgWqCDxrnM0xWJbck649weVqH5fN9+qDcc146QGna5sje2HVd34Dl
-	62qwQ8223vxE4QGeL3Y8fJFpFFUx10iuVikTcmP6jI6sOHi/88G+RBy5KxunPxZIfU
-	OU6vOcswzsGC43vkBxL9CCVmZcj0IUpzpG5S1j8M=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r9HAa00Z017412
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 12:36:01 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VWkvv-0002IC-SU
-	for openembedded-core@lists.openembedded.org;
-	Thu, 17 Oct 2013 12:35:59 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1381908841-16027-1-git-send-email-rongqing.li@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Thu, 17 Oct 2013 12:35:59 +0200
-In-Reply-To: <1381908841-16027-1-git-send-email-rongqing.li@windriver.com>
-	(rongqing's message of "Wed, 16 Oct 2013 15:34:01 +0800")
-Message-ID: <lyvc0wtca8.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Thu, 17 Oct 2013 10:45:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9HAj1C4019398
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 17 Oct 2013 03:45:01 -0700 (PDT)
+Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Thu, 17 Oct 2013 03:45:01 -0700
+Message-ID: <525FBFA9.6030708@windriver.com>
+Date: Thu, 17 Oct 2013 18:44:57 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.2
-X-Spam-Level: ----
-X-Spam-Tests: AWL,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Subject: Re: [PATCH 1/2 v2] connman: ignore the networking device which nfs for rootfs is working on
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1382004192-12678-1-git-send-email-ming.liu@windriver.com>
+	<1382004192-12678-2-git-send-email-ming.liu@windriver.com>
+	<20131017103355.GB3930@jama>
+In-Reply-To: <20131017103355.GB3930@jama>
+X-Originating-IP: [128.224.162.145]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 2/2] screen: add pkg_postinst to register entry to /etc/shells
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,17 +37,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 10:36:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Oct 2013 10:45:02 -0000
+Content-Type: multipart/alternative;
+	boundary="------------000609030203050209090201"
 
-<rongqing.li-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+--------------000609030203050209090201
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> +/usr/sbin/connmand -n $EXTRA_PARAM
+On 10/17/2013 06:33 PM, Martin Jansa wrote:
+> On Thu, Oct 17, 2013 at 06:03:12PM +0800, Ming Liu wrote:
+>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>> ---
+>>   meta/recipes-extended/screen/screen_4.0.3.bb | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
+>> index 1a7eb20..81e418b 100644
+>> --- a/meta/recipes-extended/screen/screen_4.0.3.bb
+>> +++ b/meta/recipes-extended/screen/screen_4.0.3.bb
+>> @@ -41,3 +41,8 @@ do_install_append () {
+>>   		fi
+>>   	done
+>>   }
+>> +
+>> +pkg_postinst_${PN} () {
+>> +	touch $D${sysconfdir}/shells
+>> +	grep -q "${bindir}/screen" $D${sysconfdir}/shells || echo ${bindir}/screen >> $D${sysconfdir}/shells
+>                    ^ the same, we don't want to match /usr/bin/screenie
+> if it's there and "screen" isn't
+Yes, you are correct, I am too less comprehensive.
 
-this must be 'exec /usr/sbin/connmand'; else you keep an unneeded 'sh'
-process around.
+>
+> Is there patch to add this postinst to bash and busybox?
+For bash, it already has it, as following:
+------------------
+pkg_postinst_${PN} () {
+         touch $D${sysconfdir}/shells
+         grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> 
+$D${sysconfdir}/shells
+         grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> 
+$D${sysconfdir}/shells
+}
+-----------------
+
+But as you pointed out, it needs to be more stringent too.
+
+For busybox, I don't think it need this script for it provides the 
+symbol link: /bin/sh.
+
+//Ming Liu
+
+>
+>> +}
+>> -- 
+>> 1.8.3.3
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
+--------------000609030203050209090201
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Enrico
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 10/17/2013 06:33 PM, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:20131017103355.GB3930@jama" type="cite">
+      <pre wrap="">On Thu, Oct 17, 2013 at 06:03:12PM +0800, Ming Liu wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">Signed-off-by: Ming Liu <a class="moz-txt-link-rfc2396E" href="mailto:ming.liu@windriver.com">&lt;ming.liu@windriver.com&gt;</a>
+---
+ meta/recipes-extended/screen/screen_4.0.3.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
+index 1a7eb20..81e418b 100644
+--- a/meta/recipes-extended/screen/screen_4.0.3.bb
++++ b/meta/recipes-extended/screen/screen_4.0.3.bb
+@@ -41,3 +41,8 @@ do_install_append () {
+ 		fi
+ 	done
+ }
++
++pkg_postinst_${PN} () {
++	touch $D${sysconfdir}/shells
++	grep -q "${bindir}/screen" $D${sysconfdir}/shells || echo ${bindir}/screen &gt;&gt; $D${sysconfdir}/shells
+</pre>
+      </blockquote>
+      <pre wrap="">                  ^ the same, we don't want to match /usr/bin/screenie
+if it's there and "screen" isn't</pre>
+    </blockquote>
+    Yes, you are correct, I am
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+    too less comprehensive.<br>
+    <br>
+    <blockquote cite="mid:20131017103355.GB3930@jama" type="cite">
+      <pre wrap="">
+
+Is there patch to add this postinst to bash and busybox?</pre>
+    </blockquote>
+    For bash, it already has it, as following:<br>
+    ------------------<br>
+    pkg_postinst_${PN} () {<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; touch $D${sysconfdir}/shells<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash
+    &gt;&gt; $D${sysconfdir}/shells<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh
+    &gt;&gt; $D${sysconfdir}/shells<br>
+    }<br>
+    -----------------<br>
+    <br>
+    But as you pointed out, it needs to be more stringent too.<br>
+    <br>
+    For busybox, I don't think it need this script for it provides the
+    symbol link: /bin/sh.<br>
+    <br>
+    //Ming Liu<br>
+    <br>
+    <blockquote cite="mid:20131017103355.GB3930@jama" type="cite">
+      <pre wrap="">
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">+}
+-- 
+1.8.3.3
+
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------000609030203050209090201--
