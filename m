@@ -1,20 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 08D6B6CF14
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B6B4061000
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 13:21:26 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 17 Oct 2013 06:12:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,514,1378882800"; d="scan'208";a="412594595"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.25])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Oct 2013 06:15:17 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu, 17 Oct 2013 14:00:05 +0000 (UTC)
+Received: by mail-lb0-f181.google.com with SMTP id x18so599016lbi.26
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Oct 2013 07:00:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=7ZDyAO9Df9sBf0qLeXkNUIoT/c7dp0jMQVs7FPrUCRY=;
+	b=DGRI95p/QX29m5Ili2cGcTDyDS9fWIwbFX5Ht4I7CjQ41o1idI7swS8rT4PC0VloKg
+	7DO+NaoU5t4antkQhN1sgriyFXXIRNCJ1KmZ3JTGY3nmqkLO4PEs/qcpoMmlwuiiUwRo
+	mx9iSMz1ufzN2nTtprXl6BuZdje1HuQzuIXtT7Jf9VOYFbcSoxFXHRSjPWUE1wS/EjXg
+	8KMnBM9HspZP1Pp0QNkiYVcuPuTYs/Rudp9paBMRZQC+3g/7vhaMaPB8pOQSM0hIfwbv
+	Y3+3gYdb+Kam/Vyl6txjIJkD2+icUNIuBfXlcvWc69mh25UoPP060/1EWjAxNe2Qzy9O
+	TflQ==
+X-Received: by 10.112.168.3 with SMTP id zs3mr7583210lbb.2.1382018406699;
+	Thu, 17 Oct 2013 07:00:06 -0700 (PDT)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPSA id vk8sm9291789lbb.0.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 17 Oct 2013 07:00:06 -0700 (PDT)
+Received: by nysan (Postfix, from userid 1000)
+	id 0A926400F61; Thu, 17 Oct 2013 15:59:57 +0200 (CEST)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Oct 2013 14:15:15 +0100
-Message-Id: <1382015715-15696-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH v2] buildhistory-diff: add ability to report version changes
+Date: Thu, 17 Oct 2013 15:59:38 +0200
+Message-Id: <1382018386-25389-4-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
+References: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
+MIME-Version: 1.0
+Subject: [PATCH 03/11] beecrypt: Add nativesdk in BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,146 +46,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 13:21:26 -0000
+X-List-Received-Date: Thu, 17 Oct 2013 14:00:07 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add a -v/--report-ver option to report changes in PKGE/PKGV/PKGR even
-if the value is the same as the default from PE/PV/PR.
-
-Also add a -a/--report-all option to report all changes instead of just
-the default significant ones.
-
-Addresses [YOCTO #5263].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: David Nyström <david.nystrom@enea.com>
 ---
- meta/lib/oe/buildhistory_analysis.py | 41 +++++++++++++++++++-----------------
- scripts/buildhistory-diff            |  8 ++++++-
- 2 files changed, 29 insertions(+), 20 deletions(-)
+ meta/recipes-support/beecrypt/beecrypt_4.2.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index 86b5a12..dd17dd5 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -19,10 +19,11 @@ import bb.utils
- # How to display fields
- list_fields = ['DEPENDS', 'RPROVIDES', 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RREPLACES', 'RCONFLICTS', 'FILES', 'FILELIST', 'USER_CLASSES', 'IMAGE_CLASSES', 'IMAGE_FEATURES', 'IMAGE_LINGUAS', 'IMAGE_INSTALL', 'BAD_RECOMMENDATIONS']
- list_order_fields = ['PACKAGES']
--defaultval_fields = ['PKG', 'PKGE', 'PKGV', 'PKGR']
-+defaultval_map = {'PKG': 'PKG', 'PKGE': 'PE', 'PKGV': 'PV', 'PKGR': 'PR'}
- numeric_fields = ['PKGSIZE', 'IMAGESIZE']
- # Fields to monitor
--monitor_fields = ['RPROVIDES', 'RDEPENDS', 'RRECOMMENDS', 'RREPLACES', 'RCONFLICTS', 'PACKAGES', 'FILELIST', 'PKGSIZE', 'IMAGESIZE', 'PKG', 'PKGE', 'PKGV', 'PKGR']
-+monitor_fields = ['RPROVIDES', 'RDEPENDS', 'RRECOMMENDS', 'RREPLACES', 'RCONFLICTS', 'PACKAGES', 'FILELIST', 'PKGSIZE', 'IMAGESIZE', 'PKG']
-+ver_monitor_fields = ['PKGE', 'PKGV', 'PKGR']
- # Percentage change to alert for numeric fields
- monitor_numeric_threshold = 10
- # Image files to monitor (note that image-info.txt is handled separately)
-@@ -94,7 +95,7 @@ class ChangeRecord:
-             else:
-                 percentchg = 100
-             out = '%s changed from %s to %s (%s%d%%)' % (self.fieldname, self.oldvalue or "''", self.newvalue or "''", '+' if percentchg > 0 else '', percentchg)
--        elif self.fieldname in defaultval_fields:
-+        elif self.fieldname in defaultval_map:
-             out = '%s changed from %s to %s' % (self.fieldname, self.oldvalue, self.newvalue)
-             if self.fieldname == 'PKG' and '[default]' in self.newvalue:
-                 out += ' - may indicate debian renaming failure'
-@@ -305,24 +306,32 @@ def compare_pkg_lists(astr, bstr):
-     return (depvera, depverb)
+diff --git a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+index 7baf92e..0a8ff4b 100644
+--- a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
++++ b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+@@ -33,4 +33,4 @@ FILES_${PN} = "${sysconfdir} ${libdir}/*.so.* ${libdir}/${BPN}/*.so.*"
+ FILES_${PN}-dev += "${libdir}/${BPN}/*.so ${libdir}/${BPN}/*.la"
+ FILES_${PN}-staticdev += "${libdir}/${BPN}/*.a"
  
- 
--def compare_dict_blobs(path, ablob, bblob, report_all):
-+def compare_dict_blobs(path, ablob, bblob, report_all, report_ver):
-     adict = blob_to_dict(ablob)
-     bdict = blob_to_dict(bblob)
- 
-     pkgname = os.path.basename(path)
-+
-     defaultvals = {}
-     defaultvals['PKG'] = pkgname
--    defaultvals['PKGE'] = adict.get('PE', '0')
--    defaultvals['PKGV'] = adict.get('PV', '')
--    defaultvals['PKGR'] = adict.get('PR', '')
--    for key in defaultvals:
--        defaultvals[key] = '%s [default]' % defaultvals[key]
-+    defaultvals['PKGE'] = '0'
- 
-     changes = []
--    keys = list(set(adict.keys()) | set(bdict.keys()))
-+    keys = list(set(adict.keys()) | set(bdict.keys()) | set(defaultval_map.keys()))
-     for key in keys:
-         astr = adict.get(key, '')
-         bstr = bdict.get(key, '')
-+        if key in ver_monitor_fields:
-+            monitored = report_ver or astr or bstr
-+        else:
-+            monitored = key in monitor_fields
-+        mapped_key = defaultval_map.get(key, '')
-+        if mapped_key:
-+            if not astr:
-+                astr = '%s [default]' % adict.get(mapped_key, defaultvals.get(key, ''))
-+            if not bstr:
-+                bstr = '%s [default]' % bdict.get(mapped_key, defaultvals.get(key, ''))
-+
-         if astr != bstr:
-             if (not report_all) and key in numeric_fields:
-                 aval = int(astr or 0)
-@@ -350,18 +359,12 @@ def compare_dict_blobs(path, ablob, bblob, report_all):
-                 if ' '.join(alist) == ' '.join(blist):
-                     continue
- 
--            if key in defaultval_fields:
--                if not astr:
--                    astr = defaultvals[key]
--                elif not bstr:
--                    bstr = defaultvals[key]
--
--            chg = ChangeRecord(path, key, astr, bstr, key in monitor_fields)
-+            chg = ChangeRecord(path, key, astr, bstr, monitored)
-             changes.append(chg)
-     return changes
- 
- 
--def process_changes(repopath, revision1, revision2 = 'HEAD', report_all = False):
-+def process_changes(repopath, revision1, revision2='HEAD', report_all=False, report_ver=False):
-     repo = git.Repo(repopath)
-     assert repo.bare == False
-     commit = repo.commit(revision1)
-@@ -373,7 +376,7 @@ def process_changes(repopath, revision1, revision2 = 'HEAD', report_all = False)
-         if path.startswith('packages/'):
-             filename = os.path.basename(d.a_blob.path)
-             if filename == 'latest':
--                changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all))
-+                changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all, report_ver))
-             elif filename.startswith('latest.'):
-                 chg = ChangeRecord(path, filename, d.a_blob.data_stream.read(), d.b_blob.data_stream.read(), True)
-                 changes.append(chg)
-diff --git a/scripts/buildhistory-diff b/scripts/buildhistory-diff
-index b82240d..ad50414 100755
---- a/scripts/buildhistory-diff
-+++ b/scripts/buildhistory-diff
-@@ -27,6 +27,12 @@ def main():
-     parser.add_option("-p", "--buildhistory-dir",
-             help = "Specify path to buildhistory directory (defaults to buildhistory/ under cwd)",
-             action="store", dest="buildhistory_dir", default='buildhistory/')
-+    parser.add_option("-v", "--report-version",
-+            help = "Report changes in PKGE/PKGV/PKGR even when the values are still the default (PE/PV/PR)",
-+            action="store_true", dest="report_ver", default=False)
-+    parser.add_option("-a", "--report-all",
-+            help = "Report all changes, not just the default significant ones",
-+            action="store_true", dest="report_all", default=False)
- 
-     options, args = parser.parse_args(sys.argv)
- 
-@@ -79,7 +85,7 @@ def main():
- 
-     import gitdb
-     try:
--        changes = oe.buildhistory_analysis.process_changes(options.buildhistory_dir, fromrev, torev)
-+        changes = oe.buildhistory_analysis.process_changes(options.buildhistory_dir, fromrev, torev, options.report_all, options.report_ver)
-     except gitdb.exc.BadObject as e:
-         if len(args) == 1:
-             sys.stderr.write("Unable to find previous build revision in buildhistory repository\n\n")
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
-1.8.1.2
+1.8.3.2
 
 
