@@ -1,28 +1,44 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DF4D60EAA
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id A82D86CB97
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 05:00:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9H50pAx003686
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 17 Oct 2013 05:54:37 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id cb5so367024wib.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 22:00:51 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 16 Oct 2013 22:00:50 -0700
-Message-ID: <525F6F05.9030805@windriver.com>
-Date: Thu, 17 Oct 2013 13:00:53 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: <rongqing.li@windriver.com>
-References: <1381908841-16027-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1381908841-16027-1-git-send-email-rongqing.li@windriver.com>
+	Wed, 16 Oct 2013 22:54:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=K3PfVQjB719H0V+AQAmYXPbJq+6Zw/S99vq8PAgqvUY=;
+	b=HZ2Cq7F0YJJ4P1uFwZw8E7uf5kBkaV/p6Fa/DPxAbFMRy1/k96DzE9kCCjsTA5fiIg
+	eG6YQEfkP9bBniK6hCecJfpTHGoq0cx1VokZm0GqHsauPNKND32kWp7RcdrmRGULh+Ob
+	3MuxjFVWE+F9qMO/EtTZlQHFPQddaTYlmCVJ4xvjor/A3bJYPId6Uvfq6mxoxEOWU91d
+	qXqdh1P3+OVXYxNlyGUv1OuwyQ6WWfogtadCCWhvSCCIYeJ+iV/Ck8XaO1KGESPtLwv+
+	BvLtATKUbBD7vpt5Ap723AdCYu40370PcoYcNLGxliA32HpMaMcjeTr1O9JpXgA2v4TK
+	mXgQ==
+X-Gm-Message-State: ALoCoQneWVAYkpFtGeJLJ+01eTccHFvIQrUgwo+A0mtx9hYxYtad+Dv5pRMyizSvs+KgdB/GYRvi
+X-Received: by 10.180.210.146 with SMTP id mu18mr27635942wic.10.1381989278701; 
+	Wed, 16 Oct 2013 22:54:38 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::d8fe:c7b9:c53c:b172?
+	([2001:610:612:0:d8fe:c7b9:c53c:b172])
+	by mx.google.com with ESMTPSA id
+	ft19sm12557884wic.5.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 16 Oct 2013 22:54:37 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <F0F67306-673E-44CE-89E0-AF69E586100B@dominion.thruhere.net>
+Date: Thu, 17 Oct 2013 07:54:36 +0200
+Message-Id: <28E594D0-D5DB-4D75-B4EB-DC1A0A21FC41@dominion.thruhere.net>
+References: <1381908355-18124-1-git-send-email-koen@dominion.thruhere.net>
+	<1381915225.3917.45.camel@x121e.pbcl.net>
+	<F0F67306-673E-44CE-89E0-AF69E586100B@dominion.thruhere.net>
+To: Phil Blundell <pb@pbcl.net>
+X-Mailer: Apple Mail (2.1510)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2 v2] connman: ignore the networking device which nfs for rootfs is working on
+Subject: Re: [PATCHv2] openssl: switch ARM builds from linux-elf-arm to linux-armv4 config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,125 +51,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 05:00:50 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Oct 2013 05:54:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Drop it, I will give V3.
-Thanks
 
--R
+Op 16 okt. 2013, om 11:45 heeft Koen Kooi <koen@dominion.thruhere.net> =
+het volgende geschreven:
 
-On 10/16/2013 03:34 PM, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> Otherwise system will hang since nfs is not disconnected
->
-> and remove the judgement of initscript DISTRO_FEATURE when install init
-> script connman, because inherit systemd will remove init script
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->   meta/recipes-connectivity/connman/connman.inc      |   13 +++---
->   .../connman/connman/connman-nfs                    |   42 ++++++++++++++++++++
->   meta/recipes-connectivity/connman/connman_1.17.bb  |    1 +
->   3 files changed, 51 insertions(+), 5 deletions(-)
->   create mode 100644 meta/recipes-connectivity/connman/connman/connman-nfs
->
-> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-> index 37ce3ec..f168d89 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -72,7 +72,7 @@ inherit autotools gtk-doc pkgconfig systemd update-rc.d
->
->   do_configure_append () {
->   	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${S}/src/connman.service
-> -
-> +	sed -i "s#ExecStart=.*#ExecStart=${bindir}/connman-nfs#" ${S}/src/connman.service
->   }
->
->   # This allows *everyone* to access ConnMan over DBus, without any access
-> @@ -84,10 +84,13 @@ do_compile_append() {
->   }
->
->   do_install_append() {
-> -	if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-> -		install -d ${D}${sysconfdir}/init.d
-> -		install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
-> -		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
-> +	install -d ${D}${sysconfdir}/init.d
-> +	install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
-> +	sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
-> +
-> +	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> +		install -d ${D}${bindir}/
-> +		install -m 0755 ${WORKDIR}/connman-nfs ${D}${bindir}/
->   	fi
->
->   	install -d ${D}${bindir}
-> diff --git a/meta/recipes-connectivity/connman/connman/connman-nfs b/meta/recipes-connectivity/connman/connman/connman-nfs
-> new file mode 100644
-> index 0000000..1058787
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/connman-nfs
-> @@ -0,0 +1,42 @@
-> +#!/bin/sh
-> +
-> +nfsroot=0
-> +
-> +exec 9<&0 < /proc/mounts
-> +while read dev mtpt fstype rest; do
-> +	if test $mtpt = "/" ; then
-> +		case $fstype in
-> +		    nfs | nfs4)
-> +			nfsroot=1
-> +			break
-> +			;;
-> +		    *)
-> +			;;
-> +		esac
-> +	fi
-> +done
-> +
-> +EXTRA_PARAM=""
-> +if test $nfsroot -eq 1 ; then
-> +    NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
-> +    NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
-> +
-> +    if [ ! -z "$NET_ADDR" ]; then
-> +	if [ "$NET_ADDR" = dhcp ]; then
-> +	    ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
-> +	    if [ ! -z "$ethn" ]; then
-> +		EXTRA_PARAM="-I $ethn"
-> +	    fi
-> +	else
-> +	    for i in $NET_DEVS; do
-> +		ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-> +		if [ "$NET_ADDR" = "$ADDR" ]; then
-> +		    EXTRA_PARAM="-I $i"
-> +		    break
-> +		fi
-> +	    done
-> +	fi
-> +    fi
-> +fi
-> +
-> +/usr/sbin/connmand -n $EXTRA_PARAM
-> diff --git a/meta/recipes-connectivity/connman/connman_1.17.bb b/meta/recipes-connectivity/connman/connman_1.17.bb
-> index 461157f..4577416 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.17.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.17.bb
-> @@ -4,6 +4,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->               file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
->               file://add_xuser_dbus_permission.patch \
->               file://connman \
-> +            file://connman-nfs \
->               "
->
->   SRC_URI[md5sum] = "dd4a13f789de1b69fcddf0cf613f2d5b"
->
+>=20
+> Op 16 okt. 2013, om 11:20 heeft Phil Blundell <pb@pbcl.net> het =
+volgende geschreven:
+>=20
+>> On Wed, 2013-10-16 at 09:25 +0200, Koen Kooi wrote:
+>>> From: Koen Kooi <koen.kooi@linaro.org>
+>>>=20
+>>> This enables aes and sha1 assembly at buildtime. Openssl does a
+>>> runtime check to see which portion gets enabled.
+>>=20
+>> [...]
+>>=20
+>>> Algo    blocksize       ops/s after
+>>>               ops/s before    difference
+>>> -------------------------------------------
+>>> MD5	16	308,766	264,664	-14.28%
+>>> 	64	277,090	263,340	-4.96%
+>>> 	256	212,652	197,043	-7.34%
+>>> 	1024	103,604	100,157	-3.33%
+>>> 	8192	17,936	17,796	-0.78%
+>>=20
+>> Do you know why it's causing MD5 to get slower?  I guess md5 with
+>> blocksize=3D16 is not a very common case, but still.
+>=20
+> I really don't know and it is the only algo that gets a lot slower. =
+This patch is a preparation for (more) NEON optimizations which seem to =
+fix the regression, see
+>=20
+> 	=
+https://docs.google.com/spreadsheet/ccc?key=3D0AhgZ33Tf6eBldHVONjRXRnItWld=
+4eFlRWTJ3RzVIdGc&usp=3Dsharing
+>=20
+> and
+>=20
+> 	=
+http://dominion.thruhere.net/koen/angstrom/0002-openssl-1.0.1e-add-ARMv7-A=
+ES-optimizations.patch
+>=20
+> I need to test that patch on A9 and A15 cores as well since it doesn't =
+seem to do a lot on A8 cores :(
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+And on A9 cores linux-armv4 is 20% *faster* on MD5 with blocksize=3D16, =
+see spreadsheet above. So it probably is a scheduling issue that favours =
+A9 cores.
+
+regards,
+
+Koen.
+
+
+>=20
+>> Also, it seems generally a bit unwholesome for openssl to be picking =
+its
+>> own CFLAGS at all.  Would it be better to just make it use the same
+>> CFLAGS as everything else?
+>=20
+> openssl.inc already pokes at CLAG(S):
+>=20
+> CFLAG =3D "${@base_conditional('SITEINFO_ENDIANNESS', 'le', =
+'-DL_ENDIAN', '-DB_ENDIAN', d)} \
+>        -DTERMIO ${CFLAGS} -Wall -Wa,--noexecstack"
+>=20
+> The complete command looks like this:
+>=20
+> arm-angstrom-linux-gnueabi-gcc  -march=3Darmv7-a -mthumb-interwork =
+-mfloat-abi=3Dhard -mfpu=3Dneon -mtune=3Dcortex-a8 =
+--sysroot=3D/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/be=
+aglebone -I. -I.. -I../include  -fPIC -DOPENSSL_PIC -DOPENSSL_THREADS =
+-D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DL_ENDIAN  -DTERMIO  -O2 -pipe =
+-g -feliminate-unused-debug-types -Wall -Wa,--noexecstack =
+-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS -DOPENSSL_BN_ASM_MONT =
+-DOPENSSL_BN_ASM_GF2m -DSHA1_ASM -DSHA256_ASM -DSHA512_ASM -DAES_ASM =
+-DBSAES_ASM -DGHASH_ASM -c   -c -o armv4cpuid.o armv4cpuid.S
+>=20
+> So the '$cflags       =3D -DTERMIO -O3 -Wall' in linux-armv4 gets =
+overridden by OE, just like we want :)
+>=20
+> regards,
+>=20
+> Koen
+
 
