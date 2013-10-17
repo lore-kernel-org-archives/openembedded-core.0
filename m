@@ -1,39 +1,24 @@
-Return-Path: <iwamatsu@nigauri.org>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D32060EE0
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E1E8E6BF46
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 02:02:30 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id z5so1281937lbh.23
+	Thu, 17 Oct 2013 02:04:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9H24Aj8022351
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Oct 2013 19:02:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=WaA9lq50FyClD9Tr5SnnhK8QsnsPufmVTWOY3MomObA=;
-	b=DULI2jJ8CNzy1OrZgaggf8c0K4sfXodzvOaC2pfkt1BNwmOF2vnAnv90Ekx6I9uTAJ
-	PJe0G7dDQDoDjyB4Uo7z0qzVGuNOWjwl1zehnu3lpZIAhkYUBHwh1ZDp6xZ0hR12XZB4
-	cCFX9RL8rtGlXGAMHlc1YpxdWGOb41xdgVqpGV7/ZMRID0Ph9Ct7eiGpTRWUUcb0sxYu
-	DMCc1oLgNkfaFXZhNVwPtCNhvrp28ho2n/7arPzB2mC7vWikwZNMmkqysln//WABbKWV
-	cOas+0NvInLGYB4ypcZhCOlxVQIQO0KQPPVL1zaXfqlSUeHK85PpKIvYWoBq8gjviRI+
-	+Kew==
-X-Gm-Message-State: ALoCoQlpL6+YpQUkJigGo1NTACC/j4nfI5gmNgni8rKrGX+ld4iGiNpfq83E5BrcYSblvVLhbMJr
-X-Received: by 10.152.28.7 with SMTP id x7mr5031266lag.26.1381975351246; Wed,
-	16 Oct 2013 19:02:31 -0700 (PDT)
+	Wed, 16 Oct 2013 19:04:10 -0700 (PDT)
+Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 16 Oct 2013 19:04:09 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Oct 2013 10:04:05 +0800
+Message-ID: <1381975446-25671-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.3.3
 MIME-Version: 1.0
-Received: by 10.152.170.168 with HTTP; Wed, 16 Oct 2013 19:02:01 -0700 (PDT)
-In-Reply-To: <86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
-References: <1381400211-28604-1-git-send-email-koen.kooi@linaro.org>
-	<CABMQnVJZCxvFgJNgtMZ=gp2BiWLofpFyXCZ9H1-xQhLM=hsd6g@mail.gmail.com>
-	<86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
-From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-Date: Thu, 17 Oct 2013 11:02:01 +0900
-Message-ID: <CABMQnVJWFgwZ3mKVAyp4Ur-yydG4MimwVczWJ+NzRBJN1zf=cA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes: add aarch64_be target
+Subject: [PATCH V1 1/2] base-files: move shells generating process to pkg_postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 02:02:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 17 Oct 2013 02:04:08 -0000
+Content-Type: text/plain
 
-Hi,
+The "shells" file lists several valid login shells, of which some might be
+not present in a particular rootfs, this is unreasonable.
 
-2013/10/11 Koen Kooi <koen@dominion.thruhere.net>:
->
-> Op 11 okt. 2013, om 07:37 heeft Nobuhiro Iwamatsu <iwamatsu@nigauri.org> het volgende geschreven:
->
->> Hi,
->>
->> I have a question.
->> Why don't you unite  name rules of  other architecture?
->> Forexample, armeb is endian-big of arm.  mipsel is endian-little of mips.
->> If you can unified name, arm64eb is better, I think.
->
-> In an ideal world I'd do that, but that ghastly 'aarch64_be' is already in upstream gcc, binutils and eglibc  :(
->
+Fix it by moving "shells" file generating process to pkg_postinst, for other
+shells must do the same thing to register themselves to this file.
 
-Oh, I see.
-Thanks for the clarification.
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-core/base-files/base-files/shells    | 8 --------
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 8 ++++++--
+ 2 files changed, 6 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-core/base-files/base-files/shells
 
-Best regards,
-  Nobuhiro
-
+diff --git a/meta/recipes-core/base-files/base-files/shells b/meta/recipes-core/base-files/base-files/shells
+deleted file mode 100644
+index ce39b3d..0000000
+--- a/meta/recipes-core/base-files/base-files/shells
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# /etc/shells: valid login shells
+-/bin/sh
+-/bin/ash
+-/bin/bash
+-/bin/dash
+-/bin/ksh
+-/usr/bin/ksh
+-/usr/bin/screen
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 054fefa..47c7ebe 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -16,7 +16,6 @@ SRC_URI = "file://rotation \
+            file://inputrc \
+            file://host.conf \
+            file://profile \
+-           file://shells \
+            file://fstab \
+            file://filesystems \
+            file://issue.net \
+@@ -92,7 +91,6 @@ do_install () {
+ 	install -m 0644 ${WORKDIR}/usbd ${D}${sysconfdir}/default/usbd
+ 	sed -i "s#ROOTHOME#${ROOT_HOME}#" ${WORKDIR}/profile
+ 	install -m 0644 ${WORKDIR}/profile ${D}${sysconfdir}/profile
+-	install -m 0644 ${WORKDIR}/shells ${D}${sysconfdir}/shells
+ 	install -m 0755 ${WORKDIR}/share/dot.profile ${D}${sysconfdir}/skel/.profile
+ 	install -m 0755 ${WORKDIR}/share/dot.bashrc ${D}${sysconfdir}/skel/.bashrc
+ 	install -m 0644 ${WORKDIR}/inputrc ${D}${sysconfdir}/inputrc
+@@ -137,6 +135,12 @@ do_install_append_linuxstdbase() {
+         done
+ }
+ 
++pkg_postinst_${PN} () {
++        touch $D${sysconfdir}/shells
++        grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> $D${sysconfdir}/shells
++}
++
++
+ PACKAGES = "${PN}-doc ${PN} ${PN}-dev ${PN}-dbg"
+ FILES_${PN} = "/"
+ FILES_${PN}-doc = "${docdir} ${datadir}/common-licenses"
 -- 
-Nobuhiro Iwamatsu
-   iwamatsu at {nigauri.org / debian.org}
-   GPG ID: 40AD1FA6
+1.8.3.3
+
 
