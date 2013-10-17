@@ -1,20 +1,20 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C65061000
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 08D6B6CF14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 13:21:25 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Oct 2013 06:13:28 -0700
+	Thu, 17 Oct 2013 13:21:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 17 Oct 2013 06:12:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,514,1378882800"; d="scan'208";a="418385013"
+X-IronPort-AV: E=Sophos;i="4.93,514,1378882800"; d="scan'208";a="412594595"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.25])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Oct 2013 06:13:26 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Oct 2013 06:15:17 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Oct 2013 14:13:23 +0100
-Message-Id: <1382015603-15550-1-git-send-email-paul.eggleton@linux.intel.com>
+Date: Thu, 17 Oct 2013 14:15:15 +0100
+Message-Id: <1382015715-15696-1-git-send-email-paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] buildhistory-diff: add ability to report version changes
+Subject: [PATCH v2] buildhistory-diff: add ability to report version changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,6 +34,8 @@ if the value is the same as the default from PE/PV/PR.
 
 Also add a -a/--report-all option to report all changes instead of just
 the default significant ones.
+
+Addresses [YOCTO #5263].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
