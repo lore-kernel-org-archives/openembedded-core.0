@@ -1,26 +1,24 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 15A416CF1E
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id DF2086CD0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 10:03:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9HA3Vt7010743
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 03:03:31 -0700 (PDT)
-Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 17 Oct 2013 03:03:30 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Oct 2013 18:03:12 +0800
-Message-ID: <1382004192-12678-2-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.3.3
-In-Reply-To: <1382004192-12678-1-git-send-email-ming.liu@windriver.com>
+	Thu, 17 Oct 2013 10:11:52 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1VWkYa-0001pJ-My; Thu, 17 Oct 2013 12:11:52 +0200
+Message-ID: <1382004711.484.47.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Ming Liu <ming.liu@windriver.com>
+Date: Thu, 17 Oct 2013 11:11:51 +0100
+In-Reply-To: <1382004192-12678-2-git-send-email-ming.liu@windriver.com>
 References: <1382004192-12678-1-git-send-email-ming.liu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2 2/2] screen: add pkg_postinst to register entry to /etc/shells
+	<1382004192-12678-2-git-send-email-ming.liu@windriver.com>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 2/2] screen: add pkg_postinst to register entry to /etc/shells
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +31,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 10:03:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Oct 2013 10:11:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/recipes-extended/screen/screen_4.0.3.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+On Thu, 2013-10-17 at 18:03 +0800, Ming Liu wrote:
+> +pkg_postinst_${PN} () {
+> +	touch $D${sysconfdir}/shells
+> +	grep -q "${bindir}/screen" $D${sysconfdir}/shells || echo ${bindir}/screen >> $D${sysconfdir}/shells
+> +}
 
-diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
-index 1a7eb20..81e418b 100644
---- a/meta/recipes-extended/screen/screen_4.0.3.bb
-+++ b/meta/recipes-extended/screen/screen_4.0.3.bb
-@@ -41,3 +41,8 @@ do_install_append () {
- 		fi
- 	done
- }
-+
-+pkg_postinst_${PN} () {
-+	touch $D${sysconfdir}/shells
-+	grep -q "${bindir}/screen" $D${sysconfdir}/shells || echo ${bindir}/screen >> $D${sysconfdir}/shells
-+}
--- 
-1.8.3.3
+Is that "touch" really desirable?  It seems as though screen ought not
+really to be creating /etc/shells if it isn't there already, and
+probably ought not to be updating the timestamp if it isn't actually
+changing the file either.
+
+p.
 
 
