@@ -1,40 +1,26 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B2F16D1FF
+Return-Path: <Konrad.Scherer@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9504B61000
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 14:00:10 +0000 (UTC)
-Received: by mail-la0-f43.google.com with SMTP id ec20so1907365lab.30
+	Thu, 17 Oct 2013 14:17:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9HEHMjn021371
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 07:00:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=0cpRPOw4xODYeT8suf/2Ms/Z6orWetnhbFxPQiVs/vI=;
-	b=Yy3Xl6Nhg8ZmyTTWdsoTIKTbiwTZskXiB8Wg5sOgtXa+GysnwS9ZiTBop2TMIaxyX6
-	4Fnl/IxxG3FnMB0vUrb+caVreljvlYmradAN7plIw1QGkoV7i82EztejXC/aYLAZZPm/
-	NH/KrIWKIqBc0DlH0Fpvk5berrLMv+Tq/pX3lNa9Q32O4YwKYUR8nMvkuu2Q6hmJxTpK
-	Q8LUeGXiiLsjlasAD7EV0Y+nVFbuGL384bSKAmM63l4l2UY2bsfHHIEGm4//2bPzDemW
-	ffKs71SF9WvGewZdMCZQw1d+BWVO1gr2FfcemEAVqqZVvRUkpnxyoBAvsgSZT7RzzmMd
-	Jlmw==
-X-Received: by 10.152.7.105 with SMTP id i9mr7475677laa.9.1382018411644;
-	Thu, 17 Oct 2013 07:00:11 -0700 (PDT)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id
-	m13sm54986144lbo.11.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 17 Oct 2013 07:00:09 -0700 (PDT)
-Received: by nysan (Postfix, from userid 1000)
-	id 264F5400FD6; Thu, 17 Oct 2013 15:59:57 +0200 (CEST)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Oct 2013 15:59:46 +0200
-Message-Id: <1382018386-25389-12-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
-References: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
+	Thu, 17 Oct 2013 07:17:22 -0700 (PDT)
+Received: from yow-kscherer-l1.wrs.com (128.224.147.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 17 Oct 2013 07:17:22 -0700
+From: Konrad Scherer <konrad.scherer@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Oct 2013 10:17:20 -0400
+Message-ID: <1382019440-8505-2-git-send-email-konrad.scherer@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <1382019440-8505-1-git-send-email-konrad.scherer@windriver.com>
+References: <1382019440-8505-1-git-send-email-konrad.scherer@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 11/11] rpm: Add nativesdk in BBCLASSEXTEND
+Subject: [PATCH] relocate_sdk.py: Allow script to work with Python 2.4 and 3.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,88 +33,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 14:00:11 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 17 Oct 2013 14:17:21 -0000
+Content-Type: text/plain
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
+From: Konrad Scherer <Konrad.Scherer@windriver.com>
+
+Python 2.4 does not support the 'b' string literal or the
+keyword 'as' in exception handling. Python 3 does not accept
+the old method of exception handling and defaults to unicode.
+The b() function converts strings to bytes on Python 3 and
+using sys.exc_info() avoids the exception handling syntax.
+
+Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.9.bb | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ scripts/relocate_sdk.py | 42 +++++++++++++++++++++++++-----------------
+ 1 file changed, 25 insertions(+), 17 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 3c7e03b..0630f74 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -105,12 +105,12 @@ acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
- # Specify the default rpm macros in terms of adjustable variables
- rpm_macros = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros"
- rpm_macros_class-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros"
-+rpm_macros_class-nativesdk = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros"
+diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
+index fe6e4e0..05d9fd6 100755
+--- a/scripts/relocate_sdk.py
++++ b/scripts/relocate_sdk.py
+@@ -31,7 +31,14 @@ import os
+ import re
+ import errno
  
- # sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl selinux
- 
- # Note: perl and sqlite w/o db specified does not currently work.
- #       tcl, augeas, nss, gcrypt, xar and keyutils support is untested.
--PACKAGECONFIG_class-native ??= "db bzip2 zlib beecrypt openssl libelf python"
- PACKAGECONFIG ??= "db bzip2 zlib beecrypt openssl libelf python"
- 
- PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2,"
-@@ -224,8 +224,11 @@ FILES_${PN} =  "${bindir}/rpm \
- 		${libdir}/rpm/bin/rpmrepo \
- 		${libdir}/rpm/bin/rpmspecdump \
- 		${libdir}/rpm/bin/wget \
--		/var/lib/rpm \
--		/var/cache/rpm \
-+		${libdir}/rpm \
-+		${localstatedir}/cache/rpm \
-+		${localstatedir}/cache/wdj \
-+		${localstatedir}/lib/rpm \
-+		${localstatedir}/lib/wdj \
- 		"
- 
- FILES_${PN}-dbg += "${libdir}/rpm/.debug \
-@@ -235,7 +238,7 @@ FILES_${PN}-dbg += "${libdir}/rpm/.debug \
- FILES_${PN}-common = "${bindir}/rpm2cpio \
- 		${bindir}/gendiff \
- 		${sysconfdir}/rpm \
--		/var/spool/repackage \
-+		${localstatedir}/spool/repackage \
- 		"
- 
- FILES_${PN}-libs = "${libdir}/librpm-*.so \
-@@ -313,6 +316,7 @@ FILES_${PN}-build = "${prefix}/src/rpm \
- 		"
- RDEPENDS_${PN} = "base-files run-postinsts"
- RDEPENDS_${PN}_class-native = ""
-+RDEPENDS_${PN}_class-nativesdk = ""
- RDEPENDS_${PN}-build = "file"
- 
- RDEPENDS_python-rpm = "${PN}"
-@@ -452,7 +456,7 @@ do_install_append() {
- 
- }
- 
--do_install_append_class-native() {
-+add_native_wrapper() {
-         create_wrapper ${D}/${bindir}/rpm \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
- 		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
-@@ -481,4 +485,12 @@ do_install_append_class-native() {
- 	done
- }
- 
--BBCLASSEXTEND = "native"
-+do_install_append_class-native() {
-+	add_native_wrapper
-+}
+-old_prefix = re.compile(b"##DEFAULT_INSTALL_DIR##")
++if sys.version < '3':
++    def b(x):
++        return x
++else:
++    def b(x):
++        return x.encode(sys.getfilesystemencoding())
 +
-+do_install_append_class-nativesdk() {
-+	add_native_wrapper
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
++old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
+ 
+ def get_arch():
+     f.seek(0)
+@@ -92,15 +99,15 @@ def change_interpreter(elf_file_name):
+             # External SDKs with mixed pre-compiled binaries should not get
+             # relocated so look for some variant of /lib
+             fname = f.read(11)
+-            if fname.startswith(b"/lib/") or fname.startswith(b"/lib64/") or \
+-               fname.startswith(b"/lib32/") or fname.startswith(b"/usr/lib32/") or \
+-               fname.startswith(b"/usr/lib32/") or fname.startswith(b"/usr/lib64/"):
++            if fname.startswith(b("/lib/")) or fname.startswith(b("/lib64/")) or \
++               fname.startswith(b("/lib32/")) or fname.startswith(b("/usr/lib32/")) or \
++               fname.startswith(b("/usr/lib32/")) or fname.startswith(b("/usr/lib64/")):
+                 break
+             if (len(new_dl_path) >= p_filesz):
+                 print("ERROR: could not relocate %s, interp size = %i and %i is needed." \
+                     % (elf_file_name, p_memsz, len(new_dl_path) + 1))
+                 break
+-            dl_path = new_dl_path + b"\0" * (p_filesz - len(new_dl_path))
++            dl_path = new_dl_path + b("\0") * (p_filesz - len(new_dl_path))
+             f.seek(p_offset)
+             f.write(dl_path)
+             break
+@@ -132,40 +139,40 @@ def change_dl_sysdirs():
+         sh_name, sh_type, sh_flags, sh_addr, sh_offset, sh_size, sh_link,\
+             sh_info, sh_addralign, sh_entsize = struct.unpack(sh_fmt, sh_hdr)
+ 
+-        name = sh_strtab[sh_name:sh_strtab.find(b"\0", sh_name)]
++        name = sh_strtab[sh_name:sh_strtab.find(b("\0"), sh_name)]
+ 
+         """ look only into SHT_PROGBITS sections """
+         if sh_type == 1:
+             f.seek(sh_offset)
+             """ default library paths cannot be changed on the fly because  """
+             """ the string lengths have to be changed too.                  """
+-            if name == b".sysdirs":
++            if name == b(".sysdirs"):
+                 sysdirs = f.read(sh_size)
+                 sysdirs_off = sh_offset
+                 sysdirs_sect_size = sh_size
+-            elif name == b".sysdirslen":
++            elif name == b(".sysdirslen"):
+                 sysdirslen = f.read(sh_size)
+                 sysdirslen_off = sh_offset
+-            elif name == b".ldsocache":
++            elif name == b(".ldsocache"):
+                 ldsocache_path = f.read(sh_size)
+                 new_ldsocache_path = old_prefix.sub(new_prefix, ldsocache_path)
+                 # pad with zeros
+-                new_ldsocache_path += b"\0" * (sh_size - len(new_ldsocache_path))
++                new_ldsocache_path += b("\0") * (sh_size - len(new_ldsocache_path))
+                 # write it back
+                 f.seek(sh_offset)
+                 f.write(new_ldsocache_path)
+ 
+     if sysdirs != "" and sysdirslen != "":
+-        paths = sysdirs.split(b"\0")
+-        sysdirs = b""
+-        sysdirslen = b""
++        paths = sysdirs.split(b("\0"))
++        sysdirs = b("")
++        sysdirslen = b("")
+         for path in paths:
+             """ exit the loop when we encounter first empty string """
+-            if path == b"":
++            if path == b(""):
+                 break
+ 
+             new_path = old_prefix.sub(new_prefix, path)
+-            sysdirs += new_path + b"\0"
++            sysdirs += new_path + b("\0")
+ 
+             if arch == 32:
+                 sysdirslen += struct.pack("<L", len(new_path))
+@@ -173,7 +180,7 @@ def change_dl_sysdirs():
+                 sysdirslen += struct.pack("<Q", len(new_path))
+ 
+         """ pad with zeros """
+-        sysdirs += b"\0" * (sysdirs_sect_size - len(sysdirs))
++        sysdirs += b("\0") * (sysdirs_sect_size - len(sysdirs))
+ 
+         """ write the sections back """
+         f.seek(sysdirs_off)
+@@ -205,7 +212,8 @@ for e in executables_list:
+ 
+     try:
+         f = open(e, "r+b")
+-    except IOError as ioex:
++    except IOError:
++        exctype, ioex = sys.exc_info()[:2]
+         if ioex.errno == errno.ETXTBSY:
+             print("Could not open %s. File used by another process.\nPlease "\
+                   "make sure you exit all processes that might use any SDK "\
 -- 
-1.8.3.2
+1.8.1.2
 
 
