@@ -1,28 +1,55 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A593860EB6
+Return-Path: <B19537@freescale.com>
+Received: from co9outboundpool.messaging.microsoft.com
+	(co9ehsobe003.messaging.microsoft.com [207.46.163.26])
+	by mail.openembedded.org (Postfix) with ESMTP id 54C2660EB6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 08:24:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9H8OlmJ028880
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 01:24:47 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 17 Oct 2013 01:24:47 -0700
-Message-ID: <525F9ECD.1040301@windriver.com>
-Date: Thu, 17 Oct 2013 16:24:45 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Thu, 17 Oct 2013 08:52:18 +0000 (UTC)
+Received: from mail156-co9-R.bigfish.com (10.236.132.252) by
+	CO9EHSOBE011.bigfish.com (10.236.130.74) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 17 Oct 2013 08:52:19 +0000
+Received: from mail156-co9 (localhost [127.0.0.1])	by
+	mail156-co9-R.bigfish.com (Postfix) with ESMTP id 6CEF1320173;
+	Thu, 17 Oct 2013 08:52:19 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -5
+X-BigFish: VS-5(zzbb2dI98dI9371I936eI542I1432Izz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h17326ah8275dh1de097h186068h8275bhz2dh2a8h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5h2184h21a6hbe9i1155h)
+Received: from mail156-co9 (localhost.localdomain [127.0.0.1]) by mail156-co9
+	(MessageSwitch) id 1381999938323314_3430;
+	Thu, 17 Oct 2013 08:52:18 +0000 (UTC)
+Received: from CO9EHSMHS001.bigfish.com (unknown [10.236.132.241])	by
+	mail156-co9.bigfish.com (Postfix) with ESMTP id 3F55140033A;
+	Thu, 17 Oct 2013 08:52:18 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS001.bigfish.com
+	(10.236.130.11) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Thu, 17 Oct 2013 08:52:18 +0000
+Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.21]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.03.0158.002; Thu, 17 Oct 2013 08:52:16 +0000
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: Rongqing Li <rongqing.li@windriver.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] populate_sdk_base: repeat to tar archive
+	file five time
+Thread-Index: AQHOyjheh8EdnOFrVEecqj40GI+DB5n23xoAgABebgCAAOeygIAAclCw
+Date: Thu, 17 Oct 2013 08:52:16 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A0177C4B0@039-SN2MPN1-021.039d.mgd.msft.net>
+References: <1381902795-3187-1-git-send-email-rongqing.li@windriver.com>
+	<CAP9ODKpm_zpo+TyFDe0TSAXHs=MvFjouPjRNE0GcE9i6Lk_7Aw@mail.gmail.com>
+	<525E3378.3070604@windriver.com> <1381925550.29912.463.camel@ted>
+	<525F450B.4030908@windriver.com>
+In-Reply-To: <525F450B.4030908@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.81]
 MIME-Version: 1.0
-To: <rongqing.li@windriver.com>
-References: <1381997565-10172-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1381997565-10172-1-git-send-email-rongqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: ignore the networking device which nfs for rootfs is working on
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] populate_sdk_base: repeat to tar archive file five time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,156 +62,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 08:24:46 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Oct 2013 08:52:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Drop it, the commit header is wrong
+It is worth to give a try to add PSEUDO_UNLOAD=3D1 sync before tar. The iss=
+ue doesn't appear on my CentOS 5.9 after doing that.=20
 
-On 10/17/2013 04:12 PM, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> Create connmand-nfs.service, which will run a script to ignore the
-> networking device when root is nfs.
-> Connmand-nfs.service will be run only when root is not nfs
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->   meta/recipes-connectivity/connman/connman.inc      |   17 +++++---
->   .../connman/connman/connmand-nfs                   |   42 ++++++++++++++++++++
->   .../connman/connman/nfs-connman.service            |   15 +++++++
->   meta/recipes-connectivity/connman/connman_1.17.bb  |    2 +
->   4 files changed, 70 insertions(+), 6 deletions(-)
->   create mode 100644 meta/recipes-connectivity/connman/connman/connmand-nfs
->   create mode 100644 meta/recipes-connectivity/connman/connman/nfs-connman.service
->
-> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-> index 37ce3ec..ebfef35 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -64,7 +64,7 @@ python __anonymous () {
->       d.setVar('SYSTEMD_PACKAGES', systemd_packages)
->   }
->
-> -SYSTEMD_SERVICE_${PN} = "connman.service"
-> +SYSTEMD_SERVICE_${PN} = "connman.service nfs-connman.service"
->   SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
->   SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
->
-> @@ -84,10 +84,15 @@ do_compile_append() {
->   }
->
->   do_install_append() {
-> -	if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-> -		install -d ${D}${sysconfdir}/init.d
-> -		install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
-> -		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
-> +	install -d ${D}${sysconfdir}/init.d
-> +	install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
-> +	sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
-> +
-> +	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> +		install -m 0755 ${WORKDIR}/connmand-nfs ${D}${sbindir}/
-> +		install -m 0644 ${WORKDIR}/nfs-connman.service  ${D}/${systemd_unitdir}/system/
-> +		sed -i "3 i ConditionKernelCommandLine=!root=/dev/nfs" \
-> +		${D}${systemd_unitdir}/system/connman.service
->   	fi
->
->   	install -d ${D}${bindir}
-> @@ -165,7 +170,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
->               ${libdir}/connman/plugins \
->               ${sysconfdir} ${sharedstatedir} ${localstatedir} \
->               ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
-> -            ${datadir}/dbus-1/system-services/*"
-> +            ${datadir}/dbus-1/system-services/* ${systemd_unitdir}/system/nfs-connman.service"
->
->   FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
->
-> diff --git a/meta/recipes-connectivity/connman/connman/connmand-nfs b/meta/recipes-connectivity/connman/connman/connmand-nfs
-> new file mode 100644
-> index 0000000..1058787
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/connmand-nfs
-> @@ -0,0 +1,42 @@
-> +#!/bin/sh
-> +
-> +nfsroot=0
-> +
-> +exec 9<&0 < /proc/mounts
-> +while read dev mtpt fstype rest; do
-> +	if test $mtpt = "/" ; then
-> +		case $fstype in
-> +		    nfs | nfs4)
-> +			nfsroot=1
-> +			break
-> +			;;
-> +		    *)
-> +			;;
-> +		esac
-> +	fi
-> +done
-> +
-> +EXTRA_PARAM=""
-> +if test $nfsroot -eq 1 ; then
-> +    NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
-> +    NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
-> +
-> +    if [ ! -z "$NET_ADDR" ]; then
-> +	if [ "$NET_ADDR" = dhcp ]; then
-> +	    ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
-> +	    if [ ! -z "$ethn" ]; then
-> +		EXTRA_PARAM="-I $ethn"
-> +	    fi
-> +	else
-> +	    for i in $NET_DEVS; do
-> +		ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-> +		if [ "$NET_ADDR" = "$ADDR" ]; then
-> +		    EXTRA_PARAM="-I $i"
-> +		    break
-> +		fi
-> +	    done
-> +	fi
-> +    fi
-> +fi
-> +
-> +/usr/sbin/connmand -n $EXTRA_PARAM
-> diff --git a/meta/recipes-connectivity/connman/connman/nfs-connman.service b/meta/recipes-connectivity/connman/connman/nfs-connman.service
-> new file mode 100644
-> index 0000000..1cb82b8
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/nfs-connman.service
-> @@ -0,0 +1,15 @@
-> +[Unit]
-> +Description=Connection service when root is /dev/nfs
-> +ConditionKernelCommandLine=root=/dev/nfs
-> +After=syslog.target
-> +
-> +[Service]
-> +Type=dbus
-> +BusName=net.connman
-> +Restart=on-failure
-> +ExecStartPre=-/usr/lib64/connman/wired-setup
-> +ExecStart=/bin/sh /usr/sbin/connmand-nfs
-> +StandardOutput=null
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-> diff --git a/meta/recipes-connectivity/connman/connman_1.17.bb b/meta/recipes-connectivity/connman/connman_1.17.bb
-> index 461157f..9e8112c 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.17.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.17.bb
-> @@ -4,6 +4,8 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->               file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
->               file://add_xuser_dbus_permission.patch \
->               file://connman \
-> +            file://connmand-nfs \
-> +            file://nfs-connman.service \
->               "
->
->   SRC_URI[md5sum] = "dd4a13f789de1b69fcddf0cf613f2d5b"
->
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+Best Regards,
+
+Zhenhua
+
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Rongqing Li
+> Sent: Thursday, October 17, 2013 10:02 AM
+> To: Richard Purdie
+> Cc: Otavio Salvador; Patches and discussions about the oe-core layer
+> Subject: Re: [OE-core] [PATCH] populate_sdk_base: repeat to tar archive
+> file five time
+>=20
+>=20
+>=20
+> On 10/16/2013 08:12 PM, Richard Purdie wrote:
+> > On Wed, 2013-10-16 at 14:34 +0800, Rongqing Li wrote:
+> >>
+> >> On 10/16/2013 02:24 PM, Otavio Salvador wrote:
+> >>> On Wed, Oct 16, 2013 at 2:53 AM,  <rongqing.li@windriver.com> wrote:
+> >>>> From: Roy Li <rongqing.li@windriver.com>
+> >>>>
+> >>>> [YOCTO #5287]
+> >>>>
+> >>>> tar failed and reported that file changed as we read it, now we
+> >>>> workaround it
+> >>>>
+> >>>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> >>>
+> >>> You must be kidding right?! loop 5 times?!? why not fix the root
+> >>> cause of the change?
+> >>>
+> >>
+> >> Sorry, I do not know the root cause, and I see many people spent lots
+> >> of efforts to investigate, but do not find the root cause, sometime
+> >> we suspect it is the building servers kernel issue, if it is true, we
+> >> can not fix the building servers, we only workaround the code.
+> >
+> > This workaround is not going into master, its horrid. Do we know which
+> > versions of the kernel on the server have the issue. I'd much rather
+> > tell people to fix their broken filesystems for example and refuse to
+> > run on them.
+> >
+>=20
+> I saw it happened on CentOS 5.9 and RedHat 5.5, and We deployed lots of
+> them, it is hard to replace them.
+>=20
+> The bug did not happen everytime, only intermittently, this workaround is
+> ugly, but it is better than fixing the servers, or declaring them as
+> unsupported server.
+>=20
+>=20
+> -Roy
+>=20
+>=20
+>=20
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> >
+>=20
+> --
+> Best Reagrds,
+> Roy | RongQing Li
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
