@@ -1,31 +1,39 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BFD160EE0
+Return-Path: <iwamatsu@nigauri.org>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D32060EE0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 02:01:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9H21i4K022172
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Oct 2013 19:01:44 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 16 Oct 2013 19:01:44 -0700
-Message-ID: <525F450B.4030908@windriver.com>
-Date: Thu, 17 Oct 2013 10:01:47 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Thu, 17 Oct 2013 02:02:30 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id z5so1281937lbh.23
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2013 19:02:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=WaA9lq50FyClD9Tr5SnnhK8QsnsPufmVTWOY3MomObA=;
+	b=DULI2jJ8CNzy1OrZgaggf8c0K4sfXodzvOaC2pfkt1BNwmOF2vnAnv90Ekx6I9uTAJ
+	PJe0G7dDQDoDjyB4Uo7z0qzVGuNOWjwl1zehnu3lpZIAhkYUBHwh1ZDp6xZ0hR12XZB4
+	cCFX9RL8rtGlXGAMHlc1YpxdWGOb41xdgVqpGV7/ZMRID0Ph9Ct7eiGpTRWUUcb0sxYu
+	DMCc1oLgNkfaFXZhNVwPtCNhvrp28ho2n/7arPzB2mC7vWikwZNMmkqysln//WABbKWV
+	cOas+0NvInLGYB4ypcZhCOlxVQIQO0KQPPVL1zaXfqlSUeHK85PpKIvYWoBq8gjviRI+
+	+Kew==
+X-Gm-Message-State: ALoCoQlpL6+YpQUkJigGo1NTACC/j4nfI5gmNgni8rKrGX+ld4iGiNpfq83E5BrcYSblvVLhbMJr
+X-Received: by 10.152.28.7 with SMTP id x7mr5031266lag.26.1381975351246; Wed,
+	16 Oct 2013 19:02:31 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1381902795-3187-1-git-send-email-rongqing.li@windriver.com>
-	<CAP9ODKpm_zpo+TyFDe0TSAXHs=MvFjouPjRNE0GcE9i6Lk_7Aw@mail.gmail.com>
-	<525E3378.3070604@windriver.com> <1381925550.29912.463.camel@ted>
-In-Reply-To: <1381925550.29912.463.camel@ted>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+Received: by 10.152.170.168 with HTTP; Wed, 16 Oct 2013 19:02:01 -0700 (PDT)
+In-Reply-To: <86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
+References: <1381400211-28604-1-git-send-email-koen.kooi@linaro.org>
+	<CABMQnVJZCxvFgJNgtMZ=gp2BiWLofpFyXCZ9H1-xQhLM=hsd6g@mail.gmail.com>
+	<86430D8A-9905-4C7F-82C3-2FEEEF4C790A@dominion.thruhere.net>
+From: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+Date: Thu, 17 Oct 2013 11:02:01 +0900
+Message-ID: <CABMQnVJWFgwZ3mKVAyp4Ur-yydG4MimwVczWJ+NzRBJN1zf=cA@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] populate_sdk_base: repeat to tar archive file five time
+Subject: Re: [PATCH] classes: add aarch64_be target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,62 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 02:01:48 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Oct 2013 02:02:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+Hi,
 
-
-On 10/16/2013 08:12 PM, Richard Purdie wrote:
-> On Wed, 2013-10-16 at 14:34 +0800, Rongqing Li wrote:
+2013/10/11 Koen Kooi <koen@dominion.thruhere.net>:
+>
+> Op 11 okt. 2013, om 07:37 heeft Nobuhiro Iwamatsu <iwamatsu@nigauri.org> het volgende geschreven:
+>
+>> Hi,
 >>
->> On 10/16/2013 02:24 PM, Otavio Salvador wrote:
->>> On Wed, Oct 16, 2013 at 2:53 AM,  <rongqing.li@windriver.com> wrote:
->>>> From: Roy Li <rongqing.li@windriver.com>
->>>>
->>>> [YOCTO #5287]
->>>>
->>>> tar failed and reported that file changed as we read it, now
->>>> we workaround it
->>>>
->>>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->>>
->>> You must be kidding right?! loop 5 times?!? why not fix the root cause
->>> of the change?
->>>
->>
->> Sorry, I do not know the root cause, and I see many people spent
->> lots of efforts to investigate, but do not find the root cause,
->> sometime we suspect it is the building servers kernel issue,
->> if it is true, we can not fix the building servers, we only
->> workaround the code.
+>> I have a question.
+>> Why don't you unite  name rules of  other architecture?
+>> Forexample, armeb is endian-big of arm.  mipsel is endian-little of mips.
+>> If you can unified name, arm64eb is better, I think.
 >
-> This workaround is not going into master, its horrid. Do we know which
-> versions of the kernel on the server have the issue. I'd much rather
-> tell people to fix their broken filesystems for example and refuse to
-> run on them.
+> In an ideal world I'd do that, but that ghastly 'aarch64_be' is already in upstream gcc, binutils and eglibc  :(
 >
 
-I saw it happened on CentOS 5.9 and RedHat 5.5, and We deployed lots
-of them, it is hard to replace them.
+Oh, I see.
+Thanks for the clarification.
 
-The bug did not happen everytime, only intermittently, this workaround
-is ugly, but it is better than fixing the servers, or declaring them
-as unsupported server.
-
-
--Roy
-
-
-
-> Cheers,
->
-> Richard
->
->
->
+Best regards,
+  Nobuhiro
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+Nobuhiro Iwamatsu
+   iwamatsu at {nigauri.org / debian.org}
+   GPG ID: 40AD1FA6
 
