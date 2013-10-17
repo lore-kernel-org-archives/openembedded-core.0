@@ -1,40 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 96CFB6CF0B
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C98F6CF0B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 10:33:49 +0000 (UTC)
-Received: by mail-ea0-f182.google.com with SMTP id o10so945380eaj.41
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 03:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=gTf+KAB5c8DJTenZgMAIwDWSQeCztIRFvG8OdaR5+u0=;
-	b=dLKadO73DDmxk20+mvEA8tI3djHfshJcQkJ5jKB9xvI+EWqfuuFIODghWjneuRFp4S
-	yQ37kRUFSORgVGdzZfxhCbJYxzT1TxwOYIW8kzUCj22Z4kXOAM9iZZ7NknXkPxk/9GiB
-	+XYaUtEkvWCoSTA7487LXArWRL40i4NQAxI0PdWVH9uYfpKCQbvV3cTUSBQwpderSpsP
-	KqxrVwVZb2i+QWqc9k3nd+ki20FnwQVkhoJtZBYOJGMbNcCAXxCaRB5hlaKllZZUBMQk
-	fAWw1fNwMxxWDlm92KvntY1XRD4ebu97W14DCtIPzvtFmA+8LvfdMfvvO2KErEVQKf2/
-	RtCg==
-X-Received: by 10.14.45.70 with SMTP id o46mr11850055eeb.19.1382006030978;
-	Thu, 17 Oct 2013 03:33:50 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	s3sm27806694eeo.3.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 17 Oct 2013 03:33:50 -0700 (PDT)
-Date: Thu, 17 Oct 2013 12:33:55 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
-Message-ID: <20131017103355.GB3930@jama>
-References: <1382004192-12678-1-git-send-email-ming.liu@windriver.com>
-	<1382004192-12678-2-git-send-email-ming.liu@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <1382004192-12678-2-git-send-email-ming.liu@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 2/2] screen: add pkg_postinst to register entry to /etc/shells
+	Thu, 17 Oct 2013 10:34:22 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 17 Oct 2013 03:34:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,513,1378882800"; d="scan'208";a="376039996"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.41])
+	by azsmga001.ch.intel.com with ESMTP; 17 Oct 2013 03:34:23 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Oct 2013 13:34:10 +0300
+Message-Id: <cover.1382005791.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/8] Other package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,64 +27,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 10:33:50 -0000
-X-Groupsio-MsgNum: 45956
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WhfpMioaduB5tiZL"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 17 Oct 2013 10:34:22 -0000
 
---WhfpMioaduB5tiZL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patchset contains another bunch of package upgrades. Build tested on a
+local autobuilder for all major architectures and basic functionality tests
+were done on a core-image-sato/qemux86 image.
 
-On Thu, Oct 17, 2013 at 06:03:12PM +0800, Ming Liu wrote:
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->  meta/recipes-extended/screen/screen_4.0.3.bb | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-=
-extended/screen/screen_4.0.3.bb
-> index 1a7eb20..81e418b 100644
-> --- a/meta/recipes-extended/screen/screen_4.0.3.bb
-> +++ b/meta/recipes-extended/screen/screen_4.0.3.bb
-> @@ -41,3 +41,8 @@ do_install_append () {
->  		fi
->  	done
->  }
-> +
-> +pkg_postinst_${PN} () {
-> +	touch $D${sysconfdir}/shells
-> +	grep -q "${bindir}/screen" $D${sysconfdir}/shells || echo ${bindir}/scr=
-een >> $D${sysconfdir}/shells
-                  ^ the same, we don't want to match /usr/bin/screenie
-if it's there and "screen" isn't
+Thanks,
+Laurentiu
 
-Is there patch to add this postinst to bash and busybox?
+The following changes since commit 529bf977e956175bd8405ebffc88194192e44740:
 
-> +}
-> --=20
-> 1.8.3.3
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  update-rcd.bbclass: fix host/target test (2013-10-16 14:51:07 +0100)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+are available in the git repository at:
 
---WhfpMioaduB5tiZL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+  git://git.yoctoproject.org/poky-contrib lpalcu/upgrades2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/upgrades2
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+Laurentiu Palcu (8):
+  xmodmap: upgrade to 1.0.8
+  python-setuptools: upgrade to 1.1.6
+  xinit: upgrade to 1.3.3
+  m4: upgrade to 1.4.17
+  tar: upgrade to 1.27
+  tcl: upgrade to 8.6.1
+  mdadm: upgrade to 3.3
+  gdb: upgrade to 7.6.1
 
-iEYEARECAAYFAlJfvRMACgkQN1Ujt2V2gByd5QCgoAJfofAJ1lvCzveZwNQrF3/q
-9NsAnjieP8Y9z/NQjCe0eAgBmrvFRywf
-=cWZW
------END PGP SIGNATURE-----
+ .../gdb/{gdb-7.6.inc => gdb-7.6.1.inc}             |    4 +--
+ ...canadian_7.6.bb => gdb-cross-canadian_7.6.1.bb} |    2 +-
+ .../gdb/{gdb-cross_7.6.bb => gdb-cross_7.6.1.bb}   |    2 +-
+ .../gdb/{gdb_7.6.bb => gdb_7.6.1.bb}               |    2 +-
+ .../m4/{m4-1.4.16.inc => m4-1.4.17.inc}            |    9 ++---
+ .../{m4-native_1.4.16.bb => m4-native_1.4.17.bb}   |    0
+ meta/recipes-devtools/m4/m4/remove-gets.patch      |   18 +++++-----
+ .../m4/{m4_1.4.16.bb => m4_1.4.17.bb}              |    0
+ ...ptools_0.6c11.bb => python-setuptools_1.1.6.bb} |    7 ++--
+ .../tcltk/tcl/let-DST-include-year-2099.patch      |   35 ------------------
+ .../tcltk/tcl/tcl-add-soname.patch                 |   38 ++++++++++----------
+ .../tcltk/{tcl_8.6.0.bb => tcl_8.6.1.bb}           |    7 ++--
+ .../mdadm/files/mdadm-3.2.2_fix_for_x32.patch      |   11 +++---
+ .../mdadm/{mdadm_3.2.6.bb => mdadm_3.3.bb}         |    5 ++-
+ .../tar/{tar-1.26 => tar-1.27}/remove-gets.patch   |   18 +++++-----
+ ...tive_1.26.bb => tar-replacement-native_1.27.bb} |    0
+ .../tar/{tar_1.26.bb => tar_1.27.bb}               |    6 ++--
+ .../xorg-app/{xinit_1.3.2.bb => xinit_1.3.3.bb}    |    7 ++--
+ .../{xmodmap_1.0.7.bb => xmodmap_1.0.8.bb}         |    7 ++--
+ 19 files changed, 68 insertions(+), 110 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-7.6.inc => gdb-7.6.1.inc} (70%)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.6.bb => gdb-cross-canadian_7.6.1.bb} (71%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.6.bb => gdb-cross_7.6.1.bb} (74%)
+ rename meta/recipes-devtools/gdb/{gdb_7.6.bb => gdb_7.6.1.bb} (96%)
+ rename meta/recipes-devtools/m4/{m4-1.4.16.inc => m4-1.4.17.inc} (47%)
+ rename meta/recipes-devtools/m4/{m4-native_1.4.16.bb => m4-native_1.4.17.bb} (100%)
+ rename meta/recipes-devtools/m4/{m4_1.4.16.bb => m4_1.4.17.bb} (100%)
+ rename meta/recipes-devtools/python/{python-setuptools_0.6c11.bb => python-setuptools_1.1.6.bb} (76%)
+ delete mode 100644 meta/recipes-devtools/tcltk/tcl/let-DST-include-year-2099.patch
+ rename meta/recipes-devtools/tcltk/{tcl_8.6.0.bb => tcl_8.6.1.bb} (91%)
+ rename meta/recipes-extended/mdadm/{mdadm_3.2.6.bb => mdadm_3.3.bb} (86%)
+ rename meta/recipes-extended/tar/{tar-1.26 => tar-1.27}/remove-gets.patch (52%)
+ rename meta/recipes-extended/tar/{tar-replacement-native_1.26.bb => tar-replacement-native_1.27.bb} (100%)
+ rename meta/recipes-extended/tar/{tar_1.26.bb => tar_1.27.bb} (51%)
+ rename meta/recipes-graphics/xorg-app/{xinit_1.3.2.bb => xinit_1.3.3.bb} (67%)
+ rename meta/recipes-graphics/xorg-app/{xmodmap_1.0.7.bb => xmodmap_1.0.8.bb} (67%)
 
---WhfpMioaduB5tiZL--
+-- 
+1.7.9.5
+
+
