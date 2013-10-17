@@ -1,26 +1,24 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A6E466CF32
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1424060EB6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 07:02:06 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 Oct 2013 23:58:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,512,1378882800"; d="scan'208";a="420442092"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.41])
-	by orsmga002.jf.intel.com with ESMTP; 17 Oct 2013 00:01:46 -0700
-Date: Thu, 17 Oct 2013 10:01:46 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Konrad Scherer <konrad.scherer@windriver.com>
-Message-ID: <20131017070145.GB11504@lpalcu-linux>
-References: <1381938299-19599-1-git-send-email-konrad.scherer@windriver.com>
-	<1381938299-19599-2-git-send-email-konrad.scherer@windriver.com>
-	<20131017065410.GA11504@lpalcu-linux>
+	Thu, 17 Oct 2013 08:12:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9H8ChNc027714
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Oct 2013 01:12:43 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 17 Oct 2013 01:12:42 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Oct 2013 16:12:45 +0800
+Message-ID: <1381997565-10172-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-In-Reply-To: <20131017065410.GA11504@lpalcu-linux>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] relocate_sdk.py: Allow script to work with Python 2.4 and 3.
+Subject: [PATCH] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +31,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 07:02:07 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 17 Oct 2013 08:12:43 -0000
+Content-Type: text/plain
 
-On Thu, Oct 17, 2013 at 09:54:11AM +0300, Laurentiu Palcu wrote:
-> On Wed, Oct 16, 2013 at 11:44:59AM -0400, Konrad Scherer wrote:
-> > From: Konrad Scherer <Konrad.Scherer@windriver.com>
-> > 
-> > Python 2.4 does not support the 'b' string literal or the
-> > keyword 'as' in exception handling. Python 3 does not accept
-> > the old method of exception handling and defaults to unicode.
-> > The b() function converts strings to bytes on Python 3 and
-> > using sys.exc_info() avoids the exception handling syntax.
-> > 
-> > Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
-> > ---
-> >  scripts/relocate_sdk.py | 43 ++++++++++++++++++++++++++-----------------
-> >  1 file changed, 26 insertions(+), 17 deletions(-)
-> > 
-> > diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-> > index fe6e4e0..a15302d 100755
-> > --- a/scripts/relocate_sdk.py
-> > +++ b/scripts/relocate_sdk.py
-> > @@ -31,7 +31,15 @@ import os
-> >  import re
-> >  import errno
-> >  
-> > -old_prefix = re.compile(b"##DEFAULT_INSTALL_DIR##")
-> > +if sys.version < '3':
-> > +    def b(x):
-> > +        return x
-> > +else:
-> > +    import codecs
-> I meant, you can drop this import. Too early in the morning! :)
-> 
-> Thanks,
-> Laurentiu
-> 
-> > +    def b(x):
-> > +        return x.encode(sys.getfilesystemencoding())
-> > +
-> > +old_prefix = re.compile(b("##DEFAULT_INSTALL_DIR##"))
-> >  
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+From: Roy Li <rongqing.li@windriver.com>
+
+Create connmand-nfs.service, which will run a script to ignore the
+networking device when root is nfs.
+Connmand-nfs.service will be run only when root is not nfs
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta/recipes-connectivity/connman/connman.inc      |   17 +++++---
+ .../connman/connman/connmand-nfs                   |   42 ++++++++++++++++++++
+ .../connman/connman/nfs-connman.service            |   15 +++++++
+ meta/recipes-connectivity/connman/connman_1.17.bb  |    2 +
+ 4 files changed, 70 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman/connmand-nfs
+ create mode 100644 meta/recipes-connectivity/connman/connman/nfs-connman.service
+
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 37ce3ec..ebfef35 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -64,7 +64,7 @@ python __anonymous () {
+     d.setVar('SYSTEMD_PACKAGES', systemd_packages)
+ }
+ 
+-SYSTEMD_SERVICE_${PN} = "connman.service"
++SYSTEMD_SERVICE_${PN} = "connman.service nfs-connman.service"
+ SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+ SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
+ 
+@@ -84,10 +84,15 @@ do_compile_append() {
+ }
+ 
+ do_install_append() {
+-	if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+-		install -d ${D}${sysconfdir}/init.d
+-		install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
+-		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
++	install -d ${D}${sysconfdir}/init.d
++	install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
++	sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
++
++	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++		install -m 0755 ${WORKDIR}/connmand-nfs ${D}${sbindir}/
++		install -m 0644 ${WORKDIR}/nfs-connman.service  ${D}/${systemd_unitdir}/system/
++		sed -i "3 i ConditionKernelCommandLine=!root=/dev/nfs" \
++		${D}${systemd_unitdir}/system/connman.service 
+ 	fi
+ 
+ 	install -d ${D}${bindir}
+@@ -165,7 +170,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
+             ${libdir}/connman/plugins \
+             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+             ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
+-            ${datadir}/dbus-1/system-services/*"
++            ${datadir}/dbus-1/system-services/* ${systemd_unitdir}/system/nfs-connman.service"
+ 
+ FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
+ 
+diff --git a/meta/recipes-connectivity/connman/connman/connmand-nfs b/meta/recipes-connectivity/connman/connman/connmand-nfs
+new file mode 100644
+index 0000000..1058787
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/connmand-nfs
+@@ -0,0 +1,42 @@
++#!/bin/sh
++
++nfsroot=0
++
++exec 9<&0 < /proc/mounts
++while read dev mtpt fstype rest; do
++	if test $mtpt = "/" ; then
++		case $fstype in
++		    nfs | nfs4)
++			nfsroot=1
++			break
++			;;
++		    *)
++			;;
++		esac
++	fi
++done
++
++EXTRA_PARAM=""
++if test $nfsroot -eq 1 ; then
++    NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
++    NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
++
++    if [ ! -z "$NET_ADDR" ]; then
++	if [ "$NET_ADDR" = dhcp ]; then
++	    ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
++	    if [ ! -z "$ethn" ]; then
++		EXTRA_PARAM="-I $ethn"
++	    fi
++	else
++	    for i in $NET_DEVS; do
++		ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
++		if [ "$NET_ADDR" = "$ADDR" ]; then
++		    EXTRA_PARAM="-I $i"
++		    break
++		fi
++	    done
++	fi
++    fi
++fi
++
++/usr/sbin/connmand -n $EXTRA_PARAM
+diff --git a/meta/recipes-connectivity/connman/connman/nfs-connman.service b/meta/recipes-connectivity/connman/connman/nfs-connman.service
+new file mode 100644
+index 0000000..1cb82b8
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/nfs-connman.service
+@@ -0,0 +1,15 @@
++[Unit]
++Description=Connection service when root is /dev/nfs
++ConditionKernelCommandLine=root=/dev/nfs
++After=syslog.target
++
++[Service]
++Type=dbus
++BusName=net.connman
++Restart=on-failure
++ExecStartPre=-/usr/lib64/connman/wired-setup
++ExecStart=/bin/sh /usr/sbin/connmand-nfs
++StandardOutput=null
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/connman/connman_1.17.bb b/meta/recipes-connectivity/connman/connman_1.17.bb
+index 461157f..9e8112c 100644
+--- a/meta/recipes-connectivity/connman/connman_1.17.bb
++++ b/meta/recipes-connectivity/connman/connman_1.17.bb
+@@ -4,6 +4,8 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
++            file://connmand-nfs \
++            file://nfs-connman.service \
+             "
+ 
+ SRC_URI[md5sum] = "dd4a13f789de1b69fcddf0cf613f2d5b"
+-- 
+1.7.10.4
+
 
