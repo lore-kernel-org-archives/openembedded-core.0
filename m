@@ -1,26 +1,28 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CF0E6D030
+	by mail.openembedded.org (Postfix) with ESMTP id 4DF4D60EAA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 04:23:32 +0000 (UTC)
+	Thu, 17 Oct 2013 05:00:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9H4NVj6001487
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Oct 2013 21:23:31 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 16 Oct 2013 21:23:31 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 17 Oct 2013 00:23:29 -0400
-Message-ID: <994b6ea678464739ee854a84ad7e706927fb3af9.1381983654.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1381983654.git.bruce.ashfield@windriver.com>
-References: <cover.1381983654.git.bruce.ashfield@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9H50pAx003686
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Oct 2013 22:00:51 -0700 (PDT)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 16 Oct 2013 22:00:50 -0700
+Message-ID: <525F6F05.9030805@windriver.com>
+Date: Thu, 17 Oct 2013 13:00:53 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] linux-yocto/3.10: MinnowBoard support
+To: <rongqing.li@windriver.com>
+References: <1381908841-16027-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1381908841-16027-1-git-send-email-rongqing.li@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2 v2] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,82 +35,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 04:23:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Oct 2013 05:00:50 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Updating the 3.10 SRCREVs to update minnowboard support via the following changes:
+Drop it, I will give V3.
+Thanks
 
-   3F6C824 pch_gbe: Add MinnowBoard support
-   9f52743 pch_gbe: Use PCH_GBE_PHY_REGS_LEN instead of 32
-   ec7b5e6 pch_gbe: use managed functions pcim_* and devm_*
-   fd8bf50 pch_gbe: convert pr_* to netdev_*
-   9b278e9 serial: pch_uart: fix compilation warning
-   8982d79 serial: pch_uart: Fix signed-ness and casting of uartclk related fields
-   cdbf456 serial: pch_uart: Remove __initdata annotation from dmi_table
-   9e7c25e pch_uart: Use DMI interface for board detection
+-R
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
- 3 files changed, 10 insertions(+), 10 deletions(-)
+On 10/16/2013 03:34 PM, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> Otherwise system will hang since nfs is not disconnected
+>
+> and remove the judgement of initscript DISTRO_FEATURE when install init
+> script connman, because inherit systemd will remove init script
+>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   meta/recipes-connectivity/connman/connman.inc      |   13 +++---
+>   .../connman/connman/connman-nfs                    |   42 ++++++++++++++++++++
+>   meta/recipes-connectivity/connman/connman_1.17.bb  |    1 +
+>   3 files changed, 51 insertions(+), 5 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/connman/connman/connman-nfs
+>
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+> index 37ce3ec..f168d89 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -72,7 +72,7 @@ inherit autotools gtk-doc pkgconfig systemd update-rc.d
+>
+>   do_configure_append () {
+>   	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${S}/src/connman.service
+> -
+> +	sed -i "s#ExecStart=.*#ExecStart=${bindir}/connman-nfs#" ${S}/src/connman.service
+>   }
+>
+>   # This allows *everyone* to access ConnMan over DBus, without any access
+> @@ -84,10 +84,13 @@ do_compile_append() {
+>   }
+>
+>   do_install_append() {
+> -	if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+> -		install -d ${D}${sysconfdir}/init.d
+> -		install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
+> -		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
+> +	install -d ${D}${sysconfdir}/init.d
+> +	install -m 0755 ${WORKDIR}/connman ${D}${sysconfdir}/init.d/connman
+> +	sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
+> +
+> +	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+> +		install -d ${D}${bindir}/
+> +		install -m 0755 ${WORKDIR}/connman-nfs ${D}${bindir}/
+>   	fi
+>
+>   	install -d ${D}${bindir}
+> diff --git a/meta/recipes-connectivity/connman/connman/connman-nfs b/meta/recipes-connectivity/connman/connman/connman-nfs
+> new file mode 100644
+> index 0000000..1058787
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/connman-nfs
+> @@ -0,0 +1,42 @@
+> +#!/bin/sh
+> +
+> +nfsroot=0
+> +
+> +exec 9<&0 < /proc/mounts
+> +while read dev mtpt fstype rest; do
+> +	if test $mtpt = "/" ; then
+> +		case $fstype in
+> +		    nfs | nfs4)
+> +			nfsroot=1
+> +			break
+> +			;;
+> +		    *)
+> +			;;
+> +		esac
+> +	fi
+> +done
+> +
+> +EXTRA_PARAM=""
+> +if test $nfsroot -eq 1 ; then
+> +    NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
+> +    NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
+> +
+> +    if [ ! -z "$NET_ADDR" ]; then
+> +	if [ "$NET_ADDR" = dhcp ]; then
+> +	    ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
+> +	    if [ ! -z "$ethn" ]; then
+> +		EXTRA_PARAM="-I $ethn"
+> +	    fi
+> +	else
+> +	    for i in $NET_DEVS; do
+> +		ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
+> +		if [ "$NET_ADDR" = "$ADDR" ]; then
+> +		    EXTRA_PARAM="-I $i"
+> +		    break
+> +		fi
+> +	    done
+> +	fi
+> +    fi
+> +fi
+> +
+> +/usr/sbin/connmand -n $EXTRA_PARAM
+> diff --git a/meta/recipes-connectivity/connman/connman_1.17.bb b/meta/recipes-connectivity/connman/connman_1.17.bb
+> index 461157f..4577416 100644
+> --- a/meta/recipes-connectivity/connman/connman_1.17.bb
+> +++ b/meta/recipes-connectivity/connman/connman_1.17.bb
+> @@ -4,6 +4,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+>               file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+>               file://add_xuser_dbus_permission.patch \
+>               file://connman \
+> +            file://connman-nfs \
+>               "
+>
+>   SRC_URI[md5sum] = "dd4a13f789de1b69fcddf0cf613f2d5b"
+>
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index 1a85995..603edde 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-@@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
--SRCREV_machine ?= "f1e003e9441f0366d7b9a2209ef3108438745ea3"
--SRCREV_machine_qemuppc ?= "12be459359d5b20dbf856aa3649304c6f618d420"
-+SRCREV_machine ?= "cea2d99f298cd3e356f273631a647c93a178881f"
-+SRCREV_machine_qemuppc ?= "a93e52c77f25a018be54c82e3ccfa0a50555117b"
- SRCREV_meta ?= "452f0679ea93a6cb4433bebd7177629228a5cf68"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index 1405e411..e0b17dc 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.10.11"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "e1aa804148370cda6f85640281af156ffa007d52"
-+SRCREV_machine ?= "3f6c8243ed67011f70b27952d42657cf3a2c3115"
- SRCREV_meta ?= "452f0679ea93a6cb4433bebd7177629228a5cf68"
- 
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-index fa37e8a..9b280cb 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-@@ -3,13 +3,13 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH_DEFAULT = "standard/base"
- KBRANCH = "${KBRANCH_DEFAULT}"
- 
--SRCREV_machine_qemuarm ?= "aa1fa3cec7bd6e47f29acc5b5fbffddc16569883"
--SRCREV_machine_qemumips  ?= "5b908fd12f60de1e51e932c5df477a49b0ab2b40"
--SRCREV_machine_qemuppc ?= "e80029ac30022c554e916ed438435ecc03cc2cea"
--SRCREV_machine_qemux86 ?= "e1aa804148370cda6f85640281af156ffa007d52"
--SRCREV_machine_qemux86-64 ?= "e1aa804148370cda6f85640281af156ffa007d52"
--SRCREV_machine_qemumips64 ?= "6973844d304411893420a7e57545edc4dc854bd7"
--SRCREV_machine ?= "e1aa804148370cda6f85640281af156ffa007d52"
-+SRCREV_machine_qemuarm ?= "07224529d7ceb1e16eb815b8dd4c03ad9d58653d"
-+SRCREV_machine_qemumips  ?= "7747c5a158a99b8a668fd526f1f7f1f7f7e03d3e"
-+SRCREV_machine_qemuppc ?= "d63375e4b0a2de3ba110b83f78d6be6e01ec5c9e"
-+SRCREV_machine_qemux86 ?= "3f6c8243ed67011f70b27952d42657cf3a2c3115"
-+SRCREV_machine_qemux86-64 ?= "3f6c8243ed67011f70b27952d42657cf3a2c3115"
-+SRCREV_machine_qemumips64 ?= "9a4f9f4d44fdcd25fe365216b366bc346efb23d0"
-+SRCREV_machine ?= "3f6c8243ed67011f70b27952d42657cf3a2c3115"
- SRCREV_meta ?= "452f0679ea93a6cb4433bebd7177629228a5cf68"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
 -- 
-1.8.1.2
-
+Best Reagrds,
+Roy | RongQing Li
 
