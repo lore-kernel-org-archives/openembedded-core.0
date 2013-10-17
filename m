@@ -1,38 +1,37 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C747460FF0
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 96B7C60FF0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 16:00:03 +0000 (UTC)
-Received: by mail-ea0-f182.google.com with SMTP id o10so1182125eaj.13
+	Thu, 17 Oct 2013 16:57:22 +0000 (UTC)
+Received: by mail-la0-f46.google.com with SMTP id eh20so2076709lab.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 09:00:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=s7GlOiGyOqxePYxGsnDBrzJiLZjNv97usNBrNj1S1Ck=;
-	b=ytwuFx751nfCnoAKWldxL68isnG/C6Zpt3/WX59Ihn7aU7gcYbE/Z2J+1Xrly6d22T
-	GrFz59SISK398xd8war0+xxdDYve0u2WWAcVpqfTm8Tyb3RGcHwEAZ+hkY83TcOJldQK
-	/oWYf6WAQ3WK64E822Tm6ChryzuNgHAhzGaKHvhbV6tjNrV9YK3HWfeW34EZeD42cTpP
-	V83Ne/Ngth7pBNt61+FYC6OKBgyZP4L8wRLHCHowir22ZPhtzl+KeZueVHEjc/hVBnOS
-	immqYYP322qiFWKErxkqjuHN5Je8W/u/dqb3lCRa6TaEy0hCaF9IZIw9xusUc9aujH6v
-	QGMg==
-MIME-Version: 1.0
-X-Received: by 10.15.94.201 with SMTP id bb49mr13710162eeb.23.1382025605293;
-	Thu, 17 Oct 2013 09:00:05 -0700 (PDT)
-Received: by 10.14.118.15 with HTTP; Thu, 17 Oct 2013 09:00:05 -0700 (PDT)
-Received: by 10.14.118.15 with HTTP; Thu, 17 Oct 2013 09:00:05 -0700 (PDT)
-In-Reply-To: <525FF4C6.6020601@windriver.com>
-References: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
-	<1382018386-25389-12-git-send-email-david.nystrom@enea.com>
-	<525FF4C6.6020601@windriver.com>
-Date: Thu, 17 Oct 2013 18:00:05 +0200
-Message-ID: <CAAKB1h1iTcO7S5ptpAV+UV72VXGVGeTu6Uzjz2f9m+QJkFcnFw@mail.gmail.com>
-From: David Nystrom <david.c.nystrom@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/11] rpm: Add nativesdk in BBCLASSEXTEND
+	Thu, 17 Oct 2013 09:57:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FDhcIEeDifvcwGe34grAxwIsDvolcwMI4VdmqWaN8+U=;
+	b=WEG8Yw6OXaincJ9L0jCcwXtnWgpJX6aBhaZbehFZHu/4ydJtprKyrSTLjSJB5kIVu3
+	xI4tbia5UUqcLL1+qsvA53A53JH+5ebJdDL734ELfwK0SV503OS0pQlZ0G50UMO8M1nG
+	GHStP0CnU3cHfpC7E1KfEBHRxW7VqSkRDhe1eivOJ52o2haSOrD4MpZq87AWitG4S84p
+	0m7s5Y2uPXMe4ijO4vIzpClcGG+st78sPO1JqaYLLuDQos543mr4HJKaJvhcvMuapZQg
+	pw9wLBuqK3gvuR5hueYOA4+4ieaTL7SJWYR1+YxxZafeUbK+5nlvtfL2cPLBoh/kFNR+
+	ot4A==
+X-Gm-Message-State: ALoCoQngx+Tm2G/hL1byR83MVmZl2IeY7Kih3aGCXvKWhbzmBBfvpY+pij8N0hjk0PmBDAhoBGY0
+X-Received: by 10.112.198.39 with SMTP id iz7mr8016278lbc.24.1382029043655;
+	Thu, 17 Oct 2013 09:57:23 -0700 (PDT)
+Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
+	[91.152.78.194]) by mx.google.com with ESMTPSA id
+	l10sm55455294lbh.13.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 17 Oct 2013 09:57:23 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Oct 2013 19:57:10 +0300
+Message-Id: <1382029030-10098-1-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCHV2 1/1] openssl: use linux-generic64 target for Aarch64 (LE and BE)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,296 +44,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 16:00:04 -0000
-Content-Type: multipart/alternative; boundary=089e01681f42462e1804e8f1e9bb
+X-List-Received-Date: Thu, 17 Oct 2013 16:57:25 -0000
 
---089e01681f42462e1804e8f1e9bb
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Update configure-targets.patch:
+ - drop linux-aarch64 configuration
+Update do_configure():
+ - add linux-aarch64* case to cover linux-aarch64 and linux-aarch64_be
+ - use linux-generic64 target in above case
+Backport initial-aarch64-bits.patch:
+ - first order optimizations for Aarch64
 
-On 17 Oct 2013 16:31, "Mark Hatle" <mark.hatle@windriver.com> wrote:
->
-> On 10/17/13 8:59 AM, David Nystr=F6m wrote:
->
-> Should have a commit message explaining the various changes.
->
->
->> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
->> ---
->>   meta/recipes-devtools/rpm/rpm_5.4.9.bb | 24 ++++++++++++++++++------
->>   1 file changed, 18 insertions(+), 6 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bbb/meta/recipes-devtoo=
-ls/rpm/
-rpm_5.4.9.bb
->> index 3c7e03b..0630f74 100644
->> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> @@ -105,12 +105,12 @@ acpaths =3D "-I ${S}/db/dist/aclocal -I
-${S}/db/dist/aclocal_java"
->>   # Specify the default rpm macros in terms of adjustable variables
->>   rpm_macros =3D
-"%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_targe=
-t}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macro=
-s:~/.oerpmmacros"
->>   rpm_macros_class-native =3D
-"%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_targe=
-t}/macros:~/.oerpmmacros"
->> +rpm_macros_class-nativesdk =3D
-"%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_targe=
-t}/macros:~/.oerpmmacros"
->>
->>   # sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl selinux
->>
->>   # Note: perl and sqlite w/o db specified does not currently work.
->>   #       tcl, augeas, nss, gcrypt, xar and keyutils support is untested=
-.
->> -PACKAGECONFIG_class-native ??=3D "db bzip2 zlib beecrypt openssl libelf
-python"
->>   PACKAGECONFIG ??=3D "db bzip2 zlib beecrypt openssl libelf python"
->>
->>   PACKAGECONFIG[bzip2] =3D "--with-bzip2,--without-bzip2,bzip2,"
->> @@ -224,8 +224,11 @@ FILES_${PN} =3D  "${bindir}/rpm \
->>                 ${libdir}/rpm/bin/rpmrepo \
->>                 ${libdir}/rpm/bin/rpmspecdump \
->>                 ${libdir}/rpm/bin/wget \
->> -               /var/lib/rpm \
->> -               /var/cache/rpm \
->> +               ${libdir}/rpm \
->> +               ${localstatedir}/cache/rpm \
->> +               ${localstatedir}/cache/wdj \
->> +               ${localstatedir}/lib/rpm \
->> +               ${localstatedir}/lib/wdj \
->
->
-> The above was hard defined because the /var/lib, /var/cache locations
-were hard coded into RPM itself and did not vary based on
-libdir/localstatedir.  It's possible this has changed since the work was
-originally done.  But you should be sure to verify that.
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ .../openssl/openssl-1.0.1e/configure-targets.patch |  13 +--
+ .../openssl-1.0.1e/initial-aarch64-bits.patch      | 111 +++++++++++++++++++++
+ meta/recipes-connectivity/openssl/openssl.inc      |   3 +
+ .../recipes-connectivity/openssl/openssl_1.0.1e.bb |   1 +
+ 4 files changed, 120 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/initial-aarch64-bits.patch
 
-I was under the impression that localstatedir always resolved to /var,
-But your probably correct about libdir above(/usr/lib vs. /lib), will
-return with V2.
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/configure-targets.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/configure-targets.patch
+index 8c638b4..c1f3d08 100644
+--- a/meta/recipes-connectivity/openssl/openssl-1.0.1e/configure-targets.patch
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/configure-targets.patch
+@@ -4,14 +4,12 @@ The number of colons are important :)
+ 
+ 
+ ---
+- Configure |   17 +++++++++++++++++
+- 1 file changed, 17 insertions(+)
++ Configure |   16 ++++++++++++++++
++ 1 file changed, 16 insertions(+)
+ 
+-Index: openssl-1.0.1e/Configure
+-===================================================================
+---- openssl-1.0.1e.orig/Configure
+-+++ openssl-1.0.1e/Configure
+-@@ -403,6 +403,23 @@ my %table=(
++--- a/Configure
+++++ b/Configure
++@@ -403,6 +403,22 @@ my %table=(
+  "linux-alpha-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
+  "linux-alpha+bwx-ccc","ccc:-fast -readonly_strings -DL_ENDIAN -DTERMIO::-D_REENTRANT:::SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_PTR DES_RISC1 DES_UNROLL:${alpha_asm}",
+  
+@@ -22,7 +20,6 @@ Index: openssl-1.0.1e/Configure
+ +"linux-gnueabi-armeb","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+ +"linux-uclibceabi-arm","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+ +"linux-uclibceabi-armeb","$ENV{'CC'}:-DB_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+-+"linux-aarch64","$ENV{'CC'}:-DL_ENDIAN -DTERMIO -O2 -pipe -g -feliminate-unused-debug-types -Wall -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS::-D_REENTRANT::-ldl:SIXTY_FOUR_BIT_LONG RC4_CHAR RC4_CHUNK DES_INT DES_UNROLL BF_PTR:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).\$(SHLIB_MINOR)",
+ +
+ +"linux-avr32","$ENV{'CC'}:-DTERMIO -O3 -fomit-frame-pointer -Wall::-D_REENTRANT::-ldl:BN_LLONG DES_RISC1:${no_asm}:dlfcn:linux-shared:-fPIC::.so.\$(SHLIB_MAJOR).",
+ +
+diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/initial-aarch64-bits.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/initial-aarch64-bits.patch
+new file mode 100644
+index 0000000..703b8c1
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/initial-aarch64-bits.patch
+@@ -0,0 +1,111 @@
++From: Andy Polyakov <appro@openssl.org>
++Date: Sun, 13 Oct 2013 17:15:15 +0000 (+0200)
++Subject: Initial aarch64 bits.
++X-Git-Url: http://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff_plain;h=039081b80977e2a5de84e1f88f8b4d025b559956
++
++Initial aarch64 bits.
++---
++ crypto/bn/bn_lcl.h       |    9 +++++++++
++ crypto/md32_common.h     |   18 ++++++++++++++++++
++ crypto/modes/modes_lcl.h |    8 ++++++++
++ crypto/sha/sha512.c      |   13 +++++++++++++
++ 4 files changed, 48 insertions(+)
++
++--- a/crypto/bn/bn_lcl.h
+++++ b/crypto/bn/bn_lcl.h
++@@ -300,6 +300,15 @@ extern "C" {
++ 	     : "r"(a), "r"(b));
++ #    endif
++ #  endif
+++# elif defined(__aarch64__) && defined(SIXTY_FOUR_BIT_LONG)
+++#  if defined(__GNUC__) && __GNUC__>=2
+++#   define BN_UMULT_HIGH(a,b)	({	\
+++	register BN_ULONG ret;		\
+++	asm ("umulh	%0,%1,%2"	\
+++	     : "=r"(ret)		\
+++	     : "r"(a), "r"(b));		\
+++	ret;			})
+++#  endif
++ # endif		/* cpu */
++ #endif		/* OPENSSL_NO_ASM */
++ 
++--- a/crypto/md32_common.h
+++++ b/crypto/md32_common.h
++@@ -213,6 +213,24 @@
++ 				   asm ("bswapl %0":"=r"(r):"0"(r));	\
++ 				   *((unsigned int *)(c))=r; (c)+=4; r;	})
++ #   endif
+++#  elif defined(__aarch64__)
+++#   if defined(__BYTE_ORDER__)
+++#    if defined(__ORDER_LITTLE_ENDIAN__) && __BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__
+++#     define HOST_c2l(c,l)	({ unsigned int r;		\
+++				   asm ("rev	%w0,%w1"	\
+++					:"=r"(r)		\
+++					:"r"(*((const unsigned int *)(c))));\
+++				   (c)+=4; (l)=r;		})
+++#     define HOST_l2c(l,c)	({ unsigned int r;		\
+++				   asm ("rev	%w0,%w1"	\
+++					:"=r"(r)		\
+++					:"r"((unsigned int)(l)));\
+++				   *((unsigned int *)(c))=r; (c)+=4; r;	})
+++#    elif defined(__ORDER_BIG_ENDIAN__) && __BYTE_ORDER__==__ORDER_BIG_ENDIAN__
+++#     define HOST_c2l(c,l)	((l)=*((const unsigned int *)(c)), (c)+=4, (l))
+++#     define HOST_l2c(l,c)	(*((unsigned int *)(c))=(l), (c)+=4, (l))
+++#    endif
+++#   endif
++ #  endif
++ # endif
++ #endif
++--- a/crypto/modes/modes_lcl.h
+++++ b/crypto/modes/modes_lcl.h
++@@ -29,6 +29,7 @@ typedef unsigned char u8;
++ #if defined(__i386)	|| defined(__i386__)	|| \
++     defined(__x86_64)	|| defined(__x86_64__)	|| \
++     defined(_M_IX86)	|| defined(_M_AMD64)	|| defined(_M_X64) || \
+++    defined(__aarch64__)			|| \    
++     defined(__s390__)	|| defined(__s390x__)	|| \
++     ( (defined(__arm__)	|| defined(__arm)) && \
++       (defined(__ARM_ARCH_7__)	|| defined(__ARM_ARCH_7A__) || \
++@@ -53,6 +54,13 @@ typedef unsigned char u8;
++ #  define BSWAP4(x) ({	u32 ret=(x);			\
++ 			asm ("bswapl %0"		\
++ 			: "+r"(ret));	ret;		})
+++# elif defined(__aarch64__)
+++#  define BSWAP8(x) ({	u64 ret;			\
+++			asm ("rev %0,%1"		\
+++			: "=r"(ret) : "r"(x)); ret;	})
+++#  define BSWAP4(x) ({	u32 ret;			\
+++			asm ("rev %w0,%w1"		\
+++			: "=r"(ret) : "r"(x)); ret;	})
++ # elif (defined(__arm__) || defined(__arm)) && !defined(STRICT_ALIGNMENT)
++ #  define BSWAP8(x) ({	u32 lo=(u64)(x)>>32,hi=(x);	\
++ 			asm ("rev %0,%0; rev %1,%1"	\
++--- a/crypto/sha/sha512.c
+++++ b/crypto/sha/sha512.c
++@@ -55,6 +55,7 @@ const char SHA512_version[]="SHA-512" OP
++ #if defined(__i386) || defined(__i386__) || defined(_M_IX86) || \
++     defined(__x86_64) || defined(_M_AMD64) || defined(_M_X64) || \
++     defined(__s390__) || defined(__s390x__) || \
+++    defined(__aarch64__) || \
++     defined(SHA512_ASM)
++ #define SHA512_BLOCK_CAN_MANAGE_UNALIGNED_DATA
++ #endif
++@@ -340,6 +341,18 @@ static const SHA_LONG64 K512[80] = {
++ 				asm ("rotrdi %0,%1,%2"	\
++ 				: "=r"(ret)		\
++ 				: "r"(a),"K"(n)); ret;	})
+++#  elif defined(__aarch64__)
+++#   define ROTR(a,n)	({ SHA_LONG64 ret;		\
+++				asm ("ror %0,%1,%2"	\
+++				: "=r"(ret)		\
+++				: "r"(a),"I"(n)); ret;	})
+++#   if  defined(__BYTE_ORDER__) && defined(__ORDER_LITTLE_ENDIAN__) && \
+++	__BYTE_ORDER__==__ORDER_LITTLE_ENDIAN__
+++#    define PULL64(x)	({ SHA_LONG64 ret;			\
+++				asm ("rev	%0,%1"		\
+++				: "=r"(ret)			\
+++				: "r"(*((const SHA_LONG64 *)(&(x))))); ret;		})
+++#   endif
++ #  endif
++ # elif defined(_MSC_VER)
++ #  if defined(_WIN64)	/* applies to both IA-64 and AMD64 */
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 78ff7ae..73a890c 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -66,6 +66,9 @@ do_configure () {
+ 	linux-armeb)
+ 		target=linux-elf-armeb
+ 		;;
++	linux-aarch64*)
++		target=linux-generic64
++		;;
+ 	linux-sh3)
+ 		target=debian-sh3
+ 		;;
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index ac27dba..a574e81 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -33,6 +33,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://fix-cipher-des-ede3-cfb1.patch \
+             file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+             file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
++            file://initial-aarch64-bits.patch \
+             file://find.pl \
+            "
+ 
+-- 
+1.8.1.2
 
-The reason for the change is that nativesdk variable-expansion is
-different(broken ?) from target/native, and will not find items from
-hardcoded libdir, bindir et.c.
 
-Postinstall hooks using libdir, bindir et.al. when built in nativesdk mode
-is equally "broken".
-
->
->
-> Otherwise the content looks fine.
->
-> --Mark
->
->
->>                 "
->>
->>   FILES_${PN}-dbg +=3D "${libdir}/rpm/.debug \
->> @@ -235,7 +238,7 @@ FILES_${PN}-dbg +=3D "${libdir}/rpm/.debug \
->>   FILES_${PN}-common =3D "${bindir}/rpm2cpio \
->>                 ${bindir}/gendiff \
->>                 ${sysconfdir}/rpm \
->> -               /var/spool/repackage \
->> +               ${localstatedir}/spool/repackage \
->>                 "
->>
->>   FILES_${PN}-libs =3D "${libdir}/librpm-*.so \
->> @@ -313,6 +316,7 @@ FILES_${PN}-build =3D "${prefix}/src/rpm \
->>                 "
->>   RDEPENDS_${PN} =3D "base-files run-postinsts"
->>   RDEPENDS_${PN}_class-native =3D ""
->> +RDEPENDS_${PN}_class-nativesdk =3D ""
->>   RDEPENDS_${PN}-build =3D "file"
->>
->>   RDEPENDS_python-rpm =3D "${PN}"
->> @@ -452,7 +456,7 @@ do_install_append() {
->>
->>   }
->>
->> -do_install_append_class-native() {
->> +add_native_wrapper() {
->>           create_wrapper ${D}/${bindir}/rpm \
->>                 RPM_USRLIBRPM=3D'`dirname
-$''realpath`'/${@os.path.relpath(d.getVar('libdir', True),
-d.getVar('bindir', True))}/rpm \
->>                 RPM_ETCRPM=3D'$'{RPM_ETCRPM-'`dirname
-$''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True),
-d.getVar('bindir', True))}/rpm} \
->> @@ -481,4 +485,12 @@ do_install_append_class-native() {
->>         done
->>   }
->>
->> -BBCLASSEXTEND =3D "native"
->> +do_install_append_class-native() {
->> +       add_native_wrapper
->> +}
->> +
->> +do_install_append_class-nativesdk() {
->> +       add_native_wrapper
->> +}
->> +
->> +BBCLASSEXTEND =3D "native nativesdk"
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---089e01681f42462e1804e8f1e9bb
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr"><br>
-On 17 Oct 2013 16:31, &quot;Mark Hatle&quot; &lt;<a href=3D"mailto:mark.hat=
-le@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 10/17/13 8:59 AM, David Nystr=F6m wrote:<br>
-&gt;<br>
-&gt; Should have a commit message explaining the various changes.<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; Signed-off-by: David Nystr=F6m &lt;<a href=3D"mailto:david.nystrom=
-@enea.com">david.nystrom@enea.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; =A0 meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4.9.bb">rpm_=
-5.4.9.bb</a> | 24 ++++++++++++++++++------<br>
-&gt;&gt; =A0 1 file changed, 18 insertions(+), 6 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4.9=
-.bb">rpm_5.4.9.bb</a> b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4=
-.9.bb">rpm_5.4.9.bb</a><br>
-&gt;&gt; index 3c7e03b..0630f74 100644<br>
-&gt;&gt; --- a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4.9.bb">rp=
-m_5.4.9.bb</a><br>
-&gt;&gt; +++ b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_5.4.9.bb">rp=
-m_5.4.9.bb</a><br>
-&gt;&gt; @@ -105,12 +105,12 @@ acpaths =3D &quot;-I ${S}/db/dist/aclocal -I=
- ${S}/db/dist/aclocal_java&quot;<br>
-&gt;&gt; =A0 # Specify the default rpm macros in terms of adjustable variab=
-les<br>
-&gt;&gt; =A0 rpm_macros =3D &quot;%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/m=
-acros:%{_usrlibrpm}/poky/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/m=
-acros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros&quot;<br>
-&gt;&gt; =A0 rpm_macros_class-native =3D &quot;%{_usrlibrpm}/macros:%{_usrl=
-ibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros&quot=
-;<br>
-&gt;&gt; +rpm_macros_class-nativesdk =3D &quot;%{_usrlibrpm}/macros:%{_usrl=
-ibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros&quot=
-;<br>
-&gt;&gt;<br>
-&gt;&gt; =A0 # sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl s=
-elinux<br>
-&gt;&gt;<br>
-&gt;&gt; =A0 # Note: perl and sqlite w/o db specified does not currently wo=
-rk.<br>
-&gt;&gt; =A0 # =A0 =A0 =A0 tcl, augeas, nss, gcrypt, xar and keyutils suppo=
-rt is untested.<br>
-&gt;&gt; -PACKAGECONFIG_class-native ??=3D &quot;db bzip2 zlib beecrypt ope=
-nssl libelf python&quot;<br>
-&gt;&gt; =A0 PACKAGECONFIG ??=3D &quot;db bzip2 zlib beecrypt openssl libel=
-f python&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; =A0 PACKAGECONFIG[bzip2] =3D &quot;--with-bzip2,--without-bzip2,bz=
-ip2,&quot;<br>
-&gt;&gt; @@ -224,8 +224,11 @@ FILES_${PN} =3D =A0&quot;${bindir}/rpm \<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${libdir}/rpm/bin/rpmrepo \<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${libdir}/rpm/bin/rpmspecdump \<br=
->
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${libdir}/rpm/bin/wget \<br>
-&gt;&gt; - =A0 =A0 =A0 =A0 =A0 =A0 =A0 /var/lib/rpm \<br>
-&gt;&gt; - =A0 =A0 =A0 =A0 =A0 =A0 =A0 /var/cache/rpm \<br>
-&gt;&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${libdir}/rpm \<br>
-&gt;&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${localstatedir}/cache/rpm \<br>
-&gt;&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${localstatedir}/cache/wdj \<br>
-&gt;&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${localstatedir}/lib/rpm \<br>
-&gt;&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${localstatedir}/lib/wdj \<br>
-&gt;<br>
-&gt;<br>
-&gt; The above was hard defined because the /var/lib, /var/cache locations =
-were hard coded into RPM itself and did not vary based on libdir/localstate=
-dir. =A0It&#39;s possible this has changed since the work was originally do=
-ne. =A0But you should be sure to verify that.</p>
-
-<p dir=3D"ltr">I was under the impression that localstatedir always resolve=
-d to /var,<br>
-But your probably correct about libdir above(/usr/lib vs. /lib), will retur=
-n with V2.</p>
-<p dir=3D"ltr">The reason for the change is that nativesdk variable-expansi=
-on is different(broken ?) from target/native, and will not find items from =
-hardcoded libdir, bindir et.c.</p>
-<p dir=3D"ltr">Postinstall hooks using libdir, bindir <a href=3D"http://et.=
-al">et.al</a>. when built in nativesdk mode is equally &quot;broken&quot;.<=
-/p>
-<p dir=3D"ltr">&gt;<br>
-&gt;<br>
-&gt; Otherwise the content looks fine.<br>
-&gt;<br>
-&gt; --Mark<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &quot;<br>
-&gt;&gt;<br>
-&gt;&gt; =A0 FILES_${PN}-dbg +=3D &quot;${libdir}/rpm/.debug \<br>
-&gt;&gt; @@ -235,7 +238,7 @@ FILES_${PN}-dbg +=3D &quot;${libdir}/rpm/.debu=
-g \<br>
-&gt;&gt; =A0 FILES_${PN}-common =3D &quot;${bindir}/rpm2cpio \<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${bindir}/gendiff \<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${sysconfdir}/rpm \<br>
-&gt;&gt; - =A0 =A0 =A0 =A0 =A0 =A0 =A0 /var/spool/repackage \<br>
-&gt;&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 ${localstatedir}/spool/repackage \<b=
-r>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &quot;<br>
-&gt;&gt;<br>
-&gt;&gt; =A0 FILES_${PN}-libs =3D &quot;${libdir}/librpm-*.so \<br>
-&gt;&gt; @@ -313,6 +316,7 @@ FILES_${PN}-build =3D &quot;${prefix}/src/rpm =
-\<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &quot;<br>
-&gt;&gt; =A0 RDEPENDS_${PN} =3D &quot;base-files run-postinsts&quot;<br>
-&gt;&gt; =A0 RDEPENDS_${PN}_class-native =3D &quot;&quot;<br>
-&gt;&gt; +RDEPENDS_${PN}_class-nativesdk =3D &quot;&quot;<br>
-&gt;&gt; =A0 RDEPENDS_${PN}-build =3D &quot;file&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; =A0 RDEPENDS_python-rpm =3D &quot;${PN}&quot;<br>
-&gt;&gt; @@ -452,7 +456,7 @@ do_install_append() {<br>
-&gt;&gt;<br>
-&gt;&gt; =A0 }<br>
-&gt;&gt;<br>
-&gt;&gt; -do_install_append_class-native() {<br>
-&gt;&gt; +add_native_wrapper() {<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 create_wrapper ${D}/${bindir}/rpm \<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 RPM_USRLIBRPM=3D&#39;`dirname $&#3=
-9;&#39;realpath`&#39;/${@os.path.relpath(d.getVar(&#39;libdir&#39;, True), =
-d.getVar(&#39;bindir&#39;, True))}/rpm \<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 RPM_ETCRPM=3D&#39;$&#39;{RPM_ETCRP=
-M-&#39;`dirname $&#39;&#39;realpath`&#39;/${@os.path.relpath(d.getVar(&#39;=
-sysconfdir&#39;, True), d.getVar(&#39;bindir&#39;, True))}/rpm} \<br>
-&gt;&gt; @@ -481,4 +485,12 @@ do_install_append_class-native() {<br>
-&gt;&gt; =A0 =A0 =A0 =A0 done<br>
-&gt;&gt; =A0 }<br>
-&gt;&gt;<br>
-&gt;&gt; -BBCLASSEXTEND =3D &quot;native&quot;<br>
-&gt;&gt; +do_install_append_class-native() {<br>
-&gt;&gt; + =A0 =A0 =A0 add_native_wrapper<br>
-&gt;&gt; +}<br>
-&gt;&gt; +<br>
-&gt;&gt; +do_install_append_class-nativesdk() {<br>
-&gt;&gt; + =A0 =A0 =A0 add_native_wrapper<br>
-&gt;&gt; +}<br>
-&gt;&gt; +<br>
-&gt;&gt; +BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedd=
-ed-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>
-</p>
-
---089e01681f42462e1804e8f1e9bb--
