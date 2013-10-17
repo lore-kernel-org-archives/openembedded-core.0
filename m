@@ -1,21 +1,21 @@
 Return-Path: <eric@eukrea.com>
 Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 672986D1E3
+	by mail.openembedded.org (Postfix) with ESMTP id D8E2360EE0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 21:03:31 +0000 (UTC)
+	Thu, 17 Oct 2013 21:03:36 +0000 (UTC)
 Received: from localhost.localdomain (unknown [82.233.81.124])
-	by smtp3-g21.free.fr (Postfix) with ESMTP id BE9EDA62B2;
-	Thu, 17 Oct 2013 23:03:28 +0200 (CEST)
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 2FD06A61C6;
+	Thu, 17 Oct 2013 23:03:32 +0200 (CEST)
 From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
 To: ross.burton@intel.com
-Date: Thu, 17 Oct 2013 23:03:21 +0200
-Message-Id: <1382043802-9245-2-git-send-email-eric@eukrea.com>
+Date: Thu, 17 Oct 2013 23:03:22 +0200
+Message-Id: <1382043802-9245-3-git-send-email-eric@eukrea.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1382043802-9245-1-git-send-email-eric@eukrea.com>
 References: <1382043802-9245-1-git-send-email-eric@eukrea.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH for danny - v2 2/3] openssl: fix documentation build errors with Perl 5.18 pod2man
+Subject: [PATCH for danny - v2 3/3] elfutils-native: Fix build on distros with gcc 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,558 +28,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 21:03:34 -0000
+X-List-Received-Date: Thu, 17 Oct 2013 21:03:38 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-this is mostly a backport of 8792b7fb4ef8d66336d52de7e81efbb818e16b08
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Eric Bénard <eric@eukrea.com>
+backport of : c1cbc57 5cc3b4f 6101097
+
+Signed-of-by: Eric Bénard <eirc@eukrea.com>
 ---
- ...tation-build-errors-with-Perl-5.18-pod2ma.patch | 461 +++++++++++++++++++++
- .../openssl-1.0.0j/doc-extra-fix-for-pod2man.patch |  51 +++
- .../recipes-connectivity/openssl/openssl_1.0.0j.bb |   2 +
- 3 files changed, 514 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0j/Fix-documentation-build-errors-with-Perl-5.18-pod2ma.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.0j/doc-extra-fix-for-pod2man.patch
+ .../elfutils-ar-c-fix-num-passed-to-memset.patch   | 23 +++++++++++
+ .../elfutils/elfutils/fix-build-gcc-4.8.patch      | 44 ++++++++++++++++++++++
+ ...ssed-to-snprintf-for-invalid-sh_name-case.patch | 27 +++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.148.bb   |  3 ++
+ 4 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/elfutils-ar-c-fix-num-passed-to-memset.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0j/Fix-documentation-build-errors-with-Perl-5.18-pod2ma.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/Fix-documentation-build-errors-with-Perl-5.18-pod2ma.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils/elfutils-ar-c-fix-num-passed-to-memset.patch b/meta/recipes-devtools/elfutils/elfutils/elfutils-ar-c-fix-num-passed-to-memset.patch
 new file mode 100644
-index 0000000..1591076
+index 0000000..b619619
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.0j/Fix-documentation-build-errors-with-Perl-5.18-pod2ma.patch
-@@ -0,0 +1,461 @@
-+Subject: [PATCH] Fix documentation build errors with Perl 5.18 pod2man
++++ b/meta/recipes-devtools/elfutils/elfutils/elfutils-ar-c-fix-num-passed-to-memset.patch
+@@ -0,0 +1,23 @@
++Upstream-Status: Backport
 +
-+This fixes errors building man pages with newer versions of pod2man 
-+included with Perl 5.18.
++ar.c (do_oper_delete): Fix num passed to memset
++native build failed as following on Fedora18+: 
++ar.c: In function 'do_oper_delete':
++ar.c:918:31: error: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Werror=sizeof-pointer-memaccess]
++   memset (found, '\0', sizeof (found));
++                                ^
++The original commit is http://git.fedorahosted.org/cgit/elfutils.git/commit/src/ar.c?id=1a4d0668d18bf1090c5c08cdb5cb3ba2b8eb5410
 +
-+Upstream-Status: Submitted
-+Signed-off-by: Jonathan Liu
-+---
-+ doc/apps/cms.pod                            | 12 ++++++------
-+ doc/apps/smime.pod                          | 12 ++++++------
-+ doc/crypto/X509_STORE_CTX_get_error.pod     |  2 ++
-+ doc/ssl/SSL_COMP_add_compression_method.pod |  4 ++--
-+ doc/ssl/SSL_CTX_add_session.pod             |  4 ++--
-+ doc/ssl/SSL_CTX_load_verify_locations.pod   |  4 ++--
-+ doc/ssl/SSL_CTX_set_client_CA_list.pod      |  4 ++--
-+ doc/ssl/SSL_CTX_set_session_id_context.pod  |  4 ++--
-+ doc/ssl/SSL_CTX_set_ssl_version.pod         |  4 ++--
-+ doc/ssl/SSL_CTX_use_psk_identity_hint.pod   |  6 +++++-
-+ doc/ssl/SSL_accept.pod                      |  4 ++--
-+ doc/ssl/SSL_clear.pod                       |  4 ++--
-+ doc/ssl/SSL_connect.pod                     |  4 ++--
-+ doc/ssl/SSL_do_handshake.pod                |  4 ++--
-+ doc/ssl/SSL_read.pod                        |  2 +-
-+ doc/ssl/SSL_session_reused.pod              |  4 ++--
-+ doc/ssl/SSL_set_fd.pod                      |  4 ++--
-+ doc/ssl/SSL_set_session.pod                 |  4 ++--
-+ doc/ssl/SSL_set_shutdown.pod                |  2 +-
-+ doc/ssl/SSL_shutdown.pod                    |  6 +++---
-+ doc/ssl/SSL_write.pod                       |  2 +-
-+ 21 files changed, 51 insertions(+), 45 deletions(-)
++Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
 +
-+diff --git a/doc/apps/cms.pod b/doc/apps/cms.pod
-+index a09588a..881d387 100644
-+--- a/doc/apps/cms.pod
-++++ b/doc/apps/cms.pod
-+@@ -450,28 +450,28 @@ remains DER.
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ the operation was completely successfully.
-+ 
-+-=item 1 
-++=item Z<>1 
-+ 
-+ an error occurred parsing the command options.
-+ 
-+-=item 2
-++=item Z<>2
-+ 
-+ one of the input files could not be read.
-+ 
-+-=item 3
-++=item Z<>3
-+ 
-+ an error occurred creating the CMS file or when reading the MIME
-+ message.
-+ 
-+-=item 4
-++=item Z<>4
-+ 
-+ an error occurred decrypting or verifying the message.
-+ 
-+-=item 5
-++=item Z<>5
-+ 
-+ the message was verified correctly but an error occurred writing out
-+ the signers certificates.
-+diff --git a/doc/apps/smime.pod b/doc/apps/smime.pod
-+index e4e89af..ef8e8cd 100644
-+--- a/doc/apps/smime.pod
-++++ b/doc/apps/smime.pod
-+@@ -308,28 +308,28 @@ remains DER.
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ the operation was completely successfully.
-+ 
-+-=item 1 
-++=item Z<>1 
-+ 
-+ an error occurred parsing the command options.
-+ 
-+-=item 2
-++=item Z<>2
-+ 
-+ one of the input files could not be read.
-+ 
-+-=item 3
-++=item Z<>3
-+ 
-+ an error occurred creating the PKCS#7 file or when reading the MIME
-+ message.
-+ 
-+-=item 4
-++=item Z<>4
-+ 
-+ an error occurred decrypting or verifying the message.
-+ 
-+-=item 5
-++=item Z<>5
-+ 
-+ the message was verified correctly but an error occurred writing out
-+ the signers certificates.
-+diff --git a/doc/crypto/X509_STORE_CTX_get_error.pod b/doc/crypto/X509_STORE_CTX_get_error.pod
-+index a883f6c..60e8332 100644
-+--- a/doc/crypto/X509_STORE_CTX_get_error.pod
-++++ b/doc/crypto/X509_STORE_CTX_get_error.pod
-+@@ -278,6 +278,8 @@ happen if extended CRL checking is enabled.
-+ an application specific error. This will never be returned unless explicitly
-+ set by an application.
-+ 
-++=back
-++
-+ =head1 NOTES
-+ 
-+ The above functions should be used instead of directly referencing the fields
-+diff --git a/doc/ssl/SSL_COMP_add_compression_method.pod b/doc/ssl/SSL_COMP_add_compression_method.pod
-+index 42fa66b..f4d191c 100644
-+--- a/doc/ssl/SSL_COMP_add_compression_method.pod
-++++ b/doc/ssl/SSL_COMP_add_compression_method.pod
-+@@ -53,11 +53,11 @@ SSL_COMP_add_compression_method() may return the following values:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The operation succeeded.
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The operation failed. Check the error queue to find out the reason.
-+ 
-+diff --git a/doc/ssl/SSL_CTX_add_session.pod b/doc/ssl/SSL_CTX_add_session.pod
-+index 82676b2..8e0abd3 100644
-+--- a/doc/ssl/SSL_CTX_add_session.pod
-++++ b/doc/ssl/SSL_CTX_add_session.pod
-+@@ -52,13 +52,13 @@ The following values are returned by all functions:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+  The operation failed. In case of the add operation, it was tried to add
-+  the same (identical) session twice. In case of the remove operation, the
-+  session was not found in the cache.
-+ 
-+-=item 1
-++=item Z<>1
-+  
-+  The operation succeeded.
-+ 
-+diff --git a/doc/ssl/SSL_CTX_load_verify_locations.pod b/doc/ssl/SSL_CTX_load_verify_locations.pod
-+index 84a799f..d1d8977 100644
-+--- a/doc/ssl/SSL_CTX_load_verify_locations.pod
-++++ b/doc/ssl/SSL_CTX_load_verify_locations.pod
-+@@ -100,13 +100,13 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The operation failed because B<CAfile> and B<CApath> are NULL or the
-+ processing at one of the locations specified failed. Check the error
-+ stack to find out the reason.
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The operation succeeded.
-+ 
-+diff --git a/doc/ssl/SSL_CTX_set_client_CA_list.pod b/doc/ssl/SSL_CTX_set_client_CA_list.pod
-+index 632b556..6122a02 100644
-+--- a/doc/ssl/SSL_CTX_set_client_CA_list.pod
-++++ b/doc/ssl/SSL_CTX_set_client_CA_list.pod
-+@@ -66,11 +66,11 @@ values:
-+ 
-+ =over 4
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The operation succeeded.
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ A failure while manipulating the STACK_OF(X509_NAME) object occurred or
-+ the X509_NAME could not be extracted from B<cacert>. Check the error stack
-+diff --git a/doc/ssl/SSL_CTX_set_session_id_context.pod b/doc/ssl/SSL_CTX_set_session_id_context.pod
-+index 58fc685..7c9e515 100644
-+--- a/doc/ssl/SSL_CTX_set_session_id_context.pod
-++++ b/doc/ssl/SSL_CTX_set_session_id_context.pod
-+@@ -64,13 +64,13 @@ return the following values:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The length B<sid_ctx_len> of the session id context B<sid_ctx> exceeded
-+ the maximum allowed length of B<SSL_MAX_SSL_SESSION_ID_LENGTH>. The error
-+ is logged to the error stack.
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The operation succeeded.
-+ 
-+diff --git a/doc/ssl/SSL_CTX_set_ssl_version.pod b/doc/ssl/SSL_CTX_set_ssl_version.pod
-+index 254f2b4..e254f96 100644
-+--- a/doc/ssl/SSL_CTX_set_ssl_version.pod
-++++ b/doc/ssl/SSL_CTX_set_ssl_version.pod
-+@@ -42,11 +42,11 @@ and SSL_set_ssl_method():
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The new choice failed, check the error stack to find out the reason.
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The operation succeeded.
-+ 
-+diff --git a/doc/ssl/SSL_CTX_use_psk_identity_hint.pod b/doc/ssl/SSL_CTX_use_psk_identity_hint.pod
-+index b80e25b..9da7201 100644
-+--- a/doc/ssl/SSL_CTX_use_psk_identity_hint.pod
-++++ b/doc/ssl/SSL_CTX_use_psk_identity_hint.pod
-+@@ -81,6 +81,8 @@ SSL_CTX_use_psk_identity_hint() and SSL_use_psk_identity_hint() return
-+ 
-+ Return values from the server callback are interpreted as follows:
-+ 
-++=over 4
-++
-+ =item > 0
-+ 
-+ PSK identity was found and the server callback has provided the PSK
-+@@ -94,9 +96,11 @@ data to B<psk> and return the length of the random data, so the
-+ connection will fail with decryption_error before it will be finished
-+ completely.
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ PSK identity was not found. An "unknown_psk_identity" alert message
-+ will be sent and the connection setup fails.
-+ 
-++=back
-++
-+ =cut
-+diff --git a/doc/ssl/SSL_accept.pod b/doc/ssl/SSL_accept.pod
-+index cc724c0..4915e5a 100644
-+--- a/doc/ssl/SSL_accept.pod
-++++ b/doc/ssl/SSL_accept.pod
-+@@ -44,12 +44,12 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The TLS/SSL handshake was successfully completed, a TLS/SSL connection has been
-+ established.
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The TLS/SSL handshake was not successful but was shut down controlled and
-+ by the specifications of the TLS/SSL protocol. Call SSL_get_error() with the
-+diff --git a/doc/ssl/SSL_clear.pod b/doc/ssl/SSL_clear.pod
-+index d4df1bf..ba192bd 100644
-+--- a/doc/ssl/SSL_clear.pod
-++++ b/doc/ssl/SSL_clear.pod
-+@@ -56,12 +56,12 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The SSL_clear() operation could not be performed. Check the error stack to
-+ find out the reason.
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The SSL_clear() operation was successful.
-+ 
-+diff --git a/doc/ssl/SSL_connect.pod b/doc/ssl/SSL_connect.pod
-+index cc56ebb..61cabb7 100644
-+--- a/doc/ssl/SSL_connect.pod
-++++ b/doc/ssl/SSL_connect.pod
-+@@ -41,12 +41,12 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The TLS/SSL handshake was successfully completed, a TLS/SSL connection has been
-+ established.
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The TLS/SSL handshake was not successful but was shut down controlled and
-+ by the specifications of the TLS/SSL protocol. Call SSL_get_error() with the
-+diff --git a/doc/ssl/SSL_do_handshake.pod b/doc/ssl/SSL_do_handshake.pod
-+index 2435764..beb0dd1 100644
-+--- a/doc/ssl/SSL_do_handshake.pod
-++++ b/doc/ssl/SSL_do_handshake.pod
-+@@ -45,12 +45,12 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The TLS/SSL handshake was successfully completed, a TLS/SSL connection has been
-+ established.
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The TLS/SSL handshake was not successful but was shut down controlled and
-+ by the specifications of the TLS/SSL protocol. Call SSL_get_error() with the
-+diff --git a/doc/ssl/SSL_read.pod b/doc/ssl/SSL_read.pod
-+index 7038cd2..8ca0ce5 100644
-+--- a/doc/ssl/SSL_read.pod
-++++ b/doc/ssl/SSL_read.pod
-+@@ -86,7 +86,7 @@ The following return values can occur:
-+ The read operation was successful; the return value is the number of
-+ bytes actually read from the TLS/SSL connection.
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The read operation was not successful. The reason may either be a clean
-+ shutdown due to a "close notify" alert sent by the peer (in which case
-+diff --git a/doc/ssl/SSL_session_reused.pod b/doc/ssl/SSL_session_reused.pod
-+index da7d062..b09d8a7 100644
-+--- a/doc/ssl/SSL_session_reused.pod
-++++ b/doc/ssl/SSL_session_reused.pod
-+@@ -27,11 +27,11 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ A new session was negotiated.
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ A session was reused.
-+ 
-+diff --git a/doc/ssl/SSL_set_fd.pod b/doc/ssl/SSL_set_fd.pod
-+index 7029112..1480871 100644
-+--- a/doc/ssl/SSL_set_fd.pod
-++++ b/doc/ssl/SSL_set_fd.pod
-+@@ -35,11 +35,11 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The operation failed. Check the error stack to find out why.
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The operation succeeded.
-+ 
-+diff --git a/doc/ssl/SSL_set_session.pod b/doc/ssl/SSL_set_session.pod
-+index 5f54714..197b521 100644
-+--- a/doc/ssl/SSL_set_session.pod
-++++ b/doc/ssl/SSL_set_session.pod
-+@@ -37,11 +37,11 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The operation failed; check the error stack to find out the reason.
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The operation succeeded.
-+ 
-+diff --git a/doc/ssl/SSL_set_shutdown.pod b/doc/ssl/SSL_set_shutdown.pod
-+index 011a022..fe01308 100644
-+--- a/doc/ssl/SSL_set_shutdown.pod
-++++ b/doc/ssl/SSL_set_shutdown.pod
-+@@ -24,7 +24,7 @@ The shutdown state of an ssl connection is a bitmask of:
-+ 
-+ =over 4
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ No shutdown setting, yet.
-+ 
-+diff --git a/doc/ssl/SSL_shutdown.pod b/doc/ssl/SSL_shutdown.pod
-+index 89911ac..132ebc5 100644
-+--- a/doc/ssl/SSL_shutdown.pod
-++++ b/doc/ssl/SSL_shutdown.pod
-+@@ -92,19 +92,19 @@ The following return values can occur:
-+ 
-+ =over 4
-+ 
-+-=item 1
-++=item Z<>1
-+ 
-+ The shutdown was successfully completed. The "close notify" alert was sent
-+ and the peer's "close notify" alert was received.
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The shutdown is not yet finished. Call SSL_shutdown() for a second time,
-+ if a bidirectional shutdown shall be performed.
-+ The output of L<SSL_get_error(3)|SSL_get_error(3)> may be misleading, as an
-+ erroneous SSL_ERROR_SYSCALL may be flagged even though no error occurred.
-+ 
-+-=item -1
-++=item Z<>-1
-+ 
-+ The shutdown was not successful because a fatal error occurred either
-+ at the protocol level or a connection failure occurred. It can also occur if
-+diff --git a/doc/ssl/SSL_write.pod b/doc/ssl/SSL_write.pod
-+index e013c12..a57617f 100644
-+--- a/doc/ssl/SSL_write.pod
-++++ b/doc/ssl/SSL_write.pod
-+@@ -79,7 +79,7 @@ The following return values can occur:
-+ The write operation was successful, the return value is the number of
-+ bytes actually written to the TLS/SSL connection.
-+ 
-+-=item 0
-++=item Z<>0
-+ 
-+ The write operation was not successful. Probably the underlying connection
-+ was closed. Call SSL_get_error() with the return value B<ret> to find out,
-+-- 
-+1.8.4.rc3
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.0j/doc-extra-fix-for-pod2man.patch b/meta/recipes-connectivity/openssl/openssl-1.0.0j/doc-extra-fix-for-pod2man.patch
++--- elfutils-0.148/src/ar.c.org	2013-03-12 21:12:17.928281375 -0500
+++++ elfutils-0.148/src/ar.c	2013-03-12 21:15:30.053285271 -0500
++@@ -915,7 +915,7 @@
++ 		long int instance)
++ {
++   bool *found = alloca (sizeof (bool) * argc);
++-  memset (found, '\0', sizeof (found));
+++  memset (found, '\0', sizeof (bool) * argc);
++ 
++   /* List of the files we keep.  */
++   struct armem *to_copy = NULL;
+diff --git a/meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch b/meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch
 new file mode 100644
-index 0000000..43d30d5
+index 0000000..a7c3519
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.0j/doc-extra-fix-for-pod2man.patch
-@@ -0,0 +1,51 @@
-+Subject: [PATCH] doc: extra fix for pod2man
++++ b/meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch
+@@ -0,0 +1,44 @@
++This patch fixes a warning seen with gcc 4.8 (especially on ubuntu 13.10)
 +
-+This fixes errors building man pages with newer versions of pod2man
-+included with Perl 5.18.
++| addr2line.c: In function 'handle_address':
++| addr2line.c:450:7: error: format '%a' expects argument of type 'float *', but argument 3 has type 'char **' [-Werror=format=]
++|        if (sscanf (string, "(%a[^)])%" PRIiMAX "%n", &name, &addr, &i) == 2
++|        ^
++| addr2line.c:453:7: error: format '%a' expects argument of type 'float *', but argument 3 has type 'char **' [-Werror=format=]
++|        switch (sscanf (string, "%a[^-+]%n%" PRIiMAX "%n", &name, &i, &addr, &j))
++|        ^
++| cc1: all warnings being treated as errors
 +
-+Upstream-Status: Fixed in recent versions
 +
-+Signed-off-by: Eric Bénard <eric@eukrea.com>
-+---
-+ doc/apps/genpkey.pod | 2 ++
-+ doc/apps/openssl.pod | 4 ++--
-+ 2 files changed, 4 insertions(+), 2 deletions(-)
++%a is old GNU style and should be abandoned in favor of %m
 +
-+diff --git a/doc/apps/genpkey.pod b/doc/apps/genpkey.pod
-+index 1611b5c..c74d097 100644
-+--- a/doc/apps/genpkey.pod
-++++ b/doc/apps/genpkey.pod
-+@@ -114,6 +114,8 @@ hexadecimal value if preceded by B<0x>. Default value is 65537.
-+ 
-+ The number of bits in the generated parameters. If not specified 1024 is used.
-+ 
-++=back
-++
-+ =head1 DH PARAMETER GENERATION OPTIONS
-+ 
-+ =over 4
-+diff --git a/doc/apps/openssl.pod b/doc/apps/openssl.pod
-+index 738142e..64a160c 100644
-+--- a/doc/apps/openssl.pod
-++++ b/doc/apps/openssl.pod
-+@@ -287,8 +287,6 @@ SHA Digest
-+ 
-+ SHA-1 Digest
-+ 
-+-=back
-+-
-+ =item B<sha224>
-+ 
-+ SHA-224 Digest
-+@@ -305,6 +303,8 @@ SHA-384 Digest
-+ 
-+ SHA-512 Digest
-+ 
-++=back
-++
-+ =head2 ENCODING AND CIPHER COMMANDS
-+ 
-+ =over 10
-+-- 
-+1.8.4.rc3
++Also see
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb b/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-index 7dac79c..0ae55ef 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.0j.bb
-@@ -30,6 +30,8 @@ SRC_URI += "file://configure-targets.patch \
-             file://debian/debian-targets.patch \
-             file://openssl_fix_for_x32.patch \
-             file://find.pl \
-+            file://Fix-documentation-build-errors-with-Perl-5.18-pod2ma.patch \
-+            file://doc-extra-fix-for-pod2man.patch \
-            "
- 
- SRC_URI[md5sum] = "cbe4ac0d8f598680f68a951e04b0996b"
++http://gcc.gnu.org/bugzilla/show_bug.cgi?id=54361
++
++to support this assertion
++
++This patch is added via redhat-compatibility patch so lets revert this part
++here.
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Inappropriate [Caused by an earlier patch]
++
++Index: elfutils-0.155/src/addr2line.c
++===================================================================
++--- elfutils-0.155.orig/src/addr2line.c
+++++ elfutils-0.155/src/addr2line.c
++@@ -447,10 +447,10 @@ handle_address (const char *string, Dwfl
++       bool parsed = false;
++       int i, j;
++       char *name = NULL;
++-      if (sscanf (string, "(%a[^)])%" PRIiMAX "%n", &name, &addr, &i) == 2
+++      if (sscanf (string, "(%m[^)])%" PRIiMAX "%n", &name, &addr, &i) == 2
++ 	  && string[i] == '\0')
++ 	parsed = adjust_to_section (name, &addr, dwfl);
++-      switch (sscanf (string, "%a[^-+]%n%" PRIiMAX "%n", &name, &i, &addr, &j))
+++      switch (sscanf (string, "%m[^-+]%n%" PRIiMAX "%n", &name, &i, &addr, &j))
++ 	{
++ 	default:
++ 	  break;
+diff --git a/meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch b/meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
+new file mode 100644
+index 0000000..2b5dad3
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils/nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch
+@@ -0,0 +1,27 @@
++Upstream-Status: Backport
++
++nm: Fix size passed to snprintf for invalid sh_name case.
++native build failed as following on Fedora18:
++nm.c: In function 'show_symbols_sysv':
++nm.c:756:27: error: argument to 'sizeof' in 'snprintf' call is the same expression as the destination; did you mean to provide an explicit length? [-Werror=sizeof-pointer-memaccess]
++    snprintf (name, sizeof name, "[invalid sh_name %#" PRIx32 "]",
++                           ^
++
++The original commit is http://git.fedorahosted.org/cgit/elfutils.git/commit/src/nm.c?id=57bd66cabf6e6b9ecf622cdbf350804897a8df58
++
++Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
++
++--- elfutils-0.148/src/nm.c.org	2013-03-11 22:36:11.000000000 -0500
+++++ elfutils-0.148/src/nm.c	2013-03-11 22:46:09.000000000 -0500
++@@ -752,8 +752,9 @@
++ 			       gelf_getshdr (scn, &shdr_mem)->sh_name);
++       if (unlikely (name == NULL))
++ 	{
++-	  name = alloca (sizeof "[invalid sh_name 0x12345678]");
++-	  snprintf (name, sizeof name, "[invalid sh_name %#" PRIx32 "]",
+++	  const size_t bufsz = sizeof "[invalid sh_name 0x12345678]";
+++	  name = alloca (bufsz);
+++	  snprintf (name, bufsz, "[invalid sh_name %#" PRIx32 "]",
++ 		    gelf_getshdr (scn, &shdr_mem)->sh_name);
++ 	}
++       scnnames[elf_ndxscn (scn)] = name;
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.148.bb b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+index 5d45f3a..a54657e 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.148.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.148.bb
+@@ -31,6 +31,9 @@ SRC_URI += "\
+ 	file://mempcpy.patch \
+ 	file://fix_for_gcc-4.7.patch \
+ 	file://dso-link-change.patch \
++	file://fix-build-gcc-4.8.patch \
++	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
++	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
 -- 
 1.8.3.1
 
