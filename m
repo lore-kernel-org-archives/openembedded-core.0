@@ -1,39 +1,39 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DFE116CFF2
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 130AB6D034
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Oct 2013 14:00:06 +0000 (UTC)
-Received: by mail-lb0-f175.google.com with SMTP id y6so1946431lbh.34
+Received: by mail-lb0-f176.google.com with SMTP id y6so1900083lbh.21
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Oct 2013 07:00:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-type:content-transfer-encoding;
-	bh=Wosb+R5OHOAqtqp43pmGNVUcqPmc+t+raFKtYPm/wJY=;
-	b=xq+HuxNUXoDZHvAWLCRvmhZW3IsV2m/ycPlvmT8dN4uBDmPY1+8Huybci9I586FYmh
-	6j3Te6PyexrPZNIf74yVVKF7i2J2uwctwXV+YUicV/effTm1wDO5e6rKNYIL4bdD0co9
-	1oNOpK+HzJTB2bE4YywYG/38OHmQfpkbTK6DSvDCKSQTqA6zhOWtF99rmHgGSbrX6XBr
-	JK3ayrMj0Kvdu7/q3yu7OO20PTjjZEq6KOD3PLTi8mvas1W0LsGVnCwpeKfVJ4MZExxI
-	ajboxoQ8Ndcg155W0j/tsVemOJAFqWyZDWFCPlq6qaGvoG0Y88aocxC/y5M9pa98VWQA
-	CH3g==
-X-Received: by 10.152.20.1 with SMTP id j1mr103289lae.59.1382018408082;
+	bh=Lv2mDO2wyS3dDzNxnru6n70E0iA2CioMocjsp2dhbNM=;
+	b=AtH9xIoYipKmY4saoTiJvMoUQ/G5QGXCU/0coJrNrmJlOcoTpN1/INRChkv3PrRo9h
+	Rry7QpQG0am4tdpz809vuOHVY74umEnkPRQatY7BHXYg8lHkKlXOkhdOPTpwWVtkJeyc
+	Mbq+eCEHR1jvKkCElqUcPQjyBCd2CwfjgT9aQCsvhAYOVBi2rTnapYRZ1eAyHBFZxHVM
+	uRhSafW4Wg89K0DZhKy7yNWCKdRPbV4SmG3Een05vpjmoykeKf2EUGsLbRcX431X/nRw
+	86I53HG37YZolJk+5esaT+scguMF+phmEDHwWzjtYe/rUUWca8Rg0V8+lDYImIHXyPK2
+	/jlg==
+X-Received: by 10.152.203.233 with SMTP id kt9mr7386688lac.29.1382018408321;
 	Thu, 17 Oct 2013 07:00:08 -0700 (PDT)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id vo1sm55002525lbb.1.1969.12.31.16.00.00
+	by mx.google.com with ESMTPSA id 8sm4371546laq.5.1969.12.31.16.00.00
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
 	Thu, 17 Oct 2013 07:00:07 -0700 (PDT)
 Received: by nysan (Postfix, from userid 1000)
-	id 10231400F85; Thu, 17 Oct 2013 15:59:57 +0200 (CEST)
+	id 1310F400F79; Thu, 17 Oct 2013 15:59:57 +0200 (CEST)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Oct 2013 15:59:40 +0200
-Message-Id: <1382018386-25389-6-git-send-email-david.nystrom@enea.com>
+Date: Thu, 17 Oct 2013 15:59:41 +0200
+Message-Id: <1382018386-25389-7-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
 References: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/11] acl: Add nativesdk in BBCLASSEXTEND
+Subject: [PATCH 06/11] rpmresolve: Add nativesdk in BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,20 +52,19 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: David Nyström <david.nystrom@enea.com>
 ---
- meta/recipes-support/attr/acl_2.2.51.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/rpm/rpmresolve_1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/attr/acl_2.2.51.bb b/meta/recipes-support/attr/acl_2.2.51.bb
-index 1c40b00..dbe84bd 100644
---- a/meta/recipes-support/attr/acl_2.2.51.bb
-+++ b/meta/recipes-support/attr/acl_2.2.51.bb
-@@ -4,3 +4,5 @@ PR = "r3"
+diff --git a/meta/recipes-devtools/rpm/rpmresolve_1.0.bb b/meta/recipes-devtools/rpm/rpmresolve_1.0.bb
+index 48c52c0..04a55fd 100644
+--- a/meta/recipes-devtools/rpm/rpmresolve_1.0.bb
++++ b/meta/recipes-devtools/rpm/rpmresolve_1.0.bb
+@@ -26,4 +26,4 @@ do_install_append_class-native() {
+ 			RPM_LOCALEDIRRPM=${STAGING_DATADIR_NATIVE}/locale
+ }
  
- SRC_URI[md5sum] = "3fc0ce99dc5253bdcce4c9cd437bc267"
- SRC_URI[sha256sum] = "06854521cf5d396801af7e54b9636680edf8064355e51c07657ec7442a185225"
-+
+-BBCLASSEXTEND = "native"
 +BBCLASSEXTEND = "native nativesdk"
-\ No newline at end of file
 -- 
 1.8.3.2
 
