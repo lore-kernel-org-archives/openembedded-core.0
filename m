@@ -1,28 +1,24 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DD96D6CD0E
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id A65326CD0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Oct 2013 10:45:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9HAj1C4019398
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 17 Oct 2013 03:45:01 -0700 (PDT)
-Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Thu, 17 Oct 2013 03:45:01 -0700
-Message-ID: <525FBFA9.6030708@windriver.com>
-Date: Thu, 17 Oct 2013 18:44:57 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
+	Thu, 17 Oct 2013 10:53:32 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1VWlCv-0001qs-Dr; Thu, 17 Oct 2013 12:53:33 +0200
+Message-ID: <1382007212.484.53.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Ming Liu <ming.liu@windriver.com>
+Date: Thu, 17 Oct 2013 11:53:32 +0100
+In-Reply-To: <525FBBBA.3000405@windriver.com>
 References: <1382004192-12678-1-git-send-email-ming.liu@windriver.com>
 	<1382004192-12678-2-git-send-email-ming.liu@windriver.com>
-	<20131017103355.GB3930@jama>
-In-Reply-To: <20131017103355.GB3930@jama>
-X-Originating-IP: [128.224.162.145]
+	<1382004711.484.47.camel@phil-desktop.brightsign>
+	<525FBBBA.3000405@windriver.com>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH V2 2/2] screen: add pkg_postinst to register entry to /etc/shells
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,155 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 10:45:02 -0000
-Content-Type: multipart/alternative;
-	boundary="------------000609030203050209090201"
-
---------------000609030203050209090201
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 17 Oct 2013 10:53:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/17/2013 06:33 PM, Martin Jansa wrote:
-> On Thu, Oct 17, 2013 at 06:03:12PM +0800, Ming Liu wrote:
->> Signed-off-by: Ming Liu <ming.liu@windriver.com>
->> ---
->>   meta/recipes-extended/screen/screen_4.0.3.bb | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
->> index 1a7eb20..81e418b 100644
->> --- a/meta/recipes-extended/screen/screen_4.0.3.bb
->> +++ b/meta/recipes-extended/screen/screen_4.0.3.bb
->> @@ -41,3 +41,8 @@ do_install_append () {
->>   		fi
->>   	done
->>   }
->> +
->> +pkg_postinst_${PN} () {
->> +	touch $D${sysconfdir}/shells
->> +	grep -q "${bindir}/screen" $D${sysconfdir}/shells || echo ${bindir}/screen >> $D${sysconfdir}/shells
->                    ^ the same, we don't want to match /usr/bin/screenie
-> if it's there and "screen" isn't
-Yes, you are correct, I am too less comprehensive.
+On Thu, 2013-10-17 at 18:28 +0800, Ming Liu wrote:
+> On 10/17/2013 06:11 PM, Phil Blundell wrote:
+> > On Thu, 2013-10-17 at 18:03 +0800, Ming Liu wrote:
+> >> +pkg_postinst_${PN} () {
+> >> +	touch $D${sysconfdir}/shells
+> >> +	grep -q "${bindir}/screen" $D${sysconfdir}/shells || echo ${bindir}/screen >> $D${sysconfdir}/shells
+> >> +}
+> > Is that "touch" really desirable?  It seems as though screen ought not
+> > really to be creating /etc/shells if it isn't there already,
+> No, it's supposed to be created if /etc/shells doesn't exist already, 
+> otherwise, how could we echo text to it?
 
->
-> Is there patch to add this postinst to bash and busybox?
-For bash, it already has it, as following:
-------------------
-pkg_postinst_${PN} () {
-         touch $D${sysconfdir}/shells
-         grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> 
-$D${sysconfdir}/shells
-         grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> 
-$D${sysconfdir}/shells
-}
------------------
+I guess there are two things to say about this:
 
-But as you pointed out, it needs to be more stringent too.
+1) not everybody wants /etc/shells, and having screen (or any other
+recipe) create that file unilaterally seems like a bad thing.
+Especially since there doesn't seem to be any corresponding postrm to
+clear it up if screen is then removed again, nor is /etc/shells
+mentioned in CONFFILES.
 
-For busybox, I don't think it need this script for it provides the 
-symbol link: /bin/sh.
+2) even if you did want to create /etc/shells, the touch is unnecessary
+because "echo foo >> FILE" is perfectly capable of creating the FILE if
+it didn't already exist.
 
-//Ming Liu
-
->
->> +}
->> -- 
->> 1.8.3.3
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+p.
 
 
---------------000609030203050209090201
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 10/17/2013 06:33 PM, Martin Jansa
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:20131017103355.GB3930@jama" type="cite">
-      <pre wrap="">On Thu, Oct 17, 2013 at 06:03:12PM +0800, Ming Liu wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">Signed-off-by: Ming Liu <a class="moz-txt-link-rfc2396E" href="mailto:ming.liu@windriver.com">&lt;ming.liu@windriver.com&gt;</a>
----
- meta/recipes-extended/screen/screen_4.0.3.bb | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
-index 1a7eb20..81e418b 100644
---- a/meta/recipes-extended/screen/screen_4.0.3.bb
-+++ b/meta/recipes-extended/screen/screen_4.0.3.bb
-@@ -41,3 +41,8 @@ do_install_append () {
- 		fi
- 	done
- }
-+
-+pkg_postinst_${PN} () {
-+	touch $D${sysconfdir}/shells
-+	grep -q "${bindir}/screen" $D${sysconfdir}/shells || echo ${bindir}/screen &gt;&gt; $D${sysconfdir}/shells
-</pre>
-      </blockquote>
-      <pre wrap="">                  ^ the same, we don't want to match /usr/bin/screenie
-if it's there and "screen" isn't</pre>
-    </blockquote>
-    Yes, you are correct, I am
-    <meta http-equiv="content-type" content="text/html;
-      charset=ISO-8859-1">
-    too less comprehensive.<br>
-    <br>
-    <blockquote cite="mid:20131017103355.GB3930@jama" type="cite">
-      <pre wrap="">
-
-Is there patch to add this postinst to bash and busybox?</pre>
-    </blockquote>
-    For bash, it already has it, as following:<br>
-    ------------------<br>
-    pkg_postinst_${PN} () {<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; touch $D${sysconfdir}/shells<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash
-    &gt;&gt; $D${sysconfdir}/shells<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh
-    &gt;&gt; $D${sysconfdir}/shells<br>
-    }<br>
-    -----------------<br>
-    <br>
-    But as you pointed out, it needs to be more stringent too.<br>
-    <br>
-    For busybox, I don't think it need this script for it provides the
-    symbol link: /bin/sh.<br>
-    <br>
-    //Ming Liu<br>
-    <br>
-    <blockquote cite="mid:20131017103355.GB3930@jama" type="cite">
-      <pre wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">+}
--- 
-1.8.3.3
-
-_______________________________________________
-Openembedded-core mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
-<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
-</pre>
-      </blockquote>
-      <pre wrap="">
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------000609030203050209090201--
