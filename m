@@ -1,45 +1,31 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 817756BA14
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ED8386BA14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 16:31:35 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id t60so3933729wes.26
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 09:31:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=ykb5BFG5sahNESEMtIj1iAbB5i/sB3TQfdePvaKD9ho=;
-	b=IfKuSb3moxth9o84TNqv9PNXQjVsV1B7ShgYc3u9ik/Alrq154DBA4XxCI8zfzYqXg
-	p0BtUNufr/bDrn2iqzBX2mBDFAnvxbYARRE4PkZGW9JLvP6vfuaOLSJxoLUx/wYswPmT
-	l6NU+RPXnLfSGUjXFMUjuMWivDwBBD7SGr8rnC5Yz2L5sd71l+/gbBVoqSLWfy+DAQXj
-	gWfaOgOO3KNhlqS2W5NXWUjKE/eXuBnnPVv8vxsrZSVfJDUqwXiXHhQfZIms3VdPieor
-	Jxk/NuuLdwXYAW9L0yH6eZBdRDkNIAD77PftQ9Z13eX5uHrBrxeskz2Lfl9OY1Ecv8bO
-	XGVg==
-X-Gm-Message-State: ALoCoQkoSO8CYcfe8mcAazoc0yN1wRNaaayEOKwEzpiOnpIORCNDf7SzXaNUmv/X4nu246RowUom
-X-Received: by 10.180.210.231 with SMTP id mx7mr91921wic.5.1382113895312;
-	Fri, 18 Oct 2013 09:31:35 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::a072:4f8e:55ba:e612?
-	([2001:610:612:0:a072:4f8e:55ba:e612])
-	by mx.google.com with ESMTPSA id lr3sm27221950wic.5.2013.10.18.09.31.33
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 18 Oct 2013 09:31:34 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <52615ACB.1010203@emagii.com>
-Date: Fri, 18 Oct 2013 18:31:32 +0200
-Message-Id: <34C59EF9-AA69-48F2-ACE4-6BBAAA88FD4A@dominion.thruhere.net>
-References: <52615ACB.1010203@emagii.com>
-To: Ulf Samuelsson <angstrom-dev@emagii.com>
-X-Mailer: Apple Mail (2.1510)
-Cc: Discussion of the angstrom distribution development
-	<angstrom-distro-devel@linuxtogo.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issues with PREFERRED_VERSION/PREFERRED_PROVIDER for the kernel
+	Fri, 18 Oct 2013 17:00:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9IH0GNf016508
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 18 Oct 2013 10:00:16 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 18 Oct 2013 10:00:16 -0700
+Message-ID: <5261691F.3090803@windriver.com>
+Date: Fri, 18 Oct 2013 12:00:15 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+MIME-Version: 1.0
+To: Phil Blundell <pb@pbcl.net>
+References: <1382094700-17805-1-git-send-email-ming.liu@windriver.com>		<1382094700-17805-3-git-send-email-ming.liu@windriver.com>	
+	<1382108376.529.6.camel@phil-desktop.brightsign>	
+	<52614FD4.1030006@windriver.com>
+	<1382109492.529.12.camel@phil-desktop.brightsign>
+In-Reply-To: <1382109492.529.12.camel@phil-desktop.brightsign>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 3/3] bash: add pkg_postrm to remove the entry in /etc/shells
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,22 +38,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 16:31:35 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 Oct 2013 17:00:17 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/18/13 10:18 AM, Phil Blundell wrote:
+> On Fri, 2013-10-18 at 10:12 -0500, Mark Hatle wrote:
+>> On 10/18/13 9:59 AM, Phil Blundell wrote:
+>>> On Fri, 2013-10-18 at 19:11 +0800, Ming Liu wrote:
+>>>>    pkg_postinst_${PN} () {
+>>>> -	touch $D${sysconfdir}/shells
+>>>> -	grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> $D${sysconfdir}/shells
+>>>> -	grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> $D${sysconfdir}/shells
+>>>> +	if [ ! -f $D${sysconfdir}/shells ]; then
+>>
+>> One note with the above check.  Whichever package is responsible for providing
+>> the 'shells' file needs to be installed -first-.  So anything that manipulates
+>> the 'shells' file will need an RDEPENDS on that package.
+>
+> Isn't the whole point of the check above that it now creates /etc/shells
+> if it didn't exist already?
 
-Op 18 okt. 2013, om 17:59 heeft Ulf Samuelsson <angstrom-dev@emagii.com> =
-het volgende geschreven:
+Situation  bash has dep on base-files:
 
-> 1. If you define something in the <MACHINE>.conf and in <DISTRO>.conf
->    then <DISTRO>.conf has higher priority.
->    This is really non-intuitive.
+base-files package gets install (creates basic /etc/shells)
+bash gets installed (checks for /etc/shells, adds /bin/bash)
 
-It is correct however, if the DISTRO defines it, it's a DISTRO setting =
-that a MACHINE.conf really should stay away from.
+Alternative situation:
 
-regards,
+bash has no dep on base-files:
 
-KOen=
+bash gets installed (checks for /etc/shells, doesn't exist)
+base-files gets installed (creates basic /etc/shells)
+
+> That said, though, I'm still not entirely convinced that having
+> semi-random packages create a file that isn't mentioned in either FILES
+
+I don't want it to create the file, that is the wrong behavior.  The -package- 
+needs to depend on the package that provides the base configuration for the 
+system.  -something- has to create the file, or be installed first.
+
+> or CONFFILES is a very good thing.  I'm also not totally clear on what
+> exactly the problem is that this set of patches is trying to solve: the
+> original commit message says that having nonexistent files named
+> in /etc/shells is "unreasonable" but doesn't provide any supporting
+> evidence for that assertion.
+
+The original problem is that /etc/shells contains too much "crap", and we've got 
+customers saying "hey you are opening up potential security holes by having 
+things in there that are not valid."  (Beyond the file being sloppy)
+
+So we would prefer that a minimal file exist, and then entries for valid shells 
+be added dynamically to the system, only if the packages that provide them are 
+supported.
+
+--Mark
+
+> p.
+>
+>
+
 
