@@ -1,26 +1,32 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 536E660E82
+Return-Path: <angstrom-dev@emagii.com>
+Received: from smtprelay-b21.telenor.se (smtprelay-b21.telenor.se
+	[195.54.99.212])
+	by mail.openembedded.org (Postfix) with ESMTP id D6D656CE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 15:18:12 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1VXBob-0003KP-F1; Fri, 18 Oct 2013 17:18:13 +0200
-Message-ID: <1382109492.529.12.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Fri, 18 Oct 2013 16:18:12 +0100
-In-Reply-To: <52614FD4.1030006@windriver.com>
-References: <1382094700-17805-1-git-send-email-ming.liu@windriver.com>
-	<1382094700-17805-3-git-send-email-ming.liu@windriver.com>
-	<1382108376.529.6.camel@phil-desktop.brightsign>
-	<52614FD4.1030006@windriver.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 3/3] bash: add pkg_postrm to remove the entry in /etc/shells
+	Fri, 18 Oct 2013 15:59:07 +0000 (UTC)
+Received: from ipb2.telenor.se (ipb2.telenor.se [195.54.127.165])
+	by smtprelay-b21.telenor.se (Postfix) with ESMTP id 6526EE981A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Oct 2013 17:59:08 +0200 (CEST)
+X-SENDER-IP: [83.227.59.84]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AtseAGFaYVJT4ztUPGdsb2JhbAANTYM/iDWvHYhXAwEBAQE4gxkTASw9FhgDAgECATEaDQgBAbVwhVYBjVOUBgOYCYpCims
+X-IronPort-AV: E=Sophos;i="4.93,523,1378850400"; d="scan'208";a="635861884"
+Received: from c-543be353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.199]) ([83.227.59.84])
+	by ipb2.telenor.se with ESMTP; 18 Oct 2013 17:59:08 +0200
+Message-ID: <52615ACB.1010203@emagii.com>
+Date: Fri, 18 Oct 2013 17:59:07 +0200
+From: Ulf Samuelsson <angstrom-dev@emagii.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Discussion of the angstrom distribution development
+	<angstrom-distro-devel@linuxtogo.org>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Issues with PREFERRED_VERSION/PREFERRED_PROVIDER for the kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +39,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 15:18:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 18 Oct 2013 15:59:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-10-18 at 10:12 -0500, Mark Hatle wrote:
-> On 10/18/13 9:59 AM, Phil Blundell wrote:
-> > On Fri, 2013-10-18 at 19:11 +0800, Ming Liu wrote:
-> >>   pkg_postinst_${PN} () {
-> >> -	touch $D${sysconfdir}/shells
-> >> -	grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> $D${sysconfdir}/shells
-> >> -	grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> $D${sysconfdir}/shells
-> >> +	if [ ! -f $D${sysconfdir}/shells ]; then
-> 
-> One note with the above check.  Whichever package is responsible for providing 
-> the 'shells' file needs to be installed -first-.  So anything that manipulates 
-> the 'shells' file will need an RDEPENDS on that package.
+1. If you define something in the <MACHINE>.conf and in <DISTRO>.conf
+     then <DISTRO>.conf has higher priority.
+     This is really non-intuitive.
 
-Isn't the whole point of the check above that it now creates /etc/shells
-if it didn't exist already?
+2. If you define a PREFERRED_VERSION which does not have a corresponding 
+".bb" file
+     you do not get a warning, and the latest PREFERRED_PROVIDER is used.
 
-That said, though, I'm still not entirely convinced that having
-semi-random packages create a file that isn't mentioned in either FILES
-or CONFFILES is a very good thing.  I'm also not totally clear on what
-exactly the problem is that this set of patches is trying to solve: the
-original commit message says that having nonexistent files named
-in /etc/shells is "unreasonable" but doesn't provide any supporting
-evidence for that assertion.
+3. If you define a PREFERRED_PROVIDER which does not have a 
+corresponding ".bb" file
+     you *do* get a warning, with a list of possible providers, and 
+bitbake will bake the
+     first in the list.
+     It will also bake the *latest* version, even if that provider has a 
+PREFERRED_VERSION.
 
-p.
+4. If I define PREFERRED_PROVIDER_virtual/kernel = "linux-x"  in 
+<machine>.conf,
+     bitbake will bake "linux-x" using the latest version
 
+5. If I define PREFERRED_VERSION_virtual/kernel = "3.7.0", this is ignored.
+
+6. If I define PREFERRED_VERSION_linux-x = "3.7.0", this is accepted and 
+linux-x_3.7.0.bb is used.
+
+-------------------------------------------
+Questions:
+     You need to parse <machine>.conf before you parse the DISTRO since
+     some things in the distro is machine dependent.
+
+     I.E:  PREFERRED_VERSION_binutils_avr32 = "2.17"
+
+(1) Would it be possible to reparse <machine>.conf
+     after DISTRO has been parsed, resetting some stuff, overridden by 
+the DISTRO?
+
+(2)  Why no warning, if the PREFERRED_VERSION cannot be found.
+     It would be good to have which versions are available.
+
+     For the Beaglebone, you have a linux-mainline_3.7.bb, but if you set
+
+     PREFERRED_VERSION_linux-mainline = "3.7"
+
+     you still get "3.8.13" built, because "linux-mainline_3.7.bb" 
+contains PV = "3.7.0"
+
+     A warning would have been helpful!
+
+(3) Why is PREFERRED_VERSION_virtual/kernel accepted without error 
+message, but ignored?
+
+(4) If bitbake cannot find a recommended PROVIDER, and selects something 
+else,
+      why not use the PREFERRED_VERSION if it exists?
+
+BR
+Ulf Samuelsson
 
 
