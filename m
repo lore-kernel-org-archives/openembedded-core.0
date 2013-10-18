@@ -1,26 +1,36 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BDA776CD55
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f45.google.com (mail-vb0-f45.google.com
+	[209.85.212.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 11BEC6CD55
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 11:11:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9IBBqMT015065
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 18 Oct 2013 11:17:41 +0000 (UTC)
+Received: by mail-vb0-f45.google.com with SMTP id e15so1731446vbg.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 04:11:52 -0700 (PDT)
-Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 18 Oct 2013 04:11:52 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Oct 2013 19:11:40 +0800
-Message-ID: <1382094700-17805-3-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.7.1
-In-Reply-To: <1382094700-17805-1-git-send-email-ming.liu@windriver.com>
-References: <1382094700-17805-1-git-send-email-ming.liu@windriver.com>
+	Fri, 18 Oct 2013 04:17:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=tIOwtsZQ7sbwKAcGB298onP1IPJ0kDcL1DVq2bpWStE=;
+	b=WQCzdycXEGe33E2eIY3oJbDbXZZGGxpEr3CRoP4KZhQOmLTnPUq5lR34gqWLYVPvGL
+	9n/HIauhG1F94i6OuJP6J3mjCVRTV6WGnK9HB/fcdIeX0q3yxe8e1uZN5c/CvcWgzz9K
+	JRIrLF2xYEcWZv2RBSbcdN/8n0i120BVfKXnMQWNLGjHThvoBHNJmuVtizLmw6O5cerh
+	YfAyXeLo5VSQTvKYhMwW4okBpXa4lYvpK1eyCwXb4SQaCt9CxyuCoBSKzNwzDsLmhHr6
+	bb0P8eKdHooPqJcFkY9XHrSnPO6Z3eYyMD1uT42Wnp7gcu/lpqJnh1dl2bN2AoKnT/oh
+	p13Q==
+X-Gm-Message-State: ALoCoQmvFt6CDa+EZL+JcdCtpOdZt48qSOBIOLUYhAslZhPa6Fuw9M+e3MYeE3q+kOqKd/gVp+W0
+X-Received: by 10.58.210.234 with SMTP id mx10mr1632117vec.9.1382095063474;
+	Fri, 18 Oct 2013 04:17:43 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH V3 3/3] bash: add pkg_postrm to remove the entry in /etc/shells
+Received: by 10.220.71.201 with HTTP; Fri, 18 Oct 2013 04:17:22 -0700 (PDT)
+In-Reply-To: <1382083973-13444-1-git-send-email-rongqing.li@windriver.com>
+References: <1382083973-13444-1-git-send-email-rongqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 18 Oct 2013 12:17:22 +0100
+Message-ID: <CAJTo0LZBVxwoUufz4dbpaCXoV4x3x+S_q3NYowGsjstXHDs=tQ@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 11:11:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 18 Oct 2013 11:17:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/recipes-extended/bash/bash.inc |   18 +++++++++++++++---
- 1 files changed, 15 insertions(+), 3 deletions(-)
+Hi,
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index 64b476f..7c18f37 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -44,7 +44,19 @@ do_install_ptest () {
- }
- 
- pkg_postinst_${PN} () {
--	touch $D${sysconfdir}/shells
--	grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> $D${sysconfdir}/shells
--	grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> $D${sysconfdir}/shells
-+	if [ ! -f $D${sysconfdir}/shells ]; then
-+		touch $D${sysconfdir}/shells
-+	fi
-+
-+	grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo ${base_bindir}/bash >> $D${sysconfdir}/shells
-+}
-+
-+pkg_postrm_${PN} () {
-+	if [ -f $D${sysconfdir}/shells ]; then
-+		printf "$(grep -v "^${base_bindir}/bash$" $D${sysconfdir}/shells)\n" > $D${sysconfdir}/shells
-+
-+		if [ ! -s $D${sysconfdir}/shells ]; then
-+			rm $D${sysconfdir}/shells
-+		fi
-+	fi
- }
--- 
-1.7.1
+Can you explain why connman needs to ignore the device that NFS is
+reading the rootfs from?  I ask because the very latest connman
+release shouldn't be dropping and re-configuring interfaces if there's
+a provisioned configuration for them (see connman-conf, which does
+this for all qemu machines) and that configuration matches the current
+configuration.  Would this be sufficient for the rootfs-on-NFS
+situation?
 
+Ross
 
