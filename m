@@ -1,24 +1,15 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 431F36C76F
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 83E896C76F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 08:12:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9I8CtNW024246
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 01:12:55 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 18 Oct 2013 01:12:54 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 18 Oct 2013 16:12:53 +0800
-Message-ID: <1382083973-13444-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Subject: [PATCH v4] connman: ignore the networking device which nfs for rootfs is working on
+	Fri, 18 Oct 2013 08:45:33 +0000 (UTC)
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Oct 2013 09:45:24 +0100
+Message-Id: <1382085924-29893-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.4
+Cc: Jack Mitchell <jmitchell@cbnl.com>
+Subject: [PATCH] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,177 +22,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 08:12:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 18 Oct 2013 08:45:35 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+From: Jack Mitchell <jmitchell@cbnl.com>
 
-Create connman-evn.service, which will run a script to compute the networking
-device when nfs root is on, and pass the result to connman.service
+libjson is now known as json-c, it keeps support for the old
+libjson namespace so it shouldn't break anything. Built without
+parallel make as it would fail when it tries to link to link back
+to itself, which is odd, but the official word is: don't build in
+parallel.
 
-Copy Connmand.service from source code, add ExecStartPre into it to release
-do_configure_append work, use the options which is passed by connman-evn.service
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
 ---
- meta/recipes-connectivity/connman/connman.inc      |   18 +++++----
- .../connman/connman/connman-env.service            |   13 ++++++
- .../connman/connman/connman.service                |   14 +++++++
- .../connman/connman/connmand-env                   |   42 ++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_1.18.bb  |    3 ++
- 5 files changed, 83 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/connman-env.service
- create mode 100644 meta/recipes-connectivity/connman/connman/connman.service
- create mode 100644 meta/recipes-connectivity/connman/connman/connmand-env
+ meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+ meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
+ meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+ 4 files changed, 15 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+ delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 12f3edd..c2d71e0 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -64,15 +64,9 @@ python __anonymous () {
- 
- SYSTEMD_SERVICE_${PN} = "connman.service"
- SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
--SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
- 
- inherit autotools gtk-doc pkgconfig systemd update-rc.d
- 
--do_configure_append () {
--	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${S}/src/connman.service
--
--}
--
- # This allows *everyone* to access ConnMan over DBus, without any access
- # control.  Really the at_console flag should work, which would mean that
- # both this and the xuser patch can be dropped.
-@@ -88,6 +82,16 @@ do_install_append() {
- 		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
- 	fi
- 
-+	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+		install -m 0755 ${WORKDIR}/connmand-env ${D}${sbindir}/
-+		install -m 0644 ${WORKDIR}/connman-env.service  ${D}/${systemd_unitdir}/system/
-+		install -m 0644 ${WORKDIR}/connman.service  ${D}/${systemd_unitdir}/system/
-+		sed -i  -e 's,@SBINDIR@,${sbindir},g' \
-+			-e 's,@LIBDIR@,${libdir},g' \
-+			-e 's,@LOCALSTATEDIR@,${localstatedir},g' \
-+			${D}${systemd_unitdir}/system/*.service
-+	fi
-+
- 	install -d ${D}${bindir}
- 	install -m 0755 ${S}/tools/*-test ${D}${bindir}
- 	if [ -e ${S}/tools/wispr ]; then
-@@ -163,7 +167,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
-             ${libdir}/connman/plugins \
-             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
-             ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
--            ${datadir}/dbus-1/system-services/*"
-+            ${datadir}/dbus-1/system-services/* ${systemd_unitdir}/system/connman-env.service"
- 
- FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
- 
-diff --git a/meta/recipes-connectivity/connman/connman/connman-env.service b/meta/recipes-connectivity/connman/connman/connman-env.service
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index c067183..e1a5c6b 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+ B_pn-libice-native = "${SEPB}"
+ B_pn-libid3tag = "${SEPB}"
+ B_pn-libidn = "${SEPB}"
+-B_pn-libjson = "${SEPB}"
++B_pn-json-c = "${SEPB}"
+ B_pn-libksba = "${SEPB}"
+ B_pn-libmad = "${SEPB}"
+ B_pn-libmatchbox = "${SEPB}"
+diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
 new file mode 100644
-index 0000000..c4dc278
+index 0000000..e0391f5
 --- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/connman-env.service
++++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
 @@ -0,0 +1,13 @@
-+[Unit]
-+Description=Generate options for connection service
-+Before=connman.service
-+ConditionKernelCommandLine=root=/dev/nfs
-+After=syslog.target
++SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
++HOMEPAGE = "https://github.com/json-c/json-c/wiki"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
 +
-+[Service]
-+Type=oneshot
-+ExecStart=@SBINDIR@/connmand-env
-+StandardOutput=null
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
 +
-+[Install]
-+WantedBy=connman.service
-diff --git a/meta/recipes-connectivity/connman/connman/connman.service b/meta/recipes-connectivity/connman/connman/connman.service
-new file mode 100644
-index 0000000..aa0e49a
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/connman.service
-@@ -0,0 +1,14 @@
-+[Unit]
-+Description=Connection service
-+After=syslog.target
-+Wants=connman-env.service
++SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
++SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
 +
-+[Service]
-+Type=dbus
-+BusName=net.connman
-+EnvironmentFile=-@LOCALSTATEDIR@/run/connmand.env
-+ExecStartPre=-@LIBDIR@/connman/wired-setup
-+ExecStart=@SBINDIR@/connmand -n $CONNMAND_OPTS
++PARALLEL_MAKE = ""
 +
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/connman/connman/connmand-env b/meta/recipes-connectivity/connman/connman/connmand-env
-new file mode 100644
-index 0000000..ffdf70a
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/connmand-env
-@@ -0,0 +1,42 @@
-+#!/bin/sh
-+
-+nfsroot=0
-+
-+exec 9<&0 < /proc/mounts
-+while read dev mtpt fstype rest; do
-+	if test $mtpt = "/" ; then
-+		case $fstype in
-+		    nfs | nfs4)
-+			nfsroot=1
-+			break
-+			;;
-+		    *)
-+			;;
-+		esac
-+	fi
-+done
-+
-+EXTRA_PARAM=""
-+if test $nfsroot -eq 1 ; then
-+    NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
-+    NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
-+
-+    if [ ! -z "$NET_ADDR" ]; then
-+	if [ "$NET_ADDR" = dhcp ]; then
-+	    ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
-+	    if [ ! -z "$ethn" ]; then
-+		EXTRA_PARAM="-I $ethn"
-+	    fi
-+	else
-+	    for i in $NET_DEVS; do
-+		ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-+		if [ "$NET_ADDR" = "$ADDR" ]; then
-+		    EXTRA_PARAM="-I $i"
-+		    break
-+		fi
-+	    done
-+	fi
-+    fi
-+fi
-+
-+echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand.env
-diff --git a/meta/recipes-connectivity/connman/connman_1.18.bb b/meta/recipes-connectivity/connman/connman_1.18.bb
-index 44a4a07..eee8116 100644
---- a/meta/recipes-connectivity/connman/connman_1.18.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.18.bb
-@@ -4,6 +4,9 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
-             file://connman \
-+            file://connmand-env \
-+            file://connman.service \
-+            file://connman-env.service \
-             "
++inherit autotools
+diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+deleted file mode 100644
+index e4951a8..0000000
+--- a/meta/recipes-devtools/libjson/libjson_0.9.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-DESCRIPTION = "JSON-C - A JSON implementation in C"
+-HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+-
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+-
+-SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+-SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+-SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+-
+-S = "${WORKDIR}/json-c-${PV}"
+-
+-
+-inherit autotools
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 4c10aa9..475da41 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+-DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
++DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
  
- SRC_URI[md5sum] = "7578ec8f0422d34f5a4ba51b605fe576"
+ inherit autotools pkgconfig useradd gettext perlnative
+ 
 -- 
-1.7.10.4
+1.8.4
 
 
