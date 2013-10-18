@@ -1,31 +1,35 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ED8386BA14
+Return-Path: <angstrom-dev@emagii.com>
+Received: from smtprelay-b21.telenor.se (smtprelay-b21.telenor.se
+	[195.54.99.212])
+	by mail.openembedded.org (Postfix) with ESMTP id 22AC76BA14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 17:00:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9IH0GNf016508
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 18 Oct 2013 10:00:16 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 18 Oct 2013 10:00:16 -0700
-Message-ID: <5261691F.3090803@windriver.com>
-Date: Fri, 18 Oct 2013 12:00:15 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
-MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1382094700-17805-1-git-send-email-ming.liu@windriver.com>		<1382094700-17805-3-git-send-email-ming.liu@windriver.com>	
-	<1382108376.529.6.camel@phil-desktop.brightsign>	
-	<52614FD4.1030006@windriver.com>
-	<1382109492.529.12.camel@phil-desktop.brightsign>
-In-Reply-To: <1382109492.529.12.camel@phil-desktop.brightsign>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 3/3] bash: add pkg_postrm to remove the entry in /etc/shells
+	Fri, 18 Oct 2013 17:05:38 +0000 (UTC)
+Received: from ipb5.telenor.se (ipb5.telenor.se [195.54.127.168])
+	by smtprelay-b21.telenor.se (Postfix) with ESMTP id C894AEBFFD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Oct 2013 19:05:39 +0200 (CEST)
+X-SENDER-IP: [83.227.59.84]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AtUeAI9pYVJT4ztUPGdsb2JhbAANTYt0tkCBNwMBAQEBOIJaAQEBAQIBOj8QC0ZDFAYTiACuE5MmjyMzB4MfgQoDmAmKQopr
+X-IronPort-AV: E=Sophos;i="4.93,523,1378850400"; d="scan'208";a="413604474"
+Received: from c-543be353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.117]) ([83.227.59.84])
+	by ipb5.telenor.se with ESMTP; 18 Oct 2013 19:05:39 +0200
+References: <52615ACB.1010203@emagii.com>
+	<34C59EF9-AA69-48F2-ACE4-6BBAAA88FD4A@dominion.thruhere.net>
+In-Reply-To: <34C59EF9-AA69-48F2-ACE4-6BBAAA88FD4A@dominion.thruhere.net>
+Mime-Version: 1.0 (1.0)
+Message-Id: <8D2F1DD0-3071-47B6-82E3-646A6C881708@emagii.com>
+X-Mailer: iPad Mail (9B176)
+From: Ulf Samuelsson <angstrom-dev@emagii.com>
+Date: Fri, 18 Oct 2013 19:05:39 +0200
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Discussion of the angstrom distribution development
+	<angstrom-distro-devel@linuxtogo.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Issues with PREFERRED_VERSION/PREFERRED_PROVIDER for the kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,64 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 17:00:17 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Oct 2013 17:05:39 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 10/18/13 10:18 AM, Phil Blundell wrote:
-> On Fri, 2013-10-18 at 10:12 -0500, Mark Hatle wrote:
->> On 10/18/13 9:59 AM, Phil Blundell wrote:
->>> On Fri, 2013-10-18 at 19:11 +0800, Ming Liu wrote:
->>>>    pkg_postinst_${PN} () {
->>>> -	touch $D${sysconfdir}/shells
->>>> -	grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> $D${sysconfdir}/shells
->>>> -	grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> $D${sysconfdir}/shells
->>>> +	if [ ! -f $D${sysconfdir}/shells ]; then
->>
->> One note with the above check.  Whichever package is responsible for providing
->> the 'shells' file needs to be installed -first-.  So anything that manipulates
->> the 'shells' file will need an RDEPENDS on that package.
->
-> Isn't the whole point of the check above that it now creates /etc/shells
-> if it didn't exist already?
+In some cases, you might want to override a few things in the DISTRO.
 
-Situation  bash has dep on base-files:
+Maybe an easy way to handle this would be if the DISTRO conf file=20
+included an empty file at the end,=20
+which can be overridden by a file in your own layer.
 
-base-files package gets install (creates basic /etc/shells)
-bash gets installed (checks for /etc/shells, adds /bin/bash)
+Best Regards
+Ulf Samuelsson
 
-Alternative situation:
+18 okt 2013 kl. 18:31 skrev Koen Kooi <koen@dominion.thruhere.net>:
 
-bash has no dep on base-files:
-
-bash gets installed (checks for /etc/shells, doesn't exist)
-base-files gets installed (creates basic /etc/shells)
-
-> That said, though, I'm still not entirely convinced that having
-> semi-random packages create a file that isn't mentioned in either FILES
-
-I don't want it to create the file, that is the wrong behavior.  The -package- 
-needs to depend on the package that provides the base configuration for the 
-system.  -something- has to create the file, or be installed first.
-
-> or CONFFILES is a very good thing.  I'm also not totally clear on what
-> exactly the problem is that this set of patches is trying to solve: the
-> original commit message says that having nonexistent files named
-> in /etc/shells is "unreasonable" but doesn't provide any supporting
-> evidence for that assertion.
-
-The original problem is that /etc/shells contains too much "crap", and we've got 
-customers saying "hey you are opening up potential security holes by having 
-things in there that are not valid."  (Beyond the file being sloppy)
-
-So we would prefer that a minimal file exist, and then entries for valid shells 
-be added dynamically to the system, only if the packages that provide them are 
-supported.
-
---Mark
-
-> p.
->
->
-
+>=20
+> Op 18 okt. 2013, om 17:59 heeft Ulf Samuelsson <angstrom-dev@emagii.com> h=
+et volgende geschreven:
+>=20
+>> 1. If you define something in the <MACHINE>.conf and in <DISTRO>.conf
+>>   then <DISTRO>.conf has higher priority.
+>>   This is really non-intuitive.
+>=20
+> It is correct however, if the DISTRO defines it, it's a DISTRO setting tha=
+t a MACHINE.conf really should stay away from.
+>=20
+> regards,
+>=20
+> KOen
 
