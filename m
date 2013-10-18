@@ -1,35 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f45.google.com (mail-vb0-f45.google.com
-	[209.85.212.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 11BEC6CD55
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 66B1D6CE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 11:17:41 +0000 (UTC)
-Received: by mail-vb0-f45.google.com with SMTP id e15so1731446vbg.4
+	Fri, 18 Oct 2013 12:48:06 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	r9ICm5lE021281
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 04:17:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=tIOwtsZQ7sbwKAcGB298onP1IPJ0kDcL1DVq2bpWStE=;
-	b=WQCzdycXEGe33E2eIY3oJbDbXZZGGxpEr3CRoP4KZhQOmLTnPUq5lR34gqWLYVPvGL
-	9n/HIauhG1F94i6OuJP6J3mjCVRTV6WGnK9HB/fcdIeX0q3yxe8e1uZN5c/CvcWgzz9K
-	JRIrLF2xYEcWZv2RBSbcdN/8n0i120BVfKXnMQWNLGjHThvoBHNJmuVtizLmw6O5cerh
-	YfAyXeLo5VSQTvKYhMwW4okBpXa4lYvpK1eyCwXb4SQaCt9CxyuCoBSKzNwzDsLmhHr6
-	bb0P8eKdHooPqJcFkY9XHrSnPO6Z3eYyMD1uT42Wnp7gcu/lpqJnh1dl2bN2AoKnT/oh
-	p13Q==
-X-Gm-Message-State: ALoCoQmvFt6CDa+EZL+JcdCtpOdZt48qSOBIOLUYhAslZhPa6Fuw9M+e3MYeE3q+kOqKd/gVp+W0
-X-Received: by 10.58.210.234 with SMTP id mx10mr1632117vec.9.1382095063474;
-	Fri, 18 Oct 2013 04:17:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 18 Oct 2013 04:17:22 -0700 (PDT)
-In-Reply-To: <1382083973-13444-1-git-send-email-rongqing.li@windriver.com>
+	Fri, 18 Oct 2013 14:48:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1382100486;
+	bh=OnkPzo81NrdsC9juQ2TnzllQI++XBhB/qACQj2CMqVY=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=UIoDysMblkjq5W48amswDXBc3sjl0i4ko7jWcMmqwKgCaXAr8UkX+GB5wDrrOTi4J
+	P9VN33p8+APIBNy9/HY6QO9GVnyJ+lDNc3cKyo1+M+nTRR5QS4UvT0292ZSCQG//vS
+	96jTXfxLVIpda0HkPeKG07AB1fDDeh/5g5ktP8Xk=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r9IClvos011697
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Oct 2013 14:47:58 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VX9TB-0002VE-Fa
+	for openembedded-core@lists.openembedded.org;
+	Fri, 18 Oct 2013 14:47:57 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
 References: <1382083973-13444-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 18 Oct 2013 12:17:22 +0100
-Message-ID: <CAJTo0LZBVxwoUufz4dbpaCXoV4x3x+S_q3NYowGsjstXHDs=tQ@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LZBVxwoUufz4dbpaCXoV4x3x+S_q3NYowGsjstXHDs=tQ@mail.gmail.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Fri, 18 Oct 2013 14:47:57 +0200
+In-Reply-To: <CAJTo0LZBVxwoUufz4dbpaCXoV4x3x+S_q3NYowGsjstXHDs=tQ@mail.gmail.com>
+	(Ross Burton's message of "Fri, 18 Oct 2013 12:17:22 +0100")
+Message-ID: <ly7gdawxs2.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.2
+X-Spam-Level: ----
+X-Spam-Tests: AWL,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
 Subject: Re: [PATCH v4] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,18 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 11:17:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 18 Oct 2013 12:48:07 -0000
+Content-Type: text/plain
 
-Hi,
+"Burton, Ross" <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+writes:
 
-Can you explain why connman needs to ignore the device that NFS is
-reading the rootfs from?  I ask because the very latest connman
-release shouldn't be dropping and re-configuring interfaces if there's
-a provisioned configuration for them (see connman-conf, which does
-this for all qemu machines) and that configuration matches the current
-configuration.  Would this be sufficient for the rootfs-on-NFS
-situation?
+> Can you explain why connman needs to ignore the device that NFS is
+> reading the rootfs from?  I ask because the very latest connman
+> release shouldn't be dropping and re-configuring interfaces if there's
+> a provisioned configuration for them (see connman-conf, which does
+> this for all qemu machines) and that configuration matches the current
+> configuration.  Would this be sufficient for the rootfs-on-NFS
+> situation?
 
-Ross
+not really... the provisioning stuff does not seem to work for the
+'ip=dhcp' case.
+
+I know that this case is not handled well with this patch either (it
+misses renewal of dhcp leases, setup of dns + ntp).  But it is still
+better than actual behavior.
+
+On first glance, the do-not-cleanup patch in connman seems to cover
+system startup only.  I might miss something, but afais, interface will
+be still shut down in the middle of reboot which is bad because '/' is
+needed nearly to the end of shutdown.
+
+
+
+Enrico
 
