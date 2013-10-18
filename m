@@ -1,31 +1,38 @@
-Return-Path: <angstrom-dev@emagii.com>
-Received: from smtprelay-b21.telenor.se (smtprelay-b21.telenor.se
-	[195.54.99.212])
-	by mail.openembedded.org (Postfix) with ESMTP id 22AC76BA14
+Return-Path: <kergoth@gmail.com>
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 533306BA14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 17:05:38 +0000 (UTC)
-Received: from ipb5.telenor.se (ipb5.telenor.se [195.54.127.168])
-	by smtprelay-b21.telenor.se (Postfix) with ESMTP id C894AEBFFD
+	Fri, 18 Oct 2013 17:29:20 +0000 (UTC)
+Received: by mail-lb0-f172.google.com with SMTP id c11so2911399lbj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 19:05:39 +0200 (CEST)
-X-SENDER-IP: [83.227.59.84]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AtUeAI9pYVJT4ztUPGdsb2JhbAANTYt0tkCBNwMBAQEBOIJaAQEBAQIBOj8QC0ZDFAYTiACuE5MmjyMzB4MfgQoDmAmKQopr
-X-IronPort-AV: E=Sophos;i="4.93,523,1378850400"; d="scan'208";a="413604474"
-Received: from c-543be353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.117]) ([83.227.59.84])
-	by ipb5.telenor.se with ESMTP; 18 Oct 2013 19:05:39 +0200
+	Fri, 18 Oct 2013 10:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=Fi49PVL6TZTw63hTZP+8rueszHo4CcpZvYU2o6UZwPU=;
+	b=flzznIVQ7bxASabmwqm0k4GGJ98NUQqzZGX7+qZysSMWdCzF5/09Uv3BOJlP+8PYXG
+	8ZvuuxdOsa7938UWXU73AfMh6BGtGil5iyDPudzZhRxvCM5lW3T7hIzQb6UEEt8kDR56
+	A58nBI0/Dr93ASACS3xky7UkvNWMWT7Ij/oWJbqSCnsTPSq2Fnd998T5M8dK+XwIGWE3
+	TKgOLkO+aT7PVS4ctQhDG5wY0/G9ZAc0PZwuNUsgnU8iMFcH+NjF+sOKrK+HvANrYhoj
+	auXsK/27X+XPHp6ObRXo4nnQTZ+a0cy67QKIm0yw3phtIIXG5nFZaEinQnEcZ0ypBE7t
+	vZDQ==
+X-Received: by 10.152.36.170 with SMTP id r10mr2101306laj.48.1382117360665;
+	Fri, 18 Oct 2013 10:29:20 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.53.197 with HTTP; Fri, 18 Oct 2013 10:29:00 -0700 (PDT)
+In-Reply-To: <8D2F1DD0-3071-47B6-82E3-646A6C881708@emagii.com>
 References: <52615ACB.1010203@emagii.com>
 	<34C59EF9-AA69-48F2-ACE4-6BBAAA88FD4A@dominion.thruhere.net>
-In-Reply-To: <34C59EF9-AA69-48F2-ACE4-6BBAAA88FD4A@dominion.thruhere.net>
-Mime-Version: 1.0 (1.0)
-Message-Id: <8D2F1DD0-3071-47B6-82E3-646A6C881708@emagii.com>
-X-Mailer: iPad Mail (9B176)
-From: Ulf Samuelsson <angstrom-dev@emagii.com>
-Date: Fri, 18 Oct 2013 19:05:39 +0200
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Discussion of the angstrom distribution development
+	<8D2F1DD0-3071-47B6-82E3-646A6C881708@emagii.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 18 Oct 2013 10:29:00 -0700
+X-Google-Sender-Auth: Daxof7xJ7RqJdhOzIsLsFmyUFPA
+Message-ID: <CABcZANm5u0NA6rv-TPJ86xNmQcpL4b2jUq3SgVtSQaXbSprw7A@mail.gmail.com>
+To: Ulf Samuelsson <angstrom-dev@emagii.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	Discussion of the angstrom distribution development
 	<angstrom-distro-devel@linuxtogo.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -42,34 +49,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 17:05:39 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 18 Oct 2013 17:29:21 -0000
+Content-Type: multipart/alternative; boundary=089e0160bb04520c9704e9074658
 
-In some cases, you might want to override a few things in the DISTRO.
+--089e0160bb04520c9704e9074658
+Content-Type: text/plain; charset=UTF-8
 
-Maybe an easy way to handle this would be if the DISTRO conf file=20
-included an empty file at the end,=20
-which can be overridden by a file in your own layer.
+On Fri, Oct 18, 2013 at 10:05 AM, Ulf Samuelsson <angstrom-dev@emagii.com>wrote:
 
-Best Regards
-Ulf Samuelsson
+> In some cases, you might want to override a few things in the DISTRO.
+>
+> Maybe an easy way to handle this would be if the DISTRO conf file
+> included an empty file at the end,
+> which can be overridden by a file in your own layer.
+>
 
-18 okt 2013 kl. 18:31 skrev Koen Kooi <koen@dominion.thruhere.net>:
+If the distro wants to be able to be overridden, it should use ?= or ??= as
+appropriate.
+-- 
+Christopher Larson
 
->=20
-> Op 18 okt. 2013, om 17:59 heeft Ulf Samuelsson <angstrom-dev@emagii.com> h=
-et volgende geschreven:
->=20
->> 1. If you define something in the <MACHINE>.conf and in <DISTRO>.conf
->>   then <DISTRO>.conf has higher priority.
->>   This is really non-intuitive.
->=20
-> It is correct however, if the DISTRO defines it, it's a DISTRO setting tha=
-t a MACHINE.conf really should stay away from.
->=20
-> regards,
->=20
-> KOen
+--089e0160bb04520c9704e9074658
+Content-Type: text/html; charset=UTF-8
 
+<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Fri, Oct 18, 2013 at 10:05 AM, Ulf Samuelsson <span dir="ltr">&lt;<a href="mailto:angstrom-dev@emagii.com" target="_blank">angstrom-dev@emagii.com</a>&gt;</span> wrote:<br>
+
+<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":1po" style="overflow:hidden">In some cases, you might want to override a few things in the DISTRO.<br>
+<br>
+Maybe an easy way to handle this would be if the DISTRO conf file<br>
+included an empty file at the end,<br>
+which can be overridden by a file in your own layer.</div></blockquote></div><br>If the distro wants to be able to be overridden, it should use ?= or ??= as appropriate.<br>-- <br>Christopher Larson</div></div>
+
+--089e0160bb04520c9704e9074658--
