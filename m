@@ -1,33 +1,23 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A6B16D15E
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 43D356C76F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 05:33:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9I5XCGc008390
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 17 Oct 2013 22:33:12 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 17 Oct 2013 22:33:12 -0700
-Message-ID: <5260C816.1000706@windriver.com>
-Date: Fri, 18 Oct 2013 13:33:10 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Luo Zhenhua-B19537 <B19537@freescale.com>
-References: <1381902795-3187-1-git-send-email-rongqing.li@windriver.com>
-	<CAP9ODKpm_zpo+TyFDe0TSAXHs=MvFjouPjRNE0GcE9i6Lk_7Aw@mail.gmail.com>
-	<525E3378.3070604@windriver.com> <1381925550.29912.463.camel@ted>
-	<525F450B.4030908@windriver.com>
-	<CA452391058F6D4E9715FB2C29D9312A0177C4B0@039-SN2MPN1-021.039d.mgd.msft.net>
-In-Reply-To: <CA452391058F6D4E9715FB2C29D9312A0177C4B0@039-SN2MPN1-021.039d.mgd.msft.net>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] populate_sdk_base: repeat to tar archive file five time
+	Fri, 18 Oct 2013 07:23:30 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 18 Oct 2013 00:23:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,520,1378882800"; d="scan'208";a="376510190"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by azsmga001.ch.intel.com with ESMTP; 18 Oct 2013 00:23:31 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 49DB56A4009;
+	Fri, 18 Oct 2013 00:23:28 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Oct 2013 10:23:44 +0300
+Message-Id: <1382081024-19912-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] lib/oeqa/runtime: build kernel module on target test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,101 +30,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 05:33:17 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 18 Oct 2013 07:23:31 -0000
 
+Builds a simple Hello World module on target.
+Added to the defaults for core-image-sato-sdk.
 
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/classes/testimage.bbclass                |  2 +-
+ meta/lib/oeqa/runtime/files/hellomod.c        | 19 +++++++++++++++
+ meta/lib/oeqa/runtime/files/hellomod_makefile |  8 +++++++
+ meta/lib/oeqa/runtime/kernelmodule.py         | 33 +++++++++++++++++++++++++++
+ 4 files changed, 61 insertions(+), 1 deletion(-)
+ create mode 100644 meta/lib/oeqa/runtime/files/hellomod.c
+ create mode 100644 meta/lib/oeqa/runtime/files/hellomod_makefile
+ create mode 100644 meta/lib/oeqa/runtime/kernelmodule.py
 
-On 10/17/2013 04:52 PM, Luo Zhenhua-B19537 wrote:
-> It is worth to give a try to add PSEUDO_UNLOAD=1 sync before tar. The issue doesn't appear on my CentOS 5.9 after doing that.
->
->
-> Best Regards,
-
-
-Thanks, I will test it
-
-
--Roy
-
->
-> Zhenhua
->
->
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Rongqing Li
->> Sent: Thursday, October 17, 2013 10:02 AM
->> To: Richard Purdie
->> Cc: Otavio Salvador; Patches and discussions about the oe-core layer
->> Subject: Re: [OE-core] [PATCH] populate_sdk_base: repeat to tar archive
->> file five time
->>
->>
->>
->> On 10/16/2013 08:12 PM, Richard Purdie wrote:
->>> On Wed, 2013-10-16 at 14:34 +0800, Rongqing Li wrote:
->>>>
->>>> On 10/16/2013 02:24 PM, Otavio Salvador wrote:
->>>>> On Wed, Oct 16, 2013 at 2:53 AM,  <rongqing.li@windriver.com> wrote:
->>>>>> From: Roy Li <rongqing.li@windriver.com>
->>>>>>
->>>>>> [YOCTO #5287]
->>>>>>
->>>>>> tar failed and reported that file changed as we read it, now we
->>>>>> workaround it
->>>>>>
->>>>>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->>>>>
->>>>> You must be kidding right?! loop 5 times?!? why not fix the root
->>>>> cause of the change?
->>>>>
->>>>
->>>> Sorry, I do not know the root cause, and I see many people spent lots
->>>> of efforts to investigate, but do not find the root cause, sometime
->>>> we suspect it is the building servers kernel issue, if it is true, we
->>>> can not fix the building servers, we only workaround the code.
->>>
->>> This workaround is not going into master, its horrid. Do we know which
->>> versions of the kernel on the server have the issue. I'd much rather
->>> tell people to fix their broken filesystems for example and refuse to
->>> run on them.
->>>
->>
->> I saw it happened on CentOS 5.9 and RedHat 5.5, and We deployed lots of
->> them, it is hard to replace them.
->>
->> The bug did not happen everytime, only intermittently, this workaround is
->> ugly, but it is better than fixing the servers, or declaring them as
->> unsupported server.
->>
->>
->> -Roy
->>
->>
->>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>>
->>
->> --
->> Best Reagrds,
->> Roy | RongQing Li
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
->
-
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 2f9c974..5d61c2b 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -28,7 +28,7 @@ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+ DEFAULT_TEST_SUITES = "ping auto"
+ DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
+ DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date rpm smart dmesg"
+-DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc rpm smart dmesg"
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc rpm smart kernelmodule dmesg"
+ 
+ TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
+ 
+diff --git a/meta/lib/oeqa/runtime/files/hellomod.c b/meta/lib/oeqa/runtime/files/hellomod.c
+new file mode 100644
+index 0000000..a383397
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/files/hellomod.c
+@@ -0,0 +1,19 @@
++#include <linux/module.h>
++#include <linux/kernel.h>
++#include <linux/init.h>
++
++static int __init hello_init(void)
++{
++        printk(KERN_INFO "Hello world!\n");
++        return 0;
++}
++
++static void __exit hello_cleanup(void)
++{
++        printk(KERN_INFO "Cleaning up hellomod.\n");
++}
++
++module_init(hello_init);
++module_exit(hello_cleanup);
++
++MODULE_LICENSE("GPL");
+diff --git a/meta/lib/oeqa/runtime/files/hellomod_makefile b/meta/lib/oeqa/runtime/files/hellomod_makefile
+new file mode 100644
+index 0000000..b92d5c8
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/files/hellomod_makefile
+@@ -0,0 +1,8 @@
++obj-m := hellomod.o
++KDIR := /usr/src/kernel
++
++all:
++	$(MAKE) -C $(KDIR) M=$(PWD) modules
++
++clean:
++	$(MAKE) -C $(KDIR) M=$(PWD) clean
+diff --git a/meta/lib/oeqa/runtime/kernelmodule.py b/meta/lib/oeqa/runtime/kernelmodule.py
+new file mode 100644
+index 0000000..cbc5742
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/kernelmodule.py
+@@ -0,0 +1,33 @@
++import unittest
++import os
++from oeqa.oetest import oeRuntimeTest, skipModule
++from oeqa.utils.decorators import *
++
++def setUpModule():
++    if not oeRuntimeTest.hasFeature("tools-sdk"):
++        skipModule("Image doesn't have tools-sdk in IMAGE_FEATURES")
++
++
++class KernelModuleTest(oeRuntimeTest):
++
++    def setUp(self):
++        self.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "hellomod.c"), "/tmp/hellomod.c")
++        self.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "hellomod_makefile"), "/tmp/Makefile")
++
++    @skipUnlessPassed('test_ssh')
++    @skipUnlessPassed('test_gcc_compile')
++    def test_kernel_module(self):
++        cmds = [
++            'cd /usr/src/kernel && make scripts',
++            'cd /tmp && make',
++            'cd /tmp && insmod hellomod.ko',
++            'lsmod | grep hellomod',
++            'dmesg | grep Hello',
++            'rmmod hellomod', 'dmesg | grep "Cleaning up hellomod"'
++            ]
++        for cmd in cmds:
++            (status, output) = self.target.run(cmd, 900)
++            self.assertEqual(status, 0, msg="\n".join([cmd, output]))
++
++    def tearDown(self):
++        self.target.run('rm -f /tmp/Makefile /tmp/hellomod.c')
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.8.3.1
+
 
