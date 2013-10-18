@@ -1,36 +1,31 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id C72316CF6B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B75F6CE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 13:49:10 +0000 (UTC)
-Received: from [69.196.158.250] (port=58365 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VXAQR-00041c-GQ; Fri, 18 Oct 2013 09:49:11 -0400
-Date: Fri, 18 Oct 2013 09:49:05 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1382103745.29912.545.camel@ted>
-Message-ID: <alpine.DEB.2.02.1310180946001.28606@oneiric>
-References: <alpine.DEB.2.02.1310170803260.23524@oneiric>
-	<1382089284.29912.528.camel@ted>
-	<alpine.DEB.2.02.1310180909160.18187@oneiric>
-	<1382103745.29912.545.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: diff between defining a "no-op" task and using [noexec]?
+	Fri, 18 Oct 2013 14:54:52 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r9IEsmhs032311; Fri, 18 Oct 2013 15:54:48 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id OFWHluvF8Y8w; Fri, 18 Oct 2013 15:54:48 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r9IEsjeJ032261
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 18 Oct 2013 15:54:47 +0100
+Message-ID: <1382108082.29912.550.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: David =?ISO-8859-1?Q?Nystr=F6m?= <david.c.nystrom@gmail.com>
+Date: Fri, 18 Oct 2013 15:54:42 +0100
+In-Reply-To: <1382018386-25389-11-git-send-email-david.nystrom@enea.com>
+References: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
+	<1382018386-25389-11-git-send-email-david.nystrom@enea.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 10/11] nativesdk-packagegroup-sdk-host: Add new DISTRO_FEATURE, sdk-pms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,58 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 13:49:11 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Fri, 18 Oct 2013 14:54:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 18 Oct 2013, Richard Purdie wrote:
+On Thu, 2013-10-17 at 15:59 +0200, David Nyström wrote:
+> Added a new distro feature called sdk-pms, since smartpm rdepends
+> on the python runtime.
+> This to avoid bloating the SDK tarball for those who does not
+> want it.
+> 
+> Signed-off-by: David Nyström <david.nystrom@enea.com>
+> ---
+>  meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> index e298ff4..1f45c4c 100644
+> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> @@ -16,7 +16,8 @@ RDEPENDS_${PN} = "\
+>      nativesdk-qemu-helper \
+>      nativesdk-pseudo \
+>      nativesdk-unfs-server \
+> -    nativesdk-opkg \
+> +    ${@base_contains('DISTRO_FEATURES', 'sdk-pms', 'nativesdk-opkg','', d)} \
+> +    ${@base_contains('DISTRO_FEATURES', 'sdk-pms', 'nativesdk-smartpm','', d)} \
+>      nativesdk-libtool \
+>      nativesdk-autoconf \
+>      nativesdk-automake \
 
-> On Fri, 2013-10-18 at 09:13 -0400, Robert P. J. Day wrote:
+I think we need to keep a list of DISTRO_FEATURES somewhere along with a
+definition about what the feature is supposed to do. For example this is
+clearly about power management, right? :)
 
-... snip ...
+Along with this addition could you start a list somewhere documenting
+this?
 
-> >   i figured as much, but is there any important (pragmatic)
-> > distinction between the two if one simply wants to nullify an
-> > existing task?
->
-> One is slightly more efficient since bitbake doesn't run it at all.
->
-> >   if there's a defined task dependency of some kind, i can
-> > certainly see how having a defined task consisting of a no-op
-> > would behave differently from specifying to not run that task at
-> > all, in terms of subsequent dependencies. does that distinction
-> > come into play anywhere? is there an example in the OE source that
-> > recognizes this?
->
-> No, the way we use noexec tasks, we still have to ensure
-> dependencies are recognised and built before the noexec task is
-> skipped.
+Cheers,
 
-  ah, that answers that question.
+Richard
 
-> >   and WRT to how developers should code, is one of these
-> > approaches considered better than the other? i've seen both
-> > approaches used in recipe files, and i'm wondering simply about
-> > coding style. thanks.
->
-> noexec is newer, slightly more efficient and not used everywhere.
-> The ":" notation is slightly more readable in some circumstances.
->
-> You're looking for a "use X" type answer but I'm not giving one
-> since sometimes one can make slightly more sense that the other and
-> I don't want patches doing wholesale conversion from one to the
-> other. I appreciate that is frustrating but like any things, hard
-> and fast rules don't make sense, you should think about it.
 
-  i'm good with all that, thanks.
-
-rday
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
