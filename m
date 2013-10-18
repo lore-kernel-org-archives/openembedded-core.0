@@ -1,42 +1,37 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 533306BA14
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 3498C6CFE7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 17:29:20 +0000 (UTC)
-Received: by mail-lb0-f172.google.com with SMTP id c11so2911399lbj.3
+	Fri, 18 Oct 2013 18:53:40 +0000 (UTC)
+Received: by mail-ee0-f53.google.com with SMTP id t10so2312076eei.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 10:29:20 -0700 (PDT)
+	Fri, 18 Oct 2013 11:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=Fi49PVL6TZTw63hTZP+8rueszHo4CcpZvYU2o6UZwPU=;
-	b=flzznIVQ7bxASabmwqm0k4GGJ98NUQqzZGX7+qZysSMWdCzF5/09Uv3BOJlP+8PYXG
-	8ZvuuxdOsa7938UWXU73AfMh6BGtGil5iyDPudzZhRxvCM5lW3T7hIzQb6UEEt8kDR56
-	A58nBI0/Dr93ASACS3xky7UkvNWMWT7Ij/oWJbqSCnsTPSq2Fnd998T5M8dK+XwIGWE3
-	TKgOLkO+aT7PVS4ctQhDG5wY0/G9ZAc0PZwuNUsgnU8iMFcH+NjF+sOKrK+HvANrYhoj
-	auXsK/27X+XPHp6ObRXo4nnQTZ+a0cy67QKIm0yw3phtIIXG5nFZaEinQnEcZ0ypBE7t
-	vZDQ==
-X-Received: by 10.152.36.170 with SMTP id r10mr2101306laj.48.1382117360665;
-	Fri, 18 Oct 2013 10:29:20 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=8bErE/8LhyRMQJ2ThgggPHOpbn2A1sWUom2obYSAq90=;
+	b=lgQxJfzpzeySJGANfRHMuGgIYblgtm9bWsBemhdYVIaWk5EYZeUgAx+SdyO413MzDf
+	44EqMCPqOvZcWkuBdGsyvpmoH6T8z8majhbNF0WlMe3cZ1lQCNsluiN98spvRBIlMX9f
+	RU8vBr8TpQthep2LY+SXAdAnCPAYIF1rrOBtHTGuglATbu6x+cYu7jQX7yeYs16c5gpl
+	atDc/PCEKvSF/6ruhR4dDN8zd/LbaZwm1zoiU72rrX3q8dpCXudB3o3kAMye+DdXp0b6
+	LIe35He98Yix7qKLe+u09XbC3PrrQdUOVQ40BTxT7dEsL8W17wcyvcLBMsM9MKMZ43sa
+	UZFg==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.53.197 with HTTP; Fri, 18 Oct 2013 10:29:00 -0700 (PDT)
-In-Reply-To: <8D2F1DD0-3071-47B6-82E3-646A6C881708@emagii.com>
-References: <52615ACB.1010203@emagii.com>
-	<34C59EF9-AA69-48F2-ACE4-6BBAAA88FD4A@dominion.thruhere.net>
-	<8D2F1DD0-3071-47B6-82E3-646A6C881708@emagii.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 18 Oct 2013 10:29:00 -0700
-X-Google-Sender-Auth: Daxof7xJ7RqJdhOzIsLsFmyUFPA
-Message-ID: <CABcZANm5u0NA6rv-TPJ86xNmQcpL4b2jUq3SgVtSQaXbSprw7A@mail.gmail.com>
-To: Ulf Samuelsson <angstrom-dev@emagii.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	Discussion of the angstrom distribution development
-	<angstrom-distro-devel@linuxtogo.org>,
-	Patches and discussions about the oe-core layer
+X-Received: by 10.14.225.199 with SMTP id z47mr6618930eep.24.1382122420784;
+	Fri, 18 Oct 2013 11:53:40 -0700 (PDT)
+Received: by 10.14.118.15 with HTTP; Fri, 18 Oct 2013 11:53:40 -0700 (PDT)
+Received: by 10.14.118.15 with HTTP; Fri, 18 Oct 2013 11:53:40 -0700 (PDT)
+In-Reply-To: <1382108082.29912.550.camel@ted>
+References: <1382018386-25389-1-git-send-email-david.nystrom@enea.com>
+	<1382018386-25389-11-git-send-email-david.nystrom@enea.com>
+	<1382108082.29912.550.camel@ted>
+Date: Fri, 18 Oct 2013 20:53:40 +0200
+Message-ID: <CAAKB1h1-3sJUxEjh+6gOCamkY544m7s37KpyuiEw_SHyNH4+Kg@mail.gmail.com>
+From: David Nystrom <david.c.nystrom@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issues with PREFERRED_VERSION/PREFERRED_PROVIDER for the kernel
+Subject: Re: [PATCH 10/11] nativesdk-packagegroup-sdk-host: Add new DISTRO_FEATURE, sdk-pms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,35 +44,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 17:29:21 -0000
-Content-Type: multipart/alternative; boundary=089e0160bb04520c9704e9074658
+X-List-Received-Date: Fri, 18 Oct 2013 18:53:41 -0000
+Content-Type: multipart/alternative; boundary=047d7b66fc0fed521a04e908733e
 
---089e0160bb04520c9704e9074658
-Content-Type: text/plain; charset=UTF-8
+--047d7b66fc0fed521a04e908733e
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 18, 2013 at 10:05 AM, Ulf Samuelsson <angstrom-dev@emagii.com>wrote:
-
-> In some cases, you might want to override a few things in the DISTRO.
+On 18 Oct 2013 16:54, "Richard Purdie" <richard.purdie@linuxfoundation.org>
+wrote:
 >
-> Maybe an easy way to handle this would be if the DISTRO conf file
-> included an empty file at the end,
-> which can be overridden by a file in your own layer.
+> On Thu, 2013-10-17 at 15:59 +0200, David Nystr=F6m wrote:
+> > Added a new distro feature called sdk-pms, since smartpm rdepends
+> > on the python runtime.
+> > This to avoid bloating the SDK tarball for those who does not
+> > want it.
+> >
+> > Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
+> > ---
+> >  meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 3
+++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/packagegroups/
+nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/
+nativesdk-packagegroup-sdk-host.bb
+> > index e298ff4..1f45c4c 100644
+> > --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.b=
+b
+> > +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.b=
+b
+> > @@ -16,7 +16,8 @@ RDEPENDS_${PN} =3D "\
+> >      nativesdk-qemu-helper \
+> >      nativesdk-pseudo \
+> >      nativesdk-unfs-server \
+> > -    nativesdk-opkg \
+> > +    ${@base_contains('DISTRO_FEATURES', 'sdk-pms',
+'nativesdk-opkg','', d)} \
+> > +    ${@base_contains('DISTRO_FEATURES', 'sdk-pms',
+'nativesdk-smartpm','', d)} \
+> >      nativesdk-libtool \
+> >      nativesdk-autoconf \
+> >      nativesdk-automake \
+>
+> I think we need to keep a list of DISTRO_FEATURES somewhere along with a
+> definition about what the feature is supposed to do. For example this is
+> clearly about power management, right? :)
+>
+> Along with this addition could you start a list somewhere documenting
+> this?
+
+Sure, where would be a good place to start this ?
+In the Reference manual ?
+
+Br,
+David
+
+>
+> Cheers,
+>
+> Richard
+>
 >
 
-If the distro wants to be able to be overridden, it should use ?= or ??= as
-appropriate.
--- 
-Christopher Larson
+--047d7b66fc0fed521a04e908733e
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
---089e0160bb04520c9704e9074658
-Content-Type: text/html; charset=UTF-8
-
-<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Fri, Oct 18, 2013 at 10:05 AM, Ulf Samuelsson <span dir="ltr">&lt;<a href="mailto:angstrom-dev@emagii.com" target="_blank">angstrom-dev@emagii.com</a>&gt;</span> wrote:<br>
-
-<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":1po" style="overflow:hidden">In some cases, you might want to override a few things in the DISTRO.<br>
+<p dir=3D"ltr"><br>
+On 18 Oct 2013 16:54, &quot;Richard Purdie&quot; &lt;<a href=3D"mailto:rich=
+ard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; =
+wrote:<br>
+&gt;<br>
+&gt; On Thu, 2013-10-17 at 15:59 +0200, David Nystr=F6m wrote:<br>
+&gt; &gt; Added a new distro feature called sdk-pms, since smartpm rdepends=
 <br>
-Maybe an easy way to handle this would be if the DISTRO conf file<br>
-included an empty file at the end,<br>
-which can be overridden by a file in your own layer.</div></blockquote></div><br>If the distro wants to be able to be overridden, it should use ?= or ??= as appropriate.<br>-- <br>Christopher Larson</div></div>
+&gt; &gt; on the python runtime.<br>
+&gt; &gt; This to avoid bloating the SDK tarball for those who does not<br>
+&gt; &gt; want it.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: David Nystr=F6m &lt;<a href=3D"mailto:david.nystro=
+m@enea.com">david.nystrom@enea.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt; =A0meta/recipes-core/packagegroups/<a href=3D"http://nativesdk-pa=
+ckagegroup-sdk-host.bb">nativesdk-packagegroup-sdk-host.bb</a> | 3 ++-<br>
+&gt; &gt; =A01 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-core/packagegroups/<a href=3D"http://na=
+tivesdk-packagegroup-sdk-host.bb">nativesdk-packagegroup-sdk-host.bb</a> b/=
+meta/recipes-core/packagegroups/<a href=3D"http://nativesdk-packagegroup-sd=
+k-host.bb">nativesdk-packagegroup-sdk-host.bb</a><br>
 
---089e0160bb04520c9704e9074658--
+&gt; &gt; index e298ff4..1f45c4c 100644<br>
+&gt; &gt; --- a/meta/recipes-core/packagegroups/<a href=3D"http://nativesdk=
+-packagegroup-sdk-host.bb">nativesdk-packagegroup-sdk-host.bb</a><br>
+&gt; &gt; +++ b/meta/recipes-core/packagegroups/<a href=3D"http://nativesdk=
+-packagegroup-sdk-host.bb">nativesdk-packagegroup-sdk-host.bb</a><br>
+&gt; &gt; @@ -16,7 +16,8 @@ RDEPENDS_${PN} =3D &quot;\<br>
+&gt; &gt; =A0 =A0 =A0nativesdk-qemu-helper \<br>
+&gt; &gt; =A0 =A0 =A0nativesdk-pseudo \<br>
+&gt; &gt; =A0 =A0 =A0nativesdk-unfs-server \<br>
+&gt; &gt; - =A0 =A0nativesdk-opkg \<br>
+&gt; &gt; + =A0 =A0${@base_contains(&#39;DISTRO_FEATURES&#39;, &#39;sdk-pms=
+&#39;, &#39;nativesdk-opkg&#39;,&#39;&#39;, d)} \<br>
+&gt; &gt; + =A0 =A0${@base_contains(&#39;DISTRO_FEATURES&#39;, &#39;sdk-pms=
+&#39;, &#39;nativesdk-smartpm&#39;,&#39;&#39;, d)} \<br>
+&gt; &gt; =A0 =A0 =A0nativesdk-libtool \<br>
+&gt; &gt; =A0 =A0 =A0nativesdk-autoconf \<br>
+&gt; &gt; =A0 =A0 =A0nativesdk-automake \<br>
+&gt;<br>
+&gt; I think we need to keep a list of DISTRO_FEATURES somewhere along with=
+ a<br>
+&gt; definition about what the feature is supposed to do. For example this =
+is<br>
+&gt; clearly about power management, right? :)<br>
+&gt;<br>
+&gt; Along with this addition could you start a list somewhere documenting<=
+br>
+&gt; this?</p>
+<p dir=3D"ltr">Sure, where would be a good place to start this ?<br>
+In the Reference manual ?</p>
+<p dir=3D"ltr">Br,<br>
+David</p>
+<p dir=3D"ltr">&gt;<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+&gt;<br>
+&gt;<br>
+</p>
+
+--047d7b66fc0fed521a04e908733e--
