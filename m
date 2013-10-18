@@ -1,38 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C51D96CD55;
-	Fri, 18 Oct 2013 10:21:58 +0000 (UTC)
-Received: by mail-ee0-f47.google.com with SMTP id d49so1828432eek.20
-	for <multiple recipients>; Fri, 18 Oct 2013 03:22:00 -0700 (PDT)
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B6C536CD55
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Oct 2013 10:27:38 +0000 (UTC)
+Received: by mail-lb0-f181.google.com with SMTP id x18so1449589lbi.40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Oct 2013 03:27:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=LyxS7V0mY+mvjahuJm4yawHv5XrsKCa6Ri+qSkYlgNo=;
-	b=W25/Hw2ojDoTsiu21MyMOmgZZ8vGNCemWQNWmODA+An+fIC54ud4KH84e+A2mA7qwC
-	IMLbPi1hDdKWRb53SqhDdQZJEzlsCZXltoQ+U8P/WgZKjkkMo3MCDl1aeFVymZGUMhjr
-	XdLUBCQHPtTgVNMwBBo626H39hUiWMikAJMi3D3uxKIoIxGkGYz6vKPs4x9faT7uWHu1
-	ECIjHBtn+sq2HymRoyPPKV4BDOM3PPidWqneTyW+70pOIm1AgdgAfRMa2x6nUq8S3NmE
-	CxS7qRJvWmfBOGwQGy2CrdIJjmMUnKzB1ZBQIBJbtKfOGmgdR7H/tWvIHBSUnCaoXU6c
-	qs/A==
-X-Received: by 10.15.45.8 with SMTP id a8mr3315207eew.1.1382091719670;
-	Fri, 18 Oct 2013 03:21:59 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id s3sm2602054eeo.3.2013.10.18.03.21.58
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=4uFZmrMtiYFsPSXrUK7pZI2fKGkgOzfau5wDvbuOJI0=;
+	b=mGYADvgYC3qrX57SouCjaS6VMSLM/dszMDILRprXE3Xf7vYM7WqJbj6hgBpO4TwfIw
+	US37uOvkj71FQj8gOj97MRyzeOy5o1yTxwX7+2H/VaJD/6JpVvmfkdRFal3BoxcxiKVV
+	zC60NiPiv/WELKc90DMbcoA/Z1XBU8+eBi2iw1UU9szFi2xEDjv3khqTXTLbKfUOYnSw
+	tq4s1OGDji44JPz8eHlH3OBE3EYd8CoN3H82xZEA8J+dGC4wBodbpyGs5eyfzR7O8m1h
+	OY/QNcEfL4HEO5uSuLEL28YBTwPX2Oe9gZ5QSWKiXywYHGBHOTSSgyePbxI59oBA8LYb
+	w3yQ==
+X-Received: by 10.112.14.3 with SMTP id l3mr1173865lbc.27.1382092059703;
+	Fri, 18 Oct 2013 03:27:39 -0700 (PDT)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPSA id kx1sm936393lac.7.2013.10.18.03.27.38
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 18 Oct 2013 03:21:59 -0700 (PDT)
-Date: Fri, 18 Oct 2013 12:22:05 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Muhammad Shakeel <muhammad_shakeel@mentor.com>
-Message-ID: <20131018102205.GH3930@jama>
-References: <20130910220329.45CB15043D@opal>
- <20131002231105.GA6240@jama>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 18 Oct 2013 03:27:39 -0700 (PDT)
+Received: by nysan (Postfix, from userid 1000)
+	id A8FBE401123; Fri, 18 Oct 2013 12:27:27 +0200 (CEST)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 18 Oct 2013 12:27:26 +0200
+Message-Id: <1382092046-25109-1-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1382018386-25389-12-git-send-email-david.nystrom@enea.com>
+References: <1382018386-25389-12-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-In-Reply-To: <20131002231105.GA6240@jama>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Muhammad Shakeel : openssh: Add systemd support
+Subject: [PATCHv2] rpm: Add nativesdk to BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,114 +47,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 10:22:00 -0000
-X-Groupsio-MsgNum: 46024
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="it/zdz3K1bH9Y8/E"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 18 Oct 2013 10:27:39 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---it/zdz3K1bH9Y8/E
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Modified FILES-paths since nativesdk can't handle hardcoded paths,
+Also added *.real binaries to packaging since this is not done when built
+as native.
 
-On Thu, Oct 03, 2013 at 01:11:05AM +0200, Martin Jansa wrote:
-> On Tue, Sep 10, 2013 at 10:03:29PM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master
-> > Commit: 6e6445d487c033913a29763f8e3a7a339d5b612d
-> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
-it;h=3D6e6445d487c033913a29763f8e3a7a339d5b612d
-> >=20
-> > Author: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> > Date:   Wed Sep  4 11:04:59 2013 +0000
-> >=20
-> > openssh: Add systemd support
-> >=20
-> > -Remove dependency on meta-systemd
-> >=20
-> > Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >=20
-> > ---
-> >=20
-> >  .../openssh/openssh-6.2p2/sshd.socket              |   11 +++++++++++
-> >  .../openssh/openssh-6.2p2/sshd@.service            |    9 +++++++++
-> >  .../openssh/openssh-6.2p2/sshdgenkeys.service      |   10 ++++++++++
-> >  meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   19 ++++++++++++=
-+++++--
-> >  4 files changed, 47 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/=
-recipes-connectivity/openssh/openssh_6.2p2.bb
-> > index c76f9ac..3a7f50d 100644
-> > --- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-> > +++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-> > @@ -26,14 +26,17 @@ SRC_URI =3D "ftp://ftp.openbsd.org/pub/OpenBSD/Open=
-SSH/portable/openssh-${PV}.tar.
-> >             file://init \
-> >             file://openssh-CVE-2011-4327.patch \
-> >             file://mac.patch \
-> > -           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}'=
-, '', d)}"
-> > +           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}'=
-, '', d)} \
-> > +           file://sshd.socket \
-> > +           file://sshd@.service \
-> > +           file://sshdgenkeys.service "
-> > =20
-> >  PAM_SRC_URI =3D "file://sshd"
-> > =20
-> >  SRC_URI[md5sum] =3D "be46174dcbb77ebb4ea88ef140685de1"
-> >  SRC_URI[sha256sum] =3D "7f29b9d2ad672ae0f9e1dcbff871fc5c2e60a194e90c76=
-6432e32161b842313b"
-> > =20
-> > -inherit useradd update-rc.d update-alternatives
-> > +inherit useradd update-rc.d update-alternatives systemd
-> > =20
-> >  USERADD_PACKAGES =3D "${PN}-sshd"
-> >  USERADD_PARAM_${PN}-sshd =3D "--system --no-create-home --home-dir /va=
-r/run/sshd --shell /bin/false --user-group sshd"
-> > @@ -41,6 +44,9 @@ INITSCRIPT_PACKAGES =3D "${PN}-sshd"
-> >  INITSCRIPT_NAME_${PN}-sshd =3D "sshd"
-> >  INITSCRIPT_PARAMS_${PN}-sshd =3D "defaults 9"
-> > =20
-> > +SYSTEMD_PACKAGES =3D "${PN}-sshd"
-> > +SYSTEMD_SERVICE_${PN}-sshd =3D "sshd.socket sshd@.service sshdgenkeys.=
-service"
->=20
-> Is it correct to use sshd@.service here?
->=20
-> meta-systemd .bbappend had only sshd.socket:
-> -SYSTEMD_PACKAGES =3D "${PN}-sshd"
-> -SYSTEMD_SERVICE_${PN}-sshd =3D "sshd.socket"
->=20
-> (re)starting sshd@service from postinst is failing with:
-> SHR root@pjama /etc $ bash -x /var/lib/opkg/info/openssh-sshd.postinst
-> + OPTS=3D
-> + '[' -n '' ']'
-> + type systemctl
-> + systemctl enable sshd.socket sshd@.service sshdgenkeys.service
-> + '[' -z '' -a enable =3D enable ']'
-> + systemctl restart sshd.socket sshd@.service sshdgenkeys.service
-> Failed to issue method call: Unit name sshd@.service is not valid.
+As far as /var having to be hardcoded, I have a hard time seeing someone
+modifying bitbake.conf to place localstatedir somewhere else than /var.
 
-ping
+If there exists a target/nativesdk portable way of hardcoding FILES,
+please let me know, and we'll do it that way.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Cleanup of FEATURES, since it was the same for native & target.
 
---it/zdz3K1bH9Y8/E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+index 3c7e03b..9699639 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+@@ -105,12 +105,12 @@ acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
+ # Specify the default rpm macros in terms of adjustable variables
+ rpm_macros = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros"
+ rpm_macros_class-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros"
++rpm_macros_class-nativesdk = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros"
+ 
+ # sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl selinux
+ 
+ # Note: perl and sqlite w/o db specified does not currently work.
+ #       tcl, augeas, nss, gcrypt, xar and keyutils support is untested.
+-PACKAGECONFIG_class-native ??= "db bzip2 zlib beecrypt openssl libelf python"
+ PACKAGECONFIG ??= "db bzip2 zlib beecrypt openssl libelf python"
+ 
+ PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2,"
+@@ -224,8 +224,16 @@ FILES_${PN} =  "${bindir}/rpm \
+ 		${libdir}/rpm/bin/rpmrepo \
+ 		${libdir}/rpm/bin/rpmspecdump \
+ 		${libdir}/rpm/bin/wget \
+-		/var/lib/rpm \
+-		/var/cache/rpm \
++		${libdir}/rpm \
++		${localstatedir}/cache \
++		${localstatedir}/cache/rpm \
++		${localstatedir}/cache/wdj \
++		${localstatedir}/lib \
++		${localstatedir}/lib/rpm \
++		${localstatedir}/lib/wdj \
++		${bindir}/rpm.real \
++		${bindir}/rpmconstant.real \
++		${bindir}/rpm2cpio.real \
+ 		"
+ 
+ FILES_${PN}-dbg += "${libdir}/rpm/.debug \
+@@ -235,7 +243,7 @@ FILES_${PN}-dbg += "${libdir}/rpm/.debug \
+ FILES_${PN}-common = "${bindir}/rpm2cpio \
+ 		${bindir}/gendiff \
+ 		${sysconfdir}/rpm \
+-		/var/spool/repackage \
++		${localstatedir}/spool/repackage \
+ 		"
+ 
+ FILES_${PN}-libs = "${libdir}/librpm-*.so \
+@@ -250,6 +258,7 @@ RDEPENDS_${PN}-build += "bash"
+ 
+ FILES_${PN}-build = "${prefix}/src/rpm \
+ 		${bindir}/rpmbuild \
++		${bindir}/rpmbuild.real \
+ 		${libdir}/rpm/brp-* \
+ 		${libdir}/rpm/check-files \
+ 		${libdir}/rpm/cross-build \
+@@ -313,6 +322,7 @@ FILES_${PN}-build = "${prefix}/src/rpm \
+ 		"
+ RDEPENDS_${PN} = "base-files run-postinsts"
+ RDEPENDS_${PN}_class-native = ""
++RDEPENDS_${PN}_class-nativesdk = ""
+ RDEPENDS_${PN}-build = "file"
+ 
+ RDEPENDS_python-rpm = "${PN}"
+@@ -452,7 +462,7 @@ do_install_append() {
+ 
+ }
+ 
+-do_install_append_class-native() {
++add_native_wrapper() {
+         create_wrapper ${D}/${bindir}/rpm \
+ 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+ 		RPM_ETCRPM='$'{RPM_ETCRPM-'`dirname $''realpath`'/${@os.path.relpath(d.getVar('sysconfdir', True), d.getVar('bindir', True))}/rpm} \
+@@ -481,4 +491,12 @@ do_install_append_class-native() {
+ 	done
+ }
+ 
+-BBCLASSEXTEND = "native"
++do_install_append_class-native() {
++	add_native_wrapper
++}
++
++do_install_append_class-nativesdk() {
++	add_native_wrapper
++}
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+1.8.3.2
 
-iEYEARECAAYFAlJhC80ACgkQN1Ujt2V2gBxGvACfW7+cOd861L6oLlpuk3zujnTu
-Y6YAoIpo6vj6414Zfx0QGIz5/t9+3iBU
-=fCq8
------END PGP SIGNATURE-----
 
---it/zdz3K1bH9Y8/E--
