@@ -1,15 +1,24 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 83E896C76F
+Return-Path: <Qiang.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AA7E56C76F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 18 Oct 2013 08:45:33 +0000 (UTC)
-From: Jack Mitchell <ml@communistcode.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 18 Oct 2013 09:45:24 +0100
-Message-Id: <1382085924-29893-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.4
-Cc: Jack Mitchell <jmitchell@cbnl.com>
-Subject: [PATCH] libjson: update to 0.11 and rename to json-c
+	Fri, 18 Oct 2013 08:50:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9I8oDqA027749
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 18 Oct 2013 01:50:13 -0700 (PDT)
+Received: from optiplex-780.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 18 Oct 2013 01:50:12 -0700
+From: Qiang Chen <qiang.chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Oct 2013 16:50:20 +0800
+Message-ID: <1382086221-19473-1-git-send-email-qiang.chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH] openssh: fix sshd status command error prompt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -22,92 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 18 Oct 2013 08:45:35 -0000
+X-List-Received-Date: Fri, 18 Oct 2013 08:50:11 -0000
+Content-Type: text/plain
 
-From: Jack Mitchell <jmitchell@cbnl.com>
+sshd status command results in error prompt:
 
-libjson is now known as json-c, it keeps support for the old
-libjson namespace so it shouldn't break anything. Built without
-parallel make as it would fail when it tries to link to link back
-to itself, which is odd, but the official word is: don't build in
-parallel.
+root@qemu0:~# /etc/init.d/sshd status
+/usr/sbin/sshd (pid 1199) is running...
+/etc/init.d/sshd: line 100: return: can only `return' from a
+function or sourced script
 
-Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
+"service --status-all" command also display wrong status for sshd.
+
+This commit fix this error prompt and make service command display
+right status for sshd.
+
+Signed-off-by: Qiang Chen <qiang.chen@windriver.com>
 ---
- meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
- meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
- meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
- 4 files changed, 15 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
- delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+ .../openssh/openssh-6.2p2/init                     |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-index c067183..e1a5c6b 100644
---- a/meta/conf/distro/include/seperatebuilddir.inc
-+++ b/meta/conf/distro/include/seperatebuilddir.inc
-@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
- B_pn-libice-native = "${SEPB}"
- B_pn-libid3tag = "${SEPB}"
- B_pn-libidn = "${SEPB}"
--B_pn-libjson = "${SEPB}"
-+B_pn-json-c = "${SEPB}"
- B_pn-libksba = "${SEPB}"
- B_pn-libmad = "${SEPB}"
- B_pn-libmatchbox = "${SEPB}"
-diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
-new file mode 100644
-index 0000000..e0391f5
---- /dev/null
-+++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
-@@ -0,0 +1,13 @@
-+SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
-+HOMEPAGE = "https://github.com/json-c/json-c/wiki"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
-+
-+SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
-+
-+SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
-+SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
-+
-+PARALLEL_MAKE = ""
-+
-+inherit autotools
-diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
-deleted file mode 100644
-index e4951a8..0000000
---- a/meta/recipes-devtools/libjson/libjson_0.9.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--DESCRIPTION = "JSON-C - A JSON implementation in C"
--HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
--
--SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
--SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
--SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
--
--S = "${WORKDIR}/json-c-${PV}"
--
--
--inherit autotools
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 4c10aa9..475da41 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
- DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
--DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
-+DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/init b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
+index 266689c..e7f3971 100644
+--- a/meta/recipes-connectivity/openssh/openssh-6.2p2/init
++++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
+@@ -97,7 +97,7 @@ case "$1" in
  
- inherit autotools pkgconfig useradd gettext perlnative
+   status)
+ 	status /usr/sbin/sshd
+-	return $?
++	exit $?
+   ;;
  
+   *)
 -- 
-1.8.4
+1.7.9.5
 
 
