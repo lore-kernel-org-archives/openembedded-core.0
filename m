@@ -1,26 +1,26 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F1346CBA4
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CE996A463
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Oct 2013 05:22:40 +0000 (UTC)
+	Sat, 19 Oct 2013 06:05:48 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 18 Oct 2013 22:22:41 -0700
+	by azsmga101.ch.intel.com with ESMTP; 18 Oct 2013 23:05:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,527,1378882800"; d="scan'208";a="376921451"
+X-IronPort-AV: E=Sophos;i="4.93,527,1378882800"; d="scan'208";a="376929609"
 Received: from unknown (HELO [10.255.14.187]) ([10.255.14.187])
-	by azsmga001.ch.intel.com with ESMTP; 18 Oct 2013 22:22:40 -0700
-Message-ID: <52621720.6020001@linux.intel.com>
-Date: Fri, 18 Oct 2013 22:22:40 -0700
+	by azsmga001.ch.intel.com with ESMTP; 18 Oct 2013 23:05:47 -0700
+Message-ID: <5262213B.3000908@linux.intel.com>
+Date: Fri, 18 Oct 2013 23:05:47 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: Peter Seebach <peter.seebach@windriver.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-References: <525EC341.9080407@linux.intel.com>
-	<3ccdc8aa31b31e23e22f3a65ffc2543df1718a94.1382138424.git.peter.seebach@windriver.com>
-In-Reply-To: <3ccdc8aa31b31e23e22f3a65ffc2543df1718a94.1382138424.git.peter.seebach@windriver.com>
-Subject: Re: [PATCH 1/2] Use alternatives for the binutils-symlinks package.
+To: Jack Mitchell <ml@communistcode.co.uk>, 
+	openembedded-core@lists.openembedded.org
+References: <1382085924-29893-1-git-send-email-ml@communistcode.co.uk>
+In-Reply-To: <1382085924-29893-1-git-send-email-ml@communistcode.co.uk>
+Cc: Jack Mitchell <jmitchell@cbnl.com>
+Subject: Re: [PATCH] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,138 +33,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Oct 2013 05:22:40 -0000
+X-List-Received-Date: Sat, 19 Oct 2013 06:05:48 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 10/18/2013 01:45 AM, Jack Mitchell wrote:
+> From: Jack Mitchell <jmitchell@cbnl.com>
+>
+> libjson is now known as json-c, it keeps support for the old
+> libjson namespace so it shouldn't break anything. Built without
+> parallel make as it would fail when it tries to link to link back
+> to itself, which is odd, but the official word is: don't build in
+> parallel.
+>
 
-
-Peter,
-
-The commit short message needs to be corrected to the binutils: ... 
-format please.
-
-I will test this version in MUT.
+This patch does not apply cleanly to Master, can you please ensure it's 
+rebased against master.
 
 Thanks
 	Sau!
-On 10/18/2013 04:24 PM, Peter Seebach wrote:
-> The ar and strings utilities are provided as alternatives, but
-> the rest of binutils is being done with binutils-symlinks. This
-> has the side effect that if you want "as", and you install
-> binutils-symlinks to get it, you don't get "ar" from it, because
-> it's not in the symlinks package.
->
-> Solution: Use the same mechanisms for everything, putting
-> everything in ALTERNATIVES, so installing binutils on a target
-> produces the expected behavior of having the various utilities in place.
-> (We do this only for class-target, though.)
->
-> Issues: The "embedspu" and "ld.gold" binaries may or may not exist,
-> but the determination of whether to list them as alternatives is
-> being made before the point at which we can easily check for them,
-> so that can produce warnings.
->
-> Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
+
+> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
 > ---
->   meta/recipes-devtools/binutils/binutils.inc |   67 ++++++++++++++++----------
->   1 files changed, 41 insertions(+), 26 deletions(-)
+>   meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+>   meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
+>   meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+>   4 files changed, 15 insertions(+), 16 deletions(-)
+>   create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+>   delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
 >
-> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-> index 5e78dc0..eaf20bf 100644
-> --- a/meta/recipes-devtools/binutils/binutils.inc
-> +++ b/meta/recipes-devtools/binutils/binutils.inc
-> @@ -22,31 +22,49 @@ FILES_${PN} = " \
->   	${libdir}/lib*-*.so \
->   	${prefix}/${TARGET_SYS}/bin/*"
->
-> +# Use alternatives rather than actual symlinks.
-> +FILES_${PN}-symlinks = ""
+> diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+> index c067183..e1a5c6b 100644
+> --- a/meta/conf/distro/include/seperatebuilddir.inc
+> +++ b/meta/conf/distro/include/seperatebuilddir.inc
+> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+>   B_pn-libice-native = "${SEPB}"
+>   B_pn-libid3tag = "${SEPB}"
+>   B_pn-libidn = "${SEPB}"
+> -B_pn-libjson = "${SEPB}"
+> +B_pn-json-c = "${SEPB}"
+>   B_pn-libksba = "${SEPB}"
+>   B_pn-libmad = "${SEPB}"
+>   B_pn-libmatchbox = "${SEPB}"
+> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
+> new file mode 100644
+> index 0000000..e0391f5
+> --- /dev/null
+> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
+> @@ -0,0 +1,13 @@
+> +SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
+> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
 > +
-> +ALLOW_EMPTY_${PN}-symlinks = "1"
+> +SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
 > +
->   FILES_${PN}-dev = " \
->   	${includedir} \
->   	${libdir}/*.la \
->   	${libdir}/libbfd.so \
->   	${libdir}/libopcodes.so"
->
-> -FILES_${PN}-symlinks = " \
-> -	${bindir}/addr2line \
-> -	${bindir}/as \
-> -	${bindir}/c++filt \
-> -	${bindir}/embedspu \
-> -	${bindir}/gprof \
-> -	${bindir}/ld \
-> -	${bindir}/ld.bfd \
-> -	${bindir}/ld.gold \
-> -	${bindir}/nm \
-> -	${bindir}/objcopy \
-> -	${bindir}/objdump \
-> -	${bindir}/ranlib \
-> -	${bindir}/readelf \
-> -	${bindir}/elfedit \
-> -	${bindir}/size \
-> -	${bindir}/strip"
+> +SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
+> +SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
+> +
+> +PARALLEL_MAKE = ""
+> +
+> +inherit autotools
+> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+> deleted file mode 100644
+> index e4951a8..0000000
+> --- a/meta/recipes-devtools/libjson/libjson_0.9.bb
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -DESCRIPTION = "JSON-C - A JSON implementation in C"
+> -HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
 > -
-> -FILES_${PN}-dbg += "${prefix}/${TARGET_SYS}/bin/.debug"
-> +# Rather than duplicating multiple entries for these, make one
-> +# list and reuse it.
-> +
-> +USE_ALTERNATIVES_FOR = " \
-> +	addr2line \
-> +	ar \
-> +	as \
-> +	c++filt \
-> +	elfedit \
-> +	gprof \
-> +	ld \
-> +	${@base_contains('DISTRO_FEATURES', 'ld-is-gold', 'ld.gold', 'ld.bfd', d)} \
-> +	nm \
-> +	objcopy \
-> +	objdump \
-> +	ranlib \
-> +	readelf \
-> +	size \
-> +	strings \
-> +	strip \
-> +"
-> +
-> +python do_package_prepend() {
-> +    make_alts = d.getVar("USE_ALTERNATIVES_FOR", True) or ""
-> +    prefix = d.getVar("TARGET_PREFIX", True)
-> +    bindir = d.getVar("bindir", True)
-> +    for alt in make_alts.split():
-> +        d.setVarFlag('ALTERNATIVE_TARGET', alt, bindir + "/" + prefix + alt)
-> +        d.setVarFlag('ALTERNATIVE_LINK_NAME', alt, bindir + "/" + alt)
-> +}
-> +
-> +# FILES_${PN}-dbg = "${prefix}/${TARGET_SYS}/bin/.debug ${prefix}/${libdir}/.debug"
->
->   B = "${S}/build.${HOST_SYS}.${TARGET_SYS}"
->
-> @@ -120,7 +138,9 @@ do_install () {
->   		ln -sf $p `echo $p | sed -e s,${TARGET_PREFIX},,`
->   	done
->
-> -	rm -f ${D}${bindir}/ar ${D}${bindir}/strings
-> +        for alt in ${USE_ALTERNATIVES_FOR}; do
-> +                rm -f ${D}${bindir}/$alt
-> +        done
->
->   	oe_multilib_header bfd.h
->   }
-> @@ -129,10 +149,5 @@ inherit update-alternatives
->
->   ALTERNATIVE_PRIORITY = "100"
->
-> -ALTERNATIVE_${PN}-symlinks = "ar strings"
+> -LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
 > -
-> -ALTERNATIVE_LINK_NAME[ar] = "${bindir}/ar"
-> -ALTERNATIVE_TARGET[ar] = "${bindir}/${TARGET_PREFIX}ar"
-> +ALTERNATIVE_${PN}-symlinks_class-target = "${USE_ALTERNATIVES_FOR}"
+> -SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+> -SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+> -SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+> -
+> -S = "${WORKDIR}/json-c-${PV}"
+> -
+> -
+> -inherit autotools
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> index 4c10aa9..475da41 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+>   DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+>   # optional
+>   DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+> +DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
 >
-> -ALTERNATIVE_LINK_NAME[strings] = "${bindir}/strings"
-> -ALTERNATIVE_TARGET[strings] = "${bindir}/${TARGET_PREFIX}strings"
+>   inherit autotools pkgconfig useradd gettext perlnative
+>
 >
 
