@@ -1,31 +1,24 @@
 Return-Path: <Ming.Liu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B8206B108
+	by mail.openembedded.org (Postfix) with ESMTP id A8FB1615AE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 20 Oct 2013 05:50:12 +0000 (UTC)
+	Sun, 20 Oct 2013 08:02:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9K5oDWv016885
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9K82WBd022827
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Oct 2013 22:50:14 -0700 (PDT)
-Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Sat, 19 Oct 2013 22:50:12 -0700
-Message-ID: <52636F11.4080102@windriver.com>
-Date: Sun, 20 Oct 2013 13:50:09 +0800
+	Sun, 20 Oct 2013 01:02:33 -0700 (PDT)
+Received: from mliu3-desktop.corp.ad.wrs.com (128.224.162.145) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Sun, 20 Oct 2013 01:02:32 -0700
 From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 20 Oct 2013 16:02:27 +0800
+Message-ID: <1382256149-14223-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, Mark Hatle
-	<mark.hatle@windriver.com>
-References: <1382094700-17805-1-git-send-email-ming.liu@windriver.com>	<1382094700-17805-3-git-send-email-ming.liu@windriver.com>
-	<1382108376.529.6.camel@phil-desktop.brightsign>
-	<52614FD4.1030006@windriver.com>
-In-Reply-To: <52614FD4.1030006@windriver.com>
-X-Originating-IP: [128.224.162.145]
-Subject: Re: [PATCH V3 3/3] bash: add pkg_postrm to remove the entry in /etc/shells
+Subject: [PATCH V4 1/3] base-files: remove invalid entries from /etc/shells
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,69 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 20 Oct 2013 05:50:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 20 Oct 2013 08:02:32 -0000
+Content-Type: text/plain
 
-On 10/18/2013 11:12 PM, Mark Hatle wrote:
-> On 10/18/13 9:59 AM, Phil Blundell wrote:
->> On Fri, 2013-10-18 at 19:11 +0800, Ming Liu wrote:
->>>   pkg_postinst_${PN} () {
->>> -    touch $D${sysconfdir}/shells
->>> -    grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> 
->>> $D${sysconfdir}/shells
->>> -    grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> 
->>> $D${sysconfdir}/shells
->>> +    if [ ! -f $D${sysconfdir}/shells ]; then
->
-> One note with the above check.  Whichever package is responsible for 
-> providing the 'shells' file needs to be installed -first-.  So 
-> anything that manipulates the 'shells' file will need an RDEPENDS on 
-> that package.
-Yes, that is a good idea, I will change it as you suggest.
+It's more reasonable and secure to keep /etc/shells a minimal file, and
+then entries for valid shells be added dynamically to the system, only if
+the packages that provide them are supported.
 
-the best,
-thank you
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/recipes-core/base-files/base-files/shells | 6 ------
+ 1 file changed, 6 deletions(-)
 
->
-> --Mark
->
->>> +        touch $D${sysconfdir}/shells
->>> +    fi
->>> +
->>> +    grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo 
->>> ${base_bindir}/bash >> $D${sysconfdir}/shells
->>> +}
->>
->> This patch contains significant changes to the postinst script which
->> aren't described in the commit message.
->>
->> p.
->>
->>> +
->>> +pkg_postrm_${PN} () {
->>> +    if [ -f $D${sysconfdir}/shells ]; then
->>> +        printf "$(grep -v "^${base_bindir}/bash$" 
->>> $D${sysconfdir}/shells)\n" > $D${sysconfdir}/shells
->>> +
->>> +        if [ ! -s $D${sysconfdir}/shells ]; then
->>> +            rm $D${sysconfdir}/shells
->>> +        fi
->>> +    fi
->>>   }
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+diff --git a/meta/recipes-core/base-files/base-files/shells b/meta/recipes-core/base-files/base-files/shells
+index ce39b3d..3f63987 100644
+--- a/meta/recipes-core/base-files/base-files/shells
++++ b/meta/recipes-core/base-files/base-files/shells
+@@ -1,8 +1,2 @@
+ # /etc/shells: valid login shells
+ /bin/sh
+-/bin/ash
+-/bin/bash
+-/bin/dash
+-/bin/ksh
+-/usr/bin/ksh
+-/usr/bin/screen
+-- 
+1.8.4.1
 
 
