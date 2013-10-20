@@ -1,26 +1,31 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CE996A463
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B8206B108
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 19 Oct 2013 06:05:48 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 18 Oct 2013 23:05:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,527,1378882800"; d="scan'208";a="376929609"
-Received: from unknown (HELO [10.255.14.187]) ([10.255.14.187])
-	by azsmga001.ch.intel.com with ESMTP; 18 Oct 2013 23:05:47 -0700
-Message-ID: <5262213B.3000908@linux.intel.com>
-Date: Fri, 18 Oct 2013 23:05:47 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Sun, 20 Oct 2013 05:50:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9K5oDWv016885
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 19 Oct 2013 22:50:14 -0700 (PDT)
+Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Sat, 19 Oct 2013 22:50:12 -0700
+Message-ID: <52636F11.4080102@windriver.com>
+Date: Sun, 20 Oct 2013 13:50:09 +0800
+From: Ming Liu <ming.liu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Jack Mitchell <ml@communistcode.co.uk>, 
-	openembedded-core@lists.openembedded.org
-References: <1382085924-29893-1-git-send-email-ml@communistcode.co.uk>
-In-Reply-To: <1382085924-29893-1-git-send-email-ml@communistcode.co.uk>
-Cc: Jack Mitchell <jmitchell@cbnl.com>
-Subject: Re: [PATCH] libjson: update to 0.11 and rename to json-c
+To: <openembedded-core@lists.openembedded.org>, Mark Hatle
+	<mark.hatle@windriver.com>
+References: <1382094700-17805-1-git-send-email-ming.liu@windriver.com>	<1382094700-17805-3-git-send-email-ming.liu@windriver.com>
+	<1382108376.529.6.camel@phil-desktop.brightsign>
+	<52614FD4.1030006@windriver.com>
+In-Reply-To: <52614FD4.1030006@windriver.com>
+X-Originating-IP: [128.224.162.145]
+Subject: Re: [PATCH V3 3/3] bash: add pkg_postrm to remove the entry in /etc/shells
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,100 +38,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Oct 2013 06:05:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sun, 20 Oct 2013 05:50:12 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/18/2013 01:45 AM, Jack Mitchell wrote:
-> From: Jack Mitchell <jmitchell@cbnl.com>
+On 10/18/2013 11:12 PM, Mark Hatle wrote:
+> On 10/18/13 9:59 AM, Phil Blundell wrote:
+>> On Fri, 2013-10-18 at 19:11 +0800, Ming Liu wrote:
+>>>   pkg_postinst_${PN} () {
+>>> -    touch $D${sysconfdir}/shells
+>>> -    grep -q "bin/bash" $D${sysconfdir}/shells || echo /bin/bash >> 
+>>> $D${sysconfdir}/shells
+>>> -    grep -q "bin/sh" $D${sysconfdir}/shells || echo /bin/sh >> 
+>>> $D${sysconfdir}/shells
+>>> +    if [ ! -f $D${sysconfdir}/shells ]; then
 >
-> libjson is now known as json-c, it keeps support for the old
-> libjson namespace so it shouldn't break anything. Built without
-> parallel make as it would fail when it tries to link to link back
-> to itself, which is odd, but the official word is: don't build in
-> parallel.
+> One note with the above check.  Whichever package is responsible for 
+> providing the 'shells' file needs to be installed -first-.  So 
+> anything that manipulates the 'shells' file will need an RDEPENDS on 
+> that package.
+Yes, that is a good idea, I will change it as you suggest.
+
+the best,
+thank you
+
+>
+> --Mark
+>
+>>> +        touch $D${sysconfdir}/shells
+>>> +    fi
+>>> +
+>>> +    grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo 
+>>> ${base_bindir}/bash >> $D${sysconfdir}/shells
+>>> +}
+>>
+>> This patch contains significant changes to the postinst script which
+>> aren't described in the commit message.
+>>
+>> p.
+>>
+>>> +
+>>> +pkg_postrm_${PN} () {
+>>> +    if [ -f $D${sysconfdir}/shells ]; then
+>>> +        printf "$(grep -v "^${base_bindir}/bash$" 
+>>> $D${sysconfdir}/shells)\n" > $D${sysconfdir}/shells
+>>> +
+>>> +        if [ ! -s $D${sysconfdir}/shells ]; then
+>>> +            rm $D${sysconfdir}/shells
+>>> +        fi
+>>> +    fi
+>>>   }
+>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 >
 
-This patch does not apply cleanly to Master, can you please ensure it's 
-rebased against master.
-
-Thanks
-	Sau!
-
-> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
-> ---
->   meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
->   meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
->   meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
->   meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
->   4 files changed, 15 insertions(+), 16 deletions(-)
->   create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
->   delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
->
-> diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-> index c067183..e1a5c6b 100644
-> --- a/meta/conf/distro/include/seperatebuilddir.inc
-> +++ b/meta/conf/distro/include/seperatebuilddir.inc
-> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
->   B_pn-libice-native = "${SEPB}"
->   B_pn-libid3tag = "${SEPB}"
->   B_pn-libidn = "${SEPB}"
-> -B_pn-libjson = "${SEPB}"
-> +B_pn-json-c = "${SEPB}"
->   B_pn-libksba = "${SEPB}"
->   B_pn-libmad = "${SEPB}"
->   B_pn-libmatchbox = "${SEPB}"
-> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
-> new file mode 100644
-> index 0000000..e0391f5
-> --- /dev/null
-> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
-> @@ -0,0 +1,13 @@
-> +SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
-> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
-> +
-> +SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
-> +SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
-> +
-> +PARALLEL_MAKE = ""
-> +
-> +inherit autotools
-> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
-> deleted file mode 100644
-> index e4951a8..0000000
-> --- a/meta/recipes-devtools/libjson/libjson_0.9.bb
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -DESCRIPTION = "JSON-C - A JSON implementation in C"
-> -HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
-> -
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
-> -
-> -SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
-> -SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
-> -SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
-> -
-> -S = "${WORKDIR}/json-c-${PV}"
-> -
-> -
-> -inherit autotools
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> index 4c10aa9..475da41 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
->   DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
->   # optional
->   DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
-> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
-> +DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
->
->   inherit autotools pkgconfig useradd gettext perlnative
->
->
 
