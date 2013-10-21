@@ -1,37 +1,38 @@
 Return-Path: <Noor_Ahsan@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 51FAB6D092
+	by mail.openembedded.org (Postfix) with ESMTP id 8C5156D159
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 10:29:27 +0000 (UTC)
+	Mon, 21 Oct 2013 10:31:45 +0000 (UTC)
 Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
 	by relay1.mentorg.com with esmtp 
-	id 1VYCjn-00012L-Oi from Noor_Ahsan@mentor.com ;
-	Mon, 21 Oct 2013 03:29:27 -0700
-Received: from SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) by
+	id 1VYCm3-0001Hj-Ng from Noor_Ahsan@mentor.com ;
+	Mon, 21 Oct 2013 03:31:47 -0700
+Received: from SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) by
 	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 21 Oct 2013 03:29:28 -0700
+	SMTPSVC(6.0.3790.4675); Mon, 21 Oct 2013 03:31:48 -0700
 Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.38]) by
-	SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) with mapi id
-	14.02.0247.003; Mon, 21 Oct 2013 11:29:26 +0100
+	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
+	14.02.0247.003; Mon, 21 Oct 2013 11:31:46 +0100
 From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
+To: sujith h <sujith.h@gmail.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [dylan][PATCH 00/13] Backports from master (cover
-	letter	only)
-Thread-Index: AQHOxas4qyqxLSZ5XEa10K/b5wPCx5n/BVqw
-Date: Mon, 21 Oct 2013 10:29:26 +0000
-Message-ID: <365E1805BC95084CBE82381A0B869994DE53BD25@EU-MBX-01.mgc.mentorg.com>
-References: <cover.1381404113.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1381404113.git.paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] nspr: Add LDFLAGS to TARGET_CC_ARCH to fix
+	warning
+Thread-Index: AQHOylnJ28k1von+R0i+ROyDCd+Iq5n+/J8g
+Date: Mon, 21 Oct 2013 10:31:46 +0000
+Message-ID: <365E1805BC95084CBE82381A0B869994DE53BD41@EU-MBX-01.mgc.mentorg.com>
+References: <1381902395-24934-1-git-send-email-sujith.h@gmail.com>
+	<CADyYWL=8EiOTTmrR6v8QrQNRjb7=t1Gky7Ke5G_p3DdfrDYrRg@mail.gmail.com>
+In-Reply-To: <CADyYWL=8EiOTTmrR6v8QrQNRjb7=t1Gky7Ke5G_p3DdfrDYrRg@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [137.202.0.76]
 MIME-Version: 1.0
-X-OriginalArrivalTime: 21 Oct 2013 10:29:28.0268 (UTC)
-	FILETIME=[6BD918C0:01CECE48]
-Subject: Re: [dylan][PATCH 00/13] Backports from master (cover letter	only)
+X-OriginalArrivalTime: 21 Oct 2013 10:31:48.0206 (UTC)
+	FILETIME=[BF41F0E0:01CECE48]
+Cc: "Haridasan, Sujith" <Sujith_Haridasan@mentor.com>
+Subject: Re: [PATCH] nspr: Add LDFLAGS to TARGET_CC_ARCH to fix	warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,114 +45,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 10:29:27 -0000
+X-List-Received-Date: Mon, 21 Oct 2013 10:31:45 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/alternative;
+	boundary="_000_365E1805BC95084CBE82381A0B869994DE53BD41EUMBX01mgcmento_"
 
-Hello,
+--_000_365E1805BC95084CBE82381A0B869994DE53BD41EUMBX01mgcmento_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Any idea when this will be merged. We need it for our BSPs.
+QW55IHVwZGF0ZSBvbiB0aGlzIG9uZS4gV2UgbmVlZCB0aGlzIHBhdGNoIHRvIGJlIG1lcmdlZCBp
+biBZb2N0byAxLjUuDQoNCk5vb3INCg0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0Bs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0Bs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2Ygc3VqaXRoIGgNClNlbnQ6IFdlZG5l
+c2RheSwgT2N0b2JlciAxNiwgMjAxMyAzOjIzIFBNDQpUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6IEhhcmlkYXNhbiwgU3VqaXRoDQpTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtQQVRDSF0gbnNwcjogQWRkIExERkxBR1MgdG8gVEFSR0VUX0NDX0FSQ0ggdG8g
+Zml4IHdhcm5pbmcNCg0KSGksDQpJIGhvcGUgdGhlIHBhdGNoIGFuZCB0aGUgd2FuaW5nIG1lc3Nh
+Z2VzIGl0IGFkZHJlc3NlcyBhcmUgb2suIEVsc2UgbGV0IG1lIGtub3csIEkgd2lsbCBmaXggdGhl
+bS4NClRoYW5rcywNClN1aml0aCBIDQoNCk9uIFdlZCwgT2N0IDE2LCAyMDEzIGF0IDExOjE2IEFN
+LCBTdWppdGggSCA8c3VqaXRoLmhAZ21haWwuY29tPG1haWx0bzpzdWppdGguaEBnbWFpbC5jb20+
+PiB3cm90ZToNCldBUk5JTkc6IFFBIElzc3VlOiBObyBHTlVfSEFTSCBpbiB0aGUgZWxmIGJpbmFy
+eTogJ2FybXY3YS12ZnAtbmVvbi1tZWwtbGludXgtZ251ZWFiaS9uc3ByLzQuMTAtcjAvcGFja2Fn
+ZXMtc3BsaXQvbnNwci1kZXYvdXNyL2xpYi9uc3ByL3Rlc3RzL2Zvcm1hdHRtJw0KV0FSTklORzog
+UUEgSXNzdWU6IE5vIEdOVV9IQVNIIGluIHRoZSBlbGYgYmluYXJ5OiAnYXJtdjdhLXZmcC1uZW9u
+LW1lbC1saW51eC1nbnVlYWJpL25zcHIvNC4xMC1yMC9wYWNrYWdlcy1zcGxpdC9uc3ByLWRldi91
+c3IvbGliL25zcHIvdGVzdHMvdGhyZWFkcycNCldBUk5JTkc6IFFBIElzc3VlOiBObyBHTlVfSEFT
+SCBpbiB0aGUgZWxmIGJpbmFyeTogJ2FybXY3YS12ZnAtbmVvbi1tZWwtbGludXgtZ251ZWFiaS9u
+c3ByLzQuMTAtcjAvcGFja2FnZXMtc3BsaXQvbnNwci1kZXYvdXNyL2xpYi9uc3ByL3Rlc3RzL3Nl
+bWFlcnInDQpUaGVyZSBhcmUgbWFueSBRQSBXYXJuaW5ncyB0aHJvd24gbGlrZSB0aGUgYWJvdmUg
+Zm9yIHRoaXMgcmVjaXBlLiBUaGlzIGlzIG9ic2VydmVkIGZvciB0YXJnZXQgaW14NiBzYWJyZWxp
+dGUuDQoNClNpZ25lZC1vZmYtYnk6IFN1aml0aCBIIDxTdWppdGhfSGFyaWRhc2FuQG1lbnRvci5j
+b208bWFpbHRvOlN1aml0aF9IYXJpZGFzYW5AbWVudG9yLmNvbT4+DQotLS0NCiBtZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9uc3ByL25zcHJfNC4xMC5iYjxodHRwOi8vbnNwcl80LjEwLmJiPiB8IDEgKw0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvbnNwci9uc3ByXzQuMTAuYmI8aHR0cDovL25zcHJfNC4xMC5iYj4gYi9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9uc3ByL25zcHJfNC4xMC5iYjxodHRwOi8vbnNwcl80LjEwLmJiPg0K
+aW5kZXggZmNlY2I5NS4uNDI0N2ZkMCAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L25zcHIvbnNwcl80LjEwLmJiPGh0dHA6Ly9uc3ByXzQuMTAuYmI+DQorKysgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9uc3ByL25zcHJfNC4xMC5iYjxodHRwOi8vbnNwcl80LjEwLmJiPg0KQEAgLTE5
+LDYgKzE5LDcgQEAgU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBjZmJlNTYxNjc2YjkyZTVhZjNkZGM3
+YWM3NzQ1MjAxNGUzZGE4ODg1ZGE2NmJhZWM4MTFlNzM1NDENCiBTID0gIiR7V09SS0RJUn0vbnNw
+ci0ke1BWfS9uc3ByIg0KDQogUkRFUEVORFNfJHtQTn0tZGV2ICs9ICJwZXJsIg0KK1RBUkdFVF9D
+Q19BUkNIICs9ICIke0xERkxBR1N9Ig0KDQogVEVTVFMgPSAicnVudGVzdHMucGw8aHR0cDovL3J1
+bnRlc3RzLnBsPiBcDQogICAgIHJ1bnRlc3RzLnNoIFwNCi0tDQoxLjguMS40DQoNCg0KDQotLQ0K
+4LS44LWB4LSc4LS/4LSk4LWNIOC0ueC0sOC0v+C0puC0vuC0uOC0qOC1jQ0KQmFuZ2Fsb3JlDQo8
+UHJvamVjdD5Db250cmlidXRvciB0byBLREUgcHJvamVjdA0KaHR0cDovL2ZjaS53aWtpYS5jb20v
+d2lraS9BbnRpLURSTS1DYW1wYWlnbg0KPEJsb2c+IGh0dHA6Ly9zdWppdGhoLmluZm8NCg==
 
-Noor
+--_000_365E1805BC95084CBE82381A0B869994DE53BD41EUMBX01mgcmento_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Paul Eggleton
-Sent: Thursday, October 10, 2013 4:23 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [dylan][PATCH 00/13] Backports from master (cover letter=
- only)
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
+e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQpA
+Zm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkthcnRpa2E7DQoJcGFub3NlLTE6MiAyIDUgMyAzIDQg
+NCA2IDIgMzt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05v
+cm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFw
+dDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJz
+ZXJpZiI7fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6
+OTk7DQoJY29sb3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRl
+ZCwgc3Bhbi5Nc29IeXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJ
+Y29sb3I6cHVycGxlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5ob2VuemIN
+Cgl7bXNvLXN0eWxlLW5hbWU6aG9lbnpiO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHls
+ZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJp
+ZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpl
+eHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdl
+IFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4g
+MS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQot
+LT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4
+dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3Rl
+IG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpl
+eHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+
+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+
+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oywm
+cXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkFueSB1cGRhdGUgb24gdGhpcyBv
+bmUuIFdlIG5lZWQgdGhpcyBwYXRjaCB0byBiZSBtZXJnZWQgaW4gWW9jdG8gMS41LjxvOnA+PC9v
+OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
+ZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3
+RCI+Tm9vcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
+dW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gb3BlbmVt
+YmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVt
+YmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXQ0KPGI+T24gQmVoYWxm
+IE9mIDwvYj5zdWppdGggaDxicj4NCjxiPlNlbnQ6PC9iPiBXZWRuZXNkYXksIE9jdG9iZXIgMTYs
+IDIwMTMgMzoyMyBQTTxicj4NCjxiPlRvOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZzxicj4NCjxiPkNjOjwvYj4gSGFyaWRhc2FuLCBTdWppdGg8YnI+DQo8Yj5T
+dWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG5zcHI6IEFkZCBMREZMQUdTIHRvIFRB
+UkdFVF9DQ19BUkNIIHRvIGZpeCB3YXJuaW5nPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0
+Ij5IaSw8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
+Im1hcmdpbi1ib3R0b206MTIuMHB0Ij5JIGhvcGUgdGhlIHBhdGNoIGFuZCB0aGUgd2FuaW5nIG1l
+c3NhZ2VzIGl0IGFkZHJlc3NlcyBhcmUgb2suIEVsc2UgbGV0IG1lIGtub3csIEkgd2lsbCBmaXgg
+dGhlbS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
+Im1hcmdpbi1ib3R0b206MTIuMHB0Ij5UaGFua3MsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPlN1aml0aCBIPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4N
+CjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4t
+Ym90dG9tOjEyLjBwdCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+T24gV2VkLCBPY3QgMTYsIDIwMTMgYXQgMTE6MTYgQU0sIFN1aml0aCBIICZsdDs8
+YSBocmVmPSJtYWlsdG86c3VqaXRoLmhAZ21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+c3VqaXRo
+LmhAZ21haWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPldBUk5JTkc6IFFBIElzc3VlOiBO
+byBHTlVfSEFTSCBpbiB0aGUgZWxmIGJpbmFyeTogJ2FybXY3YS12ZnAtbmVvbi1tZWwtbGludXgt
+Z251ZWFiaS9uc3ByLzQuMTAtcjAvcGFja2FnZXMtc3BsaXQvbnNwci1kZXYvdXNyL2xpYi9uc3By
+L3Rlc3RzL2Zvcm1hdHRtJzxicj4NCldBUk5JTkc6IFFBIElzc3VlOiBObyBHTlVfSEFTSCBpbiB0
+aGUgZWxmIGJpbmFyeTogJ2FybXY3YS12ZnAtbmVvbi1tZWwtbGludXgtZ251ZWFiaS9uc3ByLzQu
+MTAtcjAvcGFja2FnZXMtc3BsaXQvbnNwci1kZXYvdXNyL2xpYi9uc3ByL3Rlc3RzL3RocmVhZHMn
+PGJyPg0KV0FSTklORzogUUEgSXNzdWU6IE5vIEdOVV9IQVNIIGluIHRoZSBlbGYgYmluYXJ5OiAn
+YXJtdjdhLXZmcC1uZW9uLW1lbC1saW51eC1nbnVlYWJpL25zcHIvNC4xMC1yMC9wYWNrYWdlcy1z
+cGxpdC9uc3ByLWRldi91c3IvbGliL25zcHIvdGVzdHMvc2VtYWVycic8YnI+DQpUaGVyZSBhcmUg
+bWFueSBRQSBXYXJuaW5ncyB0aHJvd24gbGlrZSB0aGUgYWJvdmUgZm9yIHRoaXMgcmVjaXBlLiBU
+aGlzIGlzIG9ic2VydmVkIGZvciB0YXJnZXQgaW14NiBzYWJyZWxpdGUuPGJyPg0KPGJyPg0KU2ln
+bmVkLW9mZi1ieTogU3VqaXRoIEggJmx0OzxhIGhyZWY9Im1haWx0bzpTdWppdGhfSGFyaWRhc2Fu
+QG1lbnRvci5jb20iPlN1aml0aF9IYXJpZGFzYW5AbWVudG9yLmNvbTwvYT4mZ3Q7PGJyPg0KLS0t
+PGJyPg0KJm5ic3A7bWV0YS9yZWNpcGVzLXN1cHBvcnQvbnNwci88YSBocmVmPSJodHRwOi8vbnNw
+cl80LjEwLmJiIiB0YXJnZXQ9Il9ibGFuayI+bnNwcl80LjEwLmJiPC9hPiB8IDEgJiM0Mzs8YnI+
+DQombmJzcDsxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oJiM0MzspPGJyPg0KPGJyPg0KZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25zcHIvPGEgaHJlZj0iaHR0cDovL25zcHJf
+NC4xMC5iYiIgdGFyZ2V0PSJfYmxhbmsiPm5zcHJfNC4xMC5iYjwvYT4gYi9tZXRhL3JlY2lwZXMt
+c3VwcG9ydC9uc3ByLzxhIGhyZWY9Imh0dHA6Ly9uc3ByXzQuMTAuYmIiIHRhcmdldD0iX2JsYW5r
+Ij5uc3ByXzQuMTAuYmI8L2E+PGJyPg0KaW5kZXggZmNlY2I5NS4uNDI0N2ZkMCAxMDA2NDQ8YnI+
+DQotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uc3ByLzxhIGhyZWY9Imh0dHA6Ly9uc3ByXzQu
+MTAuYmIiIHRhcmdldD0iX2JsYW5rIj5uc3ByXzQuMTAuYmI8L2E+PGJyPg0KJiM0MzsmIzQzOyYj
+NDM7IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnNwci88YSBocmVmPSJodHRwOi8vbnNwcl80LjEw
+LmJiIiB0YXJnZXQ9Il9ibGFuayI+bnNwcl80LjEwLmJiPC9hPjxicj4NCkBAIC0xOSw2ICYjNDM7
+MTksNyBAQCBTUkNfVVJJW3NoYTI1NnN1bV0gPSAmcXVvdDswY2ZiZTU2MTY3NmI5MmU1YWYzZGRj
+N2FjNzc0NTIwMTRlM2RhODg4NWRhNjZiYWVjODExZTczNTQxPGJyPg0KJm5ic3A7UyA9ICZxdW90
+OyR7V09SS0RJUn0vbnNwci0ke1BWfS9uc3ByJnF1b3Q7PGJyPg0KPGJyPg0KJm5ic3A7UkRFUEVO
+RFNfJHtQTn0tZGV2ICYjNDM7PSAmcXVvdDtwZXJsJnF1b3Q7PGJyPg0KJiM0MztUQVJHRVRfQ0Nf
+QVJDSCAmIzQzOz0gJnF1b3Q7JHtMREZMQUdTfSZxdW90Ozxicj4NCjxicj4NCiZuYnNwO1RFU1RT
+ID0gJnF1b3Q7PGEgaHJlZj0iaHR0cDovL3J1bnRlc3RzLnBsIiB0YXJnZXQ9Il9ibGFuayI+cnVu
+dGVzdHMucGw8L2E+IFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwO3J1bnRlc3RzLnNoIFw8YnI+
+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj48c3BhbiBzdHlsZT0iY29sb3I6Izg4ODg4OCI+LS08L3Nw
+YW4+PC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4Ij48YnI+DQo8c3BhbiBjbGFzcz0i
+aG9lbnpiIj4xLjguMS40PC9zcGFuPjwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KPGJyIGNsZWFyPSJhbGwiPg0KPGJyPg0KLS0gPGJyPg0K
+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0thcnRpa2EmcXVvdDssJnF1b3Q7c2VyaWYm
+cXVvdDsiPuC0uOC1geC0nOC0v+C0pOC1jTwvc3Bhbj4gPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5
+OiZxdW90O0thcnRpa2EmcXVvdDssJnF1b3Q7c2VyaWYmcXVvdDsiPg0K4LS54LSw4LS/4LSm4LS+
+4LS44LSo4LWNPC9zcGFuPjxicj4NCkJhbmdhbG9yZTxicj4NCiZsdDtQcm9qZWN0Jmd0O0NvbnRy
+aWJ1dG9yIHRvIEtERSBwcm9qZWN0PGJyPg0KPGEgaHJlZj0iaHR0cDovL2ZjaS53aWtpYS5jb20v
+d2lraS9BbnRpLURSTS1DYW1wYWlnbiIgdGFyZ2V0PSJfYmxhbmsiPmh0dHA6Ly9mY2kud2lraWEu
+Y29tL3dpa2kvQW50aS1EUk0tQ2FtcGFpZ248L2E+PGJyPg0KJmx0O0Jsb2cmZ3Q7IDxhIGhyZWY9
+Imh0dHA6Ly9zdWppdGhoLmluZm8iIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vc3VqaXRoaC5pbmZv
+PC9hPjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Some backported patches to fix bugs in the dylan branch. These have been
-tested on the Yocto Project autobuilder.
-
-
-
-The following changes since commit a065c225a70ef7c0bc7f169cad961765f9366263=
-:
-
-  mesa: inherit gettext (2013-08-16 10:39:49 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3D=
-paule/dylan-next
-
-Chen Qi (2):
-  rpm: fix typo in PACKAGECONFIG
-  busybox: configure system user id to range from 100 to 999
-
-Darren Hart (1):
-  kernel.bbclass: Correct post(inst|rm) package association
-
-Jackie Huang (1):
-  findutils_4.2.31: backport fixes for doc build errors
-
-Jason Wessel (1):
-  ncurses: Fix problems expanding ncurses-libtinfo when in IMAGE_INSTALL
-
-Khem Raj (1):
-  elfutils-native: Fix build on distros with gcc 4.8
-
-Marko Lindqvist (1):
-  boost: fix build when PARALLEL_MAKE is not set
-
-Paul Eggleton (2):
-  sysvinit-inittab: ensure unique label for SERIAL_CONSOLES entries
-  classes/package_rpm: fix bitbake package-index for RPM
-
-Ross Burton (1):
-  libxml2: remove patch for CVE-2012-2871
-
-Saul Wold (3):
-  mc: Don't remove libdir and split helpers into packages
-  perl: Backport 2 CVE Patches
-  python: Backport 2 CVE from upstream
-
- meta/classes/kernel.bbclass                        |  29 ++-
- meta/classes/package_rpm.bbclass                   |   5 +
- meta/recipes-core/busybox/busybox-1.20.2/defconfig |   4 +-
- .../libxml/libxml2/libxml2-CVE-2012-2871.patch     |  34 ---
- meta/recipes-core/libxml/libxml2_2.9.0.bb          |   2 -
- meta/recipes-core/ncurses/ncurses.inc              |   2 +
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   6 +-
- .../elfutils/elfutils/fix-build-gcc-4.8.patch      |  44 ++++
- meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   1 +
- .../0001-Fix-misparsing-of-maketext-strings.patch  |  86 +++++++
- ...mature-hsplit-calls-and-only-trigger-REHA.patch | 178 +++++++++++++++
- meta/recipes-devtools/perl/perl_5.14.3.bb          |   3 +
- .../python/python/CVE-2013-4073_py27.patch         | 251 +++++++++++++++++=
-++++
- .../python/python/pypirc-secure.patch              |  35 +++
- meta/recipes-devtools/python/python_2.7.3.bb       |   2 +
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |   2 +-
- .../findutils-fix-doc-build-error.patch            |  53 +++++
- .../recipes-extended/findutils/findutils_4.2.31.bb |   1 +
- meta/recipes-extended/mc/mc_4.7.5.2.bb             |  26 ++-
- meta/recipes-extended/mc/mc_4.8.7.bb               |  23 +-
- meta/recipes-support/boost/boost.inc               |   2 +
- 21 files changed, 727 insertions(+), 62 deletions(-)
- delete mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2012-2871.=
-patch
- create mode 100644 meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4=
-.8.patch
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/0001-Fix-mispars=
-ing-of-maketext-strings.patch
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/0001-Prevent-pre=
-mature-hsplit-calls-and-only-trigger-REHA.patch
- create mode 100644 meta/recipes-devtools/python/python/CVE-2013-4073_py27.=
-patch
- create mode 100644 meta/recipes-devtools/python/python/pypirc-secure.patch
- create mode 100644 meta/recipes-extended/findutils/findutils-4.2.31/findut=
-ils-fix-doc-build-error.patch
-
---=20
-1.8.1.2
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--_000_365E1805BC95084CBE82381A0B869994DE53BD41EUMBX01mgcmento_--
