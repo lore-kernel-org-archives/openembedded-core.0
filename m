@@ -1,30 +1,38 @@
-Return-Path: <alexandrux.palalau@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9415A6CFEC
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 88B3C6D073
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 12:19:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Oct 2013 05:19:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,539,1378882800"; d="scan'208";a="420122917"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Oct 2013 05:18:57 -0700
-Received: from [10.237.108.65] (apalalax-mobl.ger.corp.intel.com
-	[10.237.108.65])
-	by linux.intel.com (Postfix) with ESMTP id 989566A400F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 05:18:54 -0700 (PDT)
-Message-ID: <52651BAF.9090309@linux.intel.com>
-Date: Mon, 21 Oct 2013 15:18:55 +0300
-From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
-Organization: Intel OTC
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130215 Thunderbird/17.0.3
+	Mon, 21 Oct 2013 12:45:53 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1VYErq-0003J3-W3 from Noor_Ahsan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 21 Oct 2013 05:45:55 -0700
+Received: from SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 21 Oct 2013 05:45:54 -0700
+Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.38]) by
+	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
+	14.02.0247.003; Mon, 21 Oct 2013 13:45:53 +0100
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device
+	name	from SERIAL_CONSOLES entries
+Thread-Index: AQHOw25wdYkIFqtJVE+CHYnQPPILhZn/L/xA
+Date: Mon, 21 Oct 2013 12:45:52 +0000
+Message-ID: <365E1805BC95084CBE82381A0B869994DE53BF6B@EU-MBX-01.mgc.mentorg.com>
+References: <1381158304-931-1-git-send-email-muhammad_shakeel@mentor.com>
+In-Reply-To: <1381158304-931-1-git-send-email-muhammad_shakeel@mentor.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.76]
 MIME-Version: 1.0
-CC: openembedded-core@lists.openembedded.org
-References: <1382289436-5818-1-git-send-email-alexandrux.palalau@linux.intel.com>
-In-Reply-To: <1382289436-5818-1-git-send-email-alexandrux.palalau@linux.intel.com>
-Subject: Re: [PATCH] lib/oeqa/runtime: added rpm dependency test
+X-OriginalArrivalTime: 21 Oct 2013 12:45:54.0973 (UTC)
+	FILETIME=[7B8124D0:01CECE5B]
+Subject: Re: [PATCH] sysvinit-inittab: Fix getting tty device name	from SERIAL_CONSOLES entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +45,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 12:19:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Oct 2013 12:45:54 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Ignore this one...will send V2
+Hello,
 
-On 10/20/2013 8:17 PM, Alexandru Palalau wrote:
-> From: Alexandru Palalau <alexandrux.palalau@intel.com>
->
-> Signed-off-by: Alexandru Palalau <alexandrux.palalau@intel.com>
-> ---
->   meta/lib/oeqa/runtime/rpm.py | 10 ++++++++++
->   1 file changed, 10 insertions(+)
->
-> diff --git a/meta/lib/oeqa/runtime/rpm.py b/meta/lib/oeqa/runtime/rpm.py
-> index 154cad5..7b48e4c 100644
-> --- a/meta/lib/oeqa/runtime/rpm.py
-> +++ b/meta/lib/oeqa/runtime/rpm.py
-> @@ -29,15 +29,25 @@ class RpmInstallRemoveTest(oeRuntimeTest):
->       def setUpClass(self):
->           deploydir = os.path.join(oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True), "rpm", oeRuntimeTest.tc.d.getVar('TUNE_PKGARCH', True))
->           pkgdata = oe.packagedata.read_subpkgdata("rpm-doc", oeRuntimeTest.tc.d)
-> +        pkgdata2 = oe.packagedata.read_subpkgdata("psplash-default", oeRuntimeTest.tc.d)
->           # pick rpm-doc as a test file to get installed, because it's small and it will always be built for standard targets
->           testrpmfile = "rpm-doc-%s-%s.%s.rpm" % (pkgdata["PKGV"], pkgdata["PKGR"], oeRuntimeTest.tc.d.getVar('TUNE_PKGARCH', True))
-> +        testpsplashfile = "psplash-default-%s-%s.%s.rpm" % (pkgdata2["PKGV"], pkgdata2["PKGR"], oeRuntimeTest.tc.d.getVar('TUNE_PKGARCH', True))
->           oeRuntimeTest.tc.target.copy_to(os.path.join(deploydir,testrpmfile), "/tmp/rpm-doc.rpm")
-> +        oeRuntimeTest.tc.target.copy_to(os.path.join(deploydir,testpsplashfile), "/tmp/psplash-default.rpm")
->
->       @skipUnlessPassed('test_rpm_help')
->       def test_rpm_install(self):
->           (status, output) = self.target.run('rpm -ivh /tmp/rpm-doc.rpm')
->           self.assertEqual(status, 0, msg="Failed to install rpm-doc package: %s" % output)
->
-> +    @skipUnlessPassed('test_rpm_help')
-> +    def test_rpm_install_dependency(self):
-> +        (status, output) = self.target.run('rpm -e psplash psplash-default')
-> +        self.assertEqual(status, 0, msg="Failed to remove psplash and psplash-default packages. Output: %s" % output)
-> +        (status, output) = self.target.run('rpm -ivh /tmp/psplash-default.rpm')
-> +        self.assertEqual(status, 1, msg="Fail in using rpm install dependency command. Output: %s" % output)
-> +
->       @skipUnlessPassed('test_rpm_install')
->       def test_rpm_remove(self):
->           (status,output) = self.target.run('rpm -e rpm-doc')
->
+Kindly merge this patch we need it for Yocto 1.5.
 
+Noor
 
--- 
-Alexandru Palalau
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Shakeel, Muhammad
+Sent: Monday, October 07, 2013 8:05 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device name fr=
+om SERIAL_CONSOLES entries
+
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+
+Currently the part after "tty" in the device name go into label along with =
+everything after that part. For example if SERIAL_CONSOLES=3D"115200;vt100;=
+ttyS0"
+than label=3DS0 but if SERIAL_CONSOLES=3D"115200;ttyS0;vt100" than label=3D=
+S0;vt100.
+If SERIAL_CONSOLES=3D"..;ttyX;..", part after 'X' should also be trimmed.
+
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/=
+recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 23c284d..05ba410 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -22,7 +22,7 @@ do_install() {
+     for i in $tmp
+     do
+ 	j=3D`echo ${i} | sed s/\;/\ /g`
+-	label=3D`echo ${i} | sed -e 's/^.*;tty//'`
++	label=3D`echo ${i} | sed -e 's/^.*;tty//' -e 's/;.*//'`
+ 	echo "$label:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdi=
+r}/inittab
+     done
+=20
+--
+1.7.9.5
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
