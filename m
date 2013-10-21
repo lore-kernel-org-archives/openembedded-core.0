@@ -1,21 +1,23 @@
 Return-Path: <riku.voipio@linaro.org>
 Received: from afflict.kos.to (afflict.kos.to [92.243.29.197])
-	by mail.openembedded.org (Postfix) with ESMTP id 948A26CDCB
+	by mail.openembedded.org (Postfix) with ESMTP id 9598D6D1E3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 08:17:01 +0000 (UTC)
+	Mon, 21 Oct 2013 08:17:02 +0000 (UTC)
 Received: from localhost.localdomain (91-157-208-114.elisa-laajakaista.fi
 	[91.157.208.114])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by afflict.kos.to (Postfix) with ESMTPSA id CC18626551;
-	Mon, 21 Oct 2013 10:17:00 +0200 (CEST)
+	by afflict.kos.to (Postfix) with ESMTPSA id 19A7F26554;
+	Mon, 21 Oct 2013 10:17:04 +0200 (CEST)
 From: Riku Voipio <riku.voipio@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2013 11:16:53 +0300
-Message-Id: <1382343415-30035-1-git-send-email-riku.voipio@linaro.org>
+Date: Mon, 21 Oct 2013 11:16:55 +0300
+Message-Id: <1382343415-30035-3-git-send-email-riku.voipio@linaro.org>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1382343415-30035-1-git-send-email-riku.voipio@linaro.org>
+References: <1382343415-30035-1-git-send-email-riku.voipio@linaro.org>
 Cc: patches@linaro.org
-Subject: [PATCH 1/3] ltp: cleanup recipe
+Subject: [PATCH 3/3] ltp: enable power management and realtime tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,98 +30,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 08:17:02 -0000
+X-List-Received-Date: Mon, 21 Oct 2013 08:17:03 -0000
 
-Cleanups for ltp:
+ltp includes realtime and power management tests,
+that are somewhat experimental and not enabled by default.
+Add the configuration options to enable them, and a backported
+patch that allows compilation with more pedantic toolchains.
 
-1. Instead of using giturl like in Anders's patch use the sourceforge mirror URL.
-2. remove to the manual unpack rule and just set S variable to source directory.
-3. Follow the OE style guide for variable order.
+You will still need to run the realtime tests explicitly,
+so this should have no impact on people not interested in
+testing realtime features.
 ---
- meta/recipes-extended/ltp/ltp_20130904.bb | 50 +++++++++++++------------------
- 1 file changed, 21 insertions(+), 29 deletions(-)
+ meta/recipes-extended/ltp/files/fix-pm-tests.patch | 30 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20130904.bb          |  2 ++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/files/fix-pm-tests.patch
 
+diff --git a/meta/recipes-extended/ltp/files/fix-pm-tests.patch b/meta/recipes-extended/ltp/files/fix-pm-tests.patch
+new file mode 100644
+index 0000000..e8f80de
+--- /dev/null
++++ b/meta/recipes-extended/ltp/files/fix-pm-tests.patch
+@@ -0,0 +1,30 @@
++Upstream-Status: Backport
++
++commit 6f3147f01229f3bb953202cde828d35e0d2bcb8a
++Author: Riku Voipio <riku.voipio@linaro.org>
++Date:   Mon Oct 14 11:50:28 2013 +0300
++
++    power_management: add TCID
++    
++    get_sched_values.c uses interfaces provided by -lltp which need
++    TCID defined. Not sure how this built successfully before.
++    
++    [v2] correct TCID to an unique one
++    
++    Cc: Wanlong Gao <gaowanlong@cn.fujitsu.com>
++    Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
++    Reviewed-by: Wanlong Gao <gaowanlong@cn.fujitsu.com>
++
++Index: ltp-full-20130904/testcases/kernel/power_management/get_sched_values.c
++===================================================================
++--- ltp-full-20130904.orig/testcases/kernel/power_management/get_sched_values.c	2013-09-04 10:18:22.000000000 +0300
+++++ ltp-full-20130904/testcases/kernel/power_management/get_sched_values.c	2013-10-11 14:57:40.890551214 +0300
++@@ -17,6 +17,8 @@
++ #include <stdio.h>
++ #include "test.h"
++ 
+++const char *TCID = "Power_Management";
+++
++ int get_supp_sched_mc(void)
++ {
++ 	if (tst_kvercmp(2, 6, 29) < 0)
 diff --git a/meta/recipes-extended/ltp/ltp_20130904.bb b/meta/recipes-extended/ltp/ltp_20130904.bb
-index 5e10448..43fe780 100644
+index cf016f9..be553df 100644
 --- a/meta/recipes-extended/ltp/ltp_20130904.bb
 +++ b/meta/recipes-extended/ltp/ltp_20130904.bb
-@@ -21,44 +21,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+@@ -23,6 +23,7 @@ DEPENDS = "attr libaio libcap acl openssl"
  
- DEPENDS = "attr libaio libcap acl openssl"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/ltp/LTP%20Source/ltp-${PV}/ltp-full-${PV}.tar.bz2 \
+            file://fix-arm64.patch \
++           file://fix-pm-tests.patch \
+            "
  
--SRC_URI = "git://github.com/linux-test-project/ltp.git"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/ltp/LTP%20Source/ltp-${PV}/ltp-full-${PV}.tar.bz2 \
-+           "
- 
--SRCREV = "a8c42db5f9314211811c36275a21f83902830dc5"
--S = "${WORKDIR}/git"
-+SRC_URI[md5sum] = "0cf2ccb7199f8318d413c62a085629f0"
-+SRC_URI[sha256sum] = "662c3661a4d1bfbf3187d0835f35e613b43eedc35a840e3283e378a19606ee0b"
- 
- export prefix = "/opt/ltp"
- export exec_prefix = "/opt/ltp"
- 
- inherit autotools
- 
--RDEPENDS_${PN} = "perl e2fsprogs-mke2fs"
--
--FILES_${PN}-dbg += "/opt/ltp/runtest/.debug"
--FILES_${PN}-dbg += "/opt/ltp/testcases/bin/.debug"
--FILES_${PN}-dbg += "/opt/ltp/testcases/bin/*/bin/.debug"
--FILES_${PN}-dbg += "/opt/ltp/testcases/bin/*/test/.debug"
--FILES_${PN}-dbg += "/opt/ltp/scenario_groups/.debug"
--FILES_${PN}-dbg += "/opt/ltp/testscripts/.debug"
--FILES_${PN}-dbg += "/opt/ltp/testscripts/open_posix_testsuite/.debug"
--
--FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a"
--
--FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testcases/open_posix_testsuite/tools/*"
-+S = "${WORKDIR}/ltp-full-${PV}"
+ SRC_URI[md5sum] = "0cf2ccb7199f8318d413c62a085629f0"
+@@ -36,6 +37,7 @@ inherit autotools
+ S = "${WORKDIR}/ltp-full-${PV}"
  
  TARGET_CC_ARCH += "${LDFLAGS}"
++EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
  
--do_unpack_append() {
--    bb.build.exec_func('do_extract_tarball', d)
--}
--
--do_extract_tarball() {
--	if test -f ${WORKDIR}/ltp-full-${PV} ; then
--	    tar x --no-same-owner -f ${WORKDIR}/ltp-full-${PV} -C ${WORKDIR}
--	    rm -rf ${WORKDIR}/ltp-${PV}
--	    mv ${WORKDIR}/ltp-full-${PV} ${WORKDIR}/ltp-${PV}
--	fi
--}
--
  do_install(){
  	install -d ${D}/opt/ltp/
- 	oe_runmake DESTDIR=${D} SKIP_IDCHECK=1 install
-@@ -66,10 +43,25 @@ do_install(){
- 	# Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
- 	cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
- 
--	# We need to remove all scripts which depend on /usr/bin/expect, since expect is not supported in poky
-+	# We need to remove all scripts which depend on /usr/bin/expect, since expect is not supported in oe-core
- 	# We will add expect for enhancement in future
- 	find ${D} -type f -print | xargs grep "\!.*\/usr\/bin\/expect" | awk -F":" '{print $1}' | xargs rm -f
- }
- 
-+FILES_${PN}-dbg += "/opt/ltp/runtest/.debug \
-+                    /opt/ltp/testcases/bin/.debug \
-+                    /opt/ltp/testcases/bin/*/bin/.debug \
-+                    /opt/ltp/testcases/bin/*/test/.debug \
-+                    /opt/ltp/scenario_groups/.debug \
-+                    /opt/ltp/testscripts/.debug \
-+                    /opt/ltp/testscripts/open_posix_testsuite/.debug \
-+                    "
-+
-+FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a"
-+
-+FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/testcases/open_posix_testsuite/tools/*"
-+
-+RDEPENDS_${PN} = "perl e2fsprogs-mke2fs"
-+
- # Avoid generated binaries stripping. Otherwise some of the ltp tests such as ldd01 & nm01 fails
- INHIBIT_PACKAGE_STRIP = "1"
 -- 
 1.8.3.1
 
