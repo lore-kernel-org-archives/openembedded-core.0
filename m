@@ -1,37 +1,26 @@
-Return-Path: <ulf@emagii.com>
-Received: from smtprelay-b22.telenor.se (smtprelay-b22.telenor.se
-	[195.54.99.213])
-	by mail.openembedded.org (Postfix) with ESMTP id BC62D6CC4F
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id C51436CC4F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 12:55:53 +0000 (UTC)
-Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
-	by smtprelay-b22.telenor.se (Postfix) with ESMTP id 657D8EB537
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 14:55:55 +0200 (CEST)
-X-SENDER-IP: [83.227.59.84]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AnsVAIcjZVJT4ztUPGdsb2JhbAANTIM/vjdLgUIDAQEBATiCWgEBAQECAQEBATU2CgEQCxQECRYPCQMCAQIBDwYBGxQGDQEFAgEBh3ADCQsIqkyJGg2Ja4xsgRyBVAeEKQOVPGKBa4EviyGIXQ
-X-IronPort-AV: E=Sophos;i="4.93,539,1378850400"; d="scan'208";a="339988645"
-Received: from c-543be353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.199]) ([83.227.59.84])
-	by ipb4.telenor.se with ESMTP; 21 Oct 2013 14:55:55 +0200
-Message-ID: <5265245A.2090201@emagii.com>
-Date: Mon, 21 Oct 2013 14:55:54 +0200
-From: Ulf Samuelsson <ulf@emagii.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Mon, 21 Oct 2013 12:58:45 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Mon, 21 Oct 2013 14:58:43 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id B33FC28508B;
+	Mon, 21 Oct 2013 14:58:43 +0200 (CEST)
+From: <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 21 Oct 2013 14:58:41 +0200
+Message-ID: <1382360321-37920-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1382345997-28170-1-git-send-email-ulf@emagii.com>
-	<20131021111757.GE3709@jama>
-In-Reply-To: <20131021111757.GE3709@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Add tune for Cortex-A5 chips
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] pigz: bump to 2.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ulf@emagii.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -41,94 +30,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 12:55:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 21 Oct 2013 12:58:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2013-10-21 13:17, Martin Jansa wrote:
-> On Mon, Oct 21, 2013 at 10:59:57AM +0200, Ulf Samuelsson wrote:
->> Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
->> ---
->>   meta/conf/machine/include/tune-cortexa5.inc |   24 ++++++++++++++++++++++++
->>   1 file changed, 24 insertions(+)
->>   create mode 100644 meta/conf/machine/include/tune-cortexa5.inc
->>
->> diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
->> new file mode 100644
->> index 0000000..69c945e
->> --- /dev/null
->> +++ b/meta/conf/machine/include/tune-cortexa5.inc
->> @@ -0,0 +1,24 @@
->> +DEFAULTTUNE ?= "cortexa5thf"
-> wasn't cortexa5 added already in:
->
-> commit 50bc63c5c377d9fbb87b3efefc8c6f5473ba642a
-> Author: Andy Voltz <andy.voltz@timesys.com>
-> Date:   Wed Jun 5 11:52:30 2013 -0400
->
->      tune-cortexa5.inc: Add tune file for cortex-a5
->
-> I think that one was better, because it had optional neon support and
-> default DEFAULTTUNE should be something more generic (at least to stay
-> consistent with other tunes) it's DISTRO decision to select common
-> denominator (or more specific tunes for each MACHINE) for binary feeds
-> they want to manage.
-Looks like you are right.
-I looked at the openembedded-core in Angstrom master, and it wasn't there.
-(
-     because Angstrom master checks out
-     "openembedded-core/remotes/origin/angstrom-staging-yocto1.3"
-)
+From: "Maxin B. John" <maxin.john@enea.com>
 
-Sorry.
+Update pigz to latest release - 2.3.1
+Drop ldflags.patch as it has been merged upstream
 
-/Ulf
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-extended/pigz/files/ldflags.patch |   19 -------------------
+ meta/recipes-extended/pigz/pigz.inc            |    5 ++---
+ meta/recipes-extended/pigz/pigz_2.3.1.bb       |   10 ++++++++++
+ meta/recipes-extended/pigz/pigz_2.3.bb         |   10 ----------
+ 4 files changed, 12 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-extended/pigz/files/ldflags.patch
+ create mode 100644 meta/recipes-extended/pigz/pigz_2.3.1.bb
+ delete mode 100644 meta/recipes-extended/pigz/pigz_2.3.bb
 
->
-> see
-> commit a11bdc36a1be18cc5aa14682b2a2c9ee83141f51
-> Author: Martin Jansa <Martin.Jansa@gmail.com>
-> Date:   Tue Oct 2 13:21:08 2012 +0000
->
->      tune-*: define more generic DEFAULTTUNE to share feed between
-> machines
->
->> +# TUNE_FEATU4RES     = "armv7a vfp callconvention-hard"
->> +# TARGET_FPU        = "vfp"
->> +
->> +require conf/machine/include/arm/arch-armv7a.inc
->> +
->> +TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
->> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "cortexa5", "-mtune=cortex-a5", "", d)}"
->> +
->> +# Little Endian base configs
->> +AVAILTUNES += "cortexa5 cortexa5t"
->> +TUNE_FEATURES_tune-cortexa5 = "${TUNE_FEATURES_tune-armv7a} cortexa5"
->> +TUNE_FEATURES_tune-cortexa5t = "${TUNE_FEATURES_tune-armv7at} cortexa5"
->> +
->> +PACKAGE_EXTRA_ARCHS_tune-cortexa5 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a}"
->> +PACKAGE_EXTRA_ARCHS_tune-cortexa5t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at}"
->> +
->> +# VFP Tunes
->> +AVAILTUNES += "cortexa5hf cortexa5thf"
->> +TUNE_FEATURES_tune-cortexa5hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa5"
->> +TUNE_FEATURES_tune-cortexa5thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa5"
->> +PACKAGE_EXTRA_ARCHS_tune-cortexa5hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf}"
->> +PACKAGE_EXTRA_ARCHS_tune-cortexa5thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf}"
->> +
->> -- 
->> 1.7.9.5
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
--- 
-Best Regards
-Ulf Samuelsson
-ulf@emagii.com
-+46 722 427437
+diff --git a/meta/recipes-extended/pigz/files/ldflags.patch b/meta/recipes-=
+extended/pigz/files/ldflags.patch
+deleted file mode 100644
+index 8e531cc..0000000
+--- a/meta/recipes-extended/pigz/files/ldflags.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Link using the bitbake LDFLAGS.
+-
+-Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
+-
+-Upstream-Status: Pending
+-
+-Index: pigz-2.3/Makefile
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- pigz-2.3.orig/Makefile
+-+++ pigz-2.3/Makefile
+-@@ -3,7 +3,7 @@ CFLAGS=3D-O3 -Wall -Wextra
+-=20
+-=20
+- pigz: pigz.o yarn.o zopfli/deflate.o zopfli/blocksplitter.o zopfli/tree.o=
+ zopfli/lz77.o zopfli/cache.o zopfli/hash.o zopfli/util.o zopfli/squeeze.o =
+zopfli/katajainen.o
+--	$(CC) -o pigz $^ -lpthread -lz
+-+	$(CC) ${LDFLAGS} -o pigz $^ -lpthread -lz -lm
+- 	ln -f pigz unpigz
+-=20
+- pigz.o: pigz.c yarn.h zopfli/deflate.h zopfli/util.h
+diff --git a/meta/recipes-extended/pigz/pigz.inc b/meta/recipes-extended/pi=
+gz/pigz.inc
+index 5ceaef2..984f9ea 100644
+--- a/meta/recipes-extended/pigz/pigz.inc
++++ b/meta/recipes-extended/pigz/pigz.inc
+@@ -7,10 +7,9 @@ HOMEPAGE =3D "http://zlib.net/pigz/"
+ SECTION =3D "console/utils"
+ LICENSE =3D "Zlib"
+=20
+-PR =3D "r1"
++PR =3D "r0"
+=20
+-SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz \
+-           file://ldflags.patch"
++SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz"
+=20
+ PROVIDES_class-native +=3D "gzip-native"
+=20
+diff --git a/meta/recipes-extended/pigz/pigz_2.3.1.bb b/meta/recipes-extend=
+ed/pigz/pigz_2.3.1.bb
+new file mode 100644
+index 0000000..6e7c7f1
+--- /dev/null
++++ b/meta/recipes-extended/pigz/pigz_2.3.1.bb
+@@ -0,0 +1,10 @@
++require pigz.inc
++LIC_FILES_CHKSUM =3D "file://pigz.c;beginline=3D7;endline=3D21;md5=3Da21d4=
+075cb00ab4ca17fce5e7534ca95"
++
++SRC_URI[md5sum] =3D "e803f8bc0770c7a5e96dccb1d2dd2aab"
++SRC_URI[sha256sum] =3D "629b0ce5422a3978f31742bf8275d0be2f84987140d18f390f=
+1e3b4e46e0af54"
++
++NATIVE_PACKAGE_PATH_SUFFIX =3D "/${PN}"
++
++BBCLASSEXTEND =3D "native"
++
+diff --git a/meta/recipes-extended/pigz/pigz_2.3.bb b/meta/recipes-extended=
+/pigz/pigz_2.3.bb
+deleted file mode 100644
+index 724d00b..0000000
+--- a/meta/recipes-extended/pigz/pigz_2.3.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require pigz.inc
+-LIC_FILES_CHKSUM =3D "file://pigz.c;beginline=3D7;endline=3D21;md5=3Da21d4=
+075cb00ab4ca17fce5e7534ca95"
+-
+-SRC_URI[md5sum] =3D "042e3322534f2c3d761736350cac303f"
+-SRC_URI[sha256sum] =3D "74bbd5962f9420549fc987ddd1ccda692ec2b29d2d612fbbe2=
+6edf3fa348ff21"
+-
+-NATIVE_PACKAGE_PATH_SUFFIX =3D "/${PN}"
+-
+-BBCLASSEXTEND =3D "native"
+-
+--=20
+1.7.10.4
 
 
