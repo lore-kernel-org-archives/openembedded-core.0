@@ -1,23 +1,42 @@
-Return-Path: <riku.voipio@linaro.org>
-Received: from afflict.kos.to (afflict.kos.to [92.243.29.197])
-	by mail.openembedded.org (Postfix) with ESMTP id 9598D6D1E3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 297866D0F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 08:17:02 +0000 (UTC)
-Received: from localhost.localdomain (91-157-208-114.elisa-laajakaista.fi
-	[91.157.208.114])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by afflict.kos.to (Postfix) with ESMTPSA id 19A7F26554;
-	Mon, 21 Oct 2013 10:17:04 +0200 (CEST)
-From: Riku Voipio <riku.voipio@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2013 11:16:55 +0300
-Message-Id: <1382343415-30035-3-git-send-email-riku.voipio@linaro.org>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1382343415-30035-1-git-send-email-riku.voipio@linaro.org>
-References: <1382343415-30035-1-git-send-email-riku.voipio@linaro.org>
-Cc: patches@linaro.org
-Subject: [PATCH 3/3] ltp: enable power management and realtime tests
+	Mon, 21 Oct 2013 08:32:22 +0000 (UTC)
+Received: by mail-ve0-f171.google.com with SMTP id c14so3735062vea.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2013 01:32:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=gUDzYHJEv06Cg9l0josF2htpGT7mOJvXxpuRjxeFgDs=;
+	b=i85L5wUDZ/wMIUwzupU89zWAXJMBFXusEcKHhQjE7YED5J1BtFYM3oRfhWiPeVw+qK
+	OpfQmRVWdska/Hrf0cEZIzGjePEsgOV9v48Flo51IKoQ1APXvzZ50mq55lYSXOIFyyaq
+	Ge1SJI/A9n1znG1hsO742cbV4T4JRTNYQiGurKPqB3jxeEAAnT8rAkP+7pKOOE3VbmXA
+	uabv9UlRuwWuOSRDH1hAiObENM1Jy/CxLDRTkh80G5Jhx+XrP2hL/bTYVhjqftJ2wPY+
+	6wIziyfUKGEr89X/MHj2xNI9MVVo1fvysoJCMmp5NBTuTkBxL+Lx8SRtKfKAjJC3pAle
+	xYhA==
+X-Gm-Message-State: ALoCoQkjDGubr6IvViiBRQEBtB4TjwvI6Ray9OpnKdwQcvQOKYbq9fpOanWbBawJygEee+aP0M+C
+X-Received: by 10.220.164.202 with SMTP id f10mr325581vcy.25.1382344343652;
+	Mon, 21 Oct 2013 01:32:23 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 21 Oct 2013 01:32:02 -0700 (PDT)
+In-Reply-To: <20131020194345.GB3709@jama>
+References: <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
+	<20130611160434.GI3233@jama> <20130622181656.GK14021@jama>
+	<20130725162341.GA3280@jama> <20130808225419.GB17945@jama>
+	<20130811114403.GG17945@jama> <20130917123058.GC7313@jama>
+	<20131020194345.GB3709@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 21 Oct 2013 09:32:02 +0100
+Message-ID: <CAJTo0LaQoFYc601yo4K+OuPUJa2Cq9McPH2nt+41X+EtZQgkUw@mail.gmail.com>
+To: OE-devel <openembedded-devel@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,79 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 08:17:03 -0000
+X-List-Received-Date: Mon, 21 Oct 2013 08:32:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-ltp includes realtime and power management tests,
-that are somewhat experimental and not enabled by default.
-Add the configuration options to enable them, and a backported
-patch that allows compilation with more pedantic toolchains.
+On 20 October 2013 20:43, Martin Jansa <martin.jansa@gmail.com> wrote:
+> libtool-cross-2.4.2: libtool-cross: configure was passed unrecognised options: --with-sysroot
+> libxdmcp-1.1.1: libxdmcp: configure was passed unrecognised options: --without-groff --disable-malloc0returnsnull --without-ps2pdf --disable-specs
+> libxau-1.0.8: libxau: configure was passed unrecognised options: --without-xmlto --disable-malloc0returnsnull --without-ps2pdf --without-groff --without-fop --disable-specs
+[snip many many more lines]
 
-You will still need to run the realtime tests explicitly,
-so this should have no impact on people not interested in
-testing realtime features.
----
- meta/recipes-extended/ltp/files/fix-pm-tests.patch | 30 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20130904.bb          |  2 ++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/files/fix-pm-tests.patch
+Well at least my QA test works. :)
 
-diff --git a/meta/recipes-extended/ltp/files/fix-pm-tests.patch b/meta/recipes-extended/ltp/files/fix-pm-tests.patch
-new file mode 100644
-index 0000000..e8f80de
---- /dev/null
-+++ b/meta/recipes-extended/ltp/files/fix-pm-tests.patch
-@@ -0,0 +1,30 @@
-+Upstream-Status: Backport
-+
-+commit 6f3147f01229f3bb953202cde828d35e0d2bcb8a
-+Author: Riku Voipio <riku.voipio@linaro.org>
-+Date:   Mon Oct 14 11:50:28 2013 +0300
-+
-+    power_management: add TCID
-+    
-+    get_sched_values.c uses interfaces provided by -lltp which need
-+    TCID defined. Not sure how this built successfully before.
-+    
-+    [v2] correct TCID to an unique one
-+    
-+    Cc: Wanlong Gao <gaowanlong@cn.fujitsu.com>
-+    Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
-+    Reviewed-by: Wanlong Gao <gaowanlong@cn.fujitsu.com>
-+
-+Index: ltp-full-20130904/testcases/kernel/power_management/get_sched_values.c
-+===================================================================
-+--- ltp-full-20130904.orig/testcases/kernel/power_management/get_sched_values.c	2013-09-04 10:18:22.000000000 +0300
-++++ ltp-full-20130904/testcases/kernel/power_management/get_sched_values.c	2013-10-11 14:57:40.890551214 +0300
-+@@ -17,6 +17,8 @@
-+ #include <stdio.h>
-+ #include "test.h"
-+ 
-++const char *TCID = "Power_Management";
-++
-+ int get_supp_sched_mc(void)
-+ {
-+ 	if (tst_kvercmp(2, 6, 29) < 0)
-diff --git a/meta/recipes-extended/ltp/ltp_20130904.bb b/meta/recipes-extended/ltp/ltp_20130904.bb
-index cf016f9..be553df 100644
---- a/meta/recipes-extended/ltp/ltp_20130904.bb
-+++ b/meta/recipes-extended/ltp/ltp_20130904.bb
-@@ -23,6 +23,7 @@ DEPENDS = "attr libaio libcap acl openssl"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/ltp/LTP%20Source/ltp-${PV}/ltp-full-${PV}.tar.bz2 \
-            file://fix-arm64.patch \
-+           file://fix-pm-tests.patch \
-            "
- 
- SRC_URI[md5sum] = "0cf2ccb7199f8318d413c62a085629f0"
-@@ -36,6 +37,7 @@ inherit autotools
- S = "${WORKDIR}/ltp-full-${PV}"
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
-+EXTRA_OECONF = " --with-power-management-testsuite --with-realtime-testsuite "
- 
- do_install(){
- 	install -d ${D}/opt/ltp/
--- 
-1.8.3.1
+I thought I'd send patches for a large number of these already that
+are in oe-core, but obviously not.  I'll definitely do that shortly.
 
+Ross
 
