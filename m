@@ -1,39 +1,39 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id A4A0D6D159;
-	Mon, 21 Oct 2013 11:06:26 +0000 (UTC)
-Received: by mail-lb0-f169.google.com with SMTP id o14so1217662lbi.28
-	for <multiple recipients>; Mon, 21 Oct 2013 04:06:27 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id DE41A6D1B3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2013 11:17:54 +0000 (UTC)
+Received: by mail-ee0-f48.google.com with SMTP id e50so2109696eek.35
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2013 04:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=0OlnC21XwAyl7FUiCW+A6l1GAbTBOqbf+XZEB6oTNTc=;
-	b=ek8gnPhcyDtlYdiS29oed6WHO/yoYsGMExKDaNlvmBnWBbriuMnJPg1rnJVbErmEG4
-	Qc+/E7YJ9Ti7axQph58/htVdNRvhgTeB00SGYbdSc1Fx1wD3dcRr9TM+i8F9gfRW/I12
-	kRZIXxUhPJ7RNlrQKGwvPLDhWX/+uUE1uPXJC5+GJSDsxiKxZkPQh1h073tjgXEcp6Dq
-	neaYuhfJKzWCcLQfxzLwcSHu/InSJB4yLQfy1cQYV6KkuIiP4j9v06+1tF1vdPxi7wXx
-	wHL19g+JJTP2LzK+izPxi/vOMbzFw/pqBNjhQty++Y7MCYkosedHkfun6xZ+DEKw7Tzb
-	d7YA==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=xFm6YnTxsyfmpZAfPz219MkUMuYcFL2iAbtcC8TLUk8=;
+	b=jfhZM1BY6TZDvg7bSJGXLo4LLzHFhu5sPCkDtw85jG1sXta9miqp4OZAGEYbSuMA94
+	o77QAM10ReWId2ETmL3UwQeSJ6brbOFXGwY0wC18+DRyEQauQvexAnKYWlFIdlshSovB
+	MqsKO/crDqcJ0qAJ3uBHXciB8OHF274Mgtjba2EsZ+Vh/sJ3i4LrPM01w/YN4VmayTF7
+	i8kf10aGZ0O/iQxxyZK2WsoGmmZyAogGkQdEpybQwJxX4D6aGM5F5K6S5VbK3bmcTCX/
+	rIIuDduWFROVl/g8Ini1/07R3OYKm5bj1ksSxncImmhQxYiEMfuEVumy05SXqBThGJyd
+	izNw==
+X-Received: by 10.14.241.74 with SMTP id f50mr22085584eer.29.1382354276005;
+	Mon, 21 Oct 2013 04:17:56 -0700 (PDT)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id z12sm42559284eev.6.2013.10.21.04.17.55
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Oct 2013 04:17:55 -0700 (PDT)
+Date: Mon, 21 Oct 2013 13:17:57 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ulf Samuelsson <ulf@emagii.com>
+Message-ID: <20131021111757.GE3709@jama>
+References: <1382345997-28170-1-git-send-email-ulf@emagii.com>
 MIME-Version: 1.0
-X-Received: by 10.152.1.70 with SMTP id 6mr73502lak.60.1382353587189; Mon, 21
-	Oct 2013 04:06:27 -0700 (PDT)
-Received: by 10.112.52.74 with HTTP; Mon, 21 Oct 2013 04:06:27 -0700 (PDT)
-In-Reply-To: <20131021103841.GC3709@jama>
-References: <20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-	<20130611160434.GI3233@jama> <20130622181656.GK14021@jama>
-	<20130725162341.GA3280@jama> <20130808225419.GB17945@jama>
-	<20130811114403.GG17945@jama> <20130917123058.GC7313@jama>
-	<20131020194345.GB3709@jama>
-	<CAAQYJAvrTQUXHeaNcMQyE88WAF1ZySq6y+hCJD3Kpob9dOkhSg@mail.gmail.com>
-	<20131021103841.GC3709@jama>
-Date: Mon, 21 Oct 2013 13:06:27 +0200
-Message-ID: <CAAQYJAvwDdzF62MnqV=7hYNK_q8OJAgtYhz=6HSEa_V5xPUa9A@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world
+In-Reply-To: <1382345997-28170-1-git-send-email-ulf@emagii.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Add tune for Cortex-A5 chips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,132 +46,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 11:06:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 21 Oct 2013 11:17:55 -0000
+X-Groupsio-MsgNum: 46094
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="lIrNkN/7tmsD/ALM"
+Content-Disposition: inline
 
-On Mon, Oct 21, 2013 at 12:38 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Mon, Oct 21, 2013 at 10:58:45AM +0200, Andrea Adami wrote:
->> <cut>
->> > qemux86* common (5):
->> > meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-klibc-image.bb, do_rootfs
->> </cut>
->>
->> Hi Martin, thanks for taking care of all those builds.
->> About this new do_rootfs failure [1], it seems related to update-rc.d
->> /postinst code.
->>
->> As you already know, for this image we don't want any initscript nor
->> package manager cruft but now and then some change in oe-core opens
->> unwanted doors...
->>
->> I'll investigate what's happening: seems strange it only fails on x86*.
->
-> This world build didn't have this fix included:
-> http://git.openembedded.org/openembedded-core/commit/?id=2b179d90eacc58f0b217f64407782a9174362850
->
-> it's queued for next one, maybe it will help.
->
->> | makedevs: No entry for root in search list
-> is also interesting, should it be calling makedevs in this initramfs
-> (IIRC kexecboot is creating all dev nodes manually?)
->
+--lIrNkN/7tmsD/ALM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes...
+On Mon, Oct 21, 2013 at 10:59:57AM +0200, Ulf Samuelsson wrote:
+> Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
+> ---
+>  meta/conf/machine/include/tune-cortexa5.inc |   24 +++++++++++++++++++++=
++++
+>  1 file changed, 24 insertions(+)
+>  create mode 100644 meta/conf/machine/include/tune-cortexa5.inc
+>=20
+> diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/mach=
+ine/include/tune-cortexa5.inc
+> new file mode 100644
+> index 0000000..69c945e
+> --- /dev/null
+> +++ b/meta/conf/machine/include/tune-cortexa5.inc
+> @@ -0,0 +1,24 @@
+> +DEFAULTTUNE ?=3D "cortexa5thf"
 
-> | makedevs: No entry for root in search list
+wasn't cortexa5 added already in:
 
-Seems oiginated by commit d073ca77ba886c7912abd3ec064088
-1c00aea3bb
+commit 50bc63c5c377d9fbb87b3efefc8c6f5473ba642a
+Author: Andy Voltz <andy.voltz@timesys.com>
+Date:   Wed Jun 5 11:52:30 2013 -0400
 
-image.bbclass: create device table after package installation
+    tune-cortexa5.inc: Add tune file for cortex-a5
 
-In fact, we set IMAGE_DEVICE_TABLES = "" for the initramfs then we
-mount devtmps during init.
+I think that one was better, because it had optional neon support and
+default DEFAULTTUNE should be something more generic (at least to stay
+consistent with other tunes) it's DISTRO decision to select common
+denominator (or more specific tunes for each MACHINE) for binary feeds
+they want to manage.
 
-Cheers
+see
+commit a11bdc36a1be18cc5aa14682b2a2c9ee83141f51
+Author: Martin Jansa <Martin.Jansa@gmail.com>
+Date:   Tue Oct 2 13:21:08 2012 +0000
 
-Andrea
+    tune-*: define more generic DEFAULTTUNE to share feed between
+machines
 
+> +# TUNE_FEATU4RES     =3D "armv7a vfp callconvention-hard"
+> +# TARGET_FPU        =3D "vfp"
+> +
+> +require conf/machine/include/arm/arch-armv7a.inc
+> +
+> +TUNEVALID[cortexa5] =3D "Enable Cortex-A5 specific processor optimizatio=
+ns"
+> +TUNE_CCARGS +=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa5", "-mt=
+une=3Dcortex-a5", "", d)}"
+> +
+> +# Little Endian base configs
+> +AVAILTUNES +=3D "cortexa5 cortexa5t"
+> +TUNE_FEATURES_tune-cortexa5 =3D "${TUNE_FEATURES_tune-armv7a} cortexa5"
+> +TUNE_FEATURES_tune-cortexa5t =3D "${TUNE_FEATURES_tune-armv7at} cortexa5"
+> +
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa5 =3D "${PACKAGE_EXTRA_ARCHS_tune-armv7a=
+}"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa5t =3D "${PACKAGE_EXTRA_ARCHS_tune-armv7=
+at}"
+> +
+> +# VFP Tunes
+> +AVAILTUNES +=3D "cortexa5hf cortexa5thf"
+> +TUNE_FEATURES_tune-cortexa5hf ?=3D "${TUNE_FEATURES_tune-armv7ahf} corte=
+xa5"
+> +TUNE_FEATURES_tune-cortexa5thf ?=3D "${TUNE_FEATURES_tune-armv7athf} cor=
+texa5"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa5hf =3D "${PACKAGE_EXTRA_ARCHS_tune-armv=
+7ahf}"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa5thf =3D "${PACKAGE_EXTRA_ARCHS_tune-arm=
+v7athf}"
+> +
+> --=20
+> 1.7.9.5
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
->
->>
->> Cheers
->> Andrea
->>
->>
->> [1]
->> ERROR: Function failed: do_rootfs (log file is located at
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292)
->> ERROR: Logfile of failure stored in:
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292
->> Log data follows:
->> | DEBUG: Executing python function rootfs_process_ignore
->> | DEBUG: Python function rootfs_process_ignore finished
->> | DEBUG: Executing python function rootfs_runtime_mapping
->> | DEBUG: Python function rootfs_runtime_mapping finished
->> | DEBUG: Executing shell function do_rootfs
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/Packages.
->> | Updated list of available packages in
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe.
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/Packages.
->> | Updated list of available packages in
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-all.
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/Packages.
->> | Updated list of available packages in
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-i586.
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/Packages.
->> | Updated list of available packages in
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-qemux86.
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/Packages.
->> | Updated list of available packages in
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe.
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/Packages.
->> | Updated list of available packages in
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-all.
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/Packages.
->> | Updated list of available packages in
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-i586.
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/Packages.
->> | Updated list of available packages in
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-qemux86.
->> | Installing kexec-klibc (2.0.2-r0.16) to root...
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/kexec-klibc_2.0.2-r0.16_i586.ipk.
->> | Installing run-postinsts (1.0-r9.26) to root...
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/run-postinsts_1.0-r9.26_i586.ipk.
->> | Installing update-rc.d (0.7-r5.37) to root...
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/update-rc.d_0.7-r5.37_all.ipk.
->> | Installing ubiattach-klibc (1.5.0-r0.28) to root...
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/ubiattach-klibc_1.5.0-r0.28_i586.ipk.
->> | Installing kexecboot-klibc (0.6-r0.2) to root...
->> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/kexecboot-klibc_0.6-r0.2_qemux86.ipk.
->> | /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/info/run-postinsts.postinst:
->> 8: /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/info/run-postinsts.postinst:
->> /etc/init.d/run-postinsts: not found
->> | update-rc.d: /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs/etc/init.d/run-postinsts
->> exists during rc.d purge (continuing)
->> |  Removing any system startup links for run-postinsts ...
->> |  Adding system startup for
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs/etc/init.d/run-postinsts.
->> | Configuring kexecboot-klibc.
->> | Configuring ubiattach-klibc.
->> | Configuring kexec-klibc.
->> | Configuring update-rc.d.
->> | Configuring run-postinsts.
->> | Building from feeds activated!
->> | Running intercept scripts:
->> | log_check: Using
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292
->> as logfile
->> | Logfile is clean
->> | makedevs: No entry for root in search list
->> | WARNING: exit code 1 from a shell command.
->> | ERROR: Function failed: do_rootfs (log file is located at
->> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292)
->> NOTE: recipe initramfs-kexecboot-klibc-image-1.0-r0: task do_rootfs: Failed
->> ERROR: Task 25930
->> (/home/jenkins/oe/shr-core-branches/shr-core/meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-klibc-image.bb,
->> do_rootfs) failed with exit code '1'
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--lIrNkN/7tmsD/ALM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlJlDWUACgkQN1Ujt2V2gBw+rQCfdNf8pm/U5+xeYROU/WGM4vgu
+LnQAni6gbcGRFNqzuW6JOy3S5oU+r485
+=fLr1
+-----END PGP SIGNATURE-----
+
+--lIrNkN/7tmsD/ALM--
