@@ -1,15 +1,39 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 82EC86D0F0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 08:56:25 +0000 (UTC)
-From: Jack Mitchell <ml@communistcode.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2013 09:56:15 +0100
-Message-Id: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.4
-Cc: Jack Mitchell <jmitchell@cbnl.com>
-Subject: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 623A46D13F;
+	Mon, 21 Oct 2013 08:58:44 +0000 (UTC)
+Received: by mail-la0-f52.google.com with SMTP id eh20so260049lab.25
+	for <multiple recipients>; Mon, 21 Oct 2013 01:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=+dWKHLiIw3600Eva1/iZwh0nrrJGc6euxhf5homChiI=;
+	b=ZAqBM32/iQEEGZBrB01Ewa2q9kQAP3XC9Vp7ljFKY55fYB6eo1LR73TR+oQOoqkXqJ
+	ToXvFr3ISCgCM0s6NV+4VcOkaiaOLnBFZObhE/8X0qtHHkPmLxlcPKaIyebZW+mcfx0N
+	Sv58An03+QHzfVBCwbN+BWFF/MNdIDcg6JUawpyNuyTStptAk7rdSTKOAZ7Ip0Aj7ZaE
+	aQwZnaXYsNTsYNd94csoBO85iCmvCATQnelXn3mokrg+fB7PrSPEMRGdLDT23YEu4f9K
+	qH3p26oDjDlcmHY07XGILPyYHY2CrbyaftUwo4YxDSjksEHiXE+fZ18KxNlkx+0C6hL1
+	zfTg==
+MIME-Version: 1.0
+X-Received: by 10.152.44.133 with SMTP id e5mr339565lam.58.1382345925517; Mon,
+	21 Oct 2013 01:58:45 -0700 (PDT)
+Received: by 10.112.52.74 with HTTP; Mon, 21 Oct 2013 01:58:45 -0700 (PDT)
+In-Reply-To: <20131020194345.GB3709@jama>
+References: <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
+	<20130611160434.GI3233@jama> <20130622181656.GK14021@jama>
+	<20130725162341.GA3280@jama> <20130808225419.GB17945@jama>
+	<20130811114403.GG17945@jama> <20130917123058.GC7313@jama>
+	<20131020194345.GB3709@jama>
+Date: Mon, 21 Oct 2013 10:58:45 +0200
+Message-ID: <CAAQYJAvrTQUXHeaNcMQyE88WAF1ZySq6y+hCJD3Kpob9dOkhSg@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -22,95 +46,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 08:56:25 -0000
+X-List-Received-Date: Mon, 21 Oct 2013 08:58:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Jack Mitchell <jmitchell@cbnl.com>
+<cut>
+> qemux86* common (5):
+> meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-klibc-image.bb, do_rootfs
+</cut>
 
-libjson is now known as json-c, it keeps support for the old
-libjson namespace so it shouldn't break anything. Built without
-parallel make as it would fail when it tries to link to link back
-to itself, which is odd, but the official word is: don't build in
-parallel.
+Hi Martin, thanks for taking care of all those builds.
+About this new do_rootfs failure [1], it seems related to update-rc.d
+/postinst code.
 
-Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
----
+As you already know, for this image we don't want any initscript nor
+package manager cruft but now and then some change in oe-core opens
+unwanted doors...
 
- v2: rebased to latest master
+I'll investigate what's happening: seems strange it only fails on x86*.
 
- meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
- meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
- meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
- 4 files changed, 15 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
- delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+Cheers
+Andrea
 
-diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-index c067183..e1a5c6b 100644
---- a/meta/conf/distro/include/seperatebuilddir.inc
-+++ b/meta/conf/distro/include/seperatebuilddir.inc
-@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
- B_pn-libice-native = "${SEPB}"
- B_pn-libid3tag = "${SEPB}"
- B_pn-libidn = "${SEPB}"
--B_pn-libjson = "${SEPB}"
-+B_pn-json-c = "${SEPB}"
- B_pn-libksba = "${SEPB}"
- B_pn-libmad = "${SEPB}"
- B_pn-libmatchbox = "${SEPB}"
-diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
-new file mode 100644
-index 0000000..e0391f5
---- /dev/null
-+++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
-@@ -0,0 +1,13 @@
-+SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
-+HOMEPAGE = "https://github.com/json-c/json-c/wiki"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
-+
-+SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
-+
-+SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
-+SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
-+
-+PARALLEL_MAKE = ""
-+
-+inherit autotools
-diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
-deleted file mode 100644
-index e4951a8..0000000
---- a/meta/recipes-devtools/libjson/libjson_0.9.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--DESCRIPTION = "JSON-C - A JSON implementation in C"
--HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
--
--SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
--SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
--SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
--
--S = "${WORKDIR}/json-c-${PV}"
--
--
--inherit autotools
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 4c10aa9..475da41 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
- DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
--DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
-+DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
- 
- inherit autotools pkgconfig useradd gettext perlnative
- 
--- 
-1.8.4
 
+[1]
+ERROR: Function failed: do_rootfs (log file is located at
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292)
+ERROR: Logfile of failure stored in:
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292
+Log data follows:
+| DEBUG: Executing python function rootfs_process_ignore
+| DEBUG: Python function rootfs_process_ignore finished
+| DEBUG: Executing python function rootfs_runtime_mapping
+| DEBUG: Python function rootfs_runtime_mapping finished
+| DEBUG: Executing shell function do_rootfs
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/Packages.
+| Updated list of available packages in
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe.
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/Packages.
+| Updated list of available packages in
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-all.
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/Packages.
+| Updated list of available packages in
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-i586.
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/Packages.
+| Updated list of available packages in
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-qemux86.
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/Packages.
+| Updated list of available packages in
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe.
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/Packages.
+| Updated list of available packages in
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-all.
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/Packages.
+| Updated list of available packages in
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-i586.
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/Packages.
+| Updated list of available packages in
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-qemux86.
+| Installing kexec-klibc (2.0.2-r0.16) to root...
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/kexec-klibc_2.0.2-r0.16_i586.ipk.
+| Installing run-postinsts (1.0-r9.26) to root...
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/run-postinsts_1.0-r9.26_i586.ipk.
+| Installing update-rc.d (0.7-r5.37) to root...
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/update-rc.d_0.7-r5.37_all.ipk.
+| Installing ubiattach-klibc (1.5.0-r0.28) to root...
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/ubiattach-klibc_1.5.0-r0.28_i586.ipk.
+| Installing kexecboot-klibc (0.6-r0.2) to root...
+| Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/kexecboot-klibc_0.6-r0.2_qemux86.ipk.
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/info/run-postinsts.postinst:
+8: /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/info/run-postinsts.postinst:
+/etc/init.d/run-postinsts: not found
+| update-rc.d: /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs/etc/init.d/run-postinsts
+exists during rc.d purge (continuing)
+|  Removing any system startup links for run-postinsts ...
+|  Adding system startup for
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs/etc/init.d/run-postinsts.
+| Configuring kexecboot-klibc.
+| Configuring ubiattach-klibc.
+| Configuring kexec-klibc.
+| Configuring update-rc.d.
+| Configuring run-postinsts.
+| Building from feeds activated!
+| Running intercept scripts:
+| log_check: Using
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292
+as logfile
+| Logfile is clean
+| makedevs: No entry for root in search list
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_rootfs (log file is located at
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292)
+NOTE: recipe initramfs-kexecboot-klibc-image-1.0-r0: task do_rootfs: Failed
+ERROR: Task 25930
+(/home/jenkins/oe/shr-core-branches/shr-core/meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-klibc-image.bb,
+do_rootfs) failed with exit code '1'
 
