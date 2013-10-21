@@ -1,42 +1,15 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
-	[209.85.128.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 297866D0F0
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 82EC86D0F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 08:32:22 +0000 (UTC)
-Received: by mail-ve0-f171.google.com with SMTP id c14so3735062vea.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 01:32:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=gUDzYHJEv06Cg9l0josF2htpGT7mOJvXxpuRjxeFgDs=;
-	b=i85L5wUDZ/wMIUwzupU89zWAXJMBFXusEcKHhQjE7YED5J1BtFYM3oRfhWiPeVw+qK
-	OpfQmRVWdska/Hrf0cEZIzGjePEsgOV9v48Flo51IKoQ1APXvzZ50mq55lYSXOIFyyaq
-	Ge1SJI/A9n1znG1hsO742cbV4T4JRTNYQiGurKPqB3jxeEAAnT8rAkP+7pKOOE3VbmXA
-	uabv9UlRuwWuOSRDH1hAiObENM1Jy/CxLDRTkh80G5Jhx+XrP2hL/bTYVhjqftJ2wPY+
-	6wIziyfUKGEr89X/MHj2xNI9MVVo1fvysoJCMmp5NBTuTkBxL+Lx8SRtKfKAjJC3pAle
-	xYhA==
-X-Gm-Message-State: ALoCoQkjDGubr6IvViiBRQEBtB4TjwvI6Ray9OpnKdwQcvQOKYbq9fpOanWbBawJygEee+aP0M+C
-X-Received: by 10.220.164.202 with SMTP id f10mr325581vcy.25.1382344343652;
-	Mon, 21 Oct 2013 01:32:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 21 Oct 2013 01:32:02 -0700 (PDT)
-In-Reply-To: <20131020194345.GB3709@jama>
-References: <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-	<20130611160434.GI3233@jama> <20130622181656.GK14021@jama>
-	<20130725162341.GA3280@jama> <20130808225419.GB17945@jama>
-	<20130811114403.GG17945@jama> <20130917123058.GC7313@jama>
-	<20131020194345.GB3709@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 21 Oct 2013 09:32:02 +0100
-Message-ID: <CAJTo0LaQoFYc601yo4K+OuPUJa2Cq9McPH2nt+41X+EtZQgkUw@mail.gmail.com>
-To: OE-devel <openembedded-devel@lists.openembedded.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world
+	Mon, 21 Oct 2013 08:56:25 +0000 (UTC)
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Oct 2013 09:56:15 +0100
+Message-Id: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.4
+Cc: Jack Mitchell <jmitchell@cbnl.com>
+Subject: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,19 +22,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 08:32:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 21 Oct 2013 08:56:25 -0000
 
-On 20 October 2013 20:43, Martin Jansa <martin.jansa@gmail.com> wrote:
-> libtool-cross-2.4.2: libtool-cross: configure was passed unrecognised options: --with-sysroot
-> libxdmcp-1.1.1: libxdmcp: configure was passed unrecognised options: --without-groff --disable-malloc0returnsnull --without-ps2pdf --disable-specs
-> libxau-1.0.8: libxau: configure was passed unrecognised options: --without-xmlto --disable-malloc0returnsnull --without-ps2pdf --without-groff --without-fop --disable-specs
-[snip many many more lines]
+From: Jack Mitchell <jmitchell@cbnl.com>
 
-Well at least my QA test works. :)
+libjson is now known as json-c, it keeps support for the old
+libjson namespace so it shouldn't break anything. Built without
+parallel make as it would fail when it tries to link to link back
+to itself, which is odd, but the official word is: don't build in
+parallel.
 
-I thought I'd send patches for a large number of these already that
-are in oe-core, but obviously not.  I'll definitely do that shortly.
+Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
+---
 
-Ross
+ v2: rebased to latest master
+
+ meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+ meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
+ meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+ 4 files changed, 15 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+ delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index c067183..e1a5c6b 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+ B_pn-libice-native = "${SEPB}"
+ B_pn-libid3tag = "${SEPB}"
+ B_pn-libidn = "${SEPB}"
+-B_pn-libjson = "${SEPB}"
++B_pn-json-c = "${SEPB}"
+ B_pn-libksba = "${SEPB}"
+ B_pn-libmad = "${SEPB}"
+ B_pn-libmatchbox = "${SEPB}"
+diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
+new file mode 100644
+index 0000000..e0391f5
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
++HOMEPAGE = "https://github.com/json-c/json-c/wiki"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
++
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
++
++SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
++SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
++
++PARALLEL_MAKE = ""
++
++inherit autotools
+diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+deleted file mode 100644
+index e4951a8..0000000
+--- a/meta/recipes-devtools/libjson/libjson_0.9.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-DESCRIPTION = "JSON-C - A JSON implementation in C"
+-HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+-
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+-
+-SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+-SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+-SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+-
+-S = "${WORKDIR}/json-c-${PV}"
+-
+-
+-inherit autotools
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 4c10aa9..475da41 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+-DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
++DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
+ 
+ inherit autotools pkgconfig useradd gettext perlnative
+ 
+-- 
+1.8.4
+
 
