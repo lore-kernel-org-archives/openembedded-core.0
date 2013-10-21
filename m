@@ -1,36 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 837726D181
+Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id DD7CA6CFF9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 22:42:21 +0000 (UTC)
-Received: by mail-ie0-f179.google.com with SMTP id aq17so307360iec.38
+	Mon, 21 Oct 2013 22:52:09 +0000 (UTC)
+Received: by mail-ie0-f174.google.com with SMTP id qd12so326697ieb.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 15:42:23 -0700 (PDT)
+	Mon, 21 Oct 2013 15:52:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=Odb2N7csQq8a98VHc7y/bm+8EbdUbabTg/AdSSGLv/4=;
-	b=oWcJ93svO/0tSRYMffu2GlHtIiJa4+lfUYxvjaNWpRcWGtx9WnGqIJs2Dp31m3i+vZ
-	dNBjBnfttGcKRs0kLfAm/SUFz+jdb9fxcXQbOhYJWN4r55603lFomhesRW2bgUVMh8+E
-	V5B09tqAA1WfAzfML4gqyajSAchf3+6wIDCQYmE9G5ns3l7Rs+aQ4cAzZv8QLhl8gMHP
-	iBmNSfduPgkj925fvv43GXnwOTS5tGpJc6Z2sdrhibVkvGg4uhBohamybrqf/p9vvL7l
-	r8eENC3xk+OWCkqJ8QPAZHpCGiU9y7muljmNvMTesLYLz21AzD4bLI417xe92GqP0R7V
-	Q+0g==
+	bh=XuqdPERvsM3wq6nuO82dErsZtw0E1y7otgJLDRzeLM0=;
+	b=Ml1gvscgb21KfS2EUdlb96X7/sDShe3an9YCI7BuL3pAyVuFDsPIkg1ruleycA2vTl
+	M9abashiTQaix0jdbjibTDa1L211EKjwRZh/RhIDU4xTJ/1Qy/wNgBtktCQs5LVj1FJE
+	pYrBwCvKtoZ9gHO8PeaHcMJz7PhQNfjzEgEQ9KjphMP2S5qMXdculrA/0WfH82wzI24w
+	Q4FSBZLpqaetArkOuUwKrE9QD5KqFN2TnTK+OlEcQbcSai2cfXDNphvZyfNiSgR+HYj1
+	2b7q1ulOxfukZL9Tk6b/72NYWbiRvCxZVUExWUihrq/9fy+vUn3Ih9M0E9SRuqeyiRjt
+	OYVg==
 MIME-Version: 1.0
-X-Received: by 10.50.61.179 with SMTP id q19mr11056810igr.33.1382395343254;
-	Mon, 21 Oct 2013 15:42:23 -0700 (PDT)
-Received: by 10.50.5.225 with HTTP; Mon, 21 Oct 2013 15:42:23 -0700 (PDT)
-In-Reply-To: <1382343415-30035-1-git-send-email-riku.voipio@linaro.org>
-References: <1382343415-30035-1-git-send-email-riku.voipio@linaro.org>
-Date: Mon, 21 Oct 2013 15:42:23 -0700
-Message-ID: <CAMKF1sqpTK+vypxO-2vrHvf34mqfDdF8AK2sgybnd62WtXvn1A@mail.gmail.com>
+X-Received: by 10.42.189.201 with SMTP id df9mr319736icb.54.1382395931657;
+	Mon, 21 Oct 2013 15:52:11 -0700 (PDT)
+Received: by 10.50.5.225 with HTTP; Mon, 21 Oct 2013 15:52:11 -0700 (PDT)
+In-Reply-To: <1382360321-37920-1-git-send-email-maxin.john@enea.com>
+References: <1382360321-37920-1-git-send-email-maxin.john@enea.com>
+Date: Mon, 21 Oct 2013 15:52:11 -0700
+Message-ID: <CAMKF1sqtbX9iKkKHv8gZu9zqZzKjbFvadpFSro4JB9k+_CAzcg@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: Riku Voipio <riku.voipio@linaro.org>
-Cc: "patches@linaro.org" <patches@linaro.org>,
-	"openembedded-core@lists.openembedded.org"
+To: "maxin.john@enea.com" <maxin.john@enea.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] ltp: cleanup recipe
+Subject: Re: [PATCH] pigz: bump to 2.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,139 +42,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 22:42:22 -0000
-Content-Type: multipart/alternative; boundary=047d7bdc109e5fd1d604e947ffd1
+X-List-Received-Date: Mon, 21 Oct 2013 22:52:10 -0000
+Content-Type: multipart/alternative; boundary=20cf303bfb1e720e9a04e94822e5
 
---047d7bdc109e5fd1d604e947ffd1
+--20cf303bfb1e720e9a04e94822e5
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Monday, October 21, 2013, Riku Voipio <riku.voipio@linaro.org> wrote:
-> Cleanups for ltp:
+On Monday, October 21, 2013,  <maxin.john@enea.com> wrote:
+> From: "Maxin B. John" <maxin.john@enea.com>
 >
-> 1. Instead of using giturl like in Anders's patch use the sourceforge
-mirror URL.
-
-whats wrong with git url ?
-
-> 2. remove to the manual unpack rule and just set S variable to source
-directory.
-> 3. Follow the OE style guide for variable order.
+> Update pigz to latest release - 2.3.1
+> Drop ldflags.patch as it has been merged upstream
+>
+> Signed-off-by: Maxin B. John <maxin.john@enea.com>
 > ---
->  meta/recipes-extended/ltp/ltp_20130904.bb | 50
-+++++++++++++------------------
->  1 file changed, 21 insertions(+), 29 deletions(-)
+looks ok althouh
+git format-patch -M would have detected renaming a bit better inturn making
+it easier to review it
+
+>  meta/recipes-extended/pigz/files/ldflags.patch |   19 ------------------=
+-
+>  meta/recipes-extended/pigz/pigz.inc            |    5 ++---
+>  meta/recipes-extended/pigz/pigz_2.3.1.bb       |   10 ++++++++++
+>  meta/recipes-extended/pigz/pigz_2.3.bb         |   10 ----------
+>  4 files changed, 12 insertions(+), 32 deletions(-)
+>  delete mode 100644 meta/recipes-extended/pigz/files/ldflags.patch
+>  create mode 100644 meta/recipes-extended/pigz/pigz_2.3.1.bb
+>  delete mode 100644 meta/recipes-extended/pigz/pigz_2.3.bb
 >
-> diff --git a/meta/recipes-extended/ltp/ltp_20130904.bbb/meta/recipes-extended/ltp/
-ltp_20130904.bb
-> index 5e10448..43fe780 100644
-> --- a/meta/recipes-extended/ltp/ltp_20130904.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20130904.bb
-> @@ -21,44 +21,21 @@ LIC_FILES_CHKSUM =
-"file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
->
->  DEPENDS = "attr libaio libcap acl openssl"
->
-> -SRC_URI = "git://github.com/linux-test-project/ltp.git"
-> +SRC_URI =
-"${SOURCEFORGE_MIRROR}/project/ltp/LTP%20Source/ltp-${PV}/ltp-full-${PV}.tar.bz2
-\
-> +           "
->
-> -SRCREV = "a8c42db5f9314211811c36275a21f83902830dc5"
-> -S = "${WORKDIR}/git"
-> +SRC_URI[md5sum] = "0cf2ccb7199f8318d413c62a085629f0"
-> +SRC_URI[sha256sum] =
-"662c3661a4d1bfbf3187d0835f35e613b43eedc35a840e3283e378a19606ee0b"
->
->  export prefix = "/opt/ltp"
->  export exec_prefix = "/opt/ltp"
->
->  inherit autotools
->
-> -RDEPENDS_${PN} = "perl e2fsprogs-mke2fs"
+> diff --git a/meta/recipes-extended/pigz/files/ldflags.patch
+b/meta/recipes-extended/pigz/files/ldflags.patch
+> deleted file mode 100644
+> index 8e531cc..0000000
+> --- a/meta/recipes-extended/pigz/files/ldflags.patch
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -Link using the bitbake LDFLAGS.
 > -
-> -FILES_${PN}-dbg += "/opt/ltp/runtest/.debug"
-> -FILES_${PN}-dbg += "/opt/ltp/testcases/bin/.debug"
-> -FILES_${PN}-dbg += "/opt/ltp/testcases/bin/*/bin/.debug"
-> -FILES_${PN}-dbg += "/opt/ltp/testcases/bin/*/test/.debug"
-> -FILES_${PN}-dbg += "/opt/ltp/scenario_groups/.debug"
-> -FILES_${PN}-dbg += "/opt/ltp/testscripts/.debug"
-> -FILES_${PN}-dbg += "/opt/ltp/testscripts/open_posix_testsuite/.debug"
+> -Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
 > -
-> -FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a"
+> -Upstream-Status: Pending
 > -
-> -FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/*
-/opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/*
-/opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/*
-/opt/ltp/testcases/open_posix_testsuite/conformance/*
-/opt/ltp/testcases/open_posix_testsuite/Documentation/*
-/opt/ltp/testcases/open_posix_testsuite/functional/*
-/opt/ltp/testcases/open_posix_testsuite/include/*
-/opt/ltp/testcases/open_posix_testsuite/scripts/*
-/opt/ltp/testcases/open_posix_testsuite/stress/*
-/opt/ltp/testcases/open_posix_testsuite/tools/*"
-> +S = "${WORKDIR}/ltp-full-${PV}"
->
->  TARGET_CC_ARCH += "${LDFLAGS}"
->
-> -do_unpack_append() {
-> -    bb.build.exec_func('do_extract_tarball', d)
-> -}
+> -Index: pigz-2.3/Makefile
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- pigz-2.3.orig/Makefile
+> -+++ pigz-2.3/Makefile
+> -@@ -3,7 +3,7 @@ CFLAGS=3D-O3 -Wall -Wextra
 > -
-> -do_extract_tarball() {
-> -       if test -f ${WORKDIR}/ltp-full-${PV} ; then
-> -           tar x --no-same-owner -f ${WORKDIR}/ltp-full-${PV} -C
-${WORKDIR}
-> -           rm -rf ${WORKDIR}/ltp-${PV}
-> -           mv ${WORKDIR}/ltp-full-${PV} ${WORKDIR}/ltp-${PV}
-> -       fi
-> -}
 > -
->  do_install(){
->         install -d ${D}/opt/ltp/
->         oe_runmake DESTDIR=${D} SKIP_IDCHECK=1 install
-> @@ -66,10 +43,25 @@ do_install(){
->         # Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
->         cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+> - pigz: pigz.o yarn.o zopfli/deflate.o zopfli/blocksplitter.o
+zopfli/tree.o zopfli/lz77.o zopfli/cache.o zopfli/hash.o zopfli/util.o
+zopfli/squeeze.o zopfli/katajainen.o
+> --      $(CC) -o pigz $^ -lpthread -lz
+> -+      $(CC) ${LDFLAGS} -o pigz $^ -lpthread -lz -lm
+> -       ln -f pigz unpigz
+> -
+> - pigz.o: pigz.c yarn.h zopfli/deflate.h zopfli/util.h
+> diff --git a/meta/recipes-extended/pigz/pigz.inc
+b/meta/recipes-extended/pigz/pigz.inc
+> index 5ceaef2..984f9ea 100644
+> --- a/meta/recipes-extended/pigz/pigz.inc
+> +++ b/meta/recipes-extended/pigz/pigz.inc
+> @@ -7,10 +7,9 @@ HOMEPAGE =3D "http://zlib.net/pigz/"
+>  SECTION =3D "console/utils"
+>  LICENSE =3D "Zlib"
 >
-> -       # We need to remove all scripts which depend on /usr/bin/expect,
-since expect is not supported in poky
-> +       # We need to remove all scripts which depend on /usr/bin/expect,
-since expect is not supported in oe-core
->         # We will add expect for enhancement in future
->         find ${D} -type f -print | xargs grep "\!.*\/usr\/bin\/expect" |
-awk -F":" '{print $1}' | xargs rm -f
->  }
+> -PR =3D "r1"
+> +PR =3D "r0"
 >
-> +FILES_${PN}-dbg += "/opt/ltp/runtest/.debug \
-> +                    /opt/ltp/testcases/bin/.debug \
-> +                    /opt/ltp/testcases/bin/*/bin/.debug \
-> +                    /opt/ltp/testcases/bin/*/test/.debug \
-> +                    /opt/ltp/scenario_groups/.debug \
-> +                    /opt/ltp/testscripts/.debug \
-> +                    /opt/ltp/testscripts/open_posix_testsuite/.debug \
-> +                    "
+> -SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz \
+> -           file://ldflags.patch"
+> +SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz"
+>
+>  PROVIDES_class-native +=3D "gzip-native"
+>
+> diff --git a/meta/recipes-extended/pigz/pigz_2.3.1.bbb/meta/recipes-exten=
+ded/pigz/
+pigz_2.3.1.bb
+> new file mode 100644
+> index 0000000..6e7c7f1
+> --- /dev/null
+> +++ b/meta/recipes-extended/pigz/pigz_2.3.1.bb
+> @@ -0,0 +1,10 @@
+> +require pigz.inc
+> +LIC_FILES_CHKSUM =3D
+"file://pigz.c;beginline=3D7;endline=3D21;md5=3Da21d4075cb00ab4ca17fce5e753=
+4ca95"
 > +
-> +FILES_${PN}-staticdev += "/opt/ltp/lib/libmem.a"
+> +SRC_URI[md5sum] =3D "e803f8bc0770c7a5e96dccb1d2dd2aab"
+> +SRC_URI[sha256sum] =3D
+"629b0ce5422a3978f31742bf8275d0be2f84987140d18f390f1e3b4e46e0af54"
 > +
-> +FILES_${PN} += "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_groups/*
-/opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/*
-/opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/*
-/opt/ltp/testcases/open_posix_testsuite/conformance/*
-/opt/ltp/testcases/open_posix_testsuite/Documentation/*
-/opt/ltp/testcases/open_posix_testsuite/functional/*
-/opt/ltp/testcases/open_posix_testsuite/include/*
-/opt/ltp/testcases/open_posix_testsuite/scripts/*
-/opt/ltp/testcases/open_posix_testsuite/stress/*
-/opt/ltp/testcases/open_posix_testsuite/tools/*"
+> +NATIVE_PACKAGE_PATH_SUFFIX =3D "/${PN}"
 > +
-> +RDEPENDS_${PN} = "perl e2fsprogs-mke2fs"
+> +BBCLASSEXTEND =3D "native"
 > +
->  # Avoid generated binaries stripping. Otherwise some of the ltp tests
-such as ldd01 & nm01 fails
->  INHIBIT_PACKAGE_STRIP = "1"
+> diff --git a/meta/recipes-extended/pigz/pigz_2.3.bbb/meta/recipes-extende=
+d/pigz/
+pigz_2.3.bb
+> deleted file mode 100644
+> index 724d00b..0000000
+> --- a/meta/recipes-extended/pigz/pigz_2.3.bb
+> +++ /dev/null
+> @@ -1,10 +0,0 @@
+> -require pigz.inc
+> -LIC_FILES_CHKSUM =3D
+"file://pigz.c;beginline=3D7;endline=3D21;md5=3Da21d4075cb00ab4ca17fce5e753=
+4ca95"
+> -
+> -SRC_URI[md5sum] =3D "042e3322534f2c3d761736350cac303f"
+> -SRC_URI[sha256sum] =3D
+"74bbd5962f9420549fc987ddd1ccda692ec2b29d2d612fbbe26edf3fa348ff21"
+> -
+> -NATIVE_PACKAGE_PATH_SUFFIX =3D "/${PN}"
+> -
+> -BBCLASSEXTEND =3D "native"
+> -
 > --
-> 1.8.3.1
+> 1.7.10.4
 >
 > _______________________________________________
 > Openembedded-core mailing list
@@ -183,118 +170,100 @@ such as ldd01 & nm01 fails
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---047d7bdc109e5fd1d604e947ffd1
+--20cf303bfb1e720e9a04e94822e5
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<br><br>On Monday, October 21, 2013, Riku Voipio &lt;<a href=3D"mailto:riku=
-.voipio@linaro.org">riku.voipio@linaro.org</a>&gt; wrote:<br>&gt; Cleanups =
-for ltp:<br>&gt;<br>&gt; 1. Instead of using giturl like in Anders&#39;s pa=
-tch use the sourceforge mirror URL.<br>
-<br>whats wrong with git url ?<br><br>&gt; 2. remove to the manual unpack r=
-ule and just set S variable to source directory.<br>&gt; 3. Follow the OE s=
-tyle guide for variable order.<br>&gt; ---<br>&gt; =C2=A0meta/recipes-exten=
-ded/ltp/<a href=3D"http://ltp_20130904.bb">ltp_20130904.bb</a> | 50 +++++++=
-++++++------------------<br>
-&gt; =C2=A01 file changed, 21 insertions(+), 29 deletions(-)<br>&gt;<br>&gt=
-; diff --git a/meta/recipes-extended/ltp/<a href=3D"http://ltp_20130904.bb"=
->ltp_20130904.bb</a> b/meta/recipes-extended/ltp/<a href=3D"http://ltp_2013=
-0904.bb">ltp_20130904.bb</a><br>
-&gt; index 5e10448..43fe780 100644<br>&gt; --- a/meta/recipes-extended/ltp/=
-<a href=3D"http://ltp_20130904.bb">ltp_20130904.bb</a><br>&gt; +++ b/meta/r=
-ecipes-extended/ltp/<a href=3D"http://ltp_20130904.bb">ltp_20130904.bb</a><=
+<br><br>On Monday, October 21, 2013, =C2=A0&lt;<a href=3D"mailto:maxin.john=
+@enea.com">maxin.john@enea.com</a>&gt; wrote:<br>&gt; From: &quot;Maxin B. =
+John&quot; &lt;<a href=3D"mailto:maxin.john@enea.com">maxin.john@enea.com</=
+a>&gt;<br>
+&gt;<br>&gt; Update pigz to latest release - 2.3.1<br>&gt; Drop ldflags.pat=
+ch as it has been merged upstream<br>&gt;<br>&gt; Signed-off-by: Maxin B. J=
+ohn &lt;<a href=3D"mailto:maxin.john@enea.com">maxin.john@enea.com</a>&gt;<=
 br>
-&gt; @@ -21,44 +21,21 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D06=
-36e73ff0215e8d672dc4c32c317bb3 \<br>&gt;<br>&gt; =C2=A0DEPENDS =3D &quot;at=
-tr libaio libcap acl openssl&quot;<br>&gt;<br>&gt; -SRC_URI =3D &quot;git:/=
-/<a href=3D"http://github.com/linux-test-project/ltp.git">github.com/linux-=
-test-project/ltp.git</a>&quot;<br>
-&gt; +SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/project/ltp/LTP%20Source/ltp-=
-${PV}/ltp-full-${PV}.tar.bz2 \<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- &quot;<br>&gt;<br>&gt; -SRCREV =3D &quot;a8c42db5f9314211811c36275a21f8390=
-2830dc5&quot;<br>&gt; -S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; +SRC_URI[md5sum] =3D &quot;0cf2ccb7199f8318d413c62a085629f0&quot;<br>&=
-gt; +SRC_URI[sha256sum] =3D &quot;662c3661a4d1bfbf3187d0835f35e613b43eedc35=
-a840e3283e378a19606ee0b&quot;<br>&gt;<br>&gt; =C2=A0export prefix =3D &quot=
-;/opt/ltp&quot;<br>
-&gt; =C2=A0export exec_prefix =3D &quot;/opt/ltp&quot;<br>&gt;<br>&gt; =C2=
-=A0inherit autotools<br>&gt;<br>&gt; -RDEPENDS_${PN} =3D &quot;perl e2fspro=
-gs-mke2fs&quot;<br>&gt; -<br>&gt; -FILES_${PN}-dbg +=3D &quot;/opt/ltp/runt=
-est/.debug&quot;<br>
-&gt; -FILES_${PN}-dbg +=3D &quot;/opt/ltp/testcases/bin/.debug&quot;<br>&gt=
-; -FILES_${PN}-dbg +=3D &quot;/opt/ltp/testcases/bin/*/bin/.debug&quot;<br>=
-&gt; -FILES_${PN}-dbg +=3D &quot;/opt/ltp/testcases/bin/*/test/.debug&quot;=
-<br>
-&gt; -FILES_${PN}-dbg +=3D &quot;/opt/ltp/scenario_groups/.debug&quot;<br>&=
-gt; -FILES_${PN}-dbg +=3D &quot;/opt/ltp/testscripts/.debug&quot;<br>&gt; -=
-FILES_${PN}-dbg +=3D &quot;/opt/ltp/testscripts/open_posix_testsuite/.debug=
-&quot;<br>
-&gt; -<br>&gt; -FILES_${PN}-staticdev +=3D &quot;/opt/ltp/lib/libmem.a&quot=
-;<br>&gt; -<br>&gt; -FILES_${PN} +=3D &quot;/opt/ltp/* /opt/ltp/runtest/* /=
-opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*=
-/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /op=
-t/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_=
-posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/fun=
-ctional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testca=
-ses/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/=
-stress/* /opt/ltp/testcases/open_posix_testsuite/tools/*&quot;<br>
-&gt; +S =3D &quot;${WORKDIR}/ltp-full-${PV}&quot;<br>&gt;<br>&gt; =C2=A0TAR=
-GET_CC_ARCH +=3D &quot;${LDFLAGS}&quot;<br>&gt;<br>&gt; -do_unpack_append()=
- {<br>&gt; - =C2=A0 =C2=A0bb.build.exec_func(&#39;do_extract_tarball&#39;, =
-d)<br>&gt; -}<br>
-&gt; -<br>&gt; -do_extract_tarball() {<br>&gt; - =C2=A0 =C2=A0 =C2=A0 if te=
-st -f ${WORKDIR}/ltp-full-${PV} ; then<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 tar x --no-same-owner -f ${WORKDIR}/ltp-full-${PV} -C ${WORKDIR}=
-<br>&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf ${WORKDIR}/ltp-${PV}<b=
+&gt; ---<br>looks ok althouh<br>git format-patch -M would have detected ren=
+aming a bit better inturn making it easier to review it<br><br>&gt; =C2=A0m=
+eta/recipes-extended/pigz/files/ldflags.patch | =C2=A0 19 -----------------=
+--<br>
+&gt; =C2=A0meta/recipes-extended/pigz/pigz.inc =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| =C2=A0 =C2=A05 ++---<br>&gt; =C2=A0meta/recipes-extended/pig=
+z/<a href=3D"http://pigz_2.3.1.bb">pigz_2.3.1.bb</a> =C2=A0 =C2=A0 =C2=A0 |=
+ =C2=A0 10 ++++++++++<br>&gt; =C2=A0meta/recipes-extended/pigz/<a href=3D"h=
+ttp://pigz_2.3.bb">pigz_2.3.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 10 =
+----------<br>
+&gt; =C2=A04 files changed, 12 insertions(+), 32 deletions(-)<br>&gt; =C2=
+=A0delete mode 100644 meta/recipes-extended/pigz/files/ldflags.patch<br>&gt=
+; =C2=A0create mode 100644 meta/recipes-extended/pigz/<a href=3D"http://pig=
+z_2.3.1.bb">pigz_2.3.1.bb</a><br>
+&gt; =C2=A0delete mode 100644 meta/recipes-extended/pigz/<a href=3D"http://=
+pigz_2.3.bb">pigz_2.3.bb</a><br>&gt;<br>&gt; diff --git a/meta/recipes-exte=
+nded/pigz/files/ldflags.patch b/meta/recipes-extended/pigz/files/ldflags.pa=
+tch<br>
+&gt; deleted file mode 100644<br>&gt; index 8e531cc..0000000<br>&gt; --- a/=
+meta/recipes-extended/pigz/files/ldflags.patch<br>&gt; +++ /dev/null<br>&gt=
+; @@ -1,19 +0,0 @@<br>&gt; -Link using the bitbake LDFLAGS.<br>&gt; -<br>
+&gt; -Signed-off-by: Bj=C3=B6rn Stenberg &lt;<a href=3D"mailto:bjst@enea.co=
+m">bjst@enea.com</a>&gt;<br>&gt; -<br>&gt; -Upstream-Status: Pending<br>&gt=
+; -<br>&gt; -Index: pigz-2.3/Makefile<br>&gt; -=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D<br>
+&gt; ---- pigz-2.3.orig/Makefile<br>&gt; -+++ pigz-2.3/Makefile<br>&gt; -@@=
+ -3,7 +3,7 @@ CFLAGS=3D-O3 -Wall -Wextra<br>&gt; -<br>&gt; -<br>&gt; - pigz=
+: pigz.o yarn.o zopfli/deflate.o zopfli/blocksplitter.o zopfli/tree.o zopfl=
+i/lz77.o zopfli/cache.o zopfli/hash.o zopfli/util.o zopfli/squeeze.o zopfli=
+/katajainen.o<br>
+&gt; -- =C2=A0 =C2=A0 =C2=A0$(CC) -o pigz $^ -lpthread -lz<br>&gt; -+ =C2=
+=A0 =C2=A0 =C2=A0$(CC) ${LDFLAGS} -o pigz $^ -lpthread -lz -lm<br>&gt; - =
+=C2=A0 =C2=A0 =C2=A0 ln -f pigz unpigz<br>&gt; -<br>&gt; - pigz.o: pigz.c y=
+arn.h zopfli/deflate.h zopfli/util.h<br>&gt; diff --git a/meta/recipes-exte=
+nded/pigz/pigz.inc b/meta/recipes-extended/pigz/pigz.inc<br>
+&gt; index 5ceaef2..984f9ea 100644<br>&gt; --- a/meta/recipes-extended/pigz=
+/pigz.inc<br>&gt; +++ b/meta/recipes-extended/pigz/pigz.inc<br>&gt; @@ -7,1=
+0 +7,9 @@ HOMEPAGE =3D &quot;<a href=3D"http://zlib.net/pigz/">http://zlib.=
+net/pigz/</a>&quot;<br>
+&gt; =C2=A0SECTION =3D &quot;console/utils&quot;<br>&gt; =C2=A0LICENSE =3D =
+&quot;Zlib&quot;<br>&gt;<br>&gt; -PR =3D &quot;r1&quot;<br>&gt; +PR =3D &qu=
+ot;r0&quot;<br>&gt;<br>&gt; -SRC_URI =3D &quot;<a href=3D"http://zlib.net/p=
+igz/pigz-${PV}.tar.gz">http://zlib.net/pigz/pigz-${PV}.tar.gz</a> \<br>
+&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://ldflags.patch&quot;<br>&gt=
+; +SRC_URI =3D &quot;<a href=3D"http://zlib.net/pigz/pigz-${PV}.tar.gz">htt=
+p://zlib.net/pigz/pigz-${PV}.tar.gz</a>&quot;<br>&gt;<br>&gt; =C2=A0PROVIDE=
+S_class-native +=3D &quot;gzip-native&quot;<br>
+&gt;<br>&gt; diff --git a/meta/recipes-extended/pigz/<a href=3D"http://pigz=
+_2.3.1.bb">pigz_2.3.1.bb</a> b/meta/recipes-extended/pigz/<a href=3D"http:/=
+/pigz_2.3.1.bb">pigz_2.3.1.bb</a><br>&gt; new file mode 100644<br>&gt; inde=
+x 0000000..6e7c7f1<br>
+&gt; --- /dev/null<br>&gt; +++ b/meta/recipes-extended/pigz/<a href=3D"http=
+://pigz_2.3.1.bb">pigz_2.3.1.bb</a><br>&gt; @@ -0,0 +1,10 @@<br>&gt; +requi=
+re pigz.inc<br>&gt; +LIC_FILES_CHKSUM =3D &quot;file://pigz.c;beginline=3D7=
+;endline=3D21;md5=3Da21d4075cb00ab4ca17fce5e7534ca95&quot;<br>
+&gt; +<br>&gt; +SRC_URI[md5sum] =3D &quot;e803f8bc0770c7a5e96dccb1d2dd2aab&=
+quot;<br>&gt; +SRC_URI[sha256sum] =3D &quot;629b0ce5422a3978f31742bf8275d0b=
+e2f84987140d18f390f1e3b4e46e0af54&quot;<br>&gt; +<br>&gt; +NATIVE_PACKAGE_P=
+ATH_SUFFIX =3D &quot;/${PN}&quot;<br>
+&gt; +<br>&gt; +BBCLASSEXTEND =3D &quot;native&quot;<br>&gt; +<br>&gt; diff=
+ --git a/meta/recipes-extended/pigz/<a href=3D"http://pigz_2.3.bb">pigz_2.3=
+.bb</a> b/meta/recipes-extended/pigz/<a href=3D"http://pigz_2.3.bb">pigz_2.=
+3.bb</a><br>
+&gt; deleted file mode 100644<br>&gt; index 724d00b..0000000<br>&gt; --- a/=
+meta/recipes-extended/pigz/<a href=3D"http://pigz_2.3.bb">pigz_2.3.bb</a><b=
+r>&gt; +++ /dev/null<br>&gt; @@ -1,10 +0,0 @@<br>&gt; -require pigz.inc<br>
+&gt; -LIC_FILES_CHKSUM =3D &quot;file://pigz.c;beginline=3D7;endline=3D21;m=
+d5=3Da21d4075cb00ab4ca17fce5e7534ca95&quot;<br>&gt; -<br>&gt; -SRC_URI[md5s=
+um] =3D &quot;042e3322534f2c3d761736350cac303f&quot;<br>&gt; -SRC_URI[sha25=
+6sum] =3D &quot;74bbd5962f9420549fc987ddd1ccda692ec2b29d2d612fbbe26edf3fa34=
+8ff21&quot;<br>
+&gt; -<br>&gt; -NATIVE_PACKAGE_PATH_SUFFIX =3D &quot;/${PN}&quot;<br>&gt; -=
+<br>&gt; -BBCLASSEXTEND =3D &quot;native&quot;<br>&gt; -<br>&gt; --<br>&gt;=
+ 1.7.10.4<br>&gt;<br>&gt; _______________________________________________<b=
 r>
-&gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv ${WORKDIR}/ltp-full-${PV} ${WO=
-RKDIR}/ltp-${PV}<br>&gt; - =C2=A0 =C2=A0 =C2=A0 fi<br>&gt; -}<br>&gt; -<br>=
-&gt; =C2=A0do_install(){<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${D=
-}/opt/ltp/<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake DESTDIR=3D${D} SK=
-IP_IDCHECK=3D1 install<br>
-&gt; @@ -66,10 +43,25 @@ do_install(){<br>&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-# Copy POSIX test suite into ${D}/opt/ltp/testcases by manual<br>&gt; =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 cp -r testcases/open_posix_testsuite ${D}/opt/ltp/=
-testcases<br>&gt;<br>&gt; - =C2=A0 =C2=A0 =C2=A0 # We need to remove all sc=
-ripts which depend on /usr/bin/expect, since expect is not supported in pok=
-y<br>
-&gt; + =C2=A0 =C2=A0 =C2=A0 # We need to remove all scripts which depend on=
- /usr/bin/expect, since expect is not supported in oe-core<br>&gt; =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 # We will add expect for enhancement in future<br>&gt;=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 find ${D} -type f -print | xargs grep &quot;\!=
-.*\/usr\/bin\/expect&quot; | awk -F&quot;:&quot; &#39;{print $1}&#39; | xar=
-gs rm -f<br>
-&gt; =C2=A0}<br>&gt;<br>&gt; +FILES_${PN}-dbg +=3D &quot;/opt/ltp/runtest/.=
-debug \<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0/opt/ltp/testcases/bin/.debug \<br>&gt; + =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/opt/ltp/testcases/bin/*/b=
-in/.debug \<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0/opt/ltp/testcases/bin/*/test/.debug \<br>
-&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0/opt/ltp/scenario_groups/.debug \<br>&gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/opt/ltp/testscripts/.debug \<br>&=
-gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-/opt/ltp/testscripts/open_posix_testsuite/.debug \<br>&gt; + =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt; +<br>&gt; +FILES_${PN}-staticdev +=3D &quot;/opt/ltp/lib/libmem.a&quot=
-;<br>&gt; +<br>&gt; +FILES_${PN} +=3D &quot;/opt/ltp/* /opt/ltp/runtest/* /=
-opt/ltp/scenario_groups/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*=
-/bin/* /opt/ltp/testscripts/* /opt/ltp/testcases/open_posix_testsuite/* /op=
-t/ltp/testcases/open_posix_testsuite/conformance/* /opt/ltp/testcases/open_=
-posix_testsuite/Documentation/* /opt/ltp/testcases/open_posix_testsuite/fun=
-ctional/* /opt/ltp/testcases/open_posix_testsuite/include/* /opt/ltp/testca=
-ses/open_posix_testsuite/scripts/* /opt/ltp/testcases/open_posix_testsuite/=
-stress/* /opt/ltp/testcases/open_posix_testsuite/tools/*&quot;<br>
-&gt; +<br>&gt; +RDEPENDS_${PN} =3D &quot;perl e2fsprogs-mke2fs&quot;<br>&gt=
-; +<br>&gt; =C2=A0# Avoid generated binaries stripping. Otherwise some of t=
-he ltp tests such as ldd01 &amp; nm01 fails<br>&gt; =C2=A0INHIBIT_PACKAGE_S=
-TRIP =3D &quot;1&quot;<br>
-&gt; --<br>&gt; 1.8.3.1<br>&gt;<br>&gt; ___________________________________=
-____________<br>&gt; Openembedded-core mailing list<br>&gt; <a href=3D"mail=
-to:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openem=
-bedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>=
-<br>&gt;
+&gt; Openembedded-core mailing list<br>&gt; <a href=3D"mailto:Openembedded-=
+core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><b=
+r>&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedd=
+ed-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</=
+a><br>
+&gt;
 
---047d7bdc109e5fd1d604e947ffd1--
+--20cf303bfb1e720e9a04e94822e5--
