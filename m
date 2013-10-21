@@ -1,36 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
-	by mail.openembedded.org (Postfix) with ESMTP id D109C6D149
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id E21436D191
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 09:30:11 +0000 (UTC)
-Received: by mail-wg0-f52.google.com with SMTP id f12so6251327wgh.19
+	Mon, 21 Oct 2013 09:42:25 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	r9L9gLQs016798
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 02:30:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xVnSwsRekxrFwdiGhG9zPlE2mHs2TA/ZKP/fp6SWx/U=;
-	b=kEDNmR9Hr7pwfOMXnXXN5TqOpEQp+JEkl4rzF9UYP8idNA4IbOcDJa8JlsbJBbqpuJ
-	z6/7UyURZHcfGd6ZmfD9QrCBCad0lf7wP8DfPB37g/deJnRr8SItWL82kgTshXIxYJ4H
-	KBNyCAdgbqDSB2joKeoxgtViI+VLVaUtVchvJbAArxQN0zz8xkMly3zMpqNN13cVRzcY
-	Ay3tXNcZ6bcss787XWskohETqSOtRMqGw8IUwFgN5Mr5AaW/eVkdN1i87Y/o8E+pGxVx
-	gDfhpZT/xen2KlvX8xHh4k2BoHO9lTtuRky4/eadNVFpPXbk88IECHCDLIL7wzOMPhZC
-	GLig==
-X-Gm-Message-State: ALoCoQmZoxoyMQ2wI5Z3CGk6QcFTbIWNKfDpCH90/grHvXeiuZ8bBo1zQnQUl5bMbIyU3Q5zkmI7
-X-Received: by 10.194.123.8 with SMTP id lw8mr1007427wjb.40.1382347812994;
-	Mon, 21 Oct 2013 02:30:12 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	eq12sm30262337wic.7.2013.10.21.02.30.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 21 Oct 2013 02:30:12 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 21 Oct 2013 11:42:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1382348544;
+	bh=tGf7QZ0GvGu0gq096zzVgL35hDGbXonSbSOyYAJwcYY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Sender;
+	b=D00TVrEqDZnpLJtnU+fpESb1f2r5F+bWkgAr6xqAXgJHAsoKnmcsAqNHNsurMtBzn
+	lEa73rQ5D6+mRH/SeKpGXr9Jr8Vtk7wuw7kuLDI01bFjtLePk64aApaiIHs/4VrlZq
+	Rd/b1eQQE+5TBcnVL/5MRY8erwunvwssWfjuOcSA=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r9L9gDZO012568
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2013 11:42:14 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VYC04-0007lV-US
+	for openembedded-core@lists.openembedded.org;
+	Mon, 21 Oct 2013 11:42:13 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 21 Oct 2013 10:28:49 +0100
-Message-Id: <1382347729-18757-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] gdk-pixbuf: use PACKAGECONFIG to control legacy X11 sub-library
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 21 Oct 2013 11:42:12 +0200
+Message-ID: <lyy55nhsej.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.2
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Subject: How to set PACKAGECONFIG + proposal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,45 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 09:30:12 -0000
+X-List-Received-Date: Mon, 21 Oct 2013 09:42:27 -0000
+Content-Type: text/plain
 
-Instead of appending and using overrides, turn gdk-pixbuf-xlib into a
-PACKAGECONFIG option and enable it for LSB-builds only.
+Hi,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.2.bb |   13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+recent packaging uses lots of different ways how PACKAGECONFIG is set:
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.2.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.2.bb
-index 08d6f0a..d027fcf 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.2.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.2.bb
-@@ -26,15 +26,18 @@ inherit autotools pkgconfig gettext pixbufcache
- 
- LIBV = "2.10.0"
- 
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG_linuxstdbase = "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
-+PACKAGECONFIG_class-native = ""
-+PACKAGECONFIG[x11] = "--with-x11,--without-x11,virtual/libx11"
-+
- EXTRA_OECONF = "\
--  --without-libtiff \
-   --with-libpng \
--  ${X11DEPENDS} \
-+  --with-libjpeg \
-+  --without-libtiff \
-+  --without-libjasper \
-   --disable-introspection \
- "
--X11DEPENDS = "--without-x11"
--X11DEPENDS_linuxstdbase = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x11', '--without-x11', d)}"
--X11DEPENDS_class-native = "--without-x11"
- 
- PACKAGES =+ "${PN}-xlib"
- 
--- 
-1.7.10.4
+a)  PACKAGECONFIG ??= "<something>"
 
+b)  PACKAGECONFIG ?= "<something>"
+
+and similar variations for special classes
+
+c)  PACKAGECONFIG_class-target ??= "<something>"
+
+d)  PACKAGECONFIG_class-target ?= "<something>"
+
+Sample c) causes problems (see 8994ff6650a4c4c2f0b07e5ee6a5f889270151e5)
+and at least me does not see why it is going wrong.  It is unclear to me
+either why some packages uses a), other b).
+
+To avoid nasty surprises; I would prefer to avoid cases c) and d) or
+even ban the usage of '?=' completely when assigning _overrides.
+
+As "<something>" is calculated sometimes in non trivial ways and contains
+requirements instead of user configurable features, I suggest to write
+
+  DEFAULT_PACKAGECONFIG = "<something>"
+  DEFAULT_PACKAGECONFIG_class-target = "<something>"
+
+  PACKAGECONFIG ??= "${DEFAULT_PACKAGECONFIG}"
+ 
+at least when case c) or d) were used.  Using '??=' or '?=' is debatable
+but should be consistent across the distribution.
+
+
+Opinions?
+
+
+
+Enrico
 
