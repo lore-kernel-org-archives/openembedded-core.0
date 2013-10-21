@@ -1,28 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 189CC6D159
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 10:45:16 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 21 Oct 2013 03:45:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="396070545"
-Received: from pauljbro-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.120.219])
-	by orsmga001.jf.intel.com with ESMTP; 21 Oct 2013 03:45:16 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-Date: Mon, 21 Oct 2013 11:45:16 +0100
-Message-ID: <2283828.j3jRe91j0j@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <365E1805BC95084CBE82381A0B869994DE53BD25@EU-MBX-01.mgc.mentorg.com>
-References: <cover.1381404113.git.paul.eggleton@linux.intel.com>
-	<365E1805BC95084CBE82381A0B869994DE53BD25@EU-MBX-01.mgc.mentorg.com>
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id A4A0D6D159;
+	Mon, 21 Oct 2013 11:06:26 +0000 (UTC)
+Received: by mail-lb0-f169.google.com with SMTP id o14so1217662lbi.28
+	for <multiple recipients>; Mon, 21 Oct 2013 04:06:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=0OlnC21XwAyl7FUiCW+A6l1GAbTBOqbf+XZEB6oTNTc=;
+	b=ek8gnPhcyDtlYdiS29oed6WHO/yoYsGMExKDaNlvmBnWBbriuMnJPg1rnJVbErmEG4
+	Qc+/E7YJ9Ti7axQph58/htVdNRvhgTeB00SGYbdSc1Fx1wD3dcRr9TM+i8F9gfRW/I12
+	kRZIXxUhPJ7RNlrQKGwvPLDhWX/+uUE1uPXJC5+GJSDsxiKxZkPQh1h073tjgXEcp6Dq
+	neaYuhfJKzWCcLQfxzLwcSHu/InSJB4yLQfy1cQYV6KkuIiP4j9v06+1tF1vdPxi7wXx
+	wHL19g+JJTP2LzK+izPxi/vOMbzFw/pqBNjhQty++Y7MCYkosedHkfun6xZ+DEKw7Tzb
+	d7YA==
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dylan][PATCH 00/13] Backports from master (cover letter only)
+X-Received: by 10.152.1.70 with SMTP id 6mr73502lak.60.1382353587189; Mon, 21
+	Oct 2013 04:06:27 -0700 (PDT)
+Received: by 10.112.52.74 with HTTP; Mon, 21 Oct 2013 04:06:27 -0700 (PDT)
+In-Reply-To: <20131021103841.GC3709@jama>
+References: <20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
+	<20130611160434.GI3233@jama> <20130622181656.GK14021@jama>
+	<20130725162341.GA3280@jama> <20130808225419.GB17945@jama>
+	<20130811114403.GG17945@jama> <20130917123058.GC7313@jama>
+	<20131020194345.GB3709@jama>
+	<CAAQYJAvrTQUXHeaNcMQyE88WAF1ZySq6y+hCJD3Kpob9dOkhSg@mail.gmail.com>
+	<20131021103841.GC3709@jama>
+Date: Mon, 21 Oct 2013 13:06:27 +0200
+Message-ID: <CAAQYJAvwDdzF62MnqV=7hYNK_q8OJAgtYhz=6HSEa_V5xPUa9A@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,117 +46,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 10:45:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 21 Oct 2013 11:06:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi Noor,
+On Mon, Oct 21, 2013 at 12:38 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Mon, Oct 21, 2013 at 10:58:45AM +0200, Andrea Adami wrote:
+>> <cut>
+>> > qemux86* common (5):
+>> > meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-klibc-image.bb, do_rootfs
+>> </cut>
+>>
+>> Hi Martin, thanks for taking care of all those builds.
+>> About this new do_rootfs failure [1], it seems related to update-rc.d
+>> /postinst code.
+>>
+>> As you already know, for this image we don't want any initscript nor
+>> package manager cruft but now and then some change in oe-core opens
+>> unwanted doors...
+>>
+>> I'll investigate what's happening: seems strange it only fails on x86*.
+>
+> This world build didn't have this fix included:
+> http://git.openembedded.org/openembedded-core/commit/?id=2b179d90eacc58f0b217f64407782a9174362850
+>
+> it's queued for next one, maybe it will help.
+>
+>> | makedevs: No entry for root in search list
+> is also interesting, should it be calling makedevs in this initramfs
+> (IIRC kexecboot is creating all dev nodes manually?)
+>
 
-These have already been merged to the dylan branch.
+Yes...
 
-Cheers,
-Paul
+> | makedevs: No entry for root in search list
 
-On Monday 21 October 2013 10:29:26 Ahsan, Noor wrote:
-> Hello,
-> 
-> Any idea when this will be merged. We need it for our BSPs.
-> 
-> Noor
-> 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Paul
-> Eggleton Sent: Thursday, October 10, 2013 4:23 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [dylan][PATCH 00/13] Backports from master (cover letter
-> only)
-> 
-> Some backported patches to fix bugs in the dylan branch. These have been
-> tested on the Yocto Project autobuilder.
-> 
-> 
-> 
-> The following changes since commit a065c225a70ef7c0bc7f169cad961765f9366263:
-> 
->   mesa: inherit gettext (2013-08-16 10:39:49 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paul
-> e/dylan-next
-> 
-> Chen Qi (2):
->   rpm: fix typo in PACKAGECONFIG
->   busybox: configure system user id to range from 100 to 999
-> 
-> Darren Hart (1):
->   kernel.bbclass: Correct post(inst|rm) package association
-> 
-> Jackie Huang (1):
->   findutils_4.2.31: backport fixes for doc build errors
-> 
-> Jason Wessel (1):
->   ncurses: Fix problems expanding ncurses-libtinfo when in IMAGE_INSTALL
-> 
-> Khem Raj (1):
->   elfutils-native: Fix build on distros with gcc 4.8
-> 
-> Marko Lindqvist (1):
->   boost: fix build when PARALLEL_MAKE is not set
-> 
-> Paul Eggleton (2):
->   sysvinit-inittab: ensure unique label for SERIAL_CONSOLES entries
->   classes/package_rpm: fix bitbake package-index for RPM
-> 
-> Ross Burton (1):
->   libxml2: remove patch for CVE-2012-2871
-> 
-> Saul Wold (3):
->   mc: Don't remove libdir and split helpers into packages
->   perl: Backport 2 CVE Patches
->   python: Backport 2 CVE from upstream
-> 
->  meta/classes/kernel.bbclass                        |  29 ++-
->  meta/classes/package_rpm.bbclass                   |   5 +
->  meta/recipes-core/busybox/busybox-1.20.2/defconfig |   4 +-
->  .../libxml/libxml2/libxml2-CVE-2012-2871.patch     |  34 ---
->  meta/recipes-core/libxml/libxml2_2.9.0.bb          |   2 -
->  meta/recipes-core/ncurses/ncurses.inc              |   2 +
->  .../sysvinit/sysvinit-inittab_2.88dsf.bb           |   6 +-
->  .../elfutils/elfutils/fix-build-gcc-4.8.patch      |  44 ++++
->  meta/recipes-devtools/elfutils/elfutils_0.148.bb   |   1 +
->  .../0001-Fix-misparsing-of-maketext-strings.patch  |  86 +++++++
->  ...mature-hsplit-calls-and-only-trigger-REHA.patch | 178 +++++++++++++++
->  meta/recipes-devtools/perl/perl_5.14.3.bb          |   3 +
->  .../python/python/CVE-2013-4073_py27.patch         | 251
-> +++++++++++++++++++++ .../python/python/pypirc-secure.patch              | 
-> 35 +++
->  meta/recipes-devtools/python/python_2.7.3.bb       |   2 +
->  meta/recipes-devtools/rpm/rpm_5.4.9.bb             |   2 +-
->  .../findutils-fix-doc-build-error.patch            |  53 +++++
->  .../recipes-extended/findutils/findutils_4.2.31.bb |   1 +
->  meta/recipes-extended/mc/mc_4.7.5.2.bb             |  26 ++-
->  meta/recipes-extended/mc/mc_4.8.7.bb               |  23 +-
->  meta/recipes-support/boost/boost.inc               |   2 +
->  21 files changed, 727 insertions(+), 62 deletions(-)
->  delete mode 100644
-> meta/recipes-core/libxml/libxml2/libxml2-CVE-2012-2871.patch create mode
-> 100644 meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch
-> create mode 100644
-> meta/recipes-devtools/perl/perl-5.14.3/0001-Fix-misparsing-of-maketext-stri
-> ngs.patch create mode 100644
-> meta/recipes-devtools/perl/perl-5.14.3/0001-Prevent-premature-hsplit-calls-
-> and-only-trigger-REHA.patch create mode 100644
-> meta/recipes-devtools/python/python/CVE-2013-4073_py27.patch create mode
-> 100644 meta/recipes-devtools/python/python/pypirc-secure.patch create mode
-> 100644
-> meta/recipes-extended/findutils/findutils-4.2.31/findutils-fix-doc-build-er
-> ror.patch
--- 
+Seems oiginated by commit d073ca77ba886c7912abd3ec064088
+1c00aea3bb
 
-Paul Eggleton
-Intel Open Source Technology Centre
+image.bbclass: create device table after package installation
+
+In fact, we set IMAGE_DEVICE_TABLES = "" for the initramfs then we
+mount devtmps during init.
+
+Cheers
+
+Andrea
+
+
+>
+>>
+>> Cheers
+>> Andrea
+>>
+>>
+>> [1]
+>> ERROR: Function failed: do_rootfs (log file is located at
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292)
+>> ERROR: Logfile of failure stored in:
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292
+>> Log data follows:
+>> | DEBUG: Executing python function rootfs_process_ignore
+>> | DEBUG: Python function rootfs_process_ignore finished
+>> | DEBUG: Executing python function rootfs_runtime_mapping
+>> | DEBUG: Python function rootfs_runtime_mapping finished
+>> | DEBUG: Executing shell function do_rootfs
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/Packages.
+>> | Updated list of available packages in
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe.
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/Packages.
+>> | Updated list of available packages in
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-all.
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/Packages.
+>> | Updated list of available packages in
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-i586.
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/Packages.
+>> | Updated list of available packages in
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-qemux86.
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/Packages.
+>> | Updated list of available packages in
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe.
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/Packages.
+>> | Updated list of available packages in
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-all.
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/Packages.
+>> | Updated list of available packages in
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-i586.
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/Packages.
+>> | Updated list of available packages in
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-qemux86.
+>> | Installing kexec-klibc (2.0.2-r0.16) to root...
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/kexec-klibc_2.0.2-r0.16_i586.ipk.
+>> | Installing run-postinsts (1.0-r9.26) to root...
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/run-postinsts_1.0-r9.26_i586.ipk.
+>> | Installing update-rc.d (0.7-r5.37) to root...
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/all/update-rc.d_0.7-r5.37_all.ipk.
+>> | Installing ubiattach-klibc (1.5.0-r0.28) to root...
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/i586/ubiattach-klibc_1.5.0-r0.28_i586.ipk.
+>> | Installing kexecboot-klibc (0.6-r0.2) to root...
+>> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/deploy/ipk/qemux86/kexecboot-klibc_0.6-r0.2_qemux86.ipk.
+>> | /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/info/run-postinsts.postinst:
+>> 8: /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/info/run-postinsts.postinst:
+>> /etc/init.d/run-postinsts: not found
+>> | update-rc.d: /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs/etc/init.d/run-postinsts
+>> exists during rc.d purge (continuing)
+>> |  Removing any system startup links for run-postinsts ...
+>> |  Adding system startup for
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs/etc/init.d/run-postinsts.
+>> | Configuring kexecboot-klibc.
+>> | Configuring ubiattach-klibc.
+>> | Configuring kexec-klibc.
+>> | Configuring update-rc.d.
+>> | Configuring run-postinsts.
+>> | Building from feeds activated!
+>> | Running intercept scripts:
+>> | log_check: Using
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292
+>> as logfile
+>> | Logfile is clean
+>> | makedevs: No entry for root in search list
+>> | WARNING: exit code 1 from a shell command.
+>> | ERROR: Function failed: do_rootfs (log file is located at
+>> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292)
+>> NOTE: recipe initramfs-kexecboot-klibc-image-1.0-r0: task do_rootfs: Failed
+>> ERROR: Task 25930
+>> (/home/jenkins/oe/shr-core-branches/shr-core/meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecboot-klibc-image.bb,
+>> do_rootfs) failed with exit code '1'
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
