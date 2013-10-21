@@ -1,41 +1,37 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 88B3C6D073
+Return-Path: <ulf@emagii.com>
+Received: from smtprelay-b22.telenor.se (smtprelay-b22.telenor.se
+	[195.54.99.213])
+	by mail.openembedded.org (Postfix) with ESMTP id BC62D6CC4F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 12:45:53 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1VYErq-0003J3-W3 from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 21 Oct 2013 05:45:55 -0700
-Received: from SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 21 Oct 2013 05:45:54 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.38]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.02.0247.003; Mon, 21 Oct 2013 13:45:53 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device
-	name	from SERIAL_CONSOLES entries
-Thread-Index: AQHOw25wdYkIFqtJVE+CHYnQPPILhZn/L/xA
-Date: Mon, 21 Oct 2013 12:45:52 +0000
-Message-ID: <365E1805BC95084CBE82381A0B869994DE53BF6B@EU-MBX-01.mgc.mentorg.com>
-References: <1381158304-931-1-git-send-email-muhammad_shakeel@mentor.com>
-In-Reply-To: <1381158304-931-1-git-send-email-muhammad_shakeel@mentor.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Mon, 21 Oct 2013 12:55:53 +0000 (UTC)
+Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
+	by smtprelay-b22.telenor.se (Postfix) with ESMTP id 657D8EB537
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2013 14:55:55 +0200 (CEST)
+X-SENDER-IP: [83.227.59.84]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AnsVAIcjZVJT4ztUPGdsb2JhbAANTIM/vjdLgUIDAQEBATiCWgEBAQECAQEBATU2CgEQCxQECRYPCQMCAQIBDwYBGxQGDQEFAgEBh3ADCQsIqkyJGg2Ja4xsgRyBVAeEKQOVPGKBa4EviyGIXQ
+X-IronPort-AV: E=Sophos;i="4.93,539,1378850400"; d="scan'208";a="339988645"
+Received: from c-543be353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.199]) ([83.227.59.84])
+	by ipb4.telenor.se with ESMTP; 21 Oct 2013 14:55:55 +0200
+Message-ID: <5265245A.2090201@emagii.com>
+Date: Mon, 21 Oct 2013 14:55:54 +0200
+From: Ulf Samuelsson <ulf@emagii.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-OriginalArrivalTime: 21 Oct 2013 12:45:54.0973 (UTC)
-	FILETIME=[7B8124D0:01CECE5B]
-Subject: Re: [PATCH] sysvinit-inittab: Fix getting tty device name	from SERIAL_CONSOLES entries
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1382345997-28170-1-git-send-email-ulf@emagii.com>
+	<20131021111757.GE3709@jama>
+In-Reply-To: <20131021111757.GE3709@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Add tune for Cortex-A5 chips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ulf@emagii.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -45,59 +41,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 12:45:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 21 Oct 2013 12:55:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 2013-10-21 13:17, Martin Jansa wrote:
+> On Mon, Oct 21, 2013 at 10:59:57AM +0200, Ulf Samuelsson wrote:
+>> Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
+>> ---
+>>   meta/conf/machine/include/tune-cortexa5.inc |   24 ++++++++++++++++++++++++
+>>   1 file changed, 24 insertions(+)
+>>   create mode 100644 meta/conf/machine/include/tune-cortexa5.inc
+>>
+>> diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
+>> new file mode 100644
+>> index 0000000..69c945e
+>> --- /dev/null
+>> +++ b/meta/conf/machine/include/tune-cortexa5.inc
+>> @@ -0,0 +1,24 @@
+>> +DEFAULTTUNE ?= "cortexa5thf"
+> wasn't cortexa5 added already in:
+>
+> commit 50bc63c5c377d9fbb87b3efefc8c6f5473ba642a
+> Author: Andy Voltz <andy.voltz@timesys.com>
+> Date:   Wed Jun 5 11:52:30 2013 -0400
+>
+>      tune-cortexa5.inc: Add tune file for cortex-a5
+>
+> I think that one was better, because it had optional neon support and
+> default DEFAULTTUNE should be something more generic (at least to stay
+> consistent with other tunes) it's DISTRO decision to select common
+> denominator (or more specific tunes for each MACHINE) for binary feeds
+> they want to manage.
+Looks like you are right.
+I looked at the openembedded-core in Angstrom master, and it wasn't there.
+(
+     because Angstrom master checks out
+     "openembedded-core/remotes/origin/angstrom-staging-yocto1.3"
+)
 
-Kindly merge this patch we need it for Yocto 1.5.
+Sorry.
 
-Noor
+/Ulf
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Shakeel, Muhammad
-Sent: Monday, October 07, 2013 8:05 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device name fr=
-om SERIAL_CONSOLES entries
+>
+> see
+> commit a11bdc36a1be18cc5aa14682b2a2c9ee83141f51
+> Author: Martin Jansa <Martin.Jansa@gmail.com>
+> Date:   Tue Oct 2 13:21:08 2012 +0000
+>
+>      tune-*: define more generic DEFAULTTUNE to share feed between
+> machines
+>
+>> +# TUNE_FEATU4RES     = "armv7a vfp callconvention-hard"
+>> +# TARGET_FPU        = "vfp"
+>> +
+>> +require conf/machine/include/arm/arch-armv7a.inc
+>> +
+>> +TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
+>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "cortexa5", "-mtune=cortex-a5", "", d)}"
+>> +
+>> +# Little Endian base configs
+>> +AVAILTUNES += "cortexa5 cortexa5t"
+>> +TUNE_FEATURES_tune-cortexa5 = "${TUNE_FEATURES_tune-armv7a} cortexa5"
+>> +TUNE_FEATURES_tune-cortexa5t = "${TUNE_FEATURES_tune-armv7at} cortexa5"
+>> +
+>> +PACKAGE_EXTRA_ARCHS_tune-cortexa5 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a}"
+>> +PACKAGE_EXTRA_ARCHS_tune-cortexa5t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at}"
+>> +
+>> +# VFP Tunes
+>> +AVAILTUNES += "cortexa5hf cortexa5thf"
+>> +TUNE_FEATURES_tune-cortexa5hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa5"
+>> +TUNE_FEATURES_tune-cortexa5thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa5"
+>> +PACKAGE_EXTRA_ARCHS_tune-cortexa5hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf}"
+>> +PACKAGE_EXTRA_ARCHS_tune-cortexa5thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf}"
+>> +
+>> -- 
+>> 1.7.9.5
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-Currently the part after "tty" in the device name go into label along with =
-everything after that part. For example if SERIAL_CONSOLES=3D"115200;vt100;=
-ttyS0"
-than label=3DS0 but if SERIAL_CONSOLES=3D"115200;ttyS0;vt100" than label=3D=
-S0;vt100.
-If SERIAL_CONSOLES=3D"..;ttyX;..", part after 'X' should also be trimmed.
+-- 
+Best Regards
+Ulf Samuelsson
+ulf@emagii.com
++46 722 427437
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/=
-recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 23c284d..05ba410 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -22,7 +22,7 @@ do_install() {
-     for i in $tmp
-     do
- 	j=3D`echo ${i} | sed s/\;/\ /g`
--	label=3D`echo ${i} | sed -e 's/^.*;tty//'`
-+	label=3D`echo ${i} | sed -e 's/^.*;tty//' -e 's/;.*//'`
- 	echo "$label:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdi=
-r}/inittab
-     done
-=20
---
-1.7.9.5
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
