@@ -1,26 +1,36 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 7C32A6CFFE
+Return-Path: <openembedded-core@emagii.com>
+Received: from smtprelay-h21.telenor.se (smtprelay-h21.telenor.se
+	[195.54.99.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 380CC610DC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 15:36:44 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Mon, 21 Oct 2013 17:36:44 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id C30A828508B;
-	Mon, 21 Oct 2013 17:36:44 +0200 (CEST)
-From: <maxin.john@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 21 Oct 2013 17:36:42 +0200
-Message-ID: <1382369802-10200-1-git-send-email-maxin.john@enea.com>
-X-Mailer: git-send-email 1.7.10.4
+	Mon, 21 Oct 2013 16:30:42 +0000 (UTC)
+Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
+	by smtprelay-h21.telenor.se (Postfix) with ESMTP id 83194E954D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 21 Oct 2013 18:30:42 +0200 (CEST)
+X-SENDER-IP: [83.227.59.84]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AnAZAJ1VZVJT4ztUPGdsb2JhbAANTIt3gSOuB4hlAwEBAQE4g1kgHRYYAwIBAgExGwwIAQGIB6ZOkzKUDAOUKoNfikKKaw
+X-IronPort-AV: E=Sophos;i="4.93,540,1378850400"; 
+	d="scan'208,217";a="640466538"
+Received: from c-543be353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.199]) ([83.227.59.84])
+	by ipb1.telenor.se with ESMTP; 21 Oct 2013 18:30:42 +0200
+Message-ID: <526556B1.2010908@emagii.com>
+Date: Mon, 21 Oct 2013 18:30:41 +0200
+From: Ulf Samuelsson <openembedded-core@emagii.com>
+Organization: eMagii
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH] dropbear: update to 2013.60 version
+To: openembedded-core@lists.openembedded.org, 
+	Angstrom-distro-devel@linuxtogo.org
+Subject: Using the correct "xserver-xf86-config_0.1.bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ulf@emagii.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -30,149 +40,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 15:36:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 Oct 2013 16:30:44 -0000
+Content-Type: multipart/alternative;
+	boundary="------------040604030806050408040303"
 
-From: "Maxin B. John" <maxin.john@enea.com>
+--------------040604030806050408040303
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-update to latest version 2013.60
-Update 0006-dropbear-configuration-file.patch for 2013.60
+Trying to build a systemd-gnome-image raspberrypi under Angstrom, with a 
+few extra layers.
 
-Signed-off-by: Maxin B. John <maxin.john@enea.com>
----
- .../0001-urandom-xauth-changes-to-options.h.patch  |    0
- .../0002-static_build_fix.patch                    |    0
- .../0003-configure.patch                           |    0
- .../0004-fix-2kb-keys.patch                        |    0
- .../0005-dropbear-enable-pam.patch                 |    0
- .../0006-dropbear-configuration-file.patch         |   22 +++++++-------------
- .../0007-dropbear-fix-for-x32-abi.patch            |    0
- meta/recipes-core/dropbear/dropbear.inc            |    4 ++--
- meta/recipes-core/dropbear/dropbear_2013.58.bb     |    6 ------
- meta/recipes-core/dropbear/dropbear_2013.60.bb     |    6 ++++++
- 10 files changed, 16 insertions(+), 22 deletions(-)
- rename meta/recipes-core/dropbear/{dropbear-2013.58 => dropbear-2013.60}/0001-urandom-xauth-changes-to-options.h.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.58 => dropbear-2013.60}/0002-static_build_fix.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.58 => dropbear-2013.60}/0003-configure.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.58 => dropbear-2013.60}/0004-fix-2kb-keys.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.58 => dropbear-2013.60}/0005-dropbear-enable-pam.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.58 => dropbear-2013.60}/0006-dropbear-configuration-file.patch (56%)
- rename meta/recipes-core/dropbear/{dropbear-2013.58 => dropbear-2013.60}/0007-dropbear-fix-for-x32-abi.patch (100%)
- delete mode 100644 meta/recipes-core/dropbear/dropbear_2013.58.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_2013.60.bb
+This fails on "xserver-xf86-config_0.1.[bb|bbappend]"
 
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.58/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear-2013.60/0001-urandom-xauth-changes-to-options.h.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.58/0001-urandom-xauth-changes-to-options.h.patch
-rename to meta/recipes-core/dropbear/dropbear-2013.60/0001-urandom-xauth-changes-to-options.h.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.58/0002-static_build_fix.patch b/meta/recipes-core/dropbear/dropbear-2013.60/0002-static_build_fix.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.58/0002-static_build_fix.patch
-rename to meta/recipes-core/dropbear/dropbear-2013.60/0002-static_build_fix.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.58/0003-configure.patch b/meta/recipes-core/dropbear/dropbear-2013.60/0003-configure.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.58/0003-configure.patch
-rename to meta/recipes-core/dropbear/dropbear-2013.60/0003-configure.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.58/0004-fix-2kb-keys.patch b/meta/recipes-core/dropbear/dropbear-2013.60/0004-fix-2kb-keys.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.58/0004-fix-2kb-keys.patch
-rename to meta/recipes-core/dropbear/dropbear-2013.60/0004-fix-2kb-keys.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.58/0005-dropbear-enable-pam.patch b/meta/recipes-core/dropbear/dropbear-2013.60/0005-dropbear-enable-pam.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.58/0005-dropbear-enable-pam.patch
-rename to meta/recipes-core/dropbear/dropbear-2013.60/0005-dropbear-enable-pam.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.58/0006-dropbear-configuration-file.patch b/meta/recipes-core/dropbear/dropbear-2013.60/0006-dropbear-configuration-file.patch
-similarity index 56%
-rename from meta/recipes-core/dropbear/dropbear-2013.58/0006-dropbear-configuration-file.patch
-rename to meta/recipes-core/dropbear/dropbear-2013.60/0006-dropbear-configuration-file.patch
-index 7e38663..fa4c8d0 100644
---- a/meta/recipes-core/dropbear/dropbear-2013.58/0006-dropbear-configuration-file.patch
-+++ b/meta/recipes-core/dropbear/dropbear-2013.60/0006-dropbear-configuration-file.patch
-@@ -1,28 +1,22 @@
- Subject: [PATCH 6/6] dropbear configuration file
- 
- dropbear: Change the path ("/etc/pam.d/sshd" as default) to find a pam configuration file \
--to "/etc/pam.d/dropbear for dropbear when enabling pam supporting" 
-+to "/etc/pam.d/dropbear for dropbear when enabling pam supporting"
- 
--Upstream-Status: Inappropriate [configuration] 
-+Upstream-Status: Inappropriate [configuration]
- 
-+Signed-off-by: Maxin B. John <maxin.john@enea.com>
- Signed-off-by: Xiaofeng Yan <xiaofeng.yan@windriver.com>
- ---
-- svr-authpam.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/svr-authpam.c b/svr-authpam.c
--index e84f076..e28be7d 100644
----- a/svr-authpam.c
--+++ b/svr-authpam.c
--@@ -195,7 +195,7 @@ void svr_auth_pam() {
-+diff -Naur dropbear-2013.60-orig/svr-authpam.c dropbear-2013.60/svr-authpam.c
-+--- dropbear-2013.60-orig/svr-authpam.c	2013-10-16 16:34:53.000000000 +0200
-++++ dropbear-2013.60/svr-authpam.c	2013-10-21 17:04:04.969416055 +0200
-+@@ -211,7 +211,7 @@
-  	userData.passwd = password;
-  
-  	/* Init pam */
- -	if ((rc = pam_start("sshd", NULL, &pamConv, &pamHandlep)) != PAM_SUCCESS) {
- +	if ((rc = pam_start("dropbear", NULL, &pamConv, &pamHandlep)) != PAM_SUCCESS) {
-- 		dropbear_log(LOG_WARNING, "pam_start() failed, rc=%d, %s\n", 
-+ 		dropbear_log(LOG_WARNING, "pam_start() failed, rc=%d, %s", 
-  				rc, pam_strerror(pamHandlep, rc));
-  		goto cleanup;
---- 
--1.7.11.7
--
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.58/0007-dropbear-fix-for-x32-abi.patch b/meta/recipes-core/dropbear/dropbear-2013.60/0007-dropbear-fix-for-x32-abi.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.58/0007-dropbear-fix-for-x32-abi.patch
-rename to meta/recipes-core/dropbear/dropbear-2013.60/0007-dropbear-fix-for-x32-abi.patch
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 9498bf8..f71f190 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -2,12 +2,12 @@ DESCRIPTION = "Dropbear is a lightweight SSH and SCP implementation"
- HOMEPAGE = "http://matt.ucc.asn.au/dropbear/dropbear.html"
- SECTION = "console/network"
- 
--INC_PR = "r1"
-+INC_PR = "r0"
- 
- # some files are from other projects and have others license terms:
- #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=3a5b0c2f0d0c49dfde9558ae2036683c"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=de74413ba7e05b7a37c4722e75f436cd"
- 
- DEPENDS = "zlib"
- RPROVIDES_${PN} = "ssh sshd" 
-diff --git a/meta/recipes-core/dropbear/dropbear_2013.58.bb b/meta/recipes-core/dropbear/dropbear_2013.58.bb
-deleted file mode 100644
-index 99a24a7..0000000
---- a/meta/recipes-core/dropbear/dropbear_2013.58.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require dropbear.inc
--
--SRC_URI[md5sum] = "8d3579bbbfcea48404a3219643076450"
--SRC_URI[sha256sum] = "d866189b1d14e15353aeb4feb616f6132a63ea7c25ca8aa12b63a3a397822e55"
--
--PR = "${INC_PR}.0"
-diff --git a/meta/recipes-core/dropbear/dropbear_2013.60.bb b/meta/recipes-core/dropbear/dropbear_2013.60.bb
-new file mode 100644
-index 0000000..f95c3b5
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear_2013.60.bb
-@@ -0,0 +1,6 @@
-+require dropbear.inc
-+
-+SRC_URI[md5sum] = "fffa2fec0c887201bed3a3cc6df7fa35"
-+SRC_URI[sha256sum] = "4c0c52453b4dd96ef79e5968ed3676de008ee0cf133632acae12bbad588681bb"
-+
-+PR = "${INC_PR}.0"
+The extra layer has BBPRIORITY = 20.
+meta-beagleboard has BBPRIORITY = 8
+meta-raspberrypi has BBPRIORITY = 6 (later changed to 120)
+
+BBLAYERS are in the order meta-<extra layer> meta-beagleboard 
+meta-raspberrypi
+
+It looks like bitbake will select the bbappend in the layer with the 
+highest priority,
+even if that contains a COMPATIBLE_MACHINE clause, which does not
+include the current MACHINE.
+
+/Is there any way to make bitbake select the correct bbappend file 
+without modifying the BBPRIORITY? /
+
+--------------------------------------------------------------------------------------------
+Looks like the xserver-xf86-config for the raspberry-pi fails on
+
+*SRC_URI_append_raspberrypi = " file://xorg.conf.d/*"**
+*
+When I change to:
+
+*SRC_URI_append_raspberrypi = " file://xorg.conf.d/10-evdev.conf "*
+
+the raspberry pi version completes.
+
+/Wildcards are not allowed?/
+
 -- 
-1.7.10.4
+Best Regards
+Ulf Samuelsson
+eMagii
 
 
+--------------040604030806050408040303
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Trying to build a systemd-gnome-image raspberrypi under Angstrom,
+    with a few extra layers.<br>
+    <br>
+    This fails on "xserver-xf86-config_0.1.[bb|bbappend]"<br>
+    <br>
+    The extra layer has BBPRIORITY = 20.<br>
+    meta-beagleboard has BBPRIORITY = 8<br>
+    meta-raspberrypi has BBPRIORITY = 6 (later changed to 120)<br>
+    <br>
+    BBLAYERS are in the order meta-&lt;extra layer&gt; meta-beagleboard
+    meta-raspberrypi<br>
+    <br>
+    It looks like bitbake will select the bbappend in the layer with the
+    highest priority,<br>
+    even if that contains a COMPATIBLE_MACHINE clause, which does not<br>
+    include the current MACHINE.<br>
+    <br>
+    <i>Is there any way to make bitbake select the correct bbappend file
+      without modifying the BBPRIORITY? </i><br>
+    <br>
+--------------------------------------------------------------------------------------------<br>
+    Looks like the xserver-xf86-config for the raspberry-pi fails on <br>
+    <br>
+    <b>SRC_URI_append_raspberrypi = <a class="moz-txt-link-rfc2396E" href="file://xorg.conf.d/*">" file://xorg.conf.d/*"</a></b><b><br>
+    </b><br>
+    When I change to:<br>
+    <br>
+    <b>SRC_URI_append_raspberrypi = <a class="moz-txt-link-rfc2396E" href="file://xorg.conf.d/10-evdev.conf">" file://xorg.conf.d/10-evdev.conf "</a></b><br>
+    <br>
+    the raspberry pi version completes.<br>
+    <br>
+    <i>Wildcards are not allowed?</i><br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Best Regards
+Ulf Samuelsson
+eMagii
+</pre>
+  </body>
+</html>
+
+--------------040604030806050408040303--
