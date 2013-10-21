@@ -1,38 +1,43 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C5156D159
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 10:31:45 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1VYCm3-0001Hj-Ng from Noor_Ahsan@mentor.com ;
-	Mon, 21 Oct 2013 03:31:47 -0700
-Received: from SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 21 Oct 2013 03:31:48 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.38]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.02.0247.003; Mon, 21 Oct 2013 11:31:46 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: sujith h <sujith.h@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] nspr: Add LDFLAGS to TARGET_CC_ARCH to fix
-	warning
-Thread-Index: AQHOylnJ28k1von+R0i+ROyDCd+Iq5n+/J8g
-Date: Mon, 21 Oct 2013 10:31:46 +0000
-Message-ID: <365E1805BC95084CBE82381A0B869994DE53BD41@EU-MBX-01.mgc.mentorg.com>
-References: <1381902395-24934-1-git-send-email-sujith.h@gmail.com>
-	<CADyYWL=8EiOTTmrR6v8QrQNRjb7=t1Gky7Ke5G_p3DdfrDYrRg@mail.gmail.com>
-In-Reply-To: <CADyYWL=8EiOTTmrR6v8QrQNRjb7=t1Gky7Ke5G_p3DdfrDYrRg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id C62116D159;
+	Mon, 21 Oct 2013 10:38:39 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id e49so597651eek.6
+	for <multiple recipients>; Mon, 21 Oct 2013 03:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=uqZGxAfv1THTR6uRIwYWLTjXurdB7H6A8PIcrtcxivg=;
+	b=YNFAd14/ZNEcbmT55XG4Y8oB9mHbONbjKOQOauTrVrqn6GkY3mKdzsVbjLSa0rzCcY
+	E7mxOaOaoJ8V1m3LsNz3CjnneWWz/QwLrTnKbtTKkCpCr+whdlKGvHVjiLYdQxye1GQV
+	1KfjvQTcJJntk1D7igUeVAhW/dZKwIwiQ2sZm1z9I7TiVX8kQde2zKLkJVXB213rWIQ0
+	8751MfwbARX6SlPUKrp9nbZop75DeAm5ajQOw+MhxY5mHpLZ5hWoumEqtbN7kUuVpOfn
+	mLSpdDBrhViQY4IDm/eYh+nLbkfcHH7/4NJqDWg8hva4awYtVqxra9LrJuliT9HRkCYF
+	5F4w==
+X-Received: by 10.14.246.197 with SMTP id q45mr1136161eer.120.1382351920621;
+	Mon, 21 Oct 2013 03:38:40 -0700 (PDT)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id i1sm42234085eeg.0.2013.10.21.03.38.39
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 Oct 2013 03:38:40 -0700 (PDT)
+Date: Mon, 21 Oct 2013 12:38:41 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Andrea Adami <andrea.adami@gmail.com>
+Message-ID: <20131021103841.GC3709@jama>
+References: <20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
+	<20130611160434.GI3233@jama> <20130622181656.GK14021@jama>
+	<20130725162341.GA3280@jama> <20130808225419.GB17945@jama>
+	<20130811114403.GG17945@jama> <20130917123058.GC7313@jama>
+	<20131020194345.GB3709@jama>
+	<CAAQYJAvrTQUXHeaNcMQyE88WAF1ZySq6y+hCJD3Kpob9dOkhSg@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 21 Oct 2013 10:31:48.0206 (UTC)
-	FILETIME=[BF41F0E0:01CECE48]
-Cc: "Haridasan, Sujith" <Sujith_Haridasan@mentor.com>
-Subject: Re: [PATCH] nspr: Add LDFLAGS to TARGET_CC_ARCH to fix	warning
+In-Reply-To: <CAAQYJAvrTQUXHeaNcMQyE88WAF1ZySq6y+hCJD3Kpob9dOkhSg@mail.gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,167 +50,176 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 10:31:45 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_365E1805BC95084CBE82381A0B869994DE53BD41EUMBX01mgcmento_"
+X-List-Received-Date: Mon, 21 Oct 2013 10:38:41 -0000
+X-Groupsio-MsgNum: 46091
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ylS2wUBXLOxYXZFQ"
+Content-Disposition: inline
 
---_000_365E1805BC95084CBE82381A0B869994DE53BD41EUMBX01mgcmento_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--ylS2wUBXLOxYXZFQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-QW55IHVwZGF0ZSBvbiB0aGlzIG9uZS4gV2UgbmVlZCB0aGlzIHBhdGNoIHRvIGJlIG1lcmdlZCBp
-biBZb2N0byAxLjUuDQoNCk5vb3INCg0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0Bs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0Bs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2Ygc3VqaXRoIGgNClNlbnQ6IFdlZG5l
-c2RheSwgT2N0b2JlciAxNiwgMjAxMyAzOjIzIFBNDQpUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6IEhhcmlkYXNhbiwgU3VqaXRoDQpTdWJqZWN0OiBSZTog
-W09FLWNvcmVdIFtQQVRDSF0gbnNwcjogQWRkIExERkxBR1MgdG8gVEFSR0VUX0NDX0FSQ0ggdG8g
-Zml4IHdhcm5pbmcNCg0KSGksDQpJIGhvcGUgdGhlIHBhdGNoIGFuZCB0aGUgd2FuaW5nIG1lc3Nh
-Z2VzIGl0IGFkZHJlc3NlcyBhcmUgb2suIEVsc2UgbGV0IG1lIGtub3csIEkgd2lsbCBmaXggdGhl
-bS4NClRoYW5rcywNClN1aml0aCBIDQoNCk9uIFdlZCwgT2N0IDE2LCAyMDEzIGF0IDExOjE2IEFN
-LCBTdWppdGggSCA8c3VqaXRoLmhAZ21haWwuY29tPG1haWx0bzpzdWppdGguaEBnbWFpbC5jb20+
-PiB3cm90ZToNCldBUk5JTkc6IFFBIElzc3VlOiBObyBHTlVfSEFTSCBpbiB0aGUgZWxmIGJpbmFy
-eTogJ2FybXY3YS12ZnAtbmVvbi1tZWwtbGludXgtZ251ZWFiaS9uc3ByLzQuMTAtcjAvcGFja2Fn
-ZXMtc3BsaXQvbnNwci1kZXYvdXNyL2xpYi9uc3ByL3Rlc3RzL2Zvcm1hdHRtJw0KV0FSTklORzog
-UUEgSXNzdWU6IE5vIEdOVV9IQVNIIGluIHRoZSBlbGYgYmluYXJ5OiAnYXJtdjdhLXZmcC1uZW9u
-LW1lbC1saW51eC1nbnVlYWJpL25zcHIvNC4xMC1yMC9wYWNrYWdlcy1zcGxpdC9uc3ByLWRldi91
-c3IvbGliL25zcHIvdGVzdHMvdGhyZWFkcycNCldBUk5JTkc6IFFBIElzc3VlOiBObyBHTlVfSEFT
-SCBpbiB0aGUgZWxmIGJpbmFyeTogJ2FybXY3YS12ZnAtbmVvbi1tZWwtbGludXgtZ251ZWFiaS9u
-c3ByLzQuMTAtcjAvcGFja2FnZXMtc3BsaXQvbnNwci1kZXYvdXNyL2xpYi9uc3ByL3Rlc3RzL3Nl
-bWFlcnInDQpUaGVyZSBhcmUgbWFueSBRQSBXYXJuaW5ncyB0aHJvd24gbGlrZSB0aGUgYWJvdmUg
-Zm9yIHRoaXMgcmVjaXBlLiBUaGlzIGlzIG9ic2VydmVkIGZvciB0YXJnZXQgaW14NiBzYWJyZWxp
-dGUuDQoNClNpZ25lZC1vZmYtYnk6IFN1aml0aCBIIDxTdWppdGhfSGFyaWRhc2FuQG1lbnRvci5j
-b208bWFpbHRvOlN1aml0aF9IYXJpZGFzYW5AbWVudG9yLmNvbT4+DQotLS0NCiBtZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9uc3ByL25zcHJfNC4xMC5iYjxodHRwOi8vbnNwcl80LjEwLmJiPiB8IDEgKw0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvbnNwci9uc3ByXzQuMTAuYmI8aHR0cDovL25zcHJfNC4xMC5iYj4gYi9tZXRh
-L3JlY2lwZXMtc3VwcG9ydC9uc3ByL25zcHJfNC4xMC5iYjxodHRwOi8vbnNwcl80LjEwLmJiPg0K
-aW5kZXggZmNlY2I5NS4uNDI0N2ZkMCAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
-L25zcHIvbnNwcl80LjEwLmJiPGh0dHA6Ly9uc3ByXzQuMTAuYmI+DQorKysgYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9uc3ByL25zcHJfNC4xMC5iYjxodHRwOi8vbnNwcl80LjEwLmJiPg0KQEAgLTE5
-LDYgKzE5LDcgQEAgU1JDX1VSSVtzaGEyNTZzdW1dID0gIjBjZmJlNTYxNjc2YjkyZTVhZjNkZGM3
-YWM3NzQ1MjAxNGUzZGE4ODg1ZGE2NmJhZWM4MTFlNzM1NDENCiBTID0gIiR7V09SS0RJUn0vbnNw
-ci0ke1BWfS9uc3ByIg0KDQogUkRFUEVORFNfJHtQTn0tZGV2ICs9ICJwZXJsIg0KK1RBUkdFVF9D
-Q19BUkNIICs9ICIke0xERkxBR1N9Ig0KDQogVEVTVFMgPSAicnVudGVzdHMucGw8aHR0cDovL3J1
-bnRlc3RzLnBsPiBcDQogICAgIHJ1bnRlc3RzLnNoIFwNCi0tDQoxLjguMS40DQoNCg0KDQotLQ0K
-4LS44LWB4LSc4LS/4LSk4LWNIOC0ueC0sOC0v+C0puC0vuC0uOC0qOC1jQ0KQmFuZ2Fsb3JlDQo8
-UHJvamVjdD5Db250cmlidXRvciB0byBLREUgcHJvamVjdA0KaHR0cDovL2ZjaS53aWtpYS5jb20v
-d2lraS9BbnRpLURSTS1DYW1wYWlnbg0KPEJsb2c+IGh0dHA6Ly9zdWppdGhoLmluZm8NCg==
+On Mon, Oct 21, 2013 at 10:58:45AM +0200, Andrea Adami wrote:
+> <cut>
+> > qemux86* common (5):
+> > meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecboot=
+-klibc-image.bb, do_rootfs
+> </cut>
+>=20
+> Hi Martin, thanks for taking care of all those builds.
+> About this new do_rootfs failure [1], it seems related to update-rc.d
+> /postinst code.
+>=20
+> As you already know, for this image we don't want any initscript nor
+> package manager cruft but now and then some change in oe-core opens
+> unwanted doors...
+>=20
+> I'll investigate what's happening: seems strange it only fails on x86*.
 
---_000_365E1805BC95084CBE82381A0B869994DE53BD41EUMBX01mgcmento_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+This world build didn't have this fix included:
+http://git.openembedded.org/openembedded-core/commit/?id=3D2b179d90eacc58f0=
+b217f64407782a9174362850
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
-e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQpA
-Zm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkthcnRpa2E7DQoJcGFub3NlLTE6MiAyIDUgMyAzIDQg
-NCA2IDIgMzt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05v
-cm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFw
-dDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJz
-ZXJpZiI7fQ0KYTpsaW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6
-OTk7DQoJY29sb3I6Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRl
-ZCwgc3Bhbi5Nc29IeXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJ
-Y29sb3I6cHVycGxlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5ob2VuemIN
-Cgl7bXNvLXN0eWxlLW5hbWU6aG9lbnpiO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHls
-ZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJp
-ZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpl
-eHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdl
-IFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4g
-MS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQot
-LT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4
-dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3Rl
-IG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpl
-eHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+
-DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+
-DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oywm
-cXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkFueSB1cGRhdGUgb24gdGhpcyBv
-bmUuIFdlIG5lZWQgdGhpcyBwYXRjaCB0byBiZSBtZXJnZWQgaW4gWW9jdG8gMS41LjxvOnA+PC9v
-OnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3
-RCI+Tm9vcjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZx
-dW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gb3BlbmVt
-YmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVt
-YmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXQ0KPGI+T24gQmVoYWxm
-IE9mIDwvYj5zdWppdGggaDxicj4NCjxiPlNlbnQ6PC9iPiBXZWRuZXNkYXksIE9jdG9iZXIgMTYs
-IDIwMTMgMzoyMyBQTTxicj4NCjxiPlRvOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZzxicj4NCjxiPkNjOjwvYj4gSGFyaWRhc2FuLCBTdWppdGg8YnI+DQo8Yj5T
-dWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG5zcHI6IEFkZCBMREZMQUdTIHRvIFRB
-UkdFVF9DQ19BUkNIIHRvIGZpeCB3YXJuaW5nPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxkaXY+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0b206MTIuMHB0
-Ij5IaSw8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
-Im1hcmdpbi1ib3R0b206MTIuMHB0Ij5JIGhvcGUgdGhlIHBhdGNoIGFuZCB0aGUgd2FuaW5nIG1l
-c3NhZ2VzIGl0IGFkZHJlc3NlcyBhcmUgb2suIEVsc2UgbGV0IG1lIGtub3csIEkgd2lsbCBmaXgg
-dGhlbS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
-Im1hcmdpbi1ib3R0b206MTIuMHB0Ij5UaGFua3MsPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPlN1aml0aCBIPG86cD48L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4N
-CjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4t
-Ym90dG9tOjEyLjBwdCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+T24gV2VkLCBPY3QgMTYsIDIwMTMgYXQgMTE6MTYgQU0sIFN1aml0aCBIICZsdDs8
-YSBocmVmPSJtYWlsdG86c3VqaXRoLmhAZ21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+c3VqaXRo
-LmhAZ21haWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPldBUk5JTkc6IFFBIElzc3VlOiBO
-byBHTlVfSEFTSCBpbiB0aGUgZWxmIGJpbmFyeTogJ2FybXY3YS12ZnAtbmVvbi1tZWwtbGludXgt
-Z251ZWFiaS9uc3ByLzQuMTAtcjAvcGFja2FnZXMtc3BsaXQvbnNwci1kZXYvdXNyL2xpYi9uc3By
-L3Rlc3RzL2Zvcm1hdHRtJzxicj4NCldBUk5JTkc6IFFBIElzc3VlOiBObyBHTlVfSEFTSCBpbiB0
-aGUgZWxmIGJpbmFyeTogJ2FybXY3YS12ZnAtbmVvbi1tZWwtbGludXgtZ251ZWFiaS9uc3ByLzQu
-MTAtcjAvcGFja2FnZXMtc3BsaXQvbnNwci1kZXYvdXNyL2xpYi9uc3ByL3Rlc3RzL3RocmVhZHMn
-PGJyPg0KV0FSTklORzogUUEgSXNzdWU6IE5vIEdOVV9IQVNIIGluIHRoZSBlbGYgYmluYXJ5OiAn
-YXJtdjdhLXZmcC1uZW9uLW1lbC1saW51eC1nbnVlYWJpL25zcHIvNC4xMC1yMC9wYWNrYWdlcy1z
-cGxpdC9uc3ByLWRldi91c3IvbGliL25zcHIvdGVzdHMvc2VtYWVycic8YnI+DQpUaGVyZSBhcmUg
-bWFueSBRQSBXYXJuaW5ncyB0aHJvd24gbGlrZSB0aGUgYWJvdmUgZm9yIHRoaXMgcmVjaXBlLiBU
-aGlzIGlzIG9ic2VydmVkIGZvciB0YXJnZXQgaW14NiBzYWJyZWxpdGUuPGJyPg0KPGJyPg0KU2ln
-bmVkLW9mZi1ieTogU3VqaXRoIEggJmx0OzxhIGhyZWY9Im1haWx0bzpTdWppdGhfSGFyaWRhc2Fu
-QG1lbnRvci5jb20iPlN1aml0aF9IYXJpZGFzYW5AbWVudG9yLmNvbTwvYT4mZ3Q7PGJyPg0KLS0t
-PGJyPg0KJm5ic3A7bWV0YS9yZWNpcGVzLXN1cHBvcnQvbnNwci88YSBocmVmPSJodHRwOi8vbnNw
-cl80LjEwLmJiIiB0YXJnZXQ9Il9ibGFuayI+bnNwcl80LjEwLmJiPC9hPiB8IDEgJiM0Mzs8YnI+
-DQombmJzcDsxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oJiM0MzspPGJyPg0KPGJyPg0KZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L25zcHIvPGEgaHJlZj0iaHR0cDovL25zcHJf
-NC4xMC5iYiIgdGFyZ2V0PSJfYmxhbmsiPm5zcHJfNC4xMC5iYjwvYT4gYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9uc3ByLzxhIGhyZWY9Imh0dHA6Ly9uc3ByXzQuMTAuYmIiIHRhcmdldD0iX2JsYW5r
-Ij5uc3ByXzQuMTAuYmI8L2E+PGJyPg0KaW5kZXggZmNlY2I5NS4uNDI0N2ZkMCAxMDA2NDQ8YnI+
-DQotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uc3ByLzxhIGhyZWY9Imh0dHA6Ly9uc3ByXzQu
-MTAuYmIiIHRhcmdldD0iX2JsYW5rIj5uc3ByXzQuMTAuYmI8L2E+PGJyPg0KJiM0MzsmIzQzOyYj
-NDM7IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnNwci88YSBocmVmPSJodHRwOi8vbnNwcl80LjEw
-LmJiIiB0YXJnZXQ9Il9ibGFuayI+bnNwcl80LjEwLmJiPC9hPjxicj4NCkBAIC0xOSw2ICYjNDM7
-MTksNyBAQCBTUkNfVVJJW3NoYTI1NnN1bV0gPSAmcXVvdDswY2ZiZTU2MTY3NmI5MmU1YWYzZGRj
-N2FjNzc0NTIwMTRlM2RhODg4NWRhNjZiYWVjODExZTczNTQxPGJyPg0KJm5ic3A7UyA9ICZxdW90
-OyR7V09SS0RJUn0vbnNwci0ke1BWfS9uc3ByJnF1b3Q7PGJyPg0KPGJyPg0KJm5ic3A7UkRFUEVO
-RFNfJHtQTn0tZGV2ICYjNDM7PSAmcXVvdDtwZXJsJnF1b3Q7PGJyPg0KJiM0MztUQVJHRVRfQ0Nf
-QVJDSCAmIzQzOz0gJnF1b3Q7JHtMREZMQUdTfSZxdW90Ozxicj4NCjxicj4NCiZuYnNwO1RFU1RT
-ID0gJnF1b3Q7PGEgaHJlZj0iaHR0cDovL3J1bnRlc3RzLnBsIiB0YXJnZXQ9Il9ibGFuayI+cnVu
-dGVzdHMucGw8L2E+IFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwO3J1bnRlc3RzLnNoIFw8YnI+
-DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj48c3BhbiBzdHlsZT0iY29sb3I6Izg4ODg4OCI+LS08L3Nw
-YW4+PC9zcGFuPjxzcGFuIHN0eWxlPSJjb2xvcjojODg4ODg4Ij48YnI+DQo8c3BhbiBjbGFzcz0i
-aG9lbnpiIj4xLjguMS40PC9zcGFuPjwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KPGJyIGNsZWFyPSJhbGwiPg0KPGJyPg0KLS0gPGJyPg0K
-PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0thcnRpa2EmcXVvdDssJnF1b3Q7c2VyaWYm
-cXVvdDsiPuC0uOC1geC0nOC0v+C0pOC1jTwvc3Bhbj4gPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5
-OiZxdW90O0thcnRpa2EmcXVvdDssJnF1b3Q7c2VyaWYmcXVvdDsiPg0K4LS54LSw4LS/4LSm4LS+
-4LS44LSo4LWNPC9zcGFuPjxicj4NCkJhbmdhbG9yZTxicj4NCiZsdDtQcm9qZWN0Jmd0O0NvbnRy
-aWJ1dG9yIHRvIEtERSBwcm9qZWN0PGJyPg0KPGEgaHJlZj0iaHR0cDovL2ZjaS53aWtpYS5jb20v
-d2lraS9BbnRpLURSTS1DYW1wYWlnbiIgdGFyZ2V0PSJfYmxhbmsiPmh0dHA6Ly9mY2kud2lraWEu
-Y29tL3dpa2kvQW50aS1EUk0tQ2FtcGFpZ248L2E+PGJyPg0KJmx0O0Jsb2cmZ3Q7IDxhIGhyZWY9
-Imh0dHA6Ly9zdWppdGhoLmluZm8iIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vc3VqaXRoaC5pbmZv
-PC9hPjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
-dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+it's queued for next one, maybe it will help.
 
---_000_365E1805BC95084CBE82381A0B869994DE53BD41EUMBX01mgcmento_--
+> | makedevs: No entry for root in search list
+is also interesting, should it be calling makedevs in this initramfs
+(IIRC kexecboot is creating all dev nodes manually?)
+
+
+>=20
+> Cheers
+> Andrea
+>=20
+>=20
+> [1]
+> ERROR: Function failed: do_rootfs (log file is located at
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292)
+> ERROR: Logfile of failure stored in:
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292
+> Log data follows:
+> | DEBUG: Executing python function rootfs_process_ignore
+> | DEBUG: Python function rootfs_process_ignore finished
+> | DEBUG: Executing python function rootfs_runtime_mapping
+> | DEBUG: Python function rootfs_runtime_mapping finished
+> | DEBUG: Executing shell function do_rootfs
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/Packages.
+> | Updated list of available packages in
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe.
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/all/Packages.
+> | Updated list of available packages in
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-al=
+l.
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/i586/Packages.
+> | Updated list of available packages in
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-i5=
+86.
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/qemux86/Packages.
+> | Updated list of available packages in
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-qe=
+mux86.
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/Packages.
+> | Updated list of available packages in
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe.
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/all/Packages.
+> | Updated list of available packages in
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-al=
+l.
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/i586/Packages.
+> | Updated list of available packages in
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-i5=
+86.
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/qemux86/Packages.
+> | Updated list of available packages in
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/lists/oe-qe=
+mux86.
+> | Installing kexec-klibc (2.0.2-r0.16) to root...
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/i586/kexec-klibc_2.0.2-r0.16_i586.ipk.
+> | Installing run-postinsts (1.0-r9.26) to root...
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/i586/run-postinsts_1.0-r9.26_i586.ipk.
+> | Installing update-rc.d (0.7-r5.37) to root...
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/all/update-rc.d_0.7-r5.37_all.ipk.
+> | Installing ubiattach-klibc (1.5.0-r0.28) to root...
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/i586/ubiattach-klibc_1.5.0-r0.28_i586.ipk.
+> | Installing kexecboot-klibc (0.6-r0.2) to root...
+> | Downloading file:/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc=
+/deploy/ipk/qemux86/kexecboot-klibc_0.6-r0.2_qemux86.ipk.
+> | /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-=
+linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/info/run-=
+postinsts.postinst:
+> 8: /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe=
+-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs//var/lib/opkg/info/run=
+-postinsts.postinst:
+> /etc/init.d/run-postinsts: not found
+> | update-rc.d: /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/wor=
+k/qemux86-oe-linux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs/etc/init.d=
+/run-postinsts
+> exists during rc.d purge (continuing)
+> |  Removing any system startup links for run-postinsts ...
+> |  Adding system startup for
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/rootfs/etc/init.d/run-postinsts.
+> | Configuring kexecboot-klibc.
+> | Configuring ubiattach-klibc.
+> | Configuring kexec-klibc.
+> | Configuring update-rc.d.
+> | Configuring run-postinsts.
+> | Building from feeds activated!
+> | Running intercept scripts:
+> | log_check: Using
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292
+> as logfile
+> | Logfile is clean
+> | makedevs: No entry for root in search list
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_rootfs (log file is located at
+> /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/qemux86-oe-li=
+nux/initramfs-kexecboot-klibc-image/1.0-r0/temp/log.do_rootfs.23292)
+> NOTE: recipe initramfs-kexecboot-klibc-image-1.0-r0: task do_rootfs: Fail=
+ed
+> ERROR: Task 25930
+> (/home/jenkins/oe/shr-core-branches/shr-core/meta-openembedded/meta-initr=
+amfs/recipes-bsp/images/initramfs-kexecboot-klibc-image.bb,
+> do_rootfs) failed with exit code '1'
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--ylS2wUBXLOxYXZFQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlJlBDEACgkQN1Ujt2V2gBxTCwCgsqmYMpaoHTb6MNMnN7sXLpLg
+eXIAnj6GEsHIm6S1y3r1zW2YHhbCGLd8
+=KgSz
+-----END PGP SIGNATURE-----
+
+--ylS2wUBXLOxYXZFQ--
