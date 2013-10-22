@@ -1,29 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id C6C106CD86
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 335F66D30E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 20:44:52 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 22 Oct 2013 13:44:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="378497112"
-Received: from unknown (HELO [10.255.12.29]) ([10.255.12.29])
-	by azsmga001.ch.intel.com with ESMTP; 22 Oct 2013 13:44:50 -0700
-Message-ID: <5266E3C2.6040502@linux.intel.com>
-Date: Tue, 22 Oct 2013 13:44:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 22 Oct 2013 22:32:38 +0000 (UTC)
+Message-ID: <5266FC9F.5050109@communistcode.co.uk>
+Date: Tue, 22 Oct 2013 23:30:55 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: Jack Mitchell <ml@communistcode.co.uk>, 
-	openembedded-core@lists.openembedded.org
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
 References: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
-In-Reply-To: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
+	<5266E3C2.6040502@linux.intel.com>
+In-Reply-To: <5266E3C2.6040502@linux.intel.com>
 Cc: Jack Mitchell <jmitchell@cbnl.com>
 Subject: Re: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -33,1214 +28,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 20:44:55 -0000
-X-Groupsio-MsgNum: 46156
-Content-Type: multipart/mixed; boundary="------------050906050103090603010304"
-
---------------050906050103090603010304
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 22 Oct 2013 22:32:39 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/21/2013 01:56 AM, Jack Mitchell wrote:
-> From: Jack Mitchell <jmitchell@cbnl.com>
+On 10/22/13 21:44, Saul Wold wrote:
+> On 10/21/2013 01:56 AM, Jack Mitchell wrote:
+>> From: Jack Mitchell <jmitchell@cbnl.com>
+>>
+>> libjson is now known as json-c, it keeps support for the old
+>> libjson namespace so it shouldn't break anything. Built without
+>> parallel make as it would fail when it tries to link to link back
+>> to itself, which is odd, but the official word is: don't build in
+>> parallel.
+>>
 >
-> libjson is now known as json-c, it keeps support for the old
-> libjson namespace so it shouldn't break anything. Built without
-> parallel make as it would fail when it tries to link to link back
-> to itself, which is odd, but the official word is: don't build in
-> parallel.
+> Jack,
 >
-
-Jack,
-
-Not sure what's going on yet, but I found a configure failure, see the 
-attached log file.
-
-Patch review is going to be a little slower this week as RP and a bunch 
-of the Yocto Project community are at Yocto Project Dev Day and ELC-E 
-the rest of this week.
-
-Sau!
-
-> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
-> ---
+> Not sure what's going on yet, but I found a configure failure, see the 
+> attached log file.
 >
->   v2: rebased to latest master
+> Patch review is going to be a little slower this week as RP and a 
+> bunch of the Yocto Project community are at Yocto Project Dev Day and 
+> ELC-E the rest of this week.
 >
->   meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
->   meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
->   meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
->   meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
->   4 files changed, 15 insertions(+), 16 deletions(-)
->   create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
->   delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+> Sau!
+
+Urgh, this library is a PITA. I'm going to be at the Dev Day/ELC-E 
+myself so I might seek some professional guidance ;)
+
 >
-> diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-> index c067183..e1a5c6b 100644
-> --- a/meta/conf/distro/include/seperatebuilddir.inc
-> +++ b/meta/conf/distro/include/seperatebuilddir.inc
-> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
->   B_pn-libice-native = "${SEPB}"
->   B_pn-libid3tag = "${SEPB}"
->   B_pn-libidn = "${SEPB}"
-> -B_pn-libjson = "${SEPB}"
-> +B_pn-json-c = "${SEPB}"
->   B_pn-libksba = "${SEPB}"
->   B_pn-libmad = "${SEPB}"
->   B_pn-libmatchbox = "${SEPB}"
-> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
-> new file mode 100644
-> index 0000000..e0391f5
-> --- /dev/null
-> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
-> @@ -0,0 +1,13 @@
-> +SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
-> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
-> +
-> +SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
-> +SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
-> +
-> +PARALLEL_MAKE = ""
-> +
-> +inherit autotools
-> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
-> deleted file mode 100644
-> index e4951a8..0000000
-> --- a/meta/recipes-devtools/libjson/libjson_0.9.bb
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -DESCRIPTION = "JSON-C - A JSON implementation in C"
-> -HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
-> -
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
-> -
-> -SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
-> -SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
-> -SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
-> -
-> -S = "${WORKDIR}/json-c-${PV}"
-> -
-> -
-> -inherit autotools
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> index 4c10aa9..475da41 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
->   DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
->   # optional
->   DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
-> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
-> +DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
->
->   inherit autotools pkgconfig useradd gettext perlnative
->
->
-
---------------050906050103090603010304
-Content-Type: text/plain; charset=UTF-8;
- name="log.do_configure"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="log.do_configure"
-
-DEBUG: Executing python function sysroot_cleansstate
-DEBUG: Python function sysroot_cleansstate finished
-DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i586-linux', 'common']
-DEBUG: Executing shell function autotools_preconfigure
-DEBUG: Shell function autotools_preconfigure finished
-DEBUG: Executing shell function do_configure
-automake (GNU automake) 1.13.4
-Copyright (C) 2013 Free Software Foundation, Inc.
-License GPLv2+: GNU GPL version 2 or later <http://gnu.org/licenses/gpl-2.0.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-
-Written by Tom Tromey <tromey@redhat.com>
-       and Alexandre Duret-Lutz <adl@gnu.org>.
-AUTOV is 1.13
-NOTE: Executing ACLOCAL="aclocal --system-acdir=/home/sgw/yocto/builds/minnow/tmp/work/core2-poky-linux/json-c/0.11-r0/build/aclocal-copy/ --automake-acdir=/home/sgw/yocto/builds/minnow/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.13" autoreconf --verbose --install --force --exclude=autopoint
-autoreconf: Entering directory `.'
-autoreconf: configure.in: not using Gettext
-autoreconf: running: aclocal --system-acdir=/home/sgw/yocto/builds/minnow/tmp/work/core2-poky-linux/json-c/0.11-r0/build/aclocal-copy/ --automake-acdir=/home/sgw/yocto/builds/minnow/tmp/sysroots/x86_64-linux/usr/share/aclocal-1.13 --force 
-aclocal: warning: autoconf input should be named 'configure.ac', not 'configure.in'
-configure.in:44: warning: AC_LANG_CONFTEST: no AC_LANG_SOURCE call detected in body
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/lang.m4:193: AC_LANG_CONFTEST is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2655: _AC_LINK_IFELSE is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2672: AC_LINK_IFELSE is expanded from...
-configure.in:44: the top level
-autoreconf: configure.in: tracing
-configure.in:44: warning: AC_LANG_CONFTEST: no AC_LANG_SOURCE call detected in body
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/lang.m4:193: AC_LANG_CONFTEST is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2655: _AC_LINK_IFELSE is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2672: AC_LINK_IFELSE is expanded from...
-configure.in:44: the top level
-autoreconf: running: libtoolize --copy --force
-libtoolize: putting auxiliary files in `.'.
-libtoolize: copying file `./ltmain.sh'
-libtoolize: Consider adding `AC_CONFIG_MACRO_DIR([m4])' to configure.in and
-libtoolize: rerunning libtoolize, to keep the correct libtool macros in-tree.
-libtoolize: Consider adding `-I m4' to ACLOCAL_AMFLAGS in Makefile.am.
-aclocal: warning: autoconf input should be named 'configure.ac', not 'configure.in'
-configure.in:44: warning: AC_LANG_CONFTEST: no AC_LANG_SOURCE call detected in body
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/lang.m4:193: AC_LANG_CONFTEST is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2655: _AC_LINK_IFELSE is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2672: AC_LINK_IFELSE is expanded from...
-configure.in:44: the top level
-autoreconf: running: /home/sgw/yocto/builds/minnow/tmp/sysroots/x86_64-linux/usr/bin/autoconf --force
-configure.in:44: warning: AC_LANG_CONFTEST: no AC_LANG_SOURCE call detected in body
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/lang.m4:193: AC_LANG_CONFTEST is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2655: _AC_LINK_IFELSE is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2672: AC_LINK_IFELSE is expanded from...
-configure.in:44: the top level
-autoreconf: running: /home/sgw/yocto/builds/minnow/tmp/sysroots/x86_64-linux/usr/bin/autoheader --force
-configure.in:44: warning: AC_LANG_CONFTEST: no AC_LANG_SOURCE call detected in body
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/lang.m4:193: AC_LANG_CONFTEST is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2655: _AC_LINK_IFELSE is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2672: AC_LINK_IFELSE is expanded from...
-configure.in:44: the top level
-autoreconf: running: automake --foreign --add-missing --copy --force-missing
-automake: warning: autoconf input should be named 'configure.ac', not 'configure.in'
-configure.in:44: warning: AC_LANG_CONFTEST: no AC_LANG_SOURCE call detected in body
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/lang.m4:193: AC_LANG_CONFTEST is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2655: _AC_LINK_IFELSE is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2672: AC_LINK_IFELSE is expanded from...
-configure.in:44: the top level
-configure.in:6: warning: AM_INIT_AUTOMAKE: two- and three-arguments forms are deprecated.  For more info, see:
-configure.in:6: http://www.gnu.org/software/automake/manual/automake.html#Modernize-AM_005fINIT_005fAUTOMAKE-invocation
-automake: warning: autoconf input should be named 'configure.ac', not 'configure.in'
-parallel-tests: installing './test-driver'
-autoreconf: running: gnu-configize
-configure.in:44: warning: AC_LANG_CONFTEST: no AC_LANG_SOURCE call detected in body
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/lang.m4:193: AC_LANG_CONFTEST is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2655: _AC_LINK_IFELSE is expanded from...
-/home/sgw/yocto/builds/minnow/tmp/work/x86_64-linux/autoconf-native/2.69-r11/autoconf-2.69/lib/autoconf/general.m4:2672: AC_LINK_IFELSE is expanded from...
-configure.in:44: the top level
-autoreconf: Leaving directory `.'
-NOTE: Running /home/sgw/yocto/builds/minnow/tmp/work/core2-poky-linux/json-c/0.11-r0/json-c-0.11/configure  --build=x86_64-linux 		  --host=i586-poky-linux 		  --target=i586-poky-linux 		  --prefix=/usr 		  --exec_prefix=/usr 		  --bindir=/usr/bin 		  --sbindir=/usr/sbin 		  --libexecdir=/usr/lib/json-c 		  --datadir=/usr/share 		  --sysconfdir=/etc 		  --sharedstatedir=/com 		  --localstatedir=/var 		  --libdir=/usr/lib 		  --includedir=/usr/include 		  --oldincludedir=/usr/include 		  --infodir=/usr/share/info 		  --mandir=/usr/share/man 		  --disable-silent-rules 		  --disable-dependency-tracking 		  --with-libtool-sysroot=/home/sgw/yocto/builds/minnow/tmp/sysroots/minnow  
-configure: loading site script /home/sgw/yocto/poky/meta/site/endian-little
-configure: loading site script /home/sgw/yocto/poky/meta/site/ix86-common
-configure: loading site script /home/sgw/yocto/poky/meta/site/common-linux
-configure: loading site script /home/sgw/yocto/poky/meta/site/common-glibc
-configure: loading site script /home/sgw/yocto/poky/meta/site/common
-configure: loading site script /home/sgw/yocto/builds/minnow/tmp/sysroots/minnow/usr/share/i586-poky-linux_config_site.d/eglibc_config
-configure: loading site script /home/sgw/yocto/builds/minnow/tmp/sysroots/minnow/usr/share/i586-poky-linux_config_site.d/ncurses_config
-checking for a BSD-compatible install... /usr/bin/install -c
-checking whether build environment is sane... yes
-checking for i586-poky-linux-strip... i586-poky-linux-strip
-checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
-checking for gawk... gawk
-checking whether make sets $(MAKE)... yes
-checking whether make supports nested variables... yes
-configure: error: source directory already configured; run "make distclean" there first
-Configure failed. The contents of all config.log files follows to aid debugging
-/home/sgw/yocto/builds/minnow/tmp/work/core2-poky-linux/json-c/0.11-r0/json-c-0.11/config.log
-This file contains any messages produced by compilers while
-running configure, to aid debugging if configure makes a mistake.
-
-It was created by json-c configure 0.11, which was
-generated by GNU Autoconf 2.68.  Invocation command line was
-
-  $ ./configure --prefix /home/erh/json-c/jci11
-
-## --------- ##
-## Platform. ##
-## --------- ##
-
-hostname = poe.swapsimple.com
-uname -m = i386
-uname -r = 6.0.1
-uname -s = NetBSD
-uname -v = NetBSD 6.0.1 (GENERIC)
-
-/usr/bin/uname -p = i386
-/bin/uname -X     = unknown
-
-/bin/arch              = unknown
-/usr/bin/arch -k       = unknown
-/usr/convex/getsysinfo = unknown
-/usr/bin/hostinfo      = unknown
-/bin/machine           = unknown
-/usr/bin/oslevel       = unknown
-/bin/universe          = unknown
-
-PATH: /space/netbsd/build-current/tools/bin
-PATH: /home/erh/scripts
-PATH: /usr/pkg/java/sun-1.5/bin
-PATH: /ss/bin
-PATH: /usr/pkg/java/sun-1.5/bin
-PATH: /bin
-PATH: /usr/bin
-PATH: /usr/pkg/bin
-PATH: /usr/local/bin
-PATH: /usr/X11R7/bin
-PATH: /usr/sbin
-PATH: /sbin
-PATH: /usr/pkg/sbin
-PATH: /usr/X11R7/bin
+>> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
+>> ---
+>>
+>>   v2: rebased to latest master
+>>
+>>   meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+>>   meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
+>>   meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+>>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+>>   4 files changed, 15 insertions(+), 16 deletions(-)
+>>   create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+>>   delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+>>
+>> diff --git a/meta/conf/distro/include/seperatebuilddir.inc 
+>> b/meta/conf/distro/include/seperatebuilddir.inc
+>> index c067183..e1a5c6b 100644
+>> --- a/meta/conf/distro/include/seperatebuilddir.inc
+>> +++ b/meta/conf/distro/include/seperatebuilddir.inc
+>> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+>>   B_pn-libice-native = "${SEPB}"
+>>   B_pn-libid3tag = "${SEPB}"
+>>   B_pn-libidn = "${SEPB}"
+>> -B_pn-libjson = "${SEPB}"
+>> +B_pn-json-c = "${SEPB}"
+>>   B_pn-libksba = "${SEPB}"
+>>   B_pn-libmad = "${SEPB}"
+>>   B_pn-libmatchbox = "${SEPB}"
+>> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb 
+>> b/meta/recipes-devtools/json-c/json-c_0.11.bb
+>> new file mode 100644
+>> index 0000000..e0391f5
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
+>> @@ -0,0 +1,13 @@
+>> +SUMMARY = "JSON-C implements a reference counting object model that 
+>> allows you to easily construct JSON objects in C"
+>> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+>> +LICENSE = "MIT"
+>> +LIC_FILES_CHKSUM = 
+>> "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+>> +
+>> +SRC_URI = 
+>> "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
+>> +
+>> +SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
+>> +SRC_URI[sha256sum] = 
+>> "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
+>> +
+>> +PARALLEL_MAKE = ""
+>> +
+>> +inherit autotools
+>> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb 
+>> b/meta/recipes-devtools/libjson/libjson_0.9.bb
+>> deleted file mode 100644
+>> index e4951a8..0000000
+>> --- a/meta/recipes-devtools/libjson/libjson_0.9.bb
+>> +++ /dev/null
+>> @@ -1,14 +0,0 @@
+>> -DESCRIPTION = "JSON-C - A JSON implementation in C"
+>> -HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+>> -
+>> -LICENSE = "MIT"
+>> -LIC_FILES_CHKSUM = 
+>> "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+>> -
+>> -SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+>> -SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+>> -SRC_URI[sha256sum] = 
+>> "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+>> -
+>> -S = "${WORKDIR}/json-c-${PV}"
+>> -
+>> -
+>> -inherit autotools
+>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc 
+>> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>> index 4c10aa9..475da41 100644
+>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = 
+>> "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+>>   DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+>>   # optional
+>>   DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+>> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+>> +DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
+>>
+>>   inherit autotools pkgconfig useradd gettext perlnative
+>>
+>>
 
 
-## ----------- ##
-## Core tests. ##
-## ----------- ##
-
-configure:2416: checking for a BSD-compatible install
-configure:2484: result: /usr/bin/install -c
-configure:2495: checking whether build environment is sane
-configure:2545: result: yes
-configure:2686: checking for a thread-safe mkdir -p
-configure:2725: result: ./install-sh -c -d
-configure:2738: checking for gawk
-configure:2768: result: no
-configure:2738: checking for mawk
-configure:2768: result: no
-configure:2738: checking for nawk
-configure:2768: result: no
-configure:2738: checking for awk
-configure:2754: found /usr/bin/awk
-configure:2765: result: awk
-configure:2776: checking whether make sets $(MAKE)
-configure:2798: result: yes
-configure:2879: checking whether make sets $(MAKE)
-configure:2901: result: yes
-configure:2949: checking for style of include used by make
-configure:2977: result: GNU
-configure:3047: checking for gcc
-configure:3063: found /usr/bin/gcc
-configure:3074: result: gcc
-configure:3303: checking for C compiler version
-configure:3312: gcc --version >&5
-gcc (NetBSD nb2 20110806) 4.5.3
-Copyright (C) 2010 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-
-configure:3323: $? = 0
-configure:3312: gcc -v >&5
-Using built-in specs.
-COLLECT_GCC=gcc
-Target: i486--netbsdelf
-Configured with: /usr/src2/tools/gcc/../../external/gpl3/gcc/dist/configure --target=i486--netbsdelf --enable-long-long --enable-threads --with-bugurl=http://www.NetBSD.org/Misc/send-pr.html --with-pkgversion='NetBSD nb2 20111202' --enable-__cxa_atexit --with-arch=i486 --with-tune=nocona --with-mpc=/var/obj/mknative/i386/usr/src2/destdir.i386/usr --with-mpfr=/var/obj/mknative/i386/usr/src2/destdir.i386/usr --with-gmp=/var/obj/mknative/i386/usr/src2/destdir.i386/usr --enable-tls --disable-multilib --disable-symvers --disable-libstdcxx-pch --build=x86_64-unknown-netbsd5.99.56 --host=i486--netbsdelf
-Thread model: posix
-gcc version 4.5.3 (NetBSD nb2 20110806) 
-configure:3323: $? = 0
-configure:3312: gcc -V >&5
-gcc: '-V' option must have argument
-configure:3323: $? = 1
-configure:3312: gcc -qversion >&5
-gcc: unrecognized option '-qversion'
-gcc: no input files
-configure:3323: $? = 1
-configure:3343: checking whether the C compiler works
-configure:3365: gcc    conftest.c  >&5
-configure:3369: $? = 0
-configure:3417: result: yes
-configure:3420: checking for C compiler default output file name
-configure:3422: result: a.out
-configure:3428: checking for suffix of executables
-configure:3435: gcc -o conftest    conftest.c  >&5
-configure:3439: $? = 0
-configure:3461: result: 
-configure:3483: checking whether we are cross compiling
-configure:3491: gcc -o conftest    conftest.c  >&5
-configure:3495: $? = 0
-configure:3502: ./conftest
-configure:3506: $? = 0
-configure:3521: result: no
-configure:3526: checking for suffix of object files
-configure:3548: gcc -c   conftest.c >&5
-configure:3552: $? = 0
-configure:3573: result: o
-configure:3577: checking whether we are using the GNU C compiler
-configure:3596: gcc -c   conftest.c >&5
-configure:3596: $? = 0
-configure:3605: result: yes
-configure:3614: checking whether gcc accepts -g
-configure:3634: gcc -c -g  conftest.c >&5
-configure:3634: $? = 0
-configure:3675: result: yes
-configure:3692: checking for gcc option to accept ISO C89
-configure:3756: gcc  -c -g -O2  conftest.c >&5
-configure:3756: $? = 0
-configure:3769: result: none needed
-configure:3791: checking dependency style of gcc
-configure:3901: result: gcc3
-configure:3922: checking how to run the C preprocessor
-configure:3953: gcc -E  conftest.c
-configure:3953: $? = 0
-configure:3967: gcc -E  conftest.c
-conftest.c:11:28: fatal error: ac_nonexistent.h: No such file or directory
-compilation terminated.
-configure:3967: $? = 1
-configure: failed program was:
-| /* confdefs.h */
-| #define PACKAGE_NAME "json-c"
-| #define PACKAGE_TARNAME "json-c"
-| #define PACKAGE_VERSION "0.11"
-| #define PACKAGE_STRING "json-c 0.11"
-| #define PACKAGE_BUGREPORT "json-c@googlegroups.com"
-| #define PACKAGE_URL ""
-| #define PACKAGE "json-c"
-| #define VERSION "0.11"
-| /* end confdefs.h.  */
-| #include <ac_nonexistent.h>
-configure:3992: result: gcc -E
-configure:4012: gcc -E  conftest.c
-configure:4012: $? = 0
-configure:4026: gcc -E  conftest.c
-conftest.c:11:28: fatal error: ac_nonexistent.h: No such file or directory
-compilation terminated.
-configure:4026: $? = 1
-configure: failed program was:
-| /* confdefs.h */
-| #define PACKAGE_NAME "json-c"
-| #define PACKAGE_TARNAME "json-c"
-| #define PACKAGE_VERSION "0.11"
-| #define PACKAGE_STRING "json-c 0.11"
-| #define PACKAGE_BUGREPORT "json-c@googlegroups.com"
-| #define PACKAGE_URL ""
-| #define PACKAGE "json-c"
-| #define VERSION "0.11"
-| /* end confdefs.h.  */
-| #include <ac_nonexistent.h>
-configure:4055: checking for grep that handles long lines and -e
-configure:4113: result: /usr/bin/grep
-configure:4118: checking for egrep
-configure:4180: result: /usr/bin/grep -E
-configure:4185: checking for ANSI C header files
-configure:4205: gcc -c -g -O2  conftest.c >&5
-configure:4205: $? = 0
-configure:4278: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4278: $? = 0
-configure:4278: ./conftest
-configure:4278: $? = 0
-configure:4289: result: yes
-configure:4302: checking for sys/types.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4302: checking for sys/stat.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4302: checking for stdlib.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4302: checking for string.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4302: checking for memory.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4302: checking for strings.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4302: checking for inttypes.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4302: checking for stdint.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4302: checking for unistd.h
-configure:4302: gcc -c -g -O2  conftest.c >&5
-configure:4302: $? = 0
-configure:4302: result: yes
-configure:4317: checking fcntl.h usability
-configure:4317: gcc -c -g -O2  conftest.c >&5
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking fcntl.h presence
-configure:4317: gcc -E  conftest.c
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking for fcntl.h
-configure:4317: result: yes
-configure:4317: checking limits.h usability
-configure:4317: gcc -c -g -O2  conftest.c >&5
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking limits.h presence
-configure:4317: gcc -E  conftest.c
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking for limits.h
-configure:4317: result: yes
-configure:4317: checking for strings.h
-configure:4317: result: yes
-configure:4317: checking syslog.h usability
-configure:4317: gcc -c -g -O2  conftest.c >&5
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking syslog.h presence
-configure:4317: gcc -E  conftest.c
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking for syslog.h
-configure:4317: result: yes
-configure:4317: checking for unistd.h
-configure:4317: result: yes
-configure:4317: checking sys/cdefs.h usability
-configure:4317: gcc -c -g -O2  conftest.c >&5
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking sys/cdefs.h presence
-configure:4317: gcc -E  conftest.c
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking for sys/cdefs.h
-configure:4317: result: yes
-configure:4317: checking sys/param.h usability
-configure:4317: gcc -c -g -O2  conftest.c >&5
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking sys/param.h presence
-configure:4317: gcc -E  conftest.c
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking for sys/param.h
-configure:4317: result: yes
-configure:4317: checking stdarg.h usability
-configure:4317: gcc -c -g -O2  conftest.c >&5
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking stdarg.h presence
-configure:4317: gcc -E  conftest.c
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking for stdarg.h
-configure:4317: result: yes
-configure:4317: checking locale.h usability
-configure:4317: gcc -c -g -O2  conftest.c >&5
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking locale.h presence
-configure:4317: gcc -E  conftest.c
-configure:4317: $? = 0
-configure:4317: result: yes
-configure:4317: checking for locale.h
-configure:4317: result: yes
-configure:4327: checking for inttypes.h
-configure:4327: result: yes
-configure:4337: checking for an ANSI C-conforming const
-configure:4402: gcc -c -g -O2  conftest.c >&5
-configure:4402: $? = 0
-configure:4409: result: yes
-configure:4417: checking for size_t
-configure:4417: gcc -c -g -O2  conftest.c >&5
-configure:4417: $? = 0
-configure:4417: gcc -c -g -O2  conftest.c >&5
-conftest.c: In function 'main':
-conftest.c:67:21: error: expected expression before ')' token
-configure:4417: $? = 1
-configure: failed program was:
-| /* confdefs.h */
-| #define PACKAGE_NAME "json-c"
-| #define PACKAGE_TARNAME "json-c"
-| #define PACKAGE_VERSION "0.11"
-| #define PACKAGE_STRING "json-c 0.11"
-| #define PACKAGE_BUGREPORT "json-c@googlegroups.com"
-| #define PACKAGE_URL ""
-| #define PACKAGE "json-c"
-| #define VERSION "0.11"
-| #define STDC_HEADERS 1
-| #define HAVE_SYS_TYPES_H 1
-| #define HAVE_SYS_STAT_H 1
-| #define HAVE_STDLIB_H 1
-| #define HAVE_STRING_H 1
-| #define HAVE_MEMORY_H 1
-| #define HAVE_STRINGS_H 1
-| #define HAVE_INTTYPES_H 1
-| #define HAVE_STDINT_H 1
-| #define HAVE_UNISTD_H 1
-| #define HAVE_FCNTL_H 1
-| #define HAVE_LIMITS_H 1
-| #define HAVE_STRINGS_H 1
-| #define HAVE_SYSLOG_H 1
-| #define HAVE_UNISTD_H 1
-| #define HAVE_SYS_CDEFS_H 1
-| #define HAVE_SYS_PARAM_H 1
-| #define HAVE_STDARG_H 1
-| #define HAVE_LOCALE_H 1
-| #define JSON_C_HAVE_INTTYPES_H 1
-| /* end confdefs.h.  */
-| #include <stdio.h>
-| #ifdef HAVE_SYS_TYPES_H
-| # include <sys/types.h>
-| #endif
-| #ifdef HAVE_SYS_STAT_H
-| # include <sys/stat.h>
-| #endif
-| #ifdef STDC_HEADERS
-| # include <stdlib.h>
-| # include <stddef.h>
-| #else
-| # ifdef HAVE_STDLIB_H
-| #  include <stdlib.h>
-| # endif
-| #endif
-| #ifdef HAVE_STRING_H
-| # if !defined STDC_HEADERS && defined HAVE_MEMORY_H
-| #  include <memory.h>
-| # endif
-| # include <string.h>
-| #endif
-| #ifdef HAVE_STRINGS_H
-| # include <strings.h>
-| #endif
-| #ifdef HAVE_INTTYPES_H
-| # include <inttypes.h>
-| #endif
-| #ifdef HAVE_STDINT_H
-| # include <stdint.h>
-| #endif
-| #ifdef HAVE_UNISTD_H
-| # include <unistd.h>
-| #endif
-| int
-| main ()
-| {
-| if (sizeof ((size_t)))
-| 	    return 0;
-|   ;
-|   return 0;
-| }
-configure:4417: result: yes
-configure:4432: checking for vprintf
-configure:4432: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:54:6: warning: conflicting types for built-in function 'vprintf'
-configure:4432: $? = 0
-configure:4432: result: yes
-configure:4438: checking for _doprnt
-configure:4438: gcc -o conftest -g -O2   conftest.c  >&5
-/var/tmp//ccsWyVjo.o: In function `main':
-/home/erh/json-c/json-c-0.11/conftest.c:66: undefined reference to `_doprnt'
-configure:4438: $? = 1
-configure: failed program was:
-| /* confdefs.h */
-| #define PACKAGE_NAME "json-c"
-| #define PACKAGE_TARNAME "json-c"
-| #define PACKAGE_VERSION "0.11"
-| #define PACKAGE_STRING "json-c 0.11"
-| #define PACKAGE_BUGREPORT "json-c@googlegroups.com"
-| #define PACKAGE_URL ""
-| #define PACKAGE "json-c"
-| #define VERSION "0.11"
-| #define STDC_HEADERS 1
-| #define HAVE_SYS_TYPES_H 1
-| #define HAVE_SYS_STAT_H 1
-| #define HAVE_STDLIB_H 1
-| #define HAVE_STRING_H 1
-| #define HAVE_MEMORY_H 1
-| #define HAVE_STRINGS_H 1
-| #define HAVE_INTTYPES_H 1
-| #define HAVE_STDINT_H 1
-| #define HAVE_UNISTD_H 1
-| #define HAVE_FCNTL_H 1
-| #define HAVE_LIMITS_H 1
-| #define HAVE_STRINGS_H 1
-| #define HAVE_SYSLOG_H 1
-| #define HAVE_UNISTD_H 1
-| #define HAVE_SYS_CDEFS_H 1
-| #define HAVE_SYS_PARAM_H 1
-| #define HAVE_STDARG_H 1
-| #define HAVE_LOCALE_H 1
-| #define JSON_C_HAVE_INTTYPES_H 1
-| #define HAVE_VPRINTF 1
-| /* end confdefs.h.  */
-| /* Define _doprnt to an innocuous variant, in case <limits.h> declares _doprnt.
-|    For example, HP-UX 11i <limits.h> declares gettimeofday.  */
-| #define _doprnt innocuous__doprnt
-| 
-| /* System header to define __stub macros and hopefully few prototypes,
-|     which can conflict with char _doprnt (); below.
-|     Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
-|     <limits.h> exists even on freestanding compilers.  */
-| 
-| #ifdef __STDC__
-| # include <limits.h>
-| #else
-| # include <assert.h>
-| #endif
-| 
-| #undef _doprnt
-| 
-| /* Override any GCC internal prototype to avoid an error.
-|    Use char because int might match the return type of a GCC
-|    builtin and then its argument prototype would still apply.  */
-| #ifdef __cplusplus
-| extern "C"
-| #endif
-| char _doprnt ();
-| /* The GNU C library defines this for functions which it implements
-|     to always fail with ENOSYS.  Some functions are actually named
-|     something starting with __ and the normal name is an alias.  */
-| #if defined __stub__doprnt || defined __stub____doprnt
-| choke me
-| #endif
-| 
-| int
-| main ()
-| {
-| return _doprnt ();
-|   ;
-|   return 0;
-| }
-configure:4438: result: no
-configure:4449: checking for working memcmp
-configure:4492: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4492: $? = 0
-configure:4492: ./conftest
-configure:4492: $? = 0
-configure:4502: result: yes
-configure:4513: checking for stdlib.h
-configure:4513: result: yes
-configure:4523: checking for GNU libc compatible malloc
-configure:4547: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4547: $? = 0
-configure:4547: ./conftest
-configure:4547: $? = 0
-configure:4557: result: yes
-configure:4580: checking for stdlib.h
-configure:4580: result: yes
-configure:4590: checking for GNU libc compatible realloc
-configure:4614: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4614: $? = 0
-configure:4614: ./conftest
-configure:4614: $? = 0
-configure:4624: result: yes
-configure:4648: checking for strcasecmp
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:59:6: warning: conflicting types for built-in function 'strcasecmp'
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for strdup
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:60:6: warning: conflicting types for built-in function 'strdup'
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for strndup
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:61:6: warning: conflicting types for built-in function 'strndup'
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for strerror
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for snprintf
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:63:6: warning: conflicting types for built-in function 'snprintf'
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for vsnprintf
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:64:6: warning: conflicting types for built-in function 'vsnprintf'
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for vasprintf
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for open
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for vsyslog
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for strncasecmp
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-conftest.c:68:6: warning: conflicting types for built-in function 'strncasecmp'
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4648: checking for setlocale
-configure:4648: gcc -o conftest -g -O2   conftest.c  >&5
-/var/tmp//cca55u2q.o: In function `main':
-/home/erh/json-c/json-c-0.11/conftest.c:80: warning: warning: reference to compatibility setlocale();include <locale.h> for correct reference
-configure:4648: $? = 0
-configure:4648: result: yes
-configure:4666: checking if .gnu.warning accepts long strings
-configure:4677: gcc -o conftest -g -O2   conftest.c  >&5
-/var/tmp//ccUEpfjq.s: Assembler messages:
-/var/tmp//ccUEpfjq.s:12: Error: character following name is not '#'
-configure:4677: $? = 1
-configure: failed program was:
-| /* confdefs.h */
-| #define PACKAGE_NAME "json-c"
-| #define PACKAGE_TARNAME "json-c"
-| #define PACKAGE_VERSION "0.11"
-| #define PACKAGE_STRING "json-c 0.11"
-| #define PACKAGE_BUGREPORT "json-c@googlegroups.com"
-| #define PACKAGE_URL ""
-| #define PACKAGE "json-c"
-| #define VERSION "0.11"
-| #define STDC_HEADERS 1
-| #define HAVE_SYS_TYPES_H 1
-| #define HAVE_SYS_STAT_H 1
-| #define HAVE_STDLIB_H 1
-| #define HAVE_STRING_H 1
-| #define HAVE_MEMORY_H 1
-| #define HAVE_STRINGS_H 1
-| #define HAVE_INTTYPES_H 1
-| #define HAVE_STDINT_H 1
-| #define HAVE_UNISTD_H 1
-| #define HAVE_FCNTL_H 1
-| #define HAVE_LIMITS_H 1
-| #define HAVE_STRINGS_H 1
-| #define HAVE_SYSLOG_H 1
-| #define HAVE_UNISTD_H 1
-| #define HAVE_SYS_CDEFS_H 1
-| #define HAVE_SYS_PARAM_H 1
-| #define HAVE_STDARG_H 1
-| #define HAVE_LOCALE_H 1
-| #define JSON_C_HAVE_INTTYPES_H 1
-| #define HAVE_VPRINTF 1
-| #define HAVE_STDLIB_H 1
-| #define HAVE_MALLOC 1
-| #define HAVE_STDLIB_H 1
-| #define HAVE_REALLOC 1
-| #define HAVE_STRCASECMP 1
-| #define HAVE_STRDUP 1
-| #define HAVE_STRNDUP 1
-| #define HAVE_STRERROR 1
-| #define HAVE_SNPRINTF 1
-| #define HAVE_VSNPRINTF 1
-| #define HAVE_VASPRINTF 1
-| #define HAVE_OPEN 1
-| #define HAVE_VSYSLOG 1
-| #define HAVE_STRNCASECMP 1
-| #define HAVE_SETLOCALE 1
-| /* end confdefs.h.  */
-| 
-| extern void json_object_get();
-| __asm__(".section .gnu.json_object_get,\n\t.ascii \"Please link against libjson-c instead of libjson\"\n\t.text");
-| 
-| int main(int c,char* v) {return 0;}
-| 
-configure:4687: result: no
-configure:4730: checking build system type
-configure:4744: result: i386-unknown-netbsdelf6.0.1
-configure:4764: checking host system type
-configure:4777: result: i386-unknown-netbsdelf6.0.1
-configure:4797: checking for a sed that does not truncate output
-configure:4861: result: /usr/bin/sed
-configure:4879: checking for fgrep
-configure:4941: result: /usr/bin/grep -F
-configure:4976: checking for ld used by gcc
-configure:5043: result: /usr/bin/ld
-configure:5050: checking if the linker (/usr/bin/ld) is GNU ld
-configure:5065: result: yes
-configure:5077: checking for BSD- or MS-compatible name lister (nm)
-configure:5126: result: /usr/bin/nm -B
-configure:5244: checking the name lister (/usr/bin/nm -B) interface
-configure:5251: gcc -c -g -O2  conftest.c >&5
-configure:5254: /usr/bin/nm -B "conftest.o"
-configure:5257: output
-00000000 B some_variable
-configure:5264: result: BSD nm
-configure:5267: checking whether ln -s works
-configure:5271: result: yes
-configure:5279: checking the maximum length of command line arguments
-configure:5399: result: 196608
-configure:5416: checking whether the shell understands some XSI constructs
-configure:5426: result: yes
-configure:5430: checking whether the shell understands "+="
-configure:5436: result: no
-configure:5471: checking for /usr/bin/ld option to reload object files
-configure:5478: result: -r
-configure:5547: checking for objdump
-configure:5563: found /usr/bin/objdump
-configure:5574: result: objdump
-configure:5606: checking how to recognize dependent libraries
-configure:5802: result: match_pattern /lib[^/]+(\.so|_pic\.a)$
-configure:5862: checking for ar
-configure:5878: found /usr/bin/ar
-configure:5889: result: ar
-configure:5967: checking for strip
-configure:5983: found /usr/bin/strip
-configure:5994: result: strip
-configure:6066: checking for ranlib
-configure:6082: found /usr/bin/ranlib
-configure:6093: result: ranlib
-configure:6183: checking command to parse /usr/bin/nm -B output from gcc object
-configure:6301: gcc -c -g -O2  conftest.c >&5
-configure:6304: $? = 0
-configure:6308: /usr/bin/nm -B conftest.o \| sed -n -e 's/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' \> conftest.nm
-configure:6311: $? = 0
-configure:6365: gcc -o conftest -g -O2   conftest.c conftstm.o >&5
-configure:6368: $? = 0
-configure:6406: result: ok
-configure:7211: checking for dlfcn.h
-configure:7211: gcc -c -g -O2  conftest.c >&5
-configure:7211: $? = 0
-configure:7211: result: yes
-configure:7395: checking for objdir
-configure:7410: result: .libs
-configure:7702: checking if gcc supports -fno-rtti -fno-exceptions
-configure:7720: gcc -c -g -O2  -fno-rtti -fno-exceptions conftest.c >&5
-cc1: warning: command line option "-fno-rtti" is valid for C++/ObjC++ but not for C
-configure:7724: $? = 0
-configure:7737: result: no
-configure:7757: checking for gcc option to produce PIC
-configure:8029: result: -fPIC -DPIC
-configure:8041: checking if gcc PIC flag -fPIC -DPIC works
-configure:8059: gcc -c -g -O2  -fPIC -DPIC -DPIC conftest.c >&5
-configure:8063: $? = 0
-configure:8076: result: yes
-configure:8100: checking if gcc static flag -static works
-configure:8128: result: yes
-configure:8143: checking if gcc supports -c -o file.o
-configure:8164: gcc -c -g -O2  -o out/conftest2.o conftest.c >&5
-configure:8168: $? = 0
-configure:8190: result: yes
-configure:8198: checking if gcc supports -c -o file.o
-configure:8245: result: yes
-configure:8278: checking whether the gcc linker (/usr/bin/ld) supports shared libraries
-configure:9265: result: yes
-configure:9302: checking whether -lc should be explicitly linked in
-configure:9307: gcc -c -g -O2  conftest.c >&5
-configure:9310: $? = 0
-configure:9325: gcc -shared conftest.o  -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| /usr/bin/grep  -lc  \>/dev/null 2\>\&1
-configure:9328: $? = 0
-configure:9340: result: no
-configure:9504: checking dynamic linker characteristics
-configure:10155: result: NetBSD ld.elf_so
-configure:10257: checking how to hardcode library paths into programs
-configure:10282: result: immediate
-configure:10802: checking whether stripping libraries is possible
-configure:10807: result: yes
-configure:10842: checking if libtool supports shared libraries
-configure:10844: result: yes
-configure:10847: checking whether to build shared libraries
-configure:10868: result: yes
-configure:10871: checking whether to build static libraries
-configure:10875: result: yes
-configure:11048: creating ./config.status
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by json-c config.status 0.11, which was
-generated by GNU Autoconf 2.68.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status 
-
-on poe.swapsimple.com
-
-config.status:1101: creating Makefile
-config.status:1101: creating json.pc
-config.status:1101: creating json-c.pc
-config.status:1101: creating tests/Makefile
-config.status:1101: creating json-c-uninstalled.pc
-config.status:1101: creating config.h
-config.status:1101: creating json_config.h
-config.status:1330: executing depfiles commands
-config.status:1330: executing libtool commands
-
-## ---------------- ##
-## Cache variables. ##
-## ---------------- ##
-
-ac_cv_build=i386-unknown-netbsdelf6.0.1
-ac_cv_c_compiler_gnu=yes
-ac_cv_c_const=yes
-ac_cv_env_CC_set=
-ac_cv_env_CC_value=
-ac_cv_env_CFLAGS_set=
-ac_cv_env_CFLAGS_value=
-ac_cv_env_CPPFLAGS_set=
-ac_cv_env_CPPFLAGS_value=
-ac_cv_env_CPP_set=
-ac_cv_env_CPP_value=
-ac_cv_env_LDFLAGS_set=
-ac_cv_env_LDFLAGS_value=
-ac_cv_env_LIBS_set=
-ac_cv_env_LIBS_value=
-ac_cv_env_build_alias_set=
-ac_cv_env_build_alias_value=
-ac_cv_env_host_alias_set=
-ac_cv_env_host_alias_value=
-ac_cv_env_target_alias_set=
-ac_cv_env_target_alias_value=
-ac_cv_func__doprnt=no
-ac_cv_func_malloc_0_nonnull=yes
-ac_cv_func_memcmp_working=yes
-ac_cv_func_open=yes
-ac_cv_func_realloc_0_nonnull=yes
-ac_cv_func_setlocale=yes
-ac_cv_func_snprintf=yes
-ac_cv_func_strcasecmp=yes
-ac_cv_func_strdup=yes
-ac_cv_func_strerror=yes
-ac_cv_func_strncasecmp=yes
-ac_cv_func_strndup=yes
-ac_cv_func_vasprintf=yes
-ac_cv_func_vprintf=yes
-ac_cv_func_vsnprintf=yes
-ac_cv_func_vsyslog=yes
-ac_cv_header_dlfcn_h=yes
-ac_cv_header_fcntl_h=yes
-ac_cv_header_inttypes_h=yes
-ac_cv_header_limits_h=yes
-ac_cv_header_locale_h=yes
-ac_cv_header_memory_h=yes
-ac_cv_header_stdarg_h=yes
-ac_cv_header_stdc=yes
-ac_cv_header_stdint_h=yes
-ac_cv_header_stdlib_h=yes
-ac_cv_header_string_h=yes
-ac_cv_header_strings_h=yes
-ac_cv_header_sys_cdefs_h=yes
-ac_cv_header_sys_param_h=yes
-ac_cv_header_sys_stat_h=yes
-ac_cv_header_sys_types_h=yes
-ac_cv_header_syslog_h=yes
-ac_cv_header_unistd_h=yes
-ac_cv_host=i386-unknown-netbsdelf6.0.1
-ac_cv_objext=o
-ac_cv_path_EGREP='/usr/bin/grep -E'
-ac_cv_path_FGREP='/usr/bin/grep -F'
-ac_cv_path_GREP=/usr/bin/grep
-ac_cv_path_SED=/usr/bin/sed
-ac_cv_path_install='/usr/bin/install -c'
-ac_cv_prog_AWK=awk
-ac_cv_prog_CPP='gcc -E'
-ac_cv_prog_ac_ct_AR=ar
-ac_cv_prog_ac_ct_CC=gcc
-ac_cv_prog_ac_ct_OBJDUMP=objdump
-ac_cv_prog_ac_ct_RANLIB=ranlib
-ac_cv_prog_ac_ct_STRIP=strip
-ac_cv_prog_cc_c89=
-ac_cv_prog_cc_g=yes
-ac_cv_prog_make_make_set=yes
-ac_cv_type_size_t=yes
-am_cv_CC_dependencies_compiler_type=gcc3
-lt_cv_deplibs_check_method='match_pattern /lib[^/]+(\.so|_pic\.a)$'
-lt_cv_file_magic_cmd='$MAGIC_CMD'
-lt_cv_file_magic_test_file=
-lt_cv_ld_reload_flag=-r
-lt_cv_nm_interface='BSD nm'
-lt_cv_objdir=.libs
-lt_cv_path_LD=/usr/bin/ld
-lt_cv_path_NM='/usr/bin/nm -B'
-lt_cv_prog_compiler_c_o=yes
-lt_cv_prog_compiler_pic_works=yes
-lt_cv_prog_compiler_rtti_exceptions=no
-lt_cv_prog_compiler_static_works=yes
-lt_cv_prog_gnu_ld=yes
-lt_cv_sys_global_symbol_pipe='sed -n -e '\''s/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p'\'
-lt_cv_sys_global_symbol_to_c_name_address='sed -n -e '\''s/^: \([^ ]*\) $/  {\"\1\", (void *) 0},/p'\'' -e '\''s/^[ABCDGIRSTW]* \([^ ]*\) \([^ ]*\)$/  {"\2", (void *) \&\2},/p'\'
-lt_cv_sys_global_symbol_to_c_name_address_lib_prefix='sed -n -e '\''s/^: \([^ ]*\) $/  {\"\1\", (void *) 0},/p'\'' -e '\''s/^[ABCDGIRSTW]* \([^ ]*\) \(lib[^ ]*\)$/  {"\2", (void *) \&\2},/p'\'' -e '\''s/^[ABCDGIRSTW]* \([^ ]*\) \([^ ]*\)$/  {"lib\2", (void *) \&\2},/p'\'
-lt_cv_sys_global_symbol_to_cdecl='sed -n -e '\''s/^T .* \(.*\)$/extern int \1();/p'\'' -e '\''s/^[ABCDGIRSTW]* .* \(.*\)$/extern char \1;/p'\'
-lt_cv_sys_max_cmd_len=196608
-
-## ----------------- ##
-## Output variables. ##
-## ----------------- ##
-
-ACLOCAL='${SHELL} /home/erh/json-c/json-c-0.11/missing --run aclocal-1.11'
-AMDEPBACKSLASH='\'
-AMDEP_FALSE='#'
-AMDEP_TRUE=''
-AMTAR='${SHELL} /home/erh/json-c/json-c-0.11/missing --run tar'
-AR='ar'
-AUTOCONF='${SHELL} /home/erh/json-c/json-c-0.11/missing --run autoconf'
-AUTOHEADER='${SHELL} /home/erh/json-c/json-c-0.11/missing --run autoheader'
-AUTOMAKE='${SHELL} /home/erh/json-c/json-c-0.11/missing --run automake-1.11'
-AWK='awk'
-CC='gcc'
-CCDEPMODE='depmode=gcc3'
-CFLAGS='-g -O2'
-CPP='gcc -E'
-CPPFLAGS=''
-CYGPATH_W='echo'
-DEFS='-DHAVE_CONFIG_H'
-DEPDIR='.deps'
-DSYMUTIL=''
-DUMPBIN=''
-ECHO_C=''
-ECHO_N='-n'
-ECHO_T=''
-EGREP='/usr/bin/grep -E'
-ENABLE_OLDNAME_COMPAT_FALSE='#'
-ENABLE_OLDNAME_COMPAT_TRUE=''
-EXEEXT=''
-FGREP='/usr/bin/grep -F'
-GREP='/usr/bin/grep'
-INSTALL_DATA='${INSTALL} -m 644'
-INSTALL_PROGRAM='${INSTALL}'
-INSTALL_SCRIPT='${INSTALL}'
-INSTALL_STRIP_PROGRAM='$(install_sh) -c -s'
-LD='/usr/bin/ld'
-LDFLAGS=''
-LIBOBJS=''
-LIBS=''
-LIBTOOL='$(SHELL) $(top_builddir)/libtool'
-LIPO=''
-LN_S='ln -s'
-LTLIBOBJS=''
-MAKEINFO='${SHELL} /home/erh/json-c/json-c-0.11/missing --run makeinfo'
-MKDIR_P='./install-sh -c -d'
-NM='/usr/bin/nm -B'
-NMEDIT=''
-OBJDUMP='objdump'
-OBJEXT='o'
-OTOOL64=''
-OTOOL=''
-PACKAGE='json-c'
-PACKAGE_BUGREPORT='json-c@googlegroups.com'
-PACKAGE_NAME='json-c'
-PACKAGE_STRING='json-c 0.11'
-PACKAGE_TARNAME='json-c'
-PACKAGE_URL=''
-PACKAGE_VERSION='0.11'
-PATH_SEPARATOR=':'
-RANLIB='ranlib'
-SED='/usr/bin/sed'
-SET_MAKE=''
-SHELL='/bin/ksh'
-STRIP='strip'
-VERSION='0.11'
-ac_ct_CC='gcc'
-ac_ct_DUMPBIN=''
-am__EXEEXT_FALSE=''
-am__EXEEXT_TRUE='#'
-am__fastdepCC_FALSE='#'
-am__fastdepCC_TRUE=''
-am__include='include'
-am__isrc=''
-am__leading_dot='.'
-am__quote=''
-am__tar='${AMTAR} chof - "$$tardir"'
-am__untar='${AMTAR} xf -'
-bindir='${exec_prefix}/bin'
-build='i386-unknown-netbsdelf6.0.1'
-build_alias=''
-build_cpu='i386'
-build_os='netbsdelf6.0.1'
-build_vendor='unknown'
-datadir='${datarootdir}'
-datarootdir='${prefix}/share'
-docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
-dvidir='${docdir}'
-exec_prefix='${prefix}'
-host='i386-unknown-netbsdelf6.0.1'
-host_alias=''
-host_cpu='i386'
-host_os='netbsdelf6.0.1'
-host_vendor='unknown'
-htmldir='${docdir}'
-includedir='${prefix}/include'
-infodir='${datarootdir}/info'
-install_sh='${SHELL} /home/erh/json-c/json-c-0.11/install-sh'
-libdir='${exec_prefix}/lib'
-libexecdir='${exec_prefix}/libexec'
-localedir='${datarootdir}/locale'
-localstatedir='${prefix}/var'
-lt_ECHO='/bin/echo'
-mandir='${datarootdir}/man'
-mkdir_p='$(top_builddir)/./install-sh -c -d'
-oldincludedir='/usr/include'
-pdfdir='${docdir}'
-prefix='/home/erh/json-c/jci11'
-program_transform_name='s,x,x,'
-psdir='${docdir}'
-sbindir='${exec_prefix}/sbin'
-sharedstatedir='${prefix}/com'
-sysconfdir='${prefix}/etc'
-target_alias=''
-
-## ----------- ##
-## confdefs.h. ##
-## ----------- ##
-
-/* confdefs.h */
-#define PACKAGE_NAME "json-c"
-#define PACKAGE_TARNAME "json-c"
-#define PACKAGE_VERSION "0.11"
-#define PACKAGE_STRING "json-c 0.11"
-#define PACKAGE_BUGREPORT "json-c@googlegroups.com"
-#define PACKAGE_URL ""
-#define PACKAGE "json-c"
-#define VERSION "0.11"
-#define STDC_HEADERS 1
-#define HAVE_SYS_TYPES_H 1
-#define HAVE_SYS_STAT_H 1
-#define HAVE_STDLIB_H 1
-#define HAVE_STRING_H 1
-#define HAVE_MEMORY_H 1
-#define HAVE_STRINGS_H 1
-#define HAVE_INTTYPES_H 1
-#define HAVE_STDINT_H 1
-#define HAVE_UNISTD_H 1
-#define HAVE_FCNTL_H 1
-#define HAVE_LIMITS_H 1
-#define HAVE_STRINGS_H 1
-#define HAVE_SYSLOG_H 1
-#define HAVE_UNISTD_H 1
-#define HAVE_SYS_CDEFS_H 1
-#define HAVE_SYS_PARAM_H 1
-#define HAVE_STDARG_H 1
-#define HAVE_LOCALE_H 1
-#define JSON_C_HAVE_INTTYPES_H 1
-#define HAVE_VPRINTF 1
-#define HAVE_STDLIB_H 1
-#define HAVE_MALLOC 1
-#define HAVE_STDLIB_H 1
-#define HAVE_REALLOC 1
-#define HAVE_STRCASECMP 1
-#define HAVE_STRDUP 1
-#define HAVE_STRNDUP 1
-#define HAVE_STRERROR 1
-#define HAVE_SNPRINTF 1
-#define HAVE_VSNPRINTF 1
-#define HAVE_VASPRINTF 1
-#define HAVE_OPEN 1
-#define HAVE_VSYSLOG 1
-#define HAVE_STRNCASECMP 1
-#define HAVE_SETLOCALE 1
-#define HAVE_DLFCN_H 1
-#define LT_OBJDIR ".libs/"
-
-configure: exit 0
-
-## ---------------------- ##
-## Running config.status. ##
-## ---------------------- ##
-
-This file was extended by json-c config.status 0.11, which was
-generated by GNU Autoconf 2.68.  Invocation command line was
-
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status config.h
-
-on poe.swapsimple.com
-
-config.status:1101: creating config.h
-config.status:1282: config.h is unchanged
-ERROR: oe_runconf failed
-WARNING: /home/sgw/yocto/builds/minnow/tmp/work/core2-poky-linux/json-c/0.11-r0/temp/run.do_configure.10242:1 exit 1 from
-  exit 1
-ERROR: Function failed: do_configure (log file is located at /home/sgw/yocto/builds/minnow/tmp/work/core2-poky-linux/json-c/0.11-r0/temp/log.do_configure.10242)
-
---------------050906050103090603010304--
