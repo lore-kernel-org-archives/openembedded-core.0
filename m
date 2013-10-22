@@ -1,31 +1,20 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id B1EB16CC68
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 23B8F6D011
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 12:08:08 +0000 (UTC)
-Received: from [64.79.112.2] (port=52278 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VYakq-0003ms-6M for openembedded-core@lists.openembedded.org;
-	Tue, 22 Oct 2013 08:08:08 -0400
-Date: Tue, 22 Oct 2013 05:08:01 -0700 (PDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1310220505490.9444@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: do directories get processed recursively with FILES_${PN}?
+	Tue, 22 Oct 2013 14:07:54 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 22 Oct 2013 07:07:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="311109671"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by AZSMGA002.ch.intel.com with ESMTP; 22 Oct 2013 07:07:54 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Oct 2013 17:10:02 +0300
+Message-Id: <cover.1382450957.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/1] connman: upgrade to 1.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 12:08:09 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Tue, 22 Oct 2013 14:07:54 -0000
 
+The following changes since commit 505114c13d29799a25379f7ce720d632616d8776:
 
-  thought i understood this, now not so sure. in oe-core, udev recipe,
-there's this in udev.inc:
+  wic: add pseudo to the populate-extfs step (2013-10-18 16:03:39 +0100)
 
-FILES_${PN}-dbg += "${base_libdir}/udev/.debug/"
-FILES_${PN}-dbg += "${base_libdir}/udev/.debug/*"
+are available in the git repository at:
 
-is it really necessary to have both of those lines? if you have the
-second, isn't the first one redundant? or am i missing something here?
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
 
-rday
+Cristian Iorga (1):
+  connman: upgrade to 1.19
+
+ .../connman/{connman_1.18.bb => connman_1.19.bb}                    | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_1.18.bb => connman_1.19.bb} (65%)
 
 -- 
+1.8.1.2
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
