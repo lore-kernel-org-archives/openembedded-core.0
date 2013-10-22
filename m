@@ -1,24 +1,21 @@
-Return-Path: <cristian.iorga@intel.com>
+Return-Path: <tom.zanussi@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 95E276D011
+	by mail.openembedded.org (Postfix) with ESMTP id 4144C6D011
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 14:07:54 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 22 Oct 2013 07:07:56 -0700
+	Tue, 22 Oct 2013 14:24:03 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 22 Oct 2013 07:24:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="311109688"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Oct 2013 07:07:55 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="378321800"
+Received: from unknown (HELO localhost) ([10.255.14.222])
+	by azsmga001.ch.intel.com with ESMTP; 22 Oct 2013 07:24:04 -0700
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2013 17:10:03 +0300
-Message-Id: <488941bb9793d52f804353b60d9976d0786e58f9.1382450957.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1382450957.git.cristian.iorga@intel.com>
-References: <cover.1382450957.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1382450957.git.cristian.iorga@intel.com>
-References: <cover.1382450957.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/1] connman: upgrade to 1.19
+Date: Tue, 22 Oct 2013 09:23:59 -0500
+Message-Id: <cover.1382451106.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 00/10] wic dependency and rootfs updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +28,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 14:07:54 -0000
+X-List-Received-Date: Tue, 22 Oct 2013 14:24:05 -0000
 
-Improvements:
-- On startup keep interfaces already configured
-with static IPv4 addresses if there is a
-service configuration file containing
-the very same static values. If not,
-take the interface down and flush
-the old configuration as before (Jukka Rissanen).
-- Handle FallbackNameservers properly;
-use them when no other nameservers have been
-configured for a service (Patrik Flykt).
+This patchset mainly removes unnecessary run-time python module and
+executable dependencies for mic functionality we currently don't use.
+I didn't originally hit these myself because I did development on
+Fedora and Ubuntu users hit these - I've tested the resulting patchset
+on both Fedora and Ubuntu with the affected packages removed and don't
+see any problems.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../connman/{connman_1.18.bb => connman_1.19.bb}                    | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_1.18.bb => connman_1.19.bb} (65%)
+I've kept them as a series of changes rather than glomming them all
+together because at some point we will want to restore these
+dependencies on a case-by-case basis and it's better to have the
+changes as individually explained commits.
 
-diff --git a/meta/recipes-connectivity/connman/connman_1.18.bb b/meta/recipes-connectivity/connman/connman_1.19.bb
-similarity index 65%
-rename from meta/recipes-connectivity/connman/connman_1.18.bb
-rename to meta/recipes-connectivity/connman/connman_1.19.bb
-index 44a4a07..c63dfe4 100644
---- a/meta/recipes-connectivity/connman/connman_1.18.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.19.bb
-@@ -6,9 +6,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://connman \
-             "
- 
--SRC_URI[md5sum] = "7578ec8f0422d34f5a4ba51b605fe576"
--SRC_URI[sha256sum] = "56c2ca7842be2100b6b59367845d5beec125f231af6ea505604992e0c5a69992"
--
--PR = "${INC_PR}.0"
-+SRC_URI[md5sum] = "47cce1d17a693dc307e6796c81991bd0"
-+SRC_URI[sha256sum] = "7e4e624cadf42feed18e783351b10f81ef23d7e298bddc7ffe26fe5e69f25b8b"
- 
- RRECOMMENDS_${PN} = "connman-conf"
+It also removes and unncessary pseudo export as discussed in a
+previous thread, and moves the setup to the top-level rootfs
+generation function.
+
+The following changes since commit 505114c13d29799a25379f7ce720d632616d8776:
+
+  wic: add pseudo to the populate-extfs step (2013-10-18 16:03:39 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-fixes-3
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-fixes-3
+
+Tom Zanussi (10):
+  wic: Remove dependency on rt_util module
+  wic: eliminate module checks
+  wic: Remove dependency on rpmmisc
+  wic: Remove dependency on myurlgrab module
+  wic: remove rpm warning code from BackendPlugin
+  wic: Remove rpm and grabber dependencies from BaseImageCreator
+  wic: Remove rpmmisc call from livecd
+  wic: Remove binary dependencies
+  wic: Make find_binary_path() more user-friendly
+  wic: Update and generalize pseudo setup for rootfs generation
+
+ scripts/lib/mic/creator.py                         |  4 ++--
+ scripts/lib/mic/imager/baseimager.py               |  4 +---
+ scripts/lib/mic/imager/livecd.py                   |  4 ++--
+ .../lib/mic/kickstart/custom_commands/partition.py | 28 ++++++++++++----------
+ scripts/lib/mic/pluginbase.py                      |  5 ----
+ scripts/lib/mic/plugins/imager/direct_plugin.py    |  2 +-
+ scripts/lib/mic/plugins/imager/fs_plugin.py        |  2 +-
+ scripts/lib/mic/plugins/imager/livecd_plugin.py    |  2 +-
+ scripts/lib/mic/plugins/imager/liveusb_plugin.py   |  2 +-
+ scripts/lib/mic/plugins/imager/loop_plugin.py      |  2 +-
+ scripts/lib/mic/plugins/imager/raw_plugin.py       |  2 +-
+ scripts/lib/mic/utils/fs_related.py                |  5 +++-
+ scripts/lib/mic/utils/misc.py                      |  2 --
+ scripts/lib/mic/utils/partitionedfs.py             |  4 ----
+ scripts/wic                                        | 10 --------
+ 15 files changed, 30 insertions(+), 48 deletions(-)
+
 -- 
-1.8.1.2
+1.8.3.1
 
 
