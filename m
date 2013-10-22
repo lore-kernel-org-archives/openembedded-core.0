@@ -1,24 +1,27 @@
-Return-Path: <Qiang.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C88D6CF24
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id CD4816D2F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 03:18:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9M3IcmY004861
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 20:18:38 -0700 (PDT)
-Received: from optiplex-780.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 21 Oct 2013 20:18:37 -0700
-From: <qiang.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Oct 2013 11:19:00 +0800
-Message-ID: <1382411940-1430-1-git-send-email-qiang.chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 22 Oct 2013 05:13:47 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 21 Oct 2013 22:13:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="310915467"
+Received: from akagikob-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.120.204])
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Oct 2013 22:13:47 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 22 Oct 2013 06:13:46 +0100
+Message-ID: <2023592.phK6gWF0Ci@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <CAMKF1sqtist2BpszV5AYEids7kYnWxxfu=becBYiAUaQs=PBpg@mail.gmail.com>
+References: <526556B1.2010908@emagii.com>
+	<CAMKF1sqtist2BpszV5AYEids7kYnWxxfu=becBYiAUaQs=PBpg@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] nfsserver restart should kill and recreate nfsd kernel threads
+Cc: ulf@emagii.com, openembedded-core@lists.openembedded.org
+Subject: Re: Using the correct "xserver-xf86-config_0.1.bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,67 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 03:18:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Oct 2013 05:13:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Qiang Chen <qiang.chen@windriver.com>
+On Monday 21 October 2013 13:21:07 Khem Raj wrote:
+> On Mon, Oct 21, 2013 at 9:30 AM, Ulf Samuelsson
+> <openembedded-core@emagii.com> wrote:
+> > Trying to build a systemd-gnome-image raspberrypi under Angstrom, with a
+> > few extra layers.
+> > 
+> > This fails on "xserver-xf86-config_0.1.[bb|bbappend]"
+> > 
+> > The extra layer has BBPRIORITY = 20.
+> > meta-beagleboard has BBPRIORITY = 8
+> > meta-raspberrypi has BBPRIORITY = 6 (later changed to 120)
+> > 
+> > BBLAYERS are in the order meta-<extra layer> meta-beagleboard
+> > meta-raspberrypi
+> > 
+> > It looks like bitbake will select the bbappend in the layer with the
+> > highest priority,
+> 
+> Not really. All bbappends are selected the order or sequence of them
+> is governed by how the layers line up in BBPATH
 
-nfsserver restart without killing kernel threads worked when portmap
-was the rpc publishing process and portmap was restarted.
-When rpcbind replaces portmap, nfsserver restart in this way does not
-work after an rpcbind restart.
+All bbappends for a recipe will be applied, in ascending layer priority order; 
+BBPATH doesn't come into it.
 
-Steps to reproduce:
-1). Make ext3 filesystem image on local host.
-cd /root
-dd if=/dev/zero of=test bs=1024K count=50
-mkfs.ext3 -F test
+Cheers,
+Paul
 
-2). runqemu qemux86-64
-mkdir /mnt/wrtest
-mount -t ext3 -o loop test /mnt/wrtest
-echo "/mnt/wrtest *(sync,rw,no_subtree_check,no_root_squash)" > /etc/exports
-/etc/init.d/rpcbind restart
-/etc/init.d/nfsserver restart
-showmount -e localhost
-mkdir wrtest
-mount -t nfs localhost:/mnt/wrtest wrtest
-
-mount: mounting localhost:/mnt/wrtest on wrtest failed: Connection refused
-
-Modifying the nfsserver script to kill and restart kernel threads on
-restart makes the problem go away and is consistent with current
-RHEL/SUSE and Ubuntu/Debian mechanisms of handling the nfs server.
-
-Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>
-Signed-off-by: Qiang Chen <qiang.chen@windriver.com>
----
- .../nfs-utils/nfs-utils/nfsserver                  |   11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-index 8ee8d0b..d7cf6e0 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
-@@ -161,14 +161,9 @@ status)
- 	[ $RETVAL -eq 0 ] && exit $rval
- 	exit $RETVAL;;
- reload)	test -r /etc/exports && exportfs -r;;
--restart)exportfs -ua
--	stop_mountd
--	stop_statd
--	# restart does not restart the kernel threads,
--	# only the user mode processes
--	start_mountd
--	start_statd
--	test -r /etc/exports && exportfs -a;;
-+restart)
-+	$0 stop
-+	$0 start;;
- *)	echo "Usage: $0 {start|stop|status|reload|restart}"
- 	exit 1;;
- esac
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
