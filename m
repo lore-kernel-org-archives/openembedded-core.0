@@ -1,26 +1,24 @@
-Return-Path: <Ming.Liu@windriver.com>
+Return-Path: <Qiang.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CFEA36D2C0
+	by mail.openembedded.org (Postfix) with ESMTP id 1C88D6CF24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 03:12:07 +0000 (UTC)
+	Tue, 22 Oct 2013 03:18:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9M3C9Bg004296
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9M3IcmY004861
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 20:12:09 -0700 (PDT)
-Received: from mliu3-desktop.corp.ad.wrs.com (128.224.162.145) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 21 Oct 2013 20:12:09 -0700
-From: Ming Liu <ming.liu@windriver.com>
+	Mon, 21 Oct 2013 20:18:38 -0700 (PDT)
+Received: from optiplex-780.corp.ad.wrs.com (128.224.162.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 21 Oct 2013 20:18:37 -0700
+From: <qiang.chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Oct 2013 11:12:01 +0800
-Message-ID: <1382411521-8350-3-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
-In-Reply-To: <1382411521-8350-1-git-send-email-ming.liu@windriver.com>
-References: <1382411521-8350-1-git-send-email-ming.liu@windriver.com>
+Date: Tue, 22 Oct 2013 11:19:00 +0800
+Message-ID: <1382411940-1430-1-git-send-email-qiang.chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH V5 3/3] screen: dynamically add or remove a entry to/from /etc/shells
+Subject: [PATCH] nfsserver restart should kill and recreate nfsd kernel threads
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 03:12:07 -0000
+X-List-Received-Date: Tue, 22 Oct 2013 03:18:37 -0000
 Content-Type: text/plain
 
-1 Add base-files to RDEPENDS.
-2 Add pkg_postinst and pkg_postrm to add and remove a entry in
-/etc/shells.
+From: Qiang Chen <qiang.chen@windriver.com>
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+nfsserver restart without killing kernel threads worked when portmap
+was the rpc publishing process and portmap was restarted.
+When rpcbind replaces portmap, nfsserver restart in this way does not
+work after an rpcbind restart.
+
+Steps to reproduce:
+1). Make ext3 filesystem image on local host.
+cd /root
+dd if=/dev/zero of=test bs=1024K count=50
+mkfs.ext3 -F test
+
+2). runqemu qemux86-64
+mkdir /mnt/wrtest
+mount -t ext3 -o loop test /mnt/wrtest
+echo "/mnt/wrtest *(sync,rw,no_subtree_check,no_root_squash)" > /etc/exports
+/etc/init.d/rpcbind restart
+/etc/init.d/nfsserver restart
+showmount -e localhost
+mkdir wrtest
+mount -t nfs localhost:/mnt/wrtest wrtest
+
+mount: mounting localhost:/mnt/wrtest on wrtest failed: Connection refused
+
+Modifying the nfsserver script to kill and restart kernel threads on
+restart makes the problem go away and is consistent with current
+RHEL/SUSE and Ubuntu/Debian mechanisms of handling the nfs server.
+
+Signed-off-by: Rich Dubielzig <rich.dubielzig@windriver.com>
+Signed-off-by: Qiang Chen <qiang.chen@windriver.com>
 ---
- meta/recipes-extended/screen/screen_4.0.3.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../nfs-utils/nfs-utils/nfsserver                  |   11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
-index 1a7eb20..be42fb9 100644
---- a/meta/recipes-extended/screen/screen_4.0.3.bb
-+++ b/meta/recipes-extended/screen/screen_4.0.3.bb
-@@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0774d66808b0f602e94448108f59448b \
- SECTION = "console/utils"
- DEPENDS = "ncurses \
-           ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-+RDEPENDS_${PN} = "base-files"
-+
- PR = "r3"
- 
- SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz;name=tarball \
-@@ -41,3 +43,11 @@ do_install_append () {
- 		fi
- 	done
- }
-+
-+pkg_postinst_${PN} () {
-+	grep -q "^${bindir}/screen$" $D${sysconfdir}/shells || echo ${bindir}/screen >> $D${sysconfdir}/shells
-+}
-+
-+pkg_postrm_${PN} () {
-+	printf "$(grep -v "^${bindir}/screen$" $D${sysconfdir}/shells)\n" > $D${sysconfdir}/shells
-+}
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+index 8ee8d0b..d7cf6e0 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+@@ -161,14 +161,9 @@ status)
+ 	[ $RETVAL -eq 0 ] && exit $rval
+ 	exit $RETVAL;;
+ reload)	test -r /etc/exports && exportfs -r;;
+-restart)exportfs -ua
+-	stop_mountd
+-	stop_statd
+-	# restart does not restart the kernel threads,
+-	# only the user mode processes
+-	start_mountd
+-	start_statd
+-	test -r /etc/exports && exportfs -a;;
++restart)
++	$0 stop
++	$0 start;;
+ *)	echo "Usage: $0 {start|stop|status|reload|restart}"
+ 	exit 1;;
+ esac
 -- 
-1.8.4.1
+1.7.9.5
 
 
