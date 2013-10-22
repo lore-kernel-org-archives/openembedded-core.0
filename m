@@ -1,24 +1,37 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 336636D134
+Return-Path: <mburtin@gmail.com>
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id AD9446D065
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 09:40:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9M9eQwK013867
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 22 Oct 2013 09:45:30 +0000 (UTC)
+Received: by mail-wi0-f171.google.com with SMTP id h11so5276324wiv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 02:40:26 -0700 (PDT)
-Received: from PKE-CLU1-D1.wrs.com (128.224.162.203) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 22 Oct 2013 02:40:26 -0700
-From: <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Oct 2013 17:40:22 +0800
-Message-ID: <1382434823-12648-1-git-send-email-Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 22 Oct 2013 02:45:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=/envdWNjNT3la/vmH3MGAsoFzql4uXuq4lMk2EVYSik=;
+	b=feXfVpj8KFON4dVEwLVVkgdew0bqh+2AwrgJ81QzToIHpA7S1paerzHypN0TJvmpzH
+	hNz2b20ADty3xFFwUcGrllSVHum9+CV0PTjM8YejDYhsr4OkVBs4GQ+muEyHQuewuLdA
+	wCAHuvnPyvClgVw7IRqYyFYZecHQ/mUAVT9a6BXkUoykL1toLltIMKK5T8dxwV/fuKtj
+	t8nCWZwy71fZ+KSQmfoIT9XgHM3wbKySeheLGZmpSBn8+2rWBcZHgu9JRvZBAmyvl6US
+	hWhQX27UDY4ZkR4FlfpXUE7iuJy6wdffJHKMK2FwPjGNA8ThWeA/ggoPXsmTmH82VZl0
+	4pFQ==
+X-Received: by 10.194.95.72 with SMTP id di8mr653053wjb.74.1382435132123;
+	Tue, 22 Oct 2013 02:45:32 -0700 (PDT)
+Received: from mburtin-desktop.mpl.mstarsemi.fr ([94.103.137.126])
+	by mx.google.com with ESMTPSA id pi6sm4616432wic.3.2013.10.22.02.45.31
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 22 Oct 2013 02:45:31 -0700 (PDT)
+Sender: =?UTF-8?Q?Micha=C3=ABl_Burtin?= <mburtin@gmail.com>
+From: =?UTF-8?q?Micha=C3=ABl=20Burtin?= <michael.burtin@innotis.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Oct 2013 11:45:17 +0200
+Message-Id: <1382435117-5375-1-git-send-email-michael.burtin@innotis.org>
+X-Mailer: git-send-email 1.8.4
 MIME-Version: 1.0
-Subject: [PATCH] dbus: no messages of status command print
+Subject: [PATCH] initramfs-framework: fix test that filter backup module files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 09:40:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 22 Oct 2013 09:45:31 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Lu Chong <Chong.Lu@windriver.com>
+Test that filter backup module files (files starting with ~)
+was accidentally reversed in e6039e6e3b98d6ab91252a5012d76279b1fac6e8,
+this patch restore initial behavior.
 
-/etc/init.d/dbus-1 use "set -e" to let the script exit when any command failes.
-This will cause "/etc/init.d/dbus-1 status" command can't display messages when dbus is stopped.
-
-Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
+Signed-off-by: Michaël Burtin <michael.burtin@innotis.org>
 ---
- meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init |    2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework/init | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init b/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
-index 04025e6..42c8629 100644
---- a/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
-+++ b/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
-@@ -14,7 +14,7 @@
- # Debian init.d script for D-BUS
- # Copyright © 2003 Colin Walters <walters@debian.org>
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
+index 20774aa..95fa9fb 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/init
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+@@ -103,7 +103,7 @@ mkdir $ROOTFS_DIR
+ # Load and run modules
+ for m in $MODULES_DIR/*; do
+ 	# Skip backup files
+-	if [ "`echo $m | sed -e 's/\~$//'`" = "$m" ]; then
++	if [ "`echo $m | sed -e 's/\~$//'`" != "$m" ]; then
+ 		continue
+ 	fi
  
--set -e
-+# set -e
- 
- # Source function library.
- . /etc/init.d/functions
 -- 
-1.7.9.5
+1.8.4
 
 
