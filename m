@@ -1,24 +1,38 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DC6C6D257
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8662E6D257
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 05:16:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9M5GuKl012464
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 22 Oct 2013 05:17:59 +0000 (UTC)
+Received: by mail-ie0-f172.google.com with SMTP id tp5so843866ieb.31
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 22:16:56 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 21 Oct 2013 22:16:55 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Oct 2013 13:16:58 +0800
-Message-ID: <1382419018-10273-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Mon, 21 Oct 2013 22:18:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=xz6obo7vgL0PSCrjKG5s33vBfJ32tvBhi291UgIQ//w=;
+	b=bpYzcojHuDJMu38TlQQ5LYnaTfCaayQai7+j5JPvlO0XfYnCUcJUfuN7B+pPFZopLk
+	UScTyyDArci1ege3pymD/oYujDMbmi3k8ovemtV4UdV2ryszF9O7pFgVkRkC8PsJKWR3
+	O9kUWZeZhyhhwD1rjd/9Ckce2QzbHgUmGdjgi59UrnEmBtnuqWl1sH1MkHD6ouiaDXjZ
+	GJuH3aiZhvzH4O9wjW6T6gWLPGT3DjVh2O3NLAkK9m9p0uwmCm4vDGqlO+KSI8p+D2gb
+	21vzKODz7CCXuAtmkdlVRXrjaZa6YpnohioYWdmt99SdFy6mqNQVKQCDAvDMk2NADkJP
+	wk2Q==
+X-Received: by 10.50.61.179 with SMTP id q19mr11968127igr.33.1382419081224;
+	Mon, 21 Oct 2013 22:18:01 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH V6] connman: ignore the networking device which nfs for rootfs is working on
+Received: by 10.50.219.195 with HTTP; Mon, 21 Oct 2013 22:17:30 -0700 (PDT)
+In-Reply-To: <2023592.phK6gWF0Ci@helios>
+References: <526556B1.2010908@emagii.com>
+	<CAMKF1sqtist2BpszV5AYEids7kYnWxxfu=becBYiAUaQs=PBpg@mail.gmail.com>
+	<2023592.phK6gWF0Ci@helios>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 21 Oct 2013 22:17:30 -0700
+Message-ID: <CAMKF1spr2FTV--ONvqYCKh4gspmo25yD1vx120r1-ns89LuV4g@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: "ulf@emagii.com" <ulf@emagii.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Using the correct "xserver-xf86-config_0.1.bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,160 +45,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 05:16:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Oct 2013 05:17:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Roy Li <rongqing.li@windriver.com>
+On Mon, Oct 21, 2013 at 10:13 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Monday 21 October 2013 13:21:07 Khem Raj wrote:
+>> On Mon, Oct 21, 2013 at 9:30 AM, Ulf Samuelsson
+>> <openembedded-core@emagii.com> wrote:
+>> > Trying to build a systemd-gnome-image raspberrypi under Angstrom, with a
+>> > few extra layers.
+>> >
+>> > This fails on "xserver-xf86-config_0.1.[bb|bbappend]"
+>> >
+>> > The extra layer has BBPRIORITY = 20.
+>> > meta-beagleboard has BBPRIORITY = 8
+>> > meta-raspberrypi has BBPRIORITY = 6 (later changed to 120)
+>> >
+>> > BBLAYERS are in the order meta-<extra layer> meta-beagleboard
+>> > meta-raspberrypi
+>> >
+>> > It looks like bitbake will select the bbappend in the layer with the
+>> > highest priority,
+>>
+>> Not really. All bbappends are selected the order or sequence of them
+>> is governed by how the layers line up in BBPATH
+>
+> All bbappends for a recipe will be applied, in ascending layer priority order;
+> BBPATH doesn't come into it.
 
-Create connman-evn.service, which will run a script to compute the networking
-device when nfs root is on, and pass the result to connman.service
-
-Copy Connmand.service from source code, add ExecStartPre into it to release
-do_configure_append work, use the options which is passed by connman-evn.service
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-connectivity/connman/connman.inc      |   18 ++++++++------
- .../connman/connman/connman-env.service            |   13 ++++++++++
- .../connman/connman/connman.service                |   14 +++++++++++
- .../connman/connman/connmand-env                   |   25 ++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_1.18.bb  |    3 +++
- 5 files changed, 66 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-connectivity/connman/connman/connman-env.service
- create mode 100644 meta/recipes-connectivity/connman/connman/connman.service
- create mode 100644 meta/recipes-connectivity/connman/connman/connmand-env
-
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 12f3edd..c2d71e0 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -64,15 +64,9 @@ python __anonymous () {
- 
- SYSTEMD_SERVICE_${PN} = "connman.service"
- SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
--SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
- 
- inherit autotools gtk-doc pkgconfig systemd update-rc.d
- 
--do_configure_append () {
--	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${S}/src/connman.service
--
--}
--
- # This allows *everyone* to access ConnMan over DBus, without any access
- # control.  Really the at_console flag should work, which would mean that
- # both this and the xuser patch can be dropped.
-@@ -88,6 +82,16 @@ do_install_append() {
- 		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
- 	fi
- 
-+	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+		install -m 0755 ${WORKDIR}/connmand-env ${D}${sbindir}/
-+		install -m 0644 ${WORKDIR}/connman-env.service  ${D}/${systemd_unitdir}/system/
-+		install -m 0644 ${WORKDIR}/connman.service  ${D}/${systemd_unitdir}/system/
-+		sed -i  -e 's,@SBINDIR@,${sbindir},g' \
-+			-e 's,@LIBDIR@,${libdir},g' \
-+			-e 's,@LOCALSTATEDIR@,${localstatedir},g' \
-+			${D}${systemd_unitdir}/system/*.service
-+	fi
-+
- 	install -d ${D}${bindir}
- 	install -m 0755 ${S}/tools/*-test ${D}${bindir}
- 	if [ -e ${S}/tools/wispr ]; then
-@@ -163,7 +167,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
-             ${libdir}/connman/plugins \
-             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
-             ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
--            ${datadir}/dbus-1/system-services/*"
-+            ${datadir}/dbus-1/system-services/* ${systemd_unitdir}/system/connman-env.service"
- 
- FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
- 
-diff --git a/meta/recipes-connectivity/connman/connman/connman-env.service b/meta/recipes-connectivity/connman/connman/connman-env.service
-new file mode 100644
-index 0000000..c4dc278
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/connman-env.service
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=Generate options for connection service
-+Before=connman.service
-+ConditionKernelCommandLine=root=/dev/nfs
-+After=syslog.target
-+
-+[Service]
-+Type=oneshot
-+ExecStart=@SBINDIR@/connmand-env
-+StandardOutput=null
-+
-+[Install]
-+WantedBy=connman.service
-diff --git a/meta/recipes-connectivity/connman/connman/connman.service b/meta/recipes-connectivity/connman/connman/connman.service
-new file mode 100644
-index 0000000..aa0e49a
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/connman.service
-@@ -0,0 +1,14 @@
-+[Unit]
-+Description=Connection service
-+After=syslog.target
-+Wants=connman-env.service
-+
-+[Service]
-+Type=dbus
-+BusName=net.connman
-+EnvironmentFile=-@LOCALSTATEDIR@/run/connmand.env
-+ExecStartPre=-@LIBDIR@/connman/wired-setup
-+ExecStart=@SBINDIR@/connmand -n $CONNMAND_OPTS
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/connman/connman/connmand-env b/meta/recipes-connectivity/connman/connman/connmand-env
-new file mode 100644
-index 0000000..feeb850
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/connmand-env
-@@ -0,0 +1,25 @@
-+#!/bin/sh
-+
-+EXTRA_PARAM=""
-+
-+NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
-+NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
-+
-+if [ ! -z "$NET_ADDR" ]; then
-+    if [ "$NET_ADDR" = dhcp ]; then
-+        ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
-+        if [ ! -z "$ethn" ]; then
-+            EXTRA_PARAM="-I $ethn"
-+        fi
-+    else
-+        for i in $NET_DEVS; do
-+        ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-+        if [ "$NET_ADDR" = "$ADDR" ]; then
-+            EXTRA_PARAM="-I $i"
-+            break
-+        fi
-+        done
-+    fi
-+fi
-+
-+echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand.env
-diff --git a/meta/recipes-connectivity/connman/connman_1.18.bb b/meta/recipes-connectivity/connman/connman_1.18.bb
-index 44a4a07..eee8116 100644
---- a/meta/recipes-connectivity/connman/connman_1.18.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.18.bb
-@@ -4,6 +4,9 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
-             file://connman \
-+            file://connmand-env \
-+            file://connman.service \
-+            file://connman-env.service \
-             "
- 
- SRC_URI[md5sum] = "7578ec8f0422d34f5a4ba51b605fe576"
--- 
-1.7.10.4
-
+thanks for correction a hand-brain coordination problem .. dont expect
+accuracy when jetlgged :)
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
