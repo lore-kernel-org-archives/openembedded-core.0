@@ -1,40 +1,34 @@
-Return-Path: <ulf@emagii.com>
-Received: from smtprelay-h21.telenor.se (smtprelay-h21.telenor.se
-	[195.54.99.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E02AD6CFF9
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E5B156CF24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 21 Oct 2013 23:28:06 +0000 (UTC)
-Received: from ipb3.telenor.se (ipb3.telenor.se [195.54.127.166])
-	by smtprelay-h21.telenor.se (Postfix) with ESMTP id 95382C06A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 01:28:08 +0200 (CEST)
-X-SENDER-IP: [83.227.59.84]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AuEXANa3ZVJT4ztUPGdsb2JhbAANTIM/g366R0uBRgMBAQEBOIJaAQEBAQIBAQEBIBU2CgEQCxgCAgUWCwICCQMCAQIBFQEbFAYNAQUCAQGHfAsIpxd1kkyBKY4yB4JqgT8DlCqBEoJNgS+JE4pr
-X-IronPort-AV: E=Sophos;i="4.93,543,1378850400"; d="scan'208";a="417781347"
-Received: from c-543be353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.199]) ([83.227.59.84])
-	by ipb3.telenor.se with ESMTP; 22 Oct 2013 01:28:08 +0200
-Message-ID: <5265B887.2060505@emagii.com>
-Date: Tue, 22 Oct 2013 01:28:07 +0200
-From: Ulf Samuelsson <ulf@emagii.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Tue, 22 Oct 2013 02:12:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9M2Cavj029840
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 21 Oct 2013 19:12:36 -0700 (PDT)
+Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Mon, 21 Oct 2013 19:12:35 -0700
+Message-ID: <5265DF10.2020106@windriver.com>
+Date: Tue, 22 Oct 2013 10:12:32 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
 To: Khem Raj <raj.khem@gmail.com>
-References: <526556B1.2010908@emagii.com>
-	<CAMKF1sqtist2BpszV5AYEids7kYnWxxfu=becBYiAUaQs=PBpg@mail.gmail.com>
-In-Reply-To: <CAMKF1sqtist2BpszV5AYEids7kYnWxxfu=becBYiAUaQs=PBpg@mail.gmail.com>
-Cc: Discussion of the angstrom distribution development
-	<Angstrom-distro-devel@linuxtogo.org>,
-	Patches and discussions about the oe-core layer
+References: <1382256149-14223-1-git-send-email-ming.liu@windriver.com>
+	<1382256149-14223-3-git-send-email-ming.liu@windriver.com>
+	<CAMKF1srMtfiN_dNRhnY8=cmTexkMpYFVHunnCr49ULvqdCdWdA@mail.gmail.com>
+In-Reply-To: <CAMKF1srMtfiN_dNRhnY8=cmTexkMpYFVHunnCr49ULvqdCdWdA@mail.gmail.com>
+X-Originating-IP: [128.224.162.145]
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Using the correct "xserver-xf86-config_0.1.bbappend
+Subject: Re: [PATCH V4 3/3] screen: dynamically add or remove a entry to/from /etc/shells
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ulf@emagii.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -44,95 +38,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 23:28:08 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Tue, 22 Oct 2013 02:12:37 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060704020102060307060905"
+
+--------------060704020102060307060905
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2013-10-21 22:21, Khem Raj wrote:
-> Ulf
+On 10/22/2013 06:32 AM, Khem Raj wrote:
 >
-> On Mon, Oct 21, 2013 at 9:30 AM, Ulf Samuelsson
-> <openembedded-core@emagii.com> wrote:
->> Trying to build a systemd-gnome-image raspberrypi under Angstrom, with a few
->> extra layers.
->>
->> This fails on "xserver-xf86-config_0.1.[bb|bbappend]"
->>
->> The extra layer has BBPRIORITY = 20.
->> meta-beagleboard has BBPRIORITY = 8
->> meta-raspberrypi has BBPRIORITY = 6 (later changed to 120)
->>
->> BBLAYERS are in the order meta-<extra layer> meta-beagleboard
->> meta-raspberrypi
->>
->> It looks like bitbake will select the bbappend in the layer with the highest
->> priority,
-> Not really. All bbappends are selected the order or sequence of them
-> is governed by how the layers line up in BBPATH
-Hm, it seemed to work if I increased the BBPRIORITY.
+>
+> On Sunday, October 20, 2013, Ming Liu <ming.liu@windriver.com 
+> <mailto:ming.liu@windriver.com>> wrote:
+> > 1 Add base-files to RDEPENDS.
+> > 2 Add pkg_postinst and pkg_postrm to add and remove a entry in
+> > /etc/shells.
+> >
+>
+> will it affect upgradability of the package which is providing 
+> /etc/shells ?
+Yes, you are right, it will. So we need put /etc/shells to CONFFILES in 
+base-files package.
 
-Either method seems to be problematic.
-
-If you build for a certain machine, then you want to define which 
-bbappend to use
-regardless of BBPATH or BBPRIORITY.
-
-Maybe bitbake needs to know which meta-layer contains the <machine>.conf,
-and always select a bbappend in that layer, over bbappends in other layers.
-
-Otherwise you have to edit bblayer.conf every time you want to switch to 
-a new machine,
-which I think is undesirable.
-
-
-
-
->> even if that contains a COMPATIBLE_MACHINE clause, which does not
->> include the current MACHINE.
->>
->> Is there any way to make bitbake select the correct bbappend file without
->> modifying the BBPRIORITY?
->>
->> --------------------------------------------------------------------------------------------
->> Looks like the xserver-xf86-config for the raspberry-pi fails on
->>
->> SRC_URI_append_raspberrypi = " file://xorg.conf.d/*"
->>
->> When I change to:
->>
->> SRC_URI_append_raspberrypi = " file://xorg.conf.d/10-evdev.conf "
->>
->> the raspberry pi version completes.
->>
->> Wildcards are not allowed?
-> This is a question of fundamental bitbake semantics/syntax for SRC_URI
-> and nothing to do with bbappends. and I dont think wildcards in
-> SRC_URI are reliable, so better be explicit about them.
-
-Yes, since this problem occured at the same time,
-I thought that I'd mention it as well.
-Basically the any image build for raspberry pi involving X is broken then.
-/Ulf
-
+//Ming Liu
 
 >
->> --
->> Best Regards
->> Ulf Samuelsson
->> eMagii
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+> > Signed-off-by: Ming Liu <ming.liu@windriver.com 
+> <mailto:ming.liu@windriver.com>>
+> > ---
+> >  meta/recipes-extended/screen/screen_4.0.3.bb 
+> <http://screen_4.0.3.bb> | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb 
+> <http://screen_4.0.3.bb> 
+> b/meta/recipes-extended/screen/screen_4.0.3.bb <http://screen_4.0.3.bb>
+> > index 1a7eb20..be42fb9 100644
+> > --- a/meta/recipes-extended/screen/screen_4.0.3.bb 
+> <http://screen_4.0.3.bb>
+> > +++ b/meta/recipes-extended/screen/screen_4.0.3.bb 
+> <http://screen_4.0.3.bb>
+> > @@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = 
+> "file://COPYING;md5=0774d66808b0f602e94448108f59448b \
+> >  SECTION = "console/utils"
+> >  DEPENDS = "ncurses \
+> >            ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+> > +RDEPENDS_${PN} = "base-files"
+> > +
+> >  PR = "r3"
+> >
+> >  SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz;name=tarball \
+> > @@ -41,3 +43,11 @@ do_install_append () {
+> >                 fi
+> >         done
+> >  }
+> > +
+> > +pkg_postinst_${PN} () {
+> > +       grep -q "^${bindir}/screen$" $D${sysconfdir}/shells || echo 
+> ${bindir}/screen >> $D${sysconfdir}/shells
+> > +}
+> > +
+> > +pkg_postrm_${PN} () {
+> > +       printf "$(grep -v "^${bindir}/screen$" 
+> $D${sysconfdir}/shells)\n" > $D${sysconfdir}/shells
+> > +}
+> > --
+> > 1.8.4.1
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org 
+> <mailto:Openembedded-core@lists.openembedded.org>
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > 
 
 
--- 
-Best Regards
-Ulf Samuelsson
-ulf@emagii.com
-+46 722 427437
+--------------060704020102060307060905
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 10/22/2013 06:32 AM, Khem Raj wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAMKF1srMtfiN_dNRhnY8=cmTexkMpYFVHunnCr49ULvqdCdWdA@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Context-Type" content="text/html; charset=UTF-8">
+      <br>
+      <br>
+      On Sunday, October 20, 2013, Ming Liu &lt;<a
+        moz-do-not-send="true" href="mailto:ming.liu@windriver.com">ming.liu@windriver.com</a>&gt;
+      wrote:<br>
+      &gt; 1 Add base-files to RDEPENDS.<br>
+      &gt; 2 Add pkg_postinst and pkg_postrm to add and remove a entry
+      in<br>
+      &gt; /etc/shells.<br>
+      &gt;<br>
+      <br>
+      will it affect upgradability of the package which is providing
+      /etc/shells ?<br>
+    </blockquote>
+    Yes, you are right, it will. So we need put /etc/shells to CONFFILES
+    in base-files package.<br>
+    <br>
+    //Ming Liu<br>
+    <br>
+    <blockquote
+cite="mid:CAMKF1srMtfiN_dNRhnY8=cmTexkMpYFVHunnCr49ULvqdCdWdA@mail.gmail.com"
+      type="cite"><br>
+      &gt; Signed-off-by: Ming Liu &lt;<a moz-do-not-send="true"
+        href="mailto:ming.liu@windriver.com">ming.liu@windriver.com</a>&gt;<br>
+      &gt; ---<br>
+      &gt;  meta/recipes-extended/screen/<a moz-do-not-send="true"
+        href="http://screen_4.0.3.bb">screen_4.0.3.bb</a> | 10
+      ++++++++++<br>
+      &gt;  1 file changed, 10 insertions(+)<br>
+      &gt;<br>
+      &gt; diff --git a/meta/recipes-extended/screen/<a
+        moz-do-not-send="true" href="http://screen_4.0.3.bb">screen_4.0.3.bb</a>
+      b/meta/recipes-extended/screen/<a moz-do-not-send="true"
+        href="http://screen_4.0.3.bb">screen_4.0.3.bb</a><br>
+      &gt; index 1a7eb20..be42fb9 100644<br>
+      &gt; --- a/meta/recipes-extended/screen/<a moz-do-not-send="true"
+        href="http://screen_4.0.3.bb">screen_4.0.3.bb</a><br>
+      &gt; +++ b/meta/recipes-extended/screen/<a moz-do-not-send="true"
+        href="http://screen_4.0.3.bb">screen_4.0.3.bb</a><br>
+      &gt; @@ -12,6 +12,8 @@ LIC_FILES_CHKSUM =
+      "<a class="moz-txt-link-freetext" href="file://COPYING;md5=0774d66808b0f602e94448108f59448b">file://COPYING;md5=0774d66808b0f602e94448108f59448b</a> \<br>
+      &gt;  SECTION = "console/utils"<br>
+      &gt;  DEPENDS = "ncurses \<br>
+      &gt;            ${@base_contains('DISTRO_FEATURES', 'pam',
+      'libpam', '', d)}"<br>
+      &gt; +RDEPENDS_${PN} = "base-files"<br>
+      &gt; +<br>
+      &gt;  PR = "r3"<br>
+      &gt;<br>
+      &gt;  SRC_URI =
+      "${GNU_MIRROR}/screen/screen-${PV}.tar.gz;name=tarball \<br>
+      &gt; @@ -41,3 +43,11 @@ do_install_append () {<br>
+      &gt;                 fi<br>
+      &gt;         done<br>
+      &gt;  }<br>
+      &gt; +<br>
+      &gt; +pkg_postinst_${PN} () {<br>
+      &gt; +       grep -q "^${bindir}/screen$" $D${sysconfdir}/shells
+      || echo ${bindir}/screen &gt;&gt; $D${sysconfdir}/shells<br>
+      &gt; +}<br>
+      &gt; +<br>
+      &gt; +pkg_postrm_${PN} () {<br>
+      &gt; +       printf "$(grep -v "^${bindir}/screen$"
+      $D${sysconfdir}/shells)\n" &gt; $D${sysconfdir}/shells<br>
+      &gt; +}<br>
+      &gt; --<br>
+      &gt; 1.8.4.1<br>
+      &gt;<br>
+      &gt; _______________________________________________<br>
+      &gt; Openembedded-core mailing list<br>
+      &gt; <a moz-do-not-send="true"
+        href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
+      &gt; <a moz-do-not-send="true"
+        href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+      &gt;
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------060704020102060307060905--
