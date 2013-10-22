@@ -1,25 +1,25 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id E9D466D310
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B0B26D2BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 14:24:17 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 22 Oct 2013 07:24:20 -0700
+	Tue, 22 Oct 2013 14:24:34 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Oct 2013 07:24:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="311116459"
+X-IronPort-AV: E=Sophos;i="4.93,548,1378882800"; d="scan'208";a="420829917"
 Received: from unknown (HELO localhost) ([10.255.14.222])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Oct 2013 07:24:19 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 22 Oct 2013 07:24:13 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2013 09:24:05 -0500
-Message-Id: <7d138d9b62545fadb04ed299cfe01a93a7cd8cea.1382451106.git.tom.zanussi@linux.intel.com>
+Date: Tue, 22 Oct 2013 09:24:01 -0500
+Message-Id: <10b4f56c2bd1951922f9fe36eb8275f0f2079a3f.1382451106.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <9872888983dba131e54cd489a1c5b9ef05728681.1382451106.git.tom.zanussi@linux.intel.com>
 References: <9872888983dba131e54cd489a1c5b9ef05728681.1382451106.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1382451106.git.tom.zanussi@linux.intel.com>
 References: <cover.1382451106.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 10/10] wic: Update and generalize pseudo setup for rootfs generation
+Subject: [PATCH 06/10] wic: Remove rpm and grabber dependencies from BaseImageCreator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,85 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 14:24:18 -0000
+X-List-Received-Date: Tue, 22 Oct 2013 14:24:34 -0000
 
-Remove unnecessary pseudo exports i.e. PSEUDO_DISABLED and move the
-setup to the top-level prepare_rootfs().
+BaseImageCreator is a base class for DirectImageCreator and others,
+and imports rpm and grabber (which imports rpm).
+
+The various plugins e.g. DirectPlugin import the creators and
+therefore these dependencies, which manifest at run-time as e.g.:
+
+  Warning: Failed to load plugin imager/direct_plugin: No module named
+    rpm
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- .../lib/mic/kickstart/custom_commands/partition.py | 28 ++++++++++++----------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+ scripts/lib/mic/imager/baseimager.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-index 0eb0671..4b11195 100644
---- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-@@ -204,25 +204,27 @@ class Wic_PartData(Mic_PartData):
+diff --git a/scripts/lib/mic/imager/baseimager.py b/scripts/lib/mic/imager/baseimager.py
+index 4d6be29..b721249 100644
+--- a/scripts/lib/mic/imager/baseimager.py
++++ b/scripts/lib/mic/imager/baseimager.py
+@@ -26,12 +26,10 @@ import re
+ import tarfile
+ import glob
  
-         Currently handles ext2/3/4 and btrfs.
-         """
-+        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
-+        pseudo += "export PSEUDO_LOCALSTATEDIR=%s/../pseudo;" % rootfs_dir
-+        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-+        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-+        pseudo += "%s/usr/bin/pseudo " % native_sysroot
-+
-         if self.fstype.startswith("ext"):
-             return self.prepare_rootfs_ext(cr_workdir, oe_builddir,
--                                           rootfs_dir, native_sysroot)
-+                                           rootfs_dir, native_sysroot,
-+                                           pseudo)
-         elif self.fstype.startswith("btrfs"):
-             return self.prepare_rootfs_btrfs(cr_workdir, oe_builddir,
--                                             rootfs_dir, native_sysroot)
-+                                             rootfs_dir, native_sysroot,
-+                                             pseudo)
+-import rpm
+-
+ from mic import kickstart
+ from mic import msger
+ from mic.utils.errors import CreatorError, Abort
+-from mic.utils import misc, grabber, runner, fs_related as fs
++from mic.utils import misc, runner, fs_related as fs
  
-     def prepare_rootfs_ext(self, cr_workdir, oe_builddir, rootfs_dir,
--                           native_sysroot):
-+                           native_sysroot, pseudo):
-         """
-         Prepare content for an ext2/3/4 rootfs partition.
-         """
--        populate_script = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
--        populate_script += "export PSEUDO_LOCALSTATEDIR=%s/../pseudo;" % rootfs_dir
--        populate_script += "export PSEUDO_PASSWD=%s;" % rootfs_dir
--        populate_script += "export PSEUDO_NOSYMLINKEXP=1;"
--        populate_script += "export PSEUDO_DISABLED=0;"
--        populate_script += "%s/usr/bin/pseudo %s/usr/bin/populate-extfs.sh" % \
--            (native_sysroot, native_sysroot)
-+        populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
- 
-         image_extra_space = 10240
- 
-@@ -245,7 +247,7 @@ class Wic_PartData(Mic_PartData):
-         rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
- 
-         populate_cmd = populate_script + " " + image_rootfs + " " + rootfs
--        rc, out = exec_native_cmd(populate_cmd, native_sysroot)
-+        rc, out = exec_native_cmd(pseudo + populate_cmd, native_sysroot)
- 
-         # get the rootfs size in the right units for kickstart (Mb)
-         du_cmd = "du -Lbms %s" % rootfs
-@@ -258,7 +260,7 @@ class Wic_PartData(Mic_PartData):
-         return 0
- 
-     def prepare_rootfs_btrfs(self, cr_workdir, oe_builddir, rootfs_dir,
--                             native_sysroot):
-+                             native_sysroot, pseudo):
-         """
-         Prepare content for a btrfs rootfs partition.
- 
-@@ -281,7 +283,7 @@ class Wic_PartData(Mic_PartData):
- 
-         mkfs_cmd = "mkfs.%s -b %d -r %s %s" % \
-             (self.fstype, rootfs_size * 1024, image_rootfs, rootfs)
--        rc, out = exec_native_cmd(mkfs_cmd, native_sysroot)
-+        rc, out = exec_native_cmd(pseudo + mkfs_cmd, native_sysroot)
- 
-         # get the rootfs size in the right units for kickstart (Mb)
-         du_cmd = "du -Lbms %s" % rootfs
+ class BaseImageCreator(object):
+     """Installs a system to a chroot directory.
 -- 
 1.8.3.1
 
