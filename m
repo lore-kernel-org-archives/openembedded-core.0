@@ -1,25 +1,25 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id D0CDB6D308
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CED036D2BA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 14:24:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 22 Oct 2013 07:24:10 -0700
+	Tue, 22 Oct 2013 14:24:10 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Oct 2013 07:24:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,548,1378882800"; d="scan'208";a="415195678"
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="396768625"
 Received: from unknown (HELO localhost) ([10.255.14.222])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Oct 2013 07:24:09 -0700
+	by orsmga001.jf.intel.com with ESMTP; 22 Oct 2013 07:24:12 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 22 Oct 2013 09:23:58 -0500
-Message-Id: <584c7c6b384feea4937b183f03075c95e615cb41.1382451106.git.tom.zanussi@linux.intel.com>
+Date: Tue, 22 Oct 2013 09:24:00 -0500
+Message-Id: <1f8c74d82443303457f054bc301c15e0814f4d54.1382451106.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <9872888983dba131e54cd489a1c5b9ef05728681.1382451106.git.tom.zanussi@linux.intel.com>
 References: <9872888983dba131e54cd489a1c5b9ef05728681.1382451106.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1382451106.git.tom.zanussi@linux.intel.com>
 References: <cover.1382451106.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 03/10] wic: Remove dependency on rpmmisc
+Subject: [PATCH 05/10] wic: remove rpm warning code from BackendPlugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 14:24:10 -0000
+X-List-Received-Date: Tue, 22 Oct 2013 14:24:11 -0000
 
-rpmmisc imports rpm and contains misc rpm utilities related to
-packaging and determining arches based on the packaging.  We should
-never run across this in the initial version of wic, so remove the
-dependency.
+We don't currently use rpm functionality, so we don't need to silence
+rpm warnings.
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- scripts/lib/mic/creator.py       | 2 +-
- scripts/lib/mic/imager/livecd.py | 2 +-
- scripts/lib/mic/utils/misc.py    | 1 -
- 3 files changed, 2 insertions(+), 3 deletions(-)
+ scripts/lib/mic/pluginbase.py | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/scripts/lib/mic/creator.py b/scripts/lib/mic/creator.py
-index b36bbf0..267928f 100644
---- a/scripts/lib/mic/creator.py
-+++ b/scripts/lib/mic/creator.py
-@@ -19,7 +19,7 @@ import os, sys, re
- from optparse import SUPPRESS_HELP
+diff --git a/scripts/lib/mic/pluginbase.py b/scripts/lib/mic/pluginbase.py
+index 6ac195b..2f9d720 100644
+--- a/scripts/lib/mic/pluginbase.py
++++ b/scripts/lib/mic/pluginbase.py
+@@ -83,11 +83,6 @@ class ImagerPlugin(_Plugin):
+ class BackendPlugin(_Plugin):
+     mic_plugin_type="backend"
  
- from mic import msger
--from mic.utils import cmdln, errors, rpmmisc
-+from mic.utils import cmdln, errors
- from mic.conf import configmgr
- from mic.plugin import pluginmgr
+-    # suppress the verbose rpm warnings
+-    if msger.get_loglevel() != 'debug':
+-        import rpm
+-        rpm.setVerbosity(rpm.RPMLOG_ERR)
+-
+     def addRepository(self):
+         pass
  
-diff --git a/scripts/lib/mic/imager/livecd.py b/scripts/lib/mic/imager/livecd.py
-index a992ee0..0711552 100644
---- a/scripts/lib/mic/imager/livecd.py
-+++ b/scripts/lib/mic/imager/livecd.py
-@@ -20,7 +20,7 @@ import glob
- import shutil
- 
- from mic import kickstart, msger
--from mic.utils import fs_related, rpmmisc, runner, misc
-+from mic.utils import fs_related, runner, misc
- from mic.utils.errors import CreatorError
- from mic.imager.loop import LoopImageCreator
- 
-diff --git a/scripts/lib/mic/utils/misc.py b/scripts/lib/mic/utils/misc.py
-index 67ddef2..2c4a3ac 100644
---- a/scripts/lib/mic/utils/misc.py
-+++ b/scripts/lib/mic/utils/misc.py
-@@ -45,7 +45,6 @@ from mic.utils.fs_related import find_binary_path, makedirs
- from mic.utils.grabber import myurlgrab
- from mic.utils.proxy import get_proxy_for
- from mic.utils import runner
--from mic.utils import rpmmisc
- 
- 
- RPM_RE  = re.compile("(.*)\.(.*) (.*)-(.*)")
 -- 
 1.8.3.1
 
