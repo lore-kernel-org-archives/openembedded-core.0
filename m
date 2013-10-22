@@ -1,55 +1,36 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 206B26CA74
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id B33846D2F9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 22 Oct 2013 15:13:44 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r9MFDYfF030174
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Tue, 22 Oct 2013 17:13:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1382454815;
-	bh=stjyOu/GhHvSF36mGg9uMenm14nd/6jLn6rUilmITIM=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=ksiSl2quhncMyuo2UpfGOfW1CRft4txFWuv8gQYQjJXocU/+BdRB7WPgdamFckQaA
-	nM0xlrihlDV0OrHoMkdHrg40V2nHIbRq+poHRnEbtGAvwmoiU3iBTz7r1URBOgVO6j
-	WIOJ7kpsPEOEyJGlDSIwz7lAgRYalInad/VRETko=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r9MFDSW5001132
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 22 Oct 2013 17:13:30 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1VYdeC-0003s9-Jv; Tue, 22 Oct 2013 17:13:28 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: "Iorga\, Cristian" <cristian.iorga@intel.com>
-References: <1382083973-13444-1-git-send-email-rongqing.li@windriver.com>
-	<CAJTo0LZBVxwoUufz4dbpaCXoV4x3x+S_q3NYowGsjstXHDs=tQ@mail.gmail.com>
-	<ly7gdawxs2.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<969F26A8BAB325438E7EB80D3C3134FB16CA0FEC@IRSMSX105.ger.corp.intel.com>
-	<ly1u3de4q9.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<969F26A8BAB325438E7EB80D3C3134FB16CA102D@IRSMSX105.ger.corp.intel.com>
-Date: Tue, 22 Oct 2013 17:13:28 +0200
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16CA102D@IRSMSX105.ger.corp.intel.com>
-	(Cristian Iorga's message of "Tue, 22 Oct 2013 15:00:28 +0000")
-Message-ID: <lytxg9cp9j.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] connman: ignore the networking device which nfs for rootfs is working on
+	Tue, 22 Oct 2013 16:37:07 +0000 (UTC)
+Received: by mail-qc0-f172.google.com with SMTP id c9so5568618qcz.31
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 22 Oct 2013 09:37:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id;
+	bh=02/EE1mDMEJH1bEcdFirvYoBDNDdIAnUrIb5ZFzfzhA=;
+	b=xHbPyzizDIRzZcWuaFTIo11/yiF+aglOAfytRU6KJxhZCex2wBkjw2em97J/LFSdzy
+	SG6I8gsZNaKPs1sLoapRQ4H+p7aLBd6s2gRbg0TisOXzR/pVq4r/mx0+922EF8SwzNRY
+	Nxoyw+3pKbJxoRpHMgI//PKwZ2KCTK5lOuhDEggzcasLlZsuUZkYBZGeXdxq9l4cFsi4
+	can9jyvWSn/aqaCTcke++NCYoHEz4Tpqx3iTSBwKH1rLqj5zQbRpDfLMG5v56XN9/why
+	Z/a7vIiRShZjRALiOX7fNntxLSTyQ1W1GbjppfXaGOZgIj9fuB34mx1x4ZBTSwbZUt+o
+	Jklg==
+X-Received: by 10.224.64.200 with SMTP id f8mr31399977qai.55.1382459829211;
+	Tue, 22 Oct 2013 09:37:09 -0700 (PDT)
+Received: from localhost.localdomain (cpe-174-106-216-211.ec.res.rr.com.
+	[174.106.216.211])
+	by mx.google.com with ESMTPSA id b10sm43813325qeg.7.2013.10.22.09.37.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 22 Oct 2013 09:37:08 -0700 (PDT)
+Sender: Tom Rini <tom.rini@gmail.com>
+From: Tom Rini <trini@ti.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 22 Oct 2013 12:37:10 -0400
+Message-Id: <1382459830-15683-1-git-send-email-trini@ti.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] udev: Update touchscreen rule for ID_INPUT_TOUCHSCREEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,26 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2013 15:13:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 22 Oct 2013 16:37:09 -0000
 
-"Iorga, Cristian" <cristian.iorga@intel.com> writes:
+Since udev 174 udev has been running input_id as a built-in command and
+setting this value in the environment for touchscreens.  Use this logic
+to detect when to make a touchscreen0 symlink.
 
-> I might be wrong, but I fail to see how this relates to our situation.
-> Care to elaborate?
+Signed-off-by: Tom Rini <trini@ti.com>
+---
+ meta/recipes-core/udev/udev/local.rules |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The provisining works only when static ips are configured.  Using connman
-in dhcp setup will do all the bad things which were tried to be fixed by
-the provisioning (bringing down interface, clearing default route).
+diff --git a/meta/recipes-core/udev/udev/local.rules b/meta/recipes-core/udev/udev/local.rules
+index 72d92ef..d0b0216 100644
+--- a/meta/recipes-core/udev/udev/local.rules
++++ b/meta/recipes-core/udev/udev/local.rules
+@@ -17,5 +17,5 @@
+ ACTION=="add", DEVPATH=="/devices/*", ENV{MODALIAS}=="?*", RUN+="/sbin/modprobe $env{MODALIAS}"
+ 
+ # Create a symlink to any touchscreen input device
+-SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{modalias}=="input:*-e0*,3,*a0,1,*18,*", SYMLINK+="input/touchscreen0"
++SUBSYSTEM=="input", KERNEL=="event[0-9]*", ENV{ID_INPUT_TOUCHSCREEN}=="1", SYMLINK+="input/touchscreen0"
+ 
+-- 
+1.7.9.5
 
-Ideally, provisioning mechanism would be extended so that connman uses
-dhcp by requesting current ip and without reconfiguring the interface
-(neither on startup, nor on shutdown).
-
-But for now, only solution seems to ignore the netwrok interface which
-is done by the patch.
-
-
-
-Enrico
 
