@@ -1,34 +1,39 @@
-Return-Path: <lizhijian@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D9516D096
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
+	[209.85.212.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B4AD6CF3C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 07:34:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.93,553,1378828800"; 
-   d="scan'208";a="8837002"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 23 Oct 2013 15:31:05 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r9N7YNBm018682
+	Wed, 23 Oct 2013 07:52:35 +0000 (UTC)
+Received: by mail-vb0-f52.google.com with SMTP id f13so252336vbg.39
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 15:34:24 +0800
-Received: from [127.0.0.1] ([10.167.226.56])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013102315315426-2474734 ;
-	Wed, 23 Oct 2013 15:31:54 +0800 
-Message-ID: <52677C01.1020908@cn.fujitsu.com>
-Date: Wed, 23 Oct 2013 15:34:25 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-Organization: fnst-ulinux
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+	Wed, 23 Oct 2013 00:52:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=olZYP/g0UzHoZd2XD4bTugAByWqQDiVx3hOD3crrt68=;
+	b=Q6NY9ZUoyVMg8tlZw0nBeJtWM76uMQFdydD5jNg/DBA1LvZbht3Rrt5iVgdK9nKCYp
+	GypMTpWTR4LAXuYJ5XNgdB+qkGSnRDK1es+31TwB34/Lprahyk8LFs80DzZZb86ZusYl
+	VBRJL6BnHvXDqZWDg1ocwoXhF9zSayZzID491dSIElI+r3/EbU17Tw6sQqrIy0qSXJXr
+	cPX3lIXIR3mwbBro8s0XtZphqhskTfVwMeJdpYtXe4o8uuVJ49gwd2b1FerJWGDrxPuz
+	q4KU4+j1bdfv4jFWUda3hlYUno9aLxSfckzGfE7obawtHHsK/ovQC56UaKNk0T4AenVK
+	oh9w==
+X-Gm-Message-State: ALoCoQmglAGWjPfLD0FQzoFljADXmBqJdCAGY7AsKyf7Ir2bPQeh0Y3xlq1DxqrF4lOmRwD7n6E2
+X-Received: by 10.52.100.202 with SMTP id fa10mr84918vdb.0.1382514756520; Wed,
+	23 Oct 2013 00:52:36 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/10/23 15:31:54,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/10/23 15:31:54,
-	Serialize complete at 2013/10/23 15:31:54
-Subject: [PATCH] systemd.bbclass: do not call 'systemctl restart ${SYSTEMD_SERVICE}' at systemd_postinst
+Received: by 10.220.71.201 with HTTP; Wed, 23 Oct 2013 00:52:16 -0700 (PDT)
+In-Reply-To: <5266FC9F.5050109@communistcode.co.uk>
+References: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
+	<5266E3C2.6040502@linux.intel.com>
+	<5266FC9F.5050109@communistcode.co.uk>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Oct 2013 08:52:16 +0100
+Message-ID: <CAJTo0LZkMUSv7cErf9Et_12t6ukmQWVYfGkKJfeESPRTzv8TQw@mail.gmail.com>
+To: Jack Mitchell <ml@communistcode.co.uk>
+Cc: Jack Mitchell <jmitchell@cbnl.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,41 +46,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2013 07:34:26 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=GB2312
+X-List-Received-Date: Wed, 23 Oct 2013 07:52:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
+On 22 October 2013 23:30, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> Urgh, this library is a PITA. I'm going to be at the Dev Day/ELC-E myself so
+> I might seek some professional guidance ;)
 
-If systemd_postinst is installed as a delayed package scriptlet (installed to /etc/rpm-postints/${PN})
-which would be executed at the first time of OS startup. And then this script would block when it is
-trying to call systemctl to restart service.
+[plug] there's a maintainer Q&A session this morning... :)
 
-It seems that it is not a good timing to restart service at run-postinsts.
-I test serval services which has supported systemd(uuidd/avahi-daemon), all of them
-will block the startup.
-
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
- meta/classes/systemd.bbclass |    4 ----
- 1 files changed, 0 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 3700b2e..7aa5459 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -31,10 +31,6 @@ fi
-  if type systemctl >/dev/null 2>/dev/null; then
- 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
--
--	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
--		systemctl restart ${SYSTEMD_SERVICE}
--	fi
- fi
- }
- -- 1.7.1
-
-
-
-
+Ross
 
