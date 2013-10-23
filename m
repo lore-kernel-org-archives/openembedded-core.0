@@ -1,39 +1,20 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B2F826D2DD
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 060F76D2C9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 15:35:57 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id ey11so1096765wid.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 08:35:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=sDt86OUhCidpJF9VacnoO0zUN3GEGJKAxWqnfTjkWnY=;
-	b=y2hqhEPTyPhNFIN/roOSXSGE0S1xs1KFIcptcXyShxKfBDdZNb3fc6aKse2CX2pok3
-	PQ6YQYqx/Z9dPRiNVqjLkIfbDd/NqjsQkpG8+di2KbXFpMNPitiEerKL2AkRhiZVVfHT
-	DUuxFVAuU7/ZegsfhzChcqO9MaMJpFrwCUisW8xtjf2zNQI+2SA2Rafn8fez3YOnamMy
-	AmF4Yim7cRL+jDf2WUCVfmk+6hRaGgszA0GhEK0bCH1CgZr3/0A0a86BA1YJeJLghZG+
-	rsQeOI6mLuqbYobo2uGSvAhFXR1H1IN0U9Ynog99Czz16usrB+74GWsTm9xLh5iojIcJ
-	nMaQ==
-X-Received: by 10.180.13.174 with SMTP id i14mr2666012wic.49.1382542558701;
-	Wed, 23 Oct 2013 08:35:58 -0700 (PDT)
-Received: from nysan (ed03490-ge-0-0-0.mgdfwr.lumison.net. [212.20.242.100])
-	by mx.google.com with ESMTPSA id b7sm18109601wiz.8.2013.10.23.08.35.57
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 23 Oct 2013 08:35:58 -0700 (PDT)
-Received: by nysan (Postfix, from userid 1000)
-	id 12D8440068D; Wed, 23 Oct 2013 16:35:57 +0100 (BST)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	yocto@yoctoproject.org
-Date: Wed, 23 Oct 2013 16:35:54 +0100
-Message-Id: <1382542555-12171-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
-MIME-Version: 1.0
-Subject: [yocto-docs][PATCH] ref-manual: Added description of sdk-pms DISTRO_FEATURE
+	Wed, 23 Oct 2013 16:57:31 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2013 09:54:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="397431996"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2013 09:57:31 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Oct 2013 19:59:37 +0300
+Message-Id: <cover.1382547468.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/2] glib-2.0 and bluez5 upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2013 15:35:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 23 Oct 2013 16:57:31 -0000
 
-Added description of DISTRO_FEATURE sdk-pms in the Yocto reference manual.
+The following changes since commit ffb440c37c3491fa5d9a1408341f7c15eacdc9ce:
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
----
- documentation/ref-manual/ref-features.xml | 4 ++++
- 1 file changed, 4 insertions(+)
+  midori: exclude from self-hosted for mips64 (2013-10-23 07:18:54 +0100)
 
-diff --git a/documentation/ref-manual/ref-features.xml b/documentation/ref-manual/ref-features.xml
-index 92c5e8a..f042bba 100644
---- a/documentation/ref-manual/ref-features.xml
-+++ b/documentation/ref-manual/ref-features.xml
-@@ -115,6 +115,10 @@
-                     supports it.</para></listitem>
-                 <listitem><para><emphasis>wifi:</emphasis> Include WiFi support
-                     (integrated only).</para></listitem>
-+		<listitem><para><emphasis>sdk-pms:</emphasis> Include Package 
-+		    Management Tools in the nativesdk toolchain tarball,
-+                    This to allow easy sandboxing of rootfs creation when using 
-+		    the SDK tarball.</para></listitem>
-             </itemizedlist>
-         </para>
-     </section>
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/PU2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PU2
+
+Cristian Iorga (2):
+  glib-2.0: upgrade to 2.38.1
+  bluez5: upgrade to 5.10
+
+ .../bluez5/{bluez5-5.7 => bluez5-5.10}/bluetooth.conf                | 0
+ meta/recipes-connectivity/bluez5/bluez5_5.10.bb                      | 5 +++++
+ meta/recipes-connectivity/bluez5/bluez5_5.7.bb                       | 5 -----
+ .../recipes-core/glib-2.0/{glib-2.0_2.38.0.bb => glib-2.0_2.38.1.bb} | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5-5.7 => bluez5-5.10}/bluetooth.conf (100%)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.10.bb
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.7.bb
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.38.0.bb => glib-2.0_2.38.1.bb} (93%)
+
 -- 
-1.8.3.2
+1.8.1.2
 
 
