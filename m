@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 060F76D2C9
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 42C316D2C9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 16:57:31 +0000 (UTC)
+	Wed, 23 Oct 2013 16:57:33 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2013 09:54:12 -0700
+	by orsmga101.jf.intel.com with ESMTP; 23 Oct 2013 09:57:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="397431996"
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="397432011"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2013 09:57:31 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2013 09:57:34 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Oct 2013 19:59:37 +0300
-Message-Id: <cover.1382547468.git.cristian.iorga@intel.com>
+Date: Wed, 23 Oct 2013 19:59:39 +0300
+Message-Id: <c712326a5227bd3033e0a48365c8269bd9b6149c.1382547468.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 0/2] glib-2.0 and bluez5 upgrades
+In-Reply-To: <cover.1382547468.git.cristian.iorga@intel.com>
+References: <cover.1382547468.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1382547468.git.cristian.iorga@intel.com>
+References: <cover.1382547468.git.cristian.iorga@intel.com>
+Subject: [PATCH 2/2] bluez5: upgrade to 5.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2013 16:57:31 -0000
+X-List-Received-Date: Wed, 23 Oct 2013 16:57:33 -0000
 
-The following changes since commit ffb440c37c3491fa5d9a1408341f7c15eacdc9ce:
-
-  midori: exclude from self-hosted for mips64 (2013-10-23 07:18:54 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ciorga/PU2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PU2
-
-Cristian Iorga (2):
-  glib-2.0: upgrade to 2.38.1
-  bluez5: upgrade to 5.10
-
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
  .../bluez5/{bluez5-5.7 => bluez5-5.10}/bluetooth.conf                | 0
  meta/recipes-connectivity/bluez5/bluez5_5.10.bb                      | 5 +++++
  meta/recipes-connectivity/bluez5/bluez5_5.7.bb                       | 5 -----
- .../recipes-core/glib-2.0/{glib-2.0_2.38.0.bb => glib-2.0_2.38.1.bb} | 4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ 3 files changed, 5 insertions(+), 5 deletions(-)
  rename meta/recipes-connectivity/bluez5/{bluez5-5.7 => bluez5-5.10}/bluetooth.conf (100%)
  create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.10.bb
  delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.7.bb
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.38.0.bb => glib-2.0_2.38.1.bb} (93%)
 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5-5.7/bluetooth.conf b/meta/recipes-connectivity/bluez5/bluez5-5.10/bluetooth.conf
+similarity index 100%
+rename from meta/recipes-connectivity/bluez5/bluez5-5.7/bluetooth.conf
+rename to meta/recipes-connectivity/bluez5/bluez5-5.10/bluetooth.conf
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.10.bb b/meta/recipes-connectivity/bluez5/bluez5_5.10.bb
+new file mode 100644
+index 0000000..57dd4ff
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.10.bb
+@@ -0,0 +1,5 @@
++require bluez5.inc
++
++SRC_URI[md5sum] = "9bcc1d81e392e5be27fb11b1aad71abe"
++SRC_URI[sha256sum] = "39360c4c58158cb1d5dcc56d34a0a676d8868ef8c82b3083fc7396be5e8c3963"
++
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.7.bb b/meta/recipes-connectivity/bluez5/bluez5_5.7.bb
+deleted file mode 100644
+index 6e2850d..0000000
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.7.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require bluez5.inc
+-
+-SRC_URI[md5sum] = "ce0ef43938e8bfc230f3f06d6ad02d7e"
+-SRC_URI[sha256sum] = "902299204b7139c913765603c7054a604570aea9e9fddb30454bd1b5e5997860"
+-
 -- 
 1.8.1.2
 
