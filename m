@@ -1,20 +1,22 @@
 Return-Path: <marius.avram@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 348CE6D2D7
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E25B6D2CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 12:03:14 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2013 04:59:55 -0700
+	Wed, 23 Oct 2013 12:13:08 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Oct 2013 05:13:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,554,1378882800"; d="scan'208";a="415728929"
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="397282324"
 Received: from mavram-vostro.rb.intel.com ([10.237.105.72])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Oct 2013 05:03:15 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2013 05:13:09 -0700
 From: Marius Avram <marius.avram@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Oct 2013 15:05:00 +0300
-Message-Id: <1382529900-12710-1-git-send-email-marius.avram@intel.com>
+Date: Wed, 23 Oct 2013 15:14:54 +0300
+Message-Id: <1382530494-12798-1-git-send-email-marius.avram@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 2/2] pcmanfm: Upgrade from 1.1.0 to 1.1.2
+In-Reply-To: <1382529900-12710-1-git-send-email-marius.avram@intel.com>
+References: <1382529900-12710-1-git-send-email-marius.avram@intel.com>
+Subject: [PATCH v2 2/2] pcmanfm: Upgrade from 1.1.0 to 1.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,15 +29,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2013 12:03:14 -0000
+X-List-Received-Date: Wed, 23 Oct 2013 12:13:08 -0000
 
 -remove a patch for cross-compile because it is not needed anymore
-
-Signed-off-by: Marius Avram <marius.avram@intel.com>
-
-Conflicts:
-
-	meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
 
 Signed-off-by: Marius Avram <marius.avram@intel.com>
 ---
