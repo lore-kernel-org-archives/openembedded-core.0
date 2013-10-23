@@ -1,36 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
-	[209.85.128.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 65CB16D334
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A5576D2D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 14:07:24 +0000 (UTC)
-Received: by mail-ve0-f171.google.com with SMTP id pa12so51409veb.16
+	Wed, 23 Oct 2013 15:35:57 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id q58so1000410wes.17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 07:07:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=bS9KB8Jferno4xeKoRSPNOI3nexJrhQeegs146Q/EAg=;
-	b=hecm7q/U/Y5PwMjD1lVK8o1pd/6SYIEy+in4lDa5d1n03CVO+/6QiWVySWFEUE/EFJ
-	4fp7jiinf4czAdiLy0WimIdlPnCDcgP9wa7w3KAfMgDZIGYPCJ7XvGfLmnfnY7SdE+nU
-	EdnoAUa2g1tx91sWajGEsZhZzqtD2dsQuUubiDkfaJuUi4ozxTNjfQyShrVscydUEcr7
-	a8HPOWyenMp/9miQIECXqv9q/9uKmbsGvbGBI1VgGjcxMmKr9YHcpkYC55+RksVDPWvB
-	N8PgNHQRm5vLYCy3N//EcxlWnvxQoQbqOho9M0k9ocH+kT+zIGXlBB1jaLq7KOLrs47D
-	zemg==
-X-Gm-Message-State: ALoCoQmhrcQ9Uzy+133I8jmJZstb52V+6Aws6LwLS45X926n7aMf2+jGjvguodVGoxexI7/2MRca
-X-Received: by 10.220.199.5 with SMTP id eq5mr1270855vcb.16.1382537245987;
-	Wed, 23 Oct 2013 07:07:25 -0700 (PDT)
+	Wed, 23 Oct 2013 08:35:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=uZDgAbg6adJNq6LcE040ALG7Uti3MukHS6sJOCZ15rw=;
+	b=XhqZ9PFrR6X5LGYSvw+2ogm7sXNRLFKibCPsyAvlBSfV0Exk1HCXy6iKCbsX3Cr629
+	0i+6RVpYzoF1ByjbjhxQ69tjm4irqsHtf6Kux7bn1m2PIBMWSGCens3/4Zqw9fRHtcxv
+	djK2EqPCQZ5Qgg8Ox4GtHaDNTJOdhCB4Cs5PdUTsxS5lNPh9QQuvrdPSy+PTmklouunl
+	rgBVFLfB4FaPnerWrENC7wYWEuvp4V4AkLvGLYiobcjSoGQxgU40kFGZYYnS2l5PDbys
+	NZ58bEQbhUmPa8ymXKvv4nFmWfN3vydmK/YkyYhT2CVrBqv9I52k4KXbjddYhZ+zRpVy
+	86nw==
+X-Received: by 10.180.89.225 with SMTP id br1mr2129791wib.50.1382542558532;
+	Wed, 23 Oct 2013 08:35:58 -0700 (PDT)
+Received: from nysan (ed03490-ge-0-0-0.mgdfwr.lumison.net. [212.20.242.100])
+	by mx.google.com with ESMTPSA id y20sm18049440wib.0.2013.10.23.08.35.57
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 23 Oct 2013 08:35:58 -0700 (PDT)
+Received: by nysan (Postfix, from userid 1000)
+	id 1748D40060D; Wed, 23 Oct 2013 16:35:57 +0100 (BST)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	yocto@yoctoproject.org
+Date: Wed, 23 Oct 2013 16:35:55 +0100
+Message-Id: <1382542555-12171-2-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1382542555-12171-1-git-send-email-david.nystrom@enea.com>
+References: <1382542555-12171-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 23 Oct 2013 07:07:05 -0700 (PDT)
-In-Reply-To: <5267D269.2020701@mlbassoc.com>
-References: <5267D269.2020701@mlbassoc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 23 Oct 2013 15:07:05 +0100
-Message-ID: <CAJTo0LYaqs00v5XUf+wRtaKytZy1-8VDuPcEyawYU8UXxzPUGw@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Mesa mess
+Subject: [PATCHv2] nativesdk-packagegroup-sdk-host: Add new DISTRO_FEATURE, sdk-pms
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,24 +48,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2013 14:07:25 -0000
+X-List-Received-Date: Wed, 23 Oct 2013 15:35:58 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 23 October 2013 14:43, Gary Thomas <gary@mlbassoc.com> wrote:
-> With the current master (Poky ffb440c37c), I can't build anything
-> with a virtual/mesa requirement.  This seems to bring in both mesa
-> and mesa-gl, which fight to the death, killing the build :-(
+Added a new distro feature called sdk-pms, since smartpm rdepends
+on the python runtime.
+This to avoid bloating the SDK tarball for those who does not
+want it.
 
-Presumably you want just mesa-gl?
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-I guess your distro is setting a preferred provider for
-virtual/something to mesa-gl, and something else is pulling in mesa,
-probably through a default.  Can you check that all of the
-mesa-related virtual/* lines are set in your distro, my hunch is that
-you don't have virtual/mesa set to mesa-gl.
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index e298ff4..1f45c4c 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -16,7 +16,8 @@ RDEPENDS_${PN} = "\
+     nativesdk-qemu-helper \
+     nativesdk-pseudo \
+     nativesdk-unfs-server \
+-    nativesdk-opkg \
++    ${@base_contains('DISTRO_FEATURES', 'sdk-pms', 'nativesdk-opkg','', d)} \
++    ${@base_contains('DISTRO_FEATURES', 'sdk-pms', 'nativesdk-smartpm','', d)} \
+     nativesdk-libtool \
+     nativesdk-autoconf \
+     nativesdk-automake \
+-- 
+1.8.3.2
 
-If the distro looks right then try using depexp to see what is pulling
-in mesa when it shouldn't be?
-
-Ross
 
