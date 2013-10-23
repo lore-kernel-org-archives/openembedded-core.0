@@ -1,26 +1,36 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 67AEE6D2CE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 65CB16D334
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 13:43:01 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 5B181F81203; Wed, 23 Oct 2013 07:43:03 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 9B763F81202;
-	Wed, 23 Oct 2013 07:43:02 -0600 (MDT)
-Message-ID: <5267D269.2020701@mlbassoc.com>
-Date: Wed, 23 Oct 2013 07:43:05 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Wed, 23 Oct 2013 14:07:24 +0000 (UTC)
+Received: by mail-ve0-f171.google.com with SMTP id pa12so51409veb.16
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 23 Oct 2013 07:07:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=bS9KB8Jferno4xeKoRSPNOI3nexJrhQeegs146Q/EAg=;
+	b=hecm7q/U/Y5PwMjD1lVK8o1pd/6SYIEy+in4lDa5d1n03CVO+/6QiWVySWFEUE/EFJ
+	4fp7jiinf4czAdiLy0WimIdlPnCDcgP9wa7w3KAfMgDZIGYPCJ7XvGfLmnfnY7SdE+nU
+	EdnoAUa2g1tx91sWajGEsZhZzqtD2dsQuUubiDkfaJuUi4ozxTNjfQyShrVscydUEcr7
+	a8HPOWyenMp/9miQIECXqv9q/9uKmbsGvbGBI1VgGjcxMmKr9YHcpkYC55+RksVDPWvB
+	N8PgNHQRm5vLYCy3N//EcxlWnvxQoQbqOho9M0k9ocH+kT+zIGXlBB1jaLq7KOLrs47D
+	zemg==
+X-Gm-Message-State: ALoCoQmhrcQ9Uzy+133I8jmJZstb52V+6Aws6LwLS45X926n7aMf2+jGjvguodVGoxexI7/2MRca
+X-Received: by 10.220.199.5 with SMTP id eq5mr1270855vcb.16.1382537245987;
+	Wed, 23 Oct 2013 07:07:25 -0700 (PDT)
 MIME-Version: 1.0
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Mesa mess
+Received: by 10.220.71.201 with HTTP; Wed, 23 Oct 2013 07:07:05 -0700 (PDT)
+In-Reply-To: <5267D269.2020701@mlbassoc.com>
+References: <5267D269.2020701@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 23 Oct 2013 15:07:05 +0100
+Message-ID: <CAJTo0LYaqs00v5XUf+wRtaKytZy1-8VDuPcEyawYU8UXxzPUGw@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Mesa mess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2013 13:43:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Oct 2013 14:07:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-With the current master (Poky ffb440c37c), I can't build anything
-with a virtual/mesa requirement.  This seems to bring in both mesa
-and mesa-gl, which fight to the death, killing the build :-(
+On 23 October 2013 14:43, Gary Thomas <gary@mlbassoc.com> wrote:
+> With the current master (Poky ffb440c37c), I can't build anything
+> with a virtual/mesa requirement.  This seems to bring in both mesa
+> and mesa-gl, which fight to the death, killing the build :-(
 
-It starts with this error:
-   ERROR: Multiple .bb files are due to be built which each provide virtual/libgl (/local/poky-cutting-edge/meta/recipes-graphics/mesa/mesa_9.1.6.bb 
-/local/poky-cutting-edge/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb).
-  This usually means one provides something the other doesn't and should.
+Presumably you want just mesa-gl?
 
-And ends when mesa tries to reset the PR:
-   ERROR: Recipe mesa is trying to change PR from 'r1' to 'r0'. This will cause do_package_write_* failures since the incorrect data will be used and they will be unable to find 
-the right workdir.
+I guess your distro is setting a preferred provider for
+virtual/something to mesa-gl, and something else is pulling in mesa,
+probably through a default.  Can you check that all of the
+mesa-related virtual/* lines are set in your distro, my hunch is that
+you don't have virtual/mesa set to mesa-gl.
 
-I'm using my own distro based on Poky, with these features enabled:
-   DISTRO_FEATURES="sysvinit alsa ipv4 x11 opengl wifi ext2 largefile ipv4 ipv6 libc-backtrace libc-big-macros libc-bsd libc-cxx-tests libc-catgets libc-charsets libc-crypt 
-                               libc-crypt-ufc libc-db-aliases libc-envz libc-fcvt libc-fmtmsg libc-fstab libc-ftraverse                                       libc-getlogin libc-idn 
-libc-inet-anl libc-libm libc-locales libc-locale-code                                   libc-memusage libc-nis libc-nsswitch libc-rcmd libc-rtld-debug libc-spawn libc-streams 
-libc-sunrpc                                     libc-utmp libc-utmpx libc-wordexp libc-posix-clang-wchar libc-posix-regexp libc-posix-regexp-glibc 
-  libc-posix-wchar-io  pulseaudio"
+If the distro looks right then try using depexp to see what is pulling
+in mesa when it shouldn't be?
 
-How can I get past this error?
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Ross
 
