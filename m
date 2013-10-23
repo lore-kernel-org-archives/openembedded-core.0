@@ -1,24 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BA746D33E
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id B2EEB6D2E6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 23 Oct 2013 16:57:47 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Oct 2013 09:54:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="397432000"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 23 Oct 2013 09:57:33 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Oct 2013 19:59:38 +0300
-Message-Id: <df46156c14795aa59603b685865e413d5663e8db.1382547468.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1382547468.git.cristian.iorga@intel.com>
-References: <cover.1382547468.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1382547468.git.cristian.iorga@intel.com>
-References: <cover.1382547468.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/2] glib-2.0: upgrade to 2.38.1
+	Wed, 23 Oct 2013 17:13:31 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 89BD1F8120C; Wed, 23 Oct 2013 11:13:33 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 2F01AF8120A;
+	Wed, 23 Oct 2013 11:13:30 -0600 (MDT)
+Message-ID: <526803BD.8010106@mlbassoc.com>
+Date: Wed, 23 Oct 2013 11:13:33 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <5267D269.2020701@mlbassoc.com>
+	<CAJTo0LYaqs00v5XUf+wRtaKytZy1-8VDuPcEyawYU8UXxzPUGw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYaqs00v5XUf+wRtaKytZy1-8VDuPcEyawYU8UXxzPUGw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Mesa mess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2013 16:57:47 -0000
+X-List-Received-Date: Wed, 23 Oct 2013 17:13:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-core/glib-2.0/{glib-2.0_2.38.0.bb => glib-2.0_2.38.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.38.0.bb => glib-2.0_2.38.1.bb} (93%)
+On 2013-10-23 08:07, Burton, Ross wrote:
+> On 23 October 2013 14:43, Gary Thomas <gary@mlbassoc.com> wrote:
+>> With the current master (Poky ffb440c37c), I can't build anything
+>> with a virtual/mesa requirement.  This seems to bring in both mesa
+>> and mesa-gl, which fight to the death, killing the build :-(
+>
+> Presumably you want just mesa-gl?
+>
+> I guess your distro is setting a preferred provider for
+> virtual/something to mesa-gl, and something else is pulling in mesa,
+> probably through a default.  Can you check that all of the
+> mesa-related virtual/* lines are set in your distro, my hunch is that
+> you don't have virtual/mesa set to mesa-gl.
+>
+> If the distro looks right then try using depexp to see what is pulling
+> in mesa when it shouldn't be?
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
-similarity index 93%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
-index 5717bd2..3e874d7 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.38.0.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
-@@ -19,8 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
- 
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
- 
--SRC_URI[md5sum] = "c50d2805a76763e9b4cc4385d4ea215d"
--SRC_URI[sha256sum] = "7513a7de5e814ccb48206340a8773ea523d6a7bf04dc74565de69b899bc2ff32"
-+SRC_URI[md5sum] = "f3f6789151c1810f2fe23fe9ebb8b828"
-+SRC_URI[sha256sum] = "01906c62ac666d2ab3183cc07261b2536fab7b211c6129ab66b119c2af56d159"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+I looked through this and nothing was obvious.  According to depmod, neither
+mesa nor mesa-gl have any direct "reverse depends", i.e. packages that depend
+on them.  As far as I can see, it's just coming from the xserver-xorg dependency
+on virtual/mesa.
+
+Which led me to another experiment which I truly do not understand.  I removed
+the mesa-gl recipe and now when I try to build 'virtual/mesa' I get a message
+that there is no provider :-(  However, I *can* build mesa with no problems.
+I also checked it against the other PROVIDES from mesa.inc and all of them
+except for virtual/mesa work.  How can this possibly be?
+
 -- 
-1.8.1.2
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
