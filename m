@@ -1,37 +1,39 @@
 Return-Path: <cazfi74@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id AB18E6D3A4
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DE766D3DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 18:29:38 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id o14so2220791lbi.23
+	Thu, 24 Oct 2013 18:29:42 +0000 (UTC)
+Received: by mail-la0-f49.google.com with SMTP id eh20so2257322lab.36
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 11:29:39 -0700 (PDT)
+	Thu, 24 Oct 2013 11:29:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Wqym45oUosh58F/4s5h2RMjLxJKmTIV7OgTbhnRN0go=;
-	b=Wy519v0BR4EzM0uY5Bj1lTJzSTqAXzFp9jz7YlR7brJ28jUqtF70YkETye3Y3NzKFK
-	xVsrfbqjCy09jPUTNubJ3GhlVwXdYj9EueKfJM15wkw3AC8vxVGNoxYb5JJwbT0303H0
-	aMExWoAQ87EXTHcRiVJLmqzuaeNk+OnKggHdKR+vTMKCrryhvErHkl5UhTHIJjeEIoBG
-	eCEl8+mP/x0+HKKD4ccmvc8/MzCfxitVtvUGEqeKmoWKLWfPnbMX7BiUgyk8Vm7sx94L
-	RwhHNPfB8HrGJ3sgUYNw3DZNTQI02fgRjvgYRsfXlS6KXIATCR+xkRUCnwVp+EFCE5/T
-	nLAg==
-X-Received: by 10.152.10.34 with SMTP id f2mr3726lab.64.1382639379465;
-	Thu, 24 Oct 2013 11:29:39 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=1Kj63RwWL8ZkmZ8H/bj1O3eCB03NA2vEzRZGSYTUT94=;
+	b=dVzPGvlRF3+O4QqXieKcHf2IlucNiOpDnZzzk0LhhvmBE4Ad6uptkyUnX8beMJJRdi
+	mlOs6gznr+elLg9OjXyCgAnG63XtRqbcAOHv58TJiZ7mosstHDrLpN3jIcGcogSWEl8D
+	hLLm87ofG6NHL8cciI6iBniNZpNMCHRwDV174+DY8PskV4O8Lh8ODI6pHaqkB/ZRnanY
+	18ZRQNEm+B/24Xe1niWv/HeVFWHd/4wLSAFdHPKcg/cNH1NWFLDhzpp48U4SlRiAuQZv
+	KueiEg2d8pK1TdBShjbX5lMHmH03VKdxjUClj/NrmftzX2naIvYh/ST+xxxfsMbjN7Mc
+	rLOA==
+X-Received: by 10.112.57.49 with SMTP id f17mr2769971lbq.26.1382639384305;
+	Thu, 24 Oct 2013 11:29:44 -0700 (PDT)
 Received: from prime (a91-153-14-158.elisa-laajakaista.fi. [91.153.14.158])
-	by mx.google.com with ESMTPSA id l10sm3134285lbh.13.2013.10.24.11.29.37
+	by mx.google.com with ESMTPSA id ac2sm3142186lbc.10.2013.10.24.11.29.42
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 24 Oct 2013 11:29:37 -0700 (PDT)
+	Thu, 24 Oct 2013 11:29:43 -0700 (PDT)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1VZPf6-0000m8-3O; Thu, 24 Oct 2013 21:29:36 +0300
+	id 1VZPfC-0000ms-1t; Thu, 24 Oct 2013 21:29:42 +0300
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Oct 2013 21:29:30 +0300
-Message-Id: <cover.1382639156.git.cazfi74@gmail.com>
+Date: Thu, 24 Oct 2013 21:29:38 +0300
+Message-Id: <dfce1648ef7781347e1a159067e788c0f3c85f03.1382639156.git.cazfi74@gmail.com>
 X-Mailer: git-send-email 1.8.4.rc3
-Subject: [PATCH 0/3] Package upgrades
+In-Reply-To: <cover.1382639156.git.cazfi74@gmail.com>
+References: <cover.1382639156.git.cazfi74@gmail.com>
+Subject: [PATCH 1/3] gtk+: upgrade gtk+ to upstream version 2.24.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +46,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2013 18:29:39 -0000
+X-List-Received-Date: Thu, 24 Oct 2013 18:29:43 -0000
 
-The following changes since commit 843a5dd8f8f0461e286d9fdb3ba55205b4275f88:
-
-  base.bbclass: fix nondeterministic PACKAGECONFIG processing order (2013-10-24 08:38:24 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib cazfi/up
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/up
-
-Marko Lindqvist (3):
-  gtk+: upgrade gtk+ to upstream version 2.24.22
-  cairo: upgrade to upstream version 1.12.16
-  harfbuzz: upgrade to upstream version 0.9.22
-
- ...utton-do-not-prelight-in-touchscreen-mode.patch |  0
- ...Duplicate-the-exec-string-returned-by-gtk.patch |  0
- .../cellrenderer-cairo.patch                       |  0
- .../configure-nm.patch                             |  0
- .../configurefix.patch                             |  0
- .../{gtk+-2.24.20 => gtk+-2.24.22}/doc-fixes.patch |  0
- .../entry-cairo.patch                              |  0
- .../hardcoded_libtool.patch                        |  0
- .../{gtk+-2.24.20 => gtk+-2.24.22}/no-demos.patch  |  0
- .../run-iconcache.patch                            |  0
- .../toggle-font.diff                               |  0
- .../{gtk+-2.24.20 => gtk+-2.24.22}/xsettings.patch |  0
- .../gtk+/{gtk+_2.24.20.bb => gtk+_2.24.22.bb}      |  4 +-
- meta/recipes-graphics/cairo/cairo/png.patch        | 52 ----------------------
- .../cairo/{cairo_1.12.14.bb => cairo_1.12.16.bb}   |  9 ++--
- .../{harfbuzz_0.9.19.bb => harfbuzz_0.9.22.bb}     |  9 ++--
- 16 files changed, 8 insertions(+), 66 deletions(-)
+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+---
+ .../0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch          | 0
+ .../0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch   | 0
+ .../gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/cellrenderer-cairo.patch      | 0
+ .../gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/configure-nm.patch            | 0
+ .../gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/configurefix.patch            | 0
+ .../recipes-gnome/gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/doc-fixes.patch | 0
+ .../gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/entry-cairo.patch             | 0
+ .../gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/hardcoded_libtool.patch       | 0
+ meta/recipes-gnome/gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/no-demos.patch | 0
+ .../gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/run-iconcache.patch           | 0
+ .../gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/toggle-font.diff              | 0
+ .../recipes-gnome/gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/xsettings.patch | 0
+ meta/recipes-gnome/gtk+/{gtk+_2.24.20.bb => gtk+_2.24.22.bb}          | 4 ++--
+ 13 files changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-gnome/gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
  rename meta/recipes-gnome/gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
  rename meta/recipes-gnome/gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/cellrenderer-cairo.patch (100%)
@@ -90,10 +77,73 @@ Marko Lindqvist (3):
  rename meta/recipes-gnome/gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/toggle-font.diff (100%)
  rename meta/recipes-gnome/gtk+/{gtk+-2.24.20 => gtk+-2.24.22}/xsettings.patch (100%)
  rename meta/recipes-gnome/gtk+/{gtk+_2.24.20.bb => gtk+_2.24.22.bb} (93%)
- delete mode 100644 meta/recipes-graphics/cairo/cairo/png.patch
- rename meta/recipes-graphics/cairo/{cairo_1.12.14.bb => cairo_1.12.16.bb} (87%)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.19.bb => harfbuzz_0.9.22.bb} (70%)
 
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/cellrenderer-cairo.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/cellrenderer-cairo.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/cellrenderer-cairo.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/cellrenderer-cairo.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/configure-nm.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/configure-nm.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/configure-nm.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/configure-nm.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/configurefix.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/configurefix.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/configurefix.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/configurefix.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/doc-fixes.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/doc-fixes.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/doc-fixes.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/doc-fixes.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/entry-cairo.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/entry-cairo.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/entry-cairo.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/entry-cairo.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/hardcoded_libtool.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/hardcoded_libtool.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/hardcoded_libtool.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/hardcoded_libtool.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/no-demos.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/no-demos.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/no-demos.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/no-demos.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/run-iconcache.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/run-iconcache.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/run-iconcache.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/run-iconcache.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/toggle-font.diff b/meta/recipes-gnome/gtk+/gtk+-2.24.22/toggle-font.diff
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/toggle-font.diff
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/toggle-font.diff
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.20/xsettings.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/xsettings.patch
+similarity index 100%
+rename from meta/recipes-gnome/gtk+/gtk+-2.24.20/xsettings.patch
+rename to meta/recipes-gnome/gtk+/gtk+-2.24.22/xsettings.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.20.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.22.bb
+similarity index 93%
+rename from meta/recipes-gnome/gtk+/gtk+_2.24.20.bb
+rename to meta/recipes-gnome/gtk+/gtk+_2.24.22.bb
+index ad3b4e9..98c65a5 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.20.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.22.bb
+@@ -28,8 +28,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+ #        file://combo-arrow-size.patch;striplevel=0
+ #            file://configurefix.patch
+ 
+-SRC_URI[md5sum] = "9d7833331d7accd80668e29d7f567ce5"
+-SRC_URI[sha256sum] = "cc66bcbf9239a7d9861175c681ba95894b55c70dc0b37aad8345c46ecfda0da3"
++SRC_URI[md5sum] = "5fbbfb7637bbd571a572a2dae0e736d2"
++SRC_URI[sha256sum] = "b114b6e9fb389bf3aa8a6d09576538f58dce740779653084046852fb4140ae7f"
+ 
+ EXTRA_OECONF = "--enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
+ 
 -- 
 1.8.4.rc3
 
