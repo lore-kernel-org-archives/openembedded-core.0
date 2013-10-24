@@ -1,24 +1,28 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 61B1C6D377
+Return-Path: <valentin.popa@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F14D6D377
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 13:21:07 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 24 Oct 2013 06:21:09 -0700
+	Thu, 24 Oct 2013 13:27:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Oct 2013 06:27:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="312153472"
-Received: from unknown (HELO [10.255.14.253]) ([10.255.14.253])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Oct 2013 06:21:08 -0700
-Message-ID: <1382620868.3152.18.camel@empanada>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Oct 2013 08:21:08 -0500
-In-Reply-To: <afa3e31d527432bf9ff8473d51528d9e204465ed.1382620128.git.tom.zanussi@linux.intel.com>
-References: <cover.1382620128.git.tom.zanussi@linux.intel.com>
-	<afa3e31d527432bf9ff8473d51528d9e204465ed.1382620128.git.tom.zanussi@linux.intel.com>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Subject: Re: [PATCH 1/1] wic: Remove selinux_check()
+X-IronPort-AV: E=Sophos;i="4.93,562,1378882800"; d="scan'208";a="422064112"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.58])
+	([10.237.105.58])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Oct 2013 06:27:35 -0700
+Message-ID: <5269209B.3080901@intel.com>
+Date: Thu, 24 Oct 2013 16:28:59 +0300
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1382610728-7026-1-git-send-email-valentin.popa@intel.com>
+	<1382610728-7026-2-git-send-email-valentin.popa@intel.com>
+	<CAJTo0LYJ4OH7SPmhXF9LPCSjKLePjULTUzDiBLzuxU4JGnsGCQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYJ4OH7SPmhXF9LPCSjKLePjULTUzDiBLzuxU4JGnsGCQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Mesa: upgrade to 9.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2013 13:21:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 24 Oct 2013 13:27:36 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-10-24 at 08:11 -0500, Tom Zanussi wrote:
-> This seems to be an obsolete checkt - we don't have any problems with
-> image creation under selinux, so remove this check.
-> 
+I thought that if I don't specify DISTRO_FEATURES_append = " x11"
+it will not include it. I will try with DISTRO_FEATURES_remove="x11"
+end see what's happening.
 
-Just noticed the typo, fixed in the branch.
 
-Tom
-
-> Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
-> ---
->  scripts/lib/mic/conf.py | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/scripts/lib/mic/conf.py b/scripts/lib/mic/conf.py
-> index 58fad51..b850d80 100644
-> --- a/scripts/lib/mic/conf.py
-> +++ b/scripts/lib/mic/conf.py
-> @@ -186,10 +186,6 @@ class ConfigMgr(object):
->                                                self.create['name_prefix'],
->                                                self.create['name_suffix'])
->  
-> -        # check selinux, it will block arm and btrfs image creation
-> -        misc.selinux_check(self.create['arch'],
-> -                           [p.fstype for p in ks.handler.partition.partitions])
-> -
->      def set_runtime(self, runtime):
->          if runtime not in ("bootstrap", "native"):
->              msger.error("Invalid runtime mode: %s" % runtime)
-
+On 10/24/2013 04:11 PM, Burton, Ross wrote:
+> Hi Valentin,
+>
+> Did you try a weston build without X11, i.e. core-image-weston with
+> DISTRO_FEATURES_remove="x11"?
+>
+> Ross
+>
+> On 24 October 2013 11:32, Valentin Popa <valentin.popa@intel.com> wrote:
+>> Tested with core-image-sato core-image-weston core-image-clutter;
+>> All cogl and weston examples run successfully.
+>>
+>> Valentin Popa (1):
+>>    Mesa: upgrade to 9.2.2
+>>
+>>   ...ate-NativeDisplayType-depending-on-config.patch |   0
+>>   ...move-the-power-of-two-sizeof-struct-cmd_b.patch |   0
+>>   .../mesa/{mesa-gl_9.1.6.bb => mesa-gl_9.2.2.bb}    |   0
+>>   meta/recipes-graphics/mesa/mesa.inc                |   2 +-
+>>   ...void-use-of-AC_CHECK_FILE-for-cross-compi.patch |  65 ----
+>>   ...ate-NativeDisplayType-depending-on-config.patch | 359 ---------------------
+>>   ...sl-fix-builtin_compiler-cross-compilation.patch |  54 ----
+>>   .../mesa/0005-fix-out-of-tree-builds-gallium.patch |  42 ---
+>>   .../mesa/{mesa_9.1.6.bb => mesa_9.2.2.bb}          |   9 +-
+>>   9 files changed, 3 insertions(+), 528 deletions(-)
+>>   rename meta/recipes-graphics/mesa/{mesa-9.1.6 => mesa-9.2.2}/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch (100%)
+>>   rename meta/recipes-graphics/mesa/{mesa-9.1.6 => mesa-9.2.2}/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch (100%)
+>>   rename meta/recipes-graphics/mesa/{mesa-gl_9.1.6.bb => mesa-gl_9.2.2.bb} (100%)
+>>   delete mode 100644 meta/recipes-graphics/mesa/mesa/0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch
+>>   delete mode 100644 meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+>>   delete mode 100644 meta/recipes-graphics/mesa/mesa/0004-glsl-fix-builtin_compiler-cross-compilation.patch
+>>   delete mode 100644 meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
+>>   rename meta/recipes-graphics/mesa/{mesa_9.1.6.bb => mesa_9.2.2.bb} (34%)
+>>
+>> --
+>> 1.8.3.2
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
