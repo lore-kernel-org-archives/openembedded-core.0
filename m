@@ -1,35 +1,26 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 86E0E6D3D0
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id DF7EA6D319
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 10:41:05 +0000 (UTC)
-Received: by mail-pd0-f172.google.com with SMTP id w10so428759pde.31
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 03:41:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=aN4j7DW1F7+/jHLjcN6K1dX//1QrbT2/Zwokfg2BJ7Q=;
-	b=ATioeVNGZkwwIMVk3G8zDHM8y/7Q+T1ervWFHBO6NfyztawLG8jjvq48lscwey297N
-	LXe+4lg8tsSdE9GT4KArt+6F5nuMz3M1B/5yhJmuLjYM0bEGS1T/Tr55M0VFxNOrpaFE
-	Ya0Hi/Rj/YRaEcWi7DYh3ypj13iq0WifT5A6Fb541mfPIZpuQ8Zo1TKoAJFGEd6a/gko
-	dBynQbs8z6/3Q8xU16q/ZXvZSHJB3oJMTsr3CAzO+lWJBmg4b3yoxGRzg1y+9zDP3PFv
-	yx9oo5s0ld2yAb+7Kk730MzbmU5v5ZHcSjuyOeTfr6s1sYCZ/04ctJUx5UP4+92Hungc
-	0ZaQ==
-X-Received: by 10.66.154.1 with SMTP id vk1mr2499349pab.85.1382611267391;
-	Thu, 24 Oct 2013 03:41:07 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id tu6sm1655668pbc.41.2013.10.24.03.41.05
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 24 Oct 2013 03:41:06 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 24 Oct 2013 21:39:52 +1100
-Message-Id: <1382611192-5154-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.4
-Subject: [PATCH] qt4: add upstream QTBUG-34218/QTBUG-34234 misaligned selection patch
+	Thu, 24 Oct 2013 11:41:03 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 24 Oct 2013 13:40:59 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 41E0128D243;
+	Thu, 24 Oct 2013 13:40:59 +0200 (CEST)
+From: <maxin.john@enea.com>
+To: <raj.khem@gmail.com>, <sgw@linux.intel.com>
+Date: Thu, 24 Oct 2013 13:40:56 +0200
+Message-ID: <1382614856-4421-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <5268EFC6.2010007@linux.intel.com>
+References: <5268EFC6.2010007@linux.intel.com>
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] pigz: bump to 2.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,109 +33,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2013 10:41:05 -0000
+X-List-Received-Date: Thu, 24 Oct 2013 11:41:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+From: "Maxin B. John" <maxin.john@enea.com>
+
+Update pigz to latest release - 2.3.1
+Drop ldflags.patch as it has been merged upstream
+
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
 ---
- meta/recipes-qt/qt4/qt4-4.8.5.inc                  |  1 +
- ...ned-selection-region-with-text-when-cente.patch | 75 ++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0025-Fix-misaligned-selection-region-with-text-when-cente.patch
+ meta/recipes-extended/pigz/files/ldflags.patch      |   19 ---------------=
+----
+ meta/recipes-extended/pigz/pigz.inc                 |    6 +-----
+ .../pigz/{pigz_2.3.bb =3D> pigz_2.3.1.bb}             |    4 ++--
+ 3 files changed, 3 insertions(+), 26 deletions(-)
+ delete mode 100644 meta/recipes-extended/pigz/files/ldflags.patch
+ rename meta/recipes-extended/pigz/{pigz_2.3.bb =3D> pigz_2.3.1.bb} (55%)
 
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5.inc b/meta/recipes-qt/qt4/qt4-4.8.5.inc
-index 9935992..dcbf26f 100644
---- a/meta/recipes-qt/qt4/qt4-4.8.5.inc
-+++ b/meta/recipes-qt/qt4/qt4-4.8.5.inc
-@@ -24,6 +24,7 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
-            file://0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch \
-            file://0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch \
-            file://0024-Ensure-lastPixel.y-is-also-initalized-to-1-when-nece.patch \
-+           file://0025-Fix-misaligned-selection-region-with-text-when-cente.patch \
-            file://0027-tools.pro-disable-qmeegographicssystemhelper.patch \
-            file://g++.conf \
-            file://linux.conf \
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0025-Fix-misaligned-selection-region-with-text-when-cente.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0025-Fix-misaligned-selection-region-with-text-when-cente.patch
-new file mode 100644
-index 0000000..964bcf8
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt4-4.8.5/0025-Fix-misaligned-selection-region-with-text-when-cente.patch
-@@ -0,0 +1,75 @@
-+From c368cbad3a505d44894ff150dc25c74d0174ca15 Mon Sep 17 00:00:00 2001
-+From: Jonathan Liu <net147@gmail.com>
-+Date: Wed, 23 Oct 2013 00:28:17 +1100
-+Subject: [PATCH] Fix misaligned selection region with text when centered
-+
-+If the text is centered, the x/y position in the selection QRectF may
-+be a multiple of 0.5 which is rounded up. This rounding causes
-+misalignment of the selection region with the text.
-+
-+The alignment is fixed by using qFloor on the x and y components.
-+
-+Upstream-Status: Accepted [https://codereview.qt-project.org/#change,68935]
-+Signed-off-by: Jonathan Liu <net147@gmail.com>
-+
-+Task-number: QTBUG-34218
-+Task-number: QTBUG-34234
-+Change-Id: I4f2fadeb38602f62a93773c6e5faecf03b28069f
-+Reviewed-by: Gunnar Sletta <gunnar.sletta@digia.com>
-+(cherry picked from qtbase/5d8a882c11201a29475c5ea71cfb76c9de6573f5)
-+---
-+ src/gui/text/qtextlayout.cpp | 19 ++++++++++++++-----
-+ 1 file changed, 14 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/gui/text/qtextlayout.cpp b/src/gui/text/qtextlayout.cpp
-+index 3d340cb..8d652ea 100644
-+--- a/src/gui/text/qtextlayout.cpp
-++++ b/src/gui/text/qtextlayout.cpp
-+@@ -44,6 +44,7 @@
-+ 
-+ #include <qfont.h>
-+ #include <qapplication.h>
-++#include <qmath.h>
-+ #include <qpainter.h>
-+ #include <qvarlengtharray.h>
-+ #include <qtextformat.h>
-+@@ -979,15 +980,23 @@ static void addSelectedRegionsToPath(QTextEngine *eng, int lineNumber, const QPo
-+                 continue;
-+             }
-+ 
-+-            if (lastSelectionWidth > 0)
-+-                region->addRect(boundingRect & QRectF(lastSelectionX.toReal(), selectionY, lastSelectionWidth.toReal(), lineHeight));
-++            if (lastSelectionWidth > 0) {
-++                QRectF rect = boundingRect & QRectF(lastSelectionX.toReal(), selectionY, lastSelectionWidth.toReal(), lineHeight);
-++                rect.moveLeft(qFloor(rect.left()));
-++                rect.moveTop(qFloor(rect.top()));
-++                region->addRect(rect);
-++            }
-+ 
-+             lastSelectionX = selectionX;
-+             lastSelectionWidth = selectionWidth;
-+         }
-+     }
-+-    if (lastSelectionWidth > 0)
-+-        region->addRect(boundingRect & QRectF(lastSelectionX.toReal(), selectionY, lastSelectionWidth.toReal(), lineHeight));
-++    if (lastSelectionWidth > 0) {
-++        QRectF rect = boundingRect & QRectF(lastSelectionX.toReal(), selectionY, lastSelectionWidth.toReal(), lineHeight);
-++        rect.moveLeft(qFloor(rect.left()));
-++        rect.moveTop(qFloor(rect.top()));
-++        region->addRect(rect);
-++    }
-+ }
-+ 
-+ static inline QRectF clipIfValid(const QRectF &rect, const QRectF &clip)
-+@@ -2081,7 +2090,7 @@ static void setPenAndDrawBackground(QPainter *p, const QPen &defaultPen, const Q
-+ 
-+     QBrush bg = chf.background();
-+     if (bg.style() != Qt::NoBrush && !chf.property(SuppressBackground).toBool())
-+-        p->fillRect(r, bg);
-++        p->fillRect(QRectF(qFloor(r.x()), qFloor(r.y()), r.width(), r.height()), bg);
-+     if (c.style() != Qt::NoBrush) {
-+         p->setPen(QPen(c, 0));
-+     }
-+-- 
-+1.8.4
-+
--- 
-1.8.4
+diff --git a/meta/recipes-extended/pigz/files/ldflags.patch b/meta/recipes-=
+extended/pigz/files/ldflags.patch
+deleted file mode 100644
+index 8e531cc..0000000
+--- a/meta/recipes-extended/pigz/files/ldflags.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Link using the bitbake LDFLAGS.
+-
+-Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
+-
+-Upstream-Status: Pending
+-
+-Index: pigz-2.3/Makefile
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- pigz-2.3.orig/Makefile
+-+++ pigz-2.3/Makefile
+-@@ -3,7 +3,7 @@ CFLAGS=3D-O3 -Wall -Wextra
+-=20
+-=20
+- pigz: pigz.o yarn.o zopfli/deflate.o zopfli/blocksplitter.o zopfli/tree.o=
+ zopfli/lz77.o zopfli/cache.o zopfli/hash.o zopfli/util.o zopfli/squeeze.o =
+zopfli/katajainen.o
+--	$(CC) -o pigz $^ -lpthread -lz
+-+	$(CC) ${LDFLAGS} -o pigz $^ -lpthread -lz -lm
+- 	ln -f pigz unpigz
+-=20
+- pigz.o: pigz.c yarn.h zopfli/deflate.h zopfli/util.h
+diff --git a/meta/recipes-extended/pigz/pigz.inc b/meta/recipes-extended/pi=
+gz/pigz.inc
+index 5ceaef2..355fb2a 100644
+--- a/meta/recipes-extended/pigz/pigz.inc
++++ b/meta/recipes-extended/pigz/pigz.inc
+@@ -7,10 +7,7 @@ HOMEPAGE =3D "http://zlib.net/pigz/"
+ SECTION =3D "console/utils"
+ LICENSE =3D "Zlib"
+=20
+-PR =3D "r1"
+-
+-SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz \
+-           file://ldflags.patch"
++SRC_URI =3D "http://zlib.net/pigz/pigz-${PV}.tar.gz"
+=20
+ PROVIDES_class-native +=3D "gzip-native"
+=20
+@@ -33,4 +30,3 @@ ALTERNATIVE_${PN} =3D "gzip gunzip"
+ ALTERNATIVE_LINK_NAME[gzip] =3D "${base_bindir}/gzip"
+ ALTERNATIVE_LINK_NAME[gunzip] =3D "${base_bindir}/gunzip"
+ ALTERNATIVE_PRIORITY =3D "80"
+-
+diff --git a/meta/recipes-extended/pigz/pigz_2.3.bb b/meta/recipes-extended=
+/pigz/pigz_2.3.1.bb
+similarity index 55%
+rename from meta/recipes-extended/pigz/pigz_2.3.bb
+rename to meta/recipes-extended/pigz/pigz_2.3.1.bb
+index 724d00b..6e7c7f1 100644
+--- a/meta/recipes-extended/pigz/pigz_2.3.bb
++++ b/meta/recipes-extended/pigz/pigz_2.3.1.bb
+@@ -1,8 +1,8 @@
+ require pigz.inc
+ LIC_FILES_CHKSUM =3D "file://pigz.c;beginline=3D7;endline=3D21;md5=3Da21d4=
+075cb00ab4ca17fce5e7534ca95"
+=20
+-SRC_URI[md5sum] =3D "042e3322534f2c3d761736350cac303f"
+-SRC_URI[sha256sum] =3D "74bbd5962f9420549fc987ddd1ccda692ec2b29d2d612fbbe2=
+6edf3fa348ff21"
++SRC_URI[md5sum] =3D "e803f8bc0770c7a5e96dccb1d2dd2aab"
++SRC_URI[sha256sum] =3D "629b0ce5422a3978f31742bf8275d0be2f84987140d18f390f=
+1e3b4e46e0af54"
+=20
+ NATIVE_PACKAGE_PATH_SUFFIX =3D "/${PN}"
+=20
+--=20
+1.7.10.4
 
 
