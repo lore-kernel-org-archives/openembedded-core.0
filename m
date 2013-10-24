@@ -1,35 +1,20 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-vb0-f51.google.com (mail-vb0-f51.google.com
-	[209.85.212.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8270F6D323
+Return-Path: <cristiana.voicu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 64FA66D34C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 07:45:58 +0000 (UTC)
-Received: by mail-vb0-f51.google.com with SMTP id x16so1233610vbf.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 00:46:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=lQI2rCR5F4gsaFIxvLIncT2E80F4/XTNUkDrCTajwoA=;
-	b=I9uX53OmGnfUh5o39mXSKNzyhyFawS/XDMnz1R2dqHEi18q4REVFRq6OA+MLyIPIO2
-	fzPkJ9qF4r0YGUbyd+FYroKF4ikW7gSqaPFNEmsRT2Nb2b1xo25E+pKG4GzXEDsErz+s
-	YTTKcTUXfZ0L3P3zSFn+P/bZopO6tckT8iOsvnJwx7PoyLDXUOp96HLQvLFvInEnd8UA
-	Y6/fpB/KQto0rFmpSLivWV5xSl7LiyGfYXFet66u/ZalXnvVw5VinBdaBhvcwRgmtfD4
-	xyyA2luwp9Y7VtNyY/n1jeWJEo+h1Ysd+iijVr3OU0/e9d3E3EtrpLhdiDlfEiM++Tnz
-	AjYw==
-MIME-Version: 1.0
-X-Received: by 10.220.145.75 with SMTP id c11mr717751vcv.30.1382600760326;
-	Thu, 24 Oct 2013 00:46:00 -0700 (PDT)
-Received: by 10.52.184.103 with HTTP; Thu, 24 Oct 2013 00:46:00 -0700 (PDT)
-In-Reply-To: <1381922875-4261-1-git-send-email-schnitzeltony@googlemail.com>
-References: <1381922875-4261-1-git-send-email-schnitzeltony@googlemail.com>
-Date: Thu, 24 Oct 2013 09:46:00 +0200
-Message-ID: <CALbNGRS_SFLVAozE4jJubtmFMVdKkqsMbeWUo0h06i5e6OTpcw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-compat-units: run-postinsts fix script link
+	Thu, 24 Oct 2013 07:57:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Oct 2013 00:57:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,560,1378882800"; d="scan'208";a="421820161"
+Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.65])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Oct 2013 00:57:02 -0700
+From: Cristiana Voicu <cristiana.voicu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 24 Oct 2013 11:01:46 +0300
+Message-Id: <cover.1382601179.git.cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/4] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2013 07:45:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 24 Oct 2013 07:57:01 -0000
 
-On Wed, Oct 16, 2013 at 1:27 PM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> in
->
-> commit fe039170236080291c0220476a5809774f82ee5c
-> Author: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> Date:   Wed Oct 2 10:55:32 2013 +0000
->
->     systemd-compat-units: Use correct run-postinsts script link
->
->     OE-Core commit 75a14923da1ba91eddde47f0907345c19c82d6f0 has moved
->     run-postinsts script execution from S98 to S99 in rcS.d. run-postinst=
-s.service
->     should check for this script and run it on first boot rather than
->     S98run-postinsts, which is for opkg/dpkg.
->
-> the link was corrected but the mentioned commit is not available. Instead=
- of
-> reverting, we use the same variable as opkg for init script ordering and =
-drop
-> a note in case somebody wants to change default.
->
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
-ping - or am I the only one with nonworking postinst?
+The patchset was tested on a local autobuilder, for all major architecture,
+on the top of the following commit 505114c13d29799a25379f7ce720d632616d8776.
+Basic functionality tests done using rpm and deb packages on a core-image-
+sato-sdk.
 
-Andreas
+Cristiana Voicu (4):
+  liburcu: upgrade to 0.8.0
+  at: upgrade to 3.1.14
+  curl: upgrade to 7.33.0
+  sudo: upgrade to 1.8.8
+
+ .../at/{at_3.1.13.bb => at_3.1.14.bb}              |    7 ++---
+ meta/recipes-extended/at/files/configure.patch     |   29 --------------------
+ meta/recipes-extended/at/files/use-ldflags.patch   |   24 ----------------
+ meta/recipes-extended/sudo/sudo.inc                |    2 +-
+ .../sudo/{sudo_1.8.7.bb => sudo_1.8.8.bb}          |    4 +--
+ .../curl/{curl_7.32.0.bb => curl_7.33.0.bb}        |    4 +--
+ meta/recipes-support/liburcu/files/fixCCflag.patch |   18 ++++++++++++
+ .../liburcu/files/fixsepbuild.patch                |   18 ++++++++++++
+ .../liburcu/{liburcu_0.7.7.bb => liburcu_0.8.0.bb} |    8 ++++--
+ 9 files changed, 48 insertions(+), 66 deletions(-)
+ rename meta/recipes-extended/at/{at_3.1.13.bb => at_3.1.14.bb} (90%)
+ delete mode 100644 meta/recipes-extended/at/files/configure.patch
+ delete mode 100644 meta/recipes-extended/at/files/use-ldflags.patch
+ rename meta/recipes-extended/sudo/{sudo_1.8.7.bb => sudo_1.8.8.bb} (83%)
+ rename meta/recipes-support/curl/{curl_7.32.0.bb => curl_7.33.0.bb} (93%)
+ create mode 100644 meta/recipes-support/liburcu/files/fixCCflag.patch
+ create mode 100644 meta/recipes-support/liburcu/files/fixsepbuild.patch
+ rename meta/recipes-support/liburcu/{liburcu_0.7.7.bb => liburcu_0.8.0.bb} (74%)
+
+-- 
+1.7.9.5
+
 
