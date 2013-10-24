@@ -1,39 +1,35 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ve0-f170.google.com (mail-ve0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D533C6D323
+Received: from mail-vb0-f51.google.com (mail-vb0-f51.google.com
+	[209.85.212.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8270F6D323
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 07:43:32 +0000 (UTC)
-Received: by mail-ve0-f170.google.com with SMTP id db12so1290438veb.15
+	Thu, 24 Oct 2013 07:45:58 +0000 (UTC)
+Received: by mail-vb0-f51.google.com with SMTP id x16so1233610vbf.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 24 Oct 2013 00:43:34 -0700 (PDT)
+	Thu, 24 Oct 2013 00:46:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=SNkQZib9oa/BRMyIaNyPa0dQujp99lpoxyDbas0afWo=;
-	b=anMAjIVooJ0yz75d5dtbZvi0OkgqxqtkPzYntC+aVPQQpBawlsQYwjr48T7nQvi/0o
-	F+dcBb802+v4lB4D44O8mvcD6xzEUhuz9RCtB3tICTZwjZkByi4faEBIhX/uSheMXCyg
-	EG4dyWeXWBdhCiM3fjRI6k0ua6zsoDQJgb08AdjooSpqfTNUC8LVqlwG0CNvcD8VCGpQ
-	e6h+f7TZpQ2DcdF+athdsP2c+tXuqHt71hAOv4m9rBonynxwBUQfux9d64BXt6S/y9f5
-	fRPFAVky8piRnVkHx/rl7sNTF+dY2cuo/YkVak3+hxw06iPhXzlNA1u4kGJzJQPmXRZ/
-	/3GA==
+	:content-type:content-transfer-encoding;
+	bh=lQI2rCR5F4gsaFIxvLIncT2E80F4/XTNUkDrCTajwoA=;
+	b=I9uX53OmGnfUh5o39mXSKNzyhyFawS/XDMnz1R2dqHEi18q4REVFRq6OA+MLyIPIO2
+	fzPkJ9qF4r0YGUbyd+FYroKF4ikW7gSqaPFNEmsRT2Nb2b1xo25E+pKG4GzXEDsErz+s
+	YTTKcTUXfZ0L3P3zSFn+P/bZopO6tckT8iOsvnJwx7PoyLDXUOp96HLQvLFvInEnd8UA
+	Y6/fpB/KQto0rFmpSLivWV5xSl7LiyGfYXFet66u/ZalXnvVw5VinBdaBhvcwRgmtfD4
+	xyyA2luwp9Y7VtNyY/n1jeWJEo+h1Ysd+iijVr3OU0/e9d3E3EtrpLhdiDlfEiM++Tnz
+	AjYw==
 MIME-Version: 1.0
-X-Received: by 10.58.180.227 with SMTP id dr3mr187236vec.36.1382600614221;
-	Thu, 24 Oct 2013 00:43:34 -0700 (PDT)
-Received: by 10.52.184.103 with HTTP; Thu, 24 Oct 2013 00:43:34 -0700 (PDT)
-In-Reply-To: <52687085.9060605@mlbassoc.com>
-References: <5267D269.2020701@mlbassoc.com>
-	<CAJTo0LYaqs00v5XUf+wRtaKytZy1-8VDuPcEyawYU8UXxzPUGw@mail.gmail.com>
-	<526803BD.8010106@mlbassoc.com> <526804E7.3020406@mlbassoc.com>
-	<52687085.9060605@mlbassoc.com>
-Date: Thu, 24 Oct 2013 09:43:34 +0200
-Message-ID: <CALbNGRS_eqkx5D4jsYqPb3KgPV3rcgpHy5NZBFuipBgXdxocXg@mail.gmail.com>
+X-Received: by 10.220.145.75 with SMTP id c11mr717751vcv.30.1382600760326;
+	Thu, 24 Oct 2013 00:46:00 -0700 (PDT)
+Received: by 10.52.184.103 with HTTP; Thu, 24 Oct 2013 00:46:00 -0700 (PDT)
+In-Reply-To: <1381922875-4261-1-git-send-email-schnitzeltony@googlemail.com>
+References: <1381922875-4261-1-git-send-email-schnitzeltony@googlemail.com>
+Date: Thu, 24 Oct 2013 09:46:00 +0200
+Message-ID: <CALbNGRS_SFLVAozE4jJubtmFMVdKkqsMbeWUo0h06i5e6OTpcw@mail.gmail.com>
 From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: meta-ti@yoctoproject.org,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Mesa mess
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd-compat-units: run-postinsts fix script link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,84 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2013 07:43:33 -0000
+X-List-Received-Date: Thu, 24 Oct 2013 07:45:58 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 24, 2013 at 2:57 AM, Gary Thomas <gary@mlbassoc.com> wrote:
-> On 2013-10-23 11:18, Gary Thomas wrote:
->>
->> On 2013-10-23 11:13, Gary Thomas wrote:
->>>
->>> On 2013-10-23 08:07, Burton, Ross wrote:
->>>>
->>>> On 23 October 2013 14:43, Gary Thomas <gary@mlbassoc.com> wrote:
->>>>>
->>>>> With the current master (Poky ffb440c37c), I can't build anything
->>>>> with a virtual/mesa requirement.  This seems to bring in both mesa
->>>>> and mesa-gl, which fight to the death, killing the build :-(
->>>>
->>>>
->>>> Presumably you want just mesa-gl?
->>>>
->>>> I guess your distro is setting a preferred provider for
->>>> virtual/something to mesa-gl, and something else is pulling in mesa,
->>>> probably through a default.  Can you check that all of the
->>>> mesa-related virtual/* lines are set in your distro, my hunch is that
->>>> you don't have virtual/mesa set to mesa-gl.
->>
->>
->> I also compared all of the PREFERRED_PROVIDERs between my build and a
->> stock
->> poky build and they are identical.
->>
->>>>
->>>> If the distro looks right then try using depexp to see what is pulling
->>>> in mesa when it shouldn't be?
->>>
->>>
->>> I looked through this and nothing was obvious.  According to depmod,
->>> neither
->>> mesa nor mesa-gl have any direct "reverse depends", i.e. packages that
->>> depend
->>> on them.  As far as I can see, it's just coming from the xserver-xorg
->>> dependency
->>> on virtual/mesa.
->>>
->>> Which led me to another experiment which I truly do not understand.  I
->>> removed
->>> the mesa-gl recipe and now when I try to build 'virtual/mesa' I get a
->>> message
->>> that there is no provider :-(  However, I *can* build mesa with no
->>> problems.
->>> I also checked it against the other PROVIDES from mesa.inc and all of
->>> them
->>> except for virtual/mesa work.  How can this possibly be?
->>
->>
->> To be clear, 'bitbake virtual/libgl' (or any of its friends except
->> virtual/mesa)
->> will cause 'mesa' to be built, but 'bitbake virtual/mesa' fails.
->>
+On Wed, Oct 16, 2013 at 1:27 PM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> in
 >
-> I found the cause :-)  In addition to OE-core, I am using meta-ti on an
-> OMAP3 target.
-> In meta-ti, there is this line:
->   meta-ti/recipes-graphics/mesa/mesa-omap3-common.inc:PROVIDES_omap3 =
-> "virtual/libgl"
-> I added virtual/mesa to this list and it now builds again.  I'm not sure
-> that this is
-> 100% correct though.
+> commit fe039170236080291c0220476a5809774f82ee5c
+> Author: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+> Date:   Wed Oct 2 10:55:32 2013 +0000
 >
+>     systemd-compat-units: Use correct run-postinsts script link
 >
-I am struggling for the same issue and removed the PROVIDES because
-they are not correct any more: for omap3 we need mesa-gl as PROVIDER
-for libgl. Same for virtual/mesa.
-
-But still: Seems something is broken with virtual/libgl*. I working on
-a bsp-layer [1] and maybe I did something wrong there but building
-virtual/libgles2 builds mesa whatever I try...
+>     OE-Core commit 75a14923da1ba91eddde47f0907345c19c82d6f0 has moved
+>     run-postinsts script execution from S98 to S99 in rcS.d. run-postinst=
+s.service
+>     should check for this script and run it on first boot rather than
+>     S98run-postinsts, which is for opkg/dpkg.
+>
+> the link was corrected but the mentioned commit is not available. Instead=
+ of
+> reverting, we use the same variable as opkg for init script ordering and =
+drop
+> a note in case somebody wants to change default.
+>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+ping - or am I the only one with nonworking postinst?
 
 Andreas
-
-[1] git://gitorious.org/schnitzeltony-oe-meta/meta-toradex-community.git
 
