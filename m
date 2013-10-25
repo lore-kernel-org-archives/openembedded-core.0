@@ -1,42 +1,30 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F31A6D404
+Return-Path: <valentin.popa@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 13A3C6D156
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2013 07:39:27 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id o14so435057lbi.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2013 00:39:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=nmgjqXREtrtt3AsXq+XvMCXaptGDfwWtU+5VP+cApb8=;
-	b=ojcVz14Rj/nS5uo5HVPy3Ut1gEE/flyz7Kvi4R9RypkeYwiDSz3ZKOgwoNQmzsqNjD
-	vVhTBB21df7M6W7bOag8sAxRPa4FX8pFrbb4B0CpdCwMcQAcg+INJYE0cB/N8PIgDZZH
-	O0/+jqG5tG18rEAs6c8QdKWRdI+yRqLXqt6mY7YH136wTR0NG8gPN6UUw32wYb/aNESM
-	no5LlzkGiO4hKwejQjfb6tiNH6LT9eV1TMjMLZm4+PJlPPGQlnonm+jX6ZOMuyNQ2xJ6
-	uqq+R2bmWKcRNbA3AYDYlWyVr+KtcFN5qCquHEBHOK6epwQUfYY+zVL8GjT+MbFNAmfC
-	2WGA==
-X-Received: by 10.152.26.201 with SMTP id n9mr228678lag.52.1382686768815;
-	Fri, 25 Oct 2013 00:39:28 -0700 (PDT)
-Received: from prime (a91-153-14-158.elisa-laajakaista.fi. [91.153.14.158])
-	by mx.google.com with ESMTPSA id u18sm1617498lbp.4.2013.10.25.00.39.26
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 25 Oct 2013 00:39:27 -0700 (PDT)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1VZbzR-000845-Og; Fri, 25 Oct 2013 10:39:25 +0300
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2013 10:39:24 +0300
-Message-Id: <6ea9e9fe207b9c3b84a4450268ea289246b83055.1382686685.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.8.4.rc3
-In-Reply-To: <b4d752157bb874d686fb25ae43e4dc499596c22c.1382686685.git.cazfi74@gmail.com>
-References: <b4d752157bb874d686fb25ae43e4dc499596c22c.1382686685.git.cazfi74@gmail.com>
-In-Reply-To: <cover.1382686685.git.cazfi74@gmail.com>
-References: <cover.1382686685.git.cazfi74@gmail.com>
-Subject: [PATCH 4/4] libfm: allow build with automake-1.14
+	Fri, 25 Oct 2013 11:58:49 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Oct 2013 04:58:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,570,1378882800"; d="scan'208";a="422643025"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.58])
+	([10.237.105.58])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Oct 2013 04:58:49 -0700
+Message-ID: <526A5D4C.4060807@intel.com>
+Date: Fri, 25 Oct 2013 15:00:12 +0300
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1382610728-7026-1-git-send-email-valentin.popa@intel.com>
+	<1382610728-7026-2-git-send-email-valentin.popa@intel.com>
+	<CAJTo0LYJ4OH7SPmhXF9LPCSjKLePjULTUzDiBLzuxU4JGnsGCQ@mail.gmail.com>
+	<5269209B.3080901@intel.com>
+	<CAJTo0Lb6ZrEgcjeQR6qss_RcfOO6e_cH_jzO2hGkZnKFydN_fQ@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb6ZrEgcjeQR6qss_RcfOO6e_cH_jzO2hGkZnKFydN_fQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Mesa: upgrade to 9.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,51 +37,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2013 07:39:28 -0000
+X-List-Received-Date: Fri, 25 Oct 2013 11:58:49 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Do not consider automake warnings about future incompatibility
-errors.
+Tested without X on core-image-weston (+ libGLESv2)
+and works great.
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../libfm/libfm-1.1.2.2/ignore_automake_warnings.patch     | 14 ++++++++++++++
- meta/recipes-support/libfm/libfm_1.1.2.2.bb                |  1 +
- 2 files changed, 15 insertions(+)
- create mode 100644 meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
 
-diff --git a/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch b/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
-new file mode 100644
-index 0000000..58a2f09
---- /dev/null
-+++ b/meta/recipes-support/libfm/libfm-1.1.2.2/ignore_automake_warnings.patch
-@@ -0,0 +1,14 @@
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd libfm-1.1.2.2/configure.ac libfm-1.1.2.2/configure.ac
-+--- libfm-1.1.2.2/configure.ac	2013-08-22 23:16:09.000000000 +0300
-++++ libfm-1.1.2.2/configure.ac	2013-10-25 01:35:18.110323079 +0300
-+@@ -3,7 +3,7 @@
-+
-+ AC_PREREQ([2.63])
-+ AC_INIT([libfm], [1.1.2.2], [http://pcmanfm.sourceforge.net/])
-+-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
-++AM_INIT_AUTOMAKE([-Wall foreign])
-+ AC_CONFIG_MACRO_DIR(m4)
-+ AC_CONFIG_HEADERS([config.h])
-diff --git a/meta/recipes-support/libfm/libfm_1.1.2.2.bb b/meta/recipes-support/libfm/libfm_1.1.2.2.bb
-index 1146d16..8460223 100644
---- a/meta/recipes-support/libfm/libfm_1.1.2.2.bb
-+++ b/meta/recipes-support/libfm/libfm_1.1.2.2.bb
-@@ -12,6 +12,7 @@ DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native libexif"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.gz \
-            file://fix-make-parallelism-issue.patch \
-+           file://ignore_automake_warnings.patch \
-            "
- 
- SRC_URI[md5sum] = "ea3d09b23ef4c37cb84ae57ea16b8f08"
--- 
-1.8.4.rc3
+On 10/24/2013 04:30 PM, Burton, Ross wrote:
+> Hi,
+>
+> x11 is a default DISTRO_FEATURE in oe-core (as otherwise sato won't
+> build...), so you'll have to remove it to test builds without X.
+>
+> Ross
+>
+> On 24 October 2013 14:28, Valentin Popa <valentin.popa@intel.com> wrote:
+>> I thought that if I don't specify DISTRO_FEATURES_append = " x11"
+>> it will not include it. I will try with DISTRO_FEATURES_remove="x11"
+>> end see what's happening.
+>>
+>>
+>>
+>> On 10/24/2013 04:11 PM, Burton, Ross wrote:
+>>> Hi Valentin,
+>>>
+>>> Did you try a weston build without X11, i.e. core-image-weston with
+>>> DISTRO_FEATURES_remove="x11"?
+>>>
+>>> Ross
+>>>
+>>> On 24 October 2013 11:32, Valentin Popa <valentin.popa@intel.com> wrote:
+>>>> Tested with core-image-sato core-image-weston core-image-clutter;
+>>>> All cogl and weston examples run successfully.
+>>>>
+>>>> Valentin Popa (1):
+>>>>     Mesa: upgrade to 9.2.2
+>>>>
+>>>>    ...ate-NativeDisplayType-depending-on-config.patch |   0
+>>>>    ...move-the-power-of-two-sizeof-struct-cmd_b.patch |   0
+>>>>    .../mesa/{mesa-gl_9.1.6.bb => mesa-gl_9.2.2.bb}    |   0
+>>>>    meta/recipes-graphics/mesa/mesa.inc                |   2 +-
+>>>>    ...void-use-of-AC_CHECK_FILE-for-cross-compi.patch |  65 ----
+>>>>    ...ate-NativeDisplayType-depending-on-config.patch | 359
+>>>> ---------------------
+>>>>    ...sl-fix-builtin_compiler-cross-compilation.patch |  54 ----
+>>>>    .../mesa/0005-fix-out-of-tree-builds-gallium.patch |  42 ---
+>>>>    .../mesa/{mesa_9.1.6.bb => mesa_9.2.2.bb}          |   9 +-
+>>>>    9 files changed, 3 insertions(+), 528 deletions(-)
+>>>>    rename meta/recipes-graphics/mesa/{mesa-9.1.6 =>
+>>>> mesa-9.2.2}/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+>>>> (100%)
+>>>>    rename meta/recipes-graphics/mesa/{mesa-9.1.6 =>
+>>>> mesa-9.2.2}/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+>>>> (100%)
+>>>>    rename meta/recipes-graphics/mesa/{mesa-gl_9.1.6.bb =>
+>>>> mesa-gl_9.2.2.bb} (100%)
+>>>>    delete mode 100644
+>>>> meta/recipes-graphics/mesa/mesa/0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch
+>>>>    delete mode 100644
+>>>> meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+>>>>    delete mode 100644
+>>>> meta/recipes-graphics/mesa/mesa/0004-glsl-fix-builtin_compiler-cross-compilation.patch
+>>>>    delete mode 100644
+>>>> meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
+>>>>    rename meta/recipes-graphics/mesa/{mesa_9.1.6.bb => mesa_9.2.2.bb}
+>>>> (34%)
+>>>>
+>>>> --
+>>>> 1.8.3.2
+>>>>
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 
 
