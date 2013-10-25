@@ -1,30 +1,35 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 13A3C6D156
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C00D56D364
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2013 11:58:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Oct 2013 04:58:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,570,1378882800"; d="scan'208";a="422643025"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.58])
-	([10.237.105.58])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Oct 2013 04:58:49 -0700
-Message-ID: <526A5D4C.4060807@intel.com>
-Date: Fri, 25 Oct 2013 15:00:12 +0300
-From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Fri, 25 Oct 2013 12:31:37 +0000 (UTC)
+Received: by mail-ie0-f181.google.com with SMTP id ar20so6132637iec.40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 25 Oct 2013 05:31:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=jKWXQ6+PEBGRV4lNwDs0Ww2R/o/inug90TWAaY1aZAg=;
+	b=mzW6Bjzby8f4d4L/IMQecgHgahQZN+zz5EAAhyISzcODhXIYaO/g2pBPYGmEE7xygN
+	l746t7KT0K5nNrc1RKiwpVE231xcm7muiM/zHQ8QWQ2+ghj33dIsmg1AFcA7sPAht12i
+	6LGLeo8zMQCe1ZeBea/Xzefbv1VcMVKhjbEV2FLN+VNaV3YizpZ0vU+MJLDEccbPyAuS
+	MIEgy+UXEU5VOFj18ZwnaaVe+B/0WcuUFerstcOwuluwjAG7XDgSQjplCI5UIFvzHGc3
+	GVSZ4ltsXpr4p3tcYypkYJvCewqaPWTO1ekpD4jqI1dc987b7MDNJUJL4kO5g7DZn4f0
+	fYdQ==
+X-Received: by 10.50.26.36 with SMTP id i4mr1932286igg.33.1382704299666; Fri,
+	25 Oct 2013 05:31:39 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1382610728-7026-1-git-send-email-valentin.popa@intel.com>
-	<1382610728-7026-2-git-send-email-valentin.popa@intel.com>
-	<CAJTo0LYJ4OH7SPmhXF9LPCSjKLePjULTUzDiBLzuxU4JGnsGCQ@mail.gmail.com>
-	<5269209B.3080901@intel.com>
-	<CAJTo0Lb6ZrEgcjeQR6qss_RcfOO6e_cH_jzO2hGkZnKFydN_fQ@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb6ZrEgcjeQR6qss_RcfOO6e_cH_jzO2hGkZnKFydN_fQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Mesa: upgrade to 9.2.2
+Received: by 10.50.219.195 with HTTP; Fri, 25 Oct 2013 05:31:09 -0700 (PDT)
+In-Reply-To: <1382411039-1161-1-git-send-email-qiang.chen@windriver.com>
+References: <1382411039-1161-1-git-send-email-qiang.chen@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 25 Oct 2013 05:31:09 -0700
+Message-ID: <CAMKF1sqyAqZFrMnM39g=uqOx-QrNbXmwQs2s0tf30HWobKsXXA@mail.gmail.com>
+To: qiang.chen@windriver.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nfs-utils: Stop rpc.statd correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,81 +42,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Oct 2013 11:58:49 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 25 Oct 2013 12:31:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Tested without X on core-image-weston (+ libGLESv2)
-and works great.
-
-
-On 10/24/2013 04:30 PM, Burton, Ross wrote:
-> Hi,
+On Mon, Oct 21, 2013 at 8:03 PM,  <qiang.chen@windriver.com> wrote:
+> From: Qiang Chen <qiang.chen@windriver.com>
 >
-> x11 is a default DISTRO_FEATURE in oe-core (as otherwise sato won't
-> build...), so you'll have to remove it to test builds without X.
+> An incorrect process name in the nfsserver initscript prevented
+> rpc.statd from being shut down.
 >
-> Ross
+> root@qemux86-64:~# /etc/init.d/nfsserver start
+> creating NFS state directory: done
+> starting 8 nfsd kernel threads: done
+> starting mountd: done
+> starting statd: done
 >
-> On 24 October 2013 14:28, Valentin Popa <valentin.popa@intel.com> wrote:
->> I thought that if I don't specify DISTRO_FEATURES_append = " x11"
->> it will not include it. I will try with DISTRO_FEATURES_remove="x11"
->> end see what's happening.
->>
->>
->>
->> On 10/24/2013 04:11 PM, Burton, Ross wrote:
->>> Hi Valentin,
->>>
->>> Did you try a weston build without X11, i.e. core-image-weston with
->>> DISTRO_FEATURES_remove="x11"?
->>>
->>> Ross
->>>
->>> On 24 October 2013 11:32, Valentin Popa <valentin.popa@intel.com> wrote:
->>>> Tested with core-image-sato core-image-weston core-image-clutter;
->>>> All cogl and weston examples run successfully.
->>>>
->>>> Valentin Popa (1):
->>>>     Mesa: upgrade to 9.2.2
->>>>
->>>>    ...ate-NativeDisplayType-depending-on-config.patch |   0
->>>>    ...move-the-power-of-two-sizeof-struct-cmd_b.patch |   0
->>>>    .../mesa/{mesa-gl_9.1.6.bb => mesa-gl_9.2.2.bb}    |   0
->>>>    meta/recipes-graphics/mesa/mesa.inc                |   2 +-
->>>>    ...void-use-of-AC_CHECK_FILE-for-cross-compi.patch |  65 ----
->>>>    ...ate-NativeDisplayType-depending-on-config.patch | 359
->>>> ---------------------
->>>>    ...sl-fix-builtin_compiler-cross-compilation.patch |  54 ----
->>>>    .../mesa/0005-fix-out-of-tree-builds-gallium.patch |  42 ---
->>>>    .../mesa/{mesa_9.1.6.bb => mesa_9.2.2.bb}          |   9 +-
->>>>    9 files changed, 3 insertions(+), 528 deletions(-)
->>>>    rename meta/recipes-graphics/mesa/{mesa-9.1.6 =>
->>>> mesa-9.2.2}/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
->>>> (100%)
->>>>    rename meta/recipes-graphics/mesa/{mesa-9.1.6 =>
->>>> mesa-9.2.2}/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
->>>> (100%)
->>>>    rename meta/recipes-graphics/mesa/{mesa-gl_9.1.6.bb =>
->>>> mesa-gl_9.2.2.bb} (100%)
->>>>    delete mode 100644
->>>> meta/recipes-graphics/mesa/mesa/0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch
->>>>    delete mode 100644
->>>> meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
->>>>    delete mode 100644
->>>> meta/recipes-graphics/mesa/mesa/0004-glsl-fix-builtin_compiler-cross-compilation.patch
->>>>    delete mode 100644
->>>> meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
->>>>    rename meta/recipes-graphics/mesa/{mesa_9.1.6.bb => mesa_9.2.2.bb}
->>>> (34%)
->>>>
->>>> --
->>>> 1.8.3.2
->>>>
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+> root@qemux86-64:~# ps | grep rpc.statd
+>   650 root     10532 S    /usr/sbin/rpc.statd
+>   654 root      4720 S    grep rpc.statd
+>
+> root@qemux86-64:~# /etc/init.d/nfsserver stop
+> stopping statd: done
+> stopping mountd: done
+> stopping nfsd: done
+>
+> root@qemux86-64:~# ps | grep rpc.statd
+>   650 root     10532 S    /usr/sbin/rpc.statd
+>   662 root      4720 S    grep rpc.statd
+>
+> As this daemon drops a pid file,simply use that instead.
+> Also add some initialization checks so the daemons are not
+> left partially started in the absence of kernel nfsd support.
+>
+> Signed-off-by: Andy Ross <andy.ross@windriver.com>
+> Signed-off-by: Qiang Chen <qiang.chen@windriver.com>
+> ---
 
+I think this patch is needed for dora branch too.
+
+>  .../nfs-utils/nfs-utils/nfsserver                  |   18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+> index 1ac6fec..8ee8d0b 100644
+> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+> @@ -25,6 +25,7 @@ test -r /etc/default/nfsd && . /etc/default/nfsd
+>  test -x "$NFS_MOUNTD" || NFS_MOUNTD=/usr/sbin/rpc.mountd
+>  test -x "$NFS_NFSD" || NFS_NFSD=/usr/sbin/rpc.nfsd
+>  test -x "$NFS_STATD" || NFS_STATD=/usr/sbin/rpc.statd
+> +test -z "$STATD_PID" && STATD_PID=/var/run/rpc.statd.pid
+>  #
+>  # The user mode program must also exist (it just starts the kernel
+>  # threads using the kernel module code).
+> @@ -77,6 +78,17 @@ stop_mountd(){
+>  #
+>  #nfsd
+>  start_nfsd(){
+> +        modprobe -q nfsd
+> +       grep -q nfsd /proc/filesystems || {
+> +               echo NFS daemon support not enabled in kernel
+> +               exit 1
+> +        }
+> +       grep -q nfsd /proc/mounts || mount -t nfsd nfsd /proc/fs/nfsd
+> +       grep -q nfsd /proc/mounts || {
+> +               echo nfsd filesystem could not be mounted at /proc/fs/nfsd
+> +               exit 1
+> +        }
+> +
+>         echo -n "starting $1 nfsd kernel threads: "
+>         start-stop-daemon --start --exec "$NFS_NFSD" -- "$@"
+>         echo done
+> @@ -115,14 +127,12 @@ stop_nfsd(){
+>  #statd
+>  start_statd(){
+>         echo -n "starting statd: "
+> -       start-stop-daemon --start --exec "$NFS_STATD"
+> +       start-stop-daemon --start --exec "$NFS_STATD" --pidfile "$STATD_PID"
+>         echo done
+>  }
+>  stop_statd(){
+> -       # WARNING: this kills any process with the executable
+> -       # name 'statd'.
+>         echo -n 'stopping statd: '
+> -       start-stop-daemon --stop --quiet --signal 1 --name statd
+> +       start-stop-daemon --stop --quiet --signal 1 --pidfile "$STATD_PID"
+>         echo done
+>  }
+>  #----------------------------------------------------------------------
+> --
+> 1.7.9.5
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
