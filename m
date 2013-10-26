@@ -1,38 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C46276D1C1
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F36C6D3D6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2013 04:30:00 +0000 (UTC)
-Received: by mail-ie0-f182.google.com with SMTP id as1so7836343iec.41
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 25 Oct 2013 21:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=DU4T6uHBBoWrPOqMQJwRudFVt3S8y9qFy0vYb3IuFA4=;
-	b=Kbf8I2WlwmDjqBsj2AmOv4lPQt6236Vv109w0IFIR5DOYu1hFGbOM0OfnN5lHmO8JV
-	BtgehdFtICpKt2UT8X/cjfS5iDGHTJepJb7vMrwes+BOq2VBZt0z4sNzTXrImBiT+lPP
-	5BrkO5G8C03AAa9LvyEJ8j0X0YQm8O31fgvaYMSEdhdAx4vDo10ulgu6323nN1fLvIs9
-	CZsvTQRiswj9/FzwZoMQOzKG2DC1bI8/ooN0jsGOgk8IXE1JOamJMKUvAaYn/Zd9OKh6
-	RR/vGT7a9efqGp+s4WVqvEXXDCtdEl4GWZ0UIS9G1qXu1m1rvLBOXvgw3qrDFqoiAjMr
-	W9mw==
+	Sat, 26 Oct 2013 07:53:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9Q7rJVa026988
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 26 Oct 2013 00:53:19 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Sat, 26 Oct 2013 00:53:18 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 26 Oct 2013 03:53:15 -0400
+Message-ID: <cover.1382773654.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.42.126.18 with SMTP id c18mr43263ics.46.1382761802452; Fri,
-	25 Oct 2013 21:30:02 -0700 (PDT)
-Received: by 10.50.219.195 with HTTP; Fri, 25 Oct 2013 21:30:02 -0700 (PDT)
-In-Reply-To: <526B1D75.40304@windriver.com>
-References: <cover.1382421718.git.jackie.huang@windriver.com>
-	<58deef15f737352489f007488ec2e24bd76be058.1382421718.git.jackie.huang@windriver.com>
-	<CAMKF1sqwHn4SU1U9_Cp0hsd8EKGYuteazX+OP7T5mQNDztPSsg@mail.gmail.com>
-	<526B1D75.40304@windriver.com>
-Date: Fri, 25 Oct 2013 21:30:02 -0700
-Message-ID: <CAMKF1sqtDCKurpyqxxCX2WHmCQ7DgoYDuOBNdaL+s17OxHC3EQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: jhuang0 <jackie.huang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] midori: exclude from self-hosted for mips64
+Subject: [PATCH 0/1] perf: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,129 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2013 04:30:01 -0000
-Content-Type: multipart/alternative; boundary=20cf3010e4df0b569704e99d52a5
+X-List-Received-Date: Sat, 26 Oct 2013 07:53:21 -0000
+Content-Type: text/plain
 
---20cf3010e4df0b569704e99d52a5
-Content-Type: text/plain; charset=UTF-8
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-On Saturday, October 26, 2013, jhuang0 wrote:
+As the same reason to powerpc64, mips64 also need the flag:
 
->
->
-> On 10/25/2013 8:32 PM, Khem Raj wrote:
->
->> On Mon, Oct 21, 2013 at 11:04 PM,  <jackie.huang@windriver.com> wrote:
->>
->>> midori depends on webkit-gtk which could not build for mips64.
->>>
->>
->> what issues do you see building webkit-gtk for mips64, IIRC I fixed it
->> some time ago
->>
->
-> I didn't see the webkit-gtk issue, but I saw:
-> commit 0d2ed6bca55319195b5efd74eac83a**459bf58ee8
-> Author: Kang Kai <kai.kang@windriver.com>
-> Date:   Fri Jul 5 10:18:10 2013 +0000
->
->     webkit: set COMPATIBLE_HOST for mips64
->
->     webkit packages can NOT be built for mips64 with 64 bit userspace. Set
->     COMPATIBLE_HOST to to block them build for such platform.
->
->     Signed-off-by: Kai Kang <kai.kang@windriver.com>
->     Signed-off-by: Saul Wold <sgw@linux.intel.com>
->
->
-> and midori depends ot webkit-gtk so it's not buildable for mips64.
+    PPC64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+    prevents 64-bit userland from seeing this definition, instead defaulting
+    to u64 == long in userspace.
+    Perf want LL64, flag __SANE_USERSPACE_TYPES__ to get int-ll64.h.
+    
+    Fix the below issue:
+    | tests/attr.c:71:4: error: format '%llu' expects argument of type 'long
+    long unsigned int', but argument 6 has type '__u64' [-Werror=format=]
+    | tests/attr.c:80:7: error: format '%llu' expects argument of type 'long
+    long unsigned int', but argument 4 has type '__u64' [-Werror=format=]
+    |        attr->type, attr->config, fd) < 0) {
+    |        ^
 
 
+The following changes since commit 754e8768b69acba89bd6c3ba5dbe55b9df4d8083:
 
-hmm it passed my notice
-it would be nice to know the errors
+  base.bbclass: fix nondeterministic PACKAGECONFIG processing order (2013-10-24 08:38:27 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/perf
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/perf
+
+Wenzong Fan (1):
+  perf: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for mips64
+
+ meta/recipes-kernel/perf/perf.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+-- 
+1.7.9.5
 
 
-
-> If it's fixed, I think you should reset the COMPATIBLE_HOST back for both
-> webkitgtk and midori, thanks!
->
-> Thanks,
-> Jackie
->
->
->
->>
-> --
-> Jackie Huang
-> WIND RIVER | China Development Center
-> MSN:jackielily@hotmail.com
-> Tel: +86 8477 8594
-> Mobile: +86 138 1027 4745
->
-
---20cf3010e4df0b569704e99d52a5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Saturday, October 26, 2013, jhuang0  wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><br>
-<br>
-On 10/25/2013 8:32 PM, Khem Raj wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Mon, Oct 21, 2013 at 11:04 PM, =C2=A0&lt;<a>jackie.huang@windriver.com</=
-a>&gt; wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-midori depends on webkit-gtk which could not build for mips64.<br>
-</blockquote>
-<br>
-what issues do you see building webkit-gtk for mips64, IIRC I fixed it<br>
-some time ago<br>
-</blockquote>
-<br>
-I didn&#39;t see the webkit-gtk issue, but I saw:<br>
-commit 0d2ed6bca55319195b5efd74eac83a<u></u>459bf58ee8<br>
-Author: Kang Kai &lt;<a>kai.kang@windriver.com</a>&gt;<br>
-Date: =C2=A0 Fri Jul 5 10:18:10 2013 +0000<br>
-<br>
-=C2=A0 =C2=A0 webkit: set COMPATIBLE_HOST for mips64<br>
-<br>
-=C2=A0 =C2=A0 webkit packages can NOT be built for mips64 with 64 bit users=
-pace. Set<br>
-=C2=A0 =C2=A0 COMPATIBLE_HOST to to block them build for such platform.<br>
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Kai Kang &lt;<a>kai.kang@windriver.com</a>&gt;=
-<br>
-=C2=A0 =C2=A0 Signed-off-by: Saul Wold &lt;<a>sgw@linux.intel.com</a>&gt;<b=
-r>
-<br>
-<br>
-and midori depends ot webkit-gtk so it&#39;s not buildable for mips64.</blo=
-ckquote><div><br></div><div><br></div><div>hmm it passed my notice</div><di=
-v>it would be nice to know the errors</div><div><br></div><div>=C2=A0</div>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-If it&#39;s fixed, I think you should reset the COMPATIBLE_HOST back for bo=
-th webkitgtk and midori, thanks!<br>
-<br>
-Thanks,<br>
-Jackie<br>
-<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-</blockquote>
-<br>
--- <br>
-Jackie Huang<br>
-WIND RIVER | China Development Center<br>
-<a>MSN:jackielily@hotmail.com</a><br>
-Tel: +86 8477 8594<br>
-Mobile: +86 138 1027 4745<br>
-</blockquote>
-
---20cf3010e4df0b569704e99d52a5--
