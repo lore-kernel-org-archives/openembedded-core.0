@@ -1,37 +1,39 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 584506D15F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B9456D224
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2013 09:23:13 +0000 (UTC)
-Received: by mail-la0-f41.google.com with SMTP id el20so4406877lab.0
+	Sun, 27 Oct 2013 15:08:00 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id b45so3872447eek.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2013 02:23:14 -0700 (PDT)
+	Sun, 27 Oct 2013 08:08:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=KrkNKfnraP4jVFkR+YlJ4hWGtz9+JeGTCJJTT2U3z/Y=;
-	b=h70dvGSQ/H1dYhexgL3t9WYVNKZ3yvIFGTITlIinSGpTDIBKnDszLQ1UMcdUq5YooR
-	NVh8m86Y61UjX0P9SIRmYm3droCduSL5n6WeggU95dMZSSMlmAJkMKib/Keoff8o6yUC
-	imRelM5Q80mdFZGYLD92Z5+wjXyRASGuPP+7dEc/JWLRe9xpZoBK0RLzwooraHTYREdl
-	7FVZEC4NpqW8d17L7O+8q3c83QcFHt0HyXs0xQ0nbPjNeGq84Jj4/Z4AJfD1l+q/sJp2
-	X/lEVolA8+qX1ZAENy9LckREOswIoaSnuCP+AjQw+tcyz+Ehc0N1OPKItKN0HTkqZ8SQ
-	k+VA==
-X-Received: by 10.112.198.39 with SMTP id iz7mr7322846lbc.24.1382865794401;
-	Sun, 27 Oct 2013 02:23:14 -0700 (PDT)
-Received: from skeletor.greyskull (89-253-118-72.customers.ownit.se.
-	[89.253.118.72])
-	by mx.google.com with ESMTPSA id u18sm8840199lbp.4.2013.10.27.02.23.13
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=q+F9wZZOIylJiNP/BzktgJSd1eIOZkuSUWv1aKY4Qic=;
+	b=WVa3klgmgfgWl9edOVzYJbyjF+ZzQX2mDGsJo2p2SIs/SOd2GVaosPimbDfDucYzCE
+	z89/6fyyQo0nJTw9RnP/qKJ4e6EaGP5B3ciPx8dVsCfYHKfKLQHy+UG22BiSHEyJn0ht
+	JrbxcWxBI7d7QGmsr3z6TvwKOplDDqePMpC/To4gjMPsadrI7S2eWNfrxO5Uld6N4jc9
+	0GIVyuZ+WZNsB2JAnXU2vi208+BZMRpnXJJhOCsXXde0BRmw1reuOtZ9wgiOnN7y60Nf
+	b05TRP+bkpyyquUU0hwJ1L/5ObKIuHiA2iXqNMKHY8VX7vP4WHkxwJ3ipurtIJWxdTpO
+	DA0A==
+X-Received: by 10.14.210.8 with SMTP id t8mr16974162eeo.39.1382886482344;
+	Sun, 27 Oct 2013 08:08:02 -0700 (PDT)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id j7sm45114175eeo.15.2013.10.27.08.08.01
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 27 Oct 2013 02:23:14 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Oct 2013 10:20:29 +0100
-Message-Id: <1382865629-29145-1-git-send-email-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
+	Sun, 27 Oct 2013 08:08:01 -0700 (PDT)
+Date: Sun, 27 Oct 2013 16:08:12 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <20131027150812.GG3709@jama>
+References: <1382827017-724-1-git-send-email-jacob.kroon@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v2] update-rc.d.bbclass: Fix host/target test in postinst
+In-Reply-To: <1382827017-724-1-git-send-email-jacob.kroon@gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] update-rc.d.bbclass: Fix host/target test in postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +46,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2013 09:23:14 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 27 Oct 2013 15:08:03 -0000
+X-Groupsio-MsgNum: 46249
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="nOM8ykUjac0mNN89"
+Content-Disposition: inline
 
-When running the postinst script I get a shell warning:
+--nOM8ykUjac0mNN89
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-sh: argument expected
+On Sun, Oct 27, 2013 at 12:36:57AM +0200, Jacob Kroon wrote:
+> When running the postinst script I get a shell warning:
+>=20
+> sh: argument expected
+>=20
+> and the service is never stopped. This patch fixes the warning
+> message and stops the service.
+>=20
+> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+> ---
+>  meta/classes/update-rc.d.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.=
+bbclass
+> index e14659d..835b717 100644
+> --- a/meta/classes/update-rc.d.bbclass
+> +++ b/meta/classes/update-rc.d.bbclass
+> @@ -16,7 +16,7 @@ updatercd_postinst() {
+>  # test if there is a previous init script there, ie, we are updating the=
+ package
+>  # if so, we stop the service and remove it before we install from the ne=
+w package
+>  if type update-rc.d >/dev/null 2>/dev/null; then
+> -	if [ -z "$D" -a `test -f "${INIT_D_DIR}/${INITSCRIPT_NAME}"` ]; then
+> +	if [ -z "$D" -a "test -f ${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
 
-and the service is never stopped. This patch fixes the warning
-message and stops the service.
+I guess you want
 
-Patch v2: Hans Beckérus pointed out that the patch is not correct.
-          This version uses the syntax proposed by Hans. I've tested
-          that the postinst script works correctly when run on the target,
-          both when the init script exists and when it doesn't exist.
-
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
- meta/classes/update-rc.d.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index e14659d..9437e9c 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -16,7 +16,7 @@ updatercd_postinst() {
- # test if there is a previous init script there, ie, we are updating the package
- # if so, we stop the service and remove it before we install from the new package
- if type update-rc.d >/dev/null 2>/dev/null; then
--	if [ -z "$D" -a `test -f "${INIT_D_DIR}/${INITSCRIPT_NAME}"` ]; then
 +	if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
- 		${INIT_D_DIR}/${INITSCRIPT_NAME} stop
- 	fi
- 	if [ -n "$D" ]; then
--- 
-1.8.3.1
 
+here
 
+>  		${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+>  	fi
+>  	if [ -n "$D" ]; then
+> --=20
+> 1.8.3.1
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--nOM8ykUjac0mNN89
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlJtLFwACgkQN1Ujt2V2gBzATwCgoW4fNq1QlavCY0mCBRsRvHgW
+M0UAoLu+vYKnnn/esacx6mrNUv+wqWKm
+=ZbyB
+-----END PGP SIGNATURE-----
+
+--nOM8ykUjac0mNN89--
