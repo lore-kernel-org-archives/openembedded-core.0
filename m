@@ -1,35 +1,40 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 033A56D134
+Return-Path: <hans.beckerus@gmail.com>
+Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EEE36D0F0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2013 22:41:54 +0000 (UTC)
-Received: by mail-la0-f42.google.com with SMTP id ea20so4203450lab.29
+	Sun, 27 Oct 2013 07:18:47 +0000 (UTC)
+Received: by mail-la0-f46.google.com with SMTP id hp15so4215403lab.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 26 Oct 2013 15:41:56 -0700 (PDT)
+	Sun, 27 Oct 2013 00:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ewW10gfRaUzYtVVKFokfBBbHtzRihNB8eEQQXpjcCoc=;
-	b=rZhcWaZVvosttBKm72NRqWq/U0UNx2seuUQwnlIWHCdMRf5LP5gPtw7Wats1ASwsKo
-	DfOekcDLeLxnZqcLn4ZY/nelepn7IPjsa10TokCxx7vq2rT3D3skDJMQZBwDW388OVHg
-	CE28b9/1WZ88KVMO+K0Ql23MpVfRzk05qPBRRXlXdlv5RDcVnpghdIYQbpGUn2w2WFy5
-	c9dEq66Kdl3txAYwpxkvuXrsHdF/aOXjdZMFPQR4sciX1iuh+efmhQl4xrvz0Lw1A6X1
-	u6XubTMg7mwiQuuU5j0thPzp8ifL/Fjae51cpUv/x8OhK2Dy+346paPPac/ycLNV0xX4
-	lwxQ==
-X-Received: by 10.152.22.97 with SMTP id c1mr6266352laf.31.1382827316086;
-	Sat, 26 Oct 2013 15:41:56 -0700 (PDT)
-Received: from skeletor.greyskull (89-253-118-72.customers.ownit.se.
-	[89.253.118.72])
-	by mx.google.com with ESMTPSA id u20sm7393437lbh.7.2013.10.26.15.41.55
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 26 Oct 2013 15:41:55 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=H2aSkJzw5FStvOCsDMgIAQ0zMqi4DwI2hb/3Ccs6TSo=;
+	b=CeJYx8lTD+AXc1pg4M5B/qg7VH2MKuzhFMkzo9eeBzQu64dXzbK9wERshceH40ulf+
+	VdKr3KzJkWEmRDCWEvjvanLM2rF3VXYjNc1cbK2sDqnp3j6j/fTEFp2U0Q44ldn9kbhm
+	/Y6o5M0JrM0neJ4HUNe3IvTjMfIVFDlQaXypEyQE36Q2ITYlDch8CK53iXnsZgEOi1DL
+	AFVhSfsmjXpq1dGbayvVBhbWaoDLHEW3I0iTHAoi8Xox62MuonRcy1T800Nzg/ZIKLV6
+	/ARzBo1Hfo7MI/7DsKLNSloF/Lpo8ryLS3zWmHpV8fqXFvA1da/orZmKYS4qf+ZNZXTg
+	SaoA==
+X-Received: by 10.152.88.20 with SMTP id bc20mr615882lab.37.1382858328183;
+	Sun, 27 Oct 2013 00:18:48 -0700 (PDT)
+Received: from [192.168.0.10] (h135n8-rny-a12.ias.bredband.telia.com.
+	[217.209.54.135])
+	by mx.google.com with ESMTPSA id zc3sm8542642lbb.2.2013.10.27.00.18.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 27 Oct 2013 00:18:47 -0700 (PDT)
+Message-ID: <526CBE56.8010406@gmail.com>
+Date: Sun, 27 Oct 2013 08:18:46 +0100
+From: Hans Beckerus <hans.beckerus@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 27 Oct 2013 00:36:57 +0200
-Message-Id: <1382827017-724-1-git-send-email-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] update-rc.d.bbclass: Fix host/target test in postinst
+References: <1382827017-724-1-git-send-email-jacob.kroon@gmail.com>
+In-Reply-To: <1382827017-724-1-git-send-email-jacob.kroon@gmail.com>
+Subject: Re: [PATCH] update-rc.d.bbclass: Fix host/target test in postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 26 Oct 2013 22:41:56 -0000
+X-List-Received-Date: Sun, 27 Oct 2013 07:18:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-When running the postinst script I get a shell warning:
+On 2013-10-27 12:36, Jacob Kroon wrote:
+> When running the postinst script I get a shell warning:
+>
+> sh: argument expected
+>
+> and the service is never stopped. This patch fixes the warning
+> message and stops the service.
+This patch does not look right to me?
+If length of $(D) is zero the condition will *always* be true. Instead of actually testing the existence of "${INIT_D_DIR}/${INITSCRIPT_NAME}" it is now simply converted to a string. What did I miss ;)
 
-sh: argument expected
+Thanks.
+Hans
 
-and the service is never stopped. This patch fixes the warning
-message and stops the service.
-
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
- meta/classes/update-rc.d.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index e14659d..835b717 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -16,7 +16,7 @@ updatercd_postinst() {
- # test if there is a previous init script there, ie, we are updating the package
- # if so, we stop the service and remove it before we install from the new package
- if type update-rc.d >/dev/null 2>/dev/null; then
--	if [ -z "$D" -a `test -f "${INIT_D_DIR}/${INITSCRIPT_NAME}"` ]; then
-+	if [ -z "$D" -a "test -f ${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
- 		${INIT_D_DIR}/${INITSCRIPT_NAME} stop
- 	fi
- 	if [ -n "$D" ]; then
--- 
-1.8.3.1
+> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+> ---
+>  meta/classes/update-rc.d.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+> index e14659d..835b717 100644
+> --- a/meta/classes/update-rc.d.bbclass
+> +++ b/meta/classes/update-rc.d.bbclass
+> @@ -16,7 +16,7 @@ updatercd_postinst() {
+>  # test if there is a previous init script there, ie, we are updating the package
+>  # if so, we stop the service and remove it before we install from the new package
+>  if type update-rc.d >/dev/null 2>/dev/null; then
+> -	if [ -z "$D" -a `test -f "${INIT_D_DIR}/${INITSCRIPT_NAME}"` ]; then
+> +	if [ -z "$D" -a "test -f ${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+>  		${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+>  	fi
+>  	if [ -n "$D" ]; then
 
 
