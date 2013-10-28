@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CCD7E6D45E
+	by mail.openembedded.org (Postfix) with ESMTP id BEA196D138
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 16:45:15 +0000 (UTC)
+	Mon, 28 Oct 2013 16:45:16 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Oct 2013 09:45:17 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 28 Oct 2013 09:45:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,587,1378882800"; d="scan'208";a="418598727"
+X-IronPort-AV: E=Sophos;i="4.93,587,1378882800"; d="scan'208";a="418598710"
 Received: from mmckenna-mobl1.ger.corp.intel.com (HELO
 	helios.ger.corp.intel.com) ([10.252.120.252])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2013 09:44:51 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2013 09:44:49 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 16:44:40 +0000
-Message-Id: <5a99dad97a2db8afeb523cb218d4fdde553c175f.1382978401.git.paul.eggleton@linux.intel.com>
+Date: Mon, 28 Oct 2013 16:44:38 +0000
+Message-Id: <cdb5f91a8c71d48121defef4f1c826d35a6eadce.1382978401.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1382978401.git.paul.eggleton@linux.intel.com>
 References: <cover.1382978401.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1382978401.git.paul.eggleton@linux.intel.com>
 References: <cover.1382978401.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] cmake: upgrade to 2.8.12
+Subject: [PATCH 1/3] ethtool: upgrade to 3.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 16:45:16 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 16:45:18 -0000
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../cmake/{cmake-native_2.8.11.2.bb => cmake-native_2.8.12.bb}     | 4 ++--
- meta/recipes-devtools/cmake/{cmake_2.8.11.2.bb => cmake_2.8.12.bb} | 7 ++-----
- 2 files changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_2.8.11.2.bb => cmake-native_2.8.12.bb} (58%)
- rename meta/recipes-devtools/cmake/{cmake_2.8.11.2.bb => cmake_2.8.12.bb} (78%)
+ .../recipes-extended/ethtool/{ethtool-3.10 => ethtool-3.11}/run-ptest | 0
+ meta/recipes-extended/ethtool/{ethtool_3.10.bb => ethtool_3.11.bb}    | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool-3.10 => ethtool-3.11}/run-ptest (100%)
+ rename meta/recipes-extended/ethtool/{ethtool_3.10.bb => ethtool_3.11.bb} (87%)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.bb
-similarity index 58%
-rename from meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb
-rename to meta/recipes-devtools/cmake/cmake-native_2.8.12.bb
-index e2a157b..4ee9011 100644
---- a/meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.bb
-@@ -6,5 +6,5 @@ DEPENDS += "bzip2-native zlib-native"
+diff --git a/meta/recipes-extended/ethtool/ethtool-3.10/run-ptest b/meta/recipes-extended/ethtool/ethtool-3.11/run-ptest
+similarity index 100%
+rename from meta/recipes-extended/ethtool/ethtool-3.10/run-ptest
+rename to meta/recipes-extended/ethtool/ethtool-3.11/run-ptest
+diff --git a/meta/recipes-extended/ethtool/ethtool_3.10.bb b/meta/recipes-extended/ethtool/ethtool_3.11.bb
+similarity index 87%
+rename from meta/recipes-extended/ethtool/ethtool_3.10.bb
+rename to meta/recipes-extended/ethtool/ethtool_3.11.bb
+index 83587d9..1e89800 100644
+--- a/meta/recipes-extended/ethtool/ethtool_3.10.bb
++++ b/meta/recipes-extended/ethtool/ethtool_3.11.bb
+@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://run-ptest"
  
- SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
+-SRC_URI[md5sum] = "b41deb37143dfb86934a8f52cea853d2"
+-SRC_URI[sha256sum] = "62f0a9cea954c32a2bdc2d2ece295fda5b915cfea56f5de97b997d8ebaae0381"
++SRC_URI[md5sum] = "b3fba5cc45377b8fc2ead9f1e05c11bd"
++SRC_URI[sha256sum] = "a054fd5a318a0a01113952908d2344eb452f4dfd2525fe8b525f7ff2236db38a"
  
--SRC_URI[md5sum] = "6f5d7b8e7534a5d9e1a7664ba63cf882"
--SRC_URI[sha256sum] = "b32acb483afdd14339941c6e4ec25f633d916a7a472653a0b00838771a6c0562"
-+SRC_URI[md5sum] = "105bc6d21cc2e9b6aff901e43c53afea"
-+SRC_URI[sha256sum] = "d885ba10b2406ede59aa31a928df33c9d67fc01433202f7dd586999cfd0e0287"
-diff --git a/meta/recipes-devtools/cmake/cmake_2.8.11.2.bb b/meta/recipes-devtools/cmake/cmake_2.8.12.bb
-similarity index 78%
-rename from meta/recipes-devtools/cmake/cmake_2.8.11.2.bb
-rename to meta/recipes-devtools/cmake/cmake_2.8.12.bb
-index 91e5411..ffd947f 100644
---- a/meta/recipes-devtools/cmake/cmake_2.8.11.2.bb
-+++ b/meta/recipes-devtools/cmake/cmake_2.8.12.bb
-@@ -6,11 +6,8 @@ DEPENDS += "curl expat zlib libarchive ncurses"
- 
- SRC_URI += "file://dont-run-cross-binaries.patch"
- 
--SRC_URI[md5sum] = "df5324a3b203373a9e0a04b924281a43"
--SRC_URI[sha256sum] = "b7dbb86824051319b8e082d2f892ebe6d5914b4dac9b9ef1aeac5e7ed054b0bf"
--
--SRC_URI[md5sum] = "6f5d7b8e7534a5d9e1a7664ba63cf882"
--SRC_URI[sha256sum] = "b32acb483afdd14339941c6e4ec25f633d916a7a472653a0b00838771a6c0562"
-+SRC_URI[md5sum] = "105bc6d21cc2e9b6aff901e43c53afea"
-+SRC_URI[sha256sum] = "d885ba10b2406ede59aa31a928df33c9d67fc01433202f7dd586999cfd0e0287"
- 
- # Strip ${prefix} from ${docdir}, set result into docdir_stripped
- python () {
+ inherit autotools ptest
+ RDEPENDS_${PN}-ptest += "make"
 -- 
 1.8.1.2
 
