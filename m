@@ -1,33 +1,26 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id E261C6D2AA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 172E06D245
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 14:57:01 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id E7814F81239; Mon, 28 Oct 2013 08:57:03 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 02FEFF81201;
-	Mon, 28 Oct 2013 08:57:03 -0600 (MDT)
-Message-ID: <526E7B4A.3050606@mlbassoc.com>
-Date: Mon, 28 Oct 2013 08:57:14 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Mon, 28 Oct 2013 15:11:56 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 Oct 2013 08:08:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="425981302"
+Received: from mmckenna-mobl1.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.120.252])
+	by orsmga002.jf.intel.com with ESMTP; 28 Oct 2013 08:11:56 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Sebastien MENNETRIER <s.mennetrier@innotis.org>
+Date: Mon, 28 Oct 2013 15:11:55 +0000
+Message-ID: <1622119.vHvDT1LZVD@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <CABgO3_ODLSb2ZWrkqN6jry7WNehq_rhRTBcorRQj+wuHTjfE7A@mail.gmail.com>
+References: <CABgO3_ODLSb2ZWrkqN6jry7WNehq_rhRTBcorRQj+wuHTjfE7A@mail.gmail.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <5267D269.2020701@mlbassoc.com>
-	<CAJTo0LYaqs00v5XUf+wRtaKytZy1-8VDuPcEyawYU8UXxzPUGw@mail.gmail.com>
-	<526803BD.8010106@mlbassoc.com> <526804E7.3020406@mlbassoc.com>
-	<52687085.9060605@mlbassoc.com>
-	<CAJTo0LYawHSPoR0zSpuG202-kp9T_=K=eMgD9GqCtH=KAU9+qQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYawHSPoR0zSpuG202-kp9T_=K=eMgD9GqCtH=KAU9+qQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Mesa mess
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Issue with package_rpm : can't install files named "%name..."
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,30 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 14:57:03 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Oct 2013 15:11:56 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 2013-10-28 08:54, Burton, Ross wrote:
-> On 24 October 2013 01:57, Gary Thomas <gary@mlbassoc.com> wrote:
->> I found the cause :-)  In addition to OE-core, I am using meta-ti on an
->> OMAP3 target.
->> In meta-ti, there is this line:
->>    meta-ti/recipes-graphics/mesa/mesa-omap3-common.inc:PROVIDES_omap3 =
->> "virtual/libgl"
->> I added virtual/mesa to this list and it now builds again.  I'm not sure
->> that this is
->> 100% correct though.
->
-> That's correct - did you send a patch to meta-ti?
+Hi Sebastien,
 
-There was a discussion about this on meta-ti and it was decided to
-fix it (rather drastically by removing these overrides) when the core
-mesa recipe is upgraded (already proposed).
+On Monday 28 October 2013 14:44:57 Sebastien MENNETRIER wrote:
+> I try to cross-compile and install rubygems and the gems contain some
+> directories and files named "%name...".
+> 
+> To create the rpm package, a spec file that contains the list of all files
+> and directories that must be in the rpm package is generated in do_package.
+> 
+> The rpm process replace all the "%name" in the spec file by the name of the
+> package. So the package process try to include some file and directory that
+> doesn't exist.
+> 
+> How can I resolve this issue ? Is it a bug in package_rpm.bbclass ?
+
+It is a limitation in package_rpm.bbclass's current behaviour, yes. It 
+probably needs to be fixed to escape % at the start of a filename when writing 
+out the spec file (assuming that is possible, that is). Could you please file a 
+bug for this (at bugzilla.yoctoproject.org)?
+
+Thanks,
+Paul
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
