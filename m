@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id F13A26D2C8
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 27E4B6D2C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 17:52:44 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id y10so7040872wgg.20
+	Mon, 28 Oct 2013 17:53:04 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id q58so6959844wes.17
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 10:52:46 -0700 (PDT)
+	Mon, 28 Oct 2013 10:53:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=0uKYXfJv0BMXPi4FMwkuVbieVtu/EanZWpcoRGstei4=;
-	b=Pd3POH0t8o4Re3vWTI47VOASfxfv5CP8j1gVkVNn76yp0HMBx0HWDUlcIwiEghs+3i
-	Q+yeCiHagI4D1zWOuKyBxG7Qn4+tyN1Qux2kxxdW7v9KqAOT/vq2zGilu/jzJlBXOTA9
-	VhjLsYUkZsn8dSJS1bnpkQ0BZGDZPVzE+tOu8BT/tHgPuom/Amrn/rmBzuWrCcpyF7DE
-	7E5LJ9IGTN4RMZV33EeWyD9wTc6q3b9B7USdfeuD2Qi4uxhWMPveKbbQqANubUcYrNtA
-	viRBWw6wnfk+v3lrwrVUDMiO99QP269CK8039E9NyQCmo8JnuTB2a9WcpwMowydtQq/3
-	+Cmg==
-X-Gm-Message-State: ALoCoQnpQ9UygnfBil1Wf6RMpvylgxTH0GdIlz09btXS8USgvdICMdo07PO9s0bdHU58YxVjW3s3
-X-Received: by 10.180.160.212 with SMTP id xm20mr10034115wib.23.1382982766496; 
-	Mon, 28 Oct 2013 10:52:46 -0700 (PDT)
+	bh=Vcb6C5CY2q1XizJHvzKCQUh1ppXbXt1GLRIZHAoZpPo=;
+	b=DDQY2yrVF5uWcUxiXoHPgs7bNCq26YoV1JNGRGTi31l72iJG9mns3kdTzP74JhYpPj
+	vJG/kBTcdjFXXIjm9TJ0y45aIJq+61hbt9hWZ2mlgUo+dNC7WMnQH3WYgPZiFAIlhZ/L
+	NQJNH3M+7TVuaRBBXMFwiZCXCggfM/zBxLo2EaxbLzQJRWv3vgkBaIuY3wQHs2yQ+W1S
+	/ZCw+7Nb4W9ZcV/qQC0x6fw2/eWsvTQv/2o291Lu7HKK+y93+mGSH++3fj0+J1RV5Flf
+	R87ogUh6V2OXBWhB9yi17UWTc2cE0l613bpEfg7YLDW0SYG0e73PoFK/uUNwJFHnrora
+	8Frg==
+X-Gm-Message-State: ALoCoQnEws3sShzgMtTmwow5wEmgjsAMaD3eQkE1p9vjUJp/A0Xd3BThIyULWIpPBo2kRnWHrsBl
+X-Received: by 10.194.104.42 with SMTP id gb10mr19579843wjb.16.1382982785567; 
+	Mon, 28 Oct 2013 10:53:05 -0700 (PDT)
 Received: from flashheart.burtonini.com (188.29.164.220.threembb.co.uk.
 	[188.29.164.220])
-	by mx.google.com with ESMTPSA id q3sm858284wib.5.2013.10.28.10.52.44
+	by mx.google.com with ESMTPSA id ma3sm893790wic.1.2013.10.28.10.53.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Oct 2013 10:52:45 -0700 (PDT)
+	Mon, 28 Oct 2013 10:53:05 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 17:52:31 +0000
-Message-Id: <1382982751-1187-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 28 Oct 2013 17:53:00 +0000
+Message-Id: <1382982780-1242-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] xorg-proto-common: set UNKNOWN_CONFIGURE_WHITELIST
+Subject: [PATCH][V2] gnome: set UNKNOWN_CONFIGURE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 17:52:45 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 17:53:04 -0000
 
-This include adds configure options globally but not all X libraries support
-them, so to avoid unknown-configure-option warnings add them to the whitelist.
+This class disable introspection support using --enable-introspection=no but not
+all GNOME modules support introspection.
 
-Also change the options from --enable-foo=no to --disable-foo as they're clearer
-and the whitelist would have to contain --enable-foo.
+This can cause unknown-configure-options QA warnings, so clarify the option by
+using --disable-introspection and add it to the sanity test whitelist.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-proto/xorg-proto-common.inc |    4 +++-
+ meta/classes/gnome.bbclass |    4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-index 856f4d8..4680d0e 100644
---- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-+++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
-@@ -14,7 +14,9 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
- DEPENDS = "util-macros"
+diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
+index a19dd17..0de22dd 100644
+--- a/meta/classes/gnome.bbclass
++++ b/meta/classes/gnome.bbclass
+@@ -1,3 +1,5 @@
+ inherit gnomebase gtk-icon-cache gconf mime
  
- inherit autotools pkgconfig
--EXTRA_OECONF = "--with-fop=no --without-xmlto"
-+EXTRA_OECONF = "--without-fop --without-xmlto"
+-EXTRA_OECONF += "--enable-introspection=no"
++EXTRA_OECONF += "--disable-introspection"
 +
-+UNKNOWN_CONFIGURE_WHITELIST += "--without-fop --without-xmlto"
- 
- # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
- RDEPENDS_${PN}-dev = ""
++UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
 -- 
 1.7.10.4
 
