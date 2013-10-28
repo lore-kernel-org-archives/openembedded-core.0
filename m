@@ -1,24 +1,20 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 868F16D2B3
+	by mail.openembedded.org (Postfix) with ESMTP id 4FC4C6D273
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 28 Oct 2013 15:46:47 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 28 Oct 2013 08:46:42 -0700
+	by azsmga102.ch.intel.com with ESMTP; 28 Oct 2013 08:46:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,586,1378882800"; d="scan'208";a="418567048"
+X-IronPort-AV: E=Sophos;i="4.93,586,1378882800"; d="scan'208";a="418567041"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2013 08:46:41 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2013 08:46:40 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 17:46:30 +0200
-Message-Id: <9099fdcdc1f68910f4e8af56aec77a91e0b538f3.1382975017.git.laurentiu.palcu@intel.com>
+Date: Mon, 28 Oct 2013 17:46:29 +0200
+Message-Id: <cover.1382975017.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1382975017.git.laurentiu.palcu@intel.com>
-References: <cover.1382975017.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1382975017.git.laurentiu.palcu@intel.com>
-References: <cover.1382975017.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/2] nativesdk-qt4-tools: create qt.conf file
+Subject: [PATCH 0/2] QT toolchain relocation fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +29,23 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 28 Oct 2013 15:46:48 -0000
 
-When installing the SDK to another location than the default one, qmake
-will look for libraries, headers, etc. in the default location. That's
-because the paths are hard-coded in the binary itself. Luckily, QT
-allows to override this using a qt.conf file installed in the same
-directory with the application executable. However, we already have a
-patch that allows for the installation of qt.conf in another place and
-read the location from QT_CONF_PATH environment variable.
+The following changes since commit 78b91ab23d9856525fc7ac1bb8da2975382813bf:
 
-Hence, install qt.conf in ${sysconfdir}. This will allow other apps, that
-use QLibraryInfo class, to find it.
+  pigz: bump to 2.3.1 (2013-10-26 16:08:41 +0100)
 
-[YOCTO #5339]
+are available in the git repository at:
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
+  git://git.yoctoproject.org/poky-contrib lpalcu/b5339_qt_toolchain_issue
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b5339_qt_toolchain_issue
+
+Laurentiu Palcu (2):
+  nativesdk-qt4-tools: create qt.conf file
+  meta-toolchain-qt: put QT_CONF_PATH in environment script
+
+ meta/recipes-qt/meta/meta-toolchain-qt.inc  |    1 +
  meta/recipes-qt/qt4/nativesdk-qt4-tools.inc |    6 ++++++
- 1 file changed, 6 insertions(+)
+ 2 files changed, 7 insertions(+)
 
-diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-index a9ec61e..2c806e0 100644
---- a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-+++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-@@ -118,4 +118,10 @@ do_install() {
-     for i in moc uic uic3 rcc lrelease lupdate qdbuscpp2xml qdbusxml2cpp; do \
-         ln -s ${i}4 ${i}; \
-     done)
-+
-+    install -d ${D}${sysconfdir}
-+    cat >${D}${sysconfdir}/qt.conf <<EOF
-+[Paths]
-+Prefix = ${prefix}
-+EOF
- }
 -- 
 1.7.9.5
 
