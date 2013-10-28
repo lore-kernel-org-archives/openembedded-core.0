@@ -1,37 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
-	[74.125.82.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 27E4B6D2C8
+Return-Path: <eu@felipetonello.com>
+Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 490206D1AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 17:53:04 +0000 (UTC)
-Received: by mail-we0-f172.google.com with SMTP id q58so6959844wes.17
+	Mon, 28 Oct 2013 18:22:05 +0000 (UTC)
+Received: by mail-ob0-f169.google.com with SMTP id uz6so4093312obc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 10:53:05 -0700 (PDT)
+	Mon, 28 Oct 2013 11:22:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Vcb6C5CY2q1XizJHvzKCQUh1ppXbXt1GLRIZHAoZpPo=;
-	b=DDQY2yrVF5uWcUxiXoHPgs7bNCq26YoV1JNGRGTi31l72iJG9mns3kdTzP74JhYpPj
-	vJG/kBTcdjFXXIjm9TJ0y45aIJq+61hbt9hWZ2mlgUo+dNC7WMnQH3WYgPZiFAIlhZ/L
-	NQJNH3M+7TVuaRBBXMFwiZCXCggfM/zBxLo2EaxbLzQJRWv3vgkBaIuY3wQHs2yQ+W1S
-	/ZCw+7Nb4W9ZcV/qQC0x6fw2/eWsvTQv/2o291Lu7HKK+y93+mGSH++3fj0+J1RV5Flf
-	R87ogUh6V2OXBWhB9yi17UWTc2cE0l613bpEfg7YLDW0SYG0e73PoFK/uUNwJFHnrora
-	8Frg==
-X-Gm-Message-State: ALoCoQnEws3sShzgMtTmwow5wEmgjsAMaD3eQkE1p9vjUJp/A0Xd3BThIyULWIpPBo2kRnWHrsBl
-X-Received: by 10.194.104.42 with SMTP id gb10mr19579843wjb.16.1382982785567; 
-	Mon, 28 Oct 2013 10:53:05 -0700 (PDT)
-Received: from flashheart.burtonini.com (188.29.164.220.threembb.co.uk.
-	[188.29.164.220])
-	by mx.google.com with ESMTPSA id ma3sm893790wic.1.2013.10.28.10.53.03
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wP+uCcfPO+v1SZUhfI0fTDGZZ8ACqI7EcwmmHZuFlRk=;
+	b=IeVE+BcspGxFzZ65WNSH2zGHaZs2mh4Byio3WYIyGFa3nRrggvlFz0gBPpLAwDKn5D
+	ERaYW5aRQvV4/uhRZF1mZprJQuJZWyhE5RMvQz7vU6MOxnRC7vI4Os3rnCCmNtTrFn5j
+	hee/2MCxjqd/wIvB3Fq7cwrFqk66g8Pa6GO5CGfmLIuxN+wEwf+yku12J+r8Re4FsUTt
+	0mklwhrkKj4mLE5Z22vh/ps02RtVpP33Palw879KhZgMYlERInsUZYidwlxgaXw+J57z
+	p4vL6qfNgfDebkr1Gh1icgil0ZlsJC1v/MbTVJbchkpn3zrREdpLwF3lCeKh8JPJiZTg
+	9Euw==
+X-Gm-Message-State: ALoCoQkzk9YwxM/l34ITCYmsYWCEX15WcYOT65VyLhhQt+Vy68hJz+cOzs36tKfRXcoe+2tm/M6j
+X-Received: by 10.60.78.227 with SMTP id e3mr15824573oex.5.1382984526795;
+	Mon, 28 Oct 2013 11:22:06 -0700 (PDT)
+Received: from localhost.localdomain.com (wsip-70-183-20-162.oc.oc.cox.net.
+	[70.183.20.162])
+	by mx.google.com with ESMTPSA id hl3sm28417511obb.0.2013.10.28.11.22.05
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Oct 2013 10:53:05 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 28 Oct 2013 11:22:05 -0700 (PDT)
+From: eu@felipetonello.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 17:53:00 +0000
-Message-Id: <1382982780-1242-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] gnome: set UNKNOWN_CONFIGURE_WHITELIST
+Date: Mon, 28 Oct 2013 11:22:01 -0700
+Message-Id: <1382984521-22179-1-git-send-email-eu@felipetonello.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] psplash: Show psplash before X in reboot/shutdown process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,31 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 17:53:04 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 18:22:06 -0000
 
-This class disable introspection support using --enable-introspection=no but not
-all GNOME modules support introspection.
+From: "Felipe F. Tonello" <eu@felipetonello.com>
 
-This can cause unknown-configure-options QA warnings, so clarify the option by
-using --disable-introspection and add it to the sanity test whitelist.
+This is interesting because if you shutdown/reboot a device the screen will
+flicker because X will be killed and then psplash will take a while to run.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
 ---
- meta/classes/gnome.bbclass |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-core/psplash/psplash_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
-index a19dd17..0de22dd 100644
---- a/meta/classes/gnome.bbclass
-+++ b/meta/classes/gnome.bbclass
-@@ -1,3 +1,5 @@
- inherit gnomebase gtk-icon-cache gconf mime
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index 1cab296..539bf52 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85b
  
--EXTRA_OECONF += "--enable-introspection=no"
-+EXTRA_OECONF += "--disable-introspection"
-+
-+UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
+ SRCREV = "afd4e228c606a9998feae44a3fed4474803240b7"
+ PV = "0.1+git${SRCPV}"
+-PR = "r15"
++PR = "r16"
+ 
+ SRC_URI = "git://git.yoctoproject.org/${BPN} \
+            file://psplash-init \
+@@ -108,4 +108,4 @@ do_install_append() {
+ FILES_${PN} += "/mnt/.psplash"
+ 
+ INITSCRIPT_NAME = "psplash.sh"
+-INITSCRIPT_PARAMS = "start 0 S . stop 20 0 1 6 ."
++INITSCRIPT_PARAMS = "start 0 S . stop 02 0 1 6 ."
 -- 
-1.7.10.4
+1.8.3.1
 
 
