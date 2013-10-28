@@ -1,39 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 7999A6D48F
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 10AA56D2CE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 14:33:37 +0000 (UTC)
-Received: by mail-wg0-f54.google.com with SMTP id c11so6779966wgh.9
+	Mon, 28 Oct 2013 14:33:38 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id ex4so1563144wid.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 07:33:39 -0700 (PDT)
+	Mon, 28 Oct 2013 07:33:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=fQeVQuTpL3m8g6q5Rxx13ZpJEhTkcek7KDbh91tliA8=;
-	b=TkogThFQobR6a8b6RU5/EaLbKiYe/ByV6J2u4GfhfFBclMJi71Nim+PjOVbTJrW15E
-	CNIzqJx5fQ+rptfJBKgf45T+V9KW9NkGThWq6usAuod0Nwjb8/6fygT3QFW2A0zsKPjb
-	sn7mrvuFwuwWRpZYAVWDcYBCGcuyaiYWjpvu4yEwzgJn6+krpbfrJNA5hUQ3HN23+k97
-	ztxl+dJ205GgUZhS4Tf2mM+t/97s0uHam9FZ4Qg4bHKhi6hCw5wCPRuk3SRVjM0VwnxG
-	DVAzwOE3hcXbCPMAMUSiRwsMFxNO4thB2pQzuhk1JHsyLbRRFhxT+InirczLHyiboPVC
-	3IvA==
-X-Gm-Message-State: ALoCoQmKvcjk6/HDQWbd5Q95sZYtkn4/RWV5v2ZyD5Q4zpD3xZFRIBIQcMSd2FQxXi8iU1q2o4b4
-X-Received: by 10.180.24.137 with SMTP id u9mr5183116wif.5.1382970818999;
-	Mon, 28 Oct 2013 07:33:38 -0700 (PDT)
+	bh=pdPSaU3Zal2iH7aO5Lsi0TbH8UgOK39ws7/tjTHnicw=;
+	b=ivGifwo0++0HLH1r77gQvERA9HodkIt3wNMnlOtCkvQII0EB0iQt8rAAYlhy/ubwrZ
+	dOLFzl4krgib960+/I46J7jyeJ2TM66Jwi4nyvKzHxcPrx++FFWoYVudXDj2hNeJoUKA
+	Uu6b6vTe1461l5DW8bF5Ou/6W7BxnRG4/YtYwFizk4BYTe89pUTpO3h5+9OyC7U9XMdj
+	ScAqiDc5JB4cJ8COu52zMsBbpE9h6nXfsD/CJLuilh8ZZUaWZ7T1neN2aTOZJoN+U/A7
+	Ycn8KQrIRWG1ncnbQSYY6f9wiCvBiRyFqzhyPhLHJGP/h2GVz9aqUsA5sCfZSIHD//6o
+	prmA==
+X-Gm-Message-State: ALoCoQng+ZnmIlzTrbyz+RAR5+mQVIaSwS+Q5ho1OQQ+v75aabWhoPefxLQuwIASf5MPmNm3fPCN
+X-Received: by 10.180.39.212 with SMTP id r20mr9370533wik.13.1382970820513;
+	Mon, 28 Oct 2013 07:33:40 -0700 (PDT)
 Received: from flashheart.burtonini.com (188.29.164.71.threembb.co.uk.
 	[188.29.164.71])
-	by mx.google.com with ESMTPSA id fr4sm36349149wib.0.2013.10.28.07.33.37
+	by mx.google.com with ESMTPSA id fr4sm36349149wib.0.2013.10.28.07.33.39
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Oct 2013 07:33:38 -0700 (PDT)
+	Mon, 28 Oct 2013 07:33:39 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 14:33:15 +0000
-Message-Id: <1382970798-13574-2-git-send-email-ross.burton@intel.com>
+Date: Mon, 28 Oct 2013 14:33:16 +0000
+Message-Id: <1382970798-13574-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
 References: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/5] xorg-lib-common: set UNKNOWN_CONFIGURE_WHITELIST
+Subject: [PATCH 3/5] xorg-proto-common: set UNKNOWN_CONFIGURE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 14:33:37 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 14:33:39 -0000
 
 This include adds configure options globally but not all X libraries support
 them, so to avoid unknown-configure-option warnings add them to the whitelist.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-graphics/xorg-proto/xorg-proto-common.inc |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index 98e1416..07b0373 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -17,6 +17,9 @@ EXTRA_OECONF = "--disable-specs --without-groff --without-ps2pdf --without-fop -
- EXTRA_OECONF_append_libc-glibc = " --disable-malloc0returnsnull"
- EXTRA_OECONF_append_libc-uclibc = " --enable-malloc0returnsnull"
+diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+index 856f4d8..4680d0e 100644
+--- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
++++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+@@ -14,7 +14,9 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
+ DEPENDS = "util-macros"
  
-+UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0returnsnull \
-+                                --disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
+ inherit autotools pkgconfig
+-EXTRA_OECONF = "--with-fop=no --without-xmlto"
++EXTRA_OECONF = "--without-fop --without-xmlto"
 +
- python () {
-         whitelist = [ "pixman", "libpciaccess" ]
-         if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
++UNKNOWN_CONFIGURE_WHITELIST += "--without-fop --without-xmlto"
+ 
+ # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
+ RDEPENDS_${PN}-dev = ""
 -- 
 1.7.10.4
 
