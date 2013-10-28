@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id BFC016D138
+	by mail.openembedded.org (Postfix) with ESMTP id CCD7E6D45E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 16:45:14 +0000 (UTC)
+	Mon, 28 Oct 2013 16:45:15 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Oct 2013 09:45:16 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 28 Oct 2013 09:45:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,587,1378882800"; d="scan'208";a="418598701"
+X-IronPort-AV: E=Sophos;i="4.93,587,1378882800"; d="scan'208";a="418598727"
 Received: from mmckenna-mobl1.ger.corp.intel.com (HELO
 	helios.ger.corp.intel.com) ([10.252.120.252])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2013 09:44:47 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2013 09:44:51 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 16:44:37 +0000
-Message-Id: <cover.1382978401.git.paul.eggleton@linux.intel.com>
+Date: Mon, 28 Oct 2013 16:44:40 +0000
+Message-Id: <5a99dad97a2db8afeb523cb218d4fdde553c175f.1382978401.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 0/3] Recipe upgrades
+In-Reply-To: <cover.1382978401.git.paul.eggleton@linux.intel.com>
+References: <cover.1382978401.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1382978401.git.paul.eggleton@linux.intel.com>
+References: <cover.1382978401.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 3/3] cmake: upgrade to 2.8.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,56 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 16:45:14 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 16:45:16 -0000
 
-The following changes since commit 8081dcb03f54efd551d1c8fe8a0484f8270053e0:
-
-  pigz: bump to 2.3.1 (2013-10-26 16:08:30 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/upgrades
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/upgrades
-
-Paul Eggleton (3):
-  ethtool: upgrade to 3.11
-  openssh: upgrade to 6.3p1
-  cmake: upgrade to 2.8.12
-
- .../openssh/openssh-6.2p2/mac.patch                | 76 ----------------------
- .../openssh/{openssh-6.2p2 => openssh-6.3p1}/init  |  0
- .../{openssh-6.2p2 => openssh-6.3p1}/nostrip.patch |  0
- .../openssh-CVE-2011-4327.patch                    |  0
- .../{openssh-6.2p2 => openssh-6.3p1}/ssh_config    |  0
- .../openssh/{openssh-6.2p2 => openssh-6.3p1}/sshd  |  0
- .../{openssh-6.2p2 => openssh-6.3p1}/sshd.socket   |  0
- .../{openssh-6.2p2 => openssh-6.3p1}/sshd@.service |  0
- .../{openssh-6.2p2 => openssh-6.3p1}/sshd_config   |  0
- .../sshdgenkeys.service                            |  0
- .../volatiles.99_sshd                              |  0
- .../openssh/{openssh_6.2p2.bb => openssh_6.3p1.bb} |  6 +-
- ...e-native_2.8.11.2.bb => cmake-native_2.8.12.bb} |  4 +-
- .../cmake/{cmake_2.8.11.2.bb => cmake_2.8.12.bb}   |  7 +-
- .../{ethtool-3.10 => ethtool-3.11}/run-ptest       |  0
- .../ethtool/{ethtool_3.10.bb => ethtool_3.11.bb}   |  4 +-
- 16 files changed, 8 insertions(+), 89 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssh/openssh-6.2p2/mac.patch
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/init (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/nostrip.patch (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/openssh-CVE-2011-4327.patch (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/ssh_config (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/sshd (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/sshd.socket (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/sshd@.service (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/sshd_config (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/sshdgenkeys.service (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.2p2 => openssh-6.3p1}/volatiles.99_sshd (100%)
- rename meta/recipes-connectivity/openssh/{openssh_6.2p2.bb => openssh_6.3p1.bb} (96%)
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ .../cmake/{cmake-native_2.8.11.2.bb => cmake-native_2.8.12.bb}     | 4 ++--
+ meta/recipes-devtools/cmake/{cmake_2.8.11.2.bb => cmake_2.8.12.bb} | 7 ++-----
+ 2 files changed, 4 insertions(+), 7 deletions(-)
  rename meta/recipes-devtools/cmake/{cmake-native_2.8.11.2.bb => cmake-native_2.8.12.bb} (58%)
  rename meta/recipes-devtools/cmake/{cmake_2.8.11.2.bb => cmake_2.8.12.bb} (78%)
- rename meta/recipes-extended/ethtool/{ethtool-3.10 => ethtool-3.11}/run-ptest (100%)
- rename meta/recipes-extended/ethtool/{ethtool_3.10.bb => ethtool_3.11.bb} (87%)
 
+diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.12.bb
+similarity index 58%
+rename from meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_2.8.12.bb
+index e2a157b..4ee9011 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_2.8.12.bb
+@@ -6,5 +6,5 @@ DEPENDS += "bzip2-native zlib-native"
+ 
+ SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
+ 
+-SRC_URI[md5sum] = "6f5d7b8e7534a5d9e1a7664ba63cf882"
+-SRC_URI[sha256sum] = "b32acb483afdd14339941c6e4ec25f633d916a7a472653a0b00838771a6c0562"
++SRC_URI[md5sum] = "105bc6d21cc2e9b6aff901e43c53afea"
++SRC_URI[sha256sum] = "d885ba10b2406ede59aa31a928df33c9d67fc01433202f7dd586999cfd0e0287"
+diff --git a/meta/recipes-devtools/cmake/cmake_2.8.11.2.bb b/meta/recipes-devtools/cmake/cmake_2.8.12.bb
+similarity index 78%
+rename from meta/recipes-devtools/cmake/cmake_2.8.11.2.bb
+rename to meta/recipes-devtools/cmake/cmake_2.8.12.bb
+index 91e5411..ffd947f 100644
+--- a/meta/recipes-devtools/cmake/cmake_2.8.11.2.bb
++++ b/meta/recipes-devtools/cmake/cmake_2.8.12.bb
+@@ -6,11 +6,8 @@ DEPENDS += "curl expat zlib libarchive ncurses"
+ 
+ SRC_URI += "file://dont-run-cross-binaries.patch"
+ 
+-SRC_URI[md5sum] = "df5324a3b203373a9e0a04b924281a43"
+-SRC_URI[sha256sum] = "b7dbb86824051319b8e082d2f892ebe6d5914b4dac9b9ef1aeac5e7ed054b0bf"
+-
+-SRC_URI[md5sum] = "6f5d7b8e7534a5d9e1a7664ba63cf882"
+-SRC_URI[sha256sum] = "b32acb483afdd14339941c6e4ec25f633d916a7a472653a0b00838771a6c0562"
++SRC_URI[md5sum] = "105bc6d21cc2e9b6aff901e43c53afea"
++SRC_URI[sha256sum] = "d885ba10b2406ede59aa31a928df33c9d67fc01433202f7dd586999cfd0e0287"
+ 
+ # Strip ${prefix} from ${docdir}, set result into docdir_stripped
+ python () {
 -- 
 1.8.1.2
 
