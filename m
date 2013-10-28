@@ -1,24 +1,39 @@
-Return-Path: <Qiang.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 668A06CA74
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id C038B6CEE8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 05:15:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9S5FIOK016522
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 27 Oct 2013 22:15:18 -0700 (PDT)
-Received: from optiplex-780.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 27 Oct 2013 22:15:18 -0700
-From: <qiang.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Oct 2013 13:15:54 +0800
-Message-ID: <1382937354-31622-1-git-send-email-qiang.chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Mon, 28 Oct 2013 10:13:36 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1VajpK-0000j6-KB from Noor_Ahsan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 28 Oct 2013 03:13:38 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 28 Oct 2013 03:13:38 -0700
+Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.38]) by
+	SVR-IES-FEM-01.mgc.mentorg.com ([169.254.201.149]) with mapi id
+	14.02.0247.003; Mon, 28 Oct 2013 10:13:37 +0000
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device
+	name	from SERIAL_CONSOLES entries
+Thread-Index: AQHOw25wdYkIFqtJVE+CHYnQPPILhZn/L/xAgArVkIA=
+Date: Mon, 28 Oct 2013 10:13:36 +0000
+Message-ID: <365E1805BC95084CBE82381A0B869994DE540F32@EU-MBX-01.mgc.mentorg.com>
+References: <1381158304-931-1-git-send-email-muhammad_shakeel@mentor.com>
+	<365E1805BC95084CBE82381A0B869994DE53BF6B@EU-MBX-01.mgc.mentorg.com>
+In-Reply-To: <365E1805BC95084CBE82381A0B869994DE53BF6B@EU-MBX-01.mgc.mentorg.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.76]
 MIME-Version: 1.0
-Subject: [PATCH] openssl: create package for openssl configuration file
+X-OriginalArrivalTime: 28 Oct 2013 10:13:38.0667 (UTC)
+	FILETIME=[5EBBBBB0:01CED3C6]
+Subject: Re: [PATCH] sysvinit-inittab: Fix getting tty device	name	from SERIAL_CONSOLES entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,64 +46,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 05:15:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Oct 2013 10:13:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Qiang Chen <qiang.chen@windriver.com>
+Hello Saul,
 
-* Add the openssl-conf package to the list of packages to
-  be created.  This package contains the openssl.cnf file
-  which is used by both the openssl executable in the
-  openssl package and the libcrypto library.
+I there any issue with this patch? We need this patch for our release.
 
-* This is to avoid messages like:
-    WARNING: can't open config file: /usr/lib/ssl/openssl.cnf
+Noor
 
-* When running "openssl req" to request and generate a certificate
-  the command will fail without the openssl.cnf file being
-  installed on the target system.
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Ahsan, Noor
+Sent: Monday, October 21, 2013 5:46 PM
+To: Shakeel, Muhammad; openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device nam=
+e from SERIAL_CONSOLES entries
 
-* Made this package an RRECOMMENDS for libcrypto since:
-	* libcrypto is a RDEPENDS for the openssl package
-	* Users can specify a configuration file at another
-      location so it is not stricly required and many
-      commands will work without it (with warnings)
+Hello,
 
-Signed-off-by: Chase Maupin <Chase.Maupin@ti.com>
-Signed-off-by: Qiang Chen <qiang.chen@windriver.com>
+Kindly merge this patch we need it for Yocto 1.5.
+
+Noor
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Shakeel, Muhammad
+Sent: Monday, October 07, 2013 8:05 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device name fr=
+om SERIAL_CONSOLES entries
+
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+
+Currently the part after "tty" in the device name go into label along with =
+everything after that part. For example if SERIAL_CONSOLES=3D"115200;vt100;=
+ttyS0"
+than label=3DS0 but if SERIAL_CONSOLES=3D"115200;ttyS0;vt100" than label=3D=
+S0;vt100.
+If SERIAL_CONSOLES=3D"..;ttyX;..", part after 'X' should also be trimmed.
+
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
- meta/recipes-connectivity/openssl/openssl.inc |   12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 78ff7ae..f4b786a 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -33,13 +33,21 @@ export AS = "${CC} -c"
- 
- inherit pkgconfig siteinfo multilib_header
- 
--PACKAGES =+ "libcrypto libssl ${PN}-misc"
-+PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
- FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
- FILES_libssl = "${libdir}/libssl.so.*"
- FILES_${PN} =+ " ${libdir}/ssl/*"
--FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
-+FILES_${PN}-misc = "${libdir}/ssl/misc"
- FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
- 
-+# Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
-+# package RRECOMMENDS on this package.  This will enable the configuration
-+# file to be installed for both the base openssl package and the libcrypto
-+# package since the base openssl package depends on the libcrypto package.
-+FILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
-+CONFFILES_openssl-conf = "${libdir}/ssl/openssl.cnf"
-+RRECOMMENDS_libcrypto += "openssl-conf"
-+
- do_configure_prepend_darwin () {
- 	sed -i -e '/version-script=openssl\.ld/d' Configure
- }
--- 
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/=
+recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 23c284d..05ba410 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -22,7 +22,7 @@ do_install() {
+     for i in $tmp
+     do
+ 	j=3D`echo ${i} | sed s/\;/\ /g`
+-	label=3D`echo ${i} | sed -e 's/^.*;tty//'`
++	label=3D`echo ${i} | sed -e 's/^.*;tty//' -e 's/;.*//'`
+ 	echo "$label:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdi=
+r}/inittab
+     done
+=20
+--
 1.7.9.5
 
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
