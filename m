@@ -1,37 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 715B06CEE8
+Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 7999A6D48F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 14:33:35 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id u57so6728638wes.1
+	Mon, 28 Oct 2013 14:33:37 +0000 (UTC)
+Received: by mail-wg0-f54.google.com with SMTP id c11so6779966wgh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 07:33:37 -0700 (PDT)
+	Mon, 28 Oct 2013 07:33:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1EI4dn2iSae2dJh2JAs729gWmMPlhrhKTj+5dMH5UBs=;
-	b=fcEV0Bz/vsvhtJiViZ3HlzB5M77IUDNDlymQEH34YNh7qhb/v6ev6l2RX7lO3zODqU
-	5lpfY5vR7lFY048ts3avGoYv6d8AVDXXDCV1YcfB+UAgEAbS0kAekRJbO+VXA+dg3EfQ
-	CQ5ZQB7XWVQ4B2UkyNYoirYS1zPDh37qF0HXewaY0xOIIUTyFARwZzdeU4Tq52+bObcg
-	xwQbJeZKV9Re35Td1K0UK3uAPAATuJXIFLx3jzAeTfrga/ScOQarIFnlp5Kz7XGfW926
-	wifWJwrP13GUuQaX/UL2MQxj238qASTOcUDPTz05n9QxIMwyMbB6ZPFd1bCgSjJQJ+Ww
-	LZlg==
-X-Gm-Message-State: ALoCoQmjlxl4QMryT7MQ/xzVfcAA0z0D70JcelGZo3HXCRfAATE3zUTGTy2OqIs+D9qO9Dg/Njy1
-X-Received: by 10.194.104.66 with SMTP id gc2mr1580320wjb.75.1382970816900;
-	Mon, 28 Oct 2013 07:33:36 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=fQeVQuTpL3m8g6q5Rxx13ZpJEhTkcek7KDbh91tliA8=;
+	b=TkogThFQobR6a8b6RU5/EaLbKiYe/ByV6J2u4GfhfFBclMJi71Nim+PjOVbTJrW15E
+	CNIzqJx5fQ+rptfJBKgf45T+V9KW9NkGThWq6usAuod0Nwjb8/6fygT3QFW2A0zsKPjb
+	sn7mrvuFwuwWRpZYAVWDcYBCGcuyaiYWjpvu4yEwzgJn6+krpbfrJNA5hUQ3HN23+k97
+	ztxl+dJ205GgUZhS4Tf2mM+t/97s0uHam9FZ4Qg4bHKhi6hCw5wCPRuk3SRVjM0VwnxG
+	DVAzwOE3hcXbCPMAMUSiRwsMFxNO4thB2pQzuhk1JHsyLbRRFhxT+InirczLHyiboPVC
+	3IvA==
+X-Gm-Message-State: ALoCoQmKvcjk6/HDQWbd5Q95sZYtkn4/RWV5v2ZyD5Q4zpD3xZFRIBIQcMSd2FQxXi8iU1q2o4b4
+X-Received: by 10.180.24.137 with SMTP id u9mr5183116wif.5.1382970818999;
+	Mon, 28 Oct 2013 07:33:38 -0700 (PDT)
 Received: from flashheart.burtonini.com (188.29.164.71.threembb.co.uk.
 	[188.29.164.71])
-	by mx.google.com with ESMTPSA id fr4sm36349149wib.0.2013.10.28.07.33.35
+	by mx.google.com with ESMTPSA id fr4sm36349149wib.0.2013.10.28.07.33.37
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Oct 2013 07:33:36 -0700 (PDT)
+	Mon, 28 Oct 2013 07:33:38 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 14:33:14 +0000
-Message-Id: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 28 Oct 2013 14:33:15 +0000
+Message-Id: <1382970798-13574-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/5] gnome: set UNKNOWN_CONFIGURE_WHITELIST
+In-Reply-To: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
+References: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/5] xorg-lib-common: set UNKNOWN_CONFIGURE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 14:33:35 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 14:33:37 -0000
 
-This class passes --disable-introspection to everything that inherits it but not
-all GNOME modules support introspection, so add that option to the
-unknown-configure-options sanity test whitelist.
+This include adds configure options globally but not all X libraries support
+them, so to avoid unknown-configure-option warnings add them to the whitelist.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/gnome.bbclass |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
-index a19dd17..0de22dd 100644
---- a/meta/classes/gnome.bbclass
-+++ b/meta/classes/gnome.bbclass
-@@ -1,3 +1,5 @@
- inherit gnomebase gtk-icon-cache gconf mime
+diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+index 98e1416..07b0373 100644
+--- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
++++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+@@ -17,6 +17,9 @@ EXTRA_OECONF = "--disable-specs --without-groff --without-ps2pdf --without-fop -
+ EXTRA_OECONF_append_libc-glibc = " --disable-malloc0returnsnull"
+ EXTRA_OECONF_append_libc-uclibc = " --enable-malloc0returnsnull"
  
--EXTRA_OECONF += "--enable-introspection=no"
-+EXTRA_OECONF += "--disable-introspection"
++UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0returnsnull \
++                                --disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
 +
-+UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
+ python () {
+         whitelist = [ "pixman", "libpciaccess" ]
+         if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
 -- 
 1.7.10.4
 
