@@ -1,39 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 330AE6D2B3
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id F13A26D2C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 17:49:52 +0000 (UTC)
-Received: by mail-ve0-f182.google.com with SMTP id c14so3795734vea.13
+	Mon, 28 Oct 2013 17:52:44 +0000 (UTC)
+Received: by mail-wg0-f53.google.com with SMTP id y10so7040872wgg.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 10:49:53 -0700 (PDT)
+	Mon, 28 Oct 2013 10:52:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/gQK4rOsbYDEhLMZo889afXX70ttdrCUN/LLsBhYfsY=;
-	b=JLWenlU34DfaXlSphBE24nt8EICnmQoSej7/w02NCE/K6s1iVX3mLd1sUgVk/ZbIAJ
-	HkKyfLJyzzcvLQG60jBlnr1GWJUDKiRDmg8oHzgQXrXZrYZzRBuSfzO009K1jXUNg5Ra
-	BgduUolVcB9X8cPbwKRic++ahbjTyYFqS/2GoqeP+I2jESVwlzNDCJSj6uKCFSL+cUqI
-	Os1NBgzhimAYiatlWy/pBSfu4YvaT0KDMfI+EMUYhUL6RyTBf0oFA8pPETxMlLOyKQLn
-	xgC0SDRwXLo3cGWz2l8uOwowLbljCYboGDpf+sBwAINJlC0dxUhsuTHjKPmwPqyKMRXu
-	k82g==
-X-Gm-Message-State: ALoCoQn9iVPeAKKd0txqjiBwP5trNzZFO171mtKpF0sJt0zicwS30ljTDA1/9PsgDmMHSOp6mpIa
-X-Received: by 10.58.161.231 with SMTP id xv7mr14412044veb.2.1382982593872;
-	Mon, 28 Oct 2013 10:49:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 28 Oct 2013 10:49:33 -0700 (PDT)
-In-Reply-To: <526E9F31.2040305@communistcode.co.uk>
-References: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
-	<5266E3C2.6040502@linux.intel.com>
-	<526E9F31.2040305@communistcode.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 28 Oct 2013 17:49:33 +0000
-Message-ID: <CAJTo0LZDRJH8HHe9TZ1+LTBoo9rq6V42HQ0ghVagi5kg--oJ_Q@mail.gmail.com>
-To: Jack Mitchell <ml@communistcode.co.uk>
-Cc: Jack Mitchell <jmitchell@cbnl.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0uKYXfJv0BMXPi4FMwkuVbieVtu/EanZWpcoRGstei4=;
+	b=Pd3POH0t8o4Re3vWTI47VOASfxfv5CP8j1gVkVNn76yp0HMBx0HWDUlcIwiEghs+3i
+	Q+yeCiHagI4D1zWOuKyBxG7Qn4+tyN1Qux2kxxdW7v9KqAOT/vq2zGilu/jzJlBXOTA9
+	VhjLsYUkZsn8dSJS1bnpkQ0BZGDZPVzE+tOu8BT/tHgPuom/Amrn/rmBzuWrCcpyF7DE
+	7E5LJ9IGTN4RMZV33EeWyD9wTc6q3b9B7USdfeuD2Qi4uxhWMPveKbbQqANubUcYrNtA
+	viRBWw6wnfk+v3lrwrVUDMiO99QP269CK8039E9NyQCmo8JnuTB2a9WcpwMowydtQq/3
+	+Cmg==
+X-Gm-Message-State: ALoCoQnpQ9UygnfBil1Wf6RMpvylgxTH0GdIlz09btXS8USgvdICMdo07PO9s0bdHU58YxVjW3s3
+X-Received: by 10.180.160.212 with SMTP id xm20mr10034115wib.23.1382982766496; 
+	Mon, 28 Oct 2013 10:52:46 -0700 (PDT)
+Received: from flashheart.burtonini.com (188.29.164.220.threembb.co.uk.
+	[188.29.164.220])
+	by mx.google.com with ESMTPSA id q3sm858284wib.5.2013.10.28.10.52.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 28 Oct 2013 10:52:45 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Oct 2013 17:52:31 +0000
+Message-Id: <1382982751-1187-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH][V2] xorg-proto-common: set UNKNOWN_CONFIGURE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,26 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 17:49:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Oct 2013 17:52:45 -0000
 
-On 28 October 2013 17:30, Jack Mitchell <ml@communistcode.co.uk> wrote:
->> Not sure what's going on yet, but I found a configure failure, see the
->> attached log file.
->
-> I have rebuilt this package multiple times now and have still not
-> managed to break it. I believe it will just be a dirty build directory,
-> but that shouldn't be an excuse for it not building.
->
-> Does anyone have any suggestions on how to overcome this?
+This include adds configure options globally but not all X libraries support
+them, so to avoid unknown-configure-option warnings add them to the whitelist.
 
-Just had a look at that configure log and that's normally the error
-you get when moving from B==S to B!=S.  Unless Saul can replicate it
-I'd say that warning was spurious/expected and can be ignored.
+Also change the options from --enable-foo=no to --disable-foo as they're clearer
+and the whitelist would have to contain --enable-foo.
 
-Not entirely sure why this happened as the patch also updates
-separatebuilddir.inc, but without the actual tmp directory and all
-logs that's not going to be easy to work out...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-proto/xorg-proto-common.inc |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+index 856f4d8..4680d0e 100644
+--- a/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
++++ b/meta/recipes-graphics/xorg-proto/xorg-proto-common.inc
+@@ -14,7 +14,9 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
+ DEPENDS = "util-macros"
+ 
+ inherit autotools pkgconfig
+-EXTRA_OECONF = "--with-fop=no --without-xmlto"
++EXTRA_OECONF = "--without-fop --without-xmlto"
++
++UNKNOWN_CONFIGURE_WHITELIST += "--without-fop --without-xmlto"
+ 
+ # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
+ RDEPENDS_${PN}-dev = ""
+-- 
+1.7.10.4
+
 
