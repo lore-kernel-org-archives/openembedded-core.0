@@ -1,25 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EF38F6D45E
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
+	[209.85.219.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 01B1E6D45D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 17:12:13 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Oct 2013 10:12:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,587,1378882800"; d="scan'208";a="418613141"
-Received: from mmckenna-mobl1.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.120.252])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2013 10:12:09 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 17:11:59 +0000
-Message-Id: <4ab561ac3df105b4b6487271b6ccc29445518d52.1382980153.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1382980153.git.paul.eggleton@linux.intel.com>
-References: <cover.1382980153.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1382980153.git.paul.eggleton@linux.intel.com>
-References: <cover.1382980153.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 6/6] scripts/oe-pkgdata-util: add ability to find a recipe from a target package
+	Mon, 28 Oct 2013 17:12:34 +0000 (UTC)
+Received: by mail-oa0-f45.google.com with SMTP id i4so3876113oah.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Oct 2013 10:12:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=teOAE0aMdOnPC5nC517UuI3BHx9+VaxH7meBL5Div1o=;
+	b=xxt4NVoLT1fAIBH0XUS+y9oIb2mMMMxsHhGa7DNPx7QsdU/jbRUquky24B9YONskyg
+	Sc9fFj376JK5FC5TViSA4g/baaFE5xwHh9FBjsR7HrvCGpfeTsSm9P9d3BTwRz9QSyUS
+	RC/Hjf2yYguevop1t+Di+B4i8BAFfnF+zq1rIGWEocE2pnrL4JXHuCdQo5OU/pD6sBrg
+	4r0m1Q5eViR5atYWc0PNezNf1SYQNb/PBV2zHE8JslIFOUOaq9Aqap0qbZipnXKTJpYm
+	fGMuXFeDOc/kNmEUuSJTSI71Alh6ricogYcNJf5gtKjwuLkqBPc+irofWYzovdpRdnI9
+	+VUg==
+MIME-Version: 1.0
+X-Received: by 10.60.155.145 with SMTP id vw17mr2658822oeb.50.1382980356027;
+	Mon, 28 Oct 2013 10:12:36 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 28 Oct 2013 10:12:35 -0700 (PDT)
+In-Reply-To: <CAJTo0LZ4Qbt-fc=H9cRszfSUwUiMq4H0KQq-GvPij81fUVrgPQ@mail.gmail.com>
+References: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
+	<CAP9ODKogpWd7aU2U5qpQ1mztUPwHtQjOQF0krwiLi5wm921pRg@mail.gmail.com>
+	<CAJTo0LZ4Qbt-fc=H9cRszfSUwUiMq4H0KQq-GvPij81fUVrgPQ@mail.gmail.com>
+Date: Mon, 28 Oct 2013 15:12:35 -0200
+X-Google-Sender-Auth: Gi-1GUXPYKh5rGGtmFl3R1MpJQk
+Message-ID: <CAP9ODKrrbudNyd=GDcpOvxanODV6zc=_iPgqzgDh7A1HJ29q7A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] gnome: set UNKNOWN_CONFIGURE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,79 +46,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 17:12:14 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 17:12:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Add a "lookup-recipe" command to show which recipe produced a particular
-package.
+On Mon, Oct 28, 2013 at 3:08 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 28 October 2013 15:59, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> On Mon, Oct 28, 2013 at 12:33 PM, Ross Burton <ross.burton@intel.com> wrote:
+>>> This class passes --disable-introspection to everything that inherits it but not
+>>> all GNOME modules support introspection, so add that option to the
+>>> unknown-configure-options sanity test whitelist.
+>>>
+>>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>>
+>> I understand the change but it does not match with the commit log.
+>
+> How so?
+>
+> -EXTRA_OECONF += "--enable-introspection=no"
+> +EXTRA_OECONF += "--disable-introspection"
+>
+> This is a semantically identical change as far as autoconf is
+> concerned, that makes the whitelist clearer.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/oe-pkgdata-util | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+For autoconf it is but for a human it is not. Please add this to the commit log.
 
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index 08773e9..80cacc5 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -219,6 +219,38 @@ def lookup_pkg(args, usage):
-         items.extend(mappings.get(pkg, []))
-     print '\n'.join(items)
- 
-+def lookup_recipe(args, usage):
-+    if len(args) < 2:
-+        usage()
-+        sys.exit(1)
-+
-+    pkgdata_dir = args[0]
-+    pkgs = args[1].split()
-+
-+    if not os.path.exists(pkgdata_dir):
-+        print('ERROR: Unable to find pkgdata directory %s' % pkgdata_dir)
-+        sys.exit(1)
-+
-+    mappings = defaultdict(list)
-+    for pkg in pkgs:
-+        pkgfile = os.path.join(pkgdata_dir, 'runtime-reverse', pkg)
-+        if os.path.exists(pkgfile):
-+            with open(pkgfile, 'r') as f:
-+                for line in f:
-+                    fields = line.rstrip().split(': ')
-+                    if fields[0] == 'PN':
-+                        mappings[pkg].append(fields[1])
-+                        break
-+    if len(mappings) < len(pkgs):
-+        missing = list(set(pkgs) - set(mappings.keys()))
-+        sys.stderr.write("ERROR: the following packages could not be found: %s\n" % ', '.join(missing))
-+        sys.exit(1)
-+
-+    items = []
-+    for pkg in pkgs:
-+        items.extend(mappings.get(pkg, []))
-+    print '\n'.join(items)
-+
- def find_path(args, usage):
-     if len(args) < 2:
-         usage()
-@@ -263,6 +295,9 @@ Available commands:
-     lookup-pkg <pkgdatadir> "<recipe-pkgs>"
-         look up the specified recipe-space package name(s) to see what the
-         final runtime package name is (e.g. eglibc becomes libc6)
-+    lookup-recipe <pkgdatadir> "<pkgs>"
-+        look up the specified package(s) to see which recipe they were
-+        produced by
-     find-path <pkgdatadir> <path>
-         find the package providing the specified path (wildcards * ? allowed)
-     read-value <pkgdatadir> <value-name> "<pkgs>"
-@@ -284,6 +319,8 @@ Available commands:
-         glob(args[1:], parser.print_help)
-     elif args[0] == "lookup-pkg":
-         lookup_pkg(args[1:], parser.print_help)
-+    elif args[0] == "lookup-recipe":
-+        lookup_recipe(args[1:], parser.print_help)
-     elif args[0] == "find-path":
-         find_path(args[1:], parser.print_help)
-     elif args[0] == "read-value":
+> +UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
+>
+> This is the unknown configure options whitelist.
+>
+> Ross
+
+
+
 -- 
-1.8.1.2
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
