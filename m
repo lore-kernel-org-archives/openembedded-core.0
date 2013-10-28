@@ -1,39 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 8128B6D1CD;
-	Sun, 27 Oct 2013 19:17:31 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id b45so3975573eek.1
-	for <multiple recipients>; Sun, 27 Oct 2013 12:17:32 -0700 (PDT)
+Return-Path: <joaohf@gmail.com>
+Received: from mail-yh0-f54.google.com (mail-yh0-f54.google.com
+	[209.85.213.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A88C6CE9E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Oct 2013 00:47:22 +0000 (UTC)
+Received: by mail-yh0-f54.google.com with SMTP id b20so2479405yha.27
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 27 Oct 2013 17:47:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Cb2UH+SA4kbrvM9DhYAtzHQZJnnWp59PM6TQsubVGeo=;
-	b=zBcGEhStu7ibcWK2PW56+Mpaev54/tdSyL2wFpcV3JB9R+VSR8//I5g9yjkmaO7cRc
-	Gig5trbu6JlfGOMr56SP+o46C+OA8ldck+9kcPjnb3vOmKIxatYwZyiwrB3T6NIa82a1
-	LiXZKBCGzF0wErt9Axe9wswLalUiYi+9FshsRh75dsMIT5gsDLvAtGQuwtdLLvP3VijU
-	nOG4q+I5AFMVv4j//btL+ED1fvqud3d1sLekMzmBeDxIG+HO3/sxgYVR5qKiZAb1ZRlV
-	EL/QYmJSW/kZROzJbFBNuTNvimJhvppk4CB4Z/BAqMh8aki3nV0e0Sx1JEeh9Kv9CYqY
-	8U0g==
-X-Received: by 10.15.74.197 with SMTP id j45mr17868695eey.40.1382901452758;
-	Sun, 27 Oct 2013 12:17:32 -0700 (PDT)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id j7sm47500008eeo.15.2013.10.27.12.17.31
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=BWU+BcXmPj66oHaK2vaB4xhF/2sAEDYzS0eHhwc9pEg=;
+	b=S4I75QYMxRu6S5X/MNymchOBREcjm76J3yksEQYI0BKl2Ni36XVGe0ESfHkjlqy2gi
+	ARHR+xuOLPhA6giMKdZ4e6jWr5wHiG/sKDSmmfUzQzXkwZiyHXTuFakSpdP9Iqt6xwSP
+	rmB7xlDsPl+gmWfXQNRN0NVsHBLOQK6IgAImRLTyhdRBPS6jWJ9zPOWiZ6hSX3Fy7Zoz
+	Fk6Ihc+rz12D8xcoRgRr2b9gDUMG6hrsEcryDg/fQm4lgNDMepVU3VMuuKJz81bRzNvM
+	y0w3ic7FRDFWNrl+ddUUAkSuPJKOE16zsDWSCWiI9EAUu1WMMRAU2pckvXUYk0qgqfWS
+	kGeA==
+X-Received: by 10.236.141.144 with SMTP id g16mr12242yhj.84.1382921243817;
+	Sun, 27 Oct 2013 17:47:23 -0700 (PDT)
+Received: from localhost.localdomain ([201.53.197.242])
+	by mx.google.com with ESMTPSA id q9sm29156971yhk.16.2013.10.27.17.47.21
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 27 Oct 2013 12:17:31 -0700 (PDT)
-Date: Sun, 27 Oct 2013 20:17:43 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-Message-ID: <20131027191743.GA3704@jama>
-References: <20130910220329.45CB15043D@opal> <20131002231105.GA6240@jama>
-	<20131018102205.GH3930@jama> <5268F419.2000805@mentor.com>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 27 Oct 2013 17:47:23 -0700 (PDT)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 27 Oct 2013 22:47:05 -0200
+Message-Id: <1382921225-7045-1-git-send-email-joaohf@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-In-Reply-To: <5268F419.2000805@mentor.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Muhammad Shakeel : openssh: Add systemd support
+Subject: [PATCH] add utilities dirsize, ksize
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,135 +44,273 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2013 19:17:32 -0000
-X-Groupsio-MsgNum: 46250
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="W/nzBZO5zC0uMSeA"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 28 Oct 2013 00:47:22 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---W/nzBZO5zC0uMSeA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The patch was imported from Yocto git server
+(git://git.yoctoproject.org/user-contrib/dvhart/meta-tiny)
+as of commit id 4dbeb28dbafeac55d271484ead13914152db826c.
 
-On Thu, Oct 24, 2013 at 03:19:05PM +0500, Muhammad Shakeel wrote:
-> On 10/18/2013 03:22 PM, Martin Jansa wrote:
-> > On Thu, Oct 03, 2013 at 01:11:05AM +0200, Martin Jansa wrote:
-> >> On Tue, Sep 10, 2013 at 10:03:29PM +0000, git@git.openembedded.org wro=
-te:
-> >>> Module: openembedded-core.git
-> >>> Branch: master
-> >>> Commit: 6e6445d487c033913a29763f8e3a7a339d5b612d
-> >>> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dco=
-mmit;h=3D6e6445d487c033913a29763f8e3a7a339d5b612d
-> >>>
-> >>> Author: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> >>> Date:   Wed Sep  4 11:04:59 2013 +0000
-> >>>
-> >>> openssh: Add systemd support
-> >>>
-> >>> -Remove dependency on meta-systemd
-> >>>
-> >>> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> >>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> >>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >>>
-> >>> ---
-> >>>
-> >>>   .../openssh/openssh-6.2p2/sshd.socket              |   11 +++++++++=
-++
-> >>>   .../openssh/openssh-6.2p2/sshd@.service            |    9 +++++++++
-> >>>   .../openssh/openssh-6.2p2/sshdgenkeys.service      |   10 ++++++++++
-> >>>   meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   19 +++++++++=
-++++++++--
-> >>>   4 files changed, 47 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/met=
-a/recipes-connectivity/openssh/openssh_6.2p2.bb
-> >>> index c76f9ac..3a7f50d 100644
-> >>> --- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-> >>> +++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-> >>> @@ -26,14 +26,17 @@ SRC_URI =3D "ftp://ftp.openbsd.org/pub/OpenBSD/Op=
-enSSH/portable/openssh-${PV}.tar.
-> >>>              file://init \
-> >>>              file://openssh-CVE-2011-4327.patch \
-> >>>              file://mac.patch \
-> >>> -           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI=
-}', '', d)}"
-> >>> +           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI=
-}', '', d)} \
-> >>> +           file://sshd.socket \
-> >>> +           file://sshd@.service \
-> >>> +           file://sshdgenkeys.service "
-> >>>  =20
-> >>>   PAM_SRC_URI =3D "file://sshd"
-> >>>  =20
-> >>>   SRC_URI[md5sum] =3D "be46174dcbb77ebb4ea88ef140685de1"
-> >>>   SRC_URI[sha256sum] =3D "7f29b9d2ad672ae0f9e1dcbff871fc5c2e60a194e90=
-c766432e32161b842313b"
-> >>>  =20
-> >>> -inherit useradd update-rc.d update-alternatives
-> >>> +inherit useradd update-rc.d update-alternatives systemd
-> >>>  =20
-> >>>   USERADD_PACKAGES =3D "${PN}-sshd"
-> >>>   USERADD_PARAM_${PN}-sshd =3D "--system --no-create-home --home-dir =
-/var/run/sshd --shell /bin/false --user-group sshd"
-> >>> @@ -41,6 +44,9 @@ INITSCRIPT_PACKAGES =3D "${PN}-sshd"
-> >>>   INITSCRIPT_NAME_${PN}-sshd =3D "sshd"
-> >>>   INITSCRIPT_PARAMS_${PN}-sshd =3D "defaults 9"
-> >>>  =20
-> >>> +SYSTEMD_PACKAGES =3D "${PN}-sshd"
-> >>> +SYSTEMD_SERVICE_${PN}-sshd =3D "sshd.socket sshd@.service sshdgenkey=
-s.service"
-> >> Is it correct to use sshd@.service here?
-> >>
-> >> meta-systemd .bbappend had only sshd.socket:
-> >> -SYSTEMD_PACKAGES =3D "${PN}-sshd"
-> >> -SYSTEMD_SERVICE_${PN}-sshd =3D "sshd.socket"
-> (Sorry for not replying earlier, your message was moved into a filtered d=
-ir)
->=20
-> sshd.service was running a single SSH server for all incoming=20
-> connections, suitable only for systems with a large amount of SSH=20
-> traffic. In almost all other cases it is a better idea to use=20
-> sshd.socket + sshd@.service (i.e. the on-demand spawning version for one=
-=20
-> instance per connection).
->=20
-> sshd@.service should not be start/restart by systemctl by postinst and=20
-> to achieve this, IMO, it should be removed from SYSTEMD_SERVICE_${PN}-ssh=
-d.
+Only dirsize and ksize was picked up.
 
-Can you please send patch for it?
+[YOCTO #5388]
 
-Thanks
+Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+---
+ scripts/dirsize.py |  69 ++++++++++++++++++++++
+ scripts/ksize.py   | 165 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 234 insertions(+)
+ create mode 100644 scripts/dirsize.py
+ create mode 100644 scripts/ksize.py
 
-> >> (re)starting sshd@service from postinst is failing with:
-> >> SHR root@pjama /etc $ bash -x /var/lib/opkg/info/openssh-sshd.postinst
-> >> + OPTS=3D
-> >> + '[' -n '' ']'
-> >> + type systemctl
-> >> + systemctl enable sshd.socket sshd@.service sshdgenkeys.service
-> >> + '[' -z '' -a enable =3D enable ']'
-> >> + systemctl restart sshd.socket sshd@.service sshdgenkeys.service
-> >> Failed to issue method call: Unit name sshd@.service is not valid.
-> > ping
-> >
->=20
+diff --git a/scripts/dirsize.py b/scripts/dirsize.py
+new file mode 100644
+index 0000000..df0120c
+--- /dev/null
++++ b/scripts/dirsize.py
+@@ -0,0 +1,69 @@
++#!/usr/bin/env python
++
++import os
++import sys
++import stat
++
++class Record:
++    def create(path):
++        r = Record(path)
++
++        s = os.lstat(path)
++        if stat.S_ISDIR(s.st_mode):
++            for p in os.listdir(path):
++                pathname = path + "/" + p
++                ss = os.lstat(pathname)
++                if not stat.S_ISLNK(ss.st_mode):
++                    r.records.append(Record.create(pathname))
++                    r.size += r.records[-1].size
++            r.records.sort(reverse=True)
++        else:
++            r.size = os.lstat(path).st_size
++
++        return r
++    create = staticmethod(create)
++
++    def __init__(self, path):
++        self.path = path
++        self.size = 0
++        self.records = []
++
++    def __cmp__(this, that):
++        if that is None:
++            return 1
++        if not isinstance(that, Record):
++            raise TypeError
++        if len(this.records) > 0 and len(that.records) == 0:
++            return -1
++        if len(this.records) == 0 and len(that.records) > 0:
++            return 1
++        if this.size < that.size:
++            return -1
++        if this.size > that.size:
++            return 1
++        return 0
++
++    def show(self, minsize):
++        total = 0
++        if self.size <= minsize:
++            return 0
++        print "%10d %s" % (self.size, self.path)
++        for r in self.records:
++            total += r.show(minsize)
++        if len(self.records) == 0:
++            total = self.size
++        return total
++
++
++def main():
++    minsize = 0
++    if len(sys.argv) == 2:
++        minsize = int(sys.argv[1])
++    rootfs = Record.create(".")
++    total = rootfs.show(minsize)
++    print "Displayed %d/%d bytes (%.2f%%)" % \
++          (total, rootfs.size, 100 * float(total) / rootfs.size)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/scripts/ksize.py b/scripts/ksize.py
+new file mode 100644
+index 0000000..1ea8c8c
+--- /dev/null
++++ b/scripts/ksize.py
+@@ -0,0 +1,165 @@
++#!/usr/bin/env python
++#
++# Copyright (c) 2011, Intel Corporation.
++# All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++#
++#
++# Display details of the kernel build size, broken up by built-in.o. Sort
++# the objects by size. Run from the top level kernel build directory.
++#
++# Author: Darren Hart <dvhart@linux.intel.com>
++#
++
++import sys
++import getopt
++import os
++from subprocess import *
++from string import join
++
++
++def usage():
++    prog = os.path.basename(sys.argv[0])
++    print 'Usage: %s [OPTION]...' % (prog)
++    print '  -d,                 display an additional level of drivers detail'
++    print '  -h, --help          display this help and exit'
++    print ''
++    print 'Run %s from the top-level Linux kernel build directory.' % (prog)
++
++
++class Sizes:
++    def __init__(self, glob):
++        self.title = glob
++        p = Popen("size -t " + glob, shell=True, stdout=PIPE, stderr=PIPE)
++        output = p.communicate()[0].splitlines()
++        if len(output) > 2:
++            sizes = output[-1].split()[0:4]
++            self.text = int(sizes[0])
++            self.data = int(sizes[1])
++            self.bss = int(sizes[2])
++            self.total = int(sizes[3])
++        else:
++            self.text = self.data = self.bss = self.total = 0
++
++    def show(self, indent=""):
++        print "%-32s %10d | %10d %10d %10d" % \
++              (indent+self.title, self.total, self.text, self.data, self.bss)
++
++
++class Report:
++    def create(filename, title, subglob=None):
++        r = Report(filename, title)
++        path = os.path.dirname(filename)
++
++        p = Popen("ls " + path + "/*.o | grep -v built-in.o",
++                  shell=True, stdout=PIPE, stderr=PIPE)
++        glob = join(p.communicate()[0].splitlines())
++        oreport = Report(glob, path + "/*.o")
++        oreport.sizes.title = path + "/*.o"
++        r.parts.append(oreport)
++
++        if subglob:
++            p = Popen("ls " + subglob, shell=True, stdout=PIPE, stderr=PIPE)
++            for f in p.communicate()[0].splitlines():
++                path = os.path.dirname(f)
++                r.parts.append(Report.create(f, path, path + "/*/built-in.o"))
++            r.parts.sort(reverse=True)
++
++        for b in r.parts:
++            r.totals["total"] += b.sizes.total
++            r.totals["text"] += b.sizes.text
++            r.totals["data"] += b.sizes.data
++            r.totals["bss"] += b.sizes.bss
++
++        r.deltas["total"] = r.sizes.total - r.totals["total"]
++        r.deltas["text"] = r.sizes.text - r.totals["text"]
++        r.deltas["data"] = r.sizes.data - r.totals["data"]
++        r.deltas["bss"] = r.sizes.bss - r.totals["bss"]
++        return r
++    create = staticmethod(create)
++
++    def __init__(self, glob, title):
++        self.glob = glob
++        self.title = title
++        self.sizes = Sizes(glob)
++        self.parts = []
++        self.totals = {"total":0, "text":0, "data":0, "bss":0}
++        self.deltas = {"total":0, "text":0, "data":0, "bss":0}
++
++    def show(self, indent=""):
++        rule = str.ljust(indent, 80, '-')
++        print "%-32s %10s | %10s %10s %10s" % \
++              (indent+self.title, "total", "text", "data", "bss")
++        print rule
++        self.sizes.show(indent)
++        print rule
++        for p in self.parts:
++            if p.sizes.total > 0:
++                p.sizes.show(indent)
++        print rule
++        print "%-32s %10d | %10d %10d %10d" % \
++              (indent+"sum", self.totals["total"], self.totals["text"], 
++               self.totals["data"], self.totals["bss"])
++        print "%-32s %10d | %10d %10d %10d" % \
++              (indent+"delta", self.deltas["total"], self.deltas["text"], 
++               self.deltas["data"], self.deltas["bss"])
++        print "\n"
++
++    def __cmp__(this, that):
++        if that is None:
++            return 1
++        if not isinstance(that, Report):
++            raise TypeError
++        if this.sizes.total < that.sizes.total:
++            return -1
++        if this.sizes.total > that.sizes.total:
++            return 1
++        return 0
++
++
++def main():
++    try:
++        opts, args = getopt.getopt(sys.argv[1:], "dh", ["help"])
++    except getopt.GetoptError, err:
++        print '%s' % str(err)
++        usage()
++        sys.exit(2)
++
++    driver_detail = False
++    for o, a in opts:
++        if o == '-d':
++            driver_detail = True
++        elif o in ('-h', '--help'):
++            usage()
++            sys.exit(0)
++        else:
++            assert False, "unhandled option"    
++
++    glob = "arch/*/built-in.o */built-in.o"
++    vmlinux = Report.create("vmlinux",  "Linux Kernel", glob)
++
++    vmlinux.show()
++    for b in vmlinux.parts:
++        if b.totals["total"] > 0 and len(b.parts) > 1:
++            b.show()
++        if b.title == "drivers" and driver_detail:
++            for d in b.parts:
++                if d.totals["total"] > 0 and len(d.parts) > 1:
++                    d.show("    ")
++
++
++if __name__ == "__main__":
++    main()
+-- 
+1.8.3.2
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---W/nzBZO5zC0uMSeA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlJtZtcACgkQN1Ujt2V2gBwgxwCeLG4YiPAC9WH+wmNIYD+n9GF4
-MigAoK9+E12MmRv9tl58j62ba5XGNy1n
-=9j5m
------END PGP SIGNATURE-----
-
---W/nzBZO5zC0uMSeA--
