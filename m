@@ -1,26 +1,39 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 19D126CE93
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
+	[209.85.212.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CECF6D247
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 14:51:04 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 37D7FF81239; Mon, 28 Oct 2013 08:51:04 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 1F1E6F81238;
-	Mon, 28 Oct 2013 08:51:03 -0600 (MDT)
-Message-ID: <526E79E2.9020907@mlbassoc.com>
-Date: Mon, 28 Oct 2013 08:51:14 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Mon, 28 Oct 2013 14:54:38 +0000 (UTC)
+Received: by mail-vb0-f52.google.com with SMTP id f13so5567974vbg.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Oct 2013 07:54:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CkTuUqL7mdDxj35GCceFEbnypZl0cZY+BP77G9ehBkY=;
+	b=UBHKjBcucTt2rM9sWzHj7FbGwi8YM9IxTQIXtxSn8kdDXFfzkQWpxJPIoOXLvheEaE
+	RAOoF9nUSd4ja0UnOygEcH4mTjJzr457r12VL5GuVUvCxWQ+KnV5hC6bVHkYPZnecVrs
+	goh+CJDie54p+HAPueSmqtFj7boBmyYtQH1/7qp35edG8O5Zvc3Wswg+u6Ll/27ytmyD
+	5blrn8PfZDpv+BVTUO6JUNpCME4b+Fd2NE+4BEDYLJr8biMqdij8WXzo8VSQ4QBIWaZD
+	i8zdHzdLcvVYqVZRT/qZtuCpw7U+pINFZOG25pHo38nB84kjbsJg09doyEyZbl2TV5s9
+	zY2g==
+X-Gm-Message-State: ALoCoQkaQR5xZILw7WPKMt48EgEwpU231Ygl++f0LilxrdMfHzapZf80yxxGi0brtAuGPaYcMHpN
+X-Received: by 10.52.97.138 with SMTP id ea10mr690820vdb.31.1382972080156;
+	Mon, 28 Oct 2013 07:54:40 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: Extending core-image-basic
+Received: by 10.220.71.201 with HTTP; Mon, 28 Oct 2013 07:54:20 -0700 (PDT)
+In-Reply-To: <52687085.9060605@mlbassoc.com>
+References: <5267D269.2020701@mlbassoc.com>
+	<CAJTo0LYaqs00v5XUf+wRtaKytZy1-8VDuPcEyawYU8UXxzPUGw@mail.gmail.com>
+	<526803BD.8010106@mlbassoc.com> <526804E7.3020406@mlbassoc.com>
+	<52687085.9060605@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Oct 2013 14:54:20 +0000
+Message-ID: <CAJTo0LYawHSPoR0zSpuG202-kp9T_=K=eMgD9GqCtH=KAU9+qQ@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Mesa mess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,16 +46,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 14:51:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Oct 2013 14:54:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Why isn't core-image-basic user extendable?  It seems to be the
-only image that doesn't use CORE_IMAGE_EXTRA_INSTALL.
+On 24 October 2013 01:57, Gary Thomas <gary@mlbassoc.com> wrote:
+> I found the cause :-)  In addition to OE-core, I am using meta-ti on an
+> OMAP3 target.
+> In meta-ti, there is this line:
+>   meta-ti/recipes-graphics/mesa/mesa-omap3-common.inc:PROVIDES_omap3 =
+> "virtual/libgl"
+> I added virtual/mesa to this list and it now builds again.  I'm not sure
+> that this is
+> 100% correct though.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+That's correct - did you send a patch to meta-ti?
+
+Ross
 
