@@ -1,37 +1,38 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
-	[209.85.219.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 046FD6D2B3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 66B286D2C5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 17:04:02 +0000 (UTC)
-Received: by mail-oa0-f41.google.com with SMTP id o9so3942794oag.0
+	Mon, 28 Oct 2013 17:08:48 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id hu8so2345750vcb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 10:04:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=1qPaT+ovv3/3+e1mRrUhvys8jqvpceuJjuUKtOWkpLM=;
-	b=k/ziKM87Tspcf0Op5M5IBNuxZgh1voGHlDfd3ygBnfzG03VTDYix05D93SPMdux5il
-	bJtmn+NnHOOYhwnKpsnQ8Z7Gzf/KtoMhxC6PGG3R+fQm0SMunF+jH4gsScDWyFOpzgPQ
-	Yy3Yc8OomMMp+k6KhZF7v4V0b/vgDGi28UsO5ircpsOIHCsszYveznjutRXSqogLQjgr
-	ZFwYxdDjD/QNXB0tPw+IAX1agjKYuHpb8Akh6k/wN7/WgRHmqeMhnSaJ9a6RFyU1FQ+n
-	w7jLsvcbNXL+rlEt/UV0voRLwZWqRXjjuvu8FJbjmFxWOUPYp3zlfORkT/8K32IEEWo8
-	nv3A==
+	Mon, 28 Oct 2013 10:08:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=KjEUYxEEoM+VGS6RCmJpc/t6zo+3I8wTIHH9BEQimoo=;
+	b=RasxcozmCYFx32iMKrxhPNb4hop0DA9zS2FS/OHqYjWNRfXOojZYeCTRpgwTwwn1cv
+	nhObg91nX+ugfoD5A589ETv4al7Vq7rv/8sroFdwnBQpZ9SX9v6psyhJExFR4Xr7ril3
+	GC25puxEA8eqCr+cuexDMTUh9sBS5VAIYWmdZFW2lTdNa/PTPiu9ZJmL0pGDfJ3iorjU
+	YhJN1xE/WbmZHEJxdNRjDTFJg5tm7IwfSgMPlEGS9j6sjnFDJBXj6ZLe2/riBByKFbMG
+	nYiJotYZtqH09ETzOMKRLl/ayxghG5Z9Q95Q5H2om9O60ZqmdSf6qeM9FQeAjks7887e
+	qJ8g==
+X-Gm-Message-State: ALoCoQkmcbZxjge5oSH/P6ETyPriJ/LcyJFjjpIRUYWlLD8B0HUYzr4QWDIjLwCDOPYbNFBuU0JW
+X-Received: by 10.52.230.35 with SMTP id sv3mr2044449vdc.27.1382980130011;
+	Mon, 28 Oct 2013 10:08:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.182.22.18 with SMTP id z18mr15349619obe.42.1382979844590;
-	Mon, 28 Oct 2013 10:04:04 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Mon, 28 Oct 2013 10:04:04 -0700 (PDT)
-In-Reply-To: <526E9358.2070901@communistcode.co.uk>
-References: <526E9358.2070901@communistcode.co.uk>
-Date: Mon, 28 Oct 2013 15:04:04 -0200
-X-Google-Sender-Auth: vgA--KCb_B74zB88muLAMXjcFds
-Message-ID: <CAP9ODKqfcScfVk=ScwTJyJfy_v=VhSvCsoAzA-f0xmupmv7LOA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Jack Mitchell <ml@communistcode.co.uk>
+Received: by 10.220.71.201 with HTTP; Mon, 28 Oct 2013 10:08:29 -0700 (PDT)
+In-Reply-To: <CAP9ODKogpWd7aU2U5qpQ1mztUPwHtQjOQF0krwiLi5wm921pRg@mail.gmail.com>
+References: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
+	<CAP9ODKogpWd7aU2U5qpQ1mztUPwHtQjOQF0krwiLi5wm921pRg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 28 Oct 2013 17:08:29 +0000
+Message-ID: <CAJTo0LZ4Qbt-fc=H9cRszfSUwUiMq4H0KQq-GvPij81fUVrgPQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Why is i586 the default tune?
+Subject: Re: [PATCH 1/5] gnome: set UNKNOWN_CONFIGURE_WHITELIST
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +45,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 17:04:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 28 Oct 2013 17:08:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Oct 28, 2013 at 2:39 PM, Jack Mitchell <ml@communistcode.co.uk> wrote:
-> Can anybody shed any light on why i586 is the default tune, rather than
-> i686, and for that matter why there is no i686 tune?
+On 28 October 2013 15:59, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> On Mon, Oct 28, 2013 at 12:33 PM, Ross Burton <ross.burton@intel.com> wrote:
+>> This class passes --disable-introspection to everything that inherits it but not
+>> all GNOME modules support introspection, so add that option to the
+>> unknown-configure-options sanity test whitelist.
+>>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>
+> I understand the change but it does not match with the commit log.
 
-i586 offers the widest compatibility with less performance penalty.
+How so?
 
-> Would there be any objections to creating an i686 tune and setting it to
-> default?
+-EXTRA_OECONF += "--enable-introspection=no"
++EXTRA_OECONF += "--disable-introspection"
 
-I don't think it'd be a problem.
+This is a semantically identical change as far as autoconf is
+concerned, that makes the whitelist clearer.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
++UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
+
+This is the unknown configure options whitelist.
+
+Ross
 
