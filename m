@@ -1,24 +1,38 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 43C406D125
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 434A16D455
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 21:23:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9SLN9HI024553
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 28 Oct 2013 22:48:46 +0000 (UTC)
+Received: by mail-ie0-f181.google.com with SMTP id ar20so12196418iec.26
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 14:23:09 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 28 Oct 2013 14:23:09 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 28 Oct 2013 14:23:08 -0700
-Message-ID: <1382995388-24709-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Mon, 28 Oct 2013 15:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=bGunznwXJRGQ1GjoWg9g2vnCXiDOHXPQsb5P/soJceM=;
+	b=JSVLSIQrZfOkJTK73OFL4LVwLM3Hq93Bf10voBXYqXJgizFjDpl5SMcSFmmrsfArCS
+	TsgOQ4GEGmgnwgKTd/KQsZrGgQKiYbicpr2CN69tVDhvEghrwvrYogO5gceRMhqjMSiO
+	wEGZM158Pe1w6r6rXJiI+T/zq+Yp55pv+zVQHjNGErv17lHOppLE66T53t58A5TmgUJt
+	XEm5EItajFFbxbJS/vZUDOvXfGqbQt4xji4oJYlhdrFmZ2k4HITsO0ygjjEFHNyzV+jR
+	pyi1HIwqsX79+UetMdSyQvWtY+A8GGW9P6AdZzioTf1hBgORmjHyHjs0KdMlIxd7sp0X
+	wv8g==
+X-Received: by 10.50.22.67 with SMTP id b3mr10225795igf.39.1383000527703; Mon,
+	28 Oct 2013 15:48:47 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] tzcode & tzdata: update to 2013h
+Received: by 10.50.219.195 with HTTP; Mon, 28 Oct 2013 15:48:17 -0700 (PDT)
+In-Reply-To: <526ECEBE.508@communistcode.co.uk>
+References: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
+	<CAMKF1spfQ7hiR8S_=cboV1+p2B4yMF+vqfHpWr1bha883MbvTg@mail.gmail.com>
+	<526ECEBE.508@communistcode.co.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 28 Oct 2013 15:48:17 -0700
+Message-ID: <CAMKF1sqChkPK36LNdP2x5WcWgB51md8iB4x9V3cUEPEB5M2OfA@mail.gmail.com>
+To: Jack Mitchell <ml@communistcode.co.uk>
+Cc: Jack Mitchell <jmitchell@cbnl.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,65 +45,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 21:23:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 28 Oct 2013 22:48:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Update recipes to version 2013h of timezone
-code and data.
+On Mon, Oct 28, 2013 at 1:53 PM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+> As for the BPN-PV, I don't really understand, I just grepped for libjson,
+> and changed all the occurrences... the separate build dir being one of them,
+> how would you expect the change to look?
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- ...code-native_2013g.bb => tzcode-native_2013h.bb} |   10 +++++-----
- .../tzdata/{tzdata_2013g.bb => tzdata_2013h.bb}    |    4 ++--
- 2 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2013g.bb => tzcode-native_2013h.bb} (59%)
- rename meta/recipes-extended/tzdata/{tzdata_2013g.bb => tzdata_2013h.bb} (98%)
-
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2013g.bb b/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-similarity index 59%
-rename from meta/recipes-extended/tzcode/tzcode-native_2013g.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-index 411520e..5cdc7ef 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2013g.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-@@ -6,13 +6,13 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=0b7570113550eb5d30aa4bd220964b8
- # note that we allow for us to use data later than our code version
- #
- SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
--           ftp://ftp.iana.org/tz/releases/tzdata2013g.tar.gz;name=tzdata"
-+           ftp://ftp.iana.org/tz/releases/tzdata2013h.tar.gz;name=tzdata"
- 
--SRC_URI[tzcode.md5sum] = "cc2a52297310ba1a673dc60973ea3ad8"
--SRC_URI[tzcode.sha256sum] = "c7c358b459bb65cfab7b7bdd6a9689233fc393f1f9fdf4f0f46ca7dac5a9587b"
-+SRC_URI[tzdata.md5sum] = "d310abe42cbe87e76ceb69e2c7003c92"
-+SRC_URI[tzdata.sha256sum] = "6b9e17e823eec0e09e12f74b452a70be4face1ef14c2fb1917b7c7e60564de27"
- 
--SRC_URI[tzdata.md5sum] = "76dbc3b5a81913fc0d824376c44a5d15"
--SRC_URI[tzdata.sha256sum] = "b6cdd3998dcc732a6ae5e101e1394f9d4d6dff68bd48a8fb78c44c2b997d3a4f"
-+SRC_URI[tzcode.md5sum] = "14250703b253e1cfdf97f1e928541508"
-+SRC_URI[tzcode.sha256sum] = "e14addfc4e0da3cf17ccc1c08cb8094a2a0d3ae9524f565b74e6373c9b83ca0e"
- 
- S = "${WORKDIR}"
- 
-diff --git a/meta/recipes-extended/tzdata/tzdata_2013g.bb b/meta/recipes-extended/tzdata/tzdata_2013h.bb
-similarity index 98%
-rename from meta/recipes-extended/tzdata/tzdata_2013g.bb
-rename to meta/recipes-extended/tzdata/tzdata_2013h.bb
-index a2f6c63..16d67d3 100644
---- a/meta/recipes-extended/tzdata/tzdata_2013g.bb
-+++ b/meta/recipes-extended/tzdata/tzdata_2013h.bb
-@@ -15,8 +15,8 @@ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarcti
- 
- SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
- 
--SRC_URI[tzdata.md5sum] = "76dbc3b5a81913fc0d824376c44a5d15"
--SRC_URI[tzdata.sha256sum] = "b6cdd3998dcc732a6ae5e101e1394f9d4d6dff68bd48a8fb78c44c2b997d3a4f"
-+SRC_URI[tzdata.md5sum] = "d310abe42cbe87e76ceb69e2c7003c92"
-+SRC_URI[tzdata.sha256sum] = "6b9e17e823eec0e09e12f74b452a70be4face1ef14c2fb1917b7c7e60564de27"
- 
- S = "${WORKDIR}"
- 
--- 
-1.7.3.4
-
+just in SRC_URI use BPN-PN instead of P
 
