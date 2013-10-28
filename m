@@ -1,26 +1,27 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 8461C6D1A0
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 43C406D125
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 20:53:19 +0000 (UTC)
-Message-ID: <526ECEBE.508@communistcode.co.uk>
-Date: Mon, 28 Oct 2013 20:53:18 +0000
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Mon, 28 Oct 2013 21:23:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9SLN9HI024553
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Oct 2013 14:23:09 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 28 Oct 2013 14:23:09 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 28 Oct 2013 14:23:08 -0700
+Message-ID: <1382995388-24709-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
-	<CAMKF1spfQ7hiR8S_=cboV1+p2B4yMF+vqfHpWr1bha883MbvTg@mail.gmail.com>
-In-Reply-To: <CAMKF1spfQ7hiR8S_=cboV1+p2B4yMF+vqfHpWr1bha883MbvTg@mail.gmail.com>
-Cc: Jack Mitchell <jmitchell@cbnl.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
+Subject: [PATCH 1/1] tzcode & tzdata: update to 2013h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -30,82 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 20:53:20 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Oct 2013 21:23:10 -0000
+Content-Type: text/plain
 
-On 28/10/2013 19:32, Khem Raj wrote:
-> On Mon, Oct 21, 2013 at 1:56 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
->> From: Jack Mitchell <jmitchell@cbnl.com>
->>
->> libjson is now known as json-c, it keeps support for the old
->> libjson namespace so it shouldn't break anything. Built without
->> parallel make as it would fail when it tries to link to link back
->> to itself, which is odd, but the official word is: don't build in
->> parallel.
->>
->> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
->> ---
->>
->>   v2: rebased to latest master
->>
->>   meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
->>   meta/recipes-devtools/json-c/json-c_0.11.bb       | 13 +++++++++++++
->>   meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
->>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
->>   4 files changed, 15 insertions(+), 16 deletions(-)
->>   create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
->>   delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
->>
->> diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
->> index c067183..e1a5c6b 100644
->> --- a/meta/conf/distro/include/seperatebuilddir.inc
->> +++ b/meta/conf/distro/include/seperatebuilddir.inc
->> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
->>   B_pn-libice-native = "${SEPB}"
->>   B_pn-libid3tag = "${SEPB}"
->>   B_pn-libidn = "${SEPB}"
->> -B_pn-libjson = "${SEPB}"
->> +B_pn-json-c = "${SEPB}"
->>   B_pn-libksba = "${SEPB}"
->>   B_pn-libmad = "${SEPB}"
->>   B_pn-libmatchbox = "${SEPB}"
->> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
->> new file mode 100644
->> index 0000000..e0391f5
->> --- /dev/null
->> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
->> @@ -0,0 +1,13 @@
->> +SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
->> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
->> +LICENSE = "MIT"
->> +LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
->> +
->> +SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${P}.tar.gz"
->
->
-> be explicit and use BPN-PV so that if someday someone creates a
-> mutation with native of nativesdk then it works there too.
-> and keep RPROVIDE'ing libjson might make folks with feeds happier.
-> and use git format-patch -M next time
+Update recipes to version 2013h of timezone
+code and data.
 
-Thanks for the feedback Khem. My local copy actually has the RPROVIDES 
-already and that will come in V3. The patch was formatted with -M, I 
-think git couldn't cope with the move and the changes, so just decided 
-it was a full rewrite.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ ...code-native_2013g.bb => tzcode-native_2013h.bb} |   10 +++++-----
+ .../tzdata/{tzdata_2013g.bb => tzdata_2013h.bb}    |    4 ++--
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-extended/tzcode/{tzcode-native_2013g.bb => tzcode-native_2013h.bb} (59%)
+ rename meta/recipes-extended/tzdata/{tzdata_2013g.bb => tzdata_2013h.bb} (98%)
 
-As for the BPN-PV, I don't really understand, I just grepped for 
-libjson, and changed all the occurrences... the separate build dir being 
-one of them, how would you expect the change to look?
-
-Cheers,
-Jack.
-
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2013g.bb b/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
+similarity index 59%
+rename from meta/recipes-extended/tzcode/tzcode-native_2013g.bb
+rename to meta/recipes-extended/tzcode/tzcode-native_2013h.bb
+index 411520e..5cdc7ef 100644
+--- a/meta/recipes-extended/tzcode/tzcode-native_2013g.bb
++++ b/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
+@@ -6,13 +6,13 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=0b7570113550eb5d30aa4bd220964b8
+ # note that we allow for us to use data later than our code version
+ #
+ SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
+-           ftp://ftp.iana.org/tz/releases/tzdata2013g.tar.gz;name=tzdata"
++           ftp://ftp.iana.org/tz/releases/tzdata2013h.tar.gz;name=tzdata"
+ 
+-SRC_URI[tzcode.md5sum] = "cc2a52297310ba1a673dc60973ea3ad8"
+-SRC_URI[tzcode.sha256sum] = "c7c358b459bb65cfab7b7bdd6a9689233fc393f1f9fdf4f0f46ca7dac5a9587b"
++SRC_URI[tzdata.md5sum] = "d310abe42cbe87e76ceb69e2c7003c92"
++SRC_URI[tzdata.sha256sum] = "6b9e17e823eec0e09e12f74b452a70be4face1ef14c2fb1917b7c7e60564de27"
+ 
+-SRC_URI[tzdata.md5sum] = "76dbc3b5a81913fc0d824376c44a5d15"
+-SRC_URI[tzdata.sha256sum] = "b6cdd3998dcc732a6ae5e101e1394f9d4d6dff68bd48a8fb78c44c2b997d3a4f"
++SRC_URI[tzcode.md5sum] = "14250703b253e1cfdf97f1e928541508"
++SRC_URI[tzcode.sha256sum] = "e14addfc4e0da3cf17ccc1c08cb8094a2a0d3ae9524f565b74e6373c9b83ca0e"
+ 
+ S = "${WORKDIR}"
+ 
+diff --git a/meta/recipes-extended/tzdata/tzdata_2013g.bb b/meta/recipes-extended/tzdata/tzdata_2013h.bb
+similarity index 98%
+rename from meta/recipes-extended/tzdata/tzdata_2013g.bb
+rename to meta/recipes-extended/tzdata/tzdata_2013h.bb
+index a2f6c63..16d67d3 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2013g.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2013h.bb
+@@ -15,8 +15,8 @@ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarcti
+ 
+ SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+ 
+-SRC_URI[tzdata.md5sum] = "76dbc3b5a81913fc0d824376c44a5d15"
+-SRC_URI[tzdata.sha256sum] = "b6cdd3998dcc732a6ae5e101e1394f9d4d6dff68bd48a8fb78c44c2b997d3a4f"
++SRC_URI[tzdata.md5sum] = "d310abe42cbe87e76ceb69e2c7003c92"
++SRC_URI[tzdata.sha256sum] = "6b9e17e823eec0e09e12f74b452a70be4face1ef14c2fb1917b7c7e60564de27"
+ 
+ S = "${WORKDIR}"
+ 
 -- 
+1.7.3.4
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
--- 
 
