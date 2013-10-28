@@ -1,38 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 66B286D2C5
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FEDA6D2B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 17:08:48 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id hu8so2345750vcb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 10:08:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=KjEUYxEEoM+VGS6RCmJpc/t6zo+3I8wTIHH9BEQimoo=;
-	b=RasxcozmCYFx32iMKrxhPNb4hop0DA9zS2FS/OHqYjWNRfXOojZYeCTRpgwTwwn1cv
-	nhObg91nX+ugfoD5A589ETv4al7Vq7rv/8sroFdwnBQpZ9SX9v6psyhJExFR4Xr7ril3
-	GC25puxEA8eqCr+cuexDMTUh9sBS5VAIYWmdZFW2lTdNa/PTPiu9ZJmL0pGDfJ3iorjU
-	YhJN1xE/WbmZHEJxdNRjDTFJg5tm7IwfSgMPlEGS9j6sjnFDJBXj6ZLe2/riBByKFbMG
-	nYiJotYZtqH09ETzOMKRLl/ayxghG5Z9Q95Q5H2om9O60ZqmdSf6qeM9FQeAjks7887e
-	qJ8g==
-X-Gm-Message-State: ALoCoQkmcbZxjge5oSH/P6ETyPriJ/LcyJFjjpIRUYWlLD8B0HUYzr4QWDIjLwCDOPYbNFBuU0JW
-X-Received: by 10.52.230.35 with SMTP id sv3mr2044449vdc.27.1382980130011;
-	Mon, 28 Oct 2013 10:08:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 28 Oct 2013 10:08:29 -0700 (PDT)
-In-Reply-To: <CAP9ODKogpWd7aU2U5qpQ1mztUPwHtQjOQF0krwiLi5wm921pRg@mail.gmail.com>
-References: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
-	<CAP9ODKogpWd7aU2U5qpQ1mztUPwHtQjOQF0krwiLi5wm921pRg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 28 Oct 2013 17:08:29 +0000
-Message-ID: <CAJTo0LZ4Qbt-fc=H9cRszfSUwUiMq4H0KQq-GvPij81fUVrgPQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] gnome: set UNKNOWN_CONFIGURE_WHITELIST
+	Mon, 28 Oct 2013 17:12:13 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Oct 2013 10:12:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,587,1378882800"; d="scan'208";a="418613112"
+Received: from mmckenna-mobl1.ger.corp.intel.com (HELO
+	helios.ger.corp.intel.com) ([10.252.120.252])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Oct 2013 10:12:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Oct 2013 17:11:53 +0000
+Message-Id: <cover.1382980153.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/6] oe-pkgdata-util improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +28,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 17:08:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 28 Oct 2013 17:12:13 -0000
 
-On 28 October 2013 15:59, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> On Mon, Oct 28, 2013 at 12:33 PM, Ross Burton <ross.burton@intel.com> wrote:
->> This class passes --disable-introspection to everything that inherits it but not
->> all GNOME modules support introspection, so add that option to the
->> unknown-configure-options sanity test whitelist.
->>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->
-> I understand the change but it does not match with the commit log.
+Some improvements for the oe-pkgdata-util script making it a little more
+useful outside of its usage within do_rootfs.
 
-How so?
 
--EXTRA_OECONF += "--enable-introspection=no"
-+EXTRA_OECONF += "--disable-introspection"
+The following changes since commit 8081dcb03f54efd551d1c8fe8a0484f8270053e0:
 
-This is a semantically identical change as far as autoconf is
-concerned, that makes the whitelist clearer.
+  pigz: bump to 2.3.1 (2013-10-26 16:08:30 +0100)
 
-+UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
+are available in the git repository at:
 
-This is the unknown configure options whitelist.
+  git://git.openembedded.org/openembedded-core-contrib paule/oe-pkgdata-util
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/oe-pkgdata-util
 
-Ross
+Paul Eggleton (6):
+  scripts/oe-pkgdata-util: remove remnants of former pkgdata structure
+  scripts/oe-pkgdata-util: improve help text and command line parsing
+  scripts/oe-pkgdata-util: check path arguments to ensure they exist
+  scripts/oe-pkgdata-util: add ability to search for a target path
+  scripts/oe-pkgdata-util: add ability to look up runtime package names
+  scripts/oe-pkgdata-util: add ability to find a recipe from a target
+    package
+
+ scripts/oe-pkgdata-util | 209 ++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 165 insertions(+), 44 deletions(-)
+
+-- 
+1.8.1.2
+
 
