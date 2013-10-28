@@ -1,41 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
-	[209.85.219.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EA4EB6D2C5
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id EE1636D2B3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 17:18:12 +0000 (UTC)
-Received: by mail-oa0-f43.google.com with SMTP id m1so3917347oag.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 10:18:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=G6YMCZYy9gOGJD97hgXrCNAloXB6arL9UHOfUfl2nOc=;
-	b=wmqCIZCpIGcT/25Xl3TzePc7UjFCHfP6HXjbGfEKGFZZAkErPc3k/Oqy1lrUAJyjHm
-	yNYCU43DyZ6p3w5T25394716mk4Ujss5xNVlDy3OC/rzZp1GAknN/2z8fyJ1CAgdIKU/
-	U9vpAdrXIOmHKE8e8Wse7uznUwtcXVWiQC2ZjiHE8RN8L+hWI4TNfxltFa5DCfbxwVm5
-	SewfUrAheZSLyyWsdfqdmi7pOTEFoNF2IxwjgCfzDysI9XIXo+bYv9BrwqrnmVA1YxCs
-	4EpGgNMIugVurfRF5NPNQW+oHKOviYKg1+qWFDPSVMbbOWS2BgNwRYJc8cicMnYrNpCD
-	L3PQ==
+	Mon, 28 Oct 2013 17:30:32 +0000 (UTC)
+Message-ID: <526E9F31.2040305@communistcode.co.uk>
+Date: Mon, 28 Oct 2013 17:30:25 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
 MIME-Version: 1.0
-X-Received: by 10.182.129.106 with SMTP id nv10mr864793obb.85.1382980694585;
-	Mon, 28 Oct 2013 10:18:14 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Mon, 28 Oct 2013 10:18:14 -0700 (PDT)
-In-Reply-To: <5a99dad97a2db8afeb523cb218d4fdde553c175f.1382978401.git.paul.eggleton@linux.intel.com>
-References: <cover.1382978401.git.paul.eggleton@linux.intel.com>
-	<5a99dad97a2db8afeb523cb218d4fdde553c175f.1382978401.git.paul.eggleton@linux.intel.com>
-Date: Mon, 28 Oct 2013 15:18:14 -0200
-X-Google-Sender-Auth: 0QFqvEcaJoR3kvV1QZob7EUwhwU
-Message-ID: <CAP9ODKppA1PFab5k4gPVnc37mBWdww2z73L_ODx1Kp7G+za5pw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] cmake: upgrade to 2.8.12
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
+	<5266E3C2.6040502@linux.intel.com>
+In-Reply-To: <5266E3C2.6040502@linux.intel.com>
+Cc: Jack Mitchell <jmitchell@cbnl.com>
+Subject: Re: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -45,17 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 17:18:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 28 Oct 2013 17:30:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 28, 2013 at 2:44 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+On 22/10/13 21:44, Saul Wold wrote:
+> On 10/21/2013 01:56 AM, Jack Mitchell wrote:
+>> From: Jack Mitchell <jmitchell@cbnl.com>
+>>
+>> libjson is now known as json-c, it keeps support for the old
+>> libjson namespace so it shouldn't break anything. Built without
+>> parallel make as it would fail when it tries to link to link back
+>> to itself, which is odd, but the official word is: don't build in
+>> parallel.
+>>
+>
+> Jack,
+>
+> Not sure what's going on yet, but I found a configure failure, see the
+> attached log file.
+>
+> Patch review is going to be a little slower this week as RP and a
+> bunch of the Yocto Project community are at Yocto Project Dev Day and
+> ELC-E the rest of this week.
+>
+> Sau!
+>
 
-+1
+I have rebuilt this package multiple times now and have still not
+managed to break it. I believe it will just be a dirty build directory,
+but that shouldn't be an excuse for it not building.
+
+Does anyone have any suggestions on how to overcome this?
+
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+  Jack Mitchell (jack@embed.me.uk)
+  Embedded Systems Engineer
+  Cambridgeshire, UK
+  http://www.embed.me.uk
+-- 
+
 
