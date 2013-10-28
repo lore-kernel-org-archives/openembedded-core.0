@@ -1,37 +1,37 @@
-Return-Path: <eu@felipetonello.com>
-Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
-	[209.85.214.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 490206D1AF
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
+	[209.85.219.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E9D7E6D1BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 18:22:05 +0000 (UTC)
-Received: by mail-ob0-f169.google.com with SMTP id uz6so4093312obc.0
+	Mon, 28 Oct 2013 18:30:58 +0000 (UTC)
+Received: by mail-oa0-f52.google.com with SMTP id j1so516445oag.39
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 11:22:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wP+uCcfPO+v1SZUhfI0fTDGZZ8ACqI7EcwmmHZuFlRk=;
-	b=IeVE+BcspGxFzZ65WNSH2zGHaZs2mh4Byio3WYIyGFa3nRrggvlFz0gBPpLAwDKn5D
-	ERaYW5aRQvV4/uhRZF1mZprJQuJZWyhE5RMvQz7vU6MOxnRC7vI4Os3rnCCmNtTrFn5j
-	hee/2MCxjqd/wIvB3Fq7cwrFqk66g8Pa6GO5CGfmLIuxN+wEwf+yku12J+r8Re4FsUTt
-	0mklwhrkKj4mLE5Z22vh/ps02RtVpP33Palw879KhZgMYlERInsUZYidwlxgaXw+J57z
-	p4vL6qfNgfDebkr1Gh1icgil0ZlsJC1v/MbTVJbchkpn3zrREdpLwF3lCeKh8JPJiZTg
-	9Euw==
-X-Gm-Message-State: ALoCoQkzk9YwxM/l34ITCYmsYWCEX15WcYOT65VyLhhQt+Vy68hJz+cOzs36tKfRXcoe+2tm/M6j
-X-Received: by 10.60.78.227 with SMTP id e3mr15824573oex.5.1382984526795;
-	Mon, 28 Oct 2013 11:22:06 -0700 (PDT)
-Received: from localhost.localdomain.com (wsip-70-183-20-162.oc.oc.cox.net.
-	[70.183.20.162])
-	by mx.google.com with ESMTPSA id hl3sm28417511obb.0.2013.10.28.11.22.05
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Oct 2013 11:22:05 -0700 (PDT)
-From: eu@felipetonello.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 11:22:01 -0700
-Message-Id: <1382984521-22179-1-git-send-email-eu@felipetonello.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] psplash: Show psplash before X in reboot/shutdown process
+	Mon, 28 Oct 2013 11:31:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=E9qXC3LGCAec3ojlS2qWWsKIlP91n3CbrsjTXh8jegU=;
+	b=z0CT73MQ55wtHLukrfvqpo+CRv2ZCGjQEXDAGPrW0Q7MH7/VoLBCa7HJ1MdO4Vg1lH
+	Mnz3+UwU7lCOr/SNUQDci6Eq7g3Q45WRfcYgGs3MVQpzDG2r4VsYzq4UvK0w3Hb4n1SL
+	1xzX6QcvsN3T7OR2oZZri/ipWqGffCyUHy+dp2ebdu6XwDX+F9Ekb4fFd0/lH9eop/U9
+	V4DfHlT4uw6uIei0rvtpgBsG8dGrdQiLcU5Hndj6ISOPOzPDvErH+hieXJfbDjRim90o
+	/IKFIJL3XeJGYfbWMNPYu4MOm1gP6nt6Q0fnvIjOhX/jPF9jVGVa9FNwPG6uO5dH/Xde
+	BftA==
+MIME-Version: 1.0
+X-Received: by 10.182.81.65 with SMTP id y1mr81084obx.89.1382985060652; Mon,
+	28 Oct 2013 11:31:00 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 28 Oct 2013 11:31:00 -0700 (PDT)
+In-Reply-To: <1382984521-22179-1-git-send-email-eu@felipetonello.com>
+References: <1382984521-22179-1-git-send-email-eu@felipetonello.com>
+Date: Mon, 28 Oct 2013 16:31:00 -0200
+X-Google-Sender-Auth: RWIvEPSMG41odb-0QwyhbnK3Ymg
+Message-ID: <CAP9ODKq0_L_1bqOuDE70vNXCbQ=8Bcs9bvAtC2BafGStyz4Mnw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Felipe Tonello <eu@felipetonello.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] psplash: Show psplash before X in reboot/shutdown process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 18:22:06 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 18:30:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: "Felipe F. Tonello" <eu@felipetonello.com>
+On Mon, Oct 28, 2013 at 4:22 PM,  <eu@felipetonello.com> wrote:
+> From: "Felipe F. Tonello" <eu@felipetonello.com>
+>
+> This is interesting because if you shutdown/reboot a device the screen will
+> flicker because X will be killed and then psplash will take a while to run.
+>
+> Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+...
+>  SRCREV = "afd4e228c606a9998feae44a3fed4474803240b7"
+>  PV = "0.1+git${SRCPV}"
+> -PR = "r15"
+> +PR = "r16"
+...
 
-This is interesting because if you shutdown/reboot a device the screen will
-flicker because X will be killed and then psplash will take a while to run.
+Please  don't do PR bumps.
 
-Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
----
- meta/recipes-core/psplash/psplash_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 1cab296..539bf52 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=16;md5=840fb2356b10a85b
- 
- SRCREV = "afd4e228c606a9998feae44a3fed4474803240b7"
- PV = "0.1+git${SRCPV}"
--PR = "r15"
-+PR = "r16"
- 
- SRC_URI = "git://git.yoctoproject.org/${BPN} \
-            file://psplash-init \
-@@ -108,4 +108,4 @@ do_install_append() {
- FILES_${PN} += "/mnt/.psplash"
- 
- INITSCRIPT_NAME = "psplash.sh"
--INITSCRIPT_PARAMS = "start 0 S . stop 20 0 1 6 ."
-+INITSCRIPT_PARAMS = "start 0 S . stop 02 0 1 6 ."
 -- 
-1.8.3.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
