@@ -1,39 +1,33 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C038B6CEE8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5589A6D13A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 10:13:36 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1VajpK-0000j6-KB from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 28 Oct 2013 03:13:38 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 28 Oct 2013 03:13:38 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.38]) by
-	SVR-IES-FEM-01.mgc.mentorg.com ([169.254.201.149]) with mapi id
-	14.02.0247.003; Mon, 28 Oct 2013 10:13:37 +0000
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device
-	name	from SERIAL_CONSOLES entries
-Thread-Index: AQHOw25wdYkIFqtJVE+CHYnQPPILhZn/L/xAgArVkIA=
-Date: Mon, 28 Oct 2013 10:13:36 +0000
-Message-ID: <365E1805BC95084CBE82381A0B869994DE540F32@EU-MBX-01.mgc.mentorg.com>
-References: <1381158304-931-1-git-send-email-muhammad_shakeel@mentor.com>
-	<365E1805BC95084CBE82381A0B869994DE53BF6B@EU-MBX-01.mgc.mentorg.com>
-In-Reply-To: <365E1805BC95084CBE82381A0B869994DE53BF6B@EU-MBX-01.mgc.mentorg.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
+	Mon, 28 Oct 2013 11:12:44 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id wn1so3367852obc.41
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 28 Oct 2013 04:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:message-id:subject:from:to:content-type;
+	bh=XdSgMK5dOIRMTG0d3vu/RWqU5SBUDgwP1BYADal2y6w=;
+	b=R/mIt24UKcM4ItAAjdrkyW0QCfUzKSnPmrPtAegqMFk6KURuPr30yToBFcxDLgJEqb
+	lq6ZWJ/bLquMSPSGuVVgSUesYtqmdKMfITxyHIAkKJTwVBVWUQ8UNt4JLwKhSVf4re/M
+	1hFIB45U1FOHEoQffYJTdEiKo8DAeMn+5gLQszvhGzZoBWhhgU23JoaWDMDsPippqzNJ
+	4tEp5xba6lMMLptUYUouTOTCwxwdIHkOReW5IVudU96kp/+dEGp5G/M9QgIBRIKurb4+
+	MU8bdmf6q+JJgRGygvMe3NDW3JvjtadPy3FV87hYHU5MVUhlo6r1ergaujCjRfKH1CXG
+	OOxQ==
 MIME-Version: 1.0
-X-OriginalArrivalTime: 28 Oct 2013 10:13:38.0667 (UTC)
-	FILETIME=[5EBBBBB0:01CED3C6]
-Subject: Re: [PATCH] sysvinit-inittab: Fix getting tty device	name	from SERIAL_CONSOLES entries
+X-Received: by 10.182.28.35 with SMTP id y3mr1308943obg.55.1382958765875; Mon,
+	28 Oct 2013 04:12:45 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 28 Oct 2013 04:12:45 -0700 (PDT)
+Date: Mon, 28 Oct 2013 09:12:45 -0200
+X-Google-Sender-Auth: gUxDgGrhD2MizNYaEWRZ1O5s7KA
+Message-ID: <CAP9ODKrGAG00NrEaZ=yz=HnWXC1jRVY7fQQxQ8J3ejA7_QC2TA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Non-deterministic build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,77 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 10:13:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hello Saul,
-
-I there any issue with this patch? We need this patch for our release.
-
-Noor
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Ahsan, Noor
-Sent: Monday, October 21, 2013 5:46 PM
-To: Shakeel, Muhammad; openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device nam=
-e from SERIAL_CONSOLES entries
+X-List-Received-Date: Mon, 28 Oct 2013 11:12:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
 Hello,
 
-Kindly merge this patch we need it for Yocto 1.5.
+I got following:
 
-Noor
+| /home/otavio/hacking/fsl-community-bsp/build/tmp/sysroots/x86_64-linux/usr/libexec/armv5te-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.8.1/ld:
+cannot find /lib/libc.so.6
+| /home/otavio/hacking/fsl-community-bsp/build/tmp/sysroots/x86_64-linux/usr/libexec/armv5te-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.8.1/ld:
+cannot find /usr/lib/libc_nonshared.a
+| /home/otavio/hacking/fsl-community-bsp/build/tmp/sysroots/x86_64-linux/usr/libexec/armv5te-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.8.1/ld:
+cannot find /lib/ld-linux.so.3
+| collect2: error: ld returned 1 exit status
+| make[1]: *** [../../../bin/moc] Error 1
+| make[1]: Leaving directory
+`/home/otavio/hacking/fsl-community-bsp/build/tmp/work/armv5te-poky-linux-gnueabi/qt4-x11-free/4.8.5-r0/qt-everywhere-opensource-src-4.8.5/src/tools/moc'
+| make: *** [sub-moc-make_default-ordered] Error 2
+| ERROR: oe_runmake failed
+| WARNING: /home/otavio/hacking/fsl-community-bsp/build/tmp/work/armv5te-poky-linux-gnueabi/qt4-x11-free/4.8.5-r0/temp/run.do_compile.25489:1
+exit 1 from
+|   exit 1
+| ERROR: Function failed: do_compile (log file is located at
+/home/otavio/hacking/fsl-community-bsp/build/tmp/work/armv5te-poky-linux-gnueabi/qt4-x11-free/4.8.5-r0/temp/log.do_compile.25489)
+NOTE: recipe qt4-x11-free-4.8.5-r0: task do_compile: Failed
+NOTE: recipe lttng-modules-2.3.2+gitAUTOINC+4f1217f8ce-r0: task
+do_fetch: Started
+ERROR: Task 465
+(/home/otavio/hacking/fsl-community-bsp/sources/poky/meta/recipes-qt/qt4/qt4-x11-free_4.8.5.bb,
+do_compile) failed with exit code '1'
+NOTE: recipe lttng-modules-2.3.2+gitAUTOINC+4f1217f8ce-r0: task
+do_fetch: Succeeded
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Shakeel, Muhammad
-Sent: Monday, October 07, 2013 8:05 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] sysvinit-inittab: Fix getting tty device name fr=
-om SERIAL_CONSOLES entries
+This only happens when building in my auto-builder; it does not happen
+when building byhand in my laptop.
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+Can someone give any hint how to debug it?
 
-Currently the part after "tty" in the device name go into label along with =
-everything after that part. For example if SERIAL_CONSOLES=3D"115200;vt100;=
-ttyS0"
-than label=3DS0 but if SERIAL_CONSOLES=3D"115200;ttyS0;vt100" than label=3D=
-S0;vt100.
-If SERIAL_CONSOLES=3D"..;ttyX;..", part after 'X' should also be trimmed.
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/=
-recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 23c284d..05ba410 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -22,7 +22,7 @@ do_install() {
-     for i in $tmp
-     do
- 	j=3D`echo ${i} | sed s/\;/\ /g`
--	label=3D`echo ${i} | sed -e 's/^.*;tty//'`
-+	label=3D`echo ${i} | sed -e 's/^.*;tty//' -e 's/;.*//'`
- 	echo "$label:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdi=
-r}/inittab
-     done
-=20
---
-1.7.9.5
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
