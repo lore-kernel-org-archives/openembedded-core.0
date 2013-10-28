@@ -1,39 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 1726B6D48D
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 19D126CE93
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 14:33:43 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id y10so6674871wgg.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 07:33:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=QjJCkrq8CuagwqxFlzYFltubR66W8jSASYrpkUCJX1g=;
-	b=KJVUKDFBLNt7Z0vtkeS9vELPZYsDo/hxbjNvAel8tKaLwzv4h8bs78wc+dprD6oqj/
-	ZItxtszVKT//s+V3dRvXwhGi689aY79rWznzT9+eI0x/Bo8yjaR4uMLgYajlFUNXZw0W
-	jr2VgH/zP/mkoBd58NqHDsfR3puxPsp0CShpsb/KQXr70tZxiVucwNi4MU/BRZK4JZ1V
-	BF9hPkWwEe5SwKlSiKYkg9atgsPwmHTjCSKrMR358k2VkVnhH5NIPqND+ISCkk51HGFw
-	b6LMQW3F/K9Lqrpq9wREf68vw6z37OukwAN7TdXglncP8IZqJ8JmujCRbZ/MQXyd0kHp
-	34FA==
-X-Gm-Message-State: ALoCoQkXfPNNeTRSaSF6oX8g3WJeZWchdN0iaje0XDlnR2QRG/mcjTFiSg7VyZX6jysPXojExpu4
-X-Received: by 10.180.73.40 with SMTP id i8mr9285950wiv.37.1382970825561;
-	Mon, 28 Oct 2013 07:33:45 -0700 (PDT)
-Received: from flashheart.burtonini.com (188.29.164.71.threembb.co.uk.
-	[188.29.164.71])
-	by mx.google.com with ESMTPSA id fr4sm36349149wib.0.2013.10.28.07.33.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 28 Oct 2013 07:33:45 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 28 Oct 2013 14:51:04 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 37D7FF81239; Mon, 28 Oct 2013 08:51:04 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 1F1E6F81238;
+	Mon, 28 Oct 2013 08:51:03 -0600 (MDT)
+Message-ID: <526E79E2.9020907@mlbassoc.com>
+Date: Mon, 28 Oct 2013 08:51:14 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 14:33:18 +0000
-Message-Id: <1382970798-13574-5-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
-References: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 5/5] libgcrypt: remove --without-pth
+Subject: Extending core-image-basic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +33,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 14:33:44 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 14:51:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This isn't recognised by configure, and the random number daemon that requires
-Pth isn't enabled.
+Why isn't core-image-basic user extendable?  It seems to be the
+only image that doesn't use CORE_IMAGE_EXTRA_INSTALL.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-support/libgcrypt/libgcrypt.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc b/meta/recipes-support/libgcrypt/libgcrypt.inc
-index 6a0e0cf..e0dfec2 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt.inc
-+++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
-@@ -15,7 +15,7 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-${PV}.tar.gz \
- 
- inherit autotools binconfig pkgconfig
- 
--EXTRA_OECONF = "--without-pth --disable-asm --with-capabilities"
-+EXTRA_OECONF = "--disable-asm --with-capabilities"
- 
- # libgcrypt.pc is added locally and thus installed here
- do_install_append() {
 -- 
-1.7.10.4
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
