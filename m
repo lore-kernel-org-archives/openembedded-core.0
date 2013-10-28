@@ -1,20 +1,23 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 676456D273
+Return-Path: <eric@eukrea.com>
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 837376B0F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 14:01:22 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 Oct 2013 07:01:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="399878214"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
-	by orsmga001.jf.intel.com with ESMTP; 28 Oct 2013 07:01:21 -0700
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2013 16:02:42 +0200
-Message-Id: <1382968962-9826-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] libsoup: upgrade to 2.44.1
+	Mon, 28 Oct 2013 14:10:10 +0000 (UTC)
+Received: from e6520eb (unknown [88.170.243.169])
+	(Authenticated sender: eukrea)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 362A1A6336;
+	Mon, 28 Oct 2013 15:10:05 +0100 (CET)
+Date: Mon, 28 Oct 2013 15:10:04 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20131028151004.34b2af21@e6520eb>
+In-Reply-To: <1381358545.29912.50.camel@ted>
+References: <1381358545.29912.50.camel@ted>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: SRC_URI computing order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,36 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 14:01:22 -0000
+X-List-Received-Date: Mon, 28 Oct 2013 14:10:12 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Tested with midori-browser on qemux86
-and qemuarm.
+Hi Richard,
 
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- .../libsoup/{libsoup-2.4_2.42.1.bb => libsoup-2.4_2.44.1.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.42.1.bb => libsoup-2.4_2.44.1.bb} (85%)
+I saw your patch fixing FILESPATH's and Kergoth's one fixing
+PACKAGECONFIG processing order and I think I'm also facing an order
+problem when SRC_URI is computed.
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.44.1.bb
-similarity index 85%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.44.1.bb
-index ef8d439..6c3c1db 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.44.1.bb
-@@ -17,8 +17,8 @@ PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
- SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "aaccd590a8002b69716f885fa8589887"
--SRC_URI[sha256sum] = "20bd5365bb3e7de70fade91ac82c9dea31636318df90b8c26bc4cde2523a8c91"
-+SRC_URI[md5sum] = "c8e3b59b16e8fbad430f47adb3bbd3df"
-+SRC_URI[sha256sum] = "c532c331dd5f7eb78438867302ed6897a847c82b287ed9347bea8d1937974c1d"
- 
- S = "${WORKDIR}/libsoup-${PV}"
- 
--- 
-1.8.3.2
+So when building SRC_URI when two layers have bbappend which apply
+patches : the SRC_URI seems to be built using an order I fail to
+understand somewhere instead of priority or the overrides' order.
 
+The use case is a System on Module and its custom motherboard :
+- meta-fsl-arm :
+* linux-imx_xyz.bb :
+SRC_URI = "patchgeneric1 ..."
+
+- meta-som-support :
+* conf/machine/mysom.conf
+
+* linux-imx_xyz.bbappend :
+SRC_URI_append_mysom = "patchsom1 patchsom2 ..."
+
+- meta-custommotherboard (SOM + Cunstom Motherboard) :
+* conf/machine/myproduct.conf
+MACHINEOVERRIDES_prepend = "mysom:"
+include conf/machine/mysom.conf
+
+* linux-imx_xyz.bbappend :
+SRC_URI_append_myproduct = "patchproduct1 patchproduct2 ..."
+
+in the end I get :
+SRC_URI = "patchgeneric1 ... patchsoc1 ... patchproduct1 ...
+patchsom1 ..."
+
+and of course as patchproduct* are supposed to apply on top of
+patchsoc* the patch fail to apply.
+
+I didn't found a way to build SRC_URI in the order I would like (I
+tested : changing MACHINEOVERRIDES 's order, changing layers' priority,
+changing machine's name to see if that was an alphabetical order ...).
+
+In the end the only thing which worked was to add an (empty by default)
+variable in som's SRC_URI and filling this variables from the
+custommotherboard's bbappend.
+
+Is the behaviour I'm seeing expected or is there something wrong in my
+setup ?
+
+Thanks,
+Eric
 
