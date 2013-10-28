@@ -1,23 +1,21 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 837376B0F3
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 00C7A6CEE8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 28 Oct 2013 14:10:10 +0000 (UTC)
-Received: from e6520eb (unknown [88.170.243.169])
-	(Authenticated sender: eukrea)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 362A1A6336;
-	Mon, 28 Oct 2013 15:10:05 +0100 (CET)
-Date: Mon, 28 Oct 2013 15:10:04 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20131028151004.34b2af21@e6520eb>
-In-Reply-To: <1381358545.29912.50.camel@ted>
-References: <1381358545.29912.50.camel@ted>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: SRC_URI computing order
+	Mon, 28 Oct 2013 14:32:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 Oct 2013 07:29:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="425962971"
+Received: from unknown (HELO localhost) ([10.255.12.29])
+	by orsmga002.jf.intel.com with ESMTP; 28 Oct 2013 07:32:52 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 28 Oct 2013 14:32:40 +0000
+Message-Id: <9b93bf619e8d4f12e3b6cf20e9bb345a5fb954d6.1382970760.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: paul.eggleton@linux.intel.com, Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH] scripts: Add ksize.py and dirsize.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,57 +28,297 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Oct 2013 14:10:12 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 28 Oct 2013 14:32:54 -0000
 
-Hi Richard,
+Fixes [YOCTO #5388]
 
-I saw your patch fixing FILESPATH's and Kergoth's one fixing
-PACKAGECONFIG processing order and I think I'm also facing an order
-problem when SRC_URI is computed.
+These scripts can be useful when working to reduce the size of the Linux
+kernel and the root filesystem.
 
-So when building SRC_URI when two layers have bbappend which apply
-patches : the SRC_URI seems to be built using an order I fail to
-understand somewhere instead of priority or the overrides' order.
+ksize.py displays the kernel build size by the built-in.o files.
 
-The use case is a System on Module and its custom motherboard :
-- meta-fsl-arm :
-* linux-imx_xyz.bb :
-SRC_URI = "patchgeneric1 ..."
+dirsize.py displays the various sizes of the components of the root
+directory.
 
-- meta-som-support :
-* conf/machine/mysom.conf
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+---
+ scripts/tiny/dirsize.py |  93 +++++++++++++++++++++++++++
+ scripts/tiny/ksize.py   | 165 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 258 insertions(+)
+ create mode 100755 scripts/tiny/dirsize.py
+ create mode 100755 scripts/tiny/ksize.py
 
-* linux-imx_xyz.bbappend :
-SRC_URI_append_mysom = "patchsom1 patchsom2 ..."
+diff --git a/scripts/tiny/dirsize.py b/scripts/tiny/dirsize.py
+new file mode 100755
+index 0000000..40ff4ab
+--- /dev/null
++++ b/scripts/tiny/dirsize.py
+@@ -0,0 +1,93 @@
++#!/usr/bin/env python
++#
++# Copyright (c) 2011, Intel Corporation.
++# All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++#
++#
++# Display details of the root filesystem size, broken up by directory.
++# Allows for limiting by size to focus on the larger files.
++#
++# Author: Darren Hart <dvhart@linux.intel.com>
++#
++
++import os
++import sys
++import stat
++
++class Record:
++    def create(path):
++        r = Record(path)
++
++        s = os.lstat(path)
++        if stat.S_ISDIR(s.st_mode):
++            for p in os.listdir(path):
++                pathname = path + "/" + p
++                ss = os.lstat(pathname)
++                if not stat.S_ISLNK(ss.st_mode):
++                    r.records.append(Record.create(pathname))
++                    r.size += r.records[-1].size
++            r.records.sort(reverse=True)
++        else:
++            r.size = os.lstat(path).st_size
++
++        return r
++    create = staticmethod(create)
++
++    def __init__(self, path):
++        self.path = path
++        self.size = 0
++        self.records = []
++
++    def __cmp__(this, that):
++        if that is None:
++            return 1
++        if not isinstance(that, Record):
++            raise TypeError
++        if len(this.records) > 0 and len(that.records) == 0:
++            return -1
++        if len(this.records) == 0 and len(that.records) > 0:
++            return 1
++        if this.size < that.size:
++            return -1
++        if this.size > that.size:
++            return 1
++        return 0
++
++    def show(self, minsize):
++        total = 0
++        if self.size <= minsize:
++            return 0
++        print "%10d %s" % (self.size, self.path)
++        for r in self.records:
++            total += r.show(minsize)
++        if len(self.records) == 0:
++            total = self.size
++        return total
++
++
++def main():
++    minsize = 0
++    if len(sys.argv) == 2:
++        minsize = int(sys.argv[1])
++    rootfs = Record.create(".")
++    total = rootfs.show(minsize)
++    print "Displayed %d/%d bytes (%.2f%%)" % \
++          (total, rootfs.size, 100 * float(total) / rootfs.size)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
+new file mode 100755
+index 0000000..4006f2f
+--- /dev/null
++++ b/scripts/tiny/ksize.py
+@@ -0,0 +1,165 @@
++#!/usr/bin/env python
++#
++# Copyright (c) 2011, Intel Corporation.
++# All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++#
++#
++# Display details of the kernel build size, broken up by built-in.o. Sort
++# the objects by size. Run from the top level kernel build directory.
++#
++# Author: Darren Hart <dvhart@linux.intel.com>
++#
++
++import sys
++import getopt
++import os
++from subprocess import *
++from string import join
++
++
++def usage():
++    prog = os.path.basename(sys.argv[0])
++    print 'Usage: %s [OPTION]...' % (prog)
++    print '  -d,                 display an additional level of drivers detail'
++    print '  -h, --help          display this help and exit'
++    print ''
++    print 'Run %s from the top-level Linux kernel build directory.' % (prog)
++
++
++class Sizes:
++    def __init__(self, glob):
++        self.title = glob
++        p = Popen("size -t " + glob, shell=True, stdout=PIPE, stderr=PIPE)
++        output = p.communicate()[0].splitlines()
++        if len(output) > 2:
++            sizes = output[-1].split()[0:4]
++            self.text = int(sizes[0])
++            self.data = int(sizes[1])
++            self.bss = int(sizes[2])
++            self.total = int(sizes[3])
++        else:
++            self.text = self.data = self.bss = self.total = 0
++
++    def show(self, indent=""):
++        print "%-32s %10d | %10d %10d %10d" % \
++              (indent+self.title, self.total, self.text, self.data, self.bss)
++
++
++class Report:
++    def create(filename, title, subglob=None):
++        r = Report(filename, title)
++        path = os.path.dirname(filename)
++
++        p = Popen("ls " + path + "/*.o | grep -v built-in.o",
++                  shell=True, stdout=PIPE, stderr=PIPE)
++        glob = join(p.communicate()[0].splitlines())
++        oreport = Report(glob, path + "/*.o")
++        oreport.sizes.title = path + "/*.o"
++        r.parts.append(oreport)
++
++        if subglob:
++            p = Popen("ls " + subglob, shell=True, stdout=PIPE, stderr=PIPE)
++            for f in p.communicate()[0].splitlines():
++                path = os.path.dirname(f)
++                r.parts.append(Report.create(f, path, path + "/*/built-in.o"))
++            r.parts.sort(reverse=True)
++
++        for b in r.parts:
++            r.totals["total"] += b.sizes.total
++            r.totals["text"] += b.sizes.text
++            r.totals["data"] += b.sizes.data
++            r.totals["bss"] += b.sizes.bss
++
++        r.deltas["total"] = r.sizes.total - r.totals["total"]
++        r.deltas["text"] = r.sizes.text - r.totals["text"]
++        r.deltas["data"] = r.sizes.data - r.totals["data"]
++        r.deltas["bss"] = r.sizes.bss - r.totals["bss"]
++        return r
++    create = staticmethod(create)
++
++    def __init__(self, glob, title):
++        self.glob = glob
++        self.title = title
++        self.sizes = Sizes(glob)
++        self.parts = []
++        self.totals = {"total":0, "text":0, "data":0, "bss":0}
++        self.deltas = {"total":0, "text":0, "data":0, "bss":0}
++
++    def show(self, indent=""):
++        rule = str.ljust(indent, 80, '-')
++        print "%-32s %10s | %10s %10s %10s" % \
++              (indent+self.title, "total", "text", "data", "bss")
++        print rule
++        self.sizes.show(indent)
++        print rule
++        for p in self.parts:
++            if p.sizes.total > 0:
++                p.sizes.show(indent)
++        print rule
++        print "%-32s %10d | %10d %10d %10d" % \
++              (indent+"sum", self.totals["total"], self.totals["text"],
++               self.totals["data"], self.totals["bss"])
++        print "%-32s %10d | %10d %10d %10d" % \
++              (indent+"delta", self.deltas["total"], self.deltas["text"],
++               self.deltas["data"], self.deltas["bss"])
++        print "\n"
++
++    def __cmp__(this, that):
++        if that is None:
++            return 1
++        if not isinstance(that, Report):
++            raise TypeError
++        if this.sizes.total < that.sizes.total:
++            return -1
++        if this.sizes.total > that.sizes.total:
++            return 1
++        return 0
++
++
++def main():
++    try:
++        opts, args = getopt.getopt(sys.argv[1:], "dh", ["help"])
++    except getopt.GetoptError, err:
++        print '%s' % str(err)
++        usage()
++        sys.exit(2)
++
++    driver_detail = False
++    for o, a in opts:
++        if o == '-d':
++            driver_detail = True
++        elif o in ('-h', '--help'):
++            usage()
++            sys.exit(0)
++        else:
++            assert False, "unhandled option"
++
++    glob = "arch/*/built-in.o */built-in.o"
++    vmlinux = Report.create("vmlinux",  "Linux Kernel", glob)
++
++    vmlinux.show()
++    for b in vmlinux.parts:
++        if b.totals["total"] > 0 and len(b.parts) > 1:
++            b.show()
++        if b.title == "drivers" and driver_detail:
++            for d in b.parts:
++                if d.totals["total"] > 0 and len(d.parts) > 1:
++                    d.show("    ")
++
++
++if __name__ == "__main__":
++    main()
+-- 
+1.8.3.1
 
-- meta-custommotherboard (SOM + Cunstom Motherboard) :
-* conf/machine/myproduct.conf
-MACHINEOVERRIDES_prepend = "mysom:"
-include conf/machine/mysom.conf
-
-* linux-imx_xyz.bbappend :
-SRC_URI_append_myproduct = "patchproduct1 patchproduct2 ..."
-
-in the end I get :
-SRC_URI = "patchgeneric1 ... patchsoc1 ... patchproduct1 ...
-patchsom1 ..."
-
-and of course as patchproduct* are supposed to apply on top of
-patchsoc* the patch fail to apply.
-
-I didn't found a way to build SRC_URI in the order I would like (I
-tested : changing MACHINEOVERRIDES 's order, changing layers' priority,
-changing machine's name to see if that was an alphabetical order ...).
-
-In the end the only thing which worked was to add an (empty by default)
-variable in som's SRC_URI and filling this variables from the
-custommotherboard's bbappend.
-
-Is the behaviour I'm seeing expected or is there something wrong in my
-setup ?
-
-Thanks,
-Eric
 
