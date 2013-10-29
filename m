@@ -1,29 +1,21 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A27E6CF40
+Return-Path: <valentin.popa@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id DDC516D092
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 12:32:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9TCWvhX020607
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 05:32:57 -0700 (PDT)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Tue, 29 Oct 2013 05:32:57 -0700
-Message-ID: <526FAB30.9070600@windriver.com>
-Date: Tue, 29 Oct 2013 20:33:52 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1380189657.git.Qi.Chen@windriver.com>
-	<936abdfba1f8b3edf2f5dbfc6be803354798c4d2.1380189657.git.Qi.Chen@windriver.com>
-In-Reply-To: <936abdfba1f8b3edf2f5dbfc6be803354798c4d2.1380189657.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.213]
-Subject: Re: [PATCH V2 1/1] sysvinit: fix missing of boot log
+	Tue, 29 Oct 2013 12:42:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 29 Oct 2013 05:39:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="426436913"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
+	by orsmga002.jf.intel.com with ESMTP; 29 Oct 2013 05:43:00 -0700
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Oct 2013 14:44:18 +0200
+Message-Id: <1383050658-26633-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Cc: Upgrade Helper <uh@not.set>
+Subject: [PATCH] libx11: upgrade to 1.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +28,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 12:32:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Oct 2013 12:43:00 -0000
 
-ping
+From: Upgrade Helper <uh@not.set>
 
-Any comment on this one?
+Adapted X18NCMSstubs.diff to correctly apply.
 
-Best Regards,
-Chen Qi
+Tested on core-image-sato (for both libx11 and
+libx11-diet)
 
-On 09/26/2013 06:02 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Previously, our system had no boot log even if the bootlogd daemon was
-> started correctly. The root cause is that the log file doesn't exist
-> when starting the bootlogd.
->
-> Add '-c' option to bootlogd so that it will create the boot log if
-> it doesn't exist.
->
-> Besides, we need to make sure that tmpfs has been mounted. Otherwise,
-> the boot log will still be missing.
->
-> [YOCTO #5273]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-core/sysvinit/sysvinit/bootlogd.init |    5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-> index 7b87827..3a10a3c 100755
-> --- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-> +++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-> @@ -42,14 +42,15 @@ esac
->   
->   case "$ACTION" in
->   	start)
-> +		mount -a -t tmpfs 2>/dev/null
->   		echo -n "Starting $DESC: "
->   		if [ -d /proc/1/. ]
->   		then
->   			umask 027
->   			start-stop-daemon --start --quiet \
-> -				--exec $DAEMON -- -r
-> +				--exec $DAEMON -- -r -c
->   		else
-> -			$DAEMON -r
-> +			$DAEMON -r -c
->   		fi
->   		echo "$NAME."
->   		;;
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+---
+ .../xorg-lib/{libx11-diet_1.6.1.bb => libx11-diet_1.6.2.bb}           | 4 ++--
+ meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.diff               | 3 +--
+ meta/recipes-graphics/xorg-lib/{libx11_1.6.1.bb => libx11_1.6.2.bb}   | 4 ++--
+ 3 files changed, 5 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.6.1.bb => libx11-diet_1.6.2.bb} (73%)
+ rename meta/recipes-graphics/xorg-lib/{libx11_1.6.1.bb => libx11_1.6.2.bb} (47%)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.1.bb b/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.2.bb
+similarity index 73%
+rename from meta/recipes-graphics/xorg-lib/libx11-diet_1.6.1.bb
+rename to meta/recipes-graphics/xorg-lib/libx11-diet_1.6.2.bb
+index 3c3b8e7..89b0716 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11-diet_1.6.2.bb
+@@ -11,8 +11,8 @@ SRC_URI += "file://X18NCMSstubs.diff \
+ RPROVIDES_${PN}-dev = "libx11-dev"
+ RPROVIDES_${PN}-locale = "libx11-locale"
+ 
+-SRC_URI[md5sum] = "bc5fc459ec25a50c5a7e27035b89e579"
+-SRC_URI[sha256sum] = "10a54fc16b58b4f5a5eed4d080c357a82fd2f42d09af625c1f5df50650701892"
++SRC_URI[md5sum] = "c35d6ad95b06635a524579e88622fdb5"
++SRC_URI[sha256sum] = "2aa027e837231d2eeea90f3a4afe19948a6eb4c8b2bec0241eba7dbc8106bd16"
+ 
+ EXTRA_OECONF += "--disable-xlocale"
+ 
+diff --git a/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.diff b/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.diff
+index 9e91a8b..744cedc 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.diff
++++ b/meta/recipes-graphics/xorg-lib/libx11/X18NCMSstubs.diff
+@@ -483,10 +483,9 @@ Index: libX11-1.3/src/Makefile.am
+  x11datadir = @X11_DATADIR@
+  x11data_DATA = XKeysymDB XErrorDB
+  
+-@@ -342,7 +344,8 @@ EXTRA_DIST = \
++@@ -342,6 +344,7 @@ EXTRA_DIST = \
+  	$(x11data_DATA) \
+  	os2Stubs.c \
+- 	udcInf.c \
+ -	UIThrStubs.c 
+ +	UIThrStubs.c \
+ +	X18NCMSstubs.c
+diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.1.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
+similarity index 47%
+rename from meta/recipes-graphics/xorg-lib/libx11_1.6.1.bb
+rename to meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
+index b9fb832..2377d61 100644
+--- a/meta/recipes-graphics/xorg-lib/libx11_1.6.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.2.bb
+@@ -6,5 +6,5 @@ BBCLASSEXTEND = "native nativesdk"
+ SRC_URI += "file://disable_tests.patch \
+            "
+ 
+-SRC_URI[md5sum] = "bc5fc459ec25a50c5a7e27035b89e579"
+-SRC_URI[sha256sum] = "10a54fc16b58b4f5a5eed4d080c357a82fd2f42d09af625c1f5df50650701892"
++SRC_URI[md5sum] = "c35d6ad95b06635a524579e88622fdb5"
++SRC_URI[sha256sum] = "2aa027e837231d2eeea90f3a4afe19948a6eb4c8b2bec0241eba7dbc8106bd16"
+-- 
+1.8.3.2
 
 
