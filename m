@@ -1,24 +1,27 @@
-Return-Path: <Paul.Barrette@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CDBB86CE77
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id D30096D3A8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 20:52:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9TKq5sL010416
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 13:52:05 -0700 (PDT)
-Received: from yow-pbarrett-lx.wrs.com (128.224.146.11) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 29 Oct 2013 13:52:05 -0700
-From: Paul Barrette <paul.barrette@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Oct 2013 16:52:04 -0400
-Message-ID: <1383079924-1438-1-git-send-email-paul.barrette@windriver.com>
-X-Mailer: git-send-email 1.8.1.4
+	Tue, 29 Oct 2013 21:04:34 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 29 Oct 2013 14:04:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="314428771"
+Received: from paulonei-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.121.45])
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Oct 2013 14:04:35 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 29 Oct 2013 21:04:34 +0000
+Message-ID: <1708052.DkyjeSlWrd@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <52700D71.9090809@linux.intel.com>
+References: <1383060112-7835-1-git-send-email-paul.eggleton@linux.intel.com>
+	<52700D71.9090809@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH] lsb: add begin function to lsb_log_message
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] scripts/oe-pkgdata-util: fix global name 'debug' is not defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 20:52:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Oct 2013 21:04:35 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Some init scripts call a "begin" action to log early init phase
-messages, e.g. openvswitch-controller.  Add the "begin" function to
-lsb_log_message.
+Hi Saul,
 
-Signed-off-by: Paul Barrette <paul.barrette@windriver.com>
----
- meta/recipes-extended/lsb/lsb/lsb_log_message | 5 +++++
- 1 file changed, 5 insertions(+)
+On Tuesday 29 October 2013 12:33:05 Saul Wold wrote:
+> On 10/29/2013 08:21 AM, Paul Eggleton wrote:
+> > This global variable is no longer present, so pass in the value
+> > specified via the command line.
+> 
+> This did not seem to fix the issue, I restarted the AB after this fix
+> was in.
 
-diff --git a/meta/recipes-extended/lsb/lsb/lsb_log_message b/meta/recipes-extended/lsb/lsb/lsb_log_message
-index 2995f78..9daa9c8 100755
---- a/meta/recipes-extended/lsb/lsb/lsb_log_message
-+++ b/meta/recipes-extended/lsb/lsb/lsb_log_message
-@@ -21,6 +21,11 @@ case "$ACTION" in
- 	warning "$*"
- 	echo
- 	;;
-+  begin)
-+  	echo -n $*
-+	begin "$*"
-+	echo
-+	;;
-   *)
-   	;;
- esac
+If you check the revision it built, for whatever reason it was the revision 
+before the fix. I have also double-checked and building an image works fine 
+here.
+
+Cheers,
+Paul
+
 -- 
-1.8.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
