@@ -1,26 +1,27 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CADFC6D432
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7494F6D2C5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 07:12:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9T7COWn013624
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 00:12:24 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 29 Oct 2013 00:12:24 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Oct 2013 15:12:17 +0800
-Message-ID: <548b09ddfcece72635432730e110ad8aac1b802b.1383030558.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1383030558.git.hongxu.jia@windriver.com>
-References: <cover.1383030558.git.hongxu.jia@windriver.com>
+	Tue, 29 Oct 2013 07:27:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 29 Oct 2013 00:27:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="426317657"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.41])
+	by orsmga002.jf.intel.com with ESMTP; 29 Oct 2013 00:27:31 -0700
+Date: Tue, 29 Oct 2013 09:27:30 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Chris Patterson <cjp256@gmail.com>
+Message-ID: <20131029072729.GB6291@lpalcu-linux>
+References: <1381882516-29599-1-git-send-email-cjp256@gmail.com>
+	<5268DEE0.7000506@linux.intel.com>
+	<CABZSBQepb=+J-OSGkD7Kt-u9sZU0eLJ+-NSqZS-np9tp6xc2RQ@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] coreutils: support command arch
+In-Reply-To: <CABZSBQepb=+J-OSGkD7Kt-u9sZU0eLJ+-NSqZS-np9tp6xc2RQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: upgrade to 1.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 07:12:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Oct 2013 07:27:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The "arch" is removed in util-linux 2.23, but some old
-software and devs look for arch:
-http://lists.gnu.org/archive/html/bug-coreutils/2007-06/msg00010.html
+Hi Chris,
 
-Use coreutils version.
-[YOCTO #5404]
+On Mon, Oct 28, 2013 at 07:54:51PM -0400, Chris Patterson wrote:
+> 
+> I'm not terribly familiar with the nativesdk, and (foolishly) neglected to test
+> that.  However, I looked into it, and it looks like the relocatable_sdk.patch
+> affects a linker script that is no longer available.  I dropped the patch and
+> tested installing an oe-core sdk sysroot (via bitbake -c populate_sdk
+> core-image-minimal) and qemu appears to work fine from within the sdk
+> environment.
+> 
+> I'm open to suggestions for further testing this upgrade (particularly a case
+> to cover what relocatable_sdk.patch was originally intended to resolve). I'm
+> certainly not the expert here, but am willing to help out.
+> 
+To test this particular case, build meta-toolchain and install it in a
+different location than the default one. Then, just do a 'readelf -s"
+on any qemu binary and make sure the .interp section has a size of 0x1000 bytes.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-core/coreutils/coreutils_8.21.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+If it does, then it's ok to drop the patch. That patch was needed
+because qemu happened to use their own linker scripts and, in order to
+have the SDK relocatable, we needed to reseve space in the .interp
+section to squeeze the new path.
 
-diff --git a/meta/recipes-core/coreutils/coreutils_8.21.bb b/meta/recipes-core/coreutils/coreutils_8.21.bb
-index da14303..e672ab1 100644
---- a/meta/recipes-core/coreutils/coreutils_8.21.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.21.bb
-@@ -23,6 +23,7 @@ SRC_URI[md5sum] = "065ba41828644eca5dd8163446de5d64"
- SRC_URI[sha256sum] = "adaa44bdab3fa5eb352e80d8a31fdbf957b78653d0c2cd30d63e161444288e18"
- 
- EXTRA_OECONF_class-native = "--without-gmp"
-+EXTRA_OECONF_class-target = "--enable-install-program=arch"
- 
- # acl is not a default feature
- #
-@@ -39,7 +40,7 @@ bindir_progs = "basename chcon cksum comm csplit cut dir dircolors dirname du \
-                 join link logname md5sum mkfifo nice nl nohup nproc od paste pathchk \
-                 pinky pr printenv printf ptx readlink realpath runcon seq sha1sum sha224sum sha256sum \
-                 sha384sum sha512sum shred shuf sort split stat stdbuf sum tac tail tee test timeout\
--                tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes"
-+                tr truncate tsort tty unexpand uniq unlink uptime users vdir wc who whoami yes arch"
- 
- # hostname gets a special treatment and is not included in this
- base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdir \
--- 
-1.8.1.2
-
+Laurentiu
 
