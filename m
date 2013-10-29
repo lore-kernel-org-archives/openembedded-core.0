@@ -1,21 +1,22 @@
 Return-Path: <valentin.popa@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DDC516D092
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id E33036D092
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 12:42:59 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 29 Oct 2013 05:39:38 -0700
+	Tue, 29 Oct 2013 12:49:32 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 29 Oct 2013 05:49:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="426436913"
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="314222367"
 Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
-	by orsmga002.jf.intel.com with ESMTP; 29 Oct 2013 05:43:00 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Oct 2013 05:49:32 -0700
 From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 29 Oct 2013 14:44:18 +0200
-Message-Id: <1383050658-26633-1-git-send-email-valentin.popa@intel.com>
+Date: Tue, 29 Oct 2013 14:50:44 +0200
+Message-Id: <1383051044-26924-1-git-send-email-valentin.popa@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-Cc: Upgrade Helper <uh@not.set>
-Subject: [PATCH] libx11: upgrade to 1.6.2
+In-Reply-To: <1383050658-26633-1-git-send-email-valentin.popa@intel.com>
+References: <1383050658-26633-1-git-send-email-valentin.popa@intel.com>
+Subject: [PATCH v2] libx11: upgrade to 1.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,9 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 12:43:00 -0000
-
-From: Upgrade Helper <uh@not.set>
+X-List-Received-Date: Tue, 29 Oct 2013 12:49:33 -0000
 
 Adapted X18NCMSstubs.diff to correctly apply.
 
