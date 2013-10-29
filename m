@@ -1,44 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DDD96CEE8
+Return-Path: <valentin.popa@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B876F6CE77
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 08:09:31 +0000 (UTC)
-Received: by mail-ee0-f45.google.com with SMTP id c50so5050968eek.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 01:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=A6EocAhNUEk/CmzhGkV8rxV+adj/l/t+IdE/EeDSM/A=;
-	b=unzjEE7V+/FbViyVl8DZFKNMn9NqfupXzTPEUDppsuCNi8q8T09GrjxNC3I39g0yhM
-	H/YV9xUEFWia8n+y4ipHKp0cVtavGzGIsx0J7XolPcXQFkqtDZE7PLkHQXKMetWBu1jX
-	er5xoXRY9TErcf0PcyEuhX/7iDdSvzXH4Lk2ZZqXLhb/mUXlny1WgEYSGa5UcuMxgE7f
-	cGsdcQJyniEZEoIVLwAOCg92WAtQBPtpC/iejttRn1ylblhoPl9xC+7JWfF2vnCVLxtf
-	Kf7nRIH/fT6JdNd6iwaZOQOP89hrKByxaLCMCi32pJ25SzD3aa3zaligXKTrHCr+1tat
-	OXFw==
-X-Received: by 10.14.45.70 with SMTP id o46mr26326309eeb.19.1383034173365;
-	Tue, 29 Oct 2013 01:09:33 -0700 (PDT)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id k7sm67150719eeg.13.2013.10.29.01.09.32
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 29 Oct 2013 01:09:32 -0700 (PDT)
-Date: Tue, 29 Oct 2013 08:09:46 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20131029070946.GB3697@jama>
-References: <1382345775-1338-1-git-send-email-ml@communistcode.co.uk>
-	<CAMKF1spfQ7hiR8S_=cboV1+p2B4yMF+vqfHpWr1bha883MbvTg@mail.gmail.com>
-	<526ECEBE.508@communistcode.co.uk>
-	<CAMKF1sqChkPK36LNdP2x5WcWgB51md8iB4x9V3cUEPEB5M2OfA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqChkPK36LNdP2x5WcWgB51md8iB4x9V3cUEPEB5M2OfA@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: Jack Mitchell <jmitchell@cbnl.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][PATCHv2] libjson: update to 0.11 and rename to json-c
+	Tue, 29 Oct 2013 08:50:52 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Oct 2013 01:50:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,591,1378882800"; d="scan'208";a="424407701"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Oct 2013 01:50:51 -0700
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Oct 2013 10:52:10 +0200
+Message-Id: <1383036730-25150-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] libxv: upgrade to 1.0.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,43 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 08:09:32 -0000
-X-Groupsio-MsgNum: 46325
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+pHx0qQiF2pBVqBT"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 29 Oct 2013 08:50:53 -0000
 
---+pHx0qQiF2pBVqBT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+---
+ meta/recipes-graphics/xorg-lib/{libxv_1.0.9.bb => libxv_1.0.10.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxv_1.0.9.bb => libxv_1.0.10.bb} (78%)
 
-On Mon, Oct 28, 2013 at 03:48:17PM -0700, Khem Raj wrote:
-> On Mon, Oct 28, 2013 at 1:53 PM, Jack Mitchell <ml@communistcode.co.uk> w=
-rote:
-> > As for the BPN-PV, I don't really understand, I just grepped for libjso=
-n,
-> > and changed all the occurrences... the separate build dir being one of =
-them,
-> > how would you expect the change to look?
->=20
-> just in SRC_URI use BPN-PN instead of P
+diff --git a/meta/recipes-graphics/xorg-lib/libxv_1.0.9.bb b/meta/recipes-graphics/xorg-lib/libxv_1.0.10.bb
+similarity index 78%
+rename from meta/recipes-graphics/xorg-lib/libxv_1.0.9.bb
+rename to meta/recipes-graphics/xorg-lib/libxv_1.0.10.bb
+index f46bc2d..cc6c638 100644
+--- a/meta/recipes-graphics/xorg-lib/libxv_1.0.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libxv_1.0.10.bb
+@@ -14,5 +14,5 @@ DEPENDS += "libxext videoproto"
+ 
+ XORG_PN = "libXv"
+ 
+-SRC_URI[md5sum] = "3f642e1d868a2289769b983cf346e7bb"
+-SRC_URI[sha256sum] = "a874dbf864d0271bbe795af67ef5b3f20096c92fc11eacbf0d2af00e32bc5b4b"
++SRC_URI[md5sum] = "e0af49d7d758b990e6fef629722d4aca"
++SRC_URI[sha256sum] = "55fe92f8686ce8612e2c1bfaf58c057715534419da700bda8d517b1d97914525"
+\ No newline at end of file
+-- 
+1.8.3.2
 
-And in next step BP instead of BPN-PV :)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---+pHx0qQiF2pBVqBT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlJvXzoACgkQN1Ujt2V2gBxXNACgsd5dihFaWx7MAoVuX/iYp2FH
-p50AoJcSGXTv467vpPP66jGwTA1gJ0bu
-=sDPY
------END PGP SIGNATURE-----
-
---+pHx0qQiF2pBVqBT--
