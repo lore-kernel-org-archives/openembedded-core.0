@@ -1,32 +1,15 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id A738E6D005
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D8126CF0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 09:58:40 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9T9wYYb000580; Tue, 29 Oct 2013 09:58:34 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vGRBW4smtaWI; Tue, 29 Oct 2013 09:58:34 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9T9wSp9000565
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 29 Oct 2013 09:58:29 GMT
-Message-ID: <1383040703.17867.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Anders Roxell <anders.roxell@linaro.org>
-Date: Tue, 29 Oct 2013 09:58:23 +0000
-In-Reply-To: <1378721846-3634-1-git-send-email-anders.roxell@linaro.org>
-References: <1378401050-30782-1-git-send-email-anders.roxell@linaro.org>
-	<1378721846-3634-1-git-send-email-anders.roxell@linaro.org>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: linaro-networking@linaro.org, patches@linaro.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv3] ltp: update to new release 20130904
+	Tue, 29 Oct 2013 10:10:34 +0000 (UTC)
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 29 Oct 2013 10:10:22 +0000
+Message-Id: <1383041422-5071-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.4.1
+Cc: Jack Mitchell <jmitchell@cbnl.com>
+Subject: [oe][PATCHv3] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,32 +22,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 09:58:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Oct 2013 10:10:35 -0000
 
-On Mon, 2013-09-09 at 12:17 +0200, Anders Roxell wrote:
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  meta/recipes-extended/ltp/{ltp_20130503.bb => ltp_20130904.bb} | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->  rename meta/recipes-extended/ltp/{ltp_20130503.bb => ltp_20130904.bb} (94%)
-> 
-> diff --git a/meta/recipes-extended/ltp/ltp_20130503.bb b/meta/recipes-extended/ltp/ltp_20130904.bb
-> similarity index 94%
-> rename from meta/recipes-extended/ltp/ltp_20130503.bb
-> rename to meta/recipes-extended/ltp/ltp_20130904.bb
-> index 387826d..5e10448 100644
+From: Jack Mitchell <jmitchell@cbnl.com>
 
-It seems this patch is causing problems on the autobuilder, e.g.:
+libjson is now known as json-c, it keeps support for the old
+libjson namespace so it shouldn't break anything. Built without
+parallel make as it would fail when it tries to link to link back
+to itself, which is odd, but the official word is: don't build in
+parallel.
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=5379
+Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
+---
+ meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+ meta/recipes-devtools/json-c/json-c_0.11.bb       | 15 +++++++++++++++
+ meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+ 4 files changed, 17 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+ delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
 
-but this is occurring on multiple architectures. Looks like some kind of
-parallel make race :(
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index c067183..e1a5c6b 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+ B_pn-libice-native = "${SEPB}"
+ B_pn-libid3tag = "${SEPB}"
+ B_pn-libidn = "${SEPB}"
+-B_pn-libjson = "${SEPB}"
++B_pn-json-c = "${SEPB}"
+ B_pn-libksba = "${SEPB}"
+ B_pn-libmad = "${SEPB}"
+ B_pn-libmatchbox = "${SEPB}"
+diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
+new file mode 100644
+index 0000000..a909dac
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
+@@ -0,0 +1,15 @@
++SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
++HOMEPAGE = "https://github.com/json-c/json-c/wiki"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
++
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++
++SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
++SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
++
++RPROVIDES_${PN} = "libjson"
++
++PARALLEL_MAKE = ""
++
++inherit autotools
+diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+deleted file mode 100644
+index e4951a8..0000000
+--- a/meta/recipes-devtools/libjson/libjson_0.9.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-DESCRIPTION = "JSON-C - A JSON implementation in C"
+-HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+-
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+-
+-SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+-SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+-SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+-
+-S = "${WORKDIR}/json-c-${PV}"
+-
+-
+-inherit autotools
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 4c10aa9..475da41 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+-DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
++DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
+ 
+ inherit autotools pkgconfig useradd gettext perlnative
+ 
+-- 
+1.8.4.1
 
 
