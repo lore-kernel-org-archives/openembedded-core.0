@@ -1,34 +1,24 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 227D46D406
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A82D6D348
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 17:01:25 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Oct 2013 10:01:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,594,1378882800"; d="scan'208";a="424681635"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Oct 2013 09:59:42 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.75]) by
-	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
-	14.03.0123.003; Tue, 29 Oct 2013 16:58:32 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/1] connman: upgrade to 1.19
-Thread-Index: AQHOzzAncaQJpXc1Akq/ATPfgUXa0JoL8bLQ
-Date: Tue, 29 Oct 2013 16:58:32 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CAEDDC@IRSMSX105.ger.corp.intel.com>
-References: <cover.1382450957.git.cristian.iorga@intel.com>
-	<488941bb9793d52f804353b60d9976d0786e58f9.1382450957.git.cristian.iorga@intel.com>
-In-Reply-To: <488941bb9793d52f804353b60d9976d0786e58f9.1382450957.git.cristian.iorga@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Tue, 29 Oct 2013 17:17:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9THH5rL011187
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 29 Oct 2013 10:17:06 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 29 Oct 2013 10:17:05 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Oct 2013 10:17:04 -0700
+Message-ID: <1383067024-16984-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] connman: upgrade to 1.19
+Subject: [v3][PATCH 1/1] vala.bbclass: add dependency on vala
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,66 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 17:01:25 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 29 Oct 2013 17:17:05 -0000
+Content-Type: text/plain
 
-Ping.
-Any comments on this one?
-/Cristian
+This class points the inheritor, if it is a target,
+to directories in the target sysroot, so we want to
+be sure the .vapi files are there.
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Cristian Iorga
-Sent: Tuesday, October 22, 2013 5:10 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH 1/1] connman: upgrade to 1.19
-
-Improvements:
-- On startup keep interfaces already configured with static IPv4 addresses =
-if there is a service configuration file containing the very same static va=
-lues. If not, take the interface down and flush the old configuration as be=
-fore (Jukka Rissanen).
-- Handle FallbackNameservers properly;
-use them when no other nameservers have been configured for a service (Patr=
-ik Flykt).
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- .../connman/{connman_1.18.bb =3D> connman_1.19.bb}                    | 6 =
-++----
- 1 file changed, 2 insertions(+), 4 deletions(-)  rename meta/recipes-conne=
-ctivity/connman/{connman_1.18.bb =3D> connman_1.19.bb} (65%)
+ meta/classes/vala.bbclass |    9 ++++++---
+ 1 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman_1.18.bb b/meta/recip=
-es-connectivity/connman/connman_1.19.bb
-similarity index 65%
-rename from meta/recipes-connectivity/connman/connman_1.18.bb
-rename to meta/recipes-connectivity/connman/connman_1.19.bb
-index 44a4a07..c63dfe4 100644
---- a/meta/recipes-connectivity/connman/connman_1.18.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.19.bb
-@@ -6,9 +6,7 @@ SRC_URI  =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP=
-}.tar.xz \
-             file://connman \
-             "
-=20
--SRC_URI[md5sum] =3D "7578ec8f0422d34f5a4ba51b605fe576"
--SRC_URI[sha256sum] =3D "56c2ca7842be2100b6b59367845d5beec125f231af6ea50560=
-4992e0c5a69992"
--
--PR =3D "${INC_PR}.0"
-+SRC_URI[md5sum] =3D "47cce1d17a693dc307e6796c81991bd0"
-+SRC_URI[sha256sum] =3D "7e4e624cadf42feed18e783351b10f81ef23d7e298bddc7ffe=
-26fe5e69f25b8b"
-=20
- RRECOMMENDS_${PN} =3D "connman-conf"
---
-1.8.1.2
+diff --git a/meta/classes/vala.bbclass b/meta/classes/vala.bbclass
+index c7db08c..0b7803b 100644
+--- a/meta/classes/vala.bbclass
++++ b/meta/classes/vala.bbclass
+@@ -1,9 +1,12 @@
+ # Vala has problems with multiple concurrent invocations
+ PARALLEL_MAKE = ""
+ 
+-# Vala needs vala-native
+-DEPENDS += "vala-native"
+-DEPENDS_virtclass-native += "vala-native"
++# Everyone needs vala-native and targets need vala, too,
++# because that is where target builds look for .vapi files.
++#
++VALADEPENDS = ""
++VALADEPENDS_class-target = "vala"
++DEPENDS_append = " vala-native ${VALADEPENDS}"
+ 
+ # Our patched version of Vala looks in STAGING_DATADIR for .vapi files
+ export STAGING_DATADIR
+-- 
+1.7.3.4
 
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
