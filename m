@@ -1,31 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 681686D44F
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BE566148C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 13:46:08 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9UDk4so017542 for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 13:46:04 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jLnjfm6PEaIe
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 13:46:04 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9UDjxvq017538
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 13:46:00 GMT
-Message-ID: <1383140754.25877.27.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Oct 2013 13:45:54 +0000
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: 1.5/dora stable series maintainer
+	Wed, 30 Oct 2013 14:22:21 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id CC70BF81212; Wed, 30 Oct 2013 08:22:22 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 261D9F81211;
+	Wed, 30 Oct 2013 08:22:21 -0600 (MDT)
+Message-ID: <5271162B.6020008@mlbassoc.com>
+Date: Wed, 30 Oct 2013 08:22:35 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH] core-image-basic.bb: Allow user extensions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2013 13:46:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 30 Oct 2013 14:22:21 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-It gives me pleasure to announce that Robert Yang
-<liezhi.yang@windriver.com> is going to be taking on the role of stable
-maintainer for the 1.5 series.
+Allow the user to provide additional packages to this image.
+This lets core-image-basic behave like all other core-image*
+recipes (which do support CORE_IMAGE_EXTRA_INSTALL), as well
+as match the documentation which suggests this as the mode to
+extend any core-image* image.
 
-The usual process for patch nomination and merging will happen with
-Robert maintaining a dora-next branch which periodically will get merged
-into the main dora branch after testing through a consolidated pull
-request.
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+  meta/recipes-extended/images/core-image-basic.bb |    3 +++
+  1 file changed, 3 insertions(+)
 
-To "hit the ground running" so to speak, I fast forwarded dora a little
-way along the master branch to take advantage of fixes which didn't
-make the main release but were available when I started merging patches.
-Further patches can be nominated and cherry-picked as needed from here.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-extended/images/core-image-basic.bb b/meta/recipes-extended/images/core-image-basic.bb
+index 091f57d..e393a28 100644
+--- a/meta/recipes-extended/images/core-image-basic.bb
++++ b/meta/recipes-extended/images/core-image-basic.bb
+@@ -3,9 +3,12 @@ functionality installed."
+   IMAGE_FEATURES += "splash ssh-server-openssh"
+  +CORE_IMAGE_EXTRA_INSTALL ?= ""
++
+  IMAGE_INSTALL = "\
+      packagegroup-core-boot \
+      packagegroup-core-basic \
++    ${CORE_IMAGE_EXTRA_INSTALL} \
+      "
+   inherit core-image
+-- 
+1.7.9.5
 
 
