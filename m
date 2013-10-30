@@ -1,24 +1,26 @@
-Return-Path: <jason.wessel@windriver.com>
+Return-Path: <Yang.Shi@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C7A76D34B
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 03:05:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9U35D4s015062
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 20:05:13 -0700 (PDT)
-Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 29 Oct 2013 20:05:12 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 29 Oct 2013 22:04:32 -0500
-Message-ID: <1383102272-23554-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	by mail.openembedded.org (Postfix) with ESMTP id 5D9DB6AE37
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 30 Oct 2013 03:45:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9U3jMM6017811
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 29 Oct 2013 20:45:22 -0700 (PDT)
+Received: from [147.11.116.58] (147.11.116.58) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 29 Oct 2013 20:45:22 -0700
+Message-ID: <527080D2.2020301@windriver.com>
+Date: Tue, 29 Oct 2013 20:45:22 -0700
+From: Yang Shi <yang.shi@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0.1
 MIME-Version: 1.0
-Subject: [PATCH] syslinux.bbclass: Fix default serial port string
+To: <b28495@freescale.com>, <openembedded-core@lists.openembedded.org>
+References: <1381479105-21972-1-git-send-email-b28495@freescale.com>
+In-Reply-To: <1381479105-21972-1-git-send-email-b28495@freescale.com>
+Subject: Re: [PATCH 1/2] perf: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for powerpc64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +33,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2013 03:05:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 30 Oct 2013 03:45:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The default value of SYSLINUX_SERIAL_TTY is not correct.
+On 10/11/2013 1:11 AM, b28495@freescale.com wrote:
+> From: Ting Liu <b28495@freescale.com>
+>
+> PPC64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+> prevents 64-bit userland from seeing this definition, instead defaulting
+> to u64 == long in userspace.
+> Perf want LL64, flag __SANE_USERSPACE_TYPES__ to get int-ll64.h.
+>
+> Fix the below issue:
+> | tests/attr.c:71:4: error: format '%llu' expects argument of type 'long
+> long unsigned int', but argument 6 has type '__u64' [-Werror=format=]
+> | tests/attr.c:80:7: error: format '%llu' expects argument of type 'long
+> long unsigned int', but argument 4 has type '__u64' [-Werror=format=]
+> |        attr->type, attr->config, fd) < 0) {
+> |        ^
+>
+> Signed-off-by: Ting Liu <b28495@freescale.com>
+> ---
+>   meta/recipes-kernel/perf/perf.bb |    6 ++++++
+>   1 files changed, 6 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> index 269069f..d27e535 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -89,6 +89,12 @@ EXTRA_OEMAKE += "\
+>   	'infodir=${@oe.path.relative(prefix, infodir)}' \
+>   "
+>   
+> +# PPC64 uses long long for u64 in the kernel, but powerpc's asm/types.h
+> +# prevents 64-bit userland from seeing this definition, instead defaulting
+> +# to u64 == long in userspace. Define __SANE_USERSPACE_TYPES__ to get
+> +# int-ll64.h included.
+> +EXTRA_OEMAKE_append_powerpc64 = ' CFLAGS=-D__SANE_USERSPACE_TYPES__'
 
-It should be console=ttyS0,115200 else the boot string generated in
-the syslinux menus for the serial choice is not correct.  The kernel
-boot parameters will get set to:
+This override perf CFLAGS incorrectly.
 
-/vmlinuz initrd=/initrd LABEL=boot root=/dev/ram0 ttyS0,115200
+kernel commit e3541ec75219819d3235f80125a1a75d798ff6e1 can solve this 
+build issue.
 
-Note that the above is missing the "console="
+Yang
 
-The default value will now work the same as the value found in
-grub-efi.bbclass.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- meta/classes/syslinux.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index 944bd92..2a5b766 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -27,7 +27,7 @@ SYSLINUXDIR = "/"
- # a console=...some_tty...
- SYSLINUX_DEFAULT_CONSOLE ?= ""
- SYSLINUX_SERIAL ?= "0 115200"
--SYSLINUX_SERIAL_TTY ?= "ttyS0,115200"
-+SYSLINUX_SERIAL_TTY ?= "console=ttyS0,115200"
- ISO_BOOTIMG = "isolinux/isolinux.bin"
- ISO_BOOTCAT = "isolinux/boot.cat"
- MKISOFS_OPTIONS = "-no-emul-boot -boot-load-size 4 -boot-info-table"
--- 
-1.7.9.5
+> +
+>   PARALLEL_MAKE = ""
+>   
+>   do_compile() {
 
 
