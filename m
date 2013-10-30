@@ -1,26 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 95B3D6D092
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F8126AD31
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 15:42:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Oct 2013 08:42:31 -0700
+	Wed, 30 Oct 2013 15:50:34 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 30 Oct 2013 08:47:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="401035342"
-Received: from unknown (HELO helios.localnet) ([10.252.120.230])
-	by orsmga001.jf.intel.com with ESMTP; 30 Oct 2013 08:42:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Date: Wed, 30 Oct 2013 15:42:30 +0000
-Message-ID: <2838372.Sev3eZbt1S@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <52712859.6070002@mlbassoc.com>
-References: <5271162B.6020008@mlbassoc.com> <1953485.uklNZh2O8P@helios>
-	<52712859.6070002@mlbassoc.com>
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="427137018"
+Received: from unknown (HELO [10.255.12.29]) ([10.255.12.29])
+	by orsmga002.jf.intel.com with ESMTP; 30 Oct 2013 08:50:36 -0700
+Message-ID: <52712ACB.4010801@linux.intel.com>
+Date: Wed, 30 Oct 2013 08:50:35 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] core-image-basic.bb: Allow user extensions
+To: Seth Bollinger <seth.boll@gmail.com>, yocto@yoctoproject.org
+References: <1383135372-17294-1-git-send-email-seth.boll@gmail.com>
+In-Reply-To: <1383135372-17294-1-git-send-email-seth.boll@gmail.com>
+Cc: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] [Resend: PATCH] ncurses-terminfo: Remove bashism from basic terminfo installation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +33,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2013 15:42:29 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 30 Oct 2013 15:50:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 30 October 2013 09:40:09 Gary Thomas wrote:
-> On 2013-10-30 09:33, Paul Eggleton wrote:
-> > On Wednesday 30 October 2013 08:55:09 Gary Thomas wrote:
-> >> On 2013-10-30 08:47, Paul Eggleton wrote:
-> >>> On Wednesday 30 October 2013 08:22:35 Gary Thomas wrote:
-> >>>> Allow the user to provide additional packages to this image.
-> >>>> This lets core-image-basic behave like all other core-image*
-> >>>> recipes (which do support CORE_IMAGE_EXTRA_INSTALL), as well
-> >>>> as match the documentation which suggests this as the mode to
-> >>>> extend any core-image* image.
-> >>>> 
-> >>>> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
-> >>>> ---
-> >>>> 
-> >>>>     meta/recipes-extended/images/core-image-basic.bb |    3 +++
-> >>>>     1 file changed, 3 insertions(+)
-> >>>> 
-> >>>> diff --git a/meta/recipes-extended/images/core-image-basic.bb
-> >>>> b/meta/recipes-extended/images/core-image-basic.bb index
-> >>>> 091f57d..e393a28
-> >>>> 100644
-> >>>> --- a/meta/recipes-extended/images/core-image-basic.bb
-> >>>> +++ b/meta/recipes-extended/images/core-image-basic.bb
-> >>>> @@ -3,9 +3,12 @@ functionality installed."
-> >>>> 
-> >>>>      IMAGE_FEATURES += "splash ssh-server-openssh"
-> >>>>     
-> >>>>     +CORE_IMAGE_EXTRA_INSTALL ?= ""
-> >>>> 
-> >>>> +
-> >>> 
-> >>> Not sure if it's my mail client but the above looks slightly mangled; in
-> >>> any case the above addition shouldn't be needed because
-> >>> core-image.bbclass already does this.
-> >> 
-> >> Are you sure it counts?  core-image.bbclass is included after this would
-> >> be evaluated, or does that not matter?
-> > 
-> > It doesn't matter in most cases, because the value won't actually be
-> > expanded until later. Values aren't expanded unless you use immediate
-> > expansion (the := operator) or you d.getVar("SOMEVAR", True) is called
-> > from python code to return the expanded value.
-> 
-> Understood, thanks.
-> 
-> Should I send another patch with that line removed?
 
-Yes please.
+I have it pending in the Master under test branch, normally patches to 
+the core (meta) go to the openembedded-core@lists.openembedded.org
 
-Cheers,
-Paul
+Thanks
+	Sau!
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+On 10/30/2013 05:16 AM, Seth Bollinger wrote:
+> The vtX terminfo files aren't being copied on systems where bash isn't
+> the default shell (debian, etc.).  I removed the bash specific syntax
+> so the files are properly copied on these systems.
+>
+> Signed-off-by: Seth Bollinger <seth.boll@gmail.com>
+> ---
+>   meta/recipes-core/ncurses/ncurses.inc |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+> index 671daf8..01cdf13 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -174,7 +174,7 @@ shell_do_install() {
+>
+>           # include some basic terminfo files
+>           # stolen ;) from gentoo and modified a bit
+> -        for x in ansi console dumb linux rxvt screen sun vt{52,100,102,200,220} xterm-color xterm-xfree86 xterm-256color
+> +        for x in ansi console dumb linux rxvt screen sun vt52 vt100 vt102 vt200 vt220 xterm-color xterm-xfree86 xterm-256color
+>           do
+>                   local termfile="$(find "${D}${datadir}/terminfo/" -name "${x}" 2>/dev/null)"
+>                   local basedir="$(basename $(dirname "${termfile}"))"
+>
 
