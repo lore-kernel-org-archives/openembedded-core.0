@@ -1,29 +1,32 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id C500A6C770
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C21CA6D092
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 14:54:53 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id C64C3F81214; Wed, 30 Oct 2013 08:54:55 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id D3F99F81212;
-	Wed, 30 Oct 2013 08:54:54 -0600 (MDT)
-Message-ID: <52711DCD.7080401@mlbassoc.com>
-Date: Wed, 30 Oct 2013 08:55:09 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <5271162B.6020008@mlbassoc.com> <2034563.H7dbApMjKG@helios>
-In-Reply-To: <2034563.H7dbApMjKG@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] core-image-basic.bb: Allow user extensions
+	Wed, 30 Oct 2013 15:15:36 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r9UFFKhW021624; Wed, 30 Oct 2013 15:15:21 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gx3D9TOkFrua; Wed, 30 Oct 2013 15:15:20 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r9UFFGad021605
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 30 Oct 2013 15:15:18 GMT
+Message-ID: <1383146112.25877.34.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Eric =?ISO-8859-1?Q?B=E9nard?= <eric@eukrea.com>
+Date: Wed, 30 Oct 2013 15:15:12 +0000
+In-Reply-To: <20131029082852.4399ee5e@e6520eb>
+References: <1381358545.29912.50.camel@ted> <20131028151004.34b2af21@e6520eb>
+	<CAMKF1so3GUQZMvLADSCr=Exavo5OVgh==do7aHhe_wUQk9mFHQ@mail.gmail.com>
+	<20131029082852.4399ee5e@e6520eb>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: SRC_URI computing order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,59 +39,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2013 14:54:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 30 Oct 2013 15:15:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 2013-10-30 08:47, Paul Eggleton wrote:
-> Hi Gary,
->
-> On Wednesday 30 October 2013 08:22:35 Gary Thomas wrote:
->> Allow the user to provide additional packages to this image.
->> This lets core-image-basic behave like all other core-image*
->> recipes (which do support CORE_IMAGE_EXTRA_INSTALL), as well
->> as match the documentation which suggests this as the mode to
->> extend any core-image* image.
->>
->> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
->> ---
->>    meta/recipes-extended/images/core-image-basic.bb |    3 +++
->>    1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/recipes-extended/images/core-image-basic.bb
->> b/meta/recipes-extended/images/core-image-basic.bb index 091f57d..e393a28
->> 100644
->> --- a/meta/recipes-extended/images/core-image-basic.bb
->> +++ b/meta/recipes-extended/images/core-image-basic.bb
->> @@ -3,9 +3,12 @@ functionality installed."
->>     IMAGE_FEATURES += "splash ssh-server-openssh"
->>    +CORE_IMAGE_EXTRA_INSTALL ?= ""
->> +
->
-> Not sure if it's my mail client but the above looks slightly mangled; in any
-> case the above addition shouldn't be needed because core-image.bbclass already
-> does this.
+On Tue, 2013-10-29 at 08:28 +0100, Eric Bénard wrote:
+> Hi Khem,
+> 
+> Le Mon, 28 Oct 2013 20:45:21 -0700,
+> Khem Raj <raj.khem@gmail.com> a écrit :
+> 
+> > On Mon, Oct 28, 2013 at 7:10 AM, Eric Bénard <eric@eukrea.com> wrote:
+> > > Hi Richard,
+> > >
+> > > I saw your patch fixing FILESPATH's and Kergoth's one fixing
+> > > PACKAGECONFIG processing order and I think I'm also facing an order
+> > > problem when SRC_URI is computed.
+> > >
+> > > So when building SRC_URI when two layers have bbappend which apply
+> > > patches : the SRC_URI seems to be built using an order I fail to
+> > > understand somewhere instead of priority or the overrides' order.
+> > >
+> > > The use case is a System on Module and its custom motherboard :
+> > > - meta-fsl-arm :
+> > > * linux-imx_xyz.bb :
+> > > SRC_URI = "patchgeneric1 ..."
+> > >
+> > > - meta-som-support :
+> > > * conf/machine/mysom.conf
+> > >
+> > > * linux-imx_xyz.bbappend :
+> > > SRC_URI_append_mysom = "patchsom1 patchsom2 ..."
+> > >
+> > > - meta-custommotherboard (SOM + Cunstom Motherboard) :
+> > > * conf/machine/myproduct.conf
+> > > MACHINEOVERRIDES_prepend = "mysom:"
+> > > include conf/machine/mysom.conf
+> > >
+> > > * linux-imx_xyz.bbappend :
+> > > SRC_URI_append_myproduct = "patchproduct1 patchproduct2 ..."
+> > >
+> > > in the end I get :
+> > > SRC_URI = "patchgeneric1 ... patchsoc1 ... patchproduct1 ...
+> > > patchsom1 ..."
+> > >
+> > > and of course as patchproduct* are supposed to apply on top of
+> > > patchsoc* the patch fail to apply.
+> > >
+> > > I didn't found a way to build SRC_URI in the order I would like (I
+> > > tested : changing MACHINEOVERRIDES 's order, changing layers' priority,
+> > > changing machine's name to see if that was an alphabetical order ...).
+> > >
+> > > In the end the only thing which worked was to add an (empty by default)
+> > > variable in som's SRC_URI and filling this variables from the
+> > > custommotherboard's bbappend.
+> > >
+> > > Is the behaviour I'm seeing expected or is there something wrong in my
+> > > setup ?
+> > 
+> > what is your OVERRIDES order.
+> > 
+> "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
+> 
+> so it follows the MACHINEOVERRIDES order (and I tried both append and
+> prepend to hack MACHINEOVERRIDES without any behaviour change).
 
-Are you sure it counts?  core-image.bbclass is included after this would be evaluated,
-or does that not matter?
+I think what Khem is asking is what OVERRIDES expands to?
 
->
->>    IMAGE_INSTALL = "\
->>        packagegroup-core-boot \
->>        packagegroup-core-basic \
->> +    ${CORE_IMAGE_EXTRA_INSTALL} \
->>        "
->>     inherit core-image
->
-> Good catch on this one though.
->
-> Cheers,
-> Paul
->
+You mean patchso* and not patchsoc* above, right? Or should patchsom1 be
+patchsoc2?
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Its hard to follow and it might be easier if you could share a
+simplified test case we could reproduce this with. I don't doubt there
+is an issue in there but we need a way to reproduce and debug this.
+
+Cheers,
+
+Richard
+
+
+
+
+
 
