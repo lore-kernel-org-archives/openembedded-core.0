@@ -1,20 +1,26 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE1B610F5
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0018D6D23E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 15:30:50 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 30 Oct 2013 08:30:52 -0700
+	Wed, 30 Oct 2013 15:33:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 30 Oct 2013 08:30:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="382305774"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.65])
-	by azsmga001.ch.intel.com with ESMTP; 30 Oct 2013 08:30:51 -0700
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Oct 2013 17:35:50 +0200
-Message-Id: <1383147350-27171-1-git-send-email-cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] rxvt-unicode: upgrade to 9.19
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="401031430"
+Received: from unknown (HELO helios.localnet) ([10.252.120.230])
+	by orsmga001.jf.intel.com with ESMTP; 30 Oct 2013 08:33:42 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Wed, 30 Oct 2013 15:33:42 +0000
+Message-ID: <1953485.uklNZh2O8P@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <52711DCD.7080401@mlbassoc.com>
+References: <5271162B.6020008@mlbassoc.com> <2034563.H7dbApMjKG@helios>
+	<52711DCD.7080401@mlbassoc.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] core-image-basic.bb: Allow user extensions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,58 +33,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2013 15:30:51 -0000
+X-List-Received-Date: Wed, 30 Oct 2013 15:33:42 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
----
- .../rxvt.desktop                                   |    0
- .../rxvt.png                                       |  Bin 2847 -> 2847 bytes
- .../xwc.patch                                      |    0
- .../{rxvt-unicode_9.18.bb => rxvt-unicode_9.19.bb} |    6 ++----
- 4 files changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.18 => rxvt-unicode-9.19}/rxvt.desktop (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.18 => rxvt-unicode-9.19}/rxvt.png (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.18 => rxvt-unicode-9.19}/xwc.patch (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.18.bb => rxvt-unicode_9.19.bb} (93%)
+On Wednesday 30 October 2013 08:55:09 Gary Thomas wrote:
+> On 2013-10-30 08:47, Paul Eggleton wrote:
+> > On Wednesday 30 October 2013 08:22:35 Gary Thomas wrote:
+> >> Allow the user to provide additional packages to this image.
+> >> This lets core-image-basic behave like all other core-image*
+> >> recipes (which do support CORE_IMAGE_EXTRA_INSTALL), as well
+> >> as match the documentation which suggests this as the mode to
+> >> extend any core-image* image.
+> >> 
+> >> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+> >> ---
+> >> 
+> >>    meta/recipes-extended/images/core-image-basic.bb |    3 +++
+> >>    1 file changed, 3 insertions(+)
+> >> 
+> >> diff --git a/meta/recipes-extended/images/core-image-basic.bb
+> >> b/meta/recipes-extended/images/core-image-basic.bb index 091f57d..e393a28
+> >> 100644
+> >> --- a/meta/recipes-extended/images/core-image-basic.bb
+> >> +++ b/meta/recipes-extended/images/core-image-basic.bb
+> >> @@ -3,9 +3,12 @@ functionality installed."
+> >> 
+> >>     IMAGE_FEATURES += "splash ssh-server-openssh"
+> >>    
+> >>    +CORE_IMAGE_EXTRA_INSTALL ?= ""
+> >> 
+> >> +
+> > 
+> > Not sure if it's my mail client but the above looks slightly mangled; in
+> > any case the above addition shouldn't be needed because
+> > core-image.bbclass already does this.
+> 
+> Are you sure it counts?  core-image.bbclass is included after this would be
+> evaluated, or does that not matter?
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.18/rxvt.desktop b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/rxvt.desktop
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.18/rxvt.desktop
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/rxvt.desktop
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.18/rxvt.png b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/rxvt.png
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.18/rxvt.png
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/rxvt.png
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.18/xwc.patch b/meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/xwc.patch
-similarity index 100%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.18/xwc.patch
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode-9.19/xwc.patch
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.18.bb b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.19.bb
-similarity index 93%
-rename from meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.18.bb
-rename to meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.19.bb
-index e417957..c67adbb 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.18.bb
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode_9.19.bb
-@@ -10,15 +10,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- DEPENDS = "virtual/libx11 libxt libxft gdk-pixbuf"
- 
--PR = "r0"
--
- SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2 \
- 	   file://xwc.patch \
- 	   file://rxvt.desktop \
- 	   file://rxvt.png"
- 
--SRC_URI[md5sum] = "963ccc748fe5bca925e7b92c0404d68b"
--SRC_URI[sha256sum] = "87b72a43cac7c9362a984094c661a632ce1a829ad90f149142ab1953854b433f"
-+SRC_URI[md5sum] = "45ad197eb9b5a840c0f65e3a8131921c"
-+SRC_URI[sha256sum] = "d9237cf1973af461ecbeeb708e4d00893294771558e8338b4f33418ed52d3241"
- 
- inherit autotools update-alternatives
- 
+It doesn't matter in most cases, because the value won't actually be expanded 
+until later. Values aren't expanded unless you use immediate expansion (the := 
+operator) or you d.getVar("SOMEVAR", True) is called from python code to 
+return the expanded value.
+
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
