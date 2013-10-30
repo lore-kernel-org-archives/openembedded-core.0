@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 674696D092
+	by mail.openembedded.org (Postfix) with ESMTP id 486E16D156
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 15:22:41 +0000 (UTC)
+	Wed, 30 Oct 2013 15:22:42 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 30 Oct 2013 08:22:42 -0700
+	by azsmga102.ch.intel.com with ESMTP; 30 Oct 2013 08:22:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="314791902"
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="314791910"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 30 Oct 2013 08:22:41 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Oct 2013 08:22:42 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Oct 2013 17:24:48 +0200
-Message-Id: <cover.1383146648.git.cristian.iorga@intel.com>
+Date: Wed, 30 Oct 2013 17:24:49 +0200
+Message-Id: <1867df0b43955340ceecbccb5571ebec076fbed5.1383146648.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 0/4] Various PUs
+In-Reply-To: <cover.1383146648.git.cristian.iorga@intel.com>
+References: <cover.1383146648.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1383146648.git.cristian.iorga@intel.com>
+References: <cover.1383146648.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/4] libuser: upgrade to 0.60
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,31 +33,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 30 Oct 2013 15:22:42 -0000
 
-The following changes since commit 5e427966756700e596740778f16b96d03e8568c8:
-
-  recipes: Remove PR = r0 from all recipes (2013-10-30 14:52:04 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ciorga/PU3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PU3
-
-Cristian Iorga (4):
-  libuser: upgrade to 0.60
-  iproute2: upgrade to 3.11.0
-  telepathy-mission-control: upgrade to 5.16.0
-  telepathy-glib: upgrade to 0.23.0
-
- .../iproute2/{iproute2_3.10.0.bb => iproute2_3.11.0.bb}              | 4 ++--
- .../telepathy/{telepathy-glib_0.20.4.bb => telepathy-glib_0.23.0.bb} | 5 +++--
- ...mission-control_5.15.0.bb => telepathy-mission-control_5.16.0.bb} | 4 ++--
- meta/recipes-extended/libuser/{libuser_0.59.bb => libuser_0.60.bb}   | 4 ++--
- 4 files changed, 9 insertions(+), 8 deletions(-)
- rename meta/recipes-connectivity/iproute2/{iproute2_3.10.0.bb => iproute2_3.11.0.bb} (64%)
- rename meta/recipes-connectivity/telepathy/{telepathy-glib_0.20.4.bb => telepathy-glib_0.23.0.bb} (80%)
- rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.15.0.bb => telepathy-mission-control_5.16.0.bb} (93%)
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-extended/libuser/{libuser_0.59.bb => libuser_0.60.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-extended/libuser/{libuser_0.59.bb => libuser_0.60.bb} (88%)
 
+diff --git a/meta/recipes-extended/libuser/libuser_0.59.bb b/meta/recipes-extended/libuser/libuser_0.60.bb
+similarity index 88%
+rename from meta/recipes-extended/libuser/libuser_0.59.bb
+rename to meta/recipes-extended/libuser/libuser_0.60.bb
+index a39e9b3..ca608c7 100644
+--- a/meta/recipes-extended/libuser/libuser_0.59.bb
++++ b/meta/recipes-extended/libuser/libuser_0.60.bb
+@@ -14,8 +14,8 @@ SECTION = "base"
+ SRC_URI = "https://fedorahosted.org/releases/l/i/libuser/libuser-${PV}.tar.xz \
+            file://fixsepbuild.patch"
+ 
+-SRC_URI[md5sum] = "22835cbfec894b1e9491845ed5023244"
+-SRC_URI[sha256sum] = "27a93ed1f6424cfbf539c56cf0ca54d3b9b2c4daba6c408464e3c77ddf9c7a2f"
++SRC_URI[md5sum] = "5c549724999ccca65ceaaecc4eb8cb98"
++SRC_URI[sha256sum] = "b1f73408ebfee79eb01a47c5879a2cdef6a00b75ee24870de7df1b816ff483eb"
+ 
+ DEPENDS = "popt libpam glib-2.0 xz-native docbook-utils-native linuxdoc-tools-native python"
+ 
 -- 
 1.8.1.2
 
