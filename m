@@ -1,24 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 1511A6D509
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 95B3D6D092
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 15:41:50 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 30 Oct 2013 08:41:52 -0700
+	Wed, 30 Oct 2013 15:42:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 30 Oct 2013 08:42:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="382310685"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.230])
-	by azsmga001.ch.intel.com with ESMTP; 30 Oct 2013 08:41:50 -0700
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="401035342"
+Received: from unknown (HELO helios.localnet) ([10.252.120.230])
+	by orsmga001.jf.intel.com with ESMTP; 30 Oct 2013 08:42:30 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 30 Oct 2013 15:41:43 +0000
-Message-Id: <2fcf2cc2e51308158175f07f6446f29da73b6070.1383147565.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1383147565.git.paul.eggleton@linux.intel.com>
-References: <cover.1383147565.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1383147565.git.paul.eggleton@linux.intel.com>
-References: <cover.1383147565.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] classes/ptest: fix quoting
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Wed, 30 Oct 2013 15:42:30 +0000
+Message-ID: <2838372.Sev3eZbt1S@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <52712859.6070002@mlbassoc.com>
+References: <5271162B.6020008@mlbassoc.com> <1953485.uklNZh2O8P@helios>
+	<52712859.6070002@mlbassoc.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] core-image-basic.bb: Allow user extensions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2013 15:41:50 -0000
+X-List-Received-Date: Wed, 30 Oct 2013 15:42:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-BitBake currently allows using the same quotes outside and inside the
-value, but it isn't really right, looks odd and might stop working in
-future.
+On Wednesday 30 October 2013 09:40:09 Gary Thomas wrote:
+> On 2013-10-30 09:33, Paul Eggleton wrote:
+> > On Wednesday 30 October 2013 08:55:09 Gary Thomas wrote:
+> >> On 2013-10-30 08:47, Paul Eggleton wrote:
+> >>> On Wednesday 30 October 2013 08:22:35 Gary Thomas wrote:
+> >>>> Allow the user to provide additional packages to this image.
+> >>>> This lets core-image-basic behave like all other core-image*
+> >>>> recipes (which do support CORE_IMAGE_EXTRA_INSTALL), as well
+> >>>> as match the documentation which suggests this as the mode to
+> >>>> extend any core-image* image.
+> >>>> 
+> >>>> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+> >>>> ---
+> >>>> 
+> >>>>     meta/recipes-extended/images/core-image-basic.bb |    3 +++
+> >>>>     1 file changed, 3 insertions(+)
+> >>>> 
+> >>>> diff --git a/meta/recipes-extended/images/core-image-basic.bb
+> >>>> b/meta/recipes-extended/images/core-image-basic.bb index
+> >>>> 091f57d..e393a28
+> >>>> 100644
+> >>>> --- a/meta/recipes-extended/images/core-image-basic.bb
+> >>>> +++ b/meta/recipes-extended/images/core-image-basic.bb
+> >>>> @@ -3,9 +3,12 @@ functionality installed."
+> >>>> 
+> >>>>      IMAGE_FEATURES += "splash ssh-server-openssh"
+> >>>>     
+> >>>>     +CORE_IMAGE_EXTRA_INSTALL ?= ""
+> >>>> 
+> >>>> +
+> >>> 
+> >>> Not sure if it's my mail client but the above looks slightly mangled; in
+> >>> any case the above addition shouldn't be needed because
+> >>> core-image.bbclass already does this.
+> >> 
+> >> Are you sure it counts?  core-image.bbclass is included after this would
+> >> be evaluated, or does that not matter?
+> > 
+> > It doesn't matter in most cases, because the value won't actually be
+> > expanded until later. Values aren't expanded unless you use immediate
+> > expansion (the := operator) or you d.getVar("SOMEVAR", True) is called
+> > from python code to return the expanded value.
+> 
+> Understood, thanks.
+> 
+> Should I send another patch with that line removed?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/ptest.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yes please.
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 347a681..508ea9a 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -6,7 +6,7 @@ PTEST_PATH ?= "${libdir}/${PN}/ptest"
- FILES_${PN}-ptest = "${PTEST_PATH}"
- SECTION_${PN}-ptest = "devel"
- ALLOW_EMPTY_${PN}-ptest = "1"
--PTEST_ENABLED = "${@base_contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
-+PTEST_ENABLED = "${@base_contains('DISTRO_FEATURES', 'ptest', '1', '0', d)}"
- RDEPENDS_${PN}-ptest_virtclass-native = ""
- RDEPENDS_${PN}-ptest_virtclass-nativesdk = ""
- 
+Cheers,
+Paul
+
 -- 
-1.8.1.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
