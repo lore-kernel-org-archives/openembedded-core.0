@@ -1,37 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FBC66D3DB
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id DFDB76B0E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 23:13:58 +0000 (UTC)
-Received: by mail-ie0-f175.google.com with SMTP id aq17so954404iec.6
+	Wed, 30 Oct 2013 01:00:19 +0000 (UTC)
+Received: by mail-la0-f47.google.com with SMTP id ep20so526714lab.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 16:13:59 -0700 (PDT)
+	Tue, 29 Oct 2013 18:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ZM6xJ5KVsI8jK9zlIxS2h7jGxMo4kaXP75xpc0T4t1Y=;
-	b=hkWZdZ/D5Ok/rw7ljVMBdUEcs+Tb6pA6DKWbEH0o+h1TqDsZDDrui7/l9ww1un8RZf
-	rOYb/eqZSsQgo7I6boaWUZJNor6ClC1Wjxw+FqOlkONzYaBZ7WRMOt83zZEJ/8w15Qcs
-	wFCENtofYXQ5MxNG1oLk+fnWNjaJ40UTMRJYa22uIOBOakgNEwdsQ2h5qBZTCqrnz43H
-	aqUw4rcGL23Y9weRHo4yjwMqTbhSNVQIiRjCkN7S/Dxz+Mk2EBd/InIaS+VBVe7zpBzS
-	b/N/jPZpzKljQnRvUqyRuymqCfxHLQm1XhVRqKclUSRueU4RuGluz8Md4toNOLQUZWwj
-	kvqg==
-X-Received: by 10.42.54.132 with SMTP id r4mr1328460icg.19.1383088439603; Tue,
-	29 Oct 2013 16:13:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.219.195 with HTTP; Tue, 29 Oct 2013 16:13:29 -0700 (PDT)
-In-Reply-To: <527029A5.5080503@linux.intel.com>
-References: <1383041422-5071-1-git-send-email-ml@communistcode.co.uk>
-	<527029A5.5080503@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 29 Oct 2013 16:13:29 -0700
-Message-ID: <CAMKF1sp_GKsjFjQpdvc0rS5LBk_aF3TG=BQnn44A1+rCes_5Jw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Jack Mitchell <jmitchell@cbnl.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][PATCHv3] libjson: update to 0.11 and rename to json-c
+	h=from:to:cc:subject:date:message-id;
+	bh=V9qJHWOgULyVjff2gkKvzQ9NBrvxPhyvlN397STmEHY=;
+	b=CJxg4aoCAOAMcfdJVtYyplJf3mANzTrTK3xxm7yMJCw5y17EyCLxcyfce2hzHI/zoS
+	l8ea58wy3/785RwLyb4DyXESW7NTQZEYRdjmLiiiTQNM8U6y17YGoh9CUldalX3j71JI
+	UJ1ovDcPc9heg0ZbJtEu/7emnnrtsIQhROMmLNGDgcwWjf2kGr0rQQJOiZkKLkKiQpGq
+	ZwZXIPtAtYJ9HXLHFObmfDtxIMSfLAt3OQ5LIdp5bHR8OFfhtzS4BPT9mzXzt1xw4vLt
+	yGUz8SG/V3555yLdJ3gLOac8PkD19/BkYMX+YffrImwQR6BbcSkHi2Hc5ZUdgEwpnD5Y
+	1g9A==
+X-Received: by 10.152.36.41 with SMTP id n9mr1281044laj.21.1383094820765;
+	Tue, 29 Oct 2013 18:00:20 -0700 (PDT)
+Received: from skeletor.greyskull (89-253-118-72.customers.ownit.se.
+	[89.253.118.72]) by mx.google.com with ESMTPSA id
+	os9sm18186268lbb.17.2013.10.29.18.00.20 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 29 Oct 2013 18:00:20 -0700 (PDT)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 30 Oct 2013 01:57:11 +0100
+Message-Id: <1383094631-19855-1-git-send-email-jacob.kroon@mikrodidakt.se>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+Subject: [PATCH] update-rc.d.bbclass: Cleanup package scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,125 +42,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 23:13:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 30 Oct 2013 01:00:21 -0000
 
-On Tue, Oct 29, 2013 at 2:33 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 10/29/2013 03:10 AM, Jack Mitchell wrote:
->>
->> From: Jack Mitchell <jmitchell@cbnl.com>
->>
->> libjson is now known as json-c, it keeps support for the old
->> libjson namespace so it shouldn't break anything. Built without
->> parallel make as it would fail when it tries to link to link back
->> to itself, which is odd, but the official word is: don't build in
->> parallel.
->>
-> I am seeing a configure failure with this update.
->
-> See attached log
+* Add proper preinst script
+* Use -n "$D"/-z "$D" checks throughout the scripts
+* Only set OPT in cases where its used
+* Don't pass unnecessary -f to update-rc.d in postrm script
+* Remove outdated comment
 
-configure: error: source directory already configured; run "make
-distclean" there first
+Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+---
+ meta/classes/update-rc.d.bbclass | 49 ++++++++++++++++++++--------------------
+ 1 file changed, 25 insertions(+), 24 deletions(-)
 
-is it a clean rebuild ?
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 9437e9c..29b5a8e 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -12,13 +12,11 @@ INITSCRIPT_PARAMS ?= "defaults"
+ 
+ INIT_D_DIR = "${sysconfdir}/init.d"
+ 
+-updatercd_postinst() {
+-# test if there is a previous init script there, ie, we are updating the package
+-# if so, we stop the service and remove it before we install from the new package
++updatercd_preinst() {
++if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
++	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
++fi
+ if type update-rc.d >/dev/null 2>/dev/null; then
+-	if [ -z "$D" -a -f "${INIT_D_DIR}/${INITSCRIPT_NAME}" ]; then
+-		${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+-	fi
+ 	if [ -n "$D" ]; then
+ 		OPT="-f -r $D"
+ 	else
+@@ -26,30 +24,32 @@ if type update-rc.d >/dev/null 2>/dev/null; then
+ 	fi
+ 	update-rc.d $OPT ${INITSCRIPT_NAME} remove
+ fi
++}
+ 
+-if [ -n "$D" ]; then
+-	OPT="-r $D"
+-else
+-	OPT="-s"
+-fi
++updatercd_postinst() {
+ if type update-rc.d >/dev/null 2>/dev/null; then
++	if [ -n "$D" ]; then
++		OPT="-r $D"
++	else
++		OPT="-s"
++	fi
+ 	update-rc.d $OPT ${INITSCRIPT_NAME} ${INITSCRIPT_PARAMS}
+ fi
+ }
+ 
+ updatercd_prerm() {
+-if test "x$D" = "x"; then
++if [ -z "$D" ]; then
+ 	${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+ fi
+ }
+ 
+ updatercd_postrm() {
+-if test "$D" != ""; then
+-	OPT="-f -r $D"
+-else
+-	OPT=""
+-fi
+ if type update-rc.d >/dev/null 2>/dev/null; then
++	if [ -n "$D" ]; then
++		OPT="-r $D"
++	else
++		OPT=""
++	fi
+ 	update-rc.d $OPT ${INITSCRIPT_NAME} remove
+ fi
+ }
+@@ -68,22 +68,23 @@ python __anonymous() {
+ 
+ PACKAGESPLITFUNCS_prepend = "populate_packages_updatercd "
+ 
+-populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_postinst"
++populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_preinst updatercd_postinst"
+ 
+ python populate_packages_updatercd () {
+     def update_rcd_package(pkg):
+-        bb.debug(1, 'adding update-rc.d calls to postinst/postrm for %s' % pkg)
+-        """
+-        update_rc.d postinst is appended here because pkg_postinst may require to
+-        execute on the target. Not doing so may cause update_rc.d postinst invoked
+-        twice to cause unwanted warnings.
+-        """ 
++        bb.debug(1, 'adding update-rc.d calls to preinst/postinst/prerm/postrm for %s' % pkg)
+ 
+         localdata = bb.data.createCopy(d)
+         overrides = localdata.getVar("OVERRIDES", True)
+         localdata.setVar("OVERRIDES", "%s:%s" % (pkg, overrides))
+         bb.data.update_data(localdata)
+ 
++        preinst = d.getVar('pkg_preinst_%s' % pkg, True)
++        if not preinst:
++            preinst = '#!/bin/sh\n'
++        preinst += localdata.getVar('updatercd_preinst', True)
++        d.setVar('pkg_preinst_%s' % pkg, preinst)
++
+         postinst = d.getVar('pkg_postinst_%s' % pkg, True)
+         if not postinst:
+             postinst = '#!/bin/sh\n'
+-- 
+1.8.3.1
 
->
->
-> Sau!
->
->
->> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
->> ---
->>   meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
->>   meta/recipes-devtools/json-c/json-c_0.11.bb       | 15 +++++++++++++++
->>   meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
->>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
->>   4 files changed, 17 insertions(+), 16 deletions(-)
->>   create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
->>   delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
->>
->> diff --git a/meta/conf/distro/include/seperatebuilddir.inc
->> b/meta/conf/distro/include/seperatebuilddir.inc
->> index c067183..e1a5c6b 100644
->> --- a/meta/conf/distro/include/seperatebuilddir.inc
->> +++ b/meta/conf/distro/include/seperatebuilddir.inc
->> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
->>   B_pn-libice-native = "${SEPB}"
->>   B_pn-libid3tag = "${SEPB}"
->>   B_pn-libidn = "${SEPB}"
->> -B_pn-libjson = "${SEPB}"
->> +B_pn-json-c = "${SEPB}"
->>   B_pn-libksba = "${SEPB}"
->>   B_pn-libmad = "${SEPB}"
->>   B_pn-libmatchbox = "${SEPB}"
->> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb
->> b/meta/recipes-devtools/json-c/json-c_0.11.bb
->> new file mode 100644
->> index 0000000..a909dac
->> --- /dev/null
->> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
->> @@ -0,0 +1,15 @@
->> +SUMMARY = "JSON-C implements a reference counting object model that
->> allows you to easily construct JSON objects in C"
->> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
->> +LICENSE = "MIT"
->> +LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
->> +
->> +SRC_URI =
->> "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
->> +
->> +SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
->> +SRC_URI[sha256sum] =
->> "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
->> +
->> +RPROVIDES_${PN} = "libjson"
->> +
->> +PARALLEL_MAKE = ""
->> +
->> +inherit autotools
->> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb
->> b/meta/recipes-devtools/libjson/libjson_0.9.bb
->> deleted file mode 100644
->> index e4951a8..0000000
->> --- a/meta/recipes-devtools/libjson/libjson_0.9.bb
->> +++ /dev/null
->> @@ -1,14 +0,0 @@
->> -DESCRIPTION = "JSON-C - A JSON implementation in C"
->> -HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
->> -
->> -LICENSE = "MIT"
->> -LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
->> -
->> -SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
->> -SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
->> -SRC_URI[sha256sum] =
->> "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
->> -
->> -S = "${WORKDIR}/json-c-${PV}"
->> -
->> -
->> -inherit autotools
->> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> index 4c10aa9..475da41 100644
->> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
->> "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
->>   DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
->>   # optional
->>   DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
->> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
->> +DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
->>
->>   inherit autotools pkgconfig useradd gettext perlnative
->>
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
