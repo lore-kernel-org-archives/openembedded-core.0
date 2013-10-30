@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <jason.wessel@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 14E976D3D5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 02:06:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9U26pok010227
+	by mail.openembedded.org (Postfix) with ESMTP id 1C7A76D34B
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 30 Oct 2013 03:05:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9U35D4s015062
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 29 Oct 2013 19:06:51 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 29 Oct 2013 19:06:50 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 30 Oct 2013 10:07:46 +0800
-Message-ID: <8375914656f9a76b45495b0bb7209df9a7fde180.1383098783.git.Qi.Chen@windriver.com>
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 29 Oct 2013 20:05:13 -0700 (PDT)
+Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 29 Oct 2013 20:05:12 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 29 Oct 2013 22:04:32 -0500
+Message-ID: <1383102272-23554-1-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1383098783.git.Qi.Chen@windriver.com>
-References: <cover.1383098783.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] iproute2: explicitly add 'bash' to its RDEPENDS
+Subject: [PATCH] syslinux.bbclass: Fix default serial port string
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Oct 2013 02:06:49 -0000
+X-List-Received-Date: Wed, 30 Oct 2013 03:05:11 -0000
 Content-Type: text/plain
 
-From: Chen Qi <Qi.Chen@windriver.com>
+The default value of SYSLINUX_SERIAL_TTY is not correct.
 
-If we build a minimal image with iproute2 installed, the following
-error will appear during rootfs.
+It should be console=ttyS0,115200 else the boot string generated in
+the syslinux menus for the serial choice is not correct.  The kernel
+boot parameters will get set to:
 
-error: Can't install iproute2-3.10.0-r0.0@i586: no package provides /bin/bash
+/vmlinuz initrd=/initrd LABEL=boot root=/dev/ram0 ttyS0,115200
 
-The problem is that iproute2 has an implicit dependency on 'bash'.
-This dependency is from per-file dependency checking. But as 'bash'
-is not explicitly specified in the RDEPENDS in recipe, it's not built.
-This leads to the above error.
+Note that the above is missing the "console="
 
-Fix this problem by explicitly adding 'bash' to the RDEPENDS.
+The default value will now work the same as the value found in
+grub-efi.bbclass.
 
-[YOCTO #5415]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/recipes-connectivity/iproute2/iproute2.inc |    1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/syslinux.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index 3db21db..40f6a6c 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://ip/ip.c;beginline=3;endline=8;md5=689d691d0410a4b64d3899f8d6e31817"
- 
- DEPENDS = "flex-native bison-native iptables"
-+RDEPENDS_${PN} = "bash"
- 
- inherit update-alternatives
- 
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index 944bd92..2a5b766 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -27,7 +27,7 @@ SYSLINUXDIR = "/"
+ # a console=...some_tty...
+ SYSLINUX_DEFAULT_CONSOLE ?= ""
+ SYSLINUX_SERIAL ?= "0 115200"
+-SYSLINUX_SERIAL_TTY ?= "ttyS0,115200"
++SYSLINUX_SERIAL_TTY ?= "console=ttyS0,115200"
+ ISO_BOOTIMG = "isolinux/isolinux.bin"
+ ISO_BOOTCAT = "isolinux/boot.cat"
+ MKISOFS_OPTIONS = "-no-emul-boot -boot-load-size 4 -boot-info-table"
 -- 
 1.7.9.5
 
