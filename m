@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 958D86AA20
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 08:26:22 +0000 (UTC)
-Received: by mail-ee0-f51.google.com with SMTP id d41so1153968eek.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 01:26:24 -0700 (PDT)
+Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A0F5B6AE37;
+	Thu, 31 Oct 2013 09:49:08 +0000 (UTC)
+Received: by mail-ea0-f173.google.com with SMTP id g10so1261717eak.18
+	for <multiple recipients>; Thu, 31 Oct 2013 02:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=PPrGZDoGRv1BbBINY5zAEYAECmvOplKJS3FLzx2zSdI=;
-	b=xhUYMCpQBqmB5GLe30hKNGrSvdO0mXmQLWPgEzKGf6xXCWg4/Uoh9oy0ZbUo9n7+JS
-	JQOk8tRnVsfWRGB8lV/XIBHz8HnCSCjc0afi1JSKT47ib3x37GpzWZtMl1Wzu8+kAw3T
-	W+52rlnlEAYNQFsNA3MTU1hEeVw/7wiHXoGdSl+M5IQUDizRC4/2w3EZOz1i7u6cvYW8
-	FmtY0Zh7/v43yFLO/e32lUoQFWhv0UurNXY30QAygK2C85S5K8BDBgFCKwmatOZjvvav
-	jGEaAkM8fIaoKhZmpn8mlDBN3z6GKqmtAFGaXcFgYscC5DZ2/rsNfAKQHWmKcFG21pLC
-	xZ+w==
-X-Received: by 10.14.126.5 with SMTP id a5mr1807258eei.98.1383207983958;
-	Thu, 31 Oct 2013 01:26:23 -0700 (PDT)
+	bh=mnEpQGpnlKoingYyjVxFj6jFWVy5JsOhoIygs9JYEiM=;
+	b=YvxA/tdLJqFDKa0QTSB43nJNMSffYtNrcz+z+N02YMRPawsRwG/FqjXYpUJfliwPHZ
+	esYmK3+M4rLduS30fXKoV/uct+tP3ERlbI70EaskqqjxI0xA6kdFI49xs3k+QwlMDv+7
+	2thMguiGlzXAk38wjgXnM9TZhaz7xIAs5G3wUCw/KS/slFhRxgJEG6LI4Lhv/DWaLQGq
+	wcuP4hAAG50O+ipg8w2zT+33xXarVT5MIyDfMIzB2Pbm7pJzvw6EPNvsus3CyhCw7fXS
+	ICFXuIv8sGw/gVQZYPZ/rLo6AiT4+6x3NqIAQAgLAvlb+k9+W0ssYuZq9F3zDklfWIwv
+	gbfg==
+X-Received: by 10.15.48.67 with SMTP id g43mr2094782eew.17.1383212950044;
+	Thu, 31 Oct 2013 02:49:10 -0700 (PDT)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id k7sm5490908eeg.13.2013.10.31.01.26.22
+	by mx.google.com with ESMTPSA id a1sm6430018eem.1.2013.10.31.02.49.08
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 Oct 2013 01:26:23 -0700 (PDT)
-Date: Thu, 31 Oct 2013 09:26:25 +0100
+	Thu, 31 Oct 2013 02:49:09 -0700 (PDT)
+Date: Thu, 31 Oct 2013 10:49:10 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Xufeng Zhang <xufeng.zhang@windriver.com>
-Message-ID: <20131031082625.GE32015@jama>
-References: <1383182680-20871-1-git-send-email-xufeng.zhang@windriver.com>
+To: Cristian Iorga <cristian.iorga@intel.com>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20131031094910.GH32015@jama>
+References: <20131030171857.47AA3504D1@opal>
 MIME-Version: 1.0
-In-Reply-To: <1383182680-20871-1-git-send-email-xufeng.zhang@windriver.com>
+In-Reply-To: <20131030171857.47AA3504D1@opal>
 User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: Delay rm_work to run after do_bundle_initramfs
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Cristian Iorga : telepathy-mission-control: upgrade to 5.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,78 +46,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 08:26:23 -0000
-X-Groupsio-MsgNum: 46450
+X-List-Received-Date: Thu, 31 Oct 2013 09:49:09 -0000
+X-Groupsio-MsgNum: 46451
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="HnQK338I3UIa/qiP"
+	protocol="application/pgp-signature"; boundary="MGu/vTNewDGZ7tmp"
 Content-Disposition: inline
 
---HnQK338I3UIa/qiP
+--MGu/vTNewDGZ7tmp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 31, 2013 at 09:24:40AM +0800, Xufeng Zhang wrote:
-> From: "Signed-off-by: Xufeng Zhang" <xufeng.zhang@windriver.com>
+On Wed, Oct 30, 2013 at 05:18:57PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 6bae01a04a375906731555b997766d41f887b496
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D6bae01a04a375906731555b997766d41f887b496
 >=20
-> Since kernel will build twice when we are trying to bundle kernel
-> and initramfs together after commit 609d5a9ab("kernel.bbclass,
-> image.bbclass: Implement kernel INITRAMFS dependency and bundling"),
-> thus, the second building for kernel would fail if rm_work is done
-> previously.
+> Author: Cristian Iorga <cristian.iorga@intel.com>
+> Date:   Wed Oct 30 10:53:11 2013 +0200
 >=20
-> To fix this problem, we need to delay the rm_work task for kernel
-> to run after do_bundle_initramfs task.
+> telepathy-mission-control: upgrade to 5.16.0
 >=20
-> [YOCTO #5416]
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
+Please see Ross's comment in
+http://patchwork.openembedded.org/patch/59289/
+
+some PACKAGECONFIGs shouldn't be needed now
+
 >=20
-> Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
 > ---
->  meta/classes/kernel.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
 >=20
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index dedfab7..6154df0 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -29,6 +29,9 @@ python __anonymous () {
->      image_task =3D d.getVar('INITRAMFS_TASK', True)
->      if image_task:
->          d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
-> +
-> +    if image or image_task:
-> +        d.appendVarFlag('do_rm_work', 'depends', " %s:do_bundle_initramf=
-s" % d.getVar('PN', True))
->  }
-
-Why not add "before" param to addtask?
-
-addtask bundle_initramfs after do_compile before do_build
-
-could do the trick
-
->  inherit kernel-arch deploy
-> --=20
-> 1.8.3.3
+>  ...15.0.bb =3D> telepathy-mission-control_5.16.0.bb} |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-contro=
+l_5.15.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control=
+_5.16.0.bb
+> similarity index 93%
+> rename from meta/recipes-connectivity/telepathy/telepathy-mission-control=
+_5.15.0.bb
+> rename to meta/recipes-connectivity/telepathy/telepathy-mission-control_5=
+=2E16.0.bb
+> index f1a1320..bdab9c1 100644
+> --- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.=
+0.bb
+> +++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.=
+0.bb
+> @@ -9,8 +9,8 @@ DEPENDS =3D "libtelepathy dbus-glib gconf libxslt-native"
+>  SRC_URI =3D "http://telepathy.freedesktop.org/releases/telepathy-mission=
+-control/telepathy-mission-control-${PV}.tar.gz \
+>  	file://tmc-Makefile-fix-race.patch \
+>  	"
+> -SRC_URI[md5sum] =3D "0efd7d9043f6e189e8ed8111d043b52c"
+> -SRC_URI[sha256sum] =3D "88800d1b5f385e94b34721319ff4fe65c493632954d7229b=
+36e57af5b4a7e1b5"
+> +SRC_URI[md5sum] =3D "736ae9d71028d8e6d95017433c07fa06"
+> +SRC_URI[sha256sum] =3D "edc3c7265c291343d5d7d47c20add4d426e894068c66c796=
+96795502a4e1c1d0"
+> =20
+>  inherit autotools pkgconfig pythonnative
+> =20
 >=20
 > _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---HnQK338I3UIa/qiP
+--MGu/vTNewDGZ7tmp
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlJyFDEACgkQN1Ujt2V2gBxEuwCfSU0019FiVuQbYWgxruPC1Hmm
-bbcAn0saKJkOY3CxN//az6QfnqIU/6x7
-=tFX4
+iEYEARECAAYFAlJyJ5YACgkQN1Ujt2V2gBzHYQCfVmuFngtOCkI8OwoEHGFgUnzf
+lyYAoKbjF6kbA6dBRPqJlndUWjEZFWNH
+=/t5i
 -----END PGP SIGNATURE-----
 
---HnQK338I3UIa/qiP--
+--MGu/vTNewDGZ7tmp--
