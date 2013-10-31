@@ -1,29 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 11BB66D12B
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4968F6D2C4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 16:30:54 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 31 Oct 2013 09:30:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="315324644"
-Received: from unknown (HELO [10.255.15.36]) ([10.255.15.36])
-	by AZSMGA002.ch.intel.com with ESMTP; 31 Oct 2013 09:30:54 -0700
-Message-ID: <527285BE.1080808@linux.intel.com>
-Date: Thu, 31 Oct 2013 09:30:54 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1383041422-5071-1-git-send-email-ml@communistcode.co.uk>
-	<527029A5.5080503@linux.intel.com>
-	<CAMKF1sp_GKsjFjQpdvc0rS5LBk_aF3TG=BQnn44A1+rCes_5Jw@mail.gmail.com>
-In-Reply-To: <CAMKF1sp_GKsjFjQpdvc0rS5LBk_aF3TG=BQnn44A1+rCes_5Jw@mail.gmail.com>
-Cc: Jack Mitchell <jmitchell@cbnl.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][PATCHv3] libjson: update to 0.11 and rename to json-c
+	Thu, 31 Oct 2013 16:45:50 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id wo20so3269933obc.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Oct 2013 09:45:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Z2/GMVOcqR2PWl7WxAwOzfBoSASLoa5M/7mEGpNi6is=;
+	b=LXqrpqVgYnn4PyuayHvLp5k7GPdmBbZuoRbo4lpY/EYAf8UkwgUo5dF9eIGtGroa7o
+	QJ+t0fCgUmM92fT88ACdv6hxWbcfjSTJXRyYMXpGHKGRJWUrCqvZSeLdCCL7SYcOO8Py
+	JbAvZKLybNyG1NNOYdCAiflv1BMi7T1HdvNyODPlO3cw4og1kAa3DbpYuCANlF7Opgii
+	3rvv2vo1Ujc2R+LPi4rpS4OCR4+dBPDZ+dIcYZ+oD7UMgKPCA41EM4drBN3YXJsRfvG0
+	tI4KGTwnd46OZM/hgZV9pCEgPGhirD9UBthHCoacwnPcfqAwG+8PEsCRZMBAKKhjucvd
+	BKyw==
+X-Gm-Message-State: ALoCoQlU5PrMz9bpBxgtJVdJbI0LdcBoDis8vLb3TcKFM9PI7+oPvjh4R7iYwXQdLtmZRh4J0zmj
+X-Received: by 10.182.125.161 with SMTP id mr1mr1089923obb.75.1383237951916;
+	Thu, 31 Oct 2013 09:45:51 -0700 (PDT)
+Received: from localhost.localdomain (sccc-66-78-236-243.smartcity.com.
+	[66.78.236.243])
+	by mx.google.com with ESMTPSA id nw5sm6789407obc.9.2013.10.31.09.45.49
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 31 Oct 2013 09:45:51 -0700 (PDT)
+From: Trevor Woerner <trevor.woerner@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Oct 2013 09:45:32 -0700
+Message-Id: <1383237932-13177-1-git-send-email-trevor.woerner@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] runtime package management: ipk/opk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,134 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 16:30:54 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Oct 2013 16:45:51 -0000
 
-On 10/29/2013 04:13 PM, Khem Raj wrote:
-> On Tue, Oct 29, 2013 at 2:33 PM, Saul Wold <sgw@linux.intel.com> wrote:
->> On 10/29/2013 03:10 AM, Jack Mitchell wrote:
->>>
->>> From: Jack Mitchell <jmitchell@cbnl.com>
->>>
->>> libjson is now known as json-c, it keeps support for the old
->>> libjson namespace so it shouldn't break anything. Built without
->>> parallel make as it would fail when it tries to link to link back
->>> to itself, which is odd, but the official word is: don't build in
->>> parallel.
->>>
->> I am seeing a configure failure with this update.
->>
->> See attached log
->
-> configure: error: source directory already configured; run "make
-> distclean" there first
->
-> is it a clean rebuild ?
->
-Yes, this is from a clean build, I wonder if this is related to separate 
-build dir.
+Place the on-target feed configuration into the "base-feeds.conf" file instead
+of the "opkg.conf" file.
 
-Sau!
+Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
+---
+ meta/classes/rootfs_ipk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->>
->>
->> Sau!
->>
->>
->>> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
->>> ---
->>>    meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
->>>    meta/recipes-devtools/json-c/json-c_0.11.bb       | 15 +++++++++++++++
->>>    meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
->>>    meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
->>>    4 files changed, 17 insertions(+), 16 deletions(-)
->>>    create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
->>>    delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
->>>
->>> diff --git a/meta/conf/distro/include/seperatebuilddir.inc
->>> b/meta/conf/distro/include/seperatebuilddir.inc
->>> index c067183..e1a5c6b 100644
->>> --- a/meta/conf/distro/include/seperatebuilddir.inc
->>> +++ b/meta/conf/distro/include/seperatebuilddir.inc
->>> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
->>>    B_pn-libice-native = "${SEPB}"
->>>    B_pn-libid3tag = "${SEPB}"
->>>    B_pn-libidn = "${SEPB}"
->>> -B_pn-libjson = "${SEPB}"
->>> +B_pn-json-c = "${SEPB}"
->>>    B_pn-libksba = "${SEPB}"
->>>    B_pn-libmad = "${SEPB}"
->>>    B_pn-libmatchbox = "${SEPB}"
->>> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb
->>> b/meta/recipes-devtools/json-c/json-c_0.11.bb
->>> new file mode 100644
->>> index 0000000..a909dac
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
->>> @@ -0,0 +1,15 @@
->>> +SUMMARY = "JSON-C implements a reference counting object model that
->>> allows you to easily construct JSON objects in C"
->>> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
->>> +LICENSE = "MIT"
->>> +LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
->>> +
->>> +SRC_URI =
->>> "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
->>> +
->>> +SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
->>> +SRC_URI[sha256sum] =
->>> "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
->>> +
->>> +RPROVIDES_${PN} = "libjson"
->>> +
->>> +PARALLEL_MAKE = ""
->>> +
->>> +inherit autotools
->>> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb
->>> b/meta/recipes-devtools/libjson/libjson_0.9.bb
->>> deleted file mode 100644
->>> index e4951a8..0000000
->>> --- a/meta/recipes-devtools/libjson/libjson_0.9.bb
->>> +++ /dev/null
->>> @@ -1,14 +0,0 @@
->>> -DESCRIPTION = "JSON-C - A JSON implementation in C"
->>> -HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
->>> -
->>> -LICENSE = "MIT"
->>> -LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
->>> -
->>> -SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
->>> -SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
->>> -SRC_URI[sha256sum] =
->>> "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
->>> -
->>> -S = "${WORKDIR}/json-c-${PV}"
->>> -
->>> -
->>> -inherit autotools
->>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>> index 4c10aa9..475da41 100644
->>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
->>> "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
->>>    DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
->>>    # optional
->>>    DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
->>> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
->>> +DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
->>>
->>>    inherit autotools pkgconfig useradd gettext perlnative
->>>
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index b0805dc..1537af4 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -159,7 +159,7 @@ ipk_insert_feed_uris () {
+ 		echo "Added $feed_name feed with URL $feed_uri"
+ 
+ 		# insert new feed-sources
+-		echo "src/gz $feed_name $feed_uri" >> ${IPKGCONF_TARGET}
++		echo "src/gz $feed_name $feed_uri" >> ${IMAGE_ROOTFS}/${sysconfdir}/opkg/base-feeds.conf
+ 	done
+ 
+ 	# Allow to use package deploy directory contents as quick devel-testing
+-- 
+1.8.1.2
+
 
