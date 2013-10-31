@@ -1,20 +1,29 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 550B26D298
+	by mail.openembedded.org (Postfix) with ESMTP id 11BB66D12B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 16:14:29 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 31 Oct 2013 09:14:28 -0700
+	Thu, 31 Oct 2013 16:30:54 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 31 Oct 2013 09:30:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="382877203"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.36])
-	by azsmga001.ch.intel.com with ESMTP; 31 Oct 2013 09:14:28 -0700
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="315324644"
+Received: from unknown (HELO [10.255.15.36]) ([10.255.15.36])
+	by AZSMGA002.ch.intel.com with ESMTP; 31 Oct 2013 09:30:54 -0700
+Message-ID: <527285BE.1080808@linux.intel.com>
+Date: Thu, 31 Oct 2013 09:30:54 -0700
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2013 09:14:28 -0700
-Message-Id: <cover.1383235999.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [CONSOLIDATED PULL 00/10]
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <1383041422-5071-1-git-send-email-ml@communistcode.co.uk>
+	<527029A5.5080503@linux.intel.com>
+	<CAMKF1sp_GKsjFjQpdvc0rS5LBk_aF3TG=BQnn44A1+rCes_5Jw@mail.gmail.com>
+In-Reply-To: <CAMKF1sp_GKsjFjQpdvc0rS5LBk_aF3TG=BQnn44A1+rCes_5Jw@mail.gmail.com>
+Cc: Jack Mitchell <jmitchell@cbnl.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe][PATCHv3] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,84 +36,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 16:14:31 -0000
+X-List-Received-Date: Thu, 31 Oct 2013 16:30:54 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/29/2013 04:13 PM, Khem Raj wrote:
+> On Tue, Oct 29, 2013 at 2:33 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 10/29/2013 03:10 AM, Jack Mitchell wrote:
+>>>
+>>> From: Jack Mitchell <jmitchell@cbnl.com>
+>>>
+>>> libjson is now known as json-c, it keeps support for the old
+>>> libjson namespace so it shouldn't break anything. Built without
+>>> parallel make as it would fail when it tries to link to link back
+>>> to itself, which is odd, but the official word is: don't build in
+>>> parallel.
+>>>
+>> I am seeing a configure failure with this update.
+>>
+>> See attached log
+>
+> configure: error: source directory already configured; run "make
+> distclean" there first
+>
+> is it a clean rebuild ?
+>
+Yes, this is from a clean build, I wonder if this is related to separate 
+build dir.
 
-The following changes since commit 154ecc40c289b15fe9cbb33befb20dd10112e788:
+Sau!
 
-  cross-canadian: Improve comment (2013-10-30 18:00:56 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Cristiana Voicu (1):
-  rxvt-unicode: upgrade to 9.19
-
-Jacob Kroon (1):
-  update-rc.d.bbclass: Cleanup package scripts
-
-Jason Wessel (2):
-  syslinux.bbclass: Fix default serial port string
-  grub-efi.bbclass: Fix startup.nsh to work on more EFI revs
-
-Joao Henrique Ferreira de Freitas (1):
-  grub-efi.bbclass: Fixes GRUB_IMAGE when using boot-directdisk class
-
-Khem Raj (1):
-  elfutils-native: Update the patch to include the missing pieces needed
-    for tests
-
-Qiang Chen (1):
-  irda-utils: restart irda daemon correctly
-
-Roy.Li (1):
-  lttng-tools: make ptest able to work on target
-
-Saul Wold (1):
-  udev: fix typo in local.rules
-
-Valentin Popa (1):
-  Mesa: upgrade to 9.2.2
-
- meta/classes/grub-efi.bbclass                      |   3 +-
- meta/classes/syslinux.bbclass                      |   2 +-
- meta/classes/update-rc.d.bbclass                   |  49 +--
- .../irda-utils/irda-utils-0.9.18/init              |  38 +--
- meta/recipes-core/udev/udev/local.rules            |   2 +-
- .../elfutils/elfutils/fix-build-gcc-4.8.patch      |  21 +-
- ...ate-NativeDisplayType-depending-on-config.patch | 362 ---------------------
- .../mesa/{mesa-gl_9.1.6.bb => mesa-gl_9.2.2.bb}    |   0
- meta/recipes-graphics/mesa/mesa.inc                |   2 +-
- ...void-use-of-AC_CHECK_FILE-for-cross-compi.patch |  65 ----
- ...ate-NativeDisplayType-depending-on-config.patch |  35 +-
- ...sl-fix-builtin_compiler-cross-compilation.patch |  54 ---
- .../mesa/0005-fix-out-of-tree-builds-gallium.patch |  42 ---
- ...move-the-power-of-two-sizeof-struct-cmd_b.patch |   0
- meta/recipes-graphics/mesa/mesa_9.1.6.bb           |  16 -
- meta/recipes-graphics/mesa/mesa_9.2.2.bb           |  11 +
- meta/recipes-graphics/mesa/mesa_git.bb             |   8 +-
- meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb     |  19 ++
- .../rxvt.desktop                                   |   0
- .../rxvt.png                                       | Bin
- .../xwc.patch                                      |   0
- .../{rxvt-unicode_9.18.bb => rxvt-unicode_9.19.bb} |   5 +-
- 22 files changed, 119 insertions(+), 615 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/mesa-9.1.6/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
- rename meta/recipes-graphics/mesa/{mesa-gl_9.1.6.bb => mesa-gl_9.2.2.bb} (100%)
- delete mode 100644 meta/recipes-graphics/mesa/mesa/0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch
- delete mode 100644 meta/recipes-graphics/mesa/mesa/0004-glsl-fix-builtin_compiler-cross-compilation.patch
- delete mode 100644 meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
- rename meta/recipes-graphics/mesa/{mesa-9.1.6 => mesa}/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch (100%)
- delete mode 100644 meta/recipes-graphics/mesa/mesa_9.1.6.bb
- create mode 100644 meta/recipes-graphics/mesa/mesa_9.2.2.bb
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.18 => rxvt-unicode-9.19}/rxvt.desktop (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.18 => rxvt-unicode-9.19}/rxvt.png (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode-9.18 => rxvt-unicode-9.19}/xwc.patch (100%)
- rename meta/recipes-sato/rxvt-unicode/{rxvt-unicode_9.18.bb => rxvt-unicode_9.19.bb} (93%)
-
--- 
-1.8.3.1
-
+>>
+>>
+>> Sau!
+>>
+>>
+>>> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
+>>> ---
+>>>    meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+>>>    meta/recipes-devtools/json-c/json-c_0.11.bb       | 15 +++++++++++++++
+>>>    meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+>>>    meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+>>>    4 files changed, 17 insertions(+), 16 deletions(-)
+>>>    create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+>>>    delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+>>>
+>>> diff --git a/meta/conf/distro/include/seperatebuilddir.inc
+>>> b/meta/conf/distro/include/seperatebuilddir.inc
+>>> index c067183..e1a5c6b 100644
+>>> --- a/meta/conf/distro/include/seperatebuilddir.inc
+>>> +++ b/meta/conf/distro/include/seperatebuilddir.inc
+>>> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+>>>    B_pn-libice-native = "${SEPB}"
+>>>    B_pn-libid3tag = "${SEPB}"
+>>>    B_pn-libidn = "${SEPB}"
+>>> -B_pn-libjson = "${SEPB}"
+>>> +B_pn-json-c = "${SEPB}"
+>>>    B_pn-libksba = "${SEPB}"
+>>>    B_pn-libmad = "${SEPB}"
+>>>    B_pn-libmatchbox = "${SEPB}"
+>>> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb
+>>> b/meta/recipes-devtools/json-c/json-c_0.11.bb
+>>> new file mode 100644
+>>> index 0000000..a909dac
+>>> --- /dev/null
+>>> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
+>>> @@ -0,0 +1,15 @@
+>>> +SUMMARY = "JSON-C implements a reference counting object model that
+>>> allows you to easily construct JSON objects in C"
+>>> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+>>> +LICENSE = "MIT"
+>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+>>> +
+>>> +SRC_URI =
+>>> "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
+>>> +
+>>> +SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
+>>> +SRC_URI[sha256sum] =
+>>> "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
+>>> +
+>>> +RPROVIDES_${PN} = "libjson"
+>>> +
+>>> +PARALLEL_MAKE = ""
+>>> +
+>>> +inherit autotools
+>>> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb
+>>> b/meta/recipes-devtools/libjson/libjson_0.9.bb
+>>> deleted file mode 100644
+>>> index e4951a8..0000000
+>>> --- a/meta/recipes-devtools/libjson/libjson_0.9.bb
+>>> +++ /dev/null
+>>> @@ -1,14 +0,0 @@
+>>> -DESCRIPTION = "JSON-C - A JSON implementation in C"
+>>> -HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+>>> -
+>>> -LICENSE = "MIT"
+>>> -LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+>>> -
+>>> -SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+>>> -SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+>>> -SRC_URI[sha256sum] =
+>>> "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+>>> -
+>>> -S = "${WORKDIR}/json-c-${PV}"
+>>> -
+>>> -
+>>> -inherit autotools
+>>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> index 4c10aa9..475da41 100644
+>>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
+>>> "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+>>>    DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+>>>    # optional
+>>>    DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+>>> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+>>> +DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
+>>>
+>>>    inherit autotools pkgconfig useradd gettext perlnative
+>>>
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+>
 
