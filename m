@@ -1,24 +1,30 @@
-Return-Path: <Xufeng.Zhang@windriver.com>
+Return-Path: <jason.wessel@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 265C46D3BB
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 01:24:43 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 1B9586D3BB
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 31 Oct 2013 02:31:30 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9V1OjX2019726
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 30 Oct 2013 18:24:45 -0700 (PDT)
-Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 30 Oct 2013 18:24:44 -0700
-From: Xufeng Zhang <xufeng.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Oct 2013 09:24:40 +0800
-Message-ID: <1383182680-20871-1-git-send-email-xufeng.zhang@windriver.com>
-X-Mailer: git-send-email 1.8.3.3
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9V2VVpb024319
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 30 Oct 2013 19:31:31 -0700 (PDT)
+Received: from [172.25.32.36] (172.25.32.36) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 30 Oct 2013 19:31:30 -0700
+Message-ID: <5271C101.2050802@windriver.com>
+Date: Wed, 30 Oct 2013 21:31:29 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
 MIME-Version: 1.0
-Subject: [PATCH] kernel.bbclass: Delay rm_work to run after do_bundle_initramfs
+To: Khem Raj <raj.khem@gmail.com>
+References: <1383173291-4017-1-git-send-email-jason.wessel@windriver.com>
+	<CAMKF1srsz3njDJpvm4sr865VDkWtemeZzDshT2gY05noNqZZLA@mail.gmail.com>
+In-Reply-To: <CAMKF1srsz3njDJpvm4sr865VDkWtemeZzDshT2gY05noNqZZLA@mail.gmail.com>
+X-Enigmail-Version: 1.5.2
+Cc: Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mtools, syslinux: add ability to compile with nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 01:24:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 Oct 2013 02:31:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: "Signed-off-by: Xufeng Zhang" <xufeng.zhang@windriver.com>
+On 10/30/2013 06:47 PM, Khem Raj wrote:
+> On Wed, Oct 30, 2013 at 3:48 PM, Jason Wessel
+> <jason.wessel@windriver.com> wrote:
+>> For regenerating and ISO or EFI boot image the nativesdk needs mtools
+>> and syslinux.
+>>
+>> Both recipes are patched in one patch since syslinux requires
+>> mtools.
+>>
+> as they depend on eglibc/glibc only. Can you also make sure that they
+> get flagged when building
+> systems with non-eglibc C libraries.
 
-Since kernel will build twice when we are trying to bundle kernel
-and initramfs together after commit 609d5a9ab("kernel.bbclass,
-image.bbclass: Implement kernel INITRAMFS dependency and bundling"),
-thus, the second building for kernel would fail if rm_work is done
-previously.
 
-To fix this problem, we need to delay the rm_work task for kernel
-to run after do_bundle_initramfs task.
+Is there an example in a recipe of what you are talking about?
 
-[YOCTO #5416]
+I saw in another recipe:
+python __anonymous() {
+    if d.getVar("TARGET_OS", True) != "linux":
+        return
+    if d.getVar("TCLIBC", True) == "eglibc":
+        raise bb.parse.SkipPackage("libiconv is provided for use with uClibc only - eglibc already provides iconv")
+}
 
-Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
----
- meta/classes/kernel.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Or is there a build test I should be using to test with uClibc for when things like this change in general?
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index dedfab7..6154df0 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -29,6 +29,9 @@ python __anonymous () {
-     image_task = d.getVar('INITRAMFS_TASK', True)
-     if image_task:
-         d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
-+
-+    if image or image_task:
-+        d.appendVarFlag('do_rm_work', 'depends', " %s:do_bundle_initramfs" % d.getVar('PN', True))
- }
- 
- inherit kernel-arch deploy
--- 
-1.8.3.3
-
+Thanks,
+Jason.
 
