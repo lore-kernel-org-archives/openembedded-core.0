@@ -1,38 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A0F5B6AE37;
-	Thu, 31 Oct 2013 09:49:08 +0000 (UTC)
-Received: by mail-ea0-f173.google.com with SMTP id g10so1261717eak.18
-	for <multiple recipients>; Thu, 31 Oct 2013 02:49:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=mnEpQGpnlKoingYyjVxFj6jFWVy5JsOhoIygs9JYEiM=;
-	b=YvxA/tdLJqFDKa0QTSB43nJNMSffYtNrcz+z+N02YMRPawsRwG/FqjXYpUJfliwPHZ
-	esYmK3+M4rLduS30fXKoV/uct+tP3ERlbI70EaskqqjxI0xA6kdFI49xs3k+QwlMDv+7
-	2thMguiGlzXAk38wjgXnM9TZhaz7xIAs5G3wUCw/KS/slFhRxgJEG6LI4Lhv/DWaLQGq
-	wcuP4hAAG50O+ipg8w2zT+33xXarVT5MIyDfMIzB2Pbm7pJzvw6EPNvsus3CyhCw7fXS
-	ICFXuIv8sGw/gVQZYPZ/rLo6AiT4+6x3NqIAQAgLAvlb+k9+W0ssYuZq9F3zDklfWIwv
-	gbfg==
-X-Received: by 10.15.48.67 with SMTP id g43mr2094782eew.17.1383212950044;
-	Thu, 31 Oct 2013 02:49:10 -0700 (PDT)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id a1sm6430018eem.1.2013.10.31.02.49.08
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 Oct 2013 02:49:09 -0700 (PDT)
-Date: Thu, 31 Oct 2013 10:49:10 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20131031094910.GH32015@jama>
-References: <20131030171857.47AA3504D1@opal>
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id B32B16AE37;
+	Thu, 31 Oct 2013 09:53:47 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 31 Oct 2013 02:53:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="315151770"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by AZSMGA002.ch.intel.com with ESMTP; 31 Oct 2013 02:53:48 -0700
+Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
+	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 31 Oct 2013 09:52:40 +0000
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.75]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.197]) with mapi id
+	14.03.0123.003; Thu, 31 Oct 2013 09:52:40 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [oe-commits] Cristian Iorga : telepathy-mission-control:
+	upgrade to 5.16.0
+Thread-Index: AQHO1h6StETR1PJ0W0iLJ7v8ggKiLJoOkYNw
+Date: Thu, 31 Oct 2013 09:52:39 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CAFCA2@IRSMSX105.ger.corp.intel.com>
+References: <20131030171857.47AA3504D1@opal> <20131031094910.GH32015@jama>
+In-Reply-To: <20131031094910.GH32015@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-In-Reply-To: <20131030171857.47AA3504D1@opal>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-commits@lists.openembedded.org
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
 Subject: Re: [oe-commits] Cristian Iorga : telepathy-mission-control: upgrade to 5.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -46,16 +45,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 09:49:09 -0000
-X-Groupsio-MsgNum: 46451
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MGu/vTNewDGZ7tmp"
-Content-Disposition: inline
-
---MGu/vTNewDGZ7tmp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 31 Oct 2013 09:53:48 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+OK, will look into it, thanks.
+/Cristian
+
+-----Original Message-----
+From: Martin Jansa [mailto:martin.jansa@gmail.com]=20
+Sent: Thursday, October 31, 2013 11:49 AM
+To: Iorga, Cristian; openembedded-core@lists.openembedded.org
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Cristian Iorga : telepathy-mission-control: upgra=
+de to 5.16.0
 
 On Wed, Oct 30, 2013 at 05:18:57PM +0000, git@git.openembedded.org wrote:
 > Module: openembedded-core.git
@@ -83,19 +87,23 @@ some PACKAGECONFIGs shouldn't be needed now
 >  ...15.0.bb =3D> telepathy-mission-control_5.16.0.bb} |    4 ++--
 >  1 files changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-contro=
-l_5.15.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control=
-_5.16.0.bb
+> diff --git=20
+> a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0
+> .bb=20
+> b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0
+> .bb
 > similarity index 93%
-> rename from meta/recipes-connectivity/telepathy/telepathy-mission-control=
-_5.15.0.bb
-> rename to meta/recipes-connectivity/telepathy/telepathy-mission-control_5=
-=2E16.0.bb
+> rename from=20
+> meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.b
+> b rename to=20
+> meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.b
+> b
 > index f1a1320..bdab9c1 100644
-> --- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.=
-0.bb
-> +++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.=
-0.bb
+> ---=20
+> a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0
+> .bb
+> +++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.
+> +++ 16.0.bb
 > @@ -9,8 +9,8 @@ DEPENDS =3D "libtelepathy dbus-glib gconf libxslt-native"
 >  SRC_URI =3D "http://telepathy.freedesktop.org/releases/telepathy-mission=
 -control/telepathy-mission-control-${PV}.tar.gz \
@@ -119,16 +127,3 @@ _5.15.0.bb
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---MGu/vTNewDGZ7tmp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlJyJ5YACgkQN1Ujt2V2gBzHYQCfVmuFngtOCkI8OwoEHGFgUnzf
-lyYAoKbjF6kbA6dBRPqJlndUWjEZFWNH
-=/t5i
------END PGP SIGNATURE-----
-
---MGu/vTNewDGZ7tmp--
