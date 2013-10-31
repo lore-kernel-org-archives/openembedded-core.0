@@ -1,32 +1,32 @@
-Return-Path: <blloyd@familyhonor.net>
-Received: from mho-02-ewr.mailhop.org (mho-02-ewr.mailhop.org [204.13.248.72])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A4F76D1B9
+Return-Path: <heinold@mi.fu-berlin.de>
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+	[130.133.4.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BCE861957
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 08:02:31 +0000 (UTC)
-Received: from [98.142.64.238] (helo=lloydserv.home.familyhonor.net)
-	by mho-02-ewr.mailhop.org with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.72) (envelope-from <blloyd@familyhonor.net>)
-	id 1VbnD6-000I60-Cj for openembedded-core@lists.openembedded.org;
-	Thu, 31 Oct 2013 08:02:33 +0000
-Received: from omclinuxballt.home.familyhonor.net ([192.168.0.83])
-	(authenticated bits=0)
-	by lloydserv.home.familyhonor.net (8.14.6/8.14.6) with ESMTP id
-	r9V826LH006623
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO) for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 03:02:14 -0500
-X-Mail-Handler: Dyn Standard SMTP by Dyn
-X-Originating-IP: 98.142.64.238
-X-Report-Abuse-To: abuse@dyndns.com (see
-	http://www.dyndns.com/services/sendlabs/outbound_abuse.html for
-	abuse reporting information)
-X-MHO-User: U2FsdGVkX185emzdKZ1mqJQFWNNME7vt8tsDn7g14Oo=
-From: blloyd <blloyd@familyhonor.net>
+	Thu, 31 Oct 2013 08:10:06 +0000 (UTC)
+Received: from relay1.zedat.fu-berlin.de ([130.133.4.67])
+	by outpost1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1VbnKP-003rpD-Vl>; Thu, 31 Oct 2013 09:10:06 +0100
+Received: from andorra.imp.fu-berlin.de ([160.45.42.84])
+	by relay1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@mi.fu-berlin.de>)
+	id <1VbnKP-000lXK-Sj>; Thu, 31 Oct 2013 09:10:05 +0100
+Received: from heinold by andorra.imp.fu-berlin.de with local (internal_ws
+	Exim 4.80) id 1VbnKO-0006i9-Lx
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Oct 2013 09:10:04 +0100
+Date: Thu, 31 Oct 2013 09:10:04 +0100
+From: Henning Heinold <heinold@inf.fu-berlin.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2013 03:02:01 -0500
-Message-Id: <cover.1383206227.git.blloyd@familyhonor.net>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH 0/2] devshell should make finding source and build artifacts easy
+Message-ID: <20131031081004.GA25741@mi.fu-berlin.de>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Sender: Henning Heinold <heinold@mi.fu-berlin.de>
+X-Originating-IP: 160.45.42.84
+Subject: Re: [PATCH 1/1] iproute2: explicitly add 'bash' to its RDEPENDS]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +39,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 08:02:31 -0000
+X-List-Received-Date: Thu, 31 Oct 2013 08:10:07 -0000
+X-Groupsio-MsgNum: 46443
+Content-Type: message/rfc822
+Content-Disposition: inline
 
-Make finding sources and build artificts easy from a developer shell, while not affecting normal shells.
-Also cleans up EOL issue from first attempt at patch.
 
-The following changes since commit 523f2a9ea970713fb775bc48f84b67420b1106a0:
+On Wed, Oct 30, 2013 at 10:07:46AM +0800, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> If we build a minimal image with iproute2 installed, the following
+> error will appear during rootfs.
+> 
+> error: Can't install iproute2-3.10.0-r0.0@i586: no package provides /bin/bash
+> 
+> The problem is that iproute2 has an implicit dependency on 'bash'.
+> This dependency is from per-file dependency checking. But as 'bash'
+> is not explicitly specified in the RDEPENDS in recipe, it's not built.
+> This leads to the above error.
+> 
+> Fix this problem by explicitly adding 'bash' to the RDEPENDS.
+> 
+> [YOCTO #5415]
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-connectivity/iproute2/iproute2.inc |    1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+> index 3db21db..40f6a6c 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+> @@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+>                      file://ip/ip.c;beginline=3;endline=8;md5=689d691d0410a4b64d3899f8d6e31817"
+>  
+>  DEPENDS = "flex-native bison-native iptables"
+> +RDEPENDS_${PN} = "bash"
+>  
+>  inherit update-alternatives
+>  
+> -- 
+> 1.7.9.5
 
-  cross-canadian: Improve comment (2013-10-30 18:01:34 +0000)
+Hi,
 
-are available in the git repository at:
+there is only one script rtpr which "needs" bash with the following content:
 
-  git://git.yoctoproject.org/poky-contrib blloyd/devshell
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=blloyd/devshell
+#! /bin/bash
 
-blloyd (2):
-  Allow passthrough of important placement variables when using devshell
-  Removed trailing whitespace added with last commit
+exec tr "[\\\\]" "[
+]"
 
- meta/classes/devshell.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+So in my opinion it is not worth to include bash for that and there
+should be a simpler solution.
 
--- 
-1.8.1.4
-
+Bye Henning
 
