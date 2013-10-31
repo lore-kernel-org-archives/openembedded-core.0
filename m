@@ -1,27 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B1D5F6D39C
+	by mail.openembedded.org (Postfix) with ESMTP id 9347860B60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 12:14:13 +0000 (UTC)
+	Thu, 31 Oct 2013 12:14:56 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9VCEFtS019626
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 05:14:15 -0700 (PDT)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9VCEv3u019669
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 31 Oct 2013 05:14:57 -0700 (PDT)
 Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 31 Oct 2013 05:14:15 -0700
-Message-ID: <52724998.8060509@windriver.com>
-Date: Thu, 31 Oct 2013 20:14:16 +0800
+	Thu, 31 Oct 2013 05:14:57 -0700
+Message-ID: <527249C1.8070304@windriver.com>
+Date: Thu, 31 Oct 2013 20:14:57 +0800
 From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 References: <1383181191-17015-1-git-send-email-rongqing.li@windriver.com>
-	<5271E1D7.6010100@windriver.com>
-In-Reply-To: <5271E1D7.6010100@windriver.com>
+	<20131031081225.GD32015@jama>
+In-Reply-To: <20131031081225.GD32015@jama>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] bluez: declaration of virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,101 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 12:14:13 -0000
+X-List-Received-Date: Thu, 31 Oct 2013 12:14:57 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 10/31/2013 12:51 PM, Mark Hatle wrote:
-> On 10/30/13, 7:59 PM, rongqing.li@windriver.com wrote:
+On 10/31/2013 04:12 PM, Martin Jansa wrote:
+> On Thu, Oct 31, 2013 at 08:59:51AM +0800, rongqing.li@windriver.com wrote:
 >> From: Roy Li <rongqing.li@windriver.com>
 >>
 >> We have two version bluez, declare virtual/bluez to switch them easily,
 >> and set the preferred provider for bluez as bluez4
 >
-> Unfortunately, I'm not sure this will work.  (I am not a BlueZ expert!)
-> I've been told that BlueZ 4 and 5 are not compatible, so a distribution
-> basically needs to selection one version or the other, and all
-> applications need to explicitly select the interface they plan to use.
+> virtual/bluez and PREFERRED_PROVIDERS doesn't work for runtime
+> dependencies, you need to use VIRTUAL_RUNTIME_bluez for runtime deps and
+> virtual/bluez only for build time.
 >
-> In the current implementation of oe-core, BlueZ 4 is "standard", and
-> BlueZ 5 exists as an experimental implementation so that items such as
-> connman, ofono and others can start transitioning to BlueZ 5.
->
-> --Mark
 
-connman can detect whether Bluez 4.x or Bluez 5.x is running, so both
-versions are ok for it.
+Thanks
 
-I think all packages should have the capability to detect which bluez
-version is used.
+-Roy
 
-
--roy
-
-
->
+>>
 >> Signed-off-by: Roy Li <rongqing.li@windriver.com>
 >> ---
->>   meta/conf/distro/include/default-providers.inc
->> |    4 +---
->>   meta/recipes-connectivity/bluez/bluez4.inc
->> |    2 ++
->>   meta/recipes-connectivity/bluez5/bluez5.inc
->> |    2 ++
->>   meta/recipes-connectivity/connman/connman.inc
->> |    4 ++--
-
-connman supports both versions
-
-
-ConnMan 1.11
-Submitted by Patrik Flykt, updated on 1 Feb 2013 - 04:53 - 0 comments
-Type:
-
-     Release
-
-ConnMan 1.11 was released Friday, February 1st, 2013.
-
-The new feature in this release is Bluez 5.x PAN support.
-
-ConnMan will at run-time detect whether Bluez 4.x or Bluez 5.x is 
-running and create a ConnMan service for each Bluetooth device that 
-supports PAN NAP. Tethering using Bluez 5 is also supported, ConnMan 
-will enable PAN NAP on each Bluetooth adapter in the device when 
-Bluetooth tethering is enabled.
-
-
-
->>   meta/recipes-connectivity/libpcap/libpcap.inc
->> |    2 +-
-
-No requirement for blue
-
->>   meta/recipes-connectivity/neard/neard.inc
->> |    2 +-
->>   meta/recipes-connectivity/ofono/ofono.inc
->> |    2 +-
->>   meta/recipes-core/packagegroups/packagegroup-base.bb
->> |    2 +-
->>   meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
->> |    2 +-
->>   meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
->> |    2 +-
->>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> |    2 +-
->>   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
->> |    2 +-
+>>   meta/conf/distro/include/default-providers.inc                    |    4 +---
+>>   meta/recipes-connectivity/bluez/bluez4.inc                        |    2 ++
+>>   meta/recipes-connectivity/bluez5/bluez5.inc                       |    2 ++
+>>   meta/recipes-connectivity/connman/connman.inc                     |    4 ++--
+>>   meta/recipes-connectivity/libpcap/libpcap.inc                     |    2 +-
+>>   meta/recipes-connectivity/neard/neard.inc                         |    2 +-
+>>   meta/recipes-connectivity/ofono/ofono.inc                         |    2 +-
+>>   meta/recipes-core/packagegroups/packagegroup-base.bb              |    2 +-
+>>   meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc        |    2 +-
+>>   meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb |    2 +-
+>>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc                 |    2 +-
+>>   meta/recipes-qt/qt4/qt-mobility_1.2.0.inc                         |    2 +-
 >>   12 files changed, 15 insertions(+), 13 deletions(-)
 >>
->> diff --git a/meta/conf/distro/include/default-providers.inc
->> b/meta/conf/distro/include/default-providers.inc
+>> diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
 >> index d4b9db0..9dc0310 100644
 >> --- a/meta/conf/distro/include/default-providers.inc
 >> +++ b/meta/conf/distro/include/default-providers.inc
->> @@ -14,6 +14,7 @@ PREFERRED_PROVIDER_virtual/update-alternatives ?=
->> "opkg"
+>> @@ -14,6 +14,7 @@ PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg"
 >>   PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
 >>   PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
 >>   PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
@@ -141,22 +89,16 @@ No requirement for blue
 >> @@ -40,6 +41,3 @@ PREFERRED_PROVIDER_console-tools ?= "kbd"
 >>   PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
 >>   PREFERRED_PROVIDER_make ?= "make"
->>   PREFERRED_PROVIDER_udev ?=
->> "${@base_contains('DISTRO_FEATURES','systemd','systemd','udev',d)}"
->> -# There are issues with runtime packages and PREFERRED_PROVIDER, see
->> YOCTO #5044 for details
+>>   PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','systemd','systemd','udev',d)}"
+>> -# There are issues with runtime packages and PREFERRED_PROVIDER, see YOCTO #5044 for details
 >> -# on this rather strange entry.
 >> -PREFERRED_PROVIDER_bluez4 ?= "bluez4"
->> diff --git a/meta/recipes-connectivity/bluez/bluez4.inc
->> b/meta/recipes-connectivity/bluez/bluez4.inc
+>> diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
 >> index e4f6834..8ef1d2b 100644
 >> --- a/meta/recipes-connectivity/bluez/bluez4.inc
 >> +++ b/meta/recipes-connectivity/bluez/bluez4.inc
->> @@ -9,6 +9,8 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->>
->> file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
->>
+>> @@ -9,6 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+>>                       file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
 >>   DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
 >>   RDEPENDS_${PN}-dev = "bluez-hcidump"
 >> +PROVIDES += "virtual/bluez"
@@ -164,26 +106,20 @@ No requirement for blue
 >>
 >>   PACKAGECONFIG ??= "\
 >>       ${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}\
->> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc
->> b/meta/recipes-connectivity/bluez5/bluez5.inc
+>> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
 >> index 2e25d86..d21c8a2 100644
 >> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 >> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
->> @@ -7,6 +7,8 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->>
->> file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
->>
->> file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
->>
+>> @@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+>>                       file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+>>                       file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
 >>   DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
 >> +PROVIDES += "virtual/bluez"
 >> +RPROVIDES_${PN} = "virtual/bluez"
 >>
 >>   RCONFLICTS_${PN} = "bluez4"
 >>
->> diff --git a/meta/recipes-connectivity/connman/connman.inc
->> b/meta/recipes-connectivity/connman/connman.inc
+>> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
 >> index 12f3edd..a66c524 100644
 >> --- a/meta/recipes-connectivity/connman/connman.inc
 >> +++ b/meta/recipes-connectivity/connman/connman.inc
@@ -191,80 +127,60 @@ No requirement for blue
 >>   # PACKAGECONFIG_append_pn-connman = " openvpn vpnc l2tp pptp"
 >>
 >>   PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
->> -PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth,
->> bluez4"
->> +PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth,
->> virtual/bluez"
+>> -PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, bluez4"
+>> +PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, virtual/bluez"
 >>   PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
 >>   PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
->>   PACKAGECONFIG[openvpn] = "--enable-openvpn
->> --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+>>   PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
 >> @@ -114,7 +114,7 @@ RPROVIDES_${PN} = "\
 >>
 >>   RDEPENDS_${PN} = "\
->>       dbus \
->> -    ${@base_contains('PACKAGECONFIG', 'bluetooth', 'bluez4', '', d)} \
->> +    ${@base_contains('PACKAGECONFIG', 'bluetooth', 'virtual/bluez',
->> '', d)} \
->>       ${@base_contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '',
->> d)} \
->>       ${@base_contains('PACKAGECONFIG', '3g','ofono', '', d)} \
->>       xuser-account \
->> diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc
->> b/meta/recipes-connectivity/libpcap/libpcap.inc
+>>   	dbus \
+>> -	${@base_contains('PACKAGECONFIG', 'bluetooth', 'bluez4', '', d)} \
+>> +	${@base_contains('PACKAGECONFIG', 'bluetooth', 'virtual/bluez', '', d)} \
+>>   	${@base_contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '', d)} \
+>>   	${@base_contains('PACKAGECONFIG', '3g','ofono', '', d)} \
+>>   	xuser-account \
+>> diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc b/meta/recipes-connectivity/libpcap/libpcap.inc
 >> index 3a08afe..3a67ecc 100644
 >> --- a/meta/recipes-connectivity/libpcap/libpcap.inc
 >> +++ b/meta/recipes-connectivity/libpcap/libpcap.inc
->> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
->> "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
+>> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \
 >>   DEPENDS = "flex-native bison-native libnl"
 >>
->>   PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth',
->> 'bluetooth', '', d)}"
->> -PACKAGECONFIG[bluetooth] =
->> "--enable-bluetooth,--disable-bluetooth,bluez4"
->> +PACKAGECONFIG[bluetooth] =
->> "--enable-bluetooth,--disable-bluetooth,virtual/bluez"
+>>   PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
+>> -PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,bluez4"
+>> +PACKAGECONFIG[bluetooth] = "--enable-bluetooth,--disable-bluetooth,virtual/bluez"
 >>   PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
 >>
 >>   INC_PR = "r5"
->> diff --git a/meta/recipes-connectivity/neard/neard.inc
->> b/meta/recipes-connectivity/neard/neard.inc
+>> diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
 >> index 7cccbdc..1d27c10 100644
 >> --- a/meta/recipes-connectivity/neard/neard.inc
 >> +++ b/meta/recipes-connectivity/neard/neard.inc
->> @@ -47,7 +47,7 @@ RDEPENDS_${PN} = "dbus python python-dbus
->> python-pygobject"
+>> @@ -47,7 +47,7 @@ RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
 >>
 >>   # Bluez & Wifi are not mandatory except for handover
 >>   RRECOMMENDS_${PN} = "\
->> -                     ${@base_contains('DISTRO_FEATURES', 'bluetooth',
->> 'bluez4', '', d)} \
->> +                     ${@base_contains('DISTRO_FEATURES', 'bluetooth',
->> 'virtual/bluez', '', d)} \
->>                        ${@base_contains('DISTRO_FEATURES',
->> 'wifi','wpa-supplicant', '', d)} \
+>> -                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez4', '', d)} \
+>> +                     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'virtual/bluez', '', d)} \
+>>                        ${@base_contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
 >>                       "
 >>
->> diff --git a/meta/recipes-connectivity/ofono/ofono.inc
->> b/meta/recipes-connectivity/ofono/ofono.inc
+>> diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
 >> index 3972e06..ff34265 100644
 >> --- a/meta/recipes-connectivity/ofono/ofono.inc
 >> +++ b/meta/recipes-connectivity/ofono/ofono.inc
->> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+>> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
 >>
 >>   inherit autotools pkgconfig update-rc.d systemd
 >>
->> -DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info
->> ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
->> +DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info
->> ${@base_contains('DISTRO_FEATURES', 'bluetooth','virtual/bluez', '', d)}"
+>> -DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
+>> +DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@base_contains('DISTRO_FEATURES', 'bluetooth','virtual/bluez', '', d)}"
 >>
 >>   INITSCRIPT_NAME = "ofono"
 >>   INITSCRIPT_PARAMS = "defaults 22"
->> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb
->> b/meta/recipes-core/packagegroups/packagegroup-base.bb
+>> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
 >> index eee8bd9..e9e46f4 100644
 >> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
 >> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
@@ -274,13 +190,10 @@ No requirement for blue
 >>   RDEPENDS_packagegroup-base-bluetooth = "\
 >> -    bluez4 \
 >> +    virtual/bluez \
->>       ${@base_contains('COMBINED_FEATURES', 'alsa',
->> 'libasound-module-bluez', '',d)} \
+>>       ${@base_contains('COMBINED_FEATURES', 'alsa', 'libasound-module-bluez', '',d)} \
 >>       "
 >>
->> diff --git
->> a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
->> b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
+>> diff --git a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
 >> index 416e05d..e1a520a 100644
 >> --- a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
 >> +++ b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
@@ -293,9 +206,7 @@ No requirement for blue
 >>       gconf-dev \
 >>       avahi-dev \
 >>       telepathy-glib-dev \
->> diff --git
->> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
->> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
+>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
 >> index e1a5904..8f37be8 100644
 >> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
 >> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
@@ -308,49 +219,39 @@ No requirement for blue
 >>   PACKAGECONFIG[sbc] = "--enable-sbc,--disable-sbc,sbc"
 >>   PACKAGECONFIG[hls] = "--enable-hls,--disable-hls,gnutls"
 >>
->> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
 >> index bb13f4b..e4e058f 100644
 >> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
 >> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> @@ -36,7 +36,7 @@ PACKAGECONFIG ??=
->> "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '',
->>                      ${@base_contains('DISTRO_FEATURES', 'systemd',
->> 'systemd', '', d)} \
->>                      ${@base_contains('DISTRO_FEATURES', 'zeroconf',
->> 'avahi', '', d)} \
->>                      ${@base_contains('DISTRO_FEATURES', 'x11', 'x11',
->> '', d)}"
+>> @@ -36,7 +36,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '',
+>>                      ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+>>                      ${@base_contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+>>                      ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
 >> -PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4 sbc"
->> +PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,virtual/bluez
->> sbc"
+>> +PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,virtual/bluez sbc"
 >>   PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
 >>   PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
->>   PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11
->> libxtst libice libsm libxcb"
->> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
->> b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
+>>   PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
+>> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
 >> index 062702f..ef3f08d 100644
 >> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
 >> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
 >> @@ -3,7 +3,7 @@ DEPENDS = "gstreamer util-linux"
 >>
->>   PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pulseaudio',
->> 'pulseaudio', '', d)} \
->>                      ${@base_contains('DISTRO_FEATURES', 'bluetooth',
->> 'bluetooth', '', d)}"
+>>   PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+>>                      ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluetooth', '', d)}"
 >> -PACKAGECONFIG[bluetooth] = ",,bluez4"
 >> +PACKAGECONFIG[bluetooth] = ",,virtual/bluez"
 >>   PACKAGECONFIG[pulseaudio] = ",,pulseaudio"
 >>
 >>   LICENSE = "LGPLv2.1"
+>> --
+>> 1.7.10.4
 >>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
 -- 
