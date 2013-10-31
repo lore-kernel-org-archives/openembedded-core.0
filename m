@@ -1,36 +1,32 @@
 Return-Path: <blloyd@familyhonor.net>
 Received: from mho-02-ewr.mailhop.org (mho-02-ewr.mailhop.org [204.13.248.72])
-	by mail.openembedded.org (Postfix) with ESMTP id 11F5E6D1C4
+	by mail.openembedded.org (Postfix) with ESMTP id 6A4F76D1B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 08:02:27 +0000 (UTC)
+	Thu, 31 Oct 2013 08:02:31 +0000 (UTC)
 Received: from [98.142.64.238] (helo=lloydserv.home.familyhonor.net)
 	by mho-02-ewr.mailhop.org with esmtpsa (TLSv1:AES256-SHA:256)
 	(Exim 4.72) (envelope-from <blloyd@familyhonor.net>)
-	id 1VbnD1-000I7O-Rg for openembedded-core@lists.openembedded.org;
-	Thu, 31 Oct 2013 08:02:29 +0000
+	id 1VbnD6-000I60-Cj for openembedded-core@lists.openembedded.org;
+	Thu, 31 Oct 2013 08:02:33 +0000
 Received: from omclinuxballt.home.familyhonor.net ([192.168.0.83])
 	(authenticated bits=0)
 	by lloydserv.home.familyhonor.net (8.14.6/8.14.6) with ESMTP id
-	r9V826LI006623
+	r9V826LH006623
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
 	verify=NO) for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 03:02:15 -0500
+	Thu, 31 Oct 2013 03:02:14 -0500
 X-Mail-Handler: Dyn Standard SMTP by Dyn
 X-Originating-IP: 98.142.64.238
 X-Report-Abuse-To: abuse@dyndns.com (see
 	http://www.dyndns.com/services/sendlabs/outbound_abuse.html for
 	abuse reporting information)
-X-MHO-User: U2FsdGVkX199lwKga8BAfn/3/R621sPpyK+PDKDSkYU=
+X-MHO-User: U2FsdGVkX185emzdKZ1mqJQFWNNME7vt8tsDn7g14Oo=
 From: blloyd <blloyd@familyhonor.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2013 03:02:02 -0500
-Message-Id: <eec32fc87fea48dfecfb8af9e26956efaab59558.1383206227.git.blloyd@familyhonor.net>
+Date: Thu, 31 Oct 2013 03:02:01 -0500
+Message-Id: <cover.1383206227.git.blloyd@familyhonor.net>
 X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <cover.1383206227.git.blloyd@familyhonor.net>
-References: <cover.1383206227.git.blloyd@familyhonor.net>
-In-Reply-To: <cover.1383206227.git.blloyd@familyhonor.net>
-References: <cover.1383206227.git.blloyd@familyhonor.net>
-Subject: [PATCH 1/2] Allow passthrough of important placement variables when using devshell
+Subject: [PATCH 0/2] devshell should make finding source and build artifacts easy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +39,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 08:02:27 -0000
+X-List-Received-Date: Thu, 31 Oct 2013 08:02:31 -0000
 
-The environment is very well sanitized when using the shell.  However, when using devshell developers are typically interested in sources and build artifacts.  The variables B S and D control this but are cleaned from the environment when a shell is started.  Add a new variable to allow additional variables to be kept for a developer shell and set it to "B S D" by default.  The implementation allows variables for developer convenience and verification while not changing shells used for compile tasks.
+Make finding sources and build artificts easy from a developer shell, while not affecting normal shells.
+Also cleans up EOL issue from first attempt at patch.
 
-Signed-off-by: blloyd <blloyd@familyhonor.net>
----
+The following changes since commit 523f2a9ea970713fb775bc48f84b67420b1106a0:
+
+  cross-canadian: Improve comment (2013-10-30 18:01:34 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib blloyd/devshell
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=blloyd/devshell
+
+blloyd (2):
+  Allow passthrough of important placement variables when using devshell
+  Removed trailing whitespace added with last commit
+
  meta/classes/devshell.bbclass | 10 ++++++++++
  1 file changed, 10 insertions(+)
 
-diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
-index 92edb9e..cc1bb64 100644
---- a/meta/classes/devshell.bbclass
-+++ b/meta/classes/devshell.bbclass
-@@ -2,7 +2,17 @@ inherit terminal
- 
- DEVSHELL = "${SHELL}"
- 
-+OE_DEVSHELL_TERMINAL_ADDL_EXPORTS ?= "B S D"
-+OE_DEVSHELL_TERMINAL_ADDL_EXPORTS[type] = 'list'
-+
- python do_devshell () {
-+    import oe.data
-+    import oe.terminal
-+    export_dev=d.getVar('OE_DEVSHELL_TERMINAL_ADDL_EXPORTS') 
-+    export_term=d.getVar('OE_TERMINAL_EXPORTS')
-+    export_term = export_term + ' ' + export_dev
-+    d.setVar('OE_TERMINAL_EXPORTS', export_term)
-+
-     if d.getVarFlag("do_devshell", "manualfakeroot"):
-        d.prependVar("DEVSHELL", "pseudo ")
-        fakeenv = d.getVar("FAKEROOTENV", True).split()
 -- 
 1.8.1.4
 
