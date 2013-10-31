@@ -1,24 +1,31 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CBB9610DC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D4C86D298
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 13:00:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9VD0NZf024359
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 31 Oct 2013 06:00:23 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 31 Oct 2013 06:00:22 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 31 Oct 2013 21:00:15 +0800
-Message-ID: <cover.1383223789.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 0/1 V2] qemu: add PACKAGECONFIG for vnc, libcurl, nss, uuid, curses, gtk+, libcap-ng
+	Thu, 31 Oct 2013 13:15:13 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r9VDEsTp026229; Thu, 31 Oct 2013 13:14:54 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zeq-uUQNt4U4; Thu, 31 Oct 2013 13:14:53 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r9VDEoWM026211
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 31 Oct 2013 13:14:51 GMT
+Message-ID: <1383225285.25877.98.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 31 Oct 2013 13:14:45 +0000
+In-Reply-To: <4379965.nvzZzTEQm7@helios>
+References: <33115ABC4887814E8A92A08FBC93416B0A1A9528@IRSMSX103.ger.corp.intel.com>
+	<4379965.nvzZzTEQm7@helios>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: oe-selftest proof of concept
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +38,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 13:00:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 Oct 2013 13:15:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Change in V2: Improve floating dependencies as possible as I can.
+On Thu, 2013-10-31 at 10:34 +0000, Paul Eggleton wrote:
+> Hi Corneliu,
+> 
+> This is a well-rounded proposal, thanks. Some comments below.
+> 
+> On Thursday 31 October 2013 07:53:48 Stoicescu, CorneliuX wrote:
+> > This e-mail was originally sent to the Yocto mailing list in the form of 2
+> > e-mails. As per Paul's and Richard's request, I am re-sending and moving
+> > the conversation here. Feel free to add any input :) .
+> > 
+> > NOTE: I also made a small syntax correction in the example at the end of the
+> > e-mail for oeSelfTest.var_append() .
+> > 
+> > After a chat with Richard and Stefan, I came up with an outline of how the
+> > oe-selftest feature(https://bugzilla.yoctoproject.org/show_bug.cgi?id=4740
+> > ) should look like. I made a summary of my proposal below. Please feel free
+> > to add your thoughts!
+> > 
+> > There will be a new script introduced(similar to bitbake-selftest) that will
+> > use python unit test to execute tests. Name has not been decided but it can
+> > be "oe-selftest". Running this script will not compromise poky in any way.
+> > Initially, the script does not need any preparation in order to be run. If
+> > this changes in the future, the user will be prompted upon execution with
+> > the pre-required tasks. Oe-selftest can be used together with the automated
+> > runtime tests if necessary.
+> > 
+> > The following types of tests are targeted for the initial implementation:
+> > - testing the functionality of scripts in poky/scripts (such as:
+> > bitbake-layers, yocto-bsp, yocto-kernel, yocto-layers) - testing of the
+> > 'bitbake' command and its output (this includes output data validation such
+> > as the sstate-cache/ and tmp/ directories)
+> 
+> It could be considered a separate exercise, but I'd like us to test the 
+> installation and usage of the SDK installer as well. Initially this would be 
+> fairly straightforward - install the SDK to a non-standard location, fetch 
+> some nominated piece of source code and try to build it using the installed 
+> SDK. (One issue springs to mind though - unless we take steps to guard against 
+> it, this won't be able to pick up problems where the SDK contains references 
+> to files within TMPDIR, since those will still be valid on the build host).
+> 
+> Later we'd want to be able to test the executables produced using the SDK on 
+> the target; however that would presumably necessitate some integration with 
+> the runtime tests and that could be complicated.
 
-The following changes since commit 523f2a9ea970713fb775bc48f84b67420b1106a0:
+We could test some simple binary using user mode qemu...
 
-  cross-canadian: Improve comment (2013-10-30 18:01:34 +0000)
+> Actually I think we should avoid modifying existing files if at all possible - 
+> instead we should add an additional layer on top to make changes, using 
+> bbappends / overlayed recipes as necessary. There are several reasons for 
+> this:
+> 
+> * Most of the time this is the approach users should be using when they make 
+> customisations, so it's what we ought to concentrate on testing.
+> 
+> * It preserves the ability to run the tests with uncommitted changes, which 
+> would be useful during development.
 
-are available in the git repository at:
+Agreed, this is probably something we need to support.
 
-  git://git.pokylinux.org/poky-contrib hongxu/fix-qemu-nss
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-qemu-nss
+> I know the test case mentions it explicitly, but we don't actually need meta-
+> intel to check this functionality, any layer will work. We probably ought to 
+> be creating a meta-selftest layer (or similar) within OE-Core that we could 
+> use for this purpose and the addition of bbappends / additional configuration. 
+> This avoids the need for something like POKYDIR as well.
 
-Hongxu Jia (1):
-  qemu: add PACKAGECONFIG for vnc,libcurl,nss,uuid,curses,gtk+,libcap-ng
+Yes, having some kind of specific test layer in OE-Core would seem
+appropriate.
 
- meta/recipes-devtools/qemu/qemu.inc | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+I read through the proposal and it seems good to me, I know I had
+already given some feedback as the details were filled out but it seems
+the pieces I believe we need are all there.
 
--- 
-1.8.1.2
+Cheers,
+
+Richard
 
 
