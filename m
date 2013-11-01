@@ -1,26 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A37AC6D54B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C09B16D224
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 19:36:46 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 01 Nov 2013 12:36:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="315862612"
-Received: from unknown (HELO [10.255.15.12]) ([10.255.15.12])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Nov 2013 12:36:47 -0700
-Message-ID: <527402CF.7060401@linux.intel.com>
-Date: Fri, 01 Nov 2013 12:36:47 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Li Zhijian <lizhijian@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org, 
-	"Burton, Ross" <ross.burton@intel.com>
-References: <52677C01.1020908@cn.fujitsu.com>
-In-Reply-To: <52677C01.1020908@cn.fujitsu.com>
-Subject: Re: [PATCH] systemd.bbclass: do not call 'systemctl restart ${SYSTEMD_SERVICE}' at systemd_postinst
+	Fri,  1 Nov 2013 19:47:16 +0000 (UTC)
+Received: by mail-we0-f179.google.com with SMTP id w61so4290140wes.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Nov 2013 12:47:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Jw4ejfLDDqniAizPXWfL7aycffRnFd8anAIdlAQfJVA=;
+	b=UrT51EQ/pjllhQpwBq2cBySMFUyd8ptFLygNymXN6wsatskyR8VfGIP0ITWxGaOO8j
+	RzO9W0yumhxCM9mPLxbK6o1XR11r1ljtY+acCtRW4Lv+PKLaVyNJYYfFLMFAOEHPk19b
+	zUWBOoafwSHQjwtcc6GLV4PJfZPN73UbdZsuzKnOWfK+WpNCTCkBxCV3T/nWD7apXzqz
+	+O6CxEgFR7c03i7BDCLW/HU/5I1pNu6jm0PmtPD2AVk/tdEBjwAtGlIQ2io0jfUOBdRg
+	+ao32QLnD5r3QiC6w94ik8OSz7ti+IVZljfwrnnaD/FsLUBWGyZYkiRhDnqi+XykTT4I
+	TlJg==
+X-Gm-Message-State: ALoCoQkus7UUnQ8G8UyQZ4RKT+c9xtc942sJHzE7iCfy7OC+b8KOMj5sb+i7ymEHcrT9daCO9iGV
+X-Received: by 10.194.178.6 with SMTP id cu6mr2480999wjc.61.1383335237503;
+	Fri, 01 Nov 2013 12:47:17 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id e1sm9493750wij.6.2013.11.01.12.47.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Nov 2013 12:47:16 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Nov 2013 19:47:13 +0000
+Message-Id: <1383335233-12366-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] wipe-sysroot: explain what is being deleted and require confirmation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +43,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 19:36:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Nov 2013 19:47:17 -0000
 
-On 10/23/2013 12:34 AM, Li Zhijian wrote:
-> From: Li Zhijian <lizhijian@cn.fujitsu.com>
->
-> If systemd_postinst is installed as a delayed package scriptlet (installed to /etc/rpm-postints/${PN})
-> which would be executed at the first time of OS startup. And then this script would block when it is
-> trying to call systemctl to restart service.
->
-> It seems that it is not a good timing to restart service at run-postinsts.
-> I test serval services which has supported systemd(uuidd/avahi-daemon), all of them
-> will block the startup.
->
+Instead of rushing into deleting entire directory trees without any warning,
+print the directories and files that will be deleted and require confirmation
+from the user (via --force) that they want files to be deleted.
 
-Ross,
+[ YOCTO #5423 ]
 
-Can you have a look at this change.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/wipe-sysroot |   27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
-Thanks
-	Sau!
+diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
+index 7ca26fe..306c877 100755
+--- a/scripts/wipe-sysroot
++++ b/scripts/wipe-sysroot
+@@ -33,14 +33,23 @@ if [ -z "$SSTATE_MANIFESTS" -o -z "$STAGING_DIR" -o -z "$STAMPS_DIR" ]; then
+     exit 1
+ fi
+ 
+-# The sysroots themselves
+-rm -rf $STAGING_DIR
++echo "Will delete $STAGING_DIR."
++echo "Will also delete selected stamps from $SSTATE_MANIFESTS and $STAMPS_DIR."
+ 
+-# The stamps that said the sysroot was populated
+-rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot.*
+-rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot_setscene.*
+-rm -rf $STAMPS_DIR/*/*/*.do_packagedata.*
+-rm -rf $STAMPS_DIR/*/*/*.do_packagedata_setscene.*
++if [ "$1" = "--force" ]; then
++    echo "Deleting..."
+ 
+-# The sstate manifests
+-rm -rf $SSTATE_MANIFESTS/manifest-*.populate-sysroot
++    # The sysroots themselves
++    rm -rf $STAGING_DIR
++
++    # The stamps that said the sysroot was populated
++    rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot.*
++    rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot_setscene.*
++    rm -rf $STAMPS_DIR/*/*/*.do_packagedata.*
++    rm -rf $STAMPS_DIR/*/*/*.do_packagedata_setscene.*
++
++    # The sstate manifests
++    rm -rf $SSTATE_MANIFESTS/manifest-*.populate-sysroot
++else
++    echo "\nThis was a dry-run.  Run with --force to delete the files."
++fi
+-- 
+1.7.10.4
 
-
-> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-> ---
->   meta/classes/systemd.bbclass |    4 ----
->   1 files changed, 0 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-> index 3700b2e..7aa5459 100644
-> --- a/meta/classes/systemd.bbclass
-> +++ b/meta/classes/systemd.bbclass
-> @@ -31,10 +31,6 @@ fi
->    if type systemctl >/dev/null 2>/dev/null; then
->   	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
-> -
-> -	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-> -		systemctl restart ${SYSTEMD_SERVICE}
-> -	fi
->   fi
->   }
->   -- 1.7.1
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
