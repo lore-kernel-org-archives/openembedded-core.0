@@ -1,43 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C21AF6D12B
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id B7D576D12B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 09:38:59 +0000 (UTC)
-Received: by mail-ea0-f182.google.com with SMTP id o10so1950329eaj.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Nov 2013 02:39:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=IWfYNptwAkScDtzDh654LtfJO2S2yzmGhoop4ftpJMI=;
-	b=cc7ldxiGdz7ShPCXnC/tIceYRXTYcZq+gMxG5wmBHa9IDxxCYrEIvKrrv1zPxcCtD2
-	LbzwqvIb1UPL/JdThZKhdng5qXhZVr1j2ONm47qzYXkmR6O2zHnAybUIZupHbVxTQi5U
-	Ox20kdx1wOszBP4qqYcxKawThp+t1aDJNzatuModiATQnVZK4TTDMEv4j4P77rwIc/a3
-	OSTSZKawLkYgF04weRZYqu2tftg+Ck6vmfHVi8Zlc2RKGxzU6oaKk10gTLE7yUUWyc9r
-	wAgv/uTFzkoINxqOc55Jbf3f2YdFebAFqj3qFKtiD9/ERCLWa7+U1Ra0b1caKW1JApG0
-	T3Hg==
-X-Received: by 10.14.193.198 with SMTP id k46mr598823een.128.1383298741223;
-	Fri, 01 Nov 2013 02:39:01 -0700 (PDT)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id j7sm5419064eeo.15.2013.11.01.02.39.00
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Nov 2013 02:39:00 -0700 (PDT)
-Date: Fri, 1 Nov 2013 10:39:03 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20131101093903.GO32015@jama>
-References: <cover.1383214870.git.hongxu.jia@windriver.com>
-	<0ab98fd1823d92b6661b60432b3ec30fd9c9a03d.1383214870.git.hongxu.jia@windriver.com>
-	<20131031104111.GI32015@jama> <52724411.9050909@windriver.com>
-	<1383295856.25877.124.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1383295856.25877.124.camel@ted>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
-Subject: Re: [PATCH 1/1] qemu: use PACKAGECONFIG to address nss dependencies
+	Fri,  1 Nov 2013 10:37:53 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 01 Nov 2013 03:37:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="383268768"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by azsmga001.ch.intel.com with ESMTP; 01 Nov 2013 03:37:45 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 0B4C06A4007;
+	Fri,  1 Nov 2013 03:37:43 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Nov 2013 12:37:56 +0200
+Message-Id: <1383302276-32563-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] lib/oeqa: add oeTest superclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,75 +30,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 09:39:00 -0000
-X-Groupsio-MsgNum: 46493
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="8N0TQpGUCeEQshoq"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 01 Nov 2013 10:37:56 -0000
 
---8N0TQpGUCeEQshoq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add oeTest superclass, make oeRuntimeTest inherit that and
+make the necesarry adjustments. Tests in lib/oeqa/runtime don't
+change, they still inherit oeRuntimeTest.
+We should do this because oetest.py in the future can be a base module
+for more stuff than oeRuntimeTest.
 
-On Fri, Nov 01, 2013 at 08:50:56AM +0000, Richard Purdie wrote:
-> On Thu, 2013-10-31 at 19:50 +0800, Hongxu Jia wrote:
-> > On 10/31/2013 06:41 PM, Martin Jansa wrote:
-> > > On Thu, Oct 31, 2013 at 06:23:01PM +0800, Hongxu Jia wrote:
-> > >> Use PACKAGECONFIG to explicitly address nss dependencies rather than
-> > >> tested by configure.
-> > >>
-> > >> It avoided potential errors while multiple builds shared a common
-> > >> state_cache.
-> > > There are more floating dependencies in qemu.inc, see
-> > > http://patchwork.openembedded.org/patch/56935/
-> > >
-> > > and even this list isn't complete, there is also:
-> > > WARN: packages/armv5te-oe-linux-gnueabi/qemu/qemu/latest lost depende=
-ncy on  cairo gdk-pixbuf gnutls gtk+ libvte
-> > >
-> > > Can you please improve it to fix them all?
-> > >
-> >=20
-> > OK, I will try to fix them as possible as I can.
-> >=20
-> > Drop this patch, wait for V2.
->=20
-> Part of the problem here is that qemu-native has some "floating"
-> dependencies by design. If the native system has graphics support, qemu
-> will have too. If it doesn't it won't have. This works out to be quite
-> useful for people. Some people have headless build machines they don't
-> want to install X on, equally some have build machines which do have X
-> and they do want graphical qemu.
->=20
-> How do we support both?
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/oetest.py           | 40 ++++++++++++++++++++-------------------
+ meta/lib/oeqa/utils/decorators.py | 10 +++++-----
+ 2 files changed, 26 insertions(+), 24 deletions(-)
 
-Aren't reproducible builds more important than automagically enabled
-graphics support, what if such automagically enabled qemu-native gets
-reused from sstate on headless server without graphics support?
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 529abdc..3bb3589 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -17,9 +17,9 @@ from oeqa.utils.sshcontrol import SSHControl
+ def runTests(tc):
+ 
+     # set the context object passed from the test class
+-    setattr(oeRuntimeTest, "tc", tc)
++    setattr(oeTest, "tc", tc)
+     # set ps command to use
+-    setattr(oeRuntimeTest, "pscmd", "ps -ef" if oeRuntimeTest.hasPackage("procps") else "ps")
++    setattr(oeRuntimeTest, "pscmd", "ps -ef" if oeTest.hasPackage("procps") else "ps")
+     # prepare test suite, loader and runner
+     suite = unittest.TestSuite()
+     testloader = unittest.TestLoader()
+@@ -36,33 +36,28 @@ def runTests(tc):
+ 
+ 
+ 
+-class oeRuntimeTest(unittest.TestCase):
++class oeTest(unittest.TestCase):
+ 
+     longMessage = True
+     testFailures = []
+     testSkipped = []
+     testErrors = []
+ 
+-    def __init__(self, methodName='runTest'):
+-        self.target = oeRuntimeTest.tc.target
+-        super(oeRuntimeTest, self).__init__(methodName)
+-
+-
+     def run(self, result=None):
+-        super(oeRuntimeTest, self).run(result)
++        super(oeTest, self).run(result)
+ 
+         # we add to our own lists the results, we use those for decorators
+-        if len(result.failures) > len(oeRuntimeTest.testFailures):
+-            oeRuntimeTest.testFailures.append(str(result.failures[-1][0]).split()[0])
+-        if len(result.skipped) > len(oeRuntimeTest.testSkipped):
+-            oeRuntimeTest.testSkipped.append(str(result.skipped[-1][0]).split()[0])
+-        if len(result.errors) > len(oeRuntimeTest.testErrors):
+-            oeRuntimeTest.testErrors.append(str(result.errors[-1][0]).split()[0])
++        if len(result.failures) > len(oeTest.testFailures):
++            oeTest.testFailures.append(str(result.failures[-1][0]).split()[0])
++        if len(result.skipped) > len(oeTest.testSkipped):
++            oeTest.testSkipped.append(str(result.skipped[-1][0]).split()[0])
++        if len(result.errors) > len(oeTest.testErrors):
++            oeTest.testErrors.append(str(result.errors[-1][0]).split()[0])
+ 
+     @classmethod
+     def hasPackage(self, pkg):
+ 
+-        pkgfile = os.path.join(oeRuntimeTest.tc.d.getVar("WORKDIR", True), "installed_pkgs.txt")
++        pkgfile = os.path.join(oeTest.tc.d.getVar("WORKDIR", True), "installed_pkgs.txt")
+ 
+         with open(pkgfile) as f:
+             data = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+@@ -77,12 +72,19 @@ class oeRuntimeTest(unittest.TestCase):
+     @classmethod
+     def hasFeature(self,feature):
+ 
+-        if feature in oeRuntimeTest.tc.d.getVar("IMAGE_FEATURES", True).split() or \
+-                feature in oeRuntimeTest.tc.d.getVar("DISTRO_FEATURES", True).split():
++        if feature in oeTest.tc.d.getVar("IMAGE_FEATURES", True).split() or \
++                feature in oeTest.tc.d.getVar("DISTRO_FEATURES", True).split():
+             return True
+         else:
+             return False
+ 
++
++class oeRuntimeTest(oeTest):
++
++    def __init__(self, methodName='runTest'):
++        self.target = oeRuntimeTest.tc.target
++        super(oeRuntimeTest, self).__init__(methodName)
++
+     @classmethod
+     def restartTarget(self,params=None):
+ 
+@@ -102,7 +104,7 @@ def getmodule(pos=2):
+ 
+ def skipModule(reason, pos=2):
+     modname = getmodule(pos)
+-    if modname not in oeRuntimeTest.tc.testsrequired:
++    if modname not in oeTest.tc.testsrequired:
+         raise unittest.SkipTest("%s: %s" % (modname, reason))
+     else:
+         raise Exception("\nTest %s wants to be skipped.\nReason is: %s" \
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index 33fed5a..b99da8d 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -15,7 +15,7 @@ class skipIfFailure(object):
+ 
+     def __call__(self,f):
+         def wrapped_f(*args):
+-            if self.testcase in (oeRuntimeTest.testFailures or oeRuntimeTest.testErrors):
++            if self.testcase in (oeTest.testFailures or oeTest.testErrors):
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+             return f(*args)
+         wrapped_f.__name__ = f.__name__
+@@ -28,7 +28,7 @@ class skipIfSkipped(object):
+ 
+     def __call__(self,f):
+         def wrapped_f(*args):
+-            if self.testcase in oeRuntimeTest.testSkipped:
++            if self.testcase in oeTest.testSkipped:
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+             return f(*args)
+         wrapped_f.__name__ = f.__name__
+@@ -41,9 +41,9 @@ class skipUnlessPassed(object):
+ 
+     def __call__(self,f):
+         def wrapped_f(*args):
+-            if self.testcase in oeRuntimeTest.testSkipped or \
+-                    self.testcase in  oeRuntimeTest.testFailures or \
+-                    self.testcase in oeRuntimeTest.testErrors:
++            if self.testcase in oeTest.testSkipped or \
++                    self.testcase in  oeTest.testFailures or \
++                    self.testcase in oeTest.testErrors:
+                 raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
+             return f(*args)
+         wrapped_f.__name__ = f.__name__
+-- 
+1.8.3.1
 
-We can extend documentation to say that in order to enable graphics
-support for qemu-native you need to set
-PACKAGECONFIG_pn-qemu-native +=3D "foo bar"
-in local.conf (or to remove some to disable it, but enabling explicitly
-is imho better because we don't have graphics native support in
-ASSUME_PROVIDED).
 
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---8N0TQpGUCeEQshoq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlJzdrcACgkQN1Ujt2V2gByKVACfSl9WdU9eXaHr3xMOV+VNVgLv
-RYkAnR0wV5djBTl++OS2MLrrpaOi0P0s
-=sF7E
------END PGP SIGNATURE-----
-
---8N0TQpGUCeEQshoq--
