@@ -1,36 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 375186CC79
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CB9C6CC79
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 16:32:01 +0000 (UTC)
-Received: by mail-ie0-f182.google.com with SMTP id as1so7918402iec.27
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Nov 2013 09:32:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=YIOqBtXSIba/K8UoZCz2x3o+Erwu/dyp5MNXQ9NJezY=;
-	b=JhqxqOedaJ+xdkLNJiUpEqTNagYNg9dEA8OCNIbgdX9RGNqtzYxKpG58WkdKwNFil5
-	azIDbvIHG0AH+L90xj2CRLd3uyILRF3s0E1dbPS6IX6Mhxmo61wrWOMvBIDO0mIl2QcG
-	apTCxLTtytVVLHjFO+q7L/Nyyrc8CX9aF5bW3scizMEQqThsmsFvxr63bpZuMtNdK47z
-	LqDX6JJkYmEN5F1H2fuOTThBlXVS/FqZMo4EFqsya7mDpnhRPA+4udTUzQSICWSpeg+l
-	oPpcUdU8jCmALEaEeCVUYwxbuCGwWiiVeeiSypvTtYYbwER05txT/ATjE62hNMeYcY+B
-	jN8Q==
-MIME-Version: 1.0
-X-Received: by 10.43.161.65 with SMTP id mf1mr809234icc.66.1383323522704; Fri,
-	01 Nov 2013 09:32:02 -0700 (PDT)
-Received: by 10.50.219.195 with HTTP; Fri, 1 Nov 2013 09:32:02 -0700 (PDT)
-In-Reply-To: <CAJTo0LbjScOrHHBW5HK_WcOCnYabRvwP2CnYpHuSDJGxVqny3Q@mail.gmail.com>
-References: <cover.1383197850.git.blloyd@familyhonor.net>
-	<2e9cfab0ee89692c85b78802b1804aa3e7856ef8.1383197850.git.blloyd@familyhonor.net>
-	<CAJTo0LbjScOrHHBW5HK_WcOCnYabRvwP2CnYpHuSDJGxVqny3Q@mail.gmail.com>
-Date: Fri, 1 Nov 2013 09:32:02 -0700
-Message-ID: <CAMKF1sox9M+4v72sCWQafa0wWjLQMo5bgEYc4AEmRLxArS2uTg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Enhancements to allow core file debugging to work properly from devices
+	Fri,  1 Nov 2013 16:54:05 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Nov 2013 09:50:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="428363565"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 01 Nov 2013 09:53:40 -0700
+Received: from localhost.localdomain (unknown [10.237.112.161])
+	by linux.intel.com (Postfix) with ESMTP id 6153E6A4007;
+	Fri,  1 Nov 2013 09:53:39 -0700 (PDT)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Nov 2013 19:03:48 +0100
+Message-Id: <1383329028-24348-1-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] Modify buildstats to be merged inside buildhistory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +30,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 16:32:01 -0000
-Content-Type: multipart/alternative; boundary=001a11c2f7742e304704ea201b92
+X-List-Received-Date: Fri, 01 Nov 2013 16:54:06 -0000
 
---001a11c2f7742e304704ea201b92
-Content-Type: text/plain; charset=UTF-8
+- added buildstats inheritance inside buildhistory
+- reworked the buildstats directory structure not to contain the build name(read: the build start date).
+Now it only contains the target name and machine. This is usefull in order to reduce git noise.
+- because builds are no longer separated by build name(read: date) it is necessary to remake(remove and create from scratch)
+the buildstats folder for each build in order keep buildstats compatible with tools like pybootchartgui.py
 
-On Friday, November 1, 2013, Burton, Ross wrote:
+Some changes to make the new functionality compatible with Yocto:
+- remove buildstats from default usage because it now needs buildhistory (remove it from USER_CLASSES in local.conf)
+- add 'buildhistory' to USER_CLASSES or add INHERIT += "buildhistory" in local.conf
+OPTIONAL: - I tested this patch with buildhistory under git enabled (BUILDHISTORY_COMMIT = "1" in local.conf). I believe this
+should be made default.
 
-> On 31 October 2013 06:54, blloyd <blloyd@familyhonor.net <javascript:;>>
-> wrote:
-> > +FILES_gcore = "${bindir}/gcore"
->
-> Why can't this script just be added to the gdb package?
+I made some tests with the buildhistory-diff tool and it is compatible with the changes. We can add further functionality
+to it in order to make it interpret buildstats data.
+
+Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+---
+ meta/classes/buildhistory.bbclass |    1 +
+ meta/classes/buildstats.bbclass   |    8 ++++++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 3da03c8..a78bd4b 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -19,6 +19,7 @@ BUILDHISTORY_PUSH_REPO ?= ""
+ 
+ # Must inherit package first before changing PACKAGEFUNCS
+ inherit package
++inherit buildstats
+ PACKAGEFUNCS += "buildhistory_emit_pkghistory"
+ 
+ # We don't want to force a rerun of do_package for everything
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+index 72fff11..476ae94 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -1,4 +1,4 @@
+-BUILDSTATS_BASE = "${TMPDIR}/buildstats/"
++BUILDSTATS_BASE = "${BUILDHISTORY_DIR}/buildstats"
+ BNFILE = "${BUILDSTATS_BASE}/.buildname"
+ DEVFILE = "${BUILDSTATS_BASE}/.device"
+ 
+@@ -33,7 +33,7 @@ def set_bn(e):
+ 
+ def get_bn(e):
+     with open(e.data.getVar('BNFILE', True)) as f:
+-        bn = f.readline()
++        bn = str(f.readline()).split("/")[0]
+     return bn
+ 
+ def set_device(e):
+@@ -175,6 +175,10 @@ python run_buildstats () {
+         # set the buildname
+         ########################################################################
+         try:
++            bb.utils.remove(e.data.getVar('BUILDSTATS_BASE', True), recurse=True)
++        except:
++            pass
++        try:
+             bb.utils.mkdirhier(e.data.getVar('BUILDSTATS_BASE', True))
+         except:
+             pass
+-- 
+1.7.9.5
 
 
-actually if we have it as a separate package then all those new rrcommends
-baggage can be added to gcore package instead of gdb proper
-
-
->
-> Ross
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org <javascript:;>
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a11c2f7742e304704ea201b92
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Friday, November 1, 2013, Burton, Ross  wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">On 31 October 2013 06:54, blloyd &lt;<a href=3D"javascript=
-:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;blloyd@familyhonor.net&#39;)"=
->blloyd@familyhonor.net</a>&gt; wrote:<br>
-
-&gt; +FILES_gcore =3D &quot;${bindir}/gcore&quot;<br>
-<br>
-Why can&#39;t this script just be added to the gdb package?</blockquote><di=
-v><br></div><div>actually if we have it as a separate package then all thos=
-e new rrcommends baggage can be added to gcore package instead of gdb prope=
-r</div>
-<div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Ross<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"javascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;Openembe=
-dded-core@lists.openembedded.org&#39;)">Openembedded-core@lists.openembedde=
-d.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</blockquote>
-
---001a11c2f7742e304704ea201b92--
