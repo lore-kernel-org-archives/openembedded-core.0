@@ -1,38 +1,37 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4509F6D123
+Return-Path: <eu@felipetonello.com>
+Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 51FFB6D123
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 03:48:01 +0000 (UTC)
-Received: by mail-la0-f46.google.com with SMTP id hp15so2958636lab.5
+	Fri,  1 Nov 2013 03:52:04 +0000 (UTC)
+Received: by mail-ob0-f181.google.com with SMTP id wp4so4006192obc.40
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 20:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=WYcKEWrdmEVpLggvAQCAL40BEEBX6CuK/Tzq03ZFYuo=;
-	b=iMuN1aFfnSeItN6p9yztjIPTENDEvWZbzUBTue5kwa1PA4fqg4EHzeHt2O4Kt5Iz9J
-	zIa72nvNKOQtYE1YfciFZjf+XosdwWvkAUWrxx8mZdtZHi2tYQ4APH3udCphCEOoocYg
-	4jakc/Du4rPU3W52Zg6YQj654MQQ/cJrVIyAeVZnU7Mo14wCkU+nPRg7M8ajZf+Vmp6i
-	h2d6lwJ5OQ8g/OiSJg1WZHm70bEe0pO5qzKOqHXDdCgfreoLnd2UuINZNT3TrwpOY7Wo
-	a2J3mDbYaCPBe7aoZ+7XVmX5NdAHuQoQu5k28gtYFK44aguGB914aDFK46yIdIoQtTAd
-	rJAw==
-X-Received: by 10.152.21.133 with SMTP id v5mr565385lae.14.1383277682363; Thu,
-	31 Oct 2013 20:48:02 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.53.197 with HTTP; Thu, 31 Oct 2013 20:47:42 -0700 (PDT)
-In-Reply-To: <52731BF7.1070302@felipetonello.com>
-References: <1383272753-20012-1-git-send-email-eu@felipetonello.com>
-	<52731BF7.1070302@felipetonello.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 31 Oct 2013 20:47:42 -0700
-X-Google-Sender-Auth: RTzOMkOPyNkEn7aC99VaFafYn_A
-Message-ID: <CABcZANnXQhm02xiokhxmC_7hdiaR=hDtM6K7ogbnQQHokdPH3Q@mail.gmail.com>
-To: Felipe Ferreri Tonello <eu@felipetonello.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package.bbclass: Fix split_and_strip_files when file has single quote (')
+	Thu, 31 Oct 2013 20:52:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=jWLLOS92M7Rq+n4eYn/UiekTfI9oSwFf3R8ctv4EywQ=;
+	b=BLj5MW3ufTU/mre9+TP1Yy44aodnWprMCXYi8HlRNz2kgCNC8ufA0sfj9brYaiZG9K
+	U+S1j7aRNvrS0o4s5OAd6DfQ7a35eSB2ssBo9UuwI8Ci2YrNNv7GQ9e+Y3vjM3OwT8Q6
+	2A6aKf3j9jd2oBQtleqbeItuvia/Ud0GDKuYFGzGvZVCLewRFJ6BSJRTBus56QB/DCP+
+	X4lvn1RhxYwoJN11TdooIL2yVWp0MRuFHEXIOZSPUT/3StnbAkfmzSGW+yBdTWru21gv
+	sxjifdf732wsEyKGC7fEAPtKYUPhP9G3noosGX7mzCNL3+4mivtKcVGbayRxoIDWEG4a
+	JAOw==
+X-Gm-Message-State: ALoCoQkkQByLYy7O6hlUFqzeRQoI9ek74xGlvA8F0BddRZkDOwoAY7GXbGSoKnS7RnnxeIMg2G9v
+X-Received: by 10.182.107.164 with SMTP id hd4mr151957obb.58.1383277926119;
+	Thu, 31 Oct 2013 20:52:06 -0700 (PDT)
+Received: from localhost.localdomain.com (wsip-70-183-20-162.oc.oc.cox.net.
+	[70.183.20.162])
+	by mx.google.com with ESMTPSA id eg8sm10911622obd.6.2013.10.31.20.52.04
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 31 Oct 2013 20:52:05 -0700 (PDT)
+From: eu@felipetonello.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Oct 2013 20:51:51 -0700
+Message-Id: <1383277911-8416-1-git-send-email-eu@felipetonello.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH][v2] package.bbclass: Fix split_and_strip_files when file has single quote (')
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,122 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 03:48:01 -0000
-Content-Type: multipart/alternative; boundary=089e0158ad5ae2156104ea156e69
+X-List-Received-Date: Fri, 01 Nov 2013 03:52:05 -0000
 
---089e0158ad5ae2156104ea156e69
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+From: "Felipe F. Tonello" <eu@felipetonello.com>
 
-On Thu, Oct 31, 2013 at 8:11 PM, Felipe Ferreri Tonello <
-eu@felipetonello.com> wrote:
+Fix false error report when a file that has a single quote by escaping
+the single quote. Some packages might install files with quotes, such
+as music files and other types, that will cause the problem.
 
-> On 10/31/2013 07:25 PM, eu@felipetonello.com wrote:
->
->> From: "Felipe F. Tonello" <eu@felipetonello.com>
->>
->> Fix false error report when a file that has a single quote by escaping
->> the single quote. Some packages might install files with quotes, such
->> as music files and other types, that will cause the problem.
->>
->> Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
->> ---
->>   meta/classes/package.bbclass | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index b0f44c7..a12b7b7 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -747,7 +747,7 @@ python split_and_strip_files () {
->>       # 16 - kernel module
->>       def isELF(path):
->>           type =3D 0
->> -        ret, result =3D oe.utils.getstatusoutput("file '%s'" % path)
->> +        ret, result =3D oe.utils.getstatusoutput("file '%s'" %
->> path.replace("'", "\\'"))
->>
->>           if ret:
->>               msg =3D "split_and_strip_files: 'file %s' failed" % path
->>
->>
->
-> I just found a bug in this implementation. I will send a v2 shortly.
+Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+---
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index b0f44c7..48bb982 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -747,7 +747,7 @@ python split_and_strip_files () {
+     # 16 - kernel module
+     def isELF(path):
+         type = 0
+-        ret, result = oe.utils.getstatusoutput("file '%s'" % path)
++        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
+ 
+         if ret:
+             msg = "split_and_strip_files: 'file %s' failed" % path
+-- 
+1.8.3.1
 
 
-This should really be fixed to use a better method. In this case we=E2=80=
-=99re just
-running a single binary with one argument, there=E2=80=99s no need to call =
-out to a
-shell at all, much less have to mess around with escaping arguments :)
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---089e0158ad5ae2156104ea156e69
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Oct 31, 2013 at 8:11 PM, Felipe Ferreri Tonello <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:eu@felipetonello.com" target=3D"_blank">eu@felipetonel=
-lo.com</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On 10/31/2013 07:25 PM, <a=
- href=3D"mailto:eu@felipetonello.com" target=3D"_blank">eu@felipetonello.co=
-m</a> wrote:<br>
-
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-From: &quot;Felipe F. Tonello&quot; &lt;<a href=3D"mailto:eu@felipetonello.=
-com" target=3D"_blank">eu@felipetonello.com</a>&gt;<br>
-<br>
-Fix false error report when a file that has a single quote by escaping<br>
-the single quote. Some packages might install files with quotes, such<br>
-as music files and other types, that will cause the problem.<br>
-<br>
-Signed-off-by: Felipe F. Tonello &lt;<a href=3D"mailto:eu@felipetonello.com=
-" target=3D"_blank">eu@felipetonello.com</a>&gt;<br>
----<br>
-=C2=A0 meta/classes/package.<span class=3D"il">bbclass</span> | 2 +-<br>
-=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/package.<span class=3D"il">bbclass</span> b/meta/=
-classes/package.<span class=3D"il">bbclass</span><br>
-index b0f44c7..a12b7b7 100644<br>
---- a/meta/classes/package.<span class=3D"il">bbclass</span><br>
-+++ b/meta/classes/package.<span class=3D"il">bbclass</span><br>
-@@ -747,7 +747,7 @@ python split_and_strip_files () {<br>
-=C2=A0 =C2=A0 =C2=A0 # 16 - kernel module<br>
-=C2=A0 =C2=A0 =C2=A0 def isELF(path):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 type =3D 0<br>
-- =C2=A0 =C2=A0 =C2=A0 =C2=A0ret, result =3D oe.utils.getstatusoutput(&quot=
-;file &#39;%s&#39;&quot; % path)<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0ret, result =3D oe.utils.getstatusoutput(&quot=
-;file &#39;%s&#39;&quot; % path.replace(&quot;&#39;&quot;, &quot;\\&#39;&qu=
-ot;))<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ret:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D &quot;split_and_st=
-rip_files: &#39;file %s&#39; failed&quot; % path<br>
-<br>
-</blockquote>
-<br>
-<br></div>
-I just found a bug in this implementation. I will send a v2 shortly.</block=
-quote></div><br>This should really be fixed to use a better method. In this=
- case we=E2=80=99re just running a single binary with one argument, there=
-=E2=80=99s no need to call out to a shell at all, much less have to mess ar=
-ound with escaping arguments :)<br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
-
---089e0158ad5ae2156104ea156e69--
