@@ -1,37 +1,24 @@
-Return-Path: <eu@felipetonello.com>
-Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 51FFB6D123
+Return-Path: <Xufeng.Zhang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8539D6D183
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 03:52:04 +0000 (UTC)
-Received: by mail-ob0-f181.google.com with SMTP id wp4so4006192obc.40
+	Fri,  1 Nov 2013 04:25:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA14PPWX018804
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 31 Oct 2013 20:52:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jWLLOS92M7Rq+n4eYn/UiekTfI9oSwFf3R8ctv4EywQ=;
-	b=BLj5MW3ufTU/mre9+TP1Yy44aodnWprMCXYi8HlRNz2kgCNC8ufA0sfj9brYaiZG9K
-	U+S1j7aRNvrS0o4s5OAd6DfQ7a35eSB2ssBo9UuwI8Ci2YrNNv7GQ9e+Y3vjM3OwT8Q6
-	2A6aKf3j9jd2oBQtleqbeItuvia/Ud0GDKuYFGzGvZVCLewRFJ6BSJRTBus56QB/DCP+
-	X4lvn1RhxYwoJN11TdooIL2yVWp0MRuFHEXIOZSPUT/3StnbAkfmzSGW+yBdTWru21gv
-	sxjifdf732wsEyKGC7fEAPtKYUPhP9G3noosGX7mzCNL3+4mivtKcVGbayRxoIDWEG4a
-	JAOw==
-X-Gm-Message-State: ALoCoQkkQByLYy7O6hlUFqzeRQoI9ek74xGlvA8F0BddRZkDOwoAY7GXbGSoKnS7RnnxeIMg2G9v
-X-Received: by 10.182.107.164 with SMTP id hd4mr151957obb.58.1383277926119;
-	Thu, 31 Oct 2013 20:52:06 -0700 (PDT)
-Received: from localhost.localdomain.com (wsip-70-183-20-162.oc.oc.cox.net.
-	[70.183.20.162])
-	by mx.google.com with ESMTPSA id eg8sm10911622obd.6.2013.10.31.20.52.04
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 31 Oct 2013 20:52:05 -0700 (PDT)
-From: eu@felipetonello.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 31 Oct 2013 20:51:51 -0700
-Message-Id: <1383277911-8416-1-git-send-email-eu@felipetonello.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH][v2] package.bbclass: Fix split_and_strip_files when file has single quote (')
+	Thu, 31 Oct 2013 21:25:25 -0700 (PDT)
+Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 31 Oct 2013 21:25:24 -0700
+From: Xufeng Zhang <xufeng.zhang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 1 Nov 2013 12:25:17 +0800
+Message-ID: <1383279917-22210-1-git-send-email-xufeng.zhang@windriver.com>
+X-Mailer: git-send-email 1.8.3.3
+MIME-Version: 1.0
+Subject: [V2 PATCH] kernel.bbclass: Delay rm_work to run after do_bundle_initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 03:52:05 -0000
+X-List-Received-Date: Fri, 01 Nov 2013 04:25:25 -0000
+Content-Type: text/plain
 
-From: "Felipe F. Tonello" <eu@felipetonello.com>
+Since kernel will build twice when we are trying to bundle kernel
+and initramfs together after commit 609d5a9ab("kernel.bbclass,
+image.bbclass: Implement kernel INITRAMFS dependency and bundling"),
+thus, the second building for kernel would fail if rm_work is done
+previously.
 
-Fix false error report when a file that has a single quote by escaping
-the single quote. Some packages might install files with quotes, such
-as music files and other types, that will cause the problem.
+To fix this problem, we need to make do_bundle_initramfs task run
+before do_rm_work task.
 
-Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+[YOCTO #5416]
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
 ---
- meta/classes/package.bbclass | 2 +-
+ meta/classes/kernel.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index b0f44c7..48bb982 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -747,7 +747,7 @@ python split_and_strip_files () {
-     # 16 - kernel module
-     def isELF(path):
-         type = 0
--        ret, result = oe.utils.getstatusoutput("file '%s'" % path)
-+        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index dedfab7..a4db9f5 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -152,7 +152,7 @@ python do_devshell_prepend () {
+     os.environ["LDFLAGS"] = ''
+ }
  
-         if ret:
-             msg = "split_and_strip_files: 'file %s' failed" % path
+-addtask bundle_initramfs after do_compile
++addtask bundle_initramfs after do_compile before do_build
+ 
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 -- 
-1.8.3.1
+1.8.3.3
 
 
