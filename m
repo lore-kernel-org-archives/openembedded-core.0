@@ -1,28 +1,36 @@
-Return-Path: <Xufeng.Zhang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CF086D503
+Return-Path: <eu@felipetonello.com>
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 60FE86D537
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 01:10:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA11ADad007455
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 31 Oct 2013 18:10:13 -0700 (PDT)
-Received: from [128.224.163.210] (128.224.163.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 31 Oct 2013 18:10:13 -0700
-Message-ID: <5272FF73.40606@windriver.com>
-Date: Fri, 1 Nov 2013 09:10:11 +0800
-From: Xufeng Zhang <xufeng.zhang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.1.10) Gecko/20100512 Thunderbird/3.0.5 ThunderBrowse/3.82
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1383182680-20871-1-git-send-email-xufeng.zhang@windriver.com>
-	<20131031082625.GE32015@jama>
-In-Reply-To: <20131031082625.GE32015@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass: Delay rm_work to run after do_bundle_initramfs
+	Fri,  1 Nov 2013 02:25:58 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id n12so3980279oag.40
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 31 Oct 2013 19:26:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=mjKtxEv4PMT4GwZ2kA58LVWE176UHUopzKeIBn+paf8=;
+	b=VnmPdKcxzBwUgfsGIOFyMmT943jEFTpzsy++VUOMSi9LY0mlMYEzzGR3FK12o6AZe1
+	mhnhiGTq+sXIOgw6V/ms9KTDhs6IvreOxQyq5R7EzHx0woM9wi4HN/jY7kzuF0L4dviv
+	atCWkqxRVRMiUc031PYDFkKvAqR6ZcSRIYesJfzF3PfY0YKcl9vi+BlpkOpDASH3h68v
+	0GxeaYsGEWpcGQ5eQ93b2gPiVwebKPuz4X14DAnr+j6uJZI1ABFmzdZspKoDBbZkoSoh
+	HAbGLmyTU9n8miVWocGAM4kAP7L+7NE9fwQ6z8TE/QvIYqmHXw47LK9uqbrpjnE/MpRY
+	cLIw==
+X-Gm-Message-State: ALoCoQl3BfiHvtaTFOZ6fTeLIjF1kaQ5qWNYNpLdUMFcstKwQzbACmbePm1SoiCVd4F0tOWC7ihQ
+X-Received: by 10.182.18.102 with SMTP id v6mr643985obd.71.1383272759894;
+	Thu, 31 Oct 2013 19:25:59 -0700 (PDT)
+Received: from localhost.localdomain.com (wsip-70-183-20-162.oc.oc.cox.net.
+	[70.183.20.162]) by mx.google.com with ESMTPSA id
+	it7sm10466592obb.11.2013.10.31.19.25.58 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 31 Oct 2013 19:25:59 -0700 (PDT)
+From: eu@felipetonello.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 31 Oct 2013 19:25:53 -0700
+Message-Id: <1383272753-20012-1-git-send-email-eu@felipetonello.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] package.bbclass: Fix split_and_strip_files when file has single quote (')
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,68 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 01:10:17 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Nov 2013 02:25:58 -0000
 
-On 10/31/2013 04:26 PM, Martin Jansa wrote:
-> On Thu, Oct 31, 2013 at 09:24:40AM +0800, Xufeng Zhang wrote:
->    
->> From: "Signed-off-by: Xufeng Zhang"<xufeng.zhang@windriver.com>
->>
->> Since kernel will build twice when we are trying to bundle kernel
->> and initramfs together after commit 609d5a9ab("kernel.bbclass,
->> image.bbclass: Implement kernel INITRAMFS dependency and bundling"),
->> thus, the second building for kernel would fail if rm_work is done
->> previously.
->>
->> To fix this problem, we need to delay the rm_work task for kernel
->> to run after do_bundle_initramfs task.
->>
->> [YOCTO #5416]
->>
->> Signed-off-by: Xufeng Zhang<xufeng.zhang@windriver.com>
->> ---
->>   meta/classes/kernel.bbclass | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index dedfab7..6154df0 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -29,6 +29,9 @@ python __anonymous () {
->>       image_task = d.getVar('INITRAMFS_TASK', True)
->>       if image_task:
->>           d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
->> +
->> +    if image or image_task:
->> +        d.appendVarFlag('do_rm_work', 'depends', " %s:do_bundle_initramfs" % d.getVar('PN', True))
->>   }
->>      
-> Why not add "before" param to addtask?
->
-> addtask bundle_initramfs after do_compile before do_build
->
-> could do the trick
->    
+From: "Felipe F. Tonello" <eu@felipetonello.com>
 
-Yes, this works better than my fix, thanks a lot!
-I'll send a V2 patch.
+Fix false error report when a file that has a single quote by escaping
+the single quote. Some packages might install files with quotes, such
+as music files and other types, that will cause the problem.
 
+Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+---
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Xufeng
-
->    
->>   inherit kernel-arch deploy
->> -- 
->> 1.8.3.3
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>      
->    
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index b0f44c7..a12b7b7 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -747,7 +747,7 @@ python split_and_strip_files () {
+     # 16 - kernel module
+     def isELF(path):
+         type = 0
+-        ret, result = oe.utils.getstatusoutput("file '%s'" % path)
++        ret, result = oe.utils.getstatusoutput("file '%s'" % path.replace("'", "\\'"))
+ 
+         if ret:
+             msg = "split_and_strip_files: 'file %s' failed" % path
+-- 
+1.8.3.1
 
 
