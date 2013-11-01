@@ -1,31 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id B1B226BB2F
+Return-Path: <eric@eukrea.com>
+Received: from smtp4-g21.free.fr (smtp4-g21.free.fr [212.27.42.4])
+	by mail.openembedded.org (Postfix) with ESMTP id CBD5E6CE3F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 15:19:03 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA1FIp0S005421; Fri, 1 Nov 2013 15:18:51 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 0v7CE2i6o05g; Fri,  1 Nov 2013 15:18:51 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA1FIjMZ005415
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 1 Nov 2013 15:18:47 GMT
-Message-ID: <1383319121.6271.50.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: blloyd <blloyd@familyhonor.net>
-Date: Fri, 01 Nov 2013 15:18:41 +0000
-In-Reply-To: <2e9cfab0ee89692c85b78802b1804aa3e7856ef8.1383197850.git.blloyd@familyhonor.net>
-References: <cover.1383197850.git.blloyd@familyhonor.net>
-	<2e9cfab0ee89692c85b78802b1804aa3e7856ef8.1383197850.git.blloyd@familyhonor.net>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+	Fri,  1 Nov 2013 15:36:20 +0000 (UTC)
+Received: from e6520eb (unknown [90.84.144.55]) (Authenticated sender: eukrea)
+	by smtp4-g21.free.fr (Postfix) with ESMTPSA id 713DB4C80EF;
+	Fri,  1 Nov 2013 16:36:15 +0100 (CET)
+Date: Fri, 1 Nov 2013 16:36:11 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20131101163611.37a8c084@e6520eb>
+In-Reply-To: <20131028151004.34b2af21@e6520eb>
+References: <1381358545.29912.50.camel@ted> <20131028151004.34b2af21@e6520eb>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] Enhancements to allow core file debugging to work properly from devices
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: SRC_URI computing order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,48 +29,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 15:19:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 01 Nov 2013 15:36:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2013-10-31 at 01:54 -0500, blloyd wrote:
-> gdb includes a script to make generating core files trivial.  Add a package to allow inclusion of this script in images.  GDB also requires symbols that are usually stripped from the threads library to properly generate a core dump.  Therefore, ensure when gdb is installed the necessary debug file is also present so gdb is fully functional.
-> 
-> Signed-off-by: blloyd <blloyd@familyhonor.net>
-> ---
->  meta/recipes-devtools/gdb/gdb-common.inc | 12 +++++++-----
->  meta/recipes-devtools/gdb/gdb.inc        |  9 ++++++++-
->  2 files changed, 15 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-> index 6954954..02eef85 100644
-> --- a/meta/recipes-devtools/gdb/gdb-common.inc
-> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
-> @@ -61,8 +61,10 @@ do_install_append() {
->  	rm -rf ${D}${datadir}/locale
->  }
->  
-> -RRECOMMENDS_gdb_append_linux = " glibc-thread-db "
-> -RRECOMMENDS_gdb_append_linux-gnueabi = " glibc-thread-db "
-> -RRECOMMENDS_gdbserver_append_linux = " glibc-thread-db "
-> -RRECOMMENDS_gdbserver_append_linux-gnueabi = " glibc-thread-db "
-> -
-> +# Unfortunately, for gdb multi-threading to function reliably it must have the eglibc debug symbols
-> +# which are a part of the eglibc-dev package.  So we have added a dependency on that here.
-> +RRECOMMENDS_gdb_append_linux = " glibc-thread-db eglibc-dev "
-> +RRECOMMENDS_gdb_append_linux-gnueabi = " glibc-thread-db eglibc-dev "
-> +RRECOMMENDS_gdbserver_append_linux = " glibc-thread-db eglibc-dev "
-> +RRECOMMENDS_gdbserver_append_linux-gnueabi = " glibc-thread-db eglibc-dev "
-> +RDEPENDS_gcore_append = " gdb "
+Hi,
 
-Aren't they part of the -dbg package, not -dev?
+Le Mon, 28 Oct 2013 15:10:04 +0100,
+Eric B=E9nard <eric@eukrea.com> a =E9crit :
+> I saw your patch fixing FILESPATH's and Kergoth's one fixing
+> PACKAGECONFIG processing order and I think I'm also facing an order
+> problem when SRC_URI is computed.
+>=20
+> So when building SRC_URI when two layers have bbappend which apply
+> patches : the SRC_URI seems to be built using an order I fail to
+> understand somewhere instead of priority or the overrides' order.
+>=20
+> The use case is a System on Module and its custom motherboard :
+> - meta-fsl-arm :
+> * linux-imx_xyz.bb :
+> SRC_URI =3D "patchgeneric1 ..."
+>=20
+> - meta-som-support :
+> * conf/machine/mysom.conf
+>=20
+> * linux-imx_xyz.bbappend :
+> SRC_URI_append_mysom =3D "patchsom1 patchsom2 ..."
+>=20
+> - meta-custommotherboard (SOM + Cunstom Motherboard) :
+> * conf/machine/myproduct.conf
+> MACHINEOVERRIDES_prepend =3D "mysom:"
+> include conf/machine/mysom.conf
+>=20
+> * linux-imx_xyz.bbappend :
+> SRC_URI_append_myproduct =3D "patchproduct1 patchproduct2 ..."
+>=20
+> in the end I get :
+> SRC_URI =3D "patchgeneric1 ... patchsoc1 ... patchproduct1 ...
+> patchsom1 ..."
+>=20
+> and of course as patchproduct* are supposed to apply on top of
+> patchsoc* the patch fail to apply.
+>=20
+> I didn't found a way to build SRC_URI in the order I would like (I
+> tested : changing MACHINEOVERRIDES 's order, changing layers' priority,
+> changing machine's name to see if that was an alphabetical order ...).
+>=20
+> In the end the only thing which worked was to add an (empty by default)
+> variable in som's SRC_URI and filling this variables from the
+> custommotherboard's bbappend.
+>=20
+> Is the behaviour I'm seeing expected or is there something wrong in my
+> setup ?
+>=20
+do you need more details concerning this problem ?
 
-You also need to put "gdb: " at the start of the commit message summary
-as per the commit message guidelines. It may be worth splitting this
-change into two commits too.
-
-Cheers,
-
-Richard
-
+Thanks
+Eric
 
