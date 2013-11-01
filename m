@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C65D86AF9F
+Received: from mail-vb0-f47.google.com (mail-vb0-f47.google.com
+	[209.85.212.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FCB36AF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 11:56:20 +0000 (UTC)
-Received: by mail-vc0-f182.google.com with SMTP id if17so2788072vcb.41
+	Fri,  1 Nov 2013 11:59:34 +0000 (UTC)
+Received: by mail-vb0-f47.google.com with SMTP id m10so2722192vbh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Nov 2013 04:56:22 -0700 (PDT)
+	Fri, 01 Nov 2013 04:59:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=9FuixAvsFPYm7nEZuxB47ipyWcCOan7kPelDu+vTXUg=;
-	b=XxguG+nbwOKvQ/7HMWioGEAPfJs+P+qML4DP6ZCLJLz9fPqTTDM4RCIegZnuWjppYr
-	6hrFtpqX/YovZj/sFqu8FN1lQiFUa9l8hRKDSrRASIbb+9SEWFqYveXZROYn3m6x/jk0
-	TxwpeLW8VKPdMuFMRJfcK/IC03rpWNeYQtrNoR+S4sAjfS3yQ9FzKXp6FqO6+CAxfx9U
-	ZLRmwHeMTjeY9sQ+38xZ519LO2Gju7m5b50oyJKJsudrnvtnIjHK6FCU0NnBa69BuQf+
-	cIjG4UitFg8whXjJtZskbNUJSHTkr+IkWFJTSm6DlxFLDIIcmf5XuOWkifazIngvoqJZ
-	v75Q==
-X-Gm-Message-State: ALoCoQlnnQeVRXVdfB8MqNvz5QKDFDWeBJTFw4C9C/iq3ZmqgKlZUfzDPjdpmpB3HsOLHPo7OPoz
-X-Received: by 10.58.208.130 with SMTP id me2mr1631812vec.13.1383306982411;
-	Fri, 01 Nov 2013 04:56:22 -0700 (PDT)
+	bh=1leQOR1eGTbAEk6CqnlDuIcc1OG/1JbJHQnOebeJLYE=;
+	b=fazmACfGz/qfiPdWJcGFJdmdJ96kGtHApm3zlmI+dPu3Z7zKgArPAtpdq3EPXZcLDR
+	lAyzKSjraGoOUFSGGOKvOZX+svUtXH6knVQ0IPhmETvFo+YkiDEKt7LK0IqF6zcvIl7s
+	GvYG+bPfzswP+54a0IRjVzBqhbFlwfQAQ7VvFFVqXp0/89i4Lte+VVVMxWkdOCgxFEDN
+	I6IBwGsUnqgkNwqxcHJxqVgfv/cSWs0Ff5u+1CUK7gflOs0xNx+GFIp9wdVMCMQh8Qax
+	7o4o+JTSTo6jfuSQtukJH56Y95r1veGOZn/iQv+3BYtW2il2EHhqETfFFqpQkzsykkP3
+	CRyw==
+X-Gm-Message-State: ALoCoQnlbbhcfCsw2IEua1Y/5+99SBqKyYBZSWPD7u7Spstb/q//2IPkw9JfjUrLAJICpiZPsVNI
+X-Received: by 10.52.171.79 with SMTP id as15mr1392173vdc.1.1383307176323;
+	Fri, 01 Nov 2013 04:59:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 1 Nov 2013 04:56:02 -0700 (PDT)
-In-Reply-To: <526FF0A2.6090900@linux.intel.com>
-References: <1382610728-7026-1-git-send-email-valentin.popa@intel.com>
-	<526FF0A2.6090900@linux.intel.com>
+Received: by 10.220.71.201 with HTTP; Fri, 1 Nov 2013 04:59:16 -0700 (PDT)
+In-Reply-To: <52724998.8060509@windriver.com>
+References: <1383181191-17015-1-git-send-email-rongqing.li@windriver.com>
+	<5271E1D7.6010100@windriver.com> <52724998.8060509@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 1 Nov 2013 11:56:02 +0000
-Message-ID: <CAJTo0LY-ndQhOJDwwySUT13-2dz_K7qZMpMqOpmLymQ55MkApQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
+Date: Fri, 1 Nov 2013 11:59:16 +0000
+Message-ID: <CAJTo0LYNOxgS4t-YCBc7B1UyfoudKxOZZaeG_W0QAE4h9YzK-g@mail.gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Mesa: upgrade to 9.2.2
+Subject: Re: [PATCH] bluez: declaration of virtual/bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,16 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 11:56:22 -0000
+X-List-Received-Date: Fri, 01 Nov 2013 11:59:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 29 October 2013 17:30, Saul Wold <sgw@linux.intel.com> wrote:
-> Also since a resend is needed, please combine the mesa-9.2.2 and mesa
-> patches into a single mesa directory.  I will be sending more email about
-> this in the next day or so as a clean across the board cleanup.
+On 31 October 2013 12:14, Rongqing Li <rongqing.li@windriver.com> wrote:
+> connman can detect whether Bluez 4.x or Bluez 5.x is running, so both
+> versions are ok for it.
+>
+> I think all packages should have the capability to detect which bluez
+> version is used.
 
-In the Mesa case there were previously two directories because some
-patches were common and some were version-specific.
+Whereas the GNOME platform has (last time I looked) mandated BlueZ 5
+and deleted all BlueZ 4 code.
+
+BlueZ choice is very much one or other, and you can't expect all
+upstreams to maintain support for both for a long period of time.
 
 Ross
 
