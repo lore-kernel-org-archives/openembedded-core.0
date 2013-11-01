@@ -1,30 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id C28DF6CCC9
+	by mail.openembedded.org (Postfix) with ESMTP id B1B226BB2F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  1 Nov 2013 14:36:26 +0000 (UTC)
+	Fri,  1 Nov 2013 15:19:03 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA1EaLfS003888; Fri, 1 Nov 2013 14:36:21 GMT
+	rA1FIp0S005421; Fri, 1 Nov 2013 15:18:51 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wfuHfvZp7VPe; Fri,  1 Nov 2013 14:36:21 +0000 (GMT)
+	with LMTP id 0v7CE2i6o05g; Fri,  1 Nov 2013 15:18:51 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA1EaGf7003879
+	rA1FIjMZ005415
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 1 Nov 2013 14:36:17 GMT
-Message-ID: <1383316571.6271.33.camel@ted>
+	verify=NOT); Fri, 1 Nov 2013 15:18:47 GMT
+Message-ID: <1383319121.6271.50.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Janis Coders <janis.coders@gmail.com>
-Date: Fri, 01 Nov 2013 14:36:11 +0000
-In-Reply-To: <5273B339.6090700@gmail.com>
-References: <5273B339.6090700@gmail.com>
+To: blloyd <blloyd@familyhonor.net>
+Date: Fri, 01 Nov 2013 15:18:41 +0000
+In-Reply-To: <2e9cfab0ee89692c85b78802b1804aa3e7856ef8.1383197850.git.blloyd@familyhonor.net>
+References: <cover.1383197850.git.blloyd@familyhonor.net>
+	<2e9cfab0ee89692c85b78802b1804aa3e7856ef8.1383197850.git.blloyd@familyhonor.net>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: Patch file search order in DORA (1.5)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] Enhancements to allow core file debugging to work properly from devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,68 +38,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Nov 2013 14:36:27 -0000
+X-List-Received-Date: Fri, 01 Nov 2013 15:19:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-11-01 at 15:57 +0200, Janis Coders wrote:
-> Hi, I am working on Freescale's BSP with my custom layer which overrides 
-> (appends) the Linux kernel's recipe.
-> In version 1.4 my custom recipe's defconfig had priority over the 
-> 'original' layer's defconfig, but in 1.5 the priority has
-> changed. After some debugging I found out that seems like order of patch 
-> file searching has changed in version 1.5.
+On Thu, 2013-10-31 at 01:54 -0500, blloyd wrote:
+> gdb includes a script to make generating core files trivial.  Add a package to allow inclusion of this script in images.  GDB also requires symbols that are usually stripped from the threads library to properly generate a core dump.  Therefore, ensure when gdb is installed the necessary debug file is also present so gdb is fully functional.
 > 
-> Order in 1.4 (example):
-> DEBUG: Searching for defconfig in paths:
-> /home/chocis/projects/balticembedded-bsp/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/arm
-> /home/chocis/projects/balticembedded-bsp/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/armv7a
-> /home/chocis/projects/balticembedded-bsp/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/mx5
-> /home/chocis/projects/balticembedded-bsp/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/mx53
-> /home/chocis/projects/balticembedded-bsp/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/imx53be
-> /home/chocis/projects/balticembedded-bsp/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/poky
-> /home/chocis/projects/balticembedded-bsp/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/
-> /home/chocis/projects/balticembedded-bsp/sources/meta-fsl-arm/recipes-kernel/linux/linux-imx-2.6.35.3/arm
-> /home/chocis/projects/balticembedded-bsp/sources/meta-fsl-arm/recipes-kernel/linux/linux-imx-2.6.35.3/armv7a
-> /home/chocis/projects/balticembedded-bsp/sources/meta-fsl-arm/recipes-kernel/linux/linux-imx-2.6.35.3/mx5 
+> Signed-off-by: blloyd <blloyd@familyhonor.net>
+> ---
+>  meta/recipes-devtools/gdb/gdb-common.inc | 12 +++++++-----
+>  meta/recipes-devtools/gdb/gdb.inc        |  9 ++++++++-
+>  2 files changed, 15 insertions(+), 6 deletions(-)
 > 
->      ......
-> Order in 1.5 (example):
-> /home/chocis/projects/testdorafreescale/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/poky
-> /home/chocis/projects/testdorafreescale/sources/meta-fsl-arm-extra/recipes-kernel/linux/linux-imx-2.6.35.3/poky
-> /home/chocis/projects/testdorafreescale/sources/meta-fsl-arm/recipes-kernel/linux/linux-imx-2.6.35.3/poky
-> /home/chocis/projects/testdorafreescale/sources/meta-fsl-arm/recipes-kernel/linux/linux-imx/poky
-> /home/chocis/projects/testdorafreescale/sources/meta-fsl-arm/recipes-kernel/linux/files/poky
-> /home/chocis/projects/testdorafreescale/sources/meta-balticembedded/recipes-balticembedded/linux/linux-imx/imx53be
-> /home/chocis/projects/testdorafreescale/sources/meta-fsl-arm-extra/recipes-kernel/linux/linux-imx-2.6.35.3/imx53be
-> /home/chocis/projects/testdorafreescale/sources/meta-fsl-arm/recipes-kernel/linux/linux-imx-2.6.35.3/imx53be
-> /home/chocis/projects/testdorafreescale/sources/meta-fsl-arm/recipes-kernel/linux/linux-imx/imx53be
-> /home/chocis/projects/testdorafreescale/sources/meta-fsl-arm/recipes-kernel/linux/files/imx53be
->      .........
-> 
-> Was this intended and specially changed in version 1.5? Because now I 
-> have to move my defconfig one directory deeper
-> to get the priority.
+> diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
+> index 6954954..02eef85 100644
+> --- a/meta/recipes-devtools/gdb/gdb-common.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-common.inc
+> @@ -61,8 +61,10 @@ do_install_append() {
+>  	rm -rf ${D}${datadir}/locale
+>  }
+>  
+> -RRECOMMENDS_gdb_append_linux = " glibc-thread-db "
+> -RRECOMMENDS_gdb_append_linux-gnueabi = " glibc-thread-db "
+> -RRECOMMENDS_gdbserver_append_linux = " glibc-thread-db "
+> -RRECOMMENDS_gdbserver_append_linux-gnueabi = " glibc-thread-db "
+> -
+> +# Unfortunately, for gdb multi-threading to function reliably it must have the eglibc debug symbols
+> +# which are a part of the eglibc-dev package.  So we have added a dependency on that here.
+> +RRECOMMENDS_gdb_append_linux = " glibc-thread-db eglibc-dev "
+> +RRECOMMENDS_gdb_append_linux-gnueabi = " glibc-thread-db eglibc-dev "
+> +RRECOMMENDS_gdbserver_append_linux = " glibc-thread-db eglibc-dev "
+> +RRECOMMENDS_gdbserver_append_linux-gnueabi = " glibc-thread-db eglibc-dev "
+> +RDEPENDS_gcore_append = " gdb "
 
-It was not in the 1.5 release however I have just realised it is in the
-dora branch and it is a change of behaviour there. I'm not sure it was
-intentionally included for 1.5.1 and that is something we need to
-discuss.
+Aren't they part of the -dbg package, not -dev?
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=dora&id=0bd63125c3b44a656e44f2a76cc5f832c9db4bbd
-
-I would say that the change is in master and is intentional however and
-if you look at the search order, it does make more sense this way
-around. Any distro override file should come first, then say armv7, then
-armv6 and so on. In the original order, arm overrides armv7 which
-overrides machine specific which makes no sense.
-
-On those grounds it is a valid bug fix for 1.5.1 IMO.
+You also need to put "gdb: " at the start of the commit message summary
+as per the commit message guidelines. It may be worth splitting this
+change into two commits too.
 
 Cheers,
 
 Richard
-
-
 
 
