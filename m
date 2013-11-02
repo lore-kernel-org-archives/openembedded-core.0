@@ -1,25 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D71B56D5AE
+Return-Path: <cjp256@gmail.com>
+Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A11FD6D610
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2013 18:24:13 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Nov 2013 11:24:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,623,1378882800"; d="scan'208";a="426942074"
-Received: from unknown (HELO [10.255.15.48]) ([10.255.15.48])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Nov 2013 11:24:14 -0700
-Message-ID: <527542CF.5040909@linux.intel.com>
-Date: Sat, 02 Nov 2013 11:22:07 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org, 
-	Mihaela Sendrea <mihaela.sendrea@enea.com>
-References: <1383358116-997-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1383358116-997-1-git-send-email-raj.khem@gmail.com>
-Subject: Re: [PATCH V3] expect: Add recipe
+	Sat,  2 Nov 2013 19:53:22 +0000 (UTC)
+Received: by mail-qa0-f41.google.com with SMTP id f11so1328178qae.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 02 Nov 2013 12:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=SP4wsbzt4w0CMhlHG7S290lzE64+tnMNjHcyIQqCtmQ=;
+	b=c4C+568CKgVTwwN44bI0tgPQme8e17EKNBUXP4KypwJaIuTZyM3TqXEwkUqkDJZmeU
+	LuHfiHWBjvewZ+oCnHTqpCwfz7PZRawIHNGwDq+mMgP5v6nMgxd2lrL4XidIOX/JzoBx
+	6KvHx9gQuLgZVygi+6Qi6uqqiMCzFw2TfH66ZEUgnswNjrccvHxHVEU/Rp11VJviJfyN
+	/zUYXqnnLb8U6hMMKars5+6sUYvNoixe+o1Z7gE0pBO1kz0O+5lqXAj0d2Gc4lIIwDAH
+	MnMX+Nx9ARwVfl2h2uBvHwVa1M4Ia7wEq62VkjDKwwj4HKNNLRTzJZdyshKmCoZxDo9W
+	FUVg==
+X-Received: by 10.49.59.133 with SMTP id z5mr12220804qeq.18.1383422004205;
+	Sat, 02 Nov 2013 12:53:24 -0700 (PDT)
+Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
+	[74.71.215.22])
+	by mx.google.com with ESMTPSA id og1sm30576221qeb.3.2013.11.02.12.53.22
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 02 Nov 2013 12:53:23 -0700 (PDT)
+From: Chris Patterson <cjp256@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  2 Nov 2013 15:52:13 -0400
+Message-Id: <1383421933-16197-1-git-send-email-cjp256@gmail.com>
+X-Mailer: git-send-email 1.8.4.rc3
+Subject: [PATCH v2] qemu: upgrade to 1.6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,410 +42,336 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2013 18:24:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 02 Nov 2013 19:53:23 -0000
 
+This update also drops the following patches which appear to have
+been resolved upstream:
+- ftd_header.patch
+- target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+- target-ppc_fix_bit_extraction.patch
 
-The recipe itself needs some work.
+Qemu no longer uses the i386.ld and x86_64.ld linker scripts
+and the .interp section should now have a 0x1000 size with the
+proper path.  Therefore, for nativesdk-qemu, the following
+patch should no longer be required and is also dropped:
+- relocatable_sdk.patch
 
-See below
+Signed-off-by: Chris Patterson <cjp256@gmail.com>
+---
+ meta/recipes-devtools/qemu/files/fdt_header.patch  | 39 -----------
+ .../qemu/files/relocatable_sdk.patch               | 34 ----------
+ ...-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch | 79 ----------------------
+ .../qemu/files/target-ppc_fix_bit_extraction.patch | 70 -------------------
+ meta/recipes-devtools/qemu/qemu.inc                |  6 +-
+ .../qemu/{qemu_1.5.0.bb => qemu_1.6.1.bb}          | 15 ++--
+ 6 files changed, 9 insertions(+), 234 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/files/fdt_header.patch
+ delete mode 100644 meta/recipes-devtools/qemu/files/relocatable_sdk.patch
+ delete mode 100644 meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+ delete mode 100644 meta/recipes-devtools/qemu/files/target-ppc_fix_bit_extraction.patch
+ rename meta/recipes-devtools/qemu/{qemu_1.5.0.bb => qemu_1.6.1.bb} (44%)
 
-Sau!
-
-
-On 11/01/2013 07:08 PM, Khem Raj wrote:
-> From: Mihaela Sendrea <mihaela.sendrea@enea.com>
->
-> Nedeed for gcc-runtime tests.
->
-> Fixed build on multilib and add patch to remove
-> !/depot/path/expect -f
-> which caused rpm to puke on rfs generation
->
-> Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
-> Signed-off-by: Khem Raj <kraj@juniper.net>
-> ---
->   .../expect/expect/0001-configure.in.patch          | 108 ++++++++++++++++
->   .../expect/expect/0002-tcl.m4.patch                |  17 +++
->   .../expect/expect/01-example-shebang.patch         | 144 +++++++++++++++++++++
->   meta/recipes-devtools/expect/expect_5.45.bb        |  52 ++++++++
->   4 files changed, 321 insertions(+)
->   create mode 100644 meta/recipes-devtools/expect/expect/0001-configure.in.patch
->   create mode 100644 meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
->   create mode 100644 meta/recipes-devtools/expect/expect/01-example-shebang.patch
->   create mode 100644 meta/recipes-devtools/expect/expect_5.45.bb
->
-> diff --git a/meta/recipes-devtools/expect/expect/0001-configure.in.patch b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
-> new file mode 100644
-> index 0000000..7595a25
-> --- /dev/null
-> +++ b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
-> @@ -0,0 +1,108 @@
-> +Allow cross compiling.
-> +
-> +Signed-off-by: Anders Roxell <anders.roxell@enea.com>
-> +Upstream-Status: Pending
-> +---
-> +diff -uNr a/configure.in b/configure.in
-> +--- a/configure.in	2012-12-14 15:31:32.623180450 +0100
-> ++++ b/configure.in	2012-12-14 15:53:34.518233519 +0100
-> +@@ -481,7 +481,7 @@
-> + ,
-> + 	AC_MSG_RESULT(no)
-> + ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++	AC_MSG_RESULT(no)
-> + )
-> +
-> + AC_MSG_CHECKING([if any value exists for WNOHANG])
-> +@@ -506,7 +506,9 @@
-> + 	AC_MSG_RESULT(no)
-> + 	AC_DEFINE(WNOHANG_BACKUP_VALUE, 1)
-> + ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++	AC_MSG_RESULT(yes)
-> ++	AC_DEFINE_UNQUOTED(WNOHANG_BACKUP_VALUE, `cat wnohang`)
-> ++	rm -f wnohang
-> + )
-> +
-> + #
-> +@@ -574,7 +576,8 @@
-> + 	AC_DEFINE(REARM_SIG)
-> + ,
-> + 	AC_MSG_RESULT(no)
-> +-, AC_MSG_WARN([Expect can't be cross compiled])
-> ++,
-> ++	AC_MSG_RESULT(no)
-> + )
-> +
-> + # HPUX7 has trouble with the big cat so split it
-> +@@ -725,7 +728,9 @@
-> + ,
-> +         AC_MSG_RESULT(no)
-> + ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++        AC_MSG_RESULT(yes)
-> ++        AC_DEFINE(HAVE_SGTTYB)
-> ++        PTY_TYPE=sgttyb
-> + )
-> +
-> + # mach systems have include files for unimplemented features
-> +@@ -749,7 +754,9 @@
-> + ,
-> +         AC_MSG_RESULT(no)
-> + ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++        AC_DEFINE(HAVE_TERMIO)
-> ++        PTY_TYPE=termios
-> ++        AC_MSG_RESULT(yes)
-> + )
-> +
-> +   # now check for the new style ttys (not yet posix)
-> +@@ -771,7 +778,9 @@
-> +   ,
-> +         AC_MSG_RESULT(no)
-> +   ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++        AC_DEFINE(HAVE_TERMIOS)
-> ++        PTY_TYPE=termios
-> ++        AC_MSG_RESULT(yes)
-> +   )
-> + fi
-> +
-> +@@ -794,7 +803,7 @@
-> + ,
-> + 	AC_MSG_RESULT(no)
-> + ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++	AC_MSG_RESULT(no)
-> + )
-> +
-> + AC_MSG_CHECKING([if TIOCGWINSZ in termios.h])
-> +@@ -816,7 +825,7 @@
-> + ,
-> + 	AC_MSG_RESULT(no)
-> + ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++	AC_MSG_RESULT(no)
-> + )
-> +
-> + # finally check for Cray style ttys
-> +@@ -837,7 +846,7 @@
-> + ,
-> + 	AC_MSG_RESULT(no)
-> + ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++	AC_MSG_RESULT(no)
-> + )
-> +
-> + #
-> +@@ -889,7 +898,8 @@
-> + 	AC_MSG_RESULT(yes),
-> + 	AC_MSG_RESULT(no)
-> + ,
-> +-	AC_MSG_ERROR([Expect can't be cross compiled])
-> ++	AC_DEFINE(HAVE_SV_TIMEZONE)
-> ++	AC_MSG_RESULT(yes),
-> + )
-> +
-> +
-> diff --git a/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
-> new file mode 100644
-> index 0000000..dc4c6ba
-> --- /dev/null
-> +++ b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
-> @@ -0,0 +1,17 @@
-> +Use proper -L path when cross compiling.
-> +
-> +Signed-off-by: Anders Roxell <anders.roxell@enea.com>
-> +Upstream-Status: Pending
-> +---
-> +diff -uNr a/tclconfig/tcl.m4 b/tclconfig/tcl.m4
-> +--- a/tclconfig/tcl.m4	2012-12-14 09:16:58.789861281 +0100
-> ++++ b/tclconfig/tcl.m4	2012-12-14 10:55:43.542297010 +0100
-> +@@ -371,7 +371,7 @@
-> +     # of TCL_BUILD_LIB_SPEC. An extension should make use of TCL_LIB_SPEC
-> +     # instead of TCL_BUILD_LIB_SPEC since it will work with both an
-> +     # installed and uninstalled version of Tcl.
-> +-    if test -f "${TCL_BIN_DIR}/Makefile" ; then
-> ++    if test -f "${TCL_BIN_DIR}/Makefile" || test "$cross_compiling" = yes; then
-> +         TCL_LIB_SPEC="${TCL_BUILD_LIB_SPEC}"
-> +         TCL_STUB_LIB_SPEC="${TCL_BUILD_STUB_LIB_SPEC}"
-> +         TCL_STUB_LIB_PATH="${TCL_BUILD_STUB_LIB_PATH}"
-> diff --git a/meta/recipes-devtools/expect/expect/01-example-shebang.patch b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
-> new file mode 100644
-> index 0000000..8597f31
-> --- /dev/null
-> +++ b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
-> @@ -0,0 +1,144 @@
-> +Author: Mike Markley <mike@markley.org>
-> +Author: Sergei Golovan <sgolovan@debian.org>
-> +Description: Fixes shebangs in examples (Closes: #152367).
-> +
-> +Backported from Debian
-> +
-> +Upstream-Status: Pending
-> +Index: expect5.45/example/beer.exp
-> +===================================================================
-> +--- expect5.45.orig/example/beer.exp	2006-01-25 13:51:39.000000000 -0800
-> ++++ expect5.45/example/beer.exp	2013-11-01 17:35:19.817318341 -0700
-> +@@ -1,4 +1,9 @@
-> +-#!/depot/path/expect -f
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec tclsh "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> +
-> + # 99 bottles of beer on the wall, Expect-style
-> + # Author: Don Libes <libes@nist.gov>
-> +Index: expect5.45/example/expectd.proto
-> +===================================================================
-> +--- expect5.45.orig/example/expectd.proto	2010-07-02 09:03:31.000000000 -0700
-> ++++ expect5.45/example/expectd.proto	2013-11-01 17:35:19.821318341 -0700
-> +@@ -1,4 +1,10 @@
-> +-#!/depot/tcl/src/expect/e --
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec tclsh "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> ++
-> + # Description: Simple fragment to begin a telnet daemon
-> + # For more information, see Chapter 17 of "Exploring Expect"
-> + # Author: Don Libes, NIST
-> +Index: expect5.45/example/irsh
-> +===================================================================
-> +--- expect5.45.orig/example/irsh	2010-07-02 09:03:31.000000000 -0700
-> ++++ expect5.45/example/irsh	2013-11-01 17:35:19.821318341 -0700
-> +@@ -1,4 +1,9 @@
-> +-#!/depot/path/expect --
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec tclsh "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> +
-> + # Do rsh interactively.  For example, consider the following command:
-> + #    rsh <remote> ls -l "|" more
-> +Index: expect5.45/example/passwd.cgi
-> +===================================================================
-> +--- expect5.45.orig/example/passwd.cgi	2000-01-06 15:22:07.000000000 -0800
-> ++++ expect5.45/example/passwd.cgi	2013-11-01 17:35:19.821318341 -0700
-> +@@ -1,4 +1,9 @@
-> +-#!/depot/path/expect --
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec tclsh "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> +
-> + # This is a CGI script to process requests created by the accompanying
-> + # passwd.html form.  This script is pretty basic, although it is
-> +Index: expect5.45/example/passwdprompt
-> +===================================================================
-> +--- expect5.45.orig/example/passwdprompt	2003-09-05 12:01:59.000000000 -0700
-> ++++ expect5.45/example/passwdprompt	2013-11-01 17:35:19.821318341 -0700
-> +@@ -1,4 +1,9 @@
-> +-#!/depot/path/expect
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec tclsh "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> +
-> + # This script prompts for a passwd from stdin while echoing *'s
-> +
-> +Index: expect5.45/example/reprompt
-> +===================================================================
-> +--- expect5.45.orig/example/reprompt	2000-01-06 15:22:07.000000000 -0800
-> ++++ expect5.45/example/reprompt	2013-11-01 17:35:19.821318341 -0700
-> +@@ -1,4 +1,9 @@
-> +-#!/depot/path/expect --
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec tclsh "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> +
-> + # Name: reprompt
-> + # Description: reprompt every so often until user enters something
-> +Index: expect5.45/example/term_expect
-> +===================================================================
-> +--- expect5.45.orig/example/term_expect	2005-02-15 10:11:31.000000000 -0800
-> ++++ expect5.45/example/term_expect	2013-11-01 17:35:19.821318341 -0700
-> +@@ -1,4 +1,9 @@
-> +-#!/depot/path/expectk
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec wish "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> +
-> + # Name: tkterm - terminal emulator using Expect and Tk text widget, v3.0
-> + # Author: Don Libes, July '94
-> +Index: expect5.45/example/vrfy
-> +===================================================================
-> +--- expect5.45.orig/example/vrfy	2010-07-02 09:03:31.000000000 -0700
-> ++++ expect5.45/example/vrfy	2013-11-01 17:35:19.821318341 -0700
-> +@@ -1,4 +1,9 @@
-> +-#!/depot/path/expect -f
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec tclsh "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> +
-> +
-> + # separate address into user and host
-> +Index: expect5.45/example/xrlogin
-> +===================================================================
-> +--- expect5.45.orig/example/xrlogin	2000-01-06 15:22:08.000000000 -0800
-> ++++ expect5.45/example/xrlogin	2013-11-01 17:35:19.821318341 -0700
-> +@@ -1,4 +1,10 @@
-> +-#!/depot/path/expect --
-> ++#!/bin/sh
-> ++# -*- tcl -*-
-> ++# The next line is executed by /bin/sh, but not tcl \
-> ++exec tclsh "$0" ${1+"$@"}
-> ++
-> ++package require Expect
-> ++
-> + # xrlogin - rlogin but with current DISPLAY
-> + #
-> + # You can extend this idea to save any arbitrary information across rlogin
-> diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
-> new file mode 100644
-> index 0000000..bfb8200
-> --- /dev/null
-> +++ b/meta/recipes-devtools/expect/expect_5.45.bb
-> @@ -0,0 +1,52 @@
-> +DESCRIPTION = "expect."
-
-This needs a better full descption about what expect is, it would be 
-nice to also have a short (less than 80 chars) SUMMARY.
-
-> +HOMEPAGE = " http://expect.nist.gov"
-> +LICENSE="GPLv3+"
-> +SECTION = "devel"
-> +
-> +LIC_FILES_CHKSUM = "file://README;md5=2862a5993e5f43b368a49cfaad5bead6"
-> +DEPENDS = "tcl"
-> +RDEPENDS_${PN} = "tcl"
-You don't need an RDEPENDS_${PN} if it matches with the DEPENDS
-
-> +ALLOW_EMPTY_${PN} = "1"
-This should not be needed and if it is needed, it should co-exist with 
-the FILES_${PN} entry below
-
-> +
-> +S = "${WORKDIR}/${BPN}${PV}"
-> +
-Setting of S normally is after the SRC_URI and SRC_URI[*] checksum 
-entries (which should move up here from below)
-
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-> +           file://0001-configure.in.patch \
-> +           file://0002-tcl.m4.patch \
-> +           file://01-example-shebang.patch \
-> +          "
-> +EXTRA_OECONF += "--includedir=${STAGING_INCDIR} \
-> +                 --with-tcl=${STAGING_LIBDIR} \
-> +                 --with-tclinclude=${STAGING_INCDIR} \
-> +                 --enable-shared \
-> +                 --enable-threads \
-> +                 --disable-rpath \
-> +                "
-> +EXTRA_OEMAKE_install = " 'SCRIPTS=' "
-> +FILES_${PN}-dbg += "${libdir}/${BPN}${PV}/.debug \
-> +                    ${libdir}/.debug \
-> +                   "
-> +FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
-> +                   ${STAGING_INCDIR}/expect.h \
-> +                   ${STAGING_INCDIR}/expect_tcl.h \
-> +                   ${STAGING_INCDIR}/expect_comm.h \
-> +                   ${STAGING_INCDIR}/tcldbg.h \
-> +                   ${includedir}/*.h \
-> +                  "
-> +
-> +FILES_${PN} += "${libdir}/libexpect${PV}.so \
-> +                ${libdir}/expect${PV}/* \
-> +               "
-> +
-> +inherit autotools
-> +
-Should move up to after the DEPENDS line before SRC_URI
-
-> +do_install_append() {
-> +	install -d ${D}${libdir}
-> +        install -m 0755 ${D}${libdir}/expect${PV}/libexpect*.so   ${D}${libdir}/
-> +        install -m 0755 ${S}/fixline1           ${D}${libdir}/expect${PV}/
-> +        install -m 0755 ${S}/example/*          ${D}${libdir}/expect${PV}/
-> +        rm ${D}${libdir}/expect${PV}/libexpect*.so
-> +}
-> +
-Should move up after the S line before the packaging information
-
-> +SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
-> +SRC_URI[sha256sum] = "b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
->
-Already noted that this should move up to between SRC_URI and S
-
-
-The ordering of the metadata is not standard, normally the ordering is 
-such that it follows the process and tasks that bitbake does to fetch, 
-patch, configure, compile, install, package.
-
-Thanks
-	Sau!
+diff --git a/meta/recipes-devtools/qemu/files/fdt_header.patch b/meta/recipes-devtools/qemu/files/fdt_header.patch
+deleted file mode 100644
+index dccfe53..0000000
+--- a/meta/recipes-devtools/qemu/files/fdt_header.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-Upstream-Status: Pending 
+-
+-qemu: define fdt types in libfdt_env.h from qemu
+-    
+-    * fixes
+-    In file included from /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/libfdt.h:55:0,
+-                     from /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/work/x86_64-linux/qemu-native/1.4.0-r0/qemu-1.4.0/hw/arm/../../device_tree.c:28:
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:58:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:59:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:60:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:61:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:62:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:63:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:64:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:67:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:70:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:73:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:77:2: error: unknown type name 'fdt64_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:78:2: error: unknown type name 'fdt64_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:82:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:87:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:88:2: error: unknown type name 'fdt32_t'
+-    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:89:2: error: unknown type name 'fdt32_t'
+-
+-Index: qemu-1.4.0/include/libfdt_env.h
+-===================================================================
+---- qemu-1.4.0.orig/include/libfdt_env.h	2013-02-15 23:05:35.000000000 +0000
+-+++ qemu-1.4.0/include/libfdt_env.h	2013-04-13 14:17:27.918885225 +0000
+-@@ -21,6 +21,10 @@
+- 
+- #include "qemu/bswap.h"
+- 
+-+typedef uint16_t fdt16_t;
+-+typedef uint32_t fdt32_t;
+-+typedef uint64_t fdt64_t;
+-+
+- #ifdef HOST_WORDS_BIGENDIAN
+- #define fdt32_to_cpu(x)  (x)
+- #define cpu_to_fdt32(x)  (x)
+diff --git a/meta/recipes-devtools/qemu/files/relocatable_sdk.patch b/meta/recipes-devtools/qemu/files/relocatable_sdk.patch
+deleted file mode 100644
+index 774a49c..0000000
+--- a/meta/recipes-devtools/qemu/files/relocatable_sdk.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Upstream-Status: Inappropriate [SDK specific]
+-
+-In order to be able to change the dynamic loader path when relocating
+-binaries, the interp section has to be made big enough to accomodate
+-the new path (4096 is the maximum path length in Linux).
+-
+-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+-
+-Index: qemu-1.4.0/ldscripts/i386.ld
+-===================================================================
+---- qemu-1.4.0.orig/ldscripts/i386.ld	2013-02-15 15:05:35.000000000 -0800
+-+++ qemu-1.4.0/ldscripts/i386.ld	2013-02-28 22:55:36.138816418 -0800
+-@@ -8,7 +8,7 @@
+- {
+-   /* Read-only sections, merged into text segment: */
+-   . = 0x60000000 + SIZEOF_HEADERS;
+--  .interp     : { *(.interp) 	}
+-+  .interp     : { *(.interp); . = 0x1000; }
+-   .hash          : { *(.hash)		}
+-   .dynsym        : { *(.dynsym)		}
+-   .dynstr        : { *(.dynstr)		}
+-Index: qemu-1.4.0/ldscripts/x86_64.ld
+-===================================================================
+---- qemu-1.4.0.orig/ldscripts/x86_64.ld	2013-02-15 15:05:35.000000000 -0800
+-+++ qemu-1.4.0/ldscripts/x86_64.ld	2013-02-28 22:55:36.138816418 -0800
+-@@ -6,7 +6,7 @@
+- {
+-   /* Read-only sections, merged into text segment: */
+-   . = 0x60000000 + SIZEOF_HEADERS;
+--  .interp         : { *(.interp) }
+-+  .interp         : { *(.interp); . = 0x1000; }
+-   .hash           : { *(.hash) }
+-   .dynsym         : { *(.dynsym) }
+-   .dynstr         : { *(.dynstr) }
+diff --git a/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch b/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+deleted file mode 100644
+index 852efd1..0000000
+--- a/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
++++ /dev/null
+@@ -1,79 +0,0 @@
+-Upstream-Status: Backported
+-
+-From dec3fc9657e0682637de4d5a29d947284d01985c Mon Sep 17 00:00:00 2001
+-From: Richard Henderson <rth@twiddle.net>
+-Date: Wed, 29 May 2013 12:30:51 -0700
+-Subject: [PATCH] target-i386: Fix aflag logic for CODE64 and the 0x67 prefix
+-
+-The code reorganization in commit 4a6fd938 broke handling of PREFIX_ADR.
+-While fixing this, tidy and comment the code so that it's more obvious
+-what's going on in setting both aflag and dflag.
+-
+-The TARGET_X86_64 ifdef can be eliminated because CODE64 expands to the
+-constant zero when TARGET_X86_64 is undefined.
+-
+-Cc: Paolo Bonzini <pbonzini@redhat.com>
+-Reported-by: Laszlo Ersek <lersek@redhat.com>
+-Signed-off-by: Richard Henderson <rth@twiddle.net>
+-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+-Message-id: 1369855851-21400-1-git-send-email-rth@twiddle.net
+-Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
+----
+- target-i386/translate.c |   30 +++++++++++++++---------------
+- 1 file changed, 15 insertions(+), 15 deletions(-)
+-
+-diff --git a/target-i386/translate.c b/target-i386/translate.c
+-index 0aeccdb..14b0298 100644
+---- a/target-i386/translate.c
+-+++ b/target-i386/translate.c
+-@@ -4677,8 +4677,6 @@ static target_ulong disas_insn(CPUX86State *env, DisasContext *s,
+-     }
+-     s->pc = pc_start;
+-     prefixes = 0;
+--    aflag = s->code32;
+--    dflag = s->code32;
+-     s->override = -1;
+-     rex_w = -1;
+-     rex_r = 0;
+-@@ -4801,23 +4799,25 @@ static target_ulong disas_insn(CPUX86State *env, DisasContext *s,
+-     }
+- 
+-     /* Post-process prefixes.  */
+--    if (prefixes & PREFIX_DATA) {
+--        dflag ^= 1;
+--    }
+--    if (prefixes & PREFIX_ADR) {
+--        aflag ^= 1;
+--    }
+--#ifdef TARGET_X86_64
+-     if (CODE64(s)) {
+--        if (rex_w == 1) {
+--            /* 0x66 is ignored if rex.w is set */
+--            dflag = 2;
+-+        /* In 64-bit mode, the default data size is 32-bit.  Select 64-bit
+-+           data with rex_w, and 16-bit data with 0x66; rex_w takes precedence
+-+           over 0x66 if both are present.  */
+-+        dflag = (rex_w > 0 ? 2 : prefixes & PREFIX_DATA ? 0 : 1);
+-+        /* In 64-bit mode, 0x67 selects 32-bit addressing.  */
+-+        aflag = (prefixes & PREFIX_ADR ? 1 : 2);
+-+    } else {
+-+        /* In 16/32-bit mode, 0x66 selects the opposite data size.  */
+-+        dflag = s->code32;
+-+        if (prefixes & PREFIX_DATA) {
+-+            dflag ^= 1;
+-         }
+--        if (!(prefixes & PREFIX_ADR)) {
+--            aflag = 2;
+-+        /* In 16/32-bit mode, 0x67 selects the opposite addressing.  */
+-+        aflag = s->code32;
+-+        if (prefixes & PREFIX_ADR) {
+-+            aflag ^= 1;
+-         }
+-     }
+--#endif
+- 
+-     s->prefix = prefixes;
+-     s->aflag = aflag;
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/qemu/files/target-ppc_fix_bit_extraction.patch b/meta/recipes-devtools/qemu/files/target-ppc_fix_bit_extraction.patch
+deleted file mode 100644
+index 631d23b..0000000
+--- a/meta/recipes-devtools/qemu/files/target-ppc_fix_bit_extraction.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-Delivered-To: raj.khem@gmail.com
+-Received: by 10.50.216.195 with SMTP id os3csp11191igc;
+-        Thu, 15 Aug 2013 04:32:45 -0700 (PDT)
+-X-Received: by 10.180.98.3 with SMTP id ee3mr1508103wib.48.1376566364872;
+-        Thu, 15 Aug 2013 04:32:44 -0700 (PDT)
+-Return-Path: <aurelien@aurel32.net>
+-Received: from hall.aurel32.net (hall.aurel32.net. [2001:470:1f0b:4a8::1])
+-        by mx.google.com with ESMTPS id vv5si15578100wjc.49.2013.08.15.04.32.44
+-        for <raj.khem@gmail.com>
+-        (version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+-        Thu, 15 Aug 2013 04:32:44 -0700 (PDT)
+-Received-SPF: pass (google.com: best guess record for domain of aurelien@aurel32.net designates 2001:470:1f0b:4a8::1 as permitted sender) client-ip=2001:470:1f0b:4a8::1;
+-Authentication-Results: mx.google.com;
+-       spf=pass (google.com: best guess record for domain of aurelien@aurel32.net designates 2001:470:1f0b:4a8::1 as permitted sender) smtp.mail=aurelien@aurel32.net
+-Received: from [2001:470:d4ed:1:2db:dfff:fe14:52d] (helo=ohm.aurel32.net)
+-	by hall.aurel32.net with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+-	(Exim 4.80)
+-	(envelope-from <aurelien@aurel32.net>)
+-	id 1V9vnG-0006cO-NN; Thu, 15 Aug 2013 13:32:42 +0200
+-Received: from aurel32 by ohm.aurel32.net with local (Exim 4.80)
+-	(envelope-from <aurelien@aurel32.net>)
+-	id 1V9vnF-0002Lw-7L; Thu, 15 Aug 2013 13:32:41 +0200
+-From: Aurelien Jarno <aurelien@aurel32.net>
+-To: qemu-devel@nongnu.org
+-Cc: Khem Raj <raj.khem@gmail.com>,
+-	Alexander Graf <agraf@suse.de> ,
+-	qemu-stable@nongnu.org,
+-	qemu-ppc@nongnu.org,
+-	Aurelien Jarno <aurelien@aurel32.net>
+-Subject: [PATCH] target-ppc: fix bit extraction for FPBF and FPL
+-Date: Thu, 15 Aug 2013 13:32:38 +0200
+-Message-Id: <1376566358-8989-1-git-send-email-aurelien@aurel32.net>
+-X-Mailer: git-send-email 1.7.10.4
+-
+-Bit extraction for the FP BF and L field of the MTFSFI and MTFSF
+-instructions is wrong and doesn't match the reference manual (which
+-explain the bit number in big endian format). It has been broken in
+-commit 7d08d85645def18eac2a9d672c1868a35e0bcf79.
+-
+-This patch fixes this, which in turn fixes the problem reported by
+-Khem Raj about the floor() function of libm.
+-
+-Reported-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
+-
+-Upstream-Status: Backport
+-
+----
+- target-ppc/translate.c |    4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-I don't know if we still have time to get this into 1.6, hence the Cc:
+-to stable. In anycase it also needs to be fixed in 1.5.
+-
+-Index: qemu-1.5.0/target-ppc/translate.c
+-===================================================================
+---- qemu-1.5.0.orig/target-ppc/translate.c	2013-05-20 08:34:40.000000000 -0700
+-+++ qemu-1.5.0/target-ppc/translate.c	2013-08-15 06:49:25.028144352 -0700
+-@@ -428,9 +428,9 @@
+- EXTRACT_HELPER(SR, 16, 4);
+- 
+- /* mtfsf/mtfsfi */
+--EXTRACT_HELPER(FPBF, 19, 3);
+-+EXTRACT_HELPER(FPBF, 23, 3);
+- EXTRACT_HELPER(FPIMM, 12, 4);
+--EXTRACT_HELPER(FPL, 21, 1);
+-+EXTRACT_HELPER(FPL, 25, 1);
+- EXTRACT_HELPER(FPFLM, 17, 8);
+- EXTRACT_HELPER(FPW, 16, 1);
+- 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 1b861d7..702fe01 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -20,10 +20,6 @@ SRC_URI = "\
+     file://disable-grabs.patch \
+     "
+ 
+-SRC_URI_append_class-nativesdk = "\
+-    file://relocatable_sdk.patch \
+-    "
+-
+ SRC_URI_append_class-native = "\
+     file://fix-libcap-header-issue-on-some-distro.patch \
+     "
+@@ -55,7 +51,7 @@ do_configure() {
+        KVMOPTS="--enable-kvm"
+     fi
+ 
+-    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir} --libexecdir=${libexecdir} --disable-strip ${EXTRA_OECONF} $KVMOPTS
++    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir} --libexecdir=${libexecdir} --localstatedir=${localstatedir} --disable-strip ${EXTRA_OECONF} $KVMOPTS
+     test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x ${S}/target-i386/beginend_funcs.sh
+ }
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu_1.5.0.bb b/meta/recipes-devtools/qemu/qemu_1.6.1.bb
+similarity index 44%
+rename from meta/recipes-devtools/qemu/qemu_1.5.0.bb
+rename to meta/recipes-devtools/qemu/qemu_1.6.1.bb
+index 06c2cdb..03e28a0 100644
+--- a/meta/recipes-devtools/qemu/qemu_1.5.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_1.6.1.bb
+@@ -3,14 +3,15 @@ require qemu.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+ 
+-SRC_URI += "file://fdt_header.patch \
+-            file://target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch \
+-            file://target-ppc_fix_bit_extraction.patch \
+-            file://fxrstorssefix.patch \
+-           "
++SRC_URI += "file://fxrstorssefix.patch"
+ 
+ SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "b6f3265b8ed39d77e8f354f35cc26e16"
+-SRC_URI[sha256sum] = "b22b30ee9712568dfb4eedf76783f4a76546e1cbc41659b909646bcf0b4867bb"
++SRC_URI[md5sum] = "3a897d722457c5a895cd6ac79a28fda0"
++SRC_URI[sha256sum] = "fc736f44aa10478223c881310a7e40fc8386547e9cadf7d01ca4685951605294"
+ 
+ COMPATIBLE_HOST_class-target_mips64 = "null"
++
++do_install_append() {
++    # Prevent QA warnings about installed ${localstatedir}/run
++    if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir}/run; fi
++}
+-- 
+1.8.4.rc3
 
 
