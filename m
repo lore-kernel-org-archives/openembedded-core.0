@@ -1,24 +1,23 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 592016D504
+Return-Path: <eric@eukrea.com>
+Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
+	by mail.openembedded.org (Postfix) with ESMTP id 1192D6D613
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2013 08:30:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA28UWYQ009186
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 2 Nov 2013 01:30:32 -0700 (PDT)
-Received: from PKE-CLU1-D1.corp.ad.wrs.com (128.224.162.203) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sat, 2 Nov 2013 01:30:31 -0700
-From: <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 2 Nov 2013 16:30:28 +0800
-Message-ID: <1383381028-480-1-git-send-email-Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] ppp: Add two structures in if_pppol2tp.h
+	Sat,  2 Nov 2013 08:45:29 +0000 (UTC)
+Received: from e6520eb (unknown [82.233.81.124]) (Authenticated sender: eukrea)
+	by smtp1-g21.free.fr (Postfix) with ESMTPSA id 11F9D94000E;
+	Sat,  2 Nov 2013 09:45:24 +0100 (CET)
+Date: Sat, 2 Nov 2013 09:45:23 +0100
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20131102094523.59147753@e6520eb>
+In-Reply-To: <1383329778.6271.64.camel@ted>
+References: <1381358545.29912.50.camel@ted> <20131028151004.34b2af21@e6520eb>
+	<20131101163611.37a8c084@e6520eb> <1383329778.6271.64.camel@ted>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: SRC_URI computing order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,114 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2013 08:30:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 02 Nov 2013 08:45:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-From: Lu Chong <Chong.Lu@windriver.com>
+Le Fri, 01 Nov 2013 18:16:18 +0000,
+Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
 
-Some further structure definitions are needed in include/linux/if_pppol2tp.h for
-IPv6 support, else we would get the error as below:
+> On Fri, 2013-11-01 at 16:36 +0100, Eric B=E9nard wrote:
+> > Hi,
+> >=20
+> > Le Mon, 28 Oct 2013 15:10:04 +0100,
+> > Eric B=E9nard <eric@eukrea.com> a =E9crit :
+> > > I saw your patch fixing FILESPATH's and Kergoth's one fixing
+> > > PACKAGECONFIG processing order and I think I'm also facing an order
+> > > problem when SRC_URI is computed.
+> > >=20
+> > > So when building SRC_URI when two layers have bbappend which apply
+> > > patches : the SRC_URI seems to be built using an order I fail to
+> > > understand somewhere instead of priority or the overrides' order.
+> > >=20
+> > > The use case is a System on Module and its custom motherboard :
+> > > - meta-fsl-arm :
+> > > * linux-imx_xyz.bb :
+> > > SRC_URI =3D "patchgeneric1 ..."
+> > >=20
+> > > - meta-som-support :
+> > > * conf/machine/mysom.conf
+> > >=20
+> > > * linux-imx_xyz.bbappend :
+> > > SRC_URI_append_mysom =3D "patchsom1 patchsom2 ..."
+> > >=20
+> > > - meta-custommotherboard (SOM + Cunstom Motherboard) :
+> > > * conf/machine/myproduct.conf
+> > > MACHINEOVERRIDES_prepend =3D "mysom:"
+> > > include conf/machine/mysom.conf
+> > >=20
+> > > * linux-imx_xyz.bbappend :
+> > > SRC_URI_append_myproduct =3D "patchproduct1 patchproduct2 ..."
+> > >=20
+> > > in the end I get :
+> > > SRC_URI =3D "patchgeneric1 ... patchsoc1 ... patchproduct1 ...
+> > > patchsom1 ..."
+> > >=20
+> > > and of course as patchproduct* are supposed to apply on top of
+> > > patchsoc* the patch fail to apply.
+> > >=20
+> > > I didn't found a way to build SRC_URI in the order I would like (I
+> > > tested : changing MACHINEOVERRIDES 's order, changing layers' priorit=
+y,
+> > > changing machine's name to see if that was an alphabetical order ...).
+> > >=20
+> > > In the end the only thing which worked was to add an (empty by defaul=
+t)
+> > > variable in som's SRC_URI and filling this variables from the
+> > > custommotherboard's bbappend.
+> > >=20
+> > > Is the behaviour I'm seeing expected or is there something wrong in my
+> > > setup ?
+> > >=20
+> > do you need more details concerning this problem ?
+>=20
+> I sent a reply asking for more info. I think there is a typo above which
+> isn't helping...
+>=20
+sorry I missed your mail.
 
-	In file included from plugin.c:53:0:
-	bitbake_build/tmp/sysroots/intel-x86-64/usr/include/linux/if_pppox.h:84:26:
-	error: field 'pppol2tp' has incomplete type
-  	  struct pppol2tpin6_addr pppol2tp;
-        		          ^
-	bitbake_build/tmp/sysroots/intel-x86-64/usr/include/linux/if_pppox.h:99:28:
-	error: field 'pppol2tp' has incomplete type
-	  struct pppol2tpv3in6_addr pppol2tp;
-                		    ^
-	make[2]: *** [plugin.o] Error 1
-
-Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
----
- ...1-ppp-Add-two-structures-in-if_pppol2tp.h.patch |   60 ++++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    4 +-
- 2 files changed, 63 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch
-
-diff --git a/meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch b/meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch
-new file mode 100644
-index 0000000..33b200a
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch
-@@ -0,0 +1,60 @@
-+From 17ffc69db08c809c069e73aa2f2ed2ce02df5fa8 Mon Sep 17 00:00:00 2001
-+From: Lu Chong <Chong.Lu@windriver.com>
-+Date: Sat, 2 Nov 2013 14:34:24 +0800
-+Subject: [PATCH] ppp: Add two structures in if_pppol2tp.h
-+
-+Some further structure definitions are needed in include/linux/if_pppol2tp.h for IPv6 support.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
-+---
-+ include/linux/if_pppol2tp.h |   25 +++++++++++++++++++++++++
-+ 1 file changed, 25 insertions(+)
-+
-+diff --git a/include/linux/if_pppol2tp.h b/include/linux/if_pppol2tp.h
-+index 7ee86b2..9d626d1 100644
-+--- a/include/linux/if_pppol2tp.h
-++++ b/include/linux/if_pppol2tp.h
-+@@ -32,6 +32,20 @@ struct pppol2tp_addr {
-+ 	__u16 d_tunnel, d_session;	/* For sending outgoing packets */
-+ };
-+ 
-++/* Structure used to connect() the socket to a particular tunnel UDP
-++ * socket over IPv6.
-++ */
-++struct pppol2tpin6_addr {
-++        __kernel_pid_t  pid;            /* pid that owns the fd.
-++                                         * 0 => current */
-++        int     fd;                     /* FD of UDP socket to use */
-++
-++        __u16 s_tunnel, s_session;      /* For matching incoming packets */
-++        __u16 d_tunnel, d_session;      /* For sending outgoing packets */
-++
-++        struct sockaddr_in6 addr;       /* IP address and port to send to */
-++};
-++
-+ /* The L2TPv3 protocol changes tunnel and session ids from 16 to 32
-+  * bits. So we need a different sockaddr structure.
-+  */
-+@@ -46,6 +60,17 @@ struct pppol2tpv3_addr {
-+ 	__u32 d_tunnel, d_session;	/* For sending outgoing packets */
-+ };
-+ 
-++struct pppol2tpv3in6_addr {
-++        __kernel_pid_t  pid;            /* pid that owns the fd.
-++                                         * 0 => current */
-++        int     fd;                     /* FD of UDP or IP socket to use */
-++
-++        __u32 s_tunnel, s_session;      /* For matching incoming packets */
-++        __u32 d_tunnel, d_session;      /* For sending outgoing packets */
-++
-++        struct sockaddr_in6 addr;       /* IP address and port to send to */
-++};
-++
-+ /* Socket options:
-+  * DEBUG	- bitmask of debug message categories
-+  * SENDSEQ	- 0 => don't send packets with sequence numbers
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-index 39354ef..dc8c9c1 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.5.bb
-@@ -29,7 +29,9 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
-            file://copts.patch \
-            file://pap \
-            file://ppp_on_boot \
--           file://provider "
-+           file://provider \
-+           file://0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch \
-+"
- 
- SRC_URI[md5sum] = "4621bc56167b6953ec4071043fe0ec57"
- SRC_URI[sha256sum] = "43317afec9299f9920b96f840414c977f0385410202d48e56d2fdb8230003505"
--- 
-1.7.9.5
-
+Eric
 
