@@ -1,25 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id CB0FA6AE37
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C69BF6AE37
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2013 01:26:22 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 01 Nov 2013 18:26:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="315963639"
-Received: from unknown (HELO [10.255.15.12]) ([10.255.15.12])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Nov 2013 18:26:23 -0700
-Message-ID: <527454BF.8000307@linux.intel.com>
-Date: Fri, 01 Nov 2013 18:26:23 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Marius Avram <marius.avram@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1382529581-31463-1-git-send-email-marius.avram@intel.com>
-In-Reply-To: <1382529581-31463-1-git-send-email-marius.avram@intel.com>
-Subject: Re: [PATCH 1/2] apt: Upgrade from 0.9.9.4 to 0.9.11.4
+	Sat,  2 Nov 2013 02:11:51 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id y10so4540067pdj.38
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 01 Nov 2013 19:11:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=80caIvgW8GmH2UOIvRvS0xyeutKlmoJon0CKPao5gTk=;
+	b=w+KVp4dlJcFqJyhPaR4T9v5Njeauv4EtXpAbvAqBwVcKCcEoobp7Y0ERt+D5yb/303
+	qEsH35YRIEfGZWZQUPXBQZYxTIrSAUQyDk+p3CdMYRr5Ii9L5MN0qPGck1pQMqsE4rIq
+	aEaoET0OxZAXrhq6TecOKNbavuX9RnuydSZVDD5JnfR+UUgbW1J3PgZURcjEPG5sRDf/
+	yg3eFGLSfBBPjgJwJcwTgUSScnzM9IIIGpeOL/D6Pgj/BMBLbypkQQthMUOo6s3gaXdT
+	1wJ1TuafQTH4voFssYOcgAdtTwB5GILh27MduaM1SuRzZ/zVSAhHuK54FmkrI4FleZyU
+	ICsA==
+X-Received: by 10.66.216.193 with SMTP id os1mr6080867pac.29.1383358313561;
+	Fri, 01 Nov 2013 19:11:53 -0700 (PDT)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPSA id
+	ql10sm12365829pbc.44.2013.11.01.19.11.52 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 01 Nov 2013 19:11:52 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  1 Nov 2013 19:08:36 -0700
+Message-Id: <1383358116-997-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Khem Raj <kraj@juniper.net>
+Subject: [PATCH V3] expect: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,283 +43,375 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2013 01:26:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 02 Nov 2013 02:11:53 -0000
 
-On 10/23/2013 04:59 AM, Marius Avram wrote:
-> - no-ko-translation.patch respects new structure of po/LINGUAS file
-> - replaces configure.in to configure.ac inside multiple patches
-> - adds libapt-private installation
->
+From: Mihaela Sendrea <mihaela.sendrea@enea.com>
 
-Seems they have moved to 0.9.12.1 already, and the 0.9.11.4 tarball is gone.
+Nedeed for gcc-runtime tests.
 
-Sau!
+Fixed build on multilib and add patch to remove
+!/depot/path/expect -f
+which caused rpm to puke on rfs generation
 
-> Signed-off-by: Marius Avram <marius.avram@intel.com>
-> ---
->   .../disable-configure-in-makefile.patch            |    0
->   .../fix-gcc-4.6-null-not-defined.patch             |    0
->   .../{apt-0.9.9.4 => apt-0.9.11.4}/makerace.patch   |    0
->   .../no-ko-translation.patch                        |   19 +++++++---
->   .../no-nls-dpkg.patch                              |    0
->   .../noconfigure.patch                              |    0
->   .../apt/{apt-0.9.9.4 => apt-0.9.11.4}/nodoc.patch  |    0
->   .../truncate-filename.patch                        |    0
->   .../{apt-0.9.9.4 => apt-0.9.11.4}/use-host.patch   |    6 +--
->   meta/recipes-devtools/apt/apt-native.inc           |    3 +-
->   ...pt-native_0.9.9.4.bb => apt-native_0.9.11.4.bb} |    4 +-
->   meta/recipes-devtools/apt/apt-package.inc          |    1 +
->   .../apt/{apt_0.9.9.4.bb => apt_0.9.11.4.bb}        |    4 +-
->   .../apt/files/db_linking_hack.patch                |   11 +++---
->   meta/recipes-devtools/apt/files/no-curl.patch      |   39 +++++++++++---------
->   15 files changed, 51 insertions(+), 36 deletions(-)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/disable-configure-in-makefile.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/fix-gcc-4.6-null-not-defined.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/makerace.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/no-ko-translation.patch (32%)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/no-nls-dpkg.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/noconfigure.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/nodoc.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/truncate-filename.patch (100%)
->   rename meta/recipes-devtools/apt/{apt-0.9.9.4 => apt-0.9.11.4}/use-host.patch (84%)
->   rename meta/recipes-devtools/apt/{apt-native_0.9.9.4.bb => apt-native_0.9.11.4.bb} (55%)
->   rename meta/recipes-devtools/apt/{apt_0.9.9.4.bb => apt_0.9.11.4.bb} (74%)
->
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/disable-configure-in-makefile.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/disable-configure-in-makefile.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/disable-configure-in-makefile.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/disable-configure-in-makefile.patch
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/fix-gcc-4.6-null-not-defined.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/fix-gcc-4.6-null-not-defined.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/fix-gcc-4.6-null-not-defined.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/fix-gcc-4.6-null-not-defined.patch
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/makerace.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/makerace.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/makerace.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/makerace.patch
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/no-ko-translation.patch
-> similarity index 32%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/no-ko-translation.patch
-> index 7aa408f..b600e2b 100644
-> --- a/meta/recipes-devtools/apt/apt-0.9.9.4/no-ko-translation.patch
-> +++ b/meta/recipes-devtools/apt/apt-0.9.11.4/no-ko-translation.patch
-> @@ -4,8 +4,17 @@ Upstream-Status: Inappropriate [configuration]
->    po/LINGUAS |    2 +-
->    1 file changed, 1 insertion(+), 1 deletion(-)
->
-> ---- a/po/LINGUAS
-> -+++ b/po/LINGUAS
-> -@@ -1 +1 @@
-> --ar ast bg bs ca cs cy da de dz el es eu fi fr gl hu it ja km ko ku lt mr nb ne nl nn pl pt pt_BR ro ru sk sl sv th tl uk vi zh_CN zh_TW
-> -+ar ast bg bs ca cs cy da de dz el es eu fi fr gl hu it ja km ku lt mr nb ne nl nn pl pt pt_BR ro ru sk sl sv th tl uk vi zh_CN zh_TW
-> +Index: apt-0.9.11.4/po/LINGUAS
-> +===================================================================
-> +--- apt-0.9.11.4.orig/po/LINGUAS
-> ++++ apt-0.9.11.4/po/LINGUAS
-> +@@ -1,7 +1,8 @@
-> + ## If a language isn't listed here but a po file is available the build will fail.
-> + ## If a language is disabled deliberately, list it in a line starting with a single '#'
-> +
-> +-ar ast bg bs ca cs cy da de dz el es eu fi fr gl hu it ja km ko ku lt mr nb ne nl nn pl pt pt_BR ro ru sk sl sv th tl tr uk vi zh_CN zh_TW
-> ++ar ast bg bs ca cs cy da de dz el es eu fi fr gl hu it ja km ku lt mr nb ne nl nn pl pt pt_BR ro ru sk sl sv th tl tr uk vi zh_CN zh_TW
-> +
-> + ## disabled by translator request #313283:
-> + # he
-> ++# ko
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/no-nls-dpkg.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/no-nls-dpkg.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/no-nls-dpkg.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/no-nls-dpkg.patch
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/noconfigure.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/noconfigure.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/noconfigure.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/noconfigure.patch
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/nodoc.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/nodoc.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/nodoc.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/nodoc.patch
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/truncate-filename.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/truncate-filename.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/truncate-filename.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/truncate-filename.patch
-> diff --git a/meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch b/meta/recipes-devtools/apt/apt-0.9.11.4/use-host.patch
-> similarity index 84%
-> rename from meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch
-> rename to meta/recipes-devtools/apt/apt-0.9.11.4/use-host.patch
-> index 25caa3b..7a8e702 100644
-> --- a/meta/recipes-devtools/apt/apt-0.9.9.4/use-host.patch
-> +++ b/meta/recipes-devtools/apt/apt-0.9.11.4/use-host.patch
-> @@ -1,9 +1,9 @@
->   Upstream-Status: Pending
->
-> -Index: apt-0.9.7.7/configure.in
-> +Index: apt-0.9.7.7/configure.ic
->   ===================================================================
-> ---- apt-0.9.7.7.orig/configure.in
-> -+++ apt-0.9.7.7/configure.in
-> +--- apt-0.9.7.7.orig/configure.ac
-> ++++ apt-0.9.7.7/configure.ac
->   @@ -112,7 +112,7 @@ dnl This is often the dpkg architecture
->    dnl First check against the full canonical canoncial-system-type in $target
->    dnl and if that fails, just look for the cpu
-> diff --git a/meta/recipes-devtools/apt/apt-native.inc b/meta/recipes-devtools/apt/apt-native.inc
-> index 294ca94..77d4cc0 100644
-> --- a/meta/recipes-devtools/apt/apt-native.inc
-> +++ b/meta/recipes-devtools/apt/apt-native.inc
-> @@ -46,6 +46,7 @@ do_install_base () {
->   	ln -sf libapt-pkg$GLIBC_VER$LIBSTDCPP_VER.so ${D}${libdir}/libapt-pkg.so
->   	oe_libinstall -so -C bin libapt-inst$GLIBC_VER$LIBSTDCPP_VER ${D}${libdir}/
->   	ln -sf libapt-inst$GLIBC_VER$LIBSTDCPP_VER.so ${D}${libdir}/libapt-inst.so
-> +	oe_libinstall -so -C bin libapt-private ${D}${libdir}
->
->   	install -d ${D}${libdir}/apt/methods
->   	install -m 0755 bin/methods/* ${D}${libdir}/apt/methods/
-> @@ -55,7 +56,7 @@ do_install_base () {
->   	install -m 0644 ${S}/dselect/names ${D}${libdir}/dpkg/methods/apt/
->   	install -m 0755 ${S}/dselect/install ${D}${libdir}/dpkg/methods/apt/
->   	install -m 0755 ${S}/dselect/setup ${D}${libdir}/dpkg/methods/apt/
-> -	install -m 0755 ${S}/dselect/update ${D}${libdir}/dpkg/methods/apt/
-> +	install -m 0755 ${S}/dselect/update ${D}${libdir}/dpkg/methods/apt/
->
->   	install -d ${D}${sysconfdir}/apt
->   	install -d ${D}${sysconfdir}/apt/apt.conf.d
-> diff --git a/meta/recipes-devtools/apt/apt-native_0.9.9.4.bb b/meta/recipes-devtools/apt/apt-native_0.9.11.4.bb
-> similarity index 55%
-> rename from meta/recipes-devtools/apt/apt-native_0.9.9.4.bb
-> rename to meta/recipes-devtools/apt/apt-native_0.9.11.4.bb
-> index d5934f9..11fdf49 100644
-> --- a/meta/recipes-devtools/apt/apt-native_0.9.9.4.bb
-> +++ b/meta/recipes-devtools/apt/apt-native_0.9.11.4.bb
-> @@ -3,7 +3,7 @@ require apt-native.inc
->   SRC_URI += "file://noconfigure.patch \
->               file://no-curl.patch"
->
-> -SRC_URI[md5sum] = "72b3283acd9b99868da5545f0499b0da"
-> -SRC_URI[sha256sum] = "770cb94d7f4c922c2a1516f2b5ec852d3ad668a8c9c3713ac2528c861b7fa79a"
-> +SRC_URI[md5sum] = "1f8dfacfd7ce4a68ed1fdfa4fa73e628"
-> +SRC_URI[sha256sum] = "f466b00f277f010b32028dbcd81ad5525a5b8ee72b4fdd4b85023e8eae2201fc"
->
->   LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
-> diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
-> index 0897d3a..e812805 100644
-> --- a/meta/recipes-devtools/apt/apt-package.inc
-> +++ b/meta/recipes-devtools/apt/apt-package.inc
-> @@ -52,6 +52,7 @@ do_install () {
->
->   	oe_libinstall -so -C bin libapt-pkg ${D}${libdir}
->   	oe_libinstall -so -C bin libapt-inst ${D}${libdir}
-> +	oe_libinstall -so -C bin libapt-private ${D}${libdir}
->
->   	install -d ${D}${libdir}/apt/methods
->   	install -m 0755 bin/methods/* ${D}${libdir}/apt/methods/
-> diff --git a/meta/recipes-devtools/apt/apt_0.9.9.4.bb b/meta/recipes-devtools/apt/apt_0.9.11.4.bb
-> similarity index 74%
-> rename from meta/recipes-devtools/apt/apt_0.9.9.4.bb
-> rename to meta/recipes-devtools/apt/apt_0.9.11.4.bb
-> index ae9ed6c..c2547be 100644
-> --- a/meta/recipes-devtools/apt/apt_0.9.9.4.bb
-> +++ b/meta/recipes-devtools/apt/apt_0.9.11.4.bb
-> @@ -3,8 +3,8 @@ RDEPENDS_${PN} = "dpkg"
->   LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
->   require apt.inc
->
-> -SRC_URI[md5sum] = "72b3283acd9b99868da5545f0499b0da"
-> -SRC_URI[sha256sum] = "770cb94d7f4c922c2a1516f2b5ec852d3ad668a8c9c3713ac2528c861b7fa79a"
-> +SRC_URI[md5sum] = "1f8dfacfd7ce4a68ed1fdfa4fa73e628"
-> +SRC_URI[sha256sum] = "f466b00f277f010b32028dbcd81ad5525a5b8ee72b4fdd4b85023e8eae2201fc"
->
->   require apt-package.inc
->
-> diff --git a/meta/recipes-devtools/apt/files/db_linking_hack.patch b/meta/recipes-devtools/apt/files/db_linking_hack.patch
-> index d2246b3..de29264 100644
-> --- a/meta/recipes-devtools/apt/files/db_linking_hack.patch
-> +++ b/meta/recipes-devtools/apt/files/db_linking_hack.patch
-> @@ -1,16 +1,15 @@
->   Upstream-Status: Backport
->
-> -Index: apt-0.7.3/configure.in
-> +Index: apt-0.9.11.4/configure.ac
->   ===================================================================
-> ---- apt-0.7.3.orig/configure.in	2007-07-01 10:38:45.000000000 +0000
-> -+++ apt-0.7.3/configure.in	2007-08-21 13:39:26.000000000 +0000
-> -@@ -67,8 +67,20 @@
-> +--- apt-0.9.11.4.orig/configure.ac
-> ++++ apt-0.9.11.4/configure.ac
-> +@@ -75,8 +75,19 @@ AC_CHECK_HEADER(db.h,
->          [AC_DEFINE(HAVE_BDB)
->           BDBLIB="-ldb"
->           AC_MSG_RESULT(yes)],
->   -      [BDBLIB=""
->   -       AC_MSG_RESULT(no)]
-> -+
->   +       LIBS="$LIBS -lpthread"
->   +       [AC_MSG_CHECKING(if we can link against BerkeleyDB with pthread)
->   +        AC_LINK_IFELSE(
-> @@ -23,7 +22,7 @@ Index: apt-0.7.3/configure.in
->   +         AC_MSG_RESULT(yes)],
->   +        [BDBLIB=""
->   +         AC_MSG_RESULT(no)]
-> -+      )]
-> ++      )]
->        )]
->    )
->
-> diff --git a/meta/recipes-devtools/apt/files/no-curl.patch b/meta/recipes-devtools/apt/files/no-curl.patch
-> index 9fd3b3a..686bacd 100644
-> --- a/meta/recipes-devtools/apt/files/no-curl.patch
-> +++ b/meta/recipes-devtools/apt/files/no-curl.patch
-> @@ -5,23 +5,10 @@ Upstream-Status: Inappropriate [configuration]
->    methods/makefile |    7 -------
->    2 files changed, 13 deletions(-)
->
-> ---- a/configure.in
-> -+++ b/configure.in
-> -@@ -86,12 +86,6 @@ AC_CHECK_HEADER(db.h,
-> -
-> - LIBS="$saveLIBS"
-> -
-> --AC_CHECK_LIB(curl, curl_easy_init,
-> --     [AC_CHECK_HEADER(curl/curl.h,
-> --        curl_ok=yes,
-> --        curl_ok=no)],
-> --     AC_MSG_ERROR([failed: I need CURL due https support]),
-> --)
-> -
-> - AC_SUBST(BDBLIB)
-> -
-> ---- a/methods/makefile
-> -+++ b/methods/makefile
-> +Index: apt-0.9.11.4/methods/makefile
-> +===================================================================
-> +--- apt-0.9.11.4.orig/methods/makefile
-> ++++ apt-0.9.11.4/methods/makefile
->   @@ -51,13 +51,6 @@ LIB_MAKES = apt-pkg/makefile
->    SOURCE = http.cc http_main.cc rfc2553emu.cc connect.cc
->    include $(PROGRAM_H)
-> @@ -36,3 +23,21 @@ Upstream-Status: Inappropriate [configuration]
->    # The ftp method
->    PROGRAM=ftp
->    SLIBS = -lapt-pkg $(SOCKETLIBS) $(INTLLIBS)
-> +Index: apt-0.9.11.4/configure.ac
-> +===================================================================
-> +--- apt-0.9.11.4.orig/configure.ac
-> ++++ apt-0.9.11.4/configure.ac
-> +@@ -93,13 +93,6 @@ AC_CHECK_HEADER(db.h,
-> +
-> + LIBS="$saveLIBS"
-> +
-> +-AC_CHECK_LIB(curl, curl_easy_init,
-> +-     [AC_CHECK_HEADER(curl/curl.h,
-> +-        curl_ok=yes,
-> +-        curl_ok=no)],
-> +-     AC_MSG_ERROR([failed: I need CURL due https support]),
-> +-)
-> +-
-> + AC_SUBST(BDBLIB)
-> +
-> + HAVE_ZLIB=no
->
+Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
+Signed-off-by: Khem Raj <kraj@juniper.net>
+---
+ .../expect/expect/0001-configure.in.patch          | 108 ++++++++++++++++
+ .../expect/expect/0002-tcl.m4.patch                |  17 +++
+ .../expect/expect/01-example-shebang.patch         | 144 +++++++++++++++++++++
+ meta/recipes-devtools/expect/expect_5.45.bb        |  52 ++++++++
+ 4 files changed, 321 insertions(+)
+ create mode 100644 meta/recipes-devtools/expect/expect/0001-configure.in.patch
+ create mode 100644 meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
+ create mode 100644 meta/recipes-devtools/expect/expect/01-example-shebang.patch
+ create mode 100644 meta/recipes-devtools/expect/expect_5.45.bb
+
+diff --git a/meta/recipes-devtools/expect/expect/0001-configure.in.patch b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
+new file mode 100644
+index 0000000..7595a25
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
+@@ -0,0 +1,108 @@
++Allow cross compiling.
++
++Signed-off-by: Anders Roxell <anders.roxell@enea.com>
++Upstream-Status: Pending
++---
++diff -uNr a/configure.in b/configure.in
++--- a/configure.in	2012-12-14 15:31:32.623180450 +0100
+++++ b/configure.in	2012-12-14 15:53:34.518233519 +0100
++@@ -481,7 +481,7 @@
++ ,
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(no)
++ )
++ 
++ AC_MSG_CHECKING([if any value exists for WNOHANG])
++@@ -506,7 +506,9 @@
++ 	AC_MSG_RESULT(no)
++ 	AC_DEFINE(WNOHANG_BACKUP_VALUE, 1)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(yes)
+++	AC_DEFINE_UNQUOTED(WNOHANG_BACKUP_VALUE, `cat wnohang`)
+++	rm -f wnohang
++ )
++ 
++ #
++@@ -574,7 +576,8 @@
++ 	AC_DEFINE(REARM_SIG)
++ ,
++ 	AC_MSG_RESULT(no)
++-, AC_MSG_WARN([Expect can't be cross compiled])
+++,
+++	AC_MSG_RESULT(no)
++ )
++ 
++ # HPUX7 has trouble with the big cat so split it
++@@ -725,7 +728,9 @@
++ ,
++         AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++        AC_MSG_RESULT(yes)
+++        AC_DEFINE(HAVE_SGTTYB)
+++        PTY_TYPE=sgttyb
++ )
++ 
++ # mach systems have include files for unimplemented features
++@@ -749,7 +754,9 @@
++ ,
++         AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++        AC_DEFINE(HAVE_TERMIO)
+++        PTY_TYPE=termios
+++        AC_MSG_RESULT(yes)
++ )
++ 
++   # now check for the new style ttys (not yet posix)
++@@ -771,7 +778,9 @@
++   ,
++         AC_MSG_RESULT(no)
++   ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++        AC_DEFINE(HAVE_TERMIOS)
+++        PTY_TYPE=termios
+++        AC_MSG_RESULT(yes)
++   )
++ fi
++ 
++@@ -794,7 +803,7 @@
++ ,
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(no)
++ )
++ 
++ AC_MSG_CHECKING([if TIOCGWINSZ in termios.h])
++@@ -816,7 +825,7 @@
++ ,
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(no)
++ )
++ 
++ # finally check for Cray style ttys
++@@ -837,7 +846,7 @@
++ ,
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(no)
++ )
++ 
++ #
++@@ -889,7 +898,8 @@
++ 	AC_MSG_RESULT(yes),
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_DEFINE(HAVE_SV_TIMEZONE)
+++	AC_MSG_RESULT(yes),
++ )
++ 
++ 
+diff --git a/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
+new file mode 100644
+index 0000000..dc4c6ba
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
+@@ -0,0 +1,17 @@
++Use proper -L path when cross compiling.
++
++Signed-off-by: Anders Roxell <anders.roxell@enea.com>
++Upstream-Status: Pending
++---
++diff -uNr a/tclconfig/tcl.m4 b/tclconfig/tcl.m4
++--- a/tclconfig/tcl.m4	2012-12-14 09:16:58.789861281 +0100
+++++ b/tclconfig/tcl.m4	2012-12-14 10:55:43.542297010 +0100
++@@ -371,7 +371,7 @@
++     # of TCL_BUILD_LIB_SPEC. An extension should make use of TCL_LIB_SPEC
++     # instead of TCL_BUILD_LIB_SPEC since it will work with both an
++     # installed and uninstalled version of Tcl.
++-    if test -f "${TCL_BIN_DIR}/Makefile" ; then
+++    if test -f "${TCL_BIN_DIR}/Makefile" || test "$cross_compiling" = yes; then
++         TCL_LIB_SPEC="${TCL_BUILD_LIB_SPEC}"
++         TCL_STUB_LIB_SPEC="${TCL_BUILD_STUB_LIB_SPEC}"
++         TCL_STUB_LIB_PATH="${TCL_BUILD_STUB_LIB_PATH}"
+diff --git a/meta/recipes-devtools/expect/expect/01-example-shebang.patch b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
+new file mode 100644
+index 0000000..8597f31
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
+@@ -0,0 +1,144 @@
++Author: Mike Markley <mike@markley.org>
++Author: Sergei Golovan <sgolovan@debian.org>
++Description: Fixes shebangs in examples (Closes: #152367).
++
++Backported from Debian
++
++Upstream-Status: Pending
++Index: expect5.45/example/beer.exp
++===================================================================
++--- expect5.45.orig/example/beer.exp	2006-01-25 13:51:39.000000000 -0800
+++++ expect5.45/example/beer.exp	2013-11-01 17:35:19.817318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect -f
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # 99 bottles of beer on the wall, Expect-style
++ # Author: Don Libes <libes@nist.gov>
++Index: expect5.45/example/expectd.proto
++===================================================================
++--- expect5.45.orig/example/expectd.proto	2010-07-02 09:03:31.000000000 -0700
+++++ expect5.45/example/expectd.proto	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,10 @@
++-#!/depot/tcl/src/expect/e --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
+++
++ # Description: Simple fragment to begin a telnet daemon
++ # For more information, see Chapter 17 of "Exploring Expect"
++ # Author: Don Libes, NIST
++Index: expect5.45/example/irsh
++===================================================================
++--- expect5.45.orig/example/irsh	2010-07-02 09:03:31.000000000 -0700
+++++ expect5.45/example/irsh	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # Do rsh interactively.  For example, consider the following command:
++ #    rsh <remote> ls -l "|" more
++Index: expect5.45/example/passwd.cgi
++===================================================================
++--- expect5.45.orig/example/passwd.cgi	2000-01-06 15:22:07.000000000 -0800
+++++ expect5.45/example/passwd.cgi	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # This is a CGI script to process requests created by the accompanying
++ # passwd.html form.  This script is pretty basic, although it is
++Index: expect5.45/example/passwdprompt
++===================================================================
++--- expect5.45.orig/example/passwdprompt	2003-09-05 12:01:59.000000000 -0700
+++++ expect5.45/example/passwdprompt	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # This script prompts for a passwd from stdin while echoing *'s
++ 
++Index: expect5.45/example/reprompt
++===================================================================
++--- expect5.45.orig/example/reprompt	2000-01-06 15:22:07.000000000 -0800
+++++ expect5.45/example/reprompt	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # Name: reprompt
++ # Description: reprompt every so often until user enters something
++Index: expect5.45/example/term_expect
++===================================================================
++--- expect5.45.orig/example/term_expect	2005-02-15 10:11:31.000000000 -0800
+++++ expect5.45/example/term_expect	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expectk
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec wish "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # Name: tkterm - terminal emulator using Expect and Tk text widget, v3.0
++ # Author: Don Libes, July '94
++Index: expect5.45/example/vrfy
++===================================================================
++--- expect5.45.orig/example/vrfy	2010-07-02 09:03:31.000000000 -0700
+++++ expect5.45/example/vrfy	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect -f
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ 
++ # separate address into user and host
++Index: expect5.45/example/xrlogin
++===================================================================
++--- expect5.45.orig/example/xrlogin	2000-01-06 15:22:08.000000000 -0800
+++++ expect5.45/example/xrlogin	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,10 @@
++-#!/depot/path/expect --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
+++
++ # xrlogin - rlogin but with current DISPLAY
++ #
++ # You can extend this idea to save any arbitrary information across rlogin
+diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
+new file mode 100644
+index 0000000..bfb8200
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect_5.45.bb
+@@ -0,0 +1,52 @@
++DESCRIPTION = "expect."
++HOMEPAGE = " http://expect.nist.gov"
++LICENSE="GPLv3+"
++SECTION = "devel"
++
++LIC_FILES_CHKSUM = "file://README;md5=2862a5993e5f43b368a49cfaad5bead6"
++DEPENDS = "tcl"
++RDEPENDS_${PN} = "tcl"
++ALLOW_EMPTY_${PN} = "1"
++
++S = "${WORKDIR}/${BPN}${PV}"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
++           file://0001-configure.in.patch \
++           file://0002-tcl.m4.patch \
++           file://01-example-shebang.patch \
++          "
++EXTRA_OECONF += "--includedir=${STAGING_INCDIR} \
++                 --with-tcl=${STAGING_LIBDIR} \
++                 --with-tclinclude=${STAGING_INCDIR} \
++                 --enable-shared \
++                 --enable-threads \
++                 --disable-rpath \
++                "
++EXTRA_OEMAKE_install = " 'SCRIPTS=' "
++FILES_${PN}-dbg += "${libdir}/${BPN}${PV}/.debug \
++                    ${libdir}/.debug \
++                   "
++FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
++                   ${STAGING_INCDIR}/expect.h \
++                   ${STAGING_INCDIR}/expect_tcl.h \
++                   ${STAGING_INCDIR}/expect_comm.h \
++                   ${STAGING_INCDIR}/tcldbg.h \
++                   ${includedir}/*.h \
++                  "
++
++FILES_${PN} += "${libdir}/libexpect${PV}.so \
++                ${libdir}/expect${PV}/* \
++               "
++
++inherit autotools
++
++do_install_append() {
++	install -d ${D}${libdir}
++        install -m 0755 ${D}${libdir}/expect${PV}/libexpect*.so   ${D}${libdir}/
++        install -m 0755 ${S}/fixline1           ${D}${libdir}/expect${PV}/
++        install -m 0755 ${S}/example/*          ${D}${libdir}/expect${PV}/
++        rm ${D}${libdir}/expect${PV}/libexpect*.so
++}
++
++SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
++SRC_URI[sha256sum] = "b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
+-- 
+1.8.4.2
+
 
