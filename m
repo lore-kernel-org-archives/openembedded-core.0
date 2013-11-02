@@ -1,24 +1,26 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C9AF60649
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id C64826D572
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2013 08:47:31 +0000 (UTC)
-Received: from e6520eb (unknown [82.233.81.124]) (Authenticated sender: eukrea)
-	by smtp1-g21.free.fr (Postfix) with ESMTPSA id A1A8F940114;
-	Sat,  2 Nov 2013 09:47:26 +0100 (CET)
-Date: Sat, 2 Nov 2013 09:47:25 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20131102094725.14fb6902@e6520eb>
-In-Reply-To: <1383146112.25877.34.camel@ted>
-References: <1381358545.29912.50.camel@ted> <20131028151004.34b2af21@e6520eb>
-	<CAMKF1so3GUQZMvLADSCr=Exavo5OVgh==do7aHhe_wUQk9mFHQ@mail.gmail.com>
-	<20131029082852.4399ee5e@e6520eb> <1383146112.25877.34.camel@ted>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
+	Sat,  2 Nov 2013 16:20:23 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1Vcdw1-0005pG-BC; Sat, 02 Nov 2013 17:20:25 +0100
+Message-ID: <1383409174.8901.65.camel@x121e.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 02 Nov 2013 16:19:34 +0000
+In-Reply-To: <CAJTo0LYZxDpY=zW5k0Vz83r1-XFXbdHVgvAHB7c+nxd5Pxmn9Q@mail.gmail.com>
+References: <1383335233-12366-1-git-send-email-ross.burton@intel.com>
+	<1383339883.8901.42.camel@x121e.pbcl.net>
+	<CAJTo0LYZxDpY=zW5k0Vz83r1-XFXbdHVgvAHB7c+nxd5Pxmn9Q@mail.gmail.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.4.4-3 
 Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: SRC_URI computing order
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wipe-sysroot: explain what is being deleted and require confirmation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,98 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2013 08:47:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 02 Nov 2013 16:20:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Richard,
+On Fri, 2013-11-01 at 23:21 +0000, Burton, Ross wrote:
+> On 1 November 2013 21:04, Phil Blundell <pb@pbcl.net> wrote:
+> > On Fri, 2013-11-01 at 19:47 +0000, Ross Burton wrote:
+> >> Instead of rushing into deleting entire directory trees without any warning,
+> >> print the directories and files that will be deleted and require confirmation
+> >> from the user (via --force) that they want files to be deleted.
+> >
+> > "--force" seems like a bit of an odd name for an argument that you have
+> > to supply in order for the script to do anything useful.  Why would the
+> > user be running a script named "wipe-sysroot" if they didn't want the
+> > sysroot to be deleted?
+> 
+> I'm open to alternative wording but the essence is "don't delete stuff
+> if the user does something like wipe-sysroot --help".
 
-Le Wed, 30 Oct 2013 15:15:12 +0000,
-Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
+How about:
 
-> On Tue, 2013-10-29 at 08:28 +0100, Eric B=E9nard wrote:
-> > Hi Khem,
-> >=20
-> > Le Mon, 28 Oct 2013 20:45:21 -0700,
-> > Khem Raj <raj.khem@gmail.com> a =E9crit :
-> >=20
-> > > On Mon, Oct 28, 2013 at 7:10 AM, Eric B=E9nard <eric@eukrea.com> wrot=
-e:
-> > > > Hi Richard,
-> > > >
-> > > > I saw your patch fixing FILESPATH's and Kergoth's one fixing
-> > > > PACKAGECONFIG processing order and I think I'm also facing an order
-> > > > problem when SRC_URI is computed.
-> > > >
-> > > > So when building SRC_URI when two layers have bbappend which apply
-> > > > patches : the SRC_URI seems to be built using an order I fail to
-> > > > understand somewhere instead of priority or the overrides' order.
-> > > >
-> > > > The use case is a System on Module and its custom motherboard :
-> > > > - meta-fsl-arm :
-> > > > * linux-imx_xyz.bb :
-> > > > SRC_URI =3D "patchgeneric1 ..."
-> > > >
-> > > > - meta-som-support :
-> > > > * conf/machine/mysom.conf
-> > > >
-> > > > * linux-imx_xyz.bbappend :
-> > > > SRC_URI_append_mysom =3D "patchsom1 patchsom2 ..."
-> > > >
-> > > > - meta-custommotherboard (SOM + Cunstom Motherboard) :
-> > > > * conf/machine/myproduct.conf
-> > > > MACHINEOVERRIDES_prepend =3D "mysom:"
-> > > > include conf/machine/mysom.conf
-> > > >
-> > > > * linux-imx_xyz.bbappend :
-> > > > SRC_URI_append_myproduct =3D "patchproduct1 patchproduct2 ..."
-> > > >
-> > > > in the end I get :
-> > > > SRC_URI =3D "patchgeneric1 ... patchsoc1 ... patchproduct1 ...
-> > > > patchsom1 ..."
-> > > >
-> > > > and of course as patchproduct* are supposed to apply on top of
-> > > > patchsoc* the patch fail to apply.
-> > > >
-> > > > I didn't found a way to build SRC_URI in the order I would like (I
-> > > > tested : changing MACHINEOVERRIDES 's order, changing layers' prior=
-ity,
-> > > > changing machine's name to see if that was an alphabetical order ..=
-.).
-> > > >
-> > > > In the end the only thing which worked was to add an (empty by defa=
-ult)
-> > > > variable in som's SRC_URI and filling this variables from the
-> > > > custommotherboard's bbappend.
-> > > >
-> > > > Is the behaviour I'm seeing expected or is there something wrong in=
- my
-> > > > setup ?
-> > >=20
-> > > what is your OVERRIDES order.
-> > >=20
-> > "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}:${MA=
-CHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
-> >=20
-> > so it follows the MACHINEOVERRIDES order (and I tried both append and
-> > prepend to hack MACHINEOVERRIDES without any behaviour change).
->=20
-> I think what Khem is asking is what OVERRIDES expands to?
->=20
-> You mean patchso* and not patchsoc* above, right? Or should patchsom1 be
-> patchsoc2?
->=20
-oops :
-I expect  SRC_URI =3D "patchgeneric1 ... patchsom1 ... patchproduct1 ..."
-and I get :
-SRC_URI =3D "patchgeneric1 ... patchproduct1 ... patchsom1 ..."
+if [ $# -gt 0 ]; then
+  echo "Usage: $0" >&2
+  exit 1
+fi
 
-> Its hard to follow and it might be easier if you could share a
-> simplified test case we could reproduce this with. I don't doubt there
-> is an issue in there but we need a way to reproduce and debug this.
->=20
-OK, I'm preparing a simple testcase to reproduce that with oe-core +
-meta-fsl-arm + meta-som + meta-baseboard.
+p.
 
-Eric
+
 
