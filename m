@@ -1,36 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C69BF6AE37
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3899F60FC1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  2 Nov 2013 02:11:51 +0000 (UTC)
-Received: by mail-pd0-f179.google.com with SMTP id y10so4540067pdj.38
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 01 Nov 2013 19:11:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=80caIvgW8GmH2UOIvRvS0xyeutKlmoJon0CKPao5gTk=;
-	b=w+KVp4dlJcFqJyhPaR4T9v5Njeauv4EtXpAbvAqBwVcKCcEoobp7Y0ERt+D5yb/303
-	qEsH35YRIEfGZWZQUPXBQZYxTIrSAUQyDk+p3CdMYRr5Ii9L5MN0qPGck1pQMqsE4rIq
-	aEaoET0OxZAXrhq6TecOKNbavuX9RnuydSZVDD5JnfR+UUgbW1J3PgZURcjEPG5sRDf/
-	yg3eFGLSfBBPjgJwJcwTgUSScnzM9IIIGpeOL/D6Pgj/BMBLbypkQQthMUOo6s3gaXdT
-	1wJ1TuafQTH4voFssYOcgAdtTwB5GILh27MduaM1SuRzZ/zVSAhHuK54FmkrI4FleZyU
-	ICsA==
-X-Received: by 10.66.216.193 with SMTP id os1mr6080867pac.29.1383358313561;
-	Fri, 01 Nov 2013 19:11:53 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id
-	ql10sm12365829pbc.44.2013.11.01.19.11.52 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 01 Nov 2013 19:11:52 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  1 Nov 2013 19:08:36 -0700
-Message-Id: <1383358116-997-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.4.2
-Cc: Khem Raj <kraj@juniper.net>
-Subject: [PATCH V3] expect: Add recipe
+	Sat,  2 Nov 2013 03:23:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA23N1Fd004730
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 1 Nov 2013 20:23:01 -0700 (PDT)
+Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Fri, 1 Nov 2013 20:22:59 -0700
+Message-ID: <52747050.8070303@windriver.com>
+Date: Sat, 2 Nov 2013 11:24:00 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1380189657.git.Qi.Chen@windriver.com>
+	<936abdfba1f8b3edf2f5dbfc6be803354798c4d2.1380189657.git.Qi.Chen@windriver.com>
+	<526FAB30.9070600@windriver.com> <1383302692.25877.135.camel@ted>
+In-Reply-To: <1383302692.25877.135.camel@ted>
+X-Originating-IP: [128.224.162.213]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 1/1] sysvinit: fix missing of boot log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,375 +37,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 02 Nov 2013 02:11:53 -0000
+X-List-Received-Date: Sat, 02 Nov 2013 03:23:02 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Mihaela Sendrea <mihaela.sendrea@enea.com>
+On 11/01/2013 06:44 PM, Richard Purdie wrote:
+> On Tue, 2013-10-29 at 20:33 +0800, ChenQi wrote:
+>> ping
+>>
+>> Any comment on this one?
+> Yes, shouldn't the boot ordering be tweaked to ensure the tmpfs is
+> available rather than force mounting it within this init script? This
+> looks like a hack around the problem rather than fixing a real issue.
 
-Nedeed for gcc-runtime tests.
+Agree.
 
-Fixed build on multilib and add patch to remove
-!/depot/path/expect -f
-which caused rpm to puke on rfs generation
+Currently in our project, the mountall.sh (mounting the local 
+filesystem) starts really late at boot time. It's started after `udev', 
+`checkroot.sh', `modutils.sh', `bootlogd' and even `urandom'.
+I think we should make it start before udev. In this way, the same hack 
+in the udev's init script could also be removed.
+The hack was there in udev's init script because the udev's automount 
+rule might need to write to the /tmp directory.
 
-Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
-Signed-off-by: Khem Raj <kraj@juniper.net>
----
- .../expect/expect/0001-configure.in.patch          | 108 ++++++++++++++++
- .../expect/expect/0002-tcl.m4.patch                |  17 +++
- .../expect/expect/01-example-shebang.patch         | 144 +++++++++++++++++++++
- meta/recipes-devtools/expect/expect_5.45.bb        |  52 ++++++++
- 4 files changed, 321 insertions(+)
- create mode 100644 meta/recipes-devtools/expect/expect/0001-configure.in.patch
- create mode 100644 meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
- create mode 100644 meta/recipes-devtools/expect/expect/01-example-shebang.patch
- create mode 100644 meta/recipes-devtools/expect/expect_5.45.bb
+I will send out a new patchset.
 
-diff --git a/meta/recipes-devtools/expect/expect/0001-configure.in.patch b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
-new file mode 100644
-index 0000000..7595a25
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
-@@ -0,0 +1,108 @@
-+Allow cross compiling.
-+
-+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
-+Upstream-Status: Pending
-+---
-+diff -uNr a/configure.in b/configure.in
-+--- a/configure.in	2012-12-14 15:31:32.623180450 +0100
-++++ b/configure.in	2012-12-14 15:53:34.518233519 +0100
-+@@ -481,7 +481,7 @@
-+ ,
-+ 	AC_MSG_RESULT(no)
-+ ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++	AC_MSG_RESULT(no)
-+ )
-+ 
-+ AC_MSG_CHECKING([if any value exists for WNOHANG])
-+@@ -506,7 +506,9 @@
-+ 	AC_MSG_RESULT(no)
-+ 	AC_DEFINE(WNOHANG_BACKUP_VALUE, 1)
-+ ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++	AC_MSG_RESULT(yes)
-++	AC_DEFINE_UNQUOTED(WNOHANG_BACKUP_VALUE, `cat wnohang`)
-++	rm -f wnohang
-+ )
-+ 
-+ #
-+@@ -574,7 +576,8 @@
-+ 	AC_DEFINE(REARM_SIG)
-+ ,
-+ 	AC_MSG_RESULT(no)
-+-, AC_MSG_WARN([Expect can't be cross compiled])
-++,
-++	AC_MSG_RESULT(no)
-+ )
-+ 
-+ # HPUX7 has trouble with the big cat so split it
-+@@ -725,7 +728,9 @@
-+ ,
-+         AC_MSG_RESULT(no)
-+ ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++        AC_MSG_RESULT(yes)
-++        AC_DEFINE(HAVE_SGTTYB)
-++        PTY_TYPE=sgttyb
-+ )
-+ 
-+ # mach systems have include files for unimplemented features
-+@@ -749,7 +754,9 @@
-+ ,
-+         AC_MSG_RESULT(no)
-+ ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++        AC_DEFINE(HAVE_TERMIO)
-++        PTY_TYPE=termios
-++        AC_MSG_RESULT(yes)
-+ )
-+ 
-+   # now check for the new style ttys (not yet posix)
-+@@ -771,7 +778,9 @@
-+   ,
-+         AC_MSG_RESULT(no)
-+   ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++        AC_DEFINE(HAVE_TERMIOS)
-++        PTY_TYPE=termios
-++        AC_MSG_RESULT(yes)
-+   )
-+ fi
-+ 
-+@@ -794,7 +803,7 @@
-+ ,
-+ 	AC_MSG_RESULT(no)
-+ ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++	AC_MSG_RESULT(no)
-+ )
-+ 
-+ AC_MSG_CHECKING([if TIOCGWINSZ in termios.h])
-+@@ -816,7 +825,7 @@
-+ ,
-+ 	AC_MSG_RESULT(no)
-+ ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++	AC_MSG_RESULT(no)
-+ )
-+ 
-+ # finally check for Cray style ttys
-+@@ -837,7 +846,7 @@
-+ ,
-+ 	AC_MSG_RESULT(no)
-+ ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++	AC_MSG_RESULT(no)
-+ )
-+ 
-+ #
-+@@ -889,7 +898,8 @@
-+ 	AC_MSG_RESULT(yes),
-+ 	AC_MSG_RESULT(no)
-+ ,
-+-	AC_MSG_ERROR([Expect can't be cross compiled])
-++	AC_DEFINE(HAVE_SV_TIMEZONE)
-++	AC_MSG_RESULT(yes),
-+ )
-+ 
-+ 
-diff --git a/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
-new file mode 100644
-index 0000000..dc4c6ba
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
-@@ -0,0 +1,17 @@
-+Use proper -L path when cross compiling.
-+
-+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
-+Upstream-Status: Pending
-+---
-+diff -uNr a/tclconfig/tcl.m4 b/tclconfig/tcl.m4
-+--- a/tclconfig/tcl.m4	2012-12-14 09:16:58.789861281 +0100
-++++ b/tclconfig/tcl.m4	2012-12-14 10:55:43.542297010 +0100
-+@@ -371,7 +371,7 @@
-+     # of TCL_BUILD_LIB_SPEC. An extension should make use of TCL_LIB_SPEC
-+     # instead of TCL_BUILD_LIB_SPEC since it will work with both an
-+     # installed and uninstalled version of Tcl.
-+-    if test -f "${TCL_BIN_DIR}/Makefile" ; then
-++    if test -f "${TCL_BIN_DIR}/Makefile" || test "$cross_compiling" = yes; then
-+         TCL_LIB_SPEC="${TCL_BUILD_LIB_SPEC}"
-+         TCL_STUB_LIB_SPEC="${TCL_BUILD_STUB_LIB_SPEC}"
-+         TCL_STUB_LIB_PATH="${TCL_BUILD_STUB_LIB_PATH}"
-diff --git a/meta/recipes-devtools/expect/expect/01-example-shebang.patch b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
-new file mode 100644
-index 0000000..8597f31
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
-@@ -0,0 +1,144 @@
-+Author: Mike Markley <mike@markley.org>
-+Author: Sergei Golovan <sgolovan@debian.org>
-+Description: Fixes shebangs in examples (Closes: #152367).
-+
-+Backported from Debian
-+
-+Upstream-Status: Pending
-+Index: expect5.45/example/beer.exp
-+===================================================================
-+--- expect5.45.orig/example/beer.exp	2006-01-25 13:51:39.000000000 -0800
-++++ expect5.45/example/beer.exp	2013-11-01 17:35:19.817318341 -0700
-+@@ -1,4 +1,9 @@
-+-#!/depot/path/expect -f
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec tclsh "$0" ${1+"$@"}
-++
-++package require Expect
-+ 
-+ # 99 bottles of beer on the wall, Expect-style
-+ # Author: Don Libes <libes@nist.gov>
-+Index: expect5.45/example/expectd.proto
-+===================================================================
-+--- expect5.45.orig/example/expectd.proto	2010-07-02 09:03:31.000000000 -0700
-++++ expect5.45/example/expectd.proto	2013-11-01 17:35:19.821318341 -0700
-+@@ -1,4 +1,10 @@
-+-#!/depot/tcl/src/expect/e --
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec tclsh "$0" ${1+"$@"}
-++
-++package require Expect
-++
-+ # Description: Simple fragment to begin a telnet daemon
-+ # For more information, see Chapter 17 of "Exploring Expect"
-+ # Author: Don Libes, NIST
-+Index: expect5.45/example/irsh
-+===================================================================
-+--- expect5.45.orig/example/irsh	2010-07-02 09:03:31.000000000 -0700
-++++ expect5.45/example/irsh	2013-11-01 17:35:19.821318341 -0700
-+@@ -1,4 +1,9 @@
-+-#!/depot/path/expect --
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec tclsh "$0" ${1+"$@"}
-++
-++package require Expect
-+ 
-+ # Do rsh interactively.  For example, consider the following command:
-+ #    rsh <remote> ls -l "|" more
-+Index: expect5.45/example/passwd.cgi
-+===================================================================
-+--- expect5.45.orig/example/passwd.cgi	2000-01-06 15:22:07.000000000 -0800
-++++ expect5.45/example/passwd.cgi	2013-11-01 17:35:19.821318341 -0700
-+@@ -1,4 +1,9 @@
-+-#!/depot/path/expect --
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec tclsh "$0" ${1+"$@"}
-++
-++package require Expect
-+ 
-+ # This is a CGI script to process requests created by the accompanying
-+ # passwd.html form.  This script is pretty basic, although it is
-+Index: expect5.45/example/passwdprompt
-+===================================================================
-+--- expect5.45.orig/example/passwdprompt	2003-09-05 12:01:59.000000000 -0700
-++++ expect5.45/example/passwdprompt	2013-11-01 17:35:19.821318341 -0700
-+@@ -1,4 +1,9 @@
-+-#!/depot/path/expect
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec tclsh "$0" ${1+"$@"}
-++
-++package require Expect
-+ 
-+ # This script prompts for a passwd from stdin while echoing *'s
-+ 
-+Index: expect5.45/example/reprompt
-+===================================================================
-+--- expect5.45.orig/example/reprompt	2000-01-06 15:22:07.000000000 -0800
-++++ expect5.45/example/reprompt	2013-11-01 17:35:19.821318341 -0700
-+@@ -1,4 +1,9 @@
-+-#!/depot/path/expect --
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec tclsh "$0" ${1+"$@"}
-++
-++package require Expect
-+ 
-+ # Name: reprompt
-+ # Description: reprompt every so often until user enters something
-+Index: expect5.45/example/term_expect
-+===================================================================
-+--- expect5.45.orig/example/term_expect	2005-02-15 10:11:31.000000000 -0800
-++++ expect5.45/example/term_expect	2013-11-01 17:35:19.821318341 -0700
-+@@ -1,4 +1,9 @@
-+-#!/depot/path/expectk
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec wish "$0" ${1+"$@"}
-++
-++package require Expect
-+ 
-+ # Name: tkterm - terminal emulator using Expect and Tk text widget, v3.0
-+ # Author: Don Libes, July '94
-+Index: expect5.45/example/vrfy
-+===================================================================
-+--- expect5.45.orig/example/vrfy	2010-07-02 09:03:31.000000000 -0700
-++++ expect5.45/example/vrfy	2013-11-01 17:35:19.821318341 -0700
-+@@ -1,4 +1,9 @@
-+-#!/depot/path/expect -f
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec tclsh "$0" ${1+"$@"}
-++
-++package require Expect
-+ 
-+ 
-+ # separate address into user and host
-+Index: expect5.45/example/xrlogin
-+===================================================================
-+--- expect5.45.orig/example/xrlogin	2000-01-06 15:22:08.000000000 -0800
-++++ expect5.45/example/xrlogin	2013-11-01 17:35:19.821318341 -0700
-+@@ -1,4 +1,10 @@
-+-#!/depot/path/expect --
-++#!/bin/sh
-++# -*- tcl -*-
-++# The next line is executed by /bin/sh, but not tcl \
-++exec tclsh "$0" ${1+"$@"}
-++
-++package require Expect
-++
-+ # xrlogin - rlogin but with current DISPLAY
-+ #
-+ # You can extend this idea to save any arbitrary information across rlogin
-diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
-new file mode 100644
-index 0000000..bfb8200
---- /dev/null
-+++ b/meta/recipes-devtools/expect/expect_5.45.bb
-@@ -0,0 +1,52 @@
-+DESCRIPTION = "expect."
-+HOMEPAGE = " http://expect.nist.gov"
-+LICENSE="GPLv3+"
-+SECTION = "devel"
-+
-+LIC_FILES_CHKSUM = "file://README;md5=2862a5993e5f43b368a49cfaad5bead6"
-+DEPENDS = "tcl"
-+RDEPENDS_${PN} = "tcl"
-+ALLOW_EMPTY_${PN} = "1"
-+
-+S = "${WORKDIR}/${BPN}${PV}"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
-+           file://0001-configure.in.patch \
-+           file://0002-tcl.m4.patch \
-+           file://01-example-shebang.patch \
-+          "
-+EXTRA_OECONF += "--includedir=${STAGING_INCDIR} \
-+                 --with-tcl=${STAGING_LIBDIR} \
-+                 --with-tclinclude=${STAGING_INCDIR} \
-+                 --enable-shared \
-+                 --enable-threads \
-+                 --disable-rpath \
-+                "
-+EXTRA_OEMAKE_install = " 'SCRIPTS=' "
-+FILES_${PN}-dbg += "${libdir}/${BPN}${PV}/.debug \
-+                    ${libdir}/.debug \
-+                   "
-+FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
-+                   ${STAGING_INCDIR}/expect.h \
-+                   ${STAGING_INCDIR}/expect_tcl.h \
-+                   ${STAGING_INCDIR}/expect_comm.h \
-+                   ${STAGING_INCDIR}/tcldbg.h \
-+                   ${includedir}/*.h \
-+                  "
-+
-+FILES_${PN} += "${libdir}/libexpect${PV}.so \
-+                ${libdir}/expect${PV}/* \
-+               "
-+
-+inherit autotools
-+
-+do_install_append() {
-+	install -d ${D}${libdir}
-+        install -m 0755 ${D}${libdir}/expect${PV}/libexpect*.so   ${D}${libdir}/
-+        install -m 0755 ${S}/fixline1           ${D}${libdir}/expect${PV}/
-+        install -m 0755 ${S}/example/*          ${D}${libdir}/expect${PV}/
-+        rm ${D}${libdir}/expect${PV}/libexpect*.so
-+}
-+
-+SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
-+SRC_URI[sha256sum] = "b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
--- 
-1.8.4.2
+Best Regards,
+Chen Qi
+
+> The -c part is ok so please resend without the mount.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>> Best Regards,
+>> Chen Qi
+>>
+>> On 09/26/2013 06:02 PM, Qi.Chen@windriver.com wrote:
+>>> From: Chen Qi <Qi.Chen@windriver.com>
+>>>
+>>> Previously, our system had no boot log even if the bootlogd daemon was
+>>> started correctly. The root cause is that the log file doesn't exist
+>>> when starting the bootlogd.
+>>>
+>>> Add '-c' option to bootlogd so that it will create the boot log if
+>>> it doesn't exist.
+>>>
+>>> Besides, we need to make sure that tmpfs has been mounted. Otherwise,
+>>> the boot log will still be missing.
+>>>
+>>> [YOCTO #5273]
+>>>
+>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> ---
+>>>    meta/recipes-core/sysvinit/sysvinit/bootlogd.init |    5 +++--
+>>>    1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+>>> index 7b87827..3a10a3c 100755
+>>> --- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+>>> +++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+>>> @@ -42,14 +42,15 @@ esac
+>>>    
+>>>    case "$ACTION" in
+>>>    	start)
+>>> +		mount -a -t tmpfs 2>/dev/null
+>>>    		echo -n "Starting $DESC: "
+>>>    		if [ -d /proc/1/. ]
+>>>    		then
+>>>    			umask 027
+>>>    			start-stop-daemon --start --quiet \
+>>> -				--exec $DAEMON -- -r
+>>> +				--exec $DAEMON -- -r -c
+>>>    		else
+>>> -			$DAEMON -r
+>>> +			$DAEMON -r -c
+>>>    		fi
+>>>    		echo "$NAME."
+>>>    		;;
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
 
