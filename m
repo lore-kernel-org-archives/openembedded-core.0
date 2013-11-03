@@ -1,35 +1,23 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 859116D42C
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BA166D2E4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Nov 2013 11:37:37 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 03 Nov 2013 03:37:38 -0800
+	Sun,  3 Nov 2013 12:26:53 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 03 Nov 2013 04:26:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="383973964"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by azsmga001.ch.intel.com with ESMTP; 03 Nov 2013 03:37:37 -0800
-Received: from irsmsx103.ger.corp.intel.com ([169.254.3.83]) by
-	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
-	14.03.0123.003; Sun, 3 Nov 2013 11:37:36 +0000
-From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] Modify buildstats to be merged inside
-	buildhistory
-Thread-Index: AQHO1yMA7piYtXtwoUy6tS8UNnpUwpoQrCCAgAK2L7A=
-Date: Sun, 3 Nov 2013 11:37:36 +0000
-Message-ID: <33115ABC4887814E8A92A08FBC93416B0A1A9E54@IRSMSX103.ger.corp.intel.com>
-References: <1383329028-24348-1-git-send-email-corneliux.stoicescu@intel.com>
-	<1383329237.6271.62.camel@ted>
-In-Reply-To: <1383329237.6271.62.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Modify buildstats to be merged inside buildhistory
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="402879112"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 03 Nov 2013 04:26:54 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 7325D6A400F;
+	Sun,  3 Nov 2013 04:26:53 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  3 Nov 2013 14:27:16 +0200
+Message-Id: <1383481636-30346-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] lib/oeqa/utils: sshcontrol: make timeout depend on output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,85 +30,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Nov 2013 11:37:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sun, 03 Nov 2013 12:26:53 -0000
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
-W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBGcmlk
-YXksIE5vdmVtYmVyIDAxLCAyMDEzIDg6MDcgUE0NCj4gVG86IFN0b2ljZXNjdSwgQ29ybmVsaXVY
-DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1Ympl
-Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBNb2RpZnkgYnVpbGRzdGF0cyB0byBiZSBtZXJnZWQg
-aW5zaWRlDQo+IGJ1aWxkaGlzdG9yeQ0KPiANCj4gT24gRnJpLCAyMDEzLTExLTAxIGF0IDE5OjAz
-ICswMTAwLCBDb3JuZWxpdSBTdG9pY2VzY3Ugd3JvdGU6DQo+ID4gLSBhZGRlZCBidWlsZHN0YXRz
-IGluaGVyaXRhbmNlIGluc2lkZSBidWlsZGhpc3RvcnkNCj4gPiAtIHJld29ya2VkIHRoZSBidWls
-ZHN0YXRzIGRpcmVjdG9yeSBzdHJ1Y3R1cmUgbm90IHRvIGNvbnRhaW4gdGhlIGJ1aWxkDQo+IG5h
-bWUocmVhZDogdGhlIGJ1aWxkIHN0YXJ0IGRhdGUpLg0KPiA+IE5vdyBpdCBvbmx5IGNvbnRhaW5z
-IHRoZSB0YXJnZXQgbmFtZSBhbmQgbWFjaGluZS4gVGhpcyBpcyB1c2VmdWxsIGluIG9yZGVyDQo+
-IHRvIHJlZHVjZSBnaXQgbm9pc2UuDQo+ID4gLSBiZWNhdXNlIGJ1aWxkcyBhcmUgbm8gbG9uZ2Vy
-IHNlcGFyYXRlZCBieSBidWlsZCBuYW1lKHJlYWQ6IGRhdGUpIGl0DQo+ID4gaXMgbmVjZXNzYXJ5
-IHRvIHJlbWFrZShyZW1vdmUgYW5kIGNyZWF0ZSBmcm9tIHNjcmF0Y2gpIHRoZSBidWlsZHN0YXRz
-DQo+ID4gZm9sZGVyIGZvciBlYWNoIGJ1aWxkIGluIG9yZGVyIGtlZXAgYnVpbGRzdGF0cyBjb21w
-YXRpYmxlIHdpdGggdG9vbHMNCj4gPiBsaWtlIHB5Ym9vdGNoYXJ0Z3VpLnB5DQo+ID4NCj4gPiBT
-b21lIGNoYW5nZXMgdG8gbWFrZSB0aGUgbmV3IGZ1bmN0aW9uYWxpdHkgY29tcGF0aWJsZSB3aXRo
-IFlvY3RvOg0KPiA+IC0gcmVtb3ZlIGJ1aWxkc3RhdHMgZnJvbSBkZWZhdWx0IHVzYWdlIGJlY2F1
-c2UgaXQgbm93IG5lZWRzDQo+ID4gYnVpbGRoaXN0b3J5IChyZW1vdmUgaXQgZnJvbSBVU0VSX0NM
-QVNTRVMgaW4gbG9jYWwuY29uZikNCj4gPiAtIGFkZCAnYnVpbGRoaXN0b3J5JyB0byBVU0VSX0NM
-QVNTRVMgb3IgYWRkIElOSEVSSVQgKz0gImJ1aWxkaGlzdG9yeSINCj4gPiBpbiBsb2NhbC5jb25m
-DQo+ID4gT1BUSU9OQUw6IC0gSSB0ZXN0ZWQgdGhpcyBwYXRjaCB3aXRoIGJ1aWxkaGlzdG9yeSB1
-bmRlciBnaXQgZW5hYmxlZA0KPiA+IChCVUlMREhJU1RPUllfQ09NTUlUID0gIjEiIGluIGxvY2Fs
-LmNvbmYpLiBJIGJlbGlldmUgdGhpcyBzaG91bGQgYmUgbWFkZQ0KPiBkZWZhdWx0Lg0KPiA+DQo+
-ID4gSSBtYWRlIHNvbWUgdGVzdHMgd2l0aCB0aGUgYnVpbGRoaXN0b3J5LWRpZmYgdG9vbCBhbmQg
-aXQgaXMgY29tcGF0aWJsZQ0KPiA+IHdpdGggdGhlIGNoYW5nZXMuIFdlIGNhbiBhZGQgZnVydGhl
-ciBmdW5jdGlvbmFsaXR5IHRvIGl0IGluIG9yZGVyIHRvIG1ha2UgaXQNCj4gaW50ZXJwcmV0IGJ1
-aWxkc3RhdHMgZGF0YS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IENvcm5lbGl1IFN0b2ljZXNj
-dSA8Y29ybmVsaXV4LnN0b2ljZXNjdUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gIG1ldGEvY2xh
-c3Nlcy9idWlsZGhpc3RvcnkuYmJjbGFzcyB8ICAgIDEgKw0KPiA+ICBtZXRhL2NsYXNzZXMvYnVp
-bGRzdGF0cy5iYmNsYXNzICAgfCAgICA4ICsrKysrKy0tDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwg
-NyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21l
-dGEvY2xhc3Nlcy9idWlsZGhpc3RvcnkuYmJjbGFzcw0KPiA+IGIvbWV0YS9jbGFzc2VzL2J1aWxk
-aGlzdG9yeS5iYmNsYXNzDQo+ID4gaW5kZXggM2RhMDNjOC4uYTc4YmQ0YiAxMDA2NDQNCj4gPiAt
-LS0gYS9tZXRhL2NsYXNzZXMvYnVpbGRoaXN0b3J5LmJiY2xhc3MNCj4gPiArKysgYi9tZXRhL2Ns
-YXNzZXMvYnVpbGRoaXN0b3J5LmJiY2xhc3MNCj4gPiBAQCAtMTksNiArMTksNyBAQCBCVUlMREhJ
-U1RPUllfUFVTSF9SRVBPID89ICIiDQo+ID4NCj4gPiAgIyBNdXN0IGluaGVyaXQgcGFja2FnZSBm
-aXJzdCBiZWZvcmUgY2hhbmdpbmcgUEFDS0FHRUZVTkNTICBpbmhlcml0DQo+ID4gcGFja2FnZQ0K
-PiA+ICtpbmhlcml0IGJ1aWxkc3RhdHMNCj4gPiAgUEFDS0FHRUZVTkNTICs9ICJidWlsZGhpc3Rv
-cnlfZW1pdF9wa2doaXN0b3J5Ig0KPiANCj4gV2UgY291bGQgZG8gYQ0KPiANCj4gQlVJTERTVEFU
-U19CQVNFID0gIiR7QlVJTERISVNUT1JZX0RJUn0vYnVpbGRzdGF0cyINCj4gDQo+IGluIGJ1aWxk
-aGlzdG9yeS5iYmNsYXNzDQo+IA0KPiA+ICAjIFdlIGRvbid0IHdhbnQgdG8gZm9yY2UgYSByZXJ1
-biBvZiBkb19wYWNrYWdlIGZvciBldmVyeXRoaW5nIGRpZmYNCj4gPiAtLWdpdCBhL21ldGEvY2xh
-c3Nlcy9idWlsZHN0YXRzLmJiY2xhc3MNCj4gPiBiL21ldGEvY2xhc3Nlcy9idWlsZHN0YXRzLmJi
-Y2xhc3MgaW5kZXggNzJmZmYxMS4uNDc2YWU5NCAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NsYXNz
-ZXMvYnVpbGRzdGF0cy5iYmNsYXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL2J1aWxkc3RhdHMu
-YmJjbGFzcw0KPiA+IEBAIC0xLDQgKzEsNCBAQA0KPiA+IC1CVUlMRFNUQVRTX0JBU0UgPSAiJHtU
-TVBESVJ9L2J1aWxkc3RhdHMvIg0KPiANCj4gYW5kIGhlcmUgZG8gQlVJTERTVEFUU19CQVNFID8/
-PSAiJHtUTVBESVJ9L2J1aWxkc3RhdHMvIg0KPiANCg0KWWVzLCB0aGlzIHdvdWxkIGhlbHAgYnVp
-bGRzdGF0cyB3b3JrIHdpdGhvdXQgYnVpbGRoaXN0b3J5LiBUaGFua3MgOikNCg0KPiA+ICtCVUlM
-RFNUQVRTX0JBU0UgPSAiJHtCVUlMREhJU1RPUllfRElSfS9idWlsZHN0YXRzIg0KPiA+ICBCTkZJ
-TEUgPSAiJHtCVUlMRFNUQVRTX0JBU0V9Ly5idWlsZG5hbWUiDQo+ID4gIERFVkZJTEUgPSAiJHtC
-VUlMRFNUQVRTX0JBU0V9Ly5kZXZpY2UiDQo+IA0KPiBzbyB3aGVuIGJ1aWxkaGlzdG9yeSBpcyB1
-c2VkLCBidWlsZHN0YXRzIGF1dG9tYXRpY2FsbHkgYmVjb21lcyBwYXJ0IG9mIGl0Pw0KPiANCj4g
-PiBAQCAtMzMsNyArMzMsNyBAQCBkZWYgc2V0X2JuKGUpOg0KPiA+DQo+ID4gIGRlZiBnZXRfYm4o
-ZSk6DQo+ID4gICAgICB3aXRoIG9wZW4oZS5kYXRhLmdldFZhcignQk5GSUxFJywgVHJ1ZSkpIGFz
-IGY6DQo+ID4gLSAgICAgICAgYm4gPSBmLnJlYWRsaW5lKCkNCj4gPiArICAgICAgICBibiA9IHN0
-cihmLnJlYWRsaW5lKCkpLnNwbGl0KCIvIilbMF0NCj4gPiAgICAgIHJldHVybiBibg0KPiA+DQo+
-ID4gIGRlZiBzZXRfZGV2aWNlKGUpOg0KPiA+IEBAIC0xNzUsNiArMTc1LDEwIEBAIHB5dGhvbiBy
-dW5fYnVpbGRzdGF0cyAoKSB7DQo+ID4gICAgICAgICAgIyBzZXQgdGhlIGJ1aWxkbmFtZQ0KPiA+
-DQo+ICMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjDQo+ICMjIyMjIyMjIyMNCj4gPiAgICAgICAgICB0cnk6DQo+ID4gKyAgICAgICAg
-ICAgIGJiLnV0aWxzLnJlbW92ZShlLmRhdGEuZ2V0VmFyKCdCVUlMRFNUQVRTX0JBU0UnLCBUcnVl
-KSwNCj4gPiArIHJlY3Vyc2U9VHJ1ZSkNCj4gDQo+IA0KPiBEbyB3ZSBuZWVkIHRvIHJlbW92ZSB0
-aGlzPw0KPiANCg0KQnkgcmV3b3JraW5nIHRoZSBidWlsZHN0YXRzIGRpcmVjdG9yeSBzdHJ1Y3R1
-cmUgdG8gbm90IHVzZSB0aGUgYnVpbGQgZGF0ZSB0byBzZXBhcmF0ZSBidWlsZHMsIGlmIHdlIGRv
-bid0IHJlbW92ZSBidWlsZHN0YXRzIGVhY2ggdGltZSB3ZSBtYWtlIGEgbmV3IGJ1aWxkIHRoZSBp
-bmZvcm1hdGlvbiBmcm9tIG11bHRpcGxlIGJ1aWxkcyB3aWxsIG1lcmdlIGFuZCB0b29scyBsaWtl
-IGJ5Ym9vdGNoYXJ0Z3V5LnB5IHdpbGwgbm90IHdvcmsgYW55bW9yZSB3aXRoIGJ1aWxkc3RhdHMu
-IA0KDQpEbyB5b3UgaGF2ZSBhbnkgaWRlYSBvbiBob3cgZWxzZSB3ZSBjb3VsZCBrZWVwIHRoaXMg
-Y29tcGF0aWJpbGl0eT8gIA0KDQo+IEknbGwgbGV0IFBhdWwgY29tbWVudCBvbiBvdGhlciBlbGVt
-ZW50cyBvZiB0aGlzLg0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KPiANCj4gPiArICAg
-ICAgICBleGNlcHQ6DQo+ID4gKyAgICAgICAgICAgIHBhc3MNCj4gPiArICAgICAgICB0cnk6DQo+
-ID4gICAgICAgICAgICAgIGJiLnV0aWxzLm1rZGlyaGllcihlLmRhdGEuZ2V0VmFyKCdCVUlMRFNU
-QVRTX0JBU0UnLCBUcnVlKSkNCj4gPiAgICAgICAgICBleGNlcHQ6DQo+ID4gICAgICAgICAgICAg
-IHBhc3MNCj4gDQoNClJlZ2FyZHMsDQpDb3JuZWxpdQ0K
+Instead of running the commands with a fixed timeout,
+we should kill the command if there is no output
+for timeout seconds.
+Also changed some strings/comments.
+
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/utils/sshcontrol.py | 41 ++++++++++++++++++++++++++-------------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
+
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 1539ff2..07257b8 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -9,6 +9,7 @@
+ import subprocess
+ import time
+ import os
++import select
+ 
+ class SSHControl(object):
+ 
+@@ -50,32 +51,44 @@ class SSHControl(object):
+         if self.host:
+             sshconn = self._internal_run(cmd)
+         else:
+-            raise Exception("Remote IP hasn't been set: '%s'" % actualcmd)
++            raise Exception("Remote IP/host hasn't been set, I can't run ssh without one.")
+ 
++        # run the command forever
+         if timeout == 0:
+-            self._out = sshconn.communicate()[0]
+-            self._ret = sshconn.poll()
++            output = sshconn.communicate()[0]
+         else:
++            # use the default timeout
+             if timeout is None:
+                 tdelta = self.timeout
++            # use the specified timeout
+             else:
+                 tdelta = timeout
+             endtime = self._starttime + tdelta
+-            while sshconn.poll() is None and time.time() < endtime:
+-                time.sleep(1)
++            output = ''
++            eof = False
++            while time.time() < endtime and not eof:
++                if select.select([sshconn.stdout], [], [], 5)[0] != []:
++                    data = os.read(sshconn.stdout.fileno(), 1024)
++                    if not data:
++                        sshconn.stdout.close()
++                        eof = True
++                    else:
++                        output += data
++                        endtime = time.time() + tdelta
++
+             # process hasn't returned yet
+             if sshconn.poll() is None:
+-                self._ret = 255
+                 sshconn.terminate()
+-                sshconn.kill()
+-                self._out = sshconn.stdout.read()
+-                sshconn.stdout.close()
+-                self._out += "\n[!!! SSH command timed out after %d seconds and it was killed]" % tdelta
+-            else:
+-                self._out = sshconn.stdout.read()
+-                self._ret = sshconn.poll()
++                time.sleep(3)
++                try:
++                    sshconn.kill()
++                except OSError:
++                    pass
++                output += "\n[!!! SSH command killed - no output for %d seconds. Total running time: %d seconds." % (tdelta, time.time() - self._starttime)
++
++        self._ret = sshconn.poll()
+         # strip the last LF so we can test the output
+-        self._out = self._out.rstrip()
++        self._out = output.rstrip()
+         self.log("%s" % self._out)
+         self.log("[SSH command returned after %d seconds]: %s" % (time.time() - self._starttime, self._ret))
+         return (self._ret, self._out)
+-- 
+1.8.3.1
+
 
