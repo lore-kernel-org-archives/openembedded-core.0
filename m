@@ -1,36 +1,35 @@
-Return-Path: <blloyd@familyhonor.net>
-Received: from mho-02-ewr.mailhop.org (mho-02-ewr.mailhop.org [204.13.248.72])
-	by mail.openembedded.org (Postfix) with ESMTP id 44ECF612D1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B1346D431
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Nov 2013 16:25:21 +0000 (UTC)
-Received: from [98.142.64.238] (helo=lloydserv.home.familyhonor.net)
-	by mho-02-ewr.mailhop.org with esmtpsa (TLSv1:AES256-SHA:256)
-	(Exim 4.72) (envelope-from <blloyd@familyhonor.net>)
-	id 1Vd0UM-000N4n-OS; Sun, 03 Nov 2013 16:25:23 +0000
-Received: from [192.168.0.83] ([192.168.0.83]) (authenticated bits=0)
-	by lloydserv.home.familyhonor.net (8.14.7/8.14.6) with ESMTP id
-	rA3GPHUo012338
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256 verify=NO);
-	Sun, 3 Nov 2013 10:25:18 -0600
-X-Mail-Handler: Dyn Standard SMTP by Dyn
-X-Originating-IP: 98.142.64.238
-X-Report-Abuse-To: abuse@dyndns.com (see
-	http://www.dyndns.com/services/sendlabs/outbound_abuse.html for
-	abuse reporting information)
-X-MHO-User: U2FsdGVkX1+zsITPp7PmWgtkgXmfzA7lxnWzTceEpqk=
-Message-ID: <1383495917.6158.30.camel@omclinuxballt.devnet.ordermatic.net>
-From: Brian Lloyd <blloyd@familyhonor.net>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 03 Nov 2013 10:25:17 -0600
-In-Reply-To: <CAMKF1sox9M+4v72sCWQafa0wWjLQMo5bgEYc4AEmRLxArS2uTg@mail.gmail.com>
-References: <cover.1383197850.git.blloyd@familyhonor.net>
-	<2e9cfab0ee89692c85b78802b1804aa3e7856ef8.1383197850.git.blloyd@familyhonor.net>
-	<CAJTo0LbjScOrHHBW5HK_WcOCnYabRvwP2CnYpHuSDJGxVqny3Q@mail.gmail.com>
-	<CAMKF1sox9M+4v72sCWQafa0wWjLQMo5bgEYc4AEmRLxArS2uTg@mail.gmail.com>
-X-Mailer: Evolution 3.6.4 (3.6.4-3.fc18) 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] Enhancements to allow core file debugging to work properly from devices
+	Sun,  3 Nov 2013 20:40:17 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id lj1so6077389pab.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 03 Nov 2013 12:40:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=dJYn8uSemHd0Z8bhy6EzcHbW9FZerOcYbyZsglUB6M8=;
+	b=hVjOjfrNhkhl4Vm/QJ3biiWQTEV4P5S36FObB5lXAx3Ih/zCt3rjzHl8x5slOijJ1V
+	yFr3lPC2kFvHHJIIonzk7yfZvqESgfH5XGLvWEMl7qpxF/g9W5sIRGfqRo3DfslF1QKv
+	bHhyYWRGTjOF7IRlLXtZgynyBrrDdsMr/O4gUBx3KV55Phw6/yWk44y0HySlq29gfPZ8
+	BP0JroJ+rgEUiUZSgEIOROHy+DwQDikJHi4BznmgpWlcTW4ER4sWNEmJ7zYZmAl2bDNp
+	wOjyQ0wf7nOctpOYX6P3Ntzs0dOYThY+xQxgBqleNefParRpN/E5wuBaSsV9ApLTJS/Y
+	bdcA==
+X-Received: by 10.66.230.233 with SMTP id tb9mr14482386pac.38.1383511219322;
+	Sun, 03 Nov 2013 12:40:19 -0800 (PST)
+Received: from haswell.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPSA id
+	gf5sm23843436pbc.22.2013.11.03.12.40.18 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 03 Nov 2013 12:40:18 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  3 Nov 2013 12:39:41 -0800
+Message-Id: <1383511181-8005-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] syslinux: Upgrade to 6.02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,162 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Nov 2013 16:25:22 -0000
-Content-Type: multipart/alternative; boundary="=-aX+xMFtT/SM4DZXusnri"
+X-List-Received-Date: Sun, 03 Nov 2013 20:40:17 -0000
 
---=-aX+xMFtT/SM4DZXusnri
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../recipes-devtools/syslinux/{syslinux_6.01.bb => syslinux_6.02.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/syslinux/{syslinux_6.01.bb => syslinux_6.02.bb} (94%)
 
-Thank you for the interest.
-
-Personally, I wouldn't mind just adding gcore to the base package, as it
-isn't very large.  However, it really is a support script that isn't
-necessary for gdb or gdb-server.  It does make testing the other part of
-the patch easier, though.  But as it isn't strictly necessary, I opted
-to let people opt in or out of having it.
-I am hoping in the future there will be a way to view available packages
-so end users can browse a list and add things without having to have
-pre-knowledge that it exists to go looking for it.
-
-I do not think the -dbg symbols should be a requirement of the gcore
-package.  It wasn't while using gcore that I found the missing
-dependency, but actually trying to analyze crash dumps created with gdb
-installed on the device and a segfaulting multi-threaded program.  All
-core files produced would have no more than one usable thread's data in
-it, and it never seemed to be from the crashing thread.  OS level crash
-dumps and gdb debugging of the application both were not properly
-functional until those symbols were placed on the device, after which
-both worked.  Therefore, it seems appropriate to place the dependency
-against the gdb package as it fixes a defect with the program installed
-by that package.  While I haven't been using gdb-server on the device,
-the research I did pointed to that program also needing those symbols,
-so the dependency was added there too.
-
-As I have never used a system that didn't have gdb installed, I am not
-sure whether core dumps can be generated without the debugger installed.
-If they can, perhaps the eglibc package itself should be made NO_STRIP
-or else eglibc made to recommend it's own debug symbols.  I don't really
-like the no strip idea, as stripped binaries are smaller and thus faster
-to load and these symbols are not needed very often, so why force them
-to be loaded all the time, but it is an option.
-
-
-
-As far as testing this, I could make a small multi-threaded application
-that intentionally dereferences a null pointer in one of 4 threads
-spawned.  That can show the broken nature of gdb core generation without
-the thread library symbols.  If this is needed, I will put one together
-and just reply here that it can be pulled from the poky-contrib
-repository.  I found and resolved the problem while working on a project
-my company is not yet ready to release.
-
-However, if you just want to see that gdb doesn't handle threads
-properly, you can just pick a multi-threaded program, do a core dump
-(the gcore script makes this trivial), and then load the core file in a
-debugger on the development system.  Even though the development system
-has the symbols, that core won't be readable except for one thread.
-
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb b/meta/recipes-devtools/syslinux/syslinux_6.02.bb
+similarity index 94%
+rename from meta/recipes-devtools/syslinux/syslinux_6.01.bb
+rename to meta/recipes-devtools/syslinux/syslinux_6.02.bb
+index 4438ea8..b4ba0ad 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.02.bb
+@@ -9,9 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ DEPENDS = "nasm-native util-linux"
  
-I will do another patch fixing the commit message and incorporating
-improvements we identify during this discussion.
-
-Brian
-
-
-On Fri, 2013-11-01 at 09:32 -0700, Khem Raj wrote:
-
-> 
-> 
-> On Friday, November 1, 2013, Burton, Ross wrote:
-> 
->         On 31 October 2013 06:54, blloyd <blloyd@familyhonor.net>
->         wrote:
->         > +FILES_gcore = "${bindir}/gcore"
->         
->         Why can't this script just be added to the gdb package?
->         
-> 
-> 
-> actually if we have it as a separate package then all those new
-> rrcommends baggage can be added to gcore package instead of gdb proper
->  
->         
->         
->         Ross
->         _______________________________________________
->         Openembedded-core mailing list
->         Openembedded-core@lists.openembedded.org
->         http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
+-SRC_URI[sha256sum] = "83a04cf81e6a46b80ee5a321926eea095af3498b04317e3674b46c125c7a5b43"
++SRC_URI[md5sum] = "5410b1c2614cc8375bfc92fe308ca5c8"
++SRC_URI[sha256sum] = "16027cbc1a7d18a48f3d26fbea771896d892cb43860b8d2f596baef7f2789b6e"
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+ # Don't let the sanity checker trip on the 32 bit real mode BIOS binaries
+-- 
+1.8.3.2
 
 
-
---=-aX+xMFtT/SM4DZXusnri
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 TRANSITIONAL//EN">
-<HTML>
-<HEAD>
-  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
-  <META NAME="GENERATOR" CONTENT="GtkHTML/4.6.4">
-</HEAD>
-<BODY>
-Thank you for the interest.<BR>
-<BR>
-Personally, I wouldn't mind just adding gcore to the base package, as it isn't very large.&nbsp; However, it really is a support script that isn't necessary for gdb or gdb-server.&nbsp; It does make testing the other part of the patch easier, though.&nbsp; But as it isn't strictly necessary, I opted to let people opt in or out of having it.<BR>
-I am hoping in the future there will be a way to view available packages so end users can browse a list and add things without having to have pre-knowledge that it exists to go looking for it.<BR>
-<BR>
-I do not think the -dbg symbols should be a requirement of the gcore package.&nbsp; It wasn't while using gcore that I found the missing dependency, but actually trying to analyze crash dumps created with gdb installed on the device and a segfaulting multi-threaded program.&nbsp; All core files produced would have no more than one usable thread's data in it, and it never seemed to be from the crashing thread.&nbsp; OS level crash dumps and gdb debugging of the application both were not properly functional until those symbols were placed on the device, after which both worked.&nbsp; Therefore, it seems appropriate to place the dependency against the gdb package as it fixes a defect with the program installed by that package.&nbsp; While I haven't been using gdb-server on the device, the research I did pointed to that program also needing those symbols, so the dependency was added there too.<BR>
-<BR>
-As I have never used a system that didn't have gdb installed, I am not sure whether core dumps can be generated without the debugger installed.&nbsp;&nbsp; If they can, perhaps the eglibc package itself should be made NO_STRIP or else eglibc made to recommend it's own debug symbols.&nbsp; I don't really like the no strip idea, as stripped binaries are smaller and thus faster to load and these symbols are not needed very often, so why force them to be loaded all the time, but it is an option.<BR>
-<BR>
-<BR>
-<BR>
-As far as testing this, I could make a small multi-threaded application that intentionally dereferences a null pointer in one of 4 threads spawned.&nbsp; That can show the broken nature of gdb core generation without the thread library symbols.&nbsp; If this is needed, I will put one together and just reply here that it can be pulled from the poky-contrib repository.&nbsp; I found and resolved the problem while working on a project my company is not yet ready to release.<BR>
-<BR>
-However, if you just want to see that gdb doesn't handle threads properly, you can just pick a multi-threaded program, do a core dump (the gcore script makes this trivial), and then load the core file in a debugger on the development system.&nbsp; Even though the development system has the symbols, that core won't be readable except for one thread.<BR>
-<BR>
- <BR>
-I will do another patch fixing the commit message and incorporating improvements we identify during this discussion.<BR>
-<BR>
-Brian<BR>
-<BR>
-<BR>
-On Fri, 2013-11-01 at 09:32 -0700, Khem Raj wrote:<BR>
-<BLOCKQUOTE TYPE=CITE>
-    <BR>
-    <BR>
-    On Friday, November 1, 2013, Burton, Ross wrote:<BR>
-    <BLOCKQUOTE>
-        On 31 October 2013 06:54, blloyd &lt;<A HREF="javascript:;">blloyd@familyhonor.net</A>&gt; wrote:<BR>
-        &gt; +FILES_gcore = &quot;${bindir}/gcore&quot;<BR>
-        <BR>
-        Why can't this script just be added to the gdb package?
-    </BLOCKQUOTE>
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    <BR>
-    <BR>
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    actually if we have it as a separate package then all those new rrcommends baggage can be added to gcore package instead of gdb proper
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    &nbsp;
-</BLOCKQUOTE>
-<BLOCKQUOTE TYPE=CITE>
-    <BLOCKQUOTE>
-        <BR>
-        Ross<BR>
-        _______________________________________________<BR>
-        Openembedded-core mailing list<BR>
-        <A HREF="javascript:;">Openembedded-core@lists.openembedded.org</A><BR>
-        <A HREF="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</A><BR>
-    </BLOCKQUOTE>
-</BLOCKQUOTE>
-<BR>
-</BODY>
-</HTML>
-
---=-aX+xMFtT/SM4DZXusnri--
