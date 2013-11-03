@@ -1,35 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B1346D431
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 97C3D6D4A6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  3 Nov 2013 20:40:17 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id lj1so6077389pab.8
+	Sun,  3 Nov 2013 21:01:22 +0000 (UTC)
+Received: by mail-qa0-f48.google.com with SMTP id w8so567996qac.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 03 Nov 2013 12:40:19 -0800 (PST)
+	Sun, 03 Nov 2013 13:01:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=dJYn8uSemHd0Z8bhy6EzcHbW9FZerOcYbyZsglUB6M8=;
-	b=hVjOjfrNhkhl4Vm/QJ3biiWQTEV4P5S36FObB5lXAx3Ih/zCt3rjzHl8x5slOijJ1V
-	yFr3lPC2kFvHHJIIonzk7yfZvqESgfH5XGLvWEMl7qpxF/g9W5sIRGfqRo3DfslF1QKv
-	bHhyYWRGTjOF7IRlLXtZgynyBrrDdsMr/O4gUBx3KV55Phw6/yWk44y0HySlq29gfPZ8
-	BP0JroJ+rgEUiUZSgEIOROHy+DwQDikJHi4BznmgpWlcTW4ER4sWNEmJ7zYZmAl2bDNp
-	wOjyQ0wf7nOctpOYX6P3Ntzs0dOYThY+xQxgBqleNefParRpN/E5wuBaSsV9ApLTJS/Y
-	bdcA==
-X-Received: by 10.66.230.233 with SMTP id tb9mr14482386pac.38.1383511219322;
-	Sun, 03 Nov 2013 12:40:19 -0800 (PST)
-Received: from haswell.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id
-	gf5sm23843436pbc.22.2013.11.03.12.40.18 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 03 Nov 2013 12:40:18 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  3 Nov 2013 12:39:41 -0800
-Message-Id: <1383511181-8005-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] syslinux: Upgrade to 6.02
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=HCGwGLyIBbJ+qpc3s0iWSghwOmpMaQj3D8vGshW0JxM=;
+	b=rTa3+VblWHkinqu1j0yHIrPom8TtQAGeAqo614iCPSI/QpFjqfbAZvutTFlmaTVlwA
+	ArobfgybNun6ImidrzodwC/War4PUuE1tRdCHT81WOjtArHLOibvzSZPrcJcFzneHIpQ
+	tqeDjfKB0oh9hIFducXYyGLm3jIRL27+kPr2turGco9e9w80DTrqoqmdyWa0D0QIbGDb
+	FwM/YfaMs21oy7bMU9i8Q8sJaoAfqdrXvy2PE2ir2vGGAokQwfjgBjZh5k/YjWoPKFuD
+	PdSX0M2aV8oMzcv3EhGMgG1N29wNRBHqLsXQLFB9GRPjd3QtxyZrgWJ9kq/KlnIiPVuT
+	7CaQ==
+MIME-Version: 1.0
+X-Received: by 10.49.62.137 with SMTP id y9mr17846213qer.59.1383512484037;
+	Sun, 03 Nov 2013 13:01:24 -0800 (PST)
+Received: by 10.224.124.67 with HTTP; Sun, 3 Nov 2013 13:01:24 -0800 (PST)
+Date: Sun, 3 Nov 2013 23:01:24 +0200
+Message-ID: <CAF6bG8eDKbRS1M__+s=fvAw-+1SLdj1yr2Y3JOXpvggVbBvCqg@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: grub build problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 03 Nov 2013 20:40:17 -0000
+X-List-Received-Date: Sun, 03 Nov 2013 21:01:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../recipes-devtools/syslinux/{syslinux_6.01.bb => syslinux_6.02.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/syslinux/{syslinux_6.01.bb => syslinux_6.02.bb} (94%)
+I've got host compiler that fails on grub configure checks (bug in
+system headers that has not manifested itself in any other
+compilation). Now, build of grub-efi-native_2.0 recipe fails. It seems
+its configure uses host compiler when it's supposed to use oe
+cross-compiler.
+configure.ac has hack like this (with TARGET_CC set earlier)
+# Test the C compiler for the target environment.
+...
+CC="$TARGET_CC"
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb b/meta/recipes-devtools/syslinux/syslinux_6.02.bb
-similarity index 94%
-rename from meta/recipes-devtools/syslinux/syslinux_6.01.bb
-rename to meta/recipes-devtools/syslinux/syslinux_6.02.bb
-index 4438ea8..b4ba0ad 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.02.bb
-@@ -9,9 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- DEPENDS = "nasm-native util-linux"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar.bz2"
--
--SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
--SRC_URI[sha256sum] = "83a04cf81e6a46b80ee5a321926eea095af3498b04317e3674b46c125c7a5b43"
-+SRC_URI[md5sum] = "5410b1c2614cc8375bfc92fe308ca5c8"
-+SRC_URI[sha256sum] = "16027cbc1a7d18a48f3d26fbea771896d892cb43860b8d2f596baef7f2789b6e"
- 
- COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
- # Don't let the sanity checker trip on the 32 bit real mode BIOS binaries
--- 
-1.8.3.2
 
+One of the problems seems to be that above compiler is then not
+consistently used. Many .m4 files have AC_REQUIRE([AC_PROG_CC]) which
+resets CC to what autotools usually expect it to be. Removing these
+AC_REQUIREs do allow process to progress further, but I'm worried what
+ill effects that might have (at least it expects that modified
+m4-files from grub-tree are used instead of system ones, even if the
+latter has higher serial number).
+
+Another thing I've played with (from the lack of reproducible test
+cases cannot really tell if it's needed) is adding dependency to
+cross-gcc (one that grub considers "target gcc") as grub build wants
+to use also such a thing despite being -native recipe.
+
+
+ - ML
 
