@@ -1,38 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A0C26B238;
-	Mon,  4 Nov 2013 13:02:44 +0000 (UTC)
-Received: by mail-ee0-f52.google.com with SMTP id e49so1088874eek.25
-	for <multiple recipients>; Mon, 04 Nov 2013 05:02:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=i/O5HfKU13JSQMaAMoLdLPMiMYaAQW4ReHcN6+XE3xM=;
-	b=YDZHqsFpr1CIUUa2orGgW0LxNlFwg8vJibY+iWoDflMc4AKwNdFMHhkvrliM0ntpWY
-	Nly5BxFnQS+9BDfJ6jINsP+i0Mhj1teTtG0RoSaQ/+9D7m1igIzfYtxT/xdqZUxJgzMv
-	mJ1BoaySCf6VHc1q/iSRrAOjV0EAN5I55wHyuwkxTRPCibKhWLoZC0zyjp+m6mrv87IZ
-	2X4PZZYHV1B+t3mc2z7KyG2Wpg533qGDgysT4gwFstIPqMDy8j/GpK1IjBQFKVEHEBeK
-	uhwi+KZJGMHgUx3Gm+Bp7P/mV9bP8c5m22tWlGOtHuF6coX1hjS/oRki7123eoZJZaaG
-	juZQ==
-X-Received: by 10.15.35.196 with SMTP id g44mr18398981eev.18.1383570165587;
-	Mon, 04 Nov 2013 05:02:45 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id d7sm46340805eem.8.2013.11.04.05.02.44
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Nov 2013 05:02:44 -0800 (PST)
-Date: Mon, 4 Nov 2013 14:02:53 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20131104130253.GD3684@jama>
-References: <20131014154535.D40A750398@opal>
-MIME-Version: 1.0
-In-Reply-To: <20131014154535.D40A750398@opal>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Purdie : gcc: Fix strange C++ repo issues
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id AA9516CA7E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  4 Nov 2013 13:32:11 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA4DW0KC013292; Mon, 4 Nov 2013 13:32:00 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HeshFzkJCD31; Mon,  4 Nov 2013 13:32:00 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA4DVv0A013268
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 4 Nov 2013 13:31:59 GMT
+Message-ID: <1383571913.6271.118.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Mon, 04 Nov 2013 13:31:53 +0000
+In-Reply-To: <1557371.bvju1MZl3L@helios>
+References: <1383358116-997-1-git-send-email-raj.khem@gmail.com>
+	<527542CF.5040909@linux.intel.com> <1557371.bvju1MZl3L@helios>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3] expect: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,65 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 13:02:45 -0000
-X-Groupsio-MsgNum: 46602
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="T7mxYSe680VjQnyC"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 04 Nov 2013 13:32:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---T7mxYSe680VjQnyC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2013-11-04 at 10:01 +0000, Paul Eggleton wrote:
+> On Saturday 02 November 2013 11:22:07 Saul Wold wrote:
+> > > +DEPENDS = "tcl"
+> > > +RDEPENDS_${PN} = "tcl"
+> > 
+> > You don't need an RDEPENDS_${PN} if it matches with the DEPENDS
+> 
+> For the sake of others reading, it's not as simple as that. DEPENDS is for 
+> build-time dependencies, RDEPENDS is for runtime dependencies; if tcl is 
+> needed both at build time and at runtime, and the runtime dependency isn't a 
+> shared library dependency, it would be valid to have both in the recipe. It 
+> depends on the situation.
 
-On Mon, Oct 14, 2013 at 03:45:35PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 9f6c4edf40963d1f3fb9f7e2d2b7a866aa1afe57
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D9f6c4edf40963d1f3fb9f7e2d2b7a866aa1afe57
->=20
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Wed Oct  9 20:37:49 2013 +0000
->=20
-> gcc: Fix strange C++ repo issues
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> ---
->=20
->  meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
->  .../gcc/gcc-4.8/0047-repomembug.patch              |   53 ++++++++++++++=
-++++++
->  2 files changed, 54 insertions(+), 0 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtool=
-s/gcc/gcc-4.8.inc
-> index 4af98f8..8d50bf7 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-> @@ -76,6 +76,7 @@ SRC_URI =3D "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.=
-bz2 \
->  	   file://0044-gengtypes.patch \
->  	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
->  	   file://0046-libatomic-deptracking.patch \
-> +	   file://0047-repomembug.patch \
->  	  "
+Just to further confuse things, if you have the RDEPENDS, you don't need
+the DEPENDS since bitbake can infer that...
 
-Don't mix tabs and spaces in multiline variables.
+Cheers,
 
-All tabs in meta/recipes-devtools/gcc/gcc-4.8.inc are used incorrectly.
+Richard
 
---T7mxYSe680VjQnyC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlJ3mv0ACgkQN1Ujt2V2gBzWegCgp1bzZhGE0PYTXX/X+90E3KLj
-jcIAn0HcLxZr0UHJ2MuBmzNfv7ubRpjS
-=T8Oo
------END PGP SIGNATURE-----
-
---T7mxYSe680VjQnyC--
