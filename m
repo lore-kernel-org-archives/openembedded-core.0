@@ -1,26 +1,35 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 42E816D6C8
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 25EAC6CEF1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 05:56:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA45uU1g017730
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 3 Nov 2013 21:56:30 -0800 (PST)
-Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.89) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 3 Nov 2013 21:56:29 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 4 Nov 2013 00:56:26 -0500
-Message-ID: <84a857c08f0b208dbd7dd14f022e58e90a329ca9.1383544482.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1383544482.git.bruce.ashfield@windriver.com>
-References: <cover.1383544482.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] linux-yocto/3.10: common-pc: add missing dependencies for BRCMSMAC
+	Mon,  4 Nov 2013 06:32:29 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id kq14so6479087pab.7
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 03 Nov 2013 22:32:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=BzNcrdLhY5dsA4g9ztZSy+AKVWlx4F0SABgG5pkoFYg=;
+	b=N5RFZJ7V+YyWaWfjwkv1HwwZ/e0QUkEDHyqsfJqE7plxQqfevlvJXE7qYCTnXCd7De
+	ooHe5BfEQAnYnn2u4q57MTSdg/wuBazMND8cAa1Ox87DIcx1vazErKyOk6SRSgAwWPZz
+	knXLPQIkdBVVAyvDFxmQu+BvyiThnFcMZ+5QVG/AVfqgFMWjnQazrgXpAshKARUxgg0L
+	oPnWk2VaHrmRrdEArxMkItwXUWjk1HxVdtBb/mNdgBXSCmz4boxQNZvARuGQMR3P2HWB
+	RxVpB0gp9yK92p0GsszYMTwH/GclQOTcHw3ebhE8y63o7jTXtn0WFeMFB9K+Nkwjlwm7
+	WiXA==
+X-Received: by 10.68.106.98 with SMTP id gt2mr16089149pbb.61.1383546751063;
+	Sun, 03 Nov 2013 22:32:31 -0800 (PST)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	hi5sm26045392pbb.43.2013.11.03.22.32.29 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 03 Nov 2013 22:32:30 -0800 (PST)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Nov 2013 17:31:15 +1100
+Message-Id: <1383546675-23002-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.4
+Subject: [PATCH] eglibc_2.18.bb: accept make versions 4.0 and greater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 05:56:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Nov 2013 06:32:29 -0000
 
-Updating the meta branch SRCREV to import some configuration updates
-for the common-pc-wifi feature:
-
-   CONFIG_WEXT_CORE=y
-   CONFIG_WEXT_PROC=y
-   CONFIG_CFG80211_WEXT=y
-
-   CONFIG_BCMA=m
-   CONFIG_BCMA_HOST_PCI_POSSIBLE=y
-   CONFIG_BCMA_HOST_PCI=y
-   CONFIG_BCMA_DRIVER_GMAC_CMN=y
-
-   CONFIG_CRC8=m
-   CONFIG_CORDIC=m
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/eglibc/eglibc-2.18/make-4.patch | 31 +++++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.18.bb           |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index ce7c789..53d546c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-@@ -5,7 +5,7 @@ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
- SRCREV_machine ?= "919b378578a8f931ee87092f1ce2608a6c2815db"
- SRCREV_machine_qemuppc ?= "be60fd54789f04941b51665970ef121089f9b93e"
--SRCREV_meta ?= "aa4a6574195b220cacd9c1e8dcbba7b0b1085eb6"
-+SRCREV_meta ?= "f1c9080cd27f99700fa59b5375d1ddd0afe625ad"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index f0c781f..c769517 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -10,7 +10,7 @@ LINUX_VERSION ?= "3.10.17"
- KMETA = "meta"
- 
- SRCREV_machine ?= "375aee37c2508899b6a8c0bdff7d4d67cb75fb36"
--SRCREV_meta ?= "aa4a6574195b220cacd9c1e8dcbba7b0b1085eb6"
-+SRCREV_meta ?= "f1c9080cd27f99700fa59b5375d1ddd0afe625ad"
- 
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-index 2c2b74b..af50b5c 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-@@ -10,7 +10,7 @@ SRCREV_machine_qemux86 ?= "375aee37c2508899b6a8c0bdff7d4d67cb75fb36"
- SRCREV_machine_qemux86-64 ?= "375aee37c2508899b6a8c0bdff7d4d67cb75fb36"
- SRCREV_machine_qemumips64 ?= "44eaa7b02aa1e4b8e539c2227702f74f9fcbcfea"
- SRCREV_machine ?= "375aee37c2508899b6a8c0bdff7d4d67cb75fb36"
--SRCREV_meta ?= "aa4a6574195b220cacd9c1e8dcbba7b0b1085eb6"
-+SRCREV_meta ?= "f1c9080cd27f99700fa59b5375d1ddd0afe625ad"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
+diff --git a/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch b/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
+new file mode 100644
+index 0000000..ec105b4
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
+@@ -0,0 +1,31 @@
++Accept make versions 4.0 and greater
++
++Backport of glibc 28d708c44bc47b56f6551ff285f78edcf61c208a.
++
++Upstream-Status: Backport
++Signed-off-by: Jonathan Liu <net147@gmail.com>
++
++diff -Nur libc.orig/configure libc/configure
++--- libc.orig/configure     2013-08-21 02:23:48.000000000 +1000
+++++ libc/configure  2013-11-04 17:04:17.778333748 +1100
++@@ -4772,7 +4772,7 @@
++   ac_prog_version=`$MAKE --version 2>&1 | sed -n 's/^.*GNU Make[^0-9]*\([0-9][0-9.]*\).*$/\1/p'`
++   case $ac_prog_version in
++     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
++-    3.79* | 3.[89]*)
+++    3.79* | 3.[89]* | [4-9].* | [1-9][0-9]*)
++        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
++     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
++ 
++diff -Nur libc.orig/configure.in libc/configure.in
++--- libc.orig/configure.in	2013-08-21 02:23:48.000000000 +1000
+++++ libc/configure.in	2013-11-04 16:54:17.955014870 +1100
++@@ -989,7 +989,7 @@
++   critic_missing="$critic_missing gcc")
++ AC_CHECK_PROG_VER(MAKE, gnumake gmake make, --version,
++   [GNU Make[^0-9]*\([0-9][0-9.]*\)],
++-  [3.79* | 3.[89]*], critic_missing="$critic_missing make")
+++  [3.79* | 3.[89]* | [4-9].* | [1-9][0-9]*], critic_missing="$critic_missing make")
++ 
++ AC_CHECK_PROG_VER(MSGFMT, gnumsgfmt gmsgfmt msgfmt, --version,
++   [GNU gettext.* \([0-9]*\.[0-9.]*\)],
+diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
+index 710b498..15e5eed 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.18.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
+@@ -27,6 +27,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr23
+            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+            file://fix-tibetian-locales.patch \
+            file://0001-ARM-Pass-dl_hwcap-to-IFUNC-resolver.patch \
++           file://make-4.patch \
+           "
+ SRC_URI[md5sum] = "b395b021422a027d89884992e91734fc"
+ SRC_URI[sha256sum] = "15f564b45dc5dd65faf0875579e3447961ae61e876933384ae05d19328539ad4"
 -- 
-1.8.1.2
+1.8.4
 
 
