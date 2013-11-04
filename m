@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DD2E6D68F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 28CF26D472
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 14:38:08 +0000 (UTC)
+	Mon,  4 Nov 2013 14:38:09 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcAAm012744
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcB4w028332
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Nov 2013 06:38:10 -0800 (PST)
+	Mon, 4 Nov 2013 06:38:11 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 4 Nov 2013 06:38:09 -0800
+	Mon, 4 Nov 2013 06:38:10 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2013 06:40:05 +0800
-Message-ID: <cover.1383604532.git.liezhi.yang@windriver.com>
+Date: Tue, 5 Nov 2013 06:40:06 +0800
+Message-ID: <50d08f9838c43df14de5c2700e08779e102cfc1f.1383604532.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1383604532.git.liezhi.yang@windriver.com>
+References: <cover.1383604532.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4 V2] sanity.bbclass: TMPDIR and sanity_info related fixes
+Subject: [PATCH 1/4] sanity.bbclass: move conf/sanity_info into TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 14:38:08 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 14:38:09 -0000
 Content-Type: text/plain
 
-* V2:
-- Move ${TOPDIR}/conf/sanity_info to ${TMPDIR}, we need update the document for
-  this change.
+Move conf/sanity_info into TMPDIR, otherwise, when we reset TMPDIR to
+another dir, the SANITY_VERSION from conf/sanity_info and
+sanity_data.getVar('SANITY_VERSION', True) are still the same, so that
+the check_sanity_version_change() would not rerun.
 
-// Robert
+Another fix is that we can move the TMPDIR/saved_tmpdir to conf dir, but
+that will make we can't reset the TMPDIR.
 
-The following changes since commit 9160f376065752e2e92c8b37ee9a80d0eb86b53b:
+[YOCTO #5442]
 
-  bitbake: toaster: enable required classes in the toaster startup script (2013-11-04 09:36:22 +0000)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib rbty/nfs_check
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbty/nfs_check
-
-Robert Yang (4):
-  sanity.bbclass: move conf/sanity_info into TMPDIR
-  sanity.bbclass: check that TMPDIR is not located on nfs
-  sanity.bbclass: remove the obsolete variable last_tmpdir
-  build-perf-test.sh: cleanup conf/sanity_info
-
- meta/classes/sanity.bbclass        | 26 ++++++++++++++++++++------
- scripts/contrib/build-perf-test.sh |  2 +-
- 2 files changed, 21 insertions(+), 7 deletions(-)
-
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index b8e5b02..5f085ee 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -694,7 +694,7 @@ def check_sanity(sanity_data):
+     last_sanity_version = 0
+     last_tmpdir = ""
+     last_sstate_dir = ""
+-    sanityverfile = sanity_data.expand("${TOPDIR}/conf/sanity_info")
++    sanityverfile = os.path.join(tmpdir, "sanity_info")
+     if os.path.exists(sanityverfile):
+         with open(sanityverfile, 'r') as f:
+             for line in f:
 -- 
 1.8.3.1
 
