@@ -1,35 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D9716B238
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A40C6B238
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 12:34:59 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA4CYfew011274; Mon, 4 Nov 2013 12:34:41 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wAJEp9PL_IPo; Mon,  4 Nov 2013 12:34:41 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA4CYbC0011259
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 4 Nov 2013 12:34:39 GMT
-Message-ID: <1383568473.6271.117.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Mon, 04 Nov 2013 12:34:33 +0000
-In-Reply-To: <2223625.X3ey4vb7tr@helios>
-References: <1383329028-24348-1-git-send-email-corneliux.stoicescu@intel.com>
-	<33115ABC4887814E8A92A08FBC93416B0A1AA0B0@IRSMSX103.ger.corp.intel.com>
-	<1383557479.6271.105.camel@ted> <2223625.X3ey4vb7tr@helios>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Modify buildstats to be merged inside buildhistory
+	Mon,  4 Nov 2013 12:35:37 +0000 (UTC)
+Message-ID: <52779491.2020505@communistcode.co.uk>
+Date: Mon, 04 Nov 2013 12:35:29 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <1383546699-23050-1-git-send-email-net147@gmail.com>
+In-Reply-To: <1383546699-23050-1-git-send-email-net147@gmail.com>
+Subject: Re: [PATCH] eglibc_2.17.bb: accept make versions 4.0 and greater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -39,55 +26,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 12:35:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 04 Nov 2013 12:35:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-11-04 at 12:14 +0000, Paul Eggleton wrote:
-> On Monday 04 November 2013 09:31:19 Richard Purdie wrote:
-> The basic idea with buildhistory is to only keep the latest version of data 
-> stored within it, on the assumption that you could always get previous 
-> versions from the git history; this also makes comparisons to previous 
-> versions straightforward.
+On 04/11/13 06:31, Jonathan Liu wrote:
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  meta/recipes-core/eglibc/eglibc-2.17/make-4.patch | 31 +++++++++++++++++++++++
+>  meta/recipes-core/eglibc/eglibc_2.17.bb           |  1 +
+>  2 files changed, 32 insertions(+)
+>  create mode 100644 meta/recipes-core/eglibc/eglibc-2.17/make-4.patch
+> 
+> diff --git a/meta/recipes-core/eglibc/eglibc-2.17/make-4.patch b/meta/recipes-core/eglibc/eglibc-2.17/make-4.patch
+> new file mode 100644
+> index 0000000..8349c18
+> --- /dev/null
+> +++ b/meta/recipes-core/eglibc/eglibc-2.17/make-4.patch
+> @@ -0,0 +1,31 @@
+> +Accept make versions 4.0 and greater
+> +
+> +Backport of glibc 28d708c44bc47b56f6551ff285f78edcf61c208a.
+> +
+> +Upstream-Status: Backport
+> +Signed-off-by: Jonathan Liu <net147@gmail.com>
+> +
+> +diff -Nur libc.orig/configure libc/configure
+> +--- libc.orig/configure	2012-12-03 08:11:45.000000000 +1100
+> ++++ libc/configure	2013-11-04 17:15:31.344984184 +1100
+> +@@ -4995,7 +4995,7 @@
+> +   ac_prog_version=`$MAKE --version 2>&1 | sed -n 's/^.*GNU Make[^0-9]*\([0-9][0-9.]*\).*$/\1/p'`
+> +   case $ac_prog_version in
+> +     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
+> +-    3.79* | 3.[89]*)
+> ++    3.79* | 3.[89]* | [4-9].* | [1-9][0-9]*)
+> +        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
+> +     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
+> + 
+> +diff -Nur libc.orig/configure.in libc/configure.in
+> +--- libc.orig/configure.in	2012-12-03 08:11:45.000000000 +1100
+> ++++ libc/configure.in	2013-11-04 17:15:31.351650849 +1100
+> +@@ -958,7 +958,7 @@
+> +   critic_missing="$critic_missing gcc")
+> + AC_CHECK_PROG_VER(MAKE, gnumake gmake make, --version,
+> +   [GNU Make[^0-9]*\([0-9][0-9.]*\)],
+> +-  [3.79* | 3.[89]*], critic_missing="$critic_missing make")
+> ++  [3.79* | 3.[89]* | [4-9].* | [1-9][0-9]*], critic_missing="$critic_missing make")
+> + 
+> + AC_CHECK_PROG_VER(MSGFMT, gnumsgfmt gmsgfmt msgfmt, --version,
+> +   [GNU gettext.* \([0-9]*\.[0-9.]*\)],
+> diff --git a/meta/recipes-core/eglibc/eglibc_2.17.bb b/meta/recipes-core/eglibc/eglibc_2.17.bb
+> index 22129e6..c62ff36 100644
+> --- a/meta/recipes-core/eglibc/eglibc_2.17.bb
+> +++ b/meta/recipes-core/eglibc/eglibc_2.17.bb
+> @@ -28,6 +28,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr22
+>             file://tzselect-awk.patch \
+>             file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+>             file://fix-tibetian-locales.patch \
+> +           file://make-4.patch \
+>             ${BACKPORTS} \
+>            "
+>  BACKPORTS = "\
+> 
 
-This makes sense for absolute value data. The task build statistics are
-not entirely "absolute" data though and having to traverse many
-checkouts trying to build up say "average task timing" might be
-problematic.
+Jonathan,
 
-> As far as timestamps go, BUILDNAME does go into the commit message; if it 
-> helps we record the metadata revisions corresponding to the build in the 
-> buildhistory repo as well (in a "metadata-revs" file).
-
-Currently the main use of the data is to say "visualise this build"
-where you're building a target or set of targets. We name the build
-after the first item in the list of build targets.
-
-The logged data is useful both as part of a set which are viewed
-together and individually on a task basis so see how much CPU/Disk a
-given task uses and how that changes over time.
-
-The tricky part is firstly that we should really use a true buildname,
-secondly that we need both the set of data and data per target.
-
-If we just logged data per target, we could overwrite any previous data
-but that would break usage as a set.
-
-> If we do want to keep the builds split out in separate per-build directories 
-> then what are we gaining by trying to push buildstats into buildhistory in the 
-> first place?
-
-We have a need to be able to merge and store build statistic data which
-build history already does well. The question is whether it makes sense
-to use the same mechanism or not since there are commonalities and
-differences. Having two data storage systems and repositories doesn't
-make a lot of sense.
-
-I'm not sure this makes a solution much clearer but it does hopefully
-better explain the challenge.
+Does this actually build and work on your system? I have had issues with
+make 4.0 and autotools 2.69 which lead to a failed configure/compile.
 
 Cheers,
 
-Richard
-
+-- 
+  Jack Mitchell (jack@embed.me.uk)
+  Embedded Systems Engineer
+  Cambridgeshire, UK
+  http://www.embed.me.uk
+-- 
 
