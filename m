@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 426386D290
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 159856D696
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 09:56:57 +0000 (UTC)
+	Mon,  4 Nov 2013 09:56:59 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA49uwfO021903
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA49v0qI006627
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Nov 2013 01:56:58 -0800 (PST)
+	Mon, 4 Nov 2013 01:57:00 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 4 Nov 2013 01:56:58 -0800
+	14.2.347.0; Mon, 4 Nov 2013 01:57:00 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Nov 2013 17:56:47 +0800
-Message-ID: <fa0a2c84f0b4e6b88d70bb869b24c07a2f70c574.1383558655.git.hongxu.jia@windriver.com>
+Date: Mon, 4 Nov 2013 17:56:48 +0800
+Message-ID: <2eda9df126e380ae5326971290e37debbe5cc3de.1383558655.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1383558655.git.hongxu.jia@windriver.com>
 References: <cover.1383558655.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 2/5] kmod: fix QA issue
+Subject: [PATCH 3/5] udev: fix QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 09:56:57 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 09:56:59 -0000
 Content-Type: text/plain
 
-The commit 7163ebd92a799b8f000b2b6f303b20de468b5f90
-Revert "kmod: Use base_libdir for installing libkmod"
-
-It caused a QA Issue WARNING:
 ...
-WARNING: QA Issue: kmod: /bin/kmod, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libkmod.so.2 => /usr/lib64/libkmod.so.2 (0x00000000dead1000)
+WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libgobject-2.0.so.0 => /usr/lib/libgobject-2.0.so.0 (0xdead3000)
+WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libffi.so.6 => /usr/lib/libffi.so.6 (0xdead4000)
+WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libglib-2.0.so.0 => /usr/lib/libglib-2.0.so.0 (0xdead5000)
 ...
 
-But we did this reasonably, we should skip the qa check explicitly.
+Install libgudev-1.0.so.0.1.1 in ${libdir} rather than ${base_libdir}
+fixed this issue.
 
 [YOCTO #5142]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-kernel/kmod/kmod_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/udev/udev.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index f90b9aa..b370016 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -15,6 +15,7 @@ RCONFLICTS_libkmod2 += "module-init-tools-insmod-static module-init-tools-depmod
- bindir = "${base_bindir}"
- sbindir = "${base_sbindir}"
- # libdir = "${base_libdir}"
-+INSANE_SKIP_${PN} = "unsafe-ref-bin"
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 2ff8f00..2f883a0 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -32,14 +32,13 @@ inherit autotools pkgconfig update-rc.d
  
- do_install_append () {
-         install -dm755 ${D}${base_bindir}
+ libexecdir = "${base_libdir}"
+ EXTRA_OECONF = "--disable-introspection \
+-                --with-rootlibdir=${base_libdir} \
++                --with-rootlibdir=${libdir} \
+                 --with-pci-ids-path=${datadir}/pci.ids \
+                 ac_cv_file__usr_share_pci_ids=no \
+                 ac_cv_file__usr_share_hwdata_pci_ids=no \
+                 ac_cv_file__usr_share_misc_pci_ids=yes \
+                 --sbindir=${base_sbindir} \
+                 --libexecdir=${nonarch_base_libdir} \
+-                --with-rootlibdir=${base_libdir} \
+                 --with-rootprefix= \
+                 --without-systemdsystemunitdir \
+                "
 -- 
 1.8.1.2
 
