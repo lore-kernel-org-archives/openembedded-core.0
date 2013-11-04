@@ -1,15 +1,15 @@
-Return-Path: <angstrom-dev@emagii.com>
+Return-Path: <ulf@emagii.com>
 Received: from smtp-out21.han.skanova.net (smtp-out21.han.skanova.net
 	[195.67.226.208])
-	by mail.openembedded.org (Postfix) with ESMTP id 7948F6D145
+	by mail.openembedded.org (Postfix) with ESMTP id D97136D5B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 00:01:31 +0000 (UTC)
+	Mon,  4 Nov 2013 00:01:39 +0000 (UTC)
 Received: from [10.175.196.165] (83.227.57.102) by smtp-out21.han.skanova.net
 	(8.5.133) (authenticated as u82406562)
-	id 5253E36C00AD8D63; Mon, 4 Nov 2013 01:01:26 +0100
-Message-ID: <5276E3D2.1090508@emagii.com>
-Date: Mon, 04 Nov 2013 01:01:22 +0100
-From: Ulf Samuelsson80200++ <angstrom-dev@emagii.com>
+	id 5253E36C00AD8DC1; Mon, 4 Nov 2013 01:01:39 +0100
+Message-ID: <5276E3E3.7080807@emagii.com>
+Date: Mon, 04 Nov 2013 01:01:39 +0100
+From: Ulf Samuelsson <ulf@emagii.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
@@ -28,7 +28,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 00:01:32 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 00:01:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 8bit
 
@@ -138,5 +138,10 @@ org.freedesktop.systemd1.Agent.Released() on /org/freedesktop/systemd1/agent
 org.freedesktop.DBus.Local.Disconnected() on /org/freedesktop/DBus/Local
 root@beaglebone:/lib/systemd/system#
   CTRL-A Z för hjäl115200 8N1   NOR    | Minicom 2.6.2 VT102 Offline
+
+
+-- 
+Best Regards
+Ulf Samuelsson
 
 
