@@ -1,35 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 719FF6D290
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 685416D136
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 09:31:42 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA49VVBk005056; Mon, 4 Nov 2013 09:31:31 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id pPt2ccPlR_qe; Mon,  4 Nov 2013 09:31:31 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA49VNXT005037
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 4 Nov 2013 09:31:25 GMT
-Message-ID: <1383557479.6271.105.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-Date: Mon, 04 Nov 2013 09:31:19 +0000
-In-Reply-To: <33115ABC4887814E8A92A08FBC93416B0A1AA0B0@IRSMSX103.ger.corp.intel.com>
-References: <1383329028-24348-1-git-send-email-corneliux.stoicescu@intel.com>
-	<1383329237.6271.62.camel@ted>
-	<33115ABC4887814E8A92A08FBC93416B0A1A9E54@IRSMSX103.ger.corp.intel.com>
-	<1383556582.6271.98.camel@ted>
-	<33115ABC4887814E8A92A08FBC93416B0A1AA0B0@IRSMSX103.ger.corp.intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Modify buildstats to be merged inside buildhistory
+	Mon,  4 Nov 2013 09:50:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA49o5mR006032
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Nov 2013 01:50:05 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 4 Nov 2013 01:50:04 -0800
+Message-ID: <52776DC8.2090406@windriver.com>
+Date: Mon, 4 Nov 2013 17:50:00 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1383549031.git.hongxu.jia@windriver.com>
+	<ca0a126b362417bc5d0cddd5262d11dc43229694.1383549031.git.hongxu.jia@windriver.com>
+In-Reply-To: <ca0a126b362417bc5d0cddd5262d11dc43229694.1383549031.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH 3/4] udev: fix QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,88 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 09:31:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 04 Nov 2013 09:50:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-11-04 at 09:24 +0000, Stoicescu, CorneliuX wrote:
-> > -----Original Message-----
-> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
-> > Sent: Monday, November 04, 2013 11:16 AM
-> > To: Stoicescu, CorneliuX
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] Modify buildstats to be merged inside
-> > buildhistory
-> > 
-> > On Sun, 2013-11-03 at 11:37 +0000, Stoicescu, CorneliuX wrote:
-> > > > > +BUILDSTATS_BASE = "${BUILDHISTORY_DIR}/buildstats"
-> > > > >  BNFILE = "${BUILDSTATS_BASE}/.buildname"
-> > > > >  DEVFILE = "${BUILDSTATS_BASE}/.device"
-> > > >
-> > > > so when buildhistory is used, buildstats automatically becomes part of it?
-> > > >
-> > > > > @@ -33,7 +33,7 @@ def set_bn(e):
-> > > > >
-> > > > >  def get_bn(e):
-> > > > >      with open(e.data.getVar('BNFILE', True)) as f:
-> > > > > -        bn = f.readline()
-> > > > > +        bn = str(f.readline()).split("/")[0]
-> > > > >      return bn
-> > > > >
-> > > > >  def set_device(e):
-> > > > > @@ -175,6 +175,10 @@ python run_buildstats () {
-> > > > >          # set the buildname
-> > > > >
-> > > >
-> > ##############################################################
-> > > > ##########
-> > > > >          try:
-> > > > > +            bb.utils.remove(e.data.getVar('BUILDSTATS_BASE',
-> > > > > + True),
-> > > > > + recurse=True)
-> > > >
-> > > >
-> > > > Do we need to remove this?
-> > > >
-> > >
-> > > By reworking the buildstats directory structure to not use the build
-> > > date to separate builds, if we don't remove buildstats each time we
-> > > make a new build the information from multiple builds will merge and
-> > > tools like bybootchartguy.py will not work anymore with buildstats.
-> > 
-> > I'd have expected that separate directories for each build are still
-> > maintained. Testing locally here, I can use pybootchartgui in the form:
-> > 
-> > scripts/pybootchartgui/pybootchartgui.py build/tmp/buildstats/core-image-
-> > sato-qemux86/201309302155/
-> > 
-> > and I'd have thought a similar command would still work in buildhistory since
-> > we'd still have the timestamped directory there?
-> > 
-> 
-> The timestamped directory was removed in order to reduce buildhistory git noise. 
-> Creating a new directory for each build will also increase the git repo size dramatically
-> In time.
-> 
-> If we choose to not use the timestamped directory, we need to delete the buildstats 
-> data each build because, in contrast to buildhistory, buildstats data is relevant when
-> compiled as a whole. This is also how pybootchart interprets it.
+On 11/04/2013 03:13 PM, Hongxu Jia wrote:
+> ...
+> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libgobject-2.0.so.0 => /usr/lib/libgobject-2.0.so.0 (0xdead3000)
+> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libffi.so.6 => /usr/lib/libffi.so.6 (0xdead4000)
+> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libglib-2.0.so.0 => /usr/lib/libglib-2.0.so.0 (0xdead5000)
 
-I hadn't realised you'd removed the timestamps. If you do that there is
-a problem, yes. Paul, how do you think we should handle this? I'd have
-thought it would be ok to save the historical data in there side by side
-since the size of the git repo will be the same, the size of the
-checkout will just be different. We do need to save something into the
-timestamped directory saying which revision(s) a given build happened
-against though so we have some kind of historical context.
+This patch fixed the above three warning, not include the fourth.
+So please drop this, v2 will send.
 
-Paul: Any thoughts on this?
+//Hongxu
 
-Cheers,
-
-Richard
-
-
-
+> WARNING: QA Issue: udev: /lib/udev/udevd, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libkmod.so.2 => /usr/lib/libkmod.so.2 (0xdead3000)
+> ...
+>
+> Install libgudev-1.0.so.0.1.1 in ${libdir} rather than ${base_libdir}
+> fixed this issue.
+>
+> [YOCTO #5142]
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-core/udev/udev.inc | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+> index 2ff8f00..2f883a0 100644
+> --- a/meta/recipes-core/udev/udev.inc
+> +++ b/meta/recipes-core/udev/udev.inc
+> @@ -32,14 +32,13 @@ inherit autotools pkgconfig update-rc.d
+>   
+>   libexecdir = "${base_libdir}"
+>   EXTRA_OECONF = "--disable-introspection \
+> -                --with-rootlibdir=${base_libdir} \
+> +                --with-rootlibdir=${libdir} \
+>                   --with-pci-ids-path=${datadir}/pci.ids \
+>                   ac_cv_file__usr_share_pci_ids=no \
+>                   ac_cv_file__usr_share_hwdata_pci_ids=no \
+>                   ac_cv_file__usr_share_misc_pci_ids=yes \
+>                   --sbindir=${base_sbindir} \
+>                   --libexecdir=${nonarch_base_libdir} \
+> -                --with-rootlibdir=${base_libdir} \
+>                   --with-rootprefix= \
+>                   --without-systemdsystemunitdir \
+>                  "
 
 
