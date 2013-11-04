@@ -1,33 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D4D76B238
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A2E516D472
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 12:10:20 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA4C9H5j010054; Mon, 4 Nov 2013 12:10:09 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZG-SMuEEZv0v; Mon,  4 Nov 2013 12:10:09 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA4CA58g010187
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 4 Nov 2013 12:10:06 GMT
-Message-ID: <1383567000.6271.109.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Mon, 04 Nov 2013 12:10:00 +0000
-In-Reply-To: <CAP9ODKqr8eHVck5YSpVCgxugW7UJZrXfNey=sM=_6Eo-W1HPDg@mail.gmail.com>
-References: <cover.1383558655.git.hongxu.jia@windriver.com>
-	<1383565168.6271.107.camel@ted>
-	<CAP9ODKqr8eHVck5YSpVCgxugW7UJZrXfNey=sM=_6Eo-W1HPDg@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Saul Wold <saul.wold@intel.com>
-Subject: Re: [PATCH V2 0/5] fix WARNING: QA Issue on kmod/udev/nfs-utils (unsafe references [/ references to /usr/lib])
+	Mon,  4 Nov 2013 12:15:02 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Nov 2013 04:14:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,631,1378882800"; d="scan'208";a="427569368"
+Received: from pauljbro-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.121.96])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Nov 2013 04:14:47 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Stoicescu,
+	CorneliuX" <corneliux.stoicescu@intel.com>
+Date: Mon, 04 Nov 2013 12:14:46 +0000
+Message-ID: <2223625.X3ey4vb7tr@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1383557479.6271.105.camel@ted>
+References: <1383329028-24348-1-git-send-email-corneliux.stoicescu@intel.com>
+	<33115ABC4887814E8A92A08FBC93416B0A1AA0B0@IRSMSX103.ger.corp.intel.com>
+	<1383557479.6271.105.camel@ted>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Modify buildstats to be merged inside buildhistory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,50 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 12:10:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Nov 2013 12:15:03 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2013-11-04 at 09:48 -0200, Otavio Salvador wrote:
-> On Mon, Nov 4, 2013 at 9:39 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Mon, 2013-11-04 at 17:56 +0800, Hongxu Jia wrote:
-> >> Change in V2: The fourth patch fixed the QA Issue on udev, it was missed on previous version.
-> >>
-> >> //Hongxu
-> >>
-> >> The following changes since commit f3541226b8b1187e79dec0f6f9f3c58cedf9ac9b:
-> >>
-> >>   bitbake: hob: do not display the "Package list may be incomplete!" dialog (2013-11-01 17:59:31 +0000)
-> >>
-> >> are available in the git repository at:
-> >>
-> >>   git://git.pokylinux.org/poky-contrib hongxu/fix-qa-issue
-> >>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-qa-issue
-> >>
-> >> Hongxu Jia (5):
-> >>   insane.bbclass: support to skip  unsafe references in binaries qa
-> >>     check.
-> >>   kmod: fix QA issue
-> >>   udev: fix  QA issue
-> >>   udev: fix QA issue
-> >>   nfs-utils: fix QA issue
-> >
-> > Last time these warnings came up I asked for a clear plan about what
-> > needed to live in / and what needed to live in /usr and how we were
-> > going to fix things once and for all (or forget this idea).
-> >
-> > Where is the plan? Why is it ok to just ignore these particular
-> > warnings?
+On Monday 04 November 2013 09:31:19 Richard Purdie wrote:
+> On Mon, 2013-11-04 at 09:24 +0000, Stoicescu, CorneliuX wrote:
+> > > -----Original Message-----
+> > > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> > > Sent: Monday, November 04, 2013 11:16 AM
+> > > To: Stoicescu, CorneliuX
+> > > Cc: openembedded-core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [PATCH] Modify buildstats to be merged inside
+> > > buildhistory
+> > > 
+> > > On Sun, 2013-11-03 at 11:37 +0000, Stoicescu, CorneliuX wrote:
+> > > > > > +BUILDSTATS_BASE = "${BUILDHISTORY_DIR}/buildstats"
+> > > > > > 
+> > > > > >  BNFILE = "${BUILDSTATS_BASE}/.buildname"
+> > > > > >  DEVFILE = "${BUILDSTATS_BASE}/.device"
+> > > > > 
+> > > > > so when buildhistory is used, buildstats automatically becomes part
+> > > > > of it?
+> > > > > 
+> > > > > > @@ -33,7 +33,7 @@ def set_bn(e):
+> > > > > >  def get_bn(e):
+> > > > > >      with open(e.data.getVar('BNFILE', True)) as f:
+> > > > > > -        bn = f.readline()
+> > > > > > +        bn = str(f.readline()).split("/")[0]
+> > > > > > 
+> > > > > >      return bn
+> > > > > >  
+> > > > > >  def set_device(e):
+> > > > > > @@ -175,6 +175,10 @@ python run_buildstats () {
+> > > > > > 
+> > > > > >          # set the buildname
+> > > 
+> > > ##############################################################
+> > > 
+> > > > > ##########
+> > > > > 
+> > > > > >          try:
+> > > > > > +            bb.utils.remove(e.data.getVar('BUILDSTATS_BASE',
+> > > > > > + True),
+> > > > > > + recurse=True)
+> > > > > 
+> > > > > Do we need to remove this?
+> > > > 
+> > > > By reworking the buildstats directory structure to not use the build
+> > > > date to separate builds, if we don't remove buildstats each time we
+> > > > make a new build the information from multiple builds will merge and
+> > > > tools like bybootchartguy.py will not work anymore with buildstats.
+> > > 
+> > > I'd have expected that separate directories for each build are still
+> > > maintained. Testing locally here, I can use pybootchartgui in the form:
+> > > 
+> > > scripts/pybootchartgui/pybootchartgui.py
+> > > build/tmp/buildstats/core-image-
+> > > sato-qemux86/201309302155/
+> > > 
+> > > and I'd have thought a similar command would still work in buildhistory
+> > > since we'd still have the timestamped directory there?
+> > 
+> > The timestamped directory was removed in order to reduce buildhistory git
+> > noise. Creating a new directory for each build will also increase the git
+> > repo size dramatically In time.
+> > 
+> > If we choose to not use the timestamped directory, we need to delete the
+> > buildstats data each build because, in contrast to buildhistory,
+> > buildstats data is relevant when compiled as a whole. This is also how
+> > pybootchart interprets it.
 > 
-> I don't think supporting /bin and /sbin separated than /usr is worth the work.
+> I hadn't realised you'd removed the timestamps. If you do that there is
+> a problem, yes. Paul, how do you think we should handle this? I'd have
+> thought it would be ok to save the historical data in there side by side
+> since the size of the git repo will be the same, the size of the
+> checkout will just be different. We do need to save something into the
+> timestamped directory saying which revision(s) a given build happened
+> against though so we have some kind of historical context.
+> 
+> Paul: Any thoughts on this?
 
-I keep hearing that some people do need this. I'm not against it in
-principle, equally I do want to see a plan and/or complete patchset
-before we take more patches for it.
+The basic idea with buildhistory is to only keep the latest version of data 
+stored within it, on the assumption that you could always get previous 
+versions from the git history; this also makes comparisons to previous 
+versions straightforward.
+
+As far as timestamps go, BUILDNAME does go into the commit message; if it 
+helps we record the metadata revisions corresponding to the build in the 
+buildhistory repo as well (in a "metadata-revs" file).
+
+If we do want to keep the builds split out in separate per-build directories 
+then what are we gaining by trying to push buildstats into buildhistory in the 
+first place?
 
 Cheers,
+Paul
 
-Richard
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
