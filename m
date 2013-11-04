@@ -1,20 +1,33 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 71C856D684
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EB2C6D2FE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 18:59:02 +0000 (UTC)
+	Mon,  4 Nov 2013 19:24:52 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 04 Nov 2013 10:55:36 -0800
+	by orsmga101.jf.intel.com with ESMTP; 04 Nov 2013 11:24:53 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="403485157"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.66])
-	by orsmga001.jf.intel.com with ESMTP; 04 Nov 2013 10:59:02 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Nov 2013 10:59:02 -0800
-Message-Id: <cover.1383591290.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [CONSOLIDATED PULL 0/8] Patches & Qemu Update
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; 
+	d="scan'208,217";a="403497774"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga001.jf.intel.com with ESMTP; 04 Nov 2013 11:24:47 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.75]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.89]) with mapi id
+	14.03.0123.003; Mon, 4 Nov 2013 19:21:35 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Yevhen Kyriukha <kirgene@gmail.com>, "Patches and discussions about the
+	oe-core layer" <openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Gstreamer 1.2
+Thread-Index: AQHO2WnbYVjQ+w43s0Wt0I4tPtND35oVcx6g
+Date: Mon, 4 Nov 2013 19:21:35 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CB0F1D@IRSMSX105.ger.corp.intel.com>
+References: <CADV-EXFDA3NfgufTS20fZcwS3DUkSYcm1Y5NEtwS0=1KaJW13w@mail.gmail.com>
+In-Reply-To: <CADV-EXFDA3NfgufTS20fZcwS3DUkSYcm1Y5NEtwS0=1KaJW13w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Subject: Re: Gstreamer 1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,77 +40,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 18:59:03 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 19:24:52 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB16CB0F1DIRSMSX105gercor_"
 
-Richard,
+--_000_969F26A8BAB325438E7EB80D3C3134FB16CB0F1DIRSMSX105gercor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-I have tested this locally and on the Autobuilder.
+Hello,
+I will work probably starting next week.
+Regards,
+Cristian
 
-Sau!
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Yevhen Kyriukha
+Sent: Monday, November 4, 2013 4:26 PM
+To: Patches and discussions about the oe-core layer
+Subject: [OE-core] Gstreamer 1.2
 
-The following changes since commit 1d2d37d579492b63d20ff8aa890a43b9a1576cf0:
+Is anyone working on gstreamer 1.2 recipes for oe?
 
-  toaster: add class to dump toaster-tracked data (2013-11-04 09:35:01 +0000)
+Best regards,
+Yevhen
 
-are available in the git repository at:
+--_000_969F26A8BAB325438E7EB80D3C3134FB16CB0F1DIRSMSX105gercor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-reply;
+	font-family:"Calibri","sans-serif";
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Hello,<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">I will work probably star=
+ting next week.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Regards,<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Cristian<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><a name=3D"_MailEndCompose"><span style=3D"font-size=
+:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;color:#1F497=
+D"><o:p>&nbsp;</o:p></span></a></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-=
+size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;"> openem=
+bedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounce=
+s@lists.openembedded.org]
+<b>On Behalf Of </b>Yevhen Kyriukha<br>
+<b>Sent:</b> Monday, November 4, 2013 4:26 PM<br>
+<b>To:</b> Patches and discussions about the oe-core layer<br>
+<b>Subject:</b> [OE-core] Gstreamer 1.2<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<div>
+<p class=3D"MsoNormal">Is anyone working on gstreamer 1.2 recipes for oe?<o=
+:p></o:p></p>
+</div>
+<p class=3D"MsoNormal"><br clear=3D"all">
+<o:p></o:p></p>
+<div>
+<p class=3D"MsoNormal">Best regards,<br>
+Yevhen<o:p></o:p></p>
+</div>
+</div>
+</div>
+</body>
+</html>
 
-Chen Qi (1):
-  iproute2: de-bash its scripts to remove the bash dependency
-
-Chris Patterson (1):
-  qemu: upgrade to 1.6.1
-
-Felipe F. Tonello (1):
-  package.bbclass: Fix split_and_strip_files when file has single quote
-    (')
-
-Lu Chong (1):
-  ppp: Add two structures in if_pppol2tp.h
-
-Martin Jansa (1):
-  db: Fix build with high PARALLEL_MAKE
-
-Roy Li (1):
-  eglibc-locale: Does not create {localedir} if the toolchain has no
-    files under it
-
-Stefan Stanacar (1):
-  lib/oeqa: add oeTest superclass
-
-Xufeng Zhang (1):
-  kernel.bbclass: Delay rm_work to run after do_bundle_initramfs
-
- meta/classes/kernel.bbclass                        |  2 +-
- meta/classes/package.bbclass                       |  2 +-
- meta/lib/oeqa/oetest.py                            | 40 +++++------
- meta/lib/oeqa/utils/decorators.py                  | 10 +--
- .../iproute2/0001-iproute2-de-bash-scripts.patch   | 64 ++++++++++++++++++
- .../iproute2/iproute2_3.11.0.bb                    |  1 +
- ...1-ppp-Add-two-structures-in-if_pppol2tp.h.patch | 60 ++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |  4 +-
- meta/recipes-core/eglibc/eglibc-locale.inc         |  3 +-
- meta/recipes-devtools/qemu/files/fdt_header.patch  | 39 -----------
- .../qemu/files/relocatable_sdk.patch               | 34 ----------
- ...-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch | 79 ----------------------
- .../qemu/files/target-ppc_fix_bit_extraction.patch | 70 -------------------
- meta/recipes-devtools/qemu/qemu.inc                |  6 +-
- .../qemu/{qemu_1.5.0.bb => qemu_1.6.1.bb}          | 15 ++--
- .../recipes-support/db/db/fix-parallel-build.patch | 19 ++++++
- meta/recipes-support/db/db_5.3.21.bb               |  3 +-
- 17 files changed, 188 insertions(+), 263 deletions(-)
- create mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-iproute2-de-bash-scripts.patch
- create mode 100644 meta/recipes-connectivity/ppp/ppp-2.4.5/0001-ppp-Add-two-structures-in-if_pppol2tp.h.patch
- delete mode 100644 meta/recipes-devtools/qemu/files/fdt_header.patch
- delete mode 100644 meta/recipes-devtools/qemu/files/relocatable_sdk.patch
- delete mode 100644 meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
- delete mode 100644 meta/recipes-devtools/qemu/files/target-ppc_fix_bit_extraction.patch
- rename meta/recipes-devtools/qemu/{qemu_1.5.0.bb => qemu_1.6.1.bb} (44%)
- create mode 100644 meta/recipes-support/db/db/fix-parallel-build.patch
-
--- 
-1.8.3.1
-
-
+--_000_969F26A8BAB325438E7EB80D3C3134FB16CB0F1DIRSMSX105gercor_--
