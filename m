@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 28CF26D472
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C66C6D68F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 14:38:09 +0000 (UTC)
+	Mon,  4 Nov 2013 14:38:10 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcB4w028332
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcCpc012749
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Nov 2013 06:38:11 -0800 (PST)
+	Mon, 4 Nov 2013 06:38:12 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 4 Nov 2013 06:38:10 -0800
+	Mon, 4 Nov 2013 06:38:11 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2013 06:40:06 +0800
-Message-ID: <50d08f9838c43df14de5c2700e08779e102cfc1f.1383604532.git.liezhi.yang@windriver.com>
+Date: Tue, 5 Nov 2013 06:40:07 +0800
+Message-ID: <e6ed929d479d31d8f481be8e5ac31165d68c9739.1383604532.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1383604532.git.liezhi.yang@windriver.com>
 References: <cover.1383604532.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] sanity.bbclass: move conf/sanity_info into TMPDIR
+Subject: [PATCH 2/4] sanity.bbclass: check that TMPDIR is not located on nfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 14:38:09 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 14:38:10 -0000
 Content-Type: text/plain
 
-Move conf/sanity_info into TMPDIR, otherwise, when we reset TMPDIR to
-another dir, the SANITY_VERSION from conf/sanity_info and
-sanity_data.getVar('SANITY_VERSION', True) are still the same, so that
-the check_sanity_version_change() would not rerun.
+There would be some unexpected errors when the whole TMPDIR is located
+on nfs, so add a test for it in sanity.bbclass.
 
-Another fix is that we can move the TMPDIR/saved_tmpdir to conf dir, but
-that will make we can't reset the TMPDIR.
+Note:
+The better way to get the filesystem id should be get f_fsid from struct
+statvfs, but there is no f_fsid in os.stat() or os.statvfs(), so we use
+'stat -f -c "%t"' here.
+
+BTW., s/tmpdir/TMPDIR/ in the previous comment message to make them have
+a uniform.
 
 [YOCTO #5442]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/sanity.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/sanity.bbclass | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index b8e5b02..5f085ee 100644
+index 5f085ee..c777e3a 100644
 --- a/meta/classes/sanity.bbclass
 +++ b/meta/classes/sanity.bbclass
-@@ -694,7 +694,7 @@ def check_sanity(sanity_data):
-     last_sanity_version = 0
-     last_tmpdir = ""
-     last_sstate_dir = ""
--    sanityverfile = sanity_data.expand("${TOPDIR}/conf/sanity_info")
-+    sanityverfile = os.path.join(tmpdir, "sanity_info")
-     if os.path.exists(sanityverfile):
-         with open(sanityverfile, 'r') as f:
-             for line in f:
+@@ -198,6 +198,21 @@ def check_path_length(filepath, pathname, limit):
+         return "The length of %s is longer than 410, this would cause unexpected errors, please use a shorter path.\n" % pathname
+     return ""
+ 
++def get_filesystem_id(path):
++    status, result = oe.utils.getstatusoutput("stat -f -c '%s' %s" % ("%t", path))
++    if status == 0:
++        return result
++    else:
++        bb.warn("Can't get the filesystem id of: %s" % path)
++        return None
++
++# Check that the path isn't located on nfs.
++def check_not_nfs(path, name):
++    # The nfs' filesystem id is 6969
++    if get_filesystem_id(path) == "6969":
++        return "The %s: %s can't be located on nfs.\n" % (name, path)
++    return ""
++
+ def check_connectivity(d):
+     # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable
+     # using the same syntax as for SRC_URI. If the variable is not set
+@@ -569,9 +584,12 @@ def check_sanity_version_change(status, d):
+     if not oes_bb_conf:
+         status.addresult('You are not using the OpenEmbedded version of conf/bitbake.conf. This means your environment is misconfigured, in particular check BBPATH.\n')
+ 
+-    # The length of tmpdir can't be longer than 410
++    # The length of TMPDIR can't be longer than 410
+     status.addresult(check_path_length(tmpdir, "TMPDIR", 410))
+ 
++    # Check that TMPDIR isn't located on nfs
++    status.addresult(check_not_nfs(tmpdir, "TMPDIR"))
++
+ def check_sanity_everybuild(status, d):
+     # Sanity tests which test the users environment so need to run at each build (or are so cheap
+     # it makes sense to always run them.
 -- 
 1.8.3.1
 
