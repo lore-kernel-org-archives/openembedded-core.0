@@ -1,35 +1,38 @@
-Return-Path: <lizhijian@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D9256D136
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FDB76D136
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 10:38:05 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.93,631,1378828800"; 
-   d="scan'208";a="8941715"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 04 Nov 2013 18:34:40 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id rA4Ac2Jl029062
+	Mon,  4 Nov 2013 10:51:06 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id x10so6483409pdj.40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Nov 2013 18:38:02 +0800
-Received: from [127.0.0.1] ([10.167.226.56])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013110418361282-2744886 ;
-	Mon, 4 Nov 2013 18:36:12 +0800 
-Message-ID: <5277790C.1060208@cn.fujitsu.com>
-Date: Mon, 04 Nov 2013 18:38:04 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-Organization: fnst-ulinux
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
+	Mon, 04 Nov 2013 02:51:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:content-type:content-transfer-encoding;
+	bh=C6gxYvbiK6/6QIOX9xPACwNrSK5hUqRkptQZ+/RwtPU=;
+	b=ajwWmIxWKxlq/gdKzLEgi0r81o53Fmmd558CxKXn0jv3XgMES+tUuiF/rRK3H229VQ
+	qyDlWo+bdw6kTMgqDq8EKYj23BMzUTmr/eH8xxbnZ+2bKnGSdioNFlIOFIB0ehK7Q9Tm
+	cnzaelYiu3jJTtHh2rRLATFhOOUMlTXVQVrHhNhJqfrH0WP9/1jU+ompdykzuOYlg67z
+	sl3t7DyIspunWFMFp/s2D7VmqMOn2XgROPgEo1YSKr+bN4yjXzwomlB8BlyDRVSdRAt4
+	d9XhCGcSelR0SUcCZ6wbsp75mXOIwgcK4eVx3VqOpPEojME2xI1CZq7W5vX808SeDZAv
+	TrTA==
+X-Received: by 10.68.189.101 with SMTP id gh5mr16868175pbc.39.1383562268407;
+	Mon, 04 Nov 2013 02:51:08 -0800 (PST)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244]) by mx.google.com with ESMTPSA id
+	gf5sm27441307pbc.22.2013.11.04.02.51.06 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 04 Nov 2013 02:51:07 -0800 (PST)
+Message-ID: <52777AD9.20201@gmail.com>
+Date: Mon, 04 Nov 2013 21:45:45 +1100
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/11/04 18:36:12,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/11/04 18:36:13,
-	Serialize complete at 2013/11/04 18:36:13
-Subject: [PATCH 1/1] systemd.bbclass: only restart the service when it is running at systemd_postinst
+Subject: [dora] Cherry-pick Qt fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,62 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 10:38:07 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 10:51:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=GB2312
 
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
+Hi Robert,
 
-If systemd_postinst is installed as a delayed package scriptlet (installed to /etc/rpm-postints/${PN})
-which would be executed at the first time of OS startup. And then this script would block when it is
-trying to call systemctl to restart service.
+I propose we cherry-pick the following Qt fixes from master to dora branch:
+-qt4: add upstream QTBUG-31579 patch for QPainter regression 
+[OE-Core/a5afc67cbfc32beb3be10392bf9788cfc3610ab1]
+-nativesdk-qt4-tools: create qt.conf file 
+[OE-Core/23f88695683a8e428375a8ccb6be935347a8768c]
+-meta-toolchain-qt: put QT_CONF_PATH in environment script 
+[OE-Core/fffa4c37c49b169f663d28612b9251819cef9577]
+-qt4: add upstream QTBUG-34218/QTBUG-34234 misaligned selection patch 
+[OE-Core/3af8f2e0697a9523d3b505ba4c48eca35f6de3a9]
 
-It seems that it is not a good timing to restart service at run-postinsts.
-I test serval services which has supported systemd(uuidd/avahi-daemon), all of them
-will block the startup.
-
-Steps to reproduce:
-1) Installed systemd_postinst as a delayed package scriptlet
-   i.e. Append Following lines to meta/recipes-core/busybox/busybox.inc
-pkg_postinst_${PN}-syslog () {
-       if [ "x$D" != "x" ] ; then
-               exit 1
-       fi
-}
-2) build a rootfs
-# bitbake core-image-minimal
-3) startup this rootfs
-
-OS would block at /etc/rpm-postinsts/busybox-syslog, like follows
-[ ***] A start job is running ro Run pending postinsts
-
-This patch can fix the block problem, and make the service is consistent with the original status
-
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
- meta/classes/systemd.bbclass |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 8084251..9fef667 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -30,7 +30,8 @@ fi
- if type systemctl >/dev/null 2>/dev/null; then
- 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
- -	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-+	if [ -z "$D" ] && [ systemctl status ${SYSTEMD_SERVICE} &>/dev/null ]; then
-+		# if service is running, restart it
- 		systemctl restart ${SYSTEMD_SERVICE}
- 	fi
- fi
--- 
-1.7.1
-
-
-
-
-
-
-
+Regards,
+Jonathan
 
