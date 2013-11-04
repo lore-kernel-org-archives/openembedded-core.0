@@ -1,31 +1,24 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id BD39B6CA7E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DD2E6D68F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 14:26:13 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id n7so3889934qcx.41
+	Mon,  4 Nov 2013 14:38:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcAAm012744
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2013 06:26:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=169DeOc3a0cxtmQ5jw2JC5wGKM/+Wl3GX8bDDVc8UXQ=;
-	b=BSrJRrHcVUUJ43PQt6d18IF1OSUdiasZ41gsKGeglpjoeUkiYBI67tdpUQvygemls0
-	P3on6VyUyko+hex2O33Q7qhCOKSz/2Sg5KDSGjZac7P54iL2HQBGau5CseKMyaQhED7a
-	xUu4K7N5duiLjF1tVKXl0VeC6ZiJq8Ak+/L5+nSnCCHz3VgPHQceDt+sik/O7tVs/cLs
-	aK9sBDatOXFFEQKCD8pVVyBkIe80KQM5Q2uZtkKfUpOUgUYvLusdcY9oWk+1rAeIUF1K
-	LYyY+V7ROuQpMMyQ8I6h/Q8/25RIxuI1TCXxTtPp0aMHusxKkHWQAxYZNW0rHhyGLHgh
-	L+Fw==
+	Mon, 4 Nov 2013 06:38:10 -0800 (PST)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 4 Nov 2013 06:38:09 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Nov 2013 06:40:05 +0800
+Message-ID: <cover.1383604532.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Received: by 10.224.130.72 with SMTP id r8mr22634215qas.32.1383575175510;
-	Mon, 04 Nov 2013 06:26:15 -0800 (PST)
-Received: by 10.96.105.227 with HTTP; Mon, 4 Nov 2013 06:26:15 -0800 (PST)
-Date: Mon, 4 Nov 2013 16:26:15 +0200
-Message-ID: <CADV-EXFDA3NfgufTS20fZcwS3DUkSYcm1Y5NEtwS0=1KaJW13w@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Gstreamer 1.2
+Subject: [PATCH 0/4 V2] sanity.bbclass: TMPDIR and sanity_info related fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,21 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 14:26:14 -0000
-Content-Type: multipart/alternative; boundary=001a1132ec70db406d04ea5ab2aa
+X-List-Received-Date: Mon, 04 Nov 2013 14:38:08 -0000
+Content-Type: text/plain
 
---001a1132ec70db406d04ea5ab2aa
-Content-Type: text/plain; charset=ISO-8859-1
+* V2:
+- Move ${TOPDIR}/conf/sanity_info to ${TMPDIR}, we need update the document for
+  this change.
 
-Is anyone working on gstreamer 1.2 recipes for oe?
+// Robert
 
-Best regards,
-Yevhen
+The following changes since commit 9160f376065752e2e92c8b37ee9a80d0eb86b53b:
 
---001a1132ec70db406d04ea5ab2aa
-Content-Type: text/html; charset=ISO-8859-1
+  bitbake: toaster: enable required classes in the toaster startup script (2013-11-04 09:36:22 +0000)
 
-<div dir="ltr"><div>Is anyone working on gstreamer 1.2 recipes for oe?</div><br clear="all"><div>Best regards,<br>Yevhen</div>
-</div>
+are available in the git repository at:
 
---001a1132ec70db406d04ea5ab2aa--
+  git://git.pokylinux.org/poky-contrib rbty/nfs_check
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbty/nfs_check
+
+Robert Yang (4):
+  sanity.bbclass: move conf/sanity_info into TMPDIR
+  sanity.bbclass: check that TMPDIR is not located on nfs
+  sanity.bbclass: remove the obsolete variable last_tmpdir
+  build-perf-test.sh: cleanup conf/sanity_info
+
+ meta/classes/sanity.bbclass        | 26 ++++++++++++++++++++------
+ scripts/contrib/build-perf-test.sh |  2 +-
+ 2 files changed, 21 insertions(+), 7 deletions(-)
+
+-- 
+1.8.3.1
+
+
