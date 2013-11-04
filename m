@@ -1,27 +1,24 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 469076CEF1
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B1B036CEF1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 08:34:07 +0000 (UTC)
-Received: from e6520eb (unknown [88.170.243.169])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id BF9874B01DC;
-	Mon,  4 Nov 2013 09:34:00 +0100 (CET)
-Date: Mon, 4 Nov 2013 09:33:59 +0100
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Andrea Adami <andrea.adami@gmail.com>
-Message-ID: <20131104093359.4d958b8b@e6520eb>
-In-Reply-To: <CAAQYJAvvqEByKQRPKRZviqPJmSrDqYt1PvnYPxeJuOSuKO-HaA@mail.gmail.com>
-References: <1381358545.29912.50.camel@ted> <20131028151004.34b2af21@e6520eb>
-	<CAMKF1so3GUQZMvLADSCr=Exavo5OVgh==do7aHhe_wUQk9mFHQ@mail.gmail.com>
-	<20131029082852.4399ee5e@e6520eb> <1383146112.25877.34.camel@ted>
-	<20131102094725.14fb6902@e6520eb>
-	<CAAQYJAvvqEByKQRPKRZviqPJmSrDqYt1PvnYPxeJuOSuKO-HaA@mail.gmail.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.22; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: SRC_URI computing order
+	Mon,  4 Nov 2013 08:41:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA48fMOc028385
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Nov 2013 00:41:22 -0800 (PST)
+Received: from PKE-CLU1-D1.wrs.com (128.224.162.203) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 4 Nov 2013 00:41:21 -0800
+From: <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Nov 2013 16:41:15 +0800
+Message-ID: <1383554475-20223-1-git-send-email-Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH] makedevs: fix return error value when input invalid arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +31,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 08:34:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 04 Nov 2013 08:41:20 -0000
+Content-Type: text/plain
 
-Hi Andrea,
+From: Lu Chong <Chong.Lu@windriver.com>
 
-Le Sun, 3 Nov 2013 23:16:09 +0100,
-Andrea Adami <andrea.adami@gmail.com> a =E9crit :
-> I have to report an undesiderate behavior:
->=20
-> the formfactor files in our .bbappend are not considered :/
-> DEBUG: Searching for machconfig in paths:....
->   /oe/oe-core/meta/recipes-bsp/formfactor/formfactor-0.0/
->   /oe/oe-core/meta/recipes-bsp/formfactor/formfactor/
->   /oe/oe-core/meta/recipes-bsp/formfactor/files/
->   /oe/meta-handheld/recipes-bsp/formfactor/files/poodle
->=20
-> so we end up with the empty machconfig of
-> /oe/oe-core/meta/recipes-bsp/formfactor/files/
->=20
-> Surely this didn't happen when we tested the recipe.
->=20
-isn't that problem fixed by cherry-picking commit
-92cbf7eeea553bfa24c7081473fa8bc4ebc1f552 in oe-core ?
+Remove "-q" and "--squash" options of help information.
+Print help information and return non-zero value when makedevs has none option.
+If rootdir is not exist, there would be print error messages.
 
-Eric
+Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
+---
+ .../makedevs/makedevs-1.0.0/makedevs.c             |   15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+index 53700c6..96362a5 100644
+--- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
++++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+@@ -434,7 +434,6 @@ static int parse_devtable(FILE * devtable)
+ static struct option long_options[] = {
+ 	{"root", 1, NULL, 'r'},
+ 	{"help", 0, NULL, 'h'},
+-	{"squash", 0, NULL, 'q'},
+ 	{"version", 0, NULL, 'v'},
+ 	{"devtable", 1, NULL, 'D'},
+ 	{NULL, 0, NULL, 0}
+@@ -446,7 +445,6 @@ static char *helptext =
+ 	"Options:\n"
+ 	"  -r, -d, --root=DIR     Build filesystem from directory DIR (default: cwd)\n"
+ 	"  -D, --devtable=FILE    Use the named FILE as a device table file\n"
+-	"  -q, --squash           Squash permissions and owners making all files be owned by root\n"
+ 	"  -h, --help             Display this help text\n"
+ 	"  -v, --version          Display version information\n\n";
+ 
+@@ -466,6 +464,11 @@ int main(int argc, char **argv)
+ 
+ 	umask (0);
+ 
++	if (argc==1) {
++		fprintf(stderr, helptext);
++		exit(1);
++	}
++
+ 	while ((opt = getopt_long(argc, argv, "D:d:r:qhv", 
+ 			long_options, &c)) >= 0) {
+ 		switch (opt) {
+@@ -484,6 +487,9 @@ int main(int argc, char **argv)
+ 			if (rootdir != default_rootdir) {
+ 				error_msg_and_die("root directory specified more than once");
+ 			}
++			if (NULL==opendir(optarg)) {
++				perror_msg_and_die(optarg);
++			}
+ 			rootdir = xstrdup(optarg);
+ 			break;
+ 
+@@ -497,6 +503,11 @@ int main(int argc, char **argv)
+ 		}
+ 	}
+ 
++	if (argv[optind] != NULL) {
++		fprintf(stderr, helptext);
++		exit(1);
++	}
++
+ 	// Get name-id mapping
+ 	sprintf(passwd_path, "%s/etc/passwd", rootdir);
+ 	sprintf(group_path, "%s/etc/group", rootdir);
+-- 
+1.7.9.5
+
 
