@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C66C6D68F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A5F56D697
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 14:38:10 +0000 (UTC)
+	Mon,  4 Nov 2013 14:38:11 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcCpc012749
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcDo5028335
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Nov 2013 06:38:12 -0800 (PST)
+	Mon, 4 Nov 2013 06:38:13 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 4 Nov 2013 06:38:11 -0800
+	Mon, 4 Nov 2013 06:38:13 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2013 06:40:07 +0800
-Message-ID: <e6ed929d479d31d8f481be8e5ac31165d68c9739.1383604532.git.liezhi.yang@windriver.com>
+Date: Tue, 5 Nov 2013 06:40:08 +0800
+Message-ID: <a98c91fe5475d8b15fd93968e6605d682ae1411c.1383604532.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1383604532.git.liezhi.yang@windriver.com>
 References: <cover.1383604532.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] sanity.bbclass: check that TMPDIR is not located on nfs
+Subject: [PATCH 3/4] sanity.bbclass: remove the obsolete variable last_tmpdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,67 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 14:38:10 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 14:38:11 -0000
 Content-Type: text/plain
 
-There would be some unexpected errors when the whole TMPDIR is located
-on nfs, so add a test for it in sanity.bbclass.
-
-Note:
-The better way to get the filesystem id should be get f_fsid from struct
-statvfs, but there is no f_fsid in os.stat() or os.statvfs(), so we use
-'stat -f -c "%t"' here.
-
-BTW., s/tmpdir/TMPDIR/ in the previous comment message to make them have
-a uniform.
+The variable last_tmpdir which is read from the sanity_info file had
+been used by check_sanity_tmpdir_change(), but the function was removed,
+the check had been moved into check_sanity_version_change(), so we can
+remove last_tmpdir and we don't need to save the TMPDIR in the
+sanity_info file anymore.
 
 [YOCTO #5442]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/sanity.bbclass | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ meta/classes/sanity.bbclass | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 5f085ee..c777e3a 100644
+index c777e3a..5a17936 100644
 --- a/meta/classes/sanity.bbclass
 +++ b/meta/classes/sanity.bbclass
-@@ -198,6 +198,21 @@ def check_path_length(filepath, pathname, limit):
-         return "The length of %s is longer than 410, this would cause unexpected errors, please use a shorter path.\n" % pathname
-     return ""
+@@ -710,7 +710,6 @@ def check_sanity(sanity_data):
  
-+def get_filesystem_id(path):
-+    status, result = oe.utils.getstatusoutput("stat -f -c '%s' %s" % ("%t", path))
-+    if status == 0:
-+        return result
-+    else:
-+        bb.warn("Can't get the filesystem id of: %s" % path)
-+        return None
-+
-+# Check that the path isn't located on nfs.
-+def check_not_nfs(path, name):
-+    # The nfs' filesystem id is 6969
-+    if get_filesystem_id(path) == "6969":
-+        return "The %s: %s can't be located on nfs.\n" % (name, path)
-+    return ""
-+
- def check_connectivity(d):
-     # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable
-     # using the same syntax as for SRC_URI. If the variable is not set
-@@ -569,9 +584,12 @@ def check_sanity_version_change(status, d):
-     if not oes_bb_conf:
-         status.addresult('You are not using the OpenEmbedded version of conf/bitbake.conf. This means your environment is misconfigured, in particular check BBPATH.\n')
+     # Check saved sanity info
+     last_sanity_version = 0
+-    last_tmpdir = ""
+     last_sstate_dir = ""
+     sanityverfile = os.path.join(tmpdir, "sanity_info")
+     if os.path.exists(sanityverfile):
+@@ -718,8 +717,6 @@ def check_sanity(sanity_data):
+             for line in f:
+                 if line.startswith('SANITY_VERSION'):
+                     last_sanity_version = int(line.split()[1])
+-                if line.startswith('TMPDIR'):
+-                    last_tmpdir = line.split()[1]
+                 if line.startswith('SSTATE_DIR'):
+                     last_sstate_dir = line.split()[1]
  
--    # The length of tmpdir can't be longer than 410
-+    # The length of TMPDIR can't be longer than 410
-     status.addresult(check_path_length(tmpdir, "TMPDIR", 410))
+@@ -737,7 +734,6 @@ def check_sanity(sanity_data):
+     if os.path.exists(os.path.dirname(sanityverfile)) and not status.messages:
+         with open(sanityverfile, 'w') as f:
+             f.write("SANITY_VERSION %s\n" % sanity_version) 
+-            f.write("TMPDIR %s\n" % tmpdir) 
+             f.write("SSTATE_DIR %s\n" % sstate_dir) 
  
-+    # Check that TMPDIR isn't located on nfs
-+    status.addresult(check_not_nfs(tmpdir, "TMPDIR"))
-+
- def check_sanity_everybuild(status, d):
-     # Sanity tests which test the users environment so need to run at each build (or are so cheap
-     # it makes sense to always run them.
+     sanity_handle_abichanges(status, sanity_data)
 -- 
 1.8.3.1
 
