@@ -1,31 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id AA9516CA7E
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id BD39B6CA7E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 13:32:11 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA4DW0KC013292; Mon, 4 Nov 2013 13:32:00 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HeshFzkJCD31; Mon,  4 Nov 2013 13:32:00 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA4DVv0A013268
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 4 Nov 2013 13:31:59 GMT
-Message-ID: <1383571913.6271.118.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Mon, 04 Nov 2013 13:31:53 +0000
-In-Reply-To: <1557371.bvju1MZl3L@helios>
-References: <1383358116-997-1-git-send-email-raj.khem@gmail.com>
-	<527542CF.5040909@linux.intel.com> <1557371.bvju1MZl3L@helios>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3] expect: Add recipe
+	Mon,  4 Nov 2013 14:26:13 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id n7so3889934qcx.41
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 04 Nov 2013 06:26:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=169DeOc3a0cxtmQ5jw2JC5wGKM/+Wl3GX8bDDVc8UXQ=;
+	b=BSrJRrHcVUUJ43PQt6d18IF1OSUdiasZ41gsKGeglpjoeUkiYBI67tdpUQvygemls0
+	P3on6VyUyko+hex2O33Q7qhCOKSz/2Sg5KDSGjZac7P54iL2HQBGau5CseKMyaQhED7a
+	xUu4K7N5duiLjF1tVKXl0VeC6ZiJq8Ak+/L5+nSnCCHz3VgPHQceDt+sik/O7tVs/cLs
+	aK9sBDatOXFFEQKCD8pVVyBkIe80KQM5Q2uZtkKfUpOUgUYvLusdcY9oWk+1rAeIUF1K
+	LYyY+V7ROuQpMMyQ8I6h/Q8/25RIxuI1TCXxTtPp0aMHusxKkHWQAxYZNW0rHhyGLHgh
+	L+Fw==
+MIME-Version: 1.0
+X-Received: by 10.224.130.72 with SMTP id r8mr22634215qas.32.1383575175510;
+	Mon, 04 Nov 2013 06:26:15 -0800 (PST)
+Received: by 10.96.105.227 with HTTP; Mon, 4 Nov 2013 06:26:15 -0800 (PST)
+Date: Mon, 4 Nov 2013 16:26:15 +0200
+Message-ID: <CADV-EXFDA3NfgufTS20fZcwS3DUkSYcm1Y5NEtwS0=1KaJW13w@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Gstreamer 1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +38,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 13:32:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Nov 2013 14:26:14 -0000
+Content-Type: multipart/alternative; boundary=001a1132ec70db406d04ea5ab2aa
 
-On Mon, 2013-11-04 at 10:01 +0000, Paul Eggleton wrote:
-> On Saturday 02 November 2013 11:22:07 Saul Wold wrote:
-> > > +DEPENDS = "tcl"
-> > > +RDEPENDS_${PN} = "tcl"
-> > 
-> > You don't need an RDEPENDS_${PN} if it matches with the DEPENDS
-> 
-> For the sake of others reading, it's not as simple as that. DEPENDS is for 
-> build-time dependencies, RDEPENDS is for runtime dependencies; if tcl is 
-> needed both at build time and at runtime, and the runtime dependency isn't a 
-> shared library dependency, it would be valid to have both in the recipe. It 
-> depends on the situation.
+--001a1132ec70db406d04ea5ab2aa
+Content-Type: text/plain; charset=ISO-8859-1
 
-Just to further confuse things, if you have the RDEPENDS, you don't need
-the DEPENDS since bitbake can infer that...
+Is anyone working on gstreamer 1.2 recipes for oe?
 
-Cheers,
+Best regards,
+Yevhen
 
-Richard
+--001a1132ec70db406d04ea5ab2aa
+Content-Type: text/html; charset=ISO-8859-1
 
+<div dir="ltr"><div>Is anyone working on gstreamer 1.2 recipes for oe?</div><br clear="all"><div>Best regards,<br>Yevhen</div>
+</div>
 
+--001a1132ec70db406d04ea5ab2aa--
