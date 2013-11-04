@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EA836D68F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 14:38:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcEpS012752
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Nov 2013 06:38:14 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 4 Nov 2013 06:38:14 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2013 06:40:09 +0800
-Message-ID: <a47fdd6d6de89c670d33ab33064e7623f9607fa8.1383604532.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1383604532.git.liezhi.yang@windriver.com>
-References: <cover.1383604532.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 4/4] build-perf-test.sh: cleanup conf/sanity_info
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C9A226D662;
+	Mon,  4 Nov 2013 14:43:06 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA4Eh17k015705; Mon, 4 Nov 2013 14:43:01 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 6upKpSlo0tw7; Mon,  4 Nov 2013 14:43:01 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA4EgvCO015701
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 4 Nov 2013 14:42:58 GMT
+Message-ID: <1383576172.6271.138.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 04 Nov 2013 14:42:52 +0000
+In-Reply-To: <20131104130253.GD3684@jama>
+References: <20131014154535.D40A750398@opal> <20131104130253.GD3684@jama>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Richard Purdie : gcc: Fix strange C++ repo issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 14:38:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 04 Nov 2013 14:43:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The conf/sanity_info is in TMPDIR now, it would be removed when TMPDIR
-is removed.
+On Mon, 2013-11-04 at 14:02 +0100, Martin Jansa wrote:
+> On Mon, Oct 14, 2013 at 03:45:35PM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: 9f6c4edf40963d1f3fb9f7e2d2b7a866aa1afe57
+> > URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=9f6c4edf40963d1f3fb9f7e2d2b7a866aa1afe57
+> > 
+> > Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Date:   Wed Oct  9 20:37:49 2013 +0000
+> > 
+> > gcc: Fix strange C++ repo issues
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > 
+> > ---
+> > 
+> >  meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
+> >  .../gcc/gcc-4.8/0047-repomembug.patch              |   53 ++++++++++++++++++++
+> >  2 files changed, 54 insertions(+), 0 deletions(-)
+> > 
+> > diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> > index 4af98f8..8d50bf7 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> > @@ -76,6 +76,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+> >  	   file://0044-gengtypes.patch \
+> >  	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
+> >  	   file://0046-libatomic-deptracking.patch \
+> > +	   file://0047-repomembug.patch \
+> >  	  "
+> 
+> Don't mix tabs and spaces in multiline variables.
+> 
+> All tabs in meta/recipes-devtools/gcc/gcc-4.8.inc are used incorrectly.
 
-[YOCTO #5442]
+Agreed, however I just copied the existing style which was better than
+the alternatives. Whitespace changes need to be in a separate patch.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- scripts/contrib/build-perf-test.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
 
-diff --git a/scripts/contrib/build-perf-test.sh b/scripts/contrib/build-perf-test.sh
-index be3b648..ef9b826 100755
---- a/scripts/contrib/build-perf-test.sh
-+++ b/scripts/contrib/build-perf-test.sh
-@@ -227,7 +227,7 @@ bbnotime () {
- 
- do_rmtmp() {
-     log "   Removing tmp"
--    rm -rf bitbake.lock pseudodone conf/sanity_info cache tmp
-+    rm -rf bitbake.lock pseudodone cache tmp
- }
- do_rmsstate () {
-     log "   Removing sstate-cache"
--- 
-1.8.3.1
+Richard
 
 
