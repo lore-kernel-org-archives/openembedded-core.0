@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EA0A6CEF1
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A0FD96D145
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 07:14:00 +0000 (UTC)
+	Mon,  4 Nov 2013 07:14:02 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA47E1rO019972
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA47E4L9018275
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 3 Nov 2013 23:14:01 -0800 (PST)
+	Sun, 3 Nov 2013 23:14:04 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 3 Nov 2013 23:14:00 -0800
+	14.2.347.0; Sun, 3 Nov 2013 23:14:02 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Nov 2013 15:13:52 +0800
-Message-ID: <cover.1383549031.git.hongxu.jia@windriver.com>
+Date: Mon, 4 Nov 2013 15:13:53 +0800
+Message-ID: <a30574d20eb4326e399f5ee7a7ee51bc9bee0d42.1383549031.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1383549031.git.hongxu.jia@windriver.com>
+References: <cover.1383549031.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 0/4] fix WARNING: QA Issue on kmod/udev/nfs-utils (unsafe references [/ references to /usr/lib])
+Subject: [PATCH 1/4] insane.bbclass: support to skip unsafe references in binaries qa check.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +36,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 04 Nov 2013 07:14:03 -0000
 Content-Type: text/plain
 
-The following changes since commit f3541226b8b1187e79dec0f6f9f3c58cedf9ac9b:
+Add a variable to support skipping the unsafe references in binaries qa check.
 
-  bitbake: hob: do not display the "Package list may be incomplete!" dialog (2013-11-01 17:59:31 +0000)
+[YOCTO #5142]
 
-are available in the git repository at:
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/insane.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-  git://git.pokylinux.org/poky-contrib hongxu/fix-qa-issue
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-qa-issue
-
-Hongxu Jia (4):
-  insane.bbclass: support to skip  unsafe references in binaries qa
-    check.
-  kmod: fix QA issue
-  udev: fix  QA issue
-  nfs-utils: fix QA issue
-
- meta/classes/insane.bbclass                            | 4 ++++
- meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb | 2 ++
- meta/recipes-core/udev/udev.inc                        | 3 +--
- meta/recipes-kernel/kmod/kmod_git.bb                   | 1 +
- 4 files changed, 8 insertions(+), 2 deletions(-)
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index eb440c2..20bbab0 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -318,6 +318,10 @@ def package_qa_check_unsafe_references_in_binaries(path, name, d, elf, messages)
+ 	if elf:
+ 		import subprocess as sub
+ 		pn = d.getVar('PN', True)
++		# Skip for any packages with unsafe-ref-bin in INSANE_SKIP
++		if 'unsafe-ref-bin' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split():
++			bb.note("Package %s skipping unsafe references in binaries QA test" % (pn))
++			return
+ 
+ 		exec_prefix = d.getVar('exec_prefix', True)
+ 		sysroot_path = d.getVar('STAGING_DIR_TARGET', True)
 -- 
 1.8.1.2
 
