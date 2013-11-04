@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A5F56D697
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EA836D68F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 14:38:11 +0000 (UTC)
+	Mon,  4 Nov 2013 14:38:12 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcDo5028335
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA4EcEpS012752
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Nov 2013 06:38:13 -0800 (PST)
+	Mon, 4 Nov 2013 06:38:14 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 4 Nov 2013 06:38:13 -0800
+	Mon, 4 Nov 2013 06:38:14 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2013 06:40:08 +0800
-Message-ID: <a98c91fe5475d8b15fd93968e6605d682ae1411c.1383604532.git.liezhi.yang@windriver.com>
+Date: Tue, 5 Nov 2013 06:40:09 +0800
+Message-ID: <a47fdd6d6de89c670d33ab33064e7623f9607fa8.1383604532.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1383604532.git.liezhi.yang@windriver.com>
 References: <cover.1383604532.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] sanity.bbclass: remove the obsolete variable last_tmpdir
+Subject: [PATCH 4/4] build-perf-test.sh: cleanup conf/sanity_info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 14:38:11 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 14:38:12 -0000
 Content-Type: text/plain
 
-The variable last_tmpdir which is read from the sanity_info file had
-been used by check_sanity_tmpdir_change(), but the function was removed,
-the check had been moved into check_sanity_version_change(), so we can
-remove last_tmpdir and we don't need to save the TMPDIR in the
-sanity_info file anymore.
+The conf/sanity_info is in TMPDIR now, it would be removed when TMPDIR
+is removed.
 
 [YOCTO #5442]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/sanity.bbclass | 4 ----
- 1 file changed, 4 deletions(-)
+ scripts/contrib/build-perf-test.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index c777e3a..5a17936 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -710,7 +710,6 @@ def check_sanity(sanity_data):
+diff --git a/scripts/contrib/build-perf-test.sh b/scripts/contrib/build-perf-test.sh
+index be3b648..ef9b826 100755
+--- a/scripts/contrib/build-perf-test.sh
++++ b/scripts/contrib/build-perf-test.sh
+@@ -227,7 +227,7 @@ bbnotime () {
  
-     # Check saved sanity info
-     last_sanity_version = 0
--    last_tmpdir = ""
-     last_sstate_dir = ""
-     sanityverfile = os.path.join(tmpdir, "sanity_info")
-     if os.path.exists(sanityverfile):
-@@ -718,8 +717,6 @@ def check_sanity(sanity_data):
-             for line in f:
-                 if line.startswith('SANITY_VERSION'):
-                     last_sanity_version = int(line.split()[1])
--                if line.startswith('TMPDIR'):
--                    last_tmpdir = line.split()[1]
-                 if line.startswith('SSTATE_DIR'):
-                     last_sstate_dir = line.split()[1]
- 
-@@ -737,7 +734,6 @@ def check_sanity(sanity_data):
-     if os.path.exists(os.path.dirname(sanityverfile)) and not status.messages:
-         with open(sanityverfile, 'w') as f:
-             f.write("SANITY_VERSION %s\n" % sanity_version) 
--            f.write("TMPDIR %s\n" % tmpdir) 
-             f.write("SSTATE_DIR %s\n" % sstate_dir) 
- 
-     sanity_handle_abichanges(status, sanity_data)
+ do_rmtmp() {
+     log "   Removing tmp"
+-    rm -rf bitbake.lock pseudodone conf/sanity_info cache tmp
++    rm -rf bitbake.lock pseudodone cache tmp
+ }
+ do_rmsstate () {
+     log "   Removing sstate-cache"
 -- 
 1.8.3.1
 
