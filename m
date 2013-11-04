@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 864856D136
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 426386D290
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 09:56:55 +0000 (UTC)
+	Mon,  4 Nov 2013 09:56:57 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA49uviG006623
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA49uwfO021903
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 4 Nov 2013 01:56:57 -0800 (PST)
+	Mon, 4 Nov 2013 01:56:58 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 4 Nov 2013 01:56:56 -0800
+	14.2.347.0; Mon, 4 Nov 2013 01:56:58 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 4 Nov 2013 17:56:46 +0800
-Message-ID: <a30574d20eb4326e399f5ee7a7ee51bc9bee0d42.1383558655.git.hongxu.jia@windriver.com>
+Date: Mon, 4 Nov 2013 17:56:47 +0800
+Message-ID: <fa0a2c84f0b4e6b88d70bb869b24c07a2f70c574.1383558655.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1383558655.git.hongxu.jia@windriver.com>
 References: <cover.1383558655.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 1/5] insane.bbclass: support to skip unsafe references in binaries qa check.
+Subject: [PATCH 2/5] kmod: fix QA issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 09:56:55 -0000
+X-List-Received-Date: Mon, 04 Nov 2013 09:56:57 -0000
 Content-Type: text/plain
 
-Add a variable to support skipping the unsafe references in binaries qa check.
+The commit 7163ebd92a799b8f000b2b6f303b20de468b5f90
+Revert "kmod: Use base_libdir for installing libkmod"
+
+It caused a QA Issue WARNING:
+...
+WARNING: QA Issue: kmod: /bin/kmod, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libkmod.so.2 => /usr/lib64/libkmod.so.2 (0x00000000dead1000)
+...
+
+But we did this reasonably, we should skip the qa check explicitly.
 
 [YOCTO #5142]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/insane.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-kernel/kmod/kmod_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index eb440c2..20bbab0 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -318,6 +318,10 @@ def package_qa_check_unsafe_references_in_binaries(path, name, d, elf, messages)
- 	if elf:
- 		import subprocess as sub
- 		pn = d.getVar('PN', True)
-+		# Skip for any packages with unsafe-ref-bin in INSANE_SKIP
-+		if 'unsafe-ref-bin' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split():
-+			bb.note("Package %s skipping unsafe references in binaries QA test" % (pn))
-+			return
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index f90b9aa..b370016 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -15,6 +15,7 @@ RCONFLICTS_libkmod2 += "module-init-tools-insmod-static module-init-tools-depmod
+ bindir = "${base_bindir}"
+ sbindir = "${base_sbindir}"
+ # libdir = "${base_libdir}"
++INSANE_SKIP_${PN} = "unsafe-ref-bin"
  
- 		exec_prefix = d.getVar('exec_prefix', True)
- 		sysroot_path = d.getVar('STAGING_DIR_TARGET', True)
+ do_install_append () {
+         install -dm755 ${D}${base_bindir}
 -- 
 1.8.1.2
 
