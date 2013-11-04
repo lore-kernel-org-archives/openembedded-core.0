@@ -1,28 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 685416D136
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F1CB56D136
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 09:50:03 +0000 (UTC)
+	Mon,  4 Nov 2013 09:56:53 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA49o5mR006032
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Nov 2013 01:50:05 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 4 Nov 2013 01:50:04 -0800
-Message-ID: <52776DC8.2090406@windriver.com>
-Date: Mon, 4 Nov 2013 17:50:00 +0800
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA49utxa021900
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Nov 2013 01:56:55 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 4 Nov 2013 01:56:55 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1383549031.git.hongxu.jia@windriver.com>
-	<ca0a126b362417bc5d0cddd5262d11dc43229694.1383549031.git.hongxu.jia@windriver.com>
-In-Reply-To: <ca0a126b362417bc5d0cddd5262d11dc43229694.1383549031.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 3/4] udev: fix QA issue
+Date: Mon, 4 Nov 2013 17:56:45 +0800
+Message-ID: <cover.1383558655.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Cc: saul.wold@intel.com
+Subject: [PATCH V2 0/5] fix WARNING: QA Issue on kmod/udev/nfs-utils (unsafe references [/ references to /usr/lib])
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 09:50:04 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Nov 2013 09:56:54 -0000
+Content-Type: text/plain
 
-On 11/04/2013 03:13 PM, Hongxu Jia wrote:
-> ...
-> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libgobject-2.0.so.0 => /usr/lib/libgobject-2.0.so.0 (0xdead3000)
-> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libffi.so.6 => /usr/lib/libffi.so.6 (0xdead4000)
-> WARNING: QA Issue: udev: /lib/libgudev-1.0.so.0.1.1, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libglib-2.0.so.0 => /usr/lib/libglib-2.0.so.0 (0xdead5000)
-
-This patch fixed the above three warning, not include the fourth.
-So please drop this, v2 will send.
+Change in V2: The fourth patch fixed the QA Issue on udev, it was missed on previous version.
 
 //Hongxu
 
-> WARNING: QA Issue: udev: /lib/udev/udevd, installed in the base_prefix, requires a shared library under exec_prefix (/usr): libkmod.so.2 => /usr/lib/libkmod.so.2 (0xdead3000)
-> ...
->
-> Install libgudev-1.0.so.0.1.1 in ${libdir} rather than ${base_libdir}
-> fixed this issue.
->
-> [YOCTO #5142]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-core/udev/udev.inc | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-> index 2ff8f00..2f883a0 100644
-> --- a/meta/recipes-core/udev/udev.inc
-> +++ b/meta/recipes-core/udev/udev.inc
-> @@ -32,14 +32,13 @@ inherit autotools pkgconfig update-rc.d
->   
->   libexecdir = "${base_libdir}"
->   EXTRA_OECONF = "--disable-introspection \
-> -                --with-rootlibdir=${base_libdir} \
-> +                --with-rootlibdir=${libdir} \
->                   --with-pci-ids-path=${datadir}/pci.ids \
->                   ac_cv_file__usr_share_pci_ids=no \
->                   ac_cv_file__usr_share_hwdata_pci_ids=no \
->                   ac_cv_file__usr_share_misc_pci_ids=yes \
->                   --sbindir=${base_sbindir} \
->                   --libexecdir=${nonarch_base_libdir} \
-> -                --with-rootlibdir=${base_libdir} \
->                   --with-rootprefix= \
->                   --without-systemdsystemunitdir \
->                  "
+The following changes since commit f3541226b8b1187e79dec0f6f9f3c58cedf9ac9b:
+
+  bitbake: hob: do not display the "Package list may be incomplete!" dialog (2013-11-01 17:59:31 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-qa-issue
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-qa-issue
+
+Hongxu Jia (5):
+  insane.bbclass: support to skip  unsafe references in binaries qa
+    check.
+  kmod: fix QA issue
+  udev: fix  QA issue
+  udev: fix QA issue
+  nfs-utils: fix QA issue
+
+ meta/classes/insane.bbclass                        |  4 ++++
+ ...et-sbindir-can-be-overridden-at-config-ti.patch | 24 ++++++++++++++++++++++
+ .../nfs-utils/nfs-utils_1.2.8.bb                   |  1 +
+ meta/recipes-core/udev/udev.inc                    |  4 ++--
+ meta/recipes-kernel/kmod/kmod_git.bb               |  1 +
+ 5 files changed, 32 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/osd_login-let-sbindir-can-be-overridden-at-config-ti.patch
+
+-- 
+1.8.1.2
 
 
