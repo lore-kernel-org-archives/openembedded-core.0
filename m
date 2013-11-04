@@ -1,33 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BBC7A6D136
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 561216D431
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 09:16:42 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA49GVV4004440; Mon, 4 Nov 2013 09:16:31 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cSNEdGud5CF5; Mon,  4 Nov 2013 09:16:31 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA49GRpZ004435
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 4 Nov 2013 09:16:28 GMT
-Message-ID: <1383556582.6271.98.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-Date: Mon, 04 Nov 2013 09:16:22 +0000
-In-Reply-To: <33115ABC4887814E8A92A08FBC93416B0A1A9E54@IRSMSX103.ger.corp.intel.com>
-References: <1383329028-24348-1-git-send-email-corneliux.stoicescu@intel.com>
-	<1383329237.6271.62.camel@ted>
-	<33115ABC4887814E8A92A08FBC93416B0A1A9E54@IRSMSX103.ger.corp.intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Modify buildstats to be merged inside buildhistory
+	Mon,  4 Nov 2013 09:21:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA49LrMF021599
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Nov 2013 01:21:53 -0800 (PST)
+Received: from PKE-CLU1-D1.wrs.com (128.224.162.203) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 4 Nov 2013 01:21:53 -0800
+From: <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 4 Nov 2013 17:21:47 +0800
+Message-ID: <1383556907-25837-1-git-send-email-Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH V2] makedevs: fix return error value when input invalid arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,54 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 09:16:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 04 Nov 2013 09:21:52 -0000
+Content-Type: text/plain
 
-On Sun, 2013-11-03 at 11:37 +0000, Stoicescu, CorneliuX wrote:
-> > > +BUILDSTATS_BASE = "${BUILDHISTORY_DIR}/buildstats"
-> > >  BNFILE = "${BUILDSTATS_BASE}/.buildname"
-> > >  DEVFILE = "${BUILDSTATS_BASE}/.device"
-> > 
-> > so when buildhistory is used, buildstats automatically becomes part of it?
-> > 
-> > > @@ -33,7 +33,7 @@ def set_bn(e):
-> > >
-> > >  def get_bn(e):
-> > >      with open(e.data.getVar('BNFILE', True)) as f:
-> > > -        bn = f.readline()
-> > > +        bn = str(f.readline()).split("/")[0]
-> > >      return bn
-> > >
-> > >  def set_device(e):
-> > > @@ -175,6 +175,10 @@ python run_buildstats () {
-> > >          # set the buildname
-> > >
-> > ##############################################################
-> > ##########
-> > >          try:
-> > > +            bb.utils.remove(e.data.getVar('BUILDSTATS_BASE', True),
-> > > + recurse=True)
-> > 
-> > 
-> > Do we need to remove this?
-> > 
-> 
-> By reworking the buildstats directory structure to not use the build
-> date to separate builds, if we don't remove buildstats each time we
-> make a new build the information from multiple builds will merge and
-> tools like bybootchartguy.py will not work anymore with buildstats. 
+From: Lu Chong <Chong.Lu@windriver.com>
 
-I'd have expected that separate directories for each build are still
-maintained. Testing locally here, I can use pybootchartgui in the form:
+Remove "-q" and "--squash" options of help information.
+Print help information and return non-zero value when makedevs has none option.
+If rootdir is not exist, there would be print error messages.
 
-scripts/pybootchartgui/pybootchartgui.py build/tmp/buildstats/core-image-sato-qemux86/201309302155/
+Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
+---
+ .../makedevs/makedevs-1.0.0/makedevs.c             |   18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-and I'd have thought a similar command would still work in buildhistory
-since we'd still have the timestamped directory there?
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+index 53700c6..003d4c3 100644
+--- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
++++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+@@ -434,7 +434,6 @@ static int parse_devtable(FILE * devtable)
+ static struct option long_options[] = {
+ 	{"root", 1, NULL, 'r'},
+ 	{"help", 0, NULL, 'h'},
+-	{"squash", 0, NULL, 'q'},
+ 	{"version", 0, NULL, 'v'},
+ 	{"devtable", 1, NULL, 'D'},
+ 	{NULL, 0, NULL, 0}
+@@ -446,7 +445,6 @@ static char *helptext =
+ 	"Options:\n"
+ 	"  -r, -d, --root=DIR     Build filesystem from directory DIR (default: cwd)\n"
+ 	"  -D, --devtable=FILE    Use the named FILE as a device table file\n"
+-	"  -q, --squash           Squash permissions and owners making all files be owned by root\n"
+ 	"  -h, --help             Display this help text\n"
+ 	"  -v, --version          Display version information\n\n";
+ 
+@@ -463,9 +461,15 @@ int main(int argc, char **argv)
+ 	FILE *passwd_file = NULL;
+ 	FILE *group_file = NULL;
+ 	FILE *devtable = NULL;
++	DIR *dir = NULL;
+ 
+ 	umask (0);
+ 
++	if (argc==1) {
++		fprintf(stderr, helptext);
++		exit(1);
++	}
++
+ 	while ((opt = getopt_long(argc, argv, "D:d:r:qhv", 
+ 			long_options, &c)) >= 0) {
+ 		switch (opt) {
+@@ -484,6 +488,11 @@ int main(int argc, char **argv)
+ 			if (rootdir != default_rootdir) {
+ 				error_msg_and_die("root directory specified more than once");
+ 			}
++			if ((dir = opendir(optarg)) == NULL) {
++				perror_msg_and_die(optarg);
++			} else {
++				closedir(dir);
++			}
+ 			rootdir = xstrdup(optarg);
+ 			break;
+ 
+@@ -497,6 +506,11 @@ int main(int argc, char **argv)
+ 		}
+ 	}
+ 
++	if (argv[optind] != NULL) {
++		fprintf(stderr, helptext);
++		exit(1);
++	}
++
+ 	// Get name-id mapping
+ 	sprintf(passwd_path, "%s/etc/passwd", rootdir);
+ 	sprintf(group_path, "%s/etc/group", rootdir);
+-- 
+1.7.9.5
 
 
