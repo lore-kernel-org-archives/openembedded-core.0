@@ -1,36 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3398A6CEB9
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B23D6CEB9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2013 03:40:11 +0000 (UTC)
-Received: by mail-pd0-f171.google.com with SMTP id w10so7575799pde.2
+	Tue,  5 Nov 2013 03:44:55 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id q10so7609365pdj.14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2013 19:40:13 -0800 (PST)
+	Mon, 04 Nov 2013 19:44:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=SvLg0jTDiOt5gFD+l6PvFvslht6vqCNyLQFVHaBbz4k=;
-	b=uG1EF0Ea2mC2+ObfcyY/ExfTPH3trPyDJOVd56A81MMd8ru5FspXx1SCT8Xz1YVAA5
-	gsBzJLSIr4pzmxj1pTh3dj0eVEzeGKnCcJprqjdJ0Yl8lOAq1idh1AfYpCPBuzm7X4dl
-	q8NX7YgEvXRRcZzdB1Iao9pJ7xRZLO/XkxOCOz60zHkoZr6ugCYQFS0Yo1c4LQuHD/B/
-	X8IVoyascDNU2Q3TJZSGe0zPrmk2fA1yzp5QEkPjEz0KCc30cO8VyeK/TT9RZJ5D0dw4
-	Aj2H9Ir/BZkxRfcPbbVnWXUvijbN//VmMiY2naHumCxiWNl902kdIEl4N26Qi3ZdUwNx
-	juzQ==
-X-Received: by 10.67.4.197 with SMTP id cg5mr20760592pad.10.1383622812913;
-	Mon, 04 Nov 2013 19:40:12 -0800 (PST)
+	bh=mNCgGAs5ax82uelMB/Evzyb9kCpmCtgj7uloSoPN5Kc=;
+	b=qJGYRO+TclFzCE22Za8wMcSWQsA1YDpzg9f+I+m8S0I5UPyBznzgd1zy9/va3tnD8G
+	Wnz44AKu8YpejNgQNO+baexx1pLpxTwL5g6sLwlKOW41YDm/RRxkhvbjaNClHPOn4a3u
+	Xog4W/YGfv9W4PURIj9/Fhdak0XJHLKuvZuEjKWQNsfxmS1ZLCOcuwDjPJ3aUZWEyo47
+	WPDBVcvj6khNKvhrooG5XtSsbM2OArRYCD08VUX/fCk67pl2q6oUUtapzeVS/walON3o
+	R0EC/2RlpsKFGGf7tV5eFHt64JxRFopRySyocwHCMgdBtoVRMqEOCkB86i99UTCjxSnp
+	3j/A==
+X-Received: by 10.66.251.1 with SMTP id zg1mr4881269pac.160.1383623097428;
+	Mon, 04 Nov 2013 19:44:57 -0800 (PST)
 Received: from isis.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
 	by mx.google.com with ESMTPSA id
-	iu7sm31401462pbc.45.2013.11.04.19.40.11 for <multiple recipients>
+	bp5sm31429298pbb.18.2013.11.04.19.44.56 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Nov 2013 19:40:12 -0800 (PST)
+	Mon, 04 Nov 2013 19:44:56 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Nov 2013 19:36:56 -0800
-Message-Id: <1383622616-5137-1-git-send-email-raj.khem@gmail.com>
+Date: Mon,  4 Nov 2013 19:41:33 -0800
+Message-Id: <1383622893-5185-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.8.4.2
-Cc: Khem Raj <kraj@juniper.net>
-Subject: [PATCH V4] expect: Add recipe
+Subject: [PATCH V5] expect: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,7 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2013 03:40:11 -0000
+X-List-Received-Date: Tue, 05 Nov 2013 03:44:57 -0000
 
 From: Mihaela Sendrea <mihaela.sendrea@enea.com>
 
@@ -54,7 +53,7 @@ Fixed build on multilib and add patch to remove
 which caused rpm to puke on rfs generation
 
 Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
-Signed-off-by: Khem Raj <kraj@juniper.net>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
  .../expect/expect/0001-configure.in.patch          | 108 ++++++++++++++++
  .../expect/expect/0002-tcl.m4.patch                |  17 +++
