@@ -1,24 +1,37 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 01C606D12A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id AB1066D3C5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2013 11:49:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA5Bnccp025289
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  5 Nov 2013 12:17:14 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id hu8so5679105vcb.28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Nov 2013 03:49:38 -0800 (PST)
-Received: from PKE-CLU1-D1.corp.ad.wrs.com (128.224.162.203) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 5 Nov 2013 03:49:37 -0800
-From: <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2013 19:49:30 +0800
-Message-ID: <1383652170-11144-1-git-send-email-Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 05 Nov 2013 04:17:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=apAOLuNdNX8X7yIxb2mmEKeRLEN8ux/p1oSPiKaqfDU=;
+	b=lTP9dWKZOsOk3JZBfIsVX3zkLX8QB0DmAQEd9gOtJ3Ii70ejYIUWaJWoQ/ze6O3pSW
+	7Xj9ebrmPr9WD2yigL7Xj8jsq0NZxFjxOt3Gj3kuUwBwiX9Qf6kxQ/Nhh1dVws5HJ56u
+	MXqv4Ba4pOcscb3/AFT2v+O0UKmv0MO3I1wUVHGO+IPq6lxQ1CJEbZkKLuvKd3tiqbId
+	OD0gfdzCRty9aeSQUZo/PqR5U/GtPoZVfLFGwRjkd37jr+2bCvIBPajwl6cwV61Y92Te
+	kej1I2M5oPniv92cBK9uCdyFqtJP5Rk9rz3Dg3zTvnI6DccGUKO0VkIViOr0gkMQCprw
+	PPNA==
+X-Gm-Message-State: ALoCoQm5/J6ZnxNPxW1QYbUdrNWeUNz2d0119boYUv8+DAJQjU5wROhEZU0Aea/Z623pQ/g0SBM7
+X-Received: by 10.221.44.136 with SMTP id ug8mr15392714vcb.13.1383653836351;
+	Tue, 05 Nov 2013 04:17:16 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] makedevs: several fixes
+Received: by 10.220.71.201 with HTTP; Tue, 5 Nov 2013 04:16:55 -0800 (PST)
+In-Reply-To: <7b7e2f1f2c529a2867a48e0ddfe78faf2b702c2f.1383643350.git.laurentiu.palcu@intel.com>
+References: <cover.1383643350.git.laurentiu.palcu@intel.com>
+	<7b7e2f1f2c529a2867a48e0ddfe78faf2b702c2f.1383643350.git.laurentiu.palcu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 5 Nov 2013 12:16:55 +0000
+Message-ID: <CAJTo0LbP5517bBCnBH2tFoF0C6KKShwSrfw355XcZuK0c-iiiQ@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/7] diffstat: upgrade to 1.58
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,89 +44,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2013 11:49:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 05 Nov 2013 12:17:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Lu Chong <Chong.Lu@windriver.com>
+On 5 November 2013 09:25, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> -diff --git a/aclocal.m4 b/aclocal.m4
 
-This patch fixes below issues:
+How does this work, considering do_configure should be replacing this file?
 
-1. In makedevs.c file, it lost related functions definition about "-q" and
-"--squash" options. So we should remove help information of these options
-from makedevs.c to fix this issue.
-
-2. Previously, It returned nothing when makedevs command be executed with
-none or invalid option. We hope to print help information and return non-zero
-value.
-
-3. If use '-d' option to pick non-existent dir, error messages should be returned.
-
-Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
----
- .../makedevs/makedevs-1.0.0/makedevs.c             |   18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-index 53700c6..003d4c3 100644
---- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-+++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-@@ -434,7 +434,6 @@ static int parse_devtable(FILE * devtable)
- static struct option long_options[] = {
- 	{"root", 1, NULL, 'r'},
- 	{"help", 0, NULL, 'h'},
--	{"squash", 0, NULL, 'q'},
- 	{"version", 0, NULL, 'v'},
- 	{"devtable", 1, NULL, 'D'},
- 	{NULL, 0, NULL, 0}
-@@ -446,7 +445,6 @@ static char *helptext =
- 	"Options:\n"
- 	"  -r, -d, --root=DIR     Build filesystem from directory DIR (default: cwd)\n"
- 	"  -D, --devtable=FILE    Use the named FILE as a device table file\n"
--	"  -q, --squash           Squash permissions and owners making all files be owned by root\n"
- 	"  -h, --help             Display this help text\n"
- 	"  -v, --version          Display version information\n\n";
- 
-@@ -463,9 +461,15 @@ int main(int argc, char **argv)
- 	FILE *passwd_file = NULL;
- 	FILE *group_file = NULL;
- 	FILE *devtable = NULL;
-+	DIR *dir = NULL;
- 
- 	umask (0);
- 
-+	if (argc==1) {
-+		fprintf(stderr, helptext);
-+		exit(1);
-+	}
-+
- 	while ((opt = getopt_long(argc, argv, "D:d:r:qhv", 
- 			long_options, &c)) >= 0) {
- 		switch (opt) {
-@@ -484,6 +488,11 @@ int main(int argc, char **argv)
- 			if (rootdir != default_rootdir) {
- 				error_msg_and_die("root directory specified more than once");
- 			}
-+			if ((dir = opendir(optarg)) == NULL) {
-+				perror_msg_and_die(optarg);
-+			} else {
-+				closedir(dir);
-+			}
- 			rootdir = xstrdup(optarg);
- 			break;
- 
-@@ -497,6 +506,11 @@ int main(int argc, char **argv)
- 		}
- 	}
- 
-+	if (argv[optind] != NULL) {
-+		fprintf(stderr, helptext);
-+		exit(1);
-+	}
-+
- 	// Get name-id mapping
- 	sprintf(passwd_path, "%s/etc/passwd", rootdir);
- 	sprintf(group_path, "%s/etc/group", rootdir);
--- 
-1.7.9.5
-
+Ross
 
