@@ -1,51 +1,24 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B1E260B9B
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 875CE6D12A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2013 16:16:56 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	rA5GGsjm008365
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Tue, 5 Nov 2013 17:16:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1383668216;
-	bh=iEB3xYRk+lk7MC9LEmT2e8FgsTpkC77fng32G9tVSZ4=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=TRGBIugsC9QMWHa/QpnVue69GKDVDsc+YXCvCe7XF6u8+yYOLX+hmsWBnbkyUK1v0
-	CdFhGuCk/p80JfSxoWml1Ag1uKt7a0FzOfTQcjDpwNWJljLcczpqHvoKH1lF4QI+9n
-	9mcWxPV+b1AlfmnkkB92AnYKsTmyyEq6lXY5O5+k=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rA5GGjQW013172
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Tue, 5 Nov 2013 17:16:47 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1VdjJ7-0007yF-O6; Tue, 05 Nov 2013 17:16:45 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1383663447.git.laurentiu.palcu@intel.com>
-	<f61f1d9fc224cc017996769e23b08d0af13f3722.1383663447.git.laurentiu.palcu@intel.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Tue, 05 Nov 2013 17:16:45 +0100
-In-Reply-To: <f61f1d9fc224cc017996769e23b08d0af13f3722.1383663447.git.laurentiu.palcu@intel.com>
-	(Laurentiu Palcu's message of "Tue, 5 Nov 2013 16:58:05 +0200")
-Message-ID: <ly38nau8lu.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Tue,  5 Nov 2013 18:47:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA5Ilqbs011024
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 5 Nov 2013 10:47:53 -0800 (PST)
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.89) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 5 Nov 2013 10:47:51 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 5 Nov 2013 13:47:49 -0500
+Message-ID: <cover.1383677174.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.0
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Cc: Laurentiu Palcu <laurentiu.palcu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] flex: fix m4 issue on target
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] linux-yocto/3.10: fix qemuarm boot and spurious mips build warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +31,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2013 16:16:57 -0000
+X-List-Received-Date: Tue, 05 Nov 2013 18:47:53 -0000
 Content-Type: text/plain
 
-Laurentiu Palcu
-<laurentiu.palcu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> writes:
+Richard/Saul,
 
-> Flex needs m4 to run (see below) and, since the create_wrapper
-> introduces a bash dependency, export the right m4 path when /etc/profile
-> is sourced by the shell.
->
-> Snippet from the flex documentation:
-> "The macro processor m4 must be installed wherever flex is installed.
-> <...>
-> m4 is only required at the time you run flex."
+I don't have anything extra to add outside of what I put in the
+patch commit log .. so here it is:
 
-Content at profile.d/ won't be evaluated when program is started without
-a shell (e.g. by 'execlp("flex", "flex", ...)').  
+-------------------------------------------
 
+This update fixes two issues:
 
-> [YOCTO #5329]
+a) qemuarm boot failure
 
-This should be solved by defining a correct path for the m4 binary at
-build time.
+v3.10.13 picked up a patch for arm versatile interrupt mappings that fixes
+the emulator boot out of the box. But it interacts badly with our previous
+fix for the issue. Reverting the existing patch and going with the mainline
+solution fixes the boot.
 
-EXTRA_OECONF += " ac_cv_path_M4=${M4}"
-EXTRA_OEMAKE += " m4=${M4_class-native}"
+b) qemumips build warning and failure
 
-is probably a better solution.
+Depending on the build host and compiler, the build of menuconfig throws
+an potentially uninitialized variable warning. That warning causes an
+error on archs with -Werror. We can do a trivial change to avoid the
+warning all together (initilize it to null), and keep everyone happy.
 
+[YOCTO #5460]
 
+-------------------------------------------
 
-Enrico
+Cheers,
+
+Bruce
+
+The following changes since commit 57498cede4696526c121e0112b5dea3e6e8365ac:
+
+  bitbake: toaster: fix target package information (2013-11-05 12:50:44 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto/3.10: fix qemuarm boot and spurious mips build warning
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
+
+-- 
+1.8.1.2
+
 
