@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 18CD86D636
+	by mail.openembedded.org (Postfix) with ESMTP id 2748A6D6F8
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  5 Nov 2013 10:15:30 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 05 Nov 2013 02:11:58 -0800
+	by orsmga102.jf.intel.com with ESMTP; 05 Nov 2013 02:11:57 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,638,1378882800"; d="scan'208";a="422445347"
+X-IronPort-AV: E=Sophos;i="4.93,638,1378882800"; d="scan'208";a="422445339"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.90])
 	by fmsmga001.fm.intel.com with ESMTP; 05 Nov 2013 02:15:24 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2013 10:15:20 +0000
-Message-Id: <08de82e76886a97ddcd7a638b697ef45f56566d8.1383646398.git.paul.eggleton@linux.intel.com>
+Date: Tue,  5 Nov 2013 10:15:19 +0000
+Message-Id: <bcc7a64f3fa8d0de87abdec591d42ef1a45d13e5.1383646398.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1383646398.git.paul.eggleton@linux.intel.com>
 References: <cover.1383646398.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1383646398.git.paul.eggleton@linux.intel.com>
 References: <cover.1383646398.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/2] zisofs-tools-native: fix meta fields
+Subject: [PATCH 1/2] zisofs-tools-native: add missing DEPENDS on zlib-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 05 Nov 2013 10:15:30 -0000
 
-* Drop redundant DESCRIPTION (same as SUMMARY)
-* Set SUMMARY to slightly more descriptive value borrowed from Fedora
-* Fix HOMEPAGE URL (repeated http://)
+zisofs-tools links against zlib.
+
+Fixes [YOCTO #5420].
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-index 02accf6..021c058 100644
+index 1501307..02accf6 100644
 --- a/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
 +++ b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-@@ -1,8 +1,7 @@
- # zisofs-tools-native OE build file
- # Copyright (C) 1989, 1991 Free Software Foundation, Inc.
--SUMMARY = "A set of tools for iso file compression"
--DESCRIPTION = "A set of tools for iso file compression"
--HOMEPAGE = "http://http://freecode.com/projects/zisofs-tools"
-+SUMMARY = "Utilities for creating compressed CD-ROM filesystems"
-+HOMEPAGE = "http://freecode.com/projects/zisofs-tools"
- SECTION = "console/utils"
+@@ -7,6 +7,8 @@ SECTION = "console/utils"
  LICENSE = "GPLv2"
  LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
++DEPENDS = "zlib-native"
++
+ SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/zisofs-tools/zisofs-tools-${PV}.tar.bz2/2d0ed8c9a1f60b45f949b136f9be1f6c/zisofs-tools-${PV}.tar.bz2"
+ 
+ SRC_URI[md5sum] = "2d0ed8c9a1f60b45f949b136f9be1f6c"
 -- 
 1.8.1.2
 
