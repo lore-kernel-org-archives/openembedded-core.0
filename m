@@ -1,35 +1,20 @@
-Return-Path: <lizhijian@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id E35726D12A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F16766D3E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2013 10:14:23 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.93,638,1378828800"; 
-   d="scan'208";a="8951823"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 05 Nov 2013 18:11:02 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id rA5AEOQC015639
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Nov 2013 18:14:24 +0800
-Received: from [127.0.0.1] ([10.167.226.56])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013110518123347-2776635 ;
-	Tue, 5 Nov 2013 18:12:33 +0800 
-Message-ID: <5278C502.1080100@cn.fujitsu.com>
-Date: Tue, 05 Nov 2013 18:14:26 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-Organization: fnst-ulinux
-User-Agent: Mozilla/5.0 (Windows NT 6.1;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/11/05 18:12:33,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/11/05 18:12:33,
-	Serialize complete at 2013/11/05 18:12:33
-Subject: [PATCH v2] systemd.bbclass: only restart the service when it is active at systemd_postinst
+	Tue,  5 Nov 2013 10:15:29 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 05 Nov 2013 02:11:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,638,1378882800"; d="scan'208";a="422445328"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.90])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Nov 2013 02:15:22 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Nov 2013 10:15:18 +0000
+Message-Id: <cover.1383646398.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/2] A couple of fixes for zisofs-tools-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,59 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2013 10:14:24 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=GB2312
+X-List-Received-Date: Tue, 05 Nov 2013 10:15:30 -0000
 
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
+The following changes since commit 1d2d37d579492b63d20ff8aa890a43b9a1576cf0:
 
-If systemd_postinst is installed as a delayed package scriptlet (installed to /etc/rpm-postints/${PN})
-which would be executed at the first time of OS startup. And then this script would block when it is
-trying to call systemctl to restart service.
+  toaster: add class to dump toaster-tracked data (2013-11-04 09:35:01 +0000)
 
-It seems that it is not a good timing to restart service at run-postinsts.
-I test serval services which has supported systemd(uuidd/avahi-daemon), all of them
-will block the startup.
+are available in the git repository at:
 
-Steps to reproduce:
-1) Installed systemd_postinst as a delayed package scriptlet
-   i.e. Append Following lines to meta/recipes-core/busybox/busybox.inc
-pkg_postinst_${PN}-syslog () {
-       if [ "x$D" != "x" ] ; then
-               exit 1
-       fi
-}
-2) build a rootfs
-$ bitbake core-image-minimal
-3) startup this rootfs
+  git://git.openembedded.org/openembedded-core-contrib paule/zisofs-tools
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/zisofs-tools
 
-OS would block at /etc/rpm-postinsts/busybox-syslog, like follows
-[ ***] A start job is running ro Run pending postinsts
+Paul Eggleton (2):
+  zisofs-tools-native: add missing DEPENDS on zlib-native
+  zisofs-tools-native: fix meta fields
 
-This patch can fix the block problem, and make the service is consistent with the original status
+ meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
- meta/classes/systemd.bbclass |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
-
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 3700b2e..1feac06 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -32,7 +32,8 @@ fi
- if type systemctl >/dev/null 2>/dev/null; then
- 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
- -	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-+	if [ -z "$D" ] && systemctl is-active ${SYSTEMD_SERVICE} &>/dev/null; then
-+		# if service is active, restart it
- 		systemctl restart ${SYSTEMD_SERVICE}
- 	fi
- fi
 -- 
-1.7.1
-
-
-
+1.8.1.2
 
 
