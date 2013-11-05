@@ -1,39 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f177.google.com (mail-ve0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E2E36D160
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id E76556D160
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2013 13:30:11 +0000 (UTC)
-Received: by mail-ve0-f177.google.com with SMTP id oz11so2376703veb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Nov 2013 05:30:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=KfQ3yPyp3kiQY9WzBCAu+nTbG7g+HoK3td7evClVoq8=;
-	b=gHf9TZaWPXJuf2rbMlllKsNUgQudfxZtrAqv/GOtY/fJYMQvM+945PZNPsojAzfP0j
-	OS9H+d0a8/aXZ0b0CrdBMvS1+DtZaopEGlkemWHEaCA/TNdc+6/Gd0GkVVt8Q2XMAjpj
-	BRwJ2dgMZMigFjb+54DbiSzLyrxGXb+nZxsB+paQKoRALP04TiATDAa7ceq7iiNJ4Pfa
-	9iaFD2XSzEcyH4kyl8PaUTvlKFlVULXt6YxuF3D8Zk8vYgic5AuMaSEr9c/XXnNM7pfw
-	DE8VX9FcU8rDLPXoM2qu4BC4tw2LmzckbS8F0Vw4SpLoMnl+IpnHwgZJNTUR2e+H3JqG
-	/cZg==
-X-Gm-Message-State: ALoCoQmACa2XaoURb3sUVc65vRDes8yvep8yJyVSuxMQDi/mqg3FhgQPgTYfNlvH/1FsO0Y2N9QS
-X-Received: by 10.58.144.168 with SMTP id sn8mr20499veb.33.1383658212735; Tue,
-	05 Nov 2013 05:30:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 5 Nov 2013 05:29:52 -0800 (PST)
-In-Reply-To: <CAMKF1sr=OGmHxJ4yz_h6R5_YKkzEN-3QcJZMhFhg_QyroZmQvw@mail.gmail.com>
-References: <1382970798-13574-1-git-send-email-ross.burton@intel.com>
-	<1382970798-13574-5-git-send-email-ross.burton@intel.com>
-	<CAMKF1sr=OGmHxJ4yz_h6R5_YKkzEN-3QcJZMhFhg_QyroZmQvw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 5 Nov 2013 13:29:52 +0000
-Message-ID: <CAJTo0Lbvp3gybm6OVGkFZAXMDdn4cB+XgnjF=L92pwJQ9Bij=Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] libgcrypt: remove --without-pth
+	Tue,  5 Nov 2013 14:58:08 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 05 Nov 2013 06:58:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="384922764"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.41])
+	by azsmga001.ch.intel.com with ESMTP; 05 Nov 2013 06:58:08 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Nov 2013 16:58:05 +0200
+Message-Id: <f61f1d9fc224cc017996769e23b08d0af13f3722.1383663447.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1383663447.git.laurentiu.palcu@intel.com>
+References: <cover.1383663447.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1383663447.git.laurentiu.palcu@intel.com>
+References: <cover.1383663447.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/1] flex: fix m4 issue on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,14 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2013 13:30:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 05 Nov 2013 14:58:09 -0000
 
-On 31 October 2013 03:44, Khem Raj <raj.khem@gmail.com> wrote:
-> should it now depend on pth as well for deterministic builds.
+Flex needs m4 to run (see below) and, since the create_wrapper
+introduces a bash dependency, export the right m4 path when /etc/profile
+is sourced by the shell.
 
-No, because the random daemon (the only piece that needs Pth) is
-disabled by default.
+Snippet from the flex documentation:
+"The macro processor m4 must be installed wherever flex is installed.
+<...>
+m4 is only required at the time you run flex."
 
-Ross
+[YOCTO #5329]
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/recipes-devtools/flex/flex.inc |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
+index 43f1dda..eed2908 100644
+--- a/meta/recipes-devtools/flex/flex.inc
++++ b/meta/recipes-devtools/flex/flex.inc
+@@ -13,6 +13,11 @@ inherit autotools gettext
+ M4 = "${bindir}/m4"
+ M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
+ 
++do_install_append_class-target() {
++	install -d ${D}${sysconfdir}/profile.d
++	echo "export M4=${M4}" > ${D}${sysconfdir}/profile.d/flex.sh
++}
++
+ do_install_append_class-native() {
+ 	create_wrapper ${D}/${bindir}/flex M4=${M4}
+ }
+@@ -20,3 +25,5 @@ do_install_append_class-native() {
+ do_install_append_class-nativesdk() {
+ 	create_wrapper ${D}/${bindir}/flex M4=${M4}
+ }
++
++RDEPENDS_${PN} += "m4"
+-- 
+1.7.9.5
+
 
