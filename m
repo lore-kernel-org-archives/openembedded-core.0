@@ -1,44 +1,31 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 892286CEF1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 325ED6CEF1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2013 20:57:32 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>) id 1VdngQ-0008AW-Cu
-	for openembedded-core@lists.openembedded.org;
-	Tue, 05 Nov 2013 21:57:33 +0100
-Message-ID: <1383684977.8901.133.camel@x121e.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 05 Nov 2013 20:56:17 +0000
-In-Reply-To: <cover.1383677174.git.bruce.ashfield@windriver.com>
-References: <cover.1383677174.git.bruce.ashfield@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.4.4-3 
+	Tue,  5 Nov 2013 22:08:16 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA5M8ChQ005494 for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Nov 2013 22:08:12 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id xJr9HV2Qi-9e
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Nov 2013 22:08:12 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA5M88ns005484
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Nov 2013 22:08:10 GMT
+Message-ID: <1383689284.6271.179.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 05 Nov 2013 22:08:04 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Tue, 2013-11-05 at 13:47 -0500,
-	Bruce Ashfield wrote: >
-	I don't have anything extra to add outside of what I put in the > patch
-	commit log .. That's certainly a good thing and to be applauded,
-	but in this situation
-	maybe you could consider just sending the patch without a cover letter.
-	[...] Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: Re: [PATCH 0/1] linux-yocto/3.10: fix qemuarm boot and spurious mips build warning
+Subject: [PATCH] package_rpm: Remove need for locking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,18 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2013 20:57:32 -0000
+X-List-Received-Date: Tue, 05 Nov 2013 22:08:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-11-05 at 13:47 -0500, Bruce Ashfield wrote:
-> I don't have anything extra to add outside of what I put in the
-> patch commit log ..
+Currently if multiple package tasks are running against a recipe, package_rpm
+is restricted to the slowest speed of them due to the locking. This patch
+explicitly ignores the opkg/debian artefacts and hence allows a speedup.
 
-That's certainly a good thing and to be applauded, but in this situation
-maybe you could consider just sending the patch without a cover letter.
+It also removes an issue were a Ctrl+C interrupting a deb.ipk packaging task
+would end up with CONTROL/DEBIAN files in the spec file resulting in a build
+failure.
 
-p.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 36bad09..31265d9 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -660,9 +660,16 @@ python write_specfile () {
+                     array.append("%s: %s" % (tag, dep))
+ 
+     def walk_files(walkpath, target, conffiles):
++        # We can race against the ipk/deb backends which create CONTROL or DEBIAN directories
++        # when packaging. We just ignore these files which are created in 
++        # packages-split/ and not package/
+         for rootpath, dirs, files in os.walk(walkpath):
+             path = rootpath.replace(walkpath, "")
++            if path.endswith("DEBIAN") or path.endswith("CONTROL"):
++                continue
+             for dir in dirs:
++                if dir == "CONTROL" or dir == "DEBIAN":
++                    continue
+                 # All packages own the directories their files are in...
+                 target.append('%dir "' + path + '/' + dir + '"')
+             for file in files:
+@@ -760,8 +767,6 @@ python write_specfile () {
+ 
+         root = "%s/%s" % (pkgdest, pkg)
+ 
+-        lf = bb.utils.lockfile(root + ".lock")
+-
+         localdata.setVar('ROOT', '')
+         localdata.setVar('ROOT_%s' % pkg, root)
+         pkgname = localdata.getVar('PKG_%s' % pkg, True)
+@@ -842,8 +847,6 @@ python write_specfile () {
+                 else:
+                     bb.note("Creating EMPTY RPM Package for %s" % splitname)
+                 spec_files_top.append('')
+-
+-            bb.utils.unlockfile(lf)
+             continue
+ 
+         # Process subpackage data
+@@ -949,7 +952,6 @@ python write_specfile () {
+             spec_files_bottom.append('')
+ 
+         del localdata
+-        bb.utils.unlockfile(lf)
+     
+     add_prep(d,spec_files_bottom)
+     spec_preamble_top.append('Summary: %s' % srcsummary)
 
 
 
