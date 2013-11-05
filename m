@@ -1,37 +1,28 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
-	[209.85.160.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 68CF7610D4
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 87A256D331
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  4 Nov 2013 23:49:39 +0000 (UTC)
-Received: by mail-pb0-f47.google.com with SMTP id rq13so3664186pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 04 Nov 2013 15:49:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:mime-version
-	:content-transfer-encoding:content-type;
-	bh=izxM+yeTSQTkXVVvLk884HYH3HvNht821vUBBi0FOL0=;
-	b=nSCE2lwr4pGpJUpxjYMx4fJtF3roFBntwboZBcVJwliXstOe+Xolwsf8uTwzf9DYom
-	858DPdwOS4xEB9QFOWvqZoNF2mjLP9pm4MzXwFW1gbre371V3l6WJrcYMabTVqt7Bq7c
-	/y2ejFnGrE6ey1vdbI2hUD6EbCpFUtOpwf2GyQBeyWi0k5mv4X7htIHkGjZH9egnKjY+
-	qV0sJdoZHPiV19LTipkWO4prECuhOZ0LErdQF/PnMnvzpsl/NFLCV9uNThwnDKROePrE
-	uUjWHxaa/1PiWlkhVBPfLjTrqsA1IBZqJWdKDeGmlSvH6UtFKjSz6lP1bo9Ckvbr7qcL
-	2FQg==
-X-Received: by 10.68.253.67 with SMTP id zy3mr8779057pbc.137.1383608981446;
-	Mon, 04 Nov 2013 15:49:41 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([117.89.52.52])
-	by mx.google.com with ESMTPSA id
-	rp8sm30571841pbc.25.2013.11.04.15.49.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 04 Nov 2013 15:49:40 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 05 Nov 2013 07:42:20 +0800
-Message-ID: <2950804.p9J3lAVWuT@yiqingliang-pc>
-User-Agent: KMail/4.11.2 (Linux/3.11.6-1-ARCH; KDE/4.11.2; x86_64; ; )
+	Tue,  5 Nov 2013 00:49:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA50n44J011156
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Nov 2013 16:49:05 -0800 (PST)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 4 Nov 2013 16:49:04 -0800
+Message-ID: <52784085.2040309@windriver.com>
+Date: Tue, 5 Nov 2013 08:49:09 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Subject: boost package fail
+To: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+References: <1383182088-17411-1-git-send-email-rongqing.li@windriver.com>
+	<52777338.3050002@mentor.com>
+In-Reply-To: <52777338.3050002@mentor.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v7] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +35,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Nov 2013 23:49:39 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 05 Nov 2013 00:49:05 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello,
 
-	I'm working on Archlinux x64. when packaging boost, I got error:
 
-arm-jilong-linux-gnueabi-objcopy:/xxx/tmp/work/armv6-vfp-jilong-linux-
-gnueabi/boost/1.54.0-r0/package/usr/lib/libboost_iostreams.so.1.54.0: File 
-format not recognized
+On 11/04/2013 06:13 PM, Muhammad Shakeel wrote:
+> On 10/31/2013 06:14 AM, rongqing.li@windriver.com wrote:
+>> From: Roy Li <rongqing.li@windriver.com>
+>>
+>> Create connman-evn.service, which will run a script to compute the
+>> networking
+>> device when nfs root is on, and pass the result to connman.service
+>>
+>> Copy Connmand.service from source code, add ExecStartPre into it to
+>> release
+>> do_configure_append work, use the options which is passed by
+>> connman-evn.service
+>>
+>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> ---
+>> v7: sync with conman 1.19
+>>
+>>   meta/recipes-connectivity/connman/connman.inc      |   18
+>> ++++++++------
+>>   .../connman/connman/connman-env.service            |   13 ++++++++++
+>>   .../connman/connman/connman.service                |   14 +++++++++++
+>>   .../connman/connman/connmand-env                   |   25
+>> ++++++++++++++++++++
+>>   meta/recipes-connectivity/connman/connman_1.19.bb  |    3 +++
+>>   5 files changed, 66 insertions(+), 7 deletions(-)
+>>   create mode 100644
+>> meta/recipes-connectivity/connman/connman/connman-env.service
+>>   create mode 100644
+>> meta/recipes-connectivity/connman/connman/connman.service
+>>   create mode 100644
+>> meta/recipes-connectivity/connman/connman/connmand-env
+>>
+>> diff --git a/meta/recipes-connectivity/connman/connman.inc
+>> b/meta/recipes-connectivity/connman/connman.inc
+>> index 12f3edd..c2d71e0 100644
+>> --- a/meta/recipes-connectivity/connman/connman.inc
+>> +++ b/meta/recipes-connectivity/connman/connman.inc
+>> @@ -64,15 +64,9 @@ python __anonymous () {
+>>   SYSTEMD_SERVICE_${PN} = "connman.service"
+>>   SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+>> -SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
+>>   inherit autotools gtk-doc pkgconfig systemd update-rc.d
+>> -do_configure_append () {
+>> -    sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#"
+>> ${S}/src/connman.service
+>> -
+>> -}
+>> -
+>>   # This allows *everyone* to access ConnMan over DBus, without any
+>> access
+>>   # control.  Really the at_console flag should work, which would mean
+>> that
+>>   # both this and the xuser patch can be dropped.
+>> @@ -88,6 +82,16 @@ do_install_append() {
+>>           sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
+>>       fi
+>> +    if
+>> ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+> This check is not required. systemd class will automaticall remove
+> ${systemd_unitdir} if 'systemd' is not in 'DISTRO_FEATURES'.
+> Check 'rm_systemd_unitdir' function in systemd.bbclass.
 
-	I don't know why boost compiled with host ARCH.
-	but I have one machine can done it correctly.
-	So I compared the two machine, the 'bjam --help' command result is 
-different after source yocto environment.
 
-	on the failure machine, it will use '/usr/share/boost-build/user-
-config.jam'. the success machine don't have this file.
+If we does not check, the below files will be installed, then remove them,
+do the useless behaviours two time, is it valuable?
 
-	so the different result in this error is: the failure machine installed 
-package 'boost-build'.
 
-	after remove 'boost-build' from Archlinux and bitbake -c clean boost,
-I have done package correctly.
 
-	I think it is oe bug, do you think so:)?
+>> +        install -m 0755 ${WORKDIR}/connmand-env ${D}${sbindir}/
+>> +        install -m 0644 ${WORKDIR}/connman-env.service
+>> ${D}/${systemd_unitdir}/system/
+>> +        install -m 0644 ${WORKDIR}/connman.service
+>> ${D}/${systemd_unitdir}/system/
+>> +        sed -i  -e 's,@SBINDIR@,${sbindir},g' \
+>> +            -e 's,@LIBDIR@,${libdir},g' \
+>> +            -e 's,@LOCALSTATEDIR@,${localstatedir},g' \
+>> +            ${D}${systemd_unitdir}/system/*.service
+>> +    fi
+>> +
+>>       install -d ${D}${bindir}
+>>       install -m 0755 ${S}/tools/*-test ${D}${bindir}
+>>       if [ -e ${S}/tools/wispr ]; then
+>> @@ -163,7 +167,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/*
+>> ${libexecdir}/* ${libdir}/lib*.so.* \
+>>               ${libdir}/connman/plugins \
+>>               ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+>>               ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so*
+>> ${datadir}/${PN} \
+>> -            ${datadir}/dbus-1/system-services/*"
+>> +            ${datadir}/dbus-1/system-services/*
+>> ${systemd_unitdir}/system/connman-env.service"
+> I believe this is also handled by systemd.bbclass.
+
+I test, it does not.
+
+-R
+
+
+>>   FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
+>> diff --git
+>> a/meta/recipes-connectivity/connman/connman/connman-env.service
+>> b/meta/recipes-connectivity/connman/connman/connman-env.service
+>> new file mode 100644
+>> index 0000000..c4dc278
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/connman/connman/connman-env.service
+>> @@ -0,0 +1,13 @@
+>> +[Unit]
+>> +Description=Generate options for connection service
+>> +Before=connman.service
+>> +ConditionKernelCommandLine=root=/dev/nfs
+>> +After=syslog.target
+>> +
+>> +[Service]
+>> +Type=oneshot
+>> +ExecStart=@SBINDIR@/connmand-env
+>> +StandardOutput=null
+>> +
+>> +[Install]
+>> +WantedBy=connman.service
+>> diff --git a/meta/recipes-connectivity/connman/connman/connman.service
+>> b/meta/recipes-connectivity/connman/connman/connman.service
+>> new file mode 100644
+>> index 0000000..aa0e49a
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/connman/connman/connman.service
+>> @@ -0,0 +1,14 @@
+>> +[Unit]
+>> +Description=Connection service
+>> +After=syslog.target
+>> +Wants=connman-env.service
+>> +
+>> +[Service]
+>> +Type=dbus
+>> +BusName=net.connman
+>> +EnvironmentFile=-@LOCALSTATEDIR@/run/connmand.env
+>> +ExecStartPre=-@LIBDIR@/connman/wired-setup
+>> +ExecStart=@SBINDIR@/connmand -n $CONNMAND_OPTS
+>> +
+>> +[Install]
+>> +WantedBy=multi-user.target
+>> diff --git a/meta/recipes-connectivity/connman/connman/connmand-env
+>> b/meta/recipes-connectivity/connman/connman/connmand-env
+>> new file mode 100644
+>> index 0000000..feeb850
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/connman/connman/connmand-env
+>> @@ -0,0 +1,25 @@
+>> +#!/bin/sh
+>> +
+>> +EXTRA_PARAM=""
+>> +
+>> +NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
+>> +NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
+>> +
+>> +if [ ! -z "$NET_ADDR" ]; then
+>> +    if [ "$NET_ADDR" = dhcp ]; then
+>> +        ethn=`ifconfig | grep "^eth" | sed -e
+>> "s/\(eth[0-9]\)\(.*\)/\1/"`
+>> +        if [ ! -z "$ethn" ]; then
+>> +            EXTRA_PARAM="-I $ethn"
+>> +        fi
+>> +    else
+>> +        for i in $NET_DEVS; do
+>> +        ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet
+>> \([0-9.]*\) .*$/\1/p'`
+>> +        if [ "$NET_ADDR" = "$ADDR" ]; then
+>> +            EXTRA_PARAM="-I $i"
+>> +            break
+>> +        fi
+>> +        done
+>> +    fi
+>> +fi
+>> +
+>> +echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand.env
+>> diff --git a/meta/recipes-connectivity/connman/connman_1.19.bb
+>> b/meta/recipes-connectivity/connman/connman_1.19.bb
+>> index c63dfe4..b775a41 100644
+>> --- a/meta/recipes-connectivity/connman/connman_1.19.bb
+>> +++ b/meta/recipes-connectivity/connman/connman_1.19.bb
+>> @@ -4,6 +4,9 @@ SRC_URI  =
+>> "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+>>
+>> file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+>>               file://add_xuser_dbus_permission.patch \
+>>               file://connman \
+>> +            file://connmand-env \
+>> +            file://connman.service \
+>> +            file://connman-env.service \
+>>               "
+>>   SRC_URI[md5sum] = "47cce1d17a693dc307e6796c81991bd0"
+>
+>
+>
 
 -- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+Best Reagrds,
+Roy | RongQing Li
 
