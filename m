@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 325ED6CEF1
+	by mail.openembedded.org (Postfix) with ESMTP id A001C6CEF1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2013 22:08:16 +0000 (UTC)
+	Tue,  5 Nov 2013 22:09:11 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA5M8ChQ005494 for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Nov 2013 22:08:12 GMT
+	rA5M97rI005533 for <openembedded-core@lists.openembedded.org>;
+	Tue, 5 Nov 2013 22:09:08 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xJr9HV2Qi-9e
+	with LMTP id mfPnGRefdwtO
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2013 22:08:12 +0000 (GMT)
+	Tue,  5 Nov 2013 22:09:07 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA5M88ns005484
+	rA5M91ZC005513
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Nov 2013 22:08:10 GMT
-Message-ID: <1383689284.6271.179.camel@ted>
+	Tue, 5 Nov 2013 22:09:02 GMT
+Message-ID: <1383689336.6271.180.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 05 Nov 2013 22:08:04 +0000
+Date: Tue, 05 Nov 2013 22:08:56 +0000
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] package_rpm: Remove need for locking
+Subject: [PATCH] package_deb/package_ipk: Cleanup control file handling/races
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,67 +38,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2013 22:08:17 -0000
+X-List-Received-Date: Tue, 05 Nov 2013 22:09:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Currently if multiple package tasks are running against a recipe, package_rpm
-is restricted to the slowest speed of them due to the locking. This patch
-explicitly ignores the opkg/debian artefacts and hence allows a speedup.
-
-It also removes an issue were a Ctrl+C interrupting a deb.ipk packaging task
-would end up with CONTROL/DEBIAN files in the spec file resulting in a build
-failure.
+If you Ctrl+C ppackage_write_{deb/ipk} control files can get left lying around
+and make it into another packaging format. This ensures we cleanup all known
+control files before starting packaging. We can simplify some of the globbing
+as a result.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 36bad09..31265d9 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -660,9 +660,16 @@ python write_specfile () {
-                     array.append("%s: %s" % (tag, dep))
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index 6a8e080..d18c250 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -202,6 +202,12 @@ python do_package_deb () {
  
-     def walk_files(walkpath, target, conffiles):
-+        # We can race against the ipk/deb backends which create CONTROL or DEBIAN directories
-+        # when packaging. We just ignore these files which are created in 
-+        # packages-split/ and not package/
-         for rootpath, dirs, files in os.walk(walkpath):
-             path = rootpath.replace(walkpath, "")
-+            if path.endswith("DEBIAN") or path.endswith("CONTROL"):
-+                continue
-             for dir in dirs:
-+                if dir == "CONTROL" or dir == "DEBIAN":
-+                    continue
-                 # All packages own the directories their files are in...
-                 target.append('%dir "' + path + '/' + dir + '"')
-             for file in files:
-@@ -760,8 +767,6 @@ python write_specfile () {
+     pkgdest = d.getVar('PKGDEST', True)
  
++    def cleanupcontrol(root):
++        for p in ['CONTROL', 'DEBIAN']:
++            p = os.path.join(root, p)
++            if os.path.exists(p):
++                bb.utils.prunedir(p)
++
+     for pkg in packages.split():
+         localdata = bb.data.createCopy(d)
          root = "%s/%s" % (pkgdest, pkg)
+@@ -224,13 +230,9 @@ python do_package_deb () {
+         bb.utils.mkdirhier(pkgoutdir)
  
--        lf = bb.utils.lockfile(root + ".lock")
--
-         localdata.setVar('ROOT', '')
-         localdata.setVar('ROOT_%s' % pkg, root)
-         pkgname = localdata.getVar('PKG_%s' % pkg, True)
-@@ -842,8 +847,6 @@ python write_specfile () {
-                 else:
-                     bb.note("Creating EMPTY RPM Package for %s" % splitname)
-                 spec_files_top.append('')
--
--            bb.utils.unlockfile(lf)
-             continue
+         os.chdir(root)
++        cleanupcontrol(root)
+         from glob import glob
+         g = glob('*')
+-        try:
+-            del g[g.index('DEBIAN')]
+-            del g[g.index('./DEBIAN')]
+-        except ValueError:
+-            pass
+         if not g and localdata.getVar('ALLOW_EMPTY') != "1":
+             bb.note("Not creating empty archive for %s-%s-%s" % (pkg, localdata.getVar('PKGV', True), localdata.getVar('PKGR', True)))
+             bb.utils.unlockfile(lf)
+@@ -402,11 +404,10 @@ python do_package_deb () {
+         os.chdir(basedir)
+         ret = subprocess.call("PATH=\"%s\" dpkg-deb -b %s %s" % (localdata.getVar("PATH", True), root, pkgoutdir), shell=True)
+         if ret != 0:
+-            bb.utils.prunedir(controldir)
+             bb.utils.unlockfile(lf)
+             raise bb.build.FuncFailed("dpkg-deb execution failed")
  
-         # Process subpackage data
-@@ -949,7 +952,6 @@ python write_specfile () {
-             spec_files_bottom.append('')
+-        bb.utils.prunedir(controldir)
++        cleanupcontrol(root)
+         bb.utils.unlockfile(lf)
+ }
  
-         del localdata
--        bb.utils.unlockfile(lf)
-     
-     add_prep(d,spec_files_bottom)
-     spec_preamble_top.append('Summary: %s' % srcsummary)
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index a633cfc..d0db945 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -234,6 +234,12 @@ python do_package_ipk () {
+     if os.access(os.path.join(tmpdir, "stamps", "IPK_PACKAGE_INDEX_CLEAN"), os.R_OK):
+         os.unlink(os.path.join(tmpdir, "stamps", "IPK_PACKAGE_INDEX_CLEAN"))
+ 
++    def cleanupcontrol(root):
++        for p in ['CONTROL', 'DEBIAN']:
++            p = os.path.join(root, p)
++            if os.path.exists(p):
++                bb.utils.prunedir(p)
++
+     for pkg in packages.split():
+         localdata = bb.data.createCopy(d)
+         root = "%s/%s" % (pkgdest, pkg)
+@@ -255,13 +261,9 @@ python do_package_ipk () {
+         pkgoutdir = "%s/%s" % (outdir, arch)
+         bb.utils.mkdirhier(pkgoutdir)
+         os.chdir(root)
++        cleanupcontrol(root)
+         from glob import glob
+         g = glob('*')
+-        try:
+-            del g[g.index('CONTROL')]
+-            del g[g.index('./CONTROL')]
+-        except ValueError:
+-            pass
+         if not g and localdata.getVar('ALLOW_EMPTY') != "1":
+             bb.note("Not creating empty archive for %s-%s-%s" % (pkg, localdata.getVar('PKGV', True), localdata.getVar('PKGR', True)))
+             bb.utils.unlockfile(lf)
+@@ -407,7 +409,7 @@ python do_package_ipk () {
+             bb.utils.unlockfile(lf)
+             raise bb.build.FuncFailed("opkg-build execution failed")
+ 
+-        bb.utils.prunedir(controldir)
++        cleanupcontrol(root)
+         bb.utils.unlockfile(lf)
+ 
+ }
 
 
 
