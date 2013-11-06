@@ -1,29 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 385EC6D44E
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D64FC6D608
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2013 18:32:34 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 06 Nov 2013 10:32:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="404619989"
-Received: from unknown (HELO [10.255.14.249]) ([10.255.14.249])
-	by orsmga001.jf.intel.com with ESMTP; 06 Nov 2013 10:32:33 -0800
-Message-ID: <527A8B41.1000002@linux.intel.com>
-Date: Wed, 06 Nov 2013 10:32:33 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Wed,  6 Nov 2013 18:51:54 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id j17so2586646oag.26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 06 Nov 2013 10:51:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=DC+BcvZVfnFQuYbeY5/GHv/H47Jfm2PQVIjkVNNpVPo=;
+	b=UolaLW9tcy+/m6wWg5B9xWnpqaRu7hkLjXTo8CRUG6kykXpqjViZEU1oJP3WH3t5CT
+	5lpNQDWykzqzPJ6drndVhexdW0QJlglDrgy0l51T3kDeatRBTEnpPKiX7xOriS9zjwLR
+	D5386wgHodhraJTCXztJsVCSjZFXlTnkUbXTY5Q36IGyuUJdOsqaeaxOWGoxwfLx6AD3
+	fVuVv8+mWhLHApGmE8K2hRp2YkE886hOqyUeuG996zLPaeJRPEWZzha1M9zPJsjaznFu
+	9JVyr17GqXdfjBbCaK4hHtkdpFvmqf5e+5P7dyGpIPTkTa9OQ8I2nIyuJd+YewROgCjA
+	zGeg==
 MIME-Version: 1.0
-To: Carlos Rafael Giani <dv@pseudoterminal.org>, 
-	"Burton, Ross" <ross.burton@intel.com>
-References: <527A5666.6040208@pseudoterminal.org>
-	<CAJTo0LZ6LpU88=gnD_xYJzvzC+xg34vmSKFR2h3TS2daOXbfKw@mail.gmail.com>
-	<527A8217.8090605@linux.intel.com>
-	<527A8A2A.6040400@pseudoterminal.org>
-In-Reply-To: <527A8A2A.6040400@pseudoterminal.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Request for moving Orc to OE-core
+X-Received: by 10.60.134.42 with SMTP id ph10mr70287oeb.76.1383763916482; Wed,
+	06 Nov 2013 10:51:56 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 6 Nov 2013 10:51:56 -0800 (PST)
+In-Reply-To: <1383689722.6271.184.camel@ted>
+References: <1383689722.6271.184.camel@ted>
+Date: Wed, 6 Nov 2013 16:51:56 -0200
+X-Google-Sender-Auth: VD1aJEA2YH2DnjIY8wmbmYPmze8
+Message-ID: <CAP9ODKrLg1nb5syAUtM4_ipMKenTe1ejXmVsVrqGifiSpBqYjA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: lib/oe/sstatesig: Ensure packagegroups don't continually rebuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2013 18:32:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Nov 2013 18:51:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 11/06/2013 10:27 AM, Carlos Rafael Giani wrote:
-> On 2013-11-06 18:53, Saul Wold wrote:
->> On 11/06/2013 07:47 AM, Burton, Ross wrote:
->>> On 6 November 2013 14:47, Carlos Rafael Giani <dv@pseudoterminal.org>
->>> wrote:
->>>> As preparation for upgrading the gstreamer1.0 recipes to 1.2 , I would
->>>> propose to move Orc into OE-core.
->>>> Without Orc, key elements of GStreamer (audioconvert, audioresample,
->>>> videoconvert, videoscale ..) are much slower.
->>>> Currently Orc is in meta-oe . Its recipe uses the most recent version
->>>> (0.4.18), which is the minimum Orc version that works with GStreamer
->>>> 1.2. If
->>>> Orc is in oe-core, it can be added to the
->>>> gstreamer1.0-plugins-base/good/bad/ugly recipes' default PACKAGECONFIG
->>>> lists.
->>>
->>> I agree with this, and have wanted to do this for a while now.
->>>
->>
->> Carlos,
->>
->> please make it so and thanks for working on the gstreamer update.
->>
->> Sau!
->>
->>> Ross
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>>
+On Tue, Nov 5, 2013 at 8:15 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> packagegroups are allarch and shouldn't change depending on the target
+> or machine selected. In general they should have good stable namespaces
+> for their dependencies. As such we can exclude them from rebuilding when
+> dependency checksums change.
 >
-> Moving Orc involves moving a file from one repo to the other. How is
-> this usually handled?
-> By submitting one patch to OE-core (adding Orc) and one to meta-oe
-> (removing Orc) at the same time?
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-yup, this is the best way.
+What about machine-base and core-boot? this may change depending on machine.
 
-Sau!
-
-> Or is there a better way?
->
->
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
