@@ -1,22 +1,18 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id F09056D44C
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 165686D437
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2013 22:02:19 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 06 Nov 2013 14:02:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="317929572"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.249])
-	by AZSMGA002.ch.intel.com with ESMTP; 06 Nov 2013 14:02:20 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Wed,  6 Nov 2013 22:58:46 +0000 (UTC)
+Received: from localhost.localdomain (chello080108009040.14.11.vie.surfer.at
+	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id 997B32B378
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Nov 2013 23:58:47 +0100 (CET)
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2013 14:02:19 -0800
-Message-Id: <1383775339-4220-3-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1383775339-4220-1-git-send-email-sgw@linux.intel.com>
-References: <1383775339-4220-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 3/3] binutils: remove embedsp
+Date: Wed,  6 Nov 2013 23:59:43 +0100
+Message-Id: <1383778783-22034-1-git-send-email-dv@pseudoterminal.org>
+X-Mailer: git-send-email 1.8.4.1
+Subject: [PATCH] orc: version 0.4.18 migrated from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,36 +25,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2013 22:02:20 -0000
+X-List-Received-Date: Wed, 06 Nov 2013 22:58:47 -0000
 
-This is only built for PPC and not needed, so remove it to fix the QA Issue
-
-ERROR: QA Issue: binutils: Files/directories were installed but not shipped
-  /usr/bin/embedspu
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
 ---
- meta/recipes-devtools/binutils/binutils_2.23.2.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-devtools/orc/orc.inc       | 25 +++++++++++++++++++++++++
+ meta/recipes-devtools/orc/orc_0.4.18.bb |  6 ++++++
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-devtools/orc/orc.inc
+ create mode 100644 meta/recipes-devtools/orc/orc_0.4.18.bb
 
-diff --git a/meta/recipes-devtools/binutils/binutils_2.23.2.bb b/meta/recipes-devtools/binutils/binutils_2.23.2.bb
-index 1523e87..faeba20 100644
---- a/meta/recipes-devtools/binutils/binutils_2.23.2.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.23.2.bb
-@@ -10,6 +10,12 @@ EXTRA_OECONF += "--with-sysroot=/ \
- 
- EXTRA_OECONF_class-native = "--enable-targets=all --enable-64-bit-bfd --enable-install-libbfd"
- 
-+do_install_append_class-target () {
-+        # we dont really care about embedsp for ppc so remove it
-+        rm -f ${D}/${bindir}/embedsp || :
+diff --git a/meta/recipes-devtools/orc/orc.inc b/meta/recipes-devtools/orc/orc.inc
+new file mode 100644
+index 0000000..6fd66a3
+--- /dev/null
++++ b/meta/recipes-devtools/orc/orc.inc
+@@ -0,0 +1,25 @@
++DESCRIPTION = "orc - The Oil Runtime Compiler"
++HOMEPAGE = "http://code.entropywave.com/projects/orc/"
++LICENSE = "BSD-2-Clause & BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
++
++INC_PR = "r2"
++
++SRC_URI = "http://code.entropywave.com/download/orc/orc-${PV}.tar.gz;name=orc"
++
++inherit autotools pkgconfig
++
++BBCLASSEXTEND = "native nativesdk"
++
++PACKAGES =+ "orc-examples"
++FILES_orc-examples = "${libdir}/orc/*"
++FILES_${PN} = "${bindir}/*"
++
++python populate_packages_prepend () {
++    libdir = d.expand('${libdir}')
++    do_split_packages(d, libdir, '^lib(.*)\.so\.*', 'lib%s', 'ORC %s library', extra_depends='', allow_links=True)
 +}
 +
++do_compile_prepend_virtclass-native () {
++    sed -i -e 's#/tmp#.#g' ${S}/orc/orccodemem.c
++}
+diff --git a/meta/recipes-devtools/orc/orc_0.4.18.bb b/meta/recipes-devtools/orc/orc_0.4.18.bb
+new file mode 100644
+index 0000000..2375d8c
+--- /dev/null
++++ b/meta/recipes-devtools/orc/orc_0.4.18.bb
+@@ -0,0 +1,6 @@
++require orc.inc
 +
- do_install_class-native () {
- 	autotools_do_install
- 
++PR = "${INC_PR}.0"
++
++SRC_URI[orc.md5sum] = "1a2552e8d127526c48d644fe6437b377"
++SRC_URI[orc.sha256sum] = "34d3c8a7259f42bed4dcfbc106c5e3d0cc8e17eeaa73128d1c5eaf92883a6a24"
 -- 
-1.8.3.1
+1.8.4.1
 
 
