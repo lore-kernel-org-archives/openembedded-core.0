@@ -1,35 +1,32 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AFCC6D445
+	by mail.openembedded.org (Postfix) with ESMTP id DB2E26D445
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2013 23:38:43 +0000 (UTC)
+	Wed,  6 Nov 2013 23:42:53 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA6NcVQT018988; Wed, 6 Nov 2013 23:38:31 GMT
+	rA6Nggid019196; Wed, 6 Nov 2013 23:42:42 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qr2OG4cvVjjp; Wed,  6 Nov 2013 23:38:30 +0000 (GMT)
+	with LMTP id hRhpNg9WxOhF; Wed,  6 Nov 2013 23:42:42 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA6NcRwl018984
+	rA6Ngbxj019191
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 6 Nov 2013 23:38:29 GMT
-Message-ID: <1383781103.6271.199.camel@ted>
+	verify=NOT); Wed, 6 Nov 2013 23:42:39 GMT
+Message-ID: <1383781353.6271.200.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 06 Nov 2013 23:38:23 +0000
-In-Reply-To: <CAMKF1so2W9JMHtLUg==ktYcQo1vrZ3K-FU+mddt4LMcvzAs-Rg@mail.gmail.com>
-References: <1383622893-5185-1-git-send-email-raj.khem@gmail.com>
-	<5279C70B.90103@linux.intel.com>
-	<E60C2A2A-EC7B-4A72-8553-B37D7DD19A58@gmail.com>
-	<527A900E.4050502@linux.intel.com>
-	<CAMKF1so2W9JMHtLUg==ktYcQo1vrZ3K-FU+mddt4LMcvzAs-Rg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Wed, 06 Nov 2013 23:42:33 +0000
+In-Reply-To: <CAP9ODKrLg1nb5syAUtM4_ipMKenTe1ejXmVsVrqGifiSpBqYjA@mail.gmail.com>
+References: <1383689722.6271.184.camel@ted>
+	<CAP9ODKrLg1nb5syAUtM4_ipMKenTe1ejXmVsVrqGifiSpBqYjA@mail.gmail.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V4] expect: Add recipe
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: lib/oe/sstatesig: Ensure packagegroups don't continually rebuild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,54 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2013 23:38:44 -0000
+X-List-Received-Date: Wed, 06 Nov 2013 23:42:55 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-11-06 at 10:58 -0800, Khem Raj wrote:On Wednesday, November
-6, 2013, Saul Wold wrote:
->         On 11/05/2013 08:58 PM, Khem Raj wrote:
->                 
->                 On Nov 5, 2013, at 8:35 PM, Saul Wold
->                 <sgw@linux.intel.com> wrote:
->                 
->                         On 11/04/2013 07:41 PM, Khem Raj wrote:
->                                 From: Mihaela Sendrea
->                                 <mihaela.sendrea@enea.com>
->                                 
->                                 Nedeed for gcc-runtime tests.
->                                 
->                         
->                         i am seeing configure fails with this patch
->                         
->                                 configure:2350: checking for correct
->                                 TEA configuration
->                                 configure:2363: result: ok (TEA 3.9)
->                                 configure:2430: configuring expect
->                                 5.45
->                                 configure:2508: checking for Tcl
->                                 configuration
->                                 configure:2528:
->                                 error: /srv/ssd/sgw/builds/world/tmp/sysroots/genericx86/usr/lib directory doesn't contain tclConfig.sh
->                 
->                 
->                 OK what happens if you readd DEPENDS += “tcl” ?
->                 since you have it reproduced may be its best to try it
->                 out.
->                 
->         
->         yup, DEPENDS does the trick, so there might be some issue
->         someplace else.
->         
+On Wed, 2013-11-06 at 16:51 -0200, Otavio Salvador wrote:
+> On Tue, Nov 5, 2013 at 8:15 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > packagegroups are allarch and shouldn't change depending on the target
+> > or machine selected. In general they should have good stable namespaces
+> > for their dependencies. As such we can exclude them from rebuilding when
+> > dependency checksums change.
+> >
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > 
-> 
-> thx i will send an update v5 but i wonder why RDEPENDS didnt turn into
-> a depends may be bitbake issue
+> What about machine-base and core-boot? this may change depending on machine.
 
-I take back what I said earlier, RDEPENDS do not automatically become
-DEPENDS. Bitbake does translate them into DEPENDS namespace internally
-and that are applied for the packaging tasks but the behaviour is
-correct and you need both. Sorry for the confusion.
+Those already get marked as machine specific. I'd not expect
+dependencies to be changing package names there for example so I'm not
+sure this is an issue.
 
 Cheers,
 
