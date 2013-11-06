@@ -1,41 +1,25 @@
-Return-Path: <ajlennon@gmail.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F3026D59C
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id C56DA6D44E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2013 18:24:57 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id w61so5236620wes.38
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Nov 2013 10:24:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=UrXrUTrV9kilIz0mXd25zOPtbzSkpbXDJM43Ht3smtU=;
-	b=ta7MsPaQBeP7biZSWfxyrTqyEaB4k9sqG+xXuyfsF2WRPnOALLmJH57L8ZzUqbURoq
-	vbKBYusHjcChOeIRvnCj1b/0cjGhgCo/1goVfrjgcvd8iwqI90KoCUqQVEfXvAVNhnWg
-	bom4+xblAKXsVvUzsGoNO6LmrH8GPVq4xhexbTJJ++/O6W4dwC3Zol3QuLI9BW/xo6xo
-	Rw9X3YBD083G87Zhf1OddJc03aLQNRmJ5VPw3WlQgjM5GQ+tPWxVndZK9nob+TtLmX6+
-	ZrRUpXwrp/TPG5K2RnLbJVWhjJnGh6GhEoCW3tdnDy8oLID5CILwdMrUbq2BxXZRGIZ3
-	C/Bg==
-X-Received: by 10.194.250.6 with SMTP id yy6mr3782710wjc.13.1383762298293;
-	Wed, 06 Nov 2013 10:24:58 -0800 (PST)
-Received: from localhost.localdomain
-	(cpc16-live22-2-0-cust180.know.cable.virginm.net. [82.42.220.181])
-	by mx.google.com with ESMTPSA id y20sm26583954wib.0.2013.11.06.10.24.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 06 Nov 2013 10:24:57 -0800 (PST)
-Sender: Alex Lennon <ajlennon@gmail.com>
-From: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2013 18:24:45 +0000
-Message-Id: <36aa3d4b7358bdb06122705908d106bb074fc2cd.1383761518.git.ajlennon@dynamicdevices.co.uk>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1383761518.git.ajlennon@dynamicdevices.co.uk>
-References: <cover.1383761518.git.ajlennon@dynamicdevices.co.uk>
-In-Reply-To: <cover.1383761518.git.ajlennon@dynamicdevices.co.uk>
-References: <cover.1383761518.git.ajlennon@dynamicdevices.co.uk>
-Subject: [PATCH 1/1] sqlite3: Add support for column metadata API
+	Wed,  6 Nov 2013 18:26:39 +0000 (UTC)
+Received: from [192.168.178.14] (chello080108009040.14.11.vie.surfer.at
+	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id 165302B36A;
+	Wed,  6 Nov 2013 19:26:40 +0100 (CET)
+Message-ID: <527A8A2A.6040400@pseudoterminal.org>
+Date: Wed, 06 Nov 2013 19:27:54 +0100
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, 
+ "Burton, Ross" <ross.burton@intel.com>
+References: <527A5666.6040208@pseudoterminal.org>
+	<CAJTo0LZ6LpU88=gnD_xYJzvzC+xg34vmSKFR2h3TS2daOXbfKw@mail.gmail.com>
+	<527A8217.8090605@linux.intel.com>
+In-Reply-To: <527A8217.8090605@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Request for moving Orc to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,38 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2013 18:24:57 -0000
+X-List-Received-Date: Wed, 06 Nov 2013 18:26:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I found that Mono.Data.SQlite has a dependency on the column meta-data API, thus enabling this API enables use of Hibernate / Mono with SQLite and no doubt enables other ORMs / utility libraries.
+On 2013-11-06 18:53, Saul Wold wrote:
+> On 11/06/2013 07:47 AM, Burton, Ross wrote:
+>> On 6 November 2013 14:47, Carlos Rafael Giani <dv@pseudoterminal.org> 
+>> wrote:
+>>> As preparation for upgrading the gstreamer1.0 recipes to 1.2 , I would
+>>> propose to move Orc into OE-core.
+>>> Without Orc, key elements of GStreamer (audioconvert, audioresample,
+>>> videoconvert, videoscale ..) are much slower.
+>>> Currently Orc is in meta-oe . Its recipe uses the most recent version
+>>> (0.4.18), which is the minimum Orc version that works with GStreamer 
+>>> 1.2. If
+>>> Orc is in oe-core, it can be added to the
+>>> gstreamer1.0-plugins-base/good/bad/ugly recipes' default PACKAGECONFIG
+>>> lists.
+>>
+>> I agree with this, and have wanted to do this for a while now.
+>>
+>
+> Carlos,
+>
+> please make it so and thanks for working on the gstreamer update.
+>
+> Sau!
+>
+>> Ross
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
 
-ref: https://bugzilla.xamarin.com/show_bug.cgi?id=6333
-
-The API is present in the used SQLite3 sqlite-autoconf-3080002 source-base. Thus we are enabling pre-existing SQLite support rather than introducing new code.
-
-I am not aware of any issues that enabling this SQLite functionality introduces, other than a slightly increased library size of circa 1.5KB , i.e. coretexa9_vfp_neon i.MX6
-
-- with column meta-data API        610360 libsqlite3.so.0.8.6
-- without column meta-data API  608880 libsqlite3.so.0.8.6
-
-Signed-off-by: Alex J Lennon <ajlennon@dynamicdevices.co.uk>
----
- meta/recipes-support/sqlite/sqlite3_3080002.bb |    5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-support/sqlite/sqlite3_3080002.bb b/meta/recipes-support/sqlite/sqlite3_3080002.bb
-index 91dc6dd..18ff292 100644
---- a/meta/recipes-support/sqlite/sqlite3_3080002.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3080002.bb
-@@ -8,3 +8,8 @@ SRC_URI[md5sum] = "6d6cc639a4da04fbbdda7b1a1a01b386"
- SRC_URI[sha256sum] = "fca3a0a12f94dc92a6d9e700c3f6cab6cd4e79214bd7b6f13717a10f4bcfddb2"
- 
- S = "${WORKDIR}/sqlite-autoconf-${PV}"
-+
-+# Provide column meta-data API
-+BUILD_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
-+TARGET_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
-+
--- 
-1.7.9.5
-
+Moving Orc involves moving a file from one repo to the other. How is 
+this usually handled?
+By submitting one patch to OE-core (adding Orc) and one to meta-oe 
+(removing Orc) at the same time?
+Or is there a better way?
 
