@@ -1,24 +1,20 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D1B8D6D674
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id D39086CEE8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2013 13:08:23 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Nov 2013 05:04:37 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="404450840"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.41])
-	by orsmga001.jf.intel.com with ESMTP; 06 Nov 2013 05:08:03 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Wed,  6 Nov 2013 14:47:03 +0000 (UTC)
+Received: from [10.1.14.248] (83-64-248-68.inzersdorf.xdsl-line.inode.at
+	[83.64.248.68]) by ptmx.org (Postfix) with ESMTPSA id 9A1042043D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Nov 2013 15:47:02 +0100 (CET)
+Message-ID: <527A5666.6040208@pseudoterminal.org>
+Date: Wed, 06 Nov 2013 15:47:02 +0100
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2013 15:07:58 +0200
-Message-Id: <0dcafa1bce7a6ae871ee0f6b20eab8834860b334.1383742507.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1383742507.git.laurentiu.palcu@intel.com>
-References: <cover.1383742507.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1383742507.git.laurentiu.palcu@intel.com>
-References: <cover.1383742507.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 1/1] flex: fix m4 issue on target
+Subject: Request for moving Orc to OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +27,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2013 13:08:24 -0000
+X-List-Received-Date: Wed, 06 Nov 2013 14:47:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Flex needs m4 to run (see below) and, since the create_wrapper
-introduces a bash dependency on target, give the path to m4 binary in
-the configure command line.
+As preparation for upgrading the gstreamer1.0 recipes to 1.2 , I would 
+propose to move Orc into OE-core.
+Without Orc, key elements of GStreamer (audioconvert, audioresample, 
+videoconvert, videoscale ..) are much slower.
+Currently Orc is in meta-oe . Its recipe uses the most recent version 
+(0.4.18), which is the minimum Orc version that works with GStreamer 
+1.2. If Orc is in oe-core, it can be added to the 
+gstreamer1.0-plugins-base/good/bad/ugly recipes' default PACKAGECONFIG 
+lists.
 
-Snippet from the flex documentation:
-"The macro processor m4 must be installed wherever flex is installed.
-<...>
-m4 is only required at the time you run flex."
-
-[YOCTO #5329]
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/recipes-devtools/flex/flex.inc |    5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
-index 43f1dda..96d5de5 100644
---- a/meta/recipes-devtools/flex/flex.inc
-+++ b/meta/recipes-devtools/flex/flex.inc
-@@ -13,6 +13,9 @@ inherit autotools gettext
- M4 = "${bindir}/m4"
- M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
- 
-+EXTRA_OECONF += "ac_cv_path_M4=${M4}"
-+EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
-+
- do_install_append_class-native() {
- 	create_wrapper ${D}/${bindir}/flex M4=${M4}
- }
-@@ -20,3 +23,5 @@ do_install_append_class-native() {
- do_install_append_class-nativesdk() {
- 	create_wrapper ${D}/${bindir}/flex M4=${M4}
- }
-+
-+RDEPENDS_${PN} += "m4"
--- 
-1.7.9.5
-
+Thanks,
+   Carlos
 
