@@ -1,20 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B4EDF6D437
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AFCC6D445
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2013 23:31:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Nov 2013 15:32:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,647,1378882800"; d="scan'208";a="429088233"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.249])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Nov 2013 15:31:59 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2013 15:31:59 -0800
-Message-Id: <1383780719-21615-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH v2] binutils: remove embedspu
+	Wed,  6 Nov 2013 23:38:43 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA6NcVQT018988; Wed, 6 Nov 2013 23:38:31 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qr2OG4cvVjjp; Wed,  6 Nov 2013 23:38:30 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA6NcRwl018984
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 6 Nov 2013 23:38:29 GMT
+Message-ID: <1383781103.6271.199.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 06 Nov 2013 23:38:23 +0000
+In-Reply-To: <CAMKF1so2W9JMHtLUg==ktYcQo1vrZ3K-FU+mddt4LMcvzAs-Rg@mail.gmail.com>
+References: <1383622893-5185-1-git-send-email-raj.khem@gmail.com>
+	<5279C70B.90103@linux.intel.com>
+	<E60C2A2A-EC7B-4A72-8553-B37D7DD19A58@gmail.com>
+	<527A900E.4050502@linux.intel.com>
+	<CAMKF1so2W9JMHtLUg==ktYcQo1vrZ3K-FU+mddt4LMcvzAs-Rg@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V4] expect: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,38 +42,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2013 23:31:58 -0000
+X-List-Received-Date: Wed, 06 Nov 2013 23:38:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-This is only built for PPC and not needed, so remove it to fix the QA Issue
+On Wed, 2013-11-06 at 10:58 -0800, Khem Raj wrote:On Wednesday, November
+6, 2013, Saul Wold wrote:
+>         On 11/05/2013 08:58 PM, Khem Raj wrote:
+>                 
+>                 On Nov 5, 2013, at 8:35 PM, Saul Wold
+>                 <sgw@linux.intel.com> wrote:
+>                 
+>                         On 11/04/2013 07:41 PM, Khem Raj wrote:
+>                                 From: Mihaela Sendrea
+>                                 <mihaela.sendrea@enea.com>
+>                                 
+>                                 Nedeed for gcc-runtime tests.
+>                                 
+>                         
+>                         i am seeing configure fails with this patch
+>                         
+>                                 configure:2350: checking for correct
+>                                 TEA configuration
+>                                 configure:2363: result: ok (TEA 3.9)
+>                                 configure:2430: configuring expect
+>                                 5.45
+>                                 configure:2508: checking for Tcl
+>                                 configuration
+>                                 configure:2528:
+>                                 error: /srv/ssd/sgw/builds/world/tmp/sysroots/genericx86/usr/lib directory doesn't contain tclConfig.sh
+>                 
+>                 
+>                 OK what happens if you readd DEPENDS += “tcl” ?
+>                 since you have it reproduced may be its best to try it
+>                 out.
+>                 
+>         
+>         yup, DEPENDS does the trick, so there might be some issue
+>         someplace else.
+>         
+> 
+> 
+> thx i will send an update v5 but i wonder why RDEPENDS didnt turn into
+> a depends may be bitbake issue
 
-ERROR: QA Issue: binutils: Files/directories were installed but not shipped
-  /usr/bin/embedspu
+I take back what I said earlier, RDEPENDS do not automatically become
+DEPENDS. Bitbake does translate them into DEPENDS namespace internally
+and that are applied for the packaging tasks but the behaviour is
+correct and you need both. Sorry for the confusion.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
-v2: fix spelling and add powerpc override
+Cheers,
 
- meta/recipes-devtools/binutils/binutils_2.23.2.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+Richard
 
-diff --git a/meta/recipes-devtools/binutils/binutils_2.23.2.bb b/meta/recipes-devtools/binutils/binutils_2.23.2.bb
-index 1523e87..c8c77a0 100644
---- a/meta/recipes-devtools/binutils/binutils_2.23.2.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.23.2.bb
-@@ -10,6 +10,12 @@ EXTRA_OECONF += "--with-sysroot=/ \
- 
- EXTRA_OECONF_class-native = "--enable-targets=all --enable-64-bit-bfd --enable-install-libbfd"
- 
-+do_install_append_class-target_powerpc () {
-+        # we dont really care about embedspu for ppc so remove it
-+        rm -f ${D}/${bindir}/embedspu || :
-+}
-+
-+
- do_install_class-native () {
- 	autotools_do_install
- 
--- 
-1.8.3.1
 
 
