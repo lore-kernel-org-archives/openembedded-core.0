@@ -1,39 +1,31 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id F26F56D1FB;
-	Wed,  6 Nov 2013 08:45:37 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id q8so7414700lbi.19
-	for <multiple recipients>; Wed, 06 Nov 2013 00:45:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=UhmgkrXiNXl47ZqhOIRtOc6YFmtsQrYYhmx2V4TQeTU=;
-	b=MkrLsQAnuCrLwqBZtQFCGMeHgDmnAOtDpEX4wH53YI0h7WC5BYd0jinx9CGUEbLrk4
-	0xi5YYPD9waSRGVOw00ODnVB5brCKKmS6EydZdRNc7fbS7waGTly0Wak5jZ7KijEPgc2
-	dmsfqI7xmh6/QI/vk8+VZLSmJLdYuYIm/IFOySGgYRsYsueQe0Kb/0lJu26OGqVFtJy2
-	kzg6c4xcpJ6POt4KTbCfE0/uBQiFVf64FArfgy9c/CIDLk6vKWXPq12NWsgcIpAustHw
-	8HQDUmKzIBE5D4GR+Ox7MwGKmRSzASJhSyZNYh0+DinsqJY72Mlm2x1H5hFk9d/2yCFN
-	h9qQ==
-MIME-Version: 1.0
-X-Received: by 10.112.125.33 with SMTP id mn1mr1837322lbb.8.1383727539063;
-	Wed, 06 Nov 2013 00:45:39 -0800 (PST)
-Received: by 10.112.52.74 with HTTP; Wed, 6 Nov 2013 00:45:39 -0800 (PST)
-In-Reply-To: <CAAQYJAsRd=4bXxG8h42EbJgnspo_3ge=__GYpqShQom9-n11RA@mail.gmail.com>
-References: <1381358545.29912.50.camel@ted> <20131028151004.34b2af21@e6520eb>
-	<CAMKF1so3GUQZMvLADSCr=Exavo5OVgh==do7aHhe_wUQk9mFHQ@mail.gmail.com>
-	<20131029082852.4399ee5e@e6520eb> <1383146112.25877.34.camel@ted>
-	<20131102094725.14fb6902@e6520eb>
-	<CAAQYJAvvqEByKQRPKRZviqPJmSrDqYt1PvnYPxeJuOSuKO-HaA@mail.gmail.com>
-	<1383520239.6271.96.camel@ted>
-	<CAAQYJAsRd=4bXxG8h42EbJgnspo_3ge=__GYpqShQom9-n11RA@mail.gmail.com>
-Date: Wed, 6 Nov 2013 09:45:39 +0100
-Message-ID: <CAAQYJAttXLv8jQczSLU=8C9iw6z9JS6xbOrOiB7ahaowzLWx8g@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembeded-devel <openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <Openembedded-core@lists.openembedded.org>
-Subject: Re: SRC_URI computing order
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 048356D2DB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Nov 2013 10:56:09 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA6Asu7G021935 for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Nov 2013 10:56:06 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PyCwvqaVc8l8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  6 Nov 2013 10:56:06 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA6AtxVq021956
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Nov 2013 10:56:01 GMT
+Message-ID: <1383735355.6271.190.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 06 Nov 2013 10:55:55 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] toolchain-scripts/meta-environment: Further cleanup code duplication
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,169 +38,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2013 08:45:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 06 Nov 2013 10:56:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 4, 2013 at 11:13 PM, Andrea Adami <andrea.adami@gmail.com> wrot=
-e:
-> On Mon, Nov 4, 2013 at 12:10 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Sun, 2013-11-03 at 23:16 +0100, Andrea Adami wrote:
->>> On Sat, Nov 2, 2013 at 9:47 AM, Eric B=E9nard <eric@eukrea.com> wrote:
->>> > Hi Richard,
->>> >
->>> > Le Wed, 30 Oct 2013 15:15:12 +0000,
->>> > Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
->>> >
->>> >> On Tue, 2013-10-29 at 08:28 +0100, Eric B=E9nard wrote:
->>> >> > Hi Khem,
->>> >> >
->>> >> > Le Mon, 28 Oct 2013 20:45:21 -0700,
->>> >> > Khem Raj <raj.khem@gmail.com> a =E9crit :
->>> >> >
->>> >> > > On Mon, Oct 28, 2013 at 7:10 AM, Eric B=E9nard <eric@eukrea.com>=
- wrote:
->>> >> > > > Hi Richard,
->>> >> > > >
->>> >> > > > I saw your patch fixing FILESPATH's and Kergoth's one fixing
->>> >> > > > PACKAGECONFIG processing order and I think I'm also facing an =
-order
->>> >> > > > problem when SRC_URI is computed.
->>> >> > > >
->>> >> > > > So when building SRC_URI when two layers have bbappend which a=
-pply
->>> >> > > > patches : the SRC_URI seems to be built using an order I fail =
-to
->>> >> > > > understand somewhere instead of priority or the overrides' ord=
-er.
->>> >> > > >
->>> >> > > > The use case is a System on Module and its custom motherboard =
-:
->>> >> > > > - meta-fsl-arm :
->>> >> > > > * linux-imx_xyz.bb :
->>> >> > > > SRC_URI =3D "patchgeneric1 ..."
->>> >> > > >
->>> >> > > > - meta-som-support :
->>> >> > > > * conf/machine/mysom.conf
->>> >> > > >
->>> >> > > > * linux-imx_xyz.bbappend :
->>> >> > > > SRC_URI_append_mysom =3D "patchsom1 patchsom2 ..."
->>> >> > > >
->>> >> > > > - meta-custommotherboard (SOM + Cunstom Motherboard) :
->>> >> > > > * conf/machine/myproduct.conf
->>> >> > > > MACHINEOVERRIDES_prepend =3D "mysom:"
->>> >> > > > include conf/machine/mysom.conf
->>> >> > > >
->>> >> > > > * linux-imx_xyz.bbappend :
->>> >> > > > SRC_URI_append_myproduct =3D "patchproduct1 patchproduct2 ..."
->>> >> > > >
->>> >> > > > in the end I get :
->>> >> > > > SRC_URI =3D "patchgeneric1 ... patchsoc1 ... patchproduct1 ...
->>> >> > > > patchsom1 ..."
->>> >> > > >
->>> >> > > > and of course as patchproduct* are supposed to apply on top of
->>> >> > > > patchsoc* the patch fail to apply.
->>> >> > > >
->>> >> > > > I didn't found a way to build SRC_URI in the order I would lik=
-e (I
->>> >> > > > tested : changing MACHINEOVERRIDES 's order, changing layers' =
-priority,
->>> >> > > > changing machine's name to see if that was an alphabetical ord=
-er ...).
->>> >> > > >
->>> >> > > > In the end the only thing which worked was to add an (empty by=
- default)
->>> >> > > > variable in som's SRC_URI and filling this variables from the
->>> >> > > > custommotherboard's bbappend.
->>> >> > > >
->>> >> > > > Is the behaviour I'm seeing expected or is there something wro=
-ng in my
->>> >> > > > setup ?
->>> >> > >
->>> >> > > what is your OVERRIDES order.
->>> >> > >
->>> >> > "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:build-${BUILD_OS}:pn-${PN}=
-:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}:forcevariable"
->>> >> >
->>> >> > so it follows the MACHINEOVERRIDES order (and I tried both append =
-and
->>> >> > prepend to hack MACHINEOVERRIDES without any behaviour change).
->>> >>
->>> >> I think what Khem is asking is what OVERRIDES expands to?
->>> >>
->>> >> You mean patchso* and not patchsoc* above, right? Or should patchsom=
-1 be
->>> >> patchsoc2?
->>> >>
->>> > oops :
->>> > I expect  SRC_URI =3D "patchgeneric1 ... patchsom1 ... patchproduct1 =
-..."
->>> > and I get :
->>> > SRC_URI =3D "patchgeneric1 ... patchproduct1 ... patchsom1 ..."
->>> >
->>> >> Its hard to follow and it might be easier if you could share a
->>> >> simplified test case we could reproduce this with. I don't doubt the=
-re
->>> >> is an issue in there but we need a way to reproduce and debug this.
->>> >>
->>> > OK, I'm preparing a simple testcase to reproduce that with oe-core +
->>> > meta-fsl-arm + meta-som + meta-baseboard.
->>> >
->>> > Eric
->>> > _______________________________________________
->>> > Openembedded-core mailing list
->>> > Openembedded-core@lists.openembedded.org
->>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>>
->>> I have to report an undesiderate behavior:
->>>
->>> the formfactor files in our .bbappend are not considered :/
->>> DEBUG: Searching for machconfig in paths:....
->>>   /oe/oe-core/meta/recipes-bsp/formfactor/formfactor-0.0/
->>>   /oe/oe-core/meta/recipes-bsp/formfactor/formfactor/
->>>   /oe/oe-core/meta/recipes-bsp/formfactor/files/
->>>   /oe/meta-handheld/recipes-bsp/formfactor/files/poodle
->>>
->>> so we end up with the empty machconfig of
->>> /oe/oe-core/meta/recipes-bsp/formfactor/files/
->>>
->>> Surely this didn't happen when we tested the recipe.
->>
->> With which revision of OE-Core? Was this with the dora release tag,
->> current dora head or master?
->>
->> Cheers,
->>
->> Richard
->>
->>
->
-> This was with fresh master:
->
-> Build Configuration:
-> BB_VERSION        =3D "1.21.0"
-> BUILD_SYS         =3D "i686-linux"
-> NATIVELSBSTRING   =3D "Gentoo"
-> TARGET_SYS        =3D "arm-oe-linux-gnueabi"
-> MACHINE           =3D "poodle"
-> DISTRO_VERSION    =3D "oe-core.0"
-> TUNE_FEATURES     =3D "armv5 thumb dsp"
-> TARGET_FPU        =3D "soft"
-> meta              =3D "master:511b4194165ed7a5645169e09c27db280d5a5316"
-> meta-initramfs    =3D "master:4d62e7f575e2a87197c74ab4639561b45eec0e60"
-> meta-handheld     =3D "master:55a310666b543e6beca47fa3c197492d5a6cf8ff"
->
-> Cheers
-FYI
-In the hurry for a solution for fixing formfactor and ipaq-boot-params
-my quick hack was to revert
+There was still duplicated code in toolchain-scripts, this further cleans
+up the functions to remove it. The now unused includedir parameter is also
+dropped.
 
-http://cgit.openembedded.org/openembedded-core/commit/meta?id=3D92cbf7eeea5=
-53bfa24c7081473fa8bc4ebc1f552
+The final scripts do end up reordered slightly and the sysroot is parametrised
+for the IDE scripts which is an improvement but should have no functional
+difference.
 
-That appears to fix the specific issue...
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 07e6fbf..b9f2aea9 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -7,7 +7,6 @@ REAL_MULTIMACH_TARGET_SYS ?= "${MULTIMACH_TARGET_SYS}"
+ # This function creates an environment-setup-script for use in a deployable SDK
+ toolchain_create_sdk_env_script () {
+ 	# Create environment setup script
+-	includedir=${5:-${includedir}}
+ 	libdir=${4:-${libdir}}
+ 	sysroot=${3:-${SDKTARGETSYSROOT}}
+ 	multimach_target_sys=${2:-${REAL_MULTIMACH_TARGET_SYS}}
+@@ -19,33 +18,12 @@ toolchain_create_sdk_env_script () {
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig' >> $script
+ 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+-	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
+-	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
+-	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
+-	echo 'export AS="${TARGET_PREFIX}as ${TARGET_AS_ARCH}"' >> $script
+-	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
+-	echo 'export GDB=${TARGET_PREFIX}gdb' >> $script
+-	echo 'export STRIP=${TARGET_PREFIX}strip' >> $script
+-	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
+-	echo 'export OBJCOPY=${TARGET_PREFIX}objcopy' >> $script
+-	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
+-	echo 'export AR=${TARGET_PREFIX}ar' >> $script
+-	echo 'export NM=${TARGET_PREFIX}nm' >> $script
+-	echo 'export M4=m4' >> $script
+-	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
+-	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${SDK_ARCH}-linux --with-libtool-sysroot=$SDKTARGETSYSROOT"' >> $script
+-	echo 'export CFLAGS="${TARGET_CFLAGS}"' >> $script
+-	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
+-	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
+-	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
+ 	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
+ 	echo 'export OECORE_TARGET_SYSROOT="$SDKTARGETSYSROOT"' >> $script
+ 	echo 'export OECORE_ACLOCAL_OPTS="-I ${SDKPATHNATIVE}/usr/share/aclocal"' >> $script
+-	echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
+-	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
+ 	echo 'export PYTHONHOME=${SDKPATHNATIVE}${prefix_nativesdk}' >> $script
+-	echo 'export ARCH=${ARCH}' >> $script
+-	echo 'export CROSS_COMPILE=${TARGET_PREFIX}' >> $script
++
++	toolchain_shared_env_script
+ }
+ 
+ # This function creates an environment-setup-script in the TMPDIR which enables
+@@ -57,14 +35,21 @@ toolchain_create_tree_env_script () {
+ 	echo 'export PATH=${STAGING_DIR_NATIVE}/usr/bin:${PATH}' >> $script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=${PKG_CONFIG_SYSROOT_DIR}' >> $script
+ 	echo 'export PKG_CONFIG_PATH=${PKG_CONFIG_PATH}' >> $script
+-
+ 	echo 'export CONFIG_SITE="${@siteinfo_get_files(d)}"' >> $script
++	echo 'export SDKTARGETSYSROOT=${STAGING_DIR_TARGET}' >> $script
++	echo 'export OECORE_NATIVE_SYSROOT="${STAGING_DIR_NATIVE}"' >> $script
++	echo 'export OECORE_TARGET_SYSROOT="${STAGING_DIR_TARGET}"' >> $script
++	echo 'export OECORE_ACLOCAL_OPTS="-I ${STAGING_DIR_NATIVE}/usr/share/aclocal"' >> $script
++
++	toolchain_shared_env_script
++}
+ 
+-	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
+-	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
+-	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
++toolchain_shared_env_script () {
++	echo 'export CC="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
++	echo 'export CXX="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
++	echo 'export CPP="${TARGET_PREFIX}gcc -E ${TARGET_CC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
+ 	echo 'export AS="${TARGET_PREFIX}as ${TARGET_AS_ARCH}"' >> $script
+-	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=${STAGING_DIR_TARGET}"' >> $script
++	echo 'export LD="${TARGET_PREFIX}ld ${TARGET_LD_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
+ 	echo 'export GDB=${TARGET_PREFIX}gdb' >> $script
+ 	echo 'export STRIP=${TARGET_PREFIX}strip' >> $script
+ 	echo 'export RANLIB=${TARGET_PREFIX}ranlib' >> $script
+@@ -72,15 +57,13 @@ toolchain_create_tree_env_script () {
+ 	echo 'export OBJDUMP=${TARGET_PREFIX}objdump' >> $script
+ 	echo 'export AR=${TARGET_PREFIX}ar' >> $script
+ 	echo 'export NM=${TARGET_PREFIX}nm' >> $script
++	echo 'export M4=m4' >> $script
+ 	echo 'export TARGET_PREFIX=${TARGET_PREFIX}' >> $script
+-	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${BUILD_SYS} --with-libtool-sysroot=${STAGING_DIR_TARGET}"' >> $script
++	echo 'export CONFIGURE_FLAGS="--target=${TARGET_SYS} --host=${TARGET_SYS} --build=${SDK_ARCH}-linux --with-libtool-sysroot=$SDKTARGETSYSROOT"' >> $script
+ 	echo 'export CFLAGS="${TARGET_CFLAGS}"' >> $script
+ 	echo 'export CXXFLAGS="${TARGET_CXXFLAGS}"' >> $script
+ 	echo 'export LDFLAGS="${TARGET_LDFLAGS}"' >> $script
+ 	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
+-	echo 'export OECORE_NATIVE_SYSROOT="${STAGING_DIR_NATIVE}"' >> $script
+-	echo 'export OECORE_TARGET_SYSROOT="${STAGING_DIR_TARGET}"' >> $script
+-	echo 'export OECORE_ACLOCAL_OPTS="-I ${STAGING_DIR_NATIVE}/usr/share/aclocal"' >> $script
+ 	echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
+ 	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
+ 	echo 'export ARCH=${ARCH}' >> $script
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index c7be404..41b87b5 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -24,7 +24,7 @@ do_generate_content() {
+ 
+     toolchain_create_sdk_siteconfig ${SDK_OUTPUT}/${SDKPATH}/site-config-${REAL_MULTIMACH_TARGET_SYS}
+ 
+-    toolchain_create_sdk_env_script ${SDK_OUTPUT}/${SDKPATH}/environment-setup-${REAL_MULTIMACH_TARGET_SYS} ${REAL_MULTIMACH_TARGET_SYS} '##SDKTARGETSYSROOT##'  ${target_libdir} ${target_includedir}
++    toolchain_create_sdk_env_script ${SDK_OUTPUT}/${SDKPATH}/environment-setup-${REAL_MULTIMACH_TARGET_SYS} ${REAL_MULTIMACH_TARGET_SYS} '##SDKTARGETSYSROOT##'  ${target_libdir} 
+ 
+     # Add version information
+     toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${REAL_MULTIMACH_TARGET_SYS}
 
-Andrea
+
 
