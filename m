@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 759FA6D3D5
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D5C6A6D3E0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 10:57:45 +0000 (UTC)
-Received: by mail-vc0-f174.google.com with SMTP id ld13so232783vcb.33
+	Thu,  7 Nov 2013 11:05:25 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA7B3Y4E002980
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2013 02:57:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TjYG9IzOUUzp6D+v0RJGyMzdWFn2IlsaolR/HoPRlhw=;
-	b=WKptE1oROE7hNlWJEA4XNItUeYvR5c9zzHw1gipWnKp3s62Ur3E8nMLE4SxAWCEuJU
-	DW7ra4kqpEmvuoIByxrY3u4CBQ5AxICt1b55V4dJePvS8CnfSauUpySmyiTkYdaf6BG6
-	Dn0jUjYHjlOdVwBXKGac3l1OYpn90tGwdyhZ/Ff9SuuMYEjXzbZW1XcY7DqduP8hwQDq
-	5EFdbGOunFnBDqIXdpqqFrNU7OIgmyCBZh7Kvoymq1pNpYR+9WyJdL7QPSdKDbgM8hpw
-	wy1jAnRmniZjAuapR/QJt7/MP6RQWz5My382V8mf5z3KXZjC99Ost43b4vAoV4ZYwO2E
-	RilQ==
-X-Gm-Message-State: ALoCoQkUA+c1T1ePpBGPsv4+Dnm65l8hQz1+C+eaieHJeFYPX5c5VDL/PlKGmqzXVhR72Z4vZF9A
-X-Received: by 10.58.11.73 with SMTP id o9mr6260255veb.8.1383821866922; Thu,
-	07 Nov 2013 02:57:46 -0800 (PST)
+	Thu, 7 Nov 2013 03:05:00 -0800 (PST)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 7 Nov 2013 03:03:34 -0800
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 7 Nov 2013 06:03:32 -0500
+Message-ID: <cover.1383821844.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 7 Nov 2013 02:57:24 -0800 (PST)
-In-Reply-To: <527B703D.8080600@pseudoterminal.org>
-References: <1383546675-23002-1-git-send-email-net147@gmail.com>
-	<20131104090831.GC3684@jama> <527B703D.8080600@pseudoterminal.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 7 Nov 2013 10:57:24 +0000
-Message-ID: <CAJTo0Laa01Nmf_KnENMKT+aZ75rTkkEpnqXCvdGnaaJYfBKpPg@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] eglibc_2.18.bb: accept make versions 4.0 and greater
+Subject: [PATCH 0/1] udev: ship source files to related dbg package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 10:57:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 07 Nov 2013 11:05:26 -0000
+Content-Type: text/plain
 
-On 7 November 2013 10:49, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
-> The make 4.0 issue is already fixed in the glibc and eglibc repositories, so
-> this patch should be marked with "Upstream-Status: inappropiate [other]".
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-The log says its a backport of an upstream fix, so Upstream-Status:
-Backport is correct.
+Just ship these sources to their own dbg packages instead of udev-dbg:
 
-Ross
+    libudev* -> libudev-dbg
+    gudev*   -> libgudev-dbg
+    others   -> udev-dbg
+
+The following changes since commit d6cc7c8ed76c8b1117cf03c7bd4b0742f98f79b3:
+
+  toolchain-scripts/meta-environment: Further cleanup code duplication (2013-11-06 11:02:27 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/udev-dbg-fix
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/udev-dbg-fix
+
+Wenzong Fan (1):
+  udev: ship source files to related dbg package
+
+ meta/recipes-core/udev/udev.inc |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+-- 
+1.7.9.5
+
 
