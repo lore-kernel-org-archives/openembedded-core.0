@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C09516D3D5
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id CC8C06D44A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 11:55:59 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id u57so408455wes.15
+	Thu,  7 Nov 2013 11:56:01 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id q58so404398wes.31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2013 03:56:00 -0800 (PST)
+	Thu, 07 Nov 2013 03:56:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=t6Ha9BJMqITieEprWRDVK2DndQVxUIgqVCOwCd0QTBw=;
-	b=AWzULGRpxl/QRNd07h2ny+18o0/FEcEsbC6X3OhlszY85qDfpxTiR0CueVXsIq5wJr
-	ttoU0rMeGXVyk+Z05rzCQaK2MpU7aHkxzbIoFyEhSlX8GdlEIYpyEURyFW3zbUuLQsRZ
-	5Z84GvzKan0zP+n+yieHqT9yKx8SQOVhyMCYE+oBcXsWNEDxFWmfF0dwvKKke/0of6hX
-	P5sV2220npMmEMvq+JISQ6iyi/5nvW0m0tmwlqLiRFqhtOpbLHzgKNbJb9nGKtAL5m5L
-	PP1YKystL10xXlOdxq9CnYuaDLvvVX9vIGvxew9aUurUaqj3jVHtYSfY5K1AYVyQfS92
-	0ZGw==
-X-Gm-Message-State: ALoCoQleRfhHLjfxOhmT1IzzVHewgs2jNmLWbWIYISHfYr6DKnfNIUYuia27aGrMRD14wl/JRNi5
-X-Received: by 10.180.98.2 with SMTP id ee2mr2360941wib.21.1383825360754;
-	Thu, 07 Nov 2013 03:56:00 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=i5DX7jKti40buYvOrz+M1XztXt4NM2Oj3x3Dqg+JUkw=;
+	b=Z4IrxcH0uZslvMj7uoBz1bmg/EMfDtf4Bn8QBYUkShCB3bOlPzirrDP9/0ykZXFSmB
+	UevBM9oAkQVwTKYGiuFxh4fJjHoaII0ndHn7aaZufnumdZIFpkwD0yidhTqAPa0BBAQZ
+	pqb5vshIwr98grtqw/VsmA5G+MqXsnfDWa0Mu9lbVotWadKhNIPzPqpjXNkKoktshD98
+	YZ/P2SuT925W9fcB17HOz7gE0EvzfZpOdA3A+9HNDZ6W5ZB+Fab+is2Hq1CF27x46Yhf
+	MRt+Zs0M1AuwJAiH8ycJR0pUtJ1fvs+TIIKoxMSsv8YLe2jqfDxLa68oLzs1C8STnv86
+	TiuQ==
+X-Gm-Message-State: ALoCoQnHu6lBiTH/Fs2daBLy2Cty4vWHN8XUrt2IKOymGB7MK7+hwssEZ2TD9I1U4PEXOnBl5tjE
+X-Received: by 10.194.175.202 with SMTP id cc10mr6251469wjc.48.1383825363156; 
+	Thu, 07 Nov 2013 03:56:03 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id q3sm34492026wib.5.2013.11.07.03.55.59
+	by mx.google.com with ESMTPSA id q3sm34492026wib.5.2013.11.07.03.56.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Nov 2013 03:55:59 -0800 (PST)
+	Thu, 07 Nov 2013 03:56:02 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Nov 2013 11:55:31 +0000
-Message-Id: <1383825335-2306-1-git-send-email-ross.burton@intel.com>
+Date: Thu,  7 Nov 2013 11:55:33 +0000
+Message-Id: <1383825335-2306-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/5] cogl: upgrade to 1.16.0
+In-Reply-To: <1383825335-2306-1-git-send-email-ross.burton@intel.com>
+References: <1383825335-2306-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 3/5] wayland: upgrade to 1.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,125 +48,106 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 07 Nov 2013 11:56:05 -0000
 
-Drop two patches that were backported from upstream.
+wayland-scanner now uses pkg-config instead of hard-coding paths, so edit the
+script to use pkg-config-native.
+
+Based on work by Ewan Le Bideau-Canevet <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/cogl/cogl-1.0.inc            |    4 ---
- meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb      |    7 -----
- meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb      |    6 ++++
- .../cogl/files/cogl-fixed-thumb.patch              |   30 --------------------
- .../cogl/files/cogl_fixed_mul-constraint.patch     |   22 --------------
- 5 files changed, 6 insertions(+), 63 deletions(-)
- delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb
- create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
- delete mode 100644 meta/recipes-graphics/cogl/files/cogl-fixed-thumb.patch
- delete mode 100644 meta/recipes-graphics/cogl/files/cogl_fixed_mul-constraint.patch
+ meta/recipes-graphics/wayland/wayland_1.1.0.bb |   39 ------------------------
+ meta/recipes-graphics/wayland/wayland_1.3.0.bb |   36 ++++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/wayland_1.1.0.bb
+ create mode 100644 meta/recipes-graphics/wayland/wayland_1.3.0.bb
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index 0c4e86d..c1e124a 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -2,10 +2,6 @@ DESCRIPTION = "a modern 3D graphics API with associated utility APIs"
- HOMEPAGE = "http://wiki.clutter-project.org/wiki/Cogl"
- LICENSE = "LGPLv2.1+"
- 
--SRC_URI += "file://cogl_fixed_mul-constraint.patch \
--            file://cogl-fixed-thumb.patch \
--            "
--
- inherit clutter
- 
- DEPENDS = "glib-2.0 gdk-pixbuf"
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb
+diff --git a/meta/recipes-graphics/wayland/wayland_1.1.0.bb b/meta/recipes-graphics/wayland/wayland_1.1.0.bb
 deleted file mode 100644
-index 0f40c59..0000000
---- a/meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb
+index a71402e..0000000
+--- a/meta/recipes-graphics/wayland/wayland_1.1.0.bb
 +++ /dev/null
-@@ -1,7 +0,0 @@
+@@ -1,39 +0,0 @@
+-SUMMARY = "Wayland, a protocol between a compositor and clients"
+-DESCRIPTION = "Wayland is a protocol for a compositor to talk to its clients \
+-as well as a C library implementation of that protocol. The compositor can be \
+-a standalone display server running on Linux kernel modesetting and evdev \
+-input devices, an X application, or a wayland client itself. The clients can \
+-be traditional applications, X servers (rootless or fullscreen) or other \
+-display servers."
+-HOMEPAGE = "http://wayland.freedesktop.org"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
+-                    file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
 -
--require cogl-1.0.inc
+-SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "d2dc9398a83692cafc16eba6e45f85d8"
+-SRC_URI[sha256sum] = "2ef587cf1a0e52b6dee44eeb9c288110e8180819abf4e419d247dfe234867a5c"
 -
--LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+-SRC_URI_append_class-native = " file://just-scanner.patch"
 -
--SRC_URI[archive.md5sum] = "7eabaf4241c0b87cc9e3b0fa23fd0315"
--SRC_URI[archive.sha256sum] = "276e8c9f5ff0fcd57c1eaf74cc245f41ad469a95a18ac831fac2d5960baa5ae8"
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
+-inherit autotools pkgconfig
+-
+-# We need wayland-native for the wayland-scanner utility
+-BBCLASSEXTEND = "native"
+-
+-DEPENDS_virtclass-native = "expat-native libffi-native"
+-DEPENDS = "expat libffi wayland-native"
+-
+-EXTRA_OECONF_virtclass-native = "--disable-documentation"
+-EXTRA_OECONF = "--disable-documentation --disable-scanner"
+-
+-# Wayland installs a M4 macro for other projects to use. This M4 macro includes
+-# a path to a Makefile fragment to get the rules to generate stubs from protocol
+-# description files.  The paths to the sysroot end up incorrect, so fix them.
+-do_configure_append_class-native() {
+-  sed -e 's,@prefix@,${STAGING_DIR_NATIVE},g' \
+-      -e 's,@exec_prefix@,${STAGING_DIR_NATIVE},g' \
+-      -e 's,@bindir@,${STAGING_BINDIR_NATIVE},g' \
+-      -e 's,@datarootdir@,${STAGING_DATADIR_NATIVE},g' \
+-  ${S}/wayland-scanner.m4.in > ${B}/wayland-scanner.m4
+-}
+diff --git a/meta/recipes-graphics/wayland/wayland_1.3.0.bb b/meta/recipes-graphics/wayland/wayland_1.3.0.bb
 new file mode 100644
-index 0000000..5e5c82b
+index 0000000..212e08a
 --- /dev/null
-+++ b/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
-@@ -0,0 +1,6 @@
-+require cogl-1.0.inc
++++ b/meta/recipes-graphics/wayland/wayland_1.3.0.bb
+@@ -0,0 +1,36 @@
++SUMMARY = "Wayland, a protocol between a compositor and clients"
++DESCRIPTION = "Wayland is a protocol for a compositor to talk to its clients \
++as well as a C library implementation of that protocol. The compositor can be \
++a standalone display server running on Linux kernel modesetting and evdev \
++input devices, an X application, or a wayland client itself. The clients can \
++be traditional applications, X servers (rootless or fullscreen) or other \
++display servers."
++HOMEPAGE = "http://wayland.freedesktop.org"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
++                    file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
++SRC_URI[md5sum] = "d16d27081e0871de82d08840c2f133fc"
++SRC_URI[sha256sum] = "2e817685f68a26acd19964d69ddbc4549ba5412114ad95e1a9f5934cce470d6e"
 +
-+SRC_URI[archive.md5sum] = "611a61bed04354cbfffa3dc27feb6d4f"
-+SRC_URI[archive.sha256sum] = "75c2c4636a050fda7ee8722ce3d9c618b08799ed92bbb72b4fdff3e73b096094"
-diff --git a/meta/recipes-graphics/cogl/files/cogl-fixed-thumb.patch b/meta/recipes-graphics/cogl/files/cogl-fixed-thumb.patch
-deleted file mode 100644
-index 1825e88..0000000
---- a/meta/recipes-graphics/cogl/files/cogl-fixed-thumb.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Upstream-Status: Backport
--
--There are two asm() statements in cogl-fixed.c that can't be assembled
--in Thumb mode.  Add a patch to switch to the generic code in Thumb mode.
--
--Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
-----
-- cogl/cogl-fixed.c |    4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
----- a/cogl/cogl-fixed.c
--+++ b/cogl/cogl-fixed.c
--@@ -626,7 +626,7 @@ cogl_fixed_sqrt (CoglFixed x)
-- 	/*
-- 	 * Find the highest bit set
-- 	 */
---#if defined (__arm__) && !defined(__ARM_ARCH_4T__)
--+#if defined (__arm__) && !defined(__ARM_ARCH_4T__) && !defined(__thumb__)
-- 	/* This actually requires at least arm v5, but gcc does not seem
-- 	 * to set the architecture defines correctly, and it is I think
-- 	 * very unlikely that anyone will want to use clutter on anything
--@@ -804,7 +804,7 @@ CoglFixed
-- cogl_fixed_mul (CoglFixed a,
--                 CoglFixed b)
-- {
---#ifdef __arm__
--+#if defined(__arm__) && !defined(__thumb__)
--   /* This provides about 12% speedeup on the gcc -O2 optimised
--    * C version
--    *
-diff --git a/meta/recipes-graphics/cogl/files/cogl_fixed_mul-constraint.patch b/meta/recipes-graphics/cogl/files/cogl_fixed_mul-constraint.patch
-deleted file mode 100644
-index 179533a..0000000
---- a/meta/recipes-graphics/cogl/files/cogl_fixed_mul-constraint.patch
-+++ /dev/null
-@@ -1,22 +0,0 @@
--Upstream-Status: Backport
--
--Add register constraints to prevent asm statement complaints like:
--
--  {standard input}:382: rdhi, rdlo and rm must all be different
--
--Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
-----
-- cogl/cogl-fixed.c |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
----- a/cogl/cogl-fixed.c
--+++ b/cogl/cogl-fixed.c
--@@ -816,7 +816,7 @@ cogl_fixed_mul (CoglFixed a,
--   __asm__ ("smull %0, %1, %2, %3     \n"
--            "mov   %0, %0,     lsr %4 \n"
--            "add   %1, %0, %1, lsl %5 \n"
---           : "=r"(res_hi), "=r"(res_low) \
--+           : "=&r"(res_hi), "=&r"(res_low) \
--            : "r"(a), "r"(b), "i"(COGL_FIXED_Q), "i"(32 - COGL_FIXED_Q));
-- 
--   return (CoglFixed) res_low;
++SRC_URI_append_class-native = " file://just-scanner.patch"
++
++inherit autotools pkgconfig
++
++# We need wayland-native for the wayland-scanner utility
++BBCLASSEXTEND = "native"
++
++DEPENDS_virtclass-native = "expat-native libffi-native"
++DEPENDS = "expat libffi wayland-native"
++
++EXTRA_OECONF_virtclass-native = "--disable-documentation"
++EXTRA_OECONF = "--disable-documentation --disable-scanner"
++
++# Wayland installs a M4 macro for other projects to use, which uses the target
++# pkg-config to find files.  Replace pkg-config with pkg-config-native.
++do_install_append_class-native() {
++  sed -e 's,PKG_CHECK_MODULES(.*),,g' \
++      -e 's,$PKG_CONFIG,pkg-config-native,g' \
++      -i ${D}/${datadir}/aclocal/wayland-scanner.m4
++}
 -- 
 1.7.10.4
 
