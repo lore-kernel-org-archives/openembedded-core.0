@@ -1,26 +1,50 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 95D5F6AA18
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id B08A86D320
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 14:56:52 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 36D37F8121A; Thu,  7 Nov 2013 07:56:54 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 9F117F8121E;
-	Thu,  7 Nov 2013 07:56:52 -0700 (MST)
-Message-ID: <527BAA40.9020305@mlbassoc.com>
-Date: Thu, 07 Nov 2013 07:57:04 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Thu,  7 Nov 2013 15:09:07 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	rA7F94GG002786
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Thu, 7 Nov 2013 16:09:05 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1383836946;
+	bh=petU/cZxRhmo+DX9FZRx4Qh2nroulsXS4fqUlGUeIYU=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=cZeDjkrherYRUz2Z1/ZS4Rqgh/MS3IAQDXfIuZexTzjfWo3H9khx8ldphdcGTcgEy
+	jXg04yFrjfxeiaH6HLnikETnQ5vYHfKBC01JHVL+3Ezw63vALnowhJ/zBZKlWjPdPF
+	ak2QAMvfkgPblwNi89CKvswYDv62Bhj4V6EjZ5iw=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rA7F8mFN007739
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 7 Nov 2013 16:08:50 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1VeRCR-0006N0-93; Thu, 07 Nov 2013 16:08:47 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1383182680-20871-1-git-send-email-xufeng.zhang@windriver.com>
+	<20131031082625.GE32015@jama>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 07 Nov 2013 16:08:46 +0100
+In-Reply-To: <20131031082625.GE32015@jama> (Martin Jansa's message of "Thu, 31
+	Oct 2013 09:26:25 +0100")
+Message-ID: <lyob5wb669.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Missing dependency?
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -3.9
+X-Spam-Level: ---
+X-Spam-Tests: AWL,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Cc: Martin Jansa <martin.jansa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] kernel.bbclass: Delay rm_work to run after do_bundle_initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 14:56:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Nov 2013 15:09:08 -0000
+Content-Type: text/plain
 
-I'm following recent master changes in a build tree that just
-gets updated, not necessarily rebuilt.  With this, I just got
-this error:
+Martin Jansa <martin.jansa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+writes:
 
-   libpng warning: Application was compiled with png.h from libpng-1.6.6
-   libpng warning: Application  is  running with png.c from libpng-1.2.50
-   libpng error: Incompatible libpng version in application and library
-   Matchbox: error parsing /usr/share/themes/Sato/matchbox/theme.xml
-   Error loading resource from <pixmap id='titlebar-left-edge' filename='titlebar-left-edge.png'/>
-   The program 'matchbox-panel' received an X Window System error.
+> Why not add "before" param to addtask?
+>
+> addtask bundle_initramfs after do_compile before do_build
+>
+> could do the trick
 
-Which packages are missing the rebuild (DEPENDS)?  I only see mostly
-RDEPENDS via depexp (or should that be sufficient)?
+no; due to
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+  do_bundle_initramfs[nostamp] = "1"
+
+a (non-initramfs) kernel will be rebuilt everytime although nothing has
+been changed.  The initramfs related tasks should be executed only when
+an initramfs is really used.
+
+
+Enrico
 
