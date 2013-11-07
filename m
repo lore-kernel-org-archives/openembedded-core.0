@@ -1,35 +1,44 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CFD446D6E6
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DE1E6D44C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 06:03:16 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id hz1so114487pad.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Nov 2013 22:03:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=7NNz1qlZTLVkt+gSza2h3Bp12fysF4jMsjZF+Z+uasI=;
-	b=fiYzrTQ+EbSz3EhGtTjK6bKCsmj/tEICzNelzjWrdW1FbdzkpXojlmrFR8V8zFecdU
-	FDKM496uB9nOp44VLWJ+QirBg9e0cP5Y3yntAjb+2RH9CxOWrALvQi20nTUhJz5T4AD0
-	7TPd26K13tOp8/TwIhx5nXoCp5lLCKclDZqcZ3WCPQ8mGalwpjvYXP7xcMzV1SukOJkV
-	4OC7pzmdxLEZ788ga3U5dVwlxB9f06kEkRLqmHp52T/yQpowPQ4tGKrIKvPfUj6egPPR
-	6q1Wfh/OhCFR4G+DfJx8WOI/jT8R54MU0RK3rPuyNxw+mr81w8N4ThaKzIS0DgylD46C
-	SxAQ==
-X-Received: by 10.68.211.233 with SMTP id nf9mr7165982pbc.85.1383804198702;
-	Wed, 06 Nov 2013 22:03:18 -0800 (PST)
-Received: from haswell.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id b3sm2338962pbu.38.2013.11.06.22.03.17
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 06 Nov 2013 22:03:18 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2013 22:02:31 -0800
-Message-Id: <1383804151-21756-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] Revert "glib-2.0: Specify libiconv when building on uclibc"
+	Thu,  7 Nov 2013 07:28:47 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1VeK0r-0001Tt-0y; Thu, 07 Nov 2013 08:28:48 +0100
+Message-ID: <1383809251.8901.151.camel@x121e.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Thu, 07 Nov 2013 07:27:31 +0000
+In-Reply-To: <1383775339-4220-3-git-send-email-sgw@linux.intel.com>
+References: <1383775339-4220-1-git-send-email-sgw@linux.intel.com>
+	<1383775339-4220-3-git-send-email-sgw@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.4.4-3 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Wed, 2013-11-06 at 14:02 -0800,
+	Saul Wold wrote: > This
+	is only built for PPC and not needed, so remove it to fix the QA Issue >
+	> ERROR: QA Issue: binutils: Files/directories were installed but not
+	shipped > /usr/bin/embedspu [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] binutils: remove embedsp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +51,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 06:03:17 -0000
+X-List-Received-Date: Thu, 07 Nov 2013 07:28:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This reverts commit 38b6c4df7c215ed7fd6be107fbc2527e66791e2e.
+On Wed, 2013-11-06 at 14:02 -0800, Saul Wold wrote:
+> This is only built for PPC and not needed, so remove it to fix the QA Issue
+> 
+> ERROR: QA Issue: binutils: Files/directories were installed but not shipped
+>   /usr/bin/embedspu
 
-Its not needed anymore after upgrade to 2.38
+The QA error above talks about "embedspu", but both the subject line of
+your message and the patch itself say that they are removing "embedsp".
+Is that correct?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb | 1 -
- 1 file changed, 1 deletion(-)
+Also, please add some commentary to the patch explaining why simply
+adding embedsp{u} to FILES isn't the right thing to do.
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
-index 3e874d7..f9966e7 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
-@@ -45,7 +45,6 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-             eglibc-charmap-invariant \
-             eglibc-localedata-translit-cjk-variants \
-            "
--EXTRA_OECONF_append_class-target_libc-uclibc = " --with-libiconv=gnu"
- 
- do_configure_prepend() {
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
--- 
-1.8.3.2
+> +do_install_append_class-target () {
+> +        # we dont really care about embedsp for ppc so remove it
+> +        rm -f ${D}/${bindir}/embedsp || :
+> +}
+> +
+
+"rm -f" already ignores nonexistent files so I don't think that the
+"|| :" construct is buying anything.
+
+p.
 
 
