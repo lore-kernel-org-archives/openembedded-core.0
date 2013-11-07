@@ -1,28 +1,37 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D05C16D3A7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 28DAF6D2DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 13:51:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA7DpXdD009106
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  7 Nov 2013 14:22:04 +0000 (UTC)
+Received: by mail-ve0-f179.google.com with SMTP id cz12so425636veb.38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Nov 2013 05:51:33 -0800 (PST)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 7 Nov 2013 05:51:32 -0800
-Message-ID: <527B9AE3.6080007@windriver.com>
-Date: Thu, 7 Nov 2013 21:51:31 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Thu, 07 Nov 2013 06:22:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=1AEAEJ7fgwUMM5jUpusbGf1DlqlB9dU7+TaTHPgYc6Y=;
+	b=NxPijBbKvF93QNQa4KMj/NuNyv2O6GUF0G6xHxL2DnxxDD/Ex9W0Zs5tIJe34timsZ
+	GmW8o8GB4AW1pzn1Y5/O6rJTO/RHkMPn7G/iLmow43MzzYEO+Sc4GzZOQCYsg9jFhTSr
+	A4bWs3pavGVpaWtscy6gThtd9Spot8B8hNsbdDilR+3PPsgWuIoHdu8Eitfp+SoFO44m
+	c6+/+w5DyjxvCKaIsu/tgnE4dN91jeZy9SOLSIZ+jOA19joVYbMGRK6+HwUDW2UIUbG4
+	7Snp0ts30YV6OMcLj+wnK8bkeayatQZFROZl1Zo/WFuV/CXKGxPv4765WkfsYnb8EApD
+	bw3A==
+X-Gm-Message-State: ALoCoQlAO13UbxLNLqsM68+U4xAKb9JDFJqr+aGdDmyaxd9ZGrWCWiLfBJKnmYyfVLddYiVcuyCH
+X-Received: by 10.58.107.204 with SMTP id he12mr6862813veb.26.1383834125665;
+	Thu, 07 Nov 2013 06:22:05 -0800 (PST)
 MIME-Version: 1.0
-To: <rongqing.li@windriver.com>
-References: <1383182088-17411-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1383182088-17411-1-git-send-email-rongqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v7] connman: ignore the networking device which nfs for rootfs is working on
+Received: by 10.220.71.201 with HTTP; Thu, 7 Nov 2013 06:21:45 -0800 (PST)
+In-Reply-To: <20131107123236.GH27969@lpalcu-linux>
+References: <1383825964-3795-1-git-send-email-ross.burton@intel.com>
+	<20131107123236.GH27969@lpalcu-linux>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 7 Nov 2013 14:21:45 +0000
+Message-ID: <CAJTo0LZ7RWwB=v=yTM3E44k64Bi2BsyJ4A+DAthp=9rw+N6CBA@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xserver-xorg: upgrade to 1.14.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,168 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 13:51:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Nov 2013 14:22:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Ping
+On 7 November 2013 12:32, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> Why don't you use the -M option when formatting your patches? It
+> would be easier to skip over renames when reviewing the patches...
 
-On 10/31/2013 09:14 AM, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> Create connman-evn.service, which will run a script to compute the networking
-> device when nfs root is on, and pass the result to connman.service
->
-> Copy Connmand.service from source code, add ExecStartPre into it to release
-> do_configure_append work, use the options which is passed by connman-evn.service
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
-> v7: sync with conman 1.19
->
->   meta/recipes-connectivity/connman/connman.inc      |   18 ++++++++------
->   .../connman/connman/connman-env.service            |   13 ++++++++++
->   .../connman/connman/connman.service                |   14 +++++++++++
->   .../connman/connman/connmand-env                   |   25 ++++++++++++++++++++
->   meta/recipes-connectivity/connman/connman_1.19.bb  |    3 +++
->   5 files changed, 66 insertions(+), 7 deletions(-)
->   create mode 100644 meta/recipes-connectivity/connman/connman/connman-env.service
->   create mode 100644 meta/recipes-connectivity/connman/connman/connman.service
->   create mode 100644 meta/recipes-connectivity/connman/connman/connmand-env
->
-> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-> index 12f3edd..c2d71e0 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -64,15 +64,9 @@ python __anonymous () {
->
->   SYSTEMD_SERVICE_${PN} = "connman.service"
->   SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
-> -SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
->
->   inherit autotools gtk-doc pkgconfig systemd update-rc.d
->
-> -do_configure_append () {
-> -	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${S}/src/connman.service
-> -
-> -}
-> -
->   # This allows *everyone* to access ConnMan over DBus, without any access
->   # control.  Really the at_console flag should work, which would mean that
->   # both this and the xuser patch can be dropped.
-> @@ -88,6 +82,16 @@ do_install_append() {
->   		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
->   	fi
->
-> +	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> +		install -m 0755 ${WORKDIR}/connmand-env ${D}${sbindir}/
-> +		install -m 0644 ${WORKDIR}/connman-env.service  ${D}/${systemd_unitdir}/system/
-> +		install -m 0644 ${WORKDIR}/connman.service  ${D}/${systemd_unitdir}/system/
-> +		sed -i  -e 's,@SBINDIR@,${sbindir},g' \
-> +			-e 's,@LIBDIR@,${libdir},g' \
-> +			-e 's,@LOCALSTATEDIR@,${localstatedir},g' \
-> +			${D}${systemd_unitdir}/system/*.service
-> +	fi
-> +
->   	install -d ${D}${bindir}
->   	install -m 0755 ${S}/tools/*-test ${D}${bindir}
->   	if [ -e ${S}/tools/wispr ]; then
-> @@ -163,7 +167,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
->               ${libdir}/connman/plugins \
->               ${sysconfdir} ${sharedstatedir} ${localstatedir} \
->               ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
-> -            ${datadir}/dbus-1/system-services/*"
-> +            ${datadir}/dbus-1/system-services/* ${systemd_unitdir}/system/connman-env.service"
->
->   FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
->
-> diff --git a/meta/recipes-connectivity/connman/connman/connman-env.service b/meta/recipes-connectivity/connman/connman/connman-env.service
-> new file mode 100644
-> index 0000000..c4dc278
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/connman-env.service
-> @@ -0,0 +1,13 @@
-> +[Unit]
-> +Description=Generate options for connection service
-> +Before=connman.service
-> +ConditionKernelCommandLine=root=/dev/nfs
-> +After=syslog.target
-> +
-> +[Service]
-> +Type=oneshot
-> +ExecStart=@SBINDIR@/connmand-env
-> +StandardOutput=null
-> +
-> +[Install]
-> +WantedBy=connman.service
-> diff --git a/meta/recipes-connectivity/connman/connman/connman.service b/meta/recipes-connectivity/connman/connman/connman.service
-> new file mode 100644
-> index 0000000..aa0e49a
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/connman.service
-> @@ -0,0 +1,14 @@
-> +[Unit]
-> +Description=Connection service
-> +After=syslog.target
-> +Wants=connman-env.service
-> +
-> +[Service]
-> +Type=dbus
-> +BusName=net.connman
-> +EnvironmentFile=-@LOCALSTATEDIR@/run/connmand.env
-> +ExecStartPre=-@LIBDIR@/connman/wired-setup
-> +ExecStart=@SBINDIR@/connmand -n $CONNMAND_OPTS
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-> diff --git a/meta/recipes-connectivity/connman/connman/connmand-env b/meta/recipes-connectivity/connman/connman/connmand-env
-> new file mode 100644
-> index 0000000..feeb850
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/connmand-env
-> @@ -0,0 +1,25 @@
-> +#!/bin/sh
-> +
-> +EXTRA_PARAM=""
-> +
-> +NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
-> +NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
-> +
-> +if [ ! -z "$NET_ADDR" ]; then
-> +    if [ "$NET_ADDR" = dhcp ]; then
-> +        ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
-> +        if [ ! -z "$ethn" ]; then
-> +            EXTRA_PARAM="-I $ethn"
-> +        fi
-> +    else
-> +        for i in $NET_DEVS; do
-> +        ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-> +        if [ "$NET_ADDR" = "$ADDR" ]; then
-> +            EXTRA_PARAM="-I $i"
-> +            break
-> +        fi
-> +        done
-> +    fi
-> +fi
-> +
-> +echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand.env
-> diff --git a/meta/recipes-connectivity/connman/connman_1.19.bb b/meta/recipes-connectivity/connman/connman_1.19.bb
-> index c63dfe4..b775a41 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.19.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.19.bb
-> @@ -4,6 +4,9 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->               file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
->               file://add_xuser_dbus_permission.patch \
->               file://connman \
-> +            file://connmand-env \
-> +            file://connman.service \
-> +            file://connman-env.service \
->               "
->
->   SRC_URI[md5sum] = "47cce1d17a693dc307e6796c81991bd0"
->
+Because I'm getting forgetful in my old age? :/  I'll configure
+send-email to always use it.
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+Ross
 
