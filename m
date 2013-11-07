@@ -1,15 +1,30 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A56D6D1FF
+Return-Path: <seth.boll@gmail.com>
+Received: from mail-oa0-f42.google.com (mail-oa0-f42.google.com
+	[209.85.219.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 591E36D1FF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 16:00:01 +0000 (UTC)
-From: Jack Mitchell <ml@communistcode.co.uk>
+	Thu,  7 Nov 2013 17:55:08 +0000 (UTC)
+Received: by mail-oa0-f42.google.com with SMTP id l6so1390779oag.29
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Nov 2013 09:55:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=tn5coYykxVyvdg8ah+qLPVQaPxbQxkIVvu4ukmzIj/8=;
+	b=W1rN6Zn8MAkGOm3nlv/RK31FQ6KCyNRLfBLQliujUjINVb9twtGkHM5OSOY1cUUymC
+	dAvfb5O1ZBfQWcg+XhHYAvwIwWqhAxZXxrcShlnlBW5Yji4UErOZ2etCqa001CylbziM
+	tvt4VLGwVzXtvOm2Y5t/KcSfzC/hsT+bQmoSik3EQAttMPlJOCFAGIUiF743pQA9gct6
+	YHag37JWK5M+q6yX7+y42fHiH1BzuqN9jj8pP3V7HHV0Vp9JmwJCCjozYUhG4uo9ZNsE
+	R3ue3gMxuTvAY6B0vZNRv6S0Xz734zZSBs23E7YtNoAds6CbJ/FjXZ63eLrf1CucNmho
+	zaww==
+MIME-Version: 1.0
+X-Received: by 10.60.44.239 with SMTP id h15mr7659717oem.22.1383846910099;
+	Thu, 07 Nov 2013 09:55:10 -0800 (PST)
+Received: by 10.60.94.241 with HTTP; Thu, 7 Nov 2013 09:55:10 -0800 (PST)
+Date: Thu, 7 Nov 2013 11:55:10 -0600
+Message-ID: <CA+JN8xOQvNk_DFG+Zqk_Z6XVcaRA2MBAS9_y1emuZzAwQ24m_A@mail.gmail.com>
+From: Seth Bollinger <seth.boll@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Nov 2013 15:59:53 +0000
-Message-Id: <1383839993-21102-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.4.2
-Cc: Jack Mitchell <jmitchell@cbnl.com>
-Subject: [PATCHv4] libjson: update to 0.11 and rename to json-c
+Subject: libxml2 python module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -22,98 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 16:00:01 -0000
+X-List-Received-Date: Thu, 07 Nov 2013 17:55:09 -0000
+Content-Type: multipart/alternative; boundary=001a11331e1a800dda04ea99f743
 
-From: Jack Mitchell <jmitchell@cbnl.com>
+--001a11331e1a800dda04ea99f743
+Content-Type: text/plain; charset=ISO-8859-1
 
-libjson is now known as json-c, support for the old namespace is
-disabled as it seems to break SEPBUILDDIR configs. Built without
-parallel make as it fails, official word is not to bother trying.
+Hello All,
 
-Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
----
+I've been trying to build a non-native version of the libxml2 python module
+and am having nothing but trouble.
 
- v4:
-  - add --disable-oldname-compat to try and fix suspected SEPBUILDDIR 
-    issues
+I've tried setting EXTRA_OECONF --with-python, but it doesn't appear to be
+having much affect.
 
- meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
- meta/recipes-devtools/json-c/json-c_0.11.bb       | 16 ++++++++++++++++
- meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
- 4 files changed, 18 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
- delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+I'm currently trying to hack together using python manually to build the
+install, but this feels like I'm moving in the wrong direction.
 
-diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-index c067183..e1a5c6b 100644
---- a/meta/conf/distro/include/seperatebuilddir.inc
-+++ b/meta/conf/distro/include/seperatebuilddir.inc
-@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
- B_pn-libice-native = "${SEPB}"
- B_pn-libid3tag = "${SEPB}"
- B_pn-libidn = "${SEPB}"
--B_pn-libjson = "${SEPB}"
-+B_pn-json-c = "${SEPB}"
- B_pn-libksba = "${SEPB}"
- B_pn-libmad = "${SEPB}"
- B_pn-libmatchbox = "${SEPB}"
-diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
-new file mode 100644
-index 0000000..59a4b4d
---- /dev/null
-+++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
-+HOMEPAGE = "https://github.com/json-c/json-c/wiki"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
-+
-+SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
-+
-+SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
-+SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
-+
-+RPROVIDES_${PN} = "libjson"
-+
-+PARALLEL_MAKE = ""
-+EXTRA_OECONF = "--disable-oldname-compat"
-+
-+inherit autotools
-diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
-deleted file mode 100644
-index e4951a8..0000000
---- a/meta/recipes-devtools/libjson/libjson_0.9.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--DESCRIPTION = "JSON-C - A JSON implementation in C"
--HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
--
--SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
--SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
--SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
--
--S = "${WORKDIR}/json-c-${PV}"
--
--
--inherit autotools
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 4c10aa9..475da41 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
- DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
--DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
-+DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
- 
- inherit autotools pkgconfig useradd gettext perlnative
- 
--- 
-1.8.4.2
+Can anyone offer any guidance please?
 
+Thanks,
 
+Seth
+
+--001a11331e1a800dda04ea99f743
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello All,<div><br></div><div>I&#39;ve been trying to buil=
+d a non-native version of the libxml2 python module and am having nothing b=
+ut trouble.</div><div><br></div><div>I&#39;ve tried setting=A0EXTRA_OECONF =
+--with-python, but it doesn&#39;t appear to be having much affect.</div>
+<div><br></div><div>I&#39;m currently trying to hack together using python =
+manually to build the install, but this feels like I&#39;m moving in the wr=
+ong direction.</div><div><br></div><div>Can anyone offer any guidance pleas=
+e?<br>
+</div><div><br></div><div>Thanks,</div><div><br></div><div>Seth</div></div>
+
+--001a11331e1a800dda04ea99f743--
