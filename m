@@ -1,39 +1,15 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E5766D1FF
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A56D6D1FF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 15:58:43 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id i4so1212161oah.32
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2013 07:58:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=vQ0+MnF1MQjQnRpkmJapHp7wdX74zmSisR1949npLvo=;
-	b=CUKTAmuNf5ZDMgNulsLqOjjZMVwsVJpFaEpIomcP5ti/mf39cL9kVMSgVPLroRTvBq
-	152USsQh3CLnBHNGYWvQmFfXLzJ8NyZ9m+X+H1lQF0X4QSKxWbNupiBTxEDYZo6ewvC3
-	1mnFs81tamymGoTKaVJpHqIvDwJW77NwKgcdxKTD8+WJQ+1AT9WY8/9cECKxodEgNshS
-	rmso+JiprHlQSAw7JrSHAN3S5ofTFLDD1P46vX4JUhmMl/XVMQFLl5sVZP789iBwg/cn
-	cH8y0pixbebfa6XTfMUjL09z0oRJdjtr6nmZ+V0gwuI5glDyfOOoMKWG0Bl8azvzNVbx
-	47PQ==
-MIME-Version: 1.0
-X-Received: by 10.60.60.105 with SMTP id g9mr7216584oer.8.1383839924276; Thu,
-	07 Nov 2013 07:58:44 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 7 Nov 2013 07:58:44 -0800 (PST)
-In-Reply-To: <1383781353.6271.200.camel@ted>
-References: <1383689722.6271.184.camel@ted>
-	<CAP9ODKrLg1nb5syAUtM4_ipMKenTe1ejXmVsVrqGifiSpBqYjA@mail.gmail.com>
-	<1383781353.6271.200.camel@ted>
-Date: Thu, 7 Nov 2013 13:58:44 -0200
-X-Google-Sender-Auth: HZ5FPwQH5vpt5HNNNNszYhAB9rk
-Message-ID: <CAP9ODKrQ9aEx8VH8qhjuBORaDyGp72a3BXsHTkRosqB53zGOTg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, "Eggleton,
-	Paul" <paul.eggleton@intel.com>
-Subject: Re: lib/oe/sstatesig: Ensure packagegroups don't continually rebuild
+	Thu,  7 Nov 2013 16:00:01 +0000 (UTC)
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Nov 2013 15:59:53 +0000
+Message-Id: <1383839993-21102-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Jack Mitchell <jmitchell@cbnl.com>
+Subject: [PATCHv4] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,37 +22,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 15:58:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 07 Nov 2013 16:00:01 -0000
 
-On Wed, Nov 6, 2013 at 9:42 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2013-11-06 at 16:51 -0200, Otavio Salvador wrote:
->> On Tue, Nov 5, 2013 at 8:15 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > packagegroups are allarch and shouldn't change depending on the target
->> > or machine selected. In general they should have good stable namespaces
->> > for their dependencies. As such we can exclude them from rebuilding when
->> > dependency checksums change.
->> >
->> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> What about machine-base and core-boot? this may change depending on machine.
->
-> Those already get marked as machine specific. I'd not expect
-> dependencies to be changing package names there for example so I'm not
-> sure this is an issue.
+From: Jack Mitchell <jmitchell@cbnl.com>
 
-In:
+libjson is now known as json-c, support for the old namespace is
+disabled as it seems to break SEPBUILDDIR configs. Built without
+parallel make as it fails, official word is not to bother trying.
 
-+    def isPackageGroup(fn):
-+        inherits = " ".join(dataCache.inherits[fn])
-+        return "packagegroup.bbclass" in inherits
+Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
+---
 
-We must check PACKAGE_ARCH, no?
+ v4:
+  - add --disable-oldname-compat to try and fix suspected SEPBUILDDIR 
+    issues
 
+ meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+ meta/recipes-devtools/json-c/json-c_0.11.bb       | 16 ++++++++++++++++
+ meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+ 4 files changed, 18 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+ delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index c067183..e1a5c6b 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+ B_pn-libice-native = "${SEPB}"
+ B_pn-libid3tag = "${SEPB}"
+ B_pn-libidn = "${SEPB}"
+-B_pn-libjson = "${SEPB}"
++B_pn-json-c = "${SEPB}"
+ B_pn-libksba = "${SEPB}"
+ B_pn-libmad = "${SEPB}"
+ B_pn-libmatchbox = "${SEPB}"
+diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
+new file mode 100644
+index 0000000..59a4b4d
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
++HOMEPAGE = "https://github.com/json-c/json-c/wiki"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
++
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++
++SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
++SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
++
++RPROVIDES_${PN} = "libjson"
++
++PARALLEL_MAKE = ""
++EXTRA_OECONF = "--disable-oldname-compat"
++
++inherit autotools
+diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+deleted file mode 100644
+index e4951a8..0000000
+--- a/meta/recipes-devtools/libjson/libjson_0.9.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-DESCRIPTION = "JSON-C - A JSON implementation in C"
+-HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+-
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+-
+-SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+-SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+-SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+-
+-S = "${WORKDIR}/json-c-${PV}"
+-
+-
+-inherit autotools
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 4c10aa9..475da41 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+-DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
++DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
+ 
+ inherit autotools pkgconfig useradd gettext perlnative
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.4.2
+
 
