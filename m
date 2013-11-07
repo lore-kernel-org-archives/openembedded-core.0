@@ -1,27 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 549E76D3D5
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 201776D3E0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 10:38:42 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 Nov 2013 02:38:44 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="385926119"
-Received: from unknown (HELO helios.localnet) ([10.252.121.102])
-	by azsmga001.ch.intel.com with ESMTP; 07 Nov 2013 02:38:42 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
-Date: Thu, 07 Nov 2013 10:38:41 +0000
-Message-ID: <1573516.6qZOAZ09XO@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <33115ABC4887814E8A92A08FBC93416B0A1AA18C@IRSMSX103.ger.corp.intel.com>
-References: <1383329028-24348-1-git-send-email-corneliux.stoicescu@intel.com>
-	<1383568473.6271.117.camel@ted>
-	<33115ABC4887814E8A92A08FBC93416B0A1AA18C@IRSMSX103.ger.corp.intel.com>
+	Thu,  7 Nov 2013 10:48:17 +0000 (UTC)
+Received: from [192.168.178.14] (chello080108009040.14.11.vie.surfer.at
+	[80.108.9.40]) by ptmx.org (Postfix) with ESMTPSA id 970D82B32F
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Nov 2013 11:48:18 +0100 (CET)
+Message-ID: <527B703D.8080600@pseudoterminal.org>
+Date: Thu, 07 Nov 2013 11:49:33 +0100
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Modify buildstats to be merged inside buildhistory
+To: openembedded-core@lists.openembedded.org
+References: <1383546675-23002-1-git-send-email-net147@gmail.com>
+	<20131104090831.GC3684@jama>
+In-Reply-To: <20131104090831.GC3684@jama>
+Subject: Re: [PATCH] eglibc_2.18.bb: accept make versions 4.0 and greater
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +30,209 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 10:38:43 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 07 Nov 2013 10:48:17 -0000
+Content-Type: multipart/alternative;
+	boundary="------------090401000405030904080600"
 
-On Monday 04 November 2013 12:42:59 Stoicescu, CorneliuX wrote:
-> On Monday 04 November 2013 14:35:00 Richard Purdie wrote:
-> > On Mon, 2013-11-04 at 12:14 +0000, Paul Eggleton wrote:
-> > > On Monday 04 November 2013 09:31:19 Richard Purdie wrote:
-> > > The basic idea with buildhistory is to only keep the latest version of
-> > > data stored within it, on the assumption that you could always get
-> > > previous versions from the git history; this also makes comparisons to
-> > > previous versions straightforward.
-> > 
-> > This makes sense for absolute value data. The task build statistics are
-> > not
-> > entirely "absolute" data though and having to traverse many checkouts
-> > trying to build up say "average task timing" might be problematic.
-> > 
-> > > As far as timestamps go, BUILDNAME does go into the commit message; if
-> > > it helps we record the metadata revisions corresponding to the build
-> > > in the buildhistory repo as well (in a "metadata-revs" file).
-> > 
-> > Currently the main use of the data is to say "visualise this build"
-> > where you're building a target or set of targets. We name the build after
-> > the first item in the list of build targets.
-> > 
-> > The logged data is useful both as part of a set which are viewed together
-> > and individually on a task basis so see how much CPU/Disk a given task
-> > uses and how that changes over time.
-> > 
-> > The tricky part is firstly that we should really use a true buildname,
-> > secondly that we need both the set of data and data per target.
-> > 
-> > If we just logged data per target, we could overwrite any previous data
-> > but
-> > that would break usage as a set.
-> > 
-> > > If we do want to keep the builds split out in separate per-build
-> > > directories then what are we gaining by trying to push buildstats into
-> > > buildhistory in the first place?
-> > 
-> > We have a need to be able to merge and store build statistic data which
-> > build history already does well. The question is whether it makes sense
-> > to use the same mechanism or not since there are commonalities and
-> > differences. Having two data storage systems and repositories doesn't
-> > make a lot of sense.
-> > 
-> > I'm not sure this makes a solution much clearer but it does hopefully
-> > better explain the challenge.
-> 
-> We could use add code to buildhistory-diff and make it return comparison
-> buildstats data for a set of builds ? Usually people look at statistics for
-> a certain task at a time and such a tool could actually make things easier.
+--------------090401000405030904080600
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Just to round this off - I still have some reservations about adding this data 
-in its current form to buildhistory, but being able to associate it with the 
-build and other changes that occurred at the same time is valuable. Let's add 
-it under ${BUILDHISTORY_DIR} using ${BUILDNAME} as a subdirectory as Richard 
-suggests, and then later we can add some analysis code and maybe optional 
-automatic pruning of old data to keep things tidy.
+I just tested Jonathan Liu's patch with Yocto 1.5 . It works for me, I 
+was able to build a rootfs. Using Arch Linux and make 4.0.
+The make 4.0 issue is already fixed in the glibc and eglibc 
+repositories, so this patch should be marked with "Upstream-Status: 
+inappropiate [other]".
 
-Cheers,
-Paul
+On 2013-11-04 10:08, Martin Jansa wrote:
+> On Mon, Nov 04, 2013 at 05:31:15PM +1100, Jonathan Liu wrote:
+>> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> Hi,
+>
+> FYI: there is bug report for this:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5391
+>
+>> ---
+>>   meta/recipes-core/eglibc/eglibc-2.18/make-4.patch | 31 +++++++++++++++++++++++
+>>   meta/recipes-core/eglibc/eglibc_2.18.bb           |  1 +
+>>   2 files changed, 32 insertions(+)
+>>   create mode 100644 meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
+>>
+>> diff --git a/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch b/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
+>> new file mode 100644
+>> index 0000000..ec105b4
+>> --- /dev/null
+>> +++ b/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
+>> @@ -0,0 +1,31 @@
+>> +Accept make versions 4.0 and greater
+>> +
+>> +Backport of glibc 28d708c44bc47b56f6551ff285f78edcf61c208a.
+>> +
+>> +Upstream-Status: Backport
+>> +Signed-off-by: Jonathan Liu <net147@gmail.com>
+>> +
+>> +diff -Nur libc.orig/configure libc/configure
+>> +--- libc.orig/configure     2013-08-21 02:23:48.000000000 +1000
+>> ++++ libc/configure  2013-11-04 17:04:17.778333748 +1100
+>> +@@ -4772,7 +4772,7 @@
+>> +   ac_prog_version=`$MAKE --version 2>&1 | sed -n 's/^.*GNU Make[^0-9]*\([0-9][0-9.]*\).*$/\1/p'`
+>> +   case $ac_prog_version in
+>> +     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
+>> +-    3.79* | 3.[89]*)
+>> ++    3.79* | 3.[89]* | [4-9].* | [1-9][0-9]*)
+>> +        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
+>> +     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
+>> +
+>> +diff -Nur libc.orig/configure.in libc/configure.in
+>> +--- libc.orig/configure.in	2013-08-21 02:23:48.000000000 +1000
+>> ++++ libc/configure.in	2013-11-04 16:54:17.955014870 +1100
+>> +@@ -989,7 +989,7 @@
+>> +   critic_missing="$critic_missing gcc")
+>> + AC_CHECK_PROG_VER(MAKE, gnumake gmake make, --version,
+>> +   [GNU Make[^0-9]*\([0-9][0-9.]*\)],
+>> +-  [3.79* | 3.[89]*], critic_missing="$critic_missing make")
+>> ++  [3.79* | 3.[89]* | [4-9].* | [1-9][0-9]*], critic_missing="$critic_missing make")
+>> +
+>> + AC_CHECK_PROG_VER(MSGFMT, gnumsgfmt gmsgfmt msgfmt, --version,
+>> +   [GNU gettext.* \([0-9]*\.[0-9.]*\)],
+>> diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
+>> index 710b498..15e5eed 100644
+>> --- a/meta/recipes-core/eglibc/eglibc_2.18.bb
+>> +++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
+>> @@ -27,6 +27,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr23
+>>              file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+>>              file://fix-tibetian-locales.patch \
+>>              file://0001-ARM-Pass-dl_hwcap-to-IFUNC-resolver.patch \
+>> +           file://make-4.patch \
+>>             "
+>>   SRC_URI[md5sum] = "b395b021422a027d89884992e91734fc"
+>>   SRC_URI[sha256sum] = "15f564b45dc5dd65faf0875579e3447961ae61e876933384ae05d19328539ad4"
+>> -- 
+>> 1.8.4
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+
+--------------090401000405030904080600
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">I just tested Jonathan Liu's patch with
+      Yocto 1.5 . It works for me, I was able to build a rootfs. Using
+      Arch Linux and make 4.0.<br>
+      The make 4.0 issue is already fixed in the glibc and eglibc
+      repositories, so this patch should be marked with
+      "Upstream-Status: inappropiate [other]".<br>
+      <br>
+      On 2013-11-04 10:08, Martin Jansa wrote:<br>
+    </div>
+    <blockquote cite="mid:20131104090831.GC3684@jama" type="cite">
+      <pre wrap="">On Mon, Nov 04, 2013 at 05:31:15PM +1100, Jonathan Liu wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">Signed-off-by: Jonathan Liu <a class="moz-txt-link-rfc2396E" href="mailto:net147@gmail.com">&lt;net147@gmail.com&gt;</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+Hi,
+
+FYI: there is bug report for this:
+<a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=5391">https://bugzilla.yoctoproject.org/show_bug.cgi?id=5391</a>
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">---
+ meta/recipes-core/eglibc/eglibc-2.18/make-4.patch | 31 +++++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.18.bb           |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
+
+diff --git a/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch b/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
+new file mode 100644
+index 0000000..ec105b4
+--- /dev/null
++++ b/meta/recipes-core/eglibc/eglibc-2.18/make-4.patch
+@@ -0,0 +1,31 @@
++Accept make versions 4.0 and greater
++
++Backport of glibc 28d708c44bc47b56f6551ff285f78edcf61c208a.
++
++Upstream-Status: Backport
++Signed-off-by: Jonathan Liu <a class="moz-txt-link-rfc2396E" href="mailto:net147@gmail.com">&lt;net147@gmail.com&gt;</a>
++
++diff -Nur libc.orig/configure libc/configure
++--- libc.orig/configure     2013-08-21 02:23:48.000000000 +1000
+++++ libc/configure  2013-11-04 17:04:17.778333748 +1100
++@@ -4772,7 +4772,7 @@
++   ac_prog_version=`$MAKE --version 2&gt;&amp;1 | sed -n 's/^.*GNU Make[^0-9]*\([0-9][0-9.]*\).*$/\1/p'`
++   case $ac_prog_version in
++     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
++-    3.79* | 3.[89]*)
+++    3.79* | 3.[89]* | [4-9].* | [1-9][0-9]*)
++        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
++     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
++ 
++diff -Nur libc.orig/configure.in libc/configure.in
++--- libc.orig/configure.in	2013-08-21 02:23:48.000000000 +1000
+++++ libc/configure.in	2013-11-04 16:54:17.955014870 +1100
++@@ -989,7 +989,7 @@
++   critic_missing="$critic_missing gcc")
++ AC_CHECK_PROG_VER(MAKE, gnumake gmake make, --version,
++   [GNU Make[^0-9]*\([0-9][0-9.]*\)],
++-  [3.79* | 3.[89]*], critic_missing="$critic_missing make")
+++  [3.79* | 3.[89]* | [4-9].* | [1-9][0-9]*], critic_missing="$critic_missing make")
++ 
++ AC_CHECK_PROG_VER(MSGFMT, gnumsgfmt gmsgfmt msgfmt, --version,
++   [GNU gettext.* \([0-9]*\.[0-9.]*\)],
+diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
+index 710b498..15e5eed 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.18.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
+@@ -27,6 +27,7 @@ SRC_URI = <a class="moz-txt-link-rfc2396E" href="http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr23file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch\file://fix-tibetian-locales.patch\file://0001-ARM-Pass-dl_hwcap-to-IFUNC-resolver.patch\+file://make-4.patch\">"http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr23
+            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+            file://fix-tibetian-locales.patch \
+            file://0001-ARM-Pass-dl_hwcap-to-IFUNC-resolver.patch \
++           file://make-4.patch \
+           "</a>
+ SRC_URI[md5sum] = "b395b021422a027d89884992e91734fc"
+ SRC_URI[sha256sum] = "15f564b45dc5dd65faf0875579e3447961ae61e876933384ae05d19328539ad4"
 -- 
+1.8.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------090401000405030904080600--
