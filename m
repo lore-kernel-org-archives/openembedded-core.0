@@ -1,26 +1,36 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BE77E6D3E0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
+	[74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id C09516D3D5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2013 11:30:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA7BUsnT006756
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  7 Nov 2013 11:55:59 +0000 (UTC)
+Received: by mail-we0-f170.google.com with SMTP id u57so408455wes.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Nov 2013 03:30:54 -0800 (PST)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 7 Nov 2013 03:30:54 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 7 Nov 2013 19:30:51 +0800
-Message-ID: <78be4278bc2425d48d16b907f9d2d2e1ae0fe2f2.1383823754.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.8.3
-In-Reply-To: <cover.1383823754.git.jackie.huang@windriver.com>
-References: <cover.1383823754.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] grub-efi-native: fix build failure on 32bit host
+	Thu, 07 Nov 2013 03:56:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=t6Ha9BJMqITieEprWRDVK2DndQVxUIgqVCOwCd0QTBw=;
+	b=AWzULGRpxl/QRNd07h2ny+18o0/FEcEsbC6X3OhlszY85qDfpxTiR0CueVXsIq5wJr
+	ttoU0rMeGXVyk+Z05rzCQaK2MpU7aHkxzbIoFyEhSlX8GdlEIYpyEURyFW3zbUuLQsRZ
+	5Z84GvzKan0zP+n+yieHqT9yKx8SQOVhyMCYE+oBcXsWNEDxFWmfF0dwvKKke/0of6hX
+	P5sV2220npMmEMvq+JISQ6iyi/5nvW0m0tmwlqLiRFqhtOpbLHzgKNbJb9nGKtAL5m5L
+	PP1YKystL10xXlOdxq9CnYuaDLvvVX9vIGvxew9aUurUaqj3jVHtYSfY5K1AYVyQfS92
+	0ZGw==
+X-Gm-Message-State: ALoCoQleRfhHLjfxOhmT1IzzVHewgs2jNmLWbWIYISHfYr6DKnfNIUYuia27aGrMRD14wl/JRNi5
+X-Received: by 10.180.98.2 with SMTP id ee2mr2360941wib.21.1383825360754;
+	Thu, 07 Nov 2013 03:56:00 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id q3sm34492026wib.5.2013.11.07.03.55.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 Nov 2013 03:55:59 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Nov 2013 11:55:31 +0000
+Message-Id: <1383825335-2306-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/5] cogl: upgrade to 1.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,263 +43,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 11:30:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Nov 2013 11:56:05 -0000
 
-From: Jackie Huang <jackie.huang@windriver.com>
+Drop two patches that were backported from upstream.
 
-grub-efi-native builds grub with efi platform, then run
-"grub-mkimage" command with built in cfg and modules to
-generate an EFI binary for the target, and deploys it.
-
-It works fine when build on 64bit host, but when we build
-x86-64 target on 32bit host, it fails to build 64bit grub,
-even if it builds, the 64bit binary "grub-mkimage" would
-fail to run to generate EFI.
-
-So the solution is:
-Add a target package grub-efi and grub-efi-native depends
-on it, grub-efi-native will be back to real native, then
-run "grub-mkimage" command with modules in sysroot populated
-by grub-efi to generate the EFI binary for target.
-
-Another problem is -mcmodel=large is not supported by gcc
-with version lower than 4.4, but we don't need to use
-memory over 4GiB, so add a patch to allow compilation
-without large model support.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...allow-a-compilation-without-mcmodel-large.patch |   69 ++++++++++++++++++++
- meta/recipes-bsp/grub/grub-efi-native_2.00.bb      |   52 ++-------------
- meta/recipes-bsp/grub/grub-efi.inc                 |   44 +++++++++++++
- meta/recipes-bsp/grub/grub-efi_2.00.bb             |    9 +++
- 4 files changed, 130 insertions(+), 44 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
- create mode 100644 meta/recipes-bsp/grub/grub-efi.inc
- create mode 100644 meta/recipes-bsp/grub/grub-efi_2.00.bb
+ meta/recipes-graphics/cogl/cogl-1.0.inc            |    4 ---
+ meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb      |    7 -----
+ meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb      |    6 ++++
+ .../cogl/files/cogl-fixed-thumb.patch              |   30 --------------------
+ .../cogl/files/cogl_fixed_mul-constraint.patch     |   22 --------------
+ 5 files changed, 6 insertions(+), 63 deletions(-)
+ delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
+ delete mode 100644 meta/recipes-graphics/cogl/files/cogl-fixed-thumb.patch
+ delete mode 100644 meta/recipes-graphics/cogl/files/cogl_fixed_mul-constraint.patch
 
-diff --git a/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+index 0c4e86d..c1e124a 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0.inc
++++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+@@ -2,10 +2,6 @@ DESCRIPTION = "a modern 3D graphics API with associated utility APIs"
+ HOMEPAGE = "http://wiki.clutter-project.org/wiki/Cogl"
+ LICENSE = "LGPLv2.1+"
+ 
+-SRC_URI += "file://cogl_fixed_mul-constraint.patch \
+-            file://cogl-fixed-thumb.patch \
+-            "
+-
+ inherit clutter
+ 
+ DEPENDS = "glib-2.0 gdk-pixbuf"
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb
+deleted file mode 100644
+index 0f40c59..0000000
+--- a/meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-
+-require cogl-1.0.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+-
+-SRC_URI[archive.md5sum] = "7eabaf4241c0b87cc9e3b0fa23fd0315"
+-SRC_URI[archive.sha256sum] = "276e8c9f5ff0fcd57c1eaf74cc245f41ad469a95a18ac831fac2d5960baa5ae8"
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
 new file mode 100644
-index 0000000..b2be74a
+index 0000000..5e5c82b
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
-@@ -0,0 +1,69 @@
-+From 0cea0e4266214da1f11e812834f5d5c47a6e04e6 Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Tue, 5 Nov 2013 07:23:32 -0500
-+Subject: [PATCH] Allow a compilation without -mcmodel=large
++++ b/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
+@@ -0,0 +1,6 @@
++require cogl-1.0.inc
 +
-+* kern/efi/mm.c (grub_efi_allocate_pages): don't allocate >4GiB
-+  when compiled without -mcmodel=large
-+  (filter_memory_map): remove memory post 4 GiB when compiled
-+  without -mcmodel=large
-+* configure.ac: add -DMCMODEL_SMALL=1 to TARGET_CFLAGS when
-+  -mcmodel=large isn't supported
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 +
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ configure.ac            |    4 +++-
-+ grub-core/kern/efi/mm.c |    6 +++---
-+ 2 files changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 319d063..ee72fee 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -567,7 +567,9 @@ if test "$target_cpu"-"$platform" = x86_64-efi; then
-+ 		      [grub_cv_cc_mcmodel=no])
-+   ])
-+   if test "x$grub_cv_cc_mcmodel" = xno; then
-+-    AC_MSG_ERROR([-mcmodel=large not supported. Upgrade your gcc.])
-++    CFLAGS="$SAVED_CFLAGS -m64 -DMCMODEL_SMALL=1"
-++    TARGET_CFLAGS="$TARGET_CFLAGS -DMCMODEL_SMALL=1"
-++    AC_MSG_WARN([-mcmodel=large not supported. You won't be able to use the memory over 4GiB. Upgrade your gcc.])
-+   else
-+     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=large"
-+   fi
-+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
-+index a2edc84..c67dd13 100644
-+--- a/grub-core/kern/efi/mm.c
-++++ b/grub-core/kern/efi/mm.c
-+@@ -62,7 +62,7 @@ grub_efi_allocate_pages (grub_efi_physical_address_t address,
-+     return 0;
-+ #endif
-+
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+   if (address == 0)
-+     {
-+       type = GRUB_EFI_ALLOCATE_MAX_ADDRESS;
-+@@ -305,7 +305,7 @@ filter_memory_map (grub_efi_memory_descriptor_t *memory_map,
-+        desc = NEXT_MEMORY_DESCRIPTOR (desc, desc_size))
-+     {
-+       if (desc->type == GRUB_EFI_CONVENTIONAL_MEMORY
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+ 	  && desc->physical_start <= 0xffffffff
-+ #endif
-+ 	  && desc->physical_start + PAGES_TO_BYTES (desc->num_pages) > 0x100000
-+@@ -321,7 +321,7 @@ filter_memory_map (grub_efi_memory_descriptor_t *memory_map,
-+ 	      desc->physical_start = 0x100000;
-+ 	    }
-+
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+ 	  if (BYTES_TO_PAGES (filtered_desc->physical_start)
-+ 	      + filtered_desc->num_pages
-+ 	      > BYTES_TO_PAGES (0x100000000LL))
-+--
-+1.7.1
-+
-diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-index 04973b5..5ad194d 100644
---- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-@@ -1,47 +1,16 @@
--SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
-+require grub-efi.inc
- 
--DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
--intended to unify bootloading across x86 operating systems. In \
--addition to loading the Linux kernel, it implements the Multiboot \
--standard, which allows for flexible loading of multiple boot images. \
--This recipe builds an EFI binary for the target. It does not install \
--or package anything, it only deploys a target-arch GRUB EFI image."
++SRC_URI[archive.md5sum] = "611a61bed04354cbfffa3dc27feb6d4f"
++SRC_URI[archive.sha256sum] = "75c2c4636a050fda7ee8722ce3d9c618b08799ed92bbb72b4fdff3e73b096094"
+diff --git a/meta/recipes-graphics/cogl/files/cogl-fixed-thumb.patch b/meta/recipes-graphics/cogl/files/cogl-fixed-thumb.patch
+deleted file mode 100644
+index 1825e88..0000000
+--- a/meta/recipes-graphics/cogl/files/cogl-fixed-thumb.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Upstream-Status: Backport
 -
--HOMEPAGE = "http://www.gnu.org/software/grub/"
--SECTION = "bootloaders"
+-There are two asm() statements in cogl-fixed.c that can't be assembled
+-in Thumb mode.  Add a patch to switch to the generic code in Thumb mode.
 -
--LICENSE = "GPLv3"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+-Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
+----
+- cogl/cogl-fixed.c |    4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
 -
--# FIXME: We should be able to optionally drop freetype as a dependency
--DEPENDS = "autogen-native"
--RDEPENDS_${PN} = "diffutils freetype"
--PR = "r2"
-+DEPENDS += "grub-efi"
-+PR = "${INC_PR}.0"
- 
- # Native packages do not normally rebuild when the target changes.
- # Ensure this is built once per HOST-TARGET pair.
- PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
- 
--SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
--           file://cfg \
--           file://grub-2.00-fpmath-sse-387-fix.patch \
--           file://grub-2.00-fix-enable_execute_stack-check.patch \
--           file://grub-2.00-disable-help2man.patch \
--           file://check-if-liblzma-is-disabled.patch \
--           file://grub-no-unused-result.patch \
--           file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
--           file://fix-issue-with-flex-2.5.37.patch \
--          "
--SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
--SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
+---- a/cogl/cogl-fixed.c
+-+++ b/cogl/cogl-fixed.c
+-@@ -626,7 +626,7 @@ cogl_fixed_sqrt (CoglFixed x)
+- 	/*
+- 	 * Find the highest bit set
+- 	 */
+--#if defined (__arm__) && !defined(__ARM_ARCH_4T__)
+-+#if defined (__arm__) && !defined(__ARM_ARCH_4T__) && !defined(__thumb__)
+- 	/* This actually requires at least arm v5, but gcc does not seem
+- 	 * to set the architecture defines correctly, and it is I think
+- 	 * very unlikely that anyone will want to use clutter on anything
+-@@ -804,7 +804,7 @@ CoglFixed
+- cogl_fixed_mul (CoglFixed a,
+-                 CoglFixed b)
+- {
+--#ifdef __arm__
+-+#if defined(__arm__) && !defined(__thumb__)
+-   /* This provides about 12% speedeup on the gcc -O2 optimised
+-    * C version
+-    *
+diff --git a/meta/recipes-graphics/cogl/files/cogl_fixed_mul-constraint.patch b/meta/recipes-graphics/cogl/files/cogl_fixed_mul-constraint.patch
+deleted file mode 100644
+index 179533a..0000000
+--- a/meta/recipes-graphics/cogl/files/cogl_fixed_mul-constraint.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-Upstream-Status: Backport
 -
--COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
+-Add register constraints to prevent asm statement complaints like:
 -
--S = "${WORKDIR}/grub-${PV}"
+-  {standard input}:382: rdhi, rdlo and rm must all be different
 -
- # Determine the target arch for the grub modules before the native class
--# clobbers TARGET_ARCH.
-+# clobbers TARGET_ARCH and STAGING_LIBDIR.
- ORIG_TARGET_ARCH := "${TARGET_ARCH}"
-+ORIG_STAGING_LIBDIR := "${STAGING_LIBDIR}"
- python __anonymous () {
-     import re
-     target = d.getVar('ORIG_TARGET_ARCH', True)
-@@ -57,19 +26,14 @@ python __anonymous () {
-     d.setVar("GRUB_IMAGE", grubimage)
- }
- 
--inherit autotools
--inherit gettext
- inherit native
- inherit deploy
- 
--EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
--                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix='' \
--                --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+-Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
+----
+- cogl/cogl-fixed.c |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
- do_mkimage() {
- 	# Search for the grub.cfg on the local boot media by using the
--	# built in cfg file provided via this recipe
--	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-+	# built in cfg file provided via this recipe and modules dir
-+	# populated by grub-efi
-+	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ${ORIG_STAGING_LIBDIR}/grub-efi/${GRUB_TARGET}-efi \
- 	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
- 	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
- }
-diff --git a/meta/recipes-bsp/grub/grub-efi.inc b/meta/recipes-bsp/grub/grub-efi.inc
-new file mode 100644
-index 0000000..fd93fe8
---- /dev/null
-+++ b/meta/recipes-bsp/grub/grub-efi.inc
-@@ -0,0 +1,44 @@
-+SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
-+
-+DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
-+intended to unify bootloading across x86 operating systems. In \
-+addition to loading the Linux kernel, it implements the Multiboot \
-+standard, which allows for flexible loading of multiple boot images. \
-+This recipe builds an EFI binary for the target. It does not install \
-+or package anything, it only deploys a target-arch GRUB EFI image."
-+
-+HOMEPAGE = "http://www.gnu.org/software/grub/"
-+SECTION = "bootloaders"
-+
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+
-+# FIXME: We should be able to optionally drop freetype as a dependency
-+DEPENDS = "autogen-native flex-native"
-+RDEPENDS_${PN} = "diffutils freetype"
-+INC_PR = "r2"
-+
-+SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-+           file://cfg \
-+           file://grub-2.00-fpmath-sse-387-fix.patch \
-+           file://grub-2.00-fix-enable_execute_stack-check.patch \
-+           file://grub-2.00-disable-help2man.patch \
-+           file://check-if-liblzma-is-disabled.patch \
-+           file://grub-no-unused-result.patch \
-+           file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
-+           file://fix-issue-with-flex-2.5.37.patch \
-+           file://grub-efi-allow-a-compilation-without-mcmodel-large.patch \
-+          "
-+SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
-+SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
-+
-+COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
-+
-+S = "${WORKDIR}/grub-${PV}"
-+
-+inherit autotools
-+inherit gettext
-+
-+EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
-+                --enable-efiemu=no --program-prefix='' \
-+                --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-new file mode 100644
-index 0000000..35277d7
---- /dev/null
-+++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-@@ -0,0 +1,9 @@
-+require grub-efi.inc
-+
-+PR = "${INC_PR}.0"
-+FILES_${PN}-dbg += "${libdir}/${BPN}/${TARGET_ARCH}-efi/.debug"
-+
-+do_install_append () {
-+	mv ${D}${libdir}/grub ${D}${libdir}/${BPN}
-+	mv ${D}${datadir}/grub ${D}${datadir}/${BPN}
-+}
+---- a/cogl/cogl-fixed.c
+-+++ b/cogl/cogl-fixed.c
+-@@ -816,7 +816,7 @@ cogl_fixed_mul (CoglFixed a,
+-   __asm__ ("smull %0, %1, %2, %3     \n"
+-            "mov   %0, %0,     lsr %4 \n"
+-            "add   %1, %0, %1, lsl %5 \n"
+--           : "=r"(res_hi), "=r"(res_low) \
+-+           : "=&r"(res_hi), "=&r"(res_low) \
+-            : "r"(a), "r"(b), "i"(COGL_FIXED_Q), "i"(32 - COGL_FIXED_Q));
+- 
+-   return (CoglFixed) res_low;
 -- 
-1.7.4.1
+1.7.10.4
 
 
