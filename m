@@ -1,37 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f43.google.com (mail-vb0-f43.google.com
-	[209.85.212.43])
-	by mail.openembedded.org (Postfix) with ESMTP id ABF366AE37
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A8CA6D2F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 12:47:05 +0000 (UTC)
-Received: by mail-vb0-f43.google.com with SMTP id g10so1333124vbg.16
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2013 04:47:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=21PIWecASVBBUUh64TYUR3vLKpfzOdwOfqkX3jkbEEg=;
-	b=A92rz0na1Qzz6M2J4qxR3rsIr9i/ef6oKzcRoYAof2SshhAb9TRd/Rfntw9NBdQlUM
-	TkPsjDr7fm+qcPYMSUC+wTyTtLJ6JbxfzZECJtw/4CJOx0FgwiZnKkUfq/lBrExKnLKe
-	NKTL8tHADPS++m2quyZcVFnHTlQH3f8wqEAQQJ5Jrg/rqfssnpXSby8sm8qBaw/sFFCA
-	Ev5IpEybEiSz+PbWUWB4lFnw5IJATDE66IjGU2xY7YIayPsHuWUA2KAGUh9MLi2AgplW
-	nXkvEP7rjR0feqIkAEVQAY3zOilQ/5alOoJ6j8t6IgeUmZFIZeX8377vGJmVrb2YG41O
-	LFHw==
-X-Gm-Message-State: ALoCoQnrbmsiAbfOMRHUdoIAfbNvJdam0yWongNbPVQsOX0Go7iPxUe9kT5+Y8xIwxD4GGS2nShQ
-X-Received: by 10.58.232.228 with SMTP id tr4mr1167464vec.34.1383914826129;
-	Fri, 08 Nov 2013 04:47:06 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 8 Nov 2013 04:46:46 -0800 (PST)
-In-Reply-To: <1383802501-10099-2-git-send-email-raj.khem@gmail.com>
-References: <1383802501-10099-1-git-send-email-raj.khem@gmail.com>
-	<1383802501-10099-2-git-send-email-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Nov 2013 12:46:46 +0000
-Message-ID: <CAJTo0Lbjx2=Eq3zgyhyAvjhssymZV-CgGD3REr7unO2VqZXmAg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Upgrade 206 -> 208
+	Fri,  8 Nov 2013 15:17:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA8FHFUU024921; Fri, 8 Nov 2013 15:17:15 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CiVZr4COJijm; Fri,  8 Nov 2013 15:17:15 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA8FHBRX024918
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 8 Nov 2013 15:17:13 GMT
+Message-ID: <1383923827.2345.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 08 Nov 2013 15:17:07 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Hart, Darren" <darren.hart@intel.com>
+Subject: [PATCH] kernel: Use hardlinks during do_install for speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +35,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 12:47:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Nov 2013 15:17:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 7 November 2013 05:35, Khem Raj <raj.khem@gmail.com> wrote:
-> Create additional packages to bundle zsh and pam.d files
+Whilst the comment says we can't do this, its incorrect, install operates
+on WORKDIR and its hard for different parts of WORKDIR to be on different
+filesystems. Hardlinking instead of copying is therefore a nice performance
+gain.
 
-Oh, will this mean systemd-user actually works with PAM?  I hit this
-problem before ELCE and ended up reverting the change to error instead
-of warn on missing rules.
+Also, completely skip the Documentation directory (adding a dummy Makefile
+to keep make happy) and tweak the other cp commands to link since if we
+don't we'd get "this is the same file" type errors from cp for some kernel
+versions.
 
-If so, please don't package the files in a separate package but ship
-them with systemd itself as they are practically essential if PAM is
-enabled. If the (negligible) size impact is a concern they can be
-deleted if the pam DISTRO_FEATURE isn't enabled.
+For do_install on linux-yocto, this takes it from 227s -> 84s.
 
-(and please sent patches with -M)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a4db9f5..0b6360f 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -236,20 +236,21 @@ kernel_do_install() {
+ 	# dir. This ensures the original Makefiles are used and not the
+ 	# redirecting Makefiles in the build directory.
+ 	#
+-	# work and sysroots can be on different partitions, so we can't rely on
+-	# hardlinking, unfortunately.
+-	#
+-	find . -depth -not -name "*.cmd" -not -name "*.o" -not -path "./.*" -print0 | cpio --null -pdu $kerneldir
++	find . -depth -not -name "*.cmd" -not -name "*.o" -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+ 	cp .config $kerneldir
+ 	if [ "${S}" != "${B}" ]; then
+ 		pwd="$PWD"
+ 		cd "${S}"
+-		find . -depth -not -path "./.*" -print0 | cpio --null -pdu $kerneldir
++		find . -depth -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+ 		cd "$pwd"
+ 	fi
+ 	install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
+ 	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
+ 
++	# Dummy Makefile so the clean below works
++        mkdir $kerneldir/Documentation
++        touch $kerneldir/Documentation/Makefile
++
+ 	#
+ 	# Clean and remove files not needed for building modules.
+ 	# Some distributions go through a lot more trouble to strip out
+@@ -262,22 +263,21 @@ kernel_do_install() {
+ 	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+ 	make -C $kerneldir _mrproper_scripts
+ 	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
+-	find $kerneldir/Documentation -name "*.txt" -exec rm '{}' \;
+ 
+ 	# As of Linux kernel version 3.0.1, the clean target removes
+ 	# arch/powerpc/lib/crtsavres.o which is present in
+ 	# KBUILD_LDFLAGS_MODULE, making it required to build external modules.
+ 	if [ ${ARCH} = "powerpc" ]; then
+-		cp arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
++		cp -nl arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
+ 	fi
+ 
+ 	# Necessary for building modules like compat-wireless.
+ 	if [ -f include/generated/bounds.h ]; then
+-		cp include/generated/bounds.h $kerneldir/include/generated/bounds.h
++		cp -nl include/generated/bounds.h $kerneldir/include/generated/bounds.h
+ 	fi
+ 	if [ -d arch/${ARCH}/include/generated ]; then
+ 		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
+-		cp -fR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
++		cp -fnlR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
+ 	fi
+ 
+ 	# Remove the following binaries which cause strip or arch QA errors
 
-Ross
+
 
