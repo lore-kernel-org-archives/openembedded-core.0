@@ -1,28 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A75596D35C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 89FCE6D6DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 10:16:06 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA8AG6VA005816
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 8 Nov 2013 02:16:06 -0800 (PST)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 8 Nov 2013 02:16:05 -0800
-Message-ID: <527CB9D9.80804@windriver.com>
-Date: Fri, 8 Nov 2013 18:15:53 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Fri,  8 Nov 2013 11:10:41 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id hv10so1301153vcb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Nov 2013 03:10:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=SwIsSnLKc3ByzWDulV8p91JCLEHQYU68xthygHZ6JfY=;
+	b=dykfje6UAme0txyP299RfL2pPrWYoWBje4XQBmjHz3PU0jQM1A97vs/geL8XdIIal5
+	9MuH8WkNMS8xZJmWsVSP2yn4qATj5khqiinxbS4ufW4tuaimnRopyeSQ0E+aOEE76ufG
+	3aGckXGSChmim9FkkC36DsMH9vvM9ct7Fs1xPXbUeU8eExUKReluEA9PBRsYcgx+cily
+	UQwJ6S+ovzio/b0g2pW86C2gSdz0/On23HGh7gw8GzDvWu43cfpLvYR7hHzli6uOdCJT
+	rJAIH/RNO66pROfIRWP1ahL89UoVBg8v+usjwGPxFNjAxLqKRRqO0jb30Aq4DzJ02S1X
+	RHJQ==
+X-Gm-Message-State: ALoCoQnzgp2lZjJZEvPa7NUMVbpgTgNZdSmi7NjPrPeNaHTfnH7jup4n4Sv8i9aKRV7vCvuVbhtl
+X-Received: by 10.220.169.203 with SMTP id a11mr11650727vcz.26.1383909043043; 
+	Fri, 08 Nov 2013 03:10:43 -0800 (PST)
 MIME-Version: 1.0
-To: Jonathan Liu <net147@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <52777AD9.20201@gmail.com> <52778738.5010706@windriver.com>
-	<527CAB5B.9080601@gmail.com>
-In-Reply-To: <527CAB5B.9080601@gmail.com>
-Subject: Re: [dora] Cherry-pick Qt fixes
+Received: by 10.220.71.201 with HTTP; Fri, 8 Nov 2013 03:10:22 -0800 (PST)
+In-Reply-To: <1383182088-17411-1-git-send-email-rongqing.li@windriver.com>
+References: <1383182088-17411-1-git-send-email-rongqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Nov 2013 11:10:22 +0000
+Message-ID: <CAJTo0LYDs_ebD2oWKxv3PHQ8aKGhZe8jKLFpShnV0sRf0FzihQ@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v7] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,58 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 10:16:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Nov 2013 11:10:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
+Hi,
 
-On 11/08/2013 05:14 PM, Jonathan Liu wrote:
-> Hi Robert,
->
-> Is the queue visible publically?
+On 31 October 2013 01:14,  <rongqing.li@windriver.com> wrote:
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/connman/connman/connman.service
+> @@ -0,0 +1,14 @@
+> +[Unit]
+> +Description=Connection service
+> +After=syslog.target
+> +Wants=connman-env.service
+> +
+> +[Service]
+> +Type=dbus
+> +BusName=net.connman
+> +EnvironmentFile=-@LOCALSTATEDIR@/run/connmand.env
+> +ExecStartPre=-@LIBDIR@/connman/wired-setup
+> +ExecStart=@SBINDIR@/connmand -n $CONNMAND_OPTS
+> +
+> +[Install]
+> +WantedBy=multi-user.target
 
-Hi Jonathan,
+I'm thinking it might be better in the long term to patch the service
+file in case upstream makes important changes and we don't notice.
 
-I will put the branch to poky-contrib:
+> +echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand.env
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib
+Let's not pollute /run too much, there's already a /run/connman on a
+booted image.  Create that directory if it doesn't exist, and put the
+env file in there.
 
-If you can access it, then yes. We haven't figured out which ones should
-go into dora atm., I will put it to the robert/dora-next temporally when
-it is done.
-
-// Robert
-
->
-> Regards,
-> Jonathan
->
-> On 4/11/2013 10:38 PM, Robert Yang wrote:
->>
->> Hi Jonathan,
->>
->> Thank you very much, these will be included in the queue.
->>
->> // Robert
->>
->> On 11/04/2013 06:45 PM, Jonathan Liu wrote:
->>> Hi Robert,
->>>
->>> I propose we cherry-pick the following Qt fixes from master to dora branch:
->>> -qt4: add upstream QTBUG-31579 patch for QPainter regression
->>> [OE-Core/a5afc67cbfc32beb3be10392bf9788cfc3610ab1]
->>> -nativesdk-qt4-tools: create qt.conf file
->>> [OE-Core/23f88695683a8e428375a8ccb6be935347a8768c]
->>> -meta-toolchain-qt: put QT_CONF_PATH in environment script
->>> [OE-Core/fffa4c37c49b169f663d28612b9251819cef9577]
->>> -qt4: add upstream QTBUG-34218/QTBUG-34234 misaligned selection patch
->>> [OE-Core/3af8f2e0697a9523d3b505ba4c48eca35f6de3a9]
->>>
->>> Regards,
->>> Jonathan
->>>
->>>
->
->
->
+Ross
 
