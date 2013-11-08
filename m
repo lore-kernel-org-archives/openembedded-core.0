@@ -1,32 +1,32 @@
-Return-Path: <darren.hart@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FE896D350
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 626B16A467
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 16:48:27 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Nov 2013 08:48:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,661,1378882800"; d="scan'208";a="430130047"
-Received: from fmsmsx104.amr.corp.intel.com ([10.19.9.35])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Nov 2013 08:48:02 -0800
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.92]) by
-	FMSMSX104.amr.corp.intel.com ([169.254.4.240]) with mapi id
-	14.03.0123.003; Fri, 8 Nov 2013 08:48:01 -0800
-From: "Hart, Darren" <darren.hart@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [PATCH] kernel: Use hardlinks during do_install for speed
-Thread-Index: AQHO3JWiKeNHe0r0N0a0tvMZG+rg/ZocEYIA
-Date: Fri, 8 Nov 2013 16:48:01 +0000
-Message-ID: <1383929280.5378.110.camel@dvhart-mobl4.amr.corp.intel.com>
-References: <1383923827.2345.2.camel@ted>
-In-Reply-To: <1383923827.2345.2.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.15.85]
-MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: Use hardlinks during do_install for speed
+	Fri,  8 Nov 2013 16:50:38 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA8GoRIj028882; Fri, 8 Nov 2013 16:50:27 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id zcnBeJ3GL3OW; Fri,  8 Nov 2013 16:50:26 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA8GoN3k028879
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 8 Nov 2013 16:50:24 GMT
+Message-ID: <1383929419.2345.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Fri, 08 Nov 2013 16:50:19 +0000
+In-Reply-To: <527D0A44.7020005@windriver.com>
+References: <1383923880.2345.4.camel@ted> <527D0624.3060407@windriver.com>
+	<1383926139.2345.7.camel@ted> <527D0A44.7020005@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Hart, Darren" <darren.hart@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel: Use hardlinks for do_populate_sysroot for speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,80 +39,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 16:48:28 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8C45BDDB8F444543B82B98B1DA42B538@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 08 Nov 2013 16:50:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-T24gRnJpLCAyMDEzLTExLTA4IGF0IDE1OjE3ICswMDAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
-Cj4gV2hpbHN0IHRoZSBjb21tZW50IHNheXMgd2UgY2FuJ3QgZG8gdGhpcywgaXRzIGluY29ycmVj
-dCwgaW5zdGFsbCBvcGVyYXRlcw0KPiBvbiBXT1JLRElSIGFuZCBpdHMgaGFyZCBmb3IgZGlmZmVy
-ZW50IHBhcnRzIG9mIFdPUktESVIgdG8gYmUgb24gZGlmZmVyZW50DQoNCklzIGl0IGhhcmQ/IE9y
-IGlzIGl0IG5vdCBwb3NzaWJsZSAvIG5vdCBzdXBwb3J0ZWQ/DQoNCk15IHVuZGVyc3RhbmRpbmcg
-d2FzIGl0IHdhcyBwb3NzaWJsZSBhbmQgdGhlcmVmb3Igd2UgY291bGRuJ3QgaGFyZGxpbmsuDQpJ
-J20gdGhyaWxsZWQgYXQgdGhlIHByb3NwZWN0IG9mIGJlaW5nIHdyb25nIHRoZXJlIHRob3VnaCEN
-Cg0KPiBmaWxlc3lzdGVtcy4gSGFyZGxpbmtpbmcgaW5zdGVhZCBvZiBjb3B5aW5nIGlzIHRoZXJl
-Zm9yZSBhIG5pY2UgcGVyZm9ybWFuY2UNCj4gZ2Fpbi4NCj4gDQo+IEFsc28sIGNvbXBsZXRlbHkg
-c2tpcCB0aGUgRG9jdW1lbnRhdGlvbiBkaXJlY3RvcnkgKGFkZGluZyBhIGR1bW15IE1ha2VmaWxl
-DQo+IHRvIGtlZXAgbWFrZSBoYXBweSkgYW5kIHR3ZWFrIHRoZSBvdGhlciBjcCBjb21tYW5kcyB0
-byBsaW5rIHNpbmNlIGlmIHdlDQo+IGRvbid0IHdlJ2QgZ2V0ICJ0aGlzIGlzIHRoZSBzYW1lIGZp
-bGUiIHR5cGUgZXJyb3JzIGZyb20gY3AgZm9yIHNvbWUga2VybmVsDQo+IHZlcnNpb25zLg0KPiAN
-Cj4gRm9yIGRvX2luc3RhbGwgb24gbGludXgteW9jdG8sIHRoaXMgdGFrZXMgaXQgZnJvbSAyMjdz
-IC0+IDg0cy4NCg0KVGhpcywgYW5kIHRoZSBvdGhlcnMsIGFyZSBmYW50YXN0aWMgaW1wcm92ZW1l
-bnRzLCB0aGFua3MgUlAhDQoNCi0tDQpEYXJyZW4NCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogUmlj
-aGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+IC0tLQ0K
-PiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzIGIvbWV0YS9jbGFzc2Vz
-L2tlcm5lbC5iYmNsYXNzDQo+IGluZGV4IGE0ZGI5ZjUuLjBiNjM2MGYgMTAwNjQ0DQo+IC0tLSBh
-L21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0KPiArKysgYi9tZXRhL2NsYXNzZXMva2VybmVs
-LmJiY2xhc3MNCj4gQEAgLTIzNiwyMCArMjM2LDIxIEBAIGtlcm5lbF9kb19pbnN0YWxsKCkgew0K
-PiAgCSMgZGlyLiBUaGlzIGVuc3VyZXMgdGhlIG9yaWdpbmFsIE1ha2VmaWxlcyBhcmUgdXNlZCBh
-bmQgbm90IHRoZQ0KPiAgCSMgcmVkaXJlY3RpbmcgTWFrZWZpbGVzIGluIHRoZSBidWlsZCBkaXJl
-Y3RvcnkuDQo+ICAJIw0KPiAtCSMgd29yayBhbmQgc3lzcm9vdHMgY2FuIGJlIG9uIGRpZmZlcmVu
-dCBwYXJ0aXRpb25zLCBzbyB3ZSBjYW4ndCByZWx5IG9uDQo+IC0JIyBoYXJkbGlua2luZywgdW5m
-b3J0dW5hdGVseS4NCj4gLQkjDQo+IC0JZmluZCAuIC1kZXB0aCAtbm90IC1uYW1lICIqLmNtZCIg
-LW5vdCAtbmFtZSAiKi5vIiAtbm90IC1wYXRoICIuLy4qIiAtcHJpbnQwIHwgY3BpbyAtLW51bGwg
-LXBkdSAka2VybmVsZGlyDQo+ICsJZmluZCAuIC1kZXB0aCAtbm90IC1uYW1lICIqLmNtZCIgLW5v
-dCAtbmFtZSAiKi5vIiAtbm90IC1wYXRoICIuL0RvY3VtZW50YXRpb24qIiAtbm90IC1wYXRoICIu
-Ly4qIiAtcHJpbnQwIHwgY3BpbyAtLW51bGwgLXBkbHUgJGtlcm5lbGRpcg0KPiAgCWNwIC5jb25m
-aWcgJGtlcm5lbGRpcg0KPiAgCWlmIFsgIiR7U30iICE9ICIke0J9IiBdOyB0aGVuDQo+ICAJCXB3
-ZD0iJFBXRCINCj4gIAkJY2QgIiR7U30iDQo+IC0JCWZpbmQgLiAtZGVwdGggLW5vdCAtcGF0aCAi
-Li8uKiIgLXByaW50MCB8IGNwaW8gLS1udWxsIC1wZHUgJGtlcm5lbGRpcg0KPiArCQlmaW5kIC4g
-LWRlcHRoIC1ub3QgLXBhdGggIi4vRG9jdW1lbnRhdGlvbioiIC1ub3QgLXBhdGggIi4vLioiIC1w
-cmludDAgfCBjcGlvIC0tbnVsbCAtcGRsdSAka2VybmVsZGlyDQo+ICAJCWNkICIkcHdkIg0KPiAg
-CWZpDQo+ICAJaW5zdGFsbCAtbSAwNjQ0ICR7S0VSTkVMX09VVFBVVH0gJGtlcm5lbGRpci8ke0tF
-Uk5FTF9JTUFHRVRZUEV9DQo+ICAJaW5zdGFsbCAtbSAwNjQ0IFN5c3RlbS5tYXAgJGtlcm5lbGRp
-ci9TeXN0ZW0ubWFwLSR7S0VSTkVMX1ZFUlNJT059DQo+ICANCj4gKwkjIER1bW15IE1ha2VmaWxl
-IHNvIHRoZSBjbGVhbiBiZWxvdyB3b3Jrcw0KPiArICAgICAgICBta2RpciAka2VybmVsZGlyL0Rv
-Y3VtZW50YXRpb24NCj4gKyAgICAgICAgdG91Y2ggJGtlcm5lbGRpci9Eb2N1bWVudGF0aW9uL01h
-a2VmaWxlDQo+ICsNCj4gIAkjDQo+ICAJIyBDbGVhbiBhbmQgcmVtb3ZlIGZpbGVzIG5vdCBuZWVk
-ZWQgZm9yIGJ1aWxkaW5nIG1vZHVsZXMuDQo+ICAJIyBTb21lIGRpc3RyaWJ1dGlvbnMgZ28gdGhy
-b3VnaCBhIGxvdCBtb3JlIHRyb3VibGUgdG8gc3RyaXAgb3V0DQo+IEBAIC0yNjIsMjIgKzI2Mywy
-MSBAQCBrZXJuZWxfZG9faW5zdGFsbCgpIHsNCj4gIAlvZV9ydW5tYWtlIC1DICRrZXJuZWxkaXIg
-Q0M9IiR7S0VSTkVMX0NDfSIgTEQ9IiR7S0VSTkVMX0xEfSIgY2xlYW4NCj4gIAltYWtlIC1DICRr
-ZXJuZWxkaXIgX21ycHJvcGVyX3NjcmlwdHMNCj4gIAlmaW5kICRrZXJuZWxkaXIgLXBhdGggJGtl
-cm5lbGRpci9saWIgLXBydW5lIC1vIC1wYXRoICRrZXJuZWxkaXIvdG9vbHMgLXBydW5lIC1vIC1w
-YXRoICRrZXJuZWxkaXIvc2NyaXB0cyAtcHJ1bmUgLW8gLW5hbWUgIiouW2NzU10iIC1leGVjIHJt
-ICd7fScgXDsNCj4gLQlmaW5kICRrZXJuZWxkaXIvRG9jdW1lbnRhdGlvbiAtbmFtZSAiKi50eHQi
-IC1leGVjIHJtICd7fScgXDsNCj4gIA0KPiAgCSMgQXMgb2YgTGludXgga2VybmVsIHZlcnNpb24g
-My4wLjEsIHRoZSBjbGVhbiB0YXJnZXQgcmVtb3Zlcw0KPiAgCSMgYXJjaC9wb3dlcnBjL2xpYi9j
-cnRzYXZyZXMubyB3aGljaCBpcyBwcmVzZW50IGluDQo+ICAJIyBLQlVJTERfTERGTEFHU19NT0RV
-TEUsIG1ha2luZyBpdCByZXF1aXJlZCB0byBidWlsZCBleHRlcm5hbCBtb2R1bGVzLg0KPiAgCWlm
-IFsgJHtBUkNIfSA9ICJwb3dlcnBjIiBdOyB0aGVuDQo+IC0JCWNwIGFyY2gvcG93ZXJwYy9saWIv
-Y3J0c2F2cmVzLm8gJGtlcm5lbGRpci9hcmNoL3Bvd2VycGMvbGliL2NydHNhdnJlcy5vDQo+ICsJ
-CWNwIC1ubCBhcmNoL3Bvd2VycGMvbGliL2NydHNhdnJlcy5vICRrZXJuZWxkaXIvYXJjaC9wb3dl
-cnBjL2xpYi9jcnRzYXZyZXMubw0KPiAgCWZpDQo+ICANCj4gIAkjIE5lY2Vzc2FyeSBmb3IgYnVp
-bGRpbmcgbW9kdWxlcyBsaWtlIGNvbXBhdC13aXJlbGVzcy4NCj4gIAlpZiBbIC1mIGluY2x1ZGUv
-Z2VuZXJhdGVkL2JvdW5kcy5oIF07IHRoZW4NCj4gLQkJY3AgaW5jbHVkZS9nZW5lcmF0ZWQvYm91
-bmRzLmggJGtlcm5lbGRpci9pbmNsdWRlL2dlbmVyYXRlZC9ib3VuZHMuaA0KPiArCQljcCAtbmwg
-aW5jbHVkZS9nZW5lcmF0ZWQvYm91bmRzLmggJGtlcm5lbGRpci9pbmNsdWRlL2dlbmVyYXRlZC9i
-b3VuZHMuaA0KPiAgCWZpDQo+ICAJaWYgWyAtZCBhcmNoLyR7QVJDSH0vaW5jbHVkZS9nZW5lcmF0
-ZWQgXTsgdGhlbg0KPiAgCQlta2RpciAtcCAka2VybmVsZGlyL2FyY2gvJHtBUkNIfS9pbmNsdWRl
-L2dlbmVyYXRlZC8NCj4gLQkJY3AgLWZSIGFyY2gvJHtBUkNIfS9pbmNsdWRlL2dlbmVyYXRlZC8q
-ICRrZXJuZWxkaXIvYXJjaC8ke0FSQ0h9L2luY2x1ZGUvZ2VuZXJhdGVkLw0KPiArCQljcCAtZm5s
-UiBhcmNoLyR7QVJDSH0vaW5jbHVkZS9nZW5lcmF0ZWQvKiAka2VybmVsZGlyL2FyY2gvJHtBUkNI
-fS9pbmNsdWRlL2dlbmVyYXRlZC8NCj4gIAlmaQ0KPiAgDQo+ICAJIyBSZW1vdmUgdGhlIGZvbGxv
-d2luZyBiaW5hcmllcyB3aGljaCBjYXVzZSBzdHJpcCBvciBhcmNoIFFBIGVycm9ycw0KPiANCj4g
-DQoNCi0tIA0KRGFycmVuIEhhcnQNCkludGVsIE9wZW4gU291cmNlIFRlY2hub2xvZ3kgQ2VudGVy
-DQpZb2N0byBQcm9qZWN0IC0gTGludXggS2VybmVsDQoNCg==
+On Fri, 2013-11-08 at 10:59 -0500, Bruce Ashfield wrote:
+> On 13-11-08 10:55 AM, Richard Purdie wrote:
+> > On Fri, 2013-11-08 at 10:41 -0500, Bruce Ashfield wrote:
+> >> On 13-11-08 10:18 AM, Richard Purdie wrote:
+> >>> The kernel tree is large and doesn't need to be copied. Override
+> >>> the default sysroot handling function to use a hardlink copying
+> >>> function in python.
+> >>>
+> >>> This commit also drops the copying of the /lib directory which
+> >>> just contains the kernel modules. We never use those in the sysroot
+> >>> so there is little point in carrying those around.
+> >>>
+> >>> For linux-yocto this takes the do_populate_sysroot time 24s -> 14s.
+> >>
+> >> Fantastic. One less thing for me to dig into later. I thought this
+> >> was already in place, so I'm pleasantly surprised that there was a
+> >> time savings to be found!
+> >
+> > I was somewhat surprised too.
+> >
+> > We still need to optimise what we install in do_install since that is
+> > where significant gains can still be made.
+> 
+> Agreed. I started some changes in that area right after ELC-e, I'll
+> try and get them out sooner rather than later.
+
+I thought I'd share this for people's interest:
+
+http://dan.rpsys.net/kernelbuildissue.png
+
+Its the output from pybootchart of a bitbake core-image-sato from
+scratch. I've zoomed out to put some bars in particular into
+perspective.
+
+The pink colour is linux-yocto:do_install, the cyan is
+linux-yocto:do_package and the blue is linux-yocto:do_populate_sysroot.
+The uncoloured bar at the bottom is linux-yocto:do_package_write_rpm.
+
+So the final thing to build is the kernel by quite some margin, its
+holding the rest of the build up.
+
+Hopefully these patches start to improve that a bit!
+
+Cheers,
+
+Richard
+
 
