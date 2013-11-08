@@ -1,32 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BC0776D59F;
-	Fri,  8 Nov 2013 09:48:01 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA89lnIO013275; Fri, 8 Nov 2013 09:47:49 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id oRqwlXiuWSal; Fri,  8 Nov 2013 09:47:49 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rA89ljlZ013272
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 8 Nov 2013 09:47:46 GMT
-Message-ID: <1383904061.6271.297.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrea Adami <andrea.adami@gmail.com>
-Date: Fri, 08 Nov 2013 09:47:41 +0000
-In-Reply-To: <CAAQYJAuMoE6gOMmM2trSN1MY7weCF+07JAJuhQu1K=p5KxO=Yg@mail.gmail.com>
-References: <1383866326.6271.286.camel@ted>
-	<CAJTo0LYq5PmQtBdwghmDGLs2ccTO6BBwJNGw7s37Yt+zjkWU6Q@mail.gmail.com>
-	<CAAQYJAuMoE6gOMmM2trSN1MY7weCF+07JAJuhQu1K=p5KxO=Yg@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: Default DISTRO to nodistro
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A75596D35C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Nov 2013 10:16:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA8AG6VA005816
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 8 Nov 2013 02:16:06 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 8 Nov 2013 02:16:05 -0800
+Message-ID: <527CB9D9.80804@windriver.com>
+Date: Fri, 8 Nov 2013 18:15:53 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Jonathan Liu <net147@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <52777AD9.20201@gmail.com> <52778738.5010706@windriver.com>
+	<527CAB5B.9080601@gmail.com>
+In-Reply-To: <527CAB5B.9080601@gmail.com>
+Subject: Re: [dora] Cherry-pick Qt fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,41 +35,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 09:48:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Nov 2013 10:16:08 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-11-08 at 10:33 +0100, Andrea Adami wrote:
-> On Fri, Nov 8, 2013 at 10:25 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 7 November 2013 23:18, Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> >> +DISTRO ??= "nodistro"
-> >
-> > Wouldn't "oe-core" be a better name, considering that's what
-> > DISTROVERSION becomes if DISTRO is unset?
-> >
-> > Ross
-> 
-> 
-> Agreed, we already have DISTRO_VERSION = "oe-core.0"
-> This sounds also the right name for THE default distro.
 
-I disagree and I feel quite strongly about this. OE-Core is not a
-distro. The whole idea was that OE-Core should build with sane defaults
-without any distro set. This is a dummy placeholder value and it really
-does mean to say that no distro is set.
+On 11/08/2013 05:14 PM, Jonathan Liu wrote:
+> Hi Robert,
+>
+> Is the queue visible publically?
 
-We did put a value into the DISTRO_VERSION field so you could tell what
-was being used but again its a placeholder.
+Hi Jonathan,
 
-So in my view "nodistro" is clearer about what is meant.
+I will put the branch to poky-contrib:
 
-Cheers,
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib
 
-Richard
+If you can access it, then yes. We haven't figured out which ones should
+go into dora atm., I will put it to the robert/dora-next temporally when
+it is done.
 
+// Robert
 
-
-
-
+>
+> Regards,
+> Jonathan
+>
+> On 4/11/2013 10:38 PM, Robert Yang wrote:
+>>
+>> Hi Jonathan,
+>>
+>> Thank you very much, these will be included in the queue.
+>>
+>> // Robert
+>>
+>> On 11/04/2013 06:45 PM, Jonathan Liu wrote:
+>>> Hi Robert,
+>>>
+>>> I propose we cherry-pick the following Qt fixes from master to dora branch:
+>>> -qt4: add upstream QTBUG-31579 patch for QPainter regression
+>>> [OE-Core/a5afc67cbfc32beb3be10392bf9788cfc3610ab1]
+>>> -nativesdk-qt4-tools: create qt.conf file
+>>> [OE-Core/23f88695683a8e428375a8ccb6be935347a8768c]
+>>> -meta-toolchain-qt: put QT_CONF_PATH in environment script
+>>> [OE-Core/fffa4c37c49b169f663d28612b9251819cef9577]
+>>> -qt4: add upstream QTBUG-34218/QTBUG-34234 misaligned selection patch
+>>> [OE-Core/3af8f2e0697a9523d3b505ba4c48eca35f6de3a9]
+>>>
+>>> Regards,
+>>> Jonathan
+>>>
+>>>
+>
+>
+>
 
