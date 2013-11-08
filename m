@@ -1,36 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 806FE6D2F5;
-	Fri,  8 Nov 2013 16:28:50 +0000 (UTC)
-Received: by mail-ie0-f177.google.com with SMTP id e14so3604318iej.36
-	for <multiple recipients>; Fri, 08 Nov 2013 08:28:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=EGkGdlCt87+Yqfvmk3C87JOq0RlQvJMFdoTpexxNkHc=;
-	b=O8cCGrRonm0kNBoy5pHYo3DUIaTmRe1upKwjH+nMccZy4yKvPwuhAD0rZlg3pt+FO1
-	Xvaw6gacVn9CccQFFjbFruYpnXkd8MGLWjjgxnWRC236eavjI7wZkhTo8aYUfrdGK64f
-	tk84SvbDExOR5FXAwvMHwWnj2cekewpSDuah8+IPAtn8ivs0hmGsZb0xIolIUYPPRcgW
-	luKhxtCxDplro5qDQb+rtq/+VYQJw91z0fbDyVy0Giv0bN6YtcDnEnBkKeTbikMy05A3
-	EOenlWzAkFQc3mystfxmvAzOeIT771mLuholMSg6GUl+6h+H2p/bA6bUnpA2JUGN8hFu
-	jeNQ==
-X-Received: by 10.50.22.67 with SMTP id b3mr2918502igf.39.1383928131999; Fri,
-	08 Nov 2013 08:28:51 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.79.167 with HTTP; Fri, 8 Nov 2013 08:28:21 -0800 (PST)
-In-Reply-To: <1383904061.6271.297.camel@ted>
-References: <1383866326.6271.286.camel@ted>
-	<CAJTo0LYq5PmQtBdwghmDGLs2ccTO6BBwJNGw7s37Yt+zjkWU6Q@mail.gmail.com>
-	<CAAQYJAuMoE6gOMmM2trSN1MY7weCF+07JAJuhQu1K=p5KxO=Yg@mail.gmail.com>
-	<1383904061.6271.297.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 Nov 2013 08:28:21 -0800
-Message-ID: <CAMKF1spkbD03MT2x8vbXBQkN+Jv5PE3EQvZek35bC40NHmy1iw@mail.gmail.com>
+Return-Path: <darren.hart@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FE896D350
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Nov 2013 16:48:27 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Nov 2013 08:48:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,661,1378882800"; d="scan'208";a="430130047"
+Received: from fmsmsx104.amr.corp.intel.com ([10.19.9.35])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Nov 2013 08:48:02 -0800
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.92]) by
+	FMSMSX104.amr.corp.intel.com ([169.254.4.240]) with mapi id
+	14.03.0123.003; Fri, 8 Nov 2013 08:48:01 -0800
+From: "Hart, Darren" <darren.hart@intel.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembeded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: Default DISTRO to nodistro
+Thread-Topic: [PATCH] kernel: Use hardlinks during do_install for speed
+Thread-Index: AQHO3JWiKeNHe0r0N0a0tvMZG+rg/ZocEYIA
+Date: Fri, 8 Nov 2013 16:48:01 +0000
+Message-ID: <1383929280.5378.110.camel@dvhart-mobl4.amr.corp.intel.com>
+References: <1383923827.2345.2.camel@ted>
+In-Reply-To: <1383923827.2345.2.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.15.85]
+MIME-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel: Use hardlinks during do_install for speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +39,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 16:28:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Nov 2013 16:48:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8C45BDDB8F444543B82B98B1DA42B538@intel.com>
+Content-Transfer-Encoding: base64
 
-On Fri, Nov 8, 2013 at 1:47 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2013-11-08 at 10:33 +0100, Andrea Adami wrote:
->> On Fri, Nov 8, 2013 at 10:25 AM, Burton, Ross <ross.burton@intel.com> wrote:
->> > On 7 November 2013 23:18, Richard Purdie
->> > <richard.purdie@linuxfoundation.org> wrote:
->> >> +DISTRO ??= "nodistro"
->> >
->> > Wouldn't "oe-core" be a better name, considering that's what
->> > DISTROVERSION becomes if DISTRO is unset?
->> >
->> > Ross
->>
->>
->> Agreed, we already have DISTRO_VERSION = "oe-core.0"
->> This sounds also the right name for THE default distro.
->
-> I disagree and I feel quite strongly about this. OE-Core is not a
-> distro. The whole idea was that OE-Core should build with sane defaults
-> without any distro set. This is a dummy placeholder value and it really
-> does mean to say that no distro is set.
->
-> We did put a value into the DISTRO_VERSION field so you could tell what
-> was being used but again its a placeholder.
->
-> So in my view "nodistro" is clearer about what is meant.
-
-yes I concur. change it to nodistro or distroless and please change
-DISTRO_VERSION accordingly as well
-to be called nodistro.X or distroless.X
-
-
->
-> Cheers,
->
-> Richard
->
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+T24gRnJpLCAyMDEzLTExLTA4IGF0IDE1OjE3ICswMDAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
+Cj4gV2hpbHN0IHRoZSBjb21tZW50IHNheXMgd2UgY2FuJ3QgZG8gdGhpcywgaXRzIGluY29ycmVj
+dCwgaW5zdGFsbCBvcGVyYXRlcw0KPiBvbiBXT1JLRElSIGFuZCBpdHMgaGFyZCBmb3IgZGlmZmVy
+ZW50IHBhcnRzIG9mIFdPUktESVIgdG8gYmUgb24gZGlmZmVyZW50DQoNCklzIGl0IGhhcmQ/IE9y
+IGlzIGl0IG5vdCBwb3NzaWJsZSAvIG5vdCBzdXBwb3J0ZWQ/DQoNCk15IHVuZGVyc3RhbmRpbmcg
+d2FzIGl0IHdhcyBwb3NzaWJsZSBhbmQgdGhlcmVmb3Igd2UgY291bGRuJ3QgaGFyZGxpbmsuDQpJ
+J20gdGhyaWxsZWQgYXQgdGhlIHByb3NwZWN0IG9mIGJlaW5nIHdyb25nIHRoZXJlIHRob3VnaCEN
+Cg0KPiBmaWxlc3lzdGVtcy4gSGFyZGxpbmtpbmcgaW5zdGVhZCBvZiBjb3B5aW5nIGlzIHRoZXJl
+Zm9yZSBhIG5pY2UgcGVyZm9ybWFuY2UNCj4gZ2Fpbi4NCj4gDQo+IEFsc28sIGNvbXBsZXRlbHkg
+c2tpcCB0aGUgRG9jdW1lbnRhdGlvbiBkaXJlY3RvcnkgKGFkZGluZyBhIGR1bW15IE1ha2VmaWxl
+DQo+IHRvIGtlZXAgbWFrZSBoYXBweSkgYW5kIHR3ZWFrIHRoZSBvdGhlciBjcCBjb21tYW5kcyB0
+byBsaW5rIHNpbmNlIGlmIHdlDQo+IGRvbid0IHdlJ2QgZ2V0ICJ0aGlzIGlzIHRoZSBzYW1lIGZp
+bGUiIHR5cGUgZXJyb3JzIGZyb20gY3AgZm9yIHNvbWUga2VybmVsDQo+IHZlcnNpb25zLg0KPiAN
+Cj4gRm9yIGRvX2luc3RhbGwgb24gbGludXgteW9jdG8sIHRoaXMgdGFrZXMgaXQgZnJvbSAyMjdz
+IC0+IDg0cy4NCg0KVGhpcywgYW5kIHRoZSBvdGhlcnMsIGFyZSBmYW50YXN0aWMgaW1wcm92ZW1l
+bnRzLCB0aGFua3MgUlAhDQoNCi0tDQpEYXJyZW4NCg0KPiANCj4gU2lnbmVkLW9mZi1ieTogUmlj
+aGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+IC0tLQ0K
+PiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzIGIvbWV0YS9jbGFzc2Vz
+L2tlcm5lbC5iYmNsYXNzDQo+IGluZGV4IGE0ZGI5ZjUuLjBiNjM2MGYgMTAwNjQ0DQo+IC0tLSBh
+L21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0KPiArKysgYi9tZXRhL2NsYXNzZXMva2VybmVs
+LmJiY2xhc3MNCj4gQEAgLTIzNiwyMCArMjM2LDIxIEBAIGtlcm5lbF9kb19pbnN0YWxsKCkgew0K
+PiAgCSMgZGlyLiBUaGlzIGVuc3VyZXMgdGhlIG9yaWdpbmFsIE1ha2VmaWxlcyBhcmUgdXNlZCBh
+bmQgbm90IHRoZQ0KPiAgCSMgcmVkaXJlY3RpbmcgTWFrZWZpbGVzIGluIHRoZSBidWlsZCBkaXJl
+Y3RvcnkuDQo+ICAJIw0KPiAtCSMgd29yayBhbmQgc3lzcm9vdHMgY2FuIGJlIG9uIGRpZmZlcmVu
+dCBwYXJ0aXRpb25zLCBzbyB3ZSBjYW4ndCByZWx5IG9uDQo+IC0JIyBoYXJkbGlua2luZywgdW5m
+b3J0dW5hdGVseS4NCj4gLQkjDQo+IC0JZmluZCAuIC1kZXB0aCAtbm90IC1uYW1lICIqLmNtZCIg
+LW5vdCAtbmFtZSAiKi5vIiAtbm90IC1wYXRoICIuLy4qIiAtcHJpbnQwIHwgY3BpbyAtLW51bGwg
+LXBkdSAka2VybmVsZGlyDQo+ICsJZmluZCAuIC1kZXB0aCAtbm90IC1uYW1lICIqLmNtZCIgLW5v
+dCAtbmFtZSAiKi5vIiAtbm90IC1wYXRoICIuL0RvY3VtZW50YXRpb24qIiAtbm90IC1wYXRoICIu
+Ly4qIiAtcHJpbnQwIHwgY3BpbyAtLW51bGwgLXBkbHUgJGtlcm5lbGRpcg0KPiAgCWNwIC5jb25m
+aWcgJGtlcm5lbGRpcg0KPiAgCWlmIFsgIiR7U30iICE9ICIke0J9IiBdOyB0aGVuDQo+ICAJCXB3
+ZD0iJFBXRCINCj4gIAkJY2QgIiR7U30iDQo+IC0JCWZpbmQgLiAtZGVwdGggLW5vdCAtcGF0aCAi
+Li8uKiIgLXByaW50MCB8IGNwaW8gLS1udWxsIC1wZHUgJGtlcm5lbGRpcg0KPiArCQlmaW5kIC4g
+LWRlcHRoIC1ub3QgLXBhdGggIi4vRG9jdW1lbnRhdGlvbioiIC1ub3QgLXBhdGggIi4vLioiIC1w
+cmludDAgfCBjcGlvIC0tbnVsbCAtcGRsdSAka2VybmVsZGlyDQo+ICAJCWNkICIkcHdkIg0KPiAg
+CWZpDQo+ICAJaW5zdGFsbCAtbSAwNjQ0ICR7S0VSTkVMX09VVFBVVH0gJGtlcm5lbGRpci8ke0tF
+Uk5FTF9JTUFHRVRZUEV9DQo+ICAJaW5zdGFsbCAtbSAwNjQ0IFN5c3RlbS5tYXAgJGtlcm5lbGRp
+ci9TeXN0ZW0ubWFwLSR7S0VSTkVMX1ZFUlNJT059DQo+ICANCj4gKwkjIER1bW15IE1ha2VmaWxl
+IHNvIHRoZSBjbGVhbiBiZWxvdyB3b3Jrcw0KPiArICAgICAgICBta2RpciAka2VybmVsZGlyL0Rv
+Y3VtZW50YXRpb24NCj4gKyAgICAgICAgdG91Y2ggJGtlcm5lbGRpci9Eb2N1bWVudGF0aW9uL01h
+a2VmaWxlDQo+ICsNCj4gIAkjDQo+ICAJIyBDbGVhbiBhbmQgcmVtb3ZlIGZpbGVzIG5vdCBuZWVk
+ZWQgZm9yIGJ1aWxkaW5nIG1vZHVsZXMuDQo+ICAJIyBTb21lIGRpc3RyaWJ1dGlvbnMgZ28gdGhy
+b3VnaCBhIGxvdCBtb3JlIHRyb3VibGUgdG8gc3RyaXAgb3V0DQo+IEBAIC0yNjIsMjIgKzI2Mywy
+MSBAQCBrZXJuZWxfZG9faW5zdGFsbCgpIHsNCj4gIAlvZV9ydW5tYWtlIC1DICRrZXJuZWxkaXIg
+Q0M9IiR7S0VSTkVMX0NDfSIgTEQ9IiR7S0VSTkVMX0xEfSIgY2xlYW4NCj4gIAltYWtlIC1DICRr
+ZXJuZWxkaXIgX21ycHJvcGVyX3NjcmlwdHMNCj4gIAlmaW5kICRrZXJuZWxkaXIgLXBhdGggJGtl
+cm5lbGRpci9saWIgLXBydW5lIC1vIC1wYXRoICRrZXJuZWxkaXIvdG9vbHMgLXBydW5lIC1vIC1w
+YXRoICRrZXJuZWxkaXIvc2NyaXB0cyAtcHJ1bmUgLW8gLW5hbWUgIiouW2NzU10iIC1leGVjIHJt
+ICd7fScgXDsNCj4gLQlmaW5kICRrZXJuZWxkaXIvRG9jdW1lbnRhdGlvbiAtbmFtZSAiKi50eHQi
+IC1leGVjIHJtICd7fScgXDsNCj4gIA0KPiAgCSMgQXMgb2YgTGludXgga2VybmVsIHZlcnNpb24g
+My4wLjEsIHRoZSBjbGVhbiB0YXJnZXQgcmVtb3Zlcw0KPiAgCSMgYXJjaC9wb3dlcnBjL2xpYi9j
+cnRzYXZyZXMubyB3aGljaCBpcyBwcmVzZW50IGluDQo+ICAJIyBLQlVJTERfTERGTEFHU19NT0RV
+TEUsIG1ha2luZyBpdCByZXF1aXJlZCB0byBidWlsZCBleHRlcm5hbCBtb2R1bGVzLg0KPiAgCWlm
+IFsgJHtBUkNIfSA9ICJwb3dlcnBjIiBdOyB0aGVuDQo+IC0JCWNwIGFyY2gvcG93ZXJwYy9saWIv
+Y3J0c2F2cmVzLm8gJGtlcm5lbGRpci9hcmNoL3Bvd2VycGMvbGliL2NydHNhdnJlcy5vDQo+ICsJ
+CWNwIC1ubCBhcmNoL3Bvd2VycGMvbGliL2NydHNhdnJlcy5vICRrZXJuZWxkaXIvYXJjaC9wb3dl
+cnBjL2xpYi9jcnRzYXZyZXMubw0KPiAgCWZpDQo+ICANCj4gIAkjIE5lY2Vzc2FyeSBmb3IgYnVp
+bGRpbmcgbW9kdWxlcyBsaWtlIGNvbXBhdC13aXJlbGVzcy4NCj4gIAlpZiBbIC1mIGluY2x1ZGUv
+Z2VuZXJhdGVkL2JvdW5kcy5oIF07IHRoZW4NCj4gLQkJY3AgaW5jbHVkZS9nZW5lcmF0ZWQvYm91
+bmRzLmggJGtlcm5lbGRpci9pbmNsdWRlL2dlbmVyYXRlZC9ib3VuZHMuaA0KPiArCQljcCAtbmwg
+aW5jbHVkZS9nZW5lcmF0ZWQvYm91bmRzLmggJGtlcm5lbGRpci9pbmNsdWRlL2dlbmVyYXRlZC9i
+b3VuZHMuaA0KPiAgCWZpDQo+ICAJaWYgWyAtZCBhcmNoLyR7QVJDSH0vaW5jbHVkZS9nZW5lcmF0
+ZWQgXTsgdGhlbg0KPiAgCQlta2RpciAtcCAka2VybmVsZGlyL2FyY2gvJHtBUkNIfS9pbmNsdWRl
+L2dlbmVyYXRlZC8NCj4gLQkJY3AgLWZSIGFyY2gvJHtBUkNIfS9pbmNsdWRlL2dlbmVyYXRlZC8q
+ICRrZXJuZWxkaXIvYXJjaC8ke0FSQ0h9L2luY2x1ZGUvZ2VuZXJhdGVkLw0KPiArCQljcCAtZm5s
+UiBhcmNoLyR7QVJDSH0vaW5jbHVkZS9nZW5lcmF0ZWQvKiAka2VybmVsZGlyL2FyY2gvJHtBUkNI
+fS9pbmNsdWRlL2dlbmVyYXRlZC8NCj4gIAlmaQ0KPiAgDQo+ICAJIyBSZW1vdmUgdGhlIGZvbGxv
+d2luZyBiaW5hcmllcyB3aGljaCBjYXVzZSBzdHJpcCBvciBhcmNoIFFBIGVycm9ycw0KPiANCj4g
+DQoNCi0tIA0KRGFycmVuIEhhcnQNCkludGVsIE9wZW4gU291cmNlIFRlY2hub2xvZ3kgQ2VudGVy
+DQpZb2N0byBQcm9qZWN0IC0gTGludXggS2VybmVsDQoNCg==
 
