@@ -1,39 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 20E4D6D2D3
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F00AD6D2EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 20:03:16 +0000 (UTC)
-Received: by mail-pd0-f182.google.com with SMTP id q10so2599199pdj.27
+	Fri,  8 Nov 2013 20:33:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA8KXT8p010959
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2013 12:03:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=rM+Lx7fVsNj4lockp9us2aJ0z8ey0QhIoAK0S8UuZ8w=;
-	b=rYjxORpZVusZNhywdfnA6PQF5Dt8fYrC/TyuVGKsyddqc1qO/hTU9FySjSQq2zTRUS
-	Nz58pCBt7kX6qQiU3NfqkDdrouaCFjQG4anmflkJkWM9H3xrqXP6x5xki4dNQ/gyCaBp
-	k8sAKOMQY1J2MmNjKXlrMfROqEMmTNcqYBKonM9y6k5f86NWVq/OCRlc+ReI65lGi7XZ
-	QfYRgrP1U2OW9UOAMm2IQx/N7ibzPYKi3OuU1oiWZTReMY6XF9lq8+4knc2anXRZBqr8
-	mLN3ViRnyVrSP9rXKACz/oDEJG5o16iJYWx2IIDpwxilluKwmRmjS1o/Lcd14ze4TVav
-	JqoA==
-X-Received: by 10.68.197.36 with SMTP id ir4mr16803159pbc.96.1383940997904;
-	Fri, 08 Nov 2013 12:03:17 -0800 (PST)
-Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPSA id
-	vk17sm16405495pab.5.2013.11.08.12.03.16 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 08 Nov 2013 12:03:16 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.0 \(1822\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <527D3FA5.5020100@mlbassoc.com>
-Date: Fri, 8 Nov 2013 12:03:14 -0800
-Message-Id: <AC56E440-0604-437B-B3FF-F4FE6D4FBFDF@gmail.com>
-References: <527D3FA5.5020100@mlbassoc.com>
-To: Gary Thomas <gary@mlbassoc.com>
-X-Mailer: Apple Mail (2.1822)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Qt bugs?
+	Fri, 8 Nov 2013 12:33:29 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 8 Nov 2013 12:33:29 -0800
+Message-ID: <527D4A98.60401@windriver.com>
+Date: Fri, 8 Nov 2013 14:33:28 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1383369426.git.Qi.Chen@windriver.com>
+	<b82b60b4613392b22d586aca914841b96c5f722d.1383369426.git.Qi.Chen@windriver.com>
+In-Reply-To: <b82b60b4613392b22d586aca914841b96c5f722d.1383369426.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 2/2] sysvinit: adjust boot sequence and remove hack from udev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +36,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 20:03:17 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Nov 2013 20:33:29 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 11/2/13, 12:22 AM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <qi.chen@windriver.com>
+>
+> Adjust the boot sequence in sysvinit based systems.
+>
+> The mountall.sh (mounting the local file system) needs to be started
+> before udev and bootlogd.
+>
+> This patch makes mountall.sh start before udev and removes the hack of
+> mounting tmpfs in the udev init script.
+>
+> This patch also adds some comments to the udev init script to make it
+> clear why we create the '/var/volatile/tmp' directory.
 
-On Nov 8, 2013, at 11:46 AM, Gary Thomas <gary@mlbassoc.com> wrote:
+Someone else might be able to comment on this.  Can you move mountall before 
+udev?  I thought udev may be required in order to setup the hardware, or at 
+least the device nodes to permit the mounting.
 
-> I'm pretty sure that Qt4 is just a package used to test OE-core =
-(Yocto)
-> capabilities, so I'm wondering where to send bug reports?  Just
-> trying the Qt4e demo exposes tons of problems=85
+Mounting before bootlogd I can see.  Since w/o the mounts there may be nowhere 
+to write to.
 
-Report upstream to QT thats probably your best place to get response
-but if there are build/packaging issues then they belong here.
+--Mark
 
->=20
-> --=20
-> ------------------------------------------------------------
-> Gary Thomas                 |  Consulting for the
-> MLB Associates              |    Embedded world
-> ------------------------------------------------------------
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> [YOCTO #5273]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-core/initscripts/initscripts_1.0.bb   |    2 +-
+>   meta/recipes-core/udev/udev.inc                    |    2 +-
+>   meta/recipes-core/udev/udev/init                   |    4 +++-
+>   .../modutils-initscripts/modutils-initscripts.bb   |    2 +-
+>   4 files changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> index c2998c3..2d58266 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -115,7 +115,7 @@ do_install () {
+>   	update-rc.d -r ${D} save-rtc.sh start 25 0 6 .
+>   	update-rc.d -r ${D} banner.sh start 02 S .
+>   	update-rc.d -r ${D} checkroot.sh start 06 S .
+> -	update-rc.d -r ${D} mountall.sh start 35 S .
+> +	update-rc.d -r ${D} mountall.sh start 03 S .
+>   	update-rc.d -r ${D} hostname.sh start 39 S .
+>   	update-rc.d -r ${D} mountnfs.sh start 45 S .
+>   	update-rc.d -r ${D} bootmisc.sh start 55 S .
+> diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+> index 2ff8f00..02cab3b 100644
+> --- a/meta/recipes-core/udev/udev.inc
+> +++ b/meta/recipes-core/udev/udev.inc
+> @@ -50,7 +50,7 @@ PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
+>
+>   INITSCRIPT_PACKAGES = "udev udev-cache"
+>   INITSCRIPT_NAME_udev = "udev"
+> -INITSCRIPT_PARAMS_udev = "start 03 S ."
+> +INITSCRIPT_PARAMS_udev = "start 04 S ."
+>   INITSCRIPT_NAME_udev-cache = "udev-cache"
+>   INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
+>
+> diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
+> index e048a17..410a650 100644
+> --- a/meta/recipes-core/udev/udev/init
+> +++ b/meta/recipes-core/udev/udev/init
+> @@ -54,7 +54,9 @@ case "$1" in
+>       }
+>       [ -e /dev/pts ] || mkdir -m 0755 /dev/pts
+>       [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
+> -    mount -a -t tmpfs 2>/dev/null
+> +    # the automount rule for udev needs /tmp directory available, as /tmp is a symlink
+> +    # to /var/tmp which in turn is a symlink to /var/volatile/tmp, we need to make sure
+> +    # /var/volatile/tmp directory to be available.
+>       mkdir -p /var/volatile/tmp
+>
+>       # Cache handling.
+> diff --git a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
+> index 89d38cf..594e554 100644
+> --- a/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
+> +++ b/meta/recipes-kernel/modutils-initscripts/modutils-initscripts.bb
+> @@ -7,7 +7,7 @@ SRC_URI = "file://modutils.sh \
+>   PR = "r6"
+>
+>   INITSCRIPT_NAME = "modutils.sh"
+> -INITSCRIPT_PARAMS = "start 4 S ."
+> +INITSCRIPT_PARAMS = "start 05 S ."
+>
+>   inherit update-rc.d
+>
+>
 
 
