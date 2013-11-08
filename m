@@ -1,33 +1,24 @@
-Return-Path: <sakoman@gmail.com>
-Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id F10A36D288
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DAC56D2BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 21:04:45 +0000 (UTC)
-Received: by mail-ob0-f173.google.com with SMTP id wm4so2038724obc.32
+	Fri,  8 Nov 2013 21:49:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA8LnVht020378
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2013 13:04:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=t5UOzwTQ+c2GC14b3e+glYubjJeSg6GoY2e6twQoCTA=;
-	b=Ro4VGE1NIk4tJmpuxgzGuUoDLZLIXBJuoz2lCKToLkLe6YbXRjUms6W3rAw5FRBJwa
-	lIIRHEksuoU8hv1xGK+qq3WnSZ14PFFgoaKmdg0x0BeNKDHaDVLVjwyOcEscOJfV3xmR
-	XEpS/zE19/R5sjfIchsGMkHXXOT2Rz3RfheGvOehs1pSJCQWqUbrjdy7Arfw6j7VyLF8
-	teDJ9u+GVNH+JsyaaPU1vFEgB/Zv8sq7/S777bP/+kZ7Tv/dKnf2K8B9Ln9KlZB/EOfP
-	iK/8V/jN/yP52E+muVcMW4rwPapOIzO2QfwgOM1DMQrl148ZSuBNTjffIinYM69/tn3+
-	8oFA==
+	Fri, 8 Nov 2013 13:49:31 -0800 (PST)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 8 Nov 2013 13:49:31 -0800
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 8 Nov 2013 13:49:32 -0800
+Message-ID: <1383947372-20075-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-Received: by 10.60.42.203 with SMTP id q11mr2970819oel.54.1383944687059;
-	Fri, 08 Nov 2013 13:04:47 -0800 (PST)
-Received: by 10.182.120.201 with HTTP; Fri, 8 Nov 2013 13:04:46 -0800 (PST)
-In-Reply-To: <1383944318-23406-1-git-send-email-steve@sakoman.com>
-References: <1383944318-23406-1-git-send-email-steve@sakoman.com>
-Date: Fri, 8 Nov 2013 13:04:46 -0800
-Message-ID: <CAGDS+nkC94s7HPedu_5yq5+zy4wxqeA56-NadyxD1QkcJXCQ6A@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wpa-supplicant: enable CONFIG_CTRL_IFACE_DBUS_NEW
+Subject: [PATCH 1/1] linuxdoc-tools: add dependency on texinfo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,16 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 21:04:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 08 Nov 2013 21:49:31 -0000
+Content-Type: text/plain
 
-On Fri, Nov 8, 2013 at 12:58 PM, Steve Sakoman <steve@sakoman.com> wrote:
-> Without this option wifi support in connman will fail:
->
-> src/technology.c:technology_get() No matching drivers found for wifi
+We do run makeinfo, so we want to DEPEND on texinfo-native.
 
-This should be considered for dora since connman wifi support is
-broken otherwise.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Steve
+diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+index ba9c72e..d8122e6 100644
+--- a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
++++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://packages.debian.org/linuxdoc-tools"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=077ef64ec3ac257fb0d786531cf26931"
+ 
+-DEPENDS = "groff-native openjade-native"
++DEPENDS = "groff-native openjade-native texinfo-native"
+ 
+ 
+ SRC_URI = "${DEBIAN_MIRROR}/main/l/linuxdoc-tools/linuxdoc-tools_${PV}.orig.tar.gz \
+-- 
+1.7.3.4
+
 
