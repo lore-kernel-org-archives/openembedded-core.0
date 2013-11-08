@@ -1,41 +1,36 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CA1A6D76E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DD396D2DB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 12:28:13 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VelAB-0002o0-DM; Fri, 08 Nov 2013 13:28:14 +0100
-Message-ID: <1383913666.16718.97.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Ross Burton <ross.burton@intel.com>
-Date: Fri, 08 Nov 2013 12:27:46 +0000
-In-Reply-To: <1383912990-12718-1-git-send-email-ross.burton@intel.com>
+	Fri,  8 Nov 2013 12:34:49 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id hv10so1360554vcb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Nov 2013 04:34:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=VadKg0gCWCK50xFgeNtimsujmraPImyd9VmLXzMBtbQ=;
+	b=gr+wT9htF/ngjh+9rpyEjk73BMaJXJijzBi/qSHnKLrTdfL94rwpufUf+Pnw/maj2G
+	sNirhNs1aEcVUtPcE8v6SMR9+PzqpoMLLTkrZ46FtVnlCwXDpMpOjp/wEZ72+8Yd/H+7
+	yI8esBF8V8XGoRmTJsDUUjkzSS9Y23TotYB5IhZ4b92ZO0HP00SD8jb0ZCl7mrScMAq6
+	YnJGN7yTFkRnspBueyMfp8RPA1IV5bkR8d2kTbzq/5tJiCP64XLEUVXdsNCpXMNBtaZ+
+	qDy/9aMAUb7WydgMIpjJcTtgVotKnib4ZVNmTTpLUQOYkvRrUceVStNTx9Li2gJYTbZJ
+	y9hQ==
+X-Gm-Message-State: ALoCoQm+x07Kk6MhOIiG9WQaOVWJ3cF/V+k9g6uZFPlxlau37zvh6F4wbrCTFKqXG37EDQsrNFYO
+X-Received: by 10.58.232.228 with SMTP id tr4mr1121860vec.34.1383914090545;
+	Fri, 08 Nov 2013 04:34:50 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Fri, 8 Nov 2013 04:34:30 -0800 (PST)
+In-Reply-To: <1383913666.16718.97.camel@phil-desktop.brightsign>
 References: <1383912990-12718-1-git-send-email-ross.burton@intel.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Fri, 2013-11-08 at 12:16 +0000,
-	Ross Burton wrote: > Changing
-	APPENDS wasn't causing syslinux to re-run,
-	so add a manual dependency. [...]
-	> +build_syslinux_cfg[vardeps] += "APPEND" [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
+	<1383913666.16718.97.camel@phil-desktop.brightsign>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Nov 2013 12:34:30 +0000
+Message-ID: <CAJTo0Lbc5qwEKXyFjvev2uFgPP4O=qZ_Ldzg7ZGt_kcNkJe4Jg@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] syslinux: add APPENDS to dependency list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -49,21 +44,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 12:28:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Nov 2013 12:34:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2013-11-08 at 12:16 +0000, Ross Burton wrote:
-> Changing APPENDS wasn't causing syslinux to re-run, so add a manual dependency.
+On 8 November 2013 12:27, Phil Blundell <pb@pbcl.net> wrote:
+> On Fri, 2013-11-08 at 12:16 +0000, Ross Burton wrote:
+>> Changing APPENDS wasn't causing syslinux to re-run, so add a manual dependency.
+>
+> [...]
+>
+>> +build_syslinux_cfg[vardeps] += "APPEND"
+>
+> You mention APPENDS in the subject line and the commit message, but the
+> patch is actually adding APPEND (no 's').  Which is correct?
 
-[...]
+Pedant. ;)
 
-> +build_syslinux_cfg[vardeps] += "APPEND"
+V2 incoming.
 
-You mention APPENDS in the subject line and the commit message, but the
-patch is actually adding APPEND (no 's').  Which is correct?
-
-p.
-
-
+Ross
 
