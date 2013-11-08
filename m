@@ -1,29 +1,29 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <Konrad.Scherer@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 981BD6AF9F
+	by mail.openembedded.org (Postfix) with ESMTP id C66336CA17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 02:03:05 +0000 (UTC)
+	Fri,  8 Nov 2013 02:59:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA8235UJ025741
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA82xMAX027493
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 7 Nov 2013 18:03:05 -0800 (PST)
-Received: from [128.224.162.188] (128.224.162.188) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 7 Nov 2013 18:03:06 -0800
-Message-ID: <527C4658.60901@windriver.com>
-Date: Fri, 8 Nov 2013 10:03:04 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Thu, 7 Nov 2013 18:59:22 -0800 (PST)
+Received: from [147.11.118.117] (147.11.118.117) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Thu, 7 Nov 2013 18:59:22 -0800
+Message-ID: <527C5387.3020207@windriver.com>
+Date: Thu, 7 Nov 2013 21:59:19 -0500
+From: Konrad Scherer <Konrad.Scherer@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1383823754.git.jackie.huang@windriver.com>
-	<78be4278bc2425d48d16b907f9d2d2e1ae0fe2f2.1383823754.git.jackie.huang@windriver.com>
-	<527C3373.9060209@linux.intel.com>
-In-Reply-To: <527C3373.9060209@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] grub-efi-native: fix build failure on 32bit host
+To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
+References: <1383849386-7680-1-git-send-email-konrad.scherer@windriver.com>
+	<1383849386-7680-2-git-send-email-konrad.scherer@windriver.com>
+	<527C1F43.2080105@linux.intel.com>
+In-Reply-To: <527C1F43.2080105@linux.intel.com>
+X-Originating-IP: [147.11.118.117]
+Subject: Re: [PATCH] perf: Disable warnings as errors for kernels 3.1+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,332 +36,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 02:03:06 -0000
+X-List-Received-Date: Fri, 08 Nov 2013 02:59:22 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 11/8/2013 8:42 AM, Saul Wold wrote:
-> On 11/07/2013 03:30 AM, jackie.huang@windriver.com wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
+On 13-11-07 06:16 PM, Saul Wold wrote:
+> On 11/07/2013 10:36 AM, Konrad Scherer wrote:
+>> From: Konrad Scherer <Konrad.Scherer@windriver.com>
 >>
->> grub-efi-native builds grub with efi platform, then run
->> "grub-mkimage" command with built in cfg and modules to
->> generate an EFI binary for the target, and deploys it.
+>> Turns out the sed command has not been working as intended since
+>> kernel 3.1 due to the trailing space. Adding the WERROR=0 environment
+>> variable is the correct way to disable warnings as errors.
 >>
->> It works fine when build on 64bit host, but when we build
->> x86-64 target on 32bit host, it fails to build 64bit grub,
->> even if it builds, the 64bit binary "grub-mkimage" would
->> fail to run to generate EFI.
->>
->> So the solution is:
->> Add a target package grub-efi and grub-efi-native depends
->> on it, grub-efi-native will be back to real native, then
->> run "grub-mkimage" command with modules in sysroot populated
->> by grub-efi to generate the EFI binary for target.
->>
-> And why split it into 3 files?  Could you not just have a
-> DEPENDS_class-native = "grub-efi" line?
-
-Yes, I can do that for variables, but the native one have additional 
-tasks and different behaviors:
-
-addtask mkimage after do_compile before do_install
-addtask deploy after do_install before do_build
-do_install[noexec] = "1"
-do_populate_sysroot[noexec] = "1"
-
-
-I don't know how to define them differently, I tried:
-do_install_class-native[noexec] = "1"
-do_populate_sysroot_class-native[noexec] = "1"
-do_mkimage_class-target[noexec] = "1"
-do_deploy_class-target[noexec] = "1"
-
-but it didn't work.
-
+> So, I recently saw this failure:
 >
->> Another problem is -mcmodel=large is not supported by gcc
->> with version lower than 4.4, but we don't need to use
->> memory over 4GiB, so add a patch to allow compilation
->> without large model support.
->>
-> This should really be a standalone patch.
+> ERROR: Logfile of failure stored in:
+> /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86-64/build/build/tmp/work/genericx86_64-poky-linux/perf/1.0-r8/temp/log.do_configure.12897
+>
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: Executing shell function do_configure
+> | sed: can't read
+> /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86-64/build/build/tmp/sysroots/genericx86-64/usr/src/kernel/tools/perf/Makefile:
+> No such file or directory
+> | WARNING:
+> /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86-64/build/build/tmp/work/genericx86_64-poky-linux/perf/1.0-r8/temp/run.do_configure.12897:1
+> exit 2 from
+> |   sed -i 's,-Werror ,,'
+> /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86-64/build/build/tmp/sysroots/genericx86-64/usr/src/kernel/tools/perf/Makefile
+>
+> | ERROR: Function failed: do_configure (log file is located at
+> /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86-64/build/build/tmp/work/genericx86_64-poky-linux/perf/1.0-r8/temp/log.do_configure.12897)
+>
+> NOTE: recipe perf-1.0-r8: task do_configure: Failed
+> ERROR: Task 3469
+> (/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-x86-64/build/meta/recipes-kernel/perf/perf.bb,
+> do_configure) failed with exit code '1'
+>
+> I am not sure that your patch will completely address this failure.
 
-ok, I will make this a standalone patch.
-
-Thanks,
-Jackie
-
->
-> Sau!
->
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   ...allow-a-compilation-without-mcmodel-large.patch |   69
->> ++++++++++++++++++++
->>   meta/recipes-bsp/grub/grub-efi-native_2.00.bb      |   52
->> ++-------------
->>   meta/recipes-bsp/grub/grub-efi.inc                 |   44 +++++++++++++
->>   meta/recipes-bsp/grub/grub-efi_2.00.bb             |    9 +++
->>   4 files changed, 130 insertions(+), 44 deletions(-)
->>   create mode 100644
->> meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
->>
->>   create mode 100644 meta/recipes-bsp/grub/grub-efi.inc
->>   create mode 100644 meta/recipes-bsp/grub/grub-efi_2.00.bb
->>
->> diff --git
->> a/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
->> b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
->>
->> new file mode 100644
->> index 0000000..b2be74a
->> --- /dev/null
->> +++
->> b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
->>
->> @@ -0,0 +1,69 @@
->> +From 0cea0e4266214da1f11e812834f5d5c47a6e04e6 Mon Sep 17 00:00:00 2001
->> +From: Jackie Huang <jackie.huang@windriver.com>
->> +Date: Tue, 5 Nov 2013 07:23:32 -0500
->> +Subject: [PATCH] Allow a compilation without -mcmodel=large
->> +
->> +* kern/efi/mm.c (grub_efi_allocate_pages): don't allocate >4GiB
->> +  when compiled without -mcmodel=large
->> +  (filter_memory_map): remove memory post 4 GiB when compiled
->> +  without -mcmodel=large
->> +* configure.ac: add -DMCMODEL_SMALL=1 to TARGET_CFLAGS when
->> +  -mcmodel=large isn't supported
->> +
->> +Upstream-Status: Inappropriate [configuration]
->> +
->> +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> +---
->> + configure.ac            |    4 +++-
->> + grub-core/kern/efi/mm.c |    6 +++---
->> + 2 files changed, 6 insertions(+), 4 deletions(-)
->> +
->> +diff --git a/configure.ac b/configure.ac
->> +index 319d063..ee72fee 100644
->> +--- a/configure.ac
->> ++++ b/configure.ac
->> +@@ -567,7 +567,9 @@ if test "$target_cpu"-"$platform" = x86_64-efi; then
->> +               [grub_cv_cc_mcmodel=no])
->> +   ])
->> +   if test "x$grub_cv_cc_mcmodel" = xno; then
->> +-    AC_MSG_ERROR([-mcmodel=large not supported. Upgrade your gcc.])
->> ++    CFLAGS="$SAVED_CFLAGS -m64 -DMCMODEL_SMALL=1"
->> ++    TARGET_CFLAGS="$TARGET_CFLAGS -DMCMODEL_SMALL=1"
->> ++    AC_MSG_WARN([-mcmodel=large not supported. You won't be able to
->> use the memory over 4GiB. Upgrade your gcc.])
->> +   else
->> +     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=large"
->> +   fi
->> +diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
->> +index a2edc84..c67dd13 100644
->> +--- a/grub-core/kern/efi/mm.c
->> ++++ b/grub-core/kern/efi/mm.c
->> +@@ -62,7 +62,7 @@ grub_efi_allocate_pages
->> (grub_efi_physical_address_t address,
->> +     return 0;
->> + #endif
->> +
->> +-#if 1
->> ++#if defined (MCMODEL_SMALL)
->> +   if (address == 0)
->> +     {
->> +       type = GRUB_EFI_ALLOCATE_MAX_ADDRESS;
->> +@@ -305,7 +305,7 @@ filter_memory_map (grub_efi_memory_descriptor_t
->> *memory_map,
->> +        desc = NEXT_MEMORY_DESCRIPTOR (desc, desc_size))
->> +     {
->> +       if (desc->type == GRUB_EFI_CONVENTIONAL_MEMORY
->> +-#if 1
->> ++#if defined (MCMODEL_SMALL)
->> +       && desc->physical_start <= 0xffffffff
->> + #endif
->> +       && desc->physical_start + PAGES_TO_BYTES (desc->num_pages) >
->> 0x100000
->> +@@ -321,7 +321,7 @@ filter_memory_map (grub_efi_memory_descriptor_t
->> *memory_map,
->> +           desc->physical_start = 0x100000;
->> +         }
->> +
->> +-#if 1
->> ++#if defined (MCMODEL_SMALL)
->> +       if (BYTES_TO_PAGES (filtered_desc->physical_start)
->> +           + filtered_desc->num_pages
->> +           > BYTES_TO_PAGES (0x100000000LL))
->> +--
->> +1.7.1
->> +
->> diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
->> b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
->> index 04973b5..5ad194d 100644
->> --- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
->> +++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
->> @@ -1,47 +1,16 @@
->> -SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
->> +require grub-efi.inc
->>
->> -DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
->> -intended to unify bootloading across x86 operating systems. In \
->> -addition to loading the Linux kernel, it implements the Multiboot \
->> -standard, which allows for flexible loading of multiple boot images. \
->> -This recipe builds an EFI binary for the target. It does not install \
->> -or package anything, it only deploys a target-arch GRUB EFI image."
->> -
->> -HOMEPAGE = "http://www.gnu.org/software/grub/"
->> -SECTION = "bootloaders"
->> -
->> -LICENSE = "GPLv3"
->> -LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->> -
->> -# FIXME: We should be able to optionally drop freetype as a dependency
->> -DEPENDS = "autogen-native"
->> -RDEPENDS_${PN} = "diffutils freetype"
->> -PR = "r2"
->> +DEPENDS += "grub-efi"
->> +PR = "${INC_PR}.0"
->>
->>   # Native packages do not normally rebuild when the target changes.
->>   # Ensure this is built once per HOST-TARGET pair.
->>   PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
->>
->> -SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
->> -           file://cfg \
->> -           file://grub-2.00-fpmath-sse-387-fix.patch \
->> -           file://grub-2.00-fix-enable_execute_stack-check.patch \
->> -           file://grub-2.00-disable-help2man.patch \
->> -           file://check-if-liblzma-is-disabled.patch \
->> -           file://grub-no-unused-result.patch \
->> -           file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
->> -           file://fix-issue-with-flex-2.5.37.patch \
->> -          "
->> -SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
->> -SRC_URI[sha256sum] =
->> "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
->> -
->> -COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
->> -
->> -S = "${WORKDIR}/grub-${PV}"
->> -
->>   # Determine the target arch for the grub modules before the native
->> class
->> -# clobbers TARGET_ARCH.
->> +# clobbers TARGET_ARCH and STAGING_LIBDIR.
->>   ORIG_TARGET_ARCH := "${TARGET_ARCH}"
->> +ORIG_STAGING_LIBDIR := "${STAGING_LIBDIR}"
->>   python __anonymous () {
->>       import re
->>       target = d.getVar('ORIG_TARGET_ARCH', True)
->> @@ -57,19 +26,14 @@ python __anonymous () {
->>       d.setVar("GRUB_IMAGE", grubimage)
->>   }
->>
->> -inherit autotools
->> -inherit gettext
->>   inherit native
->>   inherit deploy
->>
->> -EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
->> -                --target=${GRUB_TARGET} --enable-efiemu=no
->> --program-prefix='' \
->> -                --enable-liblzma=no --enable-device-mapper=no
->> --enable-libzfs=no"
->> -
->>   do_mkimage() {
->>       # Search for the grub.cfg on the local boot media by using the
->> -    # built in cfg file provided via this recipe
->> -    ./grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
->> +    # built in cfg file provided via this recipe and modules dir
->> +    # populated by grub-efi
->> +    ./grub-mkimage -c ../cfg -p /EFI/BOOT -d
->> ${ORIG_STAGING_LIBDIR}/grub-efi/${GRUB_TARGET}-efi \
->>                      -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
->>                      boot linux ext2 fat serial part_msdos part_gpt
->> normal efi_gop iso9660 search
->>   }
->> diff --git a/meta/recipes-bsp/grub/grub-efi.inc
->> b/meta/recipes-bsp/grub/grub-efi.inc
->> new file mode 100644
->> index 0000000..fd93fe8
->> --- /dev/null
->> +++ b/meta/recipes-bsp/grub/grub-efi.inc
->> @@ -0,0 +1,44 @@
->> +SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
->> +
->> +DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
->> +intended to unify bootloading across x86 operating systems. In \
->> +addition to loading the Linux kernel, it implements the Multiboot \
->> +standard, which allows for flexible loading of multiple boot images. \
->> +This recipe builds an EFI binary for the target. It does not install \
->> +or package anything, it only deploys a target-arch GRUB EFI image."
->> +
->> +HOMEPAGE = "http://www.gnu.org/software/grub/"
->> +SECTION = "bootloaders"
->> +
->> +LICENSE = "GPLv3"
->> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->> +
->> +# FIXME: We should be able to optionally drop freetype as a dependency
->> +DEPENDS = "autogen-native flex-native"
->> +RDEPENDS_${PN} = "diffutils freetype"
->> +INC_PR = "r2"
->> +
->> +SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
->> +           file://cfg \
->> +           file://grub-2.00-fpmath-sse-387-fix.patch \
->> +           file://grub-2.00-fix-enable_execute_stack-check.patch \
->> +           file://grub-2.00-disable-help2man.patch \
->> +           file://check-if-liblzma-is-disabled.patch \
->> +           file://grub-no-unused-result.patch \
->> +           file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
->> +           file://fix-issue-with-flex-2.5.37.patch \
->> +
->> file://grub-efi-allow-a-compilation-without-mcmodel-large.patch \
->> +          "
->> +SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
->> +SRC_URI[sha256sum] =
->> "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
->> +
->> +COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
->> +
->> +S = "${WORKDIR}/grub-${PV}"
->> +
->> +inherit autotools
->> +inherit gettext
->> +
->> +EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
->> +                --enable-efiemu=no --program-prefix='' \
->> +                --enable-liblzma=no --enable-device-mapper=no
->> --enable-libzfs=no"
->> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb
->> b/meta/recipes-bsp/grub/grub-efi_2.00.bb
->> new file mode 100644
->> index 0000000..35277d7
->> --- /dev/null
->> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
->> @@ -0,0 +1,9 @@
->> +require grub-efi.inc
->> +
->> +PR = "${INC_PR}.0"
->> +FILES_${PN}-dbg += "${libdir}/${BPN}/${TARGET_ARCH}-efi/.debug"
->> +
->> +do_install_append () {
->> +    mv ${D}${libdir}/grub ${D}${libdir}/${BPN}
->> +    mv ${D}${datadir}/grub ${D}${datadir}/${BPN}
->> +}
->>
->
->
+Hmm, I have not seen that failure. The build failure my patch is 
+addressing was a "warning as error" compile failure. If the sed command 
+was moved before the call to make, that should resolve this build 
+failure as well. Should I rework the patch?
 
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+Konrad Scherer, MTS, Linux Products Group, Wind River
 
