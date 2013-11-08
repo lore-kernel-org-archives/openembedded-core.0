@@ -1,43 +1,38 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 67E916D2DB
+Return-Path: <steve@sakoman.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DD716D2D6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 20:38:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by ra.se.axis.com (Postfix) with ESMTP id EB50F11ED4
+	Fri,  8 Nov 2013 20:58:36 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id kq14so2725800pab.35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 21:38:05 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
-Received: from ra.se.axis.com ([127.0.0.1])
-	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BGHFKl9ARdcj
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 21:38:04 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by ra.se.axis.com (Postfix) with ESMTP id B413511EAA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 21:38:04 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 9E4B6A9A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 21:38:04 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 92F03974
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 21:38:04 +0100 (CET)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id 911B03E06F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 21:38:04 +0100 (CET)
-Received: from axis.com (10.92.17.1) by xmail2.se.axis.com (10.0.5.74) with
-	Microsoft SMTP Server (TLS) id 8.2.255.0; Fri, 8 Nov 2013 21:38:04 +0100
-Date: Fri, 8 Nov 2013 21:38:02 +0100
-From: Olof Johansson <olof.johansson@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20131108203802.GU20888@axis.com>
-MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Syslinux is compiling in do_install
+	Fri, 08 Nov 2013 12:58:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=X+zroCwdRJ0H3GpNRFHHWwMehtVRJJ8gQmTieAbn9Ho=;
+	b=dRtwFReMHxGizScNp/9O/DtYcKm4KYEqurThONcZMdkjEm6QlBVjH2puTA65bE6fIZ
+	6bsci2ibuSg75s8Nt5PTIxhxHQ8vNYOyz1lK5nG3xGEjShrPj54etWARt5aWBnkg8MFZ
+	zufmYVnl2wC+thFZ3G5FAg1zrSzidN0RwrzIc8OdqKLGaP7vGzkvXQYfxCTfLz5R0iMR
+	HlWLK6UbIvAhhLVUixWioDJXJx2nJc0ALv2uedMaNwcecBoxptvI6XnR8X1GZf+B8Qee
+	QH7lsog8GOOh3+Vk3Yabc5V8PrP6BHp8Xrq6TR10RyOr8s6kcGRyy/29ALGIJMHMVXOA
+	Bf4w==
+X-Gm-Message-State: ALoCoQksCARa3uZBiW9GiXC/wvg2dSydC9CO1ZHMoJUuYymS3SfajrSrdyvUWrp2P6Sa/9fKq33s
+X-Received: by 10.68.223.131 with SMTP id qu3mr17101237pbc.4.1383944317745;
+	Fri, 08 Nov 2013 12:58:37 -0800 (PST)
+Received: from localhost.localdomain
+	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
+	by mx.google.com with ESMTPSA id
+	sg1sm14124119pbb.16.2013.11.08.12.58.36 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 08 Nov 2013 12:58:36 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Nov 2013 12:58:38 -0800
+Message-Id: <1383944318-23406-1-git-send-email-steve@sakoman.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Steve Sakoman <steve@sakoman.com>
+Subject: [PATCH] wpa-supplicant: enable CONFIG_CTRL_IFACE_DBUS_NEW
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,42 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 20:38:05 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 08 Nov 2013 20:58:37 -0000
 
-Hi,
+Without this option wifi support in connman will fail:
 
-The syslinux recipe has the following do_compile:
+src/technology.c:technology_get() No matching drivers found for wifi
 
-do_compile() {
-        # Rebuild only the installer; keep precompiled bootloaders
-        # as per author's request (doc/distrib.txt)
-        oe_runmake CC="${CC} ${CFLAGS}" LDFLAGS="${LDFLAGS}" installer
-}
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../wpa-supplicant/wpa-supplicant/defconfig-gnutls |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-i.e, it only builds the syslinux installer, as documented in
-doc/distrib.txt. The issue with this though, is that it postpones
-building some stuff (like com32, where I had an unrelated issue,
-see [1]) to do_install. doc/distrib.txt doesn't say anything
-about the install target.
-
-I downloaded the tarball and built it outside of the oe
-environment, first doing only `make installer` followed by
-`make install`. The install targets results in a lot of building.
-After this, in another tree, I simply did `make`, and then `make
-install`, and the install target behaves as expected (no
-compiling).
-
-As I have very little (none at all, really) experience with
-syslinux, I'm not sure if this is a bug in the recipe (should we
-expected make install to work after only doing make installer?)
-or an upstream bug with the installer target.
-
-Any insights are welcome! :-)
-
-
-1: https://bugzilla.yoctoproject.org/show_bug.cgi?id=5054
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
+index 8be4107..92573e2 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
+@@ -347,7 +347,7 @@ CONFIG_PEERKEY=y
+ 
+ # Add support for new DBus control interface
+ # (fi.w1.hostap.wpa_supplicant1)
+-#CONFIG_CTRL_IFACE_DBUS_NEW=y
++CONFIG_CTRL_IFACE_DBUS_NEW=y
+ 
+ # Add introspection support for new DBus control interface
+ #CONFIG_CTRL_IFACE_DBUS_INTRO=y
 -- 
-olofjn
+1.7.9.5
+
 
