@@ -1,38 +1,33 @@
-Return-Path: <steve@sakoman.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DD716D2D6
+Return-Path: <sakoman@gmail.com>
+Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id F10A36D288
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 20:58:36 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id kq14so2725800pab.35
+	Fri,  8 Nov 2013 21:04:45 +0000 (UTC)
+Received: by mail-ob0-f173.google.com with SMTP id wm4so2038724obc.32
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2013 12:58:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=X+zroCwdRJ0H3GpNRFHHWwMehtVRJJ8gQmTieAbn9Ho=;
-	b=dRtwFReMHxGizScNp/9O/DtYcKm4KYEqurThONcZMdkjEm6QlBVjH2puTA65bE6fIZ
-	6bsci2ibuSg75s8Nt5PTIxhxHQ8vNYOyz1lK5nG3xGEjShrPj54etWARt5aWBnkg8MFZ
-	zufmYVnl2wC+thFZ3G5FAg1zrSzidN0RwrzIc8OdqKLGaP7vGzkvXQYfxCTfLz5R0iMR
-	HlWLK6UbIvAhhLVUixWioDJXJx2nJc0ALv2uedMaNwcecBoxptvI6XnR8X1GZf+B8Qee
-	QH7lsog8GOOh3+Vk3Yabc5V8PrP6BHp8Xrq6TR10RyOr8s6kcGRyy/29ALGIJMHMVXOA
-	Bf4w==
-X-Gm-Message-State: ALoCoQksCARa3uZBiW9GiXC/wvg2dSydC9CO1ZHMoJUuYymS3SfajrSrdyvUWrp2P6Sa/9fKq33s
-X-Received: by 10.68.223.131 with SMTP id qu3mr17101237pbc.4.1383944317745;
-	Fri, 08 Nov 2013 12:58:37 -0800 (PST)
-Received: from localhost.localdomain
-	(static-74-41-60-154.dsl1.pco.ca.frontiernet.net. [74.41.60.154])
-	by mx.google.com with ESMTPSA id
-	sg1sm14124119pbb.16.2013.11.08.12.58.36 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 08 Nov 2013 12:58:36 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Nov 2013 12:58:38 -0800
-Message-Id: <1383944318-23406-1-git-send-email-steve@sakoman.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Steve Sakoman <steve@sakoman.com>
-Subject: [PATCH] wpa-supplicant: enable CONFIG_CTRL_IFACE_DBUS_NEW
+	Fri, 08 Nov 2013 13:04:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=t5UOzwTQ+c2GC14b3e+glYubjJeSg6GoY2e6twQoCTA=;
+	b=Ro4VGE1NIk4tJmpuxgzGuUoDLZLIXBJuoz2lCKToLkLe6YbXRjUms6W3rAw5FRBJwa
+	lIIRHEksuoU8hv1xGK+qq3WnSZ14PFFgoaKmdg0x0BeNKDHaDVLVjwyOcEscOJfV3xmR
+	XEpS/zE19/R5sjfIchsGMkHXXOT2Rz3RfheGvOehs1pSJCQWqUbrjdy7Arfw6j7VyLF8
+	teDJ9u+GVNH+JsyaaPU1vFEgB/Zv8sq7/S777bP/+kZ7Tv/dKnf2K8B9Ln9KlZB/EOfP
+	iK/8V/jN/yP52E+muVcMW4rwPapOIzO2QfwgOM1DMQrl148ZSuBNTjffIinYM69/tn3+
+	8oFA==
+MIME-Version: 1.0
+X-Received: by 10.60.42.203 with SMTP id q11mr2970819oel.54.1383944687059;
+	Fri, 08 Nov 2013 13:04:47 -0800 (PST)
+Received: by 10.182.120.201 with HTTP; Fri, 8 Nov 2013 13:04:46 -0800 (PST)
+In-Reply-To: <1383944318-23406-1-git-send-email-steve@sakoman.com>
+References: <1383944318-23406-1-git-send-email-steve@sakoman.com>
+Date: Fri, 8 Nov 2013 13:04:46 -0800
+Message-ID: <CAGDS+nkC94s7HPedu_5yq5+zy4wxqeA56-NadyxD1QkcJXCQ6A@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wpa-supplicant: enable CONFIG_CTRL_IFACE_DBUS_NEW
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,31 +40,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 20:58:37 -0000
+X-List-Received-Date: Fri, 08 Nov 2013 21:04:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Without this option wifi support in connman will fail:
+On Fri, Nov 8, 2013 at 12:58 PM, Steve Sakoman <steve@sakoman.com> wrote:
+> Without this option wifi support in connman will fail:
+>
+> src/technology.c:technology_get() No matching drivers found for wifi
 
-src/technology.c:technology_get() No matching drivers found for wifi
+This should be considered for dora since connman wifi support is
+broken otherwise.
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../wpa-supplicant/wpa-supplicant/defconfig-gnutls |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
-index 8be4107..92573e2 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
-@@ -347,7 +347,7 @@ CONFIG_PEERKEY=y
- 
- # Add support for new DBus control interface
- # (fi.w1.hostap.wpa_supplicant1)
--#CONFIG_CTRL_IFACE_DBUS_NEW=y
-+CONFIG_CTRL_IFACE_DBUS_NEW=y
- 
- # Add introspection support for new DBus control interface
- #CONFIG_CTRL_IFACE_DBUS_INTRO=y
--- 
-1.7.9.5
-
+Steve
 
