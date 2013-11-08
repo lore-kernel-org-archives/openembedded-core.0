@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f169.google.com (mail-ve0-f169.google.com
-	[209.85.128.169])
-	by mail.openembedded.org (Postfix) with ESMTP id EB5246AE37
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id CB4D36D2DB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 12:13:57 +0000 (UTC)
-Received: by mail-ve0-f169.google.com with SMTP id jy13so1417373veb.28
+	Fri,  8 Nov 2013 12:16:32 +0000 (UTC)
+Received: by mail-wi0-f181.google.com with SMTP id m19so150118wiv.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2013 04:13:59 -0800 (PST)
+	Fri, 08 Nov 2013 04:16:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=7X7JmGm9eNKPjWSuVXtcD9t1U86Z8W8qcBVsfN6CTlY=;
-	b=CogX+iKrlKOZnfCUbq+0FTOPEGi3MeAKvkLJG1vD+JzTn2Znih+UxXOHDSbAusW+Q4
-	j2CgcXO4jrVjLWV7cP8/yREnS6uyzcsS2K8HaRsTZM8CIZf44J+U7kdq2ycmvidqGllP
-	u5fS1uS3cNoLAk47o+WS/QstLFxmC1oe4QhKCcH+YwbZf7/Ujnmm4GmQbhUT/lwqm5Gp
-	y82H7DI4RFPDQgEKjVoRNP5e5nv9D0tskhggHqJMqShMbyO+nfmKvfUNb6T3Fhsa5n8u
-	bkEtMiLojlS+1P9JwY4f7QklnbdDgkZ0QqN0aOn5S5IQpba6KxtFvxT8WihFZZPHInS1
-	wo3g==
-X-Gm-Message-State: ALoCoQnzhnReOFhr/g7IDOjBbKPDNWNcfhkDJxsiA0Z57QyC2PllsY8gZhp6OymSkzVQnUNUXZDN
-X-Received: by 10.221.6.195 with SMTP id ol3mr881212vcb.34.1383912839164; Fri,
-	08 Nov 2013 04:13:59 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 8 Nov 2013 04:13:39 -0800 (PST)
-In-Reply-To: <1383853654-8658-1-git-send-email-dv@pseudoterminal.org>
-References: <1383853654-8658-1-git-send-email-dv@pseudoterminal.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 8 Nov 2013 12:13:39 +0000
-Message-ID: <CAJTo0Lbt_36U_uPM7f=P-2Cqa2k9N3FcDwkdeKpHNx7E3tctFw@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0: upgrade to 1.2.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=t7gDTQjNjnS2CVP7+x5mgGhn+qLcYuvzpfDpc8PmOVY=;
+	b=KYXaQEyz1L/+oJqNHQQHpl7kFEQ61AhGvTbEsyCbra2cN7/tADoQZRXbzV5RnHq/9q
+	tbIQPupUhIL2mYKcPOhsrImKFETLdWliCUl/sPDakt1+TQWqQrfsDFfe7Nbp0qXIjwVI
+	qtdfydSfxJITm2J4mNW/HHo6jg2PYkOLzG12lWs2TQ0v3baI0u5SakJVHLmXYqmGzRdV
+	CkztGLndNRgtqrcOhZ2pgbbdlnwvUqRlW4jrnNNFEHffmWd8tkW7u5KFB3i28RGCQQ6X
+	8FcZPzEAsLfG7qVzeTv+11064/bXeISYa0610ZS/0GKwUpNNZe9T8QYKwo/uqsXVAuLC
+	JvuA==
+X-Gm-Message-State: ALoCoQkSXiqxcZgFzlbSQuJW81EqfzPkpdHfS2e8vyhbm6cy6weaAkvHJA+FhrydVOLlRmjFKhD4
+X-Received: by 10.180.108.131 with SMTP id hk3mr2188274wib.10.1383912993970;
+	Fri, 08 Nov 2013 04:16:33 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id b7sm5001807wiz.8.2013.11.08.04.16.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 08 Nov 2013 04:16:33 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Nov 2013 12:16:30 +0000
+Message-Id: <1383912990-12718-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] syslinux: add APPENDS to dependency list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,19 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 12:13:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 08 Nov 2013 12:16:33 -0000
 
-On 7 November 2013 19:47, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
->  PACKAGECONFIG ??= " \
-> -    curl eglgles wayland \
-> +    orc curl eglgles wayland uvch264 directfb neon \
-> +    hls sbc dash bz2 smoothstreaming bluez \
+Changing APPENDS wasn't causing syslinux to re-run, so add a manual dependency.
 
-eglgles and wayland should respect the opengl and wayland DISTRO_FEATURES.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/syslinux.bbclass |    1 +
+ 1 file changed, 1 insertion(+)
 
-(I've got a patch I was going to send to do that but if you're
-upgrading to 1.2 then our patches will conflict)
+diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+index 2a5b766..62d4b7a 100644
+--- a/meta/classes/syslinux.bbclass
++++ b/meta/classes/syslinux.bbclass
+@@ -179,3 +179,4 @@ python build_syslinux_cfg () {
+ 
+     cfgfile.close()
+ }
++build_syslinux_cfg[vardeps] += "APPEND"
+-- 
+1.7.10.4
 
-Ross
 
