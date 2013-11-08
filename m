@@ -1,31 +1,28 @@
-Return-Path: <sakoman@gmail.com>
-Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
-	[209.85.212.42])
-	by mail.openembedded.org (Postfix) with ESMTP id A26526D2F5
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C0A46D5B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 15:33:26 +0000 (UTC)
-Received: by mail-vb0-f42.google.com with SMTP id p14so1486735vbm.15
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2013 07:33:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=lIWr91JObu4dVzwZ0iVZ6WLLmKIVHUlUmA7SEnNWKSQ=;
-	b=WcIFO0YDEa2+7jkvU281ICexv9oVqDJG/zDKcYxAG+GiJZTbu1Tdl0jNTUm91s9irr
-	q1oSqmPFKH2KUA29BXP9BDGijixAD04llQM+gwgBJl6qJgACXp9V5w/gnjXETGmVeywx
-	EPAhcUx4ENXfNaQ5G8XNcz8upxMGEfLrNhw76OPG6ebYLNMFfVnjkH5yW50FDGcrUWY2
-	8mvNEAmz5khd62dlgOwnMUwYTNBRgQ4z/SaAzCaHkydE4NHRmzo3+/eOkbPBMT2O717S
-	9g+s2UzIcnwBKQrbRyaIkNhBqbPFROakpMdtK4BpA/rF3llKCJa4d/+N5coFfQxanZgm
-	qNzA==
+	Fri,  8 Nov 2013 15:41:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA8FfRxg013748
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 8 Nov 2013 07:41:27 -0800 (PST)
+Received: from [0.0.0.0] (147.11.178.22) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 8 Nov 2013 07:41:26 -0800
+Message-ID: <527D0624.3060407@windriver.com>
+Date: Fri, 8 Nov 2013 10:41:24 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-X-Received: by 10.58.255.71 with SMTP id ao7mr12474239ved.16.1383924807942;
-	Fri, 08 Nov 2013 07:33:27 -0800 (PST)
-Received: by 10.58.107.198 with HTTP; Fri, 8 Nov 2013 07:33:27 -0800 (PST)
-Date: Fri, 8 Nov 2013 07:33:27 -0800
-Message-ID: <CAGDS+nkupBrwgBBTbZzSnnB9pjaf2P6gMuQHn6QAZjfkFqi7ww@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Patches and discussions about the oe-core layer
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
 	<openembedded-core@lists.openembedded.org>
-Subject: [RFC] wpa-supplicant - enable CONFIG_CTRL_IFACE_DBUS_NEW in config
+References: <1383923880.2345.4.camel@ted>
+In-Reply-To: <1383923880.2345.4.camel@ted>
+Cc: "Hart, Darren" <darren.hart@intel.com>
+Subject: Re: [PATCH] kernel: Use hardlinks for do_populate_sysroot for speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,25 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 15:33:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 08 Nov 2013 15:41:28 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I've begun using Yocto 1.5 (dora) for several client projects over the
-past few weeks.
+On 13-11-08 10:18 AM, Richard Purdie wrote:
+> The kernel tree is large and doesn't need to be copied. Override
+> the default sysroot handling function to use a hardlink copying
+> function in python.
+>
+> This commit also drops the copying of the /lib directory which
+> just contains the kernel modules. We never use those in the sysroot
+> so there is little point in carrying those around.
+>
+> For linux-yocto this takes the do_populate_sysroot time 24s -> 14s.
 
-I noticed that images that included connman and wpa-supplicant always
-failed to enable the wifi technology properly.  The visible error
-indication in the log:
+Fantastic. One less thing for me to dig into later. I thought this
+was already in place, so I'm pleasantly surprised that there was a
+time savings to be found!
 
-src/technology.c:technology_get() No matching drivers found for wifi
+Bruce
 
-After many hours of debugging I finally figured out that this was due
-to a missing option in wpa-supplicant (CONFIG_CTRL_IFACE_DBUS_NEW)
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 0b6360f..e793ccb 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -308,8 +308,8 @@ kernelscripts_sstate_postinst () {
+>   	fi
+>   }
+>
+> -sysroot_stage_all_append() {
+> -	sysroot_stage_dir ${D}${KERNEL_SRC_PATH} ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
+> +python sysroot_stage_all () {
+> +    oe.path.copyhardlinktree(d.expand("${D}${KERNEL_SRC_PATH}"), d.expand("${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}"))
+>   }
+>
+>   kernel_do_configure() {
+>
+>
 
-Adding a bbappend for wpa-supplicant with this option enabled fixed
-the issue and connman now handles wifi interfaces as expected.
-
-Was there a particular reason CONFIG_CTRL_IFACE_DBUS_NEW wasn't enabled?
-
-Steve
 
