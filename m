@@ -1,35 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id A2ACC6D2DB
+Received: from mail-vb0-f43.google.com (mail-vb0-f43.google.com
+	[209.85.212.43])
+	by mail.openembedded.org (Postfix) with ESMTP id ABF366AE37
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2013 12:35:04 +0000 (UTC)
-Received: by mail-wg0-f49.google.com with SMTP id x12so1911955wgg.16
+	Fri,  8 Nov 2013 12:47:05 +0000 (UTC)
+Received: by mail-vb0-f43.google.com with SMTP id g10so1333124vbg.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2013 04:35:05 -0800 (PST)
+	Fri, 08 Nov 2013 04:47:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1oIiSrB2abwKVjHh9pBU/vjKCZrfREbpSiWiS+Q+JNQ=;
-	b=ScXGxhNGTkMq1bL3pL4RQfQ2gjCAQsHvEUQh5WWrw7gL/R1Ebxpe/U4oi4MTnQ8hBF
-	c/CJV3MJ3wbteaVjYDzD0puznMUJKrcZMjpO/L3wmNE4dgEyPbL1V5iYsyZrlcaz5Kt6
-	36KZ+5V5WgZIFB6FZVeAcczwx978gPT6ZAlnXQ76hFseSz1lJWj69aok9mXDTRYEIZr2
-	gscuARGFnngXhB2bUKh2998EPgJUxG1+qqprsVkDC9puM0iLUUMspXcgYPFbbFm9ODoe
-	TJGOit6loIzzFBOVlhXic6y7t0S41FWBbaGQo/3xfjYjlwuMl+SFAidcpCHdjpYYBHka
-	eBAg==
-X-Gm-Message-State: ALoCoQk1ndMb06cJrIwSx68GKpx2PUWSRWSjMPR8JQypis+InV6PlAhXXLHooyhatfHIyT+sXJDM
-X-Received: by 10.180.198.198 with SMTP id je6mr2150951wic.7.1383914105184;
-	Fri, 08 Nov 2013 04:35:05 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id ma3sm5189047wic.1.2013.11.08.04.35.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 08 Nov 2013 04:35:04 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Nov 2013 12:35:02 +0000
-Message-Id: <1383914102-13963-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] syslinux: add APPEND to dependency list
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=21PIWecASVBBUUh64TYUR3vLKpfzOdwOfqkX3jkbEEg=;
+	b=A92rz0na1Qzz6M2J4qxR3rsIr9i/ef6oKzcRoYAof2SshhAb9TRd/Rfntw9NBdQlUM
+	TkPsjDr7fm+qcPYMSUC+wTyTtLJ6JbxfzZECJtw/4CJOx0FgwiZnKkUfq/lBrExKnLKe
+	NKTL8tHADPS++m2quyZcVFnHTlQH3f8wqEAQQJ5Jrg/rqfssnpXSby8sm8qBaw/sFFCA
+	Ev5IpEybEiSz+PbWUWB4lFnw5IJATDE66IjGU2xY7YIayPsHuWUA2KAGUh9MLi2AgplW
+	nXkvEP7rjR0feqIkAEVQAY3zOilQ/5alOoJ6j8t6IgeUmZFIZeX8377vGJmVrb2YG41O
+	LFHw==
+X-Gm-Message-State: ALoCoQnrbmsiAbfOMRHUdoIAfbNvJdam0yWongNbPVQsOX0Go7iPxUe9kT5+Y8xIwxD4GGS2nShQ
+X-Received: by 10.58.232.228 with SMTP id tr4mr1167464vec.34.1383914826129;
+	Fri, 08 Nov 2013 04:47:06 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Fri, 8 Nov 2013 04:46:46 -0800 (PST)
+In-Reply-To: <1383802501-10099-2-git-send-email-raj.khem@gmail.com>
+References: <1383802501-10099-1-git-send-email-raj.khem@gmail.com>
+	<1383802501-10099-2-git-send-email-raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 8 Nov 2013 12:46:46 +0000
+Message-ID: <CAJTo0Lbjx2=Eq3zgyhyAvjhssymZV-CgGD3REr7unO2VqZXmAg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Upgrade 206 -> 208
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,25 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 12:35:05 -0000
+X-List-Received-Date: Fri, 08 Nov 2013 12:47:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Changing APPEND wasn't causing syslinux to re-run, so add a manual dependency.
+On 7 November 2013 05:35, Khem Raj <raj.khem@gmail.com> wrote:
+> Create additional packages to bundle zsh and pam.d files
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/syslinux.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+Oh, will this mean systemd-user actually works with PAM?  I hit this
+problem before ELCE and ended up reverting the change to error instead
+of warn on missing rules.
 
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index 2a5b766..62d4b7a 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -179,3 +179,4 @@ python build_syslinux_cfg () {
- 
-     cfgfile.close()
- }
-+build_syslinux_cfg[vardeps] += "APPEND"
--- 
-1.7.10.4
+If so, please don't package the files in a separate package but ship
+them with systemd itself as they are practically essential if PAM is
+enabled. If the (negligible) size impact is a concern they can be
+deleted if the pam DISTRO_FEATURE isn't enabled.
 
+(and please sent patches with -M)
+
+Ross
 
