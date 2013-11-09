@@ -1,50 +1,32 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 722A26D2FB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id A19726B1A9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Nov 2013 22:01:53 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VfGas-0004ta-Bk; Sat, 09 Nov 2013 23:01:53 +0100
-Message-ID: <1384038034.3798.46.camel@x121e.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Qi.Chen@windriver.com
-Date: Sat, 09 Nov 2013 23:00:34 +0000
-In-Reply-To: <74d67107ced2e10a00bc2ff9b84d42a7376fabae.1383974819.git.Qi.Chen@windriver.com>
-References: <cover.1383974819.git.Qi.Chen@windriver.com>
-	<74d67107ced2e10a00bc2ff9b84d42a7376fabae.1383974819.git.Qi.Chen@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.4.4-3 
+	Sat,  9 Nov 2013 22:53:04 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA9MopMZ000546; Sat, 9 Nov 2013 22:52:52 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id arFvwzAZFUc1; Sat,  9 Nov 2013 22:52:51 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rA9Mqk93000571
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sat, 9 Nov 2013 22:52:47 GMT
+Message-ID: <1384037562.22454.0.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrea Adami <andrea.adami@gmail.com>
+Date: Sat, 09 Nov 2013 22:52:42 +0000
+In-Reply-To: <CAAQYJAsV5rBzNpPneh5TAh5t1RoV_EeDrKGFp2qP3q=o7XsqdA@mail.gmail.com>
+References: <1383923945.2345.5.camel@ted> <527D067C.6040709@windriver.com>
+	<CAAQYJAsV5rBzNpPneh5TAh5t1RoV_EeDrKGFp2qP3q=o7XsqdA@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Sat, 2013-11-09 at 13:28 +0800,
-	Qi.Chen@windriver.com wrote:
-	> +for dir in /usr/bin /usr/sbin; do > + if [ ! -e $dir ]; then > + if [
-	"$VERBOSE" != "no" ];
-	then > + echo "WARN: $dir missing, setting up links
-	to busybox" > + fi > + mkdir -p $dir > + for suffix in ".nosuid"
-	".suid" ""; 
-	do > + if [ ! -e /etc/busybox.links${suffix} ]; then > + continue > + fi
-	> + usr_commands=`grep "$dir" /etc/busybox.links${suffix}` > + for
-	command in $usr_commands;
-	do > + ln -sf /bin/busybox${suffix} $command > + done [...]
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/8] initscripts: add setup-commands.sh
+Cc: "Hart, Darren" <darren.hart@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lib/oe/path: Fix performance issue got copyhardlinktree()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +39,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Nov 2013 22:01:54 -0000
+X-List-Received-Date: Sat, 09 Nov 2013 22:53:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2013-11-09 at 13:28 +0800, Qi.Chen@windriver.com wrote:
-> +for dir in /usr/bin /usr/sbin; do
-> +    if [ ! -e $dir ]; then
-> +	if [ "$VERBOSE" != "no" ]; then
-> +	    echo "WARN: $dir missing, setting up links to busybox"
-> +	fi
-> +	mkdir -p $dir
-> +	for suffix in ".nosuid" ".suid" ""; do
-> +	    if [ ! -e /etc/busybox.links${suffix} ]; then
-> +		continue
-> +	    fi
-> +	    usr_commands=`grep "$dir" /etc/busybox.links${suffix}`
-> +	    for command in $usr_commands; do
-> +		ln -sf /bin/busybox${suffix} $command
-> +	    done
+On Sat, 2013-11-09 at 21:43 +0100, Andrea Adami wrote:
+> On Fri, Nov 8, 2013 at 4:42 PM, Bruce Ashfield
+> <bruce.ashfield@windriver.com> wrote:
+> > On 13-11-08 10:19 AM, Richard Purdie wrote:
+> >>
+> >> With the directory copy was added to avoid race issues, it wasn't noticed
+> >> that
+> >> tar was recursing the directories and copying files too. This is
+> >> completely
+> >> crazy when we hardlink those files in the next command.
+> >>
+> >> Resolve the issue by telling tar not to recurse. This gives a significant
+> >> performance boost to various parts of the system (do_package for
+> >> linux-yocto
+> >> 256s -> 178s for example).
+> >
+> >
+> > Every second makes a difference in this beast .. when adding up a
+> > zillion package runs a week. :)
+> >
+> > Cheers,
+> >
+> > Bruce
+> >
+> >
+> >>
+> >> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >> ---
+> >> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+> >> index 1310e38..d0588ba 100644
+> >> --- a/meta/lib/oe/path.py
+> >> +++ b/meta/lib/oe/path.py
+> >> @@ -93,7 +93,7 @@ def copyhardlinktree(src, dst):
+> >>       if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
+> >>           # Need to copy directories only with tar first since cp will
+> >> error if two
+> >>           # writers try and create a directory at the same time
+> >> -        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
+> >> --files-from - | tar -xf - -C %s' % (src, src, dst)
+> >> +        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
+> >> --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
+> >>           check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+> >>           if os.path.isdir(src):
+> >>               src = src + "/*"
+> >>
+> >>
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> After this patch do_populate_sysroot fails:
 
-This seems slightly bogus for a number of reasons:
+This should fix it:
 
-1. initscript doesn't obviously rdepend on busybox so it's not obvious
-that the latter will always be available;
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t2&id=5237c8e2c1780983c000247ffa0c890b4bb5980a
 
-2. it should probably be using ${base_bindir} and ${bindir} rather than
-hardcoding absolute paths.
+Cheers,
 
-3. the whole idea of creating a shadow "/usr/bin" underneath what's
-meant to be a mountpoint seems rather dubious to me. 
-
-4. this seems like distro policy and not something that really belongs
-in oe-core at all.  For systems where ${bindir} and ${base_bindir} are
-on the same filesystem (or even are the same directory) this script will
-just make bootup slower without achieving anything useful.
-
-p.
-
+Richard
 
 
