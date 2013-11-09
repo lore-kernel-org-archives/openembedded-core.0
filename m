@@ -1,24 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 51E976D37F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CDBD6D5B3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Nov 2013 04:36:11 +0000 (UTC)
+	Sat,  9 Nov 2013 04:36:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA94aCZW013920
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA94aEKt025145
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Nov 2013 20:36:13 -0800 (PST)
+	Fri, 8 Nov 2013 20:36:14 -0800 (PST)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 8 Nov 2013 20:36:12 -0800
+	14.2.347.0; Fri, 8 Nov 2013 20:36:13 -0800
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 9 Nov 2013 12:36:09 +0800
-Message-ID: <cover.1383967708.git.jackie.huang@windriver.com>
+Date: Sat, 9 Nov 2013 12:36:10 +0800
+Message-ID: <9238e5a8e090c9a7adfa2e10faac2d3d6e60066b.1383967708.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.8.3
+In-Reply-To: <cover.1383967708.git.jackie.huang@windriver.com>
+References: <cover.1383967708.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] packagegroup-core-basic: define VIRTUAL-RUNTIME_syslog
+Subject: [PATCH 1/1] packagegroup-core-basic: define VIRTUAL-RUNTIME_syslog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +38,35 @@ Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-The following changes since commit eac8cb7cacab7f2fb392128aa5ebc2046ca4a793:
+We have rsyslog and syslog-ng in our layer, and oe-core
+has sysklogd, define VIRTUAL-RUNTIME_syslog so that we
+can switch them easily. Set sysklogd as default here,
+we will have setting in distro confs to override it.
 
-  kbd: Fix stdarg related errors on uclibc (2013-11-08 17:31:17 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib jhuang0/d_syslog_1109_0
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_syslog_1109_0
-
-Jackie Huang (1):
-  packagegroup-core-basic: define VIRTUAL-RUNTIME_syslog
-
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
  meta/recipes-extended/packagegroups/packagegroup-core-basic.bb | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
+index 55de32f..c89923d 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
+@@ -96,12 +96,13 @@ RDEPENDS_packagegroup-core-dev-utils = "\
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_login_manager ?= "busybox"
++VIRTUAL-RUNTIME_syslog ?= "sysklogd"
+ RDEPENDS_packagegroup-core-initscripts = "\
+     ${VIRTUAL-RUNTIME_initscripts} \
+     ${VIRTUAL-RUNTIME_init_manager} \
+     ethtool \
+     ${VIRTUAL-RUNTIME_login_manager} \
+-    sysklogd \
++    ${VIRTUAL-RUNTIME_syslog} \
+     "
+ 
+ RDEPENDS_packagegroup-core-multiuser = "\
 -- 
 1.8.3
 
