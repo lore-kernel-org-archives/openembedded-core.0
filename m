@@ -1,29 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C3876D320
+	by mail.openembedded.org (Postfix) with ESMTP id 2359A6D320
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Nov 2013 05:26:31 +0000 (UTC)
+	Sat,  9 Nov 2013 05:28:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA95QX40015762
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA95SvOc015858
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Nov 2013 21:26:33 -0800 (PST)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Fri, 8 Nov 2013 21:26:33 -0800
-Message-ID: <527DC789.6050307@windriver.com>
-Date: Sat, 9 Nov 2013 13:26:33 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
+	Fri, 8 Nov 2013 21:28:57 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 8 Nov 2013 21:28:56 -0800
+From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1383558655.git.hongxu.jia@windriver.com>
-	<1383565168.6271.107.camel@ted>
-In-Reply-To: <1383565168.6271.107.camel@ted>
-X-Originating-IP: [128.224.162.213]
-Subject: Re: [PATCH V2 0/5] fix WARNING: QA Issue on kmod/udev/nfs-utils (unsafe references [/ references to /usr/lib])
+Date: Sat, 9 Nov 2013 13:28:50 +0800
+Message-ID: <cover.1383974819.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/8] Fixes about unsafe-references QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,50 +31,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Nov 2013 05:26:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 09 Nov 2013 05:28:55 -0000
+Content-Type: text/plain
 
-On 11/04/2013 07:39 PM, Richard Purdie wrote:
-> On Mon, 2013-11-04 at 17:56 +0800, Hongxu Jia wrote:
->> Change in V2: The fourth patch fixed the QA Issue on udev, it was missed on previous version.
->>
->> //Hongxu
->>
->> The following changes since commit f3541226b8b1187e79dec0f6f9f3c58cedf9ac9b:
->>
->>    bitbake: hob: do not display the "Package list may be incomplete!" dialog (2013-11-01 17:59:31 +0000)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib hongxu/fix-qa-issue
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-qa-issue
->>
->> Hongxu Jia (5):
->>    insane.bbclass: support to skip  unsafe references in binaries qa
->>      check.
->>    kmod: fix QA issue
->>    udev: fix  QA issue
->>    udev: fix QA issue
->>    nfs-utils: fix QA issue
-> Last time these warnings came up I asked for a clear plan about what
-> needed to live in / and what needed to live in /usr and how we were
-> going to fix things once and for all (or forget this idea).
->
-> Where is the plan? Why is it ok to just ignore these particular
-> warnings?
->
-> Cheers,
->
-> Richard
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Hi Richard,
-
-I want to propose the following solution for this unsafe reference issue.
-
-The solution is based on the following two principles.
-1. With /usr on a seperate partition, system should boot up without any error.
-2. Without /usr, system should be able to boot into single user mode without any error.
+This solution is based on the following two principles.
+1. With /usr on a seperate partition, system should still boot without any error.
+2. Without /usr, system should be able to boot into single user mode with error.
 
 When a QA warning about unsafe references is encountered, the above two principles,
 together with FHS, are taken into consideration before making a decision.
@@ -88,22 +47,49 @@ For example, libkmod is moved to /lib because /lib/udevd requires it; libgudevd
 is moved to /usr/lib because it's a GObject wrapper for libudev and it's obviously
 not necessary for booting into single user mode.
 
-The final goals of the solution:
+This patchset also contains several fixes for the sysvinit system.
+
+The overall effect of all these patches:
 1. Performing a world build doesn't report any warning about unsafe references.
-2. System can boot into runlevel 5 without any error if /usr is on another partition.
+2. System can boot into runlevel 3 without any error if /usr is on another partition.
 3. System can boot into single user mode without any error even if /usr is missing.
 
+---------------------------------------------------------------------------
 
-Patches of this solution have been sent to this mailing list.
+The following changes since commit 4fdc3d77d4a875b7236536bf78849a4d1f6a7449:
 
-Best Regards,
-Chen Qi
+  kbd: Fix stdarg related errors on uclibc (2013-11-08 17:31:36 +0000)
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/unsafe-reference
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/unsafe-reference
+
+Chen Qi (8):
+  udev: fix dependency and location of udevadm
+  initscripts: add setup-commands.sh
+  zlib: install into base_libdir
+  kmod: install libkmod into base_libdir
+  udev: fix unsafe reference by installing libgudev in libdir
+  insane.bbclass: make the checking stricter for unsafe references in
+    scripts
+  iputils: fix program location and QA warning
+  busybox: install ping6 into bindir by default
+
+ meta/classes/insane.bbclass                        |    2 +-
+ .../busybox-install-ping6-to-usr-bin.patch         |   25 +++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.21.1.bb        |    1 +
+ .../initscripts/initscripts-1.0/setup-commands.sh  |   24 ++++++++++++++++
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    3 ++
+ meta/recipes-core/udev/udev.inc                    |   16 ++++++++---
+ meta/recipes-core/zlib/zlib_1.2.8.bb               |    2 +-
+ meta/recipes-extended/iputils/iputils_s20121221.bb |   29 ++++++++++++--------
+ meta/recipes-kernel/kmod/kmod_git.bb               |    7 +++--
+ 9 files changed, 89 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch
+ create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/setup-commands.sh
+
+-- 
+1.7.9.5
 
 
