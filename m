@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2359A6D320
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 30D356D320
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Nov 2013 05:28:55 +0000 (UTC)
+	Sat,  9 Nov 2013 05:28:56 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA95SvOc015858
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA95Sw3t025397
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Nov 2013 21:28:57 -0800 (PST)
+	Fri, 8 Nov 2013 21:28:58 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 8 Nov 2013 21:28:56 -0800
+	14.2.347.0; Fri, 8 Nov 2013 21:28:57 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 9 Nov 2013 13:28:50 +0800
-Message-ID: <cover.1383974819.git.Qi.Chen@windriver.com>
+Date: Sat, 9 Nov 2013 13:28:51 +0800
+Message-ID: <5bcdd19de289a55e7cc28a1d0d4f09ea6ec4be41.1383974819.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1383974819.git.Qi.Chen@windriver.com>
+References: <cover.1383974819.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/8] Fixes about unsafe-references QA warnings
+Subject: [PATCH 1/8] udev: fix dependency and location of udevadm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,64 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Nov 2013 05:28:55 -0000
+X-List-Received-Date: Sat, 09 Nov 2013 05:28:56 -0000
 Content-Type: text/plain
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Chen Qi <qi.chen@windriver.com>
 
-This solution is based on the following two principles.
-1. With /usr on a seperate partition, system should still boot without any error.
-2. Without /usr, system should be able to boot into single user mode with error.
+As udev's init script needs udevadm, we should make udev RDEPEND on
+udev-utils instead of just recommends it.
 
-When a QA warning about unsafe references is encountered, the above two principles,
-together with FHS, are taken into consideration before making a decision.
+Also, move udevadm from /usr/bin to /bin. The purpose is to make udev
+start correctly even if /usr is missing.
 
-For example, libkmod is moved to /lib because /lib/udevd requires it; libgudevd
-is moved to /usr/lib because it's a GObject wrapper for libudev and it's obviously
-not necessary for booting into single user mode.
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/udev/udev.inc |   10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-This patchset also contains several fixes for the sysvinit system.
-
-The overall effect of all these patches:
-1. Performing a world build doesn't report any warning about unsafe references.
-2. System can boot into runlevel 3 without any error if /usr is on another partition.
-3. System can boot into single user mode without any error even if /usr is missing.
-
----------------------------------------------------------------------------
-
-The following changes since commit 4fdc3d77d4a875b7236536bf78849a4d1f6a7449:
-
-  kbd: Fix stdarg related errors on uclibc (2013-11-08 17:31:36 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/unsafe-reference
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/unsafe-reference
-
-Chen Qi (8):
-  udev: fix dependency and location of udevadm
-  initscripts: add setup-commands.sh
-  zlib: install into base_libdir
-  kmod: install libkmod into base_libdir
-  udev: fix unsafe reference by installing libgudev in libdir
-  insane.bbclass: make the checking stricter for unsafe references in
-    scripts
-  iputils: fix program location and QA warning
-  busybox: install ping6 into bindir by default
-
- meta/classes/insane.bbclass                        |    2 +-
- .../busybox-install-ping6-to-usr-bin.patch         |   25 +++++++++++++++++
- meta/recipes-core/busybox/busybox_1.21.1.bb        |    1 +
- .../initscripts/initscripts-1.0/setup-commands.sh  |   24 ++++++++++++++++
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    3 ++
- meta/recipes-core/udev/udev.inc                    |   16 ++++++++---
- meta/recipes-core/zlib/zlib_1.2.8.bb               |    2 +-
- meta/recipes-extended/iputils/iputils_s20121221.bb |   29 ++++++++++++--------
- meta/recipes-kernel/kmod/kmod_git.bb               |    7 +++--
- 9 files changed, 89 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch
- create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/setup-commands.sh
-
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 02cab3b..69ce123 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -55,7 +55,8 @@ INITSCRIPT_NAME_udev-cache = "udev-cache"
+ INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
+ 
+ FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit ${nonarch_base_libdir}/udev"
+-RRECOMMENDS_${PN} += "udev-utils udev-cache"
++RRECOMMENDS_${PN} += "udev-cache"
++RDEPENDS_${PN} += "udev-utils"
+ 
+ FILES_${PN}-dbg += "${libexecdir}/.debug"
+ FILES_${PN}-dbg += "${base_libdir}/udev/.debug/"
+@@ -72,7 +73,7 @@ FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libg
+                      ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
+ FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
+ 
+-FILES_udev-utils = "${bindir}/udevadm"
++FILES_udev-utils = "${base_bindir}/udevadm"
+ 
+ do_install_append () {
+ 	install -d ${D}${sysconfdir}/init.d
+@@ -87,9 +88,12 @@ do_install_append () {
+ 	touch ${D}${sysconfdir}/udev/cache.data
+ 
+ 	install -d ${D}${sysconfdir}/udev/rules.d/
+-
+ 	install -m 0644 ${WORKDIR}/local.rules         ${D}${sysconfdir}/udev/rules.d/local.rules
+ 
++	install -d ${D}${base_bindir}
++	mv ${D}${bindir}/udevadm ${D}${base_bindir}/udevadm
++	rmdir ${D}${bindir}
++
+ 	# hid2hci has moved to bluez4. removed in udev as of version 169
+ 	rm -f ${D}${base_libdir}/udev/hid2hci
+ 
 -- 
 1.7.9.5
 
