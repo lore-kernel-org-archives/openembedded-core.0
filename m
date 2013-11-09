@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DA5D6D5B3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ED426D4BD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Nov 2013 05:28:57 +0000 (UTC)
+	Sat,  9 Nov 2013 05:28:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rA95Sxrj015861
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA95T08x025400
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Nov 2013 21:28:59 -0800 (PST)
+	Fri, 8 Nov 2013 21:29:00 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 8 Nov 2013 21:28:59 -0800
+	14.2.347.0; Fri, 8 Nov 2013 21:29:00 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 9 Nov 2013 13:28:52 +0800
-Message-ID: <74d67107ced2e10a00bc2ff9b84d42a7376fabae.1383974819.git.Qi.Chen@windriver.com>
+Date: Sat, 9 Nov 2013 13:28:53 +0800
+Message-ID: <3f23b90e347148afd892b09f7c497994e8c001f4.1383974819.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1383974819.git.Qi.Chen@windriver.com>
 References: <cover.1383974819.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/8] initscripts: add setup-commands.sh
+Subject: [PATCH 3/8] zlib: install into base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Nov 2013 05:28:57 -0000
+X-List-Received-Date: Sat, 09 Nov 2013 05:28:58 -0000
 Content-Type: text/plain
 
 From: Chen Qi <qi.chen@windriver.com>
 
-The purpose of this script is to set up commands that busybox provides
-if /usr is missing. In this way, the system can still boot into single
-user mode for recovery or repair if the /usr partition is broken.
-
-For normal use case, that is, /usr is on the same partition as /, or
-/usr is correctly mounted at boot time, this script has no real effect.
+Install zlib into base_libdir as kmod needs it. The purpose is to
+make system boot into single user mode even if /usr is missing.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../initscripts/initscripts-1.0/setup-commands.sh  |   24 ++++++++++++++++++++
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    3 +++
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/setup-commands.sh
+ meta/recipes-core/zlib/zlib_1.2.8.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/setup-commands.sh b/meta/recipes-core/initscripts/initscripts-1.0/setup-commands.sh
-new file mode 100644
-index 0000000..5133780
---- /dev/null
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/setup-commands.sh
-@@ -0,0 +1,24 @@
-+#!/bin/sh
-+
-+# set up necessary links to busybox if fundamental command from /usr
-+# are not available.
-+
-+[ -e /etc/default/rcS ] && . /etc/default/rcS
-+
-+for dir in /usr/bin /usr/sbin; do
-+    if [ ! -e $dir ]; then
-+	if [ "$VERBOSE" != "no" ]; then
-+	    echo "WARN: $dir missing, setting up links to busybox"
-+	fi
-+	mkdir -p $dir
-+	for suffix in ".nosuid" ".suid" ""; do
-+	    if [ ! -e /etc/busybox.links${suffix} ]; then
-+		continue
-+	    fi
-+	    usr_commands=`grep "$dir" /etc/busybox.links${suffix}`
-+	    for command in $usr_commands; do
-+		ln -sf /bin/busybox${suffix} $command
-+	    done
-+	done
-+    fi
-+done
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 2d58266..b3c898f 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -33,6 +33,7 @@ SRC_URI = "file://functions \
-            file://GPLv2.patch \
-            file://dmesg.sh \
-            file://logrotate-dmesg.conf \
-+           file://setup-commands.sh \
- "
+diff --git a/meta/recipes-core/zlib/zlib_1.2.8.bb b/meta/recipes-core/zlib/zlib_1.2.8.bb
+index 5cdf685..3504e59 100644
+--- a/meta/recipes-core/zlib/zlib_1.2.8.bb
++++ b/meta/recipes-core/zlib/zlib_1.2.8.bb
+@@ -15,7 +15,7 @@ SRC_URI[md5sum] = "28f1205d8dd2001f26fec1e8c2cebe37"
+ SRC_URI[sha256sum] = "831df043236df8e9a7667b9e3bb37e1fcb1220a0f163b6de2626774b9590d057"
  
- SRC_URI_append_arm = " file://alignment.sh"
-@@ -93,6 +94,7 @@ do_install () {
- 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
-+	install -m 0755    ${WORKDIR}/setup-commands.sh	${D}${sysconfdir}/init.d
+ do_configure (){
+-	./configure --prefix=${prefix} --shared --libdir=${libdir}
++	./configure --prefix=${base_prefix} --shared --libdir=${base_libdir}
+ }
  
- 	if [ "${TARGET_ARCH}" = "arm" ]; then
- 		install -m 0755 ${WORKDIR}/alignment.sh	${D}${sysconfdir}/init.d
-@@ -123,6 +125,7 @@ do_install () {
- 	update-rc.d -r ${D} populate-volatile.sh start 37 S .
- 	update-rc.d -r ${D} read-only-rootfs-hook.sh start 29 S .
- 	update-rc.d -r ${D} devpts.sh start 38 S .
-+	update-rc.d -r ${D} setup-commands.sh start 03 S .
- 	if [ "${TARGET_ARCH}" = "arm" ]; then
- 	        update-rc.d -r ${D} alignment.sh start 06 S .
- 	fi
+ do_compile (){
 -- 
 1.7.9.5
 
