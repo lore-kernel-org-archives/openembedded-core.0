@@ -1,26 +1,36 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BD766D132
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id D879C6D1FB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Nov 2013 07:56:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rA97uPY7026176
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat,  9 Nov 2013 14:55:30 +0000 (UTC)
+Received: by mail-ie0-f181.google.com with SMTP id ar20so4993342iec.26
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 8 Nov 2013 23:56:25 -0800 (PST)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 8 Nov 2013 23:56:24 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 9 Nov 2013 15:56:20 +0800
-Message-ID: <bf046fb4257653b95134c99caaef12ece5d7e424.1383982908.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.8.3
-In-Reply-To: <cover.1383982908.git.jackie.huang@windriver.com>
-References: <cover.1383982908.git.jackie.huang@windriver.com>
+	Sat, 09 Nov 2013 06:55:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=SA+fguOsgsq8ovxPAtQn8O9wL8cCTcMCOnsYzUnZW0w=;
+	b=p6WR3YBx1KNiU4sg3yXQz8InzOu/6+ASPrdiyBTqT2AxuF8oCnXwDpWql6C3ZAKB7C
+	HyJZA0PtuKdh5SyuARwyfKIA5d9cRpS7LsaKrrB3neC1xTQLa+PbiTi25WLM9rduiF+1
+	3Jsb9C17Yvm0BYFSeHUN3WyDaFnscEeTWUjgtbTXB9a82ln/UcLGQFuGMh4JWjKgTpd1
+	LxOBSlcIOSlMf6SmSuoxyvtUA/3KqFoZAwb5n415xKD3kWfvYk/iPQxS9zvuaP8TsS9d
+	M0w+E3OiJg4GrYuZbi6QKreYkuveeeVQRe4lImtRUUNc2IzZJ2CKc1Z+kSdqxNXp5Qht
+	TlQg==
+X-Received: by 10.50.22.67 with SMTP id b3mr6573070igf.39.1384008931935; Sat,
+	09 Nov 2013 06:55:31 -0800 (PST)
 MIME-Version: 1.0
-Subject: [v2 PATCH 2/2] grub-efi: allow compilation without large model support
+Received: by 10.50.79.167 with HTTP; Sat, 9 Nov 2013 06:55:01 -0800 (PST)
+In-Reply-To: <527DC9DE.6010306@gmail.com>
+References: <1383511181-8005-1-git-send-email-raj.khem@gmail.com>
+	<527DC9DE.6010306@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 9 Nov 2013 06:55:01 -0800
+Message-ID: <CAMKF1spK2555wssQAUSRZfOVwykE-4MxAmXS+cvFx1yjr-y4Ng@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] syslinux: Upgrade to 6.02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,110 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Nov 2013 07:56:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 09 Nov 2013 14:55:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Fri, Nov 8, 2013 at 9:36 PM, Jonathan Liu <net147@gmail.com> wrote:
+> On 4/11/2013 7:39 AM, Khem Raj wrote:
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>   .../recipes-devtools/syslinux/{syslinux_6.01.bb => syslinux_6.02.bb} | 5
+>> ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>   rename meta/recipes-devtools/syslinux/{syslinux_6.01.bb =>
+>> syslinux_6.02.bb} (94%)
+>>
+>> diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
+>> b/meta/recipes-devtools/syslinux/syslinux_6.02.bb
+>> similarity index 94%
+>> rename from meta/recipes-devtools/syslinux/syslinux_6.01.bb
+>> rename to meta/recipes-devtools/syslinux/syslinux_6.02.bb
+>> index 4438ea8..b4ba0ad 100644
+>> --- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
+>> +++ b/meta/recipes-devtools/syslinux/syslinux_6.02.bb
+>> @@ -9,9 +9,8 @@ LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+>>   DEPENDS = "nasm-native util-linux"
+>>     SRC_URI =
+>> "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar.bz2"
+>> -
+>> -SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
+>> -SRC_URI[sha256sum] =
+>> "83a04cf81e6a46b80ee5a321926eea095af3498b04317e3674b46c125c7a5b43"
+>> +SRC_URI[md5sum] = "5410b1c2614cc8375bfc92fe308ca5c8"
+>> +SRC_URI[sha256sum] =
+>> "16027cbc1a7d18a48f3d26fbea771896d892cb43860b8d2f596baef7f2789b6e"
+>>     COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+>>   # Don't let the sanity checker trip on the 32 bit real mode BIOS
+>> binaries
+>
+> Note that syslinux 6.02 has a known bug which corrupts the superblock when
+> used on BTRFS volumes due to ldlinux.sys exceeding 64000 bytes.
+> It fixes booting memtest86+ with pxelinux though (see
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5501).
 
--mcmodel=large is not supported by gcc with version lower
-than 4.4, but we don't need to use memory over 4GiB, so add
-a patch to allow compilation without large model support.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- ...allow-a-compilation-without-mcmodel-large.patch | 69 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub-efi.inc                 |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+so it fixes one and regresses 1 and then for third one we can backport a patch
+is btrfs volume issue a blocker ? if not I would say a v2 with
+http://git.kernel.org/cgit/boot/syslinux/syslinux.git/commit/?h=firmware&id=4ac63b5ac412d54462e292daf65a309775bc0448
+applied would be good.
+atleast it will give us more testing and time to find issues before
+6.03 comes out
 
-diff --git a/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
-new file mode 100644
-index 0000000..b2be74a
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
-@@ -0,0 +1,69 @@
-+From 0cea0e4266214da1f11e812834f5d5c47a6e04e6 Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Tue, 5 Nov 2013 07:23:32 -0500
-+Subject: [PATCH] Allow a compilation without -mcmodel=large
-+
-+* kern/efi/mm.c (grub_efi_allocate_pages): don't allocate >4GiB
-+  when compiled without -mcmodel=large
-+  (filter_memory_map): remove memory post 4 GiB when compiled
-+  without -mcmodel=large
-+* configure.ac: add -DMCMODEL_SMALL=1 to TARGET_CFLAGS when
-+  -mcmodel=large isn't supported
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ configure.ac            |    4 +++-
-+ grub-core/kern/efi/mm.c |    6 +++---
-+ 2 files changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 319d063..ee72fee 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -567,7 +567,9 @@ if test "$target_cpu"-"$platform" = x86_64-efi; then
-+ 		      [grub_cv_cc_mcmodel=no])
-+   ])
-+   if test "x$grub_cv_cc_mcmodel" = xno; then
-+-    AC_MSG_ERROR([-mcmodel=large not supported. Upgrade your gcc.])
-++    CFLAGS="$SAVED_CFLAGS -m64 -DMCMODEL_SMALL=1"
-++    TARGET_CFLAGS="$TARGET_CFLAGS -DMCMODEL_SMALL=1"
-++    AC_MSG_WARN([-mcmodel=large not supported. You won't be able to use the memory over 4GiB. Upgrade your gcc.])
-+   else
-+     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=large"
-+   fi
-+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
-+index a2edc84..c67dd13 100644
-+--- a/grub-core/kern/efi/mm.c
-++++ b/grub-core/kern/efi/mm.c
-+@@ -62,7 +62,7 @@ grub_efi_allocate_pages (grub_efi_physical_address_t address,
-+     return 0;
-+ #endif
-+
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+   if (address == 0)
-+     {
-+       type = GRUB_EFI_ALLOCATE_MAX_ADDRESS;
-+@@ -305,7 +305,7 @@ filter_memory_map (grub_efi_memory_descriptor_t *memory_map,
-+        desc = NEXT_MEMORY_DESCRIPTOR (desc, desc_size))
-+     {
-+       if (desc->type == GRUB_EFI_CONVENTIONAL_MEMORY
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+ 	  && desc->physical_start <= 0xffffffff
-+ #endif
-+ 	  && desc->physical_start + PAGES_TO_BYTES (desc->num_pages) > 0x100000
-+@@ -321,7 +321,7 @@ filter_memory_map (grub_efi_memory_descriptor_t *memory_map,
-+ 	      desc->physical_start = 0x100000;
-+ 	    }
-+
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+ 	  if (BYTES_TO_PAGES (filtered_desc->physical_start)
-+ 	      + filtered_desc->num_pages
-+ 	      > BYTES_TO_PAGES (0x100000000LL))
-+--
-+1.7.1
-+
-diff --git a/meta/recipes-bsp/grub/grub-efi.inc b/meta/recipes-bsp/grub/grub-efi.inc
-index 1c64646..e452167 100644
---- a/meta/recipes-bsp/grub/grub-efi.inc
-+++ b/meta/recipes-bsp/grub/grub-efi.inc
-@@ -26,6 +26,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://grub-no-unused-result.patch \
-            file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
-            file://fix-issue-with-flex-2.5.37.patch \
-+           file://grub-efi-allow-a-compilation-without-mcmodel-large.patch \
-           "
- SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
- SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
--- 
-1.8.3
-
+>
+> Regards,
+> Jonathan
 
