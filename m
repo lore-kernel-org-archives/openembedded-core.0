@@ -1,37 +1,43 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 584B56CC4F
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 80DB36D2FE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Nov 2013 23:58:04 +0000 (UTC)
-Received: by mail-lb0-f175.google.com with SMTP id z5so2381952lbh.6
+	Sun, 10 Nov 2013 00:36:42 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id p10so3671789pdj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Nov 2013 15:58:05 -0800 (PST)
+	Sat, 09 Nov 2013 16:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=KilWcoA+/eSTixnekabLUyi79n3S9Ouk/opxuh8CpEg=;
-	b=VFolVltTL7O+kKn/H8jIb12LnRtmgcm6wycMGvZI6uqre0GWB4+d3X0T17CSBTSz1c
-	pWLIJIiT61nqLWtqc9pU1LA61PrrGVy058Z1RZ38m6rTH9v/+j8o+rJYV72IrUE9uY0x
-	0mkp44U98y22vXwKAii29h4wHrOMgCybTi2sV5xUCLYzGSu+Le10Wb68H0jDyox9Y0RZ
-	/e8l4tWQxW4IkTfjsP1DIAbJAIG03JDvqgn5/hD/vgL+9IwcU78ry7cUUS8GlYhAINIb
-	T3xkfOuAJMXZVx5YOaVzxojBSJQiLs3Vv4IoYXMEMZcU2P0h2nnadVipALUo4ocDxiiS
-	5qeg==
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=T/dQcDvwAjhA5ApCDqPyKDQpR/Edzle6T6LNX8LdsBQ=;
+	b=vYVheEGa5ZvYorH7TPUf78PSZGzdDxw/2BF8gxgxRTj/4Hqw8Xz+QcIYZ9tuFtyh8T
+	NBrgBpyDN52qOMKOoBsOs5/1lnyr4ho4y+Jc/8h5AjKOdT7LqYRPtAP91e0VNgjFYTIE
+	GWXdgYG8FHspL8whLIppNNM6gvXFeJyG3z4lMFObGx3OIyLOU3RH8Yv5WHxLZVg9IJvL
+	3xYsH64lYGfbQk+FIzlHC9btANk7hlqCdNZVJ8b9AsI07e/xYwbHrZHb6NVRmFvcTd/c
+	eWBegZqmDfCpLcNUXgnP0eV0JmEx/YOFIjqEZzmd6zYrX/1D287gCv+/ucZxP2HaxxVO
+	IhUQ==
+X-Received: by 10.66.118.129 with SMTP id km1mr101816pab.127.1384043804284;
+	Sat, 09 Nov 2013 16:36:44 -0800 (PST)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244]) by mx.google.com with ESMTPSA id
+	zq10sm24658312pab.6.2013.11.09.16.36.41 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 09 Nov 2013 16:36:43 -0800 (PST)
+Message-ID: <527ED3C9.6070608@gmail.com>
+Date: Sun, 10 Nov 2013 11:31:05 +1100
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-X-Received: by 10.112.52.33 with SMTP id q1mr32322lbo.30.1384041484883; Sat,
-	09 Nov 2013 15:58:04 -0800 (PST)
-Received: by 10.112.52.74 with HTTP; Sat, 9 Nov 2013 15:58:04 -0800 (PST)
-In-Reply-To: <1384037562.22454.0.camel@ted>
-References: <1383923945.2345.5.camel@ted> <527D067C.6040709@windriver.com>
-	<CAAQYJAsV5rBzNpPneh5TAh5t1RoV_EeDrKGFp2qP3q=o7XsqdA@mail.gmail.com>
-	<1384037562.22454.0.camel@ted>
-Date: Sun, 10 Nov 2013 00:58:04 +0100
-Message-ID: <CAAQYJAthKjkYj+wK6MphLZmTuYrnxiVnxGsmHN3ddeeD+35sfQ@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "Hart, Darren" <darren.hart@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe/path: Fix performance issue got copyhardlinktree()
+To: Khem Raj <raj.khem@gmail.com>
+References: <1383511181-8005-1-git-send-email-raj.khem@gmail.com>
+	<527DC9DE.6010306@gmail.com>
+	<CAMKF1spK2555wssQAUSRZfOVwykE-4MxAmXS+cvFx1yjr-y4Ng@mail.gmail.com>
+In-Reply-To: <CAMKF1spK2555wssQAUSRZfOVwykE-4MxAmXS+cvFx1yjr-y4Ng@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] syslinux: Upgrade to 6.02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,86 +50,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Nov 2013 23:58:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 10 Nov 2013 00:36:42 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 9, 2013 at 11:52 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sat, 2013-11-09 at 21:43 +0100, Andrea Adami wrote:
->> On Fri, Nov 8, 2013 at 4:42 PM, Bruce Ashfield
->> <bruce.ashfield@windriver.com> wrote:
->> > On 13-11-08 10:19 AM, Richard Purdie wrote:
->> >>
->> >> With the directory copy was added to avoid race issues, it wasn't noticed
->> >> that
->> >> tar was recursing the directories and copying files too. This is
->> >> completely
->> >> crazy when we hardlink those files in the next command.
->> >>
->> >> Resolve the issue by telling tar not to recurse. This gives a significant
->> >> performance boost to various parts of the system (do_package for
->> >> linux-yocto
->> >> 256s -> 178s for example).
->> >
->> >
->> > Every second makes a difference in this beast .. when adding up a
->> > zillion package runs a week. :)
->> >
->> > Cheers,
->> >
->> > Bruce
->> >
->> >
->> >>
->> >> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> >> ---
->> >> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
->> >> index 1310e38..d0588ba 100644
->> >> --- a/meta/lib/oe/path.py
->> >> +++ b/meta/lib/oe/path.py
->> >> @@ -93,7 +93,7 @@ def copyhardlinktree(src, dst):
->> >>       if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
->> >>           # Need to copy directories only with tar first since cp will
->> >> error if two
->> >>           # writers try and create a directory at the same time
->> >> -        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
->> >> --files-from - | tar -xf - -C %s' % (src, src, dst)
->> >> +        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
->> >> --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
->> >>           check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->> >>           if os.path.isdir(src):
->> >>               src = src + "/*"
->> >>
->> >>
->> >
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->> After this patch do_populate_sysroot fails:
+On 10/11/2013 1:55 AM, Khem Raj wrote:
+> On Fri, Nov 8, 2013 at 9:36 PM, Jonathan Liu <net147@gmail.com> wrote:
+>> On 4/11/2013 7:39 AM, Khem Raj wrote:
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>>    .../recipes-devtools/syslinux/{syslinux_6.01.bb => syslinux_6.02.bb} | 5
+>>> ++---
+>>>    1 file changed, 2 insertions(+), 3 deletions(-)
+>>>    rename meta/recipes-devtools/syslinux/{syslinux_6.01.bb =>
+>>> syslinux_6.02.bb} (94%)
+>>>
+>>> diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
+>>> b/meta/recipes-devtools/syslinux/syslinux_6.02.bb
+>>> similarity index 94%
+>>> rename from meta/recipes-devtools/syslinux/syslinux_6.01.bb
+>>> rename to meta/recipes-devtools/syslinux/syslinux_6.02.bb
+>>> index 4438ea8..b4ba0ad 100644
+>>> --- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
+>>> +++ b/meta/recipes-devtools/syslinux/syslinux_6.02.bb
+>>> @@ -9,9 +9,8 @@ LIC_FILES_CHKSUM =
+>>> "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+>>>    DEPENDS = "nasm-native util-linux"
+>>>      SRC_URI =
+>>> "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar.bz2"
+>>> -
+>>> -SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
+>>> -SRC_URI[sha256sum] =
+>>> "83a04cf81e6a46b80ee5a321926eea095af3498b04317e3674b46c125c7a5b43"
+>>> +SRC_URI[md5sum] = "5410b1c2614cc8375bfc92fe308ca5c8"
+>>> +SRC_URI[sha256sum] =
+>>> "16027cbc1a7d18a48f3d26fbea771896d892cb43860b8d2f596baef7f2789b6e"
+>>>      COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+>>>    # Don't let the sanity checker trip on the 32 bit real mode BIOS
+>>> binaries
+>> Note that syslinux 6.02 has a known bug which corrupts the superblock when
+>> used on BTRFS volumes due to ldlinux.sys exceeding 64000 bytes.
+>> It fixes booting memtest86+ with pxelinux though (see
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5501).
 >
-> This should fix it:
+> so it fixes one and regresses 1 and then for third one we can backport a patch
+> is btrfs volume issue a blocker ? if not I would say a v2 with
+> http://git.kernel.org/cgit/boot/syslinux/syslinux.git/commit/?h=firmware&id=4ac63b5ac412d54462e292daf65a309775bc0448
+> applied would be good.
+> atleast it will give us more testing and time to find issues before
+> 6.03 comes out
 >
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t2&id=5237c8e2c1780983c000247ffa0c890b4bb5980a
->
-> Cheers,
->
-> Richard
->
+>> Regards,
+>> Jonathan
+I don't know of anyone using BTRFS volumes in production. It's not a 
+blocker for me at least.
 
-Yes, thx for the magic fix.
-Now with all the last patches my results are much better:
-
-do_install:
-Elapsed time: 83.77 seconds CPU usage: 3.0% (worst before 131s)
-(avg before:103 seconds CPU usage: 2.9%)
-
-do_populate_sysroot:
-Elapsed time: 16.12 seconds CPU usage: 18.5%
-(avg before: 95 seconds CPU usage: 6.5%)
-
-Cheers
-
-Andrea
+Regards,
+Jonathan
 
