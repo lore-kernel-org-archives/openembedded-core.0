@@ -1,35 +1,37 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id BEA4D6D1F6
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 5038F6D46F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 09:24:00 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id lj1so2120668pab.27
+	Mon, 11 Nov 2013 09:24:02 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id ld10so835656pab.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 01:24:02 -0800 (PST)
+	Mon, 11 Nov 2013 01:24:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=+uy6qBTqe0lWVr6gdQ9nodyvK5NyDGOGgP3LAamTfYI=;
-	b=0uqjHcjwA+fdJMfpISjOezz1kN+gdNiQE+z0juh7yWC32OBeKrKrLZ2POMYvgYeLiv
-	uwx3OIm0VD7BVXbH66e3VsuG9HeIQ5UUkKKYOvgIYwJgpOpzmAQz03rpzzYyCxA8CiMG
-	7i3TmNmTX/8qK5wkdILX2BDVmZHxyrHxmaSHtjaMS/MXs/f+Mv+tgQYb4i+hsncxrBde
-	D0sAu80PY/9f30w8YsFFD872ztJ5k2rs4rmWVOjBaFfXfEbor8TLh3IZnYpWWGjWxLOU
-	/derSR/8bjXMOs6uxuZchT4rMsRjffXdKnpG3gUiSCwOO5h79TEK9zBlQOT4atxb7Psj
-	je8w==
-X-Received: by 10.68.113.195 with SMTP id ja3mr903509pbb.176.1384161842725;
-	Mon, 11 Nov 2013 01:24:02 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=N61Xg4mJ8wNhbYjmFbHTpADZ94Ln1eGOIN5AB3ySebI=;
+	b=yt6HBXPq884pvvSrO3NJKcHUWUHBtgaboHzeR9XGuV9eZ01FAmA8sWTZQvybO/d1Vd
+	nQacTOmIZsWFl7l6oJIvv2ka2dPKvjrgU6iWpeVXKgxvRM77uYWPGJ3wvtYxA2vZ5cjz
+	3AeP4Csmd/FrYgt2/lS7ffNGzN+T3uohZYD+7BRcV5+ZJnILywBYKsWI0QwcnvhzMJiS
+	XTGUdLCTC8kDzGikBiSPtIWCPMv/Kiz+eL/UdZ61rVPLXPpx9ac5veXDcRioIO2P0pml
+	o8jxNQX4B+i6+31BDN+btzQswQnnve7Z2LD46QLyoSxWnnOG/W6oUzDOgSlbTos1xQEo
+	2WNw==
+X-Received: by 10.66.219.233 with SMTP id pr9mr29824711pac.45.1384161844029;
+	Mon, 11 Nov 2013 01:24:04 -0800 (PST)
 Received: from haswell.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
 	by mx.google.com with ESMTPSA id
-	yi10sm34498938pab.8.2013.11.11.01.24.01 for <multiple recipients>
+	yi10sm34498938pab.8.2013.11.11.01.24.02 for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Nov 2013 01:24:02 -0800 (PST)
+	Mon, 11 Nov 2013 01:24:03 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2013 01:23:52 -0800
-Message-Id: <1384161833-7231-1-git-send-email-raj.khem@gmail.com>
+Date: Mon, 11 Nov 2013 01:23:53 -0800
+Message-Id: <1384161833-7231-2-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH 1/2] tcl: Install header into 8.6 instead of PN-PV in user/include
+In-Reply-To: <1384161833-7231-1-git-send-email-raj.khem@gmail.com>
+References: <1384161833-7231-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH V7 2/2] expect: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,374 +44,383 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 09:24:00 -0000
+X-List-Received-Date: Mon, 11 Nov 2013 09:24:02 -0000
 
-This helps in compiling other programs like expect which
-depend on private headers but 8.5, 8.6 and so on is enough
-granularity and currently we had 8.6.x and so on which
-means that expect recipe will need to be touched whenever there
-is minor update of tcl.
+From: Mihaela Sendrea <mihaela.sendrea@enea.com>
 
-Additionally the encode creating symlink to shared object in
-patch and remove it from recipe
+Nedeed for gcc-runtime tests.
 
-Refresh patches after making changes to Configure.in we
-propertly generate configure and not patch is directly as
-was the case.
+Fixed build on multilib and add patch to remove
+!/depot/path/expect -f
+which caused rpm to puke on rfs generation
 
+Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../tcltk/tcl/alter-includedir.patch               | 39 +++++++++++++
- .../tcl/fix_issue_with_old_distro_glibc.patch      | 12 ++--
- .../tcltk/tcl/fix_non_native_build_issue.patch     | 12 ++--
- meta/recipes-devtools/tcltk/tcl/no_packages.patch  | 16 +++---
- .../tcltk/tcl/tcl-add-soname.patch                 | 64 ++++++++++------------
- .../tcl/tcl-remove-hardcoded-install-path.patch    | 26 ++++++---
- meta/recipes-devtools/tcltk/tcl_8.6.1.bb           | 26 +++++----
- 7 files changed, 120 insertions(+), 75 deletions(-)
- create mode 100644 meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
+ .../expect/expect/0001-configure.in.patch          | 108 ++++++++++++++++
+ .../expect/expect/0002-tcl.m4.patch                |  17 +++
+ .../expect/expect/01-example-shebang.patch         | 144 +++++++++++++++++++++
+ meta/recipes-devtools/expect/expect_5.45.bb        |  61 +++++++++
+ 4 files changed, 330 insertions(+)
+ create mode 100644 meta/recipes-devtools/expect/expect/0001-configure.in.patch
+ create mode 100644 meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
+ create mode 100644 meta/recipes-devtools/expect/expect/01-example-shebang.patch
+ create mode 100644 meta/recipes-devtools/expect/expect_5.45.bb
 
-diff --git a/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch b/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
+diff --git a/meta/recipes-devtools/expect/expect/0001-configure.in.patch b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
 new file mode 100644
-index 0000000..32e63c0
+index 0000000..7595a25
 --- /dev/null
-+++ b/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
-@@ -0,0 +1,39 @@
-+Index: unix/Makefile.in
-+===================================================================
-+--- unix.orig/Makefile.in	2013-11-11 01:00:36.431550403 -0800
-++++ unix/Makefile.in	2013-11-11 01:05:09.587557282 -0800
-+@@ -53,7 +53,7 @@
-+ SCRIPT_INSTALL_DIR	= $(INSTALL_ROOT)$(TCL_LIBRARY)
-+ 
-+ # Directory in which to install the include file tcl.h:
-+-INCLUDE_INSTALL_DIR	= $(INSTALL_ROOT)$(includedir)
-++INCLUDE_INSTALL_DIR	= $(INSTALL_ROOT)$(includedir)/tcl$(VERSION)
-+ 
-+ # Path to the private tcl header dir:
-+ PRIVATE_INCLUDE_DIR	= @PRIVATE_INCLUDE_DIR@
-+Index: unix/configure.in
-+===================================================================
-+--- unix.orig/configure.in	2013-11-11 01:00:36.467550403 -0800
-++++ unix/configure.in	2013-11-11 01:00:36.503550404 -0800
-+@@ -791,7 +791,7 @@
-+ eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-+ 
-+ TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-+-PRIVATE_INCLUDE_DIR='$(includedir)'
-++PRIVATE_INCLUDE_DIR='$(includedir)/tcl$(VERSION)'
-+ HTML_DIR='$(DISTDIR)/html'
-+ 
-+ # Note:  in the following variable, it's important to use the absolute
-+Index: unix/configure
-+===================================================================
-+--- unix.orig/configure	2013-11-11 01:00:36.467550403 -0800
-++++ unix/configure	2013-11-11 01:00:36.503550404 -0800
-+@@ -19134,7 +19134,7 @@
-+ eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-+ 
-+ TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-+-PRIVATE_INCLUDE_DIR='$(includedir)'
-++PRIVATE_INCLUDE_DIR='$(includedir)/tcl$(VERSION)'
-+ HTML_DIR='$(DISTDIR)/html'
-+ 
-+ # Note:  in the following variable, it's important to use the absolute
-diff --git a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
-index ed58175..be27341 100644
---- a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
-@@ -15,11 +15,11 @@ Fixes tcl target recipe build on old distros which have glibc older than 2.14
- Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
- 2012/04/26
- 
--diff --git unix.orig/Makefile.in unix/Makefile.in
--index 571d53f..16351f6 100644
----- unix.orig/Makefile.in
--+++ unix/Makefile.in
--@@ -679,7 +679,7 @@ topDirName:
-+Index: unix/Makefile.in
-+===================================================================
-+--- unix.orig/Makefile.in	2013-11-10 23:38:01.787425628 -0800
-++++ unix/Makefile.in	2013-11-10 23:37:59.807425578 -0800
-+@@ -686,7 +686,7 @@
-  # tcltest executable gets the build directory burned into its ld search path.
-  # This keeps tcltest from picking up an already installed version of the Tcl
-  # library.
-@@ -28,7 +28,7 @@ index 571d53f..16351f6 100644
-  		TCLLIBPATH="@abs_builddir@/pkgs" \
-  		TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"
-  
--@@ -705,7 +705,7 @@ test-tcl: ${TCLTEST_EXE}
-+@@ -712,7 +712,7 @@
-  	$(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
-  
-  gdb-test: ${TCLTEST_EXE}
-diff --git a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-index 80d718c..c60eb75 100644
---- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
-@@ -1,10 +1,10 @@
- Upstream-Status: Pending
- 
--diff --git unix.orig/Makefile.in unix/Makefile.in
--index df05759..571d53f 100644
----- unix.orig/Makefile.in
--+++ unix/Makefile.in
--@@ -702,23 +702,23 @@ tcltest-real:
-+Index: unix/Makefile.in
-+===================================================================
-+--- unix.orig/Makefile.in	2013-11-10 23:37:34.243424934 -0800
-++++ unix/Makefile.in	2013-11-10 23:37:34.243424934 -0800
-+@@ -709,23 +709,23 @@
-  test: test-tcl test-packages
-  
-  test-tcl: ${TCLTEST_EXE}
-@@ -32,7 +32,7 @@ index df05759..571d53f 100644
-  
-  # The following target generates the shared libraries in dltest/ that are used
-  # for testing; they are included as part of the "tcltest" target (via the
--@@ -736,23 +736,23 @@ dltest.marker: ${STUB_LIB_FILE}
-+@@ -743,23 +743,23 @@
-  # This target can be used to run tclsh from the build directory
-  # via `make shell SCRIPT=/tmp/foo.tcl`
-  shell: ${TCL_EXE}
-diff --git a/meta/recipes-devtools/tcltk/tcl/no_packages.patch b/meta/recipes-devtools/tcltk/tcl/no_packages.patch
-index b045814..ab6cc43 100644
---- a/meta/recipes-devtools/tcltk/tcl/no_packages.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/no_packages.patch
-@@ -5,11 +5,11 @@ Upstream-Status:Inappropriate [embedded specific]
- 
- Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
- 
--diff --git unix.orig/Makefile.in unix/Makefile.in
--index 16351f6..76ccadb 100644
----- unix.orig/Makefile.in
--+++ unix/Makefile.in
--@@ -601,7 +601,7 @@ SRCS = $(GENERIC_SRCS) $(TOMMATH_SRCS) $(UNIX_SRCS) $(NOTIFY_SRCS) \
-+Index: unix/Makefile.in
-+===================================================================
-+--- unix.orig/Makefile.in	2013-11-10 23:38:12.235425891 -0800
-++++ unix/Makefile.in	2013-11-10 23:38:12.231425891 -0800
-+@@ -611,7 +611,7 @@
-  # Start of rules
-  #--------------------------------------------------------------------------
-  
-@@ -18,7 +18,7 @@ index 16351f6..76ccadb 100644
-  
-  binaries: ${LIB_FILE} $(STUB_LIB_FILE) ${TCL_EXE}
-  
--@@ -646,12 +646,12 @@ Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
-+@@ -653,12 +653,12 @@
-  #tclConfig.h: $(UNIX_DIR)/tclConfig.h.in
-  #	$(SHELL) config.status
-  
-@@ -33,7 +33,7 @@ index 16351f6..76ccadb 100644
-  	rm -rf Makefile config.status config.cache config.log tclConfig.sh \
-  		tclConfig.h *.plist Tcl.framework tcl.pc
-  	cd dltest ; $(MAKE) distclean
--@@ -699,7 +699,7 @@ tcltest-real:
-+@@ -706,7 +706,7 @@
-  # tcltest, ie:
-  #	% make test TESTFLAGS="-verbose bps -file fileName.test"
-  
-@@ -42,7 +42,7 @@ index 16351f6..76ccadb 100644
-  
-  test-tcl: ${TCLTEST_EXE}
-  	$(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
--@@ -764,7 +764,7 @@ INSTALL_PACKAGE_TARGETS = install-packages
-+@@ -771,7 +771,7 @@
-  INSTALL_DEV_TARGETS = install-headers
-  INSTALL_EXTRA_TARGETS = @EXTRA_INSTALL@
-  INSTALL_TARGETS = $(INSTALL_BASE_TARGETS) $(INSTALL_DOC_TARGETS) $(INSTALL_DEV_TARGETS) \
-diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
-index d3691f6..96276ea 100644
---- a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
-@@ -2,29 +2,23 @@ Upstream-Status: Pending
- 
- Index: unix/configure
- ===================================================================
----- unix.orig/configure	2013-09-19 23:17:13.000000000 +0300
--+++ unix/configure	2013-10-16 15:58:37.450136217 +0300
--@@ -6899,6 +6899,7 @@
-- 	    LIBS="$LIBS -lc"
-- 	    SHLIB_CFLAGS=""
-- 	    SHLIB_SUFFIX=".so"
--+	    SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.so.0'
-+--- unix.orig/configure	2013-09-19 13:17:13.000000000 -0700
-++++ unix/configure	2013-11-11 00:20:51.519490342 -0800
-+@@ -7599,6 +7599,9 @@
-+ 	    # get rid of the warnings.
-+ 	    #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES"
-  
-++	    # following line added by CW for Debian GNU/Linux
-++	    TCL_SHLIB_LD_EXTRAS="-Wl,-soname,\${TCL_LIB_FILE}.0"
-++
-+ 	    SHLIB_LD='${CC} -shared ${CFLAGS} ${LDFLAGS}'
-  	    DL_OBJS="tclLoadDl.o"
-- 	    LD_LIBRARY_PATH_VAR="LIBPATH"
-+ 	    DL_LIBS="-ldl"
- Index: unix/tcl.m4
- ===================================================================
----- unix.orig/tcl.m4	2013-09-19 23:17:13.000000000 +0300
--+++ unix/tcl.m4	2013-10-16 16:18:50.719586228 +0300
--@@ -1408,6 +1408,7 @@
-- 	Linux*|GNU*|NetBSD-Debian)
-- 	    SHLIB_CFLAGS="-fPIC"
-- 	    SHLIB_SUFFIX=".so"
--+	    SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.0'
-- 
-- 	    CFLAGS_OPTIMIZE="-O2"
-- 	    # egcs-2.91.66 on Redhat Linux 6.0 generates lots of warnings
--@@ -1415,12 +1416,15 @@
-+--- unix.orig/tcl.m4	2013-09-19 13:17:13.000000000 -0700
-++++ unix/tcl.m4	2013-11-11 00:17:24.263485123 -0800
-+@@ -1415,6 +1415,9 @@
-  	    # get rid of the warnings.
-  	    #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES"
-  
-@@ -34,19 +28,19 @@ Index: unix/tcl.m4
-  	    SHLIB_LD='${CC} -shared ${CFLAGS} ${LDFLAGS}'
-  	    DL_OBJS="tclLoadDl.o"
-  	    DL_LIBS="-ldl"
-- 	    LDFLAGS="$LDFLAGS -Wl,--export-dynamic"
-- 	    AS_IF([test $doRpath = yes], [
---		CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'])
--+		CC_SEARCH_FLAGS=''])
-- 	    LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
-- 	    AS_IF([test "`uname -m`" = "alpha"], [CFLAGS="$CFLAGS -mieee"])
-- 	    AS_IF([test $do64bit = yes], [
--@@ -2050,7 +2054,7 @@
-- 
--     AS_IF([test "${SHARED_BUILD}" = 1 -a "${SHLIB_SUFFIX}" != ""], [
--         LIB_SUFFIX=${SHARED_LIB_SUFFIX}
---        MAKE_LIB='${SHLIB_LD} -o [$]@ ${OBJS} ${TCL_SHLIB_LD_EXTRAS} ${SHLIB_LD_LIBS} ${TK_SHLIB_LD_EXTRAS} ${LD_SEARCH_FLAGS}'
--+        MAKE_LIB='${SHLIB_LD} -o $@ ${OBJS} ${SHLIB_LD_LIBS} ${TCL_SHLIB_LD_EXTRAS} ${TK_SHLIB_LD_EXTRAS} ${LD_SEARCH_FLAGS}'
--         AS_IF([test "${SHLIB_SUFFIX}" = ".dll"], [
--             INSTALL_LIB='$(INSTALL_LIBRARY) $(LIB_FILE) "$(BIN_INSTALL_DIR)/$(LIB_FILE)"'
--             DLL_INSTALL_DIR="\$(BIN_INSTALL_DIR)"
-+Index: unix/Makefile.in
-+===================================================================
-+--- unix.orig/Makefile.in	2013-09-19 13:17:13.000000000 -0700
-++++ unix/Makefile.in	2013-11-11 00:20:32.423489861 -0800
-+@@ -796,7 +796,10 @@
-+ 	    done;
-+ 	@echo "Installing $(LIB_FILE) to $(DLL_INSTALL_DIR)/"
-+ 	@@INSTALL_LIB@
-+-	@chmod 555 "$(DLL_INSTALL_DIR)/$(LIB_FILE)"
-++	mv "$(DLL_INSTALL_DIR)"/$(LIB_FILE) "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0
-++	ln -sf $(LIB_FILE).0 "$(DLL_INSTALL_DIR)"/$(LIB_FILE)
-++	ln -sf "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0 ./
-++	@chmod 555 "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0
-+ 	@echo "Installing ${TCL_EXE} as $(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
-+ 	@$(INSTALL_PROGRAM) ${TCL_EXE} "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
-+ 	@echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
-diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch b/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
-index afdd880..16f7c80 100644
---- a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
-@@ -19,11 +19,24 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
-  configure |    2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/configure b/configure
--index 478a4d5..79c2979 100755
----- a/configure
--+++ b/configure
--@@ -18772,7 +18772,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-+Index: unix/configure
-+===================================================================
-+--- unix.orig/configure	2013-11-10 23:38:33.643426430 -0800
-++++ unix/configure	2013-11-10 23:39:51.347428387 -0800
-+@@ -19134,7 +19134,7 @@
-+ 
-+ eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-+ 
-+-TCL_LIBRARY='$(prefix)/lib/tcl$(VERSION)'
-++TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-+ PRIVATE_INCLUDE_DIR='$(includedir)'
-+ HTML_DIR='$(DISTDIR)/html'
-+ 
-+Index: unix/configure.in
-+===================================================================
-+--- unix.orig/configure.in	2013-11-10 23:20:50.000000000 -0800
-++++ unix/configure.in	2013-11-10 23:39:41.199428131 -0800
-+@@ -790,7 +790,7 @@
-  
-  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-  
-@@ -32,6 +45,3 @@ index 478a4d5..79c2979 100755
-  PRIVATE_INCLUDE_DIR='$(includedir)'
-  HTML_DIR='$(DISTDIR)/html'
-  
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-index e239708..f40475d 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-@@ -15,11 +15,12 @@ BASE_SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
-                 file://tcl-add-soname.patch"
- 
- SRC_URI = "${BASE_SRC_URI} \
--	   file://fix_non_native_build_issue.patch \
--	   file://fix_issue_with_old_distro_glibc.patch \
--	   file://no_packages.patch \
--	   file://tcl-remove-hardcoded-install-path.patch \
--       "
-+           file://fix_non_native_build_issue.patch \
-+           file://fix_issue_with_old_distro_glibc.patch \
-+           file://no_packages.patch \
-+           file://tcl-remove-hardcoded-install-path.patch \
-+           file://alter-includedir.patch \
-+          "
- SRC_URI[md5sum] = "aae4b701ee527c6e4e1a6f9c7399882e"
- SRC_URI[sha256sum] = "16ee769248e64ba1cae6b4834fcc4e4edd7470d881410e8d58f7dd1434343514"
- 
-@@ -27,6 +28,8 @@ SRC_URI_class-native = "${BASE_SRC_URI}"
- 
- S = "${WORKDIR}/tcl${PV}/unix"
- 
-+VER = "8.6"
++++ b/meta/recipes-devtools/expect/expect/0001-configure.in.patch
+@@ -0,0 +1,108 @@
++Allow cross compiling.
 +
- inherit autotools
- 
- DEPENDS_class-native = ""
-@@ -43,9 +46,8 @@ do_compile_prepend() {
- }
- 
- do_install() {
--	autotools_do_install
--	oe_libinstall -so libtcl8.6 ${D}${libdir}
--	ln -sf ./tclsh8.6 ${D}${bindir}/tclsh
-+	autotools_do_install install-private-headers
-+	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
- 	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
- 	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
- 	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh 
-@@ -54,8 +56,8 @@ do_install() {
- 	cd ..
- 	for dir in compat generic unix
- 	do
--		install -d ${D}${includedir}/tcl${PV}/$dir
--		install -m 0644 ${S}/../$dir/*.h ${D}${includedir}/tcl${PV}/$dir/
-+		install -d ${D}${includedir}/${BPN}${VER}/$dir
-+		install -m 0644 ${S}/../$dir/*.h ${D}${includedir}/${BPN}${VER}/$dir/
- 	done
- }
- 
-@@ -65,8 +67,8 @@ tcl_sysroot_preprocess () {
- }
- 
- PACKAGES =+ "tcl-lib"
--FILES_tcl-lib = "${libdir}/libtcl8.6.so*"
--FILES_${PN} += "${libdir}/tcl8.6 ${libdir}/tcl8"
-+FILES_tcl-lib = "${libdir}/libtcl${VER}.so.*"
-+FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8"
- FILES_${PN}-dev += "${libdir}/tclConfig.sh ${libdir}/tclooConfig.sh"
- 
- # isn't getting picked up by shlibs code
++Signed-off-by: Anders Roxell <anders.roxell@enea.com>
++Upstream-Status: Pending
++---
++diff -uNr a/configure.in b/configure.in
++--- a/configure.in	2012-12-14 15:31:32.623180450 +0100
+++++ b/configure.in	2012-12-14 15:53:34.518233519 +0100
++@@ -481,7 +481,7 @@
++ ,
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(no)
++ )
++ 
++ AC_MSG_CHECKING([if any value exists for WNOHANG])
++@@ -506,7 +506,9 @@
++ 	AC_MSG_RESULT(no)
++ 	AC_DEFINE(WNOHANG_BACKUP_VALUE, 1)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(yes)
+++	AC_DEFINE_UNQUOTED(WNOHANG_BACKUP_VALUE, `cat wnohang`)
+++	rm -f wnohang
++ )
++ 
++ #
++@@ -574,7 +576,8 @@
++ 	AC_DEFINE(REARM_SIG)
++ ,
++ 	AC_MSG_RESULT(no)
++-, AC_MSG_WARN([Expect can't be cross compiled])
+++,
+++	AC_MSG_RESULT(no)
++ )
++ 
++ # HPUX7 has trouble with the big cat so split it
++@@ -725,7 +728,9 @@
++ ,
++         AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++        AC_MSG_RESULT(yes)
+++        AC_DEFINE(HAVE_SGTTYB)
+++        PTY_TYPE=sgttyb
++ )
++ 
++ # mach systems have include files for unimplemented features
++@@ -749,7 +754,9 @@
++ ,
++         AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++        AC_DEFINE(HAVE_TERMIO)
+++        PTY_TYPE=termios
+++        AC_MSG_RESULT(yes)
++ )
++ 
++   # now check for the new style ttys (not yet posix)
++@@ -771,7 +778,9 @@
++   ,
++         AC_MSG_RESULT(no)
++   ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++        AC_DEFINE(HAVE_TERMIOS)
+++        PTY_TYPE=termios
+++        AC_MSG_RESULT(yes)
++   )
++ fi
++ 
++@@ -794,7 +803,7 @@
++ ,
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(no)
++ )
++ 
++ AC_MSG_CHECKING([if TIOCGWINSZ in termios.h])
++@@ -816,7 +825,7 @@
++ ,
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(no)
++ )
++ 
++ # finally check for Cray style ttys
++@@ -837,7 +846,7 @@
++ ,
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_MSG_RESULT(no)
++ )
++ 
++ #
++@@ -889,7 +898,8 @@
++ 	AC_MSG_RESULT(yes),
++ 	AC_MSG_RESULT(no)
++ ,
++-	AC_MSG_ERROR([Expect can't be cross compiled])
+++	AC_DEFINE(HAVE_SV_TIMEZONE)
+++	AC_MSG_RESULT(yes),
++ )
++ 
++ 
+diff --git a/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
+new file mode 100644
+index 0000000..dc4c6ba
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect/0002-tcl.m4.patch
+@@ -0,0 +1,17 @@
++Use proper -L path when cross compiling.
++
++Signed-off-by: Anders Roxell <anders.roxell@enea.com>
++Upstream-Status: Pending
++---
++diff -uNr a/tclconfig/tcl.m4 b/tclconfig/tcl.m4
++--- a/tclconfig/tcl.m4	2012-12-14 09:16:58.789861281 +0100
+++++ b/tclconfig/tcl.m4	2012-12-14 10:55:43.542297010 +0100
++@@ -371,7 +371,7 @@
++     # of TCL_BUILD_LIB_SPEC. An extension should make use of TCL_LIB_SPEC
++     # instead of TCL_BUILD_LIB_SPEC since it will work with both an
++     # installed and uninstalled version of Tcl.
++-    if test -f "${TCL_BIN_DIR}/Makefile" ; then
+++    if test -f "${TCL_BIN_DIR}/Makefile" || test "$cross_compiling" = yes; then
++         TCL_LIB_SPEC="${TCL_BUILD_LIB_SPEC}"
++         TCL_STUB_LIB_SPEC="${TCL_BUILD_STUB_LIB_SPEC}"
++         TCL_STUB_LIB_PATH="${TCL_BUILD_STUB_LIB_PATH}"
+diff --git a/meta/recipes-devtools/expect/expect/01-example-shebang.patch b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
+new file mode 100644
+index 0000000..8597f31
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect/01-example-shebang.patch
+@@ -0,0 +1,144 @@
++Author: Mike Markley <mike@markley.org>
++Author: Sergei Golovan <sgolovan@debian.org>
++Description: Fixes shebangs in examples (Closes: #152367).
++
++Backported from Debian
++
++Upstream-Status: Pending
++Index: expect5.45/example/beer.exp
++===================================================================
++--- expect5.45.orig/example/beer.exp	2006-01-25 13:51:39.000000000 -0800
+++++ expect5.45/example/beer.exp	2013-11-01 17:35:19.817318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect -f
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # 99 bottles of beer on the wall, Expect-style
++ # Author: Don Libes <libes@nist.gov>
++Index: expect5.45/example/expectd.proto
++===================================================================
++--- expect5.45.orig/example/expectd.proto	2010-07-02 09:03:31.000000000 -0700
+++++ expect5.45/example/expectd.proto	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,10 @@
++-#!/depot/tcl/src/expect/e --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
+++
++ # Description: Simple fragment to begin a telnet daemon
++ # For more information, see Chapter 17 of "Exploring Expect"
++ # Author: Don Libes, NIST
++Index: expect5.45/example/irsh
++===================================================================
++--- expect5.45.orig/example/irsh	2010-07-02 09:03:31.000000000 -0700
+++++ expect5.45/example/irsh	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # Do rsh interactively.  For example, consider the following command:
++ #    rsh <remote> ls -l "|" more
++Index: expect5.45/example/passwd.cgi
++===================================================================
++--- expect5.45.orig/example/passwd.cgi	2000-01-06 15:22:07.000000000 -0800
+++++ expect5.45/example/passwd.cgi	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # This is a CGI script to process requests created by the accompanying
++ # passwd.html form.  This script is pretty basic, although it is
++Index: expect5.45/example/passwdprompt
++===================================================================
++--- expect5.45.orig/example/passwdprompt	2003-09-05 12:01:59.000000000 -0700
+++++ expect5.45/example/passwdprompt	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # This script prompts for a passwd from stdin while echoing *'s
++ 
++Index: expect5.45/example/reprompt
++===================================================================
++--- expect5.45.orig/example/reprompt	2000-01-06 15:22:07.000000000 -0800
+++++ expect5.45/example/reprompt	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # Name: reprompt
++ # Description: reprompt every so often until user enters something
++Index: expect5.45/example/term_expect
++===================================================================
++--- expect5.45.orig/example/term_expect	2005-02-15 10:11:31.000000000 -0800
+++++ expect5.45/example/term_expect	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expectk
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec wish "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ # Name: tkterm - terminal emulator using Expect and Tk text widget, v3.0
++ # Author: Don Libes, July '94
++Index: expect5.45/example/vrfy
++===================================================================
++--- expect5.45.orig/example/vrfy	2010-07-02 09:03:31.000000000 -0700
+++++ expect5.45/example/vrfy	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,9 @@
++-#!/depot/path/expect -f
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
++ 
++ 
++ # separate address into user and host
++Index: expect5.45/example/xrlogin
++===================================================================
++--- expect5.45.orig/example/xrlogin	2000-01-06 15:22:08.000000000 -0800
+++++ expect5.45/example/xrlogin	2013-11-01 17:35:19.821318341 -0700
++@@ -1,4 +1,10 @@
++-#!/depot/path/expect --
+++#!/bin/sh
+++# -*- tcl -*-
+++# The next line is executed by /bin/sh, but not tcl \
+++exec tclsh "$0" ${1+"$@"}
+++
+++package require Expect
+++
++ # xrlogin - rlogin but with current DISPLAY
++ #
++ # You can extend this idea to save any arbitrary information across rlogin
+diff --git a/meta/recipes-devtools/expect/expect_5.45.bb b/meta/recipes-devtools/expect/expect_5.45.bb
+new file mode 100644
+index 0000000..0417ec6
+--- /dev/null
++++ b/meta/recipes-devtools/expect/expect_5.45.bb
+@@ -0,0 +1,61 @@
++SUMMARY = "tool for automating interactive applications according to a script"
++DESCRIPTION = "Expect is a tool for automating interactive applications according to a script. \
++Following the script, Expect knows what can be expected from a program and what \
++the correct response should be. Expect is also useful for testing these same \
++applications. And by adding Tk, you can also wrap interactive applications in \
++X11 GUIs. An interpreted language provides branching and high-level control \
++structures to direct the dialogue. In addition, the user can take control and \
++interact directly when desired, afterward returning control to the script. \
++"
++HOMEPAGE = "http://sourceforge.net/projects/expect/"
++LICENSE="PD"
++SECTION = "devel"
++
++LIC_FILES_CHKSUM = "file://license.terms;md5=fbf2de7e9102505b1439db06fc36ce5c"
++
++DEPENDS += "tcl"
++RDEPENDS_${PN} = "tcl"
++
++inherit autotools
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/expect/Expect/${PV}/${BPN}${PV}.tar.gz \
++           file://0001-configure.in.patch \
++           file://0002-tcl.m4.patch \
++           file://01-example-shebang.patch \
++          "
++SRC_URI[md5sum] = "44e1a4f4c877e9ddc5a542dfa7ecc92b"
++SRC_URI[sha256sum] = "b28dca90428a3b30e650525cdc16255d76bb6ccd65d448be53e620d95d5cc040"
++
++S = "${WORKDIR}/${BPN}${PV}"
++
++do_install_append() {
++	install -d ${D}${libdir}
++        install -m 0755 ${D}${libdir}/expect${PV}/libexpect*.so   ${D}${libdir}/
++        install -m 0755 ${S}/fixline1           ${D}${libdir}/expect${PV}/
++        install -m 0755 ${S}/example/*          ${D}${libdir}/expect${PV}/
++        rm ${D}${libdir}/expect${PV}/libexpect*.so
++}
++
++EXTRA_OECONF += "--includedir=${STAGING_INCDIR} \
++                 --with-tcl=${STAGING_LIBDIR} \
++                 --with-tclinclude=${STAGING_INCDIR}/tcl8.6 \
++                 --enable-shared \
++                 --enable-threads \
++                 --disable-rpath \
++                "
++EXTRA_OEMAKE_install = " 'SCRIPTS=' "
++
++FILES_${PN}-dbg += "${libdir}/${BPN}${PV}/.debug \
++                    ${libdir}/.debug \
++                   "
++FILES_${PN}-dev = "${libdir_native}/expect${PV}/libexpect*.so \
++                   ${STAGING_INCDIR}/expect.h \
++                   ${STAGING_INCDIR}/expect_tcl.h \
++                   ${STAGING_INCDIR}/expect_comm.h \
++                   ${STAGING_INCDIR}/tcldbg.h \
++                   ${includedir}/*.h \
++                  "
++
++FILES_${PN} += "${libdir}/libexpect${PV}.so \
++                ${libdir}/expect${PV}/* \
++               "
 -- 
 1.8.3.2
 
