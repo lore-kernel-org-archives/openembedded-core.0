@@ -1,31 +1,36 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 54A7A6D37F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id BE64E6D3D5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 11:09:15 +0000 (UTC)
-Received: from [173.34.6.101] (port=33155 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VfpMq-0004N3-6q for openembedded-core@lists.openembedded.org;
-	Mon, 11 Nov 2013 06:09:16 -0500
-Date: Mon, 11 Nov 2013 06:09:05 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1311110601090.10282@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Mon, 11 Nov 2013 11:13:03 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id hv10so3211655vcb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Nov 2013 03:13:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=wwEsx1QlcdPBsJ1fCboBNvXy52L8gu24per70ut8V5A=;
+	b=AO/nGDLorCpewvEaIWdrToMH/hrmV5rE32kUc7oi4DIC92D7EKN49SPBspOy0drOYf
+	81MLUomBD8QkIgEbfcZLEqPJalmg0BM+va9xgKHkMA37YyWc1y+MCyApWsiJvKTGKsdM
+	PO+kp1jFlyyBtZUfxIeieASP7fOZg6wMG163avry/7avrXCHEkmwLkm53ksf2Hehmc/G
+	Gzwvz6gA861svvFkLnGNbHQN9RVWrPAd/QpCvbtXV4vBhLqYl5EoaVhV9sLCEp0QiLlY
+	DCwJtUsR6wyTA10//LzYG3gZAcNGhTCXPz5LyYlWYIiwD1Bji1seuMpSmAkRHekMdwks
+	p/WA==
+X-Gm-Message-State: ALoCoQmsLbwQZVru8u8zAvzWBDko+rKYbCYmtLr3uYRekqQFUvQ3pxqFvoQ4G/Xe4HMav1flEv8q
+X-Received: by 10.52.177.166 with SMTP id cr6mr2495450vdc.26.1384168385124;
+	Mon, 11 Nov 2013 03:13:05 -0800 (PST)
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: one more question about FILESPATH and eglibc, if i might
+Received: by 10.220.71.201 with HTTP; Mon, 11 Nov 2013 03:12:44 -0800 (PST)
+In-Reply-To: <cover.1383974819.git.Qi.Chen@windriver.com>
+References: <cover.1383974819.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Nov 2013 11:12:44 +0000
+Message-ID: <CAJTo0Lb8h=UYNCk8X5dL6XMRQrZSsC5OYA+iDVFOAX=95Vg6bg@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/8] Fixes about unsafe-references QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,67 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 11:09:16 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Mon, 11 Nov 2013 11:13:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 9 November 2013 05:28,  <Qi.Chen@windriver.com> wrote:
+> This solution is based on the following two principles.
+> 1. With /usr on a seperate partition, system should still boot without any error.
+> 2. Without /usr, system should be able to boot into single user mode with error.
 
-  as one more data point in what looks like weird and sometimes
-unnecessary settings of FILESPATH in recipe files, i give you this
-from eglibc_2.18.bb:
+Presumably this is with sysvinit.  Have you tested systemd with these
+principles?
 
-FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}',
-'${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}'
-], d)}"
-
-  first, it would seem that the first three elements in that list
-match *exactly* what you'd get from the default setting of FILESPATH
-from base.bbclass, would it not?
-
-FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/${BP}",
-"${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files"], d)}"
-
-so it's not clear what the point of that explicit setting is.
-
-  in addition, what's with the addition of that fourth list entry:
-${FILE_DIRNAME}? all that's going to do is extend FILESPATH with the
-OVERRIDES-related directories *immediately* under the eglibc
-directory, and i don't see what value that has. here's the final value
-of FILESPATH for eglibc as displayed by "bb show":
-
-FILESPATH="/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/arm
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/armv7a
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/beagleboard
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/poky
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/arm
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/armv7a
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/beagleboard
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/poky
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/arm
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/armv7a
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/beagleboard
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/poky
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/arm
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/armv7a
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/beagleboard
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/poky
-/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/"
-
-and i don't see the point of those last five entries. is the use of
-${FILE_DIRNAME} as a fourth argument to base_set_filespath()
-deliberate? and what is it for? thanks for your patience.
-
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+Ross
 
