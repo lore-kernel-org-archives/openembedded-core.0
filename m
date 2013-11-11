@@ -1,36 +1,36 @@
 Return-Path: <layliu@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F4E76D37F
+Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
+	[209.85.160.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 301AB6D7E1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 09:28:00 +0000 (UTC)
-Received: by mail-pd0-f178.google.com with SMTP id p10so402388pdj.23
+	Mon, 11 Nov 2013 09:28:02 +0000 (UTC)
+Received: by mail-pb0-f51.google.com with SMTP id xa7so4978983pbc.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 01:28:02 -0800 (PST)
+	Mon, 11 Nov 2013 01:28:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=T5iuxJFTLxK2jJx7Ik0cvnoCqIzqU4C3BUj+Ywi0p7o=;
-	b=HKaBQplV0wR/qx9xgRiVNsUxBrbJrCcOPryupwQcCu7CXMcMjs85FpbVGqMMDXp4kO
-	Kc1MjmAROVisy9p+L2FQkDvSteU5cYoaNk4ceBK3U/3mRMraPNJ55C2Z1fymQzcxbequ
-	5SykhYPiioyrv6w/1dQvFzVsz9xASx4hLhJfXV9egEkJ9SbsoFN7cD4FlIWDLjE6qW0p
-	f9e0AgqTiia5G7YhmHiXiZHFkjSFpy2Rgir+bdHU1arVp7jrD8kS02FTxV4EP+bv6PxK
-	30UYINaqtbVL45mfI+wtTDC96lYwLiTaK3v72848X29BPw1wE+iFKCQIxI+LHSCdOsVV
-	P3uw==
-X-Received: by 10.66.251.40 with SMTP id zh8mr289322pac.185.1384162081790;
-	Mon, 11 Nov 2013 01:28:01 -0800 (PST)
+	bh=BgIH1xCb/wUFmOBdRlXPHxCeh6xE9uj5povbBEm8HeM=;
+	b=CD/MuIxM3s1TRclYHo/elxf0xSr0FQnyOn6Pu+/5GLElj3hhGR8ZNJ+ljBN8L+wN5l
+	GK9NG0w/B8dAk01V51Mn3FFiWOy3JjetOayx6Uv3iodBoMh+SJNE6YyVWmz6jCHhJyTe
+	wcI5QCD1Y50dWtizVv6QaUB/SKvcDQk52/DNZY/bseeGqoicvnr4cjDVOjkYMNftd3BV
+	+Qv9pBH9L8x78oehoaueudTsZYCAa0KiTWF8RhgVdoZg4nI2zoEbPFY/qtpSiQ7jOI8I
+	CsJqJct700HObzzd8azxmRW8r8vuBYey5t+cSjAb+ohu+mXzgfCmSFrTnpg62QyJJdoC
+	1Ivg==
+X-Received: by 10.69.25.38 with SMTP id in6mr906945pbd.178.1384162084377;
+	Mon, 11 Nov 2013 01:28:04 -0800 (PST)
 Received: from localhost.localdomain ([1.202.252.122])
-	by mx.google.com with ESMTPSA id rv9sm29563307pbc.4.2013.11.11.01.27.59
+	by mx.google.com with ESMTPSA id rv9sm29563307pbc.4.2013.11.11.01.28.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Mon, 11 Nov 2013 01:28:01 -0800 (PST)
+	Mon, 11 Nov 2013 01:28:03 -0800 (PST)
 From: Lei Liu <layliu@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2013 17:27:41 +0800
-Message-Id: <1384162062-30319-1-git-send-email-layliu@gmail.com>
+Date: Mon, 11 Nov 2013 17:27:42 +0800
+Message-Id: <1384162062-30319-2-git-send-email-layliu@gmail.com>
 X-Mailer: git-send-email 1.7.0.4
 In-Reply-To: <no>
 References: <no>
-Subject: [PATCH 1/2] mklibs: add dependency on dpkg-native
+Subject: [PATCH 2/2] Fix grep pattern when mklibs collects executables in rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 09:28:00 -0000
+X-List-Received-Date: Mon, 11 Nov 2013 09:28:02 -0000
 
 From: Lei Liu <lei.liu2@windriver.com>
 
-mklibs requires the "dpkg-architecture" utility to work.
-Add dependency on dpkg-native.
+File command in some version could print extra space between
+"LSB" and "executable" - it causes mklibs can't find any executables
+using grep "LSB executable".  Fix the grep pattern to catch
+multiple spaces.
 
 Signed-off-by: Lei Liu <lei.liu2@windriver.com>
 ---
- .../mklibs/mklibs-native_0.1.38.bb                 |    2 +-
+ meta/classes/image-mklibs.bbclass |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb
-index e424052..6367e8f 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.38.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://code.launchpad.net/mklibs"
- SECTION = "devel"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
--DEPENDS = "python-native"
-+DEPENDS = "python-native dpkg-native"
- 
- SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.gz \
- 	file://ac_init_fix.patch\
+diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
+index 66b0f52..e975f5d 100644
+--- a/meta/classes/image-mklibs.bbclass
++++ b/meta/classes/image-mklibs.bbclass
+@@ -9,7 +9,7 @@ mklibs_optimize_image_doit() {
+ 	du -bs > ${WORKDIR}/mklibs/du.before.mklibs.txt
+ 	for i in `find .`; do file $i; done \
+ 		| grep ELF \
+-		| grep "LSB executable" \
++		| grep "LSB *executable" \
+ 		| grep "dynamically linked" \
+ 		| sed "s/:.*//" \
+ 		| sed "s+^\./++" \
 -- 
 1.7.0.4
 
