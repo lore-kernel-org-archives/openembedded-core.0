@@ -1,29 +1,31 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 596A86D46F
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D2746CFEC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 10:13:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rABADFaZ023297
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Nov 2013 02:13:15 -0800 (PST)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 11 Nov 2013 02:13:15 -0800
-Message-ID: <5280ADB9.4050802@windriver.com>
-Date: Mon, 11 Nov 2013 18:13:13 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+	Mon, 11 Nov 2013 10:34:31 +0000 (UTC)
+Received: from [173.34.6.101] (port=32876 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1VfopC-0003Vj-RK for openembedded-core@lists.openembedded.org;
+	Mon, 11 Nov 2013 05:34:31 -0500
+Date: Mon, 11 Nov 2013 05:34:20 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1311110437360.9099@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1383821844.git.wenzong.fan@windriver.com>
-	<CAJTo0LZHwv3jbAP_utqA-RUALdE_R7OtpUQnzaWU67qup47fHQ@mail.gmail.com>
-	<527C9C6F.4050509@windriver.com> <1383898719.6271.293.camel@ted>
-In-Reply-To: <1383898719.6271.293.camel@ted>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] udev: ship source files to related dbg package
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: wanting to confirm understanding of FILESPATH in .bb and .inc files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +38,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 10:13:15 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Nov 2013 10:34:32 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On 11/08/2013 04:18 PM, Richard Purdie wrote:
-> On Fri, 2013-11-08 at 16:10 +0800, wenzong fan wrote:
->> On 11/07/2013 07:12 PM, Burton, Ross wrote:
->>> On 7 November 2013 11:03,  <wenzong.fan@windriver.com> wrote:
->>>> From: Wenzong Fan <wenzong.fan@windriver.com>
->>>>
->>>> Just ship these sources to their own dbg packages instead of udev-dbg:
->>>>
->>>>       libudev* -> libudev-dbg
->>>>       gudev*   -> libgudev-dbg
->>>>       others   -> udev-dbg
->>>
->>> Why do this?  Multiple -dbg packages could make sense in a recipe
->>> which builds a multi-gigabyte -dbg package (such as webkit) but what's
->>> the rationale for doing this in udev?
->>
->> Actually I don't know clear about why it needs three -dbg packages,
->> looks they have been there since very early commits of udev. I suspect
->> that udev/libudev/libgudev are independent each other, so they are
->> shipped into different packages (base/-dev/-dbg). This patch only ships
->> their source code to -dbg packages accordingly.
->
-> We don't support multiple -dbg packages and this looks like an error.
 
-Ok, another patch for removing the extra -dbg packages has been sent 
-with subject:
+  currently poking around for examples of recipes' use of FILESPATH to
+use in class, and i just want to make absolutely sure i understand its
+usage since some recipes seem to use it in weird and/or unnecessary
+ways. (using the current poky tarball 10.0.0 for this.)
 
-     udev: remove libudev-dbg and libgudev-dbg
+  first, i can see the default setting of FILESPATH in base.bbclass:
 
-Thanks
-Wenzong
+FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/${BP}",
+  "${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files"], d)}"
 
->
-> Cheers,
->
-> Richard
->
->
->
+which, for any recipe, creates a FILESPATH that starts with top-level
+subdirectories of ${BP}, ${BPN} and "files" and, on top of that,
+extends each one with further subdirectories as defined by the
+variable FILESOVERRIDES. so, as a working example, i can use "bb show"
+to display the value of FILESPATH for, say, the zlib recipe, which
+shows me a path with 15 entries (exactly as i expected building for my
+beagleboard xm):
+
+FILESPATH="/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/arm
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/armv7a
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/beagleboard
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/poky
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/arm
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/armv7a
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/beagleboard
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/poky
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/arm
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/armv7a
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/beagleboard
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/poky
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/"
+
+so far, so good, and here's where i want the clarification.
+
+  as long as a recipe has "file://" references that occur exclusively
+in any of the directories listed above, there should be no reason to
+*need* to override FILESPATH, correct? however, some recipe or include
+files clearly do just that, and i want to make sure that what i'm
+seeing in files like that is *optional*, and not required due to some
+subtlety i'm unaware of.
+
+  consider first example:
+
+systemtap_git.inc:FILESPATH = "${FILE_DIRNAME}/systemtap"
+
+it would seem that this setting is superfluous since that entry is
+already in the default value of FILESPATH for that recipe, so i'm
+guessing that the benefit of the above is to simply reduce the size of
+FILESPATH for efficiency? i mean, technically, the above didn't need
+to be set, did it?
+
+  another example is with "-native" recipes. consider:
+
+qemu-helper-native_1.0.bb:FILESPATH = "${FILE_DIRNAME}/qemu-helper"
+
+again, that seems redundant since:
+
+$ bb show -r qemu-helper-native BP BPN
+Parsing recipes..done.
+# BP=${BPN}-${PV}
+BP="qemu-helper-1.0"
+# BPN=${@base_prune_suffix(d.getVar('PN', True), d.getVar('SPECIAL_PKGSUFFIX', True).split(), d)}
+BPN="qemu-helper"
+$
+
+so that entry is already part of FILESPATH.
+
+  i can see that there are times when a recipe or include file does
+need to override the default value of FILESPATH, i just want to
+confirm that there are instances in the current oe-core code base that
+it appears to be unnecessary. thoughts?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 
