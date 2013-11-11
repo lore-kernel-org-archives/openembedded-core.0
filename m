@@ -1,24 +1,48 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5792B6D82E
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D37F6D331
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 13:59:24 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Nov 2013 05:55:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="406830971"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.166])
-	by orsmga001.jf.intel.com with ESMTP; 11 Nov 2013 05:59:25 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2013 13:59:12 +0000
-Message-Id: <0f6348d2113da5961c751908ab79f5e7115b6dee.1384176729.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1384176729.git.paul.eggleton@linux.intel.com>
-References: <cover.1384176729.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1384176729.git.paul.eggleton@linux.intel.com>
-References: <cover.1384176729.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/4] openssh: upgrade to 6.4p1
+	Mon, 11 Nov 2013 14:50:12 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1Vfso8-0006Q6-3Y; Mon, 11 Nov 2013 15:50:07 +0100
+Message-ID: <1384181379.16718.153.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: ChenQi <Qi.Chen@windriver.com>
+Date: Mon, 11 Nov 2013 14:49:39 +0000
+In-Reply-To: <5280D037.1060607@windriver.com>
+References: <cover.1383974819.git.Qi.Chen@windriver.com>
+	<74d67107ced2e10a00bc2ff9b84d42a7376fabae.1383974819.git.Qi.Chen@windriver.com>
+	<1384038034.3798.46.camel@x121e.pbcl.net>
+	<52804662.1090605@windriver.com>
+	<1384170804.16718.135.camel@phil-desktop.brightsign>
+	<5280D037.1060607@windriver.com>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Mon, 2013-11-11 at 20:40 +0800,
+	ChenQi wrote: > Hi Phil, > > First of all,
+	thank you for your careful review and explanation. > To
+	conclude,
+	you suggest modifying the init scripts and moving commands > around
+	if needed, right? [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/8] initscripts: add setup-commands.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,93 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 13:59:24 -0000
+X-List-Received-Date: Mon, 11 Nov 2013 14:50:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/init                     | 0
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/nostrip.patch            | 0
- .../{openssh-6.3p1 => openssh-6.4p1}/openssh-CVE-2011-4327.patch      | 0
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/ssh_config               | 0
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd                     | 0
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd.socket              | 0
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd@.service            | 0
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd_config              | 0
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshdgenkeys.service      | 0
- .../openssh/{openssh-6.3p1 => openssh-6.4p1}/volatiles.99_sshd        | 0
- .../openssh/{openssh_6.3p1.bb => openssh_6.4p1.bb}                    | 4 ++--
- 11 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/init (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/nostrip.patch (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/openssh-CVE-2011-4327.patch (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/ssh_config (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd.socket (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd@.service (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd_config (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshdgenkeys.service (100%)
- rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/volatiles.99_sshd (100%)
- rename meta/recipes-connectivity/openssh/{openssh_6.3p1.bb => openssh_6.4p1.bb} (97%)
+On Mon, 2013-11-11 at 20:40 +0800, ChenQi wrote:
+> Hi Phil,
+> 
+> First of all, thank you for your careful review and explanation.
+> To conclude, you suggest modifying the init scripts and moving commands 
+> around if needed, right?
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/init b/meta/recipes-connectivity/openssh/openssh-6.4p1/init
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/init
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/init
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/nostrip.patch b/meta/recipes-connectivity/openssh/openssh-6.4p1/nostrip.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/nostrip.patch
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/nostrip.patch
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/openssh-CVE-2011-4327.patch b/meta/recipes-connectivity/openssh/openssh-6.4p1/openssh-CVE-2011-4327.patch
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/openssh-CVE-2011-4327.patch
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/openssh-CVE-2011-4327.patch
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/ssh_config b/meta/recipes-connectivity/openssh/openssh-6.4p1/ssh_config
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/ssh_config
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/ssh_config
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/sshd b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/sshd
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/sshd
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/sshd.socket b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/sshd.socket
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/sshd@.service
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/sshd_config b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd_config
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/sshd_config
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/sshd_config
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/sshdgenkeys.service
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.3p1/volatiles.99_sshd b/meta/recipes-connectivity/openssh/openssh-6.4p1/volatiles.99_sshd
-similarity index 100%
-rename from meta/recipes-connectivity/openssh/openssh-6.3p1/volatiles.99_sshd
-rename to meta/recipes-connectivity/openssh/openssh-6.4p1/volatiles.99_sshd
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.3p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-similarity index 97%
-rename from meta/recipes-connectivity/openssh/openssh_6.3p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-index 7dba676..859fdd6 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-@@ -32,8 +32,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
- 
- PAM_SRC_URI = "file://sshd"
- 
--SRC_URI[md5sum] = "225e75c9856f76011966013163784038"
--SRC_URI[sha256sum] = "aea575ededd3ebd45c05d42d0a87af22c79131a847ea440c54e3fdd223f5a420"
-+SRC_URI[md5sum] = "a62b88b884df0b09b8a8c5789ac9e51b"
-+SRC_URI[sha256sum] = "5530f616513b14aea3662c4c373bafd6a97a269938674c006377e381f68975d2"
- 
- inherit useradd update-rc.d update-alternatives systemd
- 
--- 
-1.8.1.2
+Well, I'm not sure that I'm necessarily suggesting any particular
+change.  What I'm saying is that if we're going to try to solve the
+split-/usr problem in oe-core (as opposed to Wind River just doing it in
+their internal distro layers) then:
+
+1. It needs to be done in a way that doesn't have any negative impact
+for people who don't have a split /usr (or indeed who don't have /usr at
+all)
+
+2. The changes need to be presented as a coherent package with the
+reasoning clearly explained.
+
+3. We need to be clear that it's solving the "whole problem" (whatever
+that might be) rather than just some part of it. 
+
+> Could you please share your configuration so that when I make V2 I can 
+> test the case of ${bindir} and ${base_bindir} being the same.
+> (Currently I really can't build out an image with such configuration ... )
+
+I think it should basically just be a case of setting:
+
+prefix = ""
+exec_prefix = ""
+prefix_native = ""
+
+in your distro configuration.
+
+p.
+
 
 
