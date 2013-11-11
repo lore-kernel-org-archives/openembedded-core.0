@@ -1,25 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BDB16D4ED
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 158106D4ED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 15:47:21 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Nov 2013 07:47:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,678,1378882800"; d="scan'208";a="431387949"
-Received: from unknown (HELO helios.localnet) ([10.252.121.166])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Nov 2013 07:47:22 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Date: Mon, 11 Nov 2013 15:47:21 +0000
-Message-ID: <27143722.kSNEIjm3EO@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <alpine.DEB.2.02.1311101257290.3090@oneiric>
-References: <alpine.DEB.2.02.1311101257290.3090@oneiric>
+	Mon, 11 Nov 2013 16:05:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rABG54p7006959
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Nov 2013 08:05:04 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 11 Nov 2013 08:05:04 -0800
+Message-ID: <52810032.3020608@windriver.com>
+Date: Mon, 11 Nov 2013 10:05:06 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: question about FILE_DIRNAME versus THISDIR when setting FILESPATH
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1384164392.git.wenzong.fan@windriver.com>
+In-Reply-To: <cover.1384164392.git.wenzong.fan@windriver.com>
+Subject: Re: [PATCH 0/1] udev: remove libudev-dbg and libgudev-dbg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,45 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 15:47:22 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 11 Nov 2013 16:05:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Robert,
+On 11/11/13, 4:10 AM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
+>
+> We don't support multiple -dbg packages, so just remove the libudev-dbg,
+> libgudev-dbg and put all debug stuffs to 'udev-dbg'.
 
-On Sunday 10 November 2013 13:02:32 Robert P. J. Day wrote:
->   probably a simple answer to this, but in examining the way FILESPATH
-> is created, i notice that, in .bb recipe files, the general form of
-> setting FILESPATH always seems to involve the use of the FILE_DIRNAME
-> variable, such as in the default value from base.bbclass:
-> 
-> FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/${BP}",
-> "${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files"], d)}"
-> 
->   however, when one is extending FILESPATH in .bbappend files, the
-> variable used to refer to the current directory is always THISDIR. but
-> it's not clear what the distinction is.
-> 
->   i'm using "bb show" and, when i'm referring to the value of
-> FILESPATH for an overlayed recipe, both FILE_DIRNAME and THISDIR seem
-> to properly refer to the directory for the bbappend file.
-> 
->   can someone clarify the proper usage of these variables? in
-> particular, why it's important for .bb files to use FILE_DIRNAME but
-> .bbappend files to use THISDIR? thanks.
+I'm a bit confused, we do support package that want to provide multiple -dbg 
+files to generate them.
 
-These variables are set in pretty much the same way; the only difference is 
-that FILE_DIRNAME doesn't expand FILE before running it through 
-os.path.dirname(); I'm not sure if that is deliberate or not. In practice I 
-doubt it makes any difference since FILE is set to a full path by BitBake, 
-although as you note a convention has been established of using THISDIR in 
-bbappends and FILE_DIRNAME elsewhere.
+This way large recipes that provide lots of different bits of functionality can 
+no only segment the packages they create, but keep the side of the -dbg 
+information reasonable as well.  (It's not all that commonly used, but it does 
+work with the IMAGE_FEATURES 'dbg-pkgs'.)
 
-Cheers,
-Paul
+What issue was being solved by combining the two items back into one?
 
--- 
+--Mark
 
-Paul Eggleton
-Intel Open Source Technology Centre
+> The following changes since commit 4fdc3d77d4a875b7236536bf78849a4d1f6a7449:
+>
+>    kbd: Fix stdarg related errors on uclibc (2013-11-08 17:31:36 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib wenzong/udev-remove-dbg
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/udev-remove-dbg
+>
+> Wenzong Fan (1):
+>    udev: remove libudev-dbg and libgudev-dbg
+>
+>   meta/recipes-core/udev/udev.inc |    6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+>
+
 
