@@ -1,51 +1,31 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 09D776D1BC
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 54A7A6D37F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 10:53:33 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1Vfp7c-0006FD-6n; Mon, 11 Nov 2013 11:53:32 +0100
-Message-ID: <1384167211.16718.109.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: ChenQi <Qi.Chen@windriver.com>
-Date: Mon, 11 Nov 2013 10:53:31 +0000
-In-Reply-To: <52803E72.9010505@windriver.com>
-References: <cover.1383974819.git.Qi.Chen@windriver.com>
-	<5bcdd19de289a55e7cc28a1d0d4f09ea6ec4be41.1383974819.git.Qi.Chen@windriver.com>
-	<1384037660.3798.42.camel@x121e.pbcl.net>
-	<52803E72.9010505@windriver.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Mon, 2013-11-11 at 10:18 +0800,
-	ChenQi wrote: > On 11/10/2013
-	06:54 AM, Phil Blundell wrote: > > On Sat, 2013-11-09 at 13:28 +0800,
-	Qi.Chen@windriver.com
-	wrote: > >> + install -d ${D}${base_bindir} > >> + mv
-	${D}${bindir}/udevadm
-	${D}${base_bindir}/udevadm > >> + rmdir ${D}${bindir} > > This will
-	fail
-	if ${bindir} and ${base_bindir} are the same. > > > > p. > > > > > > >
-	> >
-	> In udev recipe, they are not defined as the same one. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/8] udev: fix dependency and location of udevadm
+	Mon, 11 Nov 2013 11:09:15 +0000 (UTC)
+Received: from [173.34.6.101] (port=33155 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1VfpMq-0004N3-6q for openembedded-core@lists.openembedded.org;
+	Mon, 11 Nov 2013 06:09:16 -0500
+Date: Mon, 11 Nov 2013 06:09:05 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1311110601090.10282@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: one more question about FILESPATH and eglibc, if i might
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,52 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 10:53:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Mon, 2013-11-11 at 10:18 +0800, ChenQi wrote:
-> On 11/10/2013 06:54 AM, Phil Blundell wrote:
-> > On Sat, 2013-11-09 at 13:28 +0800, Qi.Chen@windriver.com wrote:
-> >> +	install -d ${D}${base_bindir}
-> >> +	mv ${D}${bindir}/udevadm ${D}${base_bindir}/udevadm
-> >> +	rmdir ${D}${bindir}
-> > This will fail if ${bindir} and ${base_bindir} are the same.
-> >
-> > p.
-> >
-> >
-> >
-> >
-> 
-> In udev recipe, they are not defined as the same one.
-
-Those variables are part of the distro configuration.  Individual
-recipes don't, in general, set them.
-
-> And moving something from bindir to base_bindir doesn't seem uncommon in 
-> OE, you can grep the project using the following command.
-> 
-> grep -Ri 'mv.*bindir.*base_bindir' meta/*
-
-A better command to use would be:
-
-grep -C 4 -Ri 'mv.*bindir.*base_bindir' meta/*
-
-which reveals that most of these "mv" commands are enclosed in a
-conditional that checks whether the two directories are indeed different
-before trying to move them.
-
-It's true that a few of the things in recipes-extended do appear to be
-broken.  cpio, for example, was broken by
-6dee3050a4a0c4f3cc9fec23a0bc02155d680863; gzip was broken by
-e0626a0270fb0f4ff128e761c13d44162723434c; mktemp was broken by
-4807d938023ce06f2924c8a0503c32d083be23b5.  All of these three patches
-seem to be well-intentioned attempts to improve the handling of
-update-alternatives and I guess those recipes are obscure enough that
-nobody has noticed before now that there is anything wrong with them.
-
-p.
+X-List-Received-Date: Mon, 11 Nov 2013 11:09:16 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
 
+  as one more data point in what looks like weird and sometimes
+unnecessary settings of FILESPATH in recipe files, i give you this
+from eglibc_2.18.bb:
+
+FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/eglibc-${PV}',
+'${FILE_DIRNAME}/eglibc', '${FILE_DIRNAME}/files', '${FILE_DIRNAME}'
+], d)}"
+
+  first, it would seem that the first three elements in that list
+match *exactly* what you'd get from the default setting of FILESPATH
+from base.bbclass, would it not?
+
+FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/${BP}",
+"${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files"], d)}"
+
+so it's not clear what the point of that explicit setting is.
+
+  in addition, what's with the addition of that fourth list entry:
+${FILE_DIRNAME}? all that's going to do is extend FILESPATH with the
+OVERRIDES-related directories *immediately* under the eglibc
+directory, and i don't see what value that has. here's the final value
+of FILESPATH for eglibc as displayed by "bb show":
+
+FILESPATH="/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/arm
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/armv7a
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/beagleboard
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/poky
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc-2.18/
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/arm
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/armv7a
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/beagleboard
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/poky
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/eglibc/
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/arm
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/armv7a
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/beagleboard
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/poky
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/files/
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/arm
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/armv7a
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/beagleboard
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/poky
+/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/eglibc/"
+
+and i don't see the point of those last five entries. is the use of
+${FILE_DIRNAME} as a fourth argument to base_set_filespath()
+deliberate? and what is it for? thanks for your patience.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
