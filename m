@@ -1,48 +1,25 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D37F6D331
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D4D546D7C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 14:50:12 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1Vfso8-0006Q6-3Y; Mon, 11 Nov 2013 15:50:07 +0100
-Message-ID: <1384181379.16718.153.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: ChenQi <Qi.Chen@windriver.com>
-Date: Mon, 11 Nov 2013 14:49:39 +0000
-In-Reply-To: <5280D037.1060607@windriver.com>
-References: <cover.1383974819.git.Qi.Chen@windriver.com>
-	<74d67107ced2e10a00bc2ff9b84d42a7376fabae.1383974819.git.Qi.Chen@windriver.com>
-	<1384038034.3798.46.camel@x121e.pbcl.net>
-	<52804662.1090605@windriver.com>
-	<1384170804.16718.135.camel@phil-desktop.brightsign>
-	<5280D037.1060607@windriver.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Mon, 2013-11-11 at 20:40 +0800,
-	ChenQi wrote: > Hi Phil, > > First of all,
-	thank you for your careful review and explanation. > To
-	conclude,
-	you suggest modifying the init scripts and moving commands > around
-	if needed, right? [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	Mon, 11 Nov 2013 15:18:27 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Nov 2013 07:18:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,678,1378882800"; d="scan'208";a="431374806"
+Received: from unknown (HELO helios.localnet) ([10.252.121.166])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Nov 2013 07:18:28 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Date: Mon, 11 Nov 2013 15:18:27 +0000
+Message-ID: <1938763.4DceAK3YzM@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <alpine.DEB.2.02.1311110437360.9099@oneiric>
+References: <alpine.DEB.2.02.1311110437360.9099@oneiric>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/8] initscripts: add setup-commands.sh
+Subject: Re: wanting to confirm understanding of FILESPATH in .bb and .inc files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,45 +32,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 14:50:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Nov 2013 15:18:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2013-11-11 at 20:40 +0800, ChenQi wrote:
-> Hi Phil,
+Hi Robert,
+
+On Monday 11 November 2013 05:34:20 Robert P. J. Day wrote:
+>   currently poking around for examples of recipes' use of FILESPATH to
+> use in class, and i just want to make absolutely sure i understand its
+> usage since some recipes seem to use it in weird and/or unnecessary
+> ways. (using the current poky tarball 10.0.0 for this.)
 > 
-> First of all, thank you for your careful review and explanation.
-> To conclude, you suggest modifying the init scripts and moving commands 
-> around if needed, right?
+>   first, i can see the default setting of FILESPATH in base.bbclass:
+> 
+> FILESPATH = "${@base_set_filespath(["${FILE_DIRNAME}/${BP}",
+>   "${FILE_DIRNAME}/${BPN}", "${FILE_DIRNAME}/files"], d)}"
+> 
+> which, for any recipe, creates a FILESPATH that starts with top-level
+> subdirectories of ${BP}, ${BPN} and "files" and, on top of that,
+> extends each one with further subdirectories as defined by the
+> variable FILESOVERRIDES. so, as a working example, i can use "bb show"
+> to display the value of FILESPATH for, say, the zlib recipe, which
+> shows me a path with 15 entries (exactly as i expected building for my
+> beagleboard xm):
+> 
+> FILESPATH="/home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib
+> -1.2.8/arm
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/arm
+> v7a
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/bea
+> gleboard
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/pok
+> y /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib-1.2.8/
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/arm
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/armv7a
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/beagleboa
+> rd /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/poky
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/zlib/
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/arm
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/armv7a
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/beaglebo
+> ard /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/poky
+> /home/rpjday/oe/dora/poky-dora-10.0.0/meta/recipes-core/zlib/files/"
+> 
+> so far, so good, and here's where i want the clarification.
+> 
+>   as long as a recipe has "file://" references that occur exclusively
+> in any of the directories listed above, there should be no reason to
+> *need* to override FILESPATH, correct? however, some recipe or include
+> files clearly do just that, and i want to make sure that what i'm
+> seeing in files like that is *optional*, and not required due to some
+> subtlety i'm unaware of.
+> 
+>   consider first example:
+> 
+> systemtap_git.inc:FILESPATH = "${FILE_DIRNAME}/systemtap"
+> 
+> it would seem that this setting is superfluous since that entry is
+> already in the default value of FILESPATH for that recipe, so i'm
+> guessing that the benefit of the above is to simply reduce the size of
+> FILESPATH for efficiency? i mean, technically, the above didn't need
+> to be set, did it?
 
-Well, I'm not sure that I'm necessarily suggesting any particular
-change.  What I'm saying is that if we're going to try to solve the
-split-/usr problem in oe-core (as opposed to Wind River just doing it in
-their internal distro layers) then:
+I think the reason that is there is because systemtap_git.inc is used in 
+another recipe which would not have that path included automatically, i.e. 
+systemtap-uprobes_git.bb. It could be argued that systemtap-uprobes_git.bb 
+should be extending the path instead, that would also work.
 
-1. It needs to be done in a way that doesn't have any negative impact
-for people who don't have a split /usr (or indeed who don't have /usr at
-all)
+>   another example is with "-native" recipes. consider:
+> 
+> qemu-helper-native_1.0.bb:FILESPATH = "${FILE_DIRNAME}/qemu-helper"
+> 
+> again, that seems redundant since:
+> 
+> $ bb show -r qemu-helper-native BP BPN
+> Parsing recipes..done.
+> # BP=${BPN}-${PV}
+> BP="qemu-helper-1.0"
+> # BPN=${@base_prune_suffix(d.getVar('PN', True),
+> d.getVar('SPECIAL_PKGSUFFIX', True).split(), d)} BPN="qemu-helper"
+> $
+> 
+> so that entry is already part of FILESPATH.
 
-2. The changes need to be presented as a coherent package with the
-reasoning clearly explained.
+Right, that would appear to be redundant.
 
-3. We need to be clear that it's solving the "whole problem" (whatever
-that might be) rather than just some part of it. 
+FWIW, I did open a bug about the general case here:
 
-> Could you please share your configuration so that when I make V2 I can 
-> test the case of ${bindir} and ${base_bindir} being the same.
-> (Currently I really can't build out an image with such configuration ... )
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4497
 
-I think it should basically just be a case of setting:
+Cheers,
+Paul
 
-prefix = ""
-exec_prefix = ""
-prefix_native = ""
+-- 
 
-in your distro configuration.
-
-p.
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
