@@ -1,39 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D2446D000
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 667856D320
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 12:12:38 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id hu8so3199481vcb.14
+	Mon, 11 Nov 2013 12:21:17 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id y10so956411wgg.14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 04:12:40 -0800 (PST)
+	Mon, 11 Nov 2013 04:21:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9IG3j2q565sQmYoygwnLr7hActV2B2vBF+quO6d3v0U=;
-	b=bmOKuiM+Wo4neK0pRIPMLYsAnYZvj0qsGybpSma6mWY/moEQDy+d2VTuFXi/+efImg
-	/1fPANthwbq7XQ16MmrbEsvODKIn3iDkavOIxBe6SMfo1tfMXhOMhb7UL8/4Qnfrl4a3
-	8bNbtyuq+O64BG4JPJ2CRfZGtZt4lnT5OQKdtZ2b2reztgDXco78bbNWVJAczDc4b1Da
-	43K6XaoUl4cmop4G7voPXw9wdXlW/1Ug/tLdbYJ6gKEQu4PvHuidvH4xDhNLKksOgY8Y
-	SVYe6QBlc6y+SlD6GrqxrKwv3FSc2Kb4H9Rs2Y7+zzbyIZv0+aZ2FpIkpPjoFjoSTDBd
-	4hXg==
-X-Gm-Message-State: ALoCoQkDjAE/KrLPIei/xsdkfVXoWPlDVyoTRAWFuNOGnQlZoG2WX+pLIeSP9WMRqFstD+G9We+W
-X-Received: by 10.52.118.73 with SMTP id kk9mr20039764vdb.13.1384171960022;
-	Mon, 11 Nov 2013 04:12:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 11 Nov 2013 04:12:19 -0800 (PST)
-In-Reply-To: <52804662.1090605@windriver.com>
-References: <cover.1383974819.git.Qi.Chen@windriver.com>
-	<74d67107ced2e10a00bc2ff9b84d42a7376fabae.1383974819.git.Qi.Chen@windriver.com>
-	<1384038034.3798.46.camel@x121e.pbcl.net>
-	<52804662.1090605@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 11 Nov 2013 12:12:19 +0000
-Message-ID: <CAJTo0LZ3UVtckp+FV+_GC6y48L3XrU33W-xVTkH5AE9_E+Agcg@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] initscripts: add setup-commands.sh
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=BGPrq7F74zkFEaXlys6uaEryb8cBnF4vObAO2jlqPuc=;
+	b=QpIRjI+ZxvjQFkhjcu8c5eL0N17rrx5h12gGcqCfeaih4rdJDA5fu8JhDlzuYG1T9s
+	BFqF4+KMU/WGBWcCHqftPS9OFh+7b61ocKKZNV8K5Ap5AqgL4QRuXEN+9T84QaHG/Rx1
+	PkNtpc/2ALOLtiRzpMcY4rf8k6XBUz2d6yLoYAP5riFGpAZH5oKMkrvFC6wVBfJ9eBfA
+	iQ9WrxIZriuQ4k70YfxhmyTl5QOyH+8DvSWzPBxK+GkrtejI2gyy50REh9N7osSxBfqg
+	YlQNMHgi0cQxER71FTuZ8Vq/M5oWk1Ngxu5MR88CRPb5SQS4V5ovCkxXFM7/WDO5US3H
+	AtBg==
+X-Gm-Message-State: ALoCoQkrI0rx4+ILdEgcCCXWUlBJL9FsHGbvxAHKaLvtNFZgV2TtKrFcZjjJyCB9qyQHRATP/t5h
+X-Received: by 10.180.79.163 with SMTP id k3mr9620564wix.34.1384172478040;
+	Mon, 11 Nov 2013 04:21:18 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id dz5sm9709918wib.7.2013.11.11.04.21.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 11 Nov 2013 04:21:17 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Nov 2013 12:21:13 +0000
+Message-Id: <1384172473-23158-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] core-image-weston: add SSH and hwcodecs to the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,16 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 12:12:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 11 Nov 2013 12:21:18 -0000
 
-On 11 November 2013 02:52, ChenQi <Qi.Chen@windriver.com> wrote:
-> The problem here is that the init scripts under /etc/rcS.d/ need to execute
-> commands like awk, dirname, and readlink which are from /usr.
+core-image-sato has these by default so add them here too.
 
-Yes.  So why do you really need to support split /usr, and why isn't
-an initramfs a suitable alternative?  People seem to insist that split
-/usr is trivial but these patches are clearly showing it's not.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/images/core-image-weston.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
+index 187523c..30cc845 100644
+--- a/meta/recipes-graphics/images/core-image-weston.bb
++++ b/meta/recipes-graphics/images/core-image-weston.bb
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "A very basic Wayland image with a terminal"
+ 
+-IMAGE_FEATURES += "splash package-management"
++IMAGE_FEATURES += "splash package-management ssh-server-dropbear hwcodecs"
+ 
+ LICENSE = "MIT"
+ 
+-- 
+1.7.10.4
+
 
