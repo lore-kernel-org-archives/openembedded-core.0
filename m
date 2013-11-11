@@ -1,36 +1,37 @@
-Return-Path: <layliu@gmail.com>
-Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
-	[209.85.160.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 301AB6D7E1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D3A06D37F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 09:28:02 +0000 (UTC)
-Received: by mail-pb0-f51.google.com with SMTP id xa7so4978983pbc.38
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 01:28:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=BgIH1xCb/wUFmOBdRlXPHxCeh6xE9uj5povbBEm8HeM=;
-	b=CD/MuIxM3s1TRclYHo/elxf0xSr0FQnyOn6Pu+/5GLElj3hhGR8ZNJ+ljBN8L+wN5l
-	GK9NG0w/B8dAk01V51Mn3FFiWOy3JjetOayx6Uv3iodBoMh+SJNE6YyVWmz6jCHhJyTe
-	wcI5QCD1Y50dWtizVv6QaUB/SKvcDQk52/DNZY/bseeGqoicvnr4cjDVOjkYMNftd3BV
-	+Qv9pBH9L8x78oehoaueudTsZYCAa0KiTWF8RhgVdoZg4nI2zoEbPFY/qtpSiQ7jOI8I
-	CsJqJct700HObzzd8azxmRW8r8vuBYey5t+cSjAb+ohu+mXzgfCmSFrTnpg62QyJJdoC
-	1Ivg==
-X-Received: by 10.69.25.38 with SMTP id in6mr906945pbd.178.1384162084377;
-	Mon, 11 Nov 2013 01:28:04 -0800 (PST)
-Received: from localhost.localdomain ([1.202.252.122])
-	by mx.google.com with ESMTPSA id rv9sm29563307pbc.4.2013.11.11.01.28.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Mon, 11 Nov 2013 01:28:03 -0800 (PST)
-From: Lei Liu <layliu@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2013 17:27:42 +0800
-Message-Id: <1384162062-30319-2-git-send-email-layliu@gmail.com>
-X-Mailer: git-send-email 1.7.0.4
-In-Reply-To: <no>
-References: <no>
-Subject: [PATCH 2/2] Fix grep pattern when mklibs collects executables in rootfs
+	Mon, 11 Nov 2013 09:36:11 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAB9ZwSL028521; Mon, 11 Nov 2013 09:35:59 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rjWcSKb2_6v5; Mon, 11 Nov 2013 09:35:58 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAB9ZsX4028511
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 11 Nov 2013 09:35:56 GMT
+Message-ID: <1384162551.22454.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hans =?ISO-8859-1?Q?Beck=E9rus?= <hans.beckerus@gmail.com>
+Date: Mon, 11 Nov 2013 09:35:51 +0000
+In-Reply-To: <CAFyqS9q_HMp+WDgcxQ9QeoDtDP3JCmpWwLSu5NVH+unqyCQ4GA@mail.gmail.com>
+References: <1383923880.2345.4.camel@ted> <527D0624.3060407@windriver.com>
+	<1383926139.2345.7.camel@ted> <527D0A44.7020005@windriver.com>
+	<1383929419.2345.11.camel@ted>
+	<1383931424.5378.131.camel@dvhart-mobl4.amr.corp.intel.com>
+	<CAAQYJAv9BxmjsskLP+-26b=HkRWpLYxzsmzQVyo-norREhSUOA@mail.gmail.com>
+	<1384037896.22454.5.camel@ted>
+	<CAFyqS9q_HMp+WDgcxQ9QeoDtDP3JCmpWwLSu5NVH+unqyCQ4GA@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Hart, Darren" <darren.hart@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel: Use hardlinks for do_populate_sysroot for speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 09:28:02 -0000
+X-List-Received-Date: Mon, 11 Nov 2013 09:36:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Lei Liu <lei.liu2@windriver.com>
+On Mon, 2013-11-11 at 09:06 +0100, Hans Beckérus wrote:
+> I am having some trouble with these patches :( The new approach is
+> using the '-n' flag to the 'cp' command.
+> That is not supported on our SuSE11 based system. To be honest, I do
+> not know how portable '-n' is?
+> Some system have it, others seems to provide '-u' instead. I guess by
+> removing '-n' part of the performance gain is lost?
+> Would it be possible to test for error from the 'cp' command and if it
+> fails try '-u' instead (and cache the result)? Or maybe
+> even better, make this configurable in local.conf (or the distro) for
+> the build platforms that does not support  '-n' but can
+> instead fall-back to using '-u'. From what I can tell most systems
+> support  one or the other, but never both.
 
-File command in some version could print extra space between
-"LSB" and "executable" - it causes mklibs can't find any executables
-using grep "LSB executable".  Fix the grep pattern to catch
-multiple spaces.
+Hmm, its been in coreutils since 2009 which I guess isn't that long in
+the scheme of things:
+http://git.savannah.gnu.org/cgit/coreutils.git/commit/src/cp.c?id=d01338eb3d30e5634f1b4d4179c229f54eea0b44
 
-Signed-off-by: Lei Liu <lei.liu2@windriver.com>
----
- meta/classes/image-mklibs.bbclass |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Just to double check, is cp on your system provided by coreutils or
+something else?
 
-diff --git a/meta/classes/image-mklibs.bbclass b/meta/classes/image-mklibs.bbclass
-index 66b0f52..e975f5d 100644
---- a/meta/classes/image-mklibs.bbclass
-+++ b/meta/classes/image-mklibs.bbclass
-@@ -9,7 +9,7 @@ mklibs_optimize_image_doit() {
- 	du -bs > ${WORKDIR}/mklibs/du.before.mklibs.txt
- 	for i in `find .`; do file $i; done \
- 		| grep ELF \
--		| grep "LSB executable" \
-+		| grep "LSB *executable" \
- 		| grep "dynamically linked" \
- 		| sed "s/:.*//" \
- 		| sed "s+^\./++" \
--- 
-1.7.0.4
+Cheers,
+
+Richard
+
 
 
