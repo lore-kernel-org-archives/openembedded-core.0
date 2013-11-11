@@ -1,26 +1,39 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 635D56D7D0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D2446D000
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 11:57:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rABBv5iq004476
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Nov 2013 03:57:05 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 11 Nov 2013 03:57:04 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Nov 2013 19:56:54 +0800
-Message-ID: <47a3d3ce3a8b52053dba8f8d934ac03dc26a4978.1384170897.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1384170897.git.hongxu.jia@windriver.com>
-References: <cover.1384170897.git.hongxu.jia@windriver.com>
+	Mon, 11 Nov 2013 12:12:38 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id hu8so3199481vcb.14
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Nov 2013 04:12:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9IG3j2q565sQmYoygwnLr7hActV2B2vBF+quO6d3v0U=;
+	b=bmOKuiM+Wo4neK0pRIPMLYsAnYZvj0qsGybpSma6mWY/moEQDy+d2VTuFXi/+efImg
+	/1fPANthwbq7XQ16MmrbEsvODKIn3iDkavOIxBe6SMfo1tfMXhOMhb7UL8/4Qnfrl4a3
+	8bNbtyuq+O64BG4JPJ2CRfZGtZt4lnT5OQKdtZ2b2reztgDXco78bbNWVJAczDc4b1Da
+	43K6XaoUl4cmop4G7voPXw9wdXlW/1Ug/tLdbYJ6gKEQu4PvHuidvH4xDhNLKksOgY8Y
+	SVYe6QBlc6y+SlD6GrqxrKwv3FSc2Kb4H9Rs2Y7+zzbyIZv0+aZ2FpIkpPjoFjoSTDBd
+	4hXg==
+X-Gm-Message-State: ALoCoQkDjAE/KrLPIei/xsdkfVXoWPlDVyoTRAWFuNOGnQlZoG2WX+pLIeSP9WMRqFstD+G9We+W
+X-Received: by 10.52.118.73 with SMTP id kk9mr20039764vdb.13.1384171960022;
+	Mon, 11 Nov 2013 04:12:40 -0800 (PST)
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] kernel-grub.bbclass: support /boot area within root partition
+Received: by 10.220.71.201 with HTTP; Mon, 11 Nov 2013 04:12:19 -0800 (PST)
+In-Reply-To: <52804662.1090605@windriver.com>
+References: <cover.1383974819.git.Qi.Chen@windriver.com>
+	<74d67107ced2e10a00bc2ff9b84d42a7376fabae.1383974819.git.Qi.Chen@windriver.com>
+	<1384038034.3798.46.camel@x121e.pbcl.net>
+	<52804662.1090605@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 11 Nov 2013 12:12:19 +0000
+Message-ID: <CAJTo0LZ3UVtckp+FV+_GC6y48L3XrU33W-xVTkH5AE9_E+Agcg@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/8] initscripts: add setup-commands.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +46,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 11:57:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Nov 2013 12:12:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Previously, it supported the situation that /boot area with separate boot
-partition:
-...
-menuentry "Update bzImage-3.10.10-WR6.0.0.0_standard-3.10" {
-    set root=(hd0,1)
-    linux /bzImage-3.10.10-WR6.0.0.0_standard root=/dev/sdb1 rw ip=dhcp
-}
-...
+On 11 November 2013 02:52, ChenQi <Qi.Chen@windriver.com> wrote:
+> The problem here is that the init scripts under /etc/rcS.d/ need to execute
+> commands like awk, dirname, and readlink which are from /usr.
 
-But didn't consider the situation that /boot within root partition:
-...
-menuentry "Update bzImage-3.10.10-WR6.0.0.0_standard-3.10" {
-    set root=(hd0,1)
-    linux /boot/bzImage-3.10.10-WR6.0.0.0_standard root=/dev/sdb1 rw ip=dhcp
-}
-...
+Yes.  So why do you really need to support split /usr, and why isn't
+an initramfs a suitable alternative?  People seem to insist that split
+/usr is trivial but these patches are clearly showing it's not.
 
-This fix supported them both.
-[YOCTO #5514]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/classes/kernel-grub.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/kernel-grub.bbclass b/meta/classes/kernel-grub.bbclass
-index 70564f0..85721ff 100644
---- a/meta/classes/kernel-grub.bbclass
-+++ b/meta/classes/kernel-grub.bbclass
-@@ -40,10 +40,11 @@ pkg_preinst_kernel-image_append () {
- pkg_postinst_kernel-image_prepend () {
- 	get_new_grub_cfg() {
- 		grubcfg="$1"
-+		old_image="$2"
- 		title="Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
- 		if [ "${grubcfg##*/}" = "grub.cfg" ]; then
- 			rootfs=`grep " *linux \+[^ ]\+ \+root=" $grubcfg -m 1 | \
--				 sed "s# *linux \+[^ ]\+ \+root=#    linux /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
-+				 sed "s#${old_image}#${old_image%/*}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}#"`
- 
- 			echo "menuentry \"$title\" {"
- 			echo "    set root=(hd0,1)"
-@@ -51,7 +52,7 @@ pkg_postinst_kernel-image_prepend () {
- 			echo "}"
- 		elif [ "${grubcfg##*/}" = "menu.list" ]; then
- 			rootfs=`grep "kernel \+[^ ]\+ \+root=" $grubcfg -m 1 | \
--				 sed "s#kernel \+[^ ]\+ \+root=#kernel /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
-+				 sed "s#${old_image}#${old_image%/*}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}#"`
- 
- 			echo "default 0"
- 			echo "timeout 30"
-@@ -79,9 +80,9 @@ pkg_postinst_kernel-image_prepend () {
- 	fi
- 
- 	# Don't update grubcfg at first install while old bzImage doesn't exist.
--	if [ -f "$D/boot/$old_image" ]; then
-+	if [ -f "$D/boot/${old_image##*/}" ]; then
- 		grubcfgtmp="$grubcfg.tmp"
--		get_new_grub_cfg "$grubcfg"  > $grubcfgtmp
-+		get_new_grub_cfg "$grubcfg" "$old_image"  > $grubcfgtmp
- 		get_old_grub_cfg "$grubcfg" >> $grubcfgtmp
- 		mv $grubcfgtmp $grubcfg
- 		echo "Caution! Update kernel may affect kernel-module!"
--- 
-1.8.1.2
-
+Ross
 
