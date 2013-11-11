@@ -1,26 +1,29 @@
 Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E45506D7E6
+	by mail.openembedded.org (Postfix) with ESMTP id 596A86D46F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 10:10:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rABAAbUD023148
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 02:10:37 -0800 (PST)
-Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 11 Nov 2013 02:10:36 -0800
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 11 Nov 2013 05:10:34 -0500
-Message-ID: <ea600bb017883679b3c9308a64d184d59f00308b.1384164392.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1384164392.git.wenzong.fan@windriver.com>
-References: <cover.1384164392.git.wenzong.fan@windriver.com>
+	Mon, 11 Nov 2013 10:13:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rABADFaZ023297
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 11 Nov 2013 02:13:15 -0800 (PST)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 11 Nov 2013 02:13:15 -0800
+Message-ID: <5280ADB9.4050802@windriver.com>
+Date: Mon, 11 Nov 2013 18:13:13 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH 1/1] udev: remove libudev-dbg and libgudev-dbg
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1383821844.git.wenzong.fan@windriver.com>
+	<CAJTo0LZHwv3jbAP_utqA-RUALdE_R7OtpUQnzaWU67qup47fHQ@mail.gmail.com>
+	<527C9C6F.4050509@windriver.com> <1383898719.6271.293.camel@ted>
+In-Reply-To: <1383898719.6271.293.camel@ted>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] udev: ship source files to related dbg package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 10:10:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Nov 2013 10:13:15 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+On 11/08/2013 04:18 PM, Richard Purdie wrote:
+> On Fri, 2013-11-08 at 16:10 +0800, wenzong fan wrote:
+>> On 11/07/2013 07:12 PM, Burton, Ross wrote:
+>>> On 7 November 2013 11:03,  <wenzong.fan@windriver.com> wrote:
+>>>> From: Wenzong Fan <wenzong.fan@windriver.com>
+>>>>
+>>>> Just ship these sources to their own dbg packages instead of udev-dbg:
+>>>>
+>>>>       libudev* -> libudev-dbg
+>>>>       gudev*   -> libgudev-dbg
+>>>>       others   -> udev-dbg
+>>>
+>>> Why do this?  Multiple -dbg packages could make sense in a recipe
+>>> which builds a multi-gigabyte -dbg package (such as webkit) but what's
+>>> the rationale for doing this in udev?
+>>
+>> Actually I don't know clear about why it needs three -dbg packages,
+>> looks they have been there since very early commits of udev. I suspect
+>> that udev/libudev/libgudev are independent each other, so they are
+>> shipped into different packages (base/-dev/-dbg). This patch only ships
+>> their source code to -dbg packages accordingly.
+>
+> We don't support multiple -dbg packages and this looks like an error.
 
-We don't support multiple -dbg packages, all debug stuffs will be
-shipped to 'udev-dbg'.
+Ok, another patch for removing the extra -dbg packages has been sent 
+with subject:
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-core/udev/udev.inc |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+     udev: remove libudev-dbg and libgudev-dbg
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 02cab3b..ec638ea 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -45,8 +45,8 @@ EXTRA_OECONF = "--disable-introspection \
-                "
- 
- PACKAGES =+ "udev-utils udev-cache"
--PACKAGES =+ "libudev libudev-dev libudev-dbg"
--PACKAGES =+ "libgudev libgudev-dev libgudev-dbg"
-+PACKAGES =+ "libudev libudev-dev"
-+PACKAGES =+ "libgudev libgudev-dev"
- 
- INITSCRIPT_PACKAGES = "udev udev-cache"
- INITSCRIPT_NAME_udev = "udev"
-@@ -63,11 +63,9 @@ FILES_${PN}-dbg += "${base_libdir}/udev/.debug/*"
- FILES_${PN}-dbg += "${nonarch_base_libdir}/udev/.debug/*"
- FILES_${PN}-dev = "${datadir}/pkgconfig/udev.pc"
- FILES_libudev = "${base_libdir}/libudev.so.*"
--FILES_libudev-dbg = "${base_libdir}/.debug/libudev.so.*"
- FILES_libudev-dev = "${includedir}/libudev.h ${libdir}/libudev.so ${libdir}/libudev.la \
-                      ${libdir}/libudev.a ${libdir}/pkgconfig/libudev.pc"
- FILES_libgudev = "${base_libdir}/libgudev*.so.* ${libdir}/libgudev*.so.*"
--FILES_libgudev-dbg = "${base_libdir}/.debug/libgudev*.so.* ${libdir}/.debug/libgudev*.so.*"
- FILES_libgudev-dev = "${includedir}/gudev* ${libdir}/libgudev*.so ${libdir}/libgudev*.la \
-                      ${libdir}/libgudev*.a ${libdir}/pkgconfig/gudev*.pc"
- FILES_udev-cache = "${sysconfdir}/init.d/udev-cache ${sysconfdir}/default/udev-cache"
--- 
-1.7.9.5
+Thanks
+Wenzong
 
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
