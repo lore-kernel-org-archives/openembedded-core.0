@@ -1,32 +1,20 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F1F7F6D12A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FB0E6D476
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 12:53:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rABCrKqk025484
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 11 Nov 2013 04:53:20 -0800 (PST)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Mon, 11 Nov 2013 04:53:19 -0800
-Message-ID: <5280D343.6070806@windriver.com>
-Date: Mon, 11 Nov 2013 20:53:23 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1383974819.git.Qi.Chen@windriver.com>
-	<74d67107ced2e10a00bc2ff9b84d42a7376fabae.1383974819.git.Qi.Chen@windriver.com>
-	<1384038034.3798.46.camel@x121e.pbcl.net>
-	<52804662.1090605@windriver.com>
-	<CAJTo0LZ3UVtckp+FV+_GC6y48L3XrU33W-xVTkH5AE9_E+Agcg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ3UVtckp+FV+_GC6y48L3XrU33W-xVTkH5AE9_E+Agcg@mail.gmail.com>
-X-Originating-IP: [128.224.162.213]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] initscripts: add setup-commands.sh
+	Mon, 11 Nov 2013 13:59:21 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Nov 2013 05:55:52 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="406830929"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.166])
+	by orsmga001.jf.intel.com with ESMTP; 11 Nov 2013 05:59:21 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Nov 2013 13:59:08 +0000
+Message-Id: <cover.1384176729.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/4] Recipe upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,31 +27,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2013 12:53:23 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 11 Nov 2013 13:59:22 -0000
 
-On 11/11/2013 08:12 PM, Burton, Ross wrote:
-> On 11 November 2013 02:52, ChenQi <Qi.Chen@windriver.com> wrote:
->> The problem here is that the init scripts under /etc/rcS.d/ need to execute
->> commands like awk, dirname, and readlink which are from /usr.
-> Yes.  So why do you really need to support split /usr, and why isn't
-> an initramfs a suitable alternative?  People seem to insist that split
-> /usr is trivial but these patches are clearly showing it's not.
->
-> Ross
->
->
+The following changes since commit eac8cb7cacab7f2fb392128aa5ebc2046ca4a793:
 
-If /usr is going to be mounted, we don't have any problem here because 
-mountall.sh takes place really early. In this situation, splitting /usr 
-is trivial.
+  kbd: Fix stdarg related errors on uclibc (2013-11-08 17:31:17 +0000)
 
-What I want to do here is to make system boot up even if /usr is totally 
-missing.
-Do you think it's suitable for us to support such use case?
+are available in the git repository at:
 
-Best Regards,
-Chen Qi
+  git://git.openembedded.org/openembedded-core-contrib paule/upgrades
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/upgrades
+
+Paul Eggleton (4):
+  cmake: upgrade to 2.8.12.1
+  ethtool: upgrade to 3.12.1
+  nfs-utils: upgrade to 1.2.9
+  openssh: upgrade to 6.4p1
+
+ .../nfs-utils/{nfs-utils_1.2.8.bb => nfs-utils_1.2.9.bb}              | 4 ++--
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/init                     | 0
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/nostrip.patch            | 0
+ .../{openssh-6.3p1 => openssh-6.4p1}/openssh-CVE-2011-4327.patch      | 0
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/ssh_config               | 0
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd                     | 0
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd.socket              | 0
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd@.service            | 0
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd_config              | 0
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/sshdgenkeys.service      | 0
+ .../openssh/{openssh-6.3p1 => openssh-6.4p1}/volatiles.99_sshd        | 0
+ .../openssh/{openssh_6.3p1.bb => openssh_6.4p1.bb}                    | 4 ++--
+ .../cmake/{cmake-native_2.8.12.bb => cmake-native_2.8.12.1.bb}        | 4 ++--
+ meta/recipes-devtools/cmake/{cmake_2.8.12.bb => cmake_2.8.12.1.bb}    | 4 ++--
+ .../ethtool/{ethtool-3.11 => ethtool-3.12.1}/run-ptest                | 0
+ meta/recipes-extended/ethtool/{ethtool_3.11.bb => ethtool_3.12.1.bb}  | 4 ++--
+ 16 files changed, 10 insertions(+), 10 deletions(-)
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.2.8.bb => nfs-utils_1.2.9.bb} (95%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/init (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/nostrip.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/openssh-CVE-2011-4327.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/ssh_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd.socket (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd@.service (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshd_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/sshdgenkeys.service (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.3p1 => openssh-6.4p1}/volatiles.99_sshd (100%)
+ rename meta/recipes-connectivity/openssh/{openssh_6.3p1.bb => openssh_6.4p1.bb} (97%)
+ rename meta/recipes-devtools/cmake/{cmake-native_2.8.12.bb => cmake-native_2.8.12.1.bb} (58%)
+ rename meta/recipes-devtools/cmake/{cmake_2.8.12.bb => cmake_2.8.12.1.bb} (88%)
+ rename meta/recipes-extended/ethtool/{ethtool-3.11 => ethtool-3.12.1}/run-ptest (100%)
+ rename meta/recipes-extended/ethtool/{ethtool_3.11.bb => ethtool_3.12.1.bb} (87%)
+
+-- 
+1.8.1.2
 
 
