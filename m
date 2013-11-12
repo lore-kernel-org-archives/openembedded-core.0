@@ -1,35 +1,27 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 58C816D8E5
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 92E7B6D3A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 20:46:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rACKklhk025675
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Nov 2013 12:46:47 -0800 (PST)
-Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.149]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.02.0347.000;
-	Tue, 12 Nov 2013 12:46:47 -0800
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH 1/1] linuxdoc-tools: add dependency on texinfo
-Thread-Index: AQHO3MxoMpE8T+HXQ0K8OtUeO1V385oh9aGAgAADMDCAAJMSAP//iqYQ
-Date: Tue, 12 Nov 2013 20:46:46 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF8455BE9A7A@ALA-MBA.corp.ad.wrs.com>
-References: <1383947372-20075-1-git-send-email-jslater@windriver.com>
-	<1384253239.6460.0.camel@ted>
-	<007BD92917A2324FA403BCF9A464CF8455BE9823@ALA-MBA.corp.ad.wrs.com>
-	<1384285506.6460.33.camel@ted>
-In-Reply-To: <1384285506.6460.33.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.152.80]
+	Tue, 12 Nov 2013 20:58:09 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Nov 2013 12:58:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="434133841"
+Received: from unknown (HELO [10.255.15.132]) ([10.255.15.132])
+	by orsmga002.jf.intel.com with ESMTP; 12 Nov 2013 12:58:08 -0800
+Message-ID: <52829660.4060507@linux.intel.com>
+Date: Tue, 12 Nov 2013 12:58:08 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linuxdoc-tools: add dependency on texinfo
+To: ml@communistcode.co.uk, openembedded-core@lists.openembedded.org
+References: <1383839993-21102-1-git-send-email-ml@communistcode.co.uk>
+	<527C34A3.6050708@linux.intel.com>
+	<52812C68.4020701@communistcode.co.uk>
+In-Reply-To: <52812C68.4020701@communistcode.co.uk>
+Cc: Jack Mitchell <jmitchell@cbnl.com>
+Subject: Re: [PATCHv4] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +34,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2013 20:46:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 12 Nov 2013 20:58:09 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUg
-W21haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBUdWVz
-ZGF5LCBOb3ZlbWJlciAxMiwgMjAxMyAxMTo0NSBBTQ0KPiBUbzogU2xhdGVyLCBKb3NlcGgNCj4g
-Q2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDog
-UmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8xXSBsaW51eGRvYy10b29sczogYWRkIGRlcGVuZGVuY3kg
-b24gdGV4aW5mbw0KPiANCj4gT24gVHVlLCAyMDEzLTExLTEyIGF0IDE5OjAyICswMDAwLCBTbGF0
-ZXIsIEpvc2VwaCB3cm90ZToNCj4gPiBJIGJlbGlldmUgd2Ugd2lsbCB1c2UgdGhlIGhvc3QgbWFr
-ZWluZm8sIGlmIHRoYXQgZXhpc3RzLCBzbyB3ZQ0KPiA+IHdvbid0IGF1dG9tYXRpY2FsbHkgYnVp
-bGQgdGV4aW5mby1uYXRpdmUuICBCdXQsIGlmIHdlIGFyZSBidWlsZGluZw0KPiA+IGl0IGF0IHRo
-ZSBzYW1lIHRpbWUgd2UgYXJlIHRyeWluZyB0byBydW4gbWFrZWluZm8sIHdlIG1pZ2h0IGdldA0K
-PiA+ICJvdXIiIHZlcnNpb24gaW5zdGVhZCBvZiB0aGUgaG9zdCdzLCBhbmQgb3VyIHZlcnNpb24g
-bWlnaHQgbm90IGJlDQo+ID4gZnVsbHkgaW5zdGFsbGVkLiAgQXQgbGVhc3QsIHRoYXQgbG9va3Mg
-bGlrZSB3aGF0IGhhcHBlbmVkIGZvciB0aGUNCj4gPiBidWlsZCBmYWlsdXJlIHRoaXMgcGF0Y2gg
-YXR0ZW1wdHMgdG8gZml4Lg0KPiANCj4gSXQgd291bGQgaGVscCB0byBoYXZlIHRoYXQgaW4gdGhl
-IGNvbW1pdCBtZXNzYWdlLg0KPiANCj4gRXF1YWxseSwgZG9lcyB0aGlzIHJlYWxseSBzb2x2ZSB0
-aGUgcHJvYmxlbSBvciBkb2VzIGl0IGp1c3QgbW92ZSBpdA0KPiBlbHNld2hlcmUgYXMgb3RoZXIg
-YXBwbGljYXRpb25zIHByb2JhYmx5IHVzZSBtYWtlaW5mbyB0b28/IDovDQoNCkl0IGRvZXMganVz
-dCBtb3ZlIGl0IGVsc2V3aGVyZS4gIEkgZG9uJ3Qga25vdyBpZiB0ZXhpbmZvIHdvdWxkIGJlIGJh
-c2ljDQplbm91Z2ggdG8gZm9yY2UgaXQgdG8gYnVpbGQgZWFybHkgKEknbSBub3Qgc3VyZSBob3cg
-dG8gZG8gdGhhdCksIG9yIGlmDQp3ZSBqdXN0IGV4cGVjdCBwYWNrYWdlcyB0aGF0IG5lZWQgaXQg
-dG8gZGVwZW5kIG9uIGl0Lg0KDQpKb2UNCg0KDQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJk
-DQoNCg==
+On 11/11/2013 11:13 AM, Jack Mitchell wrote:
+> On 08/11/2013 00:47, Saul Wold wrote:
+>> On 11/07/2013 07:59 AM, Jack Mitchell wrote:
+>>> From: Jack Mitchell <jmitchell@cbnl.com>
+>>>
+>>> libjson is now known as json-c, support for the old namespace is
+>>> disabled as it seems to break SEPBUILDDIR configs. Built without
+>>> parallel make as it fails, official word is not to bother trying.
+>>>
+>>> Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
+>>> ---
+>>>
+>>>   v4:
+>>>    - add --disable-oldname-compat to try and fix suspected SEPBUILDDIR
+>>>      issues
+>>>
+>>
+>> Jack,
+>>
+>> I hate to ask this, but given this version is also failing, how have you
+>> been testing this recipe?
+>
+> Just the usual way, standard x86 atom target -c cleansstate and a build
+> + build -c populate_sdk. It also gets rebuilt without a clean sstate as
+> I've been holding this patch in my working tree for weeks now.
+>
+> I don't really know where to go with this now, I was sure it was going
+> to be the compat configure functons which were breaking things, but
+> obviously not. I'll see if I can find some time to tidy up the actual
+> configure script some, and see if that irons out the issues we're
+> seeing. I'll also give it a go with SEPBUILDDIR and see if I can get it
+> failing over here too.
+>
+I think I figured it out, the tarball contains autoconf cruft such as 
+config.status, I am not sure why you are not seeing the failure with 
+configure, but I found that removing that cruft in a 
+do_configure_prepend(), it fixed the build problem.
+
++
++do_configure_prepend() {
++       # Clean up autoconf cruft that should noe be in the tarball
++       rm -rf ${S}/config.status ${S}/config.log ${S}/configure 
+${S}/config.h ${S}/config.h.in~
++}
+
+Either that or a patch to the configure.in that would check for 
+config.status in the correct space.
+
+Sau!
+
+
+> Cheers!
+>
+>>
+>> I attached my do_configure log file.
+>>
+>> Thanks
+>>      Sau!
+>>
+>>>   meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+>>>   meta/recipes-devtools/json-c/json-c_0.11.bb       | 16
+>>> ++++++++++++++++
+>>>   meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+>>>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+>>>   4 files changed, 18 insertions(+), 16 deletions(-)
+>>>   create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+>>>   delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
+>>>
+>>> diff --git a/meta/conf/distro/include/seperatebuilddir.inc
+>>> b/meta/conf/distro/include/seperatebuilddir.inc
+>>> index c067183..e1a5c6b 100644
+>>> --- a/meta/conf/distro/include/seperatebuilddir.inc
+>>> +++ b/meta/conf/distro/include/seperatebuilddir.inc
+>>> @@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+>>>   B_pn-libice-native = "${SEPB}"
+>>>   B_pn-libid3tag = "${SEPB}"
+>>>   B_pn-libidn = "${SEPB}"
+>>> -B_pn-libjson = "${SEPB}"
+>>> +B_pn-json-c = "${SEPB}"
+>>>   B_pn-libksba = "${SEPB}"
+>>>   B_pn-libmad = "${SEPB}"
+>>>   B_pn-libmatchbox = "${SEPB}"
+>>> diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb
+>>> b/meta/recipes-devtools/json-c/json-c_0.11.bb
+>>> new file mode 100644
+>>> index 0000000..59a4b4d
+>>> --- /dev/null
+>>> +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
+>>> @@ -0,0 +1,16 @@
+>>> +SUMMARY = "JSON-C implements a reference counting object model that
+>>> allows you to easily construct JSON objects in C"
+>>> +HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+>>> +LICENSE = "MIT"
+>>> +LIC_FILES_CHKSUM =
+>>> "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+>>> +
+>>> +SRC_URI =
+>>> "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
+>>> +
+>>> +SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
+>>> +SRC_URI[sha256sum] =
+>>> "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
+>>> +
+>>> +RPROVIDES_${PN} = "libjson"
+>>> +
+>>> +PARALLEL_MAKE = ""
+>>> +EXTRA_OECONF = "--disable-oldname-compat"
+>>> +
+>>> +inherit autotools
+>>> diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb
+>>> b/meta/recipes-devtools/libjson/libjson_0.9.bb
+>>> deleted file mode 100644
+>>> index e4951a8..0000000
+>>> --- a/meta/recipes-devtools/libjson/libjson_0.9.bb
+>>> +++ /dev/null
+>>> @@ -1,14 +0,0 @@
+>>> -DESCRIPTION = "JSON-C - A JSON implementation in C"
+>>> -HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+>>> -
+>>> -LICENSE = "MIT"
+>>> -LIC_FILES_CHKSUM =
+>>> "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+>>> -
+>>> -SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+>>> -SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+>>> -SRC_URI[sha256sum] =
+>>> "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+>>> -
+>>> -S = "${WORKDIR}/json-c-${PV}"
+>>> -
+>>> -
+>>> -inherit autotools
+>>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> index 4c10aa9..475da41 100644
+>>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+>>> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
+>>> "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+>>>   DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+>>>   # optional
+>>>   DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+>>> -DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
+>>> +DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
+>>>
+>>>   inherit autotools pkgconfig useradd gettext perlnative
+>>>
+>>>
+>
+>
 
