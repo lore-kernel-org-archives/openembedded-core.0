@@ -1,24 +1,24 @@
 Return-Path: <tobias.henkel@oss.bmw-carit.de>
 Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D5836D746
+	by mail.openembedded.org (Postfix) with ESMTP id 248386D867
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 08:34:02 +0000 (UTC)
+	Tue, 12 Nov 2013 08:34:03 +0000 (UTC)
 Received: from duffman.bmw-carit.intra (duffman.bmw-carit.intra
 	[192.168.101.67])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: tobias.henkel)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id CEA7B401B4
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id D4453402DF
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 Nov 2013 08:05:21 +0100 (CET)
 From: Tobias Henkel <tobias.henkel@oss.bmw-carit.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Nov 2013 09:33:57 +0100
-Message-Id: <1384245243-20247-4-git-send-email-tobias.henkel@oss.bmw-carit.de>
+Date: Tue, 12 Nov 2013 09:34:00 +0100
+Message-Id: <1384245243-20247-7-git-send-email-tobias.henkel@oss.bmw-carit.de>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1384245243-20247-1-git-send-email-tobias.henkel@oss.bmw-carit.de>
 References: <1384245243-20247-1-git-send-email-tobias.henkel@oss.bmw-carit.de>
-Subject: [PATCH 3/9] icecc: Reduce verbosity with empty PARALLEL_MAKE
+Subject: [PATCH 6/9] icecc: Enable icecc also for install step
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +35,29 @@ X-List-Received-Date: Tue, 12 Nov 2013 08:34:03 -0000
 
 From: Tobias Henkel <tobias.henkel@bmw-carit.de>
 
-Currently the icecc class prints a note for every package which
-disables parallel make at parse time. This is unneccessary as many
-packages don't support parallel building. Changing the log level from
-info to debug hides these messages in normal builds without removing
-the information when needed.
+Some packages are calling the compiler in the install step. In this
+case either the build breaks or icecc is not used for building. The
+proper environment has to be set to enable icecc based building.
 
 Signed-off-by: Tobias Henkel <tobias.henkel@bmw-carit.de>
 ---
- meta/classes/icecc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/icecc.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index c4088af..eaa2aac 100644
+index 99749d3..debc05d 100644
 --- a/meta/classes/icecc.bbclass
 +++ b/meta/classes/icecc.bbclass
-@@ -106,7 +106,7 @@ def use_icc(bb,d):
-             return "no"
+@@ -258,6 +258,6 @@ do_compile_kernelmodules_prepend() {
+     set_icecc_env
+ }
  
-     if d.getVar('PARALLEL_MAKE') == "":
--        bb.note(package_tmp, " ", d.expand('${PV}'), " has empty PARALLEL_MAKE, disable icecc")
-+        bb.debug(1, package_tmp, " ", d.expand('${PV}'), " has empty PARALLEL_MAKE, disable icecc")
-         return "no"
- 
-     return "yes"
+-#do_install_prepend() {
+-#    set_icecc_env
+-#}
++do_install_prepend() {
++    set_icecc_env
++}
 -- 
 1.8.3.1
 
