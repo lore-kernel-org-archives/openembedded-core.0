@@ -1,35 +1,31 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D23006D8BF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 7001D6D598
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 15:07:03 +0000 (UTC)
-Received: by mail-la0-f43.google.com with SMTP id n7so4287895lam.30
+	Tue, 12 Nov 2013 15:31:58 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rACFVr6X020296 for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Nov 2013 15:31:53 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sF-FMtAkFzT6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 07:07:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=fTx0EM4Sq90OMv+I2gIKJv4BosOb6CaOe8g32JOsbU8=;
-	b=g0IO8u0G8QJgK5pkgq7T+VMWCx80YRJMU2YdG300h7qK71mis9OiNCic9ux1+lIflz
-	fZD9n1sycLfBODCchU5NeaPID1CwXc9dGf3Evzfk0HIlORgGtWbBwQwavV7unv5kE3cV
-	D2359C8Bhqh0g2QQlhLjfmrXVypjre/FV6odmSHo17ZAUkT7YdG6QvP7CJ2hRvqv5rIC
-	AV3qQQOLhXqodI3xoU9aH3xPho8+H5xG/qTbdXXNygZAOSz7tmU0uaZev+ToCB9+UKRy
-	JWx9NlOcjppkpYCCsxaVmZlXdBqbmn8NZRlgSeD/DBmEn6XXF8mM+z/XF19LMYEDD9pY
-	Vbmg==
-MIME-Version: 1.0
-X-Received: by 10.152.29.65 with SMTP id i1mr32838lah.77.1384268824823; Tue,
-	12 Nov 2013 07:07:04 -0800 (PST)
-Received: by 10.112.14.200 with HTTP; Tue, 12 Nov 2013 07:07:04 -0800 (PST)
-In-Reply-To: <1384244230-30541-1-git-send-email-ming.liu@windriver.com>
-References: <1384244230-30541-1-git-send-email-ming.liu@windriver.com>
-Date: Tue, 12 Nov 2013 10:07:04 -0500
-Message-ID: <CADkTA4OqaxJyRp-T298LG-Jm36tUNkZXvKawoWGtKOCETARTvA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: handles symbolic KERNEL_OUTPUT in bundle_initramfs task
+	Tue, 12 Nov 2013 15:31:53 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rACFVpYQ020283
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Nov 2013 15:31:53 GMT
+Message-ID: <1384270308.6460.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Nov 2013 15:31:48 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: Confusing Performance Numbers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,93 +38,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2013 15:07:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 12 Nov 2013 15:31:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 12, 2013 at 3:17 AM, Ming Liu <ming.liu@windriver.com> wrote:
-> In many cases, KERNEL_OUTPUT is a symbolic link to the real bootable image,
-> but in bundle_initramfs task, it's not considered so that the KERNEL_OUTPUT
-> is being renamed/restored as a regular file, this leads it finally point to
-> a incorrect target, or even worse, break the bundle_initramfs task for
-> KERNEL_OUTPUT is not going to be regenerated in case it is a symbolic link
-> to vmlinux.
->
-> Also, we need move bundle_initramfs after kernel_link_vmlinux.
->
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->  meta/classes/kernel.bbclass | 24 ++++++++++++++++++++----
->  1 file changed, 20 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index a4db9f5..2ec09ae 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -123,13 +123,29 @@ do_bundle_initramfs () {
->         if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
->                 echo "Creating a kernel image with a bundled initramfs..."
->                 copy_initramfs
-> -               if [ -e ${KERNEL_OUTPUT} ] ; then
-> +               # Backuping kernel image relies on its type(regular file or symbolic link)
-> +               linkpath=""
-> +               realpath=""
-> +               if [ -h ${KERNEL_OUTPUT} ] ; then
-> +                       linkpath=`readlink -n ${KERNEL_OUTPUT}`
-> +                       realpath=`readlink -fn ${KERNEL_OUTPUT}`
-> +                       mv -f $realpath $realpath.bak
-> +               elif [ -f ${KERNEL_OUTPUT} ]; then
->                         mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.bak
->                 fi
->                 use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
->                 kernel_do_compile
-> -               mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
-> -               mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
-> +               # Restoring kernel image
-> +               if [ ! -z $realpath ]; then
+I had some ideas I decided to test out. Specifically:
 
-Why not  if [ -n "$realpath" ] ? I always find that reads easier.
+a) stripping -native binaries before putting them in the sysroot
+b) compiling -natives with -march=native
+c) using hardlinks for sysroot_stage_dir
 
-> +                       mv -f $realpath $realpath.initramfs
-> +                       mv -f $realpath.bak $realpath
-> +                       cd ${B}/$(dirname ${KERNEL_OUTPUT})
-> +                       ln -sf $linkpath
-> +                       ln -sf $linkpath.initramfs
+I was wondering if any of these could give a speedup to the build and if
+so, whether it was a useful one. I ran this through our standard
+performance script and the results were:
 
-Won't the links just follow .. they are symbolic after all. Since things are
-being put back in place. Or are the names changing underneath ?
+# Baseline
+#./perfscript -c d8baa6c89b2f29e8ccc814c61dfd3b106af4fd65
+#dax,(nobranch):d8baa6c89b2f29e8ccc814c61dfd3b106af4fd65,poky-10.0.0.final-391-gd8baa6c,38:41.96,11:01.73,5:02.05,4:34.08,0:11.63,0:08.04,0:01.76,25582020,4853400
 
-> +               else
-> +                       mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
-> +                       mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
-> +               fi
->                 # Update install area
->                 echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
->                 install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
-> @@ -152,7 +168,7 @@ python do_devshell_prepend () {
->      os.environ["LDFLAGS"] = ''
->  }
->
-> -addtask bundle_initramfs after do_compile before do_build
-> +addtask bundle_initramfs after do_kernel_link_vmlinux before do_build
+# staging: Strip native binaries
+#./perfscript -c 3e7cab95423c688d7db7355d86b461c1408381d0
+#dax,(nobranch):3e7cab95423c688d7db7355d86b461c1408381d0,poky-10.0.0.final-392-g3e7cab9,39:07.56,11:02.05,4:46.99,4:33.99,0:11.63,0:09.40,0:01.73,25398400,4669464
 
-This isn't explained in the commit log.
+#bitbake.conf: Add -march=native
+#./perfscript -c d30b212c8975ad96a35ee6bace731b9823216570    
+#dax,(nobranch):d30b212c8975ad96a35ee6bace731b9823216570,poky-10.0.0.final-393-gd30b212,39:16.88,11:41.67,5:05.63,4:31.88,0:11.61,0:07.94,0:01.70,25401000,4670192
 
-Bruce
+# staging: Experiment with hardlinking for sysroot_stage_dir
+#./perfscript -c 2feafbbd6338acd52577074db993da4e6d2de03f
+#dax,master2:2feafbbd6338acd52577074db993da4e6d2de03f,poky-10.0.0.final-394-g2feafbb,39:49.88,11:11.63,4:41.16,4:38.85,0:11.40,0:07.90,0:01.73,23438704,4669984
 
->
->  kernel_do_compile() {
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> --
-> 1.8.4.1
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+so each time, the overall build time seems to rise slightly (first
+number). The time to bitbake the kernel remains roughly the same (second
+number), maybe the -march=native makes it take fractionally longer?
+Stripping the binaries is worth about 200MB of disk use (with and
+without rmwork). The hardlink patch is worth about 2GB disk use
+(non-rmwork).
+
+I also totalled the time in each task type, the output is below. The
+numbers there are interesting as the strip patch seems to add 100s to
+do_populate_sysroot. There doesn't seem to be a big difference in
+compile time.
+
+Its very hard to figure out what in these tests might be noise and what
+if anything was a real gain (other than the disk usage improvements). I
+suspect the hardlinking patch may be worthwhile, the other two are
+perhaps not useful.
+
+I often get asked what things we've tried so this should go some way to
+documenting that and give people in insight into how we can test
+changes.
+
+Cheers,
+
+Richard
+
+baseline (master):
+do_compile                 4062.83s
+do_compile_kernelmodules   69.14s
+do_compile_ptest_base      1.09s
+do_configure               5455.18s
+do_configure_ptest_base    1.11s
+do_deploy                  13.34s
+do_fetch                   20.4s
+do_generate_toolchain_file 0.09s
+do_install                 672.76s
+do_install_locale          0.24s
+do_install_ptest_base      0.72s
+do_kernel_checkout         109.76s
+do_kernel_configcheck      4.37s
+do_kernel_configme         69.8s
+do_kernel_link_vmlinux     0.09s
+do_multilib_install        0.0s
+do_package                 1136.39s
+do_package_write_rpm       964.58s
+do_packagedata             132.65s
+do_patch                   96.29s
+do_populate_lic            160.33s
+do_populate_sysroot        490.19s
+do_rootfs                  178.94s
+do_sizecheck               0.08s
+do_strip                   0.08s
+do_uboot_mkimage           0.09s
+do_unpack                  258.55s
+do_validate_branches       18.69s
+richard@dax:/media/build1/pokyperf/build-perf-test$ /home/richard/buildstats-tasktotals.py results-3e7cab9-20131112082932/buildstats-test1/core-image-sato-qemux86/201311120837/
+do_compile                 4108.84s
+do_compile_kernelmodules   69.34s
+do_compile_ptest_base      0.99s
+do_configure               5419.83s
+do_configure_ptest_base    1.02s
+do_deploy                  13.88s
+do_fetch                   37.07s
+do_generate_toolchain_file 0.1s
+do_install                 628.89s
+do_install_locale          0.53s
+do_install_ptest_base      0.85s
+do_kernel_checkout         47.62s
+do_kernel_configcheck      4.25s
+do_kernel_configme         94.91s
+do_kernel_link_vmlinux     0.15s
+do_multilib_install        0.0s
+do_package                 1176.35s
+do_package_write_rpm       947.94s
+do_packagedata             182.74s
+do_patch                   101.38s
+do_populate_lic            152.46s
+do_populate_sysroot        593.62s
+do_rootfs                  180.68s
+do_sizecheck               0.09s
+do_strip                   0.14s
+do_uboot_mkimage           0.08s
+do_unpack                  290.88s
+do_validate_branches       73.12s
+richard@dax:/media/build1/pokyperf/build-perf-test$ /home/richard/buildstats-tasktotals.py results-d30b212-20131112093824/buildstats-test1/core-image-sato-qemux86/201311120946/
+do_bundle_initramfs        0.09s
+do_compile                 4183.91s
+do_compile_kernelmodules   69.55s
+do_compile_ptest_base      1.1s
+do_configure               5535.51s
+do_configure_ptest_base    0.98s
+do_deploy                  13.37s
+do_evacuate_scripts        4.32s
+do_fetch                   47.25s
+do_generate_toolchain_file 0.09s
+do_install                 667.07s
+do_install_locale          0.23s
+do_install_ptest_base      0.81s
+do_kernel_checkout         39.4s
+do_kernel_configcheck      4.39s
+do_kernel_configme         11.32s
+do_kernel_link_vmlinux     0.09s
+do_multilib_install        0.0s
+do_package                 1176.05s
+do_package_write_rpm       987.45s
+do_packagedata             162.89s
+do_patch                   97.33s
+do_populate_lic            127.9s
+do_populate_sysroot        594.76s
+do_rootfs                  180.98s
+do_sizecheck               0.1s
+do_strip                   0.12s
+do_uboot_mkimage           0.08s
+do_unpack                  319.22s
+do_validate_branches       12.08s
+:/media/build1/pokyperf/build-perf-test$ /home/richard/buildstats-tasktotals.py results-2feafbb-20131112002904/buildstats-test1/core-image-sato-qemux86/201311120037/
+do_bundle_initramfs        0.09s
+do_compile                 4195.68s
+do_compile_kernelmodules   71.07s
+do_compile_ptest_base      1.09s
+do_configure               5741.49s
+do_configure_ptest_base    1.12s
+do_deploy                  13.33s
+do_evacuate_scripts        0.18s
+do_fetch                   18.1s
+do_generate_toolchain_file 0.09s
+do_install                 697.21s
+do_install_locale          0.38s
+do_install_ptest_base      0.84s
+do_kernel_checkout         143.08s
+do_kernel_configcheck      3.85s
+do_kernel_configme         60.15s
+do_kernel_link_vmlinux     0.09s
+do_multilib_install        0.0s
+do_package                 1118.97s
+do_package_write_rpm       957.41s
+do_packagedata             134.04s
+do_patch                   101.13s
+do_populate_lic            123.11s
+do_populate_sysroot        598.03s
+do_rootfs                  182.04s
+do_sizecheck               0.11s
+do_strip                   0.15s
+do_uboot_mkimage           0.1s
+do_unpack                  286.99s
+do_validate_branches       11.91s
 
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
