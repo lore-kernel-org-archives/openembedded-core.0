@@ -1,29 +1,35 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8839F6D8A7
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D23006D8BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 15:06:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rACF6TW7000240
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 12 Nov 2013 15:07:03 +0000 (UTC)
+Received: by mail-la0-f43.google.com with SMTP id n7so4287895lam.30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 07:06:29 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 12 Nov 2013 07:06:29 -0800
-Message-ID: <528243F6.5040201@windriver.com>
-Date: Tue, 12 Nov 2013 09:06:30 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Tue, 12 Nov 2013 07:07:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=fTx0EM4Sq90OMv+I2gIKJv4BosOb6CaOe8g32JOsbU8=;
+	b=g0IO8u0G8QJgK5pkgq7T+VMWCx80YRJMU2YdG300h7qK71mis9OiNCic9ux1+lIflz
+	fZD9n1sycLfBODCchU5NeaPID1CwXc9dGf3Evzfk0HIlORgGtWbBwQwavV7unv5kE3cV
+	D2359C8Bhqh0g2QQlhLjfmrXVypjre/FV6odmSHo17ZAUkT7YdG6QvP7CJ2hRvqv5rIC
+	AV3qQQOLhXqodI3xoU9aH3xPho8+H5xG/qTbdXXNygZAOSz7tmU0uaZev+ToCB9+UKRy
+	JWx9NlOcjppkpYCCsxaVmZlXdBqbmn8NZRlgSeD/DBmEn6XXF8mM+z/XF19LMYEDD9pY
+	Vbmg==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1383293368-23915-1-git-send-email-rongqing.li@windriver.com>	<20131101093436.GN32015@jama>	<969F26A8BAB325438E7EB80D3C3134FB16CB39CA@IRSMSX105.ger.corp.intel.com>	<528176B2.4080507@windriver.com>
-	<528184DB.2060403@linux.intel.com> <20131112084943.GA3663@jama>
-In-Reply-To: <20131112084943.GA3663@jama>
-Subject: Re: [PATCH v2] bluez: declaration of virtual/bluez and VIRTUAL-RUNTIME_bluez
+X-Received: by 10.152.29.65 with SMTP id i1mr32838lah.77.1384268824823; Tue,
+	12 Nov 2013 07:07:04 -0800 (PST)
+Received: by 10.112.14.200 with HTTP; Tue, 12 Nov 2013 07:07:04 -0800 (PST)
+In-Reply-To: <1384244230-30541-1-git-send-email-ming.liu@windriver.com>
+References: <1384244230-30541-1-git-send-email-ming.liu@windriver.com>
+Date: Tue, 12 Nov 2013 10:07:04 -0500
+Message-ID: <CADkTA4OqaxJyRp-T298LG-Jm36tUNkZXvKawoWGtKOCETARTvA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Ming Liu <ming.liu@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: handles symbolic KERNEL_OUTPUT in bundle_initramfs task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,371 +42,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2013 15:06:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Nov 2013 15:07:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 11/12/13, 2:49 AM, Martin Jansa wrote:
-> On Mon, Nov 11, 2013 at 05:31:07PM -0800, Saul Wold wrote:
->> On 11/11/2013 04:30 PM, Rongqing Li wrote:
->>>
->>>
->>> On 11/11/2013 05:59 PM, Iorga, Cristian wrote:
->>>> Hi all,
->>>>
->>>> As far as I have experimented, there is no upgrade path available at
->>>> the moment, due to extensive changes into the programming model for
->>>> BlueZ5 vs BlueZ4.
->>>> At the moment, the last single component that is not officially ready
->>>> for BlueZ5 is PulseAudio.
->>>> As have asked around, and PA5.0 will* support BlueZ5.
->>>> PA5.0 should* be released before EoY2013.
->>>> Judging by PA git log, there are extensive changes/updates in order to
->>>> support BZ5.
->>>>
->>>> Regards,
->>>> Cristian
->>>
->>> Thanks.
->>>
->>> Saul: Do you think it is ready for merge, our release needs it, thanks.
->>>
->>
->> At this point, I do not think this is an approporate patch, we can't
->> switch between bluez4 and bluez5 as Cristian points out above, they are
->> just not compatible.  This is a case where we need 2 distinct versions
->> and once the recipes/upstreams for the things that rely on bluez4 are
->> updated to bluez5, we will cut over and then likely move the bluez4
->> stack out of oe-core into meta-oe.
+On Tue, Nov 12, 2013 at 3:17 AM, Ming Liu <ming.liu@windriver.com> wrote:
+> In many cases, KERNEL_OUTPUT is a symbolic link to the real bootable image,
+> but in bundle_initramfs task, it's not considered so that the KERNEL_OUTPUT
+> is being renamed/restored as a regular file, this leads it finally point to
+> a incorrect target, or even worse, break the bundle_initramfs task for
+> KERNEL_OUTPUT is not going to be regenerated in case it is a symbolic link
+> to vmlinux.
 >
-> I disagree a bit here, if some distribution is using only
-> packagegroup-base -> bluez dependency, then this patch is useful to
-> allow to switch to bluez5 already with just VIRTUAL_RUNTIME change
-> instead of a lot longer .bbappend for packagegroup-base just to replace
-> bluez4 with bluez5.
+> Also, we need move bundle_initramfs after kernel_link_vmlinux.
 >
-> If bluez4 is moved to meta-oe then there would be the same problem for
-> people who can need bluez4-only images where bluez4 should be pulled by
-> packagegroup-base.
-
-My current expectation moving forward is that there will be a distro flag that 
-selects bluez4 or bluez5 API.  Then the recipes should be selecting behavior 
-based on that flag.
-
-The VIRTUAL-RUNTIME_... is designed for cases where the same API is used, but 
-different things could provide the functionality.  Such as a syslog daemon. 
-Since the APIs are different, it's not appropriate in this case.
-
---Mark
-
->>
->> Sau!
->>
->>>
->>> -Roy
->>>
->>>>
->>>> -----Original Message-----
->>>> From: openembedded-core-bounces@lists.openembedded.org
->>>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->>>> Martin Jansa
->>>> Sent: Friday, November 1, 2013 11:35 AM
->>>> To: rongqing.li@windriver.com
->>>> Cc: openembedded-core@lists.openembedded.org
->>>> Subject: Re: [OE-core] [PATCH v2] bluez: declaration of virtual/bluez
->>>> and VIRTUAL-RUNTIME_bluez
->>>>
->>>> On Fri, Nov 01, 2013 at 04:09:28PM +0800, rongqing.li@windriver.com
->>>> wrote:
->>>>> From: Roy Li <rongqing.li@windriver.com>
->>>>>
->>>>> We have two version bluez, declare virtual/bluez and
->>>>> VIRTUAL-RUNTIME_bluez to switch them easily, and set the preferred
->>>>> provider for bluez as bluez4
->>>>
->>>> +1
->>>>
->>>> I agree that some apps aren't compatible with both versions now, but
->>>> this gives easy way to switch between them for DISTRO which cares only
->>>> about apps which are compatible with bluez5 already.
->>>>
->>>> BTW: Have someone tried upgrade path on target from bluez4 to bluez5?
->>>> I know we discussed it at lengths before bluez5 was merged, but don't
->>>> know if someone really tested it.
->>>>
->>>>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->>>>> ---
->>>>>    meta/conf/distro/include/default-providers.inc
->>>>> |    5 ++---
->>>>>    meta/recipes-connectivity/bluez/bluez4.inc
->>>>> |    1 +
->>>>>    meta/recipes-connectivity/bluez5/bluez5.inc
->>>>> |    1 +
->>>>>    meta/recipes-connectivity/connman/connman.inc
->>>>> |    4 ++--
->>>>>    meta/recipes-connectivity/libpcap/libpcap.inc
->>>>> |    2 +-
->>>>>    meta/recipes-connectivity/neard/neard.inc
->>>>> |    2 +-
->>>>>    meta/recipes-connectivity/ofono/ofono.inc
->>>>> |    2 +-
->>>>>    meta/recipes-core/packagegroups/packagegroup-base.bb
->>>>> |    2 +-
->>>>>    meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
->>>>> |    2 +-
->>>>>    meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
->>>>> |    2 +-
->>>>>    meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>>>> |    2 +-
->>>>>    meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
->>>>> |    2 +-
->>>>>    12 files changed, 14 insertions(+), 13 deletions(-)
->>>>>
->>>>> diff --git a/meta/conf/distro/include/default-providers.inc
->>>>> b/meta/conf/distro/include/default-providers.inc
->>>>> index d4b9db0..0ec4cd9 100644
->>>>> --- a/meta/conf/distro/include/default-providers.inc
->>>>> +++ b/meta/conf/distro/include/default-providers.inc
->>>>> @@ -14,6 +14,7 @@ PREFERRED_PROVIDER_virtual/update-alternatives ?=
->>>>> "opkg"
->>>>>    PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
->>>>>    PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
->>>>>    PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
->>>>> +PREFERRED_PROVIDER_virtual/bluez ?= "bluez4"
->>>>>
->>>>>    #
->>>>>    # Default virtual runtime providers
->>>>> @@ -21,6 +22,7 @@ PREFERRED_PROVIDER_xf86-video-intel ?=
->>>>> "xf86-video-intel"
->>>>>    VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
->>>>>    VIRTUAL-RUNTIME_apm ?= "apm"
->>>>>    VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
->>>>> +VIRTUAL-RUNTIME_bluez ?= "bluez4"
->>>>>
->>>>>    #
->>>>>    # Default recipe providers
->>>>> @@ -40,6 +42,3 @@ PREFERRED_PROVIDER_console-tools ?= "kbd"
->>>>>    PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
->>>>>    PREFERRED_PROVIDER_make ?= "make"
->>>>>    PREFERRED_PROVIDER_udev ?=
->>>>> "${@base_contains('DISTRO_FEATURES','systemd','systemd','udev',d)}"
->>>>> -# There are issues with runtime packages and PREFERRED_PROVIDER, see
->>>>> YOCTO #5044 for details -# on this rather strange entry.
->>>>> -PREFERRED_PROVIDER_bluez4 ?= "bluez4"
->>>>> diff --git a/meta/recipes-connectivity/bluez/bluez4.inc
->>>>> b/meta/recipes-connectivity/bluez/bluez4.inc
->>>>> index e4f6834..c0babc6 100644
->>>>> --- a/meta/recipes-connectivity/bluez/bluez4.inc
->>>>> +++ b/meta/recipes-connectivity/bluez/bluez4.inc
->>>>> @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM =
->>>>> "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->>>>>
->>>>> file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
->>>>>
->>>>>    DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
->>>>>    RDEPENDS_${PN}-dev = "bluez-hcidump"
->>>>> +PROVIDES += "virtual/bluez"
->>>>>
->>>>>    PACKAGECONFIG ??= "\
->>>>>        ${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}\ diff
->>>>> --git a/meta/recipes-connectivity/bluez5/bluez5.inc
->>>>> b/meta/recipes-connectivity/bluez5/bluez5.inc
->>>>> index 2e25d86..b3ab131 100644
->>>>> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
->>>>> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
->>>>> @@ -7,6 +7,7 @@ LIC_FILES_CHKSUM =
->>>>> "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->>>>>
->>>>> file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
->>>>>
->>>>> file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
->>>>>
->>>>>    DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
->>>>> +PROVIDES += "virtual/bluez"
->>>>>
->>>>>    RCONFLICTS_${PN} = "bluez4"
->>>>>
->>>>> diff --git a/meta/recipes-connectivity/connman/connman.inc
->>>>> b/meta/recipes-connectivity/connman/connman.inc
->>>>> index c2d71e0..8641415 100644
->>>>> --- a/meta/recipes-connectivity/connman/connman.inc
->>>>> +++ b/meta/recipes-connectivity/connman/connman.inc
->>>>> @@ -41,7 +41,7 @@ PACKAGECONFIG ??= "wispr \  #
->>>>> PACKAGECONFIG_append_pn-connman = " openvpn vpnc l2tp pptp"
->>>>>
->>>>>    PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
->>>>> -PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth,
->>>>> bluez4"
->>>>> +PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth,
->>>>> virtual/bluez"
->>>>>    PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
->>>>>    PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
->>>>>    PACKAGECONFIG[openvpn] = "--enable-openvpn
->>>>> --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
->>>>> @@ -118,7 +118,7 @@ RPROVIDES_${PN} = "\
->>>>>
->>>>>    RDEPENDS_${PN} = "\
->>>>>        dbus \
->>>>> -    ${@base_contains('PACKAGECONFIG', 'bluetooth', 'bluez4', '', d)} \
->>>>> +    ${@base_contains('PACKAGECONFIG', 'bluetooth',
->>>>> +'${VIRTUAL-RUNTIME_bluez}', '', d)} \
->>>>>        ${@base_contains('PACKAGECONFIG', 'wifi','wpa-supplicant', '',
->>>>> d)} \
->>>>>        ${@base_contains('PACKAGECONFIG', '3g','ofono', '', d)} \
->>>>>        xuser-account \
->>>>> diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc
->>>>> b/meta/recipes-connectivity/libpcap/libpcap.inc
->>>>> index 3a08afe..3a67ecc 100644
->>>>> --- a/meta/recipes-connectivity/libpcap/libpcap.inc
->>>>> +++ b/meta/recipes-connectivity/libpcap/libpcap.inc
->>>>> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
->>>>> "file://LICENSE;md5=1d4b0366557951c84a94fabe3529f867 \  DEPENDS =
->>>>> "flex-native bison-native libnl"
->>>>>
->>>>>    PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth',
->>>>> 'bluetooth', '', d)}"
->>>>> -PACKAGECONFIG[bluetooth] =
->>>>> "--enable-bluetooth,--disable-bluetooth,bluez4"
->>>>> +PACKAGECONFIG[bluetooth] =
->>>>> "--enable-bluetooth,--disable-bluetooth,virtual/bluez"
->>>>>    PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
->>>>>
->>>>>    INC_PR = "r5"
->>>>> diff --git a/meta/recipes-connectivity/neard/neard.inc
->>>>> b/meta/recipes-connectivity/neard/neard.inc
->>>>> index 7cccbdc..1d27c10 100644
->>>>> --- a/meta/recipes-connectivity/neard/neard.inc
->>>>> +++ b/meta/recipes-connectivity/neard/neard.inc
->>>>> @@ -47,7 +47,7 @@ RDEPENDS_${PN} = "dbus python python-dbus
->>>>> python-pygobject"
->>>>>
->>>>>    # Bluez & Wifi are not mandatory except for handover
->>>>> RRECOMMENDS_${PN} = "\
->>>>> -                     ${@base_contains('DISTRO_FEATURES',
->>>>> 'bluetooth', 'bluez4', '', d)} \
->>>>> +                     ${@base_contains('DISTRO_FEATURES', 'bluetooth',
->>>>> + 'virtual/bluez', '', d)} \
->>>>>                         ${@base_contains('DISTRO_FEATURES',
->>>>> 'wifi','wpa-supplicant', '', d)} \
->>>>>                        "
->>>>>
->>>>> diff --git a/meta/recipes-connectivity/ofono/ofono.inc
->>>>> b/meta/recipes-connectivity/ofono/ofono.inc
->>>>> index 3972e06..ff34265 100644
->>>>> --- a/meta/recipes-connectivity/ofono/ofono.inc
->>>>> +++ b/meta/recipes-connectivity/ofono/ofono.inc
->>>>> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =
->>>>> "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
->>>>>
->>>>>    inherit autotools pkgconfig update-rc.d systemd
->>>>>
->>>>> -DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info
->>>>> ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
->>>>> +DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info
->>>>> ${@base_contains('DISTRO_FEATURES', 'bluetooth','virtual/bluez', '',
->>>>> d)}"
->>>>>
->>>>>    INITSCRIPT_NAME = "ofono"
->>>>>    INITSCRIPT_PARAMS = "defaults 22"
->>>>> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb
->>>>> b/meta/recipes-core/packagegroups/packagegroup-base.bb
->>>>> index eee8bd9..a63ce73 100644
->>>>> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
->>>>> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
->>>>> @@ -210,7 +210,7 @@ RRECOMMENDS_packagegroup-base-pcmcia = "\
->>>>>
->>>>>    SUMMARY_packagegroup-base-bluetooth = "Bluetooth support"
->>>>>    RDEPENDS_packagegroup-base-bluetooth = "\
->>>>> -    bluez4 \
->>>>> +    ${VIRTUAL-RUNTIME_bluez} \
->>>>>        ${@base_contains('COMBINED_FEATURES', 'alsa',
->>>>> 'libasound-module-bluez', '',d)} \
->>>>>        "
->>>>>
->>>>> diff --git
->>>>> a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
->>>>> b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
->>>>> index 416e05d..75c92e2 100644
->>>>> --- a/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
->>>>> +++ b/meta/recipes-gnome/packagegroups/packagegroup-sdk-gmae.inc
->>>>> @@ -3,7 +3,7 @@ SDK-GMAE = " \
->>>>>        dbus-glib-dev \
->>>>>        gtk+-dev \
->>>>>        gstreamer-dev \
->>>>> -    bluez4-dev \
->>>>> +    ${VIRTUAL-RUNTIME_bluez}-dev \
->>>>>        gconf-dev \
->>>>>        avahi-dev \
->>>>>        telepathy-glib-dev \
->>>>> diff --git
->>>>> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
->>>>> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
->>>>> index e1a5904..8f37be8 100644
->>>>> ---
->>>>> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.bb
->>>>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_git.b
->>>>> +++ b
->>>>> @@ -11,7 +11,7 @@ S = "${WORKDIR}/git"
->>>>>
->>>>>    SRCREV = "6e5db57d2446a753aaa76bee268e1f95600b14ce"
->>>>>
->>>>> -PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4"
->>>>> +PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,virtual/bluez"
->>>>>    PACKAGECONFIG[sbc] = "--enable-sbc,--disable-sbc,sbc"
->>>>>    PACKAGECONFIG[hls] = "--enable-hls,--disable-hls,gnutls"
->>>>>
->>>>> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>>>> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>>>> index bb13f4b..e4e058f 100644
->>>>> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>>>> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->>>>> @@ -36,7 +36,7 @@ PACKAGECONFIG ??=
->>>>> "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '',
->>>>>                       ${@base_contains('DISTRO_FEATURES', 'systemd',
->>>>> 'systemd', '', d)} \
->>>>>                       ${@base_contains('DISTRO_FEATURES', 'zeroconf',
->>>>> 'avahi', '', d)} \
->>>>>                       ${@base_contains('DISTRO_FEATURES', 'x11',
->>>>> 'x11', '', d)}"
->>>>> -PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4 sbc"
->>>>> +PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,virtual/bluez
->>>>> sbc"
->>>>>    PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
->>>>>    PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
->>>>>    PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11
->>>>> libxtst libice libsm libxcb"
->>>>> diff --git a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
->>>>> b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
->>>>> index 062702f..ef3f08d 100644
->>>>> --- a/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
->>>>> +++ b/meta/recipes-qt/qt4/qt-mobility_1.2.0.inc
->>>>> @@ -3,7 +3,7 @@ DEPENDS = "gstreamer util-linux"
->>>>>
->>>>>    PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES',
->>>>> 'pulseaudio', 'pulseaudio', '', d)} \
->>>>>                       ${@base_contains('DISTRO_FEATURES', 'bluetooth',
->>>>> 'bluetooth', '', d)}"
->>>>> -PACKAGECONFIG[bluetooth] = ",,bluez4"
->>>>> +PACKAGECONFIG[bluetooth] = ",,virtual/bluez"
->>>>>    PACKAGECONFIG[pulseaudio] = ",,pulseaudio"
->>>>>
->>>>>    LICENSE = "LGPLv2.1"
->>>>> --
->>>>> 1.7.10.4
->>>>>
->>>>> _______________________________________________
->>>>> Openembedded-core mailing list
->>>>> Openembedded-core@lists.openembedded.org
->>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>
->>>
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> ---
+>  meta/classes/kernel.bbclass | 24 ++++++++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
 >
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index a4db9f5..2ec09ae 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -123,13 +123,29 @@ do_bundle_initramfs () {
+>         if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+>                 echo "Creating a kernel image with a bundled initramfs..."
+>                 copy_initramfs
+> -               if [ -e ${KERNEL_OUTPUT} ] ; then
+> +               # Backuping kernel image relies on its type(regular file or symbolic link)
+> +               linkpath=""
+> +               realpath=""
+> +               if [ -h ${KERNEL_OUTPUT} ] ; then
+> +                       linkpath=`readlink -n ${KERNEL_OUTPUT}`
+> +                       realpath=`readlink -fn ${KERNEL_OUTPUT}`
+> +                       mv -f $realpath $realpath.bak
+> +               elif [ -f ${KERNEL_OUTPUT} ]; then
+>                         mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.bak
+>                 fi
+>                 use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+>                 kernel_do_compile
+> -               mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+> -               mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+> +               # Restoring kernel image
+> +               if [ ! -z $realpath ]; then
+
+Why not  if [ -n "$realpath" ] ? I always find that reads easier.
+
+> +                       mv -f $realpath $realpath.initramfs
+> +                       mv -f $realpath.bak $realpath
+> +                       cd ${B}/$(dirname ${KERNEL_OUTPUT})
+> +                       ln -sf $linkpath
+> +                       ln -sf $linkpath.initramfs
+
+Won't the links just follow .. they are symbolic after all. Since things are
+being put back in place. Or are the names changing underneath ?
+
+> +               else
+> +                       mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+> +                       mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+> +               fi
+>                 # Update install area
+>                 echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
+>                 install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+> @@ -152,7 +168,7 @@ python do_devshell_prepend () {
+>      os.environ["LDFLAGS"] = ''
+>  }
 >
+> -addtask bundle_initramfs after do_compile before do_build
+> +addtask bundle_initramfs after do_kernel_link_vmlinux before do_build
+
+This isn't explained in the commit log.
+
+Bruce
+
+>
+>  kernel_do_compile() {
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+> --
+> 1.8.4.1
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
