@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 6687C6CFF9
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B1626D59E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 04:16:01 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id y13so3407531pdi.0
+	Tue, 12 Nov 2013 07:47:17 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rAC7lJSn022030
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2013 20:16:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=rFNZv4aODNC1QCGjyNNDBk4pQIr3KtiPj3GQ+K47WOQ=;
-	b=U3U3SrubgKzG1erDsNnVMVQEFcpAt31j39MOTEiHgBKbBDypNswTSTOYClfFWebHyc
-	UGyZXwxyivcTfrgQUiXYmo69OXZuoEgJr6jKyG4qj/6+LPC5vjMA9DMssXefDoyCg/yW
-	uEczuGAnXp4i8hpf9QOzPiO5Ut5GOCY1miTWa5lzkrXZKT6jMY2S3Drr8eIo6M6wPlQW
-	W0O2lr1ewShm36wt3vThrhqrlaZb0o8VD9X3nXL+0aeM8knhSUPHomod5rJQQWHSHtWY
-	QHl42lseslF78/E9PZEsx4hxR4V21hm71PIa5yHmp5CgjqUKHdQOHUxqjtEYCHO8BVN6
-	VXEw==
-X-Received: by 10.68.219.167 with SMTP id pp7mr33456006pbc.125.1384229763242; 
-	Mon, 11 Nov 2013 20:16:03 -0800 (PST)
-Received: from haswell.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id
-	wp8sm34347079pbc.26.2013.11.11.20.16.02 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 11 Nov 2013 20:16:02 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2013 20:15:53 -0800
-Message-Id: <1384229753-24016-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [for-dora][for-master][PATCH] libnl: Fix random segfaults due to memory corruption
+	Mon, 11 Nov 2013 23:47:19 -0800 (PST)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 11 Nov 2013 23:47:18 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Nov 2013 15:47:21 +0800
+Message-ID: <1384242441-27215-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH v8] connman: ignore the networking device which nfs for rootfs is working on
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,82 +31,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2013 04:16:01 -0000
+X-List-Received-Date: Tue, 12 Nov 2013 07:47:18 -0000
+Content-Type: text/plain
 
-This is a backport from upstream fixes a severe problem
-w.r.t memory management, where it would result in random
-segfaults in applications depending on libnl
+From: Roy Li <rongqing.li@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Create connman-evn.service, which will run a script to compute the networking
+device when nfs root is on, and pass the result to connman.service
+
+Connmand.service add ExecStartPre into Connmand.service to release
+do_configure_append work, use the options which is passed by connman-evn.service
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- ...free-caused-by-freeing-link-af_data-in-rt.patch | 41 ++++++++++++++++++++++
- meta/recipes-support/libnl/libnl_3.2.22.bb         |  4 ++-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch
+ meta/recipes-connectivity/connman/connman.inc      |   17 +++++-----
+ .../connman/connman/connman-env.service            |   13 ++++++++
+ .../connman/connman/connmand-env                   |   26 +++++++++++++++
+ ...ardcode-and-add-EnvironmentFile-and-Wants.patch |   33 ++++++++++++++++++++
+ meta/recipes-connectivity/connman/connman_1.19.bb  |    3 ++
+ 5 files changed, 85 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-connectivity/connman/connman/connman-env.service
+ create mode 100644 meta/recipes-connectivity/connman/connman/connmand-env
+ create mode 100644 meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
 
-diff --git a/meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch b/meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch
-new file mode 100644
-index 0000000..6d2c8ff
---- /dev/null
-+++ b/meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch
-@@ -0,0 +1,41 @@
-+From 6f37b439af7e96104aadd8ec3ae8d3882df8d102 Mon Sep 17 00:00:00 2001
-+From: Jiri Pirko <jiri@resnulli.us>
-+Date: Wed, 21 Aug 2013 14:40:34 +0200
-+Subject: [PATCH] fix double free caused by freeing link af_data in
-+ rtnl_link_set_family()
-+
-+Introduced by commit 8026fe2e3a9089eff3f5a06ee6e3cc78d96334ed ("link:
-+Free and realloc af specific data upon rtnl_link_set_family()")
-+
-+link->l_af_data[link->l_af_ops->ao_family] is freed here but not set to
-+zero. That leads to double free made by link_free_data->do_foreach_af.
-+
-+Fix this by setting link->l_af_data[link->l_af_ops->ao_family] to zero
-+rigth after free.
-+
-+Signed-off-by: Jiri Pirko <jiri@resnulli.us>
-+Signed-off-by: Thomas Graf <tgraf@suug.ch>
-+---
-+ lib/route/link.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/route/link.c b/lib/route/link.c
-+index a73e1db..0bb90a0 100644
-+--- a/lib/route/link.c
-++++ b/lib/route/link.c
-+@@ -1762,9 +1762,11 @@ void rtnl_link_set_family(struct rtnl_link *link, int family)
-+ 	link->l_family = family;
-+ 	link->ce_mask |= LINK_ATTR_FAMILY;
-+ 
-+-	if (link->l_af_ops)
-++	if (link->l_af_ops) {
-+ 		af_free(link, link->l_af_ops,
-+ 			link->l_af_data[link->l_af_ops->ao_family], NULL);
-++		link->l_af_data[link->l_af_ops->ao_family] = NULL;
-++	}
-+ 
-+ 	link->l_af_ops = af_lookup_and_alloc(link, family);
-+ }
-+-- 
-+1.8.4
-+
-diff --git a/meta/recipes-support/libnl/libnl_3.2.22.bb b/meta/recipes-support/libnl/libnl_3.2.22.bb
-index 30f85b2..3c31b1a 100644
---- a/meta/recipes-support/libnl/libnl_3.2.22.bb
-+++ b/meta/recipes-support/libnl/libnl_3.2.22.bb
-@@ -12,7 +12,9 @@ DEPENDS = "flex-native bison-native"
- SRC_URI = "http://www.infradead.org/~tgr/${BPN}/files/${BP}.tar.gz \
-            file://fix-pktloc_syntax_h-race.patch \
-            file://fix-pc-file.patch \
--           file://fix-lib-cache_mngr.c-two-parentheses-bugs.patch"
-+           file://fix-lib-cache_mngr.c-two-parentheses-bugs.patch \
-+           file://0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch \
-+          "
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 12f3edd..648b9f6 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -64,15 +64,9 @@ python __anonymous () {
  
- SRC_URI[md5sum] = "2e1c889494d274aca24ce5f6a748e66e"
- SRC_URI[sha256sum] = "c7c5f267dfeae0c1a530bf96b71fb7c8dbbb07d54beef49b6712d8d6166f629b"
+ SYSTEMD_SERVICE_${PN} = "connman.service"
+ SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+-SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
+ 
+ inherit autotools gtk-doc pkgconfig systemd update-rc.d
+ 
+-do_configure_append () {
+-	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${S}/src/connman.service
+-
+-}
+-
+ # This allows *everyone* to access ConnMan over DBus, without any access
+ # control.  Really the at_console flag should work, which would mean that
+ # both this and the xuser patch can be dropped.
+@@ -88,6 +82,15 @@ do_install_append() {
+ 		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
+ 	fi
+ 
++	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++		install -m 0755 ${WORKDIR}/connmand-env ${D}${sbindir}/
++		install -m 0644 ${WORKDIR}/connman-env.service  ${D}/${systemd_unitdir}/system/
++		sed -i  -e 's,@SBINDIR@,${sbindir},g' \
++			-e 's,@LIBDIR@,${libdir},g' \
++			-e 's,@LOCALSTATEDIR@,${localstatedir},g' \
++			${D}${systemd_unitdir}/system/*.service
++	fi
++
+ 	install -d ${D}${bindir}
+ 	install -m 0755 ${S}/tools/*-test ${D}${bindir}
+ 	if [ -e ${S}/tools/wispr ]; then
+@@ -163,7 +166,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
+             ${libdir}/connman/plugins \
+             ${sysconfdir} ${sharedstatedir} ${localstatedir} \
+             ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
+-            ${datadir}/dbus-1/system-services/*"
++            ${datadir}/dbus-1/system-services/* ${systemd_unitdir}/system/connman-env.service"
+ 
+ FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
+ 
+diff --git a/meta/recipes-connectivity/connman/connman/connman-env.service b/meta/recipes-connectivity/connman/connman/connman-env.service
+new file mode 100644
+index 0000000..c4dc278
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/connman-env.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=Generate options for connection service
++Before=connman.service
++ConditionKernelCommandLine=root=/dev/nfs
++After=syslog.target
++
++[Service]
++Type=oneshot
++ExecStart=@SBINDIR@/connmand-env
++StandardOutput=null
++
++[Install]
++WantedBy=connman.service
+diff --git a/meta/recipes-connectivity/connman/connman/connmand-env b/meta/recipes-connectivity/connman/connman/connmand-env
+new file mode 100644
+index 0000000..9c04d61
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/connmand-env
+@@ -0,0 +1,26 @@
++#!/bin/sh
++
++EXTRA_PARAM=""
++
++NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
++NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
++
++if [ ! -z "$NET_ADDR" ]; then
++    if [ "$NET_ADDR" = dhcp ]; then
++        ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
++        if [ ! -z "$ethn" ]; then
++            EXTRA_PARAM="-I $ethn"
++        fi
++    else
++        for i in $NET_DEVS; do
++        ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
++        if [ "$NET_ADDR" = "$ADDR" ]; then
++            EXTRA_PARAM="-I $i"
++            break
++        fi
++        done
++    fi
++fi
++
++[ ! -d /run/connmand ] && mkdir -p /run/connmand
++echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand/connmand.env
+diff --git a/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch b/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
+new file mode 100644
+index 0000000..1394335
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
+@@ -0,0 +1,33 @@
++replace hardcode, and add EnvironmentFile and Wants
++
++Upstream-Status: Inappropriate [distribution]
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ src/connman.service.in |    5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/src/connman.service.in b/src/connman.service.in
++index 2e9e4d5..9984519 100644
++--- a/src/connman.service.in
+++++ b/src/connman.service.in
++@@ -1,12 +1,15 @@
++ [Unit]
++ Description=Connection service
++ After=syslog.target
+++Wants=connman-env.service
++ 
++ [Service]
++ Type=dbus
++ BusName=net.connman
++ Restart=on-failure
++-ExecStart=@prefix@/sbin/connmand -n
+++EnvironmentFile=-@LOCALSTATEDIR@/run/connmand/connmand.env
+++ExecStartPre=-@LIBDIR@/connman/wired-setup
+++ExecStart=@SBINDIR@/connmand -n $CONNMAND_OPTS
++ StandardOutput=null
++ 
++ [Install]
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.19.bb b/meta/recipes-connectivity/connman/connman_1.19.bb
+index c63dfe4..94bd8cc 100644
+--- a/meta/recipes-connectivity/connman/connman_1.19.bb
++++ b/meta/recipes-connectivity/connman/connman_1.19.bb
+@@ -4,6 +4,9 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+             file://connman \
++            file://connmand-env \
++            file://replace-hardcode-and-add-EnvironmentFile-and-Wants.patch \
++            file://connman-env.service \
+             "
+ 
+ SRC_URI[md5sum] = "47cce1d17a693dc307e6796c81991bd0"
 -- 
-1.8.3.2
+1.7.10.4
 
 
