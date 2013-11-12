@@ -1,18 +1,18 @@
 Return-Path: <pb@pbcl.net>
 Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C6556D7E6
+	by mail.openembedded.org (Postfix) with ESMTP id 4A5416D8AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 13:29:24 +0000 (UTC)
+	Tue, 12 Nov 2013 13:43:48 +0000 (UTC)
 Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
 	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
 	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>) id 1VgE20-0007ND-Uf
+	(envelope-from <pb@pbcl.net>) id 1VgEFW-0007NY-Cc
 	for openembedded-core@lists.openembedded.org;
-	Tue, 12 Nov 2013 14:29:25 +0100
-Message-ID: <1384262964.16718.165.camel@phil-desktop.brightsign>
+	Tue, 12 Nov 2013 14:43:49 +0100
+Message-ID: <1384263801.16718.168.camel@phil-desktop.brightsign>
 From: Phil Blundell <pb@pbcl.net>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Nov 2013 13:29:24 +0000
+Date: Tue, 12 Nov 2013 13:43:21 +0000
 X-Mailer: Evolution 3.4.4-4+b1 
 Mime-Version: 1.0
 X-Spam_score: -1.0
@@ -24,18 +24,23 @@ X-Spam_report: Spam detection software,
 	has been attached to this so you can view it (if it isn't spam) or
 	label similar future email.  If you have any questions, see
 	@@CONTACT_ADDRESS@@ for details.
-	Content preview: bb.fetch.decodeurl() will throw if it doesn't like the
-	look
-	of the URL that it's given. (Bitbake's idea of what constitutes a valid
-	URL
-	is somewhat idiosyncratic so it is fairly easy to trip over this by
-	mistake when writing a recipe.) [...] 
+	Content preview: do_configure() in binutils.inc includes an explicit
+	call to
+	gnu-configize so we need to make sure that gnu-config-native is
+	present.
+	Previously this was being dragged in with the rest of the autotools
+	stuff, 
+	but commit 54a3e2ee37003fc56af0339f857b0b6442790c26 disabled that for
+	binutils-cross
+	on the grounds that "we don't autoreconf" the toolchain components. Fix
+	this
+	by adding gnu-config-native itself explicitly to DEPENDS. [...] 
 	Content analysis details:   (-1.0 points, 5.0 required)
 	pts rule name              description
 	---- ----------------------
 	--------------------------------------------------
 	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] insane, license: Trap MalformedUrl exceptions when parsing LIC_FILES_CHKSUM
+Subject: [PATCH] binutils: Add gnu-config-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,58 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2013 13:29:25 -0000
+X-List-Received-Date: Tue, 12 Nov 2013 13:43:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-bb.fetch.decodeurl() will throw if it doesn't like the look of the URL that
-it's given.  (Bitbake's idea of what constitutes a valid URL is somewhat
-idiosyncratic so it is fairly easy to trip over this by mistake when writing
-a recipe.)
-
-If these exceptions are allowed to propagate all the way up to better_exec()
-then we will get a large amount of python stack trace spew when they are
-finally caught.  Avoid that by catching them locally and throwing
-bb.build.FuncFailed() with a suitable explanation instead.
+do_configure() in binutils.inc includes an explicit call to
+gnu-configize so we need to make sure that gnu-config-native is
+present.  Previously this was being dragged in with the rest of the
+autotools stuff, but commit 54a3e2ee37003fc56af0339f857b0b6442790c26
+disabled that for binutils-cross on the grounds that "we don't 
+autoreconf" the toolchain components.  Fix this by adding 
+gnu-config-native itself explicitly to DEPENDS.
 
 Signed-off-by: Phil Blundell <philb@gnu.org>
 ---
- meta/classes/insane.bbclass  | 5 ++++-
- meta/classes/license.bbclass | 5 ++++-
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/binutils/binutils.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index eb440c2..3558dee 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -594,7 +594,10 @@ def package_qa_check_license(workdir, d):
-     srcdir = d.getVar('S', True)
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 4575774..17c66bc 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -11,7 +11,7 @@ BUGTRACKER = "http://sourceware.org/bugzilla/"
+ SECTION = "devel"
+ LICENSE = "GPLv3"
  
-     for url in lic_files.split():
--        (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
-+        try:
-+            (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
-+        except bb.fetch.MalformedUrl:
-+            raise bb.build.FuncFailed( pn + ": LIC_FILES_CHKSUM contains an invalid URL: " + url)
-         srclicfile = os.path.join(srcdir, path)
-         if not os.path.isfile(srclicfile):
-             raise bb.build.FuncFailed( pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile)
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 6abdae4..1c1b679 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -228,7 +228,10 @@ def find_license_files(d):
-         return lic_files_paths
+-DEPENDS = "flex-native bison-native zlib-native"
++DEPENDS = "flex-native bison-native zlib-native gnu-config-native"
  
-     for url in lic_files.split():
--        (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
-+        try:
-+            (type, host, path, user, pswd, parm) = bb.fetch.decodeurl(url)
-+        except bb.fetch.MalformedUrl:
-+            raise bb.build.FuncFailed("%s: LIC_FILES_CHKSUM contains an invalid URL:  %s" % (d.getVar('PF', True), url))
-         # We want the license filename and path
-         srclicfile = os.path.join(srcdir, path)
-         lic_files_paths.append((os.path.basename(path), srclicfile))
+ inherit autotools gettext multilib_header
+ 
 -- 
 1.8.4.rc3
 
