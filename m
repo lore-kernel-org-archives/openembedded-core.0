@@ -1,6 +1,6 @@
 Return-Path: <tobias.henkel@oss.bmw-carit.de>
 Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 28B356D8C5
+	by mail.openembedded.org (Postfix) with ESMTP id 2A0806D8C7
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 Nov 2013 08:34:03 +0000 (UTC)
 Received: from duffman.bmw-carit.intra (duffman.bmw-carit.intra
@@ -8,17 +8,17 @@ Received: from duffman.bmw-carit.intra (duffman.bmw-carit.intra
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: tobias.henkel)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id DF2BB40308
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id EAEBA4032E
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 Nov 2013 08:05:21 +0100 (CET)
 From: Tobias Henkel <tobias.henkel@oss.bmw-carit.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Nov 2013 09:34:02 +0100
-Message-Id: <1384245243-20247-9-git-send-email-tobias.henkel@oss.bmw-carit.de>
+Date: Tue, 12 Nov 2013 09:34:03 +0100
+Message-Id: <1384245243-20247-10-git-send-email-tobias.henkel@oss.bmw-carit.de>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1384245243-20247-1-git-send-email-tobias.henkel@oss.bmw-carit.de>
 References: <1384245243-20247-1-git-send-email-tobias.henkel@oss.bmw-carit.de>
-Subject: [PATCH 8/9] icecc: Add package whitelist
+Subject: [PATCH 9/9] icecc: Fix race condition when packaging toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,68 +35,67 @@ X-List-Received-Date: Tue, 12 Nov 2013 08:34:04 -0000
 
 From: Tobias Henkel <tobias.henkel@bmw-carit.de>
 
-There are some recipes which parse the PARALLEL_MAKE variable by their
-own and set them to an empty string afterwards. This disables icecc
-for this recipe.
+In the current implementation there can be a race condition while
+creating the toolchain archive causing the build to break.
 
-Adding a whitelist for forcing icecc makes it possible to use icecc
-also with these recipes.
+This is fixed by locking the toolchain archiving step using flock.
 
 Signed-off-by: Tobias Henkel <tobias.henkel@bmw-carit.de>
 ---
- meta/classes/icecc.bbclass | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ meta/classes/icecc.bbclass | 31 +++++++++++++++++++++++++++++--
+ 1 file changed, 29 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 0c9b260..e3b05ac 100644
+index e3b05ac..970c557 100644
 --- a/meta/classes/icecc.bbclass
 +++ b/meta/classes/icecc.bbclass
-@@ -21,12 +21,13 @@
- #
- #User can specify if specific packages or packages belonging to class should not use icecc to distribute
- #compile jobs to remote machines, but handled localy, by defining ICECC_USER_CLASS_BL and ICECC_PACKAGE_BL
--#with the appropriate values in local.conf
-+#with the appropriate values in local.conf. In addition the user can force to enable icecc for packages
-+#which set an empty PARALLEL_MAKE variable by defining ICECC_USER_PACKAGE_WL.
- #########################################################################################
- #Error checking is kept to minimum so double check any parameters you pass to the class
- ###########################################################################################
+@@ -202,6 +202,21 @@ def icc_get_and_check_tool(bb, d, tool):
+     else:
+         return t
  
--BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED ICECC_USER_PACKAGE_BL ICECC_USER_CLASS_BL"
-+BB_HASHBASE_WHITELIST += "ICECC_PARALLEL_MAKE ICECC_DISABLED ICECC_USER_PACKAGE_BL ICECC_USER_CLASS_BL ICECC_USER_PACKAGE_WL"
- 
- ICECC_ENV_EXEC ?= "${STAGING_BINDIR_NATIVE}/icecc-create-env"
- 
-@@ -104,6 +105,7 @@ def use_icc(bb,d):
-     #for one reason or the other
-     system_package_blacklist = [ "uclibc", "glibc", "gcc", "bind", "u-boot", "dhcp-forwarder", "enchant", "connman", "orbit2" ]
-     user_package_blacklist = (d.getVar('ICECC_USER_PACKAGE_BL') or "").split()
-+    user_package_whitelist = (d.getVar('ICECC_USER_PACKAGE_WL') or "").split()
-     package_blacklist = system_package_blacklist + user_package_blacklist
- 
-     for black in package_blacklist:
-@@ -111,6 +113,11 @@ def use_icc(bb,d):
-             #bb.note(package_tmp, ' found in blacklist, disable icecc')
-             return "no"
- 
-+    for white in user_package_whitelist:
-+        if white in package_tmp:
-+            bb.debug(1, package_tmp, " ", d.expand('${PV})'), " found in whitelist, enable icecc")
-+            return "yes"
++wait_for_file() {
++    local TIME_ELAPSED=0
++    local FILE_TO_TEST=$1
++    local TIMEOUT=$2
++    until [ -f "$FILE_TO_TEST" ]
++    do
++        TIME_ELAPSED=`expr $TIME_ELAPSED + 1`
++        if [ $TIME_ELAPSED -gt $TIMEOUT ]
++        then
++            return 1
++        fi
++        sleep 1
++    done
++}
 +
-     if d.getVar('PARALLEL_MAKE') == "":
-         bb.debug(1, package_tmp, " ", d.expand('${PV}'), " has empty PARALLEL_MAKE, disable icecc")
-         return "no"
-@@ -131,7 +138,8 @@ def icc_version(bb, d):
-         return ""
+ def set_icecc_env():
+     # dummy python version of set_icecc_env
+     return
+@@ -247,10 +262,22 @@ set_icecc_env() {
+         ICECC_AS="`which as`"
+     fi
  
-     parallel = d.getVar('ICECC_PARALLEL_MAKE') or ""
--    d.setVar("PARALLEL_MAKE", parallel)
-+    if not d.getVar('PARALLEL_MAKE') == "":
-+        d.setVar("PARALLEL_MAKE", parallel)
+-    if [ ! -r "${ICECC_VERSION}" ]
++    if [ ! -f "${ICECC_VERSION}.done" ]
+     then
+         mkdir -p "`dirname "${ICECC_VERSION}"`"
+-        ${ICECC_ENV_EXEC} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
++
++        # the ICECC_VERSION generation step must be locked by a mutex
++        # in order to prevent race conditions
++        if flock -n "${ICECC_VERSION}.lock" \
++            ${ICECC_ENV_EXEC} "${ICECC_CC}" "${ICECC_CXX}" "${ICECC_AS}" "${ICECC_VERSION}"
++        then
++            touch "${ICECC_VERSION}.done"
++        elif [ ! wait_for_file "${ICECC_VERSION}.done" 30 ]
++        then
++            # locking failed so wait for ${ICECC_VERSION}.done to appear
++            bbwarn "Timeout waiting for ${ICECC_VERSION}.done"
++            return
++        fi
+     fi
  
-     if icc_is_native(bb, d):
-         archive_name = "local-host-env"
+     export ICECC_VERSION ICECC_CC ICECC_CXX
 -- 
 1.8.3.1
 
