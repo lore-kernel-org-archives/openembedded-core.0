@@ -1,24 +1,44 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 12BD66D7EF
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id D420E6D040
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 22:41:57 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 12 Nov 2013 14:38:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="434183921"
-Received: from unknown (HELO [10.255.15.132]) ([10.255.15.132])
-	by orsmga002.jf.intel.com with ESMTP; 12 Nov 2013 14:41:58 -0800
-Message-ID: <5282AEB6.3060706@linux.intel.com>
-Date: Tue, 12 Nov 2013 14:41:58 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Yevhen Kyriukha <kirgene@gmail.com>, 
-	openembedded-core@lists.openembedded.org
+	Tue, 12 Nov 2013 22:54:30 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1VgMqQ-0007nz-GD; Tue, 12 Nov 2013 23:54:29 +0100
+Message-ID: <1384300388.3828.36.camel@x121e.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 12 Nov 2013 23:53:08 +0000
+In-Reply-To: <5282AEB6.3060706@linux.intel.com>
 References: <1383954150-59537-1-git-send-email-kirgene@gmail.com>
-In-Reply-To: <1383954150-59537-1-git-send-email-kirgene@gmail.com>
+	<5282AEB6.3060706@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.4.4-3 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Tue, 2013-11-12 at 14:41 -0800,
+	Saul Wold wrote: > Additionally, if adding this to oe-core,
+	it needs to be in it's own > patch crediting the
+	orignal author / layer, I found a 1.10 version in > the meta-webos-ports,
+	is this where it came from? [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: Yevhen Kyriukha <kirgene@gmail.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] curl: build with c-ares library support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,82 +52,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2013 22:41:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 12 Nov 2013 22:54:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/08/2013 03:42 PM, Yevhen Kyriukha wrote:
-> Also added c-ares library recipe.
->
-> In libcurl there is an issue with DNS lookups that cause crash on some platforms:
-> http://curl.haxx.se/mail/lib-2008-09/0197.html
-> To avoid this issue libcurl has to be built with c-ares name resolver.
->
-I am still considering this patch, but need to understand what platforms 
-curl is failing on.
+On Tue, 2013-11-12 at 14:41 -0800, Saul Wold wrote:
+> Additionally, if adding this to oe-core, it needs to be in it's own 
+> patch crediting the orignal author / layer, I found a 1.10 version in 
+> the meta-webos-ports, is this where it came from?
 
-> Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
-> ---
->   meta/recipes-support/c-ares/c-ares_1.10.0.bb | 22 ++++++++++++++++++++++
+There is a c-ares recipe in oe-classic which looks quite similar to this
+one and I suspect that's probably where it came from (though perhaps
+indirectly).
 
-Additionally, if adding this to oe-core, it needs to be in it's own 
-patch crediting the orignal author / layer, I found a 1.10 version in 
-the meta-webos-ports, is this where it came from?
+But, configuring curl to use c-ares support is not as trivial a change
+as it might appear and there is a significant chance that it will cause
+unforeseen (and probably unwanted) effects for at least some people.
+Adding a PACKAGECONFIG option for it which defaults to off would
+obviously be fine, and changing the default to be the libcurl internal
+threaded resolver (which would probably fix the original complaint as
+well, and doesn't require any extra recipes) might also be fine, but
+enabling c-ares by default is not something that should be done
+capriciously.
 
-Sau!
+p.
 
->   meta/recipes-support/curl/curl_7.33.0.bb     |  3 ++-
->   2 files changed, 24 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-support/c-ares/c-ares_1.10.0.bb
->
-> diff --git a/meta/recipes-support/c-ares/c-ares_1.10.0.bb b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
-> new file mode 100644
-> index 0000000..27bedf4
-> --- /dev/null
-> +++ b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
-> @@ -0,0 +1,22 @@
-> +DESCRIPTION = "c-ares is a C library that resolves names asynchronously."
-> +HOMEPAGE = "http://daniel.haxx.se/projects/c-ares/"
-> +SECTION = "libs"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://README;beginline=17;endline=18;md5=b320556568bc067d215a1e34c5b34a14"
-> +
-> +inherit autotools
-> +inherit pkgconfig
-> +
-> +SRC_URI = "http://c-ares.haxx.se/download/${BP}.tar.gz"
-> +SRC_URI[md5sum] = "1196067641411a75d3cbebe074fd36d8"
-> +SRC_URI[sha256sum] = "3d701674615d1158e56a59aaede7891f2dde3da0f46a6d3c684e0ae70f52d3db"
-> +
-> +EXTRA_OECONF = "--enable-shared"
-> +
-> +# install private headers to ares subdirectory
-> +do_install_append() {
-> +    install -d ${D}/${includedir}/ares
-> +    install -m 0644 ares*.h ${D}/${includedir}/ares/
-> +}
-> +
-> +FILES_${PN}-dev += "${includedir}/ares/*.h"
-> diff --git a/meta/recipes-support/curl/curl_7.33.0.bb b/meta/recipes-support/curl/curl_7.33.0.bb
-> index 8539fec..1af320e 100644
-> --- a/meta/recipes-support/curl/curl_7.33.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.33.0.bb
-> @@ -5,7 +5,7 @@ SECTION = "console/network"
->   LICENSE = "MIT"
->   LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
->
-> -DEPENDS = "zlib gnutls"
-> +DEPENDS = "zlib gnutls c-ares"
->   DEPENDS_class-native = "zlib-native openssl-native"
->   DEPENDS_class-nativesdk = "nativesdk-zlib"
->
-> @@ -30,6 +30,7 @@ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
->                   --enable-crypto-auth \
->                   --disable-ldap \
->                   --disable-ldaps \
-> +                --enable-ares \
->                   ${CURLGNUTLS} \
->                   "
->
->
+
 
