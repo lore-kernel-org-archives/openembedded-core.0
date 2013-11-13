@@ -1,40 +1,26 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
-	[209.85.214.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F4716D37F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6158B6D98D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 16:01:25 +0000 (UTC)
-Received: by mail-ob0-f176.google.com with SMTP id wp4so650867obc.21
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 08:01:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=WGkV+McBr8WIhWH2PCeJ1l+TzPvQYVX/S77liQpJx+g=;
-	b=kHSOHLbDOZabLhC7bksHmQrZzRni6RdvFeB6rx4DUj3P02dGBkXeQdZOF0jwUfUgwR
-	wEc3hdBzbKosR7YEr1/ifdLu3XBN1jGz2TB6LK/Fw5X7CAVSYz3Ba6gmP+hb6+95p9Zb
-	8zPx9Q38tTTbkBsDPJzppFe04TAP9WAe1cW0qw4OHC3tGN5huYTRWYI5fYVW4QJFXCaY
-	OGkYWGdwRa/zJYoibN+QF5AV4NXstEsVjTgtJhBX7WEx4BlCBLZYROV2gWnCAN6MtFDt
-	P7Te5mzBOogd2ri9p9m3CH+cskSsFEf2T3rDZ0K3fAalpf3okaQe0HZ1ePg2bmEGvoUg
-	fZZw==
+	Wed, 13 Nov 2013 16:26:47 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 13 Nov 2013 08:26:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="434680977"
+Received: from unknown (HELO [10.255.15.132]) ([10.255.15.132])
+	by orsmga002.jf.intel.com with ESMTP; 13 Nov 2013 08:26:47 -0800
+Message-ID: <5283A847.6030600@linux.intel.com>
+Date: Wed, 13 Nov 2013 08:26:47 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-Received: by 10.182.81.65 with SMTP id y1mr2422592obx.89.1384358486343; Wed,
-	13 Nov 2013 08:01:26 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 13 Nov 2013 08:01:26 -0800 (PST)
-In-Reply-To: <CAK6=ix7pDXwnH6+GOB7XmZedt1QnznfTPdUwUxRqVh+didTWSA@mail.gmail.com>
-References: <CAKKsV2wExa=EZ4FWdcXiRJY1B=QnzO3uBTn2s23V9MtNSxOS0Q@mail.gmail.com>
-	<CAKKsV2y+ZuaS27QqLtXjcY_qsT1UV01RVtdC=6C_SQpD7nJR5A@mail.gmail.com>
-	<CAK6=ix7pDXwnH6+GOB7XmZedt1QnznfTPdUwUxRqVh+didTWSA@mail.gmail.com>
-Date: Wed, 13 Nov 2013 14:01:26 -0200
-X-Google-Sender-Auth: 8I7jv7L47Z9ht70_1rL4TXFcz8g
-Message-ID: <CAP9ODKqy+pwcnjES=8gmkJYkqodQ=pGEMqGEh81RfhhJsX4Czg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Randy MacLeod <rwmacleod@gmail.com>
-Cc: Behan Webster <behanw@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Exploring LLVM/Clang for OE
+To: Irina Patru <irina.patru@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <0001-distrodata.bbclass-Add-fetch2-handlers-to-svn-case-i.patch>
+	<1384335941-25306-1-git-send-email-irina.patru@intel.com>
+In-Reply-To: <1384335941-25306-1-git-send-email-irina.patru@intel.com>
+Subject: Re: [PATCH v2] distrodata.bbclass: Add fetch2 handlers to svn case in checkpkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,35 +33,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 16:01:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 13 Nov 2013 16:26:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 13, 2013 at 12:47 PM, Randy MacLeod <rwmacleod@gmail.com> wrote:
-> On Tue, Nov 12, 2013 at 8:47 PM, Muhammad Tauqir Ahmad
-> <mian.muhammad.tauqir.ahmad@gmail.com> wrote:
->> According to the link below [1], it seems some works has been done at
->> least for llvm+clang bitbake recipes, although I couldn't find any
->> clang recipes when searching the net. If anyone can point me in the
->> right direction for finding these recipes, that would be great.
->>
->> [1]: http://lists.linuxfoundation.org/pipermail/llvmlinux/2013-March/000205.html
+On 11/13/2013 01:45 AM, Irina Patru wrote:
+> The existing code in checkpkg from distrodata.bbclass had similar
+> functionality with fetch when searching for latest package version.
 >
+> For packages that use svn protocol that part was rewrote in order
+> to use fetcher API.
+> It now calls latest_revision method from Git class in fetch2 so
+> that it gets latest version.
 >
-> That would be Behan's work, adding him here.
->
-> Behan,
-> Are your clang recipes from, "Worked on bitbake recipes for LLVM and
-> clang" mentioned in the March 2013 llvmlinux notes available?
->
-> Everyone,
-> Where should Muhammad stage his work and is there an example of using
-> an alternative cross-compiler.
+Do you mean SVN class here not Git, correct?
 
-I'd say a github repository for now. This allow for easy forking,
-contribution, provides issue tracking, wiki and so on.
+Sau!
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> [ YOCTO #1813 ]
+>
+> Signed-off-by: Irina Patru <irina.patru@intel.com>
+> ---
+>   meta/classes/distrodata.bbclass |   43 ++++++++++++++++-----------------------
+>   1 file changed, 17 insertions(+), 26 deletions(-)
+>
+> diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+> index 085575a..e481027 100644
+> --- a/meta/classes/distrodata.bbclass
+> +++ b/meta/classes/distrodata.bbclass
+> @@ -751,34 +751,25 @@ python do_checkpkg() {
+>                                   if not tmp3:
+>                                           bb.plain("#DEBUG# Package %s: current version (%s) doesn't match the usual pattern" %(pname, pversion))
+>           elif type == 'svn':
+> -                options = []
+> -                if user:
+> -                        options.append("--username %s" % user)
+> -                if pswd:
+> -                        options.append("--password %s" % pswd)
+> -                svnproto = 'svn'
+> -                if 'proto' in parm:
+> -                        svnproto = parm['proto']
+> -                if 'rev' in parm:
+> -                        pcurver = parm['rev']
+> -
+> -                svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), svnproto, host, path, parm["module"])
+> -                print svncmd
+> -                svninfo = os.popen(svncmd).read()
+> -                if "Can't connect to host " in svninfo or "Connection timed out" in svninfo:
+> -                        svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), "http",
+> -                                       host, path, parm["module"])
+> -                        svninfo = os.popen(svncmd).read()
+> -                for line in svninfo.split("\n"):
+> -                        if re.search("^Last Changed Rev:", line):
+> -                                pupver = line.split(" ")[-1]
+> -                                if pupver in pversion:
+> -                                        pstatus = "MATCH"
+> -                                else:
+> -                                        pstatus = "UPDATE"
+> +                ud = bb.fetch2.FetchData(uri, d)
+>
+> -                if re.match("Err", pstatus):
+> +                svnFetcher = bb.fetch2.svn.Svn(d)
+> +                svnFetcher.urldata_init(ud, d)
+> +                try:
+> +                        pupver = svnFetcher.latest_revision(uri, ud, d, ud.names[0])
+> +                except bb.fetch2.FetchError:
+> +                        pstatus = "ErrSvnAccess"
+> +
+> +                if pupver:
+> +                        if pupver in pversion:
+> +                                pstatus = "MATCH"
+> +                        else:
+> +                                pstatus = "UPDATE"
+> +                else:
+>                           pstatus = "ErrSvnAccess"
+> +
+> +                if 'rev' in ud.parm:
+> +                        pcurver = ud.parm['rev']
+>
+>                   if pstatus != "ErrSvnAccess":
+>                           tag = pversion.rsplit("+svn")[0]
+>
 
