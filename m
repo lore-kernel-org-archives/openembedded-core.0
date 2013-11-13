@@ -1,24 +1,25 @@
-Return-Path: <Ming.Liu@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B95B6D689
+	by mail.openembedded.org (Postfix) with ESMTP id 462856D689
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 08:19:24 +0000 (UTC)
+	Wed, 13 Nov 2013 08:27:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD8JPMg026468
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD8RcFd027192
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 00:19:25 -0800 (PST)
-Received: from mliu3-desktop.corp.ad.wrs.com (128.224.162.145) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 13 Nov 2013 00:19:24 -0800
-From: Ming Liu <ming.liu@windriver.com>
+	Wed, 13 Nov 2013 00:27:38 -0800 (PST)
+Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Wed, 13 Nov 2013 00:27:37 -0800
+From: Kai Kang <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Nov 2013 16:19:21 +0800
-Message-ID: <1384330761-1730-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
+Date: Wed, 13 Nov 2013 16:27:32 +0800
+Message-ID: <cover.1384331128.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH] grub: add xz RDEPENDS
+X-Originating-IP: [128.224.162.231]
+Subject: [PATCH 0/1] Correct lsb commands install_initd/remove_initd install directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 08:19:24 -0000
+X-List-Received-Date: Wed, 13 Nov 2013 08:27:36 -0000
 Content-Type: text/plain
 
-grub_2.0.0 requires xz to run or an error may occur.
+The following changes since commit ea92671d9823e3667d6ced7ac2af20f991da404d:
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/recipes-bsp/grub/grub_2.00.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  bitbake: cooker: replace "w" file opening mode with "a" mode (2013-11-12 17:01:37 +0000)
 
-diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
-index e82996d..f8b68e4 100644
---- a/meta/recipes-bsp/grub/grub_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub_2.00.bb
-@@ -12,7 +12,7 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- DEPENDS = "autogen-native flex-native"
--RDEPENDS_${PN} = "diffutils freetype"
-+RDEPENDS_${PN} = "diffutils freetype xz"
- PR = "r1"
- 
- SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/lsb
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/lsb
+
+Kai Kang (1):
+  lsb: update directory of install_initd and remove_initd
+
+ meta/recipes-extended/lsb/lsb_4.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-1.8.4.1
+1.8.1.2
 
 
