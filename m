@@ -1,44 +1,31 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id DF0526D1BC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 61A336D44A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 18:00:33 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>) id 1Vgejz-0008SX-Dm
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Nov 2013 19:00:35 +0100
-Message-ID: <1384365634.17320.49.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2013 18:00:34 +0000
-In-Reply-To: <1384354266-15425-1-git-send-email-kirgene@gmail.com>
-References: <1384354266-15425-1-git-send-email-kirgene@gmail.com>
-X-Mailer: Evolution 3.4.4-4+b1 
+	Wed, 13 Nov 2013 18:05:44 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rADI4xZi005205 for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 18:05:40 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id pT4leiDFgisO
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 18:05:40 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rADI5XtA005211
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 18:05:35 GMT
+Message-ID: <1384365930.6460.99.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Nov 2013 18:05:30 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Wed, 2013-11-13 at 16:51 +0200,
-	Yevhen Kyriukha wrote:
-	> +# Copyright (c) 2012-2013 LG Electronics,
-	Inc. Is this sort of thing wholesome?
-	The majority of recipes in oe-core don't have any copyright statement
-	and
-	I'm not sure that adding one is necessarily a good thing. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: Re: [PATCH v2] curl: allow build with c-ares library support.
+Subject: [PATCH] staging: Use hardlinking for sysroot_stage_dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,41 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 18:00:35 -0000
+X-List-Received-Date: Wed, 13 Nov 2013 18:05:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-11-13 at 16:51 +0200, Yevhen Kyriukha wrote:
-> +# Copyright (c) 2012-2013 LG Electronics, Inc.
+This saves about 2GB on a core-image-sato build so is worth doing and is
+consistent with our efforts to try and decrease our build footprint.
 
-Is this sort of thing wholesome?  The majority of recipes in oe-core
-don't have any copyright statement and I'm not sure that adding one is
-necessarily a good thing.
+Build time in my local test seemed unaffected but on more IO bound
+machines it should help.
 
-Out of curiosity I conducted a small survey of my current tree, which
-contains 855 recipes of which 31 seem to have a copyright notice.  The
-individuals and organisations asserting this copyright are:
-
-OpenedHand Ltd (12 recipes, 2007-2008)
-Intel Corporation (7 recipes, 2010-2012)
-Advanced Micro Devices, Inc (4 recipes, 2004-2006)
-Khem Raj (4 recipes, 2012-2013)
-Wind River Ltd (1 recipe, 2012)
-Matthias Hentges (1 recipe, 2007)
-Red Hat, Inc (1 recipe, 2012)
-
-OpenedHand Ltd was apparently dissolved two years ago so I guess its
-copyright notices are just historical artifacts.
-
-There's also one recipe (zisofs-tools-native) which contains the
-assertion:
-
-# Copyright (C) 1989, 1991 Free Software Foundation, Inc.
-
-... which seems slightly bizarre since this would mean that the recipe
-in question pre-dates the rest of OE by over a decade. 
-
-p.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index ddba0c9..94abcda 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -7,14 +7,11 @@ sysroot_stage_dir() {
+ 		 return
+ 	fi
+ 
+-	# We only want to stage the contents of $src if it's non-empty so first rmdir $src
+-	# then if it still exists (rmdir on non-empty dir fails) we can copy its contents
+-	rmdir "$src" 2> /dev/null || true
+-	# However we always want to stage a $src itself, even if it's empty
+ 	mkdir -p "$dest"
+-	if [ -d "$src" ]; then
+-		tar -cf - -C "$src" -p . | tar -xf - -C "$dest"
+-	fi
++	( 
++		cd $src
++		find . -print0 | cpio --null -pdlu $dest
++	)
+ }
+ 
+ sysroot_stage_stripdir() {
 
 
 
