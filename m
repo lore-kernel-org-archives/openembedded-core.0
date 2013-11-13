@@ -1,73 +1,52 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id BCD996D39D
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id C4B436D39D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 13:44:50 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VgakR-0008Ia-TC; Wed, 13 Nov 2013 14:44:48 +0100
-Message-ID: <1384350284.17320.2.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 13 Nov 2013 13:44:44 +0000
-In-Reply-To: <528380F8.5020705@windriver.com>
-References: <cover.1384305535.git.mark.hatle@windriver.com>
-	<20f7dafc5f5948e7954203a0d57c25b68a419568.1384305535.git.mark.hatle@windriver.com>
-	<20131113081253.GB3663@jama>
-	<1384341268.12863.6.camel@phil-desktop.brightsign>
-	<528380F8.5020705@windriver.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Wed, 2013-11-13 at 07:39 -0600,
-	Mark Hatle wrote: > On
-	11/13/13, 5:14 AM, Phil Blundell wrote: > > On Wed,
-	2013-11-13 at 09:12 +0100, 
-	Martin Jansa wrote: > >> On Tue, Nov 12, 2013 at 07:23:22PM -0600,
-	Mark Hatle
-	wrote: > >>> When the -symlinks package was removed and an RPROVIDES
-	was added,
-	nothing > >>> was put in to cause the removal of the older package
-	in an upgrade. > >>> > >>> Signed-off-by: Mark Hatle
-	<mark.hatle@windriver.com>
-	> >>> --- > >>> meta/recipes-devtools/binutils/binutils.inc | 1 + > >>>
-	1 file changed, 1 insertion(+) > >>> > >>> diff --git
-	a/meta/recipes-devtools/binutils/binutils.inc
-	b/meta/recipes-devtools/binutils/binutils.inc > >>> index
-	17c66bc..ea2383e
-	100644 > >>> --- a/meta/recipes-devtools/binutils/binutils.inc > >>>
-	+++
-	b/meta/recipes-devtools/binutils/binutils.inc > >>> @@ -21, 6 +21,
-	7 @@ FILES_${PN}
-	= " \ > >>> ${prefix}/${TARGET_SYS}/bin/*" > >>> > >>> RPROVIDES_${PN}
-	+=
-	"${PN}-symlinks" > >>> +RREPLACES_${PN} += "${PN}-symlinks" > >> > >>
-	IIRC
-	for opkg backend you need also RCONFLICTS for opkg to really remove >
-	>>
-	old ${PN}-symlinks. > > > > Also for dpkg. If you have Replaces:
-	without Conflicts:
-	then this just > > means that the replacing package is allowed to
-	overwrite files in the > > replaced one,
-	not that the replaced one will actually be
-	uninstalled. > > This seems incredibly strange to me. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/6] binutils: Ensure old -symlinks packages get removed
+	Wed, 13 Nov 2013 14:02:21 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	rADE2HCY027795
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 15:02:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1384351338;
+	bh=jUSB1HlZeAiI0ZblAl4oUlIO3VoADumfd9/jCllZOhk=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=a5/7saTIB4NXkRYssmHJPKWCmPVubZhqJ/bQBhhG7QQvBVxiu+nE2jpKkmAtZQ/2u
+	8Xng6jFscFfztWaxx/ferNRCUfA3o76XaupRuj/QLuTKoZeUFa8HEkTd4gSvmXgfZx
+	s1Gp3hysDOuJX+GILgflY4T323OAJjuMEJm1WrRI=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rADE2BW5006672
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 15:02:12 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1Vgb1G-0001pc-UC
+	for openembedded-core@lists.openembedded.org;
+	Wed, 13 Nov 2013 15:02:11 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1384270308.6460.11.camel@ted>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Wed, 13 Nov 2013 15:02:10 +0100
+In-Reply-To: <1384270308.6460.11.camel@ted> (Richard Purdie's message of "Tue, 
+	12 Nov 2013 15:31:48 +0000")
+Message-ID: <lyppq4z9gd.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Subject: Re: Confusing Performance Numbers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,49 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 13:44:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Nov 2013 14:02:24 -0000
+Content-Type: text/plain
 
-On Wed, 2013-11-13 at 07:39 -0600, Mark Hatle wrote:
-> On 11/13/13, 5:14 AM, Phil Blundell wrote:
-> > On Wed, 2013-11-13 at 09:12 +0100, Martin Jansa wrote:
-> >> On Tue, Nov 12, 2013 at 07:23:22PM -0600, Mark Hatle wrote:
-> >>> When the -symlinks package was removed and an RPROVIDES was added, nothing
-> >>> was put in to cause the removal of the older package in an upgrade.
-> >>>
-> >>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> >>> ---
-> >>>   meta/recipes-devtools/binutils/binutils.inc | 1 +
-> >>>   1 file changed, 1 insertion(+)
-> >>>
-> >>> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-> >>> index 17c66bc..ea2383e 100644
-> >>> --- a/meta/recipes-devtools/binutils/binutils.inc
-> >>> +++ b/meta/recipes-devtools/binutils/binutils.inc
-> >>> @@ -21,6 +21,7 @@ FILES_${PN} = " \
-> >>>   	${prefix}/${TARGET_SYS}/bin/*"
-> >>>
-> >>>   RPROVIDES_${PN} += "${PN}-symlinks"
-> >>> +RREPLACES_${PN} += "${PN}-symlinks"
-> >>
-> >> IIRC for opkg backend you need also RCONFLICTS for opkg to really remove
-> >> old ${PN}-symlinks.
-> >
-> > Also for dpkg.  If you have Replaces: without Conflicts: then this just
-> > means that the replacing package is allowed to overwrite files in the
-> > replaced one, not that the replaced one will actually be uninstalled.
-> 
-> This seems incredibly strange to me.
+Richard Purdie
+<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
+writes:
 
-Well, perhaps, but it's always been that way.  See the documentation for
-Replaces:
+> I had some ideas I decided to test out. Specifically:
+> Its very hard to figure out what in these tests might be noise and what
+> if anything was a real gain (other than the disk usage improvements). I
+> suspect the hardlinking patch may be worthwhile, the other two are
+> perhaps not useful.
 
-http://www.debian.org/doc/debian-policy/ch-relationships.html#s-replaces
+fwiw, we record performance data as part of our normal build process and
+it should be possible to compare these statistics.  Results are e.g.
 
-p.
+             https://www.cvg.de/people/ensc/metrics.txt.gz
+             https://www.cvg.de/people/ensc/metrics.html
+
+(there is much room to improve the visualization; a new colleague just
+started to work on it).  Relevant changes/classes are
+
+  https://www.cvg.de/people/ensc/metrics.py
+  https://www.cvg.de/people/ensc/elito-metrics.bbclass
+  https://www.cvg.de/people/ensc/0008-build.py-fire-TaskFailed-with-same-environment-as-Ta.patch
 
 
 
 
+Enrico
 
