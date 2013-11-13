@@ -1,23 +1,24 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 660E46D689
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 162146D689
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 07:44:36 +0000 (UTC)
-Received: from pb by hetzner.pbcl.net with local (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VgV7u-00085N-0l; Wed, 13 Nov 2013 08:44:38 +0100
-Date: Wed, 13 Nov 2013 08:44:38 +0100
-From: Phil Blundell <pb@pbcl.net>
-To: Lei Liu <layliu@gmail.com>
-Message-ID: <20131113074438.GA31074@pbcl.net>
-References: <52805D73.4050306@gmail.com>
-	<1384300735.3828.40.camel@x121e.pbcl.net>
-	<5282EBCC.4020401@gmail.com>
+	Wed, 13 Nov 2013 08:12:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rAD8C7vb006200
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 00:12:07 -0800 (PST)
+Received: from PKE-CLU1-D1.corp.ad.wrs.com (128.224.162.203) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 13 Nov 2013 00:12:08 -0800
+From: <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Nov 2013 16:11:58 +0800
+Message-ID: <1384330318-14702-1-git-send-email-Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <5282EBCC.4020401@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Disable building libgcc with -O0
+Subject: [PATCH] util-linux: Fix QA warnings about ALTERNATIVES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,47 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 07:44:38 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 13 Nov 2013 08:12:08 -0000
+Content-Type: text/plain
 
-On Wed, Nov 13, 2013 at 11:02:36AM +0800, Lei Liu wrote:
-> On 2013年11月13日 07:58, Phil Blundell wrote:
-> > On Mon, 2013-11-11 at 12:30 +0800, Lei Liu wrote:
-> >> +def get_optimization(d):
-> >> +    selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
-> >> +    if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
-> >> +        bb.note("libgcc can't be built with -O0, -O2 will be used instead.")
-> >> +        return selected_optimization.replace("-O0", "-O2")
-> >> +    return selected_optimization
-> >> +
-> >> +SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
-> > Do we really need a Python function for this?  It seems like a rather
-> > heavyweight mechanism to detect what is basically just a distro
-> > misconfiguration.
-> 
-> The python function is copied from eglibc recipe which does similar
-> job to force build the package with optimization enabled.  I think
-> it's not just a distro misconfiguration.  Sometimes it would be
-> convenient for user to select a global -O0 optimization level (to
-> create a more debug-friendly rootfs) for most packages, while
-> automatically switching to -O2 for those which can't be built without
-> optimizations.
+From: Lu Chong <Chong.Lu@windriver.com>
 
-Sometimes, perhaps, but automatically switching seems to violate the 
-principle of least surprise.  If I've set CFLAGS to "-O0" in my distro 
-configuration then that's what I would expect the recipes to be using.  
-I would not expect random recipes to start second-guessing me and 
-selecting different CFLAGS.
+Previously, EXTRA_OECONF would be overwritten by EXTRA_OECONF_class-native
+and EXTRA_OECONF_class-nativesdk when we executed `make export-sdk' command.
+As a result, some applications such as `last', `mesg' and `reset' didn't get
+compiled.
 
-If I wanted to build libgcc with -O but everything else with -O0 then 
-that's easy enough to achieve:
+The patch rewrote EXTRA_OECONF_class-native and EXTRA_OECONF_class-nativesdk
+variables to fix QA warnings.
 
-SELECTED_OPTIMIZATION = "-O0"
-SELECTED_OPTIMIZATION_libgcc = "-O"
+usr/share/man/man1/last.1.util-linux does not exist
+usr/share/man/man1/mesg.1.util-linux does not exist
+usr/bin/last.util-linux does not exist
+usr/bin/mesg.util-linux does not exist
+bin/reset does not exist
 
-or whatever.
+Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
+---
+ meta/recipes-core/util-linux/util-linux_2.23.2.bb |   22 +++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-p.
+diff --git a/meta/recipes-core/util-linux/util-linux_2.23.2.bb b/meta/recipes-core/util-linux/util-linux_2.23.2.bb
+index b5c221b..b9cdc61 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.23.2.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.23.2.bb
+@@ -18,5 +18,23 @@ SRC_URI[md5sum] = "39a02ad0b3b37824c394f40930b7aa38"
+ SRC_URI[sha256sum] = "6c5be3f7beec91b4893de14bbd722886fa2521be5bfa0fc079b749d0018633b1"
+ 
+ CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
+-EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
+-EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
++EXTRA_OECONF_class-native = "--disable-use-tty-group \
++                             --disable-makeinstall-chown --enable-elvtune --enable-init \
++                             --enable-kill --enable-last --enable-mesg --enable-partx \
++                             --enable-raw --enable-rdev --enable-reset --disable-login \
++                             --disable-vipw --disable-newgrp --disable-chfn-chsh \
++                             --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
++                             --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
++                             usrsbin_execdir='${sbindir}' \
++                             --disable-fallocate --disable-use-tty-group \
++"
++EXTRA_OECONF_class-nativesdk = "--disable-use-tty-group \
++                                --disable-makeinstall-chown --enable-elvtune --enable-init \
++                                --enable-kill --enable-last --enable-mesg --enable-partx \
++                                --enable-raw --enable-rdev --enable-reset --disable-login \
++                                --disable-vipw --disable-newgrp --disable-chfn-chsh \
++                                --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
++                                --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
++                                usrsbin_execdir='${sbindir}' \
++                                --disable-fallocate --disable-use-tty-group \
++"
+-- 
+1.7.9.5
+
 
