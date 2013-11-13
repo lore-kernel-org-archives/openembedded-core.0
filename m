@@ -1,35 +1,43 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id EC4F26D598
+Return-Path: <dominik.holland@pelagicore.com>
+Received: from mail-bk0-f54.google.com (mail-bk0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F5ED6D37F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 14:51:15 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id el20so442720lab.9
+	Wed, 13 Nov 2013 15:56:47 +0000 (UTC)
+Received: by mail-bk0-f54.google.com with SMTP id 6so441944bkj.41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 06:51:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=cWCVZUfM0pAPyQq/Tw6i0P6eP4iNqqxZ5r/jBwX1AiA=;
-	b=Vi9w8Oxi2+w/bIiWdVYIx1V7Sak1Pep8t5cs10ABNa3DlyQUqk4Ssm6HdlnyM8NG8a
-	6olKHVD2YqwN7pqGVYPpwKbRdUNtO9xhJHVk9xunx9D8NZUYkiG1OaphoIIZjhFSZeo1
-	6FWDzeG0o1ZFNVK8YYr2N7naGQT1IIjBJ4dWABpvYsI3C3kRZgnE5lS+Lb6uLGPwSzy+
-	AHoEdUJ0ScIK+ruUFja5JBiTVG1LiX2kS0GhghWKfG2auZuf//V1m41OtVwnbYj3/UgQ
-	Hwh/gqeBKjImVHTbdlhu2qdvVyp/ormfiQIuHRlhdSoh04SSbPiH0GVd8pIJYQ7pHcnt
-	YS5A==
-X-Received: by 10.112.89.232 with SMTP id br8mr30776077lbb.20.1384354277051;
-	Wed, 13 Nov 2013 06:51:17 -0800 (PST)
-Received: from ubuntu.datv.net ([194.44.224.212])
-	by mx.google.com with ESMTPSA id
-	ed8sm24352466lbc.11.2013.11.13.06.51.15 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 Nov 2013 06:51:16 -0800 (PST)
-From: Yevhen Kyriukha <kirgene@gmail.com>
+	Wed, 13 Nov 2013 07:56:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type;
+	bh=K77syRe1gOB2L4VRfRkuSiSgdg2CIwzpIoQmSaFClJ0=;
+	b=Lg+t40s403ECpeiQL3pEFjHC04GaC2Ys13EvlUQov50KGXXFsmA3HkuJm+B4vm5s6I
+	D0pCcrfNrhX5nT0CK+W6UzxvB14GVQ2hQ5UhW3KfAWjA8Sh7Ev9ZpRlDQr8RYT6cP7QM
+	laXYK9EaAezynEze6ifXeK9+KxsilNGyhbauq2J9oVsqNDtGNVoXxzXu/y9/ca28oWZk
+	+C6oFqcJ60skJBRZXnHanTzde9eSGlMl6SPZfgnY9trXXdUd8VvcczTtX4lNSObySzZm
+	lCTKNJpIeETLhRZBD6PtzBnvfx6OndeazMPl1RU6URrLzJ4edxnVcqcB/cJ8XydrLW2H
+	55aQ==
+X-Gm-Message-State: ALoCoQmrJKMb7t4UVdAicqkJQrwWvHZKjR9GtVifd+ydb4gBrq4fTgYrAiZ9p+Q0iNJm/Zh9kT3G
+X-Received: by 10.204.117.3 with SMTP id o3mr1809827bkq.38.1384358208982;
+	Wed, 13 Nov 2013 07:56:48 -0800 (PST)
+Received: from [10.10.1.61] (ppp-82-135-65-185.dynamic.mnet-online.de.
+	[82.135.65.185])
+	by mx.google.com with ESMTPSA id z6sm22011894bkn.8.2013.11.13.07.56.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 13 Nov 2013 07:56:47 -0800 (PST)
+Message-ID: <5283A13E.2070606@pelagicore.com>
+Date: Wed, 13 Nov 2013 16:56:46 +0100
+From: Dominik Holland <dominik.holland@pelagicore.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2013 16:51:06 +0200
-Message-Id: <1384354266-15425-1-git-send-email-kirgene@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Cc: Yevhen Kyriukha <kirgene@gmail.com>
-Subject: [PATCH v2] curl: allow build with c-ares library support.
+References: <5283A080.1050702@pelagicore.com>
+In-Reply-To: <5283A080.1050702@pelagicore.com>
+X-Forwarded-Message-Id: <5283A080.1050702@pelagicore.com>
+Subject: nativesdk-dbus depends on nativesdk-dbus-ptest-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,65 +50,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 14:51:16 -0000
+X-List-Received-Date: Wed, 13 Nov 2013 15:56:48 -0000
+Content-Type: multipart/alternative;
+	boundary="------------010302030104040602050109"
 
-Also added c-ares library recipe.
+--------------010302030104040602050109
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In libcurl there is an issue with DNS lookups that cause crash on some platforms:
-http://curl.haxx.se/mail/lib-2008-09/0197.html
-To avoid this issue libcurl has to be built with c-ares name resolver.
+Hi,
 
-Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
----
- meta/recipes-support/c-ares/c-ares_1.10.0.bb | 24 ++++++++++++++++++++++++
- meta/recipes-support/curl/curl_7.33.0.bb     |  2 ++
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-support/c-ares/c-ares_1.10.0.bb
+i'm trying to port a application which has a dependency to dbus. This 
+tool is host tool and should be included in the sdk.
 
-diff --git a/meta/recipes-support/c-ares/c-ares_1.10.0.bb b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
-new file mode 100644
-index 0000000..23b3d0e
---- /dev/null
-+++ b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
-@@ -0,0 +1,24 @@
-+# Copyright (c) 2012-2013 LG Electronics, Inc.
-+
-+DESCRIPTION = "c-ares is a C library that resolves names asynchronously."
-+HOMEPAGE = "http://daniel.haxx.se/projects/c-ares/"
-+SECTION = "libs"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://README;beginline=17;endline=18;md5=b320556568bc067d215a1e34c5b34a14"
-+
-+inherit autotools
-+inherit pkgconfig
-+
-+SRC_URI = "http://c-ares.haxx.se/download/${BP}.tar.gz"
-+SRC_URI[md5sum] = "1196067641411a75d3cbebe074fd36d8"
-+SRC_URI[sha256sum] = "3d701674615d1158e56a59aaede7891f2dde3da0f46a6d3c684e0ae70f52d3db"
-+
-+EXTRA_OECONF = "--enable-shared"
-+
-+# install private headers to ares subdirectory
-+do_install_append() {
-+    install -d ${D}/${includedir}/ares
-+    install -m 0644 ares*.h ${D}/${includedir}/ares/
-+}
-+
-+FILES_${PN}-dev += "${includedir}/ares/*.h"
-diff --git a/meta/recipes-support/curl/curl_7.33.0.bb b/meta/recipes-support/curl/curl_7.33.0.bb
-index 8539fec..717c4f9 100644
---- a/meta/recipes-support/curl/curl_7.33.0.bb
-+++ b/meta/recipes-support/curl/curl_7.33.0.bb
-@@ -23,6 +23,8 @@ SRC_URI[sha256sum] = "0afde4cd949e2658eddc3cda675b19b165eea1af48ac5f3e1ec1607922
- 
- inherit autotools pkgconfig binconfig
- 
-+PACKAGECONFIG[c-ares] = "--enable-ares,--disable-ares,c-ares"
-+
- EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
-                 --without-libssh2 \
-                 --with-random=/dev/urandom \
--- 
-1.8.1.2
+Because of that i added a dependency to nativesdk-dbus. But it doesn't 
+build for because nativesdk-dbus depends on nativesdk-dbus-ptest-ptest 
+which is not available.
+
+There are 2 options i can see to solve this:
+
+Solution 1: Change the dbus-ptest recipe to also use the nativesdk class.
+
+Solution 2: Change the dbus recipe to not depend on ptest on nativesdks.
+
+I'm favoring Solution 2 and i tried to add RDEPENDS_class-nativesdk = "" 
+to the dbus.inc but that doesn't help.
+
+Is there anything that i'm missing or do i really need to install ptest 
+into my SDK ?
+
+Best Regards
+  Dominik
 
 
+
+--------------010302030104040602050109
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    Hi,<br>
+    <div class="moz-forward-container"> <br>
+      i'm trying to port a application which has a dependency to dbus.
+      This tool is host tool and should be included in the sdk.<br>
+      <br>
+      Because of that i added a dependency to nativesdk-dbus. But it
+      doesn't build for because nativesdk-dbus depends on
+      nativesdk-dbus-ptest-ptest which is not available.<br>
+      <br>
+      There are 2 options i can see to solve this:<br>
+      <br>
+      Solution 1: Change the dbus-ptest recipe to also use the nativesdk
+      class.<br>
+      <br>
+      Solution 2: Change the dbus recipe to not depend on ptest on
+      nativesdks.<br>
+      <br>
+      I'm favoring Solution 2 and i tried to add <font face="monospace">RDEPENDS_class-nativesdk
+
+        = "" <font face="sans-serif">to the dbus.inc but that doesn't
+          help.<br>
+          <br>
+          Is there anything that i'm missing or do i really need to
+          install ptest into my SDK ?<br>
+          <br>
+          Best Regards<br>
+          &nbsp;Dominik<br>
+        </font></font> <br>
+    </div>
+    <br>
+  </body>
+</html>
+
+--------------010302030104040602050109--
