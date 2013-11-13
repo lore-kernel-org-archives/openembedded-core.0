@@ -1,40 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 329EB6D476
+Return-Path: <kirgene@gmail.com>
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id EC4F26D598
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 13 Nov 2013 14:51:15 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id hu8so359416vcb.28
+Received: by mail-la0-f50.google.com with SMTP id el20so442720lab.9
 	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 06:51:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=cWCVZUfM0pAPyQq/Tw6i0P6eP4iNqqxZ5r/jBwX1AiA=;
+	b=Vi9w8Oxi2+w/bIiWdVYIx1V7Sak1Pep8t5cs10ABNa3DlyQUqk4Ssm6HdlnyM8NG8a
+	6olKHVD2YqwN7pqGVYPpwKbRdUNtO9xhJHVk9xunx9D8NZUYkiG1OaphoIIZjhFSZeo1
+	6FWDzeG0o1ZFNVK8YYr2N7naGQT1IIjBJ4dWABpvYsI3C3kRZgnE5lS+Lb6uLGPwSzy+
+	AHoEdUJ0ScIK+ruUFja5JBiTVG1LiX2kS0GhghWKfG2auZuf//V1m41OtVwnbYj3/UgQ
+	Hwh/gqeBKjImVHTbdlhu2qdvVyp/ormfiQIuHRlhdSoh04SSbPiH0GVd8pIJYQ7pHcnt
+	YS5A==
+X-Received: by 10.112.89.232 with SMTP id br8mr30776077lbb.20.1384354277051;
+	Wed, 13 Nov 2013 06:51:17 -0800 (PST)
+Received: from ubuntu.datv.net ([194.44.224.212])
+	by mx.google.com with ESMTPSA id
+	ed8sm24352466lbc.11.2013.11.13.06.51.15 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
 	Wed, 13 Nov 2013 06:51:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=IPtcclLXMuXUArXAhp7AGdpvWjN2FthAt82wmTbRByY=;
-	b=CqStHEpqKNYd6rAJinUjhkI9v5MSYK2SMK4cw8nSuvA7yM/3vKQLkela6iHhyO3plX
-	S5c45FwKVneHvGlxw9r19TkcAG+jUXGP5MwthYtZ9jQqObcU3BkLhD1hMojamHqM7gSO
-	clXuVD0cs/njfHrM2LtMmIFELE49OjvsP6Ak3g13qj/IlpG63/aA/voRQjrb+lhmpcQH
-	TraDVdV8Pnbg9miqbGTuyeZTOMu4DV88GmsnRd0xrzDeSoVosStEZebqqxu2yxRwDuuo
-	dXH1j4hvzxELvzfbgiLgS+woe2GAVWP+lnQFk8IML2o/B7c7dQAEZqol12LRrjkKQKom
-	vjug==
-X-Gm-Message-State: ALoCoQlJJXR4M6ua93Ia04rTxVbUO61Q3KZQeByH1dRWXJL+CIvgmI5K1FbQnATB3NpUgtRkVwJ+
-X-Received: by 10.52.157.232 with SMTP id wp8mr29682904vdb.4.1384354276270;
-	Wed, 13 Nov 2013 06:51:16 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 13 Nov 2013 06:50:56 -0800 (PST)
-In-Reply-To: <52837D78.4030402@balister.org>
-References: <1384337335-32231-1-git-send-email-hongbo.zhong@windriver.com>
-	<1384337335-32231-2-git-send-email-hongbo.zhong@windriver.com>
-	<1384342720.12863.10.camel@phil-desktop.brightsign>
-	<CAJTo0LZFOyfK84xnA8HhV=UJD23hPhhX0DFJ=t_TvYkGymKZHQ@mail.gmail.com>
-	<52837D78.4030402@balister.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 13 Nov 2013 14:50:56 +0000
-Message-ID: <CAJTo0LYaMVrMLSUFEo54ApXGPHsrfMcZbgmzXiYA3K-aqEci7g@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] bluez4: Install simple-agent utility for pairing bluetooth devices
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Nov 2013 16:51:06 +0200
+Message-Id: <1384354266-15425-1-git-send-email-kirgene@gmail.com>
+X-Mailer: git-send-email 1.8.1.2
+Cc: Yevhen Kyriukha <kirgene@gmail.com>
+Subject: [PATCH v2] curl: allow build with c-ares library support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,32 +43,64 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 13 Nov 2013 14:51:16 -0000
-Content-Type: text/plain; charset=UTF-8
 
-On 13 November 2013 13:24, Philip Balister <philip@balister.org> wrote:
-> On 11/13/2013 07:34 AM, Burton, Ross wrote:
->> On 13 November 2013 11:38, Phil Blundell <pb@pbcl.net> wrote:
->>> On Wed, 2013-11-13 at 18:08 +0800, Zhong Hongbo wrote:
->>>> From: Zhong Hongbo <hongbo.zhong@windriver.com>
->>>>
->>>> Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
->>> [...]
->>>>       install -m 0644 ${S}/input/input.conf ${D}/${sysconfdir}/bluetooth/
->>>> +     install -m 0755 ${S}/test/simple-agent ${D}/${bindir}/simple-agent
->>>
->>> What does simple-agent actually do?  Is it generally enough useful that
->>> it should be installed unconditionally?
->>
->> It's a dumb agent for responding to incoming pairing requests, as it
->> works interactively from a terminal it's purely for testing purposes.
->> I'd prefer to see it (and probably more utilities) installed in
->> bluez4-tests as it's not generally useful.
->
-> I think it is also useful for console only devices.
+Also added c-ares library recipe.
 
-Again, only for interactive use where the user is sitting at a shell
-and has started the agent themselves.  You'd never use it in a
-production environment.
+In libcurl there is an issue with DNS lookups that cause crash on some platforms:
+http://curl.haxx.se/mail/lib-2008-09/0197.html
+To avoid this issue libcurl has to be built with c-ares name resolver.
 
-Ross
+Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
+---
+ meta/recipes-support/c-ares/c-ares_1.10.0.bb | 24 ++++++++++++++++++++++++
+ meta/recipes-support/curl/curl_7.33.0.bb     |  2 ++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-support/c-ares/c-ares_1.10.0.bb
+
+diff --git a/meta/recipes-support/c-ares/c-ares_1.10.0.bb b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
+new file mode 100644
+index 0000000..23b3d0e
+--- /dev/null
++++ b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
+@@ -0,0 +1,24 @@
++# Copyright (c) 2012-2013 LG Electronics, Inc.
++
++DESCRIPTION = "c-ares is a C library that resolves names asynchronously."
++HOMEPAGE = "http://daniel.haxx.se/projects/c-ares/"
++SECTION = "libs"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://README;beginline=17;endline=18;md5=b320556568bc067d215a1e34c5b34a14"
++
++inherit autotools
++inherit pkgconfig
++
++SRC_URI = "http://c-ares.haxx.se/download/${BP}.tar.gz"
++SRC_URI[md5sum] = "1196067641411a75d3cbebe074fd36d8"
++SRC_URI[sha256sum] = "3d701674615d1158e56a59aaede7891f2dde3da0f46a6d3c684e0ae70f52d3db"
++
++EXTRA_OECONF = "--enable-shared"
++
++# install private headers to ares subdirectory
++do_install_append() {
++    install -d ${D}/${includedir}/ares
++    install -m 0644 ares*.h ${D}/${includedir}/ares/
++}
++
++FILES_${PN}-dev += "${includedir}/ares/*.h"
+diff --git a/meta/recipes-support/curl/curl_7.33.0.bb b/meta/recipes-support/curl/curl_7.33.0.bb
+index 8539fec..717c4f9 100644
+--- a/meta/recipes-support/curl/curl_7.33.0.bb
++++ b/meta/recipes-support/curl/curl_7.33.0.bb
+@@ -23,6 +23,8 @@ SRC_URI[sha256sum] = "0afde4cd949e2658eddc3cda675b19b165eea1af48ac5f3e1ec1607922
+ 
+ inherit autotools pkgconfig binconfig
+ 
++PACKAGECONFIG[c-ares] = "--enable-ares,--disable-ares,c-ares"
++
+ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+                 --without-libssh2 \
+                 --with-random=/dev/urandom \
+-- 
+1.8.1.2
+
 
