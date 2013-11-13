@@ -1,45 +1,37 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F64C6D803
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f53.google.com (mail-vb0-f53.google.com
+	[209.85.212.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AC876D7C7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 11:38:40 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VgYmP-0008ES-7k; Wed, 13 Nov 2013 12:38:41 +0100
-Message-ID: <1384342720.12863.10.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Zhong Hongbo <hongbo.zhong@windriver.com>
-Date: Wed, 13 Nov 2013 11:38:40 +0000
-In-Reply-To: <1384337335-32231-2-git-send-email-hongbo.zhong@windriver.com>
+	Wed, 13 Nov 2013 12:30:25 +0000 (UTC)
+Received: by mail-vb0-f53.google.com with SMTP id x17so216996vbf.26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 04:30:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=up3cs2ZcW1GArWCv82a49mMBPWsdIvK9bxox12cMPwo=;
+	b=iitTJMrR+FhkYQqOtFla98tlNKqwPaFujjnthrlMv54WZzLlGfoGxLy0qFtVIdnocc
+	LS8iCvymNHaVOGOY6/EoiOk4LmZ3VKQDzQgsg+Wr7laoXm8ydkZdFcwcFuxy5sj1TGbQ
+	IVLuM316mw80Mpyc6P2GeoMx2sA3FGSmy4XwG7TO64ceKBGDw5RqeDddYBiAgd//+ZHn
+	QBiOmiHwXR6OdFeAoSSxc9hKq1GDilnSAdbvxT1REvFcBO1CblCYOy1NM6FZ5R99mJg8
+	tcAziLigU/TtFEjen95HevOw52dZeEw5pdWW/RLmP8UcpnEbiA4R6UWFy2C27k1ZCq7e
+	kIew==
+X-Gm-Message-State: ALoCoQnkr0DWZJtRA8asMAGB/Y18zn6CJ8AQUdqWuYRkTJ0zMEFMnkyGhgHB9xeCWD19vCV1awjl
+X-Received: by 10.52.118.73 with SMTP id kk9mr28850029vdb.13.1384345826185;
+	Wed, 13 Nov 2013 04:30:26 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Wed, 13 Nov 2013 04:30:06 -0800 (PST)
+In-Reply-To: <1384337335-32231-3-git-send-email-hongbo.zhong@windriver.com>
 References: <1384337335-32231-1-git-send-email-hongbo.zhong@windriver.com>
-	<1384337335-32231-2-git-send-email-hongbo.zhong@windriver.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Wed, 2013-11-13 at 18:08 +0800,
-	Zhong Hongbo wrote: > From:
-	Zhong Hongbo <hongbo.zhong@windriver.com> > > Signed-off-by: Zhong
-	Hongbo <hongbo.zhong@windriver.com> [...] > install -m 0644
-	${S}/input/input.conf
-	${D}/${sysconfdir}/bluetooth/ > + install -m 0755
-	${S}/test/simple-agent ${D}/${bindir}/simple-agent [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] bluez4: Install simple-agent utility for pairing bluetooth devices
+	<1384337335-32231-3-git-send-email-hongbo.zhong@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Nov 2013 12:30:06 +0000
+Message-ID: <CAJTo0LZZhEF5S9anD54RrrVyGe07KkdNhTh1gz=giRJk_n7k7A@mail.gmail.com>
+To: Zhong Hongbo <hongbo.zhong@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] bluez4: Fix no moudle named gi.repository and GObject for simpel-agent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,22 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 11:38:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Nov 2013 12:30:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2013-11-13 at 18:08 +0800, Zhong Hongbo wrote:
-> From: Zhong Hongbo <hongbo.zhong@windriver.com>
-> 
-> Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
-[...]
->  	install -m 0644 ${S}/input/input.conf ${D}/${sysconfdir}/bluetooth/
-> +	install -m 0755 ${S}/test/simple-agent ${D}/${bindir}/simple-agent
+On 13 November 2013 10:08, Zhong Hongbo <hongbo.zhong@windriver.com> wrote:
+> +++ b/meta/recipes-connectivity/bluez/bluez4-4.101/fix-no-module-name-GObject-for-simple-agent.patch
+> @@ -0,0 +1,25 @@
+> +Fix No module name gi.repository and GObject for simple-agent
+> +
+> +Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
 
-What does simple-agent actually do?  Is it generally enough useful that
-it should be installed unconditionally?
+Patch needs an Upstream-Status ("Inappropriate [revert]" would be
+suitable), and please rename the patch/comment to something more
+accurate along the lines of "use legacy pygobject instead of
+gobject-introspection".
 
-p.
-
-
+Ross
 
