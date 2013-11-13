@@ -1,26 +1,29 @@
-Return-Path: <Hongbo.Zhong@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EC766D9AD
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 14A1A6D887
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 10:08:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rADA8jWl008478
+	Wed, 13 Nov 2013 10:10:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rADAArpJ009269
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 02:08:45 -0800 (PST)
-Received: from hzhong.corp.ad.wrs.com (128.224.162.173) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 13 Nov 2013 02:08:45 -0800
-From: Zhong Hongbo <hongbo.zhong@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Nov 2013 18:08:55 +0800
-Message-ID: <1384337335-32231-3-git-send-email-hongbo.zhong@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1384337335-32231-1-git-send-email-hongbo.zhong@windriver.com>
-References: <1384337335-32231-1-git-send-email-hongbo.zhong@windriver.com>
+	Wed, 13 Nov 2013 02:10:53 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 13 Nov 2013 02:10:53 -0800
+Message-ID: <5283501D.7010709@windriver.com>
+Date: Wed, 13 Nov 2013 18:10:37 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] bluez4: Fix no moudle named gi.repository and GObject for simpel-agent
+To: <Chong.Lu@windriver.com>
+References: <1384330318-14702-1-git-send-email-Chong.Lu@windriver.com>
+	<1384333844.6460.79.camel@ted>
+In-Reply-To: <1384333844.6460.79.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: Fix QA warnings about ALTERNATIVES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,62 +36,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 10:08:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Nov 2013 10:10:52 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Zhong Hongbo <hongbo.zhong@windriver.com>
 
-Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
----
- ...x-no-module-name-GObject-for-simple-agent.patch |   25 ++++++++++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/fix-no-module-name-GObject-for-simple-agent.patch
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/fix-no-module-name-GObject-for-simple-agent.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/fix-no-module-name-GObject-for-simple-agent.patch
-new file mode 100644
-index 0000000..245250c
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.101/fix-no-module-name-GObject-for-simple-agent.patch
-@@ -0,0 +1,25 @@
-+Fix No module name gi.repository and GObject for simple-agent
-+
-+Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
-+---
-+diff -Nurd bluez-4.101.orig/test/simple-agent bluez-4.101/test/simple-agent
-+--- bluez-4.101.orig/test/simple-agent	2013-11-13 17:14:08.138118159 +0800
-++++ bluez-4.101/test/simple-agent	2013-11-13 17:14:29.034118107 +0800
-+@@ -2,7 +2,7 @@
-+ 
-+ from __future__ import absolute_import, print_function, unicode_literals
-+ 
-+-from gi.repository import GObject
-++import gobject
-+ 
-+ import sys
-+ import dbus
-+@@ -122,7 +122,7 @@
-+ 	path = "/test/agent"
-+ 	agent = Agent(bus, path)
-+ 
-+-	mainloop = GObject.MainLoop()
-++	mainloop = gobject.MainLoop()
-+ 
-+ 	if len(args) > 1:
-+ 		if len(args) > 2:
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index c3444ab..03e0964 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -7,6 +7,7 @@ SRC_URI += "file://bluetooth.conf \
-             file://fix-udev-paths.patch \
-             file://obsolete_automake_macros.patch \
-             file://network-fix-network-Connect-method-parameters.patch \
-+            file://fix-no-module-name-GObject-for-simple-agent.patch \
- "
- 
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
--- 
-1.7.9.5
+On 11/13/2013 05:10 PM, Richard Purdie wrote:
+> On Wed, 2013-11-13 at 16:11 +0800, Chong.Lu@windriver.com wrote:
+>> From: Lu Chong <Chong.Lu@windriver.com>
+>>
+>> Previously, EXTRA_OECONF would be overwritten by EXTRA_OECONF_class-native
+>> and EXTRA_OECONF_class-nativesdk when we executed `make export-sdk' command.
+>
+> We don't have an export-sdk command do we?
+>
 
+Hi RP,
+
+Sorry, "make export-sdk" is a wrlinux command, which is equivlant to
+do_populate_sdk, Chong is a new guy, sorry for the confusion:-)
+
+// Robert
+
+>> As a result, some applications such as `last', `mesg' and `reset' didn't get
+>> compiled.
+>>
+>> The patch rewrote EXTRA_OECONF_class-native and EXTRA_OECONF_class-nativesdk
+>> variables to fix QA warnings.
+>>
+>> usr/share/man/man1/last.1.util-linux does not exist
+>> usr/share/man/man1/mesg.1.util-linux does not exist
+>> usr/bin/last.util-linux does not exist
+>> usr/bin/mesg.util-linux does not exist
+>> bin/reset does not exist
+>>
+>> Signed-off-by: Lu Chong <Chong.Lu@windriver.com>
+>> ---
+>>   meta/recipes-core/util-linux/util-linux_2.23.2.bb |   22 +++++++++++++++++++--
+>>   1 file changed, 20 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/util-linux/util-linux_2.23.2.bb b/meta/recipes-core/util-linux/util-linux_2.23.2.bb
+>> index b5c221b..b9cdc61 100644
+>> --- a/meta/recipes-core/util-linux/util-linux_2.23.2.bb
+>> +++ b/meta/recipes-core/util-linux/util-linux_2.23.2.bb
+>> @@ -18,5 +18,23 @@ SRC_URI[md5sum] = "39a02ad0b3b37824c394f40930b7aa38"
+>>   SRC_URI[sha256sum] = "6c5be3f7beec91b4893de14bbd722886fa2521be5bfa0fc079b749d0018633b1"
+>>
+>>   CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
+>> -EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
+>> -EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
+>> +EXTRA_OECONF_class-native = "--disable-use-tty-group \
+>> +                             --disable-makeinstall-chown --enable-elvtune --enable-init \
+>> +                             --enable-kill --enable-last --enable-mesg --enable-partx \
+>> +                             --enable-raw --enable-rdev --enable-reset --disable-login \
+>> +                             --disable-vipw --disable-newgrp --disable-chfn-chsh \
+>> +                             --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
+>> +                             --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
+>> +                             usrsbin_execdir='${sbindir}' \
+>> +                             --disable-fallocate --disable-use-tty-group \
+>> +"
+>> +EXTRA_OECONF_class-nativesdk = "--disable-use-tty-group \
+>> +                                --disable-makeinstall-chown --enable-elvtune --enable-init \
+>> +                                --enable-kill --enable-last --enable-mesg --enable-partx \
+>> +                                --enable-raw --enable-rdev --enable-reset --disable-login \
+>> +                                --disable-vipw --disable-newgrp --disable-chfn-chsh \
+>> +                                --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
+>> +                                --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
+>> +                                usrsbin_execdir='${sbindir}' \
+>> +                                --disable-fallocate --disable-use-tty-group \
+>> +"
+>
+> We are not duplicating EXTRA_OECONF like that, its horrible. How about
+> something like:
+>
+> EXTRA_OECONF = "xxxx ${SOMEVAR}"
+> SOMEVAR = "z"
+> SOMEVAR_class-native = "x"
+> SOMEVAR_class-nativesdk = "y"
+>
+> ? I'm having to guess at what your real problem is though as the commit
+> message doesn't contain the right information.
+>
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
