@@ -1,26 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 02DDB6D476
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 660E46D689
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 06:53:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD6r3VE017027
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Nov 2013 22:53:03 -0800 (PST)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 12 Nov 2013 22:53:02 -0800
-Message-ID: <528321BD.7010008@windriver.com>
-Date: Wed, 13 Nov 2013 14:52:45 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Wed, 13 Nov 2013 07:44:36 +0000 (UTC)
+Received: from pb by hetzner.pbcl.net with local (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1VgV7u-00085N-0l; Wed, 13 Nov 2013 08:44:38 +0100
+Date: Wed, 13 Nov 2013 08:44:38 +0100
+From: Phil Blundell <pb@pbcl.net>
+To: Lei Liu <layliu@gmail.com>
+Message-ID: <20131113074438.GA31074@pbcl.net>
+References: <52805D73.4050306@gmail.com>
+	<1384300735.3828.40.camel@x121e.pbcl.net>
+	<5282EBCC.4020401@gmail.com>
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <1384229753-24016-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1384229753-24016-1-git-send-email-raj.khem@gmail.com>
-Subject: Re: [for-dora][for-master][PATCH] libnl: Fix random segfaults due to memory corruption
+In-Reply-To: <5282EBCC.4020401@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Disable building libgcc with -O0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +30,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 06:53:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Nov 2013 07:44:38 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Thanks, I will put it in the queue.
+On Wed, Nov 13, 2013 at 11:02:36AM +0800, Lei Liu wrote:
+> On 2013年11月13日 07:58, Phil Blundell wrote:
+> > On Mon, 2013-11-11 at 12:30 +0800, Lei Liu wrote:
+> >> +def get_optimization(d):
+> >> +    selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
+> >> +    if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
+> >> +        bb.note("libgcc can't be built with -O0, -O2 will be used instead.")
+> >> +        return selected_optimization.replace("-O0", "-O2")
+> >> +    return selected_optimization
+> >> +
+> >> +SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
+> > Do we really need a Python function for this?  It seems like a rather
+> > heavyweight mechanism to detect what is basically just a distro
+> > misconfiguration.
+> 
+> The python function is copied from eglibc recipe which does similar
+> job to force build the package with optimization enabled.  I think
+> it's not just a distro misconfiguration.  Sometimes it would be
+> convenient for user to select a global -O0 optimization level (to
+> create a more debug-friendly rootfs) for most packages, while
+> automatically switching to -O2 for those which can't be built without
+> optimizations.
 
-// Robert
+Sometimes, perhaps, but automatically switching seems to violate the 
+principle of least surprise.  If I've set CFLAGS to "-O0" in my distro 
+configuration then that's what I would expect the recipes to be using.  
+I would not expect random recipes to start second-guessing me and 
+selecting different CFLAGS.
 
-On 11/12/2013 12:15 PM, Khem Raj wrote:
-> This is a backport from upstream fixes a severe problem
-> w.r.t memory management, where it would result in random
-> segfaults in applications depending on libnl
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   ...free-caused-by-freeing-link-af_data-in-rt.patch | 41 ++++++++++++++++++++++
->   meta/recipes-support/libnl/libnl_3.2.22.bb         |  4 ++-
->   2 files changed, 44 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch
->
-> diff --git a/meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch b/meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch
-> new file mode 100644
-> index 0000000..6d2c8ff
-> --- /dev/null
-> +++ b/meta/recipes-support/libnl/libnl/0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch
-> @@ -0,0 +1,41 @@
-> +From 6f37b439af7e96104aadd8ec3ae8d3882df8d102 Mon Sep 17 00:00:00 2001
-> +From: Jiri Pirko <jiri@resnulli.us>
-> +Date: Wed, 21 Aug 2013 14:40:34 +0200
-> +Subject: [PATCH] fix double free caused by freeing link af_data in
-> + rtnl_link_set_family()
-> +
-> +Introduced by commit 8026fe2e3a9089eff3f5a06ee6e3cc78d96334ed ("link:
-> +Free and realloc af specific data upon rtnl_link_set_family()")
-> +
-> +link->l_af_data[link->l_af_ops->ao_family] is freed here but not set to
-> +zero. That leads to double free made by link_free_data->do_foreach_af.
-> +
-> +Fix this by setting link->l_af_data[link->l_af_ops->ao_family] to zero
-> +rigth after free.
-> +
-> +Signed-off-by: Jiri Pirko <jiri@resnulli.us>
-> +Signed-off-by: Thomas Graf <tgraf@suug.ch>
-> +---
-> + lib/route/link.c | 4 +++-
-> + 1 file changed, 3 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/lib/route/link.c b/lib/route/link.c
-> +index a73e1db..0bb90a0 100644
-> +--- a/lib/route/link.c
-> ++++ b/lib/route/link.c
-> +@@ -1762,9 +1762,11 @@ void rtnl_link_set_family(struct rtnl_link *link, int family)
-> + 	link->l_family = family;
-> + 	link->ce_mask |= LINK_ATTR_FAMILY;
-> +
-> +-	if (link->l_af_ops)
-> ++	if (link->l_af_ops) {
-> + 		af_free(link, link->l_af_ops,
-> + 			link->l_af_data[link->l_af_ops->ao_family], NULL);
-> ++		link->l_af_data[link->l_af_ops->ao_family] = NULL;
-> ++	}
-> +
-> + 	link->l_af_ops = af_lookup_and_alloc(link, family);
-> + }
-> +--
-> +1.8.4
-> +
-> diff --git a/meta/recipes-support/libnl/libnl_3.2.22.bb b/meta/recipes-support/libnl/libnl_3.2.22.bb
-> index 30f85b2..3c31b1a 100644
-> --- a/meta/recipes-support/libnl/libnl_3.2.22.bb
-> +++ b/meta/recipes-support/libnl/libnl_3.2.22.bb
-> @@ -12,7 +12,9 @@ DEPENDS = "flex-native bison-native"
->   SRC_URI = "http://www.infradead.org/~tgr/${BPN}/files/${BP}.tar.gz \
->              file://fix-pktloc_syntax_h-race.patch \
->              file://fix-pc-file.patch \
-> -           file://fix-lib-cache_mngr.c-two-parentheses-bugs.patch"
-> +           file://fix-lib-cache_mngr.c-two-parentheses-bugs.patch \
-> +           file://0001-fix-double-free-caused-by-freeing-link-af_data-in-rt.patch \
-> +          "
->
->   SRC_URI[md5sum] = "2e1c889494d274aca24ce5f6a748e66e"
->   SRC_URI[sha256sum] = "c7c5f267dfeae0c1a530bf96b71fb7c8dbbb07d54beef49b6712d8d6166f629b"
->
+If I wanted to build libgcc with -O but everything else with -O0 then 
+that's easy enough to achieve:
+
+SELECTED_OPTIMIZATION = "-O0"
+SELECTED_OPTIMIZATION_libgcc = "-O"
+
+or whatever.
+
+p.
 
