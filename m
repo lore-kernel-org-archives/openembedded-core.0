@@ -1,25 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C76B6D571
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DEEC6D571
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 13 Nov 2013 01:23:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD1NsnP021590
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rAD1Nted024244
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 17:23:54 -0800 (PST)
+	Tue, 12 Nov 2013 17:23:55 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Tue, 12 Nov 2013 17:23:54 -0800
+	(TLS) id 14.2.347.0; Tue, 12 Nov 2013 17:23:55 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Nov 2013 19:23:19 -0600
-Message-ID: <cover.1384305535.git.mark.hatle@windriver.com>
+Date: Tue, 12 Nov 2013 19:23:20 -0600
+Message-ID: <c9dd76ae9feb0069409763f3f65ae4ff2ef10634.1384305535.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+In-Reply-To: <cover.1384305535.git.mark.hatle@windriver.com>
+References: <cover.1384305535.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 0/6] Misc changes relating to toolchain and image gen
+Subject: [PATCH 1/6] gcc: Use alternatives for the *-symlinks packages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +37,153 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 13 Nov 2013 01:23:53 -0000
 Content-Type: text/plain
 
-A few misc fixes relating to toolchain and image generation.
+The various gcc related symlinks should be provided as alternatives instead
+of hard coded symlinks.  This will permit multiple toolchains on a system.
 
-The first two in the set simply updated gcc to remove the -symlinks package
-in favor of update-alternatives.
+Multiple toolchains could come from multilib configurations or alternative
+open source or commerical sources.
 
-The next fixes an issue w/ the previous binutils patch and upgrades.
+Note, gccbug was skipped since it doesn't seem to be generated anymore.
 
-Next 2 update packagegroups to make revise and use the 
-packagegroup-core-buildessentials.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-devtools/gcc/gcc-target.inc | 91 ++++++++++++++++++++------------
+ 1 file changed, 58 insertions(+), 33 deletions(-)
 
-The final patch fixes an issue w/ the image generatation.  If the 
-IMAGE_INSTALL contains a dependency instead of a package name, the system
-was not able to translate it into a package.  This now works properly.
-
-Note, there is a case where an unresolvable set could be determined (rare,
-but it is possible), in this case the user would need to add whatever is
-required to fix it to the IMAGE_INSTALL.  (This could happen when 2 or more
-conflicting packages all have the same provide, but none of them are in
-the IMAGE_INSTALL line.  The system will attempt to determine which to
-use, by checking if any of them are already in the IMAGE_INSTALL -- otherwise
-it chooses the first entry.  If something else implied by a packagegroup
-chooses a different version, a conflict would be generated.)
-
-The following changes since commit 616354f13732d13c17434d5b60b166f691c25761:
-
-  binutils: Add gnu-config-native to DEPENDS (2013-11-12 16:00:20 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mhatle/misc1
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/misc1
-
-Mark Hatle (6):
-  gcc: Use alternatives for the *-symlinks packages.
-  gcc: Drop *-symlinks
-  binutils: Ensure old -symlinks packages get removed
-  packagegroups: Remove toolchain *-symlinks packages
-  packagegroup-self-hosted: Use packagegroup-core-buildessentials
-  package_rpm: Allow translation of requirement to package name
-
- meta/classes/package_rpm.bbclass                   |  79 +++++++++++++++-
- .../packagegroup-core-buildessential.bb            |   4 -
- .../packagegroups/packagegroup-self-hosted.bb      |  16 +---
- meta/recipes-devtools/binutils/binutils.inc        |   1 +
- meta/recipes-devtools/gcc/gcc-target.inc           | 103 +++++++++++++--------
- 5 files changed, 141 insertions(+), 62 deletions(-)
-
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index e1179ac..ee41d3f 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -50,11 +50,8 @@ FILES_${PN}-plugin-dev = "\
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/plugin/gengtype \
+   ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/gtype.state \
+ "
+-FILES_${PN}-symlinks = "\
+-  ${bindir}/cc \
+-  ${bindir}/gcc \
+-  ${bindir}/gccbug \
+-"
++FILES_${PN}-symlinks = ""
++ALLOW_EMPTY_${PN}-symlinks = "1"
+ 
+ FILES_${PN}-plugins = "\
+   ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin \
+@@ -65,36 +62,33 @@ FILES_g77 = "\
+   ${bindir}/${TARGET_PREFIX}g77 \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f771 \
+ "
+-FILES_g77-symlinks = "\
+-  ${bindir}/g77 \
+-  ${bindir}/f77 \
+-"
++FILES_g77-symlinks = ""
++ALLOW_EMPTY_g77-symlinks = "1"
++
+ FILES_gfortran = "\
+   ${bindir}/${TARGET_PREFIX}gfortran \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f951 \
+ "
+-FILES_gfortran-symlinks = "\
+-  ${bindir}/gfortran \
+-  ${bindir}/f95"
++FILES_gfortran-symlinks = ""
++ALLOW_EMPTY_gfortran-symlinks = "1"
+ 
+ FILES_cpp = "\
+   ${bindir}/${TARGET_PREFIX}cpp \
+   ${base_libdir}/cpp \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1"
+-FILES_cpp-symlinks = "${bindir}/cpp"
++FILES_cpp-symlinks = ""
++ALLOW_EMPTY_cpp-symlinks = "1"
+ 
+ FILES_gcov = "${bindir}/${TARGET_PREFIX}gcov"
+-FILES_gcov-symlinks = "${bindir}/gcov"
++FILES_gcov-symlinks = ""
++ALLOW_EMPTY_gconv-symlinks = "1"
+ 
+ FILES_g++ = "\
+   ${bindir}/${TARGET_PREFIX}g++ \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1plus \
+ "
+-FILES_g++-symlinks = "\
+-  ${bindir}/c++ \
+-  ${bindir}/g++ \
+-"
+-
++FILES_g++-symlinks = ""
++ALLOW_EMPTY_g++-symlinks = "1"
+ 
+ FILES_${PN}-doc = "\
+   ${infodir} \
+@@ -133,22 +127,53 @@ do_install () {
+ 	# Not sure why we end up with these but we don't want them...
+ 	rm -f ${TARGET_PREFIX}${TARGET_PREFIX}*
+ 
+-	# Symlinks so we can use these trivially on the target
+-	if [ -e ${TARGET_PREFIX}g77 ]; then
+-		ln -sf ${TARGET_PREFIX}g77 g77 || true
+-		ln -sf g77 f77 || true
+-	fi
+-	if [ -e ${TARGET_PREFIX}gfortran ]; then
+-		ln -sf ${TARGET_PREFIX}gfortran gfortran || true
+-		ln -sf gfortran f95 || true
+-	fi
+-	ln -sf ${TARGET_PREFIX}g++ g++
+-	ln -sf ${TARGET_PREFIX}gcc gcc
+-	ln -sf ${TARGET_PREFIX}cpp cpp
+ 	install -d ${D}${base_libdir}
+ 	ln -sf ${bindir}/${TARGET_PREFIX}cpp ${D}${base_libdir}/cpp
+-	ln -sf g++ c++
+-	ln -sf gcc cc
+ 
+ 	chown -R root:root ${D}
+ }
++
++inherit update-alternatives
++
++ALTERNATIVE_PRIORITY = "100"
++
++ALTERNATIVE_${PN}-symlinks = "cc gcc"
++ALTERNATIVE_g77-symlinks = "${@['', 'g77 f77']['f77' in d.getVar('FORTRAN', True)]}"
++ALTERNATIVE_gfortran-symlinks = "${@['', 'gfortran f95']['fortran' in d.getVar('FORTRAN', True)]}"
++ALTERNATIVE_cpp-symlinks = "cpp"
++ALTERNATIVE_gcov-symlinks = "gcov"
++ALTERNATIVE_g++-symlinks = "c++ g++"
++
++ALTERNATIVE_LINK_NAME[cc] = "${bindir}/cc"
++ALTERNATIVE_TARGET[cc] = "${bindir}/${TARGET_PREFIX}gcc"
++
++ALTERNATIVE_LINK_NAME[gcc] = "${bindir}/gcc"
++ALTERNATIVE_TARGET[gcc] = "${bindir}/${TARGET_PREFIX}gcc"
++
++# Not really generated any longer, avoid warnings...
++#ALTERNATIVE_LINK_NAME[gccbug] = "${bindir}/gccbug"
++#ALTERNATIVE_TARGET[gccbug] = "${bindir}/${TARGET_PREFIX}gccbug"
++
++ALTERNATIVE_LINK_NAME[g77] = "${bindir}/g77"
++ALTERNATIVE_TARGET[g77] = "${bindir}/${TARGET_PREFIX}g77"
++
++ALTERNATIVE_LINK_NAME[f77] = "${bindir}/f77"
++ALTERNATIVE_TARGET[f77] = "${bindir}/${TARGET_PREFIX}g77"
++
++ALTERNATIVE_LINK_NAME[gfortran] = "${bindir}/gfortran"
++ALTERNATIVE_TARGET[gfortran] = "${bindir}/${TARGET_PREFIX}gfortran"
++
++ALTERNATIVE_LINK_NAME[f95] = "${bindir}/f95"
++ALTERNATIVE_TARGET[f95] = "${bindir}/${TARGET_PREFIX}gfortran"
++
++ALTERNATIVE_LINK_NAME[cpp] = "${bindir}/cpp"
++ALTERNATIVE_TARGET[cpp] = "${bindir}/${TARGET_PREFIX}cpp"
++
++ALTERNATIVE_LINK_NAME[gcov] = "${bindir}/gcov"
++ALTERNATIVE_TARGET[gcov] = "${bindir}/${TARGET_PREFIX}gcov"
++
++ALTERNATIVE_LINK_NAME[c++] = "${bindir}/c++"
++ALTERNATIVE_TARGET[c++] = "${bindir}/${TARGET_PREFIX}g++"
++
++ALTERNATIVE_LINK_NAME[g++] = "${bindir}/g++"
++ALTERNATIVE_TARGET[g++] = "${bindir}/${TARGET_PREFIX}g++"
 -- 
 1.8.1.2.545.g2f19ada
 
