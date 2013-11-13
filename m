@@ -1,26 +1,30 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D916F6D996
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 04A776D354
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 03:15:02 +0000 (UTC)
+	Wed, 13 Nov 2013 03:42:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rAD3F4rD026525
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 19:15:05 -0800 (PST)
-Received: from mliu3-desktop.corp.ad.wrs.com (128.224.162.145) by
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD3gsSx003276
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 12 Nov 2013 19:42:54 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 12 Nov 2013 19:15:04 -0800
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Nov 2013 11:14:55 +0800
-Message-ID: <1384312495-2504-2-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
-In-Reply-To: <1384312495-2504-1-git-send-email-ming.liu@windriver.com>
-References: <1384312495-2504-1-git-send-email-ming.liu@windriver.com>
+	14.2.347.0; Tue, 12 Nov 2013 19:42:54 -0800
+Message-ID: <5282F53D.8050001@windriver.com>
+Date: Tue, 12 Nov 2013 21:42:53 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] kernel.bbclass: handles symbolic KERNEL_OUTPUT in bundle_initramfs task
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <cover.1384305535.git.mark.hatle@windriver.com>	<CAP9ODKqR+nGjF0DbkddY26gOxKU1=-ps9rYSNzW4EjZNkZg9eA@mail.gmail.com>
+	<5282DD70.3040705@windriver.com>
+In-Reply-To: <5282DD70.3040705@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] Misc changes relating to toolchain and image gen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +37,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 03:15:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Nov 2013 03:42:53 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In many cases, KERNEL_OUTPUT is a symbolic link to the real bootable image,
-but in bundle_initramfs task, it's not considered so that the KERNEL_OUTPUT
-is being renamed/restored as a regular file, this leads it finally point to
-a incorrect target, or even worse, break the bundle_initramfs task for
-KERNEL_OUTPUT is not going to be regenerated in case it is a symbolic link
-to vmlinux.
+On 11/12/13, 8:01 PM, Mark Hatle wrote:
+> On 11/12/13, 7:33 PM, Otavio Salvador wrote:
+>> On Tue, Nov 12, 2013 at 11:23 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>> A few misc fixes relating to toolchain and image generation.
+>>>
+>>> The first two in the set simply updated gcc to remove the -symlinks package
+>>> in favor of update-alternatives.
+>>>
+>>> The next fixes an issue w/ the previous binutils patch and upgrades.
+>>>
+>>> Next 2 update packagegroups to make revise and use the
+>>> packagegroup-core-buildessentials.
+>>>
+>>> The final patch fixes an issue w/ the image generatation.  If the
+>>> IMAGE_INSTALL contains a dependency instead of a package name, the system
+>>> was not able to translate it into a package.  This now works properly.
+>>>
+>>> Note, there is a case where an unresolvable set could be determined (rare,
+>>> but it is possible), in this case the user would need to add whatever is
+>>> required to fix it to the IMAGE_INSTALL.  (This could happen when 2 or more
+>>> conflicting packages all have the same provide, but none of them are in
+>>> the IMAGE_INSTALL line.  The system will attempt to determine which to
+>>> use, by checking if any of them are already in the IMAGE_INSTALL -- otherwise
+>>> it chooses the first entry.  If something else implied by a packagegroup
+>>> chooses a different version, a conflict would be generated.)
+>>
+>> Which package backends has been tested  with those changes?
+>>
+>
+> 6/6 only affects RPM.  So only RPM back end.
+>
+> The other changes are generic and follow the existing models.  However, I only
+> tested the RPM backend.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/classes/kernel.bbclass | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+BTW I just verified that the 1-5/6 work properly with an opkg backend as well.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 966066f..ce987a5 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -123,13 +123,28 @@ do_bundle_initramfs () {
- 	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
- 		echo "Creating a kernel image with a bundled initramfs..."
- 		copy_initramfs
--		if [ -e ${KERNEL_OUTPUT} ] ; then
-+		# Backuping kernel image relies on its type(regular file or symbolic link)
-+		linkpath=""
-+		realpath=""
-+		if [ -h ${KERNEL_OUTPUT} ] ; then
-+			linkpath=`readlink -n ${KERNEL_OUTPUT}`
-+			realpath=`readlink -fn ${KERNEL_OUTPUT}`
-+			mv -f $realpath $realpath.bak
-+		elif [ -f ${KERNEL_OUTPUT} ]; then
- 			mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.bak
- 		fi
- 		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
- 		kernel_do_compile
--		mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
--		mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
-+		# Restoring kernel image
-+		if [ -n $realpath ]; then
-+			mv -f $realpath $realpath.initramfs
-+			mv -f $realpath.bak $realpath
-+			cd ${B}/$(dirname ${KERNEL_OUTPUT})
-+			ln -sf $linkpath.initramfs
-+		else
-+			mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
-+			mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
-+		fi
- 		# Update install area
- 		echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
- 		install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
--- 
-1.8.4.1
+--Mark
+
+> (Note v2 of 5/6 and 6/6 has been sent.  I accidentally sent a version prior to
+> two minor revisions.)
+>
+> --Mark
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
