@@ -1,30 +1,30 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 869356D7F2
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F24116D726
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 02:01:19 +0000 (UTC)
+	Wed, 13 Nov 2013 02:03:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD21LMJ024699
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rAD23BgM024925
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Nov 2013 18:01:21 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 12 Nov 2013 18:01:21 -0800
-Message-ID: <5282DD70.3040705@windriver.com>
-Date: Tue, 12 Nov 2013 20:01:20 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Tue, 12 Nov 2013 18:03:11 -0800 (PST)
+Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Tue, 12 Nov 2013 18:03:10 -0800
+Message-ID: <5282DDDB.4030709@windriver.com>
+Date: Wed, 13 Nov 2013 10:03:07 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <cover.1384305535.git.mark.hatle@windriver.com>
-	<CAP9ODKqR+nGjF0DbkddY26gOxKU1=-ps9rYSNzW4EjZNkZg9eA@mail.gmail.com>
-In-Reply-To: <CAP9ODKqR+nGjF0DbkddY26gOxKU1=-ps9rYSNzW4EjZNkZg9eA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <1384244230-30541-1-git-send-email-ming.liu@windriver.com>
+	<CADkTA4OqaxJyRp-T298LG-Jm36tUNkZXvKawoWGtKOCETARTvA@mail.gmail.com>
+In-Reply-To: <CADkTA4OqaxJyRp-T298LG-Jm36tUNkZXvKawoWGtKOCETARTvA@mail.gmail.com>
+X-Originating-IP: [128.224.162.145]
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] Misc changes relating to toolchain and image gen
+Subject: Re: [PATCH] kernel.bbclass: handles symbolic KERNEL_OUTPUT in bundle_initramfs task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +37,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 02:01:20 -0000
+X-List-Received-Date: Wed, 13 Nov 2013 02:03:11 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/12/13, 7:33 PM, Otavio Salvador wrote:
-> On Tue, Nov 12, 2013 at 11:23 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
->> A few misc fixes relating to toolchain and image generation.
+On 11/12/2013 11:07 PM, Bruce Ashfield wrote:
+> On Tue, Nov 12, 2013 at 3:17 AM, Ming Liu <ming.liu@windriver.com> wrote:
+>> In many cases, KERNEL_OUTPUT is a symbolic link to the real bootable image,
+>> but in bundle_initramfs task, it's not considered so that the KERNEL_OUTPUT
+>> is being renamed/restored as a regular file, this leads it finally point to
+>> a incorrect target, or even worse, break the bundle_initramfs task for
+>> KERNEL_OUTPUT is not going to be regenerated in case it is a symbolic link
+>> to vmlinux.
 >>
->> The first two in the set simply updated gcc to remove the -symlinks package
->> in favor of update-alternatives.
+>> Also, we need move bundle_initramfs after kernel_link_vmlinux.
 >>
->> The next fixes an issue w/ the previous binutils patch and upgrades.
+>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>> ---
+>>   meta/classes/kernel.bbclass | 24 ++++++++++++++++++++----
+>>   1 file changed, 20 insertions(+), 4 deletions(-)
 >>
->> Next 2 update packagegroups to make revise and use the
->> packagegroup-core-buildessentials.
->>
->> The final patch fixes an issue w/ the image generatation.  If the
->> IMAGE_INSTALL contains a dependency instead of a package name, the system
->> was not able to translate it into a package.  This now works properly.
->>
->> Note, there is a case where an unresolvable set could be determined (rare,
->> but it is possible), in this case the user would need to add whatever is
->> required to fix it to the IMAGE_INSTALL.  (This could happen when 2 or more
->> conflicting packages all have the same provide, but none of them are in
->> the IMAGE_INSTALL line.  The system will attempt to determine which to
->> use, by checking if any of them are already in the IMAGE_INSTALL -- otherwise
->> it chooses the first entry.  If something else implied by a packagegroup
->> chooses a different version, a conflict would be generated.)
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index a4db9f5..2ec09ae 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -123,13 +123,29 @@ do_bundle_initramfs () {
+>>          if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
+>>                  echo "Creating a kernel image with a bundled initramfs..."
+>>                  copy_initramfs
+>> -               if [ -e ${KERNEL_OUTPUT} ] ; then
+>> +               # Backuping kernel image relies on its type(regular file or symbolic link)
+>> +               linkpath=""
+>> +               realpath=""
+>> +               if [ -h ${KERNEL_OUTPUT} ] ; then
+>> +                       linkpath=`readlink -n ${KERNEL_OUTPUT}`
+>> +                       realpath=`readlink -fn ${KERNEL_OUTPUT}`
+>> +                       mv -f $realpath $realpath.bak
+>> +               elif [ -f ${KERNEL_OUTPUT} ]; then
+>>                          mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.bak
+>>                  fi
+>>                  use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+>>                  kernel_do_compile
+>> -               mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+>> -               mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+>> +               # Restoring kernel image
+>> +               if [ ! -z $realpath ]; then
+> Why not  if [ -n "$realpath" ] ? I always find that reads easier.
+OK, that would be better.
 >
-> Which package backends has been tested  with those changes?
+>> +                       mv -f $realpath $realpath.initramfs
+>> +                       mv -f $realpath.bak $realpath
+>> +                       cd ${B}/$(dirname ${KERNEL_OUTPUT})
+>> +                       ln -sf $linkpath
+>> +                       ln -sf $linkpath.initramfs
+> Won't the links just follow .. they are symbolic after all. Since things are
+> being put back in place. Or are the names changing underneath ?
+Indeed, 'ln -sf $linkpath' is unnecessary, I can remove it, but for the 
+initramfs link, we must create it here for it doesn't exist before this.
+>
+>> +               else
+>> +                       mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
+>> +                       mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
+>> +               fi
+>>                  # Update install area
+>>                  echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
+>>                  install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
+>> @@ -152,7 +168,7 @@ python do_devshell_prepend () {
+>>       os.environ["LDFLAGS"] = ''
+>>   }
+>>
+>> -addtask bundle_initramfs after do_compile before do_build
+>> +addtask bundle_initramfs after do_kernel_link_vmlinux before do_build
+> This isn't explained in the commit log.
+So, I will put it into another commit, I will send the V1 soon including 
+all the changes discussed above.
+
+//Ming Liu
+
+>
+> Bruce
+>
+>>   kernel_do_compile() {
+>>          unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>> --
+>> 1.8.4.1
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 >
 
-6/6 only affects RPM.  So only RPM back end.
-
-The other changes are generic and follow the existing models.  However, I only 
-tested the RPM backend.
-
-(Note v2 of 5/6 and 6/6 has been sent.  I accidentally sent a version prior to 
-two minor revisions.)
-
---Mark
 
