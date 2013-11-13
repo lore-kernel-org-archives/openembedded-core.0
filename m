@@ -1,43 +1,40 @@
-Return-Path: <dominik.holland@pelagicore.com>
-Received: from mail-bk0-f54.google.com (mail-bk0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F5ED6D37F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F4716D37F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 15:56:47 +0000 (UTC)
-Received: by mail-bk0-f54.google.com with SMTP id 6so441944bkj.41
+	Wed, 13 Nov 2013 16:01:25 +0000 (UTC)
+Received: by mail-ob0-f176.google.com with SMTP id wp4so650867obc.21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 07:56:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type;
-	bh=K77syRe1gOB2L4VRfRkuSiSgdg2CIwzpIoQmSaFClJ0=;
-	b=Lg+t40s403ECpeiQL3pEFjHC04GaC2Ys13EvlUQov50KGXXFsmA3HkuJm+B4vm5s6I
-	D0pCcrfNrhX5nT0CK+W6UzxvB14GVQ2hQ5UhW3KfAWjA8Sh7Ev9ZpRlDQr8RYT6cP7QM
-	laXYK9EaAezynEze6ifXeK9+KxsilNGyhbauq2J9oVsqNDtGNVoXxzXu/y9/ca28oWZk
-	+C6oFqcJ60skJBRZXnHanTzde9eSGlMl6SPZfgnY9trXXdUd8VvcczTtX4lNSObySzZm
-	lCTKNJpIeETLhRZBD6PtzBnvfx6OndeazMPl1RU6URrLzJ4edxnVcqcB/cJ8XydrLW2H
-	55aQ==
-X-Gm-Message-State: ALoCoQmrJKMb7t4UVdAicqkJQrwWvHZKjR9GtVifd+ydb4gBrq4fTgYrAiZ9p+Q0iNJm/Zh9kT3G
-X-Received: by 10.204.117.3 with SMTP id o3mr1809827bkq.38.1384358208982;
-	Wed, 13 Nov 2013 07:56:48 -0800 (PST)
-Received: from [10.10.1.61] (ppp-82-135-65-185.dynamic.mnet-online.de.
-	[82.135.65.185])
-	by mx.google.com with ESMTPSA id z6sm22011894bkn.8.2013.11.13.07.56.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 13 Nov 2013 07:56:47 -0800 (PST)
-Message-ID: <5283A13E.2070606@pelagicore.com>
-Date: Wed, 13 Nov 2013 16:56:46 +0100
-From: Dominik Holland <dominik.holland@pelagicore.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Wed, 13 Nov 2013 08:01:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=WGkV+McBr8WIhWH2PCeJ1l+TzPvQYVX/S77liQpJx+g=;
+	b=kHSOHLbDOZabLhC7bksHmQrZzRni6RdvFeB6rx4DUj3P02dGBkXeQdZOF0jwUfUgwR
+	wEc3hdBzbKosR7YEr1/ifdLu3XBN1jGz2TB6LK/Fw5X7CAVSYz3Ba6gmP+hb6+95p9Zb
+	8zPx9Q38tTTbkBsDPJzppFe04TAP9WAe1cW0qw4OHC3tGN5huYTRWYI5fYVW4QJFXCaY
+	OGkYWGdwRa/zJYoibN+QF5AV4NXstEsVjTgtJhBX7WEx4BlCBLZYROV2gWnCAN6MtFDt
+	P7Te5mzBOogd2ri9p9m3CH+cskSsFEf2T3rDZ0K3fAalpf3okaQe0HZ1ePg2bmEGvoUg
+	fZZw==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <5283A080.1050702@pelagicore.com>
-In-Reply-To: <5283A080.1050702@pelagicore.com>
-X-Forwarded-Message-Id: <5283A080.1050702@pelagicore.com>
-Subject: nativesdk-dbus depends on nativesdk-dbus-ptest-ptest
+X-Received: by 10.182.81.65 with SMTP id y1mr2422592obx.89.1384358486343; Wed,
+	13 Nov 2013 08:01:26 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 13 Nov 2013 08:01:26 -0800 (PST)
+In-Reply-To: <CAK6=ix7pDXwnH6+GOB7XmZedt1QnznfTPdUwUxRqVh+didTWSA@mail.gmail.com>
+References: <CAKKsV2wExa=EZ4FWdcXiRJY1B=QnzO3uBTn2s23V9MtNSxOS0Q@mail.gmail.com>
+	<CAKKsV2y+ZuaS27QqLtXjcY_qsT1UV01RVtdC=6C_SQpD7nJR5A@mail.gmail.com>
+	<CAK6=ix7pDXwnH6+GOB7XmZedt1QnznfTPdUwUxRqVh+didTWSA@mail.gmail.com>
+Date: Wed, 13 Nov 2013 14:01:26 -0200
+X-Google-Sender-Auth: 8I7jv7L47Z9ht70_1rL4TXFcz8g
+Message-ID: <CAP9ODKqy+pwcnjES=8gmkJYkqodQ=pGEMqGEh81RfhhJsX4Czg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Randy MacLeod <rwmacleod@gmail.com>
+Cc: Behan Webster <behanw@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Exploring LLVM/Clang for OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,81 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 15:56:48 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010302030104040602050109"
+X-List-Received-Date: Wed, 13 Nov 2013 16:01:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---------------010302030104040602050109
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+On Wed, Nov 13, 2013 at 12:47 PM, Randy MacLeod <rwmacleod@gmail.com> wrote:
+> On Tue, Nov 12, 2013 at 8:47 PM, Muhammad Tauqir Ahmad
+> <mian.muhammad.tauqir.ahmad@gmail.com> wrote:
+>> According to the link below [1], it seems some works has been done at
+>> least for llvm+clang bitbake recipes, although I couldn't find any
+>> clang recipes when searching the net. If anyone can point me in the
+>> right direction for finding these recipes, that would be great.
+>>
+>> [1]: http://lists.linuxfoundation.org/pipermail/llvmlinux/2013-March/000205.html
+>
+>
+> That would be Behan's work, adding him here.
+>
+> Behan,
+> Are your clang recipes from, "Worked on bitbake recipes for LLVM and
+> clang" mentioned in the March 2013 llvmlinux notes available?
+>
+> Everyone,
+> Where should Muhammad stage his work and is there an example of using
+> an alternative cross-compiler.
 
-Hi,
+I'd say a github repository for now. This allow for easy forking,
+contribution, provides issue tracking, wiki and so on.
 
-i'm trying to port a application which has a dependency to dbus. This 
-tool is host tool and should be included in the sdk.
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Because of that i added a dependency to nativesdk-dbus. But it doesn't 
-build for because nativesdk-dbus depends on nativesdk-dbus-ptest-ptest 
-which is not available.
-
-There are 2 options i can see to solve this:
-
-Solution 1: Change the dbus-ptest recipe to also use the nativesdk class.
-
-Solution 2: Change the dbus recipe to not depend on ptest on nativesdks.
-
-I'm favoring Solution 2 and i tried to add RDEPENDS_class-nativesdk = "" 
-to the dbus.inc but that doesn't help.
-
-Is there anything that i'm missing or do i really need to install ptest 
-into my SDK ?
-
-Best Regards
-  Dominik
-
-
-
---------------010302030104040602050109
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    Hi,<br>
-    <div class="moz-forward-container"> <br>
-      i'm trying to port a application which has a dependency to dbus.
-      This tool is host tool and should be included in the sdk.<br>
-      <br>
-      Because of that i added a dependency to nativesdk-dbus. But it
-      doesn't build for because nativesdk-dbus depends on
-      nativesdk-dbus-ptest-ptest which is not available.<br>
-      <br>
-      There are 2 options i can see to solve this:<br>
-      <br>
-      Solution 1: Change the dbus-ptest recipe to also use the nativesdk
-      class.<br>
-      <br>
-      Solution 2: Change the dbus recipe to not depend on ptest on
-      nativesdks.<br>
-      <br>
-      I'm favoring Solution 2 and i tried to add <font face="monospace">RDEPENDS_class-nativesdk
-
-        = "" <font face="sans-serif">to the dbus.inc but that doesn't
-          help.<br>
-          <br>
-          Is there anything that i'm missing or do i really need to
-          install ptest into my SDK ?<br>
-          <br>
-          Best Regards<br>
-          &nbsp;Dominik<br>
-        </font></font> <br>
-    </div>
-    <br>
-  </body>
-</html>
-
---------------010302030104040602050109--
