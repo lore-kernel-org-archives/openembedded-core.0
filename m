@@ -1,25 +1,39 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB7B6D87A
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 671B86D75C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 22:06:28 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Nov 2013 14:02:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="434847227"
-Received: from unknown (HELO [10.255.15.132]) ([10.255.15.132])
-	by orsmga002.jf.intel.com with ESMTP; 13 Nov 2013 14:06:28 -0800
-Message-ID: <5283F7E5.6000006@linux.intel.com>
-Date: Wed, 13 Nov 2013 14:06:29 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Wed, 13 Nov 2013 22:20:09 +0000 (UTC)
+Received: by mail-qc0-f171.google.com with SMTP id s13so667443qcv.30
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 14:20:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=4egHn7JWJwkkQ+2icG0QyqQl3HnlbMFCW9M3tsl9GFQ=;
+	b=ctY6EQamnAOFmK5gtEnkHuyrTnLfUVjrwD0R4qR8xo4Dl+Di5m8VoZdgLHemW2Se18
+	p9mFzJGerbazAOvFSH6JESJyIV2yeSKcTud9ctvI/D+jCccTrRvNF4znq8T+9iqu9cX0
+	cRw8E8O3osv2hDPhuLZ+YjJJQVXmAmHPnm8BkKKEMKEI17u6KdRlPdGQ64N2qY3dE+YL
+	bg/Hk977wIaJXa8jp2ZVrPtwD2uircxgXU2sWA+lAhudeaCvlZPVTxaY2ncHTxf9+rAi
+	VPLUdnB8jS7Q98tp0Oh4glKOe3EooKouxKWmtRnReWrHLNL8HtMpJWLmi/IDt1JvUb28
+	U5Bg==
 MIME-Version: 1.0
-To: jackie.huang@windriver.com, openembedded-core@lists.openembedded.org
-References: <cover.1383982908.git.jackie.huang@windriver.com>
-	<6595bf3519f7ac59300b8a173027b2f771a824bb.1383982908.git.jackie.huang@windriver.com>
-In-Reply-To: <6595bf3519f7ac59300b8a173027b2f771a824bb.1383982908.git.jackie.huang@windriver.com>
-Subject: Re: [v2 PATCH 1/2] grub-efi-native: fix build failure on 32bit host
+X-Received: by 10.224.119.76 with SMTP id y12mr60251945qaq.58.1384381210901;
+	Wed, 13 Nov 2013 14:20:10 -0800 (PST)
+Received: by 10.96.55.197 with HTTP; Wed, 13 Nov 2013 14:20:10 -0800 (PST)
+In-Reply-To: <5283B95F.1090108@linux.intel.com>
+References: <1384354266-15425-1-git-send-email-kirgene@gmail.com>
+	<5283AA52.4090102@linux.intel.com>
+	<CADV-EXGSZuXVO7DqgGUnxCzNQUYXyCtNt1XXAbEAuN9gWisPSA@mail.gmail.com>
+	<5283B95F.1090108@linux.intel.com>
+Date: Thu, 14 Nov 2013 00:20:10 +0200
+Message-ID: <CADV-EXFh8Q+P2QXcPgt-u02OocZD=_cu5cKfZu_pByr0e-LnUQ@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Phil Blundell <philb@gnu.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] curl: allow build with c-ares library support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,205 +46,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 22:06:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Nov 2013 22:20:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 11/08/2013 11:56 PM, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
+2013/11/13 Saul Wold <sgw@linux.intel.com>:
+> On 11/13/2013 09:25 AM, Yevhen Kyriukha wrote:
+>>
+>> 2013/11/13 Saul Wold <sgw@linux.intel.com>:
+>>>
+>>> On 11/13/2013 06:51 AM, Yevhen Kyriukha wrote:
+>>>>
+>>>>
+>>>> Also added c-ares library recipe.
+>>>>
+>>>> In libcurl there is an issue with DNS lookups that cause crash on some
+>>>> platforms:
+>>>> http://curl.haxx.se/mail/lib-2008-09/0197.html
+>>>> To avoid this issue libcurl has to be built with c-ares name resolver.
+>>>>
+>>> This still does not fully explain why this is needed. Nor credits to
+>>> origin
+>>> of the c-ares recipe.
+>>>
+>>
+>> Do you meen to note layer name where I get this recipe from in commit?
+>> The c-ares recipe was borrowed from meta-webos-ports.
+>>
+> Yes, you need to say that as part of your patch, but I still want more
+> details below about using the internal threaded resolver before we add a new
+> recipe.
 >
-> grub-efi-native builds grub with efi platform, then run
-> "grub-mkimage" command with built in cfg and modules to
-> generate an EFI binary for the target, and deploys it.
 >
-> It works fine when build on 64bit host, but when we build
-> x86-64 target on 32bit host, it fails to build 64bit grub,
-> even if it builds, the 64bit binary "grub-mkimage" would
-> fail to run to generate EFI.
+>>> You also did not address Phil Blundell's comment about causing other
+>>> issues,
+>>> and possibibly using the existing libcurl internal threaded resolver.
+>>>
+>>> Can you test with the internal resolver to see if it address your issues,
+>>> before we add a new recipe.
+>>>
+>>
+>> As far as I've tested curl crashes on i386 and Intel Cedartrail
+>> platforms with internal threaded resolver.
+>>
+> Did you explictly enable the threaded resolver with
+> --enable-threaded-resolver?
 >
-> So the solution is:
-> Add a target package grub-efi and grub-efi-native depends
-> on it, grub-efi-native will be back to real native, then
-> run "grub-mkimage" command with modules in sysroot populated
-> by grub-efi to generate the EFI binary for target.
+> Thanks
+>         Sau!
 >
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->   meta/recipes-bsp/grub/grub-efi-native_2.00.bb | 54 ++++++---------------------
->   meta/recipes-bsp/grub/grub-efi.inc            | 42 +++++++++++++++++++++
->   meta/recipes-bsp/grub/grub-efi_2.00.bb        | 11 ++++++
->   3 files changed, 64 insertions(+), 43 deletions(-)
->   create mode 100644 meta/recipes-bsp/grub/grub-efi.inc
->   create mode 100644 meta/recipes-bsp/grub/grub-efi_2.00.bb
 >
-> diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-> index 04973b5..b64fc3c 100644
-> --- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-> +++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-> @@ -1,47 +1,20 @@
-> -SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
-> +require grub-efi.inc
 >
-> -DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
-> -intended to unify bootloading across x86 operating systems. In \
-> -addition to loading the Linux kernel, it implements the Multiboot \
-> -standard, which allows for flexible loading of multiple boot images. \
-> -This recipe builds an EFI binary for the target. It does not install \
-> -or package anything, it only deploys a target-arch GRUB EFI image."
-> +# do_mkimage needs grub modules for the target to generate the correct
-> +# EFI binary, so depends on the target package 'grub-efi' to compile
-> +# the necessary modules.
-> +DEPENDS += "grub-efi"
+>> Best regards,
+>> Yevhen
+>>
+>>>
+>>>> Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
+>>>> ---
+>>>>    meta/recipes-support/c-ares/c-ares_1.10.0.bb | 24
+>>>> ++++++++++++++++++++++++
+>>>>    meta/recipes-support/curl/curl_7.33.0.bb     |  2 ++
+>>>>    2 files changed, 26 insertions(+)
+>>>>    create mode 100644 meta/recipes-support/c-ares/c-ares_1.10.0.bb
+>>>>
+>>>
+>>> This still needs to be split into 2 distict patches, one adding the
+>>> c-ares
+>>> recipe and a second one to use the PACKAGECONFIG.
+>>>
+>>> Sau!
+>>>
+>>>
+>>>> diff --git a/meta/recipes-support/c-ares/c-ares_1.10.0.bb
+>>>> b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
+>>>> new file mode 100644
+>>>> index 0000000..23b3d0e
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
+>>>> @@ -0,0 +1,24 @@
+>>>> +# Copyright (c) 2012-2013 LG Electronics, Inc.
+>>>> +
+>>>> +DESCRIPTION = "c-ares is a C library that resolves names
+>>>> asynchronously."
+>>>> +HOMEPAGE = "http://daniel.haxx.se/projects/c-ares/"
+>>>> +SECTION = "libs"
+>>>> +LICENSE = "MIT"
+>>>> +LIC_FILES_CHKSUM =
+>>>>
+>>>> "file://README;beginline=17;endline=18;md5=b320556568bc067d215a1e34c5b34a14"
+>>>> +
+>>>> +inherit autotools
+>>>> +inherit pkgconfig
+>>>> +
+>>>> +SRC_URI = "http://c-ares.haxx.se/download/${BP}.tar.gz"
+>>>> +SRC_URI[md5sum] = "1196067641411a75d3cbebe074fd36d8"
+>>>> +SRC_URI[sha256sum] =
+>>>> "3d701674615d1158e56a59aaede7891f2dde3da0f46a6d3c684e0ae70f52d3db"
+>>>> +
+>>>> +EXTRA_OECONF = "--enable-shared"
+>>>> +
+>>>> +# install private headers to ares subdirectory
+>>>> +do_install_append() {
+>>>> +    install -d ${D}/${includedir}/ares
+>>>> +    install -m 0644 ares*.h ${D}/${includedir}/ares/
+>>>> +}
+>>>> +
+>>>> +FILES_${PN}-dev += "${includedir}/ares/*.h"
+>>>> diff --git a/meta/recipes-support/curl/curl_7.33.0.bb
+>>>> b/meta/recipes-support/curl/curl_7.33.0.bb
+>>>> index 8539fec..717c4f9 100644
+>>>> --- a/meta/recipes-support/curl/curl_7.33.0.bb
+>>>> +++ b/meta/recipes-support/curl/curl_7.33.0.bb
+>>>> @@ -23,6 +23,8 @@ SRC_URI[sha256sum] =
+>>>> "0afde4cd949e2658eddc3cda675b19b165eea1af48ac5f3e1ec1607922
+>>>>
+>>>>    inherit autotools pkgconfig binconfig
+>>>>
+>>>> +PACKAGECONFIG[c-ares] = "--enable-ares,--disable-ares,c-ares"
+>>>> +
+>>>>    EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+>>>>                    --without-libssh2 \
+>>>>                    --with-random=/dev/urandom \
+>>>>
+>>>
+>>
+>>
+>> Best regards,
+>> Yevhen
+>>
+>>
 >
-> -HOMEPAGE = "http://www.gnu.org/software/grub/"
-> -SECTION = "bootloaders"
-> -
-> -LICENSE = "GPLv3"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> -
-> -# FIXME: We should be able to optionally drop freetype as a dependency
-> -DEPENDS = "autogen-native"
-> -RDEPENDS_${PN} = "diffutils freetype"
-> -PR = "r2"
-> +PR = "${INC_PR}.0"
->
-Don't need the INC_PR
 
->   # Native packages do not normally rebuild when the target changes.
->   # Ensure this is built once per HOST-TARGET pair.
->   PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
->
-> -SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-> -           file://cfg \
-> -           file://grub-2.00-fpmath-sse-387-fix.patch \
-> -           file://grub-2.00-fix-enable_execute_stack-check.patch \
-> -           file://grub-2.00-disable-help2man.patch \
-> -           file://check-if-liblzma-is-disabled.patch \
-> -           file://grub-no-unused-result.patch \
-> -           file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
-> -           file://fix-issue-with-flex-2.5.37.patch \
-> -          "
-> -SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
-> -SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
-> -
-> -COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
-> -
-> -S = "${WORKDIR}/grub-${PV}"
-> -
->   # Determine the target arch for the grub modules before the native class
-> -# clobbers TARGET_ARCH.
-> +# clobbers TARGET_ARCH and STAGING_LIBDIR.
->   ORIG_TARGET_ARCH := "${TARGET_ARCH}"
-> +ORIG_STAGING_LIBDIR := "${STAGING_LIBDIR}"
->   python __anonymous () {
->       import re
->       target = d.getVar('ORIG_TARGET_ARCH', True)
-> @@ -57,19 +30,14 @@ python __anonymous () {
->       d.setVar("GRUB_IMAGE", grubimage)
->   }
->
-> -inherit autotools
-> -inherit gettext
->   inherit native
->   inherit deploy
->
-> -EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
-> -                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix='' \
-> -                --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
-> -
->   do_mkimage() {
->   	# Search for the grub.cfg on the local boot media by using the
-> -	# built in cfg file provided via this recipe
-> -	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-> +	# built in cfg file provided via this recipe and modules dir
-> +	# populated by grub-efi
-> +	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ${ORIG_STAGING_LIBDIR}/grub-efi/${GRUB_TARGET}-efi \
->   	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
->   	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
->   }
-> diff --git a/meta/recipes-bsp/grub/grub-efi.inc b/meta/recipes-bsp/grub/grub-efi.inc
-> new file mode 100644
-> index 0000000..1c64646
-> --- /dev/null
-> +++ b/meta/recipes-bsp/grub/grub-efi.inc
-> @@ -0,0 +1,42 @@
-> +SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
-> +
-> +DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
-> +intended to unify bootloading across x86 operating systems. In \
-> +addition to loading the Linux kernel, it implements the Multiboot \
-> +standard, which allows for flexible loading of multiple boot images. \
-> +This recipe builds an EFI binary for the target. It does not install \
-> +or package anything, it only deploys a target-arch GRUB EFI image."
-> +
-> +HOMEPAGE = "http://www.gnu.org/software/grub/"
-> +SECTION = "bootloaders"
-> +
-> +LICENSE = "GPLv3"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> +
-> +# FIXME: We should be able to optionally drop freetype as a dependency
-> +DEPENDS = "autogen-native flex-native"
-> +INC_PR = "r2"
-> +
-Should just be PR = "r2" and shared by both.
+Hmm... I thought that threaded resolver is used by default.
+I had "longjmp causes uninitialized stack frame" error but enabling
+threaded resolver explicitly fixed the problem.
 
+Anyway I think that adding c-ares support in curl is good idea.
+I'll prepare new version of patch (without mention of issue) if there
+is no objections.
 
-> +SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-> +           file://cfg \
-> +           file://grub-2.00-fpmath-sse-387-fix.patch \
-> +           file://grub-2.00-fix-enable_execute_stack-check.patch \
-> +           file://grub-2.00-disable-help2man.patch \
-> +           file://check-if-liblzma-is-disabled.patch \
-> +           file://grub-no-unused-result.patch \
-> +           file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
-> +           file://fix-issue-with-flex-2.5.37.patch \
-> +          "
-> +SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
-> +SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
-> +
-> +COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
-> +
-> +S = "${WORKDIR}/grub-${PV}"
-> +
-> +inherit autotools
-> +inherit gettext
-> +
-> +EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
-> +                --enable-efiemu=no --program-prefix='' \
-> +                --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
-> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-> new file mode 100644
-> index 0000000..9be1fd2
-> --- /dev/null
-> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-> @@ -0,0 +1,11 @@
-> +require grub-efi.inc
-> +
-> +RDEPENDS_${PN} = "diffutils freetype"
-> +
-> +PR = "${INC_PR}.0"
+And in this case maybe it will be better to use threaded resolver by
+default if c-ares is not specified.
 
-I am not sure you need to extend PR here since we are working to get rid 
-of PR in general, just leave the PR="r2" in the new .inc file.
+How do you think?
 
-> +FILES_${PN}-dbg += "${libdir}/${BPN}/${TARGET_ARCH}-efi/.debug"
-> +
-
-I am not sure if this is doing the right thing, as I am getting QA 
-errors regarding where debug files are going, but this may need to be 
-GRUB-TARGET.  This is just an example of one:
-
-ERROR: QA Issue: non debug package contains .debug directory: grub-efi 
-path 
-/work/core2-poky-linux/grub-efi/2.00-r2.0/packages-split/grub-efi/usr/lib/grub-efi/i386-efi/.debug/part_bsd.module
-ERROR: QA run found fatal errors. Please consider fixing them.
-ERROR: Function failed: do_package_qa
-
-
-> +do_install_append () {
-> +	mv ${D}${libdir}/grub ${D}${libdir}/${BPN}
-> +	mv ${D}${datadir}/grub ${D}${datadir}/${BPN}
-> +}
->
+Regards,
+Yevhen
 
