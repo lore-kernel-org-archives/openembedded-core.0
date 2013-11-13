@@ -1,27 +1,58 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 25A826D72E
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id C138C6D817
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 10:33:46 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 13 Nov 2013 02:33:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,691,1378882800"; d="scan'208";a="426777009"
-Received: from junemccl-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.121.116])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Nov 2013 02:33:29 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 13 Nov 2013 10:33:28 +0000
-Message-ID: <2313870.fFWNQPWmKH@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1384307965-10290-2-git-send-email-mark.hatle@windriver.com>
+	Wed, 13 Nov 2013 11:15:03 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1VgYP3-00089y-Fe; Wed, 13 Nov 2013 12:15:00 +0100
+Message-ID: <1384341268.12863.6.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 13 Nov 2013 11:14:28 +0000
+In-Reply-To: <20131113081253.GB3663@jama>
 References: <cover.1384305535.git.mark.hatle@windriver.com>
-	<1384307965-10290-2-git-send-email-mark.hatle@windriver.com>
-MIME-Version: 1.0
+	<20f7dafc5f5948e7954203a0d57c25b68a419568.1384305535.git.mark.hatle@windriver.com>
+	<20131113081253.GB3663@jama>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Wed, 2013-11-13 at 09:12 +0100,
+	Martin Jansa wrote: > On Tue, Nov 12, 2013 at 07:23:22PM -0600,
+	Mark Hatle wrote: > > When the -symlinks
+	package was removed and an RPROVIDES was added,
+	nothing > > was put in to
+	cause the removal of the older package in an upgrade. > > > >
+	Signed-off-by: Mark Hatle <mark.hatle@windriver.com> > > --- > >
+	meta/recipes-devtools/binutils/binutils.inc
+	| 1 + > > 1 file changed, 1 insertion(+) > > > > diff --git
+	a/meta/recipes-devtools/binutils/binutils.inc
+	b/meta/recipes-devtools/binutils/binutils.inc > > index
+	17c66bc..ea2383e
+	100644 > > --- a/meta/recipes-devtools/binutils/binutils.inc > > +++
+	b/meta/recipes-devtools/binutils/binutils.inc > > @@ -21, 6 +21,
+	7 @@ FILES_${PN} = " \ > > ${prefix}/${TARGET_SYS}/bin/*"
+	> > > > RPROVIDES_${PN} += "${PN}-symlinks" > > +RREPLACES_${PN} +=
+	"${PN}-symlinks"
+	> > IIRC for opkg backend you need also RCONFLICTS for opkg to really
+	remove > old ${PN}-symlinks. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/6 v2] package_rpm: Allow translation of requirement to package name
+Subject: Re: [PATCH 3/6] binutils: Ensure old -symlinks packages get removed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,173 +65,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 10:33:47 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 13 Nov 2013 11:15:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Mark,
-
-On Tuesday 12 November 2013 19:59:20 Mark Hatle wrote:
-> In the translate oe to smart function, we only translated package names.
-> However, it's allowed that people can put in a dependency name in the
-> IMAGE_INSTALL.  So on a failure to translate a package name, we fall back
-> and attempt to resolve based on a package's provide.
+On Wed, 2013-11-13 at 09:12 +0100, Martin Jansa wrote:
+> On Tue, Nov 12, 2013 at 07:23:22PM -0600, Mark Hatle wrote:
+> > When the -symlinks package was removed and an RPROVIDES was added, nothing
+> > was put in to cause the removal of the older package in an upgrade.
+> > 
+> > Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> > ---
+> >  meta/recipes-devtools/binutils/binutils.inc | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+> > index 17c66bc..ea2383e 100644
+> > --- a/meta/recipes-devtools/binutils/binutils.inc
+> > +++ b/meta/recipes-devtools/binutils/binutils.inc
+> > @@ -21,6 +21,7 @@ FILES_${PN} = " \
+> >  	${prefix}/${TARGET_SYS}/bin/*"
+> >  
+> >  RPROVIDES_${PN} += "${PN}-symlinks"
+> > +RREPLACES_${PN} += "${PN}-symlinks"
 > 
-> Note: it may be possible to generate an unsolvable install solution.  If the
-> dependency is provided by one or more things that conflict with something
-> else set to be installed.  We can't determine this until smart is run.
-> 
-> If this occurs, file a bug and we'll have to identify a way to deal with the
-> RCONFLICTS and RREPLACES.  As a workaround replace the conflict REQUIRES
-> with actual package names.
-> 
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->  meta/classes/package_rpm.bbclass | 79
-> ++++++++++++++++++++++++++++++++++++++-- 1 file changed, 75 insertions(+),
-> 4 deletions(-)
-> 
-> diff --git a/meta/classes/package_rpm.bbclass
-> b/meta/classes/package_rpm.bbclass index 31265d9..9fe0e6c 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -166,6 +166,7 @@ translate_oe_to_smart() {
->  	[ ! -e ${target_rootfs}/install/tmp/fullpkglist.query ] && smart
-> --data-dir=${target_rootfs}/var/lib/smart query --output
-> ${target_rootfs}/install/tmp/fullpkglist.query
-> 
->  	pkgs_to_install=""
-> +	not_found=""
->  	for pkg in "$@" ; do
->  		new_pkg="$pkg"
->  		if [ -z "$sdk_mode" ]; then
-> @@ -184,7 +185,6 @@ translate_oe_to_smart() {
->  				fi
->  				subst=${pkg#${mlib}-}
->  				if [ "$subst" != "$pkg" ]; then
-> -					feeds=$@
->  					while [ -n "$1" ]; do
->  						arch="$1"
->  						arch=`echo "$arch" | tr - _`
-> @@ -197,6 +197,76 @@ translate_oe_to_smart() {
->  					done
->  					if [ "$pkg" = "$new_pkg" ]; then
->  						# Failed to translate, package not found!
-> +						not_found="$not_found $pkg"
-> +						continue
-> +					fi
-> +				fi
-> +			done
-> +		fi
-> +		# Apparently not a multilib package...
-> +		if [ "$pkg" = "$new_pkg" ]; then
-> +			default_archs_fixed=`echo "$default_archs" | tr - _`
-> +			for arch in $default_archs_fixed ; do
-> +				if grep -q '^'$pkg'-[^-]*-[^-]*@'$arch'$'
-> ${target_rootfs}/install/tmp/fullpkglist.query ; then
-> +					new_pkg="$pkg@$arch"
-> +					# First found is best match
-> +					break
-> +				fi
-> +			done
-> +			if [ "$pkg" = "$new_pkg" ]; then
-> +				# Failed to translate, package not found!
-> +				not_found="$not_found $pkg"
-> +				continue
-> +			fi
-> +		fi
-> +		#echo "$pkg -> $new_pkg" >&2
-> +		pkgs_to_install="${pkgs_to_install} ${new_pkg}"
-> +	done
-> +
-> +	# Parse the not_found items and see if they were dependencies (RPROVIDES)
-> +	# Follow the parsing example above...
-> +	for pkg in $not_found ; do
-> +		new_pkg="$pkg"
-> +		smart --data-dir=${target_rootfs}/var/lib/smart query --provides=$pkg
-> --output ${target_rootfs}/install/tmp/provide.query +		grep '^[^@
-> ]*@[^@]*$' ${target_rootfs}/install/tmp/provide.query | sed -e
-> 's,\(.*\)-[^-]*-[^-]*\(@[^@]*\)$,\1\2,' >
-> ${target_rootfs}/install/tmp/provide.query.list || : +		prov=`echo
-> $pkgs_to_install | xargs -n 1 echo | grep -f
-> ${target_rootfs}/install/tmp/provide.query.list || :` +		if [ -n "$prov" 
-];
-> then
-> +			# Nothing to do, already in the list
-> +			#echo "Skipping $pkg -> $prov, already in install set" >&2
-> +			continue
-> +		fi
-> +		if [ -z "$sdk_mode" ]; then
-> +			for i in ${MULTILIB_PREFIX_LIST} ; do
-> +				old_IFS="$IFS"
-> +				IFS=":"
-> +				set $i
-> +				IFS="$old_IFS"
-> +				mlib="$1"
-> +				shift
-> +				if [ "$mlib" = "default" ]; then
-> +					if [ -z "$default_archs" ]; then
-> +						default_archs=$@
-> +					fi
-> +					continue
-> +				fi
-> +				subst=${pkg#${mlib}-}
-> +				if [ "$subst" != "$pkg" ]; then
-> +					feeds=$@
-> +					smart --data-dir=${target_rootfs}/var/lib/smart query
-> --provides=$subst --output ${target_rootfs}/install/tmp/provide.query
-> +					grep '^[^@ ]*@[^@]*$' 
-${target_rootfs}/install/tmp/provide.query |
-> sed -e 's,\(.*\)-[^-]*-[^-]*\(@[^@]*\)$,\1\2,' >
-> ${target_rootfs}/install/tmp/provide.query.list || : +					while [ 
--n "$1"
-> ]; do
-> +						arch="$1"
-> +						arch=`echo "$arch" | tr - _`
-> +						shift
-> +						# Select first found, we don't know if one is better then 
-another...
-> +						prov=`grep '^[^@ ]*@'$arch'$'
-> ${target_rootfs}/install/tmp/provide.query.list | head -n 1` +						
-if [ -n
-> "$prov" ]; then
-> +							new_pkg=$prov
-> +							break
-> +						fi
-> +					done
-> +					if [ "$pkg" = "$new_pkg" ]; then
-> +						# Failed to translate, package not found!
->  						echo "$attemptonly: $pkg not found in the $mlib feeds 
-($feeds)." >&2
->  						if [ "$attemptonly" = "Error" ]; then
->  							exit 1
-> @@ -210,9 +280,10 @@ translate_oe_to_smart() {
->  		if [ "$pkg" = "$new_pkg" ]; then
->  			default_archs_fixed=`echo "$default_archs" | tr - _`
->  			for arch in $default_archs_fixed ; do
-> -				if grep -q '^'$pkg'-[^-]*-[^-]*@'$arch'$'
-> ${target_rootfs}/install/tmp/fullpkglist.query ; then
-> -					new_pkg="$pkg@$arch"
-> -					# First found is best match
-> +				# Select first found, we don't know if one is better then 
-another...
-> +				prov=`grep '^[^@ ]*@'$arch'$'
-> ${target_rootfs}/install/tmp/provide.query.list | head -n 1` +				if 
-[ -n
-> "$prov" ]; then
-> +					new_pkg=$prov
->  					break
->  				fi
->  			done
+> IIRC for opkg backend you need also RCONFLICTS for opkg to really remove
+> old ${PN}-symlinks.
 
-Sigh... this code is getting ridiculously complicated. Shouldn't Smart be 
-doing more of the heavy lifting here?
+Also for dpkg.  If you have Replaces: without Conflicts: then this just
+means that the replacing package is allowed to overwrite files in the
+replaced one, not that the replaced one will actually be uninstalled.
 
-Cheers,
-Paul
+p.
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
