@@ -1,27 +1,24 @@
-Return-Path: <tobias.henkel@oss.bmw-carit.de>
-Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id CBF666D801
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 842EC6D803
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 06:11:44 +0000 (UTC)
-Received: from duffman.bmw-carit.intra (duffman.bmw-carit.intra
-	[192.168.101.67])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: tobias.henkel)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 4D8D140083
+	Wed, 13 Nov 2013 06:22:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD6N1hv014473
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 05:43:00 +0100 (CET)
-Message-ID: <52831821.2020400@oss.bmw-carit.de>
-Date: Wed, 13 Nov 2013 07:11:45 +0100
-From: Tobias Henkel <tobias.henkel@oss.bmw-carit.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Tue, 12 Nov 2013 22:23:01 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 12 Nov 2013 22:23:00 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Nov 2013 14:23:02 +0800
+Message-ID: <cover.1384323613.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1384245243-20247-1-git-send-email-tobias.henkel@oss.bmw-carit.de>	<1384245243-20247-3-git-send-email-tobias.henkel@oss.bmw-carit.de>
-	<lyd2m5ubhs.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lyd2m5ubhs.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Subject: Re: [PATCH 2/9] icecc: Remove output on stderr when calling which
+Subject: [PATCH V2 0/7] Fixes about unsafe-references QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,23 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 06:11:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Nov 2013 06:23:00 -0000
+Content-Type: text/plain
 
-On 11/12/2013 12:04 PM, Enrico Scholz wrote:
-> -    return d.getVar('ICECC_PATH') or os.popen("which icecc").read()[:-1]
-> +    return d.getVar('ICECC_PATH') or os.popen("which icecc 2> /dev/null").read()[:-1]
->                                          ~~~~~~~~~~~~~~~~~~~~~~
->
-> I think, this can/should be replaced by
->
->    bb.utils.which(os.getenv("PATH"), "icecc")
->
-> Ditto the other locations.
-Thank you for this point. I'll post this as a new patch as the other 
-patches of this patch series already seem to be in master.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Best regards
-Tobias
+Changes since V1:
+1. The two principles have been slightly adjusted as follows.
+   *) With /usr on a seperate partition, system should still boot without any error. 
+   *) Without /usr, system should be able to boot into single user mode. We do not
+      need a clean build, we allow for error messages at boot, but the basic utilities
+      should work. These should include mount, fsck and maybe udev.
+2. Take into consideration the situation where exec_prefix and prefix are set to "".
+
+The following changes since commit 4fdc3d77d4a875b7236536bf78849a4d1f6a7449:
+
+  kbd: Fix stdarg related errors on uclibc (2013-11-08 17:31:36 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/unsafe-reference
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/unsafe-reference
+
+Chen Qi (7):
+  udev: fix dependency and location of udevadm
+  zlib: install into base_libdir
+  kmod: install libkmod into base_libdir
+  udev: fix unsafe reference by installing libgudev in libdir
+  insane.bbclass: make the checking stricter for unsafe references in
+    scripts
+  iputils: fix program location and QA warning
+  busybox: install ping6 into bindir by default
+
+ meta/classes/insane.bbclass                        |    2 +-
+ .../busybox-install-ping6-to-usr-bin.patch         |   25 +++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.21.1.bb        |    1 +
+ meta/recipes-core/udev/udev.inc                    |   20 +++++++++++---
+ meta/recipes-core/zlib/zlib_1.2.8.bb               |    2 +-
+ meta/recipes-extended/iputils/iputils_s20121221.bb |   29 ++++++++++++--------
+ meta/recipes-kernel/kmod/kmod_git.bb               |    9 ++++--
+ 7 files changed, 68 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.21.1/busybox-install-ping6-to-usr-bin.patch
+
+-- 
+1.7.9.5
+
 
