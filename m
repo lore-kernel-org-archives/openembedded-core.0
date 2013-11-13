@@ -1,52 +1,27 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id C4B436D39D
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B094A6D614
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 14:02:21 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	rADE2HCY027795
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Wed, 13 Nov 2013 14:19:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id rADEJTNx017511
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 15:02:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1384351338;
-	bh=jUSB1HlZeAiI0ZblAl4oUlIO3VoADumfd9/jCllZOhk=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=a5/7saTIB4NXkRYssmHJPKWCmPVubZhqJ/bQBhhG7QQvBVxiu+nE2jpKkmAtZQ/2u
-	8Xng6jFscFfztWaxx/ferNRCUfA3o76XaupRuj/QLuTKoZeUFa8HEkTd4gSvmXgfZx
-	s1Gp3hysDOuJX+GILgflY4T323OAJjuMEJm1WrRI=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rADE2BW5006672
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 15:02:12 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1Vgb1G-0001pc-UC
-	for openembedded-core@lists.openembedded.org;
-	Wed, 13 Nov 2013 15:02:11 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1384270308.6460.11.camel@ted>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 13 Nov 2013 15:02:10 +0100
-In-Reply-To: <1384270308.6460.11.camel@ted> (Richard Purdie's message of "Tue, 
-	12 Nov 2013 15:31:48 +0000")
-Message-ID: <lyppq4z9gd.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Wed, 13 Nov 2013 06:19:30 -0800 (PST)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Wed, 13 Nov 2013 06:19:30 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Nov 2013 08:19:00 -0600
+Message-ID: <1384352346-12891-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+In-Reply-To: <cover.1384305535.git.mark.hatle@windriver.com>
+References: <cover.1384305535.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Subject: Re: Confusing Performance Numbers
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 2/6 v3] gcc: Drop *-symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +34,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 14:02:24 -0000
+X-List-Received-Date: Wed, 13 Nov 2013 14:19:29 -0000
 Content-Type: text/plain
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
+The -symlinks packages don't really add any value if we're using
+update-alternatives.  Drop it, leaving an RPROVIDES in case anyone thought
+they needed it still.
 
-> I had some ideas I decided to test out. Specifically:
-> Its very hard to figure out what in these tests might be noise and what
-> if anything was a real gain (other than the disk usage improvements). I
-> suspect the hardlinking patch may be worthwhile, the other two are
-> perhaps not useful.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-devtools/gcc/gcc-target.inc | 54 ++++++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 24 deletions(-)
 
-fwiw, we record performance data as part of our normal build process and
-it should be possible to compare these statistics.  Results are e.g.
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index ee41d3f..019dbc0 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -10,12 +10,12 @@ EXTRA_OECONF_PATHS = " \
+ ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR} -I${B}/gcc/include/ "
+ 
+ PACKAGES = "\
+-  ${PN} ${PN}-plugins ${PN}-symlinks \
+-  g++ g++-symlinks \
+-  cpp cpp-symlinks \
+-  g77 g77-symlinks \
+-  gfortran gfortran-symlinks \
+-  gcov gcov-symlinks \
++  ${PN} ${PN}-plugins \
++  g++ \
++  cpp \
++  g77 \
++  gfortran \
++  gcov \
+   ${PN}-plugin-dev \
+   ${PN}-doc \
+   ${PN}-dev \
+@@ -36,6 +36,9 @@ FILES_${PN} = "\
+   ${gcclibdir}/${TARGET_SYS}/${BINV}/include-fixed \
+ "
+ INSANE_SKIP_${PN} += "dev-so"
++RPROVIDES_${PN} += "${PN}-symlinks"
++RREPLACES_${PN} += "${PN}-symlinks"
++RCONFLICTS_${PN} += "${PN}-symlinks"
+ 
+ FILES_${PN}-dbg += "\
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/.debug/ \
+@@ -50,8 +53,6 @@ FILES_${PN}-plugin-dev = "\
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/plugin/gengtype \
+   ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin/gtype.state \
+ "
+-FILES_${PN}-symlinks = ""
+-ALLOW_EMPTY_${PN}-symlinks = "1"
+ 
+ FILES_${PN}-plugins = "\
+   ${gcclibdir}/${TARGET_SYS}/${BINV}/plugin \
+@@ -62,33 +63,38 @@ FILES_g77 = "\
+   ${bindir}/${TARGET_PREFIX}g77 \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f771 \
+ "
+-FILES_g77-symlinks = ""
+-ALLOW_EMPTY_g77-symlinks = "1"
++RPROVIDES_g77 += "g77-symlinks"
++RREPLACES_g77 += "g77-symlinks"
++RCONFLICTS_g77 += "${PN}-symlinks"
+ 
+ FILES_gfortran = "\
+   ${bindir}/${TARGET_PREFIX}gfortran \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/f951 \
+ "
+-FILES_gfortran-symlinks = ""
+-ALLOW_EMPTY_gfortran-symlinks = "1"
++RPROVIDES_gfortran += "gfortran-symlinks"
++RREPLACES_gfortran += "gfortran-symlinks"
++RCONFLICTS_gfortran += "${PN}-symlinks"
+ 
+ FILES_cpp = "\
+   ${bindir}/${TARGET_PREFIX}cpp \
+   ${base_libdir}/cpp \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1"
+-FILES_cpp-symlinks = ""
+-ALLOW_EMPTY_cpp-symlinks = "1"
++RPROVIDES_cpp += "cpp-symlinks"
++RREPLACES_cpp += "cpp-symlinks"
++RCONFLICTS_cpp += "${PN}-symlinks"
+ 
+ FILES_gcov = "${bindir}/${TARGET_PREFIX}gcov"
+-FILES_gcov-symlinks = ""
+-ALLOW_EMPTY_gconv-symlinks = "1"
++RPROVIDES_gcov += "gcov-symlinks"
++RREPLACES_gcov += "gcov-symlinks"
++RCONFLICTS_gcov += "${PN}-symlinks"
+ 
+ FILES_g++ = "\
+   ${bindir}/${TARGET_PREFIX}g++ \
+   ${libexecdir}/gcc/${TARGET_SYS}/${BINV}/cc1plus \
+ "
+-FILES_g++-symlinks = ""
+-ALLOW_EMPTY_g++-symlinks = "1"
++RPROVIDES_g++ += "g++-symlinks"
++RREPLACES_g++ += "g++-symlinks"
++RCONFLICTS_g++ += "${PN}-symlinks"
+ 
+ FILES_${PN}-doc = "\
+   ${infodir} \
+@@ -137,12 +143,12 @@ inherit update-alternatives
+ 
+ ALTERNATIVE_PRIORITY = "100"
+ 
+-ALTERNATIVE_${PN}-symlinks = "cc gcc"
+-ALTERNATIVE_g77-symlinks = "${@['', 'g77 f77']['f77' in d.getVar('FORTRAN', True)]}"
+-ALTERNATIVE_gfortran-symlinks = "${@['', 'gfortran f95']['fortran' in d.getVar('FORTRAN', True)]}"
+-ALTERNATIVE_cpp-symlinks = "cpp"
+-ALTERNATIVE_gcov-symlinks = "gcov"
+-ALTERNATIVE_g++-symlinks = "c++ g++"
++ALTERNATIVE_${PN} = "cc gcc"
++ALTERNATIVE_g77 = "${@['', 'g77 f77']['f77' in d.getVar('FORTRAN', True)]}"
++ALTERNATIVE_gfortran = "${@['', 'gfortran f95']['fortran' in d.getVar('FORTRAN', True)]}"
++ALTERNATIVE_cpp = "cpp"
++ALTERNATIVE_gcov = "gcov"
++ALTERNATIVE_g++ = "c++ g++"
+ 
+ ALTERNATIVE_LINK_NAME[cc] = "${bindir}/cc"
+ ALTERNATIVE_TARGET[cc] = "${bindir}/${TARGET_PREFIX}gcc"
+-- 
+1.8.3.4
 
-             https://www.cvg.de/people/ensc/metrics.txt.gz
-             https://www.cvg.de/people/ensc/metrics.html
-
-(there is much room to improve the visualization; a new colleague just
-started to work on it).  Relevant changes/classes are
-
-  https://www.cvg.de/people/ensc/metrics.py
-  https://www.cvg.de/people/ensc/elito-metrics.bbclass
-  https://www.cvg.de/people/ensc/0008-build.py-fire-TaskFailed-with-same-environment-as-Ta.patch
-
-
-
-
-Enrico
 
