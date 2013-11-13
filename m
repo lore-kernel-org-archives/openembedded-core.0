@@ -1,32 +1,27 @@
-Return-Path: <mian.muhammad.tauqir.ahmad@gmail.com>
-Received: from mail-la0-f67.google.com (mail-la0-f67.google.com
-	[209.85.215.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 07BC56D726
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 82B566D8E8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 01:47:41 +0000 (UTC)
-Received: by mail-la0-f67.google.com with SMTP id ep20so404990lab.2
+	Wed, 13 Nov 2013 01:59:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD1xpAY024313
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 17:47:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=g7R79bQKjlV6qxRXxVSunFfzio5QmuJWR1fLpReUiuA=;
-	b=nh+9S4yot/Ktu6DseOw9Ztt5qWGPOeYO1trQ8MpUptFGh98t10gz7Y7RZd008PTIGq
-	sGZEfamCiNcyV6ru72XiJ6uQlEgP1dy5tHKJ5cQGxa83SEilXqm3EHL2bXZsdNP5cYDB
-	3W4e14+FYhcPrz4J/+yEQD4eO8lKZWaVu/0Pq3CLAzbVfBH3fqoMq/TvM+he0zNPNb3Y
-	Yy0s3mEA5W11Q7BCpNhMLZBc7oheefj1HxQDc4CK/XgFAt1ho/4clWQKYi4wuOo+bNU2
-	MtWs2UMX3S/MF44Mos0KL170X4eT8XyFpPBCZ/r+vfjXB3zKKlm+HfYfXvH5gKvpUedk
-	kCDw==
+	Tue, 12 Nov 2013 17:59:51 -0800 (PST)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Tue, 12 Nov 2013 17:59:51 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Nov 2013 19:59:19 -0600
+Message-ID: <1384307965-10290-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+In-Reply-To: <cover.1384305535.git.mark.hatle@windriver.com>
+References: <cover.1384305535.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.152.6.74 with SMTP id y10mr30023786lay.16.1384307262659;
-	Tue, 12 Nov 2013 17:47:42 -0800 (PST)
-Received: by 10.112.89.170 with HTTP; Tue, 12 Nov 2013 17:47:42 -0800 (PST)
-In-Reply-To: <CAKKsV2wExa=EZ4FWdcXiRJY1B=QnzO3uBTn2s23V9MtNSxOS0Q@mail.gmail.com>
-References: <CAKKsV2wExa=EZ4FWdcXiRJY1B=QnzO3uBTn2s23V9MtNSxOS0Q@mail.gmail.com>
-Date: Tue, 12 Nov 2013 20:47:42 -0500
-Message-ID: <CAKKsV2y+ZuaS27QqLtXjcY_qsT1UV01RVtdC=6C_SQpD7nJR5A@mail.gmail.com>
-From: Muhammad Tauqir Ahmad <mian.muhammad.tauqir.ahmad@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: Exploring LLVM/Clang for OE
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 5/6 v2] packagegroup-self-hosted: Use packagegroup-core-buildessential
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,50 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 01:47:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 13 Nov 2013 01:59:49 -0000
+Content-Type: text/plain
 
-According to the link below [1], it seems some works has been done at
-least for llvm+clang bitbake recipes, although I couldn't find any
-clang recipes when searching the net. If anyone can point me in the
-right direction for finding these recipes, that would be great.
+Instead of manually specifying build dependencies, use the
+packagegroup-core-buildessential.  This ensures there is only one place
+that needs to be modified when toolchain items and dependencies change.
 
-[1]: http://lists.linuxfoundation.org/pipermail/llvmlinux/2013-March/000205.html
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-Muhammad Tauqir Ahmad
---------------------------------------
-Software Developer Intern at WindRiver Systems
-Candidate for Honours Computer Science
-Combinatorics and Optimizations Minor
-University of Waterloo
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index 8e43201..e91a8d9 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -67,33 +67,23 @@ RRECOMMENDS_packagegroup-self-hosted-host-tools = "\
+ 
+ # eglibc-utils: for rpcgen
+ RDEPENDS_packagegroup-self-hosted-sdk = "\
+-    autoconf \
+-    automake \
+-    binutils \
+     ccache \
+     coreutils \
+-    cpp \
+     distcc \
+     eglibc-utils \
+     eglibc-gconv-ibm850 \
+     file \
+     findutils \
+-    g++ \
+-    gcc \
+     intltool \
+     ldd \
+     less \
+     libssp \
+     libssp-dev \
+     libssp-staticdev \
+-    libstdc++ \
+-    libstdc++-dev \
+-    libtool \
+-    make \
+     mktemp \
++    packagegroup-core-buildessential \
+     perl-module-re \
+     perl-module-text-wrap \
+-    pkgconfig \
+     quilt \
+     sed \
+     "
+-- 
+1.8.1.2.545.g2f19ada
 
-
-On Tue, Nov 12, 2013 at 8:40 PM, Muhammad Tauqir Ahmad
-<mian.muhammad.tauqir.ahmad@gmail.com> wrote:
-> Hi,
->
-> I am trying to explore the possibility of using LLVM+Clang for
-> building OE-core images.
-> The first objective might be to try to build (poky-tiny's)
-> core-image-minimal? That is the smallest image we know of so maybe
-> that's a good starting point?
->
-> Right now, I am looking at how to build LLVM+Clang cross-compiler
-> using bitbake and am trying to adapt the llvm3.3 recipe from meta-oe.
-> As far as I can tell, it doesn't build any tools (doesn't build Clang)
-> so I am looking at how to modify it to build Clang as well or maybe
-> just write a new recipe for clang3.3.
->
-> The email is meant as an RFC. I would appreciate any pointers and help
-> I could get with this.
-> I would also be interested in finding out if and how much work has
-> been done to try to use LLVM+Clang for OE in the past. If, e.g.,
-> someone already has the bitbake recipes to get me started and getting
-> some basic userspace packages to build with LLVM+Clang, it would be
-> really helpful and avoid duplicate work.
-> If someone is already working on this, I could work with them.
->
-> Any other general or specific comments would also be helpful.
->
-> Thanks.
 
