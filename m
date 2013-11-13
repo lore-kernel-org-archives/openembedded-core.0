@@ -1,21 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 42C896D868
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D72BD6D571
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 19:06:05 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Nov 2013 11:02:35 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="408304566"
-Received: from mcmahond-mobl.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.121.174])
-	by orsmga001.jf.intel.com with ESMTP; 13 Nov 2013 11:06:06 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2013 19:05:58 +0000
-Message-Id: <1384369558-20194-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] classes/image-empty: remove
+	Wed, 13 Nov 2013 19:18:57 +0000 (UTC)
+Received: by mail-vc0-f176.google.com with SMTP id ld13so625280vcb.21
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2013 11:18:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=U4WqAw+C9vkil6jnHNUh95kg0CQTyB/heT25FxmqtkQ=;
+	b=a09Nz7zjfw/ICWa6vjc1OCEm0mP4WPhOJaGT6Xrsy+cLTDxm/KbbgNyACbTMD7vBHX
+	AaISGjRWtIbfLoxLs8LXvVeu4PFFRLmyEpWgoq5GdSjcRCDjylYTstJyR19nkJ5Tpxo3
+	s9CHPXNbT/JFGWLPqjHRBEcwkQ4pNk2kBDI49o1RA7n586RB4vu+NAP6YUesiTzZ1nXX
+	ZCM3NZw6EdwethOkypNvD/zCEPryDomKXWkP+Wvd49Ub3gnBFcWm9mRYSLTqNE+78Ihd
+	yuuV2LaaYrG8M2P1tZ6YC+KvErJFll1ACCHCkFdPxsrrso5ghhXvRAkaxQP5bdreT4CP
+	9yPg==
+X-Gm-Message-State: ALoCoQnbXcZDkqzUkBczFoCcTUijogRssfnybsAGjLKuENheyPIBfM288eYjxFgUch51pxbPGc1W
+X-Received: by 10.52.160.35 with SMTP id xh3mr5234vdb.112.1384370339019; Wed,
+	13 Nov 2013 11:18:59 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Wed, 13 Nov 2013 11:18:38 -0800 (PST)
+In-Reply-To: <1384365634.17320.49.camel@phil-desktop.brightsign>
+References: <1384354266-15425-1-git-send-email-kirgene@gmail.com>
+	<1384365634.17320.49.camel@phil-desktop.brightsign>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 13 Nov 2013 19:18:38 +0000
+Message-ID: <CAJTo0LaXpAAG+nfZYsSr_PT=-tAQ9RLWW=yGYNPnnktRwbvMkQ@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] curl: allow build with c-ares library support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,48 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 19:06:05 -0000
+X-List-Received-Date: Wed, 13 Nov 2013 19:18:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-We don't actually need this dummy class; "inherit" can be used with an
-expression that evaluates to nothing with current BitBake.
+On 13 November 2013 18:00, Phil Blundell <pb@pbcl.net> wrote:
+> OpenedHand Ltd was apparently dissolved two years ago so I guess its
+> copyright notices are just historical artifacts.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/image-empty.bbclass |  0
- meta/classes/image.bbclass       | 12 ++++++------
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/classes/image-empty.bbclass
+FWIW, as of October 2008 anything that was (C) OpenedHand Ltd is (C) Intel Corp.
 
-diff --git a/meta/classes/image-empty.bbclass b/meta/classes/image-empty.bbclass
-deleted file mode 100644
-index e69de29..0000000
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 422a826..bc60f0d 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -95,15 +95,15 @@ def build_live(d):
-         d.setVar('NOISO', base_contains('IMAGE_FSTYPES', "iso", "0", "1", d))
-         d.setVar('NOHDD', base_contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
-         if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
--            return "live"
--        return "empty"
--    return "live"
-+            return "image-live"
-+        return ""
-+    return "image-live"
- 
- IMAGE_TYPE_live = "${@build_live(d)}"
- 
--inherit image-${IMAGE_TYPE_live}
--IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk", "empty", d)}'
--inherit image-${IMAGE_TYPE_vmdk}
-+inherit ${IMAGE_TYPE_live}
-+IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "image-vmdk", "", d)}'
-+inherit ${IMAGE_TYPE_vmdk}
- 
- python () {
-     deps = " " + imagetypes_getdepends(d)
--- 
-1.8.1.2
-
+Ross
 
