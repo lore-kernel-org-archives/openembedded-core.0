@@ -1,32 +1,38 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 976466D99C
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f42.google.com (mail-oa0-f42.google.com
+	[209.85.219.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 997CB6D99C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 02:21:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD2LCkP026765
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 12 Nov 2013 18:21:12 -0800 (PST)
-Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Tue, 12 Nov 2013 18:21:12 -0800
-Message-ID: <5282E214.5010700@windriver.com>
-Date: Wed, 13 Nov 2013 10:21:08 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+	Wed, 13 Nov 2013 02:24:51 +0000 (UTC)
+Received: by mail-oa0-f42.google.com with SMTP id h16so4104494oag.15
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 12 Nov 2013 18:24:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=GKIq/KT9BZW6tpmGcTSOVF7kVSugFpfckzhw0BcPvYY=;
+	b=svdwMUQzbq4D4P10Decd+nDFqepgQsCa7Z3gv+HHTNWo/VBgtZMxnfyB1wT4y+XMhy
+	bvFwyB2s0ExB4WHqRF/0gPaKPRwRFjJguVfU/i8BZyZfH0K/xW7dL1jCrrgMYyx1i7YG
+	htI2n1shSkODFh241rQJNDx5UX/7hGGjFclm8OEojmX/0kM+s3d5oKUVvVtlO+QCXXpS
+	4T0xwVgbpU0yZLj9lcpcFDaDxYnv8aQuHjKLR+mNMuAgF1m9RaqpP8V+oRIMP5jfGKgi
+	E12Dl3nYRw4EAlmopbfPri79/hoJ+bUhL3dud9fOlAt9/USRsnpPFT1cUy5iC5uI7LIA
+	TQig==
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1384244230-30541-1-git-send-email-ming.liu@windriver.com>
-	<CADkTA4OqaxJyRp-T298LG-Jm36tUNkZXvKawoWGtKOCETARTvA@mail.gmail.com>
-	<5282DDDB.4030709@windriver.com>
-	<CAP9ODKqWs2rp9q9uDOEXeQ0S67VeXgrAK9aCNa+h7c=uwH4wvg@mail.gmail.com>
-In-Reply-To: <CAP9ODKqWs2rp9q9uDOEXeQ0S67VeXgrAK9aCNa+h7c=uwH4wvg@mail.gmail.com>
-X-Originating-IP: [128.224.162.145]
+X-Received: by 10.182.142.37 with SMTP id rt5mr9808551obb.76.1384309493166;
+	Tue, 12 Nov 2013 18:24:53 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Tue, 12 Nov 2013 18:24:53 -0800 (PST)
+In-Reply-To: <c9dd76ae9feb0069409763f3f65ae4ff2ef10634.1384305535.git.mark.hatle@windriver.com>
+References: <cover.1384305535.git.mark.hatle@windriver.com>
+	<c9dd76ae9feb0069409763f3f65ae4ff2ef10634.1384305535.git.mark.hatle@windriver.com>
+Date: Wed, 13 Nov 2013 00:24:53 -0200
+X-Google-Sender-Auth: ti76y8ojVkfD_HVrpVm1P4ZU4mU
+Message-ID: <CAP9ODKpK=eqk_UCR+RQB0N4u+qv8iGTit5S2iHCeu2LJgjhrUQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mark Hatle <mark.hatle@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: handles symbolic KERNEL_OUTPUT in bundle_initramfs task
+Subject: Re: [PATCH 1/6] gcc: Use alternatives for the *-symlinks packages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,20 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 02:21:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Nov 2013 02:24:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 11/13/2013 10:18 AM, Otavio Salvador wrote:
-> On Wed, Nov 13, 2013 at 12:03 AM, Ming Liu <ming.liu@windriver.com> wrote:
-> ...
->> So, I will put it into another commit, I will send the V1 soon including all
->> the changes discussed above.
-> v2 ;-)
-Got it. Thanks! :)
-
-//Ming Liu
-
+On Tue, Nov 12, 2013 at 11:23 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> The various gcc related symlinks should be provided as alternatives instead
+> of hard coded symlinks.  This will permit multiple toolchains on a system.
 >
+> Multiple toolchains could come from multilib configurations or alternative
+> open source or commerical sources.
+>
+> Note, gccbug was skipped since it doesn't seem to be generated anymore.
+>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
+Wouldn't be better to squash patches 1 and 2 so it makes a real 'logic
+change'? You add code to remove in patch 2, I think the end patch
+would be easier to review, no?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
