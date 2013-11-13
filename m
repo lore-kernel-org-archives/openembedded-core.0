@@ -1,31 +1,25 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qe0-f53.google.com (mail-qe0-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 56C7B6D571
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C76B6D571
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 00:56:35 +0000 (UTC)
-Received: by mail-qe0-f53.google.com with SMTP id cy11so6063233qeb.40
+	Wed, 13 Nov 2013 01:23:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id rAD1NsnP021590
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2013 16:56:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=yeTAEpl/ZC0iGvisoxAq00SMMGqSIjcc1hW+Zf9rUm8=;
-	b=bAEhBr1OV3bYqPWlma8DcliI/x2HTxn9mBd3oQYaSlfI4Af+0B2Go0zbAGxwEhsNbM
-	9vZOwjBty/DEY8GB0H77g0Ibcnec4MH7FE3iinw6sHdRPgg92eVQHtft6dAvaj3eKAKD
-	/lb7LLMU1Few53Z4wTf40dnMeCD01nXtrYkSNdgalVvwAnvkMjQ4NOoj5Ke0E0Z/Q8F9
-	oZNJr6G90X777/J9OCXmvEJseLfBvKoDq3zpRdPfe3XtXVmuxE0MpPzBNqQIXIt/RdHC
-	AeJxYQ6wMcfljf0ICtUdl67ud3rcBhQK9oNv7hp33Ket1UqgeO6xsUIfa92IRt2JO6bP
-	k0dQ==
+	Tue, 12 Nov 2013 17:23:54 -0800 (PST)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Tue, 12 Nov 2013 17:23:54 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 12 Nov 2013 19:23:19 -0600
+Message-ID: <cover.1384305535.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 MIME-Version: 1.0
-X-Received: by 10.49.24.161 with SMTP id v1mr28373287qef.75.1384304196779;
-	Tue, 12 Nov 2013 16:56:36 -0800 (PST)
-Received: by 10.96.55.197 with HTTP; Tue, 12 Nov 2013 16:56:36 -0800 (PST)
-Date: Wed, 13 Nov 2013 02:56:36 +0200
-Message-ID: <CADV-EXFZta7Y=vb57czxCpCPkcrtkj4dkhpX+y1O37F_e2tXOQ@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] curl: build with c-ares library support
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 0/6] Misc changes relating to toolchain and image gen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,43 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 00:56:36 -0000
-Content-Type: multipart/alternative; boundary=047d7b6dcd04e904f004eb046f83
+X-List-Received-Date: Wed, 13 Nov 2013 01:23:53 -0000
+Content-Type: text/plain
 
---047d7b6dcd04e904f004eb046f83
-Content-Type: text/plain; charset=ISO-8859-1
+A few misc fixes relating to toolchain and image generation.
 
-> I am still considering this patch, but need to understand what platforms
-> curl is failing on.
+The first two in the set simply updated gcc to remove the -symlinks package
+in favor of update-alternatives.
 
-As far as I've tested curl crashes on i386, cedartrail and x86-64 platforms.
+The next fixes an issue w/ the previous binutils patch and upgrades.
 
-The c-ares recipe was borrowed from meta-webos-ports.
+Next 2 update packagegroups to make revise and use the 
+packagegroup-core-buildessentials.
 
-I'll prepare new version of this patch that will include PACKAGECONFIG
-switch.
+The final patch fixes an issue w/ the image generatation.  If the 
+IMAGE_INSTALL contains a dependency instead of a package name, the system
+was not able to translate it into a package.  This now works properly.
 
-Best regards,
-Yevhen
+Note, there is a case where an unresolvable set could be determined (rare,
+but it is possible), in this case the user would need to add whatever is
+required to fix it to the IMAGE_INSTALL.  (This could happen when 2 or more
+conflicting packages all have the same provide, but none of them are in
+the IMAGE_INSTALL line.  The system will attempt to determine which to
+use, by checking if any of them are already in the IMAGE_INSTALL -- otherwise
+it chooses the first entry.  If something else implied by a packagegroup
+chooses a different version, a conflict would be generated.)
 
---047d7b6dcd04e904f004eb046f83
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 616354f13732d13c17434d5b60b166f691c25761:
 
-<div dir=3D"ltr"><div><span style=3D"font-family:arial,sans-serif;font-size=
-:13px">&gt; I am still considering this patch, but need to understand what =
-platforms</span><br style=3D"font-family:arial,sans-serif;font-size:13px"><=
-span style=3D"font-family:arial,sans-serif;font-size:13px">&gt; curl is fai=
-ling on.</span><br>
-</div><div><br></div><div>As far as I&#39;ve tested curl crashes on i386, c=
-edartrail and x86-64 platforms.</div><div><br></div><div>The c-ares recipe =
-was borrowed from=A0<span style=3D"font-family:arial,sans-serif;font-size:1=
-3px">meta-webos-ports</span>.</div>
-<div><br></div><div>I&#39;ll prepare new version of this patch that will in=
-clude=A0<span style=3D"font-family:arial,sans-serif;font-size:13px">PACKAGE=
-CONFIG switch.</span></div><br clear=3D"all"><div>Best regards,<br>Yevhen</=
-div>
+  binutils: Add gnu-config-native to DEPENDS (2013-11-12 16:00:20 +0000)
 
-</div>
+are available in the git repository at:
 
---047d7b6dcd04e904f004eb046f83--
+  git://git.yoctoproject.org/poky-contrib mhatle/misc1
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/misc1
+
+Mark Hatle (6):
+  gcc: Use alternatives for the *-symlinks packages.
+  gcc: Drop *-symlinks
+  binutils: Ensure old -symlinks packages get removed
+  packagegroups: Remove toolchain *-symlinks packages
+  packagegroup-self-hosted: Use packagegroup-core-buildessentials
+  package_rpm: Allow translation of requirement to package name
+
+ meta/classes/package_rpm.bbclass                   |  79 +++++++++++++++-
+ .../packagegroup-core-buildessential.bb            |   4 -
+ .../packagegroups/packagegroup-self-hosted.bb      |  16 +---
+ meta/recipes-devtools/binutils/binutils.inc        |   1 +
+ meta/recipes-devtools/gcc/gcc-target.inc           | 103 +++++++++++++--------
+ 5 files changed, 141 insertions(+), 62 deletions(-)
+
+-- 
+1.8.1.2.545.g2f19ada
+
+
