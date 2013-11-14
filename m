@@ -1,27 +1,43 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id ED1336D732
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FC3B6D965
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 13:52:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Nov 2013 05:52:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,699,1378882800"; d="scan'208";a="433424009"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.41])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2013 05:52:55 -0800
-Date: Thu, 14 Nov 2013 15:52:54 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20131114135254.GB7503@lpalcu-linux>
-References: <cover.1383742507.git.laurentiu.palcu@intel.com>
-	<0dcafa1bce7a6ae871ee0f6b20eab8834860b334.1383742507.git.laurentiu.palcu@intel.com>
-	<20131114124302.GA7503@lpalcu-linux>
-	<1384435150.6460.124.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1384435150.6460.124.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] flex: fix m4 issue on target
+	Thu, 14 Nov 2013 14:41:21 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>) id 1Vgy6k-0001Gi-9j
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Nov 2013 15:41:22 +0100
+Message-ID: <1384440081.17320.65.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Nov 2013 14:41:21 +0000
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview: Boost::thread uses functions from boost::atomic but
+	doesn't
+	actually link with libboost_atomic. This works fine on platforms where
+	BOOST_ATOMIC_FLAG_LOCK_FREE
+	is true but will lead to undefined symbol references otherwise. Fix
+	this
+	by applying a patch from the upstream bug tracker to add the missing
+	library linkage. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Subject: [PATCH] boost: Add patch to avoid undefined references to boost::atomic::lockpool::get_lock_for()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,79 +50,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 13:52:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 14 Nov 2013 14:41:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 14, 2013 at 01:19:10PM +0000, Richard Purdie wrote:
-> On Thu, 2013-11-14 at 14:43 +0200, Laurentiu Palcu wrote:
-> > Even though this was in the last C-pull, for some reason, it didn't end
-> > up in master... Didn't see any comments on it either. Or maybe I missed
-> > them...
-> 
-> In the target case, M4 should be compiled in as ${bindir}/m4 and there
-> should be no need of a wrapper. Can someone confirm this is the case? Is
-> the OEMAKE command only used for compilation and not built into the
-> target?
-The m4 variable set in EXTRA_OEMAKE is used to generate skel.c file. And, for
-that, it needs the native m4. It does not end into the target. The path
-set with ac_cv_path_M4=${M4} in EXTRA_OECONF ends into the target.
+Boost::thread uses functions from boost::atomic but doesn't actually
+link with libboost_atomic.  This works fine on platforms where
+BOOST_ATOMIC_FLAG_LOCK_FREE is true but will lead to undefined
+symbol references otherwise.  Fix this by applying a patch from
+the upstream bug tracker to add the missing library linkage.
 
-Laurentiu
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> > Thanks,
-> > Laurentiu
-> > 
-> > On Wed, Nov 06, 2013 at 03:07:58PM +0200, Laurentiu Palcu wrote:
-> > > Flex needs m4 to run (see below) and, since the create_wrapper
-> > > introduces a bash dependency on target, give the path to m4 binary in
-> > > the configure command line.
-> > > 
-> > > Snippet from the flex documentation:
-> > > "The macro processor m4 must be installed wherever flex is installed.
-> > > <...>
-> > > m4 is only required at the time you run flex."
-> > > 
-> > > [YOCTO #5329]
-> > > 
-> > > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> > > ---
-> > >  meta/recipes-devtools/flex/flex.inc |    5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > > 
-> > > diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
-> > > index 43f1dda..96d5de5 100644
-> > > --- a/meta/recipes-devtools/flex/flex.inc
-> > > +++ b/meta/recipes-devtools/flex/flex.inc
-> > > @@ -13,6 +13,9 @@ inherit autotools gettext
-> > >  M4 = "${bindir}/m4"
-> > >  M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
-> > >  
-> > > +EXTRA_OECONF += "ac_cv_path_M4=${M4}"
-> > > +EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
-> > > +
-> > >  do_install_append_class-native() {
-> > >  	create_wrapper ${D}/${bindir}/flex M4=${M4}
-> > >  }
-> > > @@ -20,3 +23,5 @@ do_install_append_class-native() {
-> > >  do_install_append_class-nativesdk() {
-> > >  	create_wrapper ${D}/${bindir}/flex M4=${M4}
-> > >  }
-> > > +
-> > > +RDEPENDS_${PN} += "m4"
-> > > -- 
-> > > 1.7.9.5
-> > > 
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > 
-> 
-> 
+Signed-off-by: Phil Blundell <pb@pbcl.net>
+---
+ meta/recipes-support/boost/boost_1.54.0.bb         |  1 +
+ .../files/boost-1.54.0-thread-link_atomic.patch    | 59 ++++++++++++++++++++++
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-support/boost/files/boost-1.54.0-thread-link_atomic.patch
+
+diff --git a/meta/recipes-support/boost/boost_1.54.0.bb b/meta/recipes-support/boost/boost_1.54.0.bb
+index 3cf88fa..9e7a60a 100644
+--- a/meta/recipes-support/boost/boost_1.54.0.bb
++++ b/meta/recipes-support/boost/boost_1.54.0.bb
+@@ -3,4 +3,5 @@ include boost.inc
+ 
+ SRC_URI += "file://arm-intrinsics.patch \
+             file://glibc.patch \
++            file://boost-1.54.0-thread-link_atomic.patch \
+            "
+diff --git a/meta/recipes-support/boost/files/boost-1.54.0-thread-link_atomic.patch b/meta/recipes-support/boost/files/boost-1.54.0-thread-link_atomic.patch
+new file mode 100644
+index 0000000..d39d0a9
+--- /dev/null
++++ b/meta/recipes-support/boost/files/boost-1.54.0-thread-link_atomic.patch
+@@ -0,0 +1,59 @@
++Link boost_thread with boost_atomic to avoid undefined references to
++boost::atomic::detail::lock_pool::get_lock_for().
++
++From https://svn.boost.org/trac/boost/ticket/9041
++
++Phil Blundell <pb@pbcl.net>
++Upstream-Status: Backport
++
++diff -Nurp boost_1_54_0/libs/thread/build/has_atomic_flag_lockfree_test.cpp boost_1_54_0.pm/libs/thread/build/has_atomic_flag_lockfree_test.cpp
++--- boost_1_54_0/libs/thread/build/has_atomic_flag_lockfree_test.cpp	1970-01-01 01:00:00.000000000 +0100
+++++ boost_1_54_0.pm/libs/thread/build/has_atomic_flag_lockfree_test.cpp	2013-08-23 19:51:52.706329968 +0200
++@@ -0,0 +1,14 @@
+++// Copyright (c) 2013, Petr Machata, Red Hat Inc.
+++//
+++// Use modification and distribution are subject to the boost Software
+++// License, Version 1.0.  (See http://www.boost.org/LICENSE_1_0.txt).
+++
+++#include "../../../boost/atomic.hpp"
+++#include "../../../boost/static_assert.hpp"
+++
+++int
+++main(int argc, char *argv[])
+++{
+++  BOOST_STATIC_ASSERT(BOOST_ATOMIC_FLAG_LOCK_FREE);
+++  return 0;
+++}
++diff -Nurp boost_1_54_0/libs/thread/build/Jamfile.v2 boost_1_54_0.pm/libs/thread/build/Jamfile.v2
++--- boost_1_54_0/libs/thread/build/Jamfile.v2	2013-06-15 12:35:45.000000000 +0200
+++++ boost_1_54_0.pm/libs/thread/build/Jamfile.v2	2013-08-23 19:52:30.018613408 +0200
++@@ -36,6 +36,7 @@ import os ;
++ import feature ;
++ import indirect ;
++ import path ;
+++import configure ;
++ 
++ project boost/thread
++     : source-location ../src
++@@ -140,6 +141,8 @@ local rule default_threadapi ( )
++ feature.feature threadapi : pthread win32 : propagated ;
++ feature.set-default threadapi : [ default_threadapi ] ;
++ 
+++exe has_atomic_flag_lockfree : ../build/has_atomic_flag_lockfree_test.cpp ;
+++
++ rule tag ( name : type ? : property-set )
++ {
++     local result = $(name) ;
++@@ -248,6 +251,12 @@ rule requirements ( properties * )
++ {
++     local result ;
++ 
+++    if ! [ configure.builds has_atomic_flag_lockfree
+++	   : $(properties) : "lockfree boost::atomic_flag" ]
+++    {
+++        result += <library>/boost/atomic//boost_atomic ;
+++    }
+++
++     if <threadapi>pthread in $(properties)
++     {
++         result += <define>BOOST_THREAD_POSIX ;
+-- 
+1.8.4.rc3
+
+
+
 
