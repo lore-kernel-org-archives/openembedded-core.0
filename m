@@ -1,39 +1,37 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 671B86D75C
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id EA7696D87A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 22:20:09 +0000 (UTC)
-Received: by mail-qc0-f171.google.com with SMTP id s13so667443qcv.30
+	Thu, 14 Nov 2013 01:45:53 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id k1so1520927oag.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 14:20:11 -0800 (PST)
+	Wed, 13 Nov 2013 17:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=4egHn7JWJwkkQ+2icG0QyqQl3HnlbMFCW9M3tsl9GFQ=;
-	b=ctY6EQamnAOFmK5gtEnkHuyrTnLfUVjrwD0R4qR8xo4Dl+Di5m8VoZdgLHemW2Se18
-	p9mFzJGerbazAOvFSH6JESJyIV2yeSKcTud9ctvI/D+jCccTrRvNF4znq8T+9iqu9cX0
-	cRw8E8O3osv2hDPhuLZ+YjJJQVXmAmHPnm8BkKKEMKEI17u6KdRlPdGQ64N2qY3dE+YL
-	bg/Hk977wIaJXa8jp2ZVrPtwD2uircxgXU2sWA+lAhudeaCvlZPVTxaY2ncHTxf9+rAi
-	VPLUdnB8jS7Q98tp0Oh4glKOe3EooKouxKWmtRnReWrHLNL8HtMpJWLmi/IDt1JvUb28
-	U5Bg==
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=1sPHPW8iPU5F60aE8r3yXNIfyalX0LpZkxwDx3Z2Z2Q=;
+	b=aAi3euqIlN7WNPQMfhbIUGZKtCMJuvasjCG1eU9N3l43ZiBgY5wxGUdZ7MAtfIRDcD
+	2qJgpTxIECmaEeOZD/OBWIwoNWkr20QX1szNTlGBlTrk8CicJNxfoewNlPQtSeoMD96Z
+	ygApp1jJr3BaOrc7geEnXDME8kU+78ij21EDgdjfXEEmMFbyvazxXjGE0BJ+Y5MQnZnb
+	W2++fUPTwujb9LHh4f0DhSu3PjdsTfaMrgTK1ceeTQ89MKFqKhZ4xHOXvK1rJINLRA+I
+	gCSt88k+fyqJ+aSAycrIlJnExM4Hbbsohu0uzKBUb2khcq5MFizBfbByuvo5pzuTZBf8
+	z/fQ==
 MIME-Version: 1.0
-X-Received: by 10.224.119.76 with SMTP id y12mr60251945qaq.58.1384381210901;
-	Wed, 13 Nov 2013 14:20:10 -0800 (PST)
-Received: by 10.96.55.197 with HTTP; Wed, 13 Nov 2013 14:20:10 -0800 (PST)
-In-Reply-To: <5283B95F.1090108@linux.intel.com>
-References: <1384354266-15425-1-git-send-email-kirgene@gmail.com>
-	<5283AA52.4090102@linux.intel.com>
-	<CADV-EXGSZuXVO7DqgGUnxCzNQUYXyCtNt1XXAbEAuN9gWisPSA@mail.gmail.com>
-	<5283B95F.1090108@linux.intel.com>
-Date: Thu, 14 Nov 2013 00:20:10 +0200
-Message-ID: <CADV-EXFh8Q+P2QXcPgt-u02OocZD=_cu5cKfZu_pByr0e-LnUQ@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
+X-Received: by 10.60.60.71 with SMTP id f7mr4951194oer.82.1384393555101; Wed,
+	13 Nov 2013 17:45:55 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 13 Nov 2013 17:45:54 -0800 (PST)
+In-Reply-To: <5283F507.7050607@linux.intel.com>
+References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>
+	<5283F507.7050607@linux.intel.com>
+Date: Wed, 13 Nov 2013 23:45:54 -0200
+X-Google-Sender-Auth: 27GCtWMulO9mSPtPMldX61ER2ao
+Message-ID: <CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Saul Wold <sgw@linux.intel.com>
-Cc: Phil Blundell <philb@gnu.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] curl: allow build with c-ares library support.
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,149 +44,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2013 22:20:09 -0000
+X-List-Received-Date: Thu, 14 Nov 2013 01:45:54 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-2013/11/13 Saul Wold <sgw@linux.intel.com>:
-> On 11/13/2013 09:25 AM, Yevhen Kyriukha wrote:
+On Wed, Nov 13, 2013 at 7:54 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 11/01/2013 06:31 AM, Otavio Salvador wrote:
 >>
->> 2013/11/13 Saul Wold <sgw@linux.intel.com>:
->>>
->>> On 11/13/2013 06:51 AM, Yevhen Kyriukha wrote:
->>>>
->>>>
->>>> Also added c-ares library recipe.
->>>>
->>>> In libcurl there is an issue with DNS lookups that cause crash on some
->>>> platforms:
->>>> http://curl.haxx.se/mail/lib-2008-09/0197.html
->>>> To avoid this issue libcurl has to be built with c-ares name resolver.
->>>>
->>> This still does not fully explain why this is needed. Nor credits to
->>> origin
->>> of the c-ares recipe.
->>>
+>> This updates lttng-modules for 2.3.2 and also includes a bugfix
+>> imported from 3.4 kernel. The changes included are:
 >>
->> Do you meen to note layer name where I get this recipe from in commit?
->> The c-ares recipe was borrowed from meta-webos-ports.
->>
-> Yes, you need to say that as part of your patch, but I still want more
-> details below about using the internal threaded resolver before we add a new
-> recipe.
->
->
->>> You also did not address Phil Blundell's comment about causing other
->>> issues,
->>> and possibibly using the existing libcurl internal threaded resolver.
->>>
->>> Can you test with the internal resolver to see if it address your issues,
->>> before we add a new recipe.
->>>
->>
->> As far as I've tested curl crashes on i386 and Intel Cedartrail
->> platforms with internal threaded resolver.
->>
-> Did you explictly enable the threaded resolver with
-> --enable-threaded-resolver?
->
-> Thanks
->         Sau!
->
->
->
->> Best regards,
->> Yevhen
->>
->>>
->>>> Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
->>>> ---
->>>>    meta/recipes-support/c-ares/c-ares_1.10.0.bb | 24
->>>> ++++++++++++++++++++++++
->>>>    meta/recipes-support/curl/curl_7.33.0.bb     |  2 ++
->>>>    2 files changed, 26 insertions(+)
->>>>    create mode 100644 meta/recipes-support/c-ares/c-ares_1.10.0.bb
->>>>
->>>
->>> This still needs to be split into 2 distict patches, one adding the
->>> c-ares
->>> recipe and a second one to use the PACKAGECONFIG.
->>>
->>> Sau!
->>>
->>>
->>>> diff --git a/meta/recipes-support/c-ares/c-ares_1.10.0.bb
->>>> b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
->>>> new file mode 100644
->>>> index 0000000..23b3d0e
->>>> --- /dev/null
->>>> +++ b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
->>>> @@ -0,0 +1,24 @@
->>>> +# Copyright (c) 2012-2013 LG Electronics, Inc.
->>>> +
->>>> +DESCRIPTION = "c-ares is a C library that resolves names
->>>> asynchronously."
->>>> +HOMEPAGE = "http://daniel.haxx.se/projects/c-ares/"
->>>> +SECTION = "libs"
->>>> +LICENSE = "MIT"
->>>> +LIC_FILES_CHKSUM =
->>>>
->>>> "file://README;beginline=17;endline=18;md5=b320556568bc067d215a1e34c5b34a14"
->>>> +
->>>> +inherit autotools
->>>> +inherit pkgconfig
->>>> +
->>>> +SRC_URI = "http://c-ares.haxx.se/download/${BP}.tar.gz"
->>>> +SRC_URI[md5sum] = "1196067641411a75d3cbebe074fd36d8"
->>>> +SRC_URI[sha256sum] =
->>>> "3d701674615d1158e56a59aaede7891f2dde3da0f46a6d3c684e0ae70f52d3db"
->>>> +
->>>> +EXTRA_OECONF = "--enable-shared"
->>>> +
->>>> +# install private headers to ares subdirectory
->>>> +do_install_append() {
->>>> +    install -d ${D}/${includedir}/ares
->>>> +    install -m 0644 ares*.h ${D}/${includedir}/ares/
->>>> +}
->>>> +
->>>> +FILES_${PN}-dev += "${includedir}/ares/*.h"
->>>> diff --git a/meta/recipes-support/curl/curl_7.33.0.bb
->>>> b/meta/recipes-support/curl/curl_7.33.0.bb
->>>> index 8539fec..717c4f9 100644
->>>> --- a/meta/recipes-support/curl/curl_7.33.0.bb
->>>> +++ b/meta/recipes-support/curl/curl_7.33.0.bb
->>>> @@ -23,6 +23,8 @@ SRC_URI[sha256sum] =
->>>> "0afde4cd949e2658eddc3cda675b19b165eea1af48ac5f3e1ec1607922
->>>>
->>>>    inherit autotools pkgconfig binconfig
->>>>
->>>> +PACKAGECONFIG[c-ares] = "--enable-ares,--disable-ares,c-ares"
->>>> +
->>>>    EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
->>>>                    --without-libssh2 \
->>>>                    --with-random=/dev/urandom \
->>>>
->>>
->>
->>
->> Best regards,
->> Yevhen
->>
+>> 6c26b01 Blacklist Linux kernels 3.10+
+>> b97d469 LTTng trace-clock: shrink kernel blacklist
+>> 7d40f8e Version 2.3.1
+>> 2aecb9b Blacklist kernels 3.10.13 and 3.11.2
+>> 4f1217f Version 2.3.2
+>> 92fff0c Import fix from LTSI: 3.4+ RT kernels use CONFIG_PREEMPT_RT_FULL
+>> 1874075 lttng-statedump-impl: Fix lttng_list_interrupts for empty
+>> implementation
 >>
 >
+> Otavio,
+>
+> Tried to build this locally and got the following failure with genericx86
+> and master:
+>
+> |   CC [M]
+> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o
+> | In file included from
+> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-tracer.h:37:0,
+> |                  from
+> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.c:24:
+> |
+> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/wrapper/trace-clock.h:40:2:
+> error: #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
+> timekeeping subsystem. Fixed by commit
+> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK related
+> deadlock from ntp lock changes\" in Linux."
+> |  #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
+> timekeeping subsystem. Fixed by commit
+> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK related
+> deadlock from ntp lock changes\" in Linux."
+> |   ^
+> | make[2]: ***
+> [/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o]
+> Error 1
+> | make[1]: ***
+> [_module_/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git]
+> Error 2
+> | make[1]: Leaving directory
+> `/srv/ssd/sgw/builds/world/tmp/sysroots/genericx86/usr/src/kernel'
+> | make: *** [default] Error 2
+> | ERROR: oe_runmake failed
+>
+> So I am going to hold off on this patch set until you can resolve this.
 
-Hmm... I thought that threaded resolver is used by default.
-I had "longjmp causes uninitialized stack frame" error but enabling
-threaded resolver explicitly fixed the problem.
+Yes; this is becase the linux-yocto seems to not have been updated to
+> 3.10.13; so in fact it is failing to build to avoid people to
+trigger the deadlock.
 
-Anyway I think that adding c-ares support in curl is good idea.
-I'll prepare new version of patch (without mention of issue) if there
-is no objections.
+The change which introduces this in lttng-modules is:
 
-And in this case maybe it will be better to use threaded resolver by
-default if c-ares is not specified.
+http://git.lttng.org/?p=lttng-modules.git;a=commit;h=2aecb9b1cbb63f6c524ad9195d8fd06299ef9296
 
-How do you think?
+I can update this patch as 2.3.3 has been released and it includes the
+3.12 fixes but please check when linux-yocto will be updated so we can
+fix it.
 
 Regards,
-Yevhen
+
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
