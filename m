@@ -1,39 +1,27 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 013916D588
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A3B96D571
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 18:15:48 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>) id 1Vh1SF-0001Wu-9D
-	for openembedded-core@lists.openembedded.org;
-	Thu, 14 Nov 2013 19:15:50 +0100
-Message-ID: <1384452946.17320.85.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Nov 2013 18:15:46 +0000
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details. Content preview:  ADOBE_MIRROR,
-	HANDHELDS_CVS and E_SVN were broken links and
-	not used by any recipe in oe-core. FREEDESKTOP_CVS is no longer useful
-	because all the source code that matters is in git;
-	no recipe in oe-core still uses the CVS repository. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] bitbake.conf: Remove obsolete/unused MIRROR cruft
+	Thu, 14 Nov 2013 18:28:45 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 14 Nov 2013 10:25:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="435363314"
+Received: from unknown (HELO [10.255.15.61]) ([10.255.15.61])
+	by orsmga002.jf.intel.com with ESMTP; 14 Nov 2013 10:28:44 -0800
+Message-ID: <5285165C.9030908@linux.intel.com>
+Date: Thu, 14 Nov 2013 10:28:44 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Paul Woegerer <paul_woegerer@mentor.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1384432474-20764-1-git-send-email-paul_woegerer@mentor.com>
+	<1384432474-20764-2-git-send-email-paul_woegerer@mentor.com>
+In-Reply-To: <1384432474-20764-2-git-send-email-paul_woegerer@mentor.com>
+Cc: otavio@ossystems.com.br
+Subject: Re: [PATCH 1/3] liburcu: Update to version 0.7.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +34,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 18:15:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Nov 2013 18:28:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-ADOBE_MIRROR, HANDHELDS_CVS and E_SVN were broken links and not used by
-any recipe in oe-core.
+On 11/14/2013 04:34 AM, Paul Woegerer wrote:
+> Signed-off-by: Paul Woegerer <paul_woegerer@mentor.com>
+> ---
+>   meta/recipes-support/liburcu/{liburcu_0.7.7.bb => liburcu_0.7.9.bb} | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-support/liburcu/{liburcu_0.7.7.bb => liburcu_0.7.9.bb} (81%)
+>
+> diff --git a/meta/recipes-support/liburcu/liburcu_0.7.7.bb b/meta/recipes-support/liburcu/liburcu_0.7.9.bb
+> similarity index 81%
+> rename from meta/recipes-support/liburcu/liburcu_0.7.7.bb
+> rename to meta/recipes-support/liburcu/liburcu_0.7.9.bb
+> index a75e92e..c8c4802 100644
+> --- a/meta/recipes-support/liburcu/liburcu_0.7.7.bb
+> +++ b/meta/recipes-support/liburcu/liburcu_0.7.9.bb
+> @@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
+>
+>   SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+>
+> -SRC_URI[md5sum] = "d14de3ff32eb1ab9424b258599c8a6f3"
+> -SRC_URI[sha256sum] = "8ab8a7d8fea47c09ceac24c9277f00da626bbd9426c973eb325b1baf33b4bdfb"
+> +SRC_URI[md5sum] = "a625266e17437f91111ab4e736c5056f"
+> +SRC_URI[sha256sum] = "a7e1f781773c953d5cc456aa92a3c6d2385c5f984d8d576dccfaf93dd14f1405"
+>
+>   S = "${WORKDIR}/userspace-rcu-${PV}"
+>   CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+>
+We appear to have updated this to 0.8.0 already, will that be a problem?
 
-FREEDESKTOP_CVS is no longer useful because all the source code that 
-matters is in git; no recipe in oe-core still uses the CVS repository.
-
-E_MIRROR, FREEBSD_MIRROR, FREESMARTPHONE_GIT still point to valid-seeming
-locations but there are no recipes in oe-core that use them.  Any layers
-which need these variables can define them for themselves.
-
-GPE_SVN, GPE_EXTRA_SVN, GPEPHONE_MIRROR and GPEPHONE_SVN are not used by
-any recipe in oe-core and the corresponding projects seem to be mostly
-dead upstream.  Again, any layers which still wish to use these variables
-can define them locally.
-
-All the above are just wasting space in bitbake's datastore and would be
-better deleted.
-
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/conf/bitbake.conf | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 0f6c28e..e6349cc 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -560,24 +560,13 @@ BUILD_OPTIMIZATION = "-O2 -pipe"
- # Download locations and utilities.
- ##################################################################
- 
--ADOBE_MIRROR = "http://fpdownload.macromedia.com/get/flashplayer/current/"
- APACHE_MIRROR = "http://www.apache.org/dist"
- DEBIAN_MIRROR = "ftp://ftp.debian.org/debian/pool"
--E_MIRROR = "http://download.enlightenment.org/releases"
--E_SVN = "svn://svn.enlightenment.org/svn/e"
--FREEBSD_MIRROR = "ftp://ftp.freebsd.org/pub/FreeBSD/"
--FREEDESKTOP_CVS = "cvs://anoncvs:anoncvs@anoncvs.freedesktop.org/cvs"
--FREESMARTPHONE_GIT = "git://git.freesmartphone.org"
- GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
- GNOME_GIT = "git://git.gnome.org"
- GNOME_MIRROR = "http://ftp.gnome.org/pub/GNOME/sources"
- GNU_MIRROR = "ftp://ftp.gnu.org/gnu"
- GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
--GPE_EXTRA_SVN = "svn://projects.linuxtogo.org/svn/gpe/trunk/extra;module=${PN}"
--GPE_SVN = "svn://projects.linuxtogo.org/svn/gpe/trunk/base;module=${PN}"
--GPEPHONE_MIRROR = "http://gpephone.linuxtogo.org/download/gpephone"
--GPEPHONE_SVN = "svn://projects.linuxtogo.org/svn/gpephone/trunk/source;module=${PN}"
--HANDHELDS_CVS = "cvs://anoncvs:anoncvs@anoncvs.handhelds.org/cvs"
- KERNELORG_MIRROR = "http://kernel.org/pub"
- SOURCEFORGE_MIRROR = "http://downloads.sourceforge.net"
- XLIBS_MIRROR = "http://xlibs.freedesktop.org/release"
--- 
-1.8.4.rc3
-
-
+Sau!
 
 
