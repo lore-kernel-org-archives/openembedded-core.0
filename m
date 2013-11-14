@@ -1,32 +1,27 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 71230617AA
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id ED1336D732
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 13:50:23 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 74EF2F811EE; Thu, 14 Nov 2013 06:50:25 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id C6377F811EC;
-	Thu, 14 Nov 2013 06:50:24 -0700 (MST)
-Message-ID: <5284D523.1040106@mlbassoc.com>
-Date: Thu, 14 Nov 2013 06:50:27 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Thu, 14 Nov 2013 13:52:54 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Nov 2013 05:52:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,699,1378882800"; d="scan'208";a="433424009"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.41])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2013 05:52:55 -0800
+Date: Thu, 14 Nov 2013 15:52:54 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20131114135254.GB7503@lpalcu-linux>
+References: <cover.1383742507.git.laurentiu.palcu@intel.com>
+	<0dcafa1bce7a6ae871ee0f6b20eab8834860b334.1383742507.git.laurentiu.palcu@intel.com>
+	<20131114124302.GA7503@lpalcu-linux>
+	<1384435150.6460.124.camel@ted>
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <cover.1384433183.git.Qi.Chen@windriver.com>	
-	<a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>	
-	<5284CFAD.2060903@mlbassoc.com>
-	<1384436557.17320.62.camel@phil-desktop.brightsign>
-In-Reply-To: <1384436557.17320.62.camel@phil-desktop.brightsign>
+In-Reply-To: <1384435150.6460.124.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sanity.bbclass: check for validity of TMPDIR
+Subject: Re: [PATCH v2 1/1] flex: fix m4 issue on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,32 +34,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 13:50:25 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Nov 2013 13:52:55 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2013-11-14 06:42, Phil Blundell wrote:
-> On Thu, 2013-11-14 at 06:27 -0700, Gary Thomas wrote:
->> Also, is "-" actually valid?  I seem to recall having problems when my build
->> tree had the hyphen ("-") in the path.
->
-> Paths with "-" in certainly work for me.  If there are any recipes which
-> break in that situation then we should just fix them.
->
-> OE already has quite a range of baroque restrictions on what sort of
-> TMPDIR you are allowed to use (no nfs, no symlinks in the path, no
-> spaces in the name) and every new prohibition represents a loss in
-> usability.  This patch as proposed already forbids a whole range of
-> characters, including things like "+", and I think that disallowing "-"
-> as well would be a step too far.
+On Thu, Nov 14, 2013 at 01:19:10PM +0000, Richard Purdie wrote:
+> On Thu, 2013-11-14 at 14:43 +0200, Laurentiu Palcu wrote:
+> > Even though this was in the last C-pull, for some reason, it didn't end
+> > up in master... Didn't see any comments on it either. Or maybe I missed
+> > them...
+> 
+> In the target case, M4 should be compiled in as ${bindir}/m4 and there
+> should be no need of a wrapper. Can someone confirm this is the case? Is
+> the OEMAKE command only used for compilation and not built into the
+> target?
+The m4 variable set in EXTRA_OEMAKE is used to generate skel.c file. And, for
+that, it needs the native m4. It does not end into the target. The path
+set with ac_cv_path_M4=${M4} in EXTRA_OECONF ends into the target.
 
-Fair enough.  I don't recall exactly what problems I had (in the dark
-past), but I've just avoided trees with "-" in them.  I'll give it
-another look if/when an opportunity comes by.
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Laurentiu
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> > Thanks,
+> > Laurentiu
+> > 
+> > On Wed, Nov 06, 2013 at 03:07:58PM +0200, Laurentiu Palcu wrote:
+> > > Flex needs m4 to run (see below) and, since the create_wrapper
+> > > introduces a bash dependency on target, give the path to m4 binary in
+> > > the configure command line.
+> > > 
+> > > Snippet from the flex documentation:
+> > > "The macro processor m4 must be installed wherever flex is installed.
+> > > <...>
+> > > m4 is only required at the time you run flex."
+> > > 
+> > > [YOCTO #5329]
+> > > 
+> > > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> > > ---
+> > >  meta/recipes-devtools/flex/flex.inc |    5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > > 
+> > > diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
+> > > index 43f1dda..96d5de5 100644
+> > > --- a/meta/recipes-devtools/flex/flex.inc
+> > > +++ b/meta/recipes-devtools/flex/flex.inc
+> > > @@ -13,6 +13,9 @@ inherit autotools gettext
+> > >  M4 = "${bindir}/m4"
+> > >  M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
+> > >  
+> > > +EXTRA_OECONF += "ac_cv_path_M4=${M4}"
+> > > +EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
+> > > +
+> > >  do_install_append_class-native() {
+> > >  	create_wrapper ${D}/${bindir}/flex M4=${M4}
+> > >  }
+> > > @@ -20,3 +23,5 @@ do_install_append_class-native() {
+> > >  do_install_append_class-nativesdk() {
+> > >  	create_wrapper ${D}/${bindir}/flex M4=${M4}
+> > >  }
+> > > +
+> > > +RDEPENDS_${PN} += "m4"
+> > > -- 
+> > > 1.7.9.5
+> > > 
+> > > _______________________________________________
+> > > Openembedded-core mailing list
+> > > Openembedded-core@lists.openembedded.org
+> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > 
+> 
+> 
 
