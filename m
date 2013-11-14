@@ -1,32 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id CBC136D684
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id A0E916D732
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 13:19:37 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAEDJIs3000826; Thu, 14 Nov 2013 13:19:18 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3pYrIbS9gQoi; Thu, 14 Nov 2013 13:19:18 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAEDJDoc000816
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 14 Nov 2013 13:19:15 GMT
-Message-ID: <1384435150.6460.124.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Thu, 14 Nov 2013 13:19:10 +0000
-In-Reply-To: <20131114124302.GA7503@lpalcu-linux>
-References: <cover.1383742507.git.laurentiu.palcu@intel.com>
-	<0dcafa1bce7a6ae871ee0f6b20eab8834860b334.1383742507.git.laurentiu.palcu@intel.com>
-	<20131114124302.GA7503@lpalcu-linux>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] flex: fix m4 issue on target
+	Thu, 14 Nov 2013 13:27:05 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 7856AF811EF; Thu, 14 Nov 2013 06:27:07 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id AE2BDF811EE;
+	Thu, 14 Nov 2013 06:27:06 -0700 (MST)
+Message-ID: <5284CFAD.2060903@mlbassoc.com>
+Date: Thu, 14 Nov 2013 06:27:09 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1384433183.git.Qi.Chen@windriver.com>
+	<a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>
+In-Reply-To: <a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] sanity.bbclass: check for validity of TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,73 +36,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 13:19:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Nov 2013 13:27:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-11-14 at 14:43 +0200, Laurentiu Palcu wrote:
-> Even though this was in the last C-pull, for some reason, it didn't end
-> up in master... Didn't see any comments on it either. Or maybe I missed
-> them...
+On 2013-11-14 06:07, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> TMPDIR must be an absolute path, otherwise, the build will fail.
+> Special characters in TMPDIR will also cause build failures.
+>
+> This patch enables checking for the validity of TMPDIR.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/classes/sanity.bbclass |    7 +++++++
+>   1 file changed, 7 insertions(+)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 83378b0..e45906e 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -672,6 +672,13 @@ def check_sanity_everybuild(status, d):
+>           with open(checkfile, "w") as f:
+>               f.write(tmpdir)
+>
+> +    # Check if TMPDIR contains invalid characters, and check if it is an absolute path
+> +    valid_tmpdir_regexp = "^/[a-zA-Z0-9\-_/.~]+$"
+> +    import re
+> +    valid_pattern = re.compile(valid_tmpdir_regexp)
+> +    if not valid_pattern.match(tmpdir):
+> +        status.addresult("Error, you have special characters in TMPDIR directory path or your TMPDIR is not an absolute path. The TMPDIR should match the this regexp: ^/[a-zA-Z0-9\-_/.~]$")
+> +
+>   def check_sanity(sanity_data):
+>       import subprocess
 
-In the target case, M4 should be compiled in as ${bindir}/m4 and there
-should be no need of a wrapper. Can someone confirm this is the case? Is
-the OEMAKE command only used for compilation and not built into the
-target?
+Check the wording of the warning "The TMPDIR should match the this regexp"
+should probably be "The TMPDIR should match this regexp" or maybe use a simpler
+version like "The TMPDIR name should must be an absolute path and contain only letters,
+digits and the characters -_"
 
-Cheers,
+Also, is "-" actually valid?  I seem to recall having problems when my build
+tree had the hyphen ("-") in the path.
 
-Richard
-
-
-> Thanks,
-> Laurentiu
-> 
-> On Wed, Nov 06, 2013 at 03:07:58PM +0200, Laurentiu Palcu wrote:
-> > Flex needs m4 to run (see below) and, since the create_wrapper
-> > introduces a bash dependency on target, give the path to m4 binary in
-> > the configure command line.
-> > 
-> > Snippet from the flex documentation:
-> > "The macro processor m4 must be installed wherever flex is installed.
-> > <...>
-> > m4 is only required at the time you run flex."
-> > 
-> > [YOCTO #5329]
-> > 
-> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> > ---
-> >  meta/recipes-devtools/flex/flex.inc |    5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
-> > index 43f1dda..96d5de5 100644
-> > --- a/meta/recipes-devtools/flex/flex.inc
-> > +++ b/meta/recipes-devtools/flex/flex.inc
-> > @@ -13,6 +13,9 @@ inherit autotools gettext
-> >  M4 = "${bindir}/m4"
-> >  M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
-> >  
-> > +EXTRA_OECONF += "ac_cv_path_M4=${M4}"
-> > +EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
-> > +
-> >  do_install_append_class-native() {
-> >  	create_wrapper ${D}/${bindir}/flex M4=${M4}
-> >  }
-> > @@ -20,3 +23,5 @@ do_install_append_class-native() {
-> >  do_install_append_class-nativesdk() {
-> >  	create_wrapper ${D}/${bindir}/flex M4=${M4}
-> >  }
-> > +
-> > +RDEPENDS_${PN} += "m4"
-> > -- 
-> > 1.7.9.5
-> > 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-
-
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
