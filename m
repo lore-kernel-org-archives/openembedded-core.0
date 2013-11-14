@@ -1,22 +1,28 @@
-Return-Path: <irina.patru@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A8B7D6D88D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B76BB61227
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 08:52:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Nov 2013 00:52:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,698,1378882800"; d="scan'208";a="433272644"
-Received: from irina-vostro-460.rb.intel.com ([10.237.105.149])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2013 00:52:55 -0800
-From: Irina Patru <irina.patru@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Nov 2013 10:54:19 +0200
-Message-Id: <1384419259-29729-1-git-send-email-irina.patru@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1384335941-25306-1-git-send-email-irina.patru@intel.com>
-References: <1384335941-25306-1-git-send-email-irina.patru@intel.com>
-Subject: [PATCH v3] distrodata.bbclass: Add fetch2 handlers to svn case in checkpkg
+	Thu, 14 Nov 2013 08:59:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAE8xOq7004828
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Nov 2013 00:59:24 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 14 Nov 2013 00:59:23 -0800
+Message-ID: <528490DA.8060800@windriver.com>
+Date: Thu, 14 Nov 2013 16:59:06 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Jonathan Liu <net147@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <52777AD9.20201@gmail.com> <52778738.5010706@windriver.com>
+	<527CAB5B.9080601@gmail.com>
+In-Reply-To: <527CAB5B.9080601@gmail.com>
+Subject: Re: [dora] Cherry-pick Qt fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,80 +35,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 08:52:55 -0000
+X-List-Received-Date: Thu, 14 Nov 2013 08:59:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The existing code in checkpkg from distrodata.bbclass had similar
-functionality with fetch when searching for latest package version.
 
-For packages that use svn protocol that part was rewrote in order
-to use fetcher API.
-It now calls latest_revision method from Svn class in fetch2 so
-that it gets latest version.
+On 11/08/2013 05:14 PM, Jonathan Liu wrote:
+> Hi Robert,
+>
+> Is the queue visible publically?
+>
 
-[ YOCTO #1813 ]
+Hi Jonathan,
 
-Signed-off-by: Irina Patru <irina.patru@intel.com>
----
- meta/classes/distrodata.bbclass |   43 ++++++++++++++++-----------------------
- 1 file changed, 17 insertions(+), 26 deletions(-)
+See here please:
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 085575a..e481027 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -751,34 +751,25 @@ python do_checkpkg() {
-                                 if not tmp3:
-                                         bb.plain("#DEBUG# Package %s: current version (%s) doesn't match the usual pattern" %(pname, pversion))
-         elif type == 'svn':
--                options = []
--                if user:
--                        options.append("--username %s" % user)
--                if pswd:
--                        options.append("--password %s" % pswd)
--                svnproto = 'svn'
--                if 'proto' in parm:
--                        svnproto = parm['proto']
--                if 'rev' in parm:
--                        pcurver = parm['rev']
--
--                svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), svnproto, host, path, parm["module"])
--                print svncmd
--                svninfo = os.popen(svncmd).read()
--                if "Can't connect to host " in svninfo or "Connection timed out" in svninfo:
--                        svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), "http",
--                                       host, path, parm["module"])
--                        svninfo = os.popen(svncmd).read()
--                for line in svninfo.split("\n"):
--                        if re.search("^Last Changed Rev:", line):
--                                pupver = line.split(" ")[-1]
--                                if pupver in pversion:
--                                        pstatus = "MATCH"
--                                else:
--                                        pstatus = "UPDATE"
-+                ud = bb.fetch2.FetchData(uri, d)
- 
--                if re.match("Err", pstatus):
-+                svnFetcher = bb.fetch2.svn.Svn(d)
-+                svnFetcher.urldata_init(ud, d)
-+                try:
-+                        pupver = svnFetcher.latest_revision(uri, ud, d, ud.names[0])
-+                except bb.fetch2.FetchError:
-+                        pstatus = "ErrSvnAccess"
-+                
-+                if pupver:
-+                        if pupver in pversion:
-+                                pstatus = "MATCH"
-+                        else:
-+                                pstatus = "UPDATE"
-+                else:
-                         pstatus = "ErrSvnAccess"
-+                
-+                if 'rev' in ud.parm:
-+                        pcurver = ud.parm['rev']
- 
-                 if pstatus != "ErrSvnAccess":
-                         tag = pversion.rsplit("+svn")[0]
--- 
-1.7.9.5
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=robert/dora-next
 
+// Robert
+
+> Regards,
+> Jonathan
+>
+> On 4/11/2013 10:38 PM, Robert Yang wrote:
+>>
+>> Hi Jonathan,
+>>
+>> Thank you very much, these will be included in the queue.
+>>
+>> // Robert
+>>
+>> On 11/04/2013 06:45 PM, Jonathan Liu wrote:
+>>> Hi Robert,
+>>>
+>>> I propose we cherry-pick the following Qt fixes from master to dora branch:
+>>> -qt4: add upstream QTBUG-31579 patch for QPainter regression
+>>> [OE-Core/a5afc67cbfc32beb3be10392bf9788cfc3610ab1]
+>>> -nativesdk-qt4-tools: create qt.conf file
+>>> [OE-Core/23f88695683a8e428375a8ccb6be935347a8768c]
+>>> -meta-toolchain-qt: put QT_CONF_PATH in environment script
+>>> [OE-Core/fffa4c37c49b169f663d28612b9251819cef9577]
+>>> -qt4: add upstream QTBUG-34218/QTBUG-34234 misaligned selection patch
+>>> [OE-Core/3af8f2e0697a9523d3b505ba4c48eca35f6de3a9]
+>>>
+>>> Regards,
+>>> Jonathan
+>>>
+>>>
+>
+>
+>
 
