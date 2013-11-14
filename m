@@ -1,31 +1,25 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FF7A6D571
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A222D6D571
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 15:27:04 +0000 (UTC)
-Received: by mail-qc0-f171.google.com with SMTP id s13so1242120qcv.16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 07:27:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=E53RLizFJdi3eJfQxEj7ibOPMK5ttYbH14l6EQfFumc=;
-	b=k0sq662LU79TUw4cJBVG8iJMbjExnuBDDx/mkAYTO7F5+WdRqyJpRX9M05rGnNVTdR
-	bDQ4E0mfi50VGcdBKPMsg49jagrAjY/EkvVDps2wByzPh/9wCxlDoROWrOsFmqQ+1JDk
-	FzuAakjhAiVqx+lb9/JpirLs+fT4PbiStltnZ9CKgk7qWrDim87DKamvVnsITche1XKf
-	VkW8k9ooaZHcoa2b2hjayw6Ob3dwNvkdpONXn9sUE5MV2E9UbLtnwHeGzRC5Yi1+fiWg
-	NHg817d5Lxqf3CcXVRzheg02cEqbYQ5VRdVBeUwbHJJyqJsmmoLD+Gcn1/zXpTDGNlMO
-	0bag==
+	Thu, 14 Nov 2013 15:49:21 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Nov 2013 07:49:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="435269057"
+Received: from unknown (HELO [10.255.15.61]) ([10.255.15.61])
+	by orsmga002.jf.intel.com with ESMTP; 14 Nov 2013 07:49:22 -0800
+Message-ID: <5284F102.7070401@linux.intel.com>
+Date: Thu, 14 Nov 2013 07:49:22 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-Received: by 10.224.45.197 with SMTP id g5mr3420817qaf.2.1384442825944; Thu,
-	14 Nov 2013 07:27:05 -0800 (PST)
-Received: by 10.96.55.197 with HTTP; Thu, 14 Nov 2013 07:27:05 -0800 (PST)
-Date: Thu, 14 Nov 2013 17:27:05 +0200
-Message-ID: <CADV-EXEyxDZQowU8EdGFJbFbg-muYTPZACTzq_m8D7ubHe-Vfg@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?0KFvbnRpbnVvdXMga2VybmVsIHJlYnVpbGQgYWZ0ZXIgdXBncmFkZQ==?=
+To: Dominik Holland <dominik.holland@pelagicore.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1384427348-13508-1-git-send-email-dominik.holland@pelagicore.com>
+In-Reply-To: <1384427348-13508-1-git-send-email-dominik.holland@pelagicore.com>
+Subject: Re: [PATCH] dbus: Don't depend on dbus-ptest-ptest for the nativesdk-dbus package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 15:27:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 14 Nov 2013 15:49:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-After upgrading oe-core and bitbake to the latest revision
-(616354f13732d13c17434d5b60b166f691c25761 and
-616354f13732d13c17434d5b60b166f691c25761 respectively)
-I'm having broblems building my kernel.
-
-Kernel rebuilds everytime I run "bitbake <some_recipe>".
-It starts rebuilding from "do_unpack" task.
-
-I noticed interesting things:
-If I interrupt the build process and then start building again, kernel
-is started building from the point of interruption.
-But if kernel building completed successfully then next time when I
-run bitbake it starts rebuild.
-
-My previous version of bitbake and oe-core are
-565b3e31e0226c6e193ee0b031bd5e7bef25591e
-and ae28ee3f7a060b9e0d13154a84f2444a98490b5b respectively.
-
-Best regards,
-Yevhen
+On 11/14/2013 03:09 AM, Dominik Holland wrote:
+> ---
+>   meta/recipes-core/dbus/dbus.inc | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+> index 5864643..0609d23 100644
+> --- a/meta/recipes-core/dbus/dbus.inc
+> +++ b/meta/recipes-core/dbus/dbus.inc
+> @@ -11,6 +11,7 @@ DEPENDS_class-native = "expat-native virtual/libintl-native"
+>   DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl"
+>   RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '', d)}"
+>   RDEPENDS_class-native = ""
+> +RDEPENDS_dbus_class-nativesdk = ""
+>
+I realize your adding this line, but it looks like we need to fix the 
+preceeding line also, it should be RDEPENDS_dbus_class-native = ""
+>   INC_PR = "r6"
+>
+>
 
