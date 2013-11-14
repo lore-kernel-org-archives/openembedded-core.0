@@ -1,29 +1,29 @@
 Return-Path: <Paul_Woegerer@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BCF76D6EE
+	by mail.openembedded.org (Postfix) with ESMTP id 0A3F36DA14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 12:34:42 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	Thu, 14 Nov 2013 12:34:44 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
 	by relay1.mentorg.com with esmtp 
-	id 1Vgw8C-0006i9-Kx from Paul_Woegerer@mentor.com ;
-	Thu, 14 Nov 2013 04:34:44 -0800
+	id 1Vgw8E-0006iL-5k from Paul_Woegerer@mentor.com ;
+	Thu, 14 Nov 2013 04:34:46 -0800
 Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 14 Nov 2013 04:34:44 -0800
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 14 Nov 2013 04:34:46 -0800
 Received: from atv-pwoegere-l3.atv.mentorg.com ([172.30.72.59]) by
 	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Thu, 14 Nov 2013 04:34:43 -0800
+	Thu, 14 Nov 2013 04:34:45 -0800
 From: Paul Woegerer <paul_woegerer@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Nov 2013 13:34:32 +0100
-Message-Id: <1384432474-20764-2-git-send-email-paul_woegerer@mentor.com>
+Date: Thu, 14 Nov 2013 13:34:33 +0100
+Message-Id: <1384432474-20764-3-git-send-email-paul_woegerer@mentor.com>
 X-Mailer: git-send-email 1.8.4.2
 In-Reply-To: <1384432474-20764-1-git-send-email-paul_woegerer@mentor.com>
 References: <1384432474-20764-1-git-send-email-paul_woegerer@mentor.com>
-X-OriginalArrivalTime: 14 Nov 2013 12:34:44.0091 (UTC)
-	FILETIME=[E58AACB0:01CEE135]
+X-OriginalArrivalTime: 14 Nov 2013 12:34:45.0466 (UTC)
+	FILETIME=[E65C7BA0:01CEE135]
 Cc: otavio@ossystems.com.br
-Subject: [PATCH 1/3] liburcu: Update to version 0.7.9
+Subject: [PATCH 2/3] lttng-ust: Update to version 2.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 12:34:42 -0000
+X-List-Received-Date: Thu, 14 Nov 2013 12:34:44 -0000
 
 Signed-off-by: Paul Woegerer <paul_woegerer@mentor.com>
 ---
- meta/recipes-support/liburcu/{liburcu_0.7.7.bb => liburcu_0.7.9.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/liburcu/{liburcu_0.7.7.bb => liburcu_0.7.9.bb} (81%)
+ .../lttng/{lttng-ust_2.3.0.bb => lttng-ust_2.3.1.bb}              | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.3.0.bb => lttng-ust_2.3.1.bb} (80%)
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.7.7.bb b/meta/recipes-support/liburcu/liburcu_0.7.9.bb
-similarity index 81%
-rename from meta/recipes-support/liburcu/liburcu_0.7.7.bb
-rename to meta/recipes-support/liburcu/liburcu_0.7.9.bb
-index a75e92e..c8c4802 100644
---- a/meta/recipes-support/liburcu/liburcu_0.7.7.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.7.9.bb
-@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb
+similarity index 80%
+rename from meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb
+index a3b1920..ae52ee8 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb
+@@ -1,5 +1,5 @@
+-SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.0"
+-DESCRIPTION = "The LTTng UST 2.0 package contains the userspace tracer library to trace userspace codes."
++SUMMARY = "Linux Trace Toolkit Userspace Tracer 2.x"
++DESCRIPTION = "The LTTng UST 2.x package contains the userspace tracer library to trace userspace codes."
+ HOMEPAGE = "http://lttng.org/ust"
+ BUGTRACKER = "https://bugs.lttng.org/projects/lttng-ust"
  
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+@@ -17,8 +17,8 @@ RPROVIDES_${PN} = "lttng2-ust"
+ RREPLACES_${PN} = "lttng2-ust"
+ RCONFLICTS_${PN} = "lttng2-ust"
  
--SRC_URI[md5sum] = "d14de3ff32eb1ab9424b258599c8a6f3"
--SRC_URI[sha256sum] = "8ab8a7d8fea47c09ceac24c9277f00da626bbd9426c973eb325b1baf33b4bdfb"
-+SRC_URI[md5sum] = "a625266e17437f91111ab4e736c5056f"
-+SRC_URI[sha256sum] = "a7e1f781773c953d5cc456aa92a3c6d2385c5f984d8d576dccfaf93dd14f1405"
+-SRCREV = "9f00ce32b103eed13524c876757b6611c5922382"
+-PV = "2.3.0"
++SRCREV = "535d0408caee93577c2b4d8ad3cd672fa97eac1d"
++PV = "2.3.1"
+ PE = "2"
  
- S = "${WORKDIR}/userspace-rcu-${PV}"
- CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+ SRC_URI = "git://git.lttng.org/lttng-ust.git \
 -- 
 1.8.4.2
 
