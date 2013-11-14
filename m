@@ -1,28 +1,26 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B76BB61227
+	by mail.openembedded.org (Postfix) with ESMTP id 3E0166D843
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 08:59:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAE8xOq7004828
+	Thu, 14 Nov 2013 09:02:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAE926fc005390
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Nov 2013 00:59:24 -0800 (PST)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 14 Nov 2013 00:59:23 -0800
-Message-ID: <528490DA.8060800@windriver.com>
-Date: Thu, 14 Nov 2013 16:59:06 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu, 14 Nov 2013 01:02:06 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 14 Nov 2013 01:02:06 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Nov 2013 17:02:01 +0800
+Message-ID: <ac4248f073a505534a6fc9b7c9922b6781b85685.1384419666.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1384419666.git.hongxu.jia@windriver.com>
+References: <cover.1384419666.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-To: Jonathan Liu <net147@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <52777AD9.20201@gmail.com> <52778738.5010706@windriver.com>
-	<527CAB5B.9080601@gmail.com>
-In-Reply-To: <527CAB5B.9080601@gmail.com>
-Subject: Re: [dora] Cherry-pick Qt fixes
+Cc: saul.wold@intel.com
+Subject: [PATCH 1/1] lib32-packagegroup-core-nfs: fix qa issue - install files into a shared area when those files already exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,54 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 08:59:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Nov 2013 09:02:06 -0000
+Content-Type: text/plain
 
+By default, packagegroup-core-nfs do not depend on a certain architecture,
+there will be qa warning while multilib enabled.
 
-On 11/08/2013 05:14 PM, Jonathan Liu wrote:
-> Hi Robert,
->
-> Is the queue visible publically?
->
+$ bitbake packagegroup-core-nfs
+$ bitbake lib32-packagegroup-core-nfs
+...
+WARNING: The recipe lib32-packagegroup-core-nfs is trying to install files into a shared area when those files already exist. Those files and their manifest location are:
+tmp/deploy/rpm/all/packagegroup-core-nfs-server-1.0-r2.0.all.rpm
+Matched in manifest-allarch-packagegroup-core-nfs.deploy-rpm
+Please verify which package should provide the above files.
+...
 
-Hi Jonathan,
+Set PACKAGE_ARCH with MACHINE_ARCH fixed this issue.
 
-See here please:
+[YOCTO #5532]
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=robert/dora-next
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-core-nfs.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-// Robert
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+index 531eceb..b57ef63 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+@@ -7,6 +7,7 @@ LICENSE = "MIT"
+ PR = "r2"
+ 
+ inherit packagegroup
++PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ PACKAGES = "${PN}-server"
+ 
+-- 
+1.8.1.2
 
-> Regards,
-> Jonathan
->
-> On 4/11/2013 10:38 PM, Robert Yang wrote:
->>
->> Hi Jonathan,
->>
->> Thank you very much, these will be included in the queue.
->>
->> // Robert
->>
->> On 11/04/2013 06:45 PM, Jonathan Liu wrote:
->>> Hi Robert,
->>>
->>> I propose we cherry-pick the following Qt fixes from master to dora branch:
->>> -qt4: add upstream QTBUG-31579 patch for QPainter regression
->>> [OE-Core/a5afc67cbfc32beb3be10392bf9788cfc3610ab1]
->>> -nativesdk-qt4-tools: create qt.conf file
->>> [OE-Core/23f88695683a8e428375a8ccb6be935347a8768c]
->>> -meta-toolchain-qt: put QT_CONF_PATH in environment script
->>> [OE-Core/fffa4c37c49b169f663d28612b9251819cef9577]
->>> -qt4: add upstream QTBUG-34218/QTBUG-34234 misaligned selection patch
->>> [OE-Core/3af8f2e0697a9523d3b505ba4c48eca35f6de3a9]
->>>
->>> Regards,
->>> Jonathan
->>>
->>>
->
->
->
 
