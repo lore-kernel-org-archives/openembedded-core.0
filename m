@@ -1,31 +1,39 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 30CDB6D598
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 013916D588
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 18:02:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAEI2JOM024429
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Nov 2013 10:02:19 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 14 Nov 2013 10:02:18 -0800
-Message-ID: <5285102A.7050709@windriver.com>
-Date: Thu, 14 Nov 2013 12:02:18 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <cover.1384433183.git.Qi.Chen@windriver.com>		<a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>		<5284CFAD.2060903@mlbassoc.com>	
-	<1384436557.17320.62.camel@phil-desktop.brightsign>	
-	<5284F119.8010903@windriver.com>
-	<1384445052.17320.76.camel@phil-desktop.brightsign>
-In-Reply-To: <1384445052.17320.76.camel@phil-desktop.brightsign>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sanity.bbclass: check for validity of TMPDIR
+	Thu, 14 Nov 2013 18:15:48 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>) id 1Vh1SF-0001Wu-9D
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Nov 2013 19:15:50 +0100
+Message-ID: <1384452946.17320.85.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Nov 2013 18:15:46 +0000
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details. Content preview:  ADOBE_MIRROR,
+	HANDHELDS_CVS and E_SVN were broken links and
+	not used by any recipe in oe-core. FREEDESKTOP_CVS is no longer useful
+	because all the source code that matters is in git;
+	no recipe in oe-core still uses the CVS repository. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Subject: [PATCH] bitbake.conf: Remove obsolete/unused MIRROR cruft
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,68 +46,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 18:02:19 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Thu, 14 Nov 2013 18:15:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/14/13, 10:04 AM, Phil Blundell wrote:
-> On Thu, 2013-11-14 at 09:49 -0600, Mark Hatle wrote:
->> On 11/14/13, 7:42 AM, Phil Blundell wrote:
->>> On Thu, 2013-11-14 at 06:27 -0700, Gary Thomas wrote:
->>>> Also, is "-" actually valid?  I seem to recall having problems when my build
->>>> tree had the hyphen ("-") in the path.
->>>
->>> Paths with "-" in certainly work for me.  If there are any recipes which
->>> break in that situation then we should just fix them.
->>
->> We found an issue with paths that -start- with a '-', there are apparently many
->> places where paths are passed into various shell, and the initial '-' can be
->> read as an argument identifier.
->
-> Right, I can imagine that this would break fairly badly.  But if we're
-> going to require TMPDIR to be an absolute path (which seems perfectly
-> reasonable) then by definition it can't start with - so this will
-> presumably become a non-issue.
+ADOBE_MIRROR, HANDHELDS_CVS and E_SVN were broken links and not used by
+any recipe in oe-core.
 
-Except there are a number of packages that try to parse pieces of strings 
-derived from TMPDIR.
+FREEDESKTOP_CVS is no longer useful because all the source code that 
+matters is in git; no recipe in oe-core still uses the CVS repository.
 
-Set your TMPDIR path to include "-Dmypath" some time.  SVN will blow up.. :P
+E_MIRROR, FREEBSD_MIRROR, FREESMARTPHONE_GIT still point to valid-seeming
+locations but there are no recipes in oe-core that use them.  Any layers
+which need these variables can define them for themselves.
 
->> I don't believe Qi Chen sent it to the list, but we built path names with all of
->> the special characters and tried to run builds.  The specific list is based on
->> the results of those tests.  The other items are already broken, and we're
->> trying to be explicit with this for end users.  (Note, it's really the TMPDIR
->> that matters.. the 'build' directory is a lot more flexible.)
->
-> Yeah, I saw the results of those tests.  My slight reservation with that
-> methodology is that, if any single recipe fails with a given character
-> in TMPDIR, no matter how obscure that recipe might be, it seems that
-> this is enough to make that character verboten.  For example, the
-> rationale for excluding "+" seems to be that it breaks tcl; if this is
-> the only recipe that fails then it seems like it might be worth at least
-> trying to fix tcl rather than excluding "+" from TMPDIRs for ever more.
+GPE_SVN, GPE_EXTRA_SVN, GPEPHONE_MIRROR and GPEPHONE_SVN are not used by
+any recipe in oe-core and the corresponding projects seem to be mostly
+dead upstream.  Again, any layers which still wish to use these variables
+can define them locally.
 
-I agree, in the case above, the SVN example I've asked our engineers to look 
-into trying to fix that case.  But what they're finding is that once you fix one 
-case, then the next breaks.. and the next breaks.
+All the above are just wasting space in bitbake's datastore and would be
+better deleted.
 
-> But, clearly, there are some characters in the list that are "just
-> silly" to have in pathnames.  I don't think anybody would be surprised
-> to learn that "*" and "$" cause problems and blacklisting those ones
-> does seem quite reasonable.
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/conf/bitbake.conf | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-:)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0f6c28e..e6349cc 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -560,24 +560,13 @@ BUILD_OPTIMIZATION = "-O2 -pipe"
+ # Download locations and utilities.
+ ##################################################################
+ 
+-ADOBE_MIRROR = "http://fpdownload.macromedia.com/get/flashplayer/current/"
+ APACHE_MIRROR = "http://www.apache.org/dist"
+ DEBIAN_MIRROR = "ftp://ftp.debian.org/debian/pool"
+-E_MIRROR = "http://download.enlightenment.org/releases"
+-E_SVN = "svn://svn.enlightenment.org/svn/e"
+-FREEBSD_MIRROR = "ftp://ftp.freebsd.org/pub/FreeBSD/"
+-FREEDESKTOP_CVS = "cvs://anoncvs:anoncvs@anoncvs.freedesktop.org/cvs"
+-FREESMARTPHONE_GIT = "git://git.freesmartphone.org"
+ GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
+ GNOME_GIT = "git://git.gnome.org"
+ GNOME_MIRROR = "http://ftp.gnome.org/pub/GNOME/sources"
+ GNU_MIRROR = "ftp://ftp.gnu.org/gnu"
+ GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
+-GPE_EXTRA_SVN = "svn://projects.linuxtogo.org/svn/gpe/trunk/extra;module=${PN}"
+-GPE_SVN = "svn://projects.linuxtogo.org/svn/gpe/trunk/base;module=${PN}"
+-GPEPHONE_MIRROR = "http://gpephone.linuxtogo.org/download/gpephone"
+-GPEPHONE_SVN = "svn://projects.linuxtogo.org/svn/gpephone/trunk/source;module=${PN}"
+-HANDHELDS_CVS = "cvs://anoncvs:anoncvs@anoncvs.handhelds.org/cvs"
+ KERNELORG_MIRROR = "http://kernel.org/pub"
+ SOURCEFORGE_MIRROR = "http://downloads.sourceforge.net"
+ XLIBS_MIRROR = "http://xlibs.freedesktop.org/release"
+-- 
+1.8.4.rc3
 
-I'd like to see us blacklist the bunch, and then turn around and start opening 
-the set backup.  But I don't know how practical this actually is -- unless we 
-can get automated test machines running each odd-ball combination on a nightly 
-basis.
 
---Mark
-
-> p.
->
->
 
 
