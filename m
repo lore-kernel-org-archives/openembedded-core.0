@@ -1,39 +1,32 @@
-Return-Path: <mian.muhammad.tauqir.ahmad@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id EA1206D732
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id CBC136D684
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 13:14:05 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id y6so1533976lbh.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 05:14:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=GkWRLluNP+IrTMgLe4D8yothxqy0Qij0x81Jz1rPml8=;
-	b=x+8UrpQgafNtV/IK3axrB4Dib6Fy5G882whfQl/+fxS0RqPjhzGTjAVHfAVIEXYZ3a
-	OlyCa27TK6JxWdWg5H5hBt6qlzUjHFl3yz6iydLFlLEK3mETxNyCgDzIV77ZYE0xxk5N
-	Y4VWsD746THbILdDaTl6ldP7giIQghebC9DUr5ew4VMCWF5yuykmsVC6NwDH3JGdmoKq
-	2w4DLJg/UNFX2QEFlQGsW6h7bLvKGIPLmhoD1MkNAmjT4p+nFYf0sDZZ+XzPYwFcYCbG
-	8s9yeS0aEdPwDgPvLRNhLTzgRFQ6l5yZm3Tj1Z8/iSFBqO875tB+4o1SXW2jH4NGDnSJ
-	kpaQ==
-MIME-Version: 1.0
-X-Received: by 10.152.25.232 with SMTP id f8mr697318lag.43.1384434847078; Thu,
-	14 Nov 2013 05:14:07 -0800 (PST)
-Received: by 10.112.89.170 with HTTP; Thu, 14 Nov 2013 05:14:07 -0800 (PST)
-In-Reply-To: <CAP9ODKqy+pwcnjES=8gmkJYkqodQ=pGEMqGEh81RfhhJsX4Czg@mail.gmail.com>
-References: <CAKKsV2wExa=EZ4FWdcXiRJY1B=QnzO3uBTn2s23V9MtNSxOS0Q@mail.gmail.com>
-	<CAKKsV2y+ZuaS27QqLtXjcY_qsT1UV01RVtdC=6C_SQpD7nJR5A@mail.gmail.com>
-	<CAK6=ix7pDXwnH6+GOB7XmZedt1QnznfTPdUwUxRqVh+didTWSA@mail.gmail.com>
-	<CAP9ODKqy+pwcnjES=8gmkJYkqodQ=pGEMqGEh81RfhhJsX4Czg@mail.gmail.com>
-Date: Thu, 14 Nov 2013 08:14:07 -0500
-Message-ID: <CAKKsV2zN+40bLNciiOChrh3Y-wPy-=56+n1znC0OwSWA_BoQEA@mail.gmail.com>
-From: Muhammad Tauqir Ahmad <mian.muhammad.tauqir.ahmad@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Behan Webster <behanw@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Exploring LLVM/Clang for OE
+	Thu, 14 Nov 2013 13:19:37 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAEDJIs3000826; Thu, 14 Nov 2013 13:19:18 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3pYrIbS9gQoi; Thu, 14 Nov 2013 13:19:18 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAEDJDoc000816
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 14 Nov 2013 13:19:15 GMT
+Message-ID: <1384435150.6460.124.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Thu, 14 Nov 2013 13:19:10 +0000
+In-Reply-To: <20131114124302.GA7503@lpalcu-linux>
+References: <cover.1383742507.git.laurentiu.palcu@intel.com>
+	<0dcafa1bce7a6ae871ee0f6b20eab8834860b334.1383742507.git.laurentiu.palcu@intel.com>
+	<20131114124302.GA7503@lpalcu-linux>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/1] flex: fix m4 issue on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,58 +39,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 13:14:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 14 Nov 2013 13:19:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I couldn't find any up-to-date poky mirrors on github so I pushed my
-own poky "mirror"[1]. Once I clean up my code, I will push it to my
-repo.
+On Thu, 2013-11-14 at 14:43 +0200, Laurentiu Palcu wrote:
+> Even though this was in the last C-pull, for some reason, it didn't end
+> up in master... Didn't see any comments on it either. Or maybe I missed
+> them...
 
-I am also finally getting clang3.3 cross-compiler to compile using a
-bitbake recipe quickly put together from the llvm3.3 recipe from
-meta-oe.
-The next step I guess would be to try to figure how to use it and for
-the builds.
-Any pointers/directions/examples with/for that would be helpful
-especially if someone has already done some work along those lines.
+In the target case, M4 should be compiled in as ${bindir}/m4 and there
+should be no need of a wrapper. Can someone confirm this is the case? Is
+the OEMAKE command only used for compilation and not built into the
+target?
 
-[1]: https://github.com/mtahmed/poky
-Muhammad Tauqir Ahmad
---------------------------------------
-Software Developer Intern at WindRiver Systems
-Candidate for Honours Computer Science
-Combinatorics and Optimizations Minor
-University of Waterloo
+Cheers,
+
+Richard
 
 
-On Wed, Nov 13, 2013 at 11:01 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> On Wed, Nov 13, 2013 at 12:47 PM, Randy MacLeod <rwmacleod@gmail.com> wrote:
->> On Tue, Nov 12, 2013 at 8:47 PM, Muhammad Tauqir Ahmad
->> <mian.muhammad.tauqir.ahmad@gmail.com> wrote:
->>> According to the link below [1], it seems some works has been done at
->>> least for llvm+clang bitbake recipes, although I couldn't find any
->>> clang recipes when searching the net. If anyone can point me in the
->>> right direction for finding these recipes, that would be great.
->>>
->>> [1]: http://lists.linuxfoundation.org/pipermail/llvmlinux/2013-March/000205.html
->>
->>
->> That would be Behan's work, adding him here.
->>
->> Behan,
->> Are your clang recipes from, "Worked on bitbake recipes for LLVM and
->> clang" mentioned in the March 2013 llvmlinux notes available?
->>
->> Everyone,
->> Where should Muhammad stage his work and is there an example of using
->> an alternative cross-compiler.
->
-> I'd say a github repository for now. This allow for easy forking,
-> contribution, provides issue tracking, wiki and so on.
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> Thanks,
+> Laurentiu
+> 
+> On Wed, Nov 06, 2013 at 03:07:58PM +0200, Laurentiu Palcu wrote:
+> > Flex needs m4 to run (see below) and, since the create_wrapper
+> > introduces a bash dependency on target, give the path to m4 binary in
+> > the configure command line.
+> > 
+> > Snippet from the flex documentation:
+> > "The macro processor m4 must be installed wherever flex is installed.
+> > <...>
+> > m4 is only required at the time you run flex."
+> > 
+> > [YOCTO #5329]
+> > 
+> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> > ---
+> >  meta/recipes-devtools/flex/flex.inc |    5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
+> > index 43f1dda..96d5de5 100644
+> > --- a/meta/recipes-devtools/flex/flex.inc
+> > +++ b/meta/recipes-devtools/flex/flex.inc
+> > @@ -13,6 +13,9 @@ inherit autotools gettext
+> >  M4 = "${bindir}/m4"
+> >  M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
+> >  
+> > +EXTRA_OECONF += "ac_cv_path_M4=${M4}"
+> > +EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
+> > +
+> >  do_install_append_class-native() {
+> >  	create_wrapper ${D}/${bindir}/flex M4=${M4}
+> >  }
+> > @@ -20,3 +23,5 @@ do_install_append_class-native() {
+> >  do_install_append_class-nativesdk() {
+> >  	create_wrapper ${D}/${bindir}/flex M4=${M4}
+> >  }
+> > +
+> > +RDEPENDS_${PN} += "m4"
+> > -- 
+> > 1.7.9.5
+> > 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+
+
 
