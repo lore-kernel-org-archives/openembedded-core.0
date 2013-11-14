@@ -1,31 +1,24 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id C436B6D145
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EBC56D684
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 10:48:38 +0000 (UTC)
-Received: from [173.34.6.101] (port=44309 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VguTT-0004wD-23 for openembedded-core@lists.openembedded.org;
-	Thu, 14 Nov 2013 05:48:35 -0500
-Date: Thu, 14 Nov 2013 05:48:29 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1311140543030.21546@oneiric>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Thu, 14 Nov 2013 10:51:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAEApVDF021537
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Nov 2013 02:51:32 -0800 (PST)
+Received: from mliu3-desktop.corp.ad.wrs.com (128.224.162.145) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 14 Nov 2013 02:51:31 -0800
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 14 Nov 2013 18:51:28 +0800
+Message-ID: <1384426288-3534-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: couple questions about IMAGE_FEATURES and package groups
+Subject: [PATCH] sstate: Add optimizing logic for crosssdk setscene dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 10:48:38 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Thu, 14 Nov 2013 10:51:31 -0000
+Content-Type: text/plain
 
+This patch mainly aims to add optimisation for crosssdk setscene dependency
+validating which we haven't handled in current logic, and which I think we
+could have as we've already implemented to native/cross, although there
+are albeit not many crossdk tasks, we could still get some performance
+enhancement.
 
-  first, in the list of "Available IMAGE_FEATURES" in
-core-image.bbclass, should there be additional entries for
-staticdev-pkgs and ptest-pkgs? for the sake of completeness?
+And it also fix a vulnerability of some certain workflow, think about the
+following scenario with current logic:
+    bitbake nativesdk-eglibc-initial -c cleansstate
+    bitbake gcc-crosssdk-initial -c clean
+    bitbake gmp-native -c clean
+    bitbake libmpc-native -c clean
+    bitbake mpfr-native -c clean
+    bitbake gcc-crosssdk-initial
+    bitbake nativesdk-eglibc-initial
 
-  also, i'm under the impression that the IMAGE_FEATURES is
-*primarily* used to refer to package groups, but it also supports a
-small number of "validitems" that are processed specially, as shown in
-image.bbclass:
+Aboving will fail for absence of a few native libraries required by
+gcc-crosssdk-initial.
 
-# IMAGE_FEATURES may contain any available package group
-IMAGE_FEATURES ?= ""
-IMAGE_FEATURES[type] = "list"
-IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs package-management"
+Also modified some places in current code except the optimisation, as
+following:
+1 Remove isNative function since no code is referring it.
+2 Add do_package to the list that don't exist and are noexec.
 
-  but core-image.bbclass has a package group for that last item:
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ meta/classes/sstate.bbclass | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-PACKAGE_GROUP_package-management = "${ROOTFS_PKGMANAGE}"
-
-which doesn't appear to represent an actual package group? is that
-just a mistake? or what does it mean?
-
-rday
-
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 517c100..49f92f9 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -666,12 +666,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+ 
+     bb.debug(2, "Considering setscene task: %s" % (str(taskdependees[task])))
+ 
+-    def isNative(x):
+-        return x.endswith("-native")
+-    def isNativeCross(x):
+-        return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial")
++    def isNativeCrossCrosssdk(x):
++        return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial") or x.endswith("-crosssdk") or x.endswith("-crosssdk-initial")
+     def isSafeDep(x):
+-        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
++        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial", "gcc-crosssdk", "binutils-crosssdk", "gcc-crosssdk-initial"]:
+             return True
+         return False
+     def isPostInstDep(x):
+@@ -701,8 +699,8 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+             if isPostInstDep(taskdependees[task][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm']:
+                 return False
+             continue
+-        # Native/Cross packages don't exist and are noexec anyway
+-        if isNativeCross(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
++        # Native/Cross/Crosssdk packages don't exist and are noexec anyway
++        if isNativeCrossCrosssdk(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata', 'do_package']:
+             continue
+ 
+         # Consider sysroot depending on sysroot tasks
+@@ -713,14 +711,14 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+             # Nothing need depend on libc-initial/gcc-cross-initial
+             if taskdependees[task][0].endswith("-initial"):
+                 continue
+-            # Native/Cross populate_sysroot need their dependencies
+-            if isNativeCross(taskdependees[task][0]) and isNativeCross(taskdependees[dep][0]):
++            # Native/Cross/Crosssdk populate_sysroot need their dependencies
++            if isNativeCrossCrosssdk(taskdependees[task][0]) and isNativeCrossCrosssdk(taskdependees[dep][0]):
+                 return False
+-            # Target populate_sysroot depended on by cross tools need to be installed
+-            if isNativeCross(taskdependees[dep][0]):
++            # Target/Nativesdk populate_sysroot depended on by cross/crosssdk tools need to be installed
++            if isNativeCrossCrosssdk(taskdependees[dep][0]):
+                 return False
+-            # Native/cross tools depended upon by target sysroot are not needed
+-            if isNativeCross(taskdependees[task][0]):
++            # Native,Cross/Crosssdk tools depended upon by target/nativesdk sysroot are not needed
++            if isNativeCrossCrosssdk(taskdependees[task][0]):
+                 continue
+             # Target populate_sysroot need their dependencies
+             return False
 -- 
+1.8.4.1
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
