@@ -1,27 +1,52 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B9B06D747
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 4971B6D6EE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 16:10:14 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 14 Nov 2013 08:06:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="435281553"
-Received: from unknown (HELO [10.255.15.61]) ([10.255.15.61])
-	by orsmga002.jf.intel.com with ESMTP; 14 Nov 2013 08:09:54 -0800
-Message-ID: <5284F5D1.4010004@linux.intel.com>
-Date: Thu, 14 Nov 2013 08:09:53 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu, 14 Nov 2013 16:12:46 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	rAEGCjU3011344
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Nov 2013 17:12:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1384445566;
+	bh=KGahetDj9QupKOBRMxLZym8eC/i57wjgkANKxa60EYo=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=WkCjKWMTzzlrOpjqUa7/4OOIvjzJ2nhPYoNnmB7lzSEsq5JOBvGwBXR6dqWH9Gdnw
+	ThgtLEBMck3G5k6NH4VvO18IGJ5ecBAX5ug6vc3orGDubp3xUhheg7wexKS7FHXQXP
+	0xleXHqoxQlxwxpb4Tke5z+zEnGz5W5wYaz4n218=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rAEGCfra002300
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Nov 2013 17:12:42 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VgzX7-0003PF-38
+	for openembedded-core@lists.openembedded.org;
+	Thu, 14 Nov 2013 17:12:41 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <CADV-EXEyxDZQowU8EdGFJbFbg-muYTPZACTzq_m8D7ubHe-Vfg@mail.gmail.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 14 Nov 2013 17:12:41 +0100
+In-Reply-To: <CADV-EXEyxDZQowU8EdGFJbFbg-muYTPZACTzq_m8D7ubHe-Vfg@mail.gmail.com>
+	(Yevhen Kyriukha's message of "Thu, 14 Nov 2013 17:27:05 +0200")
+Message-ID: <lyk3gbm07a.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	Otavio Salvador <otavio@ossystems.com.br>
-References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>	<5283F507.7050607@linux.intel.com>	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>
-	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>
-In-Reply-To: <CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -3.3
+X-Spam-Level: ---
+X-Spam-Tests: AWL, BAYES_00, CHARSET_FARAWAY_HEADER, DKIM_ADSP_ALL,
+	RP_MATCHES_RCVD, SPF_NEUTRAL, DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Subject: =?UTF-8?B?UmU6INChb250aW51b3VzIGtlcm5lbCByZWJ1aWxkIGFmdGVyIHVwZ3JhZGU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,105 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 16:10:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Nov 2013 16:12:48 -0000
+Content-Type: text/plain
 
-On 11/13/2013 07:08 PM, Bruce Ashfield wrote:
-> On Wed, Nov 13, 2013 at 8:45 PM, Otavio Salvador
-> <otavio@ossystems.com.br> wrote:
->> On Wed, Nov 13, 2013 at 7:54 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>> On 11/01/2013 06:31 AM, Otavio Salvador wrote:
->>>>
->>>> This updates lttng-modules for 2.3.2 and also includes a bugfix
->>>> imported from 3.4 kernel. The changes included are:
->>>>
->>>> 6c26b01 Blacklist Linux kernels 3.10+
->>>> b97d469 LTTng trace-clock: shrink kernel blacklist
->>>> 7d40f8e Version 2.3.1
->>>> 2aecb9b Blacklist kernels 3.10.13 and 3.11.2
->>>> 4f1217f Version 2.3.2
->>>> 92fff0c Import fix from LTSI: 3.4+ RT kernels use CONFIG_PREEMPT_RT_FULL
->>>> 1874075 lttng-statedump-impl: Fix lttng_list_interrupts for empty
->>>> implementation
->>>>
->>>
->>> Otavio,
->>>
->>> Tried to build this locally and got the following failure with genericx86
->>> and master:
->>>
->>> |   CC [M]
->>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o
->>> | In file included from
->>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-tracer.h:37:0,
->>> |                  from
->>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.c:24:
->>> |
->>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/wrapper/trace-clock.h:40:2:
->>> error: #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
->>> timekeeping subsystem. Fixed by commit
->>> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK related
->>> deadlock from ntp lock changes\" in Linux."
->>> |  #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
->>> timekeeping subsystem. Fixed by commit
->>> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK related
->>> deadlock from ntp lock changes\" in Linux."
->>> |   ^
->>> | make[2]: ***
->>> [/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o]
->>> Error 1
->>> | make[1]: ***
->>> [_module_/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git]
->>> Error 2
->>> | make[1]: Leaving directory
->>> `/srv/ssd/sgw/builds/world/tmp/sysroots/genericx86/usr/src/kernel'
->>> | make: *** [default] Error 2
->>> | ERROR: oe_runmake failed
->>>
->>> So I am going to hold off on this patch set until you can resolve this.
->>
->> Yes; this is becase the linux-yocto seems to not have been updated to
->>> 3.10.13; so in fact it is failing to build to avoid people to
->> trigger the deadlock.
->>
->> The change which introduces this in lttng-modules is:
->>
->> http://git.lttng.org/?p=lttng-modules.git;a=commit;h=2aecb9b1cbb63f6c524ad9195d8fd06299ef9296
->>
->> I can update this patch as 2.3.3 has been released and it includes the
->> 3.12 fixes but please check when linux-yocto will be updated so we can
->> fix it.
->
-> Saul: What board are you building ? I've had linux-yocto on 3.10.17
-> for over a week
-> now.
+Yevhen Kyriukha <kirgene-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+writes:
 
-As mentioned above this is for genericx86, so maybe not all the BSPs are 
-updated yet.
+> But if kernel building completed successfully then next time when I
+> run bitbake it starts rebuild.
+>
+> My previous version of bitbake and oe-core are
+> 565b3e31e0226c6e193ee0b031bd5e7bef25591e
+> and ae28ee3f7a060b9e0d13154a84f2444a98490b5b respectively.
 
-Sau!
+git revert 8308e22a44a2dea7d1bbfb429b9df9c63714a649
 
->
-> The meta-yocto-bsps need a SRCREV bump, which I was just about to send
-> out, but the code has been in tree for some time yet, and all the qemu*
-> BSPs are already running at that revision.
->
-> Bruce
->
->>
->> Regards,
->>
->>
->> --
->> Otavio Salvador                             O.S. Systems
->> http://www.ossystems.com.br        http://code.ossystems.com.br
->> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
+should fix it
+
+
+
+Enrico
 
