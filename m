@@ -1,29 +1,24 @@
-Return-Path: <Paul_Woegerer@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 279626D159
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 77A026D159
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 12:34:45 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1Vgw8F-0006iQ-C2 from Paul_Woegerer@mentor.com ;
-	Thu, 14 Nov 2013 04:34:47 -0800
-Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 14 Nov 2013 04:34:47 -0800
-Received: from atv-pwoegere-l3.atv.mentorg.com ([172.30.72.59]) by
-	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
-	Thu, 14 Nov 2013 04:34:46 -0800
-From: Paul Woegerer <paul_woegerer@mentor.com>
+	Thu, 14 Nov 2013 12:43:05 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 14 Nov 2013 04:43:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,699,1378882800"; d="scan'208";a="427567727"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.41])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2013 04:43:04 -0800
+Date: Thu, 14 Nov 2013 14:43:02 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Nov 2013 13:34:34 +0100
-Message-Id: <1384432474-20764-4-git-send-email-paul_woegerer@mentor.com>
-X-Mailer: git-send-email 1.8.4.2
-In-Reply-To: <1384432474-20764-1-git-send-email-paul_woegerer@mentor.com>
-References: <1384432474-20764-1-git-send-email-paul_woegerer@mentor.com>
-X-OriginalArrivalTime: 14 Nov 2013 12:34:46.0810 (UTC)
-	FILETIME=[E7298FA0:01CEE135]
-Cc: otavio@ossystems.com.br
-Subject: [PATCH 3/3] lttng-tools: Update to version 2.3.1
+Message-ID: <20131114124302.GA7503@lpalcu-linux>
+References: <cover.1383742507.git.laurentiu.palcu@intel.com>
+	<0dcafa1bce7a6ae871ee0f6b20eab8834860b334.1383742507.git.laurentiu.palcu@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <0dcafa1bce7a6ae871ee0f6b20eab8834860b334.1383742507.git.laurentiu.palcu@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH v2 1/1] flex: fix m4 issue on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 12:34:45 -0000
+X-List-Received-Date: Thu, 14 Nov 2013 12:43:06 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Paul Woegerer <paul_woegerer@mentor.com>
----
- .../lttng/{lttng-tools_2.3.0.bb => lttng-tools_2.3.1.bb}              | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-tools_2.3.0.bb => lttng-tools_2.3.1.bb} (96%)
+Even though this was in the last C-pull, for some reason, it didn't end
+up in master... Didn't see any comments on it either. Or maybe I missed
+them...
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
-similarity index 96%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
-index f2a43b4..3bddd12 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
-@@ -12,8 +12,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
- DEPENDS = "liburcu popt lttng-ust"
- RDEPENDS_${PN}-ptest += "make"
- 
--SRCREV = "c9dc1289e040c542f96fbfd558267786816d5703"
--PV = "v2.3.0"
-+SRCREV = "5d985544a7ad54afa0514ea7f522a89d8d844860"
-+PV = "v2.3.1"
- 
- SRC_URI = "git://git.lttng.org/lttng-tools.git \
-            file://runtest.patch \
--- 
-1.8.4.2
+Thanks,
+Laurentiu
 
+On Wed, Nov 06, 2013 at 03:07:58PM +0200, Laurentiu Palcu wrote:
+> Flex needs m4 to run (see below) and, since the create_wrapper
+> introduces a bash dependency on target, give the path to m4 binary in
+> the configure command line.
+> 
+> Snippet from the flex documentation:
+> "The macro processor m4 must be installed wherever flex is installed.
+> <...>
+> m4 is only required at the time you run flex."
+> 
+> [YOCTO #5329]
+> 
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  meta/recipes-devtools/flex/flex.inc |    5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
+> index 43f1dda..96d5de5 100644
+> --- a/meta/recipes-devtools/flex/flex.inc
+> +++ b/meta/recipes-devtools/flex/flex.inc
+> @@ -13,6 +13,9 @@ inherit autotools gettext
+>  M4 = "${bindir}/m4"
+>  M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
+>  
+> +EXTRA_OECONF += "ac_cv_path_M4=${M4}"
+> +EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
+> +
+>  do_install_append_class-native() {
+>  	create_wrapper ${D}/${bindir}/flex M4=${M4}
+>  }
+> @@ -20,3 +23,5 @@ do_install_append_class-native() {
+>  do_install_append_class-nativesdk() {
+>  	create_wrapper ${D}/${bindir}/flex M4=${M4}
+>  }
+> +
+> +RDEPENDS_${PN} += "m4"
+> -- 
+> 1.7.9.5
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
