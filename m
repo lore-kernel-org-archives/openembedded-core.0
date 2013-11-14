@@ -1,31 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BF29F6D614
+Return-Path: <mian.muhammad.tauqir.ahmad@gmail.com>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id EA1206D732
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 13:12:23 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAEDCJpm000699; Thu, 14 Nov 2013 13:12:19 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ir15W_EiH6Mv; Thu, 14 Nov 2013 13:12:19 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAEDCF5J000685
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 14 Nov 2013 13:12:17 GMT
-Message-ID: <1384434732.6460.121.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com
-Date: Thu, 14 Nov 2013 13:12:12 +0000
-In-Reply-To: <a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>
-References: <cover.1384433183.git.Qi.Chen@windriver.com>
-	<a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sanity.bbclass: check for validity of TMPDIR
+	Thu, 14 Nov 2013 13:14:05 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id y6so1533976lbh.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 14 Nov 2013 05:14:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=GkWRLluNP+IrTMgLe4D8yothxqy0Qij0x81Jz1rPml8=;
+	b=x+8UrpQgafNtV/IK3axrB4Dib6Fy5G882whfQl/+fxS0RqPjhzGTjAVHfAVIEXYZ3a
+	OlyCa27TK6JxWdWg5H5hBt6qlzUjHFl3yz6iydLFlLEK3mETxNyCgDzIV77ZYE0xxk5N
+	Y4VWsD746THbILdDaTl6ldP7giIQghebC9DUr5ew4VMCWF5yuykmsVC6NwDH3JGdmoKq
+	2w4DLJg/UNFX2QEFlQGsW6h7bLvKGIPLmhoD1MkNAmjT4p+nFYf0sDZZ+XzPYwFcYCbG
+	8s9yeS0aEdPwDgPvLRNhLTzgRFQ6l5yZm3Tj1Z8/iSFBqO875tB+4o1SXW2jH4NGDnSJ
+	kpaQ==
+MIME-Version: 1.0
+X-Received: by 10.152.25.232 with SMTP id f8mr697318lag.43.1384434847078; Thu,
+	14 Nov 2013 05:14:07 -0800 (PST)
+Received: by 10.112.89.170 with HTTP; Thu, 14 Nov 2013 05:14:07 -0800 (PST)
+In-Reply-To: <CAP9ODKqy+pwcnjES=8gmkJYkqodQ=pGEMqGEh81RfhhJsX4Czg@mail.gmail.com>
+References: <CAKKsV2wExa=EZ4FWdcXiRJY1B=QnzO3uBTn2s23V9MtNSxOS0Q@mail.gmail.com>
+	<CAKKsV2y+ZuaS27QqLtXjcY_qsT1UV01RVtdC=6C_SQpD7nJR5A@mail.gmail.com>
+	<CAK6=ix7pDXwnH6+GOB7XmZedt1QnznfTPdUwUxRqVh+didTWSA@mail.gmail.com>
+	<CAP9ODKqy+pwcnjES=8gmkJYkqodQ=pGEMqGEh81RfhhJsX4Czg@mail.gmail.com>
+Date: Thu, 14 Nov 2013 08:14:07 -0500
+Message-ID: <CAKKsV2zN+40bLNciiOChrh3Y-wPy-=56+n1znC0OwSWA_BoQEA@mail.gmail.com>
+From: Muhammad Tauqir Ahmad <mian.muhammad.tauqir.ahmad@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Behan Webster <behanw@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Exploring LLVM/Clang for OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +46,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 13:12:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 14 Nov 2013 13:14:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2013-11-14 at 21:07 +0800, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
-> 
-> TMPDIR must be an absolute path, otherwise, the build will fail.
-> Special characters in TMPDIR will also cause build failures.
-> 
-> This patch enables checking for the validity of TMPDIR.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/sanity.bbclass |    7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 83378b0..e45906e 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -672,6 +672,13 @@ def check_sanity_everybuild(status, d):
->          with open(checkfile, "w") as f:
->              f.write(tmpdir)
->  
-> +    # Check if TMPDIR contains invalid characters, and check if it is an absolute path
-> +    valid_tmpdir_regexp = "^/[a-zA-Z0-9\-_/.~]+$"
-> +    import re
-> +    valid_pattern = re.compile(valid_tmpdir_regexp)
-> +    if not valid_pattern.match(tmpdir):
-> +        status.addresult("Error, you have special characters in TMPDIR directory path or your TMPDIR is not an absolute path. The TMPDIR should match the this regexp: ^/[a-zA-Z0-9\-_/.~]$")
-> +
+I couldn't find any up-to-date poky mirrors on github so I pushed my
+own poky "mirror"[1]. Once I clean up my code, I will push it to my
+repo.
 
-I'm ok with the check itself however this does not need to be run every
-build. It needs to run when tmpdir changes only.
+I am also finally getting clang3.3 cross-compiler to compile using a
+bitbake recipe quickly put together from the llvm3.3 recipe from
+meta-oe.
+The next step I guess would be to try to figure how to use it and for
+the builds.
+Any pointers/directions/examples with/for that would be helpful
+especially if someone has already done some work along those lines.
 
-Cheers,
-
-Richard
+[1]: https://github.com/mtahmed/poky
+Muhammad Tauqir Ahmad
+--------------------------------------
+Software Developer Intern at WindRiver Systems
+Candidate for Honours Computer Science
+Combinatorics and Optimizations Minor
+University of Waterloo
 
 
+On Wed, Nov 13, 2013 at 11:01 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Wed, Nov 13, 2013 at 12:47 PM, Randy MacLeod <rwmacleod@gmail.com> wrote:
+>> On Tue, Nov 12, 2013 at 8:47 PM, Muhammad Tauqir Ahmad
+>> <mian.muhammad.tauqir.ahmad@gmail.com> wrote:
+>>> According to the link below [1], it seems some works has been done at
+>>> least for llvm+clang bitbake recipes, although I couldn't find any
+>>> clang recipes when searching the net. If anyone can point me in the
+>>> right direction for finding these recipes, that would be great.
+>>>
+>>> [1]: http://lists.linuxfoundation.org/pipermail/llvmlinux/2013-March/000205.html
+>>
+>>
+>> That would be Behan's work, adding him here.
+>>
+>> Behan,
+>> Are your clang recipes from, "Worked on bitbake recipes for LLVM and
+>> clang" mentioned in the March 2013 llvmlinux notes available?
+>>
+>> Everyone,
+>> Where should Muhammad stage his work and is there an example of using
+>> an alternative cross-compiler.
+>
+> I'd say a github repository for now. This allow for easy forking,
+> contribution, provides issue tracking, wiki and so on.
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
