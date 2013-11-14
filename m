@@ -1,24 +1,29 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D6266D2C4
+Return-Path: <Hongbo.Zhong@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CE606D06A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 09:02:03 +0000 (UTC)
+	Thu, 14 Nov 2013 10:47:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAE924qV016862
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAEAlFOc018310
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Nov 2013 01:02:04 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 14 Nov 2013 01:02:04 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Nov 2013 17:02:00 +0800
-Message-ID: <cover.1384419666.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
+	Thu, 14 Nov 2013 02:47:15 -0800 (PST)
+Received: from [128.224.162.173] (128.224.162.173) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 14 Nov 2013 02:47:14 -0800
+Message-ID: <5284AA43.6020209@windriver.com>
+Date: Thu, 14 Nov 2013 18:47:31 +0800
+From: Zhong Hongbo <hongbo.zhong@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 0/1]lib32-packagegroup-core-nfs: fix qa issue - install files into a shared area when those files already exist
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1384337335-32231-1-git-send-email-hongbo.zhong@windriver.com>
+	<1384337335-32231-3-git-send-email-hongbo.zhong@windriver.com>
+	<CAJTo0LZZhEF5S9anD54RrrVyGe07KkdNhTh1gz=giRJk_n7k7A@mail.gmail.com>
+In-Reply-To: <CAJTo0LZZhEF5S9anD54RrrVyGe07KkdNhTh1gz=giRJk_n7k7A@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] bluez4: Fix no moudle named gi.repository and GObject for simpel-agent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 09:02:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Nov 2013 10:47:15 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit ea92671d9823e3667d6ced7ac2af20f991da404d:
+On 11/13/2013 08:30 PM, Burton, Ross wrote:
+> On 13 November 2013 10:08, Zhong Hongbo <hongbo.zhong@windriver.com> wrote:
+>> +++ b/meta/recipes-connectivity/bluez/bluez4-4.101/fix-no-module-name-GObject-for-simple-agent.patch
+>> @@ -0,0 +1,25 @@
+>> +Fix No module name gi.repository and GObject for simple-agent
+>> +
+>> +Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
+> Patch needs an Upstream-Status ("Inappropriate [revert]" would be
+> suitable), and please rename the patch/comment to something more
+> accurate along the lines of "use legacy pygobject instead of
+> gobject-introspection".
+This patch do not in upstream. I do the change  and test it in my x86_64 
+platform.
+What status should fill in Upstream-Status.
 
-  bitbake: cooker: replace "w" file opening mode with "a" mode (2013-11-12 17:01:37 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-nfs
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nfs
-
-Hongxu Jia (1):
-  lib32-packagegroup-core-nfs: fix qa issue - install files into a
-    shared area when those files already exist
-
- meta/recipes-core/packagegroups/packagegroup-core-nfs.bb | 1 +
- 1 file changed, 1 insertion(+)
-
--- 
-1.8.1.2
+Thanks,
+Hongbo
+>
+> Ross
+>
+>
 
 
