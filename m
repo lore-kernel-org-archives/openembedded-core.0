@@ -1,56 +1,27 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id B2E096D571
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B9B06D747
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 16:04:11 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VgzOu-0001Mn-Ny; Thu, 14 Nov 2013 17:04:13 +0100
-Message-ID: <1384445052.17320.76.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 14 Nov 2013 16:04:12 +0000
-In-Reply-To: <5284F119.8010903@windriver.com>
-References: <cover.1384433183.git.Qi.Chen@windriver.com>
-	<a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>
-	<5284CFAD.2060903@mlbassoc.com>
-	<1384436557.17320.62.camel@phil-desktop.brightsign>
-	<5284F119.8010903@windriver.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Thu, 2013-11-14 at 09:49 -0600,
-	Mark Hatle wrote: > On
-	11/14/13, 7:42 AM, Phil Blundell wrote: > > On Thu,
-	2013-11-14 at 06:27 -0700, Gary Thomas wrote: > >> Also,
-	is "-" actually valid? I seem to recall having
-	problems when my build > >> tree had the hyphen ("-") in the path. > >
-	>
-	> Paths with "-" in certainly work for me. If there are any recipes
-	which
-	> > break in that situation then we should just fix them. > > We found
-	an issue with paths that -start- with a '-',
-	there are apparently many > places
-	where paths are passed into various shell,
-	and the initial '-' can be > read
-	as an argument identifier. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sanity.bbclass: check for validity of TMPDIR
+	Thu, 14 Nov 2013 16:10:14 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 14 Nov 2013 08:06:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="435281553"
+Received: from unknown (HELO [10.255.15.61]) ([10.255.15.61])
+	by orsmga002.jf.intel.com with ESMTP; 14 Nov 2013 08:09:54 -0800
+Message-ID: <5284F5D1.4010004@linux.intel.com>
+Date: Thu, 14 Nov 2013 08:09:53 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	Otavio Salvador <otavio@ossystems.com.br>
+References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>	<5283F507.7050607@linux.intel.com>	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>
+	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>
+In-Reply-To: <CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,48 +34,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 16:04:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Nov 2013 16:10:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-11-14 at 09:49 -0600, Mark Hatle wrote:
-> On 11/14/13, 7:42 AM, Phil Blundell wrote:
-> > On Thu, 2013-11-14 at 06:27 -0700, Gary Thomas wrote:
-> >> Also, is "-" actually valid?  I seem to recall having problems when my build
-> >> tree had the hyphen ("-") in the path.
-> >
-> > Paths with "-" in certainly work for me.  If there are any recipes which
-> > break in that situation then we should just fix them.
-> 
-> We found an issue with paths that -start- with a '-', there are apparently many 
-> places where paths are passed into various shell, and the initial '-' can be 
-> read as an argument identifier.
+On 11/13/2013 07:08 PM, Bruce Ashfield wrote:
+> On Wed, Nov 13, 2013 at 8:45 PM, Otavio Salvador
+> <otavio@ossystems.com.br> wrote:
+>> On Wed, Nov 13, 2013 at 7:54 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>>> On 11/01/2013 06:31 AM, Otavio Salvador wrote:
+>>>>
+>>>> This updates lttng-modules for 2.3.2 and also includes a bugfix
+>>>> imported from 3.4 kernel. The changes included are:
+>>>>
+>>>> 6c26b01 Blacklist Linux kernels 3.10+
+>>>> b97d469 LTTng trace-clock: shrink kernel blacklist
+>>>> 7d40f8e Version 2.3.1
+>>>> 2aecb9b Blacklist kernels 3.10.13 and 3.11.2
+>>>> 4f1217f Version 2.3.2
+>>>> 92fff0c Import fix from LTSI: 3.4+ RT kernels use CONFIG_PREEMPT_RT_FULL
+>>>> 1874075 lttng-statedump-impl: Fix lttng_list_interrupts for empty
+>>>> implementation
+>>>>
+>>>
+>>> Otavio,
+>>>
+>>> Tried to build this locally and got the following failure with genericx86
+>>> and master:
+>>>
+>>> |   CC [M]
+>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o
+>>> | In file included from
+>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-tracer.h:37:0,
+>>> |                  from
+>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.c:24:
+>>> |
+>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/wrapper/trace-clock.h:40:2:
+>>> error: #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
+>>> timekeeping subsystem. Fixed by commit
+>>> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK related
+>>> deadlock from ntp lock changes\" in Linux."
+>>> |  #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
+>>> timekeeping subsystem. Fixed by commit
+>>> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK related
+>>> deadlock from ntp lock changes\" in Linux."
+>>> |   ^
+>>> | make[2]: ***
+>>> [/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o]
+>>> Error 1
+>>> | make[1]: ***
+>>> [_module_/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git]
+>>> Error 2
+>>> | make[1]: Leaving directory
+>>> `/srv/ssd/sgw/builds/world/tmp/sysroots/genericx86/usr/src/kernel'
+>>> | make: *** [default] Error 2
+>>> | ERROR: oe_runmake failed
+>>>
+>>> So I am going to hold off on this patch set until you can resolve this.
+>>
+>> Yes; this is becase the linux-yocto seems to not have been updated to
+>>> 3.10.13; so in fact it is failing to build to avoid people to
+>> trigger the deadlock.
+>>
+>> The change which introduces this in lttng-modules is:
+>>
+>> http://git.lttng.org/?p=lttng-modules.git;a=commit;h=2aecb9b1cbb63f6c524ad9195d8fd06299ef9296
+>>
+>> I can update this patch as 2.3.3 has been released and it includes the
+>> 3.12 fixes but please check when linux-yocto will be updated so we can
+>> fix it.
+>
+> Saul: What board are you building ? I've had linux-yocto on 3.10.17
+> for over a week
+> now.
 
-Right, I can imagine that this would break fairly badly.  But if we're
-going to require TMPDIR to be an absolute path (which seems perfectly
-reasonable) then by definition it can't start with - so this will
-presumably become a non-issue.
+As mentioned above this is for genericx86, so maybe not all the BSPs are 
+updated yet.
 
-> I don't believe Qi Chen sent it to the list, but we built path names with all of 
-> the special characters and tried to run builds.  The specific list is based on 
-> the results of those tests.  The other items are already broken, and we're 
-> trying to be explicit with this for end users.  (Note, it's really the TMPDIR 
-> that matters.. the 'build' directory is a lot more flexible.)
+Sau!
 
-Yeah, I saw the results of those tests.  My slight reservation with that
-methodology is that, if any single recipe fails with a given character
-in TMPDIR, no matter how obscure that recipe might be, it seems that
-this is enough to make that character verboten.  For example, the
-rationale for excluding "+" seems to be that it breaks tcl; if this is
-the only recipe that fails then it seems like it might be worth at least
-trying to fix tcl rather than excluding "+" from TMPDIRs for ever more.
-
-But, clearly, there are some characters in the list that are "just
-silly" to have in pathnames.  I don't think anybody would be surprised
-to learn that "*" and "$" cause problems and blacklisting those ones
-does seem quite reasonable.
-
-p.
-
-
+>
+> The meta-yocto-bsps need a SRCREV bump, which I was just about to send
+> out, but the code has been in tree for some time yet, and all the qemu*
+> BSPs are already running at that revision.
+>
+> Bruce
+>
+>>
+>> Regards,
+>>
+>>
+>> --
+>> Otavio Salvador                             O.S. Systems
+>> http://www.ossystems.com.br        http://code.ossystems.com.br
+>> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
