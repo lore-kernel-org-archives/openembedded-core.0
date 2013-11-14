@@ -1,37 +1,39 @@
-Return-Path: <dominik.holland@pelagicore.com>
-Received: from mail-bk0-f49.google.com (mail-bk0-f49.google.com
-	[209.85.214.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 117386D747
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
+	[209.85.160.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 36CF66D747
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 16:15:59 +0000 (UTC)
-Received: by mail-bk0-f49.google.com with SMTP id w14so1357056bkz.22
+	Thu, 14 Nov 2013 16:18:10 +0000 (UTC)
+Received: by mail-pb0-f41.google.com with SMTP id jt11so2237241pbb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 08:16:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=JdvvUfRWneQYunCz3VHmGkbV6NrrV3NbJmjPmiNxmBA=;
-	b=Jzl+TjuGzL2tSZ2pwYQ9NtvKnD1zyeq8e/q6ztB7QsFZdPryAFwig0LQaauf3p9wTn
-	G7ehUgLpproD3enmjlDnf9VAaXrp/H7PCIU8TEEt7Az4hvq1Ilf2rYBnZXaKYAcbvtnU
-	qSsZort8KrPU1lCPtYqJASeL+HJDNy3GS2vgDgrsTMboGDuPXQCgvSGvRbxVt0ef7Lkc
-	zLNeIgTFRrCN55rcNbf2wDyTdEUlZRE8rl9gMRs5RWUaW3RvkMolKL4FFoy2Z0N52VTH
-	wyebO9wHGkzQjYDmNFfigEAPmppTDO4rjQh5s8LjNpFVQOYIm73oVOXOBrX4QYTFgxNq
-	lVCg==
-X-Gm-Message-State: ALoCoQk2wUkiyIUelYkfGlPv4haD42/71VdHj492GW/J7sNs/EY5BwbyTL2pJi+EkG2tRevJ2jWa
-X-Received: by 10.204.107.6 with SMTP id z6mr150428bko.124.1384445760898;
-	Thu, 14 Nov 2013 08:16:00 -0800 (PST)
-Received: from magrathea.pelagicore.de
-	(ppp-82-135-65-185.dynamic.mnet-online.de. [82.135.65.185])
-	by mx.google.com with ESMTPSA id l5sm3932266bko.7.2013.11.14.08.15.59
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Nov 2013 08:16:00 -0800 (PST)
-From: Dominik Holland <dominik.holland@pelagicore.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Nov 2013 17:15:51 +0100
-Message-Id: <1384445751-1226-1-git-send-email-dominik.holland@pelagicore.com>
-X-Mailer: git-send-email 1.8.4.3
-Subject: [PATCH V2] dbus: Don't depend on dbus-ptest-ptest for the nativesdk-dbus package
+	Thu, 14 Nov 2013 08:18:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=roK2KlKKErv3SrsMzZBDNkyPBNwjWg4Tuexb/k3YvcY=;
+	b=b5SeypO8EJR845zn/0gEkuvfHnjmN+SqkterYT1d2YJtpB7AALsaig2yUbB27ZYovz
+	WwpSN+Jl5Fl6eX1iV+i1CG8hbXLK6spD6L3tjS9MdklBrQbEq7aRHu4TkRhrUKcKKX8c
+	cwlwaCRpxTtQuwz7OhnifrDNvpJjKbAbK89zaH9lOUklTWHJ1/Qe+K1nWtWwdlnKqWIY
+	3SKFJrEQORMqa9gHwDyqHEQkYnHZfUms/3LzHd4Uk7Enuo75ssBUfWjzrBJdorir+Nf+
+	iiDTD5YgZKbhagrbkYwmQjDe6e3Y726uhYZ/S8S8hG0b6cFbk+3dA2T3ntloUjxabcT2
+	To0A==
+MIME-Version: 1.0
+X-Received: by 10.66.161.138 with SMTP id xs10mr2296560pab.56.1384445892152;
+	Thu, 14 Nov 2013 08:18:12 -0800 (PST)
+Received: by 10.68.109.228 with HTTP; Thu, 14 Nov 2013 08:18:12 -0800 (PST)
+In-Reply-To: <5284F5D1.4010004@linux.intel.com>
+References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>
+	<5283F507.7050607@linux.intel.com>
+	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>
+	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>
+	<5284F5D1.4010004@linux.intel.com>
+Date: Thu, 14 Nov 2013 11:18:12 -0500
+Message-ID: <CADkTA4ObDkKgm+_-RG650m2TtugDh4tZ+OHyOateGSUvv9hmhQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,30 +46,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 16:16:01 -0000
+X-List-Received-Date: Thu, 14 Nov 2013 16:18:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Thu, Nov 14, 2013 at 11:09 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 11/13/2013 07:08 PM, Bruce Ashfield wrote:
+>>
+>> On Wed, Nov 13, 2013 at 8:45 PM, Otavio Salvador
+>> <otavio@ossystems.com.br> wrote:
+>>>
+>>> On Wed, Nov 13, 2013 at 7:54 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>>>>
+>>>> On 11/01/2013 06:31 AM, Otavio Salvador wrote:
+>>>>>
+>>>>>
+>>>>> This updates lttng-modules for 2.3.2 and also includes a bugfix
+>>>>> imported from 3.4 kernel. The changes included are:
+>>>>>
+>>>>> 6c26b01 Blacklist Linux kernels 3.10+
+>>>>> b97d469 LTTng trace-clock: shrink kernel blacklist
+>>>>> 7d40f8e Version 2.3.1
+>>>>> 2aecb9b Blacklist kernels 3.10.13 and 3.11.2
+>>>>> 4f1217f Version 2.3.2
+>>>>> 92fff0c Import fix from LTSI: 3.4+ RT kernels use
+>>>>> CONFIG_PREEMPT_RT_FULL
+>>>>> 1874075 lttng-statedump-impl: Fix lttng_list_interrupts for empty
+>>>>> implementation
+>>>>>
+>>>>
+>>>> Otavio,
+>>>>
+>>>> Tried to build this locally and got the following failure with
+>>>> genericx86
+>>>> and master:
+>>>>
+>>>> |   CC [M]
+>>>>
+>>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o
+>>>> | In file included from
+>>>>
+>>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-tracer.h:37:0,
+>>>> |                  from
+>>>>
+>>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.c:24:
+>>>> |
+>>>>
+>>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/wrapper/trace-clock.h:40:2:
+>>>> error: #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
+>>>> timekeeping subsystem. Fixed by commit
+>>>> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK
+>>>> related
+>>>> deadlock from ntp lock changes\" in Linux."
+>>>> |  #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
+>>>> timekeeping subsystem. Fixed by commit
+>>>> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK
+>>>> related
+>>>> deadlock from ntp lock changes\" in Linux."
+>>>> |   ^
+>>>> | make[2]: ***
+>>>>
+>>>> [/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o]
+>>>> Error 1
+>>>> | make[1]: ***
+>>>>
+>>>> [_module_/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git]
+>>>> Error 2
+>>>> | make[1]: Leaving directory
+>>>> `/srv/ssd/sgw/builds/world/tmp/sysroots/genericx86/usr/src/kernel'
+>>>> | make: *** [default] Error 2
+>>>> | ERROR: oe_runmake failed
+>>>>
+>>>> So I am going to hold off on this patch set until you can resolve this.
+>>>
+>>>
+>>> Yes; this is becase the linux-yocto seems to not have been updated to
+>>>>
+>>>> 3.10.13; so in fact it is failing to build to avoid people to
+>>>
+>>> trigger the deadlock.
+>>>
+>>> The change which introduces this in lttng-modules is:
+>>>
+>>>
+>>> http://git.lttng.org/?p=lttng-modules.git;a=commit;h=2aecb9b1cbb63f6c524ad9195d8fd06299ef9296
+>>>
+>>> I can update this patch as 2.3.3 has been released and it includes the
+>>> 3.12 fixes but please check when linux-yocto will be updated so we can
+>>> fix it.
+>>
+>>
+>> Saul: What board are you building ? I've had linux-yocto on 3.10.17
+>> for over a week
+>> now.
+>
+>
+> As mentioned above this is for genericx86, so maybe not all the BSPs are
+> updated yet.
+
+Buried in the context, sorry about missing that.
+
+Yes, I'm about to update the reference boards, but there's a install
+error that I'm fixing first, but I'll have the series out by end of day.
+
+Bruce
+
+>
+> Sau!
+>
+>
+>>
+>> The meta-yocto-bsps need a SRCREV bump, which I was just about to send
+>> out, but the code has been in tree for some time yet, and all the qemu*
+>> BSPs are already running at that revision.
+>>
+>> Bruce
+>>
+>>>
+>>> Regards,
+>>>
+>>>
+>>> --
+>>> Otavio Salvador                             O.S. Systems
+>>> http://www.ossystems.com.br        http://code.ossystems.com.br
+>>> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>>
+>
 
 
-I also changed RDEPENDS_class-native to RDEPENDS_dbus_class-native now
 
----
- meta/recipes-core/dbus/dbus.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 5864643..6612184 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -10,7 +10,8 @@ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X
- DEPENDS_class-native = "expat-native virtual/libintl-native"
- DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl"
- RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '', d)}"
--RDEPENDS_class-native = ""
-+RDEPENDS_dbus_class-native = ""
-+RDEPENDS_dbus_class-nativesdk = ""
- 
- INC_PR = "r6"
- 
 -- 
-1.8.4.3
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
