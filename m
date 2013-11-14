@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F8686D1F6
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 32EBE6DA0B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 16:55:30 +0000 (UTC)
+	Thu, 14 Nov 2013 16:55:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAEGtVXT002948
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAEGtVvD013134
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Nov 2013 08:55:32 -0800 (PST)
+	Thu, 14 Nov 2013 08:55:31 -0800 (PST)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 14 Nov 2013 08:55:30 -0800
+	14.2.347.0; Thu, 14 Nov 2013 08:55:31 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 14 Nov 2013 11:55:25 -0500
-Message-ID: <abdc117edb4af1d7a24e11750b3f89e7ea404d00.1384447700.git.bruce.ashfield@windriver.com>
+Date: Thu, 14 Nov 2013 11:55:26 -0500
+Message-ID: <468e4174c0fd56edc6e37ef744d93fe712a9a983.1384447700.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1384447700.git.bruce.ashfield@windriver.com>
 References: <cover.1384447700.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] linux-yocto-rt/3.10: fix ntp merge issue
+Subject: [PATCH 3/3] kernel.bbclass: test for hardlinks before installing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 16:55:30 -0000
+X-List-Received-Date: Thu, 14 Nov 2013 16:55:33 -0000
 Content-Type: text/plain
 
-Updating the -rt SRCREVs to pick up the following fix:
+commit df564c4 [kernel: Use hardlinks for do_populate_sysroot for speed]
+does indeed speed up the build, but it also means that the KERNEL_OUPUT
+and KERNEL_IMAGETYPE may be hardlinks.
 
-    ntp: fix ntp_notify_cmos_timer merge issue
+If they are hardlinks, install complains that they are actually the same
+file and stops the build. We can easily test and avoid the copy if the
+file is already in place.
 
-    PREEMPT_RT_FULL has a stubbed ntp_notify_cmos_timer due to a bad merge.
-    Renaming and restoring the full -rt functionality to this routine.
+[YOCTO #5527]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/kernel.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index ab36e6a..c8b9888 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-@@ -3,9 +3,9 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 383043e..624b151 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -244,7 +244,11 @@ kernel_do_install() {
+ 		find . -depth -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+ 		cd "$pwd"
+ 	fi
+-	install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
++
++	# Test to ensure that the output file and image type are not actually
++	# the same file. If hardlinking is used, they will be the same, and there's
++	# no need to install.
++	![ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
+ 	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
  
--SRCREV_machine ?= "97499dfaea61934719b91f1347f468c6f0125b2c"
--SRCREV_machine_qemuppc ?= "54cb4efa033af86301934d58d890a5324cc95a75"
--SRCREV_meta ?= "c16a2cf7b06c92a0217d61569bd0293233fe6ba7"
-+SRCREV_machine ?= "baed5453f830d06075a4480ec0ded8ff785828bc"
-+SRCREV_machine_qemuppc ?= "26a465af89793c7dc5a81661449c5a9f0ad06dee"
-+SRCREV_meta ?= "6ad20f049abd52b515a8e0a4664861cfd331f684"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
+ 	# Dummy Makefile so the clean below works
 -- 
 1.8.1.2
 
