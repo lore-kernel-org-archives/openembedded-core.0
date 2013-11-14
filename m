@@ -1,37 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id EA7696D87A
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E5FC46D8A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 01:45:53 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id k1so1520927oag.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 17:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=1sPHPW8iPU5F60aE8r3yXNIfyalX0LpZkxwDx3Z2Z2Q=;
-	b=aAi3euqIlN7WNPQMfhbIUGZKtCMJuvasjCG1eU9N3l43ZiBgY5wxGUdZ7MAtfIRDcD
-	2qJgpTxIECmaEeOZD/OBWIwoNWkr20QX1szNTlGBlTrk8CicJNxfoewNlPQtSeoMD96Z
-	ygApp1jJr3BaOrc7geEnXDME8kU+78ij21EDgdjfXEEmMFbyvazxXjGE0BJ+Y5MQnZnb
-	W2++fUPTwujb9LHh4f0DhSu3PjdsTfaMrgTK1ceeTQ89MKFqKhZ4xHOXvK1rJINLRA+I
-	gCSt88k+fyqJ+aSAycrIlJnExM4Hbbsohu0uzKBUb2khcq5MFizBfbByuvo5pzuTZBf8
-	z/fQ==
+	Thu, 14 Nov 2013 01:55:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAE1tuCZ005426
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 13 Nov 2013 17:55:56 -0800 (PST)
+Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Wed, 13 Nov 2013 17:55:56 -0800
+Message-ID: <52842DA9.40004@windriver.com>
+Date: Thu, 14 Nov 2013 09:55:53 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-Received: by 10.60.60.71 with SMTP id f7mr4951194oer.82.1384393555101; Wed,
-	13 Nov 2013 17:45:55 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 13 Nov 2013 17:45:54 -0800 (PST)
-In-Reply-To: <5283F507.7050607@linux.intel.com>
-References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>
-	<5283F507.7050607@linux.intel.com>
-Date: Wed, 13 Nov 2013 23:45:54 -0200
-X-Google-Sender-Auth: 27GCtWMulO9mSPtPMldX61ER2ao
-Message-ID: <CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
 To: Saul Wold <sgw@linux.intel.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
+References: <1384330547-1638-1-git-send-email-ming.liu@windriver.com>
+	<5283C4CA.2020400@linux.intel.com>
+In-Reply-To: <5283C4CA.2020400@linux.intel.com>
+X-Originating-IP: [128.224.162.145]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qemu: explicitly disable xen support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,77 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 01:45:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 14 Nov 2013 01:55:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 13, 2013 at 7:54 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 11/01/2013 06:31 AM, Otavio Salvador wrote:
+On 11/14/2013 02:28 AM, Saul Wold wrote:
+> On 11/13/2013 12:15 AM, Ming Liu wrote:
+>> We don't make use of xen and when building on Ubuntu 13.04 when
+>> libxen-dev is installed on the build host you will get errors like the
+>> following:
 >>
->> This updates lttng-modules for 2.3.2 and also includes a bugfix
->> imported from 3.4 kernel. The changes included are:
+>> | /usr/include/x86_64-linux-gnu/bits/string3.h:81: warning: memset 
+>> used with constant zero length parameter; this could be due to 
+>> transposed parameters
+>> | /usr/lib/gcc/x86_64-linux-gnu/4.7/../../../../lib/libxenguest.so: 
+>> undefined reference to `lzma_alone_decoder@XZ_5.0'
+>> | /usr/lib/gcc/x86_64-linux-gnu/4.7/../../../../lib/libxenguest.so: 
+>> undefined reference to `lzma_code@XZ_5.0'
+>> | /usr/lib/gcc/x86_64-linux-gnu/4.7/../../../../lib/libxenguest.so: 
+>> undefined reference to `lzma_stream_decoder@XZ_5.0'
+>> | /usr/lib/gcc/x86_64-linux-gnu/4.7/../../../../lib/libxenguest.so: 
+>> undefined reference to `lzma_end@XZ_5.0'
 >>
->> 6c26b01 Blacklist Linux kernels 3.10+
->> b97d469 LTTng trace-clock: shrink kernel blacklist
->> 7d40f8e Version 2.3.1
->> 2aecb9b Blacklist kernels 3.10.13 and 3.11.2
->> 4f1217f Version 2.3.2
->> 92fff0c Import fix from LTSI: 3.4+ RT kernels use CONFIG_PREEMPT_RT_FULL
->> 1874075 lttng-statedump-impl: Fix lttng_list_interrupts for empty
->> implementation
+>> This change disables xen for both -native and target packages but
+>> since it is a PACKAGECONFIG a user could tune this to have xen support
+>> in the target package.
+>>
+>> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>> ---
+>>   meta/recipes-devtools/qemu/qemu.inc | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/qemu/qemu.inc 
+>> b/meta/recipes-devtools/qemu/qemu.inc
+>> index 702fe01..95a3aa3 100644
+>> --- a/meta/recipes-devtools/qemu/qemu.inc
+>> +++ b/meta/recipes-devtools/qemu/qemu.inc
+>> @@ -79,6 +79,7 @@ do_install_append() {
+>>   PACKAGECONFIG ??= ""
+>>   PACKAGECONFIG[virtfs] = "--enable-virtfs 
+>> --enable-attr,--disable-virtfs,libcap attr,"
+>>   PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
+>> +PACKAGECONFIG[xen] = "--enable-xen, --disable-xen,,"
+>>
+> If enabled what dependencies or rdepends does it need?  liblzma seems 
+> like it might be one.
+I'd like to explain it in more detail, there is no dependency 
+relationship between them actually, and we don't need set any rdepends 
+for it.
+The root cause is that when xen support is detected by qemu configure, 
+"-lxenstore" is added to LDFLAGS, but mostly libxenstore.so itself on 
+host is also compiled as a shared library, so it is linked to liblzma.so 
+of host path, which will lead a version mismatch with lzma in sysroot.
+
+//Ming Liu
+
+>
+> Sau!
+>
+>>   # Qemu target will not build in world build for ARM or Mips
+>>   BROKEN_qemuarm = "1"
 >>
 >
-> Otavio,
 >
-> Tried to build this locally and got the following failure with genericx86
-> and master:
->
-> |   CC [M]
-> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o
-> | In file included from
-> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-tracer.h:37:0,
-> |                  from
-> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.c:24:
-> |
-> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/wrapper/trace-clock.h:40:2:
-> error: #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
-> timekeeping subsystem. Fixed by commit
-> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK related
-> deadlock from ntp lock changes\" in Linux."
-> |  #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
-> timekeeping subsystem. Fixed by commit
-> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK related
-> deadlock from ntp lock changes\" in Linux."
-> |   ^
-> | make[2]: ***
-> [/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o]
-> Error 1
-> | make[1]: ***
-> [_module_/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git]
-> Error 2
-> | make[1]: Leaving directory
-> `/srv/ssd/sgw/builds/world/tmp/sysroots/genericx86/usr/src/kernel'
-> | make: *** [default] Error 2
-> | ERROR: oe_runmake failed
->
-> So I am going to hold off on this patch set until you can resolve this.
 
-Yes; this is becase the linux-yocto seems to not have been updated to
-> 3.10.13; so in fact it is failing to build to avoid people to
-trigger the deadlock.
-
-The change which introduces this in lttng-modules is:
-
-http://git.lttng.org/?p=lttng-modules.git;a=commit;h=2aecb9b1cbb63f6c524ad9195d8fd06299ef9296
-
-I can update this patch as 2.3.3 has been released and it includes the
-3.12 fixes but please check when linux-yocto will be updated so we can
-fix it.
-
-Regards,
-
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
