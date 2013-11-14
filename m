@@ -1,24 +1,22 @@
-Return-Path: <Qiang.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 370866D1BC
+Return-Path: <irina.patru@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A8B7D6D88D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 07:40:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAE7eTpv014795
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2013 23:40:29 -0800 (PST)
-Received: from optiplex-780.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 13 Nov 2013 23:40:29 -0800
-From: <qiang.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 14 Nov 2013 15:40:27 +0800
-Message-ID: <1384414827-5485-1-git-send-email-qiang.chen@windriver.com>
+	Thu, 14 Nov 2013 08:52:54 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Nov 2013 00:52:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,698,1378882800"; d="scan'208";a="433272644"
+Received: from irina-vostro-460.rb.intel.com ([10.237.105.149])
+	by fmsmga002.fm.intel.com with ESMTP; 14 Nov 2013 00:52:55 -0800
+From: Irina Patru <irina.patru@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Nov 2013 10:54:19 +0200
+Message-Id: <1384419259-29729-1-git-send-email-irina.patru@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] util-linux: collect symbol link libxx.so for related libxx-dev package
+In-Reply-To: <1384335941-25306-1-git-send-email-irina.patru@intel.com>
+References: <1384335941-25306-1-git-send-email-irina.patru@intel.com>
+Subject: [PATCH v3] distrodata.bbclass: Add fetch2 handlers to svn case in checkpkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +29,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2013 07:40:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 14 Nov 2013 08:52:55 -0000
 
-From: Qiang Chen <qiang.chen@windriver.com>
+The existing code in checkpkg from distrodata.bbclass had similar
+functionality with fetch when searching for latest package version.
 
-Commit 91c0f9e3 moves library files to base_libdir for safe while
-symbol link libuuid.so and libblkid.so are placed in libdir, not
-base_libdir. Thus they are missed by related develop package and
-collected by util-linux's develop package at last. Fix it.
+For packages that use svn protocol that part was rewrote in order
+to use fetcher API.
+It now calls latest_revision method from Svn class in fetch2 so
+that it gets latest version.
 
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
-Signed-off-by: Qiang Chen <qiang.chen@windriver.com>
+[ YOCTO #1813 ]
+
+Signed-off-by: Irina Patru <irina.patru@intel.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/distrodata.bbclass |   43 ++++++++++++++++-----------------------
+ 1 file changed, 17 insertions(+), 26 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 15b6770..e25fbd6 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -74,11 +74,11 @@ FILES_util-linux-reset = "${base_bindir}/reset"
- FILES_util-linux-partx = "${sbindir}/partx"
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 085575a..e481027 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -751,34 +751,25 @@ python do_checkpkg() {
+                                 if not tmp3:
+                                         bb.plain("#DEBUG# Package %s: current version (%s) doesn't match the usual pattern" %(pname, pversion))
+         elif type == 'svn':
+-                options = []
+-                if user:
+-                        options.append("--username %s" % user)
+-                if pswd:
+-                        options.append("--password %s" % pswd)
+-                svnproto = 'svn'
+-                if 'proto' in parm:
+-                        svnproto = parm['proto']
+-                if 'rev' in parm:
+-                        pcurver = parm['rev']
+-
+-                svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), svnproto, host, path, parm["module"])
+-                print svncmd
+-                svninfo = os.popen(svncmd).read()
+-                if "Can't connect to host " in svninfo or "Connection timed out" in svninfo:
+-                        svncmd = "svn info %s %s://%s%s/%s/ 2>&1" % (" ".join(options), "http",
+-                                       host, path, parm["module"])
+-                        svninfo = os.popen(svncmd).read()
+-                for line in svninfo.split("\n"):
+-                        if re.search("^Last Changed Rev:", line):
+-                                pupver = line.split(" ")[-1]
+-                                if pupver in pversion:
+-                                        pstatus = "MATCH"
+-                                else:
+-                                        pstatus = "UPDATE"
++                ud = bb.fetch2.FetchData(uri, d)
  
- FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
--FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so ${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
-+FILES_util-linux-libblkid-dev = "${libdir}/libblkid.so ${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
- FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
--FILES_util-linux-libmount-dev = "${base_libdir}/libmount.so ${base_libdir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
-+FILES_util-linux-libmount-dev = "${libdir}/libmount.so ${base_libdir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
- FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
--FILES_util-linux-libuuid-dev = "${base_libdir}/libuuid.so ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
-+FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
- FILES_util-linux-lscpu = "${bindir}/lscpu"
+-                if re.match("Err", pstatus):
++                svnFetcher = bb.fetch2.svn.Svn(d)
++                svnFetcher.urldata_init(ud, d)
++                try:
++                        pupver = svnFetcher.latest_revision(uri, ud, d, ud.names[0])
++                except bb.fetch2.FetchError:
++                        pstatus = "ErrSvnAccess"
++                
++                if pupver:
++                        if pupver in pversion:
++                                pstatus = "MATCH"
++                        else:
++                                pstatus = "UPDATE"
++                else:
+                         pstatus = "ErrSvnAccess"
++                
++                if 'rev' in ud.parm:
++                        pcurver = ud.parm['rev']
  
- FILES_util-linux-fsck = "${base_sbindir}/fsck*"
+                 if pstatus != "ErrSvnAccess":
+                         tag = pversion.rsplit("+svn")[0]
 -- 
 1.7.9.5
 
