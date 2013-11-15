@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f51.google.com (mail-vb0-f51.google.com
-	[209.85.212.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 76B296D73F
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id CD03C6D73F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 23:00:06 +0000 (UTC)
-Received: by mail-vb0-f51.google.com with SMTP id w5so3239198vbf.10
+	Fri, 15 Nov 2013 23:25:15 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id ib11so2152861vcb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 15:00:08 -0800 (PST)
+	Fri, 15 Nov 2013 15:25:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=llG2IbwYLL8dlVAT/2WMwfTKrxWDDywecXma76JKS00=;
-	b=SvXQFHhJHbg9IvE1TIFIIk7blw8qJjbQko1/Fd/0fpxjLgP5jQnIkYYNUhY0PibbBK
-	Zsp0OwvV7sABr7ExXAJBNg9Q3NsiZ9fANzAkQk4FGI/tSjqD/DZX0yiHNzoUOEGIWEy6
-	30HGVh+Rz9MYSBq9YswBFxvniG/OzfjJuxL+0tQJ+8bddh5YQX2ICL9z20H1drs+ANjZ
-	ow/F0sKsBw/Os5qjCNsbGLg7dI83hOzfNPfh072aTnRmDL3yc78AEje0syGsM3g04VWZ
-	StXuhH8Ngqk55naxtrkn912CIeb2BGKbXbfTIsojoXc9LB9J7kBcevqvZS3DuxUnMQ4H
-	JLtQ==
-X-Gm-Message-State: ALoCoQn+8ugJF7uNs/rfdbzvy3pK+DeRD+wyYi4i8Q7M6NvazRnYf1UHixPAJgveg7q7NM4l5VUG
-X-Received: by 10.221.19.68 with SMTP id qj4mr283865vcb.60.1384556407832; Fri,
-	15 Nov 2013 15:00:07 -0800 (PST)
+	bh=wXEQ+Uzj1RNwfOwZJICB/G7xOusl7jREe0kOskz06Dg=;
+	b=RrofSVbH2QL7z2ILVilX930EYRFLvNa8wvNSIdEuAswVqP9V1UnEw0isOaoYnYEn7W
+	Pbq2QiUW6vNDzE5T4mr+MgZgROQ5pZX7PNk2gdKKUS8SRxSuJzPpzP4+9obuMGbvCGrj
+	sdCEdxL1P1FnYKNpTC3HyKyKyAhUXkUqaoPeiOaDYGF/ZcXS8Cl+nC7FJfeWWOqs1H3H
+	prrU5C3kCd7JJ2Yf+jHtqRYcrHYF/YqDbiDr8MtfDEUo1DQNT+zJ2r+RrKzxuBFcvXuJ
+	94LpMnLI8e5W/nfyIs15sLBPjUxR0yw7hH5p50gR28Lzn5cZ6G+94EZPui37omm1fxoZ
+	BG9Q==
+X-Gm-Message-State: ALoCoQmV7M5b3rcKagTQHp6oX5H1LayRqmG5SbUr/KwC4L+g32Bf1pGVQ1j3SyLZDoZ6lt1jdktU
+X-Received: by 10.220.182.137 with SMTP id cc9mr312637vcb.62.1384557917306;
+	Fri, 15 Nov 2013 15:25:17 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 15 Nov 2013 14:59:47 -0800 (PST)
-In-Reply-To: <528653E0.4090908@linux.intel.com>
-References: <1384498379-30017-1-git-send-email-hongbo.zhong@windriver.com>
-	<528653E0.4090908@linux.intel.com>
+Received: by 10.220.71.201 with HTTP; Fri, 15 Nov 2013 15:24:57 -0800 (PST)
+In-Reply-To: <cover.1384535211.git.pkj@axis.com>
+References: <cover.1384535211.git.pkj@axis.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 15 Nov 2013 22:59:47 +0000
-Message-ID: <CAJTo0LZWLOvgOn0Lr65krAKEpBx1Sa_MCU9C1DWV8FZF79OKVA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
+Date: Fri, 15 Nov 2013 23:24:57 +0000
+Message-ID: <CAJTo0LY4tWcawLzOcO4o3LSPoQqod8DKD-BWoMOrmsx5XndDkw@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [V2 1/2] bluez4: Install the test script
+Subject: Re: [PATCH 00/14] Improvements to pybootchartgui
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 23:00:07 -0000
+X-List-Received-Date: Fri, 15 Nov 2013 23:25:16 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 15 November 2013 17:03, Saul Wold <sgw@linux.intel.com> wrote:
-> I think these tests are not the same as ptest, I think these are more like
-> testapps, so I am not sure using ptest as a PACKAGECONFIG is correct.
+Hi,
 
-Correct, respecting ptest here is entirely wrong.
+On 15 November 2013 17:08, Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> This corrects and improves pybootchartgui. It starts by importing the
+> relevant parts for pybootchartgui from the latest version (0.14.5) of
+> bootchart2 from "https://github.com/mmeeks/bootchart". It then corrects
+> a couple of problems (e.g., X scaling, X offset of the chart, and header
+> height), and finally adds a couple of improvements (e.g., disable
+> irrelevant options, draw a lot less ticks, and use "Show more" to show
+> all processes).
 
-> They could be packaged as testtools similar to bluez5 and installed with
-> packagegroup-core-tools-testapps,
-
-Yes, that would be very useful.
+Excellent stuff, thanks for working on this.  Some time ago I spoke to
+the bootchart2 maintainers and they were open to generalising their
+code and merging our codebases - is this something you'd be
+interesting in looking at?
 
 Ross
 
