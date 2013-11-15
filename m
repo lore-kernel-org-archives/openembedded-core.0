@@ -1,37 +1,34 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A69996D2C5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id EC72C6D73F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 21:36:38 +0000 (UTC)
-Received: by mail-ee0-f51.google.com with SMTP id d41so621265eek.24
+	Fri, 15 Nov 2013 22:08:37 +0000 (UTC)
+Received: by mail-ie0-f177.google.com with SMTP id qd12so5387389ieb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 13:36:40 -0800 (PST)
+	Fri, 15 Nov 2013 14:08:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=4JcbXHd6IEamamufQUObcT5dqWjE+aarMu2qdtvP+I0=;
-	b=lnz98Lk+/tMscsvPBUZWUwwXJJVCHbXz93kq0SzHSOOpVZdM8OQ1xAIHPUdFRajepr
-	A04IaIxX4erZey3/lnIOBW3E94P1Vh3cnV89Jb64FXTBEdtLzTshhVNsoX/p2/rZRxKe
-	GEMxBsi3jQ6s3hFowdLrGycbBKwiKbHEVzS0n3MKo7DfDrYWhYBw8kEooQGlR0FIV+wY
-	CVrkNCfT/NcmYADQRiLQS73hErOu2d24gjTYWqvx2vqd4Bj6w4Sb/diiSwXeD/qGSXBX
-	jm7aTaJAsrkpgzT31LlfasyJSSPYIIT7Cu3qD85F29DwueY884Y5yPXpfb5RKZQkH2p+
-	5oIw==
-X-Received: by 10.14.103.133 with SMTP id f5mr5160806eeg.48.1384551400189;
-	Fri, 15 Nov 2013 13:36:40 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id a6sm10098367eei.10.2013.11.15.13.36.38
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Nov 2013 13:36:39 -0800 (PST)
-Date: Fri, 15 Nov 2013 22:37:05 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20131115213705.GE31430@jama>
-References: <20131112103426.B32915026B@opal>
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=iMzdkJhudUV/3Htk1Y4QNwmVhTern9aHEK1dY+xtulE=;
+	b=KwDXIk2LXojut0Azk67uXFH7hjFJLTb/n87dFnwUbamxU54zwlmB6LHCn2a4TM7Ieq
+	yMpZRVEhQTRj71bYbwNM6Nkl/L+p9pGJO6M0dPmB3himmakf7VOULwfIjDz2oYWEzq5q
+	J/g3S0Sh8CdqeThi5SZzp8ky+DOdUvx7icb96rkSQIiiiSL+Co2L0jqqp9+WzWjyBGs+
+	6jv8PiQHF1BHrJy6HvnGNqrtef5Qjpb2wC5BCWE5Cg5pisMpCGxlt5WLm6c0Cv2ZpXH2
+	vfvtUv6FbEubeB1oTYFOCKNN9pMGkT5MpeyUTFePwHkCJ6vwacJxgXZ8D7TjuFZ+O6B9
+	zbvw==
+X-Received: by 10.50.26.36 with SMTP id i4mr5917522igg.33.1384553319480; Fri,
+	15 Nov 2013 14:08:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20131112103426.B32915026B@opal>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+Received: by 10.50.79.167 with HTTP; Fri, 15 Nov 2013 14:08:09 -0800 (PST)
+In-Reply-To: <20131115213705.GE31430@jama>
+References: <20131112103426.B32915026B@opal> <20131115213705.GE31430@jama>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 15 Nov 2013 14:08:09 -0800
+Message-ID: <CAMKF1sqsyD8w08qbiQK4UYzNaKNQJOcwZpHjeow73GgC5R=bWA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [oe-commits] Ross Burton : glib-2.0: move more logic to the .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,57 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 21:36:39 -0000
-X-Groupsio-MsgNum: 47147
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KJY2Ze80yH5MUxol"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 15 Nov 2013 22:08:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
---KJY2Ze80yH5MUxol
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Nov 15, 2013 at 1:37 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Tue, Nov 12, 2013 at 10:34:26AM +0000, git@git.openembedded.org wrote:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: 55b950500fd9d944042e3c2b0872685f0a60e8eb
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=55b950500fd9d944042e3c2b0872685f0a60e8eb
+>>
+>> Author: Ross Burton <ross.burton@intel.com>
+>> Date:   Fri Nov  8 16:06:38 2013 +0000
+>>
+>> glib-2.0: move more logic to the .inc
+>>
+>> The .bb was getting larger with configuration being arbitarily split between .bb
+>> and .inc.  To help adding a glib_git recipe, strip the .bb down to SRC_URI.
+>>
+>> Also don't remove $libdir/gio as it should be owned by glib.
+>
+> IIRC we had fix for this QA warning before and now I see it again:
+>
+> WARNING: QA Issue: glib-2.0-dbg: found library in wrong location:
+> /usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.3800.1-gdb.py
+> glib-2.0-dbg: found library in wrong location:
+> /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.3800.1-gdb.py
+>
+> Is it possible that something was left out? I don't know since when I
+> have this warning, so it could be since last glib-2.0 upgrade as well.
 
-On Tue, Nov 12, 2013 at 10:34:26AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 55b950500fd9d944042e3c2b0872685f0a60e8eb
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D55b950500fd9d944042e3c2b0872685f0a60e8eb
->=20
-> Author: Ross Burton <ross.burton@intel.com>
-> Date:   Fri Nov  8 16:06:38 2013 +0000
->=20
-> glib-2.0: move more logic to the .inc
->=20
-> The .bb was getting larger with configuration being arbitarily split betw=
-een .bb
-> and .inc.  To help adding a glib_git recipe, strip the .bb down to SRC_UR=
-I.
->=20
-> Also don't remove $libdir/gio as it should be owned by glib.
+FWIW the location of this file is correct, glob is being greedy here.
+We should check if name ends with .so<0-9.>
+then warn/error out
 
-IIRC we had fix for this QA warning before and now I see it again:
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-WARNING: QA Issue: glib-2.0-dbg: found library in wrong location:
-/usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.3800.1-gdb.py
-glib-2.0-dbg: found library in wrong location:
-/usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.3800.1-gdb.py
-
-Is it possible that something was left out? I don't know since when I
-have this warning, so it could be since last glib-2.0 upgrade as well.
-
-
---KJY2Ze80yH5MUxol
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEUEARECAAYFAlKGlAEACgkQN1Ujt2V2gBzvuQCYyDS6lwxs9DzVH1XtF8vBOCCP
-7ACeM+3u/DQ+BoA+wNNTcxVIPZNz6TE=
-=K3vW
------END PGP SIGNATURE-----
-
---KJY2Ze80yH5MUxol--
