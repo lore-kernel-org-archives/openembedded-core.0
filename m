@@ -1,44 +1,24 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CC046D2FE
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id E69DD6D72F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 13:31:01 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>) id 1VhJUE-0002DK-Hy
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Nov 2013 14:31:02 +0100
-Message-ID: <1384522261.23724.16.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Nov 2013 13:31:01 +0000
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview: If kernel_do_compile() encounters a .lzma image for
-	the initramfs, 
-	it attempts to decompress it using the little-known "lzmash" utility.
-	This
-	may not be present, which will cause the build to fail. Fortunately,
-	it appears
-	that the more mainstream "lzma" tool is compatible so we can use that
-	one instead. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: PATCH] kernel.bbclass: Use lzma not lzmash for decompressing
+	Fri, 15 Nov 2013 14:02:30 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.93,708,1378854000"; d="scan'208";a="44768806"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 15 Nov 2013 14:02:29 +0000
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>)
+	id 1VhJyf-0002fC-2y; Fri, 15 Nov 2013 14:02:29 +0000
+Date: Fri, 15 Nov 2013 14:02:28 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20131115140228.GA9820@mcrowe.com>
+References: <cover.1381944889.git.sgw@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <cover.1381944889.git.sgw@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: base-passwd: upgrade to 3.5.28 (was [CONSOLIDATED PULL 00/30] Package Updated & Fixes)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,38 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 13:31:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Nov 2013 14:02:32 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-If kernel_do_compile() encounters a .lzma image for the initramfs, it
-attempts to decompress it using the little-known "lzmash" utility.  This
-may not be present, which will cause the build to fail.
+On Wednesday 16 October 2013 at 10:54:03 -0700, Saul Wold wrote:
+> This is set of updates and fixes that I have reviewed and run through
+> the autobuilder.
 
-Fortunately, it appears that the more mainstream "lzma" tool is
-compatible so we can use that one instead.
+[snip]
 
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>   base-passwd: upgrade to 3.5.28
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index e99cb2f..48a429f 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -103,7 +103,7 @@ copy_initramfs() {
- 				;;
- 			*lzma)
- 				echo "lzma decompressing image"
--				lzmash -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-+				lzma -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
- 				break
- 				;;
- 			*xz)
--- 
-1.8.4.rc3
+This ended up being merged as:
+
+ commit 5cab5935d6924e0aca5da4b682bb83e54f20bc1d
+ Author: Saul Wold <sgw@linux.intel.com>
+ Date:   Sat Aug 31 13:26:40 2013 +0300
+
+    base-passwd: upgrade to 3.5.28
+    
+    Disable docs creation for now it uses po4a and sgmltools-lite which are
+    not currently part of OE-Core
+    
+    Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
 
+It looks like this commit introduced extra dependencies in
+base-passwd_3.5.28.bb:
 
++DEPENDS = "docbook-utils-native linuxdoc-tools-native"
+
+which appears to be contrary to the commit description.
+
+I've tried without those DEPENDS and base-passwd still appears to build for
+me.
+
+Was that DEPENDS line left over from before you disabled building the
+documentation? Do you think it can be safely removed?
+
+Thanks.
+
+Mike.
 
