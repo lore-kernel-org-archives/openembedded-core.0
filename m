@@ -1,37 +1,44 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 820406D12D
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CC046D2FE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 13:29:03 +0000 (UTC)
-Received: by mail-ob0-f182.google.com with SMTP id wp18so3858785obc.27
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 05:29:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Qm7iXGjDNZkDXLJx1Eo1hxD4NvwRsIT8NDvwJ7Ey2Dg=;
-	b=ea/RBG2lwZ21CF8yGBNqMgSVpUs25Thd46OjROhFIuSCU8SKqwfMV3TXm1PjdXNjR3
-	w0JSa/7jlF/mPN06tvEaaYWHfPjO9djT+M7DaBlAzkkMfM3TwMsV92waFRrQUqMXT2v7
-	0ZQlFZ0vlU55sKnsiUUUEgFKgy3nDRda9yVK2CX6x9SHM0jiqal2RgHQnJqFKYG4xwjc
-	Q4yl8kb49whf0wJzWd0cACcvCKC4un/ScZOoHTQ0z6foxG/MBufZxlXeOx7bU140qQqn
-	Bm1vGK/H0RkgdGvOPCd3cScHvbYkNg7OUgKCiAjDbhRLXRRozWImG3NHicws+wZZf4A4
-	EZuA==
-MIME-Version: 1.0
-X-Received: by 10.60.134.42 with SMTP id ph10mr1856286oeb.76.1384522144980;
-	Fri, 15 Nov 2013 05:29:04 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Fri, 15 Nov 2013 05:29:04 -0800 (PST)
-In-Reply-To: <1384480333-7671-1-git-send-email-sgw@linux.intel.com>
-References: <1384480333-7671-1-git-send-email-sgw@linux.intel.com>
-Date: Fri, 15 Nov 2013 11:29:04 -0200
-X-Google-Sender-Auth: WdGd6_zcmbZ97viabjNmkKW6fLs
-Message-ID: <CAP9ODKquaOQJRyfOU=1RXqa=G2=hPfVjh4ae=u+6kDt0-7s7PA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>, Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 15 Nov 2013 13:31:01 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>) id 1VhJUE-0002DK-Hy
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Nov 2013 14:31:02 +0100
+Message-ID: <1384522261.23724.16.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] sysvinit: unmount the psplash lazyily
+Date: Fri, 15 Nov 2013 13:31:01 +0000
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview: If kernel_do_compile() encounters a .lzma image for
+	the initramfs, 
+	it attempts to decompress it using the little-known "lzmash" utility.
+	This
+	may not be present, which will cause the build to fail. Fortunately,
+	it appears
+	that the more mainstream "lzma" tool is compatible so we can use that
+	one instead. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Subject: PATCH] kernel.bbclass: Use lzma not lzmash for decompressing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +51,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 13:29:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 15 Nov 2013 13:31:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 14, 2013 at 11:52 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> There is an race condition where psplash is not quite exited before the unmount occurs
-> causing a umount: /mnt/.psplash: target is busy message to appear, it's ok to lazyily
-> unmount and not get this message
->
-> [YOCTO #5244]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+If kernel_do_compile() encounters a .lzma image for the initramfs, it
+attempts to decompress it using the little-known "lzmash" utility.  This
+may not be present, which will cause the build to fail.
 
-Agreed.
+Fortunately, it appears that the more mainstream "lzma" tool is
+compatible so we can use that one instead.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Phil Blundell <philb@gnu.org>
+---
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Robert, please consider it to be included in dora. This is a simple
-and nice bugfix.
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e99cb2f..48a429f 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -103,7 +103,7 @@ copy_initramfs() {
+ 				;;
+ 			*lzma)
+ 				echo "lzma decompressing image"
+-				lzmash -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
++				lzma -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
+ 				break
+ 				;;
+ 			*xz)
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.4.rc3
+
+
+
 
