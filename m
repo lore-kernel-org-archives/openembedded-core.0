@@ -1,20 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4366A6D9B9
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 530C26DA62
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 01:52:12 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Nov 2013 17:52:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,703,1378882800"; d="scan'208";a="427974015"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.61])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Nov 2013 17:52:13 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 14 Nov 2013 17:52:13 -0800
-Message-Id: <1384480333-7671-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] sysvinit: unmount the psplash lazyily
+	Fri, 15 Nov 2013 02:32:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAF2W1m8026163
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Nov 2013 18:32:01 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 14 Nov 2013 18:32:00 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Nov 2013 10:31:55 +0800
+Message-ID: <cover.1384482610.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Cc: saul.wold@intel.com
+Subject: [PATCH 0/1]xorg-driver: fix qa issue while multilib enabled - contains Xorg driver but no xorg-abi
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 01:52:13 -0000
+X-List-Received-Date: Fri, 15 Nov 2013 02:32:01 -0000
+Content-Type: text/plain
 
-There is an race condition where psplash is not quite exited before the unmount occurs
-causing a umount: /mnt/.psplash: target is busy message to appear, it's ok to lazyily
-unmount and not get this message
+The following changes since commit ea92671d9823e3667d6ced7ac2af20f991da404d:
 
-[YOCTO #5244]
+  bitbake: cooker: replace "w" file opening mode with "a" mode (2013-11-12 17:01:37 +0000)
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/sysvinit/sysvinit/rc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/rc b/meta/recipes-core/sysvinit/sysvinit/rc
-index 655a0b0..1f400d9 100755
---- a/meta/recipes-core/sysvinit/sysvinit/rc
-+++ b/meta/recipes-core/sysvinit/sysvinit/rc
-@@ -174,6 +174,6 @@ startup() {
- if [ "x$runlevel" != "xS" ] && [ ! -x /etc/rc${runlevel}.d/S??xserver-nodm ]; then
-     if type psplash-write >/dev/null 2>&1; then
-         TMPDIR=/mnt/.psplash psplash-write "QUIT" || true
--    	umount /mnt/.psplash
-+    	umount -l /mnt/.psplash
-     fi
- fi
+  git://git.pokylinux.org/poky-contrib hongxu/fix-xf86
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-xf86
+
+Hongxu Jia (1):
+  xorg-driver: fix qa issue while multilib enabled - contains Xorg
+    driver but no xorg-abi
+
+ meta/classes/insane.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
 -- 
-1.8.3.1
+1.8.1.2
 
 
