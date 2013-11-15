@@ -1,38 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 58C7E6D445
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id EF7806D5A1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 15:08:44 +0000 (UTC)
-Received: by mail-la0-f44.google.com with SMTP id ep20so2875299lab.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 07:08:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=wemCG57xc04uo+8sUqNFNRFo4lfDVNhQFHcYaI4ppYA=;
-	b=JhHz6PSXtMSkNxdenR6v/z0wYuuEZqWhrOlMCXqBy7ypmCf0036uvyuE9X2AElfVCf
-	t7Wm7Oh+4+8MLCLd86Kl5qnZo4QAnGmlratIFQ5qo125umoCZ6qijhMkMLkvpPu/hnGP
-	B1C+gnRQXJAQWIurV3DGlLP0NQExtaYu3sZ3/Mg310MLa27AqWz7rUrGBFW3yJppA75+
-	E/0VeH1GAEPU4ITE2lz/nloiQgB+P6Z4RybPcJwsc6G/SC40+/PVGgcASUClIdG6rADZ
-	gXq9fo7dIWu3qwyrjXWlBX/1L2fvyoEDwl9Ejh2Y1vEzZAPQtOQLEp6Yd3pAWOooDIwq
-	O4Fw==
-X-Received: by 10.152.216.167 with SMTP id or7mr4630505lac.10.1384528124771;
-	Fri, 15 Nov 2013 07:08:44 -0800 (PST)
+	Fri, 15 Nov 2013 15:15:05 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 15 Nov 2013 07:15:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="435866681"
+Received: from unknown (HELO [10.255.15.61]) ([10.255.15.61])
+	by orsmga002.jf.intel.com with ESMTP; 15 Nov 2013 07:15:06 -0800
+Message-ID: <52863A79.3010006@linux.intel.com>
+Date: Fri, 15 Nov 2013 07:15:05 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.53.197 with HTTP; Fri, 15 Nov 2013 07:08:24 -0800 (PST)
-In-Reply-To: <1384498379-30017-2-git-send-email-hongbo.zhong@windriver.com>
-References: <1384498379-30017-1-git-send-email-hongbo.zhong@windriver.com>
-	<1384498379-30017-2-git-send-email-hongbo.zhong@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 15 Nov 2013 08:08:24 -0700
-X-Google-Sender-Auth: CXxLD1J8WcOsFAEfO4nZKblr7HA
-Message-ID: <CABcZANmi3_6+oPVN_kfp8Nr3DSG2+xWPxPKXyeFOHLGBRzEPJg@mail.gmail.com>
-To: Zhong Hongbo <hongbo.zhong@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [V2 2/2] bluez4: use legacy pygobject instead of gobject-introspection
+To: Yue Tao <Yue.Tao@windriver.com>, openembedded-core@lists.openembedded.org
+References: <1384497286-19011-1-git-send-email-Yue.Tao@windriver.com>
+In-Reply-To: <1384497286-19011-1-git-send-email-Yue.Tao@windriver.com>
+Subject: Re: [PATCH 1/2] Avoid starting rpcbind daemon twice during boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 15:08:46 -0000
-Content-Type: multipart/alternative; boundary=001a1135e3180f02bd04eb3893e7
+X-List-Received-Date: Fri, 15 Nov 2013 15:15:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1135e3180f02bd04eb3893e7
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 11/14/2013 10:34 PM, Yue Tao wrote:
+> Check whether rpcbind daemon already run before starting it.
+>
+Please review the commit guidelines for both of your patches and correct 
+the short summary (subject) to be in the form of:
 
-On Thu, Nov 14, 2013 at 11:52 PM, Zhong Hongbo
-<hongbo.zhong@windriver.com>wrote:
+initscripts: Avoid ...
 
-> From: Zhong Hongbo <hongbo.zhong@windriver.com>
+Thanks
+	SaU!
+
+> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+> ---
+>   .../initscripts/initscripts-1.0/mountnfs.sh        |    9 ++++++---
+>   1 files changed, 6 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> index 4fffe4e..a03070d 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+> @@ -69,9 +69,12 @@ if test "$rpcbind" = yes
+>   then
+>   	if test -x /usr/sbin/rpcbind
+>   	then
+> -		echo -n "Starting rpcbind... "
+> -		start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
+> -		sleep 2
+> +		service rpcbind status > /dev/null
+> +		if [ $? != 0 ]; then
+> +			echo -n "Starting rpcbind..."
+> +			start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
+> +			sleep 2
+> +		fi
+>   	fi
+>   fi
+>
 >
 
-This seems like a good example of a commit message missing the =E2=80=9Cwhy=
-=E2=80=9D.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a1135e3180f02bd04eb3893e7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Nov 14, 2013 at 11:52 PM, Zhong Hongbo <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:hongbo.zhong@windriver.com" target=3D"_blank">hongbo.zhong@wind=
-river.com</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":nw" style=3D"overflow:hidden">Fr=
-om: Zhong Hongbo &lt;<a href=3D"mailto:hongbo.zhong@windriver.com">hongbo.z=
-hong@windriver.com</a>&gt;<br>
-
-</div></blockquote></div><br>This seems like a good example of a commit mes=
-sage missing the =E2=80=9Cwhy=E2=80=9D.<br>-- <br>Christopher Larson<br>cla=
-rson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>M=
-aintainer - Tslib<br>
-
-Senior Software Engineer, Mentor Graphics
-</div></div>
-
---001a1135e3180f02bd04eb3893e7--
