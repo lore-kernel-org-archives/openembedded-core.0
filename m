@@ -1,26 +1,29 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B2AF26DA62
+	by mail.openembedded.org (Postfix) with ESMTP id 748C36DA71
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 02:45:51 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAF2jrp5027748
+	Fri, 15 Nov 2013 02:49:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAF2nDFJ028287
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 18:45:53 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 14 Nov 2013 18:45:53 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Nov 2013 10:46:03 +0800
-Message-ID: <7fe218ee3e2062904b7172c185b813e9fe5127a8.1384483343.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1384483343.git.Qi.Chen@windriver.com>
-References: <cover.1384483343.git.Qi.Chen@windriver.com>
+	Thu, 14 Nov 2013 18:49:13 -0800 (PST)
+Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Thu, 14 Nov 2013 18:49:13 -0800
+Message-ID: <52858BB0.5040109@windriver.com>
+Date: Fri, 15 Nov 2013 10:49:20 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] sanity.bbclass: check for validity of TMPDIR
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1384433183.git.Qi.Chen@windriver.com>	<a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>	<5284CFAD.2060903@mlbassoc.com>	<1384436557.17320.62.camel@phil-desktop.brightsign>
+	<5284F119.8010903@windriver.com> <52850FE8.3040409@linux.intel.com>
+In-Reply-To: <52850FE8.3040409@linux.intel.com>
+X-Originating-IP: [128.224.162.213]
+Subject: Re: [PATCH 1/1] sanity.bbclass: check for validity of TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 02:45:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 Nov 2013 02:49:12 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 11/15/2013 02:01 AM, Saul Wold wrote:
+> On 11/14/2013 07:49 AM, Mark Hatle wrote:
+>> On 11/14/13, 7:42 AM, Phil Blundell wrote:
+>>> On Thu, 2013-11-14 at 06:27 -0700, Gary Thomas wrote:
+>>>> Also, is "-" actually valid?  I seem to recall having problems when
+>>>> my build
+>>>> tree had the hyphen ("-") in the path.
+>>>
+>>> Paths with "-" in certainly work for me.  If there are any recipes 
+>>> which
+>>> break in that situation then we should just fix them.
+>>
+>> We found an issue with paths that -start- with a '-', there are
+>> apparently many places where paths are passed into various shell, and
+>> the initial '-' can be read as an argument identifier.
+>>
+>
+> I think that I saw an email talking about "-D" in the TMPDIR caused 
+> some some recipes to pick that up as a CFLAG define and cause problems
+>
+> Sau!
+>
 
-TMPDIR must be an absolute path, otherwise, the build will fail.
-Special characters in TMPDIR will also cause build failures.
+Yes. It's actually caused by the following statement in subversion-native.
+./build/ac-macros/neon.m4: SVN_NEON_INCLUDES=[`$PKG_CONFIG neon --cflags 
+| $SED -e 's/-D[^ ]*//g'`]
+./build/ac-macros/neon.m4: SVN_NEON_INCLUDES=[`$neon_config --cflags | 
+$SED -e 's/-D[^ ]*//g'`]
 
-This patch enables checking for the validity of TMPDIR.
+And there's a bug filed for it. 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5458
 
-The logic in sanity.bbclass has also been changed a little bit. For now,
-we only create the directory hierarch for TMPDIR if TMPDIR is valid. And
-also, we only handle ABI version change only if the TMPDIR directory hierarchy
-has been created.
+Best Regards,
+Chen Qi
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/sanity.bbclass |   27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 83378b0..f6292f4 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -659,6 +659,16 @@ def check_sanity_everybuild(status, d):
-     if oeroot.find(' ') != -1:
-         status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this.")
- 
-+    # Function to check if TMPDIR contains invalid characters, and check if it is an absolute path
-+    def is_tmpdir_valid(path):
-+        import re
-+        valid_tmpdir_regexp = "^/[a-zA-Z0-9\-_/.~]+$"
-+        valid_pattern = re.compile(valid_tmpdir_regexp)
-+        if valid_pattern.match(path):
-+            return True
-+        else:
-+            return False
-+
-     # Check that TMPDIR hasn't changed location since the last time we were run
-     tmpdir = d.getVar('TMPDIR', True)
-     checkfile = os.path.join(tmpdir, "saved_tmpdir")
-@@ -667,10 +677,16 @@ def check_sanity_everybuild(status, d):
-             saved_tmpdir = f.read().strip()
-             if (saved_tmpdir != tmpdir):
-                 status.addresult("Error, TMPDIR has changed location. You need to either move it back to %s or rebuild\n" % saved_tmpdir)
-+            if not is_tmpdir_valid(tmpdir):
-+                status.addresult("Error, you have special characters in TMPDIR directory path or your TMPDIR is not an absolute path. The TMPDIR should match this regexp: ^/[a-zA-Z0-9\-_/.~]$")
-     else:
--        bb.utils.mkdirhier(tmpdir)
--        with open(checkfile, "w") as f:
--            f.write(tmpdir)
-+        if not is_tmpdir_valid(tmpdir):
-+            status.addresult("Error, you have special characters in TMPDIR directory path or your TMPDIR is not an absolute path. The TMPDIR should match this regexp: ^/[a-zA-Z0-9\-_/.~]$")
-+        else:
-+            # Make directory hierarchy for TMPDIR only if TMPDIR is valid
-+            bb.utils.mkdirhier(tmpdir)
-+            with open(checkfile, "w") as f:
-+                f.write(tmpdir)
- 
- def check_sanity(sanity_data):
-     import subprocess
-@@ -722,7 +738,10 @@ def check_sanity(sanity_data):
-             f.write("TMPDIR %s\n" % tmpdir) 
-             f.write("SSTATE_DIR %s\n" % sstate_dir) 
- 
--    sanity_handle_abichanges(status, sanity_data)
-+    # Handle ABI version change only if TMPDIR hierarchy has been created
-+    saved_tmpdir = os.path.join(tmpdir, "saved_tmpdir")
-+    if os.path.exists(saved_tmpdir):
-+        sanity_handle_abichanges(status, sanity_data)
- 
-     if status.messages != "":
-         raise_sanity_error(sanity_data.expand(status.messages), sanity_data, status.network_error)
--- 
-1.7.9.5
+>>> OE already has quite a range of baroque restrictions on what sort of
+>>> TMPDIR you are allowed to use (no nfs, no symlinks in the path, no
+>>> spaces in the name) and every new prohibition represents a loss in
+>>> usability.  This patch as proposed already forbids a whole range of
+>>> characters, including things like "+", and I think that disallowing "-"
+>>> as well would be a step too far.
+>>
+>> I don't believe Qi Chen sent it to the list, but we built path names
+>> with all of the special characters and tried to run builds.  The
+>> specific list is based on the results of those tests.  The other items
+>> are already broken, and we're trying to be explicit with this for end
+>> users.  (Note, it's really the TMPDIR that matters.. the 'build'
+>> directory is a lot more flexible.)
+>>
+>> --Mark
+>>
+>>> p.
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
 
