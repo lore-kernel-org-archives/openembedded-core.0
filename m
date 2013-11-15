@@ -1,42 +1,31 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id ABA0A6D2C4
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F2336D767
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 13:05:34 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>) id 1VhJ5B-0002AY-3S
-	for openembedded-core@lists.openembedded.org;
-	Fri, 15 Nov 2013 14:05:36 +0100
-Message-ID: <1384520708.23724.12.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Nov 2013 13:05:08 +0000
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview: The idiomatic way to reinstate the old-style initramfs
-	handling
-	appears to be to set: INITRAMFS_TASK = "${INITRAMFS_IMAGE}:do_rootfs"
-	in some appropriate place. However,
-	this causes INITRAMFS_TASK to end up non-empty
-	even if INITRAMFS_IMAGE is blank,
-	which has two undesirable consequences: [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] kernel.bbclass: Tolerate empty INITRAMFS_IMAGE when INITRAMFS_TASK is set
+	Fri, 15 Nov 2013 13:11:15 +0000 (UTC)
+Received: by mail-qc0-f178.google.com with SMTP id i7so2059203qcq.23
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 05:11:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=TWJp5Kn+gD7AczkRRJpAj8ubMuvB3SjnsFeV9Durh3g=;
+	b=CHREJ+s9T5Kha8IBTSmbpeQ7QYUzHkob2hkbssnt1nE/zFiBgT3UDNGJoCVxfaD9V4
+	elzkNG/WXV5F23v6EoGVKXHbPwOH+ruRhT5oOKg8oifhClEKj46pcahwIl8/qDb+UyGD
+	aSHoe1cdRQTRicM5ww7pS3ETiDQIT6GWkLEy0lQwZwm3R9ruy3DWd+/h/pnY0gDAD8Q6
+	hHJJZEqbUEBN2KSzw2BlZRYD4KEw6Pn8WsoK923s5Tibbpy9eT2ANAdHROlD8ECxvwdR
+	kiQ+KSSmIXVSGvMDuuHpNAVBuqysrdg9lhYM50eMPSYvG6spNdbV85Eny6RYVsUR/XoL
+	sxuQ==
+MIME-Version: 1.0
+X-Received: by 10.224.7.10 with SMTP id b10mr10768350qab.12.1384521077386;
+	Fri, 15 Nov 2013 05:11:17 -0800 (PST)
+Received: by 10.96.55.197 with HTTP; Fri, 15 Nov 2013 05:11:17 -0800 (PST)
+Date: Fri, 15 Nov 2013 15:11:17 +0200
+Message-ID: <CADV-EXEqygBs7=WWcvO5GbjDkd-a2qGzyzGuQKdtUP7UAj=mBQ@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Continuous kernel rebuild after upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,62 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 13:05:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Nov 2013 13:11:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-The idiomatic way to reinstate the old-style initramfs handling appears to be to
-set:
+2013/11/14 Yevhen Kyriukha <kirgene@gmail.com>:
+> Hi,
+>
+> After upgrading oe-core and bitbake to the latest revision
+> (616354f13732d13c17434d5b60b166f691c25761 and
+> 616354f13732d13c17434d5b60b166f691c25761 respectively)
+> I'm having broblems building my kernel.
+>
+> Kernel rebuilds everytime I run "bitbake <some_recipe>".
+> It starts rebuilding from "do_unpack" task.
+>
+> I noticed interesting things:
+> If I interrupt the build process and then start building again, kernel
+> is started building from the point of interruption.
+> But if kernel building completed successfully then next time when I
+> run bitbake it starts rebuild.
+>
+> My previous version of bitbake and oe-core are
+> 565b3e31e0226c6e193ee0b031bd5e7bef25591e
+> and ae28ee3f7a060b9e0d13154a84f2444a98490b5b respectively.
+>
+> Best regards,
+> Yevhen
 
-INITRAMFS_TASK = "${INITRAMFS_IMAGE}:do_rootfs"
+Here is error log of python build script:
 
-in some appropriate place.  However, this causes INITRAMFS_TASK to end up non-empty
-even if INITRAMFS_IMAGE is blank, which has two undesirable consequences:
+http://pastebin.com/EvPuYSQE
 
-1. The anonymous python in kernel.bbclass attempts to make the empty
-string a dependency for do_configure; bitbake doesn't diagnose this
-directly but it leads to subsequent build failures with slightly obscure
-messages like:
-
-Missing or unbuildable dependency chain was: [..., 'kernel-modules', '']
-
-2. The shell code in kernel_do_compile() will set CONFIG_INITRAMFS_SOURCE to
-${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio which clearly will have no useful
-result if ${INITRAMFS_IMAGE} is empty.
-
-Fix both of these by making the relevant code check for non-empty values in both
-${INITRAMFS_TASK} and ${INITRAMFS_IMAGE} before attempting to use these variables.
-
-Signed-off-by: Phil Blundell <philb@gnu.org>
----
- meta/classes/kernel.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 383043e..ef86c71 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -27,7 +27,7 @@ python __anonymous () {
-     #       this INITRAMFS_TASK has circular dependency problems
-     #       if the initramfs requires kernel modules
-     image_task = d.getVar('INITRAMFS_TASK', True)
--    if image_task:
-+    if image_task and d.getVar('INITRAMFS_IMAGE', True):
-         d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
- }
- 
-@@ -163,7 +163,7 @@ kernel_do_compile() {
- 	# different initramfs image.  The way to do that in the kernel
- 	# is to specify:
- 	# make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
--	if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
-+	if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] && [ "${INITRAMFS_IMAGE}" != "" ]; then
- 		# The old style way of copying an prebuilt image and building it
- 		# is turned on via INTIRAMFS_TASK != ""
- 		copy_initramfs
--- 
-1.8.4.rc3
-
-
-
+Best regards,
+Yevhen
 
