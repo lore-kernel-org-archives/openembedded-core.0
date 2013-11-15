@@ -1,36 +1,38 @@
-Return-Path: <qhanbec@rnd.ericsson.se>
-Received: from mailgw7.ericsson.se (mailgw7.ericsson.se [193.180.251.48])
-	by mail.openembedded.org (Postfix) with ESMTP id A2AFF6D44A
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 58C7E6D445
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 14:25:43 +0000 (UTC)
-X-AuditID: c1b4fb30-b7f228e000003e6c-29-52862ee68b33
-Received: from ESESSHC015.ericsson.se (Unknown_Domain [153.88.253.125])
-	by mailgw7.ericsson.se (Symantec Mail Security) with SMTP id
-	E1.08.15980.6EE26825; Fri, 15 Nov 2013 15:25:42 +0100 (CET)
-Received: from esekilxxen355.rnd.ericsson.se (153.88.183.153) by
-	smtp.internal.ericsson.com (153.88.183.65) with Microsoft SMTP Server
-	id 14.2.328.9; Fri, 15 Nov 2013 15:25:41 +0100
-Received: from esekilxxen1299.rnd.ericsson.se (esekilxxen1299.rnd.ericsson.se
-	[147.214.14.86])	by esekilxxen355.rnd.ericsson.se (Postfix) with
-	ESMTP id 9C41AA0161;	Fri, 15 Nov 2013 15:25:41 +0100 (CET)
-Received: by esekilxxen1299.rnd.ericsson.se (Postfix, from userid 9759)	id
-	A6B38D1CB8; Fri, 15 Nov 2013 15:25:41 +0100 (CET)
-From: <hans.beckerus@gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Nov 2013 15:25:33 +0100
-Message-ID: <1384525538-2163-1-git-send-email-hans.beckerus@gmail.com>
-X-Mailer: git-send-email 1.8.4
+	Fri, 15 Nov 2013 15:08:44 +0000 (UTC)
+Received: by mail-la0-f44.google.com with SMTP id ep20so2875299lab.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 07:08:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=wemCG57xc04uo+8sUqNFNRFo4lfDVNhQFHcYaI4ppYA=;
+	b=JhHz6PSXtMSkNxdenR6v/z0wYuuEZqWhrOlMCXqBy7ypmCf0036uvyuE9X2AElfVCf
+	t7Wm7Oh+4+8MLCLd86Kl5qnZo4QAnGmlratIFQ5qo125umoCZ6qijhMkMLkvpPu/hnGP
+	B1C+gnRQXJAQWIurV3DGlLP0NQExtaYu3sZ3/Mg310MLa27AqWz7rUrGBFW3yJppA75+
+	E/0VeH1GAEPU4ITE2lz/nloiQgB+P6Z4RybPcJwsc6G/SC40+/PVGgcASUClIdG6rADZ
+	gXq9fo7dIWu3qwyrjXWlBX/1L2fvyoEDwl9Ejh2Y1vEzZAPQtOQLEp6Yd3pAWOooDIwq
+	O4Fw==
+X-Received: by 10.152.216.167 with SMTP id or7mr4630505lac.10.1384528124771;
+	Fri, 15 Nov 2013 07:08:44 -0800 (PST)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrJJMWRmVeSWpSXmKPExsUyM+Jvre4zvbYgg5ZrFhavzt9ht7jz8x27
-	A5PHzll32T3ObVzBGMAUxWWTkpqTWZZapG+XwJXx4M1cloLr7BUf/gU2MG5i62Lk4JAQMJF4
-	fJe3i5ETyBSTuHBvPVCYi0NI4BCjxMRHB1ggnJ2MEr8nfmYCqRISOMsosf+WF4RdJ/H/9Buw
-	OJuAvMSzr7vBhooI6Elc/ScKEmYW0Ja4OmcXI4gtLOAocW/7KbByFgFViedvdzOD2LwCbhIv
-	b79khLhHTuLht1iIsKDEyZlPWCDGSEgcfPGCGWKrisTx9YtZJzAKzEJSNgtJ2QJGplWM7LmJ
-	mTnp5eabGIHBdXDLb4MdjJvuix1ilOZgURLn/fDWOUhIID2xJDU7NbUgtSi+qDQntfgQIxMH
-	p1QDY3Lds8MhTYk9UYU+Ti7rMx9vr9OvPi5c3q7gcqkmTct6dvrfvJB03U+usj9KXuTZzPoT
-	prqbe3H/wn3nReRWmfHfjkyZLsP6r/PXY7bGtflLJy/1UpuSx9+xtUaD/RGrTet9v7kXlyyu
-	WCY5zaR40rLja0p4J4WxhLPwZSxKX7zIa81lGQ8bJZbijERDLeai4kQAWh3vv/wBAAA=
-Subject: [PATCH] initscripts: add missing dmesg.sh to run-level S
+Sender: kergoth@gmail.com
+Received: by 10.112.53.197 with HTTP; Fri, 15 Nov 2013 07:08:24 -0800 (PST)
+In-Reply-To: <1384498379-30017-2-git-send-email-hongbo.zhong@windriver.com>
+References: <1384498379-30017-1-git-send-email-hongbo.zhong@windriver.com>
+	<1384498379-30017-2-git-send-email-hongbo.zhong@windriver.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 15 Nov 2013 08:08:24 -0700
+X-Google-Sender-Auth: CXxLD1J8WcOsFAEfO4nZKblr7HA
+Message-ID: <CABcZANmi3_6+oPVN_kfp8Nr3DSG2+xWPxPKXyeFOHLGBRzEPJg@mail.gmail.com>
+To: Zhong Hongbo <hongbo.zhong@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [V2 2/2] bluez4: use legacy pygobject instead of gobject-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +45,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 14:25:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 Nov 2013 15:08:46 -0000
+Content-Type: multipart/alternative; boundary=001a1135e3180f02bd04eb3893e7
 
-From: Hans Beckerus <hans.beckerus@gmail.com>
+--001a1135e3180f02bd04eb3893e7
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-In commit faa8cc6c2a582a32c695f3f2b0d45b6892c769fd dmesg.sh was
-added to the set of init.d scripts. But the script was never put
-in any run-level. This patch will add dmesg.sh to run-level S.
+On Thu, Nov 14, 2013 at 11:52 PM, Zhong Hongbo
+<hongbo.zhong@windriver.com>wrote:
 
-Signed-off-by: Hans Beckerus <hans.beckerus AT gmail.com>
----
- meta/recipes-core/initscripts/initscripts_1.0.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> From: Zhong Hongbo <hongbo.zhong@windriver.com>
+>
 
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 2d58266..4bcc4ec 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -126,5 +126,7 @@ do_install () {
- 	if [ "${TARGET_ARCH}" = "arm" ]; then
- 	        update-rc.d -r ${D} alignment.sh start 06 S .
- 	fi
--
-+	# We wish to have /var/log ready at this stage so execute this after
-+	# populate-volatile.sh
-+	update-rc.d -r ${D} dmesg.sh start 38 S .
- }
--- 
-1.8.4
+This seems like a good example of a commit message missing the =E2=80=9Cwhy=
+=E2=80=9D.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a1135e3180f02bd04eb3893e7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Nov 14, 2013 at 11:52 PM, Zhong Hongbo <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:hongbo.zhong@windriver.com" target=3D"_blank">hongbo.zhong@wind=
+river.com</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":nw" style=3D"overflow:hidden">Fr=
+om: Zhong Hongbo &lt;<a href=3D"mailto:hongbo.zhong@windriver.com">hongbo.z=
+hong@windriver.com</a>&gt;<br>
+
+</div></blockquote></div><br>This seems like a good example of a commit mes=
+sage missing the =E2=80=9Cwhy=E2=80=9D.<br>-- <br>Christopher Larson<br>cla=
+rson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>M=
+aintainer - Tslib<br>
+
+Senior Software Engineer, Mentor Graphics
+</div></div>
+
+--001a1135e3180f02bd04eb3893e7--
