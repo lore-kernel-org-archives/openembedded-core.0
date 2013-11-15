@@ -1,29 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 748C36DA71
+	by mail.openembedded.org (Postfix) with ESMTP id E5F476D9AB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 02:49:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAF2nDFJ028287
+	Fri, 15 Nov 2013 03:31:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAF3Vcql003447
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 18:49:13 -0800 (PST)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Thu, 14 Nov 2013 18:49:13 -0800
-Message-ID: <52858BB0.5040109@windriver.com>
-Date: Fri, 15 Nov 2013 10:49:20 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+	Thu, 14 Nov 2013 19:31:38 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 14 Nov 2013 19:31:37 -0800
+Message-ID: <52859586.5040001@windriver.com>
+Date: Fri, 15 Nov 2013 11:31:18 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1384433183.git.Qi.Chen@windriver.com>	<a86f7984cd1b08978d4358f862ff97d3d5cd3fb7.1384433183.git.Qi.Chen@windriver.com>	<5284CFAD.2060903@mlbassoc.com>	<1384436557.17320.62.camel@phil-desktop.brightsign>
-	<5284F119.8010903@windriver.com> <52850FE8.3040409@linux.intel.com>
-In-Reply-To: <52850FE8.3040409@linux.intel.com>
-X-Originating-IP: [128.224.162.213]
-Subject: Re: [PATCH 1/1] sanity.bbclass: check for validity of TMPDIR
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [RFC] let PACKAGES_DYNAMIC be optional ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,81 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 02:49:12 -0000
+X-List-Received-Date: Fri, 15 Nov 2013 03:31:36 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/15/2013 02:01 AM, Saul Wold wrote:
-> On 11/14/2013 07:49 AM, Mark Hatle wrote:
->> On 11/14/13, 7:42 AM, Phil Blundell wrote:
->>> On Thu, 2013-11-14 at 06:27 -0700, Gary Thomas wrote:
->>>> Also, is "-" actually valid?  I seem to recall having problems when
->>>> my build
->>>> tree had the hyphen ("-") in the path.
->>>
->>> Paths with "-" in certainly work for me.  If there are any recipes 
->>> which
->>> break in that situation then we should just fix them.
->>
->> We found an issue with paths that -start- with a '-', there are
->> apparently many places where paths are passed into various shell, and
->> the initial '-' can be read as an argument identifier.
->>
->
-> I think that I saw an email talking about "-D" in the TMPDIR caused 
-> some some recipes to pick that up as a CFLAG define and cause problems
->
-> Sau!
->
 
-Yes. It's actually caused by the following statement in subversion-native.
-./build/ac-macros/neon.m4: SVN_NEON_INCLUDES=[`$PKG_CONFIG neon --cflags 
-| $SED -e 's/-D[^ ]*//g'`]
-./build/ac-macros/neon.m4: SVN_NEON_INCLUDES=[`$neon_config --cflags | 
-$SED -e 's/-D[^ ]*//g'`]
+Currently, the recipe which uses PACKAGES_DYNAMIC usually generates
+a lot of packages which costs a lot of time on building the recipe
+and do_rootfs, for example, the perl and kernel:
 
-And there's a bug filed for it. 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=5458
+$ ls tmp/deploy/rpm/armv5te/perl-module-* | wc -l
+621
 
-Best Regards,
-Chen Qi
+$ ls tmp/deploy/rpm/qemux86/kernel-module-* | wc -l
+268
 
->>> OE already has quite a range of baroque restrictions on what sort of
->>> TMPDIR you are allowed to use (no nfs, no symlinks in the path, no
->>> spaces in the name) and every new prohibition represents a loss in
->>> usability.  This patch as proposed already forbids a whole range of
->>> characters, including things like "+", and I think that disallowing "-"
->>> as well would be a step too far.
->>
->> I don't believe Qi Chen sent it to the list, but we built path names
->> with all of the special characters and tried to run builds.  The
->> specific list is based on the results of those tests.  The other items
->> are already broken, and we're trying to be explicit with this for end
->> users.  (Note, it's really the TMPDIR that matters.. the 'build'
->> directory is a lot more flexible.)
->>
->> --Mark
->>
->>> p.
->>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+Also, the eglibc-locale generates more than 300 packages.
 
+Take perl as an example:
+
+1) We generate 621 perl-module-* packages, but the package *perl-modules*
+    requires all of them, so once *perl-modules* is installed, all the other
+    perl-module-* will be installed and we can't remove any of them since
+    perl-modules rdepends on it, if there is a way to package all of these
+    perl-module-* into one package (they are about 10MB), it would save a lot
+    of time on do_package* and do_rootfs.
+
+2) The nativesdk.bbclass can't support PACKAGES_DYNAMIC, for example, it can't
+    change the perl-module-app-cpan to nativesdk-perl-module-app-cpan since
+    there is no perl-module-app-cpan in PACKAGES when nativesdk.bbclass
+    changes the variable's name.
+
+Can we add a way to let the PACKAGES_DYNAMIC be optional ? for example,
+
+PACKAGES_DYNAMIC[perl] = "0"
+
+will disable the perl's PACKAGES_DYNAMIC, and will pack the files as other
+recipes do, and of course we need to do some work on the recipe.
+
+-- 
+Thanks
+
+Robert
 
