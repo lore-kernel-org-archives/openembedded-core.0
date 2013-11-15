@@ -1,25 +1,53 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4981B6DA81
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 301716DA6D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 17:03:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 15 Nov 2013 09:03:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="435923440"
-Received: from unknown (HELO [10.255.15.61]) ([10.255.15.61])
-	by orsmga002.jf.intel.com with ESMTP; 15 Nov 2013 09:03:28 -0800
-Message-ID: <528653E0.4090908@linux.intel.com>
-Date: Fri, 15 Nov 2013 09:03:28 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Zhong Hongbo <hongbo.zhong@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1384498379-30017-1-git-send-email-hongbo.zhong@windriver.com>
-In-Reply-To: <1384498379-30017-1-git-send-email-hongbo.zhong@windriver.com>
-Subject: Re: [V2 1/2] bluez4: Install the test script
+	Fri, 15 Nov 2013 17:09:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id 9E1D225B1B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 18:09:09 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DKAWkLZ1HJtu
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 18:09:08 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id BC2CE25B0A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 18:09:08 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id A5B2DBF7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 18:09:08 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 9791FBEE
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 18:09:08 +0100 (CET)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by seth.se.axis.com (Postfix) with ESMTP id 965F63E06F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 18:09:08 +0100 (CET)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id rAFH98ek014828
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 18:09:08 +0100
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id rAFH98Zx014827
+	for openembedded-core@lists.openembedded.org;
+	Fri, 15 Nov 2013 18:09:08 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Nov 2013 18:08:52 +0100
+Message-Id: <5771eb2a814fadbd38ef7f1f3783b88dd4ee9f2d.1384535211.git.pkj@axis.com>
+X-Mailer: git-send-email 1.8.4
+In-Reply-To: <cover.1384535211.git.pkj@axis.com>
+References: <cover.1384535211.git.pkj@axis.com>
+In-Reply-To: <cover.1384535211.git.pkj@axis.com>
+References: <cover.1384535211.git.pkj@axis.com>
+Subject: [PATCH 03/14] pybootchartgui: Set the initial state of "Show more" correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,116 +60,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 17:03:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Nov 2013 17:09:09 -0000
 
-On 11/14/2013 10:52 PM, Zhong Hongbo wrote:
-> From: Zhong Hongbo <hongbo.zhong@windriver.com>
->
-> In defalut, the bluez-test script do not be installed in the rootfs.
-> After the user enable ptest feature, it will be install.
->
-I think these tests are not the same as ptest, I think these are more 
-like testapps, so I am not sure using ptest as a PACKAGECONFIG is correct.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ scripts/pybootchartgui/pybootchartgui/gui.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-They could be packaged as testtools similar to bluez5 and installed with 
-packagegroup-core-tools-testapps,
+diff --git a/scripts/pybootchartgui/pybootchartgui/gui.py b/scripts/pybootchartgui/pybootchartgui/gui.py
+index 164bdfb..1120701 100644
+--- a/scripts/pybootchartgui/pybootchartgui/gui.py
++++ b/scripts/pybootchartgui/pybootchartgui/gui.py
+@@ -302,6 +302,7 @@ class PyBootchartShell(gtk.VBox):
+             # Misc. options
+             button = gtk.CheckButton("Show more")
+             button.connect ('toggled', self.widget.show_toggled)
++            button.set_active(options.app_options.show_all)
+             hbox.pack_start (button, False, True)
+ 
+         self.pack_start(hbox, False)
+-- 
+1.8.4
 
-Sau!
-
-> Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
-> ---
->   .../bluez/bluez4-4.101/install-test-script.patch   |   42 ++++++++++++++++++++
->   meta/recipes-connectivity/bluez/bluez4_4.101.bb    |   13 +++++-
->   2 files changed, 54 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
->
-> diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
-> new file mode 100644
-> index 0000000..bd7f31d
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
-> @@ -0,0 +1,42 @@
-> +Upstream-Status: Inappropriate
-> +
-> +Install the test scripts to /usr/bin directory
-> +
-> +Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
-> +---
-> +diff -Nurd bluez-4.101.orig/configure.ac bluez-4.101/configure.ac
-> +--- bluez-4.101.orig/configure.ac	2013-11-14 17:11:28.249903077 +0800
-> ++++ bluez-4.101/configure.ac	2013-11-14 17:17:18.089902204 +0800
-> +@@ -61,6 +61,11 @@
-> + fi
-> + AM_CONDITIONAL(SYSTEMD, test -n "${path_systemdunit}")
-> +
-> ++AC_ARG_WITH([bluez4testdir],
-> ++    AS_HELP_STRING([--with-bluez4testdir=DIR], [bluez4 script test directory]),
-> ++    [], [with_bluez4testdir=/usr/bin/])
-> ++AC_SUBST([BLUEZ4_TEST_DIR], [$with_bluez4testdir])
-> ++
-> + AC_ARG_WITH([udevdir],
-> +     AS_HELP_STRING([--with-udevdir=DIR], [udev directory]),
-> +     [], [with_udevdir=/lib/udev/])
-> +diff -Nurd bluez-4.101.orig/Makefile.tools bluez-4.101/Makefile.tools
-> +--- bluez-4.101.orig/Makefile.tools	2013-11-14 17:11:28.237903079 +0800
-> ++++ bluez-4.101/Makefile.tools	2013-11-14 17:18:11.577902071 +0800
-> +@@ -227,6 +227,17 @@
-> + 		test/service-spp.xml test/service-opp.xml test/service-ftp.xml \
-> + 		test/simple-player test/test-nap
-> +
-> ++bluez4_testdir = @BLUEZ4_TEST_DIR@
-> ++dist_bluez4_test_SCRIPTS = test/sap-client test/hsplay test/hsmicro \
-> ++		test/monitor-bluetooth test/list-devices \
-> ++		test/test-discovery test/test-manager test/test-adapter \
-> ++		test/test-device test/test-service test/test-serial \
-> ++		test/test-telephony test/test-network test/simple-agent \
-> ++		test/simple-service test/simple-endpoint test/test-audio \
-> ++		test/test-input test/test-sap-server test/test-oob \
-> ++		test/test-attrib test/test-proximity test/test-thermometer \
-> ++		test/test-serial-proxy test/test-health test/test-health-sink \
-> ++		test/simple-player test/test-nap
-> + if HIDD
-> + bin_PROGRAMS += compat/hidd
-> +
-> diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-> index d6c3e26..e61ba02 100644
-> --- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-> +++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-> @@ -7,6 +7,7 @@ SRC_URI += "file://bluetooth.conf \
->               file://fix-udev-paths.patch \
->               file://obsolete_automake_macros.patch \
->               file://network-fix-network-Connect-method-parameters.patch \
-> +            file://install-test-script.patch \
->   "
->
->   SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
-> @@ -25,7 +26,7 @@ do_install_append() {
->   RDEPENDS_${PN}-dev = "bluez-hcidump"
->
->   ALLOW_EMPTY_libasound-module-bluez = "1"
-> -PACKAGES =+ "libasound-module-bluez"
-> +PACKAGES =+ "libasound-module-bluez ${PN}-test"
->
->   FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
->   FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
-> @@ -34,6 +35,16 @@ FILES_${PN}-dev += "\
->     ${libdir}/alsa-lib/*.la \
->   "
->
-> +RDEPENDS_${PN} += "${@base_contains('DISTRO_FEATURES', 'ptest', '${PN}-test', '', d)}"
-> +FILES_${PN}-test += "\
-> +  ${bindir}/test-* \
-> +  ${bindir}/simple-* \
-> +  ${bindir}/hsmicro \
-> +  ${bindir}/hsplay \
-> +  ${bindir}/list-devices \
-> +  ${bindir}/monitor-bluetooth \
-> +"
-> +
->   FILES_${PN}-dbg += "\
->     ${libdir}/bluetooth/plugins/.debug \
->     ${libdir}/*/.debug \
->
 
