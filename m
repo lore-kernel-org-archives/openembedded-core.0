@@ -1,26 +1,25 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E5F476D9AB
+Return-Path: <Yue.Tao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 921206D9FD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 03:31:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAF3Vcql003447
+	Fri, 15 Nov 2013 06:33:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAF6XtfM018207
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 19:31:38 -0800 (PST)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 14 Nov 2013 19:31:37 -0800
-Message-ID: <52859586.5040001@windriver.com>
-Date: Fri, 15 Nov 2013 11:31:18 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu, 14 Nov 2013 22:33:55 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Thu, 14 Nov 2013 22:33:55 -0800
+From: Yue Tao <Yue.Tao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Nov 2013 14:34:45 +0800
+Message-ID: <1384497286-19011-1-git-send-email-Yue.Tao@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [RFC] let PACKAGES_DYNAMIC be optional ?
+X-Originating-IP: [128.224.162.154]
+Subject: [PATCH 1/2] Avoid starting rpcbind daemon twice during boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 03:31:36 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Nov 2013 06:33:56 -0000
+Content-Type: text/plain
 
+Check whether rpcbind daemon already run before starting it.
 
-Currently, the recipe which uses PACKAGES_DYNAMIC usually generates
-a lot of packages which costs a lot of time on building the recipe
-and do_rootfs, for example, the perl and kernel:
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+---
+ .../initscripts/initscripts-1.0/mountnfs.sh        |    9 ++++++---
+ 1 files changed, 6 insertions(+), 3 deletions(-)
 
-$ ls tmp/deploy/rpm/armv5te/perl-module-* | wc -l
-621
-
-$ ls tmp/deploy/rpm/qemux86/kernel-module-* | wc -l
-268
-
-Also, the eglibc-locale generates more than 300 packages.
-
-Take perl as an example:
-
-1) We generate 621 perl-module-* packages, but the package *perl-modules*
-    requires all of them, so once *perl-modules* is installed, all the other
-    perl-module-* will be installed and we can't remove any of them since
-    perl-modules rdepends on it, if there is a way to package all of these
-    perl-module-* into one package (they are about 10MB), it would save a lot
-    of time on do_package* and do_rootfs.
-
-2) The nativesdk.bbclass can't support PACKAGES_DYNAMIC, for example, it can't
-    change the perl-module-app-cpan to nativesdk-perl-module-app-cpan since
-    there is no perl-module-app-cpan in PACKAGES when nativesdk.bbclass
-    changes the variable's name.
-
-Can we add a way to let the PACKAGES_DYNAMIC be optional ? for example,
-
-PACKAGES_DYNAMIC[perl] = "0"
-
-will disable the perl's PACKAGES_DYNAMIC, and will pack the files as other
-recipes do, and of course we need to do some work on the recipe.
-
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+index 4fffe4e..a03070d 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+@@ -69,9 +69,12 @@ if test "$rpcbind" = yes
+ then
+ 	if test -x /usr/sbin/rpcbind
+ 	then
+-		echo -n "Starting rpcbind... "
+-		start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
+-		sleep 2
++		service rpcbind status > /dev/null
++		if [ $? != 0 ]; then
++			echo -n "Starting rpcbind..."
++			start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
++			sleep 2
++		fi
+ 	fi
+ fi
+ 
 -- 
-Thanks
+1.7.5.4
 
-Robert
 
