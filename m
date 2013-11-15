@@ -1,26 +1,38 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CBBB6D582
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id A69996D2C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 21:21:36 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 15 Nov 2013 13:18:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="436041853"
-Received: from unknown (HELO [10.255.15.61]) ([10.255.15.61])
-	by orsmga002.jf.intel.com with ESMTP; 15 Nov 2013 13:21:35 -0800
-Message-ID: <5286905A.4070205@linux.intel.com>
-Date: Fri, 15 Nov 2013 13:21:30 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Fri, 15 Nov 2013 21:36:38 +0000 (UTC)
+Received: by mail-ee0-f51.google.com with SMTP id d41so621265eek.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 13:36:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=4JcbXHd6IEamamufQUObcT5dqWjE+aarMu2qdtvP+I0=;
+	b=lnz98Lk+/tMscsvPBUZWUwwXJJVCHbXz93kq0SzHSOOpVZdM8OQ1xAIHPUdFRajepr
+	A04IaIxX4erZey3/lnIOBW3E94P1Vh3cnV89Jb64FXTBEdtLzTshhVNsoX/p2/rZRxKe
+	GEMxBsi3jQ6s3hFowdLrGycbBKwiKbHEVzS0n3MKo7DfDrYWhYBw8kEooQGlR0FIV+wY
+	CVrkNCfT/NcmYADQRiLQS73hErOu2d24gjTYWqvx2vqd4Bj6w4Sb/diiSwXeD/qGSXBX
+	jm7aTaJAsrkpgzT31LlfasyJSSPYIIT7Cu3qD85F29DwueY884Y5yPXpfb5RKZQkH2p+
+	5oIw==
+X-Received: by 10.14.103.133 with SMTP id f5mr5160806eeg.48.1384551400189;
+	Fri, 15 Nov 2013 13:36:40 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id a6sm10098367eei.10.2013.11.15.13.36.38
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Nov 2013 13:36:39 -0800 (PST)
+Date: Fri, 15 Nov 2013 22:37:05 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20131115213705.GE31430@jama>
+References: <20131112103426.B32915026B@opal>
 MIME-Version: 1.0
-To: Cristian Iorga <cristian.iorga@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1384545568.git.cristian.iorga@intel.com>
-	<837a7c0e891212fce3ce837e3ab50b04235a5dc3.1384545568.git.cristian.iorga@intel.com>
-In-Reply-To: <837a7c0e891212fce3ce837e3ab50b04235a5dc3.1384545568.git.cristian.iorga@intel.com>
-Subject: Re: [PATCH 2/2] telepathy-idle: upgrade to 0.2.0
+In-Reply-To: <20131112103426.B32915026B@opal>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: Re: [oe-commits] Ross Burton : glib-2.0: move more logic to the .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +45,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 21:21:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 15 Nov 2013 21:36:39 -0000
+X-Groupsio-MsgNum: 47147
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="KJY2Ze80yH5MUxol"
+Content-Disposition: inline
 
-On 11/15/2013 12:01 PM, Cristian Iorga wrote:
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->   .../fix-svc-gtk-doc.h-target.patch                                    | 0
->   .../telepathy/{telepathy-idle_0.1.16.bb => telepathy-idle_0.2.0.bb}   | 4 ++--
->   2 files changed, 2 insertions(+), 2 deletions(-)
->   rename meta/recipes-connectivity/telepathy/{telepathy-idle-0.1.16 => telepathy-idle-0.2.0}/fix-svc-gtk-doc.h-target.patch (100%)
->   rename meta/recipes-connectivity/telepathy/{telepathy-idle_0.1.16.bb => telepathy-idle_0.2.0.bb} (82%)
->
-I noticed that there is a version specific patch directory, any reason 
-to not rename it to ${PN} instead of keeping the version'ed patch?
+--KJY2Ze80yH5MUxol
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sau!
+On Tue, Nov 12, 2013 at 10:34:26AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 55b950500fd9d944042e3c2b0872685f0a60e8eb
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D55b950500fd9d944042e3c2b0872685f0a60e8eb
+>=20
+> Author: Ross Burton <ross.burton@intel.com>
+> Date:   Fri Nov  8 16:06:38 2013 +0000
+>=20
+> glib-2.0: move more logic to the .inc
+>=20
+> The .bb was getting larger with configuration being arbitarily split betw=
+een .bb
+> and .inc.  To help adding a glib_git recipe, strip the .bb down to SRC_UR=
+I.
+>=20
+> Also don't remove $libdir/gio as it should be owned by glib.
 
-> diff --git a/meta/recipes-connectivity/telepathy/telepathy-idle-0.1.16/fix-svc-gtk-doc.h-target.patch b/meta/recipes-connectivity/telepathy/telepathy-idle-0.2.0/fix-svc-gtk-doc.h-target.patch
-> similarity index 100%
-> rename from meta/recipes-connectivity/telepathy/telepathy-idle-0.1.16/fix-svc-gtk-doc.h-target.patch
-> rename to meta/recipes-connectivity/telepathy/telepathy-idle-0.2.0/fix-svc-gtk-doc.h-target.patch
-> diff --git a/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.16.bb b/meta/recipes-connectivity/telepathy/telepathy-idle_0.2.0.bb
-> similarity index 82%
-> rename from meta/recipes-connectivity/telepathy/telepathy-idle_0.1.16.bb
-> rename to meta/recipes-connectivity/telepathy/telepathy-idle_0.2.0.bb
-> index 279e8f1..ca09f6d 100644
-> --- a/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.16.bb
-> +++ b/meta/recipes-connectivity/telepathy/telepathy-idle_0.2.0.bb
-> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->
->   SRC_URI = "http://telepathy.freedesktop.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
->              file://fix-svc-gtk-doc.h-target.patch"
-> -SRC_URI[md5sum] = "afabda908a798aac3a427f4564af113a"
-> -SRC_URI[sha256sum] = "739614e2d526d82bdd2fd94026ca70a46670563556ff15537a2a08bf17172875"
-> +SRC_URI[md5sum] = "92a2de5198284cbd3c430b0d1a971a86"
-> +SRC_URI[sha256sum] = "3013ad4b38d14ee630b8cc8ada5e95ccaa849b9a6fe15d2eaf6d0717d76f2fab"
->
->   inherit autotools pkgconfig pythonnative
->
->
+IIRC we had fix for this QA warning before and now I see it again:
 
+WARNING: QA Issue: glib-2.0-dbg: found library in wrong location:
+/usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.3800.1-gdb.py
+glib-2.0-dbg: found library in wrong location:
+/usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.3800.1-gdb.py
+
+Is it possible that something was left out? I don't know since when I
+have this warning, so it could be since last glib-2.0 upgrade as well.
+
+
+--KJY2Ze80yH5MUxol
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEUEARECAAYFAlKGlAEACgkQN1Ujt2V2gBzvuQCYyDS6lwxs9DzVH1XtF8vBOCCP
+7ACeM+3u/DQ+BoA+wNNTcxVIPZNz6TE=
+=K3vW
+-----END PGP SIGNATURE-----
+
+--KJY2Ze80yH5MUxol--
