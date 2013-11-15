@@ -1,26 +1,22 @@
-Return-Path: <Hongbo.Zhong@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F2076DA6B
+Return-Path: <tobias.henkel@oss.bmw-carit.de>
+Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id CBC646DA5E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 06:52:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAF6qgHM019149
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 15 Nov 2013 07:36:40 +0000 (UTC)
+Received: from duffman.bmw-carit.intra (duffman.bmw-carit.intra
+	[192.168.101.67])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: tobias.henkel)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 34DD840046
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2013 22:52:42 -0800 (PST)
-Received: from hzhong.corp.ad.wrs.com (128.224.162.173) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 14 Nov 2013 22:52:42 -0800
-From: Zhong Hongbo <hongbo.zhong@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Nov 2013 14:52:59 +0800
-Message-ID: <1384498379-30017-2-git-send-email-hongbo.zhong@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1384498379-30017-1-git-send-email-hongbo.zhong@windriver.com>
-References: <1384498379-30017-1-git-send-email-hongbo.zhong@windriver.com>
-MIME-Version: 1.0
-Subject: [V2 2/2] bluez4: use legacy pygobject instead of gobject-introspection
+	Fri, 15 Nov 2013 07:07:47 +0100 (CET)
+From: Tobias Henkel <tobias.henkel@oss.bmw-carit.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Nov 2013 08:36:41 +0100
+Message-Id: <1384501001-8070-1-git-send-email-tobias.henkel@oss.bmw-carit.de>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] icecc: Use bb.utils.which instead of calling which
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 06:52:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 Nov 2013 07:36:41 -0000
 
-From: Zhong Hongbo <hongbo.zhong@windriver.com>
+From: Tobias Henkel <tobias.henkel@bmw-carit.de>
 
-Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
+The icecc class often calls 'which' for determining paths. This leads
+to many messages on stderr in case 'which' doesn't find the
+executable. Using bb.utils.which is more appropriate here and doesn't
+pollute stderr.
+
+Signed-off-by: Tobias Henkel <tobias.henkel@bmw-carit.de>
 ---
- ...pygobject-instead-ofgobject-introspection.patch |   27 ++++++++++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
+ meta/classes/icecc.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
-new file mode 100644
-index 0000000..37037f5
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
-@@ -0,0 +1,27 @@
-+Upstream-Status: Inappropriate
-+
-+use legacy pygobject instead of gobject-introspection
-+
-+Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
-+---
-+diff -Nurd bluez-4.101.orig/test/simple-agent bluez-4.101/test/simple-agent
-+--- bluez-4.101.orig/test/simple-agent	2013-11-13 17:14:08.138118159 +0800
-++++ bluez-4.101/test/simple-agent	2013-11-13 17:14:29.034118107 +0800
-+@@ -2,7 +2,7 @@
-+ 
-+ from __future__ import absolute_import, print_function, unicode_literals
-+ 
-+-from gi.repository import GObject
-++import gobject
-+ 
-+ import sys
-+ import dbus
-+@@ -122,7 +122,7 @@
-+ 	path = "/test/agent"
-+ 	agent = Agent(bus, path)
-+ 
-+-	mainloop = GObject.MainLoop()
-++	mainloop = gobject.MainLoop()
-+ 
-+ 	if len(args) > 1:
-+ 		if len(args) > 2:
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index e61ba02..ba80d5a 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://bluetooth.conf \
-             file://obsolete_automake_macros.patch \
-             file://network-fix-network-Connect-method-parameters.patch \
-             file://install-test-script.patch \
-+            file://use-legacy-pygobject-instead-ofgobject-introspection.patch \
- "
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index 1f53f85..49dbd77 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -55,7 +55,7 @@ def get_cross_kernel_cc(bb,d):
+     return kernel_cc
  
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
+ def get_icecc(d):
+-    return d.getVar('ICECC_PATH') or os.popen("which icecc").read()[:-1]
++    return d.getVar('ICECC_PATH') or bb.utils.which(os.getenv("PATH"), "icecc")
+ 
+ def create_path(compilers, bb, d):
+     """
+@@ -175,9 +175,9 @@ def icc_get_external_tool(bb, d, tool):
+ 
+ def icc_get_tool(bb, d, tool):
+     if icc_is_native(bb, d):
+-        return os.popen("which %s" % tool).read()[:-1]
++        return bb.utils.which(os.getenv("PATH"), tool)
+     elif icc_is_kernel(bb, d):
+-        return os.popen("which %s" % get_cross_kernel_cc(bb, d)).read()[:-1]
++        return bb.utils.which(os.getenv("PATH"), get_cross_kernel_cc(bb, d))
+     else:
+         ice_dir = d.expand('${STAGING_BINDIR_TOOLCHAIN}')
+         target_sys = d.expand('${TARGET_SYS}')
 -- 
-1.7.9.5
+1.8.3.1
 
 
