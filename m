@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id CD03C6D73F
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A4B96DA27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 23:25:15 +0000 (UTC)
-Received: by mail-vc0-f180.google.com with SMTP id ib11so2152861vcb.25
+	Fri, 15 Nov 2013 23:49:11 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id q58so4172311wes.17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 15:25:17 -0800 (PST)
+	Fri, 15 Nov 2013 15:49:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=wXEQ+Uzj1RNwfOwZJICB/G7xOusl7jREe0kOskz06Dg=;
-	b=RrofSVbH2QL7z2ILVilX930EYRFLvNa8wvNSIdEuAswVqP9V1UnEw0isOaoYnYEn7W
-	Pbq2QiUW6vNDzE5T4mr+MgZgROQ5pZX7PNk2gdKKUS8SRxSuJzPpzP4+9obuMGbvCGrj
-	sdCEdxL1P1FnYKNpTC3HyKyKyAhUXkUqaoPeiOaDYGF/ZcXS8Cl+nC7FJfeWWOqs1H3H
-	prrU5C3kCd7JJ2Yf+jHtqRYcrHYF/YqDbiDr8MtfDEUo1DQNT+zJ2r+RrKzxuBFcvXuJ
-	94LpMnLI8e5W/nfyIs15sLBPjUxR0yw7hH5p50gR28Lzn5cZ6G+94EZPui37omm1fxoZ
-	BG9Q==
-X-Gm-Message-State: ALoCoQmV7M5b3rcKagTQHp6oX5H1LayRqmG5SbUr/KwC4L+g32Bf1pGVQ1j3SyLZDoZ6lt1jdktU
-X-Received: by 10.220.182.137 with SMTP id cc9mr312637vcb.62.1384557917306;
-	Fri, 15 Nov 2013 15:25:17 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 15 Nov 2013 15:24:57 -0800 (PST)
-In-Reply-To: <cover.1384535211.git.pkj@axis.com>
-References: <cover.1384535211.git.pkj@axis.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 15 Nov 2013 23:24:57 +0000
-Message-ID: <CAJTo0LY4tWcawLzOcO4o3LSPoQqod8DKD-BWoMOrmsx5XndDkw@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/14] Improvements to pybootchartgui
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=j2KNerJNHxDJFS71JF6ypggP3h1xoL/Q/dYZxS8GJyg=;
+	b=Cc0YrJ6jQOyn91ccx+LsdSFxPFQJaLmlC8qdBTVayNGVx2MI+sTCG2Xr8JbWRO3RU0
+	CbZphrqBpVhnWAPD3LCccF1MdoyG6fxgNGJdiOpBZw4Vk/FVLeewsnouOTdK7urQBAeC
+	3yE3sRwA8kAj/L93c9meewCgL0up+vsZgrEktkWlb83xsEyyslXkE2Zw6cPTGJNIiVEv
+	BcBg+CviVTo9wmNJYvqipq7HQvajxfq1yAs2o5SC32kRVC7RyLkPLI6U+eIXKEx1zjcT
+	vJmeichDLvaKi1YpsxpbvmcXcRWyK80S3fIcV0CQqMGii1Y/LsW/8L35NAZYBnUvBntC
+	voqg==
+X-Gm-Message-State: ALoCoQmjBpOejXK7XsXeO3gnxCTh/usVR0bGoW/fTNIPWtb+PCekwue+mM0ziIkQirua8ibh4bhy
+X-Received: by 10.194.216.38 with SMTP id on6mr8686184wjc.14.1384559352527;
+	Fri, 15 Nov 2013 15:49:12 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id x19sm11002wia.5.2013.11.15.15.49.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 15 Nov 2013 15:49:11 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Nov 2013 23:49:09 +0000
+Message-Id: <1384559349-27625-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] json-glib: upgrade to 0.16.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,25 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 23:25:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 15 Nov 2013 23:49:12 -0000
 
-Hi,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../json-glib/{json-glib_0.16.0.bb => json-glib_0.16.2.bb}        |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-gnome/json-glib/{json-glib_0.16.0.bb => json-glib_0.16.2.bb} (79%)
 
-On 15 November 2013 17:08, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> This corrects and improves pybootchartgui. It starts by importing the
-> relevant parts for pybootchartgui from the latest version (0.14.5) of
-> bootchart2 from "https://github.com/mmeeks/bootchart". It then corrects
-> a couple of problems (e.g., X scaling, X offset of the chart, and header
-> height), and finally adds a couple of improvements (e.g., disable
-> irrelevant options, draw a lot less ticks, and use "Show more" to show
-> all processes).
+diff --git a/meta/recipes-gnome/json-glib/json-glib_0.16.0.bb b/meta/recipes-gnome/json-glib/json-glib_0.16.2.bb
+similarity index 79%
+rename from meta/recipes-gnome/json-glib/json-glib_0.16.0.bb
+rename to meta/recipes-gnome/json-glib/json-glib_0.16.2.bb
+index ffff75e..d2bcb07 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_0.16.0.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_0.16.2.bb
+@@ -8,13 +8,12 @@ HOMEPAGE = "http://live.gnome.org/JsonGlib"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+-
+ DEPENDS = "glib-2.0"
+ 
+ GNOME_COMPRESS_TYPE = "xz"
+ 
+-SRC_URI[archive.md5sum] = "bbca11f32509d6eb3f54d24156e7312d"
+-SRC_URI[archive.sha256sum] = "e4a3fd2f399e4c148aad608e6ed0a94095f2ddde9dd12f5aa2f072ecae5c1d37"
++SRC_URI[archive.md5sum] = "0c6121741956fc34933a7ebae5868ec2"
++SRC_URI[archive.sha256sum] = "a95475364ec27ab1d2a69303cf579018558bfb6981e3498b3aaf1e6401f7422c"
+ 
+ inherit gnome gettext
+ 
+-- 
+1.7.10.4
 
-Excellent stuff, thanks for working on this.  Some time ago I spoke to
-the bootchart2 maintainers and they were open to generalising their
-code and merging our codebases - is this something you'd be
-interesting in looking at?
-
-Ross
 
