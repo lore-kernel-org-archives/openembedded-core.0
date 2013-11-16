@@ -1,26 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C6626CF3C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id BB0F76D476
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Nov 2013 07:37:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAG7bfvj013469
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 16 Nov 2013 15:56:36 +0000 (UTC)
+Received: by mail-ea0-f169.google.com with SMTP id l9so1549700eaj.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 23:37:41 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 15 Nov 2013 23:37:40 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 16 Nov 2013 15:37:52 +0800
-Message-ID: <32366c714bd0a6237ccb4eb7f39ac06105dcb0ef.1384587416.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1384587416.git.Qi.Chen@windriver.com>
-References: <cover.1384587416.git.Qi.Chen@windriver.com>
+	Sat, 16 Nov 2013 07:56:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=d+N54J07xd2YBtafEtZX6ee+JThEGGs9TcFiPAZpmHk=;
+	b=sw6RSuDEjOYKDHADQcv3ChdtoqhxZFujIb4ZGKKGr3Q4t5iKXHfLCWI1UbMAYtljgM
+	KytNn+J2V0OgAOn8y5njIbl/2paYfuHHCM/PKUCp9Y+s2Kg07eNmnv/ZP+ztuTFGWLcd
+	gE5j2CR5cGm2aWmgDcs3Qud44qLf0TOrcAkXE9ErCblpITEVXweh4Z/4HoY6ewIGisYz
+	lLZbdAiQ+qfCjRoGJmfQMgtJi1WWHZhibY8mi8DC4FBqaLzTOfV78GRQIMfLR+b+tX/R
+	1S9TuJm0FEGY3Luel02KahBvElQyoKEFALV3RLmO1WMUEasZzVDdAhiM+gKdxOKcgSLM
+	Pj3A==
+X-Received: by 10.14.205.8 with SMTP id i8mr205630eeo.19.1384617398194;
+	Sat, 16 Nov 2013 07:56:38 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	j46sm17906458eew.18.2013.11.16.07.56.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 16 Nov 2013 07:56:37 -0800 (PST)
+Date: Sat, 16 Nov 2013 16:57:04 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20131116155704.GH31430@jama>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] shadow-native: allow for setting password in clear text
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: Interesting case of different signature in TUNE_PKGARCH recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,256 +44,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Nov 2013 07:37:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 16 Nov 2013 15:56:37 -0000
+X-Groupsio-MsgNum: 47166
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WHz+neNWvhIGAO8A"
+Content-Disposition: inline
 
-From: Chen Qi <qi.chen@windriver.com>
+--WHz+neNWvhIGAO8A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Allow user to set password in clear text. This is convenient when
-we're building out an image.
+Found in:
+meta-oe/meta-oe/recipes-multimedia/libdvdread/libdvdread_4.2.0.bb
 
-This feature is mainly used by useradd.bbclass and extrausers.bbclass.
+this line:
+CONFIGUREOPTS :=3D "${@d.getVar('CONFIGUREOPTS', True).replace('--disable-s=
+ilent-rules', ' ')}"
 
-This patch adds a new option '-P' to useradd, usermod, groupadd and groupmod
-commands provided by shadow-native. The shadow package on target and in SDK
-will not be affected.
+is able to trick variable tracking code to forget that STAGING_DIR_HOST is =
+included in
+BB_HASHBASE_WHITELIST, it came from:
+meta/classes/autotools.bbclass:def append_libtool_sysroot(d):
+   --with-libtool-sysroot=3D${STAGING_DIR_HOST}
 
-[YOCTO #5365]
+So it behaves like with
+CONFIGUREOPTS[vardepvalue] =3D "${CONFIGUREOPTS}"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../allow-for-setting-password-in-clear-text.patch |  208 ++++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc            |    1 +
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
+And the result is:
 
-diff --git a/meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch b/meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
-new file mode 100644
-index 0000000..eafb935
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
-@@ -0,0 +1,208 @@
-+Upstream-Status: Inappropriate [OE specific]
-+
-+Allow for setting password in clear text.
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+
-+---
-+ src/Makefile.am |    8 ++++----
-+ src/groupadd.c  |    8 +++++++-
-+ src/groupmod.c  |    9 ++++++++-
-+ src/useradd.c   |    9 +++++++--
-+ src/usermod.c   |   10 ++++++++--
-+ 5 files changed, 34 insertions(+), 10 deletions(-)
-+
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 6a3b4c5..1ffdbc6 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -76,10 +76,10 @@ chgpasswd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBSELINUX) $(LIBCRYPT)
-+ chsh_LDADD     = $(LDADD) $(LIBPAM) $(LIBSELINUX) $(LIBCRYPT_NOPAM) $(LIBSKEY) $(LIBMD)
-+ chpasswd_LDADD = $(LDADD) $(LIBPAM) $(LIBSELINUX) $(LIBCRYPT)
-+ gpasswd_LDADD  = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
-+-groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
-++groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
-+ groupdel_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
-+ groupmems_LDADD = $(LDADD) $(LIBPAM) $(LIBSELINUX)
-+-groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
-++groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
-+ grpck_LDADD    = $(LDADD) $(LIBSELINUX)
-+ grpconv_LDADD  = $(LDADD) $(LIBSELINUX)
-+ grpunconv_LDADD = $(LDADD) $(LIBSELINUX)
-+@@ -99,9 +99,9 @@ su_SOURCES     = \
-+ 	suauth.c
-+ su_LDADD       = $(LDADD) $(LIBPAM) $(LIBCRYPT_NOPAM) $(LIBSKEY) $(LIBMD)
-+ sulogin_LDADD  = $(LDADD) $(LIBCRYPT)
-+-useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
-++useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
-+ userdel_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
-+-usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
-++usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
-+ vipw_LDADD     = $(LDADD) $(LIBSELINUX)
-+ 
-+ install-am: all-am
-+diff --git a/src/groupadd.c b/src/groupadd.c
-+index 66b38de..3157486 100644
-+--- a/src/groupadd.c
-++++ b/src/groupadd.c
-+@@ -124,6 +124,7 @@ static void usage (void)
-+ 	(void) fputs (_("  -o, --non-unique              allow to create groups with duplicate\n"
-+ 	                "                                (non-unique) GID\n"), stderr);
-+ 	(void) fputs (_("  -p, --password PASSWORD       use this encrypted password for the new group\n"), stderr);
-++	(void) fputs (_("  -P, --clear-password PASSWORD use this clear text password for the new group\n"), stderr);
-+ 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
-+ 	(void) fputs (_("  -r, --system                  create a system account\n"), stderr);
-+ 	(void) fputs ("\n", stderr);
-+@@ -388,13 +389,14 @@ static void process_flags (int argc, char **argv)
-+ 		{"key", required_argument, NULL, 'K'},
-+ 		{"non-unique", no_argument, NULL, 'o'},
-+ 		{"password", required_argument, NULL, 'p'},
-++		{"clear-password", required_argument, NULL, 'P'},
-+ 		{"root", required_argument, NULL, 'R'},
-+ 		{"system", no_argument, NULL, 'r'},
-+ 		{NULL, 0, NULL, '\0'}
-+ 	};
-+ 
-+ 	while ((c =
-+-		getopt_long (argc, argv, "fg:hK:op:R:r", long_options,
-++		getopt_long (argc, argv, "fg:hK:op:P:R:r", long_options,
-+ 		             &option_index)) != -1) {
-+ 		switch (c) {
-+ 		case 'f':
-+@@ -446,6 +448,10 @@ static void process_flags (int argc, char **argv)
-+ 			pflg = true;
-+ 			group_passwd = optarg;
-+ 			break;
-++		case 'P':
-++			pflg = true;
-++			group_passwd = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
-++			break;
-+ 		case 'R':
-+ 			if ('/' != optarg[0]) {
-+ 				fprintf (stderr,
-+diff --git a/src/groupmod.c b/src/groupmod.c
-+index 27eb159..17acbc3 100644
-+--- a/src/groupmod.c
-++++ b/src/groupmod.c
-+@@ -127,6 +127,8 @@ static void usage (void)
-+ 	(void) fputs (_("  -o, --non-unique              allow to use a duplicate (non-unique) GID\n"), stderr);
-+ 	(void) fputs (_("  -p, --password PASSWORD       change the password to this (encrypted)\n"
-+ 	                "                                PASSWORD\n"), stderr);
-++	(void) fputs (_("  -P, --clear-password PASSWORD change the password to this (clear text)\n"
-++	                "                                PASSWORD\n"), stderr);
-+ 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
-+ 	(void) fputs ("\n", stderr);
-+ 	exit (E_USAGE);
-+@@ -348,11 +350,12 @@ static void process_flags (int argc, char **argv)
-+ 		{"new-name", required_argument, NULL, 'n'},
-+ 		{"non-unique", no_argument, NULL, 'o'},
-+ 		{"password", required_argument, NULL, 'p'},
-++		{"clear-password", required_argument, NULL, 'P'},
-+ 		{"root", required_argument, NULL, 'R'},
-+ 		{NULL, 0, NULL, '\0'}
-+ 	};
-+ 	while ((c =
-+-		getopt_long (argc, argv, "g:hn:op:R:",
-++		getopt_long (argc, argv, "g:hn:op:P:R:",
-+ 		             long_options, &option_index)) != -1) {
-+ 		switch (c) {
-+ 		case 'g':
-+@@ -376,6 +379,10 @@ static void process_flags (int argc, char **argv)
-+ 			group_passwd = optarg;
-+ 			pflg = true;
-+ 			break;
-++		case 'P':
-++			group_passwd = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
-++			pflg = true;
-++			break;
-+ 		case 'R':
-+ 			if ('/' != optarg[0]) {
-+ 				fprintf (stderr,
-+diff --git a/src/useradd.c b/src/useradd.c
-+index 2102630..390909c 100644
-+--- a/src/useradd.c
-++++ b/src/useradd.c
-+@@ -716,6 +716,7 @@ static void usage (void)
-+ 	(void) fputs (_("  -o, --non-unique              allow to create users with duplicate\n"
-+ 	                "                                (non-unique) UID\n"), stderr);
-+ 	(void) fputs (_("  -p, --password PASSWORD       encrypted password of the new account\n"), stderr);
-++	(void) fputs (_("  -P, --clear-password PASSWORD clear text password of the new account\n"), stderr);
-+ 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
-+ 	(void) fputs (_("  -r, --system                  create a system account\n"), stderr);
-+ 	(void) fputs (_("  -s, --shell SHELL             login shell of the new account\n"), stderr);
-+@@ -1035,6 +1036,7 @@ static void process_flags (int argc, char **argv)
-+ 			{"no-user-group", no_argument, NULL, 'N'},
-+ 			{"non-unique", no_argument, NULL, 'o'},
-+ 			{"password", required_argument, NULL, 'p'},
-++			{"clear-password", required_argument, NULL, 'P'},
-+ 			{"root", required_argument, NULL, 'R'},
-+ 			{"system", no_argument, NULL, 'r'},
-+ 			{"shell", required_argument, NULL, 's'},
-+@@ -1047,9 +1049,9 @@ static void process_flags (int argc, char **argv)
-+ 		};
-+ 		while ((c = getopt_long (argc, argv,
-+ #ifdef WITH_SELINUX
-+-		                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:UZ:",
-++		                         "b:c:d:De:f:g:G:k:K:lmMNop:P:R:rs:u:UZ:",
-+ #else
-+-		                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:U",
-++		                         "b:c:d:De:f:g:G:k:K:lmMNop:P:R:rs:u:U",
-+ #endif
-+ 		                         long_options, NULL)) != -1) {
-+ 			switch (c) {
-+@@ -1214,6 +1216,9 @@ static void process_flags (int argc, char **argv)
-+ 				}
-+ 				user_pass = optarg;
-+ 				break;
-++			case 'P':	/* set clear text password */
-++				user_pass = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
-++				break;
-+ 			case 'R':
-+ 				/* no-op since we handled this in process_root_flag() earlier */
-+ 				break;
-+diff --git a/src/usermod.c b/src/usermod.c
-+index 8363597..f4c1cee 100644
-+--- a/src/usermod.c
-++++ b/src/usermod.c
-+@@ -325,6 +325,7 @@ static void usage (void)
-+ 	         "                                new location (use only with -d)\n"
-+ 	         "  -o, --non-unique              allow using duplicate (non-unique) UID\n"
-+ 	         "  -p, --password PASSWORD       use encrypted password for the new password\n"
-++	         "  -P, --clear-password PASSWORD       use clear text password for the new password\n"
-+ 	         "  -R  --root CHROOT_DIR         directory to chroot into\n"
-+ 	         "  -s, --shell SHELL             new login shell for the user account\n"
-+ 	         "  -u, --uid UID                 new UID for the user account\n"
-+@@ -950,6 +951,7 @@ static void process_flags (int argc, char **argv)
-+ 			{"move-home", no_argument, NULL, 'm'},
-+ 			{"non-unique", no_argument, NULL, 'o'},
-+ 			{"password", required_argument, NULL, 'p'},
-++			{"clear-password", required_argument, NULL, 'P'},
-+ 			{"root", required_argument, NULL, 'R'},
-+ #ifdef WITH_SELINUX
-+ 			{"selinux-user", required_argument, NULL, 'Z'},
-+@@ -961,9 +963,9 @@ static void process_flags (int argc, char **argv)
-+ 		};
-+ 		while ((c = getopt_long (argc, argv,
-+ #ifdef WITH_SELINUX
-+-			                 "ac:d:e:f:g:G:hl:Lmop:R:s:u:UZ:",
-++			                 "ac:d:e:f:g:G:hl:Lmop:P:R:s:u:UZ:",
-+ #else
-+-			                 "ac:d:e:f:g:G:hl:Lmop:R:s:u:U",
-++			                 "ac:d:e:f:g:G:hl:Lmop:P:R:s:u:U",
-+ #endif
-+ 			                 long_options, NULL)) != -1) {
-+ 			switch (c) {
-+@@ -1055,6 +1057,10 @@ static void process_flags (int argc, char **argv)
-+ 				user_pass = optarg;
-+ 				pflg = true;
-+ 				break;
-++			case 'P':
-++				user_pass = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
-++				pflg = true;
-++				break;
-+ 			case 'R':
-+ 				/* no-op since we handled this in process_root_flag() earlier */
-+ 				break;
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 5ab978a..374aa5f 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -33,6 +33,7 @@ SRC_URI_append_class-native = " \
-            file://disable-syslog.patch \
-            file://useradd.patch \
-            file://add_root_cmd_groupmems.patch \
-+           file://allow-for-setting-password-in-clear-text.patch \
-            "
- SRC_URI_append_class-nativesdk = " \
-            file://add_root_cmd_options.patch \
--- 
-1.7.9.5
+basehash changed from c54dc1c615c0a94b3e5a072c72325ba3 to 6bea3354c011fa0e4=
+dce25bba058806b
+Variable CONFIGUREOPTS value changed from '=20
+--build=3Dx86_64-linux               =20
+--host=3Di586-webos-linux                              =20
+--target=3Di586-webos-linux                =20
+--prefix=3D/usr                                    =20
+--exec_prefix=3D/usr               =20
+--bindir=3D/usr/bin                =20
+--sbindir=3D/usr/sbin                    =20
+--libexecdir=3D/usr/lib/libdvdread                         =20
+--datadir=3D/usr/share               =20
+--sysconfdir=3D/etc
+--sharedstatedir=3D/com            =20
+--localstatedir=3D/var             =20
+--libdir=3D/usr/lib                =20
+--includedir=3D/usr/include                =20
+--oldincludedir=3D/usr/include             =20
+--infodir=3D/usr/share/info                =20
+--mandir=3D/usr/share/man                                  =20
+--disable-dependency-tracking            =20
+--with-libtool-sysroot=3D/home/mjansa/build-webos/BUILD-qemux86copy/sysroot=
+s/qemux86copy' to '=20
+--build=3Dx86_64-linux             =20
+--host=3Di586-webos-linux                  =20
+--target=3Di586-webos-linux                =20
+--prefix=3D/usr            =20
+--exec_prefix=3D/usr               =20
+--bindir=3D/usr/bin                =20
+--sbindir=3D/usr/sbin              =20
+--libexecdir=3D/usr/lib/libdvdread                 =20
+--datadir=3D/usr/share             =20
+--sysconfdir=3D/etc                =20
+--sharedstatedir=3D/com            =20
+--localstatedir=3D/var             =20
+--libdir=3D/usr/lib                =20
+--includedir=3D/usr/include                =20
+--oldincludedir=3D/usr/include             =20
+--infodir=3D/usr/share/info                =20
+--mandir=3D/usr/share/man                                  =20
+--disable-dependency-tracking            =20
+--with-libtool-sysroot=3D/home/mjansa/build-webos/BUILD-qemux86/sysroots/qe=
+mux86'
 
+Good news is that rewriting that line with new _remove operator as:
+CONFIGUREOPTS_remove =3D "--disable-silent-rules"
+makes signatures the same.
 
+For curious people there is bitbake-diffsigs between old CONFIGUREOPTS line=
+ and new one:
+Task dependencies changed from:
+['ABIEXTENSION', 'ACLOCALDIR', 'AR', 'ARMPKGARCH', 'ARMPKGARCH_tune-cortexa=
+8t-neon', 'ARMPKGSFX_DSP', 'ARMPKGSFX_EABI', 'ARMPKGSFX_ENDIAN', 'ARMPKGSFX=
+_FPU', 'ARMPKGSFX_THUMB', 'AS', 'ASNEEDED', 'AUTOTOOLS_AUXDIR', 'B', 'BASE_=
+WORKDIR', 'BP', 'BPN', 'BUILD_AR', 'BUILD_ARCH', 'BUILD_AS', 'BUILD_AS_ARCH=
+', 'BUILD_CC', 'BUILD_CCLD', 'BUILD_CC_ARCH', 'BUILD_CFLAGS', 'BUILD_CPP', =
+'BUILD_CPPFLAGS', 'BUILD_CXX', 'BUILD_CXXFLAGS', 'BUILD_F77', 'BUILD_LD', '=
+BUILD_LDFLAGS', 'BUILD_LD_ARCH', 'BUILD_NM', 'BUILD_OPTIMIZATION', 'BUILD_O=
+S', 'BUILD_PREFIX', 'BUILD_RANLIB', 'BUILD_STRIP', 'BUILD_SYS', 'BUILD_VEND=
+OR', 'CACHED_CONFIGUREVARS', 'CC', 'CCLD', 'CC_FOR_BUILD', 'CFLAGS', 'CFLAG=
+S_FOR_BUILD', 'CONFIGUREOPTS', 'CONFIG_SITE', 'CPP', 'CPPFLAGS', 'CPPFLAGS_=
+FOR_BUILD', 'CPP_FOR_BUILD', 'CXX', 'CXXFLAGS', 'CXXFLAGS_FOR_BUILD', 'CXX_=
+FOR_BUILD', 'DEBUG_BUILD', 'DEBUG_FLAGS', 'DEBUG_OPTIMIZATION', 'DEFAULTTUN=
+E', 'EXTENDPE', 'EXTRA_AUTORECONF', 'EXTRA_OECONF', 'F77', 'FULL_OPTIMIZATI=
+ON', 'HOST_ARCH', 'HOST_AS_ARCH', 'HOST_CC_ARCH', 'HOST_LD_ARCH', 'HOST_OS'=
+, 'HOST_PREFIX', 'LC_ALL', 'LD', 'LDFLAGS', 'LDFLAGS_FOR_BUILD', 'LD_FOR_BU=
+ILD', 'LIBCEXTENSION', 'LINKER_HASH_STYLE', 'MAKE', 'MULTIMACH_TARGET_SYS',=
+ 'NM', 'OBJCOPY', 'OBJDUMP', 'PACKAGE_ARCH', 'PATCH_GET', 'PE', 'PKG_CONFIG=
+_DIR', 'PKG_CONFIG_DISABLE_UNINSTALLED', 'PKG_CONFIG_LIBDIR', 'PKG_CONFIG_P=
+ATH', 'PKG_CONFIG_SYSROOT_DIR', 'PN', 'PR', 'PSEUDO_DISABLED', 'PV', 'RANLI=
+B', 'S', 'SELECTED_OPTIMIZATION', 'SITECONFIG_SYSROOTCACHE', 'SPECIAL_PKGSU=
+FFIX', 'STAGING_BASE_LIBDIR_NATIVE', 'STAGING_DATADIR', 'STAGING_DATADIR_NA=
+TIVE', 'STAGING_DIR', 'STAGING_DIR_NATIVE', 'STAGING_INCDIR_NATIVE', 'STAGI=
+NG_LIBDIR_NATIVE', 'STRINGS', 'STRIP', 'TARGET_ARCH', 'TARGET_AS_ARCH', 'TA=
+RGET_CC_ARCH', 'TARGET_CFLAGS', 'TARGET_CPPFLAGS', 'TARGET_CXXFLAGS', 'TARG=
+ET_LDFLAGS', 'TARGET_LD_ARCH', 'TARGET_LINK_HASH_STYLE', 'TARGET_OS', 'TARG=
+ET_PREFIX', 'TARGET_SYS', 'TARGET_VENDOR', 'TOOLCHAIN_OPTIONS', 'TUNE_ASARG=
+S', 'TUNE_CCARGS', 'TUNE_FEATURES', 'TUNE_FEATURES_tune-armv7a', 'TUNE_FEAT=
+URES_tune-armv7at', 'TUNE_FEATURES_tune-armv7at-neon', 'TUNE_FEATURES_tune-=
+cortexa8t-neon', 'TUNE_LDARGS', 'TUNE_PKGARCH', 'WORKDIR', 'acpaths', 'auto=
+tools_copy_aclocal', 'autotools_do_configure', 'base_bindir', 'base_libdir'=
+, 'base_libdir_native', 'base_prefix', 'base_prune_suffix', 'base_sbindir',=
+ 'baselib', 'bbfatal', 'bbnote', 'bindir', 'datadir', 'datadir_native', 'do=
+_configure[umask]', 'docdir', 'exec_prefix', 'includedir', 'includedir_nati=
+ve', 'infodir', 'libdir', 'libdir_native', 'libexecdir', 'localstatedir', '=
+lt_cv_sys_lib_dlsearch_path_spec', 'mandir', 'nonarch_base_libdir', 'oe_run=
+conf', 'oldincludedir', 'prefix', 'prefix_native', 'sbindir', 'servicedir',=
+ 'sharedstatedir', 'siteinfo_data', 'siteinfo_get_files', 'sysconfdir', 'sy=
+stemd_unitdir']
+to:
+['ABIEXTENSION', 'ACLOCALDIR', 'AR', 'ARMPKGARCH', 'ARMPKGARCH_tune-cortexa=
+8t-neon', 'ARMPKGSFX_DSP', 'ARMPKGSFX_EABI', 'ARMPKGSFX_ENDIAN', 'ARMPKGSFX=
+_FPU', 'ARMPKGSFX_THUMB', 'AS', 'ASNEEDED', 'AUTOTOOLS_AUXDIR', 'B', 'BASE_=
+WORKDIR', 'BP', 'BPN', 'BUILD_AR', 'BUILD_ARCH', 'BUILD_AS', 'BUILD_AS_ARCH=
+', 'BUILD_CC', 'BUILD_CCLD', 'BUILD_CC_ARCH', 'BUILD_CFLAGS', 'BUILD_CPP', =
+'BUILD_CPPFLAGS', 'BUILD_CXX', 'BUILD_CXXFLAGS', 'BUILD_F77', 'BUILD_LD', '=
+BUILD_LDFLAGS', 'BUILD_LD_ARCH', 'BUILD_NM', 'BUILD_OPTIMIZATION', 'BUILD_O=
+S', 'BUILD_PREFIX', 'BUILD_RANLIB', 'BUILD_STRIP', 'BUILD_SYS', 'BUILD_VEND=
+OR', 'CACHED_CONFIGUREVARS', 'CC', 'CCLD', 'CC_FOR_BUILD', 'CFLAGS', 'CFLAG=
+S_FOR_BUILD', 'CONFIGUREOPTS', 'CONFIGUREOPT_DEPTRACK', 'CONFIG_SITE', 'CPP=
+', 'CPPFLAGS', 'CPPFLAGS_FOR_BUILD', 'CPP_FOR_BUILD', 'CXX', 'CXXFLAGS', 'C=
+XXFLAGS_FOR_BUILD', 'CXX_FOR_BUILD', 'DEBUG_BUILD', 'DEBUG_FLAGS', 'DEBUG_O=
+PTIMIZATION', 'DEFAULTTUNE', 'EXTENDPE', 'EXTRA_AUTORECONF', 'EXTRA_OECONF'=
+, 'F77', 'FULL_OPTIMIZATION', 'HOST_ARCH', 'HOST_AS_ARCH', 'HOST_CC_ARCH', =
+'HOST_LD_ARCH', 'HOST_OS', 'HOST_PREFIX', 'HOST_SYS', 'HOST_VENDOR', 'LC_AL=
+L', 'LD', 'LDFLAGS', 'LDFLAGS_FOR_BUILD', 'LD_FOR_BUILD', 'LIBCEXTENSION', =
+'LINKER_HASH_STYLE', 'MAKE', 'MULTIMACH_TARGET_SYS', 'NM', 'OBJCOPY', 'OBJD=
+UMP', 'PACKAGE_ARCH', 'PATCH_GET', 'PE', 'PKG_CONFIG_DIR', 'PKG_CONFIG_DISA=
+BLE_UNINSTALLED', 'PKG_CONFIG_LIBDIR', 'PKG_CONFIG_PATH', 'PKG_CONFIG_SYSRO=
+OT_DIR', 'PN', 'PR', 'PSEUDO_DISABLED', 'PV', 'RANLIB', 'S', 'SELECTED_OPTI=
+MIZATION', 'SITECONFIG_SYSROOTCACHE', 'SPECIAL_PKGSUFFIX', 'STAGING_BASE_LI=
+BDIR_NATIVE', 'STAGING_DATADIR', 'STAGING_DATADIR_NATIVE', 'STAGING_DIR', '=
+STAGING_DIR_NATIVE', 'STAGING_INCDIR_NATIVE', 'STAGING_LIBDIR_NATIVE', 'STR=
+INGS', 'STRIP', 'TARGET_ARCH', 'TARGET_AS_ARCH', 'TARGET_CC_ARCH', 'TARGET_=
+CFLAGS', 'TARGET_CPPFLAGS', 'TARGET_CXXFLAGS', 'TARGET_LDFLAGS', 'TARGET_LD=
+_ARCH', 'TARGET_LINK_HASH_STYLE', 'TARGET_OS', 'TARGET_PREFIX', 'TARGET_SYS=
+', 'TARGET_VENDOR', 'TOOLCHAIN_OPTIONS', 'TUNE_ASARGS', 'TUNE_CCARGS', 'TUN=
+E_FEATURES', 'TUNE_FEATURES_tune-armv7a', 'TUNE_FEATURES_tune-armv7at', 'TU=
+NE_FEATURES_tune-armv7at-neon', 'TUNE_FEATURES_tune-cortexa8t-neon', 'TUNE_=
+LDARGS', 'TUNE_PKGARCH', 'WORKDIR', 'acpaths', 'append_libtool_sysroot', 'a=
+utotools_copy_aclocal', 'autotools_do_configure', 'base_bindir', 'base_libd=
+ir', 'base_libdir_native', 'base_prefix', 'base_prune_suffix', 'base_sbindi=
+r', 'baselib', 'bbfatal', 'bbnote', 'bindir', 'datadir', 'datadir_native', =
+'do_configure[umask]', 'docdir', 'exec_prefix', 'includedir', 'includedir_n=
+ative', 'infodir', 'libdir', 'libdir_native', 'libexecdir', 'localstatedir'=
+, 'lt_cv_sys_lib_dlsearch_path_spec', 'mandir', 'nonarch_base_libdir', 'oe_=
+runconf', 'oldincludedir', 'prefix', 'prefix_native', 'sbindir', 'servicedi=
+r', 'sharedstatedir', 'siteinfo_data', 'siteinfo_get_files', 'sysconfdir', =
+'systemd_unitdir']
+basehash changed from 8f1454bacc1e96701a2ea517850e91bd to 68ef3e1148747a594=
+c65a7cc0ce93565
+List of dependencies for variable CONFIGUREOPTS changed from 'set([])' to '=
+set(['CONFIGUREOPT_DEPTRACK', 'HOST_SYS', 'sysconfdir', 'infodir', 'TARGET_=
+SYS', 'libdir', 'localstatedir', 'datadir', 'includedir', 'sharedstatedir',=
+ 'prefix', 'BUILD_SYS', 'sbindir', 'bindir', 'exec_prefix', 'libexecdir', '=
+oldincludedir', 'append_libtool_sysroot', 'mandir'])'
+Dependency on Variable HOST_SYS was removed
+Dependency on Variable CONFIGUREOPT_DEPTRACK was removed
+Dependency on Variable HOST_VENDOR was removed
+Dependency on Variable append_libtool_sysroot was removed
+Variable CONFIGUREOPTS value changed from ' --build=3Dx86_64-linux         =
+         --host=3Darm-oe-linux-gnueabi             --target=3Darm-oe-linux-=
+gnueabi                   --prefix=3D/usr                   --exec_prefix=
+=3D/usr              --bindir=3D/usr/bin               --sbindir=3D/usr/sbi=
+n             --libexecdir=3D/usr/lib/libdvdread                --datadir=
+=3D/usr/share            --sysconfdir=3D/etc               --sharedstatedir=
+=3D/com                   --localstatedir=3D/var            --libdir=3D/usr=
+/lib               --includedir=3D/usr/include               --oldincludedi=
+r=3D/usr/include            --infodir=3D/usr/share/info               --man=
+dir=3D/usr/share/man                                 --disable-dependency-t=
+racking                   --with-libtool-sysroot=3D/OE/build/shr-core/tmp-e=
+glibc/sysroots/maguro' to ' --build=3D${BUILD_SYS}                 --host=
+=3D${HOST_SYS}              --target=3D${TARGET_SYS}                  --pre=
+fix=3D${prefix}              --exec_prefix=3D${exec_prefix}            --bi=
+ndir=3D${bindir}              --sbindir=3D${sbindir}            --libexecdi=
+r=3D${libexecdir}              --datadir=3D${datadir}            --sysconfd=
+ir=3D${sysconfdir}              --sharedstatedir=3D${sharedstatedir}       =
+       --localstatedir=3D${localstatedir}                --libdir=3D${libdi=
+r}              --includedir=3D${includedir}              --oldincludedir=
+=3D${oldincludedir}                --infodir=3D${infodir}            --mand=
+ir=3D${mandir}                              ${CONFIGUREOPT_DEPTRACK}       =
+         ${@append_libtool_sysroot(d)}'
+Dependency on Variable HOST_SYS was removed
+Dependency on Variable CONFIGUREOPT_DEPTRACK was removed
+Dependency on Variable HOST_VENDOR was removed
+Dependency on Variable append_libtool_sysroot was removed
+Variable CONFIGUREOPTS value changed from ' --build=3Dx86_64-linux         =
+         --host=3Darm-oe-linux-gnueabi             --target=3Darm-oe-linux-=
+gnueabi                   --prefix=3D/usr                   --exec_prefix=
+=3D/usr              --bindir=3D/usr/bin               --sbindir=3D/usr/sbi=
+n             --libexecdir=3D/usr/lib/libdvdread                --datadir=
+=3D/usr/share            --sysconfdir=3D/etc               --sharedstatedir=
+=3D/com                   --localstatedir=3D/var            --libdir=3D/usr=
+/lib               --includedir=3D/usr/include               --oldincludedi=
+r=3D/usr/include            --infodir=3D/usr/share/info               --man=
+dir=3D/usr/share/man                                 --disable-dependency-t=
+racking                   --with-libtool-sysroot=3D/OE/build/shr-core/tmp-e=
+glibc/sysroots/maguro' to ' --build=3D${BUILD_SYS}                 --host=
+=3D${HOST_SYS}              --target=3D${TARGET_SYS}                  --pre=
+fix=3D${prefix}              --exec_prefix=3D${exec_prefix}            --bi=
+ndir=3D${bindir}              --sbindir=3D${sbindir}            --libexecdi=
+r=3D${libexecdir}              --datadir=3D${datadir}            --sysconfd=
+ir=3D${sysconfdir}              --sharedstatedir=3D${sharedstatedir}       =
+       --localstatedir=3D${localstatedir}                --libdir=3D${libdi=
+r}              --includedir=3D${includedir}              --oldincludedir=
+=3D${oldincludedir}                --infodir=3D${infodir}            --mand=
+ir=3D${mandir}                              ${CONFIGUREOPT_DEPTRACK}       =
+         ${@append_libtool_sysroot(d)}'
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--WHz+neNWvhIGAO8A
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlKHldAACgkQN1Ujt2V2gBw6HgCdEzXXtxHdkHEXxaiZeCam6B40
+0XwAn3OlJprf5ZGvIIc9Zhca0zxqRqdC
+=zQWn
+-----END PGP SIGNATURE-----
+
+--WHz+neNWvhIGAO8A--
