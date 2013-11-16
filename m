@@ -1,26 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B6A86D9AF
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CFBB06CF3C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Nov 2013 06:17:28 +0000 (UTC)
+	Sat, 16 Nov 2013 07:37:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAG6HTnZ005161
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 15 Nov 2013 22:17:29 -0800 (PST)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAG7bdq1014440
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 23:37:39 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 15 Nov 2013 22:17:28 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Sat, 16 Nov 2013 01:17:24 -0500
-Message-ID: <c40fe100ff9ab3fcc1374013b882e3e946eb7d87.1384582409.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1384582409.git.bruce.ashfield@windriver.com>
-References: <cover.1384582409.git.bruce.ashfield@windriver.com>
+	14.2.347.0; Fri, 15 Nov 2013 23:37:39 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 16 Nov 2013 15:37:51 +0800
+Message-ID: <cover.1384587416.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] kernel.bbclass: fix hardlink test
+Subject: [PATCH 0/1] shadow-native: allow for setting password in clear text
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Nov 2013 06:17:28 -0000
+X-List-Received-Date: Sat, 16 Nov 2013 07:37:38 -0000
 Content-Type: text/plain
 
-The commit [kernel.bbclass: test for hardlinks before installing] doesn't
-work on all build machines without a space between the ! and the test for
-hardlink equivalance. The build continues, while the test fails and no
-copy is made into the sysroot. Eventually tasks like build_hdimg will fail
-with the missing kernel with the root cause being less than obvious.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit ea92671d9823e3667d6ced7ac2af20f991da404d:
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 624b151..6959aa1 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -248,7 +248,7 @@ kernel_do_install() {
- 	# Test to ensure that the output file and image type are not actually
- 	# the same file. If hardlinking is used, they will be the same, and there's
- 	# no need to install.
--	![ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
-+	! [ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
- 	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
- 
- 	# Dummy Makefile so the clean below works
+  bitbake: cooker: replace "w" file opening mode with "a" mode (2013-11-12 17:01:37 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/cleartext-password
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/cleartext-password
+
+Chen Qi (1):
+  shadow-native: allow for setting password in clear text
+
+ .../allow-for-setting-password-in-clear-text.patch |  208 ++++++++++++++++++++
+ meta/recipes-extended/shadow/shadow.inc            |    1 +
+ 2 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
+
 -- 
-1.8.1.2
+1.7.9.5
 
 
