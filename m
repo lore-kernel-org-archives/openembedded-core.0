@@ -1,26 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A51606DABA
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DD906D9AC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Nov 2013 03:19:42 +0000 (UTC)
+	Sat, 16 Nov 2013 06:17:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAG3Ji49004453
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 19:19:44 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAG6HS2c005158
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 15 Nov 2013 22:17:28 -0800 (PST)
+Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 15 Nov 2013 19:19:44 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 16 Nov 2013 11:19:55 +0800
-Message-ID: <cb4533215083bb4031c9bece55d526c54494e3d6.1384571787.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1384571787.git.Qi.Chen@windriver.com>
-References: <cover.1384571787.git.Qi.Chen@windriver.com>
+	14.2.347.0; Fri, 15 Nov 2013 22:17:28 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Sat, 16 Nov 2013 01:17:23 -0500
+Message-ID: <cover.1384582409.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH 1/1] subversion: fix build problem when sysroot contains '-D' or '-I'
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] kernel.bbclass: fix hardlink test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Nov 2013 03:19:42 -0000
+X-List-Received-Date: Sat, 16 Nov 2013 06:17:28 -0000
 Content-Type: text/plain
 
-From: Chen Qi <Qi.Chen@windriver.com>
+Richard/Saul,
 
-If sysroot contains '-D' or '-I' characters, the SVN_NEON_INCLUDES and
-the corresponding CFLAGS will not get the correct value.
+It's sometimes nice when you get to clean up your own mess. While all my
+build tests passed on Friday to fix the "vmlinux" and "usr/src/kernel/vmlinux"
+are the same file, it was because the install failed in all cases, not just
+the one we wanted to prevent.
 
-This will cause build failures.
+I bumped into a build failure when assembling xen hdmimage, since it could
+find the bzImage in the kernel source directory. I tracked it back to 
+the hardlink fix, and on debugging, noticed that the test wasn't good on
+all machines.
 
-This patch fixes the above problem.
+An extra space fixes everything up, and I'm now able to build my xen image
+AND build linux-yocto for qemumips, and another other target you should
+favour.
 
-[YOCTO #5458]
+Take this for spin .. since it is late at night when I did this, but it
+should be fine :)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../neon.m4-fix-includes-and-cflags.patch          |   32 ++++++++++++++++++++
- .../subversion/subversion_1.7.10.bb                |    1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
+Cheers,
 
-diff --git a/meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch b/meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
-new file mode 100644
-index 0000000..013d0c3
---- /dev/null
-+++ b/meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
-@@ -0,0 +1,32 @@
-+Fix to get correct SVN_NEON_CONFIG and CFLAGS when sysroot path contains '-D' and '-I'
-+characters.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+
-+index f951039..a813145 100644
-+--- a/build/ac-macros/neon.m4
-++++ b/build/ac-macros/neon.m4
-+@@ -105,8 +105,8 @@ AC_DEFUN(SVN_NEON_CONFIG,
-+            test "$svn_allowed_neon" = "any"; then
-+             svn_allowed_neon_on_system="yes"
-+             if test "$NEON_PKG_CONFIG" = "yes"; then
-+-              SVN_NEON_INCLUDES=[`$PKG_CONFIG neon --cflags | $SED -e 's/-D[^ ]*//g'`]
-+-              CFLAGS=["$CFLAGS `$PKG_CONFIG neon --cflags | $SED -e 's/-I[^ ]*//g'`"]
-++              SVN_NEON_INCLUDES=["`$PKG_CONFIG neon --cflags | $SED -e 's/^-D[^ ]*//g' -e 's/ -D[^ ]*//g'`"]
-++              CFLAGS=["$CFLAGS `$PKG_CONFIG neon --cflags | $SED -e 's/^-I[^ ]*//g' -e 's/ -I[^ ]*//g'`"]
-+               old_CFLAGS="$CFLAGS"
-+               old_LIBS="$LIBS"
-+               NEON_LIBS=`$PKG_CONFIG neon --libs`
-+@@ -126,8 +126,8 @@ int main()
-+               CFLAGS="$old_CFLAGS"
-+               LIBS="$old_LIBS"
-+             else
-+-              SVN_NEON_INCLUDES=[`$neon_config --cflags | $SED -e 's/-D[^ ]*//g'`]
-+-              CFLAGS=["$CFLAGS `$neon_config --cflags | $SED -e 's/-I[^ ]*//g'`"]
-++              SVN_NEON_INCLUDES=[`$neon_config --cflags | $SED -e 's/^-D[^ ]*//g' -e 's/ -D[^ ]*//g'`]
-++              CFLAGS=["$CFLAGS `$neon_config --cflags | $SED -e 's/^-I[^ ]*//g' -e 's/ -I[^ ]*//g'`"]
-+               NEON_LIBS=`$neon_config --libs`
-+             fi
-+             svn_lib_neon="yes"
-diff --git a/meta/recipes-devtools/subversion/subversion_1.7.10.bb b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-index 4acd70b..489bddf 100644
---- a/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://libtool2.patch \
-            file://fix-install-depends.patch \
-            file://allow-updated-neon.patch \
-+           file://neon.m4-fix-includes-and-cflags.patch \
- "
- SRC_URI[md5sum] = "4088a77e14232876c9b4ff1541e6e200"
- SRC_URI[sha256sum] = "c1df222bec83d014d17785e2ceba6bc80962f64b280967de0285836d8d77a8e7"
+Bruce
+
+The following changes since commit db7f8d4114267ed34c19dc66dd56c2372354b43f:
+
+  kernel.bbclass: test for hardlinks before installing (2013-11-15 15:27:08 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  kernel.bbclass: fix hardlink test
+
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-1.7.9.5
+1.8.1.2
 
 
