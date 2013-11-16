@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E9F136D227
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id F28246DA11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 23:54:42 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id fb10so1708183wid.6
+	Sat, 16 Nov 2013 00:26:34 +0000 (UTC)
+Received: by mail-ob0-f174.google.com with SMTP id uy5so4617334obc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2013 15:54:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=AY0As6i4LwRB95NDmUlS30I9ZbhJdcZB8dITPx67+WM=;
-	b=QqFWbgLISKcERHa8MbhxTrBrmUBzFPJRSXo+aIl26XZUPFjd7i/Te+W9R7e4lI+XdV
-	DP8NOBkesEh/jh/6QI7k316StllIAbxmw4v/7+cs93PPMMcr+l4Ca8JgLgI1KF+3LQuc
-	4BLbjwjwGhVfAdJpm95pDwVSxvNXqpu1WjLQWMdcwmF96c2DWjlRrxj3fN0Kdb0FwTmU
-	SO/w0vDnZ0XMPxm8l7my59PFAGqQbKKL3JnTA9XLMk9epr5qDin5yEcbzHWiUnRuJYQ2
-	NRU1Dc7v3iwExPn35yHz204uSxjXPenTqpef5QI0weGUVi33505VZGttVFzt/4wc2uNV
-	dzTw==
-X-Gm-Message-State: ALoCoQmWAn/Xz7D6S0jGHgtV+ZAtTs8AzEJihcBKeR/Ut5MI7fQ+89LMZtKOXsEwTdB7y0BddAAl
-X-Received: by 10.194.119.106 with SMTP id kt10mr1642576wjb.72.1384559684070; 
-	Fri, 15 Nov 2013 15:54:44 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id qc10sm26483wic.9.2013.11.15.15.54.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 15 Nov 2013 15:54:43 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 15 Nov 2013 23:54:40 +0000
-Message-Id: <1384559680-28033-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] weston: remove reference to gles in PACKAGECONFIG
+	Fri, 15 Nov 2013 16:26:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=l5DkkTwcm3JFdieVvmlPjIuh0wUTkYMh/zHJu5XwA0s=;
+	b=ftwRviL4+CcmtI+mDuzLDvJBk4q115Diu9moNz5cZWHUk5OZNsda81GobLWTR45c1Y
+	uVjwoZBu6xUCenIFxcmLq9T8/qFU/owsWpdedYqkduk5zpiFRd0ILilHC7kChT8wUrlc
+	xJL+CecjdJclWDLyT2MXd5RYk93TcE9QENOHeFZGTe897TSz0ufYwRRXNjQrzdvg5aZF
+	3fzH8Z0pt4dtH0fF0o5smPsv3zSfEX+pT44aiDzqa5VDP5R4UgzY7/Dq3F8yPWQYwEH4
+	4HhAaTb5UrCquubBCgckqlQR2b7PK7dEfX1gS9bmW0ldDR+Dj9+3UzF0N5WSVneoEnMn
+	64Hw==
+MIME-Version: 1.0
+X-Received: by 10.60.115.164 with SMTP id jp4mr9367539oeb.19.1384561596411;
+	Fri, 15 Nov 2013 16:26:36 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Fri, 15 Nov 2013 16:26:36 -0800 (PST)
+In-Reply-To: <1384559680-28033-1-git-send-email-ross.burton@intel.com>
+References: <1384559680-28033-1-git-send-email-ross.burton@intel.com>
+Date: Fri, 15 Nov 2013 22:26:36 -0200
+X-Google-Sender-Auth: OIcOtoNK3VA1M1Ohq-vE6fNIycA
+Message-ID: <CAP9ODKo1kQoT4LeP-spHHtb1NUSmx6ujswohvdpJT0EgbA9M6w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston: remove reference to gles in PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,29 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2013 23:54:43 -0000
+X-List-Received-Date: Sat, 16 Nov 2013 00:26:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-The "gles" configuration was removed in the upgrade to 1.3.0, and it was enabled
-only if the unknown/rare opengles2 DISTRO_FEATURE was enabled.
+On Fri, Nov 15, 2013 at 9:54 PM, Ross Burton <ross.burton@intel.com> wrote:
+> The "gles" configuration was removed in the upgrade to 1.3.0, and it was enabled
+> only if the unknown/rare opengles2 DISTRO_FEATURE was enabled.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/wayland/weston_1.3.0.bb |    1 -
- 1 file changed, 1 deletion(-)
+Please don't remove this. We depend on this for use in meta-fsl-arm :)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.3.0.bb b/meta/recipes-graphics/wayland/weston_1.3.0.bb
-index eb38ce1..7a0b3f9 100644
---- a/meta/recipes-graphics/wayland/weston_1.3.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.3.0.bb
-@@ -31,7 +31,6 @@ EXTRA_OECONF = "--enable-setuid-install \
- 
- PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms wayland', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
--                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
-                   "
- #
+Cairo should be fixed to bring it back :D
+
 -- 
-1.7.10.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
