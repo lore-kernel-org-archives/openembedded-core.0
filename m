@@ -1,30 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B1AF6D544
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 830516D726
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Nov 2013 02:31:24 +0000 (UTC)
+	Sat, 16 Nov 2013 03:19:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAG2VOIX002710
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 15 Nov 2013 18:31:24 -0800 (PST)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Fri, 15 Nov 2013 18:31:25 -0800
-Message-ID: <5286D908.3060202@windriver.com>
-Date: Sat, 16 Nov 2013 10:31:36 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAG3Jh73018003
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 15 Nov 2013 19:19:43 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 15 Nov 2013 19:19:43 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 16 Nov 2013 11:19:54 +0800
+Message-ID: <cover.1384571787.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <cover.1384512287.git.Qi.Chen@windriver.com>
-	<251777d6d4284fb929939d626990ee3f26394c05.1384512287.git.Qi.Chen@windriver.com>
-	<1384519913.23724.8.camel@phil-desktop.brightsign>
-In-Reply-To: <1384519913.23724.8.camel@phil-desktop.brightsign>
-X-Originating-IP: [128.224.162.213]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sysvinit: use ALTERNATIVE to manage sulogin
+Subject: [PATCH 0/1] subversion: fix build problem when sysroot contains '-D' or '-I'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Nov 2013 02:31:24 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 16 Nov 2013 03:19:41 -0000
+Content-Type: text/plain
 
-On 11/15/2013 08:51 PM, Phil Blundell wrote:
-> On Fri, 2013-11-15 at 18:45 +0800, Qi.Chen@windriver.com wrote:
->> -FILES_sysvinit-sulogin = "${base_sbindir}/sulogin"
->> +FILES_sysvinit-sulogin = "${base_sbindir}/sulogin.sysvinit"
-> At the risk of seeming dim, how does ${base_sbindir}/sulogin.sysvinit
-> get installed in the first place?
->
-> p.
->
->
->
->
-It's handled in the update-alternative.bbclass.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-# We need to do the rename after the image creation step, but before
-# the split and strip steps..  packagecopy seems to be the earliest 
-reasonable
-# place.
-python perform_packagecopy_append () {
-.....
-}
+The following changes since commit ea92671d9823e3667d6ced7ac2af20f991da404d:
 
-Best Regards,
-Chen Qi
+  bitbake: cooker: replace "w" file opening mode with "a" mode (2013-11-12 17:01:37 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/subversion-D-I
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/subversion-D-I
+
+Chen Qi (1):
+  subversion: fix build problem when sysroot contains '-D' or '-I'
+
+ .../neon.m4-fix-includes-and-cflags.patch          |   32 ++++++++++++++++++++
+ .../subversion/subversion_1.7.10.bb                |    1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
+
+-- 
+1.7.9.5
+
 
