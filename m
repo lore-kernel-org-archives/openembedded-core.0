@@ -1,37 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BD1F6DAC3
+Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 6779D6DAC3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2013 13:52:24 +0000 (UTC)
-Received: by mail-ee0-f47.google.com with SMTP id c50so1412759eek.6
+	Sun, 17 Nov 2013 13:52:25 +0000 (UTC)
+Received: by mail-ee0-f51.google.com with SMTP id d41so1249970eek.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2013 05:52:25 -0800 (PST)
+	Sun, 17 Nov 2013 05:52:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=FnDgecfZMsnn/pX4dJUEdPcguV8I5KCeURGHvMRBaKU=;
-	b=J0Dm+mPDpNOk1zQ4Ksib2odkRgVyUOcIikLYp+Ez2nIj7MTzBA5WrdinhmVYeYlHvt
-	2noEvwAQBrMVlRfovswFKNT45z44fU+wBOG//+WIDjaqa0IlmRTpFA6D+MxHS2MfTIzW
-	GppC6+PQzpdBtQdA8E9E6I1+5ZiMeBgU4JTphlZ4VX3Cwn+nqMoQxVHL0eUVB7Vm97xp
-	h0NUJyn1eXjqDrhTG6Ww5TrZXMtXEcTJotwBbfId3TobOq7WkO9j6Q3/vvzDQm53VMgv
-	RIjossIHtvKaGVOewMlyEEp9S33tl/w7CU5m77/Dubnfwg0XqCMwOlgbnGwmqjADN/jg
-	Z5xQ==
-X-Received: by 10.14.216.136 with SMTP id g8mr668121eep.61.1384696345758;
-	Sun, 17 Nov 2013 05:52:25 -0800 (PST)
+	bh=283dLSYvl20FxE3ayY+k2TcP3lkCHhGdG6h9TM0qous=;
+	b=cB+no3YZHt7Xho4nsNer98Qr8kz8d2CFFq3OgtAlO3ttql5jlVWFoqb7Ppov4a5+h3
+	NCNpx1x+WlYiWccRegEH8wgMXKt/7CN8QMA5exs0jn/4s/X7LAiLmxHoMYXg4jiMFDJF
+	3ZRE8OqTCLl8FKfXjg8hVNmXcdbQt/s6bhQJK3y5eGjQfwpz5aj0n1Dchj7u8Y5HAc4W
+	0AuDP6/vJpGBW/smsOavrBE7fnKuuyn/iVqQjsInp0e2Ydp1GpuPjV7JQHG9g1uZ7To6
+	WGvQdAPk/T6rpg4K5ytYWt/c0Dy+ll65fD+sSN6QEMHP3JZkYEOBc6/Ry5/hIJX2BHK0
+	jArg==
+X-Received: by 10.14.205.8 with SMTP id i8mr4603329eeo.19.1384696346795;
+	Sun, 17 Nov 2013 05:52:26 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id z1sm27449913eeo.14.2013.11.17.05.52.25
+	by mx.google.com with ESMTPSA id k7sm27450796eeg.13.2013.11.17.05.52.26
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 17 Nov 2013 05:52:25 -0800 (PST)
+	Sun, 17 Nov 2013 05:52:26 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Nov 2013 14:52:16 +0100
-Message-Id: <1384696338-5390-5-git-send-email-Martin.Jansa@gmail.com>
+Date: Sun, 17 Nov 2013 14:52:17 +0100
+Message-Id: <1384696338-5390-6-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.4.3
 In-Reply-To: <1384696338-5390-1-git-send-email-Martin.Jansa@gmail.com>
 References: <1383307932-4041-1-git-send-email-Martin.Jansa@gmail.com>
 	<1384696338-5390-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 5/7] ppp-dialin: Drop allarch
+Subject: [PATCH 6/7] initramfs-framework: Drop allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Nov 2013 13:52:24 -0000
+X-List-Received-Date: Sun, 17 Nov 2013 13:52:25 -0000
 
-* depends on some TUNE_PKGARCH recipes:
-  base-passwd, ppp_, shadow-sysroot, shadow
-
-  Hash for dependent task base-passwd_3.5.26.bb.do_populate_sysroot changed from ff08f0198f5424a21ccb61957325ffdf to d9d962e2d8c0d591b916ed68aa826efe
-  Hash for dependent task ppp_2.4.5.bb.do_populate_sysroot changed from 515251fb9d5196733f9b6ca0f6cc041b to 5cfb0b7b71f4440c3147da52c22234cc
-  Hash for dependent task shadow-sysroot_4.1.4.3.bb.do_populate_sysroot changed from 3e5bddc578887636c1809e4cdf28c1c2 to 8f03231a1d4bb1aea6c4adce1febc1b4
-  Hash for dependent task shadow_4.1.4.3.bb.do_populate_sysroot changed from 518f7edcba3545e5c60c3a13cef23169 to 7dbf1646de02a117bf0d573276b878c0
+* depends on TUNE_PKGARCH busybox and udev
+  Hash for dependent task busybox_1.20.2.bb.do_packagedata changed from b814437371de0c3253bdd3610c051f30 to 7dd9c851d5f7c675dd65cc7872c30743
+  Hash for dependent task udev_182.bb.do_packagedata changed from 1034300ce0e27d444e0e7d9e2a239605 to c13031b26b2a86dcf9bcce33b7823477
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-index d239c20..6aeda4c 100644
---- a/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-+++ b/meta/recipes-connectivity/ppp-dialin/ppp-dialin_0.1.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
- SRC_URI = "file://host-peer \
-            file://ppp-dialin"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index a2c0813..c0c2a71 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -5,8 +5,6 @@ RDEPENDS_${PN} += "busybox"
  
--inherit allarch useradd
-+inherit useradd
+ PR = "r2"
  
- do_install() {
- 	install -d ${D}${sysconfdir}/ppp/peers
+-inherit allarch
+-
+ SRC_URI = "file://init \
+            file://finish \
+            file://mdev \
 -- 
 1.8.4.3
 
