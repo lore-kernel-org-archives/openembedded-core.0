@@ -1,21 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C4596D89F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E0D26D89F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2013 12:28:20 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Nov 2013 04:28:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,718,1378882800"; d="scan'208";a="429102927"
-Received: from akagikob-mobl.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.121.140])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Nov 2013 04:28:20 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Sun, 17 Nov 2013 13:52:21 +0000 (UTC)
+Received: by mail-ee0-f45.google.com with SMTP id d49so1963409eek.18
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 17 Nov 2013 05:52:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=GAb+qZDdWRJIn6YWar3+yoOSKXmOlxJCrHfOh9uTcIY=;
+	b=Kq38kuBHM5irvR8UzVvlMgEirMjGCzvwvPj52DNVUsh6uQFau5sqryhNDWPyzOsA6d
+	gInv6xB+eZUDDwIe57lz6nnDSmSP7DWNpIomBhvaPDrYVmhfTZDJWcVYDXPQS6LlAp/g
+	EtxY7mCyNeGoDvsfqtkaPwDs+tHyJdlgzwdkCpQC0R8DO3yIoaV2NDQ5y0z/xBvyEf3Y
+	cw+F7SyAU+jLzWNM87n56tufQBiiZlfNK6x+w2KlZg+1IJMdxsJf4zMtJ2dMPC8UyS3l
+	A7+c49m8rWFhZkaGAuahn5motU/fEjYaJnTVSvt12DsU+a1RZ8i7b9v6eaOx/ctORWIt
+	JBYg==
+X-Received: by 10.14.101.4 with SMTP id a4mr13249460eeg.28.1384696342851;
+	Sun, 17 Nov 2013 05:52:22 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id a6sm27463351eei.10.2013.11.17.05.52.22
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 17 Nov 2013 05:52:22 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Nov 2013 12:28:19 +0000
-Message-Id: <1384691299-21808-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] buildhistory_analysis: fix error when comparing image contents
+Date: Sun, 17 Nov 2013 14:52:13 +0100
+Message-Id: <1384696338-5390-2-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.4.3
+In-Reply-To: <1384696338-5390-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1383307932-4041-1-git-send-email-Martin.Jansa@gmail.com>
+	<1384696338-5390-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [PATCH 2/7] packagegroup-core-boot: Drop build-time dependency on virtual/kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,31 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Nov 2013 12:28:20 -0000
+X-List-Received-Date: Sun, 17 Nov 2013 13:52:22 -0000
 
-OE-Core commit b7de1eaac9eed559b2d68058f5de67de74a6cb58 added an extra
-argument to the compare_dict_blobs() function but missed adding the
-argument to one call to compare two versions of the image-info.txt file.
+* because kernel isn't needed to build packagegroup and building
+  it doesn't influence if it's included in image or not.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oe/buildhistory_analysis.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/lib/oe/buildhistory_analysis.py b/meta/lib/oe/buildhistory_analysis.py
-index dd17dd5..ed3a1ec 100644
---- a/meta/lib/oe/buildhistory_analysis.py
-+++ b/meta/lib/oe/buildhistory_analysis.py
-@@ -403,7 +403,7 @@ def process_changes(repopath, revision1, revision2='HEAD', report_all=False, rep
-                     chg = ChangeRecord(path, filename, d.a_blob.data_stream.read(), d.b_blob.data_stream.read(), True)
-                     changes.append(chg)
-             elif filename == 'image-info.txt':
--                changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all))
-+                changes.extend(compare_dict_blobs(path, d.a_blob, d.b_blob, report_all, report_ver))
-             elif '/image-files/' in path:
-                 chg = ChangeRecord(path, filename, d.a_blob.data_stream.read(), d.b_blob.data_stream.read(), True)
-                 changes.append(chg)
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 486385a..5455899 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -5,7 +5,6 @@
+ SUMMARY = "Minimal boot requirements"
+ DESCRIPTION = "The minimal set of packages required to boot the system"
+ LICENSE = "MIT"
+-DEPENDS = "virtual/kernel"
+ PR = "r11"
+ 
+ inherit packagegroup
 -- 
-1.8.1.2
+1.8.4.3
 
 
