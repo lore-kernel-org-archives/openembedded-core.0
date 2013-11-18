@@ -1,30 +1,41 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 920596D12D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 194FA6D12D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 15:59:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAIFxhNO016447
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Nov 2013 07:59:44 -0800 (PST)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 18 Nov 2013 07:59:43 -0800
-Message-ID: <528A396A.6020500@windriver.com>
-Date: Mon, 18 Nov 2013 10:59:38 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Mon, 18 Nov 2013 16:03:59 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id e53so762671eek.23
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Nov 2013 08:04:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=itlrvFKqc1l3nuDXR5Djfqhi0pxMUKMtmiUeR6D6Z4w=;
+	b=atUZ2MxiZmnazB6XiI+LAJX4S5tTbJw9IbiwCZ5YYR4OTvlmwNJ6/vupAghXhGdtq9
+	RsEoO4tDtGMgFG0P00X9KnJkRGOs9y5yo//Pee4OuJlCekBFA+3l6+z1RP/YAwGqwmGu
+	/J6cG00F79TM7OlO+B3n9cS0VUpbn8HF+ejccZSbn3gXhyi1P8x0brtLKKhl476W6qoS
+	afLCQwvVzH0vWBzXzB3/sRLOueT8Abo0VKus7tm3nb4s2yQu+c7HNZSBZ8lsQlov1p+D
+	EVQMwm3lZYFaonR4GBdGLX/T8I2dVABBVHopq73it2VtdE265zzVShL7SpM3T47uujac
+	/x8g==
+X-Received: by 10.14.38.194 with SMTP id a42mr13850154eeb.12.1384790640990;
+	Mon, 18 Nov 2013 08:04:00 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id 8sm39183429eem.15.2013.11.18.08.03.59
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 18 Nov 2013 08:04:00 -0800 (PST)
+Date: Mon, 18 Nov 2013 17:04:00 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20131118160400.GG3727@jama>
+References: <CANyK_8c67C4NL7mNf3LTDwurtfpeU+S5ts4+O2t+HiDv84YgaQ@mail.gmail.com>
+	<52898177.5000303@windriver.com> <20131118114000.GB3727@jama>
+	<1384775852.6460.214.camel@ted>
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>, Saul Wold <saul.wold@intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>	<5283F507.7050607@linux.intel.com>	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>	<5284F5D1.4010004@linux.intel.com>	<CADkTA4ObDkKgm+_-RG650m2TtugDh4tZ+OHyOateGSUvv9hmhQ@mail.gmail.com>	<CADkTA4MCL8pe8jACx8T9o7S17XvjUiBj5GwSp9nW2snWjpCQxQ@mail.gmail.com>	<CAP9ODKo+dR_FSj4djpGKcbQFWRiWqSK6XApGtjS6NM1r5scJDg@mail.gmail.com>	<528A0755.2060100@windriver.com>	<CAP9ODKqfdgCe_wpzyzGqgbfvOoT1HrgM_7PoSvuNDBtueBi1tA@mail.gmail.com>	<528A2927.7070009@windriver.com>	<528A32C4.3030306@intel.com>
-	<CAP9ODKqrKrqWPg6ZCnM715RLjjRJ3satfm3ouOwWmpt+ygBU_A@mail.gmail.com>
-In-Reply-To: <CAP9ODKqrKrqWPg6ZCnM715RLjjRJ3satfm3ouOwWmpt+ygBU_A@mail.gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
+In-Reply-To: <1384775852.6460.214.camel@ted>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: opkg dependencies and update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,73 +48,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 15:59:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Nov 2013 16:04:01 -0000
+X-Groupsio-MsgNum: 47232
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="5vjQsMS/9MbKYGLq"
+Content-Disposition: inline
 
-On 13-11-18 10:50 AM, Otavio Salvador wrote:
-> On Mon, Nov 18, 2013 at 1:31 PM, Saul Wold <saul.wold@intel.com> wrote:
->> On 11/18/2013 06:50 AM, Robert Yang wrote:
->>>
->>>
->>> On 11/18/2013 10:18 PM, Otavio Salvador wrote:
->>>>
->>>> On Mon, Nov 18, 2013 at 10:25 AM, Robert Yang
->>>> <liezhi.yang@windriver.com> wrote:
->>>>>>
->>>>>>
->>>>>> This should be considered for Dora as well as it fixes the deadlock
->>>>>> and building with 3.12 kernels.
->>>>>>
->>>>>
->>>>> Hi Otavio, thanks for suggesting this for dora, but dora's kernel is
->>>>> 3.10.11,
->>>>> and this is an update for lttng-modules, I'm not sure whether dora needs
->>>>> this.
->>>>>
->>>>> Add Saul in the CC list.
->>>>
->>>>
->>>> I think Dora ought to get the new 3.10 kernel updates; this can go
->>>> along side with it.
->>>>
->>>
->>> Hi Otavio,
->>>
->>> I'm sorry, but I'm not sure whether we need update dora's kernel from
->>> 3.10.11
->>> to 3.10.17, since we seldom do the package update for a stable branch,
->>> let's wait for others' comments:-).
->>>
->> This is correct, I do not think we will be updating the kernel for a stable
->> branch.
->
-> This is wrong. We should update to 3.10.17 as this is the LTS release,
-> otherwise what is the point of us using a LTS at all?
+--5vjQsMS/9MbKYGLq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Obviously I'll be maintaining the LTS release in master, but that
-maintenance gets a mix of bug fixes and features associated with the
-upstream maintenance + LTSI + BSP requirements.
+On Mon, Nov 18, 2013 at 11:57:32AM +0000, Richard Purdie wrote:
+> On Mon, 2013-11-18 at 12:40 +0100, Martin Jansa wrote:
+> > On Mon, Nov 18, 2013 at 10:54:47AM +0800, ChenQi wrote:
+> > > On 11/18/2013 02:57 AM, Paul Barker wrote:
+> > > > Hi all,
+> > > >
+> > > > I've been trying to add PACKAGECONFIG options to opkg and have ran
+> > > > into a dependency loop whilst building with certain options. Enabli=
+ng
+> > > > curl support within opkg requires a dependency on curl. curl in turn
+> > > > depends on ncurses (via a few intermediate dependencies) and ncurses
+> > > > uses update-alternatives causing a dependency on
+> > > > virtual/update-alternatives.
+> > > > PREFERRED_PROVIDER_virtual/update-alternatives is set to "opkg" in
+> > > > meta/conf/distro/include/default-providers.inc and so we have a
+> > > > dependency loop if curl is enabled via the new PACKAGECONFIG options
+> > > > for opkg.
+> > > >
+> > > > I can cause the same dependency loop by setting
+> > > > PREFERRED_PROVIDER_virtual/update-alternatives to "dpkg" as dpkg
+> > > > directly depends on ncurses (which uses update-alternatives). So if
+> > > > someone wanted to use the more powerful update-alternatives from dp=
+kg
+> > > > on a target system it doesn't look like that is currently possible.
+> > > >
+> > > > This places quite a constraint on whichever recipe PROVIDES
+> > > > update-alternatives. Going forward I'm hoping to use libarchive wit=
+hin
+> > > > opkg and libarchive depends on bzip2 by default which uses
+> > > > update-alternatives, which would cause the same problem.
+> > > >
+> > > > Does anyone have any clever solutions to this? Perhaps we could spl=
+it
+> > > > update-alternatives off into its own recipe which should be depende=
+nt
+> > > > on very little, allowing opkg a little more freedom in its
+> > > > dependencies.
+> > > >
+> > > > Thanks,
+> > > >
+> > >=20
+> > > I opened a bug some time ago for this update-alternative problem.
+> > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4836
+> > >=20
+> > > It would be really helpful if you could add some input in the comment=
+s=20
+> > > of that bug.
+> >=20
+> > FWIW: current u-a implementation provided by opkg is in OE-classic and
+> > was in older poky/oe-core provided also in standalone recipe
+> > update-alternatives-cworth
+> >=20
+> > http://git.openembedded.org/openembedded/tree/recipes/update-alternativ=
+es/update-alternatives-cworth_0.99.154.bb
+> >=20
+> > commit 44b538eedab7c255051fa3375f9f2439cd2db3dd
+> > Author: Marcin Juszkiewicz <hrw@openedhand.com>
+> > Date:   Wed Mar 19 15:36:01 2008 +0000
+> >=20
+> >     update-alternatives-cworth: dropped as they are now generated with =
+opkg recipe
+>=20
+> Turning this back into a standalone recipe might be worthwhile and seems
+> like the best way to address the problems.
+>=20
+> Paul: Have you any opinion of moving update-alternatives to its own
+> repository separate from opkg? or just check it into OE-Core as its just
+> a single script? Its not as if it really needs much from opkg at this
+> point?
+>=20
+> I'm also wondering how it compares to the dpkg version (which is C
+> iirc). Should we switch to that? Does it give better performance?
 
-I've sent patches for the sustained branches in the past, and can
-do it here as well. But to do it properly, there really needs to be a
-dedicated kernel repository, since things like the LTSI import and
-new BSP support will be mixed into the tree if a single 3.10 repo
-is used.
+Just note from someone who broke all upgrade paths in OE-classic and
+then had to add hack to resolve upgrade paths:
+http://git.openembedded.org/openembedded/tree/recipes/opkg/update-alternati=
+ves-merge.inc
 
-I'm willing to split the repo and do -stable korg release updates, but
-at some point there are only so many repositories and versions that
-should be maintained at one time. As to what that number is, I don't have
-a firm one in mind.
+Changing u-a implementation is very tricky for people who care about
+upgrade paths.
+Changing alternatives directory when switching from cworth to opkg, i.e.
+=66rom
+${prefix}/lib/ipkg
+to
+${prefix}/lib/opkg
+was fatal for all systems depending on busybox/coreutils - first
+upgrade selected wrong alternatives, because it didn't know about
+already installed alternatives in old directory.
 
-At a minimum, it would be safe for the dora maintenance branch to take
-my latest kernel -stable imports, but in the not to distant future,
-it would need a separate maintenance stream.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Cheers,
+--5vjQsMS/9MbKYGLq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Bruce
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
->
+iEYEARECAAYFAlKKOnAACgkQN1Ujt2V2gBxXKwCbBS3rNq9gGOkdRF10Ndtf1UFF
+sAwAoIb5aNo4YebeqXjacZTSE/eeosKl
+=jCCp
+-----END PGP SIGNATURE-----
 
-
+--5vjQsMS/9MbKYGLq--
