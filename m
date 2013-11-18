@@ -1,27 +1,36 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id B22ED6D2BD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 690DA6D89C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 17:42:15 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 7A9E2F811E8; Mon, 18 Nov 2013 10:42:17 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 2EA57F811E7;
-	Mon, 18 Nov 2013 10:42:16 -0700 (MST)
-Message-ID: <528A5182.2080601@mlbassoc.com>
-Date: Mon, 18 Nov 2013 10:42:26 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Mon, 18 Nov 2013 17:49:33 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id lh4so3853887vcb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Nov 2013 09:49:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=FNvwY5c/C1082/qyh7DGAmozjaUKlG+S9YpMVYOH1I8=;
+	b=ewDYIWdxqnD4kX5Xw2p6g4cM0bxIZQ98OSkmtlDaWke77PfSSCfO9OZInbof7OSnJA
+	qVrXy2ExsYXrtrDlebE/zvpkGurIapUKlCKTZYsQkf6ydL/KnAytCiCBG4TNoDZY3fkz
+	dXpKhQD+oEVN4ChrHiSJEFoFvH/c0oUyWTJkwcdQe3rN+VqofxfiTzTT8piC0Sc1OPAQ
+	ZKrrvHYvtH1eEJlSAtpTKwXyed/DidzeS/Jk6IA1qsI1g7xc3Y53bvdOHRgvGa2K313v
+	hGjH7O6SjLG8LG6Ndi3+eqTTgrNmM+wgSORUWO/odKV1YAFm0qij0DO3mTl8zYY38AB6
+	aH7w==
+X-Gm-Message-State: ALoCoQnapXAPimDkaemy/SG3AwJs1JRr84tB7lN/CJL78n73X1LV3mKUTwUA1xeh57lKSQrOJVL3
+X-Received: by 10.220.164.202 with SMTP id f10mr2271736vcy.25.1384796974777;
+	Mon, 18 Nov 2013 09:49:34 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: by 10.220.71.201 with HTTP; Mon, 18 Nov 2013 09:49:14 -0800 (PST)
+In-Reply-To: <528A5182.2080601@mlbassoc.com>
 References: <1384796370-8899-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1384796370-8899-1-git-send-email-ross.burton@intel.com>
+	<528A5182.2080601@mlbassoc.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Nov 2013 17:49:14 +0000
+Message-ID: <CAJTo0LbugHFzpFCCBgj5EJbtBFxkc9ckt-mEaJ+sbnxd8kFu_g@mail.gmail.com>
+To: Gary Thomas <gary@mlbassoc.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] combo-tool: simply branch/commit validation logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,56 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 17:42:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Nov 2013 17:49:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2013-11-18 10:39, Ross Burton wrote:
-> Simply the branch/revision logic by using git-merge-base.
+On 18 November 2013 17:42, Gary Thomas <gary@mlbassoc.com> wrote:
+> On 2013-11-18 10:39, Ross Burton wrote:
+>>
+>> Simply the branch/revision logic by using git-merge-base.
+>
+> Did you mean 'simplify'?
 
-Did you mean 'simplify'?
+Yes. :)
 
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   scripts/combo-layer |   13 ++-----------
->   1 file changed, 2 insertions(+), 11 deletions(-)
->
-> diff --git a/scripts/combo-layer b/scripts/combo-layer
-> index ae97471..2c8ba07 100755
-> --- a/scripts/combo-layer
-> +++ b/scripts/combo-layer
-> @@ -283,23 +283,14 @@ def drop_to_shell(workdir=None):
->
->   def check_rev_branch(component, repodir, rev, branch):
->       try:
-> -        actualbranch = runcmd("git branch --contains %s" % rev, repodir, printerr=False)
-> +        mergepoint = runcmd("git merge-base %s %s" % (rev, branch), repodir, printerr=False).rstrip()
->       except subprocess.CalledProcessError as e:
->           if e.returncode == 129:
->               actualbranch = ""
->           else:
->               raise
->
-> -    if not actualbranch:
-> -        logger.error("%s: specified revision %s is invalid!" % (component, rev))
-> -        return False
-> -
-> -    branches = []
-> -    branchlist = actualbranch.split("\n")
-> -    for b in branchlist:
-> -        branches.append(b.strip().split(' ')[-1])
-> -
-> -    if branch not in branches:
-> +    if mergepoint != rev:
->           logger.error("%s: specified revision %s is not on specified branch %s!" % (component, rev, branch))
->           return False
->       return True
->
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Ross
 
