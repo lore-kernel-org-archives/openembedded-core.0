@@ -1,24 +1,26 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ADB266D3DE
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 754EB6D2F9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 05:41:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAI5fGb0024371
+	Mon, 18 Nov 2013 07:20:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAI7KUwv010474
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2013 21:41:17 -0800 (PST)
-Received: from PKE-CLU1-D1.wrs.com (128.224.162.203) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 17 Nov 2013 21:41:16 -0800
-From: <Chong.Lu@windriver.com>
+	Sun, 17 Nov 2013 23:20:30 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Sun, 17 Nov 2013 23:20:29 -0800
+From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Nov 2013 13:41:14 +0800
-Message-ID: <1384753274-6369-1-git-send-email-Chong.Lu@windriver.com>
+Date: Mon, 18 Nov 2013 15:20:44 +0800
+Message-ID: <514cc82b549f3ee3a62b43616ef4813635bec4b7.1384759192.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1384759192.git.Qi.Chen@windriver.com>
+References: <cover.1384759192.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2] lttng-tools: Fixes incorrect path of ptest cases
+Subject: [PATCH 1/1] license.bbclass: fix missing of license files on ubuntu build host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 05:41:16 -0000
+X-List-Received-Date: Mon, 18 Nov 2013 07:20:29 -0000
 Content-Type: text/plain
 
-From: Chong Lu <Chong.Lu@windriver.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-In ptest cases, some paths are still the source code path.
-Continue to fix the paths of executable files in ptest cases
-to make them work on target.
+The license_create_manifest function contains bashism, this will lead
+to unexpected results on ubuntu build host, as sh is linked to dash on
+ubuntu. Even if COPY_LIC_MANIFEST and COPY_LIC_DIRS are enabled, the
+license files will still be missing on target.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+This patch fixes the above problem.
+
+[YOCTO #5549]
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb |   21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ meta/classes/license.bbclass |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb
-index f2a43b4..49c0992 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb
-@@ -38,17 +38,22 @@ INSANE_SKIP_${PN}-dbg = "libexec"
- do_install_ptest () {
- 	chmod +x ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
- 	for i in `find ${D}/${libdir}/${PN}/ptest -perm /u+x -type f`; do
--		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:" \
--		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-consumerd/:${libedir}/lttng/libexec/:" \
--		  -e "s:\$DIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:" \
--		  -e "s:\$TESTDIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:" \
-+		sed -e "s:\$TESTDIR.*/src/bin/lttng/\$LTTNG_BIN:\$LTTNG_BIN:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-sessiond/\$SESSIOND_BIN:\$SESSIOND_BIN:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-consumerd/:${libdir}/lttng/libexec/:g" \
-+		  -e "s:\$TESTDIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-sessiond/lttng-sessiond:\$SESSIOND_BIN:g" \
-+		  -e "s:\$DIR/../src/bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
-+		  -e "s:\$DIR/../bin/lttng-relayd/\$RELAYD_BIN:\$RELAYD_BIN:g" \
- 		  -i $i
- 	done
- 
--	sed -e "s:src/bin/lttng-sessiond:$bindir:" \
--	    -e "s:src/bin/lttng-consumerd:${libexecdir}/libexec/:" \
-+	sed -e "s:src/bin/lttng-sessiond:$bindir:g" \
-+	    -e "s:src/bin/lttng-consumerd:${libexecdir}/libexec/:g" \
- 	-i ${D}/${libdir}/${PN}/ptest/tests/regression/run-report.py
-+	sed -e "s:src/bin:bin:g" \
-+	-i ${D}/${libdir}/${PN}/ptest/tests/utils/utils.sh
- 
- }
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 1c1b679..34ae704 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -72,9 +72,9 @@ license_create_manifest() {
+ 					# Really don't need to copy the generics as they're 
+ 					# represented in the manifest and in the actual pkg licenses
+ 					# Doing so would make your image quite a bit larger
+-					if [[ "${lic}" != "generic_"* ]]; then
++					if [ "${lic#generic_}" = "${lic}" ]; then
+ 						cp ${LICENSE_DIRECTORY}/${pkg}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}/${lic}
+-					elif [[ "${lic}" == "generic_"* ]]; then
++					else
+ 						if [ ! -f ${IMAGE_ROOTFS}/usr/share/common-licenses/${lic} ]; then
+ 							cp ${LICENSE_DIRECTORY}/${pkg}/${lic} ${IMAGE_ROOTFS}/usr/share/common-licenses/
+ 						fi
 -- 
 1.7.9.5
 
