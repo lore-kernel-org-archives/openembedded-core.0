@@ -1,38 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D2C236A467
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 45E466AB67
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 14:25:26 +0000 (UTC)
-Received: by mail-ve0-f182.google.com with SMTP id pa12so4991587veb.41
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 06:25:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=NXfT9JTEv0FaNPA3FL0NSnGHMpfKV1OYdeFuWqHvjQI=;
-	b=mvO7XEnNw89mm/HH08jls9JIhp2tZjqncQzYNGScjKbobdnhtfD1N565huhFsax7cN
-	JfrbEZKt38zHeiHP7R9aPby0ZzOeswc1zVt6zW/Ms7AZ5xIgsJnMecDpcwLdgjbIkHre
-	0OvBRU0i24CFxqhMGfYwA79bMJWoUM07KX/zJfYih0bgwzNs2Tuaoae2JoUdxyA3WHVd
-	dBJOdlfSQ1b9p7160UUdo7YSpPT72Zv7KgXgrREkd+KQdl/C/O4L97kFiZgTFa61eXCe
-	9OsLj2c6jxCxcdxF1oHpnq2GQr3tAhhhjEkX71+Xzo74N6tz9KjJZ2/acXIO3U2DoOox
-	p5OQ==
-X-Gm-Message-State: ALoCoQleeB++sIZN4nimRfra/QMeE3XZkOE08g7EtCoOcWd685WwdxTQaykRaIbNM6hOmmMU0s61
-X-Received: by 10.220.253.66 with SMTP id mz2mr16139211vcb.10.1384784728652;
-	Mon, 18 Nov 2013 06:25:28 -0800 (PST)
+	Mon, 18 Nov 2013 14:50:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAIEocRd019394
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Nov 2013 06:50:38 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 18 Nov 2013 06:50:38 -0800
+Message-ID: <528A2927.7070009@windriver.com>
+Date: Mon, 18 Nov 2013 22:50:15 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 18 Nov 2013 06:25:08 -0800 (PST)
-In-Reply-To: <528A0C0A.2090008@windriver.com>
-References: <1384773018.6460.202.camel@ted>
-	<CAJTo0LZWNbMFA1ogn2W7dvxtXh31LovO9QbYKcQsGpTR7C6KCg@mail.gmail.com>
-	<528A0C0A.2090008@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Nov 2013 14:25:08 +0000
-Message-ID: <CAJTo0LawvzuXTw+v3ccqJYmHWRdnDp3m-zPMFh3KJY1r+LWkag@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: DORA RFC: FILESOVERIDES in dora
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>	<5283F507.7050607@linux.intel.com>	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>	<5284F5D1.4010004@linux.intel.com>	<CADkTA4ObDkKgm+_-RG650m2TtugDh4tZ+OHyOateGSUvv9hmhQ@mail.gmail.com>	<CADkTA4MCL8pe8jACx8T9o7S17XvjUiBj5GwSp9nW2snWjpCQxQ@mail.gmail.com>	<CAP9ODKo+dR_FSj4djpGKcbQFWRiWqSK6XApGtjS6NM1r5scJDg@mail.gmail.com>	<528A0755.2060100@windriver.com>
+	<CAP9ODKqfdgCe_wpzyzGqgbfvOoT1HrgM_7PoSvuNDBtueBi1tA@mail.gmail.com>
+In-Reply-To: <CAP9ODKqfdgCe_wpzyzGqgbfvOoT1HrgM_7PoSvuNDBtueBi1tA@mail.gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	"Wold, Saul" <saul.wold@intel.com>
+Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,16 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 14:25:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 Nov 2013 14:50:39 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 18 November 2013 12:46, Robert Yang <liezhi.yang@windriver.com> wrote:
-> I'm afraid that the problem is it doesn't work well after revert the patch,
-> either, as the patch says:
 
-Sure, but Dora's been released and tested: changing the behaviour
-there in a branch means huge amounts of validation will need to be
-done.  Just how long has the order been wrong?
+On 11/18/2013 10:18 PM, Otavio Salvador wrote:
+> On Mon, Nov 18, 2013 at 10:25 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>>
+>>> This should be considered for Dora as well as it fixes the deadlock
+>>> and building with 3.12 kernels.
+>>>
+>>
+>> Hi Otavio, thanks for suggesting this for dora, but dora's kernel is
+>> 3.10.11,
+>> and this is an update for lttng-modules, I'm not sure whether dora needs
+>> this.
+>>
+>> Add Saul in the CC list.
+>
+> I think Dora ought to get the new 3.10 kernel updates; this can go
+> along side with it.
+>
 
-Ross
+Hi Otavio,
+
+I'm sorry, but I'm not sure whether we need update dora's kernel from 3.10.11
+to 3.10.17, since we seldom do the package update for a stable branch,
+let's wait for others' comments:-).
+
+// Robert
 
