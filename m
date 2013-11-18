@@ -1,37 +1,24 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 77B266D433
+Return-Path: <Yanjun.Zhu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7316F6D433
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 09:22:09 +0000 (UTC)
-Received: by mail-vc0-f177.google.com with SMTP id hv10so447488vcb.8
+	Mon, 18 Nov 2013 10:31:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAIAViI5002700
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 01:22:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=W+36qeCWoIhKw78TjNjKIsng4+RBB62GA3TaY5WsH6A=;
-	b=gaTkQ8ajgPpsJqddsMzdkDTexs8NjyRbi69HMZAbW7b1gqOf8fNT4aqgvJrKJ8J/td
-	2vmkAqfY30BS4P5InAhcvnHrpJB1twrwxp/0yEeBffbBwP9vTD81Sc6zRfYvqIYL7+hN
-	KN8sJ5MO7b97J1v8IwekhPHFIOEEKPtcKRMUvkUXPZCJ+3he0be1rtuYqVoQphsUTYjH
-	ta54RNwPbvDcMUUvxzikduZSfmCFeRWfAkF3xhzt7ntpxSIK+RYE1gW02vBa2G14opI9
-	3UZAW2Sf13H3BjcpEc/kxTXDxcL3Of86IN/A1pedNr8KpMNppjEu1F6e7Y8dJ/EHD9I2
-	6LoA==
-X-Received: by 10.220.64.69 with SMTP id d5mr14874703vci.11.1384766530783;
-	Mon, 18 Nov 2013 01:22:10 -0800 (PST)
+	Mon, 18 Nov 2013 02:31:44 -0800 (PST)
+Received: from pek-lpgbuild2.wrs.com (128.224.153.30) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 18 Nov 2013 02:31:44 -0800
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Nov 2013 18:31:41 +0800
+Message-ID: <1384770701-30455-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.3.5
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.49.71 with HTTP; Mon, 18 Nov 2013 01:21:30 -0800 (PST)
-In-Reply-To: <52898177.5000303@windriver.com>
-References: <CANyK_8c67C4NL7mNf3LTDwurtfpeU+S5ts4+O2t+HiDv84YgaQ@mail.gmail.com>
-	<52898177.5000303@windriver.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 18 Nov 2013 09:21:30 +0000
-X-Google-Sender-Auth: 0JVXcpVWksHdI23sV640Fdk1TVQ
-Message-ID: <CANyK_8ei7vpwQzQRfTsjnowMSDMOdwMwk1WeryjDi0+mnxL_fA@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: opkg dependencies and update-alternatives
+Subject: [PATCH] pr-util: insert appropriate parameter to adapt libtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 09:22:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 18 Nov 2013 10:31:44 -0000
+Content-Type: text/plain
 
-On 18 November 2013 02:54, ChenQi <Qi.Chen@windriver.com> wrote:
-> On 11/18/2013 02:57 AM, Paul Barker wrote:
->>
->> Hi all,
->>
->> I've been trying to add PACKAGECONFIG options to opkg and have ran
->> into a dependency loop whilst building with certain options. Enabling
->> curl support within opkg requires a dependency on curl. curl in turn
->> depends on ncurses (via a few intermediate dependencies) and ncurses
->> uses update-alternatives causing a dependency on
->> virtual/update-alternatives.
->> PREFERRED_PROVIDER_virtual/update-alternatives is set to "opkg" in
->> meta/conf/distro/include/default-providers.inc and so we have a
->> dependency loop if curl is enabled via the new PACKAGECONFIG options
->> for opkg.
->>
->> I can cause the same dependency loop by setting
->> PREFERRED_PROVIDER_virtual/update-alternatives to "dpkg" as dpkg
->> directly depends on ncurses (which uses update-alternatives). So if
->> someone wanted to use the more powerful update-alternatives from dpkg
->> on a target system it doesn't look like that is currently possible.
->>
->> This places quite a constraint on whichever recipe PROVIDES
->> update-alternatives. Going forward I'm hoping to use libarchive within
->> opkg and libarchive depends on bzip2 by default which uses
->> update-alternatives, which would cause the same problem.
->>
->> Does anyone have any clever solutions to this? Perhaps we could split
->> update-alternatives off into its own recipe which should be dependent
->> on very little, allowing opkg a little more freedom in its
->> dependencies.
->>
->> Thanks,
->>
->
-> I opened a bug some time ago for this update-alternative problem.
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4836
->
-> It would be really helpful if you could add some input in the comments of
-> that bug.
->
-> Thanks,
-> Chen Qi
+When ccache is enabled, a parameter "ccache" is inserted.
+libtool can not handle this parameter correctly. So "--tag=CC"
+is introduced to help libtool handle it.
+---
+ meta/recipes-support/apr/apr-util_1.5.2.bb |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
-I've added the info from my email to the bug and opened an opkg bug
-for the problems with changing the link name during a package upgrade:
-https://code.google.com/p/opkg/issues/detail?id=113
-
-Thanks,
-
+diff --git a/meta/recipes-support/apr/apr-util_1.5.2.bb b/meta/recipes-support/apr/apr-util_1.5.2.bb
+index ea0f7fb..d6ae394 100644
+--- a/meta/recipes-support/apr/apr-util_1.5.2.bb
++++ b/meta/recipes-support/apr/apr-util_1.5.2.bb
+@@ -34,6 +34,11 @@ do_configure_append() {
+ 	if [ "${CLASSOVERRIDE}" = "class-target" ]; then
+ 		cp ${STAGING_DATADIR}/apr/apr_rules.mk ${S}/build/rules.mk
+ 	fi
++
++	# When ccache is enabled, libtool needs --tag=CC to choose correct handle methods.
++	if [ -f ${S}/build/rules.mk ]; then
++		sed -i "s,^LTFLAGS,LTFLAGS      = --silent --tag=CC\n#LTFLAGS,g" ${S}/build/rules.mk
++	fi
+ }
+ do_configure_prepend_class-native() {
+ 	cp ${STAGING_DATADIR_NATIVE}/apr/apr_rules.mk ${S}/build/rules.mk
 -- 
-Paul Barker
+1.7.3.5
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
