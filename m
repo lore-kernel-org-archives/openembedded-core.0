@@ -1,38 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3998C6D2C7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id EBBDF6D2F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 11:40:00 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id e52so2458140eek.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 03:40:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=fBhmDuex8dZQARdLn5wTJlXr4JMzDc0LI7R0zzR632A=;
-	b=nY3gDVF7rTnTyIQ1x0icp2swMZKbLa1mNuGE+zAZ2cPJddCBp1Tpg3uSdF3BStgoZp
-	bKAJ7Hr3JlWN9FNttqR7cYnCq2V3P1Hs8geyNID8LhtufTiHEGC8HBnav/w64A8q8ygj
-	fDGKReTAJro1u4yq4V7TUESKk5IRPMa4igph1xm8IzoO5ZVbDJIxGaTRmbMX4/OW4FIC
-	9Et2taoEhdY90ZLuyGy4+kayFLlx0hfPYpyl9Foi4MxTb3Asbs5bkcC09Uvl3JF1GyG7
-	t3yXMEaFSgMT1nWtiZFQCv/cbwELKEqfbH919Mp9FRjeyI4znXdbPs0N/PVa9L8E4oDX
-	3esQ==
-X-Received: by 10.14.42.6 with SMTP id i6mr2084997eeb.65.1384774801276;
-	Mon, 18 Nov 2013 03:40:01 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id h8sm36966359eew.16.2013.11.18.03.40.00
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Nov 2013 03:40:00 -0800 (PST)
-Date: Mon, 18 Nov 2013 12:40:00 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <20131118114000.GB3727@jama>
+	Mon, 18 Nov 2013 11:57:45 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAIBvTFl028971; Mon, 18 Nov 2013 11:57:40 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id j30icwbbt60j; Mon, 18 Nov 2013 11:57:40 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAIBvZ4W028980
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 18 Nov 2013 11:57:37 GMT
+Message-ID: <1384775852.6460.214.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Paul Barker <paul@paulbarker.me.uk>
+Date: Mon, 18 Nov 2013 11:57:32 +0000
+In-Reply-To: <20131118114000.GB3727@jama>
 References: <CANyK_8c67C4NL7mNf3LTDwurtfpeU+S5ts4+O2t+HiDv84YgaQ@mail.gmail.com>
-	<52898177.5000303@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <52898177.5000303@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+	<52898177.5000303@windriver.com> <20131118114000.GB3727@jama>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: opkg dependencies and update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,84 +38,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 11:40:01 -0000
-X-Groupsio-MsgNum: 47193
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="lCAWRPmW1mITcIfM"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Nov 2013 11:57:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---lCAWRPmW1mITcIfM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2013-11-18 at 12:40 +0100, Martin Jansa wrote:
+> On Mon, Nov 18, 2013 at 10:54:47AM +0800, ChenQi wrote:
+> > On 11/18/2013 02:57 AM, Paul Barker wrote:
+> > > Hi all,
+> > >
+> > > I've been trying to add PACKAGECONFIG options to opkg and have ran
+> > > into a dependency loop whilst building with certain options. Enabling
+> > > curl support within opkg requires a dependency on curl. curl in turn
+> > > depends on ncurses (via a few intermediate dependencies) and ncurses
+> > > uses update-alternatives causing a dependency on
+> > > virtual/update-alternatives.
+> > > PREFERRED_PROVIDER_virtual/update-alternatives is set to "opkg" in
+> > > meta/conf/distro/include/default-providers.inc and so we have a
+> > > dependency loop if curl is enabled via the new PACKAGECONFIG options
+> > > for opkg.
+> > >
+> > > I can cause the same dependency loop by setting
+> > > PREFERRED_PROVIDER_virtual/update-alternatives to "dpkg" as dpkg
+> > > directly depends on ncurses (which uses update-alternatives). So if
+> > > someone wanted to use the more powerful update-alternatives from dpkg
+> > > on a target system it doesn't look like that is currently possible.
+> > >
+> > > This places quite a constraint on whichever recipe PROVIDES
+> > > update-alternatives. Going forward I'm hoping to use libarchive within
+> > > opkg and libarchive depends on bzip2 by default which uses
+> > > update-alternatives, which would cause the same problem.
+> > >
+> > > Does anyone have any clever solutions to this? Perhaps we could split
+> > > update-alternatives off into its own recipe which should be dependent
+> > > on very little, allowing opkg a little more freedom in its
+> > > dependencies.
+> > >
+> > > Thanks,
+> > >
+> > 
+> > I opened a bug some time ago for this update-alternative problem.
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=4836
+> > 
+> > It would be really helpful if you could add some input in the comments 
+> > of that bug.
+> 
+> FWIW: current u-a implementation provided by opkg is in OE-classic and
+> was in older poky/oe-core provided also in standalone recipe
+> update-alternatives-cworth
+> 
+> http://git.openembedded.org/openembedded/tree/recipes/update-alternatives/update-alternatives-cworth_0.99.154.bb
+> 
+> commit 44b538eedab7c255051fa3375f9f2439cd2db3dd
+> Author: Marcin Juszkiewicz <hrw@openedhand.com>
+> Date:   Wed Mar 19 15:36:01 2008 +0000
+> 
+>     update-alternatives-cworth: dropped as they are now generated with opkg recipe
 
-On Mon, Nov 18, 2013 at 10:54:47AM +0800, ChenQi wrote:
-> On 11/18/2013 02:57 AM, Paul Barker wrote:
-> > Hi all,
-> >
-> > I've been trying to add PACKAGECONFIG options to opkg and have ran
-> > into a dependency loop whilst building with certain options. Enabling
-> > curl support within opkg requires a dependency on curl. curl in turn
-> > depends on ncurses (via a few intermediate dependencies) and ncurses
-> > uses update-alternatives causing a dependency on
-> > virtual/update-alternatives.
-> > PREFERRED_PROVIDER_virtual/update-alternatives is set to "opkg" in
-> > meta/conf/distro/include/default-providers.inc and so we have a
-> > dependency loop if curl is enabled via the new PACKAGECONFIG options
-> > for opkg.
-> >
-> > I can cause the same dependency loop by setting
-> > PREFERRED_PROVIDER_virtual/update-alternatives to "dpkg" as dpkg
-> > directly depends on ncurses (which uses update-alternatives). So if
-> > someone wanted to use the more powerful update-alternatives from dpkg
-> > on a target system it doesn't look like that is currently possible.
-> >
-> > This places quite a constraint on whichever recipe PROVIDES
-> > update-alternatives. Going forward I'm hoping to use libarchive within
-> > opkg and libarchive depends on bzip2 by default which uses
-> > update-alternatives, which would cause the same problem.
-> >
-> > Does anyone have any clever solutions to this? Perhaps we could split
-> > update-alternatives off into its own recipe which should be dependent
-> > on very little, allowing opkg a little more freedom in its
-> > dependencies.
-> >
-> > Thanks,
-> >
->=20
-> I opened a bug some time ago for this update-alternative problem.
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4836
->=20
-> It would be really helpful if you could add some input in the comments=20
-> of that bug.
+Turning this back into a standalone recipe might be worthwhile and seems
+like the best way to address the problems.
 
-FWIW: current u-a implementation provided by opkg is in OE-classic and
-was in older poky/oe-core provided also in standalone recipe
-update-alternatives-cworth
+Paul: Have you any opinion of moving update-alternatives to its own
+repository separate from opkg? or just check it into OE-Core as its just
+a single script? Its not as if it really needs much from opkg at this
+point?
 
-http://git.openembedded.org/openembedded/tree/recipes/update-alternatives/u=
-pdate-alternatives-cworth_0.99.154.bb
+I'm also wondering how it compares to the dpkg version (which is C
+iirc). Should we switch to that? Does it give better performance?
 
-commit 44b538eedab7c255051fa3375f9f2439cd2db3dd
-Author: Marcin Juszkiewicz <hrw@openedhand.com>
-Date:   Wed Mar 19 15:36:01 2008 +0000
+Cheers,
 
-    update-alternatives-cworth: dropped as they are now generated with opkg=
- recipe
+Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---lCAWRPmW1mITcIfM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlKJ/JAACgkQN1Ujt2V2gBys2gCgg+e15XRc5lbp65LkcTPtSIAc
-UioAoKCE46Opxi+6n8C6M8TuwvrTqRG4
-=xNXN
------END PGP SIGNATURE-----
-
---lCAWRPmW1mITcIfM--
