@@ -1,37 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 690DA6D89C
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id DB2866D586
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 17:49:33 +0000 (UTC)
-Received: by mail-vc0-f173.google.com with SMTP id lh4so3853887vcb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 09:49:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=FNvwY5c/C1082/qyh7DGAmozjaUKlG+S9YpMVYOH1I8=;
-	b=ewDYIWdxqnD4kX5Xw2p6g4cM0bxIZQ98OSkmtlDaWke77PfSSCfO9OZInbof7OSnJA
-	qVrXy2ExsYXrtrDlebE/zvpkGurIapUKlCKTZYsQkf6ydL/KnAytCiCBG4TNoDZY3fkz
-	dXpKhQD+oEVN4ChrHiSJEFoFvH/c0oUyWTJkwcdQe3rN+VqofxfiTzTT8piC0Sc1OPAQ
-	ZKrrvHYvtH1eEJlSAtpTKwXyed/DidzeS/Jk6IA1qsI1g7xc3Y53bvdOHRgvGa2K313v
-	hGjH7O6SjLG8LG6Ndi3+eqTTgrNmM+wgSORUWO/odKV1YAFm0qij0DO3mTl8zYY38AB6
-	aH7w==
-X-Gm-Message-State: ALoCoQnapXAPimDkaemy/SG3AwJs1JRr84tB7lN/CJL78n73X1LV3mKUTwUA1xeh57lKSQrOJVL3
-X-Received: by 10.220.164.202 with SMTP id f10mr2271736vcy.25.1384796974777;
-	Mon, 18 Nov 2013 09:49:34 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 18 Nov 2013 09:49:14 -0800 (PST)
-In-Reply-To: <528A5182.2080601@mlbassoc.com>
-References: <1384796370-8899-1-git-send-email-ross.burton@intel.com>
-	<528A5182.2080601@mlbassoc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Nov 2013 17:49:14 +0000
-Message-ID: <CAJTo0LbugHFzpFCCBgj5EJbtBFxkc9ckt-mEaJ+sbnxd8kFu_g@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] combo-tool: simply branch/commit validation logic
+	Mon, 18 Nov 2013 18:28:04 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1ViTYM-0005Jb-2n; Mon, 18 Nov 2013 19:28:06 +0100
+Message-ID: <1384799284.23724.60.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Mats =?ISO-8859-1?Q?K=E4rrman?= <Mats.Karrman@tritech.se>
+Date: Mon, 18 Nov 2013 18:28:04 +0000
+In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C4FD505D5@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C4FD50595@post.tritech.se>
+	,<1384780059.23724.26.camel@phil-desktop.brightsign>
+	<ED3E0BCACD909541BA94A34C4A164D4C4FD505BB@post.tritech.se>
+	,<1384780550.23724.29.camel@phil-desktop.brightsign>
+	<ED3E0BCACD909541BA94A34C4A164D4C4FD505D5@post.tritech.se>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software, running on the system "hetzner.pbcl.net", has
+ identified this incoming email as possible spam.  The original message
+ has been attached to this so you can view it (if it isn't spam) or label
+ similar future email.  If you have any questions, see
+ @@CONTACT_ADDRESS@@ for details.
+ 
+ Content preview:  On Mon, 2013-11-18 at 13:28 +0000, Mats Kärrman wrote: >
+   On Monday, November 18, 2013 2:15 PM, Phil Blundell wrote: > >> Subject: Re:
+    [OE-core] RPROVIDES not package specific with native and added package >
+   >> > >> Oh, right, I see. Does it help if you use "PACKAGES =+ .." rather
+   than > >> "PACKAGES_prepend = "? > > Yes it does!! > > Could you tell me why?
+    > Er... better could you tell me where's the best place to read so I don't
+    have to make these mistakes again? [...] 
+ 
+ Content analysis details:   (-1.0 points, 5.0 required)
+ 
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RPROVIDES not package specific with native and added package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,17 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 17:49:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 18 Nov 2013 18:28:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 18 November 2013 17:42, Gary Thomas <gary@mlbassoc.com> wrote:
-> On 2013-11-18 10:39, Ross Burton wrote:
->>
->> Simply the branch/revision logic by using git-merge-base.
->
-> Did you mean 'simplify'?
+On Mon, 2013-11-18 at 13:28 +0000, Mats Kärrman wrote:
+> On Monday, November 18, 2013 2:15 PM, Phil Blundell wrote:
+> >> Subject: Re: [OE-core] RPROVIDES not package specific with native and added package
+> >> 
+> >> Oh, right, I see.  Does it help if you use "PACKAGES =+ .." rather than
+> >> "PACKAGES_prepend = "?
+> 
+> Yes it does!!
+> 
+> Could you tell me why?
+> Er... better could you tell me where's the best place to read so I don't have to make these mistakes again?
 
-Yes. :)
+The code in insane.bbclass will give you a diagnostic if ${RPROVIDES} is
+set and PACKAGES isn't blank.  (The actual check that it uses for
+PACKAGES is slightly obscure and involves split(), but the net effect
+seems to be that it's testing for the variable being set to something
+other than "".)
 
-Ross
+native.bbclass sets PACKAGES="" and RPROVIDES="${PN}".  This violates
+insane.bbclass's usual idea of what RPROVIDES should be, but since
+PACKAGES is blank the check is inhibited and you don't get an error.
+
+However, your recipe is defeating this by prepending to PACKAGES and
+causing it to end up not blank.  This turns the insane.bbclass check
+back on and the error reappears.
+
+p.
+
+
 
