@@ -1,29 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 629276D433
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 087796D433
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 12:26:21 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAICQKGh028207
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Nov 2013 04:26:20 -0800 (PST)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 18 Nov 2013 04:26:19 -0800
-Message-ID: <528A0755.2060100@windriver.com>
-Date: Mon, 18 Nov 2013 20:25:57 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>, "Wold, Saul"
-	<saul.wold@intel.com>
-References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>	<5283F507.7050607@linux.intel.com>	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>	<5284F5D1.4010004@linux.intel.com>	<CADkTA4ObDkKgm+_-RG650m2TtugDh4tZ+OHyOateGSUvv9hmhQ@mail.gmail.com>	<CADkTA4MCL8pe8jACx8T9o7S17XvjUiBj5GwSp9nW2snWjpCQxQ@mail.gmail.com>
-	<CAP9ODKo+dR_FSj4djpGKcbQFWRiWqSK6XApGtjS6NM1r5scJDg@mail.gmail.com>
-In-Reply-To: <CAP9ODKo+dR_FSj4djpGKcbQFWRiWqSK6XApGtjS6NM1r5scJDg@mail.gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
+	Mon, 18 Nov 2013 12:27:00 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAICQSlq029825; Mon, 18 Nov 2013 12:26:57 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 4lZ6-5-jUFK5; Mon, 18 Nov 2013 12:26:56 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAICQqBN029863
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 18 Nov 2013 12:26:53 GMT
+Message-ID: <1384777609.6460.224.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <pb@pbcl.net>
+Date: Mon, 18 Nov 2013 12:26:49 +0000
+In-Reply-To: <1384625383.3814.34.camel@x121e.pbcl.net>
+References: <1384520708.23724.12.camel@phil-desktop.brightsign>
+	<CAP9ODKqVib+iDsGEges9Hhy2dyWoOi2JtfhVJ+pNCs=KUq7Q4A@mail.gmail.com>
+	<1384625383.3814.34.camel@x121e.pbcl.net>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: Tolerate empty INITRAMFS_IMAGE when INITRAMFS_TASK is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,136 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 12:26:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 18 Nov 2013 12:27:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Sat, 2013-11-16 at 18:09 +0000, Phil Blundell wrote:
+> On Fri, 2013-11-15 at 11:26 -0200, Otavio Salvador wrote:
+> > Hello Phil,
+> > 
+> > On Fri, Nov 15, 2013 at 11:05 AM, Phil Blundell <pb@pbcl.net> wrote:
+> > > The idiomatic way to reinstate the old-style initramfs handling appears to be to
+> > > set:
+> > >
+> > > INITRAMFS_TASK = "${INITRAMFS_IMAGE}:do_rootfs"
+> > 
+> > What problems are you having with the 'new-style'?
+> 
+> Good question.  When I first merged the version of kernel.bbclass that
+> implemented the "new-style" system I was having a bunch of problems
+> which seemed to be due to the new code.  However, after a bit of further
+> debugging it now appears that most of them are issues with the
+> implementation rather than with the concept and selecting INITRAMFS_TASK
+> doesn't actually help very much because the code that was causing my
+> problems is shared between the two paths.
+> 
+> The main difficulty I was having was that kernel.bbclass was looking for
+> the initramfs image with slightly the wrong filename.  After a certain
+> amount of sleuthing and some clues from Andrea it eventually became
+> apparent that kernel.bbclass relies on the initramfs image recipe
+> leaving ${IMAGE_LINK_NAME} at its default value and will fail if it's
+> set to anything else.  This seems slightly fragile and it seems as
+> though it would be better for kernel.bbclass to look for the initramfs
+> image at its primary location rather than relying on the symlink.
+> 
+> I also discovered that the new code in kernel.bbclass uncompresses the
+> initramfs image before embedding it in the kernel.  I can guess why this
+> seemed like a good plan, but it's slightly surprising behaviour and it
+> seems like anybody who wanted to embed the initramfs in uncompressed
+> form would just select IMAGE_TYPE = "cpio" for it in the first place.
+> Also, Andrea reports that he does actually get worse compression overall
+> with this approach in at least some circumstances.
+> 
+> Anyway, with those things fixed I can now at least build images again
+> and it's entirely possible that the "new style" system would also work
+> for me.  However, it doesn't seem as though the new technology would
+> bring me any particular benefits, and as far as I can tell it would
+> introduce an extra kernel compile step that I don't particularly want,
+> so I am inclined to stick with INITRAMFS_TASK for the moment.
 
+FWIW I would *love* to simplify this code and have one good/efficient
+codepath everyone uses. The initramfs decompression code looks nasty to
+me for example and I agree with your thoughts on that.
 
-On 11/15/2013 01:48 AM, Otavio Salvador wrote:
-> On Thu, Nov 14, 2013 at 3:15 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->> On Thu, Nov 14, 2013 at 11:18 AM, Bruce Ashfield
->> <bruce.ashfield@gmail.com> wrote:
->>> On Thu, Nov 14, 2013 at 11:09 AM, Saul Wold <sgw@linux.intel.com> wrote:
->>>> On 11/13/2013 07:08 PM, Bruce Ashfield wrote:
->>>>>
->>>>> On Wed, Nov 13, 2013 at 8:45 PM, Otavio Salvador
->>>>> <otavio@ossystems.com.br> wrote:
->>>>>>
->>>>>> On Wed, Nov 13, 2013 at 7:54 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>>>>>>
->>>>>>> On 11/01/2013 06:31 AM, Otavio Salvador wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> This updates lttng-modules for 2.3.2 and also includes a bugfix
->>>>>>>> imported from 3.4 kernel. The changes included are:
->>>>>>>>
->>>>>>>> 6c26b01 Blacklist Linux kernels 3.10+
->>>>>>>> b97d469 LTTng trace-clock: shrink kernel blacklist
->>>>>>>> 7d40f8e Version 2.3.1
->>>>>>>> 2aecb9b Blacklist kernels 3.10.13 and 3.11.2
->>>>>>>> 4f1217f Version 2.3.2
->>>>>>>> 92fff0c Import fix from LTSI: 3.4+ RT kernels use
->>>>>>>> CONFIG_PREEMPT_RT_FULL
->>>>>>>> 1874075 lttng-statedump-impl: Fix lttng_list_interrupts for empty
->>>>>>>> implementation
->>>>>>>>
->>>>>>>
->>>>>>> Otavio,
->>>>>>>
->>>>>>> Tried to build this locally and got the following failure with
->>>>>>> genericx86
->>>>>>> and master:
->>>>>>>
->>>>>>> |   CC [M]
->>>>>>>
->>>>>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o
->>>>>>> | In file included from
->>>>>>>
->>>>>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-tracer.h:37:0,
->>>>>>> |                  from
->>>>>>>
->>>>>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.c:24:
->>>>>>> |
->>>>>>>
->>>>>>> /srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/wrapper/trace-clock.h:40:2:
->>>>>>> error: #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
->>>>>>> timekeeping subsystem. Fixed by commit
->>>>>>> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK
->>>>>>> related
->>>>>>> deadlock from ntp lock changes\" in Linux."
->>>>>>> |  #error "Linux kernels 3.10 and 3.11 introduce a deadlock in the
->>>>>>> timekeeping subsystem. Fixed by commit
->>>>>>> 7bd36014460f793c19e7d6c94dab67b0afcfcb7f \"timekeeping: Fix HRTICK
->>>>>>> related
->>>>>>> deadlock from ntp lock changes\" in Linux."
->>>>>>> |   ^
->>>>>>> | make[2]: ***
->>>>>>>
->>>>>>> [/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git/lttng-ring-buffer-client-discard.o]
->>>>>>> Error 1
->>>>>>> | make[1]: ***
->>>>>>>
->>>>>>> [_module_/srv/ssd/sgw/builds/world/tmp/work/genericx86-poky-linux/lttng-modules/2.3.2+gitAUTOINC+1874075076-r0/git]
->>>>>>> Error 2
->>>>>>> | make[1]: Leaving directory
->>>>>>> `/srv/ssd/sgw/builds/world/tmp/sysroots/genericx86/usr/src/kernel'
->>>>>>> | make: *** [default] Error 2
->>>>>>> | ERROR: oe_runmake failed
->>>>>>>
->>>>>>> So I am going to hold off on this patch set until you can resolve this.
->>>>>>
->>>>>>
->>>>>> Yes; this is becase the linux-yocto seems to not have been updated to
->>>>>>>
->>>>>>> 3.10.13; so in fact it is failing to build to avoid people to
->>>>>>
->>>>>> trigger the deadlock.
->>>>>>
->>>>>> The change which introduces this in lttng-modules is:
->>>>>>
->>>>>>
->>>>>> http://git.lttng.org/?p=lttng-modules.git;a=commit;h=2aecb9b1cbb63f6c524ad9195d8fd06299ef9296
->>>>>>
->>>>>> I can update this patch as 2.3.3 has been released and it includes the
->>>>>> 3.12 fixes but please check when linux-yocto will be updated so we can
->>>>>> fix it.
->>>>>
->>>>>
->>>>> Saul: What board are you building ? I've had linux-yocto on 3.10.17
->>>>> for over a week
->>>>> now.
->>>>
->>>>
->>>> As mentioned above this is for genericx86, so maybe not all the BSPs are
->>>> updated yet.
->>>
->>> Buried in the context, sorry about missing that.
->>>
->>> Yes, I'm about to update the reference boards, but there's a install
->>> error that I'm fixing first, but I'll have the series out by end of day.
->>
->> I just sent the update for this (cc'd poky@yoctoproject.org), but I haven't
->> seen it loop around.
->>
->> If you didn't get the patch, let me know and I'll try again.
->
-> I have sent the new patch version.
->
-> It does the update to the 2.3.3 which include all the previous
-> backported patches.
->
-> This should be considered for Dora as well as it fixes the deadlock
-> and building with 3.12 kernels.
->
+Cheers,
 
-Hi Otavio, thanks for suggesting this for dora, but dora's kernel is 3.10.11,
-and this is an update for lttng-modules, I'm not sure whether dora needs this.
-
-Add Saul in the CC list.
-
-// Robert
-
+Richard
 
 
