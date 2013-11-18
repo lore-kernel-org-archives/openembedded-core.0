@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E62C6D433
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 008406D433
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 12:31:28 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAICVNNU030052; Mon, 18 Nov 2013 12:31:23 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 0c3bllQm6Bp1; Mon, 18 Nov 2013 12:31:23 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAICVIC0030049
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 18 Nov 2013 12:31:20 GMT
-Message-ID: <1384777875.6460.228.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 18 Nov 2013 12:31:15 +0000
-In-Reply-To: <1384696338-5390-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1383307932-4041-1-git-send-email-Martin.Jansa@gmail.com>
-	<1384696338-5390-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/7] allarch: Always inhibit default dependencies and set empty TARGET_PREFIX
+	Mon, 18 Nov 2013 12:33:46 +0000 (UTC)
+Received: by mail-vc0-f179.google.com with SMTP id hz11so3655027vcb.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Nov 2013 04:33:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=7A03uNRSN/KFqCZkGlN7/whfGYzot/HjOL6vyRrPqjw=;
+	b=d0HgeC6T1wAhlT80ZMPUFoQg1svVbmt3recKw779nIDqejr6jRnWhD7euag7i4duEe
+	01FIfrPO4lIklS8VkgWktMNgrD9MlRAa8AHSDvORvONi9fpmPBniesiZIcR6ROqumejG
+	CSkpj1oJwcTpwCm7Tfg4CzlhkSlYS7c7jL/96JzfPO/XEfr7jQbh7451EoYQleQfmhea
+	Yzh3LU8a4MIWcEr5FZFoBmKxsqtaPcEirg8lBb1kyuaKpUojBlhmY6DuDD6331HVrQ0N
+	/LXyjYD5Q/cfWUuftk9KoZHu9LEur21d3/PctGZVMwv3qyA44n3AGkmvTR7/PY/r4c/F
+	/f1A==
+X-Gm-Message-State: ALoCoQkst5lrdUJt8pAwDXlPuzx6OibBvaShiKhsigJjoi8vMjchqqQU5niwMC99C+lYSo14zsF/
+X-Received: by 10.220.191.10 with SMTP id dk10mr382327vcb.29.1384778028030;
+	Mon, 18 Nov 2013 04:33:48 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 18 Nov 2013 04:33:27 -0800 (PST)
+In-Reply-To: <1384776180.6460.218.camel@ted>
+References: <1384776180.6460.218.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Nov 2013 12:33:27 +0000
+Message-ID: <CAJTo0LZZg3tsdVCSFQBzb_J2bSmCcJY9PwuXRuiGW3ZX2y6q_w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg in svn?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 12:31:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Nov 2013 12:33:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sun, 2013-11-17 at 14:52 +0100, Martin Jansa wrote:
-> * typical case where we inherit allarch and override PACKAGE_ARCH
->   are packagegroup recipes, but those need default dependencies
->   inhibited even when they are MACHINE_ARCH or TUNE_PKGARCH.
->   I don't know about any recipe which inherits allarch and needs
->   default dependencies.
+On 18 November 2013 12:03, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> recipes-sato/puzzles/puzzles_r9765.bb:SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV}"
 
-The code there was added to allow the allarch class to be enabled or
-disabled. I don't remember exactly why we needed to do that however it
-was added for a reason and making part of it unconditional again will
-probably break whyever we made it optional :(.
+Seems like a pretty good reason to ditch puzzles, IMHO.
 
-I can understand how you came to this conclusion though. Which cases is
-this causing problems for?
-
-> * set empty TARGET_PREFIX
->   This has a bit weird reason caused by unsupported setup where
->   external-toolchain is used in some DISTRO only for some MACHINEs
->   and internal is used for other MACHINEs.
->   Because external-toolchain usually comes with different TARGET_PREFIX
->   it was causing allarch recipes to have different signatures even
->   when they don't use toolchain at all.
->   Empty TARGET_PREFIX also helps to find allarch recipes which still
->   have default dependency on e.g. virtual/${TARGET_PREFIX}gcc.
-
-This seems ok, I'd have taken it if it was a separate patch.
-
-Cheers,
-
-Richard
-
+Ross
 
