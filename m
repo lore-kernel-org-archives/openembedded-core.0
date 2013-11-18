@@ -1,41 +1,15 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 194FA6D12D
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ADF66D001
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 16:03:59 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id e53so762671eek.23
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 08:04:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=itlrvFKqc1l3nuDXR5Djfqhi0pxMUKMtmiUeR6D6Z4w=;
-	b=atUZ2MxiZmnazB6XiI+LAJX4S5tTbJw9IbiwCZ5YYR4OTvlmwNJ6/vupAghXhGdtq9
-	RsEoO4tDtGMgFG0P00X9KnJkRGOs9y5yo//Pee4OuJlCekBFA+3l6+z1RP/YAwGqwmGu
-	/J6cG00F79TM7OlO+B3n9cS0VUpbn8HF+ejccZSbn3gXhyi1P8x0brtLKKhl476W6qoS
-	afLCQwvVzH0vWBzXzB3/sRLOueT8Abo0VKus7tm3nb4s2yQu+c7HNZSBZ8lsQlov1p+D
-	EVQMwm3lZYFaonR4GBdGLX/T8I2dVABBVHopq73it2VtdE265zzVShL7SpM3T47uujac
-	/x8g==
-X-Received: by 10.14.38.194 with SMTP id a42mr13850154eeb.12.1384790640990;
-	Mon, 18 Nov 2013 08:04:00 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 8sm39183429eem.15.2013.11.18.08.03.59
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Nov 2013 08:04:00 -0800 (PST)
-Date: Mon, 18 Nov 2013 17:04:00 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20131118160400.GG3727@jama>
-References: <CANyK_8c67C4NL7mNf3LTDwurtfpeU+S5ts4+O2t+HiDv84YgaQ@mail.gmail.com>
-	<52898177.5000303@windriver.com> <20131118114000.GB3727@jama>
-	<1384775852.6460.214.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1384775852.6460.214.camel@ted>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: opkg dependencies and update-alternatives
+	Mon, 18 Nov 2013 16:10:39 +0000 (UTC)
+From: Jack Mitchell <ml@communistcode.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Nov 2013 16:10:33 +0000
+Message-Id: <1384791033-29976-1-git-send-email-ml@communistcode.co.uk>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Jack Mitchell <jmitchell@cbnl.com>
+Subject: [PATCHv5] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,119 +22,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 16:04:01 -0000
-X-Groupsio-MsgNum: 47232
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5vjQsMS/9MbKYGLq"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 18 Nov 2013 16:10:39 -0000
 
---5vjQsMS/9MbKYGLq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Jack Mitchell <jmitchell@cbnl.com>
 
-On Mon, Nov 18, 2013 at 11:57:32AM +0000, Richard Purdie wrote:
-> On Mon, 2013-11-18 at 12:40 +0100, Martin Jansa wrote:
-> > On Mon, Nov 18, 2013 at 10:54:47AM +0800, ChenQi wrote:
-> > > On 11/18/2013 02:57 AM, Paul Barker wrote:
-> > > > Hi all,
-> > > >
-> > > > I've been trying to add PACKAGECONFIG options to opkg and have ran
-> > > > into a dependency loop whilst building with certain options. Enabli=
-ng
-> > > > curl support within opkg requires a dependency on curl. curl in turn
-> > > > depends on ncurses (via a few intermediate dependencies) and ncurses
-> > > > uses update-alternatives causing a dependency on
-> > > > virtual/update-alternatives.
-> > > > PREFERRED_PROVIDER_virtual/update-alternatives is set to "opkg" in
-> > > > meta/conf/distro/include/default-providers.inc and so we have a
-> > > > dependency loop if curl is enabled via the new PACKAGECONFIG options
-> > > > for opkg.
-> > > >
-> > > > I can cause the same dependency loop by setting
-> > > > PREFERRED_PROVIDER_virtual/update-alternatives to "dpkg" as dpkg
-> > > > directly depends on ncurses (which uses update-alternatives). So if
-> > > > someone wanted to use the more powerful update-alternatives from dp=
-kg
-> > > > on a target system it doesn't look like that is currently possible.
-> > > >
-> > > > This places quite a constraint on whichever recipe PROVIDES
-> > > > update-alternatives. Going forward I'm hoping to use libarchive wit=
-hin
-> > > > opkg and libarchive depends on bzip2 by default which uses
-> > > > update-alternatives, which would cause the same problem.
-> > > >
-> > > > Does anyone have any clever solutions to this? Perhaps we could spl=
-it
-> > > > update-alternatives off into its own recipe which should be depende=
-nt
-> > > > on very little, allowing opkg a little more freedom in its
-> > > > dependencies.
-> > > >
-> > > > Thanks,
-> > > >
-> > >=20
-> > > I opened a bug some time ago for this update-alternative problem.
-> > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4836
-> > >=20
-> > > It would be really helpful if you could add some input in the comment=
-s=20
-> > > of that bug.
-> >=20
-> > FWIW: current u-a implementation provided by opkg is in OE-classic and
-> > was in older poky/oe-core provided also in standalone recipe
-> > update-alternatives-cworth
-> >=20
-> > http://git.openembedded.org/openembedded/tree/recipes/update-alternativ=
-es/update-alternatives-cworth_0.99.154.bb
-> >=20
-> > commit 44b538eedab7c255051fa3375f9f2439cd2db3dd
-> > Author: Marcin Juszkiewicz <hrw@openedhand.com>
-> > Date:   Wed Mar 19 15:36:01 2008 +0000
-> >=20
-> >     update-alternatives-cworth: dropped as they are now generated with =
-opkg recipe
->=20
-> Turning this back into a standalone recipe might be worthwhile and seems
-> like the best way to address the problems.
->=20
-> Paul: Have you any opinion of moving update-alternatives to its own
-> repository separate from opkg? or just check it into OE-Core as its just
-> a single script? Its not as if it really needs much from opkg at this
-> point?
->=20
-> I'm also wondering how it compares to the dpkg version (which is C
-> iirc). Should we switch to that? Does it give better performance?
+libjson is now known as json-c. Config.sub is removed as it breaks
+seperate build dir builds. Built without parallel make as it fails,
+official word is not to bother trying.
 
-Just note from someone who broke all upgrade paths in OE-classic and
-then had to add hack to resolve upgrade paths:
-http://git.openembedded.org/openembedded/tree/recipes/opkg/update-alternati=
-ves-merge.inc
+Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
+---
+ meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
+ meta/recipes-devtools/json-c/json-c_0.11.bb       | 20 ++++++++++++++++++++
+ meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
+ 4 files changed, 22 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
+ delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
 
-Changing u-a implementation is very tricky for people who care about
-upgrade paths.
-Changing alternatives directory when switching from cworth to opkg, i.e.
-=66rom
-${prefix}/lib/ipkg
-to
-${prefix}/lib/opkg
-was fatal for all systems depending on busybox/coreutils - first
-upgrade selected wrong alternatives, because it didn't know about
-already installed alternatives in old directory.
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index c067183..e1a5c6b 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
+ B_pn-libice-native = "${SEPB}"
+ B_pn-libid3tag = "${SEPB}"
+ B_pn-libidn = "${SEPB}"
+-B_pn-libjson = "${SEPB}"
++B_pn-json-c = "${SEPB}"
+ B_pn-libksba = "${SEPB}"
+ B_pn-libmad = "${SEPB}"
+ B_pn-libmatchbox = "${SEPB}"
+diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
+new file mode 100644
+index 0000000..4a75ed5
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
++HOMEPAGE = "https://github.com/json-c/json-c/wiki"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
++
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++
++SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
++SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
++
++RPROVIDES_${PN} = "libjson"
++
++PARALLEL_MAKE = ""
++
++inherit autotools
++
++do_configure_prepend() {
++    # Clean up autoconf cruft that should noe be in the tarball
++    rm ${S}/config.status
++}
+diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
+deleted file mode 100644
+index e4951a8..0000000
+--- a/meta/recipes-devtools/libjson/libjson_0.9.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-DESCRIPTION = "JSON-C - A JSON implementation in C"
+-HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
+-
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
+-
+-SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
+-SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
+-SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
+-
+-S = "${WORKDIR}/json-c-${PV}"
+-
+-
+-inherit autotools
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index bb13f4b..7e87ef8 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+ DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+-DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
++DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
+ 
+ inherit autotools pkgconfig useradd gettext perlnative
+ 
+-- 
+1.8.4.2
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---5vjQsMS/9MbKYGLq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlKKOnAACgkQN1Ujt2V2gBxXKwCbBS3rNq9gGOkdRF10Ndtf1UFF
-sAwAoIb5aNo4YebeqXjacZTSE/eeosKl
-=jCCp
------END PGP SIGNATURE-----
-
---5vjQsMS/9MbKYGLq--
