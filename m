@@ -1,27 +1,49 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 363C76B200
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id DCABC6D125
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 15:41:58 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id rAIFftH8026794
+	Mon, 18 Nov 2013 15:49:58 +0000 (UTC)
+Received: by mail-ob0-f170.google.com with SMTP id wp18so2476352obc.29
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 16:42:00 +0100
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0347.000; Mon, 18 Nov 2013 16:41:55 +0100
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Thread-Topic: Source deployment conflict when building multiple machines
-Thread-Index: Ac7kcpnHoBCNVvoATd+vshvk00Z2hA==
-Date: Mon, 18 Nov 2013 15:41:54 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C4FD506FC@post.tritech.se>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.82]
+	Mon, 18 Nov 2013 07:50:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=v31jyM3IsSG9VGhliCgb+WfBOvtrzZg3pR59UVbGIxs=;
+	b=Q2M1bN30qXx7OaY/zGYLjfnzzs+mQEJRKnAtrJJ6havMgPe6ESQiZgbZ7GaIlSUbMQ
+	MeMCKbCUWXRxcpTBJDiVp6neaZgqPbLQIGo0BUs1D04q20xh7OEnR+YMKKdK3vpXwqPX
+	FdzuCq9S9EH6rfwAHIAl/T6f+OBgisupAOxssHe8jpF3MSulFvpW9meC8fuNFiXHCkLZ
+	EJF9AeF3jNFATT2zSPSD+MjbFKnozGM5EKuJ6iFkiQNvCDIVxfcWRj6tSdUxh3V4HTmv
+	MTcIGVJhLxDi/94XZMeUpucaIxp1PjTzUsEphFLx5wD6M4/pv2TebPr1Df2M2oqhgYmi
+	GoZg==
 MIME-Version: 1.0
-Subject: Source deployment conflict when building multiple machines
+X-Received: by 10.60.45.196 with SMTP id p4mr155752oem.81.1384789800292; Mon,
+	18 Nov 2013 07:50:00 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 18 Nov 2013 07:50:00 -0800 (PST)
+In-Reply-To: <528A32C4.3030306@intel.com>
+References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>
+	<5283F507.7050607@linux.intel.com>
+	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>
+	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>
+	<5284F5D1.4010004@linux.intel.com>
+	<CADkTA4ObDkKgm+_-RG650m2TtugDh4tZ+OHyOateGSUvv9hmhQ@mail.gmail.com>
+	<CADkTA4MCL8pe8jACx8T9o7S17XvjUiBj5GwSp9nW2snWjpCQxQ@mail.gmail.com>
+	<CAP9ODKo+dR_FSj4djpGKcbQFWRiWqSK6XApGtjS6NM1r5scJDg@mail.gmail.com>
+	<528A0755.2060100@windriver.com>
+	<CAP9ODKqfdgCe_wpzyzGqgbfvOoT1HrgM_7PoSvuNDBtueBi1tA@mail.gmail.com>
+	<528A2927.7070009@windriver.com> <528A32C4.3030306@intel.com>
+Date: Mon, 18 Nov 2013 13:50:00 -0200
+X-Google-Sender-Auth: 5le_Kgj_vL7BgfzMOoWK-eWVk7o
+Message-ID: <CAP9ODKqrKrqWPg6ZCnM715RLjjRJ3satfm3ouOwWmpt+ygBU_A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <saul.wold@intel.com>,
+	Bruce Ashfield <bruce.ashfield@windriver.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,42 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 15:41:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Nov 2013 15:50:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi,=0A=
-=0A=
-Porting an old project from OE-Classic to OE-Core (Dora / distroless) I hav=
-e run into another issue.=0A=
-=0A=
-When building for machine aaa everything is fine but when I then try to bui=
-ld the same image for machine bbb (in same context, no intermediate cleanin=
-g) there is a conflict while deploying sources. The reason seems to be that=
- the machine is not considered, just the CPU arch (sub directories of deplo=
-y/sources are allarch-oe-linux, powerpc-oe-linux, x86_64-linux).=0A=
-=0A=
-When building for bbb a number of messages like this appear (all for machin=
-e specific packages):=0A=
-=0A=
-"""=0A=
-WARNING: The recipe shadow-securetty is trying to install files into a shar=
-ed area when those files already exist. Those files and their manifest loca=
-tion are:=0A=
-   /home/makr/projects/upgrade_to_oe-core/oe/build/tmp-eglibc/deploy/source=
-s/powerpc-oe-linux/MIT/shadow-securetty-4.1.4.3-r2/shadow-securetty-4.1.4.3=
--r2.showdata.dump=0A=
-   Matched in manifest-aaa-shadow-securetty.dumpdata_create_diff_gz=0A=
-   /home/makr/projects/upgrade_to_oe-core/oe/build/tmp-eglibc/deploy/source=
-s/powerpc-oe-linux/MIT/shadow-securetty-4.1.4.3-r2/shadow-securetty-4.1.4.3=
--r2.diff.gz=0A=
-   Matched in manifest-aaa-shadow-securetty.dumpdata_create_diff_gz=0A=
-Please verify which package should provide the above files.=0A=
-"""=0A=
-=0A=
-Is this as expected? Should I do something differently?=0A=
-=0A=
-Best Regards,=0A=
-Mats=0A=
+On Mon, Nov 18, 2013 at 1:31 PM, Saul Wold <saul.wold@intel.com> wrote:
+> On 11/18/2013 06:50 AM, Robert Yang wrote:
+>>
+>>
+>> On 11/18/2013 10:18 PM, Otavio Salvador wrote:
+>>>
+>>> On Mon, Nov 18, 2013 at 10:25 AM, Robert Yang
+>>> <liezhi.yang@windriver.com> wrote:
+>>>>>
+>>>>>
+>>>>> This should be considered for Dora as well as it fixes the deadlock
+>>>>> and building with 3.12 kernels.
+>>>>>
+>>>>
+>>>> Hi Otavio, thanks for suggesting this for dora, but dora's kernel is
+>>>> 3.10.11,
+>>>> and this is an update for lttng-modules, I'm not sure whether dora needs
+>>>> this.
+>>>>
+>>>> Add Saul in the CC list.
+>>>
+>>>
+>>> I think Dora ought to get the new 3.10 kernel updates; this can go
+>>> along side with it.
+>>>
+>>
+>> Hi Otavio,
+>>
+>> I'm sorry, but I'm not sure whether we need update dora's kernel from
+>> 3.10.11
+>> to 3.10.17, since we seldom do the package update for a stable branch,
+>> let's wait for others' comments:-).
+>>
+> This is correct, I do not think we will be updating the kernel for a stable
+> branch.
+
+This is wrong. We should update to 3.10.17 as this is the LTS release,
+otherwise what is the point of us using a LTS at all?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
