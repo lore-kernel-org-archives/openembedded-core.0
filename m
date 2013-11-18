@@ -1,49 +1,31 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id DB2866D586
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qe0-f42.google.com (mail-qe0-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id BD33D6D5A1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 18:28:04 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1ViTYM-0005Jb-2n; Mon, 18 Nov 2013 19:28:06 +0100
-Message-ID: <1384799284.23724.60.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Mats =?ISO-8859-1?Q?K=E4rrman?= <Mats.Karrman@tritech.se>
-Date: Mon, 18 Nov 2013 18:28:04 +0000
-In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C4FD505D5@post.tritech.se>
-References: <ED3E0BCACD909541BA94A34C4A164D4C4FD50595@post.tritech.se>
-	,<1384780059.23724.26.camel@phil-desktop.brightsign>
-	<ED3E0BCACD909541BA94A34C4A164D4C4FD505BB@post.tritech.se>
-	,<1384780550.23724.29.camel@phil-desktop.brightsign>
-	<ED3E0BCACD909541BA94A34C4A164D4C4FD505D5@post.tritech.se>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software, running on the system "hetzner.pbcl.net", has
- identified this incoming email as possible spam.  The original message
- has been attached to this so you can view it (if it isn't spam) or label
- similar future email.  If you have any questions, see
- @@CONTACT_ADDRESS@@ for details.
- 
- Content preview:  On Mon, 2013-11-18 at 13:28 +0000, Mats Kärrman wrote: >
-   On Monday, November 18, 2013 2:15 PM, Phil Blundell wrote: > >> Subject: Re:
-    [OE-core] RPROVIDES not package specific with native and added package >
-   >> > >> Oh, right, I see. Does it help if you use "PACKAGES =+ .." rather
-   than > >> "PACKAGES_prepend = "? > > Yes it does!! > > Could you tell me why?
-    > Er... better could you tell me where's the best place to read so I don't
-    have to make these mistakes again? [...] 
- 
- Content analysis details:   (-1.0 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RPROVIDES not package specific with native and added package
+	Mon, 18 Nov 2013 19:43:15 +0000 (UTC)
+Received: by mail-qe0-f42.google.com with SMTP id t9so1690959qeq.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Nov 2013 11:43:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=GUnUdtdBCIE1szSudYWk635hfF7Z83pXnYCrppX2sv4=;
+	b=npO3zUz4G0vH8LYftZGUYsJ4dYoGe7Y7ZikHOZrts6h1fb6xJeNUVyCAsEyuEFXGeB
+	WnfXm6abb7PXGw1Pr5N4ShGPEq4D/88ts8BCenxIPI+7C/CewHQEHaiLi9s/BbeYPoNB
+	vrQPYly58+Xat0MrVYMqzXRfREF3ME2aSxXPXqTGb3sHVHfYS1ik6POMySt2rSpVkDPh
+	HAS+I7DTsgFog+kxak4eJkMN5fOcnQe4BnGr6I9SC/lVWWpNW5eAGOhebnEFapLF0QEd
+	Fv/Z6igJmlXqVAA+1pFdqO9wOE2TprvH0vsSLu2xADrAAbQzDpGLalGqFw33BqjL04Wm
+	pCuQ==
+MIME-Version: 1.0
+X-Received: by 10.49.1.10 with SMTP id 10mr20136420qei.6.1384803797087; Mon,
+	18 Nov 2013 11:43:17 -0800 (PST)
+Received: by 10.96.55.197 with HTTP; Mon, 18 Nov 2013 11:43:17 -0800 (PST)
+Date: Mon, 18 Nov 2013 21:43:17 +0200
+Message-ID: <CADV-EXGySaHof6gBdnVmZBDOw2yWB3YT804aHJPGuqE7WLo2Bw@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Kernel recompile if "rm_work" defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,37 +38,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 18:28:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 Nov 2013 19:43:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, 2013-11-18 at 13:28 +0000, Mats Kärrman wrote:
-> On Monday, November 18, 2013 2:15 PM, Phil Blundell wrote:
-> >> Subject: Re: [OE-core] RPROVIDES not package specific with native and added package
-> >> 
-> >> Oh, right, I see.  Does it help if you use "PACKAGES =+ .." rather than
-> >> "PACKAGES_prepend = "?
-> 
-> Yes it does!!
-> 
-> Could you tell me why?
-> Er... better could you tell me where's the best place to read so I don't have to make these mistakes again?
+Hi,
 
-The code in insane.bbclass will give you a diagnostic if ${RPROVIDES} is
-set and PACKAGES isn't blank.  (The actual check that it uses for
-PACKAGES is slightly obscure and involves split(), but the net effect
-seems to be that it's testing for the variable being set to something
-other than "".)
+When I set
+INHERIT += "rm_work"
+in my local.conf to save some space my kernel now recompiles each time
+I run bitbake.
 
-native.bbclass sets PACKAGES="" and RPROVIDES="${PN}".  This violates
-insane.bbclass's usual idea of what RPROVIDES should be, but since
-PACKAGES is blank the check is inhibited and you don't get an error.
+How to fix this without removing "rm_work" from config?
 
-However, your recipe is defeating this by prepending to PACKAGES and
-causing it to end up not blank.  This turns the insane.bbclass check
-back on and the error reappears.
-
-p.
-
-
+Best regards,
+Yevhen
 
