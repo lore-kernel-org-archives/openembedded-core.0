@@ -1,48 +1,38 @@
-Return-Path: <saul.wold@intel.com>
-Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id BB1996D8C4
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 20CF16D8C4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 15:31:16 +0000 (UTC)
-Received: by mail-pb0-f41.google.com with SMTP id jt11so6946128pbb.28
+	Mon, 18 Nov 2013 15:31:48 +0000 (UTC)
+Received: by mail-ve0-f176.google.com with SMTP id c14so5044537vea.21
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 07:31:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:organization:user-agent
-	:mime-version:to:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=XCp2IuPCmeJk8kU9c9Rz1SMsobnZXKsI7aW6ouM5bk0=;
-	b=dCjUZ9R8aO7i5p7GBwBybMI+phGzdhTLDV3+A1T7QKE7HcCPEsFqSswOqXWsUCLaAI
-	tcWSvfPyHMQOkUQbqBbAX7nIp3sG0tNCMrUv0WmIIJWW5w0rsY/3dUEhKUnC86zL2sve
-	IH0xUiIpHyx+cHnVQoEEmDNx8TLJ0eINSdlOuwT61aEO1PM96q5IuTjxusu59Sot6z/m
-	wpV3fZcbajyvOV2xp+Bei48OEOjvHRUxQ1rD4wROWEMpepbzHylnH4u384z5p9gpK1p/
-	pUM8oO6FVruhojIPknixGHxxRMfUsiazF6O0dqthu953qvYRotCdbekKed+s7sYc409d
-	mT2g==
-X-Gm-Message-State: ALoCoQlpOHrZkyQzojMswE1XGaXAAjfs3TBh/H6p0hoTFHYQpOhTkEIuEAhYqsrA6MG26dzL2wBb
-X-Received: by 10.67.22.67 with SMTP id hq3mr3348869pad.132.1384788678495;
-	Mon, 18 Nov 2013 07:31:18 -0800 (PST)
-Received: from [10.6.18.24] (c-50-186-0-160.hsd1.or.comcast.net.
-	[50.186.0.160])
-	by mx.google.com with ESMTPSA id m2sm24148505pbn.19.2013.11.18.07.31.17
-	for <multiple recipients>
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Mon, 18 Nov 2013 07:31:17 -0800 (PST)
-Message-ID: <528A32C4.3030306@intel.com>
-Date: Mon, 18 Nov 2013 07:31:16 -0800
-From: Saul Wold <saul.wold@intel.com>
-Organization: Intel
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Mon, 18 Nov 2013 07:31:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=LIGogcMydr2b5vYcEgO1nk3eOaywH78nxRne8UncXVA=;
+	b=isn5G76zZMoVkdZGACIh7GIfnYhHCY/Q9f3w9+vlnTZr677KFNxr0FLEdeG6fccuPY
+	DwwdJ1qY79Duo1YsKA31IQ/CfsfXdwNLwqhWo2yHVhsyWFDawWjz14wzp47i7NBSoKUl
+	CTMgxExjSVSavi6hRGfyZR1Q5kRLNkJaXttPNuBuotnb4RBIfz2kOTH9kL0eZxacRcKa
+	BOHY7fQaqU0W7c6csTkCxNMLKNZn/Q/ryA7g2G/uk3jEodD3ylpEBROVmiXnDsv6KP/x
+	CP56+bKmFtTMWkc/RcTrGprbAK+eKnWTwr5B1OB96HsVbPcDb1YgyfwItsclZBE1QkEG
+	pCIw==
+X-Received: by 10.52.111.161 with SMTP id ij1mr1081459vdb.33.1384788709188;
+	Mon, 18 Nov 2013 07:31:49 -0800 (PST)
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	Otavio Salvador <otavio@ossystems.com.br>
-References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>	<5283F507.7050607@linux.intel.com>	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>	<5284F5D1.4010004@linux.intel.com>	<CADkTA4ObDkKgm+_-RG650m2TtugDh4tZ+OHyOateGSUvv9hmhQ@mail.gmail.com>	<CADkTA4MCL8pe8jACx8T9o7S17XvjUiBj5GwSp9nW2snWjpCQxQ@mail.gmail.com>	<CAP9ODKo+dR_FSj4djpGKcbQFWRiWqSK6XApGtjS6NM1r5scJDg@mail.gmail.com>	<528A0755.2060100@windriver.com>	<CAP9ODKqfdgCe_wpzyzGqgbfvOoT1HrgM_7PoSvuNDBtueBi1tA@mail.gmail.com>
-	<528A2927.7070009@windriver.com>
-In-Reply-To: <528A2927.7070009@windriver.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
+Sender: paul.betafive@gmail.com
+Received: by 10.220.49.71 with HTTP; Mon, 18 Nov 2013 07:31:09 -0800 (PST)
+In-Reply-To: <1384775852.6460.214.camel@ted>
+References: <CANyK_8c67C4NL7mNf3LTDwurtfpeU+S5ts4+O2t+HiDv84YgaQ@mail.gmail.com>
+	<52898177.5000303@windriver.com> <20131118114000.GB3727@jama>
+	<1384775852.6460.214.camel@ted>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Mon, 18 Nov 2013 15:31:09 +0000
+X-Google-Sender-Auth: 1VOo9MRQC88rKyBYsVdPcs2g3lA
+Message-ID: <CANyK_8eR05HauKBOd3AoTMjibYBgZEhBSv5pN5Yt_+s2CavsNA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg dependencies and update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 15:31:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Nov 2013 15:31:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 11/18/2013 06:50 AM, Robert Yang wrote:
->
-> On 11/18/2013 10:18 PM, Otavio Salvador wrote:
->> On Mon, Nov 18, 2013 at 10:25 AM, Robert Yang
->> <liezhi.yang@windriver.com> wrote:
->>>>
->>>> This should be considered for Dora as well as it fixes the deadlock
->>>> and building with 3.12 kernels.
->>>>
->>>
->>> Hi Otavio, thanks for suggesting this for dora, but dora's kernel is
->>> 3.10.11,
->>> and this is an update for lttng-modules, I'm not sure whether dora needs
->>> this.
->>>
->>> Add Saul in the CC list.
+On 18 November 2013 11:57, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2013-11-18 at 12:40 +0100, Martin Jansa wrote:
 >>
->> I think Dora ought to get the new 3.10 kernel updates; this can go
->> along side with it.
+>> FWIW: current u-a implementation provided by opkg is in OE-classic and
+>> was in older poky/oe-core provided also in standalone recipe
+>> update-alternatives-cworth
 >>
+>> http://git.openembedded.org/openembedded/tree/recipes/update-alternatives/update-alternatives-cworth_0.99.154.bb
+>>
+>> commit 44b538eedab7c255051fa3375f9f2439cd2db3dd
+>> Author: Marcin Juszkiewicz <hrw@openedhand.com>
+>> Date:   Wed Mar 19 15:36:01 2008 +0000
+>>
+>>     update-alternatives-cworth: dropped as they are now generated with opkg recipe
 >
-> Hi Otavio,
+> Turning this back into a standalone recipe might be worthwhile and seems
+> like the best way to address the problems.
 >
-> I'm sorry, but I'm not sure whether we need update dora's kernel from
-> 3.10.11
-> to 3.10.17, since we seldom do the package update for a stable branch,
-> let's wait for others' comments:-).
->
-This is correct, I do not think we will be updating the kernel for a 
-stable branch.
+> Paul: Have you any opinion of moving update-alternatives to its own
+> repository separate from opkg? or just check it into OE-Core as its just
+> a single script? Its not as if it really needs much from opkg at this
+> point?
 
-Sau!
+I'd be quite happy to break it out into a separate repo. I think
+that's better than direct inclusion into oe-core so that it remains
+easily usable by non-oe systems.
 
-> // Robert
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
+> I'm also wondering how it compares to the dpkg version (which is C
+> iirc). Should we switch to that? Does it give better performance?
 >
 
+The dpkg version does have more features but the dpkg recipe in
+oe-core says that it can't provide
+"virtual/update-alternative-native". I think the reason there is that
+it doesn't support installing to an offline target filesystem. I don't
+know how the performance compares but I don't think it's critical as
+it isn't a program that will be running very often on a target. The
+opkg version is probably more lightweight as it is a short shell
+script vs the 2,700 lines of C which make up the dpkg version.
+
+There is also an "alternatives" program in chkconfig which is listed
+as a possible provider of "virtual/update-alternatives" but again,
+trying to use in causes a dependency loop. I haven't given this
+version more than a quick glance though.
+
+Personally I'd say the dpkg version looks the best as it allows a user
+or script to query or change which alternative is selected whereas the
+opkg version only allows alternatives to be installed or removed. It
+would just need someone with the time to look into how it can be made
+to install links to a target filesystem rather than to the host
+filesystem. Unfortunately that isn't me at the moment.
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
