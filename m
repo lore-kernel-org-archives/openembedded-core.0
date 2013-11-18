@@ -1,29 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE7906D89C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id E2C8A6D89C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 12:46:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAICkPoQ004289
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Nov 2013 04:46:25 -0800 (PST)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 18 Nov 2013 04:46:24 -0800
-Message-ID: <528A0C0A.2090008@windriver.com>
-Date: Mon, 18 Nov 2013 20:46:02 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <1384773018.6460.202.camel@ted>
-	<CAJTo0LZWNbMFA1ogn2W7dvxtXh31LovO9QbYKcQsGpTR7C6KCg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZWNbMFA1ogn2W7dvxtXh31LovO9QbYKcQsGpTR7C6KCg@mail.gmail.com>
+	Mon, 18 Nov 2013 12:49:05 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAICms1C031129; Mon, 18 Nov 2013 12:48:54 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id p7mlKYVLoyRW; Mon, 18 Nov 2013 12:48:54 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAICmnHn031115
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 18 Nov 2013 12:48:50 GMT
+Message-ID: <1384778925.6460.229.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 18 Nov 2013 12:48:45 +0000
+In-Reply-To: <CAJTo0LZZg3tsdVCSFQBzb_J2bSmCcJY9PwuXRuiGW3ZX2y6q_w@mail.gmail.com>
+References: <1384776180.6460.218.camel@ted>
+	<CAJTo0LZZg3tsdVCSFQBzb_J2bSmCcJY9PwuXRuiGW3ZX2y6q_w@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: DORA RFC: FILESOVERIDES in dora
+Subject: Re: opkg in svn?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +38,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 12:46:24 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Mon, 18 Nov 2013 12:49:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-
-On 11/18/2013 07:15 PM, Burton, Ross wrote:
-> On 18 November 2013 11:10, Richard Purdie
+On Mon, 2013-11-18 at 12:33 +0000, Burton, Ross wrote:
+> On 18 November 2013 12:03, Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
->> a) Revert the change in the branch. Anyone who adapted to the correct
->> behaviour on the branch would need to revert those changes
->
-> As there hasn't been a .1 of Dora yet this only impacts people who
-> have been tracking git, so I think it's probably best to apologise for
-> this merge and revert it, on the grounds that it's a serious behaviour
-> change.
->
+> > recipes-sato/puzzles/puzzles_r9765.bb:SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV}"
+> 
+> Seems like a pretty good reason to ditch puzzles, IMHO.
 
-I'm afraid that the problem is it doesn't work well after revert the patch,
-either, as the patch says:
+Somehow I knew you'd say that. I still maintain those make a great
+demo/test app. I'm sure we could just point at a tarball by default for
+this ;-).
 
-Currently the overrides are being applied backwards. This means something
-which is platform specific is overriding something which is machine specific
-which is clearly not intended.
+Cheers,
 
-I don't know how many layers are affected, I've tested the current dora branch
-in the local autobuilder, didin't find any errors.
+Richard
 
-// Robert
-
-> Ross
->
->
 
