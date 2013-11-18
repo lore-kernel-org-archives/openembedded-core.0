@@ -1,15 +1,15 @@
 Return-Path: <ml@communistcode.co.uk>
 Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ADF66D001
+	by mail.openembedded.org (Postfix) with ESMTP id 649226D74F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 16:10:39 +0000 (UTC)
+	Mon, 18 Nov 2013 16:14:27 +0000 (UTC)
 From: Jack Mitchell <ml@communistcode.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2013 16:10:33 +0000
-Message-Id: <1384791033-29976-1-git-send-email-ml@communistcode.co.uk>
+Date: Mon, 18 Nov 2013 16:14:25 +0000
+Message-Id: <1384791265-30418-1-git-send-email-ml@communistcode.co.uk>
 X-Mailer: git-send-email 1.8.4.2
 Cc: Jack Mitchell <jmitchell@cbnl.com>
-Subject: [PATCHv5] libjson: update to 0.11 and rename to json-c
+Subject: [PATCHv6] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -22,16 +22,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 16:10:39 -0000
+X-List-Received-Date: Mon, 18 Nov 2013 16:14:27 -0000
 
 From: Jack Mitchell <jmitchell@cbnl.com>
 
-libjson is now known as json-c. Config.sub is removed as it breaks
+libjson is now known as json-c. Config.status is removed as it breaks
 seperate build dir builds. Built without parallel make as it fails,
 official word is not to bother trying.
 
 Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
 ---
+ 
+ v6: correct commit message
+
  meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
  meta/recipes-devtools/json-c/json-c_0.11.bb       | 20 ++++++++++++++++++++
  meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
@@ -55,7 +58,7 @@ index c067183..e1a5c6b 100644
  B_pn-libmatchbox = "${SEPB}"
 diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
 new file mode 100644
-index 0000000..4a75ed5
+index 0000000..831f281
 --- /dev/null
 +++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
 @@ -0,0 +1,20 @@
@@ -76,7 +79,7 @@ index 0000000..4a75ed5
 +inherit autotools
 +
 +do_configure_prepend() {
-+    # Clean up autoconf cruft that should noe be in the tarball
++    # Clean up autoconf cruft that should not be in the tarball
 +    rm ${S}/config.status
 +}
 diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
