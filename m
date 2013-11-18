@@ -1,24 +1,27 @@
-Return-Path: <Zhangle.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A41736D586
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 761BF6D01E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 12:54:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAICsvnV006918
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 18 Nov 2013 12:55:32 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id rAICtS8X026032
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 04:54:57 -0800 (PST)
-Received: from PEK-DSM-SYRINX.wrs.com (128.224.157.43) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 18 Nov 2013 04:54:56 -0800
-From: <zhangle.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Nov 2013 20:54:55 +0800
-Message-ID: <1384779295-16702-1-git-send-email-zhangle.yang@windriver.com>
-X-Mailer: git-send-email 1.8.2.1
+	Mon, 18 Nov 2013 13:55:33 +0100
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0347.000; Mon, 18 Nov 2013 13:55:28 +0100
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Thread-Topic: RPROVIDES not package specific with native and added package
+Thread-Index: Ac7kW/uiPKrHrTmoRhqqcp3NSngBhg==
+Date: Mon, 18 Nov 2013 12:55:27 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C4FD50595@post.tritech.se>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.82]
 MIME-Version: 1.0
-Subject: [PATCH] python: Fix ptest not working problems
+Subject: RPROVIDES not package specific with native and added package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,57 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 12:54:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 18 Nov 2013 12:55:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-From: Zhangle Yang <zhangle.yang@windriver.com>
-
-The run-ptest contained in python uses a Makefile. The path of the
-Makefile is changed to ${libdir}/python/ptest in do_install_ptest.
-However, the directory is wrong when the project is configured with
-"--enable-multilib=lib32"
-
-In addition, do_install_ptest is defined before "inherit ptest", so
-it is overriden by the one in ptest.bbclass. do_install_ptest is
-moved down.
-
-Signed-off-by: Zhangle Yang <zhangle.yang@windriver.com>
----
- meta/recipes-devtools/python/python_2.7.3.bb |   13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index 40d20f1..887e02e 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -134,11 +134,6 @@ do_install_append_class-nativesdk () {
- 	create_wrapper ${D}${bindir}/python2.7 TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo'
- }
- 
--do_install_ptest() {
--	cp ${B}/Makefile ${D}${PTEST_PATH}
--	sed -i s:LIBDIR:${libdir}:g ${D}${PTEST_PATH}/run-ptest
--}
--
- SSTATE_SCAN_FILES += "Makefile"
- PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
- 
-@@ -172,6 +167,14 @@ RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-misc"
- #inherit ptest after "require python-${PYTHON_MAJMIN}-manifest.inc" so PACKAGES doesn't get overwritten
- inherit ptest
- 
-+# This must come after inherit ptest for the override to take effect
-+do_install_ptest() {
-+	cp ${B}/Makefile ${D}${PTEST_PATH}
-+	sed -e s:LIBDIR/python/ptest:${PTEST_PATH}:g \
-+	 -e s:LIBDIR:${libdir}:g \
-+	 -i ${D}${PTEST_PATH}/run-ptest
-+}
-+
- # catch manpage
- PACKAGES += "${PN}-man"
- FILES_${PN}-man = "${datadir}/man"
--- 
-1.7.9.5
-
+Hi,=0A=
+=0A=
+I have a couple of recipes for building a proprietary application; a target=
+ and a native version. Both mostly depends on the same .inc file. Before, w=
+ith OE-Classic all used to work fine. Now while porting to OE-core there ar=
+e some QA-Issues:=0A=
+=0A=
+ERROR: QA Issue: /home/makr/projects/upgrade_to_oe-core/oe/local/meta-priv/=
+recipes-bsp/ipcgateway/ipcgateway-native.bb: Variable RPROVIDES is set as n=
+ot being package specific, please fix this.=0A=
+=0A=
+This is the "native" version. The target version still works without errors=
+. The native version is about the same as the target but with added:=0A=
+=0A=
+inherit native=0A=
+NATIVE_INSTALL_WORKS =3D "1"=0A=
+=0A=
+Looking a little deeper I found that the error occurs because the .inc file=
+ adds an extra package:=0A=
+=0A=
+PACKAGES_prepend =3D "${PN}-test "=0A=
+=0A=
+FILES_${PN}-test =3D "\=0A=
+    ${bindir}/ut_ipcgateway \=0A=
+    ${bindir}/st_ipcgateway \=0A=
+"=0A=
+=0A=
+If I comment these lines out, the error disappears.=0A=
+I tried to instead add:=0A=
+=0A=
+RPROVIDES_${PN}-test =3D "${PN}-test"=0A=
+=0A=
+to the recipe but it makes no difference.=0A=
+Running bitbake with "-e" I find the line (independent of the above changes=
+):=0A=
+=0A=
+RPROVIDES =3D "${PN}"=0A=
+=0A=
+which seem to be fine, but only as long as I don't add any extra packages.=
+=0A=
+If anyone have any suggestion on how to get around this issue, it would be =
+appreciated.=0A=
+=0A=
+Best Regards,=0A=
+Mats=0A=
 
