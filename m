@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id E2C8A6D89C
+Return-Path: <Zhangle.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A41736D586
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 12:49:05 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAICms1C031129; Mon, 18 Nov 2013 12:48:54 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id p7mlKYVLoyRW; Mon, 18 Nov 2013 12:48:54 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAICmnHn031115
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 18 Nov 2013 12:48:50 GMT
-Message-ID: <1384778925.6460.229.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 18 Nov 2013 12:48:45 +0000
-In-Reply-To: <CAJTo0LZZg3tsdVCSFQBzb_J2bSmCcJY9PwuXRuiGW3ZX2y6q_w@mail.gmail.com>
-References: <1384776180.6460.218.camel@ted>
-	<CAJTo0LZZg3tsdVCSFQBzb_J2bSmCcJY9PwuXRuiGW3ZX2y6q_w@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: opkg in svn?
+	Mon, 18 Nov 2013 12:54:55 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAICsvnV006918
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Nov 2013 04:54:57 -0800 (PST)
+Received: from PEK-DSM-SYRINX.wrs.com (128.224.157.43) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 18 Nov 2013 04:54:56 -0800
+From: <zhangle.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 18 Nov 2013 20:54:55 +0800
+Message-ID: <1384779295-16702-1-git-send-email-zhangle.yang@windriver.com>
+X-Mailer: git-send-email 1.8.2.1
+MIME-Version: 1.0
+Subject: [PATCH] python: Fix ptest not working problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,23 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 12:49:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Nov 2013 12:54:56 -0000
+Content-Type: text/plain
 
-On Mon, 2013-11-18 at 12:33 +0000, Burton, Ross wrote:
-> On 18 November 2013 12:03, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > recipes-sato/puzzles/puzzles_r9765.bb:SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV}"
-> 
-> Seems like a pretty good reason to ditch puzzles, IMHO.
+From: Zhangle Yang <zhangle.yang@windriver.com>
 
-Somehow I knew you'd say that. I still maintain those make a great
-demo/test app. I'm sure we could just point at a tarball by default for
-this ;-).
+The run-ptest contained in python uses a Makefile. The path of the
+Makefile is changed to ${libdir}/python/ptest in do_install_ptest.
+However, the directory is wrong when the project is configured with
+"--enable-multilib=lib32"
 
-Cheers,
+In addition, do_install_ptest is defined before "inherit ptest", so
+it is overriden by the one in ptest.bbclass. do_install_ptest is
+moved down.
 
-Richard
+Signed-off-by: Zhangle Yang <zhangle.yang@windriver.com>
+---
+ meta/recipes-devtools/python/python_2.7.3.bb |   13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 40d20f1..887e02e 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -134,11 +134,6 @@ do_install_append_class-nativesdk () {
+ 	create_wrapper ${D}${bindir}/python2.7 TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo'
+ }
+ 
+-do_install_ptest() {
+-	cp ${B}/Makefile ${D}${PTEST_PATH}
+-	sed -i s:LIBDIR:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+-}
+-
+ SSTATE_SCAN_FILES += "Makefile"
+ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+ 
+@@ -172,6 +167,14 @@ RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-misc"
+ #inherit ptest after "require python-${PYTHON_MAJMIN}-manifest.inc" so PACKAGES doesn't get overwritten
+ inherit ptest
+ 
++# This must come after inherit ptest for the override to take effect
++do_install_ptest() {
++	cp ${B}/Makefile ${D}${PTEST_PATH}
++	sed -e s:LIBDIR/python/ptest:${PTEST_PATH}:g \
++	 -e s:LIBDIR:${libdir}:g \
++	 -i ${D}${PTEST_PATH}/run-ptest
++}
++
+ # catch manpage
+ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
+-- 
+1.7.9.5
 
 
