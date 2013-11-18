@@ -1,32 +1,29 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 333FC6D433
+Return-Path: <Qiang.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 43AE76D544
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2013 18:58:40 +0000 (UTC)
-Received: by mail-vc0-f174.google.com with SMTP id if17so3082584vcb.33
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2013 10:58:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=vACOK6r1CImH4yTWJzMaDNDOg3zD+HAUouyUykWnXXM=;
-	b=I8Gu4D2m5Fy+CsrooLMfFhC4tfADIANhF0VGi0LSYsHeRti2uDVb0q2elEtjeJeIzT
-	yOjnLgH6aamZMnE3N+X8HUt7yfm6P7xbg3inyu1NBfxf+TYZavaTxq7BnlGShrpqny5R
-	AbvWOqeDgK9FyMNyz56d0bJQ94Z0Ik7758N17fldmo7E/uNKNM4Wy1YbzLZg7BqPOHPk
-	HWQd2EtgbsCog2NXbtRrEhVjDAvcRbb334RZbIXLBPUMXiEJgtSP4Mf1UQIdv/lqC4dk
-	IY+rXuZUKU+AxDqylQJI2hcCtG3EUX3psbSrGNJyLS8ybB21JFQhCyt8Ar4iRYP6JCmw
-	0Ezg==
-X-Received: by 10.220.192.198 with SMTP id dr6mr11463518vcb.19.1384714720974; 
-	Sun, 17 Nov 2013 10:58:40 -0800 (PST)
+	Mon, 18 Nov 2013 02:16:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAI2GrxT000431
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 17 Nov 2013 18:16:53 -0800 (PST)
+Received: from [128.224.162.198] (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Sun, 17 Nov 2013 18:16:52 -0800
+Message-ID: <52897892.2050400@windriver.com>
+Date: Mon, 18 Nov 2013 10:16:50 +0800
+From: Qiang Chen <qiang.chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.49.71 with HTTP; Sun, 17 Nov 2013 10:57:58 -0800 (PST)
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Sun, 17 Nov 2013 18:57:58 +0000
-X-Google-Sender-Auth: Q9_I_FZTikv9spEiim98a2dEQtE
-Message-ID: <CANyK_8c67C4NL7mNf3LTDwurtfpeU+S5ts4+O2t+HiDv84YgaQ@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: opkg dependencies and update-alternatives
+To: Saul Wold <sgw@linux.intel.com>
+References: <1384414827-5485-1-git-send-email-qiang.chen@windriver.com>
+	<528507F0.9000902@linux.intel.com>
+In-Reply-To: <528507F0.9000902@linux.intel.com>
+X-Originating-IP: [128.224.162.198]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: collect symbol link libxx.so for related libxx-dev package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,43 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Nov 2013 18:58:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 18 Nov 2013 02:16:53 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+On 11/15/2013 01:27 AM, Saul Wold wrote:
 
-I've been trying to add PACKAGECONFIG options to opkg and have ran
-into a dependency loop whilst building with certain options. Enabling
-curl support within opkg requires a dependency on curl. curl in turn
-depends on ncurses (via a few intermediate dependencies) and ncurses
-uses update-alternatives causing a dependency on
-virtual/update-alternatives.
-PREFERRED_PROVIDER_virtual/update-alternatives is set to "opkg" in
-meta/conf/distro/include/default-providers.inc and so we have a
-dependency loop if curl is enabled via the new PACKAGECONFIG options
-for opkg.
+> On 11/13/2013 11:40 PM, qiang.chen@windriver.com wrote:
+>> From: Qiang Chen <qiang.chen@windriver.com>
+>> Commit 91c0f9e3 moves library files to base_libdir for safe while
+>> symbol link libuuid.so and libblkid.so are placed in libdir, not
+>> base_libdir. Thus they are missed by related develop package and
+>> collected by util-linux's develop package at last. Fix it.
+>> Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+>> Signed-off-by: Qiang Chen <qiang.chen@windriver.com>
+>> ---
+>>    meta/recipes-core/util-linux/util-linux.inc |    6 +++---
+>>    1 file changed, 3 insertions(+), 3 deletions(-)
+>> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+>> index 15b6770..e25fbd6 100644
+>> --- a/meta/recipes-core/util-linux/util-linux.inc
+>> +++ b/meta/recipes-core/util-linux/util-linux.inc
+>> @@ -74,11 +74,11 @@ FILES_util-linux-reset = "${base_bindir}/reset"
+>>    FILES_util-linux-partx = "${sbindir}/partx"
+>>    FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
+>> -FILES_util-linux-libblkid-dev = "${base_libdir}/libblkid.so ${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
+>> +FILES_util-linux-libblkid-dev = "${libdir}/libblkid.so ${base_libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
+>>    FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
+>> -FILES_util-linux-libmount-dev = "${base_libdir}/libmount.so ${base_libdir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
+>> +FILES_util-linux-libmount-dev = "${libdir}/libmount.so ${base_libdir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
+>>    FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
+>> -FILES_util-linux-libuuid-dev = "${base_libdir}/libuuid.so ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
+>> +FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${base_libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
+>>    FILES_util-linux-lscpu = "${bindir}/lscpu"
+> Don't the .la files need to be with the .so files.
 
-I can cause the same dependency loop by setting
-PREFERRED_PROVIDER_virtual/update-alternatives to "dpkg" as dpkg
-directly depends on ncurses (which uses update-alternatives). So if
-someone wanted to use the more powerful update-alternatives from dpkg
-on a target system it doesn't look like that is currently possible.
+Yes, I missed these .la files.
 
-This places quite a constraint on whichever recipe PROVIDES
-update-alternatives. Going forward I'm hoping to use libarchive within
-opkg and libarchive depends on bzip2 by default which uses
-update-alternatives, which would cause the same problem.
+The .la files also located at libdir not base_libdir, so I will send V2 patch.
 
-Does anyone have any clever solutions to this? Perhaps we could split
-update-alternatives off into its own recipe which should be dependent
-on very little, allowing opkg a little more freedom in its
-dependencies.
+Thanks Sau !
 
-Thanks,
+Qiang
 
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+> Sau!
+>>    FILES_util-linux-fsck = "${base_sbindir}/fsck*"
+>
 
