@@ -1,18 +1,22 @@
 Return-Path: <ml@communistcode.co.uk>
 Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 649226D74F
+	by mail.openembedded.org (Postfix) with ESMTP id 2F0B06D74F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 16:14:27 +0000 (UTC)
+	Mon, 18 Nov 2013 16:15:17 +0000 (UTC)
+Message-ID: <528A3D15.7020807@communistcode.co.uk>
+Date: Mon, 18 Nov 2013 16:15:17 +0000
 From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2013 16:14:25 +0000
-Message-Id: <1384791265-30418-1-git-send-email-ml@communistcode.co.uk>
-X-Mailer: git-send-email 1.8.4.2
-Cc: Jack Mitchell <jmitchell@cbnl.com>
-Subject: [PATCHv6] libjson: update to 0.11 and rename to json-c
+References: <1384791033-29976-1-git-send-email-ml@communistcode.co.uk>
+In-Reply-To: <1384791033-29976-1-git-send-email-ml@communistcode.co.uk>
+Subject: Re: [PATCHv5] libjson: update to 0.11 and rename to json-c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -22,100 +26,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 16:14:27 -0000
+X-List-Received-Date: Mon, 18 Nov 2013 16:15:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-From: Jack Mitchell <jmitchell@cbnl.com>
+On 18/11/13 16:10, Jack Mitchell wrote:
+> From: Jack Mitchell <jmitchell@cbnl.com>
+> 
+> libjson is now known as json-c. Config.sub is removed as it breaks
+> seperate build dir builds. Built without parallel make as it fails,
+> official word is not to bother trying.
+> 
 
-libjson is now known as json-c. Config.status is removed as it breaks
-seperate build dir builds. Built without parallel make as it fails,
-official word is not to bother trying.
+[snip]
 
-Signed-off-by: Jack Mitchell <jmitchell@cbnl.com>
----
- 
- v6: correct commit message
+v6 incoming with correct commit message and comment typo fixed.
 
- meta/conf/distro/include/seperatebuilddir.inc     |  2 +-
- meta/recipes-devtools/json-c/json-c_0.11.bb       | 20 ++++++++++++++++++++
- meta/recipes-devtools/libjson/libjson_0.9.bb      | 14 --------------
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc |  2 +-
- 4 files changed, 22 insertions(+), 16 deletions(-)
- create mode 100644 meta/recipes-devtools/json-c/json-c_0.11.bb
- delete mode 100644 meta/recipes-devtools/libjson/libjson_0.9.bb
-
-diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-index c067183..e1a5c6b 100644
---- a/meta/conf/distro/include/seperatebuilddir.inc
-+++ b/meta/conf/distro/include/seperatebuilddir.inc
-@@ -294,7 +294,7 @@ B_pn-libice = "${SEPB}"
- B_pn-libice-native = "${SEPB}"
- B_pn-libid3tag = "${SEPB}"
- B_pn-libidn = "${SEPB}"
--B_pn-libjson = "${SEPB}"
-+B_pn-json-c = "${SEPB}"
- B_pn-libksba = "${SEPB}"
- B_pn-libmad = "${SEPB}"
- B_pn-libmatchbox = "${SEPB}"
-diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
-new file mode 100644
-index 0000000..831f281
---- /dev/null
-+++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
-+HOMEPAGE = "https://github.com/json-c/json-c/wiki"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
-+
-+SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
-+
-+SRC_URI[md5sum] = "aa02367d2f7a830bf1e3376f77881e98"
-+SRC_URI[sha256sum] = "28dfc65145dc0d4df1dfe7701ac173c4e5f9347176c8983edbfac9149494448c"
-+
-+RPROVIDES_${PN} = "libjson"
-+
-+PARALLEL_MAKE = ""
-+
-+inherit autotools
-+
-+do_configure_prepend() {
-+    # Clean up autoconf cruft that should not be in the tarball
-+    rm ${S}/config.status
-+}
-diff --git a/meta/recipes-devtools/libjson/libjson_0.9.bb b/meta/recipes-devtools/libjson/libjson_0.9.bb
-deleted file mode 100644
-index e4951a8..0000000
---- a/meta/recipes-devtools/libjson/libjson_0.9.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--DESCRIPTION = "JSON-C - A JSON implementation in C"
--HOMEPAGE = "http://oss.metaparadigm.com/json-c/"
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=30a276a476b02c2dcd0849bde417fb17"
--
--SRC_URI = "http://oss.metaparadigm.com/json-c/json-c-${PV}.tar.gz"
--SRC_URI[md5sum] = "3a13d264528dcbaf3931b0cede24abae"
--SRC_URI[sha256sum] = "702a486c9bf8e19137d484ab5c49b4ad314eb5e1fe37062a72c0a0fa39439475"
--
--S = "${WORKDIR}/json-c-${PV}"
--
--
--inherit autotools
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index bb13f4b..7e87ef8 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
- DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
--DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
-+DEPENDS += "json-c gdbm speex libxml-parser-perl-native"
- 
- inherit autotools pkgconfig useradd gettext perlnative
- 
 -- 
-1.8.4.2
-
+  Jack Mitchell (jack@embed.me.uk)
+  Embedded Systems Engineer
+  Cambridgeshire, UK
+  http://www.embed.me.uk
+-- 
 
