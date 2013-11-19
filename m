@@ -1,42 +1,45 @@
-Return-Path: <dominik.holland@pelagicore.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 19ACD6D985
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F09B6D838
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 11:48:57 +0000 (UTC)
-Received: by mail-ee0-f44.google.com with SMTP id d51so3215241eek.17
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 03:48:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=qMSeNVgOKLUzXpDUu4CCMH5MZmiv2B7PyYC53vyO1tk=;
-	b=gopu+kjpVnue80X+gcQKTKWb5XqBCRyG4zoXcnYfFncIbK+uqA/fBULohYExIcNDqa
-	DVg4EA+T4SqjeU8IUip8TjtIr4sdJxpToOdaluelPZu4F0Ze2KeurOhRAJFpsDstwUJ+
-	InHSkyp1LFS8k5Vw/G0Z7Y/02MP7bZ2lcsMSWZmZH0AZeHAuNjX5K/sUgGfqFsOaooZB
-	dYi2svXX9ZQ6s/d1VlzwDIB0iQ0k/BaF7DCbnA5dMBgg26pyD6PSrXcOdMhTX4t1MJim
-	PV7BZOjcWHP21yGb2Dir6InixQOJ38lvOsZh8u2pdNolAjkACXEzSoN6g2G/un5oe3Ky
-	dpfg==
-X-Gm-Message-State: ALoCoQnjs4EO8o5KYwJqKkanSP23qVUDsiNurq4thLStBwLbwR747/vkONBGQERphsgjMLJAUeBn
-X-Received: by 10.14.88.132 with SMTP id a4mr2487594eef.60.1384861739470;
-	Tue, 19 Nov 2013 03:48:59 -0800 (PST)
-Received: from [10.10.1.61] (ppp-82-135-80-30.dynamic.mnet-online.de.
-	[82.135.80.30])
-	by mx.google.com with ESMTPSA id w6sm47955087eeo.12.2013.11.19.03.48.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 19 Nov 2013 03:48:58 -0800 (PST)
-Message-ID: <528B5029.9060104@pelagicore.com>
-Date: Tue, 19 Nov 2013 12:48:57 +0100
-From: Dominik Holland <dominik.holland@pelagicore.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Tue, 19 Nov 2013 12:16:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id 198E43C26C9;
+	Tue, 19 Nov 2013 13:16:23 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id wxJxkRZ3AYCl; Tue, 19 Nov 2013 13:16:22 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id 3095611FBA;
+	Tue, 19 Nov 2013 13:16:22 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 198E0B51;
+	Tue, 19 Nov 2013 13:16:22 +0100 (CET)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 0DD92B4D;
+	Tue, 19 Nov 2013 13:16:22 +0100 (CET)
+Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
+	by thoth.se.axis.com (Postfix) with ESMTP id 0BDE73404E;
+	Tue, 19 Nov 2013 13:16:22 +0100 (CET)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
+	([10.0.5.75]) with mapi; Tue, 19 Nov 2013 13:16:21 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 19 Nov 2013 13:16:20 +0100
+Thread-Topic: [OE-core] [PATCH 00/14] Improvements to pybootchartgui
+Thread-Index: Ac7iWfSVk0GAGYeATX+Ta42m+hiumgB/6dKw
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7A4A57E5403@xmail3.se.axis.com>
+References: <cover.1384535211.git.pkj@axis.com>
+	<CAJTo0LY4tWcawLzOcO4o3LSPoQqod8DKD-BWoMOrmsx5XndDkw@mail.gmail.com>
+In-Reply-To: <CAJTo0LY4tWcawLzOcO4o3LSPoQqod8DKD-BWoMOrmsx5XndDkw@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1384445751-1226-1-git-send-email-dominik.holland@pelagicore.com>
-In-Reply-To: <1384445751-1226-1-git-send-email-dominik.holland@pelagicore.com>
-Subject: Re: [PATCH V2] dbus: Don't depend on dbus-ptest-ptest for the nativesdk-dbus package
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/14] Improvements to pybootchartgui
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,36 +52,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 11:48:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Nov 2013 12:16:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi,
-
-can anyone comment on my patch or push it into the master branch ?
-
-Dominik
-
-On 11/14/2013 05:15 PM, Dominik Holland wrote:
-> I also changed RDEPENDS_class-native to RDEPENDS_dbus_class-native now
->
-> ---
->   meta/recipes-core/dbus/dbus.inc | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-> index 5864643..6612184 100644
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ b/meta/recipes-core/dbus/dbus.inc
-> @@ -10,7 +10,8 @@ DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X
->   DEPENDS_class-native = "expat-native virtual/libintl-native"
->   DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl"
->   RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '', d)}"
-> -RDEPENDS_class-native = ""
-> +RDEPENDS_dbus_class-native = ""
-> +RDEPENDS_dbus_class-nativesdk = ""
->   
->   INC_PR = "r6"
->   
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0
+bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IGRlbiAxNiBub3ZlbWJlciAyMDEzIDAw
+OjI1DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQNCj4gQ2M6IE9FLWNvcmUNCj4gU3ViamVjdDog
+UmU6IFtPRS1jb3JlXSBbUEFUQ0ggMDAvMTRdIEltcHJvdmVtZW50cyB0byBweWJvb3RjaGFydGd1
+aQ0KPiANCj4gSGksDQo+IA0KPiBPbiAxNSBOb3ZlbWJlciAyMDEzIDE3OjA4LCBQZXRlciBLamVs
+bGVyc3RlZHQNCj4gPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+ID4gVGhp
+cyBjb3JyZWN0cyBhbmQgaW1wcm92ZXMgcHlib290Y2hhcnRndWkuIEl0IHN0YXJ0cyBieSBpbXBv
+cnRpbmcgdGhlDQo+ID4gcmVsZXZhbnQgcGFydHMgZm9yIHB5Ym9vdGNoYXJ0Z3VpIGZyb20gdGhl
+IGxhdGVzdCB2ZXJzaW9uICgwLjE0LjUpIG9mDQo+ID4gYm9vdGNoYXJ0MiBmcm9tICJodHRwczov
+L2dpdGh1Yi5jb20vbW1lZWtzL2Jvb3RjaGFydCIuIEl0IHRoZW4NCj4gY29ycmVjdHMNCj4gPiBh
+IGNvdXBsZSBvZiBwcm9ibGVtcyAoZS5nLiwgWCBzY2FsaW5nLCBYIG9mZnNldCBvZiB0aGUgY2hh
+cnQsIGFuZA0KPiBoZWFkZXINCj4gPiBoZWlnaHQpLCBhbmQgZmluYWxseSBhZGRzIGEgY291cGxl
+IG9mIGltcHJvdmVtZW50cyAoZS5nLiwgZGlzYWJsZQ0KPiA+IGlycmVsZXZhbnQgb3B0aW9ucywg
+ZHJhdyBhIGxvdCBsZXNzIHRpY2tzLCBhbmQgdXNlICJTaG93IG1vcmUiIHRvDQo+IHNob3cNCj4g
+PiBhbGwgcHJvY2Vzc2VzKS4NCj4gDQo+IEV4Y2VsbGVudCBzdHVmZiwgdGhhbmtzIGZvciB3b3Jr
+aW5nIG9uIHRoaXMuICBTb21lIHRpbWUgYWdvIEkgc3Bva2UgdG8NCj4gdGhlIGJvb3RjaGFydDIg
+bWFpbnRhaW5lcnMgYW5kIHRoZXkgd2VyZSBvcGVuIHRvIGdlbmVyYWxpc2luZyB0aGVpcg0KPiBj
+b2RlIGFuZCBtZXJnaW5nIG91ciBjb2RlYmFzZXMgLSBpcyB0aGlzIHNvbWV0aGluZyB5b3UnZCBi
+ZQ0KPiBpbnRlcmVzdGluZyBpbiBsb29raW5nIGF0Pw0KPiANCj4gUm9zcw0KDQpVbmZvcnR1bmF0
+ZWx5IEkgZG8gbm90IHRoaW5rIHNvIGF0IHRoaXMgdGltZS4NCg0KLy9QZXRlcg0KDQo=
 
