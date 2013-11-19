@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 2457B6B4BD
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 176EA6AD6A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 15:43:01 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 19 Nov 2013 07:43:02 -0800
+	Tue, 19 Nov 2013 15:43:02 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Nov 2013 07:43:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="322053604"
+X-IronPort-AV: E=Sophos;i="4.93,729,1378882800"; d="scan'208";a="430301139"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 19 Nov 2013 07:43:02 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 19 Nov 2013 07:43:03 -0800
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id C32776A4009
+	by linux.intel.com (Postfix) with ESMTP id ABE0F6A4009
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 07:43:00 -0800 (PST)
+	Tue, 19 Nov 2013 07:43:01 -0800 (PST)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2013 17:43:35 +0200
-Message-Id: <0eb35797e7734f1cb3cff73d726ef2dd3d98ed5f.1384874570.git.stefanx.stanacar@intel.com>
+Date: Tue, 19 Nov 2013 17:43:36 +0200
+Message-Id: <3a0d1807859e8ea3f5ac39f5626743d25b91e740.1384874570.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1384874570.git.stefanx.stanacar@intel.com>
 References: <cover.1384874570.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1384874570.git.stefanx.stanacar@intel.com>
 References: <cover.1384874570.git.stefanx.stanacar@intel.com>
-Subject: [RFC PATCH 2/4] meta-selftest: create a new test layer to be used by oe-selftest script
+Subject: [RFC PATCH 3/4] scripts/lib/selftest: add a new module for bitbake output tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,181 +39,114 @@ X-List-Received-Date: Tue, 19 Nov 2013 15:43:02 -0000
 
 From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 
-Everything in this layer is meant to be used by tests.
+Tests for bitbake-layers and expected output for some bitbake options.
 
 Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- .gitignore                                         |  1 +
- meta-selftest/COPYING.MIT                          | 17 +++++++++++++
- meta-selftest/README                               |  2 ++
- meta-selftest/classes/test_events.bbclass          | 16 +++++++++++++
- meta-selftest/conf/layer.conf                      | 10 ++++++++
- .../recipes-test/aspell/aspell_0.0.0.1.bb          | 28 ++++++++++++++++++++++
- .../recipes-test/man/man/man-1.5h1-make.patch      | 16 +++++++++++++
- meta-selftest/recipes-test/man/man_1.6g.bbappend   |  2 ++
- .../xcursor-transparent-theme_0.1.1.bbappend       |  3 +++
- 9 files changed, 95 insertions(+)
- create mode 100644 meta-selftest/COPYING.MIT
- create mode 100644 meta-selftest/README
- create mode 100644 meta-selftest/classes/test_events.bbclass
- create mode 100644 meta-selftest/conf/layer.conf
- create mode 100644 meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb
- create mode 100644 meta-selftest/recipes-test/man/man/man-1.5h1-make.patch
- create mode 100644 meta-selftest/recipes-test/man/man_1.6g.bbappend
- create mode 100644 meta-selftest/recipes-test/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bbappend
+ scripts/lib/selftest/tests/__init__.py |  1 +
+ scripts/lib/selftest/tests/bboutput.py | 86 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 87 insertions(+)
+ create mode 100644 scripts/lib/selftest/tests/bboutput.py
 
-diff --git a/.gitignore b/.gitignore
-index 0171597..b6755fe 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -21,3 +21,4 @@ bitbake/doc/manual/pdf/
- bitbake/doc/manual/txt/
- bitbake/doc/manual/xhtml/
- pull-*/
-+!meta-selftest
-diff --git a/meta-selftest/COPYING.MIT b/meta-selftest/COPYING.MIT
+diff --git a/scripts/lib/selftest/tests/__init__.py b/scripts/lib/selftest/tests/__init__.py
+index e69de29..3acc480 100644
+--- a/scripts/lib/selftest/tests/__init__.py
++++ b/scripts/lib/selftest/tests/__init__.py
+@@ -0,0 +1 @@
++from selftest.tests.bboutput import *
+diff --git a/scripts/lib/selftest/tests/bboutput.py b/scripts/lib/selftest/tests/bboutput.py
 new file mode 100644
-index 0000000..89de354
+index 0000000..386572f
 --- /dev/null
-+++ b/meta-selftest/COPYING.MIT
-@@ -0,0 +1,17 @@
-+Permission is hereby granted, free of charge, to any person obtaining a copy
-+of this software and associated documentation files (the "Software"), to deal
-+in the Software without restriction, including without limitation the rights
-+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+copies of the Software, and to permit persons to whom the Software is
-+furnished to do so, subject to the following conditions:
++++ b/scripts/lib/selftest/tests/bboutput.py
+@@ -0,0 +1,86 @@
++import unittest
++import os
++import logging
++import re
++import shutil
++from selftest.base import oeSelfTest
++from selftest.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
++import selftest.utils.ftools as ftools
 +
-+The above copyright notice and this permission notice shall be included in
-+all copies or substantial portions of the Software.
++class BitbakeTests(oeSelfTest):
 +
-+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+THE SOFTWARE.
-diff --git a/meta-selftest/README b/meta-selftest/README
-new file mode 100644
-index 0000000..e0f803d
---- /dev/null
-+++ b/meta-selftest/README
-@@ -0,0 +1,2 @@
-+This layer is intended as test layer, used by scripts/oe-selftest
-+and it's probably a mistake to include it in your builds.
-diff --git a/meta-selftest/classes/test_events.bbclass b/meta-selftest/classes/test_events.bbclass
-new file mode 100644
-index 0000000..35324eb
---- /dev/null
-+++ b/meta-selftest/classes/test_events.bbclass
-@@ -0,0 +1,16 @@
-+python test1_eventhandler() {
-+    bb.note("Test for bb.event.BuildStarted")
-+}
-+python test2_eventhandler() {
-+    bb.note("Test for bb.event.BuildCompleted")
-+}
-+python test3_eventhandler() {
-+    bb.note("Test for bb.event.InvalidEvent")
-+}
++    def test_run_bitbake_from_1(self):
++        os.chdir(os.path.join(self.builddir, 'conf'))
++        bitbake('-e')
 +
-+addhandler test1_eventhandler
-+test1_eventhandler[eventmask] = "bb.event.BuildStarted"
-+addhandler test2_eventhandler
-+test2_eventhandler[eventmask] = "bb.event.BuildCompleted"
-+addhandler test3_eventhandler
-+test3_eventhandler[eventmask] = "bb.event.InvalidEvent"
-diff --git a/meta-selftest/conf/layer.conf b/meta-selftest/conf/layer.conf
-new file mode 100644
-index 0000000..e3322f6
---- /dev/null
-+++ b/meta-selftest/conf/layer.conf
-@@ -0,0 +1,10 @@
-+# We have a conf and classes directory, add to BBPATH
-+BBPATH .= ":${LAYERDIR}"
++    def test_run_bitbake_from_2(self):
++        my_env = os.environ.copy()
++        my_env['BBPATH'] = my_env['BUILDDIR']
++        os.chdir(os.path.dirname(os.environ['BUILDDIR']))
++        bitbake('-e', env=my_env)
 +
-+# We have recipes-* directories, add to BBFILES
-+BBFILES += "${LAYERDIR}/recipes-*/*/*.bb \
-+	${LAYERDIR}/recipes-*/*/*.bbappend"
++    def test_event_handler(self):
++        self.write_config("INHERIT += \"test_events\"")
++        result = bitbake('m4-native')
++        find_build_started = re.search("NOTE: Test for bb\.event\.BuildStarted(\n.*)*NOTE: Preparing runqueue", result.output)
++        find_build_completed = re.search("Tasks Summary:.*(\n.*)*NOTE: Test for bb\.event\.BuildCompleted", result.output)
++        self.assertTrue(find_build_started, msg = "Match failed in:\n%s"  % result.output)
++        self.assertTrue(find_build_completed, msg = "Match failed in:\n%s" % result.output)
++        self.assertFalse('Test for bb.event.InvalidEvent' in result.output)
 +
-+BBFILE_COLLECTIONS += "selftest"
-+BBFILE_PATTERN_selftest = "^${LAYERDIR}/"
-+BBFILE_PRIORITY_selftest = "6"
-diff --git a/meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb b/meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb
-new file mode 100644
-index 0000000..79eb06b
---- /dev/null
-+++ b/meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb
-@@ -0,0 +1,28 @@
-+# This recipe is a copy from the oe-core one.
-+# It has a lower and invalid version number in order not to be accidentally used by bitbake.
-+# It is used for tests that require duplicate recipe files.
++    def test_local_sstate(self):
++        bitbake('m4-native -ccleansstate')
++        bitbake('m4-native')
++        bitbake('m4-native -cclean')
++        result = bitbake('m4-native')
++        find_setscene = re.search("m4-native.*do_.*_setscene", result.output)
++        self.assertTrue(find_setscene)
 +
-+DESCRIPTION = "GNU Aspell spell-checker"
-+SECTION = "console/utils"
-+LICENSE="LGPLv2 | LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-+PR = "r1"
++    def test_bitbake_invalid_recipe(self):
++        result = bitbake('-b asdf', ignore_status=True)
++        self.assertTrue("ERROR: Unable to find any recipe file matching 'asdf'" in result.output)
 +
-+SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
-+SRC_URI[md5sum] = "e66a9c9af6a60dc46134fdacf6ce97d7"
-+SRC_URI[sha256sum] = "f52583a83a63633701c5f71db3dc40aab87b7f76b29723aeb27941eff42df6e1"
++    def test_bitbake_invalid_target(self):
++        result = bitbake('asdf', ignore_status=True)
++        self.assertTrue("ERROR: Nothing PROVIDES 'asdf'" in result.output)
 +
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
++    def test_warnings_errors(self):
++        result = bitbake('-b asdf', ignore_status=True)
++        find_warnings = re.search("Summary: There was [1-9][0-9]* WARNING message shown.", result.output)
++        find_errors = re.search("Summary: There was [1-9][0-9]* ERROR message shown.", result.output)
++        self.assertTrue(find_warnings)
++        self.assertTrue(find_errors)
 +
-+PACKAGES += "libaspell libpspell libpspell-dev aspell-utils"
++    def test_invalid_patch(self):
++        inc_file = os.path.join(get_test_layer(), 'recipes-test/man/test_recipe.inc')
++        ftools.write_file(inc_file, 'SRC_URI += "file://man-1.5h1-make.patch"')
++        result = bitbake('man -c patch', ignore_status=True)
++        os.remove(inc_file)
++        bitbake('-cclean man')
++        self.assertTrue("ERROR: Function failed: patch_do_patch" in result.output)
 +
-+FILES_${PN}-dbg += "${libdir}/aspell-0.60/.debu*"
-+FILES_libaspell = "${libdir}/libaspell.so.* ${libdir}/aspell*"
-+FILES_aspell-utils = "${bindir}/word-list-compress ${bindir}/aspell-import ${bindir}/run-with-aspell ${bindir}/pre*"
-+FILES_${PN} = "${bindir}/aspell"
-+FILES_libpspell = "${libdir}/libpspell.so.*"
-+FILES_libpspell-dev = "${libdir}/libpspell* ${bindir}/pspell-config ${includedir}/pspell"
 +
-+ARM_INSTRUCTION_SET = "arm"
-+inherit autotools gettext
-diff --git a/meta-selftest/recipes-test/man/man/man-1.5h1-make.patch b/meta-selftest/recipes-test/man/man/man-1.5h1-make.patch
-new file mode 100644
-index 0000000..a0d59b7
---- /dev/null
-+++ b/meta-selftest/recipes-test/man/man/man-1.5h1-make.patch
-@@ -0,0 +1,16 @@
-+Test patch here!
-+This is invalid patch used by tests in scripts/lib/selftests.
++class BitbakeLayers(oeSelfTest):
 +
-+--- man-1.5g/man/Makefile.in.mike	Fri Apr  9 13:35:54 1999
-++++ man-1.5g/man/Makefile.in	Fri Apr  9 13:36:45 1999
-+@@ -1,8 +1,8 @@
-+ #MAKE THIS PATCH INVALID
-+ MAN1 = man whatis apropos
-+-MAN5 = man.conf
-++MAN5 = man.config
-+ MAN8 = makewhatis
-+-ALL = man.1 whatis.1 apropos.1 man.conf.5
-++ALL = man.1 whatis.1 apropos.1 man.config.5
-+ MAYBE8 = makewhatis
-+ 
-+ .SUFFIXES: .man .1 .5 .8
-diff --git a/meta-selftest/recipes-test/man/man_1.6g.bbappend b/meta-selftest/recipes-test/man/man_1.6g.bbappend
-new file mode 100644
-index 0000000..2057209
---- /dev/null
-+++ b/meta-selftest/recipes-test/man/man_1.6g.bbappend
-@@ -0,0 +1,2 @@
-+# This bbappend is used to alter the recipe using the test_recipe.inc file created by tests.
-+include test_recipe.inc
-diff --git a/meta-selftest/recipes-test/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bbappend b/meta-selftest/recipes-test/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bbappend
-new file mode 100644
-index 0000000..29e86f6
---- /dev/null
-+++ b/meta-selftest/recipes-test/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bbappend
-@@ -0,0 +1,3 @@
-+TEST_VAR = ""
-+# This bbappend is used to alter the recipe using the test_recipe.inc file created by tests.
-+include test_recipe.inc
++    def test_bitbakelayers_showlayers(self):
++        result = runCmd('bitbake-layers show_layers')
++        self.assertTrue('meta-selftest' in result.output)
++
++    def test_bitbakelayers_showappends(self):
++        result = runCmd('bitbake-layers show_appends')
++        self.assertTrue('xcursor-transparent-theme_0.1.1.bbappend' in result.output, msg='xcursor-transparent-theme_0.1.1.bbappend file was not recognised')
++
++    def test_bitbakelayers_showoverlayed(self):
++        result = runCmd('bitbake-layers show_overlayed')
++        self.assertTrue('aspell' in result.output, msg='xcursor-transparent-theme_0.1.1.bbappend file was not recognised')
++
++    def test_bitbakelayers_flatten(self):
++        if os.path.isdir(os.path.join(self.builddir, 'test')):
++            shutil.rmtree(os.path.join(self.builddir, 'test'))
++        result = runCmd('bitbake-layers flatten test')
++        bb_file = os.path.join(self.builddir, 'test/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb')
++        self.assertTrue(os.path.isfile(bb_file))
++        contents = ftools.read_file(bb_file)
++        find_in_contents = re.search("##### bbappended from meta-selftest #####\nTEST_VAR = \"\"", contents)
++        shutil.rmtree(os.path.join(self.builddir, 'test'))
++        self.assertTrue(find_in_contents)
 -- 
 1.8.3.1
 
