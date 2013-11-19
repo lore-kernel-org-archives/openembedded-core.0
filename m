@@ -1,37 +1,25 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id AD5A36D58B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D52B6148C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 23:29:13 +0000 (UTC)
-Received: by mail-pd0-f180.google.com with SMTP id q10so2060751pdj.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2013 15:29:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:mime-version
-	:content-transfer-encoding:content-type;
-	bh=oWKHwaxs3O+kzHYAo0S+abHlObJxnc6h8UG83lgNtc8=;
-	b=OsdBuvBxnHZxgH4gFLvr0Rs9gwiRd2UfkYgT65mFqTxlcEuXHLcvISQSdCSvAuWgl4
-	bZVXJJyOvl4UAwXdBQOzSGIYifrMRElr1wLjs20/MNRHwLe5wtaS4m82wlOVbkvLIGML
-	624wNRK00SM+jzV5vj+1Ub+1hyCHtYyVs/ILKPHBjy1F5POecwshOhx+LM6pdbYfWwqa
-	XFwW/fF3m81llX5gyHiMQup/4hM0Qu3XTVpTmwPudv81Lg9GxBS0ok4E12AnpANdKjwc
-	arVYcEPRwpYOWlJXl3a+zAPFxny2qeZdDnhxQIP7d1dNoUIMCNC3fDu+V6o6f68j7p5b
-	pqVQ==
-X-Received: by 10.68.242.4 with SMTP id wm4mr15591420pbc.77.1384817355517;
-	Mon, 18 Nov 2013 15:29:15 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([117.89.160.94])
-	by mx.google.com with ESMTPSA id
-	pl1sm25974853pbb.20.2013.11.18.15.29.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Nov 2013 15:29:14 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2013 07:21:42 +0800
-Message-ID: <2838381.LbivOYPPzY@yiqingliang-pc>
-User-Agent: KMail/4.11.3 (Linux/3.11.6-1-ARCH; KDE/4.11.3; x86_64; ; )
+	Tue, 19 Nov 2013 00:40:30 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 18 Nov 2013 16:36:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="410872495"
+Received: from unknown (HELO [10.255.15.160]) ([10.255.15.160])
+	by orsmga001.jf.intel.com with ESMTP; 18 Nov 2013 16:40:31 -0800
+Message-ID: <528AB37E.8000302@linux.intel.com>
+Date: Mon, 18 Nov 2013 16:40:30 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: kernel build fail after update
+To: Mark Hatle <mark.hatle@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1384305535.git.mark.hatle@windriver.com>
+In-Reply-To: <cover.1384305535.git.mark.hatle@windriver.com>
+Subject: Re: [PATCH 0/6] Misc changes relating to toolchain and image gen
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,77 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 23:29:14 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 19 Nov 2013 00:40:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-after update poky, I got error when compile my own kernel, it looks like there 
-is no directory '/mnt/src/kl360-build/tmp/work/kl360-jilong-linux-
-gnueabi/linux-jilong/3.9.4-gitAUTOINC+5dbff4f559/image'.
+On 11/12/2013 05:23 PM, Mark Hatle wrote:
+> A few misc fixes relating to toolchain and image generation.
+>
+> The first two in the set simply updated gcc to remove the -symlinks package
+> in favor of update-alternatives.
+>
+> The next fixes an issue w/ the previous binutils patch and upgrades.
+>
+> Next 2 update packagegroups to make revise and use the
+> packagegroup-core-buildessentials.
+>
+> The final patch fixes an issue w/ the image generatation.  If the
+> IMAGE_INSTALL contains a dependency instead of a package name, the system
+> was not able to translate it into a package.  This now works properly.
+>
+> Note, there is a case where an unresolvable set could be determined (rare,
+> but it is possible), in this case the user would need to add whatever is
+> required to fix it to the IMAGE_INSTALL.  (This could happen when 2 or more
+> conflicting packages all have the same provide, but none of them are in
+> the IMAGE_INSTALL line.  The system will attempt to determine which to
+> use, by checking if any of them are already in the IMAGE_INSTALL -- otherwise
+> it chooses the first entry.  If something else implied by a packagegroup
+> chooses a different version, a conflict would be generated.)
+>
+> The following changes since commit 616354f13732d13c17434d5b60b166f691c25761:
+>
+>    binutils: Add gnu-config-native to DEPENDS (2013-11-12 16:00:20 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.yoctoproject.org/poky-contrib mhatle/misc1
+>    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/misc1
+>
+> Mark Hatle (6):
+>    gcc: Use alternatives for the *-symlinks packages.
+>    gcc: Drop *-symlinks
 
-in my bb file, I only inherit kernel.
+Mark
 
-I found one patch 'Use hardlinks for do_populate_sysroot for speed' may be 
-related with this error.
+This change set seems to be giving the Autobuilder some issues, please 
+take a look at the AB (for example: 
+http://autobuilder.yoctoproject.org:8011/builders/nightly-mips/builds/1/steps/Building%20Images/logs/stdio
 
+Thanks
+	Sau!
 
-
-
-
-ERROR: Error executing a python function in /mnt/src/optimus/poky/../meta-
-jilong/recipes-kernel/linux/linux-jilong.bb:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'sysroot_stage_all', lineno: 6, function: <module>
-     0002:def sysroot_stage_all(d):
-     0003:    oe.path.copyhardlinktree(d.expand("/mnt/src/kl360-
-build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4-
-gitAUTOINC+5dbff4f559/image/usr/src/kernel"), d.expand("/mnt/src/kl360-
-build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4-
-gitAUTOINC+5dbff4f559/sysroot-destdir//usr/src/kernel"))
-     0004:
-     0005:
- *** 0006:sysroot_stage_all(d)
-     0007:
-File: 'sysroot_stage_all', lineno: 3, function: sysroot_stage_all
-     0001:
-     0002:def sysroot_stage_all(d):
- *** 0003:    oe.path.copyhardlinktree(d.expand("/mnt/src/kl360-
-build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4-
-gitAUTOINC+5dbff4f559/image/usr/src/kernel"), d.expand("/mnt/src/kl360-
-build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4-
-gitAUTOINC+5dbff4f559/sysroot-destdir//usr/src/kernel"))
-     0004:
-     0005:
-     0006:sysroot_stage_all(d)
-     0007:
-File: '/mnt/src/optimus/poky/meta/lib/oe/path.py', lineno: 93, function: 
-copyhardlinktree
-     0089:    bb.utils.mkdirhier(dst)
-     0090:    if os.path.isdir(src) and not len(os.listdir(src)):
-     0091:        return
-     0092:
- *** 0093:    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
-     0094:        # Need to copy directories only with tar first since cp will 
-error if two
-     0095:        # writers try and create a directory at the same time
-     0096:        cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --
-files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
-     0097:        check_output(cmd, shell=True, stderr=subprocess.STDOUT)
-Exception: OSError: [Errno 2] No such file or directory: '/mnt/src/kl360-
-build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4-
-gitAUTOINC+5dbff4f559/image/usr/src/kernel'
-
-ERROR: Function failed: sysroot_stage_all
-ERROR: Logfile of failure stored in: /mnt/src/kl360-build/tmp/work/kl360-
-jilong-linux-gnueabi/linux-jilong/3.9.4-
-gitAUTOINC+5dbff4f559/temp/log.do_populate_sysroot.5146
-ERROR: Task 3 (/mnt/src/optimus/poky/../meta-jilong/recipes-
-kernel/linux/linux-jilong.bb, do_populate_sysroot) failed with exit code '1'
-
-
--- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+>    binutils: Ensure old -symlinks packages get removed
+>    packagegroups: Remove toolchain *-symlinks packages
+>    packagegroup-self-hosted: Use packagegroup-core-buildessentials
+>    package_rpm: Allow translation of requirement to package name
+>
+>   meta/classes/package_rpm.bbclass                   |  79 +++++++++++++++-
+>   .../packagegroup-core-buildessential.bb            |   4 -
+>   .../packagegroups/packagegroup-self-hosted.bb      |  16 +---
+>   meta/recipes-devtools/binutils/binutils.inc        |   1 +
+>   meta/recipes-devtools/gcc/gcc-target.inc           | 103 +++++++++++++--------
+>   5 files changed, 141 insertions(+), 62 deletions(-)
+>
 
