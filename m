@@ -1,36 +1,32 @@
-Return-Path: <lizhijian@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 088746D145
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 02CD86D145
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 02:27:02 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.93,727,1378828800"; 
-   d="scan'208";a="9069638"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 19 Nov 2013 10:23:38 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id rAJ2QuZ3030719
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 10:27:00 +0800
-Received: from G08FNSTD110722 ([10.167.226.56])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013111910250336-222018 ;
-	Tue, 19 Nov 2013 10:25:03 +0800 
-From: "Li Zhijian" <lizhijian@cn.fujitsu.com>
-To: "'Patches and discussions about the oe-core layer'"
-	<openembedded-core@lists.openembedded.org>
-References: <5278C502.1080100@cn.fujitsu.com>
-In-Reply-To: <5278C502.1080100@cn.fujitsu.com>
-Date: Tue, 19 Nov 2013 10:26:54 +0800
-Message-ID: <008701cee4ce$d0b805c0$72281140$@cn.fujitsu.com>
+	Tue, 19 Nov 2013 03:34:52 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAJ3Yp9r009743
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 18 Nov 2013 19:34:51 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 18 Nov 2013 19:34:50 -0800
+Message-ID: <528ADC43.5050406@windriver.com>
+Date: Tue, 19 Nov 2013 11:34:27 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQEQPOfDOXd7AG6Ddc+0JXpejNh7ApupI3CA
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/11/19 10:25:03,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/11/19 10:25:07,
-	Serialize complete at 2013/11/19 10:25:07
-Subject: Re: [PATCH v2] systemd.bbclass: only restart the service when it is active at systemd_postinst
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, Otavio Salvador
+	<otavio@ossystems.com.br>, Saul Wold <saul.wold@intel.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>	<5283F507.7050607@linux.intel.com>	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>	<5284F5D1.4010004@linux.intel.com>	<CADkTA4ObDkKgm+_-RG650m2TtugDh4tZ+OHyOateGSUvv9hmhQ@mail.gmail.com>	<CADkTA4MCL8pe8jACx8T9o7S17XvjUiBj5GwSp9nW2snWjpCQxQ@mail.gmail.com>	<CAP9ODKo+dR_FSj4djpGKcbQFWRiWqSK6XApGtjS6NM1r5scJDg@mail.gmail.com>	<528A0755.2060100@windriver.com>	<CAP9ODKqfdgCe_wpzyzGqgbfvOoT1HrgM_7PoSvuNDBtueBi1tA@mail.gmail.com>	<528A2927.7070009@windriver.com>	<528A32C4.3030306@intel.com>
+	<CAP9ODKqrKrqWPg6ZCnM715RLjjRJ3satfm3ouOwWmpt+ygBU_A@mail.gmail.com>
+	<528A396A.6020500@windriver.com>
+In-Reply-To: <528A396A.6020500@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,89 +39,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 02:27:04 -0000
+X-List-Received-Date: Tue, 19 Nov 2013 03:34:53 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Language: zh-cn
-
-ping...
-
--- 
-Best regards.
-Li Zhijian
-
- |-----Original Message-----
- |From: openembedded-core-bounces@lists.openembedded.org
- |[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
- |Li Zhijian
- |Sent: Tuesday, November 05, 2013 6:14 PM
- |To: Patches and discussions about the oe-core layer
- |Subject: [OE-core] [PATCH v2] systemd.bbclass: only restart the service
- |when it is active at systemd_postinst
- |
- |From: Li Zhijian <lizhijian@cn.fujitsu.com>
- |
- |If systemd_postinst is installed as a delayed package scriptlet (installed
- |to /etc/rpm-postints/${PN})
- |which would be executed at the first time of OS startup. And then this
-script
- |would block when it is
- |trying to call systemctl to restart service.
- |
- |It seems that it is not a good timing to restart service at run-postinsts.
- |I test serval services which has supported systemd(uuidd/avahi-daemon),
- |all of them
- |will block the startup.
- |
- |Steps to reproduce:
- |1) Installed systemd_postinst as a delayed package scriptlet
- |   i.e. Append Following lines to meta/recipes-core/busybox/busybox.inc
- |pkg_postinst_${PN}-syslog () {
- |       if [ "x$D" != "x" ] ; then
- |               exit 1
- |       fi
- |}
- |2) build a rootfs
- |$ bitbake core-image-minimal
- |3) startup this rootfs
- |
- |OS would block at /etc/rpm-postinsts/busybox-syslog, like follows
- |[ ***] A start job is running ro Run pending postinsts
- |
- |This patch can fix the block problem, and make the service is consistent
- |with the original status
- |
- |Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
- |---
- | meta/classes/systemd.bbclass |    3 ++-
- | 1 files changed, 2 insertions(+), 1 deletions(-)
- |
- |diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
- |index 3700b2e..1feac06 100644
- |--- a/meta/classes/systemd.bbclass
- |+++ b/meta/classes/systemd.bbclass
- |@@ -32,7 +32,8 @@ fi
- | if type systemctl >/dev/null 2>/dev/null; then
- | 	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
- | -	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
- |+	if [ -z "$D" ] && systemctl is-active ${SYSTEMD_SERVICE}
- |&>/dev/null; then
- |+		# if service is active, restart it
- | 		systemctl restart ${SYSTEMD_SERVICE}
- | 	fi
- | fi
- |--
- |1.7.1
- |
- |
- |
- |
- |_______________________________________________
- |Openembedded-core mailing list
- |Openembedded-core@lists.openembedded.org
- |http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
+Hi Bruce,
 
+Here is the log status of the kernel layer between dora and master (18 commits).
+
+I wonder are there any serious problems that we must upgrade it ?
+
+$ git log dora..master --abbrev-commit --pretty=oneline meta/recipes-kernel
+
+9a9a597 lttng-tools: Fixes incorrect path of ptest cases
+e1e1ee5 linux-yocto/3.10: meta: ARM: OMAP3: Add USB PHY driver for Beagleboard
+779dec9 linux-yocto-rt/3.10: fix ntp merge issue
+89c986c linux-yocto/3.10: meta: ARM: OMAP3: Add USB PHY driver for Beagleboard
+8a03d59 sysvinit: adjust boot sequence and remove hack from udev
+e9ec153 linux-yocto/3.10: fix qemuarm boot and spurious mips build warning
+baf005b linux-yocto/3.10: common-pc: add missing dependencies for BRCMSMAC
+dd361f0 linux-yocto/3.8: add crystalforest bsp legacy block drivers configurations
+1fe7bca linux-yocto/3.10: haswell-wc and crystalforest support
+a23c7e9 linux-yocto-3.10: bump to 3.10.17 and -rt11
+3129619 lttng-tools: make ptest able to work on target
+5e42796 recipes: Remove PR = r0 from all recipes
+2570f13 perf: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for mips64
+56cc2f2 linux-yocto/3.10: MinnowBoard support
+db1d37a perf: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for powerpc64
+cd414c0 kmod: Update to Rev 15 via git
+e83640d kmod: Add patch to fix seperate build dir of ptest
+0f431a3 kmod-native: use bswap to work on older Linux hosts
+
+// Robert
+
+On 11/18/2013 11:59 PM, Bruce Ashfield wrote:
+> On 13-11-18 10:50 AM, Otavio Salvador wrote:
+>> On Mon, Nov 18, 2013 at 1:31 PM, Saul Wold <saul.wold@intel.com> wrote:
+>>> On 11/18/2013 06:50 AM, Robert Yang wrote:
+>>>>
+>>>>
+>>>> On 11/18/2013 10:18 PM, Otavio Salvador wrote:
+>>>>>
+>>>>> On Mon, Nov 18, 2013 at 10:25 AM, Robert Yang
+>>>>> <liezhi.yang@windriver.com> wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> This should be considered for Dora as well as it fixes the deadlock
+>>>>>>> and building with 3.12 kernels.
+>>>>>>>
+>>>>>>
+>>>>>> Hi Otavio, thanks for suggesting this for dora, but dora's kernel is
+>>>>>> 3.10.11,
+>>>>>> and this is an update for lttng-modules, I'm not sure whether dora needs
+>>>>>> this.
+>>>>>>
+>>>>>> Add Saul in the CC list.
+>>>>>
+>>>>>
+>>>>> I think Dora ought to get the new 3.10 kernel updates; this can go
+>>>>> along side with it.
+>>>>>
+>>>>
+>>>> Hi Otavio,
+>>>>
+>>>> I'm sorry, but I'm not sure whether we need update dora's kernel from
+>>>> 3.10.11
+>>>> to 3.10.17, since we seldom do the package update for a stable branch,
+>>>> let's wait for others' comments:-).
+>>>>
+>>> This is correct, I do not think we will be updating the kernel for a stable
+>>> branch.
+>>
+>> This is wrong. We should update to 3.10.17 as this is the LTS release,
+>> otherwise what is the point of us using a LTS at all?
+>
+> Obviously I'll be maintaining the LTS release in master, but that
+> maintenance gets a mix of bug fixes and features associated with the
+> upstream maintenance + LTSI + BSP requirements.
+>
+> I've sent patches for the sustained branches in the past, and can
+> do it here as well. But to do it properly, there really needs to be a
+> dedicated kernel repository, since things like the LTSI import and
+> new BSP support will be mixed into the tree if a single 3.10 repo
+> is used.
+>
+> I'm willing to split the repo and do -stable korg release updates, but
+> at some point there are only so many repositories and versions that
+> should be maintained at one time. As to what that number is, I don't have
+> a firm one in mind.
+>
+> At a minimum, it would be safe for the dora maintenance branch to take
+> my latest kernel -stable imports, but in the not to distant future,
+> it would need a separate maintenance stream.
+>
+> Cheers,
+>
+> Bruce
+>
+>>
+>
+>
+>
 
