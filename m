@@ -1,39 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9066B6CC8C;
-	Tue, 19 Nov 2013 18:24:33 +0000 (UTC)
-Received: by mail-ee0-f44.google.com with SMTP id d51so3467309eek.31
-	for <multiple recipients>; Tue, 19 Nov 2013 10:24:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=IKgX4eax9VgbxfM/BblpbkWeqTFUnJL/fBiAIk4ncts=;
-	b=zu5O42K1oyo6xi7LAQXX+6XcsYsej2dJsZESKRf02gnbSNgBnoRsbAkBY1GVvpuw+J
-	xX3txkcKBtZF1E7sXr5CEe0H3lcQxmZN5gz+1NWvz3swcBbHRRoQXAvyvbE2al/RsLi0
-	sjWsxf8rd98aoEIYlgxsih4uxkZ2Es3RmeUapr8j/nyVvVM1nPXtypaSc/TvPPDzqUh9
-	MgFKZUmwP/Vm1i3BJTEJRYX4lbwOt7k20mQLQdSO9IpDLcfdYyUe3EKCr2LwulSE7sU3
-	yTr3PNtHhoKnAkLC45pKvlkjZczMWecfI3dX1RRXP6E5qzAa93wCQFfWzgswjGWEoDU/
-	iSBQ==
-X-Received: by 10.14.6.73 with SMTP id 49mr66252eem.117.1384885475095;
-	Tue, 19 Nov 2013 10:24:35 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 8sm51336080eem.15.2013.11.19.10.24.33
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Nov 2013 10:24:34 -0800 (PST)
-Date: Tue, 19 Nov 2013 19:24:36 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20131119182436.GG3708@jama>
-References: <20130520130635.GA32431@jama> <20131030230825.GB32015@jama>
-	<20131119155040.GD3708@jama> <4441466.Qb3TimoIEF@helios>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D91A6D299;
+	Tue, 19 Nov 2013 18:36:41 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Nov 2013 10:36:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,730,1378882800"; d="scan'208";a="436168820"
+Received: from unknown (HELO helios.localnet) ([10.252.121.202])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2013 10:36:42 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+Date: Tue, 19 Nov 2013 18:36:41 +0000
+Message-ID: <2322495.JISmJUGcVm@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <20131119182012.GE3708@jama>
+References: <20130611160434.GI3233@jama>
+	<CALbNGRR=RixaPbdqW4P2YQ-EH=vu3Ni-2zvOhKSDBo=RCTA52A@mail.gmail.com>
+	<20131119182012.GE3708@jama>
 MIME-Version: 1.0
-In-Reply-To: <4441466.Qb3TimoIEF@helios>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] State of bitbake world
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 18:24:35 -0000
-X-Groupsio-MsgNum: 47294
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+1TulI7fc0PCHNy3"
-Content-Disposition: inline
-
---+1TulI7fc0PCHNy3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 19 Nov 2013 18:36:42 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Tue, Nov 19, 2013 at 04:30:09PM +0000, Paul Eggleton wrote:
-> Hi Martin,
->=20
-> On Tuesday 19 November 2013 16:50:40 Martin Jansa wrote:
-> > On Thu, Oct 31, 2013 at 12:08:25AM +0100, Martin Jansa wrote:
-> > > Starting now I'll use
-> > > http://openembedded.org/wiki/Bitbake_World_Status
-> > > to post results from my bitbake world buils.
+On Tuesday 19 November 2013 19:20:12 Martin Jansa wrote:
+> On Tue, Nov 19, 2013 at 04:59:19PM +0100, Andreas M=FCller wrote:
+> > On Tue, Nov 19, 2013 at 4:50 PM, Martin Jansa <martin.jansa@gmail.c=
+om>=20
+wrote:
+> > > On Thu, Oct 31, 2013 at 12:08:25AM +0100, Martin Jansa wrote:
+> > >> Starting now I'll use
+> > >> http://openembedded.org/wiki/Bitbake_World_Status
+> > >> to post results from my bitbake world buils.
+> > >=20
+> > > It was updated few times since this e-mail and I've received no
+> > > feedback.
+> > >=20
+> > > Should I continue to post them or nobody except me is really inte=
+rested?
 > >=20
-> > It was updated few times since this e-mail and I've received no
-> > feedback.
-> >=20
-> > Should I continue to post them or nobody except me is really interested?
+> > I am interested but would prefer some short information as mail lik=
+e
+> > in the past because prefer events more than polling.
 >=20
-> I'm interested in this; I haven't contributed much to the fixing though. =
-I hope=20
-> that most of the production of the reporting can be automated if it isn't=
-=20
-> already...?
+> OK, I'll continue to send summary to list as well.
 
-Good, thanks for feedback. Generating report is automated since I've
-started adding it to wiki, but still needs me to select "best" world
-builds (where most issues weren't hidden by some greater temporary
-problem) and update it on wiki + e-mail. I wonder if I should automate
-that as well :).
+Would it be possible to send the summary as a new email e.g. "state of =
+bitbake=20
+world for <date>" instead of attaching to the existing thread? It might=
+ be a=20
+bit selfish, but surely I can't be the only one whose mail client will =
+dredge=20
+up the entire thread under today's date...
 
-> FWIW however I did just send a patch to fix the lowpan-tools do_install=
-=20
-> failure.
-
-Great, thank you.
+Cheers,
+Paul
 
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---+1TulI7fc0PCHNy3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlKLrOQACgkQN1Ujt2V2gBwcigCghll5WiTGQMX5ERFGaZYgidCU
-A/gAnRcK64nbNbSizD0Y+KaQhzgBM1/x
-=odlX
------END PGP SIGNATURE-----
-
---+1TulI7fc0PCHNy3--
