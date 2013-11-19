@@ -1,24 +1,45 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F0BAC6D12C
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E90461227
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 09:35:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAJ9ZPLH022973
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 01:35:25 -0800 (PST)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 19 Nov 2013 01:35:25 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Nov 2013 17:35:24 +0800
-Message-ID: <1384853724-11496-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.8.3
-MIME-Version: 1.0
-Subject: [PATCH] grub: add explicit dependency on bison-native
+	Tue, 19 Nov 2013 11:35:41 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1VijaN-0006TB-EH; Tue, 19 Nov 2013 12:35:42 +0100
+Message-ID: <1384860914.23724.83.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Yi Qingliang <niqingliang2003@gmail.com>
+Date: Tue, 19 Nov 2013 11:35:14 +0000
+In-Reply-To: <1384853093.3814.56.camel@x121e.pbcl.net>
+References: <2838381.LbivOYPPzY@yiqingliang-pc>
+	<1384853093.3814.56.camel@x121e.pbcl.net>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Tue, 2013-11-19 at 09:24 +0000,
+	Phil Blundell wrote: > On Tue, 2013-11-19 at 07:21 +0800,
+	Yi Qingliang wrote: > >I found one patch
+	'Use hardlinks for do_populate_sysroot for speed' > >may be related
+	with
+	this error. > > The failure only seems to occur with the kernel,
+	whereas I think that > patch applies to all recipes. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: kernel build fail after update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +52,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 09:35:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 19 Nov 2013 11:35:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Tue, 2013-11-19 at 09:24 +0000, Phil Blundell wrote:
+> On Tue, 2013-11-19 at 07:21 +0800, Yi Qingliang wrote:
+> >I found one patch 'Use hardlinks for do_populate_sysroot for speed' 
+> >may be related with this error.
+> 
+> The failure only seems to occur with the kernel, whereas I think that
+> patch applies to all recipes. 
 
-grub requires bison and it will fail to configure on
-the host without bison installed, add the dependency
-to fix it.
+I realise now that this isn't true; assuming you meant
+13259459e200a237ca486cbe1123a0b0a4d1eebf then this is indeed specific to
+kernel.bbclass.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-bsp/grub/grub_2.00.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+p.
 
-diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
-index e82996d..47cad0b 100644
---- a/meta/recipes-bsp/grub/grub_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub_2.00.bb
-@@ -11,7 +11,7 @@ SECTION = "bootloaders"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
--DEPENDS = "autogen-native flex-native"
-+DEPENDS = "autogen-native flex-native bison-native"
- RDEPENDS_${PN} = "diffutils freetype"
- PR = "r1"
- 
--- 
-1.8.3
 
 
