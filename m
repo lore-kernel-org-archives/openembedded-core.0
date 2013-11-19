@@ -1,28 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 331566CFFE
+Return-Path: <lizhijian@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 8072F6D000
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 02:20:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAJ2KRoN028608
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 18 Nov 2013 18:20:27 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 18 Nov 2013 18:20:26 -0800
-Message-ID: <528ACAE4.1060901@windriver.com>
-Date: Tue, 19 Nov 2013 10:20:20 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Tue, 19 Nov 2013 02:24:57 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.93,727,1378828800"; 
+   d="scan'208";a="9069591"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 19 Nov 2013 10:21:30 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id rAJ2OsAs030571;
+	Tue, 19 Nov 2013 10:24:55 +0800
+Received: from G08FNSTD110722 ([10.167.226.56])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013111910230168-221983 ;
+	Tue, 19 Nov 2013 10:23:01 +0800 
+From: "Li Zhijian" <lizhijian@cn.fujitsu.com>
+To: "'Saul Wold'" <sgw@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>,
+	"'Burton, Ross'" <ross.burton@intel.com>
+References: <52677C01.1020908@cn.fujitsu.com>
+	<527402CF.7060401@linux.intel.com>
+In-Reply-To: <527402CF.7060401@linux.intel.com>
+Date: Tue, 19 Nov 2013 10:24:52 +0800
+Message-ID: <008601cee4ce$8834a330$989de990$@cn.fujitsu.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1384827264.git.hongxu.jia@windriver.com>
-	<4e295b4e41dca18db1acab845627396eddb39633.1384827264.git.hongxu.jia@windriver.com>
-In-Reply-To: <4e295b4e41dca18db1acab845627396eddb39633.1384827264.git.hongxu.jia@windriver.com>
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 1/1] libpthread-stubs: add ALLOW_EMPTY_${PN} = "1"
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQEJhu3VHSEIzjMfRP8X700C0cIYpQHUo12gm6fn+jA=
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/11/19 10:23:01,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/11/19 10:23:02,
+	Serialize complete at 2013/11/19 10:23:02
+Subject: Re: [PATCH] systemd.bbclass: do not call 'systemctl restart ${SYSTEMD_SERVICE}' at systemd_postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,39 +44,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 02:20:30 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 19 Nov 2013 02:24:58 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset="shift_jis"
+Content-Language: zh-cn
 
-On 11/19/2013 10:15 AM, Hongxu Jia wrote:
-> There was an image build failure while installing libpthread-stubs to rootfs.
-> ...
-> Failed to buld rootfs image for fsl-b4xxx-standard-glibc-std after adding
-> multilib package lib64-libpthread-stubs.
-> ...
->
-> The libpthread-stubs was empty and the package didn't exist by default. Add
-> ALLOW_EMPTY_${PN} = "1" to create the empty libpthread-stubs fixed this issue.
+Sau=81CRoss=81C
 
-In libpthread-stubs recipe, the PN-dbg and PN-dev existed,
-so the PN should also exist.
+How about it
 
-//Hongxu
+--=20
+Best regards.
+Li Zhijian=20
 
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb b/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
-> index ad046d1..f4264b4 100644
-> --- a/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
-> +++ b/meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb
-> @@ -22,3 +22,4 @@ RDEPENDS_${PN}-dev = ""
->   RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
->   
->   BBCLASSEXTEND = "native nativesdk"
-> +ALLOW_EMPTY_${PN} = "1"
+ |-----Original Message-----
+ |From: Saul Wold [mailto:sgw@linux.intel.com]
+ |Sent: Saturday, November 02, 2013 3:37 AM
+ |To: Li Zhijian; openembedded-core@lists.openembedded.org; Burton, Ross
+ |Subject: Re: [OE-core] [PATCH] systemd.bbclass: do not call 'systemctl
+ |restart ${SYSTEMD_SERVICE}' at systemd_postinst
+ |
+ |On 10/23/2013 12:34 AM, Li Zhijian wrote:
+ |> From: Li Zhijian <lizhijian@cn.fujitsu.com>
+ |>
+ |> If systemd_postinst is installed as a delayed package scriptlet
+(installed
+ |to /etc/rpm-postints/${PN})
+ |> which would be executed at the first time of OS startup. And then =
+this
+ |script would block when it is
+ |> trying to call systemctl to restart service.
+ |>
+ |> It seems that it is not a good timing to restart service at
+run-postinsts.
+ |> I test serval services which has supported =
+systemd(uuidd/avahi-daemon),
+ |all of them
+ |> will block the startup.
+ |>
+ |
+ |Ross,
+ |
+ |Can you have a look at this change.
+ |
+ |Thanks
+ |	Sau!
+ |
+ |
+ |> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+ |> ---
+ |>   meta/classes/systemd.bbclass |    4 ----
+ |>   1 files changed, 0 insertions(+), 4 deletions(-)
+ |>
+ |> diff --git a/meta/classes/systemd.bbclass
+ |b/meta/classes/systemd.bbclass
+ |> index 3700b2e..7aa5459 100644
+ |> --- a/meta/classes/systemd.bbclass
+ |> +++ b/meta/classes/systemd.bbclass
+ |> @@ -31,10 +31,6 @@ fi
+ |>    if type systemctl >/dev/null 2>/dev/null; then
+ |>   	systemctl $OPTS ${SYSTEMD_AUTO_ENABLE} ${SYSTEMD_SERVICE}
+ |> -
+ |> -	if [ -z "$D" -a "${SYSTEMD_AUTO_ENABLE}" =3D "enable" ]; then
+ |> -		systemctl restart ${SYSTEMD_SERVICE}
+ |> -	fi
+ |>   fi
+ |>   }
+ |>   -- 1.7.1
+ |>
+ |>
+ |>
+ |>
+ |> _______________________________________________
+ |> Openembedded-core mailing list
+ |> Openembedded-core@lists.openembedded.org
+ |> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ |>
+
+
 
 
