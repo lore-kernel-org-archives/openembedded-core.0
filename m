@@ -1,49 +1,29 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D8B16D2F3
+Return-Path: <Yanjun.Zhu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 67C466D125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 08:26:16 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1Vigd4-0006I2-Fy; Tue, 19 Nov 2013 09:26:17 +0100
-Message-ID: <1384853093.3814.56.camel@x121e.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-Date: Tue, 19 Nov 2013 09:24:53 +0000
-In-Reply-To: <2838381.LbivOYPPzY@yiqingliang-pc>
-References: <2838381.LbivOYPPzY@yiqingliang-pc>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.4.4-3 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Tue, 2013-11-19 at 07:21 +0800,
-	Yi Qingliang wrote: > The
-	stack trace of python calls that resulted in this exception/failure
-	was: > File: 'sysroot_stage_all', lineno: 6,
-	function: <module> > 0002:def sysroot_stage_all(d):
-	> 0003: oe.path.copyhardlinktree(d.expand("/mnt/src/kl360- >
-	build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4-
-	> gitAUTOINC+5dbff4f559/image/usr/src/kernel"),
-	d.expand("/mnt/src/kl360-
-	> build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4- >
-	gitAUTOINC+5dbff4f559/sysroot-destdir//usr/src/kernel")) [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	Tue, 19 Nov 2013 08:40:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAJ8e7bC020594
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Nov 2013 00:40:07 -0800 (PST)
+Received: from [128.224.162.216] (128.224.162.216) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Tue, 19 Nov 2013 00:40:06 -0800
+Message-ID: <528B23E7.4030805@windriver.com>
+Date: Tue, 19 Nov 2013 16:40:07 +0800
+From: yzhu1 <Yanjun.Zhu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1384770701-30455-1-git-send-email-yanjun.zhu@windriver.com>
+	<1384777206.6460.222.camel@ted>
+In-Reply-To: <1384777206.6460.222.camel@ted>
+X-Originating-IP: [128.224.162.216]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: kernel build fail after update
+Subject: Re: [PATCH] pr-util: insert appropriate parameter to adapt libtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 08:26:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 19 Nov 2013 08:40:07 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-11-19 at 07:21 +0800, Yi Qingliang wrote:
-> The stack trace of python calls that resulted in this exception/failure was:
-> File: 'sysroot_stage_all', lineno: 6, function: <module>
->      0002:def sysroot_stage_all(d):
->      0003:    oe.path.copyhardlinktree(d.expand("/mnt/src/kl360-
-> build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4-
-> gitAUTOINC+5dbff4f559/image/usr/src/kernel"), d.expand("/mnt/src/kl360-
-> build/tmp/work/kl360-jilong-linux-gnueabi/linux-jilong/3.9.4-
-> gitAUTOINC+5dbff4f559/sysroot-destdir//usr/src/kernel"))
+On 11/18/2013 08:20 PM, Richard Purdie wrote:
+> On Mon, 2013-11-18 at 18:31 +0800, yanjun.zhu wrote:
+>> When ccache is enabled, a parameter "ccache" is inserted.
+>> libtool can not handle this parameter correctly. So "--tag=CC"
+>> is introduced to help libtool handle it.
+>> ---
+>>   meta/recipes-support/apr/apr-util_1.5.2.bb |    5 +++++
+>>   1 files changed, 5 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/apr/apr-util_1.5.2.bb b/meta/recipes-support/apr/apr-util_1.5.2.bb
+>> index ea0f7fb..d6ae394 100644
+>> --- a/meta/recipes-support/apr/apr-util_1.5.2.bb
+>> +++ b/meta/recipes-support/apr/apr-util_1.5.2.bb
+>> @@ -34,6 +34,11 @@ do_configure_append() {
+>>   	if [ "${CLASSOVERRIDE}" = "class-target" ]; then
+>>   		cp ${STAGING_DATADIR}/apr/apr_rules.mk ${S}/build/rules.mk
+>>   	fi
+>> +
+>> +	# When ccache is enabled, libtool needs --tag=CC to choose correct handle methods.
+>> +	if [ -f ${S}/build/rules.mk ]; then
+>> +		sed -i "s,^LTFLAGS,LTFLAGS      = --silent --tag=CC\n#LTFLAGS,g" ${S}/build/rules.mk
+>> +	fi
+>>   }
+>>   do_configure_prepend_class-native() {
+>>   	cp ${STAGING_DATADIR_NATIVE}/apr/apr_rules.mk ${S}/build/rules.mk
+> This looks like something better done with a specific patch along with
+> an explanation in the patch header. Is there any reason upstream
+> wouldn't do this?
+>
+> By using a patch we ensure that when things are upgraded, the right
+> thing still gets done. You may need to update the apr recipe itself to
+> get the patch right.
+>
+> Cheers,
+>
+> Richard
+>
+Hi, Richard
 
-I've been seeing this too (sporadically) and Martin also reported that
-it afflicts one of his jenkinses.  What seems to be happening is that,
-for unknown reasons, bitbake is omitting to run do_install() on the
-kernel before calling do_populate_sysroot(), despite the fact that there
-clearly is a declared dependency between these two tasks.
+rules.mk is copied from apr_rules.mk. apr_rules.mk is generated by 
+configure task.
+The configure task is after patch. So it is difficult to make a patch 
+for this defect.
 
->I found one patch 'Use hardlinks for do_populate_sysroot for speed' 
->may be related with this error.
-
-The failure only seems to occur with the kernel, whereas I think that
-patch applies to all recipes.  But that's not to say it isn't related,
-of course.  What makes you think that this is the problem?
-
-p.
-
+Best Regards!
+Zhu Yanjun
+>
 
 
