@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 176EA6AD6A
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E02D61957
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 15:43:02 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Nov 2013 07:43:04 -0800
+	Tue, 19 Nov 2013 15:43:26 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Nov 2013 07:43:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,729,1378882800"; d="scan'208";a="430301139"
+X-IronPort-AV: E=Sophos;i="4.93,535,1378882800"; d="scan'208";a="411206154"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Nov 2013 07:43:03 -0800
+	by orsmga001.jf.intel.com with ESMTP; 19 Nov 2013 07:43:01 -0800
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id ABE0F6A4009
+	by linux.intel.com (Postfix) with ESMTP id A238E6A400F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 07:43:01 -0800 (PST)
+	Tue, 19 Nov 2013 07:42:59 -0800 (PST)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2013 17:43:36 +0200
-Message-Id: <3a0d1807859e8ea3f5ac39f5626743d25b91e740.1384874570.git.stefanx.stanacar@intel.com>
+Date: Tue, 19 Nov 2013 17:43:34 +0200
+Message-Id: <37ad9a7558870b29c88bd64190de629ab81ab319.1384874570.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1384874570.git.stefanx.stanacar@intel.com>
 References: <cover.1384874570.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1384874570.git.stefanx.stanacar@intel.com>
 References: <cover.1384874570.git.stefanx.stanacar@intel.com>
-Subject: [RFC PATCH 3/4] scripts/lib/selftest: add a new module for bitbake output tests
+Subject: [RFC PATCH 1/4] scripts/oe-selftest: script to run builds as unitests against bitbake or various scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,118 +35,436 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 15:43:02 -0000
+X-List-Received-Date: Tue, 19 Nov 2013 15:43:26 -0000
 
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+The purpose of oe-selftest is to run unittest modules added in scripts/lib/selftest/tests,
+which are tests against bitbake tools.
+The scripts/lib/selftest/tests path for tests is only temporary.
+Tests probably will be moved to meta/lib/oeqa/<something> once we've worked out how that can work.
+(the reason to have them there is to allow layers to add their own tests).
 
-Tests for bitbake-layers and expected output for some bitbake options.
+Right now the script it's useful for simple tests like:
+  - "bitbake --someoption, change some metadata, bitbake X, check something" type scenarios (PR service, error output, etc)
+  - or "bitbake-layers <...>" type scripts and yocto-bsp tools.
+This commit also adds some helper methods that the tests will use (which are currently used by the script itself,
+and those also need to move if the tests move).
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+Also, most of the tests will have a dependency on a meta-selftest layer
+which contains specially modified recipes/bbappends/include files for the purpose of the tests.
+
+It's a simple matter or sourcing the enviroment, adding the meta-selftest layer
+and running: oe-selftest to get some results.
+
+[ YOCTO #4740 ]
+
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- scripts/lib/selftest/tests/__init__.py |  1 +
- scripts/lib/selftest/tests/bboutput.py | 86 ++++++++++++++++++++++++++++++++++
- 2 files changed, 87 insertions(+)
- create mode 100644 scripts/lib/selftest/tests/bboutput.py
+ scripts/lib/selftest/__init__.py       |   0
+ scripts/lib/selftest/base.py           |  54 ++++++++++++
+ scripts/lib/selftest/tests/__init__.py |   0
+ scripts/lib/selftest/utils/__init__.py |   0
+ scripts/lib/selftest/utils/commands.py | 146 +++++++++++++++++++++++++++++++++
+ scripts/lib/selftest/utils/ftools.py   |  27 ++++++
+ scripts/oe-selftest                    | 130 +++++++++++++++++++++++++++++
+ 7 files changed, 357 insertions(+)
+ create mode 100644 scripts/lib/selftest/__init__.py
+ create mode 100644 scripts/lib/selftest/base.py
+ create mode 100644 scripts/lib/selftest/tests/__init__.py
+ create mode 100644 scripts/lib/selftest/utils/__init__.py
+ create mode 100644 scripts/lib/selftest/utils/commands.py
+ create mode 100644 scripts/lib/selftest/utils/ftools.py
+ create mode 100755 scripts/oe-selftest
 
-diff --git a/scripts/lib/selftest/tests/__init__.py b/scripts/lib/selftest/tests/__init__.py
-index e69de29..3acc480 100644
---- a/scripts/lib/selftest/tests/__init__.py
-+++ b/scripts/lib/selftest/tests/__init__.py
-@@ -0,0 +1 @@
-+from selftest.tests.bboutput import *
-diff --git a/scripts/lib/selftest/tests/bboutput.py b/scripts/lib/selftest/tests/bboutput.py
+diff --git a/scripts/lib/selftest/__init__.py b/scripts/lib/selftest/__init__.py
 new file mode 100644
-index 0000000..386572f
+index 0000000..e69de29
+diff --git a/scripts/lib/selftest/base.py b/scripts/lib/selftest/base.py
+new file mode 100644
+index 0000000..4d90828
 --- /dev/null
-+++ b/scripts/lib/selftest/tests/bboutput.py
-@@ -0,0 +1,86 @@
++++ b/scripts/lib/selftest/base.py
+@@ -0,0 +1,54 @@
++# Copyright (c) 2013 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++# DESCRIPTION
++# Base class inherited by test classes in scripts/lib/selftest/tests
++
 +import unittest
 +import os
++import sys
 +import logging
-+import re
-+import shutil
-+from selftest.base import oeSelfTest
-+from selftest.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
++
 +import selftest.utils.ftools as ftools
 +
-+class BitbakeTests(oeSelfTest):
 +
-+    def test_run_bitbake_from_1(self):
-+        os.chdir(os.path.join(self.builddir, 'conf'))
-+        bitbake('-e')
++class oeSelfTest(unittest.TestCase):
 +
-+    def test_run_bitbake_from_2(self):
-+        my_env = os.environ.copy()
-+        my_env['BBPATH'] = my_env['BUILDDIR']
-+        os.chdir(os.path.dirname(os.environ['BUILDDIR']))
-+        bitbake('-e', env=my_env)
++    log = logging.getLogger("selftest.base")
++    longMessage = True
 +
-+    def test_event_handler(self):
-+        self.write_config("INHERIT += \"test_events\"")
-+        result = bitbake('m4-native')
-+        find_build_started = re.search("NOTE: Test for bb\.event\.BuildStarted(\n.*)*NOTE: Preparing runqueue", result.output)
-+        find_build_completed = re.search("Tasks Summary:.*(\n.*)*NOTE: Test for bb\.event\.BuildCompleted", result.output)
-+        self.assertTrue(find_build_started, msg = "Match failed in:\n%s"  % result.output)
-+        self.assertTrue(find_build_completed, msg = "Match failed in:\n%s" % result.output)
-+        self.assertFalse('Test for bb.event.InvalidEvent' in result.output)
++    def __init__(self, methodName="runTest"):
++        self.builddir = os.environ.get("BUILDDIR")
++        self.localconf_path = os.path.join(self.builddir, "conf/local.conf")
++        self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
++        super(oeSelfTest, self).__init__(methodName)
 +
-+    def test_local_sstate(self):
-+        bitbake('m4-native -ccleansstate')
-+        bitbake('m4-native')
-+        bitbake('m4-native -cclean')
-+        result = bitbake('m4-native')
-+        find_setscene = re.search("m4-native.*do_.*_setscene", result.output)
-+        self.assertTrue(find_setscene)
++    def setUp(self):
++        os.chdir(self.builddir)
++        # we don't know what the previous test set in here, we need a fresh start
++        if os.path.isfile(self.testinc_path):
++            os.remove(self.testinc_path)
 +
-+    def test_bitbake_invalid_recipe(self):
-+        result = bitbake('-b asdf', ignore_status=True)
-+        self.assertTrue("ERROR: Unable to find any recipe file matching 'asdf'" in result.output)
++    def write_config(self, data):
++        self.log.debug("Writing to: %s\n%s\n" % (self.testinc_path, data))
++        ftools.write_file(self.testinc_path, data)
 +
-+    def test_bitbake_invalid_target(self):
-+        result = bitbake('asdf', ignore_status=True)
-+        self.assertTrue("ERROR: Nothing PROVIDES 'asdf'" in result.output)
++    def append_config(self, data):
++        self.log.debug("Appending to: %s\n%s\n" % (self.testinc_path, data))
++        ftools.append_file(self.testinc_path, data)
 +
-+    def test_warnings_errors(self):
-+        result = bitbake('-b asdf', ignore_status=True)
-+        find_warnings = re.search("Summary: There was [1-9][0-9]* WARNING message shown.", result.output)
-+        find_errors = re.search("Summary: There was [1-9][0-9]* ERROR message shown.", result.output)
-+        self.assertTrue(find_warnings)
-+        self.assertTrue(find_errors)
++    def remove_config(self, data):
++        self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_path, data))
++        ftools.remove_from_file(self.testinc_path, data)
+diff --git a/scripts/lib/selftest/tests/__init__.py b/scripts/lib/selftest/tests/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/scripts/lib/selftest/utils/__init__.py b/scripts/lib/selftest/utils/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/scripts/lib/selftest/utils/commands.py b/scripts/lib/selftest/utils/commands.py
+new file mode 100644
+index 0000000..c808927
+--- /dev/null
++++ b/scripts/lib/selftest/utils/commands.py
+@@ -0,0 +1,146 @@
++# Copyright (c) 2013 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 +
-+    def test_invalid_patch(self):
-+        inc_file = os.path.join(get_test_layer(), 'recipes-test/man/test_recipe.inc')
-+        ftools.write_file(inc_file, 'SRC_URI += "file://man-1.5h1-make.patch"')
-+        result = bitbake('man -c patch', ignore_status=True)
-+        os.remove(inc_file)
-+        bitbake('-cclean man')
-+        self.assertTrue("ERROR: Function failed: patch_do_patch" in result.output)
++# DESCRIPTION
++# This module is mainly used by scripts/oe-selftest and modules under scripts/lib/selftest
++# It provides a class and methods for running commands on the host in a convienent way for tests.
++
++import os
++import sys
++import signal
++import subprocess
++import threading
++import logging
++
++class Command(object):
++    def __init__(self, command, bg=False, timeout=None, data=None, **options):
++
++        self.defaultopts = {
++            "stdout": subprocess.PIPE,
++            "stderr": subprocess.STDOUT,
++            "stdin": None,
++            "shell": False,
++            "bufsize": -1,
++        }
++
++        self.cmd = command
++        self.bg = bg
++        self.timeout = timeout
++        self.data = data
++
++        self.options = dict(self.defaultopts)
++        if isinstance(self.cmd, basestring):
++            self.options["shell"] = True
++        if self.data:
++            self.options['stdin'] = subprocess.PIPE
++        self.options.update(options)
++
++        self.status = None
++        self.output = None
++        self.error = None
++        self.thread = None
++
++        self.log = logging.getLogger("selftest.commands")
++
++    def run(self):
++        self.process = subprocess.Popen(self.cmd, **self.options)
++
++        def commThread():
++            self.output, self.error = self.process.communicate(self.data)
++
++        self.thread = threading.Thread(target=commThread)
++        self.thread.start()
++
++        self.log.debug("Running command '%s'" % self.cmd)
++
++        if not self.bg:
++            self.thread.join(self.timeout)
++            self.stop()
++
++    def stop(self):
++        if self.thread.isAlive():
++            self.process.terminate()
++            # let's give it more time to terminate gracefully before killing it
++            self.thread.join(5)
++            if self.thread.isAlive():
++                self.process.kill()
++                self.thread.join()
++
++        self.output = self.output.rstrip()
++        self.status = self.process.poll()
++
++        self.log.debug("Command '%s' returned %d as exit code." % (self.cmd, self.status))
++        # logging the complete output is insane
++        # bitbake -e output is really big
++        # and makes the log file useless
++        if self.status:
++            lout = "\n".join(self.output.splitlines()[-20:])
++            self.log.debug("Last 20 lines:\n%s" % lout)
 +
 +
-+class BitbakeLayers(oeSelfTest):
++class Result(object):
++    pass
 +
-+    def test_bitbakelayers_showlayers(self):
-+        result = runCmd('bitbake-layers show_layers')
-+        self.assertTrue('meta-selftest' in result.output)
++def runCmd(command, ignore_status=False, timeout=None, **options):
 +
-+    def test_bitbakelayers_showappends(self):
-+        result = runCmd('bitbake-layers show_appends')
-+        self.assertTrue('xcursor-transparent-theme_0.1.1.bbappend' in result.output, msg='xcursor-transparent-theme_0.1.1.bbappend file was not recognised')
++    result = Result()
 +
-+    def test_bitbakelayers_showoverlayed(self):
-+        result = runCmd('bitbake-layers show_overlayed')
-+        self.assertTrue('aspell' in result.output, msg='xcursor-transparent-theme_0.1.1.bbappend file was not recognised')
++    cmd = Command(command, timeout=timeout, **options)
++    cmd.run()
 +
-+    def test_bitbakelayers_flatten(self):
-+        if os.path.isdir(os.path.join(self.builddir, 'test')):
-+            shutil.rmtree(os.path.join(self.builddir, 'test'))
-+        result = runCmd('bitbake-layers flatten test')
-+        bb_file = os.path.join(self.builddir, 'test/recipes-graphics/xcursor-transparent-theme/xcursor-transparent-theme_0.1.1.bb')
-+        self.assertTrue(os.path.isfile(bb_file))
-+        contents = ftools.read_file(bb_file)
-+        find_in_contents = re.search("##### bbappended from meta-selftest #####\nTEST_VAR = \"\"", contents)
-+        shutil.rmtree(os.path.join(self.builddir, 'test'))
-+        self.assertTrue(find_in_contents)
++    result.command = command
++    result.status = cmd.status
++    result.output = cmd.output
++    result.pid = cmd.process.pid
++
++    if result.status and not ignore_status:
++        raise Exception("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, result.output))
++
++    return result
++
++
++def bitbake(command, ignore_status=False, timeout=None, **options):
++    if isinstance(command, basestring):
++        cmd = "bitbake " + command
++    else:
++        cmd = [ "bitbake" ] + command
++
++    return runCmd(cmd, ignore_status, timeout, **options)
++
++
++def get_bb_env(target=None):
++    if target:
++        return runCmd("bitbake -e %s" % target).output
++    else:
++        return runCmd("bitbake -e").output
++
++def get_bb_var(var, target=None):
++    val = None
++    bbenv = get_bb_env(target)
++    for line in bbenv.splitlines():
++        if line.startswith(var + "="):
++            val = line.split('=')[1]
++            val = val.replace('\"','')
++            break
++    return val
++
++def get_test_layer():
++    layers = get_bb_var("BBLAYERS").split()
++    testlayer = None
++    for l in layers:
++        if "/meta-selftest" in l and os.path.isdir(l):
++            testlayer = l
++            break
++    return testlayer
+diff --git a/scripts/lib/selftest/utils/ftools.py b/scripts/lib/selftest/utils/ftools.py
+new file mode 100644
+index 0000000..64ebe3d
+--- /dev/null
++++ b/scripts/lib/selftest/utils/ftools.py
+@@ -0,0 +1,27 @@
++import os
++import re
++
++def write_file(path, data):
++    wdata = data.rstrip() + "\n"
++    with open(path, "w") as f:
++        f.write(wdata)
++
++def append_file(path, data):
++    wdata = data.rstrip() + "\n"
++    with open(path, "a") as f:
++            f.write(wdata)
++
++def read_file(path):
++    data = None
++    with open(path) as f:
++        data = f.read()
++    return data
++
++def remove_from_file(path, data):
++    lines = read_file(path).splitlines()
++    rmdata = data.strip().splitlines()
++    for l in rmdata:
++        for c in range(0, lines.count(l)):
++            i = lines.index(l)
++            del(lines[i])
++    write_file(path, "\n".join(lines))
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+new file mode 100755
+index 0000000..2d4d4aa
+--- /dev/null
++++ b/scripts/oe-selftest
+@@ -0,0 +1,130 @@
++#!/usr/bin/env python
++
++# Copyright (c) 2013 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++# DESCRIPTION
++# This script runs tests defined in scripts/lib/selftest/tests
++# It's purpose is to automate the testing of different bitbake tools.
++# To use it you just need to source your build environment setup script and
++# add the meta-selftest layer to your BBLAYERS.
++# Call the script as: "oe-selftest" to run all the tests in in scripts/lib/selftest/tests.
++# Call the script as: "oe-selftest <module>.<Class>.<method>" to run just a single test
++# E.g: "oe-selftest bboutput.BitbakeLayers" will run just the BitbakeLayers class in scripts/lib/selftest/tests/bboutput.py
++
++
++import os
++import sys
++import unittest
++import logging
++
++sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
++
++from selftest.utils.commands import runCmd, get_bb_var
++import selftest.utils.ftools as ftools
++
++def logger_create():
++    log = logging.getLogger("selftest")
++    log.setLevel(logging.DEBUG)
++
++    fh = logging.FileHandler(filename='oe-selftest.log', mode='w')
++    fh.setLevel(logging.DEBUG)
++
++    ch = logging.StreamHandler(sys.stdout)
++    ch.setLevel(logging.INFO)
++
++    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
++    fh.setFormatter(formatter)
++    ch.setFormatter(formatter)
++
++    log.addHandler(fh)
++    log.addHandler(ch)
++
++    return log
++
++log = logger_create()
++
++def preflight_check():
++
++    log.info("Checking that everything is in order before running the tests")
++
++    if not os.environ.get("BUILDDIR"):
++        log.error("BUILDDIR isn't set. Did you forget to source your build environment setup script?")
++        return False
++
++    builddir = os.environ.get("BUILDDIR")
++    if os.getcwd() != builddir:
++        log.info("Changing cwd to %s" % builddir)
++        os.chdir(builddir)
++
++    if not "meta-selftest" in get_bb_var("BBLAYERS"):
++        log.error("You don't seem to have the meta-selftest layer in BBLAYERS")
++        return False
++
++    log.info("Running bitbake -p")
++    runCmd("bitbake -p")
++
++    return True
++
++def add_include():
++    builddir = os.environ.get("BUILDDIR")
++    if "#include added by oe-selftest.py" \
++        not in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
++            log.info("Adding: \"include selftest.inc\" in local.conf")
++            ftools.append_file(os.path.join(builddir, "conf/local.conf"), \
++                    "\n#include added by oe-selftest.py\ninclude selftest.inc")
++
++
++def remove_include():
++    builddir = os.environ.get("BUILDDIR")
++    if "#include added by oe-selftest.py" \
++        in ftools.read_file(os.path.join(builddir, "conf/local.conf")):
++            log.info("Removing the include from local.conf")
++            ftools.remove_from_file(os.path.join(builddir, "conf/local.conf"), \
++                    "#include added by oe-selftest.py\ninclude selftest.inc")
++
++def main():
++
++    if not preflight_check():
++        return 1
++
++    tests_list = []
++    for x in sys.argv[1:]:
++        tests_list.append("selftest.tests." + x)
++    if not tests_list:
++        tests_list.append("selftest.tests")
++
++    suite = unittest.TestSuite()
++    loader = unittest.TestLoader()
++    loader.sortTestMethodsUsing = None
++    runner = unittest.TextTestRunner(verbosity=2)
++    log.info("Running tests from: %s" % " ".join(tests_list))
++    suite = loader.loadTestsFromNames(tests_list)
++    add_include()
++    result = runner.run(suite)
++    log.info("Finished")
++
++    return 0
++
++if __name__ == "__main__":
++    try:
++        ret = main()
++    except Exception:
++        ret = 1
++        import traceback
++        traceback.print_exc(5)
++    finally:
++        remove_include()
++    sys.exit(ret)
 -- 
 1.8.3.1
 
