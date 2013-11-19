@@ -1,25 +1,24 @@
-Return-Path: <Hongbo.Zhong@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C5906D9FF
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F0BAC6D12C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 09:18:35 +0000 (UTC)
+	Tue, 19 Nov 2013 09:35:23 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAJ9IaT1028002
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Nov 2013 01:18:36 -0800 (PST)
-Received: from hzhong.corp.ad.wrs.com (128.224.162.173) by
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAJ9ZPLH022973
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Nov 2013 01:35:25 -0800 (PST)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 19 Nov 2013 01:18:35 -0800
-From: hongbo zhong <hongbo.zhong@windriver.com>
+	14.2.347.0; Tue, 19 Nov 2013 01:35:25 -0800
+From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Nov 2013 17:19:00 +0800
-Message-ID: <1384852740-28508-2-git-send-email-hongbo.zhong@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1384852740-28508-1-git-send-email-hongbo.zhong@windriver.com>
-References: <1384852740-28508-1-git-send-email-hongbo.zhong@windriver.com>
+Date: Tue, 19 Nov 2013 17:35:24 +0800
+Message-ID: <1384853724-11496-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.8.3
 MIME-Version: 1.0
-Subject: [V3 2/2] bluez4: use legacy pygobject instead of gobject-introspection
+Subject: [PATCH] grub: add explicit dependency on bison-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,69 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 09:18:35 -0000
+X-List-Received-Date: Tue, 19 Nov 2013 09:35:24 -0000
 Content-Type: text/plain
 
-From: Zhong Hongbo <hongbo.zhong@windriver.com>
+From: Jackie Huang <jackie.huang@windriver.com>
 
-pygobject-3.0 use GObject from gi.repository instead of
-gobject modules. Since oe-core use pygobject-2.x, change
-all of "from gi.repository import GObject" to
-"import gobject" for bluez4.
+grub requires bison and it will fail to configure on
+the host without bison installed, add the dependency
+to fix it.
 
-Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- ...pygobject-instead-ofgobject-introspection.patch |   27 ++++++++++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
+ meta/recipes-bsp/grub/grub_2.00.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
-new file mode 100644
-index 0000000..37037f5
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.101/use-legacy-pygobject-instead-ofgobject-introspection.patch
-@@ -0,0 +1,27 @@
-+Upstream-Status: Inappropriate
-+
-+use legacy pygobject instead of gobject-introspection
-+
-+Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
-+---
-+diff -Nurd bluez-4.101.orig/test/simple-agent bluez-4.101/test/simple-agent
-+--- bluez-4.101.orig/test/simple-agent	2013-11-13 17:14:08.138118159 +0800
-++++ bluez-4.101/test/simple-agent	2013-11-13 17:14:29.034118107 +0800
-+@@ -2,7 +2,7 @@
-+ 
-+ from __future__ import absolute_import, print_function, unicode_literals
-+ 
-+-from gi.repository import GObject
-++import gobject
-+ 
-+ import sys
-+ import dbus
-+@@ -122,7 +122,7 @@
-+ 	path = "/test/agent"
-+ 	agent = Agent(bus, path)
-+ 
-+-	mainloop = GObject.MainLoop()
-++	mainloop = gobject.MainLoop()
-+ 
-+ 	if len(args) > 1:
-+ 		if len(args) > 2:
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index 7127619..543f854 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://bluetooth.conf \
-             file://obsolete_automake_macros.patch \
-             file://network-fix-network-Connect-method-parameters.patch \
-             file://install-test-script.patch \
-+            file://use-legacy-pygobject-instead-ofgobject-introspection.patch \
- "
+diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
+index e82996d..47cad0b 100644
+--- a/meta/recipes-bsp/grub/grub_2.00.bb
++++ b/meta/recipes-bsp/grub/grub_2.00.bb
+@@ -11,7 +11,7 @@ SECTION = "bootloaders"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
+-DEPENDS = "autogen-native flex-native"
++DEPENDS = "autogen-native flex-native bison-native"
+ RDEPENDS_${PN} = "diffutils freetype"
+ PR = "r1"
+ 
 -- 
-1.7.9.5
+1.8.3
 
 
