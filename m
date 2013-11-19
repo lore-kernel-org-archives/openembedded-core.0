@@ -1,18 +1,25 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 40A9D6CC8C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 420AF6CC8C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 22:42:37 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1Viu0E-000706-Kp; Tue, 19 Nov 2013 23:42:38 +0100
-Message-ID: <1384904501.4213.2.camel@x121e.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Nov 2013 23:41:41 +0000
-In-Reply-To: <5E5EE01A-4572-41FA-88DC-9F08DA17B040@gmail.com>
+	Tue, 19 Nov 2013 22:42:42 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAJMgbAw029429; Tue, 19 Nov 2013 22:42:37 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tzzZx6CLjYiq; Tue, 19 Nov 2013 22:42:36 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAJMgU6x029424
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 19 Nov 2013 22:42:31 GMT
+Message-ID: <1384900947.16887.32.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 19 Nov 2013 22:42:27 +0000
+In-Reply-To: <CADkTA4ODwRaRMVehxmjjoA=iozbH2LhBKqiHyNLwvB_9n_D_mg@mail.gmail.com>
 References: <cover.1381266484.git.bruce.ashfield@windriver.com>
 	<9f62e2e632692c5919a0de25a785d17d477a64b3.1381266484.git.bruce.ashfield@windriver.com>
 	<20131119173725.GA13018@mcrowe.com>
@@ -20,51 +27,9 @@ References: <cover.1381266484.git.bruce.ashfield@windriver.com>
 	<CADkTA4Pd1pqS8wf-BbGRy2becWpQNtzx9V0cmrrEy9OOc9N+mg@mail.gmail.com>
 	<CADkTA4PSaf3PQOAnpv_mt769WRgb6vj2TGM04T9=O++p+9_9jw@mail.gmail.com>
 	<5E5EE01A-4572-41FA-88DC-9F08DA17B040@gmail.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.4.4-3 
+	<CADkTA4ODwRaRMVehxmjjoA=iozbH2LhBKqiHyNLwvB_9n_D_mg@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Tue, 2013-11-19 at 14:29 -0800,
-	Khem Raj wrote: > Well
-	reproducer case is that build from sstate but such that an external
-	module
-	needs to be rebuilt > if external module also comes from sstate then it
-	all
-	is fine. Its only when everything is coming from > sstate except this
-	external
-	module which needs to be rebuilt then you see this problem. > > now,
-	I see
-	the code in module-base.class > > # > # Ensure the hostprogs are
-	available
-	for module compilation. Modules that > # inherit this recipe and
-	override
-	do_compile() should be sure to call > # do_make_scripts() or ensure the
-	scripts
-	are built independently. > # > do_make_scripts() { > unset CFLAGS
-	CPPFLAGS
-	CXXFLAGS LDFLAGS > make CC="${KERNEL_CC}" LD="${KERNEL_LD}"
-	AR="${KERNEL_AR}"
-	\ > -C ${STAGING_KERNEL_DIR} scripts > } > > so it expects that,
-	do_make_scripts
-	is explicitly called by external module recipes > > and my recipes did
-	override
-	module_do_compile task but not do_compile like below > >
-	module_do_compile() { > oe_runmake > } > > so,
-	is comment wrong there should it say module_do_compile
-	instead ? [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] kernel: restore scripts in the sysroot
@@ -80,52 +45,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 22:42:38 -0000
+X-List-Received-Date: Tue, 19 Nov 2013 22:42:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-11-19 at 14:29 -0800, Khem Raj wrote:
-> Well reproducer case is that build from sstate but such that an external module needs to be rebuilt
-> if external module also comes from sstate then it all is fine. Its only when everything is coming from
-> sstate except this external module which needs to be rebuilt then you see this problem.
+On Tue, 2013-11-19 at 17:37 -0500, Bruce Ashfield wrote:
 > 
-> now, I see the code in module-base.class
+> Exactly. And I had windriver bug with the same symptoms as yours. It
+> was a package
+> that built its own modules, and hence never called this either.
 > 
-> #
-> # Ensure the hostprogs are available for module compilation. Modules that
-> # inherit this recipe and override do_compile() should be sure to call
-> # do_make_scripts() or ensure the scripts are built independently.
-> #
-> do_make_scripts() {
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS 
->         make CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
->                    -C ${STAGING_KERNEL_DIR} scripts
-> }
+> > and my recipes did override module_do_compile task but not do_compile like below
+> >
+> > module_do_compile() {
+> >         oe_runmake
+> > }
+> >
+> > so, is comment wrong there should it say module_do_compile instead ?
+> >
+> > will it work with sstate always ?
+> >
+> > it will be OK to revert it if thats the case.
 > 
-> so it expects that, do_make_scripts is explicitly called by external module recipes
+> I'll come up with something that works in all cases. The sstate fix is
+> better from the point
+> of view that it is transparent to the recipes, and they don't need to
+> do anything special
+> for the support.
 > 
-> and my recipes did override module_do_compile task but not do_compile like below
+> So my proposal is this:
 > 
-> module_do_compile() {
->         oe_runmake
-> }
+>  - fix the new bug at hand by making the sstate change depend on the
+> toolchain (I agree
+>    that patching the scripts to not reference the target toolchain
+> isn't a good idea since not
+>   all kernels get the rix).
+
+Can we please not do this? Adding in toolchain dependencies into the
+sstate code whilst possible, is going to massively complicate the
+dependency chains and is a last possible resort. I bought that argument
+in the useradd case since there are horrible issues there. We don't have
+that issue here.
+
+In kernel terms, its safer/easier to hack the kernel makefiles than
+expecting sstate to work well with dependencies like that embedded in
+it.
+
+>  - remove the modules-base.bbclass scripts recreation, so we only have
+> one scripts
+>    restore in the tree.
 > 
-> so, is comment wrong there should it say module_do_compile instead ?
+> Alternatively, recipes need to be fixed to call the
+> modules-base.bbclass routine to restore
+> scripts, and I think it is obvious that won't work in all cases.
 
-The comment is slightly wrong, yes.  For correct results you need to
-either:
+Which cases won't that work in?
 
-1. inherit module (not module-base), which does:
+As far as I'm concerned, people using module-base are taking a loaded
+gun and are expected to use it safely (which means calling
+do_make_scripts somehow). People wanting a safer ride can use module
+which adds the appropriate task for them.
 
-addtask make_scripts after do_patch before do_compile
+The comments in the bbclass files do need fixing but that is trivial to
+sort out.
 
-and will ensure that the scripts are built before your module is
-compiled without you needing to do anything else.  Or...
+> I'll wait for comments/concensus before sending a new patch (which
+> needs to be tested
+> on all the cases), but in the meantime, the patches to the list to fix
+> the sstate solution are good to be applied.
 
-2. inherit module-base and arrange to call do_make_scripts() explicitly
-from your own recipe.
+I will respectfully disagree ;-).
 
-p.
+Cheers,
 
+Richard
 
 
