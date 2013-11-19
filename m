@@ -1,35 +1,23 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id DD29A6D3BB
+Return-Path: <Hongbo.Zhong@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CC5906D331
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 09:17:56 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id rAJ9HqVg029214;
-	Tue, 19 Nov 2013 10:17:57 +0100
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0347.000; Tue, 19 Nov 2013 10:17:51 +0100
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: Phil Blundell <pb@pbcl.net>
-Thread-Topic: [OE-core] RPROVIDES not package specific with native and added
-	package
-Thread-Index: Ac7kW/uiPKrHrTmoRhqqcp3NSngBhv//9ZWAgAARVBj///D2AIAAE45pgABDrgCAAPlJPQ==
-Date: Tue, 19 Nov 2013 09:17:50 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C4FD50B06@post.tritech.se>
-References: <ED3E0BCACD909541BA94A34C4A164D4C4FD50595@post.tritech.se>
-	,<1384780059.23724.26.camel@phil-desktop.brightsign>
-	<ED3E0BCACD909541BA94A34C4A164D4C4FD505BB@post.tritech.se>
-	,<1384780550.23724.29.camel@phil-desktop.brightsign>
-	<ED3E0BCACD909541BA94A34C4A164D4C4FD505D5@post.tritech.se>,
-	<1384799284.23724.60.camel@phil-desktop.brightsign>
-In-Reply-To: <1384799284.23724.60.camel@phil-desktop.brightsign>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.82]
+	Tue, 19 Nov 2013 09:18:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAJ9IYE6021902
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Nov 2013 01:18:34 -0800 (PST)
+Received: from hzhong.corp.ad.wrs.com (128.224.162.173) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 19 Nov 2013 01:18:34 -0800
+From: hongbo zhong <hongbo.zhong@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Nov 2013 17:18:59 +0800
+Message-ID: <1384852740-28508-1-git-send-email-hongbo.zhong@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RPROVIDES not package specific with native and added package
+Subject: [V3 1/2] bluez4: Install the test script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,67 +30,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 09:17:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 19 Nov 2013 09:18:34 -0000
+Content-Type: text/plain
 
-Hi Phil,=0A=
-=0A=
-On Monday, November 18, 2013 7:28 PM, Phil Blundell wrote:=0A=
-> On Mon, 2013-11-18 at 13:28 +0000, Mats K=E4rrman wrote:=0A=
-> > On Monday, November 18, 2013 2:15 PM, Phil Blundell wrote:=0A=
-> > >> Subject: Re: [OE-core] RPROVIDES not package specific with native an=
-d added package=0A=
-> > >>=0A=
-> > >> Oh, right, I see.  Does it help if you use "PACKAGES =3D+ .." rather=
- than=0A=
-> > >> "PACKAGES_prepend =3D "?=0A=
-> >=0A=
-> > Yes it does!!=0A=
-> >=0A=
-> > Could you tell me why?=0A=
-> > Er... better could you tell me where's the best place to read so I don'=
-t have to make these mistakes again?=0A=
-> =0A=
-> The code in insane.bbclass will give you a diagnostic if ${RPROVIDES} is=
-=0A=
-> set and PACKAGES isn't blank.  (The actual check that it uses for=0A=
-> PACKAGES is slightly obscure and involves split(), but the net effect=0A=
-> seems to be that it's testing for the variable being set to something=0A=
-> other than "".)=0A=
-> =0A=
-> native.bbclass sets PACKAGES=3D"" and RPROVIDES=3D"${PN}".  This violates=
-=0A=
-> insane.bbclass's usual idea of what RPROVIDES should be, but since=0A=
-> PACKAGES is blank the check is inhibited and you don't get an error.=0A=
->=0A=
-> However, your recipe is defeating this by prepending to PACKAGES and=0A=
-> causing it to end up not blank.  This turns the insane.bbclass check=0A=
-> back on and the error reappears.=0A=
-> =0A=
-> p.=0A=
-=0A=
-Thanks a lot for the explanation, it explains how the warnings came to be b=
-ut=0A=
-it's still a bit unclear to me why "=3D+" works while "_prepend" doesn't.=
-=0A=
-My guess is it's a question about order of evaluation; inherit native.bbcla=
-ss takes=0A=
-precedence over recipe assignment to PACKAGES, but PACKAGES_prepend is=0A=
-another variable and that is prepended to PACKAGES later, but still before=
-=0A=
-insane.bbclass gets to do it's work, right?=0A=
-=0A=
-Something that adds to the confusion is that it's not clear where in the ch=
-ain=0A=
-the "-e" option gets its output. Would it be possible to draw some kind of =
-picture=0A=
-that shows the basic steps of processing or is it all too complicated?=0A=
-=0A=
-Are there any good sources of documentation apart from the Yocto project=0A=
-documents and http://docs.openembedded.org or is it only the source code=0A=
-itself that goes further in detail?=0A=
-=0A=
-BR // Mats=0A=
+From: Zhong Hongbo <hongbo.zhong@windriver.com>
+
+Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
+---
+ .../bluez/bluez4-4.101/install-test-script.patch   |   26 ++++++++++++++++++++
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    6 ++++-
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
+
+diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
+new file mode 100644
+index 0000000..23f7d99
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez/bluez4-4.101/install-test-script.patch
+@@ -0,0 +1,26 @@
++Upstream-Status: Inappropriate
++
++Install the bluez's test scripts
++
++Signed-off-by: Zhong Hongbo <hongbo.zhong@windriver.com>
++diff -Nurd bluez-4.101.orig/Makefile.tools bluez-4.101/Makefile.tools
++--- bluez-4.101.orig/Makefile.tools	2013-11-19 15:49:07.688838000 +0800
+++++ bluez-4.101/Makefile.tools	2013-11-19 15:50:09.256837848 +0800
++@@ -227,6 +227,17 @@
++ 		test/service-spp.xml test/service-opp.xml test/service-ftp.xml \
++ 		test/simple-player test/test-nap
++ 
+++bluez4_testdir = $(libdir)/bluez4/test/
+++dist_bluez4_test_SCRIPTS = test/sap-client test/hsplay test/hsmicro \
+++		test/monitor-bluetooth test/list-devices \
+++		test/test-discovery test/test-manager test/test-adapter \
+++		test/test-device test/test-service test/test-serial \
+++		test/test-telephony test/test-network test/simple-agent \
+++		test/simple-service test/simple-endpoint test/test-audio \
+++		test/test-input test/test-sap-server test/test-oob \
+++		test/test-attrib test/test-proximity test/test-thermometer \
+++		test/test-serial-proxy test/test-health test/test-health-sink \
+++		test/simple-player test/test-nap
++ if HIDD
++ bin_PROGRAMS += compat/hidd
++ 
+diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
+index d6c3e26..7127619 100644
+--- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
++++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
+@@ -7,6 +7,7 @@ SRC_URI += "file://bluetooth.conf \
+             file://fix-udev-paths.patch \
+             file://obsolete_automake_macros.patch \
+             file://network-fix-network-Connect-method-parameters.patch \
++            file://install-test-script.patch \
+ "
+ 
+ SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
+@@ -23,9 +24,10 @@ do_install_append() {
+ }
+ 
+ RDEPENDS_${PN}-dev = "bluez-hcidump"
++RDEPENDS_${PN}-testtools += "python python-dbus python-pygobject"
+ 
+ ALLOW_EMPTY_libasound-module-bluez = "1"
+-PACKAGES =+ "libasound-module-bluez"
++PACKAGES =+ "libasound-module-bluez ${PN}-testtools"
+ 
+ FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
+ FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
+@@ -34,6 +36,8 @@ FILES_${PN}-dev += "\
+   ${libdir}/alsa-lib/*.la \
+ "
+ 
++FILES_${PN}-testtools = "${libdir}/bluez4/test/*"
++
+ FILES_${PN}-dbg += "\
+   ${libdir}/bluetooth/plugins/.debug \
+   ${libdir}/*/.debug \
+-- 
+1.7.9.5
+
 
