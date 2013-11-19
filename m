@@ -1,42 +1,45 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E86466D000;
-	Tue, 19 Nov 2013 18:51:52 +0000 (UTC)
-Received: by mail-ea0-f173.google.com with SMTP id g15so2633347eak.18
-	for <multiple recipients>; Tue, 19 Nov 2013 10:51:53 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 907146D437
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Nov 2013 22:29:21 +0000 (UTC)
+Received: by mail-pb0-f48.google.com with SMTP id md12so2563975pbc.35
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 19 Nov 2013 14:29:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=srVIMvoBq6Mfz0EaxAki786jmIUVl7p4S2TjFNw0i+g=;
-	b=pHPmMmFghlZPiHfAaYioT6DMqSiU5+sMCLIWnhZCFFskHRk63TuQoW3ejKjjv/bfHA
-	gh+iwzlPHZ+o9Uh6xp2mqATHogG3QUvOQoekWCECOyDiidEQZJ0cf9THGv34hIn+ZQ5/
-	/TaYs5P6t5lbNcfaF/R1xRCQwtTYRFSMJKoXnStIQvs2aO+YpEQpy1byZDCqsf6Am+e7
-	s1ENETB0ZwSDh4apbcQrZ6zjO/AE4j5K9ZHWgXGrmc1B633uoxvqH7LoZVW40jNlN21d
-	v8pWYYe5l5krRkeoJFwPQkGuE1GFH2vAEhZA7ra7xI7yUZ0V1kKpMktAarzEST2atTcU
-	OysQ==
-X-Received: by 10.15.34.5 with SMTP id d5mr22247778eev.20.1384887113124;
-	Tue, 19 Nov 2013 10:51:53 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id g8sm51550523eep.20.2013.11.19.10.51.52
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=UNnK3iwIVSwIzRWdBEou6HEIfrrmyE2ZAI+TPRiXDtg=;
+	b=GJSZlSKhCmiBq7ld2cNdWZDD8Nie7p1fpE7Q7quFBZ7jdBf5VBQ+2CXefz7JD0WaQa
+	LmIsAp7pEC/3VB6yMZLLG7w27bs0f/n+q69YqjraWfQet4nr13xMn1h8TRGVhBkGMO/e
+	rPy/0hD5UfNwp0Ze18zfhAu2AvEs0t+pxJ4Ga5xuCPNjXtDSWcFlYheawkfcqxQ9wqpU
+	8hXPfZ63/i7+ILZLxG2NUy7Ut8u/vIo0HAjTnQy1c6UpgkEmBAzml0c9lezuitcVIKUi
+	93soViTEPnkQG7oOC+9B52/ZD66Bb4Pf/26EqEV3CwZVdVgLvoWtyv5+Wxx3srUrELbq
+	Hrrw==
+X-Received: by 10.66.157.165 with SMTP id wn5mr3338769pab.169.1384900163148;
+	Tue, 19 Nov 2013 14:29:23 -0800 (PST)
+Received: from kraj-sslvpn-nc.jnpr.net ([66.129.239.12])
+	by mx.google.com with ESMTPSA id gh3sm32934576pbb.2.2013.11.19.14.29.21
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Nov 2013 10:51:52 -0800 (PST)
-Date: Tue, 19 Nov 2013 19:51:54 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20131119185154.GH3708@jama>
-References: <20130611160434.GI3233@jama>
-	<CALbNGRR=RixaPbdqW4P2YQ-EH=vu3Ni-2zvOhKSDBo=RCTA52A@mail.gmail.com>
-	<20131119182012.GE3708@jama> <2322495.JISmJUGcVm@helios>
-MIME-Version: 1.0
-In-Reply-To: <2322495.JISmJUGcVm@helios>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 19 Nov 2013 14:29:22 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.0 \(1822\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CADkTA4PSaf3PQOAnpv_mt769WRgb6vj2TGM04T9=O++p+9_9jw@mail.gmail.com>
+Date: Tue, 19 Nov 2013 14:29:20 -0800
+Message-Id: <5E5EE01A-4572-41FA-88DC-9F08DA17B040@gmail.com>
+References: <cover.1381266484.git.bruce.ashfield@windriver.com>
+	<9f62e2e632692c5919a0de25a785d17d477a64b3.1381266484.git.bruce.ashfield@windriver.com>
+	<20131119173725.GA13018@mcrowe.com>
+	<1384883174.23724.116.camel@phil-desktop.brightsign>
+	<CADkTA4Pd1pqS8wf-BbGRy2becWpQNtzx9V0cmrrEy9OOc9N+mg@mail.gmail.com>
+	<CADkTA4PSaf3PQOAnpv_mt769WRgb6vj2TGM04T9=O++p+9_9jw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+X-Mailer: Apple Mail (2.1822)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] kernel: restore scripts in the sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,66 +52,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2013 18:51:53 -0000
-X-Groupsio-MsgNum: 47296
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="gTtJ75FAzB1T2CN6"
-Content-Disposition: inline
-
---gTtJ75FAzB1T2CN6
+X-List-Received-Date: Tue, 19 Nov 2013 22:29:22 -0000
 Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 19, 2013 at 06:36:41PM +0000, Paul Eggleton wrote:
-> On Tuesday 19 November 2013 19:20:12 Martin Jansa wrote:
-> > On Tue, Nov 19, 2013 at 04:59:19PM +0100, Andreas M=FCller wrote:
-> > > On Tue, Nov 19, 2013 at 4:50 PM, Martin Jansa <martin.jansa@gmail.com=
+
+On Nov 19, 2013, at 10:17 AM, Bruce Ashfield <bruce.ashfield@gmail.com> =
+wrote:
+
+> Adding Khem.
 >=20
-> wrote:
-> > > > On Thu, Oct 31, 2013 at 12:08:25AM +0100, Martin Jansa wrote:
-> > > >> Starting now I'll use
-> > > >> http://openembedded.org/wiki/Bitbake_World_Status
-> > > >> to post results from my bitbake world buils.
-> > > >=20
-> > > > It was updated few times since this e-mail and I've received no
-> > > > feedback.
-> > > >=20
-> > > > Should I continue to post them or nobody except me is really intere=
-sted?
-> > >=20
-> > > I am interested but would prefer some short information as mail like
-> > > in the past because prefer events more than polling.
-> >=20
-> > OK, I'll continue to send summary to list as well.
+> Khem .. see below.
 >=20
-> Would it be possible to send the summary as a new email e.g. "state of bi=
-tbake=20
-> world for <date>" instead of attaching to the existing thread? It might b=
-e a=20
-> bit selfish, but surely I can't be the only one whose mail client will dr=
-edge=20
-> up the entire thread under today's date...
+> On Tue, Nov 19, 2013 at 12:54 PM, Bruce Ashfield
+> <bruce.ashfield@gmail.com> wrote:
+>> On Tue, Nov 19, 2013 at 12:46 PM, Phil Blundell <pb@pbcl.net> wrote:
+>>> On Tue, 2013-11-19 at 17:37 +0000, Mike Crowe wrote:
+>>>> On Tuesday 08 October 2013 at 17:12:54 -0400, Bruce Ashfield wrote:
+>>>>> When building against the sysroot, out of tree modules can require =
+modpost
+>>>>> and other utilities normally found in the kernel's scripts =
+directory. For
+>>>>> the kernel source in the staging dir, these scripts have been =
+removed to
+>>>>> avoid mixing archiectures when packaging kernel-dev (among other =
+things).
+>>>>>=20
+>>>>> Rather than further complicate the kernel's install rule, or its =
+packaging,
+>>>>> we can restore the scripts by building them in the kernel staging =
+directory
+>>>>> after the sstate is installed, making them available to packages =
+that need them.
+>>>>>=20
+>>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>>>> ---
+>>>>> meta/classes/kernel.bbclass | 11 +++++++++++
+>>>>> 1 file changed, 11 insertions(+)
+>>>>>=20
+>>>>> diff --git a/meta/classes/kernel.bbclass =
+b/meta/classes/kernel.bbclass
+>>>>> index 4acfb7e..d5fa801 100644
+>>>>> --- a/meta/classes/kernel.bbclass
+>>>>> +++ b/meta/classes/kernel.bbclass
+>>>>> @@ -292,6 +292,17 @@ kernel_do_install() {
+>>>>> }
+>>>>> do_install[prefuncs] +=3D "package_get_auto_pr"
+>>>>>=20
+>>>>> +
+>>>>> +SSTATEPOSTINSTFUNCS +=3D "kernelscripts_sstate_postinst"
+>>>>> +kernelscripts_sstate_postinst () {
+>>>>> +   if [ "${BB_CURRENTTASK}" =3D "populate_sysroot" -o =
+"${BB_CURRENTTASK}" =3D "populate_sysroot_setscene" ]; then
+>>>>> +           (
+>>>>> +             cd ${STAGING_KERNEL_DIR}
+>>>>> +             oe_runmake scripts
+>>>>> +           )
+>>>>> +   fi
+>>>>> +}
+>>>>> +
+>>>>> sysroot_stage_all_append() {
+>>>>>    sysroot_stage_dir ${D}${KERNEL_SRC_PATH} =
+${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
+>>>>> }
+>>>>=20
+>>>> This sstate_postinst fails for me when the compiler isn't already =
+present
+>>>> in the sysroot.
+>>>>=20
+>>>> Also, I notice that the environment and parameters passed to =
+oe_runmake are
+>>>> not the same as those used by kernel_do_compile etc.
+>>>=20
+>>> Also note that module.bbclass already does "make scripts" before
+>>> do_compile() so out-of-tree modules should already have access to =
+all
+>>> the files that they need.
+>>=20
+>> Ah, but they didn't. Otherwise we wouldn't have mucked about in the =
+routines.
+>> Khem was building out of the sysroot and the support scripts weren't =
+present,
+>> something which we were able to consistently reproduce.
+>>=20
+>> Perhaps the whole problem was just a misordering of the tasks. I'll =
+take another
+>> look.
+>>=20
+>> But yes, we need one way or the other .. not both. I'd prefer to not =
+fiddle with
+>> sstate, so I'll go back and see why the module.bbclass code wasn't =
+working
+>> for the reported error.
+>=20
+> Khem: I wasn't working from a bugzilla when making these changes, so I
+> can't find your original reproducer for the missing recordmcount =
+script.
+>=20
+> Do you recall what it was ? I'm revisiting this and would like to =
+understand
+> why the make scripts in module-base.bbclass wasn't properly restoring
+> the support scripts for your build.
+>=20
+> I'm leaning towards reverting the whole mess, but without the =
+reproducing
+> case, I can't be sure that I'm not breaking you again.
 
-Sure, it will be easier for me as well.
+Well reproducer case is that build from sstate but such that an external =
+module needs to be rebuilt
+if external module also comes from sstate then it all is fine. Its only =
+when everything is coming from
+sstate except this external module which needs to be rebuilt then you =
+see this problem.
 
-I was trying to always reply on previous report to see if we're
-improving or not, now with "history" in wiki it doesn't help much, so
-I'll be starting new threads now.
+now, I see the code in module-base.class
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+#
+# Ensure the hostprogs are available for module compilation. Modules =
+that
+# inherit this recipe and override do_compile() should be sure to call
+# do_make_scripts() or ensure the scripts are built independently.
+#
+do_make_scripts() {
+        unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS=20
+        make CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" AR=3D"${KERNEL_AR}" =
+\
+                   -C ${STAGING_KERNEL_DIR} scripts
+}
 
---gTtJ75FAzB1T2CN6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+so it expects that, do_make_scripts is explicitly called by external =
+module recipes
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+and my recipes did override module_do_compile task but not do_compile =
+like below
 
-iEYEARECAAYFAlKLs0oACgkQN1Ujt2V2gBxJ3QCdETOTpwb/HA5lOI4+A/PJNQNO
-GgYAn0fQAW8F9sA2IWme3YHMOakvAR2w
-=gj/R
------END PGP SIGNATURE-----
+module_do_compile() {
+        oe_runmake
+}
 
---gTtJ75FAzB1T2CN6--
+so, is comment wrong there should it say module_do_compile instead ?
+
+will it work with sstate always ?
+
+it will be OK to revert it if thats the case.
+
+>=20
+> Bruce
+>=20
+>>=20
+>> Bruce
+>>=20
+>>=20
+>>>=20
+>>> If we're going to make a policy decision that the kernel is =
+responsible
+>>> for making scripts then I guess that's fine (modulo the =
+implementation
+>>> problems that Mike describes) but in that case the code in
+>>> module{-base}.bbclass is redundant and ought to be removed.
+>>>=20
+>>> p.
+>>>=20
+>>>=20
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>=20
+>>=20
+>>=20
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end"
+>=20
+>=20
+>=20
+> --=20
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+
+
