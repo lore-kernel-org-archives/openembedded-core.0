@@ -1,26 +1,49 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 061596CFF9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FF5D6CC86
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 01:40:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAK1eEiL025335
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 20 Nov 2013 02:59:11 +0000 (UTC)
+Received: by mail-pd0-f170.google.com with SMTP id g10so4663390pdj.15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 17:40:14 -0800 (PST)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 19 Nov 2013 17:40:13 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Nov 2013 09:40:10 +0800
-Message-ID: <60e1553243c2b4d99fcb18246b516c1b4e03e2e9.1384854113.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.8.3
-In-Reply-To: <cover.1384854113.git.jackie.huang@windriver.com>
-References: <cover.1384854113.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] grub-efi: allow compilation without large model support
+	Tue, 19 Nov 2013 18:59:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=c7CCd1O7zNgBeyaj/e+50nfbp3+QGUiB5y/fD2866TY=;
+	b=u61P57XFck4zUt9ZIjx6TvbgFQyLxqUtQoSWN6LuTZ8KBi9H6hgNQmVpvDzm6BcdYt
+	6+LR5aWENV2L5tHtwDCMJ51M76NzeCWxkv9+GLZWuiF6uSWn1QNhRtG9SFKyRT2q9Sbh
+	nCSDlHDYIGChVb14LItA/lDsmm/sLAXYAhp3VX/CdQEsNjMrU7Fi6KaXIOY112yzSclS
+	UGFWfZon9+pMVuMKgAqPOD6GdrkQlRKuCTNaeXGMrOBd+LfLarOcv/tM3Bn0CIacezK1
+	hwe54kTj4S5CuasAJj86FbTJeOAUdZxvB5TVW/ZhxBXCN1oA5PGNZIVBo8t1NE0/h9Z4
+	pU4A==
+X-Received: by 10.66.249.202 with SMTP id yw10mr18703383pac.111.1384916353340; 
+	Tue, 19 Nov 2013 18:59:13 -0800 (PST)
+Received: from kraj-sslvpn-nc.jnpr.net ([66.129.239.12])
+	by mx.google.com with ESMTPSA id
+	qw8sm33941352pbb.27.2013.11.19.18.59.11 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 19 Nov 2013 18:59:12 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.0 \(1822\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1384901152.16887.34.camel@ted>
+Date: Tue, 19 Nov 2013 18:59:10 -0800
+Message-Id: <BD0D1B35-0B17-418A-8119-DF6C169C092F@gmail.com>
+References: <cover.1381266484.git.bruce.ashfield@windriver.com>
+	<9f62e2e632692c5919a0de25a785d17d477a64b3.1381266484.git.bruce.ashfield@windriver.com>
+	<20131119173725.GA13018@mcrowe.com>
+	<1384883174.23724.116.camel@phil-desktop.brightsign>
+	<CADkTA4Pd1pqS8wf-BbGRy2becWpQNtzx9V0cmrrEy9OOc9N+mg@mail.gmail.com>
+	<CADkTA4PSaf3PQOAnpv_mt769WRgb6vj2TGM04T9=O++p+9_9jw@mail.gmail.com>
+	<5E5EE01A-4572-41FA-88DC-9F08DA17B040@gmail.com>
+	<1384900579.16887.28.camel@ted>
+	<B5287BC8-6DCA-44B5-84FC-72E6E271A4F0@gmail.com>
+	<1384901152.16887.34.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1822)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] kernel: restore scripts in the sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,110 +56,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2013 01:40:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Nov 2013 02:59:12 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-From: Jackie Huang <jackie.huang@windriver.com>
 
--mcmodel=large is not supported by gcc with version lower
-than 4.4, but we don't need to use memory over 4GiB, so add
-a patch to allow compilation without large model support.
+On Nov 19, 2013, at 2:45 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- ...allow-a-compilation-without-mcmodel-large.patch | 69 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+> On Tue, 2013-11-19 at 14:39 -0800, Khem Raj wrote:
+>> On Nov 19, 2013, at 2:36 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>>=20
+>>> On Tue, 2013-11-19 at 14:29 -0800, Khem Raj wrote:
+>>>=20
+>>>> Well reproducer case is that build from sstate but such that an =
+external module needs to be rebuilt
+>>>> if external module also comes from sstate then it all is fine. Its =
+only when everything is coming from
+>>>> sstate except this external module which needs to be rebuilt then =
+you see this problem.
+>>>>=20
+>>>> now, I see the code in module-base.class
+>>>>=20
+>>>> #
+>>>> # Ensure the hostprogs are available for module compilation. =
+Modules that
+>>>> # inherit this recipe and override do_compile() should be sure to =
+call
+>>>> # do_make_scripts() or ensure the scripts are built independently.
+>>>> #
+>>>> do_make_scripts() {
+>>>>       unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS=20
+>>>>       make CC=3D"${KERNEL_CC}" LD=3D"${KERNEL_LD}" =
+AR=3D"${KERNEL_AR}" \
+>>>>                  -C ${STAGING_KERNEL_DIR} scripts
+>>>> }
+>>>>=20
+>>>> so it expects that, do_make_scripts is explicitly called by =
+external module recipes
+>>>>=20
+>>>> and my recipes did override module_do_compile task but not =
+do_compile like below
+>>>>=20
+>>>> module_do_compile() {
+>>>>       oe_runmake
+>>>> }
+>>>>=20
+>>>> so, is comment wrong there should it say module_do_compile instead =
+?
+>>>>=20
+>>>> will it work with sstate always ?
+>>>>=20
+>>>> it will be OK to revert it if thats the case.
+>>>=20
+>>> Did you inherit module-base or module? I think the wording applies =
+to
+>>> module and not module-base. I think the function used to be in =
+module
+>>> and was moved along with the comment which is now incorrect.
+>>>=20
+>>=20
+>> inherit module=20
+>=20
+> So in that case there is:
+>=20
+> addtask make_scripts after do_patch before do_compile
+> do_make_scripts[lockfiles] =3D "${TMPDIR}/kernel-scripts.lock"
+> do_make_scripts[deptask] =3D =93do_populate_sysroot=94
+>=20
 
-diff --git a/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
-new file mode 100644
-index 0000000..b2be74a
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
-@@ -0,0 +1,69 @@
-+From 0cea0e4266214da1f11e812834f5d5c47a6e04e6 Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Tue, 5 Nov 2013 07:23:32 -0500
-+Subject: [PATCH] Allow a compilation without -mcmodel=large
-+
-+* kern/efi/mm.c (grub_efi_allocate_pages): don't allocate >4GiB
-+  when compiled without -mcmodel=large
-+  (filter_memory_map): remove memory post 4 GiB when compiled
-+  without -mcmodel=large
-+* configure.ac: add -DMCMODEL_SMALL=1 to TARGET_CFLAGS when
-+  -mcmodel=large isn't supported
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-+---
-+ configure.ac            |    4 +++-
-+ grub-core/kern/efi/mm.c |    6 +++---
-+ 2 files changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 319d063..ee72fee 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -567,7 +567,9 @@ if test "$target_cpu"-"$platform" = x86_64-efi; then
-+ 		      [grub_cv_cc_mcmodel=no])
-+   ])
-+   if test "x$grub_cv_cc_mcmodel" = xno; then
-+-    AC_MSG_ERROR([-mcmodel=large not supported. Upgrade your gcc.])
-++    CFLAGS="$SAVED_CFLAGS -m64 -DMCMODEL_SMALL=1"
-++    TARGET_CFLAGS="$TARGET_CFLAGS -DMCMODEL_SMALL=1"
-++    AC_MSG_WARN([-mcmodel=large not supported. You won't be able to use the memory over 4GiB. Upgrade your gcc.])
-+   else
-+     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=large"
-+   fi
-+diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
-+index a2edc84..c67dd13 100644
-+--- a/grub-core/kern/efi/mm.c
-++++ b/grub-core/kern/efi/mm.c
-+@@ -62,7 +62,7 @@ grub_efi_allocate_pages (grub_efi_physical_address_t address,
-+     return 0;
-+ #endif
-+
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+   if (address == 0)
-+     {
-+       type = GRUB_EFI_ALLOCATE_MAX_ADDRESS;
-+@@ -305,7 +305,7 @@ filter_memory_map (grub_efi_memory_descriptor_t *memory_map,
-+        desc = NEXT_MEMORY_DESCRIPTOR (desc, desc_size))
-+     {
-+       if (desc->type == GRUB_EFI_CONVENTIONAL_MEMORY
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+ 	  && desc->physical_start <= 0xffffffff
-+ #endif
-+ 	  && desc->physical_start + PAGES_TO_BYTES (desc->num_pages) > 0x100000
-+@@ -321,7 +321,7 @@ filter_memory_map (grub_efi_memory_descriptor_t *memory_map,
-+ 	      desc->physical_start = 0x100000;
-+ 	    }
-+
-+-#if 1
-++#if defined (MCMODEL_SMALL)
-+ 	  if (BYTES_TO_PAGES (filtered_desc->physical_start)
-+ 	      + filtered_desc->num_pages
-+ 	      > BYTES_TO_PAGES (0x100000000LL))
-+--
-+1.7.1
-+
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-index 2fe688c..deb9514 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-@@ -27,6 +27,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://grub-no-unused-result.patch \
-            file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
-            file://fix-issue-with-flex-2.5.37.patch \
-+           file://grub-efi-allow-a-compilation-without-mcmodel-large.patch \
-           "
- SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
- SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
--- 
-1.8.3
+yes I see.
+
+
+> which forces the make_scripts task to run before compile. I don't see
+> how that could therefore fail? :/
+>=20
+> Do you have a copy of the exact log?
+
+Not anymore, it was sometime ago, the logs are unfortunately recycled.
+
+> I'm wondering if this is another
+> variant of the bitbake dependency bug I just tracked down
+> =
+(http://git.yoctoproject.org/cgit.cgi/poky-contrib/patch/?id=3D7b49d336c46=
+72f3dfa78e1c3f1f5c7384264a118)
+>=20
+
+ah very likely, I think I will try this fix and revert the =
+kernel.bbclass fix locally and see if I still am
+able to reproduce this issue. In any case I think the kernel.bbclass may =
+be abandoned since I now think it
+was a wrong fix although it did fix the problem
+
+> Cheers,
+>=20
+> Richard
+>=20
 
 
