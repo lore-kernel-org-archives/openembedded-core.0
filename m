@@ -1,49 +1,36 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id A49746D701
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 12:02:27 +0000 (UTC)
-Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 667A93FFEF
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 13:02:29 +0100 (CET)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -4.4
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9, KHOP_THREADED=-1.5] autolearn=no
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 13:02:28 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 13:02:28 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.438.0;
-	Wed, 20 Nov 2013 13:02:29 +0100
-Message-ID: <528CA4D3.6020109@topic.nl>
-Date: Wed, 20 Nov 2013 13:02:27 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F33526D7BB;
+	Wed, 20 Nov 2013 12:21:22 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id e51so3698018eek.13
+	for <multiple recipients>; Wed, 20 Nov 2013 04:21:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=PB4wgjJ1n2o/XAjv9g8o+M3I9t556O72CEy5jQVaJtU=;
+	b=Y2Z1kQuL77ftnwBTrYD+jf/YCJAPWAwJ/G1JAUeE7maPlPXLvNK3IUPwkX8puQwjkp
+	yu7iGdv7FfF7O1Ac4Pphdbc1dTtCzP1eDNvD5XnOtpeWANpcI7foi3mxAphssazFuRLM
+	x2HDJASYPrknuWAjNYOocSMJBYCvnyoNG/HUKgIsWcIQsrx0UL5YOoIDRvurxMNAbG7k
+	HdMo93FaaV1QE0PDrn4K+7PKYGLh1YWndkZpVxH3ytTmg8dCz4fXlZ4+fvJycaKADEqt
+	zdPzASfyR8DfZneZl6N2SUbbgRpBktr9UT2xqI2Fs1gMlua3GE8DyIahyvjmOK+ja2Ks
+	LAYw==
+X-Received: by 10.14.210.8 with SMTP id t8mr412064eeo.39.1384950083801;
+	Wed, 20 Nov 2013 04:21:23 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id b42sm59277458eem.9.2013.11.20.04.21.22
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 20 Nov 2013 04:21:23 -0800 (PST)
+Date: Wed, 20 Nov 2013 13:21:26 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core@lists.openembedded.org
+Message-ID: <20131120122126.GM3708@jama>
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <528CA4B0.3060907@topic.nl>
-In-Reply-To: <528CA4B0.3060907@topic.nl>
-X-Forwarded-Message-Id: <528CA4B0.3060907@topic.nl>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Re: tslib keeps failing on checksum
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: State of bitbake world, Failed tasks Wed Nov 20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,108 +43,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2013 12:02:28 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 20 Nov 2013 12:21:23 -0000
+X-Groupsio-MsgNum: 47332
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="QqzFzR/RUlLahzby"
+Content-Disposition: inline
+
+--QqzFzR/RUlLahzby
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 11/20/2013 12:09 PM, Mike Looijmans wrote:
-> On 11/20/2013 11:38 AM, Martin Jansa wrote:
->> On Wed, Nov 20, 2013 at 11:01:36AM +0100, Mike Looijmans wrote:
->>> =EF=BB=BFI get this error every time I try t build the current oe-core =
-master:
->>>
->>> ERROR: Checksum failure fetching
->>> https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz=
-;downloadfilename=3Dtslib-1.1.tar.xz
->>>
->>> ERROR: Function failed: Fetcher failure for URL:
->>> 'https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.x=
-z;downloadfilename=3Dtslib-1.1.tar.xz'.
->>>
->>> Checksum mismatch!
->>> File: '/home/mike/zynq-next/build/downloads/tslib-1.1.tar.xz' has md5 c=
-hecksum
->>> d41d8cd98f00b204e9800998ecf8427e when 14771f8607b341bb4b297819d37e837d =
-was
->>> expected
->>>
->>> Now the weird thing is, that when I fetch the thing using wget, I get a=
-blob
->>> with the right checksum:
->>>
->>> # wget https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1=
-.tar.xz
->>> # md5sum tslib-1.1.tar.xz
->>> 14771f8607b341bb4b297819d37e837d  tslib-1.1.tar.xz
->>>
->>> Is oe-core using some other flavour of wget or what else could cause th=
-is kind
->>> of fetch error?
->>
->> Have you tried to unpack both tarballs and compare content in them?
->
-> Nope, I just assumed they're two somewhat different copies of the same
-> software (e.g. one of them has a "downloaded from here" remark or so).
-> Anything in particular I should look for?
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-After upgrading I tried again. The file as downloaded by bitbake is complet=
-ely
-empty. Nothing in it. The md5 sum of this empty file is
-d41d8cd98f00b204e9800998ecf8427e indeed.
+=3D=3D Failed tasks Wed Nov 20 12:20:32 UTC 2013 =3D=3D
 
-I'm now using bitbake 1.21.0 (current master) and OE rev
-0eb947454e1c92467283e6f1adeca67c7c57698b to build with, with the above resu=
-lts
-still.
+=3D=3D=3D common (13) =3D=3D=3D
+    * meta-browser/recipes-mozilla/mozilla-devscripts/mozilla-devscripts_gi=
+t.bb, do_fetch
+    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
+b, do_compile
+    * meta-openembedded/meta-multimedia/recipes-multimedia/vlc/vlc_1.1.11.b=
+b, do_compile
+    * meta-openembedded/meta-networking/recipes-support/lowpan-tools/lowpan=
+-tools_git.bb, do_install
+    * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.1.bb, do_i=
+nstall
+    * meta-openembedded/meta-oe/recipes-core/libxml/libxml++_2.35.3.bb, do_=
+compile
+    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
+ile
+    * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_c=
+ompile
+    * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_compile
+    * meta-smartphone/meta-fso/recipes-freesmartphone/cornucopia/fsogsmd_0.=
+12.0.bb, do_compile
+    * openembedded-core/meta/recipes-graphics/wayland/weston_1.3.0.bb, do_p=
+atch
+    * openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-omapfb=
+_git.bb, do_fetch
+    * openembedded-core/meta/recipes-support/ca-certificates/ca-certificate=
+s_20130610.bb, do_fetch
 
-(I know I can just move my own file into the download directory and get on
-with it, but i'd rather actually solve this problem).
+=3D=3D=3D common-x86 (5) =3D=3D=3D
+    * meta-browser/recipes-browser/chromium/chromium_29.0.1518.2.bb, do_com=
+pile
+    * meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecbo=
+ot-klibc-image.bb, do_rootfs
+    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
+pile
+    * meta-openembedded/meta-oe/recipes-support/ode/ode_0.9.bb, do_configure
+    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
 
-There's a direct connection to the internet, no proxy (just a router) that
-might have been caching things.
+=3D=3D=3D qemuarm (1) =3D=3D=3D
+    * meta-qt5/recipes-qt/qt5/qtlocation_git.bb, do_compile
 
-Any suggestions?
+=3D=3D=3D qemux86 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-geo=
+de_2.11.14.bb, do_compile
 
-Mike.
+=3D=3D=3D qemux86_64 (3) =3D=3D=3D
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
+obiledevice_1.1.4.bb, do_configure
+    * meta-openembedded/meta-oe/recipes-devtools/python/python-m2crypto_0.2=
+1.1.bb, do_compile
 
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||14    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20131119_093807.log/
+|-
+||qemux86       ||20    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20131119_200735.log/
+|-
+||qemux86_64    ||21    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20131120_065548.log/
+|}
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--QqzFzR/RUlLahzby
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Met vriendelijke groet / kind regards,
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-Mike Looijmans
+iEYEARECAAYFAlKMqUYACgkQN1Ujt2V2gByy4ACggKesJv/n9hH0Wu9c9uZWQYEs
+79UAoJpfCwPEQobhog1kC0Y6dRRE2Dtk
+=ZR09
+-----END PGP SIGNATURE-----
 
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
-Telefax: (+31) - (0)499 - 33.69.70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
-end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
-en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
- Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
-jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
- te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
-n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
-nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
- een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
-ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
-C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
-d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
-orende bijlagen.
-
-The contents of this message, as well as any enclosures, are addressed pers=
-onally to, and thus solely intended for the addressee. They may contain inf=
-ormation regarding a third party. A recipient who is neither the addressee,=
- nor empowered to receive this message on behalf of the addressee, is kindl=
-y requested to immediately inform the sender of receipt, and to destroy the=
- message and the enclosures. Any use of the contents of this message and/or=
- the enclosures by any other person than the addressee or person who is emp=
-owered to receive this message, is illegal towards the sender and/or the af=
-orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
-age as a result of the use and/or acceptance of this message and as well as=
- any enclosures.
-
+--QqzFzR/RUlLahzby--
