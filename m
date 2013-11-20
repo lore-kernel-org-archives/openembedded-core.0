@@ -1,37 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E70A16D909
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 96E366D909
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 11:50:13 +0000 (UTC)
-Received: by mail-vc0-f179.google.com with SMTP id hz11so5603906vcb.24
+	Wed, 20 Nov 2013 11:54:40 +0000 (UTC)
+Received: by mail-qa0-f44.google.com with SMTP id i13so2067141qae.17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 03:50:15 -0800 (PST)
+	Wed, 20 Nov 2013 03:54:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=1ZERwJUUH7EmdVNuJfeJcL6BOaefqFOR8NnTKN/Lmg8=;
-	b=DbhXCLyPQUErUzztxi+RQR6Agxzxl/p4d+UQV0xYGxB7VwrUE3YvMI0Vhr6wB1qebv
-	dCHIXL+NNhmidM8zl62Lv9arhVM0bxFtXnitxX6j8E+xfjPNMRB3MwRnaCxzrCBPDB7l
-	xg0KsCqupbYZCSWCaq1+9MrSe5Mr87oEWW+L6d0pL0PzZUTsZg+0mvEDidEve99fCFVQ
-	N0GHGY/irYNjqTfMieDeTuUu3jK166J73gL/uaDtWc1jyB+0xx3Umq390btVJK7lRPjD
-	uYFwN20eP7RtyrcRBjJwhA/6oCRdOKSM2QSF2rc48sxRXeb+lbB5dvOxQrZ+iGphmi6l
-	zjCw==
-X-Received: by 10.221.53.74 with SMTP id vp10mr106955vcb.54.1384948215029;
-	Wed, 20 Nov 2013 03:50:15 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=6iYzkLwmUCcfCoTq2MqTI1VJf+9AGxzL6+ftHsjej2k=;
+	b=mSovtaeanleNPN321DZYPrb1mspBWVDmYMaunUpXhdgYJCQkKqMxpVdGbJ4WmrovaQ
+	X+C2836BGZbDHm3QuvitUPNuY4BhywXqN30OETjodl4lGy5yrGpUcx5S/KqrjYC7rrQx
+	eHffOwjLain4vUIPn9B8gzed2DmFQoUreQjbJQSTpksS+2iX9ZMZVi+CShT4o3NXfTrM
+	Dw3AQqUCUl1RnRRnjCa8zZ5U0+7+dnMd/L0iJv2pxFjqAx1QZICRxpJJ3Me5VS1lHZ6N
+	Han9xIAL8llUd1iMGlSL/zZVivVKADYP7mYVUqrMSEMcvDU9AwvkEbwHB15kQX44P+aw
+	rwRg==
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.49.71 with HTTP; Wed, 20 Nov 2013 03:49:34 -0800 (PST)
-In-Reply-To: <1578881.eGB3JKVbzz@helios>
-References: <1578881.eGB3JKVbzz@helios>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 20 Nov 2013 11:49:34 +0000
-X-Google-Sender-Auth: GJefMGvk3pO70lawUIQb3iiO-VY
-Message-ID: <CANyK_8cMf+SodPNjtuavseZHMTd13T33c0sLJpNnhe45ixdTXg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] FOSDEM 2014 Embedded dev room CFP
+X-Received: by 10.49.1.10 with SMTP id 10mr687356qei.6.1384948481848; Wed, 20
+	Nov 2013 03:54:41 -0800 (PST)
+Received: by 10.96.55.197 with HTTP; Wed, 20 Nov 2013 03:54:41 -0800 (PST)
+In-Reply-To: <1384810440.6460.272.camel@ted>
+References: <CADV-EXGySaHof6gBdnVmZBDOw2yWB3YT804aHJPGuqE7WLo2Bw@mail.gmail.com>
+	<1384810440.6460.272.camel@ted>
+Date: Wed, 20 Nov 2013 13:54:41 +0200
+Message-ID: <CADV-EXFfYuisF20mV5tuSLFeqxVTBVsOJPsP6n_gJ4uufUEQUA@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Kernel recompile if "rm_work" defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2013 11:50:14 -0000
+X-List-Received-Date: Wed, 20 Nov 2013 11:54:42 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On 7 November 2013 10:11, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> Hi all,
+2013/11/18 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> On Mon, 2013-11-18 at 21:43 +0200, Yevhen Kyriukha wrote:
+>> Hi,
+>>
+>> When I set
+>> INHERIT += "rm_work"
+>> in my local.conf to save some space my kernel now recompiles each time
+>> I run bitbake.
+>>
+>> How to fix this without removing "rm_work" from config?
 >
-> I didn't notice if it was already announced here, but the CFP for the FOSDEM
-> Embedded dev room in 2014 is open:
+> Like this. I keep suggesting someone send me the patch but it never
+> seems to happen...
 >
-> https://lists.fosdem.org/pipermail/fosdem/2013-October/001870.html
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 383043e..ff99c76 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -146,7 +146,6 @@ do_bundle_initramfs () {
+>                 fi
+>         fi
+>  }
+> -do_bundle_initramfs[nostamp] = "1"
 >
-> It would be great to have some folks give OpenEmbedded/Yocto Project-related
-> presentation(s) this year - we usually manage at least one for FOSDEM. It
-> could be about a new feature you've worked on, a success story, a proposal for
-> a new direction, a related project etc.
+>  python do_devshell_prepend () {
+>      os.environ["LDFLAGS"] = ''
 >
 
-I'm planning to attend FOSDEM 2014 and could look at giving a talk on
-how I've used OpenEmbedded in developing an underwater noise
-monitoring platform and how I've gone from there to contributing to OE
-and maintaining opkg. I'll throw together an abstract and see if it
-gets accepted.
+Thanks for the answer but it didn't help.
+Kernel still rebuilds.
 
-It should be good to meet a couple of other OpenEmbedded developers as well!
-
-Thanks,
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Best regards,
+Yevhen
 
