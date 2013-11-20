@@ -1,41 +1,28 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 432146A463
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 920726A463
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 00:42:50 +0000 (UTC)
-Received: by mail-pd0-f177.google.com with SMTP id q10so3659664pdj.22
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 16:42:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding:content-type;
-	bh=9YSMjqF4sWaIbuNnoGVHJIXbnJwxDUM74pv6vyzFmQg=;
-	b=TC610D6EiakTxxBjMwZLo9yAaccYTUyNFgPPZLTMtEXQ0w2IYb8gVZjvm/1VLXGQfi
-	70e1QoDKq2OYLmx/RN57hn7AihEx5vUv8ZhAIrzF4DT38tZMyAGPY+/j9S5WyfvLOf24
-	X8EWRUgOXeKSZTSRJN0RgSRZBm4bblgcGi026XueX5EVVfjouH8LqgUeyTIUfgu0t5ar
-	jzl1i3BZairEaS31JXYie1WVv5wglq5b4XRfnqUOoYLEeWEcb35XWj6UolXo2d26xYz/
-	3nsqUCMN4n/lB5h+WBPFibT7e3g6Gj+3om9hbhZ1ATQKM0KRSPiKiuQtPqpBMWGaTBpA
-	6DSg==
-X-Received: by 10.66.132.69 with SMTP id os5mr28577806pab.114.1384908172017;
-	Tue, 19 Nov 2013 16:42:52 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([117.89.160.94])
-	by mx.google.com with ESMTPSA id
-	qv8sm33383940pbc.31.2013.11.19.16.42.49 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 19 Nov 2013 16:42:51 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Wed, 20 Nov 2013 08:35:17 +0800
-Message-ID: <4743472.yrXvDUgRGV@yiqingliang-pc>
-User-Agent: KMail/4.11.3 (Linux/3.11.6-1-ARCH; KDE/4.11.3; x86_64; ; )
-In-Reply-To: <1384860914.23724.83.camel@phil-desktop.brightsign>
-References: <2838381.LbivOYPPzY@yiqingliang-pc>
-	<1384853093.3814.56.camel@x121e.pbcl.net>
-	<1384860914.23724.83.camel@phil-desktop.brightsign>
+	Wed, 20 Nov 2013 00:43:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAK0hNsT022185
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 19 Nov 2013 16:43:23 -0800 (PST)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 19 Nov 2013 16:43:22 -0800
+Date: Tue, 19 Nov 2013 18:42:59 -0600
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20131119184259.4a12bbde@e6410-2>
+In-Reply-To: <20131120003532.GI3708@jama>
+References: <cover.1384907111.git.peter.seebach@windriver.com>
+	<16a4c667fd7dde1f7d503942c45e03a6bda98ae8.1384907111.git.peter.seebach@windriver.com>
+	<20131120003532.GI3708@jama>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: kernel build fail after update
+Subject: Re: [PATCH 1/1] sanity.bbclass: Don't fatal() when trying to dump environment.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,29 +35,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2013 00:42:50 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 20 Nov 2013 00:43:30 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday, November 19, 2013 11:35:14 AM Phil Blundell wrote:
-> On Tue, 2013-11-19 at 09:24 +0000, Phil Blundell wrote:
-> > On Tue, 2013-11-19 at 07:21 +0800, Yi Qingliang wrote:
-> > >I found one patch 'Use hardlinks for do_populate_sysroot for speed'
-> > >may be related with this error.
-> > 
-> > The failure only seems to occur with the kernel, whereas I think that
-> > patch applies to all recipes.
-> 
-> I realise now that this isn't true; assuming you meant
-> 13259459e200a237ca486cbe1123a0b0a4d1eebf then this is indeed specific to
-> kernel.bbclass.
-> 
-> p.
+On Wed, 20 Nov 2013 01:35:32 +0100
+Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Yes, that is it. 
+> Inconsistent whitespace
 
+argh. I totally thought I'd fixed those all.
+
+Fixed that one too, updated the branch on contrib.
+
+-s
 -- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
