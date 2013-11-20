@@ -1,27 +1,45 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 80B8F6AF9F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 08:25:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAK8Pr9m016993
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 00:25:53 -0800 (PST)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 20 Nov 2013 00:25:53 -0800
-Message-ID: <528C7216.9040501@windriver.com>
-Date: Wed, 20 Nov 2013 16:25:58 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id BBBAA6C73F
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2013 10:01:37 +0000 (UTC)
+Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id D3C663F519
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2013 11:01:38 +0100 (CET)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -2.9
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9] autolearn=no
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <Openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2013 11:01:38 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2013 11:01:37 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.438.0;
+	Wed, 20 Nov 2013 11:01:38 +0100
+Message-ID: <528C8880.7070806@topic.nl>
+Date: Wed, 20 Nov 2013 11:01:36 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1384242441-27215-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1384242441-27215-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH v8] connman: ignore the networking device which nfs for rootfs is working on
+To: <Openembedded-core@lists.openembedded.org>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: tslib keeps failing on checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,185 +52,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2013 08:25:53 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Nov 2013 10:01:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Ping
+=EF=BB=BFI get this error every time I try t build the current oe-core mast=
+er:
 
-On 11/12/2013 03:47 PM, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> Create connman-evn.service, which will run a script to compute the networking
-> device when nfs root is on, and pass the result to connman.service
->
-> Connmand.service add ExecStartPre into Connmand.service to release
-> do_configure_append work, use the options which is passed by connman-evn.service
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->   meta/recipes-connectivity/connman/connman.inc      |   17 +++++-----
->   .../connman/connman/connman-env.service            |   13 ++++++++
->   .../connman/connman/connmand-env                   |   26 +++++++++++++++
->   ...ardcode-and-add-EnvironmentFile-and-Wants.patch |   33 ++++++++++++++++++++
->   meta/recipes-connectivity/connman/connman_1.19.bb  |    3 ++
->   5 files changed, 85 insertions(+), 7 deletions(-)
->   create mode 100644 meta/recipes-connectivity/connman/connman/connman-env.service
->   create mode 100644 meta/recipes-connectivity/connman/connman/connmand-env
->   create mode 100644 meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
->
-> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-> index 12f3edd..648b9f6 100644
-> --- a/meta/recipes-connectivity/connman/connman.inc
-> +++ b/meta/recipes-connectivity/connman/connman.inc
-> @@ -64,15 +64,9 @@ python __anonymous () {
->
->   SYSTEMD_SERVICE_${PN} = "connman.service"
->   SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
-> -SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
->
->   inherit autotools gtk-doc pkgconfig systemd update-rc.d
->
-> -do_configure_append () {
-> -	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${S}/src/connman.service
-> -
-> -}
-> -
->   # This allows *everyone* to access ConnMan over DBus, without any access
->   # control.  Really the at_console flag should work, which would mean that
->   # both this and the xuser patch can be dropped.
-> @@ -88,6 +82,15 @@ do_install_append() {
->   		sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
->   	fi
->
-> +	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> +		install -m 0755 ${WORKDIR}/connmand-env ${D}${sbindir}/
-> +		install -m 0644 ${WORKDIR}/connman-env.service  ${D}/${systemd_unitdir}/system/
-> +		sed -i  -e 's,@SBINDIR@,${sbindir},g' \
-> +			-e 's,@LIBDIR@,${libdir},g' \
-> +			-e 's,@LOCALSTATEDIR@,${localstatedir},g' \
-> +			${D}${systemd_unitdir}/system/*.service
-> +	fi
-> +
->   	install -d ${D}${bindir}
->   	install -m 0755 ${S}/tools/*-test ${D}${bindir}
->   	if [ -e ${S}/tools/wispr ]; then
-> @@ -163,7 +166,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/* ${libexecdir}/* ${libdir}/lib*.so.* \
->               ${libdir}/connman/plugins \
->               ${sysconfdir} ${sharedstatedir} ${localstatedir} \
->               ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so* ${datadir}/${PN} \
-> -            ${datadir}/dbus-1/system-services/*"
-> +            ${datadir}/dbus-1/system-services/* ${systemd_unitdir}/system/connman-env.service"
->
->   FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
->
-> diff --git a/meta/recipes-connectivity/connman/connman/connman-env.service b/meta/recipes-connectivity/connman/connman/connman-env.service
-> new file mode 100644
-> index 0000000..c4dc278
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/connman-env.service
-> @@ -0,0 +1,13 @@
-> +[Unit]
-> +Description=Generate options for connection service
-> +Before=connman.service
-> +ConditionKernelCommandLine=root=/dev/nfs
-> +After=syslog.target
-> +
-> +[Service]
-> +Type=oneshot
-> +ExecStart=@SBINDIR@/connmand-env
-> +StandardOutput=null
-> +
-> +[Install]
-> +WantedBy=connman.service
-> diff --git a/meta/recipes-connectivity/connman/connman/connmand-env b/meta/recipes-connectivity/connman/connman/connmand-env
-> new file mode 100644
-> index 0000000..9c04d61
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/connmand-env
-> @@ -0,0 +1,26 @@
-> +#!/bin/sh
-> +
-> +EXTRA_PARAM=""
-> +
-> +NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
-> +NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
-> +
-> +if [ ! -z "$NET_ADDR" ]; then
-> +    if [ "$NET_ADDR" = dhcp ]; then
-> +        ethn=`ifconfig | grep "^eth" | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
-> +        if [ ! -z "$ethn" ]; then
-> +            EXTRA_PARAM="-I $ethn"
-> +        fi
-> +    else
-> +        for i in $NET_DEVS; do
-> +        ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-> +        if [ "$NET_ADDR" = "$ADDR" ]; then
-> +            EXTRA_PARAM="-I $i"
-> +            break
-> +        fi
-> +        done
-> +    fi
-> +fi
-> +
-> +[ ! -d /run/connmand ] && mkdir -p /run/connmand
-> +echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand/connmand.env
-> diff --git a/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch b/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
-> new file mode 100644
-> index 0000000..1394335
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
-> @@ -0,0 +1,33 @@
-> +replace hardcode, and add EnvironmentFile and Wants
-> +
-> +Upstream-Status: Inappropriate [distribution]
-> +
-> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> +---
-> + src/connman.service.in |    5 ++++-
-> + 1 file changed, 4 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/connman.service.in b/src/connman.service.in
-> +index 2e9e4d5..9984519 100644
-> +--- a/src/connman.service.in
-> ++++ b/src/connman.service.in
-> +@@ -1,12 +1,15 @@
-> + [Unit]
-> + Description=Connection service
-> + After=syslog.target
-> ++Wants=connman-env.service
-> +
-> + [Service]
-> + Type=dbus
-> + BusName=net.connman
-> + Restart=on-failure
-> +-ExecStart=@prefix@/sbin/connmand -n
-> ++EnvironmentFile=-@LOCALSTATEDIR@/run/connmand/connmand.env
-> ++ExecStartPre=-@LIBDIR@/connman/wired-setup
-> ++ExecStart=@SBINDIR@/connmand -n $CONNMAND_OPTS
-> + StandardOutput=null
-> +
-> + [Install]
-> +--
-> +1.7.10.4
-> +
-> diff --git a/meta/recipes-connectivity/connman/connman_1.19.bb b/meta/recipes-connectivity/connman/connman_1.19.bb
-> index c63dfe4..94bd8cc 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.19.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.19.bb
-> @@ -4,6 +4,9 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->               file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
->               file://add_xuser_dbus_permission.patch \
->               file://connman \
-> +            file://connmand-env \
-> +            file://replace-hardcode-and-add-EnvironmentFile-and-Wants.patch \
-> +            file://connman-env.service \
->               "
->
->   SRC_URI[md5sum] = "47cce1d17a693dc307e6796c81991bd0"
->
+ERROR: Checksum failure fetching=20
+https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz;dow=
+nloadfilename=3Dtslib-1.1.tar.xz
+ERROR: Function failed: Fetcher failure for URL:=20
+'https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz;do=
+wnloadfilename=3Dtslib-1.1.tar.xz'.=20
+Checksum mismatch!
+File: '/home/mike/zynq-next/build/downloads/tslib-1.1.tar.xz' has md5 check=
+sum=20
+d41d8cd98f00b204e9800998ecf8427e when 14771f8607b341bb4b297819d37e837d was=
+=20
+expected
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+Now the weird thing is, that when I fetch the thing using wget, I get a blo=
+b=20
+with the right checksum:
+
+# wget https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar=
+.xz
+# md5sum tslib-1.1.tar.xz
+14771f8607b341bb4b297819d37e837d  tslib-1.1.tar.xz
+
+Is oe-core using some other flavour of wget or what else could cause this k=
+ind=20
+of fetch error?
+
+--=20
+Mike Looijmans - TOPIC Automation
+
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
+Telefax: (+31) - (0)499 - 33.69.70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
+end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
+en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
+ Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
+jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
+ te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
+n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
+nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
+ een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
+ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
+C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
+d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
+orende bijlagen.
+
+The contents of this message, as well as any enclosures, are addressed pers=
+onally to, and thus solely intended for the addressee. They may contain inf=
+ormation regarding a third party. A recipient who is neither the addressee,=
+ nor empowered to receive this message on behalf of the addressee, is kindl=
+y requested to immediately inform the sender of receipt, and to destroy the=
+ message and the enclosures. Any use of the contents of this message and/or=
+ the enclosures by any other person than the addressee or person who is emp=
+owered to receive this message, is illegal towards the sender and/or the af=
+orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
+age as a result of the use and/or acceptance of this message and as well as=
+ any enclosures.
 
