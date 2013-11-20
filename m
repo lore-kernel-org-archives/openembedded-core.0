@@ -1,38 +1,33 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id EBE5D6D9AB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 62FB06D59C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 16:41:37 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id fb10so7366533wid.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 08:41:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KiY/YSkizwBnm156uu4yX9QzjuT9LJj0mF/b4NQknWM=;
-	b=wyOvGeYqGKO/lYSzhbqlQYniaPUoBpLj3IcT/w/yhCURj+AEnOGufeltpk2qRi++GJ
-	RalfgRHp4/zuwV65Zl0qHOIFwfn96tZFDtRSATY/XiqAXy/tZ5DLHlya7aaS3GO6qWDT
-	CMVs8WoN8i8ONAyotfQFT9KiOp4UTEAxdvSOUjeResjqA2RUP9RkNAl3QYxfEjnwcdVP
-	9u4Iqi/FtfrjOdY4P9rwwoZKmSsqOOrRUOvn3eOycnKU0mJYJWD2KVDnS4Ynf0c0/IoL
-	1COYR8bOP9pTrXogrQmrL9mxC09Q9lwdd6+wnlcgky54qV/gPQqip06yIOM9v+hEe2eZ
-	WN4Q==
-X-Received: by 10.194.206.5 with SMTP id lk5mr1557869wjc.46.1384965699474;
-	Wed, 20 Nov 2013 08:41:39 -0800 (PST)
-Received: from turn.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
-	[94.192.12.83])
-	by mx.google.com with ESMTPSA id w20sm9706956wia.5.2013.11.20.08.41.36
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Nov 2013 08:41:36 -0800 (PST)
-Sender: Paul Barker <paul.betafive@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Nov 2013 16:41:10 +0000
-Message-Id: <1384965670-23435-4-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 1.8.4.2
-In-Reply-To: <1384965670-23435-1-git-send-email-paul@paulbarker.me.uk>
-References: <1384965670-23435-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH RFC 3/3] opkg: Don't use update-alternatives
+	Wed, 20 Nov 2013 16:54:02 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAKGrvQ9005581; Wed, 20 Nov 2013 16:53:57 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gvBGsbFpLDrR; Wed, 20 Nov 2013 16:53:57 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAKGrqH0005567
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 20 Nov 2013 16:53:53 GMT
+Message-ID: <1384966428.16887.74.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yevhen Kyriukha <kirgene@gmail.com>
+Date: Wed, 20 Nov 2013 16:53:48 +0000
+In-Reply-To: <CADV-EXFfYuisF20mV5tuSLFeqxVTBVsOJPsP6n_gJ4uufUEQUA@mail.gmail.com>
+References: <CADV-EXGySaHof6gBdnVmZBDOw2yWB3YT804aHJPGuqE7WLo2Bw@mail.gmail.com>
+	<1384810440.6460.272.camel@ted>
+	<CADV-EXFfYuisF20mV5tuSLFeqxVTBVsOJPsP6n_gJ4uufUEQUA@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Kernel recompile if "rm_work" defined
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,47 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2013 16:41:38 -0000
+X-List-Received-Date: Wed, 20 Nov 2013 16:54:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The symlink from 'opkg' to 'opkg-cl' doesn't need to be created with
-update-alternatives as there isn't any alternative. Instead it can be created by
-hand in do_install_append.
+On Wed, 2013-11-20 at 13:54 +0200, Yevhen Kyriukha wrote:
+> 2013/11/18 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> > On Mon, 2013-11-18 at 21:43 +0200, Yevhen Kyriukha wrote:
+> >> Hi,
+> >>
+> >> When I set
+> >> INHERIT += "rm_work"
+> >> in my local.conf to save some space my kernel now recompiles each time
+> >> I run bitbake.
+> >>
+> >> How to fix this without removing "rm_work" from config?
+> >
+> > Like this. I keep suggesting someone send me the patch but it never
+> > seems to happen...
+> >
+> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > index 383043e..ff99c76 100644
+> > --- a/meta/classes/kernel.bbclass
+> > +++ b/meta/classes/kernel.bbclass
+> > @@ -146,7 +146,6 @@ do_bundle_initramfs () {
+> >                 fi
+> >         fi
+> >  }
+> > -do_bundle_initramfs[nostamp] = "1"
+> >
+> >  python do_devshell_prepend () {
+> >      os.environ["LDFLAGS"] = ''
+> >
+> 
+> Thanks for the answer but it didn't help.
+> Kernel still rebuilds.
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
----
- meta/recipes-devtools/opkg/opkg.inc | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+Right, the above is the first step in solving this but there is another
+issue, the do_bundle_initramfs task is not covered by sstate. We need to
+fix the second issue too.
 
-diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
-index d16b8c2..f476e67 100644
---- a/meta/recipes-devtools/opkg/opkg.inc
-+++ b/meta/recipes-devtools/opkg/opkg.inc
-@@ -69,6 +69,10 @@ do_install_append() {
- 			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
- 			${D}${systemd_unitdir}/system/opkg-configure.service
- 	fi
-+
-+	# The installed binary is 'opkg-cl' but people and scripts often expect
-+	# it to just be 'opkg'
-+	ln -sf opkg-cl ${D}${bindir}/opkg
- }
- 
- do_install_append_class-native() {
-@@ -97,13 +101,6 @@ rm -f ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
- fi
- }
- 
--inherit update-alternatives
--
--ALTERNATIVE_PRIORITY = "100"
--ALTERNATIVE_${PN} = "opkg"
--ALTERNATIVE_LINK_NAME[opkg] = "${bindir}/opkg"
--ALTERNATIVE_TARGET[opkg] = "${bindir}/opkg-cl"
--
- BBCLASSEXTEND = "native nativesdk"
- 
- # Define a variable to allow distros to run configure earlier.
--- 
-1.8.4.2
+Cheers,
+
+Richard
+
 
 
