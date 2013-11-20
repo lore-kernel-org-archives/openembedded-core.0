@@ -1,46 +1,31 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id BFBC460EE8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 17F876B4BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 12:51:27 +0000 (UTC)
-Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id D7D1C3F519
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 13:51:28 +0100 (CET)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -2.9
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9] autolearn=no
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 13:51:28 +0100 (CET)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 13:51:28 +0100 (CET)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.438.0;
-	Wed, 20 Nov 2013 13:51:29 +0100
-Message-ID: <528CB04F.6010904@topic.nl>
-Date: Wed, 20 Nov 2013 13:51:27 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
+	Wed, 20 Nov 2013 13:00:03 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAKCxxkk017723; Wed, 20 Nov 2013 13:00:00 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9ZsDP_YbU5Di; Wed, 20 Nov 2013 12:59:59 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAKCxsM8017714
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 20 Nov 2013 12:59:55 GMT
+Message-ID: <1384952390.16887.54.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Wed, 20 Nov 2013 12:59:50 +0000
+In-Reply-To: <528CA4D3.6020109@topic.nl>
+References: <528CA4B0.3060907@topic.nl> <528CA4D3.6020109@topic.nl>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: Kernel fails to build in do_populate_sysroot after OE-core upgrade
+Subject: Re: tslib keeps failing on checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,121 +38,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2013 12:51:28 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 20 Nov 2013 13:00:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFI expect this is related somehow to the recent change in the kerne=
-l to use=20
-hardlinks, but I have no idea what's going wrong here.
+On Wed, 2013-11-20 at 13:02 +0100, Mike Looijmans wrote:
+> ﻿On 11/20/2013 12:09 PM, Mike Looijmans wrote:
+> > On 11/20/2013 11:38 AM, Martin Jansa wrote:
+> >> On Wed, Nov 20, 2013 at 11:01:36AM +0100, Mike Looijmans wrote:
+> >>> ﻿I get this error every time I try t build the current oe-core master:
+> >>>
+> >>> ERROR: Checksum failure fetching
+> >>> https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz;downloadfilename=tslib-1.1.tar.xz
+> >>>
+> >>> ERROR: Function failed: Fetcher failure for URL:
+> >>> 'https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz;downloadfilename=tslib-1.1.tar.xz'.
+> >>>
+> >>> Checksum mismatch!
+> >>> File: '/home/mike/zynq-next/build/downloads/tslib-1.1.tar.xz' has md5 checksum
+> >>> d41d8cd98f00b204e9800998ecf8427e when 14771f8607b341bb4b297819d37e837d was
+> >>> expected
+> >>>
+> >>> Now the weird thing is, that when I fetch the thing using wget, I get ablob
+> >>> with the right checksum:
+> >>>
+> >>> # wget https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz
+> >>> # md5sum tslib-1.1.tar.xz
+> >>> 14771f8607b341bb4b297819d37e837d  tslib-1.1.tar.xz
+> >>>
+> >>> Is oe-core using some other flavour of wget or what else could cause this kind
+> >>> of fetch error?
+> >>
+> >> Have you tried to unpack both tarballs and compare content in them?
+> >
+> > Nope, I just assumed they're two somewhat different copies of the same
+> > software (e.g. one of them has a "downloaded from here" remark or so).
+> > Anything in particular I should look for?
+> 
+> After upgrading I tried again. The file as downloaded by bitbake is completely
+> empty. Nothing in it. The md5 sum of this empty file is
+> d41d8cd98f00b204e9800998ecf8427e indeed.
+> 
+> I'm now using bitbake 1.21.0 (current master) and OE rev
+> 0eb947454e1c92467283e6f1adeca67c7c57698b to build with, with the above results
+> still.
+> 
+> (I know I can just move my own file into the download directory and get on
+> with it, but i'd rather actually solve this problem).
+> 
+> There's a direct connection to the internet, no proxy (just a router) that
+> might have been caching things.
+> 
+> Any suggestions?
 
-This is the recipe for the kernel, which has run fine so far.
-https://github.com/milosoftware/meta-zynq/blob/master/recipes-kernel/linux-=
-zynq/linux-milo.bb
+Can you share the tslib do_fetch logs (all of them). I'm interested to
+see what happened historically in the build...
 
+Cheers,
 
-This is the output log:
+Richard
 
-
-DEBUG: Executing python function sstate_task_prefunc
-DEBUG: Python function sstate_task_prefunc finished
-DEBUG: Executing python function do_populate_sysroot
-DEBUG: Executing python function sysroot_stage_all
-ERROR: Error executing a python function in=20
-/home/mike/zynq-next/meta-zynq/recipes-kernel/linux-zynq/linux-milo.bb:
-
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'sysroot_stage_all', lineno: 6, function: <module>
-      0002:def sysroot_stage_all(d):
-      0003:=20
-oe.path.copyhardlinktree(d.expand("/home/mike/zynq-next/build/tmp-eglibc/wo=
-rk/zedboard-oe-linux-gnueabi/linux-milo/3.10+gitAUTOINC+dbebd8b890-r0/image=
-/usr/src/kernel"),=20
-d.expand("/home/mike/zynq-next/build/tmp-eglibc/work/zedboard-oe-linux-gnue=
-abi/linux-milo/3.10+gitAUTOINC+dbebd8b890-r0/sysroot-destdir//usr/src/kerne=
-l"))
-      0004:
-      0005:
-  *** 0006:sysroot_stage_all(d)
-      0007:
-File: 'sysroot_stage_all', lineno: 3, function: sysroot_stage_all
-      0001:
-      0002:def sysroot_stage_all(d):
-  *** 0003:=20
-oe.path.copyhardlinktree(d.expand("/home/mike/zynq-next/build/tmp-eglibc/wo=
-rk/zedboard-oe-linux-gnueabi/linux-milo/3.10+gitAUTOINC+dbebd8b890-r0/image=
-/usr/src/kernel"),=20
-d.expand("/home/mike/zynq-next/build/tmp-eglibc/work/zedboard-oe-linux-gnue=
-abi/linux-milo/3.10+gitAUTOINC+dbebd8b890-r0/sysroot-destdir//usr/src/kerne=
-l"))
-      0004:
-      0005:
-      0006:sysroot_stage_all(d)
-      0007:
-File: '/home/mike/zynq-next/oe-core/meta/lib/oe/path.py', lineno: 93,=20
-function: copyhardlinktree
-      0089:    bb.utils.mkdirhier(dst)
-      0090:    if os.path.isdir(src) and not len(os.listdir(src)):
-      0091:        return
-      0092:
-  *** 0093:    if (os.stat(src).st_dev =3D=3D  os.stat(dst).st_dev):
-      0094:        # Need to copy directories only with tar first since cp=
-=20
-will error if two
-      0095:        # writers try and create a directory at the same time
-      0096:        cmd =3D 'cd %s; find . -type d -print | tar -cf - -C %s =
--p=20
---files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
-      0097:        check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.STDO=
-UT)
-Exception: OSError: [Errno 2] No such file or directory:=20
-'/home/mike/zynq-next/build/tmp-eglibc/work/zedboard-oe-linux-gnueabi/linux=
--milo/3.10+gitAUTOINC+dbebd8b890-r0/image/usr/src/kernel'
-
-DEBUG: Python function sysroot_stage_all finished
-DEBUG: Python function do_populate_sysroot finished
-ERROR: Function failed: sysroot_stage_all
-
---=20
-Mike Looijmans - TOPIC Automation
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
-Telefax: (+31) - (0)499 - 33.69.70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
-end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
-en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
- Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
-jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
- te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
-n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
-nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
- een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
-ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
-C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
-d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
-orende bijlagen.
-
-The contents of this message, as well as any enclosures, are addressed pers=
-onally to, and thus solely intended for the addressee. They may contain inf=
-ormation regarding a third party. A recipient who is neither the addressee,=
- nor empowered to receive this message on behalf of the addressee, is kindl=
-y requested to immediately inform the sender of receipt, and to destroy the=
- message and the enclosures. Any use of the contents of this message and/or=
- the enclosures by any other person than the addressee or person who is emp=
-owered to receive this message, is illegal towards the sender and/or the af=
-orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
-age as a result of the use and/or acceptance of this message and as well as=
- any enclosures.
 
