@@ -1,24 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B26786C73F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 897E16CF32
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 01:40:09 +0000 (UTC)
+	Wed, 20 Nov 2013 01:40:11 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAK1eC7o025327
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAK1eCda017039
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2013 17:40:12 -0800 (PST)
+	Tue, 19 Nov 2013 17:40:13 -0800 (PST)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 19 Nov 2013 17:40:11 -0800
+	14.2.347.0; Tue, 19 Nov 2013 17:40:12 -0800
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Nov 2013 09:40:08 +0800
-Message-ID: <cover.1384854113.git.jackie.huang@windriver.com>
+Date: Wed, 20 Nov 2013 09:40:09 +0800
+Message-ID: <726632570b9d8a6bfcd88c5a411a6387f6869f91.1384854113.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.8.3
+In-Reply-To: <cover.1384854113.git.jackie.huang@windriver.com>
+References: <cover.1384854113.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2 v3] grub-efi: change to generate EFI image in target package
+Subject: [PATCH 1/2] grub-efi: change to generate EFI image in target package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +38,122 @@ Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-v3 comments:
-Drop the original solution to generate and deploy EFI image in the -native
-packae and change to do that in taret package, and the -native one only
-provides the grub-mkimage binary. No need 3 files anymore, make them in
-one bb.
+It's not a good idea to generate the target EFI image in
+a native packge, it would be a problem when build a 64bit
+target on 32bit host. In fact, all we need from grub-efi-native
+is the grub-mkimage binary, so change the solution to:
+ * grub-efi-native only install grub-mkimage
+ * grub-efi compiles target modules, generates EFI image
+   with grub-mkimage and deploy, but install nothing.
 
---
-The following changes since commit 0eb947454e1c92467283e6f1adeca67c7c57698b:
-
-  python: Fix ptest not working problems (2013-11-18 13:04:13 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib jhuang0/d_grub-efi_1119_0
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_grub-efi_1119_0
-
-Jackie Huang (2):
-  grub-efi: change to generate EFI image in target package
-  grub-efi: allow compilation without large model support
-
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
  meta/classes/grub-efi.bbclass                      |  4 +-
- ...allow-a-compilation-without-mcmodel-large.patch | 69 ++++++++++++++++++++++
- .../{grub-efi-native_2.00.bb => grub-efi_2.00.bb}  | 44 ++++++++------
- 3 files changed, 96 insertions(+), 21 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+ .../{grub-efi-native_2.00.bb => grub-efi_2.00.bb}  | 43 ++++++++++++----------
+ 2 files changed, 26 insertions(+), 21 deletions(-)
  rename meta/recipes-bsp/grub/{grub-efi-native_2.00.bb => grub-efi_2.00.bb} (77%)
 
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index 2f00901..71bd00f 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -15,8 +15,8 @@
+ # ${GRUB_OPTS} - additional options to add to the config, ';' delimited # (optional)
+ # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
+ 
+-do_bootimg[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
+-do_bootdirectdisk[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
++do_bootimg[depends] += "grub-efi:do_deploy"
++do_bootdirectdisk[depends] += "grub-efi:do_deploy"
+ 
+ GRUB_SERIAL ?= "console=ttyS0,115200"
+ GRUBCFG = "${S}/grub.cfg"
+diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+similarity index 77%
+rename from meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+rename to meta/recipes-bsp/grub/grub-efi_2.00.bb
+index 04973b5..2fe688c 100644
+--- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+@@ -14,14 +14,10 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ # FIXME: We should be able to optionally drop freetype as a dependency
+-DEPENDS = "autogen-native"
+-RDEPENDS_${PN} = "diffutils freetype"
++DEPENDS = "autogen-native flex-native bison-native"
++DEPENDS_class-target = "grub-efi-native"
+ PR = "r2"
+ 
+-# Native packages do not normally rebuild when the target changes.
+-# Ensure this is built once per HOST-TARGET pair.
+-PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
+-
+ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://cfg \
+            file://grub-2.00-fpmath-sse-387-fix.patch \
+@@ -39,12 +35,10 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
+ 
+ S = "${WORKDIR}/grub-${PV}"
+ 
+-# Determine the target arch for the grub modules before the native class
+-# clobbers TARGET_ARCH.
+-ORIG_TARGET_ARCH := "${TARGET_ARCH}"
++# Determine the target arch for the grub modules
+ python __anonymous () {
+     import re
+-    target = d.getVar('ORIG_TARGET_ARCH', True)
++    target = d.getVar('TARGET_ARCH', True)
+     if target == "x86_64":
+         grubtarget = 'x86_64'
+         grubimage = "bootx64.efi"
+@@ -59,26 +53,37 @@ python __anonymous () {
+ 
+ inherit autotools
+ inherit gettext
+-inherit native
+ inherit deploy
+ 
+ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
+-                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix='' \
++                --enable-efiemu=no --program-prefix='' \
+                 --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+ 
+-do_mkimage() {
++do_install_class-target() {
++	:
++}
++
++do_install_class-native() {
++	install -d ${D}${bindir}
++	install -m 755 grub-mkimage ${D}${bindir}
++}
++
++do_deploy() {
+ 	# Search for the grub.cfg on the local boot media by using the
+ 	# built in cfg file provided via this recipe
+-	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
++	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
+ 	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
+ 	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
++	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
+ }
+-addtask mkimage after do_compile before do_install
+ 
+-do_deploy() {
+-	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
++do_deploy_class-native() {
++	:
+ }
++
+ addtask deploy after do_install before do_build
+ 
+-do_install[noexec] = "1"
+-do_populate_sysroot[noexec] = "1"
++FILES_${PN}-dbg += "${libdir}/${BPN}/${GRUB_TARGET}-efi/.debug"
++
++BBCLASSEXTEND = "native"
++ALLOW_EMPTY_${PN} = "1"
 -- 
 1.8.3
 
