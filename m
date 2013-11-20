@@ -1,27 +1,28 @@
-Return-Path: <Florin.Sarbu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D2E0C6C73F
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id B960B6CC86
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 10:52:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAKAq2To002436
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 02:52:02 -0800 (PST)
-Received: from localhost.localdomain (128.224.174.81) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 20 Nov 2013 02:52:02 -0800
-Message-ID: <528C9451.3030703@windriver.com>
-Date: Wed, 20 Nov 2013 12:52:01 +0200
-From: Florin Sarbu <florin.sarbu@windriver.com>
+	Wed, 20 Nov 2013 11:05:06 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id B1C58F811ED; Wed, 20 Nov 2013 04:05:05 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id E7A56F811EB;
+	Wed, 20 Nov 2013 04:05:04 -0700 (MST)
+Message-ID: <528C976E.4030608@mlbassoc.com>
+Date: Wed, 20 Nov 2013 04:05:18 -0700
+From: Gary Thomas <gary@mlbassoc.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1384517411-27854-1-git-send-email-florin.sarbu@windriver.com>
-In-Reply-To: <1384517411-27854-1-git-send-email-florin.sarbu@windriver.com>
-Subject: Re: [PATCH] systemd: Fix packaging of pam config files.
+To: openembedded-core@lists.openembedded.org
+References: <528C8880.7070806@topic.nl>
+In-Reply-To: <528C8880.7070806@topic.nl>
+Subject: Re: tslib keeps failing on checksum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,45 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2013 10:52:01 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 20 Nov 2013 11:05:06 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
-did anybody have the time to look over this?
-
-Thanks.
-
-On 11/15/2013 02:10 PM, Florin Sarbu wrote:
-> Removed early FILES_${PN} += for the pam config
-> files which would subesequently be overwritten by
-> a FILES_${PN} = .
+On 2013-11-20 03:01, Mike Looijmans wrote:
+> I get this error every time I try t build the current oe-core master:
 >
-> Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd_208.bb | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
+> ERROR: Checksum failure fetching https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz;downloadfilename=tslib-1.1.tar.xz
+> ERROR: Function failed: Fetcher failure for URL: 'https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz;downloadfilename=tslib-1.1.tar.xz'. Checksum mismatch!
+> File: '/home/mike/zynq-next/build/downloads/tslib-1.1.tar.xz' has md5 checksum d41d8cd98f00b204e9800998ecf8427e when 14771f8607b341bb4b297819d37e837d was expected
 >
-> diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
-> index 8c70fe5..66e6bee 100644
-> --- a/meta/recipes-core/systemd/systemd_208.bb
-> +++ b/meta/recipes-core/systemd/systemd_208.bb
-> @@ -160,8 +160,6 @@ FILES_${PN}-kernel-install = "${bindir}/kernel-install \
->   FILES_${PN}-rpm-macros = "${exec_prefix}/lib/rpm \
->                            "
->   
-> -FILES_${PN}  += "${@base_contains('DISTRO_FEATURES', 'pam', '${sysconfdir}/pam.d', '', d)}"
-> -
->   FILES_${PN}-zsh = "${datadir}/zsh/site-functions"
->   
->   FILES_${PN}-binfmt = "${sysconfdir}/binfmt.d/ \
-> @@ -213,6 +211,7 @@ FILES_${PN} = " ${base_bindir}/* \
->                   /lib/udev/rules.d/71-seat.rules \
->                   /lib/udev/rules.d/73-seat-late.rules \
->                   /lib/udev/rules.d/99-systemd.rules \
-> +                ${@base_contains('DISTRO_FEATURES', 'pam', '${sysconfdir}/pam.d', '', d)} \
->                  "
->   
->   FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
+> Now the weird thing is, that when I fetch the thing using wget, I get a blob with the right checksum:
+>
+> # wget https://github.com/kergoth/tslib/releases/download/1.1/tslib-1.1.tar.xz
+> # md5sum tslib-1.1.tar.xz
+> 14771f8607b341bb4b297819d37e837d  tslib-1.1.tar.xz
+>
+> Is oe-core using some other flavour of wget or what else could cause this kind of fetch error?
+>
 
+What version of OE-core metadata are you using?  The recipe
+   meta/recipes-graphics/tslib/tslib_1.1.bb
+in OE-core rev 2d8e124adcf27af524eeeae61daf1b21a1c2f27c has
+the correct md5sum, so you must have incorrect/stale recipe.
+
+The recipe was last updated in this rev:
+commit 2e92d845b433f3a1805c310ccda54cfc7dd8b1e1
+Author: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date:   Fri Aug 16 14:33:12 2013 +0100
+
+     tslib: update to 1.1
+
+     Drop patches merged upstream. 32bitBE-support.patch wasn't merged, but
+     no longer applies and similar changes look to have been made; tslib 1.1
+     works properly on qemumips without it, so this has also been dropped.
+
+     Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+     Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
