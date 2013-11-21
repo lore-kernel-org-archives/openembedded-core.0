@@ -1,41 +1,25 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 881C16D299
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id EC0406D2FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 12:13:22 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VjT7t-0001r8-PH; Thu, 21 Nov 2013 13:13:21 +0100
-Message-ID: <1385035973.23724.146.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
+	Thu, 21 Nov 2013 12:19:51 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Nov 2013 04:19:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,743,1378882800"; d="scan'208";a="437251345"
+Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.121.225])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2013 04:19:36 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 21 Nov 2013 12:12:53 +0000
-In-Reply-To: <1385017169-22068-1-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 21 Nov 2013 12:19:35 +0000
+Message-ID: <1659524.hffL25KmdU@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <528DAFF3.2070006@windriver.com>
 References: <1385017169-22068-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Thu, 2013-11-21 at 00:59 -0600,
-	Mark Hatle wrote: > +#
-	When using a read-only rootfs additional setup may be required > +#
-	uncomment
-	the following line to make bind start in read-only rootfs >
-	+#ALLOW_ROOTFS_READ_ONLY="yes" [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	<528DAFF3.2070006@windriver.com>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [RFC PATCH] bind: add support for read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,30 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 12:13:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Nov 2013 12:19:54 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, 2013-11-21 at 00:59 -0600, Mark Hatle wrote:
-> +# When using a read-only rootfs additional setup may be required
-> +# uncomment the following line to make bind start in read-only rootfs
-> +#ALLOW_ROOTFS_READ_ONLY="yes"
+Hi Mark,
 
-If the filesystem is read-only then it's going to be fairly difficult
-for the user to uncomment this line on the target.
+On Thursday 21 November 2013 01:02:11 Mark Hatle wrote:
+> Sorry I forgot to add, this requires the patch that was sent to the list
+> 2013-09-29 -- bind: run in the chrooted jail
 
-Why would you ever want this variable to be set to anything other than
-"yes"?  If your filesystem is not in fact read-only then it isn't going
-to have any effect, and if your filesystem is read-only then bind won't
-work without it.
+... which seems to have been rejected:
 
-> ++	[ `is_on_read_only_partition /etc/bind` = "yes" ] && bind_mount /var/volatile/bind/etc /etc/bind
-> ++	[ `is_on_read_only_partition /var/named` = "yes" ] && bind_mount /var/volatile/bind/named /var/named
+http://patches.openembedded.org/patch/53845/
 
-Is it really necessary to mount a tmpfs at /etc/bind?  Can't those files
-just be relocated somewhere else?
+Cheers,
+Paul
 
-p.
+-- 
 
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
