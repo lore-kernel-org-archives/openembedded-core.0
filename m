@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A4A96CEDB
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EBA36CEDB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 16:19:45 +0000 (UTC)
-Received: by mail-wi0-f170.google.com with SMTP id f4so327696wiw.3
+	Thu, 21 Nov 2013 16:27:26 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id hi5so4104448wib.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 08:19:44 -0800 (PST)
+	Thu, 21 Nov 2013 08:27:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=PBoQ/FqB+btzgIVtpcGhXrRAwLYDbqibPdlPKQkRqgw=;
-	b=g8xwKffcXPrIkHGWc4ZgHM+pghTqpsEl6PyZbzPEf+itrZzZMa8JRT2iKDu6DWroF7
-	uJDJUD/sPcFd0rWJMsW2TOZA5AQ12TWIPWzv6sB2ej8C3GN4XewPcp8b9WGkeBRRtjDq
-	tzxqRxz1OK6eK+fUftMSG9I4h+DfKScEwrxf4qTXOArM2A7CLqrfMeRbac4JREmOv5EP
-	sHbxgz3WlvryKlMo01D8XObAMn7qdW8vau+UEyy3dnFabaMt2OGqX+TBoFJqzaiyHFWL
-	rHsIqD/f/5bqM7u/JQlqH05968z487gCBbveNhqv7q8+1xgg1z/WVPulj+DjNLXdOHQj
-	rEjQ==
-X-Gm-Message-State: ALoCoQlzhvJOb9Z0KO6akxuCupIC+ePzg0truamJrwnSYgwOtSSkGzJHv5t97tZFs4AzmN/k0Qpr
-X-Received: by 10.180.37.112 with SMTP id x16mr983299wij.48.1385050784386;
-	Thu, 21 Nov 2013 08:19:44 -0800 (PST)
+	bh=3PRvuQO+E4nV+grRB3Wzka9PVA5OzI2nLs9HcZqUrK4=;
+	b=c9Yt/lQ9XN9zFT+4rMgvLv9lAidzTuNQ0tXi0hH0wbX2NMIfqgowPpDoktpJmksPZE
+	bjvXJOYF90HzjOoPWfJYR2zZHR8uQbz9ASd1/cSB6xTUZF3WRk6uDQ0ukpeM6NIdCs8X
+	jSGxQAFue6kWCtMN04Zw8s+ueBUbQiUF96dShn2Z0pmPeX/fW5o8a1LtUB7qtRxhLG+i
+	mLxGqU8zD3DoHtJkOJ0AIVgY0aZbtXbh/PQgFLyWNAETvGACMyy5Jt7Ttm5C4WO1cnt1
+	0HKCAT2jL/Sp/Y8EYfm3Zy7NlJISaTIaxFnsC0AZBKwSNJ88P0R7o7bS1i6O0gPG635o
+	IqeQ==
+X-Gm-Message-State: ALoCoQnZAHCweRgD4Cy/40FKGeqdzM2F/xobs2GexRInnnJKxHpP8dxNWno/gKprfW+yZGZ6Cqu0
+X-Received: by 10.194.187.101 with SMTP id fr5mr105859wjc.76.1385051245163;
+	Thu, 21 Nov 2013 08:27:25 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	gl10sm5017129wib.11.2013.11.21.08.19.42
+	by mx.google.com with ESMTPSA id qc10sm6926069wic.9.2013.11.21.08.27.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Nov 2013 08:19:43 -0800 (PST)
+	Thu, 21 Nov 2013 08:27:24 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2013 16:19:38 +0000
-Message-Id: <1385050778-16091-1-git-send-email-ross.burton@intel.com>
+Date: Thu, 21 Nov 2013 16:27:21 +0000
+Message-Id: <1385051241-17089-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] matcbox-keyboard: bump SRCREV
+Subject: [PATCH][V2] matcbox-keyboard: bump SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,7 +43,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 16:19:45 -0000
+X-List-Received-Date: Thu, 21 Nov 2013 16:27:27 -0000
 
 Bump to the latest commit on the 0.1 branch.
 
@@ -137,7 +136,7 @@ index e3834f5..0000000
 -     fclose(fd);
 -     return NULL;
 diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-index ffcabca..489d5a3 100644
+index ffcabca..bcf6f6c 100644
 --- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
 +++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
 @@ -3,22 +3,20 @@ HOMEPAGE = "http://matchbox-project.org"
@@ -148,7 +147,7 @@ index ffcabca..489d5a3 100644
 -LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
 -                    file://src/matchbox-keyboard.h;endline=20;md5=4ba16ff913ad245dd6d95a6c67f72526 \
 -                    file://applet/applet.c;endline=20;md5=e9201b3efa0a81a160b88d6feb5cf75b"
-+LICENSE = "LGPLv2"
++LICENSE = "LGPLv2.1"
 +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
 +                    file://src/matchbox-keyboard.h;endline=17;md5=9d6586c69e4a926f3cb0b4425f24ba3c \
 +                    file://applet/applet.c;endline=18;md5=4a0f721724746b14d95b51ddd42b95e7"
