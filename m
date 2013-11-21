@@ -1,26 +1,28 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 872666DB9E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 073EA6CF1E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 13:14:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rALDEtfE007386
+	Thu, 21 Nov 2013 13:40:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rALDe7of009255
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Nov 2013 05:14:55 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 21 Nov 2013 05:14:54 -0800
+	Thu, 21 Nov 2013 05:40:07 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 21 Nov 2013 05:40:06 -0800
+Message-ID: <528E0D2D.4010202@windriver.com>
+Date: Thu, 21 Nov 2013 21:39:57 +0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 21:14:38 +0800
-Message-ID: <0e29f77b1778e75f547289c20e670fc0ffd5e070.1385039538.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1385039538.git.hongxu.jia@windriver.com>
-References: <cover.1385039538.git.hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1384419666.git.hongxu.jia@windriver.com>
+	<ac4248f073a505534a6fc9b7c9922b6781b85685.1384419666.git.hongxu.jia@windriver.com>
+In-Reply-To: <ac4248f073a505534a6fc9b7c9922b6781b85685.1384419666.git.hongxu.jia@windriver.com>
 Cc: saul.wold@intel.com
-Subject: [PATCH 4/4] qemu: add bash and python to qemu's RDEPENDS
+Subject: [RFC PATCH 1/1] lib32-packagegroup-core-nfs: fix qa issue - install files into a shared area when those files already exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 13:14:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Nov 2013 13:40:10 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-| Note: adding Smart RPM DB channel
-|
-| Note: to be installed:  qemu@x86_64 run-postinsts@x86_64 kernel-modules@qemux86_64 packagegroup-core-boot@qemux86_64
-| Loading cache...
-| Updating cache...               ######################################## [100%]
-|
-| Computing transaction...error: Can't install qemu-1.5.0-r0.0@x86_64: no package provides /usr/bin/python
-|
-| Saving cache...
-|
-| WARNING: exit code 1 from a shell command.
-| ERROR: Function failed: do_rootfs (log file is located at tmp/work/qemux86_64-wrs-linux/wrlinux-image-glibc-small/1.0-r1/temp/do_rootfs/log.do_rootfs.21373)
+Hi All,
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
+In this case, there are two 'packagegroup-core-nfs-server-1.0-r2.0.all.rpm'
+in tmp/deploy/rpm/all. One is made by 'bitbake packagegroup-core-nfs ',
+and the other is made by 'bitbake lib32-packagegroup-core-nfs '.
+The last one overrode the previous triggered the QA check.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 21ce489..3f3431d 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -5,6 +5,7 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl"
- DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
- DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
- RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
-+RDEPENDS_${PN}_class-target += "bash python"
- 
- require qemu-targets.inc
- inherit autotools
--- 
-1.8.1.2
+By default, packagegroup inherit allarch, which means the PACKAGE_ARCH
+is "all".
+
+Is it proper that 'all' packages are not supposed to be expanded into the
+multilib versions?
+
+There are some other packagegroup recipes have the similar issue.
+
+//Hongxu
+
+On 11/14/2013 05:02 PM, Hongxu Jia wrote:
+> By default, packagegroup-core-nfs do not depend on a certain architecture,
+> there will be qa warning while multilib enabled.
+>
+> $ bitbake packagegroup-core-nfs
+> $ bitbake lib32-packagegroup-core-nfs
+> ...
+> WARNING: The recipe lib32-packagegroup-core-nfs is trying to install files into a shared area when those files already exist. Those files and their manifest location are:
+> tmp/deploy/rpm/all/packagegroup-core-nfs-server-1.0-r2.0.all.rpm
+> Matched in manifest-allarch-packagegroup-core-nfs.deploy-rpm
+> Please verify which package should provide the above files.
+> ...
+>
+> Set PACKAGE_ARCH with MACHINE_ARCH fixed this issue.
+>
+> [YOCTO #5532]
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-core/packagegroups/packagegroup-core-nfs.bb | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+> index 531eceb..b57ef63 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+> @@ -7,6 +7,7 @@ LICENSE = "MIT"
+>   PR = "r2"
+>   
+>   inherit packagegroup
+> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+>   
+>   PACKAGES = "${PN}-server"
+>   
 
 
