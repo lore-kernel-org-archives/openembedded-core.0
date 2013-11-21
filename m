@@ -1,27 +1,25 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B06BC6D9AD
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C8806D4ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 07:08:29 +0000 (UTC)
+	Thu, 21 Nov 2013 07:14:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAL78Tiv024277
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAL7E7XY013396
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 23:08:29 -0800 (PST)
+	Wed, 20 Nov 2013 23:14:07 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:08:29 -0800
+	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:14:06 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 01:08:22 -0600
-Message-ID: <1385017702-22903-3-git-send-email-mark.hatle@windriver.com>
+To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Nov 2013 01:13:46 -0600
+Message-ID: <1385018038-23380-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <1385017702-22903-1-git-send-email-mark.hatle@windriver.com>
-References: <1385017702-22903-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [dora][RFC PATCH 2/2] dpkg: Fix a link problem for dpkg-native on CentOS 5.8.
+Subject: [RFC PATCH 00/12] ext2/3/4 image generation optimization
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,131 +32,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 07:08:29 -0000
+X-List-Received-Date: Thu, 21 Nov 2013 07:14:08 -0000
 Content-Type: text/plain
 
-From: Lei Liu <lei.liu2@windriver.com>
+At Wind River we've been using and testing this change for the last couple
+of months.  I'm not sure it's ready for inclusion ues in oe-core, but the
+patches have been sent to the ext4 maintainer.  (Robert can further clarify
+if there are any questions.)
 
-CentOS 5.8 provides the kernel support and headers for the
-sync_file_range() syscall, but glibc 2.5 doesn't implement the
-sync_file_range() syscall stub, so we can't link dpkg-native. Add a
-patch that makes dpkg require a glibc version >= 2.6 in order to use
-sync_file_range().
+Robert Yang (12):
+  e2fsprogs/mke2fs: add an option: -d root-directory
+  e2fsprogs/mke2fs: misc/util.c: implement populate_fs()
+  e2fsprogs/mke2fs: create special file
+  e2fsprogs/mke2fs: create symlink
+  e2fsprogs/mke2fs: copy regular file
+  e2fsprogs/mke2fs: create directory
+  e2fsprogs/mke2fs: set more information for inode
+  e2fsprogs/mke2fs: handle hardlinks
+  e2fsprogs/mke2fs: update the manual for the -d option
+  e2fsprogs/mke2fs: debugfs: use the functions in misc/util.c (re-add
+    after revert)
+  e2fsprogs: enable the "-d" related patches
+  image_types.bbclass: use mke2fs -d to create the ext2/3/4 image
 
-Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
-Signed-off-by: Lei Liu <lei.liu2@windriver.com>
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
----
- .../dpkg/dpkg/glibc2.5-sync_file_range.patch       | 86 ++++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.17.1.bb          |  1 +
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
+ meta/classes/image_types.bbclass                   |   3 +-
+ ...1-mke2fs.c-add-an-option-d-root-directory.patch | 206 ++++++++++
+ .../0002-misc-util.c-implement-populate_fs.patch   | 120 ++++++
+ .../0003-misc-util.c-create-special-file.patch     |  98 +++++
+ .../0004-misc-util.c-create-symlink.patch          |  62 +++
+ .../0005-misc-util.c-copy-regular-file.patch       | 221 ++++++++++
+ .../0006-misc-util.c-create-directory.patch        |  62 +++
+ ...isc-util.c-set-more-information-for-inode.patch |  79 ++++
+ .../0008-misc-util.c-handle-hardlinks.patch        | 145 +++++++
+ ...s.8.in-update-the-manual-for-the-d-option.patch |  40 ++
+ ...-debugfs-use-the-functions-in-misc-util.c.patch | 449 +++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |  10 +
+ 12 files changed, 1493 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0001-mke2fs.c-add-an-option-d-root-directory.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0003-misc-util.c-create-special-file.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0004-misc-util.c-create-symlink.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0005-misc-util.c-copy-regular-file.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0006-misc-util.c-create-directory.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0007-misc-util.c-set-more-information-for-inode.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0008-misc-util.c-handle-hardlinks.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0009-mke2fs.8.in-update-the-manual-for-the-d-option.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0010-debugfs-use-the-functions-in-misc-util.c.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch b/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
-new file mode 100644
-index 0000000..d56b8a6
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
-@@ -0,0 +1,86 @@
-+CentOS 5.8 kernels and headers support the sync_file_range() system call,
-+but glibc 2.5 doesn't provide the syscall stub.  It appears that this
-+problem is known but will never be fixed:
-+
-+  https://bugzilla.redhat.com/show_bug.cgi?id=518581
-+
-+  Bug 518581 - [RHEL5] glibc misses sync_file_range syscall interface 
-+
-+  Status:       CLOSED CANTFIX 
-+  Last Closed:  2009-11-22 22:19:55
-+
-+  Kirby Zhou 2009-08-20 23:37:55 EDT
-+
-+  Description of problem:
-+
-+  glibc misses sync_file_range syscall interface.  The header file and
-+  man page both say 'sync_file_range' should exist.  From man page,
-+  sync_file_range should exist sinc kernel-2.6.17
-+
-+  Andreas Schwab 2009-08-21 03:24:24 EDT
-+
-+  It has only been added to glibc 2.6, and cannot be backported due to
-+  ABI breakage.  You can always fall back to syscall(3).
-+
-+  Ulrich Drepper 2009-11-22 22:19:55 EST
-+
-+  As comment #1 says, no chance to backport this.
-+
-+  See the syscall man page for instructions.
-+
-+  Jon E 2010-03-19 10:32:37 EDT
-+
-+  then why document it if it's broken and you're not going to fix it?
-+  .. might want to FTFM over at sync_file_range(2) - in the meantime -
-+  borrowing from glibc 2.6 .. any thoughts on this implementation for a
-+  hacky workaround for those still on your "ancient releases" .. (eg:
-+  RHEL5.3)?:
-+
-+  #ifdef ULI_WONT_FIX_THIS_IN_GLIBC2.5
-+  #define NR_sync_file_range 277
-+  int sync_file_range (int fd, __off64_t from, __off64_t to, unsigned int flags)
-+  {
-+    return syscall (NR_sync_file_range, fd,
-+                           __LONG_LONG_PAIR ((long) (from >> 32), (long) from),
-+                           __LONG_LONG_PAIR ((long) (to >> 32), (long) to),
-+                           flags);
-+  }
-+  #endif
-+
-+  assuming of course that you're on an x86_64 and include/asm-
-+  x86_64/unistd.h has the correct entry
-+
-+  (fwiw - fio is starting to use this now)
-+
-+Rather than attempting to provide an implementation using syscall(),
-+we take the more conservative route and ignore header support for
-+sync_file_range() flags when the glibc version is <= 2.5.
-+
-+Upstream-Status: Inappropriate [everyone else builds on newer hosts :-)]
-+
-+Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
-+Signed-off-by: Lei Liu <lei.liu2@windriver.com>
-+---
-+ src/archives.c |    4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+--- a/src/archives.c
-++++ b/src/archives.c
-+@@ -75,7 +75,7 @@
-+   /* Ignore the return code as it should be considered equivalent to an
-+    * asynchronous hint for the kernel, we are doing an fsync() later on
-+    * anyway. */
-+-#if defined(SYNC_FILE_RANGE_WRITE)
-++#if defined(SYNC_FILE_RANGE_WRITE) && __GLIBC_PREREQ(2, 6)
-+   sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
-+ #elif defined(HAVE_POSIX_FADVISE)
-+   posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
-+@@ -1179,7 +1179,7 @@
-+   return 0;
-+ }
-+ 
-+-#if defined(SYNC_FILE_RANGE_WAIT_BEFORE)
-++#if defined(SYNC_FILE_RANGE_WAIT_BEFORE) && __GLIBC_PREREQ(2, 6)
-+ static void
-+ tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
-+ {
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
-index 4ff22cc..8c4dacc 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
-@@ -10,6 +10,7 @@ SRC_URI += "file://noman.patch \
-             file://fix-abs-redefine.patch \
-             file://arch_pm.patch \
-             file://no-vla-warning.patch \
-+            file://glibc2.5-sync_file_range.patch \
-            "
- 
- SRC_URI[md5sum] = "ece3ae87a099158c17bde95c0036c575"
 -- 
 1.8.1.2.545.g2f19ada
 
