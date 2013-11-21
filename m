@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BCA9615AB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id DE5EF60B60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 15:21:57 +0000 (UTC)
-Received: by mail-wg0-f42.google.com with SMTP id k14so199380wgh.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 07:21:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=XwD3Q2mjk7Zq125O6BA86idzFv3s+bF7ex0d75vmh28=;
-	b=hoP/3viFpORmjDZDvDfAuqx4FPrHC3cLTsQAUQI0TqWi4B1mff4d/YFPVFG+pjZ+Qc
-	hqQKaElTEpjVYbkcioDQgdcaVSpz/Gqn86BgW8jlzOlhc4EsJi65tE1xRzQXegXSiOUA
-	DubSPZ1mNaUCLKsVFqKZTR97BWnoyrfsiqfZarK4q1glc84BspB/FPejV5JtcsnLPlPc
-	4B/cNZ2VIdnXxDo1OHZr6IuwfNalRXVi4LpePu2Ha0+iqdXbYP2lyqEgjp3ApVkXxauO
-	0JhVTubDau/aQN3YrEpETUG0est2XmETUbI8pv5BR2VCqCNEb6+Eb2ENxTmRaWUnuBRJ
-	iMgA==
-X-Gm-Message-State: ALoCoQkfOWQb7S72KfnxYr9Put/FEVTrMZ9KD7SaYGxx9pfVTjncpKjtoSj02tt6sjxxjjgavgU6
-X-Received: by 10.180.221.38 with SMTP id qb6mr6286243wic.8.1385047316330;
-	Thu, 21 Nov 2013 07:21:56 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id f15sm6386517wik.6.2013.11.21.07.21.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Nov 2013 07:21:55 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2013 15:21:39 +0000
-Message-Id: <1385047299-2597-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] packagegroup-core-tools-profile: add systemd-analyze
+	Thu, 21 Nov 2013 15:26:03 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rALFPmia012049; Thu, 21 Nov 2013 15:25:48 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Q7J6Hli43eFo; Thu, 21 Nov 2013 15:25:48 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rALFPe3X012033
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 21 Nov 2013 15:25:42 GMT
+Message-ID: <1385047536.16887.137.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Nov 2013 15:25:36 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: meta-intel@yoctoproject.org, "Hart, Darren" <darren.hart@intel.com>
+Subject: [PATCH] ia32-base: Remove cpio and ext3 defaults
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,37 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 15:21:57 -0000
+X-List-Received-Date: Thu, 21 Nov 2013 15:26:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If the systemd DISTRO_FEATURE is enabled, then recommend systemd-analyze for
-profiling boot performance.
+On real IA hardware, neither the ext3 or cpio images are particularly useful
+or used. cpio is legacy from initramfs and that specific image now overrides
+FSTYPES accordingly. The size difference in filesystems makes ext3 as a file
+format less useful, mainly being useful in the qemu case.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+When needed users can still override the default FSTYPES so having
+saner defaults makes sense. This improves build times and uses less
+network bandwidth for builds and releases.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb |    2 ++
- 1 file changed, 2 insertions(+)
+diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
+index 8a20bca..e15f927 100644
+--- a/meta/conf/machine/include/ia32-base.inc
++++ b/meta/conf/machine/include/ia32-base.inc
+@@ -10,7 +10,7 @@ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
+ 
+ MACHINE_EXTRA_RRECOMMENDS += "kernel-modules"
+ 
+-IMAGE_FSTYPES += "ext3 cpio.gz live"
++IMAGE_FSTYPES += "live"
+ 
+ KERNEL_IMAGETYPE ?= "bzImage"
+ 
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-index 9eb1458..4a97c24 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-@@ -17,6 +17,7 @@ RREPLACES_${PN} = "task-core-tools-profile"
- RCONFLICTS_${PN} = "task-core-tools-profile"
- 
- PROFILE_TOOLS_X = "${@base_contains('DISTRO_FEATURES', 'x11', 'sysprof', '', d)}"
-+PROFILE_TOOLS_SYSTEMD = "${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd-analyze', '', d)}"
- 
- RRECOMMENDS_${PN} = "\
-     perf \
-@@ -24,6 +25,7 @@ RRECOMMENDS_${PN} = "\
-     kernel-module-oprofile \
-     blktrace \
-     ${PROFILE_TOOLS_X} \
-+    ${PROFILE_TOOLS_SYSTEMD} \
-     "
- 
- PROFILETOOLS = "\
--- 
-1.7.10.4
 
 
