@@ -1,36 +1,36 @@
-Return-Path: <darren.hart@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 65B546BCAC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BECB6BCAC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 16:11:51 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Nov 2013 08:11:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,745,1378882800"; d="scan'208";a="437416738"
-Received: from fmsmsx104.amr.corp.intel.com ([10.19.9.35])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2013 08:11:50 -0800
-Received: from fmsmsx155.amr.corp.intel.com (10.18.116.71) by
-	FMSMSX104.amr.corp.intel.com (10.19.9.35) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 21 Nov 2013 08:11:50 -0800
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.233]) by
-	FMSMSX155.amr.corp.intel.com ([169.254.5.40]) with mapi id
-	14.03.0123.003; Thu, 21 Nov 2013 08:11:50 -0800
-From: "Hart, Darren" <darren.hart@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [PATCH] ia32-base: Remove cpio and ext3 defaults
-Thread-Index: AQHO5s39Uk6hlmaEeka1cuQHGreTHpowYUIA
-Date: Thu, 21 Nov 2013 16:11:49 +0000
-Message-ID: <1385050308.20337.16.camel@dvhart-mobl4.amr.corp.intel.com>
-References: <1385047536.16887.137.camel@ted>
-In-Reply-To: <1385047536.16887.137.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.196.58]
+	Thu, 21 Nov 2013 16:13:08 +0000 (UTC)
+Received: by mail-ve0-f173.google.com with SMTP id oz11so2777056veb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Nov 2013 08:13:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0UW3RFlwMjSS5T5hu5uMNjSf98ji9yXstSuIs4PEx38=;
+	b=GjwQ6lZivBpK57LnkqEkted8H0bbHlrb3I1lJXmQrFl9w8XE6U5B3SS2xd5RLtKMmt
+	lZ1eGN+5kzjBLOXZfu+Fs7Qy2gXjK97aMq0GSvSkXdzcJ+1wrbuXmY/LgoO9XczyzVKH
+	wz7Gy8ZCHuWtbjL/ewzRm58ukco6qmDWeJkl49wvc0M/MZeDxbyjZVRRZrb5GAm34ZrF
+	PGGt77atZS7YX7q2POw99Wk67rwAPGPXO0nxAVKLUce/NJE1Oo2md5FseLPuZjTU2c9p
+	lyPjgmnlNi/Uj/J5L7bqHCUmxucHwvJRsMQCQ/eSuUK20Pms9MG/2CKXmJHYHvggKdMo
+	dFWg==
+X-Gm-Message-State: ALoCoQn0MoBh9wFLwehs2Auh/YVsMHMkavqSa8Lzd9L86rPJkyMaAEDaTX6zBKn8R4uP7nQsPSfQ
+X-Received: by 10.58.7.40 with SMTP id g8mr33892vea.45.1385050386801; Thu, 21
+	Nov 2013 08:13:06 -0800 (PST)
 MIME-Version: 1.0
-Cc: "meta-intel@yoctoproject.org" <meta-intel@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ia32-base: Remove cpio and ext3 defaults
+Received: by 10.220.71.201 with HTTP; Thu, 21 Nov 2013 08:12:45 -0800 (PST)
+In-Reply-To: <1385018566-23581-1-git-send-email-mark.hatle@windriver.com>
+References: <1385018566-23581-1-git-send-email-mark.hatle@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Nov 2013 16:12:45 +0000
+Message-ID: <CAJTo0LbHSrOfDR8Ya_PffA5STouX=3-bJW8_1uzLd1jwfSOvdQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] matchbox-keyboard: check and link against libXrender
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 16:11:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3C96C19E7406BE4F88F64E1AD3CC33CE@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 21 Nov 2013 16:13:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-T24gVGh1LCAyMDEzLTExLTIxIGF0IDE1OjI1ICswMDAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
-Cj4gT24gcmVhbCBJQSBoYXJkd2FyZSwgbmVpdGhlciB0aGUgZXh0MyBvciBjcGlvIGltYWdlcyBh
-cmUgcGFydGljdWxhcmx5IHVzZWZ1bA0KPiBvciB1c2VkLiBjcGlvIGlzIGxlZ2FjeSBmcm9tIGlu
-aXRyYW1mcyBhbmQgdGhhdCBzcGVjaWZpYyBpbWFnZSBub3cgb3ZlcnJpZGVzDQo+IEZTVFlQRVMg
-YWNjb3JkaW5nbHkuIFRoZSBzaXplIGRpZmZlcmVuY2UgaW4gZmlsZXN5c3RlbXMgbWFrZXMgZXh0
-MyBhcyBhIGZpbGUNCj4gZm9ybWF0IGxlc3MgdXNlZnVsLCBtYWlubHkgYmVpbmcgdXNlZnVsIGlu
-IHRoZSBxZW11IGNhc2UuDQo+IA0KPiBXaGVuIG5lZWRlZCB1c2VycyBjYW4gc3RpbGwgb3ZlcnJp
-ZGUgdGhlIGRlZmF1bHQgRlNUWVBFUyBzbyBoYXZpbmcNCj4gc2FuZXIgZGVmYXVsdHMgbWFrZXMg
-c2Vuc2UuIFRoaXMgaW1wcm92ZXMgYnVpbGQgdGltZXMgYW5kIHVzZXMgbGVzcw0KPiBuZXR3b3Jr
-IGJhbmR3aWR0aCBmb3IgYnVpbGRzIGFuZCByZWxlYXNlcy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
-IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KDQpJ
-J20gZmluZSB3aXRoIHRoaXMsIGFsdGhvdWdoIGl0IHJhaXNlcyB0aGUgcXVlc3Rpb24gaWYgd2Ug
-b3VnaHQgdG8gYmUNCmRvaW5nIGFueXRoaW5nIG1vcmUgdGhhbiB0YXIgcm9vdGZzIGluIGluY2x1
-ZGUgZmlsZXMgbGlrZSB0aGlzLiB0aGVyZQ0KYXJlIGlhMzIgbWFjaGluZXMgd2hlcmUgYSBsaXZl
-IGltYWdlIGlzIG5vdCB1c2VmdWwgKGFsdGhvdWdoIHJhcmUpLiBNb3N0DQp4ODYgQlNQcyB3b3Vs
-ZCBhZGQgbGl2ZSAtIGJ1dCB0aGVuIGFnYWluLCBtb3N0IHg4NiBCU1BzIHdpbGwgYmUgc3RhcnRp
-bmcNCnRvIGNvbnNvbGlkYXRlIG9uIHRoZSBnZW5lcmljeDg2IEJTUHMgYW55d2F5Li4uLg0KDQpC
-dXQsIHRoaXMgaXMgYSBjbGVhciBpbXByb3ZlbWVudCBhcyBpcy4NCg0KQWNrZWQtYnk6IERhcnJl
-biBIYXJ0IDxkdmhhcnRAbGludXguaW50ZWwuY29tPg0KDQo+IC0tLQ0KPiBkaWZmIC0tZ2l0IGEv
-bWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS9pYTMyLWJhc2UuaW5jIGIvbWV0YS9jb25mL21hY2hp
-bmUvaW5jbHVkZS9pYTMyLWJhc2UuaW5jDQo+IGluZGV4IDhhMjBiY2EuLmUxNWY5MjcgMTAwNjQ0
-DQo+IC0tLSBhL21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvaWEzMi1iYXNlLmluYw0KPiArKysg
-Yi9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL2lhMzItYmFzZS5pbmMNCj4gQEAgLTEwLDcgKzEw
-LDcgQEAgTUFDSElORV9GRUFUVVJFUyArPSAic2NyZWVuIGtleWJvYXJkIHBjaSB1c2Job3N0IGV4
-dDIgZXh0MyB4ODYgXA0KPiAgDQo+ICBNQUNISU5FX0VYVFJBX1JSRUNPTU1FTkRTICs9ICJrZXJu
-ZWwtbW9kdWxlcyINCj4gIA0KPiAtSU1BR0VfRlNUWVBFUyArPSAiZXh0MyBjcGlvLmd6IGxpdmUi
-DQo+ICtJTUFHRV9GU1RZUEVTICs9ICJsaXZlIg0KPiAgDQo+ICBLRVJORUxfSU1BR0VUWVBFID89
-ICJiekltYWdlIg0KPiAgDQo+IA0KPiANCg0KLS0gDQpEYXJyZW4gSGFydA0KSW50ZWwgT3BlbiBT
-b3VyY2UgVGVjaG5vbG9neSBDZW50ZXINCllvY3RvIFByb2plY3QgLSBMaW51eCBLZXJuZWwNCg0K
+On 21 November 2013 07:22, Mark Hatle <mark.hatle@windriver.com> wrote:
+> +Upstream-Status: Pending
+
+This is sad considering that we host the git repo for this.  I've
+merged an equivalent fix from master to the 0.1 branch in git, merged
+in some more patches that we were hanging on to were already in
+master, and have a patch to oe-core that I'm just testing now to move
+our recipe to match.
+
+Ross
 
