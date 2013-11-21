@@ -1,24 +1,39 @@
-Return-Path: <Qiang.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 461146D6FF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E2E006D354
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 09:14:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAL9EdcE020640
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 Nov 2013 10:05:37 +0000 (UTC)
+Received: by mail-vc0-f175.google.com with SMTP id ld13so4294917vcb.20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 01:14:39 -0800 (PST)
-Received: from optiplex-780.corp.ad.wrs.com (128.224.162.226) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 21 Nov 2013 01:14:38 -0800
-From: <qiang.chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 17:14:51 +0800
-Message-ID: <1385025291-14853-1-git-send-email-qiang.chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 21 Nov 2013 02:05:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=c7icKkp12xGTbW7aLa+d8WiSBK3/Ol0cohcVZUwg8WI=;
+	b=ZU7zFWzIRli7gWMDWOrlequH7FF/dtQzcAUP5I8eiG/u5lQj6fW+nGz80APHOyfVLL
+	VrsOz7+aErqxJSns8rxBrJ1Hd6ohpwNXWzJFDZrfUKgFuHp3+GtECP258hOpnXBbLeI3
+	EIRcg97OK8YuvC2yDCJDN5q8QkY5D7ZG26lW98DDo3/V68IK78hXqlMmZCylJnEavfSD
+	JZ3evrX2+mnmcSmCGcKyJHTX0hyevLszN8VC0j7ItaUijolrEiGe+oUkNUHVqnB4LqzQ
+	IBhc0JpKaFAEwU63kLsoZfJjhOtf+ks1iOLfTUifpSUKJexVife8zojmVUL2pWlfswon
+	CdLg==
+X-Gm-Message-State: ALoCoQnWwdLv/+V1O9Tdw0kX65uFKaMsIrjl2lVxsM80Eme4WJROrmNGGqvpd8EpwaGRVm+cLkUk
+X-Received: by 10.58.136.231 with SMTP id qd7mr5092222veb.1.1385028337071;
+	Thu, 21 Nov 2013 02:05:37 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] shadow: remove reference to locale env files from su
+Received: by 10.220.71.201 with HTTP; Thu, 21 Nov 2013 02:05:17 -0800 (PST)
+In-Reply-To: <528D2429.7040705@emagii.com>
+References: <528D2429.7040705@emagii.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 21 Nov 2013 10:05:17 +0000
+Message-ID: <CAJTo0LbuNppE5Li0v0jPMH7UQDDYoh5wvHyDfdb3z4vdoSQ+Gg@mail.gmail.com>
+To: Ulf Samuelsson <angstrom-dev@emagii.com>
+Cc: Discussion of the angstrom distribution development
+	<angstrom-distro-devel@linuxtogo.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Improving Build Speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +46,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 09:14:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Nov 2013 10:05:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Qiang Chen <qiang.chen@windriver.com>
+On 20 November 2013 21:05, Ulf Samuelsson <angstrom-dev@emagii.com> wrote:
+> do_compile() {
+>     if [ x"$MAKE" = x ]; then MAKE=make; fi
+>     ...
+>     for error_count in 1 2 3; do
+>         ...
+>         ${MAKE} ${EXTRA_OEMAKE} "$@" || exit_code=1
+>         ...
+>     done
+>     ...
+> }
+>
+>     Not sure, but I think this means that PARALLEL_MAKE might get ignored.
 
-The /etc/default/locale missing message appears when running su <user>
+Yeah, good catch - the point of the loop was to handle random failures
+caused by dependency chains breaking when doing parallel builds...
+Anyway, that hack isn't present in 1.5 because it was caused by using
+an unpatched (read: broken) make 3.82 which we now detect at startup.
 
-root@qemu0:/var/log# su root
-root@qemu0:/var/log# tail auth.log
-Oct  8 07:47:54 qemu0 login[983]: pam_unix(login:session): session opened for user root by LOGIN(uid=0)
-Oct  8 07:47:55 qemu0 login[995]: ROOT LOGIN  on '/dev/console'
-Oct  8 07:48:21 qemu0 su[999]: Successful su for root by root
-Oct  8 07:48:21 qemu0 su[999]: + /dev/console root:root
-Oct  8 07:48:21 qemu0 su[999]: pam_env(su:session): Unable to open env file: /etc/default/locale: No such file or directory
-Oct  8 07:48:21 qemu0 su[999]: pam_unix(su:session): session opened for user root by root(uid=0)
-
-This commit remove reference from pam.d/su to /etc/default/locale
-env file to avoid the error messages.
-
-Signed-off-by: Qiang Chen <qiang.chen@windriver.com>
----
- meta/recipes-extended/shadow/files/pam.d/su |    3 ---
- meta/recipes-extended/shadow/shadow.inc     |    2 +-
- 2 files changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/meta/recipes-extended/shadow/files/pam.d/su b/meta/recipes-extended/shadow/files/pam.d/su
-index 8e35137..8d590a3 100644
---- a/meta/recipes-extended/shadow/files/pam.d/su
-+++ b/meta/recipes-extended/shadow/files/pam.d/su
-@@ -34,9 +34,6 @@ auth       sufficient pam_rootok.so
- # 
- # parsing /etc/environment needs "readenv=1"
- session       required   pam_env.so readenv=1
--# locale variables are also kept into /etc/default/locale in etch
--# reading this file *in addition to /etc/environment* does not hurt
--session       required   pam_env.so readenv=1 envfile=/etc/default/locale
- 
- # Defines the MAIL environment variable
- # However, userdel also needs MAIL_DIR and MAIL_FILE variables
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 5ab978a..572c3bc 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -44,7 +44,7 @@ SRC_URI_append_class-nativesdk = " \
- SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
- SRC_URI[sha256sum] = "633f5bb4ea0c88c55f3642c97f9d25cbef74f82e0b4cf8d54e7ad6f9f9caa778"
- 
--PR = "r13"
-+PR = "r14"
- 
- # Additional Policy files for PAM
- PAM_SRC_URI = "file://pam.d/chfn \
--- 
-1.7.9.5
-
+Ross
 
