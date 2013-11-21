@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 967446D9AD
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B06BC6D9AD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 07:08:28 +0000 (UTC)
+	Thu, 21 Nov 2013 07:08:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAL78R6c013051
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAL78Tiv024277
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 23:08:28 -0800 (PST)
+	Wed, 20 Nov 2013 23:08:29 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:08:27 -0800
+	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:08:29 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 01:08:21 -0600
-Message-ID: <1385017702-22903-2-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 21 Nov 2013 01:08:22 -0600
+Message-ID: <1385017702-22903-3-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1385017702-22903-1-git-send-email-mark.hatle@windriver.com>
 References: <1385017702-22903-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [dora][RFC PATCH 1/2] dpkg: Fix a build error for dpkg-native on CentOS 5.8.
+Subject: [dora][RFC PATCH 2/2] dpkg: Fix a link problem for dpkg-native on CentOS 5.8.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,62 +39,123 @@ Content-Type: text/plain
 
 From: Lei Liu <lei.liu2@windriver.com>
 
-Remove the -Wvla(*) flag from the set of compiler warning flags, since
-gcc on ancient host systems such as CentOS 5.8 doesn't support it.
-
-*-Wvla
-  Warn if variable length array is used in the code.  -Wno-vla will prevent
-  the -pedantic warning of the variable length array.
+CentOS 5.8 provides the kernel support and headers for the
+sync_file_range() syscall, but glibc 2.5 doesn't implement the
+sync_file_range() syscall stub, so we can't link dpkg-native. Add a
+patch that makes dpkg require a glibc version >= 2.6 in order to use
+sync_file_range().
 
 Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
 Signed-off-by: Lei Liu <lei.liu2@windriver.com>
 Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
 ---
- .../dpkg/dpkg/no-vla-warning.patch                 | 24 ++++++++++++++++++++++
+ .../dpkg/dpkg/glibc2.5-sync_file_range.patch       | 86 ++++++++++++++++++++++
  meta/recipes-devtools/dpkg/dpkg_1.17.1.bb          |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch b/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
+diff --git a/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch b/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
 new file mode 100644
-index 0000000..9bec523
+index 0000000..d56b8a6
 --- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
-@@ -0,0 +1,24 @@
-+Remove the -Wvla flag from the set of compiler warning flags, since gcc
-+on ancient host systems such as CentOS 5.8 doesn't support it, and it
-+causes a build error for dpkg-native.
++++ b/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
+@@ -0,0 +1,86 @@
++CentOS 5.8 kernels and headers support the sync_file_range() system call,
++but glibc 2.5 doesn't provide the syscall stub.  It appears that this
++problem is known but will never be fixed:
++
++  https://bugzilla.redhat.com/show_bug.cgi?id=518581
++
++  Bug 518581 - [RHEL5] glibc misses sync_file_range syscall interface 
++
++  Status:       CLOSED CANTFIX 
++  Last Closed:  2009-11-22 22:19:55
++
++  Kirby Zhou 2009-08-20 23:37:55 EDT
++
++  Description of problem:
++
++  glibc misses sync_file_range syscall interface.  The header file and
++  man page both say 'sync_file_range' should exist.  From man page,
++  sync_file_range should exist sinc kernel-2.6.17
++
++  Andreas Schwab 2009-08-21 03:24:24 EDT
++
++  It has only been added to glibc 2.6, and cannot be backported due to
++  ABI breakage.  You can always fall back to syscall(3).
++
++  Ulrich Drepper 2009-11-22 22:19:55 EST
++
++  As comment #1 says, no chance to backport this.
++
++  See the syscall man page for instructions.
++
++  Jon E 2010-03-19 10:32:37 EDT
++
++  then why document it if it's broken and you're not going to fix it?
++  .. might want to FTFM over at sync_file_range(2) - in the meantime -
++  borrowing from glibc 2.6 .. any thoughts on this implementation for a
++  hacky workaround for those still on your "ancient releases" .. (eg:
++  RHEL5.3)?:
++
++  #ifdef ULI_WONT_FIX_THIS_IN_GLIBC2.5
++  #define NR_sync_file_range 277
++  int sync_file_range (int fd, __off64_t from, __off64_t to, unsigned int flags)
++  {
++    return syscall (NR_sync_file_range, fd,
++                           __LONG_LONG_PAIR ((long) (from >> 32), (long) from),
++                           __LONG_LONG_PAIR ((long) (to >> 32), (long) to),
++                           flags);
++  }
++  #endif
++
++  assuming of course that you're on an x86_64 and include/asm-
++  x86_64/unistd.h has the correct entry
++
++  (fwiw - fio is starting to use this now)
++
++Rather than attempting to provide an implementation using syscall(),
++we take the more conservative route and ignore header support for
++sync_file_range() flags when the glibc version is <= 2.5.
 +
 +Upstream-Status: Inappropriate [everyone else builds on newer hosts :-)]
 +
 +Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
 +Signed-off-by: Lei Liu <lei.liu2@windriver.com>
 +---
-+ m4/dpkg-compiler.m4 |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/archives.c |    4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+--- a/m4/dpkg-compiler.m4
-++++ b/m4/dpkg-compiler.m4
-+@@ -14,7 +14,7 @@ AC_DEFUN([DPKG_COMPILER_WARNINGS],
++--- a/src/archives.c
+++++ b/src/archives.c
++@@ -75,7 +75,7 @@
++   /* Ignore the return code as it should be considered equivalent to an
++    * asynchronous hint for the kernel, we are doing an fsync() later on
++    * anyway. */
++-#if defined(SYNC_FILE_RANGE_WRITE)
+++#if defined(SYNC_FILE_RANGE_WRITE) && __GLIBC_PREREQ(2, 6)
++   sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
++ #elif defined(HAVE_POSIX_FADVISE)
++   posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
++@@ -1179,7 +1179,7 @@
++   return 0;
++ }
 + 
-+ WFLAGS="-Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers \
-+ 	 -Wmissing-declarations -Wmissing-format-attribute \
-+ 	 -Wformat-security -Wpointer-arith \
-+-	 -Wvla -Winit-self -Wwrite-strings -Wcast-align -Wshadow"
-++	 -Winit-self -Wwrite-strings -Wcast-align -Wshadow"
-+ WCFLAGS="-Wdeclaration-after-statement -Wnested-externs -Wbad-function-cast \
-+ 	 -Wstrict-prototypes -Wmissing-prototypes -Wold-style-definition"
-+ # Temporarily here until #542031 gets fixed in ncurses
++-#if defined(SYNC_FILE_RANGE_WAIT_BEFORE)
+++#if defined(SYNC_FILE_RANGE_WAIT_BEFORE) && __GLIBC_PREREQ(2, 6)
++ static void
++ tar_writeback_barrier(struct fileinlist *files, struct pkginfo *pkg)
++ {
 diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
-index 525f759..4ff22cc 100644
+index 4ff22cc..8c4dacc 100644
 --- a/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
 +++ b/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://noman.patch \
-             file://remove-tar-no-timestamp.patch \
+@@ -10,6 +10,7 @@ SRC_URI += "file://noman.patch \
              file://fix-abs-redefine.patch \
              file://arch_pm.patch \
-+            file://no-vla-warning.patch \
+             file://no-vla-warning.patch \
++            file://glibc2.5-sync_file_range.patch \
             "
  
  SRC_URI[md5sum] = "ece3ae87a099158c17bde95c0036c575"
