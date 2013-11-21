@@ -1,41 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f180.google.com (mail-ea0-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 949EB6C73E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A75056D5C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 00:19:19 +0000 (UTC)
-Received: by mail-ea0-f180.google.com with SMTP id f15so2499202eak.39
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 16:19:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=DaPHqwplrPAtVlBW6GqR0chWFzLjoBrDqR8poImZQLU=;
-	b=cYB8r9dMcgKwDrtT/94RSvNiq5QqG9g/xwRYBu/57OndQdkmEeuCp698s02txv5oVx
-	IbtAVT8kN3h7CAbfGm0QOwdOk6SyRwHR/HVFh1sscwJUzmF0h80HRXFPRar3W96TWKau
-	93fzTAeOUXKK/f0+0fKr2PsvtD7sMpAeQJm0wwbAj7EjvR4RW6zG1p2pT+Qy19UMDb24
-	ig7Y22uhsC6CzEU3dmKSU3dNuaY0rw9PIUsZcePBaSQqcIJdUJYNCCUPK0IZHdL+ZGpE
-	qU5K4MgI/v8ymKsV3w1jJhmpGVSYnZmXVHUhdiDQcrGd4LOm/+ShonueIr7wa/zcW4uy
-	mY8g==
-X-Received: by 10.14.199.197 with SMTP id x45mr4515764een.8.1384993159094;
-	Wed, 20 Nov 2013 16:19:19 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 8sm64857857eem.15.2013.11.20.16.19.18
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 20 Nov 2013 16:19:18 -0800 (PST)
-Date: Thu, 21 Nov 2013 01:19:22 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: ulf@emagii.com
-Message-ID: <20131121001922.GW3708@jama>
-References: <528D2429.7040705@emagii.com> <1384982956.16887.94.camel@ted>
-	<528D3B01.8060700@emagii.com>
+	Thu, 21 Nov 2013 03:05:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAL35sql029678
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 20 Nov 2013 19:05:54 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 20 Nov 2013 19:05:52 -0800
+Message-ID: <528D7877.7080200@windriver.com>
+Date: Thu, 21 Nov 2013 11:05:27 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-In-Reply-To: <528D3B01.8060700@emagii.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Improving Build Speed
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <1383312696-421-1-git-send-email-otavio@ossystems.com.br>	<5283F507.7050607@linux.intel.com>	<CAP9ODKotnjmFwd3SqG_=HDpDWXBDkuaJsqUerM_8BnT9mPU0GQ@mail.gmail.com>	<CADkTA4M8GkRVnHr5bW-1=Ff2PSdsYaOo6ROisjZDybnNpom2OA@mail.gmail.com>	<5284F5D1.4010004@linux.intel.com>	<CADkTA4ObDkKgm+_-RG650m2TtugDh4tZ+OHyOateGSUvv9hmhQ@mail.gmail.com>	<CADkTA4MCL8pe8jACx8T9o7S17XvjUiBj5GwSp9nW2snWjpCQxQ@mail.gmail.com>	<CAP9ODKo+dR_FSj4djpGKcbQFWRiWqSK6XApGtjS6NM1r5scJDg@mail.gmail.com>	<528A0755.2060100@windriver.com>	<CAP9ODKqfdgCe_wpzyzGqgbfvOoT1HrgM_7PoSvuNDBtueBi1tA@mail.gmail.com>	<528A2927.7070009@windriver.com>	<528A32C4.3030306@intel.com>	<CAP9ODKqrKrqWPg6ZCnM715RLjjRJ3satfm3ouOwWmpt+ygBU_A@mail.gmail.com>	<528A396A.6020500@windriver.com>	<528ADC43.5050406@windriver.com>
+	<CADkTA4MCwKOk8ShkJovs9AABbusrE6VzATkBS9BEw0=BoFS=+g@mail.gmail.com>
+In-Reply-To: <CADkTA4MCwKOk8ShkJovs9AABbusrE6VzATkBS9BEw0=BoFS=+g@mail.gmail.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>, Saul Wold <saul.wold@intel.com>
+Subject: Re: [PATCH 1/2] lttng-modules: Update revision to grab last bugfix releases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,105 +37,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 00:19:20 -0000
-X-Groupsio-MsgNum: 47366
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="1gsfN/+pS0/2Ta7u"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 21 Nov 2013 03:06:00 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---1gsfN/+pS0/2Ta7u
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 20, 2013 at 11:43:13PM +0100, Ulf Samuelsson wrote:
-> 2013-11-20 22:29, Richard Purdie skrev:
-> Another idea:
->=20
-> I suspect that there is a lot of unpacking and patching of recipes
-> for the target when the native stuff is built.
-> Does it make sense to have multiple threads reading the disk, for
-> the target recipes during the native build or will we just lose out
-> due to seek time?
->=20
-> Having multiple threads accessing the disk, might force the disk to spend
-> most of its time seeking.
-> Found an application which measures seek time performance,
-> and my WD Black will do 83 seeks per second, and my SAS disk will do=20
-> twice that.
-> The RAID of two SAS disks will provide close to SSD throughput (380 MB/s)
-> but seek time is no better than a single SAS disk.
->=20
-> Since there is "empty time" at the end of the native build, does it make=
-=20
-> sense
-> to minimize unpack/patch of target stuff when we reach that point, and
-> then we let loose?
+Hi Bruce,
 
-In my benchmarks increasing PARALLEL_MAKE till number of cores was
-significantly improving build time, but BB_NUMBER_THREADS had minimal
-influence somewhere above 6 or 8 (tested on various systems, even only 4 was
-optimum on my older RAID-0 and 2 on single disk).
-Of course it was quite different for clean build without sstate
-prepopulated and build where most of the stuff was reused from sstate.
+Thanks, we are going to update the kernel from 3.10.11 to 3.10.17 for dora
+if there is no objections.
 
-see http://wiki.webos-ports.org/wiki/OE_benchmark
+Will we use another kernel source repo for dora ? Or just cherry-pick these
+commits ?
 
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> Now with 48 MB of RAM, (which I might grow to 96 GB, if someone proves th=
-at
-> this makes it faster), this might be useful to speed things up.
->=20
-> Can tmpfs beat the kernel cache system?
->=20
-> 1.    Typically, I work on less than 10 recipes, and if I continuosly
->          rebuild those, why not create the build directories as links to=
-=20
-> a tmpfs file system.
->          Maybe a configuration file with a list of recipes to build on=20
-> tmpfs.
->=20
->          During a build from scratch, this is not so useful, but once=20
-> most stuff is in place, it might,
->=20
-> 2.     If the downloads directory was shadowed in a tmpfs system
->          then there would be less seek time during the build.
->          The downloads tmpfs should be poplulated at boot time,
->          and rsynced with a real disk in the background when new stuff
->          is downloaded from internet.
->=20
-> 3.     With 96 GB of RAM, maybe the complete build directory will fit.
->          Would be nice to build everything on tmpfs, and automatically rs=
-ync
->          to a real disk when there is nothing else to do...
->=20
-> 4.     If not tmpfs is used, then It would still be good to have better=
-=20
-> control
->          over the build directory.
->          It make sense to me to have the metadata on an SSD, but the
->          build directory should be on my RAID cluster for fast rebuilds.
->          I can set this up manually, but it would be better to be able to
->          specify this in a configuration file.
->=20
+// Robert
 
-See
-http://www.mail-archive.com/yocto@yoctoproject.org/msg14879.html
+On 11/19/2013 01:18 PM, Bruce Ashfield wrote:
+> On Mon, Nov 18, 2013 at 10:34 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>
+>> Hi Bruce,
+>>
+>> Here is the log status of the kernel layer between dora and master (18
+>> commits).
+>>
+>> I wonder are there any serious problems that we must upgrade it ?
+>>
+>> $ git log dora..master --abbrev-commit --pretty=oneline meta/recipes-kernel
+>>
+>> 9a9a597 lttng-tools: Fixes incorrect path of ptest cases
+>> e1e1ee5 linux-yocto/3.10: meta: ARM: OMAP3: Add USB PHY driver for
+>> Beagleboard
+>> 779dec9 linux-yocto-rt/3.10: fix ntp merge issue
+>> 89c986c linux-yocto/3.10: meta: ARM: OMAP3: Add USB PHY driver for
+>> Beagleboard
+>
+> You definitely want these. They fix USB and ethernet on the beagle
+>
+>> 8a03d59 sysvinit: adjust boot sequence and remove hack from udev
+>> e9ec153 linux-yocto/3.10: fix qemuarm boot and spurious mips build warning
+>> baf005b linux-yocto/3.10: common-pc: add missing dependencies for BRCMSMAC
+>> dd361f0 linux-yocto/3.8: add crystalforest bsp legacy block drivers
+>> configurations
+>> 1fe7bca linux-yocto/3.10: haswell-wc and crystalforest support
+>
+> Don't worry about the "add support" here, they are benign to all other goards.
+>
+>> a23c7e9 linux-yocto-3.10: bump to 3.10.17 and -rt11
+>
+> And this is where we need to be for the lttng fixes.
+>
+> The other updates are also safe, you can't really pick and chose. Just take all
+> my SRCREV updates for 3.10 on master, since they are all bugfixes or minor
+> meta-data tweaks so far.
+>
+> Bruce
+>
+>> 3129619 lttng-tools: make ptest able to work on target
+>> 5e42796 recipes: Remove PR = r0 from all recipes
+>> 2570f13 perf: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for mips64
+>> 56cc2f2 linux-yocto/3.10: MinnowBoard support
+>> db1d37a perf: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for
+>> powerpc64
+>> cd414c0 kmod: Update to Rev 15 via git
+>> e83640d kmod: Add patch to fix seperate build dir of ptest
+>> 0f431a3 kmod-native: use bswap to work on older Linux hosts
+>>
+>> // Robert
+>>
+>>
+>> On 11/18/2013 11:59 PM, Bruce Ashfield wrote:
+>>>
+>>> On 13-11-18 10:50 AM, Otavio Salvador wrote:
+>>>>
+>>>> On Mon, Nov 18, 2013 at 1:31 PM, Saul Wold <saul.wold@intel.com> wrote:
+>>>>>
+>>>>> On 11/18/2013 06:50 AM, Robert Yang wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On 11/18/2013 10:18 PM, Otavio Salvador wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On Mon, Nov 18, 2013 at 10:25 AM, Robert Yang
+>>>>>>> <liezhi.yang@windriver.com> wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> This should be considered for Dora as well as it fixes the deadlock
+>>>>>>>>> and building with 3.12 kernels.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Hi Otavio, thanks for suggesting this for dora, but dora's kernel is
+>>>>>>>> 3.10.11,
+>>>>>>>> and this is an update for lttng-modules, I'm not sure whether dora
+>>>>>>>> needs
+>>>>>>>> this.
+>>>>>>>>
+>>>>>>>> Add Saul in the CC list.
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> I think Dora ought to get the new 3.10 kernel updates; this can go
+>>>>>>> along side with it.
+>>>>>>>
+>>>>>>
+>>>>>> Hi Otavio,
+>>>>>>
+>>>>>> I'm sorry, but I'm not sure whether we need update dora's kernel from
+>>>>>> 3.10.11
+>>>>>> to 3.10.17, since we seldom do the package update for a stable branch,
+>>>>>> let's wait for others' comments:-).
+>>>>>>
+>>>>> This is correct, I do not think we will be updating the kernel for a
+>>>>> stable
+>>>>> branch.
+>>>>
+>>>>
+>>>> This is wrong. We should update to 3.10.17 as this is the LTS release,
+>>>> otherwise what is the point of us using a LTS at all?
+>>>
+>>>
+>>> Obviously I'll be maintaining the LTS release in master, but that
+>>> maintenance gets a mix of bug fixes and features associated with the
+>>> upstream maintenance + LTSI + BSP requirements.
+>>>
+>>> I've sent patches for the sustained branches in the past, and can
+>>> do it here as well. But to do it properly, there really needs to be a
+>>> dedicated kernel repository, since things like the LTSI import and
+>>> new BSP support will be mixed into the tree if a single 3.10 repo
+>>> is used.
+>>>
+>>> I'm willing to split the repo and do -stable korg release updates, but
+>>> at some point there are only so many repositories and versions that
+>>> should be maintained at one time. As to what that number is, I don't have
+>>> a firm one in mind.
+>>>
+>>> At a minimum, it would be safe for the dora maintenance branch to take
+>>> my latest kernel -stable imports, but in the not to distant future,
+>>> it would need a separate maintenance stream.
+>>>
+>>> Cheers,
+>>>
+>>> Bruce
+>>>
+>>>>
+>>>
+>>>
+>>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---1gsfN/+pS0/2Ta7u
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlKNUYoACgkQN1Ujt2V2gBzTvwCgijXft4kPUlBgFb1F1pXX6NPs
-LOUAoJAGXOdVvzKz+bHLtAKk+IzKVqZ+
-=N+cM
------END PGP SIGNATURE-----
-
---1gsfN/+pS0/2Ta7u--
