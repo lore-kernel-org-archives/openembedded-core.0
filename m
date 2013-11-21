@@ -1,25 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DCB0615AB
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CC79B615AB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 19:38:10 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Nov 2013 11:38:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,746,1378882800"; d="scan'208";a="437537254"
-Received: from unknown (HELO [10.255.15.149]) ([10.255.15.149])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2013 11:38:08 -0800
-Message-ID: <528E6120.1020805@linux.intel.com>
-Date: Thu, 21 Nov 2013 11:38:08 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu, 21 Nov 2013 19:40:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rALJeA6V025330
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Nov 2013 11:40:10 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 21 Nov 2013 11:40:10 -0800
+Message-ID: <528E6199.80306@windriver.com>
+Date: Thu, 21 Nov 2013 13:40:09 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1385062552-3945-1-git-send-email-mark.hatle@windriver.com>
-In-Reply-To: <1385062552-3945-1-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [dora][PATCH] Qemu:Arm:versatilepb: Add memory size checking
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1385039538.git.hongxu.jia@windriver.com>	<0e29f77b1778e75f547289c20e670fc0ffd5e070.1385039538.git.hongxu.jia@windriver.com>
+	<528E541B.7000104@linux.intel.com>
+In-Reply-To: <528E541B.7000104@linux.intel.com>
+Subject: Re: [PATCH 4/4] qemu: add bash and python to qemu's RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,81 +36,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 19:38:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 21 Nov 2013 19:40:11 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/21/2013 11:35 AM, Mark Hatle wrote:
-> From: Jiang Lu <lu.jiang@windriver.com>
+On 11/21/13, 12:42 PM, Saul Wold wrote:
 >
-> The machine can not work with memory over 256M, so add a checking
-> at startup. If the memory size exceed 256M, just stop emulation then
-> throw out warning about memory limitation.
->
-> Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
-> ---
->   ...-Arm-versatilepb-Add-memory-size-checking.patch | 34 ++++++++++++++++++++++
->   meta/recipes-devtools/qemu/qemu_1.5.0.bb           |  1 +
->   2 files changed, 35 insertions(+)
->   create mode 100644 meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
->
-> diff --git a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
-> new file mode 100644
-> index 0000000..ef1090b
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
-> @@ -0,0 +1,34 @@
-> +From 896fa02c24347e6e9259812cfda187b1d6ca6199 Mon Sep 17 00:00:00 2001
-> +From: Jiang Lu <lu.jiang@windriver.com>
-> +Date: Wed, 13 Nov 2013 10:38:08 +0800
-> +Subject: [PATCH] Qemu:Arm:versatilepb: Add memory size checking
-> +
-> +The machine can not work with memory over 256M, so add a checking
-> +at startup. If the memory size exceed 256M, just stop emulation then
-> +throw out warning about memory limitation.
-> +
-No Upstream-Status: tag
+> Why are you adding bash to qemu?
 
-Sau!
+My understanding is that there was a bash script that was added as well, once 
+the python rdepends was resolved.
 
-> +Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
-> +---
-> + hw/arm/versatilepb.c |    6 ++++++
-> + 1 files changed, 6 insertions(+), 0 deletions(-)
-> +
-> +diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
-> +index 753757e..0906377 100644
-> +--- a/hw/arm/versatilepb.c
-> ++++ b/hw/arm/versatilepb.c
-> +@@ -193,6 +193,12 @@ static void versatile_init(QEMUMachineInitArgs *args, int board_id)
-> +         fprintf(stderr, "Unable to find CPU definition\n");
-> +         exit(1);
-> +     }
-> ++    if (ram_size > (256 << 20)) {
-> ++        fprintf(stderr,
-> ++                "qemu: Too much memory for this machine: %d MB, maximum 256 MB\n",
-> ++                ((unsigned int)ram_size / (1 << 20)));
-> ++        exit(1);
-> ++    }
-> +     memory_region_init_ram(ram, "versatile.ram", args->ram_size);
-> +     vmstate_register_ram_global(ram);
-> +     /* ??? RAM should repeat to fill physical memory space.  */
-> +--
-> +1.7.1
-> +
-> diff --git a/meta/recipes-devtools/qemu/qemu_1.5.0.bb b/meta/recipes-devtools/qemu/qemu_1.5.0.bb
-> index 06c2cdb..f8c60e8 100644
-> --- a/meta/recipes-devtools/qemu/qemu_1.5.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_1.5.0.bb
-> @@ -7,6 +7,7 @@ SRC_URI += "file://fdt_header.patch \
->               file://target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch \
->               file://target-ppc_fix_bit_extraction.patch \
->               file://fxrstorssefix.patch \
-> +            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
->              "
+--Mark
+
+> Sau!
 >
->   SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
 >
+> On 11/21/2013 05:14 AM, Hongxu Jia wrote:
+>> | Note: adding Smart RPM DB channel
+>> |
+>> | Note: to be installed:  qemu@x86_64 run-postinsts@x86_64 kernel-modules@qemux86_64 packagegroup-core-boot@qemux86_64
+>> | Loading cache...
+>> | Updating cache...               ######################################## [100%]
+>> |
+>> | Computing transaction...error: Can't install qemu-1.5.0-r0.0@x86_64: no package provides /usr/bin/python
+>> |
+>> | Saving cache...
+>> |
+>> | WARNING: exit code 1 from a shell command.
+>> | ERROR: Function failed: do_rootfs (log file is located at tmp/work/qemux86_64-wrs-linux/wrlinux-image-glibc-small/1.0-r1/temp/do_rootfs/log.do_rootfs.21373)
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>    meta/recipes-devtools/qemu/qemu.inc | 1 +
+>>    1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+>> index 21ce489..3f3431d 100644
+>> --- a/meta/recipes-devtools/qemu/qemu.inc
+>> +++ b/meta/recipes-devtools/qemu/qemu.inc
+>> @@ -5,6 +5,7 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl"
+>>    DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
+>>    DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+>>    RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
+>> +RDEPENDS_${PN}_class-target += "bash python"
+>>
+>>    require qemu-targets.inc
+>>    inherit autotools
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
 
