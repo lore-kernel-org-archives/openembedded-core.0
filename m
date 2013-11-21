@@ -1,30 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E7746DBE9
+Return-Path: <ulf@emagii.com>
+Received: from smtprelay-b22.telenor.se (smtprelay-b22.telenor.se
+	[195.54.99.213])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A3626DB81
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 07:14:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAL7EdKr013425
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 Nov 2013 07:15:11 +0000 (UTC)
+Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
+	by smtprelay-b22.telenor.se (Postfix) with ESMTP id C8082CB21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 23:14:39 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:14:38 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 01:13:58 -0600
-Message-ID: <1385018038-23380-13-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <1385018038-23380-1-git-send-email-mark.hatle@windriver.com>
-References: <1385018038-23380-1-git-send-email-mark.hatle@windriver.com>
+	Thu, 21 Nov 2013 08:15:09 +0100 (CET)
+X-SENDER-IP: [83.227.57.102]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AgEYABOyjVJT4zlmPGdsb2JhbAANTIM/vkSBMwMBAQEBOIJaAQEBAQM4QRALGAklDwIyFAYNAQUCAQGIAgiuYZITjhUbAQGBBjMHhDIDmBKBMJQJgXA
+X-IronPort-AV: E=Sophos;i="4.93,742,1378850400"; d="scan'208";a="358501558"
+Received: from c-6639e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	[10.175.196.236]) ([83.227.57.102])
+	by ipb4.telenor.se with ESMTP; 21 Nov 2013 08:15:09 +0100
+Message-ID: <528DB2FC.90205@emagii.com>
+Date: Thu, 21 Nov 2013 08:15:08 +0100
+From: Ulf Samuelsson <ulf@emagii.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [RFC PATCH 12/12] image_types.bbclass: use mke2fs -d to create the ext2/3/4 image
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <528D2429.7040705@emagii.com> <1384982956.16887.94.camel@ted>
+	<528D3B01.8060700@emagii.com> <20131121001922.GW3708@jama>
+In-Reply-To: <20131121001922.GW3708@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Improving Build Speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ulf@emagii.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -34,48 +41,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 07:14:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Nov 2013 07:15:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Robert Yang <liezhi.yang@windriver.com>
+2013-11-21 01:19, Martin Jansa skrev:
+> On Wed, Nov 20, 2013 at 11:43:13PM +0100, Ulf Samuelsson wrote:
+>> 2013-11-20 22:29, Richard Purdie skrev:
+>> Another idea:
+>>
+>> I suspect that there is a lot of unpacking and patching of recipes
+>> for the target when the native stuff is built.
+>> Does it make sense to have multiple threads reading the disk, for
+>> the target recipes during the native build or will we just lose out
+>> due to seek time?
+>>
+>> Having multiple threads accessing the disk, might force the disk to spend
+>> most of its time seeking.
+>> Found an application which measures seek time performance,
+>> and my WD Black will do 83 seeks per second, and my SAS disk will do
+>> twice that.
+>> The RAID of two SAS disks will provide close to SSD throughput (380 MB/s)
+>> but seek time is no better than a single SAS disk.
+>>
+>> Since there is "empty time" at the end of the native build, does it make
+>> sense
+>> to minimize unpack/patch of target stuff when we reach that point, and
+>> then we let loose?
+> In my benchmarks increasing PARALLEL_MAKE till number of cores was
+> significantly improving build time, but BB_NUMBER_THREADS had minimal
+> influence somewhere above 6 or 8 (tested on various systems, even only 4 was
+> optimum on my older RAID-0 and 2 on single disk).
+> Of course it was quite different for clean build without sstate
+> prepopulated and build where most of the stuff was reused from sstate.
+>
+> see http://wiki.webos-ports.org/wiki/OE_benchmark
 
-We used populate-extfs.sh which invoked the debugfs to create the image,
-now the mke2fs' option "-d root-directory" can do the same thing, and
-which is a little faster, for example, the glibc_std:
+How many cores do you have in your build machine?
+I started a build, and after 20 minutes it had completed 1500 tasks using:
 
-$ time mkfs
-$ time populate-extfs.sh /path/to/rootfs/ wrlinux-image-glibc-std-qemux86.ext4
-real    1m3.724s
-user    0m54.955s
-sys     0m8.021s
+PARALLEL_MAKE     = "-j24"
+BB_NUMBER_THREADS =   "6"
 
-$ time mkfs.ext4 -F -d /path/to/rootfs/ wrlinux-image-glibc-std-qemux86.ext4
-real    0m46.256s
-user    0m40.323s
-sys     0m1.628s
+The I decided to kill it.
 
-17s are saved.
+When I did
+PARALLEL_MAKE     = "-j12"
+BB_NUMBER_THREADS =   "24"
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/image_types.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+It completed 2000 tasks in less than half the time.
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 8c49169..d6c80a2 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -152,8 +152,7 @@ oe_mkext234fs () {
- 
- 	# Create a sparse image block
- 	dd if=/dev/zero of=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype seek=$ROOTFS_SIZE count=0 bs=1k
--	mkfs.$fstype -F $extra_imagecmd ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
--	populate-extfs.sh ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
-+	mkfs.$fstype -F $extra_imagecmd ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype -d ${IMAGE_ROOTFS}
- }
- 
- IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
+This does not use tmpfs though.
+Do you have any comparision between tmpfs builds and RAID builds?
+
+I currently do not use INHERIT += "rm_work"
+since I want to be able to do changes on some packages.
+Is there a way to defined rm_work on a package basis?
+Then the majority of the packages can be removed.
+
+I use 75 GB without "rm_work"
+
+
+BR
+Ulf
+>
+>> ========================
+>>
+>> Now with 48 MB of RAM, (which I might grow to 96 GB, if someone proves that
+>> this makes it faster), this might be useful to speed things up.
+>>
+>> Can tmpfs beat the kernel cache system?
+>>
+>> 1.    Typically, I work on less than 10 recipes, and if I continuosly
+>>           rebuild those, why not create the build directories as links to
+>> a tmpfs file system.
+>>           Maybe a configuration file with a list of recipes to build on
+>> tmpfs.
+>>
+>>           During a build from scratch, this is not so useful, but once
+>> most stuff is in place, it might,
+>>
+>> 2.     If the downloads directory was shadowed in a tmpfs system
+>>           then there would be less seek time during the build.
+>>           The downloads tmpfs should be poplulated at boot time,
+>>           and rsynced with a real disk in the background when new stuff
+>>           is downloaded from internet.
+>>
+>> 3.     With 96 GB of RAM, maybe the complete build directory will fit.
+>>           Would be nice to build everything on tmpfs, and automatically rsync
+>>           to a real disk when there is nothing else to do...
+>>
+>> 4.     If not tmpfs is used, then It would still be good to have better
+>> control
+>>           over the build directory.
+>>           It make sense to me to have the metadata on an SSD, but the
+>>           build directory should be on my RAID cluster for fast rebuilds.
+>>           I can set this up manually, but it would be better to be able to
+>>           specify this in a configuration file.
+>>
+> See
+> http://www.mail-archive.com/yocto@yoctoproject.org/msg14879.html
+>
+
+
 -- 
-1.8.1.2.545.g2f19ada
+Best Regards
+Ulf Samuelsson
+ulf@emagii.com
++46 722 427437
 
 
