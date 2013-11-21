@@ -1,55 +1,35 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 34C0A6DB9B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ECC76D299
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 14:51:42 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VjVbY-0001zX-T6; Thu, 21 Nov 2013 15:51:41 +0100
-Message-ID: <1385045500.23724.165.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 21 Nov 2013 14:51:40 +0000
-In-Reply-To: <528E1BE1.2030003@windriver.com>
-References: <1385017169-22068-1-git-send-email-mark.hatle@windriver.com>
-	<1385035973.23724.146.camel@phil-desktop.brightsign>
-	<528E1BE1.2030003@windriver.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Thu, 2013-11-21 at 08:42 -0600,
-	Mark Hatle wrote: > On
-	11/21/13, 6:12 AM, Phil Blundell wrote: > > On Thu,
-	2013-11-21 at 00:59 -0600, 
-	Mark Hatle wrote: > >> +# When using a read-only rootfs additional
-	setup
-	may be required > >> +# uncomment the following line to make bind start
-	in
-	read-only rootfs > >> +#ALLOW_ROOTFS_READ_ONLY="yes" > > > > If the
-	filesystem
-	is read-only then it's going to be fairly difficult > > for the user to
-	uncomment
-	this line on the target. > > A post image process script would be
-	capable
-	of un-commenting that line (or > simply replacing the file with a
-	specific image specific configuration.) [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH] bind: add support for read-only rootfs
+	Thu, 21 Nov 2013 14:57:54 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id a1so10901154wgh.24
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Nov 2013 06:57:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=MJN/6BsLnOVuIE3SDuiELEANRrPfgghPys6BELAclmI=;
+	b=DghTchetUrqBaPdQYVWgf/CkjpifQqK5gesONR04ZWk3SMb9djViTf/XUPku/qbZFn
+	WwwLyRifIIogWg70fA1TF2ntZZetrI6ucSJCRteXKS5i9NgaqRzyKMJcFQxYzUUitKP4
+	wnGCygoJS7RM0lVkx8TAtcnn9lATP5PnqlTJjIKDYlY5QPJthk8eU+GeK0ehqho9GGn9
+	+G+oJHI2yMtI/eElWlQB7m9DMpVRfOWvYT6juA7D4Q5SEUHlheESASOyE2z0YHTpBaCp
+	4q5f477tYfXxq2gMZSPZt4DcUJadtUQt6dFw9/89XAZSMK/DpKeNaZgAIQXUYvzBrgZs
+	cE4g==
+X-Gm-Message-State: ALoCoQkkFe09jFfA+hhP73ihou2oRn3GuVNaAAZIXG46A+bFHsI91OfSlwNNtiHIIEmkdDif47BU
+X-Received: by 10.194.104.66 with SMTP id gc2mr447024wjb.75.1385045872783;
+	Thu, 21 Nov 2013 06:57:52 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id pi6sm6218103wic.3.2013.11.21.06.57.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Nov 2013 06:57:51 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2013 14:57:46 +0000
+Message-Id: <1385045866-30934-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] oeqa/connman: disable unique test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,38 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 14:51:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Nov 2013 14:57:55 -0000
 
-On Thu, 2013-11-21 at 08:42 -0600, Mark Hatle wrote:
-> On 11/21/13, 6:12 AM, Phil Blundell wrote:
-> > On Thu, 2013-11-21 at 00:59 -0600, Mark Hatle wrote:
-> >> +# When using a read-only rootfs additional setup may be required
-> >> +# uncomment the following line to make bind start in read-only rootfs
-> >> +#ALLOW_ROOTFS_READ_ONLY="yes"
-> >
-> > If the filesystem is read-only then it's going to be fairly difficult
-> > for the user to uncomment this line on the target.
-> 
-> A post image process script would be capable of un-commenting that line (or 
-> simply replacing the file with a specific image specific configuration.)
+The connman unique test starts another instance of connmand and then does a ps to
+verify that there's only one of these running, on the assumption that the new
+one has quit because there's already one running (started by init).
 
-That's true, but I still don't understand why this ought to be
-necessary.  Why should it not just default to being enabled?
+However, connmand is forking into the background straight away so there's a race
+between running ps and the second connmand discovering the first and exiting.
+This race can be seen because the test displays the output of ps, and by the
+time that second ps has been executed the new connmand has exited.
 
-> >> ++	[ `is_on_read_only_partition /etc/bind` = "yes" ] && bind_mount /var/volatile/bind/etc /etc/bind
-> >> ++	[ `is_on_read_only_partition /var/named` = "yes" ] && bind_mount /var/volatile/bind/named /var/named
-> >
-> > Is it really necessary to mount a tmpfs at /etc/bind?  Can't those files
-> > just be relocated somewhere else?
-> 
-> My understanding is both locations need to be RW for bind to work properly.  In 
-> a normal READONLY filesystem configuration, neither is RW by default.
+This is a classic race condition and on a heavily loaded autobuilder inserting
+an arbitrary sleep isn't wise.  In the scheme of things this test isn't very
+useful, so delete it.
 
-What files does it need to write to /etc/bind?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/runtime/connman.py |    8 --------
+ 1 file changed, 8 deletions(-)
 
-p.
-
+diff --git a/meta/lib/oeqa/runtime/connman.py b/meta/lib/oeqa/runtime/connman.py
+index 5ef96f6..b592ecc 100644
+--- a/meta/lib/oeqa/runtime/connman.py
++++ b/meta/lib/oeqa/runtime/connman.py
+@@ -19,11 +19,3 @@ class ConnmanTest(oeRuntimeTest):
+     def test_connmand_running(self):
+         (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand')
+         self.assertEqual(status, 0, msg="no connmand process, ps output: %s" % self.target.run(oeRuntimeTest.pscmd)[1])
+-
+-    @skipUnlessPassed('test_connmand_running')
+-    def test_connmand_unique(self):
+-        self.target.run('/usr/sbin/connmand')
+-        output = self.target.run(oeRuntimeTest.pscmd + ' | grep -c [c]onnmand')[1]
+-        self.assertEqual(output, "1", msg="more than one connmand running in background, ps output: %s\n%s" % (output, self.target.run(oeRuntimeTest.pscmd)[1]))
+-
+-
+-- 
+1.7.10.4
 
 
