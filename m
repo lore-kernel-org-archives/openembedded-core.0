@@ -1,26 +1,33 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E2256D299
+Return-Path: <darren.hart@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 335E96D2EF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 18:42:36 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 21 Nov 2013 10:42:35 -0800
+	Thu, 21 Nov 2013 18:47:20 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Nov 2013 10:47:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,746,1378882800"; d="scan'208";a="437505940"
-Received: from unknown (HELO [10.255.15.149]) ([10.255.15.149])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Nov 2013 10:42:35 -0800
-Message-ID: <528E541B.7000104@linux.intel.com>
-Date: Thu, 21 Nov 2013 10:42:35 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+X-IronPort-AV: E=Sophos;i="4.93,746,1378882800"; d="scan'208";a="412574051"
+Received: from fmsmsx105.amr.corp.intel.com ([10.19.9.36])
+	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2013 10:47:08 -0800
+Received: from FMSMSX109.amr.corp.intel.com (10.18.116.9) by
+	FMSMSX105.amr.corp.intel.com (10.19.9.36) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 21 Nov 2013 10:47:07 -0800
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.233]) by
+	FMSMSX109.amr.corp.intel.com ([169.254.5.37]) with mapi id
+	14.03.0123.003; Thu, 21 Nov 2013 10:47:07 -0800
+From: "Hart, Darren" <darren.hart@intel.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Thread-Topic: distro/machine:kernel feature mapping and version checking
+Thread-Index: AQHO5uoULxIi7dROZki1xkJDRScoPQ==
+Date: Thu, 21 Nov 2013 18:47:07 +0000
+Message-ID: <1385059626.3614.10.camel@dvhart-mobl4.amr.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.196.58]
 MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1385039538.git.hongxu.jia@windriver.com>
-	<0e29f77b1778e75f547289c20e670fc0ffd5e070.1385039538.git.hongxu.jia@windriver.com>
-In-Reply-To: <0e29f77b1778e75f547289c20e670fc0ffd5e070.1385039538.git.hongxu.jia@windriver.com>
-Subject: Re: [PATCH 4/4] qemu: add bash and python to qemu's RDEPENDS
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>
+Subject: distro/machine:kernel feature mapping and version checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 18:42:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Nov 2013 18:47:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A2174EB5E8BA094BA90CA4D5848717D9@intel.com>
+Content-Transfer-Encoding: base64
 
-
-Why are you adding bash to qemu?
-
-Sau!
-
-
-On 11/21/2013 05:14 AM, Hongxu Jia wrote:
-> | Note: adding Smart RPM DB channel
-> |
-> | Note: to be installed:  qemu@x86_64 run-postinsts@x86_64 kernel-modules@qemux86_64 packagegroup-core-boot@qemux86_64
-> | Loading cache...
-> | Updating cache...               ######################################## [100%]
-> |
-> | Computing transaction...error: Can't install qemu-1.5.0-r0.0@x86_64: no package provides /usr/bin/python
-> |
-> | Saving cache...
-> |
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_rootfs (log file is located at tmp/work/qemux86_64-wrs-linux/wrlinux-image-glibc-small/1.0-r1/temp/do_rootfs/log.do_rootfs.21373)
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-devtools/qemu/qemu.inc | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index 21ce489..3f3431d 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -5,6 +5,7 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman dtc libsdl"
->   DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native pixman-native dtc-native"
->   DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
->   RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
-> +RDEPENDS_${PN}_class-target += "bash python"
->
->   require qemu-targets.inc
->   inherit autotools
->
-
+QWxsLA0KDQpSZWdhcmRpbmcgdGhlIGZvbGxvd2luZyAyIGJ1Z3M6DQoNCmh0dHBzOi8vYnVnemls
+bGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9NTU3NA0KQWRkIGtlcm5lbCB2ZXJz
+aW9uIC8gY29uZmlndXJhdGlvbiBjaGVjayBtZWNoYW5pc20NCg0KYW5kIA0KDQpodHRwczovL2J1
+Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTIyNjcNCkludGVncmF0ZSBE
+SVNUUk9fRkVBVFVSRVMgd2l0aCBLRVJORUxfRkVBVFVSRVMNCg0KVGhlcmUgaXMgYSBuZWVkIHRv
+IHJlZHVjZSBlcnJvcnMgd2hlcmUgYSBESVNUUk8gY29uZmlnIG1pZ2h0IGJyZWFrIGR1ZQ0KdG8g
+bGFjayBvZiBrZXJuZWwgc3VwcG9ydCwgdGhpbmdzIHN1Y2ggYXMgc3lzdGVtZC4gVGhlcmUgaXMg
+YWxzbw0KaW50ZXJlc3QgaW4gZW5hYmxpbmcgY2VydGFpbiBrZXJuZWwgZmVhdHVyZXMgYmFzZWQg
+b24NCkRJU1RSTy9NQUNISU5FX0ZFQVRVUkVTLCBzdWNoIGFzIHdpZmkuDQoNCk5laXRoZXIgb2Yg
+dGhlc2Ugc2hvdWxkIGRlcGVuZCBvbiB0aGUgS2VybmVsIFZlcnNpb24gYXMgZXZlbiB3aXRoIHRo
+ZQ0KcmlnaHQgdmVyc2lvbiwgaWYgdGhlIENPTkZJR18qIGZlYXR1cmUgaXMgbWlzc2luZywgdGhl
+IGltYWdlIHdpbGwgbm90DQp3b3JrIGNvcnJlY3RseS4gVGhlcmUgaXMgYWxzbyB0aGUgcmlzayBv
+ZiBmYWxzZSBuZWdhdGl2ZXMgd2hlbiBhIGZlYXR1cmUNCmhhcyBiZWVuIGJhY2twb3J0ZWQgdG8g
+YSBrZXJuZWwgdmVyc2lvbiB0aGF0IGRpZG4ndCBoYXZlIHRoZSBmZWF0dXJlDQpwcmV2aW91c2x5
+Lg0KDQpUaGUgcmVjb21tZW5kZWQgYXBwcm9hY2ggd291bGQgYmUgdG8gY2hlY2sgZm9yIHRoZSBy
+ZXF1aXJlZCBDT05GSUdfKg0Kb3B0aW9ucyBhZnRlciB0aGUgbGludXgteW9jdG8gY29uZmlndXJh
+dGlvbiBzdGFnZS4NCg0KVGhlcmUgaXMgYWxzbyB0aGUgdG9waWMgb2YgRElTVFJPX0ZFQVRVUkVT
+IH49ICJ3aWZpIiBpbXBhY3RpbmcgaG93IHRoZQ0Ka2VybmVsIHdpbGwgYmUgYnVpbHQuIFRoZSBN
+QUNISU5FIHNob3VsZCBoYXZlIHNvbWUgc2F5IGluIGhvdyB0aGlzIGlzDQpkb25lIC0gaWYgdGhl
+IG1hY2hpbmUgY2FuIG5ldmVyIGhhdmUgd2lmaSwgYnVpbGRpbmcgd2lmaSBpbnRvIHRoZSBrZXJu
+ZWwNCmRvZXNuJ3QgbWFrZSBhIGxvdCBvZiBzZW5zZS4gU29tZXRoaW5nIGxpa2UgdGhlIGZvbGxv
+d2luZyBtaWdodCBtYWtlDQpzZW5zZToNCg0KZm9yIEZFQVRVUkUgaW4gRElTVFJPX0ZFQVRVUkVT
+Og0KICAgIGlmIE1BQ0hJTkVfRkVBVFVSRVMgY29udGFpbnMgRkVBVFVSRVM6DQogICAgICAgIEtF
+Uk5FTF9GRUFUVVJFUyArPSBGRUFUVVJFX292ZXJyaWRlDQoNCldoZXJlIEZFQVRVUkVfb3ZlcnJp
+ZGUgaXMgZGVmaW5lZCBzb21ldGhpbmcgbGlrZSB0aGlzOg0KDQpGRUFUVVJFID0gRkVBVFVSRV9k
+ZWZhdWx0DQppZiBleGlzdHMgRkVBVFVSRV9kaXN0cm86DQogICAgRkVBVFVSRSA9IEZFQVRVUkVf
+ZGlzdHJvDQppZiBleGlzdHMgRkVBVFVSRV9tYWNoaW5lOg0KICAgIEZFQVRVUkUgPSBGRUFUVVJF
+X21hY2hpbmUNCg0KVGhpcyBpcyBlZmZlY3RpdmVseSBhIGZyYWdtZW50IG5hbWUgd2hpY2ggbmVl
+ZHMgdG8gYmUgcHJvdmlkZWQgYnkgdGhlDQpsaW51eC15b2N0byBrZXJuZWwgbWV0YSBkYXRhIGFz
+IGl0IHdpbGwgYmUga2VybmVsIHZlcnNpb24gZGVwZW5kZW50Lg0KDQpUaGUgbGlua2FnZSBJJ20g
+bm90IHN1cmUgYWJvdXQgaXMgaG93IHRvIGtub3cgd2hhdCB0byB0ZXN0IGZvciBpbiB0aGUNCmtl
+cm5lbC5iYmNsYXNzIHdpdGhvdXQgaW50aW1hdGUga25vd2xlZGdlIG9mIHRoZSBrZXJuZWwgdmVy
+c2lvbiBDT05GSUcNCm9wdGlvbnMgaW4gcmVjaXBlIHNwYWNlLg0KDQotLSANCkRhcnJlbiBIYXJ0
+DQpJbnRlbCBPcGVuIFNvdXJjZSBUZWNobm9sb2d5IENlbnRlcg0KWW9jdG8gUHJvamVjdCAtIExp
+bnV4IEtlcm5lbA0KDQo=
 
