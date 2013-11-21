@@ -1,57 +1,34 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id B704D6AF9F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C9766A463
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 20:23:04 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1VjamF-0002HN-Co; Thu, 21 Nov 2013 21:23:03 +0100
-Message-ID: <1385068924.4213.19.camel@x121e.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Thu, 21 Nov 2013 21:22:04 +0000
-In-Reply-To: <1385049423.23724.173.camel@phil-desktop.brightsign>
-References: <1385019198-24458-1-git-send-email-mark.hatle@windriver.com>
-	<1385019198-24458-2-git-send-email-mark.hatle@windriver.com>
-	<1385043945.23724.158.camel@phil-desktop.brightsign>
-	<528E1CEF.8070502@windriver.com>
-	<1385049423.23724.173.camel@phil-desktop.brightsign>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.4.4-3 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Thu, 2013-11-21 at 15:57 +0000,
-	Phil Blundell wrote: > On Thu, 2013-11-21 at 08:47 -0600,
-	Mark Hatle wrote: > > We have users who
-	desire to build their system at different levels of > > optimizations
-	for debug, size, profiling,
-	etc. So they do change the default > > optimization
-	levels from -O2 to -O0,
-	etc. The python fragement is used to only > > adjust
-	-O0, as -O1 (or -Os) work correctly. > > Sure,
-	I understand what the python
-	is doing. The things I'm not quite > so clear about are: > > a) If the
-	user asks to build with -O0,
-	is it appropriate for the > metadata to second-guess
-	this and quietly switch to using -O2 instead > when it thinks it knows
-	best? [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [master][dora][PATCH 1/2] perf: disallow debug optimization.
+	Thu, 21 Nov 2013 21:23:05 +0000 (UTC)
+Received: by mail-ee0-f46.google.com with SMTP id c4so136744eek.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Nov 2013 13:23:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=1Pl3LQCnipd7KE/SLIbBKIZMVVNrVWjBrnKkrPYxfgY=;
+	b=jRJhndIQTDzZQab4YS6L/B3E9qdWi0tsDAIytFjUwlF+vUorEEwMusuRyvEk7+Y+j3
+	n/Ax7dkVDk0FsWC1mka5oD4Elsv1Q74xhaEXYvn0gpU64Ef6pDZKiBpogA/yb5bOe0WJ
+	DQpLbEaHvC04FszzYzT1MSIuuZia4haqU3vYPPzHatXL3MZW2AOdTT8jW3EXumvgb06k
+	vjTFxX8VrbH5z9s5JhDGz4W4waA1fDYYVWuvFjLV3mcuYWyUwej+9+wWfTDMWA08aSNU
+	EV44+PxGX2u3jcrQJ0O1a5ouwsc34GDsAwuxwmgxwXy9ki4MaiRU//LQJBo/8ZwgiUn1
+	jgdw==
+X-Received: by 10.15.76.6 with SMTP id m6mr11122807eey.37.1385068984627;
+	Thu, 21 Nov 2013 13:23:04 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id w6sm73879994eeo.12.2013.11.21.13.23.03
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Nov 2013 13:23:03 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2013 22:23:07 +0100
+Message-Id: <1385068987-29714-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.4.3
+Subject: [PATCH] xinput-calibrator: add formfactor to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,31 +41,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 20:23:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Nov 2013 21:23:07 -0000
 
-On Thu, 2013-11-21 at 15:57 +0000, Phil Blundell wrote:
-> On Thu, 2013-11-21 at 08:47 -0600, Mark Hatle wrote:
-> > We have users who desire to build their system at different levels of 
-> > optimizations for debug, size, profiling, etc.  So they do change the default 
-> > optimization levels from -O2 to -O0, etc.  The python fragement is used to only 
-> > adjust -O0, as -O1 (or -Os) work correctly.
-> 
-> Sure, I understand what the python is doing.  The things I'm not quite
-> so clear about are:
-> 
-> a) If the user asks to build with -O0, is it appropriate for the
-> metadata to second-guess this and quietly switch to using -O2 instead
-> when it thinks it knows best?  
+* 30xinput_calibrate.sh is calling ". /etc/formfactor/config"
+  breaking Xsession for images without formfactor
 
-I suppose the other question is: why exactly does perf fail to build at
--O0, and can we just patch it so that it works rather than forcing
-optimisation on?  Even if it can't be fixed, it would be good for the
-commit message associated with any workaround to explain what the
-problem is.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-p.
-
+diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+index d6b3021..1ffd6d8 100644
+--- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
++++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
+@@ -27,5 +27,5 @@ do_install_append() {
+     install -m 0755 ${WORKDIR}/30xinput_calibrate.sh ${D}${sysconfdir}/X11/Xsession.d/
+ }
+ 
+-RDEPENDS_${PN} = "xinput"
++RDEPENDS_${PN} = "xinput formfactor"
+ RRECOMMENDS_${PN} = "pointercal-xinput"
+-- 
+1.8.4.3
 
 
