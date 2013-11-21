@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C7FAA6DBD4
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A7D276DBE2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 07:14:14 +0000 (UTC)
+	Thu, 21 Nov 2013 07:14:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAL7EEHP025098
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAL7EHvB013404
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 23:14:14 -0800 (PST)
+	Wed, 20 Nov 2013 23:14:17 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:14:13 -0800
+	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:14:16 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 01:13:48 -0600
-Message-ID: <1385018038-23380-3-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 21 Nov 2013 01:13:49 -0600
+Message-ID: <1385018038-23380-4-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1385018038-23380-1-git-send-email-mark.hatle@windriver.com>
 References: <1385018038-23380-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [RFC PATCH 02/12] e2fsprogs/mke2fs: misc/util.c: implement populate_fs()
+Subject: [RFC PATCH 03/12] e2fsprogs/mke2fs: create special file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,148 +34,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 07:14:14 -0000
+X-List-Received-Date: Thu, 21 Nov 2013 07:14:17 -0000
 Content-Type: text/plain
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
-Use opendir() and readdir() to read the native directory, then use
-lstat() to identify the file type and call the corresponding function to
-add the file to the filesystem, call the populate_fs() recursively if it
-is a directory.
-
-NOTE: the libext2fs doesn't support create the socket file at them
-moment.
+The do_mknod_internal() is used for creating special file which is
+block, character and fifo, most of the code are from debugfs/debugfs.c,
+the debugfs/debugfs.c will be modified to use this function.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../0002-misc-util.c-implement-populate_fs.patch   | 120 +++++++++++++++++++++
- 1 file changed, 120 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch
+ .../0003-misc-util.c-create-special-file.patch     | 98 ++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0003-misc-util.c-create-special-file.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0003-misc-util.c-create-special-file.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0003-misc-util.c-create-special-file.patch
 new file mode 100644
-index 0000000..2db5e46
+index 0000000..b080e4c
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch
-@@ -0,0 +1,120 @@
-+From c025353bd7567b35162b6193fb0b152b1c733bcd Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0003-misc-util.c-create-special-file.patch
+@@ -0,0 +1,98 @@
++From de4bd6db5044263b15d4cbbbd0227fd2070b37da Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Tue, 27 Aug 2013 16:12:38 +0800
-+Subject: [rootdir 02/10] misc/util.c: implement populate_fs()
++Date: Tue, 27 Aug 2013 16:34:09 +0800
++Subject: [rootdir 03/10] misc/util.c: create special file
 +
-+Use opendir() and readdir() to read the native directory, then use
-+lstat() to identify the file type and call the corresponding function to
-+add the file to the filesystem, call the populate_fs() recursively if it
-+is a directory.
-+
-+NOTE: the libext2fs doesn't support create the socket file at them
-+moment.
++The do_mknod_internal() is used for creating special file which is
++block, character and fifo, most of the code are from debugfs/debugfs.c,
++the debugfs/debugfs.c will be modified to use this function.
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ misc/util.c |   90 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 90 insertions(+)
++ misc/util.c |   70 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 70 insertions(+)
 +
 +diff --git a/misc/util.c b/misc/util.c
-+index cbc7cc0..6d87393 100644
++index 6d87393..c793b42 100644
 +--- a/misc/util.c
 ++++ b/misc/util.c
-+@@ -337,4 +337,94 @@ errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
-+ /* Copy files from source_dir to fs */
-+ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
++@@ -317,6 +317,76 @@ void dump_mmp_msg(struct mmp_struct *mmp, const char *msg)
++ /* Make a special file which is block, character and fifo */
++ errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
 + {
-++	const char	*name;
-++	DIR		*dh;
-++	struct dirent	*dent;
-++	struct stat	st;
-++	char		ln_target[PATH_MAX];
-++	char		*func_name = "populate_fs";
-++	ext2_ino_t	ino;
-++	errcode_t	retval;
-++	int		read_cnt;
+++	ext2_ino_t		ino;
+++	errcode_t 		retval;
+++	struct ext2_inode	inode;
+++	char			*func_name = "do_mknod_internal";
+++	unsigned long		major, minor, mode;
+++	int			filetype;
 ++
-++	root = EXT2_ROOT_INO;
-++
-++	if (chdir(source_dir) < 0) {
-++		com_err(func_name, errno,
-++			_("while changing working directory to \"%s\""), source_dir);
-++		return errno;
+++	switch(st->st_mode & S_IFMT) {
+++		case S_IFCHR:
+++			mode = LINUX_S_IFCHR;
+++			filetype = EXT2_FT_CHRDEV;
+++			break;
+++		case S_IFBLK:
+++			mode = LINUX_S_IFBLK;
+++			filetype =  EXT2_FT_BLKDEV;
+++			break;
+++		case S_IFIFO:
+++			mode = LINUX_S_IFIFO;
+++			filetype = EXT2_FT_FIFO;
+++			break;
 ++	}
 ++
-++	if (!(dh = opendir("."))) {
-++		com_err(func_name, errno,
-++			_("while openning directory \"%s\""), source_dir);
-++		return errno;
+++	if (!(current_fs->flags & EXT2_FLAG_RW)) {
+++		com_err(func_name, 0, "Filesystem opened read/only");
+++		return -1;
 ++	}
-++
-++	while((dent = readdir(dh))) {
-++		if((!strcmp(dent->d_name, ".")) || (!strcmp(dent->d_name, "..")))
-++			continue;
-++		lstat(dent->d_name, &st);
-++		name = dent->d_name;
-++
-++		switch(st.st_mode & S_IFMT) {
-++			case S_IFCHR:
-++			case S_IFBLK:
-++			case S_IFIFO:
-++				if ((retval = do_mknod_internal(parent_ino, name, &st))) {
-++					com_err(func_name, retval,
-++						_("while creating special file \"%s\""), name);
-++					return retval;
-++				}
-++				break;
-++			case S_IFSOCK:
-++				/* FIXME: there is no make sockect function atm. */
-++				com_err(func_name, 0,
-++					_("ignoring sockect file\"%s\""), name);
-++				break;
-++			case S_IFLNK:
-++				if((read_cnt = readlink(name, ln_target, sizeof(ln_target))) == -1) {
-++					com_err(func_name, errno,
-++						_("while trying to readlink \"%s\""), name);
-++					return errno;
-++				}
-++				ln_target[read_cnt] = '\0';
-++				if ((retval = do_symlink_internal(parent_ino, name, ln_target))) {
-++					com_err(func_name, retval,
-++						_("while writing symlink\"%s\""), name);
-++					return retval;
-++				}
-++				break;
-++			case S_IFREG:
-++				if ((retval = do_write_internal(parent_ino, name, name))) {
-++					com_err(func_name, retval,
-++						_("while writing file \"%s\""), name);
-++					return retval;
-++				}
-++				break;
-++			case S_IFDIR:
-++				if ((retval = do_mkdir_internal(parent_ino, name, &st))) {
-++					com_err(func_name, retval,
-++						_("while making dir \"%s\""), name);
-++					return retval;
-++				}
-++				if ((retval = ext2fs_namei(current_fs, root, parent_ino, name, &ino))) {
-++					com_err(name, retval, 0);
-++						return retval;
-++				}
-++				/* Populate the dir recursively*/
-++				retval = populate_fs(ino, name);
-++				if (retval) {
-++					com_err(func_name, retval, _("while adding dir \"%s\""), name);
-++					return retval;
-++				}
-++				chdir("..");
-++				break;
-++			default:
-++				com_err(func_name, 0,
-++					_("ignoring entry \"%s\""), name);
+++	retval = ext2fs_new_inode(current_fs, cwd, 010755, 0, &ino);
+++	if (retval) {
+++		com_err(func_name, retval, 0);
+++		return retval;
+++	}
+++	printf("Allocated inode: %u\n", ino);
+++	retval = ext2fs_link(current_fs, cwd, name, ino, filetype);
+++	if (retval == EXT2_ET_DIR_NO_SPACE) {
+++		retval = ext2fs_expand_dir(current_fs, cwd);
+++		if (retval) {
+++			com_err(func_name, retval, "while expanding directory");
+++			return retval;
 ++		}
+++		retval = ext2fs_link(current_fs, cwd, name, ino, filetype);
 ++	}
-++	closedir(dh);
+++	if (retval) {
+++		com_err(name, retval, 0);
+++		return -1;
+++	}
+++        if (ext2fs_test_inode_bitmap2(current_fs->inode_map, ino))
+++		com_err(func_name, 0, "Warning: inode already set");
+++	ext2fs_inode_alloc_stats2(current_fs, ino, +1, 0);
+++	memset(&inode, 0, sizeof(inode));
+++	inode.i_mode = mode;
+++	inode.i_atime = inode.i_ctime = inode.i_mtime =
+++		current_fs->now ? current_fs->now : time(0);
+++
+++	major = major(st->st_rdev);
+++	minor = minor(st->st_rdev);
+++
+++	if ((major < 256) && (minor < 256)) {
+++		inode.i_block[0] = major * 256 + minor;
+++		inode.i_block[1] = 0;
+++	} else {
+++		inode.i_block[0] = 0;
+++		inode.i_block[1] = (minor & 0xff) | (major << 8) | ((minor & ~0xff) << 12);
+++	}
+++	inode.i_links_count = 1;
+++
+++	retval = ext2fs_write_new_inode(current_fs, ino, &inode);
+++	if (retval)
+++		com_err(func_name, retval, "while creating inode %u", ino);
+++
 ++	return retval;
 + }
++ 
++ /* Make a symlink name -> target */
 +-- 
 +1.7.10.4
 +
