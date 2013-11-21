@@ -1,32 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D661612D1
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D3B9D6D299
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 14:36:06 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rALEZxUC009853; Thu, 21 Nov 2013 14:35:59 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id R_M5gfF-rd3Q; Thu, 21 Nov 2013 14:35:59 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rALEZudI009838
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 21 Nov 2013 14:35:58 GMT
-Message-ID: <1385044552.16887.135.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 21 Nov 2013 14:42:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rALEgfYN012980
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 21 Nov 2013 06:42:41 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 21 Nov 2013 06:42:41 -0800
+Message-ID: <528E1BE1.2030003@windriver.com>
+Date: Thu, 21 Nov 2013 08:42:41 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+MIME-Version: 1.0
 To: Phil Blundell <pb@pbcl.net>
-Date: Thu, 21 Nov 2013 14:35:52 +0000
-In-Reply-To: <1385043945.23724.158.camel@phil-desktop.brightsign>
-References: <1385019198-24458-1-git-send-email-mark.hatle@windriver.com>
-	<1385019198-24458-2-git-send-email-mark.hatle@windriver.com>
-	<1385043945.23724.158.camel@phil-desktop.brightsign>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+References: <1385017169-22068-1-git-send-email-mark.hatle@windriver.com>
+	<1385035973.23724.146.camel@phil-desktop.brightsign>
+In-Reply-To: <1385035973.23724.146.camel@phil-desktop.brightsign>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [master][dora][PATCH 1/2] perf: disallow debug optimization.
+Subject: Re: [RFC PATCH] bind: add support for read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,44 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 14:36:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Nov 2013 14:42:47 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-11-21 at 14:25 +0000, Phil Blundell wrote:
-> On Thu, 2013-11-21 at 01:33 -0600, Mark Hatle wrote:
-> > +def get_optimization(d):
-> > +    selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
-> > +    if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
-> > +        bb.note("eglibc can't be built with -O0, -O2 will be used instead.")
-> 
-> Although the text of that warning is correct, users might find the
-> reference to eglibc slightly confusing if it's perf that they're trying
-> to build.
-> 
-> Also, as I mentioned in a different thread not all that long ago when
-> someone submitted a similar patch for gcc-runtime, the proliferation of
-> parse-time python functions to bash SELECTED_OPTIMIZATION around doesn't
-> seem like all that good a thing: this will cause extra overhead for
-> everyone, even those who are not using -O0 and have no interest in perf.
-> 
-> And, finally, it remains slightly unclear to me that this is really a
-> problem that the metadata needs to be solving.  I haven't seen any
-> particularly convincing explanation of why this can't or shouldn't just
-> be fixed in the distro configuration.
+On 11/21/13, 6:12 AM, Phil Blundell wrote:
+> On Thu, 2013-11-21 at 00:59 -0600, Mark Hatle wrote:
+>> +# When using a read-only rootfs additional setup may be required
+>> +# uncomment the following line to make bind start in read-only rootfs
+>> +#ALLOW_ROOTFS_READ_ONLY="yes"
+>
+> If the filesystem is read-only then it's going to be fairly difficult
+> for the user to uncomment this line on the target.
 
-I have to admit at this point, this may look better as an include file
-along the lines of:
+A post image process script would be capable of un-commenting that line (or 
+simply replacing the file with a specific image specific configuration.)
 
-SELECTED_OPTIMIZATION = "-O0"
-SELECTED_OPTIMIZATION_pn-eglibc = "-O2"
-SELECTED_OPTIMIZATION_pn-perf = "-O2"
+> Why would you ever want this variable to be set to anything other than
+> "yes"?  If your filesystem is not in fact read-only then it isn't going
+> to have any effect, and if your filesystem is read-only then bind won't
+> work without it.
+>
+>> ++	[ `is_on_read_only_partition /etc/bind` = "yes" ] && bind_mount /var/volatile/bind/etc /etc/bind
+>> ++	[ `is_on_read_only_partition /var/named` = "yes" ] && bind_mount /var/volatile/bind/named /var/named
+>
+> Is it really necessary to mount a tmpfs at /etc/bind?  Can't those files
+> just be relocated somewhere else?
 
-since clutter the recipes with anonymous python fragments isn't
-particular desirable.
+My understanding is both locations need to be RW for bind to work properly.  In 
+a normal READONLY filesystem configuration, neither is RW by default.
 
-Cheers,
+--Mark
 
-Richard
+> p.
+>
+>
 
 
