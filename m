@@ -1,39 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E2E006D354
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 574ED60B9B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 10:05:37 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id ld13so4294917vcb.20
+	Thu, 21 Nov 2013 11:41:33 +0000 (UTC)
+Received: by mail-wi0-f171.google.com with SMTP id ca18so2039332wib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 02:05:37 -0800 (PST)
+	Thu, 21 Nov 2013 03:41:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=c7icKkp12xGTbW7aLa+d8WiSBK3/Ol0cohcVZUwg8WI=;
-	b=ZU7zFWzIRli7gWMDWOrlequH7FF/dtQzcAUP5I8eiG/u5lQj6fW+nGz80APHOyfVLL
-	VrsOz7+aErqxJSns8rxBrJ1Hd6ohpwNXWzJFDZrfUKgFuHp3+GtECP258hOpnXBbLeI3
-	EIRcg97OK8YuvC2yDCJDN5q8QkY5D7ZG26lW98DDo3/V68IK78hXqlMmZCylJnEavfSD
-	JZ3evrX2+mnmcSmCGcKyJHTX0hyevLszN8VC0j7ItaUijolrEiGe+oUkNUHVqnB4LqzQ
-	IBhc0JpKaFAEwU63kLsoZfJjhOtf+ks1iOLfTUifpSUKJexVife8zojmVUL2pWlfswon
-	CdLg==
-X-Gm-Message-State: ALoCoQnWwdLv/+V1O9Tdw0kX65uFKaMsIrjl2lVxsM80Eme4WJROrmNGGqvpd8EpwaGRVm+cLkUk
-X-Received: by 10.58.136.231 with SMTP id qd7mr5092222veb.1.1385028337071;
-	Thu, 21 Nov 2013 02:05:37 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 21 Nov 2013 02:05:17 -0800 (PST)
-In-Reply-To: <528D2429.7040705@emagii.com>
-References: <528D2429.7040705@emagii.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 21 Nov 2013 10:05:17 +0000
-Message-ID: <CAJTo0LbuNppE5Li0v0jPMH7UQDDYoh5wvHyDfdb3z4vdoSQ+Gg@mail.gmail.com>
-To: Ulf Samuelsson <angstrom-dev@emagii.com>
-Cc: Discussion of the angstrom distribution development
-	<angstrom-distro-devel@linuxtogo.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Improving Build Speed
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=RwW5HYfzG2fAj64WgzpP0SbefexPS2y1JE82lycX1iU=;
+	b=ez+N0bMQYG7a6Q+Csdi6vHBAYddA38I70XeXC8lVRS9S6uOGWQBE3/PaTmzzZIgqVH
+	pr3VEMm62cgiOsG+df5vqWt2I4qxX3Ry4Q2SZy8zPVhyBwGJ03jyvmxot1/X6bbfVI9r
+	4B50ZlJazI9cAaeFObeti0rhkr9o/0VgCkrZjxerQ6DDV1KQUE4GnUygX/0I2d1TwhEV
+	wSS75yXIZr299vO9UeOUWQ851j7nhnNZl7EycoNiI+pkYmH0srq9ZuEe/7BtsuMd3A30
+	U8TjX9qs0OfmtXGnjFvwfUH7L5gbBsJRhPG/R31u6r1WiV79zPaYgTwgMYHW0756iryZ
+	CJvg==
+X-Gm-Message-State: ALoCoQl0Oe++GbRpT1SQhAVGLprmWjHRKaQug5Ax2iuh3bIYlpPdtXk1Ly3mTK3frgGpbd+zn/DW
+X-Received: by 10.180.187.41 with SMTP id fp9mr5402192wic.33.1385034092545;
+	Thu, 21 Nov 2013 03:41:32 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id s20sm4661902wib.1.2013.11.21.03.41.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 21 Nov 2013 03:41:31 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2013 11:41:28 +0000
+Message-Id: <1385034089-9468-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] initscripts: remove erroneous call to /etc/default/rcS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,27 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 10:05:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 21 Nov 2013 11:41:34 -0000
 
-On 20 November 2013 21:05, Ulf Samuelsson <angstrom-dev@emagii.com> wrote:
-> do_compile() {
->     if [ x"$MAKE" = x ]; then MAKE=make; fi
->     ...
->     for error_count in 1 2 3; do
->         ...
->         ${MAKE} ${EXTRA_OEMAKE} "$@" || exit_code=1
->         ...
->     done
->     ...
-> }
->
->     Not sure, but I think this means that PARALLEL_MAKE might get ignored.
+This doesn't exist when using systemd as it's part of the sysvinit package, and
+this script doesn't need it.
 
-Yeah, good catch - the point of the loop was to handle random failures
-caused by dependency chains breaking when doing parallel builds...
-Anyway, that hack isn't present in 1.5 because it was caused by using
-an unpatched (read: broken) make 3.82 which we now detect at startup.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh |    2 --
+ 1 file changed, 2 deletions(-)
 
-Ross
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+index 4fffe4e..fe6c196 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+@@ -7,8 +7,6 @@
+ # Default-Stop:
+ ### END INIT INFO
+ 
+-. /etc/default/rcS
+-
+ #
+ #	Run in a subshell because of I/O redirection.
+ #
+-- 
+1.7.10.4
+
 
