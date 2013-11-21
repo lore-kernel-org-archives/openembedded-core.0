@@ -1,37 +1,28 @@
-Return-Path: <ulf@emagii.com>
-Received: from smtprelay-b22.telenor.se (smtprelay-b22.telenor.se
-	[195.54.99.213])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A3626DB81
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DB9A46D76F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 07:15:11 +0000 (UTC)
-Received: from ipb4.telenor.se (ipb4.telenor.se [195.54.127.167])
-	by smtprelay-b22.telenor.se (Postfix) with ESMTP id C8082CB21
+	Thu, 21 Nov 2013 07:22:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAL7Mn17013882
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 08:15:09 +0100 (CET)
-X-SENDER-IP: [83.227.57.102]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AgEYABOyjVJT4zlmPGdsb2JhbAANTIM/vkSBMwMBAQEBOIJaAQEBAQM4QRALGAklDwIyFAYNAQUCAQGIAgiuYZITjhUbAQGBBjMHhDIDmBKBMJQJgXA
-X-IronPort-AV: E=Sophos;i="4.93,742,1378850400"; d="scan'208";a="358501558"
-Received: from c-6639e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.236]) ([83.227.57.102])
-	by ipb4.telenor.se with ESMTP; 21 Nov 2013 08:15:09 +0100
-Message-ID: <528DB2FC.90205@emagii.com>
-Date: Thu, 21 Nov 2013 08:15:08 +0100
-From: Ulf Samuelsson <ulf@emagii.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Wed, 20 Nov 2013 23:22:49 -0800 (PST)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:22:49 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 21 Nov 2013 01:22:46 -0600
+Message-ID: <1385018566-23581-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <528D2429.7040705@emagii.com> <1384982956.16887.94.camel@ted>
-	<528D3B01.8060700@emagii.com> <20131121001922.GW3708@jama>
-In-Reply-To: <20131121001922.GW3708@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Improving Build Speed
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH] matchbox-keyboard: check and link against libXrender
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ulf@emagii.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -41,113 +32,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 07:15:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Nov 2013 07:22:50 -0000
+Content-Type: text/plain
 
-2013-11-21 01:19, Martin Jansa skrev:
-> On Wed, Nov 20, 2013 at 11:43:13PM +0100, Ulf Samuelsson wrote:
->> 2013-11-20 22:29, Richard Purdie skrev:
->> Another idea:
->>
->> I suspect that there is a lot of unpacking and patching of recipes
->> for the target when the native stuff is built.
->> Does it make sense to have multiple threads reading the disk, for
->> the target recipes during the native build or will we just lose out
->> due to seek time?
->>
->> Having multiple threads accessing the disk, might force the disk to spend
->> most of its time seeking.
->> Found an application which measures seek time performance,
->> and my WD Black will do 83 seeks per second, and my SAS disk will do
->> twice that.
->> The RAID of two SAS disks will provide close to SSD throughput (380 MB/s)
->> but seek time is no better than a single SAS disk.
->>
->> Since there is "empty time" at the end of the native build, does it make
->> sense
->> to minimize unpack/patch of target stuff when we reach that point, and
->> then we let loose?
-> In my benchmarks increasing PARALLEL_MAKE till number of cores was
-> significantly improving build time, but BB_NUMBER_THREADS had minimal
-> influence somewhere above 6 or 8 (tested on various systems, even only 4 was
-> optimum on my older RAID-0 and 2 on single disk).
-> Of course it was quite different for clean build without sstate
-> prepopulated and build where most of the stuff was reused from sstate.
->
-> see http://wiki.webos-ports.org/wiki/OE_benchmark
+From: Lei Liu <lei.liu2@windriver.com>
 
-How many cores do you have in your build machine?
-I started a build, and after 20 minutes it had completed 1500 tasks using:
+Implict dependency library libXrender is missing from linker
+options, which causes build error.  Fix it by checking and
+linking the library explictly.
 
-PARALLEL_MAKE     = "-j24"
-BB_NUMBER_THREADS =   "6"
+Signed-off-by: Lei Liu <lei.liu2@windriver.com>
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+---
+ .../files/add-lXrender-to-link.patch               | 55 ++++++++++++++++++++++
+ .../matchbox-keyboard/matchbox-keyboard_git.bb     |  4 +-
+ 2 files changed, 58 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-sato/matchbox-keyboard/files/add-lXrender-to-link.patch
 
-The I decided to kill it.
-
-When I did
-PARALLEL_MAKE     = "-j12"
-BB_NUMBER_THREADS =   "24"
-
-It completed 2000 tasks in less than half the time.
-
-This does not use tmpfs though.
-Do you have any comparision between tmpfs builds and RAID builds?
-
-I currently do not use INHERIT += "rm_work"
-since I want to be able to do changes on some packages.
-Is there a way to defined rm_work on a package basis?
-Then the majority of the packages can be removed.
-
-I use 75 GB without "rm_work"
-
-
-BR
-Ulf
->
->> ========================
->>
->> Now with 48 MB of RAM, (which I might grow to 96 GB, if someone proves that
->> this makes it faster), this might be useful to speed things up.
->>
->> Can tmpfs beat the kernel cache system?
->>
->> 1.    Typically, I work on less than 10 recipes, and if I continuosly
->>           rebuild those, why not create the build directories as links to
->> a tmpfs file system.
->>           Maybe a configuration file with a list of recipes to build on
->> tmpfs.
->>
->>           During a build from scratch, this is not so useful, but once
->> most stuff is in place, it might,
->>
->> 2.     If the downloads directory was shadowed in a tmpfs system
->>           then there would be less seek time during the build.
->>           The downloads tmpfs should be poplulated at boot time,
->>           and rsynced with a real disk in the background when new stuff
->>           is downloaded from internet.
->>
->> 3.     With 96 GB of RAM, maybe the complete build directory will fit.
->>           Would be nice to build everything on tmpfs, and automatically rsync
->>           to a real disk when there is nothing else to do...
->>
->> 4.     If not tmpfs is used, then It would still be good to have better
->> control
->>           over the build directory.
->>           It make sense to me to have the metadata on an SSD, but the
->>           build directory should be on my RAID cluster for fast rebuilds.
->>           I can set this up manually, but it would be better to be able to
->>           specify this in a configuration file.
->>
-> See
-> http://www.mail-archive.com/yocto@yoctoproject.org/msg14879.html
->
-
-
+diff --git a/meta/recipes-sato/matchbox-keyboard/files/add-lXrender-to-link.patch b/meta/recipes-sato/matchbox-keyboard/files/add-lXrender-to-link.patch
+new file mode 100644
+index 0000000..5f99d05
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-keyboard/files/add-lXrender-to-link.patch
+@@ -0,0 +1,55 @@
++Add explict link against -lXrender to fix build error.
++
++Upstream-Status: Pending
++
++Signed-off-by: Lei Liu <lei.liu2@windriver.com>
++---
++ configure.ac    |    6 ++++++
++ src/Makefile.am |    4 ++--
++ 2 files changed, 8 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 9bbbd76..75bffee 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -65,6 +65,9 @@ AC_ARG_WITH(expat-lib,
++ PKG_CHECK_MODULES(FAKEKEY, libfakekey,,
++ 	         AC_MSG_ERROR([*** You need to install libfakekey from MB SVN  ***]))
++ 
+++PKG_CHECK_MODULES(XRENDER, xrender,,
+++	         AC_MSG_ERROR([*** Required Xrender Library not found ***]))
+++
++ if test x$enable_cairo = xyes; then
++    PKG_CHECK_MODULES(CAIRO, cairo,, [enable_cairo="no"])
++ fi
++@@ -202,6 +205,9 @@ AC_SUBST(EXPAT_CFLAGS)
++ AC_SUBST(PNG_LIBS)
++ AC_SUBST(PNG_CFLAGS)
++ 
+++AC_SUBST(XRENDER_LIBS)
+++AC_SUBST(XRENDER_CFLAGS)
+++
++ AC_OUTPUT([
++ Makefile
++ src/Makefile  
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 6dc986e..6df9480 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -12,11 +12,11 @@ XFT_BACKEND_C =                                                       \
++         matchbox-keyboard-ui-xft-backend.h
++ endif
++ 
++-INCLUDES = -DDATADIR=\"$(DATADIR)\" -DPKGDATADIR=\"$(PKGDATADIR)\" -DPREFIX=\"$(PREFIXDIR)\" $(FAKEKEY_CFLAGS) $(XFT_CFLAGS) $(EXPAT_CFLAGS) $(CAIRO_CFLAGS) $(PNG_CFLAGS)
+++INCLUDES = -DDATADIR=\"$(DATADIR)\" -DPKGDATADIR=\"$(PKGDATADIR)\" -DPREFIX=\"$(PREFIXDIR)\" $(FAKEKEY_CFLAGS) $(XFT_CFLAGS) $(EXPAT_CFLAGS) $(CAIRO_CFLAGS) $(PNG_CFLAGS) $(XRENDER_CFLAGS)
++ 
++ bin_PROGRAMS = matchbox-keyboard
++ 
++-matchbox_keyboard_LDADD = $(FAKEKEY_LIBS) $(XFT_LIBS) $(EXPAT_LIBS) $(CAIRO_LIBS) $(PNG_LIBS)
+++matchbox_keyboard_LDADD = $(FAKEKEY_LIBS) $(XFT_LIBS) $(EXPAT_LIBS) $(CAIRO_LIBS) $(PNG_LIBS) $(XRENDER_LIBS)
++ 
++ matchbox_keyboard_SOURCES =                                          \
++ 	matchbox-keyboard.c matchbox-keyboard.h                      \
++-- 
++1.7.0.4
++
+diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+index ffcabca..85e856f 100644
+--- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
++++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+@@ -18,7 +18,9 @@ SRC_URI = "git://git.yoctoproject.org/${BPN} \
+            file://configure_fix.patch;maxrev=1819 \
+            file://single-instance.patch \
+            file://80matchboxkeyboard.shbg \
+-           file://png-fix.patch"
++           file://png-fix.patch \
++           file://add-lXrender-to-link.patch \
++           "
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-Best Regards
-Ulf Samuelsson
-ulf@emagii.com
-+46 722 427437
+1.8.1.2.545.g2f19ada
 
 
