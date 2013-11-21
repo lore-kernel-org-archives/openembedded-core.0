@@ -1,31 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EEC36D544
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id A1752612D1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 13:53:43 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rALDrVWU007916; Thu, 21 Nov 2013 13:53:31 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id phci4O1mUYQP; Thu, 21 Nov 2013 13:53:31 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rALDrN76007853
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 21 Nov 2013 13:53:25 GMT
-Message-ID: <1385042000.16887.133.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ulf@emagii.com
-Date: Thu, 21 Nov 2013 13:53:20 +0000
-In-Reply-To: <528DBE98.3080309@emagii.com>
-References: <528D2429.7040705@emagii.com> <1384982956.16887.94.camel@ted>
-	<528DBE98.3080309@emagii.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+	Thu, 21 Nov 2013 14:26:14 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1VjVCU-0001vQ-IR; Thu, 21 Nov 2013 15:26:13 +0100
+Message-ID: <1385043945.23724.158.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Thu, 21 Nov 2013 14:25:45 +0000
+In-Reply-To: <1385019198-24458-2-git-send-email-mark.hatle@windriver.com>
+References: <1385019198-24458-1-git-send-email-mark.hatle@windriver.com>
+	<1385019198-24458-2-git-send-email-mark.hatle@windriver.com>
+X-Mailer: Evolution 3.4.4-4+b1 
 Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Thu, 2013-11-21 at 01:33 -0600,
+	Mark Hatle wrote: > +def
+	get_optimization(d): > + selected_optimization =
+	d.getVar("SELECTED_OPTIMIZATION", 
+	True) > + if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "",
+	d) == "x": > + bb.note("eglibc can't be built with -O0,
+	-O2 will be used instead.") [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Improving Build Speed
+Subject: Re: [master][dora][PATCH 1/2] perf: disallow debug optimization.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,62 +52,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 13:53:43 -0000
+X-List-Received-Date: Thu, 21 Nov 2013 14:26:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-11-21 at 09:04 +0100, Ulf Samuelsson wrote:
-> >>       Why restrict PARALLEL_MAKE to anything less than the number of H/W
-> >> threads in the machine?
-> >>
-> >>       Came up with a construct PARALLEL_HIGH which is defined alongside
-> >> PARALLEL_MAKE in conf/local.conf
-> >>
-> >>       PARALLEL_MAKE = "-j8"
-> >>       PARALLEL_HIGH = "-j24"
-> >>
-> >>       In the appropriate recipes, which seems to be processed by bitbake
-> >> in solitude I do:
-> >>
-> >>       PARALLEL_HIGH ?= "${PARALLEL_MAKE}"
-> >>       PARALLEL_MAKE  = "${PARALLEL_HIGH}"
-> >>
-> >>       This means that they will try to use each H/W thread.
-> > Please benchmark the difference. I suspect we can just set the high
-> > number of make for everything. Note that few makefiles are well enough
-> > written to benefit from high levels of make (webkit being an notable
-> > exception).
-> >
-> It looks like it is shaving off  ~2 minutes from a build which normally 
-> takes ~84 minutes.
-> 
-> First build
-> PARALLEL_MAKE = "-j12"
-> PARALLEL_HIGH = "-j24"
-> BB_NUMBER_THREADS = "24"
-> real    83m24.093s
-> 
-> Second build
-> PARALLEL_MAKE = "-j12"
-> PARALLEL_HIGH = "-j12"
-> BB_NUMBER_THREADS = "24"
-> real    85m12.007s
+On Thu, 2013-11-21 at 01:33 -0600, Mark Hatle wrote:
+> +def get_optimization(d):
+> +    selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
+> +    if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
+> +        bb.note("eglibc can't be built with -O0, -O2 will be used instead.")
 
-but what if you set both to -j24?
+Although the text of that warning is correct, users might find the
+reference to eglibc slightly confusing if it's perf that they're trying
+to build.
 
-What I'm trying to understand is if we really need two different
-variables?
+Also, as I mentioned in a different thread not all that long ago when
+someone submitted a similar patch for gcc-runtime, the proliferation of
+parse-time python functions to bash SELECTED_OPTIMIZATION around doesn't
+seem like all that good a thing: this will cause extra overhead for
+everyone, even those who are not using -O0 and have no interest in perf.
 
-Note you can also do:
+And, finally, it remains slightly unclear to me that this is really a
+problem that the metadata needs to be solving.  I haven't seen any
+particularly convincing explanation of why this can't or shouldn't just
+be fixed in the distro configuration.
 
-PARALLEL_MAKE = "-j12"
-PARALLEL_MAKE_pn-webkit-gtk = "-j24"
+p.
 
-so I'm still not convinced we want to start having PARALLEL_HIGH as it
-will just confuse users IMO.
-
-Cheers,
-
-Richard
 
 
