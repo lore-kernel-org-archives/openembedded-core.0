@@ -1,28 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DE5EF60B60
+Return-Path: <Konrad.Scherer@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 41D0560B60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 15:26:03 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rALFPmia012049; Thu, 21 Nov 2013 15:25:48 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Q7J6Hli43eFo; Thu, 21 Nov 2013 15:25:48 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rALFPe3X012033
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 21 Nov 2013 15:25:42 GMT
-Message-ID: <1385047536.16887.137.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 15:25:36 +0000
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: meta-intel@yoctoproject.org, "Hart, Darren" <darren.hart@intel.com>
-Subject: [PATCH] ia32-base: Remove cpio and ext3 defaults
+	Thu, 21 Nov 2013 15:26:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rALFQgfi011577
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Nov 2013 07:26:42 -0800 (PST)
+Received: from [128.224.21.188] (128.224.21.188) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Thu, 21 Nov 2013 07:26:41 -0800
+Message-ID: <528E262F.9050601@windriver.com>
+Date: Thu, 21 Nov 2013 10:26:39 -0500
+From: Konrad Scherer <Konrad.Scherer@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1385019198-24458-1-git-send-email-mark.hatle@windriver.com>
+	<1385019198-24458-3-git-send-email-mark.hatle@windriver.com>
+In-Reply-To: <1385019198-24458-3-git-send-email-mark.hatle@windriver.com>
+X-Originating-IP: [128.224.21.188]
+Subject: Re: [master][dora][PATCH 2/2] perf: Disable -Werror flag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +36,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 15:26:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Nov 2013 15:26:42 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On real IA hardware, neither the ext3 or cpio images are particularly useful
-or used. cpio is legacy from initramfs and that specific image now overrides
-FSTYPES accordingly. The size difference in filesystems makes ext3 as a file
-format less useful, mainly being useful in the qemu case.
+On 13-11-21 02:33 AM, Mark Hatle wrote:
+> From: Konrad Scherer <Konrad.Scherer@windriver.com>
+>
+> If the sed command does not run before make is invoked, the compile
+> fails. Defining the environment variable is the proper way to disable
+> warnings as errors build option and eliminates the race condition.
+>
+> Signed-off-by: Konrad Scherer <Konrad.Scherer@windriver.com>
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>   meta/recipes-kernel/perf/perf.bb | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> index 138595d..1b889aa 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -40,6 +40,7 @@ export STAGING_INCDIR
+>   export STAGING_LIBDIR
+>   export BUILD_SYS
+>   export HOST_SYS
+> +export WERROR = "0"
+>
+>   do_populate_lic[depends] += "virtual/kernel:do_populate_sysroot"
+>
+> @@ -118,10 +119,6 @@ do_install() {
+>   	fi
+>   }
+>
+> -do_configure_prepend () {
+> -    sed -i 's,-Werror ,,' ${S}/tools/perf/Makefile
+> -}
+> -
 
-When needed users can still override the default FSTYPES so having
-saner defaults makes sense. This improves build times and uses less
-network bandwidth for builds and releases.
+This is will not work for kernels < 3.1. I did submit another patch 
+which works for all kernel versions.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
-index 8a20bca..e15f927 100644
---- a/meta/conf/machine/include/ia32-base.inc
-+++ b/meta/conf/machine/include/ia32-base.inc
-@@ -10,7 +10,7 @@ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
- 
- MACHINE_EXTRA_RRECOMMENDS += "kernel-modules"
- 
--IMAGE_FSTYPES += "ext3 cpio.gz live"
-+IMAGE_FSTYPES += "live"
- 
- KERNEL_IMAGETYPE ?= "bzImage"
- 
-
-
+-- 
+Konrad Scherer, MTS, Linux Products Group, Wind River
 
