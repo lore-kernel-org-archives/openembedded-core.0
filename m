@@ -1,25 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 400296148C
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3914D6AF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 19:45:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rALJj02g025444
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 11:45:01 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Thu, 21 Nov 2013 11:45:00 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 13:44:56 -0600
-Message-ID: <1385063096-16895-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [dora][PATCH] libsoup: workaround oe-core mips-gcc ICE
+	Thu, 21 Nov 2013 20:20:27 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Nov 2013 12:16:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,746,1378882800"; d="scan'208";a="412630795"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.149])
+	by orsmga001.jf.intel.com with ESMTP; 21 Nov 2013 12:20:26 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2013 12:20:25 -0800
+Message-Id: <1385065225-31557-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] ethtool: add actual test names to make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 19:45:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Nov 2013 20:20:28 -0000
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Automake does not seem to be generating the correct target for buildtest-TESTS, which
+the recipe was using.
 
-(Note: this is being sent for Yocto Project compliance.  The bug is in the
- dora oe-core version of the compiler, but only if using -O0..  I consider
- it a temporary workaround.)
-
-This error occurs for builds with the oe-core toolchain in debug builds:
-
-    header-parsing.c:1263:1: internal compiler error: in dwarf2out_var_location, at dwarf2out.c:20810
-     }
-     ^
-    ...
-    Please submit a full bug report,
-    with preprocessed source if appropriate.
-    See <http://gcc.gnu.org/bugs.html> for instructions.
-    {standard input}: Assembler messages:
-    {standard input}: Warning: missing .end at end of assembly
-    {standard input}: Error: open CFI at the end of file; missing .cfi_endproc directive
-    make[3]: *** [header-parsing.o] Error 1
-
-This happens only with optimization option '-O', so force to use '-O2' for mips
-target to workaround this issue. Root cause will be addressed.
-
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-extended/ethtool/ethtool_3.12.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-index ef8d439..01ede17 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-@@ -26,3 +26,7 @@ inherit autotools pkgconfig
+diff --git a/meta/recipes-extended/ethtool/ethtool_3.12.1.bb b/meta/recipes-extended/ethtool/ethtool_3.12.1.bb
+index 19bca2f..6615009 100644
+--- a/meta/recipes-extended/ethtool/ethtool_3.12.1.bb
++++ b/meta/recipes-extended/ethtool/ethtool_3.12.1.bb
+@@ -16,7 +16,7 @@ inherit autotools ptest
+ RDEPENDS_${PN}-ptest += "make"
  
- # glib-networking is needed for SSL, proxies, etc.
- RRECOMMENDS_${PN} = "glib-networking"
-+
-+# Workaround oe-core mips-gcc internal compiler error with '-O':
-+# header-parsing.c:1263:1: internal compiler error: in dwarf2out_var_location, at dwarf2out.c:20810
-+CFLAGS_mips += "-O2"
+ do_compile_ptest() {
+-   oe_runmake buildtest-TESTS
++   oe_runmake test-cmdline test-features
+ }
+ 
+ do_install_ptest () {
 -- 
-1.8.1.2.545.g2f19ada
+1.8.3.1
 
 
