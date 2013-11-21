@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 903236DB81
+	by mail.openembedded.org (Postfix) with ESMTP id C7FAA6DBD4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 07:14:11 +0000 (UTC)
+	Thu, 21 Nov 2013 07:14:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAL7EBF9025086
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAL7EEHP025098
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2013 23:14:11 -0800 (PST)
+	Wed, 20 Nov 2013 23:14:14 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:14:10 -0800
+	(TLS) id 14.2.347.0; Wed, 20 Nov 2013 23:14:13 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2013 01:13:47 -0600
-Message-ID: <1385018038-23380-2-git-send-email-mark.hatle@windriver.com>
+Date: Thu, 21 Nov 2013 01:13:48 -0600
+Message-ID: <1385018038-23380-3-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1385018038-23380-1-git-send-email-mark.hatle@windriver.com>
 References: <1385018038-23380-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [RFC PATCH 01/12] e2fsprogs/mke2fs: add an option: -d root-directory
+Subject: [RFC PATCH 02/12] e2fsprogs/mke2fs: misc/util.c: implement populate_fs()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,241 +34,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 07:14:11 -0000
+X-List-Received-Date: Thu, 21 Nov 2013 07:14:14 -0000
 Content-Type: text/plain
 
 From: Robert Yang <liezhi.yang@windriver.com>
 
-This option is used for adding the files from the root-directory to the
-filesystem, it is similiar to genext2fs, but genext2fs doesn't fully
-support ext4.
+Use opendir() and readdir() to read the native directory, then use
+lstat() to identify the file type and call the corresponding function to
+add the file to the filesystem, call the populate_fs() recursively if it
+is a directory.
 
-This commit describes the skeleton of the implementation:
-* The "struct hdlink_s" will be used for saving hard links, I
-  referred this from the genext2fs.
-
-* The do_xxx_internal will be used by both mke2fs and debugfs, most of
-  their operations are similar.
-
-* Fix the location of ext2fs_close() to make the "make check" succeed.
+NOTE: the libext2fs doesn't support create the socket file at them
+moment.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- ...1-mke2fs.c-add-an-option-d-root-directory.patch | 206 +++++++++++++++++++++
- 1 file changed, 206 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0001-mke2fs.c-add-an-option-d-root-directory.patch
+ .../0002-misc-util.c-implement-populate_fs.patch   | 120 +++++++++++++++++++++
+ 1 file changed, 120 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0001-mke2fs.c-add-an-option-d-root-directory.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0001-mke2fs.c-add-an-option-d-root-directory.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch
 new file mode 100644
-index 0000000..ed58a53
+index 0000000..2db5e46
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0001-mke2fs.c-add-an-option-d-root-directory.patch
-@@ -0,0 +1,206 @@
-+From d1297281c1955a6159129bb111b0a70c93f88c7c Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/0002-misc-util.c-implement-populate_fs.patch
+@@ -0,0 +1,120 @@
++From c025353bd7567b35162b6193fb0b152b1c733bcd Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Sat, 9 Nov 2013 21:51:09 +0800
-+Subject: [PATCH] mke2fs.c: add an option: -d root-directory
++Date: Tue, 27 Aug 2013 16:12:38 +0800
++Subject: [rootdir 02/10] misc/util.c: implement populate_fs()
 +
-+This option is used for adding the files from the root-directory to the
-+filesystem, it is similiar to genext2fs, but genext2fs doesn't fully
-+support ext4.
++Use opendir() and readdir() to read the native directory, then use
++lstat() to identify the file type and call the corresponding function to
++add the file to the filesystem, call the populate_fs() recursively if it
++is a directory.
 +
-+This commit describes the skeleton of the implementation:
-+* The "struct hdlink_s" will be used for saving hard links, I
-+  referred this from the genext2fs.
-+
-+* The do_xxx_internal will be used by both mke2fs and debugfs, most of
-+  their operations are similar.
++NOTE: the libext2fs doesn't support create the socket file at them
++moment.
 +
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ misc/mke2fs.c | 35 +++++++++++++++++++++++++++++++----
-+ misc/util.c   | 35 +++++++++++++++++++++++++++++++++++
-+ misc/util.h   | 32 ++++++++++++++++++++++++++++++++
-+ 3 files changed, 98 insertions(+), 4 deletions(-)
++ misc/util.c |   90 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 90 insertions(+)
 +
-+diff --git a/misc/mke2fs.c b/misc/mke2fs.c
-+index 22c2815..75abf83 100644
-+--- a/misc/mke2fs.c
-++++ b/misc/mke2fs.c
-+@@ -44,8 +44,6 @@ extern int optind;
-+ #include <errno.h>
-+ #endif
-+ #include <sys/ioctl.h>
-+-#include <sys/types.h>
-+-#include <sys/stat.h>
-+ #include <libgen.h>
-+ #include <limits.h>
-+ #include <blkid/blkid.h>
-+@@ -105,6 +103,7 @@ char *mount_dir;
-+ char *journal_device;
-+ int sync_kludge;	/* Set using the MKE2FS_SYNC env. option */
-+ char **fs_types;
-++const char *root_dir;  /* Copy files from the specified directory */
-+ 
-+ profile_t	profile;
-+ 
-+@@ -116,7 +115,8 @@ static void usage(void)
-+ 	fprintf(stderr, _("Usage: %s [-c|-l filename] [-b block-size] "
-+ 	"[-C cluster-size]\n\t[-i bytes-per-inode] [-I inode-size] "
-+ 	"[-J journal-options]\n"
-+-	"\t[-G flex-group-size] [-N number-of-inodes]\n"
-++	"\t[-G flex-group-size] [-N number-of-inodes] "
-++	"[-d root-directory]\n"
-+ 	"\t[-m reserved-blocks-percentage] [-o creator-os]\n"
-+ 	"\t[-g blocks-per-group] [-L volume-label] "
-+ 	"[-M last-mounted-directory]\n\t[-O feature[,...]] "
-+@@ -1346,7 +1346,7 @@ profile_error:
-+ 	}
-+ 
-+ 	while ((c = getopt (argc, argv,
-+-		    "b:cg:i:jl:m:no:qr:s:t:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:V")) != EOF) {
-++		    "b:cg:i:jl:m:no:qr:s:t:d:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:V")) != EOF) {
-+ 		switch (c) {
-+ 		case 'b':
-+ 			blocksize = parse_num_blocks2(optarg, -1);
-+@@ -1532,6 +1532,9 @@ profile_error:
-+ 		case 'U':
-+ 			fs_uuid = optarg;
-+ 			break;
-++		case 'd':
-++			root_dir = optarg;
-++			break;
-+ 		case 'v':
-+ 			verbose = 1;
-+ 			break;
-+@@ -2665,6 +2668,30 @@ no_journal:
-+ 				       EXT4_FEATURE_RO_COMPAT_QUOTA))
-+ 		create_quota_inodes(fs);
-+ 
-++	/* Copy files from the specified directory */
-++	if (root_dir) {
-++		if (!quiet)
-++			printf(_("Copying files into the device...\n"));
-++
-++		/*
-++		 * Allocate memory for the hardlinks, we don't need free()
-++		 * since the lifespan will be over after the fs populated.
-++		 */
-++		if ((hdlinks.hdl = (struct hdlink_s *)
-++				malloc(hdlink_cnt * sizeof(struct hdlink_s))) == NULL) {
-++			fprintf(stderr, _("\nNot enough memory"));
-++			retval = ext2fs_close(fs);
-++			return retval;
-++		}
-++
-++		current_fs = fs;
-++		root = EXT2_ROOT_INO;
-++		retval = populate_fs(root, root_dir);
-++		if (retval)
-++			fprintf(stderr,
-++				_("\nError while populating %s"), root_dir);
-++	}
-++
-+ 	if (!quiet)
-+ 		printf(_("Writing superblocks and "
-+ 		       "filesystem accounting information: "));
 +diff --git a/misc/util.c b/misc/util.c
-+index 6c93e1c..cbc7cc0 100644
++index cbc7cc0..6d87393 100644
 +--- a/misc/util.c
 ++++ b/misc/util.c
-+@@ -32,8 +32,18 @@
-+ #include "ext2fs/ext2fs.h"
-+ #include "nls-enable.h"
-+ #include "blkid/blkid.h"
-++
-++#include <fcntl.h>
-++
-+ #include "util.h"
-+ 
-++int	journal_size;
-++int	journal_flags;
-++char	*journal_device;
-++
-++/* For saving the hard links */
-++int hdlink_cnt = HDLINK_CNT;
-++
-+ #ifndef HAVE_STRCASECMP
-+ int strcasecmp (char *s1, char *s2)
++@@ -337,4 +337,94 @@ errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
++ /* Copy files from source_dir to fs */
++ errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
 + {
-+@@ -303,3 +313,28 @@ void dump_mmp_msg(struct mmp_struct *mmp, const char *msg)
-+ 		       ctime(&t), mmp->mmp_nodename, mmp->mmp_bdevname);
-+ 	}
+++	const char	*name;
+++	DIR		*dh;
+++	struct dirent	*dent;
+++	struct stat	st;
+++	char		ln_target[PATH_MAX];
+++	char		*func_name = "populate_fs";
+++	ext2_ino_t	ino;
+++	errcode_t	retval;
+++	int		read_cnt;
+++
+++	root = EXT2_ROOT_INO;
+++
+++	if (chdir(source_dir) < 0) {
+++		com_err(func_name, errno,
+++			_("while changing working directory to \"%s\""), source_dir);
+++		return errno;
+++	}
+++
+++	if (!(dh = opendir("."))) {
+++		com_err(func_name, errno,
+++			_("while openning directory \"%s\""), source_dir);
+++		return errno;
+++	}
+++
+++	while((dent = readdir(dh))) {
+++		if((!strcmp(dent->d_name, ".")) || (!strcmp(dent->d_name, "..")))
+++			continue;
+++		lstat(dent->d_name, &st);
+++		name = dent->d_name;
+++
+++		switch(st.st_mode & S_IFMT) {
+++			case S_IFCHR:
+++			case S_IFBLK:
+++			case S_IFIFO:
+++				if ((retval = do_mknod_internal(parent_ino, name, &st))) {
+++					com_err(func_name, retval,
+++						_("while creating special file \"%s\""), name);
+++					return retval;
+++				}
+++				break;
+++			case S_IFSOCK:
+++				/* FIXME: there is no make sockect function atm. */
+++				com_err(func_name, 0,
+++					_("ignoring sockect file\"%s\""), name);
+++				break;
+++			case S_IFLNK:
+++				if((read_cnt = readlink(name, ln_target, sizeof(ln_target))) == -1) {
+++					com_err(func_name, errno,
+++						_("while trying to readlink \"%s\""), name);
+++					return errno;
+++				}
+++				ln_target[read_cnt] = '\0';
+++				if ((retval = do_symlink_internal(parent_ino, name, ln_target))) {
+++					com_err(func_name, retval,
+++						_("while writing symlink\"%s\""), name);
+++					return retval;
+++				}
+++				break;
+++			case S_IFREG:
+++				if ((retval = do_write_internal(parent_ino, name, name))) {
+++					com_err(func_name, retval,
+++						_("while writing file \"%s\""), name);
+++					return retval;
+++				}
+++				break;
+++			case S_IFDIR:
+++				if ((retval = do_mkdir_internal(parent_ino, name, &st))) {
+++					com_err(func_name, retval,
+++						_("while making dir \"%s\""), name);
+++					return retval;
+++				}
+++				if ((retval = ext2fs_namei(current_fs, root, parent_ino, name, &ino))) {
+++					com_err(name, retval, 0);
+++						return retval;
+++				}
+++				/* Populate the dir recursively*/
+++				retval = populate_fs(ino, name);
+++				if (retval) {
+++					com_err(func_name, retval, _("while adding dir \"%s\""), name);
+++					return retval;
+++				}
+++				chdir("..");
+++				break;
+++			default:
+++				com_err(func_name, 0,
+++					_("ignoring entry \"%s\""), name);
+++		}
+++	}
+++	closedir(dh);
+++	return retval;
 + }
-++
-++/* Make a special file which is block, character and fifo */
-++errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st)
-++{
-++}
-++
-++/* Make a symlink name -> target */
-++errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target)
-++{
-++}
-++
-++/* Make a directory in the fs */
-++errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st)
-++{
-++}
-++
-++/* Copy the native file to the fs */
-++errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest)
-++{
-++}
-++
-++/* Copy files from source_dir to fs */
-++errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir)
-++{
-++}
-+diff --git a/misc/util.h b/misc/util.h
-+index f872c38..e71caf0 100644
-+--- a/misc/util.h
-++++ b/misc/util.h
-+@@ -14,6 +14,31 @@ extern int	 journal_size;
-+ extern int	 journal_flags;
-+ extern char	*journal_device;
-+ 
-++/* For struct stat */
-++#include <sys/types.h>
-++#include <sys/stat.h>
-++
-++struct hdlink_s
-++{
-++	ext2_ino_t src_ino;
-++	ext2_ino_t dst_ino;
-++};
-++
-++struct hdlinks_s
-++{
-++	int count;
-++	struct hdlink_s *hdl;
-++};
-++
-++struct hdlinks_s hdlinks;
-++
-++ext2_filsys	current_fs;
-++ext2_ino_t	root;
-++
-++/* For saving the hard links */
-++#define HDLINK_CNT	4
-++extern int hdlink_cnt;
-++
-+ #ifndef HAVE_STRCASECMP
-+ extern int strcasecmp (char *s1, char *s2);
-+ #endif
-+@@ -25,3 +50,10 @@ extern void check_mount(const char *device, int force, const char *type);
-+ extern unsigned int figure_journal_size(int size, ext2_filsys fs);
-+ extern void print_check_message(int, unsigned int);
-+ extern void dump_mmp_msg(struct mmp_struct *mmp, const char *msg);
-++
-++/* For populating the filesystem */
-++extern errcode_t populate_fs(ext2_ino_t parent_ino, const char *source_dir);
-++extern errcode_t do_mknod_internal(ext2_ino_t cwd, const char *name, struct stat *st);
-++extern errcode_t do_symlink_internal(ext2_ino_t cwd, const char *name, char *target);
-++extern errcode_t do_mkdir_internal(ext2_ino_t cwd, const char *name, struct stat *st);
-++extern errcode_t do_write_internal(ext2_ino_t cwd, const char *src, const char *dest);
 +-- 
-+1.8.3.1
++1.7.10.4
 +
 -- 
 1.8.1.2.545.g2f19ada
