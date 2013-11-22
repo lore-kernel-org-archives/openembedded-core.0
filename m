@@ -1,37 +1,26 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id E04316CDCB
+Return-Path: <paul.eggleton@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 814E76CDCB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 10:51:50 +0000 (UTC)
-Received: from [69.196.158.250] (port=57540 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VjoKw-0003C6-DK; Fri, 22 Nov 2013 05:51:47 -0500
-Date: Fri, 22 Nov 2013 05:51:44 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: "Behrens, Holger" <Holger.Behrens@windriver.com>
-In-Reply-To: <7A688B48FC95D148BFE83E098348BE5055CD82DC@ALA-MBA.corp.ad.wrs.com>
-Message-ID: <alpine.DEB.2.02.1311220551100.5495@oneiric>
-References: <1385047536.16887.137.camel@ted>
-	<1385050308.20337.16.camel@dvhart-mobl4.amr.corp.intel.com>
-	<7A688B48FC95D148BFE83E098348BE5055CD82DC@ALA-MBA.corp.ad.wrs.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Fri, 22 Nov 2013 11:05:23 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 22 Nov 2013 03:01:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,751,1378882800"; d="scan'208";a="439800386"
+Received: from pauljbro-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.121.218])
+	by orsmga002.jf.intel.com with ESMTP; 22 Nov 2013 03:05:20 -0800
+From: Paul Eggleton <paul.eggleton@intel.com>
+To: "Hart, Darren" <darren.hart@intel.com>
+Date: Fri, 22 Nov 2013 11:05:19 +0000
+Message-ID: <1583959.f3sbDcLors@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1385059626.3614.10.camel@dvhart-mobl4.amr.corp.intel.com>
+References: <1385059626.3614.10.camel@dvhart-mobl4.amr.corp.intel.com>
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: "meta-intel@yoctoproject.org" <meta-intel@yoctoproject.org>, "Hart,
-	Darren" <darren.hart@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ia32-base: Remove cpio and ext3 defaults
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: distro/machine:kernel feature mapping and version checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +33,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 10:51:51 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Fri, 22 Nov 2013 11:05:26 -0000
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, 22 Nov 2013, Behrens, Holger wrote:
+Hi Darren,
 
-> > On Thu, 2013-11-21 at 15:25 +0000, Richard Purdie wrote:
-> > > On real IA hardware, neither the ext3 or cpio images are particularly useful
-> > > or used. cpio is legacy from initramfs and that specific image now overrides
-> > > FSTYPES accordingly. The size difference in filesystems makes ext3 as a file
-> > > format less useful, mainly being useful in the qemu case.
-> > >
-> > > When needed users can still override the default FSTYPES so having
-> > > saner defaults makes sense. This improves build times and uses less
-> > > network bandwidth for builds and releases.
-> > >
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >
-> > I'm fine with this, although it raises the question if we ought to be
-> > doing anything more than tar rootfs in include files like this. there
-> > are ia32 machines where a live image is not useful (although rare). Most
-> > x86 BSPs would add live - but then again, most x86 BSPs will be starting
-> > to consolidate on the genericx86 BSPs anyway....
->
-> live image does not build in case of INCOMPATIBE_LICENSE = GPLv3
-                                                ^^^?
-  is that just a mail list typo or a copy and paste error?
+On Thursday 21 November 2013 18:47:07 Hart, Darren wrote:
+> Regarding the following 2 bugs:
+> 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5574
+> Add kernel version / configuration check mechanism
+> 
+> and 
+> 
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2267
+> Integrate DISTRO_FEATURES with KERNEL_FEATURES
+> 
+> There is a need to reduce errors where a DISTRO config might break due
+> to lack of kernel support, things such as systemd. There is also
+> interest in enabling certain kernel features based on
+> DISTRO/MACHINE_FEATURES, such as wifi.
+> 
+> Neither of these should depend on the Kernel Version as even with the
+> right version, if the CONFIG_* feature is missing, the image will not
+> work correctly. There is also the risk of false negatives when a feature
+> has been backported to a kernel version that didn't have the feature
+> previously.
 
-rday
+Right; I hadn't appreciated this when I wrote the bug but we definitely don't 
+want to be checking versions.
 
--- 
+> The recommended approach would be to check for the required CONFIG_*
+> options after the linux-yocto configuration stage.
+> 
+> There is also the topic of DISTRO_FEATURES ~= "wifi" impacting how the
+> kernel will be built. The MACHINE should have some say in how this is
+> done - if the machine can never have wifi, building wifi into the kernel
+> doesn't make a lot of sense. Something like the following might make
+> sense:
+> 
+> for FEATURE in DISTRO_FEATURES:
+>     if MACHINE_FEATURES contains FEATURES:
+>         KERNEL_FEATURES += FEATURE_override
+> 
+> Where FEATURE_override is defined something like this:
+> 
+> FEATURE = FEATURE_default
+> if exists FEATURE_distro:
+>     FEATURE = FEATURE_distro
+> if exists FEATURE_machine:
+>     FEATURE = FEATURE_machine
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
+There are a couple of slight quirks here:
 
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+1) Not all features match up between DISTRO_FEATURES and MACHINE_FEATURES like 
+this, just a select list. (This is why we currently have COMBINED_FEATURES.)
+
+2) There is some handling in packagegroup-base.bbclass to enable 
+wifi/bluetooth/3g/nfc functionality in userspace if these features are *not* in 
+MACHINE_FEATURES but they are in DISTRO_FEATURES *and* MACHINE_FEATURES 
+indicates some means of expansion exists e.g. pci, pcmcia, usbhost. Whether we 
+want to try to support this at the kernel level I don't know.
+
+> This is effectively a fragment name which needs to be provided by the
+> linux-yocto kernel meta data as it will be kernel version dependent.
+> 
+> The linkage I'm not sure about is how to know what to test for in the
+> kernel.bbclass without intimate knowledge of the kernel version CONFIG
+> options in recipe space.
+
+So are you convinced you want to try to solve these two with one solution in 
+kernel.bbclass rather than giving individual recipes some easy methods of 
+checking kernel config options? I agree they are related, but I had imagined 
+that we'd solve them both and solve them separately; only doing the feature 
+map when we're building the kernel still leaves us with recipes like udev that 
+aren't controlled by a specific feature but do still have kernel config 
+requirements (of course, you could just assume that if you're using sysvinit 
+then you're using udev and handle the issue that way, but that seems like a 
+hack to me).
+
+Cheers,
+Paul
+---------------------------------------------------------------------
+Intel Corporation (UK) Limited
+Registered No. 1134945 (England)
+Registered Office: Pipers Way, Swindon SN3 1RJ
+VAT No: 860 2173 47
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
+
 
