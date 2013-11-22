@@ -1,26 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 47C686DBF2
+	by mail.openembedded.org (Postfix) with ESMTP id 2DE3E6D88E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 05:38:43 +0000 (UTC)
+	Fri, 22 Nov 2013 05:58:57 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAM5cfnG009022
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 21:38:43 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 21 Nov 2013 21:38:41 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Nov 2013 13:39:02 +0800
-Message-ID: <8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1385098685.git.Qi.Chen@windriver.com>
-References: <cover.1385098685.git.Qi.Chen@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAM5wuZZ009499
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 21 Nov 2013 21:58:56 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 21 Nov 2013 21:58:55 -0800
+Message-ID: <528EF295.9040704@windriver.com>
+Date: Fri, 22 Nov 2013 13:58:45 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] image.bbclass: depends on virtual/kernel
+To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1385039538.git.hongxu.jia@windriver.com>	<0e29f77b1778e75f547289c20e670fc0ffd5e070.1385039538.git.hongxu.jia@windriver.com>	<528E541B.7000104@linux.intel.com>	<528E6199.80306@windriver.com>
+	<528E6239.8040507@linux.intel.com>
+In-Reply-To: <528E6239.8040507@linux.intel.com>
+Subject: Re: [PATCH 4/4] qemu: add bash and python to qemu's RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +34,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 05:38:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Nov 2013 05:58:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 11/22/2013 03:42 AM, Saul Wold wrote:
+> On 11/21/2013 11:40 AM, Mark Hatle wrote:
+>> On 11/21/13, 12:42 PM, Saul Wold wrote:
+>>>
+>>> Why are you adding bash to qemu?
+>>
+>> My understanding is that there was a bash script that was added as well,
+>> once the python rdepends was resolved.
+>>
+> Any chance of "de-bashing" the script?
+>
 
-Add 'virtual/kernel' to DEPENDS in image.bbclass so that the kernel
-can get built by default. Otherwise, the kernel will not get built
-unless it's required by other packages like v86d. As a result, if
-we build 'core-image-minimal' for qemumips, the kernel is not built,
-and we have 'bitbake linux-yocto' before we can use runqemu to start
-the target.
+Hi Saul,
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/image.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+How about to de-bash the script by the following patch:
+...
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -5,6 +5,7 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman 
+dtc libsdl"
+  DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native 
+pixman-native dtc-native"
+  DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl 
+nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+  RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
++RDEPENDS_${PN}_class-target += "python"
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index bc60f0d..ccb6bf3 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -10,7 +10,7 @@ inherit gzipnative
- 
- LICENSE = "MIT"
- PACKAGES = ""
--DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross"
-+DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross virtual/kernel"
- RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
- RRECOMMENDS += "${PACKAGE_INSTALL_ATTEMPTONLY}"
- 
--- 
-1.7.9.5
+  require qemu-targets.inc
+  inherit autotools
+@@ -76,6 +77,12 @@ do_install_append() {
+                 create_wrapper ${D}/${bindir}/qemu-mips \
+                         QEMU_RESERVED_VA=0x0
+         fi
++
++       # De-bashing the script
++       files=`grep "^\#\! *.*\/bash" ${D} -rl`
++       for f in $files; do
++                 sed -i "s:^#! *.*/bash:#! /bin/sh:" $f
++       done
+  }
+  # END of qemu-mips workaround
+...
+
+The build test is ok.
+
+//Hongxu
+
+> Sau!
+>> --Mark
+>>
+>>> Sau!
+>>>
+>>>
+>>> On 11/21/2013 05:14 AM, Hongxu Jia wrote:
+>>>> | Note: adding Smart RPM DB channel
+>>>> |
+>>>> | Note: to be installed:  qemu@x86_64 run-postinsts@x86_64
+>>>> kernel-modules@qemux86_64 packagegroup-core-boot@qemux86_64
+>>>> | Loading cache...
+>>>> | Updating cache...
+>>>> ######################################## [100%]
+>>>> |
+>>>> | Computing transaction...error: Can't install
+>>>> qemu-1.5.0-r0.0@x86_64: no package provides /usr/bin/python
+>>>> |
+>>>> | Saving cache...
+>>>> |
+>>>> | WARNING: exit code 1 from a shell command.
+>>>> | ERROR: Function failed: do_rootfs (log file is located at
+>>>> tmp/work/qemux86_64-wrs-linux/wrlinux-image-glibc-small/1.0-r1/temp/do_rootfs/log.do_rootfs.21373) 
+>>>>
+>>>>
+>>>>
+>>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>>> ---
+>>>>    meta/recipes-devtools/qemu/qemu.inc | 1 +
+>>>>    1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/meta/recipes-devtools/qemu/qemu.inc
+>>>> b/meta/recipes-devtools/qemu/qemu.inc
+>>>> index 21ce489..3f3431d 100644
+>>>> --- a/meta/recipes-devtools/qemu/qemu.inc
+>>>> +++ b/meta/recipes-devtools/qemu/qemu.inc
+>>>> @@ -5,6 +5,7 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11
+>>>> pixman dtc libsdl"
+>>>>    DEPENDS_class-native = "zlib-native alsa-lib-native
+>>>> glib-2.0-native pixman-native dtc-native"
+>>>>    DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl
+>>>> nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+>>>>    RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
+>>>> +RDEPENDS_${PN}_class-target += "bash python"
+>>>>
+>>>>    require qemu-targets.inc
+>>>>    inherit autotools
+>>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
