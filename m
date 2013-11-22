@@ -1,33 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BC9976B39C
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 840596B3D0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 12:28:18 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAMCS4rn016095; Fri, 22 Nov 2013 12:28:05 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Zk06liOZc0WS; Fri, 22 Nov 2013 12:28:04 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAMCRxnJ016088
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 22 Nov 2013 12:28:01 GMT
-Message-ID: <1385123276.16887.163.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Fri, 22 Nov 2013 12:27:56 +0000
-In-Reply-To: <528F4C55.3080106@windriver.com>
-References: <cover.1384419666.git.hongxu.jia@windriver.com>
-	<ac4248f073a505534a6fc9b7c9922b6781b85685.1384419666.git.hongxu.jia@windriver.com>
-	<528E0D2D.4010202@windriver.com> <1385041807.16887.131.camel@ted>
-	<528F4C55.3080106@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 1/1] lib32-packagegroup-core-nfs: fix qa issue - install files into a shared area when those files already exist
+	Fri, 22 Nov 2013 13:15:17 +0000 (UTC)
+Received: from [69.196.158.250] (port=34137 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1VjqZo-0000vK-6Q for openembedded-core@lists.openembedded.org;
+	Fri, 22 Nov 2013 08:15:16 -0500
+Date: Fri, 22 Nov 2013 08:15:13 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.DEB.2.02.1311220812240.14584@oneiric>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+MIME-Version: 1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: is there an easy way to see the actual files that went into a package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,73 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 12:28:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Nov 2013 13:15:18 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
-On Fri, 2013-11-22 at 20:21 +0800, Hongxu Jia wrote:
-> Hi Richard,
-> 
-> 1. What is the situation to set PACKAGE_ARCH = "${MACHINE_ARCH}"
-> in packagegroup recipe?
-> 
-> In this case, MACHINE is qemux86-64, and the packagegroup-core-nfs's
-> RDEPENDS are:
-> "packagegroup-core-nfs-server" -> "nfs-utils" [style=dashed]
-> "packagegroup-core-nfs-server" -> "nfs-utils-client" [style=dashed]
-> 
-> We check one utility in nfs-utils by invoking file:
-> $ file image/usr/sbin/exportfs
-> image/usr/sbin/exportfs: ELF 64-bit LSB executable, x86-64,
-> version 1 (SYSV), dynamically linked (uses shared libs), for
-> GNU/Linux 2.6.34, not stripped
-> 
-> Should we consider the nfs-utils and lib32-nfs-utils are different
-> arch? If the answer is yes, the lib32-packagegroup-core-nfs's
-> RDEPENDS should be:
-> "lib32-packagegroup-core-nfs-server" -> "lib32-nfs-utils-client" 
-> [style=dashed]
-> "lib32-packagegroup-core-nfs-server" -> "lib32-nfs-utils" [style=dashed]
-> 
-> In this situation, I think we should set PACKAGE_ARCH with
-> "${MACHINE_ARCH}" in packagegroup-core-nfs recipe.
-> 
-> But there are lots of packagegroup packages that didn't have set
-> PACKAGE_ARCH with "${MACHINE_ARCH}" in their recipe. After a quick
-> search in oe-core, 7 packagegroup recipes did set and almost 33 didn't,
-> so how about use PACKAGE_ARCH = "${MACHINE_ARCH}" by default for
-> packagegroup or just did not inherit allarch in packagegroup.bbclass?
-> 
-> 2. What shoud we do if packagegroup packages is allarch?
-> 
-> When the packagegroup packages is allarch and multilib is enabled,
-> should we still *do the multilib work* for this allarch recipe?
-> If we do, the override issue happened.
-> 
-> In this case, if we don't set PACKAGE_ARCH with "${MACHINE_ARCH}",
-> packagegroup-core-nfs and lib32-packagegroup-core-nfs have different
-> ${WORKDIR}:
-> 
-> WORKDIR="${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
-> MULTIMACH_TARGET_SYS="${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}"
-> 
-> In packagegroup-core-nfs, we have:
-> TARGET_VENDOR="-poky"
-> PN="packagegroup-core-nfs"
-> 
-> In lib32-packagegroup-core-nfs, after the multilib process we have:
-> TARGET_VENDOR="-pokymllib32"
-> PN="lib32-packagegroup-core-nfs"
-> 
-> So we had better to forbid multilib work for the allarch recipe.
 
-Do you have
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=26559c581695f60861483691e08eee06f524287f applied to your tree?
+  if i use "bb show" to examine the files that go into each package
+(eg, for "zlib" here), what i get is the collection of wildcards that
+will, of course, still be processed when sequentially creating each
+package:
 
-I'm hoping this issue does not exist when that patch is applied.
+$ bb show -r zlib FILES_zlib-dev
+Parsing recipes..done.
+# FILES_zlib-dev=${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la
+${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig
+${datadir}/aclocal ${base_libdir}/*.o ${libdir}/${BPN}/*.la
+${base_libdir}/*.la
+FILES_zlib-dev="/usr/include /lib/lib*.so /usr/lib/lib*.so
+/usr/lib/*.la /usr/lib/*.o /usr/lib/pkgconfig /usr/share/pkgconfig
+/usr/share/aclocal /lib/*.o /usr/lib/zlib/*.la /lib/*.la"
+$
 
-Cheers,
+  is there an equivalently simple way to display the end result of the
+contents of each package?
 
-Richard
+rday
 
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
