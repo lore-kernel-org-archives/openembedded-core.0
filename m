@@ -1,27 +1,29 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DE3E6D88E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D02946D4ED
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 05:58:57 +0000 (UTC)
+	Fri, 22 Nov 2013 06:06:13 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAM5wuZZ009499
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAM66C6w027821
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 21 Nov 2013 21:58:56 -0800 (PST)
+	Thu, 21 Nov 2013 22:06:12 -0800 (PST)
 Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 21 Nov 2013 21:58:55 -0800
-Message-ID: <528EF295.9040704@windriver.com>
-Date: Fri, 22 Nov 2013 13:58:45 +0800
+	Thu, 21 Nov 2013 22:06:11 -0800
+Message-ID: <528EF449.5000507@windriver.com>
+Date: Fri, 22 Nov 2013 14:06:01 +0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1385039538.git.hongxu.jia@windriver.com>	<0e29f77b1778e75f547289c20e670fc0ffd5e070.1385039538.git.hongxu.jia@windriver.com>	<528E541B.7000104@linux.intel.com>	<528E6199.80306@windriver.com>
-	<528E6239.8040507@linux.intel.com>
-In-Reply-To: <528E6239.8040507@linux.intel.com>
-Subject: Re: [PATCH 4/4] qemu: add bash and python to qemu's RDEPENDS
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1384943898.git.hongxu.jia@windriver.com>
+	<e3569e31c54d36354b5c702b7b95ecda26884a18.1384943898.git.hongxu.jia@windriver.com>
+	<1673532.sZIipt1mGd@helios>
+In-Reply-To: <1673532.sZIipt1mGd@helios>
+Cc: openembedded-core@lists.openembedded.org, saul.wold@intel.com
+Subject: Re: [PATCH 1/1] license.bbclass: fix copying license directories failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,121 +36,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 05:58:57 -0000
+X-List-Received-Date: Fri, 22 Nov 2013 06:06:14 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/22/2013 03:42 AM, Saul Wold wrote:
-> On 11/21/2013 11:40 AM, Mark Hatle wrote:
->> On 11/21/13, 12:42 PM, Saul Wold wrote:
->>>
->>> Why are you adding bash to qemu?
->>
->> My understanding is that there was a bash script that was added as well,
->> once the python rdepends was resolved.
->>
-> Any chance of "de-bashing" the script?
+Hi Paul,
+
+On 11/22/2013 12:41 AM, Paul Eggleton wrote:
+> Hi Hongxu,
 >
+> On Wednesday 20 November 2013 18:39:02 Hongxu Jia wrote:
+>> For each recipe, it populated license files to ${LICENSE_DIRECTORY}/${PN},
+>> such as kernel's license dir was
+>> ${LICENSE_DIRECTORY}/kernel-3.10.17-yocto-standard;
+>>
+>> In do_rootfs task, it copied license directories from ${LICENSE_DIRECTORY}/
+>> ${pkg}, and ${pkg} was listed in ${INSTALLED_PKGS};
+>>
+>> We got ${INSTALLED_PKGS} by rpm query, such as the kernel were 'kernel-*',
+>> but the kernel's PN was linux-yocto, so searching ${LICENSE_DIRECTORY}/
+>> kernel-* failed.
+>>
+>> Copied license directories from ${LICENSE_DIRECTORY}/${PN} fixed this issue.
+>>
+>> [YOCTO #5572]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/classes/license.bbclass | 9 ++++++---
+>>   1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+>> index 6d7ee94..32605ff 100644
+>> --- a/meta/classes/license.bbclass
+>> +++ b/meta/classes/license.bbclass
+>> @@ -68,15 +68,18 @@ license_create_manifest() {
+>>   		if [ "${COPY_LIC_DIRS}" = "1" ]; then
+>>   			for pkg in ${INSTALLED_PKGS}; do
+>>   				mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}
+>> -				for lic in `ls ${LICENSE_DIRECTORY}/${pkg}`; do
+>> +				pkged_pn="$(sed -n "/^PACKAGE NAME: ${pkg}$/,/^$/ \
+>> +                                           {s/^RECIPE NAME: //; /^PACKAGE
+>> NAME:/d; /^PACKAGE VERSION:/d; /^LICENSE:/d; p}" \ +
+>>                     ${LICENSE_MANIFEST})"
+>> +				for lic in `ls ${LICENSE_DIRECTORY}/${pkged_pn}`; do
+> This isn't the right way to do this. If you need to look up the recipe name
+> from the target package name, in master you can now use:
+>
+>    oe-pkgdata-util lookup-recipe ${PKGDATA_DIR} "<list of packages>"
 
-Hi Saul,
+I am afraid to use oe-pkgdata-util here is not a good idea:
 
-How about to de-bash the script by the following patch:
-...
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -5,6 +5,7 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11 pixman 
-dtc libsdl"
-  DEPENDS_class-native = "zlib-native alsa-lib-native glib-2.0-native 
-pixman-native dtc-native"
-  DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl 
-nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
-  RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
-+RDEPENDS_${PN}_class-target += "python"
+- everything we need has been listed in ${LICENSE_MANIFEST},
+   we just need to sort them out;
 
-  require qemu-targets.inc
-  inherit autotools
-@@ -76,6 +77,12 @@ do_install_append() {
-                 create_wrapper ${D}/${bindir}/qemu-mips \
-                         QEMU_RESERVED_VA=0x0
-         fi
-+
-+       # De-bashing the script
-+       files=`grep "^\#\! *.*\/bash" ${D} -rl`
-+       for f in $files; do
-+                 sed -i "s:^#! *.*/bash:#! /bin/sh:" $f
-+       done
-  }
-  # END of qemu-mips workaround
-...
+- the oe-pkgdata-util utility only support to search the specific
+   ${PKGDATA_DIR} directory which was  ${TMPDIR}/pkgdata/
+   ${MULTIMACH_TARGET_SYS}, but we need to search multiple
+   ${MULTIMACH_TARGET_SYS} directories;
 
-The build test is ok.
+   Such as "base-passwd in x86_64" and "base-files in qemux86_64";
 
 //Hongxu
 
-> Sau!
->> --Mark
->>
->>> Sau!
->>>
->>>
->>> On 11/21/2013 05:14 AM, Hongxu Jia wrote:
->>>> | Note: adding Smart RPM DB channel
->>>> |
->>>> | Note: to be installed:  qemu@x86_64 run-postinsts@x86_64
->>>> kernel-modules@qemux86_64 packagegroup-core-boot@qemux86_64
->>>> | Loading cache...
->>>> | Updating cache...
->>>> ######################################## [100%]
->>>> |
->>>> | Computing transaction...error: Can't install
->>>> qemu-1.5.0-r0.0@x86_64: no package provides /usr/bin/python
->>>> |
->>>> | Saving cache...
->>>> |
->>>> | WARNING: exit code 1 from a shell command.
->>>> | ERROR: Function failed: do_rootfs (log file is located at
->>>> tmp/work/qemux86_64-wrs-linux/wrlinux-image-glibc-small/1.0-r1/temp/do_rootfs/log.do_rootfs.21373) 
->>>>
->>>>
->>>>
->>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>>> ---
->>>>    meta/recipes-devtools/qemu/qemu.inc | 1 +
->>>>    1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/recipes-devtools/qemu/qemu.inc
->>>> b/meta/recipes-devtools/qemu/qemu.inc
->>>> index 21ce489..3f3431d 100644
->>>> --- a/meta/recipes-devtools/qemu/qemu.inc
->>>> +++ b/meta/recipes-devtools/qemu/qemu.inc
->>>> @@ -5,6 +5,7 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11
->>>> pixman dtc libsdl"
->>>>    DEPENDS_class-native = "zlib-native alsa-lib-native
->>>> glib-2.0-native pixman-native dtc-native"
->>>>    DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl
->>>> nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
->>>>    RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
->>>> +RDEPENDS_${PN}_class-target += "bash python"
->>>>
->>>>    require qemu-targets.inc
->>>>    inherit autotools
->>>>
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Cheers,
+> Paul
+>
 
 
