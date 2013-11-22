@@ -1,34 +1,26 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F77D6CA90
+Return-Path: <mcrowe@brightsign.biz>
+Received: from elite.brightsigndigital.co.uk
+	(cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net [86.30.57.232])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C89C6D73C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 14:14:11 +0000 (UTC)
-Received: from [69.196.158.250] (port=38211 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VjrUn-00036j-Ui; Fri, 22 Nov 2013 09:14:10 -0500
-Date: Fri, 22 Nov 2013 09:14:07 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LZ3ye-nX837bnTh9QiQw6ZvrQBgNNp_dyTqPP5jBi9w2A@mail.gmail.com>
-Message-ID: <alpine.DEB.2.02.1311220913270.15571@oneiric>
-References: <alpine.DEB.2.02.1311220812240.14584@oneiric>
-	<CAJTo0LZ3ye-nX837bnTh9QiQw6ZvrQBgNNp_dyTqPP5jBi9w2A@mail.gmail.com>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
-MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: is there an easy way to see the actual files that went into a package?
+	Fri, 22 Nov 2013 14:23:12 +0000 (UTC)
+Received: from chuckie.brightsign ([172.30.1.25])
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>) id 1VjrdX-0006Vc-9c
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Nov 2013 14:23:11 +0000
+Received: from mac by chuckie.brightsign with local (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>) id 1VjrdX-0002Ck-8V
+	for openembedded-core@lists.openembedded.org;
+	Fri, 22 Nov 2013 14:23:11 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Nov 2013 14:23:00 +0000
+Message-Id: <1385130182-8421-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1385129059-941-1-git-send-email-mac@mcrowe.com>
+References: <1385129059-941-1-git-send-email-mac@mcrowe.com>
+Subject: kernel.bbclass: Fix various bundle_initramfs problems (v2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,33 +33,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 14:14:11 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Fri, 22 Nov 2013 14:23:12 -0000
 
-On Fri, 22 Nov 2013, Burton, Ross wrote:
+Previously I wrote:
+> The second of these two patches fix various problems with the                                                                                                                                        
+> bundle_initramfs feature in kernel.bbclass. The first one reverts a                                                                                                                                  
+> recent patch which should make the history easier to follow.  
 
-> On 22 November 2013 13:15, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
-> >   if i use "bb show" to examine the files that go into each package
-> > (eg, for "zlib" here), what i get is the collection of wildcards that
-> > will, of course, still be processed when sequentially creating each
-> > package:
->
-> "bb contents [packagename]"
->
-> (known issue is that it doesn't display empty directories)
+This version has a better commit message and correct Signed-off-by
+lines.
 
-  that's it, that's what i was after, thanks. i should spend more time
-playing with "bb", it's turning out to be massively useful.
+Mike.
 
-rday
-
--- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
