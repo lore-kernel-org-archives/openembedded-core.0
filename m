@@ -1,32 +1,31 @@
-Return-Path: <Paul_Woegerer@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D9AD6CEE9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 114A66A467
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 15:01:16 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1VjsEN-0000JF-2J from Paul_Woegerer@mentor.com ;
-	Fri, 22 Nov 2013 07:01:15 -0800
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 22 Nov 2013 07:01:15 -0800
-Received: from atv-pwoegere-l3.atv.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.2.247.3; Fri, 22 Nov 2013 15:01:13 +0000
-Message-ID: <528F71B8.7090500@mentor.com>
-Date: Fri, 22 Nov 2013 16:01:12 +0100
-From: "Woegerer, Paul" <Paul_Woegerer@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, <sgw@linux.intel.com>,
-	<cristiana.voicu@intel.com>
-References: <52851A4D.7090107@linux.intel.com>
-	<1385127683-9644-1-git-send-email-paul_woegerer@mentor.com>
-In-Reply-To: <1385127683-9644-1-git-send-email-paul_woegerer@mentor.com>
-X-OriginalArrivalTime: 22 Nov 2013 15:01:15.0052 (UTC)
-	FILETIME=[B0AADEC0:01CEE793]
-Subject: Re: [PATCH] liburcu: Update to version 0.8.1
+	Fri, 22 Nov 2013 15:07:51 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAMF7ipD021608 for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Nov 2013 15:07:45 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 4wGrkQctJ7xY
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Nov 2013 15:07:44 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAMF7bwo021604
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Nov 2013 15:07:39 GMT
+Message-ID: <1385132854.16887.178.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Nov 2013 15:07:34 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] metadata_scm: Avoid crashing on new svn version layouts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,83 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 15:01:16 -0000
-Content-Type: text/plain; charset="ISO-8859-1"
+X-List-Received-Date: Fri, 22 Nov 2013 15:07:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Nevermind. I just saw that already happend.
+This avoids crashing on newer svn layouts where the entries files
+don't contain three lines. If someone wants to fix this to
+get the right version on newer subversion checkouts, patches
+welcome but this at least stops things crashing.
 
-Sorry for the noise,
-Paul
+[YOCTO #5363]
 
-On 11/22/2013 02:41 PM, Paul Woegerer wrote:
-> Signed-off-by: Paul Woegerer <paul_woegerer@mentor.com>
-> ---
->  meta/recipes-support/liburcu/files/fixCCflag.patch   | 20 --------------------
->  .../liburcu/{files => liburcu}/fixsepbuild.patch     |  0
->  .../liburcu/{liburcu_0.8.0.bb => liburcu_0.8.1.bb}   |  7 +++----
->  3 files changed, 3 insertions(+), 24 deletions(-)
->  delete mode 100644 meta/recipes-support/liburcu/files/fixCCflag.patch
->  rename meta/recipes-support/liburcu/{files => liburcu}/fixsepbuild.patch (100%)
->  rename meta/recipes-support/liburcu/{liburcu_0.8.0.bb => liburcu_0.8.1.bb} (75%)
->
-> diff --git a/meta/recipes-support/liburcu/files/fixCCflag.patch b/meta/recipes-support/liburcu/files/fixCCflag.patch
-> deleted file mode 100644
-> index 2e526d4..0000000
-> --- a/meta/recipes-support/liburcu/files/fixCCflag.patch
-> +++ /dev/null
-> @@ -1,20 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> -Use cross compiler for doc exemples too
-> -
-> -Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
-> -
-> -Index: userspace-rcu-0.8.0/doc/examples/Makefile.examples.template
-> -===================================================================
-> ---- userspace-rcu-0.8.0.orig/doc/examples/Makefile.examples.template	2013-08-30 21:25:20.000000000 +0300
-> -+++ userspace-rcu-0.8.0/doc/examples/Makefile.examples.template	2013-10-23 13:34:30.405550556 +0300
-> -@@ -11,7 +11,9 @@
-> - #
-> - # This makefile is purposefully kept simple to support GNU and BSD make.
-> - 
-> -+ifndef CC
-> - CC = gcc
-> -+endif
-> - CFLAGS = -g -O2 -Wall
-> - 
-> - all: $(BINARY)
-> diff --git a/meta/recipes-support/liburcu/files/fixsepbuild.patch b/meta/recipes-support/liburcu/liburcu/fixsepbuild.patch
-> similarity index 100%
-> rename from meta/recipes-support/liburcu/files/fixsepbuild.patch
-> rename to meta/recipes-support/liburcu/liburcu/fixsepbuild.patch
-> diff --git a/meta/recipes-support/liburcu/liburcu_0.8.0.bb b/meta/recipes-support/liburcu/liburcu_0.8.1.bb
-> similarity index 75%
-> rename from meta/recipes-support/liburcu/liburcu_0.8.0.bb
-> rename to meta/recipes-support/liburcu/liburcu_0.8.1.bb
-> index 0bb4545..bcdd32a 100644
-> --- a/meta/recipes-support/liburcu/liburcu_0.8.0.bb
-> +++ b/meta/recipes-support/liburcu/liburcu_0.8.1.bb
-> @@ -8,11 +8,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
->                      file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
->  
->  SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
-> -           file://fixsepbuild.patch \
-> -           file://fixCCflag.patch"
-> +           file://fixsepbuild.patch"
->  
-> -SRC_URI[md5sum] = "ddf193131b9f172c8f540b60d9d339f4"
-> -SRC_URI[sha256sum] = "49fbe70af47945037f437931c9539bfb9cb03ba28b813649ea7394dbdca70658"
-> +SRC_URI[md5sum] = "c0c0613bcce3b6954a050faa6dec6f51"
-> +SRC_URI[sha256sum] = "8008f697b030d7d3043ebd3a72be63cefc9242ed2d50520d30211e3908a4e01e"
->  
->  S = "${WORKDIR}/userspace-rcu-${PV}"
->  CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
+index 8d3988a..ba0edf9 100644
+--- a/meta/classes/metadata_scm.bbclass
++++ b/meta/classes/metadata_scm.bbclass
+@@ -54,11 +54,13 @@ def base_get_metadata_monotone_revision(path, d):
+     return monotone_revision
+ 
+ def base_get_metadata_svn_revision(path, d):
++    # This only works with older subversion. For newer versions 
++    # this function will need to be fixed by someone interested
+     revision = "<unknown>"
+     try:
+         with open("%s/.svn/entries" % path) as f:
+             revision = f.readlines()[3].strip()
+-    except IOError:
++    except IOError, IndexError:
+         pass
+     return revision
+ 
 
-
--- 
-Paul Woegerer, SW Development Engineer
-Sourcery Analyzer <http://go.mentor.com/sourceryanalyzer>
-Mentor Graphics, Embedded Software Division
 
 
