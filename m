@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B3C566D88E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 47C686DBF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 05:38:40 +0000 (UTC)
+	Fri, 22 Nov 2013 05:38:43 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAM5cex1025345
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAM5cfnG009022
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 21:38:40 -0800 (PST)
+	Thu, 21 Nov 2013 21:38:43 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 21 Nov 2013 21:38:39 -0800
+	14.2.347.0; Thu, 21 Nov 2013 21:38:41 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Nov 2013 13:39:01 +0800
-Message-ID: <cover.1385098685.git.Qi.Chen@windriver.com>
+Date: Fri, 22 Nov 2013 13:39:02 +0800
+Message-ID: <8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1385098685.git.Qi.Chen@windriver.com>
+References: <cover.1385098685.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] image.bbclass: depends on virtual/kernel
+Subject: [PATCH 1/1] image.bbclass: depends on virtual/kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 05:38:41 -0000
+X-List-Received-Date: Fri, 22 Nov 2013 05:38:43 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit d60b4ff3517487bd111c6d7e1410882280229377:
+Add 'virtual/kernel' to DEPENDS in image.bbclass so that the kernel
+can get built by default. Otherwise, the kernel will not get built
+unless it's required by other packages like v86d. As a result, if
+we build 'core-image-minimal' for qemumips, the kernel is not built,
+and we have 'bitbake linux-yocto' before we can use runqemu to start
+the target.
 
-  yocto-bsp: Add missing format specifier in bblayers error message (2013-11-21 14:20:28 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/image-kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/image-kernel
-
-Chen Qi (1):
-  image.bbclass: depends on virtual/kernel
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/classes/image.bbclass |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index bc60f0d..ccb6bf3 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -10,7 +10,7 @@ inherit gzipnative
+ 
+ LICENSE = "MIT"
+ PACKAGES = ""
+-DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross"
++DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross virtual/kernel"
+ RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
+ RRECOMMENDS += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+ 
 -- 
 1.7.9.5
 
