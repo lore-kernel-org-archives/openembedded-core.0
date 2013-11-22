@@ -1,26 +1,40 @@
-Return-Path: <paul.eggleton@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 814E76CDCB
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B6A406CDCB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 11:05:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Nov 2013 03:01:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,751,1378882800"; d="scan'208";a="439800386"
-Received: from pauljbro-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.121.218])
-	by orsmga002.jf.intel.com with ESMTP; 22 Nov 2013 03:05:20 -0800
-From: Paul Eggleton <paul.eggleton@intel.com>
-To: "Hart, Darren" <darren.hart@intel.com>
-Date: Fri, 22 Nov 2013 11:05:19 +0000
-Message-ID: <1583959.f3sbDcLors@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1385059626.3614.10.camel@dvhart-mobl4.amr.corp.intel.com>
-References: <1385059626.3614.10.camel@dvhart-mobl4.amr.corp.intel.com>
+	Fri, 22 Nov 2013 11:38:28 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id c41so374525eek.22
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Nov 2013 03:38:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=PXaE6V++z/iAmfHh3cLqJSmL8bfJUK10lDx12czR9SU=;
+	b=HX2QgXbJd0z9Z2Zp25jFpOZBvdQfi971IwtOe1W/V0qwjgHwl11pSj4tQKyfOOwOp+
+	gCYUE1NLfKov+C2On/BIQ154tcQhVEIwhejN6nrGqtGKXwjtWnxxokSRPW3PxhtvYqp9
+	YuBQCTYnkRLf5y17KUC6slfH1gYHQtSmxHV0XUH0/N7LExNiDYwRaVYO9w8ceZm6I/0d
+	p7gz24+Q6tcNsh3b1nzkfkHYHaEKbj43ZYhsoIobLFhpCzduLpFC8TqAFhYrnb2/MLlU
+	pNU8A2Flrhu76T4PQISizj22S4oWEVI19JZce4SzQwOiLNbIXSyy2CCvq/6yQn9j41kC
+	GIrg==
+X-Received: by 10.15.94.201 with SMTP id bb49mr16310876eeb.23.1385120307496;
+	Fri, 22 Nov 2013 03:38:27 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id a45sm60320584eem.6.2013.11.22.03.38.26
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 22 Nov 2013 03:38:26 -0800 (PST)
+Date: Fri, 22 Nov 2013 12:38:32 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Qi.Chen@windriver.com
+Message-ID: <20131122113832.GC3708@jama>
+References: <cover.1385098685.git.Qi.Chen@windriver.com>
+	<8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: distro/machine:kernel feature mapping and version checking
+In-Reply-To: <8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.bbclass: depends on virtual/kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,96 +47,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 11:05:26 -0000
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 Nov 2013 11:38:29 -0000
+X-Groupsio-MsgNum: 47501
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="y1+kC1Q2udlVMFpc"
+Content-Disposition: inline
 
-Hi Darren,
+--y1+kC1Q2udlVMFpc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thursday 21 November 2013 18:47:07 Hart, Darren wrote:
-> Regarding the following 2 bugs:
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5574
-> Add kernel version / configuration check mechanism
-> 
-> and 
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=2267
-> Integrate DISTRO_FEATURES with KERNEL_FEATURES
-> 
-> There is a need to reduce errors where a DISTRO config might break due
-> to lack of kernel support, things such as systemd. There is also
-> interest in enabling certain kernel features based on
-> DISTRO/MACHINE_FEATURES, such as wifi.
-> 
-> Neither of these should depend on the Kernel Version as even with the
-> right version, if the CONFIG_* feature is missing, the image will not
-> work correctly. There is also the risk of false negatives when a feature
-> has been backported to a kernel version that didn't have the feature
-> previously.
+On Fri, Nov 22, 2013 at 01:39:02PM +0800, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>=20
+> Add 'virtual/kernel' to DEPENDS in image.bbclass so that the kernel
+> can get built by default. Otherwise, the kernel will not get built
+> unless it's required by other packages like v86d. As a result, if
+> we build 'core-image-minimal' for qemumips, the kernel is not built,
+> and we have 'bitbake linux-yocto' before we can use runqemu to start
+> the target.
 
-Right; I hadn't appreciated this when I wrote the bug but we definitely don't 
-want to be checking versions.
+Even when it's not really build time requirement for images I understand
+the scenario above and this seems like better place than packagegroup
+where it was before.
 
-> The recommended approach would be to check for the required CONFIG_*
-> options after the linux-yocto configuration stage.
-> 
-> There is also the topic of DISTRO_FEATURES ~= "wifi" impacting how the
-> kernel will be built. The MACHINE should have some say in how this is
-> done - if the machine can never have wifi, building wifi into the kernel
-> doesn't make a lot of sense. Something like the following might make
-> sense:
-> 
-> for FEATURE in DISTRO_FEATURES:
->     if MACHINE_FEATURES contains FEATURES:
->         KERNEL_FEATURES += FEATURE_override
-> 
-> Where FEATURE_override is defined something like this:
-> 
-> FEATURE = FEATURE_default
-> if exists FEATURE_distro:
->     FEATURE = FEATURE_distro
-> if exists FEATURE_machine:
->     FEATURE = FEATURE_machine
+My only concern is small initramfs images like
+meta-initramfs/recipes-bsp/images/initramfs-kexecboot-image.bb:inherit image
 
-There are a couple of slight quirks here:
+which could in turn be DEPENDS of real virtual/kernel causing circular
+dependency.
 
-1) Not all features match up between DISTRO_FEATURES and MACHINE_FEATURES like 
-this, just a select list. (This is why we currently have COMBINED_FEATURES.)
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/image.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index bc60f0d..ccb6bf3 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -10,7 +10,7 @@ inherit gzipnative
+> =20
+>  LICENSE =3D "MIT"
+>  PACKAGES =3D ""
+> -DEPENDS +=3D "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cros=
+s"
+> +DEPENDS +=3D "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cros=
+s virtual/kernel"
+>  RDEPENDS +=3D "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
+>  RRECOMMENDS +=3D "${PACKAGE_INSTALL_ATTEMPTONLY}"
+> =20
+> --=20
+> 1.7.9.5
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-2) There is some handling in packagegroup-base.bbclass to enable 
-wifi/bluetooth/3g/nfc functionality in userspace if these features are *not* in 
-MACHINE_FEATURES but they are in DISTRO_FEATURES *and* MACHINE_FEATURES 
-indicates some means of expansion exists e.g. pci, pcmcia, usbhost. Whether we 
-want to try to support this at the kernel level I don't know.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> This is effectively a fragment name which needs to be provided by the
-> linux-yocto kernel meta data as it will be kernel version dependent.
-> 
-> The linkage I'm not sure about is how to know what to test for in the
-> kernel.bbclass without intimate knowledge of the kernel version CONFIG
-> options in recipe space.
+--y1+kC1Q2udlVMFpc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-So are you convinced you want to try to solve these two with one solution in 
-kernel.bbclass rather than giving individual recipes some easy methods of 
-checking kernel config options? I agree they are related, but I had imagined 
-that we'd solve them both and solve them separately; only doing the feature 
-map when we're building the kernel still leaves us with recipes like udev that 
-aren't controlled by a specific feature but do still have kernel config 
-requirements (of course, you could just assume that if you're using sysvinit 
-then you're using udev and handle the issue that way, but that seems like a 
-hack to me).
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-Cheers,
-Paul
----------------------------------------------------------------------
-Intel Corporation (UK) Limited
-Registered No. 1134945 (England)
-Registered Office: Pipers Way, Swindon SN3 1RJ
-VAT No: 860 2173 47
+iEYEARECAAYFAlKPQjgACgkQN1Ujt2V2gBz74QCffAomq3NKWVEin+HPrSIKTbfG
+/UcAn0NqiYTFVc+LtL1l7ZL9Nth3QSbw
+=HaAn
+-----END PGP SIGNATURE-----
 
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
-
+--y1+kC1Q2udlVMFpc--
