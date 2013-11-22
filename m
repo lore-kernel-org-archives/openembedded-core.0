@@ -1,37 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
-	[209.85.219.52])
-	by mail.openembedded.org (Postfix) with ESMTP id BBAAB6BD0F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f172.google.com (mail-vc0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 076046BE67
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 13:42:08 +0000 (UTC)
-Received: by mail-oa0-f52.google.com with SMTP id h16so1359625oag.11
+	Fri, 22 Nov 2013 13:42:46 +0000 (UTC)
+Received: by mail-vc0-f172.google.com with SMTP id hz11so768535vcb.17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 05:42:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=FkGrtB0nnevf3cKJDaLxvyUXZo+MRi5SEL5i1g61hH8=;
-	b=QlxCByQZ3bJpeuB49RN/+N5iSghwODsuLEMUsLzS62pWq+rNk2ioi6HSr1CzFd2osO
-	k3lj5o+AkWZCtlDTDiQzh1juFPvmOMkQOmKMhwqkZCMB4Mvxtn5Yk4jTHZC76eiSZTVE
-	gRJwYhYmVrla3JEXQSk3L9vvf1AF1/c/sUbaDyT/wtNPP4HzrwuQ5Q2FFELXtDmqaX76
-	E96+yg6lmwdmS8ozlQBTWgWJ3/4/LBk4maAPadAucv8JNlVpqxYgANNylnpv+fCQqiap
-	1wyf3kt4N4iYJ9EAti2JvB33CNjtUcyDRUZ4guSxSUz8LT9l8WAjhEStQaDJ5aBC8Pjw
-	nC/g==
+	Fri, 22 Nov 2013 05:42:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0mzdCDAvCsWhFKqSHhcTjzyGyh2ZX2wEF/pLMR3c6IY=;
+	b=EiBSdTUz5CadWKuxSoY6i6yROA+7cKm3/4uzY9G8MpQwjsOyuZy28FhcYbFg8LSf0U
+	x/ERiVG8kcrdXFTMDLgrnl9xopToshSsIyNXaYMZiXVQlk/V6JrBxrzzqoecQygg1lav
+	sjEDh7B3QHtqR4iIzy9k+1LK6ccUfV4iBevML+8tJflLPwu9shDLa9zd0BzfNaVGT9I/
+	HrKoJoI9eQSxqyLOMJXgnpPDSSXlYykICLVJBcPlmkTOPuYK/tyoB1CzYxlkX+TYSb3f
+	Q+J+NQVzbmgOjemGdaaOWYeUbxUdbx0ID6G19wRMkZh5kuArimmCJLJ4g0raQX26KpaP
+	ZJsQ==
+X-Gm-Message-State: ALoCoQlzpEjpsOFafQ/rxSqTow+M1vpKOdNMnW+OSk6Mu0fQe6Wjny774wIPY/hAdAiugr1rBFvE
+X-Received: by 10.220.144.80 with SMTP id y16mr11432513vcu.4.1385127766078;
+	Fri, 22 Nov 2013 05:42:46 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.182.70.5 with SMTP id i5mr10821866obu.8.1385127727932; Fri,
-	22 Nov 2013 05:42:07 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Fri, 22 Nov 2013 05:42:07 -0800 (PST)
-In-Reply-To: <1385061961-4697-1-git-send-email-mark.hatle@windriver.com>
-References: <1385061961-4697-1-git-send-email-mark.hatle@windriver.com>
-Date: Fri, 22 Nov 2013 11:42:07 -0200
-X-Google-Sender-Auth: mDNKuuawgqPL5AMS-kHpU4ZaVtU
-Message-ID: <CAP9ODKry-KUYhXeKqn7iefb=rchCN9Xiu-GyFwj6A_eXtxD42g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image-prelink.bbclass: use the pseudo env var PSEUDO_ALLOW_FSYNC for prelink
+Received: by 10.220.71.201 with HTTP; Fri, 22 Nov 2013 05:42:24 -0800 (PST)
+In-Reply-To: <alpine.DEB.2.02.1311220812240.14584@oneiric>
+References: <alpine.DEB.2.02.1311220812240.14584@oneiric>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 Nov 2013 13:42:24 +0000
+Message-ID: <CAJTo0LZ3ye-nX837bnTh9QiQw6ZvrQBgNNp_dyTqPP5jBi9w2A@mail.gmail.com>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: is there an easy way to see the actual files that went into a package?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 13:42:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 22 Nov 2013 13:42:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Nov 21, 2013 at 5:26 PM, Mark Hatle <mark.hatle@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> (Note: this patch is sent for YP compliance, I don't believe it is
->  applicable to general oe-core.)
->
-> This would actually emit fsync calls, which may fix the do_rootfs failure
-> on older systems like CentOS 5.x or SuSE 11.
->
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+On 22 November 2013 13:15, Robert P. J. Day <rpjday@crashcourse.ca> wrote:
+>   if i use "bb show" to examine the files that go into each package
+> (eg, for "zlib" here), what i get is the collection of wildcards that
+> will, of course, still be processed when sequentially creating each
+> package:
 
-There're a Yocto bug about this issue, no?
+"bb contents [packagename]"
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+(known issue is that it doesn't display empty directories)
+
+Ross
 
