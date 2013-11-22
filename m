@@ -1,34 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DCB16D128
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id A70A86C747
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 21:18:59 +0000 (UTC)
-Received: by mail-ea0-f178.google.com with SMTP id d10so726307eaj.23
+	Fri, 22 Nov 2013 22:25:21 +0000 (UTC)
+Received: by mail-la0-f52.google.com with SMTP id ev20so1322650lab.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 13:18:58 -0800 (PST)
+	Fri, 22 Nov 2013 14:25:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=T5uB7I7QnT8tfJgM6ufhKiTKb32qZ81nxjmZINjOfNE=;
-	b=enU7MmR/ErVXechi3HNPQMKINa4e0LQHOlBKBMb6q6LNAjt9RWAG9JfHCFLxqvA+0U
-	3aF77IBYSSFhyDT08VmRUGmC91e52uP5DY/gnwhdb0o7yHBRo6ujUuPHSH4OLxiyBNrs
-	uOgaZqStbJPi6fOuF1w49USzofM+nDcGOHCZe2AllFZn07BYicW1gHrke7nQOldrqa+d
-	+cz85Vg2VIqmraX8EfgoQiIb5WsJQ0LK/espH439AiBwZOSmYU5oSxQjAyubezvQd58H
-	6KcjtG1EnHY2PUuTmBRVS8017JrG7XvuNRcmRAhjWsDZoBszOXpRVzZPjqcxwIMUHAzh
-	C7cA==
-X-Received: by 10.14.149.139 with SMTP id x11mr156910eej.35.1385155138484;
-	Fri, 22 Nov 2013 13:18:58 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107]) by mx.google.com with ESMTPSA id
-	j46sm80425093eew.18.2013.11.22.13.18.57 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Nov 2013 13:18:57 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Nov 2013 22:19:03 +0100
-Message-Id: <1385155143-31331-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.4.3
-Subject: [PATCH] base.bbclass: Set umask 022 also for do_unpack task
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=SZ1PCqAAVdsZwz2vaOdaoOCFuKufB2Gt5Y99+K+eygc=;
+	b=Qno6GJSgWwTUlIYxUHqa/DhGC/8tx+r8R+9Ow7MpLMezsY/ju8KNOt8+sQtGmiY01E
+	9yQsRrdeSHBZKSL4z/bvdg/f63VTYIGLGSGCe0GGXgQ4NdVeB0E/Latu0dzB1dIfqyrm
+	4/DXGwPp6eYH7m/afOJ6tm0yqs9Vs8gn/mkITiR0iSVb4wvr03amYHgjSDJnIVdxegTV
+	d4pWPfPlGiJlJAatLUxoYyAPEXw0zrAX6e+5+J+YAEXwjEI+QWM4TB9eVYet5U/UgUtt
+	yRO61Sl/IZoXrIbeO8/fkgcHEJBDq4C/UfDIK3IFkXBk0BATsTAuyrgxIlpbRHEuLTWC
+	diPg==
+MIME-Version: 1.0
+X-Received: by 10.112.132.9 with SMTP id oq9mr27661lbb.67.1385159120026; Fri,
+	22 Nov 2013 14:25:20 -0800 (PST)
+Received: by 10.112.52.74 with HTTP; Fri, 22 Nov 2013 14:25:19 -0800 (PST)
+In-Reply-To: <CAAQYJAt-EwCrEGXjEN1zU8oM4if7KOniKegHDQS=zezmJZFoZg@mail.gmail.com>
+References: <1384520708.23724.12.camel@phil-desktop.brightsign>
+	<CAP9ODKqVib+iDsGEges9Hhy2dyWoOi2JtfhVJ+pNCs=KUq7Q4A@mail.gmail.com>
+	<1384625383.3814.34.camel@x121e.pbcl.net>
+	<1384777609.6460.224.camel@ted>
+	<CAAQYJAt-EwCrEGXjEN1zU8oM4if7KOniKegHDQS=zezmJZFoZg@mail.gmail.com>
+Date: Fri, 22 Nov 2013 23:25:19 +0100
+Message-ID: <CAAQYJAuTZVe5zcP7pfz39fBDVOcZsc_-JYuOK8gXABCcm0fbEw@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: Tolerate empty INITRAMFS_IMAGE when INITRAMFS_TASK is set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,35 +47,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 21:19:00 -0000
+X-List-Received-Date: Fri, 22 Nov 2013 22:25:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-* when git checkouts files from fetched clone it respects system umask
-  and creates files with different permissions, if such files are copied
-  to packages, resulting target images have also different permissions
-  on them.
-* we need reproducible builds across different builders with different
-  system umask, so set 022 umask
+On Tue, Nov 19, 2013 at 12:26 AM, Andrea Adami <andrea.adami@gmail.com> wrote:
+> On Mon, Nov 18, 2013 at 1:26 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Sat, 2013-11-16 at 18:09 +0000, Phil Blundell wrote:
+>>> On Fri, 2013-11-15 at 11:26 -0200, Otavio Salvador wrote:
+>>> > Hello Phil,
+>>> >
+>>> > On Fri, Nov 15, 2013 at 11:05 AM, Phil Blundell <pb@pbcl.net> wrote:
+>>> > > The idiomatic way to reinstate the old-style initramfs handling appears to be to
+>>> > > set:
+>>> > >
+>>> > > INITRAMFS_TASK = "${INITRAMFS_IMAGE}:do_rootfs"
+>>> >
+>>> > What problems are you having with the 'new-style'?
+>>>
+>>> Good question.  When I first merged the version of kernel.bbclass that
+>>> implemented the "new-style" system I was having a bunch of problems
+>>> which seemed to be due to the new code.  However, after a bit of further
+>>> debugging it now appears that most of them are issues with the
+>>> implementation rather than with the concept and selecting INITRAMFS_TASK
+>>> doesn't actually help very much because the code that was causing my
+>>> problems is shared between the two paths.
+>>>
+>>> The main difficulty I was having was that kernel.bbclass was looking for
+>>> the initramfs image with slightly the wrong filename.  After a certain
+>>> amount of sleuthing and some clues from Andrea it eventually became
+>>> apparent that kernel.bbclass relies on the initramfs image recipe
+>>> leaving ${IMAGE_LINK_NAME} at its default value and will fail if it's
+>>> set to anything else.  This seems slightly fragile and it seems as
+>>> though it would be better for kernel.bbclass to look for the initramfs
+>>> image at its primary location rather than relying on the symlink.
+>>>
+>>> I also discovered that the new code in kernel.bbclass uncompresses the
+>>> initramfs image before embedding it in the kernel.  I can guess why this
+>>> seemed like a good plan, but it's slightly surprising behaviour and it
+>>> seems like anybody who wanted to embed the initramfs in uncompressed
+>>> form would just select IMAGE_TYPE = "cpio" for it in the first place.
+>>> Also, Andrea reports that he does actually get worse compression overall
+>>> with this approach in at least some circumstances.
+>>>
+>>> Anyway, with those things fixed I can now at least build images again
+>>> and it's entirely possible that the "new style" system would also work
+>>> for me.  However, it doesn't seem as though the new technology would
+>>> bring me any particular benefits, and as far as I can tell it would
+>>> introduce an extra kernel compile step that I don't particularly want,
+>>> so I am inclined to stick with INITRAMFS_TASK for the moment.
+>>
+>> FWIW I would *love* to simplify this code and have one good/efficient
+>> codepath everyone uses. The initramfs decompression code looks nasty to
+>> me for example and I agree with your thoughts on that.
+>>
+>
+>
+> This decompression is apparently what makes my kernel unbootable.
+> We purposedly specify options for the XZ compressor (for machines with
+> 32MB ram) and if the cpio is uncompressed before these preferences are
+> lost.
+>
+> Andrea
+>
+>
 
-[YOCTO #5590]
+So, can we change it? I'd say if one bothers to specify compression
+for the cpio then respect that...
+If on the other hand one needs to do dirty things within the cpio,
+then don't compress it as first: the compression options can be
+specified in the kernel recipe/config so the artifact is compressed
+afterwards.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/base.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Cheers
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 93bc700..189143f 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -485,6 +485,7 @@ python () {
-     # If we're building a target package we need to use fakeroot (pseudo)
-     # in order to capture permissions, owners, groups and special files
-     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
-+        d.setVarFlag('do_unpack', 'umask', 022)
-         d.setVarFlag('do_configure', 'umask', 022)
-         d.setVarFlag('do_compile', 'umask', 022)
-         d.appendVarFlag('do_install', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
--- 
-1.8.4.3
+Andrea
 
+>
+>> Cheers,
+>>
+>> Richard
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
