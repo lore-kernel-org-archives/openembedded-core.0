@@ -1,26 +1,26 @@
 Return-Path: <mcrowe@brightsign.biz>
 Received: from elite.brightsigndigital.co.uk
 	(cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net [86.30.57.232])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C89C6D73C
+	by mail.openembedded.org (Postfix) with ESMTP id 55E226D0CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 14:23:12 +0000 (UTC)
+	Fri, 22 Nov 2013 14:23:19 +0000 (UTC)
 Received: from chuckie.brightsign ([172.30.1.25])
 	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
-	(envelope-from <mcrowe@brightsign.biz>) id 1VjrdX-0006Vc-9c
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Nov 2013 14:23:11 +0000
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1Vjrde-0006Vg-Gx; Fri, 22 Nov 2013 14:23:18 +0000
 Received: from mac by chuckie.brightsign with local (Exim 4.80)
-	(envelope-from <mcrowe@brightsign.biz>) id 1VjrdX-0002Ck-8V
-	for openembedded-core@lists.openembedded.org;
-	Fri, 22 Nov 2013 14:23:11 +0000
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1Vjrde-0002Cp-Fz; Fri, 22 Nov 2013 14:23:18 +0000
 From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Nov 2013 14:23:00 +0000
-Message-Id: <1385130182-8421-1-git-send-email-mac@mcrowe.com>
+Date: Fri, 22 Nov 2013 14:23:01 +0000
+Message-Id: <1385130182-8421-2-git-send-email-mac@mcrowe.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1385129059-941-1-git-send-email-mac@mcrowe.com>
+In-Reply-To: <1385130182-8421-1-git-send-email-mac@mcrowe.com>
 References: <1385129059-941-1-git-send-email-mac@mcrowe.com>
-Subject: kernel.bbclass: Fix various bundle_initramfs problems (v2)
+	<1385130182-8421-1-git-send-email-mac@mcrowe.com>
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH 1/2] Revert "kernel.bbclass: move bundle_initramfs after kernel_link_vmlinux"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,16 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 14:23:12 -0000
+X-List-Received-Date: Fri, 22 Nov 2013 14:23:19 -0000
 
-Previously I wrote:
-> The second of these two patches fix various problems with the                                                                                                                                        
-> bundle_initramfs feature in kernel.bbclass. The first one reverts a                                                                                                                                  
-> recent patch which should make the history easier to follow.  
+This reverts commit 3baa63b4d588c3262254528b406ede265dd117bf. It broke
+builds that aren't using kernel-yocto.
 
-This version has a better commit message and correct Signed-off-by
-lines.
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/classes/kernel.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Mike.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 48999fe..ba13e67 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -152,7 +152,7 @@ python do_devshell_prepend () {
+     os.environ["LDFLAGS"] = ''
+ }
+ 
+-addtask bundle_initramfs after do_kernel_link_vmlinux before do_build
++addtask bundle_initramfs after do_compile before do_build
+ 
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+-- 
+1.7.10.4
 
 
