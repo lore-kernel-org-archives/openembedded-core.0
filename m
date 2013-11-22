@@ -1,34 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C9766A463
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EA12C6D772
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 21:23:05 +0000 (UTC)
-Received: by mail-ee0-f46.google.com with SMTP id c4so136744eek.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2013 13:23:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=1Pl3LQCnipd7KE/SLIbBKIZMVVNrVWjBrnKkrPYxfgY=;
-	b=jRJhndIQTDzZQab4YS6L/B3E9qdWi0tsDAIytFjUwlF+vUorEEwMusuRyvEk7+Y+j3
-	n/Ax7dkVDk0FsWC1mka5oD4Elsv1Q74xhaEXYvn0gpU64Ef6pDZKiBpogA/yb5bOe0WJ
-	DQpLbEaHvC04FszzYzT1MSIuuZia4haqU3vYPPzHatXL3MZW2AOdTT8jW3EXumvgb06k
-	vjTFxX8VrbH5z9s5JhDGz4W4waA1fDYYVWuvFjLV3mcuYWyUwej+9+wWfTDMWA08aSNU
-	EV44+PxGX2u3jcrQJ0O1a5ouwsc34GDsAwuxwmgxwXy9ki4MaiRU//LQJBo/8ZwgiUn1
-	jgdw==
-X-Received: by 10.15.76.6 with SMTP id m6mr11122807eey.37.1385068984627;
-	Thu, 21 Nov 2013 13:23:04 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id w6sm73879994eeo.12.2013.11.21.13.23.03
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 21 Nov 2013 13:23:03 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2013 22:23:07 +0100
-Message-Id: <1385068987-29714-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.4.3
-Subject: [PATCH] xinput-calibrator: add formfactor to RDEPENDS
+	Fri, 22 Nov 2013 01:52:20 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAM1qIk5004026
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 21 Nov 2013 17:52:19 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 21 Nov 2013 17:52:18 -0800
+Message-ID: <528EB8C9.5060403@windriver.com>
+Date: Fri, 22 Nov 2013 09:52:09 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, Mark Hatle <mark.hatle@windriver.com>,
+	<openembedded-core@lists.openembedded.org>, Robert Yang
+	<liezhi.yang@windriver.com>
+References: <cover.1385039538.git.hongxu.jia@windriver.com>	<0e29f77b1778e75f547289c20e670fc0ffd5e070.1385039538.git.hongxu.jia@windriver.com>	<528E541B.7000104@linux.intel.com>	<528E6199.80306@windriver.com>
+	<528E6239.8040507@linux.intel.com>
+In-Reply-To: <528E6239.8040507@linux.intel.com>
+Subject: Re: [PATCH 4/4] qemu: add bash and python to qemu's RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,28 +36,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2013 21:23:07 -0000
+X-List-Received-Date: Fri, 22 Nov 2013 01:52:21 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* 30xinput_calibrate.sh is calling ". /etc/formfactor/config"
-  breaking Xsession for images without formfactor
+On 11/22/2013 03:42 AM, Saul Wold wrote:
+> On 11/21/2013 11:40 AM, Mark Hatle wrote:
+>> On 11/21/13, 12:42 PM, Saul Wold wrote:
+>>>
+>>> Why are you adding bash to qemu?
+>>
+>> My understanding is that there was a bash script that was added as well,
+>> once the python rdepends was resolved.
+Actually the bash script break the build first, and then the python's.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+> Any chance of "de-bashing" the script?
+I will try it.
 
-diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-index d6b3021..1ffd6d8 100644
---- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-+++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-@@ -27,5 +27,5 @@ do_install_append() {
-     install -m 0755 ${WORKDIR}/30xinput_calibrate.sh ${D}${sysconfdir}/X11/Xsession.d/
- }
- 
--RDEPENDS_${PN} = "xinput"
-+RDEPENDS_${PN} = "xinput formfactor"
- RRECOMMENDS_${PN} = "pointercal-xinput"
--- 
-1.8.4.3
+//Hongxu
+
+>
+> Sau!
+>> --Mark
+>>
+>>> Sau!
+>>>
+>>>
+>>> On 11/21/2013 05:14 AM, Hongxu Jia wrote:
+>>>> | Note: adding Smart RPM DB channel
+>>>> |
+>>>> | Note: to be installed:  qemu@x86_64 run-postinsts@x86_64
+>>>> kernel-modules@qemux86_64 packagegroup-core-boot@qemux86_64
+>>>> | Loading cache...
+>>>> | Updating cache...
+>>>> ######################################## [100%]
+>>>> |
+>>>> | Computing transaction...error: Can't install
+>>>> qemu-1.5.0-r0.0@x86_64: no package provides /usr/bin/python
+>>>> |
+>>>> | Saving cache...
+>>>> |
+>>>> | WARNING: exit code 1 from a shell command.
+>>>> | ERROR: Function failed: do_rootfs (log file is located at
+>>>> tmp/work/qemux86_64-wrs-linux/wrlinux-image-glibc-small/1.0-r1/temp/do_rootfs/log.do_rootfs.21373) 
+>>>>
+>>>>
+>>>>
+>>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>>> ---
+>>>>    meta/recipes-devtools/qemu/qemu.inc | 1 +
+>>>>    1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/meta/recipes-devtools/qemu/qemu.inc
+>>>> b/meta/recipes-devtools/qemu/qemu.inc
+>>>> index 21ce489..3f3431d 100644
+>>>> --- a/meta/recipes-devtools/qemu/qemu.inc
+>>>> +++ b/meta/recipes-devtools/qemu/qemu.inc
+>>>> @@ -5,6 +5,7 @@ DEPENDS = "glib-2.0 zlib alsa-lib virtual/libx11
+>>>> pixman dtc libsdl"
+>>>>    DEPENDS_class-native = "zlib-native alsa-lib-native
+>>>> glib-2.0-native pixman-native dtc-native"
+>>>>    DEPENDS_class-nativesdk = "nativesdk-zlib nativesdk-libsdl
+>>>> nativesdk-glib-2.0 nativesdk-pixman nativesdk-dtc"
+>>>>    RDEPENDS_${PN}_class-nativesdk = "nativesdk-libsdl"
+>>>> +RDEPENDS_${PN}_class-target += "bash python"
+>>>>
+>>>>    require qemu-targets.inc
+>>>>    inherit autotools
+>>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
