@@ -1,26 +1,32 @@
-Return-Path: <mcrowe@brightsign.biz>
-Received: from elite.brightsigndigital.co.uk
-	(cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net [86.30.57.232])
-	by mail.openembedded.org (Postfix) with ESMTP id F272B6D0CA
+Return-Path: <Paul_Woegerer@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D9AD6CEE9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 14:23:19 +0000 (UTC)
-Received: from chuckie.brightsign ([172.30.1.25])
-	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1Vjrdf-0006Vl-3D; Fri, 22 Nov 2013 14:23:19 +0000
-Received: from mac by chuckie.brightsign with local (Exim 4.80)
-	(envelope-from <mcrowe@brightsign.biz>)
-	id 1Vjrdf-0002Cu-28; Fri, 22 Nov 2013 14:23:19 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Nov 2013 14:23:02 +0000
-Message-Id: <1385130182-8421-3-git-send-email-mac@mcrowe.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1385130182-8421-1-git-send-email-mac@mcrowe.com>
-References: <1385129059-941-1-git-send-email-mac@mcrowe.com>
-	<1385130182-8421-1-git-send-email-mac@mcrowe.com>
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH 2/2] kernel.bbclass: Stop bundle_initramfs thwarting sstate cache and fix race
+	Fri, 22 Nov 2013 15:01:16 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1VjsEN-0000JF-2J from Paul_Woegerer@mentor.com ;
+	Fri, 22 Nov 2013 07:01:15 -0800
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 22 Nov 2013 07:01:15 -0800
+Received: from atv-pwoegere-l3.atv.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server id 14.2.247.3; Fri, 22 Nov 2013 15:01:13 +0000
+Message-ID: <528F71B8.7090500@mentor.com>
+Date: Fri, 22 Nov 2013 16:01:12 +0100
+From: "Woegerer, Paul" <Paul_Woegerer@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>, <sgw@linux.intel.com>,
+	<cristiana.voicu@intel.com>
+References: <52851A4D.7090107@linux.intel.com>
+	<1385127683-9644-1-git-send-email-paul_woegerer@mentor.com>
+In-Reply-To: <1385127683-9644-1-git-send-email-paul_woegerer@mentor.com>
+X-OriginalArrivalTime: 22 Nov 2013 15:01:15.0052 (UTC)
+	FILETIME=[B0AADEC0:01CEE793]
+Subject: Re: [PATCH] liburcu: Update to version 0.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +39,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 14:23:20 -0000
+X-List-Received-Date: Fri, 22 Nov 2013 15:01:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-The new do_bundle_initramfs task introduced in
-609d5a9ab9e58bb1c2bcc2145399fbc8b701b85a defeats using the sstate
-cache. The kernel is resurrected from the sstate cache but ends up being
-built again since do_bundle_initramfs depends on do_compile.
+Nevermind. I just saw that already happend.
 
-The task is no longer nostamp to avoid causing unnecessary rebuilds. The
-sstate checksum stamps should know when to rebuild.
+Sorry for the noise,
+Paul
 
-The task now runs before do_deploy and part of the work has been moved to
-do_deploy where it now writes to ${DEPLOYDIR} rather than
-${DEPLOY_DIR_IMAGE} so that the files end up in sstate.
+On 11/22/2013 02:41 PM, Paul Woegerer wrote:
+> Signed-off-by: Paul Woegerer <paul_woegerer@mentor.com>
+> ---
+>  meta/recipes-support/liburcu/files/fixCCflag.patch   | 20 --------------------
+>  .../liburcu/{files => liburcu}/fixsepbuild.patch     |  0
+>  .../liburcu/{liburcu_0.8.0.bb => liburcu_0.8.1.bb}   |  7 +++----
+>  3 files changed, 3 insertions(+), 24 deletions(-)
+>  delete mode 100644 meta/recipes-support/liburcu/files/fixCCflag.patch
+>  rename meta/recipes-support/liburcu/{files => liburcu}/fixsepbuild.patch (100%)
+>  rename meta/recipes-support/liburcu/{liburcu_0.8.0.bb => liburcu_0.8.1.bb} (75%)
+>
+> diff --git a/meta/recipes-support/liburcu/files/fixCCflag.patch b/meta/recipes-support/liburcu/files/fixCCflag.patch
+> deleted file mode 100644
+> index 2e526d4..0000000
+> --- a/meta/recipes-support/liburcu/files/fixCCflag.patch
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> -Use cross compiler for doc exemples too
+> -
+> -Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+> -
+> -Index: userspace-rcu-0.8.0/doc/examples/Makefile.examples.template
+> -===================================================================
+> ---- userspace-rcu-0.8.0.orig/doc/examples/Makefile.examples.template	2013-08-30 21:25:20.000000000 +0300
+> -+++ userspace-rcu-0.8.0/doc/examples/Makefile.examples.template	2013-10-23 13:34:30.405550556 +0300
+> -@@ -11,7 +11,9 @@
+> - #
+> - # This makefile is purposefully kept simple to support GNU and BSD make.
+> - 
+> -+ifndef CC
+> - CC = gcc
+> -+endif
+> - CFLAGS = -g -O2 -Wall
+> - 
+> - all: $(BINARY)
+> diff --git a/meta/recipes-support/liburcu/files/fixsepbuild.patch b/meta/recipes-support/liburcu/liburcu/fixsepbuild.patch
+> similarity index 100%
+> rename from meta/recipes-support/liburcu/files/fixsepbuild.patch
+> rename to meta/recipes-support/liburcu/liburcu/fixsepbuild.patch
+> diff --git a/meta/recipes-support/liburcu/liburcu_0.8.0.bb b/meta/recipes-support/liburcu/liburcu_0.8.1.bb
+> similarity index 75%
+> rename from meta/recipes-support/liburcu/liburcu_0.8.0.bb
+> rename to meta/recipes-support/liburcu/liburcu_0.8.1.bb
+> index 0bb4545..bcdd32a 100644
+> --- a/meta/recipes-support/liburcu/liburcu_0.8.0.bb
+> +++ b/meta/recipes-support/liburcu/liburcu_0.8.1.bb
+> @@ -8,11 +8,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0f060c30a27922ce9c0d557a639b4fa3 \
+>                      file://urcu/uatomic/x86.h;beginline=4;endline=21;md5=220552f72c55b102f2ee35929734ef42"
+>  
+>  SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
+> -           file://fixsepbuild.patch \
+> -           file://fixCCflag.patch"
+> +           file://fixsepbuild.patch"
+>  
+> -SRC_URI[md5sum] = "ddf193131b9f172c8f540b60d9d339f4"
+> -SRC_URI[sha256sum] = "49fbe70af47945037f437931c9539bfb9cb03ba28b813649ea7394dbdca70658"
+> +SRC_URI[md5sum] = "c0c0613bcce3b6954a050faa6dec6f51"
+> +SRC_URI[sha256sum] = "8008f697b030d7d3043ebd3a72be63cefc9242ed2d50520d30211e3908a4e01e"
+>  
+>  S = "${WORKDIR}/userspace-rcu-${PV}"
+>  CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
 
-The task can also race against do_install since both call into the kernel
-build system. This is fixed by making do_bundle_initramfs run after
-do_install (which therefore also fixes the problem that
-3baa63b4d588c3262254528b406ede265dd117bf was addressing.)
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/classes/kernel.bbclass |   24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ba13e67..4974507 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -134,25 +134,14 @@ do_bundle_initramfs () {
- 		echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
- 		install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
- 		echo "${B}/${KERNEL_OUTPUT}.initramfs"
--		cd ${B}
--		# Update deploy directory
--		if [ -e "${KERNEL_OUTPUT}.initramfs" ]; then
--			echo "Copying deploy kernel-initramfs image and setting up links..."
--			initramfs_base_name=${INITRAMFS_BASE_NAME}
--			initramfs_symlink_name=${KERNEL_IMAGETYPE}-initramfs-${MACHINE}
--			install -m 0644 ${KERNEL_OUTPUT}.initramfs ${DEPLOY_DIR_IMAGE}/${initramfs_base_name}.bin
--			cd ${DEPLOY_DIR_IMAGE}
--			ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
--		fi
- 	fi
- }
--do_bundle_initramfs[nostamp] = "1"
- 
- python do_devshell_prepend () {
-     os.environ["LDFLAGS"] = ''
- }
- 
--addtask bundle_initramfs after do_compile before do_build
-+addtask bundle_initramfs after do_install before do_deploy
- 
- kernel_do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-@@ -479,6 +468,17 @@ kernel_do_deploy() {
- 	ln -sf ${KERNEL_IMAGE_BASE_NAME}.bin ${DEPLOYDIR}/${KERNEL_IMAGETYPE}
- 
- 	cp ${COREBASE}/meta/files/deploydir_readme.txt ${DEPLOYDIR}/README_-_DO_NOT_DELETE_FILES_IN_THIS_DIRECTORY.txt
-+
-+	cd ${B}
-+	# Update deploy directory
-+	if [ -e "${KERNEL_OUTPUT}.initramfs" ]; then
-+		echo "Copying deploy kernel-initramfs image and setting up links..."
-+		initramfs_base_name=${INITRAMFS_BASE_NAME}
-+		initramfs_symlink_name=${KERNEL_IMAGETYPE}-initramfs-${MACHINE}
-+		install -m 0644 ${KERNEL_OUTPUT}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
-+		cd ${DEPLOYDIR}
-+		ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
-+	fi
- }
- do_deploy[dirs] = "${DEPLOYDIR} ${B}"
- do_deploy[prefuncs] += "package_get_auto_pr"
 -- 
-1.7.10.4
+Paul Woegerer, SW Development Engineer
+Sourcery Analyzer <http://go.mentor.com/sourceryanalyzer>
+Mentor Graphics, Embedded Software Division
 
 
