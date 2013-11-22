@@ -1,31 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 114A66A467
+Return-Path: <lukas.gorris@gmail.com>
+Received: from mail-bk0-f54.google.com (mail-bk0-f54.google.com
+	[209.85.214.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 66CFF6BE67
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 15:07:51 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAMF7ipD021608 for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 15:07:45 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4wGrkQctJ7xY
+	Fri, 22 Nov 2013 15:40:48 +0000 (UTC)
+Received: by mail-bk0-f54.google.com with SMTP id v16so864028bkz.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 15:07:44 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAMF7bwo021604
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 15:07:39 GMT
-Message-ID: <1385132854.16887.178.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Nov 2013 15:07:34 +0000
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] metadata_scm: Avoid crashing on new svn version layouts
+	Fri, 22 Nov 2013 07:40:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=4Y4asJLXPDHJIpI+KKLicFbnZJBdeMcOixXC1KMzrDg=;
+	b=zqPSFYJlJlOV592hOuBksHZmw1J+n7fHoOAXRMUWjCOXprVPNJXNlM21vGOnc3dRco
+	ZdwE6LCUkEj3WBm7y8NhdOwGjtmOIgcpo8b7EN7jokdbkZrw/7Q5pn8LYLpicMJWsV6B
+	w3Oo1RZ4ZIr/cueqZaS9a8mdoqDCacPbaMpV8J+s/p5NsG4ceJJBHwAnGEXbECvrs3Mh
+	NYfxBUu3Nd5XWVr/GAMnI6iM94onasvQyFo9AuyRiReLcIcKBsSWti7I9yxj47l6fJ47
+	I49FwGTPXzqdm4HL8ztr4uiXDhBQQJOGWgTDZUsYGAT7pAv7+gHYG5PQOkOsMepqxFsv
+	w0fA==
+X-Received: by 10.205.10.200 with SMTP id pb8mr10240690bkb.16.1385134847574;
+	Fri, 22 Nov 2013 07:40:47 -0800 (PST)
+Received: from [10.11.215.228] (nat-gw6.rrze.uni-erlangen.de. [192.44.85.28])
+	by mx.google.com with ESMTPSA id
+	no2sm32628753bkb.15.2013.11.22.07.40.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 22 Nov 2013 07:40:46 -0800 (PST)
+Message-ID: <528F7B00.7000909@gmail.com>
+Date: Fri, 22 Nov 2013 16:40:48 +0100
+From: Lukas-David Gorris <lukas.gorris@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org
+Subject: mencoder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +45,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 15:07:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 22 Nov 2013 15:40:49 -0000
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
 Content-Transfer-Encoding: 7bit
 
-This avoids crashing on newer svn layouts where the entries files
-don't contain three lines. If someone wants to fix this to
-get the right version on newer subversion checkouts, patches
-welcome but this at least stops things crashing.
+Hello,
 
-[YOCTO #5363]
+I would like to generate an image containing mencoder in the current 
+yocto metadata with the up to date oe layers as well as meta-raspberrypi 
+added.
+mplayer builds, installs and runs just fine for MACHINE raspberryi. A 
+search in the metadata yielded no references to mencoder.
+I am wondering how to add it, maybe based on the present mplayer 
+metadata and would be thankful for help.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-index 8d3988a..ba0edf9 100644
---- a/meta/classes/metadata_scm.bbclass
-+++ b/meta/classes/metadata_scm.bbclass
-@@ -54,11 +54,13 @@ def base_get_metadata_monotone_revision(path, d):
-     return monotone_revision
- 
- def base_get_metadata_svn_revision(path, d):
-+    # This only works with older subversion. For newer versions 
-+    # this function will need to be fixed by someone interested
-     revision = "<unknown>"
-     try:
-         with open("%s/.svn/entries" % path) as f:
-             revision = f.readlines()[3].strip()
--    except IOError:
-+    except IOError, IndexError:
-         pass
-     return revision
- 
+Best
 
-
+Lukas
 
