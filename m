@@ -1,38 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B6A406CDCB
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EC65616F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 11:38:28 +0000 (UTC)
-Received: by mail-ee0-f49.google.com with SMTP id c41so374525eek.22
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 03:38:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=PXaE6V++z/iAmfHh3cLqJSmL8bfJUK10lDx12czR9SU=;
-	b=HX2QgXbJd0z9Z2Zp25jFpOZBvdQfi971IwtOe1W/V0qwjgHwl11pSj4tQKyfOOwOp+
-	gCYUE1NLfKov+C2On/BIQ154tcQhVEIwhejN6nrGqtGKXwjtWnxxokSRPW3PxhtvYqp9
-	YuBQCTYnkRLf5y17KUC6slfH1gYHQtSmxHV0XUH0/N7LExNiDYwRaVYO9w8ceZm6I/0d
-	p7gz24+Q6tcNsh3b1nzkfkHYHaEKbj43ZYhsoIobLFhpCzduLpFC8TqAFhYrnb2/MLlU
-	pNU8A2Flrhu76T4PQISizj22S4oWEVI19JZce4SzQwOiLNbIXSyy2CCvq/6yQn9j41kC
-	GIrg==
-X-Received: by 10.15.94.201 with SMTP id bb49mr16310876eeb.23.1385120307496;
-	Fri, 22 Nov 2013 03:38:27 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id a45sm60320584eem.6.2013.11.22.03.38.26
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 22 Nov 2013 03:38:26 -0800 (PST)
-Date: Fri, 22 Nov 2013 12:38:32 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
+	Fri, 22 Nov 2013 11:41:04 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1Vjp6c-0002hx-VI; Fri, 22 Nov 2013 12:41:03 +0100
+Message-ID: <1385120462.15760.33.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
 To: Qi.Chen@windriver.com
-Message-ID: <20131122113832.GC3708@jama>
+Date: Fri, 22 Nov 2013 11:41:02 +0000
+In-Reply-To: <8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
 References: <cover.1385098685.git.Qi.Chen@windriver.com>
 	<8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Fri, 2013-11-22 at 13:39 +0800,
+	Qi.Chen@windriver.com wrote:
+	> Add 'virtual/kernel' to DEPENDS in image.bbclass so that the kernel >
+	can get built by default. Otherwise,
+	the kernel will not get built > unless it's
+	required by other packages like v86d. As a result,
+	if > we build 'core-image-minimal'
+	for qemumips, the kernel is not built,
+	> and we have 'bitbake linux-yocto'
+	before we can use runqemu to start > the target. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] image.bbclass: depends on virtual/kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,20 +55,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 11:38:29 -0000
-X-Groupsio-MsgNum: 47501
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="y1+kC1Q2udlVMFpc"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Nov 2013 11:41:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---y1+kC1Q2udlVMFpc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Nov 22, 2013 at 01:39:02PM +0800, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->=20
+On Fri, 2013-11-22 at 13:39 +0800, Qi.Chen@windriver.com wrote:
 > Add 'virtual/kernel' to DEPENDS in image.bbclass so that the kernel
 > can get built by default. Otherwise, the kernel will not get built
 > unless it's required by other packages like v86d. As a result, if
@@ -68,58 +67,16 @@ On Fri, Nov 22, 2013 at 01:39:02PM +0800, Qi.Chen@windriver.com wrote:
 > and we have 'bitbake linux-yocto' before we can use runqemu to start
 > the target.
 
-Even when it's not really build time requirement for images I understand
-the scenario above and this seems like better place than packagegroup
-where it was before.
+Not all images do actually need a kernel, and this will cause a
+dependency loop for old-style initramfs images that are dependencies of
+virtual/kernel itself.
 
-My only concern is small initramfs images like
-meta-initramfs/recipes-bsp/images/initramfs-kexecboot-image.bb:inherit image
+If you just want to ensure that the kernel is available at deployment
+time, perhaps you could make virtual/kernel be a dependency of do_deploy
+specifically (rather than do_configure as you have it here).
+Alternatively, if this is a specific problem for core-image-minimal,
+maybe the virtual/kernel dependency should just go in there.
 
-which could in turn be DEPENDS of real virtual/kernel causing circular
-dependency.
+p.
 
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/image.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index bc60f0d..ccb6bf3 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -10,7 +10,7 @@ inherit gzipnative
-> =20
->  LICENSE =3D "MIT"
->  PACKAGES =3D ""
-> -DEPENDS +=3D "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cros=
-s"
-> +DEPENDS +=3D "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cros=
-s virtual/kernel"
->  RDEPENDS +=3D "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
->  RRECOMMENDS +=3D "${PACKAGE_INSTALL_ATTEMPTONLY}"
-> =20
-> --=20
-> 1.7.9.5
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---y1+kC1Q2udlVMFpc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlKPQjgACgkQN1Ujt2V2gBz74QCffAomq3NKWVEin+HPrSIKTbfG
-/UcAn0NqiYTFVc+LtL1l7ZL9Nth3QSbw
-=HaAn
------END PGP SIGNATURE-----
-
---y1+kC1Q2udlVMFpc--
