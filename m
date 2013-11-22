@@ -1,26 +1,20 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 17BCB6D782
+Return-Path: <valentin.popa@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id BA7B06D782
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 22 Nov 2013 10:01:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAMA13xT026125
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 22 Nov 2013 02:01:03 -0800 (PST)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 22 Nov 2013 02:01:02 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Nov 2013 18:00:58 +0800
-Message-ID: <68e0be011d01c422c2cfade524de222a340343ba.1385113330.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.8.3
-In-Reply-To: <cover.1385113330.git.jackie.huang@windriver.com>
-References: <cover.1385113330.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Cc: phcoder@gmail.com, dvhart@linux.intel.com
-Subject: [PATCH 1/2] grub-efi: change to generate EFI image in target package
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2013 02:01:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,751,1378882800"; d="scan'208";a="432019415"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2013 02:00:44 -0800
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Nov 2013 12:01:46 +0200
+Message-Id: <1385114506-22633-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH V2] lighttpd: upgrade to 1.4.33
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,131 +28,56 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 22 Nov 2013 10:01:05 -0000
-Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
-
-To generate the target EFI image in a native package, it requires
-the host gcc have the ability to do -m32/-m64 compiling, but gcc
-doesn't have that support on the 32bit version of some distributions
-(e.g. rehl, suse), it would fail when build a 64bit target on these
-32bit hosts.
-
-In fact, all we need from grub-efi-native is the grub-mkimage binary,
-so change the solution to:
- * grub-efi-native only install grub-mkimage
- * grub-efi compiles target modules, generates EFI image
-   with grub-mkimage and deploy, but install nothing.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- meta/classes/grub-efi.bbclass                      |  4 +-
- .../{grub-efi-native_2.00.bb => grub-efi_2.00.bb}  | 43 ++++++++++++----------
- 2 files changed, 26 insertions(+), 21 deletions(-)
- rename meta/recipes-bsp/grub/{grub-efi-native_2.00.bb => grub-efi_2.00.bb} (77%)
+ .../recipes-extended/lighttpd/{files => lighttpd}/index.html.lighttpd | 0
+ meta/recipes-extended/lighttpd/{files => lighttpd}/lighttpd           | 0
+ meta/recipes-extended/lighttpd/{files => lighttpd}/lighttpd.conf      | 0
+ meta/recipes-extended/lighttpd/{files => lighttpd}/lighttpd.service   | 0
+ .../lighttpd/{lighttpd_1.4.32.bb => lighttpd_1.4.33.bb}               | 4 ++--
+ 5 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/lighttpd/{files => lighttpd}/index.html.lighttpd (100%)
+ rename meta/recipes-extended/lighttpd/{files => lighttpd}/lighttpd (100%)
+ rename meta/recipes-extended/lighttpd/{files => lighttpd}/lighttpd.conf (100%)
+ rename meta/recipes-extended/lighttpd/{files => lighttpd}/lighttpd.service (100%)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.32.bb => lighttpd_1.4.33.bb} (93%)
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 2f00901..71bd00f 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -15,8 +15,8 @@
- # ${GRUB_OPTS} - additional options to add to the config, ';' delimited # (optional)
- # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
+diff --git a/meta/recipes-extended/lighttpd/files/index.html.lighttpd b/meta/recipes-extended/lighttpd/lighttpd/index.html.lighttpd
+similarity index 100%
+rename from meta/recipes-extended/lighttpd/files/index.html.lighttpd
+rename to meta/recipes-extended/lighttpd/lighttpd/index.html.lighttpd
+diff --git a/meta/recipes-extended/lighttpd/files/lighttpd b/meta/recipes-extended/lighttpd/lighttpd/lighttpd
+similarity index 100%
+rename from meta/recipes-extended/lighttpd/files/lighttpd
+rename to meta/recipes-extended/lighttpd/lighttpd/lighttpd
+diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.conf b/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf
+similarity index 100%
+rename from meta/recipes-extended/lighttpd/files/lighttpd.conf
+rename to meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf
+diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.service b/meta/recipes-extended/lighttpd/lighttpd/lighttpd.service
+similarity index 100%
+rename from meta/recipes-extended/lighttpd/files/lighttpd.service
+rename to meta/recipes-extended/lighttpd/lighttpd/lighttpd.service
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
+similarity index 93%
+rename from meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+rename to meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
+index a1f0589..e8be659 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
+@@ -24,8 +24,8 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+         file://lighttpd.service \
+         "
  
--do_bootimg[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
--do_bootdirectdisk[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
-+do_bootimg[depends] += "grub-efi:do_deploy"
-+do_bootdirectdisk[depends] += "grub-efi:do_deploy"
+-SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
+-SRC_URI[sha256sum] = "60691b2dcf3ad2472c06b23d75eb0c164bf48a08a630ed3f308f61319104701f"
++SRC_URI[md5sum] = "e66b8164e5fc5a6beec0823b697fbe1d"
++SRC_URI[sha256sum] = "2ff2324658c0f90e7d39afd40f08f11ca230903b9019c31a2bbecd8f087f235e"
  
- GRUB_SERIAL ?= "console=ttyS0,115200"
- GRUBCFG = "${S}/grub.cfg"
-diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-similarity index 77%
-rename from meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-rename to meta/recipes-bsp/grub/grub-efi_2.00.bb
-index 04973b5..2fe688c 100644
---- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-@@ -14,14 +14,10 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- 
- # FIXME: We should be able to optionally drop freetype as a dependency
--DEPENDS = "autogen-native"
--RDEPENDS_${PN} = "diffutils freetype"
-+DEPENDS = "autogen-native flex-native bison-native"
-+DEPENDS_class-target = "grub-efi-native"
- PR = "r2"
- 
--# Native packages do not normally rebuild when the target changes.
--# Ensure this is built once per HOST-TARGET pair.
--PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
--
- SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://cfg \
-            file://grub-2.00-fpmath-sse-387-fix.patch \
-@@ -39,12 +35,10 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
- 
- S = "${WORKDIR}/grub-${PV}"
- 
--# Determine the target arch for the grub modules before the native class
--# clobbers TARGET_ARCH.
--ORIG_TARGET_ARCH := "${TARGET_ARCH}"
-+# Determine the target arch for the grub modules
- python __anonymous () {
-     import re
--    target = d.getVar('ORIG_TARGET_ARCH', True)
-+    target = d.getVar('TARGET_ARCH', True)
-     if target == "x86_64":
-         grubtarget = 'x86_64'
-         grubimage = "bootx64.efi"
-@@ -59,26 +53,37 @@ python __anonymous () {
- 
- inherit autotools
- inherit gettext
--inherit native
- inherit deploy
- 
- EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
--                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix='' \
-+                --enable-efiemu=no --program-prefix='' \
-                 --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
- 
--do_mkimage() {
-+do_install_class-target() {
-+	:
-+}
-+
-+do_install_class-native() {
-+	install -d ${D}${bindir}
-+	install -m 755 grub-mkimage ${D}${bindir}
-+}
-+
-+do_deploy() {
- 	# Search for the grub.cfg on the local boot media by using the
- 	# built in cfg file provided via this recipe
--	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-+	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
- 	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
- 	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
-+	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
- }
--addtask mkimage after do_compile before do_install
- 
--do_deploy() {
--	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
-+do_deploy_class-native() {
-+	:
- }
-+
- addtask deploy after do_install before do_build
- 
--do_install[noexec] = "1"
--do_populate_sysroot[noexec] = "1"
-+FILES_${PN}-dbg += "${libdir}/${BPN}/${GRUB_TARGET}-efi/.debug"
-+
-+BBCLASSEXTEND = "native"
-+ALLOW_EMPTY_${PN} = "1"
+ EXTRA_OECONF = " \
+              --without-bzip2 \
 -- 
-1.8.3
+1.8.3.2
 
 
