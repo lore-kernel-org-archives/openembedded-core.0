@@ -1,25 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B1126AE9E
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E0DD66AE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 18:49:51 +0000 (UTC)
+	Fri, 22 Nov 2013 18:52:14 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2013 10:49:51 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 22 Nov 2013 10:52:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,753,1378882800"; d="scan'208";a="438184565"
-Received: from unknown (HELO [10.255.15.137]) ([10.255.15.137])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2013 10:49:48 -0800
-Message-ID: <528FA74C.1030500@linux.intel.com>
-Date: Fri, 22 Nov 2013 10:49:48 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1385018903-24196-1-git-send-email-mark.hatle@windriver.com>
-In-Reply-To: <1385018903-24196-1-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [dora][PATCH] openssl: Fix pod2man des.pod error
+X-IronPort-AV: E=Sophos;i="4.93,753,1378882800"; d="scan'208";a="438185646"
+Received: from unknown (HELO [10.255.15.62]) ([10.255.15.62])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2013 10:52:10 -0800
+Message-ID: <1385146330.29354.47.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: jackie.huang@windriver.com
+Date: Fri, 22 Nov 2013 10:52:10 -0800
+In-Reply-To: <68e0be011d01c422c2cfade524de222a340343ba.1385113330.git.jackie.huang@windriver.com>
+References: <cover.1385113330.git.jackie.huang@windriver.com>
+	<68e0be011d01c422c2cfade524de222a340343ba.1385113330.git.jackie.huang@windriver.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: phcoder@gmail.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] grub-efi: change to generate EFI image in target package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,66 +33,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 18:49:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 22 Nov 2013 18:52:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 11/20/2013 11:28 PM, Mark Hatle wrote:
-> From: Baogen Shang <baogen.shang@windriver.com>
->
-> formatting fix, =back is required before =head1 on Ubuntu 12.04.
->
-> Signed-off-by: Baogen Shang <baogen.shang@windriver.com>
-> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+On Fri, 2013-11-22 at 18:00 +0800, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+> 
+> To generate the target EFI image in a native package, it requires
+> the host gcc have the ability to do -m32/-m64 compiling, but gcc
+> doesn't have that support on the 32bit version of some distributions
+> (e.g. rehl, suse), it would fail when build a 64bit target on these
+> 32bit hosts.
+> 
+> In fact, all we need from grub-efi-native is the grub-mkimage binary,
+> so change the solution to:
+>  * grub-efi-native only install grub-mkimage
+>  * grub-efi compiles target modules, generates EFI image
+>    with grub-mkimage and deploy, but install nothing.
+> 
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+
+Thanks Jackie!
+
+Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+
 > ---
->   .../openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch   | 12 ++++++++++++
->   meta/recipes-connectivity/openssl/openssl_1.0.1e.bb          |  3 ++-
->   2 files changed, 14 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
-> new file mode 100644
-> index 0000000..512cde4
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
-> @@ -0,0 +1,12 @@
-> +diff -urpN a_origin/des.pod b_modify/des.pod
-> +--- a_origin/crypto/des/des.pod	2013-08-15 15:02:56.211674589 +0800
-> ++++ b_modify/crypto/des/des.pod	2013-08-15 15:04:14.439674580 +0800
-> +@@ -181,6 +181,8 @@ the uuencoded file to embed in the begin
-> + output.  If there is no name specified after the B<-u>, the name text.des
-> + will be embedded in the header.
+>  meta/classes/grub-efi.bbclass                      |  4 +-
+>  .../{grub-efi-native_2.00.bb => grub-efi_2.00.bb}  | 43 ++++++++++++----------
+>  2 files changed, 26 insertions(+), 21 deletions(-)
+>  rename meta/recipes-bsp/grub/{grub-efi-native_2.00.bb => grub-efi_2.00.bb} (77%)
+> 
+> diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+> index 2f00901..71bd00f 100644
+> --- a/meta/classes/grub-efi.bbclass
+> +++ b/meta/classes/grub-efi.bbclass
+> @@ -15,8 +15,8 @@
+>  # ${GRUB_OPTS} - additional options to add to the config, ';' delimited # (optional)
+>  # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
+>  
+> -do_bootimg[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
+> -do_bootdirectdisk[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
+> +do_bootimg[depends] += "grub-efi:do_deploy"
+> +do_bootdirectdisk[depends] += "grub-efi:do_deploy"
+>  
+>  GRUB_SERIAL ?= "console=ttyS0,115200"
+>  GRUBCFG = "${S}/grub.cfg"
+> diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> similarity index 77%
+> rename from meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> rename to meta/recipes-bsp/grub/grub-efi_2.00.bb
+> index 04973b5..2fe688c 100644
+> --- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> @@ -14,14 +14,10 @@ LICENSE = "GPLv3"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>  
+>  # FIXME: We should be able to optionally drop freetype as a dependency
+> -DEPENDS = "autogen-native"
+> -RDEPENDS_${PN} = "diffutils freetype"
+> +DEPENDS = "autogen-native flex-native bison-native"
+> +DEPENDS_class-target = "grub-efi-native"
+>  PR = "r2"
+>  
+> -# Native packages do not normally rebuild when the target changes.
+> -# Ensure this is built once per HOST-TARGET pair.
+> -PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
+> -
+>  SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+>             file://cfg \
+>             file://grub-2.00-fpmath-sse-387-fix.patch \
+> @@ -39,12 +35,10 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
+>  
+>  S = "${WORKDIR}/grub-${PV}"
+>  
+> -# Determine the target arch for the grub modules before the native class
+> -# clobbers TARGET_ARCH.
+> -ORIG_TARGET_ARCH := "${TARGET_ARCH}"
+> +# Determine the target arch for the grub modules
+>  python __anonymous () {
+>      import re
+> -    target = d.getVar('ORIG_TARGET_ARCH', True)
+> +    target = d.getVar('TARGET_ARCH', True)
+>      if target == "x86_64":
+>          grubtarget = 'x86_64'
+>          grubimage = "bootx64.efi"
+> @@ -59,26 +53,37 @@ python __anonymous () {
+>  
+>  inherit autotools
+>  inherit gettext
+> -inherit native
+>  inherit deploy
+>  
+>  EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
+> -                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix='' \
+> +                --enable-efiemu=no --program-prefix='' \
+>                  --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+>  
+> -do_mkimage() {
+> +do_install_class-target() {
+> +	:
+> +}
 > +
-> ++=back
-> ++
-> + =head1 SEE ALSO
+> +do_install_class-native() {
+> +	install -d ${D}${bindir}
+> +	install -m 755 grub-mkimage ${D}${bindir}
+> +}
 > +
-> + ps(1),
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> index ac27dba..64ec426 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> @@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
->
->   CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
->
-> -PR = "${INC_PR}.0"
-> +PR = "${INC_PR}.1"
->
+> +do_deploy() {
+>  	# Search for the grub.cfg on the local boot media by using the
+>  	# built in cfg file provided via this recipe
+> -	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
+> +	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
+>  	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
+>  	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
+> +	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
+>  }
+> -addtask mkimage after do_compile before do_install
+>  
+> -do_deploy() {
+> -	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
+> +do_deploy_class-native() {
+> +	:
+>  }
+> +
+>  addtask deploy after do_install before do_build
+>  
+> -do_install[noexec] = "1"
+> -do_populate_sysroot[noexec] = "1"
+> +FILES_${PN}-dbg += "${libdir}/${BPN}/${GRUB_TARGET}-efi/.debug"
+> +
+> +BBCLASSEXTEND = "native"
+> +ALLOW_EMPTY_${PN} = "1"
 
-No PR bump please
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
-Sau!
 
->   LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
->
-> @@ -34,6 +34,7 @@ SRC_URI += "file://configure-targets.patch \
->               file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
->               file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
->               file://find.pl \
-> +            file://openssl-fix-des.pod-error.patch \
->              "
->
->   SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
->
 
