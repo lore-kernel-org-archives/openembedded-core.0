@@ -1,26 +1,26 @@
 Return-Path: <dvhart@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E0DD66AE9E
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CFAFF6AE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 18:52:14 +0000 (UTC)
+	Fri, 22 Nov 2013 18:53:08 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Nov 2013 10:52:11 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2013 10:52:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,753,1378882800"; d="scan'208";a="438185646"
+X-IronPort-AV: E=Sophos;i="4.93,753,1378882800"; d="scan'208";a="438185912"
 Received: from unknown (HELO [10.255.15.62]) ([10.255.15.62])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2013 10:52:10 -0800
-Message-ID: <1385146330.29354.47.camel@dvhart-mobl4.amr.corp.intel.com>
+	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2013 10:52:36 -0800
+Message-ID: <1385146356.29354.48.camel@dvhart-mobl4.amr.corp.intel.com>
 From: Darren Hart <dvhart@linux.intel.com>
 To: jackie.huang@windriver.com
-Date: Fri, 22 Nov 2013 10:52:10 -0800
-In-Reply-To: <68e0be011d01c422c2cfade524de222a340343ba.1385113330.git.jackie.huang@windriver.com>
+Date: Fri, 22 Nov 2013 10:52:36 -0800
+In-Reply-To: <ad8e0d90b31413651a29270546493a6b3ce32865.1385113330.git.jackie.huang@windriver.com>
 References: <cover.1385113330.git.jackie.huang@windriver.com>
-	<68e0be011d01c422c2cfade524de222a340343ba.1385113330.git.jackie.huang@windriver.com>
+	<ad8e0d90b31413651a29270546493a6b3ce32865.1385113330.git.jackie.huang@windriver.com>
 Organization: Intel
 X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
 Mime-Version: 1.0
 Cc: phcoder@gmail.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] grub-efi: change to generate EFI image in target package
+Subject: Re: [PATCH 2/2] grub-efi: allow compilation without large model support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,138 +33,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 18:52:15 -0000
+X-List-Received-Date: Fri, 22 Nov 2013 18:53:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Fri, 2013-11-22 at 18:00 +0800, jackie.huang@windriver.com wrote:
 > From: Jackie Huang <jackie.huang@windriver.com>
 > 
-> To generate the target EFI image in a native package, it requires
-> the host gcc have the ability to do -m32/-m64 compiling, but gcc
-> doesn't have that support on the 32bit version of some distributions
-> (e.g. rehl, suse), it would fail when build a 64bit target on these
-> 32bit hosts.
-> 
-> In fact, all we need from grub-efi-native is the grub-mkimage binary,
-> so change the solution to:
->  * grub-efi-native only install grub-mkimage
->  * grub-efi compiles target modules, generates EFI image
->    with grub-mkimage and deploy, but install nothing.
+> -mcmodel=large is not supported by gcc with version lower
+> than 4.4, but we don't need to use memory over 4GiB, so add
+> a patch to allow compilation without large model support.
 > 
 > Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 
-Thanks Jackie!
+Thanks!
 
 Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 
 > ---
->  meta/classes/grub-efi.bbclass                      |  4 +-
->  .../{grub-efi-native_2.00.bb => grub-efi_2.00.bb}  | 43 ++++++++++++----------
->  2 files changed, 26 insertions(+), 21 deletions(-)
->  rename meta/recipes-bsp/grub/{grub-efi-native_2.00.bb => grub-efi_2.00.bb} (77%)
+>  ...allow-a-compilation-without-mcmodel-large.patch | 141 +++++++++++++++++++++
+>  meta/recipes-bsp/grub/grub-efi_2.00.bb             |   1 +
+>  2 files changed, 142 insertions(+)
+>  create mode 100644 meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
 > 
-> diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-> index 2f00901..71bd00f 100644
-> --- a/meta/classes/grub-efi.bbclass
-> +++ b/meta/classes/grub-efi.bbclass
-> @@ -15,8 +15,8 @@
->  # ${GRUB_OPTS} - additional options to add to the config, ';' delimited # (optional)
->  # ${GRUB_TIMEOUT} - timeout before executing the deault label (optional)
->  
-> -do_bootimg[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
-> -do_bootdirectdisk[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
-> +do_bootimg[depends] += "grub-efi:do_deploy"
-> +do_bootdirectdisk[depends] += "grub-efi:do_deploy"
->  
->  GRUB_SERIAL ?= "console=ttyS0,115200"
->  GRUBCFG = "${S}/grub.cfg"
-> diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-> similarity index 77%
-> rename from meta/recipes-bsp/grub/grub-efi-native_2.00.bb
-> rename to meta/recipes-bsp/grub/grub-efi_2.00.bb
-> index 04973b5..2fe688c 100644
-> --- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> diff --git a/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+> new file mode 100644
+> index 0000000..b4b948f
+> --- /dev/null
+> +++ b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+> @@ -0,0 +1,141 @@
+> +Allow a compilation without -mcmodel=large
+> +
+> +It's provided by Vladimir Serbinenko, and it's not going to
+> +upstream since this was deliberately removed in current
+> +and newer version:
+> +
+> +2009-06-04  Vladimir Serbinenko  <phcoder@gmail.com>
+> +
+> +         Allow a compilation without -mcmodel=large
+> +
+> +2010-04-21  Vladimir Serbinenko  <phcoder@gmail.com>
+> +
+> +   * configure.ac: Refuse to compile for x86_64-efi is mcmodel=large
+> +     is not supported.
+> +
+> +Upstream-Status: Inappropriate [compatibility]
+> +
+> +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> +
+> +--
+> +diff --git a/configure.ac b/configure.ac
+> +index 9f8fb8a..2c5e6ed 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -723,9 +723,7 @@ if test "$target_cpu" = x86_64; then
+> + 		      [grub_cv_cc_mcmodel=yes],
+> + 		      [grub_cv_cc_mcmodel=no])
+> +   ])
+> +-  if test "x$grub_cv_cc_mcmodel" = xno; then
+> +-    AC_MSG_ERROR([-mcmodel=large not supported. Upgrade your gcc.])
+> +-  else
+> ++  if test "x$grub_cv_cc_mcmodel" = xyes; then
+> +     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=large"
+> +   fi
+> + fi
+> +diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
+> +index 1409b5d..6e9dace 100644
+> +--- a/grub-core/kern/efi/mm.c
+> ++++ b/grub-core/kern/efi/mm.c
+> +@@ -32,6 +32,12 @@
+> + #define BYTES_TO_PAGES(bytes)	(((bytes) + 0xfff) >> 12)
+> + #define PAGES_TO_BYTES(pages)	((pages) << 12)
+> +
+> ++#if defined (__code_model_large__) || !defined (__x86_64__)
+> ++#define MAX_USABLE_ADDRESS 0xffffffff
+> ++#else
+> ++#define MAX_USABLE_ADDRESS 0x7fffffff
+> ++#endif
+> ++
+> + /* The size of a memory map obtained from the firmware. This must be
+> +    a multiplier of 4KB.  */
+> + #define MEMORY_MAP_SIZE	0x3000
+> +@@ -58,7 +64,7 @@ grub_efi_allocate_pages (grub_efi_physical_address_t address,
+> +
+> + #if 1
+> +   /* Limit the memory access to less than 4GB for 32-bit platforms.  */
+> +-  if (address > 0xffffffff)
+> ++  if (address > MAX_USABLE_ADDRESS)
+> +     return 0;
+> + #endif
+> +
+> +@@ -66,7 +72,7 @@ grub_efi_allocate_pages (grub_efi_physical_address_t address,
+> +   if (address == 0)
+> +     {
+> +       type = GRUB_EFI_ALLOCATE_MAX_ADDRESS;
+> +-      address = 0xffffffff;
+> ++      address = MAX_USABLE_ADDRESS;
+> +     }
+> +   else
+> +     type = GRUB_EFI_ALLOCATE_ADDRESS;
+> +@@ -86,7 +92,7 @@ grub_efi_allocate_pages (grub_efi_physical_address_t address,
+> +     {
+> +       /* Uggh, the address 0 was allocated... This is too annoying,
+> + 	 so reallocate another one.  */
+> +-      address = 0xffffffff;
+> ++      address = MAX_USABLE_ADDRESS;
+> +       status = efi_call_4 (b->allocate_pages, type, GRUB_EFI_LOADER_DATA, pages, &address);
+> +       grub_efi_free_pages (0, pages);
+> +       if (status != GRUB_EFI_SUCCESS)
+> +@@ -319,7 +325,7 @@ filter_memory_map (grub_efi_memory_descriptor_t *memory_map,
+> +     {
+> +       if (desc->type == GRUB_EFI_CONVENTIONAL_MEMORY
+> + #if 1
+> +-	  && desc->physical_start <= 0xffffffff
+> ++	  && desc->physical_start <= MAX_USABLE_ADDRESS
+> + #endif
+> + 	  && desc->physical_start + PAGES_TO_BYTES (desc->num_pages) > 0x100000
+> + 	  && desc->num_pages != 0)
+> +@@ -337,9 +343,9 @@ filter_memory_map (grub_efi_memory_descriptor_t *memory_map,
+> + #if 1
+> + 	  if (BYTES_TO_PAGES (filtered_desc->physical_start)
+> + 	      + filtered_desc->num_pages
+> +-	      > BYTES_TO_PAGES (0x100000000LL))
+> ++	      > BYTES_TO_PAGES (MAX_USABLE_ADDRESS+1LL))
+> + 	    filtered_desc->num_pages
+> +-	      = (BYTES_TO_PAGES (0x100000000LL)
+> ++	      = (BYTES_TO_PAGES (MAX_USABLE_ADDRESS+1LL)
+> + 		 - BYTES_TO_PAGES (filtered_desc->physical_start));
+> + #endif
+> +
+> +diff --git a/grub-core/kern/x86_64/dl.c b/grub-core/kern/x86_64/dl.c
+> +index 65f09ef..17c1215 100644
+> +--- a/grub-core/kern/x86_64/dl.c
+> ++++ b/grub-core/kern/x86_64/dl.c
+> +@@ -100,14 +100,32 @@ grub_arch_dl_relocate_symbols (grub_dl_t mod, void *ehdr)
+> + 		    break;
+> +
+> + 		  case R_X86_64_PC32:
+> +-		    *addr32 += rel->r_addend + sym->st_value -
+> +-		              (Elf64_Xword) seg->addr - rel->r_offset;
+> ++		    {
+> ++		      grub_int64_t value;
+> ++		      value = ((grub_int32_t) *addr32) + rel->r_addend + sym->st_value -
+> ++			(Elf64_Xword) seg->addr - rel->r_offset;
+> ++		      if (value != (grub_int32_t) value)
+> ++			return grub_error (GRUB_ERR_BAD_MODULE, "relocation out of range");
+> ++		      *addr32 = value;
+> ++		    }
+> + 		    break;
+> +
+> +                   case R_X86_64_32:
+> ++		    {
+> ++		      grub_uint64_t value = *addr32 + rel->r_addend + sym->st_value;
+> ++		      if (value != (grub_uint32_t) value)
+> ++			return grub_error (GRUB_ERR_BAD_MODULE, "relocation out of range");
+> ++		      *addr32 = value;
+> ++		    }
+> ++		    break;
+> +                   case R_X86_64_32S:
+> +-                    *addr32 += rel->r_addend + sym->st_value;
+> +-                    break;
+> ++		    {
+> ++		      grub_int64_t value = ((grub_int32_t) *addr32) + rel->r_addend + sym->st_value;
+> ++		      if (value != (grub_int32_t) value)
+> ++			return grub_error (GRUB_ERR_BAD_MODULE, "relocation out of range");
+> ++		      *addr32 = value;
+> ++		    }
+> ++		    break;
+> +
+> + 		  default:
+> + 		    return grub_error (GRUB_ERR_NOT_IMPLEMENTED_YET,
+> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+> index 2fe688c..deb9514 100644
+> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
 > +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-> @@ -14,14 +14,10 @@ LICENSE = "GPLv3"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->  
->  # FIXME: We should be able to optionally drop freetype as a dependency
-> -DEPENDS = "autogen-native"
-> -RDEPENDS_${PN} = "diffutils freetype"
-> +DEPENDS = "autogen-native flex-native bison-native"
-> +DEPENDS_class-target = "grub-efi-native"
->  PR = "r2"
->  
-> -# Native packages do not normally rebuild when the target changes.
-> -# Ensure this is built once per HOST-TARGET pair.
-> -PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
-> -
->  SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
->             file://cfg \
->             file://grub-2.00-fpmath-sse-387-fix.patch \
-> @@ -39,12 +35,10 @@ COMPATIBLE_HOST = '(x86_64.*|i.86.*)-(linux|freebsd.*)'
->  
->  S = "${WORKDIR}/grub-${PV}"
->  
-> -# Determine the target arch for the grub modules before the native class
-> -# clobbers TARGET_ARCH.
-> -ORIG_TARGET_ARCH := "${TARGET_ARCH}"
-> +# Determine the target arch for the grub modules
->  python __anonymous () {
->      import re
-> -    target = d.getVar('ORIG_TARGET_ARCH', True)
-> +    target = d.getVar('TARGET_ARCH', True)
->      if target == "x86_64":
->          grubtarget = 'x86_64'
->          grubimage = "bootx64.efi"
-> @@ -59,26 +53,37 @@ python __anonymous () {
->  
->  inherit autotools
->  inherit gettext
-> -inherit native
->  inherit deploy
->  
->  EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
-> -                --target=${GRUB_TARGET} --enable-efiemu=no --program-prefix='' \
-> +                --enable-efiemu=no --program-prefix='' \
->                  --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
->  
-> -do_mkimage() {
-> +do_install_class-target() {
-> +	:
-> +}
-> +
-> +do_install_class-native() {
-> +	install -d ${D}${bindir}
-> +	install -m 755 grub-mkimage ${D}${bindir}
-> +}
-> +
-> +do_deploy() {
->  	# Search for the grub.cfg on the local boot media by using the
->  	# built in cfg file provided via this recipe
-> -	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-> +	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
->  	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
->  	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
-> +	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
->  }
-> -addtask mkimage after do_compile before do_install
->  
-> -do_deploy() {
-> -	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
-> +do_deploy_class-native() {
-> +	:
->  }
-> +
->  addtask deploy after do_install before do_build
->  
-> -do_install[noexec] = "1"
-> -do_populate_sysroot[noexec] = "1"
-> +FILES_${PN}-dbg += "${libdir}/${BPN}/${GRUB_TARGET}-efi/.debug"
-> +
-> +BBCLASSEXTEND = "native"
-> +ALLOW_EMPTY_${PN} = "1"
+> @@ -27,6 +27,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+>             file://grub-no-unused-result.patch \
+>             file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
+>             file://fix-issue-with-flex-2.5.37.patch \
+> +           file://grub-efi-allow-a-compilation-without-mcmodel-large.patch \
+>            "
+>  SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+>  SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
 
 -- 
 Darren Hart
