@@ -1,33 +1,36 @@
-Return-Path: <darren.hart@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B49A6AE9E
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
+	[209.85.219.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B0AA56AE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 18:47:23 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 22 Nov 2013 10:47:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,753,1378882800"; d="scan'208";a="432282220"
-Received: from fmsmsx103.amr.corp.intel.com ([10.19.9.34])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Nov 2013 10:47:21 -0800
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.233]) by
-	FMSMSX103.amr.corp.intel.com ([169.254.3.50]) with mapi id
-	14.03.0123.003; Fri, 22 Nov 2013 10:47:21 -0800
-From: "Hart, Darren" <darren.hart@intel.com>
-To: "Eggleton, Paul" <paul.eggleton@intel.com>
-Thread-Topic: distro/machine:kernel feature mapping and version checking
-Thread-Index: AQHO5uoUkb1FmKQi1EOJiTZ2p+Ay2Joxnb6AgACBFgA=
-Date: Fri, 22 Nov 2013 18:47:20 +0000
-Message-ID: <1385146040.29354.44.camel@dvhart-mobl4.amr.corp.intel.com>
-References: <1385059626.3614.10.camel@dvhart-mobl4.amr.corp.intel.com>
-	<1583959.f3sbDcLors@helios>
-In-Reply-To: <1583959.f3sbDcLors@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.15.62]
+	Fri, 22 Nov 2013 18:49:06 +0000 (UTC)
+Received: by mail-oa0-f45.google.com with SMTP id o6so1812144oag.32
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Nov 2013 10:49:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=w1uqVBY3/+fBT4O8hks3iUyDvjWhiNdP6exGHnQsn5M=;
+	b=eOE40UNAyDkzJuUVHjI7CROjOZKf5xviRYIdPEn4WWzJoynfYhYLr1XNGVzzAMiP8k
+	3chfe/tOG891fWyRo80XCughOUsUtFvXgC9ewx/xpVmCFT/5FihBBOCXfTFPh61+sMzs
+	pOBfpJ9iXJVpvxp3Vj9DPbbsihg04OLMGShvvlsi6d5fu3GsKv8BsgWBOx4V2J8VxbCx
+	tCbTbERKLdXJf8wJ6VKFEFF7vgCzirNjB/Rmuikqp0JFu6QqvjniEHgpLWQh7k7xX/EK
+	Iml2z96IWTTVndhg2wjwF+3F8+n1rNAg+Ze5uga1eUmrNlbxU8v3/ZoWCfShEzrq7527
+	AXsQ==
 MIME-Version: 1.0
+X-Received: by 10.60.117.225 with SMTP id kh1mr11752295oeb.15.1385146145857;
+	Fri, 22 Nov 2013 10:49:05 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Fri, 22 Nov 2013 10:49:05 -0800 (PST)
+In-Reply-To: <1385132854.16887.178.camel@ted>
+References: <1385132854.16887.178.camel@ted>
+Date: Fri, 22 Nov 2013 16:49:05 -0200
+X-Google-Sender-Auth: _WH3MYgPsRffwGtvw2bHZaldFVk
+Message-ID: <CAP9ODKrX9s6S8Cw+m-NiuctPZ4nT7wjkd7CfwuCUjO5Vc5zwXw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: distro/machine:kernel feature mapping and version checking
+Subject: Re: [PATCH] metadata_scm: Avoid crashing on new svn version layouts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,104 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 18:47:24 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EE400642837A3A4C9E423D40C801940A@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 22 Nov 2013 18:49:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-T24gRnJpLCAyMDEzLTExLTIyIGF0IDExOjA1ICswMDAwLCBQYXVsIEVnZ2xldG9uIHdyb3RlOg0K
-PiBIaSBEYXJyZW4sDQo+IA0KPiBPbiBUaHVyc2RheSAyMSBOb3ZlbWJlciAyMDEzIDE4OjQ3OjA3
-IEhhcnQsIERhcnJlbiB3cm90ZToNCj4gPiBSZWdhcmRpbmcgdGhlIGZvbGxvd2luZyAyIGJ1Z3M6
-DQo+ID4gDQo+ID4gaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNn
-aT9pZD01NTc0DQo+ID4gQWRkIGtlcm5lbCB2ZXJzaW9uIC8gY29uZmlndXJhdGlvbiBjaGVjayBt
-ZWNoYW5pc20NCj4gPiANCj4gPiBhbmQgDQo+ID4gDQo+ID4gaHR0cHM6Ly9idWd6aWxsYS55b2N0
-b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNnaT9pZD0yMjY3DQo+ID4gSW50ZWdyYXRlIERJU1RST19G
-RUFUVVJFUyB3aXRoIEtFUk5FTF9GRUFUVVJFUw0KPiA+IA0KPiA+IFRoZXJlIGlzIGEgbmVlZCB0
-byByZWR1Y2UgZXJyb3JzIHdoZXJlIGEgRElTVFJPIGNvbmZpZyBtaWdodCBicmVhayBkdWUNCj4g
-PiB0byBsYWNrIG9mIGtlcm5lbCBzdXBwb3J0LCB0aGluZ3Mgc3VjaCBhcyBzeXN0ZW1kLiBUaGVy
-ZSBpcyBhbHNvDQo+ID4gaW50ZXJlc3QgaW4gZW5hYmxpbmcgY2VydGFpbiBrZXJuZWwgZmVhdHVy
-ZXMgYmFzZWQgb24NCj4gPiBESVNUUk8vTUFDSElORV9GRUFUVVJFUywgc3VjaCBhcyB3aWZpLg0K
-PiA+IA0KPiA+IE5laXRoZXIgb2YgdGhlc2Ugc2hvdWxkIGRlcGVuZCBvbiB0aGUgS2VybmVsIFZl
-cnNpb24gYXMgZXZlbiB3aXRoIHRoZQ0KPiA+IHJpZ2h0IHZlcnNpb24sIGlmIHRoZSBDT05GSUdf
-KiBmZWF0dXJlIGlzIG1pc3NpbmcsIHRoZSBpbWFnZSB3aWxsIG5vdA0KPiA+IHdvcmsgY29ycmVj
-dGx5LiBUaGVyZSBpcyBhbHNvIHRoZSByaXNrIG9mIGZhbHNlIG5lZ2F0aXZlcyB3aGVuIGEgZmVh
-dHVyZQ0KPiA+IGhhcyBiZWVuIGJhY2twb3J0ZWQgdG8gYSBrZXJuZWwgdmVyc2lvbiB0aGF0IGRp
-ZG4ndCBoYXZlIHRoZSBmZWF0dXJlDQo+ID4gcHJldmlvdXNseS4NCj4gDQo+IFJpZ2h0OyBJIGhh
-ZG4ndCBhcHByZWNpYXRlZCB0aGlzIHdoZW4gSSB3cm90ZSB0aGUgYnVnIGJ1dCB3ZSBkZWZpbml0
-ZWx5IGRvbid0IA0KPiB3YW50IHRvIGJlIGNoZWNraW5nIHZlcnNpb25zLg0KDQpZdXAsIGp1c3Qg
-cHJvdmlkZWQgZm9yIGNvbnRleHQuDQoNCj4gDQo+ID4gVGhlIHJlY29tbWVuZGVkIGFwcHJvYWNo
-IHdvdWxkIGJlIHRvIGNoZWNrIGZvciB0aGUgcmVxdWlyZWQgQ09ORklHXyoNCj4gPiBvcHRpb25z
-IGFmdGVyIHRoZSBsaW51eC15b2N0byBjb25maWd1cmF0aW9uIHN0YWdlLg0KPiA+IA0KPiA+IFRo
-ZXJlIGlzIGFsc28gdGhlIHRvcGljIG9mIERJU1RST19GRUFUVVJFUyB+PSAid2lmaSIgaW1wYWN0
-aW5nIGhvdyB0aGUNCj4gPiBrZXJuZWwgd2lsbCBiZSBidWlsdC4gVGhlIE1BQ0hJTkUgc2hvdWxk
-IGhhdmUgc29tZSBzYXkgaW4gaG93IHRoaXMgaXMNCj4gPiBkb25lIC0gaWYgdGhlIG1hY2hpbmUg
-Y2FuIG5ldmVyIGhhdmUgd2lmaSwgYnVpbGRpbmcgd2lmaSBpbnRvIHRoZSBrZXJuZWwNCj4gPiBk
-b2Vzbid0IG1ha2UgYSBsb3Qgb2Ygc2Vuc2UuIFNvbWV0aGluZyBsaWtlIHRoZSBmb2xsb3dpbmcg
-bWlnaHQgbWFrZQ0KPiA+IHNlbnNlOg0KPiA+IA0KPiA+IGZvciBGRUFUVVJFIGluIERJU1RST19G
-RUFUVVJFUzoNCj4gPiAgICAgaWYgTUFDSElORV9GRUFUVVJFUyBjb250YWlucyBGRUFUVVJFUzoN
-Cj4gPiAgICAgICAgIEtFUk5FTF9GRUFUVVJFUyArPSBGRUFUVVJFX292ZXJyaWRlDQo+ID4gDQo+
-ID4gV2hlcmUgRkVBVFVSRV9vdmVycmlkZSBpcyBkZWZpbmVkIHNvbWV0aGluZyBsaWtlIHRoaXM6
-DQo+ID4gDQo+ID4gRkVBVFVSRSA9IEZFQVRVUkVfZGVmYXVsdA0KPiA+IGlmIGV4aXN0cyBGRUFU
-VVJFX2Rpc3RybzoNCj4gPiAgICAgRkVBVFVSRSA9IEZFQVRVUkVfZGlzdHJvDQo+ID4gaWYgZXhp
-c3RzIEZFQVRVUkVfbWFjaGluZToNCj4gPiAgICAgRkVBVFVSRSA9IEZFQVRVUkVfbWFjaGluZQ0K
-PiANCj4gVGhlcmUgYXJlIGEgY291cGxlIG9mIHNsaWdodCBxdWlya3MgaGVyZToNCj4gDQo+IDEp
-IE5vdCBhbGwgZmVhdHVyZXMgbWF0Y2ggdXAgYmV0d2VlbiBESVNUUk9fRkVBVFVSRVMgYW5kIE1B
-Q0hJTkVfRkVBVFVSRVMgbGlrZSANCj4gdGhpcywganVzdCBhIHNlbGVjdCBsaXN0LiAoVGhpcyBp
-cyB3aHkgd2UgY3VycmVudGx5IGhhdmUgQ09NQklORURfRkVBVFVSRVMuKQ0KDQpzeXN0ZW1kIGlz
-IGEgZ29vZCBleGFtcGxlIEkgZ3Vlc3MsIHRoZSBNQUNISU5FIGRvZXNuJ3QgbmVlZCB0byBzdXBw
-b3J0DQppdC4gSG93ZXZlciBmb3IgYSBESVNUUk8gd2l0aCB3aWZpLCBpdCBzdGlsbCBkb2Vzbid0
-IG1ha2Ugc2Vuc2UgdG8NCmluc3RhbGwgYWxsIHRob3NlIHBhY2thZ2VzIG9yIGJ1aWxkIHRoZSBr
-ZXJuZWwgZHJpdmVycyBpZiB0aGUgYm9hcmQgaGFzDQpubyB3aWZpIGFuZCBubyBleHBhbnNpb24g
-Y2FwYWJpbGl0eS4gV291bGQgYW4gb3B0LW91dCBtb2RlbCBiZSBtb3JlDQpwcmFjdGljYWw/DQoN
-CmlmIEZFQVRVUkUgaW4gRElTVFJPX0ZFQVRVUkVTOg0KICAgIGlmIG5vdCBNQUNISU5FX0RFTllf
-RkVBVFVSRVMgY29udGFpbnMgRkVBVFVSRToNCiAgICAgICAgS0VSTkVMX0ZFQVRVUkVTICs9IEZF
-QVRVUkVfb3ZlcnJpZGUNCg0KPw0KDQo+IA0KPiAyKSBUaGVyZSBpcyBzb21lIGhhbmRsaW5nIGlu
-IHBhY2thZ2Vncm91cC1iYXNlLmJiY2xhc3MgdG8gZW5hYmxlIA0KPiB3aWZpL2JsdWV0b290aC8z
-Zy9uZmMgZnVuY3Rpb25hbGl0eSBpbiB1c2Vyc3BhY2UgaWYgdGhlc2UgZmVhdHVyZXMgYXJlICpu
-b3QqIGluIA0KPiBNQUNISU5FX0ZFQVRVUkVTIGJ1dCB0aGV5IGFyZSBpbiBESVNUUk9fRkVBVFVS
-RVMgKmFuZCogTUFDSElORV9GRUFUVVJFUyANCj4gaW5kaWNhdGVzIHNvbWUgbWVhbnMgb2YgZXhw
-YW5zaW9uIGV4aXN0cyBlLmcuIHBjaSwgcGNtY2lhLCB1c2Job3N0LiBXaGV0aGVyIHdlIA0KPiB3
-YW50IHRvIHRyeSB0byBzdXBwb3J0IHRoaXMgYXQgdGhlIGtlcm5lbCBsZXZlbCBJIGRvbid0IGtu
-b3cuDQoNCkhybS4uLiB0aGlzIGFwcGVhcnMgYnJva2VuIHRvIG1lLiBJZiB0aGUgTUFDSElORSBk
-b2Vzbid0IGZlYXR1cmUgdGhlbSwNCnRoZW4gdGhlIGtlcm5lbCBpcyB1bmxpa2VseSB0byBzdXBw
-b3J0IHRoZW0sIHNvIHJlZ2FyZGxlc3Mgb2YgaWYgdGhlDQpleHBhbnNpb24gcGh5c2ljYWxseSBl
-eGlzdHMsIHRoZSBkZXZpY2Ugc3RpbGwgd2lsbCBub3Qgd29yayBvbiB0aGF0DQppbWFnZS4gSWYg
-YSBmZWF0dXJlIHJlcXVpcmluZyBoYXJkd2FyZS9kcml2ZXIgc3VwcG9ydCBpcyBub3QgbGlzdGVk
-IGluDQpNQUNISU5FX0ZFQVRVUkVTLCB1c2Vyc3BhY2UgaW5mcmFzdHJ1Y3R1cmUgcHJvYmFibHkg
-c2hvdWxkIG5vdCBiZSBhZGRlZC4NCkdlbmVyaWMgQlNQcyBzaG91bGQgYmUgYWRkaW5nIHRoZXNl
-IE1BQ0hJTkVfRkVBVFVSRVMsIHNwZWNpZmljIEJTUHMNCmRvbid0IGNhcmUgYWJvdXQgYmVpbmcg
-Z2VuZXJpYy4uLi4gc28uLi4gaXQgd29ya3Mgb3V0IEkgdGhpbmsuDQoNCj4gDQo+ID4gVGhpcyBp
-cyBlZmZlY3RpdmVseSBhIGZyYWdtZW50IG5hbWUgd2hpY2ggbmVlZHMgdG8gYmUgcHJvdmlkZWQg
-YnkgdGhlDQo+ID4gbGludXgteW9jdG8ga2VybmVsIG1ldGEgZGF0YSBhcyBpdCB3aWxsIGJlIGtl
-cm5lbCB2ZXJzaW9uIGRlcGVuZGVudC4NCj4gPiANCj4gPiBUaGUgbGlua2FnZSBJJ20gbm90IHN1
-cmUgYWJvdXQgaXMgaG93IHRvIGtub3cgd2hhdCB0byB0ZXN0IGZvciBpbiB0aGUNCj4gPiBrZXJu
-ZWwuYmJjbGFzcyB3aXRob3V0IGludGltYXRlIGtub3dsZWRnZSBvZiB0aGUga2VybmVsIHZlcnNp
-b24gQ09ORklHDQo+ID4gb3B0aW9ucyBpbiByZWNpcGUgc3BhY2UuDQo+IA0KPiBTbyBhcmUgeW91
-IGNvbnZpbmNlZCB5b3Ugd2FudCB0byB0cnkgdG8gc29sdmUgdGhlc2UgdHdvIHdpdGggb25lIHNv
-bHV0aW9uIGluIA0KPiBrZXJuZWwuYmJjbGFzcyByYXRoZXIgdGhhbiBnaXZpbmcgaW5kaXZpZHVh
-bCByZWNpcGVzIHNvbWUgZWFzeSBtZXRob2RzIG9mIA0KPiBjaGVja2luZyBrZXJuZWwgY29uZmln
-IG9wdGlvbnM/IA0KDQpOb3QgYXQgYWxsLiBMb29raW5nIHRvIHRoZSBleHBlcnRzIHN1Y2ggYXMg
-eW91cnNlbGYgdG8gaGVscCBpdGVyYXRlIHRvIGENCnJlYXNvbmFibGUgaW1wbGVtZW50YXRpb24u
-DQoNCldlIGNvdWxkIGRvIHNvbWV0aGluZyBsaWtlIHByb3ZpZGUgYSBrZXJuZWwuYmJjbGFzcyBp
-bnRlcmZhY2UgdG8NCmNoZWNraW5nIGZvciBzcGVjaWZpYyBGRUFUVVJFIG9wdGlvbnMsIHdoaWNo
-IGVhY2gga2VybmVsIHJlY2lwZQ0KKHZlcnNpb24pIGNvdWxkIG92ZXJyaWRlLi4uIEkgdGhpbmsu
-DQoNCg0Ka2VybmVsX2hhc193aXJlbGVzcygpDQogIGlmICR7Qn0vLmNvbmZpZyB+PSAiXkNPTkZJ
-R19XSVJFTEVTUz1bbXldIg0KICAuLi4NCiAgICAgIHJldHVybiBUcnVlDQogIHJldHVybiBGYWxz
-ZQ0KDQooeWVhaC4uLi4gYmFiZWwpDQoNClRoaXMgd291bGQgYWRkIGEgZmFpcmx5IG5hc3R5IGRl
-cGVuZGVuY3kgb24gdmlydHVhbC9rZXJuZWw6Y29uZmlndXJlIGZvcg0KYW55IHBhY2thZ2UgdGhh
-dCB3YW50ZWQgdG8gdXNlIHRob3NlIGZ1bmN0aW9ucy4gVGhpcyBtYXkgYmUgaW5ldml0YWJsZQ0K
-dW5mb3J0dW5hdGVseS4NCg0KPiBJIGFncmVlIHRoZXkgYXJlIHJlbGF0ZWQsIGJ1dCBJIGhhZCBp
-bWFnaW5lZCANCj4gdGhhdCB3ZSdkIHNvbHZlIHRoZW0gYm90aCBhbmQgc29sdmUgdGhlbSBzZXBh
-cmF0ZWx5OyBvbmx5IGRvaW5nIHRoZSBmZWF0dXJlIA0KPiBtYXAgd2hlbiB3ZSdyZSBidWlsZGlu
-ZyB0aGUga2VybmVsIHN0aWxsIGxlYXZlcyB1cyB3aXRoIHJlY2lwZXMgbGlrZSB1ZGV2IHRoYXQg
-DQo+IGFyZW4ndCBjb250cm9sbGVkIGJ5IGEgc3BlY2lmaWMgZmVhdHVyZSBidXQgZG8gc3RpbGwg
-aGF2ZSBrZXJuZWwgY29uZmlnIA0KPiByZXF1aXJlbWVudHMgKG9mIGNvdXJzZSwgeW91IGNvdWxk
-IGp1c3QgYXNzdW1lIHRoYXQgaWYgeW91J3JlIHVzaW5nIHN5c3Zpbml0IA0KPiB0aGVuIHlvdSdy
-ZSB1c2luZyB1ZGV2IGFuZCBoYW5kbGUgdGhlIGlzc3VlIHRoYXQgd2F5LCBidXQgdGhhdCBzZWVt
-cyBsaWtlIGEgDQo+IGhhY2sgdG8gbWUpLg0KPiANCj4gQ2hlZXJzLA0KPiBQYXVsDQoNCk9LLCBs
-ZXQncyBrZWVwIGdvaW5nLCBob3cgZG8gd2UgZ2V0IHRvIHNvbHZpbmcgdGhlbSBpbmRlcGVuZGVu
-dGx5IGZyb20NCmhlcmU/DQoNClRoYW5rcyBQYXVsIQ0KDQotLSANCkRhcnJlbiBIYXJ0DQpJbnRl
-bCBPcGVuIFNvdXJjZSBUZWNobm9sb2d5IENlbnRlcg0KWW9jdG8gUHJvamVjdCAtIExpbnV4IEtl
-cm5lbA0KDQo=
+On Fri, Nov 22, 2013 at 1:07 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> This avoids crashing on newer svn layouts where the entries files
+> don't contain three lines. If someone wants to fix this to
+> get the right version on newer subversion checkouts, patches
+> welcome but this at least stops things crashing.
+>
+> [YOCTO #5363]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Does not seem right to 'workaround' this; it'd be better to fix it properly.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
