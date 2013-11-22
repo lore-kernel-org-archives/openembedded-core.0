@@ -1,33 +1,28 @@
-Return-Path: <erik.boto@pelagicore.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B5DE86C73C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E9F536CDCB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 09:42:45 +0000 (UTC)
-Received: by mail-ob0-f179.google.com with SMTP id wm4so1032886obc.38
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 01:42:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type:content-transfer-encoding;
-	bh=z+cqGdJhA/UQknPZbzH+9O1+s0wzrGTUWJTStyZZsAQ=;
-	b=V3OGdZJaFZWjJPi8IZ3btjPfkId2G98+YbdarzaweGrAJpCh8gn7Rof1xFeFjv5ykA
-	EPN2hXzPtrhbZeTg5JqwqN7q7wr/gUO7wsh48CBYvmZlleip4r2VSHSMmdZ6o4CxUyj9
-	rhFFClv5uVCV48JtDlAVE+Zt1tE4e4E/1gS7BPTjc5OOOVnXNtB/b7EZWgn5ooV2kTy8
-	GUE/MC1N8kDaKi3T/0ZMwL4iE0XxJAIFCwlv6desprLuI68PzI/+LJoK4T0Wf3qdLduY
-	wYk0d0YJFZZowYJJFinXHtIUY1hUHWlCnHWr26wf+tC+wccizNsGElTbVyTF9DYZjg7x
-	Vs7A==
-X-Gm-Message-State: ALoCoQlwvuMRbrvmuyYRGF2yp+NKjE/zkoaRa9Jqa4tV8He8B3lS8tnHRF1dYW4HhvnFuJZtlt7e
+	Fri, 22 Nov 2013 09:54:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 22 Nov 2013 01:54:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,751,1378882800"; d="scan'208";a="412945354"
+Received: from pauljbro-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.121.218])
+	by orsmga001.jf.intel.com with ESMTP; 22 Nov 2013 01:54:28 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 22 Nov 2013 09:54:27 +0000
+Message-ID: <1882168.P1fbh48jv2@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <528EF449.5000507@windriver.com>
+References: <cover.1384943898.git.hongxu.jia@windriver.com>
+	<1673532.sZIipt1mGd@helios> <528EF449.5000507@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.182.70.5 with SMTP id i5mr9964114obu.8.1385113364823; Fri,
-	22 Nov 2013 01:42:44 -0800 (PST)
-Received: by 10.76.28.70 with HTTP; Fri, 22 Nov 2013 01:42:44 -0800 (PST)
-Date: Fri, 22 Nov 2013 10:42:44 +0100
-Message-ID: <CA+AhUGyTC97_E=Yg1JOorHuBDG7SWQS8jfEX1Wg6Ue5pxZfcLw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
-To: openembedded-core@lists.openembedded.org
-Subject: dbus depends on dbus-ptest-ptest if ptest in DISTRO_FEATURES - bug?
+Cc: saul.wold@intel.com
+Subject: Re: [PATCH 1/1] license.bbclass: fix copying license directories failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,24 +35,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 09:42:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 22 Nov 2013 09:54:31 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi,
+On Friday 22 November 2013 14:06:01 Hongxu Jia wrote:
+> Hi Paul,
+> 
+> On 11/22/2013 12:41 AM, Paul Eggleton wrote:
+> > Hi Hongxu,
+> > 
+> > On Wednesday 20 November 2013 18:39:02 Hongxu Jia wrote:
+> >> For each recipe, it populated license files to
+> >> ${LICENSE_DIRECTORY}/${PN},
+> >> such as kernel's license dir was
+> >> ${LICENSE_DIRECTORY}/kernel-3.10.17-yocto-standard;
+> >> 
+> >> In do_rootfs task, it copied license directories from
+> >> ${LICENSE_DIRECTORY}/
+> >> ${pkg}, and ${pkg} was listed in ${INSTALLED_PKGS};
+> >> 
+> >> We got ${INSTALLED_PKGS} by rpm query, such as the kernel were
+> >> 'kernel-*',
+> >> but the kernel's PN was linux-yocto, so searching ${LICENSE_DIRECTORY}/
+> >> kernel-* failed.
+> >> 
+> >> Copied license directories from ${LICENSE_DIRECTORY}/${PN} fixed this
+> >> issue.
+> >> 
+> >> [YOCTO #5572]
+> >> 
+> >> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> >> ---
+> >> 
+> >>   meta/classes/license.bbclass | 9 ++++++---
+> >>   1 file changed, 6 insertions(+), 3 deletions(-)
+> >> 
+> >> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> >> index 6d7ee94..32605ff 100644
+> >> --- a/meta/classes/license.bbclass
+> >> +++ b/meta/classes/license.bbclass
+> >> @@ -68,15 +68,18 @@ license_create_manifest() {
+> >> 
+> >>   		if [ "${COPY_LIC_DIRS}" = "1" ]; then
+> >>   		
+> >>   			for pkg in ${INSTALLED_PKGS}; do
+> >>   			
+> >>   				mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}
+> >> 
+> >> -				for lic in `ls ${LICENSE_DIRECTORY}/${pkg}`; do
+> >> +				pkged_pn="$(sed -n "/^PACKAGE NAME: ${pkg}$/,/^$/ \
+> >> +                                           {s/^RECIPE NAME: //;
+> >> /^PACKAGE
+> >> NAME:/d; /^PACKAGE VERSION:/d; /^LICENSE:/d; p}" \ +
+> >> 
+> >>                     ${LICENSE_MANIFEST})"
+> >> 
+> >> +				for lic in `ls ${LICENSE_DIRECTORY}/${pkged_pn}`; do
+> > 
+> > This isn't the right way to do this. If you need to look up the recipe
+> > name
+> > 
+> > from the target package name, in master you can now use:
+> >    oe-pkgdata-util lookup-recipe ${PKGDATA_DIR} "<list of packages>"
+> 
+> I am afraid to use oe-pkgdata-util here is not a good idea:
+> 
+> - everything we need has been listed in ${LICENSE_MANIFEST},
+>    we just need to sort them out;
+> 
+> - the oe-pkgdata-util utility only support to search the specific
+>    ${PKGDATA_DIR} directory which was  ${TMPDIR}/pkgdata/
+>    ${MULTIMACH_TARGET_SYS}, but we need to search multiple
+>    ${MULTIMACH_TARGET_SYS} directories;
 
-I noticed that dbus will pull in the ptest package as soon as ptest is
-in DISTRO_FEATURES, the recipe contains: RDEPENDS_dbus =3D
-"${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '',
-d)}"
-
-Shouldn't this be handled in image.bbclass via
-COMPLEMENTARY_GLOB[ptest-pkgs] =3D '*-ptest' ? Then it will only be
-installed if IMAGE_FEATURES contains ptest, which is how other
-packages handle ptest packages.
-
-If this is not intentional I can write up a patch and test it some.
+Note that in 1.5 the pkgdata structure changed - it is now under the machine-
+specific sysroot, so there is only one directory to look in.
 
 Cheers,
-Erik Bot=F6
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
