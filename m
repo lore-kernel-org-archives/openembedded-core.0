@@ -1,36 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B0AA56AE9E
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B1126AE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 18:49:06 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id o6so1812144oag.32
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 10:49:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=w1uqVBY3/+fBT4O8hks3iUyDvjWhiNdP6exGHnQsn5M=;
-	b=eOE40UNAyDkzJuUVHjI7CROjOZKf5xviRYIdPEn4WWzJoynfYhYLr1XNGVzzAMiP8k
-	3chfe/tOG891fWyRo80XCughOUsUtFvXgC9ewx/xpVmCFT/5FihBBOCXfTFPh61+sMzs
-	pOBfpJ9iXJVpvxp3Vj9DPbbsihg04OLMGShvvlsi6d5fu3GsKv8BsgWBOx4V2J8VxbCx
-	tCbTbERKLdXJf8wJ6VKFEFF7vgCzirNjB/Rmuikqp0JFu6QqvjniEHgpLWQh7k7xX/EK
-	Iml2z96IWTTVndhg2wjwF+3F8+n1rNAg+Ze5uga1eUmrNlbxU8v3/ZoWCfShEzrq7527
-	AXsQ==
+	Fri, 22 Nov 2013 18:49:51 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2013 10:49:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,753,1378882800"; d="scan'208";a="438184565"
+Received: from unknown (HELO [10.255.15.137]) ([10.255.15.137])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2013 10:49:48 -0800
+Message-ID: <528FA74C.1030500@linux.intel.com>
+Date: Fri, 22 Nov 2013 10:49:48 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-Received: by 10.60.117.225 with SMTP id kh1mr11752295oeb.15.1385146145857;
-	Fri, 22 Nov 2013 10:49:05 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Fri, 22 Nov 2013 10:49:05 -0800 (PST)
-In-Reply-To: <1385132854.16887.178.camel@ted>
-References: <1385132854.16887.178.camel@ted>
-Date: Fri, 22 Nov 2013 16:49:05 -0200
-X-Google-Sender-Auth: _WH3MYgPsRffwGtvw2bHZaldFVk
-Message-ID: <CAP9ODKrX9s6S8Cw+m-NiuctPZ4nT7wjkd7CfwuCUjO5Vc5zwXw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] metadata_scm: Avoid crashing on new svn version layouts
+To: Mark Hatle <mark.hatle@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1385018903-24196-1-git-send-email-mark.hatle@windriver.com>
+In-Reply-To: <1385018903-24196-1-git-send-email-mark.hatle@windriver.com>
+Subject: Re: [dora][PATCH] openssl: Fix pod2man des.pod error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,24 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 18:49:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 22 Nov 2013 18:49:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 22, 2013 at 1:07 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> This avoids crashing on newer svn layouts where the entries files
-> don't contain three lines. If someone wants to fix this to
-> get the right version on newer subversion checkouts, patches
-> welcome but this at least stops things crashing.
+On 11/20/2013 11:28 PM, Mark Hatle wrote:
+> From: Baogen Shang <baogen.shang@windriver.com>
 >
-> [YOCTO #5363]
+> formatting fix, =back is required before =head1 on Ubuntu 12.04.
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Baogen Shang <baogen.shang@windriver.com>
+> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+> ---
+>   .../openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch   | 12 ++++++++++++
+>   meta/recipes-connectivity/openssl/openssl_1.0.1e.bb          |  3 ++-
+>   2 files changed, 14 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
+> new file mode 100644
+> index 0000000..512cde4
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-fix-des.pod-error.patch
+> @@ -0,0 +1,12 @@
+> +diff -urpN a_origin/des.pod b_modify/des.pod
+> +--- a_origin/crypto/des/des.pod	2013-08-15 15:02:56.211674589 +0800
+> ++++ b_modify/crypto/des/des.pod	2013-08-15 15:04:14.439674580 +0800
+> +@@ -181,6 +181,8 @@ the uuencoded file to embed in the begin
+> + output.  If there is no name specified after the B<-u>, the name text.des
+> + will be embedded in the header.
+> +
+> ++=back
+> ++
+> + =head1 SEE ALSO
+> +
+> + ps(1),
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> index ac27dba..64ec426 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> @@ -6,7 +6,7 @@ DEPENDS += "ocf-linux"
+>
+>   CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+>
+> -PR = "${INC_PR}.0"
+> +PR = "${INC_PR}.1"
+>
 
-Does not seem right to 'workaround' this; it'd be better to fix it properly.
+No PR bump please
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Sau!
+
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
+>
+> @@ -34,6 +34,7 @@ SRC_URI += "file://configure-targets.patch \
+>               file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+>               file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
+>               file://find.pl \
+> +            file://openssl-fix-des.pod-error.patch \
+>              "
+>
+>   SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
+>
 
