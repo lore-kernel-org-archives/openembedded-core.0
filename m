@@ -1,27 +1,37 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3015D6CDCB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 71CB16CDCB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 10:31:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAMAVACp000413
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 22 Nov 2013 02:31:10 -0800 (PST)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 22 Nov 2013 02:31:09 -0800
-Message-ID: <528F326C.8090808@windriver.com>
-Date: Fri, 22 Nov 2013 18:31:08 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1385113330.git.jackie.huang@windriver.com>
-In-Reply-To: <cover.1385113330.git.jackie.huang@windriver.com>
-Cc: phcoder@gmail.com, dvhart@linux.intel.com
-Subject: Re: [PATCH 0/2 v5] grub-efi: change to generate EFI image in target package
+	Fri, 22 Nov 2013 10:31:31 +0000 (UTC)
+Received: by mail-we0-f179.google.com with SMTP id q59so922431wes.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Nov 2013 02:31:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=RwW5HYfzG2fAj64WgzpP0SbefexPS2y1JE82lycX1iU=;
+	b=IBwMarzyw3TXfhI6OB+bznaHIC1nuU/kubKix0MPwtLxoTsnzbP1VQCM8W5vPyIZMD
+	6WobXtC84LXyP5XMjPdbw5bVK1RvpAnLtGtk0Bsn5vEc5auiZ2vFoKedII7hFD2+hCI1
+	Smm1KUo8wKhvOe5hc2vuobYcZYpGWharqON3Qs+ZwqhTl8CZYtetLaRkH01f5KK/xHWT
+	bAqMSyoHoanzpnEdkLU3noryGgzFMjSob+JCkxN47osC4u7FUURseEdH2KuMiAspXs3q
+	pvC+I4vXFQLz4iVO0f6t+/QmQaBkODuukMnWKDXoPLqpKhYafFifacxyLgecn7a8acYd
+	kT7w==
+X-Gm-Message-State: ALoCoQk5QweXE8aMkeuJB6vMh/nFUvrtP5b1OXyesASqLE9LF11/bfxcw609yIcqD7RqgWRsSamP
+X-Received: by 10.180.11.37 with SMTP id n5mr1961324wib.25.1385116290527;
+	Fri, 22 Nov 2013 02:31:30 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	ll10sm14375867wic.9.2013.11.22.02.31.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 22 Nov 2013 02:31:29 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Nov 2013 10:31:26 +0000
+Message-Id: <1385116286-13076-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH][V2] initscripts: remove erroneous call to /etc/default/rcS in mountnfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,75 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 10:31:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Nov 2013 10:31:31 -0000
 
-I changed the Upstream-Status of the patch to backport according to 
-Vladimir's comment, but I'm not going to send a v6, just update the pull 
-request here:
+This doesn't exist when using systemd as it's part of the sysvinit package, and
+this script doesn't need it.
 
---
-The following changes since commit ee3e2e5ce15a3bf78c7e9d76d7bf68131f2d3ef7:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh |    2 --
+ 1 file changed, 2 deletions(-)
 
-   librsvg: upgrade to 2.40.0 (2013-11-20 14:03:06 +0000)
-
-are available in the git repository at:
-
-   git://git.pokylinux.org/poky-contrib jhuang0/d_grub-efi_v5_1122_3
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+index 4fffe4e..fe6c196 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+@@ -7,8 +7,6 @@
+ # Default-Stop:
+ ### END INIT INFO
  
-http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_grub-efi_v5_1122_3
-
-Jackie Huang (2):
-   grub-efi: change to generate EFI image in target package
-   grub-efi: allow compilation without large model support
-
-  meta/classes/grub-efi.bbclass                      |   4 +-
-  ...allow-a-compilation-without-mcmodel-large.patch | 131 
-+++++++++++++++++++++
-  .../{grub-efi-native_2.00.bb => grub-efi_2.00.bb}  |  44 ++++---
-  3 files changed, 158 insertions(+), 21 deletions(-)
-  create mode 100644 
-meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
-  rename meta/recipes-bsp/grub/{grub-efi-native_2.00.bb => 
-grub-efi_2.00.bb} (77%)
-
-Thanks,
-Jackie
-
-On 11/22/2013 6:00 PM, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> v5 comments:
-> Replace the patch "allow a compilation without mcmodel=large" with the one
-> provided by Vladimir Serbinenko <phcoder@gmail.com>.
->
-> --
-> The following changes since commit ee3e2e5ce15a3bf78c7e9d76d7bf68131f2d3ef7:
->
->    librsvg: upgrade to 2.40.0 (2013-11-20 14:03:06 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib jhuang0/d_grub-efi_v5_1122_1
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_grub-efi_v5_1122_1
->
-> Jackie Huang (2):
->    grub-efi: change to generate EFI image in target package
->    grub-efi: allow compilation without large model support
->
->   meta/classes/grub-efi.bbclass                      |   4 +-
->   ...allow-a-compilation-without-mcmodel-large.patch | 141 +++++++++++++++++++++
->   .../{grub-efi-native_2.00.bb => grub-efi_2.00.bb}  |  44 ++++---
->   3 files changed, 168 insertions(+), 21 deletions(-)
->   create mode 100644 meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
->   rename meta/recipes-bsp/grub/{grub-efi-native_2.00.bb => grub-efi_2.00.bb} (77%)
->
-
+-. /etc/default/rcS
+-
+ #
+ #	Run in a subshell because of I/O redirection.
+ #
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+1.7.10.4
+
 
