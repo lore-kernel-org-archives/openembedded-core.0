@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ADEC6B7F3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C3496AE22
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 16:19:51 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAMGJita024415 for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 16:19:44 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id O3e6b-Q0HD-l
+	Fri, 22 Nov 2013 16:35:23 +0000 (UTC)
+Received: by mail-ve0-f176.google.com with SMTP id oz11so1068831veb.35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 16:19:44 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAMGJduX024411
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 16:19:41 GMT
-Message-ID: <1385137176.16887.180.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Nov 2013 16:19:36 +0000
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: adt-installer: Switch from svn to tarball release for opkg
+	Fri, 22 Nov 2013 08:35:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=4JKwrKcM9sBbDXye1f7kVD+kATCkvnTEZ5rYk7NyfR0=;
+	b=gBx9D04TkT2gieH5ezouWPjWoePYoVy/MlBQt3nZlYpFXzIeRo5vDHvahofEkBfKZh
+	PfivDecH+fbYIoFxfB/gymFPjMB0hIwZSMDhr9Rzkv3bwVUqxjdIkczCOPfvqau/796L
+	cA3WJtt+9Vg4RanxUd0GSUglgaK24EJJL5sbPC5kc5lFonH+eqXVIO+sSvoVaJNoSmIs
+	WYh9UbnGgy5OE0LJUEgXM3tNDg4c4Wd8jgwuU7Uny52sKo2Opl3uGcpVziB/FoKNyb4/
+	vf69yG/QtgQd17HEgii+TltBWhF7Cguzm2hs/VhvRoXnZLrWtQJm9WfwF/+wpwPMoFw9
+	f/tg==
+X-Gm-Message-State: ALoCoQk2Te1A5aiWexsFv7LEkSaPPe9t/y07LAddgewlfB+QwmTQvRH1hqBED68jig7X58+0u88D
+X-Received: by 10.220.74.69 with SMTP id t5mr12213072vcj.18.1385138122282;
+	Fri, 22 Nov 2013 08:35:22 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Fri, 22 Nov 2013 08:35:02 -0800 (PST)
+In-Reply-To: <CA+AhUGyTC97_E=Yg1JOorHuBDG7SWQS8jfEX1Wg6Ue5pxZfcLw@mail.gmail.com>
+References: <CA+AhUGyTC97_E=Yg1JOorHuBDG7SWQS8jfEX1Wg6Ue5pxZfcLw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 22 Nov 2013 16:35:02 +0000
+Message-ID: <CAJTo0LYgrwWu=PkBDnUNdzBQ6Zke4p+0CJfqr9fe4qEE4kCcOw@mail.gmail.com>
+To: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: dbus depends on dbus-ptest-ptest if ptest in DISTRO_FEATURES - bug?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 16:19:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Nov 2013 16:35:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 88650ae..a4cdde5 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -33,11 +33,10 @@ PR = "r11"
- ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
- YOCTOADT_VERSION = "${SDK_VERSION}"
--S = "${WORKDIR}/trunk"
-+S = "${WORKDIR}/opkg-${PV}"
- 
--SRCREV = "596"
--PV = "0.1.8+svnr${SRCPV}"
--SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
-+PV = "0.2.0"
-+SRC_URI = "https://opkg.googlecode.com/files/opkg-${PV}.tar.gz \
-            file://wget_cache.patch \
-            file://adt_installer \
-            file://scripts/adt_installer_internal \
-@@ -49,6 +48,9 @@ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
-            file://opkg/conf/opkg-sdk-i686.conf \
- 	  "
- 
-+SRC_URI[md5sum] = "e8a6fd34fb2529191fe09dc14c934cc3"
-+SRC_URI[sha256sum] = "81b7055eb4c12c5e5652339305c9236cf357890717d4bea063963f3f434d966f"
-+
- ADTREPO ?= "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
- 
- do_populate_adt[umask] = "022"
-@@ -61,8 +63,8 @@ fakeroot do_populate_adt () {
- 	mkdir -p ${ADT_DIR}/opkg/build
- 	cp -r opkg ${ADT_DIR}/
- 	sed -i -e 's#ADTREPO_URL#${ADTREPO}#' ${ADT_DIR}/opkg/conf/*.conf
--	cp -r trunk ${ADT_DIR}/opkg/build/
--	mv ${ADT_DIR}/opkg/build/trunk ${ADT_DIR}/opkg/build/opkg-svn
-+	cp -r opkg-${PV} ${ADT_DIR}/opkg/build/
-+	mv ${ADT_DIR}/opkg/build/opkg-${PV} ${ADT_DIR}/opkg/build/opkg-svn
- 	rm -rf ${ADT_DIR}/opkg/build/opkg-svn/patches ${ADT_DIR}/opkg/build/opkg-svn/.pc
- 	cp -r scripts ${ADT_DIR}/
- 	cp adt_installer ${ADT_DIR}
+On 22 November 2013 09:42, Erik Bot=C3=B6 <erik.boto@pelagicore.com> wrote:
+> I noticed that dbus will pull in the ptest package as soon as ptest is
+> in DISTRO_FEATURES, the recipe contains: RDEPENDS_dbus =3D
+> "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '',
+> d)}"
+>
+> Shouldn't this be handled in image.bbclass via
+> COMPLEMENTARY_GLOB[ptest-pkgs] =3D '*-ptest' ? Then it will only be
+> installed if IMAGE_FEATURES contains ptest, which is how other
+> packages handle ptest packages.
 
+Correct, that's a clear bug.
 
+Ross
 
