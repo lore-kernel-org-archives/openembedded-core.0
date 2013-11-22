@@ -1,38 +1,37 @@
-Return-Path: <lukas.gorris@gmail.com>
-Received: from mail-bk0-f54.google.com (mail-bk0-f54.google.com
-	[209.85.214.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 66CFF6BE67
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EC596C735
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 15:40:48 +0000 (UTC)
-Received: by mail-bk0-f54.google.com with SMTP id v16so864028bkz.13
+	Fri, 22 Nov 2013 15:53:14 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id w7so1102073lbi.29
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 07:40:47 -0800 (PST)
+	Fri, 22 Nov 2013 07:53:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=4Y4asJLXPDHJIpI+KKLicFbnZJBdeMcOixXC1KMzrDg=;
-	b=zqPSFYJlJlOV592hOuBksHZmw1J+n7fHoOAXRMUWjCOXprVPNJXNlM21vGOnc3dRco
-	ZdwE6LCUkEj3WBm7y8NhdOwGjtmOIgcpo8b7EN7jokdbkZrw/7Q5pn8LYLpicMJWsV6B
-	w3Oo1RZ4ZIr/cueqZaS9a8mdoqDCacPbaMpV8J+s/p5NsG4ceJJBHwAnGEXbECvrs3Mh
-	NYfxBUu3Nd5XWVr/GAMnI6iM94onasvQyFo9AuyRiReLcIcKBsSWti7I9yxj47l6fJ47
-	I49FwGTPXzqdm4HL8ztr4uiXDhBQQJOGWgTDZUsYGAT7pAv7+gHYG5PQOkOsMepqxFsv
-	w0fA==
-X-Received: by 10.205.10.200 with SMTP id pb8mr10240690bkb.16.1385134847574;
-	Fri, 22 Nov 2013 07:40:47 -0800 (PST)
-Received: from [10.11.215.228] (nat-gw6.rrze.uni-erlangen.de. [192.44.85.28])
-	by mx.google.com with ESMTPSA id
-	no2sm32628753bkb.15.2013.11.22.07.40.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 22 Nov 2013 07:40:46 -0800 (PST)
-Message-ID: <528F7B00.7000909@gmail.com>
-Date: Fri, 22 Nov 2013 16:40:48 +0100
-From: Lukas-David Gorris <lukas.gorris@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=ugyxi7dqC+wdcBLP4BaTzVRFh7Ba8wRLgm7Yh9o35ZQ=;
+	b=CCZMdthWaGp+oRODWMKHUKRfvbbCTpt1KfDbu/IejtBGubhVSvlkudb9YkrptU2oYA
+	VLU2Eu1wyKOKHXtf3ntulfOWM/tG2nhF/m7RzXYGNBJgbhfVn6lxivPBP5YDvFMIc58y
+	tPqkM441re58TUd9EB60NheaWzM1zhiVqZ9eKvHMlRmJK8q3tprlHEkVGdT67HgqFfp4
+	buyGixAlbuyzVQYXxXXooLAGzrohIcfk2NYvJ+Ac/68ELURpHvqko0AD3QYYEhF9g4wY
+	MRXolWZ1f6Go/kjw3VWPOs+qloJhjjb2EkDYmF3P1/W7y0ywEtB3inr6gX3Q9Ly0vUeE
+	R2aA==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: mencoder
+X-Received: by 10.112.136.163 with SMTP id qb3mr9589267lbb.14.1385135593062;
+	Fri, 22 Nov 2013 07:53:13 -0800 (PST)
+Received: by 10.112.14.200 with HTTP; Fri, 22 Nov 2013 07:53:13 -0800 (PST)
+In-Reply-To: <1385129059-941-2-git-send-email-mac@mcrowe.com>
+References: <1385129059-941-1-git-send-email-mac@mcrowe.com>
+	<1385129059-941-2-git-send-email-mac@mcrowe.com>
+Date: Fri, 22 Nov 2013 10:53:13 -0500
+Message-ID: <CADkTA4NNCzjF9M1xQsvdETjtb3MiFiHjiCbaCJ6Sy3Y=p0qFoA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Mike Crowe <mac@mcrowe.com>
+Cc: Mike Crowe <mcrowe@brightsign.biz>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] Revert "kernel.bbclass: move bundle_initramfs after kernel_link_vmlinux"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,21 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 15:40:49 -0000
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Nov 2013 15:53:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hello,
+On Fri, Nov 22, 2013 at 9:04 AM, Mike Crowe <mac@mcrowe.com> wrote:
+> This reverts commit 3baa63b4d588c3262254528b406ede265dd117bf. It broke
+> builds that aren't using kernel-yocto.
 
-I would like to generate an image containing mencoder in the current 
-yocto metadata with the up to date oe layers as well as meta-raspberrypi 
-added.
-mplayer builds, installs and runs just fine for MACHINE raspberryi. A 
-search in the metadata yielded no references to mencoder.
-I am wondering how to add it, maybe based on the present mplayer 
-metadata and would be thankful for help.
+Can we get a log message of the breakage in the commit ? And a follow up
+question, have we simply restored the issue that the original commit was
+fixing ?
 
-Best
+Bruce
 
-Lukas
+>
+> Signed-off-by: Mike Crowe <mcrowe@brightsign.biz>
+> ---
+>  meta/classes/kernel.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 48999fe..ba13e67 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -152,7 +152,7 @@ python do_devshell_prepend () {
+>      os.environ["LDFLAGS"] = ''
+>  }
+>
+> -addtask bundle_initramfs after do_kernel_link_vmlinux before do_build
+> +addtask bundle_initramfs after do_compile before do_build
+>
+>  kernel_do_compile() {
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+> --
+> 1.7.10.4
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
