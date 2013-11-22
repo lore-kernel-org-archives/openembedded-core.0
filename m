@@ -1,28 +1,25 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D7C86C735
+Return-Path: <mcrowe@brightsign.biz>
+Received: from elite.brightsigndigital.co.uk
+	(cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net [86.30.57.232])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A55B6C745
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 14:01:31 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 11768F8119A; Fri, 22 Nov 2013 07:01:30 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 07B3EF81199;
-	Fri, 22 Nov 2013 07:01:30 -0700 (MST)
-Message-ID: <528F63CB.1010107@mlbassoc.com>
-Date: Fri, 22 Nov 2013 07:01:47 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
-MIME-Version: 1.0
+	Fri, 22 Nov 2013 14:04:37 +0000 (UTC)
+Received: from chuckie.brightsign ([172.30.1.25])
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1VjrLX-0006UJ-NQ; Fri, 22 Nov 2013 14:04:35 +0000
+Received: from mac by chuckie.brightsign with local (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1VjrLX-0000GE-MK; Fri, 22 Nov 2013 14:04:35 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-References: <alpine.DEB.2.02.1311220812240.14584@oneiric>
-In-Reply-To: <alpine.DEB.2.02.1311220812240.14584@oneiric>
-Subject: Re: is there an easy way to see the actual files that went into a package?
+Date: Fri, 22 Nov 2013 14:04:18 +0000
+Message-Id: <1385129059-941-2-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1385129059-941-1-git-send-email-mac@mcrowe.com>
+References: <1385129059-941-1-git-send-email-mac@mcrowe.com>
+Cc: Mike Crowe <mcrowe@brightsign.biz>, Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH 1/2] Revert "kernel.bbclass: move bundle_initramfs after kernel_link_vmlinux"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 14:01:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Nov 2013 14:04:38 -0000
 
-On 2013-11-22 06:15, Robert P. J. Day wrote:
->
->    if i use "bb show" to examine the files that go into each package
-> (eg, for "zlib" here), what i get is the collection of wildcards that
-> will, of course, still be processed when sequentially creating each
-> package:
->
-> $ bb show -r zlib FILES_zlib-dev
-> Parsing recipes..done.
-> # FILES_zlib-dev=${includedir} ${FILES_SOLIBSDEV} ${libdir}/*.la
-> ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig
-> ${datadir}/aclocal ${base_libdir}/*.o ${libdir}/${BPN}/*.la
-> ${base_libdir}/*.la
-> FILES_zlib-dev="/usr/include /lib/lib*.so /usr/lib/lib*.so
-> /usr/lib/*.la /usr/lib/*.o /usr/lib/pkgconfig /usr/share/pkgconfig
-> /usr/share/aclocal /lib/*.o /usr/lib/zlib/*.la /lib/*.la"
-> $
->
->    is there an equivalently simple way to display the end result of the
-> contents of each package?
+This reverts commit 3baa63b4d588c3262254528b406ede265dd117bf. It broke
+builds that aren't using kernel-yocto.
 
-You can use the package manager (opkg, rpm) to ask for this info.
+Signed-off-by: Mike Crowe <mcrowe@brightsign.biz>
+---
+ meta/classes/kernel.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For example, using opkg on an installed image:
-   # opkg list-installed
-   # opkg files ethtool
-
-You can even run this on an [uninstalled] image.  From your build tree,
-the tools are accessible and the image root file system as well.  In the
-example above:
-   $ tmp/sysroots/x86_64-linux/usr/bin/opkg-cl -f tmp/work/sabrelite-poky-linux-gnueabi/poky-x11-image/1.0-r0/opkg.conf -o 
-tmp/work/sabrelite-poky-linux-gnueabi/poky-x11-image/1.0-r0/rootfs list-installed
-   $ tmp/sysroots/x86_64-linux/usr/bin/opkg-cl -f tmp/work/sabrelite-poky-linux-gnueabi/poky-x11-image/1.0-r0/opkg.conf -o 
-tmp/work/sabrelite-poky-linux-gnueabi/poky-x11-image/1.0-r0/rootfs files ethtool
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 48999fe..ba13e67 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -152,7 +152,7 @@ python do_devshell_prepend () {
+     os.environ["LDFLAGS"] = ''
+ }
+ 
+-addtask bundle_initramfs after do_kernel_link_vmlinux before do_build
++addtask bundle_initramfs after do_compile before do_build
+ 
+ kernel_do_compile() {
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.7.10.4
+
 
