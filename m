@@ -1,28 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E9F536CDCB
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F27C16CDCB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 09:54:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 22 Nov 2013 01:54:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,751,1378882800"; d="scan'208";a="412945354"
-Received: from pauljbro-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.121.218])
-	by orsmga001.jf.intel.com with ESMTP; 22 Nov 2013 01:54:28 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 22 Nov 2013 09:54:27 +0000
-Message-ID: <1882168.P1fbh48jv2@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <528EF449.5000507@windriver.com>
-References: <cover.1384943898.git.hongxu.jia@windriver.com>
-	<1673532.sZIipt1mGd@helios> <528EF449.5000507@windriver.com>
+	Fri, 22 Nov 2013 09:55:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAM9tLVa015290
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Nov 2013 01:55:21 -0800 (PST)
+Received: from PKE-CLU1-D1.corp.ad.wrs.com (128.224.162.203) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 22 Nov 2013 01:55:20 -0800
+From: <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Nov 2013 17:55:16 +0800
+Message-ID: <1385114118-4630-1-git-send-email-Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: Re: [PATCH 1/1] license.bbclass: fix copying license directories failed
+Subject: [PATCH 1/2] lttng-ust: update commit to fix compiling issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,88 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 09:54:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 22 Nov 2013 09:55:22 -0000
+Content-Type: text/plain
 
-On Friday 22 November 2013 14:06:01 Hongxu Jia wrote:
-> Hi Paul,
-> 
-> On 11/22/2013 12:41 AM, Paul Eggleton wrote:
-> > Hi Hongxu,
-> > 
-> > On Wednesday 20 November 2013 18:39:02 Hongxu Jia wrote:
-> >> For each recipe, it populated license files to
-> >> ${LICENSE_DIRECTORY}/${PN},
-> >> such as kernel's license dir was
-> >> ${LICENSE_DIRECTORY}/kernel-3.10.17-yocto-standard;
-> >> 
-> >> In do_rootfs task, it copied license directories from
-> >> ${LICENSE_DIRECTORY}/
-> >> ${pkg}, and ${pkg} was listed in ${INSTALLED_PKGS};
-> >> 
-> >> We got ${INSTALLED_PKGS} by rpm query, such as the kernel were
-> >> 'kernel-*',
-> >> but the kernel's PN was linux-yocto, so searching ${LICENSE_DIRECTORY}/
-> >> kernel-* failed.
-> >> 
-> >> Copied license directories from ${LICENSE_DIRECTORY}/${PN} fixed this
-> >> issue.
-> >> 
-> >> [YOCTO #5572]
-> >> 
-> >> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> >> ---
-> >> 
-> >>   meta/classes/license.bbclass | 9 ++++++---
-> >>   1 file changed, 6 insertions(+), 3 deletions(-)
-> >> 
-> >> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> >> index 6d7ee94..32605ff 100644
-> >> --- a/meta/classes/license.bbclass
-> >> +++ b/meta/classes/license.bbclass
-> >> @@ -68,15 +68,18 @@ license_create_manifest() {
-> >> 
-> >>   		if [ "${COPY_LIC_DIRS}" = "1" ]; then
-> >>   		
-> >>   			for pkg in ${INSTALLED_PKGS}; do
-> >>   			
-> >>   				mkdir -p ${IMAGE_ROOTFS}/usr/share/common-licenses/${pkg}
-> >> 
-> >> -				for lic in `ls ${LICENSE_DIRECTORY}/${pkg}`; do
-> >> +				pkged_pn="$(sed -n "/^PACKAGE NAME: ${pkg}$/,/^$/ \
-> >> +                                           {s/^RECIPE NAME: //;
-> >> /^PACKAGE
-> >> NAME:/d; /^PACKAGE VERSION:/d; /^LICENSE:/d; p}" \ +
-> >> 
-> >>                     ${LICENSE_MANIFEST})"
-> >> 
-> >> +				for lic in `ls ${LICENSE_DIRECTORY}/${pkged_pn}`; do
-> > 
-> > This isn't the right way to do this. If you need to look up the recipe
-> > name
-> > 
-> > from the target package name, in master you can now use:
-> >    oe-pkgdata-util lookup-recipe ${PKGDATA_DIR} "<list of packages>"
-> 
-> I am afraid to use oe-pkgdata-util here is not a good idea:
-> 
-> - everything we need has been listed in ${LICENSE_MANIFEST},
->    we just need to sort them out;
-> 
-> - the oe-pkgdata-util utility only support to search the specific
->    ${PKGDATA_DIR} directory which was  ${TMPDIR}/pkgdata/
->    ${MULTIMACH_TARGET_SYS}, but we need to search multiple
->    ${MULTIMACH_TARGET_SYS} directories;
+From: Chong Lu <Chong.Lu@windriver.com>
 
-Note that in 1.5 the pkgdata structure changed - it is now under the machine-
-specific sysroot, so there is only one directory to look in.
+Update commit in order to add patches like below:
 
-Cheers,
-Paul
+	doc/examples: error out when a subdir make fails
+	fix: lttng-gen-tp: add missing spaces around flags
 
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
+index a3b1920..fa157d2 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
+@@ -17,7 +17,7 @@ RPROVIDES_${PN} = "lttng2-ust"
+ RREPLACES_${PN} = "lttng2-ust"
+ RCONFLICTS_${PN} = "lttng2-ust"
+ 
+-SRCREV = "9f00ce32b103eed13524c876757b6611c5922382"
++SRCREV = "e6a8d841217f651e86c8e133e0edbbb667c11055"
+ PV = "2.3.0"
+ PE = "2"
+ 
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
