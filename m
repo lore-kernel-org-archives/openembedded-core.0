@@ -1,20 +1,38 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B49C86B7F3
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B14106B7F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 22:33:10 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Nov 2013 14:33:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,754,1378882800"; d="scan'208";a="438308954"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.137])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Nov 2013 14:33:10 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 22 Nov 2013 14:33:10 -0800
-Message-Id: <1385159590-27427-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] runqemu: Extend to support genericx86* machine types
+	Fri, 22 Nov 2013 22:33:41 +0000 (UTC)
+Received: by mail-ob0-f181.google.com with SMTP id uy5so1947357obc.26
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 22 Nov 2013 14:33:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=EyDKWguBLu/09Xc1QzkxjNh670kJ4gH1sX9eD+A1j4Y=;
+	b=WMaFuKapLvmTMtyVULIIUdhjy9XQgSE4apE5uEICNKXBw80+OJSdjgSym76m5eOOD3
+	DQYkTr5vzBjjbi2loRNXLexpeF9m/qTNLzzWR1p5IElGI0C3ZQH2SBzmNNoHTDfN1OFc
+	zDmYn45oZSZu4JOFJvS6I70F5av0Wu+mVnN2HhcufngCDUABVdIh8D7vs0P7Hf2IMTOQ
+	zeypMLAzeFLW+fDOhA07zoszmElX3J47D1ctr3NfeGwgr/yXpCuS2Bui9B+DZRs4b073
+	D7UlbgOX02phZGBOGrggUM/tDJWdC4XWCxZpORNTx8h04cMu3/GQKLRdVimQdcVW7TJS
+	uWaA==
+X-Gm-Message-State: ALoCoQmFlzCiVoY4YMg2Xis4rctycbKR/l6CvttsU2PEnXn9hH4Hc1LSa6/5Pcu4xQp8QYLTW4fT
+X-Received: by 10.182.72.234 with SMTP id g10mr12684378obv.21.1385159620650;
+	Fri, 22 Nov 2013 14:33:40 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.76.0.50 with HTTP; Fri, 22 Nov 2013 14:33:20 -0800 (PST)
+In-Reply-To: <5282EC62.9010805@gmail.com>
+References: <1384162062-30319-2-git-send-email-layliu@gmail.com>
+	<1384251828.1143.3.camel@ted> <5282EC62.9010805@gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 22 Nov 2013 23:33:20 +0100
+Message-ID: <CAP71Wjz9ymXepFCBpLQkKuzH_sGv0H7sYFW5M9FDV1Z8GSqmKw@mail.gmail.com>
+To: Lei Liu <layliu@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] Fix grep pattern when mklibs collects executables in rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,142 +45,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 22:33:10 -0000
+X-List-Received-Date: Fri, 22 Nov 2013 22:33:41 -0000
+Content-Type: multipart/alternative; boundary=001a11c2e06425800004ebcb9b69
 
-I have done some very basic testing to boot to graphics and run some graphics 
-programs.  The genericx86* currently do not have Sound or NFSD support enabled
-which qemux86* kernel do.  There might be some other bits needed, I am working
-to figure that out.
+--001a11c2e06425800004ebcb9b69
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-[YOCTO #5105]
+hi,
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- scripts/runqemu          | 21 +++++++++++++++------
- scripts/runqemu-internal | 10 ++++++----
- 2 files changed, 21 insertions(+), 10 deletions(-)
+On Wed, Nov 13, 2013 at 4:05 AM, Lei Liu <layliu@gmail.com> wrote:
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 619ffb6..1f8199c 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -108,6 +108,7 @@ while true; do
-     arg=${1}
-     case "$arg" in
-         "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumipsel" | \
-+        "genericx86" | "genericx86-64" | \
-         "qemumips64" | "qemush4"  | "qemuppc" | "qemumicroblaze" | "qemuzynq")
-             [ -z "$MACHINE" ] && MACHINE=$arg || \
-                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
-@@ -163,7 +164,8 @@ while true; do
-             SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT ${arg##bootparams=}"
-             ;;
-         "audio")
--            if [ "x$MACHINE" = "xqemux86" -o "x$MACHINE" = "xqemux86-64" ]; then
-+            if [ "x$MACHINE" = "xqemux86" -o "x$MACHINE" = "xqemux86-64" -o \
-+                 "x$MACHINE" = "xgenericx86" -o "x$MACHINE" = "xgenericx86-64" ]; then
-                 echo "Enabling audio in qemu."
-                 echo "Please install snd_intel8x0 or snd_ens1370 driver in linux guest."
-                 QEMU_AUDIO_DRV="alsa"
-@@ -224,13 +226,13 @@ fi
- 
- if [ -z "$MACHINE" ]; then
-     if [ "x$FSTYPE" = "xvmdk" ]; then
--        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|genericx86-64\|genericx86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from vmdk filename [$VM]"
-         fi
-         echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
-     else
--        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|genericx86-64\|genericx86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from kernel filename [$KERNEL]"
-         fi
-@@ -248,7 +250,8 @@ if [ "x$KVM_ENABLED" = "xyes" ]; then
-         echo "$YOCTO_KVM_WIKI";
-         exit 1;
-     fi
--    if [ "x$MACHINE" != "xqemux86" -a "x$MACHINE" != "xqemux86-64" ]; then
-+    if [ "x$MACHINE" != "xqemux86" -a "x$MACHINE" != "xqemux86-64" -o \
-+         "x$MACHINE" != "xgenericx86" -a "x$MACHINE" != "xgenericx86-64" ]; then
-         echo "KVM only support x86 & x86-64. Remove kvm from the command-line";
-         exit 1;
-     fi
-@@ -265,9 +268,9 @@ if [ "x$KVM_ENABLED" = "xyes" ]; then
-         exit 1;
-     fi
-     if [ -w /dev/kvm -a -r /dev/kvm ]; then
--        if [ "x$MACHINE" = "xqemux86" ]; then
-+        if [ "x$MACHINE" = "xqemux86" -o "x$MACHINE" = "xgeneric86" ]; then
-             SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm -cpu kvm32"
--        elif [ "x$MACHINE" = "xqemux86-64" ]; then
-+        elif [ "x$MACHINE" = "xqemux86-64" -o "x$MACHINE" = "xgeneric86-64" ]; then
-             SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm -cpu kvm64"
-         fi
-         KVM_ACTIVE="yes"
-@@ -292,9 +295,15 @@ machine2=`echo $MACHINE | tr 'a-z' 'A-Z' | sed 's/-/_/'`
- QEMUX86_DEFAULT_KERNEL=bzImage-qemux86.bin
- QEMUX86_DEFAULT_FSTYPE=ext3
- 
-+GENERICX86_DEFAULT_KERNEL=bzImage-genericx86.bin
-+GENERICX86_DEFAULT_FSTYPE=ext3
-+
- QEMUX86_64_DEFAULT_KERNEL=bzImage-qemux86-64.bin
- QEMUX86_64_DEFAULT_FSTYPE=ext3
- 
-+GENERICX86_64_DEFAULT_KERNEL=bzImage-genericx86-64.bin
-+GENERICX86_64_DEFAULT_FSTYPE=ext3
-+
- QEMUARM_DEFAULT_KERNEL=zImage-qemuarm.bin
- QEMUARM_DEFAULT_FSTYPE=ext3
- 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 74b0c35..e7b8a82 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -41,10 +41,10 @@ if [ ! -z "$mem_set" ] ; then
-   mem_size=`echo $mem_set | sed 's/-m[[:space:]] *//'`
- else
-     case "$MACHINE" in
--        "qemux86")
-+        "qemux86"|"genericx86")
-             mem_size=256
-             ;;
--        "qemux86-64")
-+        "qemux86-64"|"genericx86-64")
-             mem_size=256
-             ;;
-         "qemuarm")
-@@ -280,6 +280,8 @@ case "$MACHINE" in
-     "qemuarmv7") ;;
-     "qemux86") ;;
-     "qemux86-64") ;;
-+    "genericx86") ;;
-+    "genericx86-64") ;;
-     "qemuzynq") ;;
-     "akita") ;;
-     "spitz") ;;
-@@ -355,7 +357,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
-     fi
- fi
- 
--if [ "$MACHINE" = "qemux86" ]; then
-+if [ "$MACHINE" = "qemux86" -o "$MACHINE" = "genericx86" ]; then
-     QEMU=qemu-system-i386
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
-     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-@@ -379,7 +381,7 @@ if [ "$MACHINE" = "qemux86" ]; then
-     KERNCMDLINE="$KERNCMDLINE oprofile.timer=1"
- fi
- 
--if [ "$MACHINE" = "qemux86-64" ]; then
-+if [ "$MACHINE" = "qemux86-64" -o "$MACHINE" = "genericx86-64" ]; then
-     QEMU=qemu-system-x86_64
-     QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
-     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
--- 
-1.8.3.1
+> On 2013=E5=B9=B411=E6=9C=8812=E6=97=A5 18:23, Richard Purdie wrote:
+> > On Mon, 2013-11-11 at 17:27 +0800, Lei Liu wrote:
+> >> From: Lei Liu <lei.liu2@windriver.com>
+> >>
+> >> File command in some version could print extra space between
+> >> "LSB" and "executable" - it causes mklibs can't find any executables
+> >> using grep "LSB executable".  Fix the grep pattern to catch
+> >> multiple spaces.
+> >>
+> >> Signed-off-by: Lei Liu <lei.liu2@windriver.com>
+> >> ---
+> >>  meta/classes/image-mklibs.bbclass |    2 +-
+> >>  1 files changed, 1 insertions(+), 1 deletions(-)
+> > I've queued this but please put the area name in the short line of the
+> > commit in future ("image-mklibs: " in this case).
+> >
+>
+> Okay.  Thanks.
 
 
+First of all, this patch is needed on dora branch too , and it applies
+cleanly, can that be merged?
+
+Now, the real question... i am not able to get mklibs to work at all (even
+with this patch). What i am seeing is that mklibs 0.1.38 doesn't support
+anymore the use of 'sysroot'. I think this is because of this upstream
+change
+
+http://anonscm.debian.org/gitweb/?p=3Dd-i/mklibs.git;a=3Dcommit;h=3D60bda7e=
+2132d197e1c88afb5012f9677b6967db2
+
+If I revert to 0.1.34 (that we had on dylan branch), i can build my image
+just fine (note that I am building an arm soft-float image), so are you
+able to use image-mklibs with dora or master which have 0.1.38?
+
+--001a11c2e06425800004ebcb9b69
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">hi,</div><div class=3D"gmail_ex=
+tra"><br><div class=3D"gmail_quote">On Wed, Nov 13, 2013 at 4:05 AM, Lei Li=
+u <span dir=3D"ltr">&lt;<a href=3D"mailto:layliu@gmail.com" target=3D"_blan=
+k">layliu@gmail.com</a>&gt;</span> wrote:<br>
+
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div>On 2013=E5=B9=B411=E6=9C=8812=E6=97=A5 18:23, Richard=
+ Purdie wrote:<br>
+&gt; On Mon, 2013-11-11 at 17:27 +0800, Lei Liu wrote:<br>
+&gt;&gt; From: Lei Liu &lt;<a href=3D"mailto:lei.liu2@windriver.com" target=
+=3D"_blank">lei.liu2@windriver.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; File command in some version could print extra space between<br>
+&gt;&gt; &quot;LSB&quot; and &quot;executable&quot; - it causes <span>mklib=
+s</span> can&#39;t find any executables<br>
+&gt;&gt; using grep &quot;LSB executable&quot;. =C2=A0Fix the grep pattern =
+to catch<br>
+&gt;&gt; multiple spaces.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Lei Liu &lt;<a href=3D"mailto:lei.liu2@windriver.co=
+m" target=3D"_blank">lei.liu2@windriver.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt; =C2=A0meta/classes/image-<span>mklibs</span>.bbclass | =C2=A0 =C2=
+=A02 +-<br>
+&gt;&gt; =C2=A01 files changed, 1 insertions(+), 1 deletions(-)<br>
+&gt; I&#39;ve queued this but please put the area name in the short line of=
+ the<br>
+&gt; commit in future (&quot;image-<span>mklibs</span>: &quot; in this case=
+).<br>
+&gt;<br>
+<br>
+</div>Okay. =C2=A0Thanks.</blockquote></div><br>First of all, this patch is=
+ needed on dora branch too , and it applies cleanly, can that be merged?</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Now, the=
+ real question... i am not able to get mklibs to work at all (even with thi=
+s patch). What i am seeing is that mklibs 0.1.38 doesn&#39;t support anymor=
+e the use of &#39;sysroot&#39;. I think this is because of this upstream ch=
+ange</div>
+
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><a href=3D"=
+http://anonscm.debian.org/gitweb/?p=3Dd-i/mklibs.git;a=3Dcommit;h=3D60bda7e=
+2132d197e1c88afb5012f9677b6967db2">http://anonscm.debian.org/gitweb/?p=3Dd-=
+i/mklibs.git;a=3Dcommit;h=3D60bda7e2132d197e1c88afb5012f9677b6967db2</a><br=
+>
+
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">If I =
+revert to 0.1.34 (that we had on dylan branch), i can build my image just f=
+ine (note that I am building an arm soft-float image), so are you able to u=
+se image-mklibs with dora or master which have 0.1.38?</div>
+
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra"><br></div></div>
+
+--001a11c2e06425800004ebcb9b69--
