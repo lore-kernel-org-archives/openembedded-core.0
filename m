@@ -1,26 +1,30 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B1BD66CED7
+	by mail.openembedded.org (Postfix) with ESMTP id 917506CED7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 09:55:22 +0000 (UTC)
+	Fri, 22 Nov 2013 09:59:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAM9tMkx025429
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 01:55:22 -0800 (PST)
-Received: from PKE-CLU1-D1.corp.ad.wrs.com (128.224.162.203) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 22 Nov 2013 01:55:22 -0800
-From: <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 22 Nov 2013 17:55:17 +0800
-Message-ID: <1385114118-4630-2-git-send-email-Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1385114118-4630-1-git-send-email-Chong.Lu@windriver.com>
-References: <1385114118-4630-1-git-send-email-Chong.Lu@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAM9xbK3025841
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 22 Nov 2013 01:59:37 -0800 (PST)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 22 Nov 2013 01:59:37 -0800
+Message-ID: <528F2B07.5040509@windriver.com>
+Date: Fri, 22 Nov 2013 17:59:35 +0800
+From: jhuang0 <jackie.huang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH 2/2] lttng-ust: Using toolchain to compile examples
+To: =?UTF-8?B?VmxhZGltaXIgJ8+GLWNvZGVyL3BoY29kZXInIFNlcmJpbmVua28=?=
+	<phcoder@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1385104509.git.jackie.huang@windriver.com>
+	<b55ef9e73d2bcd60a3faabd9c65c3704ec732eeb.1385104509.git.jackie.huang@windriver.com>
+	<528F0F06.3010405@gmail.com> <528F1228.4020108@windriver.com>
+In-Reply-To: <528F1228.4020108@windriver.com>
+Cc: The development of GRUB 2 <grub-devel@gnu.org>, dvhart@linux.intel.com
+Subject: Re: [PATCH 2/2] grub-efi: allow compilation without large model support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,140 +37,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 09:55:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 22 Nov 2013 09:59:40 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Chong Lu <Chong.Lu@windriver.com>
 
-1. Some head files wouldn't be found when compiled with host gcc.
-   So, We should use cross compile toolchain to build examples.
-2. Because the .o file couldn't be generated through lttng-gen-tp in
-   cross-compiling environment. Implement the .o file generation
-   manually instead of lttng-gen-tp.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- .../lttng-ust/0001-lttng-ust-several-fixes.patch   |   97 ++++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb       |    1 +
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-ust/0001-lttng-ust-several-fixes.patch
+On 11/22/2013 4:13 PM, jhuang0 wrote:
+>
+>
+> On 11/22/2013 4:00 PM, Vladimir 'φ-coder/phcoder' Serbinenko wrote:
+>> On 22.11.2013 08:23, jackie.huang@windriver.com wrote:
+>>> From: Jackie Huang <jackie.huang@windriver.com>
+>>>
+>>> -mcmodel=large is not supported by gcc with version lower
+>>> than 4.4, but we don't need to use memory over 4GiB, so add
+>>> a patch to allow compilation without large model support.
+>>>
+>> Please try attached patch instead
+>
+> Thanks, I'm going to try with your patch.
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-lttng-ust-several-fixes.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-lttng-ust-several-fixes.patch
-new file mode 100644
-index 0000000..a51d0e5
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-ust/0001-lttng-ust-several-fixes.patch
-@@ -0,0 +1,97 @@
-+From ea7d68aba7723633dcc3944a58f0b30191ea782b Mon Sep 17 00:00:00 2001
-+From: Chong Lu <Chong.Lu@windriver.com>
-+Date: Fri, 22 Nov 2013 16:11:53 +0800
-+Subject: [PATCH] lttng-ust: several fixes
-+
-+This patch fixes below issues:
-+
-+1. Using cross compile toolchain to build examples.
-+2. Implement the .o file generation manually instead of lttng-gen-tp.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ doc/examples/demo/Makefile             |    1 -
-+ doc/examples/easy-ust/Makefile         |    1 -
-+ doc/examples/gen-tp/Makefile           |   17 ++++++++---------
-+ doc/examples/hello-static-lib/Makefile |    1 -
-+ 4 files changed, 8 insertions(+), 12 deletions(-)
-+
-+diff --git a/doc/examples/demo/Makefile b/doc/examples/demo/Makefile
-+index 27e4146..d0d83e5 100644
-+--- a/doc/examples/demo/Makefile
-++++ b/doc/examples/demo/Makefile
-+@@ -14,7 +14,6 @@
-+ #
-+ # This makefile is purposefully kept simple to support GNU and BSD make.
-+ 
-+-CC = gcc
-+ LIBS = -ldl	# On Linux
-+ #LIBS = -lc	# On BSD
-+ LOCAL_CPPFLAGS += -I.
-+diff --git a/doc/examples/easy-ust/Makefile b/doc/examples/easy-ust/Makefile
-+index 966c474..0cfeec4 100644
-+--- a/doc/examples/easy-ust/Makefile
-++++ b/doc/examples/easy-ust/Makefile
-+@@ -16,7 +16,6 @@
-+ #
-+ # This makefile is purposefully kept simple to support GNU and BSD make.
-+ 
-+-CC = gcc
-+ LIBS = -ldl -llttng-ust		# On Linux
-+ #LIBS = -lc -llttng-ust		# On BSD
-+ LOCAL_CPPFLAGS += -I.
-+diff --git a/doc/examples/gen-tp/Makefile b/doc/examples/gen-tp/Makefile
-+index bc979d9..b9fe757 100644
-+--- a/doc/examples/gen-tp/Makefile
-++++ b/doc/examples/gen-tp/Makefile
-+@@ -17,7 +17,6 @@
-+ #
-+ # This makefile is purposefully kept simple to support GNU and BSD make.
-+ 
-+-CC = gcc
-+ 
-+ LIBS = -ldl -llttng-ust		#On Linux
-+ #LIBS = -lc -llttng-ust		#On BSD
-+@@ -33,17 +32,17 @@ sample.o: sample.c sample_tracepoint.h
-+ 		-c -o $@ $<
-+ 
-+ # Use this command to compile the .c manually
-+-#sample_tracepoint.o: sample_tracepoint.c sample_tracepoint.h
-+-#	$(CC) $(CPPFLAGS) $(CFLAGS) $(AM_CPPFLAGS) $(AM_CFLAGS) \
-+-#		-I. -c -o $@ $<
-++sample_tracepoint.o: sample_tracepoint.c sample_tracepoint.h
-++	$(CC) $(CPPFLAGS) $(CFLAGS) $(AM_CPPFLAGS) $(AM_CFLAGS) \
-++		-I. -c -o $@ $<
-+ 
-+ # This rule generate .o only and depends on rules for generating
-+ # the .h and .c
-+-%.o: %.tp %.c %.h
-+-	CPPFLAGS="$(CPPFLAGS) $(AM_CPPFLAGS)" \
-+-	CFLAGS="$(CFLAGS) $(AM_CFLAGS)" \
-+-	LDFLAGS="$(LDFLAGS) $(AM_LDFLAGS)" \
-+-	$(LTTNG_GEN_TP_PATH)lttng-gen-tp -o $@ $<
-++#%.o: %.tp %.c %.h
-++#	CPPFLAGS="$(CPPFLAGS) $(AM_CPPFLAGS)" \
-++#	CFLAGS="$(CFLAGS) $(AM_CFLAGS)" \
-++#	LDFLAGS="$(LDFLAGS) $(AM_LDFLAGS)" \
-++#	$(LTTNG_GEN_TP_PATH)lttng-gen-tp -o $@ $<
-+ 
-+ # The following rule can be used to generate all files instead of having one
-+ # for each file type. Note that the sample.o has a dependency on the
-+diff --git a/doc/examples/hello-static-lib/Makefile b/doc/examples/hello-static-lib/Makefile
-+index 9a079ec..4ed5dcf 100644
-+--- a/doc/examples/hello-static-lib/Makefile
-++++ b/doc/examples/hello-static-lib/Makefile
-+@@ -14,7 +14,6 @@
-+ #
-+ # This makefile is purposefully kept simple to support GNU and BSD make.
-+ 
-+-CC = gcc
-+ LOCAL_CPPFLAGS += -I.
-+ LIBS = -ldl -llttng-ust	# On Linux
-+ #LIBS = -lc -llttng-ust	# On BSD
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
-index fa157d2..f9421ac 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
-@@ -22,6 +22,7 @@ PV = "2.3.0"
- PE = "2"
- 
- SRC_URI = "git://git.lttng.org/lttng-ust.git \
-+           file://0001-lttng-ust-several-fixes.patch \
- 	   "
- 
- S = "${WORKDIR}/git"
+Tested with Vladimir's patch, it works fine. I'm going send v5 for this.
+
+Thanks,
+Jackie
+
+>
+> Thanks,
+> Jackie
+>
+>>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>>> ---
+>>>   ...allow-a-compilation-without-mcmodel-large.patch | 81
+>>> ++++++++++++++++++++++
+>>>   meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +
+>>>   2 files changed, 82 insertions(+)
+>>>   create mode 100644
+>>> meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+>>>
+>>>
+>>> diff --git
+>>> a/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+>>> b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+>>>
+>>> new file mode 100644
+>>> index 0000000..c6a30c8
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-bsp/grub/files/grub-efi-allow-a-compilation-without-mcmodel-large.patch
+>>>
+>>> @@ -0,0 +1,81 @@
+>>> +From 0cea0e4266214da1f11e812834f5d5c47a6e04e6 Mon Sep 17 00:00:00 2001
+>>> +From: Jackie Huang <jackie.huang@windriver.com>
+>>> +Date: Tue, 5 Nov 2013 07:23:32 -0500
+>>> +Subject: [PATCH] Allow a compilation without -mcmodel=large
+>>> +
+>>> +* kern/efi/mm.c (grub_efi_allocate_pages): don't allocate >4GiB
+>>> +  when compiled without -mcmodel=large
+>>> +  (filter_memory_map): remove memory post 4 GiB when compiled
+>>> +  without -mcmodel=large
+>>> +* configure.ac: add -DMCMODEL_SMALL=1 to TARGET_CFLAGS when
+>>> +  -mcmodel=large isn't supported
+>>> +
+>>> +It's ported from old version of grub which was deliberately
+>>> +removed in current and newer version:
+>>> +
+>>> +2009-06-04  Vladimir Serbinenko  <phcoder@gmail.com>
+>>> +
+>>> +         Allow a compilation without -mcmodel=large
+>>> +
+>>> +2010-04-21  Vladimir Serbinenko  <phcoder@gmail.com>
+>>> +
+>>> +   * configure.ac: Refuse to compile for x86_64-efi is mcmodel=large
+>>> +     is not supported.
+>>> +
+>>> +Upstream-Status: Inappropriate [compatibility]
+>>> +
+>>> +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>>> +---
+>>> + configure.ac            |    4 +++-
+>>> + grub-core/kern/efi/mm.c |    6 +++---
+>>> + 2 files changed, 6 insertions(+), 4 deletions(-)
+>>> +
+>>> +diff --git a/configure.ac b/configure.ac
+>>> +index 319d063..ee72fee 100644
+>>> +--- a/configure.ac
+>>> ++++ b/configure.ac
+>>> +@@ -567,7 +567,9 @@ if test "$target_cpu"-"$platform" = x86_64-efi;
+>>> then
+>>> +               [grub_cv_cc_mcmodel=no])
+>>> +   ])
+>>> +   if test "x$grub_cv_cc_mcmodel" = xno; then
+>>> +-    AC_MSG_ERROR([-mcmodel=large not supported. Upgrade your gcc.])
+>>> ++    CFLAGS="$SAVED_CFLAGS -m64 -DMCMODEL_SMALL=1"
+>>> ++    TARGET_CFLAGS="$TARGET_CFLAGS -DMCMODEL_SMALL=1"
+>>> ++    AC_MSG_WARN([-mcmodel=large not supported. You won't be able to
+>>> use the memory over 4GiB. Upgrade your gcc.])
+>>> +   else
+>>> +     TARGET_CFLAGS="$TARGET_CFLAGS -mcmodel=large"
+>>> +   fi
+>>> +diff --git a/grub-core/kern/efi/mm.c b/grub-core/kern/efi/mm.c
+>>> +index a2edc84..c67dd13 100644
+>>> +--- a/grub-core/kern/efi/mm.c
+>>> ++++ b/grub-core/kern/efi/mm.c
+>>> +@@ -62,7 +62,7 @@ grub_efi_allocate_pages
+>>> (grub_efi_physical_address_t address,
+>>> +     return 0;
+>>> + #endif
+>>> +
+>>> +-#if 1
+>>> ++#if defined (MCMODEL_SMALL)
+>>> +   if (address == 0)
+>>> +     {
+>>> +       type = GRUB_EFI_ALLOCATE_MAX_ADDRESS;
+>>> +@@ -305,7 +305,7 @@ filter_memory_map (grub_efi_memory_descriptor_t
+>>> *memory_map,
+>>> +        desc = NEXT_MEMORY_DESCRIPTOR (desc, desc_size))
+>>> +     {
+>>> +       if (desc->type == GRUB_EFI_CONVENTIONAL_MEMORY
+>>> +-#if 1
+>>> ++#if defined (MCMODEL_SMALL)
+>>> +       && desc->physical_start <= 0xffffffff
+>>> + #endif
+>>> +       && desc->physical_start + PAGES_TO_BYTES (desc->num_pages) >
+>>> 0x100000
+>>> +@@ -321,7 +321,7 @@ filter_memory_map (grub_efi_memory_descriptor_t
+>>> *memory_map,
+>>> +           desc->physical_start = 0x100000;
+>>> +         }
+>>> +
+>>> +-#if 1
+>>> ++#if defined (MCMODEL_SMALL)
+>>> +       if (BYTES_TO_PAGES (filtered_desc->physical_start)
+>>> +           + filtered_desc->num_pages
+>>> +           > BYTES_TO_PAGES (0x100000000LL))
+>>> +--
+>>> +1.7.1
+>>> +
+>>> diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb
+>>> b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+>>> index 2fe688c..deb9514 100644
+>>> --- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
+>>> +++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+>>> @@ -27,6 +27,7 @@ SRC_URI =
+>>> "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+>>>              file://grub-no-unused-result.patch \
+>>>              file://grub-2.00-ignore-gnulib-gets-stupidity.patch \
+>>>              file://fix-issue-with-flex-2.5.37.patch \
+>>> +
+>>> file://grub-efi-allow-a-compilation-without-mcmodel-large.patch \
+>>>             "
+>>>   SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+>>>   SRC_URI[sha256sum] =
+>>> "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
+>>>
+>>
+>
+
 -- 
-1.7.9.5
-
+Jackie Huang
+WIND RIVER | China Development Center
+MSN:jackielily@hotmail.com
+Tel: +86 8477 8594
+Mobile: +86 138 1027 4745
 
