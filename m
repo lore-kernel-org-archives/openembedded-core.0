@@ -1,38 +1,34 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id EAB7D6AE9E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DCB16D128
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 19:58:44 +0000 (UTC)
-Received: by mail-ob0-f179.google.com with SMTP id wm4so1808852obc.10
+	Fri, 22 Nov 2013 21:18:59 +0000 (UTC)
+Received: by mail-ea0-f178.google.com with SMTP id d10so726307eaj.23
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2013 11:58:44 -0800 (PST)
+	Fri, 22 Nov 2013 13:18:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=TNprOZMxP8jSA3mJrFbe0y9ZwiqVvlQmxfRPV5GYd78=;
-	b=nQ0BcjsbYBHvInaxeVm1CUzd8DBbgmt7aBw3NzUA0elaulgFepIZ7ViMwjYsadQJ93
-	bTEspmIfbq77AeC7kaDMxXAxfzI7SHf01/xyYPHwbfkAGeXAOZhW0Muh+4XYPLJBzyok
-	LgCs89wSLI/4HteycTVPqjRbSd7Sg83b9iHmZIFXWqm8W0DK25irOtH4bNQPBYD8UXy9
-	2bVomEnQE1U9TSb3Dhbpe5799oA7DU1T3iOUNpLxtQSniQRmkGfP7VT+yEn8KaiPf0ai
-	c0KPc2yNHectkcUCgsPO2AvRmh2AP4J+DI1ibEuXxud9LfiUo6muVKftcJgcWMWg+KQQ
-	BvGQ==
-MIME-Version: 1.0
-X-Received: by 10.60.44.141 with SMTP id e13mr173267oem.84.1385150324097; Fri,
-	22 Nov 2013 11:58:44 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Fri, 22 Nov 2013 11:58:44 -0800 (PST)
-In-Reply-To: <8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
-References: <cover.1385098685.git.Qi.Chen@windriver.com>
-	<8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
-Date: Fri, 22 Nov 2013 17:58:44 -0200
-X-Google-Sender-Auth: y2pXvZeIWM7erYYVMmCYZCU3igY
-Message-ID: <CAP9ODKovi8aHpfM7Tyt+rCxyYC8=YPcxaQGCA6G3=6hhau5W+w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] image.bbclass: depends on virtual/kernel
+	h=from:to:cc:subject:date:message-id;
+	bh=T5uB7I7QnT8tfJgM6ufhKiTKb32qZ81nxjmZINjOfNE=;
+	b=enU7MmR/ErVXechi3HNPQMKINa4e0LQHOlBKBMb6q6LNAjt9RWAG9JfHCFLxqvA+0U
+	3aF77IBYSSFhyDT08VmRUGmC91e52uP5DY/gnwhdb0o7yHBRo6ujUuPHSH4OLxiyBNrs
+	uOgaZqStbJPi6fOuF1w49USzofM+nDcGOHCZe2AllFZn07BYicW1gHrke7nQOldrqa+d
+	+cz85Vg2VIqmraX8EfgoQiIb5WsJQ0LK/espH439AiBwZOSmYU5oSxQjAyubezvQd58H
+	6KcjtG1EnHY2PUuTmBRVS8017JrG7XvuNRcmRAhjWsDZoBszOXpRVzZPjqcxwIMUHAzh
+	C7cA==
+X-Received: by 10.14.149.139 with SMTP id x11mr156910eej.35.1385155138484;
+	Fri, 22 Nov 2013 13:18:58 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	j46sm80425093eew.18.2013.11.22.13.18.57 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 22 Nov 2013 13:18:57 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Nov 2013 22:19:03 +0100
+Message-Id: <1385155143-31331-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.4.3
+Subject: [PATCH] base.bbclass: Set umask 022 also for do_unpack task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +41,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2013 19:58:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 22 Nov 2013 21:19:00 -0000
 
-On Fri, Nov 22, 2013 at 3:39 AM,  <Qi.Chen@windriver.com> wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Add 'virtual/kernel' to DEPENDS in image.bbclass so that the kernel
-> can get built by default. Otherwise, the kernel will not get built
-> unless it's required by other packages like v86d. As a result, if
-> we build 'core-image-minimal' for qemumips, the kernel is not built,
-> and we have 'bitbake linux-yocto' before we can use runqemu to start
-> the target.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+* when git checkouts files from fetched clone it respects system umask
+  and creates files with different permissions, if such files are copied
+  to packages, resulting target images have also different permissions
+  on them.
+* we need reproducible builds across different builders with different
+  system umask, so set 022 umask
 
-If I have a board without modules there's no need to have the depends.
-Why you need this?
+[YOCTO #5590]
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/base.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 93bc700..189143f 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -485,6 +485,7 @@ python () {
+     # If we're building a target package we need to use fakeroot (pseudo)
+     # in order to capture permissions, owners, groups and special files
+     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.setVarFlag('do_unpack', 'umask', 022)
+         d.setVarFlag('do_configure', 'umask', 022)
+         d.setVarFlag('do_compile', 'umask', 022)
+         d.appendVarFlag('do_install', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.4.3
+
 
