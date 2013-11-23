@@ -1,38 +1,39 @@
-Return-Path: <erik.boto@pelagicore.com>
-Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A77C6D899
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
+	[209.85.219.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C57326D899
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2013 17:02:01 +0000 (UTC)
-Received: by mail-ob0-f170.google.com with SMTP id wp18so2642840obc.29
+	Sat, 23 Nov 2013 18:39:55 +0000 (UTC)
+Received: by mail-oa0-f48.google.com with SMTP id l6so2748137oag.21
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2013 09:02:00 -0800 (PST)
+	Sat, 23 Nov 2013 10:39:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=D0I0/sR3ewklo8A4LVfpeq+jASdd8ZsTNiegM8JmsA8=;
-	b=KzrG79GCOzTWb1WJsGUdXhMhIBOSVI4AElfpWahWJd5PfI44MK2ZBnjKMQDQQLDP50
-	saxdCrLI+tdCFaYChc935mNiiJaXIfeXewZp6Eedno8V2mjc1ZKlxzzCya7NoUOKjy4N
-	6r0h/x9ELitoFaYRl6XrB57TKaY2gN+DaDqh9mtLFnX+XxRcAQ7ooNLWCQJUwgoxpH/j
-	uG+lD2ETKnl+dcHzTC31NSyMJZoUYfRYdxYY2sJKSmbvzTL5WvS/PbPPyyFUIOGMnzmA
-	ExeK+afufUBM1g9rbdTukvRLmi6uYQ9J+k2atajs74aZBHC1rB7B2gN5O3JNTBTVkmm4
-	PkaQ==
-X-Gm-Message-State: ALoCoQmwJMfpBUMpiJWd80oAu3ddt6lWt1f81C3J0B9hiiOV6DJHjy1dLHS8oLpy/29TS+suGneD
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=6DYV7D8BlIAfUv9BdjmVAbjmoB4ljb+ZMIre6fH+hY8=;
+	b=PAnkWziBTumjNLemoYVo/o85CP8C6Qay0Ehd+eBM+/d+60TEj28A/Z5ubT3bfQAgCA
+	m6QTuuC1wjq5C6Z2RlEoTqbFOyE+o4CpN6sKJW9qkuv86I75YFJXaV8+l5M3VD22A1h1
+	+m4w7jxDTn6NemUr34apGVWlG9HzLmw/zccf0n/PzlOXdr3FSFkC3UfaH1AjxR058TYQ
+	FoiOJVkKCX/PMugptmnsqU6vC1IwEuk4w/VbFGwj0krDYSTnRLTvT9IZOSz7lIh7P3J9
+	DW2+Kc6NeZAStMgtDmHW2vF3J24002TYS77vJkQL+gUoxwiNqbJC7PANuuzg3lrb9kFk
+	GOPg==
+X-Gm-Message-State: ALoCoQnwYbgZUWoYsYusG1V8R/c5/R2flco76MqCP6CvyVlbksp/ZDJkMqba+8lftM5iJz5CDpxW
+X-Received: by 10.60.146.210 with SMTP id te18mr16600991oeb.20.1385231994741; 
+	Sat, 23 Nov 2013 10:39:54 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.182.149.168 with SMTP id ub8mr132965obb.74.1385226119946;
-	Sat, 23 Nov 2013 09:01:59 -0800 (PST)
-Received: by 10.76.28.70 with HTTP; Sat, 23 Nov 2013 09:01:59 -0800 (PST)
-In-Reply-To: <CAJTo0LYgrwWu=PkBDnUNdzBQ6Zke4p+0CJfqr9fe4qEE4kCcOw@mail.gmail.com>
-References: <CA+AhUGyTC97_E=Yg1JOorHuBDG7SWQS8jfEX1Wg6Ue5pxZfcLw@mail.gmail.com>
-	<CAJTo0LYgrwWu=PkBDnUNdzBQ6Zke4p+0CJfqr9fe4qEE4kCcOw@mail.gmail.com>
-Date: Sat, 23 Nov 2013 18:01:59 +0100
-Message-ID: <CA+AhUGzTUtJs8RshjZvsM+9hA4xJQcDPAP9mAdX=GB_xtOrvmw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: dbus depends on dbus-ptest-ptest if ptest in DISTRO_FEATURES - bug?
+Received: by 10.76.0.50 with HTTP; Sat, 23 Nov 2013 10:39:33 -0800 (PST)
+In-Reply-To: <528DB2FC.90205@emagii.com>
+References: <528D2429.7040705@emagii.com> <1384982956.16887.94.camel@ted>
+	<528D3B01.8060700@emagii.com> <20131121001922.GW3708@jama>
+	<528DB2FC.90205@emagii.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Sat, 23 Nov 2013 19:39:33 +0100
+Message-ID: <CAP71WjygNQtn8Qc78G4J8yL7sWOdoT4UO59h2pn3pAcVDOqq2w@mail.gmail.com>
+To: ulf@emagii.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Improving Build Speed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +46,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Nov 2013 17:02:03 -0000
+X-List-Received-Date: Sat, 23 Nov 2013 18:39:57 -0000
+Content-Type: multipart/alternative; boundary=047d7b5d42f8fa7a8604ebdc743c
+
+--047d7b5d42f8fa7a8604ebdc743c
 Content-Type: text/plain; charset=ISO-8859-1
+
+On Thu, Nov 21, 2013 at 8:15 AM, Ulf Samuelsson <ulf@emagii.com> wrote:
+
+> I currently do not use INHERIT += "rm_work"
+> since I want to be able to do changes on some packages.
+> Is there a way to defined rm_work on a package basis?
+> Then the majority of the packages can be removed.
+>
+
+from rm_work.bbclass:
+
+# To inhibit rm_work for some recipes, specify them in RM_WORK_EXCLUDE.
+
+          # For example, in conf/local.conf:
+
+
+#
+
+
+# RM_WORK_EXCLUDE += "icu-native icu busybox"
+
+--047d7b5d42f8fa7a8604ebdc743c
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 22, 2013 at 5:35 PM, Burton, Ross <ross.burton@intel.com> wrote=
-:
-> On 22 November 2013 09:42, Erik Bot=F6 <erik.boto@pelagicore.com> wrote:
->> I noticed that dbus will pull in the ptest package as soon as ptest is
->> in DISTRO_FEATURES, the recipe contains: RDEPENDS_dbus =3D
->> "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '',
->> d)}"
->>
->> Shouldn't this be handled in image.bbclass via
->> COMPLEMENTARY_GLOB[ptest-pkgs] =3D '*-ptest' ? Then it will only be
->> installed if IMAGE_FEATURES contains ptest, which is how other
->> packages handle ptest packages.
->
-> Correct, that's a clear bug.
->
-> Ross
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Nov 21, 2013 at 8:15 AM, Ulf Samuelsson <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:ulf@emagii.com" target=3D"_blank">ulf@emagii.com</a>&gt;</span=
+> wrote:<br>
 
-When trying to fix this I understand why it's done the way it's done.
-It's because the glob installing *-ptest won't match dbus-ptest-ptest,
-which is the name it get since it's built using it's own recipe
-(dbus-ptest_1.6.10.bb).
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div id=3D":7e2" style=3D"overflow:hidden">I currently do =
+not use INHERIT +=3D &quot;rm_work&quot;<br>
 
-Should using it's own recipe be accepted as a valid pattern, if that
-is the case an extra *-ptest-ptest glob would be needed. Otherwise I
-can't think a good solution except for integrating the dbus-ptest
-recipe into the dbus recipe. Or am I missing some third option?
 
-Does anyone know why dbus ptest is built as it's own recipe?
+since I want to be able to do changes on some packages.<br>
+Is there a way to defined rm_work on a package basis?<br>
+Then the majority of the packages can be removed.<br></div></blockquote></d=
+iv><br>from rm_work.bbclass:</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra"><div class=3D"gmail_extra"># To inhibit rm_work for =
+some recipes, specify them in RM_WORK_EXCLUDE. =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 # For example, in conf/local.conf: =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0</div>
 
-Cheers,
-Erik Bot=F6
+<div class=3D"gmail_extra"># =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0=A0</div><div class=3D"gmail_extra">
 
+# RM_WORK_EXCLUDE +=3D &quot;icu-native icu busybox&quot; =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0=A0</div><div><br></div></div></div>
+
+--047d7b5d42f8fa7a8604ebdc743c--
