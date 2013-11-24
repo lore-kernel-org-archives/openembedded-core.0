@@ -1,35 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B3E86D822
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2013 13:28:30 +0000 (UTC)
-Received: by mail-ea0-f176.google.com with SMTP id h14so1762420eaj.21
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2013 05:28:29 -0800 (PST)
+Received: from mail-ea0-f180.google.com (mail-ea0-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 56DFB6D8EE;
+	Sun, 24 Nov 2013 16:59:34 +0000 (UTC)
+Received: by mail-ea0-f180.google.com with SMTP id f15so1851696eak.39
+	for <multiple recipients>; Sun, 24 Nov 2013 08:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=9mpRH2JrNJyXi/TrBCNLJ8VZmIKYLUm2rhRrfIqift8=;
-	b=qECMer3SPj2AscA1VjuwYUAT9kp5clGYGINjTdANRSFijI3hkkrPEMNjIXPj9GVWJk
-	5eu4qm8UXHqYAluTFi9tDkJ1qEpQGs4a4sCFgSFxPCt1LXXDT9FPlK8EZiTYVblcV+MG
-	3uDwpb/rG8rXVcog7fMOcr7P3vuqCZX+wX5GAXogyj3eXt8vHMy6mjfXHtYz4oUaLViP
-	X7XtFcbz+Bz40eEDvz1hagvQn5x53orXT4PqwZeiplDleZGXjZekGsrVt0CrmshIzL/i
-	4605xmJhKn8CnX/oIdFkOv7JG+J1EG/k5eRdlFAIstkFkeJTZZdZISRpMXIsQT0eguTX
-	fIWw==
-X-Received: by 10.15.32.73 with SMTP id z49mr29692626eeu.27.1385299709434;
-	Sun, 24 Nov 2013 05:28:29 -0800 (PST)
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=mX2NaTY4ljANDtspM4zaMn2SEFwhcoPscsc1umbpN0Y=;
+	b=Ive+4NziENiPaXWxRVBOwG5S5knMyKPNerXBdGEGq1ZHN3sBV5A02BJLTzhdkLjkSg
+	RJG9IE0mf/MqkdDnjUieh0XjG70CCPzWK5Z3g+Z+NnCJcEvtP++Bl7U192eUHtGaMT34
+	vb24Dgms4I8oj4Dm2eMF7oXGUE75Zh6DDqtswpWM/DO4gUGg1aomeZ8VAouNBuCK/fGA
+	l50pFA6S950KaARlPNKOOyyaZMhDIFbUVbOAHQgNqu2gWocCwN4Qe6DeeC9fB5cn7NXb
+	SXW6JT9OIYUDkdLd3P2R5O/lSXQd8FoxX8pVLbxQsUd4HB/wcMU1fq3w/wYBi+C5n+ol
+	LunQ==
+X-Received: by 10.14.1.130 with SMTP id 2mr30693688eed.24.1385312373352;
+	Sun, 24 Nov 2013 08:59:33 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id a51sm92214733eeh.8.2013.11.24.05.28.28
+	by mx.google.com with ESMTPSA id 44sm93371715eek.5.2013.11.24.08.59.32
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 24 Nov 2013 05:28:28 -0800 (PST)
+	Sun, 24 Nov 2013 08:59:32 -0800 (PST)
+Date: Sun, 24 Nov 2013 17:59:33 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Nov 2013 14:28:27 +0100
-Message-Id: <1385299707-17554-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.4.3
-Subject: [PATCH] avahi: add leading space to RRECOMMENDS append
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core@lists.openembedded.org
+Message-ID: <20131124165933.GD2870@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: State of bitbake world, Failed tasks Wed Nov 24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +44,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2013 13:28:30 -0000
+X-List-Received-Date: Sun, 24 Nov 2013 16:59:35 -0000
+X-Groupsio-MsgNum: 47558
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qGV0fN9tzfkG3CxV"
+Content-Disposition: inline
 
-* in case update-rc.d is already in RRECOMMENDS it fails with
-  ERROR: Nothing RPROVIDES 'update-rc.dlibnss-mdns' (but
-  meta/recipes-connectivity/avahi/avahi_0.6.31.bb
-  RDEPENDS on or otherwise requires it)
+--qGV0fN9tzfkG3CxV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-connectivity/avahi/avahi.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 00622f3..3a95b7f 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -99,8 +99,8 @@ FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
- FILES_avahi-utils = "${bindir}/avahi-*"
- 
- # uclibc has no nss
--RRECOMMENDS_avahi-daemon_append_libc-glibc = "libnss-mdns"
--RRECOMMENDS_${PN}_append_libc-glibc = "libnss-mdns"
-+RRECOMMENDS_avahi-daemon_append_libc-glibc = " libnss-mdns"
-+RRECOMMENDS_${PN}_append_libc-glibc = " libnss-mdns"
- 
- RRECOMMENDS_avahi-dev = "expat-dev libcap-dev libdaemon-dev dbus-dev glib-2.0-dev update-rc.d-dev"
- RRECOMMENDS_avahi-dev_append_libc-glibc = " gettext-dev"
--- 
-1.8.4.3
+=3D=3D Failed tasks Sun Nov 24 16:58:31 UTC 2013 =3D=3D
 
+=3D=3D=3D common (10) =3D=3D=3D
+    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
+b, do_compile
+    * meta-openembedded/meta-multimedia/recipes-multimedia/vlc/vlc_1.1.11.b=
+b, do_compile
+    * meta-openembedded/meta-networking/recipes-support/lowpan-tools/lowpan=
+-tools_git.bb, do_install
+    * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.1.bb, do_i=
+nstall
+    * meta-openembedded/meta-oe/recipes-core/libxml/libxml++_2.35.3.bb, do_=
+compile
+    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
+ile
+    * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_c=
+ompile
+    * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_compile
+    * meta-smartphone/meta-fso/recipes-freesmartphone/cornucopia/fsogsmd_0.=
+12.0.bb, do_compile
+    * openembedded-core/meta/recipes-devtools/expect/expect_5.45.bb, do_con=
+figure
 
+=3D=3D=3D common-x86 (5) =3D=3D=3D
+    * meta-browser/recipes-browser/chromium/chromium_29.0.1518.2.bb, do_com=
+pile
+    * meta-openembedded/meta-initramfs/recipes-bsp/images/initramfs-kexecbo=
+ot-klibc-image.bb, do_rootfs
+    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
+pile
+    * meta-openembedded/meta-oe/recipes-support/ode/ode_0.9.bb, do_configure
+    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
+
+=3D=3D=3D qemuarm (0) =3D=3D=3D
+
+=3D=3D=3D qemux86 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-geo=
+de_2.11.14.bb, do_compile
+
+=3D=3D=3D qemux86_64 (3) =3D=3D=3D
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
+obiledevice_1.1.4.bb, do_configure
+    * meta-openembedded/meta-oe/recipes-devtools/python/python-m2crypto_0.2=
+1.1.bb, do_compile
+
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||10    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20131120_224445.log/
+|-
+||qemux86       ||16    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20131121_135401.log/
+|-
+||qemux86_64    ||18    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20131122_060242.log/
+|}
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--qGV0fN9tzfkG3CxV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlKSMHUACgkQN1Ujt2V2gBzh3ACcDf7VXAnubJMb62aICl12VS2l
+PCgAn1BLzAdZtzuA2D0Y210FaRqKK2R7
+=mkCk
+-----END PGP SIGNATURE-----
+
+--qGV0fN9tzfkG3CxV--
