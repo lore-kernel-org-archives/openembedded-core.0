@@ -1,24 +1,24 @@
 Return-Path: <Yanjun.Zhu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D07A86D867
+	by mail.openembedded.org (Postfix) with ESMTP id 1BC736D867
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 02:43:00 +0000 (UTC)
+	Mon, 25 Nov 2013 02:49:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAP2gxRu023511
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAP2nIQR024102
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2013 18:42:59 -0800 (PST)
+	Sun, 24 Nov 2013 18:49:19 -0800 (PST)
 Received: from wind-OptiPlex-780.corp.ad.wrs.com (128.224.162.243) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 24 Nov 2013 18:42:59 -0800
+	14.2.347.0; Sun, 24 Nov 2013 18:49:18 -0800
 From: yzhu1 <yanjun.zhu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Nov 2013 10:43:08 +0800
-Message-ID: <1385347388-5859-1-git-send-email-yanjun.zhu@windriver.com>
+Date: Mon, 25 Nov 2013 10:49:27 +0800
+Message-ID: <1385347767-5950-1-git-send-email-yanjun.zhu@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH] This change is based on a similar change made to e1000e support in commit bb9e44d0d0f4 ("e1000e: prevent oops when adapter is being closed and reset simultaneously"). The same issue has also been observed on the older e1000 cards.
+Subject: [PATCH] e1000: prevent oops when adapter is being closed and reset simultaneously
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,8 +31,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2013 02:43:02 -0000
+X-List-Received-Date: Mon, 25 Nov 2013 02:49:20 -0000
 Content-Type: text/plain
+
+This change is based on a similar change made to e1000e support in
+commit bb9e44d0d0f4 ("e1000e: prevent oops when adapter is being closed
+and reset simultaneously").  The same issue has also been observed
+on the older e1000 cards.
 
 Here, we have increased the RESET_COUNT value to 50 because there are too
 many accesses to e1000 nic on stress tests to e1000 nic, it is not enough
