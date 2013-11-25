@@ -1,24 +1,27 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D2F16DC02
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D67AD6DBFA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 13:51:23 +0000 (UTC)
+	Mon, 25 Nov 2013 14:18:39 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Nov 2013 05:51:22 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 25 Nov 2013 06:18:21 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,768,1378882800"; d="scan'208";a="439337233"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.41])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Nov 2013 05:51:17 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Nov 2013 15:51:02 +0200
-Message-Id: <a38df2f6d0fff00698bf9ff71b30902bf1c7cc54.1385386370.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1385386370.git.laurentiu.palcu@intel.com>
-References: <cover.1385386370.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1385386370.git.laurentiu.palcu@intel.com>
-References: <cover.1385386370.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 7/9] xproto: upgrade to 7.0.25
+X-IronPort-AV: E=Sophos;i="4.93,768,1378882800"; d="scan'208";a="439358124"
+Received: from akagikob-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.121.166])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Nov 2013 06:18:20 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Stefan Stanacar <stefanx.stanacar@intel.com>
+Date: Mon, 25 Nov 2013 14:18:19 +0000
+Message-ID: <2366974.tmk6USV2ij@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <0eb35797e7734f1cb3cff73d726ef2dd3d98ed5f.1384874570.git.stefanx.stanacar@intel.com>
+References: <cover.1384874570.git.stefanx.stanacar@intel.com>
+	<0eb35797e7734f1cb3cff73d726ef2dd3d98ed5f.1384874570.git.stefanx.stanacar@intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 2/4] meta-selftest: create a new test layer to be used by oe-selftest script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2013 13:51:23 -0000
+X-List-Received-Date: Mon, 25 Nov 2013 14:18:40 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../{xproto_7.0.24.bb => xproto_7.0.25.bb}         |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{xproto_7.0.24.bb => xproto_7.0.25.bb} (74%)
+Hi Stefan,
 
-diff --git a/meta/recipes-graphics/xorg-proto/xproto_7.0.24.bb b/meta/recipes-graphics/xorg-proto/xproto_7.0.25.bb
-similarity index 74%
-rename from meta/recipes-graphics/xorg-proto/xproto_7.0.24.bb
-rename to meta/recipes-graphics/xorg-proto/xproto_7.0.25.bb
-index 2c6cbc0..cf24125 100644
---- a/meta/recipes-graphics/xorg-proto/xproto_7.0.24.bb
-+++ b/meta/recipes-graphics/xorg-proto/xproto_7.0.25.bb
-@@ -15,6 +15,6 @@ SRC_URI += "file://xproto_fix_for_x32.patch"
- EXTRA_OECONF_append = " --enable-specs=no"
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[md5sum] = "9c0203c3bee4bac432ec504dc45712ed"
--SRC_URI[sha256sum] = "3698a1c7e3b734bc1139a7eb694ed8c66188658d6b4dea3d567066fe4e88b2fc"
-+SRC_URI[md5sum] = "28311ef4edbbbf89f617a7f8a2e5648f"
-+SRC_URI[sha256sum] = "92247485dc4ffc3611384ba84136591923da857212a7dc29f4ad7797e13909fe"
- 
+On Tuesday 19 November 2013 17:43:35 Stefan Stanacar wrote:
+> +++ b/meta-selftest/recipes-test/aspell/aspell_0.0.0.1.bb
+> @@ -0,0 +1,28 @@
+> +# This recipe is a copy from the oe-core one.
+> +# It has a lower and invalid version number in order not to be accidentally
+> used by bitbake. 
+> +# It is used for tests that require duplicate recipe files.
+
+FYI the term we use for this is "overlayed" rather than "duplicate" (where the 
+two or more recipes exist in the same configuration).
+
+Cheers,
+Paul
+
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
