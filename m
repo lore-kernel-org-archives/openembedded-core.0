@@ -1,45 +1,23 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 342C56D1E2
+Return-Path: <mcrowe@brightsign.biz>
+Received: from elite.brightsigndigital.co.uk
+	(cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net [86.30.57.232])
+	by mail.openembedded.org (Postfix) with ESMTP id C4ED06D2A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 15:11:03 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	rAPFAtZ1017938
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 16:10:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1385392259;
-	bh=o8t92DxL6sH5hz+ELXJdg0Et8oUyberMaVo8hLSX0Ks=;
-	h=From:To:Cc:Subject:Date:Message-Id:Sender;
-	b=Jmy6F42ogu52tHk1Y3Z/oYjA5LYgMm588/vJ1fXdSAHyoucgl7T8AYPWxL+JJN9Ym
-	Q146dkDJVRDa+vfHO0aRV8NL+Xt5rxKlxwUh1Lu3HVgB/tGU59md4encLay/XKFo2r
-	J9C78ppezoNeuJh7q+Ruf/Io8Dt4WgVSDldvHoO0=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rAPFAjsT016047
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 25 Nov 2013 16:10:46 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1VkxoD-00021o-4b; Mon, 25 Nov 2013 16:10:45 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Mon, 25 Nov 2013 15:20:28 +0000 (UTC)
+Received: from chuckie.brightsign ([172.30.1.25])
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1Vkxxb-0002bn-1O; Mon, 25 Nov 2013 15:20:27 +0000
+Received: from mac by chuckie.brightsign with local (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1Vkxxb-0007n7-06; Mon, 25 Nov 2013 15:20:27 +0000
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Nov 2013 16:10:44 +0100
-Message-Id: <1385392244-6924-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
-X-Mailer: git-send-email 1.8.3.1
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] bluez4: added dependency on 'libsndfile1'
+Date: Mon, 25 Nov 2013 15:20:14 +0000
+Message-Id: <1385392815-29916-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH 1/2] sanity: Use random filename for maximum path length test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,41 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2013 15:11:04 -0000
+X-List-Received-Date: Mon, 25 Nov 2013 15:20:29 -0000
 
-bluez4 detects and uses libsndfile1 and the compilation can fail with
+check_create_long_filename used a fixed filename for its test files. This
+meant that os.remove(testfile) could fail with ENOENT if two instances were
+running at the same time against the same sstate directory. Using a
+randomly generated filename stops this from happening.
 
-| sbc/sbctester.c:32:21: fatal error: sndfile.h: No such file or directory
-| ...
-| compilation terminated.
-| make[1]: *** [sbc/sbctester.o] Error 1
+(Although it might seem unlikely, this race did appear to occur multiple
+times with Jenkins - presumably because the matrix jobs were all kicked off
+at the same time.)
 
-in rebuilds (image with libsndfile1 was built, then some change ->
-bluez4 do_configure runs with libsndfile1 -> libsndfile1 gets removed
--> bluez4 do_compile fails).
-
-As there is no trivial way to disable its detection and to make it a
-PACKAGECONFIG option, 'libsndfile1' was put into static DEPENDS.
-
-Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- meta/recipes-connectivity/bluez/bluez4.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/sanity.bbclass |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4.inc b/meta/recipes-connectivity/bluez/bluez4.inc
-index e4f6834..73c2b75 100644
---- a/meta/recipes-connectivity/bluez/bluez4.inc
-+++ b/meta/recipes-connectivity/bluez/bluez4.inc
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e \
-                     file://sbc/sbc.c;beginline=1;endline=25;md5=1a40781ed30d50d8639323a184aeb191"
--DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
-+DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline libsndfile1"
- RDEPENDS_${PN}-dev = "bluez-hcidump"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 6807a23..0d40792 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -175,7 +175,8 @@ def check_conf_exists(fn, data):
+     return False
  
- PACKAGECONFIG ??= "\
+ def check_create_long_filename(filepath, pathname):
+-    testfile = os.path.join(filepath, ''.join([`num`[-1] for num in xrange(1,200)]))
++    import string, random
++    testfile = os.path.join(filepath, ''.join(random.choice(string.ascii_letters) for x in range(200)))
+     try:
+         if not os.path.exists(filepath):
+             bb.utils.mkdirhier(filepath)
 -- 
-1.8.3.1
+1.7.10.4
 
 
