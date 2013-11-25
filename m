@@ -1,36 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 32E276DBF7
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 594886DA6D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 12:57:31 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAPCv37l002235; Mon, 25 Nov 2013 12:57:25 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id W_e8TJUfeZqE; Mon, 25 Nov 2013 12:57:25 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAPCvKTg002239
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 25 Nov 2013 12:57:22 GMT
-Message-ID: <1385384237.24083.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Mon, 25 Nov 2013 12:57:17 +0000
-In-Reply-To: <CAP9ODKpZaWs=9zfvN_WmP7g2rRpc70po-Mdd_g75B8=XwDNAhg@mail.gmail.com>
-References: <cover.1385098685.git.Qi.Chen@windriver.com>
-	<8403fc751bcf1e0b62b600ed40e00256963f357d.1385098685.git.Qi.Chen@windriver.com>
-	<CAP9ODKovi8aHpfM7Tyt+rCxyYC8=YPcxaQGCA6G3=6hhau5W+w@mail.gmail.com>
-	<CAAQYJAsmtSLkxnukhv=Guj5cJPhy23UixnZ-aaWB8CjsgbAaQQ@mail.gmail.com>
-	<52933DE1.3050202@windriver.com>
-	<CAP9ODKpZaWs=9zfvN_WmP7g2rRpc70po-Mdd_g75B8=XwDNAhg@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] image.bbclass: depends on virtual/kernel
+	Mon, 25 Nov 2013 13:51:15 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Nov 2013 05:51:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,768,1378882800"; d="scan'208";a="439337136"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.41])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Nov 2013 05:51:09 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 25 Nov 2013 15:50:55 +0200
+Message-Id: <cover.1385386370.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/9] package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,68 +27,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2013 12:57:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 25 Nov 2013 13:51:16 -0000
 
-On Mon, 2013-11-25 at 10:28 -0200, Otavio Salvador wrote:
-> On Mon, Nov 25, 2013 at 10:09 AM, ChenQi <Qi.Chen@windriver.com> wrote:
-> > On 11/23/2013 06:32 AM, Andrea Adami wrote:
-> >>
-> >> On Fri, Nov 22, 2013 at 8:58 PM, Otavio Salvador
-> >> <otavio@ossystems.com.br> wrote:
-> >>>
-> >>> On Fri, Nov 22, 2013 at 3:39 AM,  <Qi.Chen@windriver.com> wrote:
-> >>>>
-> >>>> From: Chen Qi <Qi.Chen@windriver.com>
-> >>>>
-> >>>> Add 'virtual/kernel' to DEPENDS in image.bbclass so that the kernel
-> >>>> can get built by default. Otherwise, the kernel will not get built
-> >>>> unless it's required by other packages like v86d. As a result, if
-> >>>> we build 'core-image-minimal' for qemumips, the kernel is not built,
-> >>>> and we have 'bitbake linux-yocto' before we can use runqemu to start
-> >>>> the target.
-> >>>>
-> >>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> >>>
-> >>> If I have a board without modules there's no need to have the depends.
-> >>> Why you need this?
-> >>>
-> >> The first quenstion in my mind when I read the post:
-> >>
-> >> Odd...wasn't core-image-minimal purposedly lean, mutilated and without
-> >> kernel modules ?
-> >> (Not that really 'used' it, just booted 'cause was small and could
-> >> always fit on nand/nor)
-> >
-> >
-> > What I want to do here is to trigger building of kernel when building out an
-> > image. I'm not proposing to make all images have kernel -modules installed.
-> 
-> Yes but you're proposing *all* images to depends on kernel. This is not a need.
-> 
-> >> It has always been like this: if one needs the kernel and the modules
-> >> can add that in his machine.conf.
-> >
-> >
-> > Previously, the kernel is built out by default because
-> > packagegroup-core-boot has a dependency on it. Now the dependency is gone.
-> >
-> > I'm not talking about installing kernel modules onto images.
-> 
-> and I am not keen to have all image depending on kernel build. Sorry.
-> 
-> Nack!
+This patch set contains only package upgrades. Each package has been compiled
+on all architectures successfully and basic functionality tests were done in
+core-image-sato for qemux86.
 
-Right now we have a fairly serious regression where the documented use
-cases in the manual don't work and people find that behaviours that used
-to work no longer do. This is quite damaging.
+Also, at Ross's sugestion, the xcb related recipes were moved to xorg-proto and
+xorg-lib directories.
 
-I'd appreciate working towards a constructive resolution of the
-regression, thanks.
+Laurentiu
 
-Richard
+The following changes since commit 0aef540dd8866c5d76dd1edd8936343258935c47:
 
+  bitbake: fetch2: Correct a few calls to latest_revision() (2013-11-25 13:02:27 +0000)
 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/upgrades
+
+Laurentiu Palcu (8):
+  xtrans: upgrade to 1.3.2
+  python-setuptools: upgrade to 1.4
+  tar: upgrade to 1.27.1
+  powertop: upgrade to 2.5
+  libdrm: upgrade to 2.4.49
+  xproto: upgrade to 7.0.25
+  xcb-proto: upgrade to 1.9
+  libxcb: upgrade to 1.9.3
+
+Upgrade Helper (1):
+  git: upgrade to 1.8.4.4
+
+ .../git/{git_1.8.4.2.bb => git_1.8.4.4.bb}         |    4 +--
+ ...etuptools_1.1.7.bb => python-setuptools_1.4.bb} |    4 +--
+ ...ve_1.27.bb => tar-replacement-native_1.27.1.bb} |    0
+ .../tar/{tar-1.27 => tar}/remove-gets.patch        |    0
+ .../tar/{tar_1.27.bb => tar_1.27.1.bb}             |    4 +--
+ .../drm/{libdrm_2.4.47.bb => libdrm_2.4.49.bb}     |    4 +--
+ .../xcb/libxcb/automake_1.14_fix.patch             |   27 --------------------
+ .../{xcb => xorg-lib}/libpthread-stubs_0.3.bb      |    0
+ meta/recipes-graphics/{xcb => xorg-lib}/libxcb.inc |    4 ++-
+ .../{xcb => xorg-lib}/libxcb/xcbincludedir.patch   |    0
+ .../libxcb_1.9.1.bb => xorg-lib/libxcb_1.9.3.bb}   |    5 ++--
+ .../{xcb => xorg-lib}/libxcb_git.bb                |    0
+ .../{xcb => xorg-lib}/xcb-util-image_0.3.9.bb      |    0
+ .../{xcb => xorg-lib}/xcb-util-keysyms_0.3.9.bb    |    0
+ .../{xcb => xorg-lib}/xcb-util-renderutil_0.3.8.bb |    0
+ .../{xcb => xorg-lib}/xcb-util-wm_0.3.9.bb         |    0
+ .../{xcb => xorg-lib}/xcb-util.inc                 |    0
+ .../{xcb => xorg-lib}/xcb-util_0.3.9.bb            |    0
+ .../xorg-lib/{xtrans_1.3.0.bb => xtrans_1.3.2.bb}  |    4 +--
+ .../{xcb => xorg-proto}/xcb-proto.inc              |    0
+ .../xcb-proto_1.9.bb}                              |    4 +--
+ .../{xcb => xorg-proto}/xcb-proto_git.bb           |    0
+ .../{xproto_7.0.24.bb => xproto_7.0.25.bb}         |    4 +--
+ .../powertop/{powertop_2.4.bb => powertop_2.5.bb}  |    4 +--
+ 24 files changed, 21 insertions(+), 47 deletions(-)
+ rename meta/recipes-devtools/git/{git_1.8.4.2.bb => git_1.8.4.4.bb} (67%)
+ rename meta/recipes-devtools/python/{python-setuptools_1.1.7.bb => python-setuptools_1.4.bb} (86%)
+ rename meta/recipes-extended/tar/{tar-replacement-native_1.27.bb => tar-replacement-native_1.27.1.bb} (100%)
+ rename meta/recipes-extended/tar/{tar-1.27 => tar}/remove-gets.patch (100%)
+ rename meta/recipes-extended/tar/{tar_1.27.bb => tar_1.27.1.bb} (53%)
+ rename meta/recipes-graphics/drm/{libdrm_2.4.47.bb => libdrm_2.4.49.bb} (46%)
+ delete mode 100644 meta/recipes-graphics/xcb/libxcb/automake_1.14_fix.patch
+ rename meta/recipes-graphics/{xcb => xorg-lib}/libpthread-stubs_0.3.bb (100%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/libxcb.inc (94%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/libxcb/xcbincludedir.patch (100%)
+ rename meta/recipes-graphics/{xcb/libxcb_1.9.1.bb => xorg-lib/libxcb_1.9.3.bb} (47%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/libxcb_git.bb (100%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/xcb-util-image_0.3.9.bb (100%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/xcb-util-keysyms_0.3.9.bb (100%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/xcb-util-renderutil_0.3.8.bb (100%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/xcb-util-wm_0.3.9.bb (100%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/xcb-util.inc (100%)
+ rename meta/recipes-graphics/{xcb => xorg-lib}/xcb-util_0.3.9.bb (100%)
+ rename meta/recipes-graphics/xorg-lib/{xtrans_1.3.0.bb => xtrans_1.3.2.bb} (82%)
+ rename meta/recipes-graphics/{xcb => xorg-proto}/xcb-proto.inc (100%)
+ rename meta/recipes-graphics/{xcb/xcb-proto_1.8.bb => xorg-proto/xcb-proto_1.9.bb} (60%)
+ rename meta/recipes-graphics/{xcb => xorg-proto}/xcb-proto_git.bb (100%)
+ rename meta/recipes-graphics/xorg-proto/{xproto_7.0.24.bb => xproto_7.0.25.bb} (74%)
+ rename meta/recipes-kernel/powertop/{powertop_2.4.bb => powertop_2.5.bb} (87%)
+
+-- 
+1.7.9.5
 
 
