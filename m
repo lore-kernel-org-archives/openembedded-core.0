@@ -1,31 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 4265E6DCEA
+Return-Path: <nathan.rossi@xilinx.com>
+Received: from co9outboundpool.messaging.microsoft.com
+	(co9ehsobe002.messaging.microsoft.com [207.46.163.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C8366D75C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 23:23:41 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAPNNZxZ026551 for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 23:23:35 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id o5pcPG89beNV
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 23:23:34 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAPNNVRO026527
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 23:23:32 GMT
-Message-ID: <1385421808.24083.27.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 25 Nov 2013 23:23:28 +0000
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] bzip2: Remove stange copy line, automake does this for us anyway
+	Tue, 26 Nov 2013 00:58:52 +0000 (UTC)
+Received: from mail11-co9-R.bigfish.com (10.236.132.232) by
+	CO9EHSOBE022.bigfish.com (10.236.130.85) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 26 Nov 2013 00:58:51 +0000
+Received: from mail11-co9 (localhost [127.0.0.1])	by mail11-co9-R.bigfish.com
+	(Postfix) with ESMTP id 2678E420973	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2013 00:58:51 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
+	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
+X-SpamScore: 5
+X-BigFish: VPS5(zzc8kzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h1d1ah1d2ah1fc6hzz1de098h17326ah8275bh8275dh1de097h186068hz2fh95h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e1dh1e23h1fe8h1ff5h2218h2216h226dh906i222bi1155h)
+X-Forefront-Antispam-FastScan: 1<63074397001>
+Received-SPF: pass (mail11-co9: domain of xilinx.com designates 149.199.60.83
+	as permitted sender) client-ip=149.199.60.83;
+	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
+	helo=xsj-gw1 ; 
+Received: from mail11-co9 (localhost.localdomain [127.0.0.1]) by mail11-co9
+	(MessageSwitch) id 1385427528530667_18362;
+	Tue, 26 Nov 2013 00:58:48 +0000 (UTC)
+Received: from CO9EHSMHS012.bigfish.com (unknown [10.236.132.233])	by
+	mail11-co9.bigfish.com (Postfix) with ESMTP id 799A030007A	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2013 00:58:47 +0000 (UTC)
+Received: from xsj-gw1 (149.199.60.83) by CO9EHSMHS012.bigfish.com
+	(10.236.130.22) with Microsoft SMTP Server id 14.16.227.3;
+	Tue, 26 Nov 2013 00:58:46 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
+	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
+	<nathan.rossi@xilinx.com>)	id
+	1Vl6zG-0006Ua-Kk	for openembedded-core@lists.openembedded.org;
+	Mon, 25 Nov 2013 16:58:46 -0800
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Nov 2013 10:58:34 +1000
+X-Mailer: git-send-email 1.7.9.5
+X-RCIS-Action: ALLOW
+MIME-Version: 1.0
+Message-ID: <0f04d6b8-6c4c-441b-8fa0-902005e53554@CO9EHSMHS012.ehs.local>
+X-OriginatorOrg: xilinx.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] attr: attr_2.4.47 release tarball missing configure.ac
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,24 +57,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2013 23:23:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Nov 2013 00:58:53 -0000
+Content-Type: text/plain
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The release tarball of attr 2.4.47 is missing the configure.ac file.
+This prevents the autotools bbclass from being able to regenerate the
+configure script which leads to other side affects. (e.g. using
+outdated config.sub)
 
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-index c7c5d68..3702ba4 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -30,7 +30,6 @@ EXTRA_OECONF_append_class-native = " --bindir=${STAGING_BINDIR_NATIVE}/${PN}"
- do_configure_prepend () {
- 	cp ${WORKDIR}/configure.ac ${S}/
- 	cp ${WORKDIR}/Makefile.am ${S}/
--	cp ${STAGING_DATADIR_NATIVE}/automake*/install-sh ${S}/
- }
+This patch adds the configure.ac file via a patch.
+(obtained via the source repository at the v2.4.47 tag)
+
+See the mailing list thread for additional information:
+http://lists.nongnu.org/archive/html/acl-devel/2013-05/msg00024.html
+
+Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+---
+
+On an additional note, acl 2.2.52 is also affected by this issue.
+However it does not affect oe-core as acl has yet to be updated to this
+version and currently sits on the older 2.2.51 version.
+
+---
+ meta/recipes-support/attr/attr_2.4.47.bb           |    3 +
+ .../attr/files/attr-Missing-configure.ac.patch     |   62 ++++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
+
+diff --git a/meta/recipes-support/attr/attr_2.4.47.bb b/meta/recipes-support/attr/attr_2.4.47.bb
+index a1f2e05..ad40c9b 100644
+--- a/meta/recipes-support/attr/attr_2.4.47.bb
++++ b/meta/recipes-support/attr/attr_2.4.47.bb
+@@ -1,5 +1,8 @@
+ require attr.inc
  
- do_install_ptest () {
++# configure.ac was missing from the release tarball. This should be fixed in
++# future releases of attr, remove this when updating the recipe.
++SRC_URI_append += "file://attr-Missing-configure.ac.patch"
+ 
+ SRC_URI[md5sum] = "84f58dec00b60f2dc8fd1c9709291cc7"
+ SRC_URI[sha256sum] = "25772f653ac5b2e3ceeb89df50e4688891e21f723c460636548971652af0a859"
+diff --git a/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch b/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
+new file mode 100644
+index 0000000..5887ed5
+--- /dev/null
++++ b/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
+@@ -0,0 +1,62 @@
++Subject: [PATCH] attr: Missing configure.ac
++
++Upstream-Status: Backport [Upstream released tarball missing this file]
++---
++ configure.ac |   48 ++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 48 insertions(+)
++ create mode 100644 configure.ac
++
++diff --git a/configure.ac b/configure.ac
++new file mode 100644
++index 0000000..b966d0e
++--- /dev/null
+++++ b/configure.ac
++@@ -0,0 +1,48 @@
+++# Copyright (C) 2009  Andreas Gruenbacher <agruen@suse.de>
+++#
+++# This program is free software: you can redistribute it and/or modify it
+++# under the terms of the GNU General Public License as published by
+++# the Free Software Foundation, either version 2 of the License, or
+++# (at your option) any later version.
+++#
+++# This program is distributed in the hope that it will be useful,
+++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++# GNU General Public License for more details.
+++#
+++# You should have received a copy of the GNU General Public License
+++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+++#
+++AC_INIT(include/attributes.h)
+++AC_CONFIG_AUX_DIR([.])
+++AC_CONFIG_MACRO_DIR([m4])
+++AC_CONFIG_HEADER(include/config.h)
+++AC_PREFIX_DEFAULT(/usr)
+++
+++AC_PROG_LIBTOOL
+++
+++AC_ARG_ENABLE(shared,
+++[ --enable-shared=[yes/no] Enable use of shared libraries [default=yes]],,
+++	enable_shared=yes)
+++AC_SUBST(enable_shared)
+++
+++AC_ARG_ENABLE(gettext,
+++[ --enable-gettext=[yes/no] Enable alternate language support [default=yes]],,
+++	enable_gettext=yes)
+++AC_SUBST(enable_gettext)
+++
+++AC_ARG_ENABLE(lib64,
+++[ --enable-lib64=[yes/no] Enable lib64 support [default=no]],,
+++	enable_lib64=no)
+++AC_SUBST(enable_lib64)
+++
+++AC_PACKAGE_GLOBALS(attr)
+++AC_PACKAGE_UTILITIES(attr)
+++AC_MANUAL_FORMAT
+++AC_MULTILIB($enable_lib64)
+++
+++AC_C_CONST
+++AC_TYPE_MODE_T
+++AC_FUNC_ALLOCA
+++
+++AC_OUTPUT(include/builddefs)
+-- 
+1.7.9.5
 
 
 
