@@ -1,35 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 352BB6DC28
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 945896DD70
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 17:33:47 +0000 (UTC)
-Received: by mail-wg0-f48.google.com with SMTP id z12so5658339wgg.15
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 09:33:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=CA4xax7BcAfnPKAAkqXOH7LSYn7tFm+h7JwErdmHuJA=;
-	b=M/H2TTCbyn/MlCqT5X9h6unj9M1Vr0aFxM6klcWCCHlpMSGia0dxhAHZRxrDCQjxHu
-	GcL2RcMx3UIjzpxkVzkaaHcY/Lf9xNNopom4mLHnr5/PElqdW7G0gO1JIHsYYyNYl8vh
-	o1kkMj4g8rl0N5oaRMDcKxOARggogcNQKWhUenvvI/+XpJfyqvi23PeqzqKXorIC5fv8
-	mDg55CiTtpVTmP1prUn5OWb+ApZFZgHMW9WcVgoBeFxRkWJgghyfuNR5WuSzZf6kbXjT
-	8W5SLxNjq8sr6tDdLfu3Jki2IHstJrDiV52zGO8Ppm4laA9VPkNG90zczIkSAQ8XGMlH
-	HjjA==
-X-Gm-Message-State: ALoCoQkTCLzsPvWoOViWXDaqCSx282vrPz6TtaunzcpZmMcDpaiD5m+97aRlkR6opKY3np5bVeL6
-X-Received: by 10.180.76.171 with SMTP id l11mr19142585wiw.13.1385487225995;
-	Tue, 26 Nov 2013 09:33:45 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id gb1sm62287420wic.0.2013.11.26.09.33.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Nov 2013 09:33:45 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Nov 2013 17:33:43 +0000
-Message-Id: <1385487223-1941-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] weston: upgrade to 1.3.1
+	Tue, 26 Nov 2013 17:33:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAQHXmXu029322
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 26 Nov 2013 09:33:48 -0800 (PST)
+Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 26 Nov 2013 09:33:47 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 26 Nov 2013 12:33:43 -0500
+Message-ID: <5464ce8d7a36911a0b1be786d6069ce1955d905c.1385487115.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1385487115.git.bruce.ashfield@windriver.com>
+References: <cover.1385487115.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/3] linux/yocto-3.10: merge v3.10.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +33,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 17:33:47 -0000
+X-List-Received-Date: Tue, 26 Nov 2013 17:33:49 -0000
+Content-Type: text/plain
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Updating the linux-yocto-3.10 SRCREVs to the latest korg -stable
+release.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/recipes-graphics/wayland/{weston_1.3.0.bb => weston_1.3.1.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{weston_1.3.0.bb => weston_1.3.1.bb} (95%)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++++++---------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.3.0.bb b/meta/recipes-graphics/wayland/weston_1.3.1.bb
-similarity index 95%
-rename from meta/recipes-graphics/wayland/weston_1.3.0.bb
-rename to meta/recipes-graphics/wayland/weston_1.3.1.bb
-index 7a0b3f9..82bcf3b 100644
---- a/meta/recipes-graphics/wayland/weston_1.3.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.3.1.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
- SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://weston.png \
-            file://weston.desktop"
--SRC_URI[md5sum] = "29ad994dd5ea07f52d7bffb24c25d9f7"
--SRC_URI[sha256sum] = "8e4f5b4736358b63d83c3252567ba7aa49cc0da9e2e2c30f59ddf635159702a0"
-+SRC_URI[md5sum] = "ffe7c3bc0e7eb39a305cbbea8c7766f3"
-+SRC_URI[sha256sum] = "f7141334b141ae1a6435bd03bfdb01b7fb628f39259164f201e7e71c8d815bc7"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+index c8b9888..d040e3e 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+@@ -3,13 +3,13 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH = "standard/preempt-rt/base"
+ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
  
+-SRCREV_machine ?= "baed5453f830d06075a4480ec0ded8ff785828bc"
+-SRCREV_machine_qemuppc ?= "26a465af89793c7dc5a81661449c5a9f0ad06dee"
+-SRCREV_meta ?= "6ad20f049abd52b515a8e0a4664861cfd331f684"
++SRCREV_machine ?= "a9b2df9bd27b137408d627ce1f75f1177eae647e"
++SRCREV_machine_qemuppc ?= "601746ed79b7ccc79e31166dea9b2906c915a7e3"
++SRCREV_meta ?= "41072c6288b1ab468670ebf7b3d411fbc177317c"
  
- inherit autotools pkgconfig useradd
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.10.17"
++LINUX_VERSION ?= "3.10.19"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+index 6bd8ae6..0939ce6 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+@@ -5,12 +5,12 @@ KBRANCH = "${KBRANCH_DEFAULT}"
+ LINUX_KERNEL_TYPE = "tiny"
+ KCONFIG_MODE = "--allnoconfig"
+ 
+-LINUX_VERSION ?= "3.10.17"
++LINUX_VERSION ?= "3.10.19"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "c03195ed6e3066494e3fb4be69154a57066e845b"
+-SRCREV_meta ?= "6ad20f049abd52b515a8e0a4664861cfd331f684"
++SRCREV_machine ?= "2d96adf459037aec2c0027503c3eddfc20de9ad4"
++SRCREV_meta ?= "41072c6288b1ab468670ebf7b3d411fbc177317c"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+index 1f1a9dc..c678a8b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+@@ -3,18 +3,18 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH_DEFAULT = "standard/base"
+ KBRANCH = "${KBRANCH_DEFAULT}"
+ 
+-SRCREV_machine_qemuarm ?= "5714b747cf0087bb964cbb962db8d3d2041f3177"
+-SRCREV_machine_qemumips  ?= "e87d2cb44bc5d10f3619871541849064bf0d79b1"
+-SRCREV_machine_qemuppc ?= "3e99f981fea427696f63af7fd8e99bf05039efee"
+-SRCREV_machine_qemux86 ?= "c03195ed6e3066494e3fb4be69154a57066e845b"
+-SRCREV_machine_qemux86-64 ?= "c03195ed6e3066494e3fb4be69154a57066e845b"
+-SRCREV_machine_qemumips64 ?= "8d21f71847640fc052bda1bf1f3792634cae5bb1"
+-SRCREV_machine ?= "c03195ed6e3066494e3fb4be69154a57066e845b"
+-SRCREV_meta ?= "6ad20f049abd52b515a8e0a4664861cfd331f684"
++SRCREV_machine_qemuarm ?= "9aac62bcd594648a7da61fa89e7da14eb2747e31"
++SRCREV_machine_qemumips  ?= "141675948177bed049477ea53203dd0fc3c105c4"
++SRCREV_machine_qemuppc ?= "ebcaee076da19ffe0e317089566d22c199f16fad"
++SRCREV_machine_qemux86 ?= "2d96adf459037aec2c0027503c3eddfc20de9ad4"
++SRCREV_machine_qemux86-64 ?= "2d96adf459037aec2c0027503c3eddfc20de9ad4"
++SRCREV_machine_qemumips64 ?= "7acc7b9b44fb0b97a50e75387a11a24dfd5c242a"
++SRCREV_machine ?= "2d96adf459037aec2c0027503c3eddfc20de9ad4"
++SRCREV_meta ?= "41072c6288b1ab468670ebf7b3d411fbc177317c"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+ 
+-LINUX_VERSION ?= "3.10.17"
++LINUX_VERSION ?= "3.10.19"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
-1.7.10.4
+1.8.1.2
 
 
