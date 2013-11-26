@@ -1,25 +1,20 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AB11E6D750
+Return-Path: <valentin.popa@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A08C66D681
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 10:20:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAQAKUBG014265
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 02:20:30 -0800 (PST)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 26 Nov 2013 02:20:30 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Nov 2013 18:20:28 +0800
-Message-ID: <1385461228-9326-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.8.3
-MIME-Version: 1.0
-Cc: Yue.Tao@windriver.com
-Subject: [PATCH] tzcode-native: Replace fixed version with PV
+	Tue, 26 Nov 2013 10:43:08 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Nov 2013 02:39:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,773,1378882800"; d="scan'208";a="442099940"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
+	by orsmga002.jf.intel.com with ESMTP; 26 Nov 2013 02:43:07 -0800
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2013 12:44:04 +0200
+Message-Id: <cover.1385462586.git.valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/1] libpng: upgrade to 1.6.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 10:20:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Nov 2013 10:43:09 -0000
 
-From: Yue Tao <Yue.Tao@windriver.com>
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
----
- meta/recipes-extended/tzcode/tzcode-native_2013h.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The following changes since commit 381cd842caa3db5eabf8973305b6979014d9d0a8:
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2013h.bb b/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-index 5cdc7ef..b51e303 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=0b7570113550eb5d30aa4bd220964b8
- # note that we allow for us to use data later than our code version
- #
- SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
--           ftp://ftp.iana.org/tz/releases/tzdata2013h.tar.gz;name=tzdata"
-+           ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata \
-+"
- 
- SRC_URI[tzdata.md5sum] = "d310abe42cbe87e76ceb69e2c7003c92"
- SRC_URI[tzdata.sha256sum] = "6b9e17e823eec0e09e12f74b452a70be4face1ef14c2fb1917b7c7e60564de27"
+  linux-firmware: add missing linux-firmware-iwlwifi-7260-7 package (2013-11-25 16:14:48 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib vpopa/upgrade_libpng
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=vpopa/upgrade_libpng
+
+Valentin Popa (1):
+  libpng: upgrade to 1.6.7
+
+ .../0001-configure-lower-automake-requirement.patch       | 15 ++++++++-------
+ .../libpng/{libpng_1.6.6.bb => libpng_1.6.7.bb}           | 10 +++++-----
+ 2 files changed, 13 insertions(+), 12 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.6.bb => libpng_1.6.7.bb} (62%)
+
 -- 
-1.8.3
+1.8.3.2
 
 
