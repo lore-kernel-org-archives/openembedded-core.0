@@ -1,35 +1,37 @@
-Return-Path: <rwmacleod@gmail.com>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id EC5346DD4F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 017E56DC28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 16:32:32 +0000 (UTC)
-Received: by mail-we0-f173.google.com with SMTP id t61so5533707wes.4
+	Tue, 26 Nov 2013 17:33:09 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id ey16so821092wid.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 08:32:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=tmurhvLJLWa8ICc93vprg4YKYoR3g9Ow/g0+FRKpwi8=;
-	b=izSDNuUgfgS8fLOdlK9kWcpW19Z0cvP0wcXH3ZUt1Y0xx84bWQBzaXV36CwfGsVbqm
-	qsX1X7FEK8UijEp7kMQweq2YfaVMqpWZa8omaeyUwnWbR5IzRoGGpW1wAKut3k8bivcz
-	wLXSGIeL3BOP7/go7fZ0uMyAeOqcZEqXwOBPlFkVEVSf2j3BP92Rqh6TdjlFjrtwmMbs
-	zF8kbaEv4+jo/PEkn0VdRaPWdV2pdQMbC1suAUOUWd3X0ri2p2/D8zUsmj0S5ZyXJe+v
-	i4P2MaQEFk/dSfffm+GJRjJie7Dv/rfsqRBi7LDrHGEK8Z52gnR/TDwuvuZluuZYEt/k
-	JJeg==
-MIME-Version: 1.0
-X-Received: by 10.180.187.175 with SMTP id ft15mr19049485wic.20.1385483551917; 
-	Tue, 26 Nov 2013 08:32:31 -0800 (PST)
-Received: by 10.194.28.195 with HTTP; Tue, 26 Nov 2013 08:32:31 -0800 (PST)
-In-Reply-To: <1385455353-24032-1-git-send-email-jackie.huang@windriver.com>
-References: <1385455353-24032-1-git-send-email-jackie.huang@windriver.com>
-Date: Tue, 26 Nov 2013 11:32:31 -0500
-Message-ID: <CAK6=ix6L7ihxhCn47OaB7Y0PdhNsfQROyvxw6bOgk-Ryb8KW2Q@mail.gmail.com>
-From: Randy MacLeod <rwmacleod@gmail.com>
-To: jackie.huang@windriver.com, 
-	"Gortmaker, Paul" <Paul.Gortmaker@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lsof: add contingency for when EGLIBCVERSION is not set
+	Tue, 26 Nov 2013 09:33:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=p1cbYF9aXgsfFvF+9y1VcevoyOl6J4TWYYje9TJcrcQ=;
+	b=XQeUVoNMbcDEbuTxwQOt5g/qtFTVlCzjK6rTj4slzT9YQugkA9jzsOljgvZilhGGRP
+	b/RgdQMqAFyinu4u284Zt/6FqOYtQNUNfg4ZhF/lJbgJ05nfM76jo94Ym3nHrxpAR6Q0
+	U4txIvLc+o/rUQ0tUa1TiA1/CUVFWRVMg9YW2Wx+qpcNZ2GrBMnLG5KjH88TVDsn9Sl1
+	gLPtlndcLyGK2UUpGS+mL65uHc0tXtw6jCam21pZ3CLPpiutQdwznu1nts3dsWhv8SY7
+	qtb5M4ko1Rw+ru/qOBglZCr5WqrwQIcnVOfTQq9TisncYvX4b7syNvqAnintfq7Io5QE
+	OK+Q==
+X-Gm-Message-State: ALoCoQkByeVxyLtGbM4cdjV0WRQDqBUfnUomQnmthESats5JPVSXcrw/tYVmc8QbROZtAdwyjvam
+X-Received: by 10.180.37.11 with SMTP id u11mr19102106wij.27.1385487189006;
+	Tue, 26 Nov 2013 09:33:09 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	ll10sm62177050wic.9.2013.11.26.09.33.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Nov 2013 09:33:08 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2013 17:33:04 +0000
+Message-Id: <1385487184-1587-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] weston: upgrade to 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,62 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 16:32:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-
-This change is not useful for oe-core.
-I suppose it's being sent to be Yocto compliant and no merge is expected.
-
-../Randy
+X-List-Received-Date: Tue, 26 Nov 2013 17:33:10 -0000
 
 
-On Tue, Nov 26, 2013 at 3:42 AM,  <jackie.huang@windriver.com> wrote:
-> From: Paul Gortmaker <paul.gortmaker@windriver.com>
->
-> commit 8c38bc022de209187f31952ae02313dd3104f4c6 ("lsof: define
-> linux C library type when using eglibc") tries to avoid the
-> built in tests that determine EGLIBC version (since they
-> are not reliable in cross builds) and handed in the EGLIBCVERSION
-> directly.  However this is only happening if EGLIBCVERSION is
-> set.  And that is only true if we are sourcing the include file
-> meta/conf/distro/include/tcmode-default.inc  -- which we won't
-> be with custom toolchain.  So we've been implicitly relying on
-> the broken lsof tests.
->
-> So, to ensure we don't end up using the broken lsof tests,
-> add a contingency for the case where EGLIBCVERSION is not
-> set.  This will be suitable for a single release, since
-> the version will be unchanging.
->
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-> ---
->  meta/recipes-extended/lsof/lsof_4.87.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-extended/lsof/lsof_4.87.bb b/meta/recipes-extended/lsof/lsof_4.87.bb
-> index 5676cd9..582697b 100644
-> --- a/meta/recipes-extended/lsof/lsof_4.87.bb
-> +++ b/meta/recipes-extended/lsof/lsof_4.87.bb
-> @@ -34,6 +34,9 @@ do_configure () {
->                  LINUX_CLIB=`echo ${EGLIBCVERSION} |sed -e 's,\.,,g'`
->                  LINUX_CLIB="-DGLIBCV=${LINUX_CLIB}"
->                  export LINUX_CLIB
-> +        else
-> +                LINUX_CLIB="-DGLIBCV=215"
-> +                export LINUX_CLIB
->          fi
->         yes | ./Configure ${LSOF_OS}
->  }
-> --
-> 1.8.3
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/wayland/{weston_1.3.0.bb => weston_1.3.1.bb} |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/wayland/{weston_1.3.0.bb => weston_1.3.1.bb} (95%)
 
-
-
+diff --git a/meta/recipes-graphics/wayland/weston_1.3.0.bb b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/wayland/weston_1.3.0.bb
+rename to meta/recipes-graphics/wayland/weston_1.3.1.bb
+index 7a0b3f9..82bcf3b 100644
+--- a/meta/recipes-graphics/wayland/weston_1.3.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
+ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://weston.png \
+            file://weston.desktop"
+-SRC_URI[md5sum] = "29ad994dd5ea07f52d7bffb24c25d9f7"
+-SRC_URI[sha256sum] = "8e4f5b4736358b63d83c3252567ba7aa49cc0da9e2e2c30f59ddf635159702a0"
++SRC_URI[md5sum] = "ffe7c3bc0e7eb39a305cbbea8c7766f3"
++SRC_URI[sha256sum] = "f7141334b141ae1a6435bd03bfdb01b7fb628f39259164f201e7e71c8d815bc7"
+ 
+ 
+ inherit autotools pkgconfig useradd
 -- 
-../Randy/..
+1.7.10.4
+
 
