@@ -1,24 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C29286DD76
+Return-Path: <kirgene@gmail.com>
+Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 625786D7D9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 14:42:11 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Nov 2013 06:42:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,775,1378882800"; d="scan'208";a="440218582"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.39])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Nov 2013 06:42:10 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Tue, 26 Nov 2013 15:44:53 +0000 (UTC)
+Received: by mail-la0-f45.google.com with SMTP id eh20so4356786lab.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2013 07:44:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=NrhpEmYepQskJqxMgG2k8aKNU6FAGeNMKeo3aouH+6w=;
+	b=na8OBvtmW6AHd028HNGCzrkZjv6EEsNhmbSLMqlFVICDedPKWhpCkTohldc7PWPBXa
+	pQwn7x73GNkMG6bjjo2oI9n/J/9ETppmggRgQdjhofo2FYDqBHPnAKLwlXf264Zi7uC5
+	uO6JRuCrum73IQYzG+LD7pA1/eRn7vqHYgsg2sjiEVpU3bBxuDZ3x2kSMa5XfHKO7Ckv
+	7onD9EYpVDnG5WrgdRJ5JeWknJlFXNE8QP0Hp1xAJzWpCVv6ko3hIqdvZJ1ChlSrR3kj
+	Xh2OSgIGx4fv3S9CImcCl5LIKFAPWTWE+iAvO5GwDs9+wU55Jnu/gCVFcRQBFP80XFTI
+	Vupw==
+X-Received: by 10.112.139.72 with SMTP id qw8mr4168494lbb.16.1385480691968;
+	Tue, 26 Nov 2013 07:44:51 -0800 (PST)
+Received: from ubuntu.datv.net ([194.44.222.98])
+	by mx.google.com with ESMTPSA id e1sm3425350lbe.0.2013.11.26.07.44.50
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 26 Nov 2013 07:44:51 -0800 (PST)
+From: Yevhen Kyriukha <kirgene@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Nov 2013 14:41:57 +0000
-Message-Id: <b05afc0c82838658d6efa5a474d1913d2151ef6c.1385476873.git.paul.eggleton@linux.intel.com>
+Date: Tue, 26 Nov 2013 17:44:37 +0200
+Message-Id: <1385480677-16003-1-git-send-email-kirgene@gmail.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1385476873.git.paul.eggleton@linux.intel.com>
-References: <cover.1385476873.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1385476873.git.paul.eggleton@linux.intel.com>
-References: <cover.1385476873.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 7/7] Don't set DESCRIPTION to the same value as SUMMARY
+Cc: Yevhen Kyriukha <kirgene@gmail.com>
+Subject: [PATCH] c-ares: added recipe.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,174 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 14:42:12 -0000
+X-List-Received-Date: Tue, 26 Nov 2013 15:44:53 -0000
 
-Setting DESCRIPTION to the same value as SUMMARY doesn't do anything,
-since the value of DESCRIPTION will be derived from SUMMARY if not
-specified.
+Recipe was borrowed from meta-webos-ports.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
 ---
- meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb                  | 1 -
- meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb                | 1 -
- .../docbook-dsssl-stylesheets/docbook-dsssl-stylesheets-native_1.79.bb   | 1 -
- meta/recipes-devtools/dosfstools/dosfstools_2.11.bb                      | 1 -
- meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb     | 1 -
- meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb                  | 1 -
- meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb                   | 1 -
- meta/recipes-extended/cups/cups.inc                                      | 1 -
- meta/recipes-extended/grep/grep_2.15.bb                                  | 1 -
- meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb                 | 1 -
- meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb                   | 1 -
- meta/recipes-extended/shadow/shadow.inc                                  | 1 -
- meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb                         | 1 -
- meta/recipes-support/libevent/libevent_2.0.21.bb                         | 1 -
- 14 files changed, 14 deletions(-)
+ meta/recipes-support/c-ares/c-ares_1.10.0.bb | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/recipes-support/c-ares/c-ares_1.10.0.bb
 
-diff --git a/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb b/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
-index f840d8b..fcc9e87 100644
---- a/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
-+++ b/meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "NFS id mapping library"
--DESCRIPTION = "NFS id mapping library"
- HOMEPAGE = "http://www.citi.umich.edu/projects/nfsv4/linux/"
- SECTION = "libs"
- 
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
-index 2ae3f4a..38de407 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
-@@ -2,7 +2,6 @@
- # Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
- # Released under the MIT license (see packages/COPYING)
- SUMMARY = "A set of tools for CD recording, including cdrecord"
--DESCRIPTION = "A set of tools for CD recording, including cdrecord"
- HOMEPAGE = "http://cdrecord.berlios.de/private/cdrecord.html"
- SECTION = "console/utils"
- LICENSE = "GPLv2 & CDDL-1.0 & LGPLv2.1+"
-diff --git a/meta/recipes-devtools/docbook-dsssl-stylesheets/docbook-dsssl-stylesheets-native_1.79.bb b/meta/recipes-devtools/docbook-dsssl-stylesheets/docbook-dsssl-stylesheets-native_1.79.bb
-index c70e76d..e623690 100644
---- a/meta/recipes-devtools/docbook-dsssl-stylesheets/docbook-dsssl-stylesheets-native_1.79.bb
-+++ b/meta/recipes-devtools/docbook-dsssl-stylesheets/docbook-dsssl-stylesheets-native_1.79.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "DSSSL stylesheets used to transform SGML and XML DocBook files"
--DESCRIPTION = "DSSSL stylesheets used to transform SGML and XML DocBook files"
- HOMEPAGE= "http://docbook.sourceforge.net"
- # Simple persmissive
- LICENSE = "DSSSL"
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
-index b7b85f0..a6a7ddc 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
-+++ b/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
-@@ -2,7 +2,6 @@
- # Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
- # Released under the MIT license (see packages/COPYING)
- SUMMARY = "DOS FAT Filesystem Utilities"
--DESCRIPTION = "DOS FAT Filesystem Utilities"
- 
- SECTION = "base"
- LICENSE = "GPLv2"
-diff --git a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
-index ba9c72e..ea0ffcb 100644
---- a/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
-+++ b/meta/recipes-devtools/linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "Convert LinuxDoc SGML source into other formats"
--DESCRIPTION = "Convert LinuxDoc SGML source into other formats"
- HOMEPAGE = "http://packages.debian.org/linuxdoc-tools"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=077ef64ec3ac257fb0d786531cf26931"
-diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-index fbf9e77..fe03b82 100644
---- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-+++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "Qemu helper scripts"
--DESCRIPTION = "Qemu helper scripts"
- LICENSE = "GPLv2"
- RDEPENDS_${PN} = "nativesdk-qemu"
- PR = "r9"
-diff --git a/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb b/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
-index 1b612c0..be03fc5 100644
---- a/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
-+++ b/meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "A simple post-processor for SGMLS and NSGMLS"
--DESCRIPTION = "A simple post-processor for SGMLS and NSGMLS"
- HOMEPAGE = "http://search.cpan.org/src/DMEGG/SGMLSpm-1.03ii/DOC/HTML/SGMLSpm/sgmlspm.html"
- SECTION = "libs"
- LICENSE = "GPLv2+"
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 62295b7..cb5b1a7 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -1,5 +1,4 @@
- SUMMARY = "An Internet printing system for Unix"
--DESCRIPTION = "An Internet printing system for Unix."
- SECTION = "console/utils"
- LICENSE = "GPLv2 & LGPLv2"
- DEPENDS = "gnutls libpng jpeg dbus dbus-glib zlib libusb"
-diff --git a/meta/recipes-extended/grep/grep_2.15.bb b/meta/recipes-extended/grep/grep_2.15.bb
-index b6aa882..b24188f 100644
---- a/meta/recipes-extended/grep/grep_2.15.bb
-+++ b/meta/recipes-extended/grep/grep_2.15.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "GNU grep utility"
--DESCRIPTION = "GNU grep utility"
- HOMEPAGE = "http://savannah.gnu.org/projects/grep/"
- BUGTRACKER = "http://savannah.gnu.org/bugs/?group=grep"
- SECTION = "console/utils"
-diff --git a/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
-index 4a1f79f..9d2ca4d 100644
---- a/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "Provider of the machine specific securetty file"
--DESCRIPTION = "Provider of the machine specific securetty file"
- SECTION = "base utils"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb
-index d379c1f..697569c 100644
---- a/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "Shadow utils requirements for useradd.bbclass"
--DESCRIPTION = "Shadow utils requirements for useradd.bbclass"
- HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
- BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
- SECTION = "base utils"
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 5ab978a..33ecc7d 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -1,5 +1,4 @@
- SUMMARY = "Tools to change and administer password and group data"
--DESCRIPTION = "Tools to change and administer password and group data"
- HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
- BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
- SECTION = "base utils"
-diff --git a/meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb b/meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb
-index c18bc11..1125e14 100644
---- a/meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb
-+++ b/meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "Perl module for provides screen dump of Perl data."
--DESCRIPTION = "Perl module for provides screen dump of Perl data."
- 
- HOMEPAGE = "http://search.cpan.org/~flora/Dumpvalue/"
- SECTION = "libs"
-diff --git a/meta/recipes-support/libevent/libevent_2.0.21.bb b/meta/recipes-support/libevent/libevent_2.0.21.bb
-index 2fbe659..5a1ff3b 100644
---- a/meta/recipes-support/libevent/libevent_2.0.21.bb
-+++ b/meta/recipes-support/libevent/libevent_2.0.21.bb
-@@ -1,5 +1,4 @@
- SUMMARY = "An asynchronous event notification library"
--DESCRIPTION = "An asynchronous event notification library"
- HOMEPAGE = "http://libevent.org/"
- BUGTRACKER = "http://sourceforge.net/tracker/?group_id=50884&atid=461322"
- SECTION = "libs"
+diff --git a/meta/recipes-support/c-ares/c-ares_1.10.0.bb b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
+new file mode 100644
+index 0000000..27bedf4
+--- /dev/null
++++ b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
+@@ -0,0 +1,22 @@
++DESCRIPTION = "c-ares is a C library that resolves names asynchronously."
++HOMEPAGE = "http://daniel.haxx.se/projects/c-ares/"
++SECTION = "libs"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://README;beginline=17;endline=18;md5=b320556568bc067d215a1e34c5b34a14"
++
++inherit autotools
++inherit pkgconfig
++
++SRC_URI = "http://c-ares.haxx.se/download/${BP}.tar.gz"
++SRC_URI[md5sum] = "1196067641411a75d3cbebe074fd36d8"
++SRC_URI[sha256sum] = "3d701674615d1158e56a59aaede7891f2dde3da0f46a6d3c684e0ae70f52d3db"
++
++EXTRA_OECONF = "--enable-shared"
++
++# install private headers to ares subdirectory
++do_install_append() {
++    install -d ${D}/${includedir}/ares
++    install -m 0644 ares*.h ${D}/${includedir}/ares/
++}
++
++FILES_${PN}-dev += "${includedir}/ares/*.h"
 -- 
 1.8.1.2
 
