@@ -1,24 +1,31 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B8BA860B60
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BC496D76F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 12:34:37 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Nov 2013 04:34:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,774,1378882800"; d="scan'208";a="434308376"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.65])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Nov 2013 04:34:10 -0800
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Nov 2013 14:39:47 +0200
-Message-Id: <0d63fa1595e1ac6249574078a9fcbfb9e57e4ced.1385469411.git.cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1385469411.git.cristiana.voicu@intel.com>
-References: <cover.1385469411.git.cristiana.voicu@intel.com>
-In-Reply-To: <cover.1385469411.git.cristiana.voicu@intel.com>
-References: <cover.1385469411.git.cristiana.voicu@intel.com>
-Subject: [PATCH 3/3] systemtap: upgrade to 2.4
+	Tue, 26 Nov 2013 14:32:09 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAQEW3dw018503 for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2013 14:32:03 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id X602C8xbbQQ8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2013 14:32:02 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rAQEVwRX018483
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2013 14:32:00 GMT
+Message-ID: <1385476316.11246.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 26 Nov 2013 14:31:56 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: harfbuzz: Add PACKAGECONFIG for icu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 12:34:37 -0000
+X-List-Received-Date: Tue, 26 Nov 2013 14:32:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+harfbuzz can be built without icu. We don't need harfbuzz-icu for any
+default OE-Core configuration so default to icu being disabled for
+performance improvements.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.inc |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.22.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.22.bb
+index e315f78..26f3f38 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.22.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.22.bb
+@@ -18,11 +18,14 @@ SRC_URI[sha256sum] = "989680807e76197418338e44f226e02f155f33031efd9aff14dbc4dc14
+ 
+ inherit autotools pkgconfig
+ 
+-DEPENDS = "icu glib-2.0 cairo freetype"
++DEPENDS = "glib-2.0 cairo freetype"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-EXTRA_OECONF = "--with-glib --with-freetype --with-cairo --with-icu --without-graphite2"
++EXTRA_OECONF = "--with-glib --with-freetype --with-cairo --without-graphite2"
++
++PACKAGECONFIG = ""
++PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
+ 
+ PACKAGES =+ "${PN}-icu ${PN}-icu-dbg ${PN}-icu-dev"
+ 
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index d8c6408..9da5588 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,8 +1,8 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRCREV = "e58138572ebddac9498b93c76770eeca7d45e3b1"
--PV = "2.3+git${SRCPV}"
-+SRCREV = "aa7b1e00e6cb7058071ead0180de0541b1c6eccf"
-+PV = "2.4+git${SRCPV}"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://docproc-build-fix.patch \
--- 
-1.7.9.5
 
 
