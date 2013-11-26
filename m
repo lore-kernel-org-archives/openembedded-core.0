@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BAE406D76F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E64376DD3A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 14:32:42 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAQEW3dx018503 for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 14:32:36 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ScqGPLIh6Bqr
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 14:32:36 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rAQEWVB5018520
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 14:32:32 GMT
-Message-ID: <1385476348.11246.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Nov 2013 14:32:28 +0000
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] beecrypt: Add PACKAGECONFIG for cplusplus
+	Tue, 26 Nov 2013 14:42:04 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Nov 2013 06:42:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,775,1378882800"; d="scan'208";a="440218454"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.39])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Nov 2013 06:42:03 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2013 14:41:50 +0000
+Message-Id: <cover.1385476873.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/7] Recipe cleanups
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 14:32:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 26 Nov 2013 14:42:06 -0000
 
-Add a PACKGECONFIG to control the building of the beecrypt C++
-bindings. The only user of beecrypt in OE-Core is rpm and this doesn't
-need the C++ bindings so default the option to be off. This means
-we can lose the icu dependency by default which is a significant
-performance win.
+The following changes since commit 4482af07df26644885bae49b98f5d765a5caa68c:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-index 0a8ff4b..a917201 100644
---- a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-+++ b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-@@ -16,8 +16,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9894370afd5dfe7d02b8d14319e729a1 \
-                     file://COPYING.LIB;md5=dcf3c825659e82539645da41a7908589 \
-                     file://include/beecrypt/beecrypt.h;endline=20;md5=47a93eef539aac237eef86297a4d71c1"
- 
--DEPENDS = "icu"
--
- PR = "r3"
- 
- inherit autotools multilib_header
-@@ -29,6 +27,9 @@ do_install_append() {
- 
- EXTRA_OECONF="--without-python --enable-shared --enable-static --disable-openmp --with-java=no"
- 
-+PACKAGECONFIG = ""
-+PACKAGECONFIG[cplusplus] = "--with-cplusplus,--without-cplusplus,icu"
-+
- FILES_${PN} = "${sysconfdir} ${libdir}/*.so.* ${libdir}/${BPN}/*.so.*"
- FILES_${PN}-dev += "${libdir}/${BPN}/*.so ${libdir}/${BPN}/*.la"
- FILES_${PN}-staticdev += "${libdir}/${BPN}/*.a"
+  qemu: add PACKAGECONFIG for vnc, libcurl, nss, uuid, curses, gtk+, libcap-ng (2013-11-26 12:09:51 +0000)
 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/cleanup
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/cleanup
+
+Paul Eggleton (7):
+  squashfs-tools: drop FILESPATHPKG
+  squashfs-tools: set SUMMARY instead of DESCRIPTION
+  alsa-utils-alsaconf: tidy up path setting
+  eee-acpi-scripts: tidy up recipe
+  dropbear: set SUMMARY instead of DESCRIPTION
+  libpng: set reasonable SUMMARY
+  Don't set DESCRIPTION to the same value as SUMMARY
+
+ meta/recipes-bsp/eee-acpi-scripts/eee-acpi-scripts_git.bb | 15 ++++++++-------
+ meta/recipes-connectivity/nfs-utils/libnfsidmap_0.25.bb   |  1 -
+ meta/recipes-core/dropbear/dropbear.inc                   |  2 +-
+ meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb |  1 -
+ .../docbook-dsssl-stylesheets-native_1.79.bb              |  1 -
+ meta/recipes-devtools/dosfstools/dosfstools_2.11.bb       |  1 -
+ .../linuxdoc-tools/linuxdoc-tools-native_0.9.69.bb        |  1 -
+ meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb   |  1 -
+ meta/recipes-devtools/sgmlspl/sgmlspl-native_1.03ii.bb    |  1 -
+ .../recipes-devtools/squashfs-tools/squashfs-tools_4.2.bb |  5 +----
+ meta/recipes-extended/cups/cups.inc                       |  1 -
+ meta/recipes-extended/grep/grep_2.15.bb                   |  1 -
+ meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb  |  1 -
+ meta/recipes-extended/shadow/shadow-sysroot_4.1.4.3.bb    |  1 -
+ meta/recipes-extended/shadow/shadow.inc                   |  1 -
+ meta/recipes-lsb4/libpng/libpng12_1.2.50.bb               |  3 +--
+ meta/recipes-lsb4/perl/libdumpvalue-perl_1.17.bb          |  1 -
+ .../alsa/alsa-utils-alsaconf_1.0.27.2.bb                  |  3 +--
+ meta/recipes-multimedia/libpng/libpng_1.6.6.bb            |  3 +--
+ meta/recipes-support/libevent/libevent_2.0.21.bb          |  1 -
+ 20 files changed, 13 insertions(+), 32 deletions(-)
+
+-- 
+1.8.1.2
 
 
