@@ -1,35 +1,25 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 625786D7D9
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 83D2F6D815
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 15:44:53 +0000 (UTC)
-Received: by mail-la0-f45.google.com with SMTP id eh20so4356786lab.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 07:44:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=NrhpEmYepQskJqxMgG2k8aKNU6FAGeNMKeo3aouH+6w=;
-	b=na8OBvtmW6AHd028HNGCzrkZjv6EEsNhmbSLMqlFVICDedPKWhpCkTohldc7PWPBXa
-	pQwn7x73GNkMG6bjjo2oI9n/J/9ETppmggRgQdjhofo2FYDqBHPnAKLwlXf264Zi7uC5
-	uO6JRuCrum73IQYzG+LD7pA1/eRn7vqHYgsg2sjiEVpU3bBxuDZ3x2kSMa5XfHKO7Ckv
-	7onD9EYpVDnG5WrgdRJ5JeWknJlFXNE8QP0Hp1xAJzWpCVv6ko3hIqdvZJ1ChlSrR3kj
-	Xh2OSgIGx4fv3S9CImcCl5LIKFAPWTWE+iAvO5GwDs9+wU55Jnu/gCVFcRQBFP80XFTI
-	Vupw==
-X-Received: by 10.112.139.72 with SMTP id qw8mr4168494lbb.16.1385480691968;
-	Tue, 26 Nov 2013 07:44:51 -0800 (PST)
-Received: from ubuntu.datv.net ([194.44.222.98])
-	by mx.google.com with ESMTPSA id e1sm3425350lbe.0.2013.11.26.07.44.50
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 26 Nov 2013 07:44:51 -0800 (PST)
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Nov 2013 17:44:37 +0200
-Message-Id: <1385480677-16003-1-git-send-email-kirgene@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Cc: Yevhen Kyriukha <kirgene@gmail.com>
-Subject: [PATCH] c-ares: added recipe.
+	Tue, 26 Nov 2013 15:55:23 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 26 Nov 2013 07:55:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,775,1378882800"; d="scan'208";a="415282225"
+Received: from unknown (HELO helios.localnet) ([10.252.122.39])
+	by orsmga001.jf.intel.com with ESMTP; 26 Nov 2013 07:55:22 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 26 Nov 2013 15:55:20 +0000
+Message-ID: <1823390.lKu6Rx7MQ8@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1385476348.11246.4.camel@ted>
+References: <1385476348.11246.4.camel@ted>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] beecrypt: Add PACKAGECONFIG for cplusplus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,45 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 15:44:53 -0000
+X-List-Received-Date: Tue, 26 Nov 2013 15:55:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Recipe was borrowed from meta-webos-ports.
+On Tuesday 26 November 2013 14:32:28 Richard Purdie wrote:
+> Add a PACKGECONFIG to control the building of the beecrypt C++
+> bindings. The only user of beecrypt in OE-Core is rpm and this doesn't
+> need the C++ bindings so default the option to be off. This means
+> we can lose the icu dependency by default which is a significant
+> performance win.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+> b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb index 0a8ff4b..a917201
+> 100644
+> --- a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+> +++ b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
+> @@ -16,8 +16,6 @@ LIC_FILES_CHKSUM =
+> "file://COPYING;md5=9894370afd5dfe7d02b8d14319e729a1 \
+> file://COPYING.LIB;md5=dcf3c825659e82539645da41a7908589 \
+> file://include/beecrypt/beecrypt.h;endline=20;md5=47a93eef539aac237eef86297
+> a4d71c1"
+> 
+> -DEPENDS = "icu"
+> -
+>  PR = "r3"
+> 
+>  inherit autotools multilib_header
+> @@ -29,6 +27,9 @@ do_install_append() {
+> 
+>  EXTRA_OECONF="--without-python --enable-shared --enable-static
+> --disable-openmp --with-java=no"
+> 
+> +PACKAGECONFIG = ""
+> +PACKAGECONFIG[cplusplus] = "--with-cplusplus,--without-cplusplus,icu"
+> +
+>  FILES_${PN} = "${sysconfdir} ${libdir}/*.so.* ${libdir}/${BPN}/*.so.*"
+>  FILES_${PN}-dev += "${libdir}/${BPN}/*.so ${libdir}/${BPN}/*.la"
+>  FILES_${PN}-staticdev += "${libdir}/${BPN}/*.a"
 
-Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
----
- meta/recipes-support/c-ares/c-ares_1.10.0.bb | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta/recipes-support/c-ares/c-ares_1.10.0.bb
+Not just a performance win, but a quick test with core-image-minimal + RPM + 
+"package-management" in IMAGE_FEATURES showed that this also reduces the size 
+of the final image by over 26MB. A nice optimisation all round :)
 
-diff --git a/meta/recipes-support/c-ares/c-ares_1.10.0.bb b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
-new file mode 100644
-index 0000000..27bedf4
---- /dev/null
-+++ b/meta/recipes-support/c-ares/c-ares_1.10.0.bb
-@@ -0,0 +1,22 @@
-+DESCRIPTION = "c-ares is a C library that resolves names asynchronously."
-+HOMEPAGE = "http://daniel.haxx.se/projects/c-ares/"
-+SECTION = "libs"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://README;beginline=17;endline=18;md5=b320556568bc067d215a1e34c5b34a14"
-+
-+inherit autotools
-+inherit pkgconfig
-+
-+SRC_URI = "http://c-ares.haxx.se/download/${BP}.tar.gz"
-+SRC_URI[md5sum] = "1196067641411a75d3cbebe074fd36d8"
-+SRC_URI[sha256sum] = "3d701674615d1158e56a59aaede7891f2dde3da0f46a6d3c684e0ae70f52d3db"
-+
-+EXTRA_OECONF = "--enable-shared"
-+
-+# install private headers to ares subdirectory
-+do_install_append() {
-+    install -d ${D}/${includedir}/ares
-+    install -m 0644 ares*.h ${D}/${includedir}/ares/
-+}
-+
-+FILES_${PN}-dev += "${includedir}/ares/*.h"
+Cheers,
+Paul
+
 -- 
-1.8.1.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
