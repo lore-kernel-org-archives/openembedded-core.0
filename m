@@ -1,37 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 017E56DC28
+Received: from mail-wg0-f48.google.com (mail-wg0-f48.google.com [74.125.82.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 352BB6DC28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 17:33:09 +0000 (UTC)
-Received: by mail-wi0-f174.google.com with SMTP id ey16so821092wid.7
+	Tue, 26 Nov 2013 17:33:47 +0000 (UTC)
+Received: by mail-wg0-f48.google.com with SMTP id z12so5658339wgg.15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 09:33:09 -0800 (PST)
+	Tue, 26 Nov 2013 09:33:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=p1cbYF9aXgsfFvF+9y1VcevoyOl6J4TWYYje9TJcrcQ=;
-	b=XQeUVoNMbcDEbuTxwQOt5g/qtFTVlCzjK6rTj4slzT9YQugkA9jzsOljgvZilhGGRP
-	b/RgdQMqAFyinu4u284Zt/6FqOYtQNUNfg4ZhF/lJbgJ05nfM76jo94Ym3nHrxpAR6Q0
-	U4txIvLc+o/rUQ0tUa1TiA1/CUVFWRVMg9YW2Wx+qpcNZ2GrBMnLG5KjH88TVDsn9Sl1
-	gLPtlndcLyGK2UUpGS+mL65uHc0tXtw6jCam21pZ3CLPpiutQdwznu1nts3dsWhv8SY7
-	qtb5M4ko1Rw+ru/qOBglZCr5WqrwQIcnVOfTQq9TisncYvX4b7syNvqAnintfq7Io5QE
-	OK+Q==
-X-Gm-Message-State: ALoCoQkByeVxyLtGbM4cdjV0WRQDqBUfnUomQnmthESats5JPVSXcrw/tYVmc8QbROZtAdwyjvam
-X-Received: by 10.180.37.11 with SMTP id u11mr19102106wij.27.1385487189006;
-	Tue, 26 Nov 2013 09:33:09 -0800 (PST)
+	bh=CA4xax7BcAfnPKAAkqXOH7LSYn7tFm+h7JwErdmHuJA=;
+	b=M/H2TTCbyn/MlCqT5X9h6unj9M1Vr0aFxM6klcWCCHlpMSGia0dxhAHZRxrDCQjxHu
+	GcL2RcMx3UIjzpxkVzkaaHcY/Lf9xNNopom4mLHnr5/PElqdW7G0gO1JIHsYYyNYl8vh
+	o1kkMj4g8rl0N5oaRMDcKxOARggogcNQKWhUenvvI/+XpJfyqvi23PeqzqKXorIC5fv8
+	mDg55CiTtpVTmP1prUn5OWb+ApZFZgHMW9WcVgoBeFxRkWJgghyfuNR5WuSzZf6kbXjT
+	8W5SLxNjq8sr6tDdLfu3Jki2IHstJrDiV52zGO8Ppm4laA9VPkNG90zczIkSAQ8XGMlH
+	HjjA==
+X-Gm-Message-State: ALoCoQkTCLzsPvWoOViWXDaqCSx282vrPz6TtaunzcpZmMcDpaiD5m+97aRlkR6opKY3np5bVeL6
+X-Received: by 10.180.76.171 with SMTP id l11mr19142585wiw.13.1385487225995;
+	Tue, 26 Nov 2013 09:33:45 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	ll10sm62177050wic.9.2013.11.26.09.33.07
+	by mx.google.com with ESMTPSA id gb1sm62287420wic.0.2013.11.26.09.33.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Nov 2013 09:33:08 -0800 (PST)
+	Tue, 26 Nov 2013 09:33:45 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 26 Nov 2013 17:33:04 +0000
-Message-Id: <1385487184-1587-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 26 Nov 2013 17:33:43 +0000
+Message-Id: <1385487223-1941-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] weston: upgrade to 1.3.1
+Subject: [PATCH][V2] weston: upgrade to 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,8 +42,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 17:33:10 -0000
-
+X-List-Received-Date: Tue, 26 Nov 2013 17:33:47 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
