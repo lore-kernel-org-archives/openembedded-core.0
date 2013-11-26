@@ -1,24 +1,35 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F51F6AE3B
+Return-Path: <nickdademo@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F7276D2A4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 05:17:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAQ5H8aR025408
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 26 Nov 2013 06:27:41 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id p10so7017152pdj.40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2013 21:17:09 -0800 (PST)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 25 Nov 2013 21:17:06 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Nov 2013 13:17:09 +0800
-Message-ID: <1385443029-15848-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Subject: [PATCH] elfutils: fix the condition check before remove eu-objdump
+	Mon, 25 Nov 2013 22:27:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=/HTZcYzZsYRnptADknK/kkb3Cxu9Ojw8q5K2IDk1tGs=;
+	b=D8SeTRfhkD09y2jFwFA4A1qinTSi8dVGZBk/ovyhoyd/HvPZ+pcwaUe6RD77jfO7pY
+	VNzLd195RnrU36btxWcmOVloMQc/5SxO9aZycWdl4dCmpN8vx3/tskp+/+HcFxzJJRgN
+	cUsuK0QqCbgGTtyAaKyno4jV+IbaDQHNMIOnuQ/kG805zuIsDKIdiYa6c9FkHJ5ZYYZG
+	JLm+avoHSUGRFDznq5fwp0shptiaVfxBbHMErQdulkrn31y8bhl0kZmxZLgLgjoVxaEd
+	5W0fCk8KdYTeY7vV05n26jCZPCFXLCIfKal7oOrbcl+a9jkP6mgkWdhcgvgMUVq8bpXK
+	oO0g==
+X-Received: by 10.67.4.136 with SMTP id ce8mr6436668pad.158.1385447260199;
+	Mon, 25 Nov 2013 22:27:40 -0800 (PST)
+Received: from localhost.localdomain
+	(d110-32-96-161.meb801.vic.optusnet.com.au. [110.32.96.161])
+	by mx.google.com with ESMTPSA id
+	sd3sm77938326pbb.42.2013.11.25.22.27.37 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 25 Nov 2013 22:27:39 -0800 (PST)
+From: Nick D'Ademo <nickdademo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2013 17:26:46 +1100
+Message-Id: <1385447206-30966-1-git-send-email-nickdademo@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] libav: install libraries to right directory when multilib is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 05:17:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Nov 2013 06:27:41 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+Explicitly set libdir and shlibdir to ${libdir} in EXTRA_OECONF. Otherwise, default library path of ${prefix}/lib is used which is incorrect in a multilib build.
 
-"grep -q" does not write anything to standard output, the result is same as 
-a empty string, The second test becomes [!""] which is a fixed true value 
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Nick D'Ademo <nickdademo@gmail.com>
 ---
- meta/recipes-devtools/elfutils/elfutils_0.155.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/libav/libav.inc |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.155.bb b/meta/recipes-devtools/elfutils/elfutils_0.155.bb
-index 594dfb0..14eac26 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.155.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.155.bb
-@@ -48,7 +48,7 @@ do_configure_prepend() {
- }
+diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
+index eefee66..9f82423 100644
+--- a/meta/recipes-multimedia/libav/libav.inc
++++ b/meta/recipes-multimedia/libav/libav.inc
+@@ -55,6 +55,8 @@ EXTRA_OECONF = " \
+     --sysroot="${STAGING_DIR_TARGET}" \
+     --enable-hardcoded-tables \
+     ${EXTRA_FFCONF} \
++    --libdir=${libdir} \
++    --shlibdir=${libdir} \
+ "
  
- do_install_append() {
--	if [ "${TARGET_ARCH}" != "x86_64" ] && [ ! `echo "${TARGET_ARCH}"|grep -q 'i.86'` ];then
-+	if [ "${TARGET_ARCH}" != "x86_64" ] && [ -z `echo "${TARGET_ARCH}"|grep 'i.86'` ];then
- 		rm ${D}${bindir}/eu-objdump
- 	fi
- }
+ do_configure() {
 -- 
-1.7.10.4
+1.7.9.5
 
 
