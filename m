@@ -1,26 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 229A26DD4F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 420A96148C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 17:33:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAQHXnp5029325
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Nov 2013 09:33:49 -0800 (PST)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 26 Nov 2013 09:33:49 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 26 Nov 2013 12:33:45 -0500
-Message-ID: <0a6c3273f6af3ec8efdf76216af21ad428b021d7.1385487115.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1385487115.git.bruce.ashfield@windriver.com>
-References: <cover.1385487115.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto/3.10: -rt, ebtables and e1000 fixes
+	Tue, 26 Nov 2013 19:49:30 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id q59so5889969wes.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2013 11:49:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=7xj0VAoIkRX1YveokNb/l6YtF2QU5+SiUAJwfHiByPQ=;
+	b=JCxWY2uyNuV2zoZ6Wy+ata12DzLGgoAc3smWhNzpdAXhS9yHCkID57rg6XSa8X4nMR
+	7bvKfwCMmSYqXlr9Glka0RsZcQdDc7Vwt1XdWykdlAgVzwWNSVaGxXsPXg4wtqNU6e9i
+	crGTnrcAU0bvCKi47lcfeBGucp/SUQ9dIArV1o8sT1jAV0yg/NnLk2Myhqd/AwPoA68b
+	4jzekimz8w4VW5gaVH1zlwwbN3/H7aryXq0aro7UbTEIXf3MZjKSdpBEFPzf9W51p/4R
+	5J13OQGNaQqU8CHdsBc9S8v93of5hcT7mxNmph3ArAsJ1N0dGt+r0s42fezqu9AtmXvn
+	Qvyg==
+X-Gm-Message-State: ALoCoQmBUcfrS9Pin+42y/E22XAvUfc0GR0DVqBeMWYSoIhsMJqkxis9cMVWdS4CLUZUAFptvvIB
+X-Received: by 10.194.89.233 with SMTP id br9mr28039084wjb.15.1385495369559;
+	Tue, 26 Nov 2013 11:49:29 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id f11sm46512647wic.4.2013.11.26.11.49.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Nov 2013 11:49:28 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2013 19:49:20 +0000
+Message-Id: <1385495362-20784-2-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1385495362-20784-1-git-send-email-ross.burton@intel.com>
+References: <1385495362-20784-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/4] pango: upgrade to 1.32.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,82 +46,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 17:33:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Nov 2013 19:49:31 -0000
 
-Updating the 3.10 SRCREVs for the following fixes:
+Drop automake macro patch, merged upstream.
 
-  f47ea28 bridge: enable EBTABLES
-  a9ec82e e1000: prevent oops when adapter is being closed and reset simultaneously
-  a4e1bd7 Revert "arm: add dummy swizzle for versatile with qemu"
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 16 ++++++++--------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ .../pango/pango-1.32.5/obsolete_automake_macros.patch |   15 ---------------
+ .../{pango-1.32.5 => pango}/multilib-fix-clean.patch  |    0
+ .../pango/{pango-1.32.5 => pango}/no-tests.patch      |    0
+ meta/recipes-graphics/pango/pango_1.32.5.bb           |   17 -----------------
+ meta/recipes-graphics/pango/pango_1.32.6.bb           |   12 ++++++++++++
+ 5 files changed, 12 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-graphics/pango/pango-1.32.5/obsolete_automake_macros.patch
+ rename meta/recipes-graphics/pango/{pango-1.32.5 => pango}/multilib-fix-clean.patch (100%)
+ rename meta/recipes-graphics/pango/{pango-1.32.5 => pango}/no-tests.patch (100%)
+ delete mode 100644 meta/recipes-graphics/pango/pango_1.32.5.bb
+ create mode 100644 meta/recipes-graphics/pango/pango_1.32.6.bb
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index d040e3e..d9c5afa 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-@@ -3,9 +3,9 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
--SRCREV_machine ?= "a9b2df9bd27b137408d627ce1f75f1177eae647e"
--SRCREV_machine_qemuppc ?= "601746ed79b7ccc79e31166dea9b2906c915a7e3"
--SRCREV_meta ?= "41072c6288b1ab468670ebf7b3d411fbc177317c"
-+SRCREV_machine ?= "ee9480cd91b2b46325a2da9aa6ae779d8e4163c0"
-+SRCREV_machine_qemuppc ?= "5c126504c0a2f72d80bae9d96cea7eb9d7854290"
-+SRCREV_meta ?= "f47ea2844543c8ebf4572cfe23e4cfd6cb94d887"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index 0939ce6..a866421 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -9,8 +9,8 @@ LINUX_VERSION ?= "3.10.19"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "2d96adf459037aec2c0027503c3eddfc20de9ad4"
--SRCREV_meta ?= "41072c6288b1ab468670ebf7b3d411fbc177317c"
-+SRCREV_machine ?= "a9ec82e355130160f9094e670bd5be0022a84194"
-+SRCREV_meta ?= "f47ea2844543c8ebf4572cfe23e4cfd6cb94d887"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-index c678a8b..d85c6c4 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-@@ -3,14 +3,14 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH_DEFAULT = "standard/base"
- KBRANCH = "${KBRANCH_DEFAULT}"
- 
--SRCREV_machine_qemuarm ?= "9aac62bcd594648a7da61fa89e7da14eb2747e31"
--SRCREV_machine_qemumips  ?= "141675948177bed049477ea53203dd0fc3c105c4"
--SRCREV_machine_qemuppc ?= "ebcaee076da19ffe0e317089566d22c199f16fad"
--SRCREV_machine_qemux86 ?= "2d96adf459037aec2c0027503c3eddfc20de9ad4"
--SRCREV_machine_qemux86-64 ?= "2d96adf459037aec2c0027503c3eddfc20de9ad4"
--SRCREV_machine_qemumips64 ?= "7acc7b9b44fb0b97a50e75387a11a24dfd5c242a"
--SRCREV_machine ?= "2d96adf459037aec2c0027503c3eddfc20de9ad4"
--SRCREV_meta ?= "41072c6288b1ab468670ebf7b3d411fbc177317c"
-+SRCREV_machine_qemuarm ?= "7744145fcc3e4b6b6e308a1b86dc1c8b237b7575"
-+SRCREV_machine_qemumips  ?= "2b8e8c694c38729ce724facdb0ab20751d061a2e"
-+SRCREV_machine_qemuppc ?= "9a7537cb9bcc5c835dae6ac84fbbe7298473f69c"
-+SRCREV_machine_qemux86 ?= "a9ec82e355130160f9094e670bd5be0022a84194"
-+SRCREV_machine_qemux86-64 ?= "a9ec82e355130160f9094e670bd5be0022a84194"
-+SRCREV_machine_qemumips64 ?= "0cd8e958d0ec7e01fd21fc7891da7eed688b0d37"
-+SRCREV_machine ?= "a9ec82e355130160f9094e670bd5be0022a84194"
-+SRCREV_meta ?= "f47ea2844543c8ebf4572cfe23e4cfd6cb94d887"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
+diff --git a/meta/recipes-graphics/pango/pango-1.32.5/obsolete_automake_macros.patch b/meta/recipes-graphics/pango/pango-1.32.5/obsolete_automake_macros.patch
+deleted file mode 100644
+index 3f229b5..0000000
+--- a/meta/recipes-graphics/pango/pango-1.32.5/obsolete_automake_macros.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Accepted [https://bugzilla.gnome.org/show_bug.cgi?id=691263]
+-
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd pango-1.32.5/configure.ac pango-1.32.5/configure.ac
+---- pango-1.32.5/configure.ac	2012-12-07 04:43:25.000000000 +0200
+-+++ pango-1.32.5/configure.ac	2013-01-07 03:25:42.734109587 +0200
+-@@ -54,7 +54,7 @@
+- dnl usage of GNU Make specific features.
+- AM_INIT_AUTOMAKE(1.9 gnits dist-xz no-dist-gzip -Wno-portability)
+- m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+--AM_CONFIG_HEADER([config.h])
+-+AC_CONFIG_HEADERS([config.h])
+-
+-
+- PANGO_VERSION_MAJOR=pango_version_major()
+diff --git a/meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch b/meta/recipes-graphics/pango/pango/multilib-fix-clean.patch
+similarity index 100%
+rename from meta/recipes-graphics/pango/pango-1.32.5/multilib-fix-clean.patch
+rename to meta/recipes-graphics/pango/pango/multilib-fix-clean.patch
+diff --git a/meta/recipes-graphics/pango/pango-1.32.5/no-tests.patch b/meta/recipes-graphics/pango/pango/no-tests.patch
+similarity index 100%
+rename from meta/recipes-graphics/pango/pango-1.32.5/no-tests.patch
+rename to meta/recipes-graphics/pango/pango/no-tests.patch
+diff --git a/meta/recipes-graphics/pango/pango_1.32.5.bb b/meta/recipes-graphics/pango/pango_1.32.5.bb
+deleted file mode 100644
+index 6219940..0000000
+--- a/meta/recipes-graphics/pango/pango_1.32.5.bb
++++ /dev/null
+@@ -1,17 +0,0 @@
+-require pango.inc
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
+-
+-PR = "r2"
+-
+-GNOME_COMPRESS_TYPE="xz"
+-
+-SRC_URI += "file://no-tests.patch \
+-            file://multilib-fix-clean.patch \
+-            file://obsolete_automake_macros.patch \
+-"
+-
+-SRC_URI[archive.md5sum] = "8e846804d6e219bc795a26a4a39b5bfd"
+-SRC_URI[archive.sha256sum] = "7d7bc99c3d9b580cb4fe787fe47824e56e39534b9040e1c8a2a159248d8e5821"
+-
+-#PARALLEL_MAKE = ""
+diff --git a/meta/recipes-graphics/pango/pango_1.32.6.bb b/meta/recipes-graphics/pango/pango_1.32.6.bb
+new file mode 100644
+index 0000000..9c5c1cd
+--- /dev/null
++++ b/meta/recipes-graphics/pango/pango_1.32.6.bb
+@@ -0,0 +1,12 @@
++require pango.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
++
++GNOME_COMPRESS_TYPE="xz"
++
++SRC_URI += "file://no-tests.patch \
++            file://multilib-fix-clean.patch \
++"
++
++SRC_URI[archive.md5sum] = "1af2e3a0ac5a258eff5ceddb6ed60ebd"
++SRC_URI[archive.sha256sum] = "8e9a3eadebf30a31640f2b3ae0fb455cf92d10d1cad246d0ffe72ec595905174"
 -- 
-1.8.1.2
+1.7.10.4
 
 
