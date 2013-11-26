@@ -1,24 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E8E46D750
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D33D06D750
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 08:57:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAQ8vOns000474
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 26 Nov 2013 09:17:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Nov 2013 01:14:01 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,773,1378882800"; d="scan'208";a="442040677"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 26 Nov 2013 01:17:38 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 656346A4009
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 00:57:25 -0800 (PST)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 26 Nov 2013 00:57:25 -0800
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Nov 2013 16:57:23 +0800
-Message-ID: <1385456243-2642-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.8.3
-MIME-Version: 1.0
-Subject: [PATCH] xinetd: add status of init.d command
+	Tue, 26 Nov 2013 01:17:37 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2013 11:18:20 +0200
+Message-Id: <cover.1385457142.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH v2 0/2] Run tests on a remote machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2013 08:57:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Nov 2013 09:17:41 -0000
 
-From: Li Wang <li.wang@windriver.com>
+Hello,
 
-CQID: WIND00439690
+These patches add some abstraction on how we control a target, so that we can also
+run the tests on real hardware.
+The "backend" is controlled by setting TEST_TARGET to "qemu" or "simpleremote". (a very simple
+remote implementation which does not deploy the image but runs the tests on a remote machine
+via ssh to a specified IP address).
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
----
- meta/recipes-extended/xinetd/xinetd/xinetd.init | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Cheers,
+Stefan
 
-diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd.init b/meta/recipes-extended/xinetd/xinetd/xinetd.init
-index 26dbea7..777c2c8 100644
---- a/meta/recipes-extended/xinetd/xinetd/xinetd.init
-+++ b/meta/recipes-extended/xinetd/xinetd/xinetd.init
-@@ -2,6 +2,9 @@
- #
- # /etc/init.d/xinetd  --  script to start and stop xinetd.
- 
-+# Source function library.
-+. /etc/init.d/functions
-+
- if test -f /etc/default/xinetd; then
- 	. /etc/default/xinetd
- fi
-@@ -33,6 +36,10 @@ case "$1" in
- 	start-stop-daemon --stop --signal 3 --quiet --exec /usr/sbin/xinetd
- 	echo "."
- 	;;
-+    status)
-+	status /usr/sbin/xinetd;
-+	exit $?
-+	;;
-     reload)
- 	echo -n "Reloading internet superserver configuration: xinetd"
- 	start-stop-daemon --stop --signal 1 --quiet --exec /usr/sbin/xinetd
-@@ -49,7 +56,7 @@ case "$1" in
- 	$0 start
- 	;;
-     *)
--	echo "Usage: /etc/init.d/xinetd {start|stop|reload|force-reload|restart}"
-+	echo "Usage: /etc/init.d/xinetd {start|stop|status|reload|force-reload|restart}"
- 	exit 1
- 	;;
- esac
+Changed in v2:
+  - yay, typos: FunFailed -> FuncFailed (there's a gremlin in my computer :))
+  - small changes in commit messages
+  - one try/except block in targetcontrol.py was too big, scale it down.
+
+
+The following changes since commit 381cd842caa3db5eabf8973305b6979014d9d0a8:
+
+  linux-firmware: add missing linux-firmware-iwlwifi-7260-7 package (2013-11-25 16:14:48 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib stefans/hwtest3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=stefans/hwtest3
+
+Stefan Stanacar (2):
+  lib/oeqa: targetcontrol.py: add abstraction for running tests on
+    different targets
+  testimage: use the new targetcontrol.py module for running tests
+
+ meta/classes/testimage-auto.bbclass |   3 +-
+ meta/classes/testimage.bbclass      | 104 ++++++++++-----------------
+ meta/lib/oeqa/oetest.py             |  20 +++---
+ meta/lib/oeqa/runtime/ping.py       |   2 +-
+ meta/lib/oeqa/runtime/smart.py      |   4 +-
+ meta/lib/oeqa/targetcontrol.py      | 137 ++++++++++++++++++++++++++++++++++++
+ meta/lib/oeqa/utils/qemurunner.py   |  50 +++++++------
+ meta/lib/oeqa/utils/sshcontrol.py   |  20 ++----
+ 8 files changed, 224 insertions(+), 116 deletions(-)
+ create mode 100644 meta/lib/oeqa/targetcontrol.py
+
 -- 
-1.8.3
+1.8.3.1
 
 
