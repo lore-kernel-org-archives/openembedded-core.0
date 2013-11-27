@@ -1,29 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 77D7E6DD0E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 334376B0F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 12:02:19 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rARC2CsK026657; Wed, 27 Nov 2013 12:02:13 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vDs1ZcCR_ht6; Wed, 27 Nov 2013 12:02:12 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rARC28wX026651
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 27 Nov 2013 12:02:09 GMT
-Message-ID: <1385553725.11246.24.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yue Tao <Yue.Tao@windriver.com>
-Date: Wed, 27 Nov 2013 12:02:05 +0000
+	Wed, 27 Nov 2013 12:41:05 +0000 (UTC)
+Received: by mail-ve0-f174.google.com with SMTP id pa12so5080383veb.33
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Nov 2013 04:41:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=8MOpyUj+qsaA4qOCHRG0ZFthsI76BO3IB023h5Q1XR8=;
+	b=B/WyAqKL/5Qnz+DnHQcPlrhjPUDvpv0VEaXynWobwGjrk/B+yqKbNaiLTguk/ktiO8
+	uXhPfUpEgWWxhgcSpa+HD3lNiTdlr96u1/vogWMPr1sJgOIESyfXwy2fdnLzqn2ob4Jb
+	h3uqoUsh9lyezoFQS7lB1NIQooNc+FWpJsL1jwmV1f/+fZRRJMgxzXXdp31EUz/+6VE8
+	6VuW0UQvImRGLe0mIOLc8zbqjckEW3ZZ/iBTU+rgYLJwm2MqW6DWAdFP0ELyIdrN19YA
+	mT2X/OIrj62j6J9U6UKZOJBM7LxP7NjThu/CSaiGF9mwkCPeFlBfCQs0J27pi0/FL8V2
+	vNqQ==
+X-Gm-Message-State: ALoCoQltBq2vMbNSEelRP9bma1LBubbagTaQDbqLa24L+/3LVEbblSe2aL0SOFO/+zXbTLFSb5uf
+X-Received: by 10.52.65.228 with SMTP id a4mr25179020vdt.16.1385556064317;
+	Wed, 27 Nov 2013 04:41:04 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Wed, 27 Nov 2013 04:40:44 -0800 (PST)
 In-Reply-To: <1385538944-8585-1-git-send-email-Yue.Tao@windriver.com>
 References: <1385538944-8585-1-git-send-email-Yue.Tao@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 27 Nov 2013 12:40:44 +0000
+Message-ID: <CAJTo0Lb=VCgfNP81MLuAA1b_sdMzX3HkDeDt0bDN1m9VW_PJbQ@mail.gmail.com>
+To: Yue Tao <Yue.Tao@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/5] file: avoid to handle special character
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -37,83 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 12:02:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Nov 2013 12:41:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2013-11-27 at 15:55 +0800, Yue Tao wrote:
-> From: Li Wang <li.wang@windriver.com>
-> 
+On 27 November 2013 07:55, Yue Tao <Yue.Tao@windriver.com> wrote:
 > avoid to handle special character '@' in filename and directory.
-> 
-> Signed-off-by: Li Wang <li.wang@windriver.com>
-> ---
->  .../file/file/avoid_handle_special_character.patch |   36 ++++++++++++++++++++
->  meta/recipes-devtools/file/file_5.15.bb            |    1 +
->  2 files changed, 37 insertions(+), 0 deletions(-)
->  create mode 100644 meta/recipes-devtools/file/file/avoid_handle_special_character.patch
 
-No patch header and do we support "@" in directory names for builds?
-Doesn't this break '#' instead?
+Please explain the problem more accurately.  From looking I presume
+the situation here is that the sed breaks when building file-native
+and the build directory contains @, as ${MAGIC} is $pkgdatadir/magic.
 
-Cheers,
+Clearly we need a well-defined character that isn't supported in build
+paths, but I'm also not convinced that # is it.
 
-Richard
-
-> diff --git a/meta/recipes-devtools/file/file/avoid_handle_special_character.patch b/meta/recipes-devtools/file/file/avoid_handle_special_character.patch
-> new file mode 100644
-> index 0000000..4be4ad0
-> --- /dev/null
-> +++ b/meta/recipes-devtools/file/file/avoid_handle_special_character.patch
-> @@ -0,0 +1,36 @@
-> +--- a/doc/Makefile.am
-> ++++ b/doc/Makefile.am
-> +@@ -12,21 +12,21 @@
-> + 
-> + file.1:	Makefile file.man
-> + 	@rm -f $@
-> +-	sed -e s@__CSECTION__@1@g \
-> +-	    -e s@__FSECTION__@${fsect}@g \
-> +-	    -e s@__VERSION__@${VERSION}@g \
-> +-	    -e s@__MAGIC__@${MAGIC}@g $(srcdir)/file.man > $@
-> ++	sed -e s#__CSECTION__#1#g \
-> ++	    -e s#__FSECTION__#${fsect}#g \
-> ++	    -e s#__VERSION__#${VERSION}#g \
-> ++	    -e s#__MAGIC__#${MAGIC}#g $(srcdir)/file.man > $@
-> + 
-> + magic.${fsect}: Makefile magic.man
-> + 	@rm -f $@
-> +-	sed -e s@__CSECTION__@1@g \
-> +-	    -e s@__FSECTION__@${fsect}@g \
-> +-	    -e s@__VERSION__@${VERSION}@g \
-> +-	    -e s@__MAGIC__@${MAGIC}@g $(srcdir)/magic.man > $@
-> ++	sed -e s#__CSECTION__#1#g \
-> ++	    -e s#__FSECTION__#${fsect}#g \
-> ++	    -e s#__VERSION__#${VERSION}#g \
-> ++	    -e s#__MAGIC__#${MAGIC}#g $(srcdir)/magic.man > $@
-> + 
-> + libmagic.3: Makefile libmagic.man
-> + 	@rm -f $@
-> +-	sed -e s@__CSECTION__@1@g \
-> +-	    -e s@__FSECTION__@${fsect}@g \
-> +-	    -e s@__VERSION__@${VERSION}@g \
-> +-	    -e s@__MAGIC__@${MAGIC}@g $(srcdir)/libmagic.man > $@
-> ++	sed -e s#__CSECTION__#1#g \
-> ++	    -e s#__FSECTION__#${fsect}#g \
-> ++	    -e s#__VERSION__#${VERSION}#g \
-> ++	    -e s#__MAGIC__#${MAGIC}#g $(srcdir)/libmagic.man > $@
-> diff --git a/meta/recipes-devtools/file/file_5.15.bb b/meta/recipes-devtools/file/file_5.15.bb
-> index aecbbe5..0697838 100644
-> --- a/meta/recipes-devtools/file/file_5.15.bb
-> +++ b/meta/recipes-devtools/file/file_5.15.bb
-> @@ -12,6 +12,7 @@ DEPENDS = "zlib file-native"
->  DEPENDS_class-native = "zlib-native"
->  
->  SRC_URI = "ftp://ftp.astron.com/pub/file/file-${PV}.tar.gz \
-> +           file://avoid_handle_special_character.patch \
->             file://dump \
->             file://filesystems"
->  
-
-
+Ross
 
