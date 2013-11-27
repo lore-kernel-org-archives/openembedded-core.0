@@ -1,33 +1,39 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C30B76D8C6
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 422966DE3B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 18:07:14 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id y10so5410096wgg.24
+	Wed, 27 Nov 2013 18:07:16 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id n12so6120482wgh.14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 10:07:14 -0800 (PST)
+	Wed, 27 Nov 2013 10:07:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=XZxHjl/0g9j6drHJjF0sbPDKaQK7tN5n7jkliSIRr5Q=;
-	b=jEvi6JrmDzPm3LMxSlMEEWVLTx1/9RmMy7oVR9XJGSFgG/g05QFzOdCUlLxE53Epwz
-	cMayhHKrjFwWafImMRtCKQLryFH1C0Ml2mALFAGPTiFeCqMI1u+TC1ZLLYXIsVE7utp0
-	nl90kOzRRFZ1LkU0CRv3AZncNFMrZhZUkCDrjCLLIKQgkFr+5Hu7NeXSA1MPKx9v1sx4
-	mCnILNRKTfHGn0Frd568LXGvD2vDlg8AJkPypRGgZFgjmcKRtVBLwKjIfFKZ82Mv7bV+
-	FTugBj5KS2MQ2K7qvKTPoR81fdAbzC0t1+bKd9Tvhx0UX0/bx34cmGnJKidsbzsZvqEf
-	rUpA==
-X-Received: by 10.180.82.161 with SMTP id j1mr23789823wiy.23.1385575633728;
-	Wed, 27 Nov 2013 10:07:13 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=O91gn02+QGbQZBbE1+dAhy5CPe2uICUtBDm1uCXdd7g=;
+	b=nHt6UE5IIvZogMbQ1aMSyep/mpehH6Fb1x9X2ibXQuJfKsyRJeEq1eSHcngVWlGmvL
+	IcZt39Dvts7IWyrKPlZQ5NUY0ngSTdxmB/WZejNRVFrTmOcEu6XGmIIWslmDHwxp0mtO
+	IiN58FwenO6DG+WWiegVd+rpRuIc9dIaZO4EDE2IqRtSRR4B69+9VnIaKMFdaEY+tsxp
+	6EnwLDe1dguC9eLHhd9ix4wrPo40T2Y7Xoci6hEDAmOitWNhlS1uT0UacT5uEQKa9n4X
+	KrST4HwTl0zzUQJU41EVPIgrpVio9DKLalWx/LMC8mSQ1EQra0i6nz+975OXleBdk3D1
+	+v2w==
+X-Received: by 10.194.48.115 with SMTP id k19mr12386887wjn.47.1385575635567;
+	Wed, 27 Nov 2013 10:07:15 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id w1sm37430090wib.6.2013.11.27.10.07.11
-	for <openembedded-core@lists.openembedded.org>
+	by mx.google.com with ESMTPSA id w1sm37430090wib.6.2013.11.27.10.07.13
+	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 27 Nov 2013 10:07:13 -0800 (PST)
+	Wed, 27 Nov 2013 10:07:14 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Nov 2013 11:07:00 -0700
-Message-Id: <cover.1385575572.git.kergoth@gmail.com>
+Date: Wed, 27 Nov 2013 11:07:01 -0700
+Message-Id: <020746e50b94eb0d5cd8049437d7328cc2f025b0.1385575572.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
-Subject: Random fixes from the Mentor Graphics push queue
+In-Reply-To: <cover.1385575572.git.kergoth@gmail.com>
+References: <cover.1385575572.git.kergoth@gmail.com>
+In-Reply-To: <cover.1385575572.git.kergoth@gmail.com>
+References: <cover.1385575572.git.kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 1/7] update-rc.d: process symlinks recursively
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,42 +46,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 18:07:15 -0000
+X-List-Received-Date: Wed, 27 Nov 2013 18:07:16 -0000
 
-The following changes since commit f991d2d60b74f5ebd990f77aecd3324b1a4533e9:
+From: Christopher Larson <chris_larson@mentor.com>
 
-  libpng: set reasonable SUMMARY (2013-11-27 11:51:08 +0000)
+When processing startup scripts which use update-alternatives, we need to keep
+resolving the symlink recursively until we hit a real file, due to the
+alternatives indirection. This fixes the ability to run certain postinsts at
+do_rootfs time, which is needed for good read-only-rootfs support.
 
-are available in the git repository at:
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ .../update-rc.d/check-if-symlinks-are-valid.patch  | 26 +++++++++++++---------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
-  https://github.com/kergoth/oe-core.git random-fixes
-  https://github.com/kergoth/oe-core/tree/random-fixes
-
-Christopher Larson (7):
-  update-rc.d: process symlinks recursively
-  quota: apply patch to obey tcp-wrappers config
-  python, python-native: fix PARALLEL_MAKEINST failure
-  cairo: add/use packageconfig for valgrind support
-  perf: remove /usr/local/include from default makefile includes
-  qemu: handle CLOEXEC/NONBLOCK if unavailable on host
-  pulseaudio: fix RDEPENDS traversal for consolekit
-
- .../update-rc.d/check-if-symlinks-are-valid.patch  | 26 +++---
- .../recipes-devtools/python/python-native_2.7.3.bb |  1 +
- .../python/parallel-makeinst-create-bindir.patch   | 19 +++++
- meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
- ...Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch | 92 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu.inc                |  1 +
- .../quota/quota/config-tcpwrappers.patch           | 75 ++++++++++++++++++
- meta/recipes-extended/quota/quota_4.01.bb          |  3 +-
- meta/recipes-graphics/cairo/cairo.inc              |  1 +
- meta/recipes-kernel/perf/perf.bb                   | 11 +--
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |  6 +-
- 11 files changed, 219 insertions(+), 17 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
- create mode 100644 meta/recipes-devtools/qemu/files/linux-user-Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch
- create mode 100644 meta/recipes-extended/quota/quota/config-tcpwrappers.patch
-
+diff --git a/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
+index 6f402dd..075171a 100644
+--- a/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
++++ b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
+@@ -14,25 +14,31 @@ actually exists in rootfs path and then continue.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com> 
++Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+ 
+ Index: git/update-rc.d
+ ===================================================================
+---- git.orig/update-rc.d	2013-01-16 12:12:58.349814356 +0200
+-+++ git/update-rc.d	2013-01-16 13:02:42.490864939 +0200
+-@@ -147,13 +147,29 @@
++--- git.orig/update-rc.d
+++++ git/update-rc.d
++@@ -147,13 +147,34 @@ fi
+  bn=$1
+  shift
+  
+ +sn=$initd/$bn
+ +if [ -L "$sn" -a -n "$root" ]; then
+-+	readlink=$(which readlink)
+++	if which readlink >/dev/null; then
+++		while true; do
+++			linksn="$(readlink "$sn")"
+++			if [ -z "$linksn" ]; then
+++				break
+++			fi
+ +
+-+	if [ -n "$readlink" ]; then
+-+		sn=$($readlink "$sn")
+-+		case "$sn" in
+-+			/*) sn=${root}${sn} ;;
+-+			*)  sn=$initd/$sn ;;
+-+		esac
+++			sn="$linksn"
+++			case "$sn" in
+++				/*) sn="$root$sn" ;;
+++				*)  sn="$initd/$sn" ;;
+++			esac
+++		done
+ +	else
+ +		echo "update-rc.d: readlink tool not present, cannot check whether \
+ +				$sn symlink points to a valid file." >&2
 -- 
 1.8.3.4
 
