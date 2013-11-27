@@ -1,39 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 422966DE3B
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 20B446D8C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 18:07:16 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id n12so6120482wgh.14
+	Wed, 27 Nov 2013 18:07:17 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id t61so1462872wes.25
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 10:07:15 -0800 (PST)
+	Wed, 27 Nov 2013 10:07:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=O91gn02+QGbQZBbE1+dAhy5CPe2uICUtBDm1uCXdd7g=;
-	b=nHt6UE5IIvZogMbQ1aMSyep/mpehH6Fb1x9X2ibXQuJfKsyRJeEq1eSHcngVWlGmvL
-	IcZt39Dvts7IWyrKPlZQ5NUY0ngSTdxmB/WZejNRVFrTmOcEu6XGmIIWslmDHwxp0mtO
-	IiN58FwenO6DG+WWiegVd+rpRuIc9dIaZO4EDE2IqRtSRR4B69+9VnIaKMFdaEY+tsxp
-	6EnwLDe1dguC9eLHhd9ix4wrPo40T2Y7Xoci6hEDAmOitWNhlS1uT0UacT5uEQKa9n4X
-	KrST4HwTl0zzUQJU41EVPIgrpVio9DKLalWx/LMC8mSQ1EQra0i6nz+975OXleBdk3D1
-	+v2w==
-X-Received: by 10.194.48.115 with SMTP id k19mr12386887wjn.47.1385575635567;
-	Wed, 27 Nov 2013 10:07:15 -0800 (PST)
+	bh=+7b0KH44OiSf6tcYpLdSyFC+qVc0j4zhismqaOhrGwg=;
+	b=ZZlM5DFFr+H1jaV1NnMzt6WlrEvS7G0foQ3XhdiL5ED5jSWNkbbkPMsueFinQUdbM/
+	8IYPjeLb7QvO3q73Abg4j3ply1Iqh6dZ1ueb6LouAY36dUYYpFyTGa6sTZOLvp2htulj
+	MYwt75HC5H5y02loKdlER7NC9DVJZkKQVSdXGUk4YD9yMFFahpP2+UZRsrxdc+brWoko
+	Ax1FsGPWWiCX65OUJTFvCvCRmMPV1RXLyKXLbUh/6Fql9dofBRU5xka4z4StTJF/tfps
+	jMkKHwLMjT5aMaWIfNJJ9rbW5WGv+LdOIF8FJ9mulQ6HRaaxCkEAF+gXNWgQJE7ifWRS
+	qJbg==
+X-Received: by 10.194.20.202 with SMTP id p10mr13442672wje.39.1385575637390;
+	Wed, 27 Nov 2013 10:07:17 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id w1sm37430090wib.6.2013.11.27.10.07.13
+	by mx.google.com with ESMTPSA id w1sm37430090wib.6.2013.11.27.10.07.15
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 27 Nov 2013 10:07:14 -0800 (PST)
+	Wed, 27 Nov 2013 10:07:16 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Nov 2013 11:07:01 -0700
-Message-Id: <020746e50b94eb0d5cd8049437d7328cc2f025b0.1385575572.git.kergoth@gmail.com>
+Date: Wed, 27 Nov 2013 11:07:02 -0700
+Message-Id: <02c0b62bd0784357b13c89b00ef7c64bab9f72a5.1385575572.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
 In-Reply-To: <cover.1385575572.git.kergoth@gmail.com>
 References: <cover.1385575572.git.kergoth@gmail.com>
 In-Reply-To: <cover.1385575572.git.kergoth@gmail.com>
 References: <cover.1385575572.git.kergoth@gmail.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/7] update-rc.d: process symlinks recursively
+Subject: [PATCH 2/7] quota: apply patch to obey tcp-wrappers config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,66 +47,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 18:07:16 -0000
+X-List-Received-Date: Wed, 27 Nov 2013 18:07:19 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-When processing startup scripts which use update-alternatives, we need to keep
-resolving the symlink recursively until we hit a real file, due to the
-alternatives indirection. This fixes the ability to run certain postinsts at
-do_rootfs time, which is needed for good read-only-rootfs support.
+Without this, the tcpwrappers argument wasn't obeyed, and as such the build
+wasn't as deterministic as we'd prefer.
 
 Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- .../update-rc.d/check-if-symlinks-are-valid.patch  | 26 +++++++++++++---------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ .../quota/quota/config-tcpwrappers.patch           | 75 ++++++++++++++++++++++
+ meta/recipes-extended/quota/quota_4.01.bb          |  3 +-
+ 2 files changed, 77 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/quota/quota/config-tcpwrappers.patch
 
-diff --git a/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
-index 6f402dd..075171a 100644
---- a/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
-+++ b/meta/recipes-core/update-rc.d/update-rc.d/check-if-symlinks-are-valid.patch
-@@ -14,25 +14,31 @@ actually exists in rootfs path and then continue.
- Upstream-Status: Pending
- 
- Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com> 
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
- 
- Index: git/update-rc.d
- ===================================================================
----- git.orig/update-rc.d	2013-01-16 12:12:58.349814356 +0200
--+++ git/update-rc.d	2013-01-16 13:02:42.490864939 +0200
--@@ -147,13 +147,29 @@
-+--- git.orig/update-rc.d
-++++ git/update-rc.d
-+@@ -147,13 +147,34 @@ fi
-  bn=$1
-  shift
-  
- +sn=$initd/$bn
- +if [ -L "$sn" -a -n "$root" ]; then
--+	readlink=$(which readlink)
-++	if which readlink >/dev/null; then
-++		while true; do
-++			linksn="$(readlink "$sn")"
-++			if [ -z "$linksn" ]; then
-++				break
+diff --git a/meta/recipes-extended/quota/quota/config-tcpwrappers.patch b/meta/recipes-extended/quota/quota/config-tcpwrappers.patch
+new file mode 100644
+index 0000000..94dc3f5
+--- /dev/null
++++ b/meta/recipes-extended/quota/quota/config-tcpwrappers.patch
+@@ -0,0 +1,75 @@
++Upstream-status: Pending
++
++--- quota-tools.orig/configure.in
+++++ quota-tools/configure.in
++@@ -151,33 +151,46 @@ AC_SUBST(QUOTA_NETLINK_PROG)
++ AC_SUBST(NETLINKLIBS)
++
++ AC_SEARCH_LIBS(gethostbyname, nsl)
++-AC_MSG_CHECKING(for host_access in -lwrap)
++-AC_CACHE_VAL(ac_cv_lib_wrap_main,
++-	saved_LIBS="$LIBS"
++-	LIBS="$LIBS -lwrap"
++-	[AC_LINK_IFELSE([AC_LANG_PROGRAM([[
++-	#include <stdio.h>
++-	#include <sys/types.h>
++-	#include <sys/socket.h>
++-	#include <netinet/in.h>
++-	#include <tcpd.h>
++-	struct request_info request;
++-	int deny_severity, allow_severity;]],[[hosts_access(&request);]])],
++-	dnl We always restore LIBS as we add -lwrap in the next check
++-	[ac_cv_lib_wrap_main=yes; LIBS="$saved_LIBS"; AC_MSG_RESULT(yes)],
++-	[ac_cv_lib_wrap_main=no; LIBS="$saved_LIBS"; AC_MSG_RESULT(no)])
++-	])
++
++-if test ${ac_cv_lib_wrap_main} = yes; then
++-	AC_CHECK_HEADER(tcpd.h,, [
++-		echo 'ERROR: could not find tcpd.h - missing TCP wrappers package'
++-		exit 1
++-	])
++-	LIBS="$LIBS -lwrap"
++-	AC_DEFINE([HOSTS_ACCESS], 1, [Use hosts.allow and hosts.deny for access checking of rpc.rquotad])
++-	COMPILE_OPTS="$COMPILE_OPTS HOSTS_ACCESS"
+++AC_ARG_WITH(tcpwrappers,
+++	[  --with-tcpwrappers=[yes/no/try]   Use hosts.allow and hosts.deny for access checking of rpc.rquota [default=yes, if available.]],
+++	,
+++	with_tcpwrappers="try")
+++
+++if test "x$with_tcpwrappers" != xno; then
+++	AC_MSG_CHECKING(for host_access in -lwrap)
+++	AC_CACHE_VAL(ac_cv_lib_wrap_main,
+++		saved_LIBS="$LIBS"
+++		LIBS="$LIBS -lwrap"
+++		[AC_LINK_IFELSE([AC_LANG_PROGRAM([[
+++		#include <stdio.h>
+++		#include <sys/types.h>
+++		#include <sys/socket.h>
+++		#include <netinet/in.h>
+++		#include <tcpd.h>
+++		struct request_info request;
+++		int deny_severity, allow_severity;]],[[hosts_access(&request);]])],
+++		dnl We always restore LIBS as we add -lwrap in the next try
+++		[ac_cv_lib_wrap_main=yes; LIBS="$saved_LIBS"; AC_MSG_RESULT(yes)],
+++		[ac_cv_lib_wrap_main=no; LIBS="$saved_LIBS"; AC_MSG_RESULT(no)])
+++		])
+++
+++	if test "x$ac_cv_lib_wrap_main" = xyes; then
+++		AC_CHECK_HEADER(tcpd.h,, [
+++			if test "x$with_tcpwrappers" != xtry; then
+++				AC_MSG_ERROR([could not find tcpd.h - missing TCP wrappers package])
 ++			fi
- +
--+	if [ -n "$readlink" ]; then
--+		sn=$($readlink "$sn")
--+		case "$sn" in
--+			/*) sn=${root}${sn} ;;
--+			*)  sn=$initd/$sn ;;
--+		esac
-++			sn="$linksn"
-++			case "$sn" in
-++				/*) sn="$root$sn" ;;
-++				*)  sn="$initd/$sn" ;;
-++			esac
-++		done
- +	else
- +		echo "update-rc.d: readlink tool not present, cannot check whether \
- +				$sn symlink points to a valid file." >&2
+++		])
+++
+++		LIBS="$LIBS -lwrap"
+++		AC_DEFINE([HOSTS_ACCESS], 1, [Use hosts.allow and hosts.deny for access checking of rpc.rquotad])
+++		COMPILE_OPTS="$COMPILE_OPTS HOSTS_ACCESS"
+++	elif test "x$with_tcpwrappers" != xtry; then
+++		AC_MSG_ERROR([could not find libwrap - missing TCP wrappers package])
+++	fi
++ fi
++
+++
++ dnl Checks for typedefs, structures, and compiler characteristics.
++ AC_C_CONST
++ AC_C_INLINE
+diff --git a/meta/recipes-extended/quota/quota_4.01.bb b/meta/recipes-extended/quota/quota_4.01.bb
+index 9835f06..a5f69b3 100644
+--- a/meta/recipes-extended/quota/quota_4.01.bb
++++ b/meta/recipes-extended/quota/quota_4.01.bb
+@@ -8,7 +8,8 @@ LIC_FILES_CHKSUM = "file://quota.c;beginline=1;endline=33;md5=331c7d77744bfe0ad2
+                     file://svc_socket.c;beginline=1;endline=17;md5=24d5a8792da45910786eeac750be8ceb"
+ PR = "r1"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz"
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/linuxquota/quota-tools/${PV}/quota-${PV}.tar.gz \
++           file://config-tcpwrappers.patch"
+ 
+ SRC_URI[md5sum] = "5c2c31e321d2e1322ce12d69ae5c66d6"
+ SRC_URI[sha256sum] = "a36300bbc126b79b745bf937245092808b4585aa3309ef3335d4ab9d873cd206"
 -- 
 1.8.3.4
 
