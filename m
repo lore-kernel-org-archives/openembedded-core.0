@@ -1,36 +1,30 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A0E06D86B
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3839A6148C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 01:59:05 +0000 (UTC)
-Received: by mail-pd0-f178.google.com with SMTP id y10so8796821pdj.23
+	Wed, 27 Nov 2013 02:00:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAR20EQF029532
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 17:59:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:mime-version
-	:content-transfer-encoding:content-type;
-	bh=qzi8BfOkGFeaq2MhG+vB2XnLsMAzBlz3SpsFfqKYf9o=;
-	b=txmeX857NgsEr84GHS1JAJyHR+twN4i26d830LT1hOwj7Z2clxFAQ63iOeEepwl9SR
-	nUndQ00Zufik2hZo0CZuQt5FOn1R7i0Nuh+CYl2gHlikP00nz6BIJ4fRCNEzXcJt5xPj
-	1rm5NrLd+G4pnNBeofm7DUuRBx++0sFw23xj8A0L+S+VX1+0+dCB0uU1XBCr7VXoREIB
-	2s42o/YMQLgOP8cW5lx68DwZvOEGv+Dzv6y5WzNTpHU7s67CkeaoYYjNfTSiXXIryx7W
-	liWTgNGBBIWZMuNC7pcKNyctKbCLMVggT/iu/S6J4QgsrjgUncO4QBkRtb7osTBB5zJz
-	gscA==
-X-Received: by 10.68.91.3 with SMTP id ca3mr2513290pbb.20.1385517544544;
-	Tue, 26 Nov 2013 17:59:04 -0800 (PST)
-Received: from yiqingliang-pc.localnet ([49.65.161.88])
-	by mx.google.com with ESMTPSA id ki1sm83863319pbd.1.2013.11.26.17.59.01
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Nov 2013 17:59:03 -0800 (PST)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Nov 2013 09:51:22 +0800
-Message-ID: <72922584.TJuWgrnFYb@yiqingliang-pc>
-User-Agent: KMail/4.11.3 (Linux/3.11.6-1-ARCH; KDE/4.11.3; x86_64; ; )
+	Tue, 26 Nov 2013 18:00:14 -0800 (PST)
+Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Tue, 26 Nov 2013 18:00:13 -0800
+Message-ID: <5295524A.4000803@windriver.com>
+Date: Wed, 27 Nov 2013 10:00:42 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: kernel and boost will recompile every time
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1384587416.git.Qi.Chen@windriver.com>
+	<5292BE1C.2080803@windriver.com>
+	<52948AF5.90709@communistcode.co.uk>
+In-Reply-To: <52948AF5.90709@communistcode.co.uk>
+X-Originating-IP: [128.224.162.213]
+Subject: Re: [PATCH 0/1] shadow-native: allow for setting password in clear text
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 01:59:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 27 Nov 2013 02:00:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello.
+On 11/26/2013 07:50 PM, Jack Mitchell wrote:
+> On 25/11/13 03:03, ChenQi wrote:
+>> ping
+>>
+>> On 11/16/2013 03:37 PM, Qi.Chen@windriver.com wrote:
+>>> From: Chen Qi <Qi.Chen@windriver.com>
+>>>
+>>> The following changes since commit
+>>> ea92671d9823e3667d6ced7ac2af20f991da404d:
+>>>
+>>>     bitbake: cooker: replace "w" file opening mode with "a" mode
+>>> (2013-11-12 17:01:37 +0000)
+>>>
+>>> are available in the git repository at:
+>>>
+>>>     git://git.pokylinux.org/poky-contrib ChenQi/cleartext-password
+>>>    
+>>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/cleartext-password
+>>>
+>>>
+>>> Chen Qi (1):
+>>>     shadow-native: allow for setting password in clear text
+>>>
+>>>    .../allow-for-setting-password-in-clear-text.patch |  208
+>>> ++++++++++++++++++++
+>>>    meta/recipes-extended/shadow/shadow.inc            |    1 +
+>>>    2 files changed, 209 insertions(+)
+>>>    create mode 100644
+>>> meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
+>>>
+>>>
+> Could you provide a short example for how this is to be used? An
+> additional patch to user-add in meta-skeleton perhaps?
+>
 
-	I know the kernel will recompile every time for recent update, and I 
-found the boost will also do like that, even I have sstate cache in my own 
-server.
+OK. I'll send out a  patch for useradd example in meta-skeleton. I'll 
+also modify the local.conf.sample.extended to include this information.
 
-	How to debug this problem?
-
-
--- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+//Chen Qi
 
