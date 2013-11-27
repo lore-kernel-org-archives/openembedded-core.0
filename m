@@ -1,30 +1,40 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3839A6148C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
+	[209.85.215.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E6F856B5D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 02:00:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAR20EQF029532
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 27 Nov 2013 02:03:33 +0000 (UTC)
+Received: by mail-ea0-f176.google.com with SMTP id h14so4179897eaj.21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 18:00:14 -0800 (PST)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Tue, 26 Nov 2013 18:00:13 -0800
-Message-ID: <5295524A.4000803@windriver.com>
-Date: Wed, 27 Nov 2013 10:00:42 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+	Tue, 26 Nov 2013 18:03:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Kh0CW6GT96IIKUKcmFVWDi2wAa/rUj/oTG5bJpq77IM=;
+	b=AUYJo5Xvll57ZofbSY0n5fRwgLUi+ol+N3YM2Aiqjp0Al/CtutCVxA1kgfi1j9ctTl
+	GXNXg79GlxD6fxx4FkprsGIbELHfrqqiXc2iBi/vfQaT9Yt0T6FMl0DYL8mfn8GUqfen
+	xvDu7nL7UCBCDVvTbFKVU0G0Y1IQ1caVgA5jgYeLY4ZV7aCSrvY1jtzce1QSWCYzoSwR
+	1MvdElXYlyrjFnEbHoMftSFaDWAwhFmiSk5G1Jgsv32UusD2XwwvyT0xnGD8HpGmXob3
+	z2AvzYAMw3+CxU4bEEdEc7Xab/vBBzO4y1jH/qDHLgR9pRqj6pSINxhlX2bzNu6hh0Ri
+	/McA==
+X-Received: by 10.14.119.1 with SMTP id m1mr179339eeh.39.1385517813203;
+	Tue, 26 Nov 2013 18:03:33 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id b42sm14547561eem.9.2013.11.26.18.03.32
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 26 Nov 2013 18:03:32 -0800 (PST)
+Date: Wed, 27 Nov 2013 03:03:36 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Yi Qingliang <niqingliang2003@gmail.com>
+Message-ID: <20131127020336.GO2870@jama>
+References: <72922584.TJuWgrnFYb@yiqingliang-pc>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1384587416.git.Qi.Chen@windriver.com>
-	<5292BE1C.2080803@windriver.com>
-	<52948AF5.90709@communistcode.co.uk>
-In-Reply-To: <52948AF5.90709@communistcode.co.uk>
-X-Originating-IP: [128.224.162.213]
-Subject: Re: [PATCH 0/1] shadow-native: allow for setting password in clear text
+In-Reply-To: <72922584.TJuWgrnFYb@yiqingliang-pc>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: kernel and boost will recompile every time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +47,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 02:00:14 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Nov 2013 02:03:34 -0000
+X-Groupsio-MsgNum: 47657
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NDuspjMMC1Ui5ypn"
+Content-Disposition: inline
 
-On 11/26/2013 07:50 PM, Jack Mitchell wrote:
-> On 25/11/13 03:03, ChenQi wrote:
->> ping
->>
->> On 11/16/2013 03:37 PM, Qi.Chen@windriver.com wrote:
->>> From: Chen Qi <Qi.Chen@windriver.com>
->>>
->>> The following changes since commit
->>> ea92671d9823e3667d6ced7ac2af20f991da404d:
->>>
->>>     bitbake: cooker: replace "w" file opening mode with "a" mode
->>> (2013-11-12 17:01:37 +0000)
->>>
->>> are available in the git repository at:
->>>
->>>     git://git.pokylinux.org/poky-contrib ChenQi/cleartext-password
->>>    
->>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/cleartext-password
->>>
->>>
->>> Chen Qi (1):
->>>     shadow-native: allow for setting password in clear text
->>>
->>>    .../allow-for-setting-password-in-clear-text.patch |  208
->>> ++++++++++++++++++++
->>>    meta/recipes-extended/shadow/shadow.inc            |    1 +
->>>    2 files changed, 209 insertions(+)
->>>    create mode 100644
->>> meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
->>>
->>>
-> Could you provide a short example for how this is to be used? An
-> additional patch to user-add in meta-skeleton perhaps?
->
+--NDuspjMMC1Ui5ypn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-OK. I'll send out a  patch for useradd example in meta-skeleton. I'll 
-also modify the local.conf.sample.extended to include this information.
+On Wed, Nov 27, 2013 at 09:51:22AM +0800, Yi Qingliang wrote:
+> Hello.
+>=20
+> 	I know the kernel will recompile every time for recent update, and I=20
+> found the boost will also do like that, even I have sstate cache in my ow=
+n=20
+> server.
+>=20
+> 	How to debug this problem?
 
-//Chen Qi
+kernel rebuilding was fixed few days ago, do you have latest revision?
 
+You can use scripts/sstate-diff-machines.sh to "store" the signatures
+and then compare them when you notice something unexpectedly rebuilding.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--NDuspjMMC1Ui5ypn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlKVUvgACgkQN1Ujt2V2gBwmEQCfbVhqGoEDDns0qbSlBrNF6uM7
+Fi0An3oDGYDbZMzpfRjfM9T8OFQe9g2G
+=ITq0
+-----END PGP SIGNATURE-----
+
+--NDuspjMMC1Ui5ypn--
