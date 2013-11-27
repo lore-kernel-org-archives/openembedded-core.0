@@ -1,35 +1,26 @@
-Return-Path: <nickdademo@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 451616BC20
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 77C856CCEF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 10:20:42 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id p10so9515103pdj.26
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 02:20:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=KdiE6NcuwljjakGhS0ztG3BWrdshPWfB39nGfEe4Mmk=;
-	b=uxifJ2wyVaMFlZdzi+PIJnr+Z7wL5gVixrAb+XSwzzXzHs9GfU0inp2cs+xQbSLpXR
-	ZmQXkDEjT+oFlXOKzrxa8wcQPb+8l5FxRbBtgoQr9J0dEpDsRzHoXEDiW8WxaYDP11LA
-	izK7yYCFJX5hhBh3ylwDM0L2etGNdiLazPwXEWBScuu8owHny2OwqzQCm7m8V+kgJX23
-	3WDXvEWUiHE5wXL+kYkoBfTkyWmsav2DVLeQf3kEDCag42sGVmH9fsF3T5R3u0Mrr1du
-	dg3kV4WQ3862ujWu3PdiURV+iHzDc20Vs4z4j2mJ2i3iKChvrqbZe6lhfU5cHu8iQzBc
-	Tk3Q==
-X-Received: by 10.68.102.133 with SMTP id fo5mr4240794pbb.175.1385547641695;
-	Wed, 27 Nov 2013 02:20:41 -0800 (PST)
-Received: from localhost.localdomain
-	(d110-32-96-161.meb801.vic.optusnet.com.au. [110.32.96.161])
-	by mx.google.com with ESMTPSA id
-	ha10sm86873361pbd.17.2013.11.27.02.20.39 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 27 Nov 2013 02:20:40 -0800 (PST)
-From: Nick D'Ademo <nickdademo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Nov 2013 21:20:01 +1100
-Message-Id: <1385547601-6240-1-git-send-email-nickdademo@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] tcl: fix version string and make recipe multilib build compatible
+	Wed, 27 Nov 2013 10:24:28 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 27 Nov 2013 02:24:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,781,1378882800"; d="scan'208";a="442946468"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.41])
+	by orsmga002.jf.intel.com with ESMTP; 27 Nov 2013 02:24:26 -0800
+Date: Wed, 27 Nov 2013 12:24:25 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20131127102424.GB6099@lpalcu-linux>
+References: <1385495362-20784-1-git-send-email-ross.burton@intel.com>
+	<20131127090946.GA6099@lpalcu-linux>
+	<CAJTo0LYDgCRxMXE1G61M4YKs5eaneftSmW6FL1PtLDNcd+pbkw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYDgCRxMXE1G61M4YKs5eaneftSmW6FL1PtLDNcd+pbkw@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] fontconfig: upgrade to 2.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,49 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 10:20:43 -0000
+X-List-Received-Date: Wed, 27 Nov 2013 10:24:29 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Explicitly set libdir in EXTRA_OECONF so that the correct library folder is generated in a multilib build.
+On Wed, Nov 27, 2013 at 10:09:04AM +0000, Burton, Ross wrote:
+> On 27 November 2013 09:09, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> > On Tue, Nov 26, 2013 at 07:49:19PM +0000, Ross Burton wrote:
+> >> Drop sysroot patch as a rewritten form has been accepted upstream.
+> >
+> > How did you test this? The last time I checked, their implementation was
+> > not able to generate the cache properly when using sysroot. Apparently
+> > they didn't bother to test if their code works. :| I tried to have a
+> > look and, after fixing the command line argument parsing bug, I realized
+> > it has other issues which needed further investigations.
+> 
+> The fonts worked :) and the host-generated caches were the same
+> (according to md5sum) as the ones on the machine after it had booted.
+> If you've concerns I'll double-check, anything in particular that you
+> noticed?
 
-The version string (VER) has been changed to 8.6.1 and the library paths have been updated accordingly so that the related tk recipe can correctly detect tcl (this search is done using the tclConfig.sh script which contains the tcl version number).
+Then they must've fixed the issues. When I tried their code, the cache
+wasn't generated at all when using --sysroot. And the fact that the fonts
+worked it's a good sign. :)
 
-Signed-off-by: Nick D'Ademo <nickdademo@gmail.com>
----
- meta/recipes-devtools/tcltk/tcl_8.6.1.bb |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Laurentiu
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-index f40475d..10186c4 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-@@ -28,13 +28,13 @@ SRC_URI_class-native = "${BASE_SRC_URI}"
- 
- S = "${WORKDIR}/tcl${PV}/unix"
- 
--VER = "8.6"
-+VER = "8.6.1"
- 
- inherit autotools
- 
- DEPENDS_class-native = ""
- 
--EXTRA_OECONF = "--enable-threads --disable-rpath"
-+EXTRA_OECONF = "--enable-threads --disable-rpath --libdir=${libdir}"
- 
- do_configure() {
- 	( cd ${S}; gnu-configize )
-@@ -67,8 +67,8 @@ tcl_sysroot_preprocess () {
- }
- 
- PACKAGES =+ "tcl-lib"
--FILES_tcl-lib = "${libdir}/libtcl${VER}.so.*"
--FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8"
-+FILES_tcl-lib = "${libdir}/libtcl8.6.so.*"
-+FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8.6 ${libdir}/tcl8"
- FILES_${PN}-dev += "${libdir}/tclConfig.sh ${libdir}/tclooConfig.sh"
- 
- # isn't getting picked up by shlibs code
--- 
-1.7.9.5
-
+> 
+> Ross
 
