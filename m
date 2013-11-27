@@ -1,36 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 334376B0F3
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 07DC36C72C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 12:41:05 +0000 (UTC)
-Received: by mail-ve0-f174.google.com with SMTP id pa12so5080383veb.33
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 04:41:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=8MOpyUj+qsaA4qOCHRG0ZFthsI76BO3IB023h5Q1XR8=;
-	b=B/WyAqKL/5Qnz+DnHQcPlrhjPUDvpv0VEaXynWobwGjrk/B+yqKbNaiLTguk/ktiO8
-	uXhPfUpEgWWxhgcSpa+HD3lNiTdlr96u1/vogWMPr1sJgOIESyfXwy2fdnLzqn2ob4Jb
-	h3uqoUsh9lyezoFQS7lB1NIQooNc+FWpJsL1jwmV1f/+fZRRJMgxzXXdp31EUz/+6VE8
-	6VuW0UQvImRGLe0mIOLc8zbqjckEW3ZZ/iBTU+rgYLJwm2MqW6DWAdFP0ELyIdrN19YA
-	mT2X/OIrj62j6J9U6UKZOJBM7LxP7NjThu/CSaiGF9mwkCPeFlBfCQs0J27pi0/FL8V2
-	vNqQ==
-X-Gm-Message-State: ALoCoQltBq2vMbNSEelRP9bma1LBubbagTaQDbqLa24L+/3LVEbblSe2aL0SOFO/+zXbTLFSb5uf
-X-Received: by 10.52.65.228 with SMTP id a4mr25179020vdt.16.1385556064317;
-	Wed, 27 Nov 2013 04:41:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 27 Nov 2013 04:40:44 -0800 (PST)
-In-Reply-To: <1385538944-8585-1-git-send-email-Yue.Tao@windriver.com>
-References: <1385538944-8585-1-git-send-email-Yue.Tao@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 27 Nov 2013 12:40:44 +0000
-Message-ID: <CAJTo0Lb=VCgfNP81MLuAA1b_sdMzX3HkDeDt0bDN1m9VW_PJbQ@mail.gmail.com>
+	Wed, 27 Nov 2013 12:46:42 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45]) by hetzner.pbcl.net with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <pb@pbcl.net>)
+	id 1VleVR-0001sV-FZ; Wed, 27 Nov 2013 13:46:40 +0100
+Message-ID: <1385556372.15760.144.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
 To: Yue Tao <Yue.Tao@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] file: avoid to handle special character
+Date: Wed, 27 Nov 2013 12:46:12 +0000
+In-Reply-To: <1385538944-8585-2-git-send-email-Yue.Tao@windriver.com>
+References: <1385538944-8585-1-git-send-email-Yue.Tao@windriver.com>
+	<1385538944-8585-2-git-send-email-Yue.Tao@windriver.com>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Wed, 2013-11-27 at 15:55 +0800,
+	Yue Tao wrote: > + else
+	> + if [ -f ${D}${sysconfdir}/ld.so.conf ];
+	then > + echo 'include ld.so.conf.d/*.conf'
+	> ${D}${sysconfdir}/ld.so.conf > + mkdir -p
+	${D}${sysconfdir}/ld.so.conf.d > + fi [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/5] eglibc: add support for /etc/ld.so.conf.d/*.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +51,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 12:41:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 27 Nov 2013 12:46:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 27 November 2013 07:55, Yue Tao <Yue.Tao@windriver.com> wrote:
-> avoid to handle special character '@' in filename and directory.
+On Wed, 2013-11-27 at 15:55 +0800, Yue Tao wrote:
+> +	else
+> +		if [ -f ${D}${sysconfdir}/ld.so.conf ]; then
+> +		echo 'include ld.so.conf.d/*.conf' > ${D}${sysconfdir}/ld.so.conf
+> +			mkdir -p ${D}${sysconfdir}/ld.so.conf.d
+> +		fi
 
-Please explain the problem more accurately.  From looking I presume
-the situation here is that the sed breaks when building file-native
-and the build directory contains @, as ${MAGIC} is $pkgdatadir/magic.
+This will cause the existing contents of ld.so.conf to be obliterated if
+the file wasn't empty to begin with.  (I know that it is empty in
+oe-core, but a distro layer might be overlaying this file with its own.)
 
-Clearly we need a well-defined character that isn't supported in build
-paths, but I'm also not convinced that # is it.
+Also, it seems as though the choice of whether to use an "ld.so.conf.d"
+arrangement or not is one that the distro should be making.  Is there a
+strong reason why this needs to be done in oe-core?
 
-Ross
+p.
+
+
 
