@@ -1,24 +1,24 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BAEB6D86B
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BE6B36D86B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 09:09:52 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 27 Nov 2013 01:09:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,780,1378882800"; d="scan'208";a="434966140"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.41])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Nov 2013 01:09:47 -0800
-Date: Wed, 27 Nov 2013 11:09:46 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20131127090946.GA6099@lpalcu-linux>
-References: <1385495362-20784-1-git-send-email-ross.burton@intel.com>
+	Wed, 27 Nov 2013 09:24:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAR9Ojp6009580
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Nov 2013 01:24:45 -0800 (PST)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 27 Nov 2013 01:24:44 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Nov 2013 17:24:43 +0800
+Message-ID: <1385544283-22207-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-In-Reply-To: <1385495362-20784-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] fontconfig: upgrade to 2.11.0
+Subject: [PATCH] file: remove useless patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,853 +31,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 09:09:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Nov 2013 09:24:47 -0000
+Content-Type: text/plain
 
-Hi Ross,
+From: Roy Li <rongqing.li@windriver.com>
 
+no user uses these two patches
 
-On Tue, Nov 26, 2013 at 07:49:19PM +0000, Ross Burton wrote:
-> Drop sysroot patch as a rewritten form has been accepted upstream.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta/recipes-devtools/file/file/ge-le.patch        |   72 --------------------
+ .../file/file/stringb-compat.patch                 |   31 ---------
+ 2 files changed, 103 deletions(-)
+ delete mode 100644 meta/recipes-devtools/file/file/ge-le.patch
+ delete mode 100644 meta/recipes-devtools/file/file/stringb-compat.patch
 
-How did you test this? The last time I checked, their implementation was
-not able to generate the cache properly when using sysroot. Apparently
-they didn't bother to test if their code works. :| I tried to have a
-look and, after fixing the command line argument parsing bug, I realized
-it has other issues which needed further investigations.
+diff --git a/meta/recipes-devtools/file/file/ge-le.patch b/meta/recipes-devtools/file/file/ge-le.patch
+deleted file mode 100644
+index fb7d671..0000000
+--- a/meta/recipes-devtools/file/file/ge-le.patch
++++ /dev/null
+@@ -1,72 +0,0 @@
+-Upstream-Status: Pending
+-
+-`>=' and `<=' was silently ignored in previous version,
+-but causes an warning in file 5.04. Add support for these
+-two operators as a feature extension, however, users should
+-not rely on them.
+-
+-8/17/2010 - created by Qing He <qing.he@intel.com>
+-
+-diff --git a/src/apprentice.c b/src/apprentice.c
+-index 3d4c3cf..a2b86ed 100644
+---- a/src/apprentice.c
+-+++ b/src/apprentice.c
+-@@ -1396,11 +1396,10 @@ parse(struct magic_set *ms, struct magic_entry **mentryp, uint32_t *nmentryp,
+-   		m->reln = *l;
+-   		++l;
+- 		if (*l == '=') {
+--			if (ms->flags & MAGIC_CHECK) {
+--				file_magwarn(ms, "%c= not supported",
+--				    m->reln);
+--				return -1;
+--			}
+-+		    if (m->reln == '>')
+-+			m->reln = 'g';
+-+		    else if (m->reln == '<')
+-+			m->reln = 'l';
+- 		   ++l;
+- 		}
+- 		break;
+-diff --git a/src/softmagic.c b/src/softmagic.c
+-index d8a5675..1648e43 100644
+---- a/src/softmagic.c
+-+++ b/src/softmagic.c
+-@@ -1955,6 +1955,38 @@ magiccheck(struct magic_set *ms, struct magic *m)
+- 		}
+- 		break;
+- 
+-+	case 'g':
+-+		if (m->flag & UNSIGNED) {
+-+			matched = v >= l;
+-+			if ((ms->flags & MAGIC_DEBUG) != 0)
+-+				(void) fprintf(stderr, "%llu >= %llu = %d\n",
+-+				    (unsigned long long)v,
+-+				    (unsigned long long)l, matched);
+-+		}
+-+		else {
+-+			matched = (int64_t) v >= (int64_t) l;
+-+			if ((ms->flags & MAGIC_DEBUG) != 0)
+-+				(void) fprintf(stderr, "%lld >= %lld = %d\n",
+-+				    (long long)v, (long long)l, matched);
+-+		}
+-+		break;
+-+
+-+	case 'l':
+-+		if (m->flag & UNSIGNED) {
+-+			matched = v <= l;
+-+			if ((ms->flags & MAGIC_DEBUG) != 0)
+-+				(void) fprintf(stderr, "%llu <= %llu = %d\n",
+-+				    (unsigned long long)v,
+-+				    (unsigned long long)l, matched);
+-+		}
+-+		else {
+-+			matched = (int64_t) v <= (int64_t) l;
+-+			if ((ms->flags & MAGIC_DEBUG) != 0)
+-+				(void) fprintf(stderr, "%lld <= %lld = %d\n",
+-+				       (long long)v, (long long)l, matched);
+-+		}
+-+		break;
+-+
+- 	case '&':
+- 		matched = (v & l) == l;
+- 		if ((ms->flags & MAGIC_DEBUG) != 0)
+diff --git a/meta/recipes-devtools/file/file/stringb-compat.patch b/meta/recipes-devtools/file/file/stringb-compat.patch
+deleted file mode 100644
+index 8aba31e..0000000
+--- a/meta/recipes-devtools/file/file/stringb-compat.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Upstream-Status: Pending
+-
+-`B' in file 4.x has the same meaning with `W' in file 5,
+-let `B' be an alias of `W'.
+-
+-8/17/2010 - created by Qing He <qing.he@intel.com>
+-
+-diff --git a/src/apprentice.c b/src/apprentice.c
+-index 58826c3..3d4c3cf 100644
+---- a/src/apprentice.c
+-+++ b/src/apprentice.c
+-@@ -1340,6 +1340,7 @@ parse(struct magic_set *ms, struct magic_entry **mentryp, uint32_t *nmentryp,
+- 						    "zero range");
+- 					l = t - 1;
+- 					break;
+-+				case CHAR_COMPACT_BLANK:
+- 				case CHAR_COMPACT_WHITESPACE:
+- 					m->str_flags |= STRING_COMPACT_WHITESPACE;
+- 					break;
+-diff --git a/src/file.h b/src/file.h
+-index c07f2d4..42cf416 100644
+---- a/src/file.h
+-+++ b/src/file.h
+-@@ -282,6 +282,7 @@ struct magic {
+- #define STRING_TEXTTEST				BIT(5)
+- #define STRING_BINTEST				BIT(6)
+- #define CHAR_COMPACT_WHITESPACE			'W'
+-+#define CHAR_COMPACT_BLANK			'B'
+- #define CHAR_COMPACT_OPTIONAL_WHITESPACE	'w'
+- #define CHAR_IGNORE_LOWERCASE			'c'
+- #define CHAR_IGNORE_UPPERCASE			'C'
+-- 
+1.7.10.4
 
-Laurentiu
-
-> 
-> Update license checksums - Google added to COPYING, and the fccache license has
-> moved.
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  ...Add-sysroot-option-to-fc-cache-and-fc-cat.patch |  731 --------------------
->  .../fontconfig/fontconfig/sysroot-arg.patch        |   32 +
->  .../{fontconfig_2.10.2.bb => fontconfig_2.11.0.bb} |   14 +-
->  3 files changed, 37 insertions(+), 740 deletions(-)
->  delete mode 100644 meta/recipes-graphics/fontconfig/files/Add-sysroot-option-to-fc-cache-and-fc-cat.patch
->  create mode 100644 meta/recipes-graphics/fontconfig/fontconfig/sysroot-arg.patch
->  rename meta/recipes-graphics/fontconfig/{fontconfig_2.10.2.bb => fontconfig_2.11.0.bb} (76%)
-> 
-> diff --git a/meta/recipes-graphics/fontconfig/files/Add-sysroot-option-to-fc-cache-and-fc-cat.patch b/meta/recipes-graphics/fontconfig/files/Add-sysroot-option-to-fc-cache-and-fc-cat.patch
-> deleted file mode 100644
-> index f0b3b7f..0000000
-> --- a/meta/recipes-graphics/fontconfig/files/Add-sysroot-option-to-fc-cache-and-fc-cat.patch
-> +++ /dev/null
-> @@ -1,731 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> -From a5eeeafb623a5508d2745f89aaf69118799f7e5c Mon Sep 17 00:00:00 2001
-> -From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> -Date: Mon, 28 Jan 2013 11:42:56 +0200
-> -Subject: [PATCH] Add sysroot option to fc-cache and fc-cat
-> -
-> -Whether one needs to generate the font cache offline and then deploy the
-> -image to a target or do some testing in a separate rootfs, the sysroot
-> -option will facilitate that.
-> -
-> -Suppose you've got a rootfs in the following directory:
-> -/path/to/test/rootfs. In order to contain the fc-cache generation to
-> -that particular directory, the following command can be used:
-> -
-> -fc-cache --sysroot=/path/to/test/rootfs
-> -
-> -That will make fc-cache to prepend the sysroot directory to all paths
-> -during scanning. For example, instead of searching /etc/fonts/ directory
-> -for configuration files, it will look in /path/to/test/rootfs/etc/fonts.
-> -The paths found in fonts.conf will also be prepended with the sysroot.
-> -
-> -However, the generated cache files will not contain any references to
-> -sysroot. This way, one can generate the font cache offline and then deploy
-> -the image to target. Or, simply, use it for various tests without
-> -polluting the system/user cache files.
-> -
-> -In order to inspect the cache generated using the sysroot option, one
-> -has to use fc-cat like below (for example):
-> -
-> -fc-cat --sysroot=/path/to/test/rootfs
-> -/path/to/test/rootfs/var/cache/fontconfig/*
-> -
-> -Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ----
-> - fc-cache/fc-cache.c     |   63 ++++++++++++++++++++++++++++-------
-> - fc-cat/fc-cat.c         |   77 +++++++++++++++++++++++++++++++++++-------
-> - fc-lang/fc-lang.c       |    1 +
-> - fontconfig/fontconfig.h |    6 ++++
-> - src/fccache.c           |   85 +++++++++++++++++++++++++++++++++++++++++++----
-> - src/fccfg.c             |   52 +++++++++++++++++++++++++++++
-> - src/fcfreetype.c        |    4 +++
-> - src/fcstr.c             |   27 +++++++++++++++
-> - 8 files changed, 285 insertions(+), 30 deletions(-)
-> -
-> -diff --git a/fc-cache/fc-cache.c b/fc-cache/fc-cache.c
-> -index 9fb383b..a91e1f1 100644
-> ---- a/fc-cache/fc-cache.c
-> -+++ b/fc-cache/fc-cache.c
-> -@@ -68,6 +68,7 @@ const struct option longopts[] = {
-> -     {"force", 0, 0, 'f'},
-> -     {"really-force", 0, 0, 'r'},
-> -     {"system-only", 0, 0, 's'},
-> -+    {"sysroot", 1, 0, 'y'},
-> -     {"version", 0, 0, 'V'},
-> -     {"verbose", 0, 0, 'v'},
-> -     {"help", 0, 0, 'h'},
-> -@@ -85,26 +86,28 @@ usage (char *program, int error)
-> - {
-> -     FILE *file = error ? stderr : stdout;
-> - #if HAVE_GETOPT_LONG
-> --    fprintf (file, "usage: %s [-frsvVh] [--force|--really-force] [--system-only] [--verbose] [--version] [--help] [dirs]\n",
-> -+    fprintf (file, "usage: %s [-frsvVh] [-y SYSROOT] [--force|--really-force] [--system-only] [--sysroot=SYSROOT] [--verbose] [--version] [--help] [dirs]\n",
-> - 	     program);
-> - #else
-> --    fprintf (file, "usage: %s [-frsvVh] [dirs]\n",
-> -+    fprintf (file, "usage: %s [-frsvVh] [-y SYSROOT] [dirs]\n",
-> - 	     program);
-> - #endif
-> -     fprintf (file, "Build font information caches in [dirs]\n"
-> - 	     "(all directories in font configuration by default).\n");
-> -     fprintf (file, "\n");
-> - #if HAVE_GETOPT_LONG
-> --    fprintf (file, "  -f, --force          scan directories with apparently valid caches\n");
-> --    fprintf (file, "  -r, --really-force   erase all existing caches, then rescan\n");
-> --    fprintf (file, "  -s, --system-only    scan system-wide directories only\n");
-> --    fprintf (file, "  -v, --verbose        display status information while busy\n");
-> --    fprintf (file, "  -V, --version        display font config version and exit\n");
-> --    fprintf (file, "  -h, --help           display this help and exit\n");
-> -+    fprintf (file, "  -f, --force           scan directories with apparently valid caches\n");
-> -+    fprintf (file, "  -r, --really-force    erase all existing caches, then rescan\n");
-> -+    fprintf (file, "  -s, --system-only     scan system-wide directories only\n");
-> -+    fprintf (file, "  -y, --sysroot=SYSROOT for scanning, prefix all paths with SYSROOT. The cache file will not contain the SYSROOT!\n");
-> -+    fprintf (file, "  -v, --verbose         display status information while busy\n");
-> -+    fprintf (file, "  -V, --version         display font config version and exit\n");
-> -+    fprintf (file, "  -h, --help            display this help and exit\n");
-> - #else
-> -     fprintf (file, "  -f         (force)   scan directories with apparently valid caches\n");
-> -     fprintf (file, "  -r,   (really force) erase all existing caches, then rescan\n");
-> -     fprintf (file, "  -s         (system)  scan system-wide directories only\n");
-> -+    fprintf (file, "  -y SYSROOT           for scanning, prefix all paths with SYSROOT. The cache file will not contain the SYSROOT!\n");
-> -     fprintf (file, "  -v         (verbose) display status information while busy\n");
-> -     fprintf (file, "  -V         (version) display font config version and exit\n");
-> -     fprintf (file, "  -h         (help)    display this help and exit\n");
-> -@@ -125,7 +128,7 @@ scanDirs (FcStrList *list, FcConfig *config, FcBool force, FcBool really_force,
-> -     struct stat	    statb;
-> -     FcBool	    was_valid;
-> -     int		    i;
-> --    
-> -+    FcChar8	    *sysroot = FcConfigGetSysRoot ();
-> -     /*
-> -      * Now scan all of the directories into separate databases
-> -      * and write out the results
-> -@@ -227,7 +230,22 @@ scanDirs (FcStrList *list, FcConfig *config, FcBool force, FcBool really_force,
-> - 	    continue;
-> - 	}
-> - 	for (i = 0; i < FcCacheNumSubdir (cache); i++)
-> --	    FcStrSetAdd (subdirs, FcCacheSubdir (cache, i));
-> -+	{
-> -+	    const FcChar8 *subdir = FcCacheSubdir (cache, i);
-> -+	    if (sysroot)
-> -+	    {
-> -+		subdir = FcStrPlus (sysroot, subdir);
-> -+		if (!subdir)
-> -+		{
-> -+		    fprintf (stderr, "malloc failure\n");
-> -+		    return ++ret;
-> -+		}
-> -+	    }
-> -+
-> -+	    FcStrSetAdd (subdirs, subdir);
-> -+	    if (sysroot)
-> -+		FcStrFree ((FcChar8 *) subdir);
-> -+	}
-> - 	
-> - 	FcDirCacheUnload (cache);
-> - 	
-> -@@ -277,6 +295,7 @@ main (int argc, char **argv)
-> -     FcBool	really_force = FcFalse;
-> -     FcBool	systemOnly = FcFalse;
-> -     FcConfig	*config;
-> -+    FcChar8 *sysroot = NULL;
-> -     int		i;
-> -     int		changed;
-> -     int		ret;
-> -@@ -284,9 +303,9 @@ main (int argc, char **argv)
-> -     int		c;
-> - 
-> - #if HAVE_GETOPT_LONG
-> --    while ((c = getopt_long (argc, argv, "frsVvh", longopts, NULL)) != -1)
-> -+    while ((c = getopt_long (argc, argv, "frsy:Vvh", longopts, NULL)) != -1)
-> - #else
-> --    while ((c = getopt (argc, argv, "frsVvh")) != -1)
-> -+    while ((c = getopt (argc, argv, "frsy:Vvh")) != -1)
-> - #endif
-> -     {
-> - 	switch (c) {
-> -@@ -299,6 +318,9 @@ main (int argc, char **argv)
-> - 	case 's':
-> - 	    systemOnly = FcTrue;
-> - 	    break;
-> -+	case 'y':
-> -+	    sysroot = FcStrCopy ((const FcChar8*) optarg);
-> -+	    break;
-> - 	case 'V':
-> - 	    fprintf (stderr, "fontconfig version %d.%d.%d\n", 
-> - 		     FC_MAJOR, FC_MINOR, FC_REVISION);
-> -@@ -319,6 +341,21 @@ main (int argc, char **argv)
-> - 
-> -     if (systemOnly)
-> - 	FcConfigEnableHome (FcFalse);
-> -+
-> -+    if (sysroot)
-> -+    {
-> -+	FcChar8 *canon_sysroot;
-> -+	canon_sysroot = FcConfigSetSysRoot(sysroot);
-> -+	FcStrFree (sysroot);
-> -+	if (!canon_sysroot)
-> -+	{
-> -+	    fprintf (stderr, "Cannot set the sysroot. Out of memory!\n");
-> -+	    return 1;
-> -+	}
-> -+
-> -+	sysroot = canon_sysroot;
-> -+    }
-> -+
-> -     config = FcInitLoadConfig ();
-> -     if (!config)
-> -     {
-> -@@ -378,6 +415,8 @@ main (int argc, char **argv)
-> -      * library, and there aren't any signals flying around here.
-> -      */
-> -     FcConfigDestroy (config);
-> -+    if (sysroot)
-> -+	FcStrFree (sysroot);
-> -     FcFini ();
-> -     if (changed)
-> - 	sleep (2);
-> -diff --git a/fc-cat/fc-cat.c b/fc-cat/fc-cat.c
-> -index 72912b7..4b4f0f0 100644
-> ---- a/fc-cat/fc-cat.c
-> -+++ b/fc-cat/fc-cat.c
-> -@@ -57,6 +57,7 @@ const struct option longopts[] = {
-> -     {"verbose", 0, 0, 'v'},
-> -     {"recurse", 0, 0, 'r'},
-> -     {"help", 0, 0, 'h'},
-> -+    {"sysroot", 1, 0, 'y'},
-> -     {NULL,0,0,0},
-> - };
-> - #else
-> -@@ -150,11 +151,11 @@ usage (char *program, int error)
-> - {
-> -     FILE *file = error ? stderr : stdout;
-> - #if HAVE_GETOPT_LONG
-> --    fprintf (file, "usage: %s [-rv] [--recurse] [--verbose] [*-%s" FC_CACHE_SUFFIX "|directory]...\n",
-> -+    fprintf (file, "usage: %s [-rv] [--recurse] [--verbose] [--sysroot=SYSROOT] [*-%s" FC_CACHE_SUFFIX "|directory]...\n",
-> - 	     program, FC_ARCHITECTURE);
-> -     fprintf (file, "       %s [-Vh] [--version] [--help]\n", program);
-> - #else
-> --    fprintf (file, "usage: %s [-rvVh] [*-%s" FC_CACHE_SUFFIX "|directory]...\n",
-> -+    fprintf (file, "usage: %s [-rvVh] [-y SYSROOT] [*-%s" FC_CACHE_SUFFIX "|directory]...\n",
-> - 	     program, FC_ARCHITECTURE);
-> - #endif
-> -     fprintf (file, "Reads font information cache from:\n");
-> -@@ -162,15 +163,17 @@ usage (char *program, int error)
-> -     fprintf (file, " 2) related to a particular font directory\n");
-> -     fprintf (file, "\n");
-> - #if HAVE_GETOPT_LONG
-> --    fprintf (file, "  -r, --recurse        recurse into subdirectories\n");
-> --    fprintf (file, "  -v, --verbose        be verbose\n");
-> --    fprintf (file, "  -V, --version        display font config version and exit\n");
-> --    fprintf (file, "  -h, --help           display this help and exit\n");
-> -+    fprintf (file, "  -r, --recurse         recurse into subdirectories\n");
-> -+    fprintf (file, "  -v, --verbose         be verbose\n");
-> -+    fprintf (file, "  -V, --version         display font config version and exit\n");
-> -+    fprintf (file, "  -h, --help            display this help and exit\n");
-> -+    fprintf (file, "  -y, --sysroot=SYSROOT needed if the cache was generated using --sysroot\n");
-> - #else
-> -     fprintf (file, "  -r         (recurse) recurse into subdirectories\n");
-> -     fprintf (file, "  -v         (verbose) be verbose\n");
-> -     fprintf (file, "  -V         (version) display font config version and exit\n");
-> -     fprintf (file, "  -h         (help)    display this help and exit\n");
-> -+    fprintf (file, "  -y SYSROOT           needed if the cache was generated using --sysroot\n");
-> - #endif
-> -     exit (error);
-> - }
-> -@@ -262,13 +265,14 @@ main (int argc, char **argv)
-> -     int		verbose = 0;
-> -     int		recurse = 0;
-> -     FcBool	first = FcTrue;
-> -+    FcChar8	*sysroot = NULL;
-> - #if HAVE_GETOPT_LONG || HAVE_GETOPT
-> -     int		c;
-> - 
-> - #if HAVE_GETOPT_LONG
-> --    while ((c = getopt_long (argc, argv, "Vvrh", longopts, NULL)) != -1)
-> -+    while ((c = getopt_long (argc, argv, "Vvrhy:", longopts, NULL)) != -1)
-> - #else
-> --    while ((c = getopt (argc, argv, "Vvrh")) != -1)
-> -+    while ((c = getopt (argc, argv, "Vvrhy:")) != -1)
-> - #endif
-> -     {
-> - 	switch (c) {
-> -@@ -284,6 +288,9 @@ main (int argc, char **argv)
-> - 	    break;
-> - 	case 'h':
-> - 	    usage (argv[0], 0);
-> -+	case 'y':
-> -+	    sysroot = FcStrCopy ((const FcChar8*) optarg);
-> -+	    break;
-> - 	default:
-> - 	    usage (argv[0], 1);
-> - 	}
-> -@@ -293,6 +300,20 @@ main (int argc, char **argv)
-> -     i = 1;
-> - #endif
-> - 
-> -+    if (sysroot)
-> -+    {
-> -+	FcChar8 *canon_sysroot;
-> -+	canon_sysroot = FcConfigSetSysRoot(sysroot);
-> -+	FcStrFree (sysroot);
-> -+	if (!canon_sysroot)
-> -+	{
-> -+	    fprintf (stderr, "%s: malloc failure\n", argv[0]);
-> -+	    return 1;
-> -+	}
-> -+
-> -+	sysroot = canon_sysroot;
-> -+    }
-> -+
-> -     config = FcInitLoadConfig ();
-> -     if (!config)
-> -     {
-> -@@ -348,6 +369,7 @@ main (int argc, char **argv)
-> - 	int	    j;
-> - 	FcChar8	    *cache_file = NULL;
-> - 	struct stat file_stat;
-> -+	const FcChar8 *base_dir = NULL;
-> - 	
-> - 	if (FcFileIsDir (arg))
-> - 	    cache = FcDirCacheLoad (arg, config, &cache_file);
-> -@@ -364,9 +386,34 @@ main (int argc, char **argv)
-> - 	fs = FcCacheCopySet (cache);
-> - 	for (j = 0; j < FcCacheNumSubdir (cache); j++) 
-> - 	{
-> --	    FcStrSetAdd (dirs, FcCacheSubdir (cache, j));
-> -+	    const FcChar8 *subdir = FcCacheSubdir (cache, j);
-> -+	    if (sysroot)
-> -+	    {
-> -+		subdir = FcStrPlus (sysroot, subdir);
-> -+		if (!subdir)
-> -+		{
-> -+		    fprintf (stderr, "%s: malloc failure\n", argv[0]);
-> -+		    return 1;
-> -+		}
-> -+	    }
-> -+
-> -+	    FcStrSetAdd (dirs, subdir);
-> - 	    if (recurse)
-> --		FcStrSetAdd (args, FcCacheSubdir (cache, j));
-> -+		FcStrSetAdd (args, subdir);
-> -+
-> -+	    if (sysroot)
-> -+		FcStrFree ((FcChar8 *) subdir);
-> -+	}
-> -+
-> -+	base_dir = FcCacheDir (cache);
-> -+	if (sysroot)
-> -+	{
-> -+	    base_dir = FcStrPlus (sysroot, base_dir);
-> -+	    if (!base_dir)
-> -+	    {
-> -+		fprintf (stderr, "%s: malloc failure\n", argv[0]);
-> -+		return 1;
-> -+	    }
-> - 	}
-> - 
-> - 	if (verbose)
-> -@@ -374,10 +421,13 @@ main (int argc, char **argv)
-> - 	    if (!first)
-> - 		printf ("\n");
-> - 	    printf ("Directory: %s\nCache: %s\n--------\n",
-> --		    FcCacheDir(cache), cache_file ? cache_file : arg);
-> -+		    base_dir, cache_file ? cache_file : arg);
-> - 	    first = FcFalse;
-> - 	}
-> --        cache_print_set (fs, dirs, FcCacheDir (cache), verbose);
-> -+        cache_print_set (fs, dirs, base_dir, verbose);
-> -+
-> -+	if (sysroot)
-> -+	    FcStrFree ((FcChar8 *) base_dir);
-> - 
-> - 	FcStrSetDestroy (dirs);
-> - 
-> -@@ -387,6 +437,9 @@ main (int argc, char **argv)
-> - 	    FcStrFree (cache_file);
-> -     }
-> - 
-> -+    if (sysroot)
-> -+	FcStrFree (sysroot);
-> -+
-> -     FcFini ();
-> -     return 0;
-> - }
-> -diff --git a/fc-lang/fc-lang.c b/fc-lang/fc-lang.c
-> -index 93200c4..e74e856 100644
-> ---- a/fc-lang/fc-lang.c
-> -+++ b/fc-lang/fc-lang.c
-> -@@ -22,6 +22,7 @@
-> -  * PERFORMANCE OF THIS SOFTWARE.
-> -  */
-> - 
-> -+#define FC_LANG_C
-> - #include "fccharset.c"
-> - #include "fcstr.c"
-> - #include "fcserialize.c"
-> -diff --git a/fontconfig/fontconfig.h b/fontconfig/fontconfig.h
-> -index 266986c..b05f6ca 100644
-> ---- a/fontconfig/fontconfig.h
-> -+++ b/fontconfig/fontconfig.h
-> -@@ -417,6 +417,12 @@ FcConfigSubstitute (FcConfig	*config,
-> - 		    FcPattern	*p,
-> - 		    FcMatchKind	kind);
-> - 
-> -+FcPublic FcChar8 *
-> -+FcConfigSetSysRoot (const FcChar8 *sysroot);
-> -+
-> -+FcPublic FcChar8 *
-> -+FcConfigGetSysRoot (void);
-> -+
-> - /* fccharset.c */
-> - FcPublic FcCharSet*
-> - FcCharSetCreate (void);
-> -diff --git a/src/fccache.c b/src/fccache.c
-> -index 81985df..c3dcc72 100644
-> ---- a/src/fccache.c
-> -+++ b/src/fccache.c
-> -@@ -93,6 +93,14 @@ FcDirCacheBasename (const FcChar8 * dir, FcChar8 cache_base[CACHEBASE_LEN])
-> -     FcChar8		*hex_hash;
-> -     int			cnt;
-> -     struct MD5Context 	ctx;
-> -+    FcChar8		*sysroot = FcConfigGetSysRoot();
-> -+
-> -+    /*
-> -+     * remove sysroot when generating the hex hash
-> -+     */
-> -+    if (sysroot && !strncmp ((const char*) sysroot, (const char*) dir,
-> -+		strlen ((const char*) sysroot)))
-> -+	    dir += strlen((const char*) sysroot);
-> - 
-> -     MD5Init (&ctx);
-> -     MD5Update (&ctx, (const unsigned char *)dir, strlen ((const char *) dir));
-> -@@ -505,16 +513,31 @@ static FcBool
-> - FcCacheTimeValid (FcCache *cache, struct stat *dir_stat)
-> - {
-> -     struct stat	dir_static;
-> -+    FcChar8 *dir = FcCacheDir (cache);
-> -+    FcChar8 *sysroot = FcConfigGetSysRoot ();
-> -+
-> -+    if (sysroot)
-> -+    {
-> -+	dir = FcStrPlus (sysroot, dir);
-> -+	if (!dir)
-> -+	    return FcFalse;
-> -+    }
-> - 
-> -     if (!dir_stat)
-> -     {
-> --	if (FcStatChecksum (FcCacheDir (cache), &dir_static) < 0)
-> -+	if (FcStatChecksum (dir, &dir_static) < 0)
-> -+	{
-> -+	    if (sysroot)
-> -+		FcStrFree (dir);
-> - 	    return FcFalse;
-> -+	}
-> - 	dir_stat = &dir_static;
-> -     }
-> -     if (FcDebug () & FC_DBG_CACHE)
-> - 	printf ("FcCacheTimeValid dir \"%s\" cache checksum %d dir checksum %d\n",
-> --		FcCacheDir (cache), cache->checksum, (int) dir_stat->st_mtime);
-> -+		dir, cache->checksum, (int) dir_stat->st_mtime);
-> -+    if (sysroot)
-> -+	FcStrFree (dir);
-> -     return cache->checksum == (int) dir_stat->st_mtime;
-> - }
-> - 
-> -@@ -716,9 +739,27 @@ FcDirCacheBuild (FcFontSet *set, const FcChar8 *dir, struct stat *dir_stat, FcSt
-> -     FcChar8	*dir_serialize;
-> -     intptr_t	*dirs_serialize;
-> -     FcFontSet	*set_serialize;
-> -+    FcChar8	*sysroot = FcConfigGetSysRoot ();
-> -+    FcStrSet	*dirs_without_sysroot;
-> - 
-> -     if (!serialize)
-> - 	return NULL;
-> -+
-> -+    if (sysroot)
-> -+    {
-> -+	dir += strlen ((const char*) sysroot);
-> -+
-> -+	dirs_without_sysroot = FcStrSetCreate ();
-> -+	if (!dirs_without_sysroot)
-> -+	    return NULL;
-> -+
-> -+	for (i = 0; i < dirs->num; i++)
-> -+	    FcStrSetAdd (dirs_without_sysroot,
-> -+		dirs->strs[i] + strlen ((const char*) sysroot));
-> -+
-> -+	dirs = dirs_without_sysroot;
-> -+    }
-> -+
-> -     /*
-> -      * Space for cache structure
-> -      */
-> -@@ -792,11 +833,17 @@ FcDirCacheBuild (FcFontSet *set, const FcChar8 *dir, struct stat *dir_stat, FcSt
-> - 
-> -     FcCacheInsert (cache, NULL);
-> - 
-> -+    if (sysroot)
-> -+	FcStrSetDestroy(dirs_without_sysroot);
-> -+
-> -     return cache;
-> - 
-> - bail2:
-> -     free (cache);
-> - bail1:
-> -+    if (sysroot)
-> -+	FcStrSetDestroy(dirs_without_sysroot);
-> -+
-> -     FcSerializeDestroy (serialize);
-> -     return NULL;
-> - }
-> -@@ -844,6 +891,14 @@ FcDirCacheWrite (FcCache *cache, FcConfig *config)
-> -     struct stat     cache_stat;
-> -     int		    magic;
-> -     int		    written;
-> -+    FcChar8	    *sysroot = FcConfigGetSysRoot ();
-> -+
-> -+    if (sysroot)
-> -+    {
-> -+	dir = FcStrPlus (sysroot, dir);
-> -+	if (!dir)
-> -+	    return FcFalse;
-> -+    }
-> - 
-> -     /*
-> -      * Write it to the first directory in the list which is writable
-> -@@ -851,7 +906,7 @@ FcDirCacheWrite (FcCache *cache, FcConfig *config)
-> - 
-> -     list = FcStrListCreate (config->cacheDirs);
-> -     if (!list)
-> --	return FcFalse;
-> -+	goto bail0;
-> -     while ((test_dir = FcStrListNext (list))) {
-> - 	if (access ((char *) test_dir, W_OK) == 0)
-> - 	{
-> -@@ -886,12 +941,12 @@ FcDirCacheWrite (FcCache *cache, FcConfig *config)
-> -     }
-> -     FcStrListDone (list);
-> -     if (!cache_dir)
-> --	return FcFalse;
-> -+	goto bail0;
-> - 
-> -     FcDirCacheBasename (dir, cache_base);
-> -     cache_hashed = FcStrPlus (cache_dir, cache_base);
-> -     if (!cache_hashed)
-> --        return FcFalse;
-> -+        goto bail0;
-> - 
-> -     if (FcDebug () & FC_DBG_CACHE)
-> -         printf ("FcDirCacheWriteDir dir \"%s\" file \"%s\"\n",
-> -@@ -948,6 +1003,8 @@ FcDirCacheWrite (FcCache *cache, FcConfig *config)
-> -     FcStrFree (cache_hashed);
-> -     FcAtomicUnlock (atomic);
-> -     FcAtomicDestroy (atomic);
-> -+    if (sysroot)
-> -+	FcStrFree (dir);
-> -     return FcTrue;
-> - 
-> -  bail5:
-> -@@ -958,6 +1015,9 @@ FcDirCacheWrite (FcCache *cache, FcConfig *config)
-> -     FcAtomicDestroy (atomic);
-> -  bail1:
-> -     FcStrFree (cache_hashed);
-> -+ bail0:
-> -+    if (sysroot)
-> -+	FcStrFree (dir);
-> -     return FcFalse;
-> - }
-> - 
-> -@@ -997,7 +1057,8 @@ FcDirCacheClean (const FcChar8 *cache_dir, FcBool verbose)
-> -     while ((ent = readdir (d)))
-> -     {
-> - 	FcChar8	*file_name;
-> --	const FcChar8	*target_dir;
-> -+	FcChar8	*target_dir;
-> -+	FcChar8	*sysroot = FcConfigGetSysRoot ();
-> - 
-> - 	if (ent->d_name[0] == '.')
-> - 	    continue;
-> -@@ -1025,6 +1086,16 @@ FcDirCacheClean (const FcChar8 *cache_dir, FcBool verbose)
-> - 	else
-> - 	{
-> - 	    target_dir = FcCacheDir (cache);
-> -+	    if (sysroot)
-> -+	    {
-> -+		target_dir = FcStrPlus (sysroot, target_dir);
-> -+		if (!target_dir)
-> -+		{
-> -+		    ret = FcFalse;
-> -+		    FcStrFree (file_name);
-> -+		    break;
-> -+		}
-> -+	    }
-> - 	    if (stat ((char *) target_dir, &target_stat) < 0)
-> - 	    {
-> - 		if (verbose || FcDebug () & FC_DBG_CACHE)
-> -@@ -1043,6 +1114,8 @@ FcDirCacheClean (const FcChar8 *cache_dir, FcBool verbose)
-> - 	}
-> - 	FcDirCacheUnload (cache);
-> -         FcStrFree (file_name);
-> -+	if (sysroot)
-> -+	    FcStrFree (target_dir);
-> -     }
-> - 
-> -     closedir (d);
-> -diff --git a/src/fccfg.c b/src/fccfg.c
-> -index d3752e5..ad97c05 100644
-> ---- a/src/fccfg.c
-> -+++ b/src/fccfg.c
-> -@@ -37,6 +37,7 @@
-> - #endif
-> - 
-> - FcConfig    *_fcConfig;
-> -+static FcChar8 *_FcConfigSysRoot = NULL;
-> - 
-> - FcConfig *
-> - FcConfigCreate (void)
-> -@@ -1716,6 +1717,7 @@ FcConfigFileExists (const FcChar8 *dir, const FcChar8 *file)
-> - {
-> -     FcChar8    *path;
-> -     int         size, osize;
-> -+    FcChar8    *sysroot = _FcConfigSysRoot;
-> - 
-> -     if (!dir)
-> - 	dir = (FcChar8 *) "";
-> -@@ -1747,6 +1749,19 @@ FcConfigFileExists (const FcChar8 *dir, const FcChar8 *file)
-> -     strcat ((char *) path, (char *) file);
-> - 
-> -     FcMemAlloc (FC_MEM_STRING, osize);
-> -+
-> -+    if (sysroot &&
-> -+            strncmp ((const char*) sysroot, (const char*) path,
-> -+                    strlen ((const char *) sysroot)))
-> -+    {
-> -+        FcChar8 *new_path = FcStrPlus (sysroot, path);
-> -+        FcStrFree (path);
-> -+        if (!new_path)
-> -+            return 0;
-> -+
-> -+        path = new_path;
-> -+    }
-> -+
-> -     if (access ((char *) path, R_OK) == 0)
-> - 	return path;
-> - 
-> -@@ -2217,6 +2232,43 @@ FcConfigAcceptFont (FcConfig	    *config,
-> - 	return FcFalse;
-> -     return FcTrue;
-> - }
-> -+
-> -+
-> -+FcPublic FcChar8 *
-> -+FcConfigSetSysRoot (const FcChar8 *sysroot)
-> -+{
-> -+    FcChar8 *old_sysroot, *new_sysroot;
-> -+
-> -+    if (!sysroot)
-> -+	return NULL;
-> -+
-> -+    new_sysroot = FcStrCopyFilename(sysroot);
-> -+    if (!new_sysroot)
-> -+	return NULL;
-> -+
-> -+    old_sysroot = _FcConfigSysRoot;
-> -+
-> -+    if (old_sysroot &&
-> -+	    !strcmp ((const char *) new_sysroot, (const char *) old_sysroot))
-> -+    {
-> -+	FcStrFree (new_sysroot);
-> -+	return old_sysroot;
-> -+    }
-> -+
-> -+    _FcConfigSysRoot = new_sysroot;
-> -+
-> -+    if (old_sysroot)
-> -+	FcStrFree (old_sysroot);
-> -+
-> -+    return new_sysroot;
-> -+}
-> -+
-> -+FcPublic FcChar8 *
-> -+FcConfigGetSysRoot (void)
-> -+{
-> -+    return _FcConfigSysRoot;
-> -+}
-> -+
-> - #define __fccfg__
-> - #include "fcaliastail.h"
-> - #undef __fccfg__
-> -diff --git a/src/fcfreetype.c b/src/fcfreetype.c
-> -index fb2b0f2..c497be5 100644
-> ---- a/src/fcfreetype.c
-> -+++ b/src/fcfreetype.c
-> -@@ -1124,6 +1124,7 @@ FcFreeTypeQueryFace (const FT_Face  face,
-> - 
-> -     FcChar8	    *style = 0;
-> -     int		    st;
-> -+    FcChar8	    *sysroot = FcConfigGetSysRoot();
-> - 
-> -     pat = FcPatternCreate ();
-> -     if (!pat)
-> -@@ -1340,6 +1341,9 @@ FcFreeTypeQueryFace (const FT_Face  face,
-> - 	++nstyle;
-> -     }
-> - 
-> -+    if (sysroot)
-> -+	file += strlen ((const char*) sysroot);
-> -+
-> -     if (!nfamily)
-> -     {
-> - 	FcChar8	*start, *end;
-> -diff --git a/src/fcstr.c b/src/fcstr.c
-> -index 037960d..62ceae6 100644
-> ---- a/src/fcstr.c
-> -+++ b/src/fcstr.c
-> -@@ -1170,6 +1170,8 @@ FcBool
-> - FcStrSetAddFilename (FcStrSet *set, const FcChar8 *s)
-> - {
-> -     FcChar8 *new = FcStrCopyFilename (s);
-> -+
-> -+#ifdef FC_LANG_C
-> -     if (!new)
-> - 	return FcFalse;
-> -     if (!_FcStrSetAppend (set, new))
-> -@@ -1177,6 +1179,31 @@ FcStrSetAddFilename (FcStrSet *set, const FcChar8 *s)
-> - 	FcStrFree (new);
-> - 	return FcFalse;
-> -     }
-> -+#else
-> -+    FcChar8 *full;
-> -+    FcChar8 *sysroot = FcConfigGetSysRoot();
-> -+
-> -+    if (!new)
-> -+	return FcFalse;
-> -+
-> -+    if (sysroot && strncmp ((const char *) sysroot, (const char *) new,
-> -+		strlen ((const char*) sysroot)))
-> -+    {
-> -+	    full = FcStrPlus(sysroot, new);
-> -+	    FcStrFree(new);
-> -+	    if (!full)
-> -+		return FcFalse;
-> -+    }
-> -+    else
-> -+	full = new;
-> -+
-> -+    if (!_FcStrSetAppend (set, full))
-> -+    {
-> -+	FcStrFree (full);
-> -+	return FcFalse;
-> -+    }
-> -+#endif
-> -+
-> -     return FcTrue;
-> - }
-> - 
-> --- 
-> -1.7.9.5
-> -
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig/sysroot-arg.patch b/meta/recipes-graphics/fontconfig/fontconfig/sysroot-arg.patch
-> new file mode 100644
-> index 0000000..abfdbc7
-> --- /dev/null
-> +++ b/meta/recipes-graphics/fontconfig/fontconfig/sysroot-arg.patch
-> @@ -0,0 +1,32 @@
-> +Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=72044]
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +
-> +From f2ade764cc9f009e1fe25b856b24b7695f66a952 Mon Sep 17 00:00:00 2001
-> +From: Ross Burton <ross.burton@intel.com>
-> +Date: Tue, 26 Nov 2013 17:18:25 +0000
-> +Subject: [PATCH] fc-cache: --sysroot option takes an argument
-> +
-> +The getopt_long option definitions say that sysroot doesn't take an argument,
-> +when it in fact does.
-> +
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +---
-> + fc-cache/fc-cache.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/fc-cache/fc-cache.c b/fc-cache/fc-cache.c
-> +index 27c7513..bf3b6b4 100644
-> +--- a/fc-cache/fc-cache.c
-> ++++ b/fc-cache/fc-cache.c
-> +@@ -67,7 +67,7 @@
-> + const struct option longopts[] = {
-> +     {"force", 0, 0, 'f'},
-> +     {"really-force", 0, 0, 'r'},
-> +-    {"sysroot", 0, 0, 'y'},
-> ++    {"sysroot", required_argument, 0, 'y'},
-> +     {"system-only", 0, 0, 's'},
-> +     {"version", 0, 0, 'V'},
-> +     {"verbose", 0, 0, 'v'},
-> +-- 
-> +1.8.4.4
-> +
-> diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.10.2.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.11.0.bb
-> similarity index 76%
-> rename from meta/recipes-graphics/fontconfig/fontconfig_2.10.2.bb
-> rename to meta/recipes-graphics/fontconfig/fontconfig_2.11.0.bb
-> index 45631ed..48385a3 100644
-> --- a/meta/recipes-graphics/fontconfig/fontconfig_2.10.2.bb
-> +++ b/meta/recipes-graphics/fontconfig/fontconfig_2.11.0.bb
-> @@ -12,22 +12,18 @@ HOMEPAGE = "http://www.fontconfig.org"
->  BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=fontconfig"
->  
->  LICENSE = "MIT-style & MIT & PD"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=dc5b39c592e47a22dbec44855988d2a0 \
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=7a0449e9bc5370402a94c00204beca3d \
->                      file://src/fcfreetype.c;endline=45;md5=5d9513e3196a1fbfdfa94051c09dfc84 \
-> -                    file://src/fccache.c;beginline=1182;endline=1197;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
-> +                    file://src/fccache.c;beginline=1131;endline=1146;md5=754c7b855210ee746e5f0b840fad9a9f"
->  
->  SECTION = "libs"
->  
->  DEPENDS = "expat freetype zlib"
->  
-> -PR = "r1"
-> -
->  SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
-> -           file://Add-sysroot-option-to-fc-cache-and-fc-cat.patch \
-> -          "
-> -
-> -SRC_URI[md5sum] = "025e08b3d7fe45c433de5718e441ed15"
-> -SRC_URI[sha256sum] = "5c3bf994bb6d6303bbf1e641eaa4b431932138dc90de33642e5845e31e1fdfd6"
-> +           file://sysroot-arg.patch"
-> +SRC_URI[md5sum] = "84278204cd7f36adbea7ad8094e039ac"
-> +SRC_URI[sha256sum] = "274c047487b90dacbaa55f4d70b8cdcd556944e7251ce9cf1de442c00a16343b"
->  
->  PACKAGES =+ "fontconfig-utils"
->  FILES_${PN} =+ "${datadir}/xml/*"
-> -- 
-> 1.7.10.4
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
