@@ -1,38 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E6F856B5D9
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 433C06C739
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 02:03:33 +0000 (UTC)
-Received: by mail-ea0-f176.google.com with SMTP id h14so4179897eaj.21
+	Wed, 27 Nov 2013 02:34:36 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id q10so8950578pdj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 18:03:33 -0800 (PST)
+	Tue, 26 Nov 2013 18:34:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Kh0CW6GT96IIKUKcmFVWDi2wAa/rUj/oTG5bJpq77IM=;
-	b=AUYJo5Xvll57ZofbSY0n5fRwgLUi+ol+N3YM2Aiqjp0Al/CtutCVxA1kgfi1j9ctTl
-	GXNXg79GlxD6fxx4FkprsGIbELHfrqqiXc2iBi/vfQaT9Yt0T6FMl0DYL8mfn8GUqfen
-	xvDu7nL7UCBCDVvTbFKVU0G0Y1IQ1caVgA5jgYeLY4ZV7aCSrvY1jtzce1QSWCYzoSwR
-	1MvdElXYlyrjFnEbHoMftSFaDWAwhFmiSk5G1Jgsv32UusD2XwwvyT0xnGD8HpGmXob3
-	z2AvzYAMw3+CxU4bEEdEc7Xab/vBBzO4y1jH/qDHLgR9pRqj6pSINxhlX2bzNu6hh0Ri
-	/McA==
-X-Received: by 10.14.119.1 with SMTP id m1mr179339eeh.39.1385517813203;
-	Tue, 26 Nov 2013 18:03:33 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id b42sm14547561eem.9.2013.11.26.18.03.32
-	for <multiple recipients>
+	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
+	:references:mime-version:content-transfer-encoding:content-type;
+	bh=bMzzeYSIKTsNsbAQh1tTqe1yFoIRZCPeLhuzUFs7riU=;
+	b=F3MhQuhSwJE/K2NV2zCCXnWVCUj+pQ8ua94gRh/7H0zdK1Tg460bpy+IE4PJ3ZuQk1
+	GlUcC+wQcX315P6DpVw+kAJdiceSQHpvCGXFSV52GZ1kC0nGB7+ND30VLgege8xyd+Dm
+	TBJXA47eSQM1BgpV5YpJVOPgdhjJo9YymYCkddL6lJo9KsYSVBvNIQoLf3MFb4ckDgaw
+	VAPkTWdv1aPweVguaZtNI6iIP8wL6rcLjVNaWCOpchC8d9zt85Bs8WYcYvqPAQhHVpGC
+	22mgML0cCYIumhJ5hKBEqv05V9aOJhITOAiOGGj1EAGu6UZQ4v1iNCDHkVcQOWfniWzY
+	Kznw==
+X-Received: by 10.68.175.66 with SMTP id by2mr2534693pbc.172.1385519675707;
+	Tue, 26 Nov 2013 18:34:35 -0800 (PST)
+Received: from yiqingliang-pc.localnet ([49.65.161.88])
+	by mx.google.com with ESMTPSA id
+	wp8sm83988217pbc.26.2013.11.26.18.34.31 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Nov 2013 18:03:32 -0800 (PST)
-Date: Wed, 27 Nov 2013 03:03:36 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-Message-ID: <20131127020336.GO2870@jama>
-References: <72922584.TJuWgrnFYb@yiqingliang-pc>
+	Tue, 26 Nov 2013 18:34:34 -0800 (PST)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 27 Nov 2013 10:26:50 +0800
+Message-ID: <1385519843.Wb3uGFo0b4@yiqingliang-pc>
+User-Agent: KMail/4.11.3 (Linux/3.11.6-1-ARCH; KDE/4.11.3; x86_64; ; )
+In-Reply-To: <20131127020336.GO2870@jama>
+References: <72922584.TJuWgrnFYb@yiqingliang-pc> <20131127020336.GO2870@jama>
 MIME-Version: 1.0
-In-Reply-To: <72922584.TJuWgrnFYb@yiqingliang-pc>
-User-Agent: Mutt/1.5.22 (2013-10-16)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: kernel and boost will recompile every time
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,45 +46,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 02:03:34 -0000
-X-Groupsio-MsgNum: 47657
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NDuspjMMC1Ui5ypn"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Nov 2013 02:34:37 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---NDuspjMMC1Ui5ypn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wednesday, November 27, 2013 03:03:36 AM Martin Jansa wrote:
+> On Wed, Nov 27, 2013 at 09:51:22AM +0800, Yi Qingliang wrote:
+> > Hello.
+> > 
+> > 	I know the kernel will recompile every time for recent update, and I
+> > 
+> > found the boost will also do like that, even I have sstate cache in my own
+> > server.
+> > 
+> > 	How to debug this problem?
+> 
+> kernel rebuilding was fixed few days ago, do you have latest revision?
+> 
+> You can use scripts/sstate-diff-machines.sh to "store" the signatures
+> and then compare them when you notice something unexpectedly rebuilding.
 
-On Wed, Nov 27, 2013 at 09:51:22AM +0800, Yi Qingliang wrote:
-> Hello.
->=20
-> 	I know the kernel will recompile every time for recent update, and I=20
-> found the boost will also do like that, even I have sstate cache in my ow=
-n=20
-> server.
->=20
-> 	How to debug this problem?
+thanks, I will try
 
-kernel rebuilding was fixed few days ago, do you have latest revision?
 
-You can use scripts/sstate-diff-machines.sh to "store" the signatures
-and then compare them when you notice something unexpectedly rebuilding.
+-- 
+Nanjing Jilong
+Yi Qingliang
+niqingliang2003@gmail.com
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---NDuspjMMC1Ui5ypn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlKVUvgACgkQN1Ujt2V2gBwmEQCfbVhqGoEDDns0qbSlBrNF6uM7
-Fi0An3oDGYDbZMzpfRjfM9T8OFQe9g2G
-=ITq0
------END PGP SIGNATURE-----
-
---NDuspjMMC1Ui5ypn--
