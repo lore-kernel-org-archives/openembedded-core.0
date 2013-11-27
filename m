@@ -1,29 +1,25 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <Yue.Tao@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B868A6C73C
+	by mail.openembedded.org (Postfix) with ESMTP id 59CEE6C741
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 07:04:40 +0000 (UTC)
+	Wed, 27 Nov 2013 07:54:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAR74cFk005939
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 26 Nov 2013 23:04:38 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 26 Nov 2013 23:04:37 -0800
-Message-ID: <52959982.2000808@windriver.com>
-Date: Wed, 27 Nov 2013 15:04:34 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAR7sjCL007046
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2013 23:54:45 -0800 (PST)
+Received: from localhost.localdomain (128.224.162.154) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Tue, 26 Nov 2013 23:54:44 -0800
+From: Yue Tao <Yue.Tao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 27 Nov 2013 15:55:40 +0800
+Message-ID: <1385538944-8585-1-git-send-email-Yue.Tao@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1383374625.git.hongxu.jia@windriver.com>	
-	<6e13abdbda165f1e5d7c15b6db6ea11277cde521.1383374625.git.hongxu.jia@windriver.com>
-	<1385468343.11246.2.camel@ted>
-In-Reply-To: <1385468343.11246.2.camel@ted>
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] qemu: add PACKAGECONFIG for vnc, libcurl, nss, uuid, curses, gtk+, libcap-ng
+X-Originating-IP: [128.224.162.154]
+Subject: [PATCH 1/5] file: avoid to handle special character
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,85 +32,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 07:04:41 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Nov 2013 07:54:46 -0000
+Content-Type: text/plain
 
-On 11/26/2013 08:19 PM, Richard Purdie wrote:
-> On Sat, 2013-11-02 at 14:52 +0800, Hongxu Jia wrote:
->> Use PACKAGECONFIG to explicitly address vnc, libcurl, nss, uuid, curses, gtk+,
->> libcap-ng dependencies rather than tested by configure.
->>
->> It avoided potential errors while multiple builds shared a common state_cache.
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-devtools/qemu/qemu.inc | 19 ++++++++++++++++---
->>   1 file changed, 16 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
->> index 1b861d7..be0495a 100644
->> --- a/meta/recipes-devtools/qemu/qemu.inc
->> +++ b/meta/recipes-devtools/qemu/qemu.inc
->> @@ -28,10 +28,9 @@ SRC_URI_append_class-native = "\
->>       file://fix-libcap-header-issue-on-some-distro.patch \
->>       "
->>   
->> -EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls --audio-drv-list=oss,alsa --disable-curl --disable-vnc-jpeg --disable-bluez --with-system-pixman --extra-cflags='${CFLAGS}'"
->> +EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror --audio-drv-list=oss,alsa --disable-bluez --with-system-pixman --extra-cflags='${CFLAGS}'"
->>   
->> -EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror --disable-vnc-tls \
->> -				--disable-curl \
->> +EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
->>   				"
->>   export LIBTOOL="${HOST_SYS}-libtool"
->>   
->> @@ -80,9 +79,23 @@ do_install_append() {
->>   }
->>   # END of qemu-mips workaround
->>   
->> +# Disable the following PACKAGECONFIG varflag by default. Such as graphics is
->> +# disabled for qemu-native, if you need to enable some of them for qemu-native,
->> +# set PACKAGECONFIG_pn-qemu-native += "varflag1 varflag2" in local.conf
->>   PACKAGECONFIG ??= ""
->>   PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
->>   PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
->> +PACKAGECONFIG[vnc-tls] = "--enable-vnc --enable-vnc-tls,--disable-vnc-tls, gnutls,"
->> +PACKAGECONFIG[vnc-ws] = "--enable-vnc --enable-vnc-ws,--disable-vnc-ws, gnutls,"
->> +PACKAGECONFIG[vnc-sasl] = "--enable-vnc --enable-vnc-sasl,--disable-vnc-sasl,cyrus-sasl,"
->> +PACKAGECONFIG[vnc-jpeg] = "--enable-vnc --enable-vnc-jpeg,--disable-vnc-jpeg,jpeg,"
->> +PACKAGECONFIG[vnc-png] = "--enable-vnc --enable-vnc-png,--disable-vnc-png,libpng,"
->> +PACKAGECONFIG[libcurl] = "--enable-curl,--disable-curl,libcurl,"
->> +PACKAGECONFIG[nss] = "--enable-smartcard-nss,--disable-smartcard-nss,nss,"
->> +PACKAGECONFIG[uuid] = "--enable-uuid,--disable-uuid,util-linux,"
->> +PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses,"
->> +PACKAGECONFIG[gtk+] = "--enable-gtk,--disable-gtk,gtk+ libvte,"
->> +PACKAGECONFIG[libcap-ng] = "--enable-cap-ng,--disable-cap-ng,libcap-ng,"
->>   
->>   # Qemu target will not build in world build for ARM or Mips
->>   BROKEN_qemuarm = "1"
-> I merged this however I notice there are "yet more" floating
-> dependencies since sdl is floating (at least).
->
-> For sdl, can we add the PACKAGECONFIG option however also add an entry
-> to local.conf.sample which documents how to enable sdl for qemu-native?
+From: Li Wang <li.wang@windriver.com>
 
-Got it, I will work on it.
+avoid to handle special character '@' in filename and directory.
 
-//Hongxu
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ .../file/file/avoid_handle_special_character.patch |   36 ++++++++++++++++++++
+ meta/recipes-devtools/file/file_5.15.bb            |    1 +
+ 2 files changed, 37 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/file/file/avoid_handle_special_character.patch
 
-
-> I suspect that is the option most people are using to make runqemu
-> useful. We may also want to have the option of assuming libsdl-native is
-> provided since otherwise we end up in the tangled world of GL support
-> and we don't want to build our own libsdl-native in most cases.
->
-> Cheers,
->
-> Richard
->
->
->
->
+diff --git a/meta/recipes-devtools/file/file/avoid_handle_special_character.patch b/meta/recipes-devtools/file/file/avoid_handle_special_character.patch
+new file mode 100644
+index 0000000..4be4ad0
+--- /dev/null
++++ b/meta/recipes-devtools/file/file/avoid_handle_special_character.patch
+@@ -0,0 +1,36 @@
++--- a/doc/Makefile.am
+++++ b/doc/Makefile.am
++@@ -12,21 +12,21 @@
++ 
++ file.1:	Makefile file.man
++ 	@rm -f $@
++-	sed -e s@__CSECTION__@1@g \
++-	    -e s@__FSECTION__@${fsect}@g \
++-	    -e s@__VERSION__@${VERSION}@g \
++-	    -e s@__MAGIC__@${MAGIC}@g $(srcdir)/file.man > $@
+++	sed -e s#__CSECTION__#1#g \
+++	    -e s#__FSECTION__#${fsect}#g \
+++	    -e s#__VERSION__#${VERSION}#g \
+++	    -e s#__MAGIC__#${MAGIC}#g $(srcdir)/file.man > $@
++ 
++ magic.${fsect}: Makefile magic.man
++ 	@rm -f $@
++-	sed -e s@__CSECTION__@1@g \
++-	    -e s@__FSECTION__@${fsect}@g \
++-	    -e s@__VERSION__@${VERSION}@g \
++-	    -e s@__MAGIC__@${MAGIC}@g $(srcdir)/magic.man > $@
+++	sed -e s#__CSECTION__#1#g \
+++	    -e s#__FSECTION__#${fsect}#g \
+++	    -e s#__VERSION__#${VERSION}#g \
+++	    -e s#__MAGIC__#${MAGIC}#g $(srcdir)/magic.man > $@
++ 
++ libmagic.3: Makefile libmagic.man
++ 	@rm -f $@
++-	sed -e s@__CSECTION__@1@g \
++-	    -e s@__FSECTION__@${fsect}@g \
++-	    -e s@__VERSION__@${VERSION}@g \
++-	    -e s@__MAGIC__@${MAGIC}@g $(srcdir)/libmagic.man > $@
+++	sed -e s#__CSECTION__#1#g \
+++	    -e s#__FSECTION__#${fsect}#g \
+++	    -e s#__VERSION__#${VERSION}#g \
+++	    -e s#__MAGIC__#${MAGIC}#g $(srcdir)/libmagic.man > $@
+diff --git a/meta/recipes-devtools/file/file_5.15.bb b/meta/recipes-devtools/file/file_5.15.bb
+index aecbbe5..0697838 100644
+--- a/meta/recipes-devtools/file/file_5.15.bb
++++ b/meta/recipes-devtools/file/file_5.15.bb
+@@ -12,6 +12,7 @@ DEPENDS = "zlib file-native"
+ DEPENDS_class-native = "zlib-native"
+ 
+ SRC_URI = "ftp://ftp.astron.com/pub/file/file-${PV}.tar.gz \
++           file://avoid_handle_special_character.patch \
+            file://dump \
+            file://filesystems"
+ 
+-- 
+1.7.5.4
 
 
