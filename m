@@ -1,37 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 72F916CCF0
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A0E06D86B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2013 01:53:38 +0000 (UTC)
-Received: by mail-ea0-f181.google.com with SMTP id m10so4168172eaj.40
+	Wed, 27 Nov 2013 01:59:05 +0000 (UTC)
+Received: by mail-pd0-f178.google.com with SMTP id y10so8796821pdj.23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2013 17:53:37 -0800 (PST)
+	Tue, 26 Nov 2013 17:59:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=WFx3yU/X9uHvKowTrtVmWIMvNKge7+F7xVgLbigsrmY=;
-	b=JhJOhifdUf9jdtZdTHEjqjl7NCywObXjrz5At6AmBmpvVeHolbbcMjXBkGLDOmup+e
-	7De5Cfj5ikynkn8CqytWhoikskCe+GlpvNzHwGZLELwEbE/fN2fldruz2gptdxPh4RRO
-	CgmVVayV4esyUnq6s+LB03EZMrKDu7WfYuVkVx610mVJG4MjpBDuhbaZCW5uahH/Sdzp
-	zsP+o5yjl+dzyZAS8ddRhf4FtqF0VTTUmeUA5VLMGsdw8tSFcrl9sQ/Rx3XzH2NOTUOF
-	dYOJt2Gl9p92mQs1V8v2E9bkuPQLjy2oXmYgCyk6XGI34aqoZ4AhNTWLVE+f3tWQPc7/
-	FJFw==
-X-Received: by 10.14.221.3 with SMTP id q3mr42020eep.127.1385517217585;
-	Tue, 26 Nov 2013 17:53:37 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id g1sm14522718eew.1.2013.11.26.17.53.36
-	for <multiple recipients>
+	h=from:to:subject:date:message-id:user-agent:mime-version
+	:content-transfer-encoding:content-type;
+	bh=qzi8BfOkGFeaq2MhG+vB2XnLsMAzBlz3SpsFfqKYf9o=;
+	b=txmeX857NgsEr84GHS1JAJyHR+twN4i26d830LT1hOwj7Z2clxFAQ63iOeEepwl9SR
+	nUndQ00Zufik2hZo0CZuQt5FOn1R7i0Nuh+CYl2gHlikP00nz6BIJ4fRCNEzXcJt5xPj
+	1rm5NrLd+G4pnNBeofm7DUuRBx++0sFw23xj8A0L+S+VX1+0+dCB0uU1XBCr7VXoREIB
+	2s42o/YMQLgOP8cW5lx68DwZvOEGv+Dzv6y5WzNTpHU7s67CkeaoYYjNfTSiXXIryx7W
+	liWTgNGBBIWZMuNC7pcKNyctKbCLMVggT/iu/S6J4QgsrjgUncO4QBkRtb7osTBB5zJz
+	gscA==
+X-Received: by 10.68.91.3 with SMTP id ca3mr2513290pbb.20.1385517544544;
+	Tue, 26 Nov 2013 17:59:04 -0800 (PST)
+Received: from yiqingliang-pc.localnet ([49.65.161.88])
+	by mx.google.com with ESMTPSA id ki1sm83863319pbd.1.2013.11.26.17.59.01
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Nov 2013 17:53:36 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 26 Nov 2013 17:59:03 -0800 (PST)
+From: Yi Qingliang <niqingliang2003@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Nov 2013 02:53:39 +0100
-Message-Id: <1385517219-2384-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.4.3
-In-Reply-To: <1385517143-2228-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1385517143-2228-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [meta-oe][PATCHv2] icecc: Disable icecc for allarch recipes
+Date: Wed, 27 Nov 2013 09:51:22 +0800
+Message-ID: <72922584.TJuWgrnFYb@yiqingliang-pc>
+User-Agent: KMail/4.11.3 (Linux/3.11.6-1-ARCH; KDE/4.11.3; x86_64; ; )
+MIME-Version: 1.0
+Subject: kernel and boost will recompile every time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2013 01:53:39 -0000
+X-List-Received-Date: Wed, 27 Nov 2013 01:59:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-* Fix icecc.bbclass failing with:
-  ERROR: recipe-name NULL prefix
-  when it's used with empty TARGET_PREFIX.
-* Allarch recipes cannot use compiler at all (even the local one)
-  so there is no point of using icecc for them.
+Hello.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/icecc.bbclass | 8 ++++++++
- 1 file changed, 8 insertions(+)
+	I know the kernel will recompile every time for recent update, and I 
+found the boost will also do like that, even I have sstate cache in my own 
+server.
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 49dbd77..ef8761a 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -90,6 +90,10 @@ def create_path(compilers, bb, d):
-     return staging
- 
- def use_icc(bb,d):
-+    # allarch recipes don't use compiler
-+    if icc_is_allarch(bb, d):
-+        return "no"
-+
-     package_tmp = d.expand('${PN}')
- 
-     system_class_blacklist = [ "none" ] 
-@@ -124,6 +128,10 @@ def use_icc(bb,d):
- 
-     return "yes"
- 
-+def icc_is_allarch(bb, d):
-+    return \
-+        bb.data.inherits_class("allarch", d);
-+
- def icc_is_kernel(bb, d):
-     return \
-         bb.data.inherits_class("kernel", d);
+	How to debug this problem?
+
+
 -- 
-1.8.4.3
-
+Nanjing Jilong
+Yi Qingliang
+niqingliang2003@gmail.com
 
