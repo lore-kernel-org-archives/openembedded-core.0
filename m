@@ -1,35 +1,22 @@
-Return-Path: <mburtin@gmail.com>
-Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
-	[74.125.82.172])
-	by mail.openembedded.org (Postfix) with ESMTP id EF0A36D75C
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 35FF16D7D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2013 11:10:19 +0000 (UTC)
-Received: by mail-we0-f172.google.com with SMTP id w62so2395115wes.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2013 03:10:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=3YVpwHVyJudFpzErDH5h+VeNITXOEniKTdbjbYaowzI=;
-	b=sok2zeVp64hag2ewRgw/59bvEAJHRjnIrrJ8slr+iWVgFEqjSLvinMqej39OPrRYp6
-	W+a8LsxT8JNOqSFeRe62Yp14A+xqegXgNg89NUvXyIyxbtmHmrxng/0oNlMUYuwf7SEJ
-	OBFXcDy3A62Lj5UG/dHw8m0wOtayKWknNe6aPUuB8VdSWU5+gFUZP0jULbqu/Vmsw8ca
-	VT7G/gkKxeI3Of2/XKFMQ2EXcsg1F86syNYGjGdHh1WsMY3b4XHozRzh/hjLCf9JnJaW
-	3hXAfroIrDtrV3RX8FLXn69vAgBOGUK019Ctb3WXff0uuImVF7mp4fKrvap7vyGpBhnc
-	w4Ng==
-X-Received: by 10.180.85.42 with SMTP id e10mr1983934wiz.1.1385637018948;
-	Thu, 28 Nov 2013 03:10:18 -0800 (PST)
-Received: from mburtin-desktop.mpl.mstarsemi.fr ([94.103.137.126])
-	by mx.google.com with ESMTPSA id g16sm40067273wiw.6.2013.11.28.03.10.16
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 28 Nov 2013 03:10:18 -0800 (PST)
-Sender: =?UTF-8?Q?Micha=C3=ABl_Burtin?= <mburtin@gmail.com>
-From: =?UTF-8?q?Micha=C3=ABl=20Burtin?= <michael.burtin@innotis.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Nov 2013 12:10:02 +0100
-Message-Id: <1385637002-15201-1-git-send-email-michael.burtin@innotis.org>
-X-Mailer: git-send-email 1.8.4.2
-Subject: [PATCH] kernel.bbclass: allow customization of initramfs image symlink name
+	Thu, 28 Nov 2013 12:48:10 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
+	Thu, 28 Nov 2013 13:48:06 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 5944E28508B;
+	Thu, 28 Nov 2013 13:48:06 +0100 (CET)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Nov 2013 13:48:05 +0100
+Message-ID: <1385642885-25407-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] kmod: avoid parallel-tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +29,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Nov 2013 11:10:20 -0000
+X-List-Received-Date: Thu, 28 Nov 2013 12:48:11 -0000
+Content-Type: text/plain
 
-Allow customization of symlink created when kernel contains an initramfs
-image using INITRAMFS_SYMLINK_NAME variable.
+buildtest-TESTS and runtest-TESTS targets are required by ptest.
+In order to have those targets in automake 1.13.4, serial-tests
+should be specified since parallel test is assumed by default
+and serial-tests is optional.
+
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 ---
- meta/classes/kernel.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/kmod/kmod.inc                  |    2 +-
+ .../kmod/kmod/avoid_parallel_tests.patch           |   21 ++++++++++++++++++++
+ .../kmod/kmod/remove_parallel_tests.patch          |   18 -----------------
+ 3 files changed, 22 insertions(+), 19 deletions(-)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
+ delete mode 100644 meta/recipes-kernel/kmod/kmod/remove_parallel_tests.patch
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 4974507..2ceb176 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -118,6 +118,7 @@ copy_initramfs() {
- }
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index 8a18547..f8d5bac 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -23,7 +23,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
+            file://depmod-search.conf \
+            file://run-ptest \
+            file://ptest.patch \
+-           file://remove_parallel_tests.patch \
++           file://avoid_parallel_tests.patch \
+            file://fix-seperatebuilddir.patch \
+           "
  
- INITRAMFS_BASE_NAME = "${KERNEL_IMAGETYPE}-initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
-+INITRAMFS_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}-initramfs-${MACHINE}"
- INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
- do_bundle_initramfs () {
- 	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-@@ -474,7 +475,7 @@ kernel_do_deploy() {
- 	if [ -e "${KERNEL_OUTPUT}.initramfs" ]; then
- 		echo "Copying deploy kernel-initramfs image and setting up links..."
- 		initramfs_base_name=${INITRAMFS_BASE_NAME}
--		initramfs_symlink_name=${KERNEL_IMAGETYPE}-initramfs-${MACHINE}
-+		initramfs_symlink_name=${INITRAMFS_SYMLINK_NAME}
- 		install -m 0644 ${KERNEL_OUTPUT}.initramfs ${DEPLOYDIR}/${initramfs_base_name}.bin
- 		cd ${DEPLOYDIR}
- 		ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
+diff --git a/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
+new file mode 100644
+index 0000000..4c37d44
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/avoid_parallel_tests.patch
+@@ -0,0 +1,21 @@
++Avoid parallel-tests as it remove
++buildtest-TESTS and runtest-TESTS targets required by ptest.
++In automake 1.13.4 parallel-tests is assumed by defauls.
++In order to have buildtest-TESTS and runtest-TESTS targets
++serial-tests is now required
++
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
++Upstream-Status: Inappropriate (disable feature incompatible with ptest) 
++
++diff -ruN a/configure.ac b/configure.ac
++--- a/configure.ac	2013-09-02 15:05:18.662366800 +0200
+++++ b/configure.ac	2013-11-28 09:26:49.557066764 +0200
++@@ -8,7 +8,7 @@
++ AC_CONFIG_SRCDIR([libkmod/libkmod.c])
++ AC_CONFIG_AUX_DIR([build-aux])
++ AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules
++-	tar-pax no-dist-gzip dist-xz subdir-objects color-tests parallel-tests])
+++	tar-pax no-dist-gzip dist-xz subdir-objects color-tests serial-tests])
++ AC_PROG_CC_STDC
++ AC_USE_SYSTEM_EXTENSIONS
++ AC_SYS_LARGEFILE
+diff --git a/meta/recipes-kernel/kmod/kmod/remove_parallel_tests.patch b/meta/recipes-kernel/kmod/kmod/remove_parallel_tests.patch
+deleted file mode 100644
+index ee19428..0000000
+--- a/meta/recipes-kernel/kmod/kmod/remove_parallel_tests.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Avoid parallel-tests as it remove
+-buildtest-TESTS and runtest-TESTS targets
+-
+-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+-Upstream-Status: Inappropriate (disable feature incompatible with ptest) 
+-
+-diff -ruN a/configure.ac b/configure.ac
+---- a/configure.ac	2013-09-02 15:05:18.662366800 +0200
+-+++ b/configure.ac	2013-09-02 15:05:49.557066764 +0200
+-@@ -8,7 +8,7 @@
+- AC_CONFIG_SRCDIR([libkmod/libkmod.c])
+- AC_CONFIG_AUX_DIR([build-aux])
+- AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules
+--	tar-pax no-dist-gzip dist-xz subdir-objects color-tests parallel-tests])
+-+	tar-pax no-dist-gzip dist-xz subdir-objects color-tests])
+- AC_PROG_CC_STDC
+- AC_USE_SYSTEM_EXTENSIONS
+- AC_SYS_LARGEFILE
 -- 
-1.8.4.2
+1.7.10.4
 
 
