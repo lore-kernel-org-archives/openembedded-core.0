@@ -1,28 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 18E9C6B0F3
+	by mail.openembedded.org (Postfix) with ESMTP id BB0766CC79
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 12:16:42 +0000 (UTC)
+	Fri, 29 Nov 2013 12:47:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rATCGfiE027625
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rATCls4R028273
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 04:16:41 -0800 (PST)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Fri, 29 Nov 2013 04:16:41 -0800
-Message-ID: <529885CA.7090009@windriver.com>
-Date: Fri, 29 Nov 2013 20:17:14 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
+	Fri, 29 Nov 2013 04:47:54 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 29 Nov 2013 04:47:54 -0800
+From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1385727181.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1385727181.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.213]
-Subject: Re: [PATCH V2 0/1] busybox: add busybox_git.bb recipe
+Date: Fri, 29 Nov 2013 20:48:10 +0800
+Message-ID: <d5a0e5c7f545d4f5b67959e144179a79036304bc.1385728901.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1385728901.git.Qi.Chen@windriver.com>
+References: <cover.1385728901.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 02/18] apr: make the dev package rdepend on bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2013 12:16:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Nov 2013 12:47:55 -0000
+Content-Type: text/plain
 
-Please ignore V2 of this patch.
-I sent out the some backup files by accident.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Sorry for the inconvenience.
+Make apr-dev explicitly rdepend on bash so that the rootfs task will
+not fail for the reason of implicit runtime bash dependency.
 
-//Chen Qi
+[YOCTO #5555]
 
-On 11/29/2013 08:14 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> The following changes since commit 32adaac34a614d106e6dd3e9f1130f4e94ff39ae:
->
->    libpng: set reasonable SUMMARY (2013-11-27 11:51:25 +0000)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib ChenQi/busybox-git
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/busybox-git
->
-> Chen Qi (1):
->    busybox: add busybox_git.bb recipe
->
->   .../busybox-appletlib-dependency.patch             |    0
->   ...usybox-list-suid-and-non-suid-app-configs.patch |    0
->   ...sybox-sed-fix-sed-clusternewline-testcase.patch |    0
->   .../busybox-sulogin-empty-root-password.patch      |    0
->   .../busybox-udhcpc-no_deconfig.patch               |    0
->   .../busybox/{busybox-1.21.1 => busybox}/defconfig  |    0
->   .../fail_on_no_media.patch                         |    0
->   .../get_header_tar.patch                           |    0
->   .../login-utilities.cfg                            |    0
->   .../run-parts.in.usr-bin.patch                     |    0
->   .../{busybox-1.21.1 => busybox}/stat-usr-bin.patch |    0
->   ...estsuite-du-du-k-works-fix-false-positive.patch |    0
->   .../watch.in.usr-bin.patch                         |    0
->   meta/recipes-core/busybox/busybox_git.bb           |   53 ++++++++++++++++++++
->   14 files changed, 53 insertions(+)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/busybox-appletlib-dependency.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/busybox-list-suid-and-non-suid-app-configs.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/busybox-sed-fix-sed-clusternewline-testcase.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/busybox-sulogin-empty-root-password.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/busybox-udhcpc-no_deconfig.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/defconfig (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/fail_on_no_media.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/get_header_tar.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/login-utilities.cfg (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/run-parts.in.usr-bin.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/stat-usr-bin.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/testsuite-du-du-k-works-fix-false-positive.patch (100%)
->   rename meta/recipes-core/busybox/{busybox-1.21.1 => busybox}/watch.in.usr-bin.patch (100%)
->   create mode 100644 meta/recipes-core/busybox/busybox_git.bb
->
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-support/apr/apr_1.4.8.bb |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/apr/apr_1.4.8.bb b/meta/recipes-support/apr/apr_1.4.8.bb
+index d834170..0b4c2d9 100644
+--- a/meta/recipes-support/apr/apr_1.4.8.bb
++++ b/meta/recipes-support/apr/apr_1.4.8.bb
+@@ -29,6 +29,7 @@ do_configure_prepend() {
+ 	./buildconf
+ }
+ 
++RDEPENDS_${PN}-dev += "bash"
+ FILES_${PN}-dev += "${libdir}/apr.exp ${datadir}/build-1/*"
+ 
+ #for some reason, build/libtool.m4 handled by buildconf still be overwritten
+-- 
+1.7.9.5
 
 
