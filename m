@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f46.google.com (mail-vb0-f46.google.com
-	[209.85.212.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 68E646A596
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D77D26A596
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 12:05:10 +0000 (UTC)
-Received: by mail-vb0-f46.google.com with SMTP id i12so6524943vbh.19
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 04:05:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=J/U2pYnmJecatfu286XQ30ZH00RWc5zkmbB5+6pGdAs=;
-	b=dqMoke2p8iB49Xo6CSFZ7B/7nr/30OLbXxfZ7UrpwyKn9M4NEKv7ZapEc6YfCYagMF
-	N/YNWg+5ICQPX0MUs+AJZE4iQMb97Skp0waBjnRSCA2w7wx0eOcD57aLDPfjMIxVw6jI
-	0C367dlWurJGjPaxh4mMTW5SCvpw5VvibjLyraoagGhkevuFM0fcurmXMrIKn5SaDA6h
-	w8VbwFAGQTQjSMRpV65o4zJXm+PaOKZmAWKzzJDTrX/EyAm0MZnyAZJeeI2M2NiWzAfr
-	6QXsNuFEdXjEKlk/yiwS3wpX24wrYd1oiTkusLHe5PTAVbz43WTiGDEzrr6oL8jMeb4z
-	ooBg==
-X-Gm-Message-State: ALoCoQlKSU20aIlj+Ps1jW6v4+oCVTV9KL7q6NOWTim8LIo4JzUIThfeLxNZ/mqZx2N0FHinRKYX
-X-Received: by 10.52.28.6 with SMTP id x6mr985328vdg.3.1385726709132; Fri, 29
-	Nov 2013 04:05:09 -0800 (PST)
+	Fri, 29 Nov 2013 12:07:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rATC78Ww027408
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 29 Nov 2013 04:07:08 -0800 (PST)
+Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Fri, 29 Nov 2013 04:07:09 -0800
+Message-ID: <5298838D.4060204@windriver.com>
+Date: Fri, 29 Nov 2013 20:07:41 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 29 Nov 2013 04:04:49 -0800 (PST)
-In-Reply-To: <b47acc0003f5c8d6e963da9edcf910951bcbe7be.1385725803.git.Qi.Chen@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1385725803.git.Qi.Chen@windriver.com>
 	<b47acc0003f5c8d6e963da9edcf910951bcbe7be.1385725803.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 29 Nov 2013 12:04:49 +0000
-Message-ID: <CAJTo0Lbcs4d8q+ujMAsaais9vDjJ9iSh=1B_fyf7_tpHLV8xjw@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
+	<CAJTo0Lbcs4d8q+ujMAsaais9vDjJ9iSh=1B_fyf7_tpHLV8xjw@mail.gmail.com>
+In-Reply-To: <CAJTo0Lbcs4d8q+ujMAsaais9vDjJ9iSh=1B_fyf7_tpHLV8xjw@mail.gmail.com>
+X-Originating-IP: [128.224.162.213]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] busybox: add busybox_git.bb recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,14 +37,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2013 12:05:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 29 Nov 2013 12:07:11 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 29 November 2013 11:56,  <Qi.Chen@windriver.com> wrote:
-> +PREFERRED_VERSION_busybox ?= "1.21.1"
+On 11/29/2013 08:04 PM, Burton, Ross wrote:
+> On 29 November 2013 11:56,  <Qi.Chen@windriver.com> wrote:
+>> +PREFERRED_VERSION_busybox ?= "1.21.1"
+> A better long-term solution is to set DEFAULT_PREFERENCE="-1" in the
+> git recipe itself.
+>
+> Ross
+>
+>
 
-A better long-term solution is to set DEFAULT_PREFERENCE="-1" in the
-git recipe itself.
+Thanks!
 
-Ross
+I'll send out a V2 :)
+
+Best Regards,
+Chen Qi
 
