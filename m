@@ -1,23 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 79D4C6CC79
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 188586CC79
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 15:58:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 29 Nov 2013 07:58:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,798,1378882800"; d="scan'208";a="444190301"
-Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.121.192])
-	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2013 07:58:32 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Date: Fri, 29 Nov 2013 15:58:31 +0000
-Message-ID: <2455395.bHzIGNWoWP@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+	Fri, 29 Nov 2013 16:32:02 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id va2so10072244obc.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Nov 2013 08:32:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=z0NvlYffVaWd5vaIX+naGXzVHlLaksxQ2HJmEZ2O2m0=;
+	b=kKLt/gBKx1bVYN4fBwoxNxMEly/pnTClNOohARgWvlYsx3yQIK3TVXpWI1o/22WNez
+	19f2FC4fihxIyjC4Xo7e/IkFGeLy4BCBbiePsob8t3M5gvy1ZHPo2W1F/rx2cTVLvuSp
+	CpjU3yng1v1yRrWJI6PONDuQCRnCkh5jyh23tK4f0hK3ZqT8+ySqKxETGMK3ESaLqCVs
+	R/t195ZCL9Eezufrd5OZImkMVj4FtF/t5h6Q1zG9HZAlMxJdTgn6tBkieIvRsUbWVk66
+	LBH2pi8VVptNyKqtnVNuvwx5DFJ7jQYf7d15FAWfjDnHxs2SLgV7B7/zh2IR4U/mNe9z
+	oE7w==
+X-Gm-Message-State: ALoCoQm7++hUHB2Bycm98bJq2CkC/86SAg2lRPEPNiitCRT3olCblFGPgO1Xis43jkJ8gH01eDE7
+X-Received: by 10.60.134.14 with SMTP id pg14mr2388610oeb.66.1385742721117;
+	Fri, 29 Nov 2013 08:32:01 -0800 (PST)
 MIME-Version: 1.0
-Subject: Automated testing on real hardware
+Received: by 10.76.0.50 with HTTP; Fri, 29 Nov 2013 08:31:40 -0800 (PST)
+In-Reply-To: <2455395.bHzIGNWoWP@helios>
+References: <2455395.bHzIGNWoWP@helios>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 29 Nov 2013 17:31:40 +0100
+Message-ID: <CAP71Wjy9-8pkU0bLKsn5L-SFDFeidW56ZEuLV25geN1_7ykgHA@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Yocto list discussion <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Automated testing on real hardware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,192 +45,225 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2013 15:58:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 29 Nov 2013 16:32:02 -0000
+Content-Type: multipart/alternative; boundary=047d7b472868a481db04ec535e11
 
-Hi folks,
+--047d7b472868a481db04ec535e11
+Content-Type: text/plain; charset=ISO-8859-1
 
-(warning - long email ahead)
-
-As I've talked about recently, one of the things I'm looking into at the 
-moment is how to do automated QA for Yocto Project releases on real hardware. 
-The Yocto Project QA team does tests on the supported reference platforms for 
-each architecture for every release; however this is currently done manually, 
-which takes quite a long time as you might imagine. In the recent 1.5 (dora) 
-release we've added the ability to define tests to run on the target, but that 
-was limited to booting images within QEMU and running the tests there; we now 
-want to extend this to run the same tests on real hardware.
-
-What it really boils down to is a small set of key requirements:
-
-* The ability to deploy a recently built kernel + image on the hardware and 
-then boot it.
-
-* The ability to obtain a channel through which we can run our existing tests; 
-i.e. we don't need a new test harness.
-
-* The image under test must be unmodified. We should be able to test the 
-"production" images as they are currently produced by our autobuilder.
-
-I've looked at a couple of existing automated test frameworks, and my findings 
-are summarised below.
-
-LAVA
------
-
-A number of people had suggested I look at LAVA [1]. It is split into different 
-components for each function, some of which should be usable independently so 
-you don't have to use the entire framework. Many of the components could be 
-useful assuming they are independent, but in terms of being able to actually 
-run our tests, the one that stands out as being most relevant is lava-
-dispatcher. This is the component that deploys images, and boots the hardware 
-in order to run the tests.
-
-I've looked at lava-dispatcher a couple of times; firstly at the code, and 
-yesterday I looked at actually running it. Initially it looked very promising 
-- reasonably licensed, written in Python, has some rudimentary support for OE 
-images. However while looking at it I found the following:
-
-* It requires root to run, since it mounts the images temporarily and modifies 
-the contents. We've done quite a lot to avoid having to run as root in OE, so 
-this is a hard sell.
-
-* It expects images to be created by linaro-media-create, which in turn 
-requires an "hwpack" [2]. The hwpack concept seems primarily geared to Ubuntu 
-and distributions like it where you'd have a generic base image upon which 
-you'd install some board-specific packages in order to make it work on the 
-board. OE doesn't work that way - we just build images specific to the board, 
-which makes this mechanism completely superfluous for our usage; but the tool 
-appears to require it.
-
-* There is a general lack of abstraction and far too much hardcoding. For 
-example, even at the most abstract level, the "Target" class (which is the 
-base class for defining what to do for different types of targets) has hardcoded 
-deploy_linaro / deploy_android functions:
-
-https://git.linaro.org/gitweb?p=lava/lava-dispatcher.git;a=blob;f=lava_dispatcher/device/target.py
-
-* It's not clear to me how well it will work across different host 
-distributions that we want to support; the main LAVA installer quits if it 
-isn't run on Ubuntu. For convenience I happened to be using an Ubuntu VM, and 
-I wasn't running the full installer so I avoided this check altogether. It 
-just concerns me that such a check would even be there.
-
-Of course, none of these problems are impossible to overcome, if we're 
-prepared to put a significant amount of engineering into resolving them. In 
-terms of enabling the Yocto Project QA team to test images on real hardware in 
-the 1.6 development cycle however, I don't believe this is going to be 
-deliverable.
-
-Autotest
-----------
-
-I've also been pointed to Autotest [3]. It initially looked quite promising as 
-well - it's simpler than LAVA, and as with LAVA it's reasonably licensed and 
-written in Python so it's familiar and easy for us to extend. I found the 
-following limitations though:
-
-* Unlike LAVA it's not split into components; the whole thing comes in one 
-piece, and most interaction with it is through the web interface. However, it 
-does have an RPC interface for starting jobs and a command-line client for 
-same.
-
-* It's not really geared to running tests on unmodified images. It normally 
-expects to have its client, which requires Python, running on the target 
-hardware. We can't have this in all images we build. Server-side control files 
-could work in that they will allow you to just run commands over ssh to the 
-target without requiring the client to be installed; however, annoyingly 
-Autotest still insists on "verifying" and "repairing" the client on the target 
-machine for every job even if it's not needed to execute the job, unless you 
-set the host as "protected" in the host record for the machine.
-
-* Unfortunately, it has no actual support for deploying the test image on the 
-device in the absence of the client; even with the client this is largely left 
-to the user to define.
-
-So Autotest might be usable as a frontend, but we'd have to write the 
-deployment code for it to be useful. Overall it did seem to me to be both a 
-little bit more flexible and easier to understand than LAVA, but then it's 
-trying to do a fair bit less.
-
-Other
--------
-
-I've heard from a couple of people who offered to open source their existing 
-internal test frameworks. Unfortunately neither of them have done this yet so 
-I haven't been able to look at them properly, and time in the 1.6 cycle is 
-running out.
+Paul,
 
 
-Conclusion
-------------
+On Fri, Nov 29, 2013 at 4:58 PM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
 
-So where to from here? We don't seem to have anything we can immediately use 
-for 1.6 as far as the deployment goes, and that's the bit we need the most. 
-Thus, I propose that we write some basic code to do the deployment, and extend 
-our currently QEMU-based testing code to enable the tests to be exported and 
-run anywhere. The emphasis will be on keeping things simple, and leaving the 
-door open to closer integration with framework(s) in the future.
+> LAVA
+> -----
+>
+> A number of people had suggested I look at LAVA [1]. It is split into
+> different
+> components for each function, some of which should be usable independently
+> so
+> you don't have to use the entire framework. Many of the components could be
+> useful assuming they are independent, but in terms of being able to
+> actually
+> run our tests, the one that stands out as being most relevant is lava-
+> dispatcher. This is the component that deploys images, and boots the
+> hardware
+> in order to run the tests.
+>
+> I've looked at lava-dispatcher a couple of times; firstly at the code, and
+> yesterday I looked at actually running it. Initially it looked very
+> promising
+> - reasonably licensed, written in Python, has some rudimentary support for
+> OE
+> images. However while looking at it I found the following:
+>
+> * It requires root to run, since it mounts the images temporarily and
+> modifies
+> the contents. We've done quite a lot to avoid having to run as root in OE,
+> so
+> this is a hard sell.
+>
 
-The approach I'm looking at is to have a bootloader + "master" image pre-
-deployed onto the device, with a separate partition for the test image. We 
-reset the hardware, boot into the master image, send over the test image to be 
-deployed, then reboot and tell the bootloader to boot into the test image. (I 
-had considered using root-over-NFS which simplifies deployment, but this 
-creates difficulties in other areas e.g. testing networking.)
+i have forwarded this email to the relevant people in Linaro working on
+LAVA. I hope to be able to bring more information about that, as I am not
+involved with LAVA, just a 'user' of it. By 'root' here, you mean on the
+server side, e.g. the LAVA instance, which will typically not be the
+'builder', or do you want to couple build and test on the same 'server'?
+LAVA jobs are generally submitted by a CI instance (Jenkins in our case).
 
-Breaking it down into individual work items, with time estimates:
 
-1) Abstract out the deployment of the image and running the tests so that it 
-can involve targets other than QEMU. This had to be done anyway, so Stefan 
-Stanacar has gone ahead with it and has already sent a patch to do the basic 
-abstraction and add a backend which can run the tests on a nominated machine 
-over SSH, i.e. without any deployment (see bug 5554 [4].)
-[0 days - patches in review]
+> * It expects images to be created by linaro-media-create, which in turn
+> requires an "hwpack" [2]. The hwpack concept seems primarily geared to
+> Ubuntu
+> and distributions like it where you'd have a generic base image upon which
+> you'd install some board-specific packages in order to make it work on the
+> board. OE doesn't work that way - we just build images specific to the
+> board,
+> which makes this mechanism completely superfluous for our usage; but the
+> tool
+> appears to require it.
+>
 
-2) Add the ability to export the tests so that they can run independently of 
-the build system, as is required if you want to be able to hand the test 
-execution off to a scheduler.
-[5 days]
+that is no longer the case. we do have support for 'native' OE images, and
+we've had that for a while. That is what I am using for my project at
+Linaro. None of our projects/jobs deliverable are 'public' at the moment,
+so you won't find them, but i can confirm that what we deploy for our jobs
+is the output of OE (e.g. what is in the deploy/image folder). hwpack was
+something mostly meant to make it simpler to work with Ubuntu and Android
+root FS, and is not suited for OE.
 
-3) Add a recipe for a master image, some code to interact with it to deploy 
-the test image, and a means of setting up the partition layout. This should be 
-straightforward - we just need to send the image over ssh and extract/copy it 
-onto the test partition. The partition layout should be able to be defined 
-using wic.
-[5 days]
 
-4) Write some expect scripts to interact with the bootloaders for the 
-reference machines over serial.
-[7 days]
+>
+> * There is a general lack of abstraction and far too much hardcoding. For
+> example, even at the most abstract level, the "Target" class (which is the
+> base class for defining what to do for different types of targets) has
+> hardcoded
+> deploy_linaro / deploy_android functions:
+>
+>
+> https://git.linaro.org/gitweb?p=lava/lava-dispatcher.git;a=blob;f=lava_dispatcher/device/target.py
+>
+> * It's not clear to me how well it will work across different host
+> distributions that we want to support; the main LAVA installer quits if it
+> isn't run on Ubuntu. For convenience I happened to be using an Ubuntu VM,
+> and
+> I wasn't running the full installer so I avoided this check altogether. It
+> just concerns me that such a check would even be there.
+>
 
-5) Add the ability to reset the hardware automatically - this really requires 
-hardware assistance in the form of a web/serial controlled power strip, and 
-there is no standard protocol for interacting with these although conmux does 
-abstract this to a degree. To keep this simple, we would just have a variable 
-that points to a command/script that does the hard reset, and then that can be 
-defined outside of the build system.
-[3 days]
+I agree that this is a problem and we should fix. Our IT infrastructure is
+largely based on Ubuntu servers, but that should not affect what we create
+that much.
 
-In the absence of another workable solution or other folks stepping up to 
-help, this is my current plan for 1.6. I've not had as much response to my 
-previous requests for feedback on this area as I would have liked though, so 
-if you have any concrete suggestions I'm definitely keen to hear them.
 
-Cheers,
-Paul
+>
+> Of course, none of these problems are impossible to overcome, if we're
+> prepared to put a significant amount of engineering into resolving them. In
+> terms of enabling the Yocto Project QA team to test images on real
+> hardware in
+> the 1.6 development cycle however, I don't believe this is going to be
+> deliverable.
+>
 
-[1] https://wiki.linaro.org/Platform/LAVA
-[2] https://wiki.linaro.org/HardwarePacks
-[3] http://autotest.github.io/
-[4] https://bugzilla.yoctoproject.org/show_bug.cgi?id=5554
-[5] https://github.com/autotest/autotest/wiki/Conmux
+--047d7b472868a481db04ec535e11
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-(thanks to Darren Hart and Stefan Stanacar for helping me with this.)
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_extra">Paul=
+,=A0</div><div class=3D"gmail_extra"><br></div><div><br></div><div class=3D=
+"gmail_quote">On Fri, Nov 29, 2013 at 4:58 PM, Paul Eggleton <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">=
+paul.eggleton@linux.intel.com</a>&gt;</span> wrote:<br>
 
--- 
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div id=3D":1hk" style=3D"overflow:hidden">LAVA<br>
+-----<br>
+<br>
+A number of people had suggested I look at LAVA [1]. It is split into diffe=
+rent<br>
+components for each function, some of which should be usable independently =
+so<br>
+you don&#39;t have to use the entire framework. Many of the components coul=
+d be<br>
+useful assuming they are independent, but in terms of being able to actuall=
+y<br>
+run our tests, the one that stands out as being most relevant is lava-<br>
+dispatcher. This is the component that deploys images, and boots the hardwa=
+re<br>
+in order to run the tests.<br>
+<br>
+I&#39;ve looked at lava-dispatcher a couple of times; firstly at the code, =
+and<br>
+yesterday I looked at actually running it. Initially it looked very promisi=
+ng<br>
+- reasonably licensed, written in Python, has some rudimentary support for =
+OE<br>
+images. However while looking at it I found the following:<br>
+<br>
+* It requires root to run, since it mounts the images temporarily and modif=
+ies<br>
+the contents. We&#39;ve done quite a lot to avoid having to run as root in =
+OE, so<br>
+this is a hard sell.<br></div></blockquote><div><br></div><div>i have forwa=
+rded this email to the relevant people in Linaro working on LAVA. I hope to=
+ be able to bring more information about that, as I am not involved with LA=
+VA, just a &#39;user&#39; of it. By &#39;root&#39; here, you mean on the se=
+rver side, e.g. the LAVA instance, which will typically not be the &#39;bui=
+lder&#39;, or do you want to couple build and test on the same &#39;server&=
+#39;? LAVA jobs are generally submitted by a CI instance (Jenkins in our ca=
+se).=A0</div>
 
-Paul Eggleton
-Intel Open Source Technology Centre
+<div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
+t-style:solid;padding-left:1ex"><div id=3D":1hk" style=3D"overflow:hidden">
+<br>
+* It expects images to be created by linaro-media-create, which in turn<br>
+requires an &quot;hwpack&quot; [2]. The hwpack concept seems primarily gear=
+ed to Ubuntu<br>
+and distributions like it where you&#39;d have a generic base image upon wh=
+ich<br>
+you&#39;d install some board-specific packages in order to make it work on =
+the<br>
+board. OE doesn&#39;t work that way - we just build images specific to the =
+board,<br>
+which makes this mechanism completely superfluous for our usage; but the to=
+ol<br>
+appears to require it.<br></div></blockquote><div><br></div><div>that is no=
+ longer the case. we do have support for &#39;native&#39; OE images, and we=
+&#39;ve had that for a while. That is what I am using for my project at Lin=
+aro. None of our projects/jobs deliverable are &#39;public&#39; at the mome=
+nt, so you won&#39;t find them, but i can confirm that what we deploy for o=
+ur jobs is the output of OE (e.g. what is in the deploy/image folder). hwpa=
+ck was something mostly meant to make it simpler to work with Ubuntu and An=
+droid root FS, and is not suited for OE.</div>
 
+<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex"><div id=3D":1hk" style=3D"overflow:hidden">
+<br>
+* There is a general lack of abstraction and far too much hardcoding. For<b=
+r>
+example, even at the most abstract level, the &quot;Target&quot; class (whi=
+ch is the<br>
+base class for defining what to do for different types of targets) has hard=
+coded<br>
+deploy_linaro / deploy_android functions:<br>
+<br>
+<a href=3D"https://git.linaro.org/gitweb?p=3Dlava/lava-dispatcher.git;a=3Db=
+lob;f=3Dlava_dispatcher/device/target.py" target=3D"_blank">https://git.lin=
+aro.org/gitweb?p=3Dlava/lava-dispatcher.git;a=3Dblob;f=3Dlava_dispatcher/de=
+vice/target.py</a><br>
+
+
+<br>
+* It&#39;s not clear to me how well it will work across different host<br>
+distributions that we want to support; the main LAVA installer quits if it<=
+br>
+isn&#39;t run on Ubuntu. For convenience I happened to be using an Ubuntu V=
+M, and<br>
+I wasn&#39;t running the full installer so I avoided this check altogether.=
+ It<br>
+just concerns me that such a check would even be there.<br></div></blockquo=
+te><div><br></div><div>I agree that this is a problem and we should fix. Ou=
+r IT infrastructure is largely based on Ubuntu servers, but that should not=
+ affect what we create that much.</div>
+
+<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex"><div id=3D":1hk" style=3D"overflow:hidden">
+<br>
+Of course, none of these problems are impossible to overcome, if we&#39;re<=
+br>
+prepared to put a significant amount of engineering into resolving them. In=
+<br>
+terms of enabling the Yocto Project QA team to test images on real hardware=
+ in<br>
+the 1.6 development cycle however, I don&#39;t believe this is going to be<=
+br>
+deliverable.</div></blockquote></div><br></div><div class=3D"gmail_extra"><=
+br></div></div>
+
+--047d7b472868a481db04ec535e11--
