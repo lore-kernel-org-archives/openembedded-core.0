@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 20DBB6C73E
+	by mail.openembedded.org (Postfix) with ESMTP id 41CDC6D77B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 12:48:03 +0000 (UTC)
+	Fri, 29 Nov 2013 12:48:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rATCm2iq028287
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rATCm3fg028295
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 04:48:02 -0800 (PST)
+	Fri, 29 Nov 2013 04:48:03 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 29 Nov 2013 04:48:02 -0800
+	14.2.347.0; Fri, 29 Nov 2013 04:48:03 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Nov 2013 20:48:17 +0800
-Message-ID: <6f28057e43aa31a60c045059c8a74e1ce125147f.1385728901.git.Qi.Chen@windriver.com>
+Date: Fri, 29 Nov 2013 20:48:18 +0800
+Message-ID: <a9b7541c137b50cfcf3cf69708be6e681bcda27d.1385728901.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1385728901.git.Qi.Chen@windriver.com>
 References: <cover.1385728901.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/18] libtool: explicitly rdepend on bash
+Subject: [PATCH 10/18] rpm: fix RDEPENDS for rpm-build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2013 12:48:03 -0000
+X-List-Received-Date: Fri, 29 Nov 2013 12:48:04 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-Make libtool explicitly rdepend on bash so that the rootfs task will
-not fail for the reason of implicit runtime bash dependency.
+Fix RDEPENDS for rpm-build.
 
 [YOCTO #5555]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-devtools/libtool/libtool-2.4.2.inc |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-index 5a67eeb9..fc1afcd 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-@@ -37,6 +37,7 @@ inherit autotools
- EXTRA_AUTORECONF = "--exclude=libtoolize"
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+index 4b95a90..840a375 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+@@ -254,7 +254,7 @@ FILES_${PN}-libs = "${libdir}/librpm-*.so \
+ 		${libdir}/librpmbuild-*.so \
+ 		"
  
- DEPENDS = "libtool-native"
-+RDEPENDS_${PN} = "bash"
+-RDEPENDS_${PN}-build += "bash"
++RDEPENDS_${PN}-build += "bash file"
  
- PACKAGES =+ "libltdl libltdl-dev libltdl-dbg libltdl-staticdev"
- FILES_${PN} += "${datadir}/aclocal"
+ FILES_${PN}-build = "${prefix}/src/rpm \
+ 		${bindir}/rpmbuild \
+@@ -323,7 +323,6 @@ FILES_${PN}-build = "${prefix}/src/rpm \
+ RDEPENDS_${PN} = "base-files run-postinsts"
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}_class-nativesdk = ""
+-RDEPENDS_${PN}-build = "file"
+ 
+ RDEPENDS_python-rpm = "${PN}"
+ 
 -- 
 1.7.9.5
 
