@@ -1,24 +1,28 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF76D6D159
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E92936D138
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 06:11:01 +0000 (UTC)
+	Fri, 29 Nov 2013 08:37:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rAT6B1HX029148
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAT8b1UL019894
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2013 22:11:01 -0800 (PST)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 28 Nov 2013 22:11:01 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Nov 2013 14:11:00 +0800
-Message-ID: <1385705460-12875-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Fri, 29 Nov 2013 00:37:01 -0800 (PST)
+Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Fri, 29 Nov 2013 00:37:00 -0800
+Message-ID: <52985227.8040603@windriver.com>
+Date: Fri, 29 Nov 2013 16:36:55 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH v2] webkit/midori: block to build webkit on mips64 with libn32 ABI
+To: <openembedded-core@lists.openembedded.org>
+References: <1385634389-31914-1-git-send-email-ming.liu@windriver.com>
+In-Reply-To: <1385634389-31914-1-git-send-email-ming.liu@windriver.com>
+X-Originating-IP: [128.224.162.145]
+Subject: Re: [PATCH] gzip: fix MakeMaker issues with using wrong SHELL/GREP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,48 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2013 06:11:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 29 Nov 2013 08:37:04 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+On 11/28/2013 06:26 PM, Ming Liu wrote:
+> Paths of shell/grep is being determined by detecting from host at configure
+> stage, and then will be hard coded into scripts like zgrep, this would
+> cause a following runtime error:
+> "/usr/bin/zgrep: line 230: /usr/bin/grep: No such file or directory"
+>
+> Fixed by using runtime paths instead.
+>
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> ---
+>   meta/recipes-extended/gzip/gzip.inc | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-extended/gzip/gzip.inc b/meta/recipes-extended/gzip/gzip.inc
+> index 6ec1dae..4b265a6 100644
+> --- a/meta/recipes-extended/gzip/gzip.inc
+> +++ b/meta/recipes-extended/gzip/gzip.inc
+> @@ -12,6 +12,11 @@ SRC_URI = "${GNU_MIRROR}/gzip/${BP}.tar.gz"
+>   
+>   inherit autotools
+>   
+> +do_configure_prepend () {
+> +	sed '\#|/bin/sh|\$(SHELL)|#d' -i Makefile.am
+> +	sed 's#\(|\[@\]GREP@|\)\$(GREP)#\1/bin/grep#g' -i Makefile.am
+There is a hardcode /bin/grep here, should be removed, and I am told 
+it's better to use patch instead of prepending to do_configure task, so 
+I will send the V2 soon.
 
-To mips64 libn32, The HOST_SYS is mips64-*-linux-gnun32, the COMPATIBLE_HOST
-is mips64.*-linux, the regular expression matching both will return true. so
-append the ending position word into COMPATIBLE_HOST to make match failure
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-sato/midori/midori_0.5.5.bb     |    2 +-
- meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-sato/midori/midori_0.5.5.bb b/meta/recipes-sato/midori/midori_0.5.5.bb
-index d3f42cc..7795617 100644
---- a/meta/recipes-sato/midori/midori_0.5.5.bb
-+++ b/meta/recipes-sato/midori/midori_0.5.5.bb
-@@ -12,7 +12,7 @@ SRC_URI[sha256sum] = "ca69382a285222a86028abebd73fed1976735883027ff0adc094b62778
- 
- # midori depends on webkit-gtk, and webkit-gtk can NOT be built on
- # MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
--COMPATIBLE_HOST_mips64 = "mips64.*-linux"
-+COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
- 
- inherit gtk-icon-cache pkgconfig vala pythonnative
- 
-diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
-index 3581de3..8c78b5b 100644
---- a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
-+++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
-@@ -32,7 +32,7 @@ SRC_URI[md5sum] = "dcbf9d5e2e6391f857c29a57528b32a6"
- SRC_URI[sha256sum] = "ada02d636af61aed38f142d3cded662d141ce71264f624c4eb873621a74cc9e7"
- 
- # webkit-gtk can NOT be built on MIPS64 with n32 ABI
--COMPATIBLE_HOST_mips64 = "mips64.*-linux"
-+COMPATIBLE_HOST_mips64 = "mips64.*-linux$"
- 
- inherit autotools lib_package gtk-doc pkgconfig
- 
--- 
-1.7.10.4
+//Ming Liu
+> +}
+> +
+>   do_install_append () {
+>   	# Rename and move files into /bin (FHS), which is typical place for gzip
+>   	install -d ${D}${base_bindir}
 
 
