@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F0E116D138
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 20DBB6C73E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 12:48:01 +0000 (UTC)
+	Fri, 29 Nov 2013 12:48:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rATCm1jQ027934
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rATCm2iq028287
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 04:48:01 -0800 (PST)
+	Fri, 29 Nov 2013 04:48:02 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 29 Nov 2013 04:48:01 -0800
+	14.2.347.0; Fri, 29 Nov 2013 04:48:02 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Nov 2013 20:48:16 +0800
-Message-ID: <9a6dd06876eb44f3ce758f4fe95b5d39f79ec7a0.1385728901.git.Qi.Chen@windriver.com>
+Date: Fri, 29 Nov 2013 20:48:17 +0800
+Message-ID: <6f28057e43aa31a60c045059c8a74e1ce125147f.1385728901.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1385728901.git.Qi.Chen@windriver.com>
 References: <cover.1385728901.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/18] lsbtest: de-bash script to remove bash dependency
+Subject: [PATCH 09/18] libtool: explicitly rdepend on bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2013 12:48:02 -0000
+X-List-Received-Date: Fri, 29 Nov 2013 12:48:03 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-De-bash scripts in lsbtest to make it not dependent on bash.
+Make libtool explicitly rdepend on bash so that the rootfs task will
+not fail for the reason of implicit runtime bash dependency.
 
 [YOCTO #5555]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/lsb/lsbtest/LSB_Test.sh |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/libtool/libtool-2.4.2.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh b/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
-index af1d61c..3901199 100644
---- a/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
-+++ b/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/bin/sh
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+index 5a67eeb9..fc1afcd 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+@@ -37,6 +37,7 @@ inherit autotools
+ EXTRA_AUTORECONF = "--exclude=libtoolize"
  
- # Copyright (C) 2012 Wind River Systems, Inc.
- #
-@@ -272,7 +272,7 @@ then
- fi
+ DEPENDS = "libtool-native"
++RDEPENDS_${PN} = "bash"
  
- if ! `grep -F -q "noarch-suse" ${PLATFORM_FILE}`; then
--	if [ ${ARCH} == i686 ];then
-+	if [ ${ARCH} = i686 ];then
- 		echo "i486-suse" >> ${PLATFORM_FILE}
- 		echo "i486-noarch" >> ${PLATFORM_FILE}
- 		echo "i486-pc" >> ${PLATFORM_FILE}
+ PACKAGES =+ "libltdl libltdl-dev libltdl-dbg libltdl-staticdev"
+ FILES_${PN} += "${datadir}/aclocal"
 -- 
 1.7.9.5
 
