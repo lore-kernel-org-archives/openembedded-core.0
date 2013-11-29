@@ -1,26 +1,31 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B95B66DEDB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C826B6C737
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 12:48:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rATCmDGr027999
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 29 Nov 2013 13:09:12 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rATD7XMQ007144 for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Nov 2013 13:09:06 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2dtGRKcXBp6t
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 04:48:13 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 29 Nov 2013 04:48:13 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Nov 2013 20:48:26 +0800
-Message-ID: <95c7e587c1ae7747aa9874ddb0d0b2f4dc900695.1385728901.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1385728901.git.Qi.Chen@windriver.com>
-References: <cover.1385728901.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 18/18] kernel.bbclass: make kernel-dev explicitly rdepend on bash
+	Fri, 29 Nov 2013 13:09:06 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rATD91st007161
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Nov 2013 13:09:03 GMT
+Message-ID: <1385730538.11222.56.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 29 Nov 2013 13:08:58 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] adt_installer: Fix missing autogen.sh error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2013 12:48:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 29 Nov 2013 13:09:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+With the transition from svn -> tarball release, this issue was
+missed. Instead of using autogen.sh, we can call configure
+directly.
 
-Make kernel-dev explicitly rdepend on bash so that the rootfs task will
-not fail for the reason of implicit runtime bash dependency.
+[YOCTO #5606]
 
-[YOCTO #5555]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/kernel.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer b/meta/recipes-devtools/installer/adt-installer/adt_installer
+index f3c0518..a150de0 100755
+--- a/meta/recipes-devtools/installer/adt-installer/adt_installer
++++ b/meta/recipes-devtools/installer/adt-installer/adt_installer
+@@ -182,7 +182,7 @@ if [ ! -x "$LOCAL_OPKG_LOC/bin/opkg-cl" ]; then
+   check_result
+ 
+   echo_info "Configure opkg ...\n"
+-  ./autogen.sh --prefix=$parent_folder/$LOCAL_OPKG_LOC --with-opkglibdir=$OPKG_LIBDIR --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg --disable-shave >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
++  ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --with-opkglibdir=$OPKG_LIBDIR --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg --disable-shave >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
+   check_result
+ 
+   echo_info "Make opkg ...\n"
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 24ac778..d01f132 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -328,6 +328,7 @@ FILES_kernel-image = "/boot/${KERNEL_IMAGETYPE}*"
- FILES_kernel-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH}"
- FILES_kernel-vmlinux = "/boot/vmlinux*"
- FILES_kernel-modules = ""
-+RDEPENDS_kernel-dev = "bash"
- RDEPENDS_kernel = "kernel-base"
- # Allow machines to override this dependency if kernel image files are 
- # not wanted in images as standard
--- 
-1.7.9.5
 
 
