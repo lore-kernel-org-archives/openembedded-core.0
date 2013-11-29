@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 86F0A6C731
+	by mail.openembedded.org (Postfix) with ESMTP id 53DB56C731
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 14:35:50 +0000 (UTC)
+	Fri, 29 Nov 2013 14:36:24 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rATEZiue010569 for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 14:35:44 GMT
+	rATEaHYI010588 for <openembedded-core@lists.openembedded.org>;
+	Fri, 29 Nov 2013 14:36:18 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zhiLZQk_z3ZX
+	with LMTP id beOMMsQj31xe
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 14:35:44 +0000 (GMT)
+	Fri, 29 Nov 2013 14:36:17 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rATEZegP010560
+	rATEaCOC010585
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2013 14:35:42 GMT
-Message-ID: <1385735738.11222.60.camel@ted>
+	Fri, 29 Nov 2013 14:36:13 GMT
+Message-ID: <1385735769.11222.61.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 29 Nov 2013 14:35:38 +0000
+Date: Fri, 29 Nov 2013 14:36:09 +0000
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] util-linux: Remove obsolete configure options
+Subject: [PATCH] sqlite3: Fix configure option warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,35 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2013 14:35:51 -0000
+X-List-Received-Date: Fri, 29 Nov 2013 14:36:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-WARNING: QA Issue: util-linux-native: configure was passed unrecognised options: --enable-rdev --enable-init --enable-arch --with-fsprobe
+WARNING: QA Issue: sqlite3: configure was passed unrecognised options: --disable-tcl
 
-Remove obsolete configure options to silence warning.
+There is no tcl option or support now so remove the option.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 8a1e78a..9f5fd01 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -40,11 +40,11 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
-              util-linux-partx ${PN}-bash-completion"
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
+index 3fa8d4c..064d78c 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -7,8 +7,8 @@ LICENSE = "PD"
  
- SHARED_EXTRA_OECONF = "--disable-use-tty-group \
--                       --disable-makeinstall-chown --enable-elvtune --enable-init \
-+                       --disable-makeinstall-chown --enable-elvtune \
-                        --enable-kill --enable-last --enable-mesg --enable-partx \
--                       --enable-raw --enable-rdev --enable-reset --disable-login \
-+                       --enable-raw --enable-reset --disable-login \
-                        --disable-vipw --disable-newgrp --disable-chfn-chsh \
--                       --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
-+                       --enable-write --enable-mount \
-                        --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
-                        usrsbin_execdir='${sbindir}' \
- "
+ inherit autotools pkgconfig
+ 
+-EXTRA_OECONF = "--disable-tcl --enable-shared --enable-threadsafe"
+-EXTRA_OECONF_class-native = "--disable-tcl --enable-shared --enable-threadsafe --disable-readline --enable-tempstore"
++EXTRA_OECONF = "--enable-shared --enable-threadsafe"
++EXTRA_OECONF_class-native = "--enable-shared --enable-threadsafe --disable-readline --enable-tempstore"
+ export config_BUILD_CC = "${BUILD_CC}"
+ export config_BUILD_CFLAGS = "${BUILD_CFLAGS}"
+ export config_BUILD_LIBS = "${BUILD_LDFLAGS}"
 
 
 
