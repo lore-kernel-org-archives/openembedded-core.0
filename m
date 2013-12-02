@@ -1,25 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 243B26DEF3
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 681D86B1A9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2013 18:51:04 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 02 Dec 2013 10:51:04 -0800
+	Mon,  2 Dec 2013 19:17:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2013 11:14:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,812,1378882800"; d="scan'208";a="445490240"
+X-IronPort-AV: E=Sophos;i="4.93,812,1378882800"; d="scan'208";a="418126703"
 Received: from pmcgurk-mobl.ger.corp.intel.com (HELO
 	helios.ger.corp.intel.com) ([10.252.121.184])
-	by orsmga002.jf.intel.com with ESMTP; 02 Dec 2013 10:51:03 -0800
+	by orsmga001.jf.intel.com with ESMTP; 02 Dec 2013 11:17:50 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Dec 2013 18:50:51 +0000
-Message-Id: <34cc88411cf0ee72557230d1009f9cbd8d010069.1386009885.git.paul.eggleton@linux.intel.com>
+Date: Mon,  2 Dec 2013 19:17:48 +0000
+Message-Id: <1386011868-28741-1-git-send-email-paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1386009885.git.paul.eggleton@linux.intel.com>
-References: <cover.1386009885.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1386009885.git.paul.eggleton@linux.intel.com>
-References: <cover.1386009885.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 8/8] classes/buildhistory: do git garbage collection after committing
+Subject: [PATCH] classes/icecc: fix typos in header comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2013 18:51:04 -0000
+X-List-Received-Date: Mon, 02 Dec 2013 19:17:52 -0000
 
-We don't normally perform any operations (such as "git pull") that
-trigger "git gc --auto", thus garbage collection never happens which
-means performance of accessing the repository degrades noticeably over
-time. Add an explicit "git gc --auto" to clean things up when needed.
+Looking at the code, it should be ICECC_USER_PACKAGE_BL and not
+ICECC_PACKAGE_BL here, and also fix "localy" -> "locally".
 
-Thanks to Elijah Newren and Ross Burton for suggesting this.
+Thanks to Scott Rifenbark for pointing this out.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/buildhistory.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/icecc.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index e46b124..d25496d 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -533,6 +533,7 @@ END
- 			for entry in `echo "$repostatus" | awk '{print $2}' | awk -F/ '{print $1}' | sort | uniq` ; do
- 				git commit $entry metadata-revs -m "$entry: Build ${BUILDNAME} of ${DISTRO} ${DISTRO_VERSION} for machine ${MACHINE} on $HOSTNAME" -m "cmd: $CMDLINE" --author "${BUILDHISTORY_COMMIT_AUTHOR}" > /dev/null
- 			done
-+			git gc --auto
- 			if [ "${BUILDHISTORY_PUSH_REPO}" != "" ] ; then
- 				git push -q ${BUILDHISTORY_PUSH_REPO}
- 			fi
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index ef8761a..d7407d2 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -20,7 +20,7 @@
+ #(NOTE that this is a modified version of the script need it and *not the one that comes with icecc*
+ #
+ #User can specify if specific packages or packages belonging to class should not use icecc to distribute
+-#compile jobs to remote machines, but handled localy, by defining ICECC_USER_CLASS_BL and ICECC_PACKAGE_BL
++#compile jobs to remote machines, but handled locally, by defining ICECC_USER_CLASS_BL and ICECC_USER_PACKAGE_BL
+ #with the appropriate values in local.conf. In addition the user can force to enable icecc for packages
+ #which set an empty PARALLEL_MAKE variable by defining ICECC_USER_PACKAGE_WL.
+ #########################################################################################
 -- 
 1.8.1.2
 
