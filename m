@@ -1,30 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id AD4D66CEEA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8870B6CEEA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2013 13:43:17 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB2DhBN5023601; Mon, 2 Dec 2013 13:43:11 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id w4nXpl9P-Rwq; Mon,  2 Dec 2013 13:43:11 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB2Dh4i7023592
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 2 Dec 2013 13:43:06 GMT
-Message-ID: <1385991782.11222.108.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yzhu1 <yanjun.zhu@windriver.com>
-Date: Mon, 02 Dec 2013 13:43:02 +0000
-In-Reply-To: <1385968413-18202-1-git-send-email-yanjun.zhu@windriver.com>
-References: <1385968413-18202-1-git-send-email-yanjun.zhu@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	Mon,  2 Dec 2013 13:55:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2013 05:51:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,811,1378882800"; d="scan'208";a="445308461"
+Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.121.184])
+	by orsmga002.jf.intel.com with ESMTP; 02 Dec 2013 05:55:28 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: =?ISO-8859-1?Q?S=E9bastien?= Mennetrier <s.mennetrier@innotis.org>
+Date: Mon, 02 Dec 2013 13:55:27 +0000
+Message-ID: <10916131.lVIbzf1xN1@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1385990182-8215-1-git-send-email-s.mennetrier@innotis.org>
+References: <1385990182-8215-1-git-send-email-s.mennetrier@innotis.org>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Modify the path of env in CA.pl to make export-sdk successfully.
+Subject: Re: [meta-webserver][PATCH] Add nginx http webserver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2013 13:43:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Dec 2013 13:55:29 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Mon, 2013-12-02 at 15:13 +0800, yzhu1 wrote:
+Hi S=E9bastien,
+
+On Monday 02 December 2013 14:16:22 S=E9bastien Mennetrier wrote:
+> From: S=E9bastien <s.mennetrier@innotis.org>
+>=20
 > ---
->  meta/recipes-connectivity/openssl/openssl.inc |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta-webserver/recipes-httpd/nginx/files/init      |  59 ++++++
+>  .../nginx/files/nginx-cross_1.4.4.diff             | 212
 
-What is "export-sdk" and how does this break it?
+Patches for meta-webserver (and all of the other layers in the meta-
+openembedded repository) need to be sent to openembedded-
+devel@lists.openembedded.org; could you please send it there?
 
-I suspect what we want to do is hardcode /usr/bin/env in here for
-nativesdk? We can't/don't want to assume the sdk contains perl.
+Thanks,
+Paul
 
-Cheers,
+--=20
 
-Richard
-
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-> index 3bfe569..de10d17 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -154,7 +154,7 @@ do_install () {
->  
->  	install -d ${D}${includedir}
->  	cp --dereference -R include/openssl ${D}${includedir}
-> -	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
-> +	sed -i -e '1s,^.*$,#! ${bindir}/perl,' ${D}${libdir}/ssl/misc/CA.pl
->  
->  	oe_multilib_header openssl/opensslconf.h
->  }
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
