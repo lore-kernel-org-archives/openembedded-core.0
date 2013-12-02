@@ -1,24 +1,31 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F6196DEE6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id D2EEB6DEEA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2013 22:20:27 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 02 Dec 2013 14:20:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,813,1378882800"; d="scan'208";a="418211747"
-Received: from unknown (HELO [10.255.15.171]) ([10.255.15.171])
-	by orsmga001.jf.intel.com with ESMTP; 02 Dec 2013 14:20:26 -0800
-Message-ID: <529D07AA.204@linux.intel.com>
-Date: Mon, 02 Dec 2013 14:20:26 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Chong.Lu@windriver.com, openembedded-core@lists.openembedded.org
-References: <1385978863-14243-1-git-send-email-Chong.Lu@windriver.com>
-In-Reply-To: <1385978863-14243-1-git-send-email-Chong.Lu@windriver.com>
-Subject: Re: [PATCH] lttng-ust: fixed python interpret path
+	Mon,  2 Dec 2013 22:57:52 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB2Mvkr6015900 for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Dec 2013 22:57:46 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 59ZXWvTOE_vk
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Dec 2013 22:57:46 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB2Mvi08015896
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Dec 2013 22:57:45 GMT
+Message-ID: <1386025059.4463.6.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 02 Dec 2013 22:57:39 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: RFC: Locked down sstate cache usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +38,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2013 22:20:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 02 Dec 2013 22:57:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12/02/2013 02:07 AM, Chong.Lu@windriver.com wrote:
-> From: Chong Lu <Chong.Lu@windriver.com>
->
-> Changed python interpreter path to avoid syntax errors caused by
-> older version.
->
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->   ...002-lttng-ust-fixed-python-interpret-path.patch |   28 ++++++++++++++++++++
->   meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb       |    1 +
->   2 files changed, 29 insertions(+)
->   create mode 100644 meta/recipes-kernel/lttng/lttng-ust/0002-lttng-ust-fixed-python-interpret-path.patch
->
-This is not applying cleanly, please ensure you are rebased against 
-master, as the lttng-ust recipe has been updated.
+I've been giving things some thought, specifically why sstate doesn't
+get used more and why we have people requesting external toolchains. I'm
+guessing the issue is that people don't like how often sstate can change
+and the lack of an easy way to lock it down.
 
-Sau!
+Locking it down is actually quite easy so I thought I'd share a quick
+proof of concept of how you can do this (for example to a specific
+toolchain). With an addition like this to local.conf (or wherever):
 
-> diff --git a/meta/recipes-kernel/lttng/lttng-ust/0002-lttng-ust-fixed-python-interpret-path.patch b/meta/recipes-kernel/lttng/lttng-ust/0002-lttng-ust-fixed-python-interpret-path.patch
-> new file mode 100644
-> index 0000000..abc2c4e
-> --- /dev/null
-> +++ b/meta/recipes-kernel/lttng/lttng-ust/0002-lttng-ust-fixed-python-interpret-path.patch
-> @@ -0,0 +1,28 @@
-> +From d91876870f7cda8f9bf757c73d1c287e78d4d7e0 Mon Sep 17 00:00:00 2001
-> +From: Lu Chong <Chong.Lu@windriver.com>
-> +Date: Mon, 2 Dec 2013 03:18:13 -0500
-> +Subject: [PATCH 2/2] lttng-ust: fixed python interpret path
-> +
-> +Upstream-Status: Pending
-> +
-> +Changed python interpreter path to avoid syntax errors caused by
-> +older version.
-> +
-> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> +---
-> + tools/lttng-gen-tp | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/tools/lttng-gen-tp b/tools/lttng-gen-tp
-> +index 0f6f0b5..dca2e28 100755
-> +--- a/tools/lttng-gen-tp
-> ++++ b/tools/lttng-gen-tp
-> +@@ -1,4 +1,4 @@
-> +-#!/usr/bin/python
-> ++#!/usr/bin/env python
-> + #
-> + # Copyright (c)  2012 Yannick Brosseau <yannick.brosseau@gmail.com>
-> + #
-> +--
-> +1.8.2.1
-> +
-> diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
-> index cdc834c..ae2dd65 100644
-> --- a/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
-> @@ -24,6 +24,7 @@ PE = "2"
->
->   SRC_URI = "git://git.lttng.org/lttng-ust.git \
->              file://0001-lttng-ust-several-fixes.patch \
-> +           file://0002-lttng-ust-fixed-python-interpret-path.patch \
->   	   "
->
->   S = "${WORKDIR}/git"
->
+SIGGEN_LOCKEDSIGS = "\
+gcc-cross:do_populate_sysroot:a8d91b35b98e1494957a2ddaf4598956 \
+eglibc:do_populate_sysroot:13e8c68553dc61f9d67564f13b9b2d67 \
+eglibc:do_packagedata:bfca0db1782c719d373f8636282596ee \
+gcc-cross:do_packagedata:4b601ff4f67601395ee49c46701122f6 \
+"
+
+the code at the end of the email will force the hashes to those values
+for the recipes mentioned. The system would then find and use those
+specific objects from the sstate cache instead of trying to build
+anything.
+
+Obviously this is a little simplistic, you might need to put an override
+against this to only apply those revisions for a specific architecture
+for example. You'd also probably want to put code in the sstate hash
+validation code to ensure it really did install these from sstate since
+if it didn't you'd want to abort the build.
+
+Anyhow, I thought I'd put this out there and see if there is interest in
+better supporting this kind of usage of sstate?
+
+Cheers,
+
+Richard
+
+
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 329c84d..fd015de 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -62,6 +62,16 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
+     # Default to keep dependencies
+     return True
+ 
++def sstate_lockedsigs(d):
++    sigs = {}
++    lockedsigs = (d.getVar("SIGGEN_LOCKEDSIGS", True) or "").split()
++    for ls in lockedsigs:
++        pn, task, h = ls.split(":", 2)
++        if pn not in sigs:
++            sigs[pn] = {}
++        sigs[pn][task] = h
++    return sigs
++
+ class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
+     name = "OEBasic"
+     def init_rundepcheck(self, data):
+@@ -76,9 +86,22 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+     def init_rundepcheck(self, data):
+         self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE", True) or "").split()
+         self.saferecipedeps = (data.getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS", True) or "").split()
++        self.lockedsigs = sstate_lockedsigs(data)
+         pass
+     def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
+         return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
++    def get_taskhash(self, fn, task, deps, dataCache):
++        recipename = dataCache.pkg_fn[fn]
++        if recipename in self.lockedsigs:
++            if task in self.lockedsigs[recipename]:
++                k = fn + "." + task
++                h = self.lockedsigs[recipename][task]
++                self.taskhash[k] = h
++                #bb.warn("Using %s %s %s" % (recipename, task, h))
++                return h
++        h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(fn, task, deps, dataCache)
++        #bb.warn("%s %s %s" % (recipename, task, h))
++        return h
+ 
+ # Insert these classes into siggen's namespace so it can see and select them
+ bb.siggen.SignatureGeneratorOEBasic = SignatureGeneratorOEBasic
+
 
