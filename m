@@ -1,25 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DC6696DD15
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A6BC6DD10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2013 20:48:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2013 12:45:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,812,1378882800"; d="scan'208";a="418168079"
-Received: from unknown (HELO [10.255.15.171]) ([10.255.15.171])
-	by orsmga001.jf.intel.com with ESMTP; 02 Dec 2013 12:48:51 -0800
-Message-ID: <529CF232.5060707@linux.intel.com>
-Date: Mon, 02 Dec 2013 12:48:50 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Mon,  2 Dec 2013 21:18:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB2LIQkI020263
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 2 Dec 2013 13:18:26 -0800 (PST)
+Received: from [147.11.117.81] (147.11.117.81) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 2 Dec 2013 13:18:26 -0800
+Message-ID: <529CF916.5030703@windriver.com>
+Date: Mon, 2 Dec 2013 16:18:14 -0500
+From: Randy MacLeod <randy.macleod@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
 MIME-Version: 1.0
-To: jackie.huang@windriver.com, openembedded-core@lists.openembedded.org
-References: <1385461228-9326-1-git-send-email-jackie.huang@windriver.com>
-In-Reply-To: <1385461228-9326-1-git-send-email-jackie.huang@windriver.com>
-Cc: Yue.Tao@windriver.com
-Subject: Re: [PATCH] tzcode-native: Replace fixed version with PV
+To: <openembedded-core@lists.openembedded.org>, Robert Yang
+	<liezhi.yang@windriver.com>
+References: <1382561247-30349-1-git-send-email-kergoth@gmail.com>
+In-Reply-To: <1382561247-30349-1-git-send-email-kergoth@gmail.com>
+X-Originating-IP: [147.11.117.81]
+Subject: Re: [PATCH] base.bbclass: fix nondeterministic PACKAGECONFIG processing order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2013 20:48:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 02 Dec 2013 21:18:29 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/26/2013 02:20 AM, jackie.huang@windriver.com wrote:
-> From: Yue Tao <Yue.Tao@windriver.com>
+On 13-10-23 04:47 PM, Christopher Larson wrote:
+> The PACKAGECONFIG flags were iterated over using dict.items(), but this
+> returns the items in an undefined order. As this order determines the
+> EXTRA_OECONF append order, we can get EXTRA_OECONF which are functionally
+> equivalent, but whose contents differ, resulting in not using shared state
+> archives we should be using.
 >
-> Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+
+Robert,
+
+Can this commit be pulled into dora?
+More deterministic behaviour is more supportable behaviour!
+
+It's:
+    843a5dd
+    base.bbclass: fix nondeterministic PACKAGECONFIG processing order
+on master.
+
+../Randy
+
 > ---
->   meta/recipes-extended/tzcode/tzcode-native_2013h.bb | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   meta/classes/base.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2013h.bb b/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-> index 5cdc7ef..b51e303 100644
-> --- a/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-> +++ b/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-> @@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=0b7570113550eb5d30aa4bd220964b8
->   # note that we allow for us to use data later than our code version
->   #
->   SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
-> -           ftp://ftp.iana.org/tz/releases/tzdata2013h.tar.gz;name=tzdata"
-> +           ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata \
-> +"
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index dfa580c..93bc700 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -433,7 +433,7 @@ python () {
+>           extradeps = []
+>           extrardeps = []
+>           extraconf = []
+> -        for flag, flagval in pkgconfigflags.items():
+> +        for flag, flagval in sorted(pkgconfigflags.items()):
+>               if flag == "defaultval":
+>                   continue
+>               items = flagval.split(",")
 >
-I am not sure it's correct to do this, I think there are times that the 
-tzcode and tzdata are not updated at the same time.
 
-Sau!
 
->   SRC_URI[tzdata.md5sum] = "d310abe42cbe87e76ceb69e2c7003c92"
->   SRC_URI[tzdata.sha256sum] = "6b9e17e823eec0e09e12f74b452a70be4face1ef14c2fb1917b7c7e60564de27"
->
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
