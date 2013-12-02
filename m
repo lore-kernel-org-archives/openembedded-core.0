@@ -1,28 +1,38 @@
-Return-Path: <ulf@emagii.com>
-Received: from smtprelay-b32.telenor.se (smtprelay-b32.telenor.se
-	[213.150.131.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B8CA6DD10
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
+	[209.85.219.46])
+	by mail.openembedded.org (Postfix) with ESMTP id AD35A6D847
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2013 21:42:21 +0000 (UTC)
-Received: from ipb2.telenor.se (ipb2.telenor.se [195.54.127.165])
-	by smtprelay-b32.telenor.se (Postfix) with ESMTP id C8699E97DB
+	Mon,  2 Dec 2013 22:08:01 +0000 (UTC)
+Received: by mail-oa0-f46.google.com with SMTP id o6so13846650oag.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2013 22:42:19 +0100 (CET)
-X-SENDER-IP: [83.227.57.102]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: AvRgAK/9nFJT4zlmPGdsb2JhbABZJoJgAQE3shKHKIElFwMBAQEBODWCJQFRAQojMB9LCiQJiAUBCLR+AYsQjwiEOgOYFIEwlA07
-X-IronPort-AV: E=Sophos;i="4.93,813,1378850400"; d="scan'208";a="683928207"
-Received: from c-6639e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	hexagon.bredbandsbolaget.se) ([83.227.57.102])
-	by ipb2.telenor.se with ESMTP; 02 Dec 2013 22:42:19 +0100
-From: ulf@emagii.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Dec 2013 19:36:14 +0100
-Message-Id: <1386009374-29047-1-git-send-email-ulf@emagii.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Ulf Samuelsson <ulf@emagii.com>
-Subject: [PATCH v2] curlpp: add curl c++ bindings
+	Mon, 02 Dec 2013 14:08:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=5z6180czLu6ERYM/TIoT2sGCO9uwfGnKcr3sjPRESbI=;
+	b=IGIVXqFF4425V64TTta54JQfnwOIgTiJspNV+OZYdCwOPxL4VSa92fDiseXfQ+VurE
+	GMt8g7lE6litcUDkLVPe/UvcbbU+MfLPM9lHRLNYRsM+MMMBiZ3ipeR7C6XtjTb/A3jS
+	nCrVRkKZThb8Xz/hVsPipvOqTsohsA94VRHTxh6czm1bFDb/Op4OwjTz7w++X98UEBCz
+	sJJ+uTrDuug2Mjwo1V88HNzz5FeNxPOfVoo5qa4l/cMkTaYkfQngmvMIFDt/3uXoz7QQ
+	LTZDssmkK9p/GvhxaTNDknGhSrv5qGNxEG/hqGJep1hT3JJguZvwOZrgve4a2+RnZQT1
+	03fQ==
+MIME-Version: 1.0
+X-Received: by 10.60.146.229 with SMTP id tf5mr56301126oeb.27.1386022080968;
+	Mon, 02 Dec 2013 14:08:00 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 2 Dec 2013 14:08:00 -0800 (PST)
+In-Reply-To: <529CF916.5030703@windriver.com>
+References: <1382561247-30349-1-git-send-email-kergoth@gmail.com>
+	<529CF916.5030703@windriver.com>
+Date: Mon, 2 Dec 2013 20:08:00 -0200
+X-Google-Sender-Auth: hK4V1nN6SI5quBG6Z6wZ6I8kmbU
+Message-ID: <CAP9ODKrEE+r=LeUdVWXW1Qy7dmWYNMUA7KNiSADQnXFOHO1UDA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base.bbclass: fix nondeterministic PACKAGECONFIG processing order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,158 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2013 21:42:22 -0000
+X-List-Received-Date: Mon, 02 Dec 2013 22:08:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Ulf Samuelsson <ulf@emagii.com>
+On Mon, Dec 2, 2013 at 7:18 PM, Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+> On 13-10-23 04:47 PM, Christopher Larson wrote:
+>>
+>> The PACKAGECONFIG flags were iterated over using dict.items(), but this
+>> returns the items in an undefined order. As this order determines the
+>> EXTRA_OECONF append order, we can get EXTRA_OECONF which are functionally
+>> equivalent, but whose contents differ, resulting in not using shared state
+>> archives we should be using.
+>>
+>> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+>
+>
+> Robert,
+>
+> Can this commit be pulled into dora?
+> More deterministic behaviour is more supportable behaviour!
+>
+> It's:
+>    843a5dd
+>    base.bbclass: fix nondeterministic PACKAGECONFIG processing order
+> on master.
 
-Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
----
- .../curlpp/curlpp/pkgconfig_fix.patch              |   38 +++++++++
- meta/recipes-support/curlpp/curlpp_0.7.3.bb        |   89 ++++++++++++++++++++
- 2 files changed, 127 insertions(+)
- create mode 100644 meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch
- create mode 100644 meta/recipes-support/curlpp/curlpp_0.7.3.bb
+I agree; this is a very good bugfix  and improve sstate-cache reuse.
 
-diff --git a/meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch b/meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch
-new file mode 100644
-index 0000000..ad73c00
---- /dev/null
-+++ b/meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch
-@@ -0,0 +1,38 @@
-+Upstream-Status: Inappropriate [packaging]
-+
-+
-+Index: curl-7.20.0/libcurl.pc.in
-+===================================================================
-+--- curl-7.20.0.orig/libcurl.pc.in	2009-11-17 18:11:07.000000000 +0000
-++++ curl-7.20.0/libcurl.pc.in	2010-03-25 12:13:26.814051066 +0000
-+@@ -35,6 +35,7 @@
-+ URL: http://curl.haxx.se/
-+ Description: Library to transfer files with ftp, http, etc.
-+ Version: @CURLVERSION@
-+-Libs: -L${libdir} -lcurl @LIBS@
-+-Libs.private: @LIBCURL_LIBS@ @LIBS@
-++Requires.private: @GNUTLS_REQUIRED@
-++Libs: -L${libdir} -lcurl
-++Libs.private: -ldl -lz
-+ Cflags: -I${includedir}
-+Index: curl-7.20.0/configure.ac
-+===================================================================
-+--- curl-7.20.0.orig/configure.ac	2010-02-04 21:41:46.000000000 +0000
-++++ curl-7.20.0/configure.ac	2010-03-25 12:12:18.673129001 +0000
-+@@ -1668,6 +1668,7 @@
-+        AC_SUBST(USE_GNUTLS, [1])
-+        GNUTLS_ENABLED=1
-+        USE_GNUTLS="yes"
-++       GNUTLS_REQUIRED="gnutls"
-+        curl_ssl_msg="enabled (GnuTLS)"
-+        ],
-+        [
-+@@ -1696,6 +1697,8 @@
-+ 
-+ fi dnl OPENSSL != 1
-+ 
-++AC_SUBST(GNUTLS_REQUIRED)
-++
-+ dnl ----------------------------------------------------
-+ dnl NSS. Only check if GnuTLS and OpenSSL are not enabled
-+ dnl ----------------------------------------------------
-diff --git a/meta/recipes-support/curlpp/curlpp_0.7.3.bb b/meta/recipes-support/curlpp/curlpp_0.7.3.bb
-new file mode 100644
-index 0000000..2d6dc39
---- /dev/null
-+++ b/meta/recipes-support/curlpp/curlpp_0.7.3.bb
-@@ -0,0 +1,89 @@
-+DESCRIPTION = "C++ library for client-side URL transfers."
-+HOMEPAGE = "http://code.google.com/p/curlpp/"
-+SECTION = "console/network"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+DEPENDS = "curl boost"
-+DEPENDS_class-native = "curl-native"
-+PR = "r1"
-+
-+SRC_URI = "http://curlpp.googlecode.com/files/curlpp-${PV}.tar.gz \
-+	"
-+
-+SRC_URI[md5sum] = "ccc3d30d4b3b5d2cdbed635898c29485"
-+SRC_URI[sha256sum] = "e3f9427b27c5bddf898d383d45c0d3d5397e2056ff935d9a5cdaef6a9a653bd5"
-+
-+inherit autotools pkgconfig binconfig
-+
-+EXTRA_OECONF = "--prefix=${STAGING_DIR} \
-+		--with-boost=${STAGING_DIR} \
-+		"
-+
-+
-+do_install() {
-+	install -d ${D}/${includedir}/curlpp
-+	cp -r include/curlpp/* 					${D}${includedir}/curlpp
-+
-+	install -d ${D}${includedir}/utilspp
-+	cp -r include/utilspp/* 				${D}${includedir}/utilspp
-+
-+	install -d ${D}/${libdir}
-+	install	-m 664 src/curlpp/.libs/libcurlpp.a		${D}/${libdir}
-+	install	-m 664 src/curlpp/.libs/libcurlpp.lai		${D}/${libdir}/libcurlpp.la
-+
-+	install	-m 775 src/curlpp/.libs/libcurlpp.so.0.0.2	${D}/${libdir}
-+
-+	install	-m 664 src/utilspp/.libs/libutilspp.a		${D}/${libdir}
-+	install	-m 664 src/utilspp/.libs/libutilspp.lai		${D}/${libdir}/libutilspp.la
-+
-+	install	-m 664 src/utilspp/.libs/libutilspp.so.0.0.0	${D}/${libdir}
-+
-+	install -d ${D}/${libdir}/pkgconfig
-+	install	-m 664 curlpp.pc				${D}/${libdir}/pkgconfig
-+
-+	install -d ${D}/${bindir}
-+	install	-m 755 curlpp-config 				${D}/${bindir}
-+
-+	install -d ${D}/${includedir}/curlpp
-+	install -d ${D}/${includedir}/curlpp/internal
-+	install -d ${D}/${includedir}/utilspp
-+	install -d ${D}/${includedir}/utilspp/functor
-+	install -d ${D}/${includedir}/utilspp/singleton
-+
-+	install	-m 664 include/curlpp/config*			${D}/${includedir}/curlpp
-+	install	-m 664 include/curlpp/*.h*			${D}/${includedir}/curlpp
-+	install	-m 664 include/curlpp/*.inl			${D}/${includedir}/curlpp
-+
-+	install	-m 664 include/curlpp/internal/*.h*		${D}/${includedir}/curlpp/internal
-+	install	-m 664 include/curlpp/internal/*.inl		${D}/${includedir}/curlpp/internal
-+
-+	install	-m 664 include/utilspp/*.h*			${D}/${includedir}/utilspp
-+	install	-m 664 include/utilspp/*.inl			${D}/${includedir}/utilspp
-+
-+	install	-m 664 include/utilspp/functor/*.h*		${D}/${includedir}/utilspp/functor
-+	install	-m 664 include/utilspp/singleton/*.h*		${D}/${includedir}/utilspp/singleton
-+	install	-m 664 include/utilspp/singleton/*.inl		${D}/${includedir}/utilspp/singleton
-+	install -m 755 curlpp-config				${D}/${bindir}
-+}
-+
-+pkg_postinst_${PN}() {
-+	ln	-sf	libcurlpp.so.0.0.2			/usr/lib/libcurlpp.so.0
-+	ln	-sf	libcurlpp.so.0.0.2			/usr/lib/libcurlpp.so
-+	ln	-sf	libutilspp.so.0.0.0			/usr/lib/libutilspp.so.0
-+	ln	-sf	libutilspp.so.0.0.0			/usr/lib/libutilspp.so
-+}
-+
-+PACKAGES =+ "libcurlpp libcurlpp-dev libcurlpp-staticdev"
-+
-+FILES_lib${BPN} = "${libdir}/lib*.so.* \
-+		"
-+
-+FILES_lib${BPN}-dev = "${includedir} \
-+                      ${libdir}/lib*.la \
-+                      ${libdir}/pkgconfig \
-+                      ${bindir}/*-config"
-+
-+FILES_lib${BPN}-staticdev = "${libdir}/lib*.a"
-+
-+BBCLASSEXTEND = "native nativesdk"
 -- 
-1.7.9.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
