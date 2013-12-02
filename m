@@ -1,39 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EBD56DD15
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F3466DD15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2013 19:58:04 +0000 (UTC)
-Received: by mail-vc0-f174.google.com with SMTP id id10so8643907vcb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Dec 2013 11:58:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=i99No/8uVL1r8cxf6IPkh/tzqoSO4xU+kZMQyGS9XQ0=;
-	b=CQNeZxF6B6OcdWIOaWphRQyRZWuUDdX5+0GWh2hHOXV0qDu+D3hz7XLUKjt1oMTCXf
-	y6X825yGrrlY0XNKipCx3cov6ITSXqXQruk4f2JjV6rmpmaE1jNAPOH30fGPTxtWFTmg
-	9UpM1m/m3edoXH8Qa7MFw3H+UmuE/f2BYdifgE18HEb7ixBwzNJV1k6zrT7uF+qSggoG
-	hAsVakx2ZKrRJpascrW8MgUwHCWMci1AUwJ6UQnU+2tO0a4CBY6+OGSP+jRQYVJs6hji
-	B6wwn0jwyDqZX+XaHerWYdsn+GiKQeq0ZOhgQot+BQkHGyD4Ygx/X8dFlE0v5Kov7oAV
-	8Fcw==
-X-Gm-Message-State: ALoCoQna9n/PDUbYOyGJodSqhaCpQopQFDPyGS6jerV9c1Ek5X9J86Pmujw7Vr2ghuNsP1De1Kv9
-X-Received: by 10.220.132.194 with SMTP id c2mr100748vct.55.1386014283224;
-	Mon, 02 Dec 2013 11:58:03 -0800 (PST)
+	Mon,  2 Dec 2013 20:00:26 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 02 Dec 2013 12:00:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,812,1378882800"; d="scan'208";a="418146094"
+Received: from unknown (HELO [10.255.15.171]) ([10.255.15.171])
+	by orsmga001.jf.intel.com with ESMTP; 02 Dec 2013 12:00:25 -0800
+Message-ID: <529CE6D9.3090307@linux.intel.com>
+Date: Mon, 02 Dec 2013 12:00:25 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 2 Dec 2013 11:57:43 -0800 (PST)
-In-Reply-To: <529CD149.8040206@linux.intel.com>
-References: <1385159590-27427-1-git-send-email-sgw@linux.intel.com>
-	<CADkTA4OefQPB3r4EjthZoGEnW=4Q1knwm6WgPG7eV9BveVZ21g@mail.gmail.com>
-	<529CD149.8040206@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 2 Dec 2013 19:57:43 +0000
-Message-ID: <CAJTo0LatgF14Eod5ba2TaZhkONnJW8o7vOgCJLuOdRzsu8UXDg@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: Extend to support genericx86* machine types
+To: Nathan Rossi <nathan.rossi@xilinx.com>, 
+	openembedded-core@lists.openembedded.org
+References: <41a9a78e-e827-4551-88c6-78628b1e34da@DB8EHSMHS028.ehs.local>
+In-Reply-To: <41a9a78e-e827-4551-88c6-78628b1e34da@DB8EHSMHS028.ehs.local>
+Subject: Re: [PATCH] attr: attr_2.4.47 release tarball missing configure.ac
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,19 +32,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2013 19:58:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Dec 2013 20:00:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2 December 2013 18:28, Saul Wold <sgw@linux.intel.com> wrote:
-> I believe that this is fairly doable in the x86 space since the compiler
-> setup and kernel configurations are almost identical, sound and nfs are
-> missing from the generic configuration.
+On 11/25/2013 12:18 AM, Nathan Rossi wrote:
+> The release tarball of attr 2.4.47 is missing the configure.ac file.
+> This prevents the autotools bbclass from being able to regenerate the
+> configure script which leads to other side affects. (e.g. using
+> outdated config.sub)
 >
-> This will also help our CI on the autobuilder since it will drop 2 machines.
+> This patch adds the configure.ac file via a patch.
+> (obtained via the source repository at the v2.4.47 tag)
+>
+> See the mailing list thread for additional information:
+> http://lists.nongnu.org/archive/html/acl-devel/2013-05/msg00024.html
+>
+> Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+> ---
+>
+> On an additional note, acl 2.2.52 is also affected by this issue.
+> However it does not affect oe-core as acl has yet to be updated to this
+> version and currently sits on the older 2.2.51 version.
+>
+> ---
+>   meta/recipes-support/attr/attr_2.4.47.bb           |    3 +
+>   .../attr/files/attr-Missing-configure.ac.patch     |   62 ++++++++++++++++++++
+>   2 files changed, 65 insertions(+)
+>   create mode 100644 meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
+>
+> diff --git a/meta/recipes-support/attr/attr_2.4.47.bb b/meta/recipes-support/attr/attr_2.4.47.bb
+> index a1f2e05..ad40c9b 100644
+> --- a/meta/recipes-support/attr/attr_2.4.47.bb
+> +++ b/meta/recipes-support/attr/attr_2.4.47.bb
+> @@ -1,5 +1,8 @@
+>   require attr.inc
+>
+> +# configure.ac was missing from the release tarball. This should be fixed in
+> +# future releases of attr, remove this when updating the recipe.
+> +SRC_URI_append += "file://attr-Missing-configure.ac.patch"
+>
+>   SRC_URI[md5sum] = "84f58dec00b60f2dc8fd1c9709291cc7"
+>   SRC_URI[sha256sum] = "25772f653ac5b2e3ceeb89df50e4688891e21f723c460636548971652af0a859"
+> diff --git a/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch b/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
+> new file mode 100644
+> index 0000000..5887ed5
+> --- /dev/null
+> +++ b/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
+> @@ -0,0 +1,62 @@
+> +Subject: [PATCH] attr: Missing configure.ac
+> +
+> +Upstream-Status: Backport [Upstream released tarball missing this file]
 
-This does break the neat layering and symmetry we have, in that
-oe-core just supports qemu machines of every architecture we support.
-Remember that genericx86 is part of meta-yocto not oe-core.
+You need a Signed-off-by: tag in this patch also
 
-Ross
+Thanks
+	Sau!
+
+> +---
+> + configure.ac |   48 ++++++++++++++++++++++++++++++++++++++++++++++++
+> + 1 file changed, 48 insertions(+)
+> + create mode 100644 configure.ac
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +new file mode 100644
+> +index 0000000..b966d0e
+> +--- /dev/null
+> ++++ b/configure.ac
+> +@@ -0,0 +1,48 @@
+> ++# Copyright (C) 2009  Andreas Gruenbacher <agruen@suse.de>
+> ++#
+> ++# This program is free software: you can redistribute it and/or modify it
+> ++# under the terms of the GNU General Public License as published by
+> ++# the Free Software Foundation, either version 2 of the License, or
+> ++# (at your option) any later version.
+> ++#
+> ++# This program is distributed in the hope that it will be useful,
+> ++# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> ++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> ++# GNU General Public License for more details.
+> ++#
+> ++# You should have received a copy of the GNU General Public License
+> ++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> ++#
+> ++AC_INIT(include/attributes.h)
+> ++AC_CONFIG_AUX_DIR([.])
+> ++AC_CONFIG_MACRO_DIR([m4])
+> ++AC_CONFIG_HEADER(include/config.h)
+> ++AC_PREFIX_DEFAULT(/usr)
+> ++
+> ++AC_PROG_LIBTOOL
+> ++
+> ++AC_ARG_ENABLE(shared,
+> ++[ --enable-shared=[yes/no] Enable use of shared libraries [default=yes]],,
+> ++	enable_shared=yes)
+> ++AC_SUBST(enable_shared)
+> ++
+> ++AC_ARG_ENABLE(gettext,
+> ++[ --enable-gettext=[yes/no] Enable alternate language support [default=yes]],,
+> ++	enable_gettext=yes)
+> ++AC_SUBST(enable_gettext)
+> ++
+> ++AC_ARG_ENABLE(lib64,
+> ++[ --enable-lib64=[yes/no] Enable lib64 support [default=no]],,
+> ++	enable_lib64=no)
+> ++AC_SUBST(enable_lib64)
+> ++
+> ++AC_PACKAGE_GLOBALS(attr)
+> ++AC_PACKAGE_UTILITIES(attr)
+> ++AC_MANUAL_FORMAT
+> ++AC_MULTILIB($enable_lib64)
+> ++
+> ++AC_C_CONST
+> ++AC_TYPE_MODE_T
+> ++AC_FUNC_ALLOCA
+> ++
+> ++AC_OUTPUT(include/builddefs)
+>
 
