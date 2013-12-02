@@ -1,26 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8870B6CEEA
+Return-Path: <ulf@emagii.com>
+Received: from smtprelay-b22.telenor.se (smtprelay-b22.telenor.se
+	[195.54.99.213])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E4966A35B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2013 13:55:29 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Dec 2013 05:51:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,811,1378882800"; d="scan'208";a="445308461"
-Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.121.184])
-	by orsmga002.jf.intel.com with ESMTP; 02 Dec 2013 05:55:28 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: =?ISO-8859-1?Q?S=E9bastien?= Mennetrier <s.mennetrier@innotis.org>
-Date: Mon, 02 Dec 2013 13:55:27 +0000
-Message-ID: <10916131.lVIbzf1xN1@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1385990182-8215-1-git-send-email-s.mennetrier@innotis.org>
-References: <1385990182-8215-1-git-send-email-s.mennetrier@innotis.org>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-webserver][PATCH] Add nginx http webserver
+	Mon,  2 Dec 2013 14:30:28 +0000 (UTC)
+Received: from ipb3.telenor.se (ipb3.telenor.se [195.54.127.166])
+	by smtprelay-b22.telenor.se (Postfix) with ESMTP id EA52FEA0D0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Dec 2013 15:30:26 +0100 (CET)
+X-SENDER-IP: [83.227.57.102]
+X-LISTENER: [smtp.bredband.net]
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: AnZSAKmYnFJT4zlmPGdsb2JhbABZgwYBATeyDIcogSMXAwEBAQE4NYJ3AQojT0sKJAmIBQEItD8Bi02PCIQ6A5gUgTCUDTs
+X-IronPort-AV: E=Sophos;i="4.93,811,1378850400"; d="scan'208";a="459856530"
+Received: from c-6639e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
+	hexagon.bredbandsbolaget.se) ([83.227.57.102])
+	by ipb3.telenor.se with ESMTP; 02 Dec 2013 15:30:26 +0100
+From: Ulf Samuelsson <ulf@emagii.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Dec 2013 12:42:31 +0100
+Message-Id: <1385984551-6809-1-git-send-email-ulf@emagii.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Ulf Samuelsson <ulf@emagii.com>
+Subject: [PATCH] curlpp: add curl c++ bindings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +35,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2013 13:55:29 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Mon, 02 Dec 2013 14:30:30 -0000
 
-Hi S=E9bastien,
+Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
+---
+ .../curlpp/curlpp/pkgconfig_fix.patch              |   38 +++++++++
+ meta/recipes-support/curlpp/curlpp_0.7.3.bb        |   90 ++++++++++++++++++++
+ 2 files changed, 128 insertions(+)
+ create mode 100644 meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch
+ create mode 100644 meta/recipes-support/curlpp/curlpp_0.7.3.bb
 
-On Monday 02 December 2013 14:16:22 S=E9bastien Mennetrier wrote:
-> From: S=E9bastien <s.mennetrier@innotis.org>
->=20
-> ---
->  meta-webserver/recipes-httpd/nginx/files/init      |  59 ++++++
->  .../nginx/files/nginx-cross_1.4.4.diff             | 212
+diff --git a/meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch b/meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch
+new file mode 100644
+index 0000000..ad73c00
+--- /dev/null
++++ b/meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch
+@@ -0,0 +1,38 @@
++Upstream-Status: Inappropriate [packaging]
++
++
++Index: curl-7.20.0/libcurl.pc.in
++===================================================================
++--- curl-7.20.0.orig/libcurl.pc.in	2009-11-17 18:11:07.000000000 +0000
+++++ curl-7.20.0/libcurl.pc.in	2010-03-25 12:13:26.814051066 +0000
++@@ -35,6 +35,7 @@
++ URL: http://curl.haxx.se/
++ Description: Library to transfer files with ftp, http, etc.
++ Version: @CURLVERSION@
++-Libs: -L${libdir} -lcurl @LIBS@
++-Libs.private: @LIBCURL_LIBS@ @LIBS@
+++Requires.private: @GNUTLS_REQUIRED@
+++Libs: -L${libdir} -lcurl
+++Libs.private: -ldl -lz
++ Cflags: -I${includedir}
++Index: curl-7.20.0/configure.ac
++===================================================================
++--- curl-7.20.0.orig/configure.ac	2010-02-04 21:41:46.000000000 +0000
+++++ curl-7.20.0/configure.ac	2010-03-25 12:12:18.673129001 +0000
++@@ -1668,6 +1668,7 @@
++        AC_SUBST(USE_GNUTLS, [1])
++        GNUTLS_ENABLED=1
++        USE_GNUTLS="yes"
+++       GNUTLS_REQUIRED="gnutls"
++        curl_ssl_msg="enabled (GnuTLS)"
++        ],
++        [
++@@ -1696,6 +1697,8 @@
++ 
++ fi dnl OPENSSL != 1
++ 
+++AC_SUBST(GNUTLS_REQUIRED)
+++
++ dnl ----------------------------------------------------
++ dnl NSS. Only check if GnuTLS and OpenSSL are not enabled
++ dnl ----------------------------------------------------
+diff --git a/meta/recipes-support/curlpp/curlpp_0.7.3.bb b/meta/recipes-support/curlpp/curlpp_0.7.3.bb
+new file mode 100644
+index 0000000..1dc72f1
+--- /dev/null
++++ b/meta/recipes-support/curlpp/curlpp_0.7.3.bb
+@@ -0,0 +1,90 @@
++DESCRIPTION = "C++ library for client-side URL transfers."
++HOMEPAGE = "http://code.google.com/p/curlpp/"
++SECTION = "console/network"
++LICENSE = "freely distributable"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fd0c9adf285a69aa3b4faf34384e1029"
++
++DEPENDS = "curl boost"
++DEPENDS_class-native = "curl-native"
++PR = "r1"
++
++SRC_URI = "http://curlpp.googlecode.com/files/curlpp-${PV}.tar.gz \
++	"
++
++SRC_URI[md5sum] = "ccc3d30d4b3b5d2cdbed635898c29485"
++SRC_URI[sha256sum] = "e3f9427b27c5bddf898d383d45c0d3d5397e2056ff935d9a5cdaef6a9a653bd5"
++
++inherit autotools pkgconfig binconfig
++
++EXTRA_OECONF = "--prefix=${STAGING_DIR} \
++		--with-boost=${STAGING_DIR} \
++		"
++#		--host=arm-angstrom-linux-gnueabi \
++
++
++do_install() {
++	install -d ${D}/${includedir}/curlpp
++	cp -r include/curlpp/* 					${D}${includedir}/curlpp
++
++	install -d ${D}${includedir}/utilspp
++	cp -r include/utilspp/* 				${D}${includedir}/utilspp
++
++	install -d ${D}/${libdir}
++	install	-m 664 src/curlpp/.libs/libcurlpp.a		${D}/${libdir}
++#	install	-m 664 src/curlpp/.libs/libcurlpp.la		${D}/${libdir}
++	install	-m 664 src/curlpp/.libs/libcurlpp.lai		${D}/${libdir}/libcurlpp.la
++
++	install	-m 775 src/curlpp/.libs/libcurlpp.so		${D}/${libdir}
++	install	-m 775 src/curlpp/.libs/libcurlpp.so.0		${D}/${libdir}
++	install	-m 775 src/curlpp/.libs/libcurlpp.so.0.0.2	${D}/${libdir}
++
++	install	-m 664 src/utilspp/.libs/libutilspp.a		${D}/${libdir}
++#	install	-m 664 src/utilspp/.libs/libutilspp.la		${D}/${libdir}
++	install	-m 664 src/utilspp/.libs/libutilspp.lai		${D}/${libdir}/libutilspp.la
++
++	install	-m 664 src/utilspp/.libs/libutilspp.so		${D}/${libdir}
++	install	-m 664 src/utilspp/.libs/libutilspp.so.0	${D}/${libdir}
++	install	-m 664 src/utilspp/.libs/libutilspp.so.0.0.0	${D}/${libdir}
++
++	install -d ${D}/${libdir}/pkgconfig
++	install	-m 664 curlpp.pc				${D}/${libdir}/pkgconfig
++
++	install -d ${D}/${bindir}
++	install	-m 755 curlpp-config 				${D}/${bindir}
++
++	install -d ${D}/${includedir}/curlpp
++	install -d ${D}/${includedir}/curlpp/internal
++	install -d ${D}/${includedir}/utilspp
++	install -d ${D}/${includedir}/utilspp/functor
++	install -d ${D}/${includedir}/utilspp/singleton
++
++	install	-m 664 include/curlpp/config*			${D}/${includedir}/curlpp
++	install	-m 664 include/curlpp/*.h*			${D}/${includedir}/curlpp
++	install	-m 664 include/curlpp/*.inl			${D}/${includedir}/curlpp
++
++	install	-m 664 include/curlpp/internal/*.h*		${D}/${includedir}/curlpp/internal
++	install	-m 664 include/curlpp/internal/*.inl		${D}/${includedir}/curlpp/internal
++
++	install	-m 664 include/utilspp/*.h*			${D}/${includedir}/utilspp
++	install	-m 664 include/utilspp/*.inl			${D}/${includedir}/utilspp
++
++	install	-m 664 include/utilspp/functor/*.h*		${D}/${includedir}/utilspp/functor
++	install	-m 664 include/utilspp/singleton/*.h*		${D}/${includedir}/utilspp/singleton
++	install	-m 664 include/utilspp/singleton/*.inl		${D}/${includedir}/utilspp/singleton
++	install -m 755 curlpp-config				${D}/${bindir}
++}
++
++PACKAGES =+ "libcurlpp libcurlpp-dev libcurlpp-staticdev"
++
++FILES_lib${BPN} = "${libdir}/lib*.so.* \
++                      ${libdir}/lib*.so \
++		"
++
++FILES_lib${BPN}-dev = "${includedir} \
++                      ${libdir}/lib*.la \
++                      ${libdir}/pkgconfig \
++                      ${bindir}/*-config"
++
++FILES_lib${BPN}-staticdev = "${libdir}/lib*.a"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+1.7.9.5
 
-Patches for meta-webserver (and all of the other layers in the meta-
-openembedded repository) need to be sent to openembedded-
-devel@lists.openembedded.org; could you please send it there?
-
-Thanks,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
