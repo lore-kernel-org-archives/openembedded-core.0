@@ -1,21 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B9F0C6D3A7
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 626BF6D3A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 17:09:34 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Dec 2013 09:09:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,819,1378882800"; d="scan'208";a="443929715"
-Received: from timevans-mobl.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.121.200])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2013 09:09:32 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Dec 2013 17:09:09 +0000
-Message-Id: <cover.1386089633.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [dylan][PATCH 00/11] Backports from master (cover letter only)
+	Tue,  3 Dec 2013 17:21:11 +0000 (UTC)
+Received: by mail-pd0-f175.google.com with SMTP id w10so20328879pde.6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Dec 2013 09:21:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=XjXsGGYG3Tgf/8RFA8wyrFlBFsgvoLKDBSs2s3RDSUM=;
+	b=XafnapjEeKZAKzEqYoUz20juVeVO20rpGiAYbg4J25iq2pDbHSncyuTH6Hg+60P93P
+	xxL5RBK66CX2f1BC4aMvQIJPs1KbVDji8brFerM1bmM3xpv4A2OLbY3d/Eqf+YRNudm9
+	vXHFm0HVB/hG90hGPxu0Cm6/6QDvkxeq6SdaXAQheAciY3FsdjgqItI9jeLrLlOJ2KqH
+	Xac77nPf87MP6ZaDwVz8JxczsRoylG2WIa5pVCTX0lHPdKgpVIH+S7/KQFEm3k8D+IT5
+	g2NnoeGycDLPorl0oDDrnDorGIYwCdnrkfxckAtoz4mfPU/GFAdxJBvy2hUfdo7TqRbD
+	w/bA==
+MIME-Version: 1.0
+X-Received: by 10.68.236.133 with SMTP id uu5mr12044658pbc.153.1386091270831; 
+	Tue, 03 Dec 2013 09:21:10 -0800 (PST)
+Received: by 10.68.12.133 with HTTP; Tue, 3 Dec 2013 09:21:10 -0800 (PST)
+In-Reply-To: <20131203165509.GC11291@mail.zedat.fu-berlin.de>
+References: <20131203160858.GB11291@mail.zedat.fu-berlin.de>
+	<529E0A3D.50809@balister.org>
+	<20131203165509.GC11291@mail.zedat.fu-berlin.de>
+Date: Tue, 3 Dec 2013 12:21:10 -0500
+Message-ID: <CADkTA4MGqDjpeAHE4gVWVgSv51uauteHtUbcsErLCMOj3eBz2Q@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Henning Heinold <heinold@inf.fu-berlin.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Status for "Sponsored by" git tags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,67 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 17:09:36 -0000
+X-List-Received-Date: Tue, 03 Dec 2013 17:21:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Backports of patches from master to the dylan branch, plus one
-dylan-only patch to fix kern-tools-native.
+On Tue, Dec 3, 2013 at 11:55 AM, Henning Heinold
+<heinold@inf.fu-berlin.de> wrote:
+> On Tue, Dec 03, 2013 at 11:43:41AM -0500, Philip Balister wrote:
+>> On 12/03/2013 11:08 AM, Henning Heinold wrote:
+>> > Hi,
+>> >
+>> > how is the status about using "Sponsored by" git tags. Do we want something
+>> > like that in openemebdded or not?
+>>
+>> What are SPonsored by tags?
+>>
+>> Philip
+>>
+>
+> Hi Philip,
+>
+> Sponsored By tags are used by freebsd and some other projects to show which company
+> sponsored the commit
+
+Urk. Of the top of my head .. that just looks nasty. Signed-off-by:
+already indicates
+a company name, so going further than that is overkill IMHO.
+
+Bruce
+.
+>
+> For example
+>
+> https://github.com/freebsd/freebsd-head/commit/da88cadfb7e76ffa35440f16fef51a03935b7775
+>
+> Bye Henning
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-The following changes since commit 3549f5f203363302256848bb33c05c4fd4871948:
-
-  busybox: configure system user id to range from 100 to 999 (2013-10-10 12:21:02 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-next
-
-Bruce Ashfield (1):
-  kern-tools: use dylan branch
-
-Chen Qi (1):
-  license.bbclass: fix missing of license files on ubuntu build host
-
-Christopher Larson (1):
-  license.bbclass: include all licenses in the manifest
-
-Khem Raj (1):
-  elfutils-native: Update the patch to include the missing pieces needed
-    for tests
-
-Laurentiu Palcu (2):
-  nativesdk-qt4-tools: create qt.conf file
-  meta-toolchain-qt: put QT_CONF_PATH in environment script
-
-Martin Jansa (1):
-  db: Fix build with high PARALLEL_MAKE
-
-Richard Purdie (3):
-  classes: tar 1.27 fixes
-  lib/oe/path: Fix copytree functions for tar 1.27
-  metadata_scm: Avoid crashing on new svn version layouts
-
-Roy Li (1):
-  dropbear: pass SFTPSERVER_PATH explicitly
-
- meta/classes/libc-package.bbclass                   |  8 ++++----
- meta/classes/license.bbclass                        | 11 +++++------
- meta/classes/metadata_scm.bbclass                   |  7 +++++--
- meta/classes/package.bbclass                        |  2 +-
- meta/classes/populate_sdk_deb.bbclass               |  2 +-
- meta/classes/staging.bbclass                        |  2 +-
- meta/lib/oe/path.py                                 |  4 ++--
- meta/recipes-core/dropbear/dropbear.inc             |  1 +
- .../elfutils/elfutils/fix-build-gcc-4.8.patch       | 21 +++++++++++++++++----
- .../kern-tools/kern-tools-native_git.bb             |  4 ++--
- meta/recipes-qt/meta/meta-toolchain-qt.inc          |  1 +
- meta/recipes-qt/qt4/nativesdk-qt4-tools.inc         |  6 ++++++
- meta/recipes-support/db/db/fix-parallel-build.patch | 19 +++++++++++++++++++
- meta/recipes-support/db/db_5.3.21.bb                |  3 ++-
- 14 files changed, 67 insertions(+), 24 deletions(-)
- create mode 100644 meta/recipes-support/db/db/fix-parallel-build.patch
 
 -- 
-1.8.1.2
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
