@@ -1,23 +1,42 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D9D96CB61
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
+	[209.85.160.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B0776CB61
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 17:38:29 +0000 (UTC)
-Message-ID: <529E1712.3080001@communistcode.co.uk>
-Date: Tue, 03 Dec 2013 17:38:26 +0000
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+	Tue,  3 Dec 2013 17:39:35 +0000 (UTC)
+Received: by mail-pb0-f49.google.com with SMTP id jt11so21208678pbb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Dec 2013 09:39:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=C8bTsZKriO+a1BjwnbyqVBvObu9t/YbZUplPXorgoBg=;
+	b=GFbMQWe9yUazrnK8WbmPS04ydNVpxdXxUtYedHEMlh665WImEfyhd6ZUCsurRu/28F
+	bDS/7bRsPTY3NvUlUCxdFU/2yKs2O0MI+GaWH+7VT0Wqn1bldwMvOjkPdLEmVOtSze2F
+	jp3RWcEfIkaIb78gp092LkqKXGYRB8r82GEpon3/8Rbf6yPUEfmryb4HE/qb5y5xPSF8
+	feBLQTNbeDK7ACq4ziGkBskBKv/CtBaZgBzUAbJPPYgEg3ZMj0VQKfF35lo9xwwuGoXE
+	i/BJ8CnYMSDXpFdoFDZBkwYLFqJ+k2kBwH/qVWLmFElZRgXiRWr2YgvWHeMwBxQy9evS
+	HUFg==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <20131203160858.GB11291@mail.zedat.fu-berlin.de>	<529E0A3D.50809@balister.org>	<20131203165509.GC11291@mail.zedat.fu-berlin.de>
+X-Received: by 10.66.188.172 with SMTP id gb12mr12454627pac.143.1386092374826; 
+	Tue, 03 Dec 2013 09:39:34 -0800 (PST)
+Received: by 10.68.12.133 with HTTP; Tue, 3 Dec 2013 09:39:34 -0800 (PST)
+In-Reply-To: <20131203173732.GD11291@mail.zedat.fu-berlin.de>
+References: <20131203160858.GB11291@mail.zedat.fu-berlin.de>
+	<529E0A3D.50809@balister.org>
+	<20131203165509.GC11291@mail.zedat.fu-berlin.de>
 	<CADkTA4MGqDjpeAHE4gVWVgSv51uauteHtUbcsErLCMOj3eBz2Q@mail.gmail.com>
-In-Reply-To: <CADkTA4MGqDjpeAHE4gVWVgSv51uauteHtUbcsErLCMOj3eBz2Q@mail.gmail.com>
+	<20131203173732.GD11291@mail.zedat.fu-berlin.de>
+Date: Tue, 3 Dec 2013 12:39:34 -0500
+Message-ID: <CADkTA4OaADmnG-3A6pvQhBWOLh2sj3wTo0i6RUsPS+TgLrF4zg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Henning Heinold <heinold@inf.fu-berlin.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Status for "Sponsored by" git tags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -27,45 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 17:38:29 -0000
+X-List-Received-Date: Tue, 03 Dec 2013 17:39:35 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
-On 03/12/13 17:21, Bruce Ashfield wrote:
-> On Tue, Dec 3, 2013 at 11:55 AM, Henning Heinold
-> <heinold@inf.fu-berlin.de> wrote:
->> On Tue, Dec 03, 2013 at 11:43:41AM -0500, Philip Balister wrote:
->>> On 12/03/2013 11:08 AM, Henning Heinold wrote:
->>>> Hi,
->>>>
->>>> how is the status about using "Sponsored by" git tags. Do we want something
->>>> like that in openemebdded or not?
->>>
->>> What are SPonsored by tags?
->>>
->>> Philip
->>>
+On Tue, Dec 3, 2013 at 12:37 PM, Henning Heinold
+<heinold@inf.fu-berlin.de> wrote:
+> On Tue, Dec 03, 2013 at 12:21:10PM -0500, Bruce Ashfield wrote:
+>> On Tue, Dec 3, 2013 at 11:55 AM, Henning Heinold
+>> Urk. Of the top of my head .. that just looks nasty. Signed-off-by:
+>> already indicates
+>> a company name, so going further than that is overkill IMHO.
 >>
->> Hi Philip,
->>
->> Sponsored By tags are used by freebsd and some other projects to show which company
->> sponsored the commit
-> 
-> Urk. Of the top of my head .. that just looks nasty. Signed-off-by:
-> already indicates
-> a company name, so going further than that is overkill IMHO.
-> 
-> Bruce
-> ..
->>
+>> Bruce
+>
+> But what if it is contractor work, where the commiter has no company email.
 
-Indeed, domain addresses in emails usually give the "sponsor" of the
-work. No need for more bureaucracy.
+Honestly, that's between the company and the contractor. But I'm only offering
+one opinion. I'm not a fan of new tags, whether or not they are about credit.
+Better commit messages, not tags, are what is typically required (i.e.
+read about
+the short lived "Impact:" tag in kernel commits).
+
+Bruce
+
+>
+> Bye Henning
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
 -- 
-  Jack Mitchell (jack@embed.me.uk)
-  Embedded Systems Engineer
-  Cambridgeshire, UK
-  http://www.embed.me.uk
--- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
