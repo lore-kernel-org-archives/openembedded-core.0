@@ -1,27 +1,32 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 00FD36D3A7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CE576D8C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 17:55:49 +0000 (UTC)
-Received: (qmail 28032 invoked by uid 1003); 3 Dec 2013 17:55:49 -0000
-Received: from unknown (HELO ?192.168.1.113?)
-	(philip@opensdr.com@108.44.82.190)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	3 Dec 2013 17:55:49 -0000
-Message-ID: <529E1B23.9050505@balister.org>
-Date: Tue, 03 Dec 2013 12:55:47 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
-MIME-Version: 1.0
+	Tue,  3 Dec 2013 18:01:06 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB3I0rf5023687; Tue, 3 Dec 2013 18:00:53 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ydUb7r0W2-UF; Tue,  3 Dec 2013 18:00:53 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB3I0o03023684
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 3 Dec 2013 18:00:52 GMT
+Message-ID: <1386093645.4463.128.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Henning Heinold <heinold@inf.fu-berlin.de>
+Date: Tue, 03 Dec 2013 18:00:45 +0000
+In-Reply-To: <20131203173732.GD11291@mail.zedat.fu-berlin.de>
 References: <20131203160858.GB11291@mail.zedat.fu-berlin.de>
 	<529E0A3D.50809@balister.org>
 	<20131203165509.GC11291@mail.zedat.fu-berlin.de>
 	<CADkTA4MGqDjpeAHE4gVWVgSv51uauteHtUbcsErLCMOj3eBz2Q@mail.gmail.com>
 	<20131203173732.GD11291@mail.zedat.fu-berlin.de>
-In-Reply-To: <20131203173732.GD11291@mail.zedat.fu-berlin.de>
-X-Enigmail-Version: 1.6
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Status for "Sponsored by" git tags
@@ -37,32 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 17:55:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 03 Dec 2013 18:01:09 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12/03/2013 12:37 PM, Henning Heinold wrote:
+On Tue, 2013-12-03 at 18:37 +0100, Henning Heinold wrote:
 > On Tue, Dec 03, 2013 at 12:21:10PM -0500, Bruce Ashfield wrote:
->> On Tue, Dec 3, 2013 at 11:55 AM, Henning Heinold
->> Urk. Of the top of my head .. that just looks nasty. Signed-off-by:
->> already indicates
->> a company name, so going further than that is overkill IMHO.
->>
->> Bruce
+> > On Tue, Dec 3, 2013 at 11:55 AM, Henning Heinold
+> > Urk. Of the top of my head .. that just looks nasty. Signed-off-by:
+> > already indicates
+> > a company name, so going further than that is overkill IMHO.
+> > 
+> > Bruce
 > 
 > But what if it is contractor work, where the commiter has no company email.
 
-Assuming you have a specific case in mind, could we recognize the
-sponsor on the website, possibly via a new item?
+Well, in the same way we acknowledge people who helped with a patch, you
+can mention people/companies by name in commit messages and I can't see
+an issue with that. I don't think it needs a specific tag form though.
 
-Philip
+Cheers,
 
-> 
-> Bye Henning
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
+Richard
+
 
