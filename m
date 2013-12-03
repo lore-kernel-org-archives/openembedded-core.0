@@ -1,26 +1,31 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA3756DF55
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id B515D6DEE2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 10:30:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB3AURSU003365
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Dec 2013 02:30:27 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 3 Dec 2013 02:30:27 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Dec 2013 18:30:17 +0800
-Message-ID: <893fa112fb49ce4c68f6b39d9e2da04ddef5aa95.1386066538.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1386066538.git.hongxu.jia@windriver.com>
-References: <cover.1386066538.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 1/1] dhcp-client: override make_resolv_conf for read-only fs
+	Tue,  3 Dec 2013 12:14:47 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB3CEVYM006486; Tue, 3 Dec 2013 12:14:31 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id BZ4nGkxmh3JR; Tue,  3 Dec 2013 12:14:30 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB3CENsw006478
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 3 Dec 2013 12:14:25 GMT
+Message-ID: <1386072858.4463.42.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Tue, 03 Dec 2013 12:14:18 +0000
+In-Reply-To: <837855b3a50fc0672000e2419763a8c6ad062ae3.1386066250.git.hongxu.jia@windriver.com>
+References: <cover.1386066249.git.hongxu.jia@windriver.com>
+	<837855b3a50fc0672000e2419763a8c6ad062ae3.1386066250.git.hongxu.jia@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] eglibc-locale.inc: use nativesdk override with the PACKAGES_DYNAMIC statement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +38,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 10:30:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Dec 2013 12:14:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When dhclient-script starts, the client script first defines a shell
-function, make_resolv_conf , which is later used to create the
-/etc/resolv.conf file.
+On Tue, 2013-12-03 at 18:27 +0800, Hongxu Jia wrote:
+> While compiling nativesdk-mtools, there was failure:
+> ...
+> Nothing PROVIDES 'nativesdk-glibc-gconv-ibm850'. Close matches:
+> ...
+> 
+> Using nativesdk override with the PACKAGES_DYNAMIC statement fixed this issue.
+> 
+> [YOCTO #5623]
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-core/eglibc/eglibc-locale.inc | 6 ++++++
+>  1 file changed, 6 insertions(+)
 
-But the read-only filesystem didn't permit the modification, so override
-the default behaviour and redefine this function in the enter hook script.
+No.
 
-http://linux.about.com/library/cmd/blcmdl8_dhclient-script.htm
-[YOCTO #5624]
+lib/oe/classextend.py has a map_regexp_variable() function which is
+called from classes/multilib.bbclass:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-connectivity/dhcp/dhcp.inc                           | 8 +++++++-
- .../recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks | 3 +++
- 2 files changed, 10 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks
+clsextend.map_regexp_variable("PACKAGES_DYNAMIC")
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index ad82b57..d9a6beb 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -16,6 +16,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
-            file://site.h \
- 	   file://init-relay file://default-relay \
- 	   file://init-server file://default-server \
-+	   file://readonly-dhclient-enter-hooks \
- 	   file://dhclient.conf file://dhcpd.conf"
- 
- inherit autotools
-@@ -51,6 +52,9 @@ do_install_append () {
- 		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
- 	fi
- 	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
-+	if ${@base_contains("IMAGE_FEATURES", "read-only-rootfs", "true", "false" ,d)}; then
-+		install -m 0755 ${WORKDIR}/readonly-dhclient-enter-hooks ${D}${sysconfdir}/dhclient-enter-hooks
-+	fi
- }
- 
- PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
-@@ -66,7 +70,9 @@ FILES_dhcp-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp
- 
- FILES_dhcp-relay = "${sbindir}/dhcrelay ${sysconfdir}/init.d/dhcp-relay ${sysconfdir}/default/dhcp-relay"
- 
--FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf"
-+FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf \
-+                     ${sysconfdir}/dhclient-enter-hooks \
-+"
- RDEPENDS_dhcp-client = "bash"
- 
- FILES_dhcp-omshell = "${bindir}/omshell"
-diff --git a/meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks b/meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks
-new file mode 100644
-index 0000000..06c90e3
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks
-@@ -0,0 +1,3 @@
-+make_resolv_conf(){
-+  :
-+}
--- 
-1.8.1.2
+Perhaps such a line should be added to nativesdk.bbclass to fix this
+properly instead?
+
+Cheers,
+
+Richard
+
+> diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
+> index 83569da..5e256a5 100644
+> --- a/meta/recipes-core/eglibc/eglibc-locale.inc
+> +++ b/meta/recipes-core/eglibc/eglibc-locale.inc
+> @@ -35,6 +35,12 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
+>                      ^eglibc-gconv-.* ^eglibc-charmap-.* ^eglibc-localedata-.* ^eglibc-binary-localedata-.* \
+>                      ^glibc-gconv-.*  ^glibc-charmap-.*  ^glibc-localedata-.*  ^glibc-binary-localedata-.*"
+>  
+> +PACKAGES_DYNAMIC_class-nativesdk = "^nativesdk-locale-base-.* \
+> +                    ^nativesdk-eglibc-gconv-.* ^nativesdk-eglibc-charmap-.* \
+> +                    ^nativesdk-eglibc-localedata-.* ^nativesdk-eglibc-binary-localedata-.* \
+> +                    ^nativesdk-glibc-gconv-.*  ^nativesdk-glibc-charmap-.*  \
+> +                    ^nativesdk-glibc-localedata-.*  ^nativesdk-glibc-binary-localedata-.*"
+> +
+>  # Create a eglibc-binaries package
+>  ALLOW_EMPTY_${BPN}-binaries = "1"
+>  PACKAGES += "${BPN}-binaries"
+
 
 
