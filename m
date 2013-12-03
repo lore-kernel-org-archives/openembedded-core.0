@@ -1,26 +1,40 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A1A46DF27
+Return-Path: <andre.draszik@linaro.org>
+Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D70226DF93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 13:47:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB3DlDc5012543
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Dec 2013 05:47:13 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 3 Dec 2013 05:47:11 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Dec 2013 21:46:59 +0800
-Message-ID: <8985e61776a6fa13ea27697aeb12bf56cb851a12.1386078157.git.hongxu.jia@windriver.com>
+	Tue,  3 Dec 2013 15:04:41 +0000 (UTC)
+Received: by mail-ee0-f41.google.com with SMTP id t10so1582583eei.14
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Dec 2013 07:04:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-type:content-transfer-encoding;
+	bh=4fZUTep34KWrOc/7XujZwldyYLhi++Gdwn+e+DYB5I4=;
+	b=Y1XFVrdrS2tj0bpCXeLvS30hHX6NCyaKp4Z2FiaMcgn6f/l8ViASZ2P2KiUjZOhgGp
+	UDsJ4qmjDwllOl9XRioyf6uoFWFuPZ+ZbwlJuTQKq9mpEqq82OdH1qj6QKIRblRAaE9E
+	iNETxK9du6hHc8fdB5Wnea1L7yHKDMmSuK8jLH3aNzcxtbVCLTb+ISV9VO6rXA4z6fjA
+	x3tB7BNw8HFke93w/gXLMMsEmnQqlTlbsHCNhcO2VWcAEIc9Ku8fiWFum9qxXl7oG+d6
+	pPY9KCEPEZDmrysAyV5arI5DGwJrAUiV+jauK1wvS6F4ohq4pChuj6gszaBNvjqMPktM
+	ec7w==
+X-Gm-Message-State: ALoCoQkRsjo9AOJ6hE5goLQCZpibO6nq5sQ1tL3PVZMCOTLppbLJdPDVCluyyoFbd5fCL5BEBBai
+X-Received: by 10.14.99.3 with SMTP id w3mr3199587eef.96.1386083080660;
+	Tue, 03 Dec 2013 07:04:40 -0800 (PST)
+Received: from bri0771.fritz.box (pD4B88AB0.dip0.t-ipconnect.de.
+	[212.184.138.176])
+	by mx.google.com with ESMTPSA id m1sm77676861eeg.0.2013.12.03.07.04.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 03 Dec 2013 07:04:40 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Dec 2013 16:04:39 +0100
+Message-Id: <1386083079-10368-1-git-send-email-andre.draszik@linaro.org>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1386078157.git.hongxu.jia@windriver.com>
-References: <cover.1386078157.git.hongxu.jia@windriver.com>
+In-Reply-To: <20131121173050.GA3708@jama>
+References: <20131121173050.GA3708@jama>
 MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 2/2] dhclient-script: override make_resolv_conf for read-only fs
+Subject: [meta-qt5][PATCH] qt5.inc: allow to set the package arch globally
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +47,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 13:47:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Dec 2013 15:04:44 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-When dhclient-script starts, the client script first defines a shell
-function, make_resolv_conf , which is later used to create the
-/etc/resolv.conf file.
+If Qt5 (qtbase) is machine specific, then all packages depending
+on qtbase will also be machine specific, because the (initial)
+qtbase configuration becomes part of Qt5/qmake, thus affecting
+builds of packages built against this specific version of qtbase.
 
-But the read-only filesystem didn't permit the modification, so override
-the default behaviour and redefine this function in the enter hook script.
+Since it is not feasible to add PACKAGE_ARCH=... to each and every
+recipe that is built using qmake and depends on Qt5, we introduce
+a new variable, QT_PACKAGES_ARCH, that can be set by the machine
+configuration as needed.
 
-http://linux.about.com/library/cmd/blcmdl8_dhclient-script.htm
-[YOCTO #5624]
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+We have to be careful though to only change the architecture of the
+resulting packages if we're not compiling a 'native' package.
+
+Signed-off-by: André Draszik <andre.draszik@linaro.org>
 ---
- meta/recipes-connectivity/dhcp/dhcp.inc            |  6 ++++-
- .../dhcp/files/readonly-dhclient-enter-hooks       | 31 ++++++++++++++++++++++
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks
+ recipes-qt/qt5/qt5.inc | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
-index d8376aa..58715be 100644
---- a/meta/recipes-connectivity/dhcp/dhcp.inc
-+++ b/meta/recipes-connectivity/dhcp/dhcp.inc
-@@ -16,6 +16,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
-            file://site.h \
- 	   file://init-relay file://default-relay \
- 	   file://init-server file://default-server \
-+	   file://readonly-dhclient-enter-hooks \
- 	   file://dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch \
- 	   file://dhclient.conf file://dhcpd.conf"
+diff --git a/recipes-qt/qt5/qt5.inc b/recipes-qt/qt5/qt5.inc
+index 7669efc..8d8438f 100644
+--- a/recipes-qt/qt5/qt5.inc
++++ b/recipes-qt/qt5/qt5.inc
+@@ -20,6 +20,18 @@ OE_QMAKE_PATH_SETTINGS = "${OE_QMAKE_PATH_QT_SETTINGS}"
+ OE_QMAKE_PATH_EXAMPLES = "${OE_QMAKE_PATH_QT_EXAMPLES}"
+ OE_QMAKE_PATH_TESTS = "${OE_QMAKE_PATH_QT_TESTS}"
  
-@@ -52,6 +53,7 @@ do_install_append () {
- 		mv ${D}${sbindir}/dhclient ${D}${base_sbindir}/
- 	fi
- 	install -m 0755 ${S}/client/scripts/linux ${D}${base_sbindir}/dhclient-script
-+	install -m 0755 ${WORKDIR}/readonly-dhclient-enter-hooks ${D}${sysconfdir}/dhclient-enter-hooks
- }
- 
- PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
-@@ -67,7 +69,9 @@ FILES_dhcp-server-config = "${sysconfdir}/default/dhcp-server ${sysconfdir}/dhcp
- 
- FILES_dhcp-relay = "${sbindir}/dhcrelay ${sysconfdir}/init.d/dhcp-relay ${sysconfdir}/default/dhcp-relay"
- 
--FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf"
-+FILES_dhcp-client = "${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf \
-+                     ${sysconfdir}/dhclient-enter-hooks \
-+"
- RDEPENDS_dhcp-client = "bash"
- 
- FILES_dhcp-omshell = "${bindir}/omshell"
-diff --git a/meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks b/meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks
-new file mode 100644
-index 0000000..c43e81f
---- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks
-@@ -0,0 +1,31 @@
-+is_on_read_only_partition () {
-+    FILE=$1
-+    dir=`dirname $(readlink -f "$FILE")`
-+    while true; do
-+        if [ ! -d "$dir" ]; then
-+            echo "ERROR: $dir is not a directory"
-+            exit 1
-+        else
-+            for flag in `awk -v dir=$dir '{ if ($2 == dir) { print "FOUND"; split($4,FLAGS,",") } }; \
-+                END { for (f in FLAGS) print FLAGS[f] }' < /proc/mounts`; do
-+                [ "$flag" = "FOUND" ] && partition="read-write"
-+                [ "$flag" = "ro" ] && { partition="read-only"; break; }
-+            done
-+            if [ "$dir" = "/" -o -n "$partition" ]; then
-+                break
-+            else
-+                dir=`dirname $dir`
-+            fi
-+        fi
-+    done
-+    [ "$partition" = "read-only" ] && echo "yes" || echo "no"
++# If Qt5 (qtbase) is machine specific, then everything will be,
++# because the (initial) qtbase configuration becomes part of Qt5/qmake
++python __anonymous() {
++    barch = d.getVar("BUILD_ARCH", True) or ''
++    tarch = d.getVar("TARGET_ARCH", True) or ''
++    # do not do anything if we are building a native package
++    if barch != tarch:
++        tarch = d.getVar("QT_PACKAGES_ARCH", True) or ''
++        if tarch:
++            d.setVar("PACKAGE_ARCH", tarch)
 +}
 +
-+# If resolv.conf on the readonly partition, we should override make_resolv_conf
-+if [ `is_on_read_only_partition /etc/resolv.conf` = "no" ]; then
-+    return
-+fi
-+
-+make_resolv_conf(){
-+    :
-+}
+ PACKAGES =. "${PN}-qmlplugins-dbg ${PN}-tools-dbg ${PN}-plugins-dbg ${PN}-qmlplugins ${PN}-tools ${PN}-plugins ${PN}-mkspecs ${PN}-examples-dev ${PN}-examples-staticdev ${PN}-examples-dbg ${PN}-examples "
+ 
+ # extra -dbg packages
 -- 
 1.8.1.2
 
