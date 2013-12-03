@@ -1,45 +1,32 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 45EDE610DC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id E66EB6A35B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 22:09:59 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.7]) by hetzner.pbcl.net with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <pb@pbcl.net>)
-	id 1Vny9o-0002ue-7Y; Tue, 03 Dec 2013 23:09:55 +0100
-Message-ID: <1386108562.8293.8.camel@x121e.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Tue, 03 Dec 2013 22:09:22 +0000
-In-Reply-To: <ae7e0f907b72ad9af0a078bdf317a7eb10315c7f.1386078157.git.hongxu.jia@windriver.com>
-References: <cover.1386078157.git.hongxu.jia@windriver.com>
-	<ae7e0f907b72ad9af0a078bdf317a7eb10315c7f.1386078157.git.hongxu.jia@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.4.4-3 
+	Tue,  3 Dec 2013 22:40:23 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB3MeG3o000867; Tue, 3 Dec 2013 22:40:16 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id e3kGKInSudef; Tue,  3 Dec 2013 22:40:16 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB3MeC71000861
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 3 Dec 2013 22:40:14 GMT
+Message-ID: <1386110407.4463.148.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chris Larson <kergoth@gmail.com>
+Date: Tue, 03 Dec 2013 22:40:07 +0000
+In-Reply-To: <CABcZAN=RUKdQcxE=9aQoXcap2LYA9F5begiT5jD2-JFY-h-NYw@mail.gmail.com>
+References: <cover.1385575572.git.kergoth@gmail.com>
+	<CABcZAN=RUKdQcxE=9aQoXcap2LYA9F5begiT5jD2-JFY-h-NYw@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Tue, 2013-12-03 at 21:46 +0800,
-	Hongxu Jia wrote: > +-
-	echo search $new_domain_search >> /etc/resolv.conf.dhclient > ++ echo
-	search
-	$new_domain_search >> $sysconfdir/esolv.conf.dhclient Should that be
-	"$sysconfdir/resolv.conf.dhclient"? [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] dhclient-script: let resolv.conf and resolv.conf.dhclient on the same direcotry
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Random fixes from the Mentor Graphics push queue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,17 +39,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 22:10:00 -0000
+X-List-Received-Date: Tue, 03 Dec 2013 22:40:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-12-03 at 21:46 +0800, Hongxu Jia wrote:
-> +-      echo search $new_domain_search >> /etc/resolv.conf.dhclient
-> ++      echo search $new_domain_search >> $sysconfdir/esolv.conf.dhclient
+On Tue, 2013-12-03 at 11:40 -0700, Chris Larson wrote:
+> On Wed, Nov 27, 2013 at 11:07 AM, Christopher Larson
+> <kergoth@gmail.com> wrote:
+>         The following changes since commit
+>         f991d2d60b74f5ebd990f77aecd3324b1a4533e9:
+>         
+>           libpng: set reasonable SUMMARY (2013-11-27 11:51:08 +0000)
+>         
+>         are available in the git repository at:
+>         
+>           https://github.com/kergoth/oe-core.git random-fixes
+>           https://github.com/kergoth/oe-core/tree/random-fixes
+>         
+>         Christopher Larson (7):
+>           update-rc.d: process symlinks recursively
+>           perf: remove /usr/local/include from default makefile
+>         includes
+>           pulseaudio: fix RDEPENDS traversal for consolekit
+> 
+> Were there issues with these, or was it just that further testing was
+> necessary? I noticed this series was partially applied.
 
-Should that be "$sysconfdir/resolv.conf.dhclient"?
+On the most part just being cautious for M1. 
 
-p.
+The perf one does worry me as we keep going around in circles on it
+where we change one thing, it breaks something else, we fix that,
+something else breaks, we fix that and we end up back where we started.
+The commit history and/or the mailing list should have details about
+what happened there. CC'ing Bruce since I know he has opinions on the
+perf fix. Bruce, did we get a fix for that upstream in the end?
+
+Cheers,
+
+Richard
+
+
 
 
 
