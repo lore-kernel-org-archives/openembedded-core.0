@@ -1,25 +1,26 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 142F96DEE2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id AED546DDFD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 12:20:31 +0000 (UTC)
-Received: (qmail 14245 invoked by uid 1003); 3 Dec 2013 12:20:29 -0000
-Received: from unknown (HELO ?192.168.1.113?)
-	(philip@opensdr.com@108.44.82.190)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	3 Dec 2013 12:20:29 -0000
-Message-ID: <529DCC8B.8050506@balister.org>
-Date: Tue, 03 Dec 2013 07:20:27 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+	Tue,  3 Dec 2013 12:24:10 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 03 Dec 2013 04:24:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,817,1378882800"; d="scan'208";a="437703200"
+Received: from timevans-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.121.200])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Dec 2013 04:24:09 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: ulf@emagii.com
+Date: Tue, 03 Dec 2013 12:24:08 +0000
+Message-ID: <1546307.bObJ7pByZf@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1386009374-29047-1-git-send-email-ulf@emagii.com>
+References: <1386009374-29047-1-git-send-email-ulf@emagii.com>
 MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1385985877-6840-1-git-send-email-koen.kooi@linaro.org>
-In-Reply-To: <1385985877-6840-1-git-send-email-koen.kooi@linaro.org>
-X-Enigmail-Version: 1.6
-Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-dummy: catch up with image.bbclass changes
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] curlpp: add curl c++ bindings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 12:20:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Dec 2013 12:24:11 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-I saw the same issue and this patch resolved the problem.
+Hi Ulf,
 
-Tested-by: Philip Balister <philip@balister.org>
-
-On 12/02/2013 07:04 AM, Koen Kooi wrote:
-> image.bbclass now depends on virtual/kernel:do_deploy, so add a task for that.
+On Monday 02 December 2013 19:36:14 ulf@emagii.com wrote:
+> From: Ulf Samuelsson <ulf@emagii.com>
 > 
-> This fixes errors like this:
-> 
-> 	ERROR: Task do_build in /build/linaro/build/meta-linaro/meta-linaro/recipes-linaro/images/linaro-image-lng.bb depends upon non-existent task do_deploy in /build/linaro/build/openembedded-core/meta/recipes-kernel/linux/linux-dummy.bb
-> 
-> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+> Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
 > ---
->  meta/recipes-kernel/linux/linux-dummy.bb | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
-> index 8a211da..1c837c9 100644
-> --- a/meta/recipes-kernel/linux/linux-dummy.bb
-> +++ b/meta/recipes-kernel/linux/linux-dummy.bb
-> @@ -31,6 +31,12 @@ do_install() {
->  do_bundle_initramfs() {
->          :
->  }
-> +
-> +do_deploy() {
-> +	:
-> +}
-> +
->  do_bundle_initramfs[nostamp] = "1"
->  addtask bundle_initramfs after do_compile
-> +addtask deploy after do_install
->  
-> 
+>  .../curlpp/curlpp/pkgconfig_fix.patch              |   38 +++++++++
+>  meta/recipes-support/curlpp/curlpp_0.7.3.bb        |   89
+> ++++++++++++++++++++ 2 files changed, 127 insertions(+)
+>  create mode 100644 meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch
+>  create mode 100644 meta/recipes-support/curlpp/curlpp_0.7.3.bb
+
+You sent v1 of this to openembedded-devel so I had assumed it was for meta-oe. 
+To be honest I don't think this belongs in OE-Core, unless we actually need it 
+for something else that is in OE-Core (or something that needs to be added to 
+OE-Core).
+
+Also, you didn't fix DESCRIPTION -> SUMMARY or drop PR in this version.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
