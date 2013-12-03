@@ -1,40 +1,39 @@
-Return-Path: <andre.draszik@linaro.org>
-Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D70226DF93
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
+	[209.85.215.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 907726D73C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 15:04:41 +0000 (UTC)
-Received: by mail-ee0-f41.google.com with SMTP id t10so1582583eei.14
+	Tue,  3 Dec 2013 15:54:54 +0000 (UTC)
+Received: by mail-ea0-f182.google.com with SMTP id o10so13979090eaj.27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Dec 2013 07:04:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-type:content-transfer-encoding;
-	bh=4fZUTep34KWrOc/7XujZwldyYLhi++Gdwn+e+DYB5I4=;
-	b=Y1XFVrdrS2tj0bpCXeLvS30hHX6NCyaKp4Z2FiaMcgn6f/l8ViASZ2P2KiUjZOhgGp
-	UDsJ4qmjDwllOl9XRioyf6uoFWFuPZ+ZbwlJuTQKq9mpEqq82OdH1qj6QKIRblRAaE9E
-	iNETxK9du6hHc8fdB5Wnea1L7yHKDMmSuK8jLH3aNzcxtbVCLTb+ISV9VO6rXA4z6fjA
-	x3tB7BNw8HFke93w/gXLMMsEmnQqlTlbsHCNhcO2VWcAEIc9Ku8fiWFum9qxXl7oG+d6
-	pPY9KCEPEZDmrysAyV5arI5DGwJrAUiV+jauK1wvS6F4ohq4pChuj6gszaBNvjqMPktM
-	ec7w==
-X-Gm-Message-State: ALoCoQkRsjo9AOJ6hE5goLQCZpibO6nq5sQ1tL3PVZMCOTLppbLJdPDVCluyyoFbd5fCL5BEBBai
-X-Received: by 10.14.99.3 with SMTP id w3mr3199587eef.96.1386083080660;
-	Tue, 03 Dec 2013 07:04:40 -0800 (PST)
-Received: from bri0771.fritz.box (pD4B88AB0.dip0.t-ipconnect.de.
-	[212.184.138.176])
-	by mx.google.com with ESMTPSA id m1sm77676861eeg.0.2013.12.03.07.04.39
+	Tue, 03 Dec 2013 07:54:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=l2hJBlBw7uwdaDpxFNWD6MrExR3issrmCf9hvY6mAfI=;
+	b=MDnOAL/cQgX+bV932IcM0IJ3RiBiknt9xmouZZrRxuIjUbGIzt4O7mh2+zBQ/7vOUB
+	9oiRckLXngCg6ZY3ExOiPGRyJF0an7Zdgx9PoVS82S8gdZtOAdlgemXXlsJ4gIIWoYfx
+	F7q21rraNGAY3dESXr43oTQ1nazLmyXkYI7rQUu3gDdc73nrxcXBn+FGw0Q1XVcnSaU0
+	qilA97dXDUrTmnWx31aAWe9pldC5Y36giXTkbL8ugikSwF/np8IWgHsgNT1EYrHKdbjr
+	dj4Z+QcrPA0WgYfaQmQKIGfi8UluIt2FM2XkE8ehBi+DDCYhgY6X/Xh5iFDWUp4+y+XF
+	Jy2A==
+X-Received: by 10.14.114.71 with SMTP id b47mr71983258eeh.26.1386086093412;
+	Tue, 03 Dec 2013 07:54:53 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	j46sm84041534eew.18.2013.12.03.07.54.52
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 03 Dec 2013 07:04:40 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 03 Dec 2013 07:54:52 -0800 (PST)
+Date: Tue, 3 Dec 2013 16:55:02 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Dec 2013 16:04:39 +0100
-Message-Id: <1386083079-10368-1-git-send-email-andre.draszik@linaro.org>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <20131121173050.GA3708@jama>
-References: <20131121173050.GA3708@jama>
+Message-ID: <20131203155502.GE3714@jama>
+References: <1385765549-20934-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Subject: [meta-qt5][PATCH] qt5.inc: allow to set the package arch globally
+In-Reply-To: <1385765549-20934-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: Re: [PATCH] cpan-base: Add vardepvalue to get_perl_version function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,52 +46,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 15:04:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Dec 2013 15:54:55 -0000
+X-Groupsio-MsgNum: 47829
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="a1QUDc0q7S3U7/Jg"
+Content-Disposition: inline
 
-If Qt5 (qtbase) is machine specific, then all packages depending
-on qtbase will also be machine specific, because the (initial)
-qtbase configuration becomes part of Qt5/qmake, thus affecting
-builds of packages built against this specific version of qtbase.
+--a1QUDc0q7S3U7/Jg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Since it is not feasible to add PACKAGE_ARCH=... to each and every
-recipe that is built using qmake and depends on Qt5, we introduce
-a new variable, QT_PACKAGES_ARCH, that can be set by the machine
-configuration as needed.
+On Fri, Nov 29, 2013 at 11:52:29PM +0100, Martin Jansa wrote:
+> * without this bitbake -S perf shows following error:
+>   ERROR: Bitbake's cached basehash does not match the one we just generat=
+ed
+>     (/OE/oe-core/meta/recipes-kernel/perf/perf.bb.do_package)!
+>   if you run it twice, once without perl in sysroot and once with perl
+>   already built
+>=20
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/cpan-base.bbclass | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/meta/classes/cpan-base.bbclass b/meta/classes/cpan-base.bbcl=
+ass
+> index 7e1e8d0..609fde6 100644
+> --- a/meta/classes/cpan-base.bbclass
+> +++ b/meta/classes/cpan-base.bbclass
+> @@ -10,6 +10,9 @@ RDEPENDS_${PN} +=3D "${@["perl", ""][(bb.data.inherits_=
+class('native', d))]}"
+>  PERL_OWN_DIR =3D "${@["", "/perl-native"][(bb.data.inherits_class('nativ=
+e', d))]}"
+> =20
+>  # Determine the staged version of perl from the perl configuration file
+> +# Assign vardepvalue, because otherwise signature is changed before and =
+after
+> +# perl is built (from None to real version in config.sh).
+> +get_perl_version[vardepvalue] =3D "${STAGING_LIBDIR}${PERL_OWN_DIR}"
 
-We have to be careful though to only change the architecture of the
-resulting packages if we're not compiling a 'native' package.
+Sorry, this isn't correct, it includes whole path to STAGING_LIBDIR in
+signature (different for each MACHINE).
 
-Signed-off-by: André Draszik <andre.draszik@linaro.org>
----
- recipes-qt/qt5/qt5.inc | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+v2 coming soon
 
-diff --git a/recipes-qt/qt5/qt5.inc b/recipes-qt/qt5/qt5.inc
-index 7669efc..8d8438f 100644
---- a/recipes-qt/qt5/qt5.inc
-+++ b/recipes-qt/qt5/qt5.inc
-@@ -20,6 +20,18 @@ OE_QMAKE_PATH_SETTINGS = "${OE_QMAKE_PATH_QT_SETTINGS}"
- OE_QMAKE_PATH_EXAMPLES = "${OE_QMAKE_PATH_QT_EXAMPLES}"
- OE_QMAKE_PATH_TESTS = "${OE_QMAKE_PATH_QT_TESTS}"
- 
-+# If Qt5 (qtbase) is machine specific, then everything will be,
-+# because the (initial) qtbase configuration becomes part of Qt5/qmake
-+python __anonymous() {
-+    barch = d.getVar("BUILD_ARCH", True) or ''
-+    tarch = d.getVar("TARGET_ARCH", True) or ''
-+    # do not do anything if we are building a native package
-+    if barch != tarch:
-+        tarch = d.getVar("QT_PACKAGES_ARCH", True) or ''
-+        if tarch:
-+            d.setVar("PACKAGE_ARCH", tarch)
-+}
-+
- PACKAGES =. "${PN}-qmlplugins-dbg ${PN}-tools-dbg ${PN}-plugins-dbg ${PN}-qmlplugins ${PN}-tools ${PN}-plugins ${PN}-mkspecs ${PN}-examples-dev ${PN}-examples-staticdev ${PN}-examples-dbg ${PN}-examples "
- 
- # extra -dbg packages
--- 
-1.8.1.2
+>  def get_perl_version(d):
+>      import re
+>      cfg =3D d.expand('${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/config.sh')
+> --=20
+> 1.8.4.3
+>=20
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--a1QUDc0q7S3U7/Jg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlKd/tYACgkQN1Ujt2V2gBwWlQCfTCxLGuVKOIzpRrkUZcXq2IeW
+TL4AoIKTgGcyVZPSpTG5AY1ilP/okZz1
+=ZP3l
+-----END PGP SIGNATURE-----
+
+--a1QUDc0q7S3U7/Jg--
