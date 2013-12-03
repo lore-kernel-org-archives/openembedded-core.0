@@ -1,33 +1,21 @@
-Return-Path: <ulf@emagii.com>
-Received: from smtprelay-h31.telenor.se (smtprelay-h31.telenor.se
-	[213.150.131.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 08AA66D3A7
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B9F0C6D3A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 17:00:44 +0000 (UTC)
-Received: from ipb1.telenor.se (ipb1.telenor.se [195.54.127.164])
-	by smtprelay-h31.telenor.se (Postfix) with ESMTP id 3CE98C038
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 18:00:42 +0100 (CET)
-X-SENDER-IP: [83.227.57.102]
-X-LISTENER: [smtp.bredband.net]
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: Ai4iAGUNnlJT4zlmPGdsb2JhbAANTYM/iAexM4ExAwEBAQE4gloBAQEBAgEnExEBLQULCxUDLkMUBhOHewuwJYVWAYtVF45LMweDIIETA5gUlT0
-X-IronPort-AV: E=Sophos;i="4.93,818,1378850400"; d="scan'208";a="688864522"
-Received: from c-6639e353.011-39-73746f12.cust.bredbandsbolaget.se (HELO
-	[10.175.196.117]) ([83.227.57.102])
-	by ipb1.telenor.se with ESMTP; 03 Dec 2013 18:00:12 +0100
-References: <1386009374-29047-1-git-send-email-ulf@emagii.com>
-	<1546307.bObJ7pByZf@helios>
-In-Reply-To: <1546307.bObJ7pByZf@helios>
-Mime-Version: 1.0 (1.0)
-Message-Id: <91FA4361-FD84-4163-BA0B-0E7535B7FF49@emagii.com>
-X-Mailer: iPad Mail (9B176)
-From: Ulf Samuelsson <ulf@emagii.com>
-Date: Tue, 3 Dec 2013 18:00:11 +0100
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] curlpp: add curl c++ bindings
+	Tue,  3 Dec 2013 17:09:34 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Dec 2013 09:09:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,819,1378882800"; d="scan'208";a="443929715"
+Received: from timevans-mobl.ger.corp.intel.com (HELO
+	helios.ger.corp.intel.com) ([10.252.121.200])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2013 09:09:32 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Dec 2013 17:09:09 +0000
+Message-Id: <cover.1386089633.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [dylan][PATCH 00/11] Backports from master (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,60 +28,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 17:00:45 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 03 Dec 2013 17:09:36 -0000
 
-Just thought it fit nicely besides curl...
-
-I use it for a proprietary customer application.
-The application sends out debug messages over UDP
-This will reside in private layers.
-
-Have also written a small utility, which receives the UDP packets and=20
-simply writes them out on a terminal.
-It is quite useful when you dont have a screen connected.
-Thinking of checking that in somewhere.
-
-Would meta-openembedded/meta-networking/recipes-support be OK?
-
-Best Regards
-Ulf Samuelsson
-ulf@emagii.com
+Backports of patches from master to the dylan branch, plus one
+dylan-only patch to fix kern-tools-native.
 
 
-3 dec 2013 kl. 13:24 skrev Paul Eggleton <paul.eggleton@linux.intel.com>:
+The following changes since commit 3549f5f203363302256848bb33c05c4fd4871948:
 
-> Hi Ulf,
->=20
-> On Monday 02 December 2013 19:36:14 ulf@emagii.com wrote:
->> From: Ulf Samuelsson <ulf@emagii.com>
->>=20
->> Signed-off-by: Ulf Samuelsson <ulf@emagii.com>
->> ---
->> .../curlpp/curlpp/pkgconfig_fix.patch              |   38 +++++++++
->> meta/recipes-support/curlpp/curlpp_0.7.3.bb        |   89
->> ++++++++++++++++++++ 2 files changed, 127 insertions(+)
->> create mode 100644 meta/recipes-support/curlpp/curlpp/pkgconfig_fix.patch=
+  busybox: configure system user id to range from 100 to 999 (2013-10-10 12:21:02 +0100)
 
->> create mode 100644 meta/recipes-support/curlpp/curlpp_0.7.3.bb
->=20
-> You sent v1 of this to openembedded-devel so I had assumed it was for meta=
--oe.=20
-> To be honest I don't think this belongs in OE-Core, unless we actually nee=
-d it=20
-> for something else that is in OE-Core (or something that needs to be added=
- to=20
-> OE-Core).
->=20
-> Also, you didn't fix DESCRIPTION -> SUMMARY or drop PR in this version.
->=20
-> Cheers,
-> Paul
->=20
-> --=20
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-next
+
+Bruce Ashfield (1):
+  kern-tools: use dylan branch
+
+Chen Qi (1):
+  license.bbclass: fix missing of license files on ubuntu build host
+
+Christopher Larson (1):
+  license.bbclass: include all licenses in the manifest
+
+Khem Raj (1):
+  elfutils-native: Update the patch to include the missing pieces needed
+    for tests
+
+Laurentiu Palcu (2):
+  nativesdk-qt4-tools: create qt.conf file
+  meta-toolchain-qt: put QT_CONF_PATH in environment script
+
+Martin Jansa (1):
+  db: Fix build with high PARALLEL_MAKE
+
+Richard Purdie (3):
+  classes: tar 1.27 fixes
+  lib/oe/path: Fix copytree functions for tar 1.27
+  metadata_scm: Avoid crashing on new svn version layouts
+
+Roy Li (1):
+  dropbear: pass SFTPSERVER_PATH explicitly
+
+ meta/classes/libc-package.bbclass                   |  8 ++++----
+ meta/classes/license.bbclass                        | 11 +++++------
+ meta/classes/metadata_scm.bbclass                   |  7 +++++--
+ meta/classes/package.bbclass                        |  2 +-
+ meta/classes/populate_sdk_deb.bbclass               |  2 +-
+ meta/classes/staging.bbclass                        |  2 +-
+ meta/lib/oe/path.py                                 |  4 ++--
+ meta/recipes-core/dropbear/dropbear.inc             |  1 +
+ .../elfutils/elfutils/fix-build-gcc-4.8.patch       | 21 +++++++++++++++++----
+ .../kern-tools/kern-tools-native_git.bb             |  4 ++--
+ meta/recipes-qt/meta/meta-toolchain-qt.inc          |  1 +
+ meta/recipes-qt/qt4/nativesdk-qt4-tools.inc         |  6 ++++++
+ meta/recipes-support/db/db/fix-parallel-build.patch | 19 +++++++++++++++++++
+ meta/recipes-support/db/db_5.3.21.bb                |  3 ++-
+ 14 files changed, 67 insertions(+), 24 deletions(-)
+ create mode 100644 meta/recipes-support/db/db/fix-parallel-build.patch
+
+-- 
+1.8.1.2
+
 
