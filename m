@@ -1,31 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id B515D6DEE2
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 142F96DEE2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 12:14:47 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB3CEVYM006486; Tue, 3 Dec 2013 12:14:31 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BZ4nGkxmh3JR; Tue,  3 Dec 2013 12:14:30 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB3CENsw006478
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 3 Dec 2013 12:14:25 GMT
-Message-ID: <1386072858.4463.42.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Tue, 03 Dec 2013 12:14:18 +0000
-In-Reply-To: <837855b3a50fc0672000e2419763a8c6ad062ae3.1386066250.git.hongxu.jia@windriver.com>
-References: <cover.1386066249.git.hongxu.jia@windriver.com>
-	<837855b3a50fc0672000e2419763a8c6ad062ae3.1386066250.git.hongxu.jia@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] eglibc-locale.inc: use nativesdk override with the PACKAGES_DYNAMIC statement
+	Tue,  3 Dec 2013 12:20:31 +0000 (UTC)
+Received: (qmail 14245 invoked by uid 1003); 3 Dec 2013 12:20:29 -0000
+Received: from unknown (HELO ?192.168.1.113?)
+	(philip@opensdr.com@108.44.82.190)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	3 Dec 2013 12:20:29 -0000
+Message-ID: <529DCC8B.8050506@balister.org>
+Date: Tue, 03 Dec 2013 07:20:27 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Koen Kooi <koen@dominion.thruhere.net>
+References: <1385985877-6840-1-git-send-email-koen.kooi@linaro.org>
+In-Reply-To: <1385985877-6840-1-git-send-email-koen.kooi@linaro.org>
+X-Enigmail-Version: 1.6
+Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-dummy: catch up with image.bbclass changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,56 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 12:14:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 03 Dec 2013 12:20:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-12-03 at 18:27 +0800, Hongxu Jia wrote:
-> While compiling nativesdk-mtools, there was failure:
-> ...
-> Nothing PROVIDES 'nativesdk-glibc-gconv-ibm850'. Close matches:
-> ...
+I saw the same issue and this patch resolved the problem.
+
+Tested-by: Philip Balister <philip@balister.org>
+
+On 12/02/2013 07:04 AM, Koen Kooi wrote:
+> image.bbclass now depends on virtual/kernel:do_deploy, so add a task for that.
 > 
-> Using nativesdk override with the PACKAGES_DYNAMIC statement fixed this issue.
+> This fixes errors like this:
 > 
-> [YOCTO #5623]
+> 	ERROR: Task do_build in /build/linaro/build/meta-linaro/meta-linaro/recipes-linaro/images/linaro-image-lng.bb depends upon non-existent task do_deploy in /build/linaro/build/openembedded-core/meta/recipes-kernel/linux/linux-dummy.bb
 > 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 > ---
->  meta/recipes-core/eglibc/eglibc-locale.inc | 6 ++++++
+>  meta/recipes-kernel/linux/linux-dummy.bb | 6 ++++++
 >  1 file changed, 6 insertions(+)
-
-No.
-
-lib/oe/classextend.py has a map_regexp_variable() function which is
-called from classes/multilib.bbclass:
-
-clsextend.map_regexp_variable("PACKAGES_DYNAMIC")
-
-Perhaps such a line should be added to nativesdk.bbclass to fix this
-properly instead?
-
-Cheers,
-
-Richard
-
-> diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
-> index 83569da..5e256a5 100644
-> --- a/meta/recipes-core/eglibc/eglibc-locale.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-locale.inc
-> @@ -35,6 +35,12 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
->                      ^eglibc-gconv-.* ^eglibc-charmap-.* ^eglibc-localedata-.* ^eglibc-binary-localedata-.* \
->                      ^glibc-gconv-.*  ^glibc-charmap-.*  ^glibc-localedata-.*  ^glibc-binary-localedata-.*"
->  
-> +PACKAGES_DYNAMIC_class-nativesdk = "^nativesdk-locale-base-.* \
-> +                    ^nativesdk-eglibc-gconv-.* ^nativesdk-eglibc-charmap-.* \
-> +                    ^nativesdk-eglibc-localedata-.* ^nativesdk-eglibc-binary-localedata-.* \
-> +                    ^nativesdk-glibc-gconv-.*  ^nativesdk-glibc-charmap-.*  \
-> +                    ^nativesdk-glibc-localedata-.*  ^nativesdk-glibc-binary-localedata-.*"
+> 
+> diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
+> index 8a211da..1c837c9 100644
+> --- a/meta/recipes-kernel/linux/linux-dummy.bb
+> +++ b/meta/recipes-kernel/linux/linux-dummy.bb
+> @@ -31,6 +31,12 @@ do_install() {
+>  do_bundle_initramfs() {
+>          :
+>  }
 > +
->  # Create a eglibc-binaries package
->  ALLOW_EMPTY_${BPN}-binaries = "1"
->  PACKAGES += "${BPN}-binaries"
-
-
+> +do_deploy() {
+> +	:
+> +}
+> +
+>  do_bundle_initramfs[nostamp] = "1"
+>  addtask bundle_initramfs after do_compile
+> +addtask deploy after do_install
+>  
+> 
 
