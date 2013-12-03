@@ -1,26 +1,24 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CEA526DED8
+	by mail.openembedded.org (Postfix) with ESMTP id 0D22C6DEEE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 10:27:23 +0000 (UTC)
+	Tue,  3 Dec 2013 10:30:27 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB3ARIpg005266
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB3AUQRc005355
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Dec 2013 02:27:18 -0800 (PST)
+	Tue, 3 Dec 2013 02:30:26 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 3 Dec 2013 02:27:18 -0800
+	14.2.347.0; Tue, 3 Dec 2013 02:30:26 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Dec 2013 18:27:05 +0800
-Message-ID: <c6ae72c3a4eea9827ffa218ff05c43285c8e4999.1386066250.git.hongxu.jia@windriver.com>
+Date: Tue, 3 Dec 2013 18:30:16 +0800
+Message-ID: <cover.1386066538.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1386066249.git.hongxu.jia@windriver.com>
-References: <cover.1386066249.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 2/3] syslinux: add ability to compile with nativesdk
+Subject: [PATCH 0/1] dhcp-client: override make_resolv_conf for read-only fs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 10:27:23 -0000
+X-List-Received-Date: Tue, 03 Dec 2013 10:30:27 -0000
 Content-Type: text/plain
 
-For regenerating and ISO or EFI boot image the nativesdk needs mtools
-and syslinux.
+The following changes since commit a17ffbdbb7d142a94ef842a32b749b18e2e7f0a1:
 
-[YOCTO #5623]
+  bitbake: hob: fix rotating progress icon animation (2013-12-02 17:51:35 +0000)
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/syslinux/syslinux_6.01.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.01.bb b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-index 538be56..1c240de 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-@@ -65,4 +65,4 @@ FILES_${PN}-dev += "${datadir}/${BPN}/com32/lib*${SOLIBS} ${datadir}/${BPN}/com3
- FILES_${PN}-staticdev += "${datadir}/${BPN}/com32/lib*.a ${libdir}/${BPN}/com32/lib*.a"
- FILES_${PN}-misc = "${datadir}/${BPN}/* ${libdir}/${BPN}/* ${bindir}/*"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+  git://git.pokylinux.org/poky-contrib hongxu/fix-dhcpclient
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-dhcpclient
+
+Hongxu Jia (1):
+  dhcp-client: override make_resolv_conf for read-only fs
+
+ meta/recipes-connectivity/dhcp/dhcp.inc                           | 8 +++++++-
+ .../recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks | 3 +++
+ 2 files changed, 10 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/dhcp/files/readonly-dhclient-enter-hooks
+
 -- 
 1.8.1.2
 
