@@ -1,37 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 626BF6D3A7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1696C6D3A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 17:21:11 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id w10so20328879pde.6
+	Tue,  3 Dec 2013 17:22:02 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id hn9so2541999wib.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Dec 2013 09:21:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=XjXsGGYG3Tgf/8RFA8wyrFlBFsgvoLKDBSs2s3RDSUM=;
-	b=XafnapjEeKZAKzEqYoUz20juVeVO20rpGiAYbg4J25iq2pDbHSncyuTH6Hg+60P93P
-	xxL5RBK66CX2f1BC4aMvQIJPs1KbVDji8brFerM1bmM3xpv4A2OLbY3d/Eqf+YRNudm9
-	vXHFm0HVB/hG90hGPxu0Cm6/6QDvkxeq6SdaXAQheAciY3FsdjgqItI9jeLrLlOJ2KqH
-	Xac77nPf87MP6ZaDwVz8JxczsRoylG2WIa5pVCTX0lHPdKgpVIH+S7/KQFEm3k8D+IT5
-	g2NnoeGycDLPorl0oDDrnDorGIYwCdnrkfxckAtoz4mfPU/GFAdxJBvy2hUfdo7TqRbD
-	w/bA==
-MIME-Version: 1.0
-X-Received: by 10.68.236.133 with SMTP id uu5mr12044658pbc.153.1386091270831; 
-	Tue, 03 Dec 2013 09:21:10 -0800 (PST)
-Received: by 10.68.12.133 with HTTP; Tue, 3 Dec 2013 09:21:10 -0800 (PST)
-In-Reply-To: <20131203165509.GC11291@mail.zedat.fu-berlin.de>
-References: <20131203160858.GB11291@mail.zedat.fu-berlin.de>
-	<529E0A3D.50809@balister.org>
-	<20131203165509.GC11291@mail.zedat.fu-berlin.de>
-Date: Tue, 3 Dec 2013 12:21:10 -0500
-Message-ID: <CADkTA4MGqDjpeAHE4gVWVgSv51uauteHtUbcsErLCMOj3eBz2Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Henning Heinold <heinold@inf.fu-berlin.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Status for "Sponsored by" git tags
+	Tue, 03 Dec 2013 09:22:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=xogCJRe+avFrrsPS6CtIxqlzRT2m0pElurGNTlJTOxM=;
+	b=S8cz9NyPNho4785klJMAWzzTjdbJMpkkmUiYe0MeEDoH0Ind6pOuGx9zlSMDgDb4+5
+	dETER37ZeDdj2OkMAPzjcatYQd0uoPno0Xd8GOj24MB/39snss5hoDfU7liy+AeTdPfI
+	2q/FuCW47K8zW4EWX7QOhLHrHqrjamIMYFUlwLVWagx5ZlNHEW0+ToGVcMSUH+L9KLwG
+	zWI/GYETn1dGEQcgI1c0QOn+m/fyVDhjS8QkQpieL+8wHO82X/HexIsvVz9v4l3mtLZ3
+	xJcbDE7+4XBLfa+gvo8h365Ts7HlA2pvNByZftppHPTi9GP4spNE1/tJgMUKzdVOquHB
+	Qp5w==
+X-Gm-Message-State: ALoCoQkX50Bu8IOzw392Hnl2FBwSyYt9hHkk2gIbO0pV0d493kyR/4FaGrYwYVOot7QoK9T+1u4c
+X-Received: by 10.180.189.49 with SMTP id gf17mr3427695wic.23.1386091322176;
+	Tue, 03 Dec 2013 09:22:02 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id je17sm7278191wic.4.2013.12.03.09.21.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 03 Dec 2013 09:22:00 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Dec 2013 17:21:57 +0000
+Message-Id: <1386091317-11014-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] ptest: ensure do_install_ptest_base task runs in fakeroot context
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,48 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 17:21:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 03 Dec 2013 17:22:03 -0000
 
-On Tue, Dec 3, 2013 at 11:55 AM, Henning Heinold
-<heinold@inf.fu-berlin.de> wrote:
-> On Tue, Dec 03, 2013 at 11:43:41AM -0500, Philip Balister wrote:
->> On 12/03/2013 11:08 AM, Henning Heinold wrote:
->> > Hi,
->> >
->> > how is the status about using "Sponsored by" git tags. Do we want something
->> > like that in openemebdded or not?
->>
->> What are SPonsored by tags?
->>
->> Philip
->>
->
-> Hi Philip,
->
-> Sponsored By tags are used by freebsd and some other projects to show which company
-> sponsored the commit
+As this task is installing files into $D it needs to run inside pseudo so that
+special permissions and owners are preserved.
 
-Urk. Of the top of my head .. that just looks nasty. Signed-off-by:
-already indicates
-a company name, so going further than that is overkill IMHO.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/ptest.bbclass |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-Bruce
-.
->
-> For example
->
-> https://github.com/freebsd/freebsd-head/commit/da88cadfb7e76ffa35440f16fef51a03935b7775
->
-> Bye Henning
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index 508ea9a..06dddf7 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -53,3 +53,8 @@ do_install_ptest_base[cleandirs] = "${D}${PTEST_PATH}"
+ addtask configure_ptest_base after do_configure before do_compile
+ addtask compile_ptest_base   after do_compile   before do_install
+ addtask install_ptest_base   after do_install   before do_package
++
++python () {
++    if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.setVarFlag('do_install_ptest_base', 'fakeroot', 1)
++}
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.10.4
+
 
