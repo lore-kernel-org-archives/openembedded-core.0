@@ -1,26 +1,38 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id CCE406D99E
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 307356D756
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 14:19:09 +0000 (UTC)
-Received: from [192.168.14.151] (192.168.14.151) by SESTOEX03.enea.se
-	(172.21.1.38) with Microsoft SMTP Server (TLS) id 14.3.158.1;
-	Wed, 4 Dec 2013 15:19:07 +0100
-Message-ID: <529F39D9.3050003@enea.com>
-Date: Wed, 4 Dec 2013 16:19:05 +0200
-From: Tudor Florea <tudor.florea@enea.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Wed,  4 Dec 2013 15:18:22 +0000 (UTC)
+Received: by mail-la0-f52.google.com with SMTP id y1so7716988lam.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Dec 2013 07:18:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=m6mYi/1HD6QG/OSKaphc/fqiMGxGaRR42Rr498GlS3I=;
+	b=AzhsUeEaihyHXThZlah5kWup28DXdKtXkD4ZgqVVmaAeqGa3idm15ehMYMlcaMUyVq
+	KMZaLkGbj4jn0TV3I1ebptt6CZWYamAgMtGzzsI6J00gTPoEkYiaNPQdYkhWoeI8JKeA
+	o3O53bAcGC9+k//ovEQv5JTI/w5GDKCSJ0E2dtmNn5vrv67y5bGOn/XAOJgPk2mqYdYI
+	mcI20r1dlZFChNHN5E16I6nqGt1Yx8dqI8hpHPgOzXFUksNyPYG8MVFWUW/rqBtzIf6b
+	dzFKAa6sD6LaDMWznY+uxPSVtjnpNOkdC6jcMNVZ3XLWuitCNlQ0Xl82lDtfzHFSVV9Y
+	qeug==
+X-Received: by 10.112.181.232 with SMTP id dz8mr2738382lbc.8.1386170300612;
+	Wed, 04 Dec 2013 07:18:20 -0800 (PST)
+Received: from nysan ([79.102.212.129])
+	by mx.google.com with ESMTPSA id rb4sm9937334lbb.1.2013.12.04.07.18.18
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 04 Dec 2013 07:18:19 -0800 (PST)
+Received: by nysan (Postfix, from userid 1000)
+	id 6C2631C6A44; Wed,  4 Dec 2013 16:18:17 +0100 (CET)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Dec 2013 16:18:15 +0100
+Message-Id: <1386170295-26774-1-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <1386110965-24404-1-git-send-email-tudor.florea@enea.com>
-	<1386154242.4463.152.camel@ted>
-	<69319FFFA2D4F748B9BB5083FA28E56F25AFBD6A@sestoex09.enea.se>
-In-Reply-To: <69319FFFA2D4F748B9BB5083FA28E56F25AFBD6A@sestoex09.enea.se>
-X-Originating-IP: [192.168.14.151]
-Cc: bjst@enea.se
-Subject: Re: FW: [PATCH] ethtool: use serial-tests to generate targets used by ptest.
+Subject: [PATCH] rpm: Fixed Q&A Errors in netivesdk-rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,110 +45,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 14:19:10 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Dec 2013 15:18:23 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+ERROR: QA Issue: nativesdk-rpm: Files/directories were installed but not shipped
+  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmcmp.real
+  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmrepo.real
+  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmdigest.real
+  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmspecdump.real
+  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmcache.real
+  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/debugedit.real
+  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmdeps-oecore.real
+  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmdeps.real
+ERROR: QA run found fatal errors. Please consider fixing them.
 
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
->
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
-> Sent: Wednesday, December 04, 2013 12:51 PM
-> To: Tudor Florea
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] ethtool: use serial-tests to generate targets used by ptest.
->
-> On Tue, 2013-12-03 at 23:49 +0100, Tudor Florea wrote:
->> buildtest-TESTS and runtest-TESTS targets are required by ptest.
->> In order to have those targets in automake 1.13.4 serial-tests should
->> be specified since parallel-tests is assumed by default and
->> serial-tests is optional.
->>
->>
->> Signed-off-by: Tudor Florea <tudor.florea@enea.com>
->> ---
->>   .../ethtool/ethtool-3.12.1/use_serial_tests.patch  |   20 ++++++++++++++++++++
->>   meta/recipes-extended/ethtool/ethtool_3.12.1.bb    |    6 ++++--
->>   2 files changed, 24 insertions(+), 2 deletions(-)  create mode 100644
->> meta/recipes-extended/ethtool/ethtool-3.12.1/use_serial_tests.patch
-> This patch and the others imply we're going to have to patch every autoconf recipe to add serial-tests?
->
-> Could we change the default in automake instead?
-Unfortunately, changing the default in automake is not straightforward 
-though this was my first option to consider.
-(This imply reverting this commit and all depending commits: 
-http://repo.or.cz/w/automake.git/commit/5e771b27e52cda72b1bfde18ed7a4f118fad24e0)
-If my investigation is correct there are no more packages affected (in 
-the same way) by the upgrade of automake.
-This should be seen as a temporary fix until a proper fix will be added 
-in automake so that ptest will work with parallel test harness.
-
-Regards,
-   Tudor.
-
->
-> Cheers,
->
-> Richard
->
->> diff --git
->> a/meta/recipes-extended/ethtool/ethtool-3.12.1/use_serial_tests.patch
->> b/meta/recipes-extended/ethtool/ethtool-3.12.1/use_serial_tests.patch
->> new file mode 100644
->> index 0000000..e036edc
->> --- /dev/null
->> +++ b/meta/recipes-extended/ethtool/ethtool-3.12.1/use_serial_tests.pa
->> +++ tch
->> @@ -0,0 +1,20 @@
->> +ptest needs buildtest-TESTS and runtest-TESTS targets.
->> +serial-tests is required to generate those targets.
->> +
->> +Signed-off-by: Tudor Florea <tudor.florea@enea.com>
->> +Upstream-Status: Inappropriate
->> +(default automake behavior incompatible with ptest)
->> +
->> +diff -ruN a/configure.ac b/configure.ac
->> +--- a/configure.ac	2013-12-03 10:37:40.773157142 +0100
->> ++++ b/configure.ac	2013-12-03 10:37:21.521992831 +0100
->> +@@ -2,7 +2,7 @@
->> + AC_INIT(ethtool, 3.12.1, netdev@vger.kernel.org)
->> + AC_PREREQ(2.52)
->> + AC_CONFIG_SRCDIR([ethtool.c])
->> +-AM_INIT_AUTOMAKE([gnu])
->> ++AM_INIT_AUTOMAKE([gnu serial-tests])
->> + AC_CONFIG_HEADERS([ethtool-config.h])
->> +
->> + AM_MAINTAINER_MODE
->> diff --git a/meta/recipes-extended/ethtool/ethtool_3.12.1.bb
->> b/meta/recipes-extended/ethtool/ethtool_3.12.1.bb
->> index 6615009..5e7559c 100644
->> --- a/meta/recipes-extended/ethtool/ethtool_3.12.1.bb
->> +++ b/meta/recipes-extended/ethtool/ethtool_3.12.1.bb
->> @@ -7,7 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
->>                       file://ethtool.c;beginline=4;endline=17;md5=c19b30548c582577fc6b443626fc1216"
->>   
->>   SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
->> -           file://run-ptest"
->> +           file://run-ptest \
->> +           file://use_serial_tests.patch \
->> +          "
->>   
->>   SRC_URI[md5sum] = "5a1058efe8eb4f3473f5028967729078"
->>   SRC_URI[sha256sum] = "45190d70e5ce1b4d87def4f71fb5bf04f8a4f4dc5f9e0f38c49c16c462fb59d9"
->> @@ -16,7 +18,7 @@ inherit autotools ptest  RDEPENDS_${PN}-ptest +=
->> "make"
->>   
->>   do_compile_ptest() {
->> -   oe_runmake test-cmdline test-features
->> +   oe_runmake buildtest-TESTS
->>   }
->>   
->>   do_install_ptest () {
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+index 4b95a90..9d376a5 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+@@ -223,7 +223,9 @@ FILES_${PN} =  "${bindir}/rpm \
+ 		${libdir}/rpm/bin/mtree \
+ 		${libdir}/rpm/bin/rpmkey \
+ 		${libdir}/rpm/bin/rpmrepo \
++		${libdir}/rpm/bin/rpmrepo.real \
+ 		${libdir}/rpm/bin/rpmspecdump \
++		${libdir}/rpm/bin/rpmspecdump.real \
+ 		${libdir}/rpm/bin/wget \
+ 		${localstatedir}/cache \
+ 		${localstatedir}/cache/rpm \
+@@ -284,11 +286,17 @@ FILES_${PN}-build = "${prefix}/src/rpm \
+ 		${libdir}/rpm/pkgconfigdeps.sh \
+ 		${libdir}/rpm/pythondeps.sh \
+ 		${libdir}/rpm/bin/debugedit \
++		${libdir}/rpm/bin/debugedit.real \
+ 		${libdir}/rpm/bin/rpmcache \
++		${libdir}/rpm/bin/rpmcache.real \
+ 		${libdir}/rpm/bin/rpmcmp \
++		${libdir}/rpm/bin/rpmcmp.real \
+ 		${libdir}/rpm/bin/rpmdeps \
++		${libdir}/rpm/bin/rpmdeps.real \
+ 		${libdir}/rpm/bin/rpmdeps-oecore \
++		${libdir}/rpm/bin/rpmdeps-oecore.real \
+ 		${libdir}/rpm/bin/rpmdigest \
++		${libdir}/rpm/bin/rpmdigest.real \
+ 		${libdir}/rpm/bin/abi-compliance-checker.pl \
+ 		${libdir}/rpm/bin/api-sanity-autotest.pl \
+ 		${libdir}/rpm/bin/chroot \
+-- 
+1.8.3.2
 
 
