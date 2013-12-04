@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E8466D915
+	by mail.openembedded.org (Postfix) with ESMTP id 078596D915
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 10:41:27 +0000 (UTC)
+	Wed,  4 Dec 2013 10:42:14 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB4AfLgt020978 for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Dec 2013 10:41:21 GMT
+	rB4Ag8oY021027 for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Dec 2013 10:42:09 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7m0Wng-VLzuG
+	with LMTP id GiDA6CULo9XD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 10:41:21 +0000 (GMT)
+	Wed,  4 Dec 2013 10:42:08 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB4AfIjw020968
+	rB4Ag4Ud021020
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Dec 2013 10:41:19 GMT
-Message-ID: <1386153673.4463.149.camel@ted>
+	Wed, 4 Dec 2013 10:42:05 GMT
+Message-ID: <1386153719.4463.150.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Dec 2013 10:41:13 +0000
+Date: Wed, 04 Dec 2013 10:41:59 +0000
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] libxkbfile: Remove obsolete configure option
+Subject: leafpad: Fix configure flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 10:41:28 -0000
+X-List-Received-Date: Wed, 04 Dec 2013 10:42:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Resolves the QA error:
+Remove the now unused gtktest configure flag and add one for the emacs option
+so we're deterministic. Resolves the warning:
 
-WARNING: QA Issue: libxkbfile: configure was passed unrecognised options: --without-xcb
-
-(there is no such configure option any more)
+WARNING: QA Issue: leafpad: configure was passed unrecognised options: --disable-gtktest
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbfile_1.0.8.bb b/meta/recipes-graphics/xorg-lib/libxkbfile_1.0.8.bb
-index 812d2af..620b414 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbfile_1.0.8.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbfile_1.0.8.bb
-@@ -12,8 +12,6 @@ DEPENDS += "virtual/libx11 kbproto"
+diff --git a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
+index 273cc72..246bc5f 100644
+--- a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
++++ b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
+@@ -19,7 +19,7 @@ SRC_URI_append_poky = " file://owl-menu.patch;apply=yes "
  
- PE = "1"
+ inherit autotools pkgconfig
  
--EXTRA_OECONF += "--without-xcb"
--
- BBCLASSEXTEND = "native"
+-EXTRA_OECONF = " --enable-chooser --disable-gtktest --disable-print"
++EXTRA_OECONF = " --enable-chooser --disable-emacs --disable-print"
  
- SRC_URI[md5sum] = "19e6533ae64abba0773816a23f2b9507"
+ do_install_append () {
+         install -d ${D}/${datadir}
 
 
 
