@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 579716D99E
+	by mail.openembedded.org (Postfix) with ESMTP id 2697F6D99E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 13:07:41 +0000 (UTC)
+	Wed,  4 Dec 2013 13:09:24 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB4D7Y64027551 for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Dec 2013 13:07:35 GMT
+	rB4D9JJ4027617 for <openembedded-core@lists.openembedded.org>;
+	Wed, 4 Dec 2013 13:09:19 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4MasrmYjmeEq
+	with LMTP id h45940GnV2kA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 13:07:34 +0000 (GMT)
+	Wed,  4 Dec 2013 13:09:19 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB4D7UaK027529
+	rB4D9G5u027613
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Dec 2013 13:07:31 GMT
-Message-ID: <1386162445.4463.153.camel@ted>
+	Wed, 4 Dec 2013 13:09:17 GMT
+Message-ID: <1386162551.4463.156.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Dec 2013 13:07:25 +0000
+Date: Wed, 04 Dec 2013 13:09:11 +0000
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: eglibc-options: Rewrite so it benefits from bitbake's contains handling
+Subject: [PATCH] classes/recipes: More optimal DISTRO_FEATURES references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,268 +38,368 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 13:07:42 -0000
+X-List-Received-Date: Wed, 04 Dec 2013 13:09:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Having eglibc rebuild every time DISTRO_FEATURES changes is suboptimal.
-This rewrite takes advantage of bitbake's understanding of the contains
-function so this doesn't happen. The code is marginally uglier but is
-worth the benefit in fewer libc rebuilds.
+Using the contains function results in more optimal sstate checksums 
+resulting in better cache reuse as we as more consistent code.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-core/eglibc/eglibc-options.inc b/meta/recipes-core/eglibc/eglibc-options.inc
-index c55d05d..04327584 100644
---- a/meta/recipes-core/eglibc/eglibc-options.inc
-+++ b/meta/recipes-core/eglibc/eglibc-options.inc
-@@ -1,7 +1,7 @@
--def eglibc_cfg(feature, features, tokens, cnf):
-+def eglibc_cfg(feature, tokens, cnf):
-     if type(tokens) == type(""):
-         tokens = [tokens]
--    if type(features) == type([]) and feature in features:
-+    if feature:
-         cnf.extend([token + '=y' for token in tokens])
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 454ee76..0af42a0 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -36,10 +36,10 @@ python __anonymous () {
+                 d.setVar("GLIBC_INTERNAL_USE_BINARY_LOCALE", "compile")
+                 break
+ 
+-    distro_features = (d.getVar('DISTRO_FEATURES', True) or '').split()
+-
+     # try to fix disable charsets/locales/locale-code compile fail
+-    if 'libc-charsets' in distro_features and 'libc-locales' in distro_features and 'libc-locale-code' in distro_features:
++    if oe.utils.contains('DISTRO_FEATURES', 'libc-charsets', True, False, d) and \
++            oe.utils.contains('DISTRO_FEATURES', 'libc-locales', True, False, d) and \
++            oe.utils.contains('DISTRO_FEATURES', 'libc-locale-code', True, False, d):
+         d.setVar('PACKAGE_NO_GCONV', '0')
      else:
-         for token in tokens:
-@@ -10,119 +10,153 @@ def eglibc_cfg(feature, features, tokens, cnf):
-                 cnf.extend(["OPTION_EGLIBC_NSSWITCH_FIXED_CONFIG=\"${S}/nss/nsswitch.conf\""])
-                 cnf.extend(["OPTION_EGLIBC_NSSWITCH_FIXED_FUNCTIONS=\"${S}/nss/fixed-nsswitch.functions\""])
+         d.setVar('PACKAGE_NO_GCONV', '1')
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 7a8d35c..26b9a76 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -12,13 +12,12 @@ SYSTEMD_AUTO_ENABLE ??= "enable"
+ # even if systemd is not in DISTRO_FEATURES.  As such don't make any changes
+ # directly but check the DISTRO_FEATURES first.
+ python __anonymous() {
+-    features = d.getVar("DISTRO_FEATURES", True).split()
+     # If the distro features have systemd but not sysvinit, inhibit update-rcd
+     # from doing any work so that pure-systemd images don't have redundant init
+     # files.
+-    if "systemd" in features:
++    if oe.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
+         d.appendVar("DEPENDS", " systemd-systemctl-native")
+-        if "sysvinit" not in features:
++        if not oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+             d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+ }
  
--# arrange the dependencies among eglibc configuable options according to file option-groups.def from eglibc source code
--def distro_features_check_deps(distro_features):
-+# Map distro features to eglibc options settings
-+def features_to_eglibc_settings(d):
-+    cnf = ([])
+@@ -52,7 +51,7 @@ fi
+ systemd_populate_packages[vardeps] += "systemd_prerm systemd_postinst"
+ 
+ python systemd_populate_packages() {
+-    if "systemd" not in d.getVar("DISTRO_FEATURES", True).split():
++    if not oe.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
+         return
+ 
+     def get_package_var(d, var, pkg):
+@@ -167,7 +166,7 @@ PACKAGESPLITFUNCS_prepend = "systemd_populate_packages "
+ 
+ python rm_systemd_unitdir (){
+     import shutil
+-    if "systemd" not in d.getVar("DISTRO_FEATURES", True).split():
++    if not oe.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
+         systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True))
+         if os.path.exists(systemd_unitdir):
+             shutil.rmtree(systemd_unitdir)
+@@ -181,8 +180,8 @@ python rm_sysvinit_initddir (){
+     import shutil
+     sysv_initddir = oe.path.join(d.getVar("D", True), (d.getVar('INIT_D_DIR', True) or "/etc/init.d"))
+ 
+-    if ("systemd" in d.getVar("DISTRO_FEATURES", True).split() and
+-        "sysvinit" not in d.getVar("DISTRO_FEATURES", True).split() and
++    if oe.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and 
++        not oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) and
+         os.path.exists(sysv_initddir)):
+         systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True), "system")
+ 
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 29b5a8e..c9bf04c 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -105,7 +105,7 @@ python populate_packages_updatercd () {
+ 
+     # Check that this class isn't being inhibited (generally, by
+     # systemd.bbclass) before doing any work.
+-    if "sysvinit" in d.getVar("DISTRO_FEATURES").split() or \
++    if oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) or \
+        not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
+         pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
+         if pkgs == None:
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+index 859fdd6..b9a7580 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+@@ -80,13 +80,11 @@ do_compile_append () {
+ }
+ 
+ do_install_append () {
+-	for i in ${DISTRO_FEATURES};
+-	do
+-		if [ ${i} = "pam" ];  then
+-			install -d ${D}${sysconfdir}/pam.d
+-			install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
+-		fi
+-	done
++	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
++		install -d ${D}${sysconfdir}/pam.d
++		install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
++	fi
 +
-+    ipv4 = base_contains('DISTRO_FEATURES', 'ipv4', True, False, d)
-+    ipv6 = base_contains('DISTRO_FEATURES', 'ipv6', True, False, d)
-+    libc_backtrace = base_contains('DISTRO_FEATURES', 'libc-backtrace', True, False, d) 
-+    libc_big_macros = base_contains('DISTRO_FEATURES', 'libc-big-macros', True, False, d)
-+    libc_bsd = base_contains('DISTRO_FEATURES', 'libc-bsd', True, False, d)
-+    libc_cxx_tests = base_contains('DISTRO_FEATURES', 'libc-cxx-tests', True, False, d)
-+    libc_catgets = base_contains('DISTRO_FEATURES', 'libc-catgets', True, False, d)
-+    libc_charsets = base_contains('DISTRO_FEATURES', 'libc-charsets', True, False, d)
-+    libc_crypt = base_contains('DISTRO_FEATURES', 'libc-crypt', True, False, d)
-+    libc_crypt_ufc = base_contains('DISTRO_FEATURES', 'libc-crypt-ufc', True, False, d)
-+    libc_db_aliases = base_contains('DISTRO_FEATURES', 'libc-db-aliases', True, False, d)
-+    libc_envz = base_contains('DISTRO_FEATURES', 'libc-envz', True, False, d)
-+    libc_fcvt = base_contains('DISTRO_FEATURES', 'libc-fcvt', True, False, d)
-+    libc_fmtmsg = base_contains('DISTRO_FEATURES', 'libc-fmtmsg', True, False, d)
-+    libc_fstab = base_contains('DISTRO_FEATURES', 'libc-fstab', True, False, d)
-+    libc_ftraverse = base_contains('DISTRO_FEATURES', 'libc-ftraverse', True, False, d)
-+    libc_getlogin = base_contains('DISTRO_FEATURES', 'libc-getlogin', True, False, d)
-+    libc_idn = base_contains('DISTRO_FEATURES', 'libc-idn', True, False, d)
-+    libc_inet_anl = base_contains('DISTRO_FEATURES', 'libc-inet-anl', True, False, d)
-+    libc_libm = base_contains('DISTRO_FEATURES', 'libc-libm', True, False, d)
-+    libc_locales = base_contains('DISTRO_FEATURES', 'libc-locales', True, False, d)
-+    libc_locale_code = base_contains('DISTRO_FEATURES', 'libc-locale-code', True, False, d)
-+    libc_memusage = base_contains('DISTRO_FEATURES', 'libc-memusage', True, False, d)
-+    libc_nis = base_contains('DISTRO_FEATURES', 'libc-nis', True, False, d)
-+    libc_nsswitch = base_contains('DISTRO_FEATURES', 'libc-nsswitch', True, False, d)
-+    libc_rcmd = base_contains('DISTRO_FEATURES', 'libc-rcmd', True, False, d)
-+    libc_rtld_debug = base_contains('DISTRO_FEATURES', 'libc-rtld-debug', True, False, d)
-+    libc_spawn = base_contains('DISTRO_FEATURES', 'libc-spawn', True, False, d)
-+    libc_streams = base_contains('DISTRO_FEATURES', 'libc-streams', True, False, d)
-+    libc_sunrpc = base_contains('DISTRO_FEATURES', 'libc-sunrpc', True, False, d)
-+    libc_utmp = base_contains('DISTRO_FEATURES', 'libc-utmp', True, False, d)
-+    libc_utmpx = base_contains('DISTRO_FEATURES', 'libc-utmpx', True, False, d)
-+    libc_wordexp = base_contains('DISTRO_FEATURES', 'libc-wordexp', True, False, d)
-+    libc_posix_clang_wchar = base_contains('DISTRO_FEATURES', 'libc-posix-clang-wchar', True, False, d)
-+    libc_posix_regexp = base_contains('DISTRO_FEATURES', 'libc-posix-regexp', True, False, d)
-+    libc_posix_regexp_glibc = base_contains('DISTRO_FEATURES', 'libc-posix-regexp-glibc', True, False, d)
-+    libc_posix_wchar_io = base_contains('DISTRO_FEATURES', 'libc-posix-wchar-io', True, False, d)
-+
-+    # arrange the dependencies among eglibc configuable options according to file option-groups.def from eglibc source code
-     new_dep = True
-     while new_dep:
-         new_dep = False
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
+ 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index b3d0cd2..0c84c1f 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -47,11 +47,11 @@ RRECOMMENDS_${PN} = "${PN}-syslog ${PN}-udhcpc"
+ inherit cml1 systemd update-rc.d ptest
  
--        if 'ipv6' in distro_features and 'ipv4' not in distro_features:
-+        if ipv6 and not ipv4:
-             new_dep = True
--            distro_features.extend(['ipv4'])
-+            ipv4 = True
+ # internal helper
+-def busybox_cfg(feature, features, tokens, cnf, rem):
++def busybox_cfg(feature, tokens, cnf, rem):
+ 	if type(tokens) == type(""):
+ 		tokens = [tokens]
+ 	rem.extend(['/^[# ]*' + token + '[ =]/d' for token in tokens])
+-	if type(features) == type([]) and feature in features:
++	if feature:
+ 		cnf.extend([token + '=y' for token in tokens])
+ 	else:
+ 		cnf.extend(['# ' + token + ' is not set' for token in tokens])
+@@ -59,15 +59,14 @@ def busybox_cfg(feature, features, tokens, cnf, rem):
+ # Map distro features to config settings
+ def features_to_busybox_settings(d):
+ 	cnf, rem = ([], [])
+-	distro_features = d.getVar('DISTRO_FEATURES', True).split()
+-	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IPV6', cnf, rem)
+-	busybox_cfg('largefile', distro_features, 'CONFIG_LFS', cnf, rem)
+-	busybox_cfg('largefile', distro_features, 'CONFIG_FDISK_SUPPORT_LARGE_DISKS', cnf, rem)
+-	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
+-	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
+-	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
+-	busybox_cfg('wifi', distro_features, 'CONFIG_RFKILL', cnf, rem)
+-	busybox_cfg('bluetooth', distro_features, 'CONFIG_RFKILL', cnf, rem)
++	busybox_cfg(base_contains('DISTRO_FEATURES', 'ipv6', True, False, d), 'CONFIG_FEATURE_IPV6', cnf, rem)
++	busybox_cfg(base_contains('DISTRO_FEATURES', 'largefile', True, False, d), 'CONFIG_LFS', cnf, rem)
++	busybox_cfg(base_contains('DISTRO_FEATURES', 'largefile', True, False, d), 'CONFIG_FDISK_SUPPORT_LARGE_DISKS', cnf, rem)
++	busybox_cfg(base_contains('DISTRO_FEATURES', 'nls', True, False, d), 'CONFIG_LOCALE_SUPPORT', cnf, rem)
++	busybox_cfg(base_contains('DISTRO_FEATURES', 'ipv4', True, False, d), 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
++	busybox_cfg(base_contains('DISTRO_FEATURES', 'ipv6', True, False, d), 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
++	busybox_cfg(base_contains('DISTRO_FEATURES', 'wifi', True, False, d), 'CONFIG_RFKILL', cnf, rem)
++	busybox_cfg(base_contains('DISTRO_FEATURES', 'bluetooth', True, False, d), 'CONFIG_RFKILL', cnf, rem)
+ 	return "\n".join(cnf), "\n".join(rem)
  
--        if 'ipv4' in distro_features and 'libc-nsswitch' not in distro_features:
-+        if ipv4 and not libc_nsswitch:
-             new_dep = True
--            distro_features.extend(['libc-nsswitch'])
-+            libc_nsswitch = True
+ # X, Y = ${@features_to_uclibc_settings(d)}
+@@ -295,7 +294,7 @@ ALTERNATIVE_${PN}-syslog += "syslog-conf"
+ ALTERNATIVE_LINK_NAME[syslog-conf] = "${sysconfdir}/syslog.conf"
  
--        if 'libc-cxx-tests' in distro_features:
--            if 'libc-posix-wchar-io' not in distro_features:
-+        if libc_cxx_tests:
-+            if not libc_posix_wchar_io:
-                 new_dep = True
--                distro_features.extend(['libc-posix-wchar-io'])
--            if 'libc-libm' not in distro_features:
-+                libc_posix_wchar_io = True
-+            if not libc_libm:
-                 new_dep = True
--                distro_features.extend(['libc-libm'])
-+                libc_libm = True
+ python () {
+-    if 'sysvinit' in d.getVar("DISTRO_FEATURES", True).split():
++    if base_contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+         pn = d.getVar('PN', True)
+         d.appendVar('ALTERNATIVE_%s-syslog' % (pn), ' syslog-init')
+         d.setVarFlag('ALTERNATIVE_LINK_NAME', 'syslog-init', '%s/init.d/syslog' % (d.getVar('sysconfdir', True)))
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 6612184..5b99034 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -27,8 +27,7 @@ INITSCRIPT_NAME = "dbus-1"
+ INITSCRIPT_PARAMS = "start 02 5 3 2 . stop 20 0 1 6 ."
  
--        if 'libc-catgets' in distro_features and 'libc-locale-code' not in distro_features:
-+        if libc_catgets and not libc_locale_code:
-             new_dep = True
--            distro_features.extend(['libc-locale-code'])
-+            libc_locale_code = True
+ python __anonymous() {
+-    features = d.getVar("DISTRO_FEATURES", True).split()
+-    if "sysvinit" not in features:
++    if not oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+ }
  
--        if 'libc-crypt-ufc' in distro_features and 'libc-crypt' not in distro_features:
-+        if libc_crypt_ufc and not libc_crypt:
-             new_dep = True
--            distro_features.extend(['libc-crypt'])
-+            libc_crypt = True
- 
--        if 'libc-getlogin' in distro_features and 'libc-utmp' not in distro_features:
-+        if libc_getlogin and not libc_utmp:
-             new_dep = True
--            distro_features.extend(['libc-utmp'])
-+            libc_utmp = True
- 
--        if 'libc-inet-anl' in distro_features and 'ipv4' not in distro_features:
-+        if libc_inet_anl and not ipv4:
-             new_dep = True
--            distro_features.extend(['ipv4'])
-+            ipv4 = True
- 
--        if 'libc-locale-code' in distro_features and 'libc-posix-clang-wchar' not in distro_features:
-+        if libc_locale_code and not libc_posix_clang_wchar:
-             new_dep = True
--            distro_features.extend(['libc-posix-clang-wchar'])
-+            libc_posix_clang_wchar = True
- 
--        if 'libc-nis' in distro_features:
--            if 'ipv4' not in distro_features:
-+        if libc_nis:
-+            if not ipv4:
-                 new_dep = True
--                distro_features.extend(['ipv4'])
--            if 'libc-sunrpc' not in distro_features:
-+                ipv4 = True
-+            if not libc_sunrpc:
-                 new_dep = True
--                distro_features.extend(['libc-sunrpc'])
-+                libc_sunrpc = True
- 
--        if 'libc-rcmd' in distro_features and 'ipv4' not in distro_features:
-+        if libc_rcmd and not ipv4:
-             new_dep = True
--            distro_features.extend(['ipv4'])
-+            ipv4 = True
- 
--        if 'libc-sunrpc' in distro_features and 'ipv4' not in distro_features:
-+        if libc_sunrpc and not ipv4:
-             new_dep = True
--            distro_features.extend(['ipv4'])
-+            ipv4 = True
- 
--        if 'libc-utmpx' in distro_features and 'libc-utmp' not in distro_features:
-+        if libc_utmpx and not libc_utmp:
-             new_dep = True
--            distro_features.extend(['libc-utmp'])
-+            libc_utmp = True
- 
--        if 'libc-posix-regexp-glibc' in distro_features and 'libc-posix-regexp' not in distro_features:
-+        if libc_posix_regexp_glibc and not libc_posix_regexp:
-             new_dep = True
--            distro_features.extend(['libc-posix-regexp'])
-+            libc_posix_regexp = True
- 
--        if 'libc-posix-wchar-io' in distro_features and 'libc-posix-clang-wchar' not in distro_features:
-+        if libc_posix_wchar_io and not libc_posix_clang_wchar:
-             new_dep = True
--            distro_features.extend(['libc-posix-clang-wchar'])
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index 5d9623d..4262b1d 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -62,14 +62,10 @@ do_install() {
+ 				  -e 's,/usr/bin,${bindir},g' \
+ 				  -e 's,/usr,${prefix},g' > ${D}${sysconfdir}/init.d/dropbear
+ 	chmod 755 ${D}${sysconfdir}/init.d/dropbear
+-	for i in ${DISTRO_FEATURES};
+-	do
+-		if [ ${i} = "pam" ];  then
+-			install -d ${D}${sysconfdir}/pam.d
+-			install -m 0644 ${WORKDIR}/dropbear  ${D}${sysconfdir}/pam.d/
+-		fi
+-	done
 -
--# Map distro features to eglibc options settings
--def features_to_eglibc_settings(d):
--        cnf = ([])
--        distro_features = (d.getVar('DISTRO_FEATURES', True) or '').split()
--
--        distro_features_check_deps(distro_features)
--
--        eglibc_cfg('ipv6',      distro_features, 'OPTION_EGLIBC_ADVANCED_INET6', cnf)
--        eglibc_cfg('libc-backtrace',      distro_features, 'OPTION_EGLIBC_BACKTRACE', cnf)
--        eglibc_cfg('libc-big-macros',      distro_features, 'OPTION_EGLIBC_BIG_MACROS', cnf)
--        eglibc_cfg('libc-bsd',      distro_features, 'OPTION_EGLIBC_BSD', cnf)
--        eglibc_cfg('libc-cxx-tests',      distro_features, 'OPTION_EGLIBC_CXX_TESTS', cnf)
--        eglibc_cfg('libc-catgets',      distro_features, 'OPTION_EGLIBC_CATGETS', cnf)
--        eglibc_cfg('libc-charsets',      distro_features, 'OPTION_EGLIBC_CHARSETS', cnf)
--        eglibc_cfg('libc-crypt',      distro_features, 'OPTION_EGLIBC_CRYPT', cnf)
--        eglibc_cfg('libc-crypt-ufc',      distro_features, 'OPTION_EGLIBC_CRYPT_UFC', cnf)
--        eglibc_cfg('libc-db-aliases',      distro_features, 'OPTION_EGLIBC_DB_ALIASES', cnf)
--        eglibc_cfg('libc-envz',      distro_features, 'OPTION_EGLIBC_ENVZ', cnf)
--        eglibc_cfg('libc-fcvt',      distro_features, 'OPTION_EGLIBC_FCVT', cnf)
--        eglibc_cfg('libc-fmtmsg',      distro_features, 'OPTION_EGLIBC_FMTMSG', cnf)
--        eglibc_cfg('libc-fstab',      distro_features, 'OPTION_EGLIBC_FSTAB', cnf)
--        eglibc_cfg('libc-ftraverse',      distro_features, 'OPTION_EGLIBC_FTRAVERSE', cnf)
--        eglibc_cfg('libc-getlogin',      distro_features, 'OPTION_EGLIBC_GETLOGIN', cnf)
--        eglibc_cfg('libc-idn',      distro_features, 'OPTION_EGLIBC_IDN', cnf)
--        eglibc_cfg('ipv4',      distro_features, 'OPTION_EGLIBC_INET', cnf)
--        eglibc_cfg('libc-inet-anl',      distro_features, 'OPTION_EGLIBC_INET_ANL', cnf)
--        eglibc_cfg('libc-libm',      distro_features, 'OPTION_EGLIBC_LIBM', cnf)
--        eglibc_cfg('libc-locales',      distro_features, 'OPTION_EGLIBC_LOCALES', cnf)
--        eglibc_cfg('libc-locale-code',      distro_features, 'OPTION_EGLIBC_LOCALE_CODE', cnf)
--        eglibc_cfg('libc-memusage',      distro_features, 'OPTION_EGLIBC_MEMUSAGE', cnf)
--        eglibc_cfg('libc-nis',      distro_features, 'OPTION_EGLIBC_NIS', cnf)
--        eglibc_cfg('libc-nsswitch',      distro_features, 'OPTION_EGLIBC_NSSWITCH', cnf)
--        eglibc_cfg('libc-rcmd',      distro_features, 'OPTION_EGLIBC_RCMD', cnf)
--        eglibc_cfg('libc-rtld-debug',      distro_features, 'OPTION_EGLIBC_RTLD_DEBUG', cnf)
--        eglibc_cfg('libc-spawn',      distro_features, 'OPTION_EGLIBC_SPAWN', cnf)
--        eglibc_cfg('libc-streams',      distro_features, 'OPTION_EGLIBC_STREAMS', cnf)
--        eglibc_cfg('libc-sunrpc',      distro_features, 'OPTION_EGLIBC_SUNRPC', cnf)
--        eglibc_cfg('libc-utmp',      distro_features, 'OPTION_EGLIBC_UTMP', cnf)
--        eglibc_cfg('libc-utmpx',      distro_features, 'OPTION_EGLIBC_UTMPX', cnf)
--        eglibc_cfg('libc-wordexp',      distro_features, 'OPTION_EGLIBC_WORDEXP', cnf)
--        eglibc_cfg('libc-posix-clang-wchar',      distro_features, 'OPTION_POSIX_C_LANG_WIDE_CHAR', cnf)
--        eglibc_cfg('libc-posix-regexp',      distro_features, 'OPTION_POSIX_REGEXP', cnf)
--        eglibc_cfg('libc-posix-regexp-glibc',      distro_features, 'OPTION_POSIX_REGEXP_GLIBC', cnf)
--        eglibc_cfg('libc-posix-wchar-io',      distro_features, 'OPTION_POSIX_WIDE_CHAR_DEVICE_IO', cnf)
--
--        return "\n".join(cnf)
-+            libc_posix_clang_wchar = True
-+
-+    eglibc_cfg(ipv6, 'OPTION_EGLIBC_ADVANCED_INET6', cnf)
-+    eglibc_cfg(libc_backtrace, 'OPTION_EGLIBC_BACKTRACE', cnf)
-+    eglibc_cfg(libc_big_macros, 'OPTION_EGLIBC_BIG_MACROS', cnf)
-+    eglibc_cfg(libc_bsd, 'OPTION_EGLIBC_BSD', cnf)
-+    eglibc_cfg(libc_cxx_tests, 'OPTION_EGLIBC_CXX_TESTS', cnf)
-+    eglibc_cfg(libc_catgets, 'OPTION_EGLIBC_CATGETS', cnf)
-+    eglibc_cfg(libc_charsets, 'OPTION_EGLIBC_CHARSETS', cnf)
-+    eglibc_cfg(libc_crypt, 'OPTION_EGLIBC_CRYPT', cnf)
-+    eglibc_cfg(libc_crypt_ufc, 'OPTION_EGLIBC_CRYPT_UFC', cnf)
-+    eglibc_cfg(libc_db_aliases, 'OPTION_EGLIBC_DB_ALIASES', cnf)
-+    eglibc_cfg(libc_envz, 'OPTION_EGLIBC_ENVZ', cnf)
-+    eglibc_cfg(libc_fcvt, 'OPTION_EGLIBC_FCVT', cnf)
-+    eglibc_cfg(libc_fmtmsg, 'OPTION_EGLIBC_FMTMSG', cnf)
-+    eglibc_cfg(libc_fstab, 'OPTION_EGLIBC_FSTAB', cnf)
-+    eglibc_cfg(libc_ftraverse, 'OPTION_EGLIBC_FTRAVERSE', cnf)
-+    eglibc_cfg(libc_getlogin, 'OPTION_EGLIBC_GETLOGIN', cnf)
-+    eglibc_cfg(libc_idn, 'OPTION_EGLIBC_IDN', cnf)
-+    eglibc_cfg(ipv4, 'OPTION_EGLIBC_INET', cnf)
-+    eglibc_cfg(libc_inet_anl, 'OPTION_EGLIBC_INET_ANL', cnf)
-+    eglibc_cfg(libc_libm, 'OPTION_EGLIBC_LIBM', cnf)
-+    eglibc_cfg(libc_locales, 'OPTION_EGLIBC_LOCALES', cnf)
-+    eglibc_cfg(libc_locale_code, 'OPTION_EGLIBC_LOCALE_CODE', cnf)
-+    eglibc_cfg(libc_memusage, 'OPTION_EGLIBC_MEMUSAGE', cnf)
-+    eglibc_cfg(libc_nis, 'OPTION_EGLIBC_NIS', cnf)
-+    eglibc_cfg(libc_nsswitch, 'OPTION_EGLIBC_NSSWITCH', cnf)
-+    eglibc_cfg(libc_rcmd, 'OPTION_EGLIBC_RCMD', cnf)
-+    eglibc_cfg(libc_rtld_debug, 'OPTION_EGLIBC_RTLD_DEBUG', cnf)
-+    eglibc_cfg(libc_spawn, 'OPTION_EGLIBC_SPAWN', cnf)
-+    eglibc_cfg(libc_streams, 'OPTION_EGLIBC_STREAMS', cnf)
-+    eglibc_cfg(libc_sunrpc, 'OPTION_EGLIBC_SUNRPC', cnf)
-+    eglibc_cfg(libc_utmp, 'OPTION_EGLIBC_UTMP', cnf)
-+    eglibc_cfg(libc_utmpx, 'OPTION_EGLIBC_UTMPX', cnf)
-+    eglibc_cfg(libc_wordexp, 'OPTION_EGLIBC_WORDEXP', cnf)
-+    eglibc_cfg(libc_posix_clang_wchar, 'OPTION_POSIX_C_LANG_WIDE_CHAR', cnf)
-+    eglibc_cfg(libc_posix_regexp, 'OPTION_POSIX_REGEXP', cnf)
-+    eglibc_cfg(libc_posix_regexp_glibc, 'OPTION_POSIX_REGEXP_GLIBC', cnf)
-+    eglibc_cfg(libc_posix_wchar_io, 'OPTION_POSIX_WIDE_CHAR_DEVICE_IO', cnf)
-+
-+    return "\n".join(cnf)
++	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
++		install -d ${D}${sysconfdir}/pam.d
++		install -m 0644 ${WORKDIR}/dropbear  ${D}${sysconfdir}/pam.d/
++	fi
+ }
+ 
+ inherit update-alternatives
+diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
+index 66e6bee..c1f8d77 100644
+--- a/meta/recipes-core/systemd/systemd_208.bb
++++ b/meta/recipes-core/systemd/systemd_208.bb
+@@ -271,8 +271,7 @@ INITSCRIPT_NAME_udev = "systemd-udevd"
+ INITSCRIPT_PARAMS_udev = "start 03 S ."
+ 
+ python __anonymous() {
+-    features = d.getVar("DISTRO_FEATURES", True).split()
+-    if "sysvinit" not in features:
++    if not oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+ }
+ 
+diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
+index cc0ab2a..55c6185 100644
+--- a/meta/recipes-devtools/gcc/gcc-common.inc
++++ b/meta/recipes-devtools/gcc/gcc-common.inc
+@@ -19,7 +19,7 @@ def get_gcc_fpu_setting(bb, d):
+ get_gcc_fpu_setting[vardepvalue] = "${@get_gcc_fpu_setting(bb, d)}"
+ 
+ def get_gcc_mips_plt_setting(bb, d):
+-    if d.getVar('TRANSLATED_TARGET_ARCH', True) in [ 'mips', 'mipsel' ] and 'mplt' in d.getVar('DISTRO_FEATURES',1).split() :
++    if d.getVar('TRANSLATED_TARGET_ARCH', True) in [ 'mips', 'mipsel' ] and oe.utils.contains('DISTRO_FEATURES', 'mplt', True, False, d):
+         return "--with-mips-plt"
+     return ""
+ 
+@@ -32,7 +32,7 @@ def get_gcc_multiarch_setting(bb, d):
+         "sparc":   "--enable-targets=all",
+     }
+ 
+-    if 'multiarch' in d.getVar('DISTRO_FEATURES', True).split() :
++    if oe.utils.contains('DISTRO_FEATURES', 'multiarch', True, False, d):
+         if target_arch in multiarch_options :
+             return multiarch_options[target_arch]
+     return ""
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index 1076472..4ffd430 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -18,7 +18,7 @@ do_configure_prepend() {
+ inherit autotools pkgconfig systemd
+ 
+ python () {
+-    if 'sysvinit' not in d.getVar("DISTRO_FEATURES", True).split():
++    if not oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+         pn = d.getVar('PN', True)
+         d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'opkg-configure.service')
+ }
+diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+index 6999e6b..914ca0f 100644
+--- a/meta/recipes-devtools/perl/perl-ptest.inc
++++ b/meta/recipes-devtools/perl/perl-ptest.inc
+@@ -42,7 +42,7 @@ python populate_packages_prepend() {
+     # Put all *.t files from the lib dir in the ptest package
+     # do_split_packages requires a pair of () in the regex, but we have nothing
+     # to match, so use an empty pair.
+-    if "ptest" in d.getVar("DISTRO_FEATURES", True).split():
++    if oe.utils.contains('DISTRO_FEATURES', 'ptest', True, False, d):
+         do_split_packages(d, d.expand('${libdir}/perl/${PV}'), '.*\.t()',
+             '${PN}-ptest%s', '%s', recursive=True, match_path=True)
+ }
+diff --git a/meta/recipes-extended/at/at_3.1.14.bb b/meta/recipes-extended/at/at_3.1.14.bb
+index f80b620..b0b2848 100644
+--- a/meta/recipes-extended/at/at_3.1.14.bb
++++ b/meta/recipes-extended/at/at_3.1.14.bb
+@@ -54,10 +54,7 @@ do_install () {
+ 	install -m 0755    ${WORKDIR}/S99at		${D}${sysconfdir}/init.d/atd
+ 	ln -sf ../init.d/atd ${D}${sysconfdir}/rcS.d/S99at
+ 
+-	for feature in ${DISTRO_FEATURES}; do
+-		if [ "$feature" = "pam" ]; then
+-			install -D -m 0644 ${WORKDIR}/${BP}/pam.conf ${D}${sysconfdir}/pam.d/atd
+-			break
+-		fi
+-	done
+-}
++	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
++		install -D -m 0644 ${WORKDIR}/${BP}/pam.conf ${D}${sysconfdir}/pam.d/atd
++	fi
++s}
+diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
+index c9bdcb0..8d0a568 100644
+--- a/meta/recipes-extended/pam/libpam_1.1.6.bb
++++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
+@@ -110,7 +110,7 @@ do_install() {
+ }
+ 
+ python do_pam_sanity () {
+-    if "pam" not in d.getVar("DISTRO_FEATURES", True).split():
++    if not base_contains('DISTRO_FEATURES', 'pam', True, False, d):
+         bb.warn("Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't work correctly")
+ }
+ addtask pam_sanity before do_configure
+diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
+index be42fb9..b79b573 100644
+--- a/meta/recipes-extended/screen/screen_4.0.3.bb
++++ b/meta/recipes-extended/screen/screen_4.0.3.bb
+@@ -36,12 +36,9 @@ EXTRA_OECONF = "--with-pty-mode=0620 --with-pty-group=5 \
+                ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
+ 
+ do_install_append () {
+-	for feature in ${DISTRO_FEATURES}; do
+-		if [ "$feature" = "pam" ]; then
+-			install -D -m 644 ${WORKDIR}/screen.pam ${D}/${sysconfdir}/pam.d/screen
+-			break
+-		fi
+-	done
++	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
++		install -D -m 644 ${WORKDIR}/screen.pam ${D}/${sysconfdir}/pam.d/screen
++	fi
+ }
+ 
+ pkg_postinst_${PN} () {
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.8.bb b/meta/recipes-extended/sudo/sudo_1.8.8.bb
+index ba7c4ab..6ab072f 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.8.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.8.bb
+@@ -14,12 +14,9 @@ RDEPENDS_${PN} += " ${@base_contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limit
+ EXTRA_OECONF += " ${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)}"
+ 
+ do_install_append () {
+-	for feature in ${DISTRO_FEATURES}; do
+-		if [ "$feature" = "pam" ]; then
+-			install -D -m 664 ${WORKDIR}/sudo.pam ${D}/${sysconfdir}/pam.d/sudo
+-			break
+-		fi
+-	done
++	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
++		install -D -m 664 ${WORKDIR}/sudo.pam ${D}/${sysconfdir}/pam.d/sudo
++	fi
+ 
+ 	chmod 4111 ${D}${bindir}/sudo
+ 	chmod 0440 ${D}${sysconfdir}/sudoers
+diff --git a/meta/recipes-graphics/wayland/weston_1.3.1.bb b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+index 82bcf3b..d97f6af 100644
+--- a/meta/recipes-graphics/wayland/weston_1.3.1.bb
++++ b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+@@ -55,16 +55,14 @@ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
+ 	rm -f ${D}/${libdir}/weston/*.la
+ 
+-	for feature in ${DISTRO_FEATURES}; do
+-		# If X11, ship a desktop file to launch it
+-		if [ "$feature" = "x11" ]; then
+-			install -d ${D}${datadir}/applications
+-			install ${WORKDIR}/weston.desktop ${D}${datadir}/applications
++	# If X11, ship a desktop file to launch it
++	if [ "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}" = "x11" ]; then
++		install -d ${D}${datadir}/applications
++		install ${WORKDIR}/weston.desktop ${D}${datadir}/applications
+ 
+-			install -d ${D}${datadir}/icons/hicolor/48x48/apps
+-			install ${WORKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
+-                fi
+-	done
++		install -d ${D}${datadir}/icons/hicolor/48x48/apps
++		install ${WORKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
++        fi
+ }
+ 
+ PACKAGES += "${PN}-examples"
 
 
 
