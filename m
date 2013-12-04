@@ -1,35 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 80A466D915
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E1AEA6D915
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 11:00:21 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id n12so13894798wgh.14
+	Wed,  4 Dec 2013 11:00:22 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id hq4so8024317wib.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2013 03:00:20 -0800 (PST)
+	Wed, 04 Dec 2013 03:00:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=bX0/zCbUg9EitQOTdLr6KXIF4c2y/FrRaYX8DHIg1mE=;
-	b=eJzqMkrpiNopmwdHu7H6Wm32jA3j1H92bj+/zOMwg6vwXUoqcBReTpu5Jh+l84YJ4t
-	PauMzDAPJlxvcz0ORkTt62Gyb40TtmpRFxWPAMK5OguMJNBY92XUD5RkQ8pW1FUnifJ9
-	TAeRruyXVJq2KX6m28KCmedjVm0AmKRoFbBR2B3T930IxDRs8vOfyG/J/ZeqIVacC5tF
-	jmQhBqc4GXDl4A5PEi8klgCU59DqmOufNNhe0RbS0S+AeqSBCIMLwWpyy3MMUYCmIXWn
-	gy2CRj4qtbZDtjXFYDuYxG40JjbR+DmqugqdIm8aWPL7uTWOj4vi5EX3opXnU2zFUvpn
-	x9sw==
-X-Gm-Message-State: ALoCoQnH08HJtIsI0Mz0fiRULyg3iffcub0lM6Y5fD+959M1+1TKielc5bJPH0LnFj8fiIKbnmt5
-X-Received: by 10.194.119.106 with SMTP id kt10mr6573965wjb.72.1386154820766; 
-	Wed, 04 Dec 2013 03:00:20 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=uHOFOTArET70Nw3C26v9+ZN4tEVNNZd1bX04+7+1SCk=;
+	b=dbImDIJQn4FAQvaA3128Th2PH/93XwNmI7Joz5OZiWKla4uVD7Fa53XVfjQ2llo68w
+	vX8QeQAPKy6fxXqic1WoIMNAmZjcVRzZ4gJlezFzO99UwKC1SqezGAy/UqbhRa05lSmN
+	zNLkkm9v+5jkDiGTNVfOxmcx77x/OgYWVUXujtphEBPgb7BQJh9TPaKtPG0FBAsvhnhq
+	JpUX6rG1TNxh5c2+hoMNoVainkLruOSaQRPsm2HM0OpQVJ0HQl1jVLoEDUsmw6/NWURe
+	JxP5z6fXaIcTci2gbWIfb84xlhIhSaiDXccMNQJ9fQmN89J3KFtCnoM/p70GON9RYkaV
+	x4Gw==
+X-Gm-Message-State: ALoCoQlgC2svDzoHDZdl16zGlwx6f1h5TJdc6ANxPX8x3k0VsZ44evlBZhgMrv03ruARGEKfwMW4
+X-Received: by 10.180.73.70 with SMTP id j6mr6605707wiv.47.1386154822063;
+	Wed, 04 Dec 2013 03:00:22 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fu1sm5836207wib.8.2013.12.04.03.00.19
+	by mx.google.com with ESMTPSA id fu1sm5836207wib.8.2013.12.04.03.00.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Dec 2013 03:00:19 -0800 (PST)
+	Wed, 04 Dec 2013 03:00:21 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2013 11:00:14 +0000
-Message-Id: <1386154815-18982-1-git-send-email-ross.burton@intel.com>
+Date: Wed,  4 Dec 2013 11:00:15 +0000
+Message-Id: <1386154815-18982-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/2] gstreamer1.0-plugins-bad: respect directfb DISTRO_FEATURE
+In-Reply-To: <1386154815-18982-1-git-send-email-ross.burton@intel.com>
+References: <1386154815-18982-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] gstreamer1.0-plugins-bad: add PACKAGECONFIG for librsvg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,27 +46,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 11:00:21 -0000
+X-List-Received-Date: Wed, 04 Dec 2013 11:00:23 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index c382758..718c6ff 100644
+index 718c6ff..08440a2 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -13,7 +13,8 @@ PACKAGECONFIG ??= " \
-     ${@base_contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-     ${@base_contains('DISTRO_FEATURES', 'opengl', 'eglgles', '', d)} \
-     ${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
--    orc curl uvch264 directfb neon \
-+    ${@base_contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
-+    orc curl uvch264 neon \
+@@ -17,7 +17,6 @@ PACKAGECONFIG ??= " \
+     orc curl uvch264 neon \
      hls sbc dash bz2 smoothstreaming \
      "
- # rsvg plugin requires librsvg >= 2.36
+-# rsvg plugin requires librsvg >= 2.36
+ # dash = Dynamic Adaptive Streaming over HTTP
+ PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
+ PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
+@@ -43,7 +42,7 @@ PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluid
+ PACKAGECONFIG[schroedinger]    = "--enable-schro,--disable-schro,schroedinger"
+ PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
+ PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez4"
+-
++PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
+ 
+ # these plugins have not been ported to 1.0 (yet):
+ #   directdraw vcd apexsink cdaudio dc1394 lv2 linsys musepack mythtv
+@@ -92,7 +91,6 @@ EXTRA_OECONF += " \
+     --disable-pvr \
+     --disable-quicktime \
+     --disable-resindvd \
+-    --disable-rsvg \
+     --disable-rtmp \
+     --disable-sdl \
+     --disable-sdltest \
 -- 
 1.7.10.4
 
