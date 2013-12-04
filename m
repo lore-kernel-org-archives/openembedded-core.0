@@ -1,29 +1,47 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 948CD6D014
+Return-Path: <nathan.rossi@xilinx.com>
+Received: from co9outboundpool.messaging.microsoft.com
+	(co9ehsobe003.messaging.microsoft.com [207.46.163.26])
+	by mail.openembedded.org (Postfix) with ESMTP id F224E6D2A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 03:15:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB43FA0T019157
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Dec 2013 19:15:10 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 3 Dec 2013 19:15:09 -0800
-Message-ID: <529E9E34.10806@windriver.com>
-Date: Wed, 4 Dec 2013 11:15:00 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+	Wed,  4 Dec 2013 04:51:30 +0000 (UTC)
+Received: from mail154-co9-R.bigfish.com (10.236.132.238) by
+	CO9EHSOBE032.bigfish.com (10.236.130.95) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 4 Dec 2013 04:51:29 +0000
+Received: from mail154-co9 (localhost [127.0.0.1])	by
+	mail154-co9-R.bigfish.com (Postfix) with ESMTP id AA92D4A0946;
+	Wed,  4 Dec 2013 04:51:29 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
+	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
+X-SpamScore: 21
+X-BigFish: VPS21(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzz1de098h17326ah8275bh8275dh1de097h186068hz2fh95h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e1dh1e23h1fe8h1ff5h2218h2216h226dh2327h2336h906i231bil1155h)
+X-Forefront-Antispam-FastScan: 20<65236727001>
+Received-SPF: pass (mail154-co9: domain of xilinx.com designates 149.199.60.83
+	as permitted sender) client-ip=149.199.60.83;
+	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
+	helo=xsj-gw1 ; 
+Received: from mail154-co9 (localhost.localdomain [127.0.0.1]) by mail154-co9
+	(MessageSwitch) id 1386132687843694_14578;
+	Wed,  4 Dec 2013 04:51:27 +0000 (UTC)
+Received: from CO9EHSMHS010.bigfish.com (unknown [10.236.132.239])	by
+	mail154-co9.bigfish.com (Postfix) with ESMTP id C9BEC12006E;
+	Wed,  4 Dec 2013 04:51:27 +0000 (UTC)
+Received: from xsj-gw1 (149.199.60.83) by CO9EHSMHS010.bigfish.com
+	(10.236.130.20) with Microsoft SMTP Server id 14.16.227.3;
+	Wed, 4 Dec 2013 04:51:27 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
+	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
+	<nathan.rossi@xilinx.com>)	id
+	1Vo4Qp-00012M-Bo; Tue, 03 Dec 2013 20:51:27 -0800
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Dec 2013 14:50:46 +1000
+X-Mailer: git-send-email 1.7.9.5
+X-RCIS-Action: ALLOW
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1386066249.git.hongxu.jia@windriver.com>	
-	<837855b3a50fc0672000e2419763a8c6ad062ae3.1386066250.git.hongxu.jia@windriver.com>
-	<1386072858.4463.42.camel@ted>
-In-Reply-To: <1386072858.4463.42.camel@ted>
-Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] eglibc-locale.inc: use nativesdk override with the PACKAGES_DYNAMIC statement
+Message-ID: <0e8c5801-bfc9-468f-b9f7-164bab1af812@CO9EHSMHS010.ehs.local>
+X-OriginatorOrg: xilinx.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] attr: Add patch tracking details
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,86 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 03:15:14 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Dec 2013 04:51:31 -0000
+Content-Type: text/plain
 
-Hi Richard,
+Add author tracking information to the attr patch added by commit
+b28f12a272a9e2f0c3084a58b91605acb05f58f8.
 
-I have updated this patch as your suggestion, and it works well.
+Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+---
 
-     nativesdk.bbclass: support nativesdk to override with the 
-PACKAGES_DYNAMIC statement
+This patch fixes up the missing signed-off-by line, This was requested
+in the following thread: http://lists.openembedded.org/pipermail/openembedded-core/2013-December/087163.html
 
-     While compiling nativesdk-mtools, there was failure:
-     ...
-     Nothing PROVIDES 'nativesdk-glibc-gconv-ibm850'. Close matches:
-     ...
-     This patch supports nativesdk to override with the PACKAGES_DYNAMIC 
-statement
+---
+ .../attr/files/attr-Missing-configure.ac.patch     |    1 +
+ 1 file changed, 1 insertion(+)
 
-     [YOCTO #5623]
-     Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+diff --git a/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch b/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
+index 5887ed5..20fcc3c 100644
+--- a/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
++++ b/meta/recipes-support/attr/files/attr-Missing-configure.ac.patch
+@@ -1,6 +1,7 @@
+ Subject: [PATCH] attr: Missing configure.ac
+ 
+ Upstream-Status: Backport [Upstream released tarball missing this file]
++Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+ ---
+  configure.ac |   48 ++++++++++++++++++++++++++++++++++++++++++++++++
+  1 file changed, 48 insertions(+)
+-- 
+1.7.9.5
 
-diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
-index 94bc326..21a69c7 100644
---- a/meta/classes/nativesdk.bbclass
-+++ b/meta/classes/nativesdk.bbclass
-@@ -81,6 +81,7 @@ python () {
-      clsextend.map_depends_variable("DEPENDS")
-      clsextend.map_packagevars()
-      clsextend.map_variable("PROVIDES")
-+    clsextend.map_regexp_variable("PACKAGES_DYNAMIC")
-  }
-
-//Hongxu
-
-On 12/03/2013 08:14 PM, Richard Purdie wrote:
-> On Tue, 2013-12-03 at 18:27 +0800, Hongxu Jia wrote:
->> While compiling nativesdk-mtools, there was failure:
->> ...
->> Nothing PROVIDES 'nativesdk-glibc-gconv-ibm850'. Close matches:
->> ...
->>
->> Using nativesdk override with the PACKAGES_DYNAMIC statement fixed this issue.
->>
->> [YOCTO #5623]
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-core/eglibc/eglibc-locale.inc | 6 ++++++
->>   1 file changed, 6 insertions(+)
-> No.
->
-> lib/oe/classextend.py has a map_regexp_variable() function which is
-> called from classes/multilib.bbclass:
->
-> clsextend.map_regexp_variable("PACKAGES_DYNAMIC")
->
-> Perhaps such a line should be added to nativesdk.bbclass to fix this
-> properly instead?
->
-> Cheers,
->
-> Richard
->
->> diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
->> index 83569da..5e256a5 100644
->> --- a/meta/recipes-core/eglibc/eglibc-locale.inc
->> +++ b/meta/recipes-core/eglibc/eglibc-locale.inc
->> @@ -35,6 +35,12 @@ PACKAGES_DYNAMIC = "^locale-base-.* \
->>                       ^eglibc-gconv-.* ^eglibc-charmap-.* ^eglibc-localedata-.* ^eglibc-binary-localedata-.* \
->>                       ^glibc-gconv-.*  ^glibc-charmap-.*  ^glibc-localedata-.*  ^glibc-binary-localedata-.*"
->>   
->> +PACKAGES_DYNAMIC_class-nativesdk = "^nativesdk-locale-base-.* \
->> +                    ^nativesdk-eglibc-gconv-.* ^nativesdk-eglibc-charmap-.* \
->> +                    ^nativesdk-eglibc-localedata-.* ^nativesdk-eglibc-binary-localedata-.* \
->> +                    ^nativesdk-glibc-gconv-.*  ^nativesdk-glibc-charmap-.*  \
->> +                    ^nativesdk-glibc-localedata-.*  ^nativesdk-glibc-binary-localedata-.*"
->> +
->>   # Create a eglibc-binaries package
->>   ALLOW_EMPTY_${BPN}-binaries = "1"
->>   PACKAGES += "${BPN}-binaries"
->
 
 
