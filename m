@@ -1,38 +1,36 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
-	[209.85.215.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 307356D756
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
+	[74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 84DB0615B0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 15:18:22 +0000 (UTC)
-Received: by mail-la0-f52.google.com with SMTP id y1so7716988lam.25
+	Wed,  4 Dec 2013 15:35:49 +0000 (UTC)
+Received: by mail-we0-f170.google.com with SMTP id w61so15416302wes.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2013 07:18:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=m6mYi/1HD6QG/OSKaphc/fqiMGxGaRR42Rr498GlS3I=;
-	b=AzhsUeEaihyHXThZlah5kWup28DXdKtXkD4ZgqVVmaAeqGa3idm15ehMYMlcaMUyVq
-	KMZaLkGbj4jn0TV3I1ebptt6CZWYamAgMtGzzsI6J00gTPoEkYiaNPQdYkhWoeI8JKeA
-	o3O53bAcGC9+k//ovEQv5JTI/w5GDKCSJ0E2dtmNn5vrv67y5bGOn/XAOJgPk2mqYdYI
-	mcI20r1dlZFChNHN5E16I6nqGt1Yx8dqI8hpHPgOzXFUksNyPYG8MVFWUW/rqBtzIf6b
-	dzFKAa6sD6LaDMWznY+uxPSVtjnpNOkdC6jcMNVZ3XLWuitCNlQ0Xl82lDtfzHFSVV9Y
-	qeug==
-X-Received: by 10.112.181.232 with SMTP id dz8mr2738382lbc.8.1386170300612;
-	Wed, 04 Dec 2013 07:18:20 -0800 (PST)
-Received: from nysan ([79.102.212.129])
-	by mx.google.com with ESMTPSA id rb4sm9937334lbb.1.2013.12.04.07.18.18
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 04 Dec 2013 07:18:19 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id 6C2631C6A44; Wed,  4 Dec 2013 16:18:17 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+	Wed, 04 Dec 2013 07:35:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=jE2i0D6Avw4e8fxL7RxGDyqHZoYX8TepNiGCJxnlzuc=;
+	b=doYYAAmUAWQENKJMZRWAUwC4xZL15q3PMTmDctty1EIGUI26rGYqSyBmLYub/FZ24l
+	Hv8tfkMP5gItxqVEabjJ746krLimxb38XUO+GzZ4QRMkbJ2ZpsaW/rpU4vl2fpoLrw4w
+	DXJQ7aeoTF7exrjzhdbcsUihFyhVlOXgZVjaD0ngUcvZE/aMwLWfl2YQfR4pTTS3+79R
+	p2DkB8xV7MLhJrfv/jERE9jM4EPhb99EbxzK2S0UTL+H6GZQYY8GqSOzvLIXJw/BCo6T
+	sQlD2g1GXiXJsJiuIgErhKXmKPCn5r2PXhZMc3rzhkUiLYVGY8k1ZLlRCk1/Ooy0ifT2
+	kM9Q==
+X-Gm-Message-State: ALoCoQk+VX3OV3duE+RX4EXcFhGPBOERcAr6OHwpBzcTGUsgRXRN4Ng9OPweBT5qKHXwHj7qoFqc
+X-Received: by 10.180.221.38 with SMTP id qb6mr7708794wic.8.1386171348727;
+	Wed, 04 Dec 2013 07:35:48 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id f11sm7982684wic.4.2013.12.04.07.35.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Dec 2013 07:35:47 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2013 16:18:15 +0100
-Message-Id: <1386170295-26774-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
-MIME-Version: 1.0
-Subject: [PATCH] rpm: Fixed Q&A Errors in netivesdk-rpm
+Date: Wed,  4 Dec 2013 15:35:38 +0000
+Message-Id: <1386171342-7213-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/5] pango: upgrade to 1.36.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,59 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 15:18:23 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Dec 2013 15:35:50 -0000
 
-ERROR: QA Issue: nativesdk-rpm: Files/directories were installed but not shipped
-  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmcmp.real
-  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmrepo.real
-  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmdigest.real
-  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmspecdump.real
-  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmcache.real
-  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/debugedit.real
-  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmdeps-oecore.real
-  /opt/poky/1.5+snapshot/sysroots/x86_64-pokysdk-linux/usr/lib/rpm/bin/rpmdeps.real
-ERROR: QA run found fatal errors. Please consider fixing them.
-
-Signed-off-by: David Nyström <david.nystrom@enea.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.9.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/recipes-graphics/pango/{pango_1.32.6.bb => pango_1.36.1.bb} |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/pango/{pango_1.32.6.bb => pango_1.36.1.bb} (56%)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 4b95a90..9d376a5 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -223,7 +223,9 @@ FILES_${PN} =  "${bindir}/rpm \
- 		${libdir}/rpm/bin/mtree \
- 		${libdir}/rpm/bin/rpmkey \
- 		${libdir}/rpm/bin/rpmrepo \
-+		${libdir}/rpm/bin/rpmrepo.real \
- 		${libdir}/rpm/bin/rpmspecdump \
-+		${libdir}/rpm/bin/rpmspecdump.real \
- 		${libdir}/rpm/bin/wget \
- 		${localstatedir}/cache \
- 		${localstatedir}/cache/rpm \
-@@ -284,11 +286,17 @@ FILES_${PN}-build = "${prefix}/src/rpm \
- 		${libdir}/rpm/pkgconfigdeps.sh \
- 		${libdir}/rpm/pythondeps.sh \
- 		${libdir}/rpm/bin/debugedit \
-+		${libdir}/rpm/bin/debugedit.real \
- 		${libdir}/rpm/bin/rpmcache \
-+		${libdir}/rpm/bin/rpmcache.real \
- 		${libdir}/rpm/bin/rpmcmp \
-+		${libdir}/rpm/bin/rpmcmp.real \
- 		${libdir}/rpm/bin/rpmdeps \
-+		${libdir}/rpm/bin/rpmdeps.real \
- 		${libdir}/rpm/bin/rpmdeps-oecore \
-+		${libdir}/rpm/bin/rpmdeps-oecore.real \
- 		${libdir}/rpm/bin/rpmdigest \
-+		${libdir}/rpm/bin/rpmdigest.real \
- 		${libdir}/rpm/bin/abi-compliance-checker.pl \
- 		${libdir}/rpm/bin/api-sanity-autotest.pl \
- 		${libdir}/rpm/bin/chroot \
+diff --git a/meta/recipes-graphics/pango/pango_1.32.6.bb b/meta/recipes-graphics/pango/pango_1.36.1.bb
+similarity index 56%
+rename from meta/recipes-graphics/pango/pango_1.32.6.bb
+rename to meta/recipes-graphics/pango/pango_1.36.1.bb
+index 9c5c1cd..c6377aa 100644
+--- a/meta/recipes-graphics/pango/pango_1.32.6.bb
++++ b/meta/recipes-graphics/pango/pango_1.36.1.bb
+@@ -8,5 +8,5 @@ SRC_URI += "file://no-tests.patch \
+             file://multilib-fix-clean.patch \
+ "
+ 
+-SRC_URI[archive.md5sum] = "1af2e3a0ac5a258eff5ceddb6ed60ebd"
+-SRC_URI[archive.sha256sum] = "8e9a3eadebf30a31640f2b3ae0fb455cf92d10d1cad246d0ffe72ec595905174"
++SRC_URI[archive.md5sum] = "9e0d3a1ea395172f8c39ba98a4d2081a"
++SRC_URI[archive.sha256sum] = "42e4b51cdc99e6878a9ea2a5ef2b31b79c1033f8518726df738a3c54c90e59f8"
 -- 
-1.8.3.2
+1.7.10.4
 
 
