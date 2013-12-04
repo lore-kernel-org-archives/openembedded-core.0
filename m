@@ -1,20 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8591660FF0
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E1F3761612
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2013 22:51:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Dec 2013 14:48:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,820,1378882800"; d="scan'208";a="446311365"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.171])
-	by orsmga002.jf.intel.com with ESMTP; 03 Dec 2013 14:51:45 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Dec 2013 14:51:45 -0800
-Message-Id: <1386111105-16532-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] security_flags: Add entry for openssl
+	Wed,  4 Dec 2013 02:00:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB420qIN001834
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Dec 2013 18:00:52 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 3 Dec 2013 18:00:52 -0800
+Message-ID: <529E8CCB.2070204@windriver.com>
+Date: Wed, 4 Dec 2013 10:00:43 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+MIME-Version: 1.0
+To: Phil Blundell <pb@pbcl.net>
+References: <cover.1386078157.git.hongxu.jia@windriver.com>	
+	<ae7e0f907b72ad9af0a078bdf317a7eb10315c7f.1386078157.git.hongxu.jia@windriver.com>
+	<1386108562.8293.8.camel@x121e.pbcl.net>
+In-Reply-To: <1386108562.8293.8.camel@x121e.pbcl.net>
+Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] dhclient-script: let resolv.conf and resolv.conf.dhclient on the same direcotry
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,41 +36,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 22:51:47 -0000
+X-List-Received-Date: Wed, 04 Dec 2013 02:00:57 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It seems we might be stumbling over an obscure linkage issues possibly
-similar to http://marc.info/?l=openssl-dev&m=130132183118768&w=2
+On 12/04/2013 06:09 AM, Phil Blundell wrote:
+> On Tue, 2013-12-03 at 21:46 +0800, Hongxu Jia wrote:
+>> +-      echo search $new_domain_search >> /etc/resolv.conf.dhclient
+>> ++      echo search $new_domain_search >> $sysconfdir/esolv.conf.dhclient
+> Should that be "$sysconfdir/resolv.conf.dhclient"?
 
-This issue appears for x86-64 systems with the PIE related compiler flags.
+Yes, sorry for the missing, I have updated the git tree to fix this.
 
-libcrypto.a(cryptlib.o): relocation R_X86_64_PC32 against symbol
-`OPENSSL_showfatal' can not be used when making a shared object; recompile with -fPIC
+//Hongxu
 
-The error suggests recompiling with -fPIC, but it is already compiled that
-way.
-
-Disable the PIE flags makes it work for now, I have posted to openssl ML
-
-[YOCTO #5515]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/conf/distro/include/security_flags.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 2eaa42f..42ea35e 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -31,6 +31,7 @@ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
--- 
-1.8.3.1
+> p.
+>
+>
 
 
