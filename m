@@ -1,38 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CED26DF3E
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 1689F615B0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 15:35:54 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id a1so13450937wgh.29
+	Wed,  4 Dec 2013 15:38:07 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id hn6so3796474wib.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2013 07:35:53 -0800 (PST)
+	Wed, 04 Dec 2013 07:38:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=tnF5LoVGV0zVWfuT4Q62hYygjnfD7bZNGw+ROdjW4SE=;
-	b=KU9BLSUW0NMpjTljnmsxIaz+63LlDJrQMy7hTDV2oy1TR+T48lQXBfhrE4qE3Y7bGA
-	AIHesXgOnEJY0CGATguEUic12Q2NqrjKUlECTuFa9Lk0at9oDC1ZAx5z70noaTXOKal9
-	VDI5DP+PhBH8cr+hXnVexgGnuX5VtmD+yF9VbXgjsJOeKUyuQCiuTt/Bef/g/Wp28gJe
-	aIPIsBkB8LOVZ1do/nyYodktI0VLrbx2+cTBTH8C25VF+/XMd0OOBQEgBmv4L3tm1qjL
-	yZ2QVRn2Rf+E1IioklYGVHuWTkl3dS2/xGMYuRU2IvdS7mMRSW4Hn7uaEWCVVV1vGXiJ
-	G4bg==
-X-Gm-Message-State: ALoCoQlX91sntcHoPZcpwSLM6NfzY8OgjhxsIfDdySJhgV42Mto1xEiSqnQlvk3EDCbsJEsfyh4e
-X-Received: by 10.180.185.101 with SMTP id fb5mr7858990wic.11.1386171353740;
-	Wed, 04 Dec 2013 07:35:53 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=iyoRKpuf3eDkOW/kW4YBDeuDkwjgjS6+4zFoW3ZllCE=;
+	b=iO8j/pkrvr/iTabsKTRm7Oy4yWEUbj9DB+hYW1yplb0/O47gzMbvgjwt0DvDhjlhBK
+	4hxUmFB8v/FZfKHjVsUMnYvx1xEDK8YWIz1GYK3BLSFN2md732g7qDvK0xpTcGYu1oCL
+	6JO+NkWl8jDcV/v63Ncvktkh2vrDRAcnWfVQWtKKXwXzghXt3rIRtklVM38PaE8o27nl
+	17qQksOk9RiGMLL4limfVXUJHT4PQWcU8oT9PwL27S/Pt3tFtuO18sewGPF19agQe1VU
+	AvevluOSxOB2OgRH1RzYRCPhgMrGsXfO2GTv584nkoshSJ3vvMnk/mZLAV6WN/fTTTsZ
+	oLRA==
+X-Gm-Message-State: ALoCoQkIdFmr27SgfUN0Yxcw8nZJ4EqXIQ0Ki7W7t9r9gmpy4q+SJ3VJnPYvoNtzgq7ffVBMXxn9
+X-Received: by 10.180.38.35 with SMTP id d3mr7798696wik.2.1386171487293;
+	Wed, 04 Dec 2013 07:38:07 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id f11sm7982684wic.4.2013.12.04.07.35.52
+	by mx.google.com with ESMTPSA id fj8sm117355wib.1.2013.12.04.07.38.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Dec 2013 07:35:53 -0800 (PST)
+	Wed, 04 Dec 2013 07:38:06 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2013 15:35:42 +0000
-Message-Id: <1386171342-7213-5-git-send-email-ross.burton@intel.com>
+Date: Wed,  4 Dec 2013 15:38:01 +0000
+Message-Id: <1386171481-7713-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1386171342-7213-1-git-send-email-ross.burton@intel.com>
-References: <1386171342-7213-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 5/5] xserver: remove unrecognised options
+Subject: [PATCH][V2] freetype: upgrade to 2.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 15:35:54 -0000
-
---disable-xorgcfg was removed in 2008.
-
---with-fontdir was renamed to --with-fontrootdir in 2009 and the default value
-is good.
-
---disable-xf86misc was removed in 2008.
-
---disable-acfb, -ccfb and -mcfb should have been --disable-afb, -cfb, -mfb, and
-were removed in 2008.
+X-List-Received-Date: Wed, 04 Dec 2013 15:38:08 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc |    6 ------
- 1 file changed, 6 deletions(-)
+ .../freetype/{freetype_2.5.0.1.bb => freetype_2.5.1.bb}            |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/freetype/{freetype_2.5.0.1.bb => freetype_2.5.1.bb} (91%)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index 969b84e..ebfb814 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -102,12 +102,7 @@ EXTRA_OECONF += "--with-fop=no \
-                  --without-xmlto \
-                  --with-pic \
-                  --disable-static \
--                 --disable-acfb \
--                 --disable-ccfb \
--                 --disable-mcfb \
-                  --disable-xinerama \
--                 --disable-xf86misc \
--                 --disable-xorgcfg \
-                  --disable-record \
-                  --disable-dmx \
-                  --disable-xnest \
-@@ -117,7 +112,6 @@ EXTRA_OECONF += "--with-fop=no \
-                  --with-int10=x86emu \
-                  --sysconfdir=/etc/X11 \
-                  --localstatedir=/var \
--                 --with-fontdir=${datadir}/fonts/X11 \
-                  --with-xkb-output=/var/lib/xkb \
-                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+diff --git a/meta/recipes-graphics/freetype/freetype_2.5.0.1.bb b/meta/recipes-graphics/freetype/freetype_2.5.1.bb
+similarity index 91%
+rename from meta/recipes-graphics/freetype/freetype_2.5.0.1.bb
+rename to meta/recipes-graphics/freetype/freetype_2.5.1.bb
+index 0b69af9..8e59840 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.5.0.1.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.5.1.bb
+@@ -16,8 +16,8 @@ SECTION = "libs"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
  "
+ 
+-SRC_URI[md5sum] = "c72e9010b1d986d556fc0b2b5fcbf31a"
+-SRC_URI[sha256sum] = "57bce5b37989577aa8b4a588426839f6bf39bcc3869748cb18f6827df251f4e5"
++SRC_URI[md5sum] = "93eba7854094f46d7d98a9a2370af4d6"
++SRC_URI[sha256sum] = "d715faa92b37980280c857ce9d356fff4361c5a7bd9b5c3f867fc24f598d8f45"
+ 
+ S = "${WORKDIR}/freetype-${PV}"
+ 
 -- 
 1.7.10.4
 
