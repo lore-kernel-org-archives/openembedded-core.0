@@ -1,25 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E8AA66DF3D
+Return-Path: <iyadkq@gmail.com>
+Received: from mail-pb0-f43.google.com (mail-pb0-f43.google.com
+	[209.85.160.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 225176DEE2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 16:41:55 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Dec 2013 08:41:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,825,1378882800"; d="scan'208";a="438491238"
-Received: from akagikob-mobl1.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.121.234])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Dec 2013 08:40:46 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed,  4 Dec 2013 17:01:12 +0000 (UTC)
+Received: by mail-pb0-f43.google.com with SMTP id rq2so23841350pbb.16
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Dec 2013 09:01:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=78bYVwtu428qXwUwDg6baZbvKaW3D1c1mYTqUcCZjNA=;
+	b=scW7hE0sgd+dhIwcdDax893pYo+L5HeNpKAfi48tS79crZdZ8uerp5BEqMwQqNIFnm
+	WqmrScznhGFh4aCsA4kq3vqqwXsjFiQzQoZo7qiQwaXztIIhXm8P7gYaBFQn34u2jQ3U
+	WAMa7HJnk3uqyV3ezbC93xgu8KUKeB4dpCOamivjFpkoeav4XhoX/BpE5kkpL0Wiue0G
+	Mb46d6jTFN4DNau+rzIW5Pr5VK9uIotq344eW0nSVJXFAJB29Kvg8J2VZGU6vikcuIRN
+	H5uhLhyv0xuBPpnXPbb62blntOXUvwSXyjGyHdZ8N7+FOL78QyV30GHugzTVo1r35njZ
+	qKPg==
+X-Received: by 10.66.139.100 with SMTP id qx4mr19431520pab.141.1386176471580; 
+	Wed, 04 Dec 2013 09:01:11 -0800 (PST)
+Received: from linux-jvv9.site ([204.119.232.48])
+	by mx.google.com with ESMTPSA id
+	jn12sm97241711pbd.37.2013.12.04.09.01.10 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Dec 2013 09:01:10 -0800 (PST)
+From: Iyad Qumei <iyadkq@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2013 16:40:28 +0000
-Message-Id: <2dd7befefe608408e58b46ac7af3daafe7d5aa82.1386175183.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1386175183.git.paul.eggleton@linux.intel.com>
-References: <cover.1386175183.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1386175183.git.paul.eggleton@linux.intel.com>
-References: <cover.1386175183.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/4] libarchive: add e2fsprogs to DEPENDS
+Date: Wed,  4 Dec 2013 09:07:53 -0800
+Message-Id: <1386176874-4286-1-git-send-email-iyadkq@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] icecc-create-env: Upgrade script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +41,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 16:41:56 -0000
+X-List-Received-Date: Wed, 04 Dec 2013 17:01:13 -0000
 
-libarchive's configure script looks for ext2fs/ext2_fs.h in order to use
-some defines for file attributes support if present (but doesn't link to
-any additional libraries.) There is no configure option to disable this,
-and if e2fsprogs is rebuilding between do_configure and do_compile you
-can currently get a failure. Since we normally only build this recipe
-for the target, and this functionality should really be supported on all
-linux systems, just add the dependency as most normal Linux distros seem
-to.
+Folks,
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-extended/libarchive/libarchive_2.8.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
+This change was necessary to compile code with external toolchains with support for linker time optimization, such as linaro.  The older script does not process the LTO related content correctly. More recent scripts from upstream icecream corrects this error.  However, the script required modifications for use with OE.  Hence I created this patch.
 
-diff --git a/meta/recipes-extended/libarchive/libarchive_2.8.5.bb b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-index 11c2f7d..d3fb09e 100644
---- a/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_2.8.5.bb
-@@ -4,6 +4,8 @@ SECTION = "devel"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4255e2e6f0349a4ac8fbd68459296e46"
- 
-+DEPENDS = "e2fsprogs"
-+
- PACKAGECONFIG ?= "libxml2 zlib bz2"
- 
- PACKAGECONFIG_append_class-target = "\
+Iyad Qumei (1):
+  icecc-create-env: Upgrade script
+
+ .../icecc-create-env-native/icecc-create-env       |  266 +++++++++++++++-----
+ ...ive_0.1.bb => icecc-create-env-native_1.0.1.bb} |    5 +-
+ 2 files changed, 209 insertions(+), 62 deletions(-)
+ rename meta/recipes-devtools/icecc-create-env/{icecc-create-env-native_0.1.bb => icecc-create-env-native_1.0.1.bb} (89%)
+
 -- 
-1.8.1.2
+1.7.10.4
 
 
