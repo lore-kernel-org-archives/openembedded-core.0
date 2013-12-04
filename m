@@ -1,39 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E1AEA6D915
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EA356D756
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2013 11:00:22 +0000 (UTC)
-Received: by mail-wi0-f176.google.com with SMTP id hq4so8024317wib.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2013 03:00:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=uHOFOTArET70Nw3C26v9+ZN4tEVNNZd1bX04+7+1SCk=;
-	b=dbImDIJQn4FAQvaA3128Th2PH/93XwNmI7Joz5OZiWKla4uVD7Fa53XVfjQ2llo68w
-	vX8QeQAPKy6fxXqic1WoIMNAmZjcVRzZ4gJlezFzO99UwKC1SqezGAy/UqbhRa05lSmN
-	zNLkkm9v+5jkDiGTNVfOxmcx77x/OgYWVUXujtphEBPgb7BQJh9TPaKtPG0FBAsvhnhq
-	JpUX6rG1TNxh5c2+hoMNoVainkLruOSaQRPsm2HM0OpQVJ0HQl1jVLoEDUsmw6/NWURe
-	JxP5z6fXaIcTci2gbWIfb84xlhIhSaiDXccMNQJ9fQmN89J3KFtCnoM/p70GON9RYkaV
-	x4Gw==
-X-Gm-Message-State: ALoCoQlgC2svDzoHDZdl16zGlwx6f1h5TJdc6ANxPX8x3k0VsZ44evlBZhgMrv03ruARGEKfwMW4
-X-Received: by 10.180.73.70 with SMTP id j6mr6605707wiv.47.1386154822063;
-	Wed, 04 Dec 2013 03:00:22 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fu1sm5836207wib.8.2013.12.04.03.00.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Dec 2013 03:00:21 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed,  4 Dec 2013 11:18:36 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	rB4BIO1c026745
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Wed, 4 Dec 2013 12:18:29 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1386155909;
+	bh=H0lBrXN8sbJzzmPIyXC9d5nsNTRimrGZMJWt3VXEzOU=;
+	h=From:To:Cc:Subject:Date:Message-Id:Sender;
+	b=a4ViG46mKd9VDIjwIbXfEqT+dxywyXhxc0+MnDwdrroPOs69uoESsEIN23K7EndIh
+	I4sNclmvcxFvulkx2/i0FHBd6SRp0lyH1lsAA3XtkKGU0wVdDoHv0zzJzzGazV4hqX
+	ScPjAcMQlxzti6Hq8XJvxXDDsx483i59ZhHdtQns=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rB4BIG9Z029805
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Wed, 4 Dec 2013 12:18:17 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1VoATA-0003RM-7t; Wed, 04 Dec 2013 12:18:16 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2013 11:00:15 +0000
-Message-Id: <1386154815-18982-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1386154815-18982-1-git-send-email-ross.burton@intel.com>
-References: <1386154815-18982-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] gstreamer1.0-plugins-bad: add PACKAGECONFIG for librsvg
+Date: Wed,  4 Dec 2013 12:18:13 +0100
+Message-Id: <1386155893-13145-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 1.8.3.1
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -3.9
+X-Spam-Level: ---
+X-Spam-Tests: AWL,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] qt4: fixed dependency on icu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +50,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 11:00:23 -0000
+X-List-Received-Date: Wed, 04 Dec 2013 11:18:38 -0000
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Commit 46dcec6fd455584d9b5d0d7ff1e5b36fbe5a2d62 added 'icu' to DEPENDS
+in qt4-x11 only, but enabled icu globally in qt4.inc.
+
+This breaks build of qt4-embedded because this recipe does not have
+such a DEPENDS but uses qt4.inc:
+
+| icu.cpp:42:28: fatal error: unicode/utypes.h: No such file or directory
+|  #include <unicode/utypes.h>
+|                             ^
+| compilation terminated.
+| make: *** [icu.o] Error 1
+
+
+Patch moves the 'icu' dependency into qt4.inc.
+
+
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc |    4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-qt/qt4/qt4-x11-free.inc | 2 +-
+ meta/recipes-qt/qt4/qt4.inc          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-index 718c6ff..08440a2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
-@@ -17,7 +17,6 @@ PACKAGECONFIG ??= " \
-     orc curl uvch264 neon \
-     hls sbc dash bz2 smoothstreaming \
-     "
--# rsvg plugin requires librsvg >= 2.36
- # dash = Dynamic Adaptive Streaming over HTTP
- PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
- PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
-@@ -43,7 +42,7 @@ PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluid
- PACKAGECONFIG[schroedinger]    = "--enable-schro,--disable-schro,schroedinger"
- PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
- PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez4"
--
-+PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
+diff --git a/meta/recipes-qt/qt4/qt4-x11-free.inc b/meta/recipes-qt/qt4/qt4-x11-free.inc
+index 46869aa..369b3d5 100644
+--- a/meta/recipes-qt/qt4/qt4-x11-free.inc
++++ b/meta/recipes-qt/qt4/qt4-x11-free.inc
+@@ -3,7 +3,7 @@ require qt4.inc
+ DESCRIPTION = "Qt is a versatile cross-platform application framework -- this is the X11 version."
+ HOMEPAGE = "http://qt-project.org/"
+ SECTION = "x11/libs"
+-DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor icu"
++DEPENDS += "virtual/libgl virtual/libx11 fontconfig libxft libxext libxrender libxrandr libxcursor"
+ PROVIDES += "qt4-x11"
+ QT4DEPENDS = ""
  
- # these plugins have not been ported to 1.0 (yet):
- #   directdraw vcd apexsink cdaudio dc1394 lv2 linsys musepack mythtv
-@@ -92,7 +91,6 @@ EXTRA_OECONF += " \
-     --disable-pvr \
-     --disable-quicktime \
-     --disable-resindvd \
--    --disable-rsvg \
-     --disable-rtmp \
-     --disable-sdl \
-     --disable-sdltest \
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 659561c..9a10138 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -1,6 +1,6 @@
+ inherit qmake_base
+ 
+-DEPENDS += "qt4-tools-native freetype jpeg libpng zlib dbus openssl glib-2.0 gstreamer gst-plugins-base sqlite3 tiff"
++DEPENDS += "qt4-tools-native freetype jpeg libpng zlib dbus openssl glib-2.0 gstreamer gst-plugins-base sqlite3 tiff icu"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)}"
+ 
+ require qt4_arch.inc
 -- 
-1.7.10.4
+1.8.3.1
 
 
