@@ -1,31 +1,28 @@
-Return-Path: <scott.a.garman@intel.com>
-Received: from masterfoo.zenlinux.com (masterfoo.zenlinux.com [207.192.74.254])
-	by mail.openembedded.org (Postfix) with ESMTP id 70EEC6DF7B
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 2C01E6DF7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 21:58:26 +0000 (UTC)
-Received: from localhost (c-50-139-96-211.hsd1.or.comcast.net [50.139.96.211])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id 22C28301C9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 16:57:42 -0500 (EST)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2013 13:57:31 -0800
-Message-Id: <91f2cb9128007933216034298897b5ab34cc90ed.1386279548.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1386279548.git.scott.a.garman@intel.com>
-References: <cover.1386279548.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1386279548.git.scott.a.garman@intel.com>
-References: <cover.1386279548.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: 22C28301C9.21964
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] runqemu: remove core-image-* whitelist
+	Thu,  5 Dec 2013 22:18:47 +0000 (UTC)
+Received: (qmail 14551 invoked by uid 1003); 5 Dec 2013 22:18:46 -0000
+Received: from unknown (HELO ?192.168.1.113?)
+	(philip@opensdr.com@108.44.82.190)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	5 Dec 2013 22:18:46 -0000
+Message-ID: <52A0FBC5.6090009@balister.org>
+Date: Thu, 05 Dec 2013 17:18:45 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Ross Burton <ross.burton@intel.com>
+References: <1386203938-13338-1-git-send-email-ross.burton@intel.com>
+	<1386203938-13338-2-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1386203938-13338-2-git-send-email-ross.burton@intel.com>
+X-Enigmail-Version: 1.6
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cmake: respect ${S} and ${B}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,49 +35,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 21:58:26 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 22:18:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Using a whitelist for image names to default to when none are
-specified on the command line is no longer desired. Instead,
-choose the most recently created image filename that conforms
-to typical image naming conventions.
+On 12/04/2013 07:38 PM, Ross Burton wrote:
+> Instead of the class-specific variables OECMAKE_BUILDPATH and
+> OECMAKE_SOURCEPATH, just use ${B} and ${S}.
+> 
+> If these two paths are different, delete any existing ${B} before running a
+> build so that previous builds don't taint the current build.
+> 
+> Note that OECMAKE_SOURCEPATH and OECMAKE_BUILDPATH are not respected at all, so
+> recipes that manually set these in the past will need to be updated to either
+> use something along the lines of separatebuilddir.inc or set B themselves.
 
-Fixes [YOCTO #5617].
+I'm carrying EXTRA_OEMAKE = "-C $(OECMAKE_BUILDPATH)" in recipes. It
+looks like this removes the need for this also? My cmake invocation is
+rusty :)
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- scripts/runqemu | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
+Philip
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 619ffb6..9c0a03b 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -399,18 +399,11 @@ findimage() {
- 
-     # Sort rootfs candidates by modification time - the most
-     # recently created one is the one we most likely want to boot.
--    filenames=`ls -t $where/*-image*$machine.$extension 2>/dev/null | xargs`
--    for name in $filenames; do
--        case $name in
--        *core-image-sato* | \
--        *core-image-lsb* | \
--        *core-image-basic* | \
--        *core-image-minimal* )
--            ROOTFS=$name
--            return
--            ;;
--        esac
--    done
-+    filename=`ls -t1 $where/*-image*$machine.$extension 2>/dev/null | head -n1`
-+    if [ "x$filename" != "x" ]; then
-+        ROOTFS=$filename
-+        return
-+    fi
- 
-     echo "Couldn't find a $machine rootfs image in $where."
-     exit 1
--- 
-1.8.1.2
-
+> 
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/cmake.bbclass |   31 +++++++------------------------
+>  1 file changed, 7 insertions(+), 24 deletions(-)
+> 
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index 30c1792..4d1489a 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -6,15 +6,6 @@ CCACHE = ""
+>  # We want the staging and installing functions from autotools
+>  inherit autotools
+>  
+> -# Use in-tree builds by default but allow this to be changed
+> -# since some packages do not support them (e.g. llvm 2.5).
+> -OECMAKE_SOURCEPATH ?= "."
+> -
+> -# If declaring this, make sure you also set EXTRA_OEMAKE to
+> -# "-C ${OECMAKE_BUILDPATH}". So it will run the right makefiles.
+> -OECMAKE_BUILDPATH ?= ""
+> -B="${S}"
+> -
+>  # C/C++ Compiler (without cpu arch/tune arguments)
+>  OECMAKE_C_COMPILER ?= "`echo ${CC} | sed 's/^\([^ ]*\).*/\1/'`"
+>  OECMAKE_CXX_COMPILER ?= "`echo ${CXX} | sed 's/^\([^ ]*\).*/\1/'`"
+> @@ -73,10 +64,10 @@ EOF
+>  addtask generate_toolchain_file after do_patch before do_configure
+>  
+>  cmake_do_configure() {
+> -	if [ ${OECMAKE_BUILDPATH} ]
+> -	then
+> -		mkdir -p ${OECMAKE_BUILDPATH}
+> -		cd ${OECMAKE_BUILDPATH}
+> +	if [ "${S}" != "${B}" ]; then
+> +		rm -rf ${B}
+> +		mkdir -p ${B}
+> +		cd ${B}
+>  	fi
+>  
+>  	# Just like autotools cmake can use a site file to cache result that need generated binaries to run
+> @@ -88,7 +79,7 @@ cmake_do_configure() {
+>  
+>  	cmake \
+>  	  ${OECMAKE_SITEFILE} \
+> -	  ${OECMAKE_SOURCEPATH} \
+> +	  ${S} \
+>  	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
+>  	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
+>  	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
+> @@ -98,20 +89,12 @@ cmake_do_configure() {
+>  }
+>  
+>  cmake_do_compile()  {
+> -	if [ ${OECMAKE_BUILDPATH} ]
+> -	then
+> -		cd ${OECMAKE_BUILDPATH}
+> -	fi
+> -
+> +	cd ${B}
+>  	base_do_compile
+>  }
+>  
+>  cmake_do_install() {
+> -	if [ ${OECMAKE_BUILDPATH} ];
+> -	then
+> -		cd ${OECMAKE_BUILDPATH}
+> -	fi
+> -
+> +	cd ${B}
+>  	autotools_do_install
+>  }
+>  
+> 
 
