@@ -1,28 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E3BD6DBF6
+	by mail.openembedded.org (Postfix) with ESMTP id 46F196DBF6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 13:48:41 +0000 (UTC)
+	Thu,  5 Dec 2013 13:50:38 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB5DmYeY008782; Thu, 5 Dec 2013 13:48:35 GMT
+	rB5DoVlR008829; Thu, 5 Dec 2013 13:50:31 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id FwX-_wqdGACp; Thu,  5 Dec 2013 13:48:34 +0000 (GMT)
+	with LMTP id q4F3gI8sULn8; Thu,  5 Dec 2013 13:50:31 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB5DmRWO008778
+	rB5DoOc2008820
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 5 Dec 2013 13:48:29 GMT
-Message-ID: <1386251302.25847.17.camel@ted>
+	verify=NOT); Thu, 5 Dec 2013 13:50:26 GMT
+Message-ID: <1386251419.25847.19.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 05 Dec 2013 13:48:22 +0000
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Thu, 05 Dec 2013 13:50:19 +0000
+In-Reply-To: <52A06F24.1060009@mlbassoc.com>
+References: <52A06F24.1060009@mlbassoc.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: Gary Thomas <gary@mlbassoc.com>
-Subject: [PATCH] prelink: Set the branch name correctly for the revision we're using
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: BB_NO_NETWORK broken for git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 13:48:42 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 13:50:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The revision specified is on the cross_prelink branch so mark the
-url accordingly else the fetch can fail in the no network case.
+On Thu, 2013-12-05 at 05:18 -0700, Gary Thomas wrote:
+> I try to use a local source mirror, fully populated with packages, so I
+> can deliver a complete (no network required) bundle to my customers.  This
+> has recently been broken.
+> 
+> I can no longer use BB_NO_NETWORK=1 for git recipes, since this revision:
+> commit 2354250a95eab484459f41f8715ae112295c2174
+> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Date:   Mon Nov 18 17:17:16 2013 +0000
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index 744a55f..9f6e315 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -26,7 +26,7 @@ FILES_${PN}-cron = "${sysconfdir}/cron.daily ${sysconfdir}/default"
- 
- PACKAGES =+ "${PN}-cron"
- 
--SRC_URI = "git://git.yoctoproject.org/prelink-cross.git \
-+SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink \
-            file://prelink.conf \
-            file://prelink.cron.daily \
-            file://prelink.default \
+Its actually the metadata that has the issue. The commit specified is
+not on the master branch, its on the cross_prelink branch so the fetcher
+is justifiably getting upset.
 
+When the network is present it does a complete reset to upstream and
+then assumes the revision is present though which is something we might
+want to fix too.
+
+For now we can at least correct the metadata to point at the right
+branch. I've sent out a patch accordingly.
+
+Cheers,
+
+Richard
 
 
