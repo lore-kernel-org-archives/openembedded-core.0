@@ -1,28 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B5FF6D88C
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 71C9B6DBF6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 13:44:24 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Dec 2013 05:44:24 -0800
+	Thu,  5 Dec 2013 13:46:03 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Dec 2013 05:46:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,833,1378882800"; d="scan'208";a="439091864"
+X-IronPort-AV: E=Sophos;i="4.93,833,1378882800"; d="scan'208";a="445152529"
 Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
 	([10.252.121.191])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Dec 2013 05:44:22 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 05 Dec 2013 05:46:02 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ross Burton <ross.burton@intel.com>
-Date: Thu, 05 Dec 2013 13:44:22 +0000
-Message-ID: <31508532.uUH9WeE6O8@helios>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 05 Dec 2013 13:46:01 +0000
+Message-ID: <1488626.cfz6jNar0U@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <3367513.n7IfYzbTrl@helios>
-References: <1386248161-7086-1-git-send-email-ross.burton@intel.com>
-	<1386250374.25847.16.camel@ted> <3367513.n7IfYzbTrl@helios>
+In-Reply-To: <2dd7befefe608408e58b46ac7af3daafe7d5aa82.1386175183.git.paul.eggleton@linux.intel.com>
+References: <cover.1386175183.git.paul.eggleton@linux.intel.com>
+	<2dd7befefe608408e58b46ac7af3daafe7d5aa82.1386175183.git.paul.eggleton@linux.intel.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] documentation.conf: remove unused IMAGETEST variable
+Subject: Re: [PATCH 3/4] libarchive: add e2fsprogs to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,57 +33,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 13:44:24 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 13:46:03 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Thursday 05 December 2013 13:42:17 Paul Eggleton wrote:
-> On Thursday 05 December 2013 13:32:54 Richard Purdie wrote:
-> > On Thu, 2013-12-05 at 12:55 +0000, Ross Burton wrote:
-> > > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > > ---
-> > > 
-> > >  meta/conf/documentation.conf |    1 -
-> > >  1 file changed, 1 deletion(-)
-> > > 
-> > > diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> > > index 6666648..db3701b 100644
-> > > --- a/meta/conf/documentation.conf
-> > > +++ b/meta/conf/documentation.conf
-> > > @@ -118,7 +118,6 @@ IMAGE_LINGUAS[doc] = "Specifies the list of locales
-> > > to
-> > > install into the image du>
-> > > 
-> > >  IMAGE_OVERHEAD_FACTOR[doc] = "Defines a multiplier that the build
-> > >  system
-> > >  applies to the initial image size for cases when the multiplier times
-> > >  the returned disk usage value for the image is greater than the sum of
-> > >  IMAGE_ROOTFS_SIZE and IMAGE_ROOTFS_EXTRA_SPACE."
-> > >  IMAGE_ROOTFS_EXTRA_SPACE[doc] = "Defines additional free disk space
-> > >  created in the image in Kbytes. By default, this variable is set to
-> > >  '0'." IMAGE_ROOTFS_SIZE[doc] = "Defines the size in Kbytes for the
-> > >  generated image.">
-> > > 
-> > > -IMAGETEST[doc] = "Enable test booting of virtual machine images under
-> > > the
-> > > qemu emulator after any root filesystems are created and run tests
-> > > against those images.">
-> > > 
-> > >  INC_PR[doc] = "Helps define the recipe revision for recipes that share
-> > >  a
-> > >  common include file." INHIBIT_PACKAGE_STRIP[doc] = "If set to "1",
-> > >  causes the build to not strip binaries in resulting packages."
-> > >  INHERIT[doc] = "Causes the named class to be inherited at this point
-> > >  during parsing. The variable is only valid in configuration files."
-> > 
-> > Isn't it actually IMAGE_TEST ?
-> 
-> If you mean what it is now, it's TEST_IMAGE.
-> 
-> If we're removing the old IMAGETEST variable (and we should) we should also
-> remove TEST_SCEN at the same time.
+On Wednesday 04 December 2013 16:40:28 Paul Eggleton wrote:
+> libarchive's configure script looks for ext2fs/ext2_fs.h in order to use
+> some defines for file attributes support if present (but doesn't link to
+> any additional libraries.) There is no configure option to disable this,
+> and if e2fsprogs is rebuilding between do_configure and do_compile you
+> can currently get a failure. Since we normally only build this recipe
+> for the target, and this functionality should really be supported on all
+> linux systems, just add the dependency as most normal Linux distros seem
+> to.
 
-... and also TEST_SERIALIZE.
+Actually this has problems building for nativesdk since there is no nativesdk-
+e2fsprogs; scratch this while I figure out a better solution.
 
 Cheers,
 Paul
