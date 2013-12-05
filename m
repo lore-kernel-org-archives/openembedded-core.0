@@ -1,39 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 4596E6CC79
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 492896D88C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 12:56:11 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id x55so16773113wes.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2013 04:56:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=GAoawMUIdPjlXKVMPd3ljMd3jMpWJ/7rS1iXQHFQ5xs=;
-	b=LZBluLLLULrS9BVTbx99/UGKGTh3cdAREHtsZlTeIjvbR46YAbw8kV9NE4e8P0qOoT
-	tvQdhmEnpkwfNH0KSPR4em3+afCifMXw+WAlllAoFwIkgVSAGAVQOCI+y76nfiJD5mUP
-	TInCFFhtDGtBCxlWuYpU336iz3DdGxBMvwcaGNNMtEFh3bKuQxT6bVhcdJz7Ao8qzC8a
-	1rqsXrOoa8koIe0tzP+gnPDbd9FH1qYEPXfwlJ3VK0RWk/viL8mW4DT3RbXLuH0k3ln4
-	pYCKPV6uwEBE5HY48hdIr8TWZr9YuO9gWfm3JDwh7S0KdtRCgWnIu2blOUUgEDMwiswJ
-	HSVQ==
-X-Gm-Message-State: ALoCoQn8qjZD1YGLJIbSKd5x1pfx09n7dK3AmahNsM74P1f4JdWtzC4oYvH4CtlJE58jytkzWZdy
-X-Received: by 10.180.108.97 with SMTP id hj1mr11789940wib.59.1386248170550;
-	Thu, 05 Dec 2013 04:56:10 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id b7sm6059113wiz.8.2013.12.05.04.56.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Dec 2013 04:56:09 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2013 12:56:01 +0000
-Message-Id: <1386248161-7086-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
+	Thu,  5 Dec 2013 13:33:19 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB5DX5OW007992; Thu, 5 Dec 2013 13:33:05 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bKuBGqBy7OZC; Thu,  5 Dec 2013 13:33:05 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB5DWxxI007977
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 5 Dec 2013 13:33:00 GMT
+Message-ID: <1386250374.25847.16.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>
+Date: Thu, 05 Dec 2013 13:32:54 +0000
 In-Reply-To: <1386248161-7086-1-git-send-email-ross.burton@intel.com>
 References: <1386248161-7086-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] lib/oeqa/runtime: output more logging from systemd when services have failed
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] documentation.conf: remove unused IMAGETEST variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,32 +37,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 12:56:12 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 13:33:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If some services have failed to start, get the status of them and some of their
-log to help debug the problem.
+On Thu, 2013-12-05 at 12:55 +0000, Ross Burton wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/conf/documentation.conf |    1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+> index 6666648..db3701b 100644
+> --- a/meta/conf/documentation.conf
+> +++ b/meta/conf/documentation.conf
+> @@ -118,7 +118,6 @@ IMAGE_LINGUAS[doc] = "Specifies the list of locales to install into the image du
+>  IMAGE_OVERHEAD_FACTOR[doc] = "Defines a multiplier that the build system applies to the initial image size for cases when the multiplier times the returned disk usage value for the image is greater than the sum of IMAGE_ROOTFS_SIZE and IMAGE_ROOTFS_EXTRA_SPACE."
+>  IMAGE_ROOTFS_EXTRA_SPACE[doc] = "Defines additional free disk space created in the image in Kbytes. By default, this variable is set to '0'."
+>  IMAGE_ROOTFS_SIZE[doc] = "Defines the size in Kbytes for the generated image."
+> -IMAGETEST[doc] = "Enable test booting of virtual machine images under the qemu emulator after any root filesystems are created and run tests against those images."
+>  INC_PR[doc] = "Helps define the recipe revision for recipes that share a common include file."
+>  INHIBIT_PACKAGE_STRIP[doc] = "If set to "1", causes the build to not strip binaries in resulting packages."
+>  INHERIT[doc] = "Causes the named class to be inherited at this point during parsing. The variable is only valid in configuration files."
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/runtime/systemd.py |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Isn't it actually IMAGE_TEST ?
 
-diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
-index e4f4336..17cc19f 100644
---- a/meta/lib/oeqa/runtime/systemd.py
-+++ b/meta/lib/oeqa/runtime/systemd.py
-@@ -21,7 +21,9 @@ class SystemdTests(oeRuntimeTest):
-     @skipUnlessPassed('test_systemd_version')
-     def test_systemd_failed(self):
-         (status, output) = self.target.run('systemctl --failed | grep "0 loaded units listed"')
--        self.assertEqual(status, 0, msg="Failed systemd services: %s" % self.target.run('systemctl --failed')[1])
-+        if status != 0:
-+            print self.target.run('systemctl status --failed -l')[1]
-+            self.fail("Some systemd units failed.")
- 
-     @skipUnlessPassed('test_systemd_version')
-     def test_systemd_service(self):
--- 
-1.7.10.4
+Cheers,
+
+Richard
 
 
