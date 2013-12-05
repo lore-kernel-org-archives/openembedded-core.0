@@ -1,27 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 052AA6E208
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 34BB66DFD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 23:01:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB5N1uBT018875
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Dec 2013 15:01:56 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Thu, 5 Dec 2013 15:01:56 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Dec 2013 17:01:21 -0600
-Message-ID: <c361bdb11fd25302bcef078ead3737ff2d3af7d4.1386284385.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <cover.1386284385.git.mark.hatle@windriver.com>
-References: <cover.1386284385.git.mark.hatle@windriver.com>
+	Thu,  5 Dec 2013 23:18:57 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 05 Dec 2013 15:18:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,836,1378882800"; d="scan'208";a="439392852"
+Received: from jbrandeb-mobl.amr.corp.intel.com (HELO [10.255.15.213])
+	([10.255.15.213])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Dec 2013 15:18:55 -0800
+Message-ID: <52A109DF.5030308@linux.intel.com>
+Date: Thu, 05 Dec 2013 15:18:55 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 6/6][dora] icu: CVE-2013-2924
+To: Hongxu Jia <hongxu.jia@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1385039538.git.hongxu.jia@windriver.com>	<3177e964cb6b15eebb3c6d26360c9028feace1ed.1385039538.git.hongxu.jia@windriver.com>	<528FDAF9.1070809@linux.intel.com>
+	<52900B3B.8030909@windriver.com> <52900CCE.5080709@windriver.com>
+In-Reply-To: <52900CCE.5080709@windriver.com>
+Subject: Re: [PATCH 3/4] lttng-tools: add PACKAGECONFIG to support --enable-python-bindings and lttng-ust
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,79 +34,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 23:01:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Dec 2013 23:18:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Yue Tao <Yue.Tao@windriver.com>
+On 11/22/2013 06:02 PM, Hongxu Jia wrote:
+> On 11/23/2013 09:56 AM, Hongxu Jia wrote:
+>> On 11/23/2013 06:30 AM, Saul Wold wrote:
+>>> On 11/21/2013 05:14 AM, Hongxu Jia wrote:
+>>>> Add PACKAGECONFIG to support --enable-python-bindings
+>>>> Add PACKAGECONFIG to support lttng-ust
+>>>>
+>>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>>> ---
+>>>>   meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb | 20
+>>>> ++++++++++++++++----
+>>>>   1 file changed, 16 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
+>>>> b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
+>>>> index 2f6e504..64b6e02 100644
+>>>> --- a/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
+>>>> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.3.1.bb
+>>>> @@ -9,9 +9,18 @@ LIC_FILES_CHKSUM =
+>>>> "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+>>>> file://gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>>>> file://lgpl-2.1.txt;md5=0f0d71500e6a57fd24d825f33242b9ca"
+>>>>
+>>>> -DEPENDS = "liburcu popt lttng-ust"
+>>>> +DEPENDS = "liburcu popt"
+>>>>   RDEPENDS_${PN}-ptest += "make"
+>>>>
+>>>> +PYTHON_OPTION =
+>>>> "am_cv_python_pyexecdir='${libdir}/python${PYTHON_BASEVERSION}/site-packages'
+>>>> \
+>>>> +
+>>>> am_cv_python_pythondir='${libdir}/python${PYTHON_BASEVERSION}/site-packages'
+>>>> \
+>>>> + PYTHON_INCLUDE='-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}' \
+>>>> +"
+>>>> +PACKAGECONFIG = "python lttng-ust"
+>>>> +PACKAGECONFIG[python] = "--enable-python-bindings ${PYTHON_OPTION}, \
+>>>> +                         --disable-python-bindings, python
+>>>> swig-native"
+>>>
+>>> This seems to bring in a new dependency on "swig", which is not part
+>>> of OE-Core.
+>>>
+>>
+>> Oh, The Windriver Linux have swig by default, we should
+>> disable python for OE-Core.
+>>
+>> s/PACKAGECONFIG = "python lttng-ust" /PACKAGECONFIG ??= "lttng-ust"/
+>>
+>
+> Have updated the git tree to do this.
+>
 
-Use-after-free vulnerability in International Components for Unicode (ICU),
-as used in Google Chrome before 30.0.1599.66 and other products, allows
-remote attackers to cause a denial of service or possibly have unspecified
-other impact via unknown vectors.
+There still seems to be an issue with this patch, but it might be a 
+problem with lttng-tool's configure.ac.  When --disable-python-bindings 
+is set, it still tries to check for SWIG (which you might have in your 
+build).
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-2924
+Please verify this.
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- ...fer_length_check_to_UTF_16_or_32_detector.patch | 33 ++++++++++++++++++++++
- meta/recipes-support/icu/icu_51.2.bb               |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch
-
-diff --git a/meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch b/meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch
-new file mode 100644
-index 0000000..ad4d61c
---- /dev/null
-+++ b/meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch
-@@ -0,0 +1,33 @@
-+--- source/i18n/csrucode.cpp
-++++ source/i18n/csrucode.cpp
-+@@ -33,8 +33,9 @@ UBool CharsetRecog_UTF_16_BE::match(Inpu
-+ {
-+     const uint8_t *input = textIn->fRawInput;
-+     int32_t confidence = 0;
-++    int32_t length = textIn->fRawLength;
-+ 
-+-    if (input[0] == 0xFE && input[1] == 0xFF) {
-++    if (length >=2 && input[0] == 0xFE && input[1] == 0xFF) {
-+         confidence = 100;
-+     }
-+ 
-+@@ -57,8 +58,9 @@ UBool CharsetRecog_UTF_16_LE::match(Inpu
-+ {
-+     const uint8_t *input = textIn->fRawInput;
-+     int32_t confidence = 0;
-++    int32_t length = textIn->fRawLength;
-+ 
-+-    if (input[0] == 0xFF && input[1] == 0xFE && (input[2] != 0x00 || input[3] != 0x00)) {
-++    if (length >= 4 && input[0] == 0xFF && input[1] == 0xFE && (input[2] != 0x00 || input[3] != 0x00)) {
-+         confidence = 100;
-+     }
-+ 
-+@@ -81,7 +83,7 @@ UBool CharsetRecog_UTF_32::match(InputTe
-+     bool hasBOM = FALSE;
-+     int32_t confidence = 0;
-+ 
-+-    if (getChar(input, 0) == 0x0000FEFFUL) {
-++    if (limit > 0 && getChar(input, 0) == 0x0000FEFFUL) {
-+         hasBOM = TRUE;
-+     }
-+ 
-diff --git a/meta/recipes-support/icu/icu_51.2.bb b/meta/recipes-support/icu/icu_51.2.bb
-index 1278d22..7c7d214 100644
---- a/meta/recipes-support/icu/icu_51.2.bb
-+++ b/meta/recipes-support/icu/icu_51.2.bb
-@@ -7,6 +7,7 @@ PR = "r0"
- BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-51_2-src.tgz"
- SRC_URI = "${BASE_SRC_URI} \
-            file://icu-pkgdata-large-cmd.patch \
-+           file://add_buffer_length_check_to_UTF_16_or_32_detector.patch \
-           "
- 
- SRC_URI[md5sum] = "072e501b87065f3a0ca888f1b5165709"
--- 
-1.8.1.2.545.g2f19ada
-
+Thanks
+> //Hongxu
+>
+>
+>> //Hongxu
+>>> Sau!
+>>>
+>>>> +PACKAGECONFIG[lttng-ust] = "--enable-lttng-ust,
+>>>> --disable-lttng-ust, lttng-ust"
+>>>> +
+>>>>   SRCREV = "5d985544a7ad54afa0514ea7f522a89d8d844860"
+>>>>   PV = "v2.3.1"
+>>>>
+>>>> @@ -26,12 +35,15 @@ inherit autotools ptest
+>>>>
+>>>>   export KERNELDIR="${STAGING_KERNEL_DIR}"
+>>>>
+>>>> -FILES_${PN} += "${libdir}/lttng/libexec/*"
+>>>> -FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug"
+>>>> +FILES_${PN} += "${libdir}/lttng/libexec/*
+>>>> ${libdir}/python${PYTHON_BASEVERSION}/site-packages/*"
+>>>> +FILES_${PN}-dbg += "${libdir}/lttng/libexec/.debug
+>>>> ${libdir}/python2.7/site-packages/.debug"
+>>>> +FILES_${PN}-staticdev +=
+>>>> "${libdir}/python${PYTHON_BASEVERSION}/site-packages/*.a"
+>>>> +FILES_${PN}-dev +=
+>>>> "${libdir}/python${PYTHON_BASEVERSION}/site-packages/*.la"
+>>>>
+>>>>   # Since files are installed into ${libdir}/lttng/libexec we match
+>>>>   # the libexec insane test so skip it.
+>>>> -INSANE_SKIP_${PN} = "libexec"
+>>>> +# Python module needs to keep _lttng.so
+>>>> +INSANE_SKIP_${PN} = "libexec dev-so"
+>>>>   INSANE_SKIP_${PN}-dbg = "libexec"
+>>>>
+>>>>
+>>>>
+>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
