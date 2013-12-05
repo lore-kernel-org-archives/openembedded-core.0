@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7846F6DFD2
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 25D996E22B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 23:52:54 +0000 (UTC)
+	Thu,  5 Dec 2013 23:52:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB5NqsDb025326
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB5Nqsl5015397
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 5 Dec 2013 15:52:54 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Thu, 5 Dec 2013 15:52:53 -0800
+	(TLS) id 14.2.347.0; Thu, 5 Dec 2013 15:52:54 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Dec 2013 17:52:17 -0600
-Message-ID: <d7596dc19237b32a8b228b2e231a526be153f7b3.1386287394.git.mark.hatle@windriver.com>
+Date: Thu, 5 Dec 2013 17:52:18 -0600
+Message-ID: <0f146340373f5f14b28428cc097a2b4a1663a6f0.1386287395.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <cover.1386287394.git.mark.hatle@windriver.com>
 References: <cover.1386287394.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 4/6][master] xinetd: CVE-2013-4342
+Subject: [PATCH 5/6][master] acpid: CVE-2011-1159
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,79 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 23:52:54 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 23:52:55 -0000
 Content-Type: text/plain
 
-From: Li Wang <li.wang@windriver.com>
+From: Yue Tao <yue.tao@windriver.com>
 
-xinetd does not enforce the user and group configuration directives
-for TCPMUX services, which causes these services to be run as root
-and makes it easier for remote attackers to gain privileges by
-leveraging another vulnerability in a service.
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342
+acpid.c in acpid before 2.0.9 does not properly handle a situation in which
+a process has connected to acpid.socket but is not reading any data, which
+allows local users to cause a denial of service (daemon hang) via a crafted
+application that performs a connect system call but no read system calls.
 
-the patch come from:
-https://bugzilla.redhat.com/attachment.cgi?id=799732&action=diff
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1159
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Yue Tao <yue.tao@windriver.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- .../xinetd/xinetd/xinetd-CVE-2013-4342.patch       | 32 ++++++++++++++++++++++
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch
+ meta/recipes-bsp/acpid/acpid.inc                      |  3 ++-
+ meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch | 10 ++++++++++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
 
-diff --git a/meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch b/meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch
-new file mode 100644
-index 0000000..0542dbe
---- /dev/null
-+++ b/meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch
-@@ -0,0 +1,32 @@
-+xinetd: CVE-2013-4342
-+
-+xinetd does not enforce the user and group configuration directives
-+for TCPMUX services, which causes these services to be run as root
-+and makes it easier for remote attackers to gain privileges by
-+leveraging another vulnerability in a service.
-+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342
-+
-+the patch come from:
-+https://bugzilla.redhat.com/attachment.cgi?id=799732&action=diff
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ xinetd/builtins.c |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/xinetd/builtins.c b/xinetd/builtins.c
-+index 3b85579..34a5bac 100644
-+--- a/xinetd/builtins.c
-++++ b/xinetd/builtins.c
-+@@ -617,7 +617,7 @@ static void tcpmux_handler( const struct server *serp )
-+    if( SC_IS_INTERNAL( scp ) ) {
-+       SC_INTERNAL(scp, nserp);
-+    } else {
-+-      exec_server(nserp);
-++      child_process(nserp);
-+    }
-+ }
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-index 7976570..0e28172 100644
---- a/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-+++ b/meta/recipes-extended/xinetd/xinetd_2.3.15.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://www.xinetd.org/xinetd-${PV}.tar.gz \
-       file://Various-fixes-from-the-previous-maintainer.patch \
-       file://Disable-services-from-inetd.conf-if-a-service-with-t.patch \
-       file://xinetd-should-be-able-to-listen-on-IPv6-even-in-ine.patch \
-+      file://xinetd-CVE-2013-4342.patch \
-       "
+diff --git a/meta/recipes-bsp/acpid/acpid.inc b/meta/recipes-bsp/acpid/acpid.inc
+index 40293c5..a384265 100644
+--- a/meta/recipes-bsp/acpid/acpid.inc
++++ b/meta/recipes-bsp/acpid/acpid.inc
+@@ -6,7 +6,8 @@ LICENSE="GPLv2+"
  
- SRC_URI[md5sum] = "77358478fd58efa6366accae99b8b04c"
+ SECTION = "base"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/acpid/acpid-${PV}.tar.gz \
+-           file://init"
++           file://init \
++           file://set_socket_noblock.patch "
+ 
+ inherit update-rc.d
+ 
+diff --git a/meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch b/meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
+new file mode 100644
+index 0000000..54d6435
+--- /dev/null
++++ b/meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
+@@ -0,0 +1,10 @@
++--- a/acpid.c
+++++ b/acpid.c
++@@ -307,6 +307,7 @@ main(int argc, char **argv)
++ 				non_root_clients++;
++ 			}
++ 			fcntl(cli_fd, F_SETFD, FD_CLOEXEC);
+++			fcntl(cli_fd, F_SETFL, O_NONBLOCK);
++ 			snprintf(buf, sizeof(buf)-1, "%d[%d:%d]",
++ 				creds.pid, creds.uid, creds.gid);
++ 			acpid_add_client(cli_fd, buf);
 -- 
 1.8.3.4
 
