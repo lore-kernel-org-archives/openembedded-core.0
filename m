@@ -1,14 +1,36 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 754556DF29
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D2466CC79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 12:51:29 +0000 (UTC)
-From: Andreas Oberritter <obi@opendreambox.org>
+	Thu,  5 Dec 2013 12:56:08 +0000 (UTC)
+Received: by mail-wi0-f181.google.com with SMTP id hq4so9763913wib.14
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Dec 2013 04:56:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=2m1AgaZ8kbjN1hlEUr5iB4KBFl8pofDqVI7RvKU3nN0=;
+	b=bYwlZfbtQnluhayKU4g3EPXwRAUHSUSkSO1V3AjTmelVnSFDUN/fC1w72YMGQuxMWE
+	YZ9JKU8FNMkbYYhefP4r9YLLiJibGmggJeVfsI2o5zaZS1B92AgiUT3GY3obVqEH+hjV
+	+YVb18Ph2yutKiQWHD72mRMsA81HJHVzB9oY+zWFp5Tns5nbnARZqCM0EQ9IyiRkyBpO
+	akn+CMPyBK6a5zpVhP6JkXHNib9DS2/tlGldXjPuXkCZ9MH9fD61YvLPrEBVRD8ihUzK
+	yN5Bgr+dVhcHOOkO59bfpjutVrQ6Zbs0Pp5DuLMUV5fulHC6sPKI85jCOJaco2Fe9WcU
+	42ew==
+X-Gm-Message-State: ALoCoQmta+oGrcT64CdASWvOiqa/DqFPt1Ugo2lAC5H6cOhhKnf8kkkVGAvJ2bFay9YTJfn43bgz
+X-Received: by 10.181.11.169 with SMTP id ej9mr12035619wid.13.1386248166892;
+	Thu, 05 Dec 2013 04:56:06 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id b7sm6059113wiz.8.2013.12.05.04.56.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Dec 2013 04:56:06 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2013 13:51:24 +0100
-Message-Id: <1386247884-23813-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] xorg-lib-common.inc: use REQUIRED_DISTRO_FEATURES variable
+Date: Thu,  5 Dec 2013 12:55:59 +0000
+Message-Id: <1386248161-7086-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/3] documentation.conf: remove unused IMAGETEST variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -21,62 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 12:51:29 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 12:56:08 -0000
 
-Convert custom DISTRO_FEATURES test to distro_features_check.bbclass,
-and keep exceptions for libpciaccess and pixman.
-
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb | 2 ++
- meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb       | 2 ++
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc    | 8 ++------
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ meta/conf/documentation.conf |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-index 6da86f2..d837bbd 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-@@ -10,3 +10,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
- 
- SRC_URI[md5sum] = "b7c0d3afce14eedca57312a3141ec13a"
- SRC_URI[sha256sum] = "abab8c2b050afb89bc29280e9c6b50ec5867174960d88bfb81a01036ec20de19"
-+
-+REQUIRED_DISTRO_FEATURES = ""
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
-index 36d9b2d..55bddee 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
-@@ -34,3 +34,5 @@ SRC_URI += "\
- 
- SRC_URI[md5sum] = "2d0588e20dc1308b29b2fca68dad9a9c"
- SRC_URI[sha256sum] = "4fbb51788fe7cbd8abb5f80aed95ec878704e57a06328f7bebe0306e3822c96c"
-+
-+REQUIRED_DISTRO_FEATURES = ""
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index 07b0373..231776a 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -11,7 +11,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.bz2"
- 
- S = "${WORKDIR}/${XORG_PN}-${PV}"
- 
--inherit autotools pkgconfig
-+inherit autotools distro_features_check pkgconfig
- 
- EXTRA_OECONF = "--disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
- EXTRA_OECONF_append_libc-glibc = " --disable-malloc0returnsnull"
-@@ -20,8 +20,4 @@ EXTRA_OECONF_append_libc-uclibc = " --enable-malloc0returnsnull"
- UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0returnsnull \
-                                 --disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
- 
--python () {
--        whitelist = [ "pixman", "libpciaccess" ]
--        if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
--                raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
--}
-+REQUIRED_DISTRO_FEATURES ?= "x11"
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 6666648..db3701b 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -118,7 +118,6 @@ IMAGE_LINGUAS[doc] = "Specifies the list of locales to install into the image du
+ IMAGE_OVERHEAD_FACTOR[doc] = "Defines a multiplier that the build system applies to the initial image size for cases when the multiplier times the returned disk usage value for the image is greater than the sum of IMAGE_ROOTFS_SIZE and IMAGE_ROOTFS_EXTRA_SPACE."
+ IMAGE_ROOTFS_EXTRA_SPACE[doc] = "Defines additional free disk space created in the image in Kbytes. By default, this variable is set to '0'."
+ IMAGE_ROOTFS_SIZE[doc] = "Defines the size in Kbytes for the generated image."
+-IMAGETEST[doc] = "Enable test booting of virtual machine images under the qemu emulator after any root filesystems are created and run tests against those images."
+ INC_PR[doc] = "Helps define the recipe revision for recipes that share a common include file."
+ INHIBIT_PACKAGE_STRIP[doc] = "If set to "1", causes the build to not strip binaries in resulting packages."
+ INHERIT[doc] = "Causes the named class to be inherited at this point during parsing. The variable is only valid in configuration files."
 -- 
-1.8.3.2
+1.7.10.4
 
 
