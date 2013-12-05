@@ -1,24 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 21CDD6DF85
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id EC9356DF64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 08:54:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB58sSpg020178
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  5 Dec 2013 09:01:57 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id e53so2033628eek.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Dec 2013 00:54:28 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 5 Dec 2013 00:54:28 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Dec 2013 16:55:10 +0800
-Message-ID: <cover.1386232830.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH 0/1] libgcrypt: fix compile error with '-O2' in sysroot path
+	Thu, 05 Dec 2013 01:01:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=81J0HuSqeFrMAKix5Z9XsnYNbmDqR5t52AXM7//O7Xw=;
+	b=SuWhtQQXvWYhewu1yOwZyHzmrZpmcYLFM52l+JPqJjCrNtwERVxFS/UGOsIXFiUdTD
+	dBrlavCfGUr4GwYiPx71Qbi8hehaOMXlMx0agCK6tNSn+ARtwN/dTLu/G06GEel5v895
+	B7MLgQtWBGVtJZjoNrdTs5KSiIEDmNrQ4l1u6ZFQsIg/K3gOylx8TLSXWGhMy+xJLjYF
+	r8wmmoDXPGIz18swD3U+uv17NvBFjoU33cldmhi6cpL5xTcIloTRcbOOuJQSTZeoGpJy
+	2kzdEGiJPJ+lUOTfNunm9PxUTo+C0JebTnH2WsCdkjt9p9TJufqpoVgNYUsa1zcQUPId
+	knng==
+X-Gm-Message-State: ALoCoQlK31KZa9c7UBlBkGVVYNeS8SRJlIuO9tvmVK+EBuxWcEuDj1KrDJ/s2aFxEgi4CqPaC5U5
+X-Received: by 10.14.194.195 with SMTP id m43mr79818185een.13.1386234116619;
+	Thu, 05 Dec 2013 01:01:56 -0800 (PST)
+Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPSA id l4sm67794147een.13.2013.12.05.01.01.55
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Dec 2013 01:01:56 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Dec 2013 11:01:40 +0200
+Message-Id: <1386234101-21411-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH V2][ 1/2] libav: Add v9.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +42,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 08:54:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Dec 2013 09:01:58 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+This version includes libavresample needed for packages like xbmc.
+To use this version add:
+PREFERRED_VERSION_libav = "9.10".
+Removed git version as being an older version of a 9.X release.
 
-The following changes since commit c51730aaa91066cfb51ad6ec2920fb4f9d9ea94c:
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../libav/{libav_git.bb => libav_9.10.bb}               | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
+ rename meta/recipes-multimedia/libav/{libav_git.bb => libav_9.10.bb} (65%)
 
-  bitbake: Hob: check if warnings are related to package build (2013-12-03 17:45:54 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/libgcrypt
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/libgcrypt
-
-Chen Qi (1):
-  libgcrypt: fix compile error with '-O2' in sysroot path
-
- ...fix-compile-error-with-O2-in-sysroot-path.patch |   46 ++++++++++++++++++++
- meta/recipes-support/libgcrypt/libgcrypt.inc       |    3 +-
- 2 files changed, 48 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libgcrypt/files/fix-compile-error-with-O2-in-sysroot-path.patch
-
+diff --git a/meta/recipes-multimedia/libav/libav_git.bb b/meta/recipes-multimedia/libav/libav_9.10.bb
+similarity index 65%
+rename from meta/recipes-multimedia/libav/libav_git.bb
+rename to meta/recipes-multimedia/libav/libav_9.10.bb
+index 951baa9..a76cc9c 100644
+--- a/meta/recipes-multimedia/libav/libav_git.bb
++++ b/meta/recipes-multimedia/libav/libav_9.10.bb
+@@ -1,16 +1,13 @@
+ require libav.inc
+ 
+-LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+-                    file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
++SRC_URI = "http://libav.org/releases/libav-9.10.tar.xz"
+ 
+-PV = "9.8+git${SRCPV}"
++SRC_URI[md5sum] = "4b49d1d8734815ca095bb0600d41c5cb"
++SRC_URI[sha256sum] = "83dbe640779da1c1e8d8836c99575f57f749d18407494ebca451578afee9300d"
+ 
+ DEFAULT_PREFERENCE = "-1"
+ 
+-SRCREV = "9aaca159bd220582c698f13d081a455f398c9975"
+-SRC_URI = "git://git.libav.org/libav.git"
+-
+-S = "${WORKDIR}/git"
+-
++LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
++                    file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
 -- 
-1.7.9.5
+1.8.1.4
 
 
