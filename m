@@ -1,11 +1,11 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C0BA6E236
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8354B6E213
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 22:58:22 +0000 (UTC)
+	Thu,  5 Dec 2013 22:58:23 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB5MwMwM018128
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB5MwMl2014007
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 5 Dec 2013 14:58:22 -0800 (PST)
@@ -14,14 +14,14 @@ Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	(TLS) id 14.2.347.0; Thu, 5 Dec 2013 14:58:22 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Dec 2013 16:57:44 -0600
-Message-ID: <a8860c1893e8345e0fda9caa077f9acfa55cbaac.1386283669.git.mark.hatle@windriver.com>
+Date: Thu, 5 Dec 2013 16:57:45 -0600
+Message-ID: <43696512e4415667ad9c0fdcb246361440013d37.1386283669.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <cover.1386283669.git.mark.hatle@windriver.com>
 References: <cover.1386283669.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [RFC PATCH 5/7][dora] bind: add support for read-only rootfs
+Subject: [RFC PATCH 6/7][dora] bind: add init.d/bind status command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,234 +37,90 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 05 Dec 2013 22:58:23 -0000
 Content-Type: text/plain
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Yue Tao <Yue.Tao@windriver.com>
 
 -- Sent for YP compliance --
 
-This patch adds support for read-only rootfs to the bind service.
-
-Now the init script will check a variable, ALLOW_ROOTFS_READ_ONLY,
-to see whether it should start the bind service in a read-only rootfs
-or not. The value is by default unset, thus disabling starting bind
-service in a read-only rootfs. If the variable is set to "yes", as
-stated in the configuration file, the init script would try to make
-necessary bind mounts so that the bind service could be started correctly.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-connectivity/bind/bind-9.8.1/bind9    |  3 +
- .../init.d-add-support-for-read-only-rootfs.patch  | 70 +++++++++++++++++
- .../bind/bind-9.8.1/init.d-fix-indentation.patch   | 90 ++++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.8.1.bb       |  3 +
- 4 files changed, 166 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/init.d-add-support-for-read-only-rootfs.patch
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/init.d-fix-indentation.patch
+ .../bind-add-init-bind-status-command.patch        | 45 ++++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.8.1.bb       |  3 +-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/bind-add-init-bind-status-command.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind9 b/meta/recipes-connectivity/bind/bind-9.8.1/bind9
-index 3d5b69b..2774334 100644
---- a/meta/recipes-connectivity/bind/bind-9.8.1/bind9
-+++ b/meta/recipes-connectivity/bind/bind-9.8.1/bind9
-@@ -28,3 +28,6 @@
- ROOTDIR="/var/named/chroot"
- OPTIONS="-u bind"
- 
-+# When using a read-only rootfs additional setup may be required
-+# uncomment the following line to make bind start in read-only rootfs
-+#ALLOW_ROOTFS_READ_ONLY="yes"
-diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.8.1/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/bind-add-init-bind-status-command.patch b/meta/recipes-connectivity/bind/bind-9.8.1/bind-add-init-bind-status-command.patch
 new file mode 100644
-index 0000000..13166da
+index 0000000..8ed3c56
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind-9.8.1/init.d-add-support-for-read-only-rootfs.patch
-@@ -0,0 +1,70 @@
-+Subject: init.d: add support for read-only rootfs
-+
-+Upstream-Status: Inappropriate [wrlinux specific]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ init.d | 45 +++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 45 insertions(+)
-+
-+diff --git a/init.d b/init.d
-+index 4a1faaa..70e0219 100644
++++ b/meta/recipes-connectivity/bind/bind-9.8.1/bind-add-init-bind-status-command.patch
+@@ -0,0 +1,45 @@
 +--- a/init.d
 ++++ b/init.d
-+@@ -6,8 +6,53 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
++@@ -2,6 +2,8 @@
++ 
++ PATH=/sbin:/bin:/usr/sbin:/usr/bin
++ 
+++. /etc/init.d/functions
+++
++ # for a chrooted server: "-u bind -t /var/lib/named"
 + # Don't modify this line, change or create /etc/default/bind9.
 + OPTIONS=""
-+ 
-++test -f /etc/default/rcS && . /etc/default/rcS
-+ test -f /etc/default/bind9 && . /etc/default/bind9
-+ 
-++# This function is here because it's possible that /var and / are on different partitions.
-++is_on_read_only_partition () {
-++    DIRECTORY=$1
-++    dir=`readlink -f $DIRECTORY`
-++    while true; do
-++	if [ ! -d "$dir" ]; then
-++	    echo "ERROR: $dir is not a directory"
-++	    exit 1
-++	else
-++	    for flag in `awk -v dir=$dir '{ if ($2 == dir) { print "FOUND"; split($4,FLAGS,",") } }; \
-++		END { for (f in FLAGS) print FLAGS[f] }' < /proc/mounts`; do
-++		[ "$flag" = "FOUND" ] && partition="read-write"
-++		[ "$flag" = "ro" ] && { partition="read-only"; break; }
-++	    done
-++	    if [ "$dir" = "/" -o -n "$partition" ]; then
-++		break
-++	    else
-++		dir=`dirname $dir`
-++	    fi
-++	fi
-++    done
-++    [ "$partition" = "read-only" ] && echo "yes" || echo "no"
-++}
-++
-++bind_mount () {
-++    olddir=$1
-++    newdir=$2
-++    mkdir -p $olddir
-++    cp -a $newdir/* $olddir
-++    mount --bind $olddir $newdir
-++}
-++
-++# Deal with read-only rootfs
-++if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
-++    if [ "$ALLOW_ROOTFS_READ_ONLY" = "yes" ]; then
-++	[ "$VERBOSE" != "no" ] && echo "WARN: start bind service in read-only rootfs"
-++	[ `is_on_read_only_partition /etc/bind` = "yes" ] && bind_mount /var/volatile/bind/etc /etc/bind
-++	[ `is_on_read_only_partition /var/named` = "yes" ] && bind_mount /var/volatile/bind/named /var/named
-++    else
-++	[ "$VERBOSE" != "no" ] && echo "WARN: read-only rootfs, bind service disabled"
-++	exit 0
-++    fi
-++fi
-++
-+ test -x /usr/sbin/rndc || exit 0
-+ 
-+ if [ -n "$ROOTDIR" ]; then
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/init.d-fix-indentation.patch b/meta/recipes-connectivity/bind/bind-9.8.1/init.d-fix-indentation.patch
-new file mode 100644
-index 0000000..0833685
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind-9.8.1/init.d-fix-indentation.patch
-@@ -0,0 +1,90 @@
-+Subject: init.d: fix indentation
-+
-+Upstream-Status: Inappropriate [wrlinux specific]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ init.d | 64 ++++++++++++++++++++++++++++++++--------------------------------
-+ 1 file changed, 32 insertions(+), 32 deletions(-)
-+
-+diff --git a/init.d b/init.d
-+index ff641ea..4a1faaa 100644
-+--- a/init.d
-++++ b/init.d
-+@@ -22,41 +22,41 @@ ROOTDIR_MOUNT='/etc/bind /var/run/named /var/run/bind /var/cache/bind
-+ /etc/localtime /dev/random /dev/zero /dev/null'
-+ 
-+ mount_chroot_conf() {
-+-  if [ -n "$ROOTDIR" ]; then
-+-    for all in $ROOTDIR_MOUNT; do
-+-      # Skip nonexistant files
-+-      [ -e "$all" ] || continue
-+-
-+-      # If mount source is a file
-+-      if ! [ -d "$all" ]; then
-+-        # mount it only if it is not present in chroot or it is empty
-+-        if ! [ -e "$ROOTDIR$all" ] || [ `stat -c'%s' "$ROOTDIR$all"` -eq 0 ]; then
-+-          touch "$ROOTDIR$all"
-+-          mount --bind "$all" "$ROOTDIR$all"
-+-        fi
-+-      else
-+-        # Mount source is a directory. Mount it only if directory in chroot is
-+-        # empty.
-+-	if [ -e "$all" ] && [ `ls -1A $ROOTDIR$all | wc -l` -eq 0 ]; then
-+-          mount --bind "$all" "$ROOTDIR$all"
-+-	fi
-+-      fi
-+-    done
-+-  fi
-++    if [ -n "$ROOTDIR" ]; then
-++	for all in $ROOTDIR_MOUNT; do
-++            # Skip nonexistant files
-++	    [ -e "$all" ] || continue
-++
-++            # If mount source is a file
-++	    if ! [ -d "$all" ]; then
-++                # mount it only if it is not present in chroot or it is empty
-++		if ! [ -e "$ROOTDIR$all" ] || [ `stat -c'%s' "$ROOTDIR$all"` -eq 0 ]; then
-++		    touch "$ROOTDIR$all"
-++		    mount --bind "$all" "$ROOTDIR$all"
-++		fi
-++	    else
-++                # Mount source is a directory. Mount it only if directory in chroot is
-++                # empty.
-++		if [ -e "$all" ] && [ `ls -1A $ROOTDIR$all | wc -l` -eq 0 ]; then
-++		    mount --bind "$all" "$ROOTDIR$all"
-++		fi
-++	    fi
-++	done
-++    fi
++@@ -104,6 +106,12 @@ umount_chroot_conf() {
++     fi
 + }
 + 
-+ umount_chroot_conf() {
-+-  if [ -n "$ROOTDIR" ]; then
-+-    for all in $ROOTDIR_MOUNT; do
-+-      # Check if file is mount target. Do not use /proc/mounts because detecting
-+-      # of modified mounted files can fail.
-+-      if mount | grep -q '.* on '"$ROOTDIR$all"' .*'; then
-+-        umount "$ROOTDIR$all"
-+-        # Remove temporary created files
-+-        [ -f "$all" ] && rm -f "$ROOTDIR$all"
-+-      fi
-+-    done
-+-  fi
-++    if [ -n "$ROOTDIR" ]; then
-++	for all in $ROOTDIR_MOUNT; do
-++            # Check if file is mount target. Do not use /proc/mounts because detecting
-++            # of modified mounted files can fail.
-++	    if mount | grep -q '.* on '"$ROOTDIR$all"' .*'; then
-++		umount "$ROOTDIR$all"
-++                # Remove temporary created files
-++		[ -f "$all" ] && rm -f "$ROOTDIR$all"
-++	    fi
-++	done
-++    fi
-+ }
-+ 
+++rhstatus() {
+++  [ -x /usr/sbin/rndc ] && /usr/sbin/rndc status;
+++  status /usr/sbin/named;
+++  return $?
+++}
+++
 + case "$1" in
-+-- 
-+1.8.3.1
-+
++     start)
++ 	echo -n "Starting domain name service: named"
++@@ -172,6 +180,11 @@ case "$1" in
++ 	echo "."	
++     ;;
++ 
+++    status)
+++	rhstatus;
+++	exit $?
+++    ;;
+++
++     reload)
++ 	/usr/sbin/rndc reload
++     ;;
++@@ -183,7 +196,7 @@ case "$1" in
++     ;;
++     
++     *)
++-	echo "Usage: /etc/init.d/bind {start|stop|reload|restart|force-reload}" >&2
+++	echo "Usage: /etc/init.d/bind {start|stop|reload|restart|status|force-reload}" >&2
++ 	exit 1
++     ;;
++ esac
 diff --git a/meta/recipes-connectivity/bind/bind_9.8.1.bb b/meta/recipes-connectivity/bind/bind_9.8.1.bb
-index b28829b..66a092c 100644
+index 66a092c..45695e4 100644
 --- a/meta/recipes-connectivity/bind/bind_9.8.1.bb
 +++ b/meta/recipes-connectivity/bind/bind_9.8.1.bb
-@@ -21,6 +21,8 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://mips1-not-support-opcode.diff \
-            file://bind9 \
+@@ -6,7 +6,7 @@ LICENSE = "ISC & BSD"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=0fbe2a3ab3c68ac3fea3cad13093877c"
+ 
+ DEPENDS = "openssl libcap"
+-PR = "r6"
++PR = "r7"
+ 
+ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://conf.patch \
+@@ -23,6 +23,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
             file://setup-chroot-hooks.patch \
-+           file://init.d-fix-indentation.patch \
-+           file://init.d-add-support-for-read-only-rootfs.patch \
+            file://init.d-fix-indentation.patch \
+            file://init.d-add-support-for-read-only-rootfs.patch \
++           file://bind-add-init-bind-status-command.patch \
  	   "
  
  SRC_URI[md5sum] = "cf31117c5d35af34d4c0702970ad9fb7"
-@@ -58,6 +60,7 @@ do_install_append() {
- 	rm "${D}${mandir}/man1/nslookup.1"
- 	rmdir "${D}${localstatedir}/run"
- 	rmdir --ignore-fail-on-non-empty "${D}${localstatedir}"
-+	install -d "${D}${localstatedir}/cache/bind"
- 	install -d "${D}${sysconfdir}/bind"
- 	install -d "${D}${sysconfdir}/init.d"
- 	install -m 644 ${S}/conf/* "${D}${sysconfdir}/bind/"
 -- 
 1.8.1.2.545.g2f19ada
 
