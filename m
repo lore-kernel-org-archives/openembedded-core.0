@@ -1,19 +1,19 @@
 Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
 Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EB256DF66
+	by mail.openembedded.org (Postfix) with ESMTP id 570326DF6B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 07:53:06 +0000 (UTC)
+	Thu,  5 Dec 2013 07:58:21 +0000 (UTC)
 Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
 	[192.168.101.5])
 	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id CF8C240083;
-	Thu,  5 Dec 2013 07:22:40 +0100 (CET)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 1C78740083;
+	Thu,  5 Dec 2013 07:27:56 +0100 (CET)
 From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2013 08:52:57 +0100
-Message-Id: <1386229978-6747-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+Date: Thu,  5 Dec 2013 08:58:17 +0100
+Message-Id: <1386230298-6835-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
 X-Mailer: git-send-email 1.8.3.2
 Subject: [PATCH] boost: updating to 1.55.0
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -28,7 +28,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 07:53:07 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 07:58:21 -0000
 
 Dear oe-core mailing list, Dear Saul,
 
