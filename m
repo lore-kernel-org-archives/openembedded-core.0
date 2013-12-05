@@ -1,25 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AFA806DF9C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DFF316DF9D
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  5 Dec 2013 22:58:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB5MwI62018117
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB5MwIkE013998
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Dec 2013 14:58:18 -0800 (PST)
+	Thu, 5 Dec 2013 14:58:19 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Thu, 5 Dec 2013 14:58:18 -0800
+	(TLS) id 14.2.347.0; Thu, 5 Dec 2013 14:58:19 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Dec 2013 16:57:39 -0600
-Message-ID: <cover.1386283669.git.mark.hatle@windriver.com>
+Date: Thu, 5 Dec 2013 16:57:40 -0600
+Message-ID: <94b095e724fc929043ab63786686062d27264473.1386283669.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+In-Reply-To: <cover.1386283669.git.mark.hatle@windriver.com>
+References: <cover.1386283669.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [RFC PATCH 0/7][dora] misc WR patches
+Subject: [RFC PATCH 1/7][dora] native-python: bad interpreter error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,67 +37,62 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 05 Dec 2013 22:58:20 -0000
 Content-Type: text/plain
 
-The following patches are various items that we have in our tree, but I
-don't believe are generally applicable and should likely -not- be merged
-into oe-core.
+From: Amy Fong <Amy.Fong@windriver.com>
 
-These are being sent for Yocto Project compliance.
+-- Sent for YP compliance --
 
-Note a few of these have previous been sent.  The items were resent because
-later patches relied on them.
+On some builds with really long paths, we can end up exceeding the maximum
+length line for an interpreter (man execve: A maximum line length of
+127 characters is allowed for the first line in a #!  executable shell
+script.)
 
-The following changes since commit c303f5ecf7cda1c3b8bb776a6800946c0487cd93:
+To avoid this limit, we use env to execute python, with this, we will
+be using python that's first found in our PATH.
 
-  Revert "utils.bbclass: Fix override ordering for FILESPATH" (2013-12-03 12:55:47 +0000)
+The former ${bindir}/env is not a good idea for apps requiring native-python
+since coreutil*-native may not have been built (${bindir}/env may not exist)
+and with long paths, we can end up running into the same issue, hence we
+use /usr/bin/env from the host.
 
-are available in the git repository at:
+Signed-off-by: Amy Fong <Amy.Fong@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/classes/distutils.bbclass | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-  git://git.yoctoproject.org/poky-contrib mhatle/dora-misc
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/dora-misc
-
-Amy Fong (1):
-  native-python: bad interpreter error message
-
-Chen Qi (1):
-  bind: add support for read-only rootfs
-
-Junxian.Xiao (1):
-  Fix conflict between procps and base-files
-
-Ming Liu (2):
-  bind: run in the chrooted jail
-  bind: use volatiles for managing /var/ subdirs
-
-Wenzong Fan (1):
-  nss: workaround multilib build on 32bit host
-
-Yue Tao (1):
-  bind: add init.d/bind status command
-
- meta/classes/distutils.bbclass                     |  14 ++-
- .../bind-add-init-bind-status-command.patch        |  45 ++++++++
- meta/recipes-connectivity/bind/bind-9.8.1/bind9    |  33 ++++++
- .../init.d-add-support-for-read-only-rootfs.patch  |  70 ++++++++++++
- .../bind/bind-9.8.1/init.d-fix-indentation.patch   |  90 ++++++++++++++++
- .../init.d-normalize-for-volatiles.patch           |  37 +++++++
- .../bind/bind-9.8.1/setup-chroot-hooks.patch       | 119 +++++++++++++++++++++
- .../bind/bind-9.8.1/volatiles.98_bind              |   5 +
- .../bind/bind-9.8.1/volatiles.99_bind-chroot       |  10 ++
- meta/recipes-connectivity/bind/bind_9.8.1.bb       |  31 +++++-
- meta/recipes-extended/procps/procps_3.2.8.bb       |   4 +
- .../nss/files/nss-fix-nsinstall-build.patch        |  35 ++++++
- meta/recipes-support/nss/nss.inc                   |   1 +
- 13 files changed, 489 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/bind-add-init-bind-status-command.patch
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/bind9
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/init.d-add-support-for-read-only-rootfs.patch
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/init.d-fix-indentation.patch
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/init.d-normalize-for-volatiles.patch
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/setup-chroot-hooks.patch
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/volatiles.98_bind
- create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/volatiles.99_bind-chroot
- create mode 100644 meta/recipes-support/nss/files/nss-fix-nsinstall-build.patch
-
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 8c3a979..b2895b3 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -49,7 +49,13 @@ distutils_do_install() {
+             for i in ${D}${bindir}/* ; do \
+                 if [ ${PN} != "${BPN}-native" ]; then
+                 	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
+-		fi
++                else
++                	# The former ${bindir}/env is not a good idea for apps requiring native-python
++                	# since coreutil*-native may not have been built (${bindir}/env may not exist)
++                	# and with long paths, we can end up running into an issue where the
++                	# interpreter line is too long, hence we use /usr/bin/env from the host.
++                	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:/usr/bin/env\ python:g $i
++                fi
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
+         fi
+@@ -58,6 +64,12 @@ distutils_do_install() {
+             for i in ${D}${sbindir}/* ; do \
+                 if [ ${PN} != "${BPN}-native" ]; then
+                 	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
++                else
++                	# The former ${bindir}/env is not a good idea for apps requiring native-python
++                	# since coreutil*-native may not have been built (${bindir}/env may not exist)
++                	# and with long paths, we can end up running into an issue where the
++                	# interpreter line is too long, hence we use /usr/bin/env from the host.
++                	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:/usr/bin/env\ python:g $i
+ 		fi
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
 -- 
 1.8.1.2.545.g2f19ada
 
