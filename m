@@ -1,40 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id BB90D6DD22
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C86A6DCA7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 00:39:07 +0000 (UTC)
-Received: by mail-we0-f182.google.com with SMTP id q59so16152780wes.27
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2013 16:39:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=e0vz0AK0KAqznk3grp8mc+uWvN4Mk0jGWlPCl2kqjlk=;
-	b=Yd1U8tyMDa+0tNB2Ygy6EYnPf/cyirtr5PQs6597JHni1kcgo0yN6MTJHvGvlZW+9n
-	xaH+yy4E/5zBveRDrl7+PLcoJdYlJm+GpcI4siA6MecF4jzZ2w9cnLnnYslaSYmxOzSW
-	HG1WHSoersWT5I5v+vk1K4feSqOx0LuO38k4q4i0sWWm0z+CggL6eHNOdg42mE9yOOuh
-	c3aYzZLCdRlafiEwvppXS2NspC3jpqTOVZxXjVr9xTGrCAIyf95zeZv5wCVoBPurm6Jl
-	S9RGh3De+kqDR2SW4BP4lPXRvSeC4JTwiZoZL/Qm4lj6K3stOrU6YUpoPL/R/wXBczmA
-	vWOA==
-X-Gm-Message-State: ALoCoQmcC1xOne1UutpgBCxFZkhyDFu1Z3bIr7XEi1DqjUzZtyatGuzaOhRKI3pRdut+IDbe9kfw
-X-Received: by 10.180.108.162 with SMTP id hl2mr9542432wib.56.1386203947090;
-	Wed, 04 Dec 2013 16:39:07 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id qc10sm1032500wic.9.2013.12.04.16.39.05
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Dec 2013 16:39:06 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2013 00:38:58 +0000
-Message-Id: <1386203938-13338-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1386203938-13338-1-git-send-email-ross.burton@intel.com>
-References: <1386203938-13338-1-git-send-email-ross.burton@intel.com>
-Cc: openembedded-devel@lists.openembedded.org
-Subject: [PATCH] cmake: respect ${S} and ${B}
+	Thu,  5 Dec 2013 00:48:54 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB50mfcm021234; Thu, 5 Dec 2013 00:48:41 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id mlpaxfqRtuI3; Thu,  5 Dec 2013 00:48:41 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB50mavK021231
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 5 Dec 2013 00:48:37 GMT
+Message-ID: <1386204510.4463.161.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 05 Dec 2013 00:48:30 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Khem Raj <kraj@juniper.net>
+Subject: [PATCH] gcc: Allow fortran to build successfully in 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,91 +35,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 00:39:08 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 00:48:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Instead of the class-specific variables OECMAKE_BUILDPATH and
-OECMAKE_SOURCEPATH, just use ${B} and ${S}.
+gcc 4.8 fortran presents some challenges:
 
-If these two paths are different, delete any existing ${B} before running a
-build so that previous builds don't taint the current build.
+* libquadmath headers need to be in the libexec include dir. It turns out
+  to be easiest just to manually do this.
+* libgfortran configure needs libquadmath to be compiled. This means
+  a separate recipe is needed (the alternative is gross hacks)
+* the libtool uses to link libgfortran doesn't have our improved rpath 
+  handling and puts bogus RPATHS into the libraries. We can avoid this
+  by tweaking libtool with sed.
 
-Note that OECMAKE_SOURCEPATH and OECMAKE_BUILDPATH are not respected at all, so
-recipes that manually set these in the past will need to be updated to either
-use something along the lines of separatebuilddir.inc or set B themselves.
+This patch resolves those issues. Any user of fortran does need to DEPEND 
+on libgfortran in order to trigger it to build but this shouldn't be a major
+issue.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/cmake.bbclass |   31 +++++++------------------------
- 1 file changed, 7 insertions(+), 24 deletions(-)
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index 25a3142..5c4319f 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -165,6 +165,11 @@ do_install () {
+ 		rm -rf ${D}${STAGING_DIR_NATIVE}${prefix_native}/$d
+ 	done
+ 
++	# libquadmath headers need to  be available in the gcc libexec dir
++	install -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
++	cp ${S}/libquadmath/quadmath.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
++	cp ${S}/libquadmath/quadmath_weak.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
++
+ 	# We use libiberty from binutils
+ 	find ${D}${exec_prefix}/lib -name libiberty.a | xargs rm -f
+ 	find ${D}${exec_prefix}/lib -name libiberty.h | xargs rm -f
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 2599760..d3b11a7 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -16,7 +16,7 @@ RUNTIMETARGET = "libssp libstdc++-v3 libgomp"
+ #  ?
+ # libiberty
+ # libmudflap
+-# libgfortran
++# libgfortran needs separate recipe due to libquadmath dependency
+ 
+ do_configure () {
+ 	export CXX="${CXX} -nostdinc++ -nostdlib++"
+diff --git a/meta/recipes-devtools/gcc/libgfortran.inc b/meta/recipes-devtools/gcc/libgfortran.inc
+new file mode 100644
+index 0000000..3ae0632
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/libgfortran.inc
+@@ -0,0 +1,75 @@
++require gcc-configure-common.inc
++
++EXTRA_OECONF_PATHS = " \
++    --with-sysroot=${STAGING_DIR_TARGET} \
++    --with-build-sysroot=${STAGING_DIR_TARGET}"
++
++do_configure () {
++	mtarget=`echo ${MULTIMACH_TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
++	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
++	#cp -fpPR ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$mtarget/* ${B}
++	(cd ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$mtarget/; find . -print0 | cpio --null -pdlu ${B})
++	(cd ${STAGING_INCDIR_NATIVE}/gcc-build-internal-$mtarget/; find . -type l -print0 | cpio -pd0mLu --no-preserve-owner ${B})
++
++	echo "Configuring libgfortran"
++	rm -rf ${B}/$target/libgfortran/
++	mkdir -p ${B}/$target/libgfortran/
++	cd ${B}/$target/libgfortran/
++	chmod a+x ${S}/libgfortran/configure
++	${S}/libgfortran/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
++	# Easiest way to stop bad RPATHs getting into the library since we have a
++	# broken libtool here
++	sed -i -e 's/hardcode_into_libs=yes/hardcode_into_libs=no/' ${B}/$target/libgfortran/libtool
++}
++
++do_compile () {
++	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
++	cd ${B}/$target/libgfortran/
++	oe_runmake MULTIBUILDTOP=${B}/$target/libgfortran/
++}
++
++do_install () {
++	target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
++	cd ${B}/$target/libgfortran/
++	oe_runmake 'DESTDIR=${D}' MULTIBUILDTOP=${B}/$target/libgfortran/ install
++	if [ -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude ]; then
++		rmdir --ignore-fail-on-non-empty -p ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/finclude
++	fi
++	if [ -d ${D}${infodir} ]; then
++		rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
++	fi
++	chown -R root:root ${D}
++}
++
++INHIBIT_DEFAULT_DEPS = "1"
++DEPENDS = "gcc-runtime"
++
++BBCLASSEXTEND = "nativesdk"
++
++PACKAGES = "\
++  ${PN}-dbg \
++  libgfortran \
++  libgfortran-dev \
++  libgfortran-staticdev \
++"
++FILES_${PN} = "${libdir}/libgfortran.so.*"
++FILES_${PN}-dev = " \
++  ${libdir}/libgfortran*.so \
++  ${libdir}/libgfortran.spec \
++  ${libdir}/libgfortran.la \
++  ${libdir}/gcc/${TARGET_SYS}/${BINV}/libgfortranbegin.* \
++  ${libdir}/gcc/${TARGET_SYS}/${BINV}/libcaf_single*"
++FILES_${PN}-staticdev = " \
++  ${libdir}/libgfortran.a"
++
++INSANE_SKIP_${MLPREFIX}libgfortran-dev = "staticdev"
++
++do_package_write_ipk[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
++do_package_write_deb[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
++do_package_write_rpm[depends] += "virtual/${MLPREFIX}libc:do_packagedata"
++
++python __anonymous () {
++    f = d.getVar("FORTRAN", True)
++    if "fortran" not in f:
++        raise bb.parse.SkipPackage("libgfortran needs fortran support to be enabled in the compiler")
++}
+diff --git a/meta/recipes-devtools/gcc/libgfortran_4.8.bb b/meta/recipes-devtools/gcc/libgfortran_4.8.bb
+new file mode 100644
+index 0000000..71dd8b4
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/libgfortran_4.8.bb
+@@ -0,0 +1,3 @@
++require recipes-devtools/gcc/gcc-${PV}.inc
++require libgfortran.inc
++
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 30c1792..4d1489a 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -6,15 +6,6 @@ CCACHE = ""
- # We want the staging and installing functions from autotools
- inherit autotools
- 
--# Use in-tree builds by default but allow this to be changed
--# since some packages do not support them (e.g. llvm 2.5).
--OECMAKE_SOURCEPATH ?= "."
--
--# If declaring this, make sure you also set EXTRA_OEMAKE to
--# "-C ${OECMAKE_BUILDPATH}". So it will run the right makefiles.
--OECMAKE_BUILDPATH ?= ""
--B="${S}"
--
- # C/C++ Compiler (without cpu arch/tune arguments)
- OECMAKE_C_COMPILER ?= "`echo ${CC} | sed 's/^\([^ ]*\).*/\1/'`"
- OECMAKE_CXX_COMPILER ?= "`echo ${CXX} | sed 's/^\([^ ]*\).*/\1/'`"
-@@ -73,10 +64,10 @@ EOF
- addtask generate_toolchain_file after do_patch before do_configure
- 
- cmake_do_configure() {
--	if [ ${OECMAKE_BUILDPATH} ]
--	then
--		mkdir -p ${OECMAKE_BUILDPATH}
--		cd ${OECMAKE_BUILDPATH}
-+	if [ "${S}" != "${B}" ]; then
-+		rm -rf ${B}
-+		mkdir -p ${B}
-+		cd ${B}
- 	fi
- 
- 	# Just like autotools cmake can use a site file to cache result that need generated binaries to run
-@@ -88,7 +79,7 @@ cmake_do_configure() {
- 
- 	cmake \
- 	  ${OECMAKE_SITEFILE} \
--	  ${OECMAKE_SOURCEPATH} \
-+	  ${S} \
- 	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
- 	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
- 	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
-@@ -98,20 +89,12 @@ cmake_do_configure() {
- }
- 
- cmake_do_compile()  {
--	if [ ${OECMAKE_BUILDPATH} ]
--	then
--		cd ${OECMAKE_BUILDPATH}
--	fi
--
-+	cd ${B}
- 	base_do_compile
- }
- 
- cmake_do_install() {
--	if [ ${OECMAKE_BUILDPATH} ];
--	then
--		cd ${OECMAKE_BUILDPATH}
--	fi
--
-+	cd ${B}
- 	autotools_do_install
- }
- 
--- 
-1.7.10.4
 
 
