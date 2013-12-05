@@ -1,35 +1,39 @@
 Return-Path: <andrei@gherzan.ro>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id EC9356DF64
+Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 4505E6DF6D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 09:01:57 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id e53so2033628eek.15
+	Thu,  5 Dec 2013 09:01:58 +0000 (UTC)
+Received: by mail-ea0-f170.google.com with SMTP id k10so11223175eaj.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2013 01:01:56 -0800 (PST)
+	Thu, 05 Dec 2013 01:01:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=81J0HuSqeFrMAKix5Z9XsnYNbmDqR5t52AXM7//O7Xw=;
-	b=SuWhtQQXvWYhewu1yOwZyHzmrZpmcYLFM52l+JPqJjCrNtwERVxFS/UGOsIXFiUdTD
-	dBrlavCfGUr4GwYiPx71Qbi8hehaOMXlMx0agCK6tNSn+ARtwN/dTLu/G06GEel5v895
-	B7MLgQtWBGVtJZjoNrdTs5KSiIEDmNrQ4l1u6ZFQsIg/K3gOylx8TLSXWGhMy+xJLjYF
-	r8wmmoDXPGIz18swD3U+uv17NvBFjoU33cldmhi6cpL5xTcIloTRcbOOuJQSTZeoGpJy
-	2kzdEGiJPJ+lUOTfNunm9PxUTo+C0JebTnH2WsCdkjt9p9TJufqpoVgNYUsa1zcQUPId
-	knng==
-X-Gm-Message-State: ALoCoQlK31KZa9c7UBlBkGVVYNeS8SRJlIuO9tvmVK+EBuxWcEuDj1KrDJ/s2aFxEgi4CqPaC5U5
-X-Received: by 10.14.194.195 with SMTP id m43mr79818185een.13.1386234116619;
-	Thu, 05 Dec 2013 01:01:56 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=nTOzRHsHUvB1FdRVT9uurfLS0z+audHDYvRGUoBPl1Q=;
+	b=me+xFXhvXBQ0v9m0pyza5/H4GtynAtBNfN41i5U1PDd/QP1Wy08R8vnigKw0+9ItyB
+	cz4mU/GWBUpTBsK+plG6uLfrdy/ERI5W2ofQRYdim1irgb8uXShAsPVk5hii9ChUH93w
+	BldQWDqPOIX/zl0B5jJT6ZyL8H9kqDgZ0lt+0VxkNUYAG5acDRzbesQH/kSn61iPBZdV
+	QSnnWC3nRzHVdjAQFn343CpZF8uhS6+0N3Ue2W0TzRMupQugtEiFlQtUjWsX0T6OKXm5
+	gYOyXw+WQnLqPo+ba8K9CrZmNw32wxz+1zQJa/9lM+KiKwSZweLBrl3HLMoPpT+T4zjp
+	rD9Q==
+X-Gm-Message-State: ALoCoQljZIiBF2E7qIeJaFMG9LX1p4nwqJdFZoU3zQ2k6NN3855X+2IFh8fjp/ZYvmo/++MUBvKJ
+X-Received: by 10.14.110.134 with SMTP id u6mr11099343eeg.87.1386234117424;
+	Thu, 05 Dec 2013 01:01:57 -0800 (PST)
 Received: from otp-agherzan-l1.corp.ad.wrs.com ([89.121.200.106])
-	by mx.google.com with ESMTPSA id l4sm67794147een.13.2013.12.05.01.01.55
+	by mx.google.com with ESMTPSA id l4sm67794147een.13.2013.12.05.01.01.56
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 05 Dec 2013 01:01:56 -0800 (PST)
+	Thu, 05 Dec 2013 01:01:57 -0800 (PST)
 From: Andrei Gherzan <andrei@gherzan.ro>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2013 11:01:40 +0200
-Message-Id: <1386234101-21411-1-git-send-email-andrei@gherzan.ro>
+Date: Thu,  5 Dec 2013 11:01:41 +0200
+Message-Id: <1386234101-21411-2-git-send-email-andrei@gherzan.ro>
 X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH V2][ 1/2] libav: Add v9.10
+In-Reply-To: <1386234101-21411-1-git-send-email-andrei@gherzan.ro>
+References: <1386234101-21411-1-git-send-email-andrei@gherzan.ro>
+Subject: [PATCH V2][ 2/2] libav: Update to v0.8.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,48 +48,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Dec 2013 09:01:58 -0000
 
-This version includes libavresample needed for packages like xbmc.
-To use this version add:
-PREFERRED_VERSION_libav = "9.10".
-Removed git version as being an older version of a 9.X release.
-
 Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
 ---
- .../libav/{libav_git.bb => libav_9.10.bb}               | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
- rename meta/recipes-multimedia/libav/{libav_git.bb => libav_9.10.bb} (65%)
+ .../0001-configure-enable-pic-for-AArch64.patch                   | 0
+ meta/recipes-multimedia/libav/{libav_0.8.8.bb => libav_0.8.9.bb}  | 8 +++-----
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/libav/{libav-0.8.8 => libav-0.8.9}/0001-configure-enable-pic-for-AArch64.patch (100%)
+ rename meta/recipes-multimedia/libav/{libav_0.8.8.bb => libav_0.8.9.bb} (69%)
 
-diff --git a/meta/recipes-multimedia/libav/libav_git.bb b/meta/recipes-multimedia/libav/libav_9.10.bb
-similarity index 65%
-rename from meta/recipes-multimedia/libav/libav_git.bb
-rename to meta/recipes-multimedia/libav/libav_9.10.bb
-index 951baa9..a76cc9c 100644
---- a/meta/recipes-multimedia/libav/libav_git.bb
-+++ b/meta/recipes-multimedia/libav/libav_9.10.bb
-@@ -1,16 +1,13 @@
+diff --git a/meta/recipes-multimedia/libav/libav-0.8.8/0001-configure-enable-pic-for-AArch64.patch b/meta/recipes-multimedia/libav/libav-0.8.9/0001-configure-enable-pic-for-AArch64.patch
+similarity index 100%
+rename from meta/recipes-multimedia/libav/libav-0.8.8/0001-configure-enable-pic-for-AArch64.patch
+rename to meta/recipes-multimedia/libav/libav-0.8.9/0001-configure-enable-pic-for-AArch64.patch
+diff --git a/meta/recipes-multimedia/libav/libav_0.8.8.bb b/meta/recipes-multimedia/libav/libav_0.8.9.bb
+similarity index 69%
+rename from meta/recipes-multimedia/libav/libav_0.8.8.bb
+rename to meta/recipes-multimedia/libav/libav_0.8.9.bb
+index 9cb4cf2..065a6d2 100644
+--- a/meta/recipes-multimedia/libav/libav_0.8.8.bb
++++ b/meta/recipes-multimedia/libav/libav_0.8.9.bb
+@@ -1,10 +1,10 @@
  require libav.inc
  
--LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
--                    file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
-+SRC_URI = "http://libav.org/releases/libav-9.10.tar.xz"
+-SRC_URI = "http://libav.org/releases/libav-0.8.8.tar.xz \
++SRC_URI = "http://libav.org/releases/libav-0.8.9.tar.xz \
+            file://0001-configure-enable-pic-for-AArch64.patch"
  
--PV = "9.8+git${SRCPV}"
-+SRC_URI[md5sum] = "4b49d1d8734815ca095bb0600d41c5cb"
-+SRC_URI[sha256sum] = "83dbe640779da1c1e8d8836c99575f57f749d18407494ebca451578afee9300d"
+-SRC_URI[md5sum] = "34b8f1279a04466386ed67731197efe3"
+-SRC_URI[sha256sum] = "e95cf618eb6239177a62c46f15e840c37e02e8308baf94912fc5910ff4aacbf2"
++SRC_URI[md5sum] = "7c0e5743cd5c4d4b1bcafd02a2e82e09"
++SRC_URI[sha256sum] = "4f5181164e4007d5b0013bb3cc5e3b7393ab71ac286319c714b7697e2784f77f"
  
- DEFAULT_PREFERENCE = "-1"
- 
--SRCREV = "9aaca159bd220582c698f13d081a455f398c9975"
--SRC_URI = "git://git.libav.org/libav.git"
+ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+@@ -14,5 +14,3 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ EXTRA_OECONF += " \
+     --enable-postproc \
+ "
 -
--S = "${WORKDIR}/git"
 -
-+LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
-+                    file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
-+                    file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
 -- 
 1.8.1.4
 
