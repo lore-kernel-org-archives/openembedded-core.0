@@ -1,26 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 21C4A6DD0D
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id CB4246DF75
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 12:14:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 05 Dec 2013 04:14:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,832,1378882800"; d="scan'208";a="447345639"
-Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.121.191])
-	by orsmga002.jf.intel.com with ESMTP; 05 Dec 2013 04:14:40 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: rongqing.li@windriver.com
-Date: Thu, 05 Dec 2013 12:14:39 +0000
-Message-ID: <5926953.s9RiCoB0Gl@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1386205729-18878-1-git-send-email-rongqing.li@windriver.com>
-References: <1386205729-18878-1-git-send-email-rongqing.li@windriver.com>
+	Thu,  5 Dec 2013 12:18:04 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id A808EF811E5; Thu,  5 Dec 2013 05:18:04 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id D564EF811E2;
+	Thu,  5 Dec 2013 05:18:03 -0700 (MST)
+Message-ID: <52A06F24.1060009@mlbassoc.com>
+Date: Thu, 05 Dec 2013 05:18:44 -0700
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] buildhistory.bbclass/image.bbclass: remove obsolete codes
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: BB_NO_NETWORK broken for git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 12:14:42 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 05 Dec 2013 12:18:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Roy,
+I try to use a local source mirror, fully populated with packages, so I
+can deliver a complete (no network required) bundle to my customers.  This
+has recently been broken.
 
-On Thursday 05 December 2013 09:08:49 rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
-> 
-> After 1b8e4abd2d9c0 [bitbake.conf/package: Collapse PKGDATA_DIR into
-> a single machine specific directory], oe-pkgdata-util does not use
-> target_suffix parameter, so do not need to loop the vendor
-> 
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->  meta/classes/buildhistory.bbclass |   10 ++++------
->  meta/classes/image.bbclass        |    4 +---
->  2 files changed, 5 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/classes/buildhistory.bbclass
-> b/meta/classes/buildhistory.bbclass index ec3f0b1..508d028 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -339,12 +339,10 @@ buildhistory_get_installed() {
->  	printf "" > $1/installed-package-sizes.tmp
->  	cat $pkgcache | while read pkg pkgfile pkgarch
->  	do
-> -		for vendor in ${TARGET_VENDOR} ${MULTILIB_VENDORS} ; do
-> -			size=`oe-pkgdata-util read-value ${PKGDATA_DIR} "PKGSIZE"
-> ${pkg}_${pkgarch}` -			if [ "$size" != "" ] ; then
-> -				echo "$size $pkg" >> $1/installed-package-sizes.tmp
-> -			fi
-> -		done
-> +		size=`oe-pkgdata-util read-value ${PKGDATA_DIR} "PKGSIZE"
-> ${pkg}_${pkgarch}` +		if [ "$size" != "" ] ; then
-> +			echo "$size $pkg" >> $1/installed-package-sizes.tmp
-> +		fi
->  	done
->  	cat $1/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB "
-> $2}' > $1/installed-package-sizes.txt rm $1/installed-package-sizes.tmp
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index cc65e35..168f283 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -506,9 +506,7 @@ rootfs_install_complementary() {
->      if [ "$GLOBS" != "" ] ; then
->          # Use the magic script to do all the work for us :)
-> 
->          : > ${WORKDIR}/complementary_pkgs.txt
-> 
-> -        for vendor in '${TARGET_VENDOR}' ${MULTILIB_VENDORS} ; do
-> -            oe-pkgdata-util glob ${PKGDATA_DIR}
-> ${WORKDIR}/installed_pkgs.txt "$GLOBS" >> ${WORKDIR}/complementary_pkgs.txt
-> -        done
-> +        oe-pkgdata-util glob ${PKGDATA_DIR} ${WORKDIR}/installed_pkgs.txt
-> "$GLOBS" >> ${WORKDIR}/complementary_pkgs.txt
-> 
->          # Install the packages, if any
->          sed -i '/^$/d' ${WORKDIR}/complementary_pkgs.txt
+I can no longer use BB_NO_NETWORK=1 for git recipes, since this revision:
+commit 2354250a95eab484459f41f8715ae112295c2174
+Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date:   Mon Nov 18 17:17:16 2013 +0000
 
-Good catch :)
+     bitbake: git: Use merge-base instead of log for testing if a commit is present
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+     The current use of git log to check if a given revision is present can be
+     a little fragile.
 
-Cheers,
-Paul
+     For example if revision X was on branch A, and then later added to branch
+     B, the update checks would not notice this since they just check for X
+     being in the repository.
+
+     We also had some autobuilder corruption where an older packed-refs file
+     was copied over a new repository containing newer pack files. There
+     was no update to the refs file since the revision was present but
+     not accessible in any branch.
+
+     The correct fix is to check that the required revisions are present
+     on the specific branches. This patch does this using merge-base.
+
+     (Bitbake rev: 89abfbc1953e3711d6c90aff793ee622c22609b1)
+
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+To test this, just add these settings to local.conf
+   SOURCE_MIRROR_URL ?= "file:///work/misc/Poky/sources/"
+   INHERIT += "own-mirrors"
+   BB_NO_NETWORK = "1"
+   BB_GENERATE_MIRROR_TARBALLS ?= "1"
+
+Make sure and put the appropriate git tarball into the SOURCE_MIRROR.
+I tested this using prelink, e.g.
+   $ bitbake prelink -c fetch
+the the tarball is git2_git.yoctoproject.org.prelink-cross.git.tar.gz
+A copy of this is at
+   http://www.mlbassoc.com/poky/git2_git.yoctoproject.org.prelink-cross.git.tar.gz
+
+Filed as bug #5631 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=5631)
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
