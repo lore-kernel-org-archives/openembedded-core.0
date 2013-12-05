@@ -1,21 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id AD65C6DF29
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C6C86CC79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 16:26:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Dec 2013 08:26:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,834,1378882800"; d="scan'208";a="439184075"
-Received: from jbrandeb-mobl.amr.corp.intel.com (HELO swold-linux.bigsur.com)
-	([10.255.15.213])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Dec 2013 08:26:21 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Thu,  5 Dec 2013 17:41:20 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id z2so27751wiv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Dec 2013 09:41:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=8O4MILSFdFyvFljmP7YYri1wDb2zmc0wH9DQlnPSQik=;
+	b=ju/7c++KZbQIcryj+GmUWYKuZ3fM/SE/92hPjHd+J8KClLX27KQcSXQVWMzDAKSYPV
+	Hl1JwSSLGrJN9SnwshZhq74DYnNhW4Tqp02s95T6mhw/7vlTG2bAsvUVgFeGGmG+b55y
+	jyMDRWLa7uNMw7ZU9elSCiNprH1adfwWeSsFflVhec+VxKTvS2EieHbH3rp+TC0KDjLm
+	V5mZt+bJDZTNnwdPcQip+BLfS4JqWH7HVZNglouJHCnYq9d8T6HMD0dWx8DvpuvelnJr
+	5EySzR3/jNYcKvwYZSkQYWlhx3AfG0gkDfZFJdiu3rkIBXaAhPyZYKsSOnuuCG/NLwdb
+	7ykQ==
+X-Gm-Message-State: ALoCoQmRj0egzkzZlWI2RcXzvNbIRdPzUNrMVMzhpUsLsgJPk0T/CZn0Vq/IULTFmy9Iqfb2ZopV
+X-Received: by 10.180.109.201 with SMTP id hu9mr12891022wib.59.1386265279172; 
+	Thu, 05 Dec 2013 09:41:19 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id hv5sm8294879wib.2.2013.12.05.09.41.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Dec 2013 09:41:18 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2013 08:26:20 -0800
-Message-Id: <1386260780-28694-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] tcl: fix tclConfig.sh to point to the correct private headers
+Date: Thu,  5 Dec 2013 17:41:16 +0000
+Message-Id: <1386265276-20664-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] documentation.conf: update for new image testing variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,40 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 16:26:23 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 17:41:20 -0000
 
-When building expect with rm_work enabled, it was not finding the correct private
-header files because they were removed from the WORKDIR, this fixes the tclConfig.sh
-to point to the sysroot private area instead.
+IMAGETEST is now TEST_IMAGE, and TEST_SCEN and TEST_SERIALIZE don't exist
+anymore.
 
-This also fixes the -L directory to point to STAGING_LIBDIR instead if INCDIR!
-
-[YOCTO #5620]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.6.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/conf/documentation.conf |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-index 10186c4..0d6468a 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
-@@ -48,11 +48,13 @@ do_compile_prepend() {
- do_install() {
- 	autotools_do_install install-private-headers
- 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
-+	sed -i "s+-L${B}+-L${STAGING_LIBDIR}+g" tclConfig.sh
- 	sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
- 	sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
- 	sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh 
- 	install -d ${D}${bindir_crossscripts}
- 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
-+	install -m 0755 tclConfig.sh ${D}${libdir}
- 	cd ..
- 	for dir in compat generic unix
- 	do
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 6666648..a40b0b8 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -118,7 +118,6 @@ IMAGE_LINGUAS[doc] = "Specifies the list of locales to install into the image du
+ IMAGE_OVERHEAD_FACTOR[doc] = "Defines a multiplier that the build system applies to the initial image size for cases when the multiplier times the returned disk usage value for the image is greater than the sum of IMAGE_ROOTFS_SIZE and IMAGE_ROOTFS_EXTRA_SPACE."
+ IMAGE_ROOTFS_EXTRA_SPACE[doc] = "Defines additional free disk space created in the image in Kbytes. By default, this variable is set to '0'."
+ IMAGE_ROOTFS_SIZE[doc] = "Defines the size in Kbytes for the generated image."
+-IMAGETEST[doc] = "Enable test booting of virtual machine images under the qemu emulator after any root filesystems are created and run tests against those images."
+ INC_PR[doc] = "Helps define the recipe revision for recipes that share a common include file."
+ INHIBIT_PACKAGE_STRIP[doc] = "If set to "1", causes the build to not strip binaries in resulting packages."
+ INHERIT[doc] = "Causes the named class to be inherited at this point during parsing. The variable is only valid in configuration files."
+@@ -262,8 +261,7 @@ TARGET_PREFIX[doc] = "The prefix for the cross compile toolchain. E.g arm-linux-
+ TARGET_SYS[doc] = "The target system is composed out of TARGET_ARCH,TARGET_VENDOR and TARGET_OS."
+ TCLIBC[doc] = "Specifies which variant of the GNU standard C library (libc) to use during the build process. You can select eglibc or uclibc."
+ TCMODE[doc] = "The toolchain selector. It selects the external toolchain built using the OpenEmbedded build system or a few supported combinations of the upstream GCC or CodeSourcery Labs toolchain."
+-TEST_SCEN[doc] = "Controls which tests are run against virtual images if testing is enabled with IMAGETEST."
+-TEST_SERIALIZE[doc] = "Controls the time taken by the sanity tests."
++TEST_IMAGE[doc] = "Enable test booting of virtual machine images under the qemu emulator after any root filesystems are created and run tests against those images."
+ TIME[doc] = "The time the build was started HMS"
+ TMPDIR[doc] = "This variable is the temporary directory the OpenEmbedded build system uses when it does its work building images. By default, the TMPDIR variable is named tmp within the Build Directory."
+ TOPDIR[doc] = "This variable is the Build Directory. BitBake automatically sets this variable. The OpenEmbedded build system uses the Build Directory when building images."
 -- 
-1.8.3.1
+1.7.10.4
 
 
