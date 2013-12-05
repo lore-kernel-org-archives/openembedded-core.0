@@ -1,31 +1,39 @@
-Return-Path: <rpurdie@rpsys.net>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 924E16DCF3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 00:49:26 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB50nKOt021270 for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Dec 2013 00:49:20 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QCfZuO76Pr7Z
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 00:49:20 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB50nHpB021263
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Dec 2013 00:49:19 GMT
-Message-ID: <1386204552.4463.162.camel@ted>
-From: Richard Purdie <rpurdie@rpsys.net>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 05 Dec 2013 00:49:12 +0000
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] bitbake.conf/native.bbclass: Use FC instead of F77 for fortran
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 09B356DC00;
+	Thu,  5 Dec 2013 00:54:50 +0000 (UTC)
+Received: by mail-ea0-f172.google.com with SMTP id q10so11084869ead.3
+	for <multiple recipients>; Wed, 04 Dec 2013 16:54:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=atmPFf/DHX6nBlvLbMfJQVNbpD1XQLN+BlhR2D+wKJ0=;
+	b=YFMmOkws0kWOCPy2kauBByJsMynHTDbeLt9mxa9xPqv4FHjE/SIierrz2idDErQ7Q6
+	L14qZ4TuzuxbnLxSTZuy4DJc0pOCkKrGKNv24k0HgGDX9s8cZnNiw3sciC0cp7e9Gi3T
+	XFohvulOunGOwCuRcQ+ZEjJfQYC2gwpJwcg6KtGSa1gqnbYDj/gS1eZI5tuxTFRokj1y
+	cf5V6rDWmqdSqhFJ7dRLG1LnHkDQVCWOufHx9mw5+EsTDjc+vWZBhph8MYhWXaJrVKcY
+	HVqzjMGHqrzLM/pmwCFWK3wuRly3R1Xbi86Huj9M3Fz2Sar+EYDSpF8ZLltV/3vrOZsA
+	gh8A==
+X-Received: by 10.14.115.133 with SMTP id e5mr9664600eeh.91.1386204890182;
+	Wed, 04 Dec 2013 16:54:50 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id h3sm75039369eem.15.2013.12.04.16.54.48
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Dec 2013 16:54:49 -0800 (PST)
+Date: Thu, 5 Dec 2013 01:55:01 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20131205005501.GB3724@jama>
+References: <1386203938-13338-1-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1386203938-13338-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] cmake: respect ${S} and ${B}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,54 +46,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 00:49:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Dec 2013 00:54:53 -0000
+X-Groupsio-MsgNum: 47910
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NDin8bjvE/0mNLFQ"
+Content-Disposition: inline
 
-gcc tooling appears to be standardising around the FC variable naming.
-This patch changes the F77 namespace to FC instead and use the default
-gfortran compiler. If anyone needs the F77 variables or tools, those
-can still be made on a case by case basis.
+--NDin8bjvE/0mNLFQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 7c4e8c3..b2d85ef 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -59,7 +59,7 @@ export CONFIG_SITE = "${COREBASE}/meta/site/native"
- # set the compiler as well. It could have been set to something else
- export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}"
- export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}"
--export F77 = "${CCACHE}${HOST_PREFIX}g77 ${HOST_CC_ARCH}"
-+export FC = "${CCACHE}${HOST_PREFIX}gfortran ${HOST_CC_ARCH}"
- export CPP = "${HOST_PREFIX}gcc ${HOST_CC_ARCH} -E"
- export LD = "${HOST_PREFIX}ld ${HOST_LD_ARCH} "
- export CCLD = "${CC}"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index bbb1df6..386c935 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -446,7 +446,7 @@ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
- 
- export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
- export CXX = "${CCACHE}${HOST_PREFIX}g++ ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
--export F77 = "${CCACHE}${HOST_PREFIX}g77 ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
-+export FC = "${CCACHE}${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
- export CPP = "${HOST_PREFIX}gcc -E${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
- export LD = "${HOST_PREFIX}ld${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
- export CCLD = "${CC}"
-@@ -462,7 +462,7 @@ PYTHON = "${@sys.executable}"
- 
- export BUILD_CC = "${CCACHE}${BUILD_PREFIX}gcc ${BUILD_CC_ARCH}"
- export BUILD_CXX = "${CCACHE}${BUILD_PREFIX}g++ ${BUILD_CC_ARCH}"
--export BUILD_F77 = "${CCACHE}${BUILD_PREFIX}g77 ${BUILD_CC_ARCH}"
-+export BUILD_FC = "${CCACHE}${BUILD_PREFIX}gfortran ${BUILD_CC_ARCH}"
- export BUILD_CPP = "${BUILD_PREFIX}cpp ${BUILD_CC_ARCH}"
- export BUILD_LD = "${BUILD_PREFIX}ld ${BUILD_LD_ARCH}"
- export BUILD_CCLD = "${BUILD_PREFIX}gcc ${BUILD_CC_ARCH}"
---
-cgit v0.9.1
+On Thu, Dec 05, 2013 at 12:38:57AM +0000, Ross Burton wrote:
+> Hi,
+>=20
+> This is a Request For Comments because it changes behaviour of the cmake =
+class
+> and I'm not entirely knowledgeable in cmake.
 
+Neither am I, but patch looks reasonable and I like it, because I was
+planing to do something similar.
 
+> For some reason, cmake.bbclass doesn't use ${S} and ${B}, but instead has=
+ it's
+> own variables OECMAKE_SOURCEPATH ("." by default) and OECMAKE_BUILDPATH (=
+"" by
+> default).  Those defaults meant that the build happened in the source dir=
+ectory,
+> which conveniently was ${S}.  Unless ${B} was also set, in which case it =
+all
+> broke.
+>=20
+> I don't see a good reason for cmake.bbclass having it's own special versi=
+ons of
+> ${S} and ${B}, so this patch drops them and replicates some of the logic =
+in
+> autotools.bbclass: specifically the part where if ${S} and ${B} are diffe=
+rent,
+> delete ${B} before building.  This ensures that switching machine doesn't=
+ re-use
+> the same build directory, which was the cause of me going back to look at=
+ this
+> (libproxy trying to use the nuc sysroot when I'm building for qemux86-64).
+>=20
+> Some open questions:
+>=20
+> 1) As I understand it cmake has more reliable support for out-of-tree bui=
+lds
+> than autotools.  If this is the case should cmake.bbclass set B ?=3D
+> "${WORKDIR}/build", or leave setting of B to separatebuilddir.inc?  Are t=
+here
+> known recipes using cmake that fail with out-of-tree builds?
+>=20
+> 2) Is dropping OECMAKE_SOURCEPATH and OECMAKE_BUILDPATH acceptable?  Noth=
+ing in
+> oe-core uses them and there's three (IIRC) recipes in meta-oe that use th=
+em.
+> Assuming the answer to (1) is "separatebuilddir.inc" then the only fallout
+> should be these recipes using in-tree builds until OECMAKE_BUILDPATH is r=
+eplaced
+> with B.
+>=20
+> Feedback and testing from people who actively use cmake very welcome.
+>=20
+> Cheers,
+> Ross
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--NDin8bjvE/0mNLFQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlKfzuUACgkQN1Ujt2V2gBwrbQCcCemD7FElBv24XTqw3KHcNstS
+mfUAn0Nkb3W93cJ9q81VcCJ25Kv19XoY
+=8DiX
+-----END PGP SIGNATURE-----
+
+--NDin8bjvE/0mNLFQ--
