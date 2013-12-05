@@ -1,33 +1,14 @@
 Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 46F4A6DF23
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 754556DF29
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 12:50:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id B87BA31481E4;
-	Thu,  5 Dec 2013 13:50:15 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 0vfe_cQeMksW; Thu,  5 Dec 2013 13:50:13 +0100 (CET)
-Received: from [172.22.22.61] (unknown [212.255.228.66])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id A240731481E3;
-	Thu,  5 Dec 2013 13:50:13 +0100 (CET)
-Message-ID: <52A07685.6020302@opendreambox.org>
-Date: Thu, 05 Dec 2013 13:50:13 +0100
+	Thu,  5 Dec 2013 12:51:29 +0000 (UTC)
 From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
-MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <1382009488-6120-1-git-send-email-obi@opendreambox.org>
-	<1382009488-6120-4-git-send-email-obi@opendreambox.org>
-In-Reply-To: <1382009488-6120-4-git-send-email-obi@opendreambox.org>
-Subject: Re: [PATCH 4/4] cogl-1.0: explicitly disable cairo
+Date: Thu,  5 Dec 2013 13:51:24 +0100
+Message-Id: <1386247884-23813-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] xorg-lib-common.inc: use REQUIRED_DISTRO_FEATURES variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,32 +21,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 12:50:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Dec 2013 12:51:29 -0000
 
-Ping.
+Convert custom DISTRO_FEATURES test to distro_features_check.bbclass,
+and keep exceptions for libpciaccess and pixman.
 
-On 17.10.2013 13:31, Andreas Oberritter wrote:
-> - Cairo was auto-detected, but not listed as a dependency.
-> 
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
->  meta/recipes-graphics/cogl/cogl-1.0.inc | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-> index 0c4e86d..11810ef 100644
-> --- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-> +++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-> @@ -33,6 +33,7 @@ EXTRA_OECONF += "--disable-introspection	\
->  	       	 --enable-examples-install	\
->  	       	 --enable-debug		 	\
->  	       	 --disable-gles1		\
-> +	         --disable-cairo                \
->  	    	"
->  
->  # OpenGL/GLX
-> 
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb | 2 ++
+ meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb       | 2 ++
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc    | 8 ++------
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
+index 6da86f2..d837bbd 100644
+--- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
+@@ -10,3 +10,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
+ 
+ SRC_URI[md5sum] = "b7c0d3afce14eedca57312a3141ec13a"
+ SRC_URI[sha256sum] = "abab8c2b050afb89bc29280e9c6b50ec5867174960d88bfb81a01036ec20de19"
++
++REQUIRED_DISTRO_FEATURES = ""
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
+index 36d9b2d..55bddee 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
+@@ -34,3 +34,5 @@ SRC_URI += "\
+ 
+ SRC_URI[md5sum] = "2d0588e20dc1308b29b2fca68dad9a9c"
+ SRC_URI[sha256sum] = "4fbb51788fe7cbd8abb5f80aed95ec878704e57a06328f7bebe0306e3822c96c"
++
++REQUIRED_DISTRO_FEATURES = ""
+diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+index 07b0373..231776a 100644
+--- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
++++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+@@ -11,7 +11,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.bz2"
+ 
+ S = "${WORKDIR}/${XORG_PN}-${PV}"
+ 
+-inherit autotools pkgconfig
++inherit autotools distro_features_check pkgconfig
+ 
+ EXTRA_OECONF = "--disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
+ EXTRA_OECONF_append_libc-glibc = " --disable-malloc0returnsnull"
+@@ -20,8 +20,4 @@ EXTRA_OECONF_append_libc-uclibc = " --enable-malloc0returnsnull"
+ UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0returnsnull \
+                                 --disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
+ 
+-python () {
+-        whitelist = [ "pixman", "libpciaccess" ]
+-        if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
+-                raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
+-}
++REQUIRED_DISTRO_FEATURES ?= "x11"
+-- 
+1.8.3.2
 
 
