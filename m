@@ -1,27 +1,30 @@
-Return-Path: <mark.hatle@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 26A5C6E241
+	by mail.openembedded.org (Postfix) with ESMTP id 4E22C6DF9D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2013 23:52:56 +0000 (UTC)
+	Fri,  6 Dec 2013 01:29:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB5NqtCf025331
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Dec 2013 15:52:56 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Thu, 5 Dec 2013 15:52:55 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Dec 2013 17:52:19 -0600
-Message-ID: <9949be5306f05cc86c941a4ca54b17d0c7a671e1.1386287395.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <cover.1386287394.git.mark.hatle@windriver.com>
-References: <cover.1386287394.git.mark.hatle@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB61TnJ7007342
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 5 Dec 2013 17:29:49 -0800 (PST)
+Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Thu, 5 Dec 2013 17:29:49 -0800
+Message-ID: <52A128B8.9050300@windriver.com>
+Date: Fri, 6 Dec 2013 09:30:32 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 6/6][master] icu: CVE-2013-2924
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1386232830.git.Qi.Chen@windriver.com>
+	<f728bc59095fc51372c8771356ca7fef2ed71bb5.1386232830.git.Qi.Chen@windriver.com>
+	<52A1011A.8080809@linux.intel.com>
+In-Reply-To: <52A1011A.8080809@linux.intel.com>
+X-Originating-IP: [128.224.162.213]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] libgcrypt: fix compile error with '-O2' in sysroot path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,79 +37,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 23:52:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Dec 2013 01:29:51 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Yue Tao <Yue.Tao@windriver.com>
+On 12/06/2013 06:41 AM, Saul Wold wrote:
+> On 12/05/2013 12:55 AM, Qi.Chen@windriver.com wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> Characters like '-O2' or '-Ofast' will be replaced by '-O1' when
+>> compiling cipher. If we are cross compiling libgcrypt and sysroot
+>> contains such characters, we would get compile errors because the
+>> sysroot path has been modified.
+>>
+>> Fix this by adding whitespaces before and after the original matching
+>> pattern in the sed command.
+>>
+>> [YOCTO #5628]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   ...fix-compile-error-with-O2-in-sysroot-path.patch |   46 
+>> ++++++++++++++++++++
+>>   meta/recipes-support/libgcrypt/libgcrypt.inc       |    3 +-
+>>   2 files changed, 48 insertions(+), 1 deletion(-)
+>>   create mode 100644 
+>> meta/recipes-support/libgcrypt/files/fix-compile-error-with-O2-in-sysroot-path.patch
+>>
+>> diff --git 
+>> a/meta/recipes-support/libgcrypt/files/fix-compile-error-with-O2-in-sysroot-path.patch 
+>> b/meta/recipes-support/libgcrypt/files/fix-compile-error-with-O2-in-sysroot-path.patch 
+>>
+>> new file mode 100644
+>> index 0000000..6b1f119
+>> --- /dev/null
+>> +++ 
+>> b/meta/recipes-support/libgcrypt/files/fix-compile-error-with-O2-in-sysroot-path.patch
+>> @@ -0,0 +1,46 @@
+>> +Upstream-Status: Pending
+>> +
+>> +libgcrypt: fix building error with '-O2' in sysroot path
+>> +
+>> +Characters like '-O2' or '-Ofast' will be replaced by '-O1' when 
+>> compiling cipher.
+>> +If we are cross compiling libgcrypt and sysroot contains such 
+>> characters, we would
+>> +get compile errors because the sysroot path has been modified.
+>> +
+>> +Fix this by adding blank spaces before and after the original 
+>> matching pattern in the
+>> +sed command.
+>> +
+>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> +---
+>> + cipher/Makefile.am |    2 +-
+>> + cipher/Makefile.in |    2 +-
+>> + 2 files changed, 2 insertions(+), 2 deletions(-)
+>> +
+>> +diff --git a/cipher/Makefile.am b/cipher/Makefile.am
+>> +index 76cdc96..9a89792 100644
+>> +--- a/cipher/Makefile.am
+>> ++++ b/cipher/Makefile.am
+>> +@@ -69,7 +69,7 @@ rfc2268.c \
+>> + camellia.c camellia.h camellia-glue.c
+>> +
+>> + if ENABLE_O_FLAG_MUNGING
+>> +-o_flag_munging = sed -e 's/-O\([2-9s][2-9s]*\)/-O1/' -e 
+>> 's/-Ofast/-O1/g'
+>> ++o_flag_munging = sed -e 's/ -O\([2-9s][2-9s]*\) / -O1 /' -e 's/ 
+>> -Ofast / -O1 /g'
+>> + else
+>> + o_flag_munging = cat
+>> + endif
+>> +diff --git a/cipher/Makefile.in b/cipher/Makefile.in
+>> +index 1394d15..6080d59 100644
+>> +--- a/cipher/Makefile.in
+>> ++++ b/cipher/Makefile.in
+>
+> Why do we need to patch Makefile.in if we are already patching the 
+> Makefile.am which will re-generate the Makefile.in
+>
+> Sau!
+>
 
-Use-after-free vulnerability in International Components for Unicode (ICU),
-as used in Google Chrome before 30.0.1599.66 and other products, allows
-remote attackers to cause a denial of service or possibly have unspecified
-other impact via unknown vectors.
+I thought it would do no harm. And I will send this patch to upstream, 
+so it might be a little strange that I only modify the Makefile.am file 
+even if Makefile.in has the same problem.
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-2924
+Best Regards,
+Chen Qi
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- ...fer_length_check_to_UTF_16_or_32_detector.patch | 33 ++++++++++++++++++++++
- meta/recipes-support/icu/icu_51.2.bb               |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch
-
-diff --git a/meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch b/meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch
-new file mode 100644
-index 0000000..ad4d61c
---- /dev/null
-+++ b/meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch
-@@ -0,0 +1,33 @@
-+--- source/i18n/csrucode.cpp
-++++ source/i18n/csrucode.cpp
-+@@ -33,8 +33,9 @@ UBool CharsetRecog_UTF_16_BE::match(Inpu
-+ {
-+     const uint8_t *input = textIn->fRawInput;
-+     int32_t confidence = 0;
-++    int32_t length = textIn->fRawLength;
-+ 
-+-    if (input[0] == 0xFE && input[1] == 0xFF) {
-++    if (length >=2 && input[0] == 0xFE && input[1] == 0xFF) {
-+         confidence = 100;
-+     }
-+ 
-+@@ -57,8 +58,9 @@ UBool CharsetRecog_UTF_16_LE::match(Inpu
-+ {
-+     const uint8_t *input = textIn->fRawInput;
-+     int32_t confidence = 0;
-++    int32_t length = textIn->fRawLength;
-+ 
-+-    if (input[0] == 0xFF && input[1] == 0xFE && (input[2] != 0x00 || input[3] != 0x00)) {
-++    if (length >= 4 && input[0] == 0xFF && input[1] == 0xFE && (input[2] != 0x00 || input[3] != 0x00)) {
-+         confidence = 100;
-+     }
-+ 
-+@@ -81,7 +83,7 @@ UBool CharsetRecog_UTF_32::match(InputTe
-+     bool hasBOM = FALSE;
-+     int32_t confidence = 0;
-+ 
-+-    if (getChar(input, 0) == 0x0000FEFFUL) {
-++    if (limit > 0 && getChar(input, 0) == 0x0000FEFFUL) {
-+         hasBOM = TRUE;
-+     }
-+ 
-diff --git a/meta/recipes-support/icu/icu_51.2.bb b/meta/recipes-support/icu/icu_51.2.bb
-index aca3ea5..aabe07b 100644
---- a/meta/recipes-support/icu/icu_51.2.bb
-+++ b/meta/recipes-support/icu/icu_51.2.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://../license.html;md5=443a74288a72fad9069a74e7637192c1"
- BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-51_2-src.tgz"
- SRC_URI = "${BASE_SRC_URI} \
-            file://icu-pkgdata-large-cmd.patch \
-+           file://add_buffer_length_check_to_UTF_16_or_32_detector.patch \
-           "
- 
- SRC_URI[md5sum] = "072e501b87065f3a0ca888f1b5165709"
--- 
-1.8.3.4
+>> +@@ -314,7 +314,7 @@ rfc2268.c \
+>> + camellia.c camellia.h camellia-glue.c
+>> +
+>> + @ENABLE_O_FLAG_MUNGING_FALSE@o_flag_munging = cat
+>> +-@ENABLE_O_FLAG_MUNGING_TRUE@o_flag_munging = sed -e 
+>> 's/-O\([2-9s][2-9s]*\)/-O1/' -e 's/-Ofast/-O1/g'
+>> ++@ENABLE_O_FLAG_MUNGING_TRUE@o_flag_munging = sed -e 's/ 
+>> -O\([2-9s][2-9s]*\) / -O1 /' -e 's/ -Ofast / -O1 /g'
+>> + all: all-am
+>> +
+>> + .SUFFIXES:
+>> +--
+>> +1.7.9.5
+>> +
+>> diff --git a/meta/recipes-support/libgcrypt/libgcrypt.inc 
+>> b/meta/recipes-support/libgcrypt/libgcrypt.inc
+>> index e0dfec2..9383e17 100644
+>> --- a/meta/recipes-support/libgcrypt/libgcrypt.inc
+>> +++ b/meta/recipes-support/libgcrypt/libgcrypt.inc
+>> @@ -11,7 +11,8 @@ LIC_FILES_CHKSUM = 
+>> "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>>   DEPENDS = "libgpg-error libcap"
+>>
+>>   SRC_URI = 
+>> "ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-${PV}.tar.gz \
+>> -           file://add-pkgconfig-support.patch"
+>> +           file://add-pkgconfig-support.patch \
+>> + file://fix-compile-error-with-O2-in-sysroot-path.patch"
+>>
+>>   inherit autotools binconfig pkgconfig
+>>
+>>
+>
+>
 
 
