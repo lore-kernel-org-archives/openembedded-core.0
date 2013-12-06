@@ -1,41 +1,16 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BCC716DF4F
+Return-Path: <obi@opendreambox.org>
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E7C06DD74
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2013 20:56:57 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id c41so512318eek.23
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Dec 2013 12:56:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=kZW108950mA7qJwKfEheE0JVaoP4rlLWDEzUPVQcrdk=;
-	b=Ym+QdxS5BqEhWroJpS6f3X2jPjRVcDQIEQXLSywXCE0GFyIexK39m66gdCNAz4tBAn
-	xyhSQ2V46jKdF35Mw9syN3nT9lPlBc7/0166+HoaKfhjM8NFtmg8T1t7ABq3NIesT0wj
-	Ih4usId8xLENMT9GcJiYTxJ4GjgVVWo+9+VMO9laVhrVIDAYTfq/7D+2VsAq/GbABvJQ
-	PtDJOoRohLuhT8zMI5mHocjWD0RRJx6boD9XduPLwSlAafJNGjUMFK8sLqx1b7H3vfaE
-	ku33JdcPkmf+T4EeXQGkW1xHgJQdR2F34zJi6R+mcl9SgmtwhQc2wnvORDhiLEClIcQs
-	6RKg==
-X-Received: by 10.14.215.67 with SMTP id d43mr4073018eep.108.1386363416172;
-	Fri, 06 Dec 2013 12:56:56 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 4sm109015111eed.14.2013.12.06.12.56.55
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Dec 2013 12:56:55 -0800 (PST)
-Date: Fri, 6 Dec 2013 21:57:10 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Iyad Qumei <iyadkq@gmail.com>
-Message-ID: <20131206205710.GJ3724@jama>
-References: <1386353865-4076-1-git-send-email-iyadkq@gmail.com>
-	<20131206194651.GI3724@jama>
-	<CADL+O9uXOrZ9=Y08wx5PQDPBuA=oC=peT9NTHgvLA=4ZKOZbAQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CADL+O9uXOrZ9=Y08wx5PQDPBuA=oC=peT9NTHgvLA=4ZKOZbAQ@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] icecc-create-env: Upgrade script
+	Fri,  6 Dec 2013 21:34:35 +0000 (UTC)
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Dec 2013 22:34:27 +0100
+Message-Id: <1386365667-6394-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1386247884-23813-1-git-send-email-obi@opendreambox.org>
+References: <1386247884-23813-1-git-send-email-obi@opendreambox.org>
+Subject: [PATCH v2] xorg-lib-common.inc: use REQUIRED_DISTRO_FEATURES variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,592 +23,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2013 20:56:58 -0000
-X-Groupsio-MsgNum: 47996
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ed/6oDxOLijJh8b0"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 06 Dec 2013 21:34:36 -0000
 
---ed/6oDxOLijJh8b0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Convert custom DISTRO_FEATURES test to distro_features_check.bbclass,
+and keep exceptions for libpciaccess and pixman.
 
-On Fri, Dec 06, 2013 at 12:20:01PM -0800, Iyad Qumei wrote:
-> > Drop and resend with -M.
->=20
-> I am confused; what exactly do you want the patch to look like.  Please
-> provide legible statement so we can understand what exactly do you want?
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ v2: rebased after update to pixman-0.32.4
 
-Drop line with PR variable, like I said in first review:
+ meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb | 2 ++
+ meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb       | 2 ++
+ meta/recipes-graphics/xorg-lib/xorg-lib-common.inc    | 8 ++------
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-drop PR variable completely, we're dropping them with every PV upgrade     =
-                                                                           =
-       =20
-for couple months now.                                                     =
-                                                                           =
-       =20
+diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
+index 6da86f2..d837bbd 100644
+--- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
+@@ -10,3 +10,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
+ 
+ SRC_URI[md5sum] = "b7c0d3afce14eedca57312a3141ec13a"
+ SRC_URI[sha256sum] = "abab8c2b050afb89bc29280e9c6b50ec5867174960d88bfb81a01036ec20de19"
++
++REQUIRED_DISTRO_FEATURES = ""
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb b/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb
+index d1f3df7..51cca5d 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb
+@@ -33,3 +33,5 @@ SRC_URI += "\
+ 
+ SRC_URI[md5sum] = "cdb566504fe9daf6728c7b03cc7ea228"
+ SRC_URI[sha256sum] = "ae2bd664057e330d41b40336ed296d3512318ce7f2401cc42601f2613d371e4c"
++
++REQUIRED_DISTRO_FEATURES = ""
+diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+index 07b0373..231776a 100644
+--- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
++++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
+@@ -11,7 +11,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.bz2"
+ 
+ S = "${WORKDIR}/${XORG_PN}-${PV}"
+ 
+-inherit autotools pkgconfig
++inherit autotools distro_features_check pkgconfig
+ 
+ EXTRA_OECONF = "--disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
+ EXTRA_OECONF_append_libc-glibc = " --disable-malloc0returnsnull"
+@@ -20,8 +20,4 @@ EXTRA_OECONF_append_libc-uclibc = " --enable-malloc0returnsnull"
+ UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0returnsnull \
+                                 --disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
+ 
+-python () {
+-        whitelist = [ "pixman", "libpciaccess" ]
+-        if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
+-                raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
+-}
++REQUIRED_DISTRO_FEATURES ?= "x11"
+-- 
+1.8.3.2
 
-> Do remember the following email exchange!  The patch was created original=
-ly
-> with -M option, and I understood from your statement that it should not!!=
-!!!
 
-I really don't know how you got that idea, but that's not what I meant.
-Sorry if I wasn't clear.
-
-Please stay on list.
-
-> On Wed, Dec 4, 2013 at 4:14 PM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> > > NACK
-> > >
-> > > What are you trying to say?
->=20
-> http://en.wikipedia.org/wiki/NAK_(protocol_message)
->=20
-> > This patch was created per instructions on how submit patches.
->=20
-> That doesn't make it correct functionality-wise.
->=20
->=20
-> On Fri, Dec 6, 2013 at 11:46 AM, Martin Jansa <martin.jansa@gmail.com>wro=
-te:
->=20
-> > On Fri, Dec 06, 2013 at 10:17:45AM -0800, Iyad Qumei wrote:
-> > > The original icecc script does not handle toolchain content
-> > > properly, resulting in build failures, such as
-> > >
-> > >    gxx: fatal error: -fuse-linker-plugin, but liblto_plugin.so not fo=
-und
-> > >
-> > > This patch brings in the latest script form the icecream source, and
-> > > modifies it for use in the OE build environment.  The change was test=
-ed
-> > > with OE-Core built toolchain, and external toolchain.
-> > >
-> > > Signed-off-by: Iyad Qumei <iyadkq@gmail.com>
-> > > ---
-> > >  .../icecc-create-env-native_0.1.bb                 |   35 ---
-> > >  .../icecc-create-env-native_1.0.1.bb               |   35 +++
-> > >  .../icecc-create-env/icecc-create-env              |  266
-> > +++++++++++++++-----
-> > >  3 files changed, 242 insertions(+), 94 deletions(-)
-> > >  delete mode 100644 meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb
-> > >  create mode 100644 meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_1.0.1.bb
-> > >  mode change 100755 =3D> 100644
-> > meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-env
-> > >
-> > > diff --git a/meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb b/meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb
-> > > deleted file mode 100644
-> > > index c05a76d..0000000
-> > > --- a/meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb
-> > > +++ /dev/null
-> > > @@ -1,35 +0,0 @@
-> > > -DESCRIPTION =3D "This is a modified version of the icecc-create-env
-> > script in order to\
-> > > -make it work with OE."
-> > > -SECTION =3D "base"
-> > > -# source file has just a "GPL" word, but upstream is GPLv2+.
-> > > -# most probably just GPL would be a mistake
-> > > -LICENSE =3D "GPLv2+"
-> > > -LIC_FILES_CHKSUM =3D
-> > "file://icecc-create-env;beginline=3D2;endline=3D5;md5=3Dae1df3d6a058bf=
-da40b66094c5f6065f"
-> > > -
-> > > -PR =3D "r2"
-> > > -
-> > > -DEPENDS =3D ""
-> > > -INHIBIT_DEFAULT_DEPS =3D "1"
-> > > -
-> > > -inherit native
-> > > -
-> > > -# This is needed, because otherwise there is dependency loop from
-> > quilt-native
-> > > -# Dependency loop #1 found:
-> > > -#  Task 10907 (meta/recipes-devtools/quilt/quilt-native_0.60.bb,
-> > do_install) (dependent Tasks ['quilt-native, do_compile'])
-> > > -#  Task 10908 (meta/recipes-devtools/quilt/quilt-native_0.60.bb,
-> > do_populate_sysroot) (dependent Tasks ['quilt-native, do_install'])
-> > > -#  Task 10997 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_patch) (dependent Tasks
-> > ['icecc-create-env-native, do_unpack', 'quilt-native, do_populate_sysro=
-ot'])
-> > > -#  Task 11001 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_configure) (dependent Tasks
-> > ['icecc-create-env-native, do_patch'])
-> > > -#  Task 11002 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_compile) (dependent Tasks
-> > ['icecc-create-env-native, do_configure'])
-> > > -#  Task 10998 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_install) (dependent Tasks
-> > ['icecc-create-env-native, do_compile'])
-> > > -#  Task 10999 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_populate_sysroot) (dependent Tasks
-> > ['icecc-create-env-native, do_install'])
-> > > -#  Task 10910 (meta/recipes-devtools/quilt/quilt-native_0.60.bb,
-> > do_configure) (dependent Tasks ['quilt-native, do_patch',
-> > 'icecc-create-env-native, do_populate_sysroot'])
-> > > -#  Task 10911 (meta/recipes-devtools/quilt/quilt-native_0.60.bb,
-> > do_compile) (dependent Tasks ['quilt-native, do_configure'])
-> > > -PATCHTOOL =3D "patch"
-> > > -SRC_URI =3D "file://icecc-create-env"
-> > > -
-> > > -S =3D "${WORKDIR}"
-> > > -
-> > > -do_install() {
-> > > -    install -d ${D}/${bindir}
-> > > -    install -m 0755 ${WORKDIR}/icecc-create-env ${D}/${bindir}
-> > > -}
-> > > diff --git a/meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_1.0.1.bb b/meta/recipes-devtools/icecc-create-e=
-nv/
-> > icecc-create-env-native_1.0.1.bb
-> > > new file mode 100644
-> > > index 0000000..c05a76d
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_1.0.1.bb
-> > > @@ -0,0 +1,35 @@
-> > > +DESCRIPTION =3D "This is a modified version of the icecc-create-env
-> > script in order to\
-> > > +make it work with OE."
-> > > +SECTION =3D "base"
-> > > +# source file has just a "GPL" word, but upstream is GPLv2+.
-> > > +# most probably just GPL would be a mistake
-> > > +LICENSE =3D "GPLv2+"
-> > > +LIC_FILES_CHKSUM =3D
-> > "file://icecc-create-env;beginline=3D2;endline=3D5;md5=3Dae1df3d6a058bf=
-da40b66094c5f6065f"
-> > > +
-> > > +PR =3D "r2"
-> >
-> > Drop and resend with -M.
-> >
-> > > +
-> > > +DEPENDS =3D ""
-> > > +INHIBIT_DEFAULT_DEPS =3D "1"
-> > > +
-> > > +inherit native
-> > > +
-> > > +# This is needed, because otherwise there is dependency loop from
-> > quilt-native
-> > > +# Dependency loop #1 found:
-> > > +#  Task 10907 (meta/recipes-devtools/quilt/quilt-native_0.60.bb,
-> > do_install) (dependent Tasks ['quilt-native, do_compile'])
-> > > +#  Task 10908 (meta/recipes-devtools/quilt/quilt-native_0.60.bb,
-> > do_populate_sysroot) (dependent Tasks ['quilt-native, do_install'])
-> > > +#  Task 10997 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_patch) (dependent Tasks
-> > ['icecc-create-env-native, do_unpack', 'quilt-native, do_populate_sysro=
-ot'])
-> > > +#  Task 11001 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_configure) (dependent Tasks
-> > ['icecc-create-env-native, do_patch'])
-> > > +#  Task 11002 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_compile) (dependent Tasks
-> > ['icecc-create-env-native, do_configure'])
-> > > +#  Task 10998 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_install) (dependent Tasks
-> > ['icecc-create-env-native, do_compile'])
-> > > +#  Task 10999 (meta/recipes-devtools/icecc-create-env/
-> > icecc-create-env-native_0.1.bb, do_populate_sysroot) (dependent Tasks
-> > ['icecc-create-env-native, do_install'])
-> > > +#  Task 10910 (meta/recipes-devtools/quilt/quilt-native_0.60.bb,
-> > do_configure) (dependent Tasks ['quilt-native, do_patch',
-> > 'icecc-create-env-native, do_populate_sysroot'])
-> > > +#  Task 10911 (meta/recipes-devtools/quilt/quilt-native_0.60.bb,
-> > do_compile) (dependent Tasks ['quilt-native, do_configure'])
-> > > +PATCHTOOL =3D "patch"
-> > > +SRC_URI =3D "file://icecc-create-env"
-> > > +
-> > > +S =3D "${WORKDIR}"
-> > > +
-> > > +do_install() {
-> > > +    install -d ${D}/${bindir}
-> > > +    install -m 0755 ${WORKDIR}/icecc-create-env ${D}/${bindir}
-> > > +}
-> > > diff --git
-> > a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-=
-env
-> > b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-=
-env
-> > > old mode 100755
-> > > new mode 100644
-> > > index 7e4dbc4..6d2e3c6
-> > > ---
-> > a/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-=
-env
-> > > +++
-> > b/meta/recipes-devtools/icecc-create-env/icecc-create-env/icecc-create-=
-env
-> > > @@ -29,33 +29,95 @@ add_file ()
-> > >    toadd=3D"$name=3D$path"
-> > >    is_contained "$toadd" && return
-> > >    if test -z "$silent"; then
-> > > -  echo "adding file $toadd"
-> > > +    echo "adding file $toadd"
-> > >    fi
-> > >    target_files=3D"$target_files $toadd"
-> > >    if test -x "$path"; then
-> > >      # Only call ldd when it makes sense
-> > >      if file -L "$path" | grep 'ELF' > /dev/null 2>&1; then
-> > > -     if ! file -L "$path" | grep 'static' > /dev/null 2>&1; then
-> > > -        # ldd now outputs ld as /lib/ld-linux.so.xx on current nptl
-> > based glibc
-> > > -             # this regexp parse the outputs like:
-> > > -             # ldd /usr/bin/gcc
-> > > -             #         linux-gate.so.1 =3D>  (0xffffe000)
-> > > -             #         libc.so.6 =3D> /lib/tls/libc.so.6 (0xb7e81000)
-> > > -             #         /lib/ld-linux.so.2 (0xb7fe8000)
-> > > -             # covering both situations ( with =3D> and without )
-> > > -          for lib in `ldd "$path" | sed -n 's,^[^/]*\(/[^
-> > ]*\).*,\1,p'`; do
-> > > -         test -f "$lib" || continue
-> > > -         # Check wether the same library also exists in the parent
-> > directory,
-> > > -         # and prefer that on the assumption that it is a more gener=
-ic
-> > one.
-> > > -         local baselib=3D`echo "$lib" | sed
-> > 's,\(/[^/]*\)/.*\(/[^/]*\)$,\1\2,'`
-> > > -         test -f "$baselib" && lib=3D$baselib
-> > > -       add_file "$lib"
-> > > -        done
-> > > +      if ! file -L "$path" | grep 'static' > /dev/null 2>&1; then
-> > > +           # ldd now outputs ld as /lib/ld-linux.so.xx on current np=
-tl
-> > based glibc
-> > > +           # this regexp parse the outputs like:
-> > > +           # ldd /usr/bin/gcc
-> > > +           #         linux-gate.so.1 =3D>  (0xffffe000)
-> > > +           #         libc.so.6 =3D> /lib/tls/libc.so.6 (0xb7e81000)
-> > > +           #         /lib/ld-linux.so.2 (0xb7fe8000)
-> > > +           # covering both situations ( with =3D> and without )
-> > > +           for lib in `ldd "$path" | sed -n 's,^[^/]*\(/[^
-> > ]*\).*,\1,p'`; do
-> > > +             test -f "$lib" || continue
-> > > +             # Check wether the same library also exists in the pare=
-nt
-> > directory,
-> > > +             # and prefer that on the assumption that it is a more
-> > generic one.
-> > > +             local baselib=3D`echo "$lib" | sed
-> > 's,\(/[^/]*\)/.*\(/[^/]*\)$,\1\2,'`
-> > > +             test -f "$baselib" && lib=3D$baselib
-> > > +             add_file "$lib"
-> > > +           done
-> > >        fi
-> > >      fi
-> > >    fi
-> > >  }
-> > >
-> > > +# returns abs path to filedir
-> > > +abs_path()
-> > > +{
-> > > +    local path=3D$1
-> > > +    if test -f "$path"; then
-> > > +        pushd $(dirname $path) > /dev/null 2>&1
-> > > +        dir_path=3D`pwd -P`
-> > > +        path=3D$dir_path/$(basename $path)
-> > > +        popd > /dev/null 2>&1
-> > > +    elif test -d "$path"; then
-> > > +        pushd $path > /dev/null 2>&1
-> > > +        path=3D`pwd -P`
-> > > +        popd > /dev/null 2>&1
-> > > +    fi
-> > > +    echo $path
-> > > +}
-> > > +
-> > > +# Search and add file to the tarball file.
-> > > +search_addfile()
-> > > +{
-> > > +    local compiler=3D$1
-> > > +    local file_name=3D$2
-> > > +    local file_installdir=3D$3
-> > > +    local file=3D""
-> > > +
-> > > +    file=3D$($compiler -print-prog-name=3D$file_name)
-> > > +
-> > > +    if test -z "$file" || test "$file" =3D "$file_name" || ! test -e
-> > "$file"; then
-> > > +        file=3D`$compiler -print-file-name=3D$file_name`
-> > > +    fi
-> > > +
-> > > +    if ! test -e "$file"; then
-> > > +        return 1
-> > > +    fi
-> > > +
-> > > +    if test -z "$file_installdir"; then
-> > > +        # The file is going to be added to the tarball
-> > > +        # in the same path where the compiler found it.
-> > > +
-> > > +        file_installdir=3D$(dirname $file)
-> > > +        abs_installdir=3D$(abs_path $file_installdir)
-> > > +
-> > > +        if test "$file_installdir" !=3D "$abs_installdir"; then
-> > > +            # The path where the compiler found the file is relative!
-> > > +            # If the path where the compiler found the file is relat=
-ive
-> > > +            # to compiler's path, we must change it to be relative to
-> > > +            # /usr/bin path where the compiler is going to be instal=
-led
-> > > +            # in the tarball file.
-> > > +            # Replacing relative path by abs path because the tar
-> > command
-> > > +            # used to create the tarball file doesn't work well with
-> > > +            # relative path as installdir.
-> > > +
-> > > +            compiler_basedir=3D$(abs_path ${compiler%/*/*})
-> > > +            file_installdir=3D${abs_installdir/$compiler_basedir/"/u=
-sr"}
-> > > +        fi
-> > > +    fi
-> > > +
-> > > +    add_file "$file" "$file_installdir/$file_name"
-> > > +
-> > > +    return 0
-> > > +}
-> > > +
-> > >  # backward compat
-> > >  if test "$1" =3D "--respect-path"; then
-> > >    shift
-> > > @@ -67,62 +129,148 @@ if test "$1" =3D "--silent"; then
-> > >   shift
-> > >  fi
-> > >
-> > > -
-> > > -added_gcc=3D$1
-> > > -shift
-> > > -added_gxx=3D$1
-> > > -shift
-> > > -added_as=3D$1
-> > > -shift
-> > > -archive_name=3D$1
-> > > -
-> > > -if test -z "$added_gcc" || test -z "$added_gxx" ; then
-> > > -     echo "usage: $0 <gcc_path> <g++_path>"
-> > > -     exit 1
-> > > +if test "$1" !=3D "--gcc" -a "$1" !=3D "--clang"; then
-> > > +    # backward compat
-> > > +    added_gcc=3D$1
-> > > +    shift
-> > > +    added_gxx=3D$1
-> > > +    shift
-> > > +    added_as=3D$1
-> > > +    shift
-> > > +    archive_name=3D$1
-> > > +    shift
-> > > +    gcc=3D1
-> > > +else
-> > > +    if test "$1" =3D "--gcc"; then
-> > > +        shift
-> > > +        added_gcc=3D$1
-> > > +        shift
-> > > +        added_gxx=3D$1
-> > > +        shift
-> > > +        added_as=3D$1
-> > > +        shift
-> > > +        archive_name=3D$1
-> > > +        shift
-> > > +        gcc=3D1
-> > > +    elif test "$1" =3D "--clang"; then
-> > > +        shift
-> > > +        added_clang=3D$1
-> > > +        shift
-> > > +        added_compilerwrapper=3D$1
-> > > +        shift
-> > > +        clang=3D1
-> > > +    else
-> > > +        usage
-> > > +        exit 1
-> > > +    fi
-> > >  fi
-> > >
-> > > -if ! test -x "$added_gcc" ; then
-> > > -  echo "'$added_gcc' is no executable."
-> > > -  exit 1
-> > > +if test -n "$gcc"; then
-> > > +    if test -z "$added_gcc" || test -z "$added_gxx"; then
-> > > +        usage
-> > > +        exit 1
-> > > +    fi
-> > > +    if ! test -x "$added_gcc" ; then
-> > > +        echo "'$added_gcc' is no executable."
-> > > +        exit 1
-> > > +    fi
-> > > +    if ! test -x "$added_gxx" ; then
-> > > +        echo "'$added_gxx' is no executable."
-> > > +        exit 1
-> > > +    fi
-> > > +    if test -z "$added_as" ; then
-> > > +      add_file /usr/bin/as /usr/bin/as
-> > > +    else
-> > > +      if ! test -x "$added_as" ; then
-> > > +        echo "'$added_as' is no executable."
-> > > +        exit 1
-> > > +      fi
-> > > +      add_file $added_as  /usr/bin/as
-> > > +    fi
-> > >  fi
-> > >
-> > > -if ! test -x "$added_gxx" ; then
-> > > -  echo "'$added_gcc' is no executable."
-> > > -  exit 1
-> > > +if test -n "$clang"; then
-> > > +    if ! test -x "$added_clang" ; then
-> > > +        echo "'$added_clang' is no executable."
-> > > +        exit 1
-> > > +    fi
-> > > +    if ! test -x "$added_compilerwrapper" ; then
-> > > +        echo "'$added_compilerwrapper' is no executable."
-> > > +        exit 1
-> > > +    fi
-> > >  fi
-> > >
-> > > +extrafiles=3D
-> > > +while test "x$1" =3D "x--addfile"; do
-> > > +    shift
-> > > +    extrafiles=3D"$extrafiles $1"
-> > > +    shift
-> > > +done
-> > >
-> > > +tempdir=3D`mktemp -d /tmp/iceccenvXXXXXX`
-> > >
-> > > -add_file $added_gcc /usr/bin/gcc
-> > > -add_file $added_gxx /usr/bin/g++
-> > > +# for testing the environment is usable at all
-> > > +add_file /bin/true
-> > >
-> > > -if test -z "$added_as" ; then
-> > > - add_file /usr/bin/as /usr/bin/as
-> > > -else
-> > > - if ! test -x "$added_as" ; then
-> > > -  echo "'$added_as' is no executable."
-> > > -  exit 1
-> > > - fi
-> > > +if test -n "$gcc"; then
-> > > +    # getting compilers abs path
-> > > +    added_gcc=3D$(abs_path $added_gcc)
-> > > +    added_gxx=3D$(abs_path $added_gxx)
-> > >
-> > > - add_file $added_as  /usr/bin/as
-> > > -fi
-> > > +    if test -z "$clang"; then
-> > > +        add_file $added_gcc /usr/bin/gcc
-> > > +        add_file $added_gxx /usr/bin/g++
-> > > +    else
-> > > +        # HACK: The clang case below will add a wrapper in place of
-> > gcc, so add the real
-> > > +        # gcc under a different name that the wrapper will call.
-> > > +        add_file $added_gcc /usr/bin/gcc.bin
-> > > +        add_file $added_gxx /usr/bin/g++.bin
-> > > +    fi
-> > > +    add_file `$added_gcc -print-prog-name=3Dcc1` /usr/bin/cc1
-> > > +    add_file `$added_gxx -print-prog-name=3Dcc1plus` /usr/bin/cc1plus
-> > > +
-> > > +    gcc_as=3D$($added_gcc -print-prog-name=3Das)
-> > > +    if test "$gcc_as" =3D "as"; then
-> > > +      add_file /usr/bin/as
-> > > +    else
-> > > +      add_file "$gcc_as" /usr/bin/as
-> > > +    fi
-> > >
-> > > -add_file `$added_gcc -print-prog-name=3Dcc1` /usr/bin/cc1
-> > > -add_file `$added_gxx -print-prog-name=3Dcc1plus` /usr/bin/cc1plus
-> > > -specfile=3D`$added_gcc -print-file-name=3Dspecs`
-> > > -if test -n "$specfile" && test -e "$specfile"; then
-> > > -  add_file "$specfile"
-> > > +    search_addfile $added_gcc specs
-> > > +    search_addfile $added_gcc liblto_plugin.so
-> > >  fi
-> > >
-> > > -ltofile=3D`$added_gcc -print-prog-name=3Dlto1`
-> > > -pluginfile=3D"${ltofile%lto1}liblto_plugin.so"
-> > > -if test -r "$pluginfile"
-> > > -then
-> > > -  add_file $pluginfile  ${pluginfile#*usr}
-> > > -  add_file $pluginfile  /usr${pluginfile#*usr}
-> > > +if test -n "$clang"; then
-> > > +    add_file $added_clang /usr/bin/clang
-> > > +    # HACK: Older icecream remotes have /usr/bin/{gcc|g++} hardcoded
-> > and wouldn't
-> > > +    # call /usr/bin/clang at all. So include a wrapper binary that w=
-ill
-> > call gcc or clang
-> > > +    # depending on an extra argument added by icecream.
-> > > +    add_file $added_compilerwrapper /usr/bin/gcc
-> > > +    add_file $added_compilerwrapper /usr/bin/g++
-> > > +
-> > > +    add_file $($added_clang -print-prog-name=3Das) /usr/bin/as
-> > > +
-> > > +    # clang always uses its internal .h files
-> > > +    clangincludes=3D$(dirname $($added_clang
-> > -print-file-name=3Dinclude/limits.h))
-> > > +    clangprefix=3D$(dirname $(dirname $added_clang))
-> > > +    for file in $(find $clangincludes -type f); do
-> > > +      # get path without ..
-> > > +      destfile=3D$(readlink -e $file)
-> > > +      # and convert from <prefix> to /usr if needed
-> > > +      destfile=3D$(echo $destfile | sed "s#$clangprefix#/usr#" )
-> > > +      add_file "$file" "$destfile"
-> > > +    done
-> > >  fi
-> > >
-> > > -tempdir=3D`mktemp -d /tmp/iceccenvXXXXXX`
-> > > +for extrafile in $extrafiles; do
-> > > +    add_file $extrafile
-> > > +done
-> > > +
-> > > +# special case for weird multilib setups
-> > > +for dir in /lib /lib64 /usr/lib /usr/lib64; do
-> > > +    test -L $dir && cp -p $dir $tempdir$dir
-> > > +done
-> > > +
-> > >  new_target_files=3D
-> > >  for i in $target_files; do
-> > >   case $i in
-> > > @@ -151,7 +299,7 @@ target_files=3D`for i in $new_target_files; do ec=
-ho
-> > $i; done | sort`
-> > >  #if not use the md5 of all files as the archive name
-> > >  if test -z "$archive_name"; then
-> > >    md5sum=3DNONE
-> > > -  for file in /usr/bin/md5sum /bin/md5 /usr/bin/md5; do
-> > > +  for file in /usr/bin/md5sum /bin/md5 /usr/bin/md5 /sbin/md5; do
-> > >      if test -x $file; then
-> > >        md5sum=3D$file
-> > >        break
-> > > --
-> > > 1.7.10.4
-> > >
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> > --
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> >
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ed/6oDxOLijJh8b0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlKiOiYACgkQN1Ujt2V2gByDAQCbBZiqMmpJiMxBRgh3T8Amdsh+
-kJUAoKgjDrsfjK3uVphrd6cVEmwdFwL2
-=PKBU
------END PGP SIGNATURE-----
-
---ed/6oDxOLijJh8b0--
