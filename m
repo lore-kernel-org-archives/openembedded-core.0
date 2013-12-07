@@ -1,35 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 3118F6D3DE
+Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
+	[209.85.160.41])
+	by mail.openembedded.org (Postfix) with ESMTP id E7AAE6C738
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2013 00:11:40 +0000 (UTC)
-Received: by mail-pd0-f171.google.com with SMTP id z10so1867232pdj.30
+	Sat,  7 Dec 2013 01:42:12 +0000 (UTC)
+Received: by mail-pb0-f41.google.com with SMTP id jt11so2054888pbb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Dec 2013 16:11:40 -0800 (PST)
+	Fri, 06 Dec 2013 17:42:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=tEnIfndZ74V3Vy107NFctshgg1qb4UIlnRX+5+OTSLc=;
-	b=JsyDl7d99u9kmHlm2sg6ppe5zDNGfyq49WDSgAJQz1h6oATLoNdFMA9Dip5hdwKqZG
-	RC59QkxkKhWHS1F4Yw7Xk+RiVATvIcxIkPar+HRkqiv4lEBa8cp5wOrLE5ph90T8JD+z
-	M6x0ls/ibk8gjWuCP0DBIfHftcfXT5jeyaB5jyLTWv0xjrDK4WxnrIRu3y8q9Ql6L92v
-	5Omkzw6d3QZ7nGY2hLcmJrwUlTrgZvyu2VmJVx1+vvh1MvDg1BZpT+sbXpwZQCWUDZ6O
-	aBbti4NqZbnmPbuj0I0lSB2KGddpQbwRUV2gXE8WUPEo3qwSVuS5PCMUX+5ChH4ArzYq
-	8EUw==
-X-Received: by 10.68.130.39 with SMTP id ob7mr7168197pbb.63.1386375100065;
-	Fri, 06 Dec 2013 16:11:40 -0800 (PST)
+	bh=zTSr1xSM1UDBX/0DvbgDb84IG1Q3edIxB93ZyPqMdr4=;
+	b=lhde9Hj764x82JjHHbzuzI87sz6tqvDCVXbk/OG1LPsfAlvrunJkjDn5g7jZ8HvWsq
+	hhLANpSJdP8QwA1iQlbVAXokd2GmPenQah6d5pM1O+XAXJtu48aWC7kFApSi7udyWxoK
+	u+Te08C/UQqeDVW0uI5ySASb9UpTkrM/Z+LxqIpqpTvNuFhq6KUGdqat8GOqbty2vDWT
+	JSMToVH5HVsxoLEIdsDLeNOvwmQWd943vpSpSP2luCbFX3YawHkTwfroW8enMgtiW8Eb
+	jEYrQ0QrH/9ooShqw0+8GyJoRCy8DULthLriBcrwGpLNoOVDdcmpfhS/f5m/kkmGzdSh
+	9c5g==
+X-Received: by 10.66.232.40 with SMTP id tl8mr7588963pac.137.1386380532304;
+	Fri, 06 Dec 2013 17:42:12 -0800 (PST)
 Received: from ghoda.gateway.pace.com
 	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
-	by mx.google.com with ESMTPSA id vh3sm320658pbc.8.2013.12.06.16.11.39
+	by mx.google.com with ESMTPSA id hz10sm606046pbc.36.2013.12.06.17.42.11
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Dec 2013 16:11:39 -0800 (PST)
+	Fri, 06 Dec 2013 17:42:11 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Dec 2013 16:11:54 -0800
-Message-Id: <1386375114-7702-1-git-send-email-raj.khem@gmail.com>
+Date: Fri,  6 Dec 2013 17:42:26 -0800
+Message-Id: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] buildhistory.bbclass: Specify lang in decoding strings
+Subject: [PATCH] boost: Convert ??= weaker assingment to weak ?= assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,44 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2013 00:11:41 -0000
+X-List-Received-Date: Sat, 07 Dec 2013 01:42:13 -0000
 
-On systems where default locale is utf-8 we get errors like
+??= does not react at all with
+BOOST_LIBS += "${@base_contains('PACKAGECONFIG', 'python', 'python', '', d)}"
 
-File: 'buildhistory.bbclass', lineno: 38, function: write_pkghistory
-0034: if pkginfo.rconflicts:
-0035: f.write("RCONFLICTS = %s\n" % pkginfo.rconflicts)
-0036: f.write("PKGSIZE = %d\n" % pkginfo.size)
-0037: f.write("FILES = %s\n" % pkginfo.files)
-*** 0038: f.write("FILELIST = %s\n" % pkginfo.filelist)
-0039:
-0040: for filevar in pkginfo.filevars:
-0041: filevarpath = os.path.join(pkgpath, "latest.%s" % filevar)
-0042: val = pkginfo.filevars[filevar]
-Exception: UnicodeEncodeError: 'ascii' codec can't encode character
-u'\xed' in position 337: ordinal not in range(128)
+even though we have
 
-This patch specifies decode to use utf-8 so ascii and utf-8 based
-locales both work
+PACKAGECONFIG ??= "" it does not honor it and always add python to
+BOOST_LIBS but the dependency is not added so it fails to build
+complaining for missing python headers which is a understood outcome
+
+When converted to ?= it works as expected and only add --with-python
+in bjam when python is specified in PACKAGECONFIG otherwise not.
+
+Is it a bitbake bug ? in anycase ?= should be enough of loose rope
+to let user/distro configure the packageconfig policy
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/buildhistory.bbclass |    2 +-
+ meta/recipes-support/boost/boost.inc |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 1e6d968..4ff39a0 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -190,7 +190,7 @@ python buildhistory_emit_pkghistory() {
-                 key = item[0]
-                 if key.endswith('_' + pkg):
-                     key = key[:-len(pkg)-1]
--                pkgdata[key] = item[1].decode('string_escape')
-+                pkgdata[key] = item[1].decode('utf-8', 'string_escape')
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index f13051c..f0f9eb8 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -19,7 +19,7 @@ BOOST_LIBS = "\
+ 	"
  
-         pkge = pkgdata.get('PKGE', '0')
-         pkgv = pkgdata['PKGV']
+ # optional boost-python library
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ?= ""
+ PACKAGECONFIG[python] = ",,python"
+ BOOST_LIBS += "${@base_contains('PACKAGECONFIG', 'python', 'python', '', d)}"
+ inherit python-dir
 -- 
 1.7.10.4
 
