@@ -1,35 +1,39 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f175.google.com (mail-ea0-f175.google.com
-	[209.85.215.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 73B376D200
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E5636B5E7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2013 17:49:36 +0000 (UTC)
-Received: by mail-ea0-f175.google.com with SMTP id z10so827133ead.6
+	Sat,  7 Dec 2013 18:01:23 +0000 (UTC)
+Received: by mail-we0-f175.google.com with SMTP id t60so1899373wes.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Dec 2013 09:49:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=5z5js5af53+0QaBAu002+9UcLAuCEn86nkVv+aAZooU=;
-	b=oKD9Y4XOPpP7Tg1wj9CQV/fvTa9D+RhjF7tkTHI7foAe9mmtJK5C3vFYPe2qy9Kmct
-	5MGtR48C8MDKs5y7JoEwIOdkc3DMkT4km5GTpyA5VRBwjtp6MsX0HOhE2PthJihpO90T
-	KSiMTYtuB1f1gh6iglx0y7IHLRln/9unKFRfWrfDjhjTa+LMowI5o1N6Pj1vxVRhSoc5
-	S88kHe2mm8OZs9V+SFk1D+IO5C1CzvOy/lZnGMooYnM4cPUfbVt6INWof5EiuIo/607s
-	tiwWkup6/+Ima4CrTkOrm0Jpzuv8ut7gYiodcU/8tPdYxqDFimWDkskytfiruijmUb+g
-	no2A==
-X-Received: by 10.15.61.134 with SMTP id i6mr6806088eex.48.1386438575213;
-	Sat, 07 Dec 2013 09:49:35 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id h3sm8613578eem.15.2013.12.07.09.49.33
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 07 Dec 2013 09:49:34 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Dec 2013 18:49:42 +0100
-Message-Id: <1386438582-26461-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.4.3
-Subject: [PATCH] ltp: set PREFERRED_PROVIDER and rename runtests_noltp.sh script
+	Sat, 07 Dec 2013 10:01:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=n1NNCFt19agsZ26GrYuXpBZNUqC8fU579wb7Sr1Gy3o=;
+	b=CLi3E7YMUmhkXmPiqeSlhfDNMKBXuMsy9zqYQozuAAErmDdGmVkaY3hVzvjdnxTEKw
+	e5BITj/aCJDbpfYLZqSuwinqKzIUliOzQpQ4nLZnTyFt0du20aVHI97V4MfJx5qBEkxR
+	0T0yGMr856Nmy1okpONUQH+ky8Ho8WVcLCDbGJ2+mu0GxKZ5CFuMSKSa8ywsmrzxa3nE
+	ALO6njf1VyKXwUkf0KGwEfGbcWORA6EZLAK8EtzWS+QRKaZfYx1zM47Wghylcj9Bxapo
+	cbnDxXnjvC/IUKuXjzlGeUbLw5fRF+cZi5kuHy6qhP0ap09z2Fi5DqJRxncvCPqOA8E1
+	id1g==
+X-Gm-Message-State: ALoCoQlWIEWeYhTCaFumGU9SG3IDw/IscU/sWSv6HVw8xASSUK9ldCwloYSTnhtVlsm0O8FkGYMs
+X-Received: by 10.180.160.239 with SMTP id xn15mr7612376wib.17.1386439281993; 
+	Sat, 07 Dec 2013 10:01:21 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.217.150.199 with HTTP; Sat, 7 Dec 2013 10:01:01 -0800 (PST)
+X-Originating-IP: [5.13.147.220]
+In-Reply-To: <52A0D341.7090007@linux.intel.com>
+References: <1386234101-21411-1-git-send-email-andrei@gherzan.ro>
+	<1386234101-21411-2-git-send-email-andrei@gherzan.ro>
+	<52A0D341.7090007@linux.intel.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Sat, 7 Dec 2013 20:01:01 +0200
+Message-ID: <CAK18fxH9pFKON9PK2HGkobR70-5_eiPCu+KhZ7+MJvm4si8xXg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2][ 2/2] libav: Update to v0.8.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,97 +46,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2013 17:49:36 -0000
+X-List-Received-Date: Sat, 07 Dec 2013 18:01:24 -0000
+Content-Type: multipart/alternative; boundary=047d7b624278e8038b04ecf58c80
 
-* ltp installs 2 different runtests_noltp.sh files from different
-  directories into /opt/ltp/testcases/bin/runtests_noltp.sh
-  last one installed wins and causes unexpected changes in
-  buildhistory's files-in-image.txt report, rename them to have
-  unique name as other ltp scripts have.
+--047d7b624278e8038b04ecf58c80
+Content-Type: text/plain; charset=ISO-8859-1
 
-* also define PREFERRED_PROVIDER to resolve note shown when
-  building with meta-oe layer:
-  NOTE: multiple providers are available for ltp (ltp, ltp-ddt)
-  NOTE: consider defining a PREFERRED_PROVIDER entry to match ltp
+On Thu, Dec 5, 2013 at 9:25 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/distro/include/default-providers.inc     |  2 ++
- ...tests_noltp.sh-script-so-have-unique-name.patch | 38 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20130904.bb          |  4 ++-
- 3 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
+>
+> Andrei:
+>
+> I see RP already merged this, but I have a couple of comments
+>
+>
+>
+> On 12/05/2013 01:01 AM, Andrei Gherzan wrote:
+>
+>> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+>> ---
+>>   .../0001-configure-enable-pic-for-AArch64.patch                   | 0
+>>   meta/recipes-multimedia/libav/{libav_0.8.8.bb => libav_0.8.9.bb}  | 8
+>> +++-----
+>>   2 files changed, 3 insertions(+), 5 deletions(-)
+>>   rename meta/recipes-multimedia/libav/{libav-0.8.8 =>
+>> libav-0.8.9}/0001-configure-enable-pic-for-AArch64.patch (100%)
+>>   rename meta/recipes-multimedia/libav/{libav_0.8.8.bb => libav_0.8.9.bb}
+>> (69%)
+>>
+>> diff --git a/meta/recipes-multimedia/libav/libav-0.8.8/0001-
+>> configure-enable-pic-for-AArch64.patch b/meta/recipes-multimedia/
+>> libav/libav-0.8.9/0001-configure-enable-pic-for-AArch64.patch
+>> similarity index 100%
+>> rename from meta/recipes-multimedia/libav/libav-0.8.8/0001-configure-
+>> enable-pic-for-AArch64.patch
+>> rename to meta/recipes-multimedia/libav/libav-0.8.9/0001-configure-
+>> enable-pic-for-AArch64.patch
+>>
+>
+> We are generally trying to get rid of versioned patch directory in favor
+> of just a general recipe name (libav in this case).
+>
+>
+>  diff --git a/meta/recipes-multimedia/libav/libav_0.8.8.bbb/meta/recipes-multimedia/
+>> libav/libav_0.8.9.bb
+>> similarity index 69%
+>> rename from meta/recipes-multimedia/libav/libav_0.8.8.bb
+>> rename to meta/recipes-multimedia/libav/libav_0.8.9.bb
+>> index 9cb4cf2..065a6d2 100644
+>> --- a/meta/recipes-multimedia/libav/libav_0.8.8.bb
+>> +++ b/meta/recipes-multimedia/libav/libav_0.8.9.bb
+>> @@ -1,10 +1,10 @@
+>>   require libav.inc
+>>
+>> -SRC_URI = "http://libav.org/releases/libav-0.8.8.tar.xz \
+>> +SRC_URI = "http://libav.org/releases/libav-0.8.9.tar.xz \
+>>
+> why not convert this to ${BP} so it does not need to be edited in the
+> future. BP = BPN-PV.
+>
+> Sau!
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index d4b9db0..e2b0892 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -43,3 +43,5 @@ PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','systemd','system
- # There are issues with runtime packages and PREFERRED_PROVIDER, see YOCTO #5044 for details
- # on this rather strange entry.
- PREFERRED_PROVIDER_bluez4 ?= "bluez4"
-+# Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
-+PREFERRED_PROVIDER_ltp ?= "ltp"
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch b/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
-new file mode 100644
-index 0000000..74abe56
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
-@@ -0,0 +1,38 @@
-+From 9751a6526cffcdf4e3dc2cb33641259a7be00e19 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <Martin.Jansa@gmail.com>
-+Date: Sat, 7 Dec 2013 18:24:32 +0100
-+Subject: [PATCH] Rename runtests_noltp.sh script so have unique name
-+
-+* they are installed in the same target path
-+  /opt/ltp/testcases/bin/runtests_noltp.sh
-+  and overwrite each other in non-deterministic way
-+  when multiple processes are used in "make install"
-+
-+  ./temp/log.do_install:install -m 00775
-+    "ltp/20120903-r2/ltp-20120903/testcases/kernel/containers/sysvipc/runtests_noltp.sh"
-+    "ltp/20120903-r2/image/opt/ltp/testcases/bin/runtests_noltp.sh"
-+  ./temp/log.do_install:install -m 00775
-+    "ltp/20120903-r2/ltp-20120903/testcases/kernel/containers/utsname/runtests_noltp.sh"
-+    "ltp/20120903-r2/image/opt/ltp/testcases/bin/runtests_noltp.sh"
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ .../kernel/containers/sysvipc/{runtests_noltp.sh => runipctests_noltp.sh} | 0
-+ .../kernel/containers/utsname/{runtests_noltp.sh => runutstests_noltp.sh} | 0
-+ 2 files changed, 0 insertions(+), 0 deletions(-)
-+ rename testcases/kernel/containers/sysvipc/{runtests_noltp.sh => runipctests_noltp.sh} (100%)
-+ rename testcases/kernel/containers/utsname/{runtests_noltp.sh => runutstests_noltp.sh} (100%)
-+
-+diff --git a/testcases/kernel/containers/sysvipc/runtests_noltp.sh b/testcases/kernel/containers/sysvipc/runipctests_noltp.sh
-+similarity index 100%
-+rename from testcases/kernel/containers/sysvipc/runtests_noltp.sh
-+rename to testcases/kernel/containers/sysvipc/runipctests_noltp.sh
-+diff --git a/testcases/kernel/containers/utsname/runtests_noltp.sh b/testcases/kernel/containers/utsname/runutstests_noltp.sh
-+similarity index 100%
-+rename from testcases/kernel/containers/utsname/runtests_noltp.sh
-+rename to testcases/kernel/containers/utsname/runutstests_noltp.sh
-+-- 
-+1.8.4.3
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20130904.bb b/meta/recipes-extended/ltp/ltp_20130904.bb
-index 5e10448..4722a38 100644
---- a/meta/recipes-extended/ltp/ltp_20130904.bb
-+++ b/meta/recipes-extended/ltp/ltp_20130904.bb
-@@ -21,7 +21,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 
- DEPENDS = "attr libaio libcap acl openssl"
- 
--SRC_URI = "git://github.com/linux-test-project/ltp.git"
-+SRC_URI = "git://github.com/linux-test-project/ltp.git \
-+           file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
-+"
- 
- SRCREV = "a8c42db5f9314211811c36275a21f83902830dc5"
- S = "${WORKDIR}/git"
+
+Pushing a patch to address these comments. Thanks.
+
 -- 
-1.8.4.3
+*ag*
+
+--047d7b624278e8038b04ecf58c80
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quo=
+te">On Thu, Dec 5, 2013 at 9:25 PM, Saul Wold <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&g=
+t;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><br>
+Andrei:<br>
+<br>
+I see RP already merged this, but I have a couple of comments<div class=3D"=
+im"><br>
+<br>
+<br>
+On 12/05/2013 01:01 AM, Andrei Gherzan wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Signed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro" targ=
+et=3D"_blank">andrei@gherzan.ro</a>&gt;<br>
+---<br>
+=A0 .../0001-configure-enable-pic-<u></u>for-AArch64.patch =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 | 0<br>
+=A0 meta/recipes-multimedia/libav/<u></u>{<a href=3D"http://libav_0.8.8.bb"=
+ target=3D"_blank">libav_0.8.8.bb</a> =3D&gt; <a href=3D"http://libav_0.8.9=
+.bb" target=3D"_blank">libav_0.8.9.bb</a>} =A0| 8 +++-----<br>
+=A0 2 files changed, 3 insertions(+), 5 deletions(-)<br>
+=A0 rename meta/recipes-multimedia/libav/<u></u>{libav-0.8.8 =3D&gt; libav-=
+0.8.9}/0001-configure-<u></u>enable-pic-for-AArch64.patch (100%)<br>
+=A0 rename meta/recipes-multimedia/libav/<u></u>{<a href=3D"http://libav_0.=
+8.8.bb" target=3D"_blank">libav_0.8.8.bb</a> =3D&gt; <a href=3D"http://liba=
+v_0.8.9.bb" target=3D"_blank">libav_0.8.9.bb</a>} (69%)<br>
+<br>
+diff --git a/meta/recipes-multimedia/<u></u>libav/libav-0.8.8/0001-<u></u>c=
+onfigure-enable-pic-for-<u></u>AArch64.patch b/meta/recipes-multimedia/<u><=
+/u>libav/libav-0.8.9/0001-<u></u>configure-enable-pic-for-<u></u>AArch64.pa=
+tch<br>
 
 
+similarity index 100%<br>
+rename from meta/recipes-multimedia/libav/<u></u>libav-0.8.8/0001-configure=
+-<u></u>enable-pic-for-AArch64.patch<br>
+rename to meta/recipes-multimedia/libav/<u></u>libav-0.8.9/0001-configure-<=
+u></u>enable-pic-for-AArch64.patch<br>
+</blockquote>
+<br></div>
+We are generally trying to get rid of versioned patch directory in favor of=
+ just a general recipe name (libav in this case).<div class=3D"im"><br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+diff --git a/meta/recipes-multimedia/<u></u>libav/<a href=3D"http://libav_0=
+.8.8.bb" target=3D"_blank">libav_0.8.8.bb</a> b/meta/recipes-multimedia/<u>=
+</u>libav/<a href=3D"http://libav_0.8.9.bb" target=3D"_blank">libav_0.8.9.b=
+b</a><br>
+
+
+similarity index 69%<br>
+rename from meta/recipes-multimedia/libav/<a href=3D"http://libav_0.8.8.bb"=
+ target=3D"_blank"><u></u>libav_0.8.8.bb</a><br>
+rename to meta/recipes-multimedia/libav/<a href=3D"http://libav_0.8.9.bb" t=
+arget=3D"_blank"><u></u>libav_0.8.9.bb</a><br>
+index 9cb4cf2..065a6d2 100644<br>
+--- a/meta/recipes-multimedia/<u></u>libav/<a href=3D"http://libav_0.8.8.bb=
+" target=3D"_blank">libav_0.8.8.bb</a><br>
++++ b/meta/recipes-multimedia/<u></u>libav/<a href=3D"http://libav_0.8.9.bb=
+" target=3D"_blank">libav_0.8.9.bb</a><br>
+@@ -1,10 +1,10 @@<br>
+=A0 require libav.inc<br>
+<br>
+-SRC_URI =3D &quot;<a href=3D"http://libav.org/releases/libav-0.8.8.tar.xz"=
+ target=3D"_blank">http://libav.org/releases/<u></u>libav-0.8.8.tar.xz</a> =
+\<br>
++SRC_URI =3D &quot;<a href=3D"http://libav.org/releases/libav-0.8.9.tar.xz"=
+ target=3D"_blank">http://libav.org/releases/<u></u>libav-0.8.9.tar.xz</a> =
+\<br>
+</blockquote></div>
+why not convert this to ${BP} so it does not need to be edited in the futur=
+e. BP =3D BPN-PV.<br>
+<br>
+Sau!</blockquote></div><br>Pushing a patch to address these comments. Thank=
+s.</div><div class=3D"gmail_extra"><div><br></div>--=A0</div><div class=3D"=
+gmail_extra"><b style=3D"text-align:center;color:rgb(51,51,51);font-family:=
+Arial">ag</b>
+</div></div>
+
+--047d7b624278e8038b04ecf58c80--
