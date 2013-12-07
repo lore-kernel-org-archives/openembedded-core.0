@@ -1,16 +1,35 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E7C06DD74
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 3118F6D3DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2013 21:34:35 +0000 (UTC)
-From: Andreas Oberritter <obi@opendreambox.org>
+	Sat,  7 Dec 2013 00:11:40 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id z10so1867232pdj.30
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Dec 2013 16:11:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=tEnIfndZ74V3Vy107NFctshgg1qb4UIlnRX+5+OTSLc=;
+	b=JsyDl7d99u9kmHlm2sg6ppe5zDNGfyq49WDSgAJQz1h6oATLoNdFMA9Dip5hdwKqZG
+	RC59QkxkKhWHS1F4Yw7Xk+RiVATvIcxIkPar+HRkqiv4lEBa8cp5wOrLE5ph90T8JD+z
+	M6x0ls/ibk8gjWuCP0DBIfHftcfXT5jeyaB5jyLTWv0xjrDK4WxnrIRu3y8q9Ql6L92v
+	5Omkzw6d3QZ7nGY2hLcmJrwUlTrgZvyu2VmJVx1+vvh1MvDg1BZpT+sbXpwZQCWUDZ6O
+	aBbti4NqZbnmPbuj0I0lSB2KGddpQbwRUV2gXE8WUPEo3qwSVuS5PCMUX+5ChH4ArzYq
+	8EUw==
+X-Received: by 10.68.130.39 with SMTP id ob7mr7168197pbb.63.1386375100065;
+	Fri, 06 Dec 2013 16:11:40 -0800 (PST)
+Received: from ghoda.gateway.pace.com
+	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
+	by mx.google.com with ESMTPSA id vh3sm320658pbc.8.2013.12.06.16.11.39
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Dec 2013 16:11:39 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Dec 2013 22:34:27 +0100
-Message-Id: <1386365667-6394-1-git-send-email-obi@opendreambox.org>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1386247884-23813-1-git-send-email-obi@opendreambox.org>
-References: <1386247884-23813-1-git-send-email-obi@opendreambox.org>
-Subject: [PATCH v2] xorg-lib-common.inc: use REQUIRED_DISTRO_FEATURES variable
+Date: Fri,  6 Dec 2013 16:11:54 -0800
+Message-Id: <1386375114-7702-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] buildhistory.bbclass: Specify lang in decoding strings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,64 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2013 21:34:36 -0000
+X-List-Received-Date: Sat, 07 Dec 2013 00:11:41 -0000
 
-Convert custom DISTRO_FEATURES test to distro_features_check.bbclass,
-and keep exceptions for libpciaccess and pixman.
+On systems where default locale is utf-8 we get errors like
 
-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+File: 'buildhistory.bbclass', lineno: 38, function: write_pkghistory
+0034: if pkginfo.rconflicts:
+0035: f.write("RCONFLICTS = %s\n" % pkginfo.rconflicts)
+0036: f.write("PKGSIZE = %d\n" % pkginfo.size)
+0037: f.write("FILES = %s\n" % pkginfo.files)
+*** 0038: f.write("FILELIST = %s\n" % pkginfo.filelist)
+0039:
+0040: for filevar in pkginfo.filevars:
+0041: filevarpath = os.path.join(pkgpath, "latest.%s" % filevar)
+0042: val = pkginfo.filevars[filevar]
+Exception: UnicodeEncodeError: 'ascii' codec can't encode character
+u'\xed' in position 337: ordinal not in range(128)
+
+This patch specifies decode to use utf-8 so ascii and utf-8 based
+locales both work
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- v2: rebased after update to pixman-0.32.4
+ meta/classes/buildhistory.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb | 2 ++
- meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb       | 2 ++
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc    | 8 ++------
- 3 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-index 6da86f2..d837bbd 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-@@ -10,3 +10,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 1e6d968..4ff39a0 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -190,7 +190,7 @@ python buildhistory_emit_pkghistory() {
+                 key = item[0]
+                 if key.endswith('_' + pkg):
+                     key = key[:-len(pkg)-1]
+-                pkgdata[key] = item[1].decode('string_escape')
++                pkgdata[key] = item[1].decode('utf-8', 'string_escape')
  
- SRC_URI[md5sum] = "b7c0d3afce14eedca57312a3141ec13a"
- SRC_URI[sha256sum] = "abab8c2b050afb89bc29280e9c6b50ec5867174960d88bfb81a01036ec20de19"
-+
-+REQUIRED_DISTRO_FEATURES = ""
-diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb b/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb
-index d1f3df7..51cca5d 100644
---- a/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/pixman_0.32.4.bb
-@@ -33,3 +33,5 @@ SRC_URI += "\
- 
- SRC_URI[md5sum] = "cdb566504fe9daf6728c7b03cc7ea228"
- SRC_URI[sha256sum] = "ae2bd664057e330d41b40336ed296d3512318ce7f2401cc42601f2613d371e4c"
-+
-+REQUIRED_DISTRO_FEATURES = ""
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index 07b0373..231776a 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -11,7 +11,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.bz2"
- 
- S = "${WORKDIR}/${XORG_PN}-${PV}"
- 
--inherit autotools pkgconfig
-+inherit autotools distro_features_check pkgconfig
- 
- EXTRA_OECONF = "--disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
- EXTRA_OECONF_append_libc-glibc = " --disable-malloc0returnsnull"
-@@ -20,8 +20,4 @@ EXTRA_OECONF_append_libc-uclibc = " --enable-malloc0returnsnull"
- UNKNOWN_CONFIGURE_WHITELIST += "--enable-malloc0returnsnull --disable-malloc0returnsnull \
-                                 --disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
- 
--python () {
--        whitelist = [ "pixman", "libpciaccess" ]
--        if not d.getVar('BPN', True) in whitelist and not oe.utils.contains ('DISTRO_FEATURES', 'x11', True, False, d):
--                raise bb.parse.SkipPackage("'x11' not in DISTRO_FEATURES")
--}
-+REQUIRED_DISTRO_FEATURES ?= "x11"
+         pkge = pkgdata.get('PKGE', '0')
+         pkgv = pkgdata['PKGV']
 -- 
-1.8.3.2
+1.7.10.4
 
 
