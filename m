@@ -1,28 +1,35 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BE9F61634
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f175.google.com (mail-ea0-f175.google.com
+	[209.85.215.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 73B376D200
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2013 06:55:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB76tDYp001869
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat,  7 Dec 2013 17:49:36 +0000 (UTC)
+Received: by mail-ea0-f175.google.com with SMTP id z10so827133ead.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Dec 2013 22:55:13 -0800 (PST)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 6 Dec 2013 22:55:11 -0800
-Message-ID: <52A2C656.4030008@windriver.com>
-Date: Sat, 7 Dec 2013 14:55:18 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1384242441-27215-1-git-send-email-rongqing.li@windriver.com>
-	<528C7216.9040501@windriver.com>
-In-Reply-To: <528C7216.9040501@windriver.com>
-Subject: Re: [PATCH v8] connman: ignore the networking device which nfs for rootfs is working on
+	Sat, 07 Dec 2013 09:49:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=5z5js5af53+0QaBAu002+9UcLAuCEn86nkVv+aAZooU=;
+	b=oKD9Y4XOPpP7Tg1wj9CQV/fvTa9D+RhjF7tkTHI7foAe9mmtJK5C3vFYPe2qy9Kmct
+	5MGtR48C8MDKs5y7JoEwIOdkc3DMkT4km5GTpyA5VRBwjtp6MsX0HOhE2PthJihpO90T
+	KSiMTYtuB1f1gh6iglx0y7IHLRln/9unKFRfWrfDjhjTa+LMowI5o1N6Pj1vxVRhSoc5
+	S88kHe2mm8OZs9V+SFk1D+IO5C1CzvOy/lZnGMooYnM4cPUfbVt6INWof5EiuIo/607s
+	tiwWkup6/+Ima4CrTkOrm0Jpzuv8ut7gYiodcU/8tPdYxqDFimWDkskytfiruijmUb+g
+	no2A==
+X-Received: by 10.15.61.134 with SMTP id i6mr6806088eex.48.1386438575213;
+	Sat, 07 Dec 2013 09:49:35 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id h3sm8613578eem.15.2013.12.07.09.49.33
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 07 Dec 2013 09:49:34 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  7 Dec 2013 18:49:42 +0100
+Message-Id: <1386438582-26461-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.4.3
+Subject: [PATCH] ltp: set PREFERRED_PROVIDER and rename runtests_noltp.sh script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,229 +42,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2013 06:55:15 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Dec 2013 17:49:36 -0000
 
-Could we merge this patch?
+* ltp installs 2 different runtests_noltp.sh files from different
+  directories into /opt/ltp/testcases/bin/runtests_noltp.sh
+  last one installed wins and causes unexpected changes in
+  buildhistory's files-in-image.txt report, rename them to have
+  unique name as other ltp scripts have.
 
-It does not satisfy everyone, but it fixes a bug,
-and make nfs not hang when start the system which installs
-systemd and connman
+* also define PREFERRED_PROVIDER to resolve note shown when
+  building with meta-oe layer:
+  NOTE: multiple providers are available for ltp (ltp, ltp-ddt)
+  NOTE: consider defining a PREFERRED_PROVIDER entry to match ltp
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/distro/include/default-providers.inc     |  2 ++
+ ...tests_noltp.sh-script-so-have-unique-name.patch | 38 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20130904.bb          |  4 ++-
+ 3 files changed, 43 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
 
--Roy
-
-
-
-On 11/20/2013 04:25 PM, Rongqing Li wrote:
-> Ping
->
-> On 11/12/2013 03:47 PM, rongqing.li@windriver.com wrote:
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> Create connman-evn.service, which will run a script to compute the
->> networking
->> device when nfs root is on, and pass the result to connman.service
->>
->> Connmand.service add ExecStartPre into Connmand.service to release
->> do_configure_append work, use the options which is passed by
->> connman-evn.service
->>
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> ---
->>   meta/recipes-connectivity/connman/connman.inc      |   17 +++++-----
->>   .../connman/connman/connman-env.service            |   13 ++++++++
->>   .../connman/connman/connmand-env                   |   26
->> +++++++++++++++
->>   ...ardcode-and-add-EnvironmentFile-and-Wants.patch |   33
->> ++++++++++++++++++++
->>   meta/recipes-connectivity/connman/connman_1.19.bb  |    3 ++
->>   5 files changed, 85 insertions(+), 7 deletions(-)
->>   create mode 100644
->> meta/recipes-connectivity/connman/connman/connman-env.service
->>   create mode 100644
->> meta/recipes-connectivity/connman/connman/connmand-env
->>   create mode 100644
->> meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
->>
->>
->> diff --git a/meta/recipes-connectivity/connman/connman.inc
->> b/meta/recipes-connectivity/connman/connman.inc
->> index 12f3edd..648b9f6 100644
->> --- a/meta/recipes-connectivity/connman/connman.inc
->> +++ b/meta/recipes-connectivity/connman/connman.inc
->> @@ -64,15 +64,9 @@ python __anonymous () {
->>
->>   SYSTEMD_SERVICE_${PN} = "connman.service"
->>   SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
->> -SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
->>
->>   inherit autotools gtk-doc pkgconfig systemd update-rc.d
->>
->> -do_configure_append () {
->> -    sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#"
->> ${S}/src/connman.service
->> -
->> -}
->> -
->>   # This allows *everyone* to access ConnMan over DBus, without any
->> access
->>   # control.  Really the at_console flag should work, which would mean
->> that
->>   # both this and the xuser patch can be dropped.
->> @@ -88,6 +82,15 @@ do_install_append() {
->>           sed -i s%@LIBDIR@%${libdir}% ${D}${sysconfdir}/init.d/connman
->>       fi
->>
->> +    if
->> ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
->> +        install -m 0755 ${WORKDIR}/connmand-env ${D}${sbindir}/
->> +        install -m 0644 ${WORKDIR}/connman-env.service
->> ${D}/${systemd_unitdir}/system/
->> +        sed -i  -e 's,@SBINDIR@,${sbindir},g' \
->> +            -e 's,@LIBDIR@,${libdir},g' \
->> +            -e 's,@LOCALSTATEDIR@,${localstatedir},g' \
->> +            ${D}${systemd_unitdir}/system/*.service
->> +    fi
->> +
->>       install -d ${D}${bindir}
->>       install -m 0755 ${S}/tools/*-test ${D}${bindir}
->>       if [ -e ${S}/tools/wispr ]; then
->> @@ -163,7 +166,7 @@ FILES_${PN} = "${bindir}/* ${sbindir}/*
->> ${libexecdir}/* ${libdir}/lib*.so.* \
->>               ${libdir}/connman/plugins \
->>               ${sysconfdir} ${sharedstatedir} ${localstatedir} \
->>               ${base_bindir}/* ${base_sbindir}/* ${base_libdir}/*.so*
->> ${datadir}/${PN} \
->> -            ${datadir}/dbus-1/system-services/*"
->> +            ${datadir}/dbus-1/system-services/*
->> ${systemd_unitdir}/system/connman-env.service"
->>
->>   FILES_${PN}-dbg += "${libdir}/connman/*/.debug"
->>
->> diff --git
->> a/meta/recipes-connectivity/connman/connman/connman-env.service
->> b/meta/recipes-connectivity/connman/connman/connman-env.service
->> new file mode 100644
->> index 0000000..c4dc278
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/connman/connman/connman-env.service
->> @@ -0,0 +1,13 @@
->> +[Unit]
->> +Description=Generate options for connection service
->> +Before=connman.service
->> +ConditionKernelCommandLine=root=/dev/nfs
->> +After=syslog.target
->> +
->> +[Service]
->> +Type=oneshot
->> +ExecStart=@SBINDIR@/connmand-env
->> +StandardOutput=null
->> +
->> +[Install]
->> +WantedBy=connman.service
->> diff --git a/meta/recipes-connectivity/connman/connman/connmand-env
->> b/meta/recipes-connectivity/connman/connman/connmand-env
->> new file mode 100644
->> index 0000000..9c04d61
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/connman/connman/connmand-env
->> @@ -0,0 +1,26 @@
->> +#!/bin/sh
->> +
->> +EXTRA_PARAM=""
->> +
->> +NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
->> +NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ :]*\).*$/\1/p'`
->> +
->> +if [ ! -z "$NET_ADDR" ]; then
->> +    if [ "$NET_ADDR" = dhcp ]; then
->> +        ethn=`ifconfig | grep "^eth" | sed -e
->> "s/\(eth[0-9]\)\(.*\)/\1/"`
->> +        if [ ! -z "$ethn" ]; then
->> +            EXTRA_PARAM="-I $ethn"
->> +        fi
->> +    else
->> +        for i in $NET_DEVS; do
->> +        ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet
->> \([0-9.]*\) .*$/\1/p'`
->> +        if [ "$NET_ADDR" = "$ADDR" ]; then
->> +            EXTRA_PARAM="-I $i"
->> +            break
->> +        fi
->> +        done
->> +    fi
->> +fi
->> +
->> +[ ! -d /run/connmand ] && mkdir -p /run/connmand
->> +echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand/connmand.env
->> diff --git
->> a/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
->> b/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
->>
->> new file mode 100644
->> index 0000000..1394335
->> --- /dev/null
->> +++
->> b/meta/recipes-connectivity/connman/connman/replace-hardcode-and-add-EnvironmentFile-and-Wants.patch
->>
->> @@ -0,0 +1,33 @@
->> +replace hardcode, and add EnvironmentFile and Wants
->> +
->> +Upstream-Status: Inappropriate [distribution]
->> +
->> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> +---
->> + src/connman.service.in |    5 ++++-
->> + 1 file changed, 4 insertions(+), 1 deletion(-)
->> +
->> +diff --git a/src/connman.service.in b/src/connman.service.in
->> +index 2e9e4d5..9984519 100644
->> +--- a/src/connman.service.in
->> ++++ b/src/connman.service.in
->> +@@ -1,12 +1,15 @@
->> + [Unit]
->> + Description=Connection service
->> + After=syslog.target
->> ++Wants=connman-env.service
->> +
->> + [Service]
->> + Type=dbus
->> + BusName=net.connman
->> + Restart=on-failure
->> +-ExecStart=@prefix@/sbin/connmand -n
->> ++EnvironmentFile=-@LOCALSTATEDIR@/run/connmand/connmand.env
->> ++ExecStartPre=-@LIBDIR@/connman/wired-setup
->> ++ExecStart=@SBINDIR@/connmand -n $CONNMAND_OPTS
->> + StandardOutput=null
->> +
->> + [Install]
->> +--
->> +1.7.10.4
->> +
->> diff --git a/meta/recipes-connectivity/connman/connman_1.19.bb
->> b/meta/recipes-connectivity/connman/connman_1.19.bb
->> index c63dfe4..94bd8cc 100644
->> --- a/meta/recipes-connectivity/connman/connman_1.19.bb
->> +++ b/meta/recipes-connectivity/connman/connman_1.19.bb
->> @@ -4,6 +4,9 @@ SRC_URI  =
->> "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->>
->> file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
->>               file://add_xuser_dbus_permission.patch \
->>               file://connman \
->> +            file://connmand-env \
->> +
->> file://replace-hardcode-and-add-EnvironmentFile-and-Wants.patch \
->> +            file://connman-env.service \
->>               "
->>
->>   SRC_URI[md5sum] = "47cce1d17a693dc307e6796c81991bd0"
->>
->
-
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index d4b9db0..e2b0892 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -43,3 +43,5 @@ PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','systemd','system
+ # There are issues with runtime packages and PREFERRED_PROVIDER, see YOCTO #5044 for details
+ # on this rather strange entry.
+ PREFERRED_PROVIDER_bluez4 ?= "bluez4"
++# Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
++PREFERRED_PROVIDER_ltp ?= "ltp"
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch b/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
+new file mode 100644
+index 0000000..74abe56
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
+@@ -0,0 +1,38 @@
++From 9751a6526cffcdf4e3dc2cb33641259a7be00e19 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Sat, 7 Dec 2013 18:24:32 +0100
++Subject: [PATCH] Rename runtests_noltp.sh script so have unique name
++
++* they are installed in the same target path
++  /opt/ltp/testcases/bin/runtests_noltp.sh
++  and overwrite each other in non-deterministic way
++  when multiple processes are used in "make install"
++
++  ./temp/log.do_install:install -m 00775
++    "ltp/20120903-r2/ltp-20120903/testcases/kernel/containers/sysvipc/runtests_noltp.sh"
++    "ltp/20120903-r2/image/opt/ltp/testcases/bin/runtests_noltp.sh"
++  ./temp/log.do_install:install -m 00775
++    "ltp/20120903-r2/ltp-20120903/testcases/kernel/containers/utsname/runtests_noltp.sh"
++    "ltp/20120903-r2/image/opt/ltp/testcases/bin/runtests_noltp.sh"
++
++Upstream-Status: Pending
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ .../kernel/containers/sysvipc/{runtests_noltp.sh => runipctests_noltp.sh} | 0
++ .../kernel/containers/utsname/{runtests_noltp.sh => runutstests_noltp.sh} | 0
++ 2 files changed, 0 insertions(+), 0 deletions(-)
++ rename testcases/kernel/containers/sysvipc/{runtests_noltp.sh => runipctests_noltp.sh} (100%)
++ rename testcases/kernel/containers/utsname/{runtests_noltp.sh => runutstests_noltp.sh} (100%)
++
++diff --git a/testcases/kernel/containers/sysvipc/runtests_noltp.sh b/testcases/kernel/containers/sysvipc/runipctests_noltp.sh
++similarity index 100%
++rename from testcases/kernel/containers/sysvipc/runtests_noltp.sh
++rename to testcases/kernel/containers/sysvipc/runipctests_noltp.sh
++diff --git a/testcases/kernel/containers/utsname/runtests_noltp.sh b/testcases/kernel/containers/utsname/runutstests_noltp.sh
++similarity index 100%
++rename from testcases/kernel/containers/utsname/runtests_noltp.sh
++rename to testcases/kernel/containers/utsname/runutstests_noltp.sh
++-- 
++1.8.4.3
++
+diff --git a/meta/recipes-extended/ltp/ltp_20130904.bb b/meta/recipes-extended/ltp/ltp_20130904.bb
+index 5e10448..4722a38 100644
+--- a/meta/recipes-extended/ltp/ltp_20130904.bb
++++ b/meta/recipes-extended/ltp/ltp_20130904.bb
+@@ -21,7 +21,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 
+ DEPENDS = "attr libaio libcap acl openssl"
+ 
+-SRC_URI = "git://github.com/linux-test-project/ltp.git"
++SRC_URI = "git://github.com/linux-test-project/ltp.git \
++           file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
++"
+ 
+ SRCREV = "a8c42db5f9314211811c36275a21f83902830dc5"
+ S = "${WORKDIR}/git"
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.8.4.3
+
 
