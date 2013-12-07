@@ -1,39 +1,37 @@
 Return-Path: <andrei@gherzan.ro>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E5636B5E7
+Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id AD7526B5E7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2013 18:01:23 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id t60so1899373wes.6
+	Sat,  7 Dec 2013 18:03:01 +0000 (UTC)
+Received: by mail-ea0-f177.google.com with SMTP id n15so830641ead.22
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Dec 2013 10:01:22 -0800 (PST)
+	Sat, 07 Dec 2013 10:03:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=n1NNCFt19agsZ26GrYuXpBZNUqC8fU579wb7Sr1Gy3o=;
-	b=CLi3E7YMUmhkXmPiqeSlhfDNMKBXuMsy9zqYQozuAAErmDdGmVkaY3hVzvjdnxTEKw
-	e5BITj/aCJDbpfYLZqSuwinqKzIUliOzQpQ4nLZnTyFt0du20aVHI97V4MfJx5qBEkxR
-	0T0yGMr856Nmy1okpONUQH+ky8Ho8WVcLCDbGJ2+mu0GxKZ5CFuMSKSa8ywsmrzxa3nE
-	ALO6njf1VyKXwUkf0KGwEfGbcWORA6EZLAK8EtzWS+QRKaZfYx1zM47Wghylcj9Bxapo
-	cbnDxXnjvC/IUKuXjzlGeUbLw5fRF+cZi5kuHy6qhP0ap09z2Fi5DqJRxncvCPqOA8E1
-	id1g==
-X-Gm-Message-State: ALoCoQlWIEWeYhTCaFumGU9SG3IDw/IscU/sWSv6HVw8xASSUK9ldCwloYSTnhtVlsm0O8FkGYMs
-X-Received: by 10.180.160.239 with SMTP id xn15mr7612376wib.17.1386439281993; 
-	Sat, 07 Dec 2013 10:01:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.217.150.199 with HTTP; Sat, 7 Dec 2013 10:01:01 -0800 (PST)
-X-Originating-IP: [5.13.147.220]
-In-Reply-To: <52A0D341.7090007@linux.intel.com>
-References: <1386234101-21411-1-git-send-email-andrei@gherzan.ro>
-	<1386234101-21411-2-git-send-email-andrei@gherzan.ro>
-	<52A0D341.7090007@linux.intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=WBPwwFCdfQCTLYlsz4kaz0DxEF02D+THzaF8wdLFn3c=;
+	b=Z59H5NDAM0yGzFGAtmn2iPZvvnEtz7W8+SB+GZx9Wx1llnGpAre3UBHqiswxEk0IPB
+	GeqGYzph/gTUVNEBE+rJnWd0iwciyi/wx9pUB3H7awHW6h7udQONXxlgAtOBdqFmz7Cc
+	nOTHGmnB8wpC/gN4iLuOsAIOqjrMkpwqUk8Pyn2REo2DSzp7LgmaPsulvgXyg7183SOe
+	lSk9zFR25q3RRXQjf9r9l+LShO5XItP+tvFNMcLfUtvKemZZLcJcNGr6z0HAdGXbIZNy
+	o889iq8XAAK006BeI/cCVXJUhfP5+RBup39iPl8+XF4/RvuvbJrSelaE9RyRJeg0hH5z
+	/AJA==
+X-Gm-Message-State: ALoCoQkRQAc2wcXyh3SlzdtPRIJQcqCNHJbk9s2+O93xFmPZr1UMVcYyR4ybTsCt1pYl9w5YWDNT
+X-Received: by 10.15.54.72 with SMTP id s48mr6837792eew.3.1386439380935;
+	Sat, 07 Dec 2013 10:03:00 -0800 (PST)
+Received: from localhost.localdomain (5-13-147-220.residential.rdsnet.ro.
+	[5.13.147.220])
+	by mx.google.com with ESMTPSA id e3sm8741204eeg.11.2013.12.07.10.03.00
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 07 Dec 2013 10:03:00 -0800 (PST)
 From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Sat, 7 Dec 2013 20:01:01 +0200
-Message-ID: <CAK18fxH9pFKON9PK2HGkobR70-5_eiPCu+KhZ7+MJvm4si8xXg@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2][ 2/2] libav: Update to v0.8.9
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  7 Dec 2013 20:02:53 +0200
+Message-Id: <1386439373-8104-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 1/1] libav: Use "BP" and "libav" patch directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,159 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2013 18:01:24 -0000
-Content-Type: multipart/alternative; boundary=047d7b624278e8038b04ecf58c80
+X-List-Received-Date: Sat, 07 Dec 2013 18:03:02 -0000
 
---047d7b624278e8038b04ecf58c80
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../0001-configure-enable-pic-for-AArch64.patch    | 23 ++++++++++++++++++++++
+ meta/recipes-multimedia/libav/libav_0.8.9.bb       |  2 +-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64.patch
 
-On Thu, Dec 5, 2013 at 9:25 PM, Saul Wold <sgw@linux.intel.com> wrote:
-
->
-> Andrei:
->
-> I see RP already merged this, but I have a couple of comments
->
->
->
-> On 12/05/2013 01:01 AM, Andrei Gherzan wrote:
->
->> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
->> ---
->>   .../0001-configure-enable-pic-for-AArch64.patch                   | 0
->>   meta/recipes-multimedia/libav/{libav_0.8.8.bb => libav_0.8.9.bb}  | 8
->> +++-----
->>   2 files changed, 3 insertions(+), 5 deletions(-)
->>   rename meta/recipes-multimedia/libav/{libav-0.8.8 =>
->> libav-0.8.9}/0001-configure-enable-pic-for-AArch64.patch (100%)
->>   rename meta/recipes-multimedia/libav/{libav_0.8.8.bb => libav_0.8.9.bb}
->> (69%)
->>
->> diff --git a/meta/recipes-multimedia/libav/libav-0.8.8/0001-
->> configure-enable-pic-for-AArch64.patch b/meta/recipes-multimedia/
->> libav/libav-0.8.9/0001-configure-enable-pic-for-AArch64.patch
->> similarity index 100%
->> rename from meta/recipes-multimedia/libav/libav-0.8.8/0001-configure-
->> enable-pic-for-AArch64.patch
->> rename to meta/recipes-multimedia/libav/libav-0.8.9/0001-configure-
->> enable-pic-for-AArch64.patch
->>
->
-> We are generally trying to get rid of versioned patch directory in favor
-> of just a general recipe name (libav in this case).
->
->
->  diff --git a/meta/recipes-multimedia/libav/libav_0.8.8.bbb/meta/recipes-multimedia/
->> libav/libav_0.8.9.bb
->> similarity index 69%
->> rename from meta/recipes-multimedia/libav/libav_0.8.8.bb
->> rename to meta/recipes-multimedia/libav/libav_0.8.9.bb
->> index 9cb4cf2..065a6d2 100644
->> --- a/meta/recipes-multimedia/libav/libav_0.8.8.bb
->> +++ b/meta/recipes-multimedia/libav/libav_0.8.9.bb
->> @@ -1,10 +1,10 @@
->>   require libav.inc
->>
->> -SRC_URI = "http://libav.org/releases/libav-0.8.8.tar.xz \
->> +SRC_URI = "http://libav.org/releases/libav-0.8.9.tar.xz \
->>
-> why not convert this to ${BP} so it does not need to be edited in the
-> future. BP = BPN-PV.
->
-> Sau!
-
-
-Pushing a patch to address these comments. Thanks.
-
+diff --git a/meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64.patch b/meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64.patch
+new file mode 100644
+index 0000000..d9b22b9
+--- /dev/null
++++ b/meta/recipes-multimedia/libav/libav/0001-configure-enable-pic-for-AArch64.patch
+@@ -0,0 +1,23 @@
++From 58db99e98f615d79ea90cac8f4bcf11c94e3e7c7 Mon Sep 17 00:00:00 2001
++From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
++Date: Thu, 10 Jan 2013 12:42:19 +0100
++Subject: [PATCH] configure: enable pic for AArch64
++
++Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
++
++Upstream-Status: Backport
++---
++ configure |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++--- git.orig/configure
+++++ git/configure
++@@ -2393,7 +2393,7 @@ check_host_cflags -std=c99
++ check_host_cflags -Wall
++ 
++ case "$arch" in
++-    alpha|ia64|mips|parisc|ppc|sparc)
+++    alpha|ia64|mips|parisc|ppc|sparc|aarch64)
++         spic=$shared
++     ;;
++     x86)
+diff --git a/meta/recipes-multimedia/libav/libav_0.8.9.bb b/meta/recipes-multimedia/libav/libav_0.8.9.bb
+index 065a6d2..ce8b1ef 100644
+--- a/meta/recipes-multimedia/libav/libav_0.8.9.bb
++++ b/meta/recipes-multimedia/libav/libav_0.8.9.bb
+@@ -1,6 +1,6 @@
+ require libav.inc
+ 
+-SRC_URI = "http://libav.org/releases/libav-0.8.9.tar.xz \
++SRC_URI = "http://libav.org/releases/${BP}.tar.xz \
+            file://0001-configure-enable-pic-for-AArch64.patch"
+ 
+ SRC_URI[md5sum] = "7c0e5743cd5c4d4b1bcafd02a2e82e09"
 -- 
-*ag*
-
---047d7b624278e8038b04ecf58c80
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quo=
-te">On Thu, Dec 5, 2013 at 9:25 PM, Saul Wold <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&g=
-t;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><br>
-Andrei:<br>
-<br>
-I see RP already merged this, but I have a couple of comments<div class=3D"=
-im"><br>
-<br>
-<br>
-On 12/05/2013 01:01 AM, Andrei Gherzan wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Signed-off-by: Andrei Gherzan &lt;<a href=3D"mailto:andrei@gherzan.ro" targ=
-et=3D"_blank">andrei@gherzan.ro</a>&gt;<br>
----<br>
-=A0 .../0001-configure-enable-pic-<u></u>for-AArch64.patch =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 | 0<br>
-=A0 meta/recipes-multimedia/libav/<u></u>{<a href=3D"http://libav_0.8.8.bb"=
- target=3D"_blank">libav_0.8.8.bb</a> =3D&gt; <a href=3D"http://libav_0.8.9=
-.bb" target=3D"_blank">libav_0.8.9.bb</a>} =A0| 8 +++-----<br>
-=A0 2 files changed, 3 insertions(+), 5 deletions(-)<br>
-=A0 rename meta/recipes-multimedia/libav/<u></u>{libav-0.8.8 =3D&gt; libav-=
-0.8.9}/0001-configure-<u></u>enable-pic-for-AArch64.patch (100%)<br>
-=A0 rename meta/recipes-multimedia/libav/<u></u>{<a href=3D"http://libav_0.=
-8.8.bb" target=3D"_blank">libav_0.8.8.bb</a> =3D&gt; <a href=3D"http://liba=
-v_0.8.9.bb" target=3D"_blank">libav_0.8.9.bb</a>} (69%)<br>
-<br>
-diff --git a/meta/recipes-multimedia/<u></u>libav/libav-0.8.8/0001-<u></u>c=
-onfigure-enable-pic-for-<u></u>AArch64.patch b/meta/recipes-multimedia/<u><=
-/u>libav/libav-0.8.9/0001-<u></u>configure-enable-pic-for-<u></u>AArch64.pa=
-tch<br>
+1.8.1.4
 
 
-similarity index 100%<br>
-rename from meta/recipes-multimedia/libav/<u></u>libav-0.8.8/0001-configure=
--<u></u>enable-pic-for-AArch64.patch<br>
-rename to meta/recipes-multimedia/libav/<u></u>libav-0.8.9/0001-configure-<=
-u></u>enable-pic-for-AArch64.patch<br>
-</blockquote>
-<br></div>
-We are generally trying to get rid of versioned patch directory in favor of=
- just a general recipe name (libav in this case).<div class=3D"im"><br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-diff --git a/meta/recipes-multimedia/<u></u>libav/<a href=3D"http://libav_0=
-.8.8.bb" target=3D"_blank">libav_0.8.8.bb</a> b/meta/recipes-multimedia/<u>=
-</u>libav/<a href=3D"http://libav_0.8.9.bb" target=3D"_blank">libav_0.8.9.b=
-b</a><br>
-
-
-similarity index 69%<br>
-rename from meta/recipes-multimedia/libav/<a href=3D"http://libav_0.8.8.bb"=
- target=3D"_blank"><u></u>libav_0.8.8.bb</a><br>
-rename to meta/recipes-multimedia/libav/<a href=3D"http://libav_0.8.9.bb" t=
-arget=3D"_blank"><u></u>libav_0.8.9.bb</a><br>
-index 9cb4cf2..065a6d2 100644<br>
---- a/meta/recipes-multimedia/<u></u>libav/<a href=3D"http://libav_0.8.8.bb=
-" target=3D"_blank">libav_0.8.8.bb</a><br>
-+++ b/meta/recipes-multimedia/<u></u>libav/<a href=3D"http://libav_0.8.9.bb=
-" target=3D"_blank">libav_0.8.9.bb</a><br>
-@@ -1,10 +1,10 @@<br>
-=A0 require libav.inc<br>
-<br>
--SRC_URI =3D &quot;<a href=3D"http://libav.org/releases/libav-0.8.8.tar.xz"=
- target=3D"_blank">http://libav.org/releases/<u></u>libav-0.8.8.tar.xz</a> =
-\<br>
-+SRC_URI =3D &quot;<a href=3D"http://libav.org/releases/libav-0.8.9.tar.xz"=
- target=3D"_blank">http://libav.org/releases/<u></u>libav-0.8.9.tar.xz</a> =
-\<br>
-</blockquote></div>
-why not convert this to ${BP} so it does not need to be edited in the futur=
-e. BP =3D BPN-PV.<br>
-<br>
-Sau!</blockquote></div><br>Pushing a patch to address these comments. Thank=
-s.</div><div class=3D"gmail_extra"><div><br></div>--=A0</div><div class=3D"=
-gmail_extra"><b style=3D"text-align:center;color:rgb(51,51,51);font-family:=
-Arial">ag</b>
-</div></div>
-
---047d7b624278e8038b04ecf58c80--
