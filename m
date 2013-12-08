@@ -1,27 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 303BE6DEED
+Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
+Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C3186DEC8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Dec 2013 20:47:24 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Dec 2013 12:47:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,852,1378882800"; d="scan'208";a="446642710"
-Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.121.192])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2013 12:47:10 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Sun, 08 Dec 2013 20:47:09 +0000
-Message-ID: <2311385.i7tMp5PycV@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-31-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <CAP9ODKrK7e_TT84ZcW=ruiSCsdbGmgKkbpZum-sevn=mVTqZTA@mail.gmail.com>
-References: <1386439921-11748-1-git-send-email-andrei@gherzan.ro>
-	<CAP9ODKrK7e_TT84ZcW=ruiSCsdbGmgKkbpZum-sevn=mVTqZTA@mail.gmail.com>
+	Sun,  8 Dec 2013 21:36:30 +0000 (UTC)
+Received: from [192.168.101.5] (afplatform.bmw-carit.intra [192.168.101.5])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukas.bulwahn)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 7E9F740058;
+	Sun,  8 Dec 2013 21:05:43 +0100 (CET)
+Message-ID: <52A4E64C.4060000@oss.bmw-carit.de>
+Date: Sun, 08 Dec 2013 22:36:12 +0100
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 1/1] libav: Add v9.10
+To: Khem Raj <raj.khem@gmail.com>, 
+ openembedded-core@lists.openembedded.org
+References: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH] boost: Convert ??= weaker assingment to weak ?= assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Dec 2013 20:47:26 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 08 Dec 2013 21:36:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sunday 08 December 2013 09:42:19 Otavio Salvador wrote:
-> On Sat, Dec 7, 2013 at 4:12 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> > This version includes libavresample needed for packages like xbmc.
-> > To use this version add:
-> > PREFERRED_VERSION_libav = "9.10".
-> > Removed git version as being an older version of a 9.X release.
-> > 
-> > Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> 
-> Any reason to keep the old version? why not move to this release?
+Hi Khem,
 
-If nothing else, I think we have to keep 0.8.x around until we remove 
-gstreamer 0.10 (or we revert back to gst-ffmpeg's internal ffmpeg copy, but that 
-doesn't seem like a good idea).
+On 12/07/2013 02:42 AM, Khem Raj wrote:
+> ??= does not react at all with
+> BOOST_LIBS += "${@base_contains('PACKAGECONFIG', 'python', 'python', '', d)}"
+>
+> even though we have
+>
+> PACKAGECONFIG ??= "" it does not honor it and always add python to
+> BOOST_LIBS but the dependency is not added so it fails to build
+> complaining for missing python headers which is a understood outcome
+I tried bitbaking boost and all the recipes in the meta-ros layer (which 
+uses boost heavily) with
+1.) only the boost setup in OE-core and no boost.bbappend, and then also
+2.) with a boost.bbappend with PACKAGECONFIG = "python" (as currently 
+set in meta-ros).
 
-Cheers,
-Paul
+However, I could not reproduce the problem you are reporting.
+With the current state, everything works on my own machine.
 
--- 
+I did the builds on fresh directories, and with the current HEADs:
+BB_VERSION        = "1.21.0"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Fedora-18"
+TARGET_SYS        = "x86_64-oe-linux"
+MACHINE           = "qemux86-64"
+DISTRO            = "nodistro"
+DISTRO_VERSION    = "nodistro.0"
+TUNE_FEATURES     = "m64"
+TARGET_FPU        = ""
+meta              = "master:4a562fd2614bb6ccce1222d47b9268d6980cf315"
+meta-oe           = "master:9b3e284c58bce673801ca3649b53bc53797ce2e9"
 
-Paul Eggleton
-Intel Open Source Technology Centre
+and my bitbake repository is at 73ddf1a3d1c516ad3bc785e0413483e616ce07a8.
+
+What's your configuration and how does it differs from mine?
+
+Lukas
 
