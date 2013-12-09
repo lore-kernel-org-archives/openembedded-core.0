@@ -1,24 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EF76A6E274
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 822C36E20E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 19:07:03 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Dec 2013 11:03:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,859,1378882800"; d="scan'208";a="421821798"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.25])
-	by orsmga001.jf.intel.com with ESMTP; 09 Dec 2013 11:07:02 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Dec 2013 19:06:56 +0000
-Message-Id: <7ff2d52486c187780303ce549b9dc50c7d6821b8.1386615914.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1386615914.git.paul.eggleton@linux.intel.com>
-References: <cover.1386615914.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1386615914.git.paul.eggleton@linux.intel.com>
-References: <cover.1386615914.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/3] toaster.bbclass: read package and image information
+	Mon,  9 Dec 2013 19:54:21 +0000 (UTC)
+Received: by mail-vc0-f175.google.com with SMTP id ld13so3809750vcb.34
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Dec 2013 11:54:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=hcbJQpYlnmjxGAPxF8QFQYDhwdiWbG33XDyIpigM1/w=;
+	b=WG2CkCO/YXc1nW/whhqUOgHoaCL3UhHGtOlocnM2Ge2dnjiQBbz1R5nDVdz6SZWVUu
+	xcgZEL7iUohOsCay2yN414ld9vQsduFY7PQUSccyghMEE4J9OrEELfaLu8sEXdA5FaOQ
+	8x7qKNKaQShDkd/q7y3nFZ/dSzYoM/WzL98g1J11Xe3lNCtvS3OUo7atrTZQkvHTgTS9
+	WjISq4Pw+JXezRySYdUp6mAbKPofa8MwCIQ6pyAQbbBFFp2JgMAtKjuNF9mWcTpJSThb
+	sEZhDrGzrKph00CiRlEodiO4HKO2edS2JJhPDeudxdT+E2/xP4lSezRNWxIcF9RCfenb
+	vljg==
+X-Gm-Message-State: ALoCoQmSp3zkfI2+q/qKCPIoy7PI4XGxZJsaWZh8LiwKg2871o7t00zjzv5fchF/9d+fxcNJDij7
+X-Received: by 10.52.28.6 with SMTP id x6mr9903793vdg.3.1386618860533; Mon, 09
+	Dec 2013 11:54:20 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 9 Dec 2013 11:53:59 -0800 (PST)
+In-Reply-To: <20131209173551.GC3713@jama>
+References: <1386608307-4348-1-git-send-email-ross.burton@intel.com>
+	<20131209173551.GC3713@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Dec 2013 19:53:59 +0000
+Message-ID: <CAJTo0LYB97A6=-OUgKo-7gjL3CHXHt8eBFMGuvZod4TA=VL-SA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxcb: fix rebuild when MACHINE changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,159 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 19:07:04 -0000
+X-List-Received-Date: Mon, 09 Dec 2013 19:54:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On 9 December 2013 17:35, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Mon, Dec 09, 2013 at 04:58:27PM +0000, Ross Burton wrote:
+>> This recipe was patching the sysroot path directly into configure.ac, which
+>> fails when the same source tree is re-used for another machine.
+>>
+>> Instead, patch in $PKG_CONFIG_SYSROOT_DIR which is already exported for use by
+>> pkg-config.
+>
+> Does it make libxcb signature MACHINE-specific or is sysroot path
+> excluded from PKG_CONFIG_SYSROOT_DIR like with STAGING_DIR_HOST?
+>
+> Maybe I fail to see how it fixes the issue with re-used configured
+> directory.
 
-In the process of removing the local system accesses
-from toaster UI (which must be able to run remotely),
-the code to read package information  is moved
-from Bitbake Toaster UI to the server-side
-toaster.bbclass
+At configure time the current sysroot is used (variable expansion
+happens by the configure execution).  The signature doesn't become
+machine-specific, as the logic is just replicating what pkg-config
+does when reporting include paths inside the .pc files (prepending the
+sysroot to them).
 
-     [YOCTO #5604]
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/classes/toaster.bbclass | 91 +++++++++++++++++++++++++++++++++++---------
- 1 file changed, 74 insertions(+), 17 deletions(-)
-
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 59c61c5..e1a93b5 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -92,6 +92,23 @@ python toaster_layerinfo_dumpdata() {
- 
- # Dump package file info data
- 
-+def _toaster_load_pkgdatafile(dirpath, filepath):
-+    import json
-+    pkgdata = {}
-+    with open(os.path.join(dirpath, filepath), "r") as fin:
-+        for line in fin:
-+            try:
-+                kn, kv = line.strip().split(": ", 1)
-+                kn = "_".join([x for x in kn.split("_") if x.isupper()])
-+                pkgdata[kn] = kv.strip()
-+                if kn == 'FILES_INFO':
-+                    pkgdata[kn] = json.loads(kv)
-+
-+            except ValueError:
-+                pass    # ignore lines without valid key: value pairs
-+    return pkgdata
-+
-+
- python toaster_package_dumpdata() {
-     """
-     Dumps the data created by emit_pkgdata
-@@ -103,27 +120,12 @@ python toaster_package_dumpdata() {
- 
-     pkgdatadir = d.getVar('PKGDESTWORK', True)
- 
--
-     # scan and send data for each package
--    import json
- 
-     lpkgdata = {}
-     for pkg in packages.split():
- 
--        subdata_file = pkgdatadir + "/runtime/%s" % pkg
--        lpkgdata = {}
--
--        sf = open(subdata_file, "r")
--        line = sf.readline()
--        while line:
--            (n, v) = line.rstrip().split(":", 1)
--            if pkg in n:
--                n = n.replace("_" + pkg, "")
--            if n == 'FILES_INFO':
--                lpkgdata[n] = json.loads(v)
--            else:
--                lpkgdata[n] = v.strip()
--            line = sf.readline()
-+        lpkgdata = _toaster_load_pkgdatafile(pkgdatadir + "/runtime/", pkg)
- 
-         # Fire an event containing the pkg data
-         bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
-@@ -209,7 +211,7 @@ python toaster_collect_task_stats() {
-         pass
- 
- 
--    if isinstance(e, bb.event.BuildCompleted):
-+    if isinstance(e, bb.event.BuildCompleted) and os.path.exists(os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist")):
-         events = []
-         with open(os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist"), "r") as fin:
-             for line in fin:
-@@ -219,6 +221,58 @@ python toaster_collect_task_stats() {
-         os.unlink(os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist"))
- }
- 
-+# dump relevant build history data as an event when the build is completed
-+
-+python toaster_buildhistory_dump() {
-+    import re
-+    BUILDHISTORY_DIR = e.data.expand("${TOPDIR}/buildhistory")
-+    BUILDHISTORY_DIR_IMAGE_BASE = e.data.expand("%s/images/${MACHINE_ARCH}/${TCLIBC}/"% BUILDHISTORY_DIR)
-+    pkgdata_dir = e.data.getVar("PKGDATA_DIR", True)
-+
-+
-+    # scan the build targets for this build
-+    images = {}
-+    allpkgs = {}
-+    for target in e._pkgs:
-+        installed_img_path = e.data.expand(os.path.join(BUILDHISTORY_DIR_IMAGE_BASE, target))
-+        if os.path.exists(installed_img_path):
-+            images[target] = {}
-+            with open("%s/installed-package-sizes.txt" % installed_img_path, "r") as fin:
-+                for line in fin:
-+                    line = line.rstrip(";")
-+                    psize, px = line.split("\t")
-+                    punit, pname = px.split(" ")
-+                    # this size is "installed-size" as it measures how much space it takes on disk
-+                    images[target][pname.strip()] = {'size':int(psize)*1024, 'depends' : []}
-+
-+            with open("%s/depends.dot" % installed_img_path, "r") as fin:
-+                p = re.compile(r' -> ')
-+                dot = re.compile(r'.*style=dotted')
-+                for line in fin:
-+                    line = line.rstrip(';')
-+                    linesplit = p.split(line)
-+                    if len(linesplit) == 2:
-+                        pname = linesplit[0].rstrip('"').strip('"')
-+                        dependsname = linesplit[1].split(" ")[0].strip().strip(";").strip('"').rstrip('"')
-+                        deptype = "depends"
-+                        if dot.match(line):
-+                            deptype = "recommends"
-+                        if not pname in images[target]:
-+                            images[target][pname] = {'size': 0, 'depends' : []}
-+                        if not dependsname in images[target]:
-+                            images[target][dependsname] = {'size': 0, 'depends' : []}
-+                        images[target][pname]['depends'].append((dependsname, deptype))
-+
-+            for pname in images[target]:
-+                if not pname in allpkgs:
-+                    allpkgs[pname] = _toaster_load_pkgdatafile("%s/runtime-reverse/" % pkgdata_dir, pname)
-+
-+
-+    data = { 'pkgdata' : allpkgs, 'imgdata' : images }
-+
-+    bb.event.fire(bb.event.MetadataEvent("ImagePkgList", data), e.data)
-+
-+}
- 
- # set event handlers
- addhandler toaster_layerinfo_dumpdata
-@@ -226,6 +280,9 @@ toaster_layerinfo_dumpdata[eventmask] = "bb.event.TreeDataPreparationCompleted"
- 
- addhandler toaster_collect_task_stats
- toaster_collect_task_stats[eventmask] = "bb.event.BuildCompleted bb.build.TaskSucceeded bb.build.TaskFailed"
-+
-+addhandler toaster_buildhistory_dump
-+toaster_buildhistory_dump[eventmask] = "bb.event.BuildCompleted"
- do_package[postfuncs] += "toaster_package_dumpdata "
- 
- do_rootfs[postfuncs] += "toaster_image_dumpdata "
--- 
-1.8.1.2
-
+Ross
 
