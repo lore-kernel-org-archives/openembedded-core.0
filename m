@@ -1,39 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F120610F8
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 486A26E20E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 13:43:34 +0000 (UTC)
-Received: by mail-ee0-f48.google.com with SMTP id e49so1568742eek.7
+	Mon,  9 Dec 2013 13:52:54 +0000 (UTC)
+Received: by mail-la0-f50.google.com with SMTP id el20so1569174lab.37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Dec 2013 05:43:33 -0800 (PST)
+	Mon, 09 Dec 2013 05:52:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=TVeL3d9r4leJ9CorG55TAaQDW2zr408PgNOnxZhdPH8=;
-	b=TfvqCEhnoZBXhiq5zIC4rIfNsKoqkkZ84eL795NVx6JVDfTXUq5xG5ijZ9x84vt+SY
-	s7hu/p+NF/khZw4kMcp//JcvR6/OXUKpMYN79F+JBNGBoNEDY/qB6Nsn1G4aCLKcDjug
-	5IY6f/W7Qx9gEygdDtzuqUHSEpvkbicBboZEB/83YeLh2PlrxXO98FMsmIPjxXUnbIRH
-	MO1qK7UzPrUEyVeNdqnvWuTCF6JCEa9vt0yb6qHtLh3ZQSuKlQe7HZYtuydXd7H9o9R7
-	lKXlXAKG6vZMj8lSjQRGmOs4+TFZj+8bQLUggEi1s5SlxYXsxb4xNGbay0XT4/qfowJh
-	rYtQ==
-X-Received: by 10.15.101.9 with SMTP id bo9mr12741867eeb.32.1386596613391;
-	Mon, 09 Dec 2013 05:43:33 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id e3sm28935515eeg.11.2013.12.09.05.43.31
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 09 Dec 2013 05:43:32 -0800 (PST)
-Date: Mon, 9 Dec 2013 14:43:50 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20131209134350.GB3713@jama>
-References: <1386588627.25847.77.camel@ted>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=9AcQrxYw6/SVDjFtjkp0lEy9pG7UqwLk/WAsa++gclQ=;
+	b=z7VzI14X3e35zHPKybC7koMh5BthoA5mErcbHtr+WfZy/GHfeSiIB9l0VNJZ6HXU4g
+	avh5/AaWmDB3JtXEHElk+TBsv13a72QJSo/jR+DG4Qbey/cl4+LNWOzwTtFfH30xPwJs
+	jY2Ik8hQ3V/ECsS68eZpI1v5bSCayNEJsp/35zBm6PRFKj2MTgbXk+itwsjhF/k+mzUL
+	6YW3YGU8SYv9aeiPSofoe+b9niaCvgisNiQKZ4AlcPh8zWbY4Q00iPEqqqMGHfiMTdoe
+	unOww0qRGiG9A7KJwYw1VXOH3hctu+VFh276ujlBUfLYSn465HCW+rH3jSIa6lolp/a6
+	DHBw==
 MIME-Version: 1.0
-In-Reply-To: <1386588627.25847.77.camel@ted>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Build directory reuse issue - make WORKDIR machine specific?
+X-Received: by 10.152.36.101 with SMTP id p5mr1965068laj.67.1386597172923;
+	Mon, 09 Dec 2013 05:52:52 -0800 (PST)
+Received: by 10.114.97.104 with HTTP; Mon, 9 Dec 2013 05:52:52 -0800 (PST)
+In-Reply-To: <CAP9ODKpv76jtiMqmg3eCJ1TYzvrhBESQMfQF5rVeT2XgJHR0tw@mail.gmail.com>
+References: <cover.1386558973.git.Qi.Chen@windriver.com>
+	<c20f79f4a812a4e007413751e3cabf63a4f5e6ec.1386558973.git.Qi.Chen@windriver.com>
+	<CAP9ODKpv76jtiMqmg3eCJ1TYzvrhBESQMfQF5rVeT2XgJHR0tw@mail.gmail.com>
+Date: Mon, 9 Dec 2013 14:52:52 +0100
+Message-ID: <CAAQYJAs9j=VJ+L=sLsLG1H1hs3brarksgqtijE8v2Wr35HCSQQ@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] image.bbclass: default USE_DEVFS to '1'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,94 +44,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 13:43:36 -0000
-X-Groupsio-MsgNum: 48021
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aVD9QWMuhilNxW9f"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 09 Dec 2013 13:52:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---aVD9QWMuhilNxW9f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Dec 09, 2013 at 11:30:27AM +0000, Richard Purdie wrote:
-> We have a type of bug where a build directory has configuration changed
-> halfway through its usage and this breaks other parts of the system. The
-> one we keep seeing can be seen with this sequence:
->=20
-> MACHINE=3Dqemumips bitbake perl; =20
-> MACHINE=3Drouterstationpro bitbake perl -c populate_sysroot -f;=20
-> MACHINE=3Drouterstationpro bitbake libxml-parser-perl
->=20
-> which results in:
->=20
-> ERROR: QA Issue: package libxml-parser-perl contains bad RPATH /media/bui=
-ld1/poky/build/tmp/sysroots/routerstationpro/usr/lib in file /media/build1/=
-poky/build/tmp/work/mips32-poky-linux/libxml-parser-perl/2.41-r3/packages-s=
-plit/libxml-parser-perl/usr/lib/perl/vendor_perl/5.14.3/auto/XML/Parser/Exp=
-at/Expat.so
->=20
-> Basically the trouble is the perl workdir has "qemumips" paths in it, we
-> then switch to routerstationpro and the qemumips ones slip into the
-> routerstationpro sysroot. The trouble is this kind of corruption can
-> happen silently and results in very weird and hard to debug errors. In
-> this case it comes from:
->=20
-> usr/lib/perl/5.14.3/ExtUtils/Liblist/Kid.pm:    push(@libpath, "/home/pok=
-ybuild/yocto-autobuilder/yocto-slave/nightly-mips-lsb/build/build/tmp/sysro=
-ots/qemumips/usr/lib");
->=20
-> which is in the routerstationpro sysroot, therefore the RPATH gets added
-> when it shouldn't be.
->=20
-> Options to address this as far as I can tell are:
->=20
-> a) Save the machine name during do_configure to WORKDIR and then check
-> it in subsequent tasks
-> b) Make WORKDIR be machine specific.
-
-I guess I haven't seen this issue because I'm using rm_work. Stamps
-already gone after "bitbake perl" so running it for routerstationpro
-reuses it from sstate just like it would for MACHINE_ARCh WORKDIR,
-right? Can we do something like that as c) solution?
-
-What would happen in a) when the check detects different MACHINE?
-- fail with good error message?
-- automagically "fix" workdir content like sstate_installpkg does?
-
-> b) looks attractive but could be confusing as we'd no longer have
-> PACKAGE_ARCH workdirs, they'd all be "machine specific" however they
-> would still get reused by sstate as they are today. It does however
-> neatly sidestep the set of issues we're currently seeing.
->=20
-> Thoughts?
->=20
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
->=20
+On Mon, Dec 9, 2013 at 12:52 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> Hello,
+>
+> I agree with the commit but ...
+>
+> On Mon, Dec 9, 2013 at 1:17 AM,  <Qi.Chen@windriver.com> wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> Default USE_DEVFS to "1" so that the `makedevs' command is not run
+>> at rootfs time by default. There are mainly two reasons to do so.
+>> 1. This will fix a build failure with initramfs-kexecboot-klibc-image.
+>
+> Can you elaborate this error? is it something we can/should fix?
+>
+>> 2. Most of our images use a filesystem over /dev. Most of the time, it's
+>>    just devtmpfs. So we actually are using a filesystem over /dev.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>  meta/classes/image.bbclass |    2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index cc65e35..b8bd462 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -77,7 +77,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
+>>  # Images are generally built explicitly, do not need to be part of world.
+>>  EXCLUDE_FROM_WORLD = "1"
+>>
+>> -USE_DEVFS ?= "0"
+>> +USE_DEVFS ?= "1"
+>>
+>>  PID = "${@os.getpid()}"
+>>
+>> --
+>> 1.7.9.5
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---aVD9QWMuhilNxW9f
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+The underlying issue here is the extra pass of makedevs  " makedevs:
+No entry for root in search list "
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+At first I could not understand why that was *not* happening on my
+builds then I realized we set
+IMAGE_DEVICE_TABLES = "" in our machine.conf because we use devtmpfs
+for all images.
 
-iEYEARECAAYFAlKlyRYACgkQN1Ujt2V2gBzQ/ACeNYivjD5uiKcBm72rUt/3EVxq
-h+QAn2NZtl3I5O9xSBaddtTerfYG+qBE
-=sfBM
------END PGP SIGNATURE-----
+qemux86 does instead inherit the default setting of image.bbclass so
+it uses "files/device_table-minimal.txt"
 
---aVD9QWMuhilNxW9f--
+
+Cheers
+
+Andrea
+
