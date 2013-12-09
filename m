@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 970716E250
+	by mail.openembedded.org (Postfix) with ESMTP id 6B3366E274
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 19:07:01 +0000 (UTC)
+	Mon,  9 Dec 2013 19:07:03 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Dec 2013 11:03:17 -0800
+	by orsmga102.jf.intel.com with ESMTP; 09 Dec 2013 11:03:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,859,1378882800"; d="scan'208";a="421821789"
+X-IronPort-AV: E=Sophos;i="4.93,859,1378882800"; d="scan'208";a="421821793"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.25])
-	by orsmga001.jf.intel.com with ESMTP; 09 Dec 2013 11:07:00 -0800
+	by orsmga001.jf.intel.com with ESMTP; 09 Dec 2013 11:07:01 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Dec 2013 19:06:54 +0000
-Message-Id: <465a7718dede33f981e7df3a0a2bd9a9652cdbe0.1386615914.git.paul.eggleton@linux.intel.com>
+Date: Mon,  9 Dec 2013 19:06:55 +0000
+Message-Id: <9204ea3768b1e7612f8093b131e2453e3f0203e7.1386615914.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1386615914.git.paul.eggleton@linux.intel.com>
 References: <cover.1386615914.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1386615914.git.paul.eggleton@linux.intel.com>
 References: <cover.1386615914.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/3] toaster.bbclass: read layer information
+Subject: [PATCH 2/3] toaster.bbclass: read build stats
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,102 +31,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 19:07:01 -0000
+X-List-Received-Date: Mon, 09 Dec 2013 19:07:03 -0000
 
 From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
 In the process of removing the local system
 accesses from toaster UI (which must be able to
-run remotely), the code to read layer information
+run remotely), the code to read build stats
 is moved from Bitbake Toaster UI
 to the server-side toaster.bbclass
+
+The code will accumulate a list of stat files
+to be read at build completion. When the
+build completes, the whole data list is read and
+sent through in a single event.
 
     [YOCTO #5604]
 
 Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- meta/classes/toaster.bbclass | 68 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 67 insertions(+), 1 deletion(-)
+ meta/classes/toaster.bbclass | 73 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
 
 diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index 8dc1663..ec9b6c5 100644
+index ec9b6c5..59c61c5 100644
 --- a/meta/classes/toaster.bbclass
 +++ b/meta/classes/toaster.bbclass
-@@ -24,7 +24,73 @@
- #
- #
+@@ -153,6 +153,79 @@ python toaster_image_dumpdata() {
+ }
  
--# 1. Dump package file info data
-+# Find and dump layer info when we got the layers parsed
+ 
++
++# collect list of buildstats files based on fired events; when the build completes, collect all stats and fire an event with collected data
++
++python toaster_collect_task_stats() {
++    import bb.build
++    import bb.event
++    import bb.data
++    import bb.utils
++    import os
++
++    def _append_read_list(v):
++        lock = bb.utils.lockfile(e.data.expand("${TOPDIR}/toaster.lock"), False, True)
++
++        with open(os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist"), "a") as fout:
++            bn = get_bn(e)
++            bsdir = os.path.join(e.data.getVar('BUILDSTATS_BASE', True), bn)
++            taskdir = os.path.join(bsdir, e.data.expand("${PF}"))
++            fout.write("%s:%s:%s\n" % (e.taskfile, e.taskname, os.path.join(taskdir, e.task)))
++
++        bb.utils.unlockfile(lock)
++
++    def _read_stats(filename):
++        cpu_usage = 0
++        disk_io = 0
++        startio = ''
++        endio = ''
++        pn = ''
++        taskname = ''
++        statinfo = {}
++
++        with open(filename, 'r') as task_bs:
++            for line in task_bs.readlines():
++                k,v = line.strip().split(": ", 1)
++                statinfo[k] = v
++
++        try:
++            cpu_usage = statinfo["CPU usage"]
++            endio = statinfo["EndTimeIO"]
++            startio = statinfo["StartTimeIO"]
++        except KeyError:
++            pass    # we may have incomplete data here
++
++        if startio and endio:
++            disk_io = int(endio.strip('\n ')) - int(startio.strip('\n '))
++
++        if cpu_usage:
++            cpu_usage = float(cpu_usage.strip('% \n'))
++
++        return {'cpu_usage': cpu_usage, 'disk_io': disk_io}
 +
 +
-+
-+python toaster_layerinfo_dumpdata() {
-+    import subprocess
-+
-+    def _get_git_branch(layer_path):
-+        branch = subprocess.Popen("git symbolic-ref HEAD 2>/dev/null ", cwd=layer_path, shell=True, stdout=subprocess.PIPE).communicate()[0]
-+        branch = branch.replace('refs/heads/', '').rstrip()
-+        return branch
-+
-+    def _get_git_revision(layer_path):
-+        revision = subprocess.Popen("git rev-parse HEAD 2>/dev/null ", cwd=layer_path, shell=True, stdout=subprocess.PIPE).communicate()[0].rstrip()
-+        return revision
-+
-+    def _get_url_map_name(layer_name):
-+        """ Some layers have a different name on openembedded.org site,
-+            this method returns the correct name to use in the URL
-+        """
-+
-+        url_name = layer_name
-+        url_mapping = {'meta': 'openembedded-core'}
-+
-+        for key in url_mapping.keys():
-+            if key == layer_name:
-+                url_name = url_mapping[key]
-+
-+        return url_name
-+
-+    def _get_layer_version_information(layer_path):
-+
-+        layer_version_info = {}
-+        layer_version_info['branch'] = _get_git_branch(layer_path)
-+        layer_version_info['commit'] = _get_git_revision(layer_path)
-+        layer_version_info['priority'] = 0
-+
-+        return layer_version_info
++    if isinstance(e, (bb.build.TaskSucceeded, bb.build.TaskFailed)):
++        _append_read_list(e)
++        pass
 +
 +
-+    def _get_layer_dict(layer_path):
-+
-+        layer_info = {}
-+        layer_name = layer_path.split('/')[-1]
-+        layer_url = 'http://layers.openembedded.org/layerindex/layer/{layer}/'
-+        layer_url_name = _get_url_map_name(layer_name)
-+
-+        layer_info['name'] = layer_name
-+        layer_info['local_path'] = layer_path
-+        layer_info['layer_index_url'] = layer_url.format(layer=layer_url_name)
-+        layer_info['version'] = _get_layer_version_information(layer_path)
-+
-+        return layer_info
-+
-+
-+    bblayers = e.data.getVar("BBLAYERS", True)
-+
-+    llayerinfo = {}
-+
-+    for layer in { l for l in bblayers.strip().split(" ") if len(l) }:
-+        llayerinfo[layer] = _get_layer_dict(layer)
-+
-+
-+    bb.event.fire(bb.event.MetadataEvent("LayerInfo", llayerinfo), e.data)
++    if isinstance(e, bb.event.BuildCompleted):
++        events = []
++        with open(os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist"), "r") as fin:
++            for line in fin:
++                (taskfile, taskname, filename) = line.strip().split(":")
++                events.append((taskfile, taskname, _read_stats(filename)))
++        bb.event.fire(bb.event.MetadataEvent("BuildStatsList", events), e.data)
++        os.unlink(os.path.join(e.data.getVar('BUILDSTATS_BASE', True), "toasterstatlist"))
 +}
 +
-+# Dump package file info data
++
++# set event handlers
++addhandler toaster_layerinfo_dumpdata
++toaster_layerinfo_dumpdata[eventmask] = "bb.event.TreeDataPreparationCompleted"
++
++addhandler toaster_collect_task_stats
++toaster_collect_task_stats[eventmask] = "bb.event.BuildCompleted bb.build.TaskSucceeded bb.build.TaskFailed"
+ do_package[postfuncs] += "toaster_package_dumpdata "
  
- python toaster_package_dumpdata() {
-     """
+ do_rootfs[postfuncs] += "toaster_image_dumpdata "
 -- 
 1.8.1.2
 
