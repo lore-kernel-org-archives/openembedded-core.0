@@ -1,33 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BB7D36CF08
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D3856E247
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 21:51:39 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB9LpW4g001881; Mon, 9 Dec 2013 21:51:32 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 8L8jwO_Xi0Tm; Mon,  9 Dec 2013 21:51:32 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB9LpTw7001876
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 9 Dec 2013 21:51:30 GMT
-Message-ID: <1386625884.25847.100.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 09 Dec 2013 21:51:24 +0000
-In-Reply-To: <CAMKF1sokZrHWRn_2RGT3pKN_RZMy1MnvXCUXn-gDdm4p-1iHvQ@mail.gmail.com>
-References: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
-	<1386589722.25847.79.camel@ted>
-	<CAMKF1sokZrHWRn_2RGT3pKN_RZMy1MnvXCUXn-gDdm4p-1iHvQ@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: Convert ??= weaker assingment to weak ?= assignment
+	Mon,  9 Dec 2013 22:17:08 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Dec 2013 14:17:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,860,1378882800"; d="scan'208";a="447251179"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.207])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2013 14:16:39 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Dec 2013 14:16:39 -0800
+Message-Id: <1386627399-19027-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH v2] binutils: Add embedspu to standard binutils package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,43 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 21:51:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Dec 2013 22:17:09 -0000
 
-On Mon, 2013-12-09 at 09:34 -0800, Khem Raj wrote:
-> On Mon, Dec 9, 2013 at 3:48 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > To illustrate why I'm struggling to follow this, "bitbake boost -e |
-> > grep BOOST_LIBS" on OE-Core does not show python in the list...
-> >
-> 
-> 
-> I can see it. Its on debian python is 2.7.3
-> 
-> kraj@builder:~$ cat /etc/os-release
-> PRETTY_NAME="Debian GNU/Linux 7 (wheezy)"
-> NAME="Debian GNU/Linux"
-> VERSION_ID="7"
-> VERSION="7 (wheezy)"
-> ID=debian
-> ANSI_COLOR="1;31"
-> HOME_URL="http://www.debian.org/"
-> SUPPORT_URL="http://www.debian.org/support/"
-> BUG_REPORT_URL="http://bugs.debian.org/"
+This is only built for PPC, fixes the following QA Error
 
-I doubt its host OS that is causing this, more likely something to do
-with the configuration you have (I'm using python 2.7.5+ on Ubuntu
-13.10). Which DISTRO is this? Which layers are enabled? Which version of
-bitbake?
+ERROR: QA Issue: binutils: Files/directories were installed but not shipped
+  /usr/bin/embedspu
 
-What does the history of PACKAGECONFIG show in bitbake boost -e?
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-devtools/binutils/binutils.inc | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 17c66bc..cf13c4f 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -18,7 +18,8 @@ inherit autotools gettext multilib_header
+ FILES_${PN} = " \
+ 	${bindir}/${TARGET_PREFIX}* \
+ 	${libdir}/lib*-*.so \
+-	${prefix}/${TARGET_SYS}/bin/*"
++	${prefix}/${TARGET_SYS}/bin/* \
++        ${bindir}/embedspu"
+ 
+ RPROVIDES_${PN} += "${PN}-symlinks"
+ 
+@@ -140,11 +141,6 @@ do_install () {
+ 	oe_multilib_header bfd.h
+ }
+ 
+-do_install_append_class-target_powerpc () {
+-        # we dont really care about embedspu for ppc so remove it
+-        rm -f ${D}/${bindir}/embedspu || :
+-}
+-
+ inherit update-alternatives
+ 
+ ALTERNATIVE_PRIORITY = "100"
+-- 
+1.8.3.1
 
 
