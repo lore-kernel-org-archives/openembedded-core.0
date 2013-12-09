@@ -1,37 +1,44 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 486A26E20E
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-bk0-f41.google.com (mail-bk0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 97CA36DDB0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 13:52:54 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id el20so1569174lab.37
+	Mon,  9 Dec 2013 14:47:52 +0000 (UTC)
+Received: by mail-bk0-f41.google.com with SMTP id v15so1431389bkz.28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Dec 2013 05:52:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=9AcQrxYw6/SVDjFtjkp0lEy9pG7UqwLk/WAsa++gclQ=;
-	b=z7VzI14X3e35zHPKybC7koMh5BthoA5mErcbHtr+WfZy/GHfeSiIB9l0VNJZ6HXU4g
-	avh5/AaWmDB3JtXEHElk+TBsv13a72QJSo/jR+DG4Qbey/cl4+LNWOzwTtFfH30xPwJs
-	jY2Ik8hQ3V/ECsS68eZpI1v5bSCayNEJsp/35zBm6PRFKj2MTgbXk+itwsjhF/k+mzUL
-	6YW3YGU8SYv9aeiPSofoe+b9niaCvgisNiQKZ4AlcPh8zWbY4Q00iPEqqqMGHfiMTdoe
-	unOww0qRGiG9A7KJwYw1VXOH3hctu+VFh276ujlBUfLYSn465HCW+rH3jSIa6lolp/a6
-	DHBw==
+	Mon, 09 Dec 2013 06:47:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:disposition-notification-to:date:from
+	:user-agent:mime-version:to:cc:subject:references:in-reply-to
+	:content-type:content-transfer-encoding;
+	bh=efMtTgByAZkc5JXyxaHOFEujL0dVrgJk/lYtiLW99m8=;
+	b=l5TQXlrYFiD5QE7y0bC+9NRij11qlMXf3OZbdBYJu/8JHGdCmDjhaHiISwWAP1gsdp
+	qGXdKcv6A7LkCodg/zTPsPniSf6z0BF8nfaWB5QW8xejubUqePvc+ZMKXloOFpGrjNm/
+	0Us7hlQXLx7dNsyflI3Skff2rYGfgk3D6zM0LvBndyF+ryAFuICxUSIutRspDFxWeSqU
+	xvp+tY3KaRWqofBKKoFZAubUK1vzTuQ2h5QXBieRnSWFep5L1VAlUZyTLApGpNRkgQmb
+	ghzvS1vdUbOhRhblFljbeyTG6Ep0Kpobk+pWq+q22kr68HG172w8XXUvck0tNi+D2hhb
+	c5Bw==
+X-Gm-Message-State: ALoCoQl4VKDR7gpfhUfD7KaCYpVSTmZZVx6zdgHDIT4rg19afCLQLZq0iFDXEnN0t/eXK8E1qJbq
+X-Received: by 10.204.177.142 with SMTP id bi14mr609211bkb.84.1386600471288;
+	Mon, 09 Dec 2013 06:47:51 -0800 (PST)
+Received: from mobil-400-586.internal.dresearch-fe.de
+	(pd95cbf07.dip0.t-ipconnect.de. [217.92.191.7])
+	by mx.google.com with ESMTPSA id qg7sm8808668bkb.6.2013.12.09.06.47.49
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 09 Dec 2013 06:47:50 -0800 (PST)
+Message-ID: <52A5D813.8020803@dresearch-fe.de>
+Date: Mon, 09 Dec 2013 15:47:47 +0100
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
 MIME-Version: 1.0
-X-Received: by 10.152.36.101 with SMTP id p5mr1965068laj.67.1386597172923;
-	Mon, 09 Dec 2013 05:52:52 -0800 (PST)
-Received: by 10.114.97.104 with HTTP; Mon, 9 Dec 2013 05:52:52 -0800 (PST)
-In-Reply-To: <CAP9ODKpv76jtiMqmg3eCJ1TYzvrhBESQMfQF5rVeT2XgJHR0tw@mail.gmail.com>
-References: <cover.1386558973.git.Qi.Chen@windriver.com>
-	<c20f79f4a812a4e007413751e3cabf63a4f5e6ec.1386558973.git.Qi.Chen@windriver.com>
-	<CAP9ODKpv76jtiMqmg3eCJ1TYzvrhBESQMfQF5rVeT2XgJHR0tw@mail.gmail.com>
-Date: Mon, 9 Dec 2013 14:52:52 +0100
-Message-ID: <CAAQYJAs9j=VJ+L=sLsLG1H1hs3brarksgqtijE8v2Wr35HCSQQ@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] image.bbclass: default USE_DEVFS to '1'
+To: openembedded-core@lists.openembedded.org
+References: <1385647771-24485-1-git-send-email-sledz@dresearch-fe.de>
+In-Reply-To: <1385647771-24485-1-git-send-email-sledz@dresearch-fe.de>
+X-Enigmail-Version: 1.6
+Subject: Re: [PATCH][for-dora] gdb-7.6: fix cygwin check in configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,78 +51,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 13:52:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 09 Dec 2013 14:47:53 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 9, 2013 at 12:52 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Hello,
->
-> I agree with the commit but ...
->
-> On Mon, Dec 9, 2013 at 1:17 AM,  <Qi.Chen@windriver.com> wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Default USE_DEVFS to "1" so that the `makedevs' command is not run
->> at rootfs time by default. There are mainly two reasons to do so.
->> 1. This will fix a build failure with initramfs-kexecboot-klibc-image.
->
-> Can you elaborate this error? is it something we can/should fix?
->
->> 2. Most of our images use a filesystem over /dev. Most of the time, it's
->>    just devtmpfs. So we actually are using a filesystem over /dev.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>  meta/classes/image.bbclass |    2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index cc65e35..b8bd462 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -77,7 +77,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
->>  # Images are generally built explicitly, do not need to be part of world.
->>  EXCLUDE_FROM_WORLD = "1"
->>
->> -USE_DEVFS ?= "0"
->> +USE_DEVFS ?= "1"
->>
->>  PID = "${@os.getpid()}"
->>
->> --
->> 1.7.9.5
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On 28.11.2013 15:09, Steffen Sledz wrote:
+> This is a fix which avoids false positives if the search pattern
+> "lose" is found in path descriptions in comments generated by the
+> preprocessor we hit in our development environment.
+> 
+> [gdb Bug #16152] -- https://sourceware.org/bugzilla/show_bug.cgi?id=16152
+> 
+> Upstream-Status: Accepted
+> Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+> ---
+>  meta/recipes-devtools/gdb/gdb-7.6.inc              |  2 ++
+>  .../gdb-fix-cygwin-check-in-configure-script.patch | 38 ++++++++++++++++++++++
+>  2 files changed, 40 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gdb/gdb/gdb-fix-cygwin-check-in-configure-script.patch
+> 
+> diff --git a/meta/recipes-devtools/gdb/gdb-7.6.inc b/meta/recipes-devtools/gdb/gdb-7.6.inc
+> index 00cb6ee..9be94b8 100644
+> --- a/meta/recipes-devtools/gdb/gdb-7.6.inc
+> +++ b/meta/recipes-devtools/gdb/gdb-7.6.inc
+> @@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+>  		    file://COPYING3.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
+>  		    file://COPYING.LIB;md5=9f604d8a4f8e74f4f5140845a21b6674"
+>  
+> +SRC_URI += " file://gdb-fix-cygwin-check-in-configure-script.patch "
+> +
+>  S = "${WORKDIR}/${BPN}-${PV}"
+>  
+>  SRC_URI[md5sum] = "a9836707337e5f7bf76a009a8904f470"
+> diff --git a/meta/recipes-devtools/gdb/gdb/gdb-fix-cygwin-check-in-configure-script.patch b/meta/recipes-devtools/gdb/gdb/gdb-fix-cygwin-check-in-configure-script.patch
+> new file mode 100644
+> index 0000000..4e4647b
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gdb/gdb/gdb-fix-cygwin-check-in-configure-script.patch
+> @@ -0,0 +1,38 @@
+> +Avoid false positives if the search pattern "lose" is found in path
+> +descriptions in comments generated by the preprocessor.
+> +
+> +See <https://sourceware.org/bugzilla/show_bug.cgi?id=16152>.
+> +---
+> + gdb/configure    | 2 +-
+> + gdb/configure.ac | 2 +-
+> + 3 files changed, 7 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/gdb/configure b/gdb/configure
+> +index 5514b2f..b38e183 100755
+> +--- a/gdb/configure
+> ++++ b/gdb/configure
+> +@@ -12446,7 +12446,7 @@ lose
+> + #endif
+> + _ACEOF
+> + if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+> +-  $EGREP "lose" >/dev/null 2>&1; then :
+> ++  $EGREP "^lose$" >/dev/null 2>&1; then :
+> +   gdb_cv_os_cygwin=yes
+> + else
+> +   gdb_cv_os_cygwin=no
+> +diff --git a/gdb/configure.ac b/gdb/configure.ac
+> +index 9b73887..2947293 100644
+> +--- a/gdb/configure.ac
+> ++++ b/gdb/configure.ac
+> +@@ -1877,7 +1877,7 @@ AC_SUBST(WERROR_CFLAGS)
+> + 
+> + # In the Cygwin environment, we need some additional flags.
+> + AC_CACHE_CHECK([for cygwin], gdb_cv_os_cygwin,
+> +-[AC_EGREP_CPP(lose, [
+> ++[AC_EGREP_CPP(^lose$, [
+> + #if defined (__CYGWIN__) || defined (__CYGWIN32__)
+> + lose
+> + #endif],[gdb_cv_os_cygwin=yes],[gdb_cv_os_cygwin=no])])
+> +-- 
+> +1.8.4
+> +
+> 
 
+Ping!
 
-The underlying issue here is the extra pass of makedevs  " makedevs:
-No entry for root in search list "
+Robert, are you still there?
 
-At first I could not understand why that was *not* happening on my
-builds then I realized we set
-IMAGE_DEVICE_TABLES = "" in our machine.conf because we use devtmpfs
-for all images.
-
-qemux86 does instead inherit the default setting of image.bbclass so
-it uses "files/device_table-minimal.txt"
-
-
-Cheers
-
-Andrea
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
