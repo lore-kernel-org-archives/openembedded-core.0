@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 48E486DD26
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B73C6DCA6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 11:30:46 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB9BUeZN010220 for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Dec 2013 11:30:40 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bfwA-KrKaCa4
+	Mon,  9 Dec 2013 11:45:01 +0000 (UTC)
+Received: by mail-vc0-f182.google.com with SMTP id lc6so3336752vcb.27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 11:30:39 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB9BUX5k010216
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Dec 2013 11:30:34 GMT
-Message-ID: <1386588627.25847.77.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 09 Dec 2013 11:30:27 +0000
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [RFC] Build directory reuse issue - make WORKDIR machine specific?
+	Mon, 09 Dec 2013 03:45:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=kfeoUUpvas5MgkuN2RbFi4l7D7mCT35RBYgiKy14syw=;
+	b=VTGjn131Seq7T5hsoajJ6g4pcP6SbvVrAwEhDzk0mdrAvGqzsybPq6YW/nYj2kjZHd
+	QlsSRPZJwflH2dhkcAnBSQSNIaNJjSi0WqePS84IU/oR09DwyP3I0IdXZvkLV5Xt/eQP
+	xLAB3oXaXspM9kznrN+szyTHFH5VqdTaEs8qojsSRY08FyKCISD+xOIzdRJE2zmoNtb3
+	81cYg2QHARBTXw+OqW3/a9QpG43+RXsNwWJ91cjyDEDXz/IiZzG260yU3xrVqw533dGt
+	F0DODM7q/JrCezXq81AXkne5QmbyZpgqiptR5UadX7l/eaYTh6Hy/NrFQO+2StmFQ3wq
+	wVJw==
+X-Gm-Message-State: ALoCoQleRxqUNhuQs5pj9DOLHpJc9Aas7oW2pZRqjTh7pBZx7pcHKYXqowEk5z7+dxAEto0DZ7EC
+X-Received: by 10.58.145.200 with SMTP id sw8mr354883veb.68.1386589500078;
+	Mon, 09 Dec 2013 03:45:00 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 9 Dec 2013 03:44:39 -0800 (PST)
+In-Reply-To: <1386588627.25847.77.camel@ted>
+References: <1386588627.25847.77.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Dec 2013 11:44:39 +0000
+Message-ID: <CAJTo0LZbjuaySmTz8q3YEmMxULBWtTTALG7t0zAoMSppGHdVCQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Build directory reuse issue - make WORKDIR machine specific?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 11:30:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Dec 2013 11:45:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-We have a type of bug where a build directory has configuration changed
-halfway through its usage and this breaks other parts of the system. The
-one we keep seeing can be seen with this sequence:
+On 9 December 2013 11:30, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> b) looks attractive but could be confusing as we'd no longer have
+> PACKAGE_ARCH workdirs, they'd all be "machine specific" however they
+> would still get reused by sstate as they are today. It does however
+> neatly sidestep the set of issues we're currently seeing.
 
-MACHINE=qemumips bitbake perl;  
-MACHINE=routerstationpro bitbake perl -c populate_sysroot -f; 
-MACHINE=routerstationpro bitbake libxml-parser-perl
+As someone who often switches between mostly-compatible machines
+(qemux86/qemux86-64/genericx86/nuc) I'm often hitting problems like
+this.  Most recently libproxy was using a sysroot that didn't exist,
+which prompted my cmake patch.
 
-which results in:
+Presumably the change would replace the package-architecture element
+in the path with the machine name.  Seems reasonable to me: a more
+logical layout of files without any meaningful impact to performance.
 
-ERROR: QA Issue: package libxml-parser-perl contains bad RPATH /media/build1/poky/build/tmp/sysroots/routerstationpro/usr/lib in file /media/build1/poky/build/tmp/work/mips32-poky-linux/libxml-parser-perl/2.41-r3/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.14.3/auto/XML/Parser/Expat/Expat.so
-
-Basically the trouble is the perl workdir has "qemumips" paths in it, we
-then switch to routerstationpro and the qemumips ones slip into the
-routerstationpro sysroot. The trouble is this kind of corruption can
-happen silently and results in very weird and hard to debug errors. In
-this case it comes from:
-
-usr/lib/perl/5.14.3/ExtUtils/Liblist/Kid.pm:    push(@libpath, "/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips-lsb/build/build/tmp/sysroots/qemumips/usr/lib");
-
-which is in the routerstationpro sysroot, therefore the RPATH gets added
-when it shouldn't be.
-
-Options to address this as far as I can tell are:
-
-a) Save the machine name during do_configure to WORKDIR and then check
-it in subsequent tasks
-b) Make WORKDIR be machine specific.
-
-
-b) looks attractive but could be confusing as we'd no longer have
-PACKAGE_ARCH workdirs, they'd all be "machine specific" however they
-would still get reused by sstate as they are today. It does however
-neatly sidestep the set of issues we're currently seeing.
-
-Thoughts?
-
-Cheers,
-
-Richard
-
-
-
-
+Ross
 
