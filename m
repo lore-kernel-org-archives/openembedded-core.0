@@ -1,30 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 573726DCA6
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CD8261222
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 11:49:00 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB9BmqtV010776; Mon, 9 Dec 2013 11:48:52 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id pZhK2YRrJHEx; Mon,  9 Dec 2013 11:48:52 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rB9BmlLA010772
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 9 Dec 2013 11:48:49 GMT
-Message-ID: <1386589722.25847.79.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 09 Dec 2013 11:48:42 +0000
-In-Reply-To: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
-References: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boost: Convert ??= weaker assingment to weak ?= assignment
+	Mon,  9 Dec 2013 11:52:58 +0000 (UTC)
+Received: by mail-ob0-f171.google.com with SMTP id wp18so3593589obc.16
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Dec 2013 03:52:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=SYMy59xdB5M5KkJkg7lit6RY7AK4PYAfkeNvMWnAUQ4=;
+	b=iQG6L3wnkjFKkUCg+e4yzKHNvz1xSkE2VerYjIpvtwGZ8OGVOpvuOEGiAH4+eD5iS6
+	+RBNuVZRI2kA76Prywsc0zwbJpRm1I3oWVzNwUnKzhmxkj9YW+PUgk1tpQ0xc5v5sKU8
+	aveqWp2TDstuUnBMYPKjh1ZZGKQwHpMC2VM967QZXFUslDBKwZu+RLN8cPecPdeyFoIo
+	RkL45ZfkZj8ya5tnjbBvxhzu+v0WRqv5VCWU+tyFf6NVC4DeOoG472Piv0oqfoS3UkHq
+	ujolka7dKKRCSCorf+4XufWg/sgnwLI7wZPYaxZq3EkCoi+jTetJzE9sn9/WhQqQAExb
+	Pkrw==
+MIME-Version: 1.0
+X-Received: by 10.182.74.137 with SMTP id t9mr803038obv.79.1386589977334; Mon,
+	09 Dec 2013 03:52:57 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 9 Dec 2013 03:52:57 -0800 (PST)
+In-Reply-To: <c20f79f4a812a4e007413751e3cabf63a4f5e6ec.1386558973.git.Qi.Chen@windriver.com>
+References: <cover.1386558973.git.Qi.Chen@windriver.com>
+	<c20f79f4a812a4e007413751e3cabf63a4f5e6ec.1386558973.git.Qi.Chen@windriver.com>
+Date: Mon, 9 Dec 2013 09:52:57 -0200
+X-Google-Sender-Auth: l8AZNw4pj9PoSPZtEu-_kz8hgO4
+Message-ID: <CAP9ODKpv76jtiMqmg3eCJ1TYzvrhBESQMfQF5rVeT2XgJHR0tw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] image.bbclass: default USE_DEVFS to '1'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +45,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 11:49:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Dec 2013 11:52:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, 2013-12-06 at 17:42 -0800, Khem Raj wrote:
-> ??= does not react at all with
-> BOOST_LIBS += "${@base_contains('PACKAGECONFIG', 'python', 'python', '', d)}"
-> 
-> even though we have
-> 
-> PACKAGECONFIG ??= "" it does not honor it and always add python to
-> BOOST_LIBS but the dependency is not added so it fails to build
-> complaining for missing python headers which is a understood outcome
-> 
-> When converted to ?= it works as expected and only add --with-python
-> in bjam when python is specified in PACKAGECONFIG otherwise not.
-> 
-> Is it a bitbake bug ? in anycase ?= should be enough of loose rope
-> to let user/distro configure the packageconfig policy
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Hello,
+
+I agree with the commit but ...
+
+On Mon, Dec 9, 2013 at 1:17 AM,  <Qi.Chen@windriver.com> wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Default USE_DEVFS to "1" so that the `makedevs' command is not run
+> at rootfs time by default. There are mainly two reasons to do so.
+> 1. This will fix a build failure with initramfs-kexecboot-klibc-image.
+
+Can you elaborate this error? is it something we can/should fix?
+
+> 2. Most of our images use a filesystem over /dev. Most of the time, it's
+>    just devtmpfs. So we actually are using a filesystem over /dev.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  meta/recipes-support/boost/boost.inc |    2 +-
+>  meta/classes/image.bbclass |    2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index cc65e35..b8bd462 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -77,7 +77,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
+>  # Images are generally built explicitly, do not need to be part of world.
+>  EXCLUDE_FROM_WORLD = "1"
+>
+> -USE_DEVFS ?= "0"
+> +USE_DEVFS ?= "1"
+>
+>  PID = "${@os.getpid()}"
+>
+> --
+> 1.7.9.5
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-This needs more investigation as there is something missing from the
-description above.
-
-To illustrate why I'm struggling to follow this, "bitbake boost -e |
-grep BOOST_LIBS" on OE-Core does not show python in the list...
-
-Cheers,
-
-Richard
 
 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
