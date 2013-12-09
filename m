@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D6A06CA24
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5611B6DF2B
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  9 Dec 2013 03:16:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rB93Gaau007857
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rB93GcPG026071
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 8 Dec 2013 19:16:36 -0800 (PST)
+	Sun, 8 Dec 2013 19:16:38 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 8 Dec 2013 19:16:35 -0800
+	14.2.347.0; Sun, 8 Dec 2013 19:16:37 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Dec 2013 11:17:24 +0800
-Message-ID: <cover.1386558973.git.Qi.Chen@windriver.com>
+Date: Mon, 9 Dec 2013 11:17:25 +0800
+Message-ID: <c20f79f4a812a4e007413751e3cabf63a4f5e6ec.1386558973.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1386558973.git.Qi.Chen@windriver.com>
+References: <cover.1386558973.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] image.bbclass: default USE_DEVFS to '1'
+Subject: [PATCH 1/1] image.bbclass: default USE_DEVFS to '1'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +38,30 @@ Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit 184038bedb20f74ba4dcad6ef2d92e87a9ba5f9a:
+Default USE_DEVFS to "1" so that the `makedevs' command is not run
+at rootfs time by default. There are mainly two reasons to do so.
+1. This will fix a build failure with initramfs-kexecboot-klibc-image.
+2. Most of our images use a filesystem over /dev. Most of the time, it's
+   just devtmpfs. So we actually are using a filesystem over /dev.
 
-  bitbake: fetch2/git: Ensure check is made in the correct directory (2013-12-06 14:10:15 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/USE_DEVFS
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/USE_DEVFS
-
-Chen Qi (1):
-  image.bbclass: default USE_DEVFS to '1'
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/classes/image.bbclass |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index cc65e35..b8bd462 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -77,7 +77,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
+ # Images are generally built explicitly, do not need to be part of world.
+ EXCLUDE_FROM_WORLD = "1"
+ 
+-USE_DEVFS ?= "0"
++USE_DEVFS ?= "1"
+ 
+ PID = "${@os.getpid()}"
+ 
 -- 
 1.7.9.5
 
