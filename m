@@ -1,37 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 822C36E20E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id BB7D36CF08
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 19:54:21 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id ld13so3809750vcb.34
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Dec 2013 11:54:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=hcbJQpYlnmjxGAPxF8QFQYDhwdiWbG33XDyIpigM1/w=;
-	b=WG2CkCO/YXc1nW/whhqUOgHoaCL3UhHGtOlocnM2Ge2dnjiQBbz1R5nDVdz6SZWVUu
-	xcgZEL7iUohOsCay2yN414ld9vQsduFY7PQUSccyghMEE4J9OrEELfaLu8sEXdA5FaOQ
-	8x7qKNKaQShDkd/q7y3nFZ/dSzYoM/WzL98g1J11Xe3lNCtvS3OUo7atrTZQkvHTgTS9
-	WjISq4Pw+JXezRySYdUp6mAbKPofa8MwCIQ6pyAQbbBFFp2JgMAtKjuNF9mWcTpJSThb
-	sEZhDrGzrKph00CiRlEodiO4HKO2edS2JJhPDeudxdT+E2/xP4lSezRNWxIcF9RCfenb
-	vljg==
-X-Gm-Message-State: ALoCoQmSp3zkfI2+q/qKCPIoy7PI4XGxZJsaWZh8LiwKg2871o7t00zjzv5fchF/9d+fxcNJDij7
-X-Received: by 10.52.28.6 with SMTP id x6mr9903793vdg.3.1386618860533; Mon, 09
-	Dec 2013 11:54:20 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 9 Dec 2013 11:53:59 -0800 (PST)
-In-Reply-To: <20131209173551.GC3713@jama>
-References: <1386608307-4348-1-git-send-email-ross.burton@intel.com>
-	<20131209173551.GC3713@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 9 Dec 2013 19:53:59 +0000
-Message-ID: <CAJTo0LYB97A6=-OUgKo-7gjL3CHXHt8eBFMGuvZod4TA=VL-SA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxcb: fix rebuild when MACHINE changes
+	Mon,  9 Dec 2013 21:51:39 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB9LpW4g001881; Mon, 9 Dec 2013 21:51:32 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8L8jwO_Xi0Tm; Mon,  9 Dec 2013 21:51:32 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB9LpTw7001876
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 9 Dec 2013 21:51:30 GMT
+Message-ID: <1386625884.25847.100.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 09 Dec 2013 21:51:24 +0000
+In-Reply-To: <CAMKF1sokZrHWRn_2RGT3pKN_RZMy1MnvXCUXn-gDdm4p-1iHvQ@mail.gmail.com>
+References: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
+	<1386589722.25847.79.camel@ted>
+	<CAMKF1sokZrHWRn_2RGT3pKN_RZMy1MnvXCUXn-gDdm4p-1iHvQ@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost: Convert ??= weaker assingment to weak ?= assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +40,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 19:54:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 09 Dec 2013 21:51:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 9 December 2013 17:35, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Mon, Dec 09, 2013 at 04:58:27PM +0000, Ross Burton wrote:
->> This recipe was patching the sysroot path directly into configure.ac, which
->> fails when the same source tree is re-used for another machine.
->>
->> Instead, patch in $PKG_CONFIG_SYSROOT_DIR which is already exported for use by
->> pkg-config.
->
-> Does it make libxcb signature MACHINE-specific or is sysroot path
-> excluded from PKG_CONFIG_SYSROOT_DIR like with STAGING_DIR_HOST?
->
-> Maybe I fail to see how it fixes the issue with re-used configured
-> directory.
+On Mon, 2013-12-09 at 09:34 -0800, Khem Raj wrote:
+> On Mon, Dec 9, 2013 at 3:48 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > To illustrate why I'm struggling to follow this, "bitbake boost -e |
+> > grep BOOST_LIBS" on OE-Core does not show python in the list...
+> >
+> 
+> 
+> I can see it. Its on debian python is 2.7.3
+> 
+> kraj@builder:~$ cat /etc/os-release
+> PRETTY_NAME="Debian GNU/Linux 7 (wheezy)"
+> NAME="Debian GNU/Linux"
+> VERSION_ID="7"
+> VERSION="7 (wheezy)"
+> ID=debian
+> ANSI_COLOR="1;31"
+> HOME_URL="http://www.debian.org/"
+> SUPPORT_URL="http://www.debian.org/support/"
+> BUG_REPORT_URL="http://bugs.debian.org/"
 
-At configure time the current sysroot is used (variable expansion
-happens by the configure execution).  The signature doesn't become
-machine-specific, as the logic is just replicating what pkg-config
-does when reporting include paths inside the .pc files (prepending the
-sysroot to them).
+I doubt its host OS that is causing this, more likely something to do
+with the configuration you have (I'm using python 2.7.5+ on Ubuntu
+13.10). Which DISTRO is this? Which layers are enabled? Which version of
+bitbake?
 
-Ross
+What does the history of PACKAGECONFIG show in bitbake boost -e?
+
+Cheers,
+
+Richard
+
+
+
 
