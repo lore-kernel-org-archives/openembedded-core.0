@@ -1,52 +1,31 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 0373C6DD26
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 48E486DD26
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2013 11:20:13 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	rB9BK9GW011437
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Mon,  9 Dec 2013 11:30:46 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB9BUeZN010220 for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Dec 2013 11:30:40 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bfwA-KrKaCa4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Dec 2013 12:20:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1386588011;
-	bh=WjTCwJcje1pqsWRA4FLRev5rJyDxIGneM7zpXj81LQg=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=iTFf4GCE6pi9WQUL29Y/2DDV7nX671fdHV+ejJAje/vCGEX6aX7lQk5b5BTdgE6Ys
-	i45dDmN/QWXxshkHTy2EPgrLO3K/alZUFYtipXG33qrUFIS4QZSXwLazJutyWc59KB
-	J/zn/rvX4g6gmHoVdx8KbQf7nhFifO6F++FxpTlQ=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rB9BK0kf031720
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Dec 2013 12:20:02 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1Vpysa-0008El-QI
-	for openembedded-core@lists.openembedded.org;
-	Mon, 09 Dec 2013 12:20:00 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1384242441-27215-1-git-send-email-rongqing.li@windriver.com>
-	<528C7216.9040501@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 09 Dec 2013 12:20:00 +0100
-In-Reply-To: <528C7216.9040501@windriver.com> (Rongqing Li's message of "Wed, 
-	20 Nov 2013 16:25:58 +0800")
-Message-ID: <lywqjes23j.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -3.9
-X-Spam-Level: ---
-X-Spam-Tests: AWL,DKIM_ADSP_ALL,RP_MATCHES_RCVD,SPF_NEUTRAL,DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Subject: Re: [PATCH v8] connman: ignore the networking device which nfs for rootfs is working on
+	Mon,  9 Dec 2013 11:30:39 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rB9BUX5k010216
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Dec 2013 11:30:34 GMT
+Message-ID: <1386588627.25847.77.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 09 Dec 2013 11:30:27 +0000
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [RFC] Build directory reuse issue - make WORKDIR machine specific?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,19 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 11:20:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Dec 2013 11:30:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Rongqing Li <rongqing.li-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
-writes:
+We have a type of bug where a build directory has configuration changed
+halfway through its usage and this breaks other parts of the system. The
+one we keep seeing can be seen with this sequence:
 
->> +echo "CONNMAND_OPTS=$EXTRA_PARAM">/run/connmand/connmand.env
->>
->> ++EnvironmentFile=-@LOCALSTATEDIR@/run/connmand/connmand.env
+MACHINE=qemumips bitbake perl;  
+MACHINE=routerstationpro bitbake perl -c populate_sysroot -f; 
+MACHINE=routerstationpro bitbake libxml-parser-perl
 
-These paths are inconsistent; I would remove @LOCALSTATEDIR@ from the
-service file.
+which results in:
+
+ERROR: QA Issue: package libxml-parser-perl contains bad RPATH /media/build1/poky/build/tmp/sysroots/routerstationpro/usr/lib in file /media/build1/poky/build/tmp/work/mips32-poky-linux/libxml-parser-perl/2.41-r3/packages-split/libxml-parser-perl/usr/lib/perl/vendor_perl/5.14.3/auto/XML/Parser/Expat/Expat.so
+
+Basically the trouble is the perl workdir has "qemumips" paths in it, we
+then switch to routerstationpro and the qemumips ones slip into the
+routerstationpro sysroot. The trouble is this kind of corruption can
+happen silently and results in very weird and hard to debug errors. In
+this case it comes from:
+
+usr/lib/perl/5.14.3/ExtUtils/Liblist/Kid.pm:    push(@libpath, "/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-mips-lsb/build/build/tmp/sysroots/qemumips/usr/lib");
+
+which is in the routerstationpro sysroot, therefore the RPATH gets added
+when it shouldn't be.
+
+Options to address this as far as I can tell are:
+
+a) Save the machine name during do_configure to WORKDIR and then check
+it in subsequent tasks
+b) Make WORKDIR be machine specific.
 
 
-Enrico
+b) looks attractive but could be confusing as we'd no longer have
+PACKAGE_ARCH workdirs, they'd all be "machine specific" however they
+would still get reused by sstate as they are today. It does however
+neatly sidestep the set of issues we're currently seeing.
+
+Thoughts?
+
+Cheers,
+
+Richard
+
+
+
+
 
