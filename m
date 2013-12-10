@@ -1,30 +1,26 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id AC62B60EFA
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F6EB6D7CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 09:37:16 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.93,864,1378850400"; d="scan'208";a="37864399"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 10 Dec 2013 10:37:15 +0100
-Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.128]) by
-	COSNADEXC21.usr.ingenico.loc ([10.31.4.221]) with mapi id
-	14.02.0328.009; Tue, 10 Dec 2013 10:37:14 +0100
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] bash-completion
-Thread-Index: AQHOPh8QtTjZxXd8QkuZhmM6/jG5PZpOmdpw
-Date: Tue, 10 Dec 2013 09:37:14 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B4D568A9C@COSNADEXC13.usr.ingenico.loc>
-References: <20130420225659.GM2489@jama> <20130420232835.GN2489@jama>
-In-Reply-To: <20130420232835.GN2489@jama>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
+	Tue, 10 Dec 2013 09:58:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBA9w2RL000299
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Dec 2013 01:58:02 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 10 Dec 2013 01:58:01 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Dec 2013 17:58:50 +0800
+Message-ID: <c5a4c8cf5aa2fb28a1fe8e3f5311970cafd754d1.1386669285.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1386669285.git.Qi.Chen@windriver.com>
+References: <cover.1386669285.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: bash-completion
+Subject: [PATCH 1/3] shadow-native: allow for setting password in clear text
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +33,256 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 09:37:18 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Dec 2013 09:58:03 -0000
+Content-Type: text/plain
 
-Hi,
+From: Chen Qi <qi.chen@windriver.com>
 
-What's the status of this ? Is bash-completion recipe available somewhere?
+Allow user to set password in clear text. This is convenient when
+we're building out an image.
 
-Regards,
-M
+This feature is mainly used by useradd.bbclass and extrausers.bbclass.
 
------Message d'origine-----
-De=A0: openembedded-core-bounces@lists.openembedded.org [mailto:openembedde=
-d-core-bounces@lists.openembedded.org] De la part de Martin Jansa
-Envoy=E9=A0: dimanche 21 avril 2013 01:29
-=C0=A0: bitbake-devel
-Cc=A0: openembedded-core@lists.openembedded.org
-Objet=A0: Re: [OE-core] bash-completion
+This patch adds a new option '-P' to useradd, usermod, groupadd and groupmod
+commands provided by shadow-native. The shadow package on target and in SDK
+will not be affected.
 
-On Sun, Apr 21, 2013 at 12:56:59AM +0200, Martin Jansa wrote:
-> There is old thread on oe-devel about it=20
-> http://lists.linuxtogo.org/pipermail/openembedded-devel/2007-December/
-> 003764.html
->=20
-> Is there any reason why it wasn't added to contrib yet?
->=20
-> Would it be applied if I send git patch adding it and update commands=20
-> to include cleansstate and packagedata + new options like -S and maybe=20
-> more?
+[YOCTO #5365]
 
-Or maybe in oe-core/contrib, as list of possible commands is not defined in=
- bitbake.
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../allow-for-setting-password-in-clear-text.patch |  208 ++++++++++++++++++++
+ meta/recipes-extended/shadow/shadow.inc            |    1 +
+ 2 files changed, 209 insertions(+)
+ create mode 100644 meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
+
+diff --git a/meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch b/meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
+new file mode 100644
+index 0000000..eafb935
+--- /dev/null
++++ b/meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
+@@ -0,0 +1,208 @@
++Upstream-Status: Inappropriate [OE specific]
++
++Allow for setting password in clear text.
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++
++---
++ src/Makefile.am |    8 ++++----
++ src/groupadd.c  |    8 +++++++-
++ src/groupmod.c  |    9 ++++++++-
++ src/useradd.c   |    9 +++++++--
++ src/usermod.c   |   10 ++++++++--
++ 5 files changed, 34 insertions(+), 10 deletions(-)
++
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 6a3b4c5..1ffdbc6 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -76,10 +76,10 @@ chgpasswd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBSELINUX) $(LIBCRYPT)
++ chsh_LDADD     = $(LDADD) $(LIBPAM) $(LIBSELINUX) $(LIBCRYPT_NOPAM) $(LIBSKEY) $(LIBMD)
++ chpasswd_LDADD = $(LDADD) $(LIBPAM) $(LIBSELINUX) $(LIBCRYPT)
++ gpasswd_LDADD  = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
++-groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
+++groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
++ groupdel_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
++ groupmems_LDADD = $(LDADD) $(LIBPAM) $(LIBSELINUX)
++-groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
+++groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
++ grpck_LDADD    = $(LDADD) $(LIBSELINUX)
++ grpconv_LDADD  = $(LDADD) $(LIBSELINUX)
++ grpunconv_LDADD = $(LDADD) $(LIBSELINUX)
++@@ -99,9 +99,9 @@ su_SOURCES     = \
++ 	suauth.c
++ su_LDADD       = $(LDADD) $(LIBPAM) $(LIBCRYPT_NOPAM) $(LIBSKEY) $(LIBMD)
++ sulogin_LDADD  = $(LDADD) $(LIBCRYPT)
++-useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
+++useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
++ userdel_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
++-usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
+++usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
++ vipw_LDADD     = $(LDADD) $(LIBSELINUX)
++ 
++ install-am: all-am
++diff --git a/src/groupadd.c b/src/groupadd.c
++index 66b38de..3157486 100644
++--- a/src/groupadd.c
+++++ b/src/groupadd.c
++@@ -124,6 +124,7 @@ static void usage (void)
++ 	(void) fputs (_("  -o, --non-unique              allow to create groups with duplicate\n"
++ 	                "                                (non-unique) GID\n"), stderr);
++ 	(void) fputs (_("  -p, --password PASSWORD       use this encrypted password for the new group\n"), stderr);
+++	(void) fputs (_("  -P, --clear-password PASSWORD use this clear text password for the new group\n"), stderr);
++ 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
++ 	(void) fputs (_("  -r, --system                  create a system account\n"), stderr);
++ 	(void) fputs ("\n", stderr);
++@@ -388,13 +389,14 @@ static void process_flags (int argc, char **argv)
++ 		{"key", required_argument, NULL, 'K'},
++ 		{"non-unique", no_argument, NULL, 'o'},
++ 		{"password", required_argument, NULL, 'p'},
+++		{"clear-password", required_argument, NULL, 'P'},
++ 		{"root", required_argument, NULL, 'R'},
++ 		{"system", no_argument, NULL, 'r'},
++ 		{NULL, 0, NULL, '\0'}
++ 	};
++ 
++ 	while ((c =
++-		getopt_long (argc, argv, "fg:hK:op:R:r", long_options,
+++		getopt_long (argc, argv, "fg:hK:op:P:R:r", long_options,
++ 		             &option_index)) != -1) {
++ 		switch (c) {
++ 		case 'f':
++@@ -446,6 +448,10 @@ static void process_flags (int argc, char **argv)
++ 			pflg = true;
++ 			group_passwd = optarg;
++ 			break;
+++		case 'P':
+++			pflg = true;
+++			group_passwd = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
+++			break;
++ 		case 'R':
++ 			if ('/' != optarg[0]) {
++ 				fprintf (stderr,
++diff --git a/src/groupmod.c b/src/groupmod.c
++index 27eb159..17acbc3 100644
++--- a/src/groupmod.c
+++++ b/src/groupmod.c
++@@ -127,6 +127,8 @@ static void usage (void)
++ 	(void) fputs (_("  -o, --non-unique              allow to use a duplicate (non-unique) GID\n"), stderr);
++ 	(void) fputs (_("  -p, --password PASSWORD       change the password to this (encrypted)\n"
++ 	                "                                PASSWORD\n"), stderr);
+++	(void) fputs (_("  -P, --clear-password PASSWORD change the password to this (clear text)\n"
+++	                "                                PASSWORD\n"), stderr);
++ 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
++ 	(void) fputs ("\n", stderr);
++ 	exit (E_USAGE);
++@@ -348,11 +350,12 @@ static void process_flags (int argc, char **argv)
++ 		{"new-name", required_argument, NULL, 'n'},
++ 		{"non-unique", no_argument, NULL, 'o'},
++ 		{"password", required_argument, NULL, 'p'},
+++		{"clear-password", required_argument, NULL, 'P'},
++ 		{"root", required_argument, NULL, 'R'},
++ 		{NULL, 0, NULL, '\0'}
++ 	};
++ 	while ((c =
++-		getopt_long (argc, argv, "g:hn:op:R:",
+++		getopt_long (argc, argv, "g:hn:op:P:R:",
++ 		             long_options, &option_index)) != -1) {
++ 		switch (c) {
++ 		case 'g':
++@@ -376,6 +379,10 @@ static void process_flags (int argc, char **argv)
++ 			group_passwd = optarg;
++ 			pflg = true;
++ 			break;
+++		case 'P':
+++			group_passwd = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
+++			pflg = true;
+++			break;
++ 		case 'R':
++ 			if ('/' != optarg[0]) {
++ 				fprintf (stderr,
++diff --git a/src/useradd.c b/src/useradd.c
++index 2102630..390909c 100644
++--- a/src/useradd.c
+++++ b/src/useradd.c
++@@ -716,6 +716,7 @@ static void usage (void)
++ 	(void) fputs (_("  -o, --non-unique              allow to create users with duplicate\n"
++ 	                "                                (non-unique) UID\n"), stderr);
++ 	(void) fputs (_("  -p, --password PASSWORD       encrypted password of the new account\n"), stderr);
+++	(void) fputs (_("  -P, --clear-password PASSWORD clear text password of the new account\n"), stderr);
++ 	(void) fputs (_("  -R, --root CHROOT_DIR         directory to chroot into\n"), stderr);
++ 	(void) fputs (_("  -r, --system                  create a system account\n"), stderr);
++ 	(void) fputs (_("  -s, --shell SHELL             login shell of the new account\n"), stderr);
++@@ -1035,6 +1036,7 @@ static void process_flags (int argc, char **argv)
++ 			{"no-user-group", no_argument, NULL, 'N'},
++ 			{"non-unique", no_argument, NULL, 'o'},
++ 			{"password", required_argument, NULL, 'p'},
+++			{"clear-password", required_argument, NULL, 'P'},
++ 			{"root", required_argument, NULL, 'R'},
++ 			{"system", no_argument, NULL, 'r'},
++ 			{"shell", required_argument, NULL, 's'},
++@@ -1047,9 +1049,9 @@ static void process_flags (int argc, char **argv)
++ 		};
++ 		while ((c = getopt_long (argc, argv,
++ #ifdef WITH_SELINUX
++-		                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:UZ:",
+++		                         "b:c:d:De:f:g:G:k:K:lmMNop:P:R:rs:u:UZ:",
++ #else
++-		                         "b:c:d:De:f:g:G:k:K:lmMNop:R:rs:u:U",
+++		                         "b:c:d:De:f:g:G:k:K:lmMNop:P:R:rs:u:U",
++ #endif
++ 		                         long_options, NULL)) != -1) {
++ 			switch (c) {
++@@ -1214,6 +1216,9 @@ static void process_flags (int argc, char **argv)
++ 				}
++ 				user_pass = optarg;
++ 				break;
+++			case 'P':	/* set clear text password */
+++				user_pass = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
+++				break;
++ 			case 'R':
++ 				/* no-op since we handled this in process_root_flag() earlier */
++ 				break;
++diff --git a/src/usermod.c b/src/usermod.c
++index 8363597..f4c1cee 100644
++--- a/src/usermod.c
+++++ b/src/usermod.c
++@@ -325,6 +325,7 @@ static void usage (void)
++ 	         "                                new location (use only with -d)\n"
++ 	         "  -o, --non-unique              allow using duplicate (non-unique) UID\n"
++ 	         "  -p, --password PASSWORD       use encrypted password for the new password\n"
+++	         "  -P, --clear-password PASSWORD       use clear text password for the new password\n"
++ 	         "  -R  --root CHROOT_DIR         directory to chroot into\n"
++ 	         "  -s, --shell SHELL             new login shell for the user account\n"
++ 	         "  -u, --uid UID                 new UID for the user account\n"
++@@ -950,6 +951,7 @@ static void process_flags (int argc, char **argv)
++ 			{"move-home", no_argument, NULL, 'm'},
++ 			{"non-unique", no_argument, NULL, 'o'},
++ 			{"password", required_argument, NULL, 'p'},
+++			{"clear-password", required_argument, NULL, 'P'},
++ 			{"root", required_argument, NULL, 'R'},
++ #ifdef WITH_SELINUX
++ 			{"selinux-user", required_argument, NULL, 'Z'},
++@@ -961,9 +963,9 @@ static void process_flags (int argc, char **argv)
++ 		};
++ 		while ((c = getopt_long (argc, argv,
++ #ifdef WITH_SELINUX
++-			                 "ac:d:e:f:g:G:hl:Lmop:R:s:u:UZ:",
+++			                 "ac:d:e:f:g:G:hl:Lmop:P:R:s:u:UZ:",
++ #else
++-			                 "ac:d:e:f:g:G:hl:Lmop:R:s:u:U",
+++			                 "ac:d:e:f:g:G:hl:Lmop:P:R:s:u:U",
++ #endif
++ 			                 long_options, NULL)) != -1) {
++ 			switch (c) {
++@@ -1055,6 +1057,10 @@ static void process_flags (int argc, char **argv)
++ 				user_pass = optarg;
++ 				pflg = true;
++ 				break;
+++			case 'P':
+++				user_pass = pw_encrypt (optarg, crypt_make_salt (NULL, NULL));
+++				pflg = true;
+++				break;
++ 			case 'R':
++ 				/* no-op since we handled this in process_root_flag() earlier */
++ 				break;
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
+index 33ecc7d..f77a78a 100644
+--- a/meta/recipes-extended/shadow/shadow.inc
++++ b/meta/recipes-extended/shadow/shadow.inc
+@@ -32,6 +32,7 @@ SRC_URI_append_class-native = " \
+            file://disable-syslog.patch \
+            file://useradd.patch \
+            file://add_root_cmd_groupmems.patch \
++           file://allow-for-setting-password-in-clear-text.patch \
+            "
+ SRC_URI_append_class-nativesdk = " \
+            file://add_root_cmd_options.patch \
+-- 
+1.7.9.5
+
 
