@@ -1,28 +1,35 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AD9D61227
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 107A761227
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 10:25:56 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBAAPtAJ024637
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Dec 2013 02:25:55 -0800 (PST)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 10 Dec 2013 02:25:55 -0800
-Message-ID: <52A6EC2E.20408@windriver.com>
-Date: Tue, 10 Dec 2013 18:25:50 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
-MIME-Version: 1.0
-To: Saul Wold <saul.wold@intel.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1386078157.git.hongxu.jia@windriver.com>
-	<ae7e0f907b72ad9af0a078bdf317a7eb10315c7f.1386078157.git.hongxu.jia@windriver.com>
-	<52A69B7A.50409@intel.com>
-In-Reply-To: <52A69B7A.50409@intel.com>
-Subject: Re: [PATCH 1/2] dhclient-script: let resolv.conf and resolv.conf.dhclient on the same direcotry
+	Tue, 10 Dec 2013 10:33:07 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBAAX073021786; Tue, 10 Dec 2013 10:33:00 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DHC27iIGT_ls; Tue, 10 Dec 2013 10:33:00 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBAAWu8O021766
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Tue, 10 Dec 2013 10:32:58 GMT
+Message-ID: <1386671571.4332.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 10 Dec 2013 10:32:51 +0000
+In-Reply-To: <CAMKF1sqhu=WJb-OvKsoPO+0R-aB7=yMQFk4JD+iD0VnHMbnQFg@mail.gmail.com>
+References: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
+	<1386589722.25847.79.camel@ted>
+	<CAMKF1sokZrHWRn_2RGT3pKN_RZMy1MnvXCUXn-gDdm4p-1iHvQ@mail.gmail.com>
+	<1386625884.25847.100.camel@ted>
+	<CAMKF1sqhu=WJb-OvKsoPO+0R-aB7=yMQFk4JD+iD0VnHMbnQFg@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] boost: Convert ??= weaker assingment to weak ?= assignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,159 +42,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 10:25:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 10 Dec 2013 10:33:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 12/10/2013 12:41 PM, Saul Wold wrote:
-> On 12/03/2013 05:46 AM, Hongxu Jia wrote:
->> Even though '/etc' is on the readonly partition, it's possible that
->> /etc/resolv.conf is on a separate writable partition.
->>
->> In this situation, we should make sure the temp file 
->> resolv.conf.dhclient
->> on the same direcotry.
->>
->> [YOCTO #5624]
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-connectivity/dhcp/dhcp.inc            |  1 +
->>   ...ript-let-resolv.conf-and-resolv.conf.dhcl.patch | 74 
->> ++++++++++++++++++++++
->
-> These new scripts are doing alot of out calling from the shell script, 
-> and can cause additional fork/execs during the critical path of system 
-> startup, is there any way to reduce this?
->
+On Mon, 2013-12-09 at 15:11 -0800, Khem Raj wrote:
+> On Mon, Dec 9, 2013 at 1:51 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Mon, 2013-12-09 at 09:34 -0800, Khem Raj wrote:
+> >> On Mon, Dec 9, 2013 at 3:48 AM, Richard Purdie
+> >> <richard.purdie@linuxfoundation.org> wrote:
+> >> >
+> >> > To illustrate why I'm struggling to follow this, "bitbake boost -e |
+> >> > grep BOOST_LIBS" on OE-Core does not show python in the list...
+> >> >
+> >>
+> >>
+> >> I can see it. Its on debian python is 2.7.3
+> >>
+> >> kraj@builder:~$ cat /etc/os-release
+> >> PRETTY_NAME="Debian GNU/Linux 7 (wheezy)"
+> >> NAME="Debian GNU/Linux"
+> >> VERSION_ID="7"
+> >> VERSION="7 (wheezy)"
+> >> ID=debian
+> >> ANSI_COLOR="1;31"
+> >> HOME_URL="http://www.debian.org/"
+> >> SUPPORT_URL="http://www.debian.org/support/"
+> >> BUG_REPORT_URL="http://bugs.debian.org/"
+> >
+> > I doubt its host OS that is causing this, more likely something to do
+> > with the configuration you have (I'm using python 2.7.5+ on Ubuntu
+> > 13.10). Which DISTRO is this? Which layers are enabled? Which version of
+> > bitbake?
+> >
+> 
+> all is latest from yesterday config wise I am building angstrom. now I did both
+> with angstrom and with OE-Core only and you are right it appears to
+> work with OE-Core alone
+> 
+> see
+> 
+> http://paste.ubuntu.com/6548349/
+> 
+> for angstrom version see
+> 
+> http://paste.ubuntu.com/6548360/
+> 
+> 
+> I will dig more into it a bit and see how PACKAGECONFIG can be bad in
+> angstrom's case
 
-Do you mean the new script :readonly-dhclient-enter-hooks ?
-If yes, we could just drop the [PATCH 2/2] patch and it could
-work while read-only is enabled;
+Looking at those pastebins, it shows up as a python function since the
+"python" flag is set. That shouldn't do anything too bad to the variable
+though:
 
-Because /etc/resolv.conf is a symlink to /var/run/ resolv.conf in
-oe-core, and it's always writable:
+python PACKAGECONFIG () {
+}
 
-#ls /etc/resolv.conf -al
-lrwxrwxrwx 1 root root 29 Oct 22  2012 /etc/resolv.conf -> 
-/var/run/resolv.conf
+In one case it has the value python, in the other it does not. Its all
+very odd. I wonder if "bitbake -e" shows it taking any value? There has
+to be something in the Angstrom setup which is triggering this...
 
-//Hongxu
+Cheers,
 
-> Sau!
->
->>   2 files changed, 75 insertions(+)
->>   create mode 100644 
->> meta/recipes-connectivity/dhcp/dhcp/dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch
->>
->> diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc 
->> b/meta/recipes-connectivity/dhcp/dhcp.inc
->> index ad82b57..d8376aa 100644
->> --- a/meta/recipes-connectivity/dhcp/dhcp.inc
->> +++ b/meta/recipes-connectivity/dhcp/dhcp.inc
->> @@ -16,6 +16,7 @@ SRC_URI = 
->> "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
->>              file://site.h \
->>          file://init-relay file://default-relay \
->>          file://init-server file://default-server \
->> + file://dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch \
->>          file://dhclient.conf file://dhcpd.conf"
->>
->>   inherit autotools
->> diff --git 
->> a/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch 
->> b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch 
->>
->> new file mode 100644
->> index 0000000..db56f70
->> --- /dev/null
->> +++ 
->> b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch
->> @@ -0,0 +1,74 @@
->> +dhclient-script: let resolv.conf and resolv.conf.dhclient on the 
->> same direcotry
->> +
->> +Even though '/etc' is on the readonly partition, it's possible that
->> +/etc/resolv.conf is on a separate writable partition.
->> +
->> +In this situation, we should make sure the temp file 
->> resolv.conf.dhclient
->> +on the same direcotry.
->> +
->> +Upstream-Status: Pending
->> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> +---
->> + client/scripts/linux |   24 +++++++++++++-----------
->> + 1 file changed, 13 insertions(+), 11 deletions(-)
->> +
->> +diff --git a/client/scripts/linux b/client/scripts/linux
->> +index 6f8ea4b..fbc6324 100755
->> +--- a/client/scripts/linux
->> ++++ b/client/scripts/linux
->> +@@ -27,27 +27,29 @@ ip=/sbin/ip
->> +
->> + make_resolv_conf() {
->> +   if [ x"$new_domain_name_servers" != x ]; then
->> +-    cat /dev/null > /etc/resolv.conf.dhclient
->> +-    chmod 644 /etc/resolv.conf.dhclient
->> ++    sysconfdir=`dirname $(readlink -f '/etc/resolv.conf')`
->> ++    cat /dev/null > $sysconfdir/resolv.conf.dhclient
->> ++    chmod 644 $sysconfdir/resolv.conf.dhclient
->> +     if [ x"$new_domain_search" != x ]; then
->> +-      echo search $new_domain_search >> /etc/resolv.conf.dhclient
->> ++      echo search $new_domain_search >> 
->> $sysconfdir/esolv.conf.dhclient
->> +     elif [ x"$new_domain_name" != x ]; then
->> +       # Note that the DHCP 'Domain Name Option' is really just a 
->> domain
->> +       # name, and that this practice of using the domain name 
->> option as
->> +       # a search path is both nonstandard and deprecated.
->> +-      echo search $new_domain_name >> /etc/resolv.conf.dhclient
->> ++      echo search $new_domain_name >> $sysconfdir/resolv.conf.dhclient
->> +     fi
->> +     for nameserver in $new_domain_name_servers; do
->> +-      echo nameserver $nameserver >>/etc/resolv.conf.dhclient
->> ++      echo nameserver $nameserver >>$sysconfdir/resolv.conf.dhclient
->> +     done
->> +
->> +-    mv /etc/resolv.conf.dhclient /etc/resolv.conf
->> ++    mv $sysconfdir/resolv.conf.dhclient $sysconfdir/resolv.conf
->> +   elif [ "x${new_dhcp6_name_servers}" != x ] ; then
->> +-    cat /dev/null > /etc/resolv.conf.dhclient6
->> +-    chmod 644 /etc/resolv.conf.dhclient6
->> ++    sysconfdir=`dirname $(readlink -f '/etc/resolv.conf')`
->> ++    cat /dev/null > $sysconfdir/resolv.conf.dhclient6
->> ++    chmod 644 $sysconfdir/resolv.conf.dhclient6
->> +
->> +     if [ "x${new_dhcp6_domain_search}" != x ] ; then
->> +-      echo search ${new_dhcp6_domain_search} >> 
->> /etc/resolv.conf.dhclient6
->> ++      echo search ${new_dhcp6_domain_search} >> 
->> $sysconfdir/resolv.conf.dhclient6
->> +     fi
->> +     shopt -s nocasematch
->> +     for nameserver in ${new_dhcp6_name_servers} ; do
->> +@@ -59,11 +61,11 @@ make_resolv_conf() {
->> +       else
->> +     zone_id=
->> +       fi
->> +-      echo nameserver ${nameserver}$zone_id >> 
->> /etc/resolv.conf.dhclient6
->> ++      echo nameserver ${nameserver}$zone_id >> 
->> $sysconfdir/resolv.conf.dhclient6
->> +     done
->> +     shopt -u nocasematch
->> +
->> +-    mv /etc/resolv.conf.dhclient6 /etc/resolv.conf
->> ++    mv $sysconfdir/resolv.conf.dhclient6 $sysconfdir/resolv.conf
->> +   fi
->> + }
->> +
->> +--
->> +1.7.9.5
->> +
->>
->
+Richard
 
 
