@@ -1,39 +1,41 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FF1A6DB6C
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0507C6DB5B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 14:32:16 +0000 (UTC)
-Received: by mail-ee0-f49.google.com with SMTP id c41so2258383eek.22
+	Tue, 10 Dec 2013 14:35:12 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id e53so2288841eek.29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 06:32:15 -0800 (PST)
+	Tue, 10 Dec 2013 06:35:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=7IQUm1sUnB3A9Xb3iUHIjbfKjIBUhjBWVeP34viNSYs=;
-	b=fXo8FBHgmDmQCcPHGnN9g1KfK/kU3NpuEKyBDV/V/FtZMdVuK8u2EfYY/jZbWRU/AG
-	3e3e+y3sc2krBfKB10sA3l1qGAqhCeapus0aGTyflUoLcXAEhNMa63ArpPlqX9eccns3
-	2dKCD/gJfyYNBRI6Em+voQ+bx2ccqWjMha69PVmOzPJO5Ub0+eYOWf3S9gkbE2B4kX/O
-	/0W9TutviPfnUMXZskxAwKId/xjU04WWbkTiwcqrO/qlb560q37Nku4rOlYjFiNY9HZI
-	VphPdR3UkROkkNMy0WXYIQzncLnjohGR0hSFQaMZk42s2BW1lhgkdeDll9M99lUF1jnC
-	nBJw==
-X-Received: by 10.14.114.71 with SMTP id b47mr18698670eeh.26.1386685935918;
-	Tue, 10 Dec 2013 06:32:15 -0800 (PST)
+	bh=iEUEaU20dkvsnFgrjImdWHQIzvK2ie0Cna8RR3S6alQ=;
+	b=y614V2lZIbZMcId7SGxuClu8Zwstf209GY2KJaHBRbHp7UgWqoqw9/pI6kJCGhLw5J
+	ucQpGx+McgbOa0vCcikZUqz6KI6LPVG9E/qo/tgjLGWmsEoFMKfWOFc+rVfi/R9JXMIQ
+	DZWPR9WnFEzg6qgVjarqus0PrAIdgdeyv3IX6XhVCXlYkbIvhywvK46wWaRmIMKsYbLu
+	vNiRYFYb46sdJdtm247YUAIPkk+WQfdwZFGz2hRJ8gUik1Y4DR9cVOiu5zwDPl8912AR
+	HnCjOCFRmOFkaEx4POmoMLRVxdphLxKLvrvnVoGBr6y4ggOHDsjNXVk6AvnQA4IBwwOo
+	RDrQ==
+X-Received: by 10.15.52.197 with SMTP id p45mr8932864eew.98.1386686112198;
+	Tue, 10 Dec 2013 06:35:12 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id o1sm41866550eea.10.2013.12.10.06.32.14
+	by mx.google.com with ESMTPSA id a45sm41889994eem.6.2013.12.10.06.35.10
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 10 Dec 2013 06:32:14 -0800 (PST)
-Date: Tue, 10 Dec 2013 15:32:34 +0100
+	Tue, 10 Dec 2013 06:35:11 -0800 (PST)
+Date: Tue, 10 Dec 2013 15:35:30 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-ID: <20131210143234.GE3721@jama>
-References: <52A6B861.30104@topic.nl>
+To: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+Message-ID: <20131210143530.GF3721@jama>
+References: <20130420225659.GM2489@jama> <20130420232835.GN2489@jama>
+	<8672BB614B4CCA40A6B3BDD6FD82050B4D568A9C@COSNADEXC13.usr.ingenico.loc>
 MIME-Version: 1.0
-In-Reply-To: <52A6B861.30104@topic.nl>
+In-Reply-To: <8672BB614B4CCA40A6B3BDD6FD82050B4D568A9C@COSNADEXC13.usr.ingenico.loc>
 User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Figuring out why sstate-cache is no longer used for a package
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: bash-completion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,72 +48,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 14:32:17 -0000
-X-Groupsio-MsgNum: 48067
+X-List-Received-Date: Tue, 10 Dec 2013 14:35:14 -0000
+X-Groupsio-MsgNum: 48068
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="VuQYccsttdhdIfIP"
+	protocol="application/pgp-signature"; boundary="V32M1hWVjliPHW+c"
 Content-Disposition: inline
 
---VuQYccsttdhdIfIP
-Content-Type: text/plain; charset=us-ascii
+--V32M1hWVjliPHW+c
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 10, 2013 at 07:44:49AM +0100, Mike Looijmans wrote:
-> I've been struggling with this for a few days.
+On Tue, Dec 10, 2013 at 09:37:14AM +0000, Matthieu CRAPET wrote:
+> Hi,
 >=20
-> We have a build server that build various images overnight. One of the=20
-> packages in that image is "fpga-image", which takes more than an hour to =
-build.
+> What's the status of this ? Is bash-completion recipe available somewhere?
+
+I don't know about any change since my question.
+
+Are you talking about bash-completion definition for bitbake, right?
+
+I wasn't asking about recipe for "generic" bash-completion.
+
+> -----Message d'origine-----
+> De=A0: openembedded-core-bounces@lists.openembedded.org [mailto:openembed=
+ded-core-bounces@lists.openembedded.org] De la part de Martin Jansa
+> Envoy=E9=A0: dimanche 21 avril 2013 01:29
+> =C0=A0: bitbake-devel
+> Cc=A0: openembedded-core@lists.openembedded.org
+> Objet=A0: Re: [OE-core] bash-completion
 >=20
-> We have been sharing the the build server's sstate-cache via HTTP and thi=
-s has=20
-> worked excellently up until yesterday.
->=20
-> The current situation is that a client will grab everything from the=20
-> buildserver's HTTP sstate-cache, potentially finishing a build from scrat=
-ch in=20
-> about five minutes. However, for some reason, the fpga-image does not fal=
-l=20
-> into this category, and eache machine insists on re-building it from scra=
-tch.=20
-> I've been trying to debug this, but the sstate-cache is on another machin=
-e. I=20
-> tried copying part of the build server's sstate-cache onto my machine, bu=
-t=20
-> that only results in "bitbake-diffsigs -t fpga-image .." yielding "ERROR:=
- No=20
-> sigdata files found matching fpga-image .." so that apparently is a dead =
-end.
->=20
-> How can I determine what is causing the system to think that it needs to=
+> On Sun, Apr 21, 2013 at 12:56:59AM +0200, Martin Jansa wrote:
+> > There is old thread on oe-devel about it=20
+> > http://lists.linuxtogo.org/pipermail/openembedded-devel/2007-December/
+> > 003764.html
+> >=20
+> > Is there any reason why it wasn't added to contrib yet?
+> >=20
+> > Would it be applied if I send git patch adding it and update commands=
 =20
-> rebuild this package?
-
-I use this script:
-openembedded-core/scripts/sstate-diff-machines.sh
-
-to create "backup" of sstate signatures and when some next build
-unexpectedly doesn't reuse some sstate packages I use the script again
-and compare new and old signatures to see why.
-
-As bonus each build which populates out SSTATE_MIRROR also creates tarball
-with these signatures, so I can easily download one tarball and compare
-what and why won't be reused from sstate.
+> > to include cleansstate and packagedata + new options like -S and maybe=
+=20
+> > more?
+>=20
+> Or maybe in oe-core/contrib, as list of possible commands is not defined =
+in bitbake.
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---VuQYccsttdhdIfIP
+--V32M1hWVjliPHW+c
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlKnJgIACgkQN1Ujt2V2gBwb2QCgmfx2Cod/CmnHe6RZ2v967cTr
-NwMAoKiWC28n93JUIw2yDrcwzX9PCvCC
-=e8o2
+iEYEARECAAYFAlKnJrIACgkQN1Ujt2V2gBztrACgr/HPSyQE6BGQvafnCNNI/Bb7
+GNYAn1k9ESbKv6SYWcyvBcDeefq/Mq/7
+=GSVz
 -----END PGP SIGNATURE-----
 
---VuQYccsttdhdIfIP--
+--V32M1hWVjliPHW+c--
