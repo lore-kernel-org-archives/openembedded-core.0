@@ -1,35 +1,38 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 524646DDB0
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id DC55F6AE37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 15:19:05 +0000 (UTC)
-Received: by mail-pd0-f182.google.com with SMTP id v10so7476564pde.41
+	Tue, 10 Dec 2013 15:36:21 +0000 (UTC)
+Received: by mail-la0-f51.google.com with SMTP id ec20so2837021lab.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 07:19:05 -0800 (PST)
+	Tue, 10 Dec 2013 07:36:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=CeIZy8w0X1JzxDz0jyhIcwiBxwfNzE++QTEU1w0Eba8=;
-	b=ecbTeLZTiFLNRSK6Cg0ZFMy38WvPVhMhjV+vvsTESSOk7LD/U3u8lhsCRGs0Z9IW41
-	/sQeob1V0I6xws8H5grQZjFieaGo9PnU91cd5T2MYQ/PiZ9nngyL9ojxpTcZ1YPglAV2
-	2fVsyiUGmp7orWwSqJEXVREFh8JM7K1NfLC2bWWKh93/J6QcciytKMn8HsoACZL3Pi/U
-	Pb8l5Q0zL8iYiNF0Hd1+4h6QTInCkPyu9IvAM0IIceJDW9IAUKqT0fhdKZlp8CFlgjlp
-	pERiYq4iI2unSGaU71JWF/FE1byjv/QtJJEoy5ymSPaNRsQwLRbJmKFudYkoYr+Esu+1
-	Q23w==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=ONMpfW9/FnLhHG0zwE8VMlTce3YbGfS1sZV51sJfrOE=;
+	b=fYAe5UEOKKjcDpNtcruv5RefjuEvdBc8jY7V9zP0sf2/aFsbWvs8yG+SPq46yLKWVQ
+	bUWHbzMpcHAJO/UYeTgrGZg0Hph63rD5zXekHoW7oPHT0yOWWfFdX2BNxCZpYPHTVrNm
+	xGERTOsiGvz14ttTgw4hh0GRCa4tFhWTEWxufQDaZ2bOJDgoy5eLFIB2yHSNOWQEQvGt
+	WHGCu6cDfZT3DYi+XI+g8l6myiVLz+3Ywcfu8FayoZ7scMXC+5hpWbrsLxc+m3jidUEH
+	8oGdxroIiVG8stUP1bv7hFMU7eLlU8QEPDZke1QY640MH5AC0Olr0u0y7MLGRrHD4Qfg
+	05rA==
+X-Received: by 10.152.6.201 with SMTP id d9mr8676809laa.25.1386689780810; Tue,
+	10 Dec 2013 07:36:20 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.68.173.132 with SMTP id bk4mr3535307pbc.169.1386688743549;
-	Tue, 10 Dec 2013 07:19:03 -0800 (PST)
-Received: by 10.68.12.133 with HTTP; Tue, 10 Dec 2013 07:19:02 -0800 (PST)
-In-Reply-To: <cover.1386688151.git.bruce.ashfield@windriver.com>
-References: <cover.1386688151.git.bruce.ashfield@windriver.com>
-Date: Tue, 10 Dec 2013 10:19:02 -0500
-Message-ID: <CADkTA4Ow+7hNR3-wShbnnSWk7h4HZq2yNatq_84Cr5YKYzwjhw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Sender: kergoth@gmail.com
+Received: by 10.114.22.169 with HTTP; Tue, 10 Dec 2013 07:36:00 -0800 (PST)
+In-Reply-To: <20131210143234.GE3721@jama>
+References: <52A6B861.30104@topic.nl> <20131210143234.GE3721@jama>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 10 Dec 2013 08:36:00 -0700
+X-Google-Sender-Auth: cnANvaI_TV7q8slzBCWvxu1G8hg
+Message-ID: <CABcZANkdwxyr-VUNtv8p_6LRUsgAmQfA0s67zPH9TN-K6sFw0g@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] linux-yocto: static -dev SRCREVs and -headers for klibc
+Subject: Re: Figuring out why sstate-cache is no longer used for a package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,147 +45,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 15:19:06 -0000
-X-Groupsio-MsgNum: 48072
-Content-Type: multipart/mixed; boundary=047d7b6d9b16f949a604ed2fa18b
+X-List-Received-Date: Tue, 10 Dec 2013 15:36:22 -0000
+Content-Type: multipart/alternative; boundary=089e013d1a94cc8cc604ed2fdf19
 
---047d7b6d9b16f949a604ed2fa18b
-Content-Type: text/plain; charset=ISO-8859-1
+--089e013d1a94cc8cc604ed2fdf19
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 10, 2013 at 10:16 AM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> Richard/Saul,
->
-> Here are a couple of changes that I've been testing locally for a week now,
-> with nothing (obvious) breaking.
->
-> The linux-yocto-dev kernel change is to allow integration into master under
-> test, so our dev kernels can be exercised directly before they become the
-> kernel for a release. With this change, a layer can now create an optional
-> include file, set a couple of variables and have a set of static REVs used
-> rather than the default of AUTOREV.
+On Tue, Dec 10, 2013 at 7:32 AM, Martin Jansa <martin.jansa@gmail.com>wrote=
+:
 
-I then proceeded to NOT include this patch in my rr directory, so it didn't
-get sent.
-
-I've attached it here and it is on the branch I referenced, but let me know
-if you'd rather I do a complete resend.
-
-Cheers,
-
-Bruce
-
+> On Tue, Dec 10, 2013 at 07:44:49AM +0100, Mike Looijmans wrote:
+> > I've been struggling with this for a few days.
+> >
+> > We have a build server that build various images overnight. One of the
+> > packages in that image is "fpga-image", which takes more than an hour t=
+o
+> build.
+> >
+> > We have been sharing the the build server's sstate-cache via HTTP and
+> this has
+> > worked excellently up until yesterday.
+> >
+> > The current situation is that a client will grab everything from the
+> > buildserver's HTTP sstate-cache, potentially finishing a build from
+> scratch in
+> > about five minutes. However, for some reason, the fpga-image does not
+> fall
+> > into this category, and eache machine insists on re-building it from
+> scratch.
+> > I've been trying to debug this, but the sstate-cache is on another
+> machine. I
+> > tried copying part of the build server's sstate-cache onto my machine,
+> but
+> > that only results in "bitbake-diffsigs -t fpga-image .." yielding
+> "ERROR: No
+> > sigdata files found matching fpga-image .." so that apparently is a dea=
+d
+> end.
+> >
+> > How can I determine what is causing the system to think that it needs t=
+o
+> > rebuild this package?
 >
-> The linux-libc-headers change fixes a klibc mips build failure issue found
-> by Andrea Adami. This is fixed in the latest kernels, so we'll backport
-> the change to the 3.10 based headers and drop it when I next uprev the
-> kernel and headers.
+> I use this script:
+> openembedded-core/scripts/sstate-diff-machines.sh
 >
-> Cheers,
+> to create "backup" of sstate signatures and when some next build
+> unexpectedly doesn't reuse some sstate packages I use the script again
+> and compare new and old signatures to see why.
 >
-> Bruce
->
-> cc: Andrea Adami <andrea.adami@gmail.com>
->
->
-> The following changes since commit fc1bbe3654a3d456dfeb904f4c9752a03e3c48d6:
->
->   linux-yocto-dev: allow static SRCREVs via include (2013-12-10 10:06:09 -0500)
->
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib zedd/kernel
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->
-> Bruce Ashfield (1):
->   linux-libc-headers: fix MIPS klibc build error
->
->  ...lude-asm-byteorder.h-in-linux-raid-md_p.h.patch | 34 ++++++++++++++++++++++
->  .../linux-libc-headers/linux-libc-headers_3.10.bb  |  3 ++
->  2 files changed, 37 insertions(+)
->  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
->
-> --
-> 1.8.1.2
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> As bonus each build which populates out SSTATE_MIRROR also creates tarbal=
+l
+> with these signatures, so I can easily download one tarball and compare
+> what and why won't be reused from sstate.
 
 
+You can also directly use bitbake-whatchanged -v <target>, with STAMPS_DIR
+set to the automated build=E2=80=99s stamps directory w/ sstates included.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+--089e013d1a94cc8cc604ed2fdf19
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---047d7b6d9b16f949a604ed2fa18b
-Content-Type: text/x-patch; charset=US-ASCII; 
-	name="0001-linux-yocto-dev-allow-static-SRCREVs-via-include.patch"
-Content-Disposition: attachment; 
-	filename="0001-linux-yocto-dev-allow-static-SRCREVs-via-include.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_hp1ao16d0
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Dec 10, 2013 at 7:32 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br>
 
-RnJvbSBmYzFiYmUzNjU0YTNkNDU2ZGZlYjkwNGY0Yzk3NTJhMDNlM2M0OGQ2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAd2luZHJp
-dmVyLmNvbT4KRGF0ZTogVGh1LCA1IERlYyAyMDEzIDE0OjMxOjU1IC0wNTAwClN1YmplY3Q6IFtQ
-QVRDSF0gbGludXgteW9jdG8tZGV2OiBhbGxvdyBzdGF0aWMgU1JDUkVWcyB2aWEgaW5jbHVkZQoK
-VGhlIGxpbnV4LXlvY3RvIGRldiByZWNpcGUgaXMgaW50ZW5kZWQgdG8gdHJhY2sgdGhlIGxhdGVz
-dCByZXZpc2lvbnMgb2YgdGhlCmtlcm5lbCB0cmVlIGJ5IGRlZmF1bHQuIFRvIGNvbnRyb2wgcmV2
-aXNpb24gY2h1cm4sIGFuZCBpbnRlZ3JhdGUgaW50byBhCnJlZ3VsYXIgYnVpbGQgc2NoZWR1bGUg
-aGF2aW5nIHRoZSBhYmlsaXR5IHRvIHNwZWNpZnkgYSBzZXQgb2YgU1JDUkVWcyB3aXRob3V0Cm1v
-ZGlmeWluZyB0aGUgcmVjaXBlIGl0c2VsZiBpcyBkZXNpcmVkLgoKU28gd2UgaW50cm9kdWNlIGFu
-IG9wdGlvbmFsIGluY2x1ZGUgZmlsZSwgYW5kIHZhcmlhYmxlcyB0aGF0IGNvbnRyb2wgd2hldGhl
-cgpvciBub3QgdGhlIHN0YXRpYyBTUkNSRVZzIGFyZSB1c2VkOiBVU0VfTUFDSElORV9BVVRPUkVW
-IGFuZCBVU0VfTUVUQV9BVVRPUkVWLAp0byBhZGQgdGhpcyBmbGV4aWJpbGl0eS4KClNpZ25lZC1v
-ZmYtYnk6IEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZEB3aW5kcml2ZXIuY29tPgotLS0K
-IG1ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tZGV2LmJiIHwgMjUgKysrKysr
-KysrKysrKysrKysrLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDcg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51
-eC15b2N0by1kZXYuYmIgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvLWRl
-di5iYgppbmRleCBlN2I4ZDhiMmE3YTEuLmU4ZDE0Yjk2NmQ4NCAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1kZXYuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LWtlcm5lbC9saW51eC9saW51eC15b2N0by1kZXYuYmIKQEAgLTExLDYgKzExLDEyIEBACiBpbmhl
-cml0IGtlcm5lbAogcmVxdWlyZSByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by5pbmMK
-IAorVVNFX01BQ0hJTkVfQVVUT1JFViA/PSAiMSIKK1VTRV9NRVRBX0FVVE9SRVYgPz0gIjEiCisK
-KyMgcHJvdmlkZSB0aGlzIC5pbmMgdG8gc2V0IHNwZWNpZmljIHJldmlzaW9ucworaW5jbHVkZSBy
-ZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1kZXYtcmV2aXNpb25zLmluYworCiBLQlJB
-TkNIID0gInN0YW5kYXJkL2Jhc2UiCiBLQlJBTkNIX0RFRkFVTFQgPSAiJHtLQlJBTkNIfSIKIEtN
-RVRBID0gIm1ldGEiCkBAIC0yMiwxNSArMjgsMTkgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXQucG9r
-eWxpbnV4Lm9yZy9saW51eC15b2N0by1kZXYuZ2l0O25vY2hlY2tvdXQ9MTticmFuY2g9JHtLQlIK
-ICMgbGludXgteW9jdG8tZGV2IGlzIHRoZSBwcmVmZXJyZWQgcHJvdmlkZXIsIHRoZXkgd2lsbCBi
-ZSBvdmVycmlkZGVuIHRvCiAjIEFVVE9SRVYgaW4gZm9sbG93aW5nIGFub255bW91cyBweXRob24g
-cm91dGluZSBhbmQgcmVzb2x2ZWQgd2hlbiB0aGUKICMgdmFyaWFibGVzIGFyZSBmaW5hbGl6ZWQu
-Ci1TUkNSRVZfbWFjaGluZT0iMjk1OTQ0MDRkN2ZlNzNjZDgwZWFhNGVlOGM0M2RjYzUzOTcwYzYw
-ZSIKLVNSQ1JFVl9tZXRhPSIyOTU5NDQwNGQ3ZmU3M2NkODBlYWE0ZWU4YzQzZGNjNTM5NzBjNjBl
-IgorU1JDUkVWX21hY2hpbmUgPz0gIjI5NTk0NDA0ZDdmZTczY2Q4MGVhYTRlZThjNDNkY2M1Mzk3
-MGM2MGUiCitTUkNSRVZfbWV0YSA/PSAiMjk1OTQ0MDRkN2ZlNzNjZDgwZWFhNGVlOGM0M2RjYzUz
-OTcwYzYwZSIKIAogcHl0aG9uICgpIHsKICAgICBpZiBkLmdldFZhcigiUFJFRkVSUkVEX1BST1ZJ
-REVSX3ZpcnR1YWwva2VybmVsIiwgVHJ1ZSkgIT0gImxpbnV4LXlvY3RvLWRldiI6CiAgICAgICAg
-IHJhaXNlIGJiLnBhcnNlLlNraXBQYWNrYWdlKCJTZXQgUFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1
-YWwva2VybmVsIHRvIGxpbnV4LXlvY3RvLWRldiB0byBlbmFibGUgaXQiKQogICAgIGVsc2U6Ci0g
-ICAgICAgIGQuc2V0VmFyKCJTUkNSRVZfbWFjaGluZSIsICIke0FVVE9SRVZ9IikKLSAgICAgICAg
-ZC5zZXRWYXIoIlNSQ1JFVl9tZXRhIiwgIiR7QVVUT1JFVn0iKQorICAgICAgICAjIGlmIHRoZSBy
-ZXZpc2lvbnMgaGF2ZSBiZWVuIGNoYW5nZWQgZnJvbSB0aGUgZGVmYXVsdHMgYWJvdmUgd2UgbGVh
-dmUgdGhlbQorICAgICAgICAjIGFsb25lLiBCdXQgaWYgdGhlIGRlZmF1bHRzIGFyZSBsZWZ0LCB3
-ZSBjaGFuZ2UgdG8gQVVUT1JFVi4KKyAgICAgICAgaWYgZC5nZXRWYXIoIlVTRV9NQUNISU5FX0FV
-VE9SRVYiLCBUcnVlKSA9PSAiMSI6CisgICAgICAgICAgICBkLnNldFZhcigiU1JDUkVWX21hY2hp
-bmUiLCAiJHtBVVRPUkVWfSIpCisgICAgICAgIGlmIGQuZ2V0VmFyKCJVU0VfTUVUQV9BVVRPUkVW
-IiwgVHJ1ZSkgPT0gIjEiOgorICAgICAgICAgICAgZC5zZXRWYXIoIlNSQ1JFVl9tZXRhIiwgIiR7
-QVVUT1JFVn0iKQogfQogCiBMSU5VWF9WRVJTSU9OID89ICIzLjEwKyIKQEAgLTQwLDggKzUwLDkg
-QEAgUFYgPSAiJHtMSU5VWF9WRVJTSU9OfStnaXQke1NSQ1BWfSIKIENPTVBBVElCTEVfTUFDSElO
-RSA9ICIocWVtdWFybXxxZW11eDg2fHFlbXVwcGN8cWVtdW1pcHN8cWVtdW1pcHM2NHxxZW11eDg2
-LTY0KSIKIAogIyBGdW5jdGlvbmFsaXR5IGZsYWdzCi1LRVJORUxfRkVBVFVSRVNfYXBwZW5kID0g
-IiBmZWF0dXJlcy9uZXRmaWx0ZXIvbmV0ZmlsdGVyLnNjYyIKLUtFUk5FTF9GRUFUVVJFU19hcHBl
-bmRfcWVtdXg4Nj0iIGNmZy9zb3VuZC5zY2MiCitLRVJORUxfRVhUUkFfRkVBVFVSRVMgPz0gImZl
-YXR1cmVzL25ldGZpbHRlci9uZXRmaWx0ZXIuc2NjIGZlYXR1cmVzL3Rhc2tzdGF0cy90YXNrc3Rh
-dHMuc2NjIgorS0VSTkVMX0ZFQVRVUkVTX2FwcGVuZCA9ICIgJHtLRVJORUxfRVhUUkFfRkVBVFVS
-RVN9IgorS0VSTkVMX0ZFQVRVUkVTX2FwcGVuZF9xZW11eDg2PSIgY2ZnL3NvdW5kLnNjYyBjZmcv
-cGFyYXZpcnRfa3ZtLnNjYyIKIEtFUk5FTF9GRUFUVVJFU19hcHBlbmRfcWVtdXg4Ni02ND0iIGNm
-Zy9zb3VuZC5zY2MiCi1LRVJORUxfRkVBVFVSRVNfYXBwZW5kX3FlbXV4ODY9IiBjZmcvcGFyYXZp
-cnRfa3ZtLnNjYyIKIEtFUk5FTF9GRUFUVVJFU19hcHBlbmQgPSAiICR7QGJiLnV0aWxzLmNvbnRh
-aW5zKCJUVU5FX0ZFQVRVUkVTIiwgIm14MzIiLCAiIGNmZy94MzIuc2NjIiwgIiIgLGQpfSIKKwot
-LSAKMS44LjEuMgoK
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Tue, Dec 10, 2013 at 07=
+:44:49AM +0100, Mike Looijmans wrote:<br>
+&gt; I&#39;ve been struggling with this for a few days.<br>
+&gt;<br>
+&gt; We have a build server that build various images overnight. One of the=
+<br>
+&gt; packages in that image is &quot;fpga-image&quot;, which takes more tha=
+n an hour to build.<br>
+&gt;<br>
+&gt; We have been sharing the the build server&#39;s sstate-cache via HTTP =
+and this has<br>
+&gt; worked excellently up until yesterday.<br>
+&gt;<br>
+&gt; The current situation is that a client will grab everything from the<b=
+r>
+&gt; buildserver&#39;s HTTP sstate-cache, potentially finishing a build fro=
+m scratch in<br>
+&gt; about five minutes. However, for some reason, the fpga-image does not =
+fall<br>
+&gt; into this category, and eache machine insists on re-building it from s=
+cratch.<br>
+&gt; I&#39;ve been trying to debug this, but the sstate-cache is on another=
+ machine. I<br>
+&gt; tried copying part of the build server&#39;s sstate-cache onto my mach=
+ine, but<br>
+&gt; that only results in &quot;bitbake-diffsigs -t fpga-image ..&quot; yie=
+lding &quot;ERROR: No<br>
+&gt; sigdata files found matching fpga-image ..&quot; so that apparently is=
+ a dead end.<br>
+&gt;<br>
+&gt; How can I determine what is causing the system to think that it needs =
+to<br>
+&gt; rebuild this package?<br>
+<br>
+</div>I use this script:<br>
+openembedded-core/scripts/sstate-diff-machines.sh<br>
+<br>
+to create &quot;backup&quot; of sstate signatures and when some next build<=
+br>
+unexpectedly doesn&#39;t reuse some sstate packages I use the script again<=
+br>
+and compare new and old signatures to see why.<br>
+<br>
+As bonus each build which populates out SSTATE_MIRROR also creates tarball<=
+br>
+with these signatures, so I can easily download one tarball and compare<br>
+what and why won&#39;t be reused from sstate.</blockquote></div><br>You can=
+ also directly use bitbake-whatchanged -v &lt;target&gt;, with STAMPS_DIR s=
+et to the automated build=E2=80=99s stamps directory w/ sstates included.<b=
+r>-- <br>
 
---047d7b6d9b16f949a604ed2fa18b--
+Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, Open=
+Embedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Men=
+tor Graphics
+</div></div>
+
+--089e013d1a94cc8cc604ed2fdf19--
