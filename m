@@ -1,20 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 47B9760FD3
+	by mail.openembedded.org (Postfix) with ESMTP id 559D061005
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 10 Dec 2013 19:16:11 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 10 Dec 2013 11:16:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,866,1378882800"; d="scan'208";a="450036629"
+X-IronPort-AV: E=Sophos;i="4.93,866,1378882800"; d="scan'208";a="450036632"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.207])
 	by orsmga002.jf.intel.com with ESMTP; 10 Dec 2013 11:16:10 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Dec 2013 11:16:05 -0800
-Message-Id: <cover.1386650569.git.sgw@linux.intel.com>
+Date: Tue, 10 Dec 2013 11:16:06 -0800
+Message-Id: <39a4a5e209907f76e493e19ef0313b98548c606f.1386650569.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH 0/3] Package Updates
+In-Reply-To: <cover.1386650569.git.sgw@linux.intel.com>
+References: <cover.1386650569.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1386650569.git.sgw@linux.intel.com>
+References: <cover.1386650569.git.sgw@linux.intel.com>
+Subject: [PATCH 1/3] util-macros: upgrade to 1.18.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,32 +33,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 10 Dec 2013 19:16:12 -0000
 
-Did a build with debian packaging and tested dpkg lightly on the target.
-
-Sau!
-
-The following changes since commit 315367ea9526186d5836c64867ce0cd40d9d8412:
-
-  nativesdk.bbclass: support nativesdk to override with the PACKAGES_DYNAMIC statement (2013-12-09 21:36:30 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/updates
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/updates
-
-Saul Wold (3):
-  util-macros: upgrade to 1.18.0
-  dpkg: upgrade to 1.17.4
-  cracklib: upgrade to 2.9.1
-
- meta/recipes-devtools/dpkg/{dpkg_1.17.1.bb => dpkg_1.17.4.bb}         | 4 ++--
- .../cracklib/{cracklib_2.9.0.bb => cracklib_2.9.1.bb}                 | 4 ++--
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
  .../xorg-util/{util-macros_1.17.1.bb => util-macros_1.18.0.bb}        | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.17.1.bb => dpkg_1.17.4.bb} (75%)
- rename meta/recipes-extended/cracklib/{cracklib_2.9.0.bb => cracklib_2.9.1.bb} (84%)
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-graphics/xorg-util/{util-macros_1.17.1.bb => util-macros_1.18.0.bb} (75%)
 
+diff --git a/meta/recipes-graphics/xorg-util/util-macros_1.17.1.bb b/meta/recipes-graphics/xorg-util/util-macros_1.18.0.bb
+similarity index 75%
+rename from meta/recipes-graphics/xorg-util/util-macros_1.17.1.bb
+rename to meta/recipes-graphics/xorg-util/util-macros_1.18.0.bb
+index 9274a3a..79759f6 100644
+--- a/meta/recipes-graphics/xorg-util/util-macros_1.17.1.bb
++++ b/meta/recipes-graphics/xorg-util/util-macros_1.18.0.bb
+@@ -15,5 +15,5 @@ RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[md5sum] = "886de1940334e097c5f66233a8393122"
+-SRC_URI[sha256sum] = "67bd01d5f4713c9e9d57dc742504d06292dd9c4fb73041ea16fed034c56c622a"
++SRC_URI[md5sum] = "fd0ba21b3179703c071bbb4c3e5fb0f4"
++SRC_URI[sha256sum] = "cf4ab0e17bfee0f7689cdcff8c7d7f164c9a710f851f91c488f5cd81fac9c0aa"
 -- 
 1.8.3.1
 
