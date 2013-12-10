@@ -1,26 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 753F76DFB2
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AD9D61227
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 09:58:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBA9w4YU000302
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 01:58:04 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 10 Dec 2013 01:58:04 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Dec 2013 17:58:52 +0800
-Message-ID: <4d86e99ba53c5a04019a1f51c251899c98ad47a5.1386669285.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1386669285.git.Qi.Chen@windriver.com>
-References: <cover.1386669285.git.Qi.Chen@windriver.com>
+	Tue, 10 Dec 2013 10:25:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBAAPtAJ024637
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 10 Dec 2013 02:25:55 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 10 Dec 2013 02:25:55 -0800
+Message-ID: <52A6EC2E.20408@windriver.com>
+Date: Tue, 10 Dec 2013 18:25:50 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
 MIME-Version: 1.0
-Subject: [PATCH 3/3] useradd-example: add example for setting clear text password
+To: Saul Wold <saul.wold@intel.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1386078157.git.hongxu.jia@windriver.com>
+	<ae7e0f907b72ad9af0a078bdf317a7eb10315c7f.1386078157.git.hongxu.jia@windriver.com>
+	<52A69B7A.50409@intel.com>
+In-Reply-To: <52A69B7A.50409@intel.com>
+Subject: Re: [PATCH 1/2] dhclient-script: let resolv.conf and resolv.conf.dhclient on the same direcotry
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +35,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 09:58:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Dec 2013 10:25:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 12/10/2013 12:41 PM, Saul Wold wrote:
+> On 12/03/2013 05:46 AM, Hongxu Jia wrote:
+>> Even though '/etc' is on the readonly partition, it's possible that
+>> /etc/resolv.conf is on a separate writable partition.
+>>
+>> In this situation, we should make sure the temp file 
+>> resolv.conf.dhclient
+>> on the same direcotry.
+>>
+>> [YOCTO #5624]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/recipes-connectivity/dhcp/dhcp.inc            |  1 +
+>>   ...ript-let-resolv.conf-and-resolv.conf.dhcl.patch | 74 
+>> ++++++++++++++++++++++
+>
+> These new scripts are doing alot of out calling from the shell script, 
+> and can cause additional fork/execs during the critical path of system 
+> startup, is there any way to reduce this?
+>
 
-Use '-P' option for user3 to set a clear text password. This is supposed
-to serve as an example of how to set clear text password in recipes.
+Do you mean the new script :readonly-dhclient-enter-hooks ?
+If yes, we could just drop the [PATCH 2/2] patch and it could
+work while read-only is enabled;
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../recipes-skeleton/useradd/useradd-example.bb    |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Because /etc/resolv.conf is a symlink to /var/run/ resolv.conf in
+oe-core, and it's always writable:
 
-diff --git a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-index 53d2340..2f8d9b0 100644
---- a/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-+++ b/meta-skeleton/recipes-skeleton/useradd/useradd-example.bb
-@@ -32,7 +32,8 @@ USERADD_PACKAGES = "${PN} ${PN}-user3"
- USERADD_PARAM_${PN} = "-u 1200 -d /home/user1 -r -s /bin/bash user1; -u 1201 -d /home/user2 -r -s /bin/bash user2"
- 
- # user3 will be managed in the useradd-example-user3 pacakge:
--USERADD_PARAM_${PN}-user3 = "-u 1202 -d /home/user3 -r -s /bin/bash user3"
-+# As an example, we use the -P option to set clear text password for user3
-+USERADD_PARAM_${PN}-user3 = "-u 1202 -d /home/user3 -r -s /bin/bash -P 'user3' user3"
- 
- # GROUPADD_PARAM works the same way, which you set to the options
- # you'd normally pass to the groupadd command. This will create
--- 
-1.7.9.5
+#ls /etc/resolv.conf -al
+lrwxrwxrwx 1 root root 29 Oct 22  2012 /etc/resolv.conf -> 
+/var/run/resolv.conf
+
+//Hongxu
+
+> Sau!
+>
+>>   2 files changed, 75 insertions(+)
+>>   create mode 100644 
+>> meta/recipes-connectivity/dhcp/dhcp/dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch
+>>
+>> diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc 
+>> b/meta/recipes-connectivity/dhcp/dhcp.inc
+>> index ad82b57..d8376aa 100644
+>> --- a/meta/recipes-connectivity/dhcp/dhcp.inc
+>> +++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+>> @@ -16,6 +16,7 @@ SRC_URI = 
+>> "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+>>              file://site.h \
+>>          file://init-relay file://default-relay \
+>>          file://init-server file://default-server \
+>> + file://dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch \
+>>          file://dhclient.conf file://dhcpd.conf"
+>>
+>>   inherit autotools
+>> diff --git 
+>> a/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch 
+>> b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch 
+>>
+>> new file mode 100644
+>> index 0000000..db56f70
+>> --- /dev/null
+>> +++ 
+>> b/meta/recipes-connectivity/dhcp/dhcp/dhclient-script-let-resolv.conf-and-resolv.conf.dhcl.patch
+>> @@ -0,0 +1,74 @@
+>> +dhclient-script: let resolv.conf and resolv.conf.dhclient on the 
+>> same direcotry
+>> +
+>> +Even though '/etc' is on the readonly partition, it's possible that
+>> +/etc/resolv.conf is on a separate writable partition.
+>> +
+>> +In this situation, we should make sure the temp file 
+>> resolv.conf.dhclient
+>> +on the same direcotry.
+>> +
+>> +Upstream-Status: Pending
+>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> +---
+>> + client/scripts/linux |   24 +++++++++++++-----------
+>> + 1 file changed, 13 insertions(+), 11 deletions(-)
+>> +
+>> +diff --git a/client/scripts/linux b/client/scripts/linux
+>> +index 6f8ea4b..fbc6324 100755
+>> +--- a/client/scripts/linux
+>> ++++ b/client/scripts/linux
+>> +@@ -27,27 +27,29 @@ ip=/sbin/ip
+>> +
+>> + make_resolv_conf() {
+>> +   if [ x"$new_domain_name_servers" != x ]; then
+>> +-    cat /dev/null > /etc/resolv.conf.dhclient
+>> +-    chmod 644 /etc/resolv.conf.dhclient
+>> ++    sysconfdir=`dirname $(readlink -f '/etc/resolv.conf')`
+>> ++    cat /dev/null > $sysconfdir/resolv.conf.dhclient
+>> ++    chmod 644 $sysconfdir/resolv.conf.dhclient
+>> +     if [ x"$new_domain_search" != x ]; then
+>> +-      echo search $new_domain_search >> /etc/resolv.conf.dhclient
+>> ++      echo search $new_domain_search >> 
+>> $sysconfdir/esolv.conf.dhclient
+>> +     elif [ x"$new_domain_name" != x ]; then
+>> +       # Note that the DHCP 'Domain Name Option' is really just a 
+>> domain
+>> +       # name, and that this practice of using the domain name 
+>> option as
+>> +       # a search path is both nonstandard and deprecated.
+>> +-      echo search $new_domain_name >> /etc/resolv.conf.dhclient
+>> ++      echo search $new_domain_name >> $sysconfdir/resolv.conf.dhclient
+>> +     fi
+>> +     for nameserver in $new_domain_name_servers; do
+>> +-      echo nameserver $nameserver >>/etc/resolv.conf.dhclient
+>> ++      echo nameserver $nameserver >>$sysconfdir/resolv.conf.dhclient
+>> +     done
+>> +
+>> +-    mv /etc/resolv.conf.dhclient /etc/resolv.conf
+>> ++    mv $sysconfdir/resolv.conf.dhclient $sysconfdir/resolv.conf
+>> +   elif [ "x${new_dhcp6_name_servers}" != x ] ; then
+>> +-    cat /dev/null > /etc/resolv.conf.dhclient6
+>> +-    chmod 644 /etc/resolv.conf.dhclient6
+>> ++    sysconfdir=`dirname $(readlink -f '/etc/resolv.conf')`
+>> ++    cat /dev/null > $sysconfdir/resolv.conf.dhclient6
+>> ++    chmod 644 $sysconfdir/resolv.conf.dhclient6
+>> +
+>> +     if [ "x${new_dhcp6_domain_search}" != x ] ; then
+>> +-      echo search ${new_dhcp6_domain_search} >> 
+>> /etc/resolv.conf.dhclient6
+>> ++      echo search ${new_dhcp6_domain_search} >> 
+>> $sysconfdir/resolv.conf.dhclient6
+>> +     fi
+>> +     shopt -s nocasematch
+>> +     for nameserver in ${new_dhcp6_name_servers} ; do
+>> +@@ -59,11 +61,11 @@ make_resolv_conf() {
+>> +       else
+>> +     zone_id=
+>> +       fi
+>> +-      echo nameserver ${nameserver}$zone_id >> 
+>> /etc/resolv.conf.dhclient6
+>> ++      echo nameserver ${nameserver}$zone_id >> 
+>> $sysconfdir/resolv.conf.dhclient6
+>> +     done
+>> +     shopt -u nocasematch
+>> +
+>> +-    mv /etc/resolv.conf.dhclient6 /etc/resolv.conf
+>> ++    mv $sysconfdir/resolv.conf.dhclient6 $sysconfdir/resolv.conf
+>> +   fi
+>> + }
+>> +
+>> +--
+>> +1.7.9.5
+>> +
+>>
+>
 
 
