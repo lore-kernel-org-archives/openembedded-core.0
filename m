@@ -1,28 +1,37 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id E7BC560B9B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 320346C745
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 16:36:47 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id rBAGaetW014707
+	Tue, 10 Dec 2013 16:42:04 +0000 (UTC)
+Received: by mail-vc0-f182.google.com with SMTP id lc6so4863482vcb.27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 17:36:45 +0100
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0347.000; Tue, 10 Dec 2013 17:36:40 +0100
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Can OE build it's own make?
-Thread-Index: Ac71xM5yR72EFBjlQrOfvK5m9rtDxQ==
-Date: Tue, 10 Dec 2013 16:36:38 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C4FD9BB97@post.tritech.se>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.82]
+	Tue, 10 Dec 2013 08:42:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=3iA5IODXyYlpXZgxYnuBtXINdmi3Zg7xCSr9aHkeRzo=;
+	b=JQKL4n8cNjydTlKWDc9Yiw2JNqqHJO6BjkJrdeT/K3byPKGR9qQDSz0GOOtpskf9EH
+	U8RZg3k7vvQbavu73EMQK2q4hxWrDPrHKA2dgTfDGVZDkRmUcl/oZvh8uw4ynEE5Wj6g
+	bB5jAF+X+ohjHIN4eCBp66rM/+lLfDIx751mgKMRLpOGfVin5WJ7BRnxi+iPH1j+Ia51
+	S4krk7Jgi6FLir7fucR2jz7eeSdd8uTShBQIklZgnqMAjH5OVb8gpx4YVNwYyPoyFkR6
+	0e34I8mnp+yz9+cHvnEYVgPKsxFYNUYlMyM4kK15Ckb8WPLadSfFk4iAf1mGt5M9tFR6
+	B4XQ==
+X-Gm-Message-State: ALoCoQlwC7tzyUg5vlNLJIyuSpzlVetJlK9AAV+kQIV9Zecwj2bhxeWD5DOssp+/jYF6F+UpTypz
+X-Received: by 10.221.16.200 with SMTP id pz8mr212573vcb.53.1386693723001;
+	Tue, 10 Dec 2013 08:42:03 -0800 (PST)
 MIME-Version: 1.0
-Subject: Can OE build it's own make?
+Received: by 10.220.71.201 with HTTP; Tue, 10 Dec 2013 08:41:42 -0800 (PST)
+In-Reply-To: <ED3E0BCACD909541BA94A34C4A164D4C4FD9BB97@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C4FD9BB97@post.tritech.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Dec 2013 16:41:42 +0000
+Message-ID: <CAJTo0LZ7jfC7UJtYvVCywVGnSkfvHsUcc+1Z7ZW1NNyKYHHXUg@mail.gmail.com>
+To: =?UTF-8?Q?Mats_K=C3=A4rrman?= <Mats.Karrman@tritech.se>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Can OE build it's own make?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 16:36:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Tue, 10 Dec 2013 16:42:05 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,=0A=
-=0A=
-I have run into problems with make.=0A=
-=0A=
-Most things works fine with make v3.81 but when building a kernel recipe (m=
-eta-fsl-arm linux-imx-3.10.9)=0A=
-I consistently get:=0A=
-=0A=
-make: INTERNAL: Exiting with 5 jobserver tokens available; should be 4!=0A=
-=0A=
-To solve this I "manually" upgraded make on my machine to v3.82 which soon =
-brought new problems.=0A=
-I then realized that OE-core got a recipe for make v3.82 with a number of p=
-atches. After rebuilding=0A=
-make using those patches, everything now seems to work fine :-D.=0A=
-=0A=
-It would be nice, however, if I didn't have to write detailed instructions =
-for everyone on how to patch=0A=
-their machines in order to get their builds to work. Is it possible that OE=
- could build it's own make=0A=
-to use the same way it compiles a new compiler using the existing one? (bui=
-lding make v3.82 using=0A=
-make v3.81 works fine;)=0A=
-=0A=
-BR // Mats=0A=
+On 10 December 2013 16:36, Mats K=C3=A4rrman <Mats.Karrman@tritech.se> wrot=
+e:
+> It would be nice, however, if I didn't have to write detailed instruction=
+s for everyone on how to patch
+> their machines in order to get their builds to work. Is it possible that =
+OE could build it's own make
+> to use the same way it compiles a new compiler using the existing one? (b=
+uilding make v3.82 using
+> make v3.81 works fine;)
+
+"bitbake make-native" should be sufficient instructions to build a
+replacement make.
+
+Ross
 
