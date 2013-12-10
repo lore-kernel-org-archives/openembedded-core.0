@@ -1,27 +1,24 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhob02.myregisteredsite.com
-	(atl4mhob02.myregisteredsite.com [209.17.115.40])
-	by mail.openembedded.org (Postfix) with ESMTP id 54AE36D840
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 03E566D840
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 06:44:52 +0000 (UTC)
-Received: from mailpod.hostingplatform.com ([10.30.71.206])
-	by atl4mhob02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	rBA6ip6d003206 for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 01:44:51 -0500
-Received: (qmail 21912 invoked by uid 0); 10 Dec 2013 06:44:51 -0000
-X-TCPREMOTEIP: 88.159.208.100
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 10 Dec 2013 06:44:50 -0000
-Message-ID: <52A6B861.30104@topic.nl>
-Date: Tue, 10 Dec 2013 07:44:49 +0100
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+	Tue, 10 Dec 2013 08:58:05 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBA8w5dx029432
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Dec 2013 00:58:05 -0800 (PST)
+Received: from PKE-CLU1-D1.corp.ad.wrs.com (128.224.162.204) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 10 Dec 2013 00:58:05 -0800
+From: <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Dec 2013 16:58:01 +0800
+Message-ID: <1386665881-25561-1-git-send-email-Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-Subject: Figuring out why sstate-cache is no longer used for a package
+Subject: [PATCH] meta/*: remove unnecessary patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +31,4235 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 06:44:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Dec 2013 08:58:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-I've been struggling with this for a few days.
+From: Chong Lu <Chong.Lu@windriver.com>
 
-We have a build server that build various images overnight. One of the 
-packages in that image is "fpga-image", which takes more than an hour to build.
+The following patches are found, but not used by any recipe, so we should
+remove them.
 
-We have been sharing the the build server's sstate-cache via HTTP and this has 
-worked excellently up until yesterday.
+	meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+	meta/recipes-connectivity/dhcp/dhcp/fix-client-path.patch
+	meta/recipes-connectivity/libnss-mdns/files/alignment-fix.patch
+	meta/recipes-core/dbus/dbus-1.6.10/test-run-path.patch
+	meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch
+	meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch
+	meta/recipes-core/systemd/systemd/use-rootlibdir.patch
+	meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
+	meta/recipes-core/util-linux/util-linux/remove_sigsetmark.patch
+	meta/recipes-core/util-linux/util-linux/uclibc-compile.patch
+	meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch
+	meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch
+	meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build2.patch
+	meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
+	meta/recipes-devtools/elfutils/elfutils-0.155/elfutils-robustify.patch
+	meta/recipes-devtools/gdb/gdb/libiberty-cross.patch
+	meta/recipes-devtools/perl/perl-5.14.3/asm-pageh-fix.patch
+	meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
+	meta/recipes-devtools/python/python-pygobject/generate-constants.patch
+	meta/recipes-devtools/qemu/files/3f08ffb4a4741d147634761dc053ed386243a0de.patch
+	meta/recipes-devtools/qemu/files/enable-i386-linux-user.patch
+	meta/recipes-devtools/qemu/files/init-info.patch
+	meta/recipes-devtools/rpm/rpm/rpm_fix_for_automake-1.12.patch
+	meta/recipes-devtools/tcf-agent/tcf-agent/fix_tcf-agent.init.patch
+	meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch
+	meta/recipes-extended/libarchive/libarchive/0003-Patch-from-upstream-rev-2516.patch
+	meta/recipes-extended/procps/procps-3.2.8/pagesz-not-constant.patch
+	meta/recipes-gnome/gtk+/gtk+-2.24.22/no-demos.patch
+	meta/recipes-gnome/libglade/libglade-2.6.4/no-deprecation.patch
+	meta/recipes-graphics/mesa/mesa/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+	meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.3_fix_for_x32.patch
+	meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+	meta/recipes-kernel/linux-libc-headers/linux-libc-headers/connector-msg-size-fix.patch
+	meta/recipes-kernel/linux/linux-yocto/tools-perf-no-scripting.patch
+	meta/recipes-support/gnutls/gnutls/gnutls-texinfo-euro.patch
+	meta/recipes-support/nspr/nspr/fix-build-on-aarch64.patch
 
-The current situation is that a client will grab everything from the 
-buildserver's HTTP sstate-cache, potentially finishing a build from scratch in 
-about five minutes. However, for some reason, the fpga-image does not fall 
-into this category, and eache machine insists on re-building it from scratch. 
-I've been trying to debug this, but the sstate-cache is on another machine. I 
-tried copying part of the build server's sstate-cache onto my machine, but 
-that only results in "bitbake-diffsigs -t fpga-image .." yielding "ERROR: No 
-sigdata files found matching fpga-image .." so that apparently is a dead end.
+[YOCTO #5180]
 
-How can I determine what is causing the system to think that it needs to 
-rebuild this package?
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ .../avahi/files/fix_for_automake_1.11.2.patch      |   44 -
+ .../dhcp/dhcp/fix-client-path.patch                |   23 -
+ .../libnss-mdns/files/alignment-fix.patch          |   13 -
+ .../dbus/dbus-1.6.10/test-run-path.patch           |   26 -
+ .../gettext/gettext-0.16.1/fixchicken.patch        |   33 -
+ .../gettext/gettext-0.16.1/getline.m4.patch        |   39 -
+ .../systemd/systemd/use-rootlibdir.patch           |  107 --
+ .../util-linux/util-linux/remove-lscpu.patch       |   37 -
+ .../util-linux/util-linux/remove_sigsetmark.patch  |   35 -
+ .../util-linux/util-linux/uclibc-compile.patch     |   15 -
+ .../autoconf/autoconf/autoconf-x.patch             |   38 -
+ .../btrfs-progs-fix-parallel-build.patch           |   30 -
+ .../btrfs-progs-fix-parallel-build2.patch          |   27 -
+ .../cdrtools/cdrtools-native/no_usr_src.patch      |   33 -
+ .../elfutils-0.155/elfutils-robustify.patch        | 1756 --------------------
+ .../recipes-devtools/gdb/gdb/libiberty-cross.patch |  632 -------
+ .../perl/perl-5.14.3/asm-pageh-fix.patch           |   21 -
+ .../sys_platform_is_now_always_linux2.patch        |   28 -
+ .../python-pygobject/generate-constants.patch      |   20 -
+ .../3f08ffb4a4741d147634761dc053ed386243a0de.patch |   42 -
+ .../qemu/files/enable-i386-linux-user.patch        |   55 -
+ meta/recipes-devtools/qemu/files/init-info.patch   |   18 -
+ .../rpm/rpm/rpm_fix_for_automake-1.12.patch        |   21 -
+ .../tcf-agent/tcf-agent/fix_tcf-agent.init.patch   |   96 --
+ .../files/arping-break-libsysfs-dependency.patch   |  296 ----
+ .../0003-Patch-from-upstream-rev-2516.patch        |   63 -
+ .../procps/procps-3.2.8/pagesz-not-constant.patch  |   24 -
+ .../recipes-gnome/gtk+/gtk+-2.24.22/no-demos.patch |   15 -
+ .../libglade/libglade-2.6.4/no-deprecation.patch   |   13 -
+ ...move-the-power-of-two-sizeof-struct-cmd_b.patch |   41 -
+ .../libxxf86dga-1.1.3_fix_for_x32.patch            |   30 -
+ .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        |   17 -
+ .../connector-msg-size-fix.patch                   |   29 -
+ .../linux-yocto/tools-perf-no-scripting.patch      |   52 -
+ .../gnutls/gnutls/gnutls-texinfo-euro.patch        |   18 -
+ .../nspr/nspr/fix-build-on-aarch64.patch           |  101 --
+ 36 files changed, 3888 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/fix-client-path.patch
+ delete mode 100644 meta/recipes-connectivity/libnss-mdns/files/alignment-fix.patch
+ delete mode 100644 meta/recipes-core/dbus/dbus-1.6.10/test-run-path.patch
+ delete mode 100644 meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch
+ delete mode 100644 meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/use-rootlibdir.patch
+ delete mode 100644 meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
+ delete mode 100644 meta/recipes-core/util-linux/util-linux/remove_sigsetmark.patch
+ delete mode 100644 meta/recipes-core/util-linux/util-linux/uclibc-compile.patch
+ delete mode 100644 meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build2.patch
+ delete mode 100644 meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
+ delete mode 100644 meta/recipes-devtools/elfutils/elfutils-0.155/elfutils-robustify.patch
+ delete mode 100644 meta/recipes-devtools/gdb/gdb/libiberty-cross.patch
+ delete mode 100644 meta/recipes-devtools/perl/perl-5.14.3/asm-pageh-fix.patch
+ delete mode 100644 meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
+ delete mode 100644 meta/recipes-devtools/python/python-pygobject/generate-constants.patch
+ delete mode 100644 meta/recipes-devtools/qemu/files/3f08ffb4a4741d147634761dc053ed386243a0de.patch
+ delete mode 100644 meta/recipes-devtools/qemu/files/enable-i386-linux-user.patch
+ delete mode 100644 meta/recipes-devtools/qemu/files/init-info.patch
+ delete mode 100644 meta/recipes-devtools/rpm/rpm/rpm_fix_for_automake-1.12.patch
+ delete mode 100644 meta/recipes-devtools/tcf-agent/tcf-agent/fix_tcf-agent.init.patch
+ delete mode 100644 meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch
+ delete mode 100644 meta/recipes-extended/libarchive/libarchive/0003-Patch-from-upstream-rev-2516.patch
+ delete mode 100644 meta/recipes-extended/procps/procps-3.2.8/pagesz-not-constant.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+-2.24.22/no-demos.patch
+ delete mode 100644 meta/recipes-gnome/libglade/libglade-2.6.4/no-deprecation.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.3_fix_for_x32.patch
+ delete mode 100644 meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/connector-msg-size-fix.patch
+ delete mode 100644 meta/recipes-kernel/linux/linux-yocto/tools-perf-no-scripting.patch
+ delete mode 100644 meta/recipes-support/gnutls/gnutls/gnutls-texinfo-euro.patch
+ delete mode 100644 meta/recipes-support/nspr/nspr/fix-build-on-aarch64.patch
 
-And/Or how do tell the system that this package only depends on the SRCREV and 
-MACHINE and nothing else? (I've already set INHIBIT_DEFAULT_DEPS = "1", is 
-there more that I can do?)
-
-
+diff --git a/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch b/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
+deleted file mode 100644
+index e7a1908..0000000
+--- a/meta/recipes-connectivity/avahi/files/fix_for_automake_1.11.2.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-Upstream-Status: Pending
+-
+-automake version 1.11.2 has made use of dir variables more strict.
+-the use of pkglibdir with DATA var results in automake errors.
+-  This commits uses pkgdatadir var instead of pkglibdir to avoid 
+-the strict check errors.
+-
+-Fixes this error:
+-service-type-database/Makefile.am:21: `pkglibdir' is not a legitimate directory for `DATA'
+-autoreconf: automake failed with exit status: 1
+-ERROR: autoreconf execution failed.
+-
+-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+-2011/12/28
+-
+-
+-Index: avahi-0.6.30/service-type-database/Makefile.am
+-===================================================================
+---- avahi-0.6.30.orig/service-type-database/Makefile.am
+-+++ avahi-0.6.30/service-type-database/Makefile.am
+-@@ -18,13 +18,12 @@
+- EXTRA_DIST=build-db.in service-types
+- 
+- pkgdata_DATA=service-types
+--pkglib_DATA=
+- 
+- if HAVE_PYTHON
+- if HAVE_GDBM
+- 
+- noinst_SCRIPTS=build-db
+--pkglib_DATA+=service-types.db
+-+pkgdata_DATA+=service-types.db
+- 
+- build-db: build-db.in
+- 	$(AM_V_GEN)sed -e 's,@PYTHON\@,$(PYTHON),g' \
+-@@ -41,7 +40,7 @@ endif
+- if HAVE_DBM
+- 
+- noinst_SCRIPTS=build-db
+--pkglib_DATA+=service-types.db.pag service-types.db.dir
+-+pkgdata_DATA+=service-types.db.pag service-types.db.dir
+- 
+- build-db: build-db.in
+- 	$(AM_V_GEN)sed -e 's,@PYTHON\@,$(PYTHON),g' \
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/fix-client-path.patch b/meta/recipes-connectivity/dhcp/dhcp/fix-client-path.patch
+deleted file mode 100644
+index 97ed0d9..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/fix-client-path.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-CLIENT_PATH is the only environment when executing dhclient-script,
+-without this patch, dhclient-script won't run properly because it
+-invokes ifconfig and route
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-7/28/2010 - qhe
+-
+-diff -ru dhcp-4.1.1-P1.orig//client/Makefile.am dhcp-4.1.1-P1/client/Makefile.am
+---- dhcp-4.1.1-P1.orig//client/Makefile.am	2010-07-29 13:20:05.000000000 +0800
+-+++ dhcp-4.1.1-P1/client/Makefile.am	2010-07-29 13:28:14.000000000 +0800
+-@@ -10,9 +10,9 @@
+- EXTRA_DIST = $(man_MANS)
+- 
+- dhclient.o: dhclient.c
+--	$(COMPILE) -DCLIENT_PATH='"$(sbindir)"' \
+-+	$(COMPILE) -DCLIENT_PATH='"PATH=$(sbindir):$(base_sbindir):$(bindir):$(base_bindir)"' \
+- 		   -DLOCALSTATEDIR='"$(localstatedir)"' -c dhclient.c
+- 
+- dhc6.o: dhc6.c
+--	$(COMPILE) -DCLIENT_PATH='"$(sbindir)"' \
+-+	$(COMPILE) -DCLIENT_PATH='"PATH=$(sbindir):$(base_sbindir):$(bindir):$(base_bindir)"' \
+- 		   -DLOCALSTATEDIR='"$(localstatedir)"' -c dhc6.c
+diff --git a/meta/recipes-connectivity/libnss-mdns/files/alignment-fix.patch b/meta/recipes-connectivity/libnss-mdns/files/alignment-fix.patch
+deleted file mode 100644
+index 70de305..0000000
+--- a/meta/recipes-connectivity/libnss-mdns/files/alignment-fix.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+-Upstream-Status: Pending
+-
+---- nss-mdns-0.6/src/nss.c.orig	2005-09-25 17:27:51 +0200
+-+++ nss-mdns-0.6/src/nss.c	2005-09-25 17:28:55 +0200
+-@@ -456,6 +456,8 @@
+-     result->h_addrtype = af;
+-     result->h_length = address_length;
+-     
+-+    idx+=(sizeof(char*)-idx%sizeof(char*)); /* Align on 32 bit boundary */
+-+    
+-     /* Check if there's enough space for the addresses */
+-     if (buflen < idx+u.data_len+sizeof(char*)*(u.count+1)) {
+-         *errnop = ERANGE;
+diff --git a/meta/recipes-core/dbus/dbus-1.6.10/test-run-path.patch b/meta/recipes-core/dbus/dbus-1.6.10/test-run-path.patch
+deleted file mode 100644
+index 5c08c93..0000000
+--- a/meta/recipes-core/dbus/dbus-1.6.10/test-run-path.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-
+-
+-Signed-off-by: Björn Stenberg <bjst@enea.com>
+-Upstream-Status: Pending
+-
+---- a/test/Makefile.am	2012-06-15 15:25:43.000000000 +0200
+-+++ b/test/Makefile.am	2012-11-16 09:24:44.263140840 +0100
+-@@ -119,12 +119,13 @@
+- 	DBUS_TEST_HOMEDIR=@abs_top_builddir@/dbus \
+- 	DBUS_TEST_SYSCONFDIR=$(DESTDIR)$(sysconfdir)
+- 
+-+ptest_run_dir = ..
+-+
+- TESTS_ENVIRONMENT = \
+--	DBUS_BLOCK_ON_ABORT=1 \
+--	DBUS_FATAL_WARNINGS=1 \
+--	DBUS_TEST_DAEMON=@abs_top_builddir@/bus/dbus-daemon$(EXEEXT) \
+--	DBUS_TEST_DATA=@abs_top_builddir@/test/data \
+--	DBUS_TEST_HOMEDIR=@abs_top_builddir@/dbus \
+-+	DBUS_FATAL_WARNINGS=0 \
+-+	DBUS_TEST_DAEMON=$(ptest_run_dir)/bus/dbus-daemon$(EXEEXT) \
+-+	DBUS_TEST_DATA=$(ptest_run_dir)/test/data \
+-+	DBUS_TEST_HOMEDIR=$(ptest_run_dir)/dbus \
+- 	$(NULL)
+- 
+- test_corrupt_SOURCES = corrupt.c
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch b/meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch
+deleted file mode 100644
+index 36ce463..0000000
+--- a/meta/recipes-core/gettext/gettext-0.16.1/fixchicken.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-
+-# Pulled from OpenEmbedded
+-# 
+-# Commented by: Saul Wold <saul.wold@intel.com>
+-
+-Upstream-Status: Inappropriate [licensing]
+-
+-Index: gettext-tools/m4/csharpcomp.m4
+-===================================================================
+-RCS file: /cvs/gettext/gettext/gettext-tools/m4/csharpcomp.m4,v
+-retrieving revision 1.4
+-retrieving revision 1.6
+-diff -u -r1.4 -r1.6
+---- a/gettext-tools/m4/csharpcomp.m4      30 Jan 2004 11:01:18 -0000      1.4
+-+++ a/gettext-tools/m4/csharpcomp.m4      26 May 2004 12:15:23 -0000      1.6
+-@@ -1,4 +1,4 @@
+--# csharpcomp.m4 serial 2 (gettext-0.14.1)
+-+# csharpcomp.m4 serial 4 (gettext-0.15)
+- dnl Copyright (C) 2003-2004 Free Software Foundation, Inc.
+- dnl This file is free software, distributed under the terms of the GNU
+- dnl General Public License.  As a special exception to the GNU General
+-@@ -43,7 +43,8 @@
+-         ;;
+-       sscli)
+-         if test -n "$HAVE_CSC_IN_PATH" \
+--           && csc -help >/dev/null 2>/dev/null; then
+-+           && csc -help >/dev/null 2>/dev/null \
+-+           && { if csc -help 2>/dev/null | grep -i chicken > /dev/null; then false; else true; fi; }; then
+-           HAVE_CSC=1
+-           ac_result="csc"
+-           break
+-
+-
+diff --git a/meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch b/meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch
+deleted file mode 100644
+index bf995bc..0000000
+--- a/meta/recipes-core/gettext/gettext-0.16.1/getline.m4.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-
+-# Pulled from OpenEmbedded
+-# 
+-# Commented by: Saul Wold <saul.wold@intel.com>
+-
+-Upstream-Status: Inappropriate [licensing]
+-
+---- /gettext-tools/m4/orig-getline.m4	2003-07-18 18:11:37.000000000 +0300
+-+++ /gettext-tools/m4/getline.m4	2007-02-03 13:33:41.000000000 +0200
+-@@ -42,12 +42,23 @@
+- 	return 1;
+-       len = getline (&line, &siz, in);
+-       exit ((len == 4 && line && strcmp (line, "foo\n") == 0) ? 0 : 1);
+--    }
+--    ], am_cv_func_working_getline=yes dnl The library version works.
+--    , am_cv_func_working_getline=no dnl The library version does NOT work.
+--    , am_cv_func_working_getline=no dnl We're cross compiling.
+--    )])
+--  fi
+-+     }
+-+      ], am_cv_func_working_getline=yes dnl The library version works.
+-+      , am_cv_func_working_getline=no dnl The library version does NOT work.
+-+!     , dnl We're cross compiling. Assume ir works on glibc2 systems.
+-+!       [AC_EGREP_CPP([Lucky GNU user],
+-+!          [
+-+! #include <features.h>
+-+! #ifdef __GNU_LIBRARY__
+-+!  #if (__GLIBC__ >= 2)
+-+!   Lucky GNU user
+-+!  #endif
+-+! #endif
+-+!          ],
+-+!          [am_cv_func_working_getline=yes],
+-+!          [am_cv_func_working_getline=no])]
+-+      )])
+-+    fi 
+- 
+-   if test $am_cv_func_working_getline = no; then
+-     dnl We must choose a different name for our function, since on ELF systems
+diff --git a/meta/recipes-core/systemd/systemd/use-rootlibdir.patch b/meta/recipes-core/systemd/systemd/use-rootlibdir.patch
+deleted file mode 100644
+index 4c471b6..0000000
+--- a/meta/recipes-core/systemd/systemd/use-rootlibdir.patch
++++ /dev/null
+@@ -1,107 +0,0 @@
+-Upstream-Status: Undecided
+-
+-This patch removes some of hardcoded references to /lib
+-and /usr/lib since on some architectures it should be
+-/lib64 and /usr/lib64 atleast in OE
+-
+-I am not sure about the intention of hardcoded values
+-thats why status is undecided
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: git/Makefile.am
+-===================================================================
+---- git.orig/Makefile.am	2012-09-22 11:07:58.811981199 -0700
+-+++ git/Makefile.am	2012-09-22 11:09:11.267983956 -0700
+-@@ -64,25 +64,25 @@
+- 
+- # Our own, non-special dirs
+- pkgsysconfdir=$(sysconfdir)/systemd
+--userunitdir=$(prefix)/lib/systemd/user
+--userpresetdir=$(prefix)/lib/systemd/user-preset
+--tmpfilesdir=$(prefix)/lib/tmpfiles.d
+--sysctldir=$(prefix)/lib/sysctl.d
+--usergeneratordir=$(prefix)/lib/systemd/user-generators
+-+userunitdir=$(prefix)/$(rootlibdir)/systemd/user
+-+userpresetdir=$(prefix)/$(rootlibdir)/systemd/user-preset
+-+tmpfilesdir=$(prefix)/$(rootlibdir)/tmpfiles.d
+-+sysctldir=$(prefix)/$(rootlibdir)/sysctl.d
+-+usergeneratordir=$(prefix)/$(rootlibdir)/systemd/user-generators
+- pkgincludedir=$(includedir)/systemd
+- systemgeneratordir=$(rootlibexecdir)/system-generators
+- systemshutdowndir=$(rootlibexecdir)/system-shutdown
+- systemsleepdir=$(rootlibexecdir)/system-sleep
+--systemunitdir=$(rootprefix)/lib/systemd/system
+--systempresetdir=$(rootprefix)/lib/systemd/system-preset
+--udevlibexecdir=$(rootprefix)/lib/udev
+-+systemunitdir=$(rootprefix)/$(rootlibdir)/systemd/system
+-+systempresetdir=$(rootprefix)/$(rootlibdir)/systemd/system-preset
+-+udevlibexecdir=$(rootprefix)/$(rootlibdir)/udev
+- udevhomedir = $(udevlibexecdir)
+- udevrulesdir = $(udevlibexecdir)/rules.d
+- 
+- # And these are the special ones for /
+- rootprefix=@rootprefix@
+- rootbindir=$(rootprefix)/bin
+--rootlibexecdir=$(rootprefix)/lib/systemd
+-+rootlibexecdir=$(rootprefix)/$(rootlibdir)/systemd
+- 
+- CLEANFILES = $(BUILT_SOURCES)
+- EXTRA_DIST =
+-@@ -132,7 +132,7 @@
+- 	-DSYSTEMD_STDIO_BRIDGE_BINARY_PATH=\"$(bindir)/systemd-stdio-bridge\" \
+- 	-DROOTPREFIX=\"$(rootprefix)\" \
+- 	-DRUNTIME_DIR=\"/run\" \
+--	-DRANDOM_SEED=\"$(localstatedir)/lib/random-seed\" \
+-+	-DRANDOM_SEED=\"$(localstatedir)/$(rootlibdir)/random-seed\" \
+- 	-DSYSTEMD_CRYPTSETUP_PATH=\"$(rootlibexecdir)/systemd-cryptsetup\" \
+- 	-DSYSTEM_GENERATOR_PATH=\"$(systemgeneratordir)\" \
+- 	-DUSER_GENERATOR_PATH=\"$(usergeneratordir)\" \
+-@@ -2692,7 +2692,7 @@
+- 
+- binfmt-install-data-hook:
+- 	$(MKDIR_P) -m 0755 \
+--		$(DESTDIR)$(prefix)/lib/binfmt.d \
+-+		$(DESTDIR)$(prefix)/$(rootlibdir)/binfmt.d \
+- 		$(DESTDIR)$(sysconfdir)/binfmt.d \
+- 		$(DESTDIR)$(systemunitdir)/sysinit.target.wants
+- 	( cd $(DESTDIR)$(systemunitdir)/sysinit.target.wants && \
+-@@ -3107,7 +3107,7 @@
+- 
+- timedated-install-data-hook:
+- 	$(MKDIR_P) -m 0755 \
+--		$(DESTDIR)$(prefix)/lib/systemd/ntp-units.d \
+-+		$(DESTDIR)$(prefix)/$(rootlibdir)/systemd/ntp-units.d \
+- 		$(DESTDIR)$(sysconfdir)/systemd/ntp-units.d
+- 	( cd $(DESTDIR)$(systemunitdir) && \
+- 		rm -f dbus-org.freedesktop.timedate1.service  && \
+-@@ -3337,7 +3337,7 @@
+- logind-install-data-hook:
+- 	$(MKDIR_P) -m 0755 \
+- 		$(DESTDIR)$(systemunitdir)/multi-user.target.wants \
+--		$(DESTDIR)$(localstatedir)/lib/systemd
+-+		$(DESTDIR)$(localstatedir)/$(rootlibdir)/systemd
+- 	( cd $(DESTDIR)$(systemunitdir) && \
+- 		rm -f dbus-org.freedesktop.login1.service && \
+- 		$(LN_S) systemd-logind.service dbus-org.freedesktop.login1.service)
+-@@ -3494,7 +3494,7 @@
+- 		-e 's,@PACKAGE_VERSION\@,$(PACKAGE_VERSION),g' \
+- 		-e 's,@PACKAGE_NAME\@,$(PACKAGE_NAME),g' \
+- 		-e 's,@PACKAGE_URL\@,$(PACKAGE_URL),g' \
+--		-e 's,@RANDOM_SEED\@,$(localstatedir)/lib/random-seed,g' \
+-+		-e 's,@RANDOM_SEED\@,$(localstatedir)/$(rootlibdir)/random-seed,g' \
+- 		-e 's,@prefix\@,$(prefix),g' \
+- 		-e 's,@exec_prefix\@,$(exec_prefix),g' \
+- 		-e 's,@libdir\@,$(libdir),g' \
+-@@ -3619,9 +3619,9 @@
+- 	$(MKDIR_P) -m 0755 \
+- 		$(DESTDIR)$(tmpfilesdir) \
+- 		$(DESTDIR)$(sysconfdir)/tmpfiles.d \
+--		$(DESTDIR)$(prefix)/lib/modules-load.d \
+-+		$(DESTDIR)$(prefix)/$(rootlibdir)/modules-load.d \
+- 		$(DESTDIR)$(sysconfdir)/modules-load.d \
+--		$(DESTDIR)$(prefix)/lib/sysctl.d \
+-+		$(DESTDIR)$(prefix)/$(rootlibdir)/sysctl.d \
+- 		$(DESTDIR)$(sysconfdir)/sysctl.d \
+- 		$(DESTDIR)$(systemshutdowndir) \
+- 		$(DESTDIR)$(systemsleepdir) \
+diff --git a/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch b/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
+deleted file mode 100644
+index ddf14a5..0000000
+--- a/meta/recipes-core/util-linux/util-linux/remove-lscpu.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-Upstream-Status: Inappropriate [distribution]
+-
+-Take out lscpu stuff from the code
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Index: util-linux-2.22.1/configure.ac
+-===================================================================
+---- util-linux-2.22.1.orig/configure.ac
+-+++ util-linux-2.22.1/configure.ac
+-@@ -937,7 +937,7 @@ UL_REQUIRES_BUILD([lsblk], [libmount])
+- AM_CONDITIONAL(BUILD_LSBLK, test "x$build_lsblk" = xyes)
+- 
+- 
+--UL_BUILD_INIT([lscpu], [check])
+-+UL_BUILD_INIT([lscpu], [no])
+- UL_REQUIRES_LINUX([lscpu])
+- UL_REQUIRES_HAVE([lscpu], [cpu_set_t], [cpu_set_t type])
+- AM_CONDITIONAL(BUILD_LSCPU, test "x$build_lscpu" = xyes)
+-Index: util-linux-2.22.1/sys-utils/Makemodule.am
+-===================================================================
+---- util-linux-2.22.1.orig/sys-utils/Makemodule.am
+-+++ util-linux-2.22.1/sys-utils/Makemodule.am
+-@@ -224,13 +224,6 @@ swapoff_CFLAGS = $(AM_CFLAGS) -I$(ul_lib
+- swapoff_LDADD = $(LDADD) libmount.la
+- endif
+- 
+--if BUILD_LSCPU
+--usrbin_exec_PROGRAMS += lscpu
+--lscpu_SOURCES = sys-utils/lscpu.c
+--lscpu_LDADD = $(LDADD) libcommon.la
+--dist_man_MANS += sys-utils/lscpu.1
+--endif
 --
-Mike Looijmans - TOPIC Automation
+- if BUILD_CHCPU
+- sbin_PROGRAMS += chcpu
+- chcpu_SOURCES = sys-utils/chcpu.c
+diff --git a/meta/recipes-core/util-linux/util-linux/remove_sigsetmark.patch b/meta/recipes-core/util-linux/util-linux/remove_sigsetmark.patch
+deleted file mode 100644
+index 02e4d16..0000000
+--- a/meta/recipes-core/util-linux/util-linux/remove_sigsetmark.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-simpleinit: remove deprecated sigsetmask()
+-
+-The sigsetmask() is deprecated in favor of sigprocmask().
+-
+-This is not needed upstream since simpleinit is removed from
+-util-linux-ng master
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Inappropriate
+-
+-Index: util-linux-2.19.1/simpleinit/shutdown.c
+-===================================================================
+---- util-linux-2.19.1.orig/simpleinit/shutdown.c	2011-03-04 03:47:47.000000000 -0800
+-+++ util-linux-2.19.1/simpleinit/shutdown.c	2011-07-06 08:43:39.183849752 -0700
+-@@ -145,7 +145,7 @@
+- {
+- 	int c, i, fd;
+- 	char *ptr;
+--
+-+	sigset_t sigmask;
+- 	i = getdtablesize ();
+- 	for (fd = 3; fd < i; fd++) close (fd);
+- 	if (getpid () == 1)
+-@@ -153,7 +153,9 @@
+- 	    for (fd = 0; fd < 3; fd++) close (fd);
+- 	    while (1) wait (NULL);  /*  Grim reaper never stops  */
+- 	}
+--	sigsetmask (0); /*  simpleinit(8) blocks all signals: undo for ALRM  */
+-+	/*  simpleinit(8) blocks all signals: undo for ALRM  */
+-+	sigemptyset(&sigmask);
+-+	sigprocmask (SIG_SETMASK, &sigmask, NULL);
+- 	for (i = 1; i < NSIG; i++) signal (i, SIG_DFL);
+- 
+-         setlocale(LC_ALL, "");
+diff --git a/meta/recipes-core/util-linux/util-linux/uclibc-compile.patch b/meta/recipes-core/util-linux/util-linux/uclibc-compile.patch
+deleted file mode 100644
+index 75774d8..0000000
+--- a/meta/recipes-core/util-linux/util-linux/uclibc-compile.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Index: util-linux-ng-2.16/misc-utils/cal.c
+-===================================================================
+---- util-linux-ng-2.16.orig/misc-utils/cal.c	2009-07-03 16:20:01.000000000 -0700
+-+++ util-linux-ng-2.16/misc-utils/cal.c	2009-07-18 23:21:37.000000000 -0700
+-@@ -407,7 +407,7 @@
+-   strcpy(day_headings,"");
+-   strcpy(j_day_headings,"");
+- 
+--#ifdef HAVE_LANGINFO_H
+-+#ifdef HAVE_LANGINFO_H && !defined(__UCLIBC__)
+- # define weekday(wd)	nl_langinfo(ABDAY_1+wd)
+- #else
+- # define weekday(wd)	_time_info->abbrev_wkday[wd]
+diff --git a/meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch b/meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch
+deleted file mode 100644
+index 6ebef0a..0000000
+--- a/meta/recipes-devtools/autoconf/autoconf/autoconf-x.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: lib/autoconf/libs.m4
+-===================================================================
+-RCS file: /cvsroot/autoconf/autoconf/lib/autoconf/libs.m4,v
+-retrieving revision 1.13
+-diff -p -u -r1.13 libs.m4
+---- autoconf-2.59/lib/autoconf/libs.m4	6 Sep 2005 15:34:06 -0000	1.13
+-+++ autoconf-2.59/lib/autoconf/libs.m4	18 Sep 2005 17:09:58 -0000
+-@@ -265,13 +265,13 @@ ac_x_header_dirs='
+- /usr/openwin/share/include'
+- 
+- if test "$ac_x_includes" = no; then
+--  # Guess where to find include files, by looking for Intrinsic.h.
+-+  # Guess where to find include files, by looking for Xlib.h.
+-   # First, try using that file with no special directory specified.
+--  AC_PREPROC_IFELSE([AC_LANG_SOURCE([@%:@include <X11/Intrinsic.h>])],
+-+  AC_PREPROC_IFELSE([AC_LANG_SOURCE([@%:@include <X11/Xlib.h>])],
+- [# We can compile using X headers with no special include directory.
+- ac_x_includes=],
+- [for ac_dir in $ac_x_header_dirs; do
+--  if test -r "$ac_dir/X11/Intrinsic.h"; then
+-+  if test -r "$ac_dir/X11/Xlib.h"; then
+-     ac_x_includes=$ac_dir
+-     break
+-   fi
+-@@ -284,9 +284,9 @@ if test "$ac_x_libraries" = no; then
+-   # Don't add to $LIBS permanently.
+-   ac_save_LIBS=$LIBS
+--  LIBS="-lXt $LIBS"
+--  AC_LINK_IFELSE([AC_LANG_PROGRAM([@%:@include <X11/Intrinsic.h>],
+--				  [XtMalloc (0)])],
+-+  LIBS="-lX11 $LIBS"
+-+  AC_LINK_IFELSE([AC_LANG_PROGRAM([@%:@include <X11/Xlib.h>],
+-+				  [XrmInitialize ()])],
+- 		 [LIBS=$ac_save_LIBS
+- # We can link X programs with no special library path.
+- ac_x_libraries=],
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch
+deleted file mode 100644
+index e461cdf..0000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-btrfs-progs: fix parallel build
+-
+-Upstream-Status: Submitted [http://permalink.gmane.org/gmane.comp.file-systems.btrfs/28197]
+-
+-Parallel execution of "make install" may fail due to late creation of
+-version.h, fix it by adding the dependence on version.h.
+-
+-The fix is similare to 7aaf00fc[btrfs-progs: fix parallel build]
+-
+-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+----
+- Makefile |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Makefile b/Makefile
+-index c43cb68..40ef205 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -190,7 +190,7 @@ clean :
+- 	      $(libs) $(lib_links)
+- 	$(Q)$(MAKE) $(MAKEOPTS) -C man $@
+- 
+--install: $(libs) $(progs) install-man
+-+install: version.h $(libs) $(progs) install-man
+- 	$(INSTALL) -m755 -d $(DESTDIR)$(bindir)
+- 	$(INSTALL) $(progs) $(DESTDIR)$(bindir)
+- 	$(INSTALL) -m755 -d $(DESTDIR)$(libdir)
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build2.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build2.patch
+deleted file mode 100644
+index af1a760..0000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build2.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-btrfs-progs: Fix parallel build
+-
+-Upstream-Status: Pending
+-
+-"make btrfs.o" fails unable to find version.h.
+-
+-This adds version.h as a dependency for all .o files and fixes various parallel 
+-build failures.
+-
+-RP 20/9/2013
+----
+- Makefile |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-Index: git/Makefile
+-===================================================================
+---- git.orig/Makefile	2013-09-20 14:45:34.307723221 +0000
+-+++ git/Makefile	2013-09-20 16:06:45.503611030 +0000
+-@@ -76,7 +76,7 @@
+- 	check = true
+- endif
+- 
+--.c.o:
+-+%.o: %.c version.h
+- 	$(Q)$(check) $<
+- 	@echo "    [CC]     $@"
+- 	$(Q)$(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch b/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
+deleted file mode 100644
+index 7341aec..0000000
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native/no_usr_src.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 8d835cc7185e7cd878712d8208e6aa29b227ceff Mon Sep 17 00:00:00 2001
+-From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+-Date: Thu, 9 May 2013 16:03:59 +0300
+-Subject: [PATCH] Remove hard-coded references to /usr/src/linux/include to
+- avoid host contamination.
+-
+-Upstream-Status: Innappropriate [configuration]
+-
+-Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+----
+- cdrtools-3.00/DEFAULTS/Defaults.gnu |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+- mode change 100644 => 100755 cdrtools-3.00/DEFAULTS/Defaults.gnu
+-
+-diff --git a/DEFAULTS/Defaults.gnu b/cdrtools-3.00/DEFAULTS/Defaults.gnu
+-old mode 100644
+-new mode 100755
+-index e3e102b..8a18209
+---- a/DEFAULTS/Defaults.gnu
+-+++ b/DEFAULTS/Defaults.gnu
+-@@ -28,7 +28,7 @@ DEFLINKMODE=	static
+- ###########################################################################
+- CWARNOPTS=
+- 
+--DEFINCDIRS=	$(SRCROOT)/include /usr/src/linux/include
+-+DEFINCDIRS=	$(SRCROOT)/include
+- LDPATH=		-L/opt/schily/lib
+- #RUNPATH=	-R$(INS_BASE)/lib -R/opt/schily/lib -R$(OLIBSDIR)
+- RUNPATH=	-R$(INS_BASE)/lib -R/opt/schily/lib
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.155/elfutils-robustify.patch b/meta/recipes-devtools/elfutils/elfutils-0.155/elfutils-robustify.patch
+deleted file mode 100644
+index 9eee984..0000000
+--- a/meta/recipes-devtools/elfutils/elfutils-0.155/elfutils-robustify.patch
++++ /dev/null
+@@ -1,1756 +0,0 @@
+---- elfutils/libdwfl/ChangeLog
+-+++ elfutils/libdwfl/ChangeLog
+-@@ -52,6 +52,11 @@
+- 	* dwfl_module_getdwarf.c (open_elf): Clear errno before CBFAIL.
+- 	Reported by Kurt Roeckx <kurt@roeckx.be>.
+- 
+-+2011-03-23  Petr Machata  <pmachata@redhat.com>
+-+
+-+	* relocate.c (relocate_section): Use gelf_fsize instead of relying
+-+	on shdr->sh_entsize.
+-+
+- 2011-02-11  Roland McGrath  <roland@redhat.com>
+- 
+- 	* linux-kernel-modules.c (try_kernel_name): Try .gz, .bz2, .xz
+---- elfutils/libdwfl/relocate.c
+-+++ elfutils/libdwfl/relocate.c
+-@@ -1,5 +1,5 @@
+- /* Relocate debug information.
+--   Copyright (C) 2005-2010 Red Hat, Inc.
+-+   Copyright (C) 2005-2011 Red Hat, Inc.
+-    This file is part of elfutils.
+- 
+-    This file is free software; you can redistribute it and/or modify
+-@@ -457,7 +457,10 @@ relocate_section (Dwfl_Module *mod, Elf
+-       }
+-   }
+- 
+--  size_t nrels = shdr->sh_size / shdr->sh_entsize;
+-+  size_t sh_entsize
+-+    = gelf_fsize (relocated, shdr->sh_type == SHT_REL ? ELF_T_REL : ELF_T_RELA,
+-+		  1, EV_CURRENT);
+-+  size_t nrels = shdr->sh_size / sh_entsize;
+-   size_t complete = 0;
+-   if (shdr->sh_type == SHT_REL)
+-     for (size_t relidx = 0; !result && relidx < nrels; ++relidx)
+-@@ -559,7 +562,7 @@ relocate_section (Dwfl_Module *mod, Elf
+- 	  nrels = next;
+- 	}
+- 
+--      shdr->sh_size = reldata->d_size = nrels * shdr->sh_entsize;
+-+      shdr->sh_size = reldata->d_size = nrels * sh_entsize;
+-       gelf_update_shdr (scn, shdr);
+-     }
+- 
+---- elfutils/libelf/ChangeLog
+-+++ elfutils/libelf/ChangeLog
+-@@ -703,10 +703,53 @@
+- 	If section content hasn't been read yet, do it before looking for the
+- 	block size.  If no section data present, infer size of section header.
+- 
+-+2005-05-14  Jakub Jelinek  <jakub@redhat.com>
+-+
+-+	* libelfP.h (INVALID_NDX): Define.
+-+	* gelf_getdyn.c (gelf_getdyn): Use it.  Remove ndx < 0 test if any.
+-+	* gelf_getlib.c (gelf_getlib): Likewise.
+-+	* gelf_getmove.c (gelf_getmove): Likewise.
+-+	* gelf_getrel.c (gelf_getrel): Likewise.
+-+	* gelf_getrela.c (gelf_getrela): Likewise.
+-+	* gelf_getsym.c (gelf_getsym): Likewise.
+-+	* gelf_getsyminfo.c (gelf_getsyminfo): Likewise.
+-+	* gelf_getsymshndx.c (gelf_getsymshndx): Likewise.
+-+	* gelf_getversym.c (gelf_getversym): Likewise.
+-+	* gelf_update_dyn.c (gelf_update_dyn): Likewise.
+-+	* gelf_update_lib.c (gelf_update_lib): Likewise.
+-+	* gelf_update_move.c (gelf_update_move): Likewise.
+-+	* gelf_update_rel.c (gelf_update_rel): Likewise.
+-+	* gelf_update_rela.c (gelf_update_rela): Likewise.
+-+	* gelf_update_sym.c (gelf_update_sym): Likewise.
+-+	* gelf_update_syminfo.c (gelf_update_syminfo): Likewise.
+-+	* gelf_update_symshndx.c (gelf_update_symshndx): Likewise.
+-+	* gelf_update_versym.c (gelf_update_versym): Likewise.
+-+	* elf_newscn.c (elf_newscn): Check for overflow.
+-+	* elf32_updatefile.c (__elfw2(LIBELFBITS,updatemmap)): Likewise.
+-+	(__elfw2(LIBELFBITS,updatefile)): Likewise.
+-+	* elf_begin.c (file_read_elf): Likewise.
+-+	* elf32_newphdr.c (elfw2(LIBELFBITS,newphdr)): Likewise.
+-+	* elf_getarsym.c (elf_getarsym): Likewise.
+-+	* elf32_getshdr.c (elfw2(LIBELFBITS,getshdr)): Likewise.
+- 2005-05-11  Ulrich Drepper  <drepper@redhat.com>
+- 
+- 	* elf.h: Update again.
+- 
+-+2005-05-17  Jakub Jelinek  <jakub@redhat.com>
+-+
+-+	* elf32_getphdr.c (elfw2(LIBELFBITS,getphdr)): Check if program header
+-+	table fits into object's bounds.
+-+	* elf_getshstrndx.c (elf_getshstrndx): Add elf->start_offset to
+-+	elf->map_address.  Check if first section header fits into object's
+-+	bounds.
+-+	* elf32_getshdr.c (elfw2(LIBELFBITS,getshdr)):
+-+	Check if section header table fits into object's bounds.
+-+	* elf_begin.c (get_shnum): Ensure section headers fits into
+-+	object's bounds.
+-+	(file_read_elf): Make sure scncnt is small enough to allocate both
+-+	ElfXX_Shdr and Elf_Scn array.  Make sure section and program header
+-+	tables fit into object's bounds.  Avoid memory leak on failure.
+-+
+- 2005-05-09  Ulrich Drepper  <drepper@redhat.com>
+- 
+- 	* elf.h: Update from glibc.
+---- elfutils/libelf/elf32_getphdr.c
+-+++ elfutils/libelf/elf32_getphdr.c
+-@@ -93,6 +93,16 @@ __elfw2(LIBELFBITS,getphdr_wrlock) (elf)
+- 
+-       if (elf->map_address != NULL)
+- 	{
+-+	  /* First see whether the information in the ELF header is
+-+	     valid and it does not ask for too much.  */
+-+	  if (unlikely (ehdr->e_phoff >= elf->maximum_size)
+-+	      || unlikely (elf->maximum_size - ehdr->e_phoff < size))
+-+	    {
+-+	      /* Something is wrong.  */
+-+	      __libelf_seterrno (ELF_E_INVALID_PHDR);
+-+	      goto out;
+-+	    }
+-+
+- 	  /* All the data is already mapped.  Use it.  */
+- 	  void *file_phdr = ((char *) elf->map_address
+- 			     + elf->start_offset + ehdr->e_phoff);
+---- elfutils/libelf/elf32_getshdr.c
+-+++ elfutils/libelf/elf32_getshdr.c
+-@@ -60,7 +60,8 @@ load_shdr_wrlock (Elf_Scn *scn)
+-     goto out;
+- 
+-   size_t shnum;
+--  if (__elf_getshdrnum_rdlock (elf, &shnum) != 0)
+-+  if (__elf_getshdrnum_rdlock (elf, &shnum) != 0
+-+      || shnum > SIZE_MAX / sizeof (ElfW2(LIBELFBITS,Shdr)))
+-     goto out;
+-   size_t size = shnum * sizeof (ElfW2(LIBELFBITS,Shdr));
+- 
+-@@ -77,6 +78,16 @@ load_shdr_wrlock (Elf_Scn *scn)
+- 
+-   if (elf->map_address != NULL)
+-     {
+-+      /* First see whether the information in the ELF header is
+-+	 valid and it does not ask for too much.  */
+-+      if (unlikely (ehdr->e_shoff >= elf->maximum_size)
+-+	  || unlikely (elf->maximum_size - ehdr->e_shoff < size))
+-+	{
+-+	  /* Something is wrong.  */
+-+	  __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
+-+	  goto free_and_out;
+-+	}
+-+
+-       ElfW2(LIBELFBITS,Shdr) *notcvt;
+- 
+-       /* All the data is already mapped.  If we could use it
+---- elfutils/libelf/elf32_newphdr.c
+-+++ elfutils/libelf/elf32_newphdr.c
+-@@ -114,6 +114,12 @@ elfw2(LIBELFBITS,newphdr) (elf, count)
+- 	   || count == PN_XNUM
+- 	   || elf->state.ELFW(elf,LIBELFBITS).phdr == NULL)
+-     {
+-+      if (unlikely (count > SIZE_MAX / sizeof (ElfW2(LIBELFBITS,Phdr))))
+-+	{
+-+	  result = NULL;
+-+	  goto out;
+-+	}
+-+
+-       /* Allocate a new program header with the appropriate number of
+- 	 elements.  */
+-       result = (ElfW2(LIBELFBITS,Phdr) *)
+---- elfutils/libelf/elf32_updatefile.c
+-+++ elfutils/libelf/elf32_updatefile.c
+-@@ -202,6 +202,9 @@ __elfw2(LIBELFBITS,updatemmap) (Elf *elf
+-   /* Write all the sections.  Well, only those which are modified.  */
+-   if (shnum > 0)
+-     {
+-+      if (unlikely (shnum > SIZE_MAX / sizeof (Elf_Scn *)))
+-+ 	return 1;
+-+
+-       Elf_ScnList *list = &elf->state.ELFW(elf,LIBELFBITS).scns;
+-       Elf_Scn **scns = (Elf_Scn **) alloca (shnum * sizeof (Elf_Scn *));
+-       char *const shdr_start = ((char *) elf->map_address + elf->start_offset
+-@@ -624,6 +627,10 @@ __elfw2(LIBELFBITS,updatefile) (Elf *elf
+-   /* Write all the sections.  Well, only those which are modified.  */
+-   if (shnum > 0)
+-     {
+-+      if (unlikely (shnum > SIZE_MAX / (sizeof (Elf_Scn *)
+-+					+ sizeof (ElfW2(LIBELFBITS,Shdr)))))
+-+	return 1;
+-+
+-       off_t shdr_offset = elf->start_offset + ehdr->e_shoff;
+- #if EV_NUM != 2
+-       xfct_t shdr_fctp = __elf_xfctstom[__libelf_version - 1][EV_CURRENT - 1][ELFW(ELFCLASS, LIBELFBITS) - 1][ELF_T_SHDR];
+---- elfutils/libelf/elf_begin.c
+-+++ elfutils/libelf/elf_begin.c
+-@@ -144,7 +144,8 @@ get_shnum (void *map_address, unsigned c
+- 
+-       if (unlikely (result == 0) && ehdr.e32->e_shoff != 0)
+- 	{
+--	  if (ehdr.e32->e_shoff + sizeof (Elf32_Shdr) > maxsize)
+-+	  if (unlikely (ehdr.e32->e_shoff >= maxsize)
+-+	      || unlikely (maxsize - ehdr.e32->e_shoff < sizeof (Elf32_Shdr)))
+- 	    /* Cannot read the first section header.  */
+- 	    return 0;
+- 
+-@@ -192,7 +193,8 @@ get_shnum (void *map_address, unsigned c
+- 
+-       if (unlikely (result == 0) && ehdr.e64->e_shoff != 0)
+- 	{
+--	  if (ehdr.e64->e_shoff + sizeof (Elf64_Shdr) > maxsize)
+-+	  if (unlikely (ehdr.e64->e_shoff >= maxsize)
+-+	      || unlikely (ehdr.e64->e_shoff + sizeof (Elf64_Shdr) > maxsize))
+- 	    /* Cannot read the first section header.  */
+- 	    return 0;
+- 
+-@@ -264,6 +266,15 @@ file_read_elf (int fildes, void *map_add
+-     /* Could not determine the number of sections.  */
+-     return NULL;
+- 
+-+  /* Check for too many sections.  */
+-+  if (e_ident[EI_CLASS] == ELFCLASS32)
+-+    {
+-+      if (scncnt > SIZE_MAX / (sizeof (Elf_Scn) + sizeof (Elf32_Shdr)))
+-+	return NULL;
+-+    }
+-+  else if (scncnt > SIZE_MAX / (sizeof (Elf_Scn) + sizeof (Elf64_Shdr)))
+-+    return NULL;
+-+
+-   /* We can now allocate the memory.  Even if there are no section headers,
+-      we allocate space for a zeroth section in case we need it later.  */
+-   const size_t scnmax = (scncnt ?: (cmd == ELF_C_RDWR || cmd == ELF_C_RDWR_MMAP)
+-@@ -303,6 +314,16 @@ file_read_elf (int fildes, void *map_add
+- 	{
+- 	  /* We can use the mmapped memory.  */
+- 	  elf->state.elf32.ehdr = ehdr;
+-+
+-+	  if (unlikely (ehdr->e_shoff >= maxsize)
+-+	      || unlikely (maxsize - ehdr->e_shoff
+-+			   < scncnt * sizeof (Elf32_Shdr)))
+-+	    {
+-+	    free_and_out:
+-+	      free (elf);
+-+	      __libelf_seterrno (ELF_E_INVALID_FILE);
+-+	      return NULL;
+-+	    }
+- 	  elf->state.elf32.shdr
+- 	    = (Elf32_Shdr *) ((char *) ehdr + ehdr->e_shoff);
+- 
+-@@ -389,6 +410,11 @@ file_read_elf (int fildes, void *map_add
+- 	{
+- 	  /* We can use the mmapped memory.  */
+- 	  elf->state.elf64.ehdr = ehdr;
+-+
+-+	  if (unlikely (ehdr->e_shoff >= maxsize)
+-+	      || unlikely (ehdr->e_shoff
+-+			   + scncnt * sizeof (Elf32_Shdr) > maxsize))
+-+	    goto free_and_out;
+- 	  elf->state.elf64.shdr
+- 	    = (Elf64_Shdr *) ((char *) ehdr + ehdr->e_shoff);
+- 
+---- elfutils/libelf/elf_getarsym.c
+-+++ elfutils/libelf/elf_getarsym.c
+-@@ -181,6 +181,9 @@ elf_getarsym (elf, ptr)
+-       size_t index_size = atol (tmpbuf);
+- 
+-       if (SARMAG + sizeof (struct ar_hdr) + index_size > elf->maximum_size
+-+#if SIZE_MAX <= 4294967295U
+-+	  || n >= SIZE_MAX / sizeof (Elf_Arsym)
+-+#endif
+- 	  || n * w > index_size)
+- 	{
+- 	  /* This index table cannot be right since it does not fit into
+---- elfutils/libelf/elf_getshdrstrndx.c
+-+++ elfutils/libelf/elf_getshdrstrndx.c
+-@@ -104,10 +104,25 @@ elf_getshdrstrndx (elf, dst)
+- 	      if (elf->map_address != NULL
+- 		  && elf->state.elf32.ehdr->e_ident[EI_DATA] == MY_ELFDATA
+- 		  && (ALLOW_UNALIGNED
+--		      || (((size_t) ((char *) elf->map_address + offset))
+-+		      || (((size_t) ((char *) elf->map_address
+-+			   + elf->start_offset + offset))
+- 			  & (__alignof__ (Elf32_Shdr) - 1)) == 0))
+--		/* We can directly access the memory.  */
+--		num = ((Elf32_Shdr *) (elf->map_address + offset))->sh_link;
+-+		{
+-+		  /* First see whether the information in the ELF header is
+-+		     valid and it does not ask for too much.  */
+-+		  if (unlikely (elf->maximum_size - offset
+-+				< sizeof (Elf32_Shdr)))
+-+		    {
+-+		      /* Something is wrong.  */
+-+		      __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
+-+		      result = -1;
+-+		      goto out;
+-+		    }
+-+
+-+		  /* We can directly access the memory.  */
+-+		  num = ((Elf32_Shdr *) (elf->map_address + elf->start_offset
+-+					 + offset))->sh_link;
+-+		}
+- 	      else
+- 		{
+- 		  /* We avoid reading in all the section headers.  Just read
+-@@ -142,10 +157,25 @@ elf_getshdrstrndx (elf, dst)
+- 	      if (elf->map_address != NULL
+- 		  && elf->state.elf64.ehdr->e_ident[EI_DATA] == MY_ELFDATA
+- 		  && (ALLOW_UNALIGNED
+--		      || (((size_t) ((char *) elf->map_address + offset))
+-+		      || (((size_t) ((char *) elf->map_address
+-+			   + elf->start_offset + offset))
+- 			  & (__alignof__ (Elf64_Shdr) - 1)) == 0))
+--		/* We can directly access the memory.  */
+--		num = ((Elf64_Shdr *) (elf->map_address + offset))->sh_link;
+-+		{
+-+		  /* First see whether the information in the ELF header is
+-+		     valid and it does not ask for too much.  */
+-+		  if (unlikely (elf->maximum_size - offset
+-+				< sizeof (Elf64_Shdr)))
+-+		    {
+-+		      /* Something is wrong.  */
+-+		      __libelf_seterrno (ELF_E_INVALID_SECTION_HEADER);
+-+		      result = -1;
+-+		      goto out;
+-+		    }
+-+
+-+		  /* We can directly access the memory.  */
+-+		  num = ((Elf64_Shdr *) (elf->map_address + elf->start_offset
+-+					 + offset))->sh_link;
+-+		}
+- 	      else
+- 		{
+- 		  /* We avoid reading in all the section headers.  Just read
+---- elfutils/libelf/elf_newscn.c
+-+++ elfutils/libelf/elf_newscn.c
+-@@ -83,10 +83,18 @@ elf_newscn (elf)
+-   else
+-     {
+-       /* We must allocate a new element.  */
+--      Elf_ScnList *newp;
+-+      Elf_ScnList *newp = NULL;
+- 
+-       assert (elf->state.elf.scnincr > 0);
+- 
+-+      if (
+-+#if SIZE_MAX <= 4294967295U
+-+	  likely (elf->state.elf.scnincr
+-+		  < SIZE_MAX / 2 / sizeof (Elf_Scn) - sizeof (Elf_ScnList))
+-+#else
+-+	  1
+-+#endif
+-+	  )
+-       newp = (Elf_ScnList *) calloc (sizeof (Elf_ScnList)
+- 				     + ((elf->state.elf.scnincr *= 2)
+- 					* sizeof (Elf_Scn)), 1);
+---- elfutils/libelf/gelf_getdyn.c
+-+++ elfutils/libelf/gelf_getdyn.c
+-@@ -1,5 +1,5 @@
+- /* Get information from dynamic table at the given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -72,7 +72,7 @@ gelf_getdyn (data, ndx, dst)
+- 	 table entries has to be adopted.  The user better has provided
+- 	 a buffer where we can store the information.  While copying the
+- 	 data we are converting the format.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Dyn, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -93,7 +93,7 @@ gelf_getdyn (data, ndx, dst)
+- 
+-       /* The data is already in the correct form.  Just make sure the
+- 	 index is OK.  */
+--      if (unlikely ((ndx + 1) * sizeof (GElf_Dyn) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, GElf_Dyn, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+---- elfutils/libelf/gelf_getlib.c
+-+++ elfutils/libelf/gelf_getlib.c
+-@@ -1,5 +1,5 @@
+- /* Get library from table at the given index.
+--   Copyright (C) 2004 Red Hat, Inc.
+-+   Copyright (C) 2004-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2004.
+- 
+-@@ -65,7 +65,7 @@ gelf_getlib (data, ndx, dst)
+-   /* The data is already in the correct form.  Just make sure the
+-      index is OK.  */
+-   GElf_Lib *result = NULL;
+--  if (unlikely ((ndx + 1) * sizeof (GElf_Lib) > data->d_size))
+-+  if (INVALID_NDX (ndx, GElf_Lib, data))
+-     __libelf_seterrno (ELF_E_INVALID_INDEX);
+-   else
+-     {
+---- elfutils/libelf/gelf_getmove.c
+-+++ elfutils/libelf/gelf_getmove.c
+-@@ -1,5 +1,5 @@
+- /* Get move structure at the given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -62,7 +62,7 @@ gelf_getmove (data, ndx, dst)
+- 
+-   /* The data is already in the correct form.  Just make sure the
+-      index is OK.  */
+--  if (unlikely ((ndx + 1) * sizeof (GElf_Move) > data->d_size))
+-+  if (INVALID_NDX (ndx, GElf_Move, data))
+-     {
+-       __libelf_seterrno (ELF_E_INVALID_INDEX);
+-       goto out;
+---- elfutils/libelf/gelf_getrela.c
+-+++ elfutils/libelf/gelf_getrela.c
+-@@ -1,5 +1,5 @@
+- /* Get RELA relocation information at given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -50,12 +50,6 @@ gelf_getrela (data, ndx, dst)
+-   if (data_scn == NULL)
+-     return NULL;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return NULL;
+--    }
+--
+-   if (unlikely (data_scn->d.d_type != ELF_T_RELA))
+-     {
+-       __libelf_seterrno (ELF_E_INVALID_HANDLE);
+-@@ -72,7 +66,7 @@ gelf_getrela (data, ndx, dst)
+-   if (scn->elf->class == ELFCLASS32)
+-     {
+-       /* We have to convert the data.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Rela, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  result = NULL;
+-@@ -93,7 +87,7 @@ gelf_getrela (data, ndx, dst)
+-     {
+-       /* Simply copy the data after we made sure we are actually getting
+- 	 correct data.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf64_Rela, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  result = NULL;
+---- elfutils/libelf/gelf_getrel.c
+-+++ elfutils/libelf/gelf_getrel.c
+-@@ -1,5 +1,5 @@
+- /* Get REL relocation information at given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -50,12 +50,6 @@ gelf_getrel (data, ndx, dst)
+-   if (data_scn == NULL)
+-     return NULL;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return NULL;
+--    }
+--
+-   if (unlikely (data_scn->d.d_type != ELF_T_REL))
+-     {
+-       __libelf_seterrno (ELF_E_INVALID_HANDLE);
+-@@ -72,7 +66,7 @@ gelf_getrel (data, ndx, dst)
+-   if (scn->elf->class == ELFCLASS32)
+-     {
+-       /* We have to convert the data.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Rel, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  result = NULL;
+-@@ -92,7 +86,7 @@ gelf_getrel (data, ndx, dst)
+-     {
+-       /* Simply copy the data after we made sure we are actually getting
+- 	 correct data.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf64_Rel, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  result = NULL;
+---- elfutils/libelf/gelf_getsym.c
+-+++ elfutils/libelf/gelf_getsym.c
+-@@ -1,5 +1,5 @@
+- /* Get symbol information from symbol table at the given index.
+--   Copyright (C) 1999, 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 1999-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 1999.
+- 
+-@@ -69,7 +69,7 @@ gelf_getsym (data, ndx, dst)
+- 	 table entries has to be adopted.  The user better has provided
+- 	 a buffer where we can store the information.  While copying the
+- 	 data we are converting the format.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data->d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Sym, data))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -98,7 +98,7 @@ gelf_getsym (data, ndx, dst)
+- 
+-       /* The data is already in the correct form.  Just make sure the
+- 	 index is OK.  */
+--      if (unlikely ((ndx + 1) * sizeof (GElf_Sym) > data->d_size))
+-+      if (INVALID_NDX (ndx, GElf_Sym, data))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+---- elfutils/libelf/gelf_getsyminfo.c
+-+++ elfutils/libelf/gelf_getsyminfo.c
+-@@ -1,5 +1,5 @@
+- /* Get additional symbol information from symbol table at the given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -63,7 +63,7 @@ gelf_getsyminfo (data, ndx, dst)
+- 
+-   /* The data is already in the correct form.  Just make sure the
+-      index is OK.  */
+--  if (unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data->d_size))
+-+  if (INVALID_NDX (ndx, GElf_Syminfo, data))
+-     {
+-       __libelf_seterrno (ELF_E_INVALID_INDEX);
+-       goto out;
+---- elfutils/libelf/gelf_getsymshndx.c
+-+++ elfutils/libelf/gelf_getsymshndx.c
+-@@ -1,6 +1,6 @@
+- /* Get symbol information and separate section index from symbol table
+-    at the given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -69,7 +69,7 @@ gelf_getsymshndx (symdata, shndxdata, nd
+-      section index table.  */
+-   if (likely (shndxdata_scn != NULL))
+-     {
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Word) > shndxdata_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Word, &shndxdata_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -89,7 +89,7 @@ gelf_getsymshndx (symdata, shndxdata, nd
+- 	 table entries has to be adopted.  The user better has provided
+- 	 a buffer where we can store the information.  While copying the
+- 	 data we are converting the format.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata->d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Sym, symdata))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -118,7 +118,7 @@ gelf_getsymshndx (symdata, shndxdata, nd
+- 
+-       /* The data is already in the correct form.  Just make sure the
+- 	 index is OK.  */
+--      if (unlikely ((ndx + 1) * sizeof (GElf_Sym) > symdata->d_size))
+-+      if (INVALID_NDX (ndx, GElf_Sym, symdata))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+---- elfutils/libelf/gelf_getversym.c
+-+++ elfutils/libelf/gelf_getversym.c
+-@@ -1,5 +1,5 @@
+- /* Get symbol version information at the given index.
+--   Copyright (C) 1999, 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 1999-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 1999.
+- 
+-@@ -71,7 +71,7 @@ gelf_getversym (data, ndx, dst)
+- 
+-   /* The data is already in the correct form.  Just make sure the
+-      index is OK.  */
+--  if (unlikely ((ndx + 1) * sizeof (GElf_Versym) > data->d_size))
+-+  if (INVALID_NDX (ndx, GElf_Versym, data))
+-     {
+-       __libelf_seterrno (ELF_E_INVALID_INDEX);
+-       result = NULL;
+---- elfutils/libelf/gelf_update_dyn.c
+-+++ elfutils/libelf/gelf_update_dyn.c
+-@@ -1,5 +1,5 @@
+- /* Update information in dynamic table at the given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -50,12 +50,6 @@ gelf_update_dyn (data, ndx, src)
+-   if (data == NULL)
+-     return 0;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return 0;
+--    }
+--
+-   if (unlikely (data_scn->d.d_type != ELF_T_DYN))
+-     {
+-       /* The type of the data better should match.  */
+-@@ -81,7 +75,7 @@ gelf_update_dyn (data, ndx, src)
+- 	}
+- 
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Dyn) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Dyn, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -95,7 +89,7 @@ gelf_update_dyn (data, ndx, src)
+-   else
+-     {
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf64_Dyn) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf64_Dyn, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+---- elfutils/libelf/gelf_update_lib.c
+-+++ elfutils/libelf/gelf_update_lib.c
+-@@ -1,5 +1,5 @@
+- /* Update library in table at the given index.
+--   Copyright (C) 2004 Red Hat, Inc.
+-+   Copyright (C) 2004-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2004.
+- 
+-@@ -47,12 +47,6 @@ gelf_update_lib (data, ndx, src)
+-   if (data == NULL)
+-     return 0;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return 0;
+--    }
+--
+-   Elf_Data_Scn *data_scn = (Elf_Data_Scn *) data;
+-   if (unlikely (data_scn->d.d_type != ELF_T_LIB))
+-     {
+-@@ -66,7 +60,7 @@ gelf_update_lib (data, ndx, src)
+- 
+-   /* Check whether we have to resize the data buffer.  */
+-   int result = 0;
+--  if (unlikely ((ndx + 1) * sizeof (Elf64_Lib) > data_scn->d.d_size))
+-+  if (INVALID_NDX (ndx, Elf64_Lib, &data_scn->d))
+-     __libelf_seterrno (ELF_E_INVALID_INDEX);
+-   else
+-     {
+---- elfutils/libelf/gelf_update_move.c
+-+++ elfutils/libelf/gelf_update_move.c
+-@@ -1,5 +1,5 @@
+- /* Update move structure at the given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -54,8 +54,7 @@ gelf_update_move (data, ndx, src)
+-   assert (sizeof (GElf_Move) == sizeof (Elf64_Move));
+- 
+-   /* Check whether we have to resize the data buffer.  */
+--  if (unlikely (ndx < 0)
+--      || unlikely ((ndx + 1) * sizeof (GElf_Move) > data_scn->d.d_size))
+-+  if (INVALID_NDX (ndx, GElf_Move, &data_scn->d))
+-     {
+-       __libelf_seterrno (ELF_E_INVALID_INDEX);
+-       return 0;
+---- elfutils/libelf/gelf_update_rela.c
+-+++ elfutils/libelf/gelf_update_rela.c
+-@@ -1,5 +1,5 @@
+- /* Update RELA relocation information at given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -47,12 +47,6 @@ gelf_update_rela (Elf_Data *dst, int ndx
+-   if (dst == NULL)
+-     return 0;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return 0;
+--    }
+--
+-   if (unlikely (data_scn->d.d_type != ELF_T_RELA))
+-     {
+-       /* The type of the data better should match.  */
+-@@ -80,7 +74,7 @@ gelf_update_rela (Elf_Data *dst, int ndx
+- 	}
+- 
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Rela) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Rela, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -96,7 +90,7 @@ gelf_update_rela (Elf_Data *dst, int ndx
+-   else
+-     {
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf64_Rela) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf64_Rela, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+---- elfutils/libelf/gelf_update_rel.c
+-+++ elfutils/libelf/gelf_update_rel.c
+-@@ -1,5 +1,5 @@
+- /* Update REL relocation information at given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -47,12 +47,6 @@ gelf_update_rel (Elf_Data *dst, int ndx,
+-   if (dst == NULL)
+-     return 0;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return 0;
+--    }
+--
+-   if (unlikely (data_scn->d.d_type != ELF_T_REL))
+-     {
+-       /* The type of the data better should match.  */
+-@@ -78,7 +72,7 @@ gelf_update_rel (Elf_Data *dst, int ndx,
+- 	}
+- 
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Rel) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Rel, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -93,7 +87,7 @@ gelf_update_rel (Elf_Data *dst, int ndx,
+-   else
+-     {
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf64_Rel) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf64_Rel, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+---- elfutils/libelf/gelf_update_sym.c
+-+++ elfutils/libelf/gelf_update_sym.c
+-@@ -1,5 +1,5 @@
+- /* Update symbol information in symbol table at the given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -51,12 +51,6 @@ gelf_update_sym (data, ndx, src)
+-   if (data == NULL)
+-     return 0;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return 0;
+--    }
+--
+-   if (unlikely (data_scn->d.d_type != ELF_T_SYM))
+-     {
+-       /* The type of the data better should match.  */
+-@@ -81,7 +75,7 @@ gelf_update_sym (data, ndx, src)
+- 	}
+- 
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Sym, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -104,7 +98,7 @@ gelf_update_sym (data, ndx, src)
+-   else
+-     {
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf64_Sym) > data_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf64_Sym, &data_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+---- elfutils/libelf/gelf_update_syminfo.c
+-+++ elfutils/libelf/gelf_update_syminfo.c
+-@@ -1,5 +1,5 @@
+- /* Update additional symbol information in symbol table at the given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -51,12 +51,6 @@ gelf_update_syminfo (data, ndx, src)
+-   if (data == NULL)
+-     return 0;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return 0;
+--    }
+--
+-   if (unlikely (data_scn->d.d_type != ELF_T_SYMINFO))
+-     {
+-       /* The type of the data better should match.  */
+-@@ -72,7 +66,7 @@ gelf_update_syminfo (data, ndx, src)
+-   rwlock_wrlock (scn->elf->lock);
+- 
+-   /* Check whether we have to resize the data buffer.  */
+--  if (unlikely ((ndx + 1) * sizeof (GElf_Syminfo) > data_scn->d.d_size))
+-+  if (INVALID_NDX (ndx, GElf_Syminfo, &data_scn->d))
+-     {
+-       __libelf_seterrno (ELF_E_INVALID_INDEX);
+-       goto out;
+---- elfutils/libelf/gelf_update_symshndx.c
+-+++ elfutils/libelf/gelf_update_symshndx.c
+-@@ -1,6 +1,6 @@
+- /* Update symbol information and section index in symbol table at the
+-    given index.
+--   Copyright (C) 2000, 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2000-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2000.
+- 
+-@@ -56,12 +56,6 @@ gelf_update_symshndx (symdata, shndxdata
+-   if (symdata == NULL)
+-     return 0;
+- 
+--  if (unlikely (ndx < 0))
+--    {
+--      __libelf_seterrno (ELF_E_INVALID_INDEX);
+--      return 0;
+--    }
+--
+-   if (unlikely (symdata_scn->d.d_type != ELF_T_SYM))
+-     {
+-       /* The type of the data better should match.  */
+-@@ -107,7 +101,7 @@ gelf_update_symshndx (symdata, shndxdata
+- 	}
+- 
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf32_Sym) > symdata_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf32_Sym, &symdata_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+-@@ -130,7 +124,7 @@ gelf_update_symshndx (symdata, shndxdata
+-   else
+-     {
+-       /* Check whether we have to resize the data buffer.  */
+--      if (unlikely ((ndx + 1) * sizeof (Elf64_Sym) > symdata_scn->d.d_size))
+-+      if (INVALID_NDX (ndx, Elf64_Sym, &symdata_scn->d))
+- 	{
+- 	  __libelf_seterrno (ELF_E_INVALID_INDEX);
+- 	  goto out;
+---- elfutils/libelf/gelf_update_versym.c
+-+++ elfutils/libelf/gelf_update_versym.c
+-@@ -1,5 +1,5 @@
+- /* Update symbol version information.
+--   Copyright (C) 2001, 2002 Red Hat, Inc.
+-+   Copyright (C) 2001-2009 Red Hat, Inc.
+-    This file is part of elfutils.
+-    Written by Ulrich Drepper <drepper@redhat.com>, 2001.
+- 
+-@@ -54,8 +54,7 @@ gelf_update_versym (data, ndx, src)
+-   assert (sizeof (GElf_Versym) == sizeof (Elf64_Versym));
+- 
+-   /* Check whether we have to resize the data buffer.  */
+--  if (unlikely (ndx < 0)
+--      || unlikely ((ndx + 1) * sizeof (GElf_Versym) > data_scn->d.d_size))
+-+  if (INVALID_NDX (ndx, GElf_Versym, &data_scn->d))
+-     {
+-       __libelf_seterrno (ELF_E_INVALID_INDEX);
+-       return 0;
+---- elfutils/libelf/libelfP.h
+-+++ elfutils/libelf/libelfP.h
+-@@ -587,4 +587,8 @@ extern uint32_t __libelf_crc32 (uint32_t
+- /* Align offset to 4 bytes as needed for note name and descriptor data.  */
+- #define NOTE_ALIGN(n)	(((n) + 3) & -4U)
+- 
+-+/* Convenience macro.  */
+-+#define INVALID_NDX(ndx, type, data) \
+-+  unlikely ((data)->d_size / sizeof (type) <= (unsigned int) (ndx))
+-+
+- #endif  /* libelfP.h */
+---- elfutils/src/ChangeLog
+-+++ elfutils/src/ChangeLog
+-@@ -344,6 +344,12 @@
+- 
+- 	* readelf.c (dwarf_attr_string): Grok DW_AT_GNU_odr_signature.
+- 
+-+2011-03-23  Petr Machata  <pmachata@redhat.com>
+-+
+-+	* readelf.c (handle_dynamic, handle_relocs_rel)
+-+	(handle_relocs_rela, handle_versym, print_liblist):
+-+	Use gelf_fsize instead of relying on shdr->sh_entsize.
+-+
+- 2011-02-11  Roland McGrath  <roland@redhat.com>
+- 
+- 	* elfcmp.c (verbose): New variable.
+-@@ -2056,6 +2062,16 @@
+- 	object symbols or symbols with unknown type.
+- 	(check_rel): Likewise.
+- 
+-+2005-06-09  Roland McGrath  <roland@redhat.com>
+-+
+-+	* readelf.c (handle_dynamic, handle_symtab): Check for bogus sh_link.
+-+	(handle_verneed, handle_verdef, handle_versym, handle_hash): Likewise.
+-+	(handle_scngrp): Check for bogus sh_info.
+-+
+-+	* strip.c (handle_elf): Check for bogus values in sh_link, sh_info,
+-+	st_shndx, e_shstrndx, and SHT_GROUP or SHT_SYMTAB_SHNDX data.
+-+	Don't use assert on input values, instead bail with "illformed" error.
+-+
+- 2005-06-08  Roland McGrath  <roland@redhat.com>
+- 
+- 	* readelf.c (print_ops): Add consts.
+-@@ -2101,6 +2117,19 @@
+- 
+- 	* readelf.c (dwarf_tag_string): Add new tags.
+- 
+-+2005-05-17  Jakub Jelinek  <jakub@redhat.com>
+-+
+-+	* elflint.c (check_hash): Don't check entries beyond end of section.
+-+	(check_note): Don't crash if gelf_rawchunk fails.
+-+	(section_name): Return <invalid> if gelf_getshdr returns NULL.
+-+
+-+2005-05-14  Jakub Jelinek  <jakub@redhat.com>
+-+
+-+	* elflint.c (section_name): Return "<invalid>" instead of
+-+	crashing on invalid section name.
+-+	(check_symtab, is_rel_dyn, check_rela, check_rel, check_dynamic,
+-+	check_symtab_shndx, check_hash, check_versym): Robustify.
+-+
+- 2005-05-08  Roland McGrath  <roland@redhat.com>
+- 
+- 	* strip.c (handle_elf): Don't translate hash and versym data formats,
+---- elfutils/src/elflint.c
+-+++ elfutils/src/elflint.c
+-@@ -123,6 +123,10 @@ static uint32_t shstrndx;
+- /* Array to count references in section groups.  */
+- static int *scnref;
+- 
+-+/* Numbers of sections and program headers.  */
+-+static unsigned int shnum;
+-+static unsigned int phnum;
+-+
+- 
+- int
+- main (int argc, char *argv[])
+-@@ -311,10 +315,19 @@ section_name (Ebl *ebl, int idx)
+- {
+-   GElf_Shdr shdr_mem;
+-   GElf_Shdr *shdr;
+-+  const char *ret;
+-+
+-+  if ((unsigned int) idx > shnum)
+-+    return "<invalid>";
+- 
+-   shdr = gelf_getshdr (elf_getscn (ebl->elf, idx), &shdr_mem);
+-+  if (shdr == NULL)
+-+    return "<invalid>";
+- 
+--  return elf_strptr (ebl->elf, shstrndx, shdr->sh_name);
+-+  ret = elf_strptr (ebl->elf, shstrndx, shdr->sh_name);
+-+  if (ret == NULL)
+-+    return "<invalid>";
+-+  return ret;
+- }
+- 
+- 
+-@@ -337,11 +350,6 @@ static const int valid_e_machine[] =
+-   (sizeof (valid_e_machine) / sizeof (valid_e_machine[0]))
+- 
+- 
+--/* Numbers of sections and program headers.  */
+--static unsigned int shnum;
+--static unsigned int phnum;
+--
+--
+- static void
+- check_elf_header (Ebl *ebl, GElf_Ehdr *ehdr, size_t size)
+- {
+-@@ -625,7 +633,8 @@ section [%2d] '%s': symbol table cannot
+- 	  }
+-       }
+- 
+--  if (shdr->sh_entsize != gelf_fsize (ebl->elf, ELF_T_SYM, 1, EV_CURRENT))
+-+  size_t sh_entsize = gelf_fsize (ebl->elf, ELF_T_SYM, 1, EV_CURRENT);
+-+  if (shdr->sh_entsize != sh_entsize)
+-     ERROR (gettext ("\
+- section [%2u] '%s': entry size is does not match ElfXX_Sym\n"),
+- 	   idx, section_name (ebl, idx));
+-@@ -663,7 +672,7 @@ section [%2d] '%s': XINDEX for zeroth en
+- 	       xndxscnidx, section_name (ebl, xndxscnidx));
+-     }
+- 
+--  for (size_t cnt = 1; cnt < shdr->sh_size / shdr->sh_entsize; ++cnt)
+-+  for (size_t cnt = 1; cnt < shdr->sh_size / sh_entsize; ++cnt)
+-     {
+-       sym = gelf_getsymshndx (data, xndxdata, cnt, &sym_mem, &xndx);
+-       if (sym == NULL)
+-@@ -683,7 +692,8 @@ section [%2d] '%s': symbol %zu: invalid
+-       else
+- 	{
+- 	  name = elf_strptr (ebl->elf, shdr->sh_link, sym->st_name);
+--	  assert (name != NULL);
+-+	  assert (name != NULL
+-+		  || strshdr->sh_type != SHT_STRTAB);
+- 	}
+- 
+-       if (sym->st_shndx == SHN_XINDEX)
+-@@ -1032,9 +1042,11 @@ is_rel_dyn (Ebl *ebl, const GElf_Ehdr *e
+-     {
+-       GElf_Shdr rcshdr_mem;
+-       const GElf_Shdr *rcshdr = gelf_getshdr (scn, &rcshdr_mem);
+--      assert (rcshdr != NULL);
+- 
+--      if (rcshdr->sh_type == SHT_DYNAMIC)
+-+      if (rcshdr == NULL)
+-+	break;
+-+
+-+      if (rcshdr->sh_type == SHT_DYNAMIC && rcshdr->sh_entsize)
+- 	{
+- 	  /* Found the dynamic section.  Look through it.  */
+- 	  Elf_Data *d = elf_getdata (scn, NULL);
+-@@ -1044,7 +1056,9 @@ is_rel_dyn (Ebl *ebl, const GElf_Ehdr *e
+- 	    {
+- 	      GElf_Dyn dyn_mem;
+- 	      GElf_Dyn *dyn = gelf_getdyn (d, cnt, &dyn_mem);
+--	      assert (dyn != NULL);
+-+
+-+	      if (dyn == NULL)
+-+		break;
+- 
+- 	      if (dyn->d_tag == DT_RELCOUNT)
+- 		{
+-@@ -1058,7 +1072,9 @@ section [%2d] '%s': DT_RELCOUNT used for
+- 		      /* Does the number specified number of relative
+- 			 relocations exceed the total number of
+- 			 relocations?  */
+--		      if (dyn->d_un.d_val > shdr->sh_size / shdr->sh_entsize)
+-+		      if (shdr->sh_entsize != 0
+-+			  && dyn->d_un.d_val > (shdr->sh_size
+-+						/ shdr->sh_entsize))
+- 			ERROR (gettext ("\
+- section [%2d] '%s': DT_RELCOUNT value %d too high for this section\n"),
+- 			       idx, section_name (ebl, idx),
+-@@ -1218,7 +1234,8 @@ section [%2d] '%s': no relocations for m
+- 	}
+-     }
+- 
+--  if (shdr->sh_entsize != gelf_fsize (ebl->elf, reltype, 1, EV_CURRENT))
+-+  size_t sh_entsize = gelf_fsize (ebl->elf, reltype, 1, EV_CURRENT);
+-+  if (shdr->sh_entsize != sh_entsize)
+-     ERROR (gettext (reltype == ELF_T_RELA ? "\
+- section [%2d] '%s': section entry size does not match ElfXX_Rela\n" : "\
+- section [%2d] '%s': section entry size does not match ElfXX_Rel\n"),
+-@@ -1441,7 +1458,8 @@ check_rela (Ebl *ebl, GElf_Ehdr *ehdr, G
+-   Elf_Data *symdata = elf_getdata (symscn, NULL);
+-   enum load_state state = state_undecided;
+- 
+--  for (size_t cnt = 0; cnt < shdr->sh_size / shdr->sh_entsize; ++cnt)
+-+  size_t sh_entsize = gelf_fsize (ebl->elf, ELF_T_RELA, 1, EV_CURRENT);
+-+  for (size_t cnt = 0; cnt < shdr->sh_size / sh_entsize; ++cnt)
+-     {
+-       GElf_Rela rela_mem;
+-       GElf_Rela *rela = gelf_getrela (data, cnt, &rela_mem);
+-@@ -1491,7 +1509,8 @@ check_rel (Ebl *ebl, GElf_Ehdr *ehdr, GE
+-   Elf_Data *symdata = elf_getdata (symscn, NULL);
+-   enum load_state state = state_undecided;
+- 
+--  for (size_t cnt = 0; cnt < shdr->sh_size / shdr->sh_entsize; ++cnt)
+-+  size_t sh_entsize = gelf_fsize (ebl->elf, ELF_T_REL, 1, EV_CURRENT);
+-+  for (size_t cnt = 0; cnt < shdr->sh_size / sh_entsize; ++cnt)
+-     {
+-       GElf_Rel rel_mem;
+-       GElf_Rel *rel = gelf_getrel (data, cnt, &rel_mem);
+-@@ -1590,7 +1609,8 @@ section [%2d] '%s': referenced as string
+- 	   shdr->sh_link, section_name (ebl, shdr->sh_link),
+- 	   idx, section_name (ebl, idx));
+- 
+--  if (shdr->sh_entsize != gelf_fsize (ebl->elf, ELF_T_DYN, 1, EV_CURRENT))
+-+  size_t sh_entsize = gelf_fsize (ebl->elf, ELF_T_DYN, 1, EV_CURRENT);
+-+  if (shdr->sh_entsize != sh_entsize)
+-     ERROR (gettext ("\
+- section [%2d] '%s': section entry size does not match ElfXX_Dyn\n"),
+- 	   idx, section_name (ebl, idx));
+-@@ -1600,7 +1620,7 @@ section [%2d] '%s': section entry size d
+- 	   idx, section_name (ebl, idx));
+- 
+-   bool non_null_warned = false;
+--  for (cnt = 0; cnt < shdr->sh_size / shdr->sh_entsize; ++cnt)
+-+  for (cnt = 0; cnt < shdr->sh_size / sh_entsize; ++cnt)
+-     {
+-       GElf_Dyn dyn_mem;
+-       GElf_Dyn *dyn = gelf_getdyn (data, cnt, &dyn_mem);
+-@@ -1872,6 +1892,8 @@ section [%2d] '%s': entry size does not
+- 	   idx, section_name (ebl, idx));
+- 
+-   if (symshdr != NULL
+-+      && shdr->sh_entsize
+-+      && symshdr->sh_entsize
+-       && (shdr->sh_size / shdr->sh_entsize
+- 	  < symshdr->sh_size / symshdr->sh_entsize))
+-     ERROR (gettext ("\
+-@@ -1898,6 +1920,12 @@ section [%2d] '%s': extended section ind
+-     }
+- 
+-   Elf_Data *data = elf_getdata (elf_getscn (ebl->elf, idx), NULL);
+-+  if (data == NULL)
+-+    {
+-+      ERROR (gettext ("section [%2d] '%s': cannot get section data\n"),
+-+ 	     idx, section_name (ebl, idx));
+-+      return;
+-+    }
+- 
+-   if (*((Elf32_Word *) data->d_buf) != 0)
+-     ERROR (gettext ("symbol 0 should have zero extended section index\n"));
+-@@ -1940,7 +1968,7 @@ section [%2d] '%s': hash table section i
+- 
+-   size_t maxidx = nchain;
+- 
+--  if (symshdr != NULL)
+-+  if (symshdr != NULL && symshdr->sh_entsize != 0)
+-     {
+-       size_t symsize = symshdr->sh_size / symshdr->sh_entsize;
+- 
+-@@ -1951,18 +1979,28 @@ section [%2d] '%s': hash table section i
+-       maxidx = symsize;
+-     }
+- 
+-+  Elf32_Word *buf = (Elf32_Word *) data->d_buf;
+-+  Elf32_Word *end = (Elf32_Word *) ((char *) data->d_buf + shdr->sh_size);
+-   size_t cnt;
+-   for (cnt = 2; cnt < 2 + nbucket; ++cnt)
+--    if (((Elf32_Word *) data->d_buf)[cnt] >= maxidx)
+-+    {
+-+      if (buf + cnt >= end)
+-+	break;
+-+      else if (buf[cnt] >= maxidx)
+-       ERROR (gettext ("\
+- section [%2d] '%s': hash bucket reference %zu out of bounds\n"),
+- 	     idx, section_name (ebl, idx), cnt - 2);
+-+    }
+- 
+-   for (; cnt < 2 + nbucket + nchain; ++cnt)
+--    if (((Elf32_Word *) data->d_buf)[cnt] >= maxidx)
+-+    {
+-+      if (buf + cnt >= end)
+-+	break;
+-+      else if (buf[cnt] >= maxidx)
+-       ERROR (gettext ("\
+- section [%2d] '%s': hash chain reference %zu out of bounds\n"),
+- 	     idx, section_name (ebl, idx), cnt - 2 - nbucket);
+-+    }
+- }
+- 
+- 
+-@@ -1992,18 +2030,28 @@ section [%2d] '%s': hash table section i
+-       maxidx = symsize;
+-     }
+- 
+-+  Elf64_Xword *buf = (Elf64_Xword *) data->d_buf;
+-+  Elf64_Xword *end = (Elf64_Xword *) ((char *) data->d_buf + shdr->sh_size);
+-   size_t cnt;
+-   for (cnt = 2; cnt < 2 + nbucket; ++cnt)
+--    if (((Elf64_Xword *) data->d_buf)[cnt] >= maxidx)
+-+    {
+-+      if (buf + cnt >= end)
+-+	break;
+-+      else if (buf[cnt] >= maxidx)
+-       ERROR (gettext ("\
+- section [%2d] '%s': hash bucket reference %zu out of bounds\n"),
+- 	     idx, section_name (ebl, idx), cnt - 2);
+-+    }
+- 
+-   for (; cnt < 2 + nbucket + nchain; ++cnt)
+--    if (((Elf64_Xword *) data->d_buf)[cnt] >= maxidx)
+-+    {
+-+      if (buf + cnt >= end)
+-+	break;
+-+      else if (buf[cnt] >= maxidx)
+-       ERROR (gettext ("\
+- section [%2d] '%s': hash chain reference %" PRIu64 " out of bounds\n"),
+--	     idx, section_name (ebl, idx), (uint64_t) (cnt - 2 - nbucket));
+-+	       idx, section_name (ebl, idx), (uint64_t) cnt - 2 - nbucket);
+-+    }
+- }
+- 
+- 
+-@@ -2028,7 +2076,7 @@ section [%2d] '%s': bitmask size not pow
+-   if (shdr->sh_size < (4 + bitmask_words + nbuckets) * sizeof (Elf32_Word))
+-     {
+-       ERROR (gettext ("\
+--section [%2d] '%s': hash table section is too small (is %ld, expected at least%ld)\n"),
+-+section [%2d] '%s': hash table section is too small (is %ld, expected at least %ld)\n"),
+- 	     idx, section_name (ebl, idx), (long int) shdr->sh_size,
+- 	     (long int) ((4 + bitmask_words + nbuckets) * sizeof (Elf32_Word)));
+-       return;
+-@@ -2700,8 +2748,9 @@ section [%2d] '%s' refers in sh_link to
+- 
+-   /* The number of elements in the version symbol table must be the
+-      same as the number of symbols.  */
+--  if (shdr->sh_size / shdr->sh_entsize
+--      != symshdr->sh_size / symshdr->sh_entsize)
+-+  if (shdr->sh_entsize && symshdr->sh_entsize
+-+      && (shdr->sh_size / shdr->sh_entsize
+-+	  != symshdr->sh_size / symshdr->sh_entsize))
+-     ERROR (gettext ("\
+- section [%2d] '%s' has different number of entries than symbol table [%2d] '%s'\n"),
+- 	   idx, section_name (ebl, idx),
+---- elfutils/src/readelf.c
+-+++ elfutils/src/readelf.c
+-@@ -1189,6 +1189,8 @@ handle_scngrp (Ebl *ebl, Elf_Scn *scn, G
+-   Elf32_Word *grpref = (Elf32_Word *) data->d_buf;
+- 
+-   GElf_Sym sym_mem;
+-+  GElf_Sym *sym = gelf_getsym (symdata, shdr->sh_info, &sym_mem);
+-+
+-   printf ((grpref[0] & GRP_COMDAT)
+- 	  ? ngettext ("\
+- \nCOMDAT section group [%2zu] '%s' with signature '%s' contains %zu entry:\n",
+-@@ -1201,8 +1203,8 @@ handle_scngrp (Ebl *ebl, Elf_Scn *scn, G
+- 		      data->d_size / sizeof (Elf32_Word) - 1),
+- 	  elf_ndxscn (scn),
+- 	  elf_strptr (ebl->elf, shstrndx, shdr->sh_name),
+--	  elf_strptr (ebl->elf, symshdr->sh_link,
+--		      gelf_getsym (symdata, shdr->sh_info, &sym_mem)->st_name)
+-+	  (sym == NULL ? NULL
+-+	   : elf_strptr (ebl->elf, symshdr->sh_link, sym->st_name))
+- 	  ?: gettext ("<INVALID SYMBOL>"),
+- 	  data->d_size / sizeof (Elf32_Word) - 1);
+- 
+-@@ -1353,10 +1355,12 @@ static void
+- handle_dynamic (Ebl *ebl, Elf_Scn *scn, GElf_Shdr *shdr)
+- {
+-   int class = gelf_getclass (ebl->elf);
+--  GElf_Shdr glink;
+-+  GElf_Shdr glink_mem;
+-+  GElf_Shdr *glink;
+-   Elf_Data *data;
+-   size_t cnt;
+-   size_t shstrndx;
+-+  size_t sh_entsize;
+- 
+-   /* Get the data of the section.  */
+-   data = elf_getdata (scn, NULL);
+-@@ -1368,21 +1372,26 @@ handle_dynamic (Ebl *ebl, Elf_Scn *scn,
+-     error (EXIT_FAILURE, 0,
+- 	   gettext ("cannot get section header string table index"));
+- 
+-+  sh_entsize = gelf_fsize (ebl->elf, ELF_T_DYN, 1, EV_CURRENT);
+-+
+-+  glink = gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link), &glink_mem);
+-+  if (glink == NULL)
+-+    error (EXIT_FAILURE, 0, gettext ("invalid sh_link value in section %Zu"),
+-+	   elf_ndxscn (scn));
+-+
+-   printf (ngettext ("\
+- \nDynamic segment contains %lu entry:\n Addr: %#0*" PRIx64 "  Offset: %#08" PRIx64 "  Link to section: [%2u] '%s'\n",
+- 		    "\
+- \nDynamic segment contains %lu entries:\n Addr: %#0*" PRIx64 "  Offset: %#08" PRIx64 "  Link to section: [%2u] '%s'\n",
+--		    shdr->sh_size / shdr->sh_entsize),
+--	  (unsigned long int) (shdr->sh_size / shdr->sh_entsize),
+-+		    shdr->sh_size / sh_entsize),
+-+	  (unsigned long int) (shdr->sh_size / sh_entsize),
+- 	  class == ELFCLASS32 ? 10 : 18, shdr->sh_addr,
+- 	  shdr->sh_offset,
+- 	  (int) shdr->sh_link,
+--	  elf_strptr (ebl->elf, shstrndx,
+--		      gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+--				    &glink)->sh_name));
+-+	  elf_strptr (ebl->elf, shstrndx, glink->sh_name));
+-   fputs_unlocked (gettext ("  Type              Value\n"), stdout);
+- 
+--  for (cnt = 0; cnt < shdr->sh_size / shdr->sh_entsize; ++cnt)
+-+  for (cnt = 0; cnt < shdr->sh_size / sh_entsize; ++cnt)
+-     {
+-       GElf_Dyn dynmem;
+-       GElf_Dyn *dyn = gelf_getdyn (data, cnt, &dynmem);
+-@@ -1531,7 +1540,8 @@ static void
+- handle_relocs_rel (Ebl *ebl, GElf_Ehdr *ehdr, Elf_Scn *scn, GElf_Shdr *shdr)
+- {
+-   int class = gelf_getclass (ebl->elf);
+--  int nentries = shdr->sh_size / shdr->sh_entsize;
+-+  size_t sh_entsize = gelf_fsize (ebl->elf, ELF_T_REL, 1, EV_CURRENT);
+-+  int nentries = shdr->sh_size / sh_entsize;
+- 
+-   /* Get the data of the section.  */
+-   Elf_Data *data = elf_getdata (scn, NULL);
+-@@ -1717,7 +1727,8 @@ static void
+- handle_relocs_rela (Ebl *ebl, GElf_Ehdr *ehdr, Elf_Scn *scn, GElf_Shdr *shdr)
+- {
+-   int class = gelf_getclass (ebl->elf);
+--  int nentries = shdr->sh_size / shdr->sh_entsize;
+-+  size_t sh_entsize = gelf_fsize (ebl->elf, ELF_T_RELA, 1, EV_CURRENT);
+-+  int nentries = shdr->sh_size / sh_entsize;
+- 
+-   /* Get the data of the section.  */
+-   Elf_Data *data = elf_getdata (scn, NULL);
+-@@ -1964,6 +1975,13 @@ handle_symtab (Ebl *ebl, Elf_Scn *scn, G
+-     error (EXIT_FAILURE, 0,
+- 	   gettext ("cannot get section header string table index"));
+- 
+-+  GElf_Shdr glink_mem;
+-+  GElf_Shdr *glink = gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+-+				   &glink_mem);
+-+  if (glink == NULL)
+-+    error (EXIT_FAILURE, 0, gettext ("invalid sh_link value in section %Zu"),
+-+	   elf_ndxscn (scn));
+-+
+-   /* Now we can compute the number of entries in the section.  */
+-   unsigned int nsyms = data->d_size / (class == ELFCLASS32
+- 				       ? sizeof (Elf32_Sym)
+-@@ -1974,15 +1992,12 @@ handle_symtab (Ebl *ebl, Elf_Scn *scn, G
+- 		    nsyms),
+- 	  (unsigned int) elf_ndxscn (scn),
+- 	  elf_strptr (ebl->elf, shstrndx, shdr->sh_name), nsyms);
+--  GElf_Shdr glink;
+-   printf (ngettext (" %lu local symbol  String table: [%2u] '%s'\n",
+- 		    " %lu local symbols  String table: [%2u] '%s'\n",
+- 		    shdr->sh_info),
+- 	  (unsigned long int) shdr->sh_info,
+- 	  (unsigned int) shdr->sh_link,
+--	  elf_strptr (ebl->elf, shstrndx,
+--		      gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+--				    &glink)->sh_name));
+-+	  elf_strptr (ebl->elf, shstrndx, glink->sh_name));
+- 
+-   fputs_unlocked (class == ELFCLASS32
+- 		  ? gettext ("\
+-@@ -2218,7 +2233,13 @@ handle_verneed (Ebl *ebl, Elf_Scn *scn,
+-     error (EXIT_FAILURE, 0,
+- 	   gettext ("cannot get section header string table index"));
+- 
+--  GElf_Shdr glink;
+-+  GElf_Shdr glink_mem;
+-+  GElf_Shdr *glink = gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+-+				   &glink_mem);
+-+  if (glink == NULL)
+-+    error (EXIT_FAILURE, 0, gettext ("invalid sh_link value in section %Zu"),
+-+	   elf_ndxscn (scn));
+-+
+-   printf (ngettext ("\
+- \nVersion needs section [%2u] '%s' contains %d entry:\n Addr: %#0*" PRIx64 "  Offset: %#08" PRIx64 "  Link to section: [%2u] '%s'\n",
+- 		    "\
+-@@ -2229,9 +2250,7 @@ handle_verneed (Ebl *ebl, Elf_Scn *scn,
+- 	  class == ELFCLASS32 ? 10 : 18, shdr->sh_addr,
+- 	  shdr->sh_offset,
+- 	  (unsigned int) shdr->sh_link,
+--	  elf_strptr (ebl->elf, shstrndx,
+--		      gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+--				    &glink)->sh_name));
+-+	  elf_strptr (ebl->elf, shstrndx, glink->sh_name));
+- 
+-   unsigned int offset = 0;
+-   for (int cnt = shdr->sh_info; --cnt >= 0; )
+-@@ -2284,8 +2303,14 @@ handle_verdef (Ebl *ebl, Elf_Scn *scn, G
+-     error (EXIT_FAILURE, 0,
+- 	   gettext ("cannot get section header string table index"));
+- 
+-+  GElf_Shdr glink_mem;
+-+  GElf_Shdr *glink = gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+-+				   &glink_mem);
+-+  if (glink == NULL)
+-+    error (EXIT_FAILURE, 0, gettext ("invalid sh_link value in section %Zu"),
+-+	   elf_ndxscn (scn));
+-+
+-   int class = gelf_getclass (ebl->elf);
+--  GElf_Shdr glink;
+-   printf (ngettext ("\
+- \nVersion definition section [%2u] '%s' contains %d entry:\n Addr: %#0*" PRIx64 "  Offset: %#08" PRIx64 "  Link to section: [%2u] '%s'\n",
+- 		    "\
+-@@ -2297,9 +2322,7 @@ handle_verdef (Ebl *ebl, Elf_Scn *scn, G
+- 	  class == ELFCLASS32 ? 10 : 18, shdr->sh_addr,
+- 	  shdr->sh_offset,
+- 	  (unsigned int) shdr->sh_link,
+--	  elf_strptr (ebl->elf, shstrndx,
+--		      gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+--				    &glink)->sh_name));
+-+	  elf_strptr (ebl->elf, shstrndx, glink->sh_name));
+- 
+-   unsigned int offset = 0;
+-   for (int cnt = shdr->sh_info; --cnt >= 0; )
+-@@ -2561,25 +2584,30 @@ handle_versym (Ebl *ebl, Elf_Scn *scn, G
+-       filename = NULL;
+-     }
+- 
+-+  GElf_Shdr glink_mem;
+-+  GElf_Shdr *glink = gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+-+				   &glink_mem);
+-+  size_t sh_entsize = gelf_fsize (ebl->elf, ELF_T_HALF, 1, EV_CURRENT);
+-+  if (glink == NULL)
+-+    error (EXIT_FAILURE, 0, gettext ("invalid sh_link value in section %Zu"),
+-+	   elf_ndxscn (scn));
+-+
+-   /* Print the header.  */
+--  GElf_Shdr glink;
+-   printf (ngettext ("\
+- \nVersion symbols section [%2u] '%s' contains %d entry:\n Addr: %#0*" PRIx64 "  Offset: %#08" PRIx64 "  Link to section: [%2u] '%s'",
+- 		    "\
+- \nVersion symbols section [%2u] '%s' contains %d entries:\n Addr: %#0*" PRIx64 "  Offset: %#08" PRIx64 "  Link to section: [%2u] '%s'",
+--		    shdr->sh_size / shdr->sh_entsize),
+-+		    shdr->sh_size / sh_entsize),
+- 	  (unsigned int) elf_ndxscn (scn),
+- 	  elf_strptr (ebl->elf, shstrndx, shdr->sh_name),
+--	  (int) (shdr->sh_size / shdr->sh_entsize),
+-+	  (int) (shdr->sh_size / sh_entsize),
+- 	  class == ELFCLASS32 ? 10 : 18, shdr->sh_addr,
+- 	  shdr->sh_offset,
+- 	  (unsigned int) shdr->sh_link,
+--	  elf_strptr (ebl->elf, shstrndx,
+--		      gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+--				    &glink)->sh_name));
+-+	  elf_strptr (ebl->elf, shstrndx, glink->sh_name));
+- 
+-   /* Now we can finally look at the actual contents of this section.  */
+--  for (unsigned int cnt = 0; cnt < shdr->sh_size / shdr->sh_entsize; ++cnt)
+-+  for (unsigned int cnt = 0; cnt < shdr->sh_size / sh_entsize; ++cnt)
+-     {
+-       if (cnt % 2 == 0)
+- 	printf ("\n %4d:", cnt);
+-@@ -2628,7 +2656,17 @@ print_hash_info (Ebl *ebl, Elf_Scn *scn,
+-   for (Elf32_Word cnt = 0; cnt < nbucket; ++cnt)
+-     ++counts[lengths[cnt]];
+- 
+--  GElf_Shdr glink;
+-+  GElf_Shdr glink_mem;
+-+  GElf_Shdr *glink = gelf_getshdr (elf_getscn (ebl->elf,
+-+					       shdr->sh_link),
+-+				   &glink_mem);
+-+  if (glink == NULL)
+-+    {
+-+      error (0, 0, gettext ("invalid sh_link value in section %Zu"),
+-+	     elf_ndxscn (scn));
+-+      return;
+-+    }
+-+
+-   printf (ngettext ("\
+- \nHistogram for bucket list length in section [%2u] '%s' (total of %d bucket):\n Addr: %#0*" PRIx64 "  Offset: %#08" PRIx64 "  Link to section: [%2u] '%s'\n",
+- 		    "\
+-@@ -2641,9 +2679,7 @@ print_hash_info (Ebl *ebl, Elf_Scn *scn,
+- 	  shdr->sh_addr,
+- 	  shdr->sh_offset,
+- 	  (unsigned int) shdr->sh_link,
+--	  elf_strptr (ebl->elf, shstrndx,
+--		      gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link),
+--				    &glink)->sh_name));
+-+	  elf_strptr (ebl->elf, shstrndx, glink->sh_name));
+- 
+-   if (extrastr != NULL)
+-     fputs (extrastr, stdout);
+-@@ -2903,7 +2939,8 @@ print_liblist (Ebl *ebl)
+- 
+-       if (shdr != NULL && shdr->sh_type == SHT_GNU_LIBLIST)
+- 	{
+--	  int nentries = shdr->sh_size / shdr->sh_entsize;
+-+	  size_t sh_entsize = gelf_fsize (ebl->elf, ELF_T_LIB, 1, EV_CURRENT);
+-+	  int nentries = shdr->sh_size / sh_entsize;
+- 	  printf (ngettext ("\
+- \nLibrary list section [%2zu] '%s' at offset %#0" PRIx64 " contains %d entry:\n",
+- 			    "\
+-@@ -4164,6 +4201,16 @@ print_debug_aranges_section (Dwfl_Module
+-       return;
+-     }
+- 
+-+  GElf_Shdr glink_mem;
+-+  GElf_Shdr *glink;
+-+  glink = gelf_getshdr (elf_getscn (ebl->elf, shdr->sh_link), &glink_mem);
+-+  if (glink == NULL)
+-+    {
+-+      error (0, 0, gettext ("invalid sh_link value in section %Zu"),
+-+	     elf_ndxscn (scn));
+-+      return;
+-+    }
+-+
+-   printf (ngettext ("\
+- \nDWARF section [%2zu] '%s' at offset %#" PRIx64 " contains %zu entry:\n",
+- 		    "\
+---- elfutils/src/strip.c
+-+++ elfutils/src/strip.c
+-@@ -564,6 +564,11 @@ handle_elf (int fd, Elf *elf, const char
+-       goto fail_close;
+-     }
+- 
+-+  if (shstrndx >= shnum)
+-+    goto illformed;
+-+
+-+#define elf_assert(test) do { if (!(test)) goto illformed; } while (0)
+-+
+-   /* Storage for section information.  We leave room for two more
+-      entries since we unconditionally create a section header string
+-      table.  Maybe some weird tool created an ELF file without one.
+-@@ -585,7 +590,7 @@ handle_elf (int fd, Elf *elf, const char
+-     {
+-       /* This should always be true (i.e., there should not be any
+- 	 holes in the numbering).  */
+--      assert (elf_ndxscn (scn) == cnt);
+-+      elf_assert (elf_ndxscn (scn) == cnt);
+- 
+-       shdr_info[cnt].scn = scn;
+- 
+-@@ -598,6 +603,7 @@ handle_elf (int fd, Elf *elf, const char
+- 					shdr_info[cnt].shdr.sh_name);
+-       if (shdr_info[cnt].name == NULL)
+- 	{
+-+	illformed:
+- 	  error (0, 0, gettext ("illformed file '%s'"), fname);
+- 	  goto fail_close;
+- 	}
+-@@ -607,6 +613,8 @@ handle_elf (int fd, Elf *elf, const char
+- 
+-       /* Remember the shdr.sh_link value.  */
+-       shdr_info[cnt].old_sh_link = shdr_info[cnt].shdr.sh_link;
+-+      if (shdr_info[cnt].old_sh_link >= shnum)
+-+	goto illformed;
+- 
+-       /* Sections in files other than relocatable object files which
+- 	 are not loaded can be freely moved by us.  In relocatable
+-@@ -619,7 +627,7 @@ handle_elf (int fd, Elf *elf, const char
+- 	 appropriate reference.  */
+-       if (unlikely (shdr_info[cnt].shdr.sh_type == SHT_SYMTAB_SHNDX))
+- 	{
+--	  assert (shdr_info[shdr_info[cnt].shdr.sh_link].symtab_idx == 0);
+-+	  elf_assert (shdr_info[shdr_info[cnt].shdr.sh_link].symtab_idx == 0);
+- 	  shdr_info[shdr_info[cnt].shdr.sh_link].symtab_idx = cnt;
+- 	}
+-       else if (unlikely (shdr_info[cnt].shdr.sh_type == SHT_GROUP))
+-@@ -636,7 +644,12 @@ handle_elf (int fd, Elf *elf, const char
+- 	  for (inner = 1;
+- 	       inner < shdr_info[cnt].data->d_size / sizeof (Elf32_Word);
+- 	       ++inner)
+-+	    {
+-+	      if (grpref[inner] < shnum)
+- 	    shdr_info[grpref[inner]].group_idx = cnt;
+-+	      else
+-+		goto illformed;
+-+	    }
+- 
+- 	  if (inner == 1 || (inner == 2 && (grpref[0] & GRP_COMDAT) == 0))
+- 	    /* If the section group contains only one element and this
+-@@ -647,7 +660,7 @@ handle_elf (int fd, Elf *elf, const char
+- 	}
+-       else if (unlikely (shdr_info[cnt].shdr.sh_type == SHT_GNU_versym))
+- 	{
+--	  assert (shdr_info[shdr_info[cnt].shdr.sh_link].version_idx == 0);
+-+	  elf_assert (shdr_info[shdr_info[cnt].shdr.sh_link].version_idx == 0);
+- 	  shdr_info[shdr_info[cnt].shdr.sh_link].version_idx = cnt;
+- 	}
+- 
+-@@ -655,7 +668,7 @@ handle_elf (int fd, Elf *elf, const char
+- 	 discarded right away.  */
+-       if ((shdr_info[cnt].shdr.sh_flags & SHF_GROUP) != 0)
+- 	{
+--	  assert (shdr_info[cnt].group_idx != 0);
+-+	  elf_assert (shdr_info[cnt].group_idx != 0);
+- 
+- 	  if (shdr_info[shdr_info[cnt].group_idx].idx == 0)
+- 	    {
+-@@ -731,10 +744,14 @@ handle_elf (int fd, Elf *elf, const char
+- 	    {
+- 	      /* If a relocation section is marked as being removed make
+- 		 sure the section it is relocating is removed, too.  */
+--	      if ((shdr_info[cnt].shdr.sh_type == SHT_REL
+-+	      if (shdr_info[cnt].shdr.sh_type == SHT_REL
+- 		   || shdr_info[cnt].shdr.sh_type == SHT_RELA)
+--		  && shdr_info[shdr_info[cnt].shdr.sh_info].idx != 0)
+--		shdr_info[cnt].idx = 1;
+-+		{
+-+		  if (shdr_info[cnt].shdr.sh_info >= shnum)
+-+		    goto illformed;
+-+		  else if (shdr_info[shdr_info[cnt].shdr.sh_info].idx != 0)
+-+		    shdr_info[cnt].idx = 1;
+-+		}
+- 
+- 	      /* If a group section is marked as being removed make
+- 		 sure all the sections it contains are being removed, too.  */
+-@@ -778,7 +795,7 @@ handle_elf (int fd, Elf *elf, const char
+- 		  if (shdr_info[cnt].symtab_idx != 0
+- 		      && shdr_info[shdr_info[cnt].symtab_idx].data == NULL)
+- 		    {
+--		      assert (shdr_info[cnt].shdr.sh_type == SHT_SYMTAB);
+-+		      elf_assert (shdr_info[cnt].shdr.sh_type == SHT_SYMTAB);
+- 
+- 		      shdr_info[shdr_info[cnt].symtab_idx].data
+- 			= elf_getdata (shdr_info[shdr_info[cnt].symtab_idx].scn,
+-@@ -818,6 +835,9 @@ handle_elf (int fd, Elf *elf, const char
+- 		      else if (scnidx == SHN_XINDEX)
+- 			scnidx = xndx;
+- 
+-+		      if (scnidx >= shnum)
+-+			goto illformed;
+-+
+- 		      if (shdr_info[scnidx].idx == 0)
+- 			/* This symbol table has a real symbol in
+- 			   a discarded section.  So preserve the
+-@@ -848,12 +868,16 @@ handle_elf (int fd, Elf *elf, const char
+- 		}
+- 
+- 	      /* Handle references through sh_info.  */
+--	      if (SH_INFO_LINK_P (&shdr_info[cnt].shdr)
+--		  && shdr_info[shdr_info[cnt].shdr.sh_info].idx == 0)
+-+	      if (SH_INFO_LINK_P (&shdr_info[cnt].shdr))
+-+		{
+-+		  if (shdr_info[cnt].shdr.sh_info >= shnum)
+-+		    goto illformed;
+-+		  else if ( shdr_info[shdr_info[cnt].shdr.sh_info].idx == 0)
+- 		{
+- 		  shdr_info[shdr_info[cnt].shdr.sh_info].idx = 1;
+- 		  changes |= shdr_info[cnt].shdr.sh_info < cnt;
+- 		}
+-+		}
+- 
+- 	      /* Mark the section as investigated.  */
+- 	      shdr_info[cnt].idx = 2;
+-@@ -994,7 +1018,7 @@ handle_elf (int fd, Elf *elf, const char
+- 	  error (EXIT_FAILURE, 0, gettext ("while generating output file: %s"),
+- 		 elf_errmsg (-1));
+- 
+--	assert (elf_ndxscn (shdr_info[cnt].newscn) == shdr_info[cnt].idx);
+-+	elf_assert (elf_ndxscn (shdr_info[cnt].newscn) == shdr_info[cnt].idx);
+- 
+- 	/* Add this name to the section header string table.  */
+- 	shdr_info[cnt].se = ebl_strtabadd (shst, shdr_info[cnt].name, 0);
+-@@ -1031,7 +1055,7 @@ handle_elf (int fd, Elf *elf, const char
+- 	error (EXIT_FAILURE, 0,
+- 	       gettext ("while create section header section: %s"),
+- 	       elf_errmsg (-1));
+--      assert (elf_ndxscn (shdr_info[cnt].newscn) == shdr_info[cnt].idx);
+-+      elf_assert (elf_ndxscn (shdr_info[cnt].newscn) == shdr_info[cnt].idx);
+- 
+-       shdr_info[cnt].data = elf_newdata (shdr_info[cnt].newscn);
+-       if (shdr_info[cnt].data == NULL)
+-@@ -1087,7 +1111,7 @@ handle_elf (int fd, Elf *elf, const char
+-     error (EXIT_FAILURE, 0,
+- 	   gettext ("while create section header section: %s"),
+- 	   elf_errmsg (-1));
+--  assert (elf_ndxscn (shdr_info[cnt].newscn) == idx);
+-+  elf_assert (elf_ndxscn (shdr_info[cnt].newscn) == idx);
+- 
+-   /* Finalize the string table and fill in the correct indices in the
+-      section headers.  */
+-@@ -1177,20 +1201,20 @@ handle_elf (int fd, Elf *elf, const char
+- 		    shndxdata = elf_getdata (shdr_info[shdr_info[cnt].symtab_idx].scn,
+- 					     NULL);
+- 
+--		    assert ((versiondata->d_size / sizeof (Elf32_Word))
+-+		    elf_assert ((versiondata->d_size / sizeof (Elf32_Word))
+- 			    >= shdr_info[cnt].data->d_size / elsize);
+- 		  }
+- 
+- 		if (shdr_info[cnt].version_idx != 0)
+- 		  {
+--		    assert (shdr_info[cnt].shdr.sh_type == SHT_DYNSYM);
+-+		    elf_assert (shdr_info[cnt].shdr.sh_type == SHT_DYNSYM);
+- 		    /* This section has associated version
+- 		       information.  We have to modify that
+- 		       information, too.  */
+- 		    versiondata = elf_getdata (shdr_info[shdr_info[cnt].version_idx].scn,
+- 					       NULL);
+- 
+--		    assert ((versiondata->d_size / sizeof (GElf_Versym))
+-+		    elf_assert ((versiondata->d_size / sizeof (GElf_Versym))
+- 			    >= shdr_info[cnt].data->d_size / elsize);
+- 		  }
+- 
+-@@ -1245,7 +1269,7 @@ handle_elf (int fd, Elf *elf, const char
+- 		      sec = shdr_info[sym->st_shndx].idx;
+- 		    else
+- 		      {
+--			assert (shndxdata != NULL);
+-+			elf_assert (shndxdata != NULL);
+- 
+- 			sec = shdr_info[xshndx].idx;
+- 		      }
+-@@ -1266,7 +1290,7 @@ handle_elf (int fd, Elf *elf, const char
+- 			    nxshndx = sec;
+- 			  }
+- 
+--			assert (sec < SHN_LORESERVE || shndxdata != NULL);
+-+			elf_assert (sec < SHN_LORESERVE || shndxdata != NULL);
+- 
+- 			if ((inner != destidx || nshndx != sym->st_shndx
+- 			     || (shndxdata != NULL && nxshndx != xshndx))
+-@@ -1293,9 +1317,11 @@ handle_elf (int fd, Elf *elf, const char
+- 		      {
+- 			size_t sidx = (sym->st_shndx != SHN_XINDEX
+- 					? sym->st_shndx : xshndx);
+--			assert (GELF_ST_TYPE (sym->st_info) == STT_SECTION
+--				|| (shdr_info[sidx].shdr.sh_type == SHT_GROUP
+--				    && shdr_info[sidx].shdr.sh_info == inner));
+-+			elf_assert (GELF_ST_TYPE (sym->st_info) == STT_SECTION
+-+				    || ((shdr_info[sidx].shdr.sh_type
+-+					 == SHT_GROUP)
+-+					&& (shdr_info[sidx].shdr.sh_info
+-+					    == inner)));
+- 		      }
+- 		  }
+- 
+-@@ -1483,11 +1509,11 @@ handle_elf (int fd, Elf *elf, const char
+- 		  {
+- 		    GElf_Sym sym_mem;
+- 		    GElf_Sym *sym = gelf_getsym (symd, inner, &sym_mem);
+--		    assert (sym != NULL);
+-+		    elf_assert (sym != NULL);
+- 
+- 		    const char *name = elf_strptr (elf, strshndx,
+- 						   sym->st_name);
+--		    assert (name != NULL);
+-+		    elf_assert (name != NULL);
+- 		    size_t hidx = elf_hash (name) % nbucket;
+- 
+- 		    if (bucket[hidx] == 0)
+-@@ -1506,8 +1532,8 @@ handle_elf (int fd, Elf *elf, const char
+- 	    else
+- 	      {
+- 		/* Alpha and S390 64-bit use 64-bit SHT_HASH entries.  */
+--		assert (shdr_info[cnt].shdr.sh_entsize
+--			== sizeof (Elf64_Xword));
+-+		elf_assert (shdr_info[cnt].shdr.sh_entsize
+-+                            == sizeof (Elf64_Xword));
+- 
+- 		Elf64_Xword *bucket = (Elf64_Xword *) hashd->d_buf;
+- 
+-@@ -1537,11 +1563,11 @@ handle_elf (int fd, Elf *elf, const char
+- 		  {
+- 		    GElf_Sym sym_mem;
+- 		    GElf_Sym *sym = gelf_getsym (symd, inner, &sym_mem);
+--		    assert (sym != NULL);
+-+		    elf_assert (sym != NULL);
+- 
+- 		    const char *name = elf_strptr (elf, strshndx,
+- 						   sym->st_name);
+--		    assert (name != NULL);
+-+		    elf_assert (name != NULL);
+- 		    size_t hidx = elf_hash (name) % nbucket;
+- 
+- 		    if (bucket[hidx] == 0)
+diff --git a/meta/recipes-devtools/gdb/gdb/libiberty-cross.patch b/meta/recipes-devtools/gdb/gdb/libiberty-cross.patch
+deleted file mode 100644
+index d051fdf..0000000
+--- a/meta/recipes-devtools/gdb/gdb/libiberty-cross.patch
++++ /dev/null
+@@ -1,632 +0,0 @@
+-Upstream-Status: Pending
+-
+---- libiberty/configure.in.old	2004-03-31 21:25:25.000000000 +0100
+-+++ libiberty/configure.in	2004-03-31 21:18:02.000000000 +0100
+-@@ -100,6 +100,7 @@
+- AC_CHECK_TOOL(RANLIB, ranlib, :)
+- 
+- LIB_AC_PROG_CC
+-+AC_PROG_CC_WORKS
+- 
+- AC_PROG_CC_C_O
+- # autoconf is lame and doesn't give us any substitution variable for this.
+-@@ -402,7 +403,6 @@
+- 
+-   # We haven't set the list of objects yet.  Use the standard autoconf
+-   # tests.  This will only work if the compiler works.
+--  AC_PROG_CC_WORKS
+-   AC_REPLACE_FUNCS($funcs)
+-   libiberty_AC_FUNC_C_ALLOCA
+-   AC_FUNC_VFORK
+-
+---- libiberty/configure.old	2003-06-19 21:05:35.000000000 +0100
+-+++ libiberty/configure	2004-03-31 21:35:12.000000000 +0100
+-@@ -1000,13 +1000,60 @@
+- fi
+- 
+- 
+-+echo $ac_n "checking whether the C compiler ($CC $CFLAGS $LDFLAGS) works""... $ac_c" 1>&6
+-+echo "configure:1005: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) works" >&5
+-+
+-+ac_ext=c
+-+# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+-+ac_cpp='$CPP $CPPFLAGS'
+-+ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+-+ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+-+cross_compiling=$ac_cv_prog_cc_cross
+-+
+-+cat > conftest.$ac_ext << EOF
+-+
+-+#line 1016 "configure"
+-+#include "confdefs.h"
+-+
+-+main(){return(0);}
+-+EOF
+-+if { (eval echo configure:1021: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+-+  ac_cv_prog_cc_works=yes
+-+  # If we can't run a trivial program, we are probably using a cross compiler.
+-+  if (./conftest; exit) 2>/dev/null; then
+-+    ac_cv_prog_cc_cross=no
+-+  else
+-+    ac_cv_prog_cc_cross=yes
+-+  fi
+-+else
+-+  echo "configure: failed program was:" >&5
+-+  cat conftest.$ac_ext >&5
+-+  ac_cv_prog_cc_works=no
+-+fi
+-+rm -fr conftest*
+-+ac_ext=c
+-+# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+-+ac_cpp='$CPP $CPPFLAGS'
+-+ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+-+ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+-+cross_compiling=$ac_cv_prog_cc_cross
+-+
+-+echo "$ac_t""$ac_cv_prog_cc_works" 1>&6
+-+if test $ac_cv_prog_cc_works = no; then
+-+  { echo "configure: error: installation or configuration problem: C compiler cannot create executables." 1>&2; exit 1; }
+-+fi
+-+echo $ac_n "checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler""... $ac_c" 1>&6
+-+echo "configure:1047: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler" >&5
+-+echo "$ac_t""$ac_cv_prog_cc_cross" 1>&6
+-+cross_compiling=$ac_cv_prog_cc_cross
+-+
+- 
+- if test "x$CC" != xcc; then
+-   echo $ac_n "checking whether $CC and cc understand -c and -o together""... $ac_c" 1>&6
+--echo "configure:1007: checking whether $CC and cc understand -c and -o together" >&5
+-+echo "configure:1054: checking whether $CC and cc understand -c and -o together" >&5
+- else
+-   echo $ac_n "checking whether cc understands -c and -o together""... $ac_c" 1>&6
+--echo "configure:1010: checking whether cc understands -c and -o together" >&5
+-+echo "configure:1057: checking whether cc understands -c and -o together" >&5
+- fi
+- set dummy $CC; ac_cc="`echo $2 |
+- 		       sed -e 's/[^a-zA-Z0-9_]/_/g' -e 's/^[0-9]/_/'`"
+-@@ -1018,16 +1065,16 @@
+- # We do the test twice because some compilers refuse to overwrite an
+- # existing .o file with -o, though they will create one.
+- ac_try='${CC-cc} -c conftest.c -o conftest.o 1>&5'
+--if { (eval echo configure:1022: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; } &&
+--   test -f conftest.o && { (eval echo configure:1023: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; };
+-+if { (eval echo configure:1069: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; } &&
+-+   test -f conftest.o && { (eval echo configure:1070: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; };
+- then
+-   eval ac_cv_prog_cc_${ac_cc}_c_o=yes
+-   if test "x$CC" != xcc; then
+-     # Test first that cc exists at all.
+--    if { ac_try='cc -c conftest.c 1>&5'; { (eval echo configure:1028: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }; }; then
+-+    if { ac_try='cc -c conftest.c 1>&5'; { (eval echo configure:1075: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }; }; then
+-       ac_try='cc -c conftest.c -o conftest.o 1>&5'
+--      if { (eval echo configure:1030: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; } &&
+--	 test -f conftest.o && { (eval echo configure:1031: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; };
+-+      if { (eval echo configure:1077: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; } &&
+-+	 test -f conftest.o && { (eval echo configure:1078: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; };
+-       then
+-         # cc works too.
+-         :
+-@@ -1063,7 +1110,7 @@
+- 
+- 
+- echo $ac_n "checking for POSIXized ISC""... $ac_c" 1>&6
+--echo "configure:1067: checking for POSIXized ISC" >&5
+-+echo "configure:1114: checking for POSIXized ISC" >&5
+- if test -d /etc/conf/kconfig.d &&
+-   grep _POSIX_VERSION /usr/include/sys/unistd.h >/dev/null 2>&1
+- then
+-@@ -1084,12 +1131,12 @@
+- fi
+- 
+- echo $ac_n "checking for working const""... $ac_c" 1>&6
+--echo "configure:1088: checking for working const" >&5
+-+echo "configure:1135: checking for working const" >&5
+- if eval "test \"`echo '$''{'ac_cv_c_const'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1093 "configure"
+-+#line 1140 "configure"
+- #include "confdefs.h"
+- 
+- int main() {
+-@@ -1138,7 +1185,7 @@
+- 
+- ; return 0; }
+- EOF
+--if { (eval echo configure:1142: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-+if { (eval echo configure:1189: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-   rm -rf conftest*
+-   ac_cv_c_const=yes
+- else
+-@@ -1159,21 +1206,21 @@
+- fi
+- 
+- echo $ac_n "checking for inline""... $ac_c" 1>&6
+--echo "configure:1163: checking for inline" >&5
+-+echo "configure:1210: checking for inline" >&5
+- if eval "test \"`echo '$''{'ac_cv_c_inline'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   ac_cv_c_inline=no
+- for ac_kw in inline __inline__ __inline; do
+-   cat > conftest.$ac_ext <<EOF
+--#line 1170 "configure"
+-+#line 1217 "configure"
+- #include "confdefs.h"
+- 
+- int main() {
+- } $ac_kw foo() {
+- ; return 0; }
+- EOF
+--if { (eval echo configure:1177: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-+if { (eval echo configure:1224: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-   rm -rf conftest*
+-   ac_cv_c_inline=$ac_kw; break
+- else
+-@@ -1199,14 +1246,14 @@
+- esac
+- 
+- echo $ac_n "checking whether byte ordering is bigendian""... $ac_c" 1>&6
+--echo "configure:1203: checking whether byte ordering is bigendian" >&5
+-+echo "configure:1250: checking whether byte ordering is bigendian" >&5
+- if eval "test \"`echo '$''{'ac_cv_c_bigendian'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   ac_cv_c_bigendian=unknown
+- # See if sys/param.h defines the BYTE_ORDER macro.
+- cat > conftest.$ac_ext <<EOF
+--#line 1210 "configure"
+-+#line 1257 "configure"
+- #include "confdefs.h"
+- #include <sys/types.h>
+- #include <sys/param.h>
+-@@ -1217,11 +1264,11 @@
+- #endif
+- ; return 0; }
+- EOF
+--if { (eval echo configure:1221: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-+if { (eval echo configure:1268: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-   rm -rf conftest*
+-   # It does; now see whether it defined to BIG_ENDIAN or not.
+- cat > conftest.$ac_ext <<EOF
+--#line 1225 "configure"
+-+#line 1272 "configure"
+- #include "confdefs.h"
+- #include <sys/types.h>
+- #include <sys/param.h>
+-@@ -1232,7 +1279,7 @@
+- #endif
+- ; return 0; }
+- EOF
+--if { (eval echo configure:1236: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-+if { (eval echo configure:1283: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-   rm -rf conftest*
+-   ac_cv_c_bigendian=yes
+- else
+-@@ -1252,7 +1299,7 @@
+-    echo $ac_n "cross-compiling... " 2>&6 
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1256 "configure"
+-+#line 1303 "configure"
+- #include "confdefs.h"
+- main () {
+-   /* Are we little or big endian?  From Harbison&Steele.  */
+-@@ -1265,7 +1312,7 @@
+-   exit (u.c[sizeof (long) - 1] == 1);
+- }
+- EOF
+--if { (eval echo configure:1269: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+-+if { (eval echo configure:1316: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+- then
+-   ac_cv_c_bigendian=no
+- else
+-@@ -1283,7 +1330,7 @@
+- echo "$ac_t""$ac_cv_c_bigendian" 1>&6
+- if test $ac_cv_c_bigendian = unknown; then
+- echo $ac_n "checking to probe for byte ordering""... $ac_c" 1>&6
+--echo "configure:1287: checking to probe for byte ordering" >&5
+-+echo "configure:1334: checking to probe for byte ordering" >&5
+- 
+- cat >conftest.c <<EOF
+- short ascii_mm[] = { 0x4249, 0x4765, 0x6E44, 0x6961, 0x6E53, 0x7953, 0 };
+-@@ -1352,7 +1399,7 @@
+- # SVR4 /usr/ucb/install, which tries to use the nonexistent group "staff"
+- # ./install, which can be erroneously created by make from ./install.sh.
+- echo $ac_n "checking for a BSD compatible install""... $ac_c" 1>&6
+--echo "configure:1356: checking for a BSD compatible install" >&5
+-+echo "configure:1403: checking for a BSD compatible install" >&5
+- if test -z "$INSTALL"; then
+- if eval "test \"`echo '$''{'ac_cv_path_install'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+-@@ -1413,7 +1460,7 @@
+- # able to link anything, it had better be able to at least compile
+- # something.
+- echo $ac_n "checking how to run the C preprocessor""... $ac_c" 1>&6
+--echo "configure:1417: checking how to run the C preprocessor" >&5
+-+echo "configure:1464: checking how to run the C preprocessor" >&5
+- # On Suns, sometimes $CPP names a directory.
+- if test -n "$CPP" && test -d "$CPP"; then
+-   CPP=
+-@@ -1428,13 +1475,13 @@
+-   # On the NeXT, cc -E runs the code through the compiler's parser,
+-   # not just through cpp.
+-   cat > conftest.$ac_ext <<EOF
+--#line 1432 "configure"
+-+#line 1479 "configure"
+- #include "confdefs.h"
+- #include <assert.h>
+- Syntax Error
+- EOF
+- ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+--{ (eval echo configure:1438: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+-+{ (eval echo configure:1485: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+- ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+- if test -z "$ac_err"; then
+-   :
+-@@ -1445,13 +1492,13 @@
+-   rm -rf conftest*
+-   CPP="${CC-cc} -E -traditional-cpp"
+-   cat > conftest.$ac_ext <<EOF
+--#line 1449 "configure"
+-+#line 1496 "configure"
+- #include "confdefs.h"
+- #include <assert.h>
+- Syntax Error
+- EOF
+- ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+--{ (eval echo configure:1455: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+-+{ (eval echo configure:1502: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+- ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+- if test -z "$ac_err"; then
+-   :
+-@@ -1462,13 +1509,13 @@
+-   rm -rf conftest*
+-   CPP="${CC-cc} -nologo -E"
+-   cat > conftest.$ac_ext <<EOF
+--#line 1466 "configure"
+-+#line 1513 "configure"
+- #include "confdefs.h"
+- #include <assert.h>
+- Syntax Error
+- EOF
+- ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+--{ (eval echo configure:1472: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+-+{ (eval echo configure:1519: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+- ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+- if test -z "$ac_err"; then
+-   :
+-@@ -1496,17 +1543,17 @@
+- do
+- ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
+- echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
+--echo "configure:1500: checking for $ac_hdr" >&5
+-+echo "configure:1547: checking for $ac_hdr" >&5
+- if eval "test \"`echo '$''{'ac_cv_header_$ac_safe'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1505 "configure"
+-+#line 1552 "configure"
+- #include "confdefs.h"
+- #include <$ac_hdr>
+- EOF
+- ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+--{ (eval echo configure:1510: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+-+{ (eval echo configure:1557: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+- ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+- if test -z "$ac_err"; then
+-   rm -rf conftest*
+-@@ -1533,12 +1580,12 @@
+- done
+- 
+- echo $ac_n "checking for sys/wait.h that is POSIX.1 compatible""... $ac_c" 1>&6
+--echo "configure:1537: checking for sys/wait.h that is POSIX.1 compatible" >&5
+-+echo "configure:1584: checking for sys/wait.h that is POSIX.1 compatible" >&5
+- if eval "test \"`echo '$''{'ac_cv_header_sys_wait_h'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1542 "configure"
+-+#line 1589 "configure"
+- #include "confdefs.h"
+- #include <sys/types.h>
+- #include <sys/wait.h>
+-@@ -1554,7 +1601,7 @@
+- s = WIFEXITED (s) ? WEXITSTATUS (s) : 1;
+- ; return 0; }
+- EOF
+--if { (eval echo configure:1558: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-+if { (eval echo configure:1605: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-   rm -rf conftest*
+-   ac_cv_header_sys_wait_h=yes
+- else
+-@@ -1575,12 +1622,12 @@
+- fi
+- 
+- echo $ac_n "checking whether time.h and sys/time.h may both be included""... $ac_c" 1>&6
+--echo "configure:1579: checking whether time.h and sys/time.h may both be included" >&5
+-+echo "configure:1626: checking whether time.h and sys/time.h may both be included" >&5
+- if eval "test \"`echo '$''{'ac_cv_header_time'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1584 "configure"
+-+#line 1631 "configure"
+- #include "confdefs.h"
+- #include <sys/types.h>
+- #include <sys/time.h>
+-@@ -1589,7 +1636,7 @@
+- struct tm *tp;
+- ; return 0; }
+- EOF
+--if { (eval echo configure:1593: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-+if { (eval echo configure:1640: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-   rm -rf conftest*
+-   ac_cv_header_time=yes
+- else
+-@@ -1611,19 +1658,19 @@
+- 
+- 
+- echo $ac_n "checking whether errno must be declared""... $ac_c" 1>&6
+--echo "configure:1615: checking whether errno must be declared" >&5
+-+echo "configure:1662: checking whether errno must be declared" >&5
+- if eval "test \"`echo '$''{'libiberty_cv_declare_errno'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1620 "configure"
+-+#line 1667 "configure"
+- #include "confdefs.h"
+- #include <errno.h>
+- int main() {
+- int x = errno;
+- ; return 0; }
+- EOF
+--if { (eval echo configure:1627: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-+if { (eval echo configure:1674: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
+-   rm -rf conftest*
+-   libiberty_cv_declare_errno=no
+- else
+-@@ -1645,12 +1692,12 @@
+- 
+- 
+- echo $ac_n "checking for ANSI C header files""... $ac_c" 1>&6
+--echo "configure:1649: checking for ANSI C header files" >&5
+-+echo "configure:1696: checking for ANSI C header files" >&5
+- if eval "test \"`echo '$''{'ac_cv_header_stdc'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1654 "configure"
+-+#line 1701 "configure"
+- #include "confdefs.h"
+- #include <stdlib.h>
+- #include <stdarg.h>
+-@@ -1658,7 +1705,7 @@
+- #include <float.h>
+- EOF
+- ac_try="$ac_cpp conftest.$ac_ext >/dev/null 2>conftest.out"
+--{ (eval echo configure:1662: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+-+{ (eval echo configure:1709: \"$ac_try\") 1>&5; (eval $ac_try) 2>&5; }
+- ac_err=`grep -v '^ *+' conftest.out | grep -v "^conftest.${ac_ext}\$"`
+- if test -z "$ac_err"; then
+-   rm -rf conftest*
+-@@ -1675,7 +1722,7 @@
+- if test $ac_cv_header_stdc = yes; then
+-   # SunOS 4.x string.h does not declare mem*, contrary to ANSI.
+- cat > conftest.$ac_ext <<EOF
+--#line 1679 "configure"
+-+#line 1726 "configure"
+- #include "confdefs.h"
+- #include <string.h>
+- EOF
+-@@ -1693,7 +1740,7 @@
+- if test $ac_cv_header_stdc = yes; then
+-   # ISC 2.0.2 stdlib.h does not declare free, contrary to ANSI.
+- cat > conftest.$ac_ext <<EOF
+--#line 1697 "configure"
+-+#line 1744 "configure"
+- #include "confdefs.h"
+- #include <stdlib.h>
+- EOF
+-@@ -1714,7 +1761,7 @@
+-   :
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1718 "configure"
+-+#line 1765 "configure"
+- #include "confdefs.h"
+- #include <ctype.h>
+- #define ISLOWER(c) ('a' <= (c) && (c) <= 'z')
+-@@ -1725,7 +1772,7 @@
+- exit (0); }
+- 
+- EOF
+--if { (eval echo configure:1729: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+-+if { (eval echo configure:1776: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+- then
+-   :
+- else
+-@@ -1749,12 +1796,12 @@
+- fi
+- 
+- echo $ac_n "checking for uintptr_t""... $ac_c" 1>&6
+--echo "configure:1753: checking for uintptr_t" >&5
+-+echo "configure:1800: checking for uintptr_t" >&5
+- if eval "test \"`echo '$''{'ac_cv_type_uintptr_t'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1758 "configure"
+-+#line 1805 "configure"
+- #include "confdefs.h"
+- #include <sys/types.h>
+- #if STDC_HEADERS
+-@@ -1790,12 +1837,12 @@
+- 
+- 
+- echo $ac_n "checking for pid_t""... $ac_c" 1>&6
+--echo "configure:1794: checking for pid_t" >&5
+-+echo "configure:1841: checking for pid_t" >&5
+- if eval "test \"`echo '$''{'ac_cv_type_pid_t'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1799 "configure"
+-+#line 1846 "configure"
+- #include "confdefs.h"
+- #include <sys/types.h>
+- #if STDC_HEADERS
+-@@ -1895,12 +1942,12 @@
+-   realpath canonicalize_file_name
+- do
+- echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
+--echo "configure:1899: checking for $ac_func" >&5
+-+echo "configure:1946: checking for $ac_func" >&5
+- if eval "test \"`echo '$''{'ac_cv_func_$ac_func'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 1904 "configure"
+-+#line 1951 "configure"
+- #include "confdefs.h"
+- /* System header to define __stub macros and hopefully few prototypes,
+-     which can conflict with char $ac_func(); below.  */
+-@@ -1923,7 +1970,7 @@
+- 
+- ; return 0; }
+- EOF
+--if { (eval echo configure:1927: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+-+if { (eval echo configure:1974: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+-   rm -rf conftest*
+-   eval "ac_cv_func_$ac_func=yes"
+- else
+-@@ -2152,53 +2199,6 @@
+- 
+-   # We haven't set the list of objects yet.  Use the standard autoconf
+-   # tests.  This will only work if the compiler works.
+--  echo $ac_n "checking whether the C compiler ($CC $CFLAGS $LDFLAGS) works""... $ac_c" 1>&6
+--echo "configure:2157: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) works" >&5
+--
+--ac_ext=c
+--# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+--ac_cpp='$CPP $CPPFLAGS'
+--ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+--ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+--cross_compiling=$ac_cv_prog_cc_cross
+--
+--cat > conftest.$ac_ext << EOF
+--
+--#line 2168 "configure"
+--#include "confdefs.h"
+--
+--main(){return(0);}
+--EOF
+--if { (eval echo configure:2173: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+--  ac_cv_prog_cc_works=yes
+--  # If we can't run a trivial program, we are probably using a cross compiler.
+--  if (./conftest; exit) 2>/dev/null; then
+--    ac_cv_prog_cc_cross=no
+--  else
+--    ac_cv_prog_cc_cross=yes
+--  fi
+--else
+--  echo "configure: failed program was:" >&5
+--  cat conftest.$ac_ext >&5
+--  ac_cv_prog_cc_works=no
+--fi
+--rm -fr conftest*
+--ac_ext=c
+--# CFLAGS is not in ac_cpp because -g, -O, etc. are not valid cpp options.
+--ac_cpp='$CPP $CPPFLAGS'
+--ac_compile='${CC-cc} -c $CFLAGS $CPPFLAGS conftest.$ac_ext 1>&5'
+--ac_link='${CC-cc} -o conftest${ac_exeext} $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS 1>&5'
+--cross_compiling=$ac_cv_prog_cc_cross
+--
+--echo "$ac_t""$ac_cv_prog_cc_works" 1>&6
+--if test $ac_cv_prog_cc_works = no; then
+--  { echo "configure: error: installation or configuration problem: C compiler cannot create executables." 1>&2; exit 1; }
+--fi
+--echo $ac_n "checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler""... $ac_c" 1>&6
+--echo "configure:2199: checking whether the C compiler ($CC $CFLAGS $LDFLAGS) is a cross-compiler" >&5
+--echo "$ac_t""$ac_cv_prog_cc_cross" 1>&6
+--cross_compiling=$ac_cv_prog_cc_cross
+--
+-   for ac_func in $funcs
+- do
+- echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
+-@@ -2900,7 +2900,7 @@
+- esac
+- 
+- 
+--for ac_hdr in stdlib.h unistd.h sys/stat.h sys/types.h
+-+for ac_hdr in unistd.h
+- do
+- ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
+- echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
+-@@ -3032,24 +3032,11 @@
+- #include <fcntl.h>
+- #include <sys/mman.h>
+- 
+--#if HAVE_SYS_TYPES_H
+--# include <sys/types.h>
+--#endif
+--
+--#if HAVE_STDLIB_H
+--# include <stdlib.h>
+--#endif
+--
+--#if HAVE_SYS_STAT_H
+--# include <sys/stat.h>
+--#endif
+--
+--#if HAVE_UNISTD_H
+--# include <unistd.h>
+--#endif
+--
+- /* This mess was copied from the GNU getpagesize.h.  */
+- #ifndef HAVE_GETPAGESIZE
+-+# ifdef HAVE_UNISTD_H
+-+#  include <unistd.h>
+-+# endif
+- 
+- /* Assume that all systems that can run configure have sys/param.h.  */
+- # ifndef HAVE_SYS_PARAM_H
+-@@ -3157,7 +3144,7 @@
+- }
+- 
+- EOF
+--if { (eval echo configure:3161: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+-+if { (eval echo configure:3148: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+- then
+-   ac_cv_func_mmap_fixed_mapped=yes
+- else
+-@@ -3181,7 +3168,7 @@
+- 
+- 
+- echo $ac_n "checking for working strncmp""... $ac_c" 1>&6
+--echo "configure:3185: checking for working strncmp" >&5
+-+echo "configure:3172: checking for working strncmp" >&5
+- if eval "test \"`echo '$''{'ac_cv_func_strncmp_works'+set}'`\" = set"; then
+-   echo $ac_n "(cached) $ac_c" 1>&6
+- else
+-@@ -3189,7 +3176,7 @@
+-   ac_cv_func_strncmp_works=no
+- else
+-   cat > conftest.$ac_ext <<EOF
+--#line 3193 "configure"
+-+#line 3180 "configure"
+- #include "confdefs.h"
+- 
+- /* Test by Jim Wilson and Kaveh Ghazi.
+-@@ -3253,7 +3240,7 @@
+- }
+- 
+- EOF
+--if { (eval echo configure:3257: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+-+if { (eval echo configure:3244: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+- then
+-   ac_cv_func_strncmp_works=yes
+- else
+diff --git a/meta/recipes-devtools/perl/perl-5.14.3/asm-pageh-fix.patch b/meta/recipes-devtools/perl/perl-5.14.3/asm-pageh-fix.patch
+deleted file mode 100644
+index c65b1a1..0000000
+--- a/meta/recipes-devtools/perl/perl-5.14.3/asm-pageh-fix.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Upstream-Status:Pending
+-
+-Perl inclues asm/page.h in order to get the definition for getpagesize which
+-has been definied in unistd.h since glibc 2.1. Some recent version of linux
+-libc headers removed the asm/page.h resulting in failures here for some
+-people.
+-
+-Index: perl-5.12.3/cpan/IPC-SysV/SysV.xs
+-===================================================================
+---- perl-5.12.3.orig/cpan/IPC-SysV/SysV.xs	2001-07-01 04:46:07.000000000 +1000
+-+++ perl-5.12.3/cpan/IPC-SysV/SysV.xs	2001-07-01 04:46:07.000000000 +1000
+-@@ -3,9 +3,6 @@
+- #include "XSUB.h"
+- 
+- #include <sys/types.h>
+--#ifdef __linux__
+--#   include <asm/page.h>
+--#endif
+- #if defined(HAS_MSG) || defined(HAS_SEM) || defined(HAS_SHM)
+- #ifndef HAS_SEM
+- #   include <sys/ipc.h>
+diff --git a/meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch b/meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
+deleted file mode 100644
+index 1cb8fea..0000000
+--- a/meta/recipes-devtools/python/python-native/sys_platform_is_now_always_linux2.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-Upstream-Status: Accepted [http://hg.python.org/cpython/rev/c816479f6aaf/]
+-Bugtracker: http://bugs.python.org/issue12326
+-
+-[Removed "Misc/NEWS" hunk]
+-
+-Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+-
+-# HG changeset patch
+-# User Victor Stinner <victor.stinner@haypocalc.com>
+-# Date 1313841758 -7200
+-# Node ID c816479f6aaf71dbd3f3fe4b239186d60c55ce48
+-# Parent  3e093590ac57fdda428c7da3f72ddf0c475ecf2b
+-Issue #12326: sys.platform is now always 'linux2' on Linux
+-
+-Even if Python is compiled on Linux 3.
+-
+-diff --git a/configure.in b/configure.in
+---- a/configure.in
+-+++ b/configure.in
+-@@ -293,6 +293,7 @@ then
+- 	MACHDEP="$ac_md_system$ac_md_release"
+- 
+- 	case $MACHDEP in
+-+	linux*) MACHDEP="linux2";;
+- 	cygwin*) MACHDEP="cygwin";;
+- 	darwin*) MACHDEP="darwin";;
+- 	atheos*) MACHDEP="atheos";;
+-
+diff --git a/meta/recipes-devtools/python/python-pygobject/generate-constants.patch b/meta/recipes-devtools/python/python-pygobject/generate-constants.patch
+deleted file mode 100644
+index be2ecd3..0000000
+--- a/meta/recipes-devtools/python/python-pygobject/generate-constants.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: pygobject-2.14.2/gobject/Makefile.am
+-===================================================================
+---- pygobject-2.14.2.orig/gobject/Makefile.am
+-+++ pygobject-2.14.2/gobject/Makefile.am
+-@@ -21,11 +21,11 @@ if PLATFORM_WIN32
+- common_ldflags += -no-undefined
+- endif
+- 
+--constants.py: generate-constants$(EXEEXT) constants.py.in
+-+constants.py: constants.py.in
+- 	rm -f constants.py
+- 	cp $(srcdir)/constants.py.in constants.py
+- 	chmod 644 constants.py
+--	$(top_builddir)/gobject/generate-constants$(EXEEXT) >> constants.py
+-+	gobject-generate-constants$(EXEEXT) >> constants.py
+- 	chmod 444 constants.py
+- 
+- generate_constants_CFLAGS = $(GLIB_CFLAGS)
+diff --git a/meta/recipes-devtools/qemu/files/3f08ffb4a4741d147634761dc053ed386243a0de.patch b/meta/recipes-devtools/qemu/files/3f08ffb4a4741d147634761dc053ed386243a0de.patch
+deleted file mode 100644
+index 4390b94..0000000
+--- a/meta/recipes-devtools/qemu/files/3f08ffb4a4741d147634761dc053ed386243a0de.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Upstream-Status: Backport
+-
+-[Appears to fix the random segfaults we were seeing in a variety of architectures:
+-https://bugzilla.yoctoproject.org/show_bug.cgi?id=4216 ]
+-
+-
+-From: Yeongkyoon Lee <yeongkyoon.lee@samsung.com>
+-Date: Fri, 22 Mar 2013 12:50:17 +0000 (+0900)
+-Subject: tcg: Fix occasional TCG broken problem when ldst optimization enabled
+-X-Git-Url: http://git.qemu.org/?p=qemu.git;a=commitdiff_plain;h=52ae646d4a3ebdcdcc973492c6a56f2c49b6578f;hp=3f08ffb4a4741d147634761dc053ed386243a0de
+-
+-tcg: Fix occasional TCG broken problem when ldst optimization enabled
+-
+-is_tcg_gen_code() checks the upper limit of TCG generated code range wrong, so
+-that TCG could get broken occasionally only when CONFIG_QEMU_LDST_OPTIMIZATION
+-enabled. The reason is code_gen_buffer_max_size does not cover the upper range
+-up to (TCG_MAX_OP_SIZE * OPC_BUF_SIZE), thus code_gen_buffer_max_size should be
+-modified to code_gen_buffer_size.
+-
+-CC: qemu-stable@nongnu.org
+-Signed-off-by: Yeongkyoon Lee <yeongkyoon.lee@samsung.com>
+-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+-Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
+----
+-
+-Index: qemu-1.4.0/translate-all.c
+-===================================================================
+---- qemu-1.4.0.orig/translate-all.c	2013-04-09 10:58:19.000000000 +0000
+-+++ qemu-1.4.0/translate-all.c	2013-04-09 10:58:34.783203406 +0000
+-@@ -1310,10 +1310,10 @@
+- /* check whether the given addr is in TCG generated code buffer or not */
+- bool is_tcg_gen_code(uintptr_t tc_ptr)
+- {
+--    /* This can be called during code generation, code_gen_buffer_max_size
+-+    /* This can be called during code generation, code_gen_buffer_size
+-        is used instead of code_gen_ptr for upper boundary checking */
+-     return (tc_ptr >= (uintptr_t)code_gen_buffer &&
+--            tc_ptr < (uintptr_t)(code_gen_buffer + code_gen_buffer_max_size));
+-+            tc_ptr < (uintptr_t)(code_gen_buffer + code_gen_buffer_size));
+- }
+- #endif
+- 
+diff --git a/meta/recipes-devtools/qemu/files/enable-i386-linux-user.patch b/meta/recipes-devtools/qemu/files/enable-i386-linux-user.patch
+deleted file mode 100644
+index bb0d6a3..0000000
+--- a/meta/recipes-devtools/qemu/files/enable-i386-linux-user.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-Enable i386-linux-user
+-
+-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: qemu-0.14.0/Makefile.target
+-===================================================================
+---- qemu-0.14.0.orig/Makefile.target
+-+++ qemu-0.14.0/Makefile.target
+-@@ -78,8 +78,13 @@ ifeq ($(TARGET_BASE_ARCH), i386)
+- libobj-y += cpuid.o
+- endif
+- libobj-$(CONFIG_NEED_MMU) += mmu.o
+-+ifndef CONFIG_LINUX_USER
+- libobj-$(TARGET_I386) += helper_opengl.o opengl_exec.o
+- libobj-$(TARGET_X86_64) += helper_opengl.o opengl_exec.o
+-+else
+-+libobj-$(TARGET_I386) += dummygl.o
+-+libobj-$(TARGET_X86_64) += dummygl.o
+-+endif #CONFIG_LINUX_USER
+- libobj-$(TARGET_ARM) += dummygl.o
+- libobj-$(TARGET_MIPS) += dummygl.o
+- libobj-$(TARGET_PPC) += dummygl.o
+-Index: qemu-0.14.0/target-i386/dummygl.c
+-===================================================================
+---- /dev/null
+-+++ qemu-0.14.0/target-i386/dummygl.c
+-@@ -0,0 +1,26 @@
+-+#include <string.h>
+-+#include <stdlib.h>
+-+#include <assert.h>
+-+#include <stdint.h>
+-+#include <X11/Xlib.h>
+-+#include <X11/Xutil.h>
+-+
+-+void opengl_exec_set_parent_window(Display* _dpy, Window _parent_window)
+-+{
+-+
+-+}
+-+
+-+void opengl_process_enable(void)
+-+{
+-+
+-+}
+-+
+-+
+-+void mem_opengl(uint64_t ptr)
+-+{
+-+
+-+}
+-+
+-+void helper_opengl(void)
+-+{
+-+}
+diff --git a/meta/recipes-devtools/qemu/files/init-info.patch b/meta/recipes-devtools/qemu/files/init-info.patch
+deleted file mode 100644
+index 2250444..0000000
+--- a/meta/recipes-devtools/qemu/files/init-info.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-# This is a workaround to the crashes seen on Ubuntu.  Setting info to zero
+-# makes info.info.x11.display zero and avoids the calls to
+-# opengl_exec_set_parent_window, one of which is crashing.
+-
+-Upstream-Status: Pending
+-
+-Index: qemu-0.14.0/ui/sdl.c
+-===================================================================
+---- qemu-0.14.0.orig/ui/sdl.c
+-+++ qemu-0.14.0/ui/sdl.c
+-@@ -863,6 +863,7 @@ void sdl_display_init(DisplayState *ds,
+-     vi = SDL_GetVideoInfo();
+-     host_format = *(vi->vfmt);
+- 
+-+    bzero(&info, sizeof(info));
+-     SDL_GetWMInfo(&info);
+-     if (info.subsystem == SDL_SYSWM_X11 && info.info.x11.display)
+-         opengl_exec_set_parent_window(info.info.x11.display,
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm_fix_for_automake-1.12.patch b/meta/recipes-devtools/rpm/rpm/rpm_fix_for_automake-1.12.patch
+deleted file mode 100644
+index abbb15d..0000000
+--- a/meta/recipes-devtools/rpm/rpm/rpm_fix_for_automake-1.12.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Upstream-Status: 2012/05/02
+-
+-automake 1.12 has depricated automatic de-ANSI-fication.
+-
+-fix this issue:
+-| configure.ac:564: error: automatic de-ANSI-fication support has been removed
+-
+-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+-2012/05/02
+-Index: rpm-5.4.0/configure.ac
+-===================================================================
+---- rpm-5.4.0.orig/configure.ac
+-+++ rpm-5.4.0/configure.ac
+-@@ -561,7 +561,6 @@ dnl # platform specific checks
+- AC_SEARCH_LIBS([strerror],[cposix])
+- 
+- dnl # standard checks
+--AM_C_PROTOTYPES
+- AC_C_INLINE
+- AC_C_BIGENDIAN
+- 
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/fix_tcf-agent.init.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/fix_tcf-agent.init.patch
+deleted file mode 100644
+index 8ea5b43..0000000
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent/fix_tcf-agent.init.patch
++++ /dev/null
+@@ -1,96 +0,0 @@
+-Upstream-Status: Inappropriate [poky-specific script]
+-
+---- a/Makefile
+-+++ b/Makefile
+-@@ -64,7 +64,7 @@
+- 	install -d -m 755 $(INSTALLROOT)$(INCLUDE)/tcf/services
+- 	install -c $(BINDIR)/agent -m 755 $(INSTALLROOT)$(SBIN)/tcf-agent
+- 	install -c $(BINDIR)/client -m 755 $(INSTALLROOT)$(SBIN)/tcf-client
+--	install -c main/tcf-agent.init -m 755 $(INSTALLROOT)$(INIT)/tcf-agent
+-+	install -c tcf-agent.init -m 755 $(INSTALLROOT)$(INIT)/tcf-agent
+- 	install -c config.h -m 755 $(INSTALLROOT)$(INCLUDE)/tcf/config.h
+- 	install -c -t $(INSTALLROOT)$(INCLUDE)/tcf/framework -m 644 framework/*.h
+- 	install -c -t $(INSTALLROOT)$(INCLUDE)/tcf/services -m 644 services/*.h
+---- /dev/null
+-+++ b/tcf-agent.init
+-@@ -0,0 +1,80 @@
+-+#!/bin/sh
+-+### BEGIN INIT INFO
+-+# Provides:          tcf-agent
+-+# Default-Start:     3 5
+-+# Default-Stop:      0 1 2 6
+-+# Short-Description: Target Communication Framework agent
+-+### END INIT INFO
+-+
+-+DAEMON_PATH=/usr/sbin/tcf-agent
+-+DAEMON_NAME=`basename $DAEMON_PATH`
+-+
+-+. /etc/init.d/functions
+-+
+-+test -x $DAEMON_PATH || exit 0
+-+
+-+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+-+export PATH
+-+
+-+RETVAL=0
+-+
+-+case "$1" in
+-+    start)
+-+        echo -n "Starting $DAEMON_NAME: "
+-+        $DAEMON_PATH -d -L- -l0
+-+        RETVAL=$?
+-+        if [ $RETVAL -eq 0 ] ; then
+-+            echo "OK"
+-+            touch /var/lock/subsys/$DAEMON_NAME
+-+        else
+-+            echo "FAIL"
+-+        fi
+-+        ;;
+-+
+-+    stop)
+-+        echo -n "Stopping $DAEMON_NAME: "
+-+        count=0
+-+        pid=$(/bin/pidof $DAEMON_PATH)
+-+        while [ -n "`/bin/pidof $DAEMON_PATH`" -a $count -lt 10 ] ; do
+-+            kill $pid > /dev/null 2>&1
+-+            sleep 1
+-+            RETVAL=$?
+-+            if [ $RETVAL != 0 -o -n "`/bin/pidof $DAEMON_PATH`" ] ; then
+-+                sleep 3
+-+            fi
+-+            count=`expr $count + 1`
+-+            pid=$(/bin/pidof $DAEMON_PATH)
+-+        done
+-+        rm -f /var/lock/subsys/$DAEMON_NAME
+-+        if [ -n "`/bin/pidof $DAEMON_PATH`" ] ; then
+-+            echo "FAIL"
+-+        else
+-+            echo "OK"
+-+        fi
+-+        ;;
+-+
+-+    restart)
+-+        $0 stop
+-+        sleep 1
+-+        $0 start
+-+        ;;
+-+
+-+    status)
+-+        if [ -n "`/bin/pidof $DAEMON_PATH`" ] ; then
+-+            echo "$DAEMON_NAME is running"
+-+        else
+-+            echo "$DAEMON_NAME is not running"
+-+        fi
+-+        ;;
+-+
+-+    condrestart)
+-+        [ -f /var/lock/subsys/$DAEMON_NAME ] && $0 restart
+-+        ;;
+-+
+-+    *)
+-+        echo "usage: $0 { start | stop | restart | condrestart | status }"
+-+        ;;
+-+esac
+-+
+-+exit $RETVAL
+-+
+diff --git a/meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch b/meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch
+deleted file mode 100644
+index 37325ee..0000000
+--- a/meta/recipes-extended/iputils/files/arping-break-libsysfs-dependency.patch
++++ /dev/null
+@@ -1,296 +0,0 @@
+-arping: Break libsysfs dependency
+-
+-Port Fedora 17's iputils-20071127-infiniband.patch, which inlines sysfs
+-access previously done by libsysfs (which is in /usr, and thus not
+-usable by /bin/arping).
+-
+-Upstream-Status: Inappropriate [not author] 
+-Signed-off-by: Andy Ross <andy.ross@windriver.com>
+----
+- Makefile |    2 +-
+- arping.c |  152 ++++++++++++++++++++++++++++++++++++++++++++------------------
+- 2 files changed, 109 insertions(+), 45 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index d9a5ca5..943f048 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -27,7 +27,7 @@ all: $(TARGETS)
+- 
+- 
+- tftpd: tftpd.o tftpsubs.o
+--arping: arping.o -lsysfs
+-+arping: arping.o
+- ping: ping.o ping_common.o
+- ping6: ping6.o ping_common.o -lresolv -lcrypto
+- ping.o ping6.o ping_common.o: ping_common.h
+-diff --git a/arping.c b/arping.c
+-index 13484de..6379354 100644
+---- a/arping.c
+-+++ b/arping.c
+-@@ -32,8 +32,6 @@
+- #include <netinet/in.h>
+- #include <arpa/inet.h>
+- 
+--#include <sysfs/libsysfs.h>
+--
+- #include "SNAPSHOT.h"
+- 
+- static void usage(void) __attribute__((noreturn));
+-@@ -52,14 +50,22 @@ int unicasting;
+- int s;
+- int broadcast_only;
+- 
+--struct sockaddr_storage me;
+--struct sockaddr_storage he;
+-+struct sockaddr_ll *me=NULL;
+-+struct sockaddr_ll *he=NULL;
+- 
+- struct timeval start, last;
+- 
+- int sent, brd_sent;
+- int received, brd_recv, req_recv;
+- 
+-+#define SYSFS_MNT_PATH          "/sys"
+-+#define SYSFS_CLASS             "class"
+-+#define SYSFS_NET               "net"
+-+#define SYSFS_BROADCAST         "broadcast"
+-+#define SYSFS_PATH_ENV          "SYSFS_PATH"
+-+#define SYSFS_PATH_LEN          256
+-+#define SOCKADDR_LEN		(2 * sizeof(struct sockaddr_ll))
+-+
+- #define MS_TDIFF(tv1,tv2) ( ((tv1).tv_sec-(tv2).tv_sec)*1000 + \
+- 			   ((tv1).tv_usec-(tv2).tv_usec)/1000 )
+- 
+-@@ -166,6 +172,10 @@ void finish(void)
+- 		printf("\n");
+- 		fflush(stdout);
+- 	}
+-+
+-+	free(me);
+-+	free(he);
+-+
+- 	if (dad)
+- 		exit(!!received);
+- 	if (unsolicited)
+-@@ -189,8 +199,7 @@ void catcher(void)
+- 		finish();
+- 
+- 	if ( count!=0  && (last.tv_sec==0 || MS_TDIFF(tv,last) > 500 ) ) {
+--		send_pack(s, src, dst,
+--			  (struct sockaddr_ll *)&me, (struct sockaddr_ll *)&he);
+-+		send_pack(s, src, dst, me, he);
+- 		if (count >= 0)
+- 		    count--;
+- 		if (count == 0 && unsolicited)
+-@@ -239,7 +248,7 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
+- 		return 0;
+- 	if (ah->ar_pln != 4)
+- 		return 0;
+--	if (ah->ar_hln != ((struct sockaddr_ll *)&me)->sll_halen)
+-+	if (ah->ar_hln != me->sll_halen)
+- 		return 0;
+- 	if (len < sizeof(*ah) + 2*(4 + ah->ar_hln))
+- 		return 0;
+-@@ -250,7 +259,7 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
+- 			return 0;
+- 		if (src.s_addr != dst_ip.s_addr)
+- 			return 0;
+--		if (memcmp(p+ah->ar_hln+4, ((struct sockaddr_ll *)&me)->sll_addr, ah->ar_hln))
+-+		if (memcmp(p+ah->ar_hln+4, me->sll_addr, ah->ar_hln))
+- 			return 0;
+- 	} else {
+- 		/* DAD packet was:
+-@@ -268,7 +277,7 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
+- 		 */
+- 		if (src_ip.s_addr != dst.s_addr)
+- 			return 0;
+--		if (memcmp(p, ((struct sockaddr_ll *)&me)->sll_addr, ((struct sockaddr_ll *)&me)->sll_halen) == 0)
+-+		if (memcmp(p, me->sll_addr, me->sll_halen) == 0)
+- 			return 0;
+- 		if (src.s_addr && src.s_addr != dst_ip.s_addr)
+- 			return 0;
+-@@ -284,7 +293,7 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
+- 			printf("for %s ", inet_ntoa(dst_ip));
+- 			s_printed = 1;
+- 		}
+--		if (memcmp(p+ah->ar_hln+4, ((struct sockaddr_ll *)&me)->sll_addr, ah->ar_hln)) {
+-+		if (memcmp(p+ah->ar_hln+4, me->sll_addr, ah->ar_hln)) {
+- 			if (!s_printed)
+- 				printf("for ");
+- 			printf("[");
+-@@ -310,40 +319,67 @@ int recv_pack(unsigned char *buf, int len, struct sockaddr_ll *FROM)
+- 	if (quit_on_reply)
+- 		finish();
+- 	if(!broadcast_only) {
+--		memcpy(((struct sockaddr_ll *)&he)->sll_addr, p, ((struct sockaddr_ll *)&me)->sll_halen);
+-+		memcpy(he->sll_addr, p, me->sll_halen);
+- 		unicasting=1;
+- 	}
+- 	return 1;
+- }
+- 
+--void set_device_broadcast(char *device, unsigned char *ba, size_t balen)
+-+int get_sysfs_mnt_path(char *mnt_path, size_t len)
+- {
+--	struct sysfs_class_device *dev;
+--	struct sysfs_attribute *brdcast;
+--	unsigned char *p;
+--	int ch;
+-+        const char *sysfs_path_env;
+-+        int pth_len=0;
+- 
+--	dev = sysfs_open_class_device("net", device);
+--	if (!dev) {
+--		perror("sysfs_open_class_device(net)");
+--		exit(2);
+--	}
+-+        if (len == 0 || mnt_path == NULL)
+-+                return -1;
+- 
+--	brdcast = sysfs_get_classdev_attr(dev, "broadcast");
+--	if (!brdcast) {
+--		perror("sysfs_get_classdev_attr(broadcast)");
+--		exit(2);
+--	}
+-+        /* possible overrride of real mount path */
+-+        sysfs_path_env = getenv(SYSFS_PATH_ENV);
+-+        memset(mnt_path, 0, len);
+-+        strncpy(mnt_path,
+-+                sysfs_path_env != NULL ? sysfs_path_env : SYSFS_MNT_PATH,
+-+                len-1);
+- 
+--	if (sysfs_read_attribute(brdcast)) {
+--		perror("sysfs_read_attribute");
+--		exit(2);
+--	}
+-+        if ((pth_len = strlen(mnt_path)) > 0 && mnt_path[pth_len-1] == '/')
+-+                mnt_path[pth_len-1] = '\0';
+-+
+-+        return 0;
+-+}
+-+
+-+int make_sysfs_broadcast_path(char *broadcast_path, size_t len)
+-+{
+-+        char mnt_path[SYSFS_PATH_LEN];
+-+
+-+        if (get_sysfs_mnt_path(mnt_path, len) != 0)
+-+                return -1;
+- 
+--	for (p = ba, ch = 0; p < ba + balen; p++, ch += 3)
+--		*p = strtoul(brdcast->value + ch, NULL, 16);
+-+        snprintf(broadcast_path, len,
+-+                "%s/" SYSFS_CLASS "/" SYSFS_NET "/%s/" SYSFS_BROADCAST,
+-+                mnt_path, device);
+- 
+--	return;
+-+        return 0;
+-+}
+-+
+-+char * read_sysfs_broadcast(char *brdcast_path)
+-+{
+-+        int fd;
+-+        int len_to_read;
+-+        char *brdcast = NULL;
+-+
+-+        if ((fd = open(brdcast_path, O_RDONLY)) > -1) {
+-+                len_to_read = lseek(fd, 0L, SEEK_END);
+-+                if ((brdcast = malloc(len_to_read+1)) != NULL) {
+-+                        lseek(fd, 0L, SEEK_SET);
+-+                        memset(brdcast, 0, len_to_read+1);
+-+                        if (read(fd, brdcast, len_to_read) == -1) {
+-+                                free(brdcast);
+-+                                brdcast = NULL;
+-+                        }
+-+                }
+-+                close(fd);
+-+        }
+-+
+-+        return brdcast;
+- }
+- 
+- int
+-@@ -361,6 +397,17 @@ main(int argc, char **argv)
+- 		exit(-1);
+- 	}
+- 
+-+	me = malloc(SOCKADDR_LEN);
+-+	if (!me) {
+-+		fprintf(stderr, "arping: could not allocate memory\n");
+-+		exit(1);
+-+	}
+-+	he = malloc(SOCKADDR_LEN);
+-+	if (!he) {
+-+		fprintf(stderr, "arping: could not allocate memory\n");
+-+		exit(1);
+-+	}
+-+
+- 	while ((ch = getopt(argc, argv, "h?bfDUAqc:w:s:I:V")) != EOF) {
+- 		switch(ch) {
+- 		case 'b':
+-@@ -509,34 +556,51 @@ main(int argc, char **argv)
+- 		close(probe_fd);
+- 	};
+- 
+--	((struct sockaddr_ll *)&me)->sll_family = AF_PACKET;
+--	((struct sockaddr_ll *)&me)->sll_ifindex = ifindex;
+--	((struct sockaddr_ll *)&me)->sll_protocol = htons(ETH_P_ARP);
+--	if (bind(s, (struct sockaddr*)&me, sizeof(me)) == -1) {
+-+	me->sll_family = AF_PACKET;
+-+	me->sll_ifindex = ifindex;
+-+	me->sll_protocol = htons(ETH_P_ARP);
+-+	if (bind(s, (struct sockaddr*)me, SOCKADDR_LEN) == -1) {
+- 		perror("bind");
+- 		exit(2);
+- 	}
+- 
+- 	if (1) {
+--		socklen_t alen = sizeof(me);
+--		if (getsockname(s, (struct sockaddr*)&me, &alen) == -1) {
+-+		socklen_t alen = SOCKADDR_LEN;
+-+		if (getsockname(s, (struct sockaddr*)me, &alen) == -1) {
+- 			perror("getsockname");
+- 			exit(2);
+- 		}
+- 	}
+--	if (((struct sockaddr_ll *)&me)->sll_halen == 0) {
+-+	if (me->sll_halen == 0) {
+- 		if (!quiet)
+- 			printf("Interface \"%s\" is not ARPable (no ll address)\n", device);
+- 		exit(dad?0:2);
+- 	}
+- 
+--	he = me;
+-+	memcpy(he, me, SOCKADDR_LEN);
+- 
+- #if 1
+--	set_device_broadcast(device, ((struct sockaddr_ll *)&he)->sll_addr,
+--			     ((struct sockaddr_ll *)&he)->sll_halen);
+-+	char brdcast_path[SYSFS_PATH_LEN];
+-+	char *brdcast_val=NULL;
+-+	char *next_ch;
+-+
+-+	if (make_sysfs_broadcast_path(brdcast_path, sizeof brdcast_path) != 0) {
+-+		perror("sysfs attribute broadcast");
+-+		exit(2);
+-+	}
+-+
+-+	if ((brdcast_val = read_sysfs_broadcast(brdcast_path)) == NULL) {
+-+		perror("sysfs read broadcast value");
+-+		exit(2);
+-+	}
+-+
+-+	for (ch=0; ch<he->sll_halen; ch++) {
+-+		he->sll_addr[ch] = strtol(brdcast_val + (ch*3), &next_ch, 16);
+-+	}
+-+
+-+	free(brdcast_val);
+- #else
+--	memset(((struct sockaddr_ll *)&he)->sll_addr, -1, ((struct sockaddr_ll *)&he)->sll_halen);
+-+	memset(he->sll_addr, -1, he->sll_halen);
+- #endif
+- 
+- 	if (!quiet) {
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-extended/libarchive/libarchive/0003-Patch-from-upstream-rev-2516.patch b/meta/recipes-extended/libarchive/libarchive/0003-Patch-from-upstream-rev-2516.patch
+deleted file mode 100644
+index 0193a07..0000000
+--- a/meta/recipes-extended/libarchive/libarchive/0003-Patch-from-upstream-rev-2516.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-libarchive: Backport patch from upstream (rev 2516)
+-
+-Fix Issue 100:  Allow a zero for the Type M Path Table Location, since
+-WinISO (and probably other programs) set it this way.
+-
+-http://code.google.com/p/libarchive/source/detail?r=2516
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+-
+-diff --git a/libarchive/archive_read_support_format_iso9660.c b/libarchive/archive_read_support_format_iso9660.c
+-index 0c640c8..fdef3fb 100644
+---- a/libarchive/archive_read_support_format_iso9660.c
+-+++ b/libarchive/archive_read_support_format_iso9660.c
+-@@ -714,11 +714,13 @@ isSVD(struct iso9660 *iso9660, const unsigned char *h)
+- 	if (location <= SYSTEM_AREA_BLOCK+2 || location >= volume_block)
+- 		return (0);
+- 
+--	/* Location of Occurrence of Type M Path Table must be
+--	 * available location,
+-+	/* The Type M Path Table must be at a valid location (WinISO
+-+	 * and probably other programs omit this, so we allow zero)
+-+	 *
+- 	 * > SYSTEM_AREA_BLOCK(16) + 2 and < Volume Space Size. */
+- 	location = archive_be32dec(h+SVD_type_M_path_table_offset);
+--	if (location <= SYSTEM_AREA_BLOCK+2 || location >= volume_block)
+-+	if ((location > 0 && location <= SYSTEM_AREA_BLOCK+2)
+-+	    || location >= volume_block)
+- 		return (0);
+- 
+- 	/* Read Root Directory Record in Volume Descriptor. */
+-@@ -790,7 +792,8 @@ isEVD(struct iso9660 *iso9660, const unsigned char *h)
+- 	 * available location,
+- 	 * > SYSTEM_AREA_BLOCK(16) + 2 and < Volume Space Size. */
+- 	location = archive_be32dec(h+PVD_type_m_path_table_offset);
+--	if (location <= SYSTEM_AREA_BLOCK+2 || location >= volume_block)
+-+	if ((location > 0 && location <= SYSTEM_AREA_BLOCK+2)
+-+	    || location >= volume_block)
+- 		return (0);
+- 
+- 	/* Reserved field must be 0. */
+-@@ -865,11 +868,14 @@ isPVD(struct iso9660 *iso9660, const unsigned char *h)
+- 	if (location <= SYSTEM_AREA_BLOCK+2 || location >= volume_block)
+- 		return (0);
+- 
+--	/* Location of Occurrence of Type M Path Table must be
+--	 * available location,
+-+	/* The Type M Path Table must also be at a valid location
+-+	 * (although ECMA 119 requires a Type M Path Table, WinISO and
+-+	 * probably other programs omit it, so we permit a zero here)
+-+	 *
+- 	 * > SYSTEM_AREA_BLOCK(16) + 2 and < Volume Space Size. */
+- 	location = archive_be32dec(h+PVD_type_m_path_table_offset);
+--	if (location <= SYSTEM_AREA_BLOCK+2 || location >= volume_block)
+-+	if ((location > 0 && location <= SYSTEM_AREA_BLOCK+2)
+-+	    || location >= volume_block)
+- 		return (0);
+- 
+- 	/* Reserved field must be 0. */
+--- 
+-1.7.1
+-
+diff --git a/meta/recipes-extended/procps/procps-3.2.8/pagesz-not-constant.patch b/meta/recipes-extended/procps/procps-3.2.8/pagesz-not-constant.patch
+deleted file mode 100644
+index b141851..0000000
+--- a/meta/recipes-extended/procps/procps-3.2.8/pagesz-not-constant.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-Upstream-Status: Pending
+-
+-Index: procps-3.2.1/proc/devname.c
+-===================================================================
+---- procps-3.2.1.orig/proc/devname.c	2004-03-18 05:43:50.000000000 +1100
+-+++ procps-3.2.1/proc/devname.c	2005-04-02 10:40:17.462138000 +1000
+-@@ -227,7 +227,7 @@
+- 
+- /* number --> name */
+- unsigned dev_to_tty(char *restrict ret, unsigned chop, dev_t dev_t_dev, int pid, unsigned int flags) {
+--  static char buf[PAGE_SIZE];
+-+  static char buf[4096];
+-   char *restrict tmp = buf;
+-   unsigned dev = dev_t_dev;
+-   unsigned i = 0;
+-@@ -249,7 +249,7 @@
+-   if((flags&ABBREV_TTY) && !strncmp(tmp,"tty",  3) && tmp[3]) tmp += 3;
+-   if((flags&ABBREV_PTS) && !strncmp(tmp,"pts/", 4) && tmp[4]) tmp += 4;
+-   /* gotta check before we chop or we may chop someone else's memory */
+--  if(chop + (unsigned long)(tmp-buf) <= sizeof buf)
+-+  if(chop + (unsigned long)(tmp-buf) < sizeof buf)
+-     tmp[chop] = '\0';
+-   /* replace non-ASCII characters with '?' and return the number of chars */
+-   for(;;){
+diff --git a/meta/recipes-gnome/gtk+/gtk+-2.24.22/no-demos.patch b/meta/recipes-gnome/gtk+/gtk+-2.24.22/no-demos.patch
+deleted file mode 100644
+index abd348e..0000000
+--- a/meta/recipes-gnome/gtk+/gtk+-2.24.22/no-demos.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: gtk+-2.23.2/Makefile.am
+-===================================================================
+---- gtk+-2.23.2.orig/Makefile.am	2010-11-10 20:34:42.000000000 +0800
+-+++ gtk+-2.23.2/Makefile.am	2010-11-25 13:39:22.000000000 +0800
+-@@ -1,7 +1,7 @@
+- ## Makefile.am for GTK+
+- include $(top_srcdir)/Makefile.decl
+- 
+--SRC_SUBDIRS = gdk gtk modules demos tests perf
+-+SRC_SUBDIRS = gdk gtk modules tests perf
+- SUBDIRS = po po-properties $(SRC_SUBDIRS) docs m4macros build
+- 
+- # require automake 1.4
+diff --git a/meta/recipes-gnome/libglade/libglade-2.6.4/no-deprecation.patch b/meta/recipes-gnome/libglade/libglade-2.6.4/no-deprecation.patch
+deleted file mode 100644
+index fdea2b0..0000000
+--- a/meta/recipes-gnome/libglade/libglade-2.6.4/no-deprecation.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+---- libglade-2.5.1/glade/Makefile.am.old	2006-04-25 21:03:25.000000000 +0100
+-+++ libglade-2.5.1/glade/Makefile.am	2006-04-25 21:03:45.000000000 +0100
+-@@ -30,10 +30,6 @@
+-   -I$(top_srcdir) \
+-   $(LIBGLADE_CFLAGS) \
+-   -DGLADE_LIBDIR=\""$(libdir)"\" \
+--  -DG_DISABLE_DEPRECATED \
+--  -DGDK_DISABLE_DEPRECATED \
+--  -DGDK_PIXBUF_DISABLE_DEPRECATED \
+--  -DGTK_DISABLE_DEPRECATED \
+-   -DGNOME_DISABLE_DEPRECATED
+diff --git a/meta/recipes-graphics/mesa/mesa/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch b/meta/recipes-graphics/mesa/mesa/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+deleted file mode 100644
+index d86421b..0000000
+--- a/meta/recipes-graphics/mesa/mesa/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From 33098ef45e6035f3348040a25641f95c95266103 Mon Sep 17 00:00:00 2001
+-From: Brian Paul <brianp@vmware.com>
+-Date: Wed, 6 Mar 2013 16:57:20 -0700
+-Subject: [PATCH 5/5] llvmpipe: remove the power of two sizeof(struct
+- cmd_block) assertion
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-It fails on 32-bit systems (I only tested on 64-bit).  Power of two
+-size isn't required, so just remove the assertion.
+-
+-Reviewed-by: José Fonseca <jfonseca@vmware.com>
+-
+-Upstream-Status: Backport
+-http://cgit.freedesktop.org/mesa/mesa/commit/?id=9915636fb8afe75ee2e8e013e4f495a4cb937afb
+----
+- src/gallium/drivers/llvmpipe/lp_scene.c | 7 -------
+- 1 file changed, 7 deletions(-)
+-
+-diff --git a/src/gallium/drivers/llvmpipe/lp_scene.c b/src/gallium/drivers/llvmpipe/lp_scene.c
+-index e145391..c88bc95 100644
+---- a/src/gallium/drivers/llvmpipe/lp_scene.c
+-+++ b/src/gallium/drivers/llvmpipe/lp_scene.c
+-@@ -76,13 +76,6 @@ lp_scene_create( struct pipe_context *pipe )
+-       assert(maxCommandBytes < LP_SCENE_MAX_SIZE);
+-       /* We'll also need space for at least one other data block */
+-       assert(maxCommandPlusData <= LP_SCENE_MAX_SIZE);
+--
+--      /* Ideally, the size of a cmd_block object will be a power of two
+--       * in order to avoid wasting space when we allocation them from
+--       * data blocks (which are power of two also).
+--       */
+--      assert(sizeof(struct cmd_block) ==
+--             util_next_power_of_two(sizeof(struct cmd_block)));
+-    }
+- #endif
+- 
+--- 
+-1.8.2.1
+-
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.3_fix_for_x32.patch b/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.3_fix_for_x32.patch
+deleted file mode 100644
+index 4a0c682..0000000
+--- a/meta/recipes-graphics/xorg-lib/libxxf86dga/libxxf86dga-1.1.3_fix_for_x32.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Upstream-Status: pending
+-
+-Fix type conversion for x32. For x32 the off_t is 64bit and pointers are 32bit.
+-so the conversion of pointer to off_t was resulting into this error:
+-
+-| XF86DGA2.c:931:24: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
+-| cc1: some warnings being treated as errors
+-| 
+-| make[2]: *** [XF86DGA2.lo] Error 1
+-
+-Fixed it by typecasting pointer into unsigned long 1st and then again typecasting 
+-unsigned long to off_t.
+-
+-Signed-Off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+-2012/01/04
+-
+-
+-Index: libXxf86dga-1.1.3/src/XF86DGA2.c
+-===================================================================
+---- libXxf86dga-1.1.3.orig/src/XF86DGA2.c
+-+++ libXxf86dga-1.1.3/src/XF86DGA2.c
+-@@ -928,7 +928,7 @@ DGAMapPhysical(
+-     if ((pMap->fd = open(name, O_RDWR)) < 0)
+- 	return False;
+-     pMap->virtual = mmap(NULL, size, PROT_READ | PROT_WRITE,
+--			MAP_FILE | MAP_SHARED, pMap->fd, (off_t)base);
+-+			MAP_FILE | MAP_SHARED, pMap->fd, (off_t)(unsigned long)base);
+-     if (pMap->virtual == (void *)-1)
+- 	return False;
+-     mprotect(pMap->virtual, size, PROT_READ | PROT_WRITE);
+diff --git a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+deleted file mode 100644
+index 0268216..0000000
+--- a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Not applicable
+-
+-Index: git/libkmod/libkmod-private.h
+-===================================================================
+---- git.orig/libkmod/libkmod-private.h	2013-08-21 10:07:51.000000000 -0700
+-+++ git/libkmod/libkmod-private.h	2013-08-21 14:34:04.558278849 -0700
+-@@ -9,6 +9,10 @@
+- #include "macro.h"
+- #include "libkmod.h"
+- 
+-+#ifndef O_CLOEXEC
+-+# define O_CLOEXEC 0
+-+#endif
+-+
+- static _always_inline_ _printf_format_(2, 3) void
+- 	kmod_log_null(struct kmod_ctx *ctx, const char *format, ...) {}
+- 
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/connector-msg-size-fix.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/connector-msg-size-fix.patch
+deleted file mode 100644
+index 5d531d6..0000000
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/connector-msg-size-fix.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Currently default header is linux-libc-header, which leads the dismatch
+-with wrs kernel.
+-
+-The different headers for same file cause trouble between kerenl module and
+-user level binary. E.g. segfault in v86d due to different
+-CONNECTOR_MAX_MSG_SIZE in connector.h from the one used by uvesafb.
+-
+-This fix is work around to sync with wrs kernel headers, and should be removed
+-after switching to linux-libc-headers-wrs.
+-
+-[BUGID #279] fixed by this.
+-
+-Signed-off-by: Zhai Edwin <edwin.zhai@intel.com>
+-
+-Index: linux-2.6.34/include/linux/connector.h
+-===================================================================
+---- linux-2.6.34.orig/include/linux/connector.h	2010-09-30 14:15:25.000000000 +0800
+-+++ linux-2.6.34/include/linux/connector.h	2010-09-30 14:15:43.000000000 +0800
+-@@ -48,7 +48,7 @@
+- /*
+-  * Maximum connector's message size.
+-  */
+--#define CONNECTOR_MAX_MSG_SIZE		16384
+-+#define CONNECTOR_MAX_MSG_SIZE		65536
+- 
+- /*
+-  * idx and val are unique identifiers which 
+diff --git a/meta/recipes-kernel/linux/linux-yocto/tools-perf-no-scripting.patch b/meta/recipes-kernel/linux/linux-yocto/tools-perf-no-scripting.patch
+deleted file mode 100644
+index d07335a..0000000
+--- a/meta/recipes-kernel/linux/linux-yocto/tools-perf-no-scripting.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: tools/perf/Makefile
+-===================================================================
+---- a/tools/perf/Makefile	2011-01-14 14:17:33.127008554 -0600
+-+++ b/tools/perf/Makefile	2011-01-14 14:18:14.227008548 -0600
+-@@ -588,42 +588,8 @@
+- 	endif
+- endif
+- 
+--ifdef NO_LIBPERL
+--	BASIC_CFLAGS += -DNO_LIBPERL
+--else
+--       PERL_EMBED_LDOPTS = $(shell perl -MExtUtils::Embed -e ldopts 2>/dev/null)
+--       PERL_EMBED_LDFLAGS = $(call strip-libs,$(PERL_EMBED_LDOPTS))
+--       PERL_EMBED_LIBADD = $(call grep-libs,$(PERL_EMBED_LDOPTS))
+--	PERL_EMBED_CCOPTS = `perl -MExtUtils::Embed -e ccopts 2>/dev/null`
+--	FLAGS_PERL_EMBED=$(PERL_EMBED_CCOPTS) $(PERL_EMBED_LDOPTS)
+--
+--	ifneq ($(call try-cc,$(SOURCE_PERL_EMBED),$(FLAGS_PERL_EMBED)),y)
+--		BASIC_CFLAGS += -DNO_LIBPERL
+--	else
+--               ALL_LDFLAGS += $(PERL_EMBED_LDFLAGS)
+--               EXTLIBS += $(PERL_EMBED_LIBADD)
+--		LIB_OBJS += $(OUTPUT)util/scripting-engines/trace-event-perl.o
+--		LIB_OBJS += $(OUTPUT)scripts/perl/Perf-Trace-Util/Context.o
+--	endif
+--endif
+--
+--ifdef NO_LIBPYTHON
+--	BASIC_CFLAGS += -DNO_LIBPYTHON
+--else
+--       PYTHON_EMBED_LDOPTS = $(shell python-config --ldflags 2>/dev/null)
+--       PYTHON_EMBED_LDFLAGS = $(call strip-libs,$(PYTHON_EMBED_LDOPTS))
+--       PYTHON_EMBED_LIBADD = $(call grep-libs,$(PYTHON_EMBED_LDOPTS))
+--	PYTHON_EMBED_CCOPTS = `python-config --cflags 2>/dev/null`
+--	FLAGS_PYTHON_EMBED=$(PYTHON_EMBED_CCOPTS) $(PYTHON_EMBED_LDOPTS)
+--	ifneq ($(call try-cc,$(SOURCE_PYTHON_EMBED),$(FLAGS_PYTHON_EMBED)),y)
+--		BASIC_CFLAGS += -DNO_LIBPYTHON
+--	else
+--               ALL_LDFLAGS += $(PYTHON_EMBED_LDFLAGS)
+--               EXTLIBS += $(PYTHON_EMBED_LIBADD)
+--		LIB_OBJS += $(OUTPUT)util/scripting-engines/trace-event-python.o
+--		LIB_OBJS += $(OUTPUT)scripts/python/Perf-Trace-Util/Context.o
+--	endif
+--endif
+-+BASIC_CFLAGS += -DNO_LIBPERL
+-+BASIC_CFLAGS += -DNO_LIBPYTHON
+- 
+- ifdef NO_DEMANGLE
+- 	BASIC_CFLAGS += -DNO_DEMANGLE
+diff --git a/meta/recipes-support/gnutls/gnutls/gnutls-texinfo-euro.patch b/meta/recipes-support/gnutls/gnutls/gnutls-texinfo-euro.patch
+deleted file mode 100644
+index 10e3774..0000000
+--- a/meta/recipes-support/gnutls/gnutls/gnutls-texinfo-euro.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Upstream-Status: Backport
+-
+-The version of texinfo in Debian Sarge does not understand the @euro{} command.
+-This patch replaces the @euro{} command with the word "euro".
+-
+---- gnutls-1.3.5/doc/gnutls.texi.orig	2006-04-26 08:06:40.918268000 +0930
+-+++ gnutls-1.3.5/doc/gnutls.texi	2006-04-26 08:06:52.446515440 +0930
+-@@ -11,8 +11,8 @@
+- long as it is difficult enough to generate two different messages with
+- the same hash algorithm output. In that case the same signature could
+- be used as a proof for both messages. Nobody wants to sign an innocent
+--message of donating 1 @euro{} to Greenpeace and find out that he
+--donated 1.000.000 @euro{} to Bad Inc.
+-+message of donating 1 euro to Greenpeace and find out that he
+-+donated 1.000.000 euro to Bad Inc.
+- 
+- For a hash algorithm to be called cryptographic the following three
+- requirements must hold
+diff --git a/meta/recipes-support/nspr/nspr/fix-build-on-aarch64.patch b/meta/recipes-support/nspr/nspr/fix-build-on-aarch64.patch
+deleted file mode 100644
+index ccad0a1..0000000
+--- a/meta/recipes-support/nspr/nspr/fix-build-on-aarch64.patch
++++ /dev/null
+@@ -1,101 +0,0 @@
+-Add Aarch64 support 
+-
+-Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
+-
+-Upstream-Status: Submitted https://bugzilla.mozilla.org/show_bug.cgi?id=827271
+----
+- configure.in |   12 ++++++------
+- 1 files changed, 6 insertions(+), 6 deletions(-)
+---- a/pr/include/md/_linux.cfg
+-+++ b/pr/include/md/_linux.cfg
+-@@ -861,6 +861,59 @@
+- #define PR_BYTES_PER_WORD_LOG2   2
+- #define PR_BYTES_PER_DWORD_LOG2  3
+- 
+-+#elif defined(__aarch64__)
+-+
+-+#ifdef __AARCH64EB__
+-+#undef  IS_LITTLE_ENDIAN
+-+#define IS_BIG_ENDIAN 1
+-+#elif defined(__AARCH64EL__)
+-+#define IS_LITTLE_ENDIAN 1
+-+#undef  IS_BIG_ENDIAN
+-+#else
+-+#error "Unknown Aarch64 endianness."
+-+#endif
+-+#define IS_64
+-+
+-+#define PR_BYTES_PER_BYTE   1
+-+#define PR_BYTES_PER_SHORT  2
+-+#define PR_BYTES_PER_INT    4
+-+#define PR_BYTES_PER_INT64  8
+-+#define PR_BYTES_PER_LONG   8
+-+#define PR_BYTES_PER_FLOAT  4
+-+#define PR_BYTES_PER_DOUBLE 8
+-+#define PR_BYTES_PER_WORD   8
+-+#define PR_BYTES_PER_DWORD  8
+-+
+-+#define PR_BITS_PER_BYTE    8
+-+#define PR_BITS_PER_SHORT   16
+-+#define PR_BITS_PER_INT     32
+-+#define PR_BITS_PER_INT64   64
+-+#define PR_BITS_PER_LONG    64
+-+#define PR_BITS_PER_FLOAT   32
+-+#define PR_BITS_PER_DOUBLE  64
+-+#define PR_BITS_PER_WORD    64
+-+
+-+#define PR_BITS_PER_BYTE_LOG2   3
+-+#define PR_BITS_PER_SHORT_LOG2  4
+-+#define PR_BITS_PER_INT_LOG2    5
+-+#define PR_BITS_PER_INT64_LOG2  6
+-+#define PR_BITS_PER_LONG_LOG2   6
+-+#define PR_BITS_PER_FLOAT_LOG2  5
+-+#define PR_BITS_PER_DOUBLE_LOG2 6
+-+#define PR_BITS_PER_WORD_LOG2   6
+-+
+-+#define PR_ALIGN_OF_SHORT   2
+-+#define PR_ALIGN_OF_INT     4
+-+#define PR_ALIGN_OF_LONG    8
+-+#define PR_ALIGN_OF_INT64   8
+-+#define PR_ALIGN_OF_FLOAT   4
+-+#define PR_ALIGN_OF_DOUBLE  8
+-+#define PR_ALIGN_OF_POINTER 8
+-+#define PR_ALIGN_OF_WORD    8
+-+
+-+#define PR_BYTES_PER_WORD_LOG2  3
+-+#define PR_BYTES_PER_DWORD_LOG2 3
+-+
+- #else
+- 
+- #error "Unknown CPU architecture"
+---- a/pr/include/md/_linux.h
+-+++ b/pr/include/md/_linux.h
+-@@ -53,6 +53,8 @@
+- #define _PR_SI_ARCHITECTURE "avr32"
+- #elif defined(__m32r__)
+- #define _PR_SI_ARCHITECTURE "m32r"
+-+#elif defined(__aarch64__)
+-+#define _PR_SI_ARCHITECTURE "aarch64"
+- #else
+- #error "Unknown CPU architecture"
+- #endif
+-@@ -186,7 +188,7 @@
+- })
+- #endif
+- 
+--#if defined(__arm__)
+-+#if defined(__arm__) || defined(__aarch64__)
+- #if defined(__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
+- /* Use GCC built-in functions */
+- #define _PR_HAVE_ATOMIC_OPS
+-@@ -242,6 +244,10 @@
+- #endif
+- #endif /* __arm__ */
+- 
+-+#if defined(__aarch64__)
+-+#define _MD_MINIMUM_STACK_SIZE 0x20000
+-+#endif
+-+
+- #define USE_SETJMP
+- #if (defined(__GLIBC__) && __GLIBC__ >= 2) || defined(ANDROID)
+- #define _PR_POLL_AVAILABLE
+-- 
+1.7.9.5
+
 
