@@ -1,24 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AB536AE37
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob02.myregisteredsite.com
+	(atl4mhob02.myregisteredsite.com [209.17.115.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 54AE36D840
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 05:46:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBA5kH1n018252
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Dec 2013 21:46:17 -0800 (PST)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 9 Dec 2013 21:46:16 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Dec 2013 13:46:16 +0800
-Message-ID: <1386654376-13042-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 10 Dec 2013 06:44:52 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.206])
+	by atl4mhob02.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	rBA6ip6d003206 for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Dec 2013 01:44:51 -0500
+Received: (qmail 21912 invoked by uid 0); 10 Dec 2013 06:44:51 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 10 Dec 2013 06:44:50 -0000
+Message-ID: <52A6B861.30104@topic.nl>
+Date: Tue, 10 Dec 2013 07:44:49 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
 MIME-Version: 1.0
-Subject: [PATCH] multilib: Ensure we map the SYSTEMD_PACKAGES variable
+To: openembedded-core@lists.openembedded.org
+Subject: Figuring out why sstate-cache is no longer used for a package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 05:46:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Dec 2013 06:44:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+I've been struggling with this for a few days.
 
-If we don't do this, systemd.bbclase will complain to unable to find multilib
-packages since PACKAGES is expand with mlprefix, but SYSTEMD_PACKAGES is not,
-like in ntp.inc:
+We have a build server that build various images overnight. One of the 
+packages in that image is "fpga-image", which takes more than an hour to build.
 
-    $grep PACKAGES meta-oe/meta-networking/recipes-support/ntp/ntp.inc
-    PACKAGES += "ntpdate sntp ${PN}-tickadj ${PN}-utils"
-    SYSTEMD_PACKAGES = "${PN} ntpdate sntp"
-    $
+We have been sharing the the build server's sstate-cache via HTTP and this has 
+worked excellently up until yesterday.
 
-    $bitbake ntp
-    ERROR: ntpdate does not appear in package list, please add it
-    ERROR: sntp does not appear in package list, please add it
-    $
+The current situation is that a client will grab everything from the 
+buildserver's HTTP sstate-cache, potentially finishing a build from scratch in 
+about five minutes. However, for some reason, the fpga-image does not fall 
+into this category, and eache machine insists on re-building it from scratch. 
+I've been trying to debug this, but the sstate-cache is on another machine. I 
+tried copying part of the build server's sstate-cache onto my machine, but 
+that only results in "bitbake-diffsigs -t fpga-image .." yielding "ERROR: No 
+sigdata files found matching fpga-image .." so that apparently is a dead end.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/classes/multilib.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+How can I determine what is causing the system to think that it needs to 
+rebuild this package?
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 9503096..5eb4a7b 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -105,6 +105,7 @@ python __anonymous () {
-     clsextend.map_variable("PACKAGE_INSTALL")
-     clsextend.map_variable("INITSCRIPT_PACKAGES")
-     clsextend.map_variable("USERADD_PACKAGES")
-+    clsextend.map_variable("SYSTEMD_PACKAGES")
- }
- 
- PACKAGEFUNCS_append = " do_package_qa_multilib"
--- 
-1.7.10.4
+And/Or how do tell the system that this package only depends on the SRCREV and 
+MACHINE and nothing else? (I've already set INHIBIT_DEFAULT_DEPS = "1", is 
+there more that I can do?)
 
+
+--
+Mike Looijmans - TOPIC Automation
 
