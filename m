@@ -1,26 +1,35 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 842B56AE37
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 524646DDB0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 15:16:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBAFGMf3007050
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Dec 2013 07:16:22 -0800 (PST)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 10 Dec 2013 07:16:22 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 10 Dec 2013 10:16:15 -0500
-Message-ID: <7caaf1465b9b4799abf2fd03a05f427da7526b50.1386688151.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
+	Tue, 10 Dec 2013 15:19:05 +0000 (UTC)
+Received: by mail-pd0-f182.google.com with SMTP id v10so7476564pde.41
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Dec 2013 07:19:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=CeIZy8w0X1JzxDz0jyhIcwiBxwfNzE++QTEU1w0Eba8=;
+	b=ecbTeLZTiFLNRSK6Cg0ZFMy38WvPVhMhjV+vvsTESSOk7LD/U3u8lhsCRGs0Z9IW41
+	/sQeob1V0I6xws8H5grQZjFieaGo9PnU91cd5T2MYQ/PiZ9nngyL9ojxpTcZ1YPglAV2
+	2fVsyiUGmp7orWwSqJEXVREFh8JM7K1NfLC2bWWKh93/J6QcciytKMn8HsoACZL3Pi/U
+	Pb8l5Q0zL8iYiNF0Hd1+4h6QTInCkPyu9IvAM0IIceJDW9IAUKqT0fhdKZlp8CFlgjlp
+	pERiYq4iI2unSGaU71JWF/FE1byjv/QtJJEoy5ymSPaNRsQwLRbJmKFudYkoYr+Esu+1
+	Q23w==
+MIME-Version: 1.0
+X-Received: by 10.68.173.132 with SMTP id bk4mr3535307pbc.169.1386688743549;
+	Tue, 10 Dec 2013 07:19:03 -0800 (PST)
+Received: by 10.68.12.133 with HTTP; Tue, 10 Dec 2013 07:19:02 -0800 (PST)
 In-Reply-To: <cover.1386688151.git.bruce.ashfield@windriver.com>
 References: <cover.1386688151.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] linux-libc-headers: fix MIPS klibc build error
+Date: Tue, 10 Dec 2013 10:19:02 -0500
+Message-ID: <CADkTA4Ow+7hNR3-wShbnnSWk7h4HZq2yNatq_84Cr5YKYzwjhw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] linux-yocto: static -dev SRCREVs and -headers for klibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +42,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 15:16:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Dec 2013 15:19:06 -0000
+X-Groupsio-MsgNum: 48072
+Content-Type: multipart/mixed; boundary=047d7b6d9b16f949a604ed2fa18b
 
-As reported by Andrea Adami, klibc fails to build for MIPS with the 3.10 libc-headers
+--047d7b6d9b16f949a604ed2fa18b
+Content-Type: text/plain; charset=ISO-8859-1
 
-commit ca044f9a [UAPI: fix endianness conditionals in linux/raid/md_p.h] is the root
-cause of the breakage.
+On Tue, Dec 10, 2013 at 10:16 AM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> Richard/Saul,
+>
+> Here are a couple of changes that I've been testing locally for a week now,
+> with nothing (obvious) breaking.
+>
+> The linux-yocto-dev kernel change is to allow integration into master under
+> test, so our dev kernels can be exercised directly before they become the
+> kernel for a release. With this change, a layer can now create an optional
+> include file, set a couple of variables and have a set of static REVs used
+> rather than the default of AUTOREV.
 
-This is fixed in the kernel source itself, but we must also carry the
-change in the linux-libc-headers recipe, until we update past the
-3.13 kernel.
+I then proceeded to NOT include this patch in my rr directory, so it didn't
+get sent.
 
-With this change, we can again build klibc for mips, with no impact
-on the rest of the system.
+I've attached it here and it is on the branch I referenced, but let me know
+if you'd rather I do a complete resend.
 
-cc: Andrea Adami <andrea.adami@gmail.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- ...lude-asm-byteorder.h-in-linux-raid-md_p.h.patch | 34 ++++++++++++++++++++++
- .../linux-libc-headers/linux-libc-headers_3.10.bb  |  3 ++
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
+Cheers,
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
-new file mode 100644
-index 000000000000..1bf0e7ec85f0
---- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
-@@ -0,0 +1,34 @@
-+From c0f8bd146a8b3e630798561c605f5669823107af Mon Sep 17 00:00:00 2001
-+From: Aurelien Jarno <aurelien@aurel32.net>
-+Date: Thu, 14 Nov 2013 15:16:19 +1100
-+Subject: [PATCH] UAPI: include <asm/byteorder.h> in linux/raid/md_p.h
-+
-+linux/raid/md_p.h is using conditionals depending on endianess and fails
-+with an error if neither of __BIG_ENDIAN, __LITTLE_ENDIAN or
-+__BYTE_ORDER are defined, but it doesn't include any header which can
-+define these constants. This make this header unusable alone.
-+
-+This patch adds a #include <asm/byteorder.h> at the beginning of this
-+header to make it usable alone. This is needed to compile klibc on MIPS.
-+
-+Signed-off-by: Aurelien Jarno <aurelien@aurel32.net>
-+Signed-off-by: NeilBrown <neilb@suse.de>
-+---
-+ include/uapi/linux/raid/md_p.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/include/uapi/linux/raid/md_p.h b/include/uapi/linux/raid/md_p.h
-+index fe1a540..f7cf7f3 100644
-+--- a/include/uapi/linux/raid/md_p.h
-++++ b/include/uapi/linux/raid/md_p.h
-+@@ -16,6 +16,7 @@
-+ #define _MD_P_H
-+ 
-+ #include <linux/types.h>
-++#include <asm/byteorder.h>
-+ 
-+ /*
-+  * RAID superblock.
-+-- 
-+1.8.1.2
-+
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
-index 65df230c4b0c..a78d4ba59a62 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
-@@ -3,6 +3,9 @@ require linux-libc-headers.inc
- SRC_URI += "file://0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch"
- SRC_URI += "file://scripts-Makefile.headersinst-install-headers-from-sc.patch"
- 
-+# fixes klibc build for MIPS, drop when libc-headers > 3.13
-+SRC_URI += "file://UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch"
-+
- SRC_URI[md5sum] = "72d0a9b3e60cd86fabcd3f24b1708944"
- SRC_URI[sha256sum] = "46c9e55e1fddf40813b8d697d5645037a8e2af5c1a8dff52b3fe82b5021582b8"
- 
+Bruce
+
+>
+> The linux-libc-headers change fixes a klibc mips build failure issue found
+> by Andrea Adami. This is fixed in the latest kernels, so we'll backport
+> the change to the 3.10 based headers and drop it when I next uprev the
+> kernel and headers.
+>
+> Cheers,
+>
+> Bruce
+>
+> cc: Andrea Adami <andrea.adami@gmail.com>
+>
+>
+> The following changes since commit fc1bbe3654a3d456dfeb904f4c9752a03e3c48d6:
+>
+>   linux-yocto-dev: allow static SRCREVs via include (2013-12-10 10:06:09 -0500)
+>
+> are available in the git repository at:
+>
+>   git://git.pokylinux.org/poky-contrib zedd/kernel
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>
+> Bruce Ashfield (1):
+>   linux-libc-headers: fix MIPS klibc build error
+>
+>  ...lude-asm-byteorder.h-in-linux-raid-md_p.h.patch | 34 ++++++++++++++++++++++
+>  .../linux-libc-headers/linux-libc-headers_3.10.bb  |  3 ++
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
+>
+> --
+> 1.8.1.2
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.8.1.2
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
+--047d7b6d9b16f949a604ed2fa18b
+Content-Type: text/x-patch; charset=US-ASCII; 
+	name="0001-linux-yocto-dev-allow-static-SRCREVs-via-include.patch"
+Content-Disposition: attachment; 
+	filename="0001-linux-yocto-dev-allow-static-SRCREVs-via-include.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_hp1ao16d0
 
+RnJvbSBmYzFiYmUzNjU0YTNkNDU2ZGZlYjkwNGY0Yzk3NTJhMDNlM2M0OGQ2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAd2luZHJp
+dmVyLmNvbT4KRGF0ZTogVGh1LCA1IERlYyAyMDEzIDE0OjMxOjU1IC0wNTAwClN1YmplY3Q6IFtQ
+QVRDSF0gbGludXgteW9jdG8tZGV2OiBhbGxvdyBzdGF0aWMgU1JDUkVWcyB2aWEgaW5jbHVkZQoK
+VGhlIGxpbnV4LXlvY3RvIGRldiByZWNpcGUgaXMgaW50ZW5kZWQgdG8gdHJhY2sgdGhlIGxhdGVz
+dCByZXZpc2lvbnMgb2YgdGhlCmtlcm5lbCB0cmVlIGJ5IGRlZmF1bHQuIFRvIGNvbnRyb2wgcmV2
+aXNpb24gY2h1cm4sIGFuZCBpbnRlZ3JhdGUgaW50byBhCnJlZ3VsYXIgYnVpbGQgc2NoZWR1bGUg
+aGF2aW5nIHRoZSBhYmlsaXR5IHRvIHNwZWNpZnkgYSBzZXQgb2YgU1JDUkVWcyB3aXRob3V0Cm1v
+ZGlmeWluZyB0aGUgcmVjaXBlIGl0c2VsZiBpcyBkZXNpcmVkLgoKU28gd2UgaW50cm9kdWNlIGFu
+IG9wdGlvbmFsIGluY2x1ZGUgZmlsZSwgYW5kIHZhcmlhYmxlcyB0aGF0IGNvbnRyb2wgd2hldGhl
+cgpvciBub3QgdGhlIHN0YXRpYyBTUkNSRVZzIGFyZSB1c2VkOiBVU0VfTUFDSElORV9BVVRPUkVW
+IGFuZCBVU0VfTUVUQV9BVVRPUkVWLAp0byBhZGQgdGhpcyBmbGV4aWJpbGl0eS4KClNpZ25lZC1v
+ZmYtYnk6IEJydWNlIEFzaGZpZWxkIDxicnVjZS5hc2hmaWVsZEB3aW5kcml2ZXIuY29tPgotLS0K
+IG1ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8tZGV2LmJiIHwgMjUgKysrKysr
+KysrKysrKysrKysrLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDcg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51
+eC15b2N0by1kZXYuYmIgYi9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvLWRl
+di5iYgppbmRleCBlN2I4ZDhiMmE3YTEuLmU4ZDE0Yjk2NmQ4NCAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1kZXYuYmIKKysrIGIvbWV0YS9yZWNpcGVz
+LWtlcm5lbC9saW51eC9saW51eC15b2N0by1kZXYuYmIKQEAgLTExLDYgKzExLDEyIEBACiBpbmhl
+cml0IGtlcm5lbAogcmVxdWlyZSByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by5pbmMK
+IAorVVNFX01BQ0hJTkVfQVVUT1JFViA/PSAiMSIKK1VTRV9NRVRBX0FVVE9SRVYgPz0gIjEiCisK
+KyMgcHJvdmlkZSB0aGlzIC5pbmMgdG8gc2V0IHNwZWNpZmljIHJldmlzaW9ucworaW5jbHVkZSBy
+ZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by1kZXYtcmV2aXNpb25zLmluYworCiBLQlJB
+TkNIID0gInN0YW5kYXJkL2Jhc2UiCiBLQlJBTkNIX0RFRkFVTFQgPSAiJHtLQlJBTkNIfSIKIEtN
+RVRBID0gIm1ldGEiCkBAIC0yMiwxNSArMjgsMTkgQEAgU1JDX1VSSSA9ICJnaXQ6Ly9naXQucG9r
+eWxpbnV4Lm9yZy9saW51eC15b2N0by1kZXYuZ2l0O25vY2hlY2tvdXQ9MTticmFuY2g9JHtLQlIK
+ICMgbGludXgteW9jdG8tZGV2IGlzIHRoZSBwcmVmZXJyZWQgcHJvdmlkZXIsIHRoZXkgd2lsbCBi
+ZSBvdmVycmlkZGVuIHRvCiAjIEFVVE9SRVYgaW4gZm9sbG93aW5nIGFub255bW91cyBweXRob24g
+cm91dGluZSBhbmQgcmVzb2x2ZWQgd2hlbiB0aGUKICMgdmFyaWFibGVzIGFyZSBmaW5hbGl6ZWQu
+Ci1TUkNSRVZfbWFjaGluZT0iMjk1OTQ0MDRkN2ZlNzNjZDgwZWFhNGVlOGM0M2RjYzUzOTcwYzYw
+ZSIKLVNSQ1JFVl9tZXRhPSIyOTU5NDQwNGQ3ZmU3M2NkODBlYWE0ZWU4YzQzZGNjNTM5NzBjNjBl
+IgorU1JDUkVWX21hY2hpbmUgPz0gIjI5NTk0NDA0ZDdmZTczY2Q4MGVhYTRlZThjNDNkY2M1Mzk3
+MGM2MGUiCitTUkNSRVZfbWV0YSA/PSAiMjk1OTQ0MDRkN2ZlNzNjZDgwZWFhNGVlOGM0M2RjYzUz
+OTcwYzYwZSIKIAogcHl0aG9uICgpIHsKICAgICBpZiBkLmdldFZhcigiUFJFRkVSUkVEX1BST1ZJ
+REVSX3ZpcnR1YWwva2VybmVsIiwgVHJ1ZSkgIT0gImxpbnV4LXlvY3RvLWRldiI6CiAgICAgICAg
+IHJhaXNlIGJiLnBhcnNlLlNraXBQYWNrYWdlKCJTZXQgUFJFRkVSUkVEX1BST1ZJREVSX3ZpcnR1
+YWwva2VybmVsIHRvIGxpbnV4LXlvY3RvLWRldiB0byBlbmFibGUgaXQiKQogICAgIGVsc2U6Ci0g
+ICAgICAgIGQuc2V0VmFyKCJTUkNSRVZfbWFjaGluZSIsICIke0FVVE9SRVZ9IikKLSAgICAgICAg
+ZC5zZXRWYXIoIlNSQ1JFVl9tZXRhIiwgIiR7QVVUT1JFVn0iKQorICAgICAgICAjIGlmIHRoZSBy
+ZXZpc2lvbnMgaGF2ZSBiZWVuIGNoYW5nZWQgZnJvbSB0aGUgZGVmYXVsdHMgYWJvdmUgd2UgbGVh
+dmUgdGhlbQorICAgICAgICAjIGFsb25lLiBCdXQgaWYgdGhlIGRlZmF1bHRzIGFyZSBsZWZ0LCB3
+ZSBjaGFuZ2UgdG8gQVVUT1JFVi4KKyAgICAgICAgaWYgZC5nZXRWYXIoIlVTRV9NQUNISU5FX0FV
+VE9SRVYiLCBUcnVlKSA9PSAiMSI6CisgICAgICAgICAgICBkLnNldFZhcigiU1JDUkVWX21hY2hp
+bmUiLCAiJHtBVVRPUkVWfSIpCisgICAgICAgIGlmIGQuZ2V0VmFyKCJVU0VfTUVUQV9BVVRPUkVW
+IiwgVHJ1ZSkgPT0gIjEiOgorICAgICAgICAgICAgZC5zZXRWYXIoIlNSQ1JFVl9tZXRhIiwgIiR7
+QVVUT1JFVn0iKQogfQogCiBMSU5VWF9WRVJTSU9OID89ICIzLjEwKyIKQEAgLTQwLDggKzUwLDkg
+QEAgUFYgPSAiJHtMSU5VWF9WRVJTSU9OfStnaXQke1NSQ1BWfSIKIENPTVBBVElCTEVfTUFDSElO
+RSA9ICIocWVtdWFybXxxZW11eDg2fHFlbXVwcGN8cWVtdW1pcHN8cWVtdW1pcHM2NHxxZW11eDg2
+LTY0KSIKIAogIyBGdW5jdGlvbmFsaXR5IGZsYWdzCi1LRVJORUxfRkVBVFVSRVNfYXBwZW5kID0g
+IiBmZWF0dXJlcy9uZXRmaWx0ZXIvbmV0ZmlsdGVyLnNjYyIKLUtFUk5FTF9GRUFUVVJFU19hcHBl
+bmRfcWVtdXg4Nj0iIGNmZy9zb3VuZC5zY2MiCitLRVJORUxfRVhUUkFfRkVBVFVSRVMgPz0gImZl
+YXR1cmVzL25ldGZpbHRlci9uZXRmaWx0ZXIuc2NjIGZlYXR1cmVzL3Rhc2tzdGF0cy90YXNrc3Rh
+dHMuc2NjIgorS0VSTkVMX0ZFQVRVUkVTX2FwcGVuZCA9ICIgJHtLRVJORUxfRVhUUkFfRkVBVFVS
+RVN9IgorS0VSTkVMX0ZFQVRVUkVTX2FwcGVuZF9xZW11eDg2PSIgY2ZnL3NvdW5kLnNjYyBjZmcv
+cGFyYXZpcnRfa3ZtLnNjYyIKIEtFUk5FTF9GRUFUVVJFU19hcHBlbmRfcWVtdXg4Ni02ND0iIGNm
+Zy9zb3VuZC5zY2MiCi1LRVJORUxfRkVBVFVSRVNfYXBwZW5kX3FlbXV4ODY9IiBjZmcvcGFyYXZp
+cnRfa3ZtLnNjYyIKIEtFUk5FTF9GRUFUVVJFU19hcHBlbmQgPSAiICR7QGJiLnV0aWxzLmNvbnRh
+aW5zKCJUVU5FX0ZFQVRVUkVTIiwgIm14MzIiLCAiIGNmZy94MzIuc2NjIiwgIiIgLGQpfSIKKwot
+LSAKMS44LjEuMgoK
+
+--047d7b6d9b16f949a604ed2fa18b--
