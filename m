@@ -1,38 +1,23 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 82A0B6AE9E
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 903F26AE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2013 14:46:31 +0000 (UTC)
-Received: by mail-la0-f51.google.com with SMTP id ec20so3783364lab.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2013 06:46:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=uvHKnTzcFTLQFvxhHKHc34X0eOVcaaLv2uGVgq9ah1Y=;
-	b=t0h9o/PA3THqtMDbo0qovyYe0OuXpjcB8IqawVRTtcqI7sstRwDMVv3pCd9CJtiH75
-	UWiuFlsFGLeMo1lNpxKFjzTlOYhX9qgkZ+uU5sBx/HiKw2tFPwI/D5YgGjlv5HFyFVJc
-	aeY714uLiu7rh3irm2n9O7G9rXg/TeHEf+qQJcpv76j0gvXO9NClb1Cudj+Mds7WOQuP
-	Erz5b32drllTEcsZ6GYbqHYEa5R6/tEN1QY5u9ZMmtwtpRpNuur3xnOAQsoObEMTNg1L
-	KA8GE07F3q/V68InwpF9pS5pgnc1skb294prsg41leG0BAflR3EhVr7CSmOqTDS1sshI
-	EVsg==
-X-Received: by 10.152.44.225 with SMTP id h1mr1139590lam.22.1386773190092;
-	Wed, 11 Dec 2013 06:46:30 -0800 (PST)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id
-	ld10sm28798200lab.8.2013.12.11.06.46.28 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 11 Dec 2013 06:46:29 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id 7477E1C1344; Wed, 11 Dec 2013 15:46:22 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+	Wed, 11 Dec 2013 14:58:45 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 11 Dec 2013 06:54:59 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,872,1378882800"; d="scan'208";a="442443325"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Dec 2013 06:58:44 -0800
+Received: from localhost.localdomain (unknown [10.237.112.161])
+	by linux.intel.com (Postfix) with ESMTP id 67C946A4092;
+	Wed, 11 Dec 2013 06:58:41 -0800 (PST)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Dec 2013 15:46:21 +0100
-Message-Id: <1386773181-24944-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
-MIME-Version: 1.0
-Subject: [PATCH] image.bbclass: Allow creation of meta-packages for images
+Date: Wed, 11 Dec 2013 17:09:39 +0100
+Message-Id: <1386778181-22008-1-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] oe-selftest: implement add_command_to_tearDown method
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,55 +30,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2013 14:46:33 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 Dec 2013 14:58:45 -0000
 
-No packages were created for core-image-minimal et.c. which
-is a known top level interface for Yocto/OE users.
+Add a new method that can be used by the tester to add a command to the
+executed in the tearDown stage of the test. This mechanism can be used to
+make sure certain test-specific cleanup tasks are done in the case of a
+test failure.
 
-When installing from a repo, it would be good if these interfaces
-were common. If not, users are left with
-packagegroup-core-*, which names are not always easy to parse.
-
-Signed-off-by: David Nyström <david.nystrom@enea.com>
+Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
 ---
- meta/classes/image.bbclass | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ meta/lib/oeqa/selftest/base.py |   18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index cc65e35..e875b8a 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -8,11 +8,12 @@ POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_install_complementary populate_sdk;
+diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
+index c3474a3..25ca84b 100644
+--- a/meta/lib/oeqa/selftest/base.py
++++ b/meta/lib/oeqa/selftest/base.py
+@@ -13,7 +13,7 @@ import logging
+ import errno
  
- inherit gzipnative
+ import oeqa.utils.ftools as ftools
+-
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
  
-+ALLOW_EMPTY_${PN} = "1"
-+PACKAGES = "${PN}"
- LICENSE = "MIT"
--PACKAGES = ""
- DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross"
--RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
--RRECOMMENDS += "${PACKAGE_INSTALL_ATTEMPTONLY}"
-+RDEPENDS_${PN} += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
-+RRECOMMENDS_${PN} += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+ class oeSelfTest(unittest.TestCase):
  
- INHIBIT_DEFAULT_DEPS = "1"
+@@ -25,6 +25,7 @@ class oeSelfTest(unittest.TestCase):
+         self.localconf_path = os.path.join(self.builddir, "conf/local.conf")
+         self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
+         self.testlayer_path = oeSelfTest.testlayer_path
++        self._extra_tear_down_commands = []
+         super(oeSelfTest, self).__init__(methodName)
  
-@@ -659,11 +660,6 @@ do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- do_install[noexec] = "1"
- do_populate_sysroot[noexec] = "1"
--do_package[noexec] = "1"
--do_packagedata[noexec] = "1"
--do_package_write_ipk[noexec] = "1"
--do_package_write_deb[noexec] = "1"
--do_package_write_rpm[noexec] = "1"
+     def setUp(self):
+@@ -49,11 +50,26 @@ class oeSelfTest(unittest.TestCase):
+         pass
  
- addtask rootfs before do_build
- # Allow the kernel to be repacked with the initramfs and boot image file as a single file
+     def tearDown(self):
++        if self._extra_tear_down_commands:
++            failed_extra_commands = []
++            for command in self._extra_tear_down_commands:
++                result = runCmd(command, ignore_status=True)
++                if not result.status ==  0:
++                    failed_extra_commands.append(command)
++            if failed_extra_commands:
++                self.log.warning("tearDown commands have failed: %s" % ', '.join(map(str, failed_extra_commands)))
++                self.log.debug("Trying to move on.")
++            self._extra_tear_down_commands = []
+         self.tearDownLocal()
+ 
+     def tearDownLocal(self):
+         pass
+ 
++    # add test specific commands to the tearDown method.
++    def add_command_to_tearDown(self, command):
++        self.log.debug("Adding command '%s' to tearDown for this test." % command)
++        self._extra_tear_down_commands.append(command)
++
+     # write to <builddir>/conf/selftest.inc
+     def write_config(self, data):
+         self.log.debug("Writing to: %s\n%s\n" % (self.testinc_path, data))
 -- 
-1.8.3.2
+1.7.9.5
 
 
