@@ -1,45 +1,36 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-bk0-f52.google.com (mail-bk0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id D671E6DD9F
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 113BF6DD9F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2013 08:17:24 +0000 (UTC)
-Received: by mail-bk0-f52.google.com with SMTP id u14so169539bkz.39
+	Wed, 11 Dec 2013 08:50:22 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id x12so5972289wgg.28
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2013 00:17:23 -0800 (PST)
+	Wed, 11 Dec 2013 00:50:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=I9zMfmlD5tvEN2GPfmVVk9/tiJbGuk6SHPkvGzsSIg4=;
-	b=VyW3dM0yR351QJ68DYGIQpFVEsjos1nmBaRL1MwI8qtvglD9WordfQlHQK91nPH6c7
-	xjca7PQen3eOnBtDSFErXkJXgn1KlegIcUsjHspTfFd6nxAydeBrUipv5vqM+46qhUm1
-	AzZ1Ggek0QLv3txs9eMkAfo1paliKjG//fQ9kNwDRGGALg9v8mMCuhHOOoarfUJ3bwd/
-	abd10nsl6FeZ4V1hK1tehQ0oCrk3oKmJxQRzQyUk3l7dSwcQFKSdL9Dz8BMaRIPM1swo
-	lyaFQ1c92cue0gqbmJFV+1/I6p/+Bc4HzuZtIU/L7XfldL+0miG0NYQu36qB+oNn1ho1
-	TbgQ==
-X-Gm-Message-State: ALoCoQn6HTT5Ous3WN1Yigipbsvap5iOji0DGFiOnahIvcYs7y6TQ1ETjbxwewdQb71/2NSXX6QD
-X-Received: by 10.204.200.201 with SMTP id ex9mr18653bkb.75.1386749843656;
-	Wed, 11 Dec 2013 00:17:23 -0800 (PST)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id o5sm13940795bkz.4.2013.12.11.00.17.22
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+jUIxUubkKd4m37rMGtEIPSvf/f64ZcUuTK5JJubfLM=;
+	b=Brg+1zSMSGvLDxGoT4ZbxE8YTUOAfy9YYduEk+cr6nxHBxPA+kDLi9KvGieyVphKQQ
+	aJlfdqbs68XSq4BEDCZTpqlzOm750P6vdg8I5hUrcM0Cun98sEetvOFyPWkNshAIkRsN
+	hoUnDXb/d7kYYmqYeDNJ1AxhMCSv3c4fOWqRFDhYmAHyeIthQksowFhXifndRRdJC8Zi
+	1+4MAqGFiCgudfxuaQQozoHeI/xJirpjPT91xHtZ/6ECR3inhqovT4wkfGsjaDOrEKvq
+	VlIADBorbnSAwlDF8LCVKOhLetqm5ZkL4K0BzCrRZAf9+g6XhLSRxiZV6i/oROz/wfjS
+	HwwQ==
+X-Gm-Message-State: ALoCoQkcET1YjSFU+I0h79qSWB5O5q0NY2MFj3Qlj7jy163muRwE9ju4fLW/pWrM7nrxC7Y80kcY
+X-Received: by 10.194.21.225 with SMTP id y1mr305332wje.60.1386751821653;
+	Wed, 11 Dec 2013 00:50:21 -0800 (PST)
+Received: from localhost (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id hb7sm7483974wib.6.2013.12.11.00.50.19
 	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 11 Dec 2013 00:17:22 -0800 (PST)
-Message-ID: <52A81F91.8020105@dresearch-fe.de>
-Date: Wed, 11 Dec 2013 09:17:21 +0100
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1385647771-24485-1-git-send-email-sledz@dresearch-fe.de>
-	<52A5D813.8020803@dresearch-fe.de> <52A6DBB9.50700@windriver.com>
-In-Reply-To: <52A6DBB9.50700@windriver.com>
-X-Enigmail-Version: 1.6
-Subject: Re: [PATCH][for-dora] gdb-7.6: fix cygwin check in configure script
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 11 Dec 2013 00:50:20 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Dec 2013 09:50:07 +0100
+Message-Id: <1386751809-8853-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH 1/3] distutils bbclass: delete site.py*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,28 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2013 08:17:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 Dec 2013 08:50:24 -0000
 
-On 10.12.2013 10:15, Robert Yang wrote:
-> Thanks, applied to dora-next.
+Multiple recipes package this generated file and will clash during installation with:
 
-Great. Thanx.
+| Collected errors:
+|  * check_data_file_clashes: Package python-nose wants to install file /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/beaglebone-angstrom-linux-gnueabi/cloud9-gnome-image/1.0-r0/rootfs/usr/lib/python2.7/site-packages/site.pyc
+|       But that file is already provided by package  * python-setuptools
+|  * check_data_file_clashes: Package python-nose wants to install file /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/beaglebone-angstrom-linux-gnueabi/cloud9-gnome-image/1.0-r0/rootfs/usr/lib/python2.7/site-packages/site.py
+|       But that file is already provided by package  * python-setuptools
 
-Just for my understanding. May be i somehow overlooked relevant announcements.
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/classes/distutils.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-* Where is the dora-next branch available (not at git://git.openembedded.org/openembedded-core if i'm looking right)?
-* And what is the policy about dora-next and dora?
-
-Steffen
-
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 8c3a979..80f6df8 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -64,6 +64,7 @@ distutils_do_install() {
+         fi
+ 
+         rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/easy-install.pth
++        rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/site.py*
+         
+         #
+         # FIXME: Bandaid against wrong datadir computation
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+1.8.4.2
+
 
