@@ -1,40 +1,40 @@
 Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DAD86DF9D
+Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C97F6DF41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2013 08:50:25 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id q58so6096925wes.19
+	Wed, 11 Dec 2013 08:50:27 +0000 (UTC)
+Received: by mail-we0-f178.google.com with SMTP id u57so6028858wes.23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2013 00:50:24 -0800 (PST)
+	Wed, 11 Dec 2013 00:50:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=MSqcztc4pmJs/W+Hcggn9ndh1Cqqeug8PRN9vQguQnI=;
-	b=PA6o/YM3rG4Nw9fM0LKoYAN2LDqVC+cgjLbv567MLnthn0A4PBX23MpDx/oVGOAFB+
-	V6IcwCtmg7FVCxR0wXsKpBHBLhPucY5RZOBQrNRL9irwJloDd2oOfn2LmtdOBoQ77qnm
-	SNIiqJm++MAWoO+9cg5gQL1pVLabw3PuprKSF+uSnbW+M3k+FEmSwl/SND/cxyAbzYwJ
-	RJcbOTz31y0Q1DSCRNxeU7+RFQudAs+8B0tn1Tt7UHNZcN/80EVWkysu/cFtUDVBX6MF
-	ppiy+sbTu1d6zgz+uWevbdJEjj1dYulkudl45ma7O3t8TH6zHeZWHEnniAeHDtWMDdOL
-	7WVw==
-X-Gm-Message-State: ALoCoQmZKdTdaYL6PNIwSHACtT2J+zNlXrn4D4SvITuVUZQCruy8yyrJzQgVY9wSmlb7kj4HDXfp
-X-Received: by 10.180.85.71 with SMTP id f7mr17381373wiz.41.1386751824035;
-	Wed, 11 Dec 2013 00:50:24 -0800 (PST)
+	bh=0kMwhcZX2FbPoOJoeu+o+zwJ5JUjlY9jvjsNY9avBr4=;
+	b=kgmmpLu9lR69IoyA5EOtRSLGqJP+JYg9j0QAJOB4r9yquFs/L2fGlfJcx/kUNyafpO
+	aQGElvrt5OIDpw3AbTUJL+agNr5szfbAKBHOT9rKAkO1KqerEH+3CKCfv9ahN8h4EjgD
+	sFrDWu4HhpAs/2PXq3jckFu0JlxTmJhYC1Xueu75NBff5jxWIwCNAHJ06AntE8q7AAYG
+	8+Trv4nz6L0xfDt3/HpKx8FVqB5ywEhFcLFntL01crC5sTfR62PibIWqNYBcZX0eqIoP
+	Bx3fn2EU0z6WiVLcYqt14CoaFTor6/N/+IT017AiauR5b3i/hZxCSVgMrgLkmPU0wx7B
+	J7KQ==
+X-Gm-Message-State: ALoCoQk/3rJwuHM/zq2TEIEoKYLJwtAanG/zlNNC+vCTJkRl4+h9mQDnwF5uXJMY9OQUhpFfGJOx
+X-Received: by 10.180.12.146 with SMTP id y18mr1733912wib.37.1386751826784;
+	Wed, 11 Dec 2013 00:50:26 -0800 (PST)
 Received: from localhost (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id o9sm12734902wib.10.2013.12.11.00.50.22
+	by mx.google.com with ESMTPSA id pi6sm12806058wic.3.2013.12.11.00.50.24
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 Dec 2013 00:50:22 -0800 (PST)
+	Wed, 11 Dec 2013 00:50:25 -0800 (PST)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Dec 2013 09:50:08 +0100
-Message-Id: <1386751809-8853-2-git-send-email-koen@dominion.thruhere.net>
+Date: Wed, 11 Dec 2013 09:50:09 +0100
+Message-Id: <1386751809-8853-3-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.8.4.2
 In-Reply-To: <1386751809-8853-1-git-send-email-koen@dominion.thruhere.net>
 References: <1386751809-8853-1-git-send-email-koen@dominion.thruhere.net>
 Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 2/3] perl: remove sysroot path leakage into packaged files
+Subject: [PATCH 3/3] cpan_build bbclass: do not install module into /usr/share
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,97 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2013 08:50:25 -0000
+X-List-Received-Date: Wed, 11 Dec 2013 08:50:27 -0000
 
-A grep in $D shows a lot of leakage which breaks things like CPAN:
+https://github.com/openembedded/oe-core/commit/83796edd29561f02b6f7b036351711f8def77a4f is a partial solution, this fixes cpan_build.bbclass as well.
 
-[koen@rrmbp image]$ grep sysroot . -rn | grep -v Binary
-./usr/lib/perl/5.14.3/cacheout.pl:50:if (open(PARAM,'/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/sys/param.h')) {
-./usr/lib/perl/5.14.3/CORE/pp.h:53:#undef SP /* Solaris 2.7 i386 has this in /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/sys/reg.h */
-./usr/lib/perl/5.14.3/Config.pod:8076:used. Typically F</build/v2013.06/build/tmp>-angstrom_v2013_06-F<eglibc/sysroots/beaglebone/usr/include/string.h> or F</build/v2013.06/build/tmp>-angstrom_v2013_06-F<eglibc/sysroots/beaglebone/usr/include/strings.h>.
-./usr/lib/perl/5.14.3/FileCache.pm:119:    foreach my $param ( '/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/sys/param.h' ){
-./usr/lib/perl/5.14.3/Config.pm:87:    archlibexp => '/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/lib/perl/5.14.3/',
-./usr/lib/perl/5.14.3/Config.pm:89:    cc => 'arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone',
-./usr/lib/perl/5.14.3/Config.pm:101:    full_ar => '/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/x86_64-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-ar',
-./usr/lib/perl/5.14.3/Config.pm:114:    ld => 'arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone',
-./usr/lib/perl/5.14.3/Config_heavy.pl:169:archlibexp='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/lib/perl/5.14.3/'
-./usr/lib/perl/5.14.3/Config_heavy.pl:186:cc="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone"
-./usr/lib/perl/5.14.3/Config_heavy.pl:191:ccname="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone"
-./usr/lib/perl/5.14.3/Config_heavy.pl:245:cpprun="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone -E"
-./usr/lib/perl/5.14.3/Config_heavy.pl:246:cppstdin="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone -E"
-./usr/lib/perl/5.14.3/Config_heavy.pl:745:full_ar='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/x86_64-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-ar'
-./usr/lib/perl/5.14.3/Config_heavy.pl:927:ld="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone"
-./usr/lib/perl/5.14.3/Config_heavy.pl:1167:strings='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/string.h'
-./usr/lib/perl/5.14.3/Config_heavy.pl:1177:timeincl='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/sys/time.h /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/time.h '
-./usr/lib/perl/5.14.3/Config_heavy.pl:1229:usrinc='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include'
-./usr/lib/perl/5.14.3/ExtUtils/Liblist/Kid.pm:58:    push(@libpath, "/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/lib");
-./usr/lib/perl/config.sh:56:archlibexp='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/lib/perl/5.14.3/'
-./usr/lib/perl/config.sh:73:cc="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone"
-./usr/lib/perl/config.sh:78:ccname="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone"
-./usr/lib/perl/config.sh:100:cpprun="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone -E"
-./usr/lib/perl/config.sh:101:cppstdin="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone -E"
-./usr/lib/perl/config.sh:591:full_ar='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/x86_64-linux/usr/bin/armv7ahf-vfp-neon-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-ar'
-./usr/lib/perl/config.sh:769:ld="arm-angstrom-linux-gnueabi-gcc  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone"
-./usr/lib/perl/config.sh:986:strings='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/string.h'
-./usr/lib/perl/config.sh:996:timeincl='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/sys/time.h /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include/time.h '
-./usr/lib/perl/config.sh:1042:usrinc='/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/sysroots/beaglebone/usr/include'
+A non-working one looks like this:
+	[koen@rrmbp v2013.06]$ dpkg-deb -c deploy/eglibc/ipk/armv7ahf-vfp-neon/perl-module-build-withxspp_0.14-r0.0_armv7ahf-vfp-neon.ipk
+	-rw-r--r-- root/root       361 2013-11-28 16:50 ./usr/lib/perl/auto/Module/Build/WithXSpp/.packlist
+	-r--r--r-- root/root     22557 2013-11-28 16:50 ./usr/share/perl/Module/Build/WithXSpp.pm
+
+It now looks like this:
+	[koen@rrmbp v2013.06]$ dpkg-deb -c deploy/eglibc/ipk/armv7ahf-vfp-neon/perl-module-build-withxspp_0.14-r*.ipk
+	-rw-r--r-- root/root       378 2013-11-29 14:44 ./usr/lib/perl/auto/Module/Build/WithXSpp/.packlist
+	-r--r--r-- root/root     22557 2013-11-28 17:22 ./usr/lib/perl/vendor_perl/5.14.3/Module/Build/WithXSpp.pm
 
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-devtools/perl/perl_5.14.3.bb | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ meta/classes/cpan_build.bbclass | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.14.3.bb b/meta/recipes-devtools/perl/perl_5.14.3.bb
-index 1e14e17..3829d4b 100644
---- a/meta/recipes-devtools/perl/perl_5.14.3.bb
-+++ b/meta/recipes-devtools/perl/perl_5.14.3.bb
-@@ -210,7 +210,6 @@ do_install() {
-         install config.sh ${D}${libdir}/perl
+diff --git a/meta/classes/cpan_build.bbclass b/meta/classes/cpan_build.bbclass
+index eaba40a..5b0ad61 100644
+--- a/meta/classes/cpan_build.bbclass
++++ b/meta/classes/cpan_build.bbclass
+@@ -32,7 +32,6 @@ cpan_build_do_configure () {
  
-         ln -s Config_heavy.pl ${D}${libdir}/perl/${PV}/Config_heavy-target.pl
--
- }
- 
- do_install_append_class-nativesdk () {
-@@ -223,12 +222,14 @@ PACKAGE_PREPROCESS_FUNCS += "perl_package_preprocess"
- perl_package_preprocess () {
-         # Fix up installed configuration
-         sed -i -e "s,${D},,g" \
-+               -e "s,--sysroot=${STAGING_DIR_HOST},,g" \
-                -e "s,-isystem${STAGING_INCDIR} ,,g" \
-                -e "s,${STAGING_LIBDIR},${libdir},g" \
-                -e "s,${STAGING_BINDIR},${bindir},g" \
-                -e "s,${STAGING_INCDIR},${includedir},g" \
-                -e "s,${STAGING_BINDIR_NATIVE}/perl-native/,${bindir}/,g" \
-                -e "s,${STAGING_BINDIR_NATIVE}/,,g" \
-+               -e "s,${STAGING_BINDIR_TOOLCHAIN}/${TARGET_PREFIX},${bindir},g" \
-             ${PKGD}${bindir}/h2xs \
-             ${PKGD}${bindir}/h2ph \
-             ${PKGD}${bindir}/pod2man \
-@@ -236,14 +237,17 @@ perl_package_preprocess () {
-             ${PKGD}${bindir}/pod2usage \
-             ${PKGD}${bindir}/podchecker \
-             ${PKGD}${bindir}/podselect \
--            ${PKGD}${libdir}/perl/${PV}/pod/*.pod \
--            ${PKGD}${libdir}/perl/${PV}/cacheout.pl \
--            ${PKGD}${libdir}/perl/${PV}/FileCache.pm \
--            ${PKGD}${libdir}/perl/config.sh \
-+            ${PKGD}${libdir}/perl/${PV}/CORE/config.h \
-+            ${PKGD}${libdir}/perl/${PV}/CORE/perl.h \
-+            ${PKGD}${libdir}/perl/${PV}/CORE/pp.h \
-             ${PKGD}${libdir}/perl/${PV}/Config.pm \
-+            ${PKGD}${libdir}/perl/${PV}/Config.pod \
-             ${PKGD}${libdir}/perl/${PV}/Config_heavy.pl \
--            ${PKGD}${libdir}/perl/${PV}/CORE/perl.h \
--            ${PKGD}${libdir}/perl/${PV}/CORE/pp.h
-+            ${PKGD}${libdir}/perl/${PV}/ExtUtils/Liblist/Kid.pm \
-+            ${PKGD}${libdir}/perl/${PV}/FileCache.pm \
-+            ${PKGD}${libdir}/perl/${PV}/cacheout.pl \
-+            ${PKGD}${libdir}/perl/${PV}/pod/*.pod \
-+            ${PKGD}${libdir}/perl/config.sh
- }
- 
- PACKAGES = "perl-dbg perl perl-misc perl-dev perl-pod perl-doc perl-lib \
+ 	perl Build.PL --installdirs vendor \
+ 				--destdir ${D} \
+-				--install_path lib="${datadir}/perl" \
+ 				--install_path arch="${libdir}/perl" \
+ 				--install_path script=${bindir} \
+ 				--install_path bin=${bindir} \
 -- 
 1.8.4.2
 
