@@ -1,40 +1,29 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C97F6DF41
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BC306DF30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2013 08:50:27 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id u57so6028858wes.23
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2013 00:50:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=0kMwhcZX2FbPoOJoeu+o+zwJ5JUjlY9jvjsNY9avBr4=;
-	b=kgmmpLu9lR69IoyA5EOtRSLGqJP+JYg9j0QAJOB4r9yquFs/L2fGlfJcx/kUNyafpO
-	aQGElvrt5OIDpw3AbTUJL+agNr5szfbAKBHOT9rKAkO1KqerEH+3CKCfv9ahN8h4EjgD
-	sFrDWu4HhpAs/2PXq3jckFu0JlxTmJhYC1Xueu75NBff5jxWIwCNAHJ06AntE8q7AAYG
-	8+Trv4nz6L0xfDt3/HpKx8FVqB5ywEhFcLFntL01crC5sTfR62PibIWqNYBcZX0eqIoP
-	Bx3fn2EU0z6WiVLcYqt14CoaFTor6/N/+IT017AiauR5b3i/hZxCSVgMrgLkmPU0wx7B
-	J7KQ==
-X-Gm-Message-State: ALoCoQk/3rJwuHM/zq2TEIEoKYLJwtAanG/zlNNC+vCTJkRl4+h9mQDnwF5uXJMY9OQUhpFfGJOx
-X-Received: by 10.180.12.146 with SMTP id y18mr1733912wib.37.1386751826784;
-	Wed, 11 Dec 2013 00:50:26 -0800 (PST)
-Received: from localhost (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id pi6sm12806058wic.3.2013.12.11.00.50.24
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 Dec 2013 00:50:25 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Dec 2013 09:50:09 +0100
-Message-Id: <1386751809-8853-3-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.4.2
-In-Reply-To: <1386751809-8853-1-git-send-email-koen@dominion.thruhere.net>
-References: <1386751809-8853-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 3/3] cpan_build bbclass: do not install module into /usr/share
+	Wed, 11 Dec 2013 08:58:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBB8wns8020446
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Dec 2013 00:58:50 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 11 Dec 2013 00:58:48 -0800
+Message-ID: <52A82947.5000405@windriver.com>
+Date: Wed, 11 Dec 2013 16:58:47 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Steffen Sledz <sledz@dresearch-fe.de>,
+	<openembedded-core@lists.openembedded.org>
+References: <1385647771-24485-1-git-send-email-sledz@dresearch-fe.de>
+	<52A5D813.8020803@dresearch-fe.de> <52A6DBB9.50700@windriver.com>
+	<52A81F91.8020105@dresearch-fe.de>
+In-Reply-To: <52A81F91.8020105@dresearch-fe.de>
+Subject: Re: [PATCH][for-dora] gdb-7.6: fix cygwin check in configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +36,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2013 08:50:27 -0000
+X-List-Received-Date: Wed, 11 Dec 2013 08:58:56 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-https://github.com/openembedded/oe-core/commit/83796edd29561f02b6f7b036351711f8def77a4f is a partial solution, this fixes cpan_build.bbclass as well.
 
-A non-working one looks like this:
-	[koen@rrmbp v2013.06]$ dpkg-deb -c deploy/eglibc/ipk/armv7ahf-vfp-neon/perl-module-build-withxspp_0.14-r0.0_armv7ahf-vfp-neon.ipk
-	-rw-r--r-- root/root       361 2013-11-28 16:50 ./usr/lib/perl/auto/Module/Build/WithXSpp/.packlist
-	-r--r--r-- root/root     22557 2013-11-28 16:50 ./usr/share/perl/Module/Build/WithXSpp.pm
+On 12/11/2013 04:17 PM, Steffen Sledz wrote:
+> On 10.12.2013 10:15, Robert Yang wrote:
+>> Thanks, applied to dora-next.
+>
+> Great. Thanx.
+>
+> Just for my understanding. May be i somehow overlooked relevant announcements.
+>
+> * Where is the dora-next branch available (not at git://git.openembedded.org/openembedded-core if i'm looking right)?
 
-It now looks like this:
-	[koen@rrmbp v2013.06]$ dpkg-deb -c deploy/eglibc/ipk/armv7ahf-vfp-neon/perl-module-build-withxspp_0.14-r*.ipk
-	-rw-r--r-- root/root       378 2013-11-29 14:44 ./usr/lib/perl/auto/Module/Build/WithXSpp/.packlist
-	-r--r--r-- root/root     22557 2013-11-28 17:22 ./usr/lib/perl/vendor_perl/5.14.3/Module/Build/WithXSpp.pm
+The dora-next is still in developing, not stable if you need the dev
+branch, it is here:
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/classes/cpan_build.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+# For poky:
+git://git.pokylinux.org/poky-contrib robert/dora-next
 
-diff --git a/meta/classes/cpan_build.bbclass b/meta/classes/cpan_build.bbclass
-index eaba40a..5b0ad61 100644
---- a/meta/classes/cpan_build.bbclass
-+++ b/meta/classes/cpan_build.bbclass
-@@ -32,7 +32,6 @@ cpan_build_do_configure () {
- 
- 	perl Build.PL --installdirs vendor \
- 				--destdir ${D} \
--				--install_path lib="${datadir}/perl" \
- 				--install_path arch="${libdir}/perl" \
- 				--install_path script=${bindir} \
- 				--install_path bin=${bindir} \
--- 
-1.8.4.2
+# For oe-core only:
+git://git.pokylinux.org/poky-contrib robert/dora-next-oecore
 
+> * And what is the policy about dora-next and dora?
+>
+
+dora is the stable branch, dora-next isn't, dora-next is based on
+dora, it will be merged into dora when reviewed and approved.
+
+// Robert
+
+> Steffen
+>
 
