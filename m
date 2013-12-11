@@ -1,26 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D2AC261056
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id CC9D36D847
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2013 19:40:55 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Dec 2013 11:40:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,866,1378882800"; d="scan'208";a="441917251"
-Received: from unknown (HELO [10.255.15.207]) ([10.255.15.207])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Dec 2013 11:40:54 -0800
-Message-ID: <52A76E46.2010008@linux.intel.com>
-Date: Tue, 10 Dec 2013 11:40:54 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Wed, 11 Dec 2013 00:52:47 +0000 (UTC)
+Received: by mail-ie0-f180.google.com with SMTP id tp5so9956997ieb.39
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Dec 2013 16:52:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=0I53fLWfSf1CKcNnMyZJW51BAamJGJEjvPPCT0ml/Yk=;
+	b=KMgWUYsBGKQZxdi+POei4MxN3pHwe9DHQhKqb6fT888wqzRYA7HffY3UWZ654MUiwu
+	V5DXHwi4glOJE4lo6U9FE9U3KkLxMS0jwVsIHdD/Zlsm0mrYVP79HmwtJHtoVlvaSWLa
+	s4KAFCMkX1s89qBRfFoJcSS91qCBJEDXBCfVnpHZYyTQLLmvF6WOkxeQU0qhp08XVpjW
+	X3Wh0kmuV/YDs6c44EslQOWHCw/PtfXQgd6UyKMz0akvRglRqE9OiNlg2e726v3rRUZ4
+	ymks2nds5w9ne9Hlx3P7AtF4+GpDyrb7c/YIdZn1/RRNEII5oS7LN46139eWOi+6PwCt
+	TeGw==
+X-Received: by 10.43.60.139 with SMTP id ws11mr19675576icb.12.1386723166931;
+	Tue, 10 Dec 2013 16:52:46 -0800 (PST)
 MIME-Version: 1.0
-To: Kai Kang <kai.kang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1384331128.git.kai.kang@windriver.com>
-	<bb068bc66bcdbf96dd84e5cd18e1765b9a32f2cc.1384331128.git.kai.kang@windriver.com>
-In-Reply-To: <bb068bc66bcdbf96dd84e5cd18e1765b9a32f2cc.1384331128.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 1/1] lsb: update directory of install_initd and remove_initd
+Received: by 10.50.79.167 with HTTP; Tue, 10 Dec 2013 16:52:16 -0800 (PST)
+In-Reply-To: <5616775.7LhWvOXBE4@helios>
+References: <cover.1386687474.git.liezhi.yang@windriver.com>
+	<5616775.7LhWvOXBE4@helios>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 10 Dec 2013 16:52:16 -0800
+Message-ID: <CAMKF1spMpasnjJ9z41rt57cfnbze_xHVuK1KoQNcoG+d16aL3w@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 000/124] [dora] fixes for dora (cover leter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2013 19:40:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Dec 2013 00:52:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 11/13/2013 12:27 AM, Kai Kang wrote:
-> According to LSB specification:
+On Tue, Dec 10, 2013 at 10:03 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
 >
-> http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/installinitd.html
-> http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/removeinitd.html
+>> Bruce Ashfield (10):
+>>   kernel: restore scripts in the sysroot
 >
-> commands install_initd and remove_initd should under directory /usr/lib/lsb/.
+> Wasn't there a problem with this patch? I can't recall if it was rectified
+> before or after it was merged to master.
 >
-> lsb recipe creates these commands under directory ${libdir} which may
-> expand to /usr/lib64 when multilib is enabled on qemux86-64. That will
-> cause LSB command check for install_initd and remove_initd fail. So
-> correct it.
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->   meta/recipes-extended/lsb/lsb_4.1.bb | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-> index c80ff59..8105e59 100644
-> --- a/meta/recipes-extended/lsb/lsb_4.1.bb
-> +++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-> @@ -79,8 +79,8 @@ do_install_append(){
->
->          # creat links for LSB test
->          install -d ${D}/${libdir}/lsb
-> -       ln -sf ${sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
-> -       ln -sf ${sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
-> +       ln -sf ${sbindir}/chkconfig ${D}/usr/lib/lsb/install_initd
-> +       ln -sf ${sbindir}/chkconfig ${D}/usr/lib/lsb/remove_initd
-It's arguable that this should be ${prefix}/lib since there is a 
-possibly case of libdir not being /usr/lib or /usr/lib64.  It also goes 
-to LSB explictly requires /usr/lib/lsb so for an LSB machine /usr/lib 
-will aways exist.
 
-I will put this in the next C-Pull.
-
-Sau!
-
->          ln -sf ${sbindir}/sendmail ${D}/${libdir}/sendmail
->
->          if [ "${TARGET_ARCH}" = "x86_64" ];then
->
+Problem is elsewhere, there was more of documentation issue with
+Richard fixed in module.bbclass.
+this is ok.
 
