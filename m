@@ -1,29 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E4A5E60F4A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 459BB60F4A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2013 18:04:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBCI4nHs025058
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2013 10:04:51 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 12 Dec 2013 10:04:49 -0800
-Message-ID: <52A9FAC0.4030606@windriver.com>
-Date: Thu, 12 Dec 2013 12:04:48 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1386870464-41010-1-git-send-email-fahad_arslan@mentor.com>
-	<1386871038.504.19.camel@ted>
-In-Reply-To: <1386871038.504.19.camel@ted>
-Subject: Re: [PATCH] libffi: Copy headers to more common include path.
+	Thu, 12 Dec 2013 18:21:12 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 12 Dec 2013 10:21:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.93,879,1378882800"; d="scan'208";a="449090520"
+Received: from mmckenna-mobl1.ger.corp.intel.com (HELO
+	helios.ger.corp.intel.com) ([10.252.121.252])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Dec 2013 10:21:09 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Dec 2013 18:21:02 +0000
+Message-Id: <cover.1386870869.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [dylan][PATCH 0/4] CVE backports from the dora branch (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +28,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2013 18:04:52 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Dec 2013 18:21:12 -0000
 
-On 12/12/13, 11:57 AM, Richard Purdie wrote:
-> On Thu, 2013-12-12 at 22:47 +0500, Fahad Arslan wrote:
->> Signed-off-by: Fahad Arslan <fahad_arslan@mentor.com>
->> ---
->>   meta/recipes-gnome/libffi/libffi_3.0.13.bb |    5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/meta/recipes-gnome/libffi/libffi_3.0.13.bb b/meta/recipes-gnome/libffi/libffi_3.0.13.bb
->> index db0841e..07dd7d1 100644
->> --- a/meta/recipes-gnome/libffi/libffi_3.0.13.bb
->> +++ b/meta/recipes-gnome/libffi/libffi_3.0.13.bb
->> @@ -22,3 +22,8 @@ inherit autotools
->>   FILES_${PN}-dev += "${libdir}/libffi-${PV}"
->>
->>   BBCLASSEXTEND = "native nativesdk"
->> +
->> +do_install_append() {
->> +    install -d ${D}${includedir}
->> +    cp -r ${D}${libdir}/libffi-${PV}/include/* ${D}${includedir}/ || true
->> +}
->
-> Why? Shouldn't whatever is using them look for them in the correct
-> location?
+All four of the CVE fixes in Robert's just-merged dora series apply to
+dylan, so here they are on top of dylan.
 
-Correct, I think this is wrong as well.  Most of the time when versions are 
-included into the include path, the system may allow for multiple versions to be 
-installed and used at the same time.
 
---Mark
+The following changes since commit 4e31587ef3be95abe28d38609da16f47d1261c07:
 
-> Cheers,
->
-> Richard
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+  build-appliance-image: Update to dylan head revision (2013-12-12 17:05:02 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-next
+
+Baogen Shang (2):
+  libtiff: CVE-2013-4232
+  libtiff: CVE-2013-4243
+
+Ming Liu (2):
+  gst-ffmpeg: fix CVE-2013-3674
+  libtiff: fix CVE-2013-1960
+
+ .../gst-ffmpeg-CVE-2013-3674.patch                 |  26 ++++
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |   1 +
+ .../libtiff/files/libtiff-CVE-2013-1960.patch      | 151 +++++++++++++++++++++
+ .../libtiff/files/libtiff-CVE-2013-4232.patch      |  15 ++
+ .../libtiff/files/libtiff-CVE-2013-4243.patch      |  40 ++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.3.bb      |   5 +-
+ 6 files changed, 237 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-ffmpeg-0.10.13/gst-ffmpeg-CVE-2013-3674.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
+ create mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
+
+-- 
+1.8.1.2
 
 
