@@ -1,24 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 762D16E2EC
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 135CF6E2E6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2013 08:37:10 +0000 (UTC)
+	Thu, 12 Dec 2013 09:01:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBC8b9TR009929
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2013 00:37:09 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 12 Dec 2013 00:37:09 -0800
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Dec 2013 16:38:03 +0800
-Message-ID: <cover.1386837420.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBC91uq6011138
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Dec 2013 01:01:57 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 12 Dec 2013 01:01:55 -0800
+Message-ID: <52A97B81.1050305@windriver.com>
+Date: Thu, 12 Dec 2013 17:01:53 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] init-ifupdown: adjust priority of networking to fix system freeze problem
+To: Robert Yang <liezhi.yang@windriver.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1386752561.git.liezhi.yang@windriver.com>	<1386771992.4332.76.camel@ted>
+	<52A95CEC.4030603@windriver.com>
+In-Reply-To: <52A95CEC.4030603@windriver.com>
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 000/122 V2] [dora] fixes for dora (cover leter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +36,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2013 08:37:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Dec 2013 09:01:58 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit bfec6b1947b472d6f1c9c7f297e66ede5e921069:
 
-  ref-manual: Removed "work" from the SDK_DEPLOY directory. (2013-12-11 14:20:19 +0000)
+On 12/12/2013 02:51 PM, Robert Yang wrote:
+>
+>
+> On 12/11/2013 10:26 PM, Richard Purdie wrote:
+>> Hi Robert,
+>>
+>> Can you confirm that all these patches have an equivalent change in
+>> master already? I can see some which I can't find equivalent changes in
+>> master for :(
+>>
+>> You also do need to drop the "kernel: restore scripts in the sysroot"
+>> patch since it was reverted in master and is not a correct fix for
+>> anything.
+>>
+>
+> Thanks, I've dropped it and started new builds on the local autobuilder,
+> it will be finished in a while.
+>
 
-are available in the git repository at:
+The local autobuilder shows everything is OK after drop this patch.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/networking-connman
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/networking-connman
+// Robert
 
-Chen Qi (1):
-  init-ifupdown: adjust priority of networking to fix system freeze
-    problem
-
- .../init-ifupdown/init-ifupdown_1.0.bb             |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-1.7.9.5
-
+> // Robert
+>
+>> Cheers,
+>>
+>> Richard
+>>
+>> On Wed, 2013-12-11 at 04:21 -0500, Robert Yang wrote:
+>>> * V2:
+>>>    + Create the PULL based on oe-core
+>>>    + Remove the 2 patches after more discussions with the submitter:
+>>>      - native-python: bad interpreter error message
+>>>      - Fix conflict between procps and base-files
+>>>
+>>> * V1 (Initial version)
+>>>    + Main changes:
+>>>      - Wic fixes
+>>>      - Update the kernel to 3.10.17
+>>>      - CVE fixes
+>>>      - Other Bug fixes
+>>>
+>>> // Robert
+>>>
+>>> The following changes since commit c303f5ecf7cda1c3b8bb776a6800946c0487cd93:
+>>>
+>>>    Revert "utils.bbclass: Fix override ordering for FILESPATH" (2013-12-03
+>>> 12:55:47 +0000)
+>>>
+>>> are available in the git repository at:
+>>>
+>>>    git://git.pokylinux.org/poky-contrib robert/dora-next-oecore
+>>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/dora-next-oecore
+>>
+>>
+>>
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
