@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3997F6BEFB
+	by mail.openembedded.org (Postfix) with ESMTP id E58D16BEFB
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Dec 2013 16:07:37 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 12 Dec 2013 08:03:25 -0800
+	by orsmga102.jf.intel.com with ESMTP; 12 Dec 2013 08:03:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.93,878,1378882800"; d="scan'208";a="423648550"
+X-IronPort-AV: E=Sophos;i="4.93,878,1378882800"; d="scan'208";a="423648562"
 Received: from mmckenna-mobl1.ger.corp.intel.com (HELO
 	helios.ger.corp.intel.com) ([10.252.121.252])
-	by orsmga001.jf.intel.com with ESMTP; 12 Dec 2013 08:07:09 -0800
+	by orsmga001.jf.intel.com with ESMTP; 12 Dec 2013 08:07:10 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2013 16:07:03 +0000
-Message-Id: <cover.1386864323.git.paul.eggleton@linux.intel.com>
+Date: Thu, 12 Dec 2013 16:07:04 +0000
+Message-Id: <9db5f3aa5c1f76fbb383fa04cab2220e77ff7040.1386864323.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH v2 0/2] A couple of removals
+In-Reply-To: <cover.1386864323.git.paul.eggleton@linux.intel.com>
+References: <cover.1386864323.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1386864323.git.paul.eggleton@linux.intel.com>
+References: <cover.1386864323.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH v2 1/2] classes/module_strip: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,44 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2013 16:07:37 -0000
+X-List-Received-Date: Thu, 12 Dec 2013 16:07:38 -0000
 
-Since v1, extended the external-sourcery-toolchain change to update
-documentation.conf and local.conf.sample.extended to match up with the
-change.
+This class has been empty since 2010, so we shouldn't need it anymore. A
+check of common layers suggests there shouldn't be any references to it
+outside of OE-Core.
 
-
-The following changes since commit 8505f0fa48cc79d51616b923c6e2c778c4b46a44:
-
-  libmatchbox: use PACKAGECONFIG (2013-12-10 14:13:01 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/cleanup2
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/cleanup2
-
-Paul Eggleton (2):
-  classes/module_strip: remove
-  external-sourcery-toolchain: remove
-
- meta/classes/kernel.bbclass                        |   2 +-
- meta/classes/module-base.bbclass                   |   2 -
- meta/classes/module_strip.bbclass                  |   0
- meta/conf/distro/include/csl-versions.inc          | 107 ---------
- meta/conf/distro/include/tcmode-external-csl.inc   |   2 -
- .../distro/include/tcmode-external-sourcery.inc    | 128 ----------
- meta/conf/documentation.conf                       |   2 +-
- meta/conf/local.conf.sample.extended               |  20 +-
- .../meta/external-sourcery-toolchain.bb            | 149 ------------
- .../meta/external-sourcery-toolchain/SUPPORTED     | 257 ---------------------
- 10 files changed, 17 insertions(+), 652 deletions(-)
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/kernel.bbclass       | 2 +-
+ meta/classes/module-base.bbclass  | 2 --
+ meta/classes/module_strip.bbclass | 0
+ 3 files changed, 1 insertion(+), 3 deletions(-)
  delete mode 100644 meta/classes/module_strip.bbclass
- delete mode 100644 meta/conf/distro/include/csl-versions.inc
- delete mode 100644 meta/conf/distro/include/tcmode-external-csl.inc
- delete mode 100644 meta/conf/distro/include/tcmode-external-sourcery.inc
- delete mode 100644 meta/recipes-core/meta/external-sourcery-toolchain.bb
- delete mode 100644 meta/recipes-core/meta/external-sourcery-toolchain/SUPPORTED
 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 24ac778..5fef446 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -1,4 +1,4 @@
+-inherit linux-kernel-base module_strip kernel-module-split
++inherit linux-kernel-base kernel-module-split
+ 
+ PROVIDES += "virtual/kernel"
+ DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cross"
+diff --git a/meta/classes/module-base.bbclass b/meta/classes/module-base.bbclass
+index 1589a90..9537ba9 100644
+--- a/meta/classes/module-base.bbclass
++++ b/meta/classes/module-base.bbclass
+@@ -1,5 +1,3 @@
+-inherit module_strip
+-
+ inherit kernel-arch
+ 
+ export OS = "${TARGET_OS}"
+diff --git a/meta/classes/module_strip.bbclass b/meta/classes/module_strip.bbclass
+deleted file mode 100644
+index e69de29..0000000
 -- 
 1.8.1.2
 
