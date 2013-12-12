@@ -1,40 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 750D86DC49;
-	Thu, 12 Dec 2013 00:28:14 +0000 (UTC)
-Received: by mail-ea0-f170.google.com with SMTP id k10so3270633eaj.29
-	for <multiple recipients>; Wed, 11 Dec 2013 16:28:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=her5+ap64ZCcJLu5YRAk1a38c0fauMgK5n70jd0RLT0=;
-	b=XWyjfvpdY3EiwWpYGMX7wD+yCZkvVSRKJn+7h1Au2AoL+3xQWyAkF4B5sBCDadaZFI
-	CEPa8Tu+vvk/XAlp/379P1rPRM/2MfB+q+O3JVfYR4V3Op6TqzkK8aFPVeaEZA6ts5Kk
-	Eug+pS4N+cnBLJG0FXnq+LaWm4F06fGro1Dbj0T0dsTSKfwTcu8vnd0bTkbgPbiyysfO
-	G+MG2Vvao3gEe7EFw7ox27sSi1cAML5DURcHvIYQnYLplKV2OWRk8rirVaE/qzrCY0ej
-	0F5jBndNDsxbhS39Jn/Mj2TWH1bE/5lyWqiHk35OkBd+4YwXtWjnIxmbfV1oYM33odEC
-	gcJQ==
-X-Received: by 10.14.115.133 with SMTP id e5mr4391520eeh.91.1386808093302;
-	Wed, 11 Dec 2013 16:28:13 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 1sm59325529eeg.4.2013.12.11.16.28.12
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 11 Dec 2013 16:28:12 -0800 (PST)
-Date: Thu, 12 Dec 2013 01:28:35 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20131212002835.GC3717@jama>
-References: <20131211225150.GB3717@jama>
- <1386802700.504.12.camel@ted>
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EBCEF6E328
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Dec 2013 06:49:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBC6nPLn009440
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Dec 2013 22:49:25 -0800 (PST)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 11 Dec 2013 22:49:23 -0800
+Message-ID: <52A95C72.3030605@windriver.com>
+Date: Thu, 12 Dec 2013 14:49:22 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-In-Reply-To: <1386802700.504.12.camel@ted>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: git fetcher sanity check for matching branch and SRCREV
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1386752561.git.liezhi.yang@windriver.com>	
+	<1386771992.4332.76.camel@ted> <1386772701.4332.80.camel@ted>
+In-Reply-To: <1386772701.4332.80.camel@ted>
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 000/122 V2] [dora] fixes for dora (cover leter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,88 +35,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2013 00:28:15 -0000
-X-Groupsio-MsgNum: 48141
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Qbvjkv9qwOGw/5Fx"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 12 Dec 2013 06:49:27 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---Qbvjkv9qwOGw/5Fx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 11, 2013 at 10:58:20PM +0000, Richard Purdie wrote:
-> On Wed, 2013-12-11 at 23:51 +0100, Martin Jansa wrote:
-> > I understand and support reasons behind recently added commit
-> > "fetch2/git: Add sanity check to ensure we really did fetch the correct
-> > revisions"
-> >=20
-> > but there is at least one corner case which IMHO isn't supported now, in
-> > meta-webos we have yajl recipe with:
-> >=20
-> > # corresponds to tag 1.0.12
-> > SRCREV =3D "17b1790fb9c8abbb3c0f7e083864a6a014191d56"
-> > SRC_URI =3D "git://github.com/lloyd/${PN}"
-> >=20
-> > the problem is that 17b1790fb9c8abbb3c0f7e083864a6a014191d56 exists only
-> > in 1.0.12 tag and not in any branch
-> >=20
-> > OE @ ~/webos/projects/yajl $ git branch -a --contains
-> > 17b1790fb9c8abbb3c0f7e083864a6a014191d56
-> > OE @ ~/webos/projects/yajl $ git tag --contains
-> > 17b1790fb9c8abbb3c0f7e083864a6a014191d56
-> > 1.0.12
-> >=20
-> > There is "1.x" branch which contains parent of
-> > 17b1790fb9c8abbb3c0f7e083864a6a014191d56 but is missing this one commit.
-> >=20
-> > Unfortunately we cannot "disable" this check by explicitly setting empty
-> > branch or setting tag=3D1.0.12
-> >=20
-> > I can ask yajl owner to push that one missing patch to 1.x branch, but
-> > there were no changes in last 11 months so I don't know how responsive
-> > he will be and there could be similar case in different recipes where
-> > the upstream could be completely gone.
-> >=20
-> > As side note, should bitbake do the same check when tag=3Dfoo is
-> > specified?
->=20
-> This is an interesting corner case. I have this patch lying around which
-> fixes the issue where a given tag is only available in specific
-> branches:
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/t2&=
-id=3Dd211662ca92ee084c0c4a3d343e0b1f28ab853ac
->=20
-> however that won't help this case. There is also an issue where the
-> ls-remote command can match multiple branches/tags since its unanchored:
->=20
-> git ls-remote X foo
->=20
-> refs/heads/foo
-> refs/heads/broken/foo
-> refs/tags/foo
-> refs/tags/broken/foo
 
-yes we discussed this one in
-http://lists.openembedded.org/pipermail/bitbake-devel/2013-August/003725.ht=
-ml
-which I haven't finished yet, sorry :/
+On 12/11/2013 10:38 PM, Richard Purdie wrote:
+> On Wed, 2013-12-11 at 14:26 +0000, Richard Purdie wrote:
+>> Hi Robert,
+>>
+>> Can you confirm that all these patches have an equivalent change in
+>> master already? I can see some which I can't find equivalent changes in
+>> master for :(
+>
+> Running "git cherry master contrib/robert/dora-next master -v | grep ^\+"
+> gives a list of commits in dora-next but not in master and these are the
+> ones we need to look more closely at:
+>
+> + d72b558cd968db9bd0fa601ae1365cef06a51369 poky.ent, documentation: Updates for building 1.5.1 release.
+> + 854c136d485975e5f697e373aa0cc063fee7faca tools/mega-manual.sed: Changed 1.5 to 1.5.1
+> + 1ba659469c678a10e8c3a7f337f62c1e93898ce1 dev-manual: Updates to Toaster section about examing data
+> + 803300cc126ab5581454d0dfb153d5c11998f5bc dev-manual: A few tweaks to Ch2 of dev-manual
+> + e3e0d40704473e752d93de79cfb04a979c3073bb dev-manual: Small number of tweaks to ch 3, development manual.
+> + 5de0010afff5c861da1c84f45fa9791dd5721ec5 dev-manual: Reworded sentence for meta-intel setup
+> + 184166fa7a5e1beb51660258b1d19dd4daa85996 dev-manual: Fixed broken structure.
+> + fa191d48825d97e324e57e628a0ce2d720c2e06d dev-manual: Rough draft of wic section.
+> + b0c4c855a0d5d4d2efcdf4da4b06e943be310887 dev-manual: More work on the new wic section.
+> + acd37849336938faad2d62a0c0edf30a8be3fcda dev-manual: Complete first draft of the new wic section.
+> + e9d0f1d211940e60bb357a755faeb95f47cf6729 dev-manual: Changed "Tasks" term into "Package Groups" term.
+> + 6fc8adf98a5af48001adff3ed6deb3fdb96e0486 dev-manual: Added "Task" term.
+>
+> All docs so ok.
+>
+> + 2238d4a63f55721aad4557f862bd6c86a3e2c904 Revert "utils.bbclass: Fix override ordering for FILESPATH"
+>
+> Also intended for dora, ok.
+>
+> + 887cdec2b889d1ecb81f0fcc1aa00204fbc7108e pigz: Add pigz to buildtools tarball
+>
+> Confirmed as in master, patch is against slightly different version so ok.
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Hi RP,
 
---Qbvjkv9qwOGw/5Fx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Please see my comments inline ...
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlKpAzMACgkQN1Ujt2V2gByBGwCggnkL//DsArhrEv6nextkgK/m
-Ct0An1hp377lUDe7Ta8OPbakMF1sc9bu
-=zRxb
------END PGP SIGNATURE-----
+> That leaves the following we need to investigate:
+>
+> + 20c0a87c19cf51bcd849fb4de91421cae0f97ae4 mdadm: Disable the RUN_DIR check
 
---Qbvjkv9qwOGw/5Fx--
+ From OE-Core master rev: d62882794890eeee8e8d5c9ba4837ec77a58d787
+
+> + cc225f0e74865623714461cd38bec3b6557c6df7 mdadm: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for powerpc64
+
+ From OE-Core master rev: d3caab6eb03264b4f4d744f914598022299011ba
+
+> + d912ce035beb0da28d83719920a2cebfda8b3073 ethtool: Fix ptest compile
+
+ From OE-Core master rev: 5dd8653fdcda5e0e8b4f3c37a46f357bc97ec66c
+
+> + 1cff575511f32935a69ec1c9ef966311ad409e2f gdb-7.6: fix cygwin check in configure script
+
+This one is sent by Steffen, for dora only.
+
+> + bfd8feec0a25f61bf1f722dc8719e8194e284f52 libtiff: fix CVE-2013-1960
+
+There is a similar fix on master, but they are different, it is sent by Mark
+for dora.
+
+> + 2615979d05e24c3bf05e33a67bb7aa21eab9f011 nfs-utils: explicitly rdepend on bash
+
+There is a similar fix on master, but they are different, it is sent by Mark
+for dora.
+
+> + 5a13d607954fb2099a82c5f1f4135be6cb6ca4d3 dpkg: Fix a build error for dpkg-native on CentOS 5.8.
+> + c37ab9c220b8f1d2045b1aaf9cd03c1f9a899390 dpkg: Fix a link problem for dpkg-native on CentOS 5.8.
+>
+
+They are sent by Mark for dora only.
+
+// Robert
+
+> We need to know if these are in master, if not why not and if the issue
+> is specific to dora.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+
