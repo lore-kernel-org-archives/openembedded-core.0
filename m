@@ -1,33 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D450E6C6EB
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F377B6E243
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 09:26:52 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rBD9Qdn7025695; Fri, 13 Dec 2013 09:26:39 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SQYCOH1OcE6e; Fri, 13 Dec 2013 09:26:39 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rBD9QYQf025684
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Fri, 13 Dec 2013 09:26:36 GMT
-Message-ID: <1386926789.20901.20.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 13 Dec 2013 09:26:29 +0000
-In-Reply-To: <52AAA463.5040100@windriver.com>
-References: <cover.1386752561.git.liezhi.yang@windriver.com>
-	<1386771992.4332.76.camel@ted> <1386772701.4332.80.camel@ted>
-	<52A95C72.3030605@windriver.com> <1386891243.504.47.camel@ted>
-	<52AAA463.5040100@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 000/122 V2] [dora] fixes for dora (cover leter only)
+	Fri, 13 Dec 2013 10:29:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 13 Dec 2013 02:25:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,477,1384329600"; d="scan'208";a="424118554"
+Received: from junemccl-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.122.17])
+	by orsmga001.jf.intel.com with ESMTP; 13 Dec 2013 02:28:59 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+Date: Fri, 13 Dec 2013 10:28:57 +0000
+Message-ID: <3691300.hbRHgI4rct@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <8672BB614B4CCA40A6B3BDD6FD82050B4D56943E@COSNADEXC13.usr.ingenico.loc>
+References: <20130420225659.GM2489@jama> <20131210143530.GF3721@jama>
+	<8672BB614B4CCA40A6B3BDD6FD82050B4D56943E@COSNADEXC13.usr.ingenico.loc>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: bash-completion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,39 +34,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 09:26:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Dec 2013 10:29:02 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, 2013-12-13 at 14:08 +0800, Robert Yang wrote:
-> 
-> On 12/13/2013 07:34 AM, Richard Purdie wrote:
-> > On Thu, 2013-12-12 at 14:49 +0800, Robert Yang wrote:
-> >
-> > Other than the patches I've mentioned, things should be merged in the
-> > dora branch. We've found some build issues. I've pushed a fix for the
-> > qt3 one, we also have one with lttng-modules which we don't have a fix
-> > for yet.
-> >
-> 
-> Hi RP,
-> 
-> For the failure of lttng-modules, it seemed the auto builder didn't take
-> the patches that I had sent to poky@yoctoproject.org:
-> 
-> [poky] [PATCH 2/3] [dora] meta-yocto-bsp: update SRCREVs for 3.10.17 and 
-> beagleboard fixes
-> 
-> Would you please help to merge it (them) ?
-> 
-> The branch robert/dora-next-oecore only contains the patches for oe-core,
-> while the robert/dora-next contains patches for bitbake, oe-core and
-> meta-yoctoX, I'm sorry that I didn't explain this clearly.
+Hi Matthieu,
 
-Sorry I missed the meta-yocto changes. I've merged these now.
+On Friday 13 December 2013 08:49:44 Matthieu CRAPET wrote:
+> I am talking about this:
+>  http://bash-completion.alioth.debian.org/
+> 
+> I can create the recipe if it does not exist (somewhere).
+
+FYI there is an old recipe in OE-Classic that you may be able to bring up-to-
+date:
+
+http://layers.openembedded.org/layerindex/oe-classic/recipe/16369/
 
 Cheers,
+Paul
 
-Richard
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
