@@ -1,40 +1,26 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B2D16E2EC
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 4909D60EF6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 14:56:48 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id h10so928876eak.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 06:56:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=y5fDx1KYgMH/Nr66PuvgX28a9G42PfAwwVGZ+xXB7yA=;
-	b=L9dGsHSEEyZHWumI1/Uf01lJuVDGSssSZxuwvaOqeqpuUrocmwSUnzvjRfZ630tW8Q
-	N5qGsizZoY+EDWerJKvnAyvTemYqyIKWevUM2D6t9U9uvzZnUEfej1OBrU2QbkmoKDmh
-	tK3fUhQmvkTXAi3PM7EOOpbPTYvu3DZbf84w/qt7Tknx+gVPSHwrU12WUW/v+JMjW7tm
-	CTLZPeRxtjpTSXFfwezE8E3HC8s8o5t1+IaJ+nvvFMphFcxgjGPZC6fTm/Q+lOyiBCSy
-	BsbNktdz8WI27uXWp26e0H/9PcQwgYlN9P4P+2dZmNAz2+euA4w4lXKFci/z7lbFzDeI
-	11+w==
-X-Received: by 10.15.63.77 with SMTP id l53mr3314214eex.89.1386946607792;
-	Fri, 13 Dec 2013 06:56:47 -0800 (PST)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id 44sm7648810eek.5.2013.12.13.06.56.45
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Dec 2013 06:56:47 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Dec 2013 07:56:38 -0700
-Message-Id: <b00a526527b3248c9014bc3c0e5c606ef97e0838.1386946335.git.kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-In-Reply-To: <cover.1386946335.git.kergoth@gmail.com>
-References: <cover.1386946335.git.kergoth@gmail.com>
-In-Reply-To: <cover.1386946335.git.kergoth@gmail.com>
-References: <cover.1386946335.git.kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [RFC 2/2] systemd: rrecommend os-release
+	Fri, 13 Dec 2013 15:06:08 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.95,479,1384297200"; d="scan'208";a="38084075"
+Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+	by antispam1.usr.ingenico.loc with ESMTP; 13 Dec 2013 16:06:04 +0100
+Received: from COSNPREXC3.usr.ingenico.loc (10.1.1.182) by
+	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
+	id 14.2.318.1; Fri, 13 Dec 2013 16:06:04 +0100
+Received: from u85.usr.ingenico.loc ([10.23.7.85]) by
+	COSNPREXC3.usr.ingenico.loc with Microsoft SMTPSVC(6.0.3790.1830);
+	Fri, 13 Dec 2013 16:06:04 +0100
+From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Dec 2013 16:01:05 +0100
+Message-ID: <1386946865-18483-1-git-send-email-Matthieu.Crapet@ingenico.com>
+X-Mailer: git-send-email 1.7.10.4
+X-OriginalArrivalTime: 13 Dec 2013 15:06:04.0027 (UTC)
+	FILETIME=[D795B4B0:01CEF814]
+MIME-Version: 1.0
+Subject: [PATCH] bash-completion: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,28 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 14:56:48 -0000
+X-List-Received-Date: Fri, 13 Dec 2013 15:06:10 -0000
+Content-Type: text/plain
 
-From: Christopher Larson <chris_larson@mentor.com>
-
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_208.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../bash-completion/bash-completion_2.0.bb         | 31 ++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 meta/recipes-support/bash-completion/bash-completion_2.0.bb
 
-diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
-index c1f8d77..4c2fbc6 100644
---- a/meta/recipes-core/systemd/systemd_208.bb
-+++ b/meta/recipes-core/systemd/systemd_208.bb
-@@ -223,6 +223,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units \
-                       util-linux-agetty \
-                       util-linux-fsck e2fsprogs-e2fsck \
-                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
-+                      os-release \
- "
- 
- PACKAGES =+ "udev-dbg udev udev-utils udev-hwdb"
+diff --git a/meta/recipes-support/bash-completion/bash-completion_2.0.bb b/meta/recipes-support/bash-completion/bash-completion_2.0.bb
+new file mode 100644
+index 0000000..f08988a
+--- /dev/null
++++ b/meta/recipes-support/bash-completion/bash-completion_2.0.bb
+@@ -0,0 +1,31 @@
++DESCRIPTION = "Programmable Completion for Bash 4"
++HOMEPAGE = "http://bash-completion.alioth.debian.org/"
++BUGTRACKER = "https://alioth.debian.org/projects/bash-completion/"
++
++SECTION = "console/utils"
++RDEPENDS_${PN} = "bash"
++PR = "r1"
++
++SRC_URI="http://bash-completion.alioth.debian.org/files/${BPN}-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "0d903f398be8c8f24bc5ffa6f86127f8"
++SRC_URI[sha256sum] = "e5a490a4301dfb228361bdca2ffca597958e47dd6056005ef9393a5852af5804"
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
++
++inherit allarch autotools
++
++do_configure() {
++	oe_runconf
++}
++
++do_install_append() {
++	install -d ${D}${sysconfdir}/bash_completion.d/
++	echo '. ${datadir}/${BPN}/bash_completion' >${D}${sysconfdir}/bash_completion
++}
++
++# Some recipes are providing ${PN}-bash-completion packages
++PACKAGES_prepend += "${PN}-extra "
++FILES_${PN}-extra = "${datadir}/${BPN}/completions/ \
++    ${datadir}/${BPN}/helpers/"
 -- 
-1.8.3.4
+1.8.2.1
 
 
