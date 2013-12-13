@@ -1,52 +1,24 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CA326BA1D
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A8F286E40F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 17:18:50 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	rBDHIlHE023718
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 18:18:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1386955130;
-	bh=5e3Jtup/a4cCFem6OrEQD/lqJ0JiiMnB8XGZw7RLF/s=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=M8Et+ZD6EVZFf1Nfun/YGLaMxJXZIYLBARnHAWgTUydh4HYpdKsj8qbkEmbveWbcq
-	0bEpJc6o2NGzsx+rmZ/TdTUcHKnjnsNYXdjxQ3Bt/Y2mnu5KOMw0WNcz5b0PlbhlnX
-	dm4oaQhpRmggqhZwhxYLQltQv7UfminOK94DbLoM=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rBDHIfew024558
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 18:18:43 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VrWNp-00079A-15
+	Fri, 13 Dec 2013 18:10:16 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1VrXBn-0005hO-Cb from Yasir_Khan@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Dec 2013 18:18:40 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Fri, 13 Dec 2013 10:10:15 -0800
+Received: from ykhan.pkl.mentorg.com ([137.202.157.53]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 13 Dec 2013 10:10:14 -0800
+From: Yasir Khan <yasir_khan@mentor.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1386903269.git.Qi.Chen@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Fri, 13 Dec 2013 18:18:36 +0100
-In-Reply-To: <cover.1386903269.git.Qi.Chen@windriver.com> (Qi's message of
-	"Fri, 13 Dec 2013 11:09:01 +0800")
-Message-ID: <ly38lw1xg3.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Subject: Re: [PATCH 0/2] Change the way of handling CONFFILES
+Date: Fri, 13 Dec 2013 23:08:54 +0500
+Message-Id: <1386958134-20626-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.10.4
+X-OriginalArrivalTime: 13 Dec 2013 18:10:15.0173 (UTC)
+	FILETIME=[9294C350:01CEF82E]
+Subject: [PATCH] openssl_1.0.1e: Install c_rehash utility with openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,18 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 17:18:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Dec 2013 18:10:18 -0000
 
-<Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+From: mykhani <yasir_khan@mentor.com>
 
-> As almost all files under /etc should be considerred as config files,
+c_rehash utility is not being installed with openssl. It conveniently
+generates hash and symbolic links based on it for CA certificates
+stored locally for SSL based server authentication
 
-A lot of projects (especially from the freedesktop edge) are (ab)using
-/etc to store non configuration files. E.g. all the dbus confguration or
-gconf schemes are not intended to be modified by users.
+Signed-off-by: mykhani <yasir_khan@mentor.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.0.1e.bb |   10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+index ac27dba..f52877c 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+@@ -4,6 +4,9 @@ require openssl.inc
+ # if they are available.
+ DEPENDS += "ocf-linux"
+ 
++# Perl is needed for the c_rehash script
++RDEPENDS_${PN} += "perl"
++
+ CFLAG += "-DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS"
+ 
+ PR = "${INC_PR}.0"
+@@ -53,3 +56,10 @@ PARALLEL_MAKEINST = ""
+ do_configure_prepend() {
+   cp ${WORKDIR}/find.pl ${S}/util/find.pl
+ }
++
++do_install_append() {
++    # The c_rehash utility isn't being installed by the normal installation process. 
++    # It conveniently generates both hash and symbolic links based on hash for CA certificates.
++    install -m 0755 ${S}/tools/c_rehash ${D}${bindir}
++}
++
+-- 
+1.7.10.4
 
-
-Enrico
 
