@@ -1,39 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 8104A610D4
+Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id A588C610D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 14:50:21 +0000 (UTC)
-Received: by mail-ee0-f54.google.com with SMTP id e51so782714eek.27
+	Fri, 13 Dec 2013 14:50:23 +0000 (UTC)
+Received: by mail-ea0-f169.google.com with SMTP id l9so792116eaj.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 06:50:20 -0800 (PST)
+	Fri, 13 Dec 2013 06:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=P9Xw8EZDNvL/lQFRARdTT6PJrQ+GH14K7coipwV3QRo=;
-	b=PWIdZwgR/Q8jPhYGbTpFQqsZlDisa6y4GkqxfU+Thvi2pqCeiidL8JgRvCKuOR55zi
-	cdEgP1L7WLa6VN9TZqXPlpRwofELik6vXIfHgNB1NsiQTkrDZJcZhAV4skzoK1zUrb+T
-	0jMUBD+Ml7KJyngPR2A2wKtnB0bE9GNLSWH9mCt3hz+YYWdUycbNE3F1pHeWZyeCK+tB
-	7zY8I24bZcawvAICJdUYDROLb3wHxGpdwOFuncTpzFjdn69M93xeZuv9IzztfaQa+3iK
-	EXh9sCnNAK93oU9GRWYLMbRzUUrazyKlRoQWGRnB87jhaLAE01lF4hbXtXO0hP2b1l9z
-	laOQ==
-X-Received: by 10.14.225.2 with SMTP id y2mr3406293eep.62.1386946220758;
-	Fri, 13 Dec 2013 06:50:20 -0800 (PST)
+	bh=9S0uxs/KayBTCC9sAT6WD9Y6I1jgTdgjI7LL9h4E58Q=;
+	b=Aqdy+rTr2HGi9M7Cp3mLAoVkKSR0HiZFmycPGPVZvBEjtuFZ7lNS0T/Acblmuabqa2
+	0l2ZTrsQODsttkRcIAEKYXkfbpmY58m2sB00RhH5MDGDZFDVmtIqpXO3tV262cELfO8k
+	Ma40x2QVN3KRs5O6N7uZmyY6gHlypj2q1+4RAb98TTGSRbOMhfI/gVOTDltL2/RqbBV9
+	bsCmLaMjSl9FmWf9zWWOtncusVeWG5/E0Btrdi2xy62ytQNBPJNPKnkqEj+x2i6haCBJ
+	Rt2iJsFCWZLrLfs9gGCl8mo3wtNatr/NvscChKRsMzGv4ek7hA57QQrZQl/vYeusim0J
+	RM1Q==
+X-Received: by 10.14.179.130 with SMTP id h2mr3447379eem.34.1386946223074;
+	Fri, 13 Dec 2013 06:50:23 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id o47sm7527284eem.21.2013.12.13.06.50.19
+	by mx.google.com with ESMTPSA id o47sm7527284eem.21.2013.12.13.06.50.20
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Dec 2013 06:50:20 -0800 (PST)
+	Fri, 13 Dec 2013 06:50:22 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Dec 2013 07:50:09 -0700
-Message-Id: <09612f896d57e0f02f7fcc60f2b7caf691056135.1386946076.git.kergoth@gmail.com>
+Date: Fri, 13 Dec 2013 07:50:10 -0700
+Message-Id: <10eb206333bee0d33122a2a3a0875c6a32ce4883.1386946076.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
 In-Reply-To: <cover.1386946076.git.kergoth@gmail.com>
 References: <cover.1386946076.git.kergoth@gmail.com>
 In-Reply-To: <cover.1386946076.git.kergoth@gmail.com>
 References: <cover.1386946076.git.kergoth@gmail.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/3] xz: make the LICENSE info more accurate
+Subject: [PATCH 2/3] libdrm: use RRECOMMENDS for libdrm-drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +47,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 14:50:22 -0000
+X-List-Received-Date: Fri, 13 Dec 2013 14:50:25 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
+As libdrm enables modules automatically, based on what it needs / can build,
+it's unlikely we'll *ever* get a situation where all the modules are emitted,
+so libdrm-drivers, which depends on all of them, ends up being useless and
+non-installable. Make it use rrecommends, so it only pulls in what we have.
+
 Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- meta/recipes-extended/xz/xz_5.1.3alpha.bb | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ meta/recipes-graphics/drm/libdrm.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/xz/xz_5.1.3alpha.bb b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
-index b49fbf7..9e2c933 100644
---- a/meta/recipes-extended/xz/xz_5.1.3alpha.bb
-+++ b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
-@@ -2,7 +2,22 @@ DESCRIPTION = "utils for managing LZMA compressed files"
- HOMEPAGE = "http://tukaani.org/xz/"
- SECTION = "base"
+diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
+index 497220f..1b2ffeb 100644
+--- a/meta/recipes-graphics/drm/libdrm.inc
++++ b/meta/recipes-graphics/drm/libdrm.inc
+@@ -27,8 +27,8 @@ ALLOW_EMPTY_${PN}-drivers = "1"
+ PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
+              ${PN}-intel ${PN}-exynos ${PN}-kms"
  
--LICENSE = "GPLv2+ & LGPLv2.1+"
-+# The source includes bits of PD, GPLv2, GPLv3, LGPLv2.1+, but the only file
-+# which is GPLv3 is an m4 macro which isn't shipped in any of our packages,
-+# and the LGPL bits are under lib/, which appears to be used for libgnu, which
-+# appears to be used for DOS builds. So we're left with GPLv2+ and PD.
-+LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+ & PD"
-+LICENSE_${PN} = "GPLv2+"
-+LICENSE_${PN}-dev = "GPLv2+"
-+LICENSE_${PN}-staticdev = "GPLv2+"
-+LICENSE_${PN}-doc = "GPLv2+"
-+LICENSE_${PN}-dbg = "GPLv2+"
-+LICENSE_${PN}-locale = "GPLv2+"
-+LICENSE_liblzma = "PD"
-+LICENSE_liblzma-dev = "PD"
-+LICENSE_liblzma-staticdev = "PD"
-+LICENSE_liblzma-dbg = "PD"
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
-                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+-RDEPENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
+-                          ${PN}-exynos"
++RRECOMMENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
++                             ${PN}-exynos"
+ 
+ FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode* ${bindir}/*test"
+ FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
 -- 
 1.8.3.4
 
