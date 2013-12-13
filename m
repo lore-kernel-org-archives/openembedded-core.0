@@ -1,39 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f169.google.com (mail-ve0-f169.google.com
-	[209.85.128.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 22B5C6E397
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 701AB6E397
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 12:09:42 +0000 (UTC)
-Received: by mail-ve0-f169.google.com with SMTP id c14so1333828vea.28
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 04:09:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9d7tIhgJHkQFjXxt/wlyJZNpdFauzWRSSsyXsctYDDs=;
-	b=mHISFJqE3AfZ+kZVhuZgtThSvQEZVOHlEaOcVoEndyxW4rrGi4DHRCKSOQvDyfrGHd
-	V9kLPPZt8een7VLqDfA5Xtfi+/3PoBnhtYk0XeHjBhz7Y1bC5AGVw/etSpopmjJdwyQO
-	n5iv7ux2pQj4bB/xHsO8j1GmJQH2xszzHKQpyYHgf9d8xDnCdQflQKQ7QK8XW1/DLHDr
-	qRN4Ad1KG68RDN3stwNfu+ORlDUClyvajmvsfi9kQV6ZcSNyPusUO/KP+h127uAoZuxn
-	ZrXTjJjJF8CwOQEjyxBvGsLRoKLy+TrAemRDv9xqlQV571xNDMO9+cwhTu3sEo/ZakJF
-	HlIQ==
-X-Gm-Message-State: ALoCoQnKNdtRxlLQ/4WcYG4XD7/qA9MD5kMQ9TTUYW11elfF6xoRcRHcrSvGCvfO++GQT1wdVDqW
-X-Received: by 10.53.9.201 with SMTP id du9mr848377vdd.36.1386936581226; Fri,
-	13 Dec 2013 04:09:41 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 13 Dec 2013 04:09:21 -0800 (PST)
-In-Reply-To: <2B9C97B395470A40B9E9E5D469BCD9FA0155D384@EU-MBX-03.mgc.mentorg.com>
-References: <1386870464-41010-1-git-send-email-fahad_arslan@mentor.com>
-	<1386871038.504.19.camel@ted>
-	<2B9C97B395470A40B9E9E5D469BCD9FA0155D384@EU-MBX-03.mgc.mentorg.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 13 Dec 2013 12:09:21 +0000
-Message-ID: <CAJTo0LYBVpKeW7fNrzEC+wBbCTkzWBVSuuyNEX2LVmHos2tghw@mail.gmail.com>
-To: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libffi: Copy headers to more common include path.
+	Fri, 13 Dec 2013 12:20:29 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 13 Dec 2013 04:20:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,478,1384329600"; d="scan'208";a="443711372"
+Received: from junemccl-mobl.ger.corp.intel.com (HELO
+	helios.ger.corp.intel.com) ([10.252.122.17])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Dec 2013 04:20:27 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Dec 2013 12:20:26 +0000
+Message-Id: <1386937226-18848-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] local.conf.sample.extended: add some missed changes for directfb / archiver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,19 +28,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 12:09:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 13 Dec 2013 12:20:29 -0000
 
-On 13 December 2013 11:49, Arslan, Fahad <Fahad_Arslan@mentor.com> wrote:
-> My understanding was that headers should be placed under ${includedir} instead of
-> ${libdir}. Isn't it the practice or am I missing something?
+Bring some changes over from the meta-yocto version of this file that
+should have also been applied here but weren't.
 
-If the headers are machine-specific then it's conventional to put a
-user-visible include $includedir (arch-independent) which then
-includes files from $libdir (arch-dependent).
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/conf/local.conf.sample.extended | 53 ++++++++++++++++++++----------------
+ 1 file changed, 29 insertions(+), 24 deletions(-)
 
-Considering libffi needs to know details of the calling convention on
-the machine, this is presumably what's happening.  GLib does the same.
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 9585432..c7c4f40 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -15,7 +15,7 @@
+ 
+ #DISTRO_FEATURES = "alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci ${DISTRO_FEATURES_LIBC}"
+ 
+-# If you want to get an image based on gtk+directfb without x11, Please copy this variable to build/conf/local.conf
++# If you want to get an image based on directfb without x11, Please copy this variable to build/conf/local.conf
+ #DISTRO_FEATURES = "alsa argp bluetooth ext2 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g directfb ${DISTRO_FEATURES_LIBC}"
+ 
+ # ENABLE_BINARY_LOCALE_GENERATION controls the generation of binary locale
+@@ -188,33 +188,38 @@
+ # when the disk space reduces 50M (or the amount of inode reduces 5k).
+ #BB_DISKMON_WARNINTERVAL = "50M,5K"
+ 
+-# Archiving source code configuration
+-#
+-# The following variables control which files to archive and the type to archive to generate.
+-# There are three basic class defintions of common operations that might be desired and these
+-# can be enabled by uncommenting one of the following lines:
+-#
+-# INHERIT += "archive-original-source"
+-# INHERIT += "archive-patched-source"
+-#INHERIT =+ "archive-configured-source"
+-#
+-# Type of archive:
+-# SOURCE_ARCHIVE_PACKAGE_TYPE = 'srpm'
+-#SOURCE_ARCHIVE_PACKAGE_TYPE ?= 'tar'
+-#
+-# Whether to include WORKDIR/temp, .bb and .inc files:
+-# 'logs_with_scripts' include WORKDIR/temp directory and .bb and .inc files
+-# 'logs' only include WORKDIR/temp
+-# ARCHIVER_MODE[log_type] = "logs logs_with_scripts"
+-# There are three basic class defintions of common operations 
+-# that might be desired and these can be enabled by 
+-# uncommenting five of the following lines:
+-# ARCHIVER_MODE[filter] ?= "yes no"
+-# Filter packages according to license
++# Archiving source code, configure what kind of sources will be archived
++# and the output format. The output files will be put in
++# ${DEPLOY_DIR}/sources/.
++#
++# You can add the following 3 lines to the conf file to get a quick
++# usage:
++#ARCHIVER_MODE ?= "original"
++#ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
++#INHERIT += "${ARCHIVER_CLASS}"
++#
++# Detailed configuration:
++# What kind of sources will be archived, the ARCHIVER_MODE could be:
++# original: the ${S} after do_unpack
++# patched : the ${S} after do_patch
++# configured: the ${S} after do_configure
+ #ARCHIVER_MODE ?= "original"
++#
++# The output format type, tar or srpm, the default is "tar".
+ #ARCHIVER_MODE[type] ?= "tar"
++#
++# Whether include the log file under ${T} and the recipe (.bb and .inc),
++# the default is "logs_with_scripts".
+ #ARCHIVER_MODE[log_type] ?= "logs_with_scripts"
++#
++# license filter:
++# yes: Only the COPYLEFT_LICENSE_INCLUDE recipe will be archived
++# no: All kinds of license will be archived
++# The default is "no"
+ #ARCHIVER_MODE[filter] ?= "no"
++#
++# The following lines should be added to your conf file verbatim
++# (uncommented though of course):
+ #ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
+ #INHERIT += "${ARCHIVER_CLASS}"
+ 
+-- 
+1.8.1.2
 
-Ross
 
