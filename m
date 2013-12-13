@@ -1,25 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 54F5E6E245
+	by mail.openembedded.org (Postfix) with ESMTP id 490FF6E36F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 07:55:45 +0000 (UTC)
+	Fri, 13 Dec 2013 07:55:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBD7tikj010437
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBD7tkwf010443
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Dec 2013 23:55:44 -0800 (PST)
+	Thu, 12 Dec 2013 23:55:46 -0800 (PST)
 Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Thu, 12 Dec 2013 23:55:43 -0800
+	(TLS) id 14.2.347.0; Thu, 12 Dec 2013 23:55:45 -0800
 From: Kai Kang <kai.kang@windriver.com>
 To: <sgw@linux.intel.com>
-Date: Fri, 13 Dec 2013 15:54:42 +0800
-Message-ID: <cover.1386920771.git.kai.kang@windriver.com>
+Date: Fri, 13 Dec 2013 15:54:43 +0800
+Message-ID: <ed65823461209449e8938c713430593abdb144c8.1386920771.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1386920771.git.kai.kang@windriver.com>
+References: <cover.1386920771.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.231]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/5] Update for lsb and lsbtest
+Subject: [PATCH 1/5] lsb: update directory of install_initd and remove_initd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,32 +37,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 13 Dec 2013 07:55:46 -0000
 Content-Type: text/plain
 
-Hi Saul,
+According to LSB specification:
 
-This version of lsb patch creates necessary directory otherwise do_install fails.
-And some update for package lsbtest.
+http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/installinitd.html
+http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/removeinitd.html
 
-The following changes since commit ba8506ee342a1a579ceb309f3f50285eaad84f25:
+commands install_initd and remove_initd should under directory /usr/lib/lsb/.
 
-  local.conf.extended: Bring into sync with OE-Core (2013-12-12 23:18:39 +0000)
+lsb recipe creates these commands under directory ${libdir} which may
+expand to /usr/lib64 when multilib is enabled on qemux86-64. That will
+cause LSB command check for install_initd and remove_initd fail. So
+correct it.
 
-are available in the git repository at:
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-extended/lsb/lsb_4.1.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-  git://git.yoctoproject.org/poky-contrib kangkai/lsb
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/?h=kangkai%2Flsb
-
-Kai Kang (5):
-  lsb: update directory of install_initd and remove_initd
-  LSB_Test.sh: update rpm platform file when enable multilib
-  LSB_Test.sh: check ldconfig before update cache
-  LSB_Test.sh: update locales
-  lsbtest: add ppc64 support
-
- meta/recipes-extended/lsb/lsb_4.1.bb          |  7 ++++---
- meta/recipes-extended/lsb/lsbtest/LSB_Test.sh | 20 ++++++++++++++++++--
- meta/recipes-extended/lsb/lsbtest_1.0.bb      | 12 ++++++++++++
- 3 files changed, 34 insertions(+), 5 deletions(-)
-
+diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
+index c80ff59..b798ae1 100644
+--- a/meta/recipes-extended/lsb/lsb_4.1.bb
++++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+@@ -78,9 +78,10 @@ do_install_append(){
+        install -m 0755 ${WORKDIR}/init-functions ${D}/${baselib}/lsb
+ 
+        # creat links for LSB test
+-       install -d ${D}/${libdir}/lsb
+-       ln -sf ${sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
+-       ln -sf ${sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
++       install -d ${D}/usr/lib/lsb
++       ln -sf ${sbindir}/chkconfig ${D}/usr/lib/lsb/install_initd
++       ln -sf ${sbindir}/chkconfig ${D}/usr/lib/lsb/remove_initd
++       install -d ${D}/${libdir}
+        ln -sf ${sbindir}/sendmail ${D}/${libdir}/sendmail
+ 
+        if [ "${TARGET_ARCH}" = "x86_64" ];then
 -- 
 1.8.1.2
 
