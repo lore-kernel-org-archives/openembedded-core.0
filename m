@@ -1,37 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id C6B496E307
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C5616E2E5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 02:36:58 +0000 (UTC)
-Received: by mail-ea0-f173.google.com with SMTP id o10so591468eaj.32
+	Fri, 13 Dec 2013 03:08:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBD3871r016364
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2013 18:36:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=goKsgevK6z0S4qOfZhcmKJ3HTe3Uy5DARmGngOUOke8=;
-	b=bmkkxUBBfhsEPystOidV/vVfVxq5DORkJSS2SyWuP6jr1cL6YQSl26sdZyOPWVjNDx
-	C93YVs3v9KJp2f/YB8G4wuyvdpF+bQN/rKUtGdAPkw8rREm2zd/QdGGleuL+qPBq8f1y
-	BsyDg11PHMloV2wMtz+HT3AqKv284bp+w2X13pMF46bbtfmDCsgswzuytGk+bDQ4u2P9
-	EjGZzBWkGy/rW1FW1t/DJEQfd/qgX38XCL845E026mOEO1hZ1ynxlW9hQiwoCbUBDGIV
-	qpXqDJQmLKumtPOjYrAHyQRA8JEwgKr1WVMEqlXtMg6zxx/oVwMqvW2rCYLyuPGlVAvR
-	5Erw==
-X-Received: by 10.14.2.73 with SMTP id 49mr95876eee.15.1386902217762;
-	Thu, 12 Dec 2013 18:36:57 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id v7sm1435567eel.2.2013.12.12.18.36.56
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 12 Dec 2013 18:36:57 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Dec 2013 03:37:18 +0100
-Message-Id: <1386902238-4354-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.4.3
-In-Reply-To: <52A73622.4030608@linux.intel.com>
-References: <52A73622.4030608@linux.intel.com>
-Subject: [PATCH] ltp: Use patch generated without -M
+	Thu, 12 Dec 2013 19:08:08 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 12 Dec 2013 19:08:07 -0800
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Dec 2013 11:09:01 +0800
+Message-ID: <cover.1386903269.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/2] Change the way of handling CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,224 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 02:37:00 -0000
+X-List-Received-Date: Fri, 13 Dec 2013 03:08:09 -0000
+Content-Type: text/plain
 
-* in my builds both versions worked, but Saul reported that it fails to
-  apply with:
-  Applying patch
-  0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
-  patch: **** Only garbage was found in the patch input.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-  Now I've see the same issue on different builder (with Ubuntu 12.04).
+It's a very common situation in OE/Yocto that the recipe authors/maintainers
+either forget to set the CONFFILES variable or set it wrong.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...tests_noltp.sh-script-so-have-unique-name.patch | 190 +++++++++++++++++++--
- 1 file changed, 177 insertions(+), 13 deletions(-)
+For example, we don't have CONFFILES set in the shadow recipe. As a result,
+/etc/login.defs from the shadow package is not treated as a config file.
+Another example is the base-files recipe. We set the CONFFILES variable, but
+it's not a complete list. Basically, all files under /etc should be treated as
+config files for this recipe.
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch b/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
-index 74abe56..1b4d232 100644
---- a/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
-+++ b/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
-@@ -19,20 +19,184 @@ Upstream-Status: Pending
- 
- Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
- ---
-- .../kernel/containers/sysvipc/{runtests_noltp.sh => runipctests_noltp.sh} | 0
-- .../kernel/containers/utsname/{runtests_noltp.sh => runutstests_noltp.sh} | 0
-- 2 files changed, 0 insertions(+), 0 deletions(-)
-- rename testcases/kernel/containers/sysvipc/{runtests_noltp.sh => runipctests_noltp.sh} (100%)
-- rename testcases/kernel/containers/utsname/{runtests_noltp.sh => runutstests_noltp.sh} (100%)
-+ .../kernel/containers/sysvipc/runipctests_noltp.sh | 31 ++++++++++++++++
-+ .../kernel/containers/sysvipc/runtests_noltp.sh    | 31 ----------------
-+ .../kernel/containers/utsname/runtests_noltp.sh    | 41 ----------------------
-+ .../kernel/containers/utsname/runutstests_noltp.sh | 41 ++++++++++++++++++++++
-+ 4 files changed, 72 insertions(+), 72 deletions(-)
-+ create mode 100644 testcases/kernel/containers/sysvipc/runipctests_noltp.sh
-+ delete mode 100644 testcases/kernel/containers/sysvipc/runtests_noltp.sh
-+ delete mode 100755 testcases/kernel/containers/utsname/runtests_noltp.sh
-+ create mode 100755 testcases/kernel/containers/utsname/runutstests_noltp.sh
- 
--diff --git a/testcases/kernel/containers/sysvipc/runtests_noltp.sh b/testcases/kernel/containers/sysvipc/runipctests_noltp.sh
--similarity index 100%
--rename from testcases/kernel/containers/sysvipc/runtests_noltp.sh
--rename to testcases/kernel/containers/sysvipc/runipctests_noltp.sh
--diff --git a/testcases/kernel/containers/utsname/runtests_noltp.sh b/testcases/kernel/containers/utsname/runutstests_noltp.sh
--similarity index 100%
--rename from testcases/kernel/containers/utsname/runtests_noltp.sh
--rename to testcases/kernel/containers/utsname/runutstests_noltp.sh
-+diff --git a/testcases/kernel/containers/sysvipc/runipctests_noltp.sh b/testcases/kernel/containers/sysvipc/runipctests_noltp.sh
-+new file mode 100644
-+index 0000000..84f398f
-+--- /dev/null
-++++ b/testcases/kernel/containers/sysvipc/runipctests_noltp.sh
-+@@ -0,0 +1,31 @@
-++#!/bin/sh
-++################################################################################
-++##                                                                            ##
-++## Copyright (c) International Business Machines  Corp., 2007                 ##
-++##                                                                            ##
-++## This program is free software;  you can redistribute it and#or modify      ##
-++## it under the terms of the GNU General Public License as published by       ##
-++## the Free Software Foundation; either version 2 of the License, or          ##
-++## (at your option) any later version.                                        ##
-++##                                                                            ##
-++## This program is distributed in the hope that it will be useful, but        ##
-++## WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
-++## or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   ##
-++## for more details.                                                          ##
-++##                                                                            ##
-++## You should have received a copy of the GNU General Public License          ##
-++## along with this program;  if not, write to the Free Software               ##
-++## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    ##
-++##                                                                            ##
-++################################################################################
-++
-++exit_code=0
-++echo "sysvipc tests"
-++for type in none clone unshare; do
-++      echo "**sysvipc $type"
-++      ./shmnstest_noltp $type
-++      if [ $? -ne 0 ]; then
-++              exit_code=$?
-++      fi
-++done
-++exit $exit_code
-+diff --git a/testcases/kernel/containers/sysvipc/runtests_noltp.sh b/testcases/kernel/containers/sysvipc/runtests_noltp.sh
-+deleted file mode 100644
-+index 84f398f..0000000
-+--- a/testcases/kernel/containers/sysvipc/runtests_noltp.sh
-++++ /dev/null
-+@@ -1,31 +0,0 @@
-+-#!/bin/sh
-+-################################################################################
-+-##                                                                            ##
-+-## Copyright (c) International Business Machines  Corp., 2007                 ##
-+-##                                                                            ##
-+-## This program is free software;  you can redistribute it and#or modify      ##
-+-## it under the terms of the GNU General Public License as published by       ##
-+-## the Free Software Foundation; either version 2 of the License, or          ##
-+-## (at your option) any later version.                                        ##
-+-##                                                                            ##
-+-## This program is distributed in the hope that it will be useful, but        ##
-+-## WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
-+-## or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   ##
-+-## for more details.                                                          ##
-+-##                                                                            ##
-+-## You should have received a copy of the GNU General Public License          ##
-+-## along with this program;  if not, write to the Free Software               ##
-+-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    ##
-+-##                                                                            ##
-+-################################################################################
-+-
-+-exit_code=0
-+-echo "sysvipc tests"
-+-for type in none clone unshare; do
-+-      echo "**sysvipc $type"
-+-      ./shmnstest_noltp $type
-+-      if [ $? -ne 0 ]; then
-+-              exit_code=$?
-+-      fi
-+-done
-+-exit $exit_code
-+diff --git a/testcases/kernel/containers/utsname/runtests_noltp.sh b/testcases/kernel/containers/utsname/runtests_noltp.sh
-+deleted file mode 100755
-+index 43cb7e2..0000000
-+--- a/testcases/kernel/containers/utsname/runtests_noltp.sh
-++++ /dev/null
-+@@ -1,41 +0,0 @@
-+-#!/bin/sh
-+-################################################################################
-+-##                                                                            ##
-+-## Copyright (c) International Business Machines  Corp., 2007                 ##
-+-##                                                                            ##
-+-## This program is free software;  you can redistribute it and#or modify      ##
-+-## it under the terms of the GNU General Public License as published by       ##
-+-## the Free Software Foundation; either version 2 of the License, or          ##
-+-## (at your option) any later version.                                        ##
-+-##                                                                            ##
-+-## This program is distributed in the hope that it will be useful, but        ##
-+-## WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
-+-## or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   ##
-+-## for more details.                                                          ##
-+-##                                                                            ##
-+-## You should have received a copy of the GNU General Public License          ##
-+-## along with this program;  if not, write to the Free Software               ##
-+-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    ##
-+-##                                                                            ##
-+-################################################################################
-+-
-+-oldhostname=`hostname`
-+-exit_code=0
-+-echo "unshare tests"
-+-for i in `seq 1 5`; do
-+-	echo "test $i (unshare)"
-+-	./utstest_noltp unshare $i
-+-	if [ $? -ne 0 ]; then
-+-		exit_code=$?
-+-	fi
-+-done
-+-echo "clone tests"
-+-for i in `seq 1 5`; do
-+-	echo "test $i (clone)"
-+-	./utstest_noltp clone $i
-+-	if [ $? -ne 0 ]; then
-+-		exit_code=$?
-+-	fi
-+-done
-+-hostname "$oldhostname"
-+-exit $exit_code
-+diff --git a/testcases/kernel/containers/utsname/runutstests_noltp.sh b/testcases/kernel/containers/utsname/runutstests_noltp.sh
-+new file mode 100755
-+index 0000000..43cb7e2
-+--- /dev/null
-++++ b/testcases/kernel/containers/utsname/runutstests_noltp.sh
-+@@ -0,0 +1,41 @@
-++#!/bin/sh
-++################################################################################
-++##                                                                            ##
-++## Copyright (c) International Business Machines  Corp., 2007                 ##
-++##                                                                            ##
-++## This program is free software;  you can redistribute it and#or modify      ##
-++## it under the terms of the GNU General Public License as published by       ##
-++## the Free Software Foundation; either version 2 of the License, or          ##
-++## (at your option) any later version.                                        ##
-++##                                                                            ##
-++## This program is distributed in the hope that it will be useful, but        ##
-++## WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
-++## or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   ##
-++## for more details.                                                          ##
-++##                                                                            ##
-++## You should have received a copy of the GNU General Public License          ##
-++## along with this program;  if not, write to the Free Software               ##
-++## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    ##
-++##                                                                            ##
-++################################################################################
-++
-++oldhostname=`hostname`
-++exit_code=0
-++echo "unshare tests"
-++for i in `seq 1 5`; do
-++	echo "test $i (unshare)"
-++	./utstest_noltp unshare $i
-++	if [ $? -ne 0 ]; then
-++		exit_code=$?
-++	fi
-++done
-++echo "clone tests"
-++for i in `seq 1 5`; do
-++	echo "test $i (clone)"
-++	./utstest_noltp clone $i
-++	if [ $? -ne 0 ]; then
-++		exit_code=$?
-++	fi
-++done
-++hostname "$oldhostname"
-++exit $exit_code
- -- 
- 1.8.4.3
- 
+Such mistakes are not easy to find, because when we add or upgrade a recipe,
+we usually only test whether it functions well, we don't take into consideration
+the on-target upgrade process.
+
+So we need to improve the situation here.
+
+This patchset consists of two patches. The first one is the main patch which changes
+the way CONFFILES is handled in our project. The second one serves as an example how
+to fix individual recipes.
+
+As almost all files under /etc should be considerred as config files, we don't need to
+modify a lot of recipes after the first patch. Take shadow as an example. We don't need
+to modify that recipe after this change. The ones that need to be paid attention to are
+those that set CONFFILES in their recipes. The second patch serves as an exmple how to
+fix this.
+
+//Chen Qi
+
+The following changes since commit ba8506ee342a1a579ceb309f3f50285eaad84f25:
+
+  local.conf.extended: Bring into sync with OE-Core (2013-12-12 23:18:39 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/CONFFILES
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/CONFFILES
+
+Chen Qi (2):
+  packaging: change the process of CONFFILES handling
+  base-files: Fix CONFFILES
+
+ meta/classes/insane.bbclass                       |    2 +-
+ meta/classes/package.bbclass                      |   35 +++++++++++++++++++++
+ meta/classes/package_deb.bbclass                  |    2 +-
+ meta/classes/package_ipk.bbclass                  |    2 +-
+ meta/classes/package_rpm.bbclass                  |    2 +-
+ meta/conf/bitbake.conf                            |    2 ++
+ meta/recipes-core/base-files/base-files_3.0.14.bb |    3 --
+ 7 files changed, 41 insertions(+), 7 deletions(-)
+
 -- 
-1.8.4.3
+1.7.9.5
 
 
