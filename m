@@ -1,34 +1,39 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 9779160EF3
+Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6336D60EF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 14:56:44 +0000 (UTC)
-Received: by mail-ea0-f181.google.com with SMTP id m10so938320eaj.40
+	Fri, 13 Dec 2013 14:56:46 +0000 (UTC)
+Received: by mail-ee0-f43.google.com with SMTP id c13so925454eek.30
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 06:56:43 -0800 (PST)
+	Fri, 13 Dec 2013 06:56:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=PwW/zvuD2yCVowkKkx7wxBWthS+oTOBzjdoSKU+crA4=;
-	b=HeoiJrYhUhLQywP+9C9rJCxjiEdRL8Uny0UiVj6nXMS1IcpKeIJq7+fRGkJF8YYIqu
-	IEGz3fdFtvPn7BPoCYE2rj6OAc/k902IbQsI4/OldOtrPErXPhTs0+cYAfkpYBN1rzKS
-	gjlQs4tX3vOVk2mhdg/UoRywT3RC8CVnzoI925SgzawE8bgJZQLoQKu/85yOuzN187j7
-	vT5RNo9Ctjjoo07SMDGLSjGsfHq4YuanLMFWht/WwH+TgmgLUwPGbfCaJYE8rra7x3G6
-	ziDA8zd/U7G7dRZp50I9OEoCBVhUdxSkhDQIE5DocIYWSqfHIkKSuWMzJsLYA4773Kdr
-	D9MA==
-X-Received: by 10.14.221.193 with SMTP id r41mr3420622eep.92.1386946603824;
-	Fri, 13 Dec 2013 06:56:43 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=DJjOQiXnVRLn7K5rPgUSAzuwgp3GV3lS1tMxJ3aRP9A=;
+	b=An/QraFlxV8JdctJ4FhtF12RkTUmuSsyfJe27CAshWUk7JCvvfsMEhKTkJtmbq3bjV
+	0tRjkRtrhFy8FLaPfUnWLqNvSnBBaFR3BOmN6Ze036hVRp1Xn8QZCmSVixSdUPoBX5qC
+	MY7SCKxvMCbxDnaYlrq4dXFPrAgLQxAv81hM31Iade7mTj1+w/L//usFnsPDlWZQjr2h
+	BkSuTEdfLjCchTGtDikEdU9rGvwaNzI+vlQXsHiOxC8b5RcwBqrIQayTbgsQPTS86ZVQ
+	ct90WP2bfBK2ikwhfoB0YJ0QQ+0c/FPTp0wg2+0nbu6wu8D4VAuyb6WoVA3t+aig1RQM
+	JrDA==
+X-Received: by 10.15.75.68 with SMTP id k44mr3353433eey.57.1386946605773;
+	Fri, 13 Dec 2013 06:56:45 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id 44sm7648810eek.5.2013.12.13.06.56.42
-	for <openembedded-core@lists.openembedded.org>
+	by mx.google.com with ESMTPSA id 44sm7648810eek.5.2013.12.13.06.56.44
+	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Dec 2013 06:56:43 -0800 (PST)
+	Fri, 13 Dec 2013 06:56:45 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Dec 2013 07:56:36 -0700
-Message-Id: <cover.1386946335.git.kergoth@gmail.com>
+Date: Fri, 13 Dec 2013 07:56:37 -0700
+Message-Id: <6122710ad05d4a2c1fa2d42fba3025cae6dab5ed.1386946335.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
-Subject: [RFC PATCH 0/2] Add /etc/os-release
+In-Reply-To: <cover.1386946335.git.kergoth@gmail.com>
+References: <cover.1386946335.git.kergoth@gmail.com>
+In-Reply-To: <cover.1386946335.git.kergoth@gmail.com>
+References: <cover.1386946335.git.kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [RFC 1/2] os-release: add new operating system identification recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,38 +46,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 14:56:45 -0000
+X-List-Received-Date: Fri, 13 Dec 2013 14:56:46 -0000
 
-systemd wants /etc/os-release, and it's useful for other software, and the
-user as well. This adds it as a separate recipe which generates the metadata
-using our config metadata variables (e.g. DISTRO_*), and rreccomends it from
-systemd. I think this is a reasonablea pproach, but I wanted to run it by
-folks, and also pursue an answer to my open question on this, should
-base-files pull it in instead of systemd, or something else, for non-systemd
-images? Do we care if it's missing from those? Thoughts?
+From: Christopher Larson <chris_larson@mentor.com>
 
-The following changes since commit 62849843a4a83b10316bc6cb1e4b3f0622391dea:
+This is needed by systemd, among other useful applications. All fields are
+metadata driven, and initial values come from our DISTRO variables.
 
-  gdb-7.6.1: fix cygwin check in configure script (2013-12-12 22:41:13 +0000)
-
-are available in the git repository at:
-
-  git@github.com:kergoth/oe-core.git os-release
-
-for you to fetch changes up to b00a526527b3248c9014bc3c0e5c606ef97e0838:
-
-  systemd: rrecommend os-release (2013-12-13 07:41:08 -0700)
-
-----------------------------------------------------------------
-Christopher Larson (2):
-  os-release: add new operating system identification recipe
-  systemd: rrecommend os-release
-
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
  meta/recipes-core/os-release/os-release.bb | 42 ++++++++++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_208.bb   |  1 +
- 2 files changed, 43 insertions(+)
+ 1 file changed, 42 insertions(+)
  create mode 100644 meta/recipes-core/os-release/os-release.bb
 
+diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
+new file mode 100644
+index 0000000..0f67597
+--- /dev/null
++++ b/meta/recipes-core/os-release/os-release.bb
+@@ -0,0 +1,42 @@
++inherit allarch
++
++SUMMARY = "Operating system identification"
++DESCRIPTION = "The /etc/os-release file contains operating system identification data."
++LICENSE = "MIT"
++INHIBIT_DEFAULT_DEPS = "1"
++
++do_fetch[noexec] = "1"
++do_unpack[noexec] = "1"
++do_patch[noexec] = "1"
++do_configure[noexec] = "1"
++
++# Other valid fields: BUILD_ID ANSI_COLOR CPE_NAME HOME_URL SUPPORT_URL BUG_REPORT_URL
++OS_RELEASE_FIELDS = "ID ID_LIKE NAME VERSION VERSION_ID PRETTY_NAME"
++
++export ID = "${DISTRO}"
++export NAME = "${DISTRO_NAME}"
++export VERSION = "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if 'DISTRO_CODENAME' in d else ''}"
++export VERSION_ID = "${DISTRO_VERSION}"
++export PRETTY_NAME = "${DISTRO_NAME} ${VERSION}"
++
++export BUILD_ID ?= "${DATETIME}"
++export ID_LIKE
++export ANSI_COLOR
++export CPE_NAME
++export HOME_URL
++export SUPPORT_URL
++export BUG_REPORT_URL
++
++do_compile () {
++    for field in ${OS_RELEASE_FIELDS}; do
++        if eval "test -n \"\$$field\""; then
++            eval "printf \"%s=%s\n\" \"\$field\" \"\$$field\""
++        fi
++    done >os-release
++}
++do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
++
++do_install () {
++    install -d ${D}${sysconfdir}
++    install -m 0644 os-release ${D}${sysconfdir}/
++}
 -- 
 1.8.3.4
 
