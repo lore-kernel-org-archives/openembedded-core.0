@@ -1,28 +1,37 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 131136E307
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C6B496E307
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 02:02:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBD226mB009881
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Dec 2013 18:02:06 -0800 (PST)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 12 Dec 2013 18:02:05 -0800
-Message-ID: <52AA6A9C.7040009@windriver.com>
-Date: Fri, 13 Dec 2013 10:02:04 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Steve Sakoman <sakoman@gmail.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-References: <cover.1386752561.git.liezhi.yang@windriver.com>	<1386771992.4332.76.camel@ted>	<1386772701.4332.80.camel@ted>	<52A95C72.3030605@windriver.com>	<1386891243.504.47.camel@ted>
-	<CAGDS+nnZqEr2Cjm_=ySjy7B7AWzE+8CmCNWGpyybdZfgK6EV4w@mail.gmail.com>
-In-Reply-To: <CAGDS+nnZqEr2Cjm_=ySjy7B7AWzE+8CmCNWGpyybdZfgK6EV4w@mail.gmail.com>
-Subject: Re: [PATCH 000/122 V2] [dora] fixes for dora (cover leter only)
+	Fri, 13 Dec 2013 02:36:58 +0000 (UTC)
+Received: by mail-ea0-f173.google.com with SMTP id o10so591468eaj.32
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Dec 2013 18:36:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=goKsgevK6z0S4qOfZhcmKJ3HTe3Uy5DARmGngOUOke8=;
+	b=bmkkxUBBfhsEPystOidV/vVfVxq5DORkJSS2SyWuP6jr1cL6YQSl26sdZyOPWVjNDx
+	C93YVs3v9KJp2f/YB8G4wuyvdpF+bQN/rKUtGdAPkw8rREm2zd/QdGGleuL+qPBq8f1y
+	BsyDg11PHMloV2wMtz+HT3AqKv284bp+w2X13pMF46bbtfmDCsgswzuytGk+bDQ4u2P9
+	EjGZzBWkGy/rW1FW1t/DJEQfd/qgX38XCL845E026mOEO1hZ1ynxlW9hQiwoCbUBDGIV
+	qpXqDJQmLKumtPOjYrAHyQRA8JEwgKr1WVMEqlXtMg6zxx/oVwMqvW2rCYLyuPGlVAvR
+	5Erw==
+X-Received: by 10.14.2.73 with SMTP id 49mr95876eee.15.1386902217762;
+	Thu, 12 Dec 2013 18:36:57 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id v7sm1435567eel.2.2013.12.12.18.36.56
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 12 Dec 2013 18:36:57 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Dec 2013 03:37:18 +0100
+Message-Id: <1386902238-4354-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.4.3
+In-Reply-To: <52A73622.4030608@linux.intel.com>
+References: <52A73622.4030608@linux.intel.com>
+Subject: [PATCH] ltp: Use patch generated without -M
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +44,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 02:02:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Dec 2013 02:37:00 -0000
 
+* in my builds both versions worked, but Saul reported that it fails to
+  apply with:
+  Applying patch
+  0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
+  patch: **** Only garbage was found in the patch input.
 
-On 12/13/2013 07:43 AM, Steve Sakoman wrote:
-> For those of us who use wifi with connman, this patch would be nice to
-> include too since wifi is broken without it:
->
-> wpa-supplicant: enable CONFIG_CTRL_IFACE_DBUS_NEW
->
+  Now I've see the same issue on different builder (with Ubuntu 12.04).
 
-Sorry, I missed it, will take it for next merge.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...tests_noltp.sh-script-so-have-unique-name.patch | 190 +++++++++++++++++++--
+ 1 file changed, 177 insertions(+), 13 deletions(-)
 
-// Robert
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch b/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
+index 74abe56..1b4d232 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
+@@ -19,20 +19,184 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+ ---
+- .../kernel/containers/sysvipc/{runtests_noltp.sh => runipctests_noltp.sh} | 0
+- .../kernel/containers/utsname/{runtests_noltp.sh => runutstests_noltp.sh} | 0
+- 2 files changed, 0 insertions(+), 0 deletions(-)
+- rename testcases/kernel/containers/sysvipc/{runtests_noltp.sh => runipctests_noltp.sh} (100%)
+- rename testcases/kernel/containers/utsname/{runtests_noltp.sh => runutstests_noltp.sh} (100%)
++ .../kernel/containers/sysvipc/runipctests_noltp.sh | 31 ++++++++++++++++
++ .../kernel/containers/sysvipc/runtests_noltp.sh    | 31 ----------------
++ .../kernel/containers/utsname/runtests_noltp.sh    | 41 ----------------------
++ .../kernel/containers/utsname/runutstests_noltp.sh | 41 ++++++++++++++++++++++
++ 4 files changed, 72 insertions(+), 72 deletions(-)
++ create mode 100644 testcases/kernel/containers/sysvipc/runipctests_noltp.sh
++ delete mode 100644 testcases/kernel/containers/sysvipc/runtests_noltp.sh
++ delete mode 100755 testcases/kernel/containers/utsname/runtests_noltp.sh
++ create mode 100755 testcases/kernel/containers/utsname/runutstests_noltp.sh
+ 
+-diff --git a/testcases/kernel/containers/sysvipc/runtests_noltp.sh b/testcases/kernel/containers/sysvipc/runipctests_noltp.sh
+-similarity index 100%
+-rename from testcases/kernel/containers/sysvipc/runtests_noltp.sh
+-rename to testcases/kernel/containers/sysvipc/runipctests_noltp.sh
+-diff --git a/testcases/kernel/containers/utsname/runtests_noltp.sh b/testcases/kernel/containers/utsname/runutstests_noltp.sh
+-similarity index 100%
+-rename from testcases/kernel/containers/utsname/runtests_noltp.sh
+-rename to testcases/kernel/containers/utsname/runutstests_noltp.sh
++diff --git a/testcases/kernel/containers/sysvipc/runipctests_noltp.sh b/testcases/kernel/containers/sysvipc/runipctests_noltp.sh
++new file mode 100644
++index 0000000..84f398f
++--- /dev/null
+++++ b/testcases/kernel/containers/sysvipc/runipctests_noltp.sh
++@@ -0,0 +1,31 @@
+++#!/bin/sh
+++################################################################################
+++##                                                                            ##
+++## Copyright (c) International Business Machines  Corp., 2007                 ##
+++##                                                                            ##
+++## This program is free software;  you can redistribute it and#or modify      ##
+++## it under the terms of the GNU General Public License as published by       ##
+++## the Free Software Foundation; either version 2 of the License, or          ##
+++## (at your option) any later version.                                        ##
+++##                                                                            ##
+++## This program is distributed in the hope that it will be useful, but        ##
+++## WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
+++## or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   ##
+++## for more details.                                                          ##
+++##                                                                            ##
+++## You should have received a copy of the GNU General Public License          ##
+++## along with this program;  if not, write to the Free Software               ##
+++## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    ##
+++##                                                                            ##
+++################################################################################
+++
+++exit_code=0
+++echo "sysvipc tests"
+++for type in none clone unshare; do
+++      echo "**sysvipc $type"
+++      ./shmnstest_noltp $type
+++      if [ $? -ne 0 ]; then
+++              exit_code=$?
+++      fi
+++done
+++exit $exit_code
++diff --git a/testcases/kernel/containers/sysvipc/runtests_noltp.sh b/testcases/kernel/containers/sysvipc/runtests_noltp.sh
++deleted file mode 100644
++index 84f398f..0000000
++--- a/testcases/kernel/containers/sysvipc/runtests_noltp.sh
+++++ /dev/null
++@@ -1,31 +0,0 @@
++-#!/bin/sh
++-################################################################################
++-##                                                                            ##
++-## Copyright (c) International Business Machines  Corp., 2007                 ##
++-##                                                                            ##
++-## This program is free software;  you can redistribute it and#or modify      ##
++-## it under the terms of the GNU General Public License as published by       ##
++-## the Free Software Foundation; either version 2 of the License, or          ##
++-## (at your option) any later version.                                        ##
++-##                                                                            ##
++-## This program is distributed in the hope that it will be useful, but        ##
++-## WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
++-## or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   ##
++-## for more details.                                                          ##
++-##                                                                            ##
++-## You should have received a copy of the GNU General Public License          ##
++-## along with this program;  if not, write to the Free Software               ##
++-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    ##
++-##                                                                            ##
++-################################################################################
++-
++-exit_code=0
++-echo "sysvipc tests"
++-for type in none clone unshare; do
++-      echo "**sysvipc $type"
++-      ./shmnstest_noltp $type
++-      if [ $? -ne 0 ]; then
++-              exit_code=$?
++-      fi
++-done
++-exit $exit_code
++diff --git a/testcases/kernel/containers/utsname/runtests_noltp.sh b/testcases/kernel/containers/utsname/runtests_noltp.sh
++deleted file mode 100755
++index 43cb7e2..0000000
++--- a/testcases/kernel/containers/utsname/runtests_noltp.sh
+++++ /dev/null
++@@ -1,41 +0,0 @@
++-#!/bin/sh
++-################################################################################
++-##                                                                            ##
++-## Copyright (c) International Business Machines  Corp., 2007                 ##
++-##                                                                            ##
++-## This program is free software;  you can redistribute it and#or modify      ##
++-## it under the terms of the GNU General Public License as published by       ##
++-## the Free Software Foundation; either version 2 of the License, or          ##
++-## (at your option) any later version.                                        ##
++-##                                                                            ##
++-## This program is distributed in the hope that it will be useful, but        ##
++-## WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
++-## or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   ##
++-## for more details.                                                          ##
++-##                                                                            ##
++-## You should have received a copy of the GNU General Public License          ##
++-## along with this program;  if not, write to the Free Software               ##
++-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    ##
++-##                                                                            ##
++-################################################################################
++-
++-oldhostname=`hostname`
++-exit_code=0
++-echo "unshare tests"
++-for i in `seq 1 5`; do
++-	echo "test $i (unshare)"
++-	./utstest_noltp unshare $i
++-	if [ $? -ne 0 ]; then
++-		exit_code=$?
++-	fi
++-done
++-echo "clone tests"
++-for i in `seq 1 5`; do
++-	echo "test $i (clone)"
++-	./utstest_noltp clone $i
++-	if [ $? -ne 0 ]; then
++-		exit_code=$?
++-	fi
++-done
++-hostname "$oldhostname"
++-exit $exit_code
++diff --git a/testcases/kernel/containers/utsname/runutstests_noltp.sh b/testcases/kernel/containers/utsname/runutstests_noltp.sh
++new file mode 100755
++index 0000000..43cb7e2
++--- /dev/null
+++++ b/testcases/kernel/containers/utsname/runutstests_noltp.sh
++@@ -0,0 +1,41 @@
+++#!/bin/sh
+++################################################################################
+++##                                                                            ##
+++## Copyright (c) International Business Machines  Corp., 2007                 ##
+++##                                                                            ##
+++## This program is free software;  you can redistribute it and#or modify      ##
+++## it under the terms of the GNU General Public License as published by       ##
+++## the Free Software Foundation; either version 2 of the License, or          ##
+++## (at your option) any later version.                                        ##
+++##                                                                            ##
+++## This program is distributed in the hope that it will be useful, but        ##
+++## WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ##
+++## or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   ##
+++## for more details.                                                          ##
+++##                                                                            ##
+++## You should have received a copy of the GNU General Public License          ##
+++## along with this program;  if not, write to the Free Software               ##
+++## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA    ##
+++##                                                                            ##
+++################################################################################
+++
+++oldhostname=`hostname`
+++exit_code=0
+++echo "unshare tests"
+++for i in `seq 1 5`; do
+++	echo "test $i (unshare)"
+++	./utstest_noltp unshare $i
+++	if [ $? -ne 0 ]; then
+++		exit_code=$?
+++	fi
+++done
+++echo "clone tests"
+++for i in `seq 1 5`; do
+++	echo "test $i (clone)"
+++	./utstest_noltp clone $i
+++	if [ $? -ne 0 ]; then
+++		exit_code=$?
+++	fi
+++done
+++hostname "$oldhostname"
+++exit $exit_code
+ -- 
+ 1.8.4.3
+ 
+-- 
+1.8.4.3
 
-> I submitted it in early November.
->
-> Steve
->
->
->
-> On Thu, Dec 12, 2013 at 3:34 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Thu, 2013-12-12 at 14:49 +0800, Robert Yang wrote:
->>>> That leaves the following we need to investigate:
->>>>
->>>> + 20c0a87c19cf51bcd849fb4de91421cae0f97ae4 mdadm: Disable the RUN_DIR check
->>>
->>>   From OE-Core master rev: d62882794890eeee8e8d5c9ba4837ec77a58d787
->>>
->>>> + cc225f0e74865623714461cd38bec3b6557c6df7 mdadm: flag __SANE_USERSPACE_TYPES__ to include int-ll64.h for powerpc64
->>>
->>>   From OE-Core master rev: d3caab6eb03264b4f4d744f914598022299011ba
->>>
->>>> + d912ce035beb0da28d83719920a2cebfda8b3073 ethtool: Fix ptest compile
->>>
->>>   From OE-Core master rev: 5dd8653fdcda5e0e8b4f3c37a46f357bc97ec66c
->>
->> Thanks, these are all fine.
->>
->>>> + 1cff575511f32935a69ec1c9ef966311ad409e2f gdb-7.6: fix cygwin check in configure script
->>>
->>> This one is sent by Steffen, for dora only.
->>
->> I took a closer look at this. Whilst the version of gdb in master is
->> different, the issue still exists. I've ported the patch to master and
->> merged it there. We can now backport it.
->>
->> Please don't take anything into dora until we have something equivalent
->> in master.
->>
->>>> + 5a13d607954fb2099a82c5f1f4135be6cb6ca4d3 dpkg: Fix a build error for dpkg-native on CentOS 5.8.
->>>> + c37ab9c220b8f1d2045b1aaf9cd03c1f9a899390 dpkg: Fix a link problem for dpkg-native on CentOS 5.8.
->>>
->>> They are sent by Mark for dora only.
->>
->> These were sent as an RFC for compliance purposes. They're not in
->> master, they can't go into dora. I've dropped these.
->>
->> Other than the patches I've mentioned, things should be merged in the
->> dora branch. We've found some build issues. I've pushed a fix for the
->> qt3 one, we also have one with lttng-modules which we don't have a fix
->> for yet.
->>
->> Cheers,
->>
->> Richard
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
 
