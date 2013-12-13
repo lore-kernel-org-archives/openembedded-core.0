@@ -1,40 +1,39 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FDCD6E416
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f169.google.com (mail-ve0-f169.google.com
+	[209.85.128.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 22B5C6E397
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 12:08:56 +0000 (UTC)
-Received: by mail-ea0-f170.google.com with SMTP id k10so844343eaj.1
+	Fri, 13 Dec 2013 12:09:42 +0000 (UTC)
+Received: by mail-ve0-f169.google.com with SMTP id c14so1333828vea.28
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 04:08:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=EU+/yiqJ+wcGXrzzNOj3RR30ovlDCJcDOdtSMzoP48Q=;
-	b=FfDJAFnZHRxmK+tYXljTRS7ewj8UaLv3uSxgPW14bAXzjrQ9n2gP4aHvU0Wbw14/54
-	7uuILiLmtz36lBj2hmVfe5HGO7+1cDakDV8u5fhl/7bXbvgftBX/3bDkOfSa2hky8Z/6
-	0KIUJvth+vep8frovheYvzrwK5+cZSKXisgGZac6wxex7Y2aIq1bImdr62K81sWAueGY
-	+7LRCrItdkY/4Q8O6bqKdHAtDVixDW5fGBTYMLqysk42fxKAqxx2o8+PEuSE1CYzO3ue
-	ICMJhq6idZViI1IFZBmL9KjEi+dn+QbHKWof5QtR6B1PRH21Kimvd3rUbvWGOSKn8rdB
-	y7Kw==
-X-Received: by 10.14.184.66 with SMTP id r42mr2543616eem.86.1386936536370;
-	Fri, 13 Dec 2013 04:08:56 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id v1sm6095182eef.9.2013.12.13.04.08.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 13 Dec 2013 04:08:55 -0800 (PST)
-Date: Fri, 13 Dec 2013 13:09:19 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20131213120919.GB3715@jama>
-References: <52A73622.4030608@linux.intel.com>
-	<1386902238-4354-1-git-send-email-Martin.Jansa@gmail.com>
+	Fri, 13 Dec 2013 04:09:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9d7tIhgJHkQFjXxt/wlyJZNpdFauzWRSSsyXsctYDDs=;
+	b=mHISFJqE3AfZ+kZVhuZgtThSvQEZVOHlEaOcVoEndyxW4rrGi4DHRCKSOQvDyfrGHd
+	V9kLPPZt8een7VLqDfA5Xtfi+/3PoBnhtYk0XeHjBhz7Y1bC5AGVw/etSpopmjJdwyQO
+	n5iv7ux2pQj4bB/xHsO8j1GmJQH2xszzHKQpyYHgf9d8xDnCdQflQKQ7QK8XW1/DLHDr
+	qRN4Ad1KG68RDN3stwNfu+ORlDUClyvajmvsfi9kQV6ZcSNyPusUO/KP+h127uAoZuxn
+	ZrXTjJjJF8CwOQEjyxBvGsLRoKLy+TrAemRDv9xqlQV571xNDMO9+cwhTu3sEo/ZakJF
+	HlIQ==
+X-Gm-Message-State: ALoCoQnKNdtRxlLQ/4WcYG4XD7/qA9MD5kMQ9TTUYW11elfF6xoRcRHcrSvGCvfO++GQT1wdVDqW
+X-Received: by 10.53.9.201 with SMTP id du9mr848377vdd.36.1386936581226; Fri,
+	13 Dec 2013 04:09:41 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1386902238-4354-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Subject: Re: [PATCH] ltp: Use patch generated without -M
+Received: by 10.220.71.201 with HTTP; Fri, 13 Dec 2013 04:09:21 -0800 (PST)
+In-Reply-To: <2B9C97B395470A40B9E9E5D469BCD9FA0155D384@EU-MBX-03.mgc.mentorg.com>
+References: <1386870464-41010-1-git-send-email-fahad_arslan@mentor.com>
+	<1386871038.504.19.camel@ted>
+	<2B9C97B395470A40B9E9E5D469BCD9FA0155D384@EU-MBX-03.mgc.mentorg.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 13 Dec 2013 12:09:21 +0000
+Message-ID: <CAJTo0LYBVpKeW7fNrzEC+wBbCTkzWBVSuuyNEX2LVmHos2tghw@mail.gmail.com>
+To: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libffi: Copy headers to more common include path.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,59 +46,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 12:08:58 -0000
-X-Groupsio-MsgNum: 48188
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+pHx0qQiF2pBVqBT"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 13 Dec 2013 12:09:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
---+pHx0qQiF2pBVqBT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 13 December 2013 11:49, Arslan, Fahad <Fahad_Arslan@mentor.com> wrote:
+> My understanding was that headers should be placed under ${includedir} instead of
+> ${libdir}. Isn't it the practice or am I missing something?
 
-On Fri, Dec 13, 2013 at 03:37:18AM +0100, Martin Jansa wrote:
-> * in my builds both versions worked, but Saul reported that it fails to
->   apply with:
->   Applying patch
->   0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
->   patch: **** Only garbage was found in the patch input.
->=20
->   Now I've see the same issue on different builder (with Ubuntu 12.04).
+If the headers are machine-specific then it's conventional to put a
+user-visible include $includedir (arch-independent) which then
+includes files from $libdir (arch-dependent).
 
-The difference is version of patch utility:
-gentoo:
-ltp/20130904-r0/git $ patch -v
-GNU patch 2.7.1
-=2E..
-ltp/20130904-r0/git $ patch -p1 < ../0001-Rename-runtests_noltp.sh-script-s=
-o-have-unique-name.patch
-patching file testcases/kernel/containers/sysvipc/runipctests_noltp.sh (ren=
-amed from testcases/kernel/containers/sysvipc/runtests_noltp.sh)
-patching file testcases/kernel/containers/utsname/runutstests_noltp.sh (ren=
-amed from testcases/kernel/containers/utsname/runtests_noltp.sh)
+Considering libffi needs to know details of the calling convention on
+the machine, this is presumably what's happening.  GLib does the same.
 
-ubuntu 12.04:
-ltp/20130904-r0/git$ patch -v
-patch 2.6.1
-=2E..
-ltp/20130904-r0/git$ patch -p1 <
-=2E./0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
-patch: **** Only garbage was found in the patch input.
+Ross
 
-patch-native is in ASSUME_PROVIDED, I guess that quilt-native just calls
-patch internally so have the same "problem"
-
---+pHx0qQiF2pBVqBT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlKq+O8ACgkQN1Ujt2V2gBxOYwCgr/F9qd22k+2HxxMr7rdGVd5n
-inIAoIBDkwy2k6vuYvfjizGna6fxxfHM
-=MaRQ
------END PGP SIGNATURE-----
-
---+pHx0qQiF2pBVqBT--
