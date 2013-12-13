@@ -1,43 +1,42 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 2055B60EF6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
+	[209.85.215.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 04A8560EFA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 16:31:03 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id hn6so2486743wib.2
+	Fri, 13 Dec 2013 16:33:26 +0000 (UTC)
+Received: by mail-ea0-f176.google.com with SMTP id h14so971381eaj.35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 08:31:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=x9voOqD9ez/F99dQcntToHb3xlA49bh7FaYg7SQnuFo=;
-	b=XYUeAxzIbdu+7XTs89kApvfkdfkXNC8e9PxNcV/XlMtrSkBBohL3DVxZ19uKbvrz/Q
-	Bird6qntZfL5kxW3aKa1rbT1DyIC7L2Qnp8FSBkZbmp4W3Zy4qVVJaxM5SUdQ94+rnz4
-	j7mXuGn7ZDGqO5iVHc6p5CiMcR0WGWRKLsqdD9qOkX8Hz03SlDtXU0MTra4rm11vAvcP
-	uq7vqrjEkvHyoY3SrOQOu7lsNPu+ho7erD0oxRjcyL7VAD0z5GjNWdphGGvt0WRZwjhX
-	vfTpnMB0YrUyIz5VDHWZ6VZW+ieQ89d+XlU3KLehf9IFC8fSAOdDBgdxjVkvuUa1hjxY
-	XGXQ==
-X-Gm-Message-State: ALoCoQlLxKxmmn2ArXEvAVpNSUED3M/YkHAysvmtiXLo8ERFMSjuC3/xJbbqHdu1El+sExN/ARen
-X-Received: by 10.180.105.199 with SMTP id go7mr3195741wib.53.1386952263222;
-	Fri, 13 Dec 2013 08:31:03 -0800 (PST)
-Received: from ?IPv6:2001:610:612::880c:3974:d1d9:ea93?
-	([2001:610:612:0:880c:3974:d1d9:ea93])
-	by mx.google.com with ESMTPSA id fj8sm16190757wib.1.2013.12.13.08.31.01
+	Fri, 13 Dec 2013 08:33:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=sRzCIBCBgnhWsPHfphiTZFTfadKr1NvuaEKaWFukDHw=;
+	b=BfC6X/gVB6ehzkmB+hYZ6TNDEziEqTmGkNUEnWGCoN7VpRBkyCjfeHvCI8mRwBSXQd
+	JCd10z4m0x9tmqHHRJ9shB9MeWBlkw/qqEunwQ08pbWfE+6IE4oFmpHG35GfAD1kuH8M
+	4tdnVZVoil0tCiNNRskKKniWQdO8X9meN8sVGN+u9FnK91MlLLMDa4WeFEVsrWq8voZF
+	TuAIFxbOlY1Fa3vuj2LMOYo8qB8dMXEx8j6rdVukFn7zjP1cfqtzzZkjY7KlGrSsuIbv
+	fTC97syN7arbkSV3ncXPz4VF6Fvp1psWxaTftJ4uQPFlCljJSkgJR6+C5vdWsdupY5r5
+	2U2g==
+X-Received: by 10.15.54.130 with SMTP id t2mr3918441eew.72.1386952404475;
+	Fri, 13 Dec 2013 08:33:24 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id 4sm8498989eed.14.2013.12.13.08.33.23
 	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Dec 2013 08:31:02 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.0 \(1822\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <6122710ad05d4a2c1fa2d42fba3025cae6dab5ed.1386946335.git.kergoth@gmail.com>
-Date: Fri, 13 Dec 2013 17:31:13 +0100
-Message-Id: <8A2A314B-911C-4380-BE01-370F7ECAAD95@dominion.thruhere.net>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 13 Dec 2013 08:33:23 -0800 (PST)
+Date: Fri, 13 Dec 2013 17:33:48 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Chris Larson <kergoth@gmail.com>
+Message-ID: <20131213163348.GE3715@jama>
 References: <cover.1386946335.git.kergoth@gmail.com>
 	<6122710ad05d4a2c1fa2d42fba3025cae6dab5ed.1386946335.git.kergoth@gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-X-Mailer: Apple Mail (2.1822)
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Patches and discussions about the oe-core layer
+	<20131213150826.GC3715@jama>
+	<CABcZAN=usCwUpjWFy2G9D2VPUAhPhBFCVRp0UzVpg6=Lks3goQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CABcZAN=usCwUpjWFy2G9D2VPUAhPhBFCVRp0UzVpg6=Lks3goQ@mail.gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [RFC 1/2] os-release: add new operating system identification recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,64 +51,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 16:31:04 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Fri, 13 Dec 2013 16:33:27 -0000
+X-Groupsio-MsgNum: 48213
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="k3qmt+ucFURmlhDS"
+Content-Disposition: inline
+
+--k3qmt+ucFURmlhDS
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-Op 13 dec. 2013, om 15:56 heeft Christopher Larson <kergoth@gmail.com> =
-het volgende geschreven:
-
-> From: Christopher Larson <chris_larson@mentor.com>
+On Fri, Dec 13, 2013 at 08:12:51AM -0700, Chris Larson wrote:
+> On Fri, Dec 13, 2013 at 8:08 AM, Martin Jansa <martin.jansa@gmail.com>wro=
+te:
 >=20
-> This is needed by systemd, among other useful applications. All fields =
-are
-> metadata driven, and initial values come from our DISTRO variables.
+> > > +do_compile () {
+> > > +    for field in ${OS_RELEASE_FIELDS}; do
+> > > +        if eval "test -n \"\$$field\""; then
+> > > +            eval "printf \"%s=3D%s\n\" \"\$field\" \"\$$field\""
+> > > +        fi
+> > > +    done >os-release
+> > > +}
+> > > +do_compile[vardeps] +=3D "${OS_RELEASE_FIELDS}"
+> >
+> > Isn't this dependency picked automatically?
+> >
 >=20
-> Signed-off-by: Christopher Larson <kergoth@gmail.com>
-> ---
-> meta/recipes-core/os-release/os-release.bb | 42 =
-++++++++++++++++++++++++++++++
-> 1 file changed, 42 insertions(+)
-> create mode 100644 meta/recipes-core/os-release/os-release.bb
->=20
-> diff --git a/meta/recipes-core/os-release/os-release.bb =
-b/meta/recipes-core/os-release/os-release.bb
-> new file mode 100644
-> index 0000000..0f67597
-> --- /dev/null
-> +++ b/meta/recipes-core/os-release/os-release.bb
-> @@ -0,0 +1,42 @@
-> +inherit allarch
-> +
-> +SUMMARY =3D "Operating system identification"
-> +DESCRIPTION =3D "The /etc/os-release file contains operating system =
-identification data."
-> +LICENSE =3D "MIT"
-> +INHIBIT_DEFAULT_DEPS =3D "1"
-> +
-> +do_fetch[noexec] =3D "1"
-> +do_unpack[noexec] =3D "1"
-> +do_patch[noexec] =3D "1"
-> +do_configure[noexec] =3D "1"
-> +
-> +# Other valid fields: BUILD_ID ANSI_COLOR CPE_NAME HOME_URL =
-SUPPORT_URL BUG_REPORT_URL
-> +OS_RELEASE_FIELDS =3D "ID ID_LIKE NAME VERSION VERSION_ID =
-PRETTY_NAME"
-> +
-> +export ID =3D "${DISTRO}"
-> +export NAME =3D "${DISTRO_NAME}"
-> +export VERSION =3D "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if =
-'DISTRO_CODENAME' in d else ''}"
-> +export VERSION_ID =3D "${DISTRO_VERSION}"
-> +export PRETTY_NAME =3D "${DISTRO_NAME} ${VERSION}"
+> No, this is expanded, so this adds the dependency on the variables whose
+> names are in the OS_RELEASE_FIELDS variable, not just on OS_RELEASE_FIELDS
+> itself. Due to the use of eval, bitbake doesn=E2=80=99t know we=E2=80=99r=
+e using the
+> iterated values as variable names.
 
-Is DISTRO_NAME allowed to have spaces and weird characters? In =
-OE-classic is was used as part of the outputnames in various things, but =
-it looks that's safe in OE-core (not in meta-angstrom, though).
+Ah I see, thanks for explanation.
 
-regards,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Koen=
+--k3qmt+ucFURmlhDS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlKrNuwACgkQN1Ujt2V2gBxD9QCfY9z/5czjnK6i2/VfTX0qFPcP
+i8cAn272hC4dgJgqPsolCK4jd5YwDPRB
+=+XyQ
+-----END PGP SIGNATURE-----
+
+--k3qmt+ucFURmlhDS--
