@@ -1,29 +1,45 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CD5AC6E245
+Return-Path: <B40290@freescale.com>
+Received: from am1outboundpool.messaging.microsoft.com
+	(am1ehsobe006.messaging.microsoft.com [213.199.154.209])
+	by mail.openembedded.org (Postfix) with ESMTP id 710D7610D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 06:08:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBD68cjv000091
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Dec 2013 22:08:38 -0800 (PST)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 12 Dec 2013 22:08:37 -0800
-Message-ID: <52AAA463.5040100@windriver.com>
-Date: Fri, 13 Dec 2013 14:08:35 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Fri, 13 Dec 2013 07:06:48 +0000 (UTC)
+Received: from mail25-am1-R.bigfish.com (10.3.201.250) by
+	AM1EHSOBE006.bigfish.com (10.3.204.26) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 13 Dec 2013 07:06:46 +0000
+Received: from mail25-am1 (localhost [127.0.0.1])	by mail25-am1-R.bigfish.com
+	(Postfix) with ESMTP id 030561202E7	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 13 Dec 2013 07:06:47 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzz1de098h8275bh1de097hz2dh2a8h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h2327h2336h1155h)
+Received: from mail25-am1 (localhost.localdomain [127.0.0.1]) by mail25-am1
+	(MessageSwitch) id 1386918404812981_18845;
+	Fri, 13 Dec 2013 07:06:44 +0000 (UTC)
+Received: from AM1EHSMHS020.bigfish.com (unknown [10.3.201.240])	by
+	mail25-am1.bigfish.com (Postfix) with ESMTP id C2620C0045;
+	Fri, 13 Dec 2013 07:06:44 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS020.bigfish.com
+	(10.3.207.158) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Fri, 13 Dec 2013 07:06:44 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Fri, 13 Dec 2013 07:06:42 +0000
+Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
+	[10.192.208.136])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
+	ESMTP id rBD76d2p016411;	Fri, 13 Dec 2013 00:06:40 -0700
+From: Chunrong Guo <B40290@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Dec 2013 15:06:34 +0800
+Message-ID: <1386918394-13381-1-git-send-email-B40290@freescale.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1386752561.git.liezhi.yang@windriver.com>		
-	<1386771992.4332.76.camel@ted> <1386772701.4332.80.camel@ted>	
-	<52A95C72.3030605@windriver.com> <1386891243.504.47.camel@ted>
-In-Reply-To: <1386891243.504.47.camel@ted>
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 000/122 V2] [dora] fixes for dora (cover leter only)
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] lttng-modules: build as 64-bit kernel module on e6500
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +52,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 06:08:40 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Dec 2013 07:06:51 -0000
+Content-Type: text/plain
+
+   *e6500 is built with 32b rootfs/64b kernel, build lttng-modules as 64bit too.
+   *Fix the below build issue on e6500 core:
+    | DEBUG: Executing shell function do_make_scripts
+    | make: Entering directory `.../tmp/sysroots/t4240qds/usr/src/kernel'
+    | CC scripts/mod/empty.o | scripts/mod/empty.c:1:0: error: -mcmodel not supported in this configuration
+    | make[2]: *** [scripts/mod/empty.o] Error 1
+    | make[1]: *** [scripts/mod] Error 2
+    | make: *** [scripts] Error 2
+
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
+---
+ meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb |   12 ++++++++++++
+ 1 files changed, 12 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb
+index dd06546..2a48c1a 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.3.3.bb
+@@ -22,6 +22,18 @@ export KERNEL_SRC="${STAGING_KERNEL_DIR}"
+ 
+ S = "${WORKDIR}/git"
+ 
++# Build as 64-bit kernel module on e6500
++python () {
++
++    promote_kernel = d.getVar('BUILD_64BIT_KERNEL')
++
++    if promote_kernel == "1":
++        d.setVar('KERNEL_CC_append', ' -m64')
++        d.setVar('KERNEL_LD_append', ' -melf64ppc')
++
++}
++
++
+ do_install_append() {
+ 	# Delete empty directories to avoid QA failures if no modules were built
+ 	find ${D}/lib -depth -type d -empty -exec rmdir {} \;
+-- 
+1.7.5.4
 
 
-
-On 12/13/2013 07:34 AM, Richard Purdie wrote:
-> On Thu, 2013-12-12 at 14:49 +0800, Robert Yang wrote:
->
-> Other than the patches I've mentioned, things should be merged in the
-> dora branch. We've found some build issues. I've pushed a fix for the
-> qt3 one, we also have one with lttng-modules which we don't have a fix
-> for yet.
->
-
-Hi RP,
-
-For the failure of lttng-modules, it seemed the auto builder didn't take
-the patches that I had sent to poky@yoctoproject.org:
-
-[poky] [PATCH 2/3] [dora] meta-yocto-bsp: update SRCREVs for 3.10.17 and 
-beagleboard fixes
-
-Would you please help to merge it (them) ?
-
-The branch robert/dora-next-oecore only contains the patches for oe-core,
-while the robert/dora-next contains patches for bitbake, oe-core and
-meta-yoctoX, I'm sorry that I didn't explain this clearly.
-
-// Robert
-
-> Cheers,
->
-> Richard
->
->
->
 
