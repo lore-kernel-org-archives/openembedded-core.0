@@ -1,25 +1,51 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 85E7360FD3
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CA326BA1D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 16:51:53 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Dec 2013 08:48:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,480,1384329600"; d="scan'208";a="424305460"
-Received: from junemccl-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.122.17])
-	by orsmga001.jf.intel.com with ESMTP; 13 Dec 2013 08:51:52 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Qi.Chen@windriver.com
-Date: Fri, 13 Dec 2013 16:51:51 +0000
-Message-ID: <2024453.Je7eP6C3oy@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1386903269.git.Qi.Chen@windriver.com>
+	Fri, 13 Dec 2013 17:18:50 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	rBDHIlHE023718
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Dec 2013 18:18:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1386955130;
+	bh=5e3Jtup/a4cCFem6OrEQD/lqJ0JiiMnB8XGZw7RLF/s=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=M8Et+ZD6EVZFf1Nfun/YGLaMxJXZIYLBARnHAWgTUydh4HYpdKsj8qbkEmbveWbcq
+	0bEpJc6o2NGzsx+rmZ/TdTUcHKnjnsNYXdjxQ3Bt/Y2mnu5KOMw0WNcz5b0PlbhlnX
+	dm4oaQhpRmggqhZwhxYLQltQv7UfminOK94DbLoM=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rBDHIfew024558
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Dec 2013 18:18:43 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VrWNp-00079A-15
+	for openembedded-core@lists.openembedded.org;
+	Fri, 13 Dec 2013 18:18:40 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
 References: <cover.1386903269.git.Qi.Chen@windriver.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Fri, 13 Dec 2013 18:18:36 +0100
+In-Reply-To: <cover.1386903269.git.Qi.Chen@windriver.com> (Qi's message of
+	"Fri, 13 Dec 2013 11:09:01 +0800")
+Message-ID: <ly38lw1xg3.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.9
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
 Subject: Re: [PATCH 0/2] Change the way of handling CONFFILES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -33,47 +59,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 16:51:53 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 13 Dec 2013 17:18:51 -0000
+Content-Type: text/plain
 
-Hi Qi,
+<Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
 
-On Friday 13 December 2013 11:09:01 Qi.Chen@windriver.com wrote:
-> It's a very common situation in OE/Yocto that the recipe authors/maintainers
-> either forget to set the CONFFILES variable or set it wrong.
-> 
-> For example, we don't have CONFFILES set in the shadow recipe. As a result,
-> /etc/login.defs from the shadow package is not treated as a config file.
-> Another example is the base-files recipe. We set the CONFFILES variable, but
-> it's not a complete list. Basically, all files under /etc should be treated
-> as config files for this recipe.
-> 
-> Such mistakes are not easy to find, because when we add or upgrade a recipe,
-> we usually only test whether it functions well, we don't take into
-> consideration the on-target upgrade process.
-> 
-> So we need to improve the situation here.
-> 
-> This patchset consists of two patches. The first one is the main patch which
-> changes the way CONFFILES is handled in our project. The second one serves
-> as an example how to fix individual recipes.
-> 
-> As almost all files under /etc should be considerred as config files, we
-> don't need to modify a lot of recipes after the first patch. Take shadow as
-> an example. We don't need to modify that recipe after this change. The ones
-> that need to be paid attention to are those that set CONFFILES in their
-> recipes. The second patch serves as an exmple how to fix this.
+> As almost all files under /etc should be considerred as config files,
 
-This definitely sounds like a good idea, but do we need to give special 
-consideration to /etc/init.d/ since files under there aren't really 
-configuration files?
+A lot of projects (especially from the freedesktop edge) are (ab)using
+/etc to store non configuration files. E.g. all the dbus confguration or
+gconf schemes are not intended to be modified by users.
 
-Cheers,
-Paul
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Enrico
 
