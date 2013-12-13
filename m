@@ -1,53 +1,25 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id DCFF6610DC
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A22BD6E3BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 16:27:21 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	rBDGRFc7023353
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 17:27:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1386952039;
-	bh=7ZjJU+BpqfsLd1XpZYqrVSquWwHcAx7ukjCKr9cDnjc=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=pM9gPXtm373VE5Wt7Ro4ZdfBnroDeDIjhw7oz63IRTjA0dDMhbOduGLb6A4LlyEBA
-	fa/DNzScj/lNlGlpOu2XXKmFFk/qjb0ooX66BuHcjQPp8y2+5ygA53t98CFD+USJWF
-	cJQnnDx6A/Iic0jfnkH95ISfm1v6cjCf/XycprFQ=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id rBDGRBcg012024
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 17:27:12 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VrVa2-0007ZZ-Ev
-	for openembedded-core@lists.openembedded.org;
-	Fri, 13 Dec 2013 17:27:10 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1386946335.git.kergoth@gmail.com>
-	<6122710ad05d4a2c1fa2d42fba3025cae6dab5ed.1386946335.git.kergoth@gmail.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Fri, 13 Dec 2013 17:27:10 +0100
-In-Reply-To: <6122710ad05d4a2c1fa2d42fba3025cae6dab5ed.1386946335.git.kergoth@gmail.com>
-	(Christopher Larson's message of "Fri, 13 Dec 2013 07:56:37 -0700")
-Message-ID: <ly7gb81ztt.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Fri, 13 Dec 2013 16:27:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 13 Dec 2013 08:23:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,479,1384329600"; d="scan'208";a="424295270"
+Received: from unknown (HELO [10.255.12.47]) ([10.255.12.47])
+	by orsmga001.jf.intel.com with ESMTP; 13 Dec 2013 08:27:41 -0800
+Message-ID: <52AB357D.3040805@linux.intel.com>
+Date: Fri, 13 Dec 2013 08:27:41 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.9
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Subject: Re: [RFC 1/2] os-release: add new operating system identification recipe
+To: Matthieu Crapet <Matthieu.Crapet@ingenico.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1386946865-18483-1-git-send-email-Matthieu.Crapet@ingenico.com>
+In-Reply-To: <1386946865-18483-1-git-send-email-Matthieu.Crapet@ingenico.com>
+Subject: Re: [PATCH] bash-completion: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,22 +32,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 16:27:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Dec 2013 16:27:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Christopher Larson <kergoth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-writes:
 
-> +        if eval "test -n \"\$$field\""; then
-> +            eval "printf \"%s=%s\n\" \"\$field\" \"\$$field\""
-
-I think, this can be expressed without the complicated quoting as
-
-           eval val=\$$field
-           if test -n "$val"; then
-                printf '%s="%s"\n' "$field" "$val"
+Needs more comment as to why we need this along with a Signed-off-by: 
+tag.  Can you include where you brought this in from.
 
 
 
-Enrico
+On 12/13/2013 07:01 AM, Matthieu Crapet wrote:
+> ---
+>   .../bash-completion/bash-completion_2.0.bb         | 31 ++++++++++++++++++++++
+>   1 file changed, 31 insertions(+)
+>   create mode 100644 meta/recipes-support/bash-completion/bash-completion_2.0.bb
+>
+> diff --git a/meta/recipes-support/bash-completion/bash-completion_2.0.bb b/meta/recipes-support/bash-completion/bash-completion_2.0.bb
+> new file mode 100644
+> index 0000000..f08988a
+> --- /dev/null
+> +++ b/meta/recipes-support/bash-completion/bash-completion_2.0.bb
+> @@ -0,0 +1,31 @@
+> +DESCRIPTION = "Programmable Completion for Bash 4"
+> +HOMEPAGE = "http://bash-completion.alioth.debian.org/"
+> +BUGTRACKER = "https://alioth.debian.org/projects/bash-completion/"
+> +
+> +SECTION = "console/utils"
+> +RDEPENDS_${PN} = "bash"
+> +PR = "r1"
+> +
+Did you bump PR here or is it coming over with a PR already = "r1"  If 
+this is truly a new recipe, then we can drop the PR, but we might need a 
+PE since the classic recipe had a PV of 20040711 which is greater than 
+this new PV of 2.0.
+
+> +SRC_URI="http://bash-completion.alioth.debian.org/files/${BPN}-${PV}.tar.bz2"
+> +
+> +SRC_URI[md5sum] = "0d903f398be8c8f24bc5ffa6f86127f8"
+> +SRC_URI[sha256sum] = "e5a490a4301dfb228361bdca2ffca597958e47dd6056005ef9393a5852af5804"
+> +
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+> +
+These belong above after Section
+
+> +inherit allarch autotools
+> +
+> +do_configure() {
+> +	oe_runconf
+> +}
+> +
+> +do_install_append() {
+> +	install -d ${D}${sysconfdir}/bash_completion.d/
+> +	echo '. ${datadir}/${BPN}/bash_completion' >${D}${sysconfdir}/bash_completion
+> +}
+> +
+> +# Some recipes are providing ${PN}-bash-completion packages
+> +PACKAGES_prepend += "${PN}-extra "
+> +FILES_${PN}-extra = "${datadir}/${BPN}/completions/ \
+> +    ${datadir}/${BPN}/helpers/"
+>
 
