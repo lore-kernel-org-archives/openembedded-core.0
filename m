@@ -1,34 +1,39 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id EC31E610D4
+Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 8104A610D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 14:50:19 +0000 (UTC)
-Received: by mail-ea0-f176.google.com with SMTP id h14so935308eaj.7
+	Fri, 13 Dec 2013 14:50:21 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id e51so782714eek.27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 06:50:19 -0800 (PST)
+	Fri, 13 Dec 2013 06:50:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=FPQvPUXlkoJ0PPndLWBJkpV47RQHPAqKWczmgmCbeFE=;
-	b=Z0o9edHwixzqFgDojrbwUh9SdaJpLEA1ft9IyFuW7qIZNGcGQXKCKHvm+oOcDkX6gx
-	NZvtyU2ro2ajcXS9NoYsgMrbkvj6kEH9oiKRPJRlbuE5xdMTLfYIOXBcxd7qn8QlN1yb
-	iHOuC5y1fulYcJIXhLU1QfBUQ1+CW2+p5qWcQ8KW6PGl53csIQ7iRQxf9BNvb2V9W8Xw
-	gUMOymH3KLyso4yAIwKszGdy8VZF4bAO9RoKF/19QYCu4AklX5aNWLVf8sD+urgbjXcG
-	UHAkjVN5yCSJIf7VewLNwHolj2qwh6BuAiZ7KqffCNp7DHHEvGOIimXMLwWp9T65cL/Q
-	3w+w==
-X-Received: by 10.14.88.5 with SMTP id z5mr3227537eee.101.1386946218930;
-	Fri, 13 Dec 2013 06:50:18 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=P9Xw8EZDNvL/lQFRARdTT6PJrQ+GH14K7coipwV3QRo=;
+	b=PWIdZwgR/Q8jPhYGbTpFQqsZlDisa6y4GkqxfU+Thvi2pqCeiidL8JgRvCKuOR55zi
+	cdEgP1L7WLa6VN9TZqXPlpRwofELik6vXIfHgNB1NsiQTkrDZJcZhAV4skzoK1zUrb+T
+	0jMUBD+Ml7KJyngPR2A2wKtnB0bE9GNLSWH9mCt3hz+YYWdUycbNE3F1pHeWZyeCK+tB
+	7zY8I24bZcawvAICJdUYDROLb3wHxGpdwOFuncTpzFjdn69M93xeZuv9IzztfaQa+3iK
+	EXh9sCnNAK93oU9GRWYLMbRzUUrazyKlRoQWGRnB87jhaLAE01lF4hbXtXO0hP2b1l9z
+	laOQ==
+X-Received: by 10.14.225.2 with SMTP id y2mr3406293eep.62.1386946220758;
+	Fri, 13 Dec 2013 06:50:20 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id o47sm7527284eem.21.2013.12.13.06.50.17
-	for <openembedded-core@lists.openembedded.org>
+	by mx.google.com with ESMTPSA id o47sm7527284eem.21.2013.12.13.06.50.19
+	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Dec 2013 06:50:18 -0800 (PST)
+	Fri, 13 Dec 2013 06:50:20 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Dec 2013 07:50:08 -0700
-Message-Id: <cover.1386946076.git.kergoth@gmail.com>
+Date: Fri, 13 Dec 2013 07:50:09 -0700
+Message-Id: <09612f896d57e0f02f7fcc60f2b7caf691056135.1386946076.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH 0/3] A few random improvements from the Mentor patch queue
+In-Reply-To: <cover.1386946076.git.kergoth@gmail.com>
+References: <cover.1386946076.git.kergoth@gmail.com>
+In-Reply-To: <cover.1386946076.git.kergoth@gmail.com>
+References: <cover.1386946076.git.kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 1/3] xz: make the LICENSE info more accurate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,32 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 14:50:20 -0000
+X-List-Received-Date: Fri, 13 Dec 2013 14:50:22 -0000
 
-The following changes since commit 62849843a4a83b10316bc6cb1e4b3f0622391dea:
+From: Christopher Larson <chris_larson@mentor.com>
 
-  gdb-7.6.1: fix cygwin check in configure script (2013-12-12 22:41:13 +0000)
-
-are available in the git repository at:
-
-  git@github.com:kergoth/oe-core.git random-improvements
-
-for you to fetch changes up to 9950f35b110f1c3032e199c9d0b32a2e43a326b2:
-
-  git: leverage upstream relocation support (2013-12-13 07:47:37 -0700)
-
-----------------------------------------------------------------
-
-Christopher Larson (3):
-  xz: make the LICENSE info more accurate
-  libdrm: use RRECOMMENDS for libdrm-drivers
-  git: leverage upstream relocation support
-
- meta/recipes-devtools/git/git.inc         | 14 +-------------
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
  meta/recipes-extended/xz/xz_5.1.3alpha.bb | 17 ++++++++++++++++-
- meta/recipes-graphics/drm/libdrm.inc      |  4 ++--
- 3 files changed, 19 insertions(+), 16 deletions(-)
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-extended/xz/xz_5.1.3alpha.bb b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
+index b49fbf7..9e2c933 100644
+--- a/meta/recipes-extended/xz/xz_5.1.3alpha.bb
++++ b/meta/recipes-extended/xz/xz_5.1.3alpha.bb
+@@ -2,7 +2,22 @@ DESCRIPTION = "utils for managing LZMA compressed files"
+ HOMEPAGE = "http://tukaani.org/xz/"
+ SECTION = "base"
+ 
+-LICENSE = "GPLv2+ & LGPLv2.1+"
++# The source includes bits of PD, GPLv2, GPLv3, LGPLv2.1+, but the only file
++# which is GPLv3 is an m4 macro which isn't shipped in any of our packages,
++# and the LGPL bits are under lib/, which appears to be used for libgnu, which
++# appears to be used for DOS builds. So we're left with GPLv2+ and PD.
++LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+ & PD"
++LICENSE_${PN} = "GPLv2+"
++LICENSE_${PN}-dev = "GPLv2+"
++LICENSE_${PN}-staticdev = "GPLv2+"
++LICENSE_${PN}-doc = "GPLv2+"
++LICENSE_${PN}-dbg = "GPLv2+"
++LICENSE_${PN}-locale = "GPLv2+"
++LICENSE_liblzma = "PD"
++LICENSE_liblzma-dev = "PD"
++LICENSE_liblzma-staticdev = "PD"
++LICENSE_liblzma-dbg = "PD"
++
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c475b6c7dca236740ace4bba553e8e1c \
+                     file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
 -- 
 1.8.3.4
 
