@@ -1,26 +1,38 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 334CE6E2F0
+Return-Path: <Fahad_Arslan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 86A4F6E243
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 10:55:17 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.95,477,1384297200"; d="scan'208";a="38067542"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 13 Dec 2013 11:55:16 +0100
-Received: from COSNPREXC3.usr.ingenico.loc (10.1.1.182) by
-	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
-	id 14.2.328.9; Fri, 13 Dec 2013 11:55:16 +0100
-Received: from u85.usr.ingenico.loc ([10.23.7.85]) by
-	COSNPREXC3.usr.ingenico.loc with Microsoft SMTPSVC(6.0.3790.1830);
-	Fri, 13 Dec 2013 11:55:15 +0100
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Dec 2013 11:50:17 +0100
-Message-ID: <1386931817-28233-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.7.10.4
-X-OriginalArrivalTime: 13 Dec 2013 10:55:15.0871 (UTC)
-	FILETIME=[CE2F52F0:01CEF7F1]
+	Fri, 13 Dec 2013 11:49:47 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1VrRFa-0002xS-TY from Fahad_Arslan@mentor.com ;
+	Fri, 13 Dec 2013 03:49:46 -0800
+Received: from SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 13 Dec 2013 03:49:47 -0800
+Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.95]) by
+	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
+	14.02.0247.003; Fri, 13 Dec 2013 11:49:45 +0000
+From: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] libffi: Copy headers to more common include
+	path.
+Thread-Index: AQHO92Jfig5Oprdm80qsYrExPzV8EJpQ2G0AgAErTgM=
+Date: Fri, 13 Dec 2013 11:49:44 +0000
+Message-ID: <2B9C97B395470A40B9E9E5D469BCD9FA0155D384@EU-MBX-03.mgc.mentorg.com>
+References: <1386870464-41010-1-git-send-email-fahad_arslan@mentor.com>,
+	<1386871038.504.19.camel@ted>
+In-Reply-To: <1386871038.504.19.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
 MIME-Version: 1.0
-Subject: [PATCH] gstreamer1.0-plugins-base: fix missing rprovides
+X-OriginalArrivalTime: 13 Dec 2013 11:49:47.0017 (UTC)
+	FILETIME=[6BF09790:01CEF7F9]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libffi: Copy headers to more common include path.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 10:55:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Dec 2013 11:49:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-split_gstreamer10_packages creates libgst* packages which are missing in PACKAGES list.
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-index ebfa7cd..697b5bd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-@@ -7,6 +7,7 @@ DEPENDS += "freetype liboil util-linux"
- 
- inherit gettext
- 
-+PACKAGES_DYNAMIC =+ "^libgst.*"
- 
- PACKAGECONFIG ??= " \
-     ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
--- 
-1.8.2.1
-
+My understanding was that headers should be placed under ${includedir} inst=
+ead of =0A=
+${libdir}. Isn't it the practice or am I missing something?=0A=
+=0A=
+Thanks,=0A=
+Fahad=0A=
+________________________________________=0A=
+From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
+Sent: Thursday, December 12, 2013 10:57 PM=0A=
+To: Arslan, Fahad=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH] libffi: Copy headers to more common include =
+path.=0A=
+=0A=
+On Thu, 2013-12-12 at 22:47 +0500, Fahad Arslan wrote:=0A=
+> Signed-off-by: Fahad Arslan <fahad_arslan@mentor.com>=0A=
+> ---=0A=
+>  meta/recipes-gnome/libffi/libffi_3.0.13.bb |    5 +++++=0A=
+>  1 file changed, 5 insertions(+)=0A=
+>=0A=
+> diff --git a/meta/recipes-gnome/libffi/libffi_3.0.13.bb b/meta/recipes-gn=
+ome/libffi/libffi_3.0.13.bb=0A=
+> index db0841e..07dd7d1 100644=0A=
+> --- a/meta/recipes-gnome/libffi/libffi_3.0.13.bb=0A=
+> +++ b/meta/recipes-gnome/libffi/libffi_3.0.13.bb=0A=
+> @@ -22,3 +22,8 @@ inherit autotools=0A=
+>  FILES_${PN}-dev +=3D "${libdir}/libffi-${PV}"=0A=
+>=0A=
+>  BBCLASSEXTEND =3D "native nativesdk"=0A=
+> +=0A=
+> +do_install_append() {=0A=
+> +    install -d ${D}${includedir}=0A=
+> +    cp -r ${D}${libdir}/libffi-${PV}/include/* ${D}${includedir}/ || tru=
+e=0A=
+> +}=0A=
+=0A=
+Why? Shouldn't whatever is using them look for them in the correct=0A=
+location?=0A=
+=0A=
+Cheers,=0A=
+=0A=
+Richard=0A=
+=0A=
 
