@@ -1,35 +1,33 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id C9AF36C6EB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id D450E6C6EB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 09:08:34 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.95,477,1384297200"; d="scan'208";a="38059573"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 13 Dec 2013 10:08:31 +0100
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Fri, 13 Dec 2013 09:49:45 +0100
-Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.128]) by
-	COSNADEXC12.usr.ingenico.loc ([10.31.4.212]) with mapi id
-	14.02.0328.009; Fri, 13 Dec 2013 09:49:45 +0100
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] bash-completion
-Thread-Index: AQHOPh8QtTjZxXd8QkuZhmM6/jG5PZpOmdpwgABDSgCABGShQA==
-Date: Fri, 13 Dec 2013 08:49:44 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B4D56943E@COSNADEXC13.usr.ingenico.loc>
-References: <20130420225659.GM2489@jama> <20130420232835.GN2489@jama>
-	<8672BB614B4CCA40A6B3BDD6FD82050B4D568A9C@COSNADEXC13.usr.ingenico.loc>
-	<20131210143530.GF3721@jama>
-In-Reply-To: <20131210143530.GF3721@jama>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: bash-completion
+	Fri, 13 Dec 2013 09:26:52 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBD9Qdn7025695; Fri, 13 Dec 2013 09:26:39 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id SQYCOH1OcE6e; Fri, 13 Dec 2013 09:26:39 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBD9QYQf025684
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Fri, 13 Dec 2013 09:26:36 GMT
+Message-ID: <1386926789.20901.20.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 13 Dec 2013 09:26:29 +0000
+In-Reply-To: <52AAA463.5040100@windriver.com>
+References: <cover.1386752561.git.liezhi.yang@windriver.com>
+	<1386771992.4332.76.camel@ted> <1386772701.4332.80.camel@ted>
+	<52A95C72.3030605@windriver.com> <1386891243.504.47.camel@ted>
+	<52AAA463.5040100@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 000/122 V2] [dora] fixes for dora (cover leter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,65 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 09:08:36 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Dec 2013 09:26:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Martin,
+On Fri, 2013-12-13 at 14:08 +0800, Robert Yang wrote:
+> 
+> On 12/13/2013 07:34 AM, Richard Purdie wrote:
+> > On Thu, 2013-12-12 at 14:49 +0800, Robert Yang wrote:
+> >
+> > Other than the patches I've mentioned, things should be merged in the
+> > dora branch. We've found some build issues. I've pushed a fix for the
+> > qt3 one, we also have one with lttng-modules which we don't have a fix
+> > for yet.
+> >
+> 
+> Hi RP,
+> 
+> For the failure of lttng-modules, it seemed the auto builder didn't take
+> the patches that I had sent to poky@yoctoproject.org:
+> 
+> [poky] [PATCH 2/3] [dora] meta-yocto-bsp: update SRCREVs for 3.10.17 and 
+> beagleboard fixes
+> 
+> Would you please help to merge it (them) ?
+> 
+> The branch robert/dora-next-oecore only contains the patches for oe-core,
+> while the robert/dora-next contains patches for bitbake, oe-core and
+> meta-yoctoX, I'm sorry that I didn't explain this clearly.
 
-I am talking about this:=20
- http://bash-completion.alioth.debian.org/
+Sorry I missed the meta-yocto changes. I've merged these now.
 
-I can create the recipe if it does not exist (somewhere).
+Cheers,
 
-Regards,
-M
+Richard
 
-
------Message d'origine-----
-De=A0: Martin Jansa [mailto:martin.jansa@gmail.com]=20
-Envoy=E9=A0: mardi 10 d=E9cembre 2013 15:36
-=C0=A0: Matthieu CRAPET
-Cc=A0: openembedded-core@lists.openembedded.org
-Objet=A0: Re: [OE-core] bash-completion
-
-On Tue, Dec 10, 2013 at 09:37:14AM +0000, Matthieu CRAPET wrote:
-> Hi,
->=20
-> What's the status of this ? Is bash-completion recipe available somewhere=
-?
-
-I don't know about any change since my question.
-
-Are you talking about bash-completion definition for bitbake, right?
-
-I wasn't asking about recipe for "generic" bash-completion.
-
-> -----Message d'origine-----
-> De=A0: openembedded-core-bounces@lists.openembedded.org=20
-> [mailto:openembedded-core-bounces@lists.openembedded.org] De la part=20
-> de Martin Jansa Envoy=E9=A0: dimanche 21 avril 2013 01:29 =C0=A0:=20
-> bitbake-devel Cc=A0: openembedded-core@lists.openembedded.org
-> Objet=A0: Re: [OE-core] bash-completion
->=20
-> On Sun, Apr 21, 2013 at 12:56:59AM +0200, Martin Jansa wrote:
-> > There is old thread on oe-devel about it=20
-> > http://lists.linuxtogo.org/pipermail/openembedded-devel/2007-Decembe
-> > r/
-> > 003764.html
-> >=20
-> > Is there any reason why it wasn't added to contrib yet?
-> >=20
-> > Would it be applied if I send git patch adding it and update=20
-> > commands to include cleansstate and packagedata + new options like=20
-> > -S and maybe more?
->=20
-> Or maybe in oe-core/contrib, as list of possible commands is not defined =
-in bitbake.
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
