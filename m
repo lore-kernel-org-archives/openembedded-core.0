@@ -1,39 +1,34 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DB190610D4
+Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9779160EF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 14:50:25 +0000 (UTC)
-Received: by mail-ee0-f43.google.com with SMTP id c13so908666eek.16
+	Fri, 13 Dec 2013 14:56:44 +0000 (UTC)
+Received: by mail-ea0-f181.google.com with SMTP id m10so938320eaj.40
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2013 06:50:25 -0800 (PST)
+	Fri, 13 Dec 2013 06:56:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=6O9sp2cJ8di1URRMc0p15NTpQYydiHytbxziEDzkXng=;
-	b=u5WFT0J7i+WaNisL98vzisxQGTDUVidu4I+6G2r+pqBfQe5NPk7KzbNL1hOd6AiqJL
-	gZzvniMll+G5XE6MY59Snvm+FbqUWwN/5uglWc+jqfhVJwCb7EFMzgAis57YAJjTUji5
-	v6gzdk8jTsZbsQ/aLq+x9AglBCdhngisQcGg9BFzUPOtjwppV8U1ih+NBD4uCKtDRW5Y
-	fqV752X+7vwdH+glGvO5W3dHDHi9UJb55lbOMuYHKjWfy8NCjB4qiEj3sZNCkfGpITqh
-	tNtLbIe2lT+aWFpqan1KPV3kIZGOvRoM3jQ3SLp1LXiu4KNv+bhm2XzNTK/NIAyw8rqP
-	xW3w==
-X-Received: by 10.15.108.73 with SMTP id cc49mr3286480eeb.93.1386946225236;
-	Fri, 13 Dec 2013 06:50:25 -0800 (PST)
+	h=from:to:subject:date:message-id;
+	bh=PwW/zvuD2yCVowkKkx7wxBWthS+oTOBzjdoSKU+crA4=;
+	b=HeoiJrYhUhLQywP+9C9rJCxjiEdRL8Uny0UiVj6nXMS1IcpKeIJq7+fRGkJF8YYIqu
+	IEGz3fdFtvPn7BPoCYE2rj6OAc/k902IbQsI4/OldOtrPErXPhTs0+cYAfkpYBN1rzKS
+	gjlQs4tX3vOVk2mhdg/UoRywT3RC8CVnzoI925SgzawE8bgJZQLoQKu/85yOuzN187j7
+	vT5RNo9Ctjjoo07SMDGLSjGsfHq4YuanLMFWht/WwH+TgmgLUwPGbfCaJYE8rra7x3G6
+	ziDA8zd/U7G7dRZp50I9OEoCBVhUdxSkhDQIE5DocIYWSqfHIkKSuWMzJsLYA4773Kdr
+	D9MA==
+X-Received: by 10.14.221.193 with SMTP id r41mr3420622eep.92.1386946603824;
+	Fri, 13 Dec 2013 06:56:43 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id o47sm7527284eem.21.2013.12.13.06.50.23
-	for <multiple recipients>
+	by mx.google.com with ESMTPSA id 44sm7648810eek.5.2013.12.13.06.56.42
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Dec 2013 06:50:24 -0800 (PST)
+	Fri, 13 Dec 2013 06:56:43 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Dec 2013 07:50:11 -0700
-Message-Id: <9950f35b110f1c3032e199c9d0b32a2e43a326b2.1386946076.git.kergoth@gmail.com>
+Date: Fri, 13 Dec 2013 07:56:36 -0700
+Message-Id: <cover.1386946335.git.kergoth@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
-In-Reply-To: <cover.1386946076.git.kergoth@gmail.com>
-References: <cover.1386946076.git.kergoth@gmail.com>
-In-Reply-To: <cover.1386946076.git.kergoth@gmail.com>
-References: <cover.1386946076.git.kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 3/3] git: leverage upstream relocation support
+Subject: [RFC PATCH 0/2] Add /etc/os-release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,47 +41,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2013 14:50:26 -0000
+X-List-Received-Date: Fri, 13 Dec 2013 14:56:45 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+systemd wants /etc/os-release, and it's useful for other software, and the
+user as well. This adds it as a separate recipe which generates the metadata
+using our config metadata variables (e.g. DISTRO_*), and rreccomends it from
+systemd. I think this is a reasonablea pproach, but I wanted to run it by
+folks, and also pursue an answer to my open question on this, should
+base-files pull it in instead of systemd, or something else, for non-systemd
+images? Do we care if it's missing from those? Thoughts?
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- meta/recipes-devtools/git/git.inc | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+The following changes since commit 62849843a4a83b10316bc6cb1e4b3f0622391dea:
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 183a93c..f33069c 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -16,7 +16,7 @@ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
- 
- inherit autotools perlnative
- 
--EXTRA_OEMAKE = "NO_PYTHON=1"
-+EXTRA_OEMAKE = "NO_PYTHON=1 RUNTIME_PREFIX=1"
- 
- do_compile_prepend () {
- 	# Remove perl/perl.mak to fix the out-of-date perl.mak error
-@@ -35,18 +35,6 @@ do_install () {
- 	rmdir ${D}${exec_prefix}/lib || true
- }
- 
--do_install_append_class-native() {
--	create_wrapper ${D}/${bindir}/git \
--		GIT_EXEC_PATH=${libexecdir}/git-core \
--		GIT_TEMPLATE_DIR=${STAGING_DATADIR_NATIVE}/git-core/templates
--}
--
--do_install_append_class-nativesdk() {
--	create_wrapper ${D}/${bindir}/git \
--		GIT_EXEC_PATH=${libexecdir}/git-core \
--		GIT_TEMPLATE_DIR=${STAGING_DATADIR_NATIVE}/git-core/templates
--}
--
- FILES_${PN} += "${datadir}/git-core ${libxecdir}/git-core/"
- FILES_${PN}-dbg += "${libexecdir}/git-core/.debug"
- 
+  gdb-7.6.1: fix cygwin check in configure script (2013-12-12 22:41:13 +0000)
+
+are available in the git repository at:
+
+  git@github.com:kergoth/oe-core.git os-release
+
+for you to fetch changes up to b00a526527b3248c9014bc3c0e5c606ef97e0838:
+
+  systemd: rrecommend os-release (2013-12-13 07:41:08 -0700)
+
+----------------------------------------------------------------
+Christopher Larson (2):
+  os-release: add new operating system identification recipe
+  systemd: rrecommend os-release
+
+ meta/recipes-core/os-release/os-release.bb | 42 ++++++++++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_208.bb   |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-core/os-release/os-release.bb
+
 -- 
 1.8.3.4
 
