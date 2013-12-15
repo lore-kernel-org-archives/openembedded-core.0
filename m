@@ -1,30 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id B91AF6E45B
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 67E446DEC8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2013 17:37:59 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rBFHbqWw023055; Sun, 15 Dec 2013 17:37:52 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RocnU8g76D8K; Sun, 15 Dec 2013 17:37:51 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rBFHbiPv023040
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Sun, 15 Dec 2013 17:37:46 GMT
-Message-ID: <1387129060.8783.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Sun, 15 Dec 2013 17:37:40 +0000
-In-Reply-To: <1386775933-14232-1-git-send-email-koen.kooi@linaro.org>
-References: <1386775933-14232-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH] grub: add git version
+	Sun, 15 Dec 2013 18:03:23 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id c41so1782894eek.23
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Dec 2013 10:03:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=a8CPojcdzDITMgY8H8HDMqIq6Tjm9/ZAeIDQmeeARhk=;
+	b=iVvT2b/qDdulP+lS8+wH++UBOz1lzqfHDMwjiclwc+0+XKlwItyKIbEs5hkXxhHtKV
+	Qv6pDMUozz+hyAIpkyDpOC7c/cvDvMjfZcxtlfOs7O8jCdeuZkMwsZUXc/am1nY/wyCo
+	rz0NZN64zmiF2+3l+Hna79OVX5W4CK8fs9pYX/AUYDFA/9+9A9eyHRx5KwVq9Q4fsObv
+	WF+mWxi5Z7a6c8ilMP+pG5mpTfIgCdXjSzWaQQjV1F0tQV9/+Wq5IVCBK6XoUxBz1Ike
+	NOhshQM8AkrrsXZW4PtFAUyVblD0q8tApdORBCpIFxmvNylQjN0mBFUS6e7pePklaudO
+	1+oA==
+X-Received: by 10.14.149.139 with SMTP id x11mr12642884eej.35.1387130602311;
+	Sun, 15 Dec 2013 10:03:22 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id a51sm32635312eeh.8.2013.12.15.10.03.20
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 15 Dec 2013 10:03:21 -0800 (PST)
+Date: Sun, 15 Dec 2013 19:03:49 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Christopher Larson <kergoth@gmail.com>
+Message-ID: <20131215180349.GA3706@jama>
+References: <1386946031-6292-1-git-send-email-kergoth@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1386946031-6292-1-git-send-email-kergoth@gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pulseaudio: only package consolekit module when x11 is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,22 +46,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Dec 2013 17:38:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 15 Dec 2013 18:03:24 -0000
+X-Groupsio-MsgNum: 48226
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
+Content-Disposition: inline
 
-On Wed, 2013-12-11 at 16:32 +0100, Koen Kooi wrote:
-> Recently grub git gained support for ARM builds (using u-boot or EFI as first stage loader) and with 2 extra patches we get support for 64-bit ARM as well.
-> 
-> Buildtested for genericarmv7a, genericarmv8 and qemux86. The genericarmv8 build fails in do_package/strip due to a binutils problem.
-> 
-> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+--xHFwDpU9dbj6ez1V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-No objection but should this have a DEFAULT_PREFERENCE = "-1" at least
-for the x86 cases since we try and stick to releases where we can...
+On Fri, Dec 13, 2013 at 07:47:11AM -0700, Christopher Larson wrote:
+> As requested by Martin Jansa <martin.jansa@gmail.com>.
 
-Cheers,
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-Richard
+>=20
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> ---
+>  meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/rec=
+ipes-multimedia/pulseaudio/pulseaudio.inc
+> index 2bee9eb..dce8555 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> @@ -74,7 +74,7 @@ USERADD_PARAM_pulseaudio-server =3D "--system --home /v=
+ar/run/pulse \
+>  # adding the console-kit module to an image, we also get the necessary
+>  # consolekit package produced.
+>  PACKAGES =3D+ "libpulsecore libpulsecommon libpulse libpulse-simple libp=
+ulse-mainloop-glib \
+> -             pulseaudio-server pulseaudio-misc pulseaudio-module-console=
+-kit"
+> +             pulseaudio-server pulseaudio-misc ${@base_contains('PACKAGE=
+CONFIG', 'x11', 'pulseaudio-module-console-kit', '', d)}"
+> =20
+>  #upgrade path:
+>  RREPLACES_pulseaudio-server =3D "libpulse-bin libpulse-conf"
+> --=20
+> 1.8.3.4
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--xHFwDpU9dbj6ez1V
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlKt7wUACgkQN1Ujt2V2gBx4awCgtnXD1AFWsekvXRtfVg1gdPtH
+cC4AoLi3Uu54WS+f66SKfnQ6Tuu0WziQ
+=JPLj
+-----END PGP SIGNATURE-----
+
+--xHFwDpU9dbj6ez1V--
