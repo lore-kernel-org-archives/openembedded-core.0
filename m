@@ -1,44 +1,31 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 49855610DC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C8ED56DDFD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2013 14:19:00 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id hl1so726084igb.5
+	Sun, 15 Dec 2013 16:30:42 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBFGQciW021151 for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Dec 2013 16:30:36 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id B_o02irbrzsW
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2013 06:18:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=A+F8pnX2MtkWOHRFQSUanYyZf4cSNdSARhWSR39xYJY=;
-	b=CT0gjC6Nd7F7fpXiDqHnaZPt94Z18uo7UfkclmTNRu0YUTecb/c9TsgEG8JCTZPFS+
-	y4MCNCy3jePc8UXPSqFwmkLWF9o2XJSxlMzpF/1m/hLmhMXGV0WT47dTXPsOj+blKX21
-	oK/2T9KHE7rOPNV9xOa+djt1bbdHFXFHf2+l1msCm3X7U9WtkD6Zfg20yRBw+I/eGF6D
-	R0GXgLm/O59zh1XroHZym4VwUUftX9ZgGJkz5oTkzJ+gDPjtypW/2ep0QgCkvucox9mu
-	a21ENklFTWd2pyAICbMvFQaBZpDiePyFGnnIDZhLSVNWLXZJvC26K9FT19bh1sMxj4e6
-	17jw==
-X-Gm-Message-State: ALoCoQkvgUmvRMYnX/KVxbgbbmCosKcLAigkpV7XgQGNDthCCppyGJr/kj9g4p1/cRTTMZlL/geE
-X-Received: by 10.42.62.196 with SMTP id z4mr5905211ich.49.1387030739517;
-	Sat, 14 Dec 2013 06:18:59 -0800 (PST)
-Received: from [192.168.141.83] (dsl-67-55-9-50.acanac.net. [67.55.9.50])
-	by mx.google.com with ESMTPSA id kt2sm14717750igb.1.2013.12.14.06.18.57
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 14 Dec 2013 06:18:58 -0800 (PST)
-Message-ID: <52AC68D0.1040208@linaro.org>
-Date: Sat, 14 Dec 2013 09:18:56 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1386677617-20952-1-git-send-email-ross.burton@intel.com>
-	<1386677617-20952-2-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1386677617-20952-2-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH 2/2] libmatchbox: use PACKAGECONFIG
+	Sun, 15 Dec 2013 16:30:36 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBFGUXW9021176
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Dec 2013 16:30:35 GMT
+Message-ID: <1387125029.20901.103.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 15 Dec 2013 16:30:29 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] qemu/local.conf.sample: Add sdl PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,20 +38,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Dec 2013 14:19:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 15 Dec 2013 16:30:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Ross,
+Currently the SDL configuration option for qemu floats. This is confusing to new users
+and makes the build non-determinstic. This patch adds a PACKAGECONFIG option, defaulting
+to off and adds documentation to local.conf.sample leaving it on by default since this
+is the configuration our quick start assumes.
 
-Your commit message and your commit don't seem to agree. I.e. you say
-you've removed 2 dependencies, but it looks like you've actually removed
-more than just 2.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 885d4db..061524a 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -229,6 +229,17 @@ BB_DISKMON_DIRS = "\
+ #file://.* http://someserver.tld/share/sstate/PATH;downloadfilename=PATH \n \
+ #file://.* file:///some/local/dir/sstate/PATH"
+ 
++
++#
++# Qemu configuration
++#
++# By default qemu will build with a builtin VNC server where graphical output can be
++# seen. The two lines below enable the SDL backend too. This assumes there is a
++# libsdl library available on your build system.
++PACKAGECONFIG_pn-qemu-native = "sdl"
++ASSUME_PROVIDED += "libsdl-native"
++
++
+ # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
+ # track the version of this file when it was generated. This can safely be ignored if
+ # this doesn't mean anything to you.
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 319dcde..740d571 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -93,6 +93,7 @@ PACKAGECONFIG[uuid] = "--enable-uuid,--disable-uuid,util-linux,"
+ PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses,"
+ PACKAGECONFIG[gtk+] = "--enable-gtk,--disable-gtk,gtk+ libvte,"
+ PACKAGECONFIG[libcap-ng] = "--enable-cap-ng,--disable-cap-ng,libcap-ng,"
++PACKAGECONFIF[sdl] = "--enable-sdl,--disable-sdl,libsdl,"
+ 
+ # Qemu target will not build in world build for ARM or Mips
+ BROKEN_qemuarm = "1"
 
-On 12/10/13 07:13, Ross Burton wrote:
-> Use PACKAGECONFIG to offer some flexibility to the libmatchbox configuration,
-> and remove two spurious build dependencies (expat and libstartup-notification).
-[snip]
-> -DEPENDS = "virtual/libx11 libxext expat libxft jpeg libpng zlib libxsettings-client startup-notification"
-> +DEPENDS = "virtual/libx11 libxext"
+
 
