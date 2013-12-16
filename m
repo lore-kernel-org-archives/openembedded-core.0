@@ -1,27 +1,32 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 610886E48C
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 978626E488
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2013 04:28:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBG4SFBg007904
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2013 20:28:15 -0800 (PST)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Sun, 15 Dec 2013 20:28:14 -0800
-Message-ID: <52AE819A.8020203@windriver.com>
-Date: Mon, 16 Dec 2013 12:29:14 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+	Mon, 16 Dec 2013 08:48:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.95,493,1384297200"; d="scan'208";a="38154306"
+Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
+	by antispam1.usr.ingenico.loc with ESMTP; 16 Dec 2013 09:48:18 +0100
+Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.128]) by
+	COSNADEXC22.usr.ingenico.loc ([10.31.4.222]) with mapi id
+	14.02.0318.001; Mon, 16 Dec 2013 09:48:18 +0100
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, Saul Wold
+	<sgw@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] bash-completion: add recipe
+Thread-Index: AQHO+CGDFGouKcR37k61CLZz/i9PfppWhqkw
+Date: Mon, 16 Dec 2013 08:48:18 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B4D5698D7@COSNADEXC13.usr.ingenico.loc>
+References: <1386946865-18483-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	<52AB357D.3040805@linux.intel.com> <6222173.lGgdPurBqE@helios>
+In-Reply-To: <6222173.lGgdPurBqE@helios>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
 MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-X-Originating-IP: [128.224.162.213]
-Subject: Problems with INC_RPM_IMAGE_GEN
+Subject: Re: [PATCH] bash-completion: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +39,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2013 04:28:16 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Dec 2013 08:48:20 -0000
+Content-Language: fr-FR
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Hi All,
+Hi,
 
-Recently I've enabled INC_RPM_IMAGE_GEN on my old and slow build 
-machine. Here are two problems I can see with this feature.
+Thanks for comments.
+I have posted a v2 patch on oe-devel list.
 
-1. INC_RPM_IMAGE_GEN and 'rm_work'
-If we enable INC_RPM_IMAGE_GEN and 'rm_work' at the same time, we would 
-get build failures.
-This is because the original rootfs has been removed because of rm_work.
+Changes:
+- Drop PR. As this is a new recipe, this should be PR =3D "r0", and r0 is t=
+he default.
+- Add PE =3D "1" to not conflict with old recipe (OE-Classic) PV =3D "20040=
+711"
+- Moved LIC* entry before SECTION
 
-2. INC_RPM_IMAGE_GEN and XXX_POSTPROCESS_COMMAND
-Let's first look at a case.
-1. build core-image-minimal with 'extrausers' inherited and root 
-password set in local.conf
-2. build core-image-minimal without 'extrausers' inherited
-The image generated in the second step still has the root password set. 
-This is not what we want.
+Question:
+- Kept DESCRIPTION, should it be renamed to SUMMARY?
 
-The problem in incremental rpm image generation is that it chooses the 
-final image as a starting point.
-However, the final image has been tweaked by all those 
-XXX_POSTPROCESS_COMMAND.
-For example, the 'debug-tweaks' IMAGE_FEATURE will lead to several 
-additonal ROOTFS_POSTPROCESS_COMMAND.
-meta/classes/image.bbclass:# Allow dropbear/openssh to accept logins 
-from accounts with an empty password string if debug-tweaks is enabled
-meta/classes/image.bbclass:ROOTFS_POSTPROCESS_COMMAND += 
-'${@base_contains("IMAGE_FEATURES", "debug-tweaks", 
-"ssh_allow_empty_password; ", "",d)}'
-meta/classes/image.bbclass:# Enable postinst logging if debug-tweaks is 
-enabled
-meta/classes/image.bbclass:ROOTFS_POSTPROCESS_COMMAND += 
-'${@base_contains("IMAGE_FEATURES", "debug-tweaks", 
-"postinst_enable_logging; ", "",d)}'
+Cheers,
+M
 
-IMHO, the rootfs after all packages installed and before all postprocess 
-commands running should serve as the reference rootfs for the 
-incremental rpm image generation.
-But I cannot figure out a reasonable solution which doesn't have much 
-performance impact.
 
-Any idea or suggestion?
+-----Message d'origine-----
+De=A0: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
+Envoy=E9=A0: vendredi 13 d=E9cembre 2013 17:36
+=C0=A0: Matthieu CRAPET; Saul Wold
+Cc=A0: openembedded-core@lists.openembedded.org
+Objet=A0: Re: [OE-core] [PATCH] bash-completion: add recipe
 
-Best Regards,
-Chen Qi
+On Friday 13 December 2013 08:27:41 Saul Wold wrote:
+> Needs more comment as to why we need this along with a Signed-off-by:
+> tag.  Can you include where you brought this in from.
+
+I think this probably belongs in meta-oe rather than OE-Core, unless a good=
+ case for everyone needing it can be made.
+
+Cheers,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
