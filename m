@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E6E96E4AA
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BE30A6E4B0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2013 16:55:19 +0000 (UTC)
-Received: by mail-ve0-f182.google.com with SMTP id jy13so3529885veb.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2013 08:55:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=WUPGWQiLLxk6Y0xOWppDKrHdo1tF3sfMG4lhqXWcKjQ=;
-	b=jKIC7xCLBBkPAWh39sYYeFdVyBLpEPVjn43uChzxro/c7BPwTDvkvFhiIqNzy3tqwk
-	4LaxAPRKSgMTWWqZtTUH8Ajjm39OtFyQIntiiL/11D3TThaA6JiRNxMmPJKBE5SQpnDx
-	lmJHQ8nUCvajsh23KhWIkL1HWHjf8GixeHtATbLuwo5PVmcCDVSnUa1CNiJyhA2qpAde
-	IbWDONy5UIIwivajBzKZTAGrvdF42EfyEi28psV6fpowZ0IjtowupmxuG6OvufoM67cV
-	aXEFWaqfLTojIMC0KR9yJeOzmu9J9eU7MpV2cG8m3Ts0H/aUxTt6xq/ctFJ7jET5JAlU
-	UhwQ==
-X-Gm-Message-State: ALoCoQkThs0yalRkc9OjmfAZNXIA3rajVv9Cd0iTOK3bpiqJ0kyGdwyWIOPDhC3RdABf9SoILRlj
-X-Received: by 10.58.252.167 with SMTP id zt7mr761302vec.60.1387212918756;
-	Mon, 16 Dec 2013 08:55:18 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 16 Dec 2013 08:54:58 -0800 (PST)
-In-Reply-To: <8672BB614B4CCA40A6B3BDD6FD82050B4D569AD6@COSNADEXC13.usr.ingenico.loc>
-References: <1386931817-28233-1-git-send-email-Matthieu.Crapet@ingenico.com>
-	<8672BB614B4CCA40A6B3BDD6FD82050B4D569AD6@COSNADEXC13.usr.ingenico.loc>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Dec 2013 16:54:58 +0000
-Message-ID: <CAJTo0LbeZ-apkichAc7V=dgPvoKupA+EK0R1a5O6Kfsike1Sug@mail.gmail.com>
-To: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-base: fix missing rprovides
+	Mon, 16 Dec 2013 17:00:15 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Dec 2013 09:00:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,496,1384329600"; d="scan'208";a="445121234"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Dec 2013 09:00:14 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Dec 2013 19:02:46 +0200
+Message-Id: <c32dfa3b93f97673945fa12379c8b5904bc3554f.1387213322.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <cover.1387213322.git.cristian.iorga@intel.com>
+References: <cover.1387213322.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1387213322.git.cristian.iorga@intel.com>
+References: <cover.1387213322.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/2] libtirpc: upgrade to 0.2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,15 +31,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2013 16:55:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 Dec 2013 17:00:16 -0000
 
-On 16 December 2013 15:41, Matthieu CRAPET <Matthieu.CRAPET@ingenico.com> wrote:
-> NOTE: multiple providers are available for runtime libgstaudio-1.0 (gstreamer1.0-plugins-bad, gstreamer1.0-plugins-base, gstreamer1.0-plugins-good)
-> NOTE: consider defining a PREFERRED_PROVIDER entry to match libgstaudio-1.0
+obsolete_automake_macros.patch removed,
+no longer needed.
 
-Looks a lot like the GStreamer recipes should use PACKAGES_DYNAMIC for
-just the plugins and manually package the libraries.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../libtirpc-0.2.3/obsolete_automake_macros.patch         | 15 ---------------
+ .../libtirpc-0.2.1-fortify.patch                          |  0
+ .../remove-des-uclibc.patch                               |  0
+ .../libtirpc/{libtirpc_0.2.3.bb => libtirpc_0.2.4.bb}     |  8 +++++---
+ 4 files changed, 5 insertions(+), 18 deletions(-)
+ delete mode 100644 meta/recipes-extended/libtirpc/libtirpc-0.2.3/obsolete_automake_macros.patch
+ rename meta/recipes-extended/libtirpc/{libtirpc-0.2.3 => libtirpc-0.2.4}/libtirpc-0.2.1-fortify.patch (100%)
+ rename meta/recipes-extended/libtirpc/{libtirpc-0.2.3 => libtirpc-0.2.4}/remove-des-uclibc.patch (100%)
+ rename meta/recipes-extended/libtirpc/{libtirpc_0.2.3.bb => libtirpc_0.2.4.bb} (84%)
 
-Ross
+diff --git a/meta/recipes-extended/libtirpc/libtirpc-0.2.3/obsolete_automake_macros.patch b/meta/recipes-extended/libtirpc/libtirpc-0.2.3/obsolete_automake_macros.patch
+deleted file mode 100644
+index 88d759f..0000000
+--- a/meta/recipes-extended/libtirpc/libtirpc-0.2.3/obsolete_automake_macros.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Submitted [libtirpc-devel@lists.sourceforge.net]
+-
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd libtirpc-0.2.2/configure.ac libtirpc-0.2.2/configure.ac
+---- libtirpc-0.2.2/configure.ac	2011-05-02 15:10:40.000000000 +0300
+-+++ libtirpc-0.2.2/configure.ac	2013-01-11 15:11:24.275000030 +0200
+-@@ -17,7 +17,7 @@
+- fi
+-
+- AC_PROG_CC
+--AM_CONFIG_HEADER(config.h)
+-+AC_CONFIG_HEADERS(config.h)
+- AC_PROG_LIBTOOL
+- AC_HEADER_DIRENT
+- AC_PREFIX_DEFAULT(/usr)
+diff --git a/meta/recipes-extended/libtirpc/libtirpc-0.2.3/libtirpc-0.2.1-fortify.patch b/meta/recipes-extended/libtirpc/libtirpc-0.2.4/libtirpc-0.2.1-fortify.patch
+similarity index 100%
+rename from meta/recipes-extended/libtirpc/libtirpc-0.2.3/libtirpc-0.2.1-fortify.patch
+rename to meta/recipes-extended/libtirpc/libtirpc-0.2.4/libtirpc-0.2.1-fortify.patch
+diff --git a/meta/recipes-extended/libtirpc/libtirpc-0.2.3/remove-des-uclibc.patch b/meta/recipes-extended/libtirpc/libtirpc-0.2.4/remove-des-uclibc.patch
+similarity index 100%
+rename from meta/recipes-extended/libtirpc/libtirpc-0.2.3/remove-des-uclibc.patch
+rename to meta/recipes-extended/libtirpc/libtirpc-0.2.4/remove-des-uclibc.patch
+diff --git a/meta/recipes-extended/libtirpc/libtirpc_0.2.3.bb b/meta/recipes-extended/libtirpc/libtirpc_0.2.4.bb
+similarity index 84%
+rename from meta/recipes-extended/libtirpc/libtirpc_0.2.3.bb
+rename to meta/recipes-extended/libtirpc/libtirpc_0.2.4.bb
+index 407e38e..88e2d82 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc_0.2.3.bb
++++ b/meta/recipes-extended/libtirpc/libtirpc_0.2.4.bb
+@@ -13,17 +13,19 @@ PROVIDES = "virtual/librpc"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2;name=libtirpc \
+            ${GENTOO_MIRROR}/${BPN}-glibc-nfs.tar.xz;name=glibc-nfs \
+            file://libtirpc-0.2.1-fortify.patch \
+-           file://obsolete_automake_macros.patch \
+           "
+ 
+ SRC_URI_append_libc-uclibc = " file://remove-des-uclibc.patch"
+ 
+-SRC_URI[libtirpc.md5sum] = "b70e6c12a369a91e69fcc3b9feb23d61"
+-SRC_URI[libtirpc.sha256sum] = "4f29ea0491b4ca4c29f95f3c34191b857757873bbbf4b069f9dd4da01a6a923c"
++SRC_URI[libtirpc.md5sum] = "847995e8d002cbf1387bda05947be086"
++SRC_URI[libtirpc.sha256sum] = "45c3e21dfc23a5ba501f9dfc6671678316fdfdb8355a1ec404ae2aa2f81943a1"
+ SRC_URI[glibc-nfs.md5sum] = "5ae500b9d0b6b72cb875bc04944b9445"
+ SRC_URI[glibc-nfs.sha256sum] = "2677cfedf626f3f5a8f6e507aed5bb8f79a7453b589d684dbbc086e755170d83"
++
+ inherit autotools pkgconfig
+ 
++EXTRA_OECONF = "--disable-gssapi"
++
+ do_configure_prepend () {
+         cp -r ${S}/../tirpc ${S}
+ }
+-- 
+1.8.3.2
+
 
