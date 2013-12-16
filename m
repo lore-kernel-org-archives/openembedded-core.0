@@ -1,26 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id CBD156E46D
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A7FC96E208
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2013 10:36:38 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Dec 2013 02:32:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,494,1384329600"; d="scan'208";a="425291373"
-Received: from mmckenna-mobl1.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.122.3])
-	by orsmga001.jf.intel.com with ESMTP; 16 Dec 2013 02:36:36 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Date: Mon, 16 Dec 2013 10:36:35 +0000
-Message-ID: <60315409.4GC3QP4sfd@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <52AE819A.8020203@windriver.com>
-References: <52AE819A.8020203@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Problems with INC_RPM_IMAGE_GEN
+	Mon, 16 Dec 2013 11:53:17 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1VsWjc-0001Bs-Tj from Yasir_Khan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Dec 2013 03:53:16 -0800
+Received: from ykhan.pkl.mentorg.com ([137.202.157.53]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 16 Dec 2013 03:53:16 -0800
+From: Yasir Khan <yasir_khan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Dec 2013 16:51:28 +0500
+Message-Id: <1387194688-11022-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.10.4
+X-OriginalArrivalTime: 16 Dec 2013 11:53:16.0712 (UTC)
+	FILETIME=[682AC280:01CEFA55]
+Subject: [PATCH V2] openssl.inc: Install c_rehash utility with openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,64 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2013 10:36:39 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 16 Dec 2013 11:53:18 -0000
 
-Hi Qi,
+From: mykhani <yasir_khan@mentor.com>
 
-On Monday 16 December 2013 12:29:14 ChenQi wrote:
-> Recently I've enabled INC_RPM_IMAGE_GEN on my old and slow build
-> machine. Here are two problems I can see with this feature.
-> 
-> 1. INC_RPM_IMAGE_GEN and 'rm_work'
-> If we enable INC_RPM_IMAGE_GEN and 'rm_work' at the same time, we would
-> get build failures.
-> This is because the original rootfs has been removed because of rm_work.
+c_rehash utility is not being installed with openssl.It conveniently
+generates hash and symbolic links based on it for CA certificates
+stored locally for SSL based server authentication
 
-We could perhaps now auto-set RM_WORK_EXCLUDE for images where 
-INC_RPM_IMAGE_GEN is set, would that fix this?
+Signed-off-by: mykhani <yasir_khan@mentor.com>
+---
+ meta/recipes-connectivity/openssl/openssl.inc |   11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-> 2. INC_RPM_IMAGE_GEN and XXX_POSTPROCESS_COMMAND
-> Let's first look at a case.
-> 1. build core-image-minimal with 'extrausers' inherited and root
-> password set in local.conf
-> 2. build core-image-minimal without 'extrausers' inherited
-> The image generated in the second step still has the root password set.
-> This is not what we want.
-> 
-> The problem in incremental rpm image generation is that it chooses the
-> final image as a starting point.
-> However, the final image has been tweaked by all those
-> XXX_POSTPROCESS_COMMAND.
-> For example, the 'debug-tweaks' IMAGE_FEATURE will lead to several
-> additonal ROOTFS_POSTPROCESS_COMMAND.
-> meta/classes/image.bbclass:# Allow dropbear/openssh to accept logins
-> from accounts with an empty password string if debug-tweaks is enabled
-> meta/classes/image.bbclass:ROOTFS_POSTPROCESS_COMMAND +=
-> '${@base_contains("IMAGE_FEATURES", "debug-tweaks",
-> "ssh_allow_empty_password; ", "",d)}'
-> meta/classes/image.bbclass:# Enable postinst logging if debug-tweaks is
-> enabled
-> meta/classes/image.bbclass:ROOTFS_POSTPROCESS_COMMAND +=
-> '${@base_contains("IMAGE_FEATURES", "debug-tweaks",
-> "postinst_enable_logging; ", "",d)}'
-> 
-> IMHO, the rootfs after all packages installed and before all postprocess
-> commands running should serve as the reference rootfs for the
-> incremental rpm image generation.
-> But I cannot figure out a reasonable solution which doesn't have much
-> performance impact.
-> 
-> Any idea or suggestion?
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 78ff7ae..5cb67df 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -34,10 +34,14 @@ export AS = "${CC} -c"
+ inherit pkgconfig siteinfo multilib_header
+ 
+ PACKAGES =+ "libcrypto libssl ${PN}-misc"
++
++#Adding RDEPENDS for perl scripts
++RDEPENDS_${PN}-misc +="perl"
++
+ FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
+ FILES_libssl = "${libdir}/libssl.so.*"
+ FILES_${PN} =+ " ${libdir}/ssl/*"
+-FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf"
++FILES_${PN}-misc = "${libdir}/ssl/misc ${libdir}/ssl/openssl.cnf ${bindir}/c_rehash"
+ FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
+ 
+ do_configure_prepend_darwin () {
+@@ -148,5 +152,10 @@ do_install () {
+ 	oe_multilib_header openssl/opensslconf.h
+ }
+ 
++do_install_append() {
++    # The c_rehash utility isn't installed by the normal installation process.
++    install -m 0755 ${S}/tools/c_rehash ${D}${bindir}
++}
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+1.7.10.4
 
-Probably we would have to take a copy of the rootfs at some point before this. 
-To be honest though this incremental functionality has always seemed a bit 
-fragile to me - what if a postinstall for a package makes changes to files in 
-the rootfs installed by another package, and the second time around the 
-package is removed but the package's postrm doesn't undo those changes (do we 
-even run postrms during incremental rootfs generation)?
-
-Cheers,
-Paul
 
