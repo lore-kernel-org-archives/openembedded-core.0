@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E6DB6E4C5
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DAB56E50D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2013 03:33:17 +0000 (UTC)
+	Mon, 16 Dec 2013 03:33:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBG3XFo9009890
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBG3XHKS003387
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 15 Dec 2013 19:33:15 -0800 (PST)
+	Sun, 15 Dec 2013 19:33:18 -0800 (PST)
 Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Sun, 15 Dec 2013 19:33:15 -0800
+	(TLS) id 14.2.347.0; Sun, 15 Dec 2013 19:33:17 -0800
 From: Kai Kang <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 16 Dec 2013 11:33:00 +0800
-Message-ID: <f033353f7628b237785b8074d36559855b7964f0.1387164126.git.kai.kang@windriver.com>
+Date: Mon, 16 Dec 2013 11:33:01 +0800
+Message-ID: <f540d1021de75527fdfdb8306f53f5454e6b9f62.1387164126.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1387164126.git.kai.kang@windriver.com>
 References: <cover.1387164126.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.231]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/5] LSB_Test.sh: update locales
+Subject: [PATCH 5/5] lsbtest: add ppc64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2013 03:33:17 -0000
+X-List-Received-Date: Mon, 16 Dec 2013 03:33:19 -0000
 Content-Type: text/plain
 
-Add missing localedef statements to the LSB_Test.sh which are required
-by the libstdc++ LSB test.
+LSB supports to test on PPC64 target, so update lsbtest recipe and test
+scripts to enable PPC64 support.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-extended/lsb/lsbtest/LSB_Test.sh | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-extended/lsb/lsbtest/LSB_Test.sh |  2 +-
+ meta/recipes-extended/lsb/lsbtest_1.0.bb      | 12 ++++++++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh b/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
-index 2004157..37ce3f1 100644
+index 37ce3f1..12f0054 100644
 --- a/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
 +++ b/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
-@@ -485,6 +485,11 @@ localedef -i it_IT -f ISO-8859-1 it_IT
- localedef -i ja_JP -f EUC-JP ja_JP.eucjp
- localedef -i se_NO -f UTF-8 se_NO.UTF-8
- localedef -i ta_IN -f UTF-8 ta_IN
-+localedef -i es_ES -f ISO-8859-1 es_ES
-+localedef -i fr_FR@euro -f ISO-8859-1 fr_FR@euro
-+localedef -i is_IS -f UTF-8 is_IS.UTF-8
-+localedef -i zh_TW -f BIG5 zh_TW.BIG5
-+localedef -i en_US -f ISO-8859-15 en_US.ISO-8859-15
+@@ -29,7 +29,7 @@ EOF
+ fi
  
- echo ""
- echo "Installation done!"
+ ARCH=`uname -m`
+-if [ ${ARCH} != "i686" ] && [ ${ARCH} != "x86_64" ] && [ ${ARCH} != "ppc" ]
++if [ ${ARCH} != "i686" ] && [ ${ARCH} != "x86_64" ] && [ ${ARCH} != "ppc" ] && [ ${ARCH} != "ppc64" ]
+ then
+ 	echo "Error: Unsupported architecture"
+ 	exit 1
+diff --git a/meta/recipes-extended/lsb/lsbtest_1.0.bb b/meta/recipes-extended/lsb/lsbtest_1.0.bb
+index 8973e09..520c1e7 100644
+--- a/meta/recipes-extended/lsb/lsbtest_1.0.bb
++++ b/meta/recipes-extended/lsb/lsbtest_1.0.bb
+@@ -31,6 +31,18 @@ do_install() {
+ 		sed -i -e 's/lsbarch/ppc32/g' -e 's/targetarch/ppc/g' ${D}/opt/lsb-test/packages_list
+ 		sed -i -e 's/targetarch/PPC32/g' ${D}/opt/lsb-test/session
+ 	fi
++
++	# For a ppc64 target. the default userspace is 32b.
++	# Therefore, only change the lsbarch and targetarch
++	# in the package_list when MLIB=lib64 is being used.
++	# Otherwise, by default, the ppc32 LSB packages
++	# will be downloaded by LSB_Test.sh
++	if [ "${TARGET_ARCH}" == "powerpc64" ];then
++		if [ "${PN}" != "${BPN}" ];then
++			sed -i -e 's/lsbarch/ppc64/g' -e 's/targetarch/ppc64/g' ${D}/opt/lsb-test/packages_list
++			sed -i -e 's/targetarch/PPC64/g' ${D}/opt/lsb-test/session
++		fi
++	fi
+ }
+ 
+ FILES_${PN} += "/opt/lsb-test/* \
 -- 
 1.8.1.2
 
