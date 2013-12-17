@@ -1,23 +1,23 @@
-Return-Path: <corneliux.stoicescu@intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1724A6E4C9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2013 09:33:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Dec 2013 01:33:42 -0800
+	by mail.openembedded.org (Postfix) with ESMTP id 571F56E4C9;
+	Tue, 17 Dec 2013 09:58:36 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Dec 2013 01:58:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,500,1384329600"; d="scan'208";a="451263585"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Dec 2013 01:33:41 -0800
-Received: from localhost.localdomain (unknown [10.237.112.161])
-	by linux.intel.com (Postfix) with ESMTP id F1ABD6A4092;
-	Tue, 17 Dec 2013 01:33:38 -0800 (PST)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Dec 2013 11:44:53 +0100
-Message-Id: <1387277093-3051-1-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] oe-selftest: New tests for sstate related operations
+X-IronPort-AV: E=Sophos;i="4.95,500,1384329600"; d="scan'208";a="445561099"
+Received: from paulonei-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.122.28])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2013 01:58:35 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-members@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 17 Dec 2013 09:58:34 +0000
+Message-ID: <10203433.1p4zKQ5Spg@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
+MIME-Version: 1.0
+Subject: FOSDEM 2014
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,247 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2013 09:33:53 -0000
+X-List-Received-Date: Tue, 17 Dec 2013 09:58:37 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta/lib/oeqa/selftest/sstate.py |  226 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 226 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/sstate.py
+Hi all,
 
-diff --git a/meta/lib/oeqa/selftest/sstate.py b/meta/lib/oeqa/selftest/sstate.py
-new file mode 100644
-index 0000000..d1fe20a
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/sstate.py
-@@ -0,0 +1,226 @@
-+import datetime
-+import unittest
-+import os
-+import re
-+import shutil
-+
-+import oeqa.utils.ftools as ftools
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
-+
-+class SStateTests(oeSelfTest):
-+
-+    def setUpLocal(self):
-+        self.temp_sstate_location = None
-+        self.sstate_path = get_bb_var('SSTATE_DIR')
-+        self.distro = get_bb_var('NATIVELSBSTRING')
-+        self.distro_specific_sstate = os.path.join(self.sstate_path, self.distro)
-+
-+    # Creates a special sstate configuration with the option to add sstate mirrors
-+    def config_sstate(self, temp_sstate_location=False, add_local_mirrors=[]):
-+        self.temp_sstate_location = temp_sstate_location
-+
-+        if self.temp_sstate_location:
-+            temp_sstate_path = os.path.join(self.builddir, "temp_sstate_%s" % datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
-+            config_temp_sstate = "SSTATE_DIR = \"%s\"" % temp_sstate_path
-+            self.append_config(config_temp_sstate)
-+            self.track_for_cleanup(temp_sstate_path)
-+        self.sstate_path = get_bb_var('SSTATE_DIR')
-+        self.distro = get_bb_var('NATIVELSBSTRING')
-+        self.distro_specific_sstate = os.path.join(self.sstate_path, self.distro)
-+
-+        if add_local_mirrors:
-+            config_set_sstate_if_not_set = 'SSTATE_MIRRORS ?= ""'
-+            self.append_config(config_set_sstate_if_not_set)
-+            for local_mirror in add_local_mirrors:
-+                self.assertFalse(os.path.join(local_mirror) == os.path.join(self.sstate_path), msg='Cannot add the current sstate path as a sstate mirror')
-+                config_sstate_mirror = "SSTATE_MIRRORS += \"file://.* file:///%s/PATH\"" % local_mirror
-+                self.append_config(config_sstate_mirror)
-+
-+    # Returns a list containing sstate files
-+    def search_sstate(self, filename_regex, distro_specific=True, distro_nonspecific=True):
-+        result = []
-+        for root, dirs, files in os.walk(self.sstate_path):
-+            if distro_specific and re.search("%s/[a-z0-9]{2}$" % self.distro, root):
-+                for f in files:
-+                    if re.search(filename_regex, f):
-+                        result.append(f)
-+            if distro_nonspecific and re.search("%s/[a-z0-9]{2}$" % self.sstate_path, root):
-+                for f in files:
-+                    if re.search(filename_regex, f):
-+                        result.append(f)
-+        return result
-+
-+
-+    # Test sstate files creation and their location
-+    def run_test_sstate_creation(self, targets, distro_specific=True, distro_nonspecific=True, temp_sstate_location=True, should_pass=True):
-+        self.config_sstate(temp_sstate_location)
-+
-+        if  self.temp_sstate_location:
-+            bitbake(['-cclean'] + targets)
-+        else:
-+            bitbake(['-ccleansstate'] + targets)
-+
-+        bitbake(targets)
-+        file_tracker = self.search_sstate('|'.join(map(str, targets)), distro_specific, distro_nonspecific)
-+        if should_pass:
-+            self.assertTrue(file_tracker , msg="Could not find sstate files for: %s" % ', '.join(map(str, targets)))
-+        else:
-+            self.assertTrue(not file_tracker , msg="Found sstate files in the wrong place for: %s" % ', '.join(map(str, targets)))
-+
-+    def test_sstate_creation_distro_specific_pass(self):
-+        self.run_test_sstate_creation(['binutils-cross', 'binutils-native'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True)
-+
-+    def test_sstate_creation_distro_specific_fail(self):
-+        self.run_test_sstate_creation(['binutils-cross', 'binutils-native'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True, should_pass=False)
-+
-+    def test_sstate_creation_distro_nonspecific_pass(self):
-+        self.run_test_sstate_creation(['eglibc-initial'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True)
-+
-+    def test_sstate_creation_distro_nonspecific_fail(self):
-+        self.run_test_sstate_creation(['eglibc-initial'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True, should_pass=False)
-+
-+
-+    # Test the sstate files deletion part of the do_cleansstate task
-+    def run_test_cleansstate_task(self, targets, distro_specific=True, distro_nonspecific=True, temp_sstate_location=True):
-+        self.config_sstate(temp_sstate_location)
-+
-+        bitbake(['-ccleansstate'] + targets)
-+
-+        bitbake(targets)
-+        file_tracker_1 = self.search_sstate('|'.join(map(str, targets)), distro_specific, distro_nonspecific)
-+        self.assertTrue(file_tracker_1, msg="Could not find sstate files for: %s" % ', '.join(map(str, targets)))
-+
-+        bitbake(['-ccleansstate'] + targets)
-+        file_tracker_2 = self.search_sstate('|'.join(map(str, targets)), distro_specific, distro_nonspecific)
-+        self.assertTrue(not file_tracker_2)
-+
-+    def test_cleansstate_task_distro_specific_nonspecific(self):
-+        self.run_test_cleansstate_task(['binutils-cross', 'binutils-native', 'eglibc-initial'], distro_specific=True, distro_nonspecific=True, temp_sstate_location=True)
-+
-+    def test_cleansstate_task_distro_nonspecific(self):
-+        self.run_test_cleansstate_task(['eglibc-initial'], distro_specific=False, distro_nonspecific=True, temp_sstate_location=True)
-+
-+    def test_cleansstate_task_distro_specific(self):
-+        self.run_test_cleansstate_task(['binutils-cross', 'binutils-native', 'eglibc-initial'], distro_specific=True, distro_nonspecific=False, temp_sstate_location=True)
-+
-+
-+    # Test rebuilding of distro-specific sstate files
-+    def run_test_rebuild_distro_specific_sstate(self, targets, temp_sstate_location=True):
-+        self.config_sstate(temp_sstate_location)
-+
-+        bitbake(['-ccleansstate'] + targets)
-+
-+        bitbake(targets)
-+        self.assertTrue(self.search_sstate('|'.join(map(str, targets)), distro_specific=False, distro_nonspecific=True) == [], msg="Found distro non-specific sstate for: %s" % ', '.join(map(str, targets)))
-+        file_tracker_1 = self.search_sstate('|'.join(map(str, targets)), distro_specific=True, distro_nonspecific=False)
-+        self.assertTrue(len(file_tracker_1) > len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
-+
-+        self.track_for_cleanup(self.distro_specific_sstate + "_old")
-+        shutil.copytree(self.distro_specific_sstate, self.distro_specific_sstate + "_old")
-+        shutil.rmtree(self.distro_specific_sstate)
-+
-+        bitbake(['-cclean'] + targets)
-+        bitbake(targets)
-+        file_tracker_2 = self.search_sstate('|'.join(map(str, targets)), distro_specific=True, distro_nonspecific=False)
-+        self.assertTrue(len(file_tracker_2) > len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
-+
-+        not_recreated = [x for x in file_tracker_1 if x not in file_tracker_2]
-+        self.assertTrue(not_recreated == [], msg="The following sstate files ware not recreated: %s" % ', '.join(map(str, not_recreated)))
-+
-+        created_once = [x for x in file_tracker_2 if x not in file_tracker_1]
-+        self.assertTrue(created_once == [], msg="The following sstate files ware created only in the second run: %s" % ', '.join(map(str, created_once)))
-+
-+    def test_rebuild_distro_specific_sstate_cross_native_targets(self):
-+        self.run_test_rebuild_distro_specific_sstate(['binutils-cross', 'binutils-native'], temp_sstate_location=False)
-+
-+    def test_rebuild_distro_specific_sstate_cross_target(self):
-+        self.run_test_rebuild_distro_specific_sstate(['binutils-cross'], temp_sstate_location=False)
-+
-+    def test_rebuild_distro_specific_sstate_native_target(self):
-+        self.run_test_rebuild_distro_specific_sstate(['binutils-native'], temp_sstate_location=False)
-+
-+
-+    # Test the sstate-cache-management script. Each element in the global_config list is used with the corresponding element in the target_config list
-+    def run_test_sstate_cache_management_script(self, target, global_config=[''], target_config=['']):
-+        self.assertTrue(global_config)
-+        self.assertTrue(target_config)
-+        self.assertTrue(len(global_config) == len(target_config), msg='Lists global_config and target_config should have the same number of elements')
-+        self.config_sstate(temp_sstate_location=True, add_local_mirrors=[self.sstate_path])
-+
-+        # buildhistory needs to be disabled for this test. It may report errors otherwise.
-+        if 'buildhistory' in get_bb_var('USER_CLASSES'):
-+            remove_buildhistory_config = 'USER_CLASSES_remove = "buildhistory"'
-+            self.append_config(remove_buildhistory_config)
-+
-+        # For not this only checks if random sstate tasks are handled correctly as a group.
-+        # In the future we should add control over what tasks we check for.
-+
-+        expected_remaining_sstate = []
-+        for idx in range(len(target_config)):
-+            self.append_config(global_config[idx])
-+            self.append_recipeinc(target, target_config[idx])
-+            if target_config[idx] == target_config[-1]:
-+                target_sstate_before_build = self.search_sstate(target)
-+            bitbake("-cclean %s" % target)
-+            result = bitbake(target, ignore_status=True)
-+            if target_config[idx] == target_config[-1]:
-+                target_sstate_after_build = self.search_sstate(target)
-+                expected_remaining_sstate += [x for x in target_sstate_after_build if x not in target_sstate_before_build]
-+            self.remove_config(global_config[idx])
-+            self.remove_recipeinc(target, target_config[idx])
-+            self.assertEqual(result.status, 0)
-+
-+        runCmd("sstate-cache-management.sh -y --cache-dir=%s --remove-duplicated" % self.sstate_path)
-+        actual_remaining_sstate = self.search_sstate(target)
-+
-+        actual_not_expected = [x for x in actual_remaining_sstate if x not in expected_remaining_sstate]
-+        self.assertFalse(actual_not_expected, msg="Files should have been removed but ware not: %s" % ', '.join(map(str, actual_not_expected)))
-+        expected_not_actual = [x for x in expected_remaining_sstate if x not in actual_remaining_sstate]
-+        self.assertFalse(expected_not_actual, msg="Extra files ware removed: %s" ', '.join(map(str, expected_not_actual)))
-+
-+
-+    def test_sstate_cache_management_script_using_pr_1(self):
-+        global_config = []
-+        target_config = []
-+        global_config.append('')
-+        target_config.append('PR = "0"')
-+        self.run_test_sstate_cache_management_script('m4', global_config,  target_config)
-+
-+    def test_sstate_cache_management_script_using_pr_2(self):
-+        global_config = []
-+        target_config = []
-+        global_config.append('')
-+        target_config.append('PR = "0"')
-+        global_config.append('')
-+        target_config.append('PR = "1"')
-+        self.run_test_sstate_cache_management_script('m4', global_config,  target_config)
-+
-+    def test_sstate_cache_management_script_using_pr_3(self):
-+        global_config = []
-+        target_config = []
-+        global_config.append('MACHINE = "qemux86-64"')
-+        target_config.append('PR = "0"')
-+        global_config.append(global_config[0])
-+        target_config.append('PR = "1"')
-+        global_config.append('MACHINE = "qemux86"')
-+        target_config.append('PR = "1"')
-+        self.run_test_sstate_cache_management_script('m4', global_config,  target_config)
-+
-+    def test_sstate_cache_management_script_using_machine(self):
-+        global_config = []
-+        target_config = []
-+        global_config.append('MACHINE = "qemux86-64"')
-+        target_config.append('')
-+        global_config.append('MACHINE = "qemux86"')
-+        target_config.append('')
-+        self.run_test_sstate_cache_management_script('m4', global_config,  target_config)
-+
-+
-+
-+
-+
-+
-+
-+
-+
+As below, our FOSDEM stand proposal has been accepted. We can talk specific 
+logistics a bit closer to the event, but now is a good time to book your 
+tickets if you'd like to attend - we usually have a pretty good turnout of 
+OpenEmbedded community members and it would be great if we could continue that 
+this year.
+
+We have two tables to fill with interesting demos and people to talk to 
+attendees, so if you'd like to help out on the stand that would be awesome as 
+well!
+
+Cheers,
+Paul
+
+
+
+----------  Forwarded Message  ----------
+
+Subject: Your stand proposal for OpenEmbedded has been accepted
+Date: Monday 16 December 2013, 22:28:19
+From: FOSDEM Stands Team <stands@fosdem.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Hi Paul,
+
+The FOSDEM stands team is glad to be able to inform you that your request
+for a stand for OpenEmbedded has been accepted.
+There will be two tables reserved for you.
+
+You will receive further information about what's expected of you closer
+to the event date.
+
+Looking forward to seeing you at FOSDEM 2014!
+
+
+Kind regards,
+
+Wynke Stulemeijer
+FOSDEM stands team
+-----------------------------------------
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
