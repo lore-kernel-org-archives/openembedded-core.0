@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 27AC56E57A
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B846610B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2013 03:28:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBH3SDBG015751
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2013 19:28:14 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 16 Dec 2013 19:28:13 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Dec 2013 19:33:58 +0800
-Message-ID: <f677358d229897036b768ab9e342a9bb5cd812b1.1387279561.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1387279561.git.liezhi.yang@windriver.com>
-References: <cover.1387279561.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] gcc-4.7/gcc: disable sdt from configure.ac to keep compatibility with configure
+	Tue, 17 Dec 2013 08:29:44 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1Vsq2B-0002Nd-8g from Yasir_Khan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 17 Dec 2013 00:29:43 -0800
+Received: from ykhan.pkl.mentorg.com ([137.202.157.53]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 17 Dec 2013 00:29:42 -0800
+From: Yasir Khan <yasir_khan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Dec 2013 13:28:35 +0500
+Message-Id: <1387268915-28265-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.10.4
+X-OriginalArrivalTime: 17 Dec 2013 08:29:43.0004 (UTC)
+	FILETIME=[22A491C0:01CEFB02]
+Subject: [PATCH V3] openssl.inc: Install c_rehash utility with openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,85 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2013 03:28:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Dec 2013 08:29:46 -0000
 
-We had disabled the sdt from configure, let's also disable it from
-confgure.ac to keep them compatible.
+From: mykhani <yasir_khan@mentor.com>
 
-BTW, the libstdc++-v3 of gcc-4.7 doesn't use the sdt, so we don't need
-to edit libstdc++-v3/configure as gcc-4.8.
+c_rehash utility is not being installed with openssl.It conveniently
+generates hash and symbolic links based on it for CA certificates
+stored locally for SSL based server authentication
 
-NOTE, this commit edit the patch gcc-4.7/disablesdt.patch directly.
-
-[YOCTO #5657]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.7/disablesdt.patch | 44 +++++++++++++++++++---
- 1 file changed, 39 insertions(+), 5 deletions(-)
+ meta/recipes-connectivity/openssl/openssl.inc |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.7/disablesdt.patch b/meta/recipes-devtools/gcc/gcc-4.7/disablesdt.patch
-index 8946afc..8f5b061 100644
---- a/meta/recipes-devtools/gcc/gcc-4.7/disablesdt.patch
-+++ b/meta/recipes-devtools/gcc/gcc-4.7/disablesdt.patch
-@@ -6,12 +6,15 @@ but before libgcc is compiled for example.
- RP 2012/8/7
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index 3bfe569..cdb1809 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -13,6 +13,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
  
- Upstream-Status: Inappropriate [hack]
-+---
-+ gcc/configure    | 12 ++++++------
-+ gcc/configure.ac | 18 +++++++++---------
-+ 2 files changed, 15 insertions(+), 15 deletions(-)
+ DEPENDS = "perl-native-runtime"
  
--Index: git/gcc/configure
--===================================================================
----- git.orig/gcc/configure	2012-08-07 21:18:42.319247701 +0000
--+++ git/gcc/configure	2012-08-07 21:19:08.939247082 +0000
--@@ -26758,12 +26758,12 @@
-+diff --git a/gcc/configure b/gcc/configure
-+--- a/gcc/configure
-++++ b/gcc/configure
-+@@ -26817,12 +26817,12 @@ fi
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking sys/sdt.h in the target C library" >&5
-  $as_echo_n "checking sys/sdt.h in the target C library... " >&6; }
-  have_sys_sdt_h=no
-@@ -30,3 +33,34 @@ Index: git/gcc/configure
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $have_sys_sdt_h" >&5
-  $as_echo "$have_sys_sdt_h" >&6; }
-  
-+diff --git a/gcc/configure.ac b/gcc/configure.ac
-+--- a/gcc/configure.ac
-++++ b/gcc/configure.ac
-+@@ -4688,15 +4688,15 @@ if test x$gcc_cv_libc_provides_ssp = xyes; then
-+ fi
-+ 
-+ # Test for <sys/sdt.h> on the target.
-+-GCC_TARGET_TEMPLATE([HAVE_SYS_SDT_H])
-+-AC_MSG_CHECKING(sys/sdt.h in the target C library)
-+-have_sys_sdt_h=no
-+-if test -f $target_header_dir/sys/sdt.h; then
-+-  have_sys_sdt_h=yes
-+-  AC_DEFINE(HAVE_SYS_SDT_H, 1,
-+-            [Define if your target C library provides sys/sdt.h])
-+-fi
-+-AC_MSG_RESULT($have_sys_sdt_h)
-++#GCC_TARGET_TEMPLATE([HAVE_SYS_SDT_H])
-++#AC_MSG_CHECKING(sys/sdt.h in the target C library)
-++#have_sys_sdt_h=no
-++#if test -f $target_header_dir/sys/sdt.h; then
-++#  have_sys_sdt_h=yes
-++#  AC_DEFINE(HAVE_SYS_SDT_H, 1,
-++#            [Define if your target C library provides sys/sdt.h])
-++#fi
-++#AC_MSG_RESULT($have_sys_sdt_h)
-+ 
-+ # Check if TFmode long double should be used by default or not.
-+ # Some glibc targets used DFmode long double, but with glibc 2.4
-+-- 
-+1.8.3.1
++# Adding RDEPENDS for perl scripts
++RDEPENDS_${PN}-misc +="perl"
 +
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+           "
+ S = "${WORKDIR}/openssl-${PV}"
+@@ -37,7 +40,7 @@ PACKAGES =+ "libcrypto libssl ${PN}-misc openssl-conf"
+ FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
+ FILES_libssl = "${libdir}/libssl.so.*"
+ FILES_${PN} =+ " ${libdir}/ssl/*"
+-FILES_${PN}-misc = "${libdir}/ssl/misc"
++FILES_${PN}-misc = "${libdir}/ssl/misc ${bindir}/c_rehash"
+ FILES_${PN}-dev += "${base_libdir}/libcrypto${SOLIBSDEV}"
+ 
+ # Add the openssl.cnf file to the openssl-conf package.  Make the libcrypto
+@@ -157,6 +160,8 @@ do_install () {
+ 	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+ 
+ 	oe_multilib_header openssl/opensslconf.h
++	# The c_rehash utility isn't installed by the normal installation process.
++	install -m 0755 ${S}/tools/c_rehash ${D}${bindir}
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-1.8.3.1
+1.7.10.4
 
 
