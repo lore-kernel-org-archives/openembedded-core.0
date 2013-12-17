@@ -1,25 +1,21 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E2186D86B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AA166E46F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2013 10:38:27 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 17 Dec 2013 02:38:27 -0800
+	Tue, 17 Dec 2013 10:42:28 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 17 Dec 2013 02:38:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,501,1384329600"; d="scan'208";a="328435007"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 17 Dec 2013 02:38:16 -0800
-Received: from localhost.localdomain (unknown [10.237.112.161])
-	by linux.intel.com (Postfix) with ESMTP id E26F66A4092;
-	Tue, 17 Dec 2013 02:38:13 -0800 (PST)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.95,501,1384329600"; d="scan'208";a="425935150"
+Received: from paulonei-mobl.ger.corp.intel.com (HELO
+	helios.ger.corp.intel.com) ([10.252.122.28])
+	by orsmga001.jf.intel.com with ESMTP; 17 Dec 2013 02:42:26 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Dec 2013 12:49:29 +0100
-Message-Id: <1387280969-4066-3-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1387280969-4066-1-git-send-email-corneliux.stoicescu@intel.com>
-References: <1387280969-4066-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: [PATCH V2 3/3] oe-selftest: added buildhistory buildtime tests in module buildoptions.py
+Date: Tue, 17 Dec 2013 10:42:12 +0000
+Message-Id: <1387276932-26461-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] libsoup-2.4: add intltool-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2013 10:38:27 -0000
+X-List-Received-Date: Tue, 17 Dec 2013 10:42:29 -0000
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+The configure script looks for this; most of the time dependency chains
+ensure this is present but we need to be explicit or failures can
+occur.
+
+Reported by Nicolas Dechesne <nicolas.dechesne@linaro.org>
+
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/buildoptions.py |   20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index 5fb69d8..ef6579b 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -4,6 +4,7 @@ import logging
- import re
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb
+index 5edbb09..3325939 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
  
- from oeqa.selftest.base import oeSelfTest
-+from oeqa.selftest.buildhistory import BuildhistoryBase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var
- import oeqa.utils.ftools as ftools
+ SECTION = "x11/gnome/libs"
  
-@@ -85,3 +86,22 @@ class SanityOptionsTest(oeSelfTest):
-         res = bitbake("gzip nfs-utils")
-         self.assertTrue("WARNING: QA Issue: gzip" in res.output)
-         self.assertTrue("WARNING: QA Issue: nfs-utils" in res.output)
-+
-+class BuildhistoryTests(BuildhistoryBase):
-+
-+    def test_buildhistory_basic(self):
-+        self.run_buildhistory_operation('xcursor-transparent-theme')
-+        self.assertTrue(os.path.isdir(get_bb_var('BUILDHISTORY_DIR')))
-+
-+    def test_buildhistory_buildtime_pr_backwards(self):
-+        self.add_command_to_tearDown('cleanup-workdir')
-+        target = 'xcursor-transparent-theme'
-+        error = "ERROR: QA Issue: Package version for package %s went backwards which would break package feeds from (.*-r1 to .*-r0)" % target
-+        self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
-+        self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
-+
-+
-+
-+
-+
-+
+-DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3"
++DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 intltool-native"
+ 
+ # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.  Enable
+ # by default but let it be easily disabled.
 -- 
-1.7.9.5
+1.8.1.2
 
 
