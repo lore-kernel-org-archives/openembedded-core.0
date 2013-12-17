@@ -1,21 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AA166E46F
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 28C0D6088D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2013 10:42:28 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 Dec 2013 02:38:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,501,1384329600"; d="scan'208";a="425935150"
-Received: from paulonei-mobl.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.122.28])
-	by orsmga001.jf.intel.com with ESMTP; 17 Dec 2013 02:42:26 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Dec 2013 10:42:12 +0000
-Message-Id: <1387276932-26461-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] libsoup-2.4: add intltool-native to DEPENDS
+	Tue, 17 Dec 2013 14:22:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBHEMSdv002775
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Dec 2013 06:22:29 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 17 Dec 2013 06:22:28 -0800
+Message-ID: <52B05E23.4010402@windriver.com>
+Date: Tue, 17 Dec 2013 08:22:27 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1387270422.git.Qi.Chen@windriver.com>
+	<e2ef71afaed27a2ea2d295132b725fe687da7b62.1387270422.git.Qi.Chen@windriver.com>
+In-Reply-To: <e2ef71afaed27a2ea2d295132b725fe687da7b62.1387270422.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] rootfs_rpm.bbclass: make complementary packages not attempt-only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,33 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2013 10:42:29 -0000
+X-List-Received-Date: Tue, 17 Dec 2013 14:22:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The configure script looks for this; most of the time dependency chains
-ensure this is present but we need to be explicit or failures can
-occur.
+On 12/17/13, 2:54 AM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Installing complementary packages should not be attempt-only, otherwise,
+> errors would be hidden. For example, if we enable ptest distro feature,
+> and we add 'ptest-pkgs' to IMAGE_FEATRUES, then building a minimal image
+> would succeed without reporting any error. However, the systemd-ptest
+> is not installed because of lack of the perl package.
 
-Reported by Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Actually that was intentional under the original system design.  Any of the 
+complementary packages were just that, complementary and not required for the 
+system to function properly.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If dependencies, installation issues, etc caused problems, we could happily skip 
+them and continue on.  There are places (fairly few these days) where the 
+complementary packages are known to introduce a failure, if not ignored.
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb
-index 5edbb09..3325939 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
- 
- SECTION = "x11/gnome/libs"
- 
--DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3"
-+DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 intltool-native"
- 
- # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.  Enable
- # by default but let it be easily disabled.
--- 
-1.8.1.2
+This happens primarily when the complementary set introduces a package that has 
+a conflict (RCONFLICT or a file level conflict) with something installed in the 
+required set.
+
+--Mark
+
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/classes/rootfs_rpm.bbclass |    4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+> index 1a0c225..9a88330 100644
+> --- a/meta/classes/rootfs_rpm.bbclass
+> +++ b/meta/classes/rootfs_rpm.bbclass
+> @@ -170,8 +170,8 @@ rpm_setup_smart_target_config() {
+>
+>   rootfs_install_packages() {
+>   	# Note - we expect the variables not set here to already have been set
+> -	export INSTALL_PACKAGES_RPM=""
+> -	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="`cat $1`"
+> +	export INSTALL_PACKAGES_RPM="`cat $1`"
+> +	export INSTALL_PACKAGES_ATTEMPTONLY_RPM=""
+>   	export INSTALL_PROVIDENAME_RPM=""
+>   	export INSTALL_TASK_RPM="rootfs_install_packages"
+>   	export INSTALL_COMPLEMENTARY_RPM="1"
+>
 
 
