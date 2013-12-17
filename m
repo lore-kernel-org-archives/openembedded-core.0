@@ -1,23 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 571F56E4C9;
-	Tue, 17 Dec 2013 09:58:36 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Dec 2013 01:58:36 -0800
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1038F6D86B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Dec 2013 10:22:46 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 Dec 2013 02:22:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,500,1384329600"; d="scan'208";a="445561099"
-Received: from paulonei-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.122.28])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2013 01:58:35 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-members@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 17 Dec 2013 09:58:34 +0000
-Message-ID: <10203433.1p4zKQ5Spg@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
-MIME-Version: 1.0
-Subject: FOSDEM 2014
+X-IronPort-AV: E=Sophos;i="4.95,501,1384329600"; d="scan'208";a="425927472"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 17 Dec 2013 02:22:43 -0800
+Received: from localhost.localdomain (unknown [10.237.112.161])
+	by linux.intel.com (Postfix) with ESMTP id 55E656A4092;
+	Tue, 17 Dec 2013 02:22:40 -0800 (PST)
+From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Dec 2013 12:33:57 +0100
+Message-Id: <1387280039-3792-1-git-send-email-corneliux.stoicescu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/3] oe-selftest: New BuildhistoryBase object for buildhistory testing.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,53 +30,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2013 09:58:37 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 17 Dec 2013 10:22:47 -0000
 
-Hi all,
+---
+ meta/lib/oeqa/selftest/buildhistory.py |   45 ++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/buildhistory.py
 
-As below, our FOSDEM stand proposal has been accepted. We can talk specific 
-logistics a bit closer to the event, but now is a good time to book your 
-tickets if you'd like to attend - we usually have a pretty good turnout of 
-OpenEmbedded community members and it would be great if we could continue that 
-this year.
-
-We have two tables to fill with interesting demos and people to talk to 
-attendees, so if you'd like to help out on the stand that would be awesome as 
-well!
-
-Cheers,
-Paul
-
-
-
-----------  Forwarded Message  ----------
-
-Subject: Your stand proposal for OpenEmbedded has been accepted
-Date: Monday 16 December 2013, 22:28:19
-From: FOSDEM Stands Team <stands@fosdem.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-Hi Paul,
-
-The FOSDEM stands team is glad to be able to inform you that your request
-for a stand for OpenEmbedded has been accepted.
-There will be two tables reserved for you.
-
-You will receive further information about what's expected of you closer
-to the event date.
-
-Looking forward to seeing you at FOSDEM 2014!
-
-
-Kind regards,
-
-Wynke Stulemeijer
-FOSDEM stands team
------------------------------------------
+diff --git a/meta/lib/oeqa/selftest/buildhistory.py b/meta/lib/oeqa/selftest/buildhistory.py
+new file mode 100644
+index 0000000..d8cae46
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/buildhistory.py
+@@ -0,0 +1,45 @@
++import unittest
++import os
++import re
++import shutil
++import datetime
++
++import oeqa.utils.ftools as ftools
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import Command, runCmd, bitbake, get_bb_var, get_test_layer
++
++
++class BuildhistoryBase(oeSelfTest):
++
++    def config_buildhistory(self, tmp_bh_location=False):
++        if (not 'buildhistory' in get_bb_var('USER_CLASSES')) and (not 'buildhistory' in get_bb_var('INHERIT')):
++            add_buildhistory_config = 'INHERIT += "buildhistory"\nBUILDHISTORY_COMMIT = "1"'
++            self.append_config(add_buildhistory_config)
++
++        if tmp_bh_location:
++            # Using a temporary buildhistory location for testing
++            tmp_bh_dir = os.path.join(self.builddir, "tmp_buildhistory_%s" % datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
++            buildhistory_dir_config = "BUILDHISTORY_DIR = \"%s\"" % tmp_bh_dir
++            self.append_config(buildhistory_dir_config)
++            self.track_for_cleanup(tmp_bh_dir)
++
++    def run_buildhistory_operation(self, target, global_config='', target_config='', change_bh_location=False, expect_error=False, error_regex=''):
++        if change_bh_location:
++            tmp_bh_location = True
++        else:
++            tmp_bh_location = False
++        self.config_buildhistory(tmp_bh_location)
++
++        self.append_config(global_config)
++        self.append_recipeinc(target, target_config)
++        bitbake("-cclean %s" % target)
++        result = bitbake(target, ignore_status=True)
++        self.remove_config(global_config)
++        self.remove_recipeinc(target, target_config)
++
++        if expect_error:
++            self.assertEqual(result.status, 1, msg="Error expected for global config '%s' and target config '%s'" % (global_config, target_config))
++            search_for_error = re.search(error_regex, result.output)
++            self.assertTrue(search_for_error, msg="Could not find desired error in output: %s" % error_regex)
++        else:
++            self.assertEqual(result.status, 0, msg="Command 'bitbake %s' has failed unexpectedly: %s" % (target, result.output))
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
