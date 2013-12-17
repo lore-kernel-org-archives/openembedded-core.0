@@ -1,20 +1,39 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 1794461222
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4630A617AA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2013 23:25:28 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 16 Dec 2013 15:25:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,498,1384329600"; d="scan'208";a="445315925"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.128])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Dec 2013 15:25:26 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Dec 2013 15:25:26 -0800
-Message-Id: <1387236326-16939-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] security_flags: more relocation issues
+	Tue, 17 Dec 2013 01:44:52 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id e16so4317037qcx.41
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Dec 2013 17:44:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=Z/sVBQ4JjsUGe5oTPExHzDO8tcXXF1wdeFYao4eazq4=;
+	b=UTLX0rvKi+pEZY9X+XWeLpxMoTe67wG15bF1T9Vdq6tZujX/i+/mHpyalM62Axx6dl
+	Ki4ArffADwjKrG7tWU62SVIekyelUNsrorABsP+NePzMKTtzNLhd/pSrg7RhSCb1Tksb
+	TCPwXP9MmVPrPCDkxAIhdkVHta12GFi1QoMABoPHjiZulRYC9pFkkRqSY9boRi8b6Y9g
+	2+NBtDB6tUuO4zUcrEYPP6zVAYm80brb4trJp6BIswtLHfGTR7QcAg0EkVlcy7r+sWrQ
+	XHl3twzrdaGlxHsda82TXitir8rD4piIp5yVjT3NkZLVUM4QEMDRwFpB/owLSvUNoBBZ
+	IMWg==
+X-Received: by 10.224.171.196 with SMTP id i4mr37659216qaz.38.1387244691414;
+	Mon, 16 Dec 2013 17:44:51 -0800 (PST)
+Received: from nano.lab.ossystems.com.br ([187.90.230.254])
+	by mx.google.com with ESMTPSA id hb2sm46051007qeb.6.2013.12.16.17.44.48
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Dec 2013 17:44:50 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 3A1B917643E61; Mon, 16 Dec 2013 23:44:40 -0200 (BRST)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 16 Dec 2013 23:44:37 -0200
+Message-Id: <1387244677-8112-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.4.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] pointercal-xinput: Mark as SIGGEN_EXCLUDERECIPES_ABISAFE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,55 +46,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2013 23:25:30 -0000
+X-List-Received-Date: Tue, 17 Dec 2013 01:44:53 -0000
 
-These are similar relocation R_X86_64_PC32 issues that are solved by
-removing the -pie flags.
+When including xinput-calibrator, in commit "xinput-calibrator: move
+it from meta-oe to oe-core" the pointercal-xinput has not been added
+to the SIGGEN_EXCLUDERECIPES_ABISAFE. This changes adds it to the
+meta/conf/layer.conf's file list.
 
-[YOCTO #5515]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/conf/distro/include/security_flags.inc |    8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/conf/layer.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index e313be6..ee7c3f0 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -18,6 +18,7 @@ SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-grub = ""
-+SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
- SECURITY_CFLAGS_pn-gst-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gst-plugins-gl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
-@@ -26,9 +27,15 @@ SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-libid3tag = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-libnewt = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-lttng-ust = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-openssl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
-@@ -37,6 +44,7 @@ SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
-+SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-webkit-gtk = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
- 
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index e249a6a..758a92b 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -24,6 +24,7 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
+   formfactor \
+   xserver-xf86-config \
+   pointercal \
++  pointercal-xinput \
+   base-files \
+   keymaps \
+   udev-extraconf \
 -- 
-1.7.10.4
+1.8.4.3
 
 
