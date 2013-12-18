@@ -1,23 +1,20 @@
-Return-Path: <ddalex@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D8F160DCA
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4509560E00
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 19:25:24 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Dec 2013 11:25:25 -0800
+	Wed, 18 Dec 2013 23:45:36 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 18 Dec 2013 15:41:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,508,1384329600"; d="scan'208";a="452179921"
-Received: from adamian-desktop.isw.intel.com ([10.237.224.35])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Dec 2013 11:24:52 -0800
-Received: by adamian-desktop.isw.intel.com (Postfix, from userid 1000)
-	id 5543F560594; Wed, 18 Dec 2013 19:24:54 +0000 (GMT)
-From: Alex DAMIAN <alexandru.damian@intel.com>
+X-IronPort-AV: E=Sophos;i="4.95,510,1384329600"; d="scan'208";a="454548006"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.128])
+	by orsmga002.jf.intel.com with ESMTP; 18 Dec 2013 15:45:37 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Dec 2013 19:24:47 +0000
-Message-Id: <1387394687-23669-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 03/10] toaster.bbclass: fix crash on buildstats collection
+Date: Wed, 18 Dec 2013 15:45:36 -0800
+Message-Id: <1387410336-32026-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] conf-notes: remove meta-toolchain-sdk references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,38 +27,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2013 19:25:26 -0000
+X-List-Received-Date: Wed, 18 Dec 2013 23:45:36 -0000
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+[YOCTO #5676]
 
-Toaster needs buildstats to be enabled in order to
-collect task statistics. The toaster.bbclass didn't
-have a guard to stop task data collection if the buildstats
-weren't enabled, leading to a crash.
-
-This patch verifies that the task variables are defined before
-trying to use them.
-
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/toaster.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/conf/conf-notes.txt | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
-index e1a93b5..08c7bfa 100644
---- a/meta/classes/toaster.bbclass
-+++ b/meta/classes/toaster.bbclass
-@@ -165,6 +165,9 @@ python toaster_collect_task_stats() {
-     import bb.utils
-     import os
- 
-+    if None == e.data.getVar('BUILDSTATS_BASE', True):
-+        return  # if we don't have buildstats, we cannot collect stats
-+
-     def _append_read_list(v):
-         lock = bb.utils.lockfile(e.data.expand("${TOPDIR}/toaster.lock"), False, True)
+diff --git a/meta/conf/conf-notes.txt b/meta/conf/conf-notes.txt
+index 503cffa..66e6319 100644
+--- a/meta/conf/conf-notes.txt
++++ b/meta/conf/conf-notes.txt
+@@ -2,7 +2,6 @@ Common targets are:
+     core-image-minimal
+     core-image-sato
+     meta-toolchain
+-    meta-toolchain-sdk
+     adt-installer
+     meta-ide-support
  
 -- 
-1.8.3.2
+1.8.3.1
 
 
