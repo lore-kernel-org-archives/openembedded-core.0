@@ -1,24 +1,31 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 260CE60D40
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C39060D04
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 08:37:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBI8bg26023856
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 18 Dec 2013 10:46:45 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBIAkelH030320 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Dec 2013 10:46:40 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Pl7qWw1RLjYF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 00:37:42 -0800 (PST)
-Received: from mliu3-desktop.corp.ad.wrs.com (128.224.162.145) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 18 Dec 2013 00:37:40 -0800
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Dec 2013 16:37:38 +0800
-Message-ID: <1387355858-25160-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.4.1
-MIME-Version: 1.0
-Subject: [PATCH] grub: move xz to DEPENDS list from RDEPENDS list
+	Wed, 18 Dec 2013 10:46:40 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBIAkc38030316
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Dec 2013 10:46:39 GMT
+Message-ID: <1387363593.6402.25.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Dec 2013 10:46:33 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] native: Use deltask to remove tasks which have no purpose
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2013 08:37:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Dec 2013 10:46:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-liblzma5 is really requiring by grub, setting RDEPENDS to xz would pull
-unneeded xz binaries into rootfs.
+core-image-sato has 47703 inter task dependencies before this patch
+and 29883 afterwards which is a significant worthwhile task graph
+simplification.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-bsp/grub/grub_2.00.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
-index dd1ebe5..84e6193 100644
---- a/meta/recipes-bsp/grub/grub_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub_2.00.bb
-@@ -11,8 +11,8 @@ SECTION = "bootloaders"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+Note: This patch depends on new bitbake functionality so we'll have to
+bump the bitbake version requirement before we can do this.
+
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index b2d85ef..5a318d2 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -151,11 +151,12 @@ python native_virtclass_handler () {
+ addhandler native_virtclass_handler
+ native_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
  
--DEPENDS = "autogen-native flex-native bison-native"
--RDEPENDS_${PN} = "diffutils freetype xz"
-+DEPENDS = "autogen-native flex-native bison-native xz"
-+RDEPENDS_${PN} = "diffutils freetype"
- PR = "r1"
+-do_package[noexec] = "1"
+-do_packagedata[noexec] = "1"
+-do_package_write_ipk[noexec] = "1"
+-do_package_write_deb[noexec] = "1"
+-do_package_write_rpm[noexec] = "1"
++deltask package
++deltask packagedata
++deltask package_write_ipk
++deltask package_write_deb
++deltask package_write_rpm
++deltask package_write
  
- SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
--- 
-1.8.4.1
+ do_packagedata[stamp-extra-info] = ""
+ do_populate_sysroot[stamp-extra-info] = ""
+
 
 
