@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CA3460E01
+	by mail.openembedded.org (Postfix) with ESMTP id E0FD660DCA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 13:55:20 +0000 (UTC)
+	Wed, 18 Dec 2013 13:56:17 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rBIDru8C004600 for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 13:55:15 GMT
+	rBIDuDA6004760 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Dec 2013 13:56:13 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id bNTz_Fpx1o0S
+	with LMTP id lXt3-odplQ7N
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 13:55:15 +0000 (GMT)
+	Wed, 18 Dec 2013 13:56:13 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	rBIDtCvl004719
+	rBIDu6Pn004750
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 13:55:14 GMT
-Message-ID: <1387374908.6402.46.camel@ted>
+	Wed, 18 Dec 2013 13:56:08 GMT
+Message-ID: <1387374962.6402.47.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Dec 2013 13:55:08 +0000
+Date: Wed, 18 Dec 2013 13:56:02 +0000
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] sstate/gcc: Fix shared workdir handling for siginfo files
+Subject: [PATCH] sstate: Get rid of crazy name mapping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,119 +38,253 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2013 13:55:21 -0000
+X-List-Received-Date: Wed, 18 Dec 2013 13:56:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-For a shared workdir, any one of the fetch/unpack/patch tasks may run yet the 
-PN and architecture fields in SSTATE_PKGSPEC may differ. This makes looking up
-the appropriate siginfo file near impossible.
+When originally developed, it was thought a task may have more than one associated
+sstate archive. The way the code has grown that idea is now not possible or needed.
+We can therefore assume one sstate archive per task and drop the crazy name
+mapping code. Simpler is better in this case.
 
-I've tried several different ways of resolving this and this is the neatest
-solution I could find, its still rather ugly. I believe the usefulness of 
-better sstate debugging outweighs the ugliness of the code.
-
-This patch also changes the sstate_checkhashes() code to look for siginfo 
-files rather than the actual sstate packages themselves. This means the
-function can be used in other contexts to find info files for tasks that
-may not have sstate data. It is assumed that sstate mirrors will have both
-files available. This is done to allow bitbake to query whether tasks have
-matching signatures in sstate directories or not.
+The downside is that various sstate archives will change name so this forces a cache
+rebuild. Given the other sstate changes going in at this time, this isn't really
+a bad thing as things would rebuild anyway.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 678d5e3..9df9ac2 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -10,6 +10,7 @@ def generate_sstatefn(spec, hash, d):
+diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
+index 54c2344..961a532 100644
+--- a/meta/classes/archive-configured-source.bbclass
++++ b/meta/classes/archive-configured-source.bbclass
+@@ -45,7 +45,6 @@ ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+ ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
  
- SSTATE_PKGARCH    = "${PACKAGE_ARCH}"
- SSTATE_PKGSPEC    = "sstate-${PN}-${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}-${PV}-${PR}-${SSTATE_PKGARCH}-${SSTATE_VERSION}-"
-+SSTATE_SWSPEC     = ""
- SSTATE_PKGNAME    = "${SSTATE_EXTRAPATH}${@generate_sstatefn(d.getVar('SSTATE_PKGSPEC', True), d.getVar('BB_TASKHASH', True), d)}"
- SSTATE_PKG        = "${SSTATE_DIR}/${SSTATE_PKGNAME}"
- SSTATE_EXTRAPATH   = ""
-@@ -26,7 +27,7 @@ SSTATE_DUPWHITELIST += "${STAGING_ETCDIR_NATIVE}/sgml ${STAGING_DATADIR_NATIVE}/
- SSTATE_SCAN_FILES ?= "*.la *-config *_config"
- SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d.getVar("SSTATE_SCAN_FILES", True).split())}" \) -type f'
+ SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-name] = "archive_scripts_logs"
+ do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+ do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
  
--BB_HASHFILENAME = "${SSTATE_EXTRAPATH} ${SSTATE_PKGSPEC}"
-+BB_HASHFILENAME = "${SSTATE_EXTRAPATH} ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}"
+@@ -56,7 +55,6 @@ python do_archive_scripts_logs_setscene () {
+ addtask do_archive_scripts_logs_setscene
  
- SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
+ SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-name] = "dumpdata_create_diff_gz"
+ do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+ do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
  
-@@ -606,11 +607,28 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-         e = extra.split(":")
-         mapping[e[0]] = e[1]
+diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
+index 7e9ed6d..e271a08 100644
+--- a/meta/classes/archive-original-source.bbclass
++++ b/meta/classes/archive-original-source.bbclass
+@@ -45,7 +45,6 @@ ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+ ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
  
-+    def getpathcomponents(task, d):
-+        # Magic data from BB_HASHFILENAME
-+        splithashfn = sq_hashfn[task].split(" ")
-+        spec = splithashfn[1]
-+        extrapath = splithashfn[0]
-+
-+        tname = sq_task[task][3:]
-+        if sq_task[task] in mapping:
-+            tname = mapping[sq_task[task]]
-+
-+        if tname in ["fetch", "unpack", "patch"] and splithashfn[2]:
-+            spec = splithashfn[2]
-+            extrapath = ""
-+
-+        return spec, extrapath, tname
-+
-+
-     for task in range(len(sq_fn)):
--        spec = sq_hashfn[task].split(" ")[1]
--        extrapath = sq_hashfn[task].split(" ")[0]
+ SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-name] = "archive_scripts_logs"
+ do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+ do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
  
--        sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + mapping[sq_task[task]] + ".tgz")
-+        spec, extrapath, tname = getpathcomponents(task, d)
-+
-+        sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tgz.siginfo")
-         if os.path.exists(sstatefile):
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-             ret.append(task)
-@@ -639,9 +657,9 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-             if task in ret:
-                 continue
+@@ -56,7 +55,6 @@ python do_archive_scripts_logs_setscene () {
+ addtask do_archive_scripts_logs_setscene
  
--            spec = sq_hashfn[task].split(" ")[1]
--            extrapath = sq_hashfn[task].split(" ")[0]
--            sstatefile = d.expand(extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + mapping[sq_task[task]] + ".tgz")
-+            spec, extrapath, tname = getpathcomponents(task, d)
-+
-+            sstatefile = d.expand(extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tgz.siginfo")
+ SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-name] = "dumpdata_create_diff_gz"
+ do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+ do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
  
-             srcuri = "file://" + sstatefile
-             localdata.setVar('SRC_URI', srcuri)
-@@ -743,6 +761,12 @@ python sstate_eventhandler() {
-     spkg = d.getVar('SSTATE_PKG', True)
-     if not spkg.endswith(".tgz"):
-         taskname = d.getVar("BB_RUNTASK", True)[3:]
--        bb.siggen.dump_this_task(d.getVar('SSTATE_PKG', True) + '_' + taskname + ".tgz" ".siginfo", d)
-+        spec = d.getVar('SSTATE_PKGSPEC', True)
-+        swspec = d.getVar('SSTATE_SWSPEC', True)
-+        if taskname in ["fetch", "unpack", "patch"] and swspec:
-+            d.setVar("SSTATE_PKGSPEC", "${SSTATE_SWSPEC}")
-+            d.setVar("SSTATE_EXTRAPATH", "")
-+        sstatepkg = d.getVar('SSTATE_PKG', True)
-+        bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tgz" ".siginfo", d)
+diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
+index d8d494a..c5f5cca 100644
+--- a/meta/classes/archive-patched-source.bbclass
++++ b/meta/classes/archive-patched-source.bbclass
+@@ -45,7 +45,6 @@ ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+ ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
+ 
+ SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-name] = "archive_scripts_logs"
+ do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+ do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+ 
+@@ -56,7 +55,6 @@ python do_archive_scripts_logs_setscene () {
+ addtask do_archive_scripts_logs_setscene
+ 
+ SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-name] = "dumpdata_create_diff_gz"
+ do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+ do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+ 
+diff --git a/meta/classes/deploy.bbclass b/meta/classes/deploy.bbclass
+index c337142..78f5e4a 100644
+--- a/meta/classes/deploy.bbclass
++++ b/meta/classes/deploy.bbclass
+@@ -1,6 +1,5 @@
+ DEPLOYDIR = "${WORKDIR}/deploy-${PN}"
+ SSTATETASKS += "do_deploy"
+-do_deploy[sstate-name] = "deploy"
+ do_deploy[sstate-inputdirs] = "${DEPLOYDIR}"
+ do_deploy[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+ 
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 8ad55f8..f075f59 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -351,7 +351,6 @@ def check_license_flags(d):
+     return None
+ 
+ SSTATETASKS += "do_populate_lic"
+-do_populate_lic[sstate-name] = "populate-lic"
+ do_populate_lic[sstate-inputdirs] = "${LICSSTATEDIR}"
+ do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
+ 
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 44a852f..eb4cf44 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1931,7 +1931,6 @@ addtask package before do_build after do_install
+ 
+ PACKAGELOCK = "${STAGING_DIR}/package-output.lock"
+ SSTATETASKS += "do_package"
+-do_package[sstate-name] = "package"
+ do_package[cleandirs] = "${PKGDEST} ${PKGDESTWORK}"
+ do_package[sstate-plaindirs] = "${PKGD} ${PKGDEST} ${PKGDESTWORK}"
+ do_package[sstate-lockfile-shared] = "${PACKAGELOCK}"
+@@ -1949,7 +1948,6 @@ do_packagedata () {
+ addtask packagedata before do_build after do_package
+ 
+ SSTATETASKS += "do_packagedata"
+-do_packagedata[sstate-name] = "packagedata"
+ do_packagedata[sstate-inputdirs] = "${PKGDESTWORK}"
+ do_packagedata[sstate-outputdirs] = "${PKGDATA_DIR}"
+ do_packagedata[sstate-lockfile-shared] = "${PACKAGELOCK}"
+diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+index d18c250..82ff432 100644
+--- a/meta/classes/package_deb.bbclass
++++ b/meta/classes/package_deb.bbclass
+@@ -412,7 +412,6 @@ python do_package_deb () {
  }
  
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 55c6185..e49d724 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -95,6 +95,7 @@ do_patch[stamp-base-clean] = "${SSCLEAN}"
+ SSTATETASKS += "do_package_write_deb"
+-do_package_write_deb[sstate-name] = "deploy-deb"
+ do_package_write_deb[sstate-inputdirs] = "${PKGWRITEDIRDEB}"
+ do_package_write_deb[sstate-outputdirs] = "${DEPLOY_DIR_DEB}"
  
- # SW means Shared Work directory
- SW = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
-+SSTATE_SWSPEC = "sstate-gcc-${PV}-${PR}-${SSTATE_VERSION}-"
- WORKDIR_task-unpack = "${SW}"
- WORKDIR_task-patch = "${SW}"
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index d0db945..e7b2755 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -415,7 +415,6 @@ python do_package_ipk () {
+ }
  
+ SSTATETASKS += "do_package_write_ipk"
+-do_package_write_ipk[sstate-name] = "deploy-ipk"
+ do_package_write_ipk[sstate-inputdirs] = "${PKGWRITEDIRIPK}"
+ do_package_write_ipk[sstate-outputdirs] = "${DEPLOY_DIR_IPK}"
+ 
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 346b7ab..fcde73e 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -1172,7 +1172,6 @@ python () {
+ }
+ 
+ SSTATETASKS += "do_package_write_rpm"
+-do_package_write_rpm[sstate-name] = "deploy-rpm"
+ do_package_write_rpm[sstate-inputdirs] = "${PKGWRITEDIRRPM}"
+ do_package_write_rpm[sstate-outputdirs] = "${DEPLOY_DIR_RPM}"
+ # Take a shared lock, we can write multiple packages at the same time...
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 9df9ac2..199a5b3 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -69,12 +69,9 @@ python () {
+ 
+     unique_tasks = set((d.getVar('SSTATETASKS', True) or "").split())
+     d.setVar('SSTATETASKS', " ".join(unique_tasks))
+-    namemap = []
+     for task in unique_tasks:
+-        namemap.append(d.getVarFlag(task, 'sstate-name'))
+         d.prependVarFlag(task, 'prefuncs', "sstate_task_prefunc ")
+         d.appendVarFlag(task, 'postfuncs', " sstate_task_postfunc")
+-    d.setVar('SSTATETASKNAMES', " ".join(namemap))
+ }
+ 
+ def sstate_init(name, task, d):
+@@ -94,7 +91,9 @@ def sstate_state_fromvars(d, task = None):
+             bb.fatal("sstate code running without task context?!")
+         task = task.replace("_setscene", "")
+ 
+-    name = d.getVarFlag("do_" + task, 'sstate-name', True)
++    name = task
++    if task.startswith("do_"):
++        name = task[3:]
+     inputs = (d.getVarFlag("do_" + task, 'sstate-inputdirs', True) or "").split()
+     outputs = (d.getVarFlag("do_" + task, 'sstate-outputdirs', True) or "").split()
+     plaindirs = (d.getVarFlag("do_" + task, 'sstate-plaindirs', True) or "").split()
+@@ -297,7 +296,7 @@ def sstate_clean_cachefile(ss, d):
+ 
+ def sstate_clean_cachefiles(d):
+     for task in (d.getVar('SSTATETASKS', True) or "").split():
+-        ss = sstate_state_fromvars(d, task[3:])
++        ss = sstate_state_fromvars(d, task)
+         sstate_clean_cachefile(ss, d)
+ 
+ def sstate_clean_manifest(manifest, d):
+@@ -365,11 +364,9 @@ python sstate_cleanall() {
+     if not os.path.exists(manifest_dir):
+         return
+ 
+-    namemap = d.getVar('SSTATETASKNAMES', True).split()
+     tasks = d.getVar('SSTATETASKS', True).split()
+-    for name in namemap:
+-        taskname = tasks[namemap.index(name)]
+-        shared_state = sstate_state_fromvars(d, taskname[3:])
++    for name in tasks:
++        shared_state = sstate_state_fromvars(d, name)
+         sstate_clean(shared_state, d)
+ }
+ 
+@@ -592,20 +589,11 @@ sstate_unpack_package () {
+ 	tar -xmvzf ${SSTATE_PKG}
+ }
+ 
+-# Need to inject information about classes not in the global configuration scope
+-EXTRASSTATEMAPS += "do_deploy:deploy"
+-
+ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+ 
+ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+ 
+     ret = []
+-    mapping = {}
+-    for t in d.getVar("SSTATETASKS", True).split():
+-        mapping[t] = d.getVarFlag(t, "sstate-name", True)
+-    for extra in d.getVar("EXTRASSTATEMAPS", True).split():
+-        e = extra.split(":")
+-        mapping[e[0]] = e[1]
+ 
+     def getpathcomponents(task, d):
+         # Magic data from BB_HASHFILENAME
+@@ -614,8 +602,6 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+         extrapath = splithashfn[0]
+ 
+         tname = sq_task[task][3:]
+-        if sq_task[task] in mapping:
+-            tname = mapping[sq_task[task]]
+ 
+         if tname in ["fetch", "unpack", "patch"] and splithashfn[2]:
+             spec = splithashfn[2]
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 3985763..d17a53e 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -97,7 +97,6 @@ python do_populate_sysroot () {
+ 
+ SSTATETASKS += "do_populate_sysroot"
+ do_populate_sysroot[cleandirs] = "${SYSROOT_DESTDIR}"
+-do_populate_sysroot[sstate-name] = "populate-sysroot"
+ do_populate_sysroot[sstate-inputdirs] = "${SYSROOT_DESTDIR}"
+ do_populate_sysroot[sstate-outputdirs] = "${STAGING_DIR_HOST}/"
+ do_populate_sysroot[stamp-extra-info] = "${MACHINE}"
 
 
 
