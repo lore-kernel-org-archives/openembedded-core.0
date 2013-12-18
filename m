@@ -1,40 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
-	[209.85.216.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0305560D7F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 665CD60D27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 16:40:00 +0000 (UTC)
-Received: by mail-qa0-f53.google.com with SMTP id j5so583798qaq.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 08:40:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=TMxBWftjlUIGSpBW4wlSPTNCgINOHa9Oy7J4/mOedVQ=;
-	b=bcey+A8QU70CazvAKr1ap79pRSOY5Z1fvNeJdKNC7YSJB40DrYJh3EcSyJCLzIFb17
-	tisDeGYcgZ9HV63E61SWTyhKsLpIEEfbIk18Knax+PJnWdCMWAOabbOAS2VAYSPZLdVC
-	Ia2iKt6kfX0TWDk7eJ/ULHUsFQGXhU4i1ct7sA8ZFCWyeoBj3jp1VeTLC6OH9QtoxP7m
-	U2NXGYCBkmnNlqE1BezWypfilAsYAwLXjuj5gWKHr2WS3o0HVCGypr2tE/7/KQYglJNx
-	+RsqgUcKadGRwRy29aIDT+uXf/9rxHL44IitXlBfW/KZGciN5TfXB/Ho/UvatYm7jd4S
-	O6rw==
-X-Gm-Message-State: ALoCoQmmHVOnUCkWK11AN1ofVoTPaRj0qdWpay3pFAzOK+1nUelUOgOhVUv1Qoz4ujpN0hnd2QF2
-X-Received: by 10.49.35.112 with SMTP id g16mr55140758qej.13.1387384801786;
-	Wed, 18 Dec 2013 08:40:01 -0800 (PST)
+	Wed, 18 Dec 2013 16:55:52 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 18 Dec 2013 08:55:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,508,1384329600"; d="scan'208";a="446415809"
+Received: from unknown (HELO helios.localnet) ([10.252.122.56])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Dec 2013 08:55:25 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+Date: Wed, 18 Dec 2013 16:55:24 +0000
+Message-ID: <3313957.6S11psWhHj@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1387277093-3051-1-git-send-email-corneliux.stoicescu@intel.com>
+References: <1387277093-3051-1-git-send-email-corneliux.stoicescu@intel.com>
 MIME-Version: 1.0
-Received: by 10.96.179.105 with HTTP; Wed, 18 Dec 2013 08:39:41 -0800 (PST)
-In-Reply-To: <0D6B3970-7154-4445-A7D7-A470E4ED44E4@dominion.thruhere.net>
-References: <1386842653-1089-1-git-send-email-ross.burton@intel.com>
-	<A4C74CC9-C110-42B7-B61D-5010176F3595@dominion.thruhere.net>
-	<CAJTo0LYLDfXcxQT5gQPu9dwCvtjx=-23iHw+Xth+E0w78QWjnQ@mail.gmail.com>
-	<0D6B3970-7154-4445-A7D7-A470E4ED44E4@dominion.thruhere.net>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 Dec 2013 16:39:41 +0000
-Message-ID: <CAJTo0LaEDkYqfHYHFkGFzF27mCjo8nprVXCpjDQE_43GRocN7w@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-compat-units: drop machineid.service
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] oe-selftest: New tests for sstate related operations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,16 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2013 16:40:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 18 Dec 2013 16:55:52 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 18 December 2013 15:42, Koen Kooi <koen@dominion.thruhere.net> wrote:
-> ... every boot you get a new machine ID and hence a new journal ID, which sucks. We can debate if that sucks more or less than having duplicate machine IDs across the boards on your desk :)
+Hi Corneliu,
 
-In the spirit of Linux we can make this a choice, though something
-like a systemd postinst that can optionally write a machine ID to
-/etc.  If enabled, the rootfs will get a machine ID at construction
-time.
+On Tuesday 17 December 2013 11:44:53 Corneliu Stoicescu wrote:
+> Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
+> ---
+>  meta/lib/oeqa/selftest/sstate.py |  226
+> ++++++++++++++++++++++++++++++++++++++ 1 file changed, 226 insertions(+)
+>  create mode 100644 meta/lib/oeqa/selftest/sstate.py
+> 
+> diff --git a/meta/lib/oeqa/selftest/sstate.py
+> b/meta/lib/oeqa/selftest/sstate.py new file mode 100644
+> index 0000000..d1fe20a
+>...
+> +        # buildhistory needs to be disabled for this test. It may report errors otherwise. 
+> +        if 'buildhistory' in get_bb_var('USER_CLASSES'):
+> +            remove_buildhistory_config = 'USER_CLASSES_remove = "buildhistory"' 
+> +            self.append_config(remove_buildhistory_config)
 
-Ross
+I'm not sure this is the right way to go about this. buildhistory typically
+wouldn't  be enabled via USER_CLASSES by the end user (since it's not 
+the way we recommend in the manual, although there's no reason why it 
+shouldn't work.) Assuming it's the "version going backwards" check that
+is the problem, I'd suggest disabling the QA check instead like this:
+
+ERROR_QA_remove = "version-going-backwards"
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
