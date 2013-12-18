@@ -1,38 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A0C7260E65
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0305560D7F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 16:20:21 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id a1so7761844wgh.29
+	Wed, 18 Dec 2013 16:40:00 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id j5so583798qaq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 08:20:22 -0800 (PST)
+	Wed, 18 Dec 2013 08:40:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=ryFqm7qDyvpUdYPG37gOj9cQshpiGpGjtiMGXNGDuvg=;
-	b=DQeaqoyYajWeAkpxIgEIERAXYtVqtw32DszUrRbo+qEohkifW/cuSGgdPthS2fBVbb
-	UuFwLixkbwlF5dJ5DkF9zl4qHaNYkOtLjEoDsqyfWChon8IFZKWat27wEdaoPP1x7zhT
-	7dEV45/UiIGLEESmyWIw6frFaLAaqt8G36p9+NcMdFHs4/+RzXTsYqNJehSI9etWHcQM
-	8VVdWz6auc4VTMDKJHF12zTOsOrQ1P9WQ5nrzaAuWYDRFt+M3su4ndalLmoYAQoL7/si
-	3QgMj8LGzo7mjPrmjJOXUgnFRgSgcfGDYZH3cX+aS5Ing7SlKYYouxlgToNfIk2cfYr8
-	qpng==
-X-Gm-Message-State: ALoCoQnLWLaPLlU8O3vpVSXhv39W8fyx9cSoJaPmbh6WGcxTOdpCMzJbBBztpSUukf25TPkdADse
-X-Received: by 10.194.2.79 with SMTP id 15mr372558wjs.90.1387383622194;
-	Wed, 18 Dec 2013 08:20:22 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id e1sm2179947wij.7.2013.12.18.08.20.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 18 Dec 2013 08:20:21 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Dec 2013 16:20:07 +0000
-Message-Id: <1387383607-4005-6-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1387383607-4005-1-git-send-email-ross.burton@intel.com>
-References: <1387383607-4005-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 6/6] systemd: delete files that end up in /var/volatile
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=TMxBWftjlUIGSpBW4wlSPTNCgINOHa9Oy7J4/mOedVQ=;
+	b=bcey+A8QU70CazvAKr1ap79pRSOY5Z1fvNeJdKNC7YSJB40DrYJh3EcSyJCLzIFb17
+	tisDeGYcgZ9HV63E61SWTyhKsLpIEEfbIk18Knax+PJnWdCMWAOabbOAS2VAYSPZLdVC
+	Ia2iKt6kfX0TWDk7eJ/ULHUsFQGXhU4i1ct7sA8ZFCWyeoBj3jp1VeTLC6OH9QtoxP7m
+	U2NXGYCBkmnNlqE1BezWypfilAsYAwLXjuj5gWKHr2WS3o0HVCGypr2tE/7/KQYglJNx
+	+RsqgUcKadGRwRy29aIDT+uXf/9rxHL44IitXlBfW/KZGciN5TfXB/Ho/UvatYm7jd4S
+	O6rw==
+X-Gm-Message-State: ALoCoQmmHVOnUCkWK11AN1ofVoTPaRj0qdWpay3pFAzOK+1nUelUOgOhVUv1Qoz4ujpN0hnd2QF2
+X-Received: by 10.49.35.112 with SMTP id g16mr55140758qej.13.1387384801786;
+	Wed, 18 Dec 2013 08:40:01 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.96.179.105 with HTTP; Wed, 18 Dec 2013 08:39:41 -0800 (PST)
+In-Reply-To: <0D6B3970-7154-4445-A7D7-A470E4ED44E4@dominion.thruhere.net>
+References: <1386842653-1089-1-git-send-email-ross.burton@intel.com>
+	<A4C74CC9-C110-42B7-B61D-5010176F3595@dominion.thruhere.net>
+	<CAJTo0LYLDfXcxQT5gQPu9dwCvtjx=-23iHw+Xth+E0w78QWjnQ@mail.gmail.com>
+	<0D6B3970-7154-4445-A7D7-A470E4ED44E4@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 18 Dec 2013 16:39:41 +0000
+Message-ID: <CAJTo0LaEDkYqfHYHFkGFzF27mCjo8nprVXCpjDQE_43GRocN7w@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd-compat-units: drop machineid.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,41 +47,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2013 16:20:22 -0000
+X-List-Received-Date: Wed, 18 Dec 2013 16:40:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-${localstatedir}/log/journal is created by tmpfiles.d on boot, and the README
-just causes warnings that /var/volatile isn't empty when mounting on top of it.
+On 18 December 2013 15:42, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> ... every boot you get a new machine ID and hence a new journal ID, which sucks. We can debate if that sucks more or less than having duplicate machine IDs across the boards on your desk :)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_208.bb |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+In the spirit of Linux we can make this a choice, though something
+like a systemd postinst that can optionally write a machine ID to
+/etc.  If enabled, the rootfs will get a machine ID at construction
+time.
 
-diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
-index c1f8d77..372e73d 100644
---- a/meta/recipes-core/systemd/systemd_208.bb
-+++ b/meta/recipes-core/systemd/systemd_208.bb
-@@ -97,9 +97,6 @@ do_install() {
- 	ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
- 	ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
- 
--	# Create dir for journal
--	install -d ${D}${localstatedir}/log/journal
--
- 	# Create machine-id
- 	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
- 	touch ${D}${sysconfdir}/machine-id
-@@ -113,6 +110,9 @@ do_install() {
- 		install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/systemd-udevd
- 		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
- 	fi
-+
-+        # Delete journal README, as log can be symlinked inside volatile.
-+        rm -f ${D}/${localstatedir}/log/README
- }
- 
- do_install_ptest () {
--- 
-1.7.10.4
-
+Ross
 
