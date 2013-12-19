@@ -1,25 +1,20 @@
-Return-Path: <xiao.zhang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9018D60FD0
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A5CD060DA5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2013 05:33:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBJ5X5Xx000937
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2013 21:33:05 -0800 (PST)
-Received: from pek-xzhang1-d1.corp.ad.wrs.com (128.224.162.178) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Wed, 18 Dec 2013 21:33:04 -0800
-From: Zhang Xiao <xiao.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Dec 2013 13:35:32 +0800
-Message-ID: <1387431332-9364-1-git-send-email-xiao.zhang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.178]
-Subject: [PATCH] nfs-utils: modify the boot sequence of the init script
+	Thu, 19 Dec 2013 09:32:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Dec 2013 01:28:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,512,1384329600"; d="scan'208";a="454758873"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga002.jf.intel.com with ESMTP; 19 Dec 2013 01:32:19 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Dec 2013 11:34:51 +0200
+Message-Id: <cover.1387445582.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH v2 0/1] libtirpc: upgrade to 0.2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2013 05:33:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Dec 2013 09:32:32 -0000
 
-Move the nfscommon out of rcS and let it start just before
-nfsserver. Modify the useradd parameter with long parameter
-to make it more readable.
+Better commit message, according to Saul's review.
+Thanks Saul.
 
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
----
- meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+The following changes since commit 2961b58640daa8078ae3a70028f0fbbf2abb7882:
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb
-index 80074cb..45eacd9 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.9.bb
-@@ -16,7 +16,8 @@ RRECOMMENDS_${PN} = "kernel-module-nfsd"
- inherit useradd
- 
- USERADD_PACKAGES = "${PN}-client"
--USERADD_PARAM_${PN}-client = "-d /var/lib/nfs -r -s /bin/false rpcuser"
-+USERADD_PARAM_${PN}-client = "--system  --home-dir /var/lib/nfs \
-+			      --shell /bin/false --user-group rpcuser"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.bz2 \
-            file://0001-configure-Allow-to-explicitly-disable-nfsidmap.patch \
-@@ -41,7 +42,7 @@ INITSCRIPT_PACKAGES = "${PN} ${PN}-client"
- INITSCRIPT_NAME = "nfsserver"
- INITSCRIPT_PARAMS = "defaults"
- INITSCRIPT_NAME_${PN}-client = "nfscommon"
--INITSCRIPT_PARAMS_${PN}-client = "start 44 S ."
-+INITSCRIPT_PARAMS_${PN}-client = "defaults 19 21"
- 
- inherit autotools update-rc.d systemd
- 
+  security_flags: more relocation issues (2013-12-18 17:24:07 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
+
+Cristian Iorga (1):
+  libtirpc: upgrade to 0.2.4
+
+ .../libtirpc-0.2.3/obsolete_automake_macros.patch         | 15 ---------------
+ .../libtirpc-0.2.1-fortify.patch                          |  0
+ .../{libtirpc-0.2.3 => libtirpc}/remove-des-uclibc.patch  |  0
+ .../libtirpc/{libtirpc_0.2.3.bb => libtirpc_0.2.4.bb}     |  8 +++++---
+ 4 files changed, 5 insertions(+), 18 deletions(-)
+ delete mode 100644 meta/recipes-extended/libtirpc/libtirpc-0.2.3/obsolete_automake_macros.patch
+ rename meta/recipes-extended/libtirpc/{libtirpc-0.2.3 => libtirpc}/libtirpc-0.2.1-fortify.patch (100%)
+ rename meta/recipes-extended/libtirpc/{libtirpc-0.2.3 => libtirpc}/remove-des-uclibc.patch (100%)
+ rename meta/recipes-extended/libtirpc/{libtirpc_0.2.3.bb => libtirpc_0.2.4.bb} (84%)
+
 -- 
-1.8.1.2
+1.8.3.2
 
 
