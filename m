@@ -1,21 +1,29 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D823860DEC
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 21EC366129
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2013 11:46:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Dec 2013 03:42:49 -0800
+	Thu, 19 Dec 2013 12:07:53 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 19 Dec 2013 04:07:54 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,512,1384329600"; d="scan'208";a="454807506"
-Received: from williams-mobl.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.122.12])
-	by orsmga002.jf.intel.com with ESMTP; 19 Dec 2013 03:46:37 -0800
+X-IronPort-AV: E=Sophos;i="4.95,512,1384329600"; d="scan'208";a="446923387"
+Received: from williams-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.122.12])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2013 04:07:53 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Dec 2013 11:46:35 +0000
-Message-Id: <1387453595-20914-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [dora][PATCH] libsoup-2.4: add intltool-native to DEPENDS
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
+	Javier Viguera <javier.viguera@digi.com>
+Date: Thu, 19 Dec 2013 12:07:52 +0000
+Message-ID: <2543921.MaLJXs2tkU@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <CAP71WjxnUnjL8b1yQxGsiaReLUbavc5kh4zQ2YeT9kHfv6UjVw@mail.gmail.com>
+References: <1387276932-26461-1-git-send-email-paul.eggleton@linux.intel.com>
+	<52B2CED8.3020707@digi.com>
+	<CAP71WjxnUnjL8b1yQxGsiaReLUbavc5kh4zQ2YeT9kHfv6UjVw@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libsoup-2.4: add intltool-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,36 +36,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2013 11:46:38 -0000
+X-List-Received-Date: Thu, 19 Dec 2013 12:07:53 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The configure script looks for this; most of the time dependency chains
-ensure this is present but we need to be explicit or failures can
-occur.
+On Thursday 19 December 2013 11:54:14 Nicolas Dechesne wrote:
+> On Thu, Dec 19, 2013 at 11:47 AM, Javier Viguera
+> <javier.viguera@digi.com>wrote:
+> > On 17/12/13 11:42, Paul Eggleton wrote:
+> >> -DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3"
+> >> +DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 intltool-native"
+> > 
+> > +1 for this change.
+> > 
+> > I was bitten by this bug using a DISTRO with no X11 support (removed X11
+> > from DISTRO_FEATURES). In that case the 'intltool-native' dependence is
+> > not
+> > fulfilled and libsoup fails to build.
+> > 
+> > Could it be *backported* to Dora/Dylan?
+> 
+> it will. Paul said on IRC the other day, that it should reach dylan by the
+> end of this week .
 
-Reported by Nicolas Dechesne <nicolas.dechesne@linaro.org>
+FYI It's now merged in dylan thanks to Richard. I've also sent a patch for 
+dora (cc'd to Robert).
 
-(From OE-Core master rev: 22e45ed7d74ceb4a719e7b5889400c20ed4a0783)
+Cheers,
+Paul
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-index ef8d439..1614a3d 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
- 
- SECTION = "x11/gnome/libs"
- 
--DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3"
-+DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 intltool-native"
- 
- # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.  Enable
- # by default but let it be easily disabled.
 -- 
-1.8.1.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
