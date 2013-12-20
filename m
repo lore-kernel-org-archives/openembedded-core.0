@@ -1,40 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A7C560D57
+Return-Path: <cristiana.voicu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CF8660D57
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 09:36:11 +0000 (UTC)
-Received: by mail-ee0-f49.google.com with SMTP id c41so923717eek.36
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 01:36:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bFr0/R6/5U4fiuVPiqu3iaJ/sp3TPVQQOJfA3iV7ARM=;
-	b=e9pdg6ccM3npLhqaCer3c/8ZRSAj5mLvBfhKA+vlWOnQsxpm74jAkIaxsGVBuSl4k2
-	x88vNJ/teBgL5Tk1dyZrxJIUTKdnF87JhLrrXVUHaZ5w+SMSOwT548Rfd6v7OzIXoxuW
-	BpELAnTdYR4Hb6s8VWYMGZbdo0GV8DQmU+SoPqqabrs2bU5TXN6pHMRJ4uDkgNRoDq6k
-	290Q04yJgdn4X2rSUXN1q9zAVuhuc+nkZOhQfPu4yxiyUyQI82BBmM0rBaQb0fkXRbp1
-	5V97TLzDJa1ZPCjUhVN/64qDveyh/O5ym/agsIIBJPl/3uFySFzppbe99W98U/FawdtC
-	lhGQ==
-X-Received: by 10.14.194.131 with SMTP id m3mr4855913een.2.1387532171975;
-	Fri, 20 Dec 2013 01:36:11 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id v7sm16922236eel.2.2013.12.20.01.36.10
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Dec 2013 01:36:10 -0800 (PST)
-Date: Fri, 20 Dec 2013 10:36:45 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20131220093645.GR3706@jama>
-References: <1387521668-26329-1-git-send-email-sgw@linux.intel.com>
-	<1387521668-26329-4-git-send-email-sgw@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1387521668-26329-4-git-send-email-sgw@linux.intel.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] openssl: use PACKAGECONFIG to disable perl bits
+	Fri, 20 Dec 2013 09:37:20 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2013 01:33:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,519,1384329600"; d="scan'208";a="427723684"
+Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.151])
+	by orsmga001.jf.intel.com with ESMTP; 20 Dec 2013 01:37:20 -0800
+From: Cristiana Voicu <cristiana.voicu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Dec 2013 11:43:48 +0200
+Message-Id: <cover.1387532399.git.cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,95 +27,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 09:36:11 -0000
-X-Groupsio-MsgNum: 48351
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KAk/33nSS6LK84p9"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 20 Dec 2013 09:37:20 -0000
 
---KAk/33nSS6LK84p9
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I've tested the new version of valgrind on local autobuilder on build-appliance,
+nightly-arm, mips, ppc, x86, x86-64. Also, I've built on my machine a core-image-sato-sdk
+for x86, and I've tested if the correct version was installed. I've done some simple tests, too.
 
-On Thu, Dec 19, 2013 at 10:41:07PM -0800, Saul Wold wrote:
-> Adding perl to the RDEPENDS caused a performance hit to the overall build=
- time since this was
-> the only package that depended on perl.  The openssl-misc package is not =
-installed by default
-> so use a PACKAGECONFIG which can be overridden to allow the perl scripts =
-along with  perl to
->  be installed.
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-connectivity/openssl/openssl.inc | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes=
--connectivity/openssl/openssl.inc
-> index cdb1809..c58c99f 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -13,8 +13,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Df9a8f9681073=
-45e0b75aa8c2ecaa7ec8"
-> =20
->  DEPENDS =3D "perl-native-runtime"
-> =20
-> -# Adding RDEPENDS for perl scripts
-> -RDEPENDS_${PN}-misc +=3D"perl"
-> +PACKAGECONFIG[perl] =3D ",,,perl"
+The following changes since commit 9daa1de753e58b7f678e68cf307f6028c0c79a6a:
 
-Doesn't it add perl to ${PN} (instead of ${PN}-misc)?
+  qemu/local.conf.sample: Add sdl PACKAGECONFIG (2013-12-16 12:13:59 +0000)
 
->  SRC_URI =3D "http://www.openssl.org/source/openssl-${PV}.tar.gz \
->            "
-> @@ -157,11 +156,18 @@ do_install () {
-> =20
->  	install -d ${D}${includedir}
->  	cp --dereference -R include/openssl ${D}${includedir}
-> -	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
-> =20
->  	oe_multilib_header openssl/opensslconf.h
-> -	# The c_rehash utility isn't installed by the normal installation proce=
-ss.
-> -	install -m 0755 ${S}/tools/c_rehash ${D}${bindir}
-> +	if [ "${@base_contains('PACKAGECONFIG', 'perl', 'perl', '', d)}" =3D "p=
-erl" ]; then
-> +		install -m 0755 ${S}/tools/c_rehash ${D}${bindir}
-> +		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${bindir}/c_rehash
-> +		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
-> +		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/tsget
-> +		# The c_rehash utility isn't installed by the normal installation proc=
-ess.
-> +	else
-> +		rm -f ${D}${bindir}/c_rehash
-> +		rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
-> +	fi
->  }
-> =20
->  BBCLASSEXTEND =3D "native nativesdk"
-> --=20
-> 1.8.3.1
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+are available in the git repository at:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  git://git.yoctoproject.org/poky-contrib cvoicu/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cvoicu/work
 
---KAk/33nSS6LK84p9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Cristiana Voicu (1):
+  valgrind: upgrade to 3.9.0
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+ .../configure-with-newer-glibc.patch               |   41 --------------------
+ .../valgrind/valgrind-3.8.1/eglibc-2.18.patch      |   27 -------------
+ .../fix_issue_caused_by_ccache.patch               |   32 ---------------
+ .../valgrind-3.8.1/fix_unsupporting_kernel_3.patch |   26 -------------
+ ...upport-for-PPC-instructions-mfatbu-mfatbl.patch |    0
+ .../fixed-perl-path.patch                          |    0
+ .../{valgrind-3.8.1 => valgrind}/sepbuildfix.patch |   26 ++++++-------
+ .../{valgrind_3.8.1.bb => valgrind_3.9.0.bb}       |   12 ++----
+ 8 files changed, 17 insertions(+), 147 deletions(-)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind-3.8.1/configure-with-newer-glibc.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind-3.8.1/eglibc-2.18.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind-3.8.1/fix_issue_caused_by_ccache.patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind-3.8.1/fix_unsupporting_kernel_3.patch
+ rename meta/recipes-devtools/valgrind/{valgrind-3.8.1 => valgrind}/Added-support-for-PPC-instructions-mfatbu-mfatbl.patch (100%)
+ rename meta/recipes-devtools/valgrind/{valgrind-3.8.1 => valgrind}/fixed-perl-path.patch (100%)
+ rename meta/recipes-devtools/valgrind/{valgrind-3.8.1 => valgrind}/sepbuildfix.patch (96%)
+ rename meta/recipes-devtools/valgrind/{valgrind_3.8.1.bb => valgrind_3.9.0.bb} (76%)
 
-iEYEARECAAYFAlK0D60ACgkQN1Ujt2V2gBz87ACfdpl/gcigua583MrNoKjjU9SE
-nz4Ani1bmGxxtxTx4M2ti9XRtQffJqXc
-=Nm7B
------END PGP SIGNATURE-----
+-- 
+1.7.9.5
 
---KAk/33nSS6LK84p9--
+
