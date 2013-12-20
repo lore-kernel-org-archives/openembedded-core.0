@@ -1,20 +1,40 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 427B160D39
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A7C560D57
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 06:58:03 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Dec 2013 22:58:04 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,518,1384329600"; d="scan'208";a="447440391"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.132])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Dec 2013 22:58:03 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Dec 2013 22:58:03 -0800
-Message-Id: <cover.1387522493.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [CONSOLIDATED PULL 00/21] Currently finishing on AB
+	Fri, 20 Dec 2013 09:36:11 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id c41so923717eek.36
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Dec 2013 01:36:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=bFr0/R6/5U4fiuVPiqu3iaJ/sp3TPVQQOJfA3iV7ARM=;
+	b=e9pdg6ccM3npLhqaCer3c/8ZRSAj5mLvBfhKA+vlWOnQsxpm74jAkIaxsGVBuSl4k2
+	x88vNJ/teBgL5Tk1dyZrxJIUTKdnF87JhLrrXVUHaZ5w+SMSOwT548Rfd6v7OzIXoxuW
+	BpELAnTdYR4Hb6s8VWYMGZbdo0GV8DQmU+SoPqqabrs2bU5TXN6pHMRJ4uDkgNRoDq6k
+	290Q04yJgdn4X2rSUXN1q9zAVuhuc+nkZOhQfPu4yxiyUyQI82BBmM0rBaQb0fkXRbp1
+	5V97TLzDJa1ZPCjUhVN/64qDveyh/O5ym/agsIIBJPl/3uFySFzppbe99W98U/FawdtC
+	lhGQ==
+X-Received: by 10.14.194.131 with SMTP id m3mr4855913een.2.1387532171975;
+	Fri, 20 Dec 2013 01:36:11 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id v7sm16922236eel.2.2013.12.20.01.36.10
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Dec 2013 01:36:10 -0800 (PST)
+Date: Fri, 20 Dec 2013 10:36:45 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20131220093645.GR3706@jama>
+References: <1387521668-26329-1-git-send-email-sgw@linux.intel.com>
+	<1387521668-26329-4-git-send-email-sgw@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1387521668-26329-4-git-send-email-sgw@linux.intel.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] openssl: use PACKAGECONFIG to disable perl bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,97 +47,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 06:58:03 -0000
+X-List-Received-Date: Fri, 20 Dec 2013 09:36:11 -0000
+X-Groupsio-MsgNum: 48351
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="KAk/33nSS6LK84p9"
+Content-Disposition: inline
 
-Richard,
+--KAk/33nSS6LK84p9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-here is a set of mostly your patches alone with a few others, I actually built
-a few more patches which I dropped, notably Valentin's weston patch since I think
-Koen's suggestion from May would make a more flexible solution.
+On Thu, Dec 19, 2013 at 10:41:07PM -0800, Saul Wold wrote:
+> Adding perl to the RDEPENDS caused a performance hit to the overall build=
+ time since this was
+> the only package that depended on perl.  The openssl-misc package is not =
+installed by default
+> so use a PACKAGECONFIG which can be overridden to allow the perl scripts =
+along with  perl to
+>  be installed.
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-connectivity/openssl/openssl.inc | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes=
+-connectivity/openssl/openssl.inc
+> index cdb1809..c58c99f 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -13,8 +13,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Df9a8f9681073=
+45e0b75aa8c2ecaa7ec8"
+> =20
+>  DEPENDS =3D "perl-native-runtime"
+> =20
+> -# Adding RDEPENDS for perl scripts
+> -RDEPENDS_${PN}-misc +=3D"perl"
+> +PACKAGECONFIG[perl] =3D ",,,perl"
 
-I verified the openssl change via buildhistory (thanks Paul!)
+Doesn't it add perl to ${PN} (instead of ${PN}-misc)?
 
+>  SRC_URI =3D "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+>            "
+> @@ -157,11 +156,18 @@ do_install () {
+> =20
+>  	install -d ${D}${includedir}
+>  	cp --dereference -R include/openssl ${D}${includedir}
+> -	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+> =20
+>  	oe_multilib_header openssl/opensslconf.h
+> -	# The c_rehash utility isn't installed by the normal installation proce=
+ss.
+> -	install -m 0755 ${S}/tools/c_rehash ${D}${bindir}
+> +	if [ "${@base_contains('PACKAGECONFIG', 'perl', 'perl', '', d)}" =3D "p=
+erl" ]; then
+> +		install -m 0755 ${S}/tools/c_rehash ${D}${bindir}
+> +		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${bindir}/c_rehash
+> +		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+> +		sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/tsget
+> +		# The c_rehash utility isn't installed by the normal installation proc=
+ess.
+> +	else
+> +		rm -f ${D}${bindir}/c_rehash
+> +		rm -f ${D}${libdir}/ssl/misc/CA.pl ${D}${libdir}/ssl/misc/tsget
+> +	fi
+>  }
+> =20
+>  BBCLASSEXTEND =3D "native nativesdk"
+> --=20
+> 1.8.3.1
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Thanks	
- 	Sau!
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--KAk/33nSS6LK84p9
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-The following changes since commit cd94dd3d9bba32c3fd55959586128b236d1d4e34:
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-  security_flags: more relocation issues (2013-12-18 17:23:55 +0000)
+iEYEARECAAYFAlK0D60ACgkQN1Ujt2V2gBz87ACfdpl/gcigua583MrNoKjjU9SE
+nz4Ani1bmGxxtxTx4M2ti9XRtQffJqXc
+=Nm7B
+-----END PGP SIGNATURE-----
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Corneliu Stoicescu (3):
-  oe-selftest: New BuildhistoryBase object for buildhistory testing.
-  oe-selftest: New test module for OE scripts.
-  oe-selftest: added buildhistory buildtime tests in module
-    buildoptions.py
-
-Cristian Iorga (1):
-  libtirpc: upgrade to 0.2.4
-
-Richard Purdie (8):
-  native: Use deltask to remove tasks which have no purpose
-  externalsrc: Use deltask API
-  ptest: Fix dependency/ordering issue
-  ptest: Disable for native recipes
-  sstatesig: Ensure we return all matches for find_sigdata
-  sstatesig: Allow the BB_HASHFILENAME to be passed in for comparision
-    purposes
-  sstatesig: Update for the removal of sstate-name
-  sstatesig: Correctly handle matches spanning stamps and sstatedir
-
-Saul Wold (5):
-  conf-notes: remove meta-toolchain-sdk references
-  harfbuzz: Allow PACKAGECONFIG to be overridden
-  beecrypt: Allow PACKAGECONFIG to be overridden
-  openssl: use PACKAGECONFIG to disable perl bits
-  util-linux: remove non PN based -dev packages
-
-Stefan Stanacar (2):
-  lib/oeqa/runtime: rewrite the systemd test module
-  testimage: include traceback when loading a test fails
-
-Valentin Popa (1):
-  runqemu: Allow user to set -vga option with qemuparams
-
-Zhang Xiao (1):
-  nfs-utils: modify the boot sequence of the init script
-
- meta/classes/externalsrc.bbclass                   | 21 +----
- meta/classes/native.bbclass                        | 11 +--
- meta/classes/ptest.bbclass                         |  3 +-
- meta/classes/testimage.bbclass                     |  3 +-
- meta/conf/conf-notes.txt                           |  1 -
- meta/lib/oe/sstatesig.py                           | 15 ++--
- meta/lib/oeqa/runtime/systemd.py                   | 93 +++++++++++-----------
- meta/lib/oeqa/selftest/buildhistory.py             | 45 +++++++++++
- meta/lib/oeqa/selftest/buildoptions.py             | 20 +++++
- meta/lib/oeqa/selftest/oescripts.py                | 60 ++++++++++++++
- .../nfs-utils/nfs-utils_1.2.9.bb                   |  5 +-
- meta/recipes-connectivity/openssl/openssl.inc      | 16 ++--
- meta/recipes-core/util-linux/util-linux.inc        | 10 +--
- .../libtirpc-0.2.3/obsolete_automake_macros.patch  | 15 ----
- .../libtirpc-0.2.1-fortify.patch                   |  0
- .../remove-des-uclibc.patch                        |  0
- .../{libtirpc_0.2.3.bb => libtirpc_0.2.4.bb}       |  8 +-
- meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb  |  2 +-
- meta/recipes-support/beecrypt/beecrypt_4.2.1.bb    |  2 +-
- scripts/runqemu                                    |  1 +
- scripts/runqemu-internal                           | 12 ++-
- 21 files changed, 228 insertions(+), 115 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/buildhistory.py
- create mode 100644 meta/lib/oeqa/selftest/oescripts.py
- delete mode 100644 meta/recipes-extended/libtirpc/libtirpc-0.2.3/obsolete_automake_macros.patch
- rename meta/recipes-extended/libtirpc/{libtirpc-0.2.3 => libtirpc}/libtirpc-0.2.1-fortify.patch (100%)
- rename meta/recipes-extended/libtirpc/{libtirpc-0.2.3 => libtirpc}/remove-des-uclibc.patch (100%)
- rename meta/recipes-extended/libtirpc/{libtirpc_0.2.3.bb => libtirpc_0.2.4.bb} (84%)
-
--- 
-1.8.3.1
-
-
+--KAk/33nSS6LK84p9--
