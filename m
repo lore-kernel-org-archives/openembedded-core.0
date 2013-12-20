@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F3E260D67
+	by mail.openembedded.org (Postfix) with ESMTP id D385B60D67
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Dec 2013 14:55:25 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by azsmga101.ch.intel.com with ESMTP; 20 Dec 2013 06:55:26 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,521,1384329600"; d="scan'208";a="447624108"
+X-IronPort-AV: E=Sophos;i="4.95,521,1384329600"; d="scan'208";a="447624116"
 Received: from dsgunati-mobl.gar.corp.intel.com (HELO
 	helios.ger.corp.intel.com) ([10.252.122.40])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2013 06:55:19 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2013 06:55:20 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2013 14:55:09 +0000
-Message-Id: <fd91c58db8679625f36a186bc40c16fd1d2a3a1d.1387551254.git.paul.eggleton@linux.intel.com>
+Date: Fri, 20 Dec 2013 14:55:10 +0000
+Message-Id: <910ec21046171291eadeb7c45560ec798483485c.1387551254.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1387551254.git.paul.eggleton@linux.intel.com>
 References: <cover.1387551254.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1387551254.git.paul.eggleton@linux.intel.com>
 References: <cover.1387551254.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/2] libav: add libpostproc to PROVIDES (for 0.8.x version only)
+Subject: [PATCH 2/2] classes/insane: restore printing LIC_FILES_CHKSUM checksum if not specified
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,38 +32,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 14:55:25 -0000
+X-List-Received-Date: Fri, 20 Dec 2013 14:55:26 -0000
 
-There is a separate libpostproc recipe in meta-oe for use with 9.x and
-later versions of libav for those few that need libpostproc; however if
-you just add meta-oe and try to build libpostproc without selecting the
-libav 9.x version recipe, you'll be building the libpostproc recipe
-together with libav 0.8.x, which provides its own libpostproc; this
-leads to confusing errors at packaging time. In order to flag up that
-these conflict more appropriately, add libpostproc to PROVIDES
-explicitly so that you at least get a multiple providers error at the
-start of the build.
+OE-Core rev ec8590aa81e201e28e500935d31cd7266114471f (by me)
+unintentionally disabled printing the actual checksum value if no
+checksum was specified, i.e.:
 
-Fixes [YOCTO #5335].
+LIC_FILES_CHKSUM = "file://COPYING;md5="
+
+Printing the actual checksum in this case is really useful when writing
+a new recipe, so put this back in.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-multimedia/libav/libav_0.8.9.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/insane.bbclass | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libav/libav_0.8.9.bb b/meta/recipes-multimedia/libav/libav_0.8.9.bb
-index ce8b1ef..7c807e8 100644
---- a/meta/recipes-multimedia/libav/libav_0.8.9.bb
-+++ b/meta/recipes-multimedia/libav/libav_0.8.9.bb
-@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.LGPLv2.1;md5=e344c8fa836c3a41c4cbd79d7bd3a379 \
-                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index e77e993..55ed91f 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -604,9 +604,6 @@ def package_qa_check_license(workdir, d):
+             raise bb.build.FuncFailed( pn + ": LIC_FILES_CHKSUM points to an invalid file: " + srclicfile)
  
-+PROVIDES += "libpostproc"
-+
- EXTRA_OECONF += " \
-     --enable-postproc \
- "
+         recipemd5 = parm.get('md5', '')
+-        if not recipemd5:
+-            bb.error(pn + ": md5 checksum is not specified for ", url)
+-            return False
+         beginline, endline = 0, 0
+         if 'beginline' in parm:
+             beginline = int(parm['beginline'])
+@@ -638,18 +635,22 @@ def package_qa_check_license(workdir, d):
+         if recipemd5 == md5chksum:
+             bb.note (pn + ": md5 checksum matched for ", url)
+         else:
+-            bb.error (pn + ": md5 data is not matching for ", url)
+-            bb.error (pn + ": The new md5 checksum is ", md5chksum)
+-            if beginline:
+-                if endline:
+-                    srcfiledesc = "%s (lines %d through to %d)" % (srclicfile, beginline, endline)
++            if recipemd5:
++                bb.error(pn + ": md5 data is not matching for ", url)
++                bb.error(pn + ": The new md5 checksum is ", md5chksum)
++                if beginline:
++                    if endline:
++                        srcfiledesc = "%s (lines %d through to %d)" % (srclicfile, beginline, endline)
++                    else:
++                        srcfiledesc = "%s (beginning on line %d)" % (srclicfile, beginline)
++                elif endline:
++                    srcfiledesc = "%s (ending on line %d)" % (srclicfile, endline)
+                 else:
+-                    srcfiledesc = "%s (beginning on line %d)" % (srclicfile, beginline)
+-            elif endline:
+-                srcfiledesc = "%s (ending on line %d)" % (srclicfile, endline)
++                    srcfiledesc = srclicfile
++                bb.error(pn + ": Check if the license information has changed in %s to verify that the LICENSE value \"%s\" remains valid" % (srcfiledesc, lic))
+             else:
+-                srcfiledesc = srclicfile
+-            bb.error(pn + ": Check if the license information has changed in %s to verify that the LICENSE value \"%s\" remains valid" % (srcfiledesc, lic))
++                bb.error(pn + ": md5 checksum is not specified for ", url)
++                bb.error(pn + ": The md5 checksum is ", md5chksum)
+             sane = False
+ 
+     return sane
 -- 
 1.8.1.2
 
