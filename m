@@ -1,34 +1,34 @@
 Return-Path: <joaohf@gmail.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9467660F25
+Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id DE53860F54
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 16:51:05 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id e16so2455477qcx.13
+	Fri, 20 Dec 2013 16:52:45 +0000 (UTC)
+Received: by mail-qa0-f48.google.com with SMTP id w5so2801635qac.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 08:51:06 -0800 (PST)
+	Fri, 20 Dec 2013 08:52:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
 	bh=mce/b+b6bJkIEI0CVJF8yXLwZPAWx366CVGh04ijjWU=;
-	b=a7DovL0/5DgSBD24iFLv/VFzTpaI0xLo5d80+HtaqQiwhtF/Te8FwfGrxETH8c0f8R
-	ZJnFISpqBr2HlpIepIJ4slFMIUPK964L/Z3lkL/hxuJ4GOt7YeivyqvgMb+wzHTuz22t
-	RwJTfR3b44lMVasVaX1V6kJVvYAq891GArHF+t+QabY0Wf/acOqGZbIluySMTW2SZObY
-	mJfXLQevkbjUQelOvUUuI+OEJhR/ho6l1reVIEVQvT0zKm/35ntPwE3K1zLklWp9Lflm
-	bnX0wQXumAAltPrRlzfFlCQO3LPJfRd0OgRlfzl75hrZy4rVtJZbLzJD2PtImlLZISHU
-	EOrw==
-X-Received: by 10.224.126.5 with SMTP id a5mr15825525qas.43.1387558266404;
-	Fri, 20 Dec 2013 08:51:06 -0800 (PST)
+	b=k+MtsYZ7ZOU0/+YM+ylsGyFvryOZ6S3qD6do0yHEJRbMl0C2q47LN7RQL2IIm2o1zu
+	feUchIZXxRLFWBJ6MgJOQtk2uSjS/pqzZkL5ZkTcP2Az5I6LJxx1yP2iOevZLiVzEzLh
+	ssf5Lgu1gaa6yjq4vtb1ixkVpJ8VPkkS0W5KWZRxyUyAAYXC4JkNqFxG6XWYEHDXoQKO
+	q4wIDjkELULbeCF6CU2vDqZRB8MaFfyKrrLSv0sJwOp2t2IrgaTUv+0q2tqAiA8NXQHc
+	0qxO1kLKnVcNwweMsnwmFWA5NL419QJ4EbFlzS3Ya7wHmVE/z0I1a00kR2AbdmiQ9Q82
+	WujA==
+X-Received: by 10.229.97.134 with SMTP id l6mr15753405qcn.11.1387558366834;
+	Fri, 20 Dec 2013 08:52:46 -0800 (PST)
 Received: from jfreitas.padtec.com.br (apolo.padtec.com.br. [200.228.158.130])
 	by mx.google.com with ESMTPSA id
-	q2sm7142648qer.22.2013.12.20.08.51.01 for <multiple recipients>
+	ki4sm17784986qeb.0.2013.12.20.08.52.41 for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 20 Dec 2013 08:51:05 -0800 (PST)
+	Fri, 20 Dec 2013 08:52:46 -0800 (PST)
 From: Joao Henrique Ferreira de Freitas <joaohf@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2013 14:50:00 -0200
-Message-Id: <1387558200-17756-1-git-send-email-joaohf@gmail.com>
+Date: Fri, 20 Dec 2013 14:52:14 -0200
+Message-Id: <1387558334-17814-1-git-send-email-joaohf@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
-Subject: [PATH v2] boot-directdisk: fix the support of vmdk
+Subject: [PATCH v2] boot-directdisk: fix the support of vmdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 16:51:05 -0000
+X-List-Received-Date: Fri, 20 Dec 2013 16:52:46 -0000
 
 Previous change (086ce22b88f5ef5f75a83119a32c8b3fdcfa296d) broke
 the creating of vmdk images. This protects shell expansion variables
