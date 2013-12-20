@@ -1,25 +1,34 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EB1760F86
+Return-Path: <joaohf@gmail.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9467660F25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 16:14:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2013 08:10:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,521,1384329600"; d="scan'208";a="455532628"
-Received: from unknown (HELO [10.255.15.132]) ([10.255.15.132])
-	by orsmga002.jf.intel.com with ESMTP; 20 Dec 2013 08:14:21 -0800
-Message-ID: <52B46CDC.40003@linux.intel.com>
-Date: Fri, 20 Dec 2013 08:14:20 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Fahad Arslan <fahad_arslan@mentor.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1387555576-9567-1-git-send-email-fahad_arslan@mentor.com>
-In-Reply-To: <1387555576-9567-1-git-send-email-fahad_arslan@mentor.com>
-Subject: Re: [PATCH] speex: Scale float input when FIXED_POINT is defined
+	Fri, 20 Dec 2013 16:51:05 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id e16so2455477qcx.13
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Dec 2013 08:51:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=mce/b+b6bJkIEI0CVJF8yXLwZPAWx366CVGh04ijjWU=;
+	b=a7DovL0/5DgSBD24iFLv/VFzTpaI0xLo5d80+HtaqQiwhtF/Te8FwfGrxETH8c0f8R
+	ZJnFISpqBr2HlpIepIJ4slFMIUPK964L/Z3lkL/hxuJ4GOt7YeivyqvgMb+wzHTuz22t
+	RwJTfR3b44lMVasVaX1V6kJVvYAq891GArHF+t+QabY0Wf/acOqGZbIluySMTW2SZObY
+	mJfXLQevkbjUQelOvUUuI+OEJhR/ho6l1reVIEVQvT0zKm/35ntPwE3K1zLklWp9Lflm
+	bnX0wQXumAAltPrRlzfFlCQO3LPJfRd0OgRlfzl75hrZy4rVtJZbLzJD2PtImlLZISHU
+	EOrw==
+X-Received: by 10.224.126.5 with SMTP id a5mr15825525qas.43.1387558266404;
+	Fri, 20 Dec 2013 08:51:06 -0800 (PST)
+Received: from jfreitas.padtec.com.br (apolo.padtec.com.br. [200.228.158.130])
+	by mx.google.com with ESMTPSA id
+	q2sm7142648qer.22.2013.12.20.08.51.01 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 20 Dec 2013 08:51:05 -0800 (PST)
+From: Joao Henrique Ferreira de Freitas <joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Dec 2013 14:50:00 -0200
+Message-Id: <1387558200-17756-1-git-send-email-joaohf@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATH v2] boot-directdisk: fix the support of vmdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +41,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 16:14:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Dec 2013 16:51:05 -0000
 
-On 12/20/2013 08:06 AM, Fahad Arslan wrote:
-> From: Fahad Arslan <Fahad_Arslan@mentor.com>
->
-> When Speex is compiled with FIXED_POINT defined, it scales float
-> input to +/-32768 instead of +/-1. This was being missed at one
-> point causing the input to the resampler to be zeroed. As a result
-> there was no audio output.
->
-> Signed-off-by: Fahad Arslan <Fahad_Arslan@mentor.com>
-> ---
->   .../speex/speex/scaling_fix.patch                  |   12 ++++++++++++
->   meta/recipes-multimedia/speex/speex_1.2rc1.bb      |    3 ++-
->   2 files changed, 14 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-multimedia/speex/speex/scaling_fix.patch b/meta/recipes-multimedia/speex/speex/scaling_fix.patch
-> new file mode 100644
-> index 0000000..a6340d7
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/speex/speex/scaling_fix.patch
+Previous change (086ce22b88f5ef5f75a83119a32c8b3fdcfa296d) broke
+the creating of vmdk images. This protects shell expansion variables
+and let dd generate the image to be transformed to vmdk by image-vmdk.class.
 
-The patch needs Upstream-Status: and Signed-off-by: tags please
+Signed-off-by: Joao Henrique Ferreira de Freitas <joaohf@gmail.com>
+---
 
-Sau!
+Using IMAGE_FSTYPE to hold the result of base_contains().
 
-> @@ -0,0 +1,12 @@
-> +diff -NaurbB a/libspeex/resample.c b/libspeex/resample.c
-> +--- a/libspeex/resample.c	2013-12-20 19:47:49.154454769 +0500
-> ++++ b/libspeex/resample.c	2013-12-20 19:48:16.558454331 +0500
-> +@@ -915,7 +915,7 @@
-> +        if (in) {
-> +          for(j=0;j<ichunk;++j)
-> + #ifdef FIXED_POINT
-> +-           x[j+st->filt_len-1]=WORD2INT(in[j*istride_save]);
-> ++           x[j+st->filt_len-1]=WORD2INT(32768.*in[j*istride_save]);
-> + #else
-> +            x[j+st->filt_len-1]=in[j*istride_save];
-> + #endif
-> diff --git a/meta/recipes-multimedia/speex/speex_1.2rc1.bb b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
-> index faf63b0..0fea51e 100644
-> --- a/meta/recipes-multimedia/speex/speex_1.2rc1.bb
-> +++ b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
-> @@ -9,7 +9,8 @@ DEPENDS = "libogg"
->
->   PR = "r2"
->
-> -SRC_URI = "http://downloads.us.xiph.org/releases/speex/speex-1.2rc1.tar.gz"
-> +SRC_URI = "http://downloads.us.xiph.org/releases/speex/speex-1.2rc1.tar.gz \
-> +           file://scaling_fix.patch"
->
->   SRC_URI[md5sum] = "c4438b22c08e5811ff10e2b06ee9b9ae"
->   SRC_URI[sha256sum] = "342f30dc57bd4a6dad41398365baaa690429660b10d866b7d508e8f1179cb7a6"
->
+ meta/classes/boot-directdisk.bbclass | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
+
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 3277666..d0113ac 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -61,6 +61,8 @@ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+ SYSLINUX_ROOT ?= "root=/dev/sda2"
+ SYSLINUX_TIMEOUT ?= "10"
+ 
++IMAGE_FSTYPE = '${@base_contains("IMAGE_FSTYPES", "vmdk", "image-vmdk", "", d)}'
++
+ boot_direct_populate() {
+ 	dest=$1
+ 	install -d $dest
+@@ -88,10 +90,10 @@ build_boot_dd() {
+ 		grubefi_hddimg_populate $HDDDIR
+ 	fi
+ 
+-	if [ ${IMAGE_FSTYPE} = "vmdk" ]; then
+-		if [ x${AUTO_SYSLINUXMENU} = x1 ] ; then
++	if [ "${IMAGE_FSTYPE}" = "image-vmdk" ]; then
++		if [ "x${AUTO_SYSLINUXMENU}" = "x1" ] ; then
+ 			install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu.c32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
+-			if [ x${SYSLINUX_SPLASH} != x ] ; then
++			if [ "x${SYSLINUX_SPLASH}" != "x" ] ; then
+ 				install -m 0644 ${SYSLINUX_SPLASH} ${HDDDIR}${SYSLINUXDIR}/splash.lss
+ 			fi
+ 		fi
+@@ -129,9 +131,7 @@ build_boot_dd() {
+ 	parted $IMAGE unit B mkpart primary ext2 ${END2}B ${END3}B
+ 	parted $IMAGE set 1 boot on 
+ 
+-	if [ ${IMAGE_FSTYPE} != "vmdk" ]; then
+-		parted $IMAGE print
+-	fi
++	parted $IMAGE print
+ 
+ 	awk "BEGIN { printf \"$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')\" }" | \
+ 		dd of=$IMAGE bs=1 seek=440 conv=notrunc
+@@ -141,10 +141,8 @@ build_boot_dd() {
+ 		dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
+ 	fi
+ 
+-	if [ ${IMAGE_FSTYPE} != "vmdk" ]; then
+-		dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
+-		dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512	
+-	fi
++	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
++	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
+ 
+ 	cd ${DEPLOY_DIR_IMAGE}
+ 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
+-- 
+1.8.3.2
+
 
