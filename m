@@ -1,37 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BC8160C24
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F6DA60F28
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 11:50:56 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id m20so2090517qcx.32
+	Fri, 20 Dec 2013 12:05:37 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBKC5W8i005328 for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Dec 2013 12:05:32 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hsFEIakh5JWh
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 03:50:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=y09j1mZRECNqgUMaAEQZaMSEVzw0lO5VQhRrajakjd4=;
-	b=BfxhnIuC76tmEZ/ILLssZ+HWmFEHV1x+ZBYwC7XTIpWBSPOHmgLrGlfl/0tlPgjwQd
-	WFLLhh7+kvhb81mGCjy9t9IPMiUbkNnhSNZWEKeTNmOh34qG5RbeAuffEI9cvo8OxG+l
-	0M7LB5+NG9POGPAm+OUEN3bkVpl0Frm0YQGBr+J8eIwm/fmo8GDHyI0Iqxbj34kpxnE/
-	Qtws1hldl6t2jsIXH9qXnhdFt1AK3VfIlX9MZFXHgUxLf837X3HnWZ/zEtJUGquxxfEC
-	t4buzOzIGwsoJIWQRzBmxS2sJUxwhKXVmqYQKCy1bCz2udDgDqVlDNFQHwnyRGCFCWxv
-	9BCQ==
-X-Gm-Message-State: ALoCoQk7kcX9mZqo3JrxrDPWsYtcf5MEK/sEV63yd9g82nntInwTSD2c4Jw9h8k0TOkLF5RYTiyg
-X-Received: by 10.224.16.204 with SMTP id p12mr13107097qaa.26.1387540257195;
-	Fri, 20 Dec 2013 03:50:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.96.179.105 with HTTP; Fri, 20 Dec 2013 03:50:37 -0800 (PST)
-In-Reply-To: <52B41B29.7080805@intel.com>
-References: <1387462812-23194-1-git-send-email-valentin.popa@intel.com>
-	<52B39115.2080008@linux.intel.com> <52B41B29.7080805@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 20 Dec 2013 11:50:37 +0000
-Message-ID: <CAJTo0LbJ+YVWOD3dDAe1otr8bBq9+DFnya1Zb83Vz6WhgzF58A@mail.gmail.com>
-To: Valentin Popa <valentin.popa@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston: for fbdev enabled distro feature, change WESTON_NATIVE_BACKEND
+	Fri, 20 Dec 2013 12:05:32 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBKC5Tum005325
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Dec 2013 12:05:31 GMT
+Message-ID: <1387541125.6402.90.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Dec 2013 12:05:25 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] libcap: Allow rebuilds to work correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +38,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 11:50:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 20 Dec 2013 12:05:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 20 December 2013 10:25, Valentin Popa <valentin.popa@intel.com> wrote:
-> I've tried to build with both kms and fbdev and failed at compile time (bug
-> or feature).
+Currently rerunning configure for libcap causes a build failure. This fixes
+the sed expressions to work correctly for a rebuild.
 
-I'd expect bug as you can build with x11 and drm backends enabled.
-Please file a bug for this (and CC me using ross@burtonini.com).
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+index 1b11b85..5319bc3 100644
+--- a/meta/recipes-support/libcap/libcap.inc
++++ b/meta/recipes-support/libcap/libcap.inc
+@@ -23,7 +23,7 @@ do_configure() {
+ 	# libcap uses := for compilers, fortunately, it gives us a hint
+ 	# on what should be replaced with ?=
+ 	sed -e 's,:=,?=,g' -i Make.Rules
+-	sed -e 's,^BUILD_CFLAGS ?= $(CFLAGS),BUILD_CFLAGS := $(BUILD_CFLAGS),' -i Make.Rules
++	sed -e 's,^BUILD_CFLAGS ?= $(.*CFLAGS),BUILD_CFLAGS := $(BUILD_CFLAGS),' -i Make.Rules
+ }
+ 
+ EXTRA_OEMAKE = " \
 
-Ross
+
 
