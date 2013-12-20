@@ -1,34 +1,26 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-yh0-f42.google.com (mail-yh0-f42.google.com
-	[209.85.213.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E11BC60CE3
+Return-Path: <valentin.popa@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 2435360C24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 10:10:55 +0000 (UTC)
-Received: by mail-yh0-f42.google.com with SMTP id z6so570877yhz.29
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 02:10:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=SHZSbMGyipNNT+i5vmdS5FK0rOcVX80vwVaXrWEoi5o=;
-	b=bSYy+ZKuMZ7n/8ZN2DTSrILhACBVa/U/2m7IjFsOenA5B6ehX7+ZJgBv4jeK6KHULZ
-	a6aBxUNrf734a355LpC+O3oPmidggZH5i2oa+whxOTyYY1HWTVW4pcIDKPk8tpAyy5ir
-	zQRQ8KAq60brH0+JtJAzdxir21GiQgkSqI092n1zwn5HbRAl7TWZiquI8obDVVrVq8/z
-	lRtZTNcypTPF+aAoc1tS186esip/pT9rw+M3aNnuePoNVA3hWp2bhg8saYue4ME+pkBk
-	wtMbar1mB114yr9CUkM6VY3cU0eXdO+tUuU2tXhbN8RFPXJ2kijfgR9uo5ounTVChwFa
-	VDYQ==
-X-Received: by 10.236.61.136 with SMTP id w8mr5275475yhc.14.1387534256704;
-	Fri, 20 Dec 2013 02:10:56 -0800 (PST)
-Received: from jfreitas.padtec.com.br (apolo.padtec.com.br. [200.228.158.130])
-	by mx.google.com with ESMTPSA id
-	f78sm10575980yhp.12.2013.12.20.02.10.54 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 20 Dec 2013 02:10:55 -0800 (PST)
-From: Joao Henrique Ferreira de Freitas <joaohf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2013 08:10:24 -0200
-Message-Id: <1387534224-16453-1-git-send-email-joaohf@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] boot-directdisk: fix the support of vmdk
+	Fri, 20 Dec 2013 10:25:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 20 Dec 2013 02:25:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,519,1384329600"; d="scan'208";a="447524421"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.47])
+	([10.237.105.47])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2013 02:25:01 -0800
+Message-ID: <52B41B29.7080805@intel.com>
+Date: Fri, 20 Dec 2013 12:25:45 +0200
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1387462812-23194-1-git-send-email-valentin.popa@intel.com>
+	<52B39115.2080008@linux.intel.com>
+In-Reply-To: <52B39115.2080008@linux.intel.com>
+Subject: Re: [PATCH] weston: for fbdev enabled distro feature, change WESTON_NATIVE_BACKEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,58 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 10:10:57 -0000
+X-List-Received-Date: Fri, 20 Dec 2013 10:25:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Previous change (086ce22b88f5ef5f75a83119a32c8b3fdcfa296d) broke
-the creating of vmdk images. This protects shell expansion variables
-and let dd generate the image to be transformed to vmdk by image-vmdk.class.
----
- meta/classes/boot-directdisk.bbclass | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
-
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index 3277666..4f26f47 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -88,10 +88,10 @@ build_boot_dd() {
- 		grubefi_hddimg_populate $HDDDIR
- 	fi
- 
--	if [ ${IMAGE_FSTYPE} = "vmdk" ]; then
--		if [ x${AUTO_SYSLINUXMENU} = x1 ] ; then
-+	if [ "${IMAGE_FSTYPES}" = "vmdk" ]; then
-+		if [ "x${AUTO_SYSLINUXMENU}" = "x1" ] ; then
- 			install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu.c32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
--			if [ x${SYSLINUX_SPLASH} != x ] ; then
-+			if [ "x${SYSLINUX_SPLASH}" != "x" ] ; then
- 				install -m 0644 ${SYSLINUX_SPLASH} ${HDDDIR}${SYSLINUXDIR}/splash.lss
- 			fi
- 		fi
-@@ -129,9 +129,7 @@ build_boot_dd() {
- 	parted $IMAGE unit B mkpart primary ext2 ${END2}B ${END3}B
- 	parted $IMAGE set 1 boot on 
- 
--	if [ ${IMAGE_FSTYPE} != "vmdk" ]; then
--		parted $IMAGE print
--	fi
-+	parted $IMAGE print
- 
- 	awk "BEGIN { printf \"$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')\" }" | \
- 		dd of=$IMAGE bs=1 seek=440 conv=notrunc
-@@ -141,10 +139,8 @@ build_boot_dd() {
- 		dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
- 	fi
- 
--	if [ ${IMAGE_FSTYPE} != "vmdk" ]; then
--		dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
--		dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512	
--	fi
-+	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
-+	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
- 
- 	cd ${DEPLOY_DIR_IMAGE}
- 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
--- 
-1.8.3.2
+On 12/20/2013 02:36 AM, Saul Wold wrote:
+> On 12/19/2013 06:20 AM, Valentin Popa wrote:
+>> For builds with fbdev (no drm/kms), set
+>> WESTON_NATIVE_BACKEND to "fbdev-backend.so"; doing this,
+>> weston-launch will be able to know what backend to use.
+>>
+>> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+>> ---
+>>   meta/recipes-graphics/wayland/weston_1.3.1.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-graphics/wayland/weston_1.3.1.bb 
+>> b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+>> index d97f6af..4ab2776 100644
+>> --- a/meta/recipes-graphics/wayland/weston_1.3.1.bb
+>> +++ b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+>> @@ -45,7 +45,7 @@ PACKAGECONFIG[x11] = 
+>> "--enable-x11-compositor,--disable-x11-compositor,virtual/l
+>>   # Headless Weston
+>>   PACKAGECONFIG[headless] = 
+>> "--enable-headless-compositor,--disable-headless-compositor"
+>>   # Weston on framebuffer
+>> -PACKAGECONFIG[fbdev] = 
+>> "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
+>> +PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor 
+>> WESTON_NATIVE_BACKEND="fbdev-backend.so",--disable-fbdev-compositor,udev 
+>> mtdev"
+>
+> Is this a more general way to do this as suggested by Koen back in May?
+>
+> +# Needed for weston-launch
+> +WESTONBACKEND ??= "fbdev-backend.so"
+> +
+> +export WESTON_NATIVE_BACKEND = "${WESTONBACKEND}"
+>
+> See http://patches.openembedded.org/patch/50871/
+>
+> Sau!
+Not sure of the context of that patch, but with this patch we have fbdev 
+backend -only- if the user builds with fbdev distro feature.
+I've tried to build with both kms and fbdev and failed at compile time 
+(bug or feature).
+>
+>
+>>   # weston-launch
+>>   PACKAGECONFIG[launch] = 
+>> "--enable-weston-launch,--disable-weston-launch,libpam"
+>>   # VA-API desktop recorder
+>>
 
 
