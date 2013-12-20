@@ -1,26 +1,39 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 2435360C24
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id A41BD6077F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 10:25:30 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 20 Dec 2013 02:25:30 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,519,1384329600"; d="scan'208";a="447524421"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.47])
-	([10.237.105.47])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Dec 2013 02:25:01 -0800
-Message-ID: <52B41B29.7080805@intel.com>
-Date: Fri, 20 Dec 2013 12:25:45 +0200
-From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Fri, 20 Dec 2013 11:32:06 +0000 (UTC)
+Received: by mail-ee0-f48.google.com with SMTP id e49so980037eek.35
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Dec 2013 03:32:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=m8/TyirMWtJdQ47mFT7N5Kvt4YaOaoGgiwLhkxah/y8=;
+	b=lLEvFRpl4N8/pKagjNTlkrb6h+y7icJrc/x+LZR4hZC/qTzZM6laeb46f8a4zipf4g
+	1lQNcGQRuEBJVqgzQZCAIGIM6Og1CpxX2gLCjGLfeVPZxe3Qa1wivuxBl6gyi9tUMesH
+	yDb+taUs//X5Qe5lxsC9eaDVKoCyvxTcB1yMqu/xcP1Veqrg5BYehtdyLkas0eOHmQ1Q
+	h/1Egb2zbNVJen8B3wZndG0msTsypJl10ezfDeLBirzUDapJaSn/r+VfxYYf57P+xVjY
+	RyfEUtAI2PzrZb0JmFjJSROc1X95BpWTUsQ8IDVemEZrk9jyYyJjUSG1kJK2ct5Dz0Rx
+	qJWA==
+X-Received: by 10.14.212.69 with SMTP id x45mr2324832eeo.69.1387539126930;
+	Fri, 20 Dec 2013 03:32:06 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id a45sm17750884eem.6.2013.12.20.03.32.05
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Dec 2013 03:32:06 -0800 (PST)
+Date: Fri, 20 Dec 2013 12:32:38 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Joao Henrique Ferreira de Freitas <joaohf@gmail.com>
+Message-ID: <20131220113238.GU3706@jama>
+References: <1387534224-16453-1-git-send-email-joaohf@gmail.com>
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
-References: <1387462812-23194-1-git-send-email-valentin.popa@intel.com>
-	<52B39115.2080008@linux.intel.com>
-In-Reply-To: <52B39115.2080008@linux.intel.com>
-Subject: Re: [PATCH] weston: for fbdev enabled distro feature, change WESTON_NATIVE_BACKEND
+In-Reply-To: <1387534224-16453-1-git-send-email-joaohf@gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] boot-directdisk: fix the support of vmdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +46,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 10:25:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Dec 2013 11:32:07 -0000
+X-Groupsio-MsgNum: 48356
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="i6WX/W6h5xa4jqsd"
+Content-Disposition: inline
 
-On 12/20/2013 02:36 AM, Saul Wold wrote:
-> On 12/19/2013 06:20 AM, Valentin Popa wrote:
->> For builds with fbdev (no drm/kms), set
->> WESTON_NATIVE_BACKEND to "fbdev-backend.so"; doing this,
->> weston-launch will be able to know what backend to use.
->>
->> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
->> ---
->>   meta/recipes-graphics/wayland/weston_1.3.1.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-graphics/wayland/weston_1.3.1.bb 
->> b/meta/recipes-graphics/wayland/weston_1.3.1.bb
->> index d97f6af..4ab2776 100644
->> --- a/meta/recipes-graphics/wayland/weston_1.3.1.bb
->> +++ b/meta/recipes-graphics/wayland/weston_1.3.1.bb
->> @@ -45,7 +45,7 @@ PACKAGECONFIG[x11] = 
->> "--enable-x11-compositor,--disable-x11-compositor,virtual/l
->>   # Headless Weston
->>   PACKAGECONFIG[headless] = 
->> "--enable-headless-compositor,--disable-headless-compositor"
->>   # Weston on framebuffer
->> -PACKAGECONFIG[fbdev] = 
->> "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
->> +PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor 
->> WESTON_NATIVE_BACKEND="fbdev-backend.so",--disable-fbdev-compositor,udev 
->> mtdev"
->
-> Is this a more general way to do this as suggested by Koen back in May?
->
-> +# Needed for weston-launch
-> +WESTONBACKEND ??= "fbdev-backend.so"
-> +
-> +export WESTON_NATIVE_BACKEND = "${WESTONBACKEND}"
->
-> See http://patches.openembedded.org/patch/50871/
->
-> Sau!
-Not sure of the context of that patch, but with this patch we have fbdev 
-backend -only- if the user builds with fbdev distro feature.
-I've tried to build with both kms and fbdev and failed at compile time 
-(bug or feature).
->
->
->>   # weston-launch
->>   PACKAGECONFIG[launch] = 
->> "--enable-weston-launch,--disable-weston-launch,libpam"
->>   # VA-API desktop recorder
->>
+--i6WX/W6h5xa4jqsd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Dec 20, 2013 at 08:10:24AM -0200, Joao Henrique Ferreira de Freitas=
+ wrote:
+> Previous change (086ce22b88f5ef5f75a83119a32c8b3fdcfa296d) broke
+> the creating of vmdk images. This protects shell expansion variables
+> and let dd generate the image to be transformed to vmdk by image-vmdk.cla=
+ss.
+> ---
+>  meta/classes/boot-directdisk.bbclass | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-dir=
+ectdisk.bbclass
+> index 3277666..4f26f47 100644
+> --- a/meta/classes/boot-directdisk.bbclass
+> +++ b/meta/classes/boot-directdisk.bbclass
+> @@ -88,10 +88,10 @@ build_boot_dd() {
+>  		grubefi_hddimg_populate $HDDDIR
+>  	fi
+> =20
+> -	if [ ${IMAGE_FSTYPE} =3D "vmdk" ]; then
+> -		if [ x${AUTO_SYSLINUXMENU} =3D x1 ] ; then
+> +	if [ "${IMAGE_FSTYPES}" =3D "vmdk" ]; then
+> +		if [ "x${AUTO_SYSLINUXMENU}" =3D "x1" ] ; then
 
+IMAGE_FSTYPE looks really as typo, but what if there are multiple
+entries in IMAGE_FSTYPES?
+
+OE @ ~/openembedded-core $ git grep IMAGE_FSTYPE | grep -v IMAGE_FSTYPES
+meta/classes/boot-directdisk.bbclass:   if [ ${IMAGE_FSTYPE} =3D "vmdk" ]; =
+then
+meta/classes/boot-directdisk.bbclass:   if [ ${IMAGE_FSTYPE} !=3D "vmdk" ];=
+ then
+meta/classes/boot-directdisk.bbclass:   if [ ${IMAGE_FSTYPE} !=3D "vmdk" ];=
+ then
+
+Maybe you can use this variable instead:
+meta/classes/image.bbclass:IMAGE_TYPE_vmdk =3D '${@base_contains("IMAGE_FST=
+YPES", "vmdk", "image-vmdk", "", d)}'
+
+>  			install -m 0644 ${STAGING_DIR}/${MACHINE}/usr/share/syslinux/vesamenu=
+=2Ec32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
+> -			if [ x${SYSLINUX_SPLASH} !=3D x ] ; then
+> +			if [ "x${SYSLINUX_SPLASH}" !=3D "x" ] ; then
+>  				install -m 0644 ${SYSLINUX_SPLASH} ${HDDDIR}${SYSLINUXDIR}/splash.lss
+>  			fi
+>  		fi
+> @@ -129,9 +129,7 @@ build_boot_dd() {
+>  	parted $IMAGE unit B mkpart primary ext2 ${END2}B ${END3}B
+>  	parted $IMAGE set 1 boot on=20
+> =20
+> -	if [ ${IMAGE_FSTYPE} !=3D "vmdk" ]; then
+> -		parted $IMAGE print
+> -	fi
+> +	parted $IMAGE print
+> =20
+>  	awk "BEGIN { printf \"$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | past=
+e -sd '' | sed 's/\(..\)/\\x&/g')\" }" | \
+>  		dd of=3D$IMAGE bs=3D1 seek=3D440 conv=3Dnotrunc
+> @@ -141,10 +139,8 @@ build_boot_dd() {
+>  		dd if=3D${STAGING_DATADIR}/syslinux/mbr.bin of=3D$IMAGE conv=3Dnotrunc
+>  	fi
+> =20
+> -	if [ ${IMAGE_FSTYPE} !=3D "vmdk" ]; then
+> -		dd if=3D$HDDIMG of=3D$IMAGE conv=3Dnotrunc seek=3D1 bs=3D512
+> -		dd if=3D${ROOTFS} of=3D$IMAGE conv=3Dnotrunc seek=3D$OFFSET bs=3D512=
+=09
+> -	fi
+> +	dd if=3D$HDDIMG of=3D$IMAGE conv=3Dnotrunc seek=3D1 bs=3D512
+> +	dd if=3D${ROOTFS} of=3D$IMAGE conv=3Dnotrunc seek=3D$OFFSET bs=3D512
+> =20
+>  	cd ${DEPLOY_DIR_IMAGE}
+>  	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
+> --=20
+> 1.8.3.2
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--i6WX/W6h5xa4jqsd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlK0KtYACgkQN1Ujt2V2gBxICwCfSf+UVishj3kuyumWl1w+pBXt
+SQIAn0zLq8JT9oJEYf5PVSHqslrfe+N7
+=z/P1
+-----END PGP SIGNATURE-----
+
+--i6WX/W6h5xa4jqsd--
