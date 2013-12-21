@@ -1,22 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EEDD610ED
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7778260FE4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2013 18:47:28 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Dec 2013 10:47:29 -0800
+	Sat, 21 Dec 2013 01:02:11 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 20 Dec 2013 16:58:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,522,1384329600"; d="scan'208";a="453473393"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.132])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Dec 2013 10:47:28 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2013 10:47:28 -0800
-Message-Id: <1387565248-18457-4-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1387565248-18457-1-git-send-email-sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.95,524,1384329600"; d="scan'208";a="455763866"
+Received: from unknown (HELO helios.localnet) ([10.252.122.119])
+	by orsmga002.jf.intel.com with ESMTP; 20 Dec 2013 17:01:51 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Sat, 21 Dec 2013 01:01:50 +0000
+Message-ID: <11192874.rs9VKmuIPZ@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1387565248-18457-3-git-send-email-sgw@linux.intel.com>
 References: <1387565248-18457-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 3/3] python: fix unrecognised options: --without-cxx --with-cyclic-gc
+	<1387565248-18457-3-git-send-email-sgw@linux.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] sqlite: remove unrecognised options: --enable-tempstore
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,28 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2013 18:47:28 -0000
+X-List-Received-Date: Sat, 21 Dec 2013 01:02:12 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-devtools/python/python.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi Saul,
 
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index fcfeda5..cecfb3a 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -22,8 +22,7 @@ PYTHONLSBOPTS_linuxstdbase = "ac_cv_sizeof_off_t=8"
- EXTRA_OECONF = "\
-   --with-threads \
-   --with-pymalloc \
--  --with-cyclic-gc \
--  --without-cxx \
-+  --without-cxx-main \
-   --with-signal-module \
-   --enable-shared \
-   --enable-ipv6=${@base_contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)} \
+On Friday 20 December 2013 10:47:27 Saul Wold wrote:
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+
+IMO we need more details for these option removal commits; we need to know 
+when the option disappeared if it did in fact disappear (as opposed to having 
+been wrong in the first place or renamed to something else).
+
+Cheers,
+Paul
+
 -- 
-1.8.3.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
