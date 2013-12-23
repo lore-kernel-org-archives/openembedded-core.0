@@ -1,28 +1,36 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A2B060E7C
+Return-Path: <zhenhua.luo@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2lp0239.outbound.protection.outlook.com [207.46.163.239])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F88D60D7F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 02:10:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBN2ABci011974
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2013 18:10:11 -0800 (PST)
-Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Sun, 22 Dec 2013 18:10:11 -0800
-Message-ID: <52B79B80.4040007@windriver.com>
-Date: Mon, 23 Dec 2013 10:10:08 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+	Mon, 23 Dec 2013 06:41:28 +0000 (UTC)
+Received: from DM2PR03MB399.namprd03.prod.outlook.com (10.141.84.148) by
+	DM2PR03MB397.namprd03.prod.outlook.com (10.141.84.139) with Microsoft
+	SMTP Server (TLS) id 15.0.842.7; Mon, 23 Dec 2013 06:41:27 +0000
+Received: from DM2PR03MB399.namprd03.prod.outlook.com ([10.141.84.148]) by
+	DM2PR03MB399.namprd03.prod.outlook.com ([10.141.84.148]) with mapi id
+	15.00.0842.003; Mon, 23 Dec 2013 06:41:27 +0000
+From: "zhenhua.luo@freescale.com" <zhenhua.luo@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: Why to make branch info is mandatory for non-master commit
+	with latest bitbake
+Thread-Index: Ac7/qf91LoUh/rs8SPifClus9Hu3aQ==
+Date: Mon, 23 Dec 2013 06:41:25 +0000
+Message-ID: <090257310d9e463d93ee5cd5fd4d27fe@DM2PR03MB399.namprd03.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.88.158.216]
+x-forefront-prvs: 0069246B74
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009001)(199002)(189002)(76482001)(66066001)(74366001)(80976001)(80022001)(65816001)(76176001)(46102001)(51856001)(54356001)(81816001)(79102001)(53806001)(54316002)(56776001)(83322001)(77982001)(59766001)(81686001)(558084003)(63696002)(4396001)(47736001)(49866001)(74316001)(76796001)(76576001)(76786001)(2656002)(50986001)(47976001)(33646001)(74876001)(87936001)(69226001)(74706001)(56816005)(90146001)(85306002)(83072002)(81542001)(85852003)(81342001)(31966008)(74502001)(47446002)(74662001)(87266001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM2PR03MB397;
+	H:DM2PR03MB399.namprd03.prod.outlook.com; CLIP:192.88.158.216;
+	FPR:; RD:InfoNoRecords; A:1; MX:1; LANG:en; 
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1384426288-3534-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1384426288-3534-1-git-send-email-ming.liu@windriver.com>
-X-Originating-IP: [128.224.162.153]
-Subject: Re: [PATCH] sstate: Add optimizing logic for crosssdk setscene dependencies
+X-OriginatorOrg: freescale.com
+Subject: Why to make branch info is mandatory for non-master commit with latest bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,98 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Dec 2013 02:10:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Dec 2013 06:41:28 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hi, guys:
+Previously the branch name doesn't need to be defined when a non-master bra=
+nch commit is referred in recipe, this has been changed in latest bitbake.=
+=20
 
-Would anybody take a tech review to my patch? Thanks!
+Is this an intentional change? May I know the reason of the change if it is=
+ intentional?
 
-the best,
-thank you
 
-On 11/14/2013 06:51 PM, Ming Liu wrote:
-> This patch mainly aims to add optimisation for crosssdk setscene dependency
-> validating which we haven't handled in current logic, and which I think we
-> could have as we've already implemented to native/cross, although there
-> are albeit not many crossdk tasks, we could still get some performance
-> enhancement.
->
-> And it also fix a vulnerability of some certain workflow, think about the
-> following scenario with current logic:
->      bitbake nativesdk-eglibc-initial -c cleansstate
->      bitbake gcc-crosssdk-initial -c clean
->      bitbake gmp-native -c clean
->      bitbake libmpc-native -c clean
->      bitbake mpfr-native -c clean
->      bitbake gcc-crosssdk-initial
->      bitbake nativesdk-eglibc-initial
->
-> Aboving will fail for absence of a few native libraries required by
-> gcc-crosssdk-initial.
->
-> Also modified some places in current code except the optimisation, as
-> following:
-> 1 Remove isNative function since no code is referring it.
-> 2 Add do_package to the list that don't exist and are noexec.
->
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->   meta/classes/sstate.bbclass | 24 +++++++++++-------------
->   1 file changed, 11 insertions(+), 13 deletions(-)
->
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 517c100..49f92f9 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -666,12 +666,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
->   
->       bb.debug(2, "Considering setscene task: %s" % (str(taskdependees[task])))
->   
-> -    def isNative(x):
-> -        return x.endswith("-native")
-> -    def isNativeCross(x):
-> -        return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial")
-> +    def isNativeCrossCrosssdk(x):
-> +        return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial") or x.endswith("-crosssdk") or x.endswith("-crosssdk-initial")
->       def isSafeDep(x):
-> -        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
-> +        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial", "gcc-crosssdk", "binutils-crosssdk", "gcc-crosssdk-initial"]:
->               return True
->           return False
->       def isPostInstDep(x):
-> @@ -701,8 +699,8 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
->               if isPostInstDep(taskdependees[task][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm']:
->                   return False
->               continue
-> -        # Native/Cross packages don't exist and are noexec anyway
-> -        if isNativeCross(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
-> +        # Native/Cross/Crosssdk packages don't exist and are noexec anyway
-> +        if isNativeCrossCrosssdk(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata', 'do_package']:
->               continue
->   
->           # Consider sysroot depending on sysroot tasks
-> @@ -713,14 +711,14 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
->               # Nothing need depend on libc-initial/gcc-cross-initial
->               if taskdependees[task][0].endswith("-initial"):
->                   continue
-> -            # Native/Cross populate_sysroot need their dependencies
-> -            if isNativeCross(taskdependees[task][0]) and isNativeCross(taskdependees[dep][0]):
-> +            # Native/Cross/Crosssdk populate_sysroot need their dependencies
-> +            if isNativeCrossCrosssdk(taskdependees[task][0]) and isNativeCrossCrosssdk(taskdependees[dep][0]):
->                   return False
-> -            # Target populate_sysroot depended on by cross tools need to be installed
-> -            if isNativeCross(taskdependees[dep][0]):
-> +            # Target/Nativesdk populate_sysroot depended on by cross/crosssdk tools need to be installed
-> +            if isNativeCrossCrosssdk(taskdependees[dep][0]):
->                   return False
-> -            # Native/cross tools depended upon by target sysroot are not needed
-> -            if isNativeCross(taskdependees[task][0]):
-> +            # Native,Cross/Crosssdk tools depended upon by target/nativesdk sysroot are not needed
-> +            if isNativeCrossCrosssdk(taskdependees[task][0]):
->                   continue
->               # Target populate_sysroot need their dependencies
->               return False
+Best Regards,
 
+Zhenhua
 
