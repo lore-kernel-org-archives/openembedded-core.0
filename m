@@ -1,40 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id A6E5C60D4F
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id DD3A061039
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 15:10:15 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id bz8so6302319wib.17
+	Mon, 23 Dec 2013 17:32:59 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id x12so5064631wgg.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 07:10:16 -0800 (PST)
+	Mon, 23 Dec 2013 09:33:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=rPT3+XAldm70fKFU1JFdL/skGJqw7MbeTJrgkO6PmL4=;
-	b=Uqir2vhaL+dfsgTNLZJJ3q+vsU4tIOX8JdXP0RDri7DLV1Z9ugRYqzu3UagnjUuorY
-	34fOrJDY9HiHKopAMTq8gc0nxWHQ0X9LSluB1ONAhwof8UQPCP7EuQxdOz4omw3Eobcm
-	YXOkIrMZhTRpa8jqV5D5d3Z78J18hH6lFW+ncfTKNfTvTIbtqTlTn8PbBDFA5CUDU4jF
-	CpNwDkALuxuP0l3FuBXuycqf+Ov5zembywAlS2Rs7VQf3uN72pXJ9GNBpZkcp1X5UTn/
-	7+iJH9Zs6mPpkLigQMqUWsXWEkXjANWgqQgbQ5yHGq823GGKnuGCWxa93Gx+mm8vi86j
-	eklg==
-X-Gm-Message-State: ALoCoQl3LTZEsDjRicDaQDCyL7jwLJ3qlmA00qFOcIUj8pGfHrjahNA4UswiOpDLop6Uxv9Ok9Z2
-X-Received: by 10.194.174.36 with SMTP id bp4mr18934785wjc.7.1387811416354;
-	Mon, 23 Dec 2013 07:10:16 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=XIW7/kRkvBE2ZjwLVQW4MuEmx5W0eK4pq9Hbi28MmEg=;
+	b=eHt2vIxV+QiezEYaFlJBJs0J/szVSbGEqjVtGP53kjxaBR9Cj9WoeNzmhgW/WfOONn
+	tXvrDTGuiMBRmcYpwnsOHOMEmeEX0orX4DYi77QJ241vBPdDf4dVSZNvA041RBMYa82T
+	vseMmOXgCG30o1xPA42xA+vfCfrt0p7sDCBZwvdTCsn/B50H9kl9xwieVTZ2wYZyXWn+
+	JSFAiRTRQesdc1KO6JjrAMM21/5fMiVTFtLdpXslcOklnQwEcKwceMwINc//VGIml0rz
+	liz2L2eXp51h8105YZ1nax5NqJa90Tg/Efn9SExoAdSDJ+nAPhz92oEe4CdmdHJ8GO9A
+	Nr+Q==
+X-Gm-Message-State: ALoCoQl2EpH9RDsmfJ/2+ELNIPLcG/ow264P3SzUnxjl4tsO18+Ym862laOiAQeNDgwM5+R5cRQ2
+X-Received: by 10.194.48.33 with SMTP id i1mr492035wjn.93.1387819980424;
+	Mon, 23 Dec 2013 09:33:00 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	cy10sm10159573wjb.6.2013.12.23.07.10.15
+	by mx.google.com with ESMTPSA id c1sm10460870wje.4.2013.12.23.09.32.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Dec 2013 07:10:15 -0800 (PST)
+	Mon, 23 Dec 2013 09:32:59 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Dec 2013 15:10:10 +0000
-Message-Id: <1387811410-6832-2-git-send-email-ross.burton@intel.com>
+Date: Mon, 23 Dec 2013 17:32:55 +0000
+Message-Id: <1387819976-28691-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1387811410-6832-1-git-send-email-ross.burton@intel.com>
-References: <1387811410-6832-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] libxcb: don't hard-code package splitting
+Subject: [PATCH 1/2] dbus: use PACKAGECONFIG for X11 and systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,63 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Dec 2013 15:10:16 -0000
+X-List-Received-Date: Mon, 23 Dec 2013 17:33:00 -0000
 
-Instead of having a log PACKAGES list and a correspondingly long FILES_ list,
-just use do_split_packages.
+Instead of several variables and overrides, use PACKAGECONFIG to respect X11 and
+systemd DISTRO_FEATURES.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libxcb.inc |   35 +++++------------------------
- 1 file changed, 5 insertions(+), 30 deletions(-)
+ meta/recipes-core/dbus/dbus.inc |   25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb.inc b/meta/recipes-graphics/xorg-lib/libxcb.inc
-index d75b26b..75a43a5 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb.inc
-+++ b/meta/recipes-graphics/xorg-lib/libxcb.inc
-@@ -15,37 +15,12 @@ DEPENDS = "xcb-proto xproto libxau libxslt-native xcb-proto-native libpthread-st
- SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.bz2 \
-            file://xcbincludedir.patch"
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index 343079c..625e975 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -5,10 +5,7 @@ SECTION = "base"
+ LICENSE = "AFL-2 | GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+                     file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974538bb3c"
+-X11DEPENDS = "virtual/libx11 libsm"
+-DEPENDS = "expat virtual/libintl ${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d)}"
+-DEPENDS_class-native = "expat-native virtual/libintl-native"
+-DEPENDS_class-nativesdk = "nativesdk-expat virtual/nativesdk-libintl"
++DEPENDS = "expat virtual/libintl"
+ RDEPENDS_dbus = "${@base_contains('DISTRO_FEATURES', 'ptest', 'dbus-ptest-ptest', '', d)}"
+ RDEPENDS_dbus_class-native = ""
+ RDEPENDS_dbus_class-nativesdk = ""
+@@ -70,21 +67,23 @@ pkg_postinst_dbus() {
+ 	fi
+ }
  
--PACKAGES =+ "libxcb-composite libxcb-damage libxcb-dpms libxcb-glx \
--             libxcb-randr libxcb-record libxcb-render libxcb-res \
--             libxcb-screensaver libxcb-shape libxcb-shm libxcb-sync \
--             libxcb-xevie libxcb-xf86dri libxcb-xfixes libxcb-xlib \
--             libxcb-xprint libxcb-xtest libxcb-xv libxcb-xvmc \
--             libxcb-dri2 libxcb-dri3 libxcb-present"
-+PACKAGES_DYNAMIC = "^libxcb-.*"
- 
- FILES_${PN} = "${libdir}/libxcb.so.*"
--FILES_libxcb-dri2 = "${libdir}/libxcb-dri2.so.*"
--FILES_libxcb-dri3 = "${libdir}/libxcb-dri3.so.*"
--FILES_libxcb-composite = "${libdir}/libxcb-composite.so.*"
--FILES_libxcb-damage = "${libdir}/libxcb-damage.so.*"
--FILES_libxcb-dpms = "${libdir}/libxcb-dpms.so.*"
--FILES_libxcb-glx = "${libdir}/libxcb-glx.so.*"
--FILES_libxcb-randr = "${libdir}/libxcb-randr.so.*"
--FILES_libxcb-record = "${libdir}/libxcb-record.so.*"
--FILES_libxcb-render = "${libdir}/libxcb-render.so.*"
--FILES_libxcb-res = "${libdir}/libxcb-res.so.*"
--FILES_libxcb-screensaver = "${libdir}/libxcb-screensaver.so.*"
--FILES_libxcb-shape = "${libdir}/libxcb-shape.so.*"
--FILES_libxcb-shm = "${libdir}/libxcb-shm.so.*"
--FILES_libxcb-sync = "${libdir}/libxcb-sync.so.*"
--FILES_libxcb-xevie = "${libdir}/libxcb-xevie.so.*"
--FILES_libxcb-xf86dri = "${libdir}/libxcb-xf86dri.so.*"
--FILES_libxcb-xfixes = "${libdir}/libxcb-xfixes.so.*"
--FILES_libxcb-xinerama = "${libdir}/libxcb-xinerama.so.*"
--FILES_libxcb-xlib = "${libdir}/libxcb-xlib.so.*"
--FILES_libxcb-xprint = "${libdir}/libxcb-xprint.so.*"
--FILES_libxcb-xtest = "${libdir}/libxcb-xtest.so.*"
--FILES_libxcb-xv = "${libdir}/libxcb-xv.so.*"
--FILES_libxcb-xvmc = "${libdir}/libxcb-xvmc.so.*"
--FILES_libxcb-present = "${libdir}/libxcb-present.so.*"
- 
- inherit autotools pkgconfig pythonnative
+-EXTRA_OECONF_X = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x', '--without-x', d)}"
+-EXTRA_OECONF_X_class-native = "--without-x --disable-x11-autolaunch"
+-# TODO: would like to --enable-systemd but that's a circular build-dependency
+-# between systemd<->dbus
+-EXTRA_OECONF_SYSTEMD = "${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdsystemunitdir=${systemd_unitdir}/system/', '--without-systemdsystemunitdir', d)}"
+-
+ EXTRA_OECONF = "--disable-tests \
+                 --disable-checks \
+                 --disable-xml-docs \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+                 --with-xml=expat \
+-                --disable-systemd \
+-                ${EXTRA_OECONF_SYSTEMD} \
+-                ${EXTRA_OECONF_X}"
++                --disable-systemd"
 +
-+python populate_packages_prepend () {
-+    do_split_packages(d, '${libdir}', '^libxcb-(.*)\.so\..*$', 'libxcb-%s', 'XCB library module for %s', allow_links=True)
-+}
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
++PACKAGECONFIG_class-native = ""
++PACKAGECONFIG_class-nativesdk = ""
++
++# Would like to --enable-systemd but that's a circular build-dependency between
++# systemd<->dbus
++PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir"
++PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
+ 
+ do_install() {
+ 	autotools_do_install
 -- 
 1.7.10.4
 
