@@ -1,25 +1,31 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CBB68615C7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 4121660D7F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 10:10:16 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Dec 2013 02:10:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,536,1384329600"; d="scan'208";a="456541016"
-Received: from cvoicu-vostro-460.rb.intel.com (HELO google.com.com)
-	([10.237.105.151])
-	by orsmga002.jf.intel.com with ESMTP; 23 Dec 2013 02:10:16 -0800
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Dec 2013 12:16:48 +0200
-Message-Id: <5909b901cce8a6a7351a86b67aa6696d0b3bbb9a.1387793682.git.cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1387793682.git.cristiana.voicu@intel.com>
-References: <cover.1387793682.git.cristiana.voicu@intel.com>
-In-Reply-To: <cover.1387793682.git.cristiana.voicu@intel.com>
-References: <cover.1387793682.git.cristiana.voicu@intel.com>
-Subject: [PATCH 1/1] curl: upgrade to 7.34.0
+	Mon, 23 Dec 2013 10:43:10 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBNAgwEs011522; Mon, 23 Dec 2013 10:42:59 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HEVSOwKqzhz1; Mon, 23 Dec 2013 10:42:58 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	rBNAgpS7011514
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Mon, 23 Dec 2013 10:42:52 GMT
+Message-ID: <1387795367.11527.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "zhenhua.luo@freescale.com" <zhenhua.luo@freescale.com>
+Date: Mon, 23 Dec 2013 10:42:47 +0000
+In-Reply-To: <090257310d9e463d93ee5cd5fd4d27fe@DM2PR03MB399.namprd03.prod.outlook.com>
+References: <090257310d9e463d93ee5cd5fd4d27fe@DM2PR03MB399.namprd03.prod.outlook.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Why to make branch info is mandatory for non-master commit with latest bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Dec 2013 10:10:16 -0000
+X-List-Received-Date: Mon, 23 Dec 2013 10:43:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
----
- .../curl/{curl_7.33.0.bb => curl_7.34.0.bb}        |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.33.0.bb => curl_7.34.0.bb} (93%)
+On Mon, 2013-12-23 at 06:41 +0000, zhenhua.luo@freescale.com wrote:
+> Previously the branch name doesn't need to be defined when a
+> non-master branch commit is referred in recipe, this has been changed
+> in latest bitbake. 
+> 
+> Is this an intentional change? May I know the reason of the change if it is intentional?
 
-diff --git a/meta/recipes-support/curl/curl_7.33.0.bb b/meta/recipes-support/curl/curl_7.34.0.bb
-similarity index 93%
-rename from meta/recipes-support/curl/curl_7.33.0.bb
-rename to meta/recipes-support/curl/curl_7.34.0.bb
-index 8539fec..2dfe390 100644
---- a/meta/recipes-support/curl/curl_7.33.0.bb
-+++ b/meta/recipes-support/curl/curl_7.34.0.bb
-@@ -18,8 +18,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "57409d6bf0bd97053b8378dbe0cadcef"
--SRC_URI[sha256sum] = "0afde4cd949e2658eddc3cda675b19b165eea1af48ac5f3e1ec160792255d1b3"
-+SRC_URI[md5sum] = "88491df2bb32e9146e776ae6ac2f8327"
-+SRC_URI[sha256sum] = "10beade56b48311499e444783df3413405b22f20a147ed4a1d8a8125f1cc829b"
- 
- inherit autotools pkgconfig binconfig
- 
--- 
-1.7.9.5
+It was intentional and was triggered by this change:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=f19546e02d3318ee69fd0c34e21aa97b74c987ec
+
+which is a sanity test added to fix certain failure cases where a given
+revision wasn't on a specified branch.
+
+The bug was nasty since the fetcher was hitting the network in cases it
+shouldn't have been when a branch wasn't specified.
+
+Cheers,
+
+Richard
 
 
