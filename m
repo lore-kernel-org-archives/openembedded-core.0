@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DA9060CFF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2919860D7F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 08:36:22 +0000 (UTC)
+	Mon, 23 Dec 2013 08:36:23 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBN8aMaD011998
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBN8aOjF015189
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 00:36:22 -0800 (PST)
+	Mon, 23 Dec 2013 00:36:24 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.146) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 23 Dec 2013 00:36:22 -0800
+	14.2.347.0; Mon, 23 Dec 2013 00:36:23 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Dec 2013 16:36:19 +0800
-Message-ID: <cover.1387787578.git.Qi.Chen@windriver.com>
+Date: Mon, 23 Dec 2013 16:36:20 +0800
+Message-ID: <2e053dfde8c5b774d5f20be0f1afd3b41200fb9e.1387787578.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1387787578.git.Qi.Chen@windriver.com>
+References: <cover.1387787578.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Fixes for systemd's ptest
+Subject: [PATCH 1/2] busybox: enable SEAMLESS_XZ by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +38,29 @@ Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The current status for systemd's ptest is not good. It has only two test cases.
-However, it's better to have something than nothing. So we need to make these
-two test cases actually have effect. This is what this patchset is trying to achieve.
+We have enabled SEAMLESS_GZ and SEAMLESS_BZ2 in defconfig, it's
+reasonable for us to enable SEAMLESS_XZ as well. Otherwise, we
+couldn't extract tar.xz file while we could extract tar.gz file.
+Such situation would be somewhat confusing.
 
-//Chen Qi
-
-The following changes since commit 005af45191ded6185c618c708181b31281e43092:
-
-  bitbake: fetch2: avoid printing "no checksum" error message twice (2013-12-22 14:29:13 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/systemd-ptest
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-ptest
-
-Chen Qi (2):
-  busybox: enable SEAMLESS_XZ by default
-  systemd: fix ptest to make it able to run on target
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-core/busybox/busybox/defconfig |    2 +-
- meta/recipes-core/systemd/systemd/run-ptest |    1 +
- meta/recipes-core/systemd/systemd_208.bb    |   12 ++++++++++--
- 3 files changed, 12 insertions(+), 3 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index f0e63c2..20cd147 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -125,7 +125,7 @@ CONFIG_FEATURE_HWIB=y
+ #
+ # Archival Utilities
+ #
+-# CONFIG_FEATURE_SEAMLESS_XZ is not set
++CONFIG_FEATURE_SEAMLESS_XZ=y
+ CONFIG_FEATURE_SEAMLESS_LZMA=y
+ CONFIG_FEATURE_SEAMLESS_BZ2=y
+ CONFIG_FEATURE_SEAMLESS_GZ=y
 -- 
 1.7.9.5
 
