@@ -1,38 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E30F76B1FE
+Received: from mail-qe0-f45.google.com (mail-qe0-f45.google.com
+	[209.85.128.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5665761039
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 17:33:01 +0000 (UTC)
-Received: by mail-wg0-f49.google.com with SMTP id x12so5064661wgg.4
+	Mon, 23 Dec 2013 18:01:57 +0000 (UTC)
+Received: by mail-qe0-f45.google.com with SMTP id 6so5360282qea.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 09:33:02 -0800 (PST)
+	Mon, 23 Dec 2013 10:01:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=SCALDqXtXj6Rv1Xzt9nPfvY2QDcJTwaWAJLi0S9dRSY=;
-	b=kn39J5S54dhNxjk74iUHriejDaqsdRCO+hhM84gQe9D/vyn0a5xs3kal6A8AFmwwL9
-	PLMTQbT0rUI6GwghbB65OvU3sBuTsYNt9TMB3A3EDCq5MC9ouDJMusyJg5noH68GsuZo
-	wXigS7tlAYrvca9hvwnWeu7qpfPINLwGybioALeHSeSuRo2DlB4ydDvTmj4N0Yt3onK2
-	fE3mCLOUSHOp2C7p+KEVC4Annxy9w8FAmqmkyPS/UWs/o0AP2/Kc953WNw4IFJN2TX5c
-	l1TKmENtqsvbfbv7wbXXHOZ6enov/fKdXfzWGVGoeMAK+0vdcSSOCgom94W9Jq3y6zcC
-	EPnw==
-X-Gm-Message-State: ALoCoQnGI9wBOIRLAZLjAPztUHFOvZFDocsK5xpQgnb05RfeFkL0B1ow5tbVqfg8eKcFN5X3vIJZ
-X-Received: by 10.180.79.106 with SMTP id i10mr8993256wix.23.1387819981568;
-	Mon, 23 Dec 2013 09:33:01 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id c1sm10460870wje.4.2013.12.23.09.33.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Dec 2013 09:33:00 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Dec 2013 17:32:56 +0000
-Message-Id: <1387819976-28691-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1387819976-28691-1-git-send-email-ross.burton@intel.com>
-References: <1387819976-28691-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] dbus: enable API entry point checks
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-type;
+	bh=eehMjiC6boR0r0blfVVtigNVI2A+e+1w8r35Huzix5g=;
+	b=J+LvJrRF/iImOdwb7xZABGJnd/OquffID/3v74hODr07jOPD4oXt/3bpKdtydBUyQY
+	D/0Ut43DnuO1gRuZAs7FGRONoaq5ab6DO/gfl1TW8zyJx5aaPFhPw5K6Pqh3tNJhHOh6
+	SozWwaBdIVZPF5RW7K0wTcglK1F7/Xbt2k0V9I1PW2hO9mj/TgE9sgCClGmSq5U5PjOl
+	l0DWCIVZYRmDbr1KkevzUFgOQYAWI9EHPPckXPycm3GTjSpWgF4wA6gh+fzDI1nYdc7+
+	M3jPyMAA0VEPXyfIVtYUiW/BKaB1uOrXYaE3IzY+dNIdJGBR2YyaSoBLb61XA2Pik/ds
+	ZvNg==
+X-Gm-Message-State: ALoCoQmyFK8y7tusGooPiS+BmE4DNOJF6Yb7hTZhlxtGItjDGC91WzSPO7qCER6+lLTQ/Ha7U6Ss
+X-Received: by 10.49.51.66 with SMTP id i2mr44646732qeo.26.1387821717834; Mon,
+	23 Dec 2013 10:01:57 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.96.179.105 with HTTP; Mon, 23 Dec 2013 10:01:37 -0800 (PST)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 23 Dec 2013 18:01:37 +0000
+Message-ID: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	Poky Project <poky@yoctoproject.org>, 
+	OE-devel <openembedded-devel@lists.openembedded.org>
+Subject: Piglit in Poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,31 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Dec 2013 17:33:02 -0000
+X-List-Received-Date: Mon, 23 Dec 2013 18:01:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-We were disabling API entry point sanity checking which should only be done if
-the performance gain is prefereable to correctness.  Instead don't disable
-checks explicitly as the default is enabled, allowing distributions to append
---disable-checks if required.
+Hi,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/dbus/dbus.inc |    1 -
- 1 file changed, 1 deletion(-)
+We'd like to integrate Piglit (an OpenGL test suite) into Poky so that
+we can run automated QA on the GL stack.  Piglit is currently residing
+in meta-oe, but as Poky is a self-contained project we can't just add
+meta-oe to it:  apart from the size of meta-oe, we can't ensure
+stability if meta-oe makes incompatible changes that affect Poky.
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 625e975..ae80cb0 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -68,7 +68,6 @@ pkg_postinst_dbus() {
- }
- 
- EXTRA_OECONF = "--disable-tests \
--                --disable-checks \
-                 --disable-xml-docs \
-                 --disable-doxygen-docs \
-                 --disable-libaudit \
--- 
-1.7.10.4
+Piglit isn't a stand-alone package, there are the dependencies of
+waffle, python-mako and python-numpy to consider too.  There are two
+possibilities I can see:
 
+1) Move piglit and deps to oe-core.  Piglit is for QA purposes only
+and pushes the boundaries of "core platform".  In a sense this is a
+repeat of the discussion we had with Midori...  does oe-core contain
+everything needed to sufficiently exercise the core components it
+ships or not?
+
+2) Add piglit and deps to meta-yocto.  Probably a new layer called
+meta-yocto-qa (or similar) because the Yocto Compatible guidelines
+forbid mixing distribution policy and recipes.  We'd need to sync
+meta-yocto-qa with the pieces of meta-oe that we want somehow, but
+that's our problem.
+
+Thoughts and opinions welcome over Christmas, otherwise I'll toss a coin. :)
+
+Ross
 
