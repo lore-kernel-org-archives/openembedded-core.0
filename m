@@ -1,27 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BE1FE610D8
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A2B060E7C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2013 02:05:42 +0000 (UTC)
+	Mon, 23 Dec 2013 02:10:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBN25hNB017208
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 22 Dec 2013 18:05:43 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Sun, 22 Dec 2013 18:05:42 -0800
-Message-ID: <52B79A75.7070804@windriver.com>
-Date: Mon, 23 Dec 2013 10:05:41 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBN2ABci011974
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Dec 2013 18:10:11 -0800 (PST)
+Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Sun, 22 Dec 2013 18:10:11 -0800
+Message-ID: <52B79B80.4040007@windriver.com>
+Date: Mon, 23 Dec 2013 10:10:08 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1387453595-20914-1-git-send-email-paul.eggleton@linux.intel.com>
-In-Reply-To: <1387453595-20914-1-git-send-email-paul.eggleton@linux.intel.com>
-Subject: Re: [dora][PATCH] libsoup-2.4: add intltool-native to DEPENDS
+To: <openembedded-core@lists.openembedded.org>
+References: <1384426288-3534-1-git-send-email-ming.liu@windriver.com>
+In-Reply-To: <1384426288-3534-1-git-send-email-ming.liu@windriver.com>
+X-Originating-IP: [128.224.162.153]
+Subject: Re: [PATCH] sstate: Add optimizing logic for crosssdk setscene dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,42 +35,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Dec 2013 02:05:43 -0000
+X-List-Received-Date: Mon, 23 Dec 2013 02:10:11 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+Hi, guys:
 
-Thanks, I will add it to dora-next.
+Would anybody take a tech review to my patch? Thanks!
 
-// Robert
+the best,
+thank you
 
-On 12/19/2013 07:46 PM, Paul Eggleton wrote:
-> The configure script looks for this; most of the time dependency chains
-> ensure this is present but we need to be explicit or failures can
-> occur.
+On 11/14/2013 06:51 PM, Ming Liu wrote:
+> This patch mainly aims to add optimisation for crosssdk setscene dependency
+> validating which we haven't handled in current logic, and which I think we
+> could have as we've already implemented to native/cross, although there
+> are albeit not many crossdk tasks, we could still get some performance
+> enhancement.
 >
-> Reported by Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> And it also fix a vulnerability of some certain workflow, think about the
+> following scenario with current logic:
+>      bitbake nativesdk-eglibc-initial -c cleansstate
+>      bitbake gcc-crosssdk-initial -c clean
+>      bitbake gmp-native -c clean
+>      bitbake libmpc-native -c clean
+>      bitbake mpfr-native -c clean
+>      bitbake gcc-crosssdk-initial
+>      bitbake nativesdk-eglibc-initial
 >
-> (From OE-Core master rev: 22e45ed7d74ceb4a719e7b5889400c20ed4a0783)
+> Aboving will fail for absence of a few native libraries required by
+> gcc-crosssdk-initial.
 >
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Also modified some places in current code except the optimisation, as
+> following:
+> 1 Remove isNative function since no code is referring it.
+> 2 Add do_package to the list that don't exist and are noexec.
+>
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
 > ---
->   meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   meta/classes/sstate.bbclass | 24 +++++++++++-------------
+>   1 file changed, 11 insertions(+), 13 deletions(-)
 >
-> diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-> index ef8d439..1614a3d 100644
-> --- a/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-> +++ b/meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb
-> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
->
->   SECTION = "x11/gnome/libs"
->
-> -DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3"
-> +DEPENDS = "glib-2.0 gnutls libxml2 libproxy sqlite3 intltool-native"
->
->   # libsoup-gnome is entirely deprecated and just stubs in 2.42 onwards.  Enable
->   # by default but let it be easily disabled.
->
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 517c100..49f92f9 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -666,12 +666,10 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+>   
+>       bb.debug(2, "Considering setscene task: %s" % (str(taskdependees[task])))
+>   
+> -    def isNative(x):
+> -        return x.endswith("-native")
+> -    def isNativeCross(x):
+> -        return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial")
+> +    def isNativeCrossCrosssdk(x):
+> +        return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial") or x.endswith("-crosssdk") or x.endswith("-crosssdk-initial")
+>       def isSafeDep(x):
+> -        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
+> +        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial", "gcc-crosssdk", "binutils-crosssdk", "gcc-crosssdk-initial"]:
+>               return True
+>           return False
+>       def isPostInstDep(x):
+> @@ -701,8 +699,8 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+>               if isPostInstDep(taskdependees[task][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm']:
+>                   return False
+>               continue
+> -        # Native/Cross packages don't exist and are noexec anyway
+> -        if isNativeCross(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata']:
+> +        # Native/Cross/Crosssdk packages don't exist and are noexec anyway
+> +        if isNativeCrossCrosssdk(taskdependees[dep][0]) and taskdependees[dep][1] in ['do_package_write_deb', 'do_package_write_ipk', 'do_package_write_rpm', 'do_packagedata', 'do_package']:
+>               continue
+>   
+>           # Consider sysroot depending on sysroot tasks
+> @@ -713,14 +711,14 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+>               # Nothing need depend on libc-initial/gcc-cross-initial
+>               if taskdependees[task][0].endswith("-initial"):
+>                   continue
+> -            # Native/Cross populate_sysroot need their dependencies
+> -            if isNativeCross(taskdependees[task][0]) and isNativeCross(taskdependees[dep][0]):
+> +            # Native/Cross/Crosssdk populate_sysroot need their dependencies
+> +            if isNativeCrossCrosssdk(taskdependees[task][0]) and isNativeCrossCrosssdk(taskdependees[dep][0]):
+>                   return False
+> -            # Target populate_sysroot depended on by cross tools need to be installed
+> -            if isNativeCross(taskdependees[dep][0]):
+> +            # Target/Nativesdk populate_sysroot depended on by cross/crosssdk tools need to be installed
+> +            if isNativeCrossCrosssdk(taskdependees[dep][0]):
+>                   return False
+> -            # Native/cross tools depended upon by target sysroot are not needed
+> -            if isNativeCross(taskdependees[task][0]):
+> +            # Native,Cross/Crosssdk tools depended upon by target/nativesdk sysroot are not needed
+> +            if isNativeCrossCrosssdk(taskdependees[task][0]):
+>                   continue
+>               # Target populate_sysroot need their dependencies
+>               return False
+
 
