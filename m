@@ -1,37 +1,35 @@
-Return-Path: <Fahad_Arslan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CBFD66125
+Return-Path: <gchoc-openembedded-core@m.gmane.org>
+Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
+	by mail.openembedded.org (Postfix) with ESMTP id A5BDF6AFB5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Dec 2013 13:52:11 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1VvSP5-0005Vz-70 from Fahad_Arslan@mentor.com ;
-	Tue, 24 Dec 2013 05:52:11 -0800
-Received: from SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 24 Dec 2013 05:52:11 -0800
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.95]) by
-	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
-	14.02.0247.003; Tue, 24 Dec 2013 13:52:09 +0000
-From: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
-To: Saul Wold <sgw@linux.intel.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] speex: Scale float input when FIXED_POINT is
-	defined
-Thread-Index: AQHO/Z17sWJVnBxWu0e5nWviRb/FY5pdQdgAgAYQ/Ng=
-Date: Tue, 24 Dec 2013 13:52:08 +0000
-Message-ID: <2B9C97B395470A40B9E9E5D469BCD9FA0155F773@EU-MBX-03.mgc.mentorg.com>
-References: <1387555576-9567-1-git-send-email-fahad_arslan@mentor.com>,
-	<52B46CDC.40003@linux.intel.com>
-In-Reply-To: <52B46CDC.40003@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
-MIME-Version: 1.0
-X-OriginalArrivalTime: 24 Dec 2013 13:52:11.0160 (UTC)
-	FILETIME=[57EF2180:01CF00AF]
-Subject: Re: [PATCH] speex: Scale float input when FIXED_POINT is defined
+	Tue, 24 Dec 2013 14:22:43 +0000 (UTC)
+Received: from list by plane.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1VvSsa-00054p-Sj for openembedded-core@lists.openembedded.org;
+	Tue, 24 Dec 2013 15:22:40 +0100
+Received: from ip4da2a5ae.direct-adsl.nl ([77.162.165.174])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Dec 2013 15:22:40 +0100
+Received: from koen by ip4da2a5ae.direct-adsl.nl with local (Gmexim 0.1
+	(Debian)) id 1AlnuQ-0007hv-00
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Dec 2013 15:22:40 +0100
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: Koen Kooi <koen@dominion.thruhere.net>
+Date: Tue, 24 Dec 2013 15:22:32 +0100
+Message-ID: <l9c5ar$2mb$1@ger.gmane.org>
+References: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
+Mime-Version: 1.0
+X-Complaints-To: usenet@ger.gmane.org
+X-Gmane-NNTP-Posting-Host: ip4da2a5ae.direct-adsl.nl
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+In-Reply-To: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
+X-Enigmail-Version: 1.6
+Cc: poky@yoctoproject.org, openembedded-devel@lists.openembedded.org
+Subject: Re: Piglit in Poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,86 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Dec 2013 13:52:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 24 Dec 2013 14:22:44 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Patch to Speex upstream has been denied with reason that fixing this will b=
-reak other =0A=
-applications using it. =0A=
-=0A=
-I think appropriate place to fix the issue is Pulseaudio code. I've submitt=
-ed patch =0A=
-upstream for that and sending a new patch for that to oe-core as well and t=
-his speex =0A=
-patch may be dropped. =0A=
-=0A=
-Fahad=0A=
-________________________________________=0A=
-From: Saul Wold [sgw@linux.intel.com]=0A=
-Sent: Friday, December 20, 2013 9:14 PM=0A=
-To: Arslan, Fahad; openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH] speex: Scale float input when FIXED_POINT is=
- defined=0A=
-=0A=
-On 12/20/2013 08:06 AM, Fahad Arslan wrote:=0A=
-> From: Fahad Arslan <Fahad_Arslan@mentor.com>=0A=
->=0A=
-> When Speex is compiled with FIXED_POINT defined, it scales float=0A=
-> input to +/-32768 instead of +/-1. This was being missed at one=0A=
-> point causing the input to the resampler to be zeroed. As a result=0A=
-> there was no audio output.=0A=
->=0A=
-> Signed-off-by: Fahad Arslan <Fahad_Arslan@mentor.com>=0A=
-> ---=0A=
->   .../speex/speex/scaling_fix.patch                  |   12 ++++++++++++=
-=0A=
->   meta/recipes-multimedia/speex/speex_1.2rc1.bb      |    3 ++-=0A=
->   2 files changed, 14 insertions(+), 1 deletion(-)=0A=
->=0A=
-> diff --git a/meta/recipes-multimedia/speex/speex/scaling_fix.patch b/meta=
-/recipes-multimedia/speex/speex/scaling_fix.patch=0A=
-> new file mode 100644=0A=
-> index 0000000..a6340d7=0A=
-> --- /dev/null=0A=
-> +++ b/meta/recipes-multimedia/speex/speex/scaling_fix.patch=0A=
-=0A=
-The patch needs Upstream-Status: and Signed-off-by: tags please=0A=
-=0A=
-Sau!=0A=
-=0A=
-> @@ -0,0 +1,12 @@=0A=
-> +diff -NaurbB a/libspeex/resample.c b/libspeex/resample.c=0A=
-> +--- a/libspeex/resample.c    2013-12-20 19:47:49.154454769 +0500=0A=
-> ++++ b/libspeex/resample.c    2013-12-20 19:48:16.558454331 +0500=0A=
-> +@@ -915,7 +915,7 @@=0A=
-> +        if (in) {=0A=
-> +          for(j=3D0;j<ichunk;++j)=0A=
-> + #ifdef FIXED_POINT=0A=
-> +-           x[j+st->filt_len-1]=3DWORD2INT(in[j*istride_save]);=0A=
-> ++           x[j+st->filt_len-1]=3DWORD2INT(32768.*in[j*istride_save]);=
-=0A=
-> + #else=0A=
-> +            x[j+st->filt_len-1]=3Din[j*istride_save];=0A=
-> + #endif=0A=
-> diff --git a/meta/recipes-multimedia/speex/speex_1.2rc1.bb b/meta/recipes=
--multimedia/speex/speex_1.2rc1.bb=0A=
-> index faf63b0..0fea51e 100644=0A=
-> --- a/meta/recipes-multimedia/speex/speex_1.2rc1.bb=0A=
-> +++ b/meta/recipes-multimedia/speex/speex_1.2rc1.bb=0A=
-> @@ -9,7 +9,8 @@ DEPENDS =3D "libogg"=0A=
->=0A=
->   PR =3D "r2"=0A=
->=0A=
-> -SRC_URI =3D "http://downloads.us.xiph.org/releases/speex/speex-1.2rc1.ta=
-r.gz"=0A=
-> +SRC_URI =3D "http://downloads.us.xiph.org/releases/speex/speex-1.2rc1.ta=
-r.gz \=0A=
-> +           file://scaling_fix.patch"=0A=
->=0A=
->   SRC_URI[md5sum] =3D "c4438b22c08e5811ff10e2b06ee9b9ae"=0A=
->   SRC_URI[sha256sum] =3D "342f30dc57bd4a6dad41398365baaa690429660b10d866b=
-7d508e8f1179cb7a6"=0A=
->=0A=
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Burton, Ross schreef op 23-12-13 19:01:
+> Hi,
+> 
+> We'd like to integrate Piglit (an OpenGL test suite) into Poky so that we
+> can run automated QA on the GL stack.  Piglit is currently residing in
+> meta-oe, but as Poky is a self-contained project we can't just add 
+> meta-oe to it:  apart from the size of meta-oe, we can't ensure stability
+> if meta-oe makes incompatible changes that affect Poky.
+> 
+> Piglit isn't a stand-alone package, there are the dependencies of waffle,
+> python-mako and python-numpy to consider too.  There are two 
+> possibilities I can see:
+> 
+> 1) Move piglit and deps to oe-core.  Piglit is for QA purposes only and
+> pushes the boundaries of "core platform".  In a sense this is a repeat of
+> the discussion we had with Midori...  does oe-core contain everything
+> needed to sufficiently exercise the core components it ships or not?
+> 
+> 2) Add piglit and deps to meta-yocto.  Probably a new layer called 
+> meta-yocto-qa (or similar) because the Yocto Compatible guidelines forbid
+> mixing distribution policy and recipes.
+
+Speaking of layers, can you *please* rename meta-yocto to meta-poky? It's
+what it's actually is and would remove a lot of confusion when trying to
+explain that yocto is not a distro, even if the distro layer is called
+'meta-yocto'.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.5 (Darwin)
+Comment: GPGTools - http://gpgtools.org
+
+iD8DBQFSuZioMkyGM64RGpERAgglAKCHbnivOF3g/ZVMGYadm4pDDzfKVQCdGqlY
+YdzFCCkRyP8WWMuNJRlR6x4=
+=4M6P
+-----END PGP SIGNATURE-----
+
 
