@@ -1,35 +1,24 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id A5BDF6AFB5
+Return-Path: <Fahad_Arslan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B22C61005
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Dec 2013 14:22:43 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1VvSsa-00054p-Sj for openembedded-core@lists.openembedded.org;
-	Tue, 24 Dec 2013 15:22:40 +0100
-Received: from ip4da2a5ae.direct-adsl.nl ([77.162.165.174])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Dec 2013 15:22:40 +0100
-Received: from koen by ip4da2a5ae.direct-adsl.nl with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Dec 2013 15:22:40 +0100
-X-Injected-Via-Gmane: http://gmane.org/
+	Tue, 24 Dec 2013 14:37:59 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1VvT7Q-0001I6-Tu from Fahad_Arslan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 24 Dec 2013 06:38:00 -0800
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 24 Dec 2013 06:38:00 -0800
+From: Fahad Arslan <fahad_arslan@mentor.com>
 To: openembedded-core@lists.openembedded.org
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 24 Dec 2013 15:22:32 +0100
-Message-ID: <l9c5ar$2mb$1@ger.gmane.org>
-References: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: ip4da2a5ae.direct-adsl.nl
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-In-Reply-To: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
-X-Enigmail-Version: 1.6
-Cc: poky@yoctoproject.org, openembedded-devel@lists.openembedded.org
-Subject: Re: Piglit in Poky
+Date: Tue, 24 Dec 2013 19:37:42 +0500
+Message-Id: <1387895862-15110-1-git-send-email-fahad_arslan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 24 Dec 2013 14:38:00.0894 (UTC)
+	FILETIME=[BEE73DE0:01CF00B5]
+Subject: [PATCH] pulseaudio: rescale input being passed to float method of speex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,47 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Dec 2013 14:22:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Dec 2013 14:37:59 -0000
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+From: Fahad Arslan <Fahad_Arslan@mentor.com>
 
-Burton, Ross schreef op 23-12-13 19:01:
-> Hi,
-> 
-> We'd like to integrate Piglit (an OpenGL test suite) into Poky so that we
-> can run automated QA on the GL stack.  Piglit is currently residing in
-> meta-oe, but as Poky is a self-contained project we can't just add 
-> meta-oe to it:  apart from the size of meta-oe, we can't ensure stability
-> if meta-oe makes incompatible changes that affect Poky.
-> 
-> Piglit isn't a stand-alone package, there are the dependencies of waffle,
-> python-mako and python-numpy to consider too.  There are two 
-> possibilities I can see:
-> 
-> 1) Move piglit and deps to oe-core.  Piglit is for QA purposes only and
-> pushes the boundaries of "core platform".  In a sense this is a repeat of
-> the discussion we had with Midori...  does oe-core contain everything
-> needed to sufficiently exercise the core components it ships or not?
-> 
-> 2) Add piglit and deps to meta-yocto.  Probably a new layer called 
-> meta-yocto-qa (or similar) because the Yocto Compatible guidelines forbid
-> mixing distribution policy and recipes.
+Pulseaudio uses Speex to do resampling. Default Pulseaudio resampler
+is speex-float-1. However, Speex recipe in poky configures speex in
+fixed point. This scenario creates a situation in which audio streams
+that need to be resampled are not playedback since input to speex is
+zeroed out when flaot input in range of +/-1 is converted to int.
+So we are rescaling the input before invoking speex flaot method.
 
-Speaking of layers, can you *please* rename meta-yocto to meta-poky? It's
-what it's actually is and would remove a lot of confusion when trying to
-explain that yocto is not a distro, even if the distro layer is called
-'meta-yocto'.
+Upstream-Status: Submitted [pulseaudio-discuss@lists.freedesktop.org]
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.5 (Darwin)
-Comment: GPGTools - http://gpgtools.org
+Signed-off-by: Fahad Arslan <Fahad_Arslan@mentor.com>
+---
+ .../pulseaudio/rescale_input_to_speex_float.patch  |   24 ++++++++++++++++++++
+ .../pulseaudio/pulseaudio_4.0.bb                   |    3 ++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/rescale_input_to_speex_float.patch
 
-iD8DBQFSuZioMkyGM64RGpERAgglAKCHbnivOF3g/ZVMGYadm4pDDzfKVQCdGqlY
-YdzFCCkRyP8WWMuNJRlR6x4=
-=4M6P
------END PGP SIGNATURE-----
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/rescale_input_to_speex_float.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/rescale_input_to_speex_float.patch
+new file mode 100644
+index 0000000..fe5e6a7
+--- /dev/null
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/rescale_input_to_speex_float.patch
+@@ -0,0 +1,24 @@
++diff -Naur a/src/pulsecore/resampler.c b/src/pulsecore/resampler.c
++--- a/src/pulsecore/resampler.c	2013-12-24 18:25:08.164787401 +0500
+++++ b/src/pulsecore/resampler.c	2013-12-24 18:24:43.056787026 +0500
++@@ -1347,7 +1347,7 @@
++ 
++ static void speex_resample_float(pa_resampler *r, const pa_memchunk *input, unsigned in_n_frames, pa_memchunk *output, unsigned *out_n_frames) {
++     float *in, *out;
++-    uint32_t inf = in_n_frames, outf = *out_n_frames;
+++    uint32_t inf = in_n_frames, outf = *out_n_frames, i;
++ 
++     pa_assert(r);
++     pa_assert(input);
++@@ -1357,6 +1357,11 @@
++     in = pa_memblock_acquire_chunk(input);
++     out = pa_memblock_acquire_chunk(output);
++ 
+++    /* Speex float API scale range is +/-32768 instead of +/-1.
+++       So rescale input before passing it to Speex. */
+++    for (i = 0; i < inf; i++)
+++        in[i] = 32768.*in[i];
+++
++     pa_assert_se(speex_resampler_process_interleaved_float(r->speex.state, in, &inf, out, &outf) == 0);
++ 
++     pa_memblock_release(input->memblock);
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
+index b419c54..5afa20b 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
+@@ -1,7 +1,8 @@
+ require pulseaudio.inc
+ 
+ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
+-           file://volatiles.04_pulse"
++           file://volatiles.04_pulse \
++           file://rescale_input_to_speex_float.patch"
+ 
+ SRC_URI[md5sum] = "591f211db2790a7e4d222f2dc6858db3"
+ SRC_URI[sha256sum] = "35ceb36bb1822fe54f0b5e4863b4f486769fdfb8ff2111f01fd8778928f9cdae"
+-- 
+1.7.9.5
 
 
