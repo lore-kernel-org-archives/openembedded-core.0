@@ -1,24 +1,40 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E298D60C12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Dec 2013 09:23:38 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBO9Nck4002368
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 24 Dec 2013 01:23:38 -0800 (PST)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 24 Dec 2013 01:23:36 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Dec 2013 04:23:34 -0500
-Message-ID: <cover.1387876683.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C77C960DD6;
+	Tue, 24 Dec 2013 10:50:13 +0000 (UTC)
+Received: by mail-ea0-f171.google.com with SMTP id h10so2797779eak.16
+	for <multiple recipients>; Tue, 24 Dec 2013 02:50:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=vxZyENsSmna63fPQt7uE4Tu3WLe2TC1eaEm7E+IhsKA=;
+	b=YtPuQbs8s66wjWAL+MrabC9QWsqsCaSjp18uo9tZjlrKYGCqq5DvSWvamYDv1jCL0C
+	dGboalrgqkuhI81wsdj8TMypIa8hnxJoBo3FffaH/3ZG+G8csCW9wCSn/cLuc6a4t51z
+	insZPhDyG7agFhH7/byOhbRkaOs/dcv6lI8hSW7rkK9p+ZqxKsYy6IHTBDysfnltReDZ
+	lLek64483zayEpk6uJq6EI1/ZK2AozowUAMBCtUxYbZPiW2lmGBBEycmzD2qm3xT3Hj7
+	NW71sxkV+pcpUTV52oIpNcuEu3oXTkgexMs49qsEn7uqlYqIdyq5YcqGqfqdSAz0JtwE
+	XSTw==
+X-Received: by 10.14.211.69 with SMTP id v45mr1721342eeo.75.1387882214435;
+	Tue, 24 Dec 2013 02:50:14 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id 4sm53834053eed.14.2013.12.24.02.50.12
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 24 Dec 2013 02:50:12 -0800 (PST)
+Date: Tue, 24 Dec 2013 11:50:50 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20131224105050.GX3706@jama>
+References: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
+	<52B8DECA.6060704@balister.org>
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com
-Subject: [dora-next][PATCH 00/40] fixes for dora-next (cover letter only)
+In-Reply-To: <52B8DECA.6060704@balister.org>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: Poky Project <poky@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] Piglit in Poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,169 +47,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Dec 2013 09:23:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Dec 2013 10:50:15 -0000
+X-Groupsio-MsgNum: 48413
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="VE1+SxTILTm8udN6"
+Content-Disposition: inline
 
-Note:
-These are the patches for oe-core only, if you want to see the patches for
-poky, please vist:
+--VE1+SxTILTm8udN6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  git://git.pokylinux.org/poky-contrib robert/dora-next
+On Mon, Dec 23, 2013 at 08:09:30PM -0500, Philip Balister wrote:
+> On 12/23/2013 01:01 PM, Burton, Ross wrote:
+> > Hi,
+> >=20
+> > We'd like to integrate Piglit (an OpenGL test suite) into Poky so that
+> > we can run automated QA on the GL stack.  Piglit is currently residing
+> > in meta-oe, but as Poky is a self-contained project we can't just add
+> > meta-oe to it:  apart from the size of meta-oe, we can't ensure
+> > stability if meta-oe makes incompatible changes that affect Poky.
+> >=20
+> > Piglit isn't a stand-alone package, there are the dependencies of
+> > waffle, python-mako and python-numpy to consider too.  There are two
+> > possibilities I can see:
+> >=20
+> > 1) Move piglit and deps to oe-core.  Piglit is for QA purposes only
+> > and pushes the boundaries of "core platform".  In a sense this is a
+> > repeat of the discussion we had with Midori...  does oe-core contain
+> > everything needed to sufficiently exercise the core components it
+> > ships or not?
+>=20
+> I expect Richard will push back on this, and I would support him here.
+>=20
+> >=20
+> > 2) Add piglit and deps to meta-yocto.  Probably a new layer called
+> > meta-yocto-qa (or similar) because the Yocto Compatible guidelines
+> > forbid mixing distribution policy and recipes.  We'd need to sync
+> > meta-yocto-qa with the pieces of meta-oe that we want somehow, but
+> > that's our problem.
+>=20
+> So meta-yocto is right out. I'm a user of numpy, and I certainly do not
+> want to include something called meta-yocto-qa just to pick up numpy.
+>=20
+> So this presents a quandry. Moving numpy to a special layer to support a
+> specific recipe is just not the right thing to do. Conceivably, we could
+> create a layer for the bits of meta-oe that are python related, but I am
+> not sure that solves your entire problem.
+>=20
+> I certainly do not want to see one recipe appear in two layers. That is
+> a recipe for trouble.
+>=20
+> Long term, we need to make the layer model work for the entire project
+> and get over the reluctance to use other peoples layers.
 
-// Robert
+Agreed, meta-python in meta-oe repository sounds a lot better than
+having the same recipe in 2 layers.
 
-The following changes since commit e86622a932bbd0acdea67ecfb15c8b06c27353d8:
+> > Thoughts and opinions welcome over Christmas, otherwise I'll toss a coi=
+n. :)
+> >=20
+> > Ross
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >=20
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
-  libsoup-2.4: add intltool-native to DEPENDS (2013-12-19 14:59:47 +0000)
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-are available in the git repository at:
+--VE1+SxTILTm8udN6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-  git://git.pokylinux.org/poky-contrib robert/dora-next-oecore
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/dora-next-oecore
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-Andreas Oberritter (1):
-  cogl-1.0: explicitly disable cairo
+iEYEARECAAYFAlK5ZwoACgkQN1Ujt2V2gBw7oQCfb2mw1KskvG1TChraodIgFM5x
+2nkAn0zDc31MAnwjs+MsKfuXfJomOBnb
+=1xxW
+-----END PGP SIGNATURE-----
 
-Bruce Ashfield (1):
-  linux-libc-headers: fix MIPS klibc build error
-
-Chen Qi (1):
-  subversion: fix build problem when sysroot contains '-D' or '-I'
-
-Christopher Larson (4):
-  python, python-native: fix PARALLEL_MAKEINST failure
-  cairo: add/use packageconfig for valgrind support
-  pulseaudio: fix RDEPENDS traversal for consolekit
-  xz: make the LICENSE info more accurate
-
-Cristiana Voicu (1):
-  babeltrace: correct PV variable
-
-Enrico Scholz (1):
-  bluez4: added dependency on 'libsndfile1'
-
-Hongxu Jia (5):
-  kconfig-frontends: add python to kconfig-frontends's RDEPENDS
-  qemu: add PACKAGECONFIG for vnc, libcurl, nss, uuid, curses, gtk+,
-    libcap-ng
-  qemu: add bash and python to qemu's RDEPENDS
-  license.bbclass: fix copying license directories failed
-  nativesdk.bbclass: support nativesdk to override with the
-    PACKAGES_DYNAMIC statement
-
-Jackie Huang (1):
-  grub: add explicit dependency on bison-native
-
-Kai Kang (1):
-  x264: install libraries to right directory when enable multilib
-
-Krzysztof Sywula (1):
-  Minicom depends on libiconv
-
-Li Wang (1):
-  xinetd: CVE-2013-4342
-
-Martin Jansa (3):
-  avahi: add leading space to RRECOMMENDS append
-  xinput-calibrator: add formfactor to RDEPENDS
-  base.bbclass: Set umask 022 also for do_unpack task
-
-Ming Liu (2):
-  qemu: use PACKAGECONFIG to address xfsprogs dependency
-  qemu: explicitly disable xen support
-
-Nick D'Ademo (1):
-  libav: install libraries to right directory when multilib is enabled
-
-Paul Eggleton (1):
-  linux-firmware: add missing linux-firmware-iwlwifi-7260-7 package
-
-Richard Purdie (4):
-  base/gcc-common: Ensure umask setting is consistent for shared
-    workdir
-  image.bbclass: Depend on virtual/kernel:do_deploy
-  gcc-cross-canadian: Fix fortran build
-  gcc-crosssdk.inc: Fix missing dependencies (such as libmpc-native)
-
-Robert Yang (2):
-  coreutils 6.9: fix coreutils.texi
-  gcc-4.8/libstdc++-v3: disable sdt
-
-Ross Burton (2):
-  ptest: ensure do_install_ptest_base task runs in fakeroot context
-  useradd.bbclass: add dependency on base-files
-
-Roy Li (1):
-  multilib: Ensure we map the SYSTEMD_PACKAGES variable
-
-Scott Garman (1):
-  runqemu: remove core-image-* whitelist
-
-Yue Tao (3):
-  python: do not replace ccache in the middle of a path
-  acpid: CVE-2011-1159
-  icu: CVE-2013-2924
-
-mykhani (1):
-  openssl.inc: Install c_rehash utility with openssl
-
-yzhu1 (1):
-  populate_sdk: verify executable or dynamically linked library
-
- meta/classes/base.bbclass                          |    9 +-
- meta/classes/image.bbclass                         |    2 +
- meta/classes/license.bbclass                       |    7 +-
- meta/classes/multilib.bbclass                      |    1 +
- meta/classes/nativesdk.bbclass                     |    1 +
- meta/classes/populate_sdk_base.bbclass             |    2 +-
- meta/classes/ptest.bbclass                         |    5 +
- meta/classes/useradd.bbclass                       |    2 +
- meta/recipes-bsp/acpid/acpid.inc                   |    3 +-
- .../acpid/acpid/set_socket_noblock.patch           |   10 +
- meta/recipes-bsp/grub/grub_2.00.bb                 |    2 +-
- meta/recipes-connectivity/avahi/avahi.inc          |    4 +-
- meta/recipes-connectivity/bluez/bluez4.inc         |    2 +-
- meta/recipes-connectivity/openssl/openssl.inc      |    7 +-
- .../coreutils-6.9/coreutils-fix-texinfo.patch      |  375 ++++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_6.9.bb       |    1 +
- .../gcc/gcc-4.8/0031-Disable-sdt.patch             |   80 ++++-
- meta/recipes-devtools/gcc/gcc-common.inc           |    1 +
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc   |    1 +
- meta/recipes-devtools/gcc/gcc-crosssdk.inc         |    2 +-
- .../kconfig-frontends_3.10.0.0.bb                  |    1 +
- .../recipes-devtools/python/python-native_2.7.3.bb |    1 +
- .../python/parallel-makeinst-create-bindir.patch   |   19 +
- meta/recipes-devtools/python/python_2.7.3.bb       |    3 +-
- meta/recipes-devtools/qemu/qemu.inc                |   19 +-
- .../neon.m4-fix-includes-and-cflags.patch          |   32 ++
- .../subversion/subversion_1.7.10.bb                |    1 +
- meta/recipes-extended/minicom/minicom_2.6.2.bb     |    2 +-
- .../xinetd/xinetd/xinetd-CVE-2013-4342.patch       |   32 ++
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    1 +
- meta/recipes-extended/xz/xz_5.1.2alpha.bb          |   17 +-
- meta/recipes-graphics/cairo/cairo.inc              |    1 +
- meta/recipes-graphics/cogl/cogl-1.0.inc            |    1 +
- .../xinput-calibrator/xinput-calibrator_git.bb     |    2 +-
- .../linux-firmware/linux-firmware_git.bb           |    2 +-
- ...lude-asm-byteorder.h-in-linux-raid-md_p.h.patch |   34 ++
- .../linux-libc-headers/linux-libc-headers_3.10.bb  |    3 +
- meta/recipes-kernel/lttng/babeltrace_1.1.1.bb      |    2 +-
- meta/recipes-multimedia/libav/libav.inc            |    2 +
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    6 +-
- meta/recipes-multimedia/x264/x264_git.bb           |    1 +
- ...fer_length_check_to_UTF_16_or_32_detector.patch |   33 ++
- meta/recipes-support/icu/icu_51.2.bb               |    1 +
- scripts/runqemu                                    |   17 +-
- 44 files changed, 707 insertions(+), 43 deletions(-)
- create mode 100644 meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
- create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/coreutils-fix-texinfo.patch
- create mode 100644 meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
- create mode 100644 meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
- create mode 100644 meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch
-
--- 
-1.7.10.4
-
-
+--VE1+SxTILTm8udN6--
