@@ -1,22 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F046A6AF56
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id 3DDDB6A56F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Dec 2013 00:29:09 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Dec 2013 16:29:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,539,1384329600"; d="scan'208";a="454819339"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.16])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Dec 2013 16:29:10 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Dec 2013 16:29:09 -0800
-Message-Id: <1387844949-23516-5-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1387844949-23516-1-git-send-email-sgw@linux.intel.com>
-References: <1387844949-23516-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 4/4] tzcode: Update to 2013i
+	Tue, 24 Dec 2013 01:09:31 +0000 (UTC)
+Received: (qmail 246 invoked by uid 1003); 24 Dec 2013 01:09:31 -0000
+Received: from unknown (HELO ?192.168.1.113?)
+	(philip@opensdr.com@108.44.82.190)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	24 Dec 2013 01:09:31 -0000
+Message-ID: <52B8DECA.6060704@balister.org>
+Date: Mon, 23 Dec 2013 20:09:30 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
+X-Enigmail-Version: 1.6
+Cc: Poky Project <poky@yoctoproject.org>,
+	OE-devel <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Piglit in Poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,41 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Dec 2013 00:29:10 -0000
+X-List-Received-Date: Tue, 24 Dec 2013 01:09:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../tzcode/{tzcode-native_2013h.bb => tzcode-native_2013i.bb}  | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/tzcode/{tzcode-native_2013h.bb => tzcode-native_2013i.bb} (59%)
+On 12/23/2013 01:01 PM, Burton, Ross wrote:
+> Hi,
+> 
+> We'd like to integrate Piglit (an OpenGL test suite) into Poky so that
+> we can run automated QA on the GL stack.  Piglit is currently residing
+> in meta-oe, but as Poky is a self-contained project we can't just add
+> meta-oe to it:  apart from the size of meta-oe, we can't ensure
+> stability if meta-oe makes incompatible changes that affect Poky.
+> 
+> Piglit isn't a stand-alone package, there are the dependencies of
+> waffle, python-mako and python-numpy to consider too.  There are two
+> possibilities I can see:
+> 
+> 1) Move piglit and deps to oe-core.  Piglit is for QA purposes only
+> and pushes the boundaries of "core platform".  In a sense this is a
+> repeat of the discussion we had with Midori...  does oe-core contain
+> everything needed to sufficiently exercise the core components it
+> ships or not?
 
-diff --git a/meta/recipes-extended/tzcode/tzcode-native_2013h.bb b/meta/recipes-extended/tzcode/tzcode-native_2013i.bb
-similarity index 59%
-rename from meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-rename to meta/recipes-extended/tzcode/tzcode-native_2013i.bb
-index 5cdc7ef..d883fda 100644
---- a/meta/recipes-extended/tzcode/tzcode-native_2013h.bb
-+++ b/meta/recipes-extended/tzcode/tzcode-native_2013i.bb
-@@ -6,13 +6,13 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=0b7570113550eb5d30aa4bd220964b8
- # note that we allow for us to use data later than our code version
- #
- SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
--           ftp://ftp.iana.org/tz/releases/tzdata2013h.tar.gz;name=tzdata"
-+           ftp://ftp.iana.org/tz/releases/tzdata2013i.tar.gz;name=tzdata"
- 
--SRC_URI[tzdata.md5sum] = "d310abe42cbe87e76ceb69e2c7003c92"
--SRC_URI[tzdata.sha256sum] = "6b9e17e823eec0e09e12f74b452a70be4face1ef14c2fb1917b7c7e60564de27"
-+SRC_URI[tzcode.md5sum] = "86154c8b0cfb47f4e2027ecaa2ec547a"
-+SRC_URI[tzcode.sha256sum] = "63bba6790afc1cb2ea0af2b998a35fc237e247608140dbe4e08b4216a8c31358"
- 
--SRC_URI[tzcode.md5sum] = "14250703b253e1cfdf97f1e928541508"
--SRC_URI[tzcode.sha256sum] = "e14addfc4e0da3cf17ccc1c08cb8094a2a0d3ae9524f565b74e6373c9b83ca0e"
-+SRC_URI[tzdata.md5sum] = "8bc69eb75bea496ebe1d5a9ab576702d"
-+SRC_URI[tzdata.sha256sum] = "1cd56a6ee964143ef0c65229968a5093988335b95e9115235b5e7b7e45e67dda"
- 
- S = "${WORKDIR}"
- 
--- 
-1.8.3.1
+I expect Richard will push back on this, and I would support him here.
 
+> 
+> 2) Add piglit and deps to meta-yocto.  Probably a new layer called
+> meta-yocto-qa (or similar) because the Yocto Compatible guidelines
+> forbid mixing distribution policy and recipes.  We'd need to sync
+> meta-yocto-qa with the pieces of meta-oe that we want somehow, but
+> that's our problem.
+
+So meta-yocto is right out. I'm a user of numpy, and I certainly do not
+want to include something called meta-yocto-qa just to pick up numpy.
+
+So this presents a quandry. Moving numpy to a special layer to support a
+specific recipe is just not the right thing to do. Conceivably, we could
+create a layer for the bits of meta-oe that are python related, but I am
+not sure that solves your entire problem.
+
+I certainly do not want to see one recipe appear in two layers. That is
+a recipe for trouble.
+
+Long term, we need to make the layer model work for the entire project
+and get over the reluctance to use other peoples layers.
+
+Philip
+
+> 
+> Thoughts and opinions welcome over Christmas, otherwise I'll toss a coin. :)
+> 
+> Ross
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
