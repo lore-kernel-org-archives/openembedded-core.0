@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A2A3860D71
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CD4BB60DD6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Dec 2013 08:36:01 +0000 (UTC)
+	Wed, 25 Dec 2013 08:36:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBP8a1xg015918
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBP8a4gN027825
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Dec 2013 00:36:02 -0800 (PST)
+	Wed, 25 Dec 2013 00:36:04 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 25 Dec 2013 00:36:02 -0800
+	14.2.347.0; Wed, 25 Dec 2013 00:36:03 -0800
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Dec 2013 16:36:00 +0800
-Message-ID: <cover.1387959755.git.Qi.Chen@windriver.com>
+Date: Wed, 25 Dec 2013 16:36:01 +0800
+Message-ID: <7ddc616565a80346dd323664d0c36490a698fb89.1387959755.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1387959755.git.Qi.Chen@windriver.com>
+References: <cover.1387959755.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Split the functions script into a separate package in initscripts
+Subject: [PATCH 1/2] initscripts: split the functions script into a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Dec 2013 08:36:01 -0000
+X-List-Received-Date: Wed, 25 Dec 2013 08:36:03 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-This is part of the systemd integration work.
+Many SysV init scripts need the /etc/init.d/functions script. But
+this script is part of the initscripts package. As a result, the
+initscripts package should always be installed into the system to
+avoid errors when starting daemons. However, it makes no sense to
+install the initscripts package into a systemd based image, because
+what the init scripts provide has already been provided by the systemd.
+On the other hand, the functions script might be still needed in a
+systemd based image because other init scripts such as distcc might need
+it.
 
-Now we have two init systems in our project -- SysV and systemd.
-If we are only using the SysV based systems, everything's happy because the initscripts
-package will and should be always installed. As a part of the package, the /etc/init.d/functions
-script is always available. And other init scripts which source this script don't have any problem.
-Things are different when we are using systemd based systems. Basically the initscripts
-package is useless in systemd based images and should not be installed. We can do this
-by setting VIRTUAL-RUNTIME_initscripts to "". This leads to the problem that some services
-failing to start because of lack of the /etc/init.d/functions script. An example is the distcc.
+The above situation leads to a natural separation of the functions script
+from the initscripts package. And this patch does so. It separates the
+functions script into initscripts-functions packages.
 
-The above situation leads to a natural solution of splitting the functions script into a
-separate package, say, initscripts-functions. As the /etc/init.d/functions script is useful
-for both SysV and systemd systems, this patch also adds it to the RDEPENDS of packagegroup-core-boot.
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/initscripts/initscripts_1.0.bb |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-//Chen Qi
-
-
-The following changes since commit 005af45191ded6185c618c708181b31281e43092:
-
-  bitbake: fetch2: avoid printing "no checksum" error message twice (2013-12-22 14:29:13 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/initscripts-functions
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/initscripts-functions
-
-Chen Qi (2):
-  initscripts: split the functions script into a separate package
-  packagegroup-core-boot: make initscripts-functions a basic element of
-    RDEPENDS
-
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    8 ++++++--
- .../packagegroups/packagegroup-core-boot.bb        |    1 +
- 2 files changed, 7 insertions(+), 2 deletions(-)
-
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 5951e0c..ea28672 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -42,8 +42,12 @@ KERNEL_VERSION = ""
+ inherit update-alternatives
+ DEPENDS_append = " update-rc.d-native"
+ 
+-ALTERNATIVE_PRIORITY = "90"
+-ALTERNATIVE_${PN} = "functions"
++PACKAGES =+ "${PN}-functions"
++RDEPENDS_${PN} = "${PN}-functions"
++FILES_${PN}-functions = "${sysconfdir}/init.d/functions.${PN}"
++
++ALTERNATIVE_PRIORITY_${PN}-functions = "90"
++ALTERNATIVE_${PN}-functions = "functions"
+ ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
+ 
+ HALTARGS ?= "-d -f"
 -- 
 1.7.9.5
 
