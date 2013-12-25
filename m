@@ -1,20 +1,23 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B8BC26AFB5
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DE9B960D71
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Dec 2013 00:01:05 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 24 Dec 2013 15:57:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,546,1384329600"; d="scan'208";a="457322621"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.16])
-	by orsmga002.jf.intel.com with ESMTP; 24 Dec 2013 16:01:05 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Dec 2013 16:01:04 -0800
-Message-Id: <1387929664-15980-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] security_flags: add the rest of the grub-efi related packages
+	Wed, 25 Dec 2013 08:18:01 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBP8I2k4025797
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 Dec 2013 00:18:02 -0800 (PST)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 25 Dec 2013 00:18:01 -0800
+From: <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 25 Dec 2013 16:17:48 +0800
+Message-ID: <cover.1387958505.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH 0/1] beecrypt: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Dec 2013 00:01:05 -0000
+X-List-Received-Date: Wed, 25 Dec 2013 08:18:02 -0000
+Content-Type: text/plain
 
-[YOCTO #5515]
+From: Chong Lu <Chong.Lu@windriver.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/conf/distro/include/security_flags.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+The following changes since commit 005af45191ded6185c618c708181b31281e43092:
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 646bcf3..24fbcdc 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -18,6 +18,10 @@ SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-grub = ""
-+SECURITY_CFLAGS_pn-grub-efi = ""
-+SECURITY_CFLAGS_pn-grub-efi-native = ""
-+SECURITY_CFLAGS_pn-grub-efi-x86-native = ""
-+SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
- SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
- SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
- SECURITY_CFLAGS_pn-gst-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
+  bitbake: fetch2: avoid printing "no checksum" error message twice (2013-12-22 14:29:13 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib chonglu/master
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/master
+
+Chong Lu (1):
+  beecrypt: add ptest support
+
+ meta/recipes-support/beecrypt/beecrypt-ptest.inc   | 10 ++++++++++
+ .../beecrypt/beecrypt/enable-ptest.patch           | 22 ++++++++++++++++++++++
+ meta/recipes-support/beecrypt/beecrypt/run-ptest   |  5 +++++
+ meta/recipes-support/beecrypt/beecrypt_4.2.1.bb    |  2 ++
+ 4 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-support/beecrypt/beecrypt-ptest.inc
+ create mode 100644 meta/recipes-support/beecrypt/beecrypt/enable-ptest.patch
+ create mode 100644 meta/recipes-support/beecrypt/beecrypt/run-ptest
+
 -- 
-1.8.3.1
+1.8.1.2
 
 
