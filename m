@@ -1,25 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 38A4B6B0E9
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9694D610EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Dec 2013 02:19:26 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Dec 2013 18:19:10 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,558,1384329600"; d="scan'208";a="456258316"
-Received: from unknown (HELO [10.255.15.249]) ([10.255.15.249])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Dec 2013 18:19:10 -0800
-Message-ID: <52BCE39D.50806@linux.intel.com>
-Date: Thu, 26 Dec 2013 18:19:09 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Fri, 27 Dec 2013 07:52:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBR7q3E1013254
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Dec 2013 23:52:03 -0800 (PST)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 26 Dec 2013 23:52:02 -0800
+From: <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 27 Dec 2013 15:51:41 +0800
+Message-ID: <cover.1388130524.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: David Good <david.good1@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-References: <CALMFhSxzi2HUDObDudmq6VDxxdDMhMCjBmj3w6p2v11dzwpDVQ@mail.gmail.com>
-In-Reply-To: <CALMFhSxzi2HUDObDudmq6VDxxdDMhMCjBmj3w6p2v11dzwpDVQ@mail.gmail.com>
-Subject: Re: tdom recipe
+Subject: [PATCH 0/1] quilt: upgrade to 0.61
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,88 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Dec 2013 02:19:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Dec 2013 07:52:03 -0000
+Content-Type: text/plain
 
-On 12/26/2013 04:27 PM, David Good wrote:
-> Hello,
->
-> I've created a recipe which I would like to add to OpenEmbedded: tDOM.
->
-> How do I submit a recipe for approval?
->
-This should go to openembedded-devel for inclusion in meta-openembedded, 
-not openembedded-core.
+From: Chong Lu <Chong.Lu@windriver.com>
 
-Other comments below
+*** BLURB HERE ***
+The following changes since commit 005af45191ded6185c618c708181b31281e43092:
 
-> --David
->
-> DESCRIPTION = "XML data processing in Tcl"
-This is more of a SUMMARY, can you expand the DESCRIPTION
+  bitbake: fetch2: avoid printing "no checksum" error message twice (2013-12-22 14:29:13 +0000)
 
-> LICENSE = "MPL-1"
-> SECTION = "devel/tcltk"
-> HOMEPAGE = "http://tdom.github.io/"
-> DEPENDS = "tcl-native"
-> LIC_FILES_CHKSUM = "file://../LICENSE;md5=
-> 4673aaff544d4c9b9a521cb8e0860bfb"
-Make sure you disable line-wrapping
+are available in the git repository at:
 
-> PR = "r0"
->
-No PR needed
+  git://git.pokylinux.org/poky-contrib chonglu/quilt
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/quilt
 
+Chong Lu (1):
+  quilt: upgrade to 0.61
 
-Sau!
+ meta/recipes-devtools/quilt/{quilt-0.60.inc => quilt-0.61.inc}        | 4 ++--
+ .../quilt/{quilt-native_0.60.bb => quilt-native_0.61.bb}              | 1 -
+ meta/recipes-devtools/quilt/{quilt_0.60.bb => quilt_0.61.bb}          | 4 +---
+ 3 files changed, 3 insertions(+), 6 deletions(-)
+ rename meta/recipes-devtools/quilt/{quilt-0.60.inc => quilt-0.61.inc} (87%)
+ rename meta/recipes-devtools/quilt/{quilt-native_0.60.bb => quilt-native_0.61.bb} (98%)
+ rename meta/recipes-devtools/quilt/{quilt_0.60.bb => quilt_0.61.bb} (95%)
 
-> SRC_URI = "git://github.com/tDOM/tdom.git;protocol=git;tag=master
-> <http://github.com/tDOM/tdom.git;protocol=git;tag=master>"
->
-> S = "${WORKDIR}/git/unix"
->
-> inherit autotools
->
-> FILES_${PN} += "${libdir}/tdom0.8.3/"
->
-> CONFIGUREOPTS = " \
->               --build=${BUILD_SYS} \
->           --host=${HOST_SYS} \
->               --target=${TARGET_SYS} \
-> "
-> EXTRA_OECONF = " \
->               --with-tcl=${STAGING_BINDIR_CROSS} \
->               --with-tclinclude=${STAGING_INCDIR} \
->               "
->
-> do_configure() {
->          oe_runconf
-> }
->
-> oe_runconf () {
->      cfgscript="${S}/../configure"
->      if [ -x "$cfgscript" ] ; then
->          bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
->          set +e
->          ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS}
-> ${EXTRA_OECONF} "$@"
->          if [ "$?" != "0" ]; then
->              echo "Configure failed. The contents of all config.log
-> files follows to aid debugging"
->              find ${S} -name config.log -print -exec cat {} \;
->              bbfatal "oe_runconf failed"
->          fi
->          set -e
->      else
->          bbfatal "no configure script found at $cfgscript"
->      fi
-> }
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+-- 
+1.8.1.2
+
 
