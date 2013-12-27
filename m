@@ -1,37 +1,26 @@
-Return-Path: <philip.balister@gmail.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 59ADC60D8A
-	for <openembedded-core@openembedded.org>;
-	Fri, 27 Dec 2013 17:54:54 +0000 (UTC)
-Received: by mail-qc0-f175.google.com with SMTP id e9so8781110qcy.20
-	for <openembedded-core@openembedded.org>;
-	Fri, 27 Dec 2013 09:54:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=gAEAIFvFaSXUVKMuNg7HmeemsZOP3s6vo+89Z+23ThY=;
-	b=eaiEliqfFZnIOjkUx2gM9PUQy6Sqan2SHzGfkVTWB3vxg/LUG9fVlx/dHKb39tgWk8
-	LsWlOdna5wvnecs28NenPenNU33oDPmSlzRPCq76EtC6xrvq0dCLdguKRwP95SWi2y+U
-	SeBA5bPPyT0C4BqNjoLkljgAh/2OjYCxnmiLOJBA/gxFPcs5BhtPXoAWw1bsBfkg3w/B
-	Lp0Icn0l4GT2SAYGJr9dSO83vDFoTr0brBg3Uz0aC5mwfg5OOoLbGJuFxXwlYTUN3xAZ
-	73ygvlBE6laYK5KutuAsGdNZtknf2AFWwTwd37P8Lcf0LqUzO4yb0Hs1gPUW/VrlMWP8
-	PeWw==
-X-Received: by 10.229.179.69 with SMTP id bp5mr81200116qcb.17.1388166894692;
-	Fri, 27 Dec 2013 09:54:54 -0800 (PST)
-Received: from localhost.localdomain
-	(pool-71-171-43-170.ronkva.east.verizon.net. [71.171.43.170])
-	by mx.google.com with ESMTPSA id q2sm44493051qer.22.2013.12.27.09.54.53
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 27 Dec 2013 09:54:54 -0800 (PST)
-Sender: Philip Balister <philip.balister@gmail.com>
-From: Philip Balister <philip@balister.org>
-To: openembedded-core@openembedded.org
-Date: Fri, 27 Dec 2013 12:54:51 -0500
-Message-Id: <1388166891-850-1-git-send-email-philip@balister.org>
-X-Mailer: git-send-email 1.8.3.1
-Cc: Steve Arnold <esteve@gentoogeek.org>
-Subject: db : Include C++ binding library in Berkeley DB recipe.
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A9F6F60D8A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Dec 2013 17:59:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Dec 2013 09:59:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,561,1384329600"; d="scan'208";a="456573006"
+Received: from unknown (HELO [10.255.15.249]) ([10.255.15.249])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Dec 2013 09:59:07 -0800
+Message-ID: <52BDBFEB.8090109@linux.intel.com>
+Date: Fri, 27 Dec 2013 09:59:07 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: Chong Lu <Chong.Lu@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1388139291.git.Chong.Lu@windriver.com>
+	<c0abd31a05e879ed231974b0412831cdcb2949f1.1388139291.git.Chong.Lu@windriver.com>
+In-Reply-To: <c0abd31a05e879ed231974b0412831cdcb2949f1.1388139291.git.Chong.Lu@windriver.com>
+Subject: Re: [PATCH 2/2] quilt: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,89 +33,238 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Dec 2013 17:54:54 -0000
+X-List-Received-Date: Fri, 27 Dec 2013 17:59:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Create the C++ library for db. This library is packaged in a new
-package so the db package only contains the c library. This prevents
-existing users from adding libstdc++ to the package DEPENDS.
+On 12/27/2013 02:17 AM, Chong Lu wrote:
+> Install quilt test suite and run it as ptest.
+> Make all ptest pass.
+>
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>   meta/recipes-devtools/quilt/quilt-0.61.inc  |   2 +
+>   meta/recipes-devtools/quilt/quilt-ptest.inc |  13 +++
+>   meta/recipes-devtools/quilt/quilt/Makefile  | 153 ++++++++++++++++++++++++++++
+>   meta/recipes-devtools/quilt/quilt/run-ptest |   3 +
+>   4 files changed, 171 insertions(+)
+>   create mode 100644 meta/recipes-devtools/quilt/quilt-ptest.inc
+>   create mode 100644 meta/recipes-devtools/quilt/quilt/Makefile
+>   create mode 100755 meta/recipes-devtools/quilt/quilt/run-ptest
+>
+> diff --git a/meta/recipes-devtools/quilt/quilt-0.61.inc b/meta/recipes-devtools/quilt/quilt-0.61.inc
+> index c4a929d..df31663 100644
+> --- a/meta/recipes-devtools/quilt/quilt-0.61.inc
+> +++ b/meta/recipes-devtools/quilt/quilt-0.61.inc
+> @@ -34,3 +34,5 @@ do_install () {
+>   	# cleanup unpackaged files
+>   	rm -rf ${D}/${datadir}/emacs
+>   }
+> +
+> +require quilt-ptest.inc
 
-Signed-off-by: Philip Balister <philip@balister.org>
-Signed-off-by: Douglas Geiger <doug.geiger@bioradiation.net>
-Signed-off-by: Steve Arnold <esteve@gentoogeek.org>
----
- meta/recipes-support/db/db_5.3.21.bb | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+Couldn't this just go in the quilt_0.61.bb since it's not needed for the 
+-native version?
 
-diff --git a/meta/recipes-support/db/db_5.3.21.bb b/meta/recipes-support/db/db_5.3.21.bb
-index 328f9db..1f1eca2 100644
---- a/meta/recipes-support/db/db_5.3.21.bb
-+++ b/meta/recipes-support/db/db_5.3.21.bb
-@@ -17,7 +17,8 @@ RCONFLICTS_${PN} = "db3"
- 
- SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
- SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
--            file://fix-parallel-build.patch"
-+            file://fix-parallel-build.patch \
-+           "
- 
- SRC_URI[md5sum] = "3fda0b004acdaa6fa350bfc41a3b95ca"
- SRC_URI[sha256sum] = "ddd92a930317df92021054c03992392db9ea5cddba43bef8920d392a82114fb8"
-@@ -47,18 +48,22 @@ B = "${WORKDIR}/db-${PV}/build_unix"
- # management on the system.
- inherit lib_package
- 
-+PACKAGES =+ "${PN}-cxx"
-+FILES_${PN}-cxx = "${libdir}/*cxx*so"
-+
-+
- # The dev package has the .so link (as in db3) and the .a's -
- # it is therefore incompatible (cannot be installed at the
- # same time) as the db3 package
- # sort out the .so since they do version prior to the .so
- SOLIBS = "-5*.so"
--FILES_SOLIBSDEV = "${libdir}/libdb.so"
-+FILES_SOLIBSDEV = "${libdir}/libdb.so ${libdir}/libdb_cxx.so"
- 
- #configuration - set in local.conf to override
- # All the --disable-* options replace --enable-smallbuild, which breaks a bunch of stuff (eg. postfix)
- DB5_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disable-replication --disable-verify --disable-compat185 --disable-sql"
- 
--EXTRA_OECONF = "${DB5_CONFIG}"
-+EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx"
- 
- # Override the MUTEX setting here, the POSIX library is
- # the default - "POSIX/pthreads/library".
-@@ -80,16 +85,17 @@ do_configure() {
- 	oe_runconf
- }
- 
-+do_compile_prepend_class-target() {
-+	sed -i -e 's|hardcode_into_libs=yes|hardcode_into_libs=no|' \
-+		${B}/libtool
-+}
-+
- do_install_append() {
- 	mkdir -p ${D}/${includedir}/db51
--	#mv ${D}/${includedir}/db_185.h ${D}/${includedir}/db51/.
- 	mv ${D}/${includedir}/db.h ${D}/${includedir}/db51/.
- 	mv ${D}/${includedir}/db_cxx.h ${D}/${includedir}/db51/.
--	#mv ${D}/${includedir}/dbsql.h ${D}/${includedir}/db51/.
--	#ln -s db51/db_185.h ${D}/${includedir}/db_185.h
- 	ln -s db51/db.h ${D}/${includedir}/db.h
- 	ln -s db51/db_cxx.h ${D}/${includedir}/db_cxx.h
--	#ln -s db51/dbsql.h ${D}/${includedir}/dbsql.h
- 
- 	# The docs end up in /usr/docs - not right.
- 	if test -d "${D}/${prefix}/docs"
-@@ -103,6 +109,7 @@ do_install_append() {
- }
- 
- INSANE_SKIP_${PN} = "dev-so"
-+INSANE_SKIP_${PN}-cxx = "dev-so"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--- 
-1.8.3.1
+> diff --git a/meta/recipes-devtools/quilt/quilt-ptest.inc b/meta/recipes-devtools/quilt/quilt-ptest.inc
+> new file mode 100644
+> index 0000000..026bff5
+> --- /dev/null
+> +++ b/meta/recipes-devtools/quilt/quilt-ptest.inc
+> @@ -0,0 +1,13 @@
+> +inherit ptest
+> +
+> +SRC_URI += "file://run-ptest \
+> +            file://Makefile \
+> +"
+> +
+> +do_install_ptest() {
+> +	tar -cf - bin/ compat/ quilt/ | ( cd ${D}${PTEST_PATH} && tar -xf - )
+Do you really need everything in those directories? Do you need the *.in 
+source files?
 
+> +	tar -cf - test/ --exclude delete.test --exclude mail.test --exclude patch-wrapper.test --exclude setup.test| ( cd ${D}${PTEST_PATH} && tar -xf - )
+Why exclude some of these tests?
+
+> +	cp ${WORKDIR}/Makefile ${D}${PTEST_PATH}
+> +}
+> +
+> +RDEPENDS_${PN} += "make gawk diffutils findutils ed perl perl-module-filehandle perl-module-getopt-std perl-module-posix"
+I think this should be RDEPENDS_${PN}-ptest
+
+> diff --git a/meta/recipes-devtools/quilt/quilt/Makefile b/meta/recipes-devtools/quilt/quilt/Makefile
+> new file mode 100644
+
+I also think that you can cut down this makefile to just the check bits 
+and remove alot of the additional unused setting up variable.
+
+Sau!
+
+> index 0000000..737c9b8
+> --- /dev/null
+> +++ b/meta/recipes-devtools/quilt/quilt/Makefile
+> @@ -0,0 +1,153 @@
+> +PACKAGE :=	quilt
+> +VERSION :=	0.61
+> +RELEASE :=	1
+> +PACKAGE_TARNAME := quilt
+> +PACKAGE_BUGREPORT := quilt-dev@nongnu.org
+> +
+> +prefix :=	/usr
+> +exec_prefix :=	/usr
+> +bindir :=	/usr/bin
+> +datarootdir :=	${prefix}/share
+> +datadir :=	/usr/share
+> +docdir :=	${datarootdir}/doc/${PACKAGE_TARNAME}
+> +mandir :=	/usr/share/man
+> +localedir :=	$(datadir)/locale
+> +emacsdir :=	$(datadir)/emacs/site-lisp
+> +etcdir :=	/etc
+> +
+> +INSTALL :=	/usr/bin/install -c
+> +POD2MAN :=	/usr/bin/pod2man
+> +CP :=		/bin/cp
+> +DATE :=		/bin/date
+> +PERL :=		/usr/bin/perl
+> +BASH :=		/bin/bash
+> +SHELL:=		/bin/bash # It does not work if dash is used as a shell, for example
+> +GREP :=		/bin/grep
+> +TAIL :=		/usr/bin/tail
+> +TR :=		/usr/bin/tr
+> +SED :=		sed
+> +AWK :=		/usr/bin/gawk
+> +FIND :=		/usr/bin/find
+> +XARGS :=	/usr/bin/xargs
+> +DIFF :=		/usr/bin/diff
+> +PATCH :=	/usr/bin/patch
+> +MKTEMP :=	/bin/mktemp
+> +DIFFSTAT :=	/usr/bin/diffstat
+> +
+> +USE_NLS :=	yes
+> +STAT_HARDLINK := -c '%h'
+> +
+> +#-----------------------------------------------------------------------
+> +DIRT +=		$(shell $(FIND) . -name '*~')
+> +DIRT +=		$(shell $(FIND) . -name '.\#*')
+> +
+> +BIN_IN :=	quilt guards
+> +BIN_SRC :=	$(BIN_IN:%=%.in)
+> +BIN :=		$(BIN_IN)
+> +SRC +=		$(BIN_SRC:%=bin/%) bin/patch-wrapper.in
+> +DIRT +=		$(BIN_IN:%=bin/%) bin/patch-wrapper
+> +
+> +QUILT_IN :=	$(patsubst quilt/%.in,%,$(wildcard quilt/*.in))
+> +QUILT_SRC :=	$(QUILT_IN:%=%.in)
+> +QUILT :=	$(QUILT_IN)
+> +SRC +=		$(QUILT_SRC:%=quilt/%)
+> +DIRT +=		$(QUILT_IN:%=quilt/%)
+> +
+> +SCRIPTS_IN :=	patchfns inspect dependency-graph edmail	\
+> +		remove-trailing-ws backup-files
+> +
+> +SCRIPTS_SRC :=	$(SCRIPTS_IN:%=%.in)
+> +SCRIPTS :=	$(SCRIPTS_IN)
+> +SRC +=		$(SCRIPTS_SRC:%=quilt/scripts/%)
+> +SRC +=		quilt/scripts/utilfns
+> +DIRT +=		$(SCRIPTS_IN:%=quilt/scripts/%)
+> +
+> +COMPAT :=	$(COMPAT_PROGRAMS:%=compat/%) $(COMPAT_SYMLINKS:%=compat/%)
+> +SRC +=		$(wildcard compat/*.in) $(wildcard compat/*.sh)
+> +DIRT +=		$(patsubst %.in,%,$(wildcard compat/*.in)) $(COMPAT_SYMLINKS:%=compat/%)
+> +
+> +LIB_SRC :=	quilt.el
+> +SRC +=		$(LIB_SRC:%=lib/%)
+> +
+> +ifneq ($(POD2MAN),)
+> +MAN1 +=		bin/guards.1
+> +DIRT +=		bin/guards.1
+> +endif
+> +
+> +LINGUAS :=	fr de ja ru
+> +PO :=		quilt.pot $(LINGUAS:%=%.po)
+> +SRC +=		$(PO:%=po/%)
+> +DIRT +=		po/*.mo po/*~
+> +
+> +SRC +=		$(wildcard test/*.test) test/run test/test.quiltrc
+> +SRC +=		changes2changelog
+> +
+> +NON_EXEC_IN :=	doc/quilt.1 doc/README quilt/scripts/patchfns quilt/scripts/utilfns
+> +
+> +TESTS :=	test/*.test
+> +DIRT +=		test/.depend $(wildcard test/.*.ok)
+> +
+> +# Settings for running the uninstalled version of quilt in the source tree:
+> +PATH :=		$(CURDIR)/bin:$(CURDIR)/compat:$(PATH)
+> +QUILT_DIR :=	$(CURDIR)/quilt
+> +QUILTRC :=	$(CURDIR)/test/test.quiltrc
+> +export QUILT_DIR QUILTRC
+> +
+> +#-----------------------------------------------------------------------
+> +scripts : $(BIN:%=bin/%) $(QUILT:%=quilt/%) 				\
+> +	  $(SCRIPTS:%=quilt/scripts/%) 					\
+> +	  $(if $(PATCH_WRAPPER),bin/patch-wrapper)
+> +
+> +bin/guards.1 : bin/guards
+> +	$(POD2MAN) $< > $@
+> +
+> +compat_leftover := $(filter-out $(COMPAT),$(shell $(FIND) compat -type f -perm -0100))
+> +
+> +.PHONY :: compat
+> +compat :: $(COMPAT)
+> +	$(if $(compat_leftover),rm -f $(compat_leftover))
+> +
+> +
+> +check-% : test/.%.ok
+> +	@/bin/true
+> +
+> +# Only include the test suite dependencies when required
+> +ifneq ($(findstring test,$(MAKECMDGOALS))$(findstring check,$(MAKECMDGOALS)),)
+> +-include test/.depend
+> +endif # (test|check)
+> +
+> +# Include a run-time generated list of dependencies for each test case
+> +test/.depend : $(TESTS)
+> +	@(  printf "%s : bin/quilt quilt/scripts/patchfns quilt/scripts/utilfns quilt/scripts/backup-files $(COMPAT)\n" $(TESTS); \
+> +	    $(AWK) 'sub(/.*\$$ *quilt /, "")				\
+> +			{ print FILENAME, ":", "quilt/"$$1}' $(TESTS); \
+> +	    $(AWK) 'sub(/.*\<quilt_command /, "") && ($$1 !~ /[^a-z]/)	\
+> +			{ print FILENAME, ":", "quilt/"$$1 }' quilt/*.in; \
+> +	    $(AWK) 'sub(/.*\$$ *%{QUILT_DIR}\/scripts\//, "")		\
+> +			{ print FILENAME, ":", "quilt/scripts/"$$1 }' $(TESTS); \
+> +	) | sort -u | $(SED) -re 's:^test/(.*)\.test:test/.\1.ok:' \
+> +	    -e 's:quilt/graph:quilt/graph quilt/scripts/dependency-graph:' \
+> +	    -e 's:quilt/mail:quilt/mail quilt/scripts/edmail:' \
+> +	    -e 's:quilt/refresh:quilt/refresh quilt/scripts/remove-trailing-ws:' \
+> +	    -e 's:quilt/setup:quilt/setup quilt/scripts/inspect:' \
+> +	  > $@
+> +
+> +ifneq ($(shell . $(QUILTRC) ;  echo $$QUILT_PATCHES_PREFIX),)
+> +CHECK_ENV := P=patches/; _P=../patches/; export P _P
+> +endif
+> +
+> +# Each tests dependencies are stored in test/.depend
+> +ifneq ($(findstring check-,$(MAKECMDGOALS)),)
+> +test/.%.ok : test/%.test FORCE
+> +else
+> +test/.%.ok : test/%.test
+> +endif
+> +	@LANG=C; LC_ALL=C;						\
+> +	export LANG LC_ALL;						\
+> +	unset POSIXLY_CORRECT;						\
+> +	$(CHECK_ENV);							\
+> +	cd $(@D);							\
+> +	./run -q $(<F)
+> +	@touch $@
+> +
+> +FORCE:
+> diff --git a/meta/recipes-devtools/quilt/quilt/run-ptest b/meta/recipes-devtools/quilt/quilt/run-ptest
+> new file mode 100755
+> index 0000000..5557c0f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/quilt/quilt/run-ptest
+> @@ -0,0 +1,3 @@
+> +#!/bin/sh
+> +
+> +for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ -f test/.$i.ok ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
+>
 
