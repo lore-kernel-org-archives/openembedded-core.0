@@ -1,24 +1,26 @@
 Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9694D610EF
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 968AE61102
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Dec 2013 07:52:02 +0000 (UTC)
+	Fri, 27 Dec 2013 07:52:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBR7q3E1013254
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBR7q4E1028666
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Dec 2013 23:52:03 -0800 (PST)
+	Thu, 26 Dec 2013 23:52:04 -0800 (PST)
 Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 26 Dec 2013 23:52:02 -0800
+	14.2.347.0; Thu, 26 Dec 2013 23:52:04 -0800
 From: <Chong.Lu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Dec 2013 15:51:41 +0800
-Message-ID: <cover.1388130524.git.Chong.Lu@windriver.com>
+Date: Fri, 27 Dec 2013 15:51:42 +0800
+Message-ID: <ae21fc35162f54a94e6197cd402a3e73199f4ba4.1388130524.git.Chong.Lu@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1388130524.git.Chong.Lu@windriver.com>
+References: <cover.1388130524.git.Chong.Lu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] quilt: upgrade to 0.61
+Subject: [PATCH 1/1] quilt: upgrade to 0.61
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,19 +38,8 @@ Content-Type: text/plain
 
 From: Chong Lu <Chong.Lu@windriver.com>
 
-*** BLURB HERE ***
-The following changes since commit 005af45191ded6185c618c708181b31281e43092:
-
-  bitbake: fetch2: avoid printing "no checksum" error message twice (2013-12-22 14:29:13 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib chonglu/quilt
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/quilt
-
-Chong Lu (1):
-  quilt: upgrade to 0.61
-
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
  meta/recipes-devtools/quilt/{quilt-0.60.inc => quilt-0.61.inc}        | 4 ++--
  .../quilt/{quilt-native_0.60.bb => quilt-native_0.61.bb}              | 1 -
  meta/recipes-devtools/quilt/{quilt_0.60.bb => quilt_0.61.bb}          | 4 +---
@@ -57,6 +48,55 @@ Chong Lu (1):
  rename meta/recipes-devtools/quilt/{quilt-native_0.60.bb => quilt-native_0.61.bb} (98%)
  rename meta/recipes-devtools/quilt/{quilt_0.60.bb => quilt_0.61.bb} (95%)
 
+diff --git a/meta/recipes-devtools/quilt/quilt-0.60.inc b/meta/recipes-devtools/quilt/quilt-0.61.inc
+similarity index 87%
+rename from meta/recipes-devtools/quilt/quilt-0.60.inc
+rename to meta/recipes-devtools/quilt/quilt-0.61.inc
+index 5fe201f..c4a929d 100644
+--- a/meta/recipes-devtools/quilt/quilt-0.60.inc
++++ b/meta/recipes-devtools/quilt/quilt-0.61.inc
+@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ SRC_URI = "http://download.savannah.gnu.org/releases/quilt/quilt-${PV}.tar.gz \
+         file://install.patch"
+ 
+-SRC_URI[md5sum] = "058a08a9b626bdec9ec8c519dc92158c"
+-SRC_URI[sha256sum] = "3d72a292e432beb9a73f9d0acfe3a77c9b4d7e42209919bb244e9958c7cfe64b"
++SRC_URI[md5sum] = "24417eba5961592b64103bdda001ebf4"
++SRC_URI[sha256sum] = "1eec0a270ac4d41eea0fd5823603c9d2a35ab6b8ab73a90dd92ce1291b2a9fc3"
+ 
+ inherit autotools
+ 
+diff --git a/meta/recipes-devtools/quilt/quilt-native_0.60.bb b/meta/recipes-devtools/quilt/quilt-native_0.61.bb
+similarity index 98%
+rename from meta/recipes-devtools/quilt/quilt-native_0.60.bb
+rename to meta/recipes-devtools/quilt/quilt-native_0.61.bb
+index b875dbc..a089a83 100644
+--- a/meta/recipes-devtools/quilt/quilt-native_0.60.bb
++++ b/meta/recipes-devtools/quilt/quilt-native_0.61.bb
+@@ -1,3 +1,2 @@
+ require quilt-${PV}.inc
+ require quilt-native.inc
+-
+diff --git a/meta/recipes-devtools/quilt/quilt_0.60.bb b/meta/recipes-devtools/quilt/quilt_0.61.bb
+similarity index 95%
+rename from meta/recipes-devtools/quilt/quilt_0.60.bb
+rename to meta/recipes-devtools/quilt/quilt_0.61.bb
+index d866032..565e46a 100644
+--- a/meta/recipes-devtools/quilt/quilt_0.60.bb
++++ b/meta/recipes-devtools/quilt/quilt_0.61.bb
+@@ -1,11 +1,9 @@
+ require quilt-${PV}.inc
+-inherit gettext 
++inherit gettext
+ RDEPENDS_${PN} += "patch diffstat bzip2 util-linux"
+ SRC_URI += "file://aclocal.patch \
+             file://gnu_patch_test_fix_target.patch \
+            "
+-PR = "r1"
+-
+ 
+ CACHED_CONFIGUREVARS += "ac_cv_path_BASH=${base_bindir}/bash"
+ 
 -- 
 1.8.1.2
 
