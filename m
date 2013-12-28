@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id AC6FB6B57C
+	by mail.openembedded.org (Postfix) with ESMTP id 72E216B5F6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Dec 2013 22:30:08 +0000 (UTC)
+	Sat, 28 Dec 2013 22:30:10 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:10 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:11 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010038"
+X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010051"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.113])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:08 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:10 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Dec 2013 22:29:13 +0000
-Message-Id: <6b882daba1f4b4148e628c402840093ed89c8353.1388269205.git.paul.eggleton@linux.intel.com>
+Date: Sat, 28 Dec 2013 22:29:14 +0000
+Message-Id: <f2f6977c394013ebd61f4b786b28598dbfb13165.1388269205.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 17/38] gawk: set reasonable SUMMARY and DESCRIPTION
+Subject: [PATCH 18/38] linux-dummy: set LICENSE to GPLv2 to avoid license warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Dec 2013 22:30:08 -0000
+X-List-Received-Date: Sat, 28 Dec 2013 22:30:10 -0000
 
-Also ensure both recipe versions have the same values.
+This recipe doesn't actually produce any non-empty packages, but since
+it's pretending to be a Linux kernel it might as well pretend to have
+the same license, if for no other reason than to avoid producing a
+warning since the previous value ("GPL") isn't acceptable.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-extended/gawk/gawk_3.1.5.bb | 6 +++---
- meta/recipes-extended/gawk/gawk_4.0.2.bb | 6 ++++--
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ meta/recipes-kernel/linux/linux-dummy.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/gawk/gawk_3.1.5.bb b/meta/recipes-extended/gawk/gawk_3.1.5.bb
-index 5500974..4d9d6e4 100644
---- a/meta/recipes-extended/gawk/gawk_3.1.5.bb
-+++ b/meta/recipes-extended/gawk/gawk_3.1.5.bb
+diff --git a/meta/recipes-kernel/linux/linux-dummy.bb b/meta/recipes-kernel/linux/linux-dummy.bb
+index 3b898f8..acf07e1 100644
+--- a/meta/recipes-kernel/linux/linux-dummy.bb
++++ b/meta/recipes-kernel/linux/linux-dummy.bb
 @@ -1,6 +1,6 @@
--SUMMARY = "The GNU awk text processing utility"
--DESCRIPTION = "The gawk package contains the GNU version of awk, a text processing \
--utility. Awk interprets a special-purpose programming language to do \
-+SUMMARY = "GNU awk text processing utility"
-+DESCRIPTION = "The GNU version of awk, a text processing utility. \
-+Awk interprets a special-purpose programming language to do \
- quick and easy text pattern matching and reformatting jobs."
- HOMEPAGE = "www.gnu.org/software/gawk"
- BUGTRACKER  = "bug-gawk@gnu.org"
-diff --git a/meta/recipes-extended/gawk/gawk_4.0.2.bb b/meta/recipes-extended/gawk/gawk_4.0.2.bb
-index 63dace4..424b6b0 100644
---- a/meta/recipes-extended/gawk/gawk_4.0.2.bb
-+++ b/meta/recipes-extended/gawk/gawk_4.0.2.bb
-@@ -1,5 +1,7 @@
--DESCRIPTION = "A program that you can use to select particular records in a \
--file and perform operations upon them."
-+SUMMARY = "GNU awk text processing utility"
-+DESCRIPTION = "The GNU version of awk, a text processing utility. \
-+Awk interprets a special-purpose programming language to do \
-+quick and easy text pattern matching and reformatting jobs."
- HOMEPAGE = "www.gnu.org/software/gawk"
- BUGTRACKER  = "bug-gawk@gnu.org"
- SECTION = "console/utils"
+ SECTION = "kernel"
+ SUMMARY = "Dummy Linux kernel"
+-LICENSE = "GPL"
++LICENSE = "GPLv2"
+ 
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/COPYING.GPL;md5=751419260aa954499f7abaabaa882bbe"
+ 
 -- 
 1.8.1.2
 
