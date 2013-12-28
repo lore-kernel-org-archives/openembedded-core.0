@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DE0DC6B7AD
+	by mail.openembedded.org (Postfix) with ESMTP id 190AF6B878
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Dec 2013 22:30:30 +0000 (UTC)
+	Sat, 28 Dec 2013 22:30:32 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:32 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010156"
+X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010167"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.113])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:31 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:32 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Dec 2013 22:29:28 +0000
-Message-Id: <cb267e934577c47d78bb75032e37c8149dacb15f.1388269205.git.paul.eggleton@linux.intel.com>
+Date: Sat, 28 Dec 2013 22:29:29 +0000
+Message-Id: <3753aec417720a3a09ce6c7a6e2a19d23c19bcaf.1388269205.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 32/38] guilt-native: tidy up recipe
+Subject: [PATCH 33/38] opkg-utils: tidy up recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Dec 2013 22:30:31 -0000
+X-List-Received-Date: Sat, 28 Dec 2013 22:30:32 -0000
 
-* Fix indentation and spacing
-* Drop SRC_URI checksums that aren't used (recipe is fetching from git)
+* Update HOMEPAGE
+* Rearrange statements in logical order
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-devtools/guilt/guilt-native_git.bb | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/guilt/guilt-native_git.bb b/meta/recipes-devtools/guilt/guilt-native_git.bb
-index e88ae2c..dfb3378 100644
---- a/meta/recipes-devtools/guilt/guilt-native_git.bb
-+++ b/meta/recipes-devtools/guilt/guilt-native_git.bb
-@@ -6,15 +6,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b6f3400dc1a01cebafe8a52b3f344135"
- inherit native
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 10063e8..714fc51 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -1,25 +1,27 @@
+ SUMMARY = "Additional utilities for the opkg package manager"
+ SECTION = "base"
+-HOMEPAGE = "http://wiki.openmoko.org/wiki/Opkg"
++HOMEPAGE = "http://code.google.com/p/opkg/"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
+-RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
+-RDEPENDS_${PN}_class-native = ""
++
+ SRCREV = "757a1664a440c60e8126443bf984e4bdf374c327"
+ PV = "0.1.8+git${SRCPV}"
  
- SRC_URI = "git://repo.or.cz/guilt.git \
--	   file://guilt-bash.patch \
--          "
-+           file://guilt-bash.patch \
-+           "
+-SRC_URI = "git://git.yoctoproject.org/opkg-utils \
+-           "
++SRC_URI = "git://git.yoctoproject.org/opkg-utils"
  
--SRCREV="c2a5bae511c6d5354aa4e1cb59069c31df2b8eeb"
-+SRCREV = "c2a5bae511c6d5354aa4e1cb59069c31df2b8eeb"
+ S = "${WORKDIR}/git"
  
--S="${WORKDIR}/git"
--
--SRC_URI[md5sum] = "d800c5e0743d90543ef51d797a626e09"
--SRC_URI[sha256sum] = "64dfe6af1e924030f71163f3aa12cd846c80901d6ff8ef267ea35bb0752b4ba9"
-+S = "${WORKDIR}/git"
+-# Avoid circular dependencies from package_ipk.bbclass
+-PACKAGES_class-native = ""
++TARGET_CC_ARCH += "${LDFLAGS}"
  
- # we don't compile, we just install
- do_compile() {
+ do_install() {
+ 	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
+ }
+ 
++# Avoid circular dependencies from package_ipk.bbclass
++PACKAGES_class-native = ""
++
++RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
++RDEPENDS_${PN}_class-native = ""
++
+ BBCLASSEXTEND = "native"
+-TARGET_CC_ARCH += "${LDFLAGS}"
 -- 
 1.8.1.2
 
