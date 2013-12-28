@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BF0E6B7F9
+	by mail.openembedded.org (Postfix) with ESMTP id 3F0A26B5B0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Dec 2013 22:30:24 +0000 (UTC)
+	Sat, 28 Dec 2013 22:30:26 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:25 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010115"
+X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010118"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.113])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:24 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:25 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Dec 2013 22:29:23 +0000
-Message-Id: <4d13e7cc98027644faf5f6785c2939329603b806.1388269205.git.paul.eggleton@linux.intel.com>
+Date: Sat, 28 Dec 2013 22:29:24 +0000
+Message-Id: <b1683ded0069ff40703eb5f6beebf0302a8eb380.1388269205.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 27/38] binutils: add/tweak SUMMARY
+Subject: [PATCH 28/38] core-image-lsb: fix DESCRIPTION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Dec 2013 22:30:24 -0000
+X-List-Received-Date: Sat, 28 Dec 2013 22:30:26 -0000
+
+LSB includes X, and I wouldn't really call this image "basic" or
+"foundational" in our terms, so adjust the description to be a bit more
+appropriate.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-devtools/binutils/binutils-cross-canadian.inc | 2 +-
- meta/recipes-devtools/binutils/binutils.inc                | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/images/core-image-lsb.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-index 81349c0..52c573e 100644
---- a/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross-canadian.inc
-@@ -1,6 +1,6 @@
- inherit cross-canadian
+diff --git a/meta/recipes-extended/images/core-image-lsb.bb b/meta/recipes-extended/images/core-image-lsb.bb
+index 713a48e..829e221 100644
+--- a/meta/recipes-extended/images/core-image-lsb.bb
++++ b/meta/recipes-extended/images/core-image-lsb.bb
+@@ -1,6 +1,5 @@
+-DESCRIPTION = "A foundational basic image without support for X that can be \
+-reasonably used for customization and is suitable for implementations that \
+-conform to Linux Standard Base (LSB)."
++DESCRIPTION = "An image containing packages that are required to conform \
++to the Linux Standard Base (LSB) specification."
  
--DESCRIPTION = "A GNU collection of cross-canadian binary utilities for ${TARGET_ARCH} target"
-+SUMMARY = "GNU binary utilities (cross-canadian for ${TARGET_ARCH} target)"
- PN = "binutils-cross-canadian-${TRANSLATED_TARGET_ARCH}"
- BPN = "binutils"
+ IMAGE_FEATURES += "splash ssh-server-openssh hwcodecs package-management"
  
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index cf13c4f..1259342 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -1,4 +1,4 @@
--SUMMARY = "A GNU collection of binary utilities"
-+SUMMARY = "GNU binary utilities"
- DESCRIPTION = "The GNU Binutils are a collection of binary tools. \
- The main ones are ld (GNU Linker), and as (GNU Assembler). This \
- package also includes addition tools such as addr2line (Converts \
 -- 
 1.8.1.2
 
