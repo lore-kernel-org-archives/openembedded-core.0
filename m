@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 190AF6B878
+	by mail.openembedded.org (Postfix) with ESMTP id 9C0786B5EE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Dec 2013 22:30:32 +0000 (UTC)
+	Sat, 28 Dec 2013 22:30:33 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:33 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010167"
+X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010176"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.113])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:32 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:33 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Dec 2013 22:29:29 +0000
-Message-Id: <3753aec417720a3a09ce6c7a6e2a19d23c19bcaf.1388269205.git.paul.eggleton@linux.intel.com>
+Date: Sat, 28 Dec 2013 22:29:30 +0000
+Message-Id: <95e1c976679c83b5556a4858e5faeccbb87102ee.1388269205.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 33/38] opkg-utils: tidy up recipe
+Subject: [PATCH 34/38] pciutils: tidy up recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +31,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Dec 2013 22:30:32 -0000
+X-List-Received-Date: Sat, 28 Dec 2013 22:30:33 -0000
 
-* Update HOMEPAGE
-* Rearrange statements in logical order
+* Move package-specific defitions to the end
+* Define pciutils-ids package as ${PN}-ids
+* Add SUMMARY and tweak DESCRIPTION for pciutils-ids package
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ meta/recipes-bsp/pciutils/pciutils_3.2.1.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 10063e8..714fc51 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -1,25 +1,27 @@
- SUMMARY = "Additional utilities for the opkg package manager"
- SECTION = "base"
--HOMEPAGE = "http://wiki.openmoko.org/wiki/Opkg"
-+HOMEPAGE = "http://code.google.com/p/opkg/"
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.2.1.bb b/meta/recipes-bsp/pciutils/pciutils_3.2.1.bb
+index 6d45d72..852a93e 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.2.1.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.2.1.bb
+@@ -1,14 +1,12 @@
+-SUMMARY = "PCI Utilities"
++SUMMARY = "PCI utilities"
+ DESCRIPTION = 'The PCI Utilities package contains a library for portable access \
+ to PCI bus configuration space and several utilities based on this library.'
+-DESCRIPTION_pciutils-ids = 'The list of PCI IDs for pciutils'
+ HOMEPAGE = "http://atrey.karlin.mff.cuni.cz/~mj/pciutils.shtml"
+ SECTION = "console/utils"
+ 
  LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
--RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
--RDEPENDS_${PN}_class-native = ""
-+
- SRCREV = "757a1664a440c60e8126443bf984e4bdf374c327"
- PV = "0.1.8+git${SRCPV}"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ DEPENDS = "zlib kmod"
+-RDEPENDS_${PN} = "${PN}-ids"
  
--SRC_URI = "git://git.yoctoproject.org/opkg-utils \
--           "
-+SRC_URI = "git://git.yoctoproject.org/opkg-utils"
- 
- S = "${WORKDIR}/git"
- 
--# Avoid circular dependencies from package_ipk.bbclass
--PACKAGES_class-native = ""
-+TARGET_CC_ARCH += "${LDFLAGS}"
- 
- do_install() {
- 	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.bz2 \
+            file://configure.patch \
+@@ -53,9 +51,12 @@ do_install () {
+ 	ln -s ../sbin/lspci ${D}${bindir}/lspci
  }
  
-+# Avoid circular dependencies from package_ipk.bbclass
-+PACKAGES_class-native = ""
-+
-+RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
-+RDEPENDS_${PN}_class-native = ""
-+
- BBCLASSEXTEND = "native"
--TARGET_CC_ARCH += "${LDFLAGS}"
+-PACKAGES =+ "pciutils-ids libpci libpci-dev libpci-dbg"
+-FILES_pciutils-ids = "${datadir}/pci.ids*"
++PACKAGES =+ "${PN}-ids libpci libpci-dev libpci-dbg"
++FILES_${PN}-ids = "${datadir}/pci.ids*"
+ FILES_libpci = "${libdir}/libpci.so.*"
+ FILES_libpci-dbg = "${libdir}/.debug"
+ FILES_libpci-dev = "${libdir}/libpci.a ${libdir}/libpci.la ${libdir}/libpci.so \
+                     ${includedir}/pci ${libdir}/pkgconfig"
++SUMMARY_${PN}-ids = "PCI utilities - device ID database"
++DESCRIPTION_${PN}-ids = "Package providing the PCI device ID database for pciutils."
++RDEPENDS_${PN} += "${PN}-ids"
 -- 
 1.8.1.2
 
