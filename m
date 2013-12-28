@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 63D6861039
+	by mail.openembedded.org (Postfix) with ESMTP id 1CE176B59C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Dec 2013 22:29:45 +0000 (UTC)
+	Sat, 28 Dec 2013 22:29:47 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:29:46 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:29:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457009911"
+X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457009916"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.113])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:29:44 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:29:46 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Dec 2013 22:28:57 +0000
-Message-Id: <adab38ead3101f3c88240606dc40ee629cac6f79.1388269205.git.paul.eggleton@linux.intel.com>
+Date: Sat, 28 Dec 2013 22:28:58 +0000
+Message-Id: <4a6d74fe7ecd59dc0cf5bc26a74f7d30f3ef161d.1388269205.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 01/38] *-basic: rename to *-standardlinux
+Subject: [PATCH 02/38] Drop empty/invalid BUGTRACKER values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,380 +31,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Dec 2013 22:29:45 -0000
+X-List-Received-Date: Sat, 28 Dec 2013 22:29:47 -0000
 
-This more accurately represents what this image and packagegroup are
-intended to provide, and avoids confusion with the similarly named
-core-image-base and packagegroup-base.
-
-Part of the fix for [YOCTO #2424].
+Setting this value to blank or "n/a" in just a few recipes accomplishes
+nothing.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-extended/images/core-image-lsb.bb     |   2 +-
- ...-image-basic.bb => core-image-standardlinux.bb} |   2 +-
- .../packagegroups/packagegroup-core-basic.bb       | 138 -----------------
- .../packagegroup-core-standardlinux.bb             | 163 +++++++++++++++++++++
- .../recipes-graphics/images/core-image-directfb.bb |   2 +-
- 5 files changed, 166 insertions(+), 141 deletions(-)
- rename meta/recipes-extended/images/{core-image-basic.bb => core-image-standardlinux.bb} (87%)
- delete mode 100644 meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
- create mode 100644 meta/recipes-extended/packagegroups/packagegroup-core-standardlinux.bb
+ meta/recipes-core/jpeg/jpeg_8d.bb                     | 1 -
+ meta/recipes-extended/bc/bc_1.06.bb                   | 1 -
+ meta/recipes-extended/ed/ed_1.9.bb                    | 1 -
+ meta/recipes-extended/mdadm/mdadm_3.3.bb              | 1 -
+ meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb  | 1 -
+ meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb | 1 -
+ meta/recipes-kernel/latencytop/latencytop_0.5.bb      | 1 -
+ meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb            | 1 -
+ meta/recipes-support/libfm/libfm_1.1.2.2.bb           | 1 -
+ 9 files changed, 9 deletions(-)
 
-diff --git a/meta/recipes-extended/images/core-image-lsb.bb b/meta/recipes-extended/images/core-image-lsb.bb
-index f22d199..713a48e 100644
---- a/meta/recipes-extended/images/core-image-lsb.bb
-+++ b/meta/recipes-extended/images/core-image-lsb.bb
-@@ -6,7 +6,7 @@ IMAGE_FEATURES += "splash ssh-server-openssh hwcodecs package-management"
+diff --git a/meta/recipes-core/jpeg/jpeg_8d.bb b/meta/recipes-core/jpeg/jpeg_8d.bb
+index ad4fa51..b1247df 100644
+--- a/meta/recipes-core/jpeg/jpeg_8d.bb
++++ b/meta/recipes-core/jpeg/jpeg_8d.bb
+@@ -1,7 +1,6 @@
+ SUMMARY = "libjpeg is a library for handling the JPEG (JFIF) image format."
+ DESCRIPTION = "libjpeg contains a library for handling the JPEG (JFIF) image format, as well as related programs for accessing the libjpeg functions."
+ HOMEPAGE = "http://www.ijg.org/"
+-BUGTRACKER = ""
  
- IMAGE_INSTALL = "\
-     ${CORE_IMAGE_BASE_INSTALL} \
--    packagegroup-core-basic \
-+    packagegroup-core-standardlinux \
-     packagegroup-core-lsb \
-     "
+ LICENSE ="BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://README;md5=4f46756b064c225fae088903300e5c98"
+diff --git a/meta/recipes-extended/bc/bc_1.06.bb b/meta/recipes-extended/bc/bc_1.06.bb
+index 7c33f75..3013c10 100644
+--- a/meta/recipes-extended/bc/bc_1.06.bb
++++ b/meta/recipes-extended/bc/bc_1.06.bb
+@@ -1,6 +1,5 @@
+ DESCRIPTION = "An arbitrary precision calculator language."
+ HOMEPAGE = "http://www.gnu.org/software/bc/bc.html"
+-BUGTRACKER = ""
  
-diff --git a/meta/recipes-extended/images/core-image-basic.bb b/meta/recipes-extended/images/core-image-standardlinux.bb
-similarity index 87%
-rename from meta/recipes-extended/images/core-image-basic.bb
-rename to meta/recipes-extended/images/core-image-standardlinux.bb
-index d599e72..19985a9 100644
---- a/meta/recipes-extended/images/core-image-basic.bb
-+++ b/meta/recipes-extended/images/core-image-standardlinux.bb
-@@ -5,7 +5,7 @@ IMAGE_FEATURES += "splash ssh-server-openssh"
+ LICENSE = "GPLv2+ & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+diff --git a/meta/recipes-extended/ed/ed_1.9.bb b/meta/recipes-extended/ed/ed_1.9.bb
+index bd00c52..90c46e6 100644
+--- a/meta/recipes-extended/ed/ed_1.9.bb
++++ b/meta/recipes-extended/ed/ed_1.9.bb
+@@ -1,6 +1,5 @@
+ DESCRIPTION = "a line-oriented text editor"
+ HOMEPAGE = "http://www.gnu.org/software/ed/"
+-BUGTRACKER = ""
  
- IMAGE_INSTALL = "\
-     packagegroup-core-boot \
--    packagegroup-core-basic \
-+    packagegroup-core-standardlinux \
-     ${CORE_IMAGE_EXTRA_INSTALL} \
-     "
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.bb b/meta/recipes-extended/mdadm/mdadm_3.3.bb
+index 41816bc..5362396 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.3.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.3.bb
+@@ -1,6 +1,5 @@
+ DESCRIPTION = " A tool for managing Soft RAID under Linux"
+ HOMEPAGE = "http://www.kernel.org/pub/linux/utils/raid/mdadm/"
+-BUGTRACKER = "n/a"
  
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
-deleted file mode 100644
-index c89923d..0000000
---- a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
-+++ /dev/null
-@@ -1,138 +0,0 @@
--#
--# Copyright (C) 2010 Intel Corporation
--#
--
--DESCRIPTION = "Create Basic Image Tasks"
--PR = "r6"
--LICENSE = "MIT"
--
--inherit packagegroup
--
--PACKAGES = "\
--    packagegroup-core-basic \
--    packagegroup-core-basic-libs \
--    packagegroup-core-basic-utils \
--    packagegroup-core-basic-extended \
--    packagegroup-core-dev-utils \
--    packagegroup-core-multiuser \
--    packagegroup-core-initscripts \
--    packagegroup-core-sys-services \
--    "
--
--python __anonymous () {
--    # For backwards compatibility after rename
--    packages = d.getVar("PACKAGES", True).split()
--    for pkg in packages:
--        d.appendVar("RPROVIDES_%s" % pkg, pkg.replace("packagegroup-core", "task-core"))
--        d.appendVar("RREPLACES_%s" % pkg, pkg.replace("packagegroup-core", "task-core"))
--        d.appendVar("RCONFLICTS_%s" % pkg, pkg.replace("packagegroup-core", "task-core"))
--}
--
--
--RDEPENDS_packagegroup-core-basic = "\
--    packagegroup-core-basic-libs \
--    packagegroup-core-basic-utils \
--    packagegroup-core-basic-extended \
--    packagegroup-core-dev-utils \
--    packagegroup-core-multiuser \
--    packagegroup-core-initscripts \
--    packagegroup-core-sys-services \
--    "
--
--RDEPENDS_packagegroup-core-basic-libs = "\
--    glib-2.0 \
--    "
--
--RDEPENDS_packagegroup-core-basic-utils = "\
--    bash \
--    acl \
--    attr \
--    bc \
--    coreutils \
--    cpio \
--    e2fsprogs \
--    ed \
--    file \
--    findutils \
--    gawk \
--    gmp \
--    grep \
--    makedevs \
--    mc \
--    mc-fish \
--    mc-helpers \
--    mc-helpers-perl \
--    mc-helpers-python \
--    mktemp \
--    ncurses \
--    net-tools \
--    pax \
--    popt \
--    procps \
--    psmisc \
--    sed \
--    tar \
--    time \
--    util-linux \
--    zlib \
--    "
--
--RDEPENDS_packagegroup-core-basic-extended = "\
--    iproute2 \
--    iputils \
--    iptables \
--    module-init-tools \
--    openssl \
--    "
--
--RDEPENDS_packagegroup-core-dev-utils = "\
--    byacc \
--    diffutils \
--    m4 \
--    make \
--    patch \
--    "
--
--VIRTUAL-RUNTIME_initscripts ?= "initscripts"
--VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
--VIRTUAL-RUNTIME_login_manager ?= "busybox"
--VIRTUAL-RUNTIME_syslog ?= "sysklogd"
--RDEPENDS_packagegroup-core-initscripts = "\
--    ${VIRTUAL-RUNTIME_initscripts} \
--    ${VIRTUAL-RUNTIME_init_manager} \
--    ethtool \
--    ${VIRTUAL-RUNTIME_login_manager} \
--    ${VIRTUAL-RUNTIME_syslog} \
--    "
--
--RDEPENDS_packagegroup-core-multiuser = "\
--    cracklib \
--    gzip \
--    ${@base_contains('DISTRO_FEATURES', 'pam', 'libuser', '', d)} \
--    shadow \
--    sudo \
--    "
--
--RDEPENDS_packagegroup-core-sys-services = "\
--    at \
--    bzip2 \
--    cronie \
--    dbus \
--    dbus-glib \
--    python-dbus \
--    elfutils \
--    gzip \
--    less \
--    libcap \
--    libevent \
--    lighttpd \
--    logrotate \
--    nfs-utils \
--    pciutils \
--    libpcre \
--    rpcbind \
--    sysfsutils \
--    tcp-wrappers \
--    tzdata \
--    "
--
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-standardlinux.bb b/meta/recipes-extended/packagegroups/packagegroup-core-standardlinux.bb
-new file mode 100644
-index 0000000..3b04067
---- /dev/null
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-standardlinux.bb
-@@ -0,0 +1,163 @@
-+#
-+# Copyright (C) 2010 Intel Corporation
-+#
-+
-+SUMMARY = "Standard full-featured Linux system"
-+DESCRIPTION = "Package group bringing in packages needed for a more traditional full-featured Linux system"
-+PR = "r6"
-+LICENSE = "MIT"
-+
-+inherit packagegroup
-+
-+PACKAGES = "\
-+    packagegroup-core-standardlinux \
-+    packagegroup-core-standardlinux-libs \
-+    packagegroup-core-standardlinux-utils \
-+    packagegroup-core-standardlinux-extended \
-+    packagegroup-core-standardlinux-dev-utils \
-+    packagegroup-core-standardlinux-multiuser \
-+    packagegroup-core-standardlinux-initscripts \
-+    packagegroup-core-standardlinux-sys-services \
-+    "
-+
-+python __anonymous () {
-+    # For backwards compatibility after rename
-+    namemap = {}
-+    namemap["packagegroup-core-standardlinux"] = "packagegroup-core-basic"
-+    namemap["packagegroup-core-standardlinux-libs"] = "packagegroup-core-basic-libs"
-+    namemap["packagegroup-core-standardlinux-utils"] = "packagegroup-core-basic-utils"
-+    namemap["packagegroup-core-standardlinux-extended"] = "packagegroup-core-basic-extended"
-+    namemap["packagegroup-core-standardlinux-dev-utils"] = "packagegroup-core-dev-utils"
-+    namemap["packagegroup-core-standardlinux-multiuser"] = "packagegroup-core-multiuser"
-+    namemap["packagegroup-core-standardlinux-initscripts"] = "packagegroup-core-initscripts"
-+    namemap["packagegroup-core-standardlinux-sys-services"] = "packagegroup-core-sys-services"
-+
-+    packages = d.getVar("PACKAGES", True).split()
-+    for pkg in packages:
-+        if pkg.endswith('-dev'):
-+            mapped = namemap.get(pkg[:-4], None)
-+            if mapped:
-+                mapped += '-dev'
-+        elif pkg.endswith('-dbg'):
-+            mapped = namemap.get(pkg[:-4], None)
-+            if mapped:
-+                mapped += '-dbg'
-+        else:
-+            mapped = namemap.get(pkg, None)
-+
-+        if mapped:
-+            oldtaskname = mapped.replace("packagegroup-core", "task-core")
-+            mapstr = " %s %s" % (mapped, oldtaskname)
-+            d.appendVar("RPROVIDES_%s" % pkg, mapstr)
-+            d.appendVar("RREPLACES_%s" % pkg, mapstr)
-+            d.appendVar("RCONFLICTS_%s" % pkg, mapstr)
-+}
-+
-+
-+RDEPENDS_packagegroup-core-standardlinux = "\
-+    packagegroup-core-standardlinux-libs \
-+    packagegroup-core-standardlinux-utils \
-+    packagegroup-core-standardlinux-extended \
-+    packagegroup-core-standardlinux-dev-utils \
-+    packagegroup-core-standardlinux-multiuser \
-+    packagegroup-core-standardlinux-initscripts \
-+    packagegroup-core-standardlinux-sys-services \
-+    "
-+
-+RDEPENDS_packagegroup-core-standardlinux-libs = "\
-+    glib-2.0 \
-+    "
-+
-+RDEPENDS_packagegroup-core-standardlinux-utils = "\
-+    bash \
-+    acl \
-+    attr \
-+    bc \
-+    coreutils \
-+    cpio \
-+    e2fsprogs \
-+    ed \
-+    file \
-+    findutils \
-+    gawk \
-+    gmp \
-+    grep \
-+    makedevs \
-+    mc \
-+    mc-fish \
-+    mc-helpers \
-+    mc-helpers-perl \
-+    mc-helpers-python \
-+    mktemp \
-+    ncurses \
-+    net-tools \
-+    pax \
-+    popt \
-+    procps \
-+    psmisc \
-+    sed \
-+    tar \
-+    time \
-+    util-linux \
-+    zlib \
-+    "
-+
-+RDEPENDS_packagegroup-core-standardlinux-extended = "\
-+    iproute2 \
-+    iputils \
-+    iptables \
-+    module-init-tools \
-+    openssl \
-+    "
-+
-+RDEPENDS_packagegroup-core-standardlinux-dev-utils = "\
-+    byacc \
-+    diffutils \
-+    m4 \
-+    make \
-+    patch \
-+    "
-+
-+VIRTUAL-RUNTIME_initscripts ?= "initscripts"
-+VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
-+VIRTUAL-RUNTIME_login_manager ?= "busybox"
-+VIRTUAL-RUNTIME_syslog ?= "sysklogd"
-+RDEPENDS_packagegroup-core-standardlinux-initscripts = "\
-+    ${VIRTUAL-RUNTIME_initscripts} \
-+    ${VIRTUAL-RUNTIME_init_manager} \
-+    ethtool \
-+    ${VIRTUAL-RUNTIME_login_manager} \
-+    ${VIRTUAL-RUNTIME_syslog} \
-+    "
-+
-+RDEPENDS_packagegroup-core-standardlinux-multiuser = "\
-+    cracklib \
-+    gzip \
-+    ${@base_contains('DISTRO_FEATURES', 'pam', 'libuser', '', d)} \
-+    shadow \
-+    sudo \
-+    "
-+
-+RDEPENDS_packagegroup-core-standardlinux-sys-services = "\
-+    at \
-+    bzip2 \
-+    cronie \
-+    dbus \
-+    dbus-glib \
-+    python-dbus \
-+    elfutils \
-+    gzip \
-+    less \
-+    libcap \
-+    libevent \
-+    lighttpd \
-+    logrotate \
-+    nfs-utils \
-+    pciutils \
-+    libpcre \
-+    rpcbind \
-+    sysfsutils \
-+    tcp-wrappers \
-+    tzdata \
-+    "
-+
-diff --git a/meta/recipes-graphics/images/core-image-directfb.bb b/meta/recipes-graphics/images/core-image-directfb.bb
-index 0c6c882..20588f0 100644
---- a/meta/recipes-graphics/images/core-image-directfb.bb
-+++ b/meta/recipes-graphics/images/core-image-directfb.bb
-@@ -12,6 +12,6 @@ CONFLICT_DISTRO_FEATURES = "x11"
+ # Some files are GPLv2+ while others are GPLv2.
+ LICENSE = "GPLv2 & GPLv2+"
+diff --git a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
+index 6ba46f0..73a9c52 100644
+--- a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
++++ b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
+@@ -1,7 +1,6 @@
+ SUMMARY = "Library for caching application menus"
+ DESCRIPTION = "A library creating and utilizing caches to speed up freedesktop.org application menus"
+ HOMEPAGE = "http://lxde.sourceforge.net/"
+-BUGTRACKER = ""
  
- IMAGE_INSTALL += "\
- 	${CORE_IMAGE_BASE_INSTALL} \
--	packagegroup-core-basic \
-+	packagegroup-core-standardlinux \
- 	packagegroup-core-directfb \
- "
+ LICENSE = "GPLv2 & GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+index 5e33f14..3688685 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
++++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
+@@ -1,7 +1,6 @@
+ SUMMARY = "Xorg minimal fonts data"
+ DESCRIPTION = "Minimal fonts required by X.org."
+ HOMEPAGE = "http://www.x.org"
+-BUGTRACKER = "n/a"
+ 
+ SECTION = "x11/fonts"
+ 
+diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+index dad0588..4b1f16f 100644
+--- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
++++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
+@@ -1,6 +1,5 @@
+ DESCRIPTION = "LatencyTOP, a Linux tool measuring and fixing latency"
+ HOMEPAGE = "http://www.latencytop.org/"
+-BUGTRACKER = "n/a"
+ 
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://latencytop.c;endline=23;md5=ee9ea9b1415356e5734adad4a87dc7fa"
+diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
+index 4bd4a6a..e66aa2a 100644
+--- a/meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
++++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.1.2.bb
+@@ -1,6 +1,5 @@
+ DESCRIPTION = "Fast lightweight tabbed filemanager"
+ HOMEPAGE = "http://pcmanfm.sourceforge.net/"
+-BUGTRACKER = ""
+ 
+ LICENSE = "GPLv2 & GPLv2+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+diff --git a/meta/recipes-support/libfm/libfm_1.1.2.2.bb b/meta/recipes-support/libfm/libfm_1.1.2.2.bb
+index 8460223..97865e1 100644
+--- a/meta/recipes-support/libfm/libfm_1.1.2.2.bb
++++ b/meta/recipes-support/libfm/libfm_1.1.2.2.bb
+@@ -1,6 +1,5 @@
+ DESCRIPTION = "Library for file management"
+ HOMEPAGE = "http://pcmanfm.sourceforge.net/"
+-BUGTRACKER = ""
+ 
+ LICENSE = "GPLv2 & GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
 -- 
 1.8.1.2
 
