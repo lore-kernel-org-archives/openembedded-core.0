@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D463A6B708
+	by mail.openembedded.org (Postfix) with ESMTP id AC6FB6B57C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Dec 2013 22:30:06 +0000 (UTC)
+	Sat, 28 Dec 2013 22:30:08 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:08 -0800
+	by fmsmga101.fm.intel.com with ESMTP; 28 Dec 2013 14:30:10 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010029"
+X-IronPort-AV: E=Sophos;i="4.95,567,1384329600"; d="scan'208";a="457010038"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.113])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:06 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 28 Dec 2013 14:30:08 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 28 Dec 2013 22:29:12 +0000
-Message-Id: <29dc43488654db8cb2cf22290338cfcfa34cfd76.1388269205.git.paul.eggleton@linux.intel.com>
+Date: Sat, 28 Dec 2013 22:29:13 +0000
+Message-Id: <6b882daba1f4b4148e628c402840093ed89c8353.1388269205.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 16/38] xev: add proper SUMMARY and DESCRIPTION
+Subject: [PATCH 17/38] gawk: set reasonable SUMMARY and DESCRIPTION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Dec 2013 22:30:07 -0000
+X-List-Received-Date: Sat, 28 Dec 2013 22:30:08 -0000
 
-Add these consistent with other X.Org application recipes.
+Also ensure both recipe versions have the same values.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-graphics/xorg-app/xev_1.2.1.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-extended/gawk/gawk_3.1.5.bb | 6 +++---
+ meta/recipes-extended/gawk/gawk_4.0.2.bb | 6 ++++--
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-app/xev_1.2.1.bb b/meta/recipes-graphics/xorg-app/xev_1.2.1.bb
-index 298910a..8dcb1ec 100644
---- a/meta/recipes-graphics/xorg-app/xev_1.2.1.bb
-+++ b/meta/recipes-graphics/xorg-app/xev_1.2.1.bb
-@@ -1,7 +1,13 @@
- require xorg-app-common.inc
-+
-+SUMMARY = "X Event Viewer"
-+DESCRIPTION = "Xev creates a window and then asks the X server to send it events \
-+whenever anything happens to the window (such as it being moved, resized, \
-+typed in, clicked in, etc.). You can also attach it to an existing window."
-+
- LIC_FILES_CHKSUM = "file://xev.c;beginline=1;endline=33;md5=577c99421f1803b891d2c79097ae4682"
--DESCRIPTION = "X Event Viewer"
- LICENSE = "MIT"
-+
- PE = "1"
- 
- DEPENDS += "libxrandr xproto"
+diff --git a/meta/recipes-extended/gawk/gawk_3.1.5.bb b/meta/recipes-extended/gawk/gawk_3.1.5.bb
+index 5500974..4d9d6e4 100644
+--- a/meta/recipes-extended/gawk/gawk_3.1.5.bb
++++ b/meta/recipes-extended/gawk/gawk_3.1.5.bb
+@@ -1,6 +1,6 @@
+-SUMMARY = "The GNU awk text processing utility"
+-DESCRIPTION = "The gawk package contains the GNU version of awk, a text processing \
+-utility. Awk interprets a special-purpose programming language to do \
++SUMMARY = "GNU awk text processing utility"
++DESCRIPTION = "The GNU version of awk, a text processing utility. \
++Awk interprets a special-purpose programming language to do \
+ quick and easy text pattern matching and reformatting jobs."
+ HOMEPAGE = "www.gnu.org/software/gawk"
+ BUGTRACKER  = "bug-gawk@gnu.org"
+diff --git a/meta/recipes-extended/gawk/gawk_4.0.2.bb b/meta/recipes-extended/gawk/gawk_4.0.2.bb
+index 63dace4..424b6b0 100644
+--- a/meta/recipes-extended/gawk/gawk_4.0.2.bb
++++ b/meta/recipes-extended/gawk/gawk_4.0.2.bb
+@@ -1,5 +1,7 @@
+-DESCRIPTION = "A program that you can use to select particular records in a \
+-file and perform operations upon them."
++SUMMARY = "GNU awk text processing utility"
++DESCRIPTION = "The GNU version of awk, a text processing utility. \
++Awk interprets a special-purpose programming language to do \
++quick and easy text pattern matching and reformatting jobs."
+ HOMEPAGE = "www.gnu.org/software/gawk"
+ BUGTRACKER  = "bug-gawk@gnu.org"
+ SECTION = "console/utils"
 -- 
 1.8.1.2
 
