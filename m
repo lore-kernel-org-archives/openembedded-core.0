@@ -1,42 +1,25 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 171E860C22
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 38AF960C22
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2013 22:55:21 +0000 (UTC)
-Received: by mail-ig0-f174.google.com with SMTP id hk11so34158329igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2013 14:55:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=Go1gibGX5Jqmifd40/oLHqGqP6v011kqSg58aZOZUuc=;
-	b=ZuGR8o5HYmTtntxkAAYt3Deiu7JrW6RHIecI34bZqcwaRgnOZj0Lix7AD4TkPaWvGh
-	wkGO3fzB5GtRomkY7pUHzQtEDU8AOKkYv1FIn4MIkRsYE/1+c6Hb9jyfuQIlHqrxh2WQ
-	aNU1Czs3t+K9Tvrq5AqRkMgDHZZIVRkCBHhLp0tLuWecnJ7g3lB2c29k0C+I9ZqflcWl
-	oTwycPXOI9BVcYhN0hCniPBoPIbJNmeTCPQGTNvK/TnvtZrRr6WxsRgKCgonzOQnanoa
-	3OdzhCkyczblkQf+/IRmvxwP6ZxNAl4JEtOg2d7j3WTNNeoPh4bm3k1WRzRS/iHi3v9c
-	WTpg==
-X-Gm-Message-State: ALoCoQlmHnBdLOGu7RndIsDtNxMUtnHA1FEljERAOHaEa0Ilej+AC1rxdldlAg3kuQYDwmxPtuTd
-X-Received: by 10.50.102.99 with SMTP id fn3mr52373484igb.5.1388357721888;
-	Sun, 29 Dec 2013 14:55:21 -0800 (PST)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id o1sm56526967igh.9.2013.12.29.14.55.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 29 Dec 2013 14:55:20 -0800 (PST)
-Message-ID: <52C0A856.7050603@linaro.org>
-Date: Sun, 29 Dec 2013 17:55:18 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Sun, 29 Dec 2013 23:07:24 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 29 Dec 2013 15:03:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,570,1384329600"; d="scan'208";a="451218323"
+Received: from unknown (HELO helios.localnet) ([10.252.122.104])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Dec 2013 15:07:23 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Trevor Woerner <trevor.woerner@linaro.org>
+Date: Sun, 29 Dec 2013 23:07:22 +0000
+Message-ID: <1580581.nepEx93iJD@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <52C0A856.7050603@linaro.org>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1388269205.git.paul.eggleton@linux.intel.com>
+	<52C0A856.7050603@linaro.org>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 00/38] Cleanup series
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -50,24 +33,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Dec 2013 22:55:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 29 Dec 2013 23:07:24 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+Hi Trevor,
 
-On 12/28/13 17:28, Paul Eggleton wrote:
-> I got a bit tired of seeing poor SUMMARY and DESCRIPTION values in our
-> recipes, so I went on a bit of a quest to clean them up, and ended up
-> tidying up a few other things in the process.
+On Sunday 29 December 2013 17:55:18 Trevor Woerner wrote:
+> On 12/28/13 17:28, Paul Eggleton wrote:
+> > I got a bit tired of seeing poor SUMMARY and DESCRIPTION values in our
+> > recipes, so I went on a bit of a quest to clean them up, and ended up
+> > tidying up a few other things in the process.
+> 
+> This might be a good time to remind people of the
+> 
+>     meta-openembedded/contrib/oe-stylize.py
+> 
+> script (which was recently pointed out to me). 
 
-This might be a good time to remind people of the
+Indeed, thanks for the reminder. Last I heard (from Koen recently IIRC) this 
+script still had some shortcomings though; I have to admit that I haven't used 
+it for years however - I tend to do this kind of thing by hand.
 
-    meta-openembedded/contrib/oe-stylize.py
+> Unfortunately the style guide to which it points
+> 
+>     http://openembedded.org/wiki/StyleGuide
+> 
+> doesn't appear to exist anymore.
 
-script (which was recently pointed out to me). Unfortunately the style
-guide to which it points
+The actual page appears to be named "Styleguide". For convenience though I've 
+just added a redirect so the above link now works.
 
-    http://openembedded.org/wiki/StyleGuide
+I think there are one or two conventions we've established in recent years 
+that aren't covered by that page however (some of which may be covered in my 
+migration document [1]); we also do not need a separate slightly different 
+version on the Yocto Project wiki - I think this was noted some time ago at a 
+previous OE TSC meeting in fact. If I get some time and nobody else gets to it 
+first I'll try to rectify these issues.
 
-doesn't appear to exist anymore.
+Cheers,
+Paul
+
+[1] http://www.openembedded.org/wiki/Migrating_metadata_to_OE-Core
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
