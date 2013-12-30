@@ -1,26 +1,28 @@
-Return-Path: <a.renault@kaptalia.com>
-Received: from moutng.kundenserver.de (moutng.kundenserver.de [212.227.17.8])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AF4660647
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 91D7F60C16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 11:21:13 +0000 (UTC)
-Received: from linux-krvt.site ([46.18.96.158])
-	by mrelayeu.kundenserver.de (node=mreu4) with ESMTP (Nemesis)
-	id 0LaeSa-1VZZoX1bo0-00kOs6; Mon, 30 Dec 2013 12:21:13 +0100
-From: "a.renault@kaptalia.com" <a.renault@kaptalia.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Dec 2013 12:16:04 +0100
-Message-ID: <1550216.XXvskmQOuT@linux-krvt.site>
-User-Agent: KMail/4.10.5 (Linux/3.7.10-1.16-desktop; KDE/4.10.5; i686; ; )
+	Mon, 30 Dec 2013 12:59:28 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2013 04:59:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,573,1384329600"; d="scan'208";a="431689040"
+Received: from mmckenna-mobl1.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.122.78])
+	by orsmga001.jf.intel.com with ESMTP; 30 Dec 2013 04:59:27 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 30 Dec 2013 12:59:26 +0000
+Message-ID: <5014991.yOqVctVWSl@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <52C0CDD6.4030904@windriver.com>
+References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
+	<adab38ead3101f3c88240606dc40ee629cac6f79.1388269205.git.paul.eggleton@linux.intel.com>
+	<52C0CDD6.4030904@windriver.com>
 MIME-Version: 1.0
-X-Provags-ID: V02:K0:mtCQMdJn5jjrn+HXZqAHTqV8QGw2qv28iqyQUyyA182
-	dX2OESvDUM5Jg7RSAlC5Ql5mQadKSQQfRfc+/pXDqwXj8jO29J
-	S0MY9TNbNw2stcqYtQiR88eIQHgcQBPgn0YZtSYPxuuH0sZ1ma
-	jsoM6kJHGwsqXeeTadHtJXIBoqMHQont9n1YWRVu5SMzvvMvUP
-	ePy8QMRI1ens3/M2Vo09Y1MO+V4Kwwcf3VWvBKXX7zZouK2rU7
-	P1jFaxRulns2xEkwsv3zUv1DMfC3M6mj6GkgwZS8JU3iKJy1pv
-	d9eUianum9YKMCghsJhx6ZwiHwjUzl1IuTwjP8H8cQjLSk8RFL
-	bwyRKFMXfp6AImjPh8XM=
-Subject: networkmanager_0.9.8.bb
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/38] *-basic: rename to *-standardlinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +35,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 11:21:14 -0000
-X-Groupsio-MsgNum: 48521
-Content-Type: multipart/mixed; boundary="nextPart7311491.srsxvJFti9"
+X-List-Received-Date: Mon, 30 Dec 2013 12:59:29 -0000
 Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---nextPart7311491.srsxvJFti9
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Hi Robert,
 
-Hi all,
-I want to propose a modification : --without-systemdsystemunitdir=3D ->=
- --
-without-systemdsystemunitdir on networkmanager_0.9.8.0.bb, this file is=
-=20
-available on meta-openembedded/meta-oe/recipes-
-connectivity/networkmanager/networkmanager_0.9.8.0.bb
+On Monday 30 December 2013 09:35:18 Robert Yang wrote:
+> I'm afraid that the standardlinux maybe a little confused with
+> linuxstdbase, bu I don't have any better idea about it.
 
-Not sure if this is the correct way to doing that, but this is my first=
- one.
-Best regards,
---=20
-Adrien RENAULT
-Ing=E9nieur R&D
-Kaptalia Monitoring
-02.97.68.14.18
+You could be right. I've thought for a long time about renaming this and 
+haven't been able to come up with anything better. On the other hand, in our 
+current configuration we are actually using the basic/standardlinux 
+packagegroup as part of our LSB images; although that might not be the right 
+thing to continue doing - LSB probably ought to be independent.
 
---nextPart7311491.srsxvJFti9
-Content-Disposition: attachment; filename="networkmanager_0.9.8.0.bb.patch"
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/x-patch; charset="utf-8"; name="networkmanager_0.9.8.0.bb.patch"
+FWIW, let's consider this particular patch as RFC, maybe someone else has a 
+better idea of what to name it. I am very much convinced that "basic" is not 
+the right name though.
 
---- networkmanager_0.9.8.0.bb.old	2013-12-30 12:11:50.605941952 +0100
-+++ networkmanager_0.9.8.0.bb.new	2013-12-30 12:11:36.879942841 +0100
-@@ -35,7 +35,7 @@
- PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES','systemd','systemd','consolekit',d)}"
- PACKAGECONFIG[systemd] = " \
-     --with-systemdsystemunitdir=${systemd_unitdir}/system --with-session-tracking=systemd --enable-polkit, \
--    --without-systemdsystemunitdir=, \
-+    --without-systemdsystemunitdir, \
-     polkit \
- "
- # consolekit is not picked by shlibs, so add it to RDEPENDS too
+Cheers,
+Paul
 
---nextPart7311491.srsxvJFti9--
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
