@@ -1,26 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BCA460CE3
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B68B060C1A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2013 23:46:31 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Dec 2013 15:46:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,570,1384329600"; d="scan'208";a="457394744"
-Received: from unknown (HELO [10.255.12.34]) ([10.255.12.34])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Dec 2013 15:46:31 -0800
-Message-ID: <52C0B457.3070002@linux.intel.com>
-Date: Sun, 29 Dec 2013 15:46:31 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Mon, 30 Dec 2013 01:35:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBU1ZJXx017420
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 29 Dec 2013 17:35:20 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Sun, 29 Dec 2013 17:35:20 -0800
+Message-ID: <52C0CDD6.4030904@windriver.com>
+Date: Mon, 30 Dec 2013 09:35:18 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
 References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
 	<adab38ead3101f3c88240606dc40ee629cac6f79.1388269205.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <adab38ead3101f3c88240606dc40ee629cac6f79.1388269205.git.paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 01/38] *-basic: rename to *-standardlinux - AB Change NEEDED
+Subject: Re: [PATCH 01/38] *-basic: rename to *-standardlinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,18 +35,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Dec 2013 23:46:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 30 Dec 2013 01:35:21 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-This will need a heads up to Beth to fix the autobuilder since we build 
-the -basic target for the -lsb builds, it will need to change also.
+Hi Paul,
 
-Sau!
+I'm afraid that the standardlinux maybe a little confused with
+linuxstdbase, bu I don't have any better idea about it.
+
+// Robert
 
 
-On 12/28/2013 02:28 PM, Paul Eggleton wrote:
+On 12/29/2013 06:28 AM, Paul Eggleton wrote:
 > This more accurately represents what this image and packagegroup are
 > intended to provide, and avoids confusion with the similarly named
 > core-image-base and packagegroup-base.
