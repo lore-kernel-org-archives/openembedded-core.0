@@ -1,28 +1,26 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 91D7F60C16
+	by mail.openembedded.org (Postfix) with ESMTP id 129DC60C16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 12:59:28 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2013 04:59:29 -0800
+	Mon, 30 Dec 2013 13:03:14 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2013 05:03:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,573,1384329600"; d="scan'208";a="431689040"
+X-IronPort-AV: E=Sophos;i="4.95,573,1384329600"; d="scan'208";a="459388913"
 Received: from mmckenna-mobl1.ger.corp.intel.com (HELO helios.localnet)
 	([10.252.122.78])
-	by orsmga001.jf.intel.com with ESMTP; 30 Dec 2013 04:59:27 -0800
+	by orsmga002.jf.intel.com with ESMTP; 30 Dec 2013 05:03:14 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Mon, 30 Dec 2013 12:59:26 +0000
-Message-ID: <5014991.yOqVctVWSl@helios>
+To: "a.renault@kaptalia.com" <a.renault@kaptalia.com>
+Date: Mon, 30 Dec 2013 13:03:13 +0000
+Message-ID: <7271841.jxscSydvqV@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <52C0CDD6.4030904@windriver.com>
-References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
-	<adab38ead3101f3c88240606dc40ee629cac6f79.1388269205.git.paul.eggleton@linux.intel.com>
-	<52C0CDD6.4030904@windriver.com>
+In-Reply-To: <1550216.XXvskmQOuT@linux-krvt.site>
+References: <1550216.XXvskmQOuT@linux-krvt.site>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/38] *-basic: rename to *-standardlinux
+Subject: Re: networkmanager_0.9.8.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 12:59:29 -0000
+X-List-Received-Date: Mon, 30 Dec 2013 13:03:14 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Robert,
+Hi Adrien,
 
-On Monday 30 December 2013 09:35:18 Robert Yang wrote:
-> I'm afraid that the standardlinux maybe a little confused with
-> linuxstdbase, bu I don't have any better idea about it.
+On Monday 30 December 2013 12:16:04 a.renault@kaptalia.com wrote:
+> I want to propose a modification : --without-systemdsystemunitdir= -> --
+> without-systemdsystemunitdir on networkmanager_0.9.8.0.bb, this file is
+> available on meta-openembedded/meta-oe/recipes-
+> connectivity/networkmanager/networkmanager_0.9.8.0.bb
 
-You could be right. I've thought for a long time about renaming this and 
-haven't been able to come up with anything better. On the other hand, in our 
-current configuration we are actually using the basic/standardlinux 
-packagegroup as part of our LSB images; although that might not be the right 
-thing to continue doing - LSB probably ought to be independent.
+This recipe is part of meta-oe rather than OE-Core, so discussion/patches 
+about it should go there instead.
 
-FWIW, let's consider this particular patch as RFC, maybe someone else has a 
-better idea of what to name it. I am very much convinced that "basic" is not 
-the right name though.
+If you could send the patch using the method documented here that would be 
+much appreciated:
 
-Cheers,
+http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+
+Thanks,
 Paul
 
 -- 
