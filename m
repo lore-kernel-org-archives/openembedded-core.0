@@ -1,21 +1,36 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 565786B194
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EFCC6B230
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 17:31:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2013 09:31:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,574,1384329600"; d="scan'208";a="431789144"
-Received: from unknown (HELO localhost) ([10.255.12.41])
-	by orsmga001.jf.intel.com with ESMTP; 30 Dec 2013 09:31:23 -0800
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
+	Mon, 30 Dec 2013 18:20:51 +0000 (UTC)
+Received: by mail-la0-f43.google.com with SMTP id n7so5686435lam.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Dec 2013 10:20:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id;
+	bh=ImB+qGi41YKRqpG+/QfY4CsHsryocNeOkEsvjOQr1BQ=;
+	b=fdyPF4KuISarF4dUa1rjAJPEpHD1qeXSDIzykDCL+g/gTRvJ4TAnOj/IxZ46Psev0g
+	fhNB63BaS7muiZBzD0UwKRXv6urdc9u2+h5TxaKUcAjat6hiHN1akyILnXP556jnwsBP
+	GEJDGwvMJdSXKm3RzO+zXBVwaY7jiVZr5zR06koQA6QlH8gfC/RnVbYWxhbuucPJwUC0
+	GLNQo6mitj1WlrtIpM5jWs3/lJITVBT6kiXUMsfnnxMEGlIMCWH2n/xvBTRlo1mF88ji
+	eZrcm0ac92V4wphwO3t20L+mlBQOw+AcRmukRc8y7S/Z6e6Vr1VpuP0BR6yVIYFi7did
+	U+1g==
+X-Received: by 10.152.23.39 with SMTP id j7mr15439833laf.28.1388427651442;
+	Mon, 30 Dec 2013 10:20:51 -0800 (PST)
+Received: from localhost.localdomain (89-253-118-72.customers.ownit.se.
+	[89.253.118.72]) by mx.google.com with ESMTPSA id
+	sd11sm36356857lab.2.2013.12.30.10.20.50
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 30 Dec 2013 10:20:51 -0800 (PST)
+Sender: Jacob Kroon <jacob.kroon@gmail.com>
+From: Jacob Kroon <jacob.kroon@mikrodidakt.se>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Dec 2013 11:31:21 -0600
-Message-Id: <cover.1388424165.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 0/1][dora] - Fix for Bug 5403
+Date: Mon, 30 Dec 2013 19:17:58 +0100
+Message-Id: <1388427478-16741-1-git-send-email-jacob.kroon@mikrodidakt.se>
+X-Mailer: git-send-email 1.8.4.2
+Subject: [PATCH] meta/lib/oe/terminal.py: Don't pass non-supported '--disable-factory' flag to gnome-terminal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,36 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 17:31:39 -0000
+X-List-Received-Date: Mon, 30 Dec 2013 18:20:53 -0000
 
-This fixes a problem seen when accessing function params in systemtap
-on certain platforms, due to flaky debuginfo.
+From the gnome-terminal manpage:
+By default, all GNOME terminals share a single process,
+reducing memory usage.  This can be disabled by starting gnome-terminal
+with the --disable-factory option
 
-Tested on the following machines with various systemtap scripts:
+However, gnome-terminal in Fedora 20 does no longer support the
+'--disable-factory' flag, so remove it. As the support for 'mate' terminals was
+added as a copy of the gnome code in 8cc078a9c679845464c59028f584d7aba098cc1f,
+remove the flag here aswell.
 
-qemuppc
-qemuarm
-qemux86
-qemux86-64
-crownbay
-nuc
+Signed-off-by: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+---
+ meta/lib/oe/terminal.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The following changes since commit 3cf2d232529c4fd6b58f87ddbf3df9d805e4180f:
-
-  libsoup-2.4: add intltool-native to DEPENDS (2013-12-20 09:29:05 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/systemtap-bug-5403-dora
-  http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/systemtap-bug-5403-dora
-
-Tom Zanussi (1):
-  systemtap: Add --enable-prologues to configuration
-
- meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index be2a26b..a33abd7 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -52,11 +52,11 @@ class XTerminal(Terminal):
+             raise UnsupportedTerminal(self.name)
+ 
+ class Gnome(XTerminal):
+-    command = 'gnome-terminal --disable-factory -t "{title}" -x {command}'
++    command = 'gnome-terminal -t "{title}" -x {command}'
+     priority = 2
+ 
+ class Mate(XTerminal):
+-    command = 'mate-terminal --disable-factory -t "{title}" -x {command}'
++    command = 'mate-terminal -t "{title}" -x {command}'
+     priority = 2
+ 
+ class Xfce(XTerminal):
 -- 
-1.8.3.1
+1.8.4.2
 
 
