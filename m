@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C15946B272
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F9ED61843
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 03:35:10 +0000 (UTC)
+	Mon, 30 Dec 2013 03:35:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBU3ZBLB018267
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBU3ZDj9025957
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2013 19:35:11 -0800 (PST)
+	Sun, 29 Dec 2013 19:35:13 -0800 (PST)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 29 Dec 2013 19:35:11 -0800
+	14.2.347.0; Sun, 29 Dec 2013 19:35:12 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 29 Dec 2013 22:34:52 -0500
-Message-ID: <9c77bd91eacbafa28844e8767148c4987fc83cc0.1388369850.git.liezhi.yang@windriver.com>
+Date: Sun, 29 Dec 2013 22:34:53 -0500
+Message-ID: <6b9521940fcccdd830259cf646abf82df5b7b8ec.1388369850.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1388369850.git.liezhi.yang@windriver.com>
 References: <cover.1388369850.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/14] tremor: remove unrecognised option
+Subject: [PATCH 04/14] dpkg: fix/remove unrecognised options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 03:35:11 -0000
+X-List-Received-Date: Mon, 30 Dec 2013 03:35:12 -0000
 Content-Type: text/plain
 
-Remove the --disable-rpath, it seems taht there is never such an option
-in tremor's configure, and it uses our libtool, so we don't have to
-worry about the rpath.
+Fix/remove the following unrecognised options:
+* --without-static-progs: can't find anything about this in the history,
+  so remove it.
+* --without-dselect -> --disable-dselect
+* --with-start-stop-daemon -> --enable-start-stop-daemon
+* --with-bz2lib, typo, should be --with-bz2
+* --without-sgml-doc: the sgml doc had been removed from dpkg, so
+  remove it.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-multimedia/tremor/tremor_20120314.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/dpkg/dpkg.inc |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-multimedia/tremor/tremor_20120314.bb b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-index d95fdf1..145316c 100644
---- a/meta/recipes-multimedia/tremor/tremor_20120314.bb
-+++ b/meta/recipes-multimedia/tremor/tremor_20120314.bb
-@@ -17,6 +17,6 @@ S = "${WORKDIR}/Tremor"
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index b1da4fb..d5dc412 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -22,14 +22,14 @@ PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
+ export PERL_LIBDIR = "${libdir}/perl"
+ PERL_LIBDIR_class-native = "${libdir}/perl-native/perl"
  
- inherit autotools
+-EXTRA_OECONF = "--without-static-progs \
+-		--without-dselect \
+-		--with-start-stop-daemon \
++EXTRA_OECONF = "\
++		--disable-dselect \
++		--enable-start-stop-daemon \
+ 		--with-zlib \
+-		--with-bz2lib \
++		--with-bz2 \
+ 		--without-liblzma \
+ 		--without-selinux \
+-		--without-sgml-doc"
++		"
  
--EXTRA_OECONF=" --enable-shared --disable-rpath  "
-+EXTRA_OECONF = "--enable-shared"
- 
- ARM_INSTRUCTION_SET = "arm"
+ do_configure () {
+     echo >> ${S}/m4/compiler.m4
 -- 
 1.7.10.4
 
