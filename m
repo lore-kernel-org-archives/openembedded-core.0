@@ -1,26 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 129DC60C16
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A3AC6B2BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 13:03:14 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Dec 2013 05:03:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,573,1384329600"; d="scan'208";a="459388913"
-Received: from mmckenna-mobl1.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.122.78])
-	by orsmga002.jf.intel.com with ESMTP; 30 Dec 2013 05:03:14 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "a.renault@kaptalia.com" <a.renault@kaptalia.com>
-Date: Mon, 30 Dec 2013 13:03:13 +0000
-Message-ID: <7271841.jxscSydvqV@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1550216.XXvskmQOuT@linux-krvt.site>
-References: <1550216.XXvskmQOuT@linux-krvt.site>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: networkmanager_0.9.8.bb
+	Mon, 30 Dec 2013 14:50:23 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id c41so5112628eek.36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Dec 2013 06:50:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=yZBjzZqaL0F7hnDENPyQz4GsERrhZOEr+HhBDwUq3QU=;
+	b=DsdQVtmBLDu1ptlbz296dDznlulYov3HaKgdOnjAI3O/LpPEAPnpy4LfgplALbOtEt
+	dFRPMelKUCAu3ppnv/LiXGRaS8UGKijv/FUtFIyM1+p5ECFRtstbwA54yWgSP8dHKrCX
+	lO1Eq5GUNKp+TqrBQYgf+l44VEoVR2xkCCuh0NczNlR9vXBcDn4rI7fQloFFPuAV70yl
+	oTU7hJqqhv+yqgrrNfIWTc1LAIw3QVSROIdrvCZV5w+481BLd8B+h3E9QbWai3TTJJK0
+	er98nBEvMnM9vqmx8r5wGxgFFkldOeJG+G+XWQp5qyHeizkfdQ2l3D/wyoJOjcx0OO3K
+	Watw==
+X-Received: by 10.14.115.133 with SMTP id e5mr2001717eeh.91.1388415024423;
+	Mon, 30 Dec 2013 06:50:24 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	o47sm109344395eem.21.2013.12.30.06.50.22 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 30 Dec 2013 06:50:23 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Dec 2013 15:50:18 +0100
+Message-Id: <1388415018-6181-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.4.3
+Subject: [PATCH] kmod: fix zlib dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +40,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 13:03:14 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 30 Dec 2013 14:50:25 -0000
 
-Hi Adrien,
+* unlike BBCLASSEXTENDed native support, dependencies in kmod-native doesn't get
+  automatic -native suffix, so kmod-native was depending on target zlib.
+* move the dependency from .inc and apply it with right suffix
 
-On Monday 30 December 2013 12:16:04 a.renault@kaptalia.com wrote:
-> I want to propose a modification : --without-systemdsystemunitdir= -> --
-> without-systemdsystemunitdir on networkmanager_0.9.8.0.bb, this file is
-> available on meta-openembedded/meta-oe/recipes-
-> connectivity/networkmanager/networkmanager_0.9.8.0.bb
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-kernel/kmod/kmod-native_git.bb | 3 +++
+ meta/recipes-kernel/kmod/kmod.inc           | 2 +-
+ meta/recipes-kernel/kmod/kmod_git.bb        | 1 +
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
-This recipe is part of meta-oe rather than OE-Core, so discussion/patches 
-about it should go there instead.
-
-If you could send the patch using the method documented here that would be 
-much appreciated:
-
-http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
-
-Thanks,
-Paul
-
+diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
+index fccc39b..6600413 100644
+--- a/meta/recipes-kernel/kmod/kmod-native_git.bb
++++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
+@@ -2,6 +2,9 @@
+ # Released under the MIT license (see COPYING.MIT for the terms)
+ 
+ require kmod.inc
++
++DEPENDS += "zlib-native"
++
+ inherit native
+ 
+ SRC_URI += "file://0001-Fix-build-with-older-gcc-4.6.patch \
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index f8d5bac..ac9de2f 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -8,7 +8,7 @@ LICENSE = "GPL-2.0+ & LGPL-2.1+"
+ LICENSE_libkmod = "LGPL-2.1+"
+ SECTION = "base"
+ 
+-DEPENDS += "pkgconfig-native zlib"
++DEPENDS += "pkgconfig-native"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index f90b9aa..c55cbd3 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -3,6 +3,7 @@
+ 
+ require kmod.inc
+ 
++DEPENDS += "zlib"
+ PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ RCONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
 -- 
+1.8.4.3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
