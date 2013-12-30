@@ -1,40 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C79B060647
+Return-Path: <a.renault@kaptalia.com>
+Received: from moutng.kundenserver.de (moutng.kundenserver.de [212.227.17.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AF4660647
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 10:10:19 +0000 (UTC)
-Received: by mail-ea0-f181.google.com with SMTP id m10so5001675eaj.40
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 02:10:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=5FML7XB8WbfKjMVkJ5/rBnBzyIvAxxZVrPOznhLDlSo=;
-	b=m+U2AI+ADgae3PglF24sK7jYqA2c3cDhEHyuBsNTdPY0oixHoERoYLsZTllLtHfItj
-	DmRb3AWQRrNkbPC4N6fepoD2mzFQHLV+ahsuWFpBT5HW7TaTmel9NMq2LrV1Po4U+cEs
-	nojBkXG1KN4C2jdKMDuz1tYsAsK/UBPNzq9wwYqFfileHfHQCooEsjIT573HS2wXMDYr
-	gOIiY8ke4y4KvNtzw1BrT9XO15ZFB0ID3pijz7xwPrBw2se/EmEFygAkKxsx8f3pq44J
-	/URidKfzL8Qth1XHyaGzWCKyIDIjPwjNydfZvW2LqbaVHtnk0UK5n739g+8xoH+fbsx+
-	haCQ==
-X-Received: by 10.15.33.199 with SMTP id c47mr810890eev.109.1388398220426;
-	Mon, 30 Dec 2013 02:10:20 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id v1sm107252920eef.9.2013.12.30.02.10.18
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 30 Dec 2013 02:10:19 -0800 (PST)
-Date: Mon, 30 Dec 2013 11:10:20 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: jackie.huang@windriver.com
-Message-ID: <20131230101020.GA3719@jama>
-References: <1388394556-28170-1-git-send-email-jackie.huang@windriver.com>
+	Mon, 30 Dec 2013 11:21:13 +0000 (UTC)
+Received: from linux-krvt.site ([46.18.96.158])
+	by mrelayeu.kundenserver.de (node=mreu4) with ESMTP (Nemesis)
+	id 0LaeSa-1VZZoX1bo0-00kOs6; Mon, 30 Dec 2013 12:21:13 +0100
+From: "a.renault@kaptalia.com" <a.renault@kaptalia.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Dec 2013 12:16:04 +0100
+Message-ID: <1550216.XXvskmQOuT@linux-krvt.site>
+User-Agent: KMail/4.10.5 (Linux/3.7.10-1.16-desktop; KDE/4.10.5; i686; ; )
 MIME-Version: 1.0
-In-Reply-To: <1388394556-28170-1-git-send-email-jackie.huang@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] test-dependencies.sh: avoid showing misleading error messages
+X-Provags-ID: V02:K0:mtCQMdJn5jjrn+HXZqAHTqV8QGw2qv28iqyQUyyA182
+	dX2OESvDUM5Jg7RSAlC5Ql5mQadKSQQfRfc+/pXDqwXj8jO29J
+	S0MY9TNbNw2stcqYtQiR88eIQHgcQBPgn0YZtSYPxuuH0sZ1ma
+	jsoM6kJHGwsqXeeTadHtJXIBoqMHQont9n1YWRVu5SMzvvMvUP
+	ePy8QMRI1ens3/M2Vo09Y1MO+V4Kwwcf3VWvBKXX7zZouK2rU7
+	P1jFaxRulns2xEkwsv3zUv1DMfC3M6mj6GkgwZS8JU3iKJy1pv
+	d9eUianum9YKMCghsJhx6ZwiHwjUzl1IuTwjP8H8cQjLSk8RFL
+	bwyRKFMXfp6AImjPh8XM=
+Subject: networkmanager_0.9.8.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,78 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 10:10:20 -0000
-X-Groupsio-MsgNum: 48520
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="mYCpIKhGyMATD0i+"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 30 Dec 2013 11:21:14 -0000
+X-Groupsio-MsgNum: 48521
+Content-Type: multipart/mixed; boundary="nextPart7311491.srsxvJFti9"
+Content-Transfer-Encoding: 7Bit
 
---mYCpIKhGyMATD0i+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--nextPart7311491.srsxvJFti9
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Mon, Dec 30, 2013 at 05:09:16PM +0800, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->=20
-> This avoids the following error messages when no dependency
-> issue detected:
-> find: `/build/r_cgp-dep_1225/p_x86_1225/bitbake_build/tmp/work/': No such=
- file or directory
-> grep: test-dependencies/1388042399/3_min/failed/*: No such file or direct=
-ory
-> ls: cannot access test-dependencies/1388042399/3_min/failed/*: No such fi=
-le or directory
+Hi all,
+I want to propose a modification : --without-systemdsystemunitdir=3D ->=
+ --
+without-systemdsystemunitdir on networkmanager_0.9.8.0.bb, this file is=
+=20
+available on meta-openembedded/meta-oe/recipes-
+connectivity/networkmanager/networkmanager_0.9.8.0.bb
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
-
->=20
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->  scripts/test-dependencies.sh |    6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
-> index e4cf4d3..ca7e687 100755
-> --- a/scripts/test-dependencies.sh
-> +++ b/scripts/test-dependencies.sh
-> @@ -178,14 +178,14 @@ build_every_recipe() {
->    # This will be usefull to see which library is pulling new dependency
->    echo "Copying do_package logs to ${OUTPUTB}/do_package/"
->    mkdir ${OUTPUTB}/do_package
-> -  find $tmpdir/work/ -name log.do_package | while read f; do
-> +  find $tmpdir/work/ -name log.do_package 2>/dev/null| while read f; do
->      # pn is 3 levels back, but we don't know if there is just one log pe=
-r pn (only one arch and version)
->      # dest=3D`echo $f | sed 's#^.*/\([^/]*\)/\([^/]*\)/\([^/]*\)/log.do_=
-package#\1#g'`
->      dest=3D`echo $f | sed "s#$tmpdir/work/##g; s#/#_#g"`
->      cp $f ${OUTPUTB}/do_package/$dest
->    done
-> -  grep "ERROR: Task.*failed" ${OUTPUTB}/failed/*
-> -  ls -1 ${OUTPUTB}/failed/* >> ${OUTPUT_BASE}/failed.recipes
-> +  grep "ERROR: Task.*failed" ${OUTPUTB}/failed/* 2>/dev/null
-> +  ls -1 ${OUTPUTB}/failed/* >> ${OUTPUT_BASE}/failed.recipes 2>/dev/null
->  }
-> =20
->  compare_deps() {
-> --=20
-> 1.7.9.5
->=20
-
+Not sure if this is the correct way to doing that, but this is my first=
+ one.
+Best regards,
 --=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Adrien RENAULT
+Ing=E9nieur R&D
+Kaptalia Monitoring
+02.97.68.14.18
 
---mYCpIKhGyMATD0i+
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+--nextPart7311491.srsxvJFti9
+Content-Disposition: attachment; filename="networkmanager_0.9.8.0.bb.patch"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/x-patch; charset="utf-8"; name="networkmanager_0.9.8.0.bb.patch"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+--- networkmanager_0.9.8.0.bb.old	2013-12-30 12:11:50.605941952 +0100
++++ networkmanager_0.9.8.0.bb.new	2013-12-30 12:11:36.879942841 +0100
+@@ -35,7 +35,7 @@
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES','systemd','systemd','consolekit',d)}"
+ PACKAGECONFIG[systemd] = " \
+     --with-systemdsystemunitdir=${systemd_unitdir}/system --with-session-tracking=systemd --enable-polkit, \
+-    --without-systemdsystemunitdir=, \
++    --without-systemdsystemunitdir, \
+     polkit \
+ "
+ # consolekit is not picked by shlibs, so add it to RDEPENDS too
 
-iEYEARECAAYFAlLBRowACgkQN1Ujt2V2gBwL7ACgoZom8dMiTy1HFw/dFdv/8iod
-KyYAn2Z5Tm13R5Ca59Gmm1n8W74Tt12y
-=ZvKJ
------END PGP SIGNATURE-----
-
---mYCpIKhGyMATD0i+--
+--nextPart7311491.srsxvJFti9--
