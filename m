@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F37A3617AA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CA006B58D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 02:00:22 +0000 (UTC)
+	Mon, 30 Dec 2013 02:00:24 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBU20N8G017606
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBU20PsV021068
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2013 18:00:23 -0800 (PST)
+	Sun, 29 Dec 2013 18:00:25 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Sun, 29 Dec 2013 18:00:23 -0800
+	Sun, 29 Dec 2013 18:00:25 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 30 Dec 2013 18:02:26 +0800
-Message-ID: <94ecd4d774ae289a3d3f38fb517553acf485e8a9.1388397582.git.liezhi.yang@windriver.com>
+Date: Mon, 30 Dec 2013 18:02:27 +0800
+Message-ID: <8b2f4049b5e5602f931fc8ec3632c975ea097532.1388397582.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1388397582.git.liezhi.yang@windriver.com>
 References: <cover.1388397582.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/6] autoconf: remove path_prog_fixes.patch
+Subject: [PATCH 3/6] autogen-native: upgrade to 5.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,165 +33,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 02:00:23 -0000
+X-List-Received-Date: Mon, 30 Dec 2013 02:00:24 -0000
 Content-Type: text/plain
 
-The path_prog_fixes.patch was used for fixing the perl path, but the
-do_install_append() can do it, so remove this patch.
+* Upgrade from 5.17.4 to 5.18.2
+* Rename files -> autogen
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../autoconf/autoconf/path_prog_fixes.patch        | 128 ---------------------
- meta/recipes-devtools/autoconf/autoconf_2.69.bb    |   1 -
- 2 files changed, 129 deletions(-)
- delete mode 100644 meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch
+ ...n-native_5.17.4.bb => autogen-native_5.18.2.bb} |  6 +--
+ .../autogen/{files => autogen}/guile.patch         | 48 +++++++++++++---------
+ .../increase-timeout-limit.patch                   |  0
+ 3 files changed, 31 insertions(+), 23 deletions(-)
+ rename meta/recipes-devtools/autogen/{autogen-native_5.17.4.bb => autogen-native_5.18.2.bb} (88%)
+ rename meta/recipes-devtools/autogen/{files => autogen}/guile.patch (89%)
+ rename meta/recipes-devtools/autogen/{files => autogen}/increase-timeout-limit.patch (100%)
 
-diff --git a/meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch b/meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch
-deleted file mode 100644
-index cb57dfd..0000000
---- a/meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch
-+++ /dev/null
-@@ -1,128 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
--Index: autoconf-2.59/bin/autoheader.in
--===================================================================
----- autoconf-2.59.orig/bin/autoheader.in	2005-03-09 16:27:17.933878952 -0500
--+++ autoconf-2.59/bin/autoheader.in	2005-03-09 16:29:57.360642400 -0500
--@@ -1,8 +1,8 @@
---#! @PERL@
--+#! @bindir@/env perl
-- # -*- Perl -*-
-- # @configure_input@
+diff --git a/meta/recipes-devtools/autogen/autogen-native_5.17.4.bb b/meta/recipes-devtools/autogen/autogen-native_5.18.2.bb
+similarity index 88%
+rename from meta/recipes-devtools/autogen/autogen-native_5.17.4.bb
+rename to meta/recipes-devtools/autogen/autogen-native_5.18.2.bb
+index 28d82b0..c7950c3 100644
+--- a/meta/recipes-devtools/autogen/autogen-native_5.17.4.bb
++++ b/meta/recipes-devtools/autogen/autogen-native_5.18.2.bb
+@@ -6,14 +6,14 @@ DESCRIPTION = "AutoGen is a tool designed to simplify the creation and\
+ HOMEPAGE = "http://www.gnu.org/software/autogen/"
+ SECTION = "devel"
+ LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504" 
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ SRC_URI = "${GNU_MIRROR}/autogen/rel${PV}/autogen-${PV}.tar.gz \
+            file://guile.patch \
+            file://increase-timeout-limit.patch"
+ 
+-SRC_URI[md5sum] = "09f074cba57610bf4ef1147e01c8ae90"
+-SRC_URI[sha256sum] = "cd2585f4794d0e9d7f2cb0b9af4f2bd429946e718473edf1cf8c49f081ca71ed"
++SRC_URI[md5sum] = "117c4bc5613c57e1b97d760a5d1910a4"
++SRC_URI[sha256sum] = "cc2702dec21ba5b01144865163f6d1a54268d2b72aafc5520ad0e0cb57104068"
+ 
+ DEPENDS = "guile-native libtool-native libxml2-native"
+ 
+diff --git a/meta/recipes-devtools/autogen/files/guile.patch b/meta/recipes-devtools/autogen/autogen/guile.patch
+similarity index 89%
+rename from meta/recipes-devtools/autogen/files/guile.patch
+rename to meta/recipes-devtools/autogen/autogen/guile.patch
+index 8a77dba..332e5aa 100644
+--- a/meta/recipes-devtools/autogen/files/guile.patch
++++ b/meta/recipes-devtools/autogen/autogen/guile.patch
+@@ -1,14 +1,24 @@
+-Disable the autoconf macros that use dpkg (!) and guile-config to determine what 
+-version and where guile is installed, and just use pkg-config directly (guile-config is a deprecated wrapper around pkg-config). 
 - 
---eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--+eval 'case $# in 0) exec @bindir@/env perl -S "$0";; *) exec @bindir@/env perl -S "$0" "$@";; esac'
--     if 0;
-- 
-- # autoheader -- create `config.h.in' from `configure.ac'
--Index: autoconf-2.59/bin/autom4te.in
--===================================================================
----- autoconf-2.59.orig/bin/autom4te.in	2003-10-28 03:48:36.000000000 -0500
--+++ autoconf-2.59/bin/autom4te.in	2005-03-09 16:30:14.957967200 -0500
--@@ -1,8 +1,10 @@
---#! @PERL@ -w
--+#! @bindir@/env perl
-- # -*- perl -*-
-- # @configure_input@
-- 
---eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--+use warnings;
--+
--+eval 'case $# in 0) exec @bindir@/env perl -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--     if 0;
-- 
-- # autom4te - Wrapper around M4 libraries.
--@@ -87,7 +89,7 @@
-- my $freeze = 0;
-- 
-- # $M4.
---my $m4 = $ENV{"M4"} || '@M4@';
--+my $m4 = $ENV{"M4"} || '@bindir@/env m4';
-- # Some non-GNU m4's don't reject the --help option, so give them /dev/null.
-- fatal "need GNU m4 1.4 or later: $m4"
--   if system "$m4 --help </dev/null 2>&1 | grep reload-state >/dev/null";
--Index: autoconf-2.59/bin/autoreconf.in
--===================================================================
----- autoconf-2.59.orig/bin/autoreconf.in	2005-03-09 16:27:17.354966960 -0500
--+++ autoconf-2.59/bin/autoreconf.in	2005-03-09 16:31:19.572144352 -0500
--@@ -1,8 +1,10 @@
---#! @PERL@ -w
--+#! @bindir@/env perl
-- # -*- perl -*-
-- # @configure_input@
-- 
---eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--+use warnings;
--+
--+eval 'case $# in 0) exec @bindir@/env perl -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--     if 0;
-- 
-- # autoreconf - install the GNU Build System in a directory tree
--Index: autoconf-2.59/bin/autoscan.in
--===================================================================
----- autoconf-2.59.orig/bin/autoscan.in	2003-09-26 08:57:49.000000000 -0400
--+++ autoconf-2.59/bin/autoscan.in	2005-03-09 16:30:18.136483992 -0500
--@@ -1,4 +1,4 @@
---#! @PERL@ -w
--+#! @bindir@/env perl
-- # -*- perl -*-
-- # autoscan - Create configure.scan (a preliminary configure.ac) for a package.
-- # Copyright (C) 1994, 1999, 2000, 2001, 2002, 2003
--@@ -21,7 +21,9 @@
-- 
-- # Written by David MacKenzie <djm@gnu.ai.mit.edu>.
-- 
---eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--+use warnings;
--+
--+eval 'case $# in 0) exec @bindir@/env perl -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--     if 0;
-- 
-- BEGIN
--Index: autoconf-2.59/bin/autoupdate.in
--===================================================================
----- autoconf-2.59.orig/bin/autoupdate.in	2003-08-27 07:26:32.000000000 -0400
--+++ autoconf-2.59/bin/autoupdate.in	2005-03-09 16:30:19.912214040 -0500
--@@ -1,4 +1,4 @@
---#! @PERL@ -w
--+#! @bindir@/env perl
-- # -*- perl -*-
-- # autoupdate - modernize an Autoconf file.
-- # Copyright (C) 1994, 1999, 2000, 2001, 2002, 2003
--@@ -22,7 +22,9 @@
-- # Originally written by David MacKenzie <djm@gnu.ai.mit.edu>.
-- # Rewritten by Akim Demaille <akim@freefriends.org>.
-- 
---eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--+use warnings;
--+
--+eval 'case $# in 0) exec @bindir@/env perl -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--     if 0;
-- 
-- BEGIN
--@@ -54,7 +56,7 @@
-- my @include = ('@datadir@');
-- my $force = 0;
-- # m4.
---my $m4 = $ENV{"M4"} || '@M4@';
--+my $m4 = $ENV{"M4"} || '@bindir@/env m4';
-- 
-- 
-- # $HELP
--Index: autoconf-2.59/bin/ifnames.in
--===================================================================
----- autoconf-2.59.orig/bin/ifnames.in	2003-10-10 09:52:56.000000000 -0400
--+++ autoconf-2.59/bin/ifnames.in	2005-03-09 16:30:22.656796800 -0500
--@@ -1,8 +1,10 @@
---#! @PERL@ -w
--+#! @bindir@/env perl
-- # -*- perl -*-
-- # @configure_input@
-- 
---eval 'case $# in 0) exec @PERL@ -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--+use warnings;
--+
--+eval 'case $# in 0) exec @bindir@/env perl -S "$0";; *) exec @PERL@ -S "$0" "$@";; esac'
--     if 0;
-- 
-- # ifnames - print the identifiers used in C preprocessor conditionals
-diff --git a/meta/recipes-devtools/autoconf/autoconf_2.69.bb b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-index 1522729..b67155b 100644
---- a/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-+++ b/meta/recipes-devtools/autoconf/autoconf_2.69.bb
-@@ -13,7 +13,6 @@ SRC_URI += "file://autoreconf-include.patch \
- 	    file://autoreconf-foreign.patch \
- 	    file://autoreconf-gnuconfigize.patch \
- 	    file://autoheader-nonfatal-warnings.patch \
--	    ${@['file://path_prog_fixes.patch', ''][bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d)]} \
-             file://config_site.patch \
-             file://remove-usr-local-lib-from-m4.patch \
-             file://preferbash.patch \
+- Signed-off-by: Ross Burton <ross.burton@intel.com> 
+- Upstream-Status: Pending (should be submitted)
++remove dpkg and guile-config
++
++Disable the autoconf macros that use dpkg (!) and guile-config to
++determine what version and where guile is installed, and just use
++pkg-config directly (guile-config is a deprecated wrapper around
++pkg-config).
++
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++Uprade to  5.18.2
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Upstream-Status: Pending [should be submitted]
++---
++ config/ag_macros.m4 | 151 +++-------------------------------------------------
++ 1 file changed, 8 insertions(+), 143 deletions(-)
+ 
+ diff --git a/config/ag_macros.m4 b/config/ag_macros.m4
+-index 9914a65..b6db97a 100644
++index c05073e..a8e96da 100644
+ --- a/config/ag_macros.m4
+ +++ b/config/ag_macros.m4
+-@@ -175,123 +175,12 @@ return 0;],
++@@ -180,118 +180,13 @@ return 0;],
+  
+  
+  AC_DEFUN([AG_WITHLIB_GUILE],[
+@@ -26,7 +36,12 @@ index 9914a65..b6db97a 100644
+ -    ag_cv_with_libguile_cflags=no
+ -    ag_cv_with_libguile_libs=no
+ -  else
+--
+++  PKG_PROG_PKG_CONFIG
+++  PKG_CHECK_MODULES(LIBGUILE, [guile-2.0])
+++  case "${LIBGUILE_LIBS}" in *-L* )
+++    LIBGUILE_PATH=`echo ,${LIBGUILE_LIBS} |           sed 's/.*[, ]-L[   ]*//;s/[  ].*//'`
+++  ;; * ) LIBGUILE_PATH='' ;; esac
++ 
+ -  AC_ARG_WITH([libguile-cflags],
+ -    AS_HELP_STRING([--with-libguile-cflags], [libguile compile flags]),
+ -    [ag_cv_with_libguile_cflags=${with_libguile_cflags}],
+@@ -109,14 +124,10 @@ index 9914a65..b6db97a 100644
+ -  AC_MSG_RESULT([${ag_cv_with_libguile}])
+ -    AC_SUBST([LIBGUILE_CFLAGS])
+ -    AC_SUBST([LIBGUILE_LIBS])
+--    AC_SUBST([LIBGUILE_PATH])
+ -  if test "X${ag_cv_with_libguile}" != Xno
+ -  then[
+ -      LIBGUILE_CFLAGS="${ag_cv_with_libguile_cflags}"
+--      LIBGUILE_LIBS="${ag_cv_with_libguile_libs}"
+--      case "${LIBGUILE_LIBS}" in *-L* )
+--        LIBGUILE_PATH=`echo ,${LIBGUILE_LIBS} |           sed 's/.*[, ]-L[ 	]*//;s/[ 	].*//'`
+--      ;; * ) LIBGUILE_PATH='' ;; esac]
++-      LIBGUILE_LIBS="${ag_cv_with_libguile_libs}"]
+ -          CPPFLAGS="@S|@{ag_save_CPPFLAGS}"
+ -      LIBS="@S|@{ag_save_LIBS}"
+ -  else
+@@ -124,20 +135,14 @@ index 9914a65..b6db97a 100644
+ -    LIBS="${ag_save_LIBS}"
+ -      LIBGUILE_CFLAGS=''
+ -      LIBGUILE_LIBS=''
+--      LIBGUILE_PATH=''
+ -      AC_MSG_ERROR([Cannot find libguile.  libguile is required.  Perhaps you need to install guile-devel?])
+ -  fi
+-+  PKG_PROG_PKG_CONFIG
+-+  PKG_CHECK_MODULES(LIBGUILE, [guile-2.0])
+-+  case "${LIBGUILE_LIBS}" in *-L* )
+-+    LIBGUILE_PATH=`echo ,${LIBGUILE_LIBS} |           sed 's/.*[, ]-L[   ]*//;s/[  ].*//'`
+-+  ;; * ) LIBGUILE_PATH='' ;; esac
+    AC_SUBST([AG_GUILE])
+ -
+  ]) # end of AC_DEFUN of AG_WITHLIB_GUILE
+  
+  
+-@@ -311,40 +200,10 @@ AC_DEFUN([AG_WITHCONF_GUILE_VER],[
++@@ -311,40 +206,10 @@ AC_DEFUN([AG_WITHCONF_GUILE_VER],[
+  
+  
+  AC_DEFUN([AG_TEST_GUILE_VERSION],[
+@@ -181,3 +186,6 @@ index 9914a65..b6db97a 100644
+    AC_MSG_RESULT([${ag_cv_test_guile_version}])
+    if test "X${ag_cv_test_guile_version}" != Xno
+    then
++-- 
++1.8.3.1
++
+diff --git a/meta/recipes-devtools/autogen/files/increase-timeout-limit.patch b/meta/recipes-devtools/autogen/autogen/increase-timeout-limit.patch
+similarity index 100%
+rename from meta/recipes-devtools/autogen/files/increase-timeout-limit.patch
+rename to meta/recipes-devtools/autogen/autogen/increase-timeout-limit.patch
 -- 
 1.8.3.1
 
