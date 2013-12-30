@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 35AD460E7C
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B5856B5B0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 03:35:18 +0000 (UTC)
+	Mon, 30 Dec 2013 03:35:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBU3ZJq2018276
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBU3ZKcu025985
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2013 19:35:19 -0800 (PST)
+	Sun, 29 Dec 2013 19:35:20 -0800 (PST)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 29 Dec 2013 19:35:19 -0800
+	14.2.347.0; Sun, 29 Dec 2013 19:35:20 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 29 Dec 2013 22:34:57 -0500
-Message-ID: <3595dda63288f4d65a79df0ae63b9c41e6ca1d45.1388369850.git.liezhi.yang@windriver.com>
+Date: Sun, 29 Dec 2013 22:34:58 -0500
+Message-ID: <855b175f79a06066a03795b06b6695e6e4f33efc.1388369850.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1388369850.git.liezhi.yang@windriver.com>
 References: <cover.1388369850.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/14] gstreamer1.0: remove unrecognised options
+Subject: [PATCH 09/14] bluez-hcidump: remove unrecognised options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 03:35:18 -0000
+X-List-Received-Date: Mon, 30 Dec 2013 03:35:19 -0000
 Content-Type: text/plain
 
-Remove the following two unrecognised options:
-* --disable-oggtest
-* --disable-vorbistest
+Remove the following two options since they are not needed any more:
+* --with-bluez-libs
+* --with-bluez-includes
 
-They are defined in m4/ogg.m4 and m4/vorbistest.m4, but now configure
-doesn't use them, configure.ac uses another way to define the
---enable-ogg and --enable-vorbis, and there is no test options, so
-remove them.
+  commit 78631c5f66f0580695ff3aac4dc8831e3795b735
+  Author: Marcel Holtmann <marcel@holtmann.org>
+  Date:   Wed Aug 31 00:57:30 2011 -0700
+
+      Change includes to use local copy of Bluetooth library
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc |    2 --
+ meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb |    2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-index 697b5bd..b56c506 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-@@ -30,8 +30,6 @@ PACKAGECONFIG[pango]   = "--enable-pango,--disable-pango,pango"
- # cdparanoia and libvisual do not seem to exist anywhere in OE
- EXTRA_OECONF += " \
-     --disable-freetypetest \
--    --disable-oggtest \
--    --disable-vorbistest \
-     --disable-cdparanoia \
-     --disable-libvisual \
-     ${GSTREAMER_1_0_ORC} \
+diff --git a/meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb b/meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
+index 6bddcba..8af5c6b 100644
+--- a/meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
++++ b/meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb
+@@ -17,6 +17,4 @@ SRC_URI[md5sum] = "2eab54bbd2b59a2ed4274ebb9390cf18"
+ SRC_URI[sha256sum] = "9b7c52b375081883738cf049ecabc103b97d094b19c6544fb241267905d88881"
+ S = "${WORKDIR}/bluez-hcidump-${PV}"
+ 
+-EXTRA_OECONF = "--with-bluez-libs=${STAGING_LIBDIR} --with-bluez-includes=${STAGING_INCDIR}"
+-
+ inherit autotools
 -- 
 1.7.10.4
 
