@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E092060E33
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A8C06B0E1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2013 03:35:06 +0000 (UTC)
+	Mon, 30 Dec 2013 03:35:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rBU3Z7pa018264
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBU3ZAFJ025952
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2013 19:35:07 -0800 (PST)
+	Sun, 29 Dec 2013 19:35:10 -0800 (PST)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 29 Dec 2013 19:35:06 -0800
+	14.2.347.0; Sun, 29 Dec 2013 19:35:08 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 29 Dec 2013 22:34:50 -0500
-Message-ID: <7cfb256b5643c0fe657fc9407c46eec17c9b78a9.1388369850.git.liezhi.yang@windriver.com>
+Date: Sun, 29 Dec 2013 22:34:51 -0500
+Message-ID: <e9fa1626d94e6c65471dbdfd2fbe694afd24c960.1388369850.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1388369850.git.liezhi.yang@windriver.com>
 References: <cover.1388369850.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/14] flac: remove unrecognised options
+Subject: [PATCH 02/14] alsa-lib: remove unrecognised options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2013 03:35:07 -0000
+X-List-Received-Date: Mon, 30 Dec 2013 03:35:10 -0000
 Content-Type: text/plain
 
-Remove --disable-id3libtest and --without-id3lib which had been removed
-from flac for many years, here is the log from flac:
-
-  commit e31d9eb05cb82bd5f9cab1e6ad5295ddad22bcab
-  Author: Josh Coalson <jcoalson@users.sourceforce.net>
-  Date:   Tue Sep 28 00:23:57 2004 +0000
-
-      remove id3 support from the plugins
+Remove --with-cards and --with-oss, they are never in alsa-lib, but in
+alsa-driver, and the --with-cards had also been dropped from
+alsa-driver.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-multimedia/flac/flac_1.2.1.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/flac/flac_1.2.1.bb b/meta/recipes-multimedia/flac/flac_1.2.1.bb
-index 7fd7a03..37c7a97 100644
---- a/meta/recipes-multimedia/flac/flac_1.2.1.bb
-+++ b/meta/recipes-multimedia/flac/flac_1.2.1.bb
-@@ -32,13 +32,13 @@ S = "${WORKDIR}/flac-${PV}"
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
+index 0e1ea76..0087faf 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
+@@ -27,7 +27,7 @@ inherit autotools pkgconfig
+ require alsa-fpu.inc
+ EXTRA_OECONF += "${@get_alsa_fpu_setting(bb, d)} "
  
- inherit autotools gettext
+-EXTRA_OECONF = "--with-cards=pdaudiocf --with-oss=yes --disable-python"
++EXTRA_OECONF = "--disable-python"
  
--EXTRA_OECONF = "--disable-oggtest --disable-id3libtest \
-+EXTRA_OECONF = "--disable-oggtest \
-                 --with-ogg-libraries=${STAGING_LIBDIR} \
-                 --with-ogg-includes=${STAGING_INCDIR} \
-                 --without-xmms-prefix \
-                 --without-xmms-exec-prefix \
-                 --without-libiconv-prefix \
--                --without-id3lib"
-+                "
- 
- EXTRA_OECONF += "${@bb.utils.contains("TUNE_FEATURES", "altivec", " --enable-altivec", " --disable-altivec", d)}"
+ EXTRA_OECONF_append_libc-uclibc = " --with-versioned=no "
  
 -- 
 1.7.10.4
