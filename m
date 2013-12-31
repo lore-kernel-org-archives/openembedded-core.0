@@ -1,37 +1,28 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id ABAD46B5FF
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 82A62611E8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2013 14:18:18 +0000 (UTC)
-Received: by mail-pd0-f180.google.com with SMTP id q10so12429303pdj.39
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2013 06:18:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=2sxPPZBlAx5KXmLqM3PJuLPFkdA2nOAK/zv+Lwo7QO8=;
-	b=nDBWYJVisLyR0QDpM6sLIvyDrmIad87Mi+juluG4AwC/Qd0t6PF9t5mLZQbfRkLgLF
-	D9aWktzLay2M1KLMhW7LvmvQ7L/wDzyeOGKjOLDjV0LssidC+NdwThY8NO8fQwAIBl/j
-	+H/FX+9QFHE3eWO+rwucmPnlW5hYec7a7y+QuNdt9eD+OybGrEXK3qTfEbRm7isVftA/
-	nOtvhTF2re6yMci7RnGBKmOfWa/hUiRJX1+6P0AfUtskXCLAmZ75sz/RB1yPm1wTf1xQ
-	iWqboJPhqmWIJDDg9sERBG0UOTkM2EQ5AqtAGt6XrI3qRavEzJYKLtUdb4MBThQjyoks
-	laZA==
-X-Gm-Message-State: ALoCoQlnTQFTssg36EcNJre+l6G7jE7sU8ZSWW7CrY5tLoIB8qB4YYY/0XAFwKujl6G+RGml0fs0
+	Tue, 31 Dec 2013 17:57:56 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Dec 2013 09:57:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,581,1384329600"; d="scan'208";a="458298489"
+Received: from unknown (HELO [10.255.12.47]) ([10.255.12.47])
+	by fmsmga002.fm.intel.com with ESMTP; 31 Dec 2013 09:57:55 -0800
+Message-ID: <52C305A3.6040603@linux.intel.com>
+Date: Tue, 31 Dec 2013 09:57:55 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
 MIME-Version: 1.0
-X-Received: by 10.66.66.202 with SMTP id h10mr76172190pat.70.1388499499618;
-	Tue, 31 Dec 2013 06:18:19 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.84.67 with HTTP; Tue, 31 Dec 2013 06:18:19 -0800 (PST)
-In-Reply-To: <1387889050-25592-1-git-send-email-lpapp@kde.org>
-References: <1387889050-25592-1-git-send-email-lpapp@kde.org>
-Date: Tue, 31 Dec 2013 14:18:19 +0000
-X-Google-Sender-Auth: 6Mekmp_dHSyu-QJr8MZM5v227iE
-Message-ID: <CAOMwXhOfJEkntBTQLDGWjRYA6jorCWNEUF1+t8n5RJJoozcVJA@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe/patch.py: Prefer "git am" over "git apply" when applying git patches
+To: Tom Zanussi <tom.zanussi@linux.intel.com>, 
+	Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1388424165.git.tom.zanussi@linux.intel.com>	<52C21E0F.7020400@windriver.com>
+	<1388469272.3048.8.camel@empanada>
+In-Reply-To: <1388469272.3048.8.camel@empanada>
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1][dora] - Fix for Bug 5403
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,65 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Dec 2013 14:18:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 31 Dec 2013 17:57:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ping?
+On 12/30/2013 09:54 PM, Tom Zanussi wrote:
+> Hi Robert,
+>
+> Yes, I'm still testing the one for master - will post tomorrow.
+>
+Right, we should have the master patch backported into dora hopefully 
+the changes will be the same.
 
-Alternatively, the system could also have an option for further
-fine-tuning what to do with git patches
+Sau!
 
-On Tue, Dec 24, 2013 at 12:44 PM, Laszlo Papp <lpapp@kde.org> wrote:
-> It is better to use "git am" when possible to preserve the commit messages and
-> the mail format in general for patches when those are present. A typical use
-> case is when developers would like to keep the changes on top of the latest
-> upstream, and they may occasionally need to rebase. This is not possible with
-> "git diff" and "diff" generated patches.
->
-> Since this is not always the case, the fallback would be the "git apply"
-> operation which is currently available.
->
-> Signed-off-by: Laszlo Papp <lpapp@kde.org>
-> ---
->  meta/lib/oe/patch.py | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> index 59abd0a..b085c9d 100644
-> --- a/meta/lib/oe/patch.py
-> +++ b/meta/lib/oe/patch.py
-> @@ -203,17 +203,23 @@ class GitApplyTree(PatchTree):
->          PatchTree.__init__(self, dir, d)
->
->      def _applypatch(self, patch, force = False, reverse = False, run = True):
-> -        shellcmd = ["git", "--git-dir=.", "apply", "-p%s" % patch['strippath']]
-> +        def _applypatchhelper(shellcmd, patch, force = False, reverse = False, run = True):
-> +            if reverse:
-> +                shellcmd.append('-R')
->
-> -        if reverse:
-> -            shellcmd.append('-R')
-> +            shellcmd.append(patch['file'])
->
-> -        shellcmd.append(patch['file'])
-> +            if not run:
-> +                return "sh" + "-c" + " ".join(shellcmd)
->
-> -        if not run:
-> -            return "sh" + "-c" + " ".join(shellcmd)
-> +            return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
->
-> -        return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
-> +        try:
-> +            shellcmd = ["git", "--work-tree=.", "am", "-3", "-p%s" % patch['strippath']]
-> +            return _applypatchhelper(shellcmd, patch, force, reverse, run)
-> +        except CmdError:
-> +            shellcmd = ["git", "--git-dir=.", "apply", "-p%s" % patch['strippath']]
-> +            return _applypatchhelper(shellcmd, patch, force, reverse, run)
+> Tom
 >
 >
->  class QuiltTree(PatchSet):
-> --
-> 1.8.5.1
+> On Tue, 2013-12-31 at 09:29 +0800, Robert Yang wrote:
+>> Hi Tom,
+>>
+>> Thanks, do we also need a patch for master ?
+>>
+>> // Robert
+>>
+>> On 12/31/2013 01:31 AM, Tom Zanussi wrote:
+>>> This fixes a problem seen when accessing function params in systemtap
+>>> on certain platforms, due to flaky debuginfo.
+>>>
+>>> Tested on the following machines with various systemtap scripts:
+>>>
+>>> qemuppc
+>>> qemuarm
+>>> qemux86
+>>> qemux86-64
+>>> crownbay
+>>> nuc
+>>>
+>>> The following changes since commit 3cf2d232529c4fd6b58f87ddbf3df9d805e4180f:
+>>>
+>>>     libsoup-2.4: add intltool-native to DEPENDS (2013-12-20 09:29:05 +0000)
+>>>
+>>> are available in the git repository at:
+>>>
+>>>     git://git.yoctoproject.org/poky-contrib.git tzanussi/systemtap-bug-5403-dora
+>>>     http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/systemtap-bug-5403-dora
+>>>
+>>> Tom Zanussi (1):
+>>>     systemtap: Add --enable-prologues to configuration
+>>>
+>>>    meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
