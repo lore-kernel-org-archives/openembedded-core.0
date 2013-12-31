@@ -1,41 +1,42 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 1643160DD6
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id F0AA56B446
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2013 09:45:59 +0000 (UTC)
-Received: by mail-ea0-f177.google.com with SMTP id n15so5473150ead.36
+	Tue, 31 Dec 2013 12:19:18 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id q58so11115758wes.30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2013 01:46:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=5Ff2HvODInhne23a59HgzkHwW0j+hZZHtKYzcBBqQNY=;
-	b=neB0EgeuURxJTX018nMEwgHOzNRFnY7mWUQ3o+9VJp3SruWDKi5wLLUwpLmN65o8bj
-	t1ed9x7n1zd7r+tNsEohIIyXrb0BsUtqR9EfGOa2XWlXglN2iWs/RHxFWvPDQY8i3bOg
-	g/mgj1RQfemtgkk1nVuByIDGlw9Pyqwrz3UY04HQXEQX6uWgHIf+ApwM+ym5uR/hURx4
-	vx2CZE/JcdUNotZgN/lkceqQy4fLbYcDEhaYBT6N+nBRmVsWfX7AO11YmtDEXoPyn4L2
-	AuE+Hn+o/pxXIwDM07ijUYuCs/DLLuilelX36Wmye7dJ5kj17nK8teyZfMDyHRv+dca8
-	ttsw==
-X-Received: by 10.14.199.1 with SMTP id w1mr58863117een.29.1388483160847;
-	Tue, 31 Dec 2013 01:46:00 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id m1sm116607947eeg.0.2013.12.31.01.45.59
+	Tue, 31 Dec 2013 04:19:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=6pe2LCWimiTUUEdIGGE5AV/eimVAQR9FI32Gg6gIZbo=;
+	b=HNDRGC3WrxdWXWsRab645M8hsw0da9wx6cF/5M74wgA4HhRx7nCoS74cIIClg3WX9i
+	JrrhefX1EXg6PI3vnp8xf0Ud535KWd+u5PZxngUjMKeATe3ddbvI+gEvH+TQFuG3HfWV
+	aA7KcfaX1sT0/rrGL97RaKHBleLYffFJG/0yiMm/jBQlG1oFvJvI6JYN3SJCjtXDzlaz
+	kdY+yd7tTrtZFTHTsKuYXKwUEp16sbfSPq9eMKp518ne6gqNYe8wQCBCwDbu46sann+l
+	hd0R8Gq7r31t70QJE88lBdkPaQam4RAVUsTiTFfmEpyjZ8degemsHggCXvs/julnFOvu
+	+/1w==
+X-Gm-Message-State: ALoCoQlGWkqxHkJzqGQMM1cUdpgnjDZylmq8hywI/Hg4JFsr+ASkik/7vYdn8leLS7eTUEXvGLWb
+X-Received: by 10.180.79.38 with SMTP id g6mr46985518wix.60.1388492359604;
+	Tue, 31 Dec 2013 04:19:19 -0800 (PST)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id c1sm28015498wje.4.2013.12.31.04.19.17
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 31 Dec 2013 01:45:59 -0800 (PST)
-Date: Tue, 31 Dec 2013 10:45:59 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <20131231094559.GB3705@jama>
-References: <52C222A1.6030705@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <52C222A1.6030705@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: "openembedded-core@lists.openembedded.org"
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 31 Dec 2013 04:19:18 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1388165434-28242-1-git-send-email-krzysztof.m.sywula@intel.com>
+Date: Tue, 31 Dec 2013 13:19:16 +0100
+Message-Id: <2704C375-0C8D-46B2-A11D-3FF220661AFB@dominion.thruhere.net>
+References: <1388165434-28242-1-git-send-email-krzysztof.m.sywula@intel.com>
+To: krzysztof.m.sywula@intel.com
+X-Mailer: Apple Mail (2.1827)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Why do we allow empty -dev/-dbg packages ?
+Subject: Re: [PATCH] Adding irssi 0.8.16-rc1 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,55 +49,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Dec 2013 09:46:00 -0000
-X-Groupsio-MsgNum: 48531
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/WwmFnJnmDyWGHa4"
-Content-Disposition: inline
-
---/WwmFnJnmDyWGHa4
+X-List-Received-Date: Tue, 31 Dec 2013 12:19:19 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 31, 2013 at 09:49:21AM +0800, ChenQi wrote:
-> Hi All,
+
+Op 27 dec. 2013, om 18:30 heeft krzysztof.m.sywula@intel.com het =
+volgende geschreven:
+
+> From: Krzysztof Sywula <krzysztof.m.sywula@intel.com>
 >=20
-> This might be a dummy question, but it has been puzzling me for some=20
-> time. So if someone could give me some explanation, that would be really=
-=20
-> appreciated.
->=20
-> In bitbake.conf, we have:
-> ALLOW_EMPTY_${PN}-dev =3D "1"
-> ALLOW_EMPTY_${PN}-dbg =3D "1"
->=20
-> That means we allow emtpy -dev/-dbg packages. But what are the benefits=
-=20
-> of these empty -dev/-dbg packages?
+> ---
+> meta/recipes-connectivity/irssi/irssi_0.8.16-rc1.bb | 11 +++++++++++
 
-In some cases it's useful to satisfy default dependcencies:
-bitbake.conf:RDEPENDS_${PN}-staticdev =3D "${PN}-dev (=3D ${EXTENDPKGV})"
+that should be 0.8.15+0.8.16-rc1 to conform to the versioning policy=
 
-and -dev needs ${PN} even when it's empty in some recipes where all
-files are split into separate packages
-bitbake.conf:RDEPENDS_${PN}-dev =3D "${PN} (=3D ${EXTENDPKGV})"
-
-Not sure about -dbg one.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---/WwmFnJnmDyWGHa4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLCklcACgkQN1Ujt2V2gBxIUwCgrEnBT0RvJ+zF+OQ3BajaXxqn
-h40An06f9A1S/C6lm6qe17Pk6uz9LyxM
-=e8hQ
------END PGP SIGNATURE-----
-
---/WwmFnJnmDyWGHa4--
