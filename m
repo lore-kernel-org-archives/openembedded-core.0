@@ -1,37 +1,26 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D58960D31;
-	Thu,  2 Jan 2014 12:47:44 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id m1so14777317oag.40
-	for <multiple recipients>; Thu, 02 Jan 2014 04:47:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=LAZkFLWGNo27GYz/CbNxrx1cG4Nx/6Jvl+zkBTYY+ks=;
-	b=g4qkNTG7Uxy3gZJGvKSfIpL7Oc46sl/aMEmFdDPddmyAbMM+d80w+wTAc5pl79fB9Z
-	V6M4kSwNXUa7Fnk1H3vQe3FCCmenzoVaXrWB4OUr55oo5ej7pA8p4eixGLQjTFXeuh1v
-	A8tUxB3GrOIryOSl/euDwdsiMn/HebjFLKG/PmkhGCjFIj00kuVVKYqLOC6koO5PbcPq
-	/JmG4EibvzFVR7j1w4nkX4BE2yPjUlNzzZb3tqkm03Br038y09b4BV77JC+55vR2zLt8
-	e9eIdZ/VbxObI4oKYOTjMtSJqVaBCHRKqhojlAeTxAQNk/NfwDavOAOcowSoereCfZOs
-	uDxw==
-X-Received: by 10.182.103.133 with SMTP id fw5mr30573381obb.43.1388666865232; 
-	Thu, 02 Jan 2014 04:47:45 -0800 (PST)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.76.122.171 with HTTP; Thu, 2 Jan 2014 04:47:05 -0800 (PST)
-In-Reply-To: <52C4AD81.8070803@balister.org>
-References: <52C4AD81.8070803@balister.org>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 2 Jan 2014 12:47:05 +0000
-X-Google-Sender-Auth: kAU1hpUdEMDNMdVFWTkpHkcNsGw
-Message-ID: <CANyK_8f8C_B+gttku7ShDr=HwYNsaYcntXZ6PhKJ4Vpp-bh8dg@mail.gmail.com>
-To: Openembedded Discussion <openembedded-devel@lists.openembedded.org>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Call for demos
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 81F966B872
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Jan 2014 14:16:31 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Jan 2014 06:16:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,590,1384329600"; d="scan'208";a="452743242"
+Received: from unknown (HELO [10.255.12.41]) ([10.255.12.41])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Jan 2014 06:16:31 -0800
+Message-ID: <1388672192.3048.9.camel@empanada>
+From: Tom Zanussi <tom.zanussi@intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 02 Jan 2014 08:16:32 -0600
+In-Reply-To: <1388469272.3048.8.camel@empanada>
+References: <cover.1388424165.git.tom.zanussi@linux.intel.com>
+	<52C21E0F.7020400@windriver.com> <1388469272.3048.8.camel@empanada>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1][dora] - Fix for Bug 5403
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,25 +33,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jan 2014 12:47:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 02 Jan 2014 14:16:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2 January 2014 00:06, Philip Balister <philip@balister.org> wrote:
->
-> So what I am looking for is:
->
-> 1) Donations of hardware we can demo
-> 2) Software support for the hardware
->
+Hi Robert,
 
-Sadly the hardware I currently have is one-off and I can't afford to
-risk breaking it. I'll snap a few photos anyway and bring those along.
+So this has been pulled into master, but I don't see it in dora.
 
-Thanks,
+Is there anything else I need to do so I can close the bug out?
 
--- 
-Paul Barker
+Tom
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+On Mon, 2013-12-30 at 23:54 -0600, Tom Zanussi wrote:
+> Hi Robert,
+> 
+> Yes, I'm still testing the one for master - will post tomorrow.
+> 
+> Tom
+> 
+> 
+> On Tue, 2013-12-31 at 09:29 +0800, Robert Yang wrote:
+> > Hi Tom,
+> > 
+> > Thanks, do we also need a patch for master ?
+> > 
+> > // Robert
+> > 
+> > On 12/31/2013 01:31 AM, Tom Zanussi wrote:
+> > > This fixes a problem seen when accessing function params in systemtap
+> > > on certain platforms, due to flaky debuginfo.
+> > >
+> > > Tested on the following machines with various systemtap scripts:
+> > >
+> > > qemuppc
+> > > qemuarm
+> > > qemux86
+> > > qemux86-64
+> > > crownbay
+> > > nuc
+> > >
+> > > The following changes since commit 3cf2d232529c4fd6b58f87ddbf3df9d805e4180f:
+> > >
+> > >    libsoup-2.4: add intltool-native to DEPENDS (2013-12-20 09:29:05 +0000)
+> > >
+> > > are available in the git repository at:
+> > >
+> > >    git://git.yoctoproject.org/poky-contrib.git tzanussi/systemtap-bug-5403-dora
+> > >    http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/systemtap-bug-5403-dora
+> > >
+> > > Tom Zanussi (1):
+> > >    systemtap: Add --enable-prologues to configuration
+> > >
+> > >   meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> 
+
+
 
