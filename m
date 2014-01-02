@@ -1,26 +1,31 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 81F966B872
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F0806B8D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jan 2014 14:16:31 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Jan 2014 06:16:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,590,1384329600"; d="scan'208";a="452743242"
-Received: from unknown (HELO [10.255.12.41]) ([10.255.12.41])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Jan 2014 06:16:31 -0800
-Message-ID: <1388672192.3048.9.camel@empanada>
-From: Tom Zanussi <tom.zanussi@intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 02 Jan 2014 08:16:32 -0600
-In-Reply-To: <1388469272.3048.8.camel@empanada>
-References: <cover.1388424165.git.tom.zanussi@linux.intel.com>
-	<52C21E0F.7020400@windriver.com> <1388469272.3048.8.camel@empanada>
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+	Thu,  2 Jan 2014 14:25:57 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s02EPksW019099; Thu, 2 Jan 2014 14:25:46 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id DLVFWwnyU5VN; Thu,  2 Jan 2014 14:25:46 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s02EPe1c019096
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Thu, 2 Jan 2014 14:25:41 GMT
+Message-ID: <1388672736.11527.101.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 02 Jan 2014 14:25:36 +0000
+In-Reply-To: <351b3404860f88138d7721c83d5fcfd928668a47.1387832257.git.paul.eggleton@linux.intel.com>
+References: <cover.1387832257.git.paul.eggleton@linux.intel.com>
+	<351b3404860f88138d7721c83d5fcfd928668a47.1387832257.git.paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1][dora] - Fix for Bug 5403
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] Fix license notices for OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,62 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jan 2014 14:16:31 -0000
+X-List-Received-Date: Thu, 02 Jan 2014 14:25:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Robert,
-
-So this has been pulled into master, but I don't see it in dora.
-
-Is there anything else I need to do so I can close the bug out?
-
-Tom
-
-On Mon, 2013-12-30 at 23:54 -0600, Tom Zanussi wrote:
-> Hi Robert,
+On Mon, 2013-12-23 at 20:59 +0000, Paul Eggleton wrote:
+> * Fix up LICENSE:
+>   - Replace reference to Poky with OpenEmbedded
+>   - Remove reference to bitbake and meta-extras that aren't part of this
+>     repository
+>   - Clarify license statements
+> * Add a COPYING.GPLv2 file in meta/ for the GPLv2 parts
+> * Add a COPYING.MIT file to meta-skeleton consistent with the other
+>   meta-* directories
 > 
-> Yes, I'm still testing the one for master - will post tomorrow.
-> 
-> Tom
-> 
-> 
-> On Tue, 2013-12-31 at 09:29 +0800, Robert Yang wrote:
-> > Hi Tom,
-> > 
-> > Thanks, do we also need a patch for master ?
-> > 
-> > // Robert
-> > 
-> > On 12/31/2013 01:31 AM, Tom Zanussi wrote:
-> > > This fixes a problem seen when accessing function params in systemtap
-> > > on certain platforms, due to flaky debuginfo.
-> > >
-> > > Tested on the following machines with various systemtap scripts:
-> > >
-> > > qemuppc
-> > > qemuarm
-> > > qemux86
-> > > qemux86-64
-> > > crownbay
-> > > nuc
-> > >
-> > > The following changes since commit 3cf2d232529c4fd6b58f87ddbf3df9d805e4180f:
-> > >
-> > >    libsoup-2.4: add intltool-native to DEPENDS (2013-12-20 09:29:05 +0000)
-> > >
-> > > are available in the git repository at:
-> > >
-> > >    git://git.yoctoproject.org/poky-contrib.git tzanussi/systemtap-bug-5403-dora
-> > >    http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/systemtap-bug-5403-dora
-> > >
-> > > Tom Zanussi (1):
-> > >    systemtap: Add --enable-prologues to configuration
-> > >
-> > >   meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  LICENSE                   |  16 +--
+>  meta-skeleton/COPYING.MIT |  17 +++
+>  meta/COPYING.GPLv2        | 339 ++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 364 insertions(+), 8 deletions(-)
+>  create mode 100644 meta-skeleton/COPYING.MIT
+>  create mode 100644 meta/COPYING.GPLv2
 
+FWIW this broke everything which depends on the checksum of the LICENSE
+file. I merged a fix for that and alerted Scott to the issue in the
+manuals.
+
+Cheers,
+
+Richard
 
 
