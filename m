@@ -1,20 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B48016BCEF
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id ECCC36BCEF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jan 2014 21:21:29 +0000 (UTC)
+	Fri,  3 Jan 2014 21:23:43 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jan 2014 13:17:34 -0800
+	by orsmga101.jf.intel.com with ESMTP; 03 Jan 2014 13:23:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,599,1384329600"; d="scan'208";a="461381635"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.77])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jan 2014 13:21:30 -0800
+X-IronPort-AV: E=Sophos;i="4.95,599,1384329600"; d="scan'208";a="461382339"
+Received: from unknown (HELO [10.255.12.77]) ([10.255.12.77])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jan 2014 13:23:44 -0800
+Message-ID: <52C72A60.9010702@linux.intel.com>
+Date: Fri, 03 Jan 2014 13:23:44 -0800
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jan 2014 13:21:29 -0800
-Message-Id: <1388784089-30719-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH v2] util-linux: remove non PN based -dev packages
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <cover.1388629298.git.Qi.Chen@windriver.com>
+	<7ddc616565a80346dd323664d0c36490a698fb89.1388629298.git.Qi.Chen@windriver.com>
+In-Reply-To: <7ddc616565a80346dd323664d0c36490a698fb89.1388629298.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH V2 1/2] initscripts: split the functions script into a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,56 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2014 21:21:30 -0000
+X-List-Received-Date: Fri, 03 Jan 2014 21:23:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-All dev related items should be packaged in the core PN package not in seperate packages.
+On 01/01/2014 06:25 PM, Chen Qi wrote:
+> Many SysV init scripts need the /etc/init.d/functions script. But
+> this script is part of the initscripts package. As a result, the
+> initscripts package should always be installed into the system to
+> avoid errors when starting daemons. However, it makes no sense to
+> install the initscripts package into a systemd based image, because
+> what the init scripts provide has already been provided by the systemd.
+> On the other hand, the functions script might be still needed in a
+> systemd based image because other init scripts such as distcc might need
+> it.
+>
+> The above situation leads to a natural separation of the functions script
+> from the initscripts package. And this patch does so. It separates the
+> functions script into initscripts-functions packages.
+>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
-v2: added back uuidd (dropped by mistake)
+There seems to be a problem with the multi-lib build, please check this 
+logfile for errors.
 
- meta/recipes-core/util-linux/util-linux.inc | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+http://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/71/steps/Building%20Images/logs/stdio
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 9f5fd01..aaa7ec3 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -32,10 +32,9 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
- PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfdisk \
-              util-linux-swaponoff util-linux-losetup util-linux-umount \
-              util-linux-mount util-linux-readprofile util-linux-libblkid \
--             util-linux-libmount util-linux-libmount-dev \
--             util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
-+             util-linux-libmount util-linux-libuuid util-linux-uuidd \
-              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
--             util-linux-mkfs util-linux-mcookie util-linux-reset util-linux-uuidd \
-+             util-linux-mkfs util-linux-mcookie util-linux-reset \
-              util-linux-mkfs.cramfs util-linux-fsck.cramfs \
-              util-linux-partx ${PN}-bash-completion"
- 
-@@ -77,11 +76,8 @@ FILES_util-linux-reset = "${base_bindir}/reset"
- FILES_util-linux-partx = "${sbindir}/partx"
- 
- FILES_util-linux-libblkid = "${base_libdir}/libblkid.so.*"
--FILES_util-linux-libblkid-dev = "${libdir}/libblkid.so ${libdir}/libblkid.la ${includedir}/blkid ${libdir}/pkgconfig/blkid.pc"
- FILES_util-linux-libmount = "${base_libdir}/libmount.so.*"
--FILES_util-linux-libmount-dev = "${libdir}/libmount.so ${libdir}/libmount.la ${includedir}/libmount ${libdir}/pkgconfig/mount.pc"
- FILES_util-linux-libuuid = "${base_libdir}/libuuid.so.*"
--FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${libdir}/libuuid.la ${includedir}/uuid ${libdir}/pkgconfig/uuid.pc"
- FILES_util-linux-lscpu = "${bindir}/lscpu"
- 
- FILES_util-linux-fsck = "${base_sbindir}/fsck*"
-@@ -107,6 +103,8 @@ RRECOMMENDS_${PN}_class-nativesdk = ""
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-nativesdk = ""
- 
-+RPROVIDES_${PN}-dev = "util-linux-libblkid-dev util-linux-libmount-dev util-linux-libuuid-dev"
-+
- SYSTEMD_PACKAGES = "${PN}-uuidd"
- SYSTEMD_SERVICE_${PN}-uuidd = "uuidd.service"
- 
--- 
-1.8.3.1
+Thanks	
+	Sau!
 
+
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-core/initscripts/initscripts_1.0.bb |    8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> index 5951e0c..ea28672 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -42,8 +42,12 @@ KERNEL_VERSION = ""
+>   inherit update-alternatives
+>   DEPENDS_append = " update-rc.d-native"
+>
+> -ALTERNATIVE_PRIORITY = "90"
+> -ALTERNATIVE_${PN} = "functions"
+> +PACKAGES =+ "${PN}-functions"
+> +RDEPENDS_${PN} = "${PN}-functions"
+> +FILES_${PN}-functions = "${sysconfdir}/init.d/functions.${PN}"
+> +
+> +ALTERNATIVE_PRIORITY_${PN}-functions = "90"
+> +ALTERNATIVE_${PN}-functions = "functions"
+>   ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
+>
+>   HALTARGS ?= "-d -f"
+>
 
