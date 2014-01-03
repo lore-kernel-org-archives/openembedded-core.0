@@ -1,26 +1,30 @@
-Return-Path: <Chong.Lu@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 79C6F615BE
+	by mail.openembedded.org (Postfix) with ESMTP id 3F8C3615BE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jan 2014 06:52:23 +0000 (UTC)
+	Fri,  3 Jan 2014 06:53:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s036qOX2013549
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jan 2014 22:52:24 -0800 (PST)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 2 Jan 2014 22:52:24 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Jan 2014 14:51:30 +0800
-Message-ID: <29084ecc445706197816544474e8333ead90a314.1388730750.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1388730750.git.Chong.Lu@windriver.com>
-References: <cover.1388730750.git.Chong.Lu@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s036rGSj013606
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 2 Jan 2014 22:53:16 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 2 Jan 2014 22:53:15 -0800
+Message-ID: <52C65E59.9050009@windriver.com>
+Date: Fri, 3 Jan 2014 14:53:13 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] quilt: enable ptest support
+To: Tom Zanussi <tom.zanussi@intel.com>
+References: <cover.1388424165.git.tom.zanussi@linux.intel.com>	
+	<52C21E0F.7020400@windriver.com> <1388469272.3048.8.camel@empanada>
+	<1388672192.3048.9.camel@empanada>
+In-Reply-To: <1388672192.3048.9.camel@empanada>
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1][dora] - Fix for Bug 5403
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,98 +37,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2014 06:52:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 03 Jan 2014 06:53:16 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Install quilt test suite and run it as ptest.
-Exclude delete.test and mail.test.
-delete.test need execute with normal user and mail.test need depend
-on mail agent, else these test cases will fail. So exclude them order
-to make ptest all pass.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-devtools/quilt/quilt-0.61.inc  | 24 ++++++++++++++++++++++--
- meta/recipes-devtools/quilt/quilt/Makefile  | 13 +++++++++++++
- meta/recipes-devtools/quilt/quilt/run-ptest |  5 +++++
- 3 files changed, 40 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/quilt/quilt/Makefile
- create mode 100755 meta/recipes-devtools/quilt/quilt/run-ptest
+Hi Tom,
 
-diff --git a/meta/recipes-devtools/quilt/quilt-0.61.inc b/meta/recipes-devtools/quilt/quilt-0.61.inc
-index c4a929d..85643b1 100644
---- a/meta/recipes-devtools/quilt/quilt-0.61.inc
-+++ b/meta/recipes-devtools/quilt/quilt-0.61.inc
-@@ -5,12 +5,15 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
- SRC_URI = "http://download.savannah.gnu.org/releases/quilt/quilt-${PV}.tar.gz \
--        file://install.patch"
-+        file://install.patch \
-+        file://run-ptest \
-+        file://Makefile \
-+"
- 
- SRC_URI[md5sum] = "24417eba5961592b64103bdda001ebf4"
- SRC_URI[sha256sum] = "1eec0a270ac4d41eea0fd5823603c9d2a35ab6b8ab73a90dd92ce1291b2a9fc3"
- 
--inherit autotools
-+inherit autotools ptest
- 
- EXTRA_OECONF_darwin += "--without-date \
-                         --without-getopt \
-@@ -34,3 +37,20 @@ do_install () {
- 	# cleanup unpackaged files
- 	rm -rf ${D}/${datadir}/emacs
- }
-+
-+do_compile_ptest() {
-+	oe_runmake bin/patch-wrapper test/.depend
-+}
-+
-+do_install_ptest() {
-+	tar -cf - bin/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	tar -cf - compat/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	tar -cf - quilt/ --exclude \*.in | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	tar -cf - test/ --exclude mail.test --exclude delete.test | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	cp ${WORKDIR}/Makefile ${D}${PTEST_PATH}
-+}
-+
-+RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
-+                        perl-module-filehandle perl-module-getopt-std \
-+                        perl-module-posix perl-module-file-temp \
-+"
-diff --git a/meta/recipes-devtools/quilt/quilt/Makefile b/meta/recipes-devtools/quilt/quilt/Makefile
-new file mode 100644
-index 0000000..7b3ac8a
---- /dev/null
-+++ b/meta/recipes-devtools/quilt/quilt/Makefile
-@@ -0,0 +1,13 @@
-+PATH :=         $(CURDIR)/bin:$(CURDIR)/compat:$(PATH)
-+QUILT_DIR :=    $(CURDIR)/quilt
-+QUILTRC :=      $(CURDIR)/test/test.quiltrc
-+export QUILT_DIR QUILTRC
-+CHECK_ENV := P=patches/; _P=../patches/; export P _P
-+-include test/.depend
-+
-+check-% : test/%.test
-+	@LANG=C; LC_ALL=C; \
-+	export LANG LC_ALL; \
-+	$(CHECK_ENV); \
-+	cd $(<D); \
-+	./run -q $(<F)
-diff --git a/meta/recipes-devtools/quilt/quilt/run-ptest b/meta/recipes-devtools/quilt/quilt/run-ptest
-new file mode 100755
-index 0000000..1ea0dae
---- /dev/null
-+++ b/meta/recipes-devtools/quilt/quilt/run-ptest
-@@ -0,0 +1,5 @@
-+#!/bin/sh
-+
-+ln -sf /bin/ed /usr/bin/ed
-+for i in `ls test/*.test |awk -F. '{print $1}' |awk -F/ '{print $2}'`; do make check-$i; if [ $? == 0 ]; then echo PASS: $i.test; else echo FAIL: $i.test; fi; done
-+rm -f /usr/bin/ed
--- 
-1.8.1.2
+Thanks, I've put it on the dora-next, and we need wait for RP's merge,
+you don't have to do anything else:-)
 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=robert/dora-next
+
+// Robert
+
+On 01/02/2014 10:16 PM, Tom Zanussi wrote:
+> Hi Robert,
+>
+> So this has been pulled into master, but I don't see it in dora.
+>
+> Is there anything else I need to do so I can close the bug out?
+>
+> Tom
+>
+> On Mon, 2013-12-30 at 23:54 -0600, Tom Zanussi wrote:
+>> Hi Robert,
+>>
+>> Yes, I'm still testing the one for master - will post tomorrow.
+>>
+>> Tom
+>>
+>>
+>> On Tue, 2013-12-31 at 09:29 +0800, Robert Yang wrote:
+>>> Hi Tom,
+>>>
+>>> Thanks, do we also need a patch for master ?
+>>>
+>>> // Robert
+>>>
+>>> On 12/31/2013 01:31 AM, Tom Zanussi wrote:
+>>>> This fixes a problem seen when accessing function params in systemtap
+>>>> on certain platforms, due to flaky debuginfo.
+>>>>
+>>>> Tested on the following machines with various systemtap scripts:
+>>>>
+>>>> qemuppc
+>>>> qemuarm
+>>>> qemux86
+>>>> qemux86-64
+>>>> crownbay
+>>>> nuc
+>>>>
+>>>> The following changes since commit 3cf2d232529c4fd6b58f87ddbf3df9d805e4180f:
+>>>>
+>>>>     libsoup-2.4: add intltool-native to DEPENDS (2013-12-20 09:29:05 +0000)
+>>>>
+>>>> are available in the git repository at:
+>>>>
+>>>>     git://git.yoctoproject.org/poky-contrib.git tzanussi/systemtap-bug-5403-dora
+>>>>     http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/systemtap-bug-5403-dora
+>>>>
+>>>> Tom Zanussi (1):
+>>>>     systemtap: Add --enable-prologues to configuration
+>>>>
+>>>>    meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
+>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>
+>
+>
+>
+>
 
