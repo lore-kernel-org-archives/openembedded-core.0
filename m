@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 95F736B9DD
+	by mail.openembedded.org (Postfix) with ESMTP id 4CD4A60E7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jan 2014 09:24:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s039OixC017850
+	Fri,  3 Jan 2014 09:37:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s039bTJU017984
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jan 2014 01:24:45 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 3 Jan 2014 01:24:44 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
+	Fri, 3 Jan 2014 01:37:29 -0800 (PST)
+Received: from d9010-u1204.wrs.com (128.224.163.135) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 3 Jan 2014 01:37:29 -0800
+From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 4 Jan 2014 01:27:13 +0800
-Message-ID: <b26fe9bc5b459770c0716ba086b905924d7f2b9b.1388769973.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1388769973.git.liezhi.yang@windriver.com>
-References: <cover.1388769973.git.liezhi.yang@windriver.com>
+Date: Fri, 3 Jan 2014 17:37:32 +0800
+Message-ID: <1388741852-17520-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 2/2] mime.bbclass: remove the --disable-update-mimedb
+Subject: [PATCH] guile: fix the depends for target recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2014 09:24:43 -0000
+X-List-Received-Date: Fri, 03 Jan 2014 09:37:28 -0000
 Content-Type: text/plain
 
-Gnome and other freedesktop's mime data has been moved to
-shared-mime-info, and there is no such an option any more, we already
-have this recipe, so remove it, this will fix the warning:
+From: Jackie Huang <jackie.huang@windriver.com>
 
-configure was passed unrecognised options: --disable-update-mimedb
+The depenency on guild-native and libatomics-ops is missing
+in multilib build, fix the depends with class-target.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/classes/mime.bbclass | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-devtools/guile/guile_2.0.9.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/mime.bbclass b/meta/classes/mime.bbclass
-index 690610e..721c73f 100644
---- a/meta/classes/mime.bbclass
-+++ b/meta/classes/mime.bbclass
-@@ -1,7 +1,5 @@
- DEPENDS += "shared-mime-info-native shared-mime-info"
+diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb b/meta/recipes-devtools/guile/guile_2.0.9.bb
+index 4c3fe28..cb7c72e 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.9.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
+@@ -33,7 +33,7 @@ BBCLASSEXTEND = "native"
  
--EXTRA_OECONF += "--disable-update-mimedb"
--
- mime_postinst() {
- if [ "$1" = configure ]; then
- 	UPDATEMIMEDB=`which update-mime-database`
+ DEPENDS = "libunistring bdwgc gmp libtool libffi"
+ # add guile-native only to the target recipe's DEPENDS
+-DEPENDS += "${@['guile-native libatomics-ops', ''][d.getVar('PN', True) != 'guile']}"
++DEPENDS_append_class-target += "guile-native libatomics-ops"
+ 
+ RDEPENDS_${PN}_append_libc-glibc_class-target = "glibc-gconv-iso8859-1"
+ 
 -- 
-1.8.3.1
+1.7.9.5
 
 
