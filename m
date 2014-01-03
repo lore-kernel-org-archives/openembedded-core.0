@@ -1,30 +1,21 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F8C3615BE
+Return-Path: <cristiana.voicu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E1F0D60DC2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jan 2014 06:53:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s036rGSj013606
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 2 Jan 2014 22:53:16 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 2 Jan 2014 22:53:15 -0800
-Message-ID: <52C65E59.9050009@windriver.com>
-Date: Fri, 3 Jan 2014 14:53:13 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Tom Zanussi <tom.zanussi@intel.com>
-References: <cover.1388424165.git.tom.zanussi@linux.intel.com>	
-	<52C21E0F.7020400@windriver.com> <1388469272.3048.8.camel@empanada>
-	<1388672192.3048.9.camel@empanada>
-In-Reply-To: <1388672192.3048.9.camel@empanada>
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1][dora] - Fix for Bug 5403
+	Fri,  3 Jan 2014 07:58:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 02 Jan 2014 23:58:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,596,1384329600"; d="scan'208";a="453139544"
+Received: from cvoicu-vostro-460.rb.intel.com (HELO google.com.com)
+	([10.237.105.151])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Jan 2014 23:58:47 -0800
+From: Cristiana Voicu <cristiana.voicu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Jan 2014 10:05:39 +0200
+Message-Id: <cover.1388735980.git.cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] Package upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,75 +28,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2014 06:53:16 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Jan 2014 07:58:48 -0000
 
+The package has been succesfully compiled for all major architectures.
+Tested on a core-image-sato, functionalities like lsmod, kmod list or kmod -V.
 
-Hi Tom,
+The following changes since commit 005af45191ded6185c618c708181b31281e43092:
 
-Thanks, I've put it on the dora-next, and we need wait for RP's merge,
-you don't have to do anything else:-)
+  bitbake: fetch2: avoid printing "no checksum" error message twice (2013-12-22 14:29:13 +0000)
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=robert/dora-next
+are available in the git repository at:
 
-// Robert
+  git://git.yoctoproject.org/poky-contrib cvoicu/work2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cvoicu/work2
 
-On 01/02/2014 10:16 PM, Tom Zanussi wrote:
-> Hi Robert,
->
-> So this has been pulled into master, but I don't see it in dora.
->
-> Is there anything else I need to do so I can close the bug out?
->
-> Tom
->
-> On Mon, 2013-12-30 at 23:54 -0600, Tom Zanussi wrote:
->> Hi Robert,
->>
->> Yes, I'm still testing the one for master - will post tomorrow.
->>
->> Tom
->>
->>
->> On Tue, 2013-12-31 at 09:29 +0800, Robert Yang wrote:
->>> Hi Tom,
->>>
->>> Thanks, do we also need a patch for master ?
->>>
->>> // Robert
->>>
->>> On 12/31/2013 01:31 AM, Tom Zanussi wrote:
->>>> This fixes a problem seen when accessing function params in systemtap
->>>> on certain platforms, due to flaky debuginfo.
->>>>
->>>> Tested on the following machines with various systemtap scripts:
->>>>
->>>> qemuppc
->>>> qemuarm
->>>> qemux86
->>>> qemux86-64
->>>> crownbay
->>>> nuc
->>>>
->>>> The following changes since commit 3cf2d232529c4fd6b58f87ddbf3df9d805e4180f:
->>>>
->>>>     libsoup-2.4: add intltool-native to DEPENDS (2013-12-20 09:29:05 +0000)
->>>>
->>>> are available in the git repository at:
->>>>
->>>>     git://git.yoctoproject.org/poky-contrib.git tzanussi/systemtap-bug-5403-dora
->>>>     http://git.yoctoproject.org/cgit.cgi//log/?h=tzanussi/systemtap-bug-5403-dora
->>>>
->>>> Tom Zanussi (1):
->>>>     systemtap: Add --enable-prologues to configuration
->>>>
->>>>    meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
->>>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>
->
->
->
->
+Cristiana Voicu (1):
+  kmod: Update to Rev 16 via git
+
+ meta/recipes-kernel/kmod/kmod-native_git.bb        |    3 +-
+ meta/recipes-kernel/kmod/kmod.inc                  |    5 +--
+ .../kmod/0001-Fix-build-with-older-gcc-4.6.patch   |   44 --------------------
+ .../kmod/kmod/fix-seperatebuilddir.patch           |   34 ---------------
+ 4 files changed, 3 insertions(+), 83 deletions(-)
+ delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-Fix-build-with-older-gcc-4.6.patch
+ delete mode 100644 meta/recipes-kernel/kmod/kmod/fix-seperatebuilddir.patch
+
+-- 
+1.7.9.5
+
 
