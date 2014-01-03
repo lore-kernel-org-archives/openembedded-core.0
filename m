@@ -1,27 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <cristian.iorga@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 004AF615B0;
-	Fri,  3 Jan 2014 13:51:00 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id CA5F66B6C7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Jan 2014 14:27:33 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Jan 2014 05:50:53 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 03 Jan 2014 06:27:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,598,1384329600"; d="scan'208";a="459614737"
-Received: from unknown (HELO helios.localnet) ([10.252.122.130])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Jan 2014 05:50:51 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 03 Jan 2014 13:50:48 +0000
-Message-ID: <1694437.j8KFTqxpoU@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <20140103133727.GE3707@jama>
-References: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
-	<8077054.ZVN9KvzOmn@helios> <20140103133727.GE3707@jama>
-MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Piglit in Poky
+X-IronPort-AV: E=Sophos;i="4.95,598,1384329600"; d="scan'208";a="459627788"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jan 2014 06:27:33 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Jan 2014 16:30:03 +0200
+Message-Id: <cover.1388759244.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/8] Various comm and multimedia PUs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,123 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2014 13:51:01 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 03 Jan 2014 14:27:35 -0000
 
-On Friday 03 January 2014 14:37:27 Martin Jansa wrote:
-> On Fri, Jan 03, 2014 at 01:26:05PM +0000, Paul Eggleton wrote:
-> > On Friday 03 January 2014 13:25:13 Andrei Gherzan wrote:
-> > > On Sun, Dec 29, 2013 at 04:44:52PM +0100, Koen Kooi wrote:
-> > > > -----BEGIN PGP SIGNED MESSAGE-----
-> > > > Hash: SHA1
-> > > > 
-> > > > Philip Balister schreef op 28-12-13 23:33:
-> > > > > On 12/28/2013 10:28 AM, Koen Kooi wrote:
-> > > > >> Paul Eggleton schreef op 28-12-13 12:48:
-> > > > >>> Hi Koen,
-> > > > >>> 
-> > > > >>> On Tuesday 24 December 2013 15:22:32 Koen Kooi wrote:
-> > > > >>>> Burton, Ross schreef op 23-12-13 19:01:
-> > > > >>>>> We'd like to integrate Piglit (an OpenGL test suite) into Poky
-> > > > >>>>> so that we can run automated QA on the GL stack.  Piglit is
-> > > > >>>>> currently residing in meta-oe, but as Poky is a self-contained
-> > > > >>>>> project we can't just add meta-oe to it:  apart from the size of
-> > > > >>>>> meta-oe, we can't ensure stability if meta-oe makes incompatible
-> > > > >>>>> changes that affect Poky.
-> > > > >>>>> 
-> > > > >>>>> Piglit isn't a stand-alone package, there are the dependencies
-> > > > >>>>> of waffle, python-mako and python-numpy to consider too.  There
-> > > > >>>>> are two possibilities I can see:
-> > > > >>>>> 
-> > > > >>>>> 1) Move piglit and deps to oe-core.  Piglit is for QA purposes
-> > > > >>>>> only and pushes the boundaries of "core platform".  In a sense
-> > > > >>>>> this is a repeat of the discussion we had with Midori...  does
-> > > > >>>>> oe-core contain everything needed to sufficiently exercise the
-> > > > >>>>> core components it ships or not?
-> > > > >>>>> 
-> > > > >>>>> 2) Add piglit and deps to meta-yocto.  Probably a new layer
-> > > > >>>>> called meta-yocto-qa (or similar) because the Yocto Compatible
-> > > > >>>>> guidelines forbid mixing distribution policy and recipes.
-> > > > >>>> 
-> > > > >>>> Speaking of layers, can you *please* rename meta-yocto to
-> > > > >>>> meta-poky? It's what it's actually is and would remove a lot of
-> > > > >>>> confusion when trying to explain that yocto is not a distro, even
-> > > > >>>> if the distro layer is called 'meta-yocto'.
-> > > > >>> 
-> > > > >>> This is a tangent, but a couple of points:
-> > > > >>> 
-> > > > >>> 1) This rename would not come for free. We'd need to update
-> > > > >>> people's
-> > > > >>> existing bblayers.conf files on the fly, as we did when
-> > > > >>> meta-yocto-bsp was split out of meta-yocto, and thus bump
-> > > > >>> LCONF_VERSION; however, doing this only in poky has resulted in
-> > > > >>> annoying problems when users remove poky from their configurations
-> > > > >>> (since LCONF_VERSION is out-of-step between Poky and OE-Core,
-> > > > >>> leading
-> > > > >>> to confusing errors in this situation). Thus I think we'd want to
-> > > > >>> solve this once and for all by bumping the value in OE-Core as
-> > > > >>> well
-> > > > >>> as Poky.
-> > > > >>> 
-> > > > >>> 2) If you propose this rename, perhaps you will also consider
-> > > > >>> renaming meta-oe, since that name within a similarly named
-> > > > >>> meta-openembedded repository leads to a similar level of
-> > > > >>> confusion...?
-> > > > >> 
-> > > > >> I have no problems with renaming that layer since I get confused by
-> > > > >> this a few times a week myself :)
-> > > > > 
-> > > > > What would we we rename it to?
-> > > > 
-> > > > I'm very tempted to suggest 'meta-yocto'
-> > > 
-> > > I definitely find meta-yocto a better option here. It would save me from
-> > > some confusion when talking about yocto to other people.
-> > 
-> > I'm not following; meta-yocto is already called meta-yocto ... ? Maybe you
-> > didn't realise Koen was joking...
-> 
-> My understanding was that Koen was talking about renaming
-> meta-openembedded repository to meta-yocto, which would be kind of nice,
-> but too late for that now, it would be very confusing with the other
-> meta-yocto repository.
+The following changes since commit 17aa50645015a149298e78a175bbd3cbf171df22:
 
-I don't think that would be possible anyway. The Yocto Project itself does not 
-officially maintain support for the contents of that repository. It's true that 
-I'm maintaining meta-webserver and folks at Wind River are maintaining meta-
-networking and some other bits and pieces, but AIUI that work isn't officially 
-under the Yocto Project umbrella - e.g. we do not run these through our QA / 
-testing / release processes like we do Poky / OE-Core.
+  classes/package: set SUMMARY in do_split_packages() (2014-01-02 22:39:24 +0000)
 
-> > > Related to meta-oe, even if that would be a smaller problem, I think
-> > > meta-openembedded is a better name for that layer too.
-> > 
-> > That doesn't solve the problem I was talking about, namely that there's
-> > little distinction between meta-openembedded the repository (that
-> > contains a number of layers) and meta-oe which is one of those layers.
-> > These are two different things and the similar naming makes it hard to
-> > always know which one people are talking about.
+are available in the git repository at:
 
-FWIW, I didn't yet mention my suggestion - I was thinking about meta-oe (the 
-layer) being renamed to "meta-misc" in the absence of some better suggestion. 
-I'm sure we could have a transition mechanism via a specialised layer.conf 
-where the old name continues to work for a limited time.
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
 
-> What's even worse is that github mirror names the repositories
-> meta-oe/oe-core so even the small distinction "meta-openembedded" =
-> repo, "meta-oe" = layer doesn't work there.
-> 
-> https://github.com/openembedded
+Cristian Iorga (8):
+  gstreamer1.0: upgrade to 1.2.2
+  gstreamer1.0-plugins-base: upgrade to 1.2.2
+  gstreamer1.0-plugins-good: upgrade to 1.2.2
+  gstreamer1.0-plugins-bad: upgrade to 1.2.2
+  gstreamer1.0-plugins-ugly: upgrade to 1.2.2
+  gstreamer1.0-libav: upgrade to 1.2.2
+  ofono: upgrade to 1.14
+  bluez5: upgrade to 5.13
 
-Yes, that should definitely be changed as well. They're supposed to be mirrors 
-so they should have the exact same names, IMHO.
-
-Cheers,
-Paul
+ meta/recipes-connectivity/bluez5/bluez5_5.12.bb    |  5 ----
+ meta/recipes-connectivity/bluez5/bluez5_5.13.bb    |  5 ++++
+ .../ofono/{ofono_1.13.bb => ofono_1.14.bb}         |  4 +--
+ .../gstreamer/gstreamer1.0-libav.inc               |  3 --
+ ...-libav_1.2.0.bb => gstreamer1.0-libav_1.2.2.bb} |  4 +--
+ ...uez-fix-compilation-on-big-endian-systems.patch | 35 ----------------------
+ ..._1.2.0.bb => gstreamer1.0-plugins-bad_1.2.2.bb} |  6 ++--
+ ...1.2.0.bb => gstreamer1.0-plugins-base_1.2.2.bb} |  5 ++--
+ ...1.2.0.bb => gstreamer1.0-plugins-good_1.2.2.bb} |  5 ++--
+ ...1.2.0.bb => gstreamer1.0-plugins-ugly_1.2.2.bb} |  4 +--
+ ...gstreamer1.0_1.2.0.bb => gstreamer1.0_1.2.2.bb} |  4 +--
+ 11 files changed, 19 insertions(+), 61 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.12.bb
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.13.bb
+ rename meta/recipes-connectivity/ofono/{ofono_1.13.bb => ofono_1.14.bb} (52%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.2.0.bb => gstreamer1.0-libav_1.2.2.bb} (89%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/bluez-fix-compilation-on-big-endian-systems.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.2.0.bb => gstreamer1.0-plugins-bad_1.2.2.bb} (67%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.2.0.bb => gstreamer1.0-plugins-base_1.2.2.bb} (72%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.2.0.bb => gstreamer1.0-plugins-good_1.2.2.bb} (73%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.2.0.bb => gstreamer1.0-plugins-ugly_1.2.2.bb} (66%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.2.0.bb => gstreamer1.0_1.2.2.bb} (72%)
 
 -- 
+1.8.3.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
