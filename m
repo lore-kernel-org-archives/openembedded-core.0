@@ -1,27 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A9C3860CF1
+	by mail.openembedded.org (Postfix) with ESMTP id 6BC646B2BC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jan 2014 09:41:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s039f5G0018029
+	Fri,  3 Jan 2014 09:43:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s039hHc8018047
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jan 2014 01:41:05 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 3 Jan 2014 01:41:04 -0800
-Message-ID: <52C685AF.7080003@windriver.com>
-Date: Fri, 3 Jan 2014 17:41:03 +0800
+	Fri, 3 Jan 2014 01:43:17 -0800 (PST)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 3 Jan 2014 01:43:17 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1388397582.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1388397582.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/6] upgrade automake/autogen-native/make/git
+Date: Sat, 4 Jan 2014 01:45:46 +0800
+Message-ID: <cover.1388771106.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [PATCH 0/3] upgrade e2fsprogs and logrotate
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,80 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2014 09:41:05 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Jan 2014 09:43:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+The following changes since commit b26fe9bc5b459770c0716ba086b905924d7f2b9b:
 
+  mime.bbclass: remove the --disable-update-mimedb (2014-01-04 01:25:27 +0800)
 
-On 12/30/2013 06:02 PM, Robert Yang wrote:
-> I have tested these upgrades on the local autobuilder.
->
-> // Robert
->
-> The following changes since commit 5c95cc221aa55df7c25e3254d30a7a4b70ff5359:
->
->    maintainers.inc: reassign tzcode-native (2013-12-27 19:35:02 +0800)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib robert/upgrade
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/upgrade
->
-> Robert Yang (6):
->    automake: upgrade to 1.14
+are available in the git repository at:
 
-The automake has a conflict with Paul's patch, and two of the commits
-have been merged, so I rebased them and pushed to git contrib agagin:
+  git://git.pokylinux.org/poky-contrib robert/up
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/up
 
-   git://git.pokylinux.org/poky-contrib robert/upgrade
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/upgrade
+Robert Yang (3):
+  e2fsprogs: upgrade to 1.42.9
+  logrotate: upgrade to 3.8.7
+  logrotate: two minor fixes
 
-Robert Yang (4):
-   automake: upgrade to 1.14
-   autoconf: remove path_prog_fixes.patch
-   autogen-native: upgrade to 5.18.2
-   make: upgrade to 4.0
+ .../e2fsprogs-1.42.8/debugfs-extent-header.patch   |  47 -------
+ .../e2fsprogs-1.42.8/debugfs-sparse-copy.patch     | 148 ---------------------
+ .../e2fsprogs-1.42.8/debugfs-too-short.patch       |  41 ------
+ .../e2fsprogs-fix-tests-f_extent_oobounds.patch    |  43 ------
+ .../e2fsprogs/e2fsprogs-1.42.8/fallocate.patch     |  22 ---
+ .../{e2fsprogs-1.42.8 => e2fsprogs}/acinclude.m4   |   0
+ .../fix-icache.patch                               |   6 +-
+ .../{e2fsprogs-1.42.8 => e2fsprogs}/mkdir.patch    |   0
+ .../populate-extfs.sh                              |   0
+ .../quiet-debugfs.patch                            |   0
+ .../remove.ldconfig.call.patch                     |   0
+ .../{e2fsprogs_1.42.8.bb => e2fsprogs_1.42.9.bb}   |  10 +-
+ .../act-as-mv-when-rotate.patch                    |  53 ++++++--
+ .../disable-check-different-filesystems.patch      |   2 +-
+ .../logrotate-CVE-2011-1548.patch                  |   0
+ .../update-the-manual.patch                        |  18 +--
+ .../{logrotate_3.8.1.bb => logrotate_3.8.7.bb}     |  13 +-
+ 17 files changed, 52 insertions(+), 351 deletions(-)
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-extent-header.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-too-short.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/e2fsprogs-fix-tests-f_extent_oobounds.patch
+ delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/fallocate.patch
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.8 => e2fsprogs}/acinclude.m4 (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.8 => e2fsprogs}/fix-icache.patch (91%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.8 => e2fsprogs}/mkdir.patch (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.8 => e2fsprogs}/populate-extfs.sh (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.8 => e2fsprogs}/quiet-debugfs.patch (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.8 => e2fsprogs}/remove.ldconfig.call.patch (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.42.8.bb => e2fsprogs_1.42.9.bb} (85%)
+ rename meta/recipes-extended/logrotate/{logrotate-3.8.1 => logrotate}/act-as-mv-when-rotate.patch (65%)
+ rename meta/recipes-extended/logrotate/{logrotate-3.8.1 => logrotate}/disable-check-different-filesystems.patch (96%)
+ rename meta/recipes-extended/logrotate/{logrotate-3.8.1 => logrotate}/logrotate-CVE-2011-1548.patch (100%)
+ rename meta/recipes-extended/logrotate/{logrotate-3.8.1 => logrotate}/update-the-manual.patch (61%)
+ rename meta/recipes-extended/logrotate/{logrotate_3.8.1.bb => logrotate_3.8.7.bb} (74%)
 
-// Robert
+-- 
+1.8.3.1
 
->    autoconf: remove path_prog_fixes.patch
->    autogen-native: upgrade to 5.18.2
->    make: remove the obsolete SCCS.patch
->    make: upgrade to 4.0
->    git: upgrade to 1.8.5.2
->
->   .../autoconf/autoconf/path_prog_fixes.patch        | 128 --------------
->   meta/recipes-devtools/autoconf/autoconf_2.69.bb    |   1 -
->   ...n-native_5.17.4.bb => autogen-native_5.18.2.bb} |   6 +-
->   .../autogen/{files => autogen}/guile.patch         |  48 +++---
->   .../increase-timeout-limit.patch                   |   0
->   .../automake/automake/path_prog_fixes.patch        |  41 -----
->   .../prefer-cpio-over-pax-for-ustar-archives.patch  |  48 ------
->   .../{automake_1.13.4.bb => automake_1.14.bb}       |  14 +-
->   meta/recipes-devtools/git/git.inc                  |   1 -
->   .../git/{git_1.8.4.4.bb => git_1.8.5.2.bb}         |   5 +-
->   meta/recipes-devtools/make/files/SCCS.patch        |  17 --
->   .../make/make-3.82/expand_MAKEFLAGS.patch          |  39 -----
->   .../make-3.82/intermediate-target-bugfix.patch     |  23 ---
->   .../make-savannah-bug30612-fix_white_space.patch   |  58 -------
->   ...ke-savannah-bug30612-handling_of_archives.patch | 188 ---------------------
->   meta/recipes-devtools/make/make.inc                |   3 +-
->   .../make/{make_3.82.bb => make_4.0.bb}             |  10 +-
->   17 files changed, 41 insertions(+), 589 deletions(-)
->   delete mode 100644 meta/recipes-devtools/autoconf/autoconf/path_prog_fixes.patch
->   rename meta/recipes-devtools/autogen/{autogen-native_5.17.4.bb => autogen-native_5.18.2.bb} (88%)
->   rename meta/recipes-devtools/autogen/{files => autogen}/guile.patch (89%)
->   rename meta/recipes-devtools/autogen/{files => autogen}/increase-timeout-limit.patch (100%)
->   delete mode 100644 meta/recipes-devtools/automake/automake/path_prog_fixes.patch
->   delete mode 100644 meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
->   rename meta/recipes-devtools/automake/{automake_1.13.4.bb => automake_1.14.bb} (75%)
->   rename meta/recipes-devtools/git/{git_1.8.4.4.bb => git_1.8.5.2.bb} (67%)
->   delete mode 100644 meta/recipes-devtools/make/files/SCCS.patch
->   delete mode 100644 meta/recipes-devtools/make/make-3.82/expand_MAKEFLAGS.patch
->   delete mode 100644 meta/recipes-devtools/make/make-3.82/intermediate-target-bugfix.patch
->   delete mode 100644 meta/recipes-devtools/make/make-3.82/make-savannah-bug30612-fix_white_space.patch
->   delete mode 100644 meta/recipes-devtools/make/make-3.82/make-savannah-bug30612-handling_of_archives.patch
->   rename meta/recipes-devtools/make/{make_3.82.bb => make_4.0.bb} (44%)
->
 
