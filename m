@@ -1,35 +1,37 @@
-Return-Path: <kbaker@gmail.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E14C26B6C7
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AA8960D37
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Jan 2014 04:46:09 +0000 (UTC)
-Received: by mail-ob0-f179.google.com with SMTP id wm4so16273303obc.24
+	Sat,  4 Jan 2014 08:32:11 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id w61so14419233wes.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Jan 2014 20:46:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=BldCcikUj3wvHu31mJj6wUDHnQQKAosVEhCSagVqhz4=;
-	b=YbqXSRh6vXt9GB3w8LqXjaunssfGasbvUZuOUToWVldVyvKFD/zGHb83tyx4qOWRJG
-	jaA70mZV1N28k8npf/Ol3kNqBi23vxh2F9os9+t6jq5PNYkVi/5+q5Y2MgVlPVjDZVkZ
-	Mu9ApYC6y9xuoUw+7QmtT+O4D05tBVDYrZEd2Sqq4RQiwVhhLmhBs5dLXiEi3ktB7ref
-	Prg2joZwzSPy2HSO4OxPOVogj82WSYC5N9QjE+qIZQfqw+AFJIPH2wAKpGGqfxYk/ABk
-	2epYI1usqzmQvpZzonlA5v6U82BcNPaC8liNkZlgB32SvhOe+Mv+2AkMq1MQweWu5cWz
-	eiLg==
-X-Received: by 10.60.16.201 with SMTP id i9mr61160690oed.14.1388810770713;
-	Fri, 03 Jan 2014 20:46:10 -0800 (PST)
-Received: from embedded-dev.crm.ventureresearch.com
-	(209-253-130-3.ip.mcleodusa.net. [209.253.130.3])
-	by mx.google.com with ESMTPSA id
-	tz10sm74790769obc.10.2014.01.03.20.46.09 for <multiple recipients>
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Fri, 03 Jan 2014 20:46:10 -0800 (PST)
-From: Kevin Baker <kbaker@gmail.com>
+	Sat, 04 Jan 2014 00:32:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=OXW6z1Mw35b/PyFrFuclrs+gfTroU85PLEZGCUumIFw=;
+	b=k/AWW4eWJSVMy0YEmApbFyg2P4usuMCZ8WxVFby/7go03l2fFaOd58k0z6OATehfws
+	X2UcFm81vX2YScgjg1Km6q2PlZ+nDkpy3WSfLOBtUjun/H5rkiVuzRuLLKaGH9qhMQt2
+	N0RRc4LjaQR0ptmxJvlHtXIuKXOvRGk4nA6KJ7TOrbLWD7YSt4ygMQclLeKM65XoaWMA
+	bfWxmohIzrhuw+NkjQRFKXYzeKL3EZ2WxvRePF2AY7Z/mZLQebEGn9y7fdpHH6wd/vtP
+	WP2sIL+rEb+R+He6WL+bQenqyb+HUMuDZzsGwD4EgawvpCm0crjz87dKf6d9EzSnI8cv
+	ybUQ==
+X-Gm-Message-State: ALoCoQnTdvfTr9ZC9CPKK5B2zd1ltoEK2D9I8IbLeqh36nL4M9YRC/j6smRD9DVei60rZrUkQHTx
+X-Received: by 10.180.93.196 with SMTP id cw4mr4885855wib.39.1388824331840;
+	Sat, 04 Jan 2014 00:32:11 -0800 (PST)
+Received: from localhost ([2001:610:612:0:223:32ff:fece:c738])
+	by mx.google.com with ESMTPSA id bc5sm6560449wib.4.2014.01.04.00.32.09
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 04 Jan 2014 00:32:10 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jan 2014 22:46:05 -0600
-Message-Id: <1388810765-9560-1-git-send-email-kbaker@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] screen: update debian patchset to version 4.0.3-14
+Date: Sat,  4 Jan 2014 09:32:14 +0100
+Message-Id: <1388824334-14836-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] xf86-video-modesetting: update to 0.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,44 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Jan 2014 04:46:11 -0000
+X-List-Received-Date: Sat, 04 Jan 2014 08:32:14 -0000
 
-This recipe used an old version of the debian update patchset from Lenny which
-does not exist anymore on Debian's FTP servers. Update to the latest set
-version 4.0.3-14 which also includes some minor bug fixes and security updates.
+This fixes a build error with recent Xorg libs
 
-Cleanly builds and runs in our armv7a-vfp-neon environment.
-
-Signed-off-by: Kevin Baker <kbaker@gmail.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-extended/screen/screen_4.0.3.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.0.bb | 8 --------
+ meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.1.bb | 8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.0.bb
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.1.bb
 
-diff --git a/meta/recipes-extended/screen/screen_4.0.3.bb b/meta/recipes-extended/screen/screen_4.0.3.bb
-index b79b573..edbf4f2 100644
---- a/meta/recipes-extended/screen/screen_4.0.3.bb
-+++ b/meta/recipes-extended/screen/screen_4.0.3.bb
-@@ -17,7 +17,7 @@ RDEPENDS_${PN} = "base-files"
- PR = "r3"
- 
- SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz;name=tarball \
--           ${DEBIAN_MIRROR}/main/s/screen/screen_4.0.3-11+lenny1.diff.gz;name=patch \
-+           ${DEBIAN_MIRROR}/main/s/screen/screen_4.0.3-14.diff.gz;name=patch \
-            file://configure.patch \
-            file://fix-parallel-make.patch \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
-@@ -27,8 +27,8 @@ PAM_SRC_URI = "file://screen.pam"
- SRC_URI[tarball.md5sum] = "8506fd205028a96c741e4037de6e3c42"
- SRC_URI[tarball.sha256sum] = "78f0d5b1496084a5902586304d4a73954b2bfe33ea13edceecf21615c39e6c77"
- 
--SRC_URI[patch.md5sum] = "9bacd9be1d9c57e2e0381df2775b33e0"
--SRC_URI[patch.sha256sum] = "19130d097e9ed897c84a2c640634dd36ee3233c17b0bf5d18549ed1e064b3073"
-+SRC_URI[patch.md5sum] = "5960bdae6782ee9356b7e0e0a1fa7c19"
-+SRC_URI[patch.sha256sum] = "10acb274b2fb0bb7137a0d66e52fa0f18125bc5198c7a8d5af381b4b30636316"
- 
- inherit autotools
- 
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.0.bb
+deleted file mode 100644
+index b13db41..0000000
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.0.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require xorg-driver-video.inc
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5e53d3fcadb1c23d122ad63cb099a918"
+-
+-SUMMARY = "X.Org X server -- modesetting display driver"
+-DESCRIPTION = "Provides a generic kernel modesetting display driver for the X.Org X server."
+-
+-SRC_URI[md5sum] = "1a25d6210257d4e493daf048f8b705a9"
+-SRC_URI[sha256sum] = "13dc349e9aa50987ab2479d27d6879cda2c1f9ad8c8d3a1422a2f53c36f047f8"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.1.bb b/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.1.bb
+new file mode 100644
+index 0000000..5bb8926
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-modesetting_0.8.1.bb
+@@ -0,0 +1,8 @@
++require xorg-driver-video.inc
++LIC_FILES_CHKSUM = "file://COPYING;md5=5e53d3fcadb1c23d122ad63cb099a918"
++
++SUMMARY = "X.Org X server -- modesetting display driver"
++DESCRIPTION = "Provides a generic kernel modesetting display driver for the X.Org X server."
++
++SRC_URI[md5sum] = "eb275e1ff0031897bcf23e2e5cb8655a"
++SRC_URI[sha256sum] = "3ba8d8d7cb679497abc6486e2e843f8ea1582d830a27448ed4c90413e58312ca"
 -- 
-1.8.3.4
+1.8.4.2
 
 
