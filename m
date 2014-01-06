@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 41B8E60D86
+	by mail.openembedded.org (Postfix) with ESMTP id 0421160D86
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  6 Jan 2014 07:27:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s067RFcW003106
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s067RHbd003112
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 5 Jan 2014 23:27:15 -0800 (PST)
+	Sun, 5 Jan 2014 23:27:17 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 5 Jan 2014 23:27:15 -0800
+	14.2.347.0; Sun, 5 Jan 2014 23:27:16 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Jan 2014 15:27:33 +0800
-Message-ID: <cover.1388992959.git.Qi.Chen@windriver.com>
+Date: Mon, 6 Jan 2014 15:27:34 +0800
+Message-ID: <4d238e1bc25219cf36701450e65fa0faef603031.1388992959.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1388992959.git.Qi.Chen@windriver.com>
+References: <cover.1388992959.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 0/2] Split the functions script into a separate package in initscripts
+Subject: [PATCH V3 1/2] initscripts: split the functions script into a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +33,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2014 07:27:15 -0000
+X-List-Received-Date: Mon, 06 Jan 2014 07:27:16 -0000
 Content-Type: text/plain
 
-Changes since V2:
-1. Fix the FILES for the initscripts-functions package
-2. Rebase against the latest master
+Many SysV init scripts need the /etc/init.d/functions script. But
+this script is part of the initscripts package. As a result, the
+initscripts package should always be installed into the system to
+avoid errors when starting daemons. However, it makes no sense to
+install the initscripts package into a systemd based image, because
+what the init scripts provide has already been provided by the systemd.
+On the other hand, the functions script might be still needed in a
+systemd based image because other init scripts such as distcc might need
+it.
 
-//Chen Qi
+The above situation leads to a natural separation of the functions script
+from the initscripts package. And this patch does so. It separates the
+functions script into initscripts-functions packages.
 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/initscripts/initscripts_1.0.bb |    8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-The following changes since commit f33c990db392c6b208efecea0f941449c4d25cec:
-
-  maintainers.inc: reassign e2fsprogs (2014-01-03 15:16:42 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/initscripts-functions
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/initscripts-functions
-
-Chen Qi (2):
-  initscripts: split the functions script into a separate package
-  Add missing RDEPENDS of initscripts-functions
-
- meta/recipes-bsp/alsa-state/alsa-state.bb          |    2 +-
- meta/recipes-bsp/apmd/apmd_3.2.2-14.bb             |    1 +
- .../irda-utils/irda-utils_0.9.18.bb                |    2 ++
- .../nfs-utils/nfs-utils_1.2.9.bb                   |    4 ++--
- meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    2 +-
- meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    1 +
- meta/recipes-core/dbus/dbus.inc                    |    2 +-
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    8 ++++++--
- meta/recipes-core/systemd/systemd_208.bb           |    2 +-
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    2 +-
- meta/recipes-devtools/distcc/distcc_3.1.bb         |    1 +
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    2 +-
- meta/recipes-extended/at/at_3.1.14.bb              |    3 +--
- meta/recipes-extended/cronie/cronie_1.4.11.bb      |    2 ++
- meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |    2 ++
- meta/recipes-extended/sysklogd/sysklogd.inc        |    2 ++
- meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    1 +
- .../oprofile/oprofileui-server_git.bb              |    2 +-
- 18 files changed, 28 insertions(+), 13 deletions(-)
-
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 5951e0c..d1644a3 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -42,8 +42,12 @@ KERNEL_VERSION = ""
+ inherit update-alternatives
+ DEPENDS_append = " update-rc.d-native"
+ 
+-ALTERNATIVE_PRIORITY = "90"
+-ALTERNATIVE_${PN} = "functions"
++PACKAGES =+ "${PN}-functions"
++RDEPENDS_${PN} = "${PN}-functions"
++FILES_${PN}-functions = "${sysconfdir}/init.d/functions*"
++
++ALTERNATIVE_PRIORITY_${PN}-functions = "90"
++ALTERNATIVE_${PN}-functions = "functions"
+ ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
+ 
+ HALTARGS ?= "-d -f"
 -- 
 1.7.9.5
 
