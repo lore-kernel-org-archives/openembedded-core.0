@@ -1,35 +1,26 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
-	[209.85.160.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 06D4560D27
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CADC6B717
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2014 17:17:35 +0000 (UTC)
-Received: by mail-pb0-f49.google.com with SMTP id jt11so18473294pbb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Jan 2014 09:17:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=jCpOhs1sRjzKa98OZ6QkW/7SR/C9YPX7V37Znn5fs9c=;
-	b=NBbsdWWdfGVkWwVqRkvXh1mdn0qaXtCFnPCcP7ZsjNin4sTyjxtms1Uj4D3VaYO0t1
-	0ysfCGNSVTUb+U8hVUwxC00MijNeHjKBa9YwPqPVsfNESyQXOw7+mS4de2lms1O6IkPl
-	iQPKR/K9CUUHnxiI6XJvlffUW6FmHxzzDB5qbvo5ZmT8Ct3mcoZKsN9Ynn3MbexoIc5v
-	KWYsCkng9/WRMASDncY2qAb6ww/bN/agG+s+j+6wDxk1g4Fv4cZsOSkMp+OETuHpvSxf
-	4IKAO0OCbSifpK4vGqZBV26FFl0goQEv9qNKT/l7wFIIhnoCBZ7LcCa1LYxu5pQB6REG
-	YnKw==
-X-Received: by 10.68.164.4 with SMTP id ym4mr83269294pbb.53.1389028653221;
-	Mon, 06 Jan 2014 09:17:33 -0800 (PST)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id
-	ic7sm130136768pbc.29.2014.01.06.09.17.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 06 Jan 2014 09:17:31 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jan 2014 10:17:27 -0700
-Message-Id: <1389028647-450-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] base.bbclass: pull in file-native for src.rpm
+	Mon,  6 Jan 2014 22:10:12 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jan 2014 14:06:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,614,1384329600"; d="scan'208";a="462529943"
+Received: from unknown (HELO [10.255.12.53]) ([10.255.12.53])
+	by orsmga002.jf.intel.com with ESMTP; 06 Jan 2014 14:10:05 -0800
+Message-ID: <52CB29BA.5050404@linux.intel.com>
+Date: Mon, 06 Jan 2014 14:10:02 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: Laszlo Papp <lpapp@kde.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <1387889050-25592-1-git-send-email-lpapp@kde.org>
+	<CAOMwXhOfJEkntBTQLDGWjRYA6jorCWNEUF1+t8n5RJJoozcVJA@mail.gmail.com>
+In-Reply-To: <CAOMwXhOfJEkntBTQLDGWjRYA6jorCWNEUF1+t8n5RJJoozcVJA@mail.gmail.com>
+Subject: Re: [PATCH] lib/oe/patch.py: Prefer "git am" over "git apply" when applying git patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +33,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2014 17:17:35 -0000
+X-List-Received-Date: Mon, 06 Jan 2014 22:10:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Unpacking an src.rpm uses rpm2cpio.sh, which requires 'file'.
+On 12/31/2013 06:18 AM, Laszlo Papp wrote:
+> Ping?
+>
+> Alternatively, the system could also have an option for further
+> fine-tuning what to do with git patches
+>
+> On Tue, Dec 24, 2013 at 12:44 PM, Laszlo Papp <lpapp@kde.org> wrote:
+>> It is better to use "git am" when possible to preserve the commit messages and
+>> the mail format in general for patches when those are present. A typical use
+>> case is when developers would like to keep the changes on top of the latest
+>> upstream, and they may occasionally need to rebase. This is not possible with
+>> "git diff" and "diff" generated patches.
+>>
+>> Since this is not always the case, the fallback would be the "git apply"
+>> operation which is currently available.
+>>
+Looking at this, is it possible to detect a git patch and only then use 
+git am?  Since most of the patches carried in oe-core and other layers 
+the 'git am' will typically fail and increase the build time since it 
+will have to re-run the git apply, we don't want to had more forking and 
+work in the main hot path.
 
-Without this, builds of rpm on a host without 'file' installed will fail with
-very strange messages.
+I am not the expert in this, neither is RP, so maybe Chris can comment 
+further.
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- meta/classes/base.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+Thanks
+	Sau!
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 73920fd..2e5217b 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -582,6 +582,10 @@ python () {
-     if ".zip" in srcuri:
-         d.appendVarFlag('do_unpack', 'depends', ' unzip-native:do_populate_sysroot')
- 
-+    # file is needed by rpm2cpio.sh
-+    if ".src.rpm" in srcuri:
-+        d.appendVarFlag('do_unpack', 'depends', ' file-native:do_populate_sysroot')
-+
-     set_packagetriplet(d)
- 
-     # 'multimachine' handling
--- 
-1.8.3.4
 
+>> Signed-off-by: Laszlo Papp <lpapp@kde.org>
+>> ---
+>>   meta/lib/oe/patch.py | 20 +++++++++++++-------
+>>   1 file changed, 13 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+>> index 59abd0a..b085c9d 100644
+>> --- a/meta/lib/oe/patch.py
+>> +++ b/meta/lib/oe/patch.py
+>> @@ -203,17 +203,23 @@ class GitApplyTree(PatchTree):
+>>           PatchTree.__init__(self, dir, d)
+>>
+>>       def _applypatch(self, patch, force = False, reverse = False, run = True):
+>> -        shellcmd = ["git", "--git-dir=.", "apply", "-p%s" % patch['strippath']]
+>> +        def _applypatchhelper(shellcmd, patch, force = False, reverse = False, run = True):
+>> +            if reverse:
+>> +                shellcmd.append('-R')
+>>
+>> -        if reverse:
+>> -            shellcmd.append('-R')
+>> +            shellcmd.append(patch['file'])
+>>
+>> -        shellcmd.append(patch['file'])
+>> +            if not run:
+>> +                return "sh" + "-c" + " ".join(shellcmd)
+>>
+>> -        if not run:
+>> -            return "sh" + "-c" + " ".join(shellcmd)
+>> +            return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+>>
+>> -        return runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+>> +        try:
+>> +            shellcmd = ["git", "--work-tree=.", "am", "-3", "-p%s" % patch['strippath']]
+>> +            return _applypatchhelper(shellcmd, patch, force, reverse, run)
+>> +        except CmdError:
+>> +            shellcmd = ["git", "--git-dir=.", "apply", "-p%s" % patch['strippath']]
+>> +            return _applypatchhelper(shellcmd, patch, force, reverse, run)
+>>
+>>
+>>   class QuiltTree(PatchSet):
+>> --
+>> 1.8.5.1
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
