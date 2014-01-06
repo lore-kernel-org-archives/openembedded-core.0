@@ -1,24 +1,35 @@
-Return-Path: <Yasir_Khan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id E358A60D27
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
+	[209.85.160.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 06D4560D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2014 16:53:10 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1W0DQN-0004g8-6Y from Yasir_Khan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 06 Jan 2014 08:53:11 -0800
-Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 6 Jan 2014 08:53:10 -0800
-From: Yasir Khan <yasir_khan@mentor.com>
+	Mon,  6 Jan 2014 17:17:35 +0000 (UTC)
+Received: by mail-pb0-f49.google.com with SMTP id jt11so18473294pbb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Jan 2014 09:17:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=jCpOhs1sRjzKa98OZ6QkW/7SR/C9YPX7V37Znn5fs9c=;
+	b=NBbsdWWdfGVkWwVqRkvXh1mdn0qaXtCFnPCcP7ZsjNin4sTyjxtms1Uj4D3VaYO0t1
+	0ysfCGNSVTUb+U8hVUwxC00MijNeHjKBa9YwPqPVsfNESyQXOw7+mS4de2lms1O6IkPl
+	iQPKR/K9CUUHnxiI6XJvlffUW6FmHxzzDB5qbvo5ZmT8Ct3mcoZKsN9Ynn3MbexoIc5v
+	KWYsCkng9/WRMASDncY2qAb6ww/bN/agG+s+j+6wDxk1g4Fv4cZsOSkMp+OETuHpvSxf
+	4IKAO0OCbSifpK4vGqZBV26FFl0goQEv9qNKT/l7wFIIhnoCBZ7LcCa1LYxu5pQB6REG
+	YnKw==
+X-Received: by 10.68.164.4 with SMTP id ym4mr83269294pbb.53.1389028653221;
+	Mon, 06 Jan 2014 09:17:33 -0800 (PST)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id
+	ic7sm130136768pbc.29.2014.01.06.09.17.30
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 06 Jan 2014 09:17:31 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jan 2014 21:43:33 +0500
-Message-Id: <1389026613-56095-1-git-send-email-yasir_khan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-X-OriginalArrivalTime: 06 Jan 2014 16:53:11.0264 (UTC)
-	FILETIME=[C86E3E00:01CF0AFF]
-Subject: [PATCH] lighttpd: add www/{logs,var} symlinks
+Date: Mon,  6 Jan 2014 10:17:27 -0700
+Message-Id: <1389028647-450-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] base.bbclass: pull in file-native for src.rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2014 16:53:12 -0000
+X-List-Received-Date: Mon, 06 Jan 2014 17:17:35 -0000
 
-From: Yasir-Khan <yasir_khan@mentor.com>
+Unpacking an src.rpm uses rpm2cpio.sh, which requires 'file'.
 
-For FHS compliance, create symbolic links to write variable data
-to standard paths
+Without this, builds of rpm on a host without 'file' installed will fail with
+very strange messages.
 
-Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
 ---
- meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/classes/base.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
-index 528fda7..2ddab16 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
-@@ -47,7 +47,7 @@ INITSCRIPT_PARAMS = "defaults 70"
- SYSTEMD_SERVICE_${PN} = "lighttpd.service"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 73920fd..2e5217b 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -582,6 +582,10 @@ python () {
+     if ".zip" in srcuri:
+         d.appendVarFlag('do_unpack', 'depends', ' unzip-native:do_populate_sysroot')
  
- do_install_append() {
--	install -d ${D}${sysconfdir}/init.d ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
-+	install -d ${D}${sysconfdir}/init.d ${D}/www/pages/dav
- 	install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
- 	install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
-@@ -58,6 +58,9 @@ do_install_append() {
- 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
- 		-e 's,@BASE_BINDIR@,${base_bindir},g' \
- 		${D}${systemd_unitdir}/system/lighttpd.service
-+	#For FHS compliance, create symbolic links to /var/log and /var/tmp for logs and temporary data
-+	ln -sf ${localstatedir}/log ${D}/www/logs
-+	ln -sf ${localstatedir}/tmp ${D}/www/var
- }
++    # file is needed by rpm2cpio.sh
++    if ".src.rpm" in srcuri:
++        d.appendVarFlag('do_unpack', 'depends', ' file-native:do_populate_sysroot')
++
+     set_packagetriplet(d)
  
- FILES_${PN} += "${sysconfdir} /www"
+     # 'multimachine' handling
 -- 
-1.7.9.5
+1.8.3.4
 
 
