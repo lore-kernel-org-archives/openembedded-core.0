@@ -1,26 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C786760D2D;
-	Mon,  6 Jan 2014 11:22:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 06 Jan 2014 03:22:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,612,1384329600"; d="scan'208";a="434436285"
-Received: from unknown (HELO helios.localnet) ([10.252.122.119])
-	by orsmga001.jf.intel.com with ESMTP; 06 Jan 2014 03:22:56 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 06 Jan 2014 11:22:55 +0000
-Message-ID: <1424614.QymdokhKXO@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-34-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <20131224105050.GX3706@jama>
-References: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
-	<52B8DECA.6060704@balister.org> <20131224105050.GX3706@jama>
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f180.google.com (mail-ea0-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D0D460D7F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  6 Jan 2014 11:24:22 +0000 (UTC)
+Received: by mail-ea0-f180.google.com with SMTP id f15so7865978eak.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Jan 2014 03:24:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=435wuRIn7nziYFa9VYerRjvpXVKtuwCqQIy/2V9zn24=;
+	b=Ve96shCgRyN9NRqNeLp1QwtyjrwbYIYU5g1l7sFHuDxQauQfXjzQhUotd3hn9D1neS
+	r78LhpXrMj2Save1vQEGpYAjhGWWsslRXJHeGPr+nIG5BBoQgqJf0aD3T8vFROF+1+Nt
+	44sMI75cnBMQtu2uRqRmLM4HmyCbUm98WoEq6tIrXZV2qnoMReNW5EBDySazXqrJkd0B
+	sP4Hu/UE8YyU7QV4qInNzpEpxU+Cs+lK2bvNYvVrf1rOHhGwS8UrOUkZmxJsYFFcxYZ9
+	mkEcoDqDE5MNjH4hUnZP4+wyewFi3mcwa708HmbQoxR15/dLcIK8N0x5I9uwhddgKRuT
+	9Wig==
+X-Received: by 10.15.95.72 with SMTP id bc48mr34901588eeb.49.1389007462856;
+	Mon, 06 Jan 2014 03:24:22 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	n1sm170084740eep.20.2014.01.06.03.24.21 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 Jan 2014 03:24:22 -0800 (PST)
+Date: Mon, 6 Jan 2014 12:24:30 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Message-ID: <20140106112430.GG3709@jama>
+References: <1389006085-15308-1-git-send-email-koen@dominion.thruhere.net>
 MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Piglit in Poky
+In-Reply-To: <1389006085-15308-1-git-send-email-koen@dominion.thruhere.net>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] grub: add git version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +46,959 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2014 11:22:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 06 Jan 2014 11:24:22 -0000
+X-Groupsio-MsgNum: 48626
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SdvjNjn6lL3tIsv0"
+Content-Disposition: inline
 
-On Tuesday 24 December 2013 11:50:50 Martin Jansa wrote:
-> On Mon, Dec 23, 2013 at 08:09:30PM -0500, Philip Balister wrote:
-> > On 12/23/2013 01:01 PM, Burton, Ross wrote:
-> > > We'd like to integrate Piglit (an OpenGL test suite) into Poky so that
-> > > we can run automated QA on the GL stack.  Piglit is currently residing
-> > > in meta-oe, but as Poky is a self-contained project we can't just add
-> > > meta-oe to it:  apart from the size of meta-oe, we can't ensure
-> > > stability if meta-oe makes incompatible changes that affect Poky.
-> > > 
-> > > Piglit isn't a stand-alone package, there are the dependencies of
-> > > waffle, python-mako and python-numpy to consider too.  There are two
-> > > possibilities I can see:
-> > > 
-> > > 1) Move piglit and deps to oe-core.  Piglit is for QA purposes only
-> > > and pushes the boundaries of "core platform".  In a sense this is a
-> > > repeat of the discussion we had with Midori...  does oe-core contain
-> > > everything needed to sufficiently exercise the core components it
-> > > ships or not?
-> > 
-> > I expect Richard will push back on this, and I would support him here.
-> > 
-> > > 2) Add piglit and deps to meta-yocto.  Probably a new layer called
-> > > meta-yocto-qa (or similar) because the Yocto Compatible guidelines
-> > > forbid mixing distribution policy and recipes.  We'd need to sync
-> > > meta-yocto-qa with the pieces of meta-oe that we want somehow, but
-> > > that's our problem.
-> > 
-> > So meta-yocto is right out. I'm a user of numpy, and I certainly do not
-> > want to include something called meta-yocto-qa just to pick up numpy.
-> > 
-> > So this presents a quandry. Moving numpy to a special layer to support a
-> > specific recipe is just not the right thing to do. Conceivably, we could
-> > create a layer for the bits of meta-oe that are python related, but I am
-> > not sure that solves your entire problem.
-> > 
-> > I certainly do not want to see one recipe appear in two layers. That is
-> > a recipe for trouble.
-> > 
-> > Long term, we need to make the layer model work for the entire project
-> > and get over the reluctance to use other peoples layers.
-> 
-> Agreed, meta-python in meta-oe repository sounds a lot better than
-> having the same recipe in 2 layers.
+--SdvjNjn6lL3tIsv0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-FWIW, independent of this issue I'd like to see us have a meta-python layer in 
-the meta-openembedded repo anyway. I'll even volunteer to maintain it if it 
-helps.
+On Mon, Jan 06, 2014 at 12:01:25PM +0100, Koen Kooi wrote:
+> Recently grub git gained support for ARM builds (using u-boot or EFI as f=
+irst stage loader) and with 2 extra patches we get support for 64-bit ARM a=
+s well.
+>=20
+> Buildtested for genericarmv7a, genericarmv8 and qemux86. The genericarmv8=
+ build fails in do_package/strip due to a binutils problem.
 
-Cheers,
-Paul
+Current grub_2.00.bb recipe is always failing for qemux86-64, is it the sam=
+e/similar issue as genericarmv8?
 
--- 
+NOTE: Running task 16693 of 27381 (ID: 10143, /home/jenkins/oe/shr-core-bra=
+nches/shr-core/meta-openembedded/meta-xfce/recipes-panel-plugins/battery/xf=
+ce4-battery-plugin_1.0.5.bb, do_package)
+ERROR: debugedit failed with exit code 256 (cmd was '/home/jenkins/oe/shr-c=
+ore-branches/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/lib/rpm/bin/debu=
+gedit' -b '/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/x86_=
+64-oe-linux' -d '/usr/src/debug' -i -l '/home/jenkins/oe/shr-core-branches/=
+shr-core/tmp-eglibc/work/x86_64-oe-linux/grub/2.00-r1/debugsources.list' '/=
+home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/x86_64-oe-linux/=
+grub/2.00-r1/package/usr/lib/grub/i386-pc/gcry_twofish.module'):
+/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-linu=
+x/usr/lib/rpm/bin/debugedit: elf_update: invalid section alignment
+ERROR: Function failed: split_and_strip_files
+ERROR: Logfile of failure stored in: /home/jenkins/oe/shr-core-branches/shr=
+-core/tmp-eglibc/work/x86_64-oe-linux/grub/2.00-r1/temp/log.do_package.24947
+NOTE: recipe grub-2.00-r1: task do_package: Failed
+ERROR: Task 10967 (/home/jenkins/oe/shr-core-branches/shr-core/openembedded=
+-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package) failed with exit code=
+ '1'
 
-Paul Eggleton
-Intel Open Source Technology Centre
+>=20
+> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+> ---
+>  meta/recipes-bsp/grub/grub-2.00/40_custom          |   9 -
+>  ...t-add-grub_fdt_create_empty_tree-function.patch |  73 +++
+>  .../grub/0002-arm64-add-EFI-Linux-loader.patch     | 653 +++++++++++++++=
+++++++
+>  meta/recipes-bsp/grub/grub/40_custom               |   9 +
+>  meta/recipes-bsp/grub/grub_git.bb                  |  61 ++
+>  5 files changed, 796 insertions(+), 9 deletions(-)
+>  delete mode 100755 meta/recipes-bsp/grub/grub-2.00/40_custom
+>  create mode 100644 meta/recipes-bsp/grub/grub/0001-fdt-add-grub_fdt_crea=
+te_empty_tree-function.patch
+>  create mode 100644 meta/recipes-bsp/grub/grub/0002-arm64-add-EFI-Linux-l=
+oader.patch
+>  create mode 100755 meta/recipes-bsp/grub/grub/40_custom
+>  create mode 100644 meta/recipes-bsp/grub/grub_git.bb
+>=20
+> diff --git a/meta/recipes-bsp/grub/grub-2.00/40_custom b/meta/recipes-bsp=
+/grub/grub-2.00/40_custom
+> deleted file mode 100755
+> index f891b02..0000000
+> --- a/meta/recipes-bsp/grub/grub-2.00/40_custom
+> +++ /dev/null
+> @@ -1,9 +0,0 @@
+> -#!/bin/sh
+> -exec tail -n +3 $0
+> -# This file provides an easy way to add custom menu entries.  Simply typ=
+e the
+> -# menu entries you want to add after this comment.  Be careful not to ch=
+ange
+> -# the 'exec tail' line above.
+> -menuentry "Linux" {
+> -    set root=3D(hd0,1)
+> -    linux /vmlinuz root=3D__ROOTFS__ rw __CONSOLE__ __VIDEO_MODE__ __VGA=
+_MODE__ quiet
+> -}
+> diff --git a/meta/recipes-bsp/grub/grub/0001-fdt-add-grub_fdt_create_empt=
+y_tree-function.patch b/meta/recipes-bsp/grub/grub/0001-fdt-add-grub_fdt_cr=
+eate_empty_tree-function.patch
+> new file mode 100644
+> index 0000000..3414574
+> --- /dev/null
+> +++ b/meta/recipes-bsp/grub/grub/0001-fdt-add-grub_fdt_create_empty_tree-=
+function.patch
+> @@ -0,0 +1,73 @@
+> +From b3417ec69ff7d52379a8f2cb291dbecccdab684f Mon Sep 17 00:00:00 2001
+> +From: Leif Lindholm <leif.lindholm@linaro.org>
+> +Date: Wed, 4 Dec 2013 13:09:21 +0000
+> +Subject: [PATCH 1/2] fdt: add grub_fdt_create_empty_tree() function
+> +
+> +Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+> +---
+> + grub-core/lib/fdt.c | 39 +++++++++++++++++++++++++++++++++++++++
+> + include/grub/fdt.h  |  1 +
+> + 2 files changed, 40 insertions(+)
+> +
+> +diff --git a/grub-core/lib/fdt.c b/grub-core/lib/fdt.c
+> +index 9f34dc7..581a118 100644
+> +--- a/grub-core/lib/fdt.c
+> ++++ b/grub-core/lib/fdt.c
+> +@@ -423,3 +423,42 @@ int grub_fdt_set_prop (void *fdt, unsigned int node=
+offset, const char *name,
+> +   grub_memcpy (prop + 3, val, len);
+> +   return 0;
+> + }
+> ++
+> ++struct empty_tree {
+> ++  grub_fdt_header_t header;
+> ++  grub_uint64_t empty_rsvmap[2];
+> ++  struct {
+> ++    grub_uint32_t prop_start;
+> ++    grub_uint8_t name[1];
+> ++    grub_uint32_t prop_end;
+> ++    grub_uint32_t node_end;
+> ++  } empty_node;
+> ++};
+> ++
+> ++int
+> ++grub_fdt_create_empty_tree (void *fdt, unsigned int size)
+> ++{
+> ++  struct empty_tree *et;
+> ++
+> ++  if (size < sizeof (struct empty_tree))
+> ++    return -1;
+> ++
+> ++  grub_memset (fdt, 0, size);
+> ++  et =3D fdt;
+> ++
+> ++  et->empty_node.node_end =3D grub_cpu_to_be32 (FDT_END);
+> ++  et->empty_node.prop_end =3D grub_cpu_to_be32 (FDT_END_NODE);
+> ++  et->empty_node.prop_start =3D grub_cpu_to_be32 (FDT_BEGIN_NODE);
+> ++  ((struct empty_tree *) fdt)->header.off_mem_rsvmap =3D
+> ++    grub_cpu_to_be32 (ALIGN_UP (sizeof (grub_fdt_header_t), 8));
+> ++
+> ++  grub_fdt_set_off_dt_strings (fdt, sizeof (struct empty_tree));
+> ++  grub_fdt_set_off_dt_struct (fdt, sizeof (grub_fdt_header_t) + 16);
+> ++  grub_fdt_set_version (fdt, FDT_SUPPORTED_VERSION);
+> ++  grub_fdt_set_last_comp_version (fdt, FDT_SUPPORTED_VERSION);
+> ++  grub_fdt_set_size_dt_struct (fdt, sizeof (et->empty_node));
+> ++  grub_fdt_set_totalsize (fdt, size);
+> ++  grub_fdt_set_magic (fdt, FDT_MAGIC);
+> ++
+> ++  return 0;
+> ++}
+> +diff --git a/include/grub/fdt.h b/include/grub/fdt.h
+> +index 2ad0536..06eec19 100644
+> +--- a/include/grub/fdt.h
+> ++++ b/include/grub/fdt.h
+> +@@ -82,6 +82,7 @@ typedef struct {
+> + #define grub_fdt_set_size_dt_struct(fdt, value)	\
+> + 	grub_fdt_set_header(fdt, size_dt_struct, value)
+> +=20
+> ++int grub_fdt_create_empty_tree (void *fdt, unsigned int size);
+> + int grub_fdt_check_header (void *fdt, unsigned int size);
+> + int grub_fdt_find_subnode (const void *fdt, unsigned int parentoffset,
+> + 			   const char *name);
+> +--=20
+> +1.8.4.2
+> +
+> diff --git a/meta/recipes-bsp/grub/grub/0002-arm64-add-EFI-Linux-loader.p=
+atch b/meta/recipes-bsp/grub/grub/0002-arm64-add-EFI-Linux-loader.patch
+> new file mode 100644
+> index 0000000..4e9df62
+> --- /dev/null
+> +++ b/meta/recipes-bsp/grub/grub/0002-arm64-add-EFI-Linux-loader.patch
+> @@ -0,0 +1,653 @@
+> +From 55cbddc471b6caf27355ce93d1534d894e6ed0bb Mon Sep 17 00:00:00 2001
+> +From: Leif Lindholm <leif.lindholm@linaro.org>
+> +Date: Wed, 4 Dec 2013 15:21:16 +0000
+> +Subject: [PATCH 2/2] arm64: add EFI Linux loader
+> +
+> +Signed-off-by: Leif Lindholm <leif.lindholm@linaro.org>
+> +---
+> + grub-core/Makefile.core.def       |   4 +-
+> + grub-core/loader/arm64/linux.c    | 252 +++++++++++++++++++++++++++++++=
++++
+> + grub-core/loader/arm64/linuxefi.c | 279 +++++++++++++++++++++++++++++++=
++++++++
+> + include/grub/arm64/linux.h        |  54 ++++++++
+> + include/grub/efi/api.h            |   4 +
+> + 5 files changed, 592 insertions(+), 1 deletion(-)
+> + create mode 100644 grub-core/loader/arm64/linux.c
+> + create mode 100644 grub-core/loader/arm64/linuxefi.c
+> + create mode 100644 include/grub/arm64/linux.h
+> +
+> +diff --git a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
+> +index 060de44..7cf91a6 100644
+> +--- a/grub-core/Makefile.core.def
+> ++++ b/grub-core/Makefile.core.def
+> +@@ -1663,7 +1663,9 @@ module =3D {
+> +   sparc64_ieee1275 =3D loader/sparc64/ieee1275/linux.c;
+> +   ia64_efi =3D loader/ia64/efi/linux.c;
+> +   arm =3D loader/arm/linux.c;
+> +-  arm =3D lib/fdt.c;
+> ++  arm64 =3D loader/arm64/linux.c;
+> ++  arm64 =3D loader/arm64/linuxefi.c;
+> ++  fdt =3D lib/fdt.c;
+> +   common =3D loader/linux.c;
+> +   common =3D lib/cmdline.c;
+> +   enable =3D noemu;
+> +diff --git a/grub-core/loader/arm64/linux.c b/grub-core/loader/arm64/lin=
+ux.c
+> +new file mode 100644
+> +index 0000000..38821c9
+> +--- /dev/null
+> ++++ b/grub-core/loader/arm64/linux.c
+> +@@ -0,0 +1,252 @@
+> ++/* Helper functions for the generic UEFI Linux loader */
+> ++/*
+> ++ *  GRUB  --  GRand Unified Bootloader
+> ++ *  Copyright (C) 2013  Free Software Foundation, Inc.
+> ++ *
+> ++ *  GRUB is free software: you can redistribute it and/or modify
+> ++ *  it under the terms of the GNU General Public License as published by
+> ++ *  the Free Software Foundation, either version 3 of the License, or
+> ++ *  (at your option) any later version.
+> ++ *
+> ++ *  GRUB is distributed in the hope that it will be useful,
+> ++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> ++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> ++ *  GNU General Public License for more details.
+> ++ *
+> ++ *  You should have received a copy of the GNU General Public License
+> ++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+> ++ */
+> ++
+> ++#include <grub/command.h>
+> ++#include <grub/err.h>
+> ++#include <grub/file.h>
+> ++#include <grub/fdt.h>
+> ++#include <grub/mm.h>
+> ++#include <grub/cpu/linux.h>
+> ++#include <grub/efi/efi.h>
+> ++
+> ++static grub_efi_guid_t fdt_guid =3D GRUB_EFI_DEVICE_TREE_GUID;
+> ++
+> ++static int chosen;
+> ++
+> ++static grub_addr_t initrd_start;
+> ++static grub_addr_t initrd_end;
+> ++
+> ++static void * fw_fdt;
+> ++static void * fdt;
+> ++
+> ++static char *linux_args;
+> ++
+> ++static void
+> ++get_fdt (void)
+> ++{
+> ++  grub_efi_configuration_table_t * tables;
+> ++  unsigned int i;
+> ++  int size;
+> ++
+> ++  /* If already loaded, just return address. */
+> ++  if (fdt)
+> ++    return;
+> ++
+> ++  tables =3D grub_efi_system_table->configuration_table;
+> ++
+> ++  if (!fw_fdt)
+> ++    /* Look for FDT in UEFI config tables. */
+> ++    for (i=3D0; i < grub_efi_system_table->num_table_entries; i++)
+> ++      if (grub_memcmp (&tables[i].vendor_guid, &fdt_guid, sizeof (fdt_g=
+uid))
+> ++	  =3D=3D 0)
+> ++	{
+> ++	  fw_fdt =3D tables[i].vendor_table;
+> ++	  grub_dprintf("linux", "found registered FDT @ 0x%p\n", fw_fdt);
+> ++	  break;
+> ++	}
+> ++
+> ++  size =3D fw_fdt ? grub_fdt_get_totalsize (fw_fdt) : 0;
+> ++  size +=3D grub_strlen (linux_args) + 0x400;
+> ++
+> ++  grub_dprintf("linux", "allocating %d bytes for fdt\n", size);
+> ++  fdt =3D grub_malloc (size);
+> ++  if (!fdt)
+> ++    return;
+> ++
+> ++  if (fw_fdt)
+> ++    {
+> ++      grub_memmove (fdt, fw_fdt, size);
+> ++      grub_fdt_set_totalsize (fdt, size);
+> ++    }
+> ++  else
+> ++    {
+> ++      grub_fdt_create_empty_tree (fdt, size);
+> ++    }
+> ++}
+> ++
+> ++static int
+> ++get_chosen (void)
+> ++{
+> ++  chosen =3D grub_fdt_find_subnode (fdt, 0, "chosen");
+> ++  grub_printf("chosen: 0x%08x\n", chosen);
+> ++  if (chosen < 0)
+> ++    {
+> ++      grub_dprintf ("linux", "No 'chosen' node in FDT - creating.\n");
+> ++      chosen =3D grub_fdt_add_subnode (fdt, 0, "chosen");
+> ++      if (chosen < 0)
+> ++	return 0;
+> ++      grub_printf("chosen=3D0x%08x\n", chosen);
+> ++    }
+> ++
+> ++  return chosen;
+> ++}
+> ++
+> ++
+> ++grub_err_t
+> ++grub_linux_init_params (void)
+> ++{
+> ++  return GRUB_ERR_NONE;
+> ++}
+> ++
+> ++grub_err_t
+> ++grub_linux_check_kernel (struct linux_kernel_header *lh)
+> ++{
+> ++  if (lh->magic !=3D GRUB_LINUX_MAGIC)
+> ++    return GRUB_ERR_BAD_OS;
+> ++
+> ++  if ((lh->code0 & 0xffff) =3D=3D 0x5A4D)
+> ++    grub_dprintf ("linux", "UEFI stub kernel\n");
+> ++  else
+> ++    grub_dprintf ("linux", "Plain Image kernel\n");
+> ++
+> ++  return GRUB_ERR_NONE;
+> ++}
+> ++
+> ++grub_err_t
+> ++grub_linux_register_cmdline (void * addr)
+> ++{
+> ++  linux_args =3D addr;
+> ++
+> ++  return GRUB_ERR_NONE;
+> ++}
+> ++
+> ++grub_err_t
+> ++grub_linux_register_initrd (void * addr, grub_size_t size)
+> ++{
+> ++  initrd_start =3D (grub_addr_t) addr;
+> ++  initrd_end =3D initrd_start + size;
+> ++
+> ++  return GRUB_ERR_NONE;
+> ++}
+> ++
+> ++grub_err_t
+> ++grub_linux_finalize_params (void)
+> ++{
+> ++  grub_efi_boot_services_t *b;
+> ++  grub_efi_status_t status;
+> ++  int node, retval;
+> ++
+> ++  get_fdt();
+> ++  if (!fdt)
+> ++    goto failure;
+> ++
+> ++  node =3D get_chosen();
+> ++  if (node < 1)
+> ++    goto failure;
+> ++
+> ++  /* Generate and set command line */
+> ++  retval =3D grub_fdt_set_prop (fdt, node, "bootargs", linux_args,
+> ++			     grub_strlen (linux_args) + 1);
+> ++  if (retval)
+> ++    {
+> ++      grub_dprintf("linux", "failed to set command line\n");
+> ++      goto failure;
+> ++    }
+> ++
+> ++  grub_dprintf ("linux", "linux command line: '%s'\n", linux_args);
+> ++
+> ++  b =3D grub_efi_system_table->boot_services;
+> ++  status =3D b->install_configuration_table (&fdt_guid, fdt);
+> ++  if (status !=3D GRUB_EFI_SUCCESS)
+> ++    return GRUB_ERR_BAD_OS;
+> ++
+> ++  grub_dprintf ("linux", "Installed/updated FDT configuration table!\n"=
+);
+> ++  grub_dprintf ("linux", " @ %p\n", fdt);
+> ++
+> ++  return GRUB_ERR_NONE;
+> ++
+> ++ failure:
+> ++  return GRUB_ERR_BAD_OS;
+> ++}
+> ++
+> ++static void *
+> ++load_dtb (const char * filename)
+> ++{
+> ++  grub_file_t dtb;
+> ++  void * tmp_fdt;
+> ++  int size;
+> ++
+> ++  tmp_fdt =3D NULL;
+> ++  dtb =3D grub_file_open (filename);
+> ++  if (!dtb)
+> ++    {
+> ++      grub_error (GRUB_ERR_FILE_NOT_FOUND, N_("failed to open file"));
+> ++      return NULL;
+> ++    }
+> ++
+> ++  size =3D grub_file_size (dtb);
+> ++  if (size =3D=3D 0)
+> ++      goto out;
+> ++
+> ++  tmp_fdt =3D grub_malloc (size);
+> ++  if (!tmp_fdt)
+> ++    goto out;
+> ++
+> ++  if (grub_file_read (dtb, tmp_fdt, size) !=3D size)
+> ++    {
+> ++      grub_free (tmp_fdt);
+> ++      return NULL;
+> ++    }
+> ++
+> ++  if (grub_fdt_check_header (tmp_fdt, size) !=3D 0)
+> ++    {
+> ++      grub_free (tmp_fdt);
+> ++      return NULL;
+> ++    }
+> ++
+> ++ out:
+> ++  grub_file_close (dtb);
+> ++  return tmp_fdt;
+> ++}
+> ++
+> ++static grub_err_t
+> ++grub_cmd_devicetree (grub_command_t cmd __attribute__ ((unused)),
+> ++		     int argc, char *argv[])
+> ++{
+> ++  void *blob;
+> ++
+> ++  if (argc !=3D 1)
+> ++    return grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
+> ++
+> ++  grub_free(fdt);
+> ++
+> ++  blob =3D load_dtb (argv[0]);
+> ++  if (!blob)
+> ++    return GRUB_ERR_FILE_NOT_FOUND;
+> ++
+> ++  fw_fdt =3D blob;
+> ++
+> ++  return GRUB_ERR_NONE;
+> ++}
+> ++
+> ++static grub_command_t cmd_devicetree;
+> ++
+> ++void
+> ++grub_efi_linux_arch_register_commands (void)
+> ++{
+> ++  cmd_devicetree =3D
+> ++    grub_register_command ("devicetree", grub_cmd_devicetree, 0,
+> ++			   N_("Load DTB file."));
+> ++}
+> ++
+> ++void
+> ++grub_efi_linux_arch_unregister_commands (void)
+> ++{
+> ++  grub_unregister_command (cmd_devicetree);
+> ++}
+> +diff --git a/grub-core/loader/arm64/linuxefi.c b/grub-core/loader/arm64/=
+linuxefi.c
+> +new file mode 100644
+> +index 0000000..71d11f4
+> +--- /dev/null
+> ++++ b/grub-core/loader/arm64/linuxefi.c
+> +@@ -0,0 +1,279 @@
+> ++/*
+> ++ *  GRUB  --  GRand Unified Bootloader
+> ++ *  Copyright (C) 2013  Free Software Foundation, Inc.
+> ++ *
+> ++ *  GRUB is free software: you can redistribute it and/or modify
+> ++ *  it under the terms of the GNU General Public License as published by
+> ++ *  the Free Software Foundation, either version 3 of the License, or
+> ++ *  (at your option) any later version.
+> ++ *
+> ++ *  GRUB is distributed in the hope that it will be useful,
+> ++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> ++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> ++ *  GNU General Public License for more details.
+> ++ *
+> ++ *  You should have received a copy of the GNU General Public License
+> ++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+> ++ */
+> ++
+> ++#include <grub/loader.h>
+> ++#include <grub/file.h>
+> ++#include <grub/err.h>
+> ++#include <grub/types.h>
+> ++#include <grub/mm.h>
+> ++#include <grub/cpu/linux.h>
+> ++#include <grub/command.h>
+> ++#include <grub/i18n.h>
+> ++#include <grub/lib/cmdline.h>
+> ++#include <grub/efi/efi.h>
+> ++#include <grub/efi/pe32.h>
+> ++
+> ++GRUB_MOD_LICENSE ("GPLv3+");
+> ++
+> ++static grub_dl_t my_mod;
+> ++static int loaded;
+> ++static void *kernel_mem;
+> ++static grub_uint64_t kernel_size;
+> ++static void *initrd_mem;
+> ++static grub_uint32_t initrd_size;
+> ++static char *linux_cmdline;
+> ++
+> ++static grub_uint32_t cmdline_size;
+> ++
+> ++#define GRUB_EFI_PAGE_SHIFT	12
+> ++#define BYTES_TO_PAGES(bytes)   (((bytes) + 0xfff) >> GRUB_EFI_PAGE_SHI=
+FT)
+> ++
+> ++typedef void (* handover_func) (grub_efi_handle_t, grub_efi_system_tabl=
+e_t *, void *);
+> ++
+> ++static grub_err_t
+> ++grub_linuxefi_boot (void)
+> ++{
+> ++  handover_func hf;
+> ++  struct linux_kernel_header *lh =3D kernel_mem;
+> ++  struct grub_pe32_optional_header *oh;
+> ++  grub_err_t retval;
+> ++
+> ++  retval =3D grub_linux_finalize_params();
+> ++  if (retval !=3D GRUB_ERR_NONE)
+> ++    return retval;
+> ++
+> ++  grub_printf ("PE/COFF header @ %08x\n", lh->hdr_offset);
+> ++  oh =3D (void *) ((grub_addr_t) kernel_mem + sizeof ("PE\0") + lh->hdr=
+_offset
+> ++		 + sizeof (struct grub_pe32_coff_header));
+> ++
+> ++  grub_printf ("Entry point: 0x%08x\n", oh->entry_addr);
+> ++  hf =3D (handover_func) ((char *) kernel_mem + oh->entry_addr);
+> ++  grub_printf ("hf: %p\n", (void *) hf);
+> ++  grub_printf("grub_efi_image_handle: %p\n", grub_efi_image_handle);
+> ++  grub_printf("grub_efi_system_table: %p\n", grub_efi_system_table);
+> ++
+> ++  hf (grub_efi_image_handle, grub_efi_system_table, grub_linux_get_para=
+ms());
+> ++
+> ++  grub_printf("holy shit!\n");
+> ++
+> ++  /* Not reached */
+> ++  return GRUB_ERR_NONE;
+> ++}
+> ++
+> ++static grub_err_t
+> ++grub_linuxefi_unload (void)
+> ++{
+> ++  grub_dl_unref (my_mod);
+> ++  loaded =3D 0;
+> ++  if (initrd_mem)
+> ++    grub_efi_free_pages((grub_efi_physical_address_t)initrd_mem,
+> ++			BYTES_TO_PAGES(initrd_size));
+> ++  if (kernel_mem)
+> ++    grub_efi_free_pages((grub_efi_physical_address_t)kernel_mem,
+> ++			BYTES_TO_PAGES(kernel_size));
+> ++  return GRUB_ERR_NONE;
+> ++}
+> ++
+> ++static grub_err_t
+> ++grub_cmd_initrdefi (grub_command_t cmd __attribute__ ((unused)),
+> ++		    int argc, char *argv[])
+> ++{
+> ++  grub_file_t *files =3D 0;
+> ++  int i, nfiles =3D 0;
+> ++  grub_size_t size =3D 0;
+> ++  grub_uint8_t *ptr;
+> ++
+> ++  if (argc =3D=3D 0)
+> ++    {
+> ++      grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
+> ++      goto fail;
+> ++    }
+> ++
+> ++  if (!loaded)
+> ++    {
+> ++      grub_error (GRUB_ERR_BAD_ARGUMENT,
+> ++		  N_("you need to load the kernel first"));
+> ++      goto fail;
+> ++    }
+> ++
+> ++  files =3D grub_zalloc (argc * sizeof (files[0]));
+> ++  if (!files)
+> ++    goto fail;
+> ++
+> ++  for (i =3D 0; i < argc; i++)
+> ++    {
+> ++      grub_file_filter_disable_compression ();
+> ++      files[i] =3D grub_file_open (argv[i]);
+> ++      if (! files[i])
+> ++        goto fail;
+> ++      nfiles++;
+> ++      size +=3D ALIGN_UP (grub_file_size (files[i]), 4);
+> ++    }
+> ++
+> ++  initrd_mem =3D grub_efi_allocate_pages (0, BYTES_TO_PAGES(size));
+> ++
+> ++  if (!initrd_mem)
+> ++    {
+> ++      grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("can't allocate initrd"));
+> ++      goto fail;
+> ++    }
+> ++
+> ++  grub_linux_register_initrd (initrd_mem, size);
+> ++
+> ++  ptr =3D initrd_mem;
+> ++
+> ++  for (i =3D 0; i < nfiles; i++)
+> ++    {
+> ++      grub_ssize_t cursize =3D grub_file_size (files[i]);
+> ++      if (grub_file_read (files[i], ptr, cursize) !=3D cursize)
+> ++        {
+> ++          if (!grub_errno)
+> ++            grub_error (GRUB_ERR_FILE_READ_ERROR,
+> ++			N_("premature end of file %s"), argv[i]);
+> ++          goto fail;
+> ++        }
+> ++      ptr +=3D cursize;
+> ++      grub_memset (ptr, 0, ALIGN_UP_OVERHEAD (cursize, 4));
+> ++      ptr +=3D ALIGN_UP_OVERHEAD (cursize, 4);
+> ++    }
+> ++
+> ++ fail:
+> ++  for (i =3D 0; i < nfiles; i++)
+> ++    grub_file_close (files[i]);
+> ++  grub_free (files);
+> ++
+> ++  if (initrd_mem && grub_errno)
+> ++    grub_efi_free_pages((grub_efi_physical_address_t) initrd_mem,
+> ++			BYTES_TO_PAGES(size));
+> ++
+> ++  return grub_errno;
+> ++}
+> ++
+> ++static grub_err_t
+> ++grub_cmd_linuxefi (grub_command_t cmd __attribute__ ((unused)),
+> ++		   int argc, char *argv[])
+> ++{
+> ++  grub_file_t file =3D 0;
+> ++  struct linux_kernel_header *lh;
+> ++  grub_ssize_t filelen;
+> ++
+> ++  grub_dl_ref (my_mod);
+> ++
+> ++  if (argc =3D=3D 0)
+> ++    {
+> ++      grub_error (GRUB_ERR_BAD_ARGUMENT, N_("filename expected"));
+> ++      goto fail;
+> ++    }
+> ++
+> ++  file =3D grub_file_open (argv[0]);
+> ++  if (! file)
+> ++    goto fail;
+> ++
+> ++  filelen =3D grub_file_size (file);
+> ++
+> ++  grub_printf ("kernel file size: %lld\n", (long long) filelen);
+> ++  kernel_mem =3D grub_efi_allocate_pages (0, BYTES_TO_PAGES(filelen));
+> ++  grub_printf ("kernel numpages: %lld\n", (long long) BYTES_TO_PAGES(fi=
+lelen));
+> ++  if (!kernel_mem)
+> ++    {
+> ++      grub_error (GRUB_ERR_OUT_OF_MEMORY, N_("can't allocate kernel"));
+> ++      goto fail;
+> ++    }
+> ++
+> ++  if (grub_file_read (file, kernel_mem, filelen) !=3D filelen)
+> ++    {
+> ++      grub_error (GRUB_ERR_FILE_READ_ERROR, N_("Can't read kernel %s"),
+> ++		  argv[0]);
+> ++      goto fail;
+> ++    }
+> ++
+> ++  lh =3D (void *) kernel_mem;
+> ++  grub_dprintf ("linux", "kernel_mem @ %p\n", kernel_mem);
+> ++  grub_dprintf ("linux", "code0: 0x%08x\n", lh->code0);
+> ++  grub_dprintf ("linux", "code1: 0x%08x\n", lh->code1);
+> ++  grub_dprintf ("linux", "text_offset: 0x%016llx\n",
+> ++		(long long unsigned) lh->text_offset);
+> ++  grub_dprintf ("linux", "magic: 0x%08x\n", lh->magic);
+> ++  grub_dprintf ("linux", "hdr_offset: 0x%08llx\n",
+> ++		(long long unsigned) lh->hdr_offset);
+> ++
+> ++  if (grub_linux_init_params() !=3D GRUB_ERR_NONE)
+> ++    {
+> ++      grub_error (GRUB_ERR_OUT_OF_MEMORY, "cannot allocate kernel param=
+eters");
+> ++      goto fail;
+> ++    }
+> ++
+> ++  cmdline_size =3D grub_loader_cmdline_size (argc, argv);
+> ++
+> ++  linux_cmdline =3D grub_malloc(cmdline_size + sizeof (LINUX_IMAGE));
+> ++  if (!linux_cmdline)
+> ++    grub_error (GRUB_ERR_OUT_OF_MEMORY, "cannot allocate command line");
+> ++  grub_memcpy (linux_cmdline, LINUX_IMAGE, sizeof (LINUX_IMAGE));
+> ++  grub_create_loader_cmdline (argc, argv,
+> ++                              linux_cmdline + sizeof (LINUX_IMAGE) - 1,
+> ++			      cmdline_size);
+> ++
+> ++  grub_linux_register_cmdline (linux_cmdline);
+> ++
+> ++  if (grub_errno =3D=3D GRUB_ERR_NONE)
+> ++    {
+> ++      grub_loader_set (grub_linuxefi_boot, grub_linuxefi_unload, 0);
+> ++      loaded =3D 1;
+> ++    }
+> ++
+> ++ fail:
+> ++
+> ++  if (file)
+> ++    grub_file_close (file);
+> ++
+> ++  if (grub_errno !=3D GRUB_ERR_NONE)
+> ++    {
+> ++      grub_dl_unref (my_mod);
+> ++      loaded =3D 0;
+> ++    }
+> ++
+> ++  if (linux_cmdline && !loaded)
+> ++    grub_efi_free_pages ((grub_efi_physical_address_t) linux_cmdline,
+> ++			 BYTES_TO_PAGES(cmdline_size));
+> ++
+> ++  if (kernel_mem && !loaded)
+> ++    grub_efi_free_pages ((grub_efi_physical_address_t) kernel_mem,
+> ++			 BYTES_TO_PAGES(kernel_size));
+> ++
+> ++  return grub_errno;
+> ++}
+> ++
+> ++static grub_command_t cmd_linuxefi, cmd_initrdefi;
+> ++
+> ++GRUB_MOD_INIT(linuxefi)
+> ++{
+> ++  cmd_linuxefi =3D
+> ++    grub_register_command ("linuxefi", grub_cmd_linuxefi, 0, N_("Load L=
+inux."));
+> ++  cmd_initrdefi =3D
+> ++    grub_register_command ("initrdefi", grub_cmd_initrdefi,
+> ++			   0, N_("Load initrd."));
+> ++  grub_efi_linux_arch_register_commands();
+> ++  my_mod =3D mod;
+> ++}
+> ++
+> ++GRUB_MOD_FINI(linuxefi)
+> ++{
+> ++  grub_unregister_command (cmd_linuxefi);
+> ++  grub_unregister_command (cmd_initrdefi);
+> ++  grub_efi_linux_arch_unregister_commands();
+> ++}
+> +diff --git a/include/grub/arm64/linux.h b/include/grub/arm64/linux.h
+> +new file mode 100644
+> +index 0000000..9529bc3
+> +--- /dev/null
+> ++++ b/include/grub/arm64/linux.h
+> +@@ -0,0 +1,54 @@
+> ++/*
+> ++ *  GRUB  --  GRand Unified Bootloader
+> ++ *  Copyright (C) 2013  Free Software Foundation, Inc.
+> ++ *
+> ++ *  GRUB is free software: you can redistribute it and/or modify
+> ++ *  it under the terms of the GNU General Public License as published by
+> ++ *  the Free Software Foundation, either version 3 of the License, or
+> ++ *  (at your option) any later version.
+> ++ *
+> ++ *  GRUB is distributed in the hope that it will be useful,
+> ++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> ++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> ++ *  GNU General Public License for more details.
+> ++ *
+> ++ *  You should have received a copy of the GNU General Public License
+> ++ *  along with GRUB.  If not, see <http://www.gnu.org/licenses/>.
+> ++ */
+> ++
+> ++#ifndef GRUB_LINUX_CPU_HEADER
+> ++#define GRUB_LINUX_CPU_HEADER 1
+> ++
+> ++#include <grub/efi/efi.h>
+> ++
+> ++#define GRUB_EFI_KERNEL_STUB_ENTRY_OFFSET 0
+> ++#define GRUB_LINUX_MAX_LOAD_ADDR 0xffffffffffffULL
+> ++
+> ++#define GRUB_LINUX_MAGIC 0x644d5241 /* 'ARM\x64' */
+> ++
+> ++/* From linux/Documentation/arm64/booting.txt */
+> ++struct linux_kernel_header
+> ++{
+> ++  grub_uint32_t code0;		/* Executable code */
+> ++  grub_uint32_t code1;		/* Executable code */
+> ++  grub_uint64_t text_offset;    /* Image load offset */
+> ++  grub_uint64_t res0;		/* reserved */
+> ++  grub_uint64_t res1;		/* reserved */
+> ++  grub_uint64_t res2;		/* reserved */
+> ++  grub_uint64_t res3;		/* reserved */
+> ++  grub_uint64_t res4;		/* reserved */
+> ++  grub_uint32_t magic;		/* Magic number, little endian, "ARM\x64" */
+> ++  grub_uint32_t hdr_offset;	/* Offset of PE/COFF header */
+> ++};
+> ++
+> ++#define grub_linux_get_params() NULL
+> ++extern grub_err_t grub_linux_init_params (void);
+> ++extern grub_err_t grub_linux_finalize_params (void);
+> ++extern grub_err_t grub_linux_check_kernel (struct linux_kernel_header *=
+lh);
+> ++extern grub_err_t grub_linux_register_cmdline (void * addr);
+> ++extern grub_err_t grub_linux_register_initrd (void * addr, grub_size_t =
+size);
+> ++
+> ++extern void grub_efi_linux_arch_register_commands (void);
+> ++extern void grub_efi_linux_arch_unregister_commands (void);
+> ++
+> ++#endif /* ! GRUB_LINUX_CPU_HEADER */
+> +diff --git a/include/grub/efi/api.h b/include/grub/efi/api.h
+> +index 3af0911..055b01d 100644
+> +--- a/include/grub/efi/api.h
+> ++++ b/include/grub/efi/api.h
+> +@@ -276,6 +276,10 @@
+> +       { 0x82, 0x79, 0xa8, 0x4b, 0x79, 0x61, 0x78, 0x98 } \
+> +   }
+> +=20
+> ++#define GRUB_EFI_DEVICE_TREE_GUID \
+> ++  { 0xb1b621d5, 0xf19c, 0x41a5, \
+> ++      { 0x83, 0x0b, 0xd9, 0x15, 0x2c, 0x69, 0xaa, 0xe0 } \
+> ++  }
+> + struct grub_efi_sal_system_table
+> + {
+> +   grub_uint32_t signature;
+> +--=20
+> +1.8.4.2
+> +
+> diff --git a/meta/recipes-bsp/grub/grub/40_custom b/meta/recipes-bsp/grub=
+/grub/40_custom
+> new file mode 100755
+> index 0000000..f891b02
+> --- /dev/null
+> +++ b/meta/recipes-bsp/grub/grub/40_custom
+> @@ -0,0 +1,9 @@
+> +#!/bin/sh
+> +exec tail -n +3 $0
+> +# This file provides an easy way to add custom menu entries.  Simply typ=
+e the
+> +# menu entries you want to add after this comment.  Be careful not to ch=
+ange
+> +# the 'exec tail' line above.
+> +menuentry "Linux" {
+> +    set root=3D(hd0,1)
+> +    linux /vmlinuz root=3D__ROOTFS__ rw __CONSOLE__ __VIDEO_MODE__ __VGA=
+_MODE__ quiet
+> +}
+> diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/gr=
+ub_git.bb
+> new file mode 100644
+> index 0000000..ca636f3
+> --- /dev/null
+> +++ b/meta/recipes-bsp/grub/grub_git.bb
+> @@ -0,0 +1,61 @@
+> +SUMMARY =3D "GRUB2 is the next-generation GRand Unified Bootloader"
+> +
+> +DESCRIPTION =3D "GRUB2 is the next generaion of a GPLed bootloader \
+> +intended to unify bootloading across x86 operating systems. In \
+> +addition to loading the Linux kernel, it implements the Multiboot \
+> +standard, which allows for flexible loading of multiple boot images."
+> +
+> +HOMEPAGE =3D "http://www.gnu.org/software/grub/"
+> +SECTION =3D "bootloaders"
+> +
+> +LICENSE =3D "GPLv3"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae=
+504"
+> +
+> +DEPENDS =3D "autogen-native flex-native bison-native xz freetype"
+> +
+> +DEFAULT_PREFERENCE =3D "-1"
+> +DEFAULT_PREFERENCE_arm =3D "1"
+> +
+> +PV =3D "2.00+${SRCPV}"
+> +SRCREV =3D "3bc1b2daabb9b07a9c08bca386005d96f07147fe"
+> +SRC_URI =3D "git://git.savannah.gnu.org/grub.git \
+> +           file://0001-fdt-add-grub_fdt_create_empty_tree-function.patch=
+ \
+> +           file://0002-arm64-add-EFI-Linux-loader.patch \               =
+  =20
+> +           file://40_custom \
+> +          "
+> +
+> +S =3D "${WORKDIR}/git"
+> +
+> +COMPATIBLE_HOST =3D '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.=
+*)'
+> +
+> +inherit autotools
+> +inherit gettext
+> +
+> +PACKAGECONFIG ??=3D ""
+> +PACKAGECONFIG[grub-mount] =3D "--enable-grub-mount,--disable-grub-mount,=
+fuse"
+> +
+> +# configure.ac has code to set this automagically from the target tuple
+> +# but the OE freeform one (core2-foo-bar-linux) don't work with that.
+> +
+> +GRUBPLATFORM_arm =3D "uboot"
+> +GRUBPLATFORM_aarch64 =3D "efi"
+> +GRUBPLATFORM ??=3D "pc"
+> +
+> +EXTRA_OECONF =3D "--with-platform=3D${GRUBPLATFORM} --disable-grub-mkfon=
+t --program-prefix=3D"" \
+> +                --enable-liblzma=3Dno --enable-device-mapper=3Dno --enab=
+le-libzfs=3Dno"
+> +
+> +do_configure_prepend() {
+> +    ( cd ${S}
+> +      ${S}/autogen.sh )
+> +}
+> +
+> +do_install_append () {
+> +    install -d ${D}${sysconfdir}/grub.d
+> +    install -m 0755 ${WORKDIR}/40_custom ${D}${sysconfdir}/grub.d/40_cus=
+tom
+> +}
+> +
+> +RDEPENDS_${PN} =3D "diffutils freetype"
+> +FILES_${PN}-dbg +=3D "${libdir}/${BPN}/*/.debug"
+> +
+> +INSANE_SKIP_${PN} =3D "arch"
+> +INSANE_SKIP_${PN}-dbg =3D "arch"
+> --=20
+> 1.8.4.2
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--SdvjNjn6lL3tIsv0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLKkm4ACgkQN1Ujt2V2gBzv5gCdGDZR9BrqNi+DlVVbB2e72ztV
+Ei0AnAhJe5HbMrP/3wWSB1b6x1dWig0w
+=c9Bw
+-----END PGP SIGNATURE-----
+
+--SdvjNjn6lL3tIsv0--
