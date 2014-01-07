@@ -1,26 +1,29 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B9D966C718
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F0E2C6B7AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 05:15:25 +0000 (UTC)
+	Tue,  7 Jan 2014 07:52:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s075FREa010032
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jan 2014 21:15:27 -0800 (PST)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 6 Jan 2014 21:15:26 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Jan 2014 13:14:18 +0800
-Message-ID: <6ae53401e6395589852863f19166081a7f8c7f46.1389071469.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1389071469.git.Chong.Lu@windriver.com>
-References: <cover.1389071469.git.Chong.Lu@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s077qMTS028491
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 6 Jan 2014 23:52:22 -0800 (PST)
+Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Mon, 6 Jan 2014 23:52:22 -0800
+Message-ID: <52CBB231.8050208@windriver.com>
+Date: Tue, 7 Jan 2014 15:52:17 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH V3 1/1] beecrypt: add ptest support
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1384426288-3534-1-git-send-email-ming.liu@windriver.com>
+	<1389011136.22784.7.camel@ted>
+In-Reply-To: <1389011136.22784.7.camel@ted>
+X-Originating-IP: [128.224.162.153]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sstate: Add optimizing logic for crosssdk setscene dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,110 +36,220 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 05:15:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Jan 2014 07:52:25 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080403070608030308090507"
 
-Install beecrypt test suite and run it as ptest.
-Make all ptest pass.
+--------------080403070608030308090507
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- .../beecrypt/beecrypt-enable-ptest-support.patch   | 37 ++++++++++++++++++++++
- meta/recipes-support/beecrypt/beecrypt/run-ptest   |  5 +++
- meta/recipes-support/beecrypt/beecrypt_4.2.1.bb    | 12 +++++--
- 3 files changed, 52 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/beecrypt/beecrypt/beecrypt-enable-ptest-support.patch
- create mode 100644 meta/recipes-support/beecrypt/beecrypt/run-ptest
+On 01/06/2014 08:25 PM, Richard Purdie wrote:
+> On Thu, 2013-11-14 at 18:51 +0800, Ming Liu wrote:
+>> This patch mainly aims to add optimisation for crosssdk setscene dependency
+>> validating which we haven't handled in current logic, and which I think we
+>> could have as we've already implemented to native/cross, although there
+>> are albeit not many crossdk tasks, we could still get some performance
+>> enhancement.
+>>
+>> And it also fix a vulnerability of some certain workflow, think about the
+>> following scenario with current logic:
+>>      bitbake nativesdk-eglibc-initial -c cleansstate
+>>      bitbake gcc-crosssdk-initial -c clean
+>>      bitbake gmp-native -c clean
+>>      bitbake libmpc-native -c clean
+>>      bitbake mpfr-native -c clean
+>>      bitbake gcc-crosssdk-initial
+>>      bitbake nativesdk-eglibc-initial
+>>
+>> Aboving will fail for absence of a few native libraries required by
+>> gcc-crosssdk-initial.
+>>
+>> Also modified some places in current code except the optimisation, as
+>> following:
+>> 1 Remove isNative function since no code is referring it.
+>> 2 Add do_package to the list that don't exist and are noexec.
+> I've split this patch up as its doing too many things at once. In
+> particular, I think we should keep the "isNativeCross()" function name
+> instead of adding Crosssdk to the name since it just makes things more
+> confusing to read.
+I am on board with your comments.
 
-diff --git a/meta/recipes-support/beecrypt/beecrypt/beecrypt-enable-ptest-support.patch b/meta/recipes-support/beecrypt/beecrypt/beecrypt-enable-ptest-support.patch
-new file mode 100644
-index 0000000..3e5513f
---- /dev/null
-+++ b/meta/recipes-support/beecrypt/beecrypt/beecrypt-enable-ptest-support.patch
-@@ -0,0 +1,37 @@
-+beecrypt: enable ptest support
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Add install-ptest rules.
-+
-+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-+---
-+ Makefile.am       | 3 +++
-+ tests/Makefile.am | 3 +++
-+ 2 files changed, 6 insertions(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index b7e7869..5076f59 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -73,3 +73,6 @@ DISTCLEANFILES = mpopt.s blowfishopt.s sha1opt.s
-+ 
-+ bench:
-+ 	(cd tests && $(MAKE) $(AM_MAKEFLAGS) bench)
-++
-++install-ptest:
-++	(cd tests && $(MAKE) $(AM_MAKEFLAGS) check_PROGRAMS)
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 1604e5e..d8db8d8 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -101,3 +101,6 @@ bench: benchme benchrsa benchhf benchbc
-+ 	./benchbc AES 128
-+ 	./benchbc Blowfish 128
-+ 	./benchbc Blowfish 128
-++
-++check_PROGRAMS:
-++	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
-+-- 
-+1.8.1.2
-+
-diff --git a/meta/recipes-support/beecrypt/beecrypt/run-ptest b/meta/recipes-support/beecrypt/beecrypt/run-ptest
-new file mode 100644
-index 0000000..5bc7460
---- /dev/null
-+++ b/meta/recipes-support/beecrypt/beecrypt/run-ptest
-@@ -0,0 +1,5 @@
-+#!/bin/sh
-+
-+cd tests
-+for i in `ls`; do ./$i; if [ $? == 0 ]; then echo "PASS: $i"; \
-+    else echo "FAIL: $i"; fi; done
-diff --git a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-index 5874f9e..0d513cd 100644
---- a/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-+++ b/meta/recipes-support/beecrypt/beecrypt_4.2.1.bb
-@@ -7,7 +7,10 @@ HOMEPAGE="http://sourceforge.net/projects/beecrypt"
- SRC_URI="${SOURCEFORGE_MIRROR}/beecrypt/beecrypt-${PV}.tar.gz \
- 	 file://disable-icu-check.patch \
- 	 file://fix-security.patch \
--         file://fix-for-gcc-4.7.patch"
-+         file://fix-for-gcc-4.7.patch \
-+         file://run-ptest \
-+         file://beecrypt-enable-ptest-support.patch \
-+"
- 
- SRC_URI[md5sum] = "8441c014170823f2dff97e33df55af1e"
- SRC_URI[sha256sum] = "286f1f56080d1a6b1d024003a5fa2158f4ff82cae0c6829d3c476a4b5898c55d"
-@@ -18,7 +21,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9894370afd5dfe7d02b8d14319e729a1 \
- 
- PR = "r3"
- 
--inherit autotools multilib_header
-+inherit autotools multilib_header ptest
- acpaths=""
- 
- do_install_append() {
-@@ -35,3 +38,8 @@ FILES_${PN}-dev += "${libdir}/${BPN}/*.so ${libdir}/${BPN}/*.la"
- FILES_${PN}-staticdev += "${libdir}/${BPN}/*.a"
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+do_install_ptest () {
-+	mkdir ${D}${PTEST_PATH}/tests
-+	cp -r ${B}/tests/.libs/test* ${D}${PTEST_PATH}/tests
-+}
--- 
-1.8.1.2
+>
+> I've take a part for the crosssdk part in master-next which is being
+> tested at the moment, can you resent the do_package part by itself
+> please?
+No problem, I will resend a patch soon with modifying the do_package 
+part only.
+
+>
+> I don't quite understand how the sequence of commands above breaks
+> things or how this patch fixes it. Are you sure this wasn't fixed by:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ciorga/PUs&id=1dcbf3096d7d42032faade96dae89c25a4feca7a
+>
+> which would be the real bug?
+I am pretty sure they are**NOT the same issue. The 1dcbf309 is about to 
+fix gcc-crosssdk lacking its dependencies in bb, while in this case, 
+it's due to some other setscene tasks(populate_sysroot) depended by 
+gcc-crosssdk-initial's setscene task(populate_sysroot) were not 
+validated correctly, without the modification to isNativeCross, the 
+setscene_depvalid will return TRUE through:
+......
+             # Native/Cross populate_sysroot need their dependencies
+             if isNativeCross(taskdependees[task][0]) and 
+isNativeCross(taskdependees[dep][0]):
+                 return False
+             # Target populate_sysroot depended on by cross tools need 
+to be installed
+             if isNativeCross(taskdependees[dep][0]):
+                 return False
+             # Native/cross tools depended upon by target sysroot are 
+not needed
+             if isNativeCross(taskdependees[task][0]):
+                 continue
+......
+     return True
+......
+
+for example, when the task is 'gmp-native', and the dep is 
+'gcc-crosssdk-initial', it is absolutely wrong for gcc-crosssdk-initial 
+needs its dependencies like gmp-native, libmpc-native, mpfr-native to be 
+present in sysroot or its binaries will fail to be executed.
+
+However, by double-checked the patch, I found that it had introduced a 
+regression that binutils-crosssdk should not be added into safe dep list 
+for it's in the DEPENDS of gcc-crosssdk-initial, I will send a fix for 
+it too.
+
+//Ming Liu
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
 
+--------------080403070608030308090507
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 01/06/2014 08:25 PM, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:1389011136.22784.7.camel@ted" type="cite">
+      <pre wrap="">On Thu, 2013-11-14 at 18:51 +0800, Ming Liu wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">This patch mainly aims to add optimisation for crosssdk setscene dependency
+validating which we haven't handled in current logic, and which I think we
+could have as we've already implemented to native/cross, although there
+are albeit not many crossdk tasks, we could still get some performance
+enhancement.
+
+And it also fix a vulnerability of some certain workflow, think about the
+following scenario with current logic:
+    bitbake nativesdk-eglibc-initial -c cleansstate
+    bitbake gcc-crosssdk-initial -c clean
+    bitbake gmp-native -c clean
+    bitbake libmpc-native -c clean
+    bitbake mpfr-native -c clean
+    bitbake gcc-crosssdk-initial
+    bitbake nativesdk-eglibc-initial
+
+Aboving will fail for absence of a few native libraries required by
+gcc-crosssdk-initial.
+
+Also modified some places in current code except the optimisation, as
+following:
+1 Remove isNative function since no code is referring it.
+2 Add do_package to the list that don't exist and are noexec.
+</pre>
+      </blockquote>
+      <pre wrap="">
+I've split this patch up as its doing too many things at once. In
+particular, I think we should keep the "isNativeCross()" function name
+instead of adding Crosssdk to the name since it just makes things more
+confusing to read.</pre>
+    </blockquote>
+    I am on board with your comments.<br>
+     <br>
+    <blockquote cite="mid:1389011136.22784.7.camel@ted" type="cite">
+      <pre wrap="">
+
+I've take a part for the crosssdk part in master-next which is being
+tested at the moment, can you resent the do_package part by itself
+please?</pre>
+    </blockquote>
+    No problem, I will resend a patch soon with modifying the do_package
+    part only.<br>
+    <br>
+    <blockquote cite="mid:1389011136.22784.7.camel@ted" type="cite">
+      <pre wrap="">
+
+I don't quite understand how the sequence of commands above breaks
+things or how this patch fixes it. Are you sure this wasn't fixed by:
+
+<a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ciorga/PUs&amp;id=1dcbf3096d7d42032faade96dae89c25a4feca7a">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ciorga/PUs&amp;id=1dcbf3096d7d42032faade96dae89c25a4feca7a</a>
+
+which would be the real bug?</pre>
+    </blockquote>
+    I am pretty sure they are<b> </b>NOT the same issue. The 1dcbf309
+    is about to fix gcc-crosssdk lacking its dependencies in bb, while
+    in this case, it's due to some other setscene
+    tasks(populate_sysroot) depended by gcc-crosssdk-initial's setscene
+    task(populate_sysroot) were not validated correctly, without the
+    modification to isNativeCross, the setscene_depvalid will return
+    TRUE through:<br>
+    ......<br>
+                # Native/Cross populate_sysroot need their dependencies<br>
+                if isNativeCross(taskdependees[task][0]) and
+    isNativeCross(taskdependees[dep][0]):<br>
+                    return False<br>
+                # Target populate_sysroot depended on by cross tools
+    need to be installed<br>
+                if isNativeCross(taskdependees[dep][0]):<br>
+                    return False<br>
+                # Native/cross tools depended upon by target sysroot are
+    not needed<br>
+                if isNativeCross(taskdependees[task][0]):<br>
+                    continue<br>
+    ......<br>
+        return True<br>
+    ......<br>
+    <br>
+    for example, when the task is 'gmp-native', and the dep is
+    'gcc-crosssdk-initial', it is absolutely wrong for
+    gcc-crosssdk-initial needs its dependencies like gmp-native,
+    libmpc-native, mpfr-native to be present in sysroot or its binaries
+    will fail to be executed.<br>
+    <br>
+    However, by double-checked the patch, I found that it had introduced
+    a regression that binutils-crosssdk should not be added into safe
+    dep list for it's in the DEPENDS of gcc-crosssdk-initial, I will
+    send a fix for it too.<br>
+    <br>
+    //Ming Liu<br>
+    <blockquote cite="mid:1389011136.22784.7.camel@ted" type="cite">
+      <pre wrap="">
+
+Cheers,
+
+Richard
+
+
+
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------080403070608030308090507--
