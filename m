@@ -1,27 +1,40 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BC046CA08
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D06E6C996
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 15:32:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s07FWZDi004445
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Jan 2014 07:32:35 -0800 (PST)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 7 Jan 2014 07:32:35 -0800
-Message-ID: <52CC1E02.9070102@windriver.com>
-Date: Tue, 7 Jan 2014 10:32:18 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Alexandre Belloni <alexandre.belloni@free-electrons.com>,
-	<openembedded-core@lists.openembedded.org>
+	Tue,  7 Jan 2014 15:54:31 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id c41so158548eek.36
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jan 2014 07:54:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=bKxhPdI4whGFhlnnH5U5WpURfwWsSYPVk+q9LFZpodQ=;
+	b=iNCFv7JJf4FNWNNCimEiuFudah4nF0a1M4oyq27i8JehpAtUgsSK9XK3T1+ZLgYrCr
+	+2QziMv8REvy+J8Y3fAiC/5dSPYg1K/v7866fqcPuWZ6EizWKxcLzCrly6fVR+HvSd9z
+	NveCqxNsopzZDT0KgPtNicQRcjG1USoZnFcu8OWDNCaKz7gG7LbCnNzdQ2uNgyD6TRAB
+	Xmadw62JaxozmWSd3B3octXgG4wNiSFvwOwKl+UZyIgLhdYCPgdFaMbf7MWI0+EdirAQ
+	kakku7o70po411fdB6CZJuafeLfa5w4IunSloRjzkGDFlm0PJo6o+KBmW1ERk8Luuewd
+	m1EQ==
+X-Received: by 10.14.199.1 with SMTP id w1mr94399278een.29.1389110072078;
+	Tue, 07 Jan 2014 07:54:32 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id v1sm181150593eef.9.2014.01.07.07.54.28
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 Jan 2014 07:54:30 -0800 (PST)
+Date: Tue, 7 Jan 2014 16:54:32 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+Message-ID: <20140107155432.GS3709@jama>
 References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
-In-Reply-To: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
-Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>
+	<20140107143558.GQ3709@jama> <52CC1B45.9010808@free-electrons.com>
+MIME-Version: 1.0
+In-Reply-To: <52CC1B45.9010808@free-electrons.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,87 +48,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 15:32:40 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Jan 2014 15:54:32 -0000
+X-Groupsio-MsgNum: 48661
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6axCafNXXMM8qu6Q"
+Content-Disposition: inline
 
-On 14-01-07 09:18 AM, Alexandre Belloni wrote:
-> When using a defconfig, using yes '' | make oldconfig may not result in
-> the correct configuration being set. For example:
->
->   $ grep USB_ETH .config
->   CONFIG_USB_ETH=y
->   CONFIG_USB_ETH_RNDIS=y
->   CONFIG_USB_ETH_EEM=y
->   $ make savedefconfig
->   scripts/kconfig/conf --savedefconfig=defconfig Kconfig
->   $ cp defconfig .config
->   ‘defconfig’ -> ‘.config’
->   $ yes '' | make oldconfig
->   [...]
->   #
->   # configuration written to .config
->   #
->   $ grep USB_ETH .config
->   CONFIG_USB_ETH=m
->   CONFIG_USB_ETH_RNDIS=y
->   CONFIG_USB_ETH_EEM=y
->
-> Using make olddefconfig solves that but we'll use oldnoconfig for
-> backward compatibility with older kernels.
->
->   $ cp defconfig .config
->   ‘defconfig’ -> ‘.config’
->   $ make oldnoconfig
->   scripts/kconfig/conf --olddefconfig Kconfig
->   #
->   # configuration written to .config
->   #
->   $ grep USB_ETH .config
->   CONFIG_USB_ETH=y
->   CONFIG_USB_ETH_RNDIS=y
->   CONFIG_USB_ETH_EEM=y
->
-> For more information, please refer to:
-> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=fbe98bb9ed3dae23e320c6b113e35f129538d14a
+--6axCafNXXMM8qu6Q
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-It was my understanding that this commit changed the Kconfig behaviour
-to set the selected options to =y and prevent the menu choice from
-"hiding" the options in a depedent choice menu. But maybe I'm remembering
-wrong.
+On Tue, Jan 07, 2014 at 04:20:37PM +0100, Alexandre Belloni wrote:
+> On 07/01/2014 15:35, Martin Jansa wrote:
+> > On Tue, Jan 07, 2014 at 03:18:37PM +0100, Alexandre Belloni wrote:
+> >> When using a defconfig, using yes '' | make oldconfig may not result in
+> >> the correct configuration being set. For example:
+> >=20
+> >>  $ grep USB_ETH .config
+> >>  CONFIG_USB_ETH=3Dy
+> >>  CONFIG_USB_ETH_RNDIS=3Dy
+> >>  CONFIG_USB_ETH_EEM=3Dy
+> >>  $ make savedefconfig
+> >>  scripts/kconfig/conf --savedefconfig=3Ddefconfig Kconfig
+> >>  $ cp defconfig .config
+> >>  =E2=80=98defconfig=E2=80=99 -> =E2=80=98.config=E2=80=99
+> >>  $ yes '' | make oldconfig
+> >>  [...]
+> >>  #
+> >>  # configuration written to .config
+> >>  #
+> >>  $ grep USB_ETH .config
+> >>  CONFIG_USB_ETH=3Dm
+> >>  CONFIG_USB_ETH_RNDIS=3Dy
+> >>  CONFIG_USB_ETH_EEM=3Dy
+> >>
+> >> Using make olddefconfig solves that but we'll use oldnoconfig for
+> >> backward compatibility with older kernels.
+> >=20
+> > Looks good, I have few kernel recipes where I had to fixup resulting
+> > .config after "make savedefconfig", "yes '' | make oldconfig" combo
+> > exactly because of some =3Dy changing to -m.
+> >=20
+> > 1) Do you know since when oldnoconfig is supported?
+> >=20
+> > IIRC oldest kernel I've in BSPs is 2.6.24.=20
+>=20
+> oldnoconfig seems to be present since 2.6.36. olddefconfig is an alias
+> that appeared with fb16d8912db5268f29706010ecafff74b971c58d which is
+> present since v3.7.
+>=20
+> Then hat about using:
+>=20
+> oe_runmake oldnoconfig || yes '' | oe_runmake oldconfig
 
-The point being, that with that commit in place. Doesn't the behaviour
-match what we want with yes and oldconfig ?
+Looks safer (assuming that oldnoconfig will return error only in cases
+where oldnoconfig target doesn't exist in Makefile, otherwise fall-back
+to yes '' could be a bit confusing).
 
-.. I'll run some tests to confirm for myself, but I thought I'd throw
-the question out as well. I don't typically use defconfigs, so I need
-to do a bit of leg work.
+In worst case you can add KERNEL_VERSION check or show bb.warn when
+oldnoconfig isn't supported.
 
-I don't have any big issues with the patch, but I just want to be sure,
-since changing this default could change the configs of many defconfig
-users, and they may have been unknowingly relying on the old behaviour.
+> > 2) Could you send similar patch for
+> > meta-openembedded/meta-oe/recipes-kernel/linux/linux.inc
+> > ?
+> >=20
+>=20
+> Sure, will do once we agreed on this patch
 
-Bruce
+Thanks
 
->
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-> ---
->   meta/classes/kernel.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 61a6d102d7a8..644d7937923d 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -313,7 +313,7 @@ kernel_do_configure() {
->   	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
->   		cp "${WORKDIR}/defconfig" "${B}/.config"
->   	fi
-> -	yes '' | oe_runmake oldconfig
-> +	oe_runmake oldnoconfig
->   }
->
->   do_savedefconfig() {
->
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--6axCafNXXMM8qu6Q
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLMIzgACgkQN1Ujt2V2gBy6OQCfesilpbeDBGJ6Fnp2aGNk2Lio
+lqwAoJ9yuH4PAo93BqY+7Ybky4Ycqohb
+=Mel1
+-----END PGP SIGNATURE-----
+
+--6axCafNXXMM8qu6Q--
