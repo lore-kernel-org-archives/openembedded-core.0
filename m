@@ -1,41 +1,41 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DCD36CD96
+Return-Path: <darren.hart@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 79C556CD86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 21:26:45 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id lx4so1108590iec.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Jan 2014 13:26:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=fnVS9JbFyNefwCPZIieSIw53mJGUWIZ6GakSBfUE9DA=;
-	b=D6YVbCXWFGPeGwNgaS6KV7Mowg8779BgerL1Cm8QF5wH0ysHul70ji6yFJO0FdT/+f
-	ZVHWLcAhQ0rCm7fTM6WHnWZbpvXbWUoTqyMI4a7zzIySQuNAYAEHultz5YS/74nnM6JX
-	fmNPe2EgKnN25MEUQfYWcqzHXlA90IgfUW5+uavTUsKfZJQdJW/9NojgXWKXdZxMEs1K
-	lR6Kcv8vetcnavUkXte8RY8Q9CB8zsyz7q/vVhUp3C7OMjSvogyCMvmT1B/Vc4SqSqXZ
-	ipw2wXNLWK92+uuwNgo5e3IYLd/fn4DKdgYrIo3I84mJSNwERSrkTh7F/Ps8CURd/MDR
-	637Q==
-X-Gm-Message-State: ALoCoQngMb5jsqj310tmDwOprHxNPLTvBp9c/3mke8xQB9eO9WGdRAvyjPLcv9uR6R6m7Z4n5igV
-X-Received: by 10.50.27.42 with SMTP id q10mr812938igg.33.1389130006614;
-	Tue, 07 Jan 2014 13:26:46 -0800 (PST)
-Received: from openSUSE-i7.site (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id kb10sm5349802igb.6.2014.01.07.13.26.45
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 Jan 2014 13:26:45 -0800 (PST)
-From: Trevor Woerner <trevor.woerner@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jan 2014 16:26:23 -0500
-Message-Id: <1389129983-11212-2-git-send-email-trevor.woerner@linaro.org>
-X-Mailer: git-send-email 1.8.5.2.227.g53f3478
-In-Reply-To: <1389129983-11212-1-git-send-email-trevor.woerner@linaro.org>
-References: <1389129983-11212-1-git-send-email-trevor.woerner@linaro.org>
-Cc: patches@linaro.org
-Subject: [PATCH] libxfont: upgrade to 1.4.7
+	Tue,  7 Jan 2014 21:32:52 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 07 Jan 2014 13:32:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,620,1384329600"; d="scan'208";a="455066370"
+Received: from fmsmsx106.amr.corp.intel.com ([10.19.9.37])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Jan 2014 13:32:29 -0800
+Received: from fmsmsx153.amr.corp.intel.com (10.19.17.7) by
+	FMSMSX106.amr.corp.intel.com (10.19.9.37) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Tue, 7 Jan 2014 13:32:28 -0800
+Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.40]) by
+	FMSMSX153.amr.corp.intel.com ([169.254.9.56]) with mapi id
+	14.03.0123.003; Tue, 7 Jan 2014 13:32:28 -0800
+From: "Hart, Darren" <darren.hart@intel.com>
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+Thread-Topic: [OE-core] [PATCH] kernel: use oldnoconfig instead of yes '' |
+	make oldconfig
+Thread-Index: AQHPC7N+ail4eH7Ys0GRGJPgvwBzhpp52kQAgAAMeYCAAAl6AIAAJhmAgAAnjACAABDEAA==
+Date: Tue, 7 Jan 2014 21:32:27 +0000
+Message-ID: <1389130346.5785.48.camel@dvhart-mobl4.amr.corp.intel.com>
+References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
+	<20140107143558.GQ3709@jama> <52CC1B45.9010808@free-electrons.com>
+	<20140107155432.GS3709@jama>
+	<1389118253.5785.25.camel@dvhart-mobl4.amr.corp.intel.com>
+	<52CC645A.5040107@free-electrons.com>
+In-Reply-To: <52CC645A.5040107@free-electrons.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.196.146]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,33 +48,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 21:26:45 -0000
+X-List-Received-Date: Tue, 07 Jan 2014 21:32:55 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <926CBCE5550D3843BB850741DAC49A64@intel.com>
+Content-Transfer-Encoding: base64
 
-This release includes the fix for CVE-2013-6462, as well as other security
-hardening and code cleanups.
-
-Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
----
- .../xorg-lib/{libxfont_1.4.6.bb => libxfont_1.4.7.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxfont_1.4.6.bb => libxfont_1.4.7.bb} (77%)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.4.6.bb b/meta/recipes-graphics/xorg-lib/libxfont_1.4.7.bb
-similarity index 77%
-rename from meta/recipes-graphics/xorg-lib/libxfont_1.4.6.bb
-rename to meta/recipes-graphics/xorg-lib/libxfont_1.4.7.bb
-index 4f8a6a5..d587ba8 100644
---- a/meta/recipes-graphics/xorg-lib/libxfont_1.4.6.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfont_1.4.7.bb
-@@ -18,5 +18,5 @@ XORG_PN = "libXfont"
- 
- BBCLASSEXTEND = "native"
- 
--SRC_URI[md5sum] = "351a9b7348d165029bda52c9fdcb5c7a"
--SRC_URI[sha256sum] = "d0cbfe4554dc17ceea413cdad5601d35ed8d05d5b880e60931a8775fd1157e9f"
-+SRC_URI[md5sum] = "b21ee5739d5d2e5028b302fbf9fe630b"
-+SRC_URI[sha256sum] = "d16ea3541835d296b19cfb05d7e64fc62173d8e7eb93284402ec761b951d1543"
--- 
-1.8.5.2.227.g53f3478
-
+T24gVHVlLCAyMDE0LTAxLTA3IGF0IDIxOjMyICswMTAwLCBBbGV4YW5kcmUgQmVsbG9uaSB3cm90
+ZToNCj4gT24gMDcvMDEvMjAxNCAxOToxMSwgSGFydCwgRGFycmVuIHdyb3RlOg0KPiA+IA0KPiA+
+IFBsZWFzZSBjaGVjayBmb3IgdGhlIGZ1bmN0aW9uYWxpdHksIG5vdCBLRVJORUxfVkVSU0lPTi4g
+VGhlDQo+ID4gS0VSTkVMX1ZFUlNJT04gZG9lc24ndCBhbGxvdyBmb3IgYmFja3BvcnRzIGFuZCBz
+dWNoIHdoaWNoIG1pZ2h0IGFkZCB0aGlzDQo+ID4gYWJpbGl0eS4gR3JlcCB0aGUgTWFrZWZpbGUg
+Zm9yIHRoZSB0YXJnZXQsIGZvciBleGFtcGxlLCBpZiB0aGUgYWJvdmUgT1INCj4gPiBzdGF0ZW1l
+bnQgaXNuJ3QgYWRlcXVhdGUuDQo+ID4gDQo+IA0KPiBJIGd1ZXNzIHRoZSBPUiBpcyBwZXJmZWN0
+bHkgZmluZSB0aGVuLiBGb3Igd2hhdGV2ZXIgcmVhc29uIG1ha2UNCj4gb2xkbm9jb25maWcgZmFp
+bHMsIHdlJ2xsIGZhbGwgYmFjayB0byB0aGUgb2xkIGJlaGF2aW9yLg0KPiANCj4gPiBBcyBCcnVj
+ZSBzdGF0ZWQsIGl0IHNlZW1zIHRoYXQgdGhlIGZpeCB3b3VsZCBiZSB0byB1c2UgdGhlIHVwZGF0
+ZWQNCj4gPiBLY29uZmlnLCBub3QgZGVmYXVsdCB0byBzZXR0aW5nIHRoaW5ncyB0byBOTy4gVGhl
+IHByb2JsZW0gd2l0aCB0aGF0DQo+ID4gYXBwcm9hY2ggaXMgaXQgZG9lc24ndCBhY2NlcHQgZGVm
+YXVsdHMgZm9yIG5vbi1zcGVjaWZpZWQgb3B0aW9ucyAod2hpY2gNCj4gPiB3aGVuIHVwZGF0aW5n
+IGtlcm5lbCB2ZXJzaW9ucywgaXMgb2Z0ZW4gdGhlIHByZWZlcnJlZCBhcHByb2FjaCkuDQo+ID4g
+DQo+IA0KPiBJIHRoaW5rIHlvdSBnb3QgaXQgd3Jvbmc6DQo+ICAtIEkgYW0gYWxyZWFkeSB1c2lu
+ZyBhbiB1cGRhdGVkIGtjb25maWcgKEkgZXZlbiBiYWNrcG9ydGVkIGl0IG9uIHRoZQ0KPiBvbGRl
+ciBrZXJuZWwgdmVyc2lvbikNCj4gIC0gbWFrZSBvbGRub2NvbmZpZyBpcyBOT1Qgc2V0dGluZyB0
+aGluZ3MgdG8gTk8gYnV0IHRvIHRoZSBkZWZhdWx0IHZhbHVlDQo+IG9mIHRoZSB1bnNwZWNpZmll
+ZCBvcHRpb25zIChleGFjdGx5IHdoYXQgd2UgbmVlZCkuIFRoZSBjaG9pY2Ugb2YgdGhlDQo+IG5h
+bWUgd2FzIG5vdCB3aXNlIGFuZCBJdCBoYXMgYmVlbiByZW5hbWVkIG9sZGRlZmNvbmZpZyBzaW5j
+ZSAzLjcNCj4gDQo+IA0KDQpJIHNlZSAtIHlvdSdyZSByaWdodCwgSSBoYWQgbWlzdW5kZXJzdG9v
+ZC4NCg0KLS0gDQpEYXJyZW4gSGFydA0KSW50ZWwgT3BlbiBTb3VyY2UgVGVjaG5vbG9neSBDZW50
+ZXINCllvY3RvIFByb2plY3QgLSBMaW51eCBLZXJuZWwNCg0K
 
