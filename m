@@ -1,29 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EB0E6BF4E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 39D2E6C835
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 13:05:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s07D60K2017380
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Jan 2014 05:06:00 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 7 Jan 2014 05:05:59 -0800
-Message-ID: <52CBFBB5.8030009@windriver.com>
-Date: Tue, 7 Jan 2014 21:05:57 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1388769973.git.liezhi.yang@windriver.com>
-	<5b836adb7023cf075f9eb2246c7b2bbe420fd1cf.1388769973.git.liezhi.yang@windriver.com>
-	<CAJTo0LY2hTEcqZyqrDsoBGEbWYwovCSu7+gZdo4av+9=0w_J5g@mail.gmail.com>
-In-Reply-To: <CAJTo0LY2hTEcqZyqrDsoBGEbWYwovCSu7+gZdo4av+9=0w_J5g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] gconf.bbclass: remove --disable-schemas-install
+	Tue,  7 Jan 2014 13:58:16 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s07DwB5c003171; Tue, 7 Jan 2014 13:58:11 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id j8TMc0La1rAT; Tue,  7 Jan 2014 13:58:10 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s07Dw7fY003166
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Tue, 7 Jan 2014 13:58:09 GMT
+Message-ID: <1389103082.6899.27.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ming Liu <ming.liu@windriver.com>
+Date: Tue, 07 Jan 2014 13:58:02 +0000
+In-Reply-To: <1389082433-19396-2-git-send-email-ming.liu@windriver.com>
+References: <1389082433-19396-1-git-send-email-ming.liu@windriver.com>
+	<1389082433-19396-2-git-send-email-ming.liu@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] sstate: remove binutils-crosssdk from safe dependent list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +38,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 13:05:59 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 07 Jan 2014 13:58:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Tue, 2014-01-07 at 16:13 +0800, Ming Liu wrote:
+> binutils-crosssdk is being depended by other packages like
+> gcc-crosssdk-initial, so it's not safe to be skipped when checking the
+> setscene dependencies in setscene_depvalid().
 
+Can you explain this change a bit more please?
 
-On 01/06/2014 11:47 PM, Burton, Ross wrote:
-> On 3 January 2014 17:27, Robert Yang <liezhi.yang@windriver.com> wrote:
->> Gnome has moved the schemas to the gsettings-desktop-schemas pkg, so
->> there is no --disable-schemas-install option any more, and we already
->> have the gsettings-desktop-schemas recipe, so remove it, it wil fix
->> the warning:
->>
->> configure was passed unrecognised options: --disable-schemas-install
->
-> I'd NAK this but it's too late as I see it's been merged.
->
-> *Some* packages have migrated away from gconf to gsettings.  Not all
-> packages have done this, so anything still using gconf is now broken.
-> Note that almost nothing in oe-core uses gsettings as we're still
-> using the GTK+ 2 stack generally.
->
+Personally, I think the code is right as it is, if the sstate object
+exists, it was already compiled and we don't ever need bintuils* so its
+a 'safe' dep and can be skipped?
 
-Hi Ross, which recipe is failed, please ?
+Cheers,
 
-// Robert
+Richard
 
-> The problem is that people are using gnome.bbclass which is a kitchen
-> sink class, inheriting many other classes that may or may not be used.
->   To resolve this warning gnome.bbclass should extend the sanity check
-> whitelist with --disable-schemas-install as it is the class causing
-> gconf.bbclass to be inherited on recipes that don't use gconf.
->
-> Ross
->
->
 
