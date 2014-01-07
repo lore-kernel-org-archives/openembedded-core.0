@@ -1,32 +1,38 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 533CD6C733
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BC296C733
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 21:15:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s07LEvZk023782
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 Jan 2014 13:14:57 -0800 (PST)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 7 Jan 2014 13:14:57 -0800
-Message-ID: <52CC6E40.5060608@windriver.com>
-Date: Tue, 7 Jan 2014 16:14:40 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Alexandre Belloni <alexandre.belloni@free-electrons.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<52CC1E02.9070102@windriver.com>
-	<52CC633C.6000404@free-electrons.com>
-	<52CC65E5.6010003@windriver.com>
-	<52CC68F0.1030605@free-electrons.com>
-In-Reply-To: <52CC68F0.1030605@free-electrons.com>
-Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
+	Tue,  7 Jan 2014 21:26:41 +0000 (UTC)
+Received: by mail-ig0-f170.google.com with SMTP id k19so11331923igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jan 2014 13:26:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=vsyytrX/PFLRUpwOmICWjWPv06znM2iniTzsDXJckdQ=;
+	b=a0DIfnIyzRc5YJ/kOq/pOsgN2il+rJ2+oYsCFzk+ZrTBxh5VpB186J3CLGhcWRUprT
+	ZOJ+40eju+Cm7banUvS39pAFKLEPoaEOoz/fnBclWV8LZe06izwdvYFftPBm6pfnrshR
+	GlHxcDAMbmYc0UbE6XlcmJSHXt6VSXAJa/iO2Osz+PCfS7nR1g8rcRkXMR1G9ys2fy0k
+	h+/E24Whx7CayGVa7vhBRWxK9GA+osGAa9jamkB240dY06AycZmew81Aj9jd/cqs4MYE
+	i3F+5SfwCXSkILn2XiBfZacI4mEeYe5rxnEyg6DaaeSUXpcZgjRxKiMFHCVCHXCmsRR9
+	qi3g==
+X-Gm-Message-State: ALoCoQkiFeBfcQ6Lbe1Y9EF+O7miPMti+rI55PCBoNQOOOx8v574CVaQ8u9CKqmifEwWcO5/89zC
+X-Received: by 10.50.61.137 with SMTP id p9mr28423508igr.45.1389130001688;
+	Tue, 07 Jan 2014 13:26:41 -0800 (PST)
+Received: from openSUSE-i7.site (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id kb10sm5349802igb.6.2014.01.07.13.26.40
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 Jan 2014 13:26:40 -0800 (PST)
+From: Trevor Woerner <trevor.woerner@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Jan 2014 16:26:22 -0500
+Message-Id: <1389129983-11212-1-git-send-email-trevor.woerner@linaro.org>
+X-Mailer: git-send-email 1.8.5.2.227.g53f3478
+Cc: patches@linaro.org
+Subject: [PATCH] libxfont: upgrade to 1.4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,57 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 21:15:02 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 07 Jan 2014 21:26:41 -0000
 
-On 14-01-07 03:52 PM, Alexandre Belloni wrote:
-> On 07/01/2014 21:39, Bruce Ashfield wrote:
->
->>>
->>> As shown in my commit log, using yes '' | make oldconfig is still
->>> getting it wrong.
->>
->> But that was also my point. Since the target suggested in this
->> patch hasn't always existed (and hence has a kernel version binding),
->> why not use olddefconfig with this patch, and leave the functionality
->> closer to its existing behaviour ? We'd still have a kernel capability
->> binding, but we'd not have the =y converted to =m, and the default of
->> 'y' for new functionality would be maintained.
->>
->
-> Hum, I'm not sure I follow you. oldnoconfig and olddefconfig are exactly
-> the same. oldnoconfig has been renamed olddefconfig in 3.7 and
-> oldnoconfig is an alias to olddefconfig since then. I'm using
-> oldnoconfig only to be able to use that on a wider range of kernel versions.
+A security advisory, CVE-2013-6462, has been issued for libXfont so bump to
+version 1.4.7 which fixes this issue.
 
-I need to go run some of my own tests (and poke that the code). I'm
-running out of time for the day, so need to have a closer look when
-things slow down.
+    http://lists.x.org/archives/xorg/2014-January/056265.html
+    "Stack buffer overflow in parsing of BDF font files in libXfont"
 
-I'm not so much concerned about the differences between:
+Trevor Woerner (1):
+  libxfont: upgrade to 1.4.7
 
-   defconfig -> savedefconfig -> config
+ .../xorg-lib/{libxfont_1.4.6.bb => libxfont_1.4.7.bb}                 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxfont_1.4.6.bb => libxfont_1.4.7.bb} (77%)
 
-and
-
-   defconfig -> new kernel (oldconfig) -> config
-
-vs
-
-   defconfig -> new kernel (olddefconfig) -> config
-
-i.e. What do the new config options offered by the new kernel
-generate in the final .config between the two techniques.
-
-Personally, I think the make target that is run should be configurable
-via a variable (yes, I know we all hate new variables), but getting
-this right for everyone is hard, and also not forcing everyone to write
-their own kernel_do_configure() if they don't like this behaviour.
-
-Bruce
-
->
->
+-- 
+1.8.5.2.227.g53f3478
 
 
