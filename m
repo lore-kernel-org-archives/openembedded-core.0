@@ -1,32 +1,27 @@
-Return-Path: <alexandre.belloni@free-electrons.com>
-Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 0404760166
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BC046CA08
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 15:20:39 +0000 (UTC)
-Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id A18037CD; Tue,  7 Jan 2014 16:20:44 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	mail.free-electrons.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
-	shortcircuit=ham autolearn=disabled version=3.3.2
-Received: from [192.168.1.65] (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id 5630E60E;
-	Tue,  7 Jan 2014 16:20:44 +0100 (CET)
-Message-ID: <52CC1B45.9010808@free-electrons.com>
-Date: Tue, 07 Jan 2014 16:20:37 +0100
-From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-Organization: Free Electrons
+	Tue,  7 Jan 2014 15:32:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s07FWZDi004445
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Jan 2014 07:32:35 -0800 (PST)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 7 Jan 2014 07:32:35 -0800
+Message-ID: <52CC1E02.9070102@windriver.com>
+Date: Tue, 7 Jan 2014 10:32:18 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>,
+	<openembedded-core@lists.openembedded.org>
 References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<20140107143558.GQ3709@jama>
-In-Reply-To: <20140107143558.GQ3709@jama>
-X-Enigmail-Version: 1.5.2
-Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
+In-Reply-To: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
+Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>
 Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -40,64 +35,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 15:20:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 07 Jan 2014 15:32:40 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 07/01/2014 15:35, Martin Jansa wrote:
-> On Tue, Jan 07, 2014 at 03:18:37PM +0100, Alexandre Belloni wrote:
->> When using a defconfig, using yes '' | make oldconfig may not result in
->> the correct configuration being set. For example:
-> 
->>  $ grep USB_ETH .config
->>  CONFIG_USB_ETH=y
->>  CONFIG_USB_ETH_RNDIS=y
->>  CONFIG_USB_ETH_EEM=y
->>  $ make savedefconfig
->>  scripts/kconfig/conf --savedefconfig=defconfig Kconfig
->>  $ cp defconfig .config
->>  ‘defconfig’ -> ‘.config’
->>  $ yes '' | make oldconfig
->>  [...]
->>  #
->>  # configuration written to .config
->>  #
->>  $ grep USB_ETH .config
->>  CONFIG_USB_ETH=m
->>  CONFIG_USB_ETH_RNDIS=y
->>  CONFIG_USB_ETH_EEM=y
->>
->> Using make olddefconfig solves that but we'll use oldnoconfig for
->> backward compatibility with older kernels.
-> 
-> Looks good, I have few kernel recipes where I had to fixup resulting
-> .config after "make savedefconfig", "yes '' | make oldconfig" combo
-> exactly because of some =y changing to -m.
-> 
-> 1) Do you know since when oldnoconfig is supported?
-> 
-> IIRC oldest kernel I've in BSPs is 2.6.24. 
+On 14-01-07 09:18 AM, Alexandre Belloni wrote:
+> When using a defconfig, using yes '' | make oldconfig may not result in
+> the correct configuration being set. For example:
+>
+>   $ grep USB_ETH .config
+>   CONFIG_USB_ETH=y
+>   CONFIG_USB_ETH_RNDIS=y
+>   CONFIG_USB_ETH_EEM=y
+>   $ make savedefconfig
+>   scripts/kconfig/conf --savedefconfig=defconfig Kconfig
+>   $ cp defconfig .config
+>   ‘defconfig’ -> ‘.config’
+>   $ yes '' | make oldconfig
+>   [...]
+>   #
+>   # configuration written to .config
+>   #
+>   $ grep USB_ETH .config
+>   CONFIG_USB_ETH=m
+>   CONFIG_USB_ETH_RNDIS=y
+>   CONFIG_USB_ETH_EEM=y
+>
+> Using make olddefconfig solves that but we'll use oldnoconfig for
+> backward compatibility with older kernels.
+>
+>   $ cp defconfig .config
+>   ‘defconfig’ -> ‘.config’
+>   $ make oldnoconfig
+>   scripts/kconfig/conf --olddefconfig Kconfig
+>   #
+>   # configuration written to .config
+>   #
+>   $ grep USB_ETH .config
+>   CONFIG_USB_ETH=y
+>   CONFIG_USB_ETH_RNDIS=y
+>   CONFIG_USB_ETH_EEM=y
+>
+> For more information, please refer to:
+> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=fbe98bb9ed3dae23e320c6b113e35f129538d14a
 
-oldnoconfig seems to be present since 2.6.36. olddefconfig is an alias
-that appeared with fb16d8912db5268f29706010ecafff74b971c58d which is
-present since v3.7.
+It was my understanding that this commit changed the Kconfig behaviour
+to set the selected options to =y and prevent the menu choice from
+"hiding" the options in a depedent choice menu. But maybe I'm remembering
+wrong.
 
-Then hat about using:
+The point being, that with that commit in place. Doesn't the behaviour
+match what we want with yes and oldconfig ?
 
-oe_runmake oldnoconfig || yes '' | oe_runmake oldconfig
+.. I'll run some tests to confirm for myself, but I thought I'd throw
+the question out as well. I don't typically use defconfigs, so I need
+to do a bit of leg work.
 
-> 
-> 2) Could you send similar patch for
-> meta-openembedded/meta-oe/recipes-kernel/linux/linux.inc
-> ?
-> 
+I don't have any big issues with the patch, but I just want to be sure,
+since changing this default could change the configs of many defconfig
+users, and they may have been unknowingly relying on the old behaviour.
 
-Sure, will do once we agreed on this patch
+Bruce
 
+>
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+> ---
+>   meta/classes/kernel.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 61a6d102d7a8..644d7937923d 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -313,7 +313,7 @@ kernel_do_configure() {
+>   	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
+>   		cp "${WORKDIR}/defconfig" "${B}/.config"
+>   	fi
+> -	yes '' | oe_runmake oldconfig
+> +	oe_runmake oldnoconfig
+>   }
+>
+>   do_savedefconfig() {
+>
 
-
--- 
-Alexandre Belloni, Free Electrons
-Embedded Linux, Kernel and Android engineering
-http://free-electrons.com
 
