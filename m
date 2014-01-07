@@ -1,41 +1,43 @@
-Return-Path: <darren.hart@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 79C556CD86
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B5076CD86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 21:32:52 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Jan 2014 13:32:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,620,1384329600"; d="scan'208";a="455066370"
-Received: from fmsmsx106.amr.corp.intel.com ([10.19.9.37])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Jan 2014 13:32:29 -0800
-Received: from fmsmsx153.amr.corp.intel.com (10.19.17.7) by
-	FMSMSX106.amr.corp.intel.com (10.19.9.37) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 7 Jan 2014 13:32:28 -0800
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.40]) by
-	FMSMSX153.amr.corp.intel.com ([169.254.9.56]) with mapi id
-	14.03.0123.003; Tue, 7 Jan 2014 13:32:28 -0800
-From: "Hart, Darren" <darren.hart@intel.com>
-To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-Thread-Topic: [OE-core] [PATCH] kernel: use oldnoconfig instead of yes '' |
-	make oldconfig
-Thread-Index: AQHPC7N+ail4eH7Ys0GRGJPgvwBzhpp52kQAgAAMeYCAAAl6AIAAJhmAgAAnjACAABDEAA==
-Date: Tue, 7 Jan 2014 21:32:27 +0000
-Message-ID: <1389130346.5785.48.camel@dvhart-mobl4.amr.corp.intel.com>
-References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<20140107143558.GQ3709@jama> <52CC1B45.9010808@free-electrons.com>
-	<20140107155432.GS3709@jama>
-	<1389118253.5785.25.camel@dvhart-mobl4.amr.corp.intel.com>
-	<52CC645A.5040107@free-electrons.com>
-In-Reply-To: <52CC645A.5040107@free-electrons.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.196.146]
+	Tue,  7 Jan 2014 21:40:36 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id uy17so2831727igb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jan 2014 13:40:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=MsZQMLZcZgFRvSnok+Mgi5+FEdl3PYT3wWXSKAQbTWM=;
+	b=Tcm/RDfijHQoJZI+hnlhoRNq/FfEGcmK854u/jOpQmGO8fYYsGxp5Ouhxx8JsFhpLj
+	AocavTNVLfyxI6XEZO4MCjvtKXhDAtqaF3qEeYPBK0jNjA/aW0YowvKkJlRweQN7MFqZ
+	7cNF9jjZX1QYKgR69dPl7jkipecphKJ+sl4m3MaK6VpBgGcLxR8XKr3immlY9ijfEV/e
+	75iS2EkQ87QaCRiLDaXKYvUbu/5NSnXK8u+H+Ik+sDcyJ62IHW1zBR7ywyaSW3kWpClh
+	iOPEVMOitDVUTEPidBF4aMPVGq+m4GVjcRs+pUn7zsGyq60/Tsu8e/5guhBF90Hn0mBz
+	qKtQ==
+X-Gm-Message-State: ALoCoQlQmPeU2YMvZ+o7BgTAP8eRxY+CuU0pJTIsO5mpeqz2W2X+xiyOXvq/qdv/Tmm6zXl/vDCZ
+X-Received: by 10.50.136.165 with SMTP id qb5mr28513840igb.2.1389130837037;
+	Tue, 07 Jan 2014 13:40:37 -0800 (PST)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id qk7sm5396572igc.8.2014.01.07.13.40.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 07 Jan 2014 13:40:35 -0800 (PST)
+Message-ID: <52CC7452.6050402@linaro.org>
+Date: Tue, 07 Jan 2014 16:40:34 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
+To: openembedded-core@lists.openembedded.org
+References: <1389129983-11212-1-git-send-email-trevor.woerner@linaro.org>
+In-Reply-To: <1389129983-11212-1-git-send-email-trevor.woerner@linaro.org>
+Subject: Re: [PATCH] libxfont: upgrade to 1.4.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,33 +50,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 21:32:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <926CBCE5550D3843BB850741DAC49A64@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 07 Jan 2014 21:40:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-T24gVHVlLCAyMDE0LTAxLTA3IGF0IDIxOjMyICswMTAwLCBBbGV4YW5kcmUgQmVsbG9uaSB3cm90
-ZToNCj4gT24gMDcvMDEvMjAxNCAxOToxMSwgSGFydCwgRGFycmVuIHdyb3RlOg0KPiA+IA0KPiA+
-IFBsZWFzZSBjaGVjayBmb3IgdGhlIGZ1bmN0aW9uYWxpdHksIG5vdCBLRVJORUxfVkVSU0lPTi4g
-VGhlDQo+ID4gS0VSTkVMX1ZFUlNJT04gZG9lc24ndCBhbGxvdyBmb3IgYmFja3BvcnRzIGFuZCBz
-dWNoIHdoaWNoIG1pZ2h0IGFkZCB0aGlzDQo+ID4gYWJpbGl0eS4gR3JlcCB0aGUgTWFrZWZpbGUg
-Zm9yIHRoZSB0YXJnZXQsIGZvciBleGFtcGxlLCBpZiB0aGUgYWJvdmUgT1INCj4gPiBzdGF0ZW1l
-bnQgaXNuJ3QgYWRlcXVhdGUuDQo+ID4gDQo+IA0KPiBJIGd1ZXNzIHRoZSBPUiBpcyBwZXJmZWN0
-bHkgZmluZSB0aGVuLiBGb3Igd2hhdGV2ZXIgcmVhc29uIG1ha2UNCj4gb2xkbm9jb25maWcgZmFp
-bHMsIHdlJ2xsIGZhbGwgYmFjayB0byB0aGUgb2xkIGJlaGF2aW9yLg0KPiANCj4gPiBBcyBCcnVj
-ZSBzdGF0ZWQsIGl0IHNlZW1zIHRoYXQgdGhlIGZpeCB3b3VsZCBiZSB0byB1c2UgdGhlIHVwZGF0
-ZWQNCj4gPiBLY29uZmlnLCBub3QgZGVmYXVsdCB0byBzZXR0aW5nIHRoaW5ncyB0byBOTy4gVGhl
-IHByb2JsZW0gd2l0aCB0aGF0DQo+ID4gYXBwcm9hY2ggaXMgaXQgZG9lc24ndCBhY2NlcHQgZGVm
-YXVsdHMgZm9yIG5vbi1zcGVjaWZpZWQgb3B0aW9ucyAod2hpY2gNCj4gPiB3aGVuIHVwZGF0aW5n
-IGtlcm5lbCB2ZXJzaW9ucywgaXMgb2Z0ZW4gdGhlIHByZWZlcnJlZCBhcHByb2FjaCkuDQo+ID4g
-DQo+IA0KPiBJIHRoaW5rIHlvdSBnb3QgaXQgd3Jvbmc6DQo+ICAtIEkgYW0gYWxyZWFkeSB1c2lu
-ZyBhbiB1cGRhdGVkIGtjb25maWcgKEkgZXZlbiBiYWNrcG9ydGVkIGl0IG9uIHRoZQ0KPiBvbGRl
-ciBrZXJuZWwgdmVyc2lvbikNCj4gIC0gbWFrZSBvbGRub2NvbmZpZyBpcyBOT1Qgc2V0dGluZyB0
-aGluZ3MgdG8gTk8gYnV0IHRvIHRoZSBkZWZhdWx0IHZhbHVlDQo+IG9mIHRoZSB1bnNwZWNpZmll
-ZCBvcHRpb25zIChleGFjdGx5IHdoYXQgd2UgbmVlZCkuIFRoZSBjaG9pY2Ugb2YgdGhlDQo+IG5h
-bWUgd2FzIG5vdCB3aXNlIGFuZCBJdCBoYXMgYmVlbiByZW5hbWVkIG9sZGRlZmNvbmZpZyBzaW5j
-ZSAzLjcNCj4gDQo+IA0KDQpJIHNlZSAtIHlvdSdyZSByaWdodCwgSSBoYWQgbWlzdW5kZXJzdG9v
-ZC4NCg0KLS0gDQpEYXJyZW4gSGFydA0KSW50ZWwgT3BlbiBTb3VyY2UgVGVjaG5vbG9neSBDZW50
-ZXINCllvY3RvIFByb2plY3QgLSBMaW51eCBLZXJuZWwNCg0K
+Whoops! I thought the "[OE-core]" part was added automatically by the
+mailing list software. Should I send a V2?
 
