@@ -1,39 +1,45 @@
-Return-Path: <Fahad_Arslan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 417C86BE7A
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A1AE6BE7A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 09:59:59 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1W0TS3-0000IY-Sf from Fahad_Arslan@mentor.com ;
-	Tue, 07 Jan 2014 01:59:59 -0800
-Received: from SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 7 Jan 2014 01:59:59 -0800
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.95]) by
-	SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) with mapi id
-	14.02.0247.003; Tue, 7 Jan 2014 09:59:58 +0000
-From: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
-To: Saul Wold <sgw@linux.intel.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] pulseaudio: rescale input being passed to
-	float method of speex
-Thread-Index: AQHPALXAcs6RXqPcQEiQqEFDYqrdcJpjkBUAgAxA636AAgPcAIAHR3br
-Date: Tue, 7 Jan 2014 09:59:57 +0000
-Message-ID: <2B9C97B395470A40B9E9E5D469BCD9FA01560D68@EU-MBX-03.mgc.mentorg.com>
+	Tue,  7 Jan 2014 10:03:41 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id n12so16921634wgh.14
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jan 2014 02:03:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=gVtohqAult/TCP0xw87s/xN2qjHtN6Bt8nUnnaY77rs=;
+	b=fhtDB+jZ2z/1AxrVK+WybT/MDZo/OsCXeQJfXr6yaEhJGcHrFYalhz+t5C6keMKyYG
+	oAy0HnJAmdhbrH5Phuowglr07+99Xt2K44hvYdA3rUxeKXobXDHkDSH2uR+dvzXvTU3z
+	87UEUY3J1t2LcZEy4Tpni/c9HZknNcP8Rdj4vk/T3CZoyNfxn/7YjvlKtYYPudL/mkuo
+	GwMxpQZJ9AVd9g1Lzg71ryDSQMDD9Snjx2zza8IFGsDjzymw80VFBivnjKUlXfJqtjR4
+	pb6OdrhQTODkAoM+uxCobv2ZJQitZCtg2Y/zRu4PAQmsQz/lHygSF0qLI+nhEWsFRNwL
+	aozA==
+X-Gm-Message-State: ALoCoQlwFK5DE88lqYKRydmfOqv73EfdJL+p+iGs/F1Wn8XVGJi1fXLQhmKOECy0F3iZCtm3JrCW
+X-Received: by 10.194.185.113 with SMTP id fb17mr75560793wjc.29.1389089021750; 
+	Tue, 07 Jan 2014 02:03:41 -0800 (PST)
+Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id 11sm2986211wjo.23.2014.01.07.02.03.39
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 07 Jan 2014 02:03:40 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <2B9C97B395470A40B9E9E5D469BCD9FA01560D68@EU-MBX-03.mgc.mentorg.com>
+Date: Tue, 7 Jan 2014 11:03:38 +0100
+Message-Id: <C5CA80B4-8C75-4CA6-9D2B-89404927D417@dominion.thruhere.net>
 References: <1387895862-15110-1-git-send-email-fahad_arslan@mentor.com>,
 	<52B9BC2C.7080709@linux.intel.com>
 	<2B9C97B395470A40B9E9E5D469BCD9FA015601C3@EU-MBX-03.mgc.mentorg.com>,
 	<52C5B458.5060409@linux.intel.com>
-In-Reply-To: <52C5B458.5060409@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
-MIME-Version: 1.0
-X-OriginalArrivalTime: 07 Jan 2014 09:59:59.0885 (UTC)
-	FILETIME=[3A07C3D0:01CF0B8F]
-Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+	<2B9C97B395470A40B9E9E5D469BCD9FA01560D68@EU-MBX-03.mgc.mentorg.com>
+To: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
+X-Mailer: Apple Mail (2.1827)
+Cc: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] pulseaudio: rescale input being passed to float method of speex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,214 +53,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 09:59:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 07 Jan 2014 10:03:42 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-> What affect does it have on the overall size of speex=0A=
-=0A=
-If we enable floating point support, there is decrease in size of libs. =0A=
-libspeexdsp.so is ~480 KB in fixed point configuration=0A=
-libspeexdsp.so is ~220 KB in floating point configuration=0A=
-=0A=
-Further details are shown below:=0A=
-=0A=
-=0A=
-Case-1 (current configuration)=0A=
-=3D=3D=3D=3D=3D=3D=0A=
-=0A=
-EXTRA_OECONF =3D " --enable-fixed-point --with-ogg-libraries=3D${STAGING_LI=
-BDIR} \=0A=
-                 --disable-float-api --disable-vbr \=0A=
-                 --with-ogg-includes=3D${STAGING_INCDIR} --disable-oggtest"=
-=0A=
-=0A=
-build$ =0A=
-build$ ls -l src/.libs/speex*=0A=
--rwxr-xr-x 1 farslan farslan 75112 Jan  7 14:09 src/.libs/speexdec=0A=
--rwxr-xr-x 1 farslan farslan 76989 Jan  7 14:09 src/.libs/speexenc=0A=
-build$ file src/.libs/speex*=0A=
-src/.libs/speexdec: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynam=
-ically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
-src/.libs/speexenc: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynam=
-ically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
-build$ =0A=
-build$ =0A=
-build$ ls -l libspeex/.libs/libspeex*.so.1.5.0 =0A=
--rwxr-xr-x 1 farslan farslan 484940 Jan  7 14:09 libspeex/.libs/libspeexdsp=
-.so.1.5.0=0A=
--rwxr-xr-x 1 farslan farslan 370309 Jan  7 14:09 libspeex/.libs/libspeex.so=
-.1.5.0=0A=
-build$ =0A=
-build$ file libspeex/.libs/libspeex*.so.1.5.0 =0A=
-libspeex/.libs/libspeexdsp.so.1.5.0: ELF 32-bit LSB shared object, ARM, ver=
-sion 1 (SYSV), dynamically linked, not stripped=0A=
-libspeex/.libs/libspeex.so.1.5.0:    ELF 32-bit LSB shared object, ARM, ver=
-sion 1 (SYSV), dynamically linked, not stripped=0A=
-build$ =0A=
-=0A=
-=0A=
-Case-2 (suggested configuration)=0A=
-=3D=3D=3D=3D=3D=3D=0A=
-=0A=
-EXTRA_OECONF =3D " --with-ogg-libraries=3D${STAGING_LIBDIR} \=0A=
-                 --enable-float-api --disable-vbr \=0A=
-                 --with-ogg-includes=3D${STAGING_INCDIR} --disable-oggtest"=
-=0A=
-=0A=
-build$ =0A=
-build$ ls -l src/.libs/speex*=0A=
--rwxr-xr-x 1 farslan farslan 75112 Jan  7 14:40 src/.libs/speexdec=0A=
--rwxr-xr-x 1 farslan farslan 76989 Jan  7 14:40 src/.libs/speexenc=0A=
-build$ file src/.libs/speex*=0A=
-src/.libs/speexdec: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynam=
-ically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
-src/.libs/speexenc: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dynam=
-ically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
-build$=0A=
-build$=0A=
-build$ ls -l libspeex/.libs/libspeex*.so.1.5.0 =0A=
--rwxr-xr-x 1 farslan farslan 222582 Jan  7 14:40 libspeex/.libs/libspeexdsp=
-.so.1.5.0=0A=
--rwxr-xr-x 1 farslan farslan 280029 Jan  7 14:39 libspeex/.libs/libspeex.so=
-.1.5.0=0A=
-build$ =0A=
-build$ file libspeex/.libs/libspeex*.so.1.5.0 =0A=
-libspeex/.libs/libspeexdsp.so.1.5.0: ELF 32-bit LSB shared object, ARM, ver=
-sion 1 (SYSV), dynamically linked, not stripped=0A=
-libspeex/.libs/libspeex.so.1.5.0:    ELF 32-bit LSB shared object, ARM, ver=
-sion 1 (SYSV), dynamically linked, not stripped=0A=
-build$=0A=
-=0A=
-=0A=
-=0A=
-Thanks,=0A=
-Fahad=0A=
-=0A=
-=0A=
-________________________________________=0A=
-From: Saul Wold [sgw@linux.intel.com]=0A=
-Sent: Thursday, January 02, 2014 11:47 PM=0A=
-To: Arslan, Fahad; openembedded-core@lists.openembedded.org=0A=
-Cc: Marcin Juszkiewicz=0A=
-Subject: Re: [OE-core] [PATCH] pulseaudio: rescale input being passed to fl=
-oat method of speex=0A=
-=0A=
-On 01/01/2014 08:01 AM, Arslan, Fahad wrote:=0A=
-> Pulseaudio upstream says that this patch breaks speex-float if=0A=
-> it isn't compiled with FIXED_POINT defined, which is valid concern.=0A=
-> So what is the best option now to avoid the no sound issue:=0A=
-> a. replace --enable-fixed-point and --disable-float-api with --enable-flo=
-at-api in Speex's recipe=0A=
-=0A=
-There is a commit message from 2008 by Marcin J. that seems to disable=0A=
-this, I am not sure why that choice was made at that time.=0A=
-=0A=
-What affect does it have on the overall size of speex=0A=
-=0A=
-> b. replace default resampler (speex-float-1) used by Pulseaudio to speex-=
-fixed-1=0A=
->=0A=
-> In my opinion option (a) above is better. Thoughts/suggestions?=0A=
->=0A=
-> Thanks,=0A=
-> Fahad=0A=
->=0A=
-> ________________________________________=0A=
-> From: Saul Wold [sgw@linux.intel.com]=0A=
-> Sent: Tuesday, December 24, 2013 9:54 PM=0A=
-> To: Arslan, Fahad; openembedded-core@lists.openembedded.org=0A=
-> Subject: Re: [OE-core] [PATCH] pulseaudio: rescale input being passed to =
-float method of speex=0A=
->=0A=
-> On 12/24/2013 06:37 AM, Fahad Arslan wrote:=0A=
->> From: Fahad Arslan <Fahad_Arslan@mentor.com>=0A=
->>=0A=
->> Pulseaudio uses Speex to do resampling. Default Pulseaudio resampler=0A=
->> is speex-float-1. However, Speex recipe in poky configures speex in=0A=
->> fixed point. This scenario creates a situation in which audio streams=0A=
->> that need to be resampled are not playedback since input to speex is=0A=
->> zeroed out when flaot input in range of +/-1 is converted to int.=0A=
->> So we are rescaling the input before invoking speex flaot method.=0A=
->>=0A=
->> Upstream-Status: Submitted [pulseaudio-discuss@lists.freedesktop.org]=0A=
->>=0A=
->> Signed-off-by: Fahad Arslan <Fahad_Arslan@mentor.com>=0A=
->> ---=0A=
->>    .../pulseaudio/rescale_input_to_speex_float.patch  |   24 +++++++++++=
-+++++++++=0A=
->>    .../pulseaudio/pulseaudio_4.0.bb                   |    3 ++-=0A=
->>    2 files changed, 26 insertions(+), 1 deletion(-)=0A=
->>    create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/resc=
-ale_input_to_speex_float.patch=0A=
->>=0A=
->> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/rescale_input=
-_to_speex_float.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/resca=
-le_input_to_speex_float.patch=0A=
->> new file mode 100644=0A=
->> index 0000000..fe5e6a7=0A=
->> --- /dev/null=0A=
->> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/rescale_input_to_spe=
-ex_float.patch=0A=
->=0A=
-> Fahad,=0A=
->=0A=
-> The patch itself is missing the Upstream-Status: and Signed-off-by:=0A=
-> Tags, I know you included them in the commit message above, but they=0A=
-> need to be in this patch file also.=0A=
->=0A=
-> Thanks=0A=
->          Sau!=0A=
->=0A=
->> @@ -0,0 +1,24 @@=0A=
->> +diff -Naur a/src/pulsecore/resampler.c b/src/pulsecore/resampler.c=0A=
->> +--- a/src/pulsecore/resampler.c      2013-12-24 18:25:08.164787401 +050=
-0=0A=
->> ++++ b/src/pulsecore/resampler.c      2013-12-24 18:24:43.056787026 +050=
-0=0A=
->> +@@ -1347,7 +1347,7 @@=0A=
->> +=0A=
->> + static void speex_resample_float(pa_resampler *r, const pa_memchunk *i=
-nput, unsigned in_n_frames, pa_memchunk *output, unsigned *out_n_frames) {=
-=0A=
->> +     float *in, *out;=0A=
->> +-    uint32_t inf =3D in_n_frames, outf =3D *out_n_frames;=0A=
->> ++    uint32_t inf =3D in_n_frames, outf =3D *out_n_frames, i;=0A=
->> +=0A=
->> +     pa_assert(r);=0A=
->> +     pa_assert(input);=0A=
->> +@@ -1357,6 +1357,11 @@=0A=
->> +     in =3D pa_memblock_acquire_chunk(input);=0A=
->> +     out =3D pa_memblock_acquire_chunk(output);=0A=
->> +=0A=
->> ++    /* Speex float API scale range is +/-32768 instead of +/-1.=0A=
->> ++       So rescale input before passing it to Speex. */=0A=
->> ++    for (i =3D 0; i < inf; i++)=0A=
->> ++        in[i] =3D 32768.*in[i];=0A=
->> ++=0A=
->> +     pa_assert_se(speex_resampler_process_interleaved_float(r->speex.st=
-ate, in, &inf, out, &outf) =3D=3D 0);=0A=
->> +=0A=
->> +     pa_memblock_release(input->memblock);=0A=
->> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb b/meta=
-/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb=0A=
->> index b419c54..5afa20b 100644=0A=
->> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb=0A=
->> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb=0A=
->> @@ -1,7 +1,8 @@=0A=
->>    require pulseaudio.inc=0A=
->>=0A=
->>    SRC_URI =3D "http://freedesktop.org/software/pulseaudio/releases/puls=
-eaudio-${PV}.tar.xz \=0A=
->> -           file://volatiles.04_pulse"=0A=
->> +           file://volatiles.04_pulse \=0A=
->> +           file://rescale_input_to_speex_float.patch"=0A=
->>=0A=
->>    SRC_URI[md5sum] =3D "591f211db2790a7e4d222f2dc6858db3"=0A=
->>    SRC_URI[sha256sum] =3D "35ceb36bb1822fe54f0b5e4863b4f486769fdfb8ff211=
-1f01fd8778928f9cdae"=0A=
->>=0A=
->=0A=
->=0A=
+
+Op 7 jan. 2014, om 10:59 heeft Arslan, Fahad <Fahad_Arslan@mentor.com> =
+het volgende geschreven:
+
+>> What affect does it have on the overall size of speex
+>=20
+> If we enable floating point support, there is decrease in size of =
+libs.=20
+> libspeexdsp.so is ~480 KB in fixed point configuration
+> libspeexdsp.so is ~220 KB in floating point configuration
+>=20
+> Further details are shown below:
+>=20
+>=20
+> Case-1 (current configuration)
+> =3D=3D=3D=3D=3D=3D
+>=20
+> EXTRA_OECONF =3D " --enable-fixed-point =
+--with-ogg-libraries=3D${STAGING_LIBDIR} \
+>                 --disable-float-api --disable-vbr \
+>                 --with-ogg-includes=3D${STAGING_INCDIR} =
+--disable-oggtest"
+>=20
+> build$=20
+> build$ ls -l src/.libs/speex*
+> -rwxr-xr-x 1 farslan farslan 75112 Jan  7 14:09 src/.libs/speexdec
+> -rwxr-xr-x 1 farslan farslan 76989 Jan  7 14:09 src/.libs/speexenc
+> build$ file src/.libs/speex*
+> src/.libs/speexdec: ELF 32-bit LSB executable, ARM, version 1 (SYSV), =
+dynamically linked (uses shared libs), for GNU/Linux 2.6.16, not =
+stripped
+> src/.libs/speexenc: ELF 32-bit LSB executable, ARM, version 1 (SYSV), =
+dynamically linked (uses shared libs), for GNU/Linux 2.6.16, not =
+stripped
+> build$=20
+> build$=20
+> build$ ls -l libspeex/.libs/libspeex*.so.1.5.0=20
+> -rwxr-xr-x 1 farslan farslan 484940 Jan  7 14:09 =
+libspeex/.libs/libspeexdsp.so.1.5.0
+> -rwxr-xr-x 1 farslan farslan 370309 Jan  7 14:09 =
+libspeex/.libs/libspeex.so.1.5.0
+> build$=20
+> build$ file libspeex/.libs/libspeex*.so.1.5.0=20
+> libspeex/.libs/libspeexdsp.so.1.5.0: ELF 32-bit LSB shared object, =
+ARM, version 1 (SYSV), dynamically linked, not stripped
+> libspeex/.libs/libspeex.so.1.5.0:    ELF 32-bit LSB shared object, =
+ARM, version 1 (SYSV), dynamically linked, not stripped
+> build$=20
+>=20
+>=20
+> Case-2 (suggested configuration)
+> =3D=3D=3D=3D=3D=3D
+>=20
+> EXTRA_OECONF =3D " --with-ogg-libraries=3D${STAGING_LIBDIR} \
+>                 --enable-float-api --disable-vbr \
+>                 --with-ogg-includes=3D${STAGING_INCDIR} =
+--disable-oggtest"
+
+Or case 3, which I implemented 3 years ago in =
+https://github.com/openembedded/openembedded/commit/e06553979d23531397af3d=
+d71870abb80718c681 :
+
+def get_speex_fpu_setting(bb, d):
+        if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
+                return "--enable-fixed-point --disable-float-api =
+--disable-vbr"
+        return ""
+
+
+EXTRA_OECONF +=3D "${@get_speex_fpu_setting(bb, d)}
+
+That OE-classic recipe also has support for arm asm which speed things =
+up a lot.
+
+regards,
+
+Koen=
 
