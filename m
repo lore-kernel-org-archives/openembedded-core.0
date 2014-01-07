@@ -1,40 +1,40 @@
-Return-Path: <darren.hart@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 684BF6C6D6
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 430066C8C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2014 18:11:17 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 07 Jan 2014 10:11:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,620,1384329600"; 
-	d="asc'?scan'208";a="454978860"
-Received: from fmsmsx105.amr.corp.intel.com ([10.19.9.36])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Jan 2014 10:11:16 -0800
-Received: from fmsmsx112.amr.corp.intel.com (10.18.116.6) by
-	FMSMSX105.amr.corp.intel.com (10.19.9.36) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 7 Jan 2014 10:11:16 -0800
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.2.40]) by
-	FMSMSX112.amr.corp.intel.com ([169.254.3.89]) with mapi id
-	14.03.0123.003; Tue, 7 Jan 2014 10:11:15 -0800
-From: "Hart, Darren" <darren.hart@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH] kernel: use oldnoconfig instead of yes '' |
-	make oldconfig
-Thread-Index: AQHPC7N+ail4eH7Ys0GRGJPgvwBzhpp52kQAgAAMeYCAAAl6AIAAJhmA
-Date: Tue, 7 Jan 2014 18:11:15 +0000
-Message-ID: <1389118253.5785.25.camel@dvhart-mobl4.amr.corp.intel.com>
-References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<20140107143558.GQ3709@jama> <52CC1B45.9010808@free-electrons.com>
-	<20140107155432.GS3709@jama>
-In-Reply-To: <20140107155432.GS3709@jama>
-Accept-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.7.196.146]
+	Tue,  7 Jan 2014 18:27:24 +0000 (UTC)
+Received: by mail-ig0-f174.google.com with SMTP id hk11so10891532igb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jan 2014 10:27:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=aheRNBllAYU+AsVF/KnrMXRaVELztwqj68JQIGZFxy0=;
+	b=kDyrKgpPUuIdvFAtbq1Q2G2jE58zePTMskwGsYc7pw1lO8CVtcQkCC0DvWrnXkfpcg
+	s80r7wr4x36PvEgxE2iyRON2Kgbj07UbJXjgJ9/WKbfpivIN6VPwRXAGF8/gcvu8QQU9
+	lLJLYygHkzxF46063PPY5IxfBBulrWuADxzAXIGPRIg4VzPSsPrUGXyYa9rZwDafRjdO
+	FZW3KSBUiE/aOgXVo0suGgGzCyDtQ/hxy+l+GHnm6Y9vTVTuBXXDNZ7ruERJ01C05edp
+	t3Rs1PDB0OXEweh16VDiG6u6Ta78B66wJivXaWQVPDC9HL9rtn2QnNPF/8K1b+Sx70Kr
+	0TlA==
+X-Gm-Message-State: ALoCoQn7pJkLwTG0jUql3eK+r3Y7YRwMedbbGIobeOrLoONxL9pINuCXNVA6PEtjd749pDZA9aN5
+X-Received: by 10.43.171.134 with SMTP id nu6mr1521052icc.92.1389119244694;
+	Tue, 07 Jan 2014 10:27:24 -0800 (PST)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id gc2sm4593502igd.6.2014.01.07.10.27.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 07 Jan 2014 10:27:23 -0800 (PST)
+Message-ID: <52CC470A.9030302@linaro.org>
+Date: Tue, 07 Jan 2014 13:27:22 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
+To: openembedded-core@lists.openembedded.org
+Subject: Qt in OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,100 +47,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2014 18:11:18 -0000
-X-Groupsio-MsgNum: 48662
-Content-Language: en-US
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="=-nPuO09t8Y5VVcrD23Hrs"
-
---=-nPuO09t8Y5VVcrD23Hrs
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 2014-01-07 at 16:54 +0100, Martin Jansa wrote:
-> On Tue, Jan 07, 2014 at 04:20:37PM +0100, Alexandre Belloni wrote:
-> > On 07/01/2014 15:35, Martin Jansa wrote:
-> > > On Tue, Jan 07, 2014 at 03:18:37PM +0100, Alexandre Belloni wrote:
-> > >> When using a defconfig, using yes '' | make oldconfig may not result=
- in
-> > >> the correct configuration being set. For example:
-> > >=20
-> > >>  $ grep USB_ETH .config
-> > >>  CONFIG_USB_ETH=3Dy
-> > >>  CONFIG_USB_ETH_RNDIS=3Dy
-> > >>  CONFIG_USB_ETH_EEM=3Dy
-> > >>  $ make savedefconfig
-> > >>  scripts/kconfig/conf --savedefconfig=3Ddefconfig Kconfig
-> > >>  $ cp defconfig .config
-> > >>  =E2=80=98defconfig=E2=80=99 -> =E2=80=98.config=E2=80=99
-> > >>  $ yes '' | make oldconfig
-> > >>  [...]
-> > >>  #
-> > >>  # configuration written to .config
-> > >>  #
-> > >>  $ grep USB_ETH .config
-> > >>  CONFIG_USB_ETH=3Dm
-> > >>  CONFIG_USB_ETH_RNDIS=3Dy
-> > >>  CONFIG_USB_ETH_EEM=3Dy
-> > >>
-> > >> Using make olddefconfig solves that but we'll use oldnoconfig for
-> > >> backward compatibility with older kernels.
-> > >=20
-> > > Looks good, I have few kernel recipes where I had to fixup resulting
-> > > .config after "make savedefconfig", "yes '' | make oldconfig" combo
-> > > exactly because of some =3Dy changing to -m.
-> > >=20
-> > > 1) Do you know since when oldnoconfig is supported?
-> > >=20
-> > > IIRC oldest kernel I've in BSPs is 2.6.24.=20
-> >=20
-> > oldnoconfig seems to be present since 2.6.36. olddefconfig is an alias
-> > that appeared with fb16d8912db5268f29706010ecafff74b971c58d which is
-> > present since v3.7.
-> >=20
-> > Then hat about using:
-> >=20
-> > oe_runmake oldnoconfig || yes '' | oe_runmake oldconfig
->=20
-> Looks safer (assuming that oldnoconfig will return error only in cases
-> where oldnoconfig target doesn't exist in Makefile, otherwise fall-back
-> to yes '' could be a bit confusing).
->=20
-> In worst case you can add KERNEL_VERSION check or show bb.warn when
-> oldnoconfig isn't supported.
-
-Please check for the functionality, not KERNEL_VERSION. The
-KERNEL_VERSION doesn't allow for backports and such which might add this
-ability. Grep the Makefile for the target, for example, if the above OR
-statement isn't adequate.
-
-As Bruce stated, it seems that the fix would be to use the updated
-Kconfig, not default to setting things to NO. The problem with that
-approach is it doesn't accept defaults for non-specified options (which
-when updating kernel versions, is often the preferred approach).
-
-
---=20
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
---=-nPuO09t8Y5VVcrD23Hrs
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+X-List-Received-Date: Tue, 07 Jan 2014 18:27:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+Hello everyone,
 
-iQEcBAABAgAGBQJSzEMtAAoJEKbMaAwKp364HygIAIpUIdipKJAR9pLlQ1+pPGR7
-rVEqTKZR+QUX7UQlNTsZLxLozm/3E6GZbLz+3Zvv7Y4DmSH3TlAqOxRUFVaeHjt1
-s6FYASgMP+ZKmu4gKsJEcgTi0HKFBJBlt852XicqmC+uj96Cgn6dpwzAVCjwPKWT
-7VN4vwR0NTtM21k9ZVldUItiPO8RY+x0LwUoOmKcFzDuskDA/jvA5j5bq/guTvZr
-+n2g5g9XPiYzfZ4IaNkifPZh+Ufhvf4XPJKVfF037t5pfSTU/CoK4IIFPSASDUa4
-vxcRVN6DjuL4jVSDlZVCA2iert7fjC271P+XjLKxWdl6+h5rcJIRqWHNlUWEbLY=
-=VT+v
------END PGP SIGNATURE-----
+question:
+Should some version of Qt be included in openembedded-core, or should
+all recipes to add Qt be part of their own version-specific Qt layer?
 
---=-nPuO09t8Y5VVcrD23Hrs--
+
+background:
+openembedded-core[1] used to include recipes for Qt3, but as Qt3 became
+old these recipes were replaced with Qt4 and the Qt3 support was broken
+out into its own layer[2]. We're now at a point where Qt4 is getting old
+and Qt5 is "current". At some point we'll have to replace the Qt4
+support in [1] with support for Qt5. But we expect users will still want
+to use Qt4, so if the Qt4 support in [1] is replaced by support for Qt5,
+the Qt4 support will need to be broken out into its own layer. Qt5
+support is currently being developed on it's own layer[3].
+
+
+This email thread is *not* to discuss when we should replace Qt4 with
+Qt5, then question is: should [1] include *any* Qt support, or should Qt
+be always in its own layer to be added as required by the distribution?
+
+
+If we decide [1] should provide some Qt support, then we can discuss
+when we should replace the Qt4 support with Qt5 in [1]. But for now it
+would be nice to reach a consensus on whether or not [1] should include
+any Qt support at all or if it wouldn't just be easier to always have Qt
+support in its own version-specific layers to be added as required (if
+needed) by the distribution configuration.
+
+
+Thanks for your feedback.
+
+
+
+[1]
+http://layers.openembedded.org/layerindex/branch/master/layer/openembedded-core/
+[2] http://layers.openembedded.org/layerindex/branch/master/layer/meta-qt3/
+[3] http://layers.openembedded.org/layerindex/branch/master/layer/meta-qt5/
+
