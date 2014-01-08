@@ -1,34 +1,31 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 74F0E60C08
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 929E06D181
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 15:22:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Jan 2014 07:22:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,625,1384329600"; d="scan'208";a="435763918"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2014 07:22:50 -0800
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.215]) by
-	IRSMSX104.ger.corp.intel.com ([169.254.5.135]) with mapi id
-	14.03.0123.003; Wed, 8 Jan 2014 15:21:52 +0000
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] What package installs a C compiler on my target?
-Thread-Index: AQHPDHUDKHLIKgldykObO8dYI9XslZp62DGAgAAU9QCAAATyAA==
-Date: Wed, 8 Jan 2014 15:21:52 +0000
-Message-ID: <1389194576.14922.6.camel@firebird.rb.intel.com>
-References: <cover.1389186276.git.irina.patru@intel.com>
-	<52CD5193.2060702@topic.nl> <52CD5795.8000005@balister.org>
-	<52CD692A.80504@topic.nl>
-In-Reply-To: <52CD692A.80504@topic.nl>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.156]
-MIME-Version: 1.0
-Subject: Re: What package installs a C compiler on my target?
+	Wed,  8 Jan 2014 15:23:06 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s08FMclR015425; Wed, 8 Jan 2014 15:22:45 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 6zuHWVV47GwC; Wed,  8 Jan 2014 15:22:45 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s08FMeM6015419
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Wed, 8 Jan 2014 15:22:41 GMT
+Message-ID: <1389194555.6899.105.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 08 Jan 2014 15:22:35 +0000
+In-Reply-To: <CAJTo0LYZ8DG9V+C3_C=uXt+yV2i2OfnSZwQGEhnAHQ7gPsAN=g@mail.gmail.com>
+References: <52CD5DCE.5050003@communistcode.co.uk>
+	<CAJTo0LYZ8DG9V+C3_C=uXt+yV2i2OfnSZwQGEhnAHQ7gPsAN=g@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: db compile failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,94 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 15:22:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <91EB4415418F5C499E73DC0781281165@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 08 Jan 2014 15:23:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-DQoNCg0KT24gV2VkLCAyMDE0LTAxLTA4IGF0IDE2OjA1ICswMTAwLCBNaWtlIExvb2lqbWFucyB3
-cm90ZToNCj4gT24gMDEvMDgvMjAxNCAwMjo1MCBQTSwgUGhpbGlwIEJhbGlzdGVyIHdyb3RlOg0K
-PiA+IE9uIDAxLzA4LzIwMTQgMDg6MjQgQU0sIE1pa2UgTG9vaWptYW5zIHdyb3RlOg0KPiA+PiBQ
-cm9iYWJseSBhIHNpbGx5IHF1ZXN0aW9uIHRoYXQgaGFzIGJlZW4gYXNrZWQgYSB0aG91c2FuZCB0
-aW1lcywgYnV0IG15DQo+ID4+IHNlYXJjaGVzIG9uIEdvb2dsZSBvbmx5IGdpdmUgbWUgdGhlIGFu
-c3dlciB0byB0aGUgd3JvbmcgcXVlc3Rpb24gKGhvdyB0bw0KPiA+PiBidWlsZCBGT1IgdGhlIHRh
-cmdldCwgd2hpY2ggSSBhbHJlYWR5IGtub3cgaG93IHRvIGRvKS4NCj4gPj4NCj4gPj4gSSB3YW50
-IHRvIHJ1biB0aGUgQyBjb21waWxlciBvbiB0aGUgYm9hcmQgaXRzZWxmLiBUaGF0IGlzLCBhIEdD
-QyB0aGF0DQo+ID4+IHJ1bnMgb24gdGhlIGJvYXJkIGFuZCBjb21waWxlcyAoYW5kIGxpbmtzIGV0
-Yy4pIEMgY29kZSBmb3IgdGhhdCBib2FyZC4NCj4gPj4NCj4gPj4gV2hhdCBwYWNrYWdlKHMpIGRv
-IEkgbmVlZCB0byBidWlsZCBhbmQgaW5zdGFsbCB0byBhY2NvbXBsaXNoIHRoaXM/DQo+ID4NCj4g
-PiAgRnJvbSBvbmUgb2YgbXkgaW1hZ2VzOg0KPiA+DQo+ID4NCj4gPiBJTUFHRV9GRUFUVVJFUyAr
-PSAic3BsYXNoIHNzaC1zZXJ2ZXItb3BlbnNzaCB0b29scy1zZGsgXA0KPiA+IHRvb2xzLWRlYnVn
-IGRlYnVnLXR3ZWFrcyBcDQo+ID4gZGV2LXBrZ3MgZGJnLXBrZ3MgXA0KPiA+ICINCj4gPiBsb29r
-cyBsaWtlIHRvb2xzLXNkayBpcyB0aGUgb25lIHlvdSB3YW50LiBkZXYtIGFuZCBkYmctIHBhY2th
-Z2VzIG1pZ2h0DQo+ID4gYWxzbyBiZSBoZWxwZnVsLCBidXQgd2lsbCBtYWtlIHRoZSBpbWFnZSBs
-YXJnZXIuIEVzcGVjaWFsbHkgdGhlIGRlYnVnIG9uZXMuDQo+IA0KPiAkIGJpdGJha2UgdG9vbHMt
-c2RrDQo+IEVSUk9SOiBOb3RoaW5nIFBST1ZJREVTICd0b29scy1zZGsnDQo+IA0KPiBTbyBJIGd1
-ZXNzIGl0J3MgYSBwYWNrYWdlIHRoYXQncyBwcm92aWRlZCBpbiBhbm90aGVyIGxheWVyIChJIGhh
-dmUgb2UtY29yZSBhbmQgDQo+IG1vc3Qgb2YgbWV0YS1vZSkuDQoNCk5vLCB0b29scy1zZGsgaXQn
-cyBub3QgYSBiaXRiYWtlIHRhcmdldC9wYWNrYWdlLCBpdCdzIGFuIGltYWdlIGZlYXR1cmUNCnRo
-YXQgeW91IG5lZWQgdG8gYWRkIGl0IHRvIHlvdXIgaW1hZ2UsIGUuZyBpbiBsb2NhbC5jb25mOg0K
-SU1BR0VfRkVBVFVSRVNfYXBwZW5kID0gIiB0b29scy1zZGsiDQpZb3UnbGwgcHJvYmFibHkgd2Fu
-dCB0byBhZGQgZGV2LXBrZ3MgdG9vICh0aGF0IHdpbGwgaW5zdGFsbCB0aGUgZGV2ZWwNCnBhY2th
-Z2VzL2hlYWRlcnMpDQoNClRoZSBnbG9yeSBkZXRhaWxzIGFyZSBpbiBjb3JlLWltYWdlLmJiY2xh
-c3MsIGJhc2ljYWxseSB0b29scy1zZGsNCmluc3RhbGxzIHBhY2thZ2Vncm91cC1jb3JlLXNkayBh
-bmQNCnBhY2thZ2Vncm91cC1jb3JlLXN0YW5kYWxvbmUtc2RrLXRhcmdldC4gVGhlc2UgYXJlIGFj
-dHVhbGx5IHRhcmdldHMgdGhhdA0KeW91IGNhbiBidWlsZC4gSWYgeW91IHdhbnQgdG8gc2VlIGV4
-YWN0bHkgb24gd2hpY2ggcGFja2FnZXMgdGhlc2UgZ3JvdXBzDQpkZXBlbmQgb24geW91IGNhbiBo
-YXZlIGEgbG9vayBhdA0KbWV0YS9yZWNpcGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9wYWNrYWdlZ3Jv
-dXAtY29yZSpzZGsqLmJiIHJlY2lwZXMuDQoNCkNoZWVycywNClN0ZWZhbg0KDQoNCj4gDQo+IFNv
-IGZhciwgdGhlIGZvbGxvd2luZyBzZXQgSSd2ZSBkZXJpdmVkIHRocm91Z2ggdHJpYWwgYW5kIGVy
-cm9yIHNlZW1zIHRvIGNvbWUgDQo+IGNsb3NlOg0KPiANCj4gVEFSR0VUX0NPTVBJTEVSX1RPT0xT
-ID0gIlwNCj4gICAgICBiaW51dGlscyBcDQo+ICAgICAgYmludXRpbHMtc3ltbGlua3MgXA0KPiAg
-ICAgIGNwcCBcDQo+ICAgICAgY3BwLXN5bWxpbmtzIFwNCj4gICAgICBnKysgXA0KPiAgICAgIGcr
-Ky1zeW1saW5rcyBcDQo+ICAgICAgZ2NjIFwNCj4gICAgICBnY2Mtc3ltbGlua3MgXA0KPiAgICAg
-IG1ha2UgXA0KPiAgICAgIHBhY2thZ2Vncm91cC1jb3JlLXN0YW5kYWxvbmUtc2RrLXRhcmdldCBc
-DQo+ICINCj4gDQo+IFRoaXMgYWxsb3dzIGEgYmFzaWMgImhlbGxvIHdvcmxkIiB0byBjb21waWxl
-IG9uIHRhcmdldCBpbiBDIGFuZCBDKysgY29kZS4gTWFrZSANCj4gd2Fzbid0IHJlYWxseSByZXF1
-aXJlZCwgYnV0IGl0J3MgdmVyeSBjb252ZW5pZW50IHRvIGhhdmUuLi4NCj4gDQo+IEknbSBtb3N0
-bHkgc3VycHJpc2VkIHRoYXQgdGhlcmUgd2Fzbid0IGEgcGFja2FnZWdyb3VwIHRvIGNvbnRhaW4g
-dGhpcyBzZXQuDQo+IA0KPiBJdCBpbmNyZWFzZWQgdGhlIGltYWdlIHNpemUgdG8gYWJvdXQgMTMw
-TUIsIGJ1dCBpbiB0aGlzIHBhcnRpY3VsYXIgY2FzZSwgdGhhdCANCj4gd29uJ3QgYmUgYSBwcm9i
-bGVtLg0KPiANCj4gQW55d2F5LCB0aGFua3MgZm9yIHRoZSB0aXBzIGFsbC4gR3Vlc3MgdGhpcyBs
-aXN0IG1heSBiZSB1c2VmdWwgdG8gb3RoZXJzLi4uDQo+IA0KPiBNaWtlLg0KPiANCj4gDQo+IE1l
-dCB2cmllbmRlbGlqa2UgZ3JvZXQgLyBraW5kIHJlZ2FyZHMsDQo+IA0KPiBNaWtlIExvb2lqbWFu
-cw0KPiANCj4gVE9QSUMgRW1iZWRkZWQgU3lzdGVtcw0KPiBFaW5kaG92ZW5zZXdlZyAzMi1DLCBO
-TC01NjgzIEtIIEJlc3QNCj4gUG9zdGJ1cyA0NDAsIE5MLTU2ODAgQUsgQmVzdA0KPiBUZWxlZm9v
-bjogKCszMSkg4oCTICgwKTQ5OSAtIDMzLjY5Ljc5DQo+IFRlbGVmYXg6ICgrMzEpIC0gKDApNDk5
-IC0gMzMuNjkuNzANCj4gRS1tYWlsOiBtaWtlLmxvb2lqbWFuc0B0b3BpYy5ubA0KPiBXZWJzaXRl
-OiB3d3cudG9waWMubmwNCj4gDQo+IERpdCBlLW1haWwgYmVyaWNodCBlbiBkZSBldmVudHVlZWwg
-ZGFhcmJpaiBiZWhvcmVuZGUgYmlqbGFnZW4gemlqbiB1aXRzbHVpdGVuZCBiZXN0ZW1kIHZvb3Ig
-ZGUgZ2VhZHJlc3NlZXJkZSwgem9hbHMgZGllIGJsaWprdCB1aXQgaGV0IGUtbWFpbCBiZXJpY2h0
-IGVuL29mIGRlIGJpamxhZ2VuLiBFciBrdW5uZW4gZ2VnZXZlbnMgbWV0IGJldHJla2tpbmcgdG90
-IGVlbiBkZXJkZSBpbnN0YWFuLiBJbmRpZW4gdSBhbHMgbmlldC1nZWFkcmVzc2VlcmRlIGRpdCBi
-ZXJpY2h0IGVuIGRlIGJpamxhZ2VuIG9udHZhbmd0LCB0ZXJ3aWpsIHUgbmlldCBiZXZvZWdkIG9m
-IGdlbWFjaHRpZ2QgYmVudCBvbSBkaXQgYmVyaWNodCBuYW1lbnMgZGUgZ2VhZHJlc3NlZXJkZSB0
-ZSBvbnR2YW5nZW4sIHdvcmR0IHUgdmVyem9jaHQgZGUgYWZ6ZW5kZXIgaGllcm92ZXIgZGlyZWN0
-IHRlIGluZm9ybWVyZW4gZW4gaGV0IGUtbWFpbCBiZXJpY2h0IG1ldCBkZSBiaWpsYWdlbiB0ZSB2
-ZXJuaWV0aWdlbi4gSWVkZXIgZ2VicnVpayB2YW4gZGUgaW5ob3VkIHZhbiBoZXQgZS1tYWlsIGJl
-cmljaHQsIHdhYXJvbmRlciBkZSBkYWFyYmlqIGJlaG9yZW5kZSBiaWpsYWdlbiwgZG9vciBlZW4g
-YW5kZXIgZGFuIGRlIGdlYWRyZXNzZWVyZGUgaXMgb25yZWNodG1hdGlnIGplZ2VucyBvbnMgZGFu
-IHdlbCBkZSBldmVudHVlZWwgaW4gaGV0IGUtbWFpbCBiZXJpY2h0IG9mIGRlIGJpamxhZ2VuIHZv
-b3Jrb21lbmRlIGFuZGVyZSBwZXJzb25lbi4gVE9QSUMgRW1iZWRkZWQgU3lzdGVtcyBpcyBuaWV0
-IGFhbnNwcmFrZWxpamsgdm9vciBlbmlnZXJsZWkgc2NoYWRlIHZvb3J0dmxvZWllbmQgdWl0IGhl
-dCBnZWJydWlrIGVuL29mIGFjY2VwdGF0aWUgdmFuIGRpdCBlLW1haWwgYmVyaWNodCBvZiBkZSBk
-YWFyYmlqIGJlaG9yZW5kZSBiaWpsYWdlbi4NCj4gDQo+IFRoZSBjb250ZW50cyBvZiB0aGlzIG1l
-c3NhZ2UsIGFzIHdlbGwgYXMgYW55IGVuY2xvc3VyZXMsIGFyZSBhZGRyZXNzZWQgcGVyc29uYWxs
-eSB0bywgYW5kIHRodXMgc29sZWx5IGludGVuZGVkIGZvciB0aGUgYWRkcmVzc2VlLiBUaGV5IG1h
-eSBjb250YWluIGluZm9ybWF0aW9uIHJlZ2FyZGluZyBhIHRoaXJkIHBhcnR5LiBBIHJlY2lwaWVu
-dCB3aG8gaXMgbmVpdGhlciB0aGUgYWRkcmVzc2VlLCBub3IgZW1wb3dlcmVkIHRvIHJlY2VpdmUg
-dGhpcyBtZXNzYWdlIG9uIGJlaGFsZiBvZiB0aGUgYWRkcmVzc2VlLCBpcyBraW5kbHkgcmVxdWVz
-dGVkIHRvIGltbWVkaWF0ZWx5IGluZm9ybSB0aGUgc2VuZGVyIG9mIHJlY2VpcHQsIGFuZCB0byBk
-ZXN0cm95IHRoZSBtZXNzYWdlIGFuZCB0aGUgZW5jbG9zdXJlcy4gQW55IHVzZSBvZiB0aGUgY29u
-dGVudHMgb2YgdGhpcyBtZXNzYWdlIGFuZC9vciB0aGUgZW5jbG9zdXJlcyBieSBhbnkgb3RoZXIg
-cGVyc29uIHRoYW4gdGhlIGFkZHJlc3NlZSBvciBwZXJzb24gd2hvIGlzIGVtcG93ZXJlZCB0byBy
-ZWNlaXZlIHRoaXMgbWVzc2FnZSwgaXMgaWxsZWdhbCB0b3dhcmRzIHRoZSBzZW5kZXIgYW5kL29y
-IHRoZSBhZm9yZW1lbnRpb25lZCB0aGlyZCBwYXJ0eS4gVE9QSUMgRW1iZWRkZWQgU3lzdGVtcyBp
-cyBub3QgIGxpYWJsZSBmb3IgYW55IGRhbWFnZSBhcyBhIHJlc3VsdCBvZiB0aGUgdXNlIGFuZC9v
-ciBhY2NlcHRhbmNlIG9mIHRoaXMgbWVzc2FnZSBhbmQgYXMgd2VsbCBhcyBhbnkgZW5jbG9zdXJl
-cy4NCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4g
-T3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcNCj4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1h
-bi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KDQo=
+On Wed, 2014-01-08 at 14:21 +0000, Burton, Ross wrote:
+> Hi Jack,
+> 
+> There were some sstate/manifest changes to master before Christmas
+> which is why this happens.  You should only get the warning once per
+> package as it rebuilds and updates the manifest, or just delete tmp:
+> it will be rebuilt from sstate quickly.
+
+The manifest file names changed and cause those spurious warnings. A
+clean tmp dir or wiping out the stale (or all) manifest files in
+tmp/sstate-control will "fix" that.
+
+Cheers,
+
+Richard
+
+
+
 
