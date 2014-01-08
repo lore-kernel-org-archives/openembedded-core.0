@@ -1,24 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Ming.Liu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EDA666CE57
+	by mail.openembedded.org (Postfix) with ESMTP id 2B5E96C963
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 02:11:38 +0000 (UTC)
+	Wed,  8 Jan 2014 06:06:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s082BcIp003343
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Jan 2014 18:11:39 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 7 Jan 2014 18:11:38 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jan 2014 10:12:00 +0800
-Message-ID: <cover.1389147012.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s08662oN019940
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 Jan 2014 22:06:02 -0800 (PST)
+Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Tue, 7 Jan 2014 22:06:01 -0800
+Message-ID: <52CCEAC5.1090905@windriver.com>
+Date: Wed, 8 Jan 2014 14:05:57 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH V3 0/1] sanity.bbclass: check for validity of TMPDIR
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1389082433-19396-1-git-send-email-ming.liu@windriver.com>
+	<1389082433-19396-2-git-send-email-ming.liu@windriver.com>
+	<1389103082.6899.27.camel@ted>
+In-Reply-To: <1389103082.6899.27.camel@ted>
+X-Originating-IP: [128.224.162.153]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] sstate: remove binutils-crosssdk from safe dependent list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 02:11:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Jan 2014 06:06:05 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Changes since V2:
-1. Check for trailing slashes as well.
+On 01/07/2014 09:58 PM, Richard Purdie wrote:
+> On Tue, 2014-01-07 at 16:13 +0800, Ming Liu wrote:
+>> binutils-crosssdk is being depended by other packages like
+>> gcc-crosssdk-initial, so it's not safe to be skipped when checking the
+>> setscene dependencies in setscene_depvalid().
+> Can you explain this change a bit more please?
+>
+> Personally, I think the code is right as it is, if the sstate object
+> exists, it was already compiled and we don't ever need bintuils* so its
+> a 'safe' dep and can be skipped?
+Actually I am not very clear about why the binutils-crosssdk should be a 
+build time dependency, because based on my test, it's seems to being 
+required by gcc-crosssdk-initial at runtime, the steps:
+bitbake nativesdk-eglibc-initial -c cleansstate
+bitbake gcc-crosssdk-initial binutils-crosssdk -c clean
+bitbake gcc-crosssdk-initial
+bitbake nativesdk-eglibc-initial
 
-The following changes since commit e93a345fae7c21652547bec501fcb1f3b6c6427d:
+the above will fail due to lacking binutils-crosssdk stuff in sysroot.
 
-  sstate: add do_package to the noexec list in setscene_depvalid (2014-01-07 13:58:32 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/TMPDIR
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/TMPDIR
-
-Chen Qi (1):
-  sanity.bbclass: check for validity of TMPDIR
-
- meta/classes/sanity.bbclass |   27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
-
--- 
-1.7.9.5
+//Ming Liu
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
 
