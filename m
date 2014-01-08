@@ -1,24 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D8BC96D24B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 44F5E6D255
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 17:23:03 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 08 Jan 2014 09:23:05 -0800
+	Wed,  8 Jan 2014 17:31:35 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 08 Jan 2014 09:27:37 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,625,1384329600"; d="scan'208";a="455560908"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.128])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2014 09:23:04 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jan 2014 17:23:00 +0000
-Message-Id: <d5afbc6d29c28e77fdfb98bff9d099806460a160.1389201662.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1389201662.git.paul.eggleton@linux.intel.com>
-References: <cover.1389201662.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1389201662.git.paul.eggleton@linux.intel.com>
-References: <cover.1389201662.git.paul.eggleton@linux.intel.com>
-Subject: [dylan][PATCH 2/2] cmake.bbclass: ensure CMAKE_SYSTEM_NAME is correct
+X-IronPort-AV: E=Sophos;i="4.95,625,1384329600"; d="scan'208";a="463627346"
+Received: from unknown (HELO [10.255.12.53]) ([10.255.12.53])
+	by orsmga002.jf.intel.com with ESMTP; 08 Jan 2014 09:31:35 -0800
+Message-ID: <52CD8B77.4020805@linux.intel.com>
+Date: Wed, 08 Jan 2014 09:31:35 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: Corneliu Stoicescu <corneliux.stoicescu@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1389028342-23264-1-git-send-email-corneliux.stoicescu@intel.com>
+In-Reply-To: <1389028342-23264-1-git-send-email-corneliux.stoicescu@intel.com>
+Subject: Re: [PATCH V2] Modify buildstats to be merged inside buildhistory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 17:23:03 -0000
+X-List-Received-Date: Wed, 08 Jan 2014 17:31:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Saul Wold <sgw@linux.intel.com>
+On 01/06/2014 09:12 AM, Corneliu Stoicescu wrote:
+> - added buildstats inheritance inside buildhistory
+> - when buildhisory is used, buildstats will be moved inside the buildhistory directory
 
-Using TARGET_OS can add the ABIEXTENSION so ensure that is is removed for the Linux
-TARGET_OS, we might have other TARGET_OSes so don't hard code CMAKE_SYSTEM_NAME
+This does not seem to have a Signed-off-by:
 
-[YOCTO #5145]
+Please submit a v2 for review.
 
-(From OE-Core master rev: 7d8b700242b1b32c6b6d0735b497701800f54fc4)
+Thanks
+	Sau!
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/cmake.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 4ef9fca..5144cdf 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -35,7 +35,7 @@ cmake_do_generate_toolchain_file() {
- 	cat > ${WORKDIR}/toolchain.cmake <<EOF
- # CMake system name must be something like "Linux".
- # This is important for cross-compiling.
--set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed 's/^./\u&/'` )
-+set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed -e 's/^./\u&/' -e 's/^\(Linux\).*/\1/'` )
- set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
- set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
- set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
--- 
-1.8.1.2
-
+> ---
+>   meta/classes/buildhistory.bbclass |    3 +++
+>   meta/classes/buildstats.bbclass   |    2 +-
+>   2 files changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index e9a9c3b..54efecfe 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -16,9 +16,12 @@ BUILDHISTORY_IMAGE_FILES ?= "/etc/passwd /etc/group"
+>   BUILDHISTORY_COMMIT ?= "0"
+>   BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
+>   BUILDHISTORY_PUSH_REPO ?= ""
+> +BUILDSTATS_BASE = "${BUILDHISTORY_DIR}/buildstats"
+>
+>   SSTATEPOSTINSTFUNCS += "buildhistory_emit_pkghistory"
+>
+> +inherit buildstats
+> +
+>   #
+>   # Write out metadata about this package for comparision when writing future packages
+>   #
+> diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
+> index 72fff11..c8769ae 100644
+> --- a/meta/classes/buildstats.bbclass
+> +++ b/meta/classes/buildstats.bbclass
+> @@ -1,4 +1,4 @@
+> -BUILDSTATS_BASE = "${TMPDIR}/buildstats/"
+> +BUILDSTATS_BASE ??= "${TMPDIR}/buildstats/"
+>   BNFILE = "${BUILDSTATS_BASE}/.buildname"
+>   DEVFILE = "${BUILDSTATS_BASE}/.device"
+>
+>
 
