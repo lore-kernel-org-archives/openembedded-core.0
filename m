@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 929E06D181
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DE9F86CA71
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 15:23:06 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s08FMclR015425; Wed, 8 Jan 2014 15:22:45 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6zuHWVV47GwC; Wed,  8 Jan 2014 15:22:45 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s08FMeM6015419
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Wed, 8 Jan 2014 15:22:41 GMT
-Message-ID: <1389194555.6899.105.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 08 Jan 2014 15:22:35 +0000
-In-Reply-To: <CAJTo0LYZ8DG9V+C3_C=uXt+yV2i2OfnSZwQGEhnAHQ7gPsAN=g@mail.gmail.com>
-References: <52CD5DCE.5050003@communistcode.co.uk>
-	<CAJTo0LYZ8DG9V+C3_C=uXt+yV2i2OfnSZwQGEhnAHQ7gPsAN=g@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: db compile failure
+	Wed,  8 Jan 2014 15:56:05 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 08 Jan 2014 07:56:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,625,1384329600"; d="scan'208";a="455509740"
+Received: from unknown (HELO helios.localnet) ([10.252.122.128])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2014 07:56:05 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 08 Jan 2014 15:56:04 +0000
+Message-ID: <1759035.6JVm74GdRW@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-35-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <52CC470A.9030302@linaro.org>
+References: <52CC470A.9030302@linaro.org>
+MIME-Version: 1.0
+Subject: Re: Qt in OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,26 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 15:23:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jan 2014 15:56:06 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 2014-01-08 at 14:21 +0000, Burton, Ross wrote:
-> Hi Jack,
+Hi all,
+
+On Tuesday 07 January 2014 13:27:22 Trevor Woerner wrote:
+> question:
+> Should some version of Qt be included in openembedded-core, or should
+> all recipes to add Qt be part of their own version-specific Qt layer?
 > 
-> There were some sstate/manifest changes to master before Christmas
-> which is why this happens.  You should only get the warning once per
-> package as it rebuilds and updates the manifest, or just delete tmp:
-> it will be rebuilt from sstate quickly.
+> background:
+> openembedded-core[1] used to include recipes for Qt3, but as Qt3 became
+> old these recipes were replaced with Qt4 and the Qt3 support was broken
+> out into its own layer[2]. We're now at a point where Qt4 is getting old
+> and Qt5 is "current". At some point we'll have to replace the Qt4
+> support in [1] with support for Qt5. But we expect users will still want
+> to use Qt4, so if the Qt4 support in [1] is replaced by support for Qt5,
+> the Qt4 support will need to be broken out into its own layer. Qt5
+> support is currently being developed on it's own layer[3].
+> 
+> This email thread is *not* to discuss when we should replace Qt4 with
+> Qt5, then question is: should [1] include *any* Qt support, or should Qt
+> be always in its own layer to be added as required by the distribution?
+> 
+> If we decide [1] should provide some Qt support, then we can discuss
+> when we should replace the Qt4 support with Qt5 in [1]. But for now it
+> would be nice to reach a consensus on whether or not [1] should include
+> any Qt support at all or if it wouldn't just be easier to always have Qt
+> support in its own version-specific layers to be added as required (if
+> needed) by the distribution configuration.
 
-The manifest file names changed and cause those spurious warnings. A
-clean tmp dir or wiping out the stale (or all) manifest files in
-tmp/sstate-control will "fix" that.
+I can see some benefits to having Qt in a separate layer, and this is not the 
+first time this question has come up. However, one concern I have always had 
+with Qt being moved out of OE-Core though is that I very much doubt the same 
+will happen with GTK+ and GNOME UI components that we carry, which I think 
+will lead to the (perhaps erroneous, but logical) assumption in new users' 
+minds that we support or recommend these more than we do Qt. Given Qt's 
+popularity in the embedded space I don't think this would be the right message 
+to be sending out.
+
+Any concrete ideas on how we would address this perception issue?
 
 Cheers,
+Paul
 
-Richard
+-- 
 
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
