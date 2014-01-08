@@ -1,30 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 340DD6CA0E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 98A636D120
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 10:28:55 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s08ASm7B004640; Wed, 8 Jan 2014 10:28:48 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NCzJSpIIQ25G; Wed,  8 Jan 2014 10:28:48 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s08AShoP004632
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Wed, 8 Jan 2014 10:28:44 GMT
-Message-ID: <1389176918.6899.75.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 08 Jan 2014 10:28:38 +0000
-In-Reply-To: <20140107192305.GT3709@jama>
-References: <52CC470A.9030302@linaro.org> <20140107192305.GT3709@jama>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	Wed,  8 Jan 2014 11:57:25 +0000 (UTC)
+Received: by mail-ea0-f181.google.com with SMTP id m10so764163eaj.26
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jan 2014 03:57:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Rgnt97wtviuaFLZtt2l4Qu/yLKLvu+WMAH0eM1RxgXg=;
+	b=TqNM4ekHX/rCFweWBrdH1fsIM/OlKz7+4ineTPk1XQZI4M40OEBAX4ElSBP/YsnQD2
+	zmobhLBMod9LxZHTMp1jzxEaBT0WBDqMwa3JKnKB+avxk7e33+jUFjx4Eckr8Wok+Dbm
+	oUSYNU8PyRCXaUgzy3MEuNLuXB30gkEK2h2vmlVxzTFqXpPCpIVZnC9AOkYoQQsEfGHD
+	o9YSq6CtyINoNX5KbnQwwnWPQI83zMXhSuAX8i6ZC6qWKq1AmgfX1giZYRgy269K6zyT
+	lh2uD31RZFOoVjsy9WGUsatOmkHh0ct8DCjTUDrfGBA/13JETSnyRAtFE1IBJG8n0/bT
+	O1pQ==
+X-Received: by 10.15.45.135 with SMTP id b7mr26705478eew.88.1389182246235;
+	Wed, 08 Jan 2014 03:57:26 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	b41sm188859134eef.16.2014.01.08.03.57.25 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Jan 2014 03:57:25 -0800 (PST)
+Date: Wed, 8 Jan 2014 12:57:36 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140108115736.GX3709@jama>
+References: <20140106112937.00B9650473@opal>
+MIME-Version: 1.0
+In-Reply-To: <20140106112937.00B9650473@opal>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Qt in OE-core
+Subject: Re: [oe-commits] Robert Yang : make: upgrade to 4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +46,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 10:28:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jan 2014 11:57:26 -0000
+X-Groupsio-MsgNum: 48684
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="PjJwPjbdn5RfZuWK"
+Content-Disposition: inline
 
-On Tue, 2014-01-07 at 20:23 +0100, Martin Jansa wrote:
-> I would like to see qt4 moved from oe-core to meta-qt4.
->
-> That would remove the feeling that using oe-core defaults to using qt4
-> and it would be consistent with other QT layers:
-> 
-> meta-qt3
-> meta-qt4
-> meta-qt5
-> 
-> oe-core would stay just the "core" and if you need any QT you can select
-> which one suits your needs the most (or combination of e.g. qt4+qt5 like
-> most people are using now)
-> 
-> With PACKAGECONFIGs which can list optional dependencies which aren't
-> included in the the layer itself it's now easier to have recipe with
-> optional qt5 support in oe-core, but qt5 itself in separate meta-qt5.
-> 
-> Another interesting aspect is that with qt4 we have only 6 recipes in
-> openembedded-core/meta/recipes-qt/qt4
-> 
-> while
-> meta-qt5/recipes-qt/qt5 has 25 different recipes (many of them with
-> _git.bb variant so 42 in total). And splitting the qt5 recipes (e.g. to
-> have only qtbase, qtdeclarative in oe-core and "additional" modules in
-> separate meta-qt5) isn't very good, because they are quite tightly
-> coupled (so upgrading recipes in meta-qt5 would be in many cases
-> incomatible with qtbase version in oe-core and vice-versa).
+--PjJwPjbdn5RfZuWK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What dependencies on other layers does meta-qt5 have?
+On Mon, Jan 06, 2014 at 11:29:36AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: f2b40e09e1d9767001f8fd9d5948ff2757491b2f
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Df2b40e09e1d9767001f8fd9d5948ff2757491b2f
+>=20
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Fri Dec 27 21:46:10 2013 +0800
+>=20
+> make: upgrade to 4.0
+>=20
+> Upgrade to 4.0, remove the following patches since they have been fixed
+> by the upgrade:
+>  - expand_MAKEFLAGS.patch
+>  - intermediate-target-bugfix.patch
+>  - make-savannah-bug30612-fix_white_space.patch
+>  - make-savannah-bug30612-handling_of_archives.patch
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-If the policy is all qt5 things into meta-qt5, the risk is a fairly
-large set of layer dependencies for meta-qt5.
+Fails to build here:
 
-There is some perception I don't like external layers which isn't true. 
+whole log:
+http://jenkins.nas-admin.org/job/oe_shr-image-all_tmpfs_qemuarm/182/console=
+Full
 
-What I do dislike is "dependency creep". If the meta-qt5 isn't usable
-without pulling in chunks of meta-oe for example, I'd think that rather
-sad and it might as well move to meta-oe at that point.
+important part:
 
-Also, whilst there are only 6 qt4 recipes in core, they are (at least as
-far as I know) the core qt components that people base off so in that
-sense we're enabling developers and don't have a ton of "apps" around
-they probably wouldn't want to use.
+| arm-oe-linux-gnueabi-gcc  -march=3Darmv5te -marm -mthumb-interwork --sysr=
+oot=3D/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/qemua=
+rm -DLOCALEDIR=3D\"/usr/share/locale\" -DLIBDIR=3D\"/usr/lib\" -DINCLUDEDIR=
+=3D\"/usr/include\" -DHAVE_CONFIG_H -I.     -pthread -I/home/jenkins/oe/shr=
+-core-branches/shr-core/tmp-eglibc/sysroots/qemuarm/usr/include/guile/2.0  =
+-O2 -pipe -g -feliminate-unused-debug-types -c -o guile.o guile.c
+| In file included from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/qemuarm/usr/include/guile/2.0/libguile/pthread-threads.h:33:0,
+|                  from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/qemuarm/usr/include/guile/2.0/libguile/threads.h:36,
+|                  from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/qemuarm/usr/include/guile/2.0/libguile/async.h:28,
+|                  from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/qemuarm/usr/include/guile/2.0/libguile.h:37,
+|                  from guile.c:25:
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/qemuarm/u=
+sr/include/guile/2.0/libguile/bdw-gc.h:47:19: fatal error: gc/gc.h: No such=
+ file or directory
+|  #include <gc/gc.h>
+|                    ^
+| compilation terminated.
+| make[2]: *** [guile.o] Error 1
+| make[2]: *** Waiting for unfinished jobs....
+| make[2]: Leaving directory `/home/jenkins/oe/shr-core-branches/shr-core/t=
+mp-eglibc/work/armv5te-oe-linux-gnueabi/make/4.0-r0/make-4.0'
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory `/home/jenkins/oe/shr-core-branches/shr-core/t=
+mp-eglibc/work/armv5te-oe-linux-gnueabi/make/4.0-r0/make-4.0'
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_compile (log file is located at /home/jenkins/=
+oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/make=
+/4.0-r0/temp/log.do_compile.11565)
+NOTE: recipe make-4.0-r0: task do_compile: Failed
 
-Cheers
 
-Richard
+>=20
+> ---
+>=20
+>  .../make/make-3.82/expand_MAKEFLAGS.patch          |  39 -----
+>  .../make-3.82/intermediate-target-bugfix.patch     |  23 ---
+>  .../make-savannah-bug30612-fix_white_space.patch   |  58 -------
+>  ...ke-savannah-bug30612-handling_of_archives.patch | 188 ---------------=
+------
+>  meta/recipes-devtools/make/make_3.82.bb            |  16 --
+>  meta/recipes-devtools/make/make_4.0.bb             |  10 ++
+>  6 files changed, 10 insertions(+), 324 deletions(-)
+>=20
+> Diff:   http://git.openembedded.org/?p=3Dopenembedded-core.git/?a=3Dcommi=
+tdiff;h=3Df2b40e09e1d9767001f8fd9d5948ff2757491b2f
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--PjJwPjbdn5RfZuWK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLNPTAACgkQN1Ujt2V2gBxv6QCfYI5pgS6Fg51OxVmHKWpul4qr
+0koAoIa08OUa6JHMIQkbVSa8Oid5skrl
+=983j
+-----END PGP SIGNATURE-----
+
+--PjJwPjbdn5RfZuWK--
