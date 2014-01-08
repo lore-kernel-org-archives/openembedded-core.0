@@ -1,35 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 79DCC6D08D
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BE6C60CF8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 13:13:10 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s08DCoc6010294; Wed, 8 Jan 2014 13:12:50 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id LY1Yrnu8V0jL; Wed,  8 Jan 2014 13:12:50 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s08DCk52010290
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Wed, 8 Jan 2014 13:12:47 GMT
-Message-ID: <1389186761.6899.99.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sipke Vriend <sipke.vriend@xilinx.com>, "Stanacar, StefanX"
-	<stefanx.stanacar@intel.com>
-Date: Wed, 08 Jan 2014 13:12:41 +0000
-In-Reply-To: <00beaba3-2d15-4d36-936c-88fd8734ed8a@CO1EHSMHS012.ehs.local>
-References: <9bd39deb-0a32-437a-9f50-89abfe43d7d6@CO1EHSMHS004.ehs.local>
-	<1389103177.6899.28.camel@ted>
-	<00beaba3-2d15-4d36-936c-88fd8734ed8a@CO1EHSMHS012.ehs.local>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC OE-core/meta/lib] BSP Specific Qemurunner
+	Wed,  8 Jan 2014 13:24:36 +0000 (UTC)
+Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 357873F9D4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Jan 2014 14:24:36 +0100 (CET)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -4.4
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.4 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, KHOP_THREADED=-1.5] autolearn=no
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Jan 2014 14:24:35 +0100 (CET)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Jan 2014 14:24:35 +0100 (CET)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.438.0;
+	Wed, 8 Jan 2014 14:24:38 +0100
+Message-ID: <52CD5193.2060702@topic.nl>
+Date: Wed, 8 Jan 2014 14:24:35 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.1
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1389186276.git.irina.patru@intel.com>
+In-Reply-To: <cover.1389186276.git.irina.patru@intel.com>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Subject: What package installs a C compiler on my target?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,77 +54,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 13:13:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jan 2014 13:24:37 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2014-01-07 at 22:59 +0000, Sipke Vriend wrote:
-> Hi Richard,
-> 
-> >
-> >-----Original Message-----
-> >On Wednesday, 8 January 2014 12:00 AM, Richard Purdie wrote:
-> >
-> >On Tue, 2014-01-07 at 03:09 +0000, Sipke Vriend wrote:
-> >> Hi,
-> >> 
-> >> This RFC is a proposal to allow BSP layers to setup qemu with their specific
-> >> requirements for the testimage oe-core functionality.
-> >> The suggested changes will be exercised by the 
-> >> bitbake -c testimage <image> 
-> >> command.
-> >> Similarly to the oeqa test cases this proposal extends the meta/lib/oeqa 
-> >> python modules to allow inclusion of python utility scripts in the BSP 
-> >> layers.
-> >> Any BSP layer wishing to supply their own qemu setup would need to create
-> >> an appropriate meta-bsplayer/lib/oeqa/utils/<machine>starter.py
-> >> The effect is that the lib/oeqa/utils/qemurunner will either allow the 
-> >> bsp layer provided <machine>starter to spawn qemu or if not provided, 
-> >> spawn qemu via runqemu as currently.
-> >> An example bsp layer is available here:
-> >> https://github.com/sipke/meta-xilinx/tree/sipke/qemurunner
-> >> with all required additions in the meta-xilinx/lib directory.
-> >> 
-> >> This RFC is triggered by and indirectly related to
-> >> Bugzilla report "runqemu shouldn't hard-code machine knowledge"
-> >> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4827
-> >
-> >Why would we do this rather than improve runqemu to be extendable from
-> >BSP layers?
-> >
-> 
-> Proposing as an additional way to launch qemu for oeqa testimage functionality,
-> Improving runqemu can and probably should still happen.
->  
-> To consider:
-> * it keeps testimage functionality (for bsp layers specific things) in 
-> the lib directly (similar to test cases) and as python.
-> * testing (via testimage) may have a different requirement to that of
-> running runqemu on the command line, so an alternate way to launch qemu 
-> could be useful.
-> * should this approach of extending the oeqa testimage functionality 
-> into bsp layers be accepted, this could allow also for bsp specific 
-> hardware setup for testimage functionality in bsp layers.
-> 
-> Primary aim is a solution which allows the bsp layer to control the 
-> setup of qemu (and eventually hardware) for testimage functionality. This is 
-> a proposal towards that goal.
+=EF=BB=BFProbably a silly question that has been asked a thousand times, bu=
+t my=20
+searches on Google only give me the answer to the wrong question (how to bu=
+ild=20
+FOR the target, which I already know how to do).
 
-I thought Stefan was already also working on something towards this
-goal. I'd like to ensure we don't end up with two things doing the same
-thing.
+I want to run the C compiler on the board itself. That is, a GCC that runs =
+on=20
+the board and compiles (and links etc.) C code for that board.
 
-Stefan?
+What package(s) do I need to build and install to accomplish this?
 
-To be clear, I would like to see runqemu enhanced so BSP layers can
-extend it, I think that would be useful for everyone. Once we've done
-that, I'd like to revisit the qemu abstraction in testimage and figure
-out what changes it needs. Some may be required, some may not if we fix
-runqemu first, I'm unclear from these commits what those would be
-though.
+Mike.
 
-Cheers,
 
-Richard
+Met vriendelijke groet / kind regards,
 
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
+Telefax: (+31) - (0)499 - 33.69.70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
+end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
+en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
+ Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
+jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
+ te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
+n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
+nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
+ een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
+ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
+C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
+d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
+orende bijlagen.
+
+The contents of this message, as well as any enclosures, are addressed pers=
+onally to, and thus solely intended for the addressee. They may contain inf=
+ormation regarding a third party. A recipient who is neither the addressee,=
+ nor empowered to receive this message on behalf of the addressee, is kindl=
+y requested to immediately inform the sender of receipt, and to destroy the=
+ message and the enclosures. Any use of the contents of this message and/or=
+ the enclosures by any other person than the addressee or person who is emp=
+owered to receive this message, is illegal towards the sender and/or the af=
+orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
+age as a result of the use and/or acceptance of this message and as well as=
+ any enclosures.
 
