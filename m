@@ -1,49 +1,37 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from tx2outboundpool.messaging.microsoft.com
-	(tx2ehsobe005.messaging.microsoft.com [65.55.88.15])
-	by mail.openembedded.org (Postfix) with ESMTP id 89CE96C963
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0121A6D0C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 07:06:01 +0000 (UTC)
-Received: from mail114-tx2-R.bigfish.com (10.9.14.248) by
-	TX2EHSOBE010.bigfish.com (10.9.40.30) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 8 Jan 2014 07:06:01 +0000
-Received: from mail114-tx2 (localhost [127.0.0.1])	by
-	mail114-tx2-R.bigfish.com (Postfix) with ESMTP id 897903E00DC	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 07:06:01 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: 1
-X-BigFish: VPS1(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzz1de098h8275bh1de097hz2fh95h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e1dh1e23h1fe8h1ff5h2218h2216h226dh2327h2336h906i1155h)
-Received-SPF: pass (mail114-tx2: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail114-tx2 (localhost.localdomain [127.0.0.1]) by mail114-tx2
-	(MessageSwitch) id 1389164759181537_23852;
-	Wed,  8 Jan 2014 07:05:59 +0000 (UTC)
-Received: from TX2EHSMHS014.bigfish.com (unknown [10.9.14.229])	by
-	mail114-tx2.bigfish.com (Postfix) with ESMTP id 255B03C004A	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 07:05:59 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by TX2EHSMHS014.bigfish.com
-	(10.9.99.114) with Microsoft SMTP Server id 14.16.227.3; Wed, 8 Jan 2014
-	07:05:58 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
-	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
-	<nathan.rossi@xilinx.com>)	id
-	1W0nDC-00009O-Lq	for openembedded-core@lists.openembedded.org;
-	Tue, 07 Jan 2014 23:05:58 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jan 2014 17:05:27 +1000
-X-Mailer: git-send-email 1.7.9.5
-X-RCIS-Action: ALLOW
+	Wed,  8 Jan 2014 09:46:54 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id d17so554089eek.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jan 2014 01:46:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=89J9nBz4f1kgs8jtNVwdLVmAHeMgVVb81DCcJK0p6I0=;
+	b=mnyCIje/R+NsCWsK1JrwCkSQ/eXE20IZqvwezrvS83K2JTAFDr5FlsbXci5EXXQVnT
+	wNt9dKHEWNi8Hv1Vy877NLRE93MskfrmqwSw23HsUBqu5AhktG8DDqoEkc9IwfrqwlQj
+	D7djiEnEVGcKEXdLrF/fNUSWU0p5c0/BLIBmnIvrvFmnkcmBlfSL9Vs4fOPMHvpL7zwY
+	WFRVcbFNtJBv5WA4Mb0RngY2mWlwYChRrxbCsKqAEdxJptMS3XLu8XyZbSK1cAlrTXX+
+	5S4JsWaW/oXQ1uDRvX5Y79ITRlMhhraqDy3CBQFKnMOqzObxwH8rsnf81J6fXSpwVy/3
+	A2Ng==
+X-Received: by 10.15.74.200 with SMTP id j48mr12175096eey.102.1389174415007;
+	Wed, 08 Jan 2014 01:46:55 -0800 (PST)
+Received: from localhost.localdomain (ip-109-91-251-248.unitymediagroup.de.
+	[109.91.251.248]) by mx.google.com with ESMTPSA id
+	o47sm188001041eem.21.2014.01.08.01.46.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Jan 2014 01:46:54 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Jan 2014 10:46:46 +0100
+Message-Id: <1389174406-14345-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Message-ID: <d7cb4e9a-2926-44a2-b789-a31612162a44@TX2EHSMHS014.ehs.local>
-X-OriginatorOrg: xilinx.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH] ptest.bblass: Fix package QA issues when disabled
+Subject: [PATCH] shadow: set correct entries for pseudo terminals in /etc/securetty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +44,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 07:06:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Jan 2014 09:46:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-When the ptest distro feature is disabled, a ptest directory is still
-created in the install phase, This directory is not cleaned up or
-consumed by any package and will throw a QA error, e.g.
+In
 
-ERROR: QA Issue: glib-2.0: Files/directories were installed but not
-shipped
-  /usr/lib/glib-2.0/ptest
-ERROR: QA run found fatal errors. Please consider fixing them.
-ERROR: Function failed: do_package_qa
+commit 10cdd66fe800cffe3f2cbf5c95550b4f7902a311
+Author: Ming Liu <ming.liu@windriver.com>
+Date:   Thu Jul 18 10:04:22 2013 +0800
 
-This is caused by the do_install_ptest_base[cleandirs] task flag which
-is not setup to be conditional on ptest being enabled. This patch
-changes the task flag to emit the cleandirs path only when the ptest
-distro feature is enabled.
+    libpam: add a new 'nullok_secure' option support to pam_unix
 
-Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+'null_ok_secure' option was fixed. Since that commit 'su' stopped working in
+pseudo terminals (created in X environments) for root-accounts with empty
+password.
+
+Background: The PAM configuration for 'su' includes 'common-auth' which uses
+'nullok_secure' option for pam_unix.
+
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/classes/ptest.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/shadow/files/securetty | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index ec10f80..3450085 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -49,7 +49,7 @@ do_install_ptest_base() {
-     fi
- }
+diff --git a/meta/recipes-extended/shadow/files/securetty b/meta/recipes-extended/shadow/files/securetty
+index 467fc04..0b1629f 100644
+--- a/meta/recipes-extended/shadow/files/securetty
++++ b/meta/recipes-extended/shadow/files/securetty
+@@ -124,18 +124,10 @@ tty62
+ tty63
  
--do_install_ptest_base[cleandirs] = "${D}${PTEST_PATH}"
-+do_install_ptest_base[cleandirs] = "${@['', '${D}${PTEST_PATH}'][(d.getVar('PTEST_ENABLED', True) or '') == '1']}"
+ # Local X displays (allows empty passwords with pam_unix's nullok_secure)
+-:0
+-:0.0
+-:0.1
+-:1
+-:1.0
+-:1.1
+-:2
+-:2.0
+-:2.1
+-:3
+-:3.0
+-:3.1
++pts/0
++pts/1
++pts/2
++pts/3
  
- addtask configure_ptest_base after do_configure before do_compile
- addtask compile_ptest_base   after do_compile   before do_install
+ # Embedded Freescale i.MX ports
+ ttymxc0
 -- 
-1.7.9.5
-
+1.8.3.1
 
 
