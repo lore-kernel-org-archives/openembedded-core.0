@@ -1,24 +1,41 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B92746CF24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 16:27:06 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Jan 2014 08:27:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,625,1384329600"; d="scan'208";a="455528063"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2014 08:27:02 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jan 2014 18:29:41 +0200
-Message-Id: <de16be8e679db1cd1b24a7d08ddbc1a2022581e9.1389198449.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1389198449.git.cristian.iorga@intel.com>
-References: <cover.1389198449.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1389198449.git.cristian.iorga@intel.com>
-References: <cover.1389198449.git.cristian.iorga@intel.com>
-Subject: [PATCH v2 2/2] qemu: upgrade to 1.7.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 12FE26D1ED;
+	Wed,  8 Jan 2014 16:27:42 +0000 (UTC)
+Received: by mail-ea0-f178.google.com with SMTP id d10so951611eaj.9
+	for <multiple recipients>; Wed, 08 Jan 2014 08:27:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=M5MRYX9b4G7WBuNm+KE8e+c7a2+dif3nlcWf3mYB+8w=;
+	b=a0YhoCumwksI0z8ZU2uB9/ap0Qbwk3kgXVwtvDkCubHAQhZzALDguVDQnYNQozKQSa
+	0V2oWqm5eU5m7sR6PxHlQnItRadYXTW041Yd7+xBbVQ6be9x6D9fHrozMJkd6Ii4agJk
+	okoCxaiXRmbzCYEyRCRrJ9MuETZBbhmDx5aLc/47NQIL2cBBR3qK+GDRpsvvKwmAPRp6
+	Vndj+QYSpyx0f6UhdTQ0bWNAygCpqnZt/N2woyX3D0LduWhv1m0uWntRAWsTEUHYVwhV
+	fekGsArzx/AeyAZXwZBGZx1JWa2U671ryARgn8LbHedYpTvX1GheRfoJArRRanFtMbyt
+	w9UA==
+X-Received: by 10.14.179.130 with SMTP id h2mr47230633eem.34.1389198463613;
+	Wed, 08 Jan 2014 08:27:43 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	o47sm191106082eem.21.2014.01.08.08.27.42 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Jan 2014 08:27:42 -0800 (PST)
+Date: Wed, 8 Jan 2014 17:27:53 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20140108162753.GZ3709@jama>
+References: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
+	<52B8DECA.6060704@balister.org>
+	<CAJTo0LaEgLWZHk34e-_-+z69Zw3J+S1zGFFJAONjfYBDQ1TehQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaEgLWZHk34e-_-+z69Zw3J+S1zGFFJAONjfYBDQ1TehQ@mail.gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: Poky Project <poky@yoctoproject.org>,
+	OE-devel <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [poky] Piglit in Poky
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,188 +48,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 16:27:08 -0000
+X-List-Received-Date: Wed, 08 Jan 2014 16:27:43 -0000
+X-Groupsio-MsgNum: 48715
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="VOAkKSXG6MhRWuAn"
+Content-Disposition: inline
 
-linux-user-Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch
-file no longer needed, included in upstream.
-qemu-native tested on all architectures,
-host machine is Ubuntu Linux 13.10 x86-64.
-Basic X11 and networking tests performed.
+--VOAkKSXG6MhRWuAn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch |  92 ---------------------
- meta/recipes-devtools/qemu/qemu.inc                |   1 -
- .../qemu/{files => qemu}/disable-grabs.patch       |   0
- .../fix-libcap-header-issue-on-some-distro.patch   |   0
- .../qemu/{files => qemu}/fxrstorssefix.patch       |   0
- .../{files => qemu}/larger_default_ram_size.patch  |   0
- .../qemu/{files => qemu}/no-strip.patch            |   0
- .../qemu/{files => qemu}/powerpc_rom.bin           | Bin
- .../qemu/{qemu_1.6.1.bb => qemu_1.7.0.bb}          |   4 +-
- 9 files changed, 2 insertions(+), 95 deletions(-)
- delete mode 100644 meta/recipes-devtools/qemu/files/linux-user-Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch
- rename meta/recipes-devtools/qemu/{files => qemu}/disable-grabs.patch (100%)
- rename meta/recipes-devtools/qemu/{files => qemu}/fix-libcap-header-issue-on-some-distro.patch (100%)
- rename meta/recipes-devtools/qemu/{files => qemu}/fxrstorssefix.patch (100%)
- rename meta/recipes-devtools/qemu/{files => qemu}/larger_default_ram_size.patch (100%)
- rename meta/recipes-devtools/qemu/{files => qemu}/no-strip.patch (100%)
- rename meta/recipes-devtools/qemu/{files => qemu}/powerpc_rom.bin (100%)
- rename meta/recipes-devtools/qemu/{qemu_1.6.1.bb => qemu_1.7.0.bb} (78%)
+On Wed, Jan 08, 2014 at 04:09:10PM +0000, Burton, Ross wrote:
+> Hi,
+>=20
+> Despite a good start this thread got rapidly hijacked, so let's try again!
+>=20
+> On 24 December 2013 01:09, Philip Balister <philip@balister.org> wrote:
+> >> 1) Move piglit and deps to oe-core.  Piglit is for QA purposes only
+> >> and pushes the boundaries of "core platform".  In a sense this is a
+> >> repeat of the discussion we had with Midori...  does oe-core contain
+> >> everything needed to sufficiently exercise the core components it
+> >> ships or not?
+> >
+> > I expect Richard will push back on this, and I would support him here.
+>=20
+> Probably best to let Richard speak for himself here. :)
+>=20
+> >> 2) Add piglit and deps to meta-yocto.  Probably a new layer called
+> >> meta-yocto-qa (or similar) because the Yocto Compatible guidelines
+> >> forbid mixing distribution policy and recipes.  We'd need to sync
+> >> meta-yocto-qa with the pieces of meta-oe that we want somehow, but
+> >> that's our problem.
+> >
+> > So meta-yocto is right out. I'm a user of numpy, and I certainly do not
+> > want to include something called meta-yocto-qa just to pick up numpy.
+>=20
+> Right, so my point with the syncing was that this meta-yocto-qa layer
+> would be a copy of recipes from other places through combo-layer, and
+> would be clearly marked as such.
+>=20
+> Reviewing the options:
+>=20
+> 1) Add python-mako, python-numpy, waffle and piglit to oe-core, for
+> all BSPs to use.
+> 2) Add python-mako, python-numpy, waffle and piglit to meta-yocto
+> (effectively read-only clones with combo-layer, maintained in meta-oe
+> still) for Poky to use.
+> 3) Add meta-python layer to Poky, and waffle/piglit to meta-yocto
+> (read-only clones) for Poky to use.
 
-diff --git a/meta/recipes-devtools/qemu/files/linux-user-Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch b/meta/recipes-devtools/qemu/files/linux-user-Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch
-deleted file mode 100644
-index eb63896..0000000
---- a/meta/recipes-devtools/qemu/files/linux-user-Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch
-+++ /dev/null
-@@ -1,92 +0,0 @@
--Upstream-Status: Backport
--
--From 53d09b761f032f50c4424e8649396a9041070bae Mon Sep 17 00:00:00 2001
--From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
--Date: Mon, 23 Sep 2013 14:11:53 +0200
--Subject: [PATCH] linux-user: Handle SOCK_CLOEXEC/NONBLOCK if unavailable on
-- host
--
--If the host lacks SOCK_CLOEXEC, bail out with -EINVAL.
--If the host lacks SOCK_ONONBLOCK, try to emulate it with fcntl()
--and O_NONBLOCK.
--
--Signed-off-by: Edgar E. Iglesias <edgar.iglesias@gmail.com>
--Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
-----
-- linux-user/syscall.c | 40 +++++++++++++++++++++++++++++++++++++---
-- 1 file changed, 37 insertions(+), 3 deletions(-)
--
--diff --git a/linux-user/syscall.c b/linux-user/syscall.c
--index b3822b3..4a14a43 100644
----- a/linux-user/syscall.c
--+++ b/linux-user/syscall.c
--@@ -1773,7 +1773,7 @@ static void unlock_iovec(struct iovec *vec, abi_ulong target_addr,
--     free(vec);
-- }
--
---static inline void target_to_host_sock_type(int *type)
--+static inline int target_to_host_sock_type(int *type)
-- {
--     int host_type = 0;
--     int target_type = *type;
--@@ -1790,22 +1790,56 @@ static inline void target_to_host_sock_type(int *type)
--         break;
--     }
--     if (target_type & TARGET_SOCK_CLOEXEC) {
--+#if defined(SOCK_CLOEXEC)
--         host_type |= SOCK_CLOEXEC;
--+#else
--+        return -TARGET_EINVAL;
--+#endif
--     }
--     if (target_type & TARGET_SOCK_NONBLOCK) {
--+#if defined(SOCK_NONBLOCK)
--         host_type |= SOCK_NONBLOCK;
--+#elif !defined(O_NONBLOCK)
--+        return -TARGET_EINVAL;
--+#endif
--     }
--     *type = host_type;
--+    return 0;
--+}
--+
--+/* Try to emulate socket type flags after socket creation.  */
--+static int sock_flags_fixup(int fd, int target_type)
--+{
--+#if !defined(SOCK_NONBLOCK) && defined(O_NONBLOCK)
--+    if (target_type & TARGET_SOCK_NONBLOCK) {
--+        int flags = fcntl(fd, F_GETFL);
--+        if (fcntl(fd, F_SETFL, O_NONBLOCK | flags) == -1) {
--+            close(fd);
--+            return -TARGET_EINVAL;
--+        }
--+    }
--+#endif
--+    return fd;
-- }
--
-- /* do_socket() Must return target values and target errnos. */
-- static abi_long do_socket(int domain, int type, int protocol)
-- {
---    target_to_host_sock_type(&type);
--+    int target_type = type;
--+    int ret;
--+
--+    ret = target_to_host_sock_type(&type);
--+    if (ret) {
--+        return ret;
--+    }
--
--     if (domain == PF_NETLINK)
--         return -EAFNOSUPPORT; /* do not NETLINK socket connections possible */
---    return get_errno(socket(domain, type, protocol));
--+    ret = get_errno(socket(domain, type, protocol));
--+    if (ret >= 0) {
--+        ret = sock_flags_fixup(ret, target_type);
--+    }
--+    return ret;
-- }
--
-- /* do_bind() Must return target values and target errnos. */
----
--1.8.2.1
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index e210ea1..856169b 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -19,7 +19,6 @@ SRC_URI = "\
-     file://no-strip.patch \
-     file://larger_default_ram_size.patch \
-     file://disable-grabs.patch \
--    file://linux-user-Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch \
-     "
- 
- SRC_URI_append_class-native = "\
-diff --git a/meta/recipes-devtools/qemu/files/disable-grabs.patch b/meta/recipes-devtools/qemu/qemu/disable-grabs.patch
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/disable-grabs.patch
-rename to meta/recipes-devtools/qemu/qemu/disable-grabs.patch
-diff --git a/meta/recipes-devtools/qemu/files/fix-libcap-header-issue-on-some-distro.patch b/meta/recipes-devtools/qemu/qemu/fix-libcap-header-issue-on-some-distro.patch
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/fix-libcap-header-issue-on-some-distro.patch
-rename to meta/recipes-devtools/qemu/qemu/fix-libcap-header-issue-on-some-distro.patch
-diff --git a/meta/recipes-devtools/qemu/files/fxrstorssefix.patch b/meta/recipes-devtools/qemu/qemu/fxrstorssefix.patch
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/fxrstorssefix.patch
-rename to meta/recipes-devtools/qemu/qemu/fxrstorssefix.patch
-diff --git a/meta/recipes-devtools/qemu/files/larger_default_ram_size.patch b/meta/recipes-devtools/qemu/qemu/larger_default_ram_size.patch
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/larger_default_ram_size.patch
-rename to meta/recipes-devtools/qemu/qemu/larger_default_ram_size.patch
-diff --git a/meta/recipes-devtools/qemu/files/no-strip.patch b/meta/recipes-devtools/qemu/qemu/no-strip.patch
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/no-strip.patch
-rename to meta/recipes-devtools/qemu/qemu/no-strip.patch
-diff --git a/meta/recipes-devtools/qemu/files/powerpc_rom.bin b/meta/recipes-devtools/qemu/qemu/powerpc_rom.bin
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/powerpc_rom.bin
-rename to meta/recipes-devtools/qemu/qemu/powerpc_rom.bin
-diff --git a/meta/recipes-devtools/qemu/qemu_1.6.1.bb b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
-similarity index 78%
-rename from meta/recipes-devtools/qemu/qemu_1.6.1.bb
-rename to meta/recipes-devtools/qemu/qemu_1.7.0.bb
-index 03e28a0..d5265bc 100644
---- a/meta/recipes-devtools/qemu/qemu_1.6.1.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
- SRC_URI += "file://fxrstorssefix.patch"
- 
- SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
--SRC_URI[md5sum] = "3a897d722457c5a895cd6ac79a28fda0"
--SRC_URI[sha256sum] = "fc736f44aa10478223c881310a7e40fc8386547e9cadf7d01ca4685951605294"
-+SRC_URI[md5sum] = "32893941d40d052a5e649efcf06aca06"
-+SRC_URI[sha256sum] = "31f333a85f2d14c605a77679904a9668eaeb1b6dc7da53a1665230f46bc21314"
- 
- COMPATIBLE_HOST_class-target_mips64 = "null"
- 
--- 
-1.8.3.2
+4) meta-python in meta-oe (at least for easier copy somewhere else with com=
+bo-layer)
 
+>=20
+> Paul raises a good point about other BSPs potentially using Piglit to
+> test their GL stacks.  Do any other BSPs test their GL integration,
+> and if so what tooling to they use?  I'm only pushing for Piglit
+> because it's what the Intel driver team use to test Mesa, but if
+> nobody else wants to use it then that's an argument for keeping it in
+> Poky (or even cloning it into meta-intel?).
+>=20
+> Ross
+> _______________________________________________
+> poky mailing list
+> poky@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/poky
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--VOAkKSXG6MhRWuAn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLNfIkACgkQN1Ujt2V2gBzgdQCfc8X7gaiEPdI5xtYCvOSAuEDQ
+dEYAnjT2J7k1brLPMayj46T58EBT93fk
+=Nf/V
+-----END PGP SIGNATURE-----
+
+--VOAkKSXG6MhRWuAn--
