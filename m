@@ -1,39 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E6426C7E4
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 39FE96CEE4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 16:13:16 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id e9so1456206qcy.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2014 08:13:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=4kSYonL3e9Uh718t7vuAiC6/g9UoGDpfW1Kt30hN9XQ=;
-	b=lHt90gjLH5qpZw7gcoqTgzq/eXBPLLuGP0sP4TmKYdYm/ejMrrGdmtzgurheoaMj45
-	NX1N5unmBpaf1+dLuWB5xv054d0egy0Tq3EyWmUSIqSwHo5p6QfKifukotC7OdmUV0B7
-	Qr957S5L0z6QZ+h1pFEmJH90UWLdINzjS7zLQGD2lmECAZsJlvYJre4S1cbG/q759d1L
-	s1Ht81GHBiVZcj9dshoA7GeaiAd4f90etia8MwkJlazYsIaqC/9Leq3FKpnfgFvZxEUZ
-	447XvZxNhsWCdNtN72BKNAwVqCsWBVTIUr8RW2EiptARQMDO7P1a5THIWBcnEbG67NFz
-	aV6A==
-X-Gm-Message-State: ALoCoQmSr5SdBUCGrPrBJF09xlDY6JsVtVcvhkRVcVG+mEpsuPQR1d49220g0a/1iwq6yYXK5Fni
-X-Received: by 10.49.59.83 with SMTP id x19mr16587160qeq.47.1389197595764;
-	Wed, 08 Jan 2014 08:13:15 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.96.179.105 with HTTP; Wed, 8 Jan 2014 08:12:55 -0800 (PST)
-In-Reply-To: <52CBFBB5.8030009@windriver.com>
-References: <cover.1388769973.git.liezhi.yang@windriver.com>
-	<5b836adb7023cf075f9eb2246c7b2bbe420fd1cf.1388769973.git.liezhi.yang@windriver.com>
-	<CAJTo0LY2hTEcqZyqrDsoBGEbWYwovCSu7+gZdo4av+9=0w_J5g@mail.gmail.com>
-	<52CBFBB5.8030009@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 8 Jan 2014 16:12:55 +0000
-Message-ID: <CAJTo0LaMobezC+B7eNbXc-2NLnS2fxLid=xNvE_7hzMR5ntQnQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] gconf.bbclass: remove --disable-schemas-install
+	Wed,  8 Jan 2014 16:27:06 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Jan 2014 08:27:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,625,1384329600"; d="scan'208";a="455528051"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Jan 2014 08:26:59 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Jan 2014 18:29:39 +0200
+Message-Id: <cover.1389198449.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH v2 0/2] Various PUs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,21 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 16:13:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 08 Jan 2014 16:27:08 -0000
 
-On 7 January 2014 13:05, Robert Yang <liezhi.yang@windriver.com> wrote:
->> *Some* packages have migrated away from gconf to gsettings.  Not all
->> packages have done this, so anything still using gconf is now broken.
->> Note that almost nothing in oe-core uses gsettings as we're still
->> using the GTK+ 2 stack generally.
->
-> Hi Ross, which recipe is failed, please ?
+V2 patchset contains a small change in qemu package:
+files directory has been renamed to qemu.
 
-A better question would be what package did you get this warning from?
+The following changes since commit 854daab404a23e4ebb6107d737d9cfd5a0e5548b:
 
-As I said, any recipe that did inherit gnome and still used GConf
-would be affected by your change.
+  bitbake: gitannex: Add missing file from previous commit (2014-01-08 13:07:48 +0000)
 
-Ross
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
+
+Cristian Iorga (2):
+  netbase: upgrade to 5.2
+  qemu: upgrade to 1.7.0
+
+ .../netbase/{netbase_5.1.bb => netbase_5.2.bb}     |   4 +-
+ ...Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch |  92 ---------------------
+ meta/recipes-devtools/qemu/qemu.inc                |   1 -
+ .../qemu/{files => qemu}/disable-grabs.patch       |   0
+ .../fix-libcap-header-issue-on-some-distro.patch   |   0
+ .../qemu/{files => qemu}/fxrstorssefix.patch       |   0
+ .../{files => qemu}/larger_default_ram_size.patch  |   0
+ .../qemu/{files => qemu}/no-strip.patch            |   0
+ .../qemu/{files => qemu}/powerpc_rom.bin           | Bin
+ .../qemu/{qemu_1.6.1.bb => qemu_1.7.0.bb}          |   4 +-
+ 10 files changed, 4 insertions(+), 97 deletions(-)
+ rename meta/recipes-core/netbase/{netbase_5.1.bb => netbase_5.2.bb} (84%)
+ delete mode 100644 meta/recipes-devtools/qemu/files/linux-user-Handle-SOCK_CLOEXEC-NONBLOCK-if-unavailab.patch
+ rename meta/recipes-devtools/qemu/{files => qemu}/disable-grabs.patch (100%)
+ rename meta/recipes-devtools/qemu/{files => qemu}/fix-libcap-header-issue-on-some-distro.patch (100%)
+ rename meta/recipes-devtools/qemu/{files => qemu}/fxrstorssefix.patch (100%)
+ rename meta/recipes-devtools/qemu/{files => qemu}/larger_default_ram_size.patch (100%)
+ rename meta/recipes-devtools/qemu/{files => qemu}/no-strip.patch (100%)
+ rename meta/recipes-devtools/qemu/{files => qemu}/powerpc_rom.bin (100%)
+ rename meta/recipes-devtools/qemu/{qemu_1.6.1.bb => qemu_1.7.0.bb} (78%)
+
+-- 
+1.8.3.2
+
 
