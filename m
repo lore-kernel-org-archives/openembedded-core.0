@@ -1,24 +1,35 @@
-Return-Path: <irina.patru@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C57D6D032
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 79DCC6D08D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 13:04:49 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Jan 2014 05:04:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,624,1384329600"; d="scan'208";a="435691479"
-Received: from irina-vostro-460.rb.intel.com ([10.237.105.140])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2014 05:04:48 -0800
-From: Irina Patru <irina.patru@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jan 2014 15:08:05 +0200
-Message-Id: <39f73c5ca7a3155aab7ceaa48fd486ed286c001a.1389186276.git.irina.patru@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1389186276.git.irina.patru@intel.com>
-References: <cover.1389186276.git.irina.patru@intel.com>
-In-Reply-To: <cover.1389186276.git.irina.patru@intel.com>
-References: <cover.1389186276.git.irina.patru@intel.com>
-Subject: [PATCH 2/2] libsoup-2.4: upgrade to 2.45.3
+	Wed,  8 Jan 2014 13:13:10 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s08DCoc6010294; Wed, 8 Jan 2014 13:12:50 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id LY1Yrnu8V0jL; Wed,  8 Jan 2014 13:12:50 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s08DCk52010290
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Wed, 8 Jan 2014 13:12:47 GMT
+Message-ID: <1389186761.6899.99.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Sipke Vriend <sipke.vriend@xilinx.com>, "Stanacar, StefanX"
+	<stefanx.stanacar@intel.com>
+Date: Wed, 08 Jan 2014 13:12:41 +0000
+In-Reply-To: <00beaba3-2d15-4d36-936c-88fd8734ed8a@CO1EHSMHS012.ehs.local>
+References: <9bd39deb-0a32-437a-9f50-89abfe43d7d6@CO1EHSMHS004.ehs.local>
+	<1389103177.6899.28.camel@ted>
+	<00beaba3-2d15-4d36-936c-88fd8734ed8a@CO1EHSMHS012.ehs.local>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC OE-core/meta/lib] BSP Specific Qemurunner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +42,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 13:04:50 -0000
+X-List-Received-Date: Wed, 08 Jan 2014 13:13:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Irina Patru <irina.patru@intel.com>
----
- ...libsoup-2.4_2.44.2.bb => libsoup-2.4_2.45.3.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.44.2.bb => libsoup-2.4_2.45.3.bb} (85%)
+On Tue, 2014-01-07 at 22:59 +0000, Sipke Vriend wrote:
+> Hi Richard,
+> 
+> >
+> >-----Original Message-----
+> >On Wednesday, 8 January 2014 12:00 AM, Richard Purdie wrote:
+> >
+> >On Tue, 2014-01-07 at 03:09 +0000, Sipke Vriend wrote:
+> >> Hi,
+> >> 
+> >> This RFC is a proposal to allow BSP layers to setup qemu with their specific
+> >> requirements for the testimage oe-core functionality.
+> >> The suggested changes will be exercised by the 
+> >> bitbake -c testimage <image> 
+> >> command.
+> >> Similarly to the oeqa test cases this proposal extends the meta/lib/oeqa 
+> >> python modules to allow inclusion of python utility scripts in the BSP 
+> >> layers.
+> >> Any BSP layer wishing to supply their own qemu setup would need to create
+> >> an appropriate meta-bsplayer/lib/oeqa/utils/<machine>starter.py
+> >> The effect is that the lib/oeqa/utils/qemurunner will either allow the 
+> >> bsp layer provided <machine>starter to spawn qemu or if not provided, 
+> >> spawn qemu via runqemu as currently.
+> >> An example bsp layer is available here:
+> >> https://github.com/sipke/meta-xilinx/tree/sipke/qemurunner
+> >> with all required additions in the meta-xilinx/lib directory.
+> >> 
+> >> This RFC is triggered by and indirectly related to
+> >> Bugzilla report "runqemu shouldn't hard-code machine knowledge"
+> >> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4827
+> >
+> >Why would we do this rather than improve runqemu to be extendable from
+> >BSP layers?
+> >
+> 
+> Proposing as an additional way to launch qemu for oeqa testimage functionality,
+> Improving runqemu can and probably should still happen.
+>  
+> To consider:
+> * it keeps testimage functionality (for bsp layers specific things) in 
+> the lib directly (similar to test cases) and as python.
+> * testing (via testimage) may have a different requirement to that of
+> running runqemu on the command line, so an alternate way to launch qemu 
+> could be useful.
+> * should this approach of extending the oeqa testimage functionality 
+> into bsp layers be accepted, this could allow also for bsp specific 
+> hardware setup for testimage functionality in bsp layers.
+> 
+> Primary aim is a solution which allows the bsp layer to control the 
+> setup of qemu (and eventually hardware) for testimage functionality. This is 
+> a proposal towards that goal.
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.45.3.bb
-similarity index 85%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.45.3.bb
-index a7ea106..ea062c7 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.44.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.45.3.bb
-@@ -17,8 +17,8 @@ PACKAGECONFIG[gnome] = "--with-gnome,--without-gnome"
- SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "92aa3667357157e8f3489bcca287f2fa"
--SRC_URI[sha256sum] = "e7e4b5ab74a6c00fc267c9f5963852d28759ad3154dab6388e2d6e1962d598f3"
-+SRC_URI[md5sum] = "fe7ec04784c6b97c5f8ea963c8542f59"
-+SRC_URI[sha256sum] = "6ac317b931efd2cff9cdea7122987acb3ecb0c32564a9441ba72e5cce021aa12"
- 
- S = "${WORKDIR}/libsoup-${PV}"
- 
--- 
-1.7.9.5
+I thought Stefan was already also working on something towards this
+goal. I'd like to ensure we don't end up with two things doing the same
+thing.
+
+Stefan?
+
+To be clear, I would like to see runqemu enhanced so BSP layers can
+extend it, I think that would be useful for everyone. Once we've done
+that, I'd like to revisit the qemu abstraction in testimage and figure
+out what changes it needs. Some may be required, some may not if we fix
+runqemu first, I'm unclear from these commits what those would be
+though.
+
+Cheers,
+
+Richard
 
 
