@@ -1,26 +1,33 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 4E0EF6D1ED
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 74F0E60C08
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2014 15:17:32 +0000 (UTC)
-Received: (qmail 7052 invoked by uid 1003); 8 Jan 2014 15:17:32 -0000
-Received: from unknown (HELO ?192.168.1.122?)
-	(philip@opensdr.com@71.171.41.155)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	8 Jan 2014 15:17:32 -0000
-Message-ID: <52CD6C0B.9090705@balister.org>
-Date: Wed, 08 Jan 2014 10:17:31 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Mike Looijmans <mike.looijmans@topic.nl>
+	Wed,  8 Jan 2014 15:22:56 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 08 Jan 2014 07:22:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,625,1384329600"; d="scan'208";a="435763918"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga001.jf.intel.com with ESMTP; 08 Jan 2014 07:22:50 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.215]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.135]) with mapi id
+	14.03.0123.003; Wed, 8 Jan 2014 15:21:52 +0000
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] What package installs a C compiler on my target?
+Thread-Index: AQHPDHUDKHLIKgldykObO8dYI9XslZp62DGAgAAU9QCAAATyAA==
+Date: Wed, 8 Jan 2014 15:21:52 +0000
+Message-ID: <1389194576.14922.6.camel@firebird.rb.intel.com>
 References: <cover.1389186276.git.irina.patru@intel.com>
 	<52CD5193.2060702@topic.nl> <52CD5795.8000005@balister.org>
 	<52CD692A.80504@topic.nl>
 In-Reply-To: <52CD692A.80504@topic.nl>
-X-Enigmail-Version: 1.6
-Cc: openembedded-core@lists.openembedded.org
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.105.156]
+MIME-Version: 1.0
 Subject: Re: What package installs a C compiler on my target?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,115 +41,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 15:17:32 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 Jan 2014 15:22:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <91EB4415418F5C499E73DC0781281165@intel.com>
+Content-Transfer-Encoding: base64
 
-On 01/08/2014 10:05 AM, Mike Looijmans wrote:
-> On 01/08/2014 02:50 PM, Philip Balister wrote:
->> On 01/08/2014 08:24 AM, Mike Looijmans wrote:
->>> Probably a silly question that has been asked a thousand times, but my
->>> searches on Google only give me the answer to the wrong question (how to
->>> build FOR the target, which I already know how to do).
->>>
->>> I want to run the C compiler on the board itself. That is, a GCC that
->>> runs on the board and compiles (and links etc.) C code for that board.
->>>
->>> What package(s) do I need to build and install to accomplish this?
->>
->>  From one of my images:
->>
->>
->> IMAGE_FEATURES += "splash ssh-server-openssh tools-sdk \
->> tools-debug debug-tweaks \
->> dev-pkgs dbg-pkgs \
->> "
->> looks like tools-sdk is the one you want. dev- and dbg- packages might
->> also be helpful, but will make the image larger. Especially the debug
->> ones.
-> 
-> $ bitbake tools-sdk
-> ERROR: Nothing PROVIDES 'tools-sdk'
-> 
-> So I guess it's a package that's provided in another layer (I have
-> oe-core and most of meta-oe).
-
-The complete recipe is here:
-
-https://github.com/balister/meta-sdr/blob/master/recipes-images/images/gnuradio-dev-image.bb
-
-Note the inherit core-image at the bottom.
-
-Philip
-
-> 
-> So far, the following set I've derived through trial and error seems to
-> come close:
-> 
-> TARGET_COMPILER_TOOLS = "\
->     binutils \
->     binutils-symlinks \
->     cpp \
->     cpp-symlinks \
->     g++ \
->     g++-symlinks \
->     gcc \
->     gcc-symlinks \
->     make \
->     packagegroup-core-standalone-sdk-target \
-> "
-> 
-> This allows a basic "hello world" to compile on target in C and C++
-> code. Make wasn't really required, but it's very convenient to have...
-> 
-> I'm mostly surprised that there wasn't a packagegroup to contain this set.
-> 
-> It increased the image size to about 130MB, but in this particular case,
-> that won't be a problem.
-> 
-> Anyway, thanks for the tips all. Guess this list may be useful to others...
-> 
-> Mike.
-> 
-> 
-> Met vriendelijke groet / kind regards,
-> 
-> Mike Looijmans
-> 
-> TOPIC Embedded Systems
-> Eindhovenseweg 32-C, NL-5683 KH Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: (+31) – (0)499 - 33.69.79
-> Telefax: (+31) - (0)499 - 33.69.70
-> E-mail: mike.looijmans@topic.nl
-> Website: www.topic.nl
-> 
-> Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn
-> uitsluitend bestemd voor de geadresseerde, zoals die blijkt uit het
-> e-mail bericht en/of de bijlagen. Er kunnen gegevens met betrekking tot
-> een derde instaan. Indien u als niet-geadresseerde dit bericht en de
-> bijlagen ontvangt, terwijl u niet bevoegd of gemachtigd bent om dit
-> bericht namens de geadresseerde te ontvangen, wordt u verzocht de
-> afzender hierover direct te informeren en het e-mail bericht met de
-> bijlagen te vernietigen. Ieder gebruik van de inhoud van het e-mail
-> bericht, waaronder de daarbij behorende bijlagen, door een ander dan de
-> geadresseerde is onrechtmatig jegens ons dan wel de eventueel in het
-> e-mail bericht of de bijlagen voorkomende andere personen. TOPIC
-> Embedded Systems is niet aansprakelijk voor enigerlei schade
-> voortvloeiend uit het gebruik en/of acceptatie van dit e-mail bericht of
-> de daarbij behorende bijlagen.
-> 
-> The contents of this message, as well as any enclosures, are addressed
-> personally to, and thus solely intended for the addressee. They may
-> contain information regarding a third party. A recipient who is neither
-> the addressee, nor empowered to receive this message on behalf of the
-> addressee, is kindly requested to immediately inform the sender of
-> receipt, and to destroy the message and the enclosures. Any use of the
-> contents of this message and/or the enclosures by any other person than
-> the addressee or person who is empowered to receive this message, is
-> illegal towards the sender and/or the aforementioned third party. TOPIC
-> Embedded Systems is not  liable for any damage as a result of the use
-> and/or acceptance of this message and as well as any enclosures.
-> 
-> 
+DQoNCg0KT24gV2VkLCAyMDE0LTAxLTA4IGF0IDE2OjA1ICswMTAwLCBNaWtlIExvb2lqbWFucyB3
+cm90ZToNCj4gT24gMDEvMDgvMjAxNCAwMjo1MCBQTSwgUGhpbGlwIEJhbGlzdGVyIHdyb3RlOg0K
+PiA+IE9uIDAxLzA4LzIwMTQgMDg6MjQgQU0sIE1pa2UgTG9vaWptYW5zIHdyb3RlOg0KPiA+PiBQ
+cm9iYWJseSBhIHNpbGx5IHF1ZXN0aW9uIHRoYXQgaGFzIGJlZW4gYXNrZWQgYSB0aG91c2FuZCB0
+aW1lcywgYnV0IG15DQo+ID4+IHNlYXJjaGVzIG9uIEdvb2dsZSBvbmx5IGdpdmUgbWUgdGhlIGFu
+c3dlciB0byB0aGUgd3JvbmcgcXVlc3Rpb24gKGhvdyB0bw0KPiA+PiBidWlsZCBGT1IgdGhlIHRh
+cmdldCwgd2hpY2ggSSBhbHJlYWR5IGtub3cgaG93IHRvIGRvKS4NCj4gPj4NCj4gPj4gSSB3YW50
+IHRvIHJ1biB0aGUgQyBjb21waWxlciBvbiB0aGUgYm9hcmQgaXRzZWxmLiBUaGF0IGlzLCBhIEdD
+QyB0aGF0DQo+ID4+IHJ1bnMgb24gdGhlIGJvYXJkIGFuZCBjb21waWxlcyAoYW5kIGxpbmtzIGV0
+Yy4pIEMgY29kZSBmb3IgdGhhdCBib2FyZC4NCj4gPj4NCj4gPj4gV2hhdCBwYWNrYWdlKHMpIGRv
+IEkgbmVlZCB0byBidWlsZCBhbmQgaW5zdGFsbCB0byBhY2NvbXBsaXNoIHRoaXM/DQo+ID4NCj4g
+PiAgRnJvbSBvbmUgb2YgbXkgaW1hZ2VzOg0KPiA+DQo+ID4NCj4gPiBJTUFHRV9GRUFUVVJFUyAr
+PSAic3BsYXNoIHNzaC1zZXJ2ZXItb3BlbnNzaCB0b29scy1zZGsgXA0KPiA+IHRvb2xzLWRlYnVn
+IGRlYnVnLXR3ZWFrcyBcDQo+ID4gZGV2LXBrZ3MgZGJnLXBrZ3MgXA0KPiA+ICINCj4gPiBsb29r
+cyBsaWtlIHRvb2xzLXNkayBpcyB0aGUgb25lIHlvdSB3YW50LiBkZXYtIGFuZCBkYmctIHBhY2th
+Z2VzIG1pZ2h0DQo+ID4gYWxzbyBiZSBoZWxwZnVsLCBidXQgd2lsbCBtYWtlIHRoZSBpbWFnZSBs
+YXJnZXIuIEVzcGVjaWFsbHkgdGhlIGRlYnVnIG9uZXMuDQo+IA0KPiAkIGJpdGJha2UgdG9vbHMt
+c2RrDQo+IEVSUk9SOiBOb3RoaW5nIFBST1ZJREVTICd0b29scy1zZGsnDQo+IA0KPiBTbyBJIGd1
+ZXNzIGl0J3MgYSBwYWNrYWdlIHRoYXQncyBwcm92aWRlZCBpbiBhbm90aGVyIGxheWVyIChJIGhh
+dmUgb2UtY29yZSBhbmQgDQo+IG1vc3Qgb2YgbWV0YS1vZSkuDQoNCk5vLCB0b29scy1zZGsgaXQn
+cyBub3QgYSBiaXRiYWtlIHRhcmdldC9wYWNrYWdlLCBpdCdzIGFuIGltYWdlIGZlYXR1cmUNCnRo
+YXQgeW91IG5lZWQgdG8gYWRkIGl0IHRvIHlvdXIgaW1hZ2UsIGUuZyBpbiBsb2NhbC5jb25mOg0K
+SU1BR0VfRkVBVFVSRVNfYXBwZW5kID0gIiB0b29scy1zZGsiDQpZb3UnbGwgcHJvYmFibHkgd2Fu
+dCB0byBhZGQgZGV2LXBrZ3MgdG9vICh0aGF0IHdpbGwgaW5zdGFsbCB0aGUgZGV2ZWwNCnBhY2th
+Z2VzL2hlYWRlcnMpDQoNClRoZSBnbG9yeSBkZXRhaWxzIGFyZSBpbiBjb3JlLWltYWdlLmJiY2xh
+c3MsIGJhc2ljYWxseSB0b29scy1zZGsNCmluc3RhbGxzIHBhY2thZ2Vncm91cC1jb3JlLXNkayBh
+bmQNCnBhY2thZ2Vncm91cC1jb3JlLXN0YW5kYWxvbmUtc2RrLXRhcmdldC4gVGhlc2UgYXJlIGFj
+dHVhbGx5IHRhcmdldHMgdGhhdA0KeW91IGNhbiBidWlsZC4gSWYgeW91IHdhbnQgdG8gc2VlIGV4
+YWN0bHkgb24gd2hpY2ggcGFja2FnZXMgdGhlc2UgZ3JvdXBzDQpkZXBlbmQgb24geW91IGNhbiBo
+YXZlIGEgbG9vayBhdA0KbWV0YS9yZWNpcGVzLWNvcmUvcGFja2FnZWdyb3Vwcy9wYWNrYWdlZ3Jv
+dXAtY29yZSpzZGsqLmJiIHJlY2lwZXMuDQoNCkNoZWVycywNClN0ZWZhbg0KDQoNCj4gDQo+IFNv
+IGZhciwgdGhlIGZvbGxvd2luZyBzZXQgSSd2ZSBkZXJpdmVkIHRocm91Z2ggdHJpYWwgYW5kIGVy
+cm9yIHNlZW1zIHRvIGNvbWUgDQo+IGNsb3NlOg0KPiANCj4gVEFSR0VUX0NPTVBJTEVSX1RPT0xT
+ID0gIlwNCj4gICAgICBiaW51dGlscyBcDQo+ICAgICAgYmludXRpbHMtc3ltbGlua3MgXA0KPiAg
+ICAgIGNwcCBcDQo+ICAgICAgY3BwLXN5bWxpbmtzIFwNCj4gICAgICBnKysgXA0KPiAgICAgIGcr
+Ky1zeW1saW5rcyBcDQo+ICAgICAgZ2NjIFwNCj4gICAgICBnY2Mtc3ltbGlua3MgXA0KPiAgICAg
+IG1ha2UgXA0KPiAgICAgIHBhY2thZ2Vncm91cC1jb3JlLXN0YW5kYWxvbmUtc2RrLXRhcmdldCBc
+DQo+ICINCj4gDQo+IFRoaXMgYWxsb3dzIGEgYmFzaWMgImhlbGxvIHdvcmxkIiB0byBjb21waWxl
+IG9uIHRhcmdldCBpbiBDIGFuZCBDKysgY29kZS4gTWFrZSANCj4gd2Fzbid0IHJlYWxseSByZXF1
+aXJlZCwgYnV0IGl0J3MgdmVyeSBjb252ZW5pZW50IHRvIGhhdmUuLi4NCj4gDQo+IEknbSBtb3N0
+bHkgc3VycHJpc2VkIHRoYXQgdGhlcmUgd2Fzbid0IGEgcGFja2FnZWdyb3VwIHRvIGNvbnRhaW4g
+dGhpcyBzZXQuDQo+IA0KPiBJdCBpbmNyZWFzZWQgdGhlIGltYWdlIHNpemUgdG8gYWJvdXQgMTMw
+TUIsIGJ1dCBpbiB0aGlzIHBhcnRpY3VsYXIgY2FzZSwgdGhhdCANCj4gd29uJ3QgYmUgYSBwcm9i
+bGVtLg0KPiANCj4gQW55d2F5LCB0aGFua3MgZm9yIHRoZSB0aXBzIGFsbC4gR3Vlc3MgdGhpcyBs
+aXN0IG1heSBiZSB1c2VmdWwgdG8gb3RoZXJzLi4uDQo+IA0KPiBNaWtlLg0KPiANCj4gDQo+IE1l
+dCB2cmllbmRlbGlqa2UgZ3JvZXQgLyBraW5kIHJlZ2FyZHMsDQo+IA0KPiBNaWtlIExvb2lqbWFu
+cw0KPiANCj4gVE9QSUMgRW1iZWRkZWQgU3lzdGVtcw0KPiBFaW5kaG92ZW5zZXdlZyAzMi1DLCBO
+TC01NjgzIEtIIEJlc3QNCj4gUG9zdGJ1cyA0NDAsIE5MLTU2ODAgQUsgQmVzdA0KPiBUZWxlZm9v
+bjogKCszMSkg4oCTICgwKTQ5OSAtIDMzLjY5Ljc5DQo+IFRlbGVmYXg6ICgrMzEpIC0gKDApNDk5
+IC0gMzMuNjkuNzANCj4gRS1tYWlsOiBtaWtlLmxvb2lqbWFuc0B0b3BpYy5ubA0KPiBXZWJzaXRl
+OiB3d3cudG9waWMubmwNCj4gDQo+IERpdCBlLW1haWwgYmVyaWNodCBlbiBkZSBldmVudHVlZWwg
+ZGFhcmJpaiBiZWhvcmVuZGUgYmlqbGFnZW4gemlqbiB1aXRzbHVpdGVuZCBiZXN0ZW1kIHZvb3Ig
+ZGUgZ2VhZHJlc3NlZXJkZSwgem9hbHMgZGllIGJsaWprdCB1aXQgaGV0IGUtbWFpbCBiZXJpY2h0
+IGVuL29mIGRlIGJpamxhZ2VuLiBFciBrdW5uZW4gZ2VnZXZlbnMgbWV0IGJldHJla2tpbmcgdG90
+IGVlbiBkZXJkZSBpbnN0YWFuLiBJbmRpZW4gdSBhbHMgbmlldC1nZWFkcmVzc2VlcmRlIGRpdCBi
+ZXJpY2h0IGVuIGRlIGJpamxhZ2VuIG9udHZhbmd0LCB0ZXJ3aWpsIHUgbmlldCBiZXZvZWdkIG9m
+IGdlbWFjaHRpZ2QgYmVudCBvbSBkaXQgYmVyaWNodCBuYW1lbnMgZGUgZ2VhZHJlc3NlZXJkZSB0
+ZSBvbnR2YW5nZW4sIHdvcmR0IHUgdmVyem9jaHQgZGUgYWZ6ZW5kZXIgaGllcm92ZXIgZGlyZWN0
+IHRlIGluZm9ybWVyZW4gZW4gaGV0IGUtbWFpbCBiZXJpY2h0IG1ldCBkZSBiaWpsYWdlbiB0ZSB2
+ZXJuaWV0aWdlbi4gSWVkZXIgZ2VicnVpayB2YW4gZGUgaW5ob3VkIHZhbiBoZXQgZS1tYWlsIGJl
+cmljaHQsIHdhYXJvbmRlciBkZSBkYWFyYmlqIGJlaG9yZW5kZSBiaWpsYWdlbiwgZG9vciBlZW4g
+YW5kZXIgZGFuIGRlIGdlYWRyZXNzZWVyZGUgaXMgb25yZWNodG1hdGlnIGplZ2VucyBvbnMgZGFu
+IHdlbCBkZSBldmVudHVlZWwgaW4gaGV0IGUtbWFpbCBiZXJpY2h0IG9mIGRlIGJpamxhZ2VuIHZv
+b3Jrb21lbmRlIGFuZGVyZSBwZXJzb25lbi4gVE9QSUMgRW1iZWRkZWQgU3lzdGVtcyBpcyBuaWV0
+IGFhbnNwcmFrZWxpamsgdm9vciBlbmlnZXJsZWkgc2NoYWRlIHZvb3J0dmxvZWllbmQgdWl0IGhl
+dCBnZWJydWlrIGVuL29mIGFjY2VwdGF0aWUgdmFuIGRpdCBlLW1haWwgYmVyaWNodCBvZiBkZSBk
+YWFyYmlqIGJlaG9yZW5kZSBiaWpsYWdlbi4NCj4gDQo+IFRoZSBjb250ZW50cyBvZiB0aGlzIG1l
+c3NhZ2UsIGFzIHdlbGwgYXMgYW55IGVuY2xvc3VyZXMsIGFyZSBhZGRyZXNzZWQgcGVyc29uYWxs
+eSB0bywgYW5kIHRodXMgc29sZWx5IGludGVuZGVkIGZvciB0aGUgYWRkcmVzc2VlLiBUaGV5IG1h
+eSBjb250YWluIGluZm9ybWF0aW9uIHJlZ2FyZGluZyBhIHRoaXJkIHBhcnR5LiBBIHJlY2lwaWVu
+dCB3aG8gaXMgbmVpdGhlciB0aGUgYWRkcmVzc2VlLCBub3IgZW1wb3dlcmVkIHRvIHJlY2VpdmUg
+dGhpcyBtZXNzYWdlIG9uIGJlaGFsZiBvZiB0aGUgYWRkcmVzc2VlLCBpcyBraW5kbHkgcmVxdWVz
+dGVkIHRvIGltbWVkaWF0ZWx5IGluZm9ybSB0aGUgc2VuZGVyIG9mIHJlY2VpcHQsIGFuZCB0byBk
+ZXN0cm95IHRoZSBtZXNzYWdlIGFuZCB0aGUgZW5jbG9zdXJlcy4gQW55IHVzZSBvZiB0aGUgY29u
+dGVudHMgb2YgdGhpcyBtZXNzYWdlIGFuZC9vciB0aGUgZW5jbG9zdXJlcyBieSBhbnkgb3RoZXIg
+cGVyc29uIHRoYW4gdGhlIGFkZHJlc3NlZSBvciBwZXJzb24gd2hvIGlzIGVtcG93ZXJlZCB0byBy
+ZWNlaXZlIHRoaXMgbWVzc2FnZSwgaXMgaWxsZWdhbCB0b3dhcmRzIHRoZSBzZW5kZXIgYW5kL29y
+IHRoZSBhZm9yZW1lbnRpb25lZCB0aGlyZCBwYXJ0eS4gVE9QSUMgRW1iZWRkZWQgU3lzdGVtcyBp
+cyBub3QgIGxpYWJsZSBmb3IgYW55IGRhbWFnZSBhcyBhIHJlc3VsdCBvZiB0aGUgdXNlIGFuZC9v
+ciBhY2NlcHRhbmNlIG9mIHRoaXMgbWVzc2FnZSBhbmQgYXMgd2VsbCBhcyBhbnkgZW5jbG9zdXJl
+cy4NCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4g
+T3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcNCj4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KDQo=
 
