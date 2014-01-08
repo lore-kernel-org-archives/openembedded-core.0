@@ -1,38 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
-	[209.85.214.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 62E436D1AF;
-	Wed,  8 Jan 2014 21:14:16 +0000 (UTC)
-Received: by mail-ob0-f176.google.com with SMTP id vb8so2333799obc.21
-	for <multiple recipients>; Wed, 08 Jan 2014 13:14:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=WEAM4xOYqUz8ZWPzpLe5FD7PL85NQBKfs4ljYP4RzVI=;
-	b=Ng00PusjhkpEpDqk3AUthmgaQ9Hta8+mq1iGEi7+3obiHv8y1chjuNIeZJgVhNoCmi
-	WmIrRIirYntBcy5ZJhnotZ27K6aZ68IbHQK2pj3miMtcxtg5nKb9fPcFikp7pYK+AQ4C
-	3d7rqvynJpeuLuNkeZBtk5j7f7TKAVWM10OsG0zY7hwDaSOQ1TTh2D1SOmJlat/TR/kT
-	NIKd66HSraei/2YV/ZmfXSHO6e9M03NJkyKpQJuEXSLwthI1ljoAcIyCvPSJw5RjDPFu
-	r/gw03JTVa4jxwB5REYe21V5jA0lCxcB+T7BOs6HIatfx4Un5YRjAw7MEH2TSNUZBHyC
-	5b0g==
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 365B26D1E8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Jan 2014 23:20:32 +0000 (UTC)
+Received: by mail-ie0-f171.google.com with SMTP id ar20so2831172iec.30
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jan 2014 15:20:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=BuyumDgxG1ESR9uTEI8ZP8p8Ag4uhGzIajxT8nbc/AE=;
+	b=QbFT2Eu+PUKiTcD/744wFpusnEYumvgDSNG0L1xS4sUDwa93qQg5Uu1XTWdYWYB0mD
+	Ud0+SF6rW9IApJ5Va7u9J6C3Gbd8ouhFL71sI4T+dP9CiPXXCLuBpz7DOFQHSgkY23Wj
+	jhajQu+sveto+CGhdcH5Zc14wz//ua3LyvYfgPMEHsHlnwwkF7My1ji8SMts9jPz+XPw
+	Cvw6bgkLKaFxzPONOr0I15yqiBjjNuxn97e/NtRcsjQslLVUyt14EfgDEWlDegN7RDRc
+	Z5POgevPUv+KvAle8affi73HCUwX0aF8GTvrWDXy5fPyk0t4CI1MSC2jact+vsMap3RS
+	saTA==
+X-Gm-Message-State: ALoCoQlszua38hzKOmEf2HXLueYZ2y+0rcCHsBWcctbB4QerMx5dFUhHWYl7y3SBCiCdI3YgrFLZ
+X-Received: by 10.42.239.77 with SMTP id kv13mr77245270icb.0.1389223233116;
+	Wed, 08 Jan 2014 15:20:33 -0800 (PST)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id s4sm11421424ige.0.2014.01.08.15.20.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 08 Jan 2014 15:20:32 -0800 (PST)
+Message-ID: <52CDDD3E.7040508@linaro.org>
+Date: Wed, 08 Jan 2014 18:20:30 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.60.165.36 with SMTP id yv4mr3481653oeb.55.1389215657057;
-	Wed, 08 Jan 2014 13:14:17 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 8 Jan 2014 13:14:16 -0800 (PST)
-In-Reply-To: <1389200502.6899.112.camel@ted>
-References: <CAJTo0LZsBfxGm=OJPa++egDjL6L0ZABMebTtTr_Bmw_TdQrohg@mail.gmail.com>
-	<52B8DECA.6060704@balister.org>
-	<CAJTo0LaEgLWZHk34e-_-+z69Zw3J+S1zGFFJAONjfYBDQ1TehQ@mail.gmail.com>
-	<1389200502.6899.112.camel@ted>
-Date: Wed, 8 Jan 2014 19:14:16 -0200
-X-Google-Sender-Auth: 6bJV1fXHbiFeKKY5xR4pKoepTQc
-Message-ID: <CAP9ODKo1TYqkrZWxeirPO9sYOorTLB9DMQPb5k8=1rKpNx96wg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Cc: Poky Project <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Piglit in Poky
+To: openembedded-core@lists.openembedded.org
+Subject: bug scrub - RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,209 +47,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2014 21:14:17 -0000
-Content-Type: multipart/alternative; boundary=047d7b3a8674c164ea04ef7bf90c
-
---047d7b3a8674c164ea04ef7bf90c
+X-List-Received-Date: Wed, 08 Jan 2014 23:20:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 8, 2014 at 3:01 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Hi everyone,
 
-> On Wed, 2014-01-08 at 16:09 +0000, Burton, Ross wrote:
-> > Hi,
-> >
-> > Despite a good start this thread got rapidly hijacked, so let's try
-> again!
-> >
-> > On 24 December 2013 01:09, Philip Balister <philip@balister.org> wrote:
-> > >> 1) Move piglit and deps to oe-core.  Piglit is for QA purposes only
-> > >> and pushes the boundaries of "core platform".  In a sense this is a
-> > >> repeat of the discussion we had with Midori...  does oe-core contain
-> > >> everything needed to sufficiently exercise the core components it
-> > >> ships or not?
-> > >
-> > > I expect Richard will push back on this, and I would support him here.
-> >
-> > Probably best to let Richard speak for himself here. :)
->
-> :)
->
-> I have to admit I'm leaning towards pulling in the 4 recipes we need
-> since the win is we get to test the GL stacks.
->
-> We do support graphics in the core, we also do particularly badly at
-> testing it. That is something I think we need to change. piglit lets us
-> do that and its not like it has a significant number of dependencies.
-> Having a couple more python modules to test the python stack probably
-> isn't a bad idea ether. We pruned quite a number of recipes out, this is
-> a case where we can add a small number for a significant win.
->
-> > >> 2) Add piglit and deps to meta-yocto.  Probably a new layer called
-> > >> meta-yocto-qa (or similar) because the Yocto Compatible guidelines
-> > >> forbid mixing distribution policy and recipes.  We'd need to sync
-> > >> meta-yocto-qa with the pieces of meta-oe that we want somehow, but
-> > >> that's our problem.
-> > >
-> > > So meta-yocto is right out. I'm a user of numpy, and I certainly do not
-> > > want to include something called meta-yocto-qa just to pick up numpy.
-> >
-> > Right, so my point with the syncing was that this meta-yocto-qa layer
-> > would be a copy of recipes from other places through combo-layer, and
-> > would be clearly marked as such.
-> >
-> > Reviewing the options:
-> >
-> > 1) Add python-mako, python-numpy, waffle and piglit to oe-core, for
-> > all BSPs to use.
-> > 2) Add python-mako, python-numpy, waffle and piglit to meta-yocto
-> > (effectively read-only clones with combo-layer, maintained in meta-oe
-> > still) for Poky to use.
-> > 3) Add meta-python layer to Poky, and waffle/piglit to meta-yocto
-> > (read-only clones) for Poky to use.
-> >
-> > Paul raises a good point about other BSPs potentially using Piglit to
-> > test their GL stacks.  Do any other BSPs test their GL integration,
-> > and if so what tooling to they use?  I'm only pushing for Piglit
-> > because it's what the Intel driver team use to test Mesa, but if
-> > nobody else wants to use it then that's an argument for keeping it in
-> > Poky (or even cloning it into meta-intel?).
->
-> I'm in favour of 1). If there is significant community push back against
-> that, I will go for 4) a kind of hybrid of 2/3 which is:
->
-> 4) use combo-layer filtering technology to import just the files we want
-> from the meta-oe repo into the poky repo.
->
-> The plus of 4) is that it would showcase a usage of combo-layer which is
-> currently underused and IMO should be used more. Equally, I think 4)
-> might not be liked by some. If would however fulfil the needs the Yocto
-> Project has in this area.
->
-> I would still prefer 1) though.
->
+This is a "Request For Comments" email regarding a "bug scrub" party the
+OE TSC would like to hold.
 
-I prefer 1 too.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+background:
+It has been noticed that the number of bugs in the bugzilla[1] has been
+climbing; it would be nice to hold a "bug scrub" event to raise
+awareness of the bugzilla and hopefully get some issues resolved.
 
---047d7b3a8674c164ea04ef7bf90c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Wed, Jan 8, 2014 at 3:01 PM, Richard Purdie <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">r=
-ichard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, 2014-01-08 at 16:0=
-9 +0000, Burton, Ross wrote:<br>
-&gt; Hi,<br>
-&gt;<br>
-&gt; Despite a good start this thread got rapidly hijacked, so let&#39;s tr=
-y again!<br>
-&gt;<br>
-&gt; On 24 December 2013 01:09, Philip Balister &lt;<a href=3D"mailto:phili=
-p@balister.org">philip@balister.org</a>&gt; wrote:<br>
-&gt; &gt;&gt; 1) Move piglit and deps to oe-core. =A0Piglit is for QA purpo=
-ses only<br>
-&gt; &gt;&gt; and pushes the boundaries of &quot;core platform&quot;. =A0In=
- a sense this is a<br>
-&gt; &gt;&gt; repeat of the discussion we had with Midori... =A0does oe-cor=
-e contain<br>
-&gt; &gt;&gt; everything needed to sufficiently exercise the core component=
-s it<br>
-&gt; &gt;&gt; ships or not?<br>
-&gt; &gt;<br>
-&gt; &gt; I expect Richard will push back on this, and I would support him =
-here.<br>
-&gt;<br>
-&gt; Probably best to let Richard speak for himself here. :)<br>
-<br>
-</div>:)<br>
-<br>
-I have to admit I&#39;m leaning towards pulling in the 4 recipes we need<br=
->
-since the win is we get to test the GL stacks.<br>
-<br>
-We do support graphics in the core, we also do particularly badly at<br>
-testing it. That is something I think we need to change. piglit lets us<br>
-do that and its not like it has a significant number of dependencies.<br>
-Having a couple more python modules to test the python stack probably<br>
-isn&#39;t a bad idea ether. We pruned quite a number of recipes out, this i=
-s<br>
-a case where we can add a small number for a significant win.<br>
-<div class=3D"im"><br>
-&gt; &gt;&gt; 2) Add piglit and deps to meta-yocto. =A0Probably a new layer=
- called<br>
-&gt; &gt;&gt; meta-yocto-qa (or similar) because the Yocto Compatible guide=
-lines<br>
-&gt; &gt;&gt; forbid mixing distribution policy and recipes. =A0We&#39;d ne=
-ed to sync<br>
-&gt; &gt;&gt; meta-yocto-qa with the pieces of meta-oe that we want somehow=
-, but<br>
-&gt; &gt;&gt; that&#39;s our problem.<br>
-&gt; &gt;<br>
-&gt; &gt; So meta-yocto is right out. I&#39;m a user of numpy, and I certai=
-nly do not<br>
-&gt; &gt; want to include something called meta-yocto-qa just to pick up nu=
-mpy.<br>
-&gt;<br>
-&gt; Right, so my point with the syncing was that this meta-yocto-qa layer<=
-br>
-&gt; would be a copy of recipes from other places through combo-layer, and<=
-br>
-&gt; would be clearly marked as such.<br>
-&gt;<br>
-&gt; Reviewing the options:<br>
-&gt;<br>
-&gt; 1) Add python-mako, python-numpy, waffle and piglit to oe-core, for<br=
->
-&gt; all BSPs to use.<br>
-&gt; 2) Add python-mako, python-numpy, waffle and piglit to meta-yocto<br>
-&gt; (effectively read-only clones with combo-layer, maintained in meta-oe<=
-br>
-&gt; still) for Poky to use.<br>
-&gt; 3) Add meta-python layer to Poky, and waffle/piglit to meta-yocto<br>
-&gt; (read-only clones) for Poky to use.<br>
-&gt;<br>
-&gt; Paul raises a good point about other BSPs potentially using Piglit to<=
-br>
-&gt; test their GL stacks. =A0Do any other BSPs test their GL integration,<=
-br>
-&gt; and if so what tooling to they use? =A0I&#39;m only pushing for Piglit=
-<br>
-&gt; because it&#39;s what the Intel driver team use to test Mesa, but if<b=
-r>
-&gt; nobody else wants to use it then that&#39;s an argument for keeping it=
- in<br>
-&gt; Poky (or even cloning it into meta-intel?).<br>
-<br>
-</div>I&#39;m in favour of 1). If there is significant community push back =
-against<br>
-that, I will go for 4) a kind of hybrid of 2/3 which is:<br>
-<br>
-4) use combo-layer filtering technology to import just the files we want<br=
->
-from the meta-oe repo into the poky repo.<br>
-<br>
-The plus of 4) is that it would showcase a usage of combo-layer which is<br=
->
-currently underused and IMO should be used more. Equally, I think 4)<br>
-might not be liked by some. If would however fulfil the needs the Yocto<br>
-Project has in this area.<br>
-<br>
-I would still prefer 1) though.<br></blockquote><div><br></div><div>I prefe=
-r 1 too.=A0</div></div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http=
-://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =
-=A0 =A0 =A0 =A0<a href=3D"http://code.ossystems.com.br" target=3D"_blank">h=
-ttp://code.ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
-<br>
-</div></div>
+questions:
+1) Currently it has been suggested this should be a 2-day event, should
+these two days be during the week or over a weekend? In either case,
+which 2 days?
 
---047d7b3a8674c164ea04ef7bf90c--
+2) Since this is an OE event, should it focus only on OE bugs[2], or
+should it be generalized for any bug?
+
+3) Should we create a sign-up sheet (wiki) to keep track of who is
+participating, and which issues are being looked at by whom?
+
+(anything else?)
+
+
+notes:
+1) If you or the company for which you work uses OE/Yocto, please
+consider making this a company event and having/allowing the engineers
+(to) participate.
+
+2) Even if you're not a recipe-, or a build-, or a python-wizard there
+are still many things you can do to contribute. Being able to reproduce
+a bug or reporting that a bug can't be reproduced can sometimes be quite
+helpful (sometimes this points to a host issue or to a bug's description
+not being descriptive enough). Sometimes a bug is stuck in the "needs
+info" stage which maybe you can provide.
+
+3) Can anyone think of way to help "get the word out"?
+
+4) It would be cool to be able to provide incentives to help people get
+interested and contributing to knocking some bugs around. So if anyone
+(*cough* Intel) has any neat hardware (*cough* Galileo, Edison) they
+could offer as an incentive (or, conversely, if there's a board you'd
+like to see Yocto target) please see about making that happen.
+
+
+Thanks and best regards,
+    Trevor
+
+
+
+[1] https://bugzilla.yoctoproject.org
+[2]
+https://bugzilla.yoctoproject.org/buglist.cgi?bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ACCEPTED&bug_status=IN%20PROGRESS%20DESIGN&bug_status=IN%20PROGRESS%20DESIGN%20COMPLETE&bug_status=IN%20PROGRESS%20IMPLEMENTATION&bug_status=IN%20PROGRESS%20REVIEW&bug_status=REOPENED&bug_status=NEEDINFO&bug_status=WaitForUpstream&classification=Build%20System%20%26%20Metadata&list_id=156074&product=OE-Core&query_format=advanced&resolution=---&order=bug_id%20DESC&query_based_on=
+
