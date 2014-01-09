@@ -1,33 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id AE62F60D03
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 11:41:02 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s09BevQ5014806; Thu, 9 Jan 2014 11:40:57 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 0pORpyAoan4G; Thu,  9 Jan 2014 11:40:57 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s09Bes3p014802
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Thu, 9 Jan 2014 11:40:56 GMT
-Message-ID: <1389267649.19102.110.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Nathan Rossi <nathan.rossi@xilinx.com>
-Date: Thu, 09 Jan 2014 11:40:49 +0000
-In-Reply-To: <9312228c-9258-4154-ac00-aa54b832f9b3@AM1EHSMHS019.ehs.local>
-References: <d7cb4e9a-2926-44a2-b789-a31612162a44@TX2EHSMHS014.ehs.local>
-	<1389185889.6899.96.camel@ted>
-	<9312228c-9258-4154-ac00-aa54b832f9b3@AM1EHSMHS019.ehs.local>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ptest.bblass: Fix package QA issues when disabled
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
+	[209.85.215.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 10DFB60D03;
+	Thu,  9 Jan 2014 11:54:08 +0000 (UTC)
+Received: by mail-ea0-f182.google.com with SMTP id a15so1430310eae.13
+	for <multiple recipients>; Thu, 09 Jan 2014 03:54:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Xxi/1vsy6jGqWUGUuI+pjRo0G3AdX/6Yr4fnB6RG7Wc=;
+	b=iBXCK2FgNirQtQrSWtuVdSTRTnNG38S2FZMrgNP+CpvZXN4a+ObnkcFy8LR9O+lPZl
+	OUvJNauylr7BN6WdTm41JNKwgwzkv/dim1bJqlfbLGuh2hlEducItFJVzzp3iexcARsM
+	q9mUetIB7J3Pd4UJPbzRUHs+mA6KFfS6S6NL3080qmjSXiJAwqpDyx8mBt2q6ZvE6Suz
+	Z3/429jDprhxmvuf6cpK9ZtedkQ8agCUnwfVht0sXlkJghkeQrN1cZVGoqtWI0xEwM1u
+	NxFmQ0lCSfMyVR8Jvpw8roJVx6GlhKvUaDdXNgz8jAPCzdn+M/DWUvtV3vy+C/6JpTDZ
+	mSVg==
+X-Received: by 10.14.199.197 with SMTP id x45mr3000247een.8.1389268449173;
+	Thu, 09 Jan 2014 03:54:09 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id v7sm4855109eel.2.2014.01.09.03.54.08
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Jan 2014 03:54:08 -0800 (PST)
+Date: Thu, 9 Jan 2014 12:54:19 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org, Chen Qi <Qi.Chen@windriver.com>
+Message-ID: <20140109115419.GE3709@jama>
+References: <20140106221511.568935049A@opal>
+MIME-Version: 1.0
+In-Reply-To: <20140106221511.568935049A@opal>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Chen Qi : initscripts: split the functions script into a separate package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,74 +45,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 11:41:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jan 2014 11:54:09 -0000
+X-Groupsio-MsgNum: 48757
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="xGZLEhdrcEmdnWHc"
+Content-Disposition: inline
 
-On Thu, 2014-01-09 at 03:54 +0000, Nathan Rossi wrote:
-> > -----Original Message-----
-> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
-> > Sent: Wednesday, January 08, 2014 10:58 PM
-> > To: Nathan Rossi
-> > Cc: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] ptest.bblass: Fix package QA issues when
-> > disabled
-> > 
-> > On Wed, 2014-01-08 at 17:05 +1000, Nathan Rossi wrote:
-> > > When the ptest distro feature is disabled, a ptest directory is still
-> > > created in the install phase, This directory is not cleaned up or
-> > > consumed by any package and will throw a QA error, e.g.
-> > >
-> > > ERROR: QA Issue: glib-2.0: Files/directories were installed but not
-> > > shipped
-> > >   /usr/lib/glib-2.0/ptest
-> > > ERROR: QA run found fatal errors. Please consider fixing them.
-> > > ERROR: Function failed: do_package_qa
-> > >
-> > > This is caused by the do_install_ptest_base[cleandirs] task flag which
-> > > is not setup to be conditional on ptest being enabled. This patch
-> > > changes the task flag to emit the cleandirs path only when the ptest
-> > > distro feature is enabled.
-> > >
-> > > Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
-> > > ---
-> > >  meta/classes/ptest.bbclass |    2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-> > > index ec10f80..3450085 100644
-> > > --- a/meta/classes/ptest.bbclass
-> > > +++ b/meta/classes/ptest.bbclass
-> > > @@ -49,7 +49,7 @@ do_install_ptest_base() {
-> > >      fi
-> > >  }
-> > >
-> > > -do_install_ptest_base[cleandirs] = "${D}${PTEST_PATH}"
-> > > +do_install_ptest_base[cleandirs] = "${@['',
-> > '${D}${PTEST_PATH}'][(d.getVar('PTEST_ENABLED', True) or '') == '1']}"
-> > >
-> > >  addtask configure_ptest_base after do_configure before do_compile
-> > >  addtask compile_ptest_base   after do_compile   before do_install
-> > 
-> > How about we use the new add/deltask api to conditionally add these
-> > tasks only when ptest is enabled?
-> 
-> Just wanted to double check, by add/deltask you are referring to
-> calling the bb.build.*task() functions in an anonymous function
-> correct?
+--xGZLEhdrcEmdnWHc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes.
+On Mon, Jan 06, 2014 at 10:15:11PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 736dd8380f41d6ff1d3d0e4fe33cc01e2e873ef6
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D736dd8380f41d6ff1d3d0e4fe33cc01e2e873ef6
+>=20
+> Author: Chen Qi <Qi.Chen@windriver.com>
+> Date:   Mon Jan  6 15:27:34 2014 +0800
+>=20
+> initscripts: split the functions script into a separate package
+>=20
+> Many SysV init scripts need the /etc/init.d/functions script. But
+> this script is part of the initscripts package. As a result, the
+> initscripts package should always be installed into the system to
+> avoid errors when starting daemons. However, it makes no sense to
+> install the initscripts package into a systemd based image, because
+> what the init scripts provide has already been provided by the systemd.
+> On the other hand, the functions script might be still needed in a
+> systemd based image because other init scripts such as distcc might need
+> it.
+>=20
+> The above situation leads to a natural separation of the functions script
+> from the initscripts package. And this patch does so. It separates the
+> functions script into initscripts-functions packages.
 
-> > The number of conditionals in there is getting silly...
-> 
-> When I respin the patch I will refactor the other conditionals such
-> that it removes all ptest_base tasks when disabled instead of the
-> conditional checks in each task.
+FYI: In cases where alternative initscripts are used (and
+VIRTUAL-RUNTIME_initscripts) respected, these alternatives also need to
+rprovide initscripts-functions (or at least u-a for functions), otherwise
+u-a fails in do_rootfs which is fatal for read-only:
 
-Sounds good, this should be much neater!
-
-Cheers,
-
-Richard
+| ERROR: The following packages could not be configured offline and
+rootfs is read-only: initscripts-functions
 
 
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-core/initscripts/initscripts_1.0.bb | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/reci=
+pes-core/initscripts/initscripts_1.0.bb
+> index 5951e0c..d1644a3 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -42,8 +42,12 @@ KERNEL_VERSION =3D ""
+>  inherit update-alternatives
+>  DEPENDS_append =3D " update-rc.d-native"
+> =20
+> -ALTERNATIVE_PRIORITY =3D "90"
+> -ALTERNATIVE_${PN} =3D "functions"
+> +PACKAGES =3D+ "${PN}-functions"
+> +RDEPENDS_${PN} =3D "${PN}-functions"
+> +FILES_${PN}-functions =3D "${sysconfdir}/init.d/functions*"
+> +
+> +ALTERNATIVE_PRIORITY_${PN}-functions =3D "90"
+> +ALTERNATIVE_${PN}-functions =3D "functions"
+>  ALTERNATIVE_LINK_NAME[functions] =3D "${sysconfdir}/init.d/functions"
+> =20
+>  HALTARGS ?=3D "-d -f"
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--xGZLEhdrcEmdnWHc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLOjesACgkQN1Ujt2V2gBz6RwCaAl6bX07qhZayJt1vA1mBQ54S
+oK0Anis0vJEJBjftRSnf8J60uBaFu/WG
+=lpay
+-----END PGP SIGNATURE-----
+
+--xGZLEhdrcEmdnWHc--
