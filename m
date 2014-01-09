@@ -1,24 +1,24 @@
 Return-Path: <Ming.Liu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 00B906D299
+	by mail.openembedded.org (Postfix) with ESMTP id ABE8260CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 08:49:03 +0000 (UTC)
+	Thu,  9 Jan 2014 09:57:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s098n4Ed011528
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s099vAxV020271
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jan 2014 00:49:05 -0800 (PST)
+	Thu, 9 Jan 2014 01:57:10 -0800 (PST)
 Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 9 Jan 2014 00:49:04 -0800
+	14.2.347.0; Thu, 9 Jan 2014 01:57:09 -0800
 From: Ming Liu <ming.liu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Jan 2014 16:49:00 +0800
-Message-ID: <1389257340-16166-1-git-send-email-ming.liu@windriver.com>
+Date: Thu, 9 Jan 2014 17:57:07 +0800
+Message-ID: <1389261427-5971-1-git-send-email-ming.liu@windriver.com>
 X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Subject: [PATCH] rpm: fix a endian incompatible error in generating tag
+Subject: [PATCH] busybox: lineedit: initialize delptr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 08:49:04 -0000
+X-List-Received-Date: Thu, 09 Jan 2014 09:57:10 -0000
 Content-Type: text/plain
 
-A flaw was found in the way rpm generating arbitrary tags, which leads to a
-incorrect query result, this issue is introduced by a incompatible endianess
-when the generating process is executed on different architectures.
-
-This patch resolves it by taking a uniform byte order.
+In vi mode, the 'p' and 'P' commands caused a segfault when nothing had
+been put in the buffer yet because the delptr was not initialized.
 
 Signed-off-by: Ming Liu <ming.liu@windriver.com>
 ---
- .../rpm-tag-generate-endian-conversion-fix.patch   |   29 ++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
- 2 files changed, 30 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+ .../busybox-lineedit-initialize-delptr.patch       |   23 ++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.21.1.bb        |    1 +
+ 2 files changed, 24 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/busybox-lineedit-initialize-delptr.patch
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+diff --git a/meta/recipes-core/busybox/busybox/busybox-lineedit-initialize-delptr.patch b/meta/recipes-core/busybox/busybox/busybox-lineedit-initialize-delptr.patch
 new file mode 100644
-index 0000000..4379515
+index 0000000..e59211b
 --- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
-@@ -0,0 +1,29 @@
-+fix a endian incompatible error in generating rpm tag
++++ b/meta/recipes-core/busybox/busybox/busybox-lineedit-initialize-delptr.patch
+@@ -0,0 +1,23 @@
++Derived from:
++http://git.busybox.net/busybox/commit/?id=46031da862a60422f80050a905cea0b67026b021.
 +
-+A flaw was found in the way rpm generating arbitrary tags, which leads to a
-+incorrect query result, this issue is introduced by a incompatible endianess
-+when the generating process is executed on different architectures.
++In vi mode, the 'p' and 'P' commands caused a segfault when nothing had
++been put in the buffer yet because the delptr was not initialized.
 +
-+This patch resolves it by taking a uniform byte order.
++Upstream-Status: Backport
 +
-+Upstream-Status: Pending
-+
++Signed-off-by: Shawn J. Goff <shawn7400@gmail.com>
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
 +Signed-off-by: Ming Liu <ming.liu@windriver.com>
-+---
-+ tagname.c |    3 +++
-+ 1 file changed, 3 insertions(+)
 +
-+diff -urpN a/rpmdb/tagname.c b/rpmdb/tagname.c
-+--- a/rpmdb/tagname.c
-++++ b/rpmdb/tagname.c
-+@@ -152,7 +152,10 @@ static rpmTag _tagGenerate(const char *s
-+     xx = rpmDigestUpdate(ctx, s, nb);
-+     xx = rpmDigestFinal(ctx, &digest, &digestlen, 0);
-+     if (digest && digestlen > 4) {
-++	/* The tag is stored in a uniform byte order for cross-endian compatibility.
-++	   Swap to little-endian if appropriate. */
-+ 	memcpy(&tag, digest + (digestlen - 4), 4);
-++	tag = htole32(tag);
-+ 	tag = (rpmTag) (tag & 0x3fffffff);
-+ 	tag = (rpmTag) (tag | 0x40000000);
-+     }
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 9d376a5..7921f40 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -89,6 +89,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
- 	   file://debugedit-valid-file-to-fix-segment-fault.patch \
- 	   file://rpm-platform-file-fix.patch \
- 	   file://rpm-lsb-compatibility.patch \
-+	   file://rpm-tag-generate-endian-conversion-fix.patch \
- 	  "
++diff -urpN a/libbb/lineedit.c b/libbb/lineedit.c
++--- a/libbb/lineedit.c
+++++ b/libbb/lineedit.c
++@@ -187,6 +187,7 @@ extern struct lineedit_statics *const li
++ 	cmdedit_termw = 80; \
++ 	IF_FEATURE_EDITING_FANCY_PROMPT(num_ok_lines = 1;) \
++ 	IF_USERNAME_OR_HOMEDIR(home_pwd_buf = (char*)null_str;) \
+++	IF_FEATURE_EDITING_VI(delptr = delbuf;) \
++ } while (0)
++ 
++ static void deinit_S(void)
+diff --git a/meta/recipes-core/busybox/busybox_1.21.1.bb b/meta/recipes-core/busybox/busybox_1.21.1.bb
+index 267604a..cf59f58 100644
+--- a/meta/recipes-core/busybox/busybox_1.21.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.21.1.bb
+@@ -35,6 +35,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://busybox-list-suid-and-non-suid-app-configs.patch \
+            file://busybox-sed-fix-sed-clusternewline-testcase.patch \
+            file://find-get-rid-of-nested-functions.patch \
++           file://busybox-lineedit-initialize-delptr.patch \
+ "
  
- # Uncomment the following line to enable platform score debugging
+ SRC_URI[tarball.md5sum] = "795394f83903b5eec6567d51eebb417e"
 -- 
 1.7.1
 
