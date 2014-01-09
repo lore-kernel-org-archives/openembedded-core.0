@@ -1,36 +1,40 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id BAA2E61587
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 97CBC61587
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 12:19:33 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jan 2014 04:19:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,630,1384329600"; d="scan'208";a="456041103"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jan 2014 04:19:19 -0800
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.215]) by
-	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
-	14.03.0123.003; Thu, 9 Jan 2014 12:19:18 +0000
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: "sipke.vriend@xilinx.com" <sipke.vriend@xilinx.com>
-Thread-Topic: [OE-core] [RFC OE-core/meta/lib] BSP Specific Qemurunner
-Thread-Index: Ac8LTyM0cuP22wbdSB+YsK2jQLLpIwABYWywABcCpIAAEtgagAAdzuKAAAFklgAAFUicgAAZyYOA
-Date: Thu, 9 Jan 2014 12:19:18 +0000
-Message-ID: <1389270021.29779.29.camel@firebird.rb.intel.com>
-References: <9bd39deb-0a32-437a-9f50-89abfe43d7d6@CO1EHSMHS004.ehs.local>
-	<00beaba3-2d15-4d36-936c-88fd8734ed8a@CO1EHSMHS012.ehs.local>
-	<1389186761.6899.99.camel@ted> <3240985.EsWr8javTQ@helios>
-	<9217bc49-4fb4-4640-a7ae-1babd6cf17a8@DB8EHSMHS004.ehs.local>
-In-Reply-To: <9217bc49-4fb4-4640-a7ae-1babd6cf17a8@DB8EHSMHS004.ehs.local>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.156]
+	Thu,  9 Jan 2014 12:56:29 +0000 (UTC)
+Received: by mail-ob0-f170.google.com with SMTP id uy5so1234422obc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jan 2014 04:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Qi7Z48z6WVb30UupOx0Z/LxaaSueG17gPa/OZcIztCI=;
+	b=ZJt9Bw3PMTO/Huk3EAdDam7kdsvSgSv+nxc8re4PyDoZpwEP2d0ykKnDJLjcM4puvD
+	V1PbifGk+VBiMJmh+rjmFvNl+AIJWk5FqIBqsSqoRwLWC1JS/uonL/vzk8LiDy56rwqv
+	+TKE3jA/Jkh3ljx6oEbzzLZcx2TPcHCMBibZWpKEPMXjbNetR4siHaVWtGZPzA2P7vP5
+	FbBGWs9GQlYA9FR2LS5ItR7T6CulKI5easfqzogavhDTJ+SFv/Tt+ntDfP8TjUXy4Xha
+	vDzzJ2rKA2rp4Xqp/1ECjnjGAcUtBcrCeNzWj/yvA00S44uOntXFnhMh9XUquhC/A8no
+	oVCQ==
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+X-Received: by 10.182.117.195 with SMTP id kg3mr2093562obb.17.1389272190314;
+	Thu, 09 Jan 2014 04:56:30 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 9 Jan 2014 04:56:30 -0800 (PST)
+In-Reply-To: <20140109003251.GD3709@jama>
+References: <52CC470A.9030302@linaro.org> <1759035.6JVm74GdRW@helios>
+	<52CD9CAB.5020501@linaro.org> <3583228.liS9SqzWlO@helios>
+	<20140109003251.GD3709@jama>
+Date: Thu, 9 Jan 2014 10:56:30 -0200
+X-Google-Sender-Auth: GR1jNRE7kf6GySrBetrLFliw5Nc
+Message-ID: <CAP9ODKrSN+o_A75w_XzmVxFun6_TAUjBEzBLMoc3LrkLQPTpQg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC OE-core/meta/lib] BSP Specific Qemurunner
+Subject: Re: Qt in OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,88 +47,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 12:19:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B7ABFE406578D142B50D9B7E0D191B9E@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 09 Jan 2014 12:56:29 -0000
+Content-Type: multipart/alternative; boundary=089e0149c506666f8704ef8923f7
 
-DQoNCg0KT24gVGh1LCAyMDE0LTAxLTA5IGF0IDAwOjAxICswMDAwLCBTaXBrZSBWcmllbmQgd3Jv
-dGU6DQo+IE9uIFdlZG5lc2RheSwgOCBKYW51YXJ5IDIwMTQgMTE6NTMgUE0gUGF1bCBFZ2dsZXRv
-biB3cm90ZToNCj4gPg0KPiA+T24gV2VkbmVzZGF5IDA4IEphbnVhcnkgMjAxNCAxMzoxMjo0MSBS
-aWNoYXJkIFB1cmRpZSB3cm90ZToNCj4gPj4gT24gVHVlLCAyMDE0LTAxLTA3IGF0IDIyOjU5ICsw
-MDAwLCBTaXBrZSBWcmllbmQgd3JvdGU6DQo+ID4+ID4gSGkgUmljaGFyZCwNCj4gPj4gPiANCj4g
-Pj4gPiA+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gPiA+T24gV2VkbmVzZGF5LCA4
-IEphbnVhcnkgMjAxNCAxMjowMCBBTSwgUmljaGFyZCBQdXJkaWUgd3JvdGU6DQo+ID4+ID4gPg0K
-PiA+PiA+ID5PbiBUdWUsIDIwMTQtMDEtMDcgYXQgMDM6MDkgKzAwMDAsIFNpcGtlIFZyaWVuZCB3
-cm90ZToNCj4gPj4gPiA+PiBIaSwNCj4gPj4gPiA+PiANCj4gPj4gPiA+PiBUaGlzIFJGQyBpcyBh
-IHByb3Bvc2FsIHRvIGFsbG93IEJTUCBsYXllcnMgdG8gc2V0dXAgcWVtdSB3aXRoIHRoZWlyDQo+
-ID4+ID4gPj4gc3BlY2lmaWMgcmVxdWlyZW1lbnRzIGZvciB0aGUgdGVzdGltYWdlIG9lLWNvcmUg
-ZnVuY3Rpb25hbGl0eS4NCj4gPj4gPiA+PiBUaGUgc3VnZ2VzdGVkIGNoYW5nZXMgd2lsbCBiZSBl
-eGVyY2lzZWQgYnkgdGhlDQo+ID4+ID4gPj4gYml0YmFrZSAtYyB0ZXN0aW1hZ2UgPGltYWdlPg0K
-PiA+PiA+ID4+IGNvbW1hbmQuDQo+ID4+ID4gPj4gU2ltaWxhcmx5IHRvIHRoZSBvZXFhIHRlc3Qg
-Y2FzZXMgdGhpcyBwcm9wb3NhbCBleHRlbmRzIHRoZQ0KPiA+PiA+ID4+IG1ldGEvbGliL29lcWEN
-Cj4gPj4gPiA+PiBweXRob24gbW9kdWxlcyB0byBhbGxvdyBpbmNsdXNpb24gb2YgcHl0aG9uIHV0
-aWxpdHkgc2NyaXB0cyBpbiB0aGUgQlNQDQo+ID4+ID4gPj4gbGF5ZXJzLg0KPiA+PiA+ID4+IEFu
-eSBCU1AgbGF5ZXIgd2lzaGluZyB0byBzdXBwbHkgdGhlaXIgb3duIHFlbXUgc2V0dXAgd291bGQg
-bmVlZCB0bw0KPiA+PiA+ID4+IGNyZWF0ZQ0KPiA+PiA+ID4+IGFuIGFwcHJvcHJpYXRlIG1ldGEt
-YnNwbGF5ZXIvbGliL29lcWEvdXRpbHMvPG1hY2hpbmU+c3RhcnRlci5weQ0KPiA+PiA+ID4+IFRo
-ZSBlZmZlY3QgaXMgdGhhdCB0aGUgbGliL29lcWEvdXRpbHMvcWVtdXJ1bm5lciB3aWxsIGVpdGhl
-ciBhbGxvdyB0aGUNCj4gPj4gPiA+PiBic3AgbGF5ZXIgcHJvdmlkZWQgPG1hY2hpbmU+c3RhcnRl
-ciB0byBzcGF3biBxZW11IG9yIGlmIG5vdCBwcm92aWRlZCwNCj4gPj4gPiA+PiBzcGF3biBxZW11
-IHZpYSBydW5xZW11IGFzIGN1cnJlbnRseS4NCj4gPj4gPiA+PiBBbiBleGFtcGxlIGJzcCBsYXll
-ciBpcyBhdmFpbGFibGUgaGVyZToNCj4gPj4gPiA+PiBodHRwczovL2dpdGh1Yi5jb20vc2lwa2Uv
-bWV0YS14aWxpbngvdHJlZS9zaXBrZS9xZW11cnVubmVyDQo+ID4+ID4gPj4gd2l0aCBhbGwgcmVx
-dWlyZWQgYWRkaXRpb25zIGluIHRoZSBtZXRhLXhpbGlueC9saWIgZGlyZWN0b3J5Lg0KPiA+PiA+
-ID4+IA0KPiA+PiA+ID4+IFRoaXMgUkZDIGlzIHRyaWdnZXJlZCBieSBhbmQgaW5kaXJlY3RseSBy
-ZWxhdGVkIHRvDQo+ID4+ID4gPj4gQnVnemlsbGEgcmVwb3J0ICJydW5xZW11IHNob3VsZG4ndCBo
-YXJkLWNvZGUgbWFjaGluZSBrbm93bGVkZ2UiDQo+ID4+ID4gPj4gaHR0cHM6Ly9idWd6aWxsYS55
-b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNnaT9pZD00ODI3DQo+ID4+ID4gPg0KPiA+PiA+ID5X
-aHkgd291bGQgd2UgZG8gdGhpcyByYXRoZXIgdGhhbiBpbXByb3ZlIHJ1bnFlbXUgdG8gYmUgZXh0
-ZW5kYWJsZSBmcm9tDQo+ID4+ID4gPkJTUCBsYXllcnM/DQo+ID4+ID4gDQo+ID4+ID4gUHJvcG9z
-aW5nIGFzIGFuIGFkZGl0aW9uYWwgd2F5IHRvIGxhdW5jaCBxZW11IGZvciBvZXFhIHRlc3RpbWFn
-ZQ0KPiA+PiA+IGZ1bmN0aW9uYWxpdHksIEltcHJvdmluZyBydW5xZW11IGNhbiBhbmQgcHJvYmFi
-bHkgc2hvdWxkIHN0aWxsIGhhcHBlbi4NCj4gPj4gPiANCj4gPj4gPiBUbyBjb25zaWRlcjoNCj4g
-Pj4gPiAqIGl0IGtlZXBzIHRlc3RpbWFnZSBmdW5jdGlvbmFsaXR5IChmb3IgYnNwIGxheWVycyBz
-cGVjaWZpYyB0aGluZ3MpIGluDQo+ID4+ID4gdGhlIGxpYiBkaXJlY3RseSAoc2ltaWxhciB0byB0
-ZXN0IGNhc2VzKSBhbmQgYXMgcHl0aG9uLg0KPiA+PiA+ICogdGVzdGluZyAodmlhIHRlc3RpbWFn
-ZSkgbWF5IGhhdmUgYSBkaWZmZXJlbnQgcmVxdWlyZW1lbnQgdG8gdGhhdCBvZg0KPiA+PiA+IHJ1
-bm5pbmcgcnVucWVtdSBvbiB0aGUgY29tbWFuZCBsaW5lLCBzbyBhbiBhbHRlcm5hdGUgd2F5IHRv
-IGxhdW5jaCBxZW11DQo+ID4+ID4gY291bGQgYmUgdXNlZnVsLg0KPiA+PiA+ICogc2hvdWxkIHRo
-aXMgYXBwcm9hY2ggb2YgZXh0ZW5kaW5nIHRoZSBvZXFhIHRlc3RpbWFnZSBmdW5jdGlvbmFsaXR5
-DQo+ID4+ID4gaW50byBic3AgbGF5ZXJzIGJlIGFjY2VwdGVkLCB0aGlzIGNvdWxkIGFsbG93IGFs
-c28gZm9yIGJzcCBzcGVjaWZpYw0KPiA+PiA+IGhhcmR3YXJlIHNldHVwIGZvciB0ZXN0aW1hZ2Ug
-ZnVuY3Rpb25hbGl0eSBpbiBic3AgbGF5ZXJzLg0KPiA+PiA+IA0KPiA+PiA+IFByaW1hcnkgYWlt
-IGlzIGEgc29sdXRpb24gd2hpY2ggYWxsb3dzIHRoZSBic3AgbGF5ZXIgdG8gY29udHJvbCB0aGUN
-Cj4gPj4gPiBzZXR1cCBvZiBxZW11IChhbmQgZXZlbnR1YWxseSBoYXJkd2FyZSkgZm9yIHRlc3Rp
-bWFnZSBmdW5jdGlvbmFsaXR5LiBUaGlzDQo+ID4+ID4gaXMgYSBwcm9wb3NhbCB0b3dhcmRzIHRo
-YXQgZ29hbC4NCj4gPj4gDQo+ID4+IEkgdGhvdWdodCBTdGVmYW4gd2FzIGFscmVhZHkgYWxzbyB3
-b3JraW5nIG9uIHNvbWV0aGluZyB0b3dhcmRzIHRoaXMNCj4gPj4gZ29hbC4gSSdkIGxpa2UgdG8g
-ZW5zdXJlIHdlIGRvbid0IGVuZCB1cCB3aXRoIHR3byB0aGluZ3MgZG9pbmcgdGhlIHNhbWUNCj4g
-Pj4gdGhpbmcuDQo+ID4+IA0KPiA+PiBTdGVmYW4/DQo+ID4+IA0KPiANCj4gQWdyZWVkLiBPbmUg
-c29sdXRpb24gaXMgZGVzaXJlZC4gSGFwcHkgdG8gY29vcmRpbmF0ZSB3aXRoIGFuZCBhc3Npc3Qg
-U3RlZmFuLA0KPiBlaXRoZXIgaW1wbGVtZW50aW5nIHBhcnQgb2YgYSBzb2x1dGlvbiAocHJvcG9z
-ZWQgb25lIG9yIGFub3RoZXIpIGFuZC9vciANCj4gdGVzdGluZyB3aGF0ZXZlciBTdGVmYW4gY29t
-ZXMgdXAgd2l0aCBhZ2FpbnN0IG91ciBic3AgbGF5ZXIuDQoNCkknbSBzb3JyeSBmb3IgcmVwbHlp
-bmcgc28gbGF0ZSwgdGhpcyBoYXMgYmVlbiBhIHNsb3cgd2Vlay4gSSdtIGEgYml0DQpjb25mdXNl
-ZCBiZWNhdXNlIGxhc3QgdGltZSBJIGNoZWNrZWQgSSB3YXNuJ3Qgd29ya2luZyBvbiBzb21ldGhp
-bmcNCnNpbWlsYXIgOikgKGxheWVyLWNvbnRyb2xsZWQgcWVtdS9ic3Agc2V0dXApLCBidXQgSSdt
-IGhhcHB5IHRvIGhlbHAuDQoNCkkndmUgbG9va2VkIGF0IHRoZSBwYXRjaGVzIHRoZW1zZWx2ZXMs
-IGFuZCB0aGV5IGFyZSBva2F5LCBidXQgSSdtIG5vdA0Kc3VyZSBhIGxheWVyLXNwZWNpZmljIHFl
-bXUgc2V0dXAgZm9yIHRlc3RpbWFnZSBpcyB3aGF0IHdlIHNob3VsZCBkbyBpbg0KdGhlIGxvbmcg
-dGVybS4gTm93LCBJIGNhbiBzZWUgdGhlIHByb2JsZW0geW91IGFyZSB0cnlpbmcgdG8gZml4IGhl
-cmUgYW5kDQp3aHkgeW91IG5lZWQgdGhpcy4uLiBJIGFsd2F5cyBhc3N1bWVkIHRoYXQgYSBCU1Ag
-bGF5ZXIgaXMgbW9zdGx5IGFib3V0DQpyZWFsIGh3IGFuZCB0aGF0IHJ1bnFlbXUgd2lsbCBkZWFs
-IHdpdGggYW55IHFlbXUgbWFjaGluZS4gU28sIGFzIFJpY2hhcmQNCnNhaWQsIHdlIHNob3VsZCBw
-cm9iYWJseSBmaXggcnVucWVtdS4NCg0KTm93LCBJIHJlYWxseSBsaWtlIHRoZSBpZGVhIG9mIGEg
-bGF5ZXItY29udHJvbGxlZC9leHRlbmRhYmxlIHRhcmdldA0Kc2V0dXAgKGJlIGl0IHFlbXUgb3Ig
-aGFyZHdhcmUpIGFuZCBJIHRoaW5rIHdlIHNob3VsZCBhbGxvdyBhIGxheWVyIHRvDQpleHRlbmQg
-bGliL29lcWEvdGFyZ2V0Y29udHJvbC5weSBhbmQgcHJvdmlkZSAob3IgZXh0ZW5kKSBpdHMgb3du
-DQpURVNUX1RBUkdFVCAoYmVzaWRlcyBxZW11IGFuZCBzaW1wbGVyZW1vdGUpLiBUaGF0IHdpbGwg
-cHJvdmUgbW9yZSB1c2VmdWwNCmZvciBodyBzdHVmZiBhbmQgaXQgd2lsbCBhbGxvdyBhIGxheWVy
-IHRvIGNvbXBsZXRlbHkgY29udHJvbCBkZXBsb3ltZW50DQpvZiBhIHFlbXUgdGFyZ2V0IHRvbyAo
-ZGVwbG95LCBzdGFydCwgc3RvcCwgcnVubmluZyBjb21tYW5kcywgZXRjKS4gRS5nOg0KcGVyaGFw
-cyBhIGxheWVyIGRvZXNuJ3QgbGlrZSB0aGUgdXNlIG9mIHRoZSBleHQzIGltYWdlcyBmb3IgcWVt
-dSBhbmQNCm5lZWRzIHRvIHVzZSBzb21ldGhpbmcgZWxzZS4gVGhvdWdodHM/DQoNCkNoZWVycywN
-ClN0ZWZhbg0KDQoNCg0KDQoNCg0KDQoNCg==
+--089e0149c506666f8704ef8923f7
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Wed, Jan 8, 2014 at 10:32 PM, Martin Jansa <martin.jansa@gmail.com>wrote:
+
+> On Wed, Jan 08, 2014 at 11:21:08PM +0000, Paul Eggleton wrote:
+> > > In my opinion...
+> > >
+> > > Personally I would be in favour of removing GTK+ and the GNOME UI from
+> > > the core and putting them in their own layer for all the same reasons I
+> > > think Qt should be in its own layer:
+> > > - a "basic" image doesn't need them
+> > > - we can have different layers to track separate major releases (as
+> with
+> > > qt3, qt4, and qt5)
+> >
+> > The trouble is, if you have no toolkit at all, how do you test that X
+> still
+> > works properly? The selection we have provides a single unit allowing us
+> to
+> > test the entire stack reasonably well without having to add anything
+> else. I
+> > think that's a valuable thing to have.
+>
+> By testing oe-core + layer with X.
+>
+> Everybody else is using oe-core + couple of other layers, why do we need
+> to make oe-core testable with X _in single_ layer?
+>
+> I'm not saying that oe-core should be tested with 30 layers like my
+> world build, but why cannot AB have special build which builds
+>
+> oe-core + meta-xorg + meta-gnome
+>
+> and runs some runtime QA tests on that and then some other build with
+>
+> oe-core + meta-python
+>
+> for piglit tests?
+>
+> Is it limitation of AB scripts for builds that they cannot fetch other
+> layers so they need everything glued together with combo-layer?
+
+
+I full agree here; this would be more in line of what we communicate to our
+users and layers being a good and nice way to modularize the system...
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+--089e0149c506666f8704ef8923f7
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
+ed, Jan 8, 2014 at 10:32 PM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
+&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, Jan 08, 2014 at 11=
+:21:08PM +0000, Paul Eggleton wrote:<br>
+&gt; &gt; In my opinion...<br>
+&gt; &gt;<br>
+&gt; &gt; Personally I would be in favour of removing GTK+ and the GNOME UI=
+ from<br>
+&gt; &gt; the core and putting them in their own layer for all the same rea=
+sons I<br>
+&gt; &gt; think Qt should be in its own layer:<br>
+&gt; &gt; - a &quot;basic&quot; image doesn&#39;t need them<br>
+&gt; &gt; - we can have different layers to track separate major releases (=
+as with<br>
+&gt; &gt; qt3, qt4, and qt5)<br>
+&gt;<br>
+&gt; The trouble is, if you have no toolkit at all, how do you test that X =
+still<br>
+&gt; works properly? The selection we have provides a single unit allowing =
+us to<br>
+&gt; test the entire stack reasonably well without having to add anything e=
+lse. I<br>
+&gt; think that&#39;s a valuable thing to have.<br>
+<br>
+</div>By testing oe-core + layer with X.<br>
+<br>
+Everybody else is using oe-core + couple of other layers, why do we need<br=
+>
+to make oe-core testable with X _in single_ layer?<br>
+<br>
+I&#39;m not saying that oe-core should be tested with 30 layers like my<br>
+world build, but why cannot AB have special build which builds<br>
+<br>
+oe-core + meta-xorg + meta-gnome<br>
+<br>
+and runs some runtime QA tests on that and then some other build with<br>
+<br>
+oe-core + meta-python<br>
+<br>
+for piglit tests?<br>
+<br>
+Is it limitation of AB scripts for builds that they cannot fetch other<br>
+layers so they need everything glued together with combo-layer?</blockquote=
+><div><br></div><div>I full agree here; this would be more in line of what =
+we communicate to our users and layers being a good and nice way to modular=
+ize the system...=A0</div>
+</div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
+m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
+ref=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.ossystem=
+s.com.br</a><br>
+Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
+<br>
+</div></div>
+
+--089e0149c506666f8704ef8923f7--
