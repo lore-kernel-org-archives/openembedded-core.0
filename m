@@ -1,40 +1,57 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 96E666D145
+Return-Path: <nathan.rossi@xilinx.com>
+Received: from am1outboundpool.messaging.microsoft.com
+	(am1ehsobe004.messaging.microsoft.com [213.199.154.207])
+	by mail.openembedded.org (Postfix) with ESMTP id 98D056D1C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 00:32:40 +0000 (UTC)
-Received: by mail-ee0-f41.google.com with SMTP id t10so1013801eei.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2014 16:32:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=k3Eg6Fmk5xrmtxx3X+k7UCaARWIOc0vZ7ylgpXwYI4Q=;
-	b=oOZTg+0ywCHaCIJX4ePVosOsAiJawYhqYLCYscgZPYDMwlIn2FKD2TsECPAlKme8m5
-	xanToSS0W0NiHR2qEpRsBEU0b5gyhD6zjoYjxfb19RXrhVZ5qcLNUAvbMlK81jeP1oE1
-	0NuBawE9FrmwOkM0ImUwdKUFmazvLebo+L6KRP5SaEOBF14ohzqeTUZvs6S7bPMxHFGi
-	AGoTf6KFAwSc33LYmE+0G822RPdmg8qI7qPfqIjsMdx4UCfJXeT+V92NJl2SdiVqBDpH
-	yG/YO7Liy9dSrZ+V+z0mfF6m49b+IjQzXyCgpu8FBN/ImprvqztqCUYtduJiGsgKe//n
-	Fo0g==
-X-Received: by 10.14.3.1 with SMTP id 1mr107291eeg.94.1389227560954;
-	Wed, 08 Jan 2014 16:32:40 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id v7sm723240eel.2.2014.01.08.16.32.39
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 Jan 2014 16:32:40 -0800 (PST)
-Date: Thu, 9 Jan 2014 01:32:51 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20140109003251.GD3709@jama>
-References: <52CC470A.9030302@linaro.org> <1759035.6JVm74GdRW@helios>
-	<52CD9CAB.5020501@linaro.org> <3583228.liS9SqzWlO@helios>
+	Thu,  9 Jan 2014 03:54:16 +0000 (UTC)
+Received: from mail55-am1-R.bigfish.com (10.3.201.249) by
+	AM1EHSOBE014.bigfish.com (10.3.207.136) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 9 Jan 2014 03:54:16 +0000
+Received: from mail55-am1 (localhost [127.0.0.1])	by mail55-am1-R.bigfish.com
+	(Postfix) with ESMTP id 7F57738046F;
+	Thu,  9 Jan 2014 03:54:16 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
+	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
+X-SpamScore: -6
+X-BigFish: VPS-6(z579ehz98dI9371I1431J936eI542I1432Izz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzz1de098h8275bh8275dh1de097hz2fh95h109h839h93fhd24hf0ah119dh1288h12a5h12a9h12bdh137ah13b6h1441h14ddh1504h1537h153bh162dh1631h1758h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5h2216h2336h2438h906i1155h)
+Received-SPF: pass (mail55-am1: domain of xilinx.com designates 149.199.60.83
+	as permitted sender) client-ip=149.199.60.83;
+	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
+	helo=xsj-gw1 ; 
+Received: from mail55-am1 (localhost.localdomain [127.0.0.1]) by mail55-am1
+	(MessageSwitch) id 1389239654890136_12425;
+	Thu,  9 Jan 2014 03:54:14 +0000 (UTC)
+Received: from AM1EHSMHS019.bigfish.com (unknown [10.3.201.237])	by
+	mail55-am1.bigfish.com (Postfix) with ESMTP id CBC8560048;
+	Thu,  9 Jan 2014 03:54:14 +0000 (UTC)
+Received: from xsj-gw1 (149.199.60.83) by AM1EHSMHS019.bigfish.com
+	(10.3.207.157) with Microsoft SMTP Server id 14.16.227.3;
+	Thu, 9 Jan 2014 03:54:14 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
+	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
+	<nathan.rossi@xilinx.com>)	id
+	1W16hB-0004Lx-T2; Wed, 08 Jan 2014 19:54:13 -0800
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] ptest.bblass: Fix package QA issues when
+	disabled
+Thread-Index: AQHPDHFcbQxBCLJCbEqnfquyxOxRTJp7vslw
+Date: Thu, 9 Jan 2014 03:54:11 +0000
+References: <d7cb4e9a-2926-44a2-b789-a31612162a44@TX2EHSMHS014.ehs.local>
+	<1389185889.6899.96.camel@ted>
+In-Reply-To: <1389185889.6899.96.camel@ted>
+Accept-Language: en-AU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.164.59]
 MIME-Version: 1.0
-In-Reply-To: <3583228.liS9SqzWlO@helios>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Qt in OE-core
+X-RCIS-Action: ALLOW
+Message-ID: <9312228c-9258-4154-ac00-aa54b832f9b3@AM1EHSMHS019.ehs.local>
+X-OriginatorOrg: xilinx.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ptest.bblass: Fix package QA issues when disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,67 +64,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 00:32:42 -0000
-X-Groupsio-MsgNum: 48741
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="1YtYzP3stTOlsn9I"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 Jan 2014 03:54:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---1YtYzP3stTOlsn9I
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
+bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IFdlZG5lc2Rh
+eSwgSmFudWFyeSAwOCwgMjAxNCAxMDo1OCBQTQ0KPiBUbzogTmF0aGFuIFJvc3NpDQo+IENjOiBv
+cGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBb
+T0UtY29yZV0gW1BBVENIXSBwdGVzdC5iYmxhc3M6IEZpeCBwYWNrYWdlIFFBIGlzc3VlcyB3aGVu
+DQo+IGRpc2FibGVkDQo+IA0KPiBPbiBXZWQsIDIwMTQtMDEtMDggYXQgMTc6MDUgKzEwMDAsIE5h
+dGhhbiBSb3NzaSB3cm90ZToNCj4gPiBXaGVuIHRoZSBwdGVzdCBkaXN0cm8gZmVhdHVyZSBpcyBk
+aXNhYmxlZCwgYSBwdGVzdCBkaXJlY3RvcnkgaXMgc3RpbGwNCj4gPiBjcmVhdGVkIGluIHRoZSBp
+bnN0YWxsIHBoYXNlLCBUaGlzIGRpcmVjdG9yeSBpcyBub3QgY2xlYW5lZCB1cCBvcg0KPiA+IGNv
+bnN1bWVkIGJ5IGFueSBwYWNrYWdlIGFuZCB3aWxsIHRocm93IGEgUUEgZXJyb3IsIGUuZy4NCj4g
+Pg0KPiA+IEVSUk9SOiBRQSBJc3N1ZTogZ2xpYi0yLjA6IEZpbGVzL2RpcmVjdG9yaWVzIHdlcmUg
+aW5zdGFsbGVkIGJ1dCBub3QNCj4gPiBzaGlwcGVkDQo+ID4gICAvdXNyL2xpYi9nbGliLTIuMC9w
+dGVzdA0KPiA+IEVSUk9SOiBRQSBydW4gZm91bmQgZmF0YWwgZXJyb3JzLiBQbGVhc2UgY29uc2lk
+ZXIgZml4aW5nIHRoZW0uDQo+ID4gRVJST1I6IEZ1bmN0aW9uIGZhaWxlZDogZG9fcGFja2FnZV9x
+YQ0KPiA+DQo+ID4gVGhpcyBpcyBjYXVzZWQgYnkgdGhlIGRvX2luc3RhbGxfcHRlc3RfYmFzZVtj
+bGVhbmRpcnNdIHRhc2sgZmxhZyB3aGljaA0KPiA+IGlzIG5vdCBzZXR1cCB0byBiZSBjb25kaXRp
+b25hbCBvbiBwdGVzdCBiZWluZyBlbmFibGVkLiBUaGlzIHBhdGNoDQo+ID4gY2hhbmdlcyB0aGUg
+dGFzayBmbGFnIHRvIGVtaXQgdGhlIGNsZWFuZGlycyBwYXRoIG9ubHkgd2hlbiB0aGUgcHRlc3QN
+Cj4gPiBkaXN0cm8gZmVhdHVyZSBpcyBlbmFibGVkLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTog
+TmF0aGFuIFJvc3NpIDxuYXRoYW4ucm9zc2lAeGlsaW54LmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0
+YS9jbGFzc2VzL3B0ZXN0LmJiY2xhc3MgfCAgICAyICstDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEv
+Y2xhc3Nlcy9wdGVzdC5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3B0ZXN0LmJiY2xhc3MNCj4gPiBp
+bmRleCBlYzEwZjgwLi4zNDUwMDg1IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9wdGVz
+dC5iYmNsYXNzDQo+ID4gKysrIGIvbWV0YS9jbGFzc2VzL3B0ZXN0LmJiY2xhc3MNCj4gPiBAQCAt
+NDksNyArNDksNyBAQCBkb19pbnN0YWxsX3B0ZXN0X2Jhc2UoKSB7DQo+ID4gICAgICBmaQ0KPiA+
+ICB9DQo+ID4NCj4gPiAtZG9faW5zdGFsbF9wdGVzdF9iYXNlW2NsZWFuZGlyc10gPSAiJHtEfSR7
+UFRFU1RfUEFUSH0iDQo+ID4gK2RvX2luc3RhbGxfcHRlc3RfYmFzZVtjbGVhbmRpcnNdID0gIiR7
+QFsnJywNCj4gJyR7RH0ke1BURVNUX1BBVEh9J11bKGQuZ2V0VmFyKCdQVEVTVF9FTkFCTEVEJywg
+VHJ1ZSkgb3IgJycpID09ICcxJ119Ig0KPiA+DQo+ID4gIGFkZHRhc2sgY29uZmlndXJlX3B0ZXN0
+X2Jhc2UgYWZ0ZXIgZG9fY29uZmlndXJlIGJlZm9yZSBkb19jb21waWxlDQo+ID4gIGFkZHRhc2sg
+Y29tcGlsZV9wdGVzdF9iYXNlICAgYWZ0ZXIgZG9fY29tcGlsZSAgIGJlZm9yZSBkb19pbnN0YWxs
+DQo+IA0KPiBIb3cgYWJvdXQgd2UgdXNlIHRoZSBuZXcgYWRkL2RlbHRhc2sgYXBpIHRvIGNvbmRp
+dGlvbmFsbHkgYWRkIHRoZXNlDQo+IHRhc2tzIG9ubHkgd2hlbiBwdGVzdCBpcyBlbmFibGVkPw0K
+DQpKdXN0IHdhbnRlZCB0byBkb3VibGUgY2hlY2ssIGJ5IGFkZC9kZWx0YXNrIHlvdSBhcmUgcmVm
+ZXJyaW5nIHRvIGNhbGxpbmcgdGhlIGJiLmJ1aWxkLip0YXNrKCkgZnVuY3Rpb25zIGluIGFuIGFu
+b255bW91cyBmdW5jdGlvbiBjb3JyZWN0Pw0KDQo+IA0KPiBUaGUgbnVtYmVyIG9mIGNvbmRpdGlv
+bmFscyBpbiB0aGVyZSBpcyBnZXR0aW5nIHNpbGx5Li4uDQoNCldoZW4gSSByZXNwaW4gdGhlIHBh
+dGNoIEkgd2lsbCByZWZhY3RvciB0aGUgb3RoZXIgY29uZGl0aW9uYWxzIHN1Y2ggdGhhdCBpdCBy
+ZW1vdmVzIGFsbCBwdGVzdF9iYXNlIHRhc2tzIHdoZW4gZGlzYWJsZWQgaW5zdGVhZCBvZiB0aGUg
+Y29uZGl0aW9uYWwgY2hlY2tzIGluIGVhY2ggdGFzay4NCg0KUmVnYXJkcywNCk5hdGhhbg0KDQoK
+Cg==
 
-On Wed, Jan 08, 2014 at 11:21:08PM +0000, Paul Eggleton wrote:
-> > In my opinion...
-> >=20
-> > Personally I would be in favour of removing GTK+ and the GNOME UI from
-> > the core and putting them in their own layer for all the same reasons I
-> > think Qt should be in its own layer:
-> > - a "basic" image doesn't need them
-> > - we can have different layers to track separate major releases (as with
-> > qt3, qt4, and qt5)
->=20
-> The trouble is, if you have no toolkit at all, how do you test that X sti=
-ll=20
-> works properly? The selection we have provides a single unit allowing us =
-to=20
-> test the entire stack reasonably well without having to add anything else=
-=2E I=20
-> think that's a valuable thing to have.
 
-By testing oe-core + layer with X.
 
-Everybody else is using oe-core + couple of other layers, why do we need
-to make oe-core testable with X _in single_ layer?
-
-I'm not saying that oe-core should be tested with 30 layers like my
-world build, but why cannot AB have special build which builds
-
-oe-core + meta-xorg + meta-gnome
-
-and runs some runtime QA tests on that and then some other build with
-
-oe-core + meta-python
-
-for piglit tests?
-
-Is it limitation of AB scripts for builds that they cannot fetch other
-layers so they need everything glued together with combo-layer?
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---1YtYzP3stTOlsn9I
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLN7jMACgkQN1Ujt2V2gBzDcACfW9O0mJqjbXgw0qcCoOeoEd0I
-lMkAn1N2dFO0iodIEDAIhbE+EakqKmpM
-=Ai2b
------END PGP SIGNATURE-----
-
---1YtYzP3stTOlsn9I--
