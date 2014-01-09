@@ -1,36 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qe0-f45.google.com (mail-qe0-f45.google.com
-	[209.85.128.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1822B60E33
+Return-Path: <corneliux.stoicescu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 44994601AA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 10:14:58 +0000 (UTC)
-Received: by mail-qe0-f45.google.com with SMTP id 6so2882835qea.32
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2014 02:14:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=f7i3NBYJ0MHWzj+e5zXEMu7jzwGc7FkpzQzyKneqxqc=;
-	b=gp/Z5qQbTCN+aiuCeRR4UdYUFpT8J6AZrb5UZa6ummInJWyMw8S57Ld+0YhBGQjmuM
-	iQMn3OvRczs5KnCWdwQKqjJU4uUo73AECkqyFgctvn2gNxf8K7LdXHI1HCvMbpqhMMMt
-	74aySSIixVGSNmnnclBM6Rv4aCAWbhrRtuerzIrG0axS0UBWZgRI5cBpgm4IEpGt9PiK
-	434CaPWJ1npIgnjZsEDqXi0EL7WKg/T3z3FKOOvE1qUp3de4nqvkp4lwNeaKpirVqPpC
-	Kof1WG2stfebVTzYi+ICxOBTQls8qv52Cmqakum5A1WIdVYOweteqdBCU2Q8jyRPuZj/
-	RNlQ==
-X-Gm-Message-State: ALoCoQlyAwcxnawhtDIWBqlNGGZOuGJQ2okgVYndN2sECnofC+o66gXrsuA8m49VgMduY2PmMv0w
-X-Received: by 10.229.65.5 with SMTP id g5mr5729800qci.15.1389262498562; Thu,
-	09 Jan 2014 02:14:58 -0800 (PST)
+	Thu,  9 Jan 2014 10:46:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Jan 2014 02:42:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,630,1384329600"; d="scan'208";a="436257190"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by orsmga001.jf.intel.com with ESMTP; 09 Jan 2014 02:46:08 -0800
+Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 9 Jan 2014 10:46:07 +0000
+Received: from irsmsx103.ger.corp.intel.com ([169.254.3.66]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.169]) with mapi id
+	14.03.0123.003; Thu, 9 Jan 2014 10:46:07 +0000
+From: "Stoicescu, CorneliuX" <corneliux.stoicescu@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH V2] Modify buildstats to be merged inside
+	buildhistory
+Thread-Index: AQHPCvh2YRR2GBOAqUCmGkQ1n5Lnupp7Gl2AgAENmzA=
+Date: Thu, 9 Jan 2014 10:46:07 +0000
+Message-ID: <33115ABC4887814E8A92A08FBC93416B0A1C545E@IRSMSX103.ger.corp.intel.com>
+References: <1389028342-23264-1-git-send-email-corneliux.stoicescu@intel.com>
+	<1389202585.19102.1.camel@ted>
+In-Reply-To: <1389202585.19102.1.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-Received: by 10.96.179.105 with HTTP; Thu, 9 Jan 2014 02:14:38 -0800 (PST)
-In-Reply-To: <1389255953-8202-1-git-send-email-ting.wang@windriver.com>
-References: <1389255953-8202-1-git-send-email-ting.wang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Jan 2014 10:14:38 +0000
-Message-ID: <CAJTo0LZ6p1nn5PGTbsqKevRKSehbcftqGJ=akrKfWeb44OsYCA@mail.gmail.com>
-To: ting.wang@windriver.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oeqa][PATCH] lib/oeqa/runtime: add test for gzip
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] Modify buildstats to be merged inside buildhistory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 10:14:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 09 Jan 2014 10:46:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 9 January 2014 08:25,  <ting.wang@windriver.com> wrote:
-> Function tests:
-> 1)gzip compress file
-> 2)compressed file integrity check
-> 3)zcat compress file
-> 4)gzip decompress file
-
-Wouldn't this be better implemented as a ptest for gzip?  The qemu
-image tests are more concerned with image-wide functionality that
-can't be unit tested independently, but verifying that gzip works can
-be.
-
-Also, your test simply verifies that the commands execute, not that
-the contents is what you expect: a gzip that produced corrupted
-archives wouldn't be detected by this test.
-
-Finally, as I learnt yesterday, the skipUnlessPassed decorator isn't
-used to enforce ordering, so test_gzip_fun1_compress only runs after
-_create_testfile because it sorts that way alphabetically, not because
-of your decorators.  As creating a file isn't a test, just do that in
-the test itself.
-
-Ross
+PiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9idWlsZGhpc3RvcnkuYmJjbGFzcw0KPiA+ICsrKyBiL21l
+dGEvY2xhc3Nlcy9idWlsZGhpc3RvcnkuYmJjbGFzcw0KPiA+IEBAIC0xNiw5ICsxNiwxMiBAQCBC
+VUlMREhJU1RPUllfSU1BR0VfRklMRVMgPz0gIi9ldGMvcGFzc3dkDQo+IC9ldGMvZ3JvdXAiDQo+
+ID4gIEJVSUxESElTVE9SWV9DT01NSVQgPz0gIjAiDQo+ID4gIEJVSUxESElTVE9SWV9DT01NSVRf
+QVVUSE9SID89ICJidWlsZGhpc3RvcnkNCj4gPGJ1aWxkaGlzdG9yeUAke0RJU1RST30+Ig0KPiA+
+ICBCVUlMREhJU1RPUllfUFVTSF9SRVBPID89ICIiDQo+ID4gK0JVSUxEU1RBVFNfQkFTRSA9ICIk
+e0JVSUxESElTVE9SWV9ESVJ9L2J1aWxkc3RhdHMiDQo+ID4NCj4gPiAgU1NUQVRFUE9TVElOU1RG
+VU5DUyArPSAiYnVpbGRoaXN0b3J5X2VtaXRfcGtnaGlzdG9yeSINCj4gPg0KPiA+ICtpbmhlcml0
+IGJ1aWxkc3RhdHMNCj4gPiArDQo+IA0KPiBJIGRvbid0IHRoaW5rIHdlIG5lZWQgdGhpcyBpbmhl
+cml0IGxpbmUuIFRoZSB1c2VyIGNhbiBzdGlsbCBkZWNpZGUgd2hldGhlciB0bw0KPiBpbmNsdWRl
+IGl0IG9yIG5vdCwgaWYgaXQgaXMgaW5jbHVkZWQsIGl0IGNhbiBiZSB1bmRlciBidWlsZGhpc3Rv
+cnkgY29udHJvbC4gU28gaXQNCj4gc2hvdWxkIGJlIHNhZmUgc2ltcGx5IHRvIHJlbW92ZSBpdC4N
+Cj4gDQoNClJlbW92aW5nIHRoaXMgaW5oZXJpdCBhbmQgdXNpbmcgdGhlIG1hbnVhbCBzdWdnZXN0
+ZWQgc3RlcHMgdG8gYWN0aXZhdGUgYnVpbGRoaXN0b3J5IGluIGxvY2FsLmNvbmY6DQoiDQpJTkhF
+UklUICs9ICJidWlsZGhpc3RvcnkiDQpCVUlMREhJU1RPUllfQ09NTUlUID0gIjEiDQoiDQoNCldp
+bGwgcmVzdWx0IGluIGJ1aWxkaGlzdG9yeSBiZWluZyBpbmhlcml0ZWQgYmVmb3JlIGJ1aWxkc3Rh
+dHM6DQoiDQpjb3JuZWxATk9ERTE6fi9TU0QvcG9reS9idWlsZCQgYml0YmFrZSAtZSB8IGdyZXAg
+J0lOSEVSSVQ9Jw0KSU5IRVJJVD0iIGJ1aWxkaGlzdG9yeSBwb2t5LXNhbml0eSBwYWNrYWdlX3Jw
+bSBidWlsZHN0YXRzIGltYWdlLW1rbGlicyBpbWFnZS1wcmVsaW5rIGRlYmlhbiBkZXZzaGVsbCBz
+c3RhdGUgbGljZW5zZSBzYW5pdHkiDQoiDQoNClRoaXMgd2lsbCBjYXVzZSBwYXJ0IG9mIHRoZSBi
+dWlsZF9zdGF0cyBmaWxlKHdoaWNoIGlzIHdyaXR0ZW4gYXQgdGhlIGVuZCBvZiB0aGUgYnVpbGQp
+IHRvIGJlIGxlZnQgb3V0IG9mIHRoZSBjb21taXRzIHdoZW4gZ2l0IGlzIHVzZWQgZm9yIGJ1aWxk
+aGlzdG9yeToNCiINCmNvcm5lbEBOT0RFMTp+L1NTRC9wb2t5L2J1aWxkL2J1aWxkaGlzdG9yeSQg
+Z2l0IHN0YXR1cw0KIyBPbiBicmFuY2ggbWFzdGVyDQojIENoYW5nZXMgbm90IHN0YWdlZCBmb3Ig
+Y29tbWl0Og0KIyAgICh1c2UgImdpdCBhZGQgPGZpbGU+Li4uIiB0byB1cGRhdGUgd2hhdCB3aWxs
+IGJlIGNvbW1pdHRlZCkNCiMgICAodXNlICJnaXQgY2hlY2tvdXQgLS0gPGZpbGU+Li4uIiB0byBk
+aXNjYXJkIGNoYW5nZXMgaW4gd29ya2luZyBkaXJlY3RvcnkpDQojDQojICAgICAgIG1vZGlmaWVk
+OiAgIGJ1aWxkc3RhdHMvY29yZS1pbWFnZS1taW5pbWFsLXFlbXV4ODYtNjQvMjAxNDAxMDkxMTIz
+L2J1aWxkX3N0YXRzDQojDQpubyBjaGFuZ2VzIGFkZGVkIHRvIGNvbW1pdCAodXNlICJnaXQgYWRk
+IiBhbmQvb3IgImdpdCBjb21taXQgLWEiKQ0KIg0KDQpBbiBlYXN5IHdheSB0byBhdm9pZCB0aGlz
+IGlzIHRvIGFjdGl2YXRlIGJ1aWxkaGlzdG9yeSBieSBhZGRpbmcgaXQgYWZ0ZXIgYnVpbGRzdGF0
+cyBpbiBVU0VSX0NMQVNTRVMgaW4gbG9jYWwuY29uZjoNCiINClVTRVJfQ0xBU1NFUyA/PSAiYnVp
+bGRzdGF0cyBpbWFnZS1ta2xpYnMgaW1hZ2UtcHJlbGluayBidWlsZGhpc3RvcnkiDQoiDQpPcg0K
+Ig0KVVNFUl9DTEFTU0VTICs9ICJidWlsZGhpc3RvcnkiDQoiDQoNClNvIGluIG9yZGVyIHRvIG1h
+a2UgdGhpcyB3b3JrLCB3ZSBlaXRoZXIgY2hhbmdlIHRoZSBzdWdnZXN0ZWQgd2F5IHRvIGVuYWJs
+ZSBidWlsZGhpc3Rvcnkgb3IgZmluZCBhIHdvcmthcm91bmQgaW4gY29kZS4NCg0KUmVnYXJkcywN
+CkNvcm5lbGl1DQoNCg==
 
