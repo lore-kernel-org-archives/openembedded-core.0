@@ -1,28 +1,39 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id D787E6D122
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 96E666D145
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 00:06:48 +0000 (UTC)
-Received: (qmail 22186 invoked by uid 1003); 9 Jan 2014 00:06:49 -0000
-Received: from unknown (HELO ?192.168.1.122?)
-	(philip@opensdr.com@71.171.41.155)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	9 Jan 2014 00:06:49 -0000
-Message-ID: <52CDE818.1010906@balister.org>
-Date: Wed, 08 Jan 2014 19:06:48 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu,  9 Jan 2014 00:32:40 +0000 (UTC)
+Received: by mail-ee0-f41.google.com with SMTP id t10so1013801eei.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jan 2014 16:32:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=k3Eg6Fmk5xrmtxx3X+k7UCaARWIOc0vZ7ylgpXwYI4Q=;
+	b=oOZTg+0ywCHaCIJX4ePVosOsAiJawYhqYLCYscgZPYDMwlIn2FKD2TsECPAlKme8m5
+	xanToSS0W0NiHR2qEpRsBEU0b5gyhD6zjoYjxfb19RXrhVZ5qcLNUAvbMlK81jeP1oE1
+	0NuBawE9FrmwOkM0ImUwdKUFmazvLebo+L6KRP5SaEOBF14ohzqeTUZvs6S7bPMxHFGi
+	AGoTf6KFAwSc33LYmE+0G822RPdmg8qI7qPfqIjsMdx4UCfJXeT+V92NJl2SdiVqBDpH
+	yG/YO7Liy9dSrZ+V+z0mfF6m49b+IjQzXyCgpu8FBN/ImprvqztqCUYtduJiGsgKe//n
+	Fo0g==
+X-Received: by 10.14.3.1 with SMTP id 1mr107291eeg.94.1389227560954;
+	Wed, 08 Jan 2014 16:32:40 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id v7sm723240eel.2.2014.01.08.16.32.39
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 Jan 2014 16:32:40 -0800 (PST)
+Date: Thu, 9 Jan 2014 01:32:51 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20140109003251.GD3709@jama>
 References: <52CC470A.9030302@linaro.org> <1759035.6JVm74GdRW@helios>
 	<52CD9CAB.5020501@linaro.org> <3583228.liS9SqzWlO@helios>
-	<1389225459.19102.57.camel@ted>
-In-Reply-To: <1389225459.19102.57.camel@ted>
-X-Enigmail-Version: 1.6
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
+MIME-Version: 1.0
+In-Reply-To: <3583228.liS9SqzWlO@helios>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: Qt in OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,112 +47,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 00:06:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jan 2014 00:32:42 -0000
+X-Groupsio-MsgNum: 48741
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="1YtYzP3stTOlsn9I"
+Content-Disposition: inline
 
-On 01/08/2014 06:57 PM, Richard Purdie wrote:
-> On Wed, 2014-01-08 at 23:21 +0000, Paul Eggleton wrote:
->> On Wednesday 08 January 2014 13:44:59 Trevor Woerner wrote:
->>> On 01/08/14 10:56, Paul Eggleton wrote:
->>>> However, one concern I have always had with Qt being moved out of
->>>> OE-Core though is that I very much doubt the same will happen with
->>>> GTK+ and GNOME UI components that we carry, which I think will lead to
->>>> the (perhaps erroneous, but logical) assumption in new users' minds
->>>> that we support or recommend these more than we do Qt. Given Qt's
->>>> popularity in the embedded space I don't think this would be the right
->>>> message to be sending out. Any concrete ideas on how we would address
->>>> this perception issue?
->>>
->>> Would it be worthwhile to ask that the OE TSC take on the task of
->>> defining what is "core" and what is not? Does this definition already exist?
->>
->> If we can't come up with a consensus here, then yes. The trouble is one 
->> person's idea of "core" is likely going to be very different to another's. If 
->> your UI is written using Qt, that's going to be core to what you are doing. If 
->> your UI is a custom one written using SDL you won't give two hoots about 
->> recipes for building Qt/GTK+ and everything related. Where do you draw the 
->> line?
->>
->> Although it hasn't been rigorously defined since the beginning and there are 
->> definitely some fuzzy edges, I think the selection of recipes in OE-Core has 
->> worked reasonably well. We should stop from time to time to evaluate it, but 
->> equally we should think carefully before we pull the whole thing to pieces.
-> 
-> Agreed. Its nice from a theoretical perspective to stand and say yes,
-> there should be all these layers. The reality is a lot of the stack has
-> fairly tangled and crossed up dependencies.
+--1YtYzP3stTOlsn9I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-When making a new layer, we should think hard about what layers it needs
-to depends on. Layers should try not to lead to exploding depends.
+On Wed, Jan 08, 2014 at 11:21:08PM +0000, Paul Eggleton wrote:
+> > In my opinion...
+> >=20
+> > Personally I would be in favour of removing GTK+ and the GNOME UI from
+> > the core and putting them in their own layer for all the same reasons I
+> > think Qt should be in its own layer:
+> > - a "basic" image doesn't need them
+> > - we can have different layers to track separate major releases (as with
+> > qt3, qt4, and qt5)
+>=20
+> The trouble is, if you have no toolkit at all, how do you test that X sti=
+ll=20
+> works properly? The selection we have provides a single unit allowing us =
+to=20
+> test the entire stack reasonably well without having to add anything else=
+=2E I=20
+> think that's a valuable thing to have.
 
-I am developing a concept in my head of a set of layers it is "safe" to
-depend on.
+By testing oe-core + layer with X.
 
-Philip
+Everybody else is using oe-core + couple of other layers, why do we need
+to make oe-core testable with X _in single_ layer?
 
-> 
-> I'm much more interested to look at things and say "which are the mostly
-> commonly used pieces of software which a significant number of systems
-> would use"?
-> 
-> Not every system has a screen, not every system has networking etc. but
-> there is a common "core" OS which is used in most places and I think
-> OE-Core should be aiming to provide those basics.
-> 
-> LSB is one guideline we can use for reference of trends. Gut feeling and
-> experience are other factors that feed into this.
-> 
-> There are then other elements. I'm on record as strongly believing its
-> not enough to have a software stack, we need to test it too and that
-> having test capability in the core should be a key value. This isn't
-> something found traditionally in desktop Linux however it is key to what
-> we do and we therefore should differ here. (I should explain that by the
-> fact we allow so much customisation, being able to easily test the
-> output is important).
-> 
-> There is also another element which is one of the Yocto Project's
-> objectives. This is to focus people around creating a small number of
-> good tools rather than many all with some bad points. Its not
-> specifically an OE objective but OE-Core is a collaboration between OE
-> and the Yocto Project and I think it should be taken into account (and
-> is a good thing in general for embedded Linux in general too).
-> 
-> Piglit is interesting in that context since it would be nice to focus
-> around one way of testing GL rather than having many different ways. If
-> putting piglit into OE-Core helps that objective then I'm in favour for
-> that reason too.
-> 
-> So whilst its good to ask the questions, I do think what we have in
-> OE-Core is pretty good and I wouldn't like to hastily change what seems
-> to be working quite well at least from where I see it, particularly to
-> satisfy some "clean" separation idea which looks good on paper but is
-> less useful in the real world. Regardless of what we do, there are going
-> to be edge cases and at the end of the day someone has to make a call.
-> In the case of OE-Core that is ultimately down to me as the maintainer
-> and the TSC.
-> 
-> We've made choices to remove some things, we've also made decisions to
-> add others and this will continue and is healthy. With piglit, I'm
-> leaning more in favour the more I think about it. With meta-qt5 its
-> still marginal. The wishes of the existing meta-qt5 maintainers need to
-> be taken into account there too.
-> 
-> The TSC have discussed this before and to one extent or another these
-> points come up. I'm more than happy for others to add to the list or
-> correct the above but this is probably as good a description of the core
-> as you're going to get. Its simply not possible to avoid corner cases
-> and there always will be some grey areas. Personally I think there are
-> other things we need to spend time on beyond this.
-> 
-> Cheers,
-> 
-> Richard
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
+I'm not saying that oe-core should be tested with 30 layers like my
+world build, but why cannot AB have special build which builds
 
+oe-core + meta-xorg + meta-gnome
+
+and runs some runtime QA tests on that and then some other build with
+
+oe-core + meta-python
+
+for piglit tests?
+
+Is it limitation of AB scripts for builds that they cannot fetch other
+layers so they need everything glued together with combo-layer?
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--1YtYzP3stTOlsn9I
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLN7jMACgkQN1Ujt2V2gBzDcACfW9O0mJqjbXgw0qcCoOeoEd0I
+lMkAn1N2dFO0iodIEDAIhbE+EakqKmpM
+=Ai2b
+-----END PGP SIGNATURE-----
+
+--1YtYzP3stTOlsn9I--
