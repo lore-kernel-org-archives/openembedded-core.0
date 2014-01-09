@@ -1,44 +1,33 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 53F9F6028A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id AE62F60D03
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 11:18:27 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W1Dd4-0006WN-O2
-	for openembedded-core@lists.openembedded.org;
-	Thu, 09 Jan 2014 12:18:28 +0100
-Message-ID: <1389266306.9182.124.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 09 Jan 2014 11:18:26 +0000
-X-Mailer: Evolution 3.8.5-2+b1 
+	Thu,  9 Jan 2014 11:41:02 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s09BevQ5014806; Thu, 9 Jan 2014 11:40:57 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 0pORpyAoan4G; Thu,  9 Jan 2014 11:40:57 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s09Bes3p014802
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Thu, 9 Jan 2014 11:40:56 GMT
+Message-ID: <1389267649.19102.110.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Nathan Rossi <nathan.rossi@xilinx.com>
+Date: Thu, 09 Jan 2014 11:40:49 +0000
+In-Reply-To: <9312228c-9258-4154-ac00-aa54b832f9b3@AM1EHSMHS019.ehs.local>
+References: <d7cb4e9a-2926-44a2-b789-a31612162a44@TX2EHSMHS014.ehs.local>
+	<1389185889.6899.96.camel@ted>
+	<9312228c-9258-4154-ac00-aa54b832f9b3@AM1EHSMHS019.ehs.local>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview: The qemu tarball ships some extraneous .git metadata
-	in the dtc/ and pixman/ subfolders,
-	containing a reference to the path "../.git/modules"
-	which doesn't exist. The presence of these files will confuse git if it
-	happens
-	to recurse into the qemu source folder during an operation on some
-	parent
-	directory, for example "git clean" at a higher level. Avoid that problem
-	(mostly) by removing them immediately after the sources are unpacked.
-	[...] Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] qemu: Remove stray .git files after unpacking
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ptest.bblass: Fix package QA issues when disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,44 +40,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 11:18:27 -0000
+X-List-Received-Date: Thu, 09 Jan 2014 11:41:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The qemu tarball ships some extraneous .git metadata in the dtc/ and pixman/ 
-subfolders, containing a reference to the path "../.git/modules" which
-doesn't exist.  The presence of these files will confuse git if it happens
-to recurse into the qemu source folder during an operation on some parent
-directory, for example "git clean" at a higher level.  Avoid that problem
-(mostly) by removing them immediately after the sources are unpacked.
+On Thu, 2014-01-09 at 03:54 +0000, Nathan Rossi wrote:
+> > -----Original Message-----
+> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> > Sent: Wednesday, January 08, 2014 10:58 PM
+> > To: Nathan Rossi
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] ptest.bblass: Fix package QA issues when
+> > disabled
+> > 
+> > On Wed, 2014-01-08 at 17:05 +1000, Nathan Rossi wrote:
+> > > When the ptest distro feature is disabled, a ptest directory is still
+> > > created in the install phase, This directory is not cleaned up or
+> > > consumed by any package and will throw a QA error, e.g.
+> > >
+> > > ERROR: QA Issue: glib-2.0: Files/directories were installed but not
+> > > shipped
+> > >   /usr/lib/glib-2.0/ptest
+> > > ERROR: QA run found fatal errors. Please consider fixing them.
+> > > ERROR: Function failed: do_package_qa
+> > >
+> > > This is caused by the do_install_ptest_base[cleandirs] task flag which
+> > > is not setup to be conditional on ptest being enabled. This patch
+> > > changes the task flag to emit the cleandirs path only when the ptest
+> > > distro feature is enabled.
+> > >
+> > > Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+> > > ---
+> > >  meta/classes/ptest.bbclass |    2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+> > > index ec10f80..3450085 100644
+> > > --- a/meta/classes/ptest.bbclass
+> > > +++ b/meta/classes/ptest.bbclass
+> > > @@ -49,7 +49,7 @@ do_install_ptest_base() {
+> > >      fi
+> > >  }
+> > >
+> > > -do_install_ptest_base[cleandirs] = "${D}${PTEST_PATH}"
+> > > +do_install_ptest_base[cleandirs] = "${@['',
+> > '${D}${PTEST_PATH}'][(d.getVar('PTEST_ENABLED', True) or '') == '1']}"
+> > >
+> > >  addtask configure_ptest_base after do_configure before do_compile
+> > >  addtask compile_ptest_base   after do_compile   before do_install
+> > 
+> > How about we use the new add/deltask api to conditionally add these
+> > tasks only when ptest is enabled?
+> 
+> Just wanted to double check, by add/deltask you are referring to
+> calling the bb.build.*task() functions in an anonymous function
+> correct?
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
----
- meta/recipes-devtools/qemu/qemu_1.6.1.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Yes.
 
-diff --git a/meta/recipes-devtools/qemu/qemu_1.6.1.bb b/meta/recipes-devtools/qemu/qemu_1.6.1.bb
-index 03e28a0..b5cd61e 100644
---- a/meta/recipes-devtools/qemu/qemu_1.6.1.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.6.1.bb
-@@ -11,6 +11,14 @@ SRC_URI[sha256sum] = "fc736f44aa10478223c881310a7e40fc8386547e9cadf7d01ca4685951
- 
- COMPATIBLE_HOST_class-target_mips64 = "null"
- 
-+do_sanitize_sources() {
-+    # These .git files point to a nonexistent path "../.git/modules" and will confuse git
-+    # if it tries to recurse into those directories.
-+    rm -f ${S}/dtc/.git ${S}/pixman/.git
-+}
-+
-+addtask sanitize_sources after do_unpack before do_patch
-+
- do_install_append() {
-     # Prevent QA warnings about installed ${localstatedir}/run
-     if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir}/run; fi
--- 
-1.8.5
+> > The number of conditionals in there is getting silly...
+> 
+> When I respin the patch I will refactor the other conditionals such
+> that it removes all ptest_base tasks when disabled instead of the
+> conditional checks in each task.
 
+Sounds good, this should be much neater!
 
+Cheers,
+
+Richard
 
 
