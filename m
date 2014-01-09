@@ -1,41 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 86FD06A463;
-	Thu,  9 Jan 2014 15:22:56 +0000 (UTC)
-Received: by mail-ee0-f41.google.com with SMTP id e53so334275eek.28
-	for <multiple recipients>; Thu, 09 Jan 2014 07:22:57 -0800 (PST)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
+	[209.85.219.43])
+	by mail.openembedded.org (Postfix) with ESMTP id DB7916B8FE
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Jan 2014 15:34:20 +0000 (UTC)
+Received: by mail-oa0-f43.google.com with SMTP id m1so3565290oag.16
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jan 2014 07:34:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=h4JRpu883ugmFukZ6EUUrhu6J0uWbckC06cBBD1MnUc=;
-	b=ULya+uEx7sJBtiAvqWNfg7lu3u1+K3wSJ9uw/p/nQpYXTBxvCh8/DwFk4OJ6nCMdlu
-	HrFcjPFsKCBlM5KuJGE+2N/1orPzOBC27skgiCvKR/tfWTr6jBGO4hVT8t+LdL62YnRJ
-	Schq8MK3T8AdRlDyHNx7zGqsg4ARpGCSFmcvtIOFj3ImRXFEWHPOECXXZIVNUuAX4YWy
-	Go0FwQDk4XzZ27bNOXyNQAAU8Z79W1vjPqtqUuFC+TRfnn5IglKfiku+1T6K8WPP26L9
-	ZGJY+7/rzz1ULFT3z4u3olv955O1n2/+O6JHt4qoJfEAEvgKibT2XJrE4QcYyaPFaZ6L
-	sRBw==
-X-Received: by 10.15.53.200 with SMTP id r48mr3589622eew.111.1389280977113;
-	Thu, 09 Jan 2014 07:22:57 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id e43sm6415389eep.7.2014.01.09.07.22.56
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 Jan 2014 07:22:56 -0800 (PST)
-Date: Thu, 9 Jan 2014 16:23:08 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
-Message-ID: <20140109152308.GI3709@jama>
-References: <20140109144626.GG3709@jama>
-	<CALbNGRQ5jDLUA80jmXeoHU8g-0k04UwgXGtdjL3xTJdG6heSKg@mail.gmail.com>
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=EGSe2P0B18Qq61nT6pVSo3wOzYwygCi0s6BrPJ3yvFo=;
+	b=Zii6rahiJKK0no/sSTbuRdmCZQ/sMfc4BAGOGZHSEv0p8qiBxw22rZl4a7nEeLn93l
+	HUZNJoPGU4ooI16SsmSMkWoKmGObAquY0GaZtI2n9lnchSHI1a4jegbMMGQw1DLdmqOK
+	3+ulJ4RFUhfc05a/QoEzgq+U5D+eoW7pyRVqn7VnTOUWPzY3RSb1FeIDM3XEW7YtbnEN
+	W9/AULCYRUrPrx60pyKGnX98XwOYNwgPpQrr7misD2Zu66zNQRPm5ud5mhmje2u6keNw
+	JKppN/v/aDysr1oiSEWWi60r4TYWQrl1SY+5sfjmHYnz64QtyJy07i8Y4Fd0kAw6D0JO
+	w+0g==
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRQ5jDLUA80jmXeoHU8g-0k04UwgXGtdjL3xTJdG6heSKg@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+X-Received: by 10.60.63.235 with SMTP id j11mr1741237oes.61.1389281661597;
+	Thu, 09 Jan 2014 07:34:21 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 9 Jan 2014 07:34:21 -0800 (PST)
+In-Reply-To: <52CEBB27.10709@linaro.org>
+References: <52CDDD3E.7040508@linaro.org>
+	<52CE8075.8040700@communistcode.co.uk> <52CEBB27.10709@linaro.org>
+Date: Thu, 9 Jan 2014 13:34:21 -0200
+X-Google-Sender-Auth: vlkJJZ0NmOo11zri-jPxyiQ5lPo
+Message-ID: <CAP9ODKpxHnLq1PLJJp2LsGt4WGD9Q159Jo_nQnNNaLy1gzDXSw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Trevor Woerner <trevor.woerner@linaro.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world, Failed tasks 2014-01-09
+Subject: Re: bug scrub - RFC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,61 +45,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 15:22:57 -0000
-X-Groupsio-MsgNum: 48772
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="x2HNTtYOBsOEDsnN"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 Jan 2014 15:34:22 -0000
+Content-Type: multipart/alternative; boundary=001a11c24dbceebd9504ef8b57a7
 
---x2HNTtYOBsOEDsnN
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--001a11c24dbceebd9504ef8b57a7
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Thu, Jan 9, 2014 at 1:07 PM, Trevor Woerner <trevor.woerner@linaro.org>wrote:
+
+> On 01/09/14 05:56, Jack Mitchell wrote:
+> > On 08/01/14 23:20, Trevor Woerner wrote:
+> >> questions:
+> >> 1) Currently it has been suggested this should be a 2-day event, should
+> >> these two days be during the week or over a weekend? In either case,
+> >> which 2 days?
+> >>
+> > If it's two days long then why don't you do the best of both worlds and
+> > have a Friday/Saturday or Sunday/Monday combination?
+>
+> I was thinking of doing it either fully during the week, or fully on a
+> weekend since my feeling is that most people either work with OE/Yocto
+> during the weekdays or on the weekend. There's nothing to say we
+> couldn't run this "bug scrub" during the week, then run a second "bug
+> scrub" 2 months from now on a weekend (or visa versa).
+
+
+Maybe mix it, Friday, Saturday, Sunday, Monday.
+
+So we give in a single 'event' opportunity to both.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+--001a11c24dbceebd9504ef8b57a7
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 09, 2014 at 04:12:52PM +0100, Andreas M=FCller wrote:
-> On Thu, Jan 9, 2014 at 3:46 PM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> > http://www.openembedded.org/wiki/Bitbake_World_Status
-> >
-> > =3D=3D Failed tasks 2014-01-09 =3D=3D
-> >
-> > =3D=3D=3D common (6) =3D=3D=3D
-> >     * meta-openembedded/meta-efl/recipes-efl/webkit/webkit-efl_svn.bb, =
-do_configure
-> >     * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_g=
-it.bb, do_fetch
-> >     * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_=
-compile
-> >     * meta-openembedded/meta-oe/recipes-extended/gnuplot/gnuplot_4.4.4.=
-bb, do_compile
-> >     * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, =
-do_compile
-> >     * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_compile
->=20
-> I have problems with qtwayland too and think that I am close to
-> understand what's going on (on 5.2 branch). Where do I find logs for
-> this error?
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Thu, Jan 9, 2014 at 1:07 PM, Trevor Woerner <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:trevor.woerner@linaro.org" target=3D"_blank">trevor.woe=
+rner@linaro.org</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On 01/09/14 05:56, Jack Mi=
+tchell wrote:<br>
+&gt; On 08/01/14 23:20, Trevor Woerner wrote:<br>
+</div><div class=3D"im">&gt;&gt; questions:<br>
+&gt;&gt; 1) Currently it has been suggested this should be a 2-day event, s=
+hould<br>
+&gt;&gt; these two days be during the week or over a weekend? In either cas=
+e,<br>
+&gt;&gt; which 2 days?<br>
+&gt;&gt;<br>
+&gt; If it&#39;s two days long then why don&#39;t you do the best of both w=
+orlds and<br>
+&gt; have a Friday/Saturday or Sunday/Monday combination?<br>
+<br>
+</div>I was thinking of doing it either fully during the week, or fully on =
+a<br>
+weekend since my feeling is that most people either work with OE/Yocto<br>
+during the weekdays or on the weekend. There&#39;s nothing to say we<br>
+couldn&#39;t run this &quot;bug scrub&quot; during the week, then run a sec=
+ond &quot;bug<br>
+scrub&quot; 2 months from now on a weekend (or visa versa).</blockquote><di=
+v><br></div><div>Maybe mix it, Friday, Saturday, Sunday, Monday.</div><div>=
+<br></div><div>So we give in a single &#39;event&#39; opportunity to both.<=
+/div>
+<div>=A0</div></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.com=
+.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a hr=
+ef=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.ossystems=
+.com.br</a><br>
+Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
+<br>
+</div></div>
 
-Links for each machine are on the bottom of the e-mail:
-
-http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/...
-
-qtwayland builds for me fine with oe-core only and also in qt5-5.2.0 +
-webos-ports, so I haven't looked much into it yet.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---x2HNTtYOBsOEDsnN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLOvtwACgkQN1Ujt2V2gBy2GwCguVo9m6C1feKr5BxhXxayTBFP
-j0QAoIXTxnerCLekI+sviVRVe4qQ8V7P
-=MUGe
------END PGP SIGNATURE-----
-
---x2HNTtYOBsOEDsnN--
+--001a11c24dbceebd9504ef8b57a7--
