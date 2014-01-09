@@ -1,58 +1,29 @@
-Return-Path: <sipke.vriend@xilinx.com>
-Received: from db8outboundpool.messaging.microsoft.com
-	(mail-db8lp0189.outbound.messaging.microsoft.com [213.199.154.189])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FDA26D23C
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id D787E6D122
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 00:02:05 +0000 (UTC)
-Received: from mail61-db8-R.bigfish.com (10.174.8.254) by
-	DB8EHSOBE019.bigfish.com (10.174.4.82) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 9 Jan 2014 00:02:05 +0000
-Received: from mail61-db8 (localhost [127.0.0.1])	by mail61-db8-R.bigfish.com
-	(Postfix) with ESMTP id 30E50120175;
-	Thu,  9 Jan 2014 00:02:05 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: -5
-X-BigFish: VPS-5(zzdb82h98dI9371I936eI542I1432I1418Izz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzz8275bh8275dh1de097h186068hz2fh95h109h839h93fhd24hf0ah119dh1288h12a5h12a9h12bdh137ah13b6h1441h14ddh1504h1537h153bh162dh1631h1758h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5h2216h2336h2438h906i1155h)
-Received-SPF: pass (mail61-db8: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=sipke.vriend@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail61-db8 (localhost.localdomain [127.0.0.1]) by mail61-db8
-	(MessageSwitch) id 1389225722775830_4848;
-	Thu,  9 Jan 2014 00:02:02 +0000 (UTC)
-Received: from DB8EHSMHS004.bigfish.com (unknown [10.174.8.245])	by
-	mail61-db8.bigfish.com (Postfix) with ESMTP id B8ED4A8004E;
-	Thu,  9 Jan 2014 00:02:02 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by DB8EHSMHS004.bigfish.com
-	(10.174.4.14) with Microsoft SMTP Server id 14.16.227.3; Thu, 9 Jan 2014
-	00:02:01 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
-	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
-	<sipke.vriend@xilinx.com>)	id
-	1W134T-0001mO-8M; Wed, 08 Jan 2014 16:02:01 -0800
-From: Sipke Vriend <sipke.vriend@xilinx.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [RFC OE-core/meta/lib] BSP Specific Qemurunner
-Thread-Index: Ac8LTyM0cuP22wbdSB+YsK2jQLLpIwABYWywACfGLYAAASlFIAAvfbeAAAFklgAABH0cUA==
-Date: Thu, 9 Jan 2014 00:01:59 +0000
-References: <9bd39deb-0a32-437a-9f50-89abfe43d7d6@CO1EHSMHS004.ehs.local>
-	<00beaba3-2d15-4d36-936c-88fd8734ed8a@CO1EHSMHS012.ehs.local>
-	<1389186761.6899.99.camel@ted> <3240985.EsWr8javTQ@helios>
-In-Reply-To: <3240985.EsWr8javTQ@helios>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.164.27]
+	Thu,  9 Jan 2014 00:06:48 +0000 (UTC)
+Received: (qmail 22186 invoked by uid 1003); 9 Jan 2014 00:06:49 -0000
+Received: from unknown (HELO ?192.168.1.122?)
+	(philip@opensdr.com@71.171.41.155)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	9 Jan 2014 00:06:49 -0000
+Message-ID: <52CDE818.1010906@balister.org>
+Date: Wed, 08 Jan 2014 19:06:48 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
 MIME-Version: 1.0
-X-RCIS-Action: ALLOW
-Message-ID: <9217bc49-4fb4-4640-a7ae-1babd6cf17a8@DB8EHSMHS004.ehs.local>
-X-OriginatorOrg: xilinx.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC OE-core/meta/lib] BSP Specific Qemurunner
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <52CC470A.9030302@linaro.org> <1759035.6JVm74GdRW@helios>
+	<52CD9CAB.5020501@linaro.org> <3583228.liS9SqzWlO@helios>
+	<1389225459.19102.57.camel@ted>
+In-Reply-To: <1389225459.19102.57.camel@ted>
+X-Enigmail-Version: 1.6
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Qt in OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,80 +36,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 00:02:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 09 Jan 2014 00:06:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-T24gV2VkbmVzZGF5LCA4IEphbnVhcnkgMjAxNCAxMTo1MyBQTSBQYXVsIEVnZ2xldG9uIHdyb3Rl
-Og0KPg0KPk9uIFdlZG5lc2RheSAwOCBKYW51YXJ5IDIwMTQgMTM6MTI6NDEgUmljaGFyZCBQdXJk
-aWUgd3JvdGU6DQo+PiBPbiBUdWUsIDIwMTQtMDEtMDcgYXQgMjI6NTkgKzAwMDAsIFNpcGtlIFZy
-aWVuZCB3cm90ZToNCj4+ID4gSGkgUmljaGFyZCwNCj4+ID4gDQo+PiA+ID4tLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPj4gPiA+T24gV2VkbmVzZGF5LCA4IEphbnVhcnkgMjAxNCAxMjowMCBB
-TSwgUmljaGFyZCBQdXJkaWUgd3JvdGU6DQo+PiA+ID4NCj4+ID4gPk9uIFR1ZSwgMjAxNC0wMS0w
-NyBhdCAwMzowOSArMDAwMCwgU2lwa2UgVnJpZW5kIHdyb3RlOg0KPj4gPiA+PiBIaSwNCj4+ID4g
-Pj4gDQo+PiA+ID4+IFRoaXMgUkZDIGlzIGEgcHJvcG9zYWwgdG8gYWxsb3cgQlNQIGxheWVycyB0
-byBzZXR1cCBxZW11IHdpdGggdGhlaXINCj4+ID4gPj4gc3BlY2lmaWMgcmVxdWlyZW1lbnRzIGZv
-ciB0aGUgdGVzdGltYWdlIG9lLWNvcmUgZnVuY3Rpb25hbGl0eS4NCj4+ID4gPj4gVGhlIHN1Z2dl
-c3RlZCBjaGFuZ2VzIHdpbGwgYmUgZXhlcmNpc2VkIGJ5IHRoZQ0KPj4gPiA+PiBiaXRiYWtlIC1j
-IHRlc3RpbWFnZSA8aW1hZ2U+DQo+PiA+ID4+IGNvbW1hbmQuDQo+PiA+ID4+IFNpbWlsYXJseSB0
-byB0aGUgb2VxYSB0ZXN0IGNhc2VzIHRoaXMgcHJvcG9zYWwgZXh0ZW5kcyB0aGUNCj4+ID4gPj4g
-bWV0YS9saWIvb2VxYQ0KPj4gPiA+PiBweXRob24gbW9kdWxlcyB0byBhbGxvdyBpbmNsdXNpb24g
-b2YgcHl0aG9uIHV0aWxpdHkgc2NyaXB0cyBpbiB0aGUgQlNQDQo+PiA+ID4+IGxheWVycy4NCj4+
-ID4gPj4gQW55IEJTUCBsYXllciB3aXNoaW5nIHRvIHN1cHBseSB0aGVpciBvd24gcWVtdSBzZXR1
-cCB3b3VsZCBuZWVkIHRvDQo+PiA+ID4+IGNyZWF0ZQ0KPj4gPiA+PiBhbiBhcHByb3ByaWF0ZSBt
-ZXRhLWJzcGxheWVyL2xpYi9vZXFhL3V0aWxzLzxtYWNoaW5lPnN0YXJ0ZXIucHkNCj4+ID4gPj4g
-VGhlIGVmZmVjdCBpcyB0aGF0IHRoZSBsaWIvb2VxYS91dGlscy9xZW11cnVubmVyIHdpbGwgZWl0
-aGVyIGFsbG93IHRoZQ0KPj4gPiA+PiBic3AgbGF5ZXIgcHJvdmlkZWQgPG1hY2hpbmU+c3RhcnRl
-ciB0byBzcGF3biBxZW11IG9yIGlmIG5vdCBwcm92aWRlZCwNCj4+ID4gPj4gc3Bhd24gcWVtdSB2
-aWEgcnVucWVtdSBhcyBjdXJyZW50bHkuDQo+PiA+ID4+IEFuIGV4YW1wbGUgYnNwIGxheWVyIGlz
-IGF2YWlsYWJsZSBoZXJlOg0KPj4gPiA+PiBodHRwczovL2dpdGh1Yi5jb20vc2lwa2UvbWV0YS14
-aWxpbngvdHJlZS9zaXBrZS9xZW11cnVubmVyDQo+PiA+ID4+IHdpdGggYWxsIHJlcXVpcmVkIGFk
-ZGl0aW9ucyBpbiB0aGUgbWV0YS14aWxpbngvbGliIGRpcmVjdG9yeS4NCj4+ID4gPj4gDQo+PiA+
-ID4+IFRoaXMgUkZDIGlzIHRyaWdnZXJlZCBieSBhbmQgaW5kaXJlY3RseSByZWxhdGVkIHRvDQo+
-PiA+ID4+IEJ1Z3ppbGxhIHJlcG9ydCAicnVucWVtdSBzaG91bGRuJ3QgaGFyZC1jb2RlIG1hY2hp
-bmUga25vd2xlZGdlIg0KPj4gPiA+PiBodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcv
-c2hvd19idWcuY2dpP2lkPTQ4MjcNCj4+ID4gPg0KPj4gPiA+V2h5IHdvdWxkIHdlIGRvIHRoaXMg
-cmF0aGVyIHRoYW4gaW1wcm92ZSBydW5xZW11IHRvIGJlIGV4dGVuZGFibGUgZnJvbQ0KPj4gPiA+
-QlNQIGxheWVycz8NCj4+ID4gDQo+PiA+IFByb3Bvc2luZyBhcyBhbiBhZGRpdGlvbmFsIHdheSB0
-byBsYXVuY2ggcWVtdSBmb3Igb2VxYSB0ZXN0aW1hZ2UNCj4+ID4gZnVuY3Rpb25hbGl0eSwgSW1w
-cm92aW5nIHJ1bnFlbXUgY2FuIGFuZCBwcm9iYWJseSBzaG91bGQgc3RpbGwgaGFwcGVuLg0KPj4g
-PiANCj4+ID4gVG8gY29uc2lkZXI6DQo+PiA+ICogaXQga2VlcHMgdGVzdGltYWdlIGZ1bmN0aW9u
-YWxpdHkgKGZvciBic3AgbGF5ZXJzIHNwZWNpZmljIHRoaW5ncykgaW4NCj4+ID4gdGhlIGxpYiBk
-aXJlY3RseSAoc2ltaWxhciB0byB0ZXN0IGNhc2VzKSBhbmQgYXMgcHl0aG9uLg0KPj4gPiAqIHRl
-c3RpbmcgKHZpYSB0ZXN0aW1hZ2UpIG1heSBoYXZlIGEgZGlmZmVyZW50IHJlcXVpcmVtZW50IHRv
-IHRoYXQgb2YNCj4+ID4gcnVubmluZyBydW5xZW11IG9uIHRoZSBjb21tYW5kIGxpbmUsIHNvIGFu
-IGFsdGVybmF0ZSB3YXkgdG8gbGF1bmNoIHFlbXUNCj4+ID4gY291bGQgYmUgdXNlZnVsLg0KPj4g
-PiAqIHNob3VsZCB0aGlzIGFwcHJvYWNoIG9mIGV4dGVuZGluZyB0aGUgb2VxYSB0ZXN0aW1hZ2Ug
-ZnVuY3Rpb25hbGl0eQ0KPj4gPiBpbnRvIGJzcCBsYXllcnMgYmUgYWNjZXB0ZWQsIHRoaXMgY291
-bGQgYWxsb3cgYWxzbyBmb3IgYnNwIHNwZWNpZmljDQo+PiA+IGhhcmR3YXJlIHNldHVwIGZvciB0
-ZXN0aW1hZ2UgZnVuY3Rpb25hbGl0eSBpbiBic3AgbGF5ZXJzLg0KPj4gPiANCj4+ID4gUHJpbWFy
-eSBhaW0gaXMgYSBzb2x1dGlvbiB3aGljaCBhbGxvd3MgdGhlIGJzcCBsYXllciB0byBjb250cm9s
-IHRoZQ0KPj4gPiBzZXR1cCBvZiBxZW11IChhbmQgZXZlbnR1YWxseSBoYXJkd2FyZSkgZm9yIHRl
-c3RpbWFnZSBmdW5jdGlvbmFsaXR5LiBUaGlzDQo+PiA+IGlzIGEgcHJvcG9zYWwgdG93YXJkcyB0
-aGF0IGdvYWwuDQo+PiANCj4+IEkgdGhvdWdodCBTdGVmYW4gd2FzIGFscmVhZHkgYWxzbyB3b3Jr
-aW5nIG9uIHNvbWV0aGluZyB0b3dhcmRzIHRoaXMNCj4+IGdvYWwuIEknZCBsaWtlIHRvIGVuc3Vy
-ZSB3ZSBkb24ndCBlbmQgdXAgd2l0aCB0d28gdGhpbmdzIGRvaW5nIHRoZSBzYW1lDQo+PiB0aGlu
-Zy4NCj4+IA0KPj4gU3RlZmFuPw0KPj4gDQoNCkFncmVlZC4gT25lIHNvbHV0aW9uIGlzIGRlc2ly
-ZWQuIEhhcHB5IHRvIGNvb3JkaW5hdGUgd2l0aCBhbmQgYXNzaXN0IFN0ZWZhbiwNCmVpdGhlciBp
-bXBsZW1lbnRpbmcgcGFydCBvZiBhIHNvbHV0aW9uIChwcm9wb3NlZCBvbmUgb3IgYW5vdGhlcikg
-YW5kL29yIA0KdGVzdGluZyB3aGF0ZXZlciBTdGVmYW4gY29tZXMgdXAgd2l0aCBhZ2FpbnN0IG91
-ciBic3AgbGF5ZXIuDQoNCj4+IFRvIGJlIGNsZWFyLCBJIHdvdWxkIGxpa2UgdG8gc2VlIHJ1bnFl
-bXUgZW5oYW5jZWQgc28gQlNQIGxheWVycyBjYW4NCj4+IGV4dGVuZCBpdCwgSSB0aGluayB0aGF0
-IHdvdWxkIGJlIHVzZWZ1bCBmb3IgZXZlcnlvbmUuIE9uY2Ugd2UndmUgZG9uZQ0KPj4gdGhhdCwg
-SSdkIGxpa2UgdG8gcmV2aXNpdCB0aGUgcWVtdSBhYnN0cmFjdGlvbiBpbiB0ZXN0aW1hZ2UgYW5k
-IGZpZ3VyZQ0KPj4gb3V0IHdoYXQgY2hhbmdlcyBpdCBuZWVkcy4gU29tZSBtYXkgYmUgcmVxdWly
-ZWQsIHNvbWUgbWF5IG5vdCBpZiB3ZSBmaXgNCj4+IHJ1bnFlbXUgZmlyc3QsIEknbSB1bmNsZWFy
-IGZyb20gdGhlc2UgY29tbWl0cyB3aGF0IHRob3NlIHdvdWxkIGJlDQo+PiB0aG91Z2guDQo+DQo+
-RldJVyBJIGFncmVlLCB3ZSBuZWVkIHRvIGhhdmUgdGhlIEJTUC1zcGVjaWZpYyBmdW5jdGlvbmFs
-aXR5IGluIHJ1bnFlbXUgYW5kIA0KPnRoZW4gd2hhdCB3ZSBkbyB3aXRoIFFlbXVSdW5uZXIgd2ls
-bCBmb2xsb3cgb24gZnJvbSB0aGF0LiBJIHRoaW5rIHRoZSBvdGhlciANCg0KSG9wZWZ1bGx5IHRo
-ZSBCU1Atc3BlY2lmaWMgcGFydHMgKGNvbmZpZyBmaWxlcyBvciBzY3JpcHRzKSB3aWxsIGJlIGlu
-IHRoZSBic3ANCmxheWVyLg0KSXMgdGhlIEVUQSBvZiB0aGlzIHN0aWxsIDEuNi1NND8NCg0KPnBh
-dGNoZXMgaW4gdGhlIHNlcmllcyB0byBkbyB3aXRoIHNldHRpbmcgdXNlci9wb3J0IHNob3VsZCBi
-ZSBPSyB0byBjb25zaWRlciANCj5pbmRlcGVuZGVudGx5IG9mIHRoaXMsIHRob3VnaC4NCj4NCj5D
-aGVlcnMsDQo+UGF1bA0KPg0KPi0tIA0KPg0KPlBhdWwgRWdnbGV0b24NCj5JbnRlbCBPcGVuIFNv
-dXJjZSBUZWNobm9sb2d5IENlbnRyZQ0KPg0KPg0KCgo=
+On 01/08/2014 06:57 PM, Richard Purdie wrote:
+> On Wed, 2014-01-08 at 23:21 +0000, Paul Eggleton wrote:
+>> On Wednesday 08 January 2014 13:44:59 Trevor Woerner wrote:
+>>> On 01/08/14 10:56, Paul Eggleton wrote:
+>>>> However, one concern I have always had with Qt being moved out of
+>>>> OE-Core though is that I very much doubt the same will happen with
+>>>> GTK+ and GNOME UI components that we carry, which I think will lead to
+>>>> the (perhaps erroneous, but logical) assumption in new users' minds
+>>>> that we support or recommend these more than we do Qt. Given Qt's
+>>>> popularity in the embedded space I don't think this would be the right
+>>>> message to be sending out. Any concrete ideas on how we would address
+>>>> this perception issue?
+>>>
+>>> Would it be worthwhile to ask that the OE TSC take on the task of
+>>> defining what is "core" and what is not? Does this definition already exist?
+>>
+>> If we can't come up with a consensus here, then yes. The trouble is one 
+>> person's idea of "core" is likely going to be very different to another's. If 
+>> your UI is written using Qt, that's going to be core to what you are doing. If 
+>> your UI is a custom one written using SDL you won't give two hoots about 
+>> recipes for building Qt/GTK+ and everything related. Where do you draw the 
+>> line?
+>>
+>> Although it hasn't been rigorously defined since the beginning and there are 
+>> definitely some fuzzy edges, I think the selection of recipes in OE-Core has 
+>> worked reasonably well. We should stop from time to time to evaluate it, but 
+>> equally we should think carefully before we pull the whole thing to pieces.
+> 
+> Agreed. Its nice from a theoretical perspective to stand and say yes,
+> there should be all these layers. The reality is a lot of the stack has
+> fairly tangled and crossed up dependencies.
 
+When making a new layer, we should think hard about what layers it needs
+to depends on. Layers should try not to lead to exploding depends.
 
+I am developing a concept in my head of a set of layers it is "safe" to
+depend on.
+
+Philip
+
+> 
+> I'm much more interested to look at things and say "which are the mostly
+> commonly used pieces of software which a significant number of systems
+> would use"?
+> 
+> Not every system has a screen, not every system has networking etc. but
+> there is a common "core" OS which is used in most places and I think
+> OE-Core should be aiming to provide those basics.
+> 
+> LSB is one guideline we can use for reference of trends. Gut feeling and
+> experience are other factors that feed into this.
+> 
+> There are then other elements. I'm on record as strongly believing its
+> not enough to have a software stack, we need to test it too and that
+> having test capability in the core should be a key value. This isn't
+> something found traditionally in desktop Linux however it is key to what
+> we do and we therefore should differ here. (I should explain that by the
+> fact we allow so much customisation, being able to easily test the
+> output is important).
+> 
+> There is also another element which is one of the Yocto Project's
+> objectives. This is to focus people around creating a small number of
+> good tools rather than many all with some bad points. Its not
+> specifically an OE objective but OE-Core is a collaboration between OE
+> and the Yocto Project and I think it should be taken into account (and
+> is a good thing in general for embedded Linux in general too).
+> 
+> Piglit is interesting in that context since it would be nice to focus
+> around one way of testing GL rather than having many different ways. If
+> putting piglit into OE-Core helps that objective then I'm in favour for
+> that reason too.
+> 
+> So whilst its good to ask the questions, I do think what we have in
+> OE-Core is pretty good and I wouldn't like to hastily change what seems
+> to be working quite well at least from where I see it, particularly to
+> satisfy some "clean" separation idea which looks good on paper but is
+> less useful in the real world. Regardless of what we do, there are going
+> to be edge cases and at the end of the day someone has to make a call.
+> In the case of OE-Core that is ultimately down to me as the maintainer
+> and the TSC.
+> 
+> We've made choices to remove some things, we've also made decisions to
+> add others and this will continue and is healthy. With piglit, I'm
+> leaning more in favour the more I think about it. With meta-qt5 its
+> still marginal. The wishes of the existing meta-qt5 maintainers need to
+> be taken into account there too.
+> 
+> The TSC have discussed this before and to one extent or another these
+> points come up. I'm more than happy for others to add to the list or
+> correct the above but this is probably as good a description of the core
+> as you're going to get. Its simply not possible to avoid corner cases
+> and there always will be some grey areas. Personally I think there are
+> other things we need to spend time on beyond this.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
 
