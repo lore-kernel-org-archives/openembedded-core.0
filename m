@@ -1,49 +1,41 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E1256A463
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 15:17:04 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1W1HLy-0006am-Jc; Thu, 09 Jan 2014 16:17:02 +0100
-Message-ID: <1389280620.9182.134.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 09 Jan 2014 15:17:00 +0000
-In-Reply-To: <20140109003251.GD3709@jama>
-References: <52CC470A.9030302@linaro.org> <1759035.6JVm74GdRW@helios>
-	<52CD9CAB.5020501@linaro.org> <3583228.liS9SqzWlO@helios>
-	<20140109003251.GD3709@jama>
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Thu, 2014-01-09 at 01:32 +0100,
-	Martin Jansa wrote: > I'm
-	not saying that oe-core should be tested with 30 layers like my > world
-	build, 
-	but why cannot AB have special build which builds > > oe-core +
-	meta-xorg
-	+ meta-gnome > > and runs some runtime QA tests on that and then some
-	other
-	build with > > oe-core + meta-python > > for piglit tests? [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Qt in OE-core
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 86FD06A463;
+	Thu,  9 Jan 2014 15:22:56 +0000 (UTC)
+Received: by mail-ee0-f41.google.com with SMTP id e53so334275eek.28
+	for <multiple recipients>; Thu, 09 Jan 2014 07:22:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=h4JRpu883ugmFukZ6EUUrhu6J0uWbckC06cBBD1MnUc=;
+	b=ULya+uEx7sJBtiAvqWNfg7lu3u1+K3wSJ9uw/p/nQpYXTBxvCh8/DwFk4OJ6nCMdlu
+	HrFcjPFsKCBlM5KuJGE+2N/1orPzOBC27skgiCvKR/tfWTr6jBGO4hVT8t+LdL62YnRJ
+	Schq8MK3T8AdRlDyHNx7zGqsg4ARpGCSFmcvtIOFj3ImRXFEWHPOECXXZIVNUuAX4YWy
+	Go0FwQDk4XzZ27bNOXyNQAAU8Z79W1vjPqtqUuFC+TRfnn5IglKfiku+1T6K8WPP26L9
+	ZGJY+7/rzz1ULFT3z4u3olv955O1n2/+O6JHt4qoJfEAEvgKibT2XJrE4QcYyaPFaZ6L
+	sRBw==
+X-Received: by 10.15.53.200 with SMTP id r48mr3589622eew.111.1389280977113;
+	Thu, 09 Jan 2014 07:22:57 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id e43sm6415389eep.7.2014.01.09.07.22.56
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Jan 2014 07:22:56 -0800 (PST)
+Date: Thu, 9 Jan 2014 16:23:08 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Message-ID: <20140109152308.GI3709@jama>
+References: <20140109144626.GG3709@jama>
+	<CALbNGRQ5jDLUA80jmXeoHU8g-0k04UwgXGtdjL3xTJdG6heSKg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CALbNGRQ5jDLUA80jmXeoHU8g-0k04UwgXGtdjL3xTJdG6heSKg@mail.gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world, Failed tasks 2014-01-09
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,47 +48,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 15:17:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jan 2014 15:22:57 -0000
+X-Groupsio-MsgNum: 48772
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="x2HNTtYOBsOEDsnN"
+Content-Disposition: inline
 
-On Thu, 2014-01-09 at 01:32 +0100, Martin Jansa wrote:
-> I'm not saying that oe-core should be tested with 30 layers like my
-> world build, but why cannot AB have special build which builds
-> 
-> oe-core + meta-xorg + meta-gnome
-> 
-> and runs some runtime QA tests on that and then some other build with
-> 
-> oe-core + meta-python
-> 
-> for piglit tests?
+--x2HNTtYOBsOEDsnN
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There's probably no reason that it can't be done.  There are possibly a
-few reasons why it might not be a good idea though:
+On Thu, Jan 09, 2014 at 04:12:52PM +0100, Andreas M=FCller wrote:
+> On Thu, Jan 9, 2014 at 3:46 PM, Martin Jansa <martin.jansa@gmail.com> wro=
+te:
+> > http://www.openembedded.org/wiki/Bitbake_World_Status
+> >
+> > =3D=3D Failed tasks 2014-01-09 =3D=3D
+> >
+> > =3D=3D=3D common (6) =3D=3D=3D
+> >     * meta-openembedded/meta-efl/recipes-efl/webkit/webkit-efl_svn.bb, =
+do_configure
+> >     * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_g=
+it.bb, do_fetch
+> >     * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_=
+compile
+> >     * meta-openembedded/meta-oe/recipes-extended/gnuplot/gnuplot_4.4.4.=
+bb, do_compile
+> >     * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, =
+do_compile
+> >     * meta-qt5/recipes-qt/qt5/qtwayland_git.bb, do_compile
+>=20
+> I have problems with qtwayland too and think that I am close to
+> understand what's going on (on 5.2 branch). Where do I find logs for
+> this error?
 
-- someone would need to keep track of what version of each layer the AB
-needs to be using and update its configuration accordingly;
+Links for each machine are on the bottom of the e-mail:
 
-- there is a risk that you might end up spending all your time chasing
-spurious oe-core QA failures caused by problems with those external
-layers rather than finding genuine bugs in oe-core itself;
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/...
 
-- if either of those layers start depending on something else then you
-would need to add those dependencies as well, and so on potentially ad
-infinitum;
+qtwayland builds for me fine with oe-core only and also in qt5-5.2.0 +
+webos-ports, so I haven't looked much into it yet.
 
-- if something goes wrong in (say) meta-gnome that starts causing
-oe-core testsuite failures then you will be reliant on the meta-gnome
-maintainers to fix the problem in a reasonable time.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-If you're going to make testing be a first-class part of the oe-core
-development cycle then I think you can mount a fairly convincing
-argument that the core ought to be testable using only things that are
-either inside oe-core or at least under the control of the same
-maintainers.
+--x2HNTtYOBsOEDsnN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-p.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
+iEYEARECAAYFAlLOvtwACgkQN1Ujt2V2gBy2GwCguVo9m6C1feKr5BxhXxayTBFP
+j0QAoIXTxnerCLekI+sviVRVe4qQ8V7P
+=MUGe
+-----END PGP SIGNATURE-----
 
-
+--x2HNTtYOBsOEDsnN--
