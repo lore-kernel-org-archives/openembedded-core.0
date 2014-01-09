@@ -1,44 +1,38 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id F0853617AA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 14:21:40 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id uy17so7636075igb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2014 06:21:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=kSMZCKcLCrVwyHViR0K3ba+N5Hhc/WzUS1vO+RCn4iM=;
-	b=nMzAvOrb1sPA5VZc3xJqiJ/DZ0Xk4yafAUVaIawTCzi/E6rsJdHfIy+ncPQbDx4vKF
-	9p47bETLwrXh2rSGOWrIIfPSLqognPrOhvNvmIFwKVLf/uF1tiWVcmdd/CT3enN5s20l
-	xA8myiZCAR0yzU7lr5IOhJMhhUUwY5QTe7hqrZgUig+dgTqJuV00mywfSFI63o+WmUGJ
-	ew0kMXZj2A6DD0GKegVmpQ7vyKrvbca2nD3yeRDGelQFxKatrqdMvuZ9N42eygVvrqWf
-	noorNIztsdLSVvWPBtQFw0FuNLTkGR1Pi/xEHRE77NzpYkwYTuzzik3rs0OdCnUTyh8U
-	umkg==
-X-Gm-Message-State: ALoCoQlmkxaODBU5iq1Qals1VAAJys1LGFbSevqNFM2dpwGtvXANq9fwcJ4B1YS8MQpJrYlN6wAW
-X-Received: by 10.50.128.72 with SMTP id nm8mr37949504igb.10.1389277301594;
-	Thu, 09 Jan 2014 06:21:41 -0800 (PST)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id x6sm14470719igb.3.2014.01.09.06.21.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 09 Jan 2014 06:21:40 -0800 (PST)
-Message-ID: <52CEB073.1020506@linaro.org>
-Date: Thu, 09 Jan 2014 09:21:39 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B3E9A617AA;
+	Thu,  9 Jan 2014 14:42:34 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id e53so1374713eek.1
+	for <multiple recipients>; Thu, 09 Jan 2014 06:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=5+qtQNItFyzRrvNXzZ/vcEAmeqtVO6s9aZrthEvYQzQ=;
+	b=i/tSbr+Gh/FEKPE03W1SUtCEV67iJFAY8+YGrH1IJwOSp1kvKvtCP7hW6bJ7sujmgI
+	pENCppiMrXCddBZ2PEY6a+B6O9xHMM6VM5NpRNBzVR+MnL8v7lPGB91UIy0bpafscxWg
+	bpbTNXNpLKDQSkxq6fV8o4dDCn6OVIBFC/OWm55MbNYaFUI15j+vbu1zAjTyUR8kxsDM
+	oK4Ae+5VVPK+9VV1cUzztPbNFU70qGulJtOhQtGKOHb+IiK/EXCsw15hRhqAD1N2APqM
+	gEtZ0W6iaLVl/5y4rSdurCLxma9ikLfWuHAJr+T6iafESM0J3IFORS1bBr8JbSKK+lU+
+	YdHA==
+X-Received: by 10.14.199.197 with SMTP id x45mr3815697een.8.1389278555434;
+	Thu, 09 Jan 2014 06:42:35 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id 1sm6107666eeg.4.2014.01.09.06.42.34
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Jan 2014 06:42:34 -0800 (PST)
+Date: Thu, 9 Jan 2014 15:42:45 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140109144245.GF3709@jama>
+References: <20140106112936.C3F0C50472@opal>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <52CC470A.9030302@linaro.org> <20140107192305.GT3709@jama>
-	<1389176918.6899.75.camel@ted>
-In-Reply-To: <1389176918.6899.75.camel@ted>
-Subject: Re: Qt in OE-core
+In-Reply-To: <20140106112936.C3F0C50472@opal>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : autogen-native: upgrade to 5.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,70 +45,351 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 14:21:42 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jan 2014 14:42:35 -0000
+X-Groupsio-MsgNum: 48766
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="4/KhLkEx1OUQso4T"
+Content-Disposition: inline
 
-On 01/08/14 05:28, Richard Purdie wrote:
-> On Tue, 2014-01-07 at 20:23 +0100, Martin Jansa wrote:
->> With PACKAGECONFIGs which can list optional dependencies which aren't
->> included in the the layer itself it's now easier to have recipe with
->> optional qt5 support in oe-core, but qt5 itself in separate meta-qt5.
-> What dependencies on other layers does meta-qt5 have?
->
-> If the policy is all qt5 things into meta-qt5, the risk is a fairly
-> large set of layer dependencies for meta-qt5.
->
-> There is some perception I don't like external layers which isn't true. 
->
-> What I do dislike is "dependency creep". If the meta-qt5 isn't usable
-> without pulling in chunks of meta-oe for example, I'd think that rather
-> sad and it might as well move to meta-oe at that point.
+--4/KhLkEx1OUQso4T
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Theoretically, which dependencies a given usage of qt5 has depends on
-which PACKAGECONFIGs are used. In other words, one OE image or one OE
-distribution might want to use OpenGL, while another might decide
-against it.
+On Mon, Jan 06, 2014 at 11:29:36AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 6bcd2dafa379badab11bff9d7b607f7f5d72fc94
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D6bcd2dafa379badab11bff9d7b607f7f5d72fc94
+>=20
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Fri Dec 27 01:05:14 2013 +0800
+>=20
+> autogen-native: upgrade to 5.18.2
+>=20
+> * Upgrade from 5.17.4 to 5.18.2
+> * Rename files -> autogen
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-    http://qt-project.org/doc/qt-5/linux-requirements.html
+Fails in world builds:
 
-If we did move to breaking more things out into more layers, would the
-resulting increase in the number of layers be easier to manage if we
-didn't have to depend on the user correctly setting up their
-conf/bblayers.conf? I admit I'm not familiar with a large number of
-applications of OE/Yocto, but of the 3 of which I am aware (gumstix,
-imx53qsb, and internally at Linaro) all have moved to using repo (an
-external tool) and custom initialization scripts to better handle
-setting up a user's layers and configuration.[1][2]
+| gcc  -std=3Dgnu99 -DHAVE_CONFIG_H -I. -I..  -I.. -I../autoopts -isystem/h=
+ome/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-linux/=
+usr/include -pthread -I/home/jenkins/oe/shr-core-branches/shr-core/tmp-egli=
+bc/sysroots/x86_64-linux/usr/include/guile/2.0 -I/home/jenkins/oe/shr-core-=
+branches/shr-core/tmp-eglibc/sysroots/x86_64-linux/usr/include  -isystem/ho=
+me/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-linux/u=
+sr/include -O2 -pipe -c -o autogen-ag.o `test -f 'ag.c' || echo './'`ag.c
+| In file included from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/x86_64-linux/usr/include/guile/2.0/libguile/array-handle.h:28:=
+0,
+|                  from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/x86_64-linux/usr/include/guile/2.0/libguile.h:34,
+|                  from autogen.h:60,
+|                  from ag.c:7:
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:40:24: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:40:24: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:42:27: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:42:27: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:44:46: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:44:46: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:46:30: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:46:30: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:47:50: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:47:50: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:49:6: error: expected ')' before=
+ '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:49:6: error: expected ',' or ';'=
+ before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:51:6: error: expected ')' before=
+ '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:51:6: error: expected ',' or ';'=
+ before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:52:44: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:52:44: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:53:57: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:53:57: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:55:21: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:55:21: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:57:28: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:57:28: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:59:41: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:59:41: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:60:50: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:60:50: error: expected ',' or ';=
+' before ')' token
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:62:19: error: expected ')' befor=
+e '__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/error.h:62:19: error: expected ',' or ';=
+' before ')' token
+| In file included from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/x86_64-linux/usr/include/guile/2.0/libguile/root.h:28:0,
+|                  from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/x86_64-linux/usr/include/guile/2.0/libguile/async.h:27,
+|                  from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/x86_64-linux/usr/include/guile/2.0/libguile.h:37,
+|                  from autogen.h:60,
+|                  from ag.c:7:
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/throw.h:82:1: warning: '__noreturn__' at=
+tribute ignored [-Wattributes]
+| In file included from /home/jenkins/oe/shr-core-branches/shr-core/tmp-egl=
+ibc/sysroots/x86_64-linux/usr/include/guile/2.0/libguile.h:89:0,
+|                  from autogen.h:60,
+|                  from ag.c:7:
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/read.h:63:3: error: expected ')' before =
+'__attribute__'
+| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/x86_64-li=
+nux/usr/include/guile/2.0/libguile/read.h:63:3: error: expected ',' or ';' =
+before ')' token
+| make[3]: *** [autogen-ag.o] Error 1
+| make[3]: Leaving directory `/home/jenkins/oe/shr-core-branches/shr-core/t=
+mp-eglibc/work/x86_64-linux/autogen-native/5.18.2-r0/autogen-5.18.2/agen5'
+| make[2]: *** [all-recursive] Error 1
+| make[2]: Leaving directory `/home/jenkins/oe/shr-core-branches/shr-core/t=
+mp-eglibc/work/x86_64-linux/autogen-native/5.18.2-r0/autogen-5.18.2/agen5'
+| make[1]: *** [all-recursive] Error 1
+| make[1]: Leaving directory `/home/jenkins/oe/shr-core-branches/shr-core/t=
+mp-eglibc/work/x86_64-linux/autogen-native/5.18.2-r0/autogen-5.18.2'
+| make: *** [all] Error 2
+| ERROR: oe_runmake failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_compile (log file is located at /home/jenkins/=
+oe/shr-core-branches/shr-core/tmp-eglibc/work/x86_64-linux/autogen-native/5=
+=2E18.2-r0/temp/log.do_compile.14771)
+NOTE: recipe autogen-native-5.18.2-r0: task do_compile: Failed
+NOTE: Running task 13583 of 27387 (ID: 21887, /home/jenkins/oe/shr-core-bra=
+nches/shr-core/meta-openembedded/meta-oe/recipes-navigation/foxtrotgps/foxt=
+rotgps_1.1.1.bb, do_package)
+ERROR: Task 26007 (/home/jenkins/oe/shr-core-branches/shr-core/openembedded=
+-core/meta/recipes-devtools/autogen/autogen-native_5.18.2.bb, do_compile) f=
+ailed with exit code '1'
 
-What if a distro configuration file, an image.bb, a MACHINE
-specification, or a layer could specify its dependencies itself? Would
-this lead to "DLL hell"[3] or would this be the missing ingredient which
-keeps some projects from having to resort to using external tools?
+>=20
+> ---
+>=20
+>  ...n-native_5.17.4.bb =3D> autogen-native_5.18.2.bb} |  6 +--
+>  .../autogen/{files =3D> autogen}/guile.patch         | 48 +++++++++++++-=
+--------
+>  .../increase-timeout-limit.patch                   |  0
+>  3 files changed, 31 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/autogen/autogen-native_5.17.4.bb b/met=
+a/recipes-devtools/autogen/autogen-native_5.18.2.bb
+> similarity index 88%
+> rename from meta/recipes-devtools/autogen/autogen-native_5.17.4.bb
+> rename to meta/recipes-devtools/autogen/autogen-native_5.18.2.bb
+> index 28d82b0..c7950c3 100644
+> --- a/meta/recipes-devtools/autogen/autogen-native_5.17.4.bb
+> +++ b/meta/recipes-devtools/autogen/autogen-native_5.18.2.bb
+> @@ -6,14 +6,14 @@ DESCRIPTION =3D "AutoGen is a tool designed to simplify=
+ the creation and\
+>  HOMEPAGE =3D "http://www.gnu.org/software/autogen/"
+>  SECTION =3D "devel"
+>  LICENSE =3D "GPLv3"
+> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae=
+504"=20
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae=
+504"
+> =20
+>  SRC_URI =3D "${GNU_MIRROR}/autogen/rel${PV}/autogen-${PV}.tar.gz \
+>             file://guile.patch \
+>             file://increase-timeout-limit.patch"
+> =20
+> -SRC_URI[md5sum] =3D "09f074cba57610bf4ef1147e01c8ae90"
+> -SRC_URI[sha256sum] =3D "cd2585f4794d0e9d7f2cb0b9af4f2bd429946e718473edf1=
+cf8c49f081ca71ed"
+> +SRC_URI[md5sum] =3D "117c4bc5613c57e1b97d760a5d1910a4"
+> +SRC_URI[sha256sum] =3D "cc2702dec21ba5b01144865163f6d1a54268d2b72aafc552=
+0ad0e0cb57104068"
+> =20
+>  DEPENDS =3D "guile-native libtool-native libxml2-native"
+> =20
+> diff --git a/meta/recipes-devtools/autogen/files/guile.patch b/meta/recip=
+es-devtools/autogen/autogen/guile.patch
+> similarity index 89%
+> rename from meta/recipes-devtools/autogen/files/guile.patch
+> rename to meta/recipes-devtools/autogen/autogen/guile.patch
+> index 8a77dba..332e5aa 100644
+> --- a/meta/recipes-devtools/autogen/files/guile.patch
+> +++ b/meta/recipes-devtools/autogen/autogen/guile.patch
+> @@ -1,14 +1,24 @@
+> -Disable the autoconf macros that use dpkg (!) and guile-config to determ=
+ine what=20
+> -version and where guile is installed, and just use pkg-config directly (=
+guile-config is a deprecated wrapper around pkg-config).=20
+> -=20
+> - Signed-off-by: Ross Burton <ross.burton@intel.com>=20
+> - Upstream-Status: Pending (should be submitted)
+> +remove dpkg and guile-config
+> +
+> +Disable the autoconf macros that use dpkg (!) and guile-config to
+> +determine what version and where guile is installed, and just use
+> +pkg-config directly (guile-config is a deprecated wrapper around
+> +pkg-config).
+> +
+> +Signed-off-by: Ross Burton <ross.burton@intel.com>
+> +
+> +Uprade to  5.18.2
+> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> +Upstream-Status: Pending [should be submitted]
+> +---
+> + config/ag_macros.m4 | 151 +++------------------------------------------=
+-------
+> + 1 file changed, 8 insertions(+), 143 deletions(-)
+> =20
+>  diff --git a/config/ag_macros.m4 b/config/ag_macros.m4
+> -index 9914a65..b6db97a 100644
+> +index c05073e..a8e96da 100644
+>  --- a/config/ag_macros.m4
+>  +++ b/config/ag_macros.m4
+> -@@ -175,123 +175,12 @@ return 0;],
+> +@@ -180,118 +180,13 @@ return 0;],
+>  =20
+>  =20
+>   AC_DEFUN([AG_WITHLIB_GUILE],[
+> @@ -26,7 +36,12 @@ index 9914a65..b6db97a 100644
+>  -    ag_cv_with_libguile_cflags=3Dno
+>  -    ag_cv_with_libguile_libs=3Dno
+>  -  else
+> --
+> ++  PKG_PROG_PKG_CONFIG
+> ++  PKG_CHECK_MODULES(LIBGUILE, [guile-2.0])
+> ++  case "${LIBGUILE_LIBS}" in *-L* )
+> ++    LIBGUILE_PATH=3D`echo ,${LIBGUILE_LIBS} |           sed 's/.*[, ]-L=
+[   ]*//;s/[  ].*//'`
+> ++  ;; * ) LIBGUILE_PATH=3D'' ;; esac
+> +=20
+>  -  AC_ARG_WITH([libguile-cflags],
+>  -    AS_HELP_STRING([--with-libguile-cflags], [libguile compile flags]),
+>  -    [ag_cv_with_libguile_cflags=3D${with_libguile_cflags}],
+> @@ -109,14 +124,10 @@ index 9914a65..b6db97a 100644
+>  -  AC_MSG_RESULT([${ag_cv_with_libguile}])
+>  -    AC_SUBST([LIBGUILE_CFLAGS])
+>  -    AC_SUBST([LIBGUILE_LIBS])
+> --    AC_SUBST([LIBGUILE_PATH])
+>  -  if test "X${ag_cv_with_libguile}" !=3D Xno
+>  -  then[
+>  -      LIBGUILE_CFLAGS=3D"${ag_cv_with_libguile_cflags}"
+> --      LIBGUILE_LIBS=3D"${ag_cv_with_libguile_libs}"
+> --      case "${LIBGUILE_LIBS}" in *-L* )
+> --        LIBGUILE_PATH=3D`echo ,${LIBGUILE_LIBS} |           sed 's/.*[,=
+ ]-L[ 	]*//;s/[ 	].*//'`
+> --      ;; * ) LIBGUILE_PATH=3D'' ;; esac]
+> +-      LIBGUILE_LIBS=3D"${ag_cv_with_libguile_libs}"]
+>  -          CPPFLAGS=3D"@S|@{ag_save_CPPFLAGS}"
+>  -      LIBS=3D"@S|@{ag_save_LIBS}"
+>  -  else
+> @@ -124,20 +135,14 @@ index 9914a65..b6db97a 100644
+>  -    LIBS=3D"${ag_save_LIBS}"
+>  -      LIBGUILE_CFLAGS=3D''
+>  -      LIBGUILE_LIBS=3D''
+> --      LIBGUILE_PATH=3D''
+>  -      AC_MSG_ERROR([Cannot find libguile.  libguile is required.  Perha=
+ps you need to install guile-devel?])
+>  -  fi
+> -+  PKG_PROG_PKG_CONFIG
+> -+  PKG_CHECK_MODULES(LIBGUILE, [guile-2.0])
+> -+  case "${LIBGUILE_LIBS}" in *-L* )
+> -+    LIBGUILE_PATH=3D`echo ,${LIBGUILE_LIBS} |           sed 's/.*[, ]-L=
+[   ]*//;s/[  ].*//'`
+> -+  ;; * ) LIBGUILE_PATH=3D'' ;; esac
+>     AC_SUBST([AG_GUILE])
+>  -
+>   ]) # end of AC_DEFUN of AG_WITHLIB_GUILE
+>  =20
+>  =20
+> -@@ -311,40 +200,10 @@ AC_DEFUN([AG_WITHCONF_GUILE_VER],[
+> +@@ -311,40 +206,10 @@ AC_DEFUN([AG_WITHCONF_GUILE_VER],[
+>  =20
+>  =20
+>   AC_DEFUN([AG_TEST_GUILE_VERSION],[
+> @@ -181,3 +186,6 @@ index 9914a65..b6db97a 100644
+>     AC_MSG_RESULT([${ag_cv_test_guile_version}])
+>     if test "X${ag_cv_test_guile_version}" !=3D Xno
+>     then
+> +--=20
+> +1.8.3.1
+> +
+> diff --git a/meta/recipes-devtools/autogen/files/increase-timeout-limit.p=
+atch b/meta/recipes-devtools/autogen/autogen/increase-timeout-limit.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/autogen/files/increase-timeout-limit.pa=
+tch
+> rename to meta/recipes-devtools/autogen/autogen/increase-timeout-limit.pa=
+tch
+>=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
-If a distro has the power to decide which UI library to use on which
-backend, should it then be up to the distro configuration to specify
-which layer(s) to add, and maybe even which branch/commit to use, and
-maybe also specify these layers' priority and ordering? Maybe in a
-different scenario this decision wants to be handled by the image
-configuration instead. In either case, we wouldn't have to rely on
-external tools (repo) and manual intervention (hoping the user updates
-conf/bblayers.conf correctly) to get our layers right before we can build.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Same goes for meta-qt5. If meta-qt5 has dependencies on specific other
-layers, maybe those dependencies could be part of the meta-qt5
-definition such that these other layers are pulled in automatically? Or
-maybe a specific choice of PACKAGECONFIG would trigger the required
-dependency?
+--4/KhLkEx1OUQso4T
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Would it be possible to add a step in the build process that uses
-bitbake's fetcher to get or sync a project's layers before starting the
-process of fetching a recipe's sources based on information collected
-from hints in the various configuration files?
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
+iEYEARECAAYFAlLOtWUACgkQN1Ujt2V2gBzvRQCgkPePdfnUE7ImsrIJkkYOmlLW
+lhAAniBnPKZIFwYcm5xO3Upg7muZKEwb
+=H6Mn
+-----END PGP SIGNATURE-----
 
-[1]
-https://github.com/gumstix/Gumstix-YoctoProject-Repo/blob/master/README.md
-[2] https://github.com/Freescale/fsl-community-bsp-platform
-[3] http://en.wikipedia.org/wiki/DLL_Hell
-
+--4/KhLkEx1OUQso4T--
