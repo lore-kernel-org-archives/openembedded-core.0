@@ -1,36 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f41.google.com (mail-qa0-f41.google.com
-	[209.85.216.41])
-	by mail.openembedded.org (Postfix) with ESMTP id D38B7610CA
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f51.google.com (mail-oa0-f51.google.com
+	[209.85.219.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9958F610CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 13:58:21 +0000 (UTC)
-Received: by mail-qa0-f41.google.com with SMTP id w5so2973166qac.0
+	Thu,  9 Jan 2014 14:10:11 +0000 (UTC)
+Received: by mail-oa0-f51.google.com with SMTP id m1so3458484oag.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2014 05:58:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=SoAe8qEpV80sWVI7Z8rEJI543yBqtSCj3I5yCVSy+Xg=;
-	b=Kbr/9li6agsPi91pORlqNYsbZkF2rWcmvAVOr59ImGChMUXtW4xsfM78UQzD/o8a3H
-	HK/quVHOQ5wf2qGsx0Z7i8UazFa32OUEzh1bNSCB8nqtYvgMzgC/dQfyXaxJx17DhD/l
-	aguKJMDEcvD3SvnfFY4sqfo0iaHxR7iNP/y9CR3nc+YUTjfcAQOiIUVSftotVlajEXtn
-	bUD5CB7uHIkmo+AbUC1Zi7JGnS+VrZwd5D50O7T9p4pd1iD/O7xTNkEITjSAHcUWkGUb
-	XkK6vSTMjyufkE6lJ08Zyjx64EMHS5mUgnzd/qAT541is8fvsU6lPEwUC+SEj0dj74I3
-	D4tA==
-X-Gm-Message-State: ALoCoQmW3e+jBRjo9XWZtoOlS3SuG7FMwvJcZRDjX+OXDFKtvtgUhPnKjaKvE9FvvX3ozz9vtvCe
-X-Received: by 10.49.127.205 with SMTP id ni13mr8010587qeb.40.1389275902478;
-	Thu, 09 Jan 2014 05:58:22 -0800 (PST)
+	Thu, 09 Jan 2014 06:10:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=+CHMcH7KJaBUCiyqZxgHkvhlsASEmztGnnXlDx2sX+A=;
+	b=fInO4piQwLvc2UKbhQHLfh60/ZgfaxZt+jLxVkSnAcFbW8fqkGr4xnbL33BzhaSple
+	udxQjxjUgvG4TKpAd0khKBKrNqOJaefhFZBCC8B8hzjVN0Iga/VRVYE1JJ4DkbGY/0QO
+	4sDSowLc6GaxYzBJtG1oBqq4a9yGrY1Nnxle1EwOZPJXfgJPEfdWU+thhrN8lB6BVHr0
+	yYH6Tm/Nxkt/ssIJE5bLYJmi9KyRAlx+ZfanvpDHMXucTtqocgXM3ssNgot3UZFC17lY
+	B5DZWTQ+ecOp1jmTdT89D1yzlohGZjx73ziQ0RChAYELDM6E7HMvRzb7OpNJlkXNRzik
+	6xSw==
 MIME-Version: 1.0
-Received: by 10.96.179.105 with HTTP; Thu, 9 Jan 2014 05:58:02 -0800 (PST)
-In-Reply-To: <1389275573-45886-1-git-send-email-yasir_khan@mentor.com>
-References: <1389275573-45886-1-git-send-email-yasir_khan@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Jan 2014 13:58:02 +0000
-Message-ID: <CAJTo0Lbi2kkcBy-iLjJHrZ3r7Wqv12Q=vOZxmmhfV3Wq5TVrGw@mail.gmail.com>
-To: Yasir Khan <yasir_khan@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mesa-demos: Fix application demo2
+X-Received: by 10.182.78.68 with SMTP id z4mr2395667obw.29.1389276612407; Thu,
+	09 Jan 2014 06:10:12 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 9 Jan 2014 06:10:12 -0800 (PST)
+In-Reply-To: <1389266170.9182.122.camel@phil-desktop.brightsign>
+References: <1389266170.9182.122.camel@phil-desktop.brightsign>
+Date: Thu, 9 Jan 2014 12:10:12 -0200
+X-Google-Sender-Auth: tf4mZoyfzCSHIB4HWY9TAFF6NyQ
+Message-ID: <CAP9ODKo1LCoGuUG=0mpRMwctq06RwpaX_B=goEoO55b6YQwXHg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Phil Blundell <pb@pbcl.net>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libsoup: Remove libproxy from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,63 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 13:58:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 09 Jan 2014 14:10:11 -0000
+Content-Type: multipart/alternative; boundary=047d7b2e4d52fa38e204ef8a2a45
 
-The patch is missing signed-off and more importantly upstream-status tags.
+--047d7b2e4d52fa38e204ef8a2a45
+Content-Type: text/plain; charset=ISO-8859-1
 
-Ross
+On Thu, Jan 9, 2014 at 9:16 AM, Phil Blundell <pb@pbcl.net> wrote:
 
-On 9 January 2014 13:52, Yasir Khan <yasir_khan@mentor.com> wrote:
-> From: Yasir-Khan <yasir_khan@mentor.com>
+> Although libsoup did use to support direct usage of libproxy, it hasn't
+> done so for some time.  Worse, if libsoup depends on libproxy then it
+> is impossible to build libproxy against webkit since webkit itself
+> depends on libsoup in some configurations.  Fix this by removing the
+> extraneous entry from DEPENDS.
 >
-> Simple fix for demo2 application. Pass color array to glColorPointer.
+> Signed-off-by: Phil Blundell <pb@pbcl.net>
 >
-> Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
-> ---
->  .../mesa/mesa-demos/fix-demo2-color.patch          |   13 +++++++++++++
->  meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb     |    3 ++-
->  2 files changed, 15 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-graphics/mesa/mesa-demos/fix-demo2-color.patch
->
-> diff --git a/meta/recipes-graphics/mesa/mesa-demos/fix-demo2-color.patch b/meta/recipes-graphics/mesa/mesa-demos/fix-demo2-color.patch
-> new file mode 100644
-> index 0000000..34e9994
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/mesa-demos/fix-demo2-color.patch
-> @@ -0,0 +1,13 @@
-> +diff --git a/src/egl/opengl/demo2.c b/src/egl/opengl/demo2.c
-> +index 71a1a31..505b474 100644
-> +--- a/src/egl/opengl/demo2.c
-> ++++ b/src/egl/opengl/demo2.c
-> +@@ -35,7 +35,7 @@ static void _subset_Rectf(GLfloat x1, GLfloat y1, GLfloat x2, GLfloat y2,
-> +    }
-> +
-> +    glVertexPointer(2, GL_FLOAT, 0, v);
-> +-   glColorPointer(4, GL_FLOAT, 0, v);
-> ++   glColorPointer(4, GL_FLOAT, 0, c);
-> +    glEnableClientState(GL_VERTEX_ARRAY);
-> +    glEnableClientState(GL_COLOR_ARRAY);
-> +
-> diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-> index 4bb92f4..225d466 100644
-> --- a/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-> +++ b/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb
-> @@ -14,7 +14,8 @@ DEPENDS = "virtual/libgl glew"
->  SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/demos/${PV}/${BPN}-${PV}.tar.bz2 \
->          file://glut.patch \
->          file://egl-mesa-screen-surface-build-fix.patch \
-> -        file://egl-mesa-screen-surface-query.patch"
-> +        file://egl-mesa-screen-surface-query.patch \
-> +       file://fix-demo2-color.patch"
->
->  SRC_URI[md5sum] = "9df33ba69a26bbfbc7c8148602e59542"
->  SRC_URI[sha256sum] = "9703fa0646b32a1e68d2abf5628f936f77bf97c69ffcaac90de380820a87a828"
-> --
-> 1.7.9.5
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+Does it need a --disable-libproxy or so?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+--047d7b2e4d52fa38e204ef8a2a45
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Thu, Jan 9, 2014 at 9:16 AM, Phil Blundell <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span=
+> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Although libsoup did use to support direct u=
+sage of libproxy, it hasn&#39;t<br>
+done so for some time. =A0Worse, if libsoup depends on libproxy then it<br>
+is impossible to build libproxy against webkit since webkit itself<br>
+depends on libsoup in some configurations. =A0Fix this by removing the<br>
+extraneous entry from DEPENDS.<br>
+<br>
+Signed-off-by: Phil Blundell &lt;<a href=3D"mailto:pb@pbcl.net">pb@pbcl.net=
+</a>&gt;<br></blockquote><div><br></div><div>Does it need a --disable-libpr=
+oxy or so?=A0</div></div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br>
+<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
+ems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossystems.com.br" targ=
+et=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9981-785=
+4 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750<br>
+
+</div></div>
+
+--047d7b2e4d52fa38e204ef8a2a45--
