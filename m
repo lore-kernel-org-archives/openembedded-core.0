@@ -1,36 +1,44 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f51.google.com (mail-oa0-f51.google.com
-	[209.85.219.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 9958F610CA
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id F0853617AA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 14:10:11 +0000 (UTC)
-Received: by mail-oa0-f51.google.com with SMTP id m1so3458484oag.10
+	Thu,  9 Jan 2014 14:21:40 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id uy17so7636075igb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2014 06:10:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=+CHMcH7KJaBUCiyqZxgHkvhlsASEmztGnnXlDx2sX+A=;
-	b=fInO4piQwLvc2UKbhQHLfh60/ZgfaxZt+jLxVkSnAcFbW8fqkGr4xnbL33BzhaSple
-	udxQjxjUgvG4TKpAd0khKBKrNqOJaefhFZBCC8B8hzjVN0Iga/VRVYE1JJ4DkbGY/0QO
-	4sDSowLc6GaxYzBJtG1oBqq4a9yGrY1Nnxle1EwOZPJXfgJPEfdWU+thhrN8lB6BVHr0
-	yYH6Tm/Nxkt/ssIJE5bLYJmi9KyRAlx+ZfanvpDHMXucTtqocgXM3ssNgot3UZFC17lY
-	B5DZWTQ+ecOp1jmTdT89D1yzlohGZjx73ziQ0RChAYELDM6E7HMvRzb7OpNJlkXNRzik
-	6xSw==
+	Thu, 09 Jan 2014 06:21:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=kSMZCKcLCrVwyHViR0K3ba+N5Hhc/WzUS1vO+RCn4iM=;
+	b=nMzAvOrb1sPA5VZc3xJqiJ/DZ0Xk4yafAUVaIawTCzi/E6rsJdHfIy+ncPQbDx4vKF
+	9p47bETLwrXh2rSGOWrIIfPSLqognPrOhvNvmIFwKVLf/uF1tiWVcmdd/CT3enN5s20l
+	xA8myiZCAR0yzU7lr5IOhJMhhUUwY5QTe7hqrZgUig+dgTqJuV00mywfSFI63o+WmUGJ
+	ew0kMXZj2A6DD0GKegVmpQ7vyKrvbca2nD3yeRDGelQFxKatrqdMvuZ9N42eygVvrqWf
+	noorNIztsdLSVvWPBtQFw0FuNLTkGR1Pi/xEHRE77NzpYkwYTuzzik3rs0OdCnUTyh8U
+	umkg==
+X-Gm-Message-State: ALoCoQlmkxaODBU5iq1Qals1VAAJys1LGFbSevqNFM2dpwGtvXANq9fwcJ4B1YS8MQpJrYlN6wAW
+X-Received: by 10.50.128.72 with SMTP id nm8mr37949504igb.10.1389277301594;
+	Thu, 09 Jan 2014 06:21:41 -0800 (PST)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id x6sm14470719igb.3.2014.01.09.06.21.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 09 Jan 2014 06:21:40 -0800 (PST)
+Message-ID: <52CEB073.1020506@linaro.org>
+Date: Thu, 09 Jan 2014 09:21:39 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.182.78.68 with SMTP id z4mr2395667obw.29.1389276612407; Thu,
-	09 Jan 2014 06:10:12 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 9 Jan 2014 06:10:12 -0800 (PST)
-In-Reply-To: <1389266170.9182.122.camel@phil-desktop.brightsign>
-References: <1389266170.9182.122.camel@phil-desktop.brightsign>
-Date: Thu, 9 Jan 2014 12:10:12 -0200
-X-Google-Sender-Auth: tf4mZoyfzCSHIB4HWY9TAFF6NyQ
-Message-ID: <CAP9ODKo1LCoGuUG=0mpRMwctq06RwpaX_B=goEoO55b6YQwXHg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Phil Blundell <pb@pbcl.net>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libsoup: Remove libproxy from DEPENDS
+To: openembedded-core@lists.openembedded.org
+References: <52CC470A.9030302@linaro.org> <20140107192305.GT3709@jama>
+	<1389176918.6899.75.camel@ted>
+In-Reply-To: <1389176918.6899.75.camel@ted>
+Subject: Re: Qt in OE-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,55 +51,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 14:10:11 -0000
-Content-Type: multipart/alternative; boundary=047d7b2e4d52fa38e204ef8a2a45
+X-List-Received-Date: Thu, 09 Jan 2014 14:21:42 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---047d7b2e4d52fa38e204ef8a2a45
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Thu, Jan 9, 2014 at 9:16 AM, Phil Blundell <pb@pbcl.net> wrote:
-
-> Although libsoup did use to support direct usage of libproxy, it hasn't
-> done so for some time.  Worse, if libsoup depends on libproxy then it
-> is impossible to build libproxy against webkit since webkit itself
-> depends on libsoup in some configurations.  Fix this by removing the
-> extraneous entry from DEPENDS.
+On 01/08/14 05:28, Richard Purdie wrote:
+> On Tue, 2014-01-07 at 20:23 +0100, Martin Jansa wrote:
+>> With PACKAGECONFIGs which can list optional dependencies which aren't
+>> included in the the layer itself it's now easier to have recipe with
+>> optional qt5 support in oe-core, but qt5 itself in separate meta-qt5.
+> What dependencies on other layers does meta-qt5 have?
 >
-> Signed-off-by: Phil Blundell <pb@pbcl.net>
+> If the policy is all qt5 things into meta-qt5, the risk is a fairly
+> large set of layer dependencies for meta-qt5.
 >
+> There is some perception I don't like external layers which isn't true. 
+>
+> What I do dislike is "dependency creep". If the meta-qt5 isn't usable
+> without pulling in chunks of meta-oe for example, I'd think that rather
+> sad and it might as well move to meta-oe at that point.
 
-Does it need a --disable-libproxy or so?
+Theoretically, which dependencies a given usage of qt5 has depends on
+which PACKAGECONFIGs are used. In other words, one OE image or one OE
+distribution might want to use OpenGL, while another might decide
+against it.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+    http://qt-project.org/doc/qt-5/linux-requirements.html
 
---047d7b2e4d52fa38e204ef8a2a45
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+If we did move to breaking more things out into more layers, would the
+resulting increase in the number of layers be easier to manage if we
+didn't have to depend on the user correctly setting up their
+conf/bblayers.conf? I admit I'm not familiar with a large number of
+applications of OE/Yocto, but of the 3 of which I am aware (gumstix,
+imx53qsb, and internally at Linaro) all have moved to using repo (an
+external tool) and custom initialization scripts to better handle
+setting up a user's layers and configuration.[1][2]
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Thu, Jan 9, 2014 at 9:16 AM, Phil Blundell <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span=
-> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">Although libsoup did use to support direct u=
-sage of libproxy, it hasn&#39;t<br>
-done so for some time. =A0Worse, if libsoup depends on libproxy then it<br>
-is impossible to build libproxy against webkit since webkit itself<br>
-depends on libsoup in some configurations. =A0Fix this by removing the<br>
-extraneous entry from DEPENDS.<br>
-<br>
-Signed-off-by: Phil Blundell &lt;<a href=3D"mailto:pb@pbcl.net">pb@pbcl.net=
-</a>&gt;<br></blockquote><div><br></div><div>Does it need a --disable-libpr=
-oxy or so?=A0</div></div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
-ems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossystems.com.br" targ=
-et=3D"_blank">http://code.ossystems.com.br</a><br>Mobile: +55 (53) 9981-785=
-4 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750<br>
+What if a distro configuration file, an image.bb, a MACHINE
+specification, or a layer could specify its dependencies itself? Would
+this lead to "DLL hell"[3] or would this be the missing ingredient which
+keeps some projects from having to resort to using external tools?
 
-</div></div>
+If a distro has the power to decide which UI library to use on which
+backend, should it then be up to the distro configuration to specify
+which layer(s) to add, and maybe even which branch/commit to use, and
+maybe also specify these layers' priority and ordering? Maybe in a
+different scenario this decision wants to be handled by the image
+configuration instead. In either case, we wouldn't have to rely on
+external tools (repo) and manual intervention (hoping the user updates
+conf/bblayers.conf correctly) to get our layers right before we can build.
 
---047d7b2e4d52fa38e204ef8a2a45--
+Same goes for meta-qt5. If meta-qt5 has dependencies on specific other
+layers, maybe those dependencies could be part of the meta-qt5
+definition such that these other layers are pulled in automatically? Or
+maybe a specific choice of PACKAGECONFIG would trigger the required
+dependency?
+
+Would it be possible to add a step in the build process that uses
+bitbake's fetcher to get or sync a project's layers before starting the
+process of fetching a recipe's sources based on information collected
+from hints in the various configuration files?
+
+
+[1]
+https://github.com/gumstix/Gumstix-YoctoProject-Repo/blob/master/README.md
+[2] https://github.com/Freescale/fsl-community-bsp-platform
+[3] http://en.wikipedia.org/wiki/DLL_Hell
+
