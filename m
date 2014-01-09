@@ -1,44 +1,36 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A74EB6A463
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id D9B616C745
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 15:38:23 +0000 (UTC)
-Received: by mail-ie0-f175.google.com with SMTP id x13so3590719ief.6
+	Thu,  9 Jan 2014 16:01:56 +0000 (UTC)
+Received: by mail-we0-f178.google.com with SMTP id t60so2973249wes.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2014 07:38:24 -0800 (PST)
+	Thu, 09 Jan 2014 08:01:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=SrZCudYZDm5usEHR/QqghAzRyiPk2IIwCr7eu11xMy4=;
-	b=Z59xE5DH6e1wMyyuR0KNgIbJnAJd6/2lkDMEyUZDa+h2SW+kJ2mSmMDr/cdW+ObZ+e
-	BTCN4HLS7nIH3Tys/+d46Ld2l+pOrpr7CqqQQ4uUhX4weQpYzoSxBNay00N6kOd/Z+JL
-	69aBgoTuFdeKef04fIADTQf8HsjAkN4j9hhI5kGgHZ34ziAHCz2/NDIJ+DyMhzAo/nZO
-	EE+PTBuQTyfxCvRVrG/Q7IH7mdw0MAir0Yv5AxddYLxwQG15UV9rDgXCJ7xO77332C7E
-	qel3gX3R5uP83ztN/HKkElkFi0b617KOXpatzQyVMJXp1JnOjAtFGwdCA6G0v79I+5/9
-	egSA==
-X-Gm-Message-State: ALoCoQmCvrTTRKWhRQJjXU3+UjQ8E96D//ZR3ToArJiX4fg/2zzjIKHM3SOfmdbcLQV3V4B8PfIA
-X-Received: by 10.42.61.4 with SMTP id s4mr2935927ich.58.1389281904623;
-	Thu, 09 Jan 2014 07:38:24 -0800 (PST)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id ft2sm8281304igb.5.2014.01.09.07.38.23
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+bVsESPJwHTqe+FLohC8Sd1giSSg3eNpx/YtM5taBjg=;
+	b=O4eSgj5TB23gs1S5RH06ppPiobhTG5W2ForzG6HZkQrhC4lwrKm0KCK202lE1vQCG6
+	QLp5INfTB+GNb+VN3ywFBBXa9Tj4VqUGn13ZLQ95gbmKZia4aXddFfJsVaJOKrdvpScG
+	iC0rYD5o+twZD/PTXcMPxBzPj6yatBTIkR2OTR72hJaMvZ/dPYsovSJtGKcG19lNPM92
+	ZE+PKsEvbsQlY7ff99Ri2RxfX5UDQcWmFRqeoPae8h2dGM8NMGlC893En/QqH71dW7D1
+	2KFuffCEEkL4G0W9zUBrb4hUQraWnVSNhzref/uG0R49MBvB3brwx+oqbNDNl8c3paos
+	hQFQ==
+X-Gm-Message-State: ALoCoQl8wswwB4ovyow0jryO+G3gp5WMChxPQGVkLhaJ3TLnpfhpk/8UjommAjJOjhjShMRVZUM3
+X-Received: by 10.194.186.140 with SMTP id fk12mr3602505wjc.77.1389283316527; 
+	Thu, 09 Jan 2014 08:01:56 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id ay6sm567742wjb.23.2014.01.09.08.01.55
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 09 Jan 2014 07:38:23 -0800 (PST)
-Message-ID: <52CEC26E.1080603@linaro.org>
-Date: Thu, 09 Jan 2014 10:38:22 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Jan 2014 08:01:55 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <52CDDD3E.7040508@linaro.org>	<52CE8075.8040700@communistcode.co.uk>	<52CEBB27.10709@linaro.org>
-	<CAP9ODKpxHnLq1PLJJp2LsGt4WGD9Q159Jo_nQnNNaLy1gzDXSw@mail.gmail.com>
-In-Reply-To: <CAP9ODKpxHnLq1PLJJp2LsGt4WGD9Q159Jo_nQnNNaLy1gzDXSw@mail.gmail.com>
-Subject: Re: bug scrub - RFC
+Date: Thu,  9 Jan 2014 16:01:51 +0000
+Message-Id: <1389283311-676-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] oeqa/runtime/systemd: wait for services to start/fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,42 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 15:38:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jan 2014 16:01:57 -0000
 
+When checking that no services have failed to start, actually wait for services
+to finish starting by waiting for there not be no units in the "activating"
+state.
 
-On 01/09/14 10:34, Otavio Salvador wrote:
->
-> On Thu, Jan 9, 2014 at 1:07 PM, Trevor Woerner
-> <trevor.woerner@linaro.org <mailto:trevor.woerner@linaro.org>> wrote:
->
->     On 01/09/14 05:56, Jack Mitchell wrote:
->     > On 08/01/14 23:20, Trevor Woerner wrote:
->     >> questions:
->     >> 1) Currently it has been suggested this should be a 2-day
->     event, should
->     >> these two days be during the week or over a weekend? In either
->     case,
->     >> which 2 days?
->     >>
->     > If it's two days long then why don't you do the best of both
->     worlds and
->     > have a Friday/Saturday or Sunday/Monday combination?
->
->     I was thinking of doing it either fully during the week, or fully on a
->     weekend since my feeling is that most people either work with OE/Yocto
->     during the weekdays or on the weekend. There's nothing to say we
->     couldn't run this "bug scrub" during the week, then run a second "bug
->     scrub" 2 months from now on a weekend (or visa versa).
->
->
-> Maybe mix it, Friday, Saturday, Sunday, Monday.
->
-> So we give in a single 'event' opportunity to both.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/runtime/systemd.py |   28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-Okay, I can agree to that.
+diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
+index eed29d3..6414dd6 100644
+--- a/meta/lib/oeqa/runtime/systemd.py
++++ b/meta/lib/oeqa/runtime/systemd.py
+@@ -32,8 +32,36 @@ class SystemdBasicTests(SystemdTest):
+     def test_systemd_list(self):
+         self.systemctl('list-unit-files')
+ 
++    def settle(self):
++        """
++        Block until systemd has finished activating any units being activated,
++        or until two minutes has elapsed.
++
++        Returns a tuple, either (True, None) if all units have finished
++        acitvating, or (False, message string) if there are still units
++        activating (generally, failing units that restart).
++        """
++        import time
++        settled = False
++        endtime = time.time() + (60 * 2)
++        while time.time() < endtime:
++            status = self.target.run('systemctl --state=activating | grep -q "0 loaded units listed"')
++            if status == 0:
++                settled = True
++                break
++            time.sleep(10)
++
++        if settled:
++            return (True, None)
++        else:
++            status, output = self.target.run('systemctl --state=activating')
++        return (settled, output)
++
+     @skipUnlessPassed('test_systemd_basic')
+     def test_systemd_failed(self):
++        settled, output = self.settle()
++        self.assertTrue(settled, msg="Timed out waiting for systemd to settle:\n" + output)
++
+         output = self.systemctl('list-units', '--failed')
+         match = re.search("0 loaded units listed", output)
+         if not match:
+-- 
+1.7.10.4
 
-How about targeting next weekend (Jan 17-18 2014). Would that be too soon?
 
