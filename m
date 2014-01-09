@@ -1,29 +1,40 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A90AF60C14
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id DA1C16B4F0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2014 18:05:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s09I5dad017282
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  9 Jan 2014 18:45:24 +0000 (UTC)
+Received: by mail-ie0-f176.google.com with SMTP id at1so4019835iec.35
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jan 2014 10:05:39 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 9 Jan 2014 10:05:38 -0800
-Message-ID: <52CEE4F2.7050409@windriver.com>
-Date: Thu, 9 Jan 2014 12:05:38 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	Thu, 09 Jan 2014 10:45:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=mAyKYM2JkYDrqh2NiVudZnJ2eL81P/Iel6m9Gnol1TE=;
+	b=IDaNZ3fDPmE5B/3n9XLdi7PLlp8ItdaX4Ejs6y4mV6YxgfUDxiWYYgRdfB641TnKdj
+	m5uqqab7ihcYn9EBPaz6rVPra2BLGAr90Z/+FXn6shcX9/B+WbiAtebbxIyu82Ehrm30
+	pA/nu+4nBs695YhL3PLWEFdqm8bixTQNqFBliJ/y28RO04JYA/wja3xtoYW6odxdu6HQ
+	DV1qJRQuEOuP3AKUM82xtJ1Z1txXbM0N5LybIQXIxlgR/uWQf2i26xJQN7Ae/MZgewTo
+	Q7VLBnUbpby+o6Xf8wi+mVeTS9awaPQLbw3xUA9Q26uaNyXwJSJlEsYc7ZO7it0kQRH0
+	yGiA==
+X-Gm-Message-State: ALoCoQlEOOmJKoFXmcZhr4qeb2jqmaBi+LgCFKKTO+we4PCwDlV1zQGhPWQsRiDhIBwaed+4irWv
+X-Received: by 10.50.176.201 with SMTP id ck9mr5063606igc.46.1389293125592;
+	Thu, 09 Jan 2014 10:45:25 -0800 (PST)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id c10sm15598750igx.4.2014.01.09.10.45.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 09 Jan 2014 10:45:24 -0800 (PST)
+Message-ID: <52CEEE43.1090209@linaro.org>
+Date: Thu, 09 Jan 2014 13:45:23 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Ming Liu <ming.liu@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1389257340-16166-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1389257340-16166-1-git-send-email-ming.liu@windriver.com>
-Subject: Re: [PATCH] rpm: fix a endian incompatible error in generating tag
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: unmaintained layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,82 +47,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2014 18:05:38 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 09 Jan 2014 18:45:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 1/9/14, 2:49 AM, Ming Liu wrote:
-> A flaw was found in the way rpm generating arbitrary tags, which leads to a
-> incorrect query result, this issue is introduced by a incompatible endianess
-> when the generating process is executed on different architectures.
->
-> This patch resolves it by taking a uniform byte order.
->
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->   .../rpm-tag-generate-endian-conversion-fix.patch   |   29 ++++++++++++++++++++
->   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
->   2 files changed, 30 insertions(+), 0 deletions(-)
->   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
->
-> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
-> new file mode 100644
-> index 0000000..4379515
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
-> @@ -0,0 +1,29 @@
-> +fix a endian incompatible error in generating rpm tag
-> +
-> +A flaw was found in the way rpm generating arbitrary tags, which leads to a
-> +incorrect query result, this issue is introduced by a incompatible endianess
-> +when the generating process is executed on different architectures.
-> +
-> +This patch resolves it by taking a uniform byte order.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> +---
-> + tagname.c |    3 +++
-> + 1 file changed, 3 insertions(+)
-> +
-> +diff -urpN a/rpmdb/tagname.c b/rpmdb/tagname.c
-> +--- a/rpmdb/tagname.c
-> ++++ b/rpmdb/tagname.c
-> +@@ -152,7 +152,10 @@ static rpmTag _tagGenerate(const char *s
-> +     xx = rpmDigestUpdate(ctx, s, nb);
-> +     xx = rpmDigestFinal(ctx, &digest, &digestlen, 0);
-> +     if (digest && digestlen > 4) {
-> ++	/* The tag is stored in a uniform byte order for cross-endian compatibility.
-> ++	   Swap to little-endian if appropriate. */
-> + 	memcpy(&tag, digest + (digestlen - 4), 4);
-> ++	tag = htole32(tag);
-> + 	tag = (rpmTag) (tag & 0x3fffffff);
-> + 	tag = (rpmTag) (tag | 0x40000000);
+Hi everyone,
 
-The above code doesn't look right to me.
+At the last TSC meeting the topic of unmaintained layers came up. Here
+is the sorted list of master layers from the layer index [1], would it
+be possible for those in the know to indicate which layers are, or are
+suspected of being, unmaintained?
 
-If this is reading in from the RPM package, it should be an le32toh..
 
-Otherwise if it's generating the digest info.. then the htole32 should be 
--after- the & and | operations, otherwise the wrong part of the value will be 
-modified.
+meta-aarch64
+meta-acer
+meta-ada
+meta-android
+meta-angstrom
+meta-arago-distro
+meta-arago-extras
+meta-asus
+meta-aurora
+meta-baryon
+meta-beagleboard
+meta-beagleboard-extras
+meta-browser
+meta-bug
+meta-buglabs
+meta-chicken
+meta-chiefriver
+meta-clutter
+meta-crownbay
+meta-crystalforest
+meta-cubox
+meta-darwin
+meta-eca
+meta-efikamx
+meta-efl
+meta-eldk
+meta-emenlow
+meta-erlang
+meta-ettus
+meta-filesystems
+meta-fri2
+meta-fsl-arm
+meta-fsl-arm-extra
+meta-fsl-demos
+meta-fsl-ppc
+meta-fso
+meta-games
+meta-geeksphone
+meta-gir
+meta-gnome
+meta-gpe
+meta-gstreamer10
+meta-guacamayo
+meta-gumstix
+meta-gumstix-community
+meta-gumstix-extras
+meta-hamradio
+meta-handheld
+meta-hipos
+meta-htc
+meta-igep
+meta-initramfs
+meta-intel
+meta-ivi
+meta-jasperforest
+meta-java
+meta-kde
+meta-kernel-dev
+meta-kirkwood
+meta-linaro
+meta-linaro-toolchain
+meta-lsi
+meta-lxcbench
+meta-measured
+meta-mentor
+meta-micro
+meta-mingw
+meta-minnow
+meta-mono
+meta-multimedia
+meta-n450
+meta-netbookpro
+meta-netmodule
+meta-networking
+meta-nokia
+meta-nslu2
+meta-nuc
+meta-oe
+meta-openmoko
+meta-openpandora
+meta-openstack
+meta-openstack-compute-deploy
+meta-openstack-controller-deploy
+meta-openstack-qemu
+meta-opie
+meta-oracle-java
+meta-osmocombb
+meta-ouya
+meta-palm
+meta-perl
+meta-picosam9
+meta-qt3
+meta-qt5
+meta-raspberrypi
+meta-realtime
+meta-ro-rootfs
+meta-romley
+meta-ros
+meta-ruby
+meta-samsung
+meta-sdr
+meta-security
+meta-selinux
+meta-shr
+meta-shr-distro
+meta-slugos
+meta-smalltalk
+meta-sourcery
+meta-sugarbay
+meta-sunxi
+meta-sys940x
+meta-systemd
+meta-telephony
+meta-telldus
+meta-ti
+meta-tlk
+meta-tracing
+meta-virtualization
+meta-web-kiosk
+meta-webos
+meta-webos-ports
+meta-webserver
+meta-woce
+meta-x10
+meta-xfce
+meta-xilinx
+meta-xilinx-community
+meta-yassl
+meta-yocto
+meta-yocto-bsp
+meta-zynq
+meta-zynq-milo
+openembedded-core
+toolchain-layer
 
---Mark
 
-> +     }
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> index 9d376a5..7921f40 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-> @@ -89,6 +89,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
->   	   file://debugedit-valid-file-to-fix-segment-fault.patch \
->   	   file://rpm-platform-file-fix.patch \
->   	   file://rpm-lsb-compatibility.patch \
-> +	   file://rpm-tag-generate-endian-conversion-fix.patch \
->   	  "
->
->   # Uncomment the following line to enable platform score debugging
->
+Thank you for your input, and best regards,
+    Trevor
 
+
+
+
+[1] http://layers.openembedded.org/layerindex/branch/master/layers/
 
