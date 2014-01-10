@@ -1,44 +1,46 @@
-Return-Path: <Fahad_Arslan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id B918A60C11
+Return-Path: <nathan.rossi@xilinx.com>
+Received: from co1outboundpool.messaging.microsoft.com
+	(co1ehsobe001.messaging.microsoft.com [216.32.180.184])
+	by mail.openembedded.org (Postfix) with ESMTP id 8148460C11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 07:48:27 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1W1WpN-0000Ok-Sb from Fahad_Arslan@mentor.com ;
-	Thu, 09 Jan 2014 23:48:25 -0800
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 9 Jan 2014 23:48:25 -0800
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.95]) by
-	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
-	14.02.0247.003; Fri, 10 Jan 2014 07:48:24 +0000
-From: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Thread-Topic: [OE-core] [PATCH] pulseaudio: rescale input being passed to
-	float method of speex
-Thread-Index: AQHPALXAcs6RXqPcQEiQqEFDYqrdcJpjkBUAgAxA636AAgPcAIAHR3brgAABugCAAAVGAIAEiXbl
-Date: Fri, 10 Jan 2014 07:48:22 +0000
-Message-ID: <2B9C97B395470A40B9E9E5D469BCD9FA01561532@EU-MBX-03.mgc.mentorg.com>
-References: <1387895862-15110-1-git-send-email-fahad_arslan@mentor.com>,
-	<52B9BC2C.7080709@linux.intel.com>
-	<2B9C97B395470A40B9E9E5D469BCD9FA015601C3@EU-MBX-03.mgc.mentorg.com>,
-	<52C5B458.5060409@linux.intel.com>
-	<2B9C97B395470A40B9E9E5D469BCD9FA01560D68@EU-MBX-03.mgc.mentorg.com>
-	<C5CA80B4-8C75-4CA6-9D2B-89404927D417@dominion.thruhere.net>,
-	<D570F160-9E98-4C99-BCE3-BDB6123DBDDC@dominion.thruhere.net>
-In-Reply-To: <D570F160-9E98-4C99-BCE3-BDB6123DBDDC@dominion.thruhere.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Fri, 10 Jan 2014 08:02:12 +0000 (UTC)
+Received: from mail122-co1-R.bigfish.com (10.243.78.238) by
+	CO1EHSOBE022.bigfish.com (10.243.66.85) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 10 Jan 2014 08:02:13 +0000
+Received: from mail122-co1 (localhost [127.0.0.1])	by
+	mail122-co1-R.bigfish.com (Postfix) with ESMTP id 0CEE74802A5;
+	Fri, 10 Jan 2014 08:02:13 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
+	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
+X-SpamScore: 1
+X-BigFish: VPS1(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzz1de098h8275bh1de097hz2fh95h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e1dh1e23h1fe8h1ff5h2218h2216h226dh2327h2336h2438h906i1155h)
+Received-SPF: pass (mail122-co1: domain of xilinx.com designates 149.199.60.83
+	as permitted sender) client-ip=149.199.60.83;
+	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
+	helo=xsj-gw1 ; 
+Received: from mail122-co1 (localhost.localdomain [127.0.0.1]) by mail122-co1
+	(MessageSwitch) id 1389340931312091_17209;
+	Fri, 10 Jan 2014 08:02:11 +0000 (UTC)
+Received: from CO1EHSMHS028.bigfish.com (unknown [10.243.78.242])	by
+	mail122-co1.bigfish.com (Postfix) with ESMTP id 3ED5A70004A;
+	Fri, 10 Jan 2014 08:02:11 +0000 (UTC)
+Received: from xsj-gw1 (149.199.60.83) by CO1EHSMHS028.bigfish.com
+	(10.243.66.38) with Microsoft SMTP Server id 14.16.227.3;
+	Fri, 10 Jan 2014 08:02:11 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
+	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
+	<nathan.rossi@xilinx.com>)	id
+	1W1X2h-0000RB-00; Fri, 10 Jan 2014 00:02:11 -0800
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jan 2014 18:01:33 +1000
+X-Mailer: git-send-email 1.7.9.5
+X-RCIS-Action: ALLOW
 MIME-Version: 1.0
-X-OriginalArrivalTime: 10 Jan 2014 07:48:25.0785 (UTC)
-	FILETIME=[5804F290:01CF0DD8]
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"marcin@juszkiewicz.pl" <marcin@juszkiewicz.pl>
-Subject: Re: [PATCH] pulseaudio: rescale input being passed to float method of speex
+Message-ID: <dd6f2aa3-4a61-4f07-b88a-76c90724303b@CO1EHSMHS028.ehs.local>
+X-OriginatorOrg: xilinx.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH v2] ptest.bblass: Fix package QA issues when disabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,118 +53,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 07:48:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Jan 2014 08:02:13 -0000
+Content-Type: text/plain
 
->def get_speex_fpu_setting(bb, d):=0A=
->        if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:=0A=
->                return "--enable-fixed-point --disable-float-api --disable=
--vbr"=0A=
->        return ""=0A=
-=0A=
-If we are using Pulseaudio with default settings (speex-float-1) and =0A=
-the if condition in above method is evaluated true, we will end up facing =
-=0A=
-the original issue: streams that need to be resampled are not playedback =
-=0A=
-since input to speex is zeroed out when float input passed by Pulseaudio =
-=0A=
-in range of +/-1 is converted to int.=0A=
-=0A=
-So isn't Case 2 appropriate, thoughts?=0A=
-=0A=
-Regards,=0A=
-Fahad=0A=
-=0A=
-________________________________________=0A=
-From: Koen Kooi [koen@dominion.thruhere.net]=0A=
-Sent: Tuesday, January 07, 2014 3:22 PM=0A=
-To: Arslan, Fahad=0A=
-Cc: Saul Wold; openembedded-core@lists.openembedded.org; marcin@juszkiewicz=
-.pl=0A=
-Subject: Re: [OE-core] [PATCH] pulseaudio: rescale input being passed to fl=
-oat method of speex=0A=
-=0A=
-Marcins linaro mail address has expired, adding the other one=0A=
-=0A=
-Op 7 jan. 2014, om 11:03 heeft Koen Kooi <koen@dominion.thruhere.net> het v=
-olgende geschreven:=0A=
-=0A=
->=0A=
-> Op 7 jan. 2014, om 10:59 heeft Arslan, Fahad <Fahad_Arslan@mentor.com> he=
-t volgende geschreven:=0A=
->=0A=
->>> What affect does it have on the overall size of speex=0A=
->>=0A=
->> If we enable floating point support, there is decrease in size of libs.=
-=0A=
->> libspeexdsp.so is ~480 KB in fixed point configuration=0A=
->> libspeexdsp.so is ~220 KB in floating point configuration=0A=
->>=0A=
->> Further details are shown below:=0A=
->>=0A=
->>=0A=
->> Case-1 (current configuration)=0A=
->> =3D=3D=3D=3D=3D=3D=0A=
->>=0A=
->> EXTRA_OECONF =3D " --enable-fixed-point --with-ogg-libraries=3D${STAGING=
-_LIBDIR} \=0A=
->>                --disable-float-api --disable-vbr \=0A=
->>                --with-ogg-includes=3D${STAGING_INCDIR} --disable-oggtest=
-"=0A=
->>=0A=
->> build$=0A=
->> build$ ls -l src/.libs/speex*=0A=
->> -rwxr-xr-x 1 farslan farslan 75112 Jan  7 14:09 src/.libs/speexdec=0A=
->> -rwxr-xr-x 1 farslan farslan 76989 Jan  7 14:09 src/.libs/speexenc=0A=
->> build$ file src/.libs/speex*=0A=
->> src/.libs/speexdec: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dy=
-namically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
->> src/.libs/speexenc: ELF 32-bit LSB executable, ARM, version 1 (SYSV), dy=
-namically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
->> build$=0A=
->> build$=0A=
->> build$ ls -l libspeex/.libs/libspeex*.so.1.5.0=0A=
->> -rwxr-xr-x 1 farslan farslan 484940 Jan  7 14:09 libspeex/.libs/libspeex=
-dsp.so.1.5.0=0A=
->> -rwxr-xr-x 1 farslan farslan 370309 Jan  7 14:09 libspeex/.libs/libspeex=
-.so.1.5.0=0A=
->> build$=0A=
->> build$ file libspeex/.libs/libspeex*.so.1.5.0=0A=
->> libspeex/.libs/libspeexdsp.so.1.5.0: ELF 32-bit LSB shared object, ARM, =
-version 1 (SYSV), dynamically linked, not stripped=0A=
->> libspeex/.libs/libspeex.so.1.5.0:    ELF 32-bit LSB shared object, ARM, =
-version 1 (SYSV), dynamically linked, not stripped=0A=
->> build$=0A=
->>=0A=
->>=0A=
->> Case-2 (suggested configuration)=0A=
->> =3D=3D=3D=3D=3D=3D=0A=
->>=0A=
->> EXTRA_OECONF =3D " --with-ogg-libraries=3D${STAGING_LIBDIR} \=0A=
->>                --enable-float-api --disable-vbr \=0A=
->>                --with-ogg-includes=3D${STAGING_INCDIR} --disable-oggtest=
-"=0A=
->=0A=
-> Or case 3, which I implemented 3 years ago in https://github.com/openembe=
-dded/openembedded/commit/e06553979d23531397af3dd71870abb80718c681 :=0A=
->=0A=
-> def get_speex_fpu_setting(bb, d):=0A=
->        if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:=0A=
->                return "--enable-fixed-point --disable-float-api --disable=
--vbr"=0A=
->        return ""=0A=
->=0A=
->=0A=
-> EXTRA_OECONF +=3D "${@get_speex_fpu_setting(bb, d)}=0A=
->=0A=
-> That OE-classic recipe also has support for arm asm which speed things up=
- a lot.=0A=
->=0A=
-> regards,=0A=
->=0A=
-> Koen=0A=
-=0A=
+When the ptest distro feature is disabled, a ptest directory is still
+created in the install phase, This directory is not cleaned up or
+consumed by any package and will throw a QA error, e.g.
+
+ERROR: QA Issue: glib-2.0: Files/directories were installed but not
+shipped
+  /usr/lib/glib-2.0/ptest
+ERROR: QA run found fatal errors. Please consider fixing them.
+ERROR: Function failed: do_package_qa
+
+This is caused by the do_install_ptest_base[cleandirs] attribute which
+is not setup to be conditional on ptest being enabled.
+
+This patch refactors the use of PTEST_ENABLED in the *ptest_base tasks,
+replacing the conditional execution with the removal of the tasks from
+the build, this prevents any part (including cleandirs) of the ptest
+tasks from executing when disabled.
+
+Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+---
+ meta/classes/ptest.bbclass |   25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index ec10f80..e5bbb89 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -18,9 +18,7 @@ do_configure_ptest() {
+ }
+ 
+ do_configure_ptest_base() {
+-    if [ ${PTEST_ENABLED} = 1 ]; then
+-        do_configure_ptest
+-    fi
++    do_configure_ptest
+ }
+ 
+ do_compile_ptest() {
+@@ -28,9 +26,7 @@ do_compile_ptest() {
+ }
+ 
+ do_compile_ptest_base() {
+-    if [ ${PTEST_ENABLED} = 1 ]; then
+-        do_compile_ptest
+-    fi
++    do_compile_ptest
+ }
+ 
+ do_install_ptest() {
+@@ -38,14 +34,12 @@ do_install_ptest() {
+ }
+ 
+ do_install_ptest_base() {
+-    if [ ${PTEST_ENABLED} = 1 ]; then
+-        if [ -f ${WORKDIR}/run-ptest ]; then
+-            install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
+-            if grep -q install-ptest: Makefile; then
+-                oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
+-            fi
+-            do_install_ptest
++    if [ -f ${WORKDIR}/run-ptest ]; then
++        install -D ${WORKDIR}/run-ptest ${D}${PTEST_PATH}/run-ptest
++        if grep -q install-ptest: Makefile; then
++            oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
+         fi
++        do_install_ptest
+     fi
+ }
+ 
+@@ -58,4 +52,9 @@ addtask install_ptest_base   after do_install   before do_package do_populate_sy
+ python () {
+     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
+         d.setVarFlag('do_install_ptest_base', 'fakeroot', 1)
++
++    # Remove all '*ptest_base' tasks when ptest is not enabled
++    if not(d.getVar('PTEST_ENABLED', True) == "1"):
++        for i in filter(lambda k: d.getVarFlag(k, "task") and k.endswith("ptest_base"), d.keys()):
++            bb.build.deltask(i, d)
+ }
+-- 
+1.7.9.5
+
+
 
