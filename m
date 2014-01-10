@@ -1,23 +1,27 @@
-Return-Path: <anders@chargestorm.se>
-Received: from stoexhubfe01.domain01.net (STOEXHUBFE01.domain01.net
-	[83.145.59.140])
-	by mail.openembedded.org (Postfix) with ESMTP id A335A6B89F
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4810D60CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 07:15:04 +0000 (UTC)
-Received: from localhost (213.114.79.21) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server id 8.3.279.1; Fri, 10 Jan 2014
-	08:14:53 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Jan 2014 08:15:03 +0100
-Message-ID: <66484b0f9b20980f5e45f01aba5eeec8c24a974f.1389338076.git.anders@chargestorm.se>
-X-Mailer: git-send-email 1.8.5.2
-In-Reply-To: <cover.1389338076.git.anders@chargestorm.se>
-References: <cover.1389338076.git.anders@chargestorm.se>
+	Fri, 10 Jan 2014 07:21:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0A7Lw6d013928
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 9 Jan 2014 23:21:58 -0800 (PST)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 9 Jan 2014 23:21:58 -0800
+Message-ID: <52CF9F92.4060509@windriver.com>
+Date: Fri, 10 Jan 2014 15:21:54 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-GFI-SMTP-Submission: 1
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH 1/1] systemd-compat-units: do not mask available services
+To: Trevor Woerner <trevor.woerner@linaro.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <52CEEE43.1090209@linaro.org>
+In-Reply-To: <52CEEE43.1090209@linaro.org>
+Subject: Re: unmaintained layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 07:15:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 10 Jan 2014 07:22:01 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Do also check systemd_unitdir/system/ for available unit files.
+On 01/10/2014 02:45 AM, Trevor Woerner wrote:
+> Hi everyone,
+>
+> At the last TSC meeting the topic of unmaintained layers came up. Here
+> is the sorted list of master layers from the layer index [1], would it
+> be possible for those in the know to indicate which layers are, or are
+> suspected of being, unmaintained?
+>
 
-This was hiding dnsmasq.service for us, as /etc/systemd/system has
-priority over systemd_unitdir/system...
+> meta-filesystems
+Maintained
 
-Signed-off-by: Anders Darander <anders@chargestorm.se>
----
- meta/recipes-core/systemd/systemd-compat-units.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> meta-perl
+Maintained
 
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index 9f28283..e32ad79 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -42,7 +42,7 @@ pkg_postinst_${PN} () {
- 	fi
- 
- 	for i in ${SYSTEMD_DISABLED_SYSV_SERVICES} ; do
--		if [ \( -e $i -o $i.sh \) -a ! -e $D${sysconfdir}/systemd/system/$i.service ] ; then
-+		if [ \( -e $i -o $i.sh \) -a ! \( -e $D${sysconfdir}/systemd/system/$i.service -o  -e $D${systemd_unitdir}/system/$i.service \) ] ; then
- 			echo -n "$i: " ; systemctl ${OPTS} mask $i.service
- 		fi
- 	done ; echo
--- 
-1.8.5.2
+//Hongxu
+
+  [1] http://layers.openembedded.org/layerindex/branch/master/layers/ 
+_______________________________________________ Openembedded-core 
+mailing list Openembedded-core@lists.openembedded.org 
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
