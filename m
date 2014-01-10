@@ -1,23 +1,41 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3867E6B89F
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 72BE66B7AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 12:51:31 +0000 (UTC)
-Received: from [172.16.141.123] (172.16.141.123) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Fri, 10 Jan 2014 13:51:27 +0100
-Message-ID: <52CFECCF.3090802@enea.com>
-Date: Fri, 10 Jan 2014 13:51:27 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20131101174955.09FA3503F0@opal>
-In-Reply-To: <20131101174955.09FA3503F0@opal>
-X-Originating-IP: [172.16.141.123]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Richard Purdie : cross-canadian: Handle powerpc linux verses linux-gnuspe
+	Fri, 10 Jan 2014 12:54:21 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W1bbO-00070l-Ed
+	for openembedded-core@lists.openembedded.org;
+	Fri, 10 Jan 2014 13:54:22 +0100
+Message-ID: <1389358456.9182.148.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jan 2014 12:54:16 +0000
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview: Commit 616354f13732d13c17434d5b60b166f691c25761 is
+	insufficient
+	because gnu-config-native's gnu-configize script uses perl modules from
+	autoconf
+	and hence doesn't work unless autoconf-native is staged (which it may
+	not be if building from sstate). [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Subject: [PATCH] binutils: Also add autoconf-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,104 +48,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 12:51:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 10 Jan 2014 12:54:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2013-11-01 18:49, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master-next
-> Commit: a1d6331238982b0c5d39b0a18794f6654b00d46a
-> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=a1d6331238982b0c5d39b0a18794f6654b00d46a
->
-> Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Date:   Thu Oct 17 12:22:35 2013 +0100
->
-> cross-canadian: Handle powerpc linux verses linux-gnuspe
->
-> PowerPC toolchains can use the OS "linux" or "linux-gnuspe". This
-> patch links them together so the one cross-canadian toolchain can support
-> both.
->
-> GCC_FOR_TARGET is set for the GCC recipe as otherwise configure
-> can pick up an incorrect value.
->
-> [YOCTO #5354]
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->
+Commit 616354f13732d13c17434d5b60b166f691c25761 is insufficient because
+gnu-config-native's gnu-configize script uses perl modules from autoconf
+and hence doesn't work unless autoconf-native is staged (which it may
+not be if building from sstate).
 
-> --- a/meta/classes/cross-canadian.bbclass
-> +++ b/meta/classes/cross-canadian.bbclass
-> @@ -15,12 +15,30 @@ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${S
->   # Update BASE_PACKAGE_ARCH and PACKAGE_ARCHS
->   #
->   PACKAGE_ARCH = "${SDK_ARCH}-${SDKPKGSUFFIX}"
-> +CANADIANEXTRAOS = ""
->   python () {
->       archs = d.getVar('PACKAGE_ARCHS', True).split()
->       sdkarchs = []
->       for arch in archs:
->           sdkarchs.append(arch + '-${SDKPKGSUFFIX}')
->       d.setVar('PACKAGE_ARCHS', " ".join(sdkarchs))
-> +
-> +    # PowerPC can build "linux" and "linux-gnuspe"
-> +    tarch = d.getVar("TARGET_ARCH", True)
-> +    if tarch == "powerpc":
-> +        tos = d.getVar("TARGET_OS", True)
-> +        if (tos != "linux" and tos != "linux-gnuspe"):
-> +            bb.fatal("Building cross-candian powerpc for an unknown TARGET_SYS (%s), please update cross-canadian.bbclass" % d.getVar("TARGET_SYS", True))
-> +        # Have to expand DEPENDS before we change the extensions
-> +        d.setVar("DEPENDS", d.getVar("DEPENDS", True))
-> +        d.setVar("STAGING_BINDIR_TOOLCHAIN", d.getVar("STAGING_BINDIR_TOOLCHAIN", True))
-> +        for prefix in ["AR", "AS", "DLLTOOL", "CC", "CXX", "GCC", "LD", "LIPO", "NM", "OBJDUMP", "RANLIB", "STRIP", "WINDRES"]:
-> +            n = prefix + "_FOR_TARGET"
-> +            d.setVar(n, d.getVar(n, True))
-> +
-> +        d.setVar("LIBCEXTENSION", "")
-> +        d.setVar("ABIEXTENSION", "")
-> +        d.setVar("CANADIANEXTRAOS", "linux-gnuspe")
->   }
+Ideally g-c-n would itself declare a dependency on autoconf-native but this
+is difficult to arrange without creating a dependency loop.  autoconf-native
+already depends on gnu-config-native (because autoreconf invokes gnu-configize)
+and has a build dependency on m4-native, which in turn build-depends on g-c-n
+because it configizes itself by steam in do_configure and needs config.{guess,sub}
+to be available.  Adding some sort of gnu-config-initial-native recipe would
+fix the latter problem, but this would be ugly because it would need special-casing
+in (at least) autotools.bbclass, and in any case this still wouldn't solve
+the problem of autoconf itself depending on g-c-n.
+
+So, the easiest solution to the problem at hand is to arrange for those
+few recipes that depend on g-c-n but not autoconf-native to gain that
+latter dependency as well.
+
+Signed-off-by: Phil Blundell <pb@pbcl.net>
+---
+ meta/recipes-devtools/binutils/binutils.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 1259342..b6c9205 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -11,7 +11,7 @@ BUGTRACKER = "http://sourceware.org/bugzilla/"
+ SECTION = "devel"
+ LICENSE = "GPLv3"
+ 
+-DEPENDS = "flex-native bison-native zlib-native gnu-config-native"
++DEPENDS = "flex-native bison-native zlib-native gnu-config-native autoconf-native"
+ 
+ inherit autotools gettext multilib_header
+ 
+-- 
+1.8.5
 
 
-Hi,
-
-I believe this commit is the cause of some problems I'm seeing with ppc 
-SDK toolchain tarballs on poky master.
-
-1. Looks like the relocation scripts fails for environments:
-
-~/tests/poky [master]
-$ cat /opt/oel/2014-01-01/environment-setup-ppce500v2-oel-linux | grep "#"
-export SDKTARGETSYSROOT=##SDKTARGETSYSROOT##
-
-~/tests/poky [master]
-$ cat /opt/oel/2014-01-01/environment-setup-ppce500v2-oel-linux-gnuspe | 
-grep "#"
-
-2. SDK gnuspe compiler does not allow -mabi=spe
-ABIEXTENSION is zeroed both for linux-gnuspe and linux
-
-3. Compiler can't create executables.
-I think this is due to libgcc_s.so from the SDK target sysroot is in 
-mabi=spe.
-
-4. -mspe is included in CC var for both linux and gnuspe.
-
-cat /opt/oel/2014-01-01/environment-setup-ppce500v2-oel-linux | grep mabi
-export CC="powerpc-oel-linux-gcc  -m32 -mcpu=8548 -mabi=spe -mspe 
--mfloat-gprs=double --sysroot=$SDKTARGETSYSROOT"
-export CXX="powerpc-oel-linux-g++  -m32 -mcpu=8548 -mabi=spe -mspe 
--mfloat-gprs=double --sysroot=$SDKTARGETSYSROOT"
-export CPP="powerpc-oel-linux-gcc -E  -m32 -mcpu=8548 -mabi=spe -mspe 
--mfloat-gprs=double --sysroot=$SDKTARGETSYSROOT"
-
-Seems to work in dora though,
-
-Any thoughts on this ?
-
-Br,
-David
 
 
