@@ -1,52 +1,34 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from ch1outboundpool.messaging.microsoft.com
-	(ch1ehsobe004.messaging.microsoft.com [216.32.181.184])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FDF660071
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AEE8C601AA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 06:29:08 +0000 (UTC)
-Received: from mail124-ch1-R.bigfish.com (10.43.68.232) by
-	CH1EHSOBE004.bigfish.com (10.43.70.54) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 10 Jan 2014 06:29:07 +0000
-Received: from mail124-ch1 (localhost [127.0.0.1])	by
-	mail124-ch1-R.bigfish.com (Postfix) with ESMTP id EFF814601F3;
-	Fri, 10 Jan 2014 06:29:07 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VPS-3(zz9371I542I1432I14ffIzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzz1de098h8275dh1de097hz2fh95h109h839h944hd24hf0ah119dh1220h1288h12a5h12a9h12bdh137ah13b6h1441h14ddh1504h1537h153bh162dh1631h1758h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5h2216h2336h2438h906i1155h)
-Received-SPF: pass (mail124-ch1: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail124-ch1 (localhost.localdomain [127.0.0.1]) by mail124-ch1
-	(MessageSwitch) id 1389335347222142_3801;
-	Fri, 10 Jan 2014 06:29:07 +0000 (UTC)
-Received: from CH1EHSMHS025.bigfish.com (snatpool3.int.messaging.microsoft.com
-	[10.43.68.228])	by mail124-ch1.bigfish.com (Postfix) with ESMTP id
-	27CD04E0059;	Fri, 10 Jan 2014 06:29:07 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by CH1EHSMHS025.bigfish.com
-	(10.43.70.25) with Microsoft SMTP Server id 14.16.227.3;
-	Fri, 10 Jan 2014 06:29:06 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
-	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
-	<nathan.rossi@xilinx.com>)	id
-	1W1Vac-0004do-Ic; Thu, 09 Jan 2014 22:29:06 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Thread-Topic: [OE-core] unmaintained layers
-Thread-Index: AQHPDWr/W96EioIPjU+e19lj9TncbJp9foVw
-Date: Fri, 10 Jan 2014 06:29:01 +0000
-References: <52CEEE43.1090209@linaro.org>
-In-Reply-To: <52CEEE43.1090209@linaro.org>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.164.59]
+	Fri, 10 Jan 2014 07:03:02 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id c11so3046314lbj.37
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jan 2014 23:03:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=0CEtM36K3pBOep+zLwWBVPCpG9tsaRx680ZRikdOPX4=;
+	b=lHkMgchLV+NA9mgdMNAGykZa0h78ukEbxqkPsRYOL2iMPMmjMl6WX4JzgGiEPDMxmx
+	ewJ6ScbFYYOT0/guT/EeY0hXzbkaAfKeRqzL9BzOUtr34L9eQjztM8TwOm7nnDo+fyb7
+	X2FgCjPT+xOQ7/dTfjtwP5fMSood01b2kNJ88e5LzNMiiXZS/HKC1OSohgyJSdfd3zoQ
+	Xfdu3OKjL2JMM4YUJSFRVZ8GfKYJxnNuRDo0eNwvqeh9WEZrER8YUxrHVeZBOvlWn49c
+	p7JPYE9LU2+M4LgV9iEPLniP06LvuvmMvCfzQKPmIItXHPkb/FDYA6PSLY1iGfxG5BhO
+	578A==
+X-Gm-Message-State: ALoCoQn19kydiW3rqVsAz0ykFOJUFrEZtx6L7G/ijalttdPE3IG99NUDB0Vpq1d65fQ+TsbZavZG
 MIME-Version: 1.0
-X-RCIS-Action: ALLOW
-Message-ID: <64dee82e-8224-4a2e-abe8-ef597f5f4f51@CH1EHSMHS025.ehs.local>
-X-OriginatorOrg: xilinx.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-Received: by 10.152.120.66 with SMTP id la2mr2982531lab.62.1389337382912;
+	Thu, 09 Jan 2014 23:03:02 -0800 (PST)
+Received: by 10.112.45.230 with HTTP; Thu, 9 Jan 2014 23:03:02 -0800 (PST)
+In-Reply-To: <52CEEE43.1090209@linaro.org>
+References: <52CEEE43.1090209@linaro.org>
+Date: Fri, 10 Jan 2014 09:03:02 +0200
+Message-ID: <CAGNsrLAj4gU-uvT=XOC3-5GyG20wRs7g-bBYrzZP_ZS8rPMupg@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Trevor Woerner <trevor.woerner@linaro.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: unmaintained layers
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -61,38 +43,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 06:29:09 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Jan 2014 07:03:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Trevor Woerner
-> Sent: Friday, January 10, 2014 4:45 AM
-> To: openembedded-core
-> Subject: [OE-core] unmaintained layers
-> =
-
+On 9 January 2014 20:45, Trevor Woerner <trevor.woerner@linaro.org> wrote:
 > Hi everyone,
-> =
-
+>
 > At the last TSC meeting the topic of unmaintained layers came up. Here
 > is the sorted list of master layers from the layer index [1], would it
 > be possible for those in the know to indicate which layers are, or are
 > suspected of being, unmaintained?
-> =
+>
+>
+> meta-aarch64
 
-> =
+maintained.
 
-...
+> meta-acer
+> meta-ada
+> meta-android
+> meta-angstrom
+> meta-arago-distro
+> meta-arago-extras
+> meta-asus
+> meta-aurora
+> meta-baryon
+> meta-beagleboard
+> meta-beagleboard-extras
+> meta-browser
+> meta-bug
+> meta-buglabs
+> meta-chicken
+> meta-chiefriver
+> meta-clutter
+> meta-crownbay
+> meta-crystalforest
+> meta-cubox
+> meta-darwin
+> meta-eca
+> meta-efikamx
+> meta-efl
+> meta-eldk
+> meta-emenlow
+> meta-erlang
+> meta-ettus
+> meta-filesystems
+> meta-fri2
+> meta-fsl-arm
+> meta-fsl-arm-extra
+> meta-fsl-demos
+> meta-fsl-ppc
+> meta-fso
+> meta-games
+> meta-geeksphone
+> meta-gir
+> meta-gnome
+> meta-gpe
+> meta-gstreamer10
+> meta-guacamayo
+> meta-gumstix
+> meta-gumstix-community
+> meta-gumstix-extras
+> meta-hamradio
+> meta-handheld
+> meta-hipos
+> meta-htc
+> meta-igep
+> meta-initramfs
+> meta-intel
+> meta-ivi
+> meta-jasperforest
+> meta-java
+> meta-kde
+> meta-kernel-dev
+> meta-kirkwood
+
+> meta-linaro
+> meta-linaro-toolchain
+
+both maintained.
+
+> meta-lsi
+> meta-lxcbench
+> meta-measured
+> meta-mentor
+> meta-micro
+> meta-mingw
+> meta-minnow
+> meta-mono
+> meta-multimedia
+> meta-n450
+> meta-netbookpro
+> meta-netmodule
+> meta-networking
+> meta-nokia
+> meta-nslu2
+> meta-nuc
+> meta-oe
+> meta-openmoko
+> meta-openpandora
+> meta-openstack
+> meta-openstack-compute-deploy
+> meta-openstack-controller-deploy
+> meta-openstack-qemu
+> meta-opie
+> meta-oracle-java
+> meta-osmocombb
+> meta-ouya
+> meta-palm
+> meta-perl
+> meta-picosam9
+> meta-qt3
+> meta-qt5
+> meta-raspberrypi
+> meta-realtime
+> meta-ro-rootfs
+> meta-romley
+> meta-ros
+> meta-ruby
+> meta-samsung
+> meta-sdr
+> meta-security
+> meta-selinux
+> meta-shr
+> meta-shr-distro
+> meta-slugos
+> meta-smalltalk
+> meta-sourcery
+> meta-sugarbay
+> meta-sunxi
+> meta-sys940x
+> meta-systemd
+> meta-telephony
+> meta-telldus
+> meta-ti
+> meta-tlk
+> meta-tracing
+> meta-virtualization
+> meta-web-kiosk
+> meta-webos
+> meta-webos-ports
+> meta-webserver
+> meta-woce
+> meta-x10
+> meta-xfce
 > meta-xilinx
+> meta-xilinx-community
+> meta-yassl
+> meta-yocto
+> meta-yocto-bsp
+> meta-zynq
+> meta-zynq-milo
+> openembedded-core
+> toolchain-layer
+>
+>
+> Thank you for your input, and best regards,
+>     Trevor
+>
+>
+>
+>
+> [1] http://layers.openembedded.org/layerindex/branch/master/layers/
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Maintained.
-
-Regards,
-Nathan
-
-
+Cheers,
+Fathi
 
