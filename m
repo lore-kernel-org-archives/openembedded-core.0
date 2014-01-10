@@ -1,35 +1,27 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ve0-f172.google.com (mail-ve0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 58EAB60C11
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 05B6760C11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 05:54:42 +0000 (UTC)
-Received: by mail-ve0-f172.google.com with SMTP id jw12so3142605veb.17
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2014 21:54:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=FZiebRyylYJP2IATQu424hIMsPMFmV05PTnH8mCFVF8=;
-	b=oM7kXWi7t8efzwF8fpiBSRNw3CRRdURjFB0eEBXsiUOncQJbL1/swxFRirEVnVOl5N
-	GKig8uV4p5zitpIV6+pJGX1EjVoySE0UpaGwsXP52XArICyaJQL+QcApulp3GAVsOKEu
-	VRTT14ulmNSOyDGhr8cUfiueCoLxh69BqwiFY2b9CkHdVZz3xU5ZeVnaHf6Qv0BA6fnN
-	D28VFH1OqNoNF+W0O04f2sXHy60Ql+/GPHFD/bFtVMhiZZGeNUOxahAIowvzpVyf1KRj
-	Ol2N8HTXT80XQiorr5leHMgn9ks3hwbibjj+SCcAH8dOwc2skNpc4zBg+1z2W2ybVYih
-	FCEA==
+	Fri, 10 Jan 2014 06:18:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0A6Irqe011671
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 9 Jan 2014 22:18:53 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 9 Jan 2014 22:18:53 -0800
+Message-ID: <52CF90CB.3010300@windriver.com>
+Date: Fri, 10 Jan 2014 14:18:51 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-Received: by 10.58.4.4 with SMTP id g4mr6394263veg.23.1389333283173; Thu, 09
-	Jan 2014 21:54:43 -0800 (PST)
-Received: by 10.52.106.202 with HTTP; Thu, 9 Jan 2014 21:54:43 -0800 (PST)
-In-Reply-To: <52CEEE43.1090209@linaro.org>
-References: <52CEEE43.1090209@linaro.org>
-Date: Fri, 10 Jan 2014 06:54:43 +0100
-Message-ID: <CALbNGRSR8BsRHH42NzGuo0p1LQgUGoOi2hF_3CJVbbzkGp8r0w@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: unmaintained layers
+To: Martin Jansa <martin.jansa@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1389003637.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1389003637.git.Martin.Jansa@gmail.com>
+Subject: Re: [dora][PATCH 0/2] Dora backports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,26 +34,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 05:54:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 10 Jan 2014 06:18:54 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 9, 2014 at 7:45 PM, Trevor Woerner
-<trevor.woerner@linaro.org> wrote:
-> Hi everyone,
->
-> At the last TSC meeting the topic of unmaintained layers came up. Here
-> is the sorted list of master layers from the layer index [1], would it
-> be possible for those in the know to indicate which layers are, or are
-> suspected of being, unmaintained?
->
->
-...
-> meta-gumstix-community
-maintained
-...
-> meta-xfce
-maintained
-...
 
-Andreas
+Hi Martin,
+
+Thanks, please see my comments in line.
+
+On 01/06/2014 06:21 PM, Martin Jansa wrote:
+> The following changes since commit e86622a932bbd0acdea67ecfb15c8b06c27353d8:
+>
+>    libsoup-2.4: add intltool-native to DEPENDS (2013-12-19 14:59:47 +0000)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib jansa/dora-backports2
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/dora-backports2
+>
+> Martin Jansa (1):
+>    ltp: set PREFERRED_PROVIDER and rename runtests_noltp.sh script
+>
+
+I will take this.
+
+> Richard Purdie (1):
+>    eglibc-initial.inc: Drop duplicate include
+>
+
+
+It seems that this is a trivial fix, I don't think it's a good idea to merge
+it to dora.
+
+// Robert
+
+>   meta/conf/distro/include/default-providers.inc     |   2 +
+>   meta/recipes-core/eglibc/eglibc-initial.inc        |   2 -
+>   ...tests_noltp.sh-script-so-have-unique-name.patch | 202 +++++++++++++++++++++
+>   meta/recipes-extended/ltp/ltp_20130503.bb          |   4 +-
+>   4 files changed, 207 insertions(+), 3 deletions(-)
+>   create mode 100644 meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
+>
 
