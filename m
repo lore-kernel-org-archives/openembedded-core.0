@@ -1,44 +1,26 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 265056B7CA
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id BF86D60D27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 17:02:23 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W1fTQ-0007AQ-Vn
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jan 2014 18:02:23 +0100
-Message-ID: <1389373340.9182.172.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Jan 2014 17:02:20 +0000
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview: Signed-off-by: Phil Blundell <pb@pbcl.net> ---
-	meta/recipes-core/dbus/dbus.inc
-	| 2 +- 1 file changed, 1 insertion(+),
-	1 deletion(-) diff --git a/meta/recipes-core/dbus/dbus.inc
-	b/meta/recipes-core/dbus/dbus.inc index 9bdb489..86d6caa 100644 ---
-	a/meta/recipes-core/dbus/dbus.inc
-	+++ b/meta/recipes-core/dbus/dbus.inc @@ -11, 7 +11,
-	7 @@ RDEPENDS_dbus_class-native
-	= "" RDEPENDS_dbus_class-nativesdk = "" [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] dbus: Remove stray semicolon from SRC_URI
+	Fri, 10 Jan 2014 17:21:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 10 Jan 2014 09:17:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,639,1384329600"; d="scan'208";a="437000337"
+Received: from unknown (HELO [10.255.12.53]) ([10.255.12.53])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jan 2014 09:21:29 -0800
+Message-ID: <52D02C19.3040206@linux.intel.com>
+Date: Fri, 10 Jan 2014 09:21:29 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: Chong Lu <Chong.Lu@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1389344939.git.Chong.Lu@windriver.com>
+	<4ea0f4383800204370680a87a91c4e5f95c73e80.1389344939.git.Chong.Lu@windriver.com>
+In-Reply-To: <4ea0f4383800204370680a87a91c4e5f95c73e80.1389344939.git.Chong.Lu@windriver.com>
+Subject: Re: [PATCH 1/1] acl: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,31 +33,536 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 17:02:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 10 Jan 2014 17:21:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
----
- meta/recipes-core/dbus/dbus.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 01/10/2014 01:13 AM, Chong Lu wrote:
+> Install acl test suite and run it as ptest.
+> nfs test cases need depend on nfs service. So exclude them order to
+> make ptest all pass.
+>
+> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> ---
+>   meta/recipes-support/attr/acl.inc                  |  15 +-
+>   .../attr/acl/acl-make-ptest-pass.patch             | 457 +++++++++++++++++++++
+>   meta/recipes-support/attr/acl/run-ptest            |   5 +
+>   3 files changed, 476 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-support/attr/acl/acl-make-ptest-pass.patch
+>   create mode 100644 meta/recipes-support/attr/acl/run-ptest
+>
+> diff --git a/meta/recipes-support/attr/acl.inc b/meta/recipes-support/attr/acl.inc
+> index a461232..4bacf80 100644
+> --- a/meta/recipes-support/attr/acl.inc
+> +++ b/meta/recipes-support/attr/acl.inc
+> @@ -9,7 +9,10 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
+>                       file://doc/COPYING.LGPL;md5=9e9a206917f8af112da634ce3ab41764"
+>
+>   DEPENDS = "attr"
+> -SRC_URI = "http://download.savannah.gnu.org/releases/acl/${BP}.src.tar.gz"
+> +SRC_URI = "http://download.savannah.gnu.org/releases/acl/${BP}.src.tar.gz \
+> +           file://acl-make-ptest-pass.patch \
+> +           file://run-ptest \
+> +"
+>
+>   require ea-acl.inc
+>
+> @@ -24,3 +27,13 @@ do_install_append() {
+>   	sed -i ${D}${libdir}/libacl.la -e \
+>   	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
+>   }
+> +
+> +inherit ptest
+> +
+> +do_install_ptest() {
+> +	tar -cf - test/ --exclude nfs | ( cd ${D}${PTEST_PATH} && tar -xf - )
+> +	mkdir ${D}${PTEST_PATH}/include
+> +	cp ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
+> +}
+> +
+> +RDEPENDS_${PN}-ptest = "coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
+> diff --git a/meta/recipes-support/attr/acl/acl-make-ptest-pass.patch b/meta/recipes-support/attr/acl/acl-make-ptest-pass.patch
+> new file mode 100644
+> index 0000000..89c03c2
+> --- /dev/null
+> +++ b/meta/recipes-support/attr/acl/acl-make-ptest-pass.patch
+> @@ -0,0 +1,457 @@
+> +acl: make ptest pass
+> +
+> +Upstream-Status: Inappropriate [embedded specific]
+> +
+> +The daemon user must be a member in the bin group, else permissions.test
+> +will fail. So add daemon user to bin group.
+> +Many results of `ls' are incorrect in some test cases, modify them to make
+> +ptest pass.
+> +
+This does not seem quite right, you don't just change the tests to "make 
+ptest pass" What's wrong with the output of ls?  Is this because it's 
+using busybox's ls instead of coreutils version of ls?
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index 9bdb489..86d6caa 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -11,7 +11,7 @@ RDEPENDS_dbus_class-native = ""
- RDEPENDS_dbus_class-nativesdk = ""
- 
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
--           file://tmpdir.patch; \
-+           file://tmpdir.patch \
-            file://dbus-1.init \
-            file://os-test.patch \
- "
--- 
-1.8.5
+If that's the case then we should really have the acl-ptest package have 
+an RDEPENDS on coreutils.
 
+Sau!
 
-
+> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+> +---
+> + test/Makefile              |    2 +-
+> + test/cp.test               |    8 ++---
+> + test/misc.test             |   86 ++++++++++++++++++++++----------------------
+> + test/root/permissions.test |    2 +-
+> + test/root/setfacl.test     |    2 +-
+> + test/sbits-restore.test    |    6 ++--
+> + 6 files changed, 53 insertions(+), 53 deletions(-)
+> +
+> +diff --git a/test/Makefile b/test/Makefile
+> +index d2baac8..6063a56 100644
+> +--- a/test/Makefile
+> ++++ b/test/Makefile
+> +@@ -42,7 +42,7 @@ $(NFS):
+> + 	@echo "NFS specific tests"; echo "*** $@ ***"; perl run $@
+> +
+> + $(ROOT):
+> +-	@echo "Note: Tests must run as root"; echo "*** $@ ***"; perl run $@
+> ++	@echo "Note: Tests must run as root"; echo "*** $@ ***"; usermod -G bin daemon; perl run $@
+> +
+> + .PHONY: $(TESTS) $(NFS) $(ROOT)
+> + .NOTPARALLEL:
+> +diff --git a/test/cp.test b/test/cp.test
+> +index 0867f63..54bee3b 100644
+> +--- a/test/cp.test
+> ++++ b/test/cp.test
+> +@@ -6,16 +6,16 @@ The cp utility should only copy ACLs if `-p' is given.
+> + 	$ touch f
+> + 	$ setfacl -m u:bin:rw f
+> + 	$ ls -l f | awk -- '{ print $1 }'
+> +-	> -rw-rw-r--+
+> ++	> -rw-rw-r--
+> + 	
+> + 	$ cp f g
+> +-	$ ls -l g | awk -- '{ print $1 }' | sed 's/\.$//g'
+> ++	$ ls -l g | awk -- '{ print $1 }'
+> + 	> -rw-r--r--
+> + 	
+> + 	$ rm g
+> + 	$ cp -p f g
+> + 	$ ls -l f | awk -- '{ print $1 }'
+> +-	> -rw-rw-r--+
+> ++	> -rw-rw-r--
+> + 	
+> + 	$ mkdir h
+> + 	$ echo blubb > h/x
+> +@@ -33,7 +33,7 @@ The cp utility should only copy ACLs if `-p' is given.
+> + 	> other::r--
+> + 	>
+> +
+> +-	$ cp -rp h i
+> ++	$ cp -a h i
+> + 	$ getfacl --omit-header i/x
+> + 	> user::rw-
+> + 	> user:bin:rwx
+> +diff --git a/test/misc.test b/test/misc.test
+> +index 6e98053..83080e2 100644
+> +--- a/test/misc.test
+> ++++ b/test/misc.test
+> +@@ -11,7 +11,7 @@ Only change a base ACL:
+> + 	$ setfacl -m u::r f
+> + 	$ setfacl -m u::rw,u:bin:rw f
+> + 	$ ls -dl f | awk '{print $1}'
+> +-	> -rw-rw----+
+> ++	> -rw-rw----
+> + 	
+> + 	$ getfacl --omit-header f
+> + 	> user::rw-
+> +@@ -26,7 +26,7 @@ Only change a base ACL:
+> + 	$ touch f
+> + 	$ setfacl -m u:bin:rw f
+> + 	$ ls -dl f | awk '{print $1}'
+> +-	> -rw-rw-r--+
+> ++	> -rw-rw-r--
+> +
+> + 	$ getfacl --omit-header f
+> + 	> user::rw-
+> +@@ -41,7 +41,7 @@ Only change a base ACL:
+> + 	$ mkdir d
+> + 	$ setfacl -m u:bin:rwx d
+> + 	$ ls -dl d | awk '{print $1}'
+> +-	> drwxrwx---+
+> ++	> drwxrwx---
+> +
+> + 	$ getfacl --omit-header d
+> + 	> user::rwx
+> +@@ -56,7 +56,7 @@ Only change a base ACL:
+> + 	$ mkdir d
+> + 	$ setfacl -m u:bin:rwx d
+> + 	$ ls -dl d | awk '{print $1}'
+> +-	> drwxrwxr-x+
+> ++	> drwxrwxr-x
+> +
+> + 	$ getfacl --omit-header d
+> + 	> user::rwx
+> +@@ -75,12 +75,12 @@ Multiple users
+> + 	$ touch f
+> + 	$ setfacl -m u:bin:rw,u:daemon:r f
+> + 	$ ls -dl f | awk '{print $1}'
+> +-	> -rw-rw-r--+
+> ++	> -rw-rw-r--
+> +
+> + 	$ getfacl --omit-header f
+> + 	> user::rw-
+> +-	> user:bin:rw-
+> + 	> user:daemon:r--
+> ++	> user:bin:rw-
+> + 	> group::r--
+> + 	> mask::rw-
+> + 	> other::r--
+> +@@ -90,12 +90,12 @@ Multiple groups
+> + 	
+> + 	$ setfacl -m g:users:rw,g:daemon:r f
+> + 	$ ls -dl f | awk '{print $1}'
+> +-	> -rw-rw-r--+
+> ++	> -rw-rw-r--
+> +
+> + 	$ getfacl --omit-header f
+> + 	> user::rw-
+> +-	> user:bin:rw-
+> + 	> user:daemon:r--
+> ++	> user:bin:rw-
+> + 	> group::r--
+> + 	> group:daemon:r--
+> + 	> group:users:rw-
+> +@@ -107,12 +107,12 @@ Remove one group
+> + 	
+> + 	$ setfacl -x g:users f
+> + 	$ ls -dl f | awk '{print $1}'
+> +-	> -rw-rw-r--+
+> ++	> -rw-rw-r--
+> +
+> + 	$ getfacl --omit-header f
+> + 	> user::rw-
+> +-	> user:bin:rw-
+> + 	> user:daemon:r--
+> ++	> user:bin:rw-
+> + 	> group::r--
+> + 	> group:daemon:r--
+> + 	> mask::rw-
+> +@@ -123,7 +123,7 @@ Remove one user
+> + 	
+> + 	$ setfacl -x u:daemon f
+> + 	$ ls -dl f | awk '{print $1}'
+> +-	> -rw-rw-r--+
+> ++	> -rw-rw-r--
+> +
+> + 	$ getfacl --omit-header f
+> + 	> user::rw-
+> +@@ -142,12 +142,12 @@ Default ACL
+> + 	$ mkdir d
+> + 	$ setfacl -m u:bin:rwx,u:daemon:rw,d:u:bin:rwx,d:m:rx d
+> + 	$ ls -dl d | awk '{print $1}'
+> +-	> drwxrwx---+
+> ++	> drwxrwx---
+> +
+> + 	$ getfacl --omit-header d
+> + 	> user::rwx
+> +-	> user:bin:rwx
+> + 	> user:daemon:rw-
+> ++	> user:bin:rwx
+> + 	> group::r-x
+> + 	> mask::rwx
+> + 	> other::---
+> +@@ -163,7 +163,7 @@ Umask now ignored?
+> + 	$ umask 027
+> + 	$ touch d/f
+> + 	$ ls -dl d/f | awk '{print $1}'
+> +-	> -rw-r-----+
+> ++	> -rw-r-----
+> +
+> + 	$ getfacl --omit-header d/f
+> + 	> user::rw-
+> +@@ -177,7 +177,7 @@ Umask now ignored?
+> + 	$ umask 022
+> + 	$ touch d/f
+> + 	$ ls -dl d/f | awk '{print $1}'
+> +-	> -rw-r-----+
+> ++	> -rw-r-----
+> +
+> + 	$ getfacl --omit-header d/f
+> + 	> user::rw-
+> +@@ -194,7 +194,7 @@ Default ACL copying
+> + 	$ umask 000
+> + 	$ mkdir d/d
+> + 	$ ls -dl d/d | awk '{print $1}'
+> +-	> drwxr-x---+
+> ++	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d/d
+> + 	> user::rwx
+> +@@ -213,7 +213,7 @@ Default ACL copying
+> + 	$ umask 022
+> + 	$ mkdir d/d
+> + 	$ ls -dl d/d | awk '{print $1}'
+> +-	> drwxr-x---+
+> ++	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d/d
+> + 	> user::rwx
+> +@@ -232,20 +232,20 @@ Add some users and groups
+> +
+> + 	$ setfacl -nm u:daemon:rx,d:u:daemon:rx,g:users:rx,g:daemon:rwx d/d
+> + 	$ ls -dl d/d | awk '{print $1}'
+> +-	> drwxr-x---+
+> ++	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d/d
+> + 	> user::rwx
+> +-	> user:bin:rwx	#effective:r-x
+> + 	> user:daemon:r-x
+> ++	> user:bin:rwx	#effective:r-x
+> + 	> group::r-x
+> + 	> group:daemon:rwx	#effective:r-x
+> + 	> group:users:r-x
+> + 	> mask::r-x
+> + 	> other::---
+> + 	> default:user::rwx
+> +-	> default:user:bin:rwx	#effective:r-x
+> + 	> default:user:daemon:r-x
+> ++	> default:user:bin:rwx	#effective:r-x
+> + 	> default:group::r-x
+> + 	> default:mask::r-x
+> + 	> default:other::---
+> +@@ -254,24 +254,24 @@ Add some users and groups
+> + Symlink in directory with default ACL?
+> + 	
+> + 	$ ln -s d d/l
+> +-	$ ls -dl d/l | awk '{print $1}' | sed 's/\.$//g'
+> ++	$ ls -dl d/l | awk '{print $1}'
+> + 	> lrwxrwxrwx
+> +
+> + 	$ ls -dl -L d/l | awk '{print $1}'
+> +-	> drwxr-x---+
+> ++	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d/l
+> + 	> user::rwx
+> +-	> user:bin:rwx	#effective:r-x
+> + 	> user:daemon:r-x
+> ++	> user:bin:rwx	#effective:r-x
+> + 	> group::r-x
+> + 	> group:daemon:rwx	#effective:r-x
+> + 	> group:users:r-x
+> + 	> mask::r-x
+> + 	> other::---
+> + 	> default:user::rwx
+> +-	> default:user:bin:rwx	#effective:r-x
+> + 	> default:user:daemon:r-x
+> ++	> default:user:bin:rwx	#effective:r-x
+> + 	> default:group::r-x
+> + 	> default:mask::r-x
+> + 	> default:other::---
+> +@@ -283,20 +283,20 @@ Does mask manipulation work?
+> + 	
+> + 	$ setfacl -m g:daemon:rx,u:bin:rx d/d
+> + 	$ ls -dl d/d | awk '{print $1}'
+> +-	> drwxr-x---+
+> ++	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d/d
+> + 	> user::rwx
+> +-	> user:bin:r-x
+> + 	> user:daemon:r-x
+> ++	> user:bin:r-x
+> + 	> group::r-x
+> + 	> group:daemon:r-x
+> + 	> group:users:r-x
+> + 	> mask::r-x
+> + 	> other::---
+> + 	> default:user::rwx
+> +-	> default:user:bin:rwx	#effective:r-x
+> + 	> default:user:daemon:r-x
+> ++	> default:user:bin:rwx	#effective:r-x
+> + 	> default:group::r-x
+> + 	> default:mask::r-x
+> + 	> default:other::---
+> +@@ -304,20 +304,20 @@ Does mask manipulation work?
+> +
+> + 	$ setfacl -m d:u:bin:rwx d/d
+> + 	$ ls -dl d/d | awk '{print $1}'
+> +-	> drwxr-x---+
+> ++	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d/d
+> + 	> user::rwx
+> +-	> user:bin:r-x
+> + 	> user:daemon:r-x
+> ++	> user:bin:r-x
+> + 	> group::r-x
+> + 	> group:daemon:r-x
+> + 	> group:users:r-x
+> + 	> mask::r-x
+> + 	> other::---
+> + 	> default:user::rwx
+> +-	> default:user:bin:rwx
+> + 	> default:user:daemon:r-x
+> ++	> default:user:bin:rwx
+> + 	> default:group::r-x
+> + 	> default:mask::rwx
+> + 	> default:other::---
+> +@@ -329,12 +329,12 @@ Remove the default ACL
+> + 	
+> + 	$ setfacl -k d
+> + 	$ ls -dl d | awk '{print $1}'
+> +-	> drwxrwx---+
+> ++	> drwxrwx---
+> +
+> + 	$ getfacl --omit-header d
+> + 	> user::rwx
+> +-	> user:bin:rwx
+> + 	> user:daemon:rw-
+> ++	> user:bin:rwx
+> + 	> group::r-x
+> + 	> mask::rwx
+> + 	> other::---
+> +@@ -343,7 +343,7 @@ Remove the default ACL
+> + Reset to base entries
+> + 	
+> + 	$ setfacl -b d
+> +-	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
+> ++	$ ls -dl d | awk '{print $1}'
+> + 	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d
+> +@@ -355,7 +355,7 @@ Reset to base entries
+> + Now, chmod should change the group_obj entry
+> + 	
+> + 	$ chmod 775 d
+> +-	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
+> ++	$ ls -dl d | awk '{print $1}'
+> + 	> drwxrwxr-x
+> + 	
+> + 	$ getfacl --omit-header d
+> +@@ -369,18 +369,18 @@ Now, chmod should change the group_obj entry
+> + 	$ mkdir d
+> + 	$ setfacl -m u:daemon:rwx,u:bin:rx,d:u:daemon:rwx,d:u:bin:rx d
+> + 	$ ls -dl d | awk '{print $1}'
+> +-	> drwxrwxr-x+
+> ++	> drwxrwxr-x
+> +
+> + 	$ getfacl --omit-header d
+> + 	> user::rwx
+> +-	> user:bin:r-x
+> + 	> user:daemon:rwx
+> ++	> user:bin:r-x
+> + 	> group::rwx
+> + 	> mask::rwx
+> + 	> other::r-x
+> + 	> default:user::rwx
+> +-	> default:user:bin:r-x
+> + 	> default:user:daemon:rwx
+> ++	> default:user:bin:r-x
+> + 	> default:group::rwx
+> + 	> default:mask::rwx
+> + 	> default:other::r-x
+> +@@ -388,18 +388,18 @@ Now, chmod should change the group_obj entry
+> +
+> + 	$ chmod 750 d
+> + 	$ ls -dl d | awk '{print $1}'
+> +-	> drwxr-x---+
+> ++	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d
+> + 	> user::rwx
+> +-	> user:bin:r-x
+> + 	> user:daemon:rwx	#effective:r-x
+> ++	> user:bin:r-x
+> + 	> group::rwx	#effective:r-x
+> + 	> mask::r-x
+> + 	> other::---
+> + 	> default:user::rwx
+> +-	> default:user:bin:r-x
+> + 	> default:user:daemon:rwx
+> ++	> default:user:bin:r-x
+> + 	> default:group::rwx
+> + 	> default:mask::rwx
+> + 	> default:other::r-x
+> +@@ -407,18 +407,18 @@ Now, chmod should change the group_obj entry
+> +
+> + 	$ chmod 750 d
+> + 	$ ls -dl d | awk '{print $1}'
+> +-	> drwxr-x---+
+> ++	> drwxr-x---
+> +
+> + 	$ getfacl --omit-header d
+> + 	> user::rwx
+> +-	> user:bin:r-x
+> + 	> user:daemon:rwx	#effective:r-x
+> ++	> user:bin:r-x
+> + 	> group::rwx	#effective:r-x
+> + 	> mask::r-x
+> + 	> other::---
+> + 	> default:user::rwx
+> +-	> default:user:bin:r-x
+> + 	> default:user:daemon:rwx
+> ++	> default:user:bin:r-x
+> + 	> default:group::rwx
+> + 	> default:mask::rwx
+> + 	> default:other::r-x
+> +diff --git a/test/root/permissions.test b/test/root/permissions.test
+> +index afaf5f0..042005a 100644
+> +--- a/test/root/permissions.test
+> ++++ b/test/root/permissions.test
+> +@@ -217,7 +217,7 @@ Test if symlinks are properly followed.
+> + 	$ ln -s g l
+> + 	$ setfacl -m u:bin:rw l
+> + 	$ ls -l g | awk -- '{ print $1, $3, $4 }'
+> +-	> -rw-rw----+ root root
+> ++	> -rw-rw---- root root
+> +
+> +
+> + Test if ACLs are effective for block and character special files, fifos,
+> +diff --git a/test/root/setfacl.test b/test/root/setfacl.test
+> +index 630e9fb..6726e63 100644
+> +--- a/test/root/setfacl.test
+> ++++ b/test/root/setfacl.test
+> +@@ -13,7 +13,7 @@ Setfacl utility tests. Run these tests on a filesystem with ACL support.
+> +
+> + 	$ setfacl -m m:- g
+> + 	$ ls -dl g | awk '{print $1}'
+> +-	> -rw-------+
+> ++	> -rw-------
+> +
+> + 	$ getfacl g
+> + 	> # file: g
+> +diff --git a/test/sbits-restore.test b/test/sbits-restore.test
+> +index de21340..e5e4fb2 100644
+> +--- a/test/sbits-restore.test
+> ++++ b/test/sbits-restore.test
+> +@@ -13,10 +13,10 @@ Ensure setting of SUID/SGID/sticky via --restore works
+> + 	$ touch d/g
+> + 	$ touch d/u
+> + 	$ setfacl --restore d.acl
+> +-	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
+> ++	$ ls -dl d | awk '{print $1}'
+> + 	> drwxr-xr-t
+> +-	$ ls -dl d/u | awk '{print $1}' | sed 's/\.$//g'
+> ++	$ ls -dl d/u | awk '{print $1}'
+> + 	> -rwSr--r--
+> +-	$ ls -dl d/g | awk '{print $1}' | sed 's/\.$//g'
+> ++	$ ls -dl d/g | awk '{print $1}'
+> + 	> -rw-r-Sr--
+> + 	$ rm -Rf d
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-support/attr/acl/run-ptest b/meta/recipes-support/attr/acl/run-ptest
+> new file mode 100644
+> index 0000000..a6c6867
+> --- /dev/null
+> +++ b/meta/recipes-support/attr/acl/run-ptest
+> @@ -0,0 +1,5 @@
+> +#!/bin/sh
+> +
+> +make -C test -k tests root-tests |sed \
+> + -e 's|^\[.*\] \(.*\) -- ok$|PASS: \1|' \
+> + -e 's|^\[.*\] \(.*\) -- failed|FAIL: \1|'
+>
 
