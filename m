@@ -1,38 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 23BA56B7B6
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 3523160B9B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 17:02:16 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id k14so4355271wgh.20
+	Fri, 10 Jan 2014 17:02:18 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id hn9so1578672wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 09:02:17 -0800 (PST)
+	Fri, 10 Jan 2014 09:02:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=g6kUiSbsfMkgHeCIGmBTfHju5Nar7+OSNJ/T4TRz56o=;
-	b=UUVX/I7r2ou96BPuP3sw8/HFOvq6q3Mrc2YIcIC8jBCL04T6FjYDNTphYIrwsA+5m1
-	mhK8CId+KmGVXJbB4Jfceb3RNcvC9ey3L+DP6Pnc/OIdnKDTTlrPQE6q4uvfHs62+dmS
-	JTEpkCN9PsTIYSZ4buigfkZo+80y7hwqgrW9BvsvtpszintaFU/IyA9ktUto/0N0UY3J
-	76ZVbeYbvEZqhiQvh4iefkJBSRgJ/ycYZsC5LMhfTjMTYSRcDJIHeO1LQK8iMVmyLaq9
-	YC0QFcNwDE/UVMnxAdcKJgqNmYwzv+ASBIqE6NlcJXaRWcy7MfmwqLJbW+xeBIzrkBBV
-	A/Nw==
-X-Gm-Message-State: ALoCoQlmdwsx5DU7/s792lYxWKb3crDnmVm6ijHU2Id/UiPYOhrf3kjkRl7qkGKwwMPnN0y0POED
-X-Received: by 10.194.108.100 with SMTP id hj4mr9324624wjb.83.1389373337755;
-	Fri, 10 Jan 2014 09:02:17 -0800 (PST)
+	bh=UnTcZn+KqVowQgk9KYV6njsqlhwT246uPwqk9hIhQMA=;
+	b=cf35mqJNx8an0TTQvyL5NzDysz6UOCRICXTp7yds29QXWFSBc0d4JrHrn5ZGn5x+Bh
+	+brJuEV7XTqJWMHKi3JSdQSwEWbC09seF2k3TNtjSxeepv2XJS8jqM7oVAQG80sF8tMY
+	VP2LdtsisDLbFEjwIBd8SHkrHd4eifyNJyvBOrJqgljZ9exZcHF6Ur49iIZAsS0KM7Uy
+	ZWFyMbi1C52BljdgiU8ZNCODefHwzfnsL3wtN7HTqP+fvIoZuojPXBAGRmZe8scORUSh
+	jEcDb/qrsqAv2zO3x4YgWRyrOavUZf9Ugkibn9/dJ0tFrp8QLP4dgzpdtFOUwaoWw0yX
+	pCIw==
+X-Gm-Message-State: ALoCoQnBL5mLOjNjHWBqCXLYkMvjJd4sjML0eJw6Tj+Kwu02wA2nc/USPeEXHR2PzcGkygqFp1Xa
+X-Received: by 10.195.13.164 with SMTP id ez4mr9608190wjd.11.1389373338901;
+	Fri, 10 Jan 2014 09:02:18 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id eh7sm3494947wic.2.2014.01.10.09.02.16
+	by mx.google.com with ESMTPSA id eh7sm3494947wic.2.2014.01.10.09.02.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Jan 2014 09:02:17 -0800 (PST)
+	Fri, 10 Jan 2014 09:02:18 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jan 2014 17:02:07 +0000
-Message-Id: <1389373329-21241-3-git-send-email-ross.burton@intel.com>
+Date: Fri, 10 Jan 2014 17:02:08 +0000
+Message-Id: <1389373329-21241-4-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1389373329-21241-1-git-send-email-ross.burton@intel.com>
 References: <1389373329-21241-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH][V2 3/5] waffle: add (from meta-oe)
+Subject: [PATCH][V2 4/5] piglit: add (from meta-oe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,91 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 17:02:17 -0000
+X-List-Received-Date: Fri, 10 Jan 2014 17:02:18 -0000
 
-Waffle is needed for Piglit.  This recipe is taken directly frome meta-oe.
+Piglit is an OpenGL testing tool.  This recipe is taken directly from meta-oe.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/waffle/files/cflags.patch |   27 ++++++++++++++++++
- meta/recipes-graphics/waffle/waffle_1.2.2.bb    |   34 +++++++++++++++++++++++
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-graphics/waffle/files/cflags.patch
- create mode 100644 meta/recipes-graphics/waffle/waffle_1.2.2.bb
+ meta/recipes-graphics/piglit/piglit_git.bb |   48 ++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100644 meta/recipes-graphics/piglit/piglit_git.bb
 
-diff --git a/meta/recipes-graphics/waffle/files/cflags.patch b/meta/recipes-graphics/waffle/files/cflags.patch
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
 new file mode 100644
-index 0000000..3819756
+index 0000000..8616764
 --- /dev/null
-+++ b/meta/recipes-graphics/waffle/files/cflags.patch
-@@ -0,0 +1,27 @@
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -0,0 +1,48 @@
++SUMMARY = "OpenGL driver testing framework"
++LICENSE = "MIT & LGPLv2+ & GPLv3 & GPLv2+ & BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
 +
-+From 2abec1cb3c17fa5ec8d945d79acd74a39c38293a Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Wed, 12 Dec 2012 12:57:18 +0000
-+Subject: cmake: respect existing CMAKE_C_FLAGS
++SRC_URI = "git://anongit.freedesktop.org/piglit"
 +
-+When cross-compiling it's not unusual to need specific arguments passed to gcc
-+such as --sysroot.  Ensure that these are passed on from the toolchain file by
-+appending to CMAKE_C_FLAGS instead of overwriting it.
++# From 2012/12/30.
++SRCREV = "bbeff5d21b06d37338ad28e42d88f499bef13268"
++# (when PV goes above 1.0 remove the trailing r)
++PV = "1.0+gitr${SRCPV}"
 +
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
++S = "${WORKDIR}/git"
 +
-+Index: waffle-1.2.2/CMakeLists.txt
-+===================================================================
-+--- waffle-1.2.2.orig/CMakeLists.txt	2012-11-28 00:43:40.000000000 +0000
-++++ waffle-1.2.2/CMakeLists.txt	2013-02-13 11:34:02.476188233 +0000
-+@@ -212,7 +212,7 @@
-+ # ------------------------------------------------------------------------------
-+ 
-+ # FIXME: Only enable c99 if compiler supports it.
-+-set(CMAKE_C_FLAGS "--std=c99 -Wall -Werror=implicit-function-declaration")
-++set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99 -Wall -Werror=implicit-function-declaration")
-+ if("${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
-+     # On MacOS, the SSE2 headers trigger this error.
-+     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror=missing-prototypes")
-diff --git a/meta/recipes-graphics/waffle/waffle_1.2.2.bb b/meta/recipes-graphics/waffle/waffle_1.2.2.bb
-new file mode 100644
-index 0000000..4f80191
---- /dev/null
-+++ b/meta/recipes-graphics/waffle/waffle_1.2.2.bb
-@@ -0,0 +1,34 @@
-+SUMMARY = "cross-platform C library to defer selection of GL API and of window system"
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4c5154407c2490750dd461c50ad94797 \
-+                    file://include/waffle/waffle.h;endline=24;md5=61dbf8697f61c78645e75a93c585b1bf"
++DEPENDS = "virtual/libx11 waffle virtual/libgl libglu python-mako-native python-numpy-native"
 +
-+SRC_URI = "http://people.freedesktop.org/~chadversary/waffle/files/release/${BPN}-${PV}/${BPN}-${PV}.tar.xz \
-+           file://cflags.patch"
++inherit cmake pythonnative
 +
-+SRC_URI[md5sum] = "fdd07cea7709422fbf72418ee63a285d"
-+SRC_URI[sha256sum] = "7e342c859b58d4e051b347ef3d7740ed2f3b6c506b93daec272724afe7dd1311"
++# As piglit doesn't install, enforce in-tree builds so that we can easily copy
++# contents out of $S and $B.
++B="${S}"
 +
-+inherit cmake
++# CMake sets the rpath at build time with the source tree, and will reset it at
++# install time. As we don't install this doesn't happen, so force the rpath to
++# what we need.
++EXTRA_OECMAKE = "-DCMAKE_BUILD_WITH_INSTALL_RPATH=1 -DCMAKE_INSTALL_RPATH=${libdir}/piglit/lib"
 +
-+# This should be overridden per-machine to reflect the capabilities of the GL
-+# stack.
-+PACKAGECONFIG ??= "glx"
++do_install() {
++	install -d ${D}${bindir}
++	install -m 0755 piglit-*.py ${D}${bindir}
 +
-+# I say virtual/libgl, actually wants gl.pc
-+PACKAGECONFIG[glx] = "-Dwaffle_has_glx=1,,virtual/libgl libx11"
++	install -d ${D}${libdir}/piglit/
 +
-+# I say virtual/libgl, actually wants wayland-egl.pc, egl.pc, and the wayland
-+# DISTRO_FEATURE.
-+PACKAGECONFIG[wayland] = "-Dwaffle_has_wayland=1,,virtual/libgl wayland"
++	install -d ${D}${libdir}/piglit/bin
++	install -m 755 ${S}/bin/* ${D}${libdir}/piglit/bin
 +
-+# I say virtual/libgl, actually wants gbm.pc egl.pc
-+PACKAGECONFIG[gbm] = "-Dwaffle_has_wayland=1,,virtual/libgl udev"
++	cp -a lib/ ${D}${libdir}/piglit/
++	cp -a framework/ ${D}${libdir}/piglit/
++	cp -a generated_tests/ ${D}${libdir}/piglit/
++	cp -a tests/ ${D}${libdir}/piglit/
++	cp -a templates/ ${D}${libdir}/piglit/
 +
-+# I say virtual/libgl, actually wants egl.pc
-+PACKAGECONFIG[x11-egl] = "-Dwaffle_has_x11_egl=1,,virtual/libgl libxcb"
++	sed -i -e 's|sys.path.append(.*)|sys.path.append("${libdir}/piglit")|' ${D}${bindir}/piglit-*.py
++	sed -i -e 's|^templatedir = .*$|templatedir = "${libdir}/piglit/templates"|' ${D}${bindir}/piglit-summary-html.py
++}
 +
-+# Take the flags added by PACKAGECONFIG and pass them to cmake.
-+EXTRA_OECMAKE = "${EXTRA_OECONF}"
++FILES_${PN}-dbg += "${libdir}/piglit/*/.debug/"
 +
-+FILES_${PN}-dev += "${datadir}/cmake/Modules/FindWaffle.cmake"
++RDEPENDS_${PN} = "python waffle python-json python-subprocess python-multiprocessing python-textutils python-netserver python-shell mesa-demos"
 -- 
 1.7.10.4
 
