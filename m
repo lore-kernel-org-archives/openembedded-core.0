@@ -1,39 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id D533060D27
+Return-Path: <milo-software@users.sourceforge.net>
+Received: from smtp07.online.nl (smtp07.online.nl [194.134.42.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E82CB60CF2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 17:55:04 +0000 (UTC)
-Received: by mail-we0-f177.google.com with SMTP id x55so2095309wes.22
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 09:55:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=dhD40w4cJ64pQ9mxD1/QNnmHH5tbjqkP4iDHenK6VaE=;
-	b=g5yk+90HRisvmmOrRpeIWl4XZcFWovNQINt+etH2dn8LMdbAN2yWpO8DTvXinEZI71
-	RZuTMESWJemE9k+R1pIikWtmTXVspk+Ma0sIk+VGq3gwwUsLQyJbVvYumj/flklpmAzQ
-	l2k1qd/zdLcFBJEeMSPYQOGh4RU5VXAaZ5FiwS55R5YksF7JAiSykD0S8ugi3eRjSAFl
-	QZT0sMN+ixCgxxaoe+PiHbfCTOlmAXeSdqzpZHvbPjTqPLnO8wCoEFyN8ED+h/JE9Qh/
-	ksaKqrKwxpTVAJnJSi4ukz8O8+6wy+JBBfAelZcqJMYMreOsw0kSKnx6wUCX5GfuOfRJ
-	SLtA==
-X-Gm-Message-State: ALoCoQm5+lgvjBrbpqwD8228zy/sPBrmznkExugRpe4YBIF4NmcfrTTqCiAueQYGvEcjAhoF3jwh
-X-Received: by 10.180.76.103 with SMTP id j7mr3883067wiw.58.1389376505412;
-	Fri, 10 Jan 2014 09:55:05 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id a9sm3686306wiy.10.2014.01.10.09.55.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Jan 2014 09:55:04 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Fri, 10 Jan 2014 17:56:02 +0000 (UTC)
+Received: from smtp07.online.nl (localhost [127.0.0.1])
+	by smtp07.online.nl (Postfix) with ESMTP id BC91398504;
+	Fri, 10 Jan 2014 18:56:01 +0100 (CET)
+Received: from phenom.lan (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp07.online.nl (Postfix) with ESMTP;
+	Fri, 10 Jan 2014 18:56:01 +0100 (CET)
+From: MiLo <milo-software@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jan 2014 17:54:48 +0000
-Message-Id: <1389376488-22286-4-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1389376488-22286-1-git-send-email-ross.burton@intel.com>
-References: <1389376488-22286-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] cmake: default to out-of-tree builds
+Date: Fri, 10 Jan 2014 18:56:00 +0100
+Message-Id: <1389376560-30291-1-git-send-email-milo-software@users.sourceforge.net>
+X-Mailer: git-send-email 1.7.9.5
+X-Online-Scanned: by Cloudmark authority (on smtp07.online.nl)
+Cc: MiLo <milo-software@users.sourceforge.net>
+Subject: [PATCH] util-linux: Add fstrim utility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,27 +29,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 17:55:06 -0000
+X-List-Received-Date: Fri, 10 Jan 2014 17:56:03 -0000
 
-Set B=${WORKDIR}/build in cmake.bbclass so that recipes using cmake.bbclass do
-out-of-tree builds by default.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Add "util-linux-fstrim" package, containing /sbin/fstrim, for trimming
+unused sectors on SSDs.
 ---
- meta/classes/cmake.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/util-linux/util-linux.inc |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 1dc406d2..3ac3fcc 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -1,4 +1,5 @@
- DEPENDS_prepend = "cmake-native "
-+B = "${WORKDIR}/build"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 8a1e78a..10d9501 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -36,7 +36,7 @@ PACKAGES =+ "util-linux-agetty util-linux-fdisk util-linux-cfdisk util-linux-sfd
+              util-linux-libblkid-dev util-linux-libuuid util-linux-libuuid-dev \
+              util-linux-uuidgen util-linux-lscpu util-linux-fsck util-linux-blkid \
+              util-linux-mkfs util-linux-mcookie util-linux-reset util-linux-uuidd \
+-             util-linux-mkfs.cramfs util-linux-fsck.cramfs \
++             util-linux-mkfs.cramfs util-linux-fsck.cramfs util-linux-fstrim \
+              util-linux-partx ${PN}-bash-completion"
  
- # We need to unset CCACHE otherwise cmake gets too confused
- CCACHE = ""
+ SHARED_EXTRA_OECONF = "--disable-use-tty-group \
+@@ -63,6 +63,7 @@ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
+ 
+ FILES_util-linux-agetty = "${base_sbindir}/agetty"
+ FILES_util-linux-fdisk = "${base_sbindir}/fdisk.${BPN}"
++FILES_util-linux-fstrim = "${base_sbindir}/fstrim"
+ FILES_util-linux-cfdisk = "${base_sbindir}/cfdisk"
+ FILES_util-linux-sfdisk = "${sbindir}/sfdisk"
+ FILES_util-linux-swaponoff = "${base_sbindir}/swapon.${BPN} ${base_sbindir}/swapoff.${BPN}"
+@@ -130,7 +131,7 @@ do_install () {
+ 	mkdir -p ${D}${base_bindir}
+ 
+         sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
+-        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev"
++        sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev fstrim"
+         usrbinprogs_a="chfn chsh hexdump last logger mesg newgrp renice utmpdump wall setsid chrt flock getopt"
+         binprogs_a="dmesg kill more umount mount login reset su"
+ 
 -- 
-1.7.10.4
+1.7.9.5
 
 
