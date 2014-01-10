@@ -1,41 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id C898062176
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EE2C60CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 11:02:28 +0000 (UTC)
-Received: by mail-ea0-f178.google.com with SMTP id d10so2040071eaj.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 03:02:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=e0FDRYnK9KhaONjrboFTNXpOgLj7jrDaJlucZBdf7IU=;
-	b=nMzLabWvBqa4bojTe6C5zHFW/YkzwaEnbKuFnBHseytBirUpDaaKLumc9cyivyc4UZ
-	lj7RzwYakN8WV10JMHraG7ML63FlmLKfLL2A45t4wRlS8kOXSsACRyns2bJT745kGZGK
-	C8EAb3d73GV8CsZdsVApFftVEXSND2hnFcQaUhMRteFJ6+J1tTh5p+2x5fUZjyU02n2Z
-	VOU4iWW0aN093ZjeUSU0KP0QFuwEk8K4aF/c5hY+/1Y0opAvID3v2tKwICwqLF4Eh/dJ
-	97osIe0xw9cZ2sdDDns8Tr1ti311hNd495WT21QCOhgXdqYwqLkdQh56WIcblyNkz5Vu
-	w9Uw==
-X-Received: by 10.15.26.200 with SMTP id n48mr9189478eeu.46.1389351749418;
-	Fri, 10 Jan 2014 03:02:29 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id p45sm13555368eeg.1.2014.01.10.03.02.28
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Jan 2014 03:02:28 -0800 (PST)
-Date: Fri, 10 Jan 2014 12:02:41 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20140110110241.GP3709@jama>
-References: <cover.1389003637.git.Martin.Jansa@gmail.com>
-	<52CF90CB.3010300@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <52CF90CB.3010300@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [dora][PATCH 0/2] Dora backports
+	Fri, 10 Jan 2014 11:44:44 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1W1aW4-0006zW-Fu; Fri, 10 Jan 2014 12:44:44 +0100
+Message-ID: <1389354283.9182.139.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Fri, 10 Jan 2014 11:44:43 +0000
+In-Reply-To: <CAP9ODKo1LCoGuUG=0mpRMwctq06RwpaX_B=goEoO55b6YQwXHg@mail.gmail.com>
+References: <1389266170.9182.122.camel@phil-desktop.brightsign>
+	<CAP9ODKo1LCoGuUG=0mpRMwctq06RwpaX_B=goEoO55b6YQwXHg@mail.gmail.com>
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Thu, 2014-01-09 at 12:10 -0200,
+	Otavio Salvador wrote: > On Thu, Jan 9, 2014 at 9:16 AM,
+	Phil Blundell <pb@pbcl.net> wrote: > > Although
+	libsoup did use to support direct usage of libproxy,
+	> it hasn't > done so for some time. Worse,
+	if libsoup depends on libproxy > then it > is impossible
+	to build libproxy against webkit since webkit > itself > depends on
+	libsoup
+	in some configurations. Fix this by > removing the > extraneous entry
+	from
+	DEPENDS. > > Signed-off-by: Phil Blundell <pb@pbcl.net> > > > > Does it
+	need a --disable-libproxy or so? [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	0.0 HTML_MESSAGE           BODY: HTML included in message
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libsoup: Remove libproxy from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,83 +58,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 11:02:30 -0000
-X-Groupsio-MsgNum: 48819
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="h3DE4SGaK/gJt4Z8"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 10 Jan 2014 11:44:44 -0000
+Content-Type: multipart/alternative; boundary="=-i90y8yDgeU5VwXP3buz8"
 
---h3DE4SGaK/gJt4Z8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--=-i90y8yDgeU5VwXP3buz8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 10, 2014 at 02:18:51PM +0800, Robert Yang wrote:
->=20
-> Hi Martin,
->=20
-> Thanks, please see my comments in line.
->=20
-> On 01/06/2014 06:21 PM, Martin Jansa wrote:
-> > The following changes since commit e86622a932bbd0acdea67ecfb15c8b06c273=
-53d8:
-> >
-> >    libsoup-2.4: add intltool-native to DEPENDS (2013-12-19 14:59:47 +00=
-00)
-> >
-> > are available in the git repository at:
-> >
-> >    git://git.openembedded.org/openembedded-core-contrib jansa/dora-back=
-ports2
-> >    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/=
-?h=3Djansa/dora-backports2
-> >
-> > Martin Jansa (1):
-> >    ltp: set PREFERRED_PROVIDER and rename runtests_noltp.sh script
-> >
->=20
-> I will take this.
->=20
-> > Richard Purdie (1):
-> >    eglibc-initial.inc: Drop duplicate include
-> >
->=20
->=20
-> It seems that this is a trivial fix, I don't think it's a good idea to me=
-rge
-> it to dora.
+On Thu, 2014-01-09 at 12:10 -0200, Otavio Salvador wrote:
 
-And the warning shown in every dora build since
-http://git.openembedded.org/bitbake/commit/?h=3D1.20&id=3D22e6b1c4c4afb2705=
-7689bbc94cbdf1f19f93e3d
-isn't important enough reason to merge it?
+> On Thu, Jan 9, 2014 at 9:16 AM, Phil Blundell <pb@pbcl.net> wrote:
+> 
+>         Although libsoup did use to support direct usage of libproxy,
+>         it hasn't
+>         done so for some time.  Worse, if libsoup depends on libproxy
+>         then it
+>         is impossible to build libproxy against webkit since webkit
+>         itself
+>         depends on libsoup in some configurations.  Fix this by
+>         removing the
+>         extraneous entry from DEPENDS.
+>         
+>         Signed-off-by: Phil Blundell <pb@pbcl.net>
+>         
+> 
+> 
+> Does it need a --disable-libproxy or so? 
 
->=20
-> // Robert
->=20
-> >   meta/conf/distro/include/default-providers.inc     |   2 +
-> >   meta/recipes-core/eglibc/eglibc-initial.inc        |   2 -
-> >   ...tests_noltp.sh-script-so-have-unique-name.patch | 202 ++++++++++++=
-+++++++++
-> >   meta/recipes-extended/ltp/ltp_20130503.bb          |   4 +-
-> >   4 files changed, 207 insertions(+), 3 deletions(-)
-> >   create mode 100644 meta/recipes-extended/ltp/ltp/0001-Rename-runtests=
-_noltp.sh-script-so-have-unique-name.patch
-> >
+No.   See the (old) NEWS:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---h3DE4SGaK/gJt4Z8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+        Changes in libsoup from 2.33.90 to 2.33.92:
+        
+                * LIBSOUP NO LONGER DEPENDS ON GCONF OR LIBPROXY.
+                  (see below).
+        
+               * Updated SoupProxyResolverGNOME to be based on
+                  SoupProxyResolverDefault, but explicitly requesting
+        the
+                  "gnome" GProxyResolver if it is available [#625898],
+        and
+                  removed the old code that used GConf and libproxy
+        directly.
+        
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+p.
 
-iEYEARECAAYFAlLP01EACgkQN1Ujt2V2gBx7CgCfazum4B/56G1q1hHvdTVmNh6z
-HQ8AnjAwSGl316vfJv2ezBTtPrm/OhLs
-=eQwM
------END PGP SIGNATURE-----
 
---h3DE4SGaK/gJt4Z8--
+
+--=-i90y8yDgeU5VwXP3buz8
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 TRANSITIONAL//EN">
+<HTML>
+<HEAD>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
+  <META NAME="GENERATOR" CONTENT="GtkHTML/4.6.6">
+</HEAD>
+<BODY>
+On Thu, 2014-01-09 at 12:10 -0200, Otavio Salvador wrote:
+<BR>
+<BLOCKQUOTE TYPE=CITE>
+    On Thu, Jan 9, 2014 at 9:16 AM, Phil Blundell &lt;<A HREF="mailto:pb@pbcl.net">pb@pbcl.net</A>&gt; wrote:<BR>
+    <BLOCKQUOTE>
+        Although libsoup did use to support direct usage of libproxy, it hasn't<BR>
+        done so for some time. &nbsp;Worse, if libsoup depends on libproxy then it<BR>
+        is impossible to build libproxy against webkit since webkit itself<BR>
+        depends on libsoup in some configurations. &nbsp;Fix this by removing the<BR>
+        extraneous entry from DEPENDS.<BR>
+        <BR>
+        Signed-off-by: Phil Blundell &lt;<A HREF="mailto:pb@pbcl.net">pb@pbcl.net</A>&gt;
+    </BLOCKQUOTE>
+</BLOCKQUOTE>
+<BLOCKQUOTE TYPE=CITE>
+    <BR>
+    <BR>
+</BLOCKQUOTE>
+<BLOCKQUOTE TYPE=CITE>
+    Does it need a --disable-libproxy or so?&nbsp;
+</BLOCKQUOTE>
+<BR>
+No.&nbsp;&nbsp; See the (old) NEWS:<BR>
+<BR>
+<BLOCKQUOTE>
+    <TT>Changes in libsoup from 2.33.90 to 2.33.92:</TT><BR>
+    <BR>
+    <TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * LIBSOUP NO LONGER DEPENDS ON GCONF OR LIBPROXY.</TT><BR>
+    <TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (see below).</TT><BR>
+    <BR>
+    <TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * Updated SoupProxyResolverGNOME to be based on</TT><BR>
+    <TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SoupProxyResolverDefault, but explicitly requesting the</TT><BR>
+    <TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;gnome&quot; GProxyResolver if it is available [#625898], and</TT><BR>
+    <TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; removed the old code that used GConf and libproxy directly.</TT><BR>
+    <BR>
+</BLOCKQUOTE>
+p.<BR>
+<BR>
+<BR>
+</BODY>
+</HTML>
+
+--=-i90y8yDgeU5VwXP3buz8--
