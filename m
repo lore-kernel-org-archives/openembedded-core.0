@@ -1,43 +1,36 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 553B06B5B0
+Return-Path: <schuknecht@dresearch-fe.de>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 433AB6B5B0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 12:57:02 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W1be2-00071O-SG
-	for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jan 2014 13:57:03 +0100
-Message-ID: <1389358622.9182.150.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Jan 2014 12:57:02 +0000
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  During rootfs construction,
-	image.bbclass will call depmod
-	after all the modules are installed. There's no need to run it from the
-	postinst
-	when operating in offline root mode. Signed-off-by: Phil Blundell
-	<pb@pbcl.net>
-	--- meta/classes/kernel-module-split.bbclass | 4 +++- 1 file changed,
-	3 insertions(+), 1 deletion(-) [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] kernel-module-split: Remove extraneous call to depmod from module postinst
+	Fri, 10 Jan 2014 13:20:15 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id hq4so8290488wib.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jan 2014 05:20:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:content-type;
+	bh=sK7cxnJSnoJRuxmly8v2tvOi9+Zd6ohW/vJHaPy/FpE=;
+	b=bKchOj46pVi1hB1liGYUXqbf/ZL6Ju2/dL0YZ2x+3347R98E7u26mOQJyvfEfcwkNP
+	v/IAqEOQe0Gg+MtWaXQwaMHy0XpOGHbYeBjcISYIDJttfS8t77mCRj3KIYF9cTCCvmkh
+	SGu7ndPvxWl6y+H8eKmO6+TXKmbW0mP401HIEGRW4sERfFHiIGxD1SJeslfAobM1OsQe
+	KOz7o5qFoafnXLI4CtXjgaKtCDspnKV2DZJMgHBE4l0MyRAO/vVqI0pHkqrHvmb42Bzy
+	0FMaH+AQgOHHNpem/4TMtS68bdBKRDG5rrfv/XeBpghjO3vZO66pJ7izpdbwAAoXmWIW
+	v5eQ==
+X-Gm-Message-State: ALoCoQnNnXnJH+R8fbw0b/WSf6eYvAG4pCi47ahcgHdoyyiCByMupXgOis2F06V1U3PkBUdDNrQN
+MIME-Version: 1.0
+X-Received: by 10.180.90.37 with SMTP id bt5mr2594886wib.43.1389360015594;
+	Fri, 10 Jan 2014 05:20:15 -0800 (PST)
+Received: by 10.217.162.134 with HTTP; Fri, 10 Jan 2014 05:20:15 -0800 (PST)
+In-Reply-To: <52CEEE43.1090209@linaro.org>
+References: <52CEEE43.1090209@linaro.org>
+Date: Fri, 10 Jan 2014 14:20:15 +0100
+Message-ID: <CAAwVp3tQ7_wjQ7zJ48DCHEM8R9V+Od5kx4LKsGnv77ndWj1vmg@mail.gmail.com>
+From: Mario Schuknecht <schuknecht@dresearch-fe.de>
+To: Trevor Woerner <trevor.woerner@linaro.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: unmaintained layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,37 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 12:57:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Jan 2014 13:20:16 -0000
+Content-Type: multipart/alternative; boundary=f46d043d677931f59004ef9d9628
 
-During rootfs construction, image.bbclass will call depmod after all the
-modules are installed.  There's no need to run it from the postinst when
-operating in offline root mode.
+--f46d043d677931f59004ef9d9628
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
----
- meta/classes/kernel-module-split.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> Hi everyone,
+>
+> At the last TSC meeting the topic of unmaintained layers came up. Here
+> is the sorted list of master layers from the layer index [1], would it
+> be possible for those in the know to indicate which layers are, or are
+> suspected of being, unmaintained?
+>
+>
+>
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index 83d9a8f..97b61a0 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -2,7 +2,9 @@ pkg_postinst_modules () {
- if [ -z "$D" ]; then
- 	depmod -a ${KERNEL_VERSION}
- else
--	depmodwrapper -a -b $D ${KERNEL_VERSION}
-+	# image.bbclass will call depmodwrapper after everything is installed,
-+	# no need to do it here as well
-+	:
- fi
- }
- 
--- 
-1.8.5
+> meta-hipos
+>
+> is maintained.
 
+Mario
 
+--f46d043d677931f59004ef9d9628
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex">Hi everyone,<br>
+<br>
+At the last TSC meeting the topic of unmaintained layers came up. Here<br>
+is the sorted list of master layers from the layer index [1], would it<br>
+be possible for those in the know to indicate which layers are, or are<br>
+suspected of being, unmaintained?<br>
+<br>
+<br>
+</blockquote><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+meta-hipos<br><br></blockquote><div>is maintained.</div><div><br></div><div=
+>Mario</div></div>
+</div></div>
 
+--f46d043d677931f59004ef9d9628--
