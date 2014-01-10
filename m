@@ -1,41 +1,37 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B16560DF6
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id CB08760E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 15:35:48 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id u57so4064411wes.0
+	Fri, 10 Jan 2014 15:50:39 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id h16so5200452oag.40
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 07:35:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=sRZ8/eyha+Y2vJOqusW0G5m6xaMATMX5M833UuQnLL0=;
-	b=VK6z3mJ/I16ZUEaDJJCdcAi55BlmLqD2AF1un56p7ln8I/iXM/Z7wT7Kd8tc8UsZTO
-	QOgO/O/dD3A732uGRtiWvRQP6AmmAZV/Peea1nX9em7g5m2ForDEzU/tLIMtYvZ9zFaQ
-	6DFmFCt1xBuEiBiQBt3O1lmku9EMNg3hWJOyfi02WiZKJZiZHHt966qcrE7zwo33XFh9
-	w20Wgc4+r1cZ+v1X3d9xsEuXV/ndontd8uzJ6fdCSCDhg/jmoAfqwdxGv0Ho4FgB/OOD
-	raLb9g28aHSxRXN2QraxBvZHdQ76S1AiSQdsyN/34s1duV8ZsyjYBr4vc6zzkVt/HWCH
-	hOQA==
-X-Gm-Message-State: ALoCoQnqjI+e7DZh0dCrIUj/UiZc9IsmjzzBfTuHaROEA+5K+YHR9ceN+Za2eivAZBVjhGRAkjxs
-X-Received: by 10.180.108.42 with SMTP id hh10mr3308823wib.15.1389368149044;
-	Fri, 10 Jan 2014 07:35:49 -0800 (PST)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id z2sm3116642wiy.11.2014.01.10.07.35.47
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 10 Jan 2014 07:35:48 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <36564971.Qsvan2fIrZ@helios>
-Date: Fri, 10 Jan 2014 16:35:37 +0100
-Message-Id: <21F55DFF-09C4-4D65-8209-EC3F63F72DD9@dominion.thruhere.net>
-References: <52CEEE43.1090209@linaro.org> <36564971.Qsvan2fIrZ@helios>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.1827)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: unmaintained layers
+	Fri, 10 Jan 2014 07:50:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=kJyNLrPxIb96yFNapgp5QVPasFleOLGwVQyAGU1nw5c=;
+	b=cuO2KTYzU/u3W0r2m6liNTJdQMMy9kFtuYQyMyouDaczR+0U2WvumQ6Pnt8qfrb8J/
+	ZHeySi1DVnuo1v4vpGZMgT3b/SdsvVk9cflP+bMx/qq+O7J4Jf5ljVCwUWCA4Z8XJNDc
+	5kLmIWgmFl5ohJdrJevrHBS9smqGft4Jx6RWPnocIN2CMb85c47x6Jig85lbBRjgS98B
+	A1Moeo1KxY/dGoU+VfyvV2jbJsa+7Vti1DVk0/3npW4A5GZLA2WXCtYmM5kLmmhG5zJg
+	a7urrZB/gFTHqo9cKTkr6BaGBDQr+DEqkAqT/4Uv+FHR2dDurixy8Nm3vPZTOIXsaTPu
+	dmPA==
+X-Received: by 10.60.123.19 with SMTP id lw19mr8457716oeb.24.1389369040319;
+	Fri, 10 Jan 2014 07:50:40 -0800 (PST)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.76.122.171 with HTTP; Fri, 10 Jan 2014 07:50:00 -0800 (PST)
+In-Reply-To: <CADV-EXEygnQGWan8VLtZbieUozXPnfRNytXg9TBv1ALwJ_y3cA@mail.gmail.com>
+References: <CADV-EXEygnQGWan8VLtZbieUozXPnfRNytXg9TBv1ALwJ_y3cA@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Fri, 10 Jan 2014 15:50:00 +0000
+X-Google-Sender-Auth: NmFdvvA8ieUNdvVyEx-hfAMTgmI
+Message-ID: <CANyK_8cntHRL7rRSUibaCX_1L3zDmYhx_P=pa6S7RA4G_LeG5w@mail.gmail.com>
+To: Yevhen Kyriukha <kirgene@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Failed to build opkg with curl support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,42 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 15:35:48 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Jan 2014 15:50:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On 9 January 2014 12:04, Yevhen Kyriukha <kirgene@gmail.com> wrote:
+> I define "curl" in PACKAGECONFIG for opkg.
+> After that I'm getting circular dependency errors during building opkg.
+>
+> Best regards,
+> Yevhen
 
-Op 10 jan. 2014, om 15:01 heeft Paul Eggleton =
-<paul.eggleton@linux.intel.com> het volgende geschreven:
+Sorry, this is a known problem.
 
-> On Thursday 09 January 2014 13:45:23 Trevor Woerner wrote:
->> At the last TSC meeting the topic of unmaintained layers came up. =
-Here
->> is the sorted list of master layers from the layer index [1], would =
-it
->> be possible for those in the know to indicate which layers are, or =
-are
->> suspected of being, unmaintained?
->=20
-> This is all very interesting with people piping up that their layers =
-are=20
-> maintained, but I'm not sure it helps solve the overall problem.
->=20
-> We have some immediate issues with patches to particular layers going=20=
+The update-alternatives script needs to be moved out of opkg, either
+to opkg-utils or to its own recipe as it is the use of
+update-alternatives that is causing the circular dependencies. This is
+what I am planning to work on next as soon as I get some time.
 
-> unmerged. That's in the process of being resolved.
->=20
-> However, looking to the future it was suggested at the TSC meeting it =
-would be=20
-> nice to have some kind of measure or indication for the layer (ideally =
-in the=20
-> layer index) as to how well-maintained it is. Is there a practical and=20=
+This is required for my ongoing development work on opkg so it should
+get sorted out soon. (Future versions of opkg will depend on
+libarchive which also indirectly depends on update-alternatives).
 
-> objective measurement we can have about the layer's maintenance =
-status? I=20
-> don't have a good idea of what this would actually mean - how many =
-outstanding=20
-> patches it has? How recently it has been built/tested?
+Related to this is the fact that no other providers of
+update-alternatives seem to work, again due to circular dependencies.
 
-Or how long it takes a patch to get applied on average.=20=
+See http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/45321
+
+Thanks,
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
