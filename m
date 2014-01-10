@@ -1,37 +1,43 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id CB08760E5A
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C2DE60E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 15:50:39 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id h16so5200452oag.40
+	Fri, 10 Jan 2014 15:51:53 +0000 (UTC)
+Received: by mail-ig0-f172.google.com with SMTP id hl1so19392373igb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 07:50:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=kJyNLrPxIb96yFNapgp5QVPasFleOLGwVQyAGU1nw5c=;
-	b=cuO2KTYzU/u3W0r2m6liNTJdQMMy9kFtuYQyMyouDaczR+0U2WvumQ6Pnt8qfrb8J/
-	ZHeySi1DVnuo1v4vpGZMgT3b/SdsvVk9cflP+bMx/qq+O7J4Jf5ljVCwUWCA4Z8XJNDc
-	5kLmIWgmFl5ohJdrJevrHBS9smqGft4Jx6RWPnocIN2CMb85c47x6Jig85lbBRjgS98B
-	A1Moeo1KxY/dGoU+VfyvV2jbJsa+7Vti1DVk0/3npW4A5GZLA2WXCtYmM5kLmmhG5zJg
-	a7urrZB/gFTHqo9cKTkr6BaGBDQr+DEqkAqT/4Uv+FHR2dDurixy8Nm3vPZTOIXsaTPu
-	dmPA==
-X-Received: by 10.60.123.19 with SMTP id lw19mr8457716oeb.24.1389369040319;
-	Fri, 10 Jan 2014 07:50:40 -0800 (PST)
+	Fri, 10 Jan 2014 07:51:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=gJQUeu4pRZkU0FsCGgTXP9dQVrC3oqB5zABmDjXb2dg=;
+	b=bnUMKu26+RCOEP+Nq+HgKnXUIgK02vjr/GEGSsWWKirZKTPLWBPDxEMWHm4acsEnp1
+	ZNl1WjPqmCFCiNnYMPgg6ZXE2SmVFBIZ+8dlTtNNliScnutvmgB7i71G7bmXFyTBEidQ
+	/nAjbrD6o/midgsXLV7CCn6Z8O6ZDT7xQrJOfTiy2/hkMUhEoaTcyQdG7zs5V6Zt+UEK
+	70FuPmI+IUgB1uVrZ9AH67BUbjhtIkcxaL1bENSsJcCY1LuDBFH/A3Y/l40ihWT+hJ9N
+	pjXCBptXFDPV3K3ZzG96+x5XXsdZKZva0u//InasC/Q2SigR3HABjVGXzOEUI01jZNy7
+	aPTw==
+X-Gm-Message-State: ALoCoQkDe2SeHyW1Mm1l9kTq4aZ3uzA75PnoMeXrst+M+VQNmf9VXTfWMbgqLjvEBrkAHl1sLJqI
+X-Received: by 10.42.230.73 with SMTP id jl9mr8618003icb.26.1389369114322;
+	Fri, 10 Jan 2014 07:51:54 -0800 (PST)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id a1sm3168894igo.0.2014.01.10.07.51.52
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 10 Jan 2014 07:51:53 -0800 (PST)
+Message-ID: <52D01717.605@linaro.org>
+Date: Fri, 10 Jan 2014 10:51:51 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.76.122.171 with HTTP; Fri, 10 Jan 2014 07:50:00 -0800 (PST)
-In-Reply-To: <CADV-EXEygnQGWan8VLtZbieUozXPnfRNytXg9TBv1ALwJ_y3cA@mail.gmail.com>
-References: <CADV-EXEygnQGWan8VLtZbieUozXPnfRNytXg9TBv1ALwJ_y3cA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 10 Jan 2014 15:50:00 +0000
-X-Google-Sender-Auth: NmFdvvA8ieUNdvVyEx-hfAMTgmI
-Message-ID: <CANyK_8cntHRL7rRSUibaCX_1L3zDmYhx_P=pa6S7RA4G_LeG5w@mail.gmail.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Failed to build opkg with curl support
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+References: <52CEEE43.1090209@linaro.org> <36564971.Qsvan2fIrZ@helios>
+In-Reply-To: <36564971.Qsvan2fIrZ@helios>
+Subject: Re: unmaintained layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +50,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 15:50:40 -0000
+X-List-Received-Date: Fri, 10 Jan 2014 15:51:53 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 9 January 2014 12:04, Yevhen Kyriukha <kirgene@gmail.com> wrote:
-> I define "curl" in PACKAGECONFIG for opkg.
-> After that I'm getting circular dependency errors during building opkg.
->
-> Best regards,
-> Yevhen
+Hi Paul,
 
-Sorry, this is a known problem.
+On 01/10/14 09:01, Paul Eggleton wrote:
+> This is all very interesting with people piping up that their layers
+> are maintained, but I'm not sure it helps solve the overall problem.
 
-The update-alternatives script needs to be moved out of opkg, either
-to opkg-utils or to its own recipe as it is the use of
-update-alternatives that is causing the circular dependencies. This is
-what I am planning to work on next as soon as I get some time.
+> Also, if it does appear that a layer has gone "unmaintained" by
+> popular consensus, what should actually be done about it? 
 
-This is required for my ongoing development work on opkg so it should
-get sorted out soon. (Future versions of opkg will depend on
-libarchive which also indirectly depends on update-alternatives).
+I was hoping I could put together a list of the layers which are no
+longer maintained to see if we could find people who might be interested
+in stepping up and taking on their maintenance. Or at the very least,
+clarifying a given layers' maintenance status.
 
-Related to this is the fact that no other providers of
-update-alternatives seem to work, again due to circular dependencies.
+At the last OE TSC meeting the issue of unmaintained layers was brought
+up, I asked several times if people could specify to which layers they
+were referring, but nobody replied. So people are concerned about layers
+that have no maintainer, but nobody can say which ones (?). In my
+opinion I thought it would be easier to solve this problem if we could
+at least start by defining it.
 
-See http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/45321
+As to what can be done about it: if a layer is not maintained, and
+nobody cares for the layer, we should drop it from the list or at least
+mark it as such ("buyer beware"). If a layer is not maintained, and
+people do care, then we'll need to try to find someone to take
+responsibility for it (we should, at the very least, make the attempt).
+Also I think we should identify layers that people do care about, whose
+maintenance is questionable, which are not hosted in a way where the
+community can apply necessary patches to easily.
 
-Thanks,
-
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Best regards,
+    Trevor
 
