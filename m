@@ -1,25 +1,21 @@
-Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
-Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 2679E6B5D8
+Return-Path: <anders@chargestorm.se>
+Received: from stoexhubfe02.domain01.net (STOEXHUBFE02.domain01.net
+	[83.145.59.141])
+	by mail.openembedded.org (Postfix) with ESMTP id 747AB60CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 07:08:27 +0000 (UTC)
-Received: from [192.168.101.5] (afplatform.bmw-carit.intra [192.168.101.5])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 6864840083;
-	Fri, 10 Jan 2014 06:35:20 +0100 (CET)
-Message-ID: <52CF9C5C.1020404@oss.bmw-carit.de>
-Date: Fri, 10 Jan 2014 08:08:12 +0100
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Fri, 10 Jan 2014 07:15:03 +0000 (UTC)
+Received: from localhost (213.114.79.21) by stoexhubfe02.domain01.net
+	(10.12.10.7) with Microsoft SMTP Server id 8.3.279.1; Fri, 10 Jan 2014
+	08:14:52 +0100
+From: Anders Darander <anders@chargestorm.se>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jan 2014 08:15:01 +0100
+Message-ID: <cover.1389338076.git.anders@chargestorm.se>
+X-Mailer: git-send-email 1.8.5.2
 MIME-Version: 1.0
-To: Trevor Woerner <trevor.woerner@linaro.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <52CEEE43.1090209@linaro.org>
-In-Reply-To: <52CEEE43.1090209@linaro.org>
-Subject: Re: unmaintained layers
+X-GFI-SMTP-Submission: 1
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: [PATCH 0/1] systemd-compat-units: do not mask real service files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,23 +28,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 07:08:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Jan 2014 07:15:03 -0000
+Content-Type: text/plain
 
-Hi Trevor,
+systemd-compat-units might mask existing service files.
+This occuress if real service files mentioned in SYSTEMD_DISABLED_SYSV_SERVICES
+exists in systemd_unitdir/system instead of /etc/systemd/system.
 
-On 01/09/2014 07:45 PM, Trevor Woerner wrote:
-> Hi everyone,
->
-> At the last TSC meeting the topic of unmaintained layers came up. Here
-> is the sorted list of master layers from the layer index [1], would it
-> be possible for those in the know to indicate which layers are, or are
-> suspected of being, unmaintained?
+This was discovered when adding dnsmasq to our dora-based builds. The fix itself
+is ported to master.
+The following changes since commit 1028ac813fa9803ebfff6bcfa7f8b67012609b27:
 
-meta-ros is maintained.
+  sstate: add do_package to the noexec list in setscene_depvalid (2014-01-07 13:58:28 +0000)
 
-Lukas
+are available in the git repository at:
 
+  git://github.com/darander/oe-core systemd-compat-units
+  https://github.com/darander/oe-core/tree/systemd-compat-units
+
+Anders Darander (1):
+  systemd-compat-units: do not mask available services
+
+ meta/recipes-core/systemd/systemd-compat-units.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.8.5.2
 
 
