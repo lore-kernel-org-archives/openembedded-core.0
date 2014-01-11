@@ -1,39 +1,33 @@
 Return-Path: <andrei@gherzan.ro>
-Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B65F602DA
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 44CF0602DA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2014 15:16:46 +0000 (UTC)
-Received: by mail-we0-f182.google.com with SMTP id q59so5177223wes.13
+	Sat, 11 Jan 2014 16:25:21 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id m15so2251848wgh.14
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2014 07:16:47 -0800 (PST)
+	Sat, 11 Jan 2014 08:25:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zMgCobNtirWyBke6+cEoMVGYPbiyFzxYJcpw4e+5OJ4=;
-	b=c93i9XFe4WHx7mpyDnXf+p+yVrF21lonQMq+HoYwMpxYW6xBR9Z01ZfTzyzcKTVL6w
-	zkrPxnBUkQkArOoYiR5VapdymDv6Byescjyg9644LROMg0W8Abs94tu0vxTkGWfKOJtA
-	ljXKNSkgEPx8VInCXsaTFqnVsO7sAskEcXJrd/iPlnM443Mrwm6dcAHUPjlLPpr14V2m
-	hTzYRigFvbUAhKf4yPK7N+KrUZY39xbCPmC0A2cc5P+/eZy425tXEXMsl+EsUD/lf5mJ
-	XEmI6c3+b9H+JRvY7GDQA8VQ9amu5b0zOnPcDUbheAVlPD2ZUK/SJhhAkNUSMHBL5890
-	qssA==
-X-Gm-Message-State: ALoCoQnmwRW1aZRTm9LH//kdEaMxmdcdggil+P+FtHp60mi350NtvmhxLZISAhgK/S/Jo//UttiS
-X-Received: by 10.194.173.163 with SMTP id bl3mr13975704wjc.10.1389453407046; 
-	Sat, 11 Jan 2014 07:16:47 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+	:content-type;
+	bh=YnbAdT3GFCe2ecSqpdNmIPfdaE1XIsaaNfVa8aJLhZ4=;
+	b=XVCQfMjLCsDjnGvvJB5+/Oax1X9erhWUmfCmc9fCwDUeL7lfEDaQBQSKstaqbwwMdq
+	RXk4utfnwzLCtbkrI5p6gzudm0EK2PxwMd/zwDZXK/wTbojhYVBqN6C0/Ki/K121KNl4
+	EjRU5ifrvupLFZaXqIdk5IXAgCWsb2HFHk90zTjQDmUadJXxvddzMxA1Vh2uomRnE+cw
+	gMthhZnb0YDg5955gIAGHOuYT5unkll2m9+UaGwSaiPpZ91cGwdHquzgJzW3Pdm9C643
+	ZPsl7HrcOlgeprnOQe82HkqJXVRK95BghOjS1MGX9HF1PF1l3JF2ywAFZKRPlK4cMlpz
+	PDYw==
+X-Gm-Message-State: ALoCoQnYL0SFk37siQjvlKgDuKHX117fJPMWshFvtTLVFs9f59WLD2TVkXIhq3OdRwQm+h8n1YTn
+X-Received: by 10.194.22.230 with SMTP id h6mr61602wjf.86.1389457521672; Sat,
+	11 Jan 2014 08:25:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.217.150.199 with HTTP; Sat, 11 Jan 2014 07:16:27 -0800 (PST)
+Received: by 10.217.150.199 with HTTP; Sat, 11 Jan 2014 08:25:01 -0800 (PST)
 X-Originating-IP: [5.13.221.193]
-In-Reply-To: <8969D90B-28E6-4C07-A113-93A9C033EFAD@dominion.thruhere.net>
-References: <1389452899-633-1-git-send-email-andrei@gherzan.ro>
-	<1389452899-633-2-git-send-email-andrei@gherzan.ro>
-	<8969D90B-28E6-4C07-A113-93A9C033EFAD@dominion.thruhere.net>
 From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Sat, 11 Jan 2014 17:16:27 +0200
-Message-ID: <CAK18fxGFcszrKH30mhDUAU-sjrJa2t7dHshXj-TWkSnGye1AEw@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] feature-arm-thumb.inc: Use thumb instruction by default if TUNE_FEATURES thumb
+Date: Sat, 11 Jan 2014 18:25:01 +0200
+Message-ID: <CAK18fxG3_D9kRoiWrPJsTQxN=EOZSx3Vue8288maf_rMGHOrvQ@mail.gmail.com>
+To: openembedded <openembedded-core@lists.openembedded.org>
+Subject: eglibc not buildable for on thumb2 only instructions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,79 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2014 15:16:46 -0000
-Content-Type: multipart/alternative; boundary=089e013c6220c26f5504efb35471
+X-List-Received-Date: Sat, 11 Jan 2014 16:25:23 -0000
+Content-Type: multipart/alternative; boundary=047d7b5d913102a15804efb44a6c
 
---089e013c6220c26f5504efb35471
+--047d7b5d913102a15804efb44a6c
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Sat, Jan 11, 2014 at 5:10 PM, Koen Kooi <koen@dominion.thruhere.net>wrote:
+Hello,
 
->
-> Op 11 jan. 2014, om 16:08 heeft Andrei Gherzan <andrei@gherzan.ro> het
-> volgende geschreven:
->
-> > Avoid a confusion when including thumb in TUNE_FATURES. In the curent
-> behavior,
-> > if I include thumb in TUNE_FATURES, ARM_THUMB_M_OPT will be "-marm"
-> which makes
-> > no sense for me as a default behavior. Obviously I can change this by
-> using
-> > ARM_INSTRUCTION_SET = thumb. But this seems strange and confusing. So
-> let's do
-> > it the other way around: have thumb instructions as default when
-> TUNE_FATURES
-> > contains "thumb" and switch to "arm" instructions when
-> ARM_INSTRUCTION_SET is
-> > "arm".
->
-> Since ARM_INSTRUCTION_SET is unset for most things this will change the
-> default, are you sure that this is what you want?
->
+I'm trying to build eglibc for a thumb2 only processor: here is the log
+http://pastebin.com/KgwtJYAC.
 
-I am aware of that but still, do you find it normal to add thumb as
-TUNE_FEATURE and get your self with arm instructions flag?
-And generally people adapt if changes make sense :)
+I know Raj tried in the past this and I want to know if it makes sense to
+dig further into this or there is a known incompatibility in eglibc. I
+searched a in eglibc and they seem to have patches that add thumb2 support.
+So things, at least in theory, should work.
 
-ag
+Cheers!
+-- 
+*Andrei Gherzan*
+m: +40.744.478.414 |  f: +40.31.816.28.12
 
---089e013c6220c26f5504efb35471
+--047d7b5d913102a15804efb44a6c
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Sat, Jan 11, 2014 at 5:10 PM, Koen Kooi <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion=
-.thruhere.net</a>&gt;</span> wrote:<br>
+<div dir=3D"ltr">Hello,<div><br></div><div>I&#39;m trying to build eglibc f=
+or a thumb2 only processor: here is the log=A0<a href=3D"http://pastebin.co=
+m/KgwtJYAC">http://pastebin.com/KgwtJYAC</a>.</div><div><br></div><div>I kn=
+ow Raj tried in the past this and I want to know if it makes sense to dig f=
+urther into this or there is a known incompatibility in eglibc. I searched =
+a in eglibc and they seem to have patches that add thumb2 support. So thing=
+s, at least in theory, should work.</div>
 
+<div><br></div><div>Cheers!<br>-- <br><div dir=3D"ltr"><div style=3D"text-a=
+lign:center"></div><div style=3D"text-align:center"><div align=3D"left" sty=
+le=3D"font-family:&#39;Times New Roman&#39;;font-size:medium"><b style=3D"c=
+olor:rgb(51,51,51);font-family:Arial;font-size:small;text-align:center">And=
+rei Gherzan</b><font face=3D"Arial" color=3D"#333333" size=3D"-1"><br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><br>
-Op 11 jan. 2014, om 16:08 heeft Andrei Gherzan &lt;<a href=3D"mailto:andrei=
-@gherzan.ro" target=3D"_blank">andrei@gherzan.ro</a>&gt; het volgende gesch=
-reven:<br>
-<div><br>
-&gt; Avoid a confusion when including thumb in TUNE_FATURES. In the curent =
-behavior,<br>
-&gt; if I include thumb in TUNE_FATURES, ARM_THUMB_M_OPT will be &quot;-mar=
-m&quot; which makes<br>
-&gt; no sense for me as a default behavior. Obviously I can change this by =
-using<br>
-&gt; ARM_INSTRUCTION_SET =3D thumb. But this seems strange and confusing. S=
-o let&#39;s do<br>
-&gt; it the other way around: have thumb instructions as default when TUNE_=
-FATURES<br>
-&gt; contains &quot;thumb&quot; and switch to &quot;arm&quot; instructions =
-when ARM_INSTRUCTION_SET is<br>
-&gt; &quot;arm&quot;.<br>
-<br>
-</div>Since ARM_INSTRUCTION_SET is unset for most things this will change t=
-he default, are you sure that this is what you want?<br></blockquote><div><=
-br></div><div>I am aware of that but still, do you find it normal to add th=
-umb as TUNE_FEATURE and get your self with arm instructions flag?</div>
-
-<div>And generally people adapt if changes make sense :)</div>
-<div><br></div><div>ag</div></div>
+</font><font face=3D"Arial" color=3D"#333333" size=3D"-1">m: +40.744.478.41=
+4 | =A0f: +40.31.816.28.12</font><br></div></div></div>
 </div></div>
 
---089e013c6220c26f5504efb35471--
+--047d7b5d913102a15804efb44a6c--
