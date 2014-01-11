@@ -1,44 +1,38 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id BCB1D60EB8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2014 18:23:33 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id t60so5271147wes.9
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2014 10:23:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=4gMLY6BGuANHU9DpUqhYG7AjdXDyPqT/rP0VBWcApe8=;
-	b=lYqPdiKpLHH/yMm3MGwzceAg0HHfnAm1MVaHbii4TOZWA/8blRRqFYTw5bnuFieJSj
-	rKBOdD8QiOy72DlFtLufV4cke8Akp/GIyy7txdqG6/g7QF+hrL8ZpFa5OW9GGEVHNhGG
-	iouw3ITOBdlMOlwcCcHYm/aeP42p37J/9kNaRf1g+GnGChyF2PKjytk7FIHYoP9Fq7yf
-	pu4W7H+nOi18dX6KRNW/L9SpTtM29SH2c8pJNVOPOn7/pvGA87bDIBAbvorzOvTEXZhI
-	GSWxFEfftd+YLo80FORUBk2c9Rp+6M8til1TPkBJyRzyeFliazIvopq78MNGJLx4c6St
-	5fbg==
-X-Gm-Message-State: ALoCoQnTA4PsZkSnvtGr3V3Bd4YEgeK2si/326LMZd2vKFN66A33G71hSwQMzg452ljXLYVygdSD
-X-Received: by 10.180.74.230 with SMTP id x6mr8041725wiv.29.1389464613895;
-	Sat, 11 Jan 2014 10:23:33 -0800 (PST)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id hv3sm8796361wib.5.2014.01.11.10.23.32
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 11 Jan 2014 10:23:33 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAK18fxGFcszrKH30mhDUAU-sjrJa2t7dHshXj-TWkSnGye1AEw@mail.gmail.com>
-Date: Sat, 11 Jan 2014 19:23:31 +0100
-Message-Id: <9E28661F-3754-4BB9-AA54-B106CE42F5C7@dominion.thruhere.net>
-References: <1389452899-633-1-git-send-email-andrei@gherzan.ro>
-	<1389452899-633-2-git-send-email-andrei@gherzan.ro>
-	<8969D90B-28E6-4C07-A113-93A9C033EFAD@dominion.thruhere.net>
-	<CAK18fxGFcszrKH30mhDUAU-sjrJa2t7dHshXj-TWkSnGye1AEw@mail.gmail.com>
-To: Andrei Gherzan <andrei@gherzan.ro>
-X-Mailer: Apple Mail (2.1827)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] feature-arm-thumb.inc: Use thumb instruction by default if TUNE_FEATURES thumb
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f180.google.com (mail-ea0-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id BD93060EB8;
+	Sat, 11 Jan 2014 20:48:22 +0000 (UTC)
+Received: by mail-ea0-f180.google.com with SMTP id f15so2644259eak.39
+	for <multiple recipients>; Sat, 11 Jan 2014 12:48:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=RVfQs68sIm7B1K4wUYOrT0n80TifDyp7+C8v/FVUFH8=;
+	b=eoYodk5GSMa3W75a3i+2oS6Sx2MkxfgVnJLSxzOxIouc3HYlVQ8nnL3ytBs1KKtPL1
+	hRFWCr4reXX3uI6EGZU26TTOFBifheYR6XMzE9X/kqDVq10z2UbzA2/Ax18iwDcFeBQh
+	eZM4IFFYodsv7zNqmRKpxAq3SedmlAWKbdJA56urFqrQ4MnRnhHdKyjlNoJkVKmxoIUO
+	7nMHO2+Sg7g7OBxDwM35QvgmiXyr8gw/xyHbv0TCGB+aPv9YWuFThU8ohNOtWNUgOxV9
+	HuLtMMZgULRzJJqXyIYLrlrbTGQRe0CO8fzoruNL7rOeANyAHdJFtorfp164JzUvFpN+
+	pXJg==
+X-Received: by 10.15.52.136 with SMTP id p8mr8562192eew.11.1389473303306;
+	Sat, 11 Jan 2014 12:48:23 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	o47sm25726646eem.21.2014.01.11.12.48.21 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 11 Jan 2014 12:48:22 -0800 (PST)
+Date: Sat, 11 Jan 2014 21:48:37 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Cristian Iorga <cristian.iorga@intel.com>
+Message-ID: <20140111204837.GB16995@jama>
+References: <20131214090923.0609C50407@opal>
+MIME-Version: 1.0
+In-Reply-To: <20131214090923.0609C50407@opal>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Cristian Iorga : glib-2.0: upgrade to 2.38.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,55 +45,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2014 18:23:36 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Sat, 11 Jan 2014 20:48:23 -0000
+X-Groupsio-MsgNum: 48867
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="LyciRD1jyfeSSjG0"
+Content-Disposition: inline
+
+--LyciRD1jyfeSSjG0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-Op 11 jan. 2014, om 16:16 heeft Andrei Gherzan <andrei@gherzan.ro> het =
-volgende geschreven:
-
+On Sat, Dec 14, 2013 at 09:09:23AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: b445008484639d0d3e0e397019241466f4361b9e
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3Db445008484639d0d3e0e397019241466f4361b9e
 >=20
+> Author: Cristian Iorga <cristian.iorga@intel.com>
+> Date:   Wed Dec 11 19:24:03 2013 +0200
 >=20
+> glib-2.0: upgrade to 2.38.2
 >=20
-> On Sat, Jan 11, 2014 at 5:10 PM, Koen Kooi =
-<koen@dominion.thruhere.net> wrote:
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
+Not sure if it's since this upgrade, but it shows 2 QA warnings now:
+
+WARNING: QA Issue: glib-2.0: Files/directories were installed but not shipp=
+ed
+  /usr/lib/glib-2.0/ptest
+WARNING: QA Issue: glib-2.0-dbg: found library in wrong location: /usr/shar=
+e/gdb/auto-load/usr/lib64/libglib-2.0.so.0.3800.2-gdb.py
+glib-2.0-dbg: found library in wrong location: /usr/share/gdb/auto-load/usr=
+/lib64/libgobject-2.0.so.0.3800.2-gdb.py
+
+Can you fix it?
+
+> ---
 >=20
-> Op 11 jan. 2014, om 16:08 heeft Andrei Gherzan <andrei@gherzan.ro> het =
-volgende geschreven:
+>  meta/recipes-core/glib-2.0/{glib-2.0_2.38.1.bb =3D> glib-2.0_2.38.2.bb} =
+| 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> > Avoid a confusion when including thumb in TUNE_FATURES. In the =
-curent behavior,
-> > if I include thumb in TUNE_FATURES, ARM_THUMB_M_OPT will be "-marm" =
-which makes
-> > no sense for me as a default behavior. Obviously I can change this =
-by using
-> > ARM_INSTRUCTION_SET =3D thumb. But this seems strange and confusing. =
-So let's do
-> > it the other way around: have thumb instructions as default when =
-TUNE_FATURES
-> > contains "thumb" and switch to "arm" instructions when =
-ARM_INSTRUCTION_SET is
-> > "arm".
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.38.2.bb
+> similarity index 79%
+> rename from meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
+> rename to meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb
+> index a5db302..02730f1 100644
+> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb
+> @@ -15,5 +15,5 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
+}.tar.xz \
+> =20
+>  SRC_URI_append_class-native =3D " file://glib-gettextize-dir.patch"
+> =20
+> -SRC_URI[md5sum] =3D "f3f6789151c1810f2fe23fe9ebb8b828"
+> -SRC_URI[sha256sum] =3D "01906c62ac666d2ab3183cc07261b2536fab7b211c6129ab=
+66b119c2af56d159"
+> +SRC_URI[md5sum] =3D "26d1d08e478fc48c181ca8be44f5b69f"
+> +SRC_URI[sha256sum] =3D "056a9854c0966a0945e16146b3345b7a82562a5ba4d5516f=
+d10398732aea5734"
 >=20
-> Since ARM_INSTRUCTION_SET is unset for most things this will change =
-the default, are you sure that this is what you want?
->=20
-> I am aware of that but still, do you find it normal to add thumb as =
-TUNE_FEATURE and get your self with arm instructions flag?
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
-No, but I absolutely hate the ARM tune stuff in OE-core, you pretty much =
-need anonymous python methods to change things on a distro level, which =
-is crazy. It took me 2 weeks and a lot of help from Khem to switch =
-angstrom to thumb2 mode on armv7a.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-> And generally people adapt if changes make sense :)
+--LyciRD1jyfeSSjG0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-What we actually need here is a way to say "this cpu can't to full ARM =
-mode". Which is hard, since we are treating thumb as a superset instead =
-of a subset.=20
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-regards,
+iEYEARECAAYFAlLRriUACgkQN1Ujt2V2gBzHqwCfWiRj2/KTgHGvu/qKJfhLji6J
+cM4AmgIPv9J35GaXKCLZH6KElfuAibP+
+=riZK
+-----END PGP SIGNATURE-----
 
-Koen=
-
+--LyciRD1jyfeSSjG0--
