@@ -1,33 +1,42 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 44CF0602DA
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AADC60EB8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2014 16:25:21 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id m15so2251848wgh.14
+	Sat, 11 Jan 2014 18:18:27 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id z2so788566wiv.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2014 08:25:22 -0800 (PST)
+	Sat, 11 Jan 2014 10:18:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
-	:content-type;
-	bh=YnbAdT3GFCe2ecSqpdNmIPfdaE1XIsaaNfVa8aJLhZ4=;
-	b=XVCQfMjLCsDjnGvvJB5+/Oax1X9erhWUmfCmc9fCwDUeL7lfEDaQBQSKstaqbwwMdq
-	RXk4utfnwzLCtbkrI5p6gzudm0EK2PxwMd/zwDZXK/wTbojhYVBqN6C0/Ki/K121KNl4
-	EjRU5ifrvupLFZaXqIdk5IXAgCWsb2HFHk90zTjQDmUadJXxvddzMxA1Vh2uomRnE+cw
-	gMthhZnb0YDg5955gIAGHOuYT5unkll2m9+UaGwSaiPpZ91cGwdHquzgJzW3Pdm9C643
-	ZPsl7HrcOlgeprnOQe82HkqJXVRK95BghOjS1MGX9HF1PF1l3JF2ywAFZKRPlK4cMlpz
-	PDYw==
-X-Gm-Message-State: ALoCoQnYL0SFk37siQjvlKgDuKHX117fJPMWshFvtTLVFs9f59WLD2TVkXIhq3OdRwQm+h8n1YTn
-X-Received: by 10.194.22.230 with SMTP id h6mr61602wjf.86.1389457521672; Sat,
-	11 Jan 2014 08:25:21 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.217.150.199 with HTTP; Sat, 11 Jan 2014 08:25:01 -0800 (PST)
-X-Originating-IP: [5.13.221.193]
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Sat, 11 Jan 2014 18:25:01 +0200
-Message-ID: <CAK18fxG3_D9kRoiWrPJsTQxN=EOZSx3Vue8288maf_rMGHOrvQ@mail.gmail.com>
-To: openembedded <openembedded-core@lists.openembedded.org>
-Subject: eglibc not buildable for on thumb2 only instructions
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=zVmURcKbvU+n+cBdgbevSWLLLVMCowb5cjEtyTLApIM=;
+	b=SG/3dTYMW8ZLvxjLk/j+JKSQH36Rn0tszXOnEnFAxSQPQVaal1OfqPiRp9u3A8mvbE
+	ul3yLRMw77A4Q82XoIBZ5UeVkK2K3BVBImQV6sFNXn4Gxj6SZRTR5m52oqSEjq0z/EF6
+	F20BzrzRiep4lkoudypJHzVKWXmV1d45F0L1q2hNS/1oR8lwJ1fbTWAZPqF7Hmk2PaFn
+	16nMnAMVAMH6aCrzJ3LsfxUTIqksRBo+skG3W8P280goOUaRdXpTwnS3LsM+9l8LF76t
+	UG4aG9B8NgGkoQAVHDG0xvCIoBt3aoxTLjjvlXK5C4VDtM872qUFn8RQUYcQ2p5ZVXIB
+	tgLg==
+X-Gm-Message-State: ALoCoQmYkgKlfb/fLntflnh9uSj3OGPI/bksxAUl12mwPj1pmVDgIQksrWDKRR5Ltrfz1hSfBYtw
+X-Received: by 10.180.205.162 with SMTP id lh2mr8121948wic.57.1389464307433;
+	Sat, 11 Jan 2014 10:18:27 -0800 (PST)
+Received: from ?IPv6:2001:610:612::8565:97e6:4aaa:9490?
+	([2001:610:612:0:8565:97e6:4aaa:9490])
+	by mx.google.com with ESMTPSA id jw4sm7150441wjc.20.2014.01.11.10.18.26
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 11 Jan 2014 10:18:26 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAK18fxG3_D9kRoiWrPJsTQxN=EOZSx3Vue8288maf_rMGHOrvQ@mail.gmail.com>
+Date: Sat, 11 Jan 2014 19:18:24 +0100
+Message-Id: <175AE9EA-538B-4B3E-9693-65D8866F926B@dominion.thruhere.net>
+References: <CAK18fxG3_D9kRoiWrPJsTQxN=EOZSx3Vue8288maf_rMGHOrvQ@mail.gmail.com>
+To: Andrei Gherzan <andrei@gherzan.ro>
+X-Mailer: Apple Mail (2.1827)
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: eglibc not buildable for on thumb2 only instructions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,47 +49,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2014 16:25:23 -0000
-Content-Type: multipart/alternative; boundary=047d7b5d913102a15804efb44a6c
-
---047d7b5d913102a15804efb44a6c
-Content-Type: text/plain; charset=ISO-8859-1
-
-Hello,
-
-I'm trying to build eglibc for a thumb2 only processor: here is the log
-http://pastebin.com/KgwtJYAC.
-
-I know Raj tried in the past this and I want to know if it makes sense to
-dig further into this or there is a known incompatibility in eglibc. I
-searched a in eglibc and they seem to have patches that add thumb2 support.
-So things, at least in theory, should work.
-
-Cheers!
--- 
-*Andrei Gherzan*
-m: +40.744.478.414 |  f: +40.31.816.28.12
-
---047d7b5d913102a15804efb44a6c
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Sat, 11 Jan 2014 18:18:29 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hello,<div><br></div><div>I&#39;m trying to build eglibc f=
-or a thumb2 only processor: here is the log=A0<a href=3D"http://pastebin.co=
-m/KgwtJYAC">http://pastebin.com/KgwtJYAC</a>.</div><div><br></div><div>I kn=
-ow Raj tried in the past this and I want to know if it makes sense to dig f=
-urther into this or there is a known incompatibility in eglibc. I searched =
-a in eglibc and they seem to have patches that add thumb2 support. So thing=
-s, at least in theory, should work.</div>
 
-<div><br></div><div>Cheers!<br>-- <br><div dir=3D"ltr"><div style=3D"text-a=
-lign:center"></div><div style=3D"text-align:center"><div align=3D"left" sty=
-le=3D"font-family:&#39;Times New Roman&#39;;font-size:medium"><b style=3D"c=
-olor:rgb(51,51,51);font-family:Arial;font-size:small;text-align:center">And=
-rei Gherzan</b><font face=3D"Arial" color=3D"#333333" size=3D"-1"><br>
+Op 11 jan. 2014, om 17:25 heeft Andrei Gherzan <andrei@gherzan.ro> het =
+volgende geschreven:
 
-</font><font face=3D"Arial" color=3D"#333333" size=3D"-1">m: +40.744.478.41=
-4 | =A0f: +40.31.816.28.12</font><br></div></div></div>
-</div></div>
+> Hello,
+>=20
+> I'm trying to build eglibc for a thumb2 only processor: here is the =
+log http://pastebin.com/KgwtJYAC.
+>=20
+> I know Raj tried in the past this and I want to know if it makes sense =
+to dig further into this or there is a known incompatibility in eglibc. =
+I searched a in eglibc and they seem to have patches that add thumb2 =
+support. So things, at least in theory, should work.
 
---047d7b5d913102a15804efb44a6c--
+I built eglibc in thumb mode a while ago by accident using the =
+meta-linaro-toolchain gcc, could you give that a try?
+
+regards,
+
+Koen=
+
