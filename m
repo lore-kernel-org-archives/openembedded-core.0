@@ -1,42 +1,44 @@
 Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AADC60EB8
+Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BCB1D60EB8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2014 18:18:27 +0000 (UTC)
-Received: by mail-wi0-f174.google.com with SMTP id z2so788566wiv.13
+	Sat, 11 Jan 2014 18:23:33 +0000 (UTC)
+Received: by mail-we0-f178.google.com with SMTP id t60so5271147wes.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2014 10:18:27 -0800 (PST)
+	Sat, 11 Jan 2014 10:23:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:content-type:mime-version:subject:from
 	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=zVmURcKbvU+n+cBdgbevSWLLLVMCowb5cjEtyTLApIM=;
-	b=SG/3dTYMW8ZLvxjLk/j+JKSQH36Rn0tszXOnEnFAxSQPQVaal1OfqPiRp9u3A8mvbE
-	ul3yLRMw77A4Q82XoIBZ5UeVkK2K3BVBImQV6sFNXn4Gxj6SZRTR5m52oqSEjq0z/EF6
-	F20BzrzRiep4lkoudypJHzVKWXmV1d45F0L1q2hNS/1oR8lwJ1fbTWAZPqF7Hmk2PaFn
-	16nMnAMVAMH6aCrzJ3LsfxUTIqksRBo+skG3W8P280goOUaRdXpTwnS3LsM+9l8LF76t
-	UG4aG9B8NgGkoQAVHDG0xvCIoBt3aoxTLjjvlXK5C4VDtM872qUFn8RQUYcQ2p5ZVXIB
-	tgLg==
-X-Gm-Message-State: ALoCoQmYkgKlfb/fLntflnh9uSj3OGPI/bksxAUl12mwPj1pmVDgIQksrWDKRR5Ltrfz1hSfBYtw
-X-Received: by 10.180.205.162 with SMTP id lh2mr8121948wic.57.1389464307433;
-	Sat, 11 Jan 2014 10:18:27 -0800 (PST)
-Received: from ?IPv6:2001:610:612::8565:97e6:4aaa:9490?
-	([2001:610:612:0:8565:97e6:4aaa:9490])
-	by mx.google.com with ESMTPSA id jw4sm7150441wjc.20.2014.01.11.10.18.26
+	:to; bh=4gMLY6BGuANHU9DpUqhYG7AjdXDyPqT/rP0VBWcApe8=;
+	b=lYqPdiKpLHH/yMm3MGwzceAg0HHfnAm1MVaHbii4TOZWA/8blRRqFYTw5bnuFieJSj
+	rKBOdD8QiOy72DlFtLufV4cke8Akp/GIyy7txdqG6/g7QF+hrL8ZpFa5OW9GGEVHNhGG
+	iouw3ITOBdlMOlwcCcHYm/aeP42p37J/9kNaRf1g+GnGChyF2PKjytk7FIHYoP9Fq7yf
+	pu4W7H+nOi18dX6KRNW/L9SpTtM29SH2c8pJNVOPOn7/pvGA87bDIBAbvorzOvTEXZhI
+	GSWxFEfftd+YLo80FORUBk2c9Rp+6M8til1TPkBJyRzyeFliazIvopq78MNGJLx4c6St
+	5fbg==
+X-Gm-Message-State: ALoCoQnTA4PsZkSnvtGr3V3Bd4YEgeK2si/326LMZd2vKFN66A33G71hSwQMzg452ljXLYVygdSD
+X-Received: by 10.180.74.230 with SMTP id x6mr8041725wiv.29.1389464613895;
+	Sat, 11 Jan 2014 10:23:33 -0800 (PST)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id hv3sm8796361wib.5.2014.01.11.10.23.32
 	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 11 Jan 2014 10:18:26 -0800 (PST)
+	Sat, 11 Jan 2014 10:23:33 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAK18fxG3_D9kRoiWrPJsTQxN=EOZSx3Vue8288maf_rMGHOrvQ@mail.gmail.com>
-Date: Sat, 11 Jan 2014 19:18:24 +0100
-Message-Id: <175AE9EA-538B-4B3E-9693-65D8866F926B@dominion.thruhere.net>
-References: <CAK18fxG3_D9kRoiWrPJsTQxN=EOZSx3Vue8288maf_rMGHOrvQ@mail.gmail.com>
+In-Reply-To: <CAK18fxGFcszrKH30mhDUAU-sjrJa2t7dHshXj-TWkSnGye1AEw@mail.gmail.com>
+Date: Sat, 11 Jan 2014 19:23:31 +0100
+Message-Id: <9E28661F-3754-4BB9-AA54-B106CE42F5C7@dominion.thruhere.net>
+References: <1389452899-633-1-git-send-email-andrei@gherzan.ro>
+	<1389452899-633-2-git-send-email-andrei@gherzan.ro>
+	<8969D90B-28E6-4C07-A113-93A9C033EFAD@dominion.thruhere.net>
+	<CAK18fxGFcszrKH30mhDUAU-sjrJa2t7dHshXj-TWkSnGye1AEw@mail.gmail.com>
 To: Andrei Gherzan <andrei@gherzan.ro>
 X-Mailer: Apple Mail (2.1827)
-Cc: openembedded <openembedded-core@lists.openembedded.org>
-Subject: Re: eglibc not buildable for on thumb2 only instructions
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] feature-arm-thumb.inc: Use thumb instruction by default if TUNE_FEATURES thumb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,26 +51,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2014 18:18:29 -0000
+X-List-Received-Date: Sat, 11 Jan 2014 18:23:36 -0000
 Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 11 jan. 2014, om 17:25 heeft Andrei Gherzan <andrei@gherzan.ro> het =
+Op 11 jan. 2014, om 16:16 heeft Andrei Gherzan <andrei@gherzan.ro> het =
 volgende geschreven:
 
-> Hello,
 >=20
-> I'm trying to build eglibc for a thumb2 only processor: here is the =
-log http://pastebin.com/KgwtJYAC.
 >=20
-> I know Raj tried in the past this and I want to know if it makes sense =
-to dig further into this or there is a known incompatibility in eglibc. =
-I searched a in eglibc and they seem to have patches that add thumb2 =
-support. So things, at least in theory, should work.
+>=20
+> On Sat, Jan 11, 2014 at 5:10 PM, Koen Kooi =
+<koen@dominion.thruhere.net> wrote:
+>=20
+> Op 11 jan. 2014, om 16:08 heeft Andrei Gherzan <andrei@gherzan.ro> het =
+volgende geschreven:
+>=20
+> > Avoid a confusion when including thumb in TUNE_FATURES. In the =
+curent behavior,
+> > if I include thumb in TUNE_FATURES, ARM_THUMB_M_OPT will be "-marm" =
+which makes
+> > no sense for me as a default behavior. Obviously I can change this =
+by using
+> > ARM_INSTRUCTION_SET =3D thumb. But this seems strange and confusing. =
+So let's do
+> > it the other way around: have thumb instructions as default when =
+TUNE_FATURES
+> > contains "thumb" and switch to "arm" instructions when =
+ARM_INSTRUCTION_SET is
+> > "arm".
+>=20
+> Since ARM_INSTRUCTION_SET is unset for most things this will change =
+the default, are you sure that this is what you want?
+>=20
+> I am aware of that but still, do you find it normal to add thumb as =
+TUNE_FEATURE and get your self with arm instructions flag?
 
-I built eglibc in thumb mode a while ago by accident using the =
-meta-linaro-toolchain gcc, could you give that a try?
+No, but I absolutely hate the ARM tune stuff in OE-core, you pretty much =
+need anonymous python methods to change things on a distro level, which =
+is crazy. It took me 2 weeks and a lot of help from Khem to switch =
+angstrom to thumb2 mode on armv7a.
+
+> And generally people adapt if changes make sense :)
+
+What we actually need here is a way to say "this cpu can't to full ARM =
+mode". Which is hard, since we are treating thumb as a superset instead =
+of a subset.=20
 
 regards,
 
