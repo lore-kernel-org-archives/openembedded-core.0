@@ -1,38 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f180.google.com (mail-ea0-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id BD93060EB8;
-	Sat, 11 Jan 2014 20:48:22 +0000 (UTC)
-Received: by mail-ea0-f180.google.com with SMTP id f15so2644259eak.39
-	for <multiple recipients>; Sat, 11 Jan 2014 12:48:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=RVfQs68sIm7B1K4wUYOrT0n80TifDyp7+C8v/FVUFH8=;
-	b=eoYodk5GSMa3W75a3i+2oS6Sx2MkxfgVnJLSxzOxIouc3HYlVQ8nnL3ytBs1KKtPL1
-	hRFWCr4reXX3uI6EGZU26TTOFBifheYR6XMzE9X/kqDVq10z2UbzA2/Ax18iwDcFeBQh
-	eZM4IFFYodsv7zNqmRKpxAq3SedmlAWKbdJA56urFqrQ4MnRnhHdKyjlNoJkVKmxoIUO
-	7nMHO2+Sg7g7OBxDwM35QvgmiXyr8gw/xyHbv0TCGB+aPv9YWuFThU8ohNOtWNUgOxV9
-	HuLtMMZgULRzJJqXyIYLrlrbTGQRe0CO8fzoruNL7rOeANyAHdJFtorfp164JzUvFpN+
-	pXJg==
-X-Received: by 10.15.52.136 with SMTP id p8mr8562192eew.11.1389473303306;
-	Sat, 11 Jan 2014 12:48:23 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107]) by mx.google.com with ESMTPSA id
-	o47sm25726646eem.21.2014.01.11.12.48.21 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 11 Jan 2014 12:48:22 -0800 (PST)
-Date: Sat, 11 Jan 2014 21:48:37 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20140111204837.GB16995@jama>
-References: <20131214090923.0609C50407@opal>
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 102F760EB8
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Jan 2014 22:25:44 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id u57so5190961wes.28
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Jan 2014 14:25:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=3ibchQ46i76VhHeDGp+fvOp8d7hVj2gjfutYJ/4FG3c=;
+	b=fOOG4vJF9Gc42eqrNti0enrnwQ6j6gdlyZq1Yhh9vQpUwEphDqyXAE3/f83X2snlXF
+	/Y9xyua+cB1ipQ6AY6ny4QMpO03iN9ZGekj9lTxIlwv3xLBRey2EenWN58DuYkC+Z8H+
+	XzeAgOMxcXYDHKeIBohBUhcv0bjSxo89yoVogsPbSCOnXKtSeAoQbimh2ILtCGBoBKrM
+	n6rvLziRMzPTNmLdweTXGke2W0KjP99pLsMmrymgexrKMzEtWkQ3jJcAZ75pujz+Uls5
+	nD2nkGWyrHYmh2/tWKm8IP2Q1oCy/M6cdowr7LcDZKct+y3hKYcFmi3vc270pzPwzYu+
+	juxQ==
+X-Gm-Message-State: ALoCoQkenfz9uuNAhXHkUGmPEu5O8i97ZPAG62uUQilBJjAkJ2N8F2TOmvlKSxq5wKGYQHAuQX2o
+X-Received: by 10.180.187.72 with SMTP id fq8mr8624793wic.26.1389479145430;
+	Sat, 11 Jan 2014 14:25:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20131214090923.0609C50407@opal>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Cristian Iorga : glib-2.0: upgrade to 2.38.2
+Received: by 10.217.150.199 with HTTP; Sat, 11 Jan 2014 14:25:24 -0800 (PST)
+X-Originating-IP: [5.13.221.193]
+In-Reply-To: <175AE9EA-538B-4B3E-9693-65D8866F926B@dominion.thruhere.net>
+References: <CAK18fxG3_D9kRoiWrPJsTQxN=EOZSx3Vue8288maf_rMGHOrvQ@mail.gmail.com>
+	<175AE9EA-538B-4B3E-9693-65D8866F926B@dominion.thruhere.net>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Sun, 12 Jan 2014 00:25:24 +0200
+Message-ID: <CAK18fxE+11_RbOYHBCFm9Au3y5pqEVx1zf_4N4ZN=kf_B9Tweg@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: eglibc not buildable for on thumb2 only instructions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,88 +45,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2014 20:48:23 -0000
-X-Groupsio-MsgNum: 48867
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="LyciRD1jyfeSSjG0"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 11 Jan 2014 22:25:45 -0000
+Content-Type: multipart/alternative; boundary=001a11c2679ce3496b04efb95247
 
---LyciRD1jyfeSSjG0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11c2679ce3496b04efb95247
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Sat, Jan 11, 2014 at 8:18 PM, Koen Kooi <koen@dominion.thruhere.net>wrote:
+
+>
+> Op 11 jan. 2014, om 17:25 heeft Andrei Gherzan <andrei@gherzan.ro> het
+> volgende geschreven:
+>
+> > Hello,
+> >
+> > I'm trying to build eglibc for a thumb2 only processor: here is the log
+> http://pastebin.com/KgwtJYAC.
+> >
+> > I know Raj tried in the past this and I want to know if it makes sense
+> to dig further into this or there is a known incompatibility in eglibc. I
+> searched a in eglibc and they seem to have patches that add thumb2 support.
+> So things, at least in theory, should work.
+>
+> I built eglibc in thumb mode a while ago by accident using the
+> meta-linaro-toolchain gcc, could you give that a try?
+>
+
+No go: I get again a lot of "Error: attempt to use an ARM instruction on a
+Thumb-only processor" for different instructions.
+
+-- 
+*ag*
+
+--001a11c2679ce3496b04efb95247
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Dec 14, 2013 at 09:09:23AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: b445008484639d0d3e0e397019241466f4361b9e
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Db445008484639d0d3e0e397019241466f4361b9e
->=20
-> Author: Cristian Iorga <cristian.iorga@intel.com>
-> Date:   Wed Dec 11 19:24:03 2013 +0200
->=20
-> glib-2.0: upgrade to 2.38.2
->=20
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Sat, Jan 11, 2014 at 8:18 PM, Koen Kooi <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:koen@dominion.thruhere.net" target=3D"_blank">koen@dominion=
+.thruhere.net</a>&gt;</span> wrote:<br>
 
-Not sure if it's since this upgrade, but it shows 2 QA warnings now:
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><br>
+Op 11 jan. 2014, om 17:25 heeft Andrei Gherzan &lt;<a href=3D"mailto:andrei=
+@gherzan.ro">andrei@gherzan.ro</a>&gt; het volgende geschreven:<br>
+<div class=3D"im"><br>
+&gt; Hello,<br>
+&gt;<br>
+&gt; I&#39;m trying to build eglibc for a thumb2 only processor: here is th=
+e log <a href=3D"http://pastebin.com/KgwtJYAC" target=3D"_blank">http://pas=
+tebin.com/KgwtJYAC</a>.<br>
+&gt;<br>
+&gt; I know Raj tried in the past this and I want to know if it makes sense=
+ to dig further into this or there is a known incompatibility in eglibc. I =
+searched a in eglibc and they seem to have patches that add thumb2 support.=
+ So things, at least in theory, should work.<br>
 
-WARNING: QA Issue: glib-2.0: Files/directories were installed but not shipp=
-ed
-  /usr/lib/glib-2.0/ptest
-WARNING: QA Issue: glib-2.0-dbg: found library in wrong location: /usr/shar=
-e/gdb/auto-load/usr/lib64/libglib-2.0.so.0.3800.2-gdb.py
-glib-2.0-dbg: found library in wrong location: /usr/share/gdb/auto-load/usr=
-/lib64/libgobject-2.0.so.0.3800.2-gdb.py
 
-Can you fix it?
+<br>
+</div>I built eglibc in thumb mode a while ago by accident using the meta-l=
+inaro-toolchain gcc, could you give that a try?<br></blockquote><div><br></=
+div><div>No go: I get again a lot of &quot;Error: attempt to use an ARM ins=
+truction on a Thumb-only processor&quot; for different instructions. =A0</d=
+iv>
 
-> ---
->=20
->  meta/recipes-core/glib-2.0/{glib-2.0_2.38.1.bb =3D> glib-2.0_2.38.2.bb} =
-| 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb b/meta/recipes=
--core/glib-2.0/glib-2.0_2.38.2.bb
-> similarity index 79%
-> rename from meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
-> rename to meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb
-> index a5db302..02730f1 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.38.1.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.38.2.bb
-> @@ -15,5 +15,5 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
-}.tar.xz \
-> =20
->  SRC_URI_append_class-native =3D " file://glib-gettextize-dir.patch"
-> =20
-> -SRC_URI[md5sum] =3D "f3f6789151c1810f2fe23fe9ebb8b828"
-> -SRC_URI[sha256sum] =3D "01906c62ac666d2ab3183cc07261b2536fab7b211c6129ab=
-66b119c2af56d159"
-> +SRC_URI[md5sum] =3D "26d1d08e478fc48c181ca8be44f5b69f"
-> +SRC_URI[sha256sum] =3D "056a9854c0966a0945e16146b3345b7a82562a5ba4d5516f=
-d10398732aea5734"
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+</div><div><br></div>--=A0</div><div class=3D"gmail_extra"><b style=3D"colo=
+r:rgb(51,51,51);font-family:Arial;text-align:center">ag</b>
+</div></div>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---LyciRD1jyfeSSjG0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLRriUACgkQN1Ujt2V2gBzHqwCfWiRj2/KTgHGvu/qKJfhLji6J
-cM4AmgIPv9J35GaXKCLZH6KElfuAibP+
-=riZK
------END PGP SIGNATURE-----
-
---LyciRD1jyfeSSjG0--
+--001a11c2679ce3496b04efb95247--
