@@ -1,26 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 899C560B9B
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id AC716602DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2014 23:16:12 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 10 Jan 2014 15:16:13 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,640,1384329600"; d="scan'208";a="437148869"
-Received: from unknown (HELO [10.255.12.53]) ([10.255.12.53])
-	by orsmga001.jf.intel.com with ESMTP; 10 Jan 2014 15:16:12 -0800
-Message-ID: <52D07F3C.40601@linux.intel.com>
-Date: Fri, 10 Jan 2014 15:16:12 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1389373329-21241-1-git-send-email-ross.burton@intel.com>
-	<1389373329-21241-2-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1389373329-21241-2-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH][V2 2/5] python-mako: add (from meta-oe)
+	Sat, 11 Jan 2014 15:08:32 +0000 (UTC)
+Received: by mail-ea0-f181.google.com with SMTP id m10so2524433eaj.26
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Jan 2014 07:08:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=N3DmUJuqSmN6Yqtoqt9LoeYzz7l6C1UNIvk7CHQo/qg=;
+	b=Ui2ACgjbEhp5yw+wKJvRZUCH/djctsWJwhb1UUyKv6FRAW+/085c+jUHUaq7KCQt+W
+	WT1FKjxPfkRT1Q270dMrVtvua+Vd1rhOhsaTECjJRsKc7gOQWliZlWzgc4DFMOUy0/Dn
+	JpzkNjo01zkTnR9DCAyT7LC9WFLJX4nt8yWvAbBVEx0zcRrAfwofkkHAm2chkB8SWy/X
+	uSUpznURnW1G9MKOGwDcddZgdeHVA5PpLdSHfgjIPByEyXZNLGrXFNLlUsb9olWadHMb
+	wPUcfkOhQDNi0QxdQ7d8axKIMA5wuBMILjJxFmoSeUqMZb4aetuXcdLxs+1jzpLYcJTD
+	U/WQ==
+X-Gm-Message-State: ALoCoQk1d2Bx+nCFzWcoqD5meHL8gqfftXBfHk4QBgaCivfUvtvNUXnVpDkjePz4t1mlTGHq1q+M
+X-Received: by 10.14.202.137 with SMTP id d9mr16304497eeo.23.1389452913283;
+	Sat, 11 Jan 2014 07:08:33 -0800 (PST)
+Received: from localhost.localdomain (5-13-221-193.residential.rdsnet.ro.
+	[5.13.221.193])
+	by mx.google.com with ESMTPSA id v7sm23505814eel.2.2014.01.11.07.08.32
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 11 Jan 2014 07:08:32 -0800 (PST)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 11 Jan 2014 17:08:17 +0200
+Message-Id: <1389452899-633-1-git-send-email-andrei@gherzan.ro>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/2] Cortex M3 tune fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2014 23:16:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 11 Jan 2014 15:08:33 -0000
 
-On 01/10/2014 09:02 AM, Ross Burton wrote:
-> python-mako is needed for Piglit.  This recipe is taken directly from meta-oe.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-devtools/python/python-mako_0.7.2.bb |   22 +++++++++++++++++++++
->   1 file changed, 22 insertions(+)
->   create mode 100644 meta/recipes-devtools/python/python-mako_0.7.2.bb
->
-> diff --git a/meta/recipes-devtools/python/python-mako_0.7.2.bb b/meta/recipes-devtools/python/python-mako_0.7.2.bb
-> new file mode 100644
-> index 0000000..1d2bdd7
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python-mako_0.7.2.bb
-> @@ -0,0 +1,22 @@
-> +DESCRIPTION = "Templating library for Python"
-> +SECTION = "devel/python"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=da8dd26ed9751ee0cfdf9df1a16bbb54"
-> +
-> +PR = "r2"
-> +
-> +SRC_URI = "http://www.makotemplates.org/downloads/Mako-${PV}.tar.gz"
+Andrei Gherzan (2):
+  feature-arm-thumb.inc: Use thumb instruction by default if
+    TUNE_FEATURES thumb
+  tune-cortexm3.inc: Cortex-M3 doesn't support ARM instructions
 
-Seems like they might have moved or lost these files since you tested, 
-the upstream is at 0.9.1 and has moved these files to
-https://pypi.python.org/packages/source/M/Mako/Mako-0.7.2.tar.gz
+ meta/conf/machine/include/arm/feature-arm-thumb.inc | 2 +-
+ meta/conf/machine/include/tune-cortexm3.inc         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Sau!
+--
+1.8.1.4
 
-> +SRC_URI[md5sum] = "e3c0a677aa4216da9e89ef8fa76cbafb"
-> +SRC_URI[sha256sum] = "fe8698e845035586bd711a6748e4e40a208a58de276b9138026164700494b68f"
-> +
-> +S = "${WORKDIR}/Mako-${PV}"
-> +
-> +inherit setuptools
-> +
-> +RDEPENDS_${PN} = "python-threading \
-> +                  python-netclient \
-> +                  python-html \
-> +"
-> +RDEPENDS_${PN}_class-native = ""
-> +
-> +BBCLASSEXTEND = "native nativesdk"
->
 
