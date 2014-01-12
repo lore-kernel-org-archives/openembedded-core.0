@@ -1,37 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 794706B302;
-	Sun, 12 Jan 2014 17:34:59 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id e49so1042979eek.1
-	for <multiple recipients>; Sun, 12 Jan 2014 09:35:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=47rDTtXWC/yMQGPT8acdNxfXWzLJJ78Lvm/ezNTMKXg=;
-	b=eWoq2K+HYWj+6bo5V7t5w0XJoX5XH8z48BG5RfG8k2nMqt5ykiDEwK+o/dkVArDvXZ
-	OLXxKIwwBnJqVkqrchQz+S1P/En5WWuo/CCKn39sdLsI48OEnT+PKBepOB+9V/9t8fni
-	RXW1ULwOVKEHJ8yvtl7QTKsCezWBbOxgrToJI/kDcPsDlu+8Van5OV8u/ly0/6XPUno9
-	qhOOSK7Ny3AW5Lwg6TxeBz+TOAFxtxMJu9QYKxIvcwxBgGwtN8k7RHLV1SNyZ931ks5f
-	Jaer6XbLaHJWDX7gqHgICgg03HY4FTAjF5qBXPLhlP7Gs0Qf0B5ykmgoPH6sWn7LXFTG
-	SbWg==
-X-Received: by 10.14.184.66 with SMTP id r42mr22755861eem.86.1389548100098;
-	Sun, 12 Jan 2014 09:35:00 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 4sm32704508eed.14.2014.01.12.09.34.58
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 12 Jan 2014 09:34:58 -0800 (PST)
-Date: Sun, 12 Jan 2014 18:35:15 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140112173515.GG16995@jama>
-References: <20140103104408.GC3707@jama>
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp02.online.nl (smtp02.online.nl [194.134.41.32])
+	by mail.openembedded.org (Postfix) with ESMTP id E4A4A6B50D
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 Jan 2014 20:28:05 +0000 (UTC)
+Received: from smtp02.online.nl (localhost [127.0.0.1])
+	by smtp02.online.nl (Postfix) with ESMTP id 3F913A670
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 Jan 2014 21:28:05 +0100 (CET)
+Received: from [10.0.0.14] (s55969068.adsl.online.nl [85.150.144.104])
+	by smtp02.online.nl (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 Jan 2014 21:28:05 +0100 (CET)
+Message-ID: <52D2FAD4.7060802@topic.nl>
+Date: Sun, 12 Jan 2014 21:28:04 +0100
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: Topic
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-In-Reply-To: <20140103104408.GC3707@jama>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Subject: Re: State of bitbake world, Failed tasks 2014-01-03
+To: openembedded-core@lists.openembedded.org
+References: <52CEEE43.1090209@linaro.org>
+In-Reply-To: <52CEEE43.1090209@linaro.org>
+X-Online-Scanned: by Cloudmark authority (on smtp02.online.nl)
+Subject: Re: unmaintained layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jan 2014 17:35:00 -0000
-X-Groupsio-MsgNum: 48871
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="1giRMj6yz/+FOIRq"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 12 Jan 2014 20:28:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---1giRMj6yz/+FOIRq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9-1-2014 19:45, Trevor Woerner wrote:
+> Hi everyone,
+>
+> At the last TSC meeting the topic of unmaintained layers came up. Here
+> is the sorted list of master layers from the layer index [1], would it
+> be possible for those in the know to indicate which layers are, or are
+> suspected of being, unmaintained?
+...
+> meta-zynq-milo
 
-On Fri, Jan 03, 2014 at 11:44:08AM +0100, Martin Jansa wrote:
-> With git branches and breakage from freetype upgrade fixed we're back to =
-more
-> common list of issues.
->=20
-> webkit-efl is broken because of freetype upgrade, I'm working on efl upgr=
-ade to 1.8.*
-> so I'll probably fix it later together with efl upgrade.
+Worse than unmaintained - this one was taken out of existence last 
+Friday. I've already notified Paul Eggleton, so it should removed from 
+the list soon.
 
-It fails even with newer webkit-efl, because it's actually broken in
-cmake since freetype upgrade in oe-core, fix sent:
-http://lists.openembedded.org/pipermail/openembedded-core/2014-January/0882=
-18.html
+Mike.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---1giRMj6yz/+FOIRq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLS0lMACgkQN1Ujt2V2gByEcACeO55AV7walsbRl9CE7ug2WfzA
-3vUAoIZ7vRnGio1SO5Uzo2sz9p88Y3K8
-=H6VC
------END PGP SIGNATURE-----
-
---1giRMj6yz/+FOIRq--
