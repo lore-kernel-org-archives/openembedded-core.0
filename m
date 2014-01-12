@@ -1,34 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EC1C96B302
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2014 17:33:00 +0000 (UTC)
-Received: by mail-ee0-f45.google.com with SMTP id d49so2755566eek.32
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2014 09:33:01 -0800 (PST)
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 794706B302;
+	Sun, 12 Jan 2014 17:34:59 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id e49so1042979eek.1
+	for <multiple recipients>; Sun, 12 Jan 2014 09:35:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=6R4GuS5AXQxS8QCOaDNdHBXR3aCPYwPdn7huU/uc07w=;
-	b=sAoeG05kR+On+TUUH8cFLs5MpOyJi8jcv+QHQLn1DB73N6v7872tKcfoqlakTzA7az
-	RGHL0phYGsMt3B9gz2ZqM8Qq+skGY/HmmTsRJ22fHQHSyljBhTRRPoritbHDePzq4Br+
-	DMS8TWZUFemceTHavDOTp8lz4Tq0sJ6Luj1PcDRqF2If3vks0DjlD02RpA8hVD5DkpGZ
-	wiP+/WDrB1bkp2SJUYHfbiwU9YgtxiVRyoew80WWhn8AzscJms6pSflrLIDllURgWCog
-	tk2AwY+SLZlqjRwG261mWzhn7nOsZPEBTYmHOjl6Mlb+RSV9GUx9NYdhKJazNjoTQQuY
-	HluQ==
-X-Received: by 10.15.94.201 with SMTP id bb49mr9756537eeb.45.1389547981330;
-	Sun, 12 Jan 2014 09:33:01 -0800 (PST)
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=47rDTtXWC/yMQGPT8acdNxfXWzLJJ78Lvm/ezNTMKXg=;
+	b=eWoq2K+HYWj+6bo5V7t5w0XJoX5XH8z48BG5RfG8k2nMqt5ykiDEwK+o/dkVArDvXZ
+	OLXxKIwwBnJqVkqrchQz+S1P/En5WWuo/CCKn39sdLsI48OEnT+PKBepOB+9V/9t8fni
+	RXW1ULwOVKEHJ8yvtl7QTKsCezWBbOxgrToJI/kDcPsDlu+8Van5OV8u/ly0/6XPUno9
+	qhOOSK7Ny3AW5Lwg6TxeBz+TOAFxtxMJu9QYKxIvcwxBgGwtN8k7RHLV1SNyZ931ks5f
+	Jaer6XbLaHJWDX7gqHgICgg03HY4FTAjF5qBXPLhlP7Gs0Qf0B5ykmgoPH6sWn7LXFTG
+	SbWg==
+X-Received: by 10.14.184.66 with SMTP id r42mr22755861eem.86.1389548100098;
+	Sun, 12 Jan 2014 09:35:00 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id v7sm32689949eel.2.2014.01.12.09.33.00
+	by mx.google.com with ESMTPSA id 4sm32704508eed.14.2014.01.12.09.34.58
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 12 Jan 2014 09:33:00 -0800 (PST)
+	Sun, 12 Jan 2014 09:34:58 -0800 (PST)
+Date: Sun, 12 Jan 2014 18:35:15 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Jan 2014 18:33:11 +0100
-Message-Id: <1389547991-3456-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.5.2
-Subject: [PATCH] cmake: Fix freetype detection
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140112173515.GG16995@jama>
+References: <20140103104408.GC3707@jama>
+MIME-Version: 1.0
+In-Reply-To: <20140103104408.GC3707@jama>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: Re: State of bitbake world, Failed tasks 2014-01-03
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,84 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jan 2014 17:33:02 -0000
+X-List-Received-Date: Sun, 12 Jan 2014 17:35:00 -0000
+X-Groupsio-MsgNum: 48871
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="1giRMj6yz/+FOIRq"
+Content-Disposition: inline
 
-* since last freetype upgrade cmake cannot detect it
-* e.g. webkit-efl requires freetype and is failing because of this
+--1giRMj6yz/+FOIRq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/cmake/cmake.inc              |  1 +
- .../cmake/cmake/cmake-2.8.11.2-FindFreetype.patch  | 47 ++++++++++++++++++++++
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.patch
+On Fri, Jan 03, 2014 at 11:44:08AM +0100, Martin Jansa wrote:
+> With git branches and breakage from freetype upgrade fixed we're back to =
+more
+> common list of issues.
+>=20
+> webkit-efl is broken because of freetype upgrade, I'm working on efl upgr=
+ade to 1.8.*
+> so I'll probably fix it later together with efl upgrade.
 
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 69f4fe2..f76f68b 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -16,6 +16,7 @@ SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz
-            file://aarch64-cmake.patch \
-            file://aarch64-kwsys.patch \
-            file://qt4-fail-silent.patch \
-+           file://cmake-2.8.11.2-FindFreetype.patch \
-            "
- 
- inherit autotools
-diff --git a/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.patch b/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.patch
-new file mode 100644
-index 0000000..1b523c0
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.patch
-@@ -0,0 +1,47 @@
-+From: Julian Ospald <hasufell@gentoo.org>
-+Date: Sun Dec  8 13:38:06 UTC 2013
-+Subject: fix check for freetype-2.5.1
-+
-+Upstream-Status: Submitted http://www.cmake.org/Bug/view.php?id=14601
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+--- old/Modules/FindFreetype.cmake
-++++ new/Modules/FindFreetype.cmake
-+@@ -64,6 +64,19 @@
-+   PATH_SUFFIXES include/freetype2 include
-+ )
-+ 
-++if(NOT FREETYPE_INCLUDE_DIR_freetype2)
-++  find_path(FREETYPE_INCLUDE_DIR_freetype2 config/ftheader.h
-++    HINTS
-++      ENV FREETYPE_DIR
-++    PATHS
-++      /usr/X11R6
-++      /usr/local/X11R6
-++      /usr/local/X11
-++      /usr/freeware
-++    PATH_SUFFIXES include/freetype2 include
-++  )
-++endif()
-++
-+ find_library(FREETYPE_LIBRARY
-+   NAMES freetype libfreetype freetype219
-+   HINTS
-+@@ -82,8 +95,14 @@
-+ endif()
-+ set(FREETYPE_LIBRARIES "${FREETYPE_LIBRARY}")
-+ 
-+-if(FREETYPE_INCLUDE_DIR_freetype2 AND EXISTS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetype.h")
-+-    file(STRINGS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetype.h" freetype_version_str
-++if(EXISTS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetype.h")
-++  set(FREETYPE_H "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetype.h")
-++elseif(EXISTS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype.h")
-++  set(FREETYPE_H "${FREETYPE_INCLUDE_DIR_freetype2}/freetype.h")
-++endif()
-++
-++if(FREETYPE_INCLUDE_DIR_freetype2 AND FREETYPE_H)
-++    file(STRINGS "${FREETYPE_H}" freetype_version_str
-+          REGEX "^#[\t ]*define[\t ]+FREETYPE_(MAJOR|MINOR|PATCH)[\t ]+[0-9]+$")
-+ 
-+     unset(FREETYPE_VERSION_STRING)
--- 
-1.8.5.2
+It fails even with newer webkit-efl, because it's actually broken in
+cmake since freetype upgrade in oe-core, fix sent:
+http://lists.openembedded.org/pipermail/openembedded-core/2014-January/0882=
+18.html
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--1giRMj6yz/+FOIRq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLS0lMACgkQN1Ujt2V2gByEcACeO55AV7walsbRl9CE7ug2WfzA
+3vUAoIZ7vRnGio1SO5Uzo2sz9p88Y3K8
+=H6VC
+-----END PGP SIGNATURE-----
+
+--1giRMj6yz/+FOIRq--
