@@ -1,29 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DBD26B5D8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D2296B5D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 14:09:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 13 Jan 2014 06:09:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,653,1384329600"; d="scan'208";a="438032061"
-Received: from smoffitt-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.122.149])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jan 2014 06:09:37 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Andrei Gherzan <andrei@gherzan.ro>
-Date: Mon, 13 Jan 2014 14:09:36 +0000
-Message-ID: <1482714.ZdRsQTRoCZ@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-35-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <CAK18fxG9OuEF+p-frXP2SN2Ha-SpqP=c4VanXV+F8MEut9KcHw@mail.gmail.com>
-References: <1387298031-15180-1-git-send-email-andrei@gherzan.ro>
-	<CAK18fxH2YHgqinv=jFqyQ_eZDNAVprv8p+-DAwWm0DNoH1GSgA@mail.gmail.com>
-	<CAK18fxG9OuEF+p-frXP2SN2Ha-SpqP=c4VanXV+F8MEut9KcHw@mail.gmail.com>
+	Mon, 13 Jan 2014 14:31:09 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id va2so94153obc.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jan 2014 06:31:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Yjmxu+xK09fUQhJ6VJBVL51QQ4O7y5yEr7bwUnXJVhM=;
+	b=rjrw7jWxp8hA0iI45aSMkROsJpnF0+X5oYiIQDcS8tBXRAJLT8VOXZImy3+nvJcSOe
+	6r4phOJatRYSrgwL/5+tGkLKIXcChoSfkAucz52VFP8RdL+aqM0Os+Xue2l1dGZG70Qa
+	rBJcn7wh+gqIplkoE/RiR8bgOJXyGOAdWFlNHhX8GURxMty1s1qSi3gGHxNIYcFLQXCS
+	qXdgn0wLCRSK9SsSyk2h4r/vVYyDSM/oJxIEJh6pbpVSbuI3HfBG2gS3nVE6iBJgibYc
+	5uWZLrB95AiVn2uC2v48bMi8KFuyEGFCW4EAeaRdD4qp6kcnDN94tWx2AMm6JjPTqcl3
+	z3wg==
 MIME-Version: 1.0
-Cc: Alexandru Niculita <alexnick87@gmail.com>,
-	openembedded <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libsdl: Add support for libsdl-native
+X-Received: by 10.60.98.40 with SMTP id ef8mr20842826oeb.13.1389623470335;
+	Mon, 13 Jan 2014 06:31:10 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 13 Jan 2014 06:31:10 -0800 (PST)
+In-Reply-To: <52D34B77.5010401@windriver.com>
+References: <CAP9ODKpJzcrWy2RjpLJeS-KJCrNHYM+UPh2-NU9icnaBuJSSXA@mail.gmail.com>
+	<52D34B77.5010401@windriver.com>
+Date: Mon, 13 Jan 2014 12:31:10 -0200
+X-Google-Sender-Auth: 80A0WIemNnljHzD1HqeO5LKhcOA
+Message-ID: <CAP9ODKodgc_GussuVWxFHDK=zOmCiP2uyajmoJ8rce8Yh_nLfQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: GCC bugfix backport into Dora
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,96 +46,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 14:09:41 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 13 Jan 2014 14:31:09 -0000
+Content-Type: multipart/alternative; boundary=089e013a182252305c04efdaeda9
 
-On Friday 03 January 2014 16:58:10 Andrei Gherzan wrote:
-> On Tue, Dec 17, 2013 at 7:01 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> > On Tue, Dec 17, 2013 at 6:53 PM, Paul Eggleton <
-> > 
-> > paul.eggleton@linux.intel.com> wrote:
-> >> On Tuesday 17 December 2013 18:51:08 Andrei Gherzan wrote:
-> >> > On Tue, Dec 17, 2013 at 6:47 PM, Paul Eggleton <
-> >> > 
-> >> > paul.eggleton@linux.intel.com> wrote:
-> >> > > On Tuesday 17 December 2013 18:33:51 Andrei Gherzan wrote:
-> >> > > > From: Alexandru Niculita <alexnick87@gmail.com>
-> >> > > > 
-> >> > > > Change-Id: I4fb1e623c7bbb1f35ae3001c839cd7e16ce1bd65
-> >> > > > Signed-off-by: Alexandru Niculita <alexnick87@gmail.com>
-> >> > > > ---
-> >> > > > 
-> >> > > >  meta/recipes-graphics/libsdl/libsdl_1.2.15.bb | 3 ++-
-> >> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >> > > > 
-> >> > > > diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> >> > > > b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb index
-> >> 
-> >> 4b4ff63..84d3ad6
-> >> 
-> >> > > > 100644
-> >> > > > --- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> >> > > > +++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-> >> > > > @@ -17,6 +17,7 @@ DEPENDS = "${@base_contains('DISTRO_FEATURES',
-> >> > > 
-> >> > > 'directfb',
-> >> > > 
-> >> > > > 'directfb', '', d)} \ ${@base_contains('DISTRO_FEATURES', 'x11',
-> >> > > > 'virtual/libx11 libxext libxrandr libxrender', '', d)} \ tslib"
-> >> > > > 
-> >> > > >  DEPENDS_class-nativesdk = "${@base_contains('DISTRO_FEATURES',
-> >> 
-> >> 'x11',
-> >> 
-> >> > > > 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender
-> >> > > > nativesdk-libxext', '', d)}" +DEPENDS_class-native =
-> >> > > > "${@base_contains('DISTRO_FEATURES', 'x11', 'libx11-native
-> >> > > 
-> >> > > libxrandr-native
-> >> > > 
-> >> > > > libxrender-native libxext-native', '', d)}"
-> >> > > > 
-> >> > > >  PR = "r2"
-> >> > > > 
-> >> > > > @@ -63,4 +64,4 @@ do_configure_prepend() {
-> >> > > > 
-> >> > > >          export SYSROOT=$PKG_CONFIG_SYSROOT_DIR
-> >> > > >  
-> >> > > >  }
-> >> > > > 
-> >> > > > -BBCLASSEXTEND = "nativesdk"
-> >> > > > +BBCLASSEXTEND = "nativesdk native"
-> >> > > 
-> >> > > Why do you want to do this? Usually, it's better to rely on the host
-> >> > > distro providing SDL for native because building libsdl-native can
-> >> 
-> >> lead to
-> >> 
-> >> > > problems linking against a specific host OpenGL implementation.
-> >> > 
-> >> > xbmc needs sdl-native - this is why I made this change.
-> >> 
-> >> Why does it need it though?
-> > 
-> > Actually xbmc has a tool called texturepacker which uses libsdl-image -
-> > which needs libsdl. That's the chain.
-> 
-> Any advice on this? Paul, do you see another option on this?
+--089e013a182252305c04efdaeda9
+Content-Type: text/plain; charset=ISO-8859-1
 
-To be honest I'm just not sure what the correct solution is here. The problem 
-is if we just enable libsdl-native and take no other mitigating steps, it will 
-almost certainly lead to problems building qemu-native because we'll be 
-linking against our version of SDL and not the host's one.
+Hello Robert,
 
-What does texturepacker actually do, i.e. what are its inputs and outputs? Is 
-there a way of avoiding the need to build/use it?
+On Mon, Jan 13, 2014 at 12:12 AM, Robert Yang <liezhi.yang@windriver.com>wrote:
+>
+> I think that we need fix it in dora since gcc 4.8.1 is affected.
+>
 
-Cheers,
-Paul
+Do you have a patch for this already?
 
 -- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--089e013a182252305c04efdaeda9
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra">Hello Robert,<br><br><div c=
+lass=3D"gmail_quote">On Mon, Jan 13, 2014 at 12:12 AM, Robert Yang <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank=
+">liezhi.yang@windriver.com</a>&gt;</span> wrote:<blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">
+
+I think that we need fix it in dora since gcc 4.8.1 is affected.<br></block=
+quote></div><div><br></div><div>Do you have a patch for this already?</div>=
+<div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 O.S. Systems<br>
+<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
+ems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossystems.com.br" targ=
+et=3D"_blank">http://code.ossystems.com.br</a><br><span>Mobile: +55 (53) 99=
+81-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: <span id=3D"gc-number-242" class=3D"=
+gc-cs-link" title=3D"Call with Google Voice">+1 (347) 903-9750</span></span=
+><br>
+
+</div></div>
+
+--089e013a182252305c04efdaeda9--
