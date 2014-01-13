@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id C03026B5FB
+Received: from mail-qe0-f50.google.com (mail-qe0-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id AF5596B5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 17:01:33 +0000 (UTC)
-Received: by mail-qa0-f54.google.com with SMTP id i13so1771884qae.41
+	Mon, 13 Jan 2014 17:02:46 +0000 (UTC)
+Received: by mail-qe0-f50.google.com with SMTP id 1so7351639qec.23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 09:01:34 -0800 (PST)
+	Mon, 13 Jan 2014 09:02:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Iw383yrGBKdzvLwSjj7lHjyznXl2EElvLj3UFo6d4xI=;
-	b=jpxqAl4KLY0MsOql2TNWk60VwEUEsHWScA8V0bx6qM3Col3cTU5NkROjWBBqsG+nyT
-	kdtjF1NaMwfIl/CS/lk7uMHroQz/UOqDZwtffIH/rWqcja0wQRffNSgH8Xjr22DZZ2xi
-	QJUn2pvirj+IWQKgeenxfIWpVpJqPvvj662239BMWiMzdkrdT1UuzTMyEUKWZ/C2fehk
-	+LKWAqPIXkCw0jlS5YB4pdVzFlLn6fs5ThJ6ACFSl9A7dwv+X/1KkR3OlGWs9QCf2A1N
-	R6pdbqmluED0g2s0xraCFSPCmvdsxNoKK9j699LT6m/ddoBfJlKT09WMvrDpzHq6BGJ4
-	K41g==
-X-Gm-Message-State: ALoCoQlkwId9WpkBDlTm89MfBNj9fTRfX5qt3DkLb9oBAf+yhhw2w4aIT6frhSZU1aeZrCojFz24
-X-Received: by 10.49.98.35 with SMTP id ef3mr41783061qeb.30.1389632494410;
-	Mon, 13 Jan 2014 09:01:34 -0800 (PST)
+	bh=36vpVI8Mbsui3R3WsuISVh/UTtiS5799b4t764EbZV0=;
+	b=IKaYN5hW+zLLlxq2NyIKDFraPnDPEdCNO3MD4QMLTa9tdq6whbmYNxv4FDPTtNgQIU
+	nynQ1e+dvc2GJ+VgGrgrZ8xbkf5PIwzPofvnDGUl4hk3CXH+0Eu8YWdVeuP+JQUnbAfQ
+	aC6xd6EZgYRuR3XUUhGZe779zfRvHKCVUoT4Sq2n+i/zJhTDwUHqo1HZ2CvRWx0w/s6N
+	kImhGGfd5KuWyYewB+1HruzGgjAUzLluChq+OYKeRnAbP9sQ5h502sQ1dTW/K2Y5YbBo
+	avzcDYCnJvML+LJOK1wGmHAS4hCJzA2DPvws+K9Bg6RsYkeYpAhJED/yRtNctXnD5p76
+	7pYA==
+X-Gm-Message-State: ALoCoQmPrPCkNiastzXlWABSEMox0CfbM2x5ssbi9aYinPvJKVFlV6uH0oz4bXKQ9UCcm5kbRyT+
+X-Received: by 10.229.14.1 with SMTP id e1mr28747613qca.15.1389632567059; Mon,
+	13 Jan 2014 09:02:47 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.96.179.105 with HTTP; Mon, 13 Jan 2014 09:01:14 -0800 (PST)
-In-Reply-To: <1d073230c282c6e62cd24b164bc42f383a55544a.1389598673.git.Qi.Chen@windriver.com>
-References: <cover.1389598673.git.Qi.Chen@windriver.com>
-	<1d073230c282c6e62cd24b164bc42f383a55544a.1389598673.git.Qi.Chen@windriver.com>
+Received: by 10.96.179.105 with HTTP; Mon, 13 Jan 2014 09:02:26 -0800 (PST)
+In-Reply-To: <66484b0f9b20980f5e45f01aba5eeec8c24a974f.1389338076.git.anders@chargestorm.se>
+References: <cover.1389338076.git.anders@chargestorm.se>
+	<66484b0f9b20980f5e45f01aba5eeec8c24a974f.1389338076.git.anders@chargestorm.se>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 Jan 2014 17:01:14 +0000
-Message-ID: <CAJTo0Lb3ysqtjm-fN5vCqpOONEAUH-N+eeC3a=t+PqG8bOWe1g@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
+Date: Mon, 13 Jan 2014 17:02:26 +0000
+Message-ID: <CAJTo0LZ8ndPW0wFDdFip3a8y=qxqaY9vFO4i8d1AA4YYVNAccA@mail.gmail.com>
+To: Anders Darander <anders@chargestorm.se>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd-compat-units: make run-postinsts.service work correctly on target
+Subject: Re: [PATCH 1/1] systemd-compat-units: do not mask available services
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,17 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 17:01:34 -0000
+X-List-Received-Date: Mon, 13 Jan 2014 17:02:46 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 January 2014 07:38, Chen Qi <Qi.Chen@windriver.com> wrote:
-> +ExecStart=-/etc/rcS.d/S98run-postinsts ; -/etc/rcS.d/S99run-postinsts
-
-Can we just make opkg and run-postinsts write that file using the same number?
-
-Also, that service file needs to move directly into run-postinsts.
-There's a start in poky-contrib:ross/postinsts if you want to finish
-it off. :)
+If dnsmasq doesn't need to be manually masked, then why not just
+remove it from the list?
 
 Ross
+
+On 10 January 2014 07:15, Anders Darander <anders@chargestorm.se> wrote:
+> Do also check systemd_unitdir/system/ for available unit files.
+>
+> This was hiding dnsmasq.service for us, as /etc/systemd/system has
+> priority over systemd_unitdir/system...
+>
+> Signed-off-by: Anders Darander <anders@chargestorm.se>
+> ---
+>  meta/recipes-core/systemd/systemd-compat-units.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
+> index 9f28283..e32ad79 100644
+> --- a/meta/recipes-core/systemd/systemd-compat-units.bb
+> +++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+> @@ -42,7 +42,7 @@ pkg_postinst_${PN} () {
+>         fi
+>
+>         for i in ${SYSTEMD_DISABLED_SYSV_SERVICES} ; do
+> -               if [ \( -e $i -o $i.sh \) -a ! -e $D${sysconfdir}/systemd/system/$i.service ] ; then
+> +               if [ \( -e $i -o $i.sh \) -a ! \( -e $D${sysconfdir}/systemd/system/$i.service -o  -e $D${systemd_unitdir}/system/$i.service \) ] ; then
+>                         echo -n "$i: " ; systemctl ${OPTS} mask $i.service
+>                 fi
+>         done ; echo
+> --
+> 1.8.5.2
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
