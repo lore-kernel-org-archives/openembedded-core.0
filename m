@@ -1,25 +1,34 @@
-Return-Path: <xiao.zhang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A7086C80A
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oa0-f42.google.com (mail-oa0-f42.google.com
+	[209.85.219.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 531D66CAC1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 09:37:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0D9bu28023533
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 13 Jan 2014 09:58:42 +0000 (UTC)
+Received: by mail-oa0-f42.google.com with SMTP id n16so7778748oag.29
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 01:37:56 -0800 (PST)
-Received: from pek-xzhang1-d1.corp.ad.wrs.com (128.224.162.178) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Mon, 13 Jan 2014 01:37:55 -0800
-From: Zhang Xiao <xiao.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jan 2014 17:38:26 +0800
-Message-ID: <1389605906-16202-1-git-send-email-xiao.zhang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
+	Mon, 13 Jan 2014 01:58:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-type;
+	bh=zsfVgAvpedHY99mCKQjjv40a/VA2hGDt+I+UWwPfA+I=;
+	b=SmJ3boQ5V2RQAkKgKOmOe+EwfAP83waipTe5O0awtx8lEfWdqN4KevcXX+/HzHSnss
+	lg69FZ6Q7qRj8N8/feYijM+HGzb5eMHYEPLZKDrqCtkiYHg6szRfsjldYoyWGUAfEOan
+	QCfU7W/p9ZWRosTupOxHEUeaIz6m8vaNsYORa7boU3OhhLeaXLRiVhnG8KLgPnFijHhr
+	CDU5nUpe95Xt/lyo579IZEsAILAKXuUqLF7bbupDZJnjpLC9sq+8+mKd9jSgc1UeYSDh
+	JrT+m44lVELHnaeO8OKusgwWoP2Kwh19dbXoWUo02eXYoUtQJ/5f2g47P0z7+sGvrpjI
+	bIgA==
+X-Gm-Message-State: ALoCoQn5uvfEbQKj9av6L+MJbuUa5aOqJLnZPzMWjx75o0e5W3Q3/+mMMK+Uy9QnuXf6ggy4oPne
+X-Received: by 10.60.137.201 with SMTP id qk9mr6895305oeb.41.1389607123084;
+	Mon, 13 Jan 2014 01:58:43 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.178]
-Subject: [PATCH] libidn: disable C# directly
+Received: by 10.76.84.233 with HTTP; Mon, 13 Jan 2014 01:58:23 -0800 (PST)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Mon, 13 Jan 2014 10:58:23 +0100
+Message-ID: <CAP71WjwVdruoAvkjtO7mPTVE0bNQfCWYUrEC2TZdjagXCBRkrQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: libsdl and opengl DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +41,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 09:37:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Jan 2014 09:58:42 -0000
+Content-Type: multipart/alternative; boundary=047d7b33cdfcf2fe5e04efd71e05
 
-Disable C# building with --disable-csharp instead of remove
-useless binary files.
+--047d7b33cdfcf2fe5e04efd71e05
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
----
- meta/recipes-extended/libidn/libidn_1.28.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+hi there,
 
-diff --git a/meta/recipes-extended/libidn/libidn_1.28.bb b/meta/recipes-extended/libidn/libidn_1.28.bb
-index 5daff43..effd5ea 100644
---- a/meta/recipes-extended/libidn/libidn_1.28.bb
-+++ b/meta/recipes-extended/libidn/libidn_1.28.bb
-@@ -27,7 +27,8 @@ SRC_URI[sha256sum] = "dd357a968449abc97c7e5fa088a4a384de57cb36564f9d4e0d898ecc63
- PACKAGES =+ "idn"
- FILES_idn = "${bindir}/*"
- 
-+EXTRA_OECONF = "--disable-csharp"
-+
- do_install_append() {
--	rm -rf ${D}${libdir}/Libidn.dll
- 	rm -rf ${D}${datadir}/emacs
- }
--- 
-1.8.1.2
+it has been brought to the list already, at least in [1], but libsdl recipe
+implicitely assumes that 'opengl' distro feature means GL/GLX support.
+
+the recipe does this:
+
+${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl',
+'--disable-video-opengl', d)} \
 
 
+and the configure checks for GL/gl.h, GL/glx.h and GL/glu.h.
+
+this is quite an issue on ARM platforms with no such support. Based on
+previous discussions i understand that nobody should assume that 'opengl'
+in distro feature means GL or GLES, so I am tempted to conclude that this
+is a bug in the SDL recipe. is that correct?
+
+if we make it a PACKAGECONFIG instead, would that be considered the right
+fix for this bug?
+
+thanks
+
+
+
+[1] http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/42830
+
+--047d7b33cdfcf2fe5e04efd71e05
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">hi there,<div><br></div><div>it has been brought to the li=
+st already, at least in [1], but libsdl recipe implicitely assumes that &#3=
+9;opengl&#39; distro feature means GL/GLX support.=A0</div><div><br></div><=
+div>
+
+the recipe does this:</div><div><br></div><div>${@base_contains(&#39;DISTRO=
+_FEATURES&#39;, &#39;opengl&#39;, &#39;--enable-video-opengl&#39;, &#39;--d=
+isable-video-opengl&#39;, d)} \ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0<br>
+
+</div><div><br></div><div>and the configure checks for GL/gl.h, GL/glx.h an=
+d GL/glu.h.</div><div><br></div><div>this is quite an issue on ARM platform=
+s with no such support. Based on previous discussions i understand that nob=
+ody should assume that &#39;opengl&#39; in distro feature means GL or GLES,=
+ so I am tempted to conclude that this is a bug in the SDL recipe. is that =
+correct?</div>
+
+<div><br></div><div>if we make it a PACKAGECONFIG instead, would that be co=
+nsidered the right fix for this bug?</div><div><br></div><div>thanks</div><=
+div><br></div><div><br></div><div><br></div><div>[1]=A0<a href=3D"http://co=
+mments.gmane.org/gmane.comp.handhelds.openembedded.core/42830">http://comme=
+nts.gmane.org/gmane.comp.handhelds.openembedded.core/42830</a></div>
+
+</div>
+
+--047d7b33cdfcf2fe5e04efd71e05--
