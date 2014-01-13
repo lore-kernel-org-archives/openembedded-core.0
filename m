@@ -1,31 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DF81A6B446
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id E40346B5D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 12:42:03 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0DCfxsq009860; Mon, 13 Jan 2014 12:42:00 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gVZg2TEnkKJV; Mon, 13 Jan 2014 12:41:59 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0DCfuSw009857
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Mon, 13 Jan 2014 12:41:57 GMT
-Message-ID: <1389616915.14987.4.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: David =?ISO-8859-1?Q?Nystr=F6m?= <david.c.nystrom@gmail.com>
-Date: Mon, 13 Jan 2014 12:41:55 +0000
-In-Reply-To: <52D3DDFB.8080803@gmail.com>
-References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
-	<1389366908.19102.223.camel@ted> <52D3DDFB.8080803@gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
+	Mon, 13 Jan 2014 12:48:06 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W2gw3-0001mR-Cl
+	for openembedded-core@lists.openembedded.org;
+	Mon, 13 Jan 2014 13:48:07 +0100
+Message-ID: <1389617286.9182.181.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Jan 2014 12:48:06 +0000
+X-Mailer: Evolution 3.8.5-2+b1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Revert "cross-canadian: Handle powerpc linux verses linux-gnuspe"
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview: The new version introduced by this patch doesn't seem
+	to actually
+	exist at the SRC_URI. (ftp.debian.org currently has 3.5.28,
+	3.5.30 and 3.5.31 but not 3.5.29.) Also, as far as I can tell,
+	this patch wasn't ever posted
+	to the list for review and the alleged author's email address of
+	"uh@not.set" doesn't sound entirely plausible. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Subject: Re: [oe-commits] Upgrade Helper : base-passwd: upgrade to 3.5.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +49,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 12:42:04 -0000
+X-List-Received-Date: Mon, 13 Jan 2014 12:48:07 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-01-13 at 13:37 +0100, David Nyström wrote:
-> Just to clarify bug 5354:
-> If I understand the bug correctly, this would arise when first building 
-> the nativesdk tarball on a MACHINE with ABI linux,
-> and then building the nativesdk for another MACHINE(with the same the 
-> same TUNE) after altering ABIEXTENSION to linux-gnuspe ?
-> 
-> If I understand bug 5354 correctly, perhaps the tmp/sdk/tarball.here 
-> can be ABI specific ?
+The new version introduced by this patch doesn't seem to actually exist
+at the SRC_URI.  (ftp.debian.org currently has 3.5.28, 3.5.30 and 3.5.31
+but not 3.5.29.) 
 
-The idea behind the changes to cross-canadian were to have just a single
-gcc/binutils which generated all of the appropriate targets for a given
-architecture.
+Also, as far as I can tell, this patch wasn't ever posted to the list
+for review and the alleged author's email address of "uh@not.set"
+doesn't sound entirely plausible.  
 
-I understood this to be possible but it looks like we may need to tweak
-things a bit.
+p.
 
-> i.e. a generic rule that all nativesdk builds are invalidated if the 
-> ABI changes. I guess that would mean:
-> cross-canadian.bbclass: TARGET_ARCH[vardeps] += "ABIEXTENSION"
-> + Adding ABIEXTENSION to the nativesdk tarball name.
-> 
-> PPC '=mabi=spe' seems to be one-way compatible,  I could not get the 
-> non-SPE configured compiler
-> to work with the SPE sysroot.
-> Another possible solution would be to always configure the compiler to 
-> SPE, and use compile time flags in the
-> environment file to do the selects. + symlinks for the compiler paths.
-
-Can we configure the compiler to include SPE support without changing
-the paths/OS string?
-
-> However, even if we fix it this way for powerpc, we will still have 
-> this issue with thumb f.ex.
-
-Keep in mind the target sysroot still varies for each different target.
-The thing we're trying to keep in common is the gcc/bintuils and only
-have one copy for each target architecture. Is that possible in this
-case if we somehow enable SPE support in gcc-cross-canadian?
-
-Cheers,
-
-Richard
+>Module: openembedded-core.git
+>Branch: master
+>Commit: 7c79e70d3a803f2ccb9b9c6ed2134019631672fd
+>URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=7c79e70d3a803f2ccb9b9c6ed2134019631672fd
+>
+>Author: Upgrade Helper <uh at not.set>
+>Date:   Sat Jan  4 11:44:14 2014 +0200
+>
+>base-passwd: upgrade to 3.5.29
+>
+>Signed-off-by: Saul Wold <sgw at linux.intel.com>
 
 
