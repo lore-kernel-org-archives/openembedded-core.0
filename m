@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E591D6DC3D
+	by mail.openembedded.org (Postfix) with ESMTP id 1CCBC6DEF9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 15:22:39 +0000 (UTC)
+	Mon, 13 Jan 2014 15:22:40 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Jan 2014 07:22:14 -0800
+	by orsmga101.jf.intel.com with ESMTP; 13 Jan 2014 07:22:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,653,1384329600"; d="scan'208";a="465875299"
+X-IronPort-AV: E=Sophos;i="4.95,653,1384329600"; d="scan'208";a="465875307"
 Received: from smoffitt-mobl.ger.corp.intel.com (HELO
 	helios.ger.corp.intel.com) ([10.252.122.149])
-	by orsmga002.jf.intel.com with ESMTP; 13 Jan 2014 07:22:13 -0800
+	by orsmga002.jf.intel.com with ESMTP; 13 Jan 2014 07:22:14 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jan 2014 15:22:06 +0000
-Message-Id: <22e55847d586b78290e659ab8430e95cc97c20f5.1389626446.git.paul.eggleton@linux.intel.com>
+Date: Mon, 13 Jan 2014 15:22:07 +0000
+Message-Id: <d75dc4f8c5434c6482c3168e5a53d19d501bbbf5.1389626446.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1389626446.git.paul.eggleton@linux.intel.com>
 References: <cover.1389626446.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1389626446.git.paul.eggleton@linux.intel.com>
 References: <cover.1389626446.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/4] dropbear: upgrade to 2013.62
+Subject: [PATCH 2/4] chrpath: upgrade to 0.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,97 +34,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 13 Jan 2014 15:22:40 -0000
 
-LIC_FILES_CHKSUM has changed with the introduction of a BSD-3-Clause
-algorithm (curve25519-donna); this has prompted a re-evaluation of the
-LICENSE value which should now reflect the licenses declared in the
-upstream documentation. Thanks to Beth Flanagan for helping with this.
-
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc                               | 4 ++--
- .../0001-urandom-xauth-changes-to-options.h.patch                     | 0
- .../{dropbear-2013.60 => dropbear}/0002-static_build_fix.patch        | 0
- .../dropbear/{dropbear-2013.60 => dropbear}/0003-configure.patch      | 0
- .../dropbear/{dropbear-2013.60 => dropbear}/0004-fix-2kb-keys.patch   | 0
- .../{dropbear-2013.60 => dropbear}/0005-dropbear-enable-pam.patch     | 0
- .../0006-dropbear-configuration-file.patch                            | 0
- .../0007-dropbear-fix-for-x32-abi.patch                               | 0
- meta/recipes-core/dropbear/dropbear_2013.60.bb                        | 4 ----
- meta/recipes-core/dropbear/dropbear_2013.62.bb                        | 4 ++++
- 10 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0001-urandom-xauth-changes-to-options.h.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0002-static_build_fix.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0003-configure.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0004-fix-2kb-keys.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0005-dropbear-enable-pam.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0006-dropbear-configuration-file.patch (100%)
- rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0007-dropbear-fix-for-x32-abi.patch (100%)
- delete mode 100644 meta/recipes-core/dropbear/dropbear_2013.60.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_2013.62.bb
+ meta/recipes-devtools/chrpath/{chrpath_0.14.bb => chrpath_0.15.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/chrpath/{chrpath_0.14.bb => chrpath_0.15.bb} (80%)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 4262b1d..e85a9e6 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -4,8 +4,8 @@ SECTION = "console/network"
+diff --git a/meta/recipes-devtools/chrpath/chrpath_0.14.bb b/meta/recipes-devtools/chrpath/chrpath_0.15.bb
+similarity index 80%
+rename from meta/recipes-devtools/chrpath/chrpath_0.14.bb
+rename to meta/recipes-devtools/chrpath/chrpath_0.15.bb
+index 27b75b4..461710e 100644
+--- a/meta/recipes-devtools/chrpath/chrpath_0.14.bb
++++ b/meta/recipes-devtools/chrpath/chrpath_0.15.bb
+@@ -7,11 +7,11 @@ BUGTRACKER = "http://alioth.debian.org/tracker/?atid=412807&group_id=31052"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
  
- # some files are from other projects and have others license terms:
- #   public domain, OpenSSH 3.5p1, OpenSSH3.6.1p2, PuTTY
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=de74413ba7e05b7a37c4722e75f436cd"
-+LICENSE = "MIT & BSD-3-Clause & BSD-2-Clause & PD"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4d290ce0ac102c828dfc9ce836784688"
+-SRC_URI = "http://alioth.debian.org/frs/download.php/file/3648/chrpath-${PV}.tar.gz \
++SRC_URI = "http://alioth.debian.org/frs/download.php/file/3968/chrpath-${PV}.tar.gz \
+            file://standarddoc.patch"
  
- DEPENDS = "zlib"
- RPROVIDES_${PN} = "ssh sshd" 
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.60/0001-urandom-xauth-changes-to-options.h.patch b/meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.60/0001-urandom-xauth-changes-to-options.h.patch
-rename to meta/recipes-core/dropbear/dropbear/0001-urandom-xauth-changes-to-options.h.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.60/0002-static_build_fix.patch b/meta/recipes-core/dropbear/dropbear/0002-static_build_fix.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.60/0002-static_build_fix.patch
-rename to meta/recipes-core/dropbear/dropbear/0002-static_build_fix.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.60/0003-configure.patch b/meta/recipes-core/dropbear/dropbear/0003-configure.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.60/0003-configure.patch
-rename to meta/recipes-core/dropbear/dropbear/0003-configure.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.60/0004-fix-2kb-keys.patch b/meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.60/0004-fix-2kb-keys.patch
-rename to meta/recipes-core/dropbear/dropbear/0004-fix-2kb-keys.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.60/0005-dropbear-enable-pam.patch b/meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.60/0005-dropbear-enable-pam.patch
-rename to meta/recipes-core/dropbear/dropbear/0005-dropbear-enable-pam.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.60/0006-dropbear-configuration-file.patch b/meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.60/0006-dropbear-configuration-file.patch
-rename to meta/recipes-core/dropbear/dropbear/0006-dropbear-configuration-file.patch
-diff --git a/meta/recipes-core/dropbear/dropbear-2013.60/0007-dropbear-fix-for-x32-abi.patch b/meta/recipes-core/dropbear/dropbear/0007-dropbear-fix-for-x32-abi.patch
-similarity index 100%
-rename from meta/recipes-core/dropbear/dropbear-2013.60/0007-dropbear-fix-for-x32-abi.patch
-rename to meta/recipes-core/dropbear/dropbear/0007-dropbear-fix-for-x32-abi.patch
-diff --git a/meta/recipes-core/dropbear/dropbear_2013.60.bb b/meta/recipes-core/dropbear/dropbear_2013.60.bb
-deleted file mode 100644
-index 42d9985..0000000
---- a/meta/recipes-core/dropbear/dropbear_2013.60.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require dropbear.inc
--
--SRC_URI[md5sum] = "fffa2fec0c887201bed3a3cc6df7fa35"
--SRC_URI[sha256sum] = "4c0c52453b4dd96ef79e5968ed3676de008ee0cf133632acae12bbad588681bb"
-diff --git a/meta/recipes-core/dropbear/dropbear_2013.62.bb b/meta/recipes-core/dropbear/dropbear_2013.62.bb
-new file mode 100644
-index 0000000..3cae940
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear_2013.62.bb
-@@ -0,0 +1,4 @@
-+require dropbear.inc
-+
-+SRC_URI[md5sum] = "ca2c7932a1399cf361f795aaa3843998"
-+SRC_URI[sha256sum] = "c6656302bbcc54b0a9c361f505822f6994039117ec32d2897ead3364da079ffa"
+-SRC_URI[md5sum] = "ea6b212b23393bf58b0ef9bcf6491b86"
+-SRC_URI[sha256sum] = "a1bc9abc42d2b97efc3a0ced7c5dbed37d5debff600386193750315fa5823eaa"
++SRC_URI[md5sum] = "2d2dc80e25e17425d8af849baae60654"
++SRC_URI[sha256sum] = "f1125f5dd0f7c7eaa4d0b64bf17c5b9cb4ee828722246970e201a18a77e18879"
+ 
+ inherit autotools
+ 
 -- 
 1.8.1.2
 
