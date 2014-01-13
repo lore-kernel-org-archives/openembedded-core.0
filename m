@@ -1,39 +1,21 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D2296B5D8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 896D56DC3D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 14:31:09 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id va2so94153obc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 06:31:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Yjmxu+xK09fUQhJ6VJBVL51QQ4O7y5yEr7bwUnXJVhM=;
-	b=rjrw7jWxp8hA0iI45aSMkROsJpnF0+X5oYiIQDcS8tBXRAJLT8VOXZImy3+nvJcSOe
-	6r4phOJatRYSrgwL/5+tGkLKIXcChoSfkAucz52VFP8RdL+aqM0Os+Xue2l1dGZG70Qa
-	rBJcn7wh+gqIplkoE/RiR8bgOJXyGOAdWFlNHhX8GURxMty1s1qSi3gGHxNIYcFLQXCS
-	qXdgn0wLCRSK9SsSyk2h4r/vVYyDSM/oJxIEJh6pbpVSbuI3HfBG2gS3nVE6iBJgibYc
-	5uWZLrB95AiVn2uC2v48bMi8KFuyEGFCW4EAeaRdD4qp6kcnDN94tWx2AMm6JjPTqcl3
-	z3wg==
-MIME-Version: 1.0
-X-Received: by 10.60.98.40 with SMTP id ef8mr20842826oeb.13.1389623470335;
-	Mon, 13 Jan 2014 06:31:10 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Mon, 13 Jan 2014 06:31:10 -0800 (PST)
-In-Reply-To: <52D34B77.5010401@windriver.com>
-References: <CAP9ODKpJzcrWy2RjpLJeS-KJCrNHYM+UPh2-NU9icnaBuJSSXA@mail.gmail.com>
-	<52D34B77.5010401@windriver.com>
-Date: Mon, 13 Jan 2014 12:31:10 -0200
-X-Google-Sender-Auth: 80A0WIemNnljHzD1HqeO5LKhcOA
-Message-ID: <CAP9ODKodgc_GussuVWxFHDK=zOmCiP2uyajmoJ8rce8Yh_nLfQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: GCC bugfix backport into Dora
+	Mon, 13 Jan 2014 15:22:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 13 Jan 2014 07:22:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,653,1384329600"; d="scan'208";a="465875291"
+Received: from smoffitt-mobl.ger.corp.intel.com (HELO
+	helios.ger.corp.intel.com) ([10.252.122.149])
+	by orsmga002.jf.intel.com with ESMTP; 13 Jan 2014 07:22:12 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Jan 2014 15:22:05 +0000
+Message-Id: <cover.1389626446.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/4] Recipe upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,48 +28,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 14:31:09 -0000
-Content-Type: multipart/alternative; boundary=089e013a182252305c04efdaeda9
+X-List-Received-Date: Mon, 13 Jan 2014 15:22:39 -0000
 
---089e013a182252305c04efdaeda9
-Content-Type: text/plain; charset=ISO-8859-1
 
-Hello Robert,
+The following changes since commit a5e6926cd409140d16391c72316da00ffbfe5429:
 
-On Mon, Jan 13, 2014 at 12:12 AM, Robert Yang <liezhi.yang@windriver.com>wrote:
->
-> I think that we need fix it in dora since gcc 4.8.1 is affected.
->
+  terminal.bbclass: do not export PS1 (2014-01-10 15:15:47 +0000)
 
-Do you have a patch for this already?
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/upgrades
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/upgrades
+
+Paul Eggleton (4):
+  dropbear: upgrade to 2013.62
+  chrpath: upgrade to 0.15
+  cdrtools-native: upgrade to 3.01a20
+  libsdl2: upgrade to 2.0.1
+
+ meta/recipes-core/dropbear/dropbear.inc                             | 4 ++--
+ .../0001-urandom-xauth-changes-to-options.h.patch                   | 0
+ .../{dropbear-2013.60 => dropbear}/0002-static_build_fix.patch      | 0
+ .../dropbear/{dropbear-2013.60 => dropbear}/0003-configure.patch    | 0
+ .../dropbear/{dropbear-2013.60 => dropbear}/0004-fix-2kb-keys.patch | 0
+ .../{dropbear-2013.60 => dropbear}/0005-dropbear-enable-pam.patch   | 0
+ .../0006-dropbear-configuration-file.patch                          | 0
+ .../0007-dropbear-fix-for-x32-abi.patch                             | 0
+ meta/recipes-core/dropbear/dropbear_2013.60.bb                      | 4 ----
+ meta/recipes-core/dropbear/dropbear_2013.62.bb                      | 4 ++++
+ .../{cdrtools-native_3.01a17.bb => cdrtools-native_3.01a20.bb}      | 4 ++--
+ meta/recipes-devtools/chrpath/{chrpath_0.14.bb => chrpath_0.15.bb}  | 6 +++---
+ .../recipes-graphics/libsdl2/{libsdl2_2.0.0.bb => libsdl2_2.0.1.bb} | 4 ++--
+ 13 files changed, 13 insertions(+), 13 deletions(-)
+ rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0001-urandom-xauth-changes-to-options.h.patch (100%)
+ rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0002-static_build_fix.patch (100%)
+ rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0003-configure.patch (100%)
+ rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0004-fix-2kb-keys.patch (100%)
+ rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0005-dropbear-enable-pam.patch (100%)
+ rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0006-dropbear-configuration-file.patch (100%)
+ rename meta/recipes-core/dropbear/{dropbear-2013.60 => dropbear}/0007-dropbear-fix-for-x32-abi.patch (100%)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_2013.60.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2013.62.bb
+ rename meta/recipes-devtools/cdrtools/{cdrtools-native_3.01a17.bb => cdrtools-native_3.01a20.bb} (81%)
+ rename meta/recipes-devtools/chrpath/{chrpath_0.14.bb => chrpath_0.15.bb} (80%)
+ rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.0.bb => libsdl2_2.0.1.bb} (94%)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.1.2
 
---089e013a182252305c04efdaeda9
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra">Hello Robert,<br><br><div c=
-lass=3D"gmail_quote">On Mon, Jan 13, 2014 at 12:12 AM, Robert Yang <span di=
-r=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank=
-">liezhi.yang@windriver.com</a>&gt;</span> wrote:<blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">
-
-I think that we need fix it in dora since gcc 4.8.1 is affected.<br></block=
-quote></div><div><br></div><div>Do you have a patch for this already?</div>=
-<div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
-ems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossystems.com.br" targ=
-et=3D"_blank">http://code.ossystems.com.br</a><br><span>Mobile: +55 (53) 99=
-81-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: <span id=3D"gc-number-242" class=3D"=
-gc-cs-link" title=3D"Call with Google Voice">+1 (347) 903-9750</span></span=
-><br>
-
-</div></div>
-
---089e013a182252305c04efdaeda9--
