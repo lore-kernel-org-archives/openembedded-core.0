@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B78106D899
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 335FD6C6D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 08:16:57 +0000 (UTC)
+	Mon, 13 Jan 2014 08:16:59 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0D8Gxeh022598
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0D8H0xQ027301
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 00:16:59 -0800 (PST)
+	Mon, 13 Jan 2014 00:17:00 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 13 Jan 2014 00:16:58 -0800
+	Mon, 13 Jan 2014 00:16:59 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jan 2014 00:20:17 +0800
-Message-ID: <6dba33c313227ebdc905c55fa1a29d15b83dd9eb.1389629682.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Jan 2014 00:20:18 +0800
+Message-ID: <2630161a7d1dc803bf65834bdd89bd3f61673852.1389629682.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1389629682.git.liezhi.yang@windriver.com>
 References: <cover.1389629682.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] package_rpm.bbclass: archive the source to srpm package
+Subject: [PATCH 4/5] archiver.bbclass: move a few code to copyleft_compliance.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,94 +33,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 08:16:58 -0000
+X-List-Received-Date: Mon, 13 Jan 2014 08:16:59 -0000
 Content-Type: text/plain
 
-The archiver.bbclass will put the sources to ARCHIVER_OUTDIR according
-to configuration, then the rpmbuild -bs will create the srpm.
+Move the code which is only used by copyleft_compliance.bbclass from
+archiver.bbclassc, and remove the "inherit archiver" from
+copyleft_compliance.bbclass.
+
+The archiver.bbclass is used for archiving various types of sources, but
+the copyleft_compliance.bbclass is used for analysing the license, they
+don't have much relationships.
 
 [YOCTO #4986]
 [YOCTO #5113]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/package_rpm.bbclass | 31 ++++++++++++-------------------
- 1 file changed, 12 insertions(+), 19 deletions(-)
+ meta/classes/archiver.bbclass            | 53 ------------------------------
+ meta/classes/copyleft_compliance.bbclass | 55 ++++++++++++++++++++++++++++++--
+ 2 files changed, 53 insertions(+), 55 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index fcde73e..2da2b44 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -6,7 +6,6 @@ RPM="rpm"
- RPMBUILD="rpmbuild"
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index f2d7184..c3e5bbf 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -35,25 +35,6 @@ ARCHIVER_OUTDIR = "${AR_TOPDIR}/${TARGET_SYS}/${PF}"
+ # This is a convenience for the shell script to use it
+ AR_EXCLUDE ?= "${@d.getVarFlag('ARCHIVER_MODE', 'diff-exclude', True)}"
  
- PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
--PKGWRITEDIRSRPM = "${DEPLOY_DIR}/sources/deploy-srpm"
- 
- # Maintaining the perfile dependencies has singificant overhead when writing the 
- # packages. When set, this value merges them for efficiency.
-@@ -559,23 +558,26 @@ python write_specfile () {
- 
-     # append information for logs and patches to %prep
-     def add_prep(d,spec_files_bottom):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-+        if d.getVarFlag('ARCHIVER_MODE', 'type', True) == 'srpm':
-             spec_files_bottom.append('%%prep -n %s' % d.getVar('PN', True) )
-             spec_files_bottom.append('%s' % "echo \"include logs and patches, Please check them in SOURCES\"")
-             spec_files_bottom.append('')
- 
-     # append the name of tarball to key word 'SOURCE' in xxx.spec.
-     def tail_source(d):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
--            source_list = get_package(d)
-+        if d.getVarFlag('ARCHIVER_MODE', 'type', True) == 'srpm':
-+            ar_dir = d.getVar('ARCHIVER_OUTDIR', True)
-+            if not os.path.exists(ar_dir):
-+                return
-+            source_list = os.listdir(ar_dir)
-             source_number = 0
--            workdir = d.getVar('WORKDIR', True)
-             for source in source_list:
-                 # The rpmbuild doesn't need the root permission, but it needs
-                 # to know the file's user and group name, the only user and
-                 # group in fakeroot is "root" when working in fakeroot.
--                os.chown("%s/%s" % (workdir, source), 0, 0)
--                spec_preamble_top.append('Source' + str(source_number) + ': %s' % source)
-+                f = os.path.join(ar_dir, source)
-+                os.chown(f, 0, 0)
-+                spec_preamble_top.append('Source%s: %s' % (source_number, source))
-                 source_number += 1
-     # We need a simple way to remove the MLPREFIX from the package name,
-     # and dependency information...
-@@ -1070,15 +1072,6 @@ python write_specfile () {
+-COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL*'
+-COPYLEFT_LICENSE_INCLUDE[type] = 'list'
+-COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which include licenses'
+-
+-COPYLEFT_LICENSE_EXCLUDE ?= 'CLOSED Proprietary'
+-COPYLEFT_LICENSE_EXCLUDE[type] = 'list'
+-COPYLEFT_LICENSE_EXCLUDE[doc] = 'Space separated list of globs which exclude licenses'
+-
+-COPYLEFT_RECIPE_TYPE ?= '${@copyleft_recipe_type(d)}'
+-COPYLEFT_RECIPE_TYPE[doc] = 'The "type" of the current recipe (e.g. target, native, cross)'
+-
+-COPYLEFT_RECIPE_TYPES ?= 'target'
+-COPYLEFT_RECIPE_TYPES[type] = 'list'
+-COPYLEFT_RECIPE_TYPES[doc] = 'Space separated list of recipe types to include'
+-
+-COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-canadian'
+-COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
+-COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
+-
+ python () {
+     pn = d.getVar('PN', True)
+     packaging = d.getVar('IMAGE_PKGTYPE', True)
+@@ -117,40 +98,6 @@ python () {
+         d.appendVarFlag('do_build', 'depends', build_deps)
  }
  
- python do_package_rpm () {
--    def creat_srpm_dir(d):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
--            clean_licenses = get_licenses(d)
--            pkgwritesrpmdir = bb.data.expand('${PKGWRITEDIRSRPM}/${PACKAGE_ARCH_EXTEND}', d)
--            pkgwritesrpmdir = pkgwritesrpmdir + '/' + clean_licenses
--            bb.utils.mkdirhier(pkgwritesrpmdir)
--            os.chmod(pkgwritesrpmdir, 0755)
--            return pkgwritesrpmdir
--            
-     # We need a simple way to remove the MLPREFIX from the package name,
-     # and dependency information...
-     def strip_multilib(name, d):
-@@ -1146,9 +1139,9 @@ python do_package_rpm () {
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_rpmfc_magic_path " + magicfile + "'"
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
--        cmd = cmd + " --define '_sourcedir " + workdir + "'"
--        cmdsrpm = cmd + " --define '_srcrpmdir " + creat_srpm_dir(d) + "'"
-+    if d.getVarFlag('ARCHIVER_MODE', 'type', True) == 'srpm':
-+        cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR', True) + "'"
-+        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_OUTDIR', True) + "'"
-         cmdsrpm = cmdsrpm + " -bs " + outspecfile
-         # Build the .src.rpm
-         d.setVar('SBUILDSPEC', cmdsrpm + "\n")
+-def copyleft_recipe_type(d):
+-    for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
+-        if oe.utils.inherits(d, recipe_type):
+-            return recipe_type
+-    return 'target'
+-
+-def copyleft_should_include(d):
+-    """
+-    Determine if this recipe's sources should be deployed for compliance
+-    """
+-    import ast
+-    import oe.license
+-    from fnmatch import fnmatchcase as fnmatch
+-
+-    recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE', True)
+-    if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
+-        return False, 'recipe type "%s" is excluded' % recipe_type
+-
+-    include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
+-    exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
+-
+-    try:
+-        is_included, reason = oe.license.is_included(d.getVar('LICENSE', True), include, exclude)
+-    except oe.license.LicenseError as exc:
+-        bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
+-    else:
+-        if is_included:
+-            if reason:
+-                return True, 'recipe has included licenses: %s' % ', '.join(reason)
+-            else:
+-                return False, 'recipe does not include a copyleft license'
+-        else:
+-            return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
+-
+ def create_tarball(d, srcdir, suffix):
+     """
+     create the tarball from srcdir
+diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
+index 32aa757..b47c2c9 100644
+--- a/meta/classes/copyleft_compliance.bbclass
++++ b/meta/classes/copyleft_compliance.bbclass
+@@ -6,11 +6,62 @@
+ #
+ # vi:sts=4:sw=4:et
+ 
+-# Need the copyleft_should_include
+-inherit archiver
++COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL*'
++COPYLEFT_LICENSE_INCLUDE[type] = 'list'
++COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which include licenses'
++
++COPYLEFT_LICENSE_EXCLUDE ?= 'CLOSED Proprietary'
++COPYLEFT_LICENSE_EXCLUDE[type] = 'list'
++COPYLEFT_LICENSE_EXCLUDE[doc] = 'Space separated list of globs which exclude licenses'
++
++COPYLEFT_RECIPE_TYPE ?= '${@copyleft_recipe_type(d)}'
++COPYLEFT_RECIPE_TYPE[doc] = 'The "type" of the current recipe (e.g. target, native, cross)'
++
++COPYLEFT_RECIPE_TYPES ?= 'target'
++COPYLEFT_RECIPE_TYPES[type] = 'list'
++COPYLEFT_RECIPE_TYPES[doc] = 'Space separated list of recipe types to include'
++
++COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-canadian'
++COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
++COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
+ 
+ COPYLEFT_SOURCES_DIR ?= '${DEPLOY_DIR}/copyleft_sources'
+ 
++def copyleft_recipe_type(d):
++    for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
++        if oe.utils.inherits(d, recipe_type):
++            return recipe_type
++    return 'target'
++
++def copyleft_should_include(d):
++    """
++    Determine if this recipe's sources should be deployed for compliance
++    """
++    import ast
++    import oe.license
++    from fnmatch import fnmatchcase as fnmatch
++
++    recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE', True)
++    if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
++        return False, 'recipe type "%s" is excluded' % recipe_type
++
++    include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
++    exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
++
++    try:
++        is_included, reason = oe.license.is_included(d.getVar('LICENSE', True), include, exclude)
++    except oe.license.LicenseError as exc:
++        bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
++    else:
++        if is_included:
++            if reason:
++                return True, 'recipe has included licenses: %s' % ', '.join(reason)
++            else:
++                return False, 'recipe does not include a copyleft license'
++        else:
++            return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
++
++
+ python do_prepare_copyleft_sources () {
+     """Populate a tree of the recipe sources and emit patch series files"""
+     import os.path
 -- 
 1.8.3.1
 
