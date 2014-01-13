@@ -1,26 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F28C6B5FB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id C03026B5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 15:59:18 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jan 2014 07:54:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,653,1384329600"; d="scan'208";a="438080803"
-Received: from unknown (HELO [10.255.12.133]) ([10.255.12.133])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jan 2014 07:58:59 -0800
-Message-ID: <52D40D43.9040407@linux.intel.com>
-Date: Mon, 13 Jan 2014 07:58:59 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+	Mon, 13 Jan 2014 17:01:33 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id i13so1771884qae.41
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jan 2014 09:01:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Iw383yrGBKdzvLwSjj7lHjyznXl2EElvLj3UFo6d4xI=;
+	b=jpxqAl4KLY0MsOql2TNWk60VwEUEsHWScA8V0bx6qM3Col3cTU5NkROjWBBqsG+nyT
+	kdtjF1NaMwfIl/CS/lk7uMHroQz/UOqDZwtffIH/rWqcja0wQRffNSgH8Xjr22DZZ2xi
+	QJUn2pvirj+IWQKgeenxfIWpVpJqPvvj662239BMWiMzdkrdT1UuzTMyEUKWZ/C2fehk
+	+LKWAqPIXkCw0jlS5YB4pdVzFlLn6fs5ThJ6ACFSl9A7dwv+X/1KkR3OlGWs9QCf2A1N
+	R6pdbqmluED0g2s0xraCFSPCmvdsxNoKK9j699LT6m/ddoBfJlKT09WMvrDpzHq6BGJ4
+	K41g==
+X-Gm-Message-State: ALoCoQlkwId9WpkBDlTm89MfBNj9fTRfX5qt3DkLb9oBAf+yhhw2w4aIT6frhSZU1aeZrCojFz24
+X-Received: by 10.49.98.35 with SMTP id ef3mr41783061qeb.30.1389632494410;
+	Mon, 13 Jan 2014 09:01:34 -0800 (PST)
 MIME-Version: 1.0
-To: Chong Lu <Chong.Lu@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1389259902.git.Chong.Lu@windriver.com>
-	<6422a763adc5b9909e47c2354a58d4b7a0dd017a.1389259902.git.Chong.Lu@windriver.com>
-In-Reply-To: <6422a763adc5b9909e47c2354a58d4b7a0dd017a.1389259902.git.Chong.Lu@windriver.com>
-Subject: Re: [PATCH 1/1] attr: enable ptest support
+Received: by 10.96.179.105 with HTTP; Mon, 13 Jan 2014 09:01:14 -0800 (PST)
+In-Reply-To: <1d073230c282c6e62cd24b164bc42f383a55544a.1389598673.git.Qi.Chen@windriver.com>
+References: <cover.1389598673.git.Qi.Chen@windriver.com>
+	<1d073230c282c6e62cd24b164bc42f383a55544a.1389598673.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 13 Jan 2014 17:01:14 +0000
+Message-ID: <CAJTo0Lb3ysqtjm-fN5vCqpOONEAUH-N+eeC3a=t+PqG8bOWe1g@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] systemd-compat-units: make run-postinsts.service work correctly on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,157 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 15:59:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Jan 2014 17:01:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 01/09/2014 02:02 AM, Chong Lu wrote:
-> Install attr test suite and run it as ptest.
->
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->   meta/recipes-support/attr/attr.inc                 | 15 +++-
->   .../attr/files/attr-make-ptest-pass.patch          | 82 ++++++++++++++++++++++
->   meta/recipes-support/attr/files/run-ptest          |  5 ++
->   3 files changed, 101 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-support/attr/files/attr-make-ptest-pass.patch
->   create mode 100644 meta/recipes-support/attr/files/run-ptest
->
-> diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-> index 4961ba7..8cb08e4 100644
-> --- a/meta/recipes-support/attr/attr.inc
-> +++ b/meta/recipes-support/attr/attr.inc
-> @@ -11,7 +11,10 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
->                       file://attr/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
->                       file://libattr/libattr.c;endline=17;md5=7970f77049f8fa1199fff62a7ab724fb"
->
-> -SRC_URI = "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz"
-> +SRC_URI = "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz \
-> +           file://attr-make-ptest-pass.patch \
-> +           file://run-ptest \
-> +"
->
->   require ea-acl.inc
->
-> @@ -20,3 +23,13 @@ do_install_append() {
->   	sed -i ${D}${libdir}/libattr.la -e \
->   	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
->   }
-> +
-> +inherit ptest
-> +
-> +do_install_ptest() {
-> +	cp -r ${S}/test ${D}${PTEST_PATH}
-> +	mkdir ${D}${PTEST_PATH}/include
-> +	cp ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
-> +}
-> +
-> +RDEPENDS_${PN}-ptest = "coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
-> diff --git a/meta/recipes-support/attr/files/attr-make-ptest-pass.patch b/meta/recipes-support/attr/files/attr-make-ptest-pass.patch
-> new file mode 100644
-> index 0000000..e2da8b0
-> --- /dev/null
-> +++ b/meta/recipes-support/attr/files/attr-make-ptest-pass.patch
-> @@ -0,0 +1,82 @@
-> +attr: make ptest pass
-> +
-> +Upstream-Status: Inappropriate [embedded specific]
-> +
-> +Delete the second '@' character of the same row in test/Makefile, else
-> +we would get the error as below:
-> +    @echo: command not found
-> +In fs.test file, the result of `ls -s' is incorrect. Change it to make
-> +ext-tests pass.
-> +
-Can you please verify that these tests are actually wrong, it seems 
-incorrect to be changing the test results to make the test pass.
+On 13 January 2014 07:38, Chen Qi <Qi.Chen@windriver.com> wrote:
+> +ExecStart=-/etc/rcS.d/S98run-postinsts ; -/etc/rcS.d/S99run-postinsts
 
-Are we missing a setting (like the acl) or something else?
+Can we just make opkg and run-postinsts write that file using the same number?
 
-Sau!
+Also, that service file needs to move directly into run-postinsts.
+There's a start in poky-contrib:ross/postinsts if you want to finish
+it off. :)
 
-> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> +---
-> + test/Makefile    |    4 ++--
-> + test/ext/fs.test |   22 +++++++++++-----------
-> + 2 files changed, 13 insertions(+), 13 deletions(-)
-> +
-> +diff --git a/test/Makefile b/test/Makefile
-> +index b7bd8db..d916bf4 100644
-> +--- a/test/Makefile
-> ++++ b/test/Makefile
-> +@@ -40,10 +40,10 @@ $(TEST):
-> + 	@echo "*** $@ ***"; perl run $@
-> +
-> + $(EXT):
-> +-	@echo "EXT specific tests"; @echo "*** $@ ***"; perl run $@
-> ++	@echo "EXT specific tests"; echo "*** $@ ***"; perl run $@
-> +
-> + $(ROOT):
-> +-	@echo "Note: Tests must run as root"; @echo "*** $@ ***"; perl run $@
-> ++	@echo "Note: Tests must run as root"; echo "*** $@ ***"; perl run $@
-> +
-> + .PHONY: $(TEST) $(EXT) $(ROOT)
-> + .NOTPARALLEL:
-> +diff --git a/test/ext/fs.test b/test/ext/fs.test
-> +index cc28fec..381d54b 100644
-> +--- a/test/ext/fs.test
-> ++++ b/test/ext/fs.test
-> +@@ -19,15 +19,15 @@ Test extended attribute block sharing
-> + 	$ touch f g h
-> + 	$ setfattr -n user.novalue f g h
-> + 	$ ls -s f g h
-> +-	> 4 f
-> +-	> 4 g
-> +-	> 4 h
-> ++	> 0 f
-> ++	> 0 g
-> ++	> 0 h
-> +
-> + 	$ setfattr -n user.name -v value f
-> + 	$ ls -s f g h
-> +-	> 4 f
-> +-	> 4 g
-> +-	> 4 h
-> ++	> 0 f
-> ++	> 0 g
-> ++	> 0 h
-> +
-> + 	$ getfattr -d f g h
-> + 	> # file: f
-> +@@ -43,14 +43,14 @@ Test extended attribute block sharing
-> +
-> + 	$ setfattr -n user.name -v value g
-> + 	$ ls -s f g h
-> +-	> 4 f
-> +-	> 4 g
-> +-	> 4 h
-> ++	> 0 f
-> ++	> 0 g
-> ++	> 0 h
-> +
-> + 	$ setfattr -x user.novalue h
-> + 	$ ls -s f g h
-> +-	> 4 f
-> +-	> 4 g
-> ++	> 0 f
-> ++	> 0 g
-> + 	> 0 h
-> +
-> + 	$ setfattr -n user.name -v other-value g
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-support/attr/files/run-ptest b/meta/recipes-support/attr/files/run-ptest
-> new file mode 100644
-> index 0000000..f0bd9fc
-> --- /dev/null
-> +++ b/meta/recipes-support/attr/files/run-ptest
-> @@ -0,0 +1,5 @@
-> +#!/bin/sh
-> +
-> +make -C test -k tests root-tests ext-tests |sed \
-> + -e 's|^\[.*\] \(.*\) -- ok$|PASS: \1|' \
-> + -e 's|^\[.*\] \(.*\) -- failed|FAIL: \1|'
->
+Ross
 
