@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 335FD6C6D1
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A2A0B6D8D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 08:16:59 +0000 (UTC)
+	Mon, 13 Jan 2014 08:17:00 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0D8H0xQ027301
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0D8H2tn022601
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 00:17:00 -0800 (PST)
+	Mon, 13 Jan 2014 00:17:02 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 13 Jan 2014 00:16:59 -0800
+	Mon, 13 Jan 2014 00:17:01 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jan 2014 00:20:18 +0800
-Message-ID: <2630161a7d1dc803bf65834bdd89bd3f61673852.1389629682.git.liezhi.yang@windriver.com>
+Date: Tue, 14 Jan 2014 00:20:19 +0800
+Message-ID: <f629adf6ba00474025c17b315f534ee3549177ab.1389629682.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1389629682.git.liezhi.yang@windriver.com>
 References: <cover.1389629682.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] archiver.bbclass: move a few code to copyleft_compliance.bbclass
+Subject: [PATCH 5/5] local.conf.sample.extended: update for the archiver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,166 +33,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 08:16:59 -0000
+X-List-Received-Date: Mon, 13 Jan 2014 08:17:01 -0000
 Content-Type: text/plain
 
-Move the code which is only used by copyleft_compliance.bbclass from
-archiver.bbclassc, and remove the "inherit archiver" from
-copyleft_compliance.bbclass.
+Updated it since we have refactored the archiver.bbclass.
 
-The archiver.bbclass is used for archiving various types of sources, but
-the copyleft_compliance.bbclass is used for analysing the license, they
-don't have much relationships.
-
-[YOCTO #4986]
 [YOCTO #5113]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/archiver.bbclass            | 53 ------------------------------
- meta/classes/copyleft_compliance.bbclass | 55 ++++++++++++++++++++++++++++++--
- 2 files changed, 53 insertions(+), 55 deletions(-)
+ meta-yocto/conf/local.conf.sample.extended | 72 ++++++++++++++++--------------
+ 1 file changed, 38 insertions(+), 34 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index f2d7184..c3e5bbf 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -35,25 +35,6 @@ ARCHIVER_OUTDIR = "${AR_TOPDIR}/${TARGET_SYS}/${PF}"
- # This is a convenience for the shell script to use it
- AR_EXCLUDE ?= "${@d.getVarFlag('ARCHIVER_MODE', 'diff-exclude', True)}"
+diff --git a/meta-yocto/conf/local.conf.sample.extended b/meta-yocto/conf/local.conf.sample.extended
+index c7c4f40..c0a98ee 100644
+--- a/meta-yocto/conf/local.conf.sample.extended
++++ b/meta-yocto/conf/local.conf.sample.extended
+@@ -188,40 +188,44 @@
+ # when the disk space reduces 50M (or the amount of inode reduces 5k).
+ #BB_DISKMON_WARNINTERVAL = "50M,5K"
  
--COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL*'
--COPYLEFT_LICENSE_INCLUDE[type] = 'list'
--COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which include licenses'
--
--COPYLEFT_LICENSE_EXCLUDE ?= 'CLOSED Proprietary'
--COPYLEFT_LICENSE_EXCLUDE[type] = 'list'
--COPYLEFT_LICENSE_EXCLUDE[doc] = 'Space separated list of globs which exclude licenses'
--
--COPYLEFT_RECIPE_TYPE ?= '${@copyleft_recipe_type(d)}'
--COPYLEFT_RECIPE_TYPE[doc] = 'The "type" of the current recipe (e.g. target, native, cross)'
--
--COPYLEFT_RECIPE_TYPES ?= 'target'
--COPYLEFT_RECIPE_TYPES[type] = 'list'
--COPYLEFT_RECIPE_TYPES[doc] = 'Space separated list of recipe types to include'
--
--COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-canadian'
--COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
--COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
--
- python () {
-     pn = d.getVar('PN', True)
-     packaging = d.getVar('IMAGE_PKGTYPE', True)
-@@ -117,40 +98,6 @@ python () {
-         d.appendVarFlag('do_build', 'depends', build_deps)
- }
+-# Archiving source code, configure what kind of sources will be archived
+-# and the output format. The output files will be put in
+-# ${DEPLOY_DIR}/sources/.
+-#
+-# You can add the following 3 lines to the conf file to get a quick
+-# usage:
+-#ARCHIVER_MODE ?= "original"
+-#ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
+-#INHERIT += "${ARCHIVER_CLASS}"
+-#
+-# Detailed configuration:
+-# What kind of sources will be archived, the ARCHIVER_MODE could be:
+-# original: the ${S} after do_unpack
+-# patched : the ${S} after do_patch
+-# configured: the ${S} after do_configure
+-#ARCHIVER_MODE ?= "original"
+-#
+-# The output format type, tar or srpm, the default is "tar".
+-#ARCHIVER_MODE[type] ?= "tar"
+-#
+-# Whether include the log file under ${T} and the recipe (.bb and .inc),
+-# the default is "logs_with_scripts".
+-#ARCHIVER_MODE[log_type] ?= "logs_with_scripts"
+-#
+-# license filter:
+-# yes: Only the COPYLEFT_LICENSE_INCLUDE recipe will be archived
+-# no: All kinds of license will be archived
+-# The default is "no"
+-#ARCHIVER_MODE[filter] ?= "no"
+-#
+-# The following lines should be added to your conf file verbatim
+-# (uncommented though of course):
+-#ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
+-#INHERIT += "${ARCHIVER_CLASS}"
++# Archive the source and put them to ${DEPLOY_DIR}/sources/.
++#
++#INHERIT += "archiver"
++#
++# The tarball for the configured source, the diff between do_unpack and
++# do_patch will be archived by default, and you can configure the
++# archiver when needed:
++#
++#The output format:
++# 1) tar: (default)
++#ARCHIVER_MODE[type] = "tar"
++# 2) srpm: (when PACKAGES != "")
++#ARCHIVER_MODE[type] = "srpm",
++# NOTE: The logs can't be packed into the srpm package because they are
++#       incompleted until the rpm package has been built.
++#
++# Archive the source:
++# 1) before do_patch:
++#ARCHIVER_MODE[src] = "prepatch"
++# 2) after do_patch:
++#ARCHIVER_MODE[src] = "patched"
++# 3) after do_configure: (default)
++#ARCHIVER_MODE[src] = "configured"
++#
++# 4) the patches between do_unpack and do_patch:
++#ARCHIVER_MODE[diff] = "yes"
++# set the files that you'd like to exclude from the diff:
++#ARCHIVER_MODE[diff-exclude] ?= ".pc autom4te.cache patches"
++#
++# 5) the environment data, similar to 'bitbake -e recipe':
++#ARCHIVER_MODE[dumpdata] = "yes"
++#
++# 6) the recipe (.bb and .inc):
++#ARCHIVER_MODE[recipe] = "yes"
++#
++# 7) the log.* and run.* files under ${T}
++#ARCHIVER_MODE[log] = "yes"
++#
  
--def copyleft_recipe_type(d):
--    for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
--        if oe.utils.inherits(d, recipe_type):
--            return recipe_type
--    return 'target'
--
--def copyleft_should_include(d):
--    """
--    Determine if this recipe's sources should be deployed for compliance
--    """
--    import ast
--    import oe.license
--    from fnmatch import fnmatchcase as fnmatch
--
--    recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE', True)
--    if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
--        return False, 'recipe type "%s" is excluded' % recipe_type
--
--    include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
--    exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
--
--    try:
--        is_included, reason = oe.license.is_included(d.getVar('LICENSE', True), include, exclude)
--    except oe.license.LicenseError as exc:
--        bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
--    else:
--        if is_included:
--            if reason:
--                return True, 'recipe has included licenses: %s' % ', '.join(reason)
--            else:
--                return False, 'recipe does not include a copyleft license'
--        else:
--            return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
--
- def create_tarball(d, srcdir, suffix):
-     """
-     create the tarball from srcdir
-diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
-index 32aa757..b47c2c9 100644
---- a/meta/classes/copyleft_compliance.bbclass
-+++ b/meta/classes/copyleft_compliance.bbclass
-@@ -6,11 +6,62 @@
- #
- # vi:sts=4:sw=4:et
- 
--# Need the copyleft_should_include
--inherit archiver
-+COPYLEFT_LICENSE_INCLUDE ?= 'GPL* LGPL*'
-+COPYLEFT_LICENSE_INCLUDE[type] = 'list'
-+COPYLEFT_LICENSE_INCLUDE[doc] = 'Space separated list of globs which include licenses'
-+
-+COPYLEFT_LICENSE_EXCLUDE ?= 'CLOSED Proprietary'
-+COPYLEFT_LICENSE_EXCLUDE[type] = 'list'
-+COPYLEFT_LICENSE_EXCLUDE[doc] = 'Space separated list of globs which exclude licenses'
-+
-+COPYLEFT_RECIPE_TYPE ?= '${@copyleft_recipe_type(d)}'
-+COPYLEFT_RECIPE_TYPE[doc] = 'The "type" of the current recipe (e.g. target, native, cross)'
-+
-+COPYLEFT_RECIPE_TYPES ?= 'target'
-+COPYLEFT_RECIPE_TYPES[type] = 'list'
-+COPYLEFT_RECIPE_TYPES[doc] = 'Space separated list of recipe types to include'
-+
-+COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-canadian'
-+COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
-+COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
- 
- COPYLEFT_SOURCES_DIR ?= '${DEPLOY_DIR}/copyleft_sources'
- 
-+def copyleft_recipe_type(d):
-+    for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
-+        if oe.utils.inherits(d, recipe_type):
-+            return recipe_type
-+    return 'target'
-+
-+def copyleft_should_include(d):
-+    """
-+    Determine if this recipe's sources should be deployed for compliance
-+    """
-+    import ast
-+    import oe.license
-+    from fnmatch import fnmatchcase as fnmatch
-+
-+    recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE', True)
-+    if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
-+        return False, 'recipe type "%s" is excluded' % recipe_type
-+
-+    include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
-+    exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
-+
-+    try:
-+        is_included, reason = oe.license.is_included(d.getVar('LICENSE', True), include, exclude)
-+    except oe.license.LicenseError as exc:
-+        bb.fatal('%s: %s' % (d.getVar('PF', True), exc))
-+    else:
-+        if is_included:
-+            if reason:
-+                return True, 'recipe has included licenses: %s' % ', '.join(reason)
-+            else:
-+                return False, 'recipe does not include a copyleft license'
-+        else:
-+            return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
-+
-+
- python do_prepare_copyleft_sources () {
-     """Populate a tree of the recipe sources and emit patch series files"""
-     import os.path
+ # Remove the old image before the new one generated to save disk space
+ #RM_OLD_IMAGE = "1"
 -- 
 1.8.3.1
 
