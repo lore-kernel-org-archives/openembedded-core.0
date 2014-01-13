@@ -1,31 +1,24 @@
-Return-Path: <heinold@inf.fu-berlin.de>
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
-	[130.133.4.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 782756B5D8
+Return-Path: <Yasir_Khan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id E81346B5D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 11:52:58 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-	by outpost.zedat.fu-berlin.de (Exim 4.82)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@inf.fu-berlin.de>)
-	id <1W2g4f-0049t6-Fo>; Mon, 13 Jan 2014 12:52:57 +0100
-Received: from fb-n15-11.unbelievable-machine.net ([94.198.62.204]
-	helo=mail.zedat.fu-berlin.de)
-	by inpost2.zedat.fu-berlin.de (Exim 4.82)
-	for openembedded-core@lists.openembedded.org with esmtpsa
-	(envelope-from <heinold@inf.fu-berlin.de>)
-	id <1W2g4f-0013Qs-Dl>; Mon, 13 Jan 2014 12:52:57 +0100
-Date: Mon, 13 Jan 2014 12:52:49 +0100
-From: Henning Heinold <heinold@inf.fu-berlin.de>
+	Mon, 13 Jan 2014 11:58:26 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1W2g9y-0005MJ-BQ from Yasir_Khan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 13 Jan 2014 03:58:26 -0800
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 13 Jan 2014 03:58:25 -0800
+From: Yasir Khan <yasir_khan@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20140113115249.GA22825@mail.zedat.fu-berlin.de>
-References: <cover.1389629682.git.liezhi.yang@windriver.com>
-	<20140113102147.GK16995@jama> <52D3C44B.20403@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <52D3C44B.20403@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: 94.198.62.204
-Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
+Date: Mon, 13 Jan 2014 16:57:57 +0500
+Message-Id: <1389614277-40372-1-git-send-email-yasir_khan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 13 Jan 2014 11:58:26.0156 (UTC)
+	FILETIME=[C42D2AC0:01CF1056]
+Subject: [PATCH] libacpi: Fix GNU_HASH problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,51 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 11:52:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 13 Jan 2014 11:58:27 -0000
 
-On Mon, Jan 13, 2014 at 06:47:39PM +0800, Robert Yang wrote:
-> 
-> On 01/13/2014 06:21 PM, Martin Jansa wrote:
-> >On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
-> >>* The archive*.bbclass didn't work, and there were a few problems, for
-> >>   example:
-> >>   1) There were a few duplicated code
-> >>   2) There was no src_dir.org (or orig), but the diff command still use
-> >>      it, and it is not easy to fix this issue if we don't change a lot
-> >>      of the code.
-> >>   3) It didn't archive the source for the native or gcc
-> >>   4) The work flow is not very well
-> >>   5) The "subprocess.call('fakeroot cp xxxx'" should be removed
-> >>   6) And others ...
-> >>
-> >>* So that we have to refactor it, the benefits are:
-> >>   1) Fix the problems and make it work well.
-> >>   2) Reduce more than 400 lines in total.
-> >>   3) Make it easy to use.
-> >
-> >Have you seen
-> >http://lists.openembedded.org/pipermail/openembedded-core/2013-December/087729.html
-> >?
-> >
-> >Could you review it/integrate changes from it?
-> 
-> I've looked at it just now, I think the problems that you mentioned have been
-> fixed during the refactor. It won't install/remove the files manually any more,
-> they will be installed/removed by the sstate. And the usage become easier, just
-> this would be OK by default:
-> 
-> INHERIT += "archiver"
-> 
-> And we can easily add other functions when needed.
-> 
-> // Robert
-> 
+From: Yasir-Khan <yasir_khan@mentor.com>
 
-Hi Robert,
+Fixes GNU_HASH problem by adding LDFLAGS to TARGET_CC_ARCH
 
-does the whole thread means it is broken in dora too? Are there plans to backport the patches?
+Signed-off-by: Yasir-Khan <yasir_khan@mentor.com>
+---
+ meta/recipes-bsp/libacpi/libacpi_0.2.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-Bye Henning
+diff --git a/meta/recipes-bsp/libacpi/libacpi_0.2.bb b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
+index f4c323d..2d222e7 100644
+--- a/meta/recipes-bsp/libacpi/libacpi_0.2.bb
++++ b/meta/recipes-bsp/libacpi/libacpi_0.2.bb
+@@ -23,6 +23,8 @@ COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+ CFLAGS += "-fPIC"
+ EXTRA_OEMAKE += 'STRIP="echo"'
+ 
++TARGET_CC_ARCH += "${LDFLAGS}"
++
+ do_install() {
+ 	oe_runmake install DESTDIR=${D} PREFIX=${exec_prefix}
+ }
+-- 
+1.7.9.5
+
 
