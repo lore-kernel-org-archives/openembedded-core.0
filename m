@@ -1,25 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 44BEB6E33B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E01836CAC1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 15:22:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Jan 2014 07:22:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,653,1384329600"; d="scan'208";a="465875324"
-Received: from smoffitt-mobl.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.122.149])
-	by orsmga002.jf.intel.com with ESMTP; 13 Jan 2014 07:22:16 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jan 2014 15:22:09 +0000
-Message-Id: <73c1c218d0045000ed28344239ab18cef7291f7d.1389626446.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1389626446.git.paul.eggleton@linux.intel.com>
-References: <cover.1389626446.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1389626446.git.paul.eggleton@linux.intel.com>
-References: <cover.1389626446.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/4] libsdl2: upgrade to 2.0.1
+	Mon, 13 Jan 2014 15:36:19 +0000 (UTC)
+Received: by mail-qc0-f179.google.com with SMTP id e16so4215934qcx.38
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jan 2014 07:36:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=H2ZRVAUmmDaALhXRUQOSy9wE3UcpF8iX/GUIqbmtx10=;
+	b=dDEOwE9mEmqRbVO0c0eNPOXLNJpL9p0faBhmEzfxK56sITz6TpNHcclNv1JPuWJ0Jg
+	9TMWqglePmlAR4AynaTC+yr4rFPgiPUKqzfEtrx+uUlqUtWzkfqR4TRHUfm9X23grSnw
+	QdoAP6bpmR/iib/ItrOFKnl0roS9BxLhamcK9PIQbFR8hCt/ZQlaX8i1MKM/9fupQiSz
+	++goU3XlKu2fsXPM1tBEF840ioUYz3/lHqTB+jjm8uZYuFaSwQHfbw8S9I0xjR1I5im6
+	WcSccz/obVAfvAIV3wM9K3ujQtZdgE9KBS0ISeK+sDYjnwNeNAjZudK3/jzlC2luk869
+	vpyQ==
+X-Gm-Message-State: ALoCoQkPcNtYweH8S/z94t4u4g1BDwqHm6TFCandquf3pn9Oy5BeWAQJNKY1Ni6w6KoZq17BzUbX
+X-Received: by 10.49.127.205 with SMTP id ni13mr41186362qeb.40.1389627380730; 
+	Mon, 13 Jan 2014 07:36:20 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.96.179.105 with HTTP; Mon, 13 Jan 2014 07:36:00 -0800 (PST)
+In-Reply-To: <52D07F3C.40601@linux.intel.com>
+References: <1389373329-21241-1-git-send-email-ross.burton@intel.com>
+	<1389373329-21241-2-git-send-email-ross.burton@intel.com>
+	<52D07F3C.40601@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 13 Jan 2014 15:36:00 +0000
+Message-ID: <CAJTo0LZukTaA9W1PevpND7E5U20=Shfu2fV-m36M+Ey2P9-Y7A@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][V2 2/5] python-mako: add (from meta-oe)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +45,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 15:22:41 -0000
+X-List-Received-Date: Mon, 13 Jan 2014 15:36:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-graphics/libsdl2/{libsdl2_2.0.0.bb => libsdl2_2.0.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.0.bb => libsdl2_2.0.1.bb} (94%)
+On 10 January 2014 23:16, Saul Wold <sgw@linux.intel.com> wrote:
+> Seems like they might have moved or lost these files since you tested, the
+> upstream is at 0.9.1 and has moved these files to
+> https://pypi.python.org/packages/source/M/Mako/Mako-0.7.2.tar.gz
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.0.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.1.bb
-similarity index 94%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.0.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.1.bb
-index f393e33..7958f7b 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.0.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.1.bb
-@@ -23,8 +23,8 @@ SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
- 
- S = "${WORKDIR}/SDL2-${PV}"
- 
--SRC_URI[md5sum] = "beec89afb6edcc6f0abc4114f2e6bcf7"
--SRC_URI[sha256sum] = "6f6ac8153d90e06a118474d5400624ae82b3d3e080915505db27cebc52b27178"
-+SRC_URI[md5sum] = "0eb97039488bf463e775295f7b18b227"
-+SRC_URI[sha256sum] = "0ae7e902a26777614a011fe7053ca7e8b14843db3c42ca117564d208cf6732f0"
- 
- inherit autotools lib_package binconfig pkgconfig
- 
--- 
-1.8.1.2
+Yep, V2 incoming.
 
+Ross
 
