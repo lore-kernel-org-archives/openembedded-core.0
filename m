@@ -1,28 +1,33 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EA206B565
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 00E3D6B565
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 01:54:24 +0000 (UTC)
+	Mon, 13 Jan 2014 02:00:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0D1sNJK019326
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0D20AwF001958
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 12 Jan 2014 17:54:23 -0800 (PST)
+	Sun, 12 Jan 2014 18:00:10 -0800 (PST)
 Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Sun, 12 Jan 2014 17:54:23 -0800
-Message-ID: <52D3474C.8060309@windriver.com>
-Date: Mon, 13 Jan 2014 09:54:20 +0800
+	Sun, 12 Jan 2014 18:00:09 -0800
+Message-ID: <52D348A5.6080808@windriver.com>
+Date: Mon, 13 Jan 2014 10:00:05 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1389003637.git.Martin.Jansa@gmail.com>
-	<52CF90CB.3010300@windriver.com> <20140110110241.GP3709@jama>
-In-Reply-To: <20140110110241.GP3709@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [dora][PATCH 0/2] Dora backports
+To: Koen Kooi <koen@dominion.thruhere.net>, "Burton, Ross"
+	<ross.burton@intel.com>
+References: <cover.1388769973.git.liezhi.yang@windriver.com>
+	<5b836adb7023cf075f9eb2246c7b2bbe420fd1cf.1388769973.git.liezhi.yang@windriver.com>
+	<CAJTo0LY2hTEcqZyqrDsoBGEbWYwovCSu7+gZdo4av+9=0w_J5g@mail.gmail.com>
+	<52CBFBB5.8030009@windriver.com>
+	<CAJTo0LaMobezC+B7eNbXc-2NLnS2fxLid=xNvE_7hzMR5ntQnQ@mail.gmail.com>
+	<8DE9C4FF-2468-4BE0-9FF3-8DC428F5A762@dominion.thruhere.net>
+In-Reply-To: <8DE9C4FF-2468-4BE0-9FF3-8DC428F5A762@dominion.thruhere.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] gconf.bbclass: remove --disable-schemas-install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 01:54:25 -0000
+X-List-Received-Date: Mon, 13 Jan 2014 02:00:12 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-On 01/10/2014 07:02 PM, Martin Jansa wrote:
-> On Fri, Jan 10, 2014 at 02:18:51PM +0800, Robert Yang wrote:
->>
->> Hi Martin,
->>
->> Thanks, please see my comments in line.
->>
->> On 01/06/2014 06:21 PM, Martin Jansa wrote:
->>> The following changes since commit e86622a932bbd0acdea67ecfb15c8b06c27353d8:
->>>
->>>     libsoup-2.4: add intltool-native to DEPENDS (2013-12-19 14:59:47 +0000)
->>>
->>> are available in the git repository at:
->>>
->>>     git://git.openembedded.org/openembedded-core-contrib jansa/dora-backports2
->>>     http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/dora-backports2
->>>
->>> Martin Jansa (1):
->>>     ltp: set PREFERRED_PROVIDER and rename runtests_noltp.sh script
->>>
->>
->> I will take this.
->>
->>> Richard Purdie (1):
->>>     eglibc-initial.inc: Drop duplicate include
->>>
->>
->>
->> It seems that this is a trivial fix, I don't think it's a good idea to merge
->> it to dora.
+
+On 01/09/2014 02:33 PM, Koen Kooi wrote:
 >
-> And the warning shown in every dora build since
-> http://git.openembedded.org/bitbake/commit/?h=1.20&id=22e6b1c4c4afb27057689bbc94cbdf1f19f93e3d
-> isn't important enough reason to merge it?
+> Op 8 jan. 2014, om 17:12 heeft Burton, Ross <ross.burton@intel.com> het volgende geschreven:
+>
+>> On 7 January 2014 13:05, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>>> *Some* packages have migrated away from gconf to gsettings.  Not all
+>>>> packages have done this, so anything still using gconf is now broken.
+>>>> Note that almost nothing in oe-core uses gsettings as we're still
+>>>> using the GTK+ 2 stack generally.
+>>>
+>>> Hi Ross, which recipe is failed, please ?
+>>
+>> A better question would be what package did you get this warning from?
+>>
+>> As I said, any recipe that did inherit gnome and still used GConf
+>> would be affected by your change.
+>
+> Which is over half of the meta-gnome recipes :(
 >
 
-OK, thanks to all, I will take it.
+Sounds bad, fortunately, it had been reverted.
 
 // Robert
-
->>
->> // Robert
->>
->>>    meta/conf/distro/include/default-providers.inc     |   2 +
->>>    meta/recipes-core/eglibc/eglibc-initial.inc        |   2 -
->>>    ...tests_noltp.sh-script-so-have-unique-name.patch | 202 +++++++++++++++++++++
->>>    meta/recipes-extended/ltp/ltp_20130503.bb          |   4 +-
->>>    4 files changed, 207 insertions(+), 3 deletions(-)
->>>    create mode 100644 meta/recipes-extended/ltp/ltp/0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch
->>>
->
 
