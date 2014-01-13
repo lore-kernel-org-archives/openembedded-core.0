@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D7E06B873
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EA386C817
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 07:38:14 +0000 (UTC)
+	Mon, 13 Jan 2014 07:38:16 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0D7cFIj021994
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0D7cHgo022180
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2014 23:38:15 -0800 (PST)
+	Sun, 12 Jan 2014 23:38:17 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 12 Jan 2014 23:38:14 -0800
+	14.2.347.0; Sun, 12 Jan 2014 23:38:16 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jan 2014 15:38:44 +0800
-Message-ID: <cover.1389598673.git.Qi.Chen@windriver.com>
+Date: Mon, 13 Jan 2014 15:38:45 +0800
+Message-ID: <c987728f966e5b0d04bf347135b39bfffc71de3d.1389598673.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1389598673.git.Qi.Chen@windriver.com>
+References: <cover.1389598673.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Fixes for run-postinsts in sysvinit and systemd
+Subject: [PATCH 1/2] run-postinsts: remove the init script after a clean start-up
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 07:38:14 -0000
+X-List-Received-Date: Mon, 13 Jan 2014 07:38:16 -0000
 Content-Type: text/plain
 
-The following changes since commit 1b636173ca88e5ccca1992f9a12367a1189fa674:
+If we enable ipk/deb package back-end, and we have 'package-management'
+in our IMAGE_FEATURES, then the /etc/rcS.d/S99run-postinsts would
+still exist in our system after a clean start-up.
 
-  bitbake: toaster: Toaster GUI, generic search, filter and order (2014-01-10 15:20:26 +0000)
+The initial design for run-postinsts requires the related init script
+to be removed if there's no more post-install script left in the system.
 
-are available in the git repository at:
+This patch fixes this problem.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/run-postinsts-fixes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/run-postinsts-fixes
+[YOCTO #5718]
 
-Chen Qi (2):
-  run-postinsts: remove the init script after a clean start-up
-  systemd-compat-units: make run-postinsts.service work correctly on
-    target
-
- meta/recipes-core/systemd/systemd-compat-units.bb  |    8 --------
- .../systemd-compat-units/run-postinsts.service     |    4 ++--
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  .../run-postinsts/run-postinsts/run-postinsts      |   15 +++++++++++----
- 3 files changed, 13 insertions(+), 14 deletions(-)
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+index c94c3e9..11141ec 100755
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+@@ -16,7 +16,16 @@ for pm in rpm deb ipk; do
+ 	fi
+ done
+ 
+-[ -z "$pi_dir" ] && exit 0
++remove_rcsd_link () {
++	if [ -n "`which update-rc.d`" ]; then
++		update-rc.d -f run-postinsts remove
++	fi
++}
++
++if [ -z "$pi_dir" ]; then
++	remove_rcsd_link
++	exit 0
++fi
+ 
+ [ -e #SYSCONFDIR#/default/postinst ] && . #SYSCONFDIR#/default/postinst
+ 
+@@ -43,7 +52,5 @@ done
+ # and the rcS.d link
+ if [ $remove_pi_dir = 1 ]; then
+ 	rm -rf $pi_dir
+-	if [ -n "`which update-rc.d`" ]; then
+-		update-rc.d -f run-postinsts remove
+-	fi
++	remove_rcsd_link
+ fi
 -- 
 1.7.9.5
 
