@@ -1,26 +1,26 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DAAB66B8C3
+	by mail.openembedded.org (Postfix) with ESMTP id 3BD4F6D892
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 07:38:17 +0000 (UTC)
+	Mon, 13 Jan 2014 08:16:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0D7cJcY021997
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0D8Guge022595
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2014 23:38:19 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 12 Jan 2014 23:38:18 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Mon, 13 Jan 2014 00:16:56 -0800 (PST)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 13 Jan 2014 00:16:55 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jan 2014 15:38:46 +0800
-Message-ID: <1d073230c282c6e62cd24b164bc42f383a55544a.1389598673.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1389598673.git.Qi.Chen@windriver.com>
-References: <cover.1389598673.git.Qi.Chen@windriver.com>
+Date: Tue, 14 Jan 2014 00:20:15 +0800
+Message-ID: <9edc371881eed378765872f543add1242a632773.1389629682.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1389629682.git.liezhi.yang@windriver.com>
+References: <cover.1389629682.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] systemd-compat-units: make run-postinsts.service work correctly on target
+Subject: [PATCH 1/5] classes/archive*.bbclass: remove archive-*-source.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +33,328 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 07:38:19 -0000
+X-List-Received-Date: Mon, 13 Jan 2014 08:16:55 -0000
 Content-Type: text/plain
 
-If we are using systemd as the init manager and rpm as the package
-back-end, then the post-install script would not run at system start-up.
+Nearly all of the codes in the following 3 files are the same, we can
+move the code to archiver.bbclass and remove them:
 
-The problem is that we now have two init scripts to deal with post-install
-scripts in our system. They are installed as /etc/rcS.d/S98run-postinsts and
-/etc/rcS.d/S99run-postinsts respectively, however, the run-postinsts.service
-in systemd only deals with the former one.
+  archive-configured-source.bbclass
+  archive-original-source.bbclass
+  archive-patched-source.bbclass
 
-This patch fixes this problem to make run-postinsts.service work correctly
-for the three package back-ends with/without 'package-management' in the
-IMAGE_FEATURES.
+[YOCTO #5113]
 
-This patch also hardcodes 98 and 99 instead of using POSTINSTALL_INITPOSITION
-because using that variable doesn't bring anything useful.
-
-[YOCTO #5719]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/systemd/systemd-compat-units.bb  |    8 --------
- .../systemd-compat-units/run-postinsts.service     |    4 ++--
- 2 files changed, 2 insertions(+), 10 deletions(-)
+ meta/classes/archive-configured-source.bbclass | 65 --------------------------
+ meta/classes/archive-original-source.bbclass   | 65 --------------------------
+ meta/classes/archive-patched-source.bbclass    | 65 --------------------------
+ meta/classes/archiver.bbclass                  | 63 ++++++++++++++++++++++++-
+ 4 files changed, 62 insertions(+), 196 deletions(-)
+ delete mode 100644 meta/classes/archive-configured-source.bbclass
+ delete mode 100644 meta/classes/archive-original-source.bbclass
+ delete mode 100644 meta/classes/archive-patched-source.bbclass
 
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index 9f28283..5a6adb2 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -14,8 +14,6 @@ SRC_URI = "file://*.service"
- do_install() {
- 	install -d ${D}${systemd_unitdir}/system/basic.target.wants
- 	install -d ${D}${systemd_unitdir}/system/sysinit.target.wants/
--	sed -i -e 's,@POSTINSTALL_INITPOSITION@,${POSTINSTALL_INITPOSITION},g' \
--			${WORKDIR}/run-postinsts.service
- 	install -m 0644 ${WORKDIR}/run-postinsts.service ${D}${systemd_unitdir}/system
- 	ln -sf ../run-postinsts.service ${D}${systemd_unitdir}/system/basic.target.wants/
- 	ln -sf ../run-postinsts.service ${D}${systemd_unitdir}/system/sysinit.target.wants/
-@@ -50,9 +48,3 @@ pkg_postinst_${PN} () {
- 
- FILES_${PN} = "${systemd_unitdir}/system ${bindir}"
- RDPEPENDS_${PN} = "systemd"
+diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
+deleted file mode 100644
+index 961a532..0000000
+--- a/meta/classes/archive-configured-source.bbclass
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# This file is for getting archiving packages with configured
+-# sources(archive ${S} after configure stage), logs(archive 'temp' after
+-# package_write_rpm), dump data and creating diff file(get all
+-# environment variables and functions in building and mapping all
+-# content in ${S} including patches to xxx.diff.gz. All archived
+-# packages will be deployed in ${DEPLOY_DIR}/sources
 -
--# Define a variable to allow distros to run configure earlier.
--# (for example, to enable loading of ethernet kernel modules before networking starts)
--# note: modifying name or default value for POSTINSTALL_INITPOSITION requires
--# changes in opkg.inc
--POSTINSTALL_INITPOSITION ?= "98"
-diff --git a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
-index 35cf3d3..1dc7b1a 100644
---- a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
-+++ b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
-@@ -1,12 +1,12 @@
- [Unit]
- Description=Run pending postinsts
- DefaultDependencies=no
--ConditionPathExists=|/etc/rcS.d/S@POSTINSTALL_INITPOSITION@run-postinsts
-+ConditionPathExistsGlob=/etc/rcS.d/S*run-postinsts
- After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
- Before=sysinit.target
+-inherit archiver
+-
+-# Get archiving package with configured sources including patches
+-addtask do_archive_configured_sources after do_configure
+-
+-# Get archiving package with temp(logs) and scripts(.bb and inc files)
+-addtask do_archive_scripts_logs
+-
+-# Get dump date and create diff file 
+-addtask do_dumpdata_create_diff_gz
+-
+-python () {
+-    pn = d.getVar('PN', True)
+-    packaging = d.getVar('IMAGE_PKGTYPE', True)
+-
+-    if tar_filter(d):
+-        return
+-
+-    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
+-    build_deps = ' %s:do_dumpdata_create_diff_gz' %pn
+-
+-    if d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True) == 'logs_with_scripts':
+-        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
+-        build_deps += ' %s:do_archive_scripts_logs' %pn
+-
+-    if not not_tarball(d):
+-        d.appendVarFlag('do_compile', 'depends', ' %s:do_archive_configured_sources' %pn)
+-        build_deps += ' %s:do_archive_configured_sources' %pn
+-
+-    if bb.data.inherits_class('image', d):
+-        d.appendVarFlag('do_rootfs', 'depends', build_deps)
+-    else:
+-        d.appendVarFlag('do_build', 'depends', build_deps)
+-}
+-
+-ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
+-ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+-ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
+-
+-SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+-do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_archive_scripts_logs_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_archive_scripts_logs_setscene
+-
+-SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+-do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_dumpdata_create_diff_gz_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
+deleted file mode 100644
+index e271a08..0000000
+--- a/meta/classes/archive-original-source.bbclass
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# This file is for getting archiving packages with original
+-# sources(archive ${S} after unpack stage), patches, logs(archive 'temp'
+-# after package_write_rpm), dump data and creating diff file(get all
+-# environment variables and functions in building and mapping all
+-# content in ${S} including patches to xxx.diff.gz. All archived packages
+-# will be deployed in ${DEPLOY_DIR}/sources
+-
+-inherit archiver
+-
+-# Get original sources archiving package with patches
+-addtask do_archive_original_sources_patches after do_unpack
+-
+-# Get archiving package with temp(logs) and scripts(.bb and inc files)
+-addtask do_archive_scripts_logs
+-
+-# Get dump date and create diff file 
+-addtask do_dumpdata_create_diff_gz
+-
+-python () {
+-    pn = d.getVar('PN', True)
+-    packaging = d.getVar('IMAGE_PKGTYPE', True)
+-
+-    if tar_filter(d):
+-        return
+-
+-    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
+-    build_deps = ' %s:do_dumpdata_create_diff_gz' %pn
+-
+-    if d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True) == 'logs_with_scripts':
+-        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
+-        build_deps += ' %s:do_archive_scripts_logs' %pn
+-
+-    if not not_tarball(d):
+-        d.appendVarFlag('do_patch', 'depends', ' %s:do_archive_original_sources_patches' %pn)
+-        build_deps += ' %s:do_archive_original_sources_patches' %pn
+-
+-    if bb.data.inherits_class('image', d):
+-        d.appendVarFlag('do_rootfs', 'depends', build_deps)
+-    else:
+-        d.appendVarFlag('do_build', 'depends', build_deps)
+-}
+-
+-ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
+-ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+-ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
+-
+-SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+-do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_archive_scripts_logs_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_archive_scripts_logs_setscene
+-
+-SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+-do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_dumpdata_create_diff_gz_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
+deleted file mode 100644
+index c5f5cca..0000000
+--- a/meta/classes/archive-patched-source.bbclass
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# This file is for getting archiving packages with patched
+-# sources(archive ${S} before do_patch stage), logs(archive 'temp' after
+-# package_write_rpm), dump data and creating diff file(get all
+-# environment variables and functions in building and mapping all
+-# content in ${S} including patches to xxx.diff.gz. All archived
+-# packages will be deployed in ${DEPLOY_DIR}/sources
+-
+-inherit archiver
+-
+-# Get archiving package with patched sources including patches
+-addtask do_archive_patched_sources after do_patch
+-
+-# Get archiving package with logs(temp) and scripts(.bb and .inc files)
+-addtask do_archive_scripts_logs
+-
+-# Get dump date and create diff file 
+-addtask do_dumpdata_create_diff_gz
+-
+-python () {
+-    pn = d.getVar('PN', True)
+-    packaging = d.getVar('IMAGE_PKGTYPE', True)
+-
+-    if tar_filter(d):
+-        return
+-
+-    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
+-    build_deps = ' %s:do_dumpdata_create_diff_gz' %pn
+-
+-    if d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True) == 'logs_with_scripts':
+-        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
+-        build_deps += ' %s:do_archive_scripts_logs' %pn
+-
+-    if not not_tarball(d):
+-        d.appendVarFlag('do_configure', 'depends', ' %s:do_archive_patched_sources' %pn)
+-        build_deps += ' %s:do_archive_patched_sources' %pn
+-
+-    if bb.data.inherits_class('image', d):
+-        d.appendVarFlag('do_rootfs', 'depends', build_deps)
+-    else:
+-        d.appendVarFlag('do_build', 'depends', build_deps)
+-}
+-
+-ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
+-ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+-ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
+-
+-SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+-do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_archive_scripts_logs_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_archive_scripts_logs_setscene
+-
+-SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+-do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_dumpdata_create_diff_gz_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 66efe7d..43373ae 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -36,6 +36,33 @@ COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-
+ COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
+ COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
  
- [Service]
--ExecStart=/etc/rcS.d/S@POSTINSTALL_INITPOSITION@run-postinsts
-+ExecStart=-/etc/rcS.d/S98run-postinsts ; -/etc/rcS.d/S99run-postinsts
- RemainAfterExit=No
- Type=oneshot
- StandardOutput=syslog
++python () {
++    pn = d.getVar('PN', True)
++    packaging = d.getVar('IMAGE_PKGTYPE', True)
++
++    if tar_filter(d):
++        return
++
++    if d.getVar('PACKAGES', True) != '':
++        d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_%s' % (pn, packaging))
++
++    build_deps = ' %s:do_dumpdata_create_diff_gz' % pn
++
++    if d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True) == 'logs_with_scripts':
++        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_%s' % (pn, packaging))
++        build_deps += ' %s:do_archive_scripts_logs' % pn
++
++    if not not_tarball(d):
++        archiver_mode = d.getVar('ARCHIVER_MODE')
++        d.appendVarFlag('do_compile', 'depends', ' %s:do_archive_%s_sources' % (pn, archiver_mode))
++        build_deps += ' %s:do_archive_%s_sources' % (pn, archiver_mode)
++
++    if bb.data.inherits_class('image', d):
++        d.appendVarFlag('do_rootfs', 'depends', build_deps)
++    else:
++        d.appendVarFlag('do_build', 'depends', build_deps)
++}
++
+ def copyleft_recipe_type(d):
+     for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
+         if oe.utils.inherits(d, recipe_type):
+@@ -516,7 +543,7 @@ def create_diff_gz(d):
+ 
+ # This function will run when user want to get tarball for sources and
+ # patches after do_unpack
+-python do_archive_original_sources_patches(){
++python do_archive_original_sources(){
+     archive_sources_patches(d, 'prepatch')
+ }
+ 
+@@ -567,3 +594,37 @@ python do_delete_tarlist(){
+ }
+ do_delete_tarlist[deptask] = "do_archive_scripts_logs"
+ do_package_write_rpm[postfuncs] += "do_delete_tarlist "
++
++# Get archiving package with temp(logs) and scripts(.bb and .inc files)
++addtask do_archive_scripts_logs
++
++# Get dump date and create diff file
++addtask do_dumpdata_create_diff_gz
++
++ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
++ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
++ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
++
++SSTATETASKS += "do_archive_scripts_logs"
++do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
++do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_archive_scripts_logs_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_archive_scripts_logs_setscene
++
++SSTATETASKS += "do_dumpdata_create_diff_gz"
++do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
++do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_dumpdata_create_diff_gz_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_dumpdata_create_diff_gz_setscene
++
++addtask do_archive_original_sources after do_unpack
++addtask do_archive_patched_sources after do_patch
++addtask do_archive_configured_sources after do_configure
 -- 
-1.7.9.5
+1.8.3.1
 
 
