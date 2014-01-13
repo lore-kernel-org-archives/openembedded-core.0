@@ -1,28 +1,43 @@
-Return-Path: <anders@chargestorm.se>
-Received: from STOEXHUB02.domain01.net (STOEXHUB02.domain01.net
-	[83.145.59.143])
-	by mail.openembedded.org (Postfix) with ESMTP id CFC406DE52
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CC4B6D8A0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 18:14:58 +0000 (UTC)
-Received: from STOEXMBXC04.domain01.net
-	([fe80:0000:0000:0000:18f1:9ca5:252.9.244.39]) by
-	STOEXHUB02.domain01.net
-	([10.12.10.2]) with mapi; Mon, 13 Jan 2014 19:14:56 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 Jan 2014 19:14:57 +0100
-Thread-Topic: [OE-core] [PATCH 1/1] systemd-compat-units: do not mask
-	available services
-Thread-Index: Ac8Qi1WlmsTJ9YMUSz+1aj7TLHT3Og==
-Message-ID: <F9EA2A807ACC1C459AC6ABD87662881C126045FFE9@STOEXMBXC04.domain01.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US
+	Mon, 13 Jan 2014 18:16:42 +0000 (UTC)
+Received: by mail-ie0-f176.google.com with SMTP id lx4so1524241iec.21
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jan 2014 10:16:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=mh1cb40LH5PvIjCi8C8mfMOPi2Ui748GIIoxmj9XSa0=;
+	b=Y7uf5FpuO3mfdLsK0m8Jxo320K2qPISrfGoTM+KWJ7YiZYA8lm4xpFuOX8z2O/ussa
+	9kCXBHYa4l+hFGPlgfKo1sNL+LZF7pxmcU34YqQ/Jn7lo65B4fbGi9/Xaw9n74senOb0
+	QL/FX2p6oYBiZhgeVIEtCtr9U0/VdSiAP5TteTQCYTuQGHRyBEKK2Jq2Wj5GGTa/ilA9
+	YcZuYsZEE+u8//BZ1lc24MBnrjj3b5raf4nxzfmGsrtifda9rJvSzZH89qQOWmgnTdb4
+	ZRvgQ83O/X5E6PFGhqZe0Dxbpk8p+HSMIGPm7efwSWKI2YYWhkEyIbSOZLhY6px9JUbb
+	0YOA==
+X-Gm-Message-State: ALoCoQlyJHXIOy2UuSj7+Chjfg0Yx5OrKfPjkQn3JPEke2e5Cso6Rf/Zd3aaqIGCAKcb9gy/UuxZ
+X-Received: by 10.42.61.4 with SMTP id s4mr3463035ich.58.1389637003322;
+	Mon, 13 Jan 2014 10:16:43 -0800 (PST)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id qk7sm19557470igc.8.2014.01.13.10.16.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 13 Jan 2014 10:16:42 -0800 (PST)
+Message-ID: <52D42D89.4050106@linaro.org>
+Date: Mon, 13 Jan 2014 13:16:41 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] systemd-compat-units: do not mask available services
+To: openembedded-core@lists.openembedded.org
+References: <1389452899-633-1-git-send-email-andrei@gherzan.ro>
+In-Reply-To: <1389452899-633-1-git-send-email-andrei@gherzan.ro>
+Subject: Re: [PATCH 0/2] Cortex M3 tune fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,107 +50,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 18:15:00 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_F9EA2A807ACC1C459AC6ABD87662881C126045FFE9STOEXMBXC04do_"
+X-List-Received-Date: Mon, 13 Jan 2014 18:16:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---_000_F9EA2A807ACC1C459AC6ABD87662881C126045FFE9STOEXMBXC04do_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Since OE is generally used to build Linux distributions, I'm rather
+curious to know why OE would include tunes for CortexM3?
 
-DQpPbiAxMyBKYW4gMjAxNCAxODowMiwgIkJ1cnRvbiwgUm9zcyIgPHJvc3MuYnVydG9uQGludGVs
-LmNvbT4gd3JvdGU6DQo+DQo+IElmIGRuc21hc3EgZG9lc24ndCBuZWVkIHRvIGJlIG1hbnVhbGx5
-IG1hc2tlZCwgdGhlbiB3aHkgbm90IGp1c3QNCj4gcmVtb3ZlIGl0IGZyb20gdGhlIGxpc3Q/DQoN
-CkhtLCBnb29kIHF1ZXN0aW9uLi4uIEkgZ3Vlc3MgSSBoYXZlIHRvIGNsYWltIHRlbXBvcmFyeSBz
-dHVwaWRpdHkuDQoNCkknbGwgc2VuZCBhIHBhdGNoIHRvIHJlbW92ZSBkbnNtYXNxIGZyb20gdGhl
-IGxpc3QuDQoNClRob3VnaCwgSSBzdGlsbCB0aGluayB0aGF0IHdlIHNob3VsZCBjaGVjayBmb3Ig
-c2VydmljZSBmaWxlcyBpbnNlcnQgc3lzdGVtZF91bml0ZGlyIGFuZCBub3Qgb25seSBjaGVjayAv
-ZXRjL3N5c3RlbWQvc3lzdGVtLi4uIFNvIEkgdGhpbmsgSSdsbCBjbGFpbSB0aGF0IHRoZSBwYXRj
-aCBpcyBjb3JyZWN0IGFueXdheSwgdGhvdWdoLg0KDQpDaGVlcnMsDQpBbmRlcnMNCg0KPiBSb3Nz
-DQo+DQo+IE9uIDEwIEphbnVhcnkgMjAxNCAwNzoxNSwgQW5kZXJzIERhcmFuZGVyIDxhbmRlcnNA
-Y2hhcmdlc3Rvcm0uc2U+IHdyb3RlOg0KPiA+IERvIGFsc28gY2hlY2sgc3lzdGVtZF91bml0ZGly
-L3N5c3RlbS8gZm9yIGF2YWlsYWJsZSB1bml0IGZpbGVzLg0KPiA+DQo+ID4gVGhpcyB3YXMgaGlk
-aW5nIGRuc21hc3Euc2VydmljZSBmb3IgdXMsIGFzIC9ldGMvc3lzdGVtZC9zeXN0ZW0gaGFzDQo+
-ID4gcHJpb3JpdHkgb3ZlciBzeXN0ZW1kX3VuaXRkaXIvc3lzdGVtLi4uDQo+ID4NCj4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBBbmRlcnMgRGFyYW5kZXIgPGFuZGVyc0BjaGFyZ2VzdG9ybS5zZT4NCj4gPiAt
-LS0NCj4gPiAgbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLWNvbXBhdC11bml0cy5i
-YiB8IDIgKy0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
-KC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0
-ZW1kLWNvbXBhdC11bml0cy5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1j
-b21wYXQtdW5pdHMuYmINCj4gPiBpbmRleCA5ZjI4MjgzLi5lMzJhZDc5IDEwMDY0NA0KPiA+IC0t
-LSBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1jb21wYXQtdW5pdHMuYmINCj4g
-PiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQtY29tcGF0LXVuaXRzLmJi
-DQo+ID4gQEAgLTQyLDcgKzQyLDcgQEAgcGtnX3Bvc3RpbnN0XyR7UE59ICgpIHsNCj4gPiAgICAg
-ICAgIGZpDQo+ID4NCj4gPiAgICAgICAgIGZvciBpIGluICR7U1lTVEVNRF9ESVNBQkxFRF9TWVNW
-X1NFUlZJQ0VTfSA7IGRvDQo+ID4gLSAgICAgICAgICAgICAgIGlmIFsgXCggLWUgJGkgLW8gJGku
-c2ggXCkgLWEgISAtZSAkRCR7c3lzY29uZmRpcn0vc3lzdGVtZC9zeXN0ZW0vJGkuc2VydmljZSBd
-IDsgdGhlbg0KPiA+ICsgICAgICAgICAgICAgICBpZiBbIFwoIC1lICRpIC1vICRpLnNoIFwpIC1h
-ICEgXCggLWUgJEQke3N5c2NvbmZkaXJ9L3N5c3RlbWQvc3lzdGVtLyRpLnNlcnZpY2UgLW8gIC1l
-ICREJHtzeXN0ZW1kX3VuaXRkaXJ9L3N5c3RlbS8kaS5zZXJ2aWNlIFwpIF0gOyB0aGVuDQo+ID4g
-ICAgICAgICAgICAgICAgICAgICAgICAgZWNobyAtbiAiJGk6ICIgOyBzeXN0ZW1jdGwgJHtPUFRT
-fSBtYXNrICRpLnNlcnZpY2UNCj4gPiAgICAgICAgICAgICAgICAgZmkNCj4gPiAgICAgICAgIGRv
-bmUgOyBlY2hvDQo+ID4gLS0NCj4gPiAxLjguNS4yDQo+ID4NCj4gPiBfX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1h
-aWxpbmcgbGlzdA0KPiA+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
-Cj4gPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5l
-bWJlZGRlZC1jb3JlDQo=
-
---_000_F9EA2A807ACC1C459AC6ABD87662881C126045FFE9STOEXMBXC04do_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
-
-PHAgZGlyPSJsdHIiPjxicj4KT24gMTMgSmFuIDIwMTQgMTg6MDIsICJCdXJ0b24sIFJvc3MiICZs
-dDtyb3NzLmJ1cnRvbkBpbnRlbC5jb20mZ3Q7IHdyb3RlOjxicj4KJmd0Ozxicj4KJmd0OyBJZiBk
-bnNtYXNxIGRvZXNuJ3QgbmVlZCB0byBiZSBtYW51YWxseSBtYXNrZWQsIHRoZW4gd2h5IG5vdCBq
-dXN0PGJyPgomZ3Q7IHJlbW92ZSBpdCBmcm9tIHRoZSBsaXN0Pzxicj48L3A+CjxwIGRpcj0ibHRy
-Ij5IbSwgZ29vZCBxdWVzdGlvbi4uLiBJIGd1ZXNzIEkgaGF2ZSB0byBjbGFpbSB0ZW1wb3Jhcnkg
-c3R1cGlkaXR5LiA8L3A+CjxwIGRpcj0ibHRyIj5JJ2xsIHNlbmQgYSBwYXRjaCB0byByZW1vdmUg
-ZG5zbWFzcSBmcm9tIHRoZSBsaXN0LiA8L3A+CjxwIGRpcj0ibHRyIj5UaG91Z2gsIEkgc3RpbGwg
-dGhpbmsgdGhhdCB3ZSBzaG91bGQgY2hlY2sgZm9yIHNlcnZpY2UgZmlsZXMgaW5zZXJ0IHN5c3Rl
-bWRfdW5pdGRpciBhbmQgbm90IG9ubHkgY2hlY2sgL2V0Yy9zeXN0ZW1kL3N5c3RlbS4uLiBTbyBJ
-IHRoaW5rIEknbGwgY2xhaW0gdGhhdCB0aGUgcGF0Y2ggaXMgY29ycmVjdCBhbnl3YXksIHRob3Vn
-aC4gPC9wPgo8cCBkaXI9Imx0ciI+Q2hlZXJzLCA8YnI+CkFuZGVycyA8L3A+CjxwIGRpcj0ibHRy
-Ij4mZ3Q7IFJvc3M8YnI+CiZndDs8YnI+CiZndDsgT24gMTAgSmFudWFyeSAyMDE0IDA3OjE1LCBB
-bmRlcnMgRGFyYW5kZXIgJmx0O2FuZGVyc0BjaGFyZ2VzdG9ybS5zZSZndDsgd3JvdGU6PGJyPgom
-Z3Q7ICZndDsgRG8gYWxzbyBjaGVjayBzeXN0ZW1kX3VuaXRkaXIvc3lzdGVtLyBmb3IgYXZhaWxh
-YmxlIHVuaXQgZmlsZXMuPGJyPgomZ3Q7ICZndDs8YnI+CiZndDsgJmd0OyBUaGlzIHdhcyBoaWRp
-bmcgZG5zbWFzcS5zZXJ2aWNlIGZvciB1cywgYXMgL2V0Yy9zeXN0ZW1kL3N5c3RlbSBoYXM8YnI+
-CiZndDsgJmd0OyBwcmlvcml0eSBvdmVyIHN5c3RlbWRfdW5pdGRpci9zeXN0ZW0uLi48YnI+CiZn
-dDsgJmd0Ozxicj4KJmd0OyAmZ3Q7IFNpZ25lZC1vZmYtYnk6IEFuZGVycyBEYXJhbmRlciAmbHQ7
-YW5kZXJzQGNoYXJnZXN0b3JtLnNlJmd0Ozxicj4KJmd0OyAmZ3Q7IC0tLTxicj4KJmd0OyAmZ3Q7
-JiMxNjA7IG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1jb21wYXQtdW5pdHMuYmIg
-fCAyICstPGJyPgomZ3Q7ICZndDsmIzE2MDsgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pPGJyPgomZ3Q7ICZndDs8YnI+CiZndDsgJmd0OyBkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLWNvbXBhdC11bml0cy5iYiBiL21ldGEv
-cmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1jb21wYXQtdW5pdHMuYmI8YnI+CiZndDsgJmd0
-OyBpbmRleCA5ZjI4MjgzLi5lMzJhZDc5IDEwMDY0NDxicj4KJmd0OyAmZ3Q7IC0tLSBhL21ldGEv
-cmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1jb21wYXQtdW5pdHMuYmI8YnI+CiZndDsgJmd0
-OyArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQtY29tcGF0LXVuaXRzLmJi
-PGJyPgomZ3Q7ICZndDsgQEAgLTQyLDcgKzQyLDcgQEAgcGtnX3Bvc3RpbnN0XyR7UE59ICgpIHs8
-YnI+CiZndDsgJmd0OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyBmaTxicj4KJmd0OyAmZ3Q7PGJyPgomZ3Q7ICZndDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsgZm9yIGkgaW4gJHtTWVNURU1EX0RJU0FCTEVEX1NZ
-U1ZfU0VSVklDRVN9IDsgZG88YnI+CiZndDsgJmd0OyAtJiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMx
-NjA7IGlmIFsgXCggLWUgJGkgLW8gJGkuc2ggXCkgLWEgISAtZSAkRCR7c3lzY29uZmRpcn0vc3lz
-dGVtZC9zeXN0ZW0vJGkuc2VydmljZSBdIDsgdGhlbjxicj4KJmd0OyAmZ3Q7ICsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsgaWYgWyBcKCAtZSAkaSAtbyAkaS5zaCBcKSAtYSAhIFwoIC1lICRE
-JHtzeXNjb25mZGlyfS9zeXN0ZW1kL3N5c3RlbS8kaS5zZXJ2aWNlIC1vJiMxNjA7IC1lICREJHtz
-eXN0ZW1kX3VuaXRkaXJ9L3N5c3RlbS8kaS5zZXJ2aWNlIFwpIF0gOyB0aGVuPGJyPgomZ3Q7ICZn
-dDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsm
-IzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2
-MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsmIzE2MDsgZWNobyAtbiAiJGk6ICIgOyBzeXN0ZW1j
-dGwgJHtPUFRTfSBtYXNrICRpLnNlcnZpY2U8YnI+CiZndDsgJmd0OyYjMTYwOyYjMTYwOyYjMTYw
-OyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYjMTYwOyYj
-MTYwOyYjMTYwOyYjMTYwOyYjMTYwOyBmaTxicj4KJmd0OyAmZ3Q7JiMxNjA7JiMxNjA7JiMxNjA7
-JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7JiMxNjA7IGRvbmUgOyBlY2hvPGJyPgomZ3Q7ICZndDsg
-LS08YnI+CiZndDsgJmd0OyAxLjguNS4yPGJyPgomZ3Q7ICZndDs8YnI+CiZndDsgJmd0OyBfX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXzxicj4KJmd0OyAmZ3Q7
-IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdDxicj4KJmd0OyAmZ3Q7IE9wZW5lbWJlZGRl
-ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8YnI+CiZndDsgJmd0OyBodHRwOi8vbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlPGJyPgo8
-L3A+Cg==
-
---_000_F9EA2A807ACC1C459AC6ABD87662881C126045FFE9STOEXMBXC04do_--
