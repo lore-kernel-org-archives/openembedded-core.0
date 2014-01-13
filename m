@@ -1,34 +1,38 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oa0-f42.google.com (mail-oa0-f42.google.com
-	[209.85.219.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 531D66CAC1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
+	[209.85.216.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 3504E6CAC1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 09:58:42 +0000 (UTC)
-Received: by mail-oa0-f42.google.com with SMTP id n16so7778748oag.29
+	Mon, 13 Jan 2014 10:01:44 +0000 (UTC)
+Received: by mail-qc0-f179.google.com with SMTP id e16so3868793qcx.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2014 01:58:43 -0800 (PST)
+	Mon, 13 Jan 2014 02:01:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-type;
-	bh=zsfVgAvpedHY99mCKQjjv40a/VA2hGDt+I+UWwPfA+I=;
-	b=SmJ3boQ5V2RQAkKgKOmOe+EwfAP83waipTe5O0awtx8lEfWdqN4KevcXX+/HzHSnss
-	lg69FZ6Q7qRj8N8/feYijM+HGzb5eMHYEPLZKDrqCtkiYHg6szRfsjldYoyWGUAfEOan
-	QCfU7W/p9ZWRosTupOxHEUeaIz6m8vaNsYORa7boU3OhhLeaXLRiVhnG8KLgPnFijHhr
-	CDU5nUpe95Xt/lyo579IZEsAILAKXuUqLF7bbupDZJnjpLC9sq+8+mKd9jSgc1UeYSDh
-	JrT+m44lVELHnaeO8OKusgwWoP2Kwh19dbXoWUo02eXYoUtQJ/5f2g47P0z7+sGvrpjI
-	bIgA==
-X-Gm-Message-State: ALoCoQn5uvfEbQKj9av6L+MJbuUa5aOqJLnZPzMWjx75o0e5W3Q3/+mMMK+Uy9QnuXf6ggy4oPne
-X-Received: by 10.60.137.201 with SMTP id qk9mr6895305oeb.41.1389607123084;
-	Mon, 13 Jan 2014 01:58:43 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ynJHe2Utt83u5YVB48GRRQzNTDcP3mQz9COgDnjtfy0=;
+	b=ANl5MkrjlW1sGF5Ws3v/BqvdFpynOKjjrv9zcBexi/UpCmpgxmv/k9OExfC4N1fjQ8
+	FuLALjHhqRvMR58m0voXvUCdbNnfppNXhKhf007k57TnrnaoFVcK6EykfShY5I+1Iclh
+	LsqKtPjIXGKspfeiwLg5YinMtLq/AetE0QPHFSh+TBKxdeVUc+TSEW7NwnEF41LGh7Mu
+	nJM6MUWBw4kZozitJFwGC2sqiFer3cXUyU0VYZYkNdRyp8O8QRGwWSa6xJoVXW8NmE7O
+	pleIh4f0HNQuamS0HLToHCvk5iI8rr3FaDH2M3gF+cjgA+xwbE84uYx7PHRtYh8BY9oS
+	Iiyg==
+X-Gm-Message-State: ALoCoQnn1ELVXcDVDJVMQncij3pcNyZi3PqHFRTrg8GCv5hazrYXDC5XPgKaPx3E1+fDxz82wXHD
+X-Received: by 10.224.15.74 with SMTP id j10mr37819854qaa.26.1389607304913;
+	Mon, 13 Jan 2014 02:01:44 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.76.84.233 with HTTP; Mon, 13 Jan 2014 01:58:23 -0800 (PST)
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Mon, 13 Jan 2014 10:58:23 +0100
-Message-ID: <CAP71WjwVdruoAvkjtO7mPTVE0bNQfCWYUrEC2TZdjagXCBRkrQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: libsdl and opengl DISTRO_FEATURE
+Received: by 10.96.179.105 with HTTP; Mon, 13 Jan 2014 02:01:24 -0800 (PST)
+In-Reply-To: <20140111204837.GB16995@jama>
+References: <20131214090923.0609C50407@opal> <20140111204837.GB16995@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 13 Jan 2014 10:01:24 +0000
+Message-ID: <CAJTo0LZYMte2JV=d5-pxSeotySSy8-_BHpGdrEooEqg11XnbXA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Cristian Iorga : glib-2.0: upgrade to 2.38.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,68 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2014 09:58:42 -0000
-Content-Type: multipart/alternative; boundary=047d7b33cdfcf2fe5e04efd71e05
+X-List-Received-Date: Mon, 13 Jan 2014 10:01:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
---047d7b33cdfcf2fe5e04efd71e05
-Content-Type: text/plain; charset=ISO-8859-1
+On 11 January 2014 20:48, Martin Jansa <martin.jansa@gmail.com> wrote:
+> WARNING: QA Issue: glib-2.0: Files/directories were installed but not shipped
+>   /usr/lib/glib-2.0/ptest
+> WARNING: QA Issue: glib-2.0-dbg: found library in wrong location: /usr/share/gdb/auto-load/usr/lib64/libglib-2.0.so.0.3800.2-gdb.py
 
-hi there,
+Fixed by "ptest.bblass: Fix package QA issues when disabled".
 
-it has been brought to the list already, at least in [1], but libsdl recipe
-implicitely assumes that 'opengl' distro feature means GL/GLX support.
+> glib-2.0-dbg: found library in wrong location: /usr/share/gdb/auto-load/usr/lib64/libgobject-2.0.so.0.3800.2-gdb.py
 
-the recipe does this:
+It's not a library!  That sanity check should probably check with file
+that a potential library is actually a library before warning.
 
-${@base_contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl',
-'--disable-video-opengl', d)} \
+Ross
 
-
-and the configure checks for GL/gl.h, GL/glx.h and GL/glu.h.
-
-this is quite an issue on ARM platforms with no such support. Based on
-previous discussions i understand that nobody should assume that 'opengl'
-in distro feature means GL or GLES, so I am tempted to conclude that this
-is a bug in the SDL recipe. is that correct?
-
-if we make it a PACKAGECONFIG instead, would that be considered the right
-fix for this bug?
-
-thanks
-
-
-
-[1] http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/42830
-
---047d7b33cdfcf2fe5e04efd71e05
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">hi there,<div><br></div><div>it has been brought to the li=
-st already, at least in [1], but libsdl recipe implicitely assumes that &#3=
-9;opengl&#39; distro feature means GL/GLX support.=A0</div><div><br></div><=
-div>
-
-the recipe does this:</div><div><br></div><div>${@base_contains(&#39;DISTRO=
-_FEATURES&#39;, &#39;opengl&#39;, &#39;--enable-video-opengl&#39;, &#39;--d=
-isable-video-opengl&#39;, d)} \ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0<br>
-
-</div><div><br></div><div>and the configure checks for GL/gl.h, GL/glx.h an=
-d GL/glu.h.</div><div><br></div><div>this is quite an issue on ARM platform=
-s with no such support. Based on previous discussions i understand that nob=
-ody should assume that &#39;opengl&#39; in distro feature means GL or GLES,=
- so I am tempted to conclude that this is a bug in the SDL recipe. is that =
-correct?</div>
-
-<div><br></div><div>if we make it a PACKAGECONFIG instead, would that be co=
-nsidered the right fix for this bug?</div><div><br></div><div>thanks</div><=
-div><br></div><div><br></div><div><br></div><div>[1]=A0<a href=3D"http://co=
-mments.gmane.org/gmane.comp.handhelds.openembedded.core/42830">http://comme=
-nts.gmane.org/gmane.comp.handhelds.openembedded.core/42830</a></div>
-
-</div>
-
---047d7b33cdfcf2fe5e04efd71e05--
