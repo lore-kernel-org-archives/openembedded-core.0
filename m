@@ -1,35 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 74CA060172
+Return-Path: <johan.wad@gmail.com>
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9699F6A566
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 16:58:40 +0000 (UTC)
-Received: by mail-ie0-f180.google.com with SMTP id ar20so698842iec.39
+	Tue, 14 Jan 2014 17:24:03 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id k4so5364014qaq.15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 08:58:41 -0800 (PST)
+	Tue, 14 Jan 2014 09:24:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=0IEzLllsvQHVWogEDWF9/pDh+rWFm+ce7bXb8DxbbAg=;
-	b=TycfxuTNz0UGkEZhohgGT0m+E8aqY0x2LrI2L0ynD3DrbKSPD6fkRW0IW8ff+yzPeh
-	DrJ/w6veSdBQVY8DhzfdTJrG2lnQUJaLWKJNddhUuuEENQMkYOpNg6U2W9/arDLlZB1L
-	mXo8r6bqEn3eetrRBrAZVfsUqwnGAknJSXb9jbV/ndEfAzWetT0Z7vPrWK5m6Q1A2pC5
-	5JIxxSgos8tPNtlBzWHnKMYLJ0a7VF3gppp15QFzqFma3cQ1uimBwio74+oZcVXNcR9I
-	MZdfyQ4m/6qQEmWSskuHbjo5ZJkX9886Hz8kDQNEDlBP0vQRchChfe7EgvulWh7fLTpI
-	w1+g==
-X-Received: by 10.43.182.74 with SMTP id pl10mr3107321icc.70.1389718721203;
-	Tue, 14 Jan 2014 08:58:41 -0800 (PST)
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=YBk49bCO71Lu+KCokCTt4i/BEcV+4m5pLSmLfPEoYzc=;
+	b=ITNx3LkFvX/lu1TNavzIXUXSrTXhvEpQkzXdCAZ7R5znonxHOQN6xbHuxTnACh6/2G
+	qcv1LQ7GvSc04K81+36+HE8ehb9ulgZZfknxk7JLgLfMYHVGUCzWCY2PGhRQgsvhb+cZ
+	g8xwGEqjnk9lkJdcIv5SZXasVx1uL8We7RXJt6q51wJxF5wuHjkADVCjHJaXHJD3+yRw
+	EEygTVMro39IBf42bwd21YP6QuPEDPPVfyNvxIHMFyc6ycJMm29wREV7ZgKccutTGF5m
+	0gij5xDqEeWfY0ynHyt5kqxek9TQCFKLVAPVJ69Fp1NCLPxkq8kkdUvmlly0PUQe5Mon
+	REnA==
 MIME-Version: 1.0
-Received: by 10.50.79.167 with HTTP; Tue, 14 Jan 2014 08:58:11 -0800 (PST)
-In-Reply-To: <1389716791-22080-1-git-send-email-otavio@ossystems.com.br>
-References: <1389716791-22080-1-git-send-email-otavio@ossystems.com.br>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 14 Jan 2014 08:58:11 -0800
-Message-ID: <CAMKF1so-Jeoi2bq3=r77uzQ6HFDbwimQpuopzRqjGs00mNUQZQ@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.229.184.69 with SMTP id cj5mr5024006qcb.8.1389720244018;
+	Tue, 14 Jan 2014 09:24:04 -0800 (PST)
+Received: by 10.229.241.2 with HTTP; Tue, 14 Jan 2014 09:24:03 -0800 (PST)
+Date: Tue, 14 Jan 2014 18:24:03 +0100
+Message-ID: <CAHQALceZv29NspjAzN5TEcOV8kiJ9YNyTD8acph-sJTnyfOyVg@mail.gmail.com>
+From: johan wadefalk <johan.wad@gmail.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-dora][PATCH] gcc-4.8: Backport PR c++/57532 fix from 4.8.2
+Subject: bitbake error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,88 +38,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 16:58:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 14 Jan 2014 17:24:03 -0000
+Content-Type: multipart/alternative; boundary=001a11331fb47b62f204eff175cb
 
-looks good to me.
+--001a11331fb47b62f204eff175cb
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Jan 14, 2014 at 8:26 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Bug: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=57532
->
-> Log:
-> r200836 | jason | 2013-07-09 14:52:17 -0300 (Tue, 09 Jul 2013) | 3 lines
->
->         PR c++/57532
->         * parser.c (cp_parser_ref_qualifier_opt): Don't tentatively parse
->         a ref-qualifier in C++98 mode.
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
->  .../gcc/gcc-4.8/0048-PR57532.patch                 |   36 ++++++++++++++++++++
->  2 files changed, 37 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-> index 8d50bf7..b34c7ae 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-> @@ -77,6 +77,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
->            file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
->            file://0046-libatomic-deptracking.patch \
->            file://0047-repomembug.patch \
-> +          file://0048-PR57532.patch \
->           "
->  SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
->  SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
-> new file mode 100644
-> index 0000000..4a05d33
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
-> @@ -0,0 +1,36 @@
-> +Upstream-Status: Backport
-> +Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> +
-> +r200836 | jason | 2013-07-09 14:52:17 -0300 (Tue, 09 Jul 2013) | 3 lines
-> +
-> +        PR c++/57532
-> +        * parser.c (cp_parser_ref_qualifier_opt): Don't tentatively parse
-> +        a ref-qualifier in C++98 mode.
-> +
-> +Index: gcc/testsuite/g++.dg/parse/ref-qual2.C
-> +===================================================================
-> +--- a/gcc/testsuite/g++.dg/parse/ref-qual2.C   (revision 0)
-> ++++ b/gcc/testsuite/g++.dg/parse/ref-qual2.C   (revision 200836)
-> +@@ -0,0 +1,6 @@
-> ++// PR c++/57532
-> ++
-> ++int main()
-> ++{
-> ++    return (int() & int());
-> ++}
-> +Index: gcc/cp/parser.c
-> +===================================================================
-> +--- a/gcc/cp/parser.c  (revision 200835)
-> ++++ b/gcc/cp/parser.c  (revision 200836)
-> +@@ -16986,6 +16986,11 @@
-> + {
-> +   cp_ref_qualifier ref_qual = REF_QUAL_NONE;
-> +   cp_token *token = cp_lexer_peek_token (parser->lexer);
-> ++
-> ++  /* Don't try to parse bitwise '&' as a ref-qualifier (c++/57532).  */
-> ++  if (cxx_dialect < cxx11 && cp_parser_parsing_tentatively (parser))
-> ++    return ref_qual;
-> ++
-> +   switch (token->type)
-> +     {
-> +     case CPP_AND:
-> --
-> 1.7.10.4
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Hi
 
+My target HW is a Wandboard-quad and I have followed this tutorial (
+http://wiki.wandboard.org/index.php/Getting_started_with_Yocto_on_Wandboard
+).
+
+
+My host system is gentoo which isn't a validated system for yocto but if
+someone can help me anyway I would be very happy.
+I have downgraded make from 3.82 to 3.81 because I couldn't find a patch
+for 3.82.
+
+When I try to bitbake the 1.5 DORA branch it fails on eglibc(shlib.lds:150).
+
+
+Here is the log: http://tny.cz/766db2d2
+
+
+I work as a software developer but I have very little Linux experience.
+
+Regards
+
+Johan Wadefalk
+
+--001a11331fb47b62f204eff175cb
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><span style=3D"font-family:arial,sans-serif;font-size:13px=
+">Hi</span><br style=3D"font-family:arial,sans-serif;font-size:13px"><br st=
+yle=3D"font-family:arial,sans-serif;font-size:13px"><span style=3D"font-fam=
+ily:arial,sans-serif;font-size:13px">My target HW is a Wandboard-quad and I=
+ have followed this tutorial (</span><a href=3D"http://wiki.wandboard.org/i=
+ndex.php/Getting_started_with_Yocto_on_Wandboard" target=3D"_blank" style=
+=3D"font-family:arial,sans-serif;font-size:13px">http://wiki.wandboard.org/=
+index.php/Getting_started_with_Yocto_on_Wandboard</a><span style=3D"font-fa=
+mily:arial,sans-serif;font-size:13px">).</span><br style=3D"font-family:ari=
+al,sans-serif;font-size:13px">
+<span style=3D"font-family:arial,sans-serif;font-size:13px">=A0</span><br s=
+tyle=3D"font-family:arial,sans-serif;font-size:13px"><br style=3D"font-fami=
+ly:arial,sans-serif;font-size:13px"><span style=3D"font-family:arial,sans-s=
+erif;font-size:13px">My host system is gentoo which isn&#39;t a validated s=
+ystem for yocto but if someone can help me anyway I would be very happy.</s=
+pan><br style=3D"font-family:arial,sans-serif;font-size:13px">
+<span style=3D"font-family:arial,sans-serif;font-size:13px">I have downgrad=
+ed make from 3.82 to 3.81 because I couldn&#39;t find a patch for 3.82.</sp=
+an><br style=3D"font-family:arial,sans-serif;font-size:13px"><br style=3D"f=
+ont-family:arial,sans-serif;font-size:13px">
+<span style=3D"font-family:arial,sans-serif;font-size:13px">When I try to b=
+itbake the 1.5 DORA branch it fails=A0on eglibc(shlib.lds:150).</span><br s=
+tyle=3D"font-family:arial,sans-serif;font-size:13px"><br style=3D"font-fami=
+ly:arial,sans-serif;font-size:13px">
+<br style=3D"font-family:arial,sans-serif;font-size:13px"><span style=3D"fo=
+nt-family:arial,sans-serif;font-size:13px">Here is the log:=A0</span><a hre=
+f=3D"http://tny.cz/766db2d2" target=3D"_blank" style=3D"font-family:arial,s=
+ans-serif;font-size:13px">http://tny.cz/766db2d2</a><br style=3D"font-famil=
+y:arial,sans-serif;font-size:13px">
+<span style=3D"font-family:arial,sans-serif;font-size:13px">=A0</span><br s=
+tyle=3D"font-family:arial,sans-serif;font-size:13px"><br style=3D"font-fami=
+ly:arial,sans-serif;font-size:13px"><span style=3D"font-family:arial,sans-s=
+erif;font-size:13px">I work as a software developer but I have very little =
+Linux experience.=A0</span><br style=3D"font-family:arial,sans-serif;font-s=
+ize:13px">
+<br style=3D"font-family:arial,sans-serif;font-size:13px"><span style=3D"fo=
+nt-family:arial,sans-serif;font-size:13px">Regards</span><div><font face=3D=
+"arial, sans-serif"><br></font><div class=3D"" style=3D"font-family:arial,s=
+ans-serif;font-size:13px">
+<div id=3D":3fb" class=3D"" tabindex=3D"0">Johan Wadefalk<img class=3D"" sr=
+c=3D"https://mail.google.com/mail/u/0/images/cleardot.gif"></div></div><br>=
+</div></div>
+
+--001a11331fb47b62f204eff175cb--
