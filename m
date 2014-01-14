@@ -1,39 +1,36 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 02A47600AC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-gg0-f170.google.com (mail-gg0-f170.google.com
+	[209.85.161.170])
+	by mail.openembedded.org (Postfix) with ESMTP id E2692600AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 16:26:12 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W36ob-0002RS-4d
-	for openembedded-core@lists.openembedded.org;
-	Tue, 14 Jan 2014 17:26:12 +0100
-Message-ID: <1389716768.19023.16.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jan 2014 16:26:08 +0000
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview: The binaries: -rwxr-xr-x root/root 21956 2014-01-09
-	19:39 ./bin/hb-shape -rwxr-xr-x root/root 21504 2014-01-09 19:39
-	./bin/hb-ot-shape-closure
-	-rwxr-xr-x root/root 36520 2014-01-09 19:39 ./bin/hb-view [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] harfbuzz: Move ancillary binaries to ${PN}-bin
+	Tue, 14 Jan 2014 16:26:48 +0000 (UTC)
+Received: by mail-gg0-f170.google.com with SMTP id l4so163820ggi.15
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jan 2014 08:26:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=O9rac3asWASfu3oNO7zK/DT/mf1sHWSWpYBj/3Uh36k=;
+	b=jSFs/sc1RQTc9/U7jROsTNXDok7r0JWLhItLtZ7GU8TQ7uL2Hl/Q6IWCnUDoLM+HWM
+	hc0AFOwC5MiUrj1KbjDcyn8jamC2H5tOHf8H6uj/AZGSA0YKIAZOmF7BCzcHNh5dC3Ee
+	b6mxnI1Iox9oit7auZ1CmjHziyYnmWyhwoK6Y2dFXD0NEynj56ivzvbMd1ddw4BRTssA
+	OBZq6fI+fzoDzLjs2xFwwpyDesmx87w7g6FpdM2zlcG65Vas989v3Fupw4ch/No7arSP
+	GB7H10pYIGqJ0ZkVr3RZ614RjJIIIhewbppnzzPGfb/or1Ln4cyVWGpjAP0JGhddTsT8
+	dhcg==
+X-Received: by 10.236.87.1 with SMTP id x1mr34144515yhe.51.1389716809461;
+	Tue, 14 Jan 2014 08:26:49 -0800 (PST)
+Received: from monster.lab.ossystems.com.br ([177.194.208.225])
+	by mx.google.com with ESMTPSA id o27sm1675536yhb.19.2014.01.14.08.26.47
+	for <multiple recipients>
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Tue, 14 Jan 2014 08:26:48 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Jan 2014 14:26:31 -0200
+Message-Id: <1389716791-22080-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [for-dora][PATCH] gcc-4.8: Backport PR c++/57532 fix from 4.8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +43,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 16:26:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Jan 2014 16:26:49 -0000
 
-The binaries:
+Bug: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=57532
 
--rwxr-xr-x root/root     21956 2014-01-09 19:39 ./bin/hb-shape
--rwxr-xr-x root/root     21504 2014-01-09 19:39 ./bin/hb-ot-shape-closure
--rwxr-xr-x root/root     36520 2014-01-09 19:39 ./bin/hb-view
+Log:
+r200836 | jason | 2013-07-09 14:52:17 -0300 (Tue, 09 Jul 2013) | 3 lines
 
-are not generally useful on target systems.  Also, their presence in the
-same binary package as libharfbuzz.so defeats the debian package autonamer.
-Inherit lib_package to move these to ${PN}-bin.
+        PR c++/57532
+        * parser.c (cp_parser_ref_qualifier_opt): Don't tentatively parse
+        a ref-qualifier in C++98 mode.
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
+ .../gcc/gcc-4.8/0048-PR57532.patch                 |   36 ++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb
-index 544deec..ba637bc 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb
-@@ -16,7 +16,7 @@ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-${PV}.t
- SRC_URI[md5sum] = "491b631239f51dcd4f7934775306c4e7"
- SRC_URI[sha256sum] = "dc6e5997a569526cd28147a80a0f65466e87ae617753b38704a60184bc6d6bee"
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig lib_package
- 
- DEPENDS = "glib-2.0 cairo freetype"
- 
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index 8d50bf7..b34c7ae 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -77,6 +77,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
+ 	   file://0046-libatomic-deptracking.patch \
+ 	   file://0047-repomembug.patch \
++	   file://0048-PR57532.patch \
+ 	  "
+ SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
+ SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
+new file mode 100644
+index 0000000..4a05d33
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
+@@ -0,0 +1,36 @@
++Upstream-Status: Backport
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++
++r200836 | jason | 2013-07-09 14:52:17 -0300 (Tue, 09 Jul 2013) | 3 lines
++
++        PR c++/57532
++        * parser.c (cp_parser_ref_qualifier_opt): Don't tentatively parse
++        a ref-qualifier in C++98 mode.
++
++Index: gcc/testsuite/g++.dg/parse/ref-qual2.C
++===================================================================
++--- a/gcc/testsuite/g++.dg/parse/ref-qual2.C	(revision 0)
+++++ b/gcc/testsuite/g++.dg/parse/ref-qual2.C	(revision 200836)
++@@ -0,0 +1,6 @@
+++// PR c++/57532
+++
+++int main()
+++{
+++    return (int() & int());
+++}
++Index: gcc/cp/parser.c
++===================================================================
++--- a/gcc/cp/parser.c	(revision 200835)
+++++ b/gcc/cp/parser.c	(revision 200836)
++@@ -16986,6 +16986,11 @@
++ {
++   cp_ref_qualifier ref_qual = REF_QUAL_NONE;
++   cp_token *token = cp_lexer_peek_token (parser->lexer);
+++
+++  /* Don't try to parse bitwise '&' as a ref-qualifier (c++/57532).  */
+++  if (cxx_dialect < cxx11 && cp_parser_parsing_tentatively (parser))
+++    return ref_qual;
+++
++   switch (token->type)
++     {
++     case CPP_AND:
 -- 
-1.8.5
-
-
+1.7.10.4
 
 
