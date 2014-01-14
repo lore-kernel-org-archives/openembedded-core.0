@@ -1,48 +1,30 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from db9outboundpool.messaging.microsoft.com
-	(mail-db9lp0248.outbound.messaging.microsoft.com [213.199.154.248])
-	by mail.openembedded.org (Postfix) with ESMTP id 666076B880
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E4C9C6B50C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 01:21:15 +0000 (UTC)
-Received: from mail190-db9-R.bigfish.com (10.174.16.250) by
-	DB9EHSOBE029.bigfish.com (10.174.14.92) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 14 Jan 2014 01:21:14 +0000
-Received: from mail190-db9 (localhost [127.0.0.1])	by
-	mail190-db9-R.bigfish.com (Postfix) with ESMTP id BC6401600D0;
-	Tue, 14 Jan 2014 01:21:14 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: 1
-X-BigFish: VPS1(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah1fc6hzz1de098h8275bh1de097hz2fh95h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1e23h1fe8h1ff5h2218h2216h226dh2327h2336h2438h2461h906i1155h)
-Received-SPF: pass (mail190-db9: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail190-db9 (localhost.localdomain [127.0.0.1]) by mail190-db9
-	(MessageSwitch) id 1389662472853105_16749;
-	Tue, 14 Jan 2014 01:21:12 +0000 (UTC)
-Received: from DB9EHSMHS025.bigfish.com (unknown [10.174.16.252])	by
-	mail190-db9.bigfish.com (Postfix) with ESMTP id CC2E42E0047;
-	Tue, 14 Jan 2014 01:21:12 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by DB9EHSMHS025.bigfish.com
-	(10.174.14.35) with Microsoft SMTP Server id 14.16.227.3;
-	Tue, 14 Jan 2014 01:21:12 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
-	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
-	<nathan.rossi@xilinx.com>)	id
-	1W2sgp-00040b-Ly; Mon, 13 Jan 2014 17:21:11 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jan 2014 11:21:00 +1000
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <2bba5e79-d06e-4b11-98ab-59506c84f896@AM1EHSMHS006.ehs.local>
-References: <2bba5e79-d06e-4b11-98ab-59506c84f896@AM1EHSMHS006.ehs.local>
-X-RCIS-Action: ALLOW
+	Tue, 14 Jan 2014 01:50:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0E1o3Ui009058
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 Jan 2014 17:50:04 -0800 (PST)
+Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Mon, 13 Jan 2014 17:50:03 -0800
+Message-ID: <52D497EA.20301@windriver.com>
+Date: Tue, 14 Jan 2014 09:50:34 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Message-ID: <4f28e147-551b-4e20-992a-2e0f17ae5c99@DB9EHSMHS025.ehs.local>
-X-OriginatorOrg: xilinx.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH v2] kernel.bbclass: Fix empty modules directory QA issue
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1389598673.git.Qi.Chen@windriver.com>
+	<1d073230c282c6e62cd24b164bc42f383a55544a.1389598673.git.Qi.Chen@windriver.com>
+	<CAJTo0Lb3ysqtjm-fN5vCqpOONEAUH-N+eeC3a=t+PqG8bOWe1g@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb3ysqtjm-fN5vCqpOONEAUH-N+eeC3a=t+PqG8bOWe1g@mail.gmail.com>
+X-Originating-IP: [128.224.162.164]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] systemd-compat-units: make run-postinsts.service work correctly on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,42 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 01:21:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Jan 2014 01:50:05 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If a kernel is built without any external modules (aka no CONFIG_*=m),
-then during a modules_install of the kernel an empty directory is
-created at /lib/modules/${KERNEL_VERIONS}/kernel. This is behaviour of
-the kernel infrastructure, the directory would normally be populated
-with the modules that were built.
+On 01/14/2014 01:01 AM, Burton, Ross wrote:
+> On 13 January 2014 07:38, Chen Qi <Qi.Chen@windriver.com> wrote:
+>> +ExecStart=-/etc/rcS.d/S98run-postinsts ; -/etc/rcS.d/S99run-postinsts
+> Can we just make opkg and run-postinsts write that file using the same number?
+>
+> Also, that service file needs to move directly into run-postinsts.
+> There's a start in poky-contrib:ross/postinsts if you want to finish
+> it off. :)
+>
+> Ross
+>
+>
 
-However because of the expectations of kernel-modules-split, no packages
-are created when there are no modules and an empty directory lingers.
-This raises QA issues as warning or errors (depending on the distro).
+Hi Ross,
 
-The following patch changes the kernel_do_install task to check if the
-directory is empty and if so removes it.
+As you have started working on this problem, I think I'll just drop this 
+patch.
 
-Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
----
- meta/classes/kernel.bbclass |    2 ++
- 1 file changed, 2 insertions(+)
+After looking at your branch, I think there's only one thing to look out 
+for. When we're using ipk/dpkg as the package back-end, and 
+'package-management' is in IMAGE_FEATURES, there would be no 
+/etc/*-postinsts.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 5fef446..f4dcba5 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -183,6 +183,8 @@ kernel_do_install() {
- 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
- 		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
- 		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
-+		# If the kernel/ directory is empty remove it to prevent QA issues
-+		rmdir --ignore-fail-on-non-empty "${D}/lib/modules/${KERNEL_VERSION}/kernel"
- 	else
- 		bbnote "no modules to install"
- 	fi
--- 
-1.7.9.5
-
+Best Regards,
+Chen Qi
 
 
