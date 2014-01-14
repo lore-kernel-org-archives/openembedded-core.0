@@ -1,37 +1,39 @@
 Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 60A3661FE4
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E65F61FE4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 11:02:21 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id d13so2063516wiw.0
+	Tue, 14 Jan 2014 11:02:22 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id m15so216749wgh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 03:02:21 -0800 (PST)
+	Tue, 14 Jan 2014 03:02:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=rXpE/pitifQbwpCttmCVWc5cqRm0GcxNZdzUg+4h0AE=;
-	b=YdI5Mjfr9YDxZZi9pwKGlpn7U0/QCTZjuAfCcx3PH9Yxq4SLJ5iw+w6cnTlQMAs6D3
-	+ItghNDDEJNUyv5iVKj1KVE0kjnVK88ObzbXB+ty9GJqQlwZDvoF+VoGPAEk2g8+ff8M
-	xgy8HC9I7qwIIbPRHeXdKwWnpycYNIAdNRxkAMKK3+VcrgYdSO5KRuhn0Y+RMqZkk0Tj
-	PVlh/p14oPiVifM4oIJJi9en7KhEwQXdEnQHAl0Pgkkrrbri3RXa0sCBq6qwUrEbTyDg
-	NiOfHw082knhLOQh4BieTvdCNGtfxmg1xt4GZfsJ1ft+lSj6T6jsXM+BsSBsClhE/j4b
-	eWgw==
-X-Gm-Message-State: ALoCoQkhFca8DCrEZ6maqMip0E9Whj+G23WGqeSis0X+M5IUPbkhwCzoHPiPiA7QIdWXzLaK3Ahs
-X-Received: by 10.180.108.132 with SMTP id hk4mr2321468wib.12.1389697341786;
-	Tue, 14 Jan 2014 03:02:21 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=kDWZfBmMEkEWJki2bE4rZiGt68Tws9S36JcThaEUSlE=;
+	b=IJzyQfXWvilQFQ1xlJvJuP8OZpxbe0wcaVjjsD/y7e/MdfIotIJMkf9MPZqOUlfDS+
+	KpGv5iKseAnxAzkEbdluZHSNnv4vOazo22qWl2w3BMai7SvI+RhpgCERlTd2ETeAzes2
+	zgqP1ldqwr7++GMP9LI33lxHwk+X4J0aYQAWiOQJIDU1I2nGluRBvjewV/25M0X+AfkN
+	Rl9YFaeDH+1B4Gvynsck8+dVrgc19RChkCgo7Q1GsP9h6LZkcqmk/7Z7IslQNkaDMMdi
+	3mkl4uIW2HaPr2o91HZR7qUBEVD9n3Z1orN0fUkJdd9gNbpgS3GB++/BwMywsZe869Kf
+	J+Fw==
+X-Gm-Message-State: ALoCoQnLET4ZSkAANTU/fWJIQ5dPT7A3gcAA1//tbz4QmqSqpRWRMqzVfGyH2hgUier+6HqPJXRf
+X-Received: by 10.180.36.51 with SMTP id n19mr2265912wij.48.1389697343135;
+	Tue, 14 Jan 2014 03:02:23 -0800 (PST)
 Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id ey3sm22618655wib.4.2014.01.14.03.02.20
+	by mx.google.com with ESMTPSA id x4sm913900wif.0.2014.01.14.03.02.22
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Jan 2014 03:02:21 -0800 (PST)
+	Tue, 14 Jan 2014 03:02:22 -0800 (PST)
 From: Koen Kooi <koen.kooi@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2014 12:00:45 +0100
-Message-Id: <1389697249-4062-1-git-send-email-koen.kooi@linaro.org>
+Date: Tue, 14 Jan 2014 12:00:46 +0100
+Message-Id: <1389697249-4062-2-git-send-email-koen.kooi@linaro.org>
 X-Mailer: git-send-email 1.8.4.2
+In-Reply-To: <1389697249-4062-1-git-send-email-koen.kooi@linaro.org>
+References: <1389697249-4062-1-git-send-email-koen.kooi@linaro.org>
 Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH 1/5] lz4: add r112
+Subject: [PATCH 2/5] base bbclass: add support for lz4 compressed archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 11:02:22 -0000
-
-lz4-native is needed for kernels using lz4 compression, which was merged in 3.11.
-
-Lz4 has a similar compression rate to lzo but decompresses a lot (>4x) faster.
+X-List-Received-Date: Tue, 14 Jan 2014 11:02:23 -0000
 
 Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- meta/recipes-support/lz4/lz4_svn.bb | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 meta/recipes-support/lz4/lz4_svn.bb
+ meta/classes/base.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-support/lz4/lz4_svn.bb b/meta/recipes-support/lz4/lz4_svn.bb
-new file mode 100644
-index 0000000..41464e2
---- /dev/null
-+++ b/meta/recipes-support/lz4/lz4_svn.bb
-@@ -0,0 +1,17 @@
-+SUMMARY = "Extremely Fast Compression algorithm"
-+DESCRIPTION = "LZ4 is a very fast lossless compression algorithm, providing compression speed at 400 MB/s per core, scalable with multi-cores CPU. It also features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems."
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 2e5217b..81fc305 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -573,6 +573,11 @@ python () {
+     elif "osc://" in srcuri:
+         d.appendVarFlag('do_fetch', 'depends', ' osc-native:do_populate_sysroot')
+ 
++    # *.lz4 should depends on lz4-native for unpacking
++    # Not endswith because of "*.patch.lz4;patch=1". Need bb.fetch.decodeurl in future
++    if '.lz4' in srcuri:
++        d.appendVarFlag('do_unpack', 'depends', ' lz4-native:do_populate_sysroot')
 +
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=2008d2325e11691e17fcaa3a6046f850"
-+
-+# Upstream names releases after SVN revs
-+SRCREV = "112"
-+PV = "r${SRCREV}"
-+
-+SRC_URI = "svn://lz4.googlecode.com/svn/;module=trunk;protocol=http"
-+
-+S = "${WORKDIR}/trunk"
-+
-+EXTRA_OEMAKE = "PREFIX=${prefix} CC=${TARGET_PREFIX}gcc DESTDIR=${D}"
-+
-+BBCLASSEXTEND += "native nativesdk"
+     # *.xz should depends on xz-native for unpacking
+     # Not endswith because of "*.patch.xz;patch=1". Need bb.fetch.decodeurl in future
+     if '.xz' in srcuri:
 -- 
 1.8.4.2
 
