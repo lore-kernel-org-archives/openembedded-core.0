@@ -1,41 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id BCDF26E3DF
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E975C6AE73
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 15:19:49 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id d13so854572wiw.13
+	Tue, 14 Jan 2014 15:54:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0EFsktl014268
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 07:19:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=YE0ynjrwe1CbIYOLge1ILllTdG0YDQKfNNkMzvoZxOI=;
-	b=f+0x2Z3aWRJQMKz0ODn/abx6ORvfFqOxBBEXqpfgjeK0FPVPZZ2PDKULuOiV8GNLj4
-	AzhEwxx3juQnCAezWJv6C05OUqUIbxmXb1gcS1M1OaRofDAXFApDJymYkxz5d1H0pgEf
-	1DFs3kl5xH+fhuPmkhv/q/u5VtrdksgVXPbF/MxuQglMDCAD48HQtMKDdkvRPV/6fyft
-	ZbX9QjT6mRZ91X/YoUrqbmbDXfZATj9Z/4Z6dB8tYlkz5Lr3U30p9C6Hvzj7j4tGLJlE
-	CkozQ3mSsfSKWACXuq6gbI2//zmTaG6ZuPiVFu6jxU6AABfI6fhmm0uObjwV0PwntLwl
-	8f9g==
-X-Gm-Message-State: ALoCoQl09GpGuL0JP3Vr1FFjtei5+RZUGBqYjl4HOyJTWqVIqXdxB6hjPLbSDwy9qUDn+RMhirV3
-X-Received: by 10.180.94.67 with SMTP id da3mr3561274wib.38.1389712790382;
-	Tue, 14 Jan 2014 07:19:50 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id e1sm1923314wij.7.2014.01.14.07.19.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Jan 2014 07:19:49 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2014 15:19:32 +0000
-Message-Id: <f0636fc5fd95fc5f9f1271ccbaf347d06489d3e7.1389712683.git.ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1389712683.git.ross.burton@intel.com>
-References: <cover.1389712683.git.ross.burton@intel.com>
-In-Reply-To: <cover.1389712683.git.ross.burton@intel.com>
-References: <cover.1389712683.git.ross.burton@intel.com>
-Subject: [PATCH][V3 7/7] packagegroup-core-tools-testapps: add Piglit
+	Tue, 14 Jan 2014 07:54:46 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 14 Jan 2014 07:54:46 -0800
+Message-ID: <52D55DC5.1030509@windriver.com>
+Date: Tue, 14 Jan 2014 09:54:45 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <7166127.YkfX3aIoNI@helios> <20140114121347.GB3717@jama>
+In-Reply-To: <20140114121347.GB3717@jama>
+Subject: Re: [oe] Public TSC / OE Workgroup meeting today
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +35,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 15:19:50 -0000
+X-List-Received-Date: Tue, 14 Jan 2014 15:54:47 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Respect the OpenGL distro feature and if it's enabled, pull in piglit and
-mesa-tools.
+On 1/14/14, 6:13 AM, Martin Jansa wrote:
+> On Tue, Jan 14, 2014 at 10:08:35AM +0000, Paul Eggleton wrote:
+>> Hi all,
+>>
+>> There will be a public OpenEmbedded TSC/workgroup meeting today - there
+>> wouldn't normally be one scheduled but there was quite a lot of discussion
+>> last time (which is a good thing!). If you're interested in discussing long-
+>> term technical efforts around the OpenEmbedded project please join us on
+>> irc.freenode.net in channel #oe at
+>> 17:00 GMT (9am PST, 11am CST, 12 EST, 18:00 CET) today.
+>>
+>> Topics we covered last meeting:
+>>
+>> * Qt 4 / 5 recipes in OE-Core
+>> * Rising bug count in Bugzilla and what we can do about it
+>> * (briefly) Patch review/merging process
+>> * Absentee layer maintainers
+>>
+>> Issues we didn't get to last time (that weren't resolved on the mailing list):
+>> - janitorial day/week?
+>> - "bitbake world" failures scrub
+>> - initrdscripts/init-live needs work
+>> - lava evaluation
+>> - website and other infrastructure issues
+>> - next release
+>>
+>> New issues for discussion are also welcome.
+>
+> Not sure if it's worth new item on agenda, but maybe we should move
+> meta/classes/image-prelink.bbclass functionality to package.bbclass,
+> maybe we have more cases like this where image build is changing files
+> which are provided by normal packages (such cases are lost after
+> upgrading on device with packagemanager).
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../packagegroups/packagegroup-core-tools-testapps.bb           |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+We can discuss this, but prelink has to run on the filesystem image -- it can't 
+run prior to packaging as the files installed into the image affect the results 
+of the prelinking.
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index 1861ebe..4b8f99b 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -24,10 +24,14 @@ KEXECTOOLS_powerpc ?= ""
- KEXECTOOLS_e5500-64b ?= ""
- KEXECTOOLS_aarch64 ?= ""
- 
-+GLTOOLS = "\
-+    mesa-demos \
-+    piglit \
-+    "
-+
- X11TOOLS = "\
-     fstests \
-     owl-video \
--    mesa-demos \
-     x11perf \
-     xrestop \
-     xwininfo \
-@@ -48,4 +52,5 @@ RDEPENDS_${PN} = "\
-     ltp \
-     connman-client \
-     ${@base_contains('DISTRO_FEATURES', 'x11', "${X11TOOLS}", "", d)} \
-+    ${@base_contains('DISTRO_FEATURES', 'opengl', "${GLTOOLS}", "", d)} \
-     "
--- 
-1.7.10.4
+For the prelink case, on target updates should be triggering the prelink system 
+after the update.  This is the responsibility of the field-upgrade software -- 
+whatever is deployed on the device itself.
+
+(Also when using the prelinker, on many devices it makes sense to strip the 
+un-prelink information for space savings.  This won't prevent prelink from being 
+run a second time -- it just prevents validation of the original not-prelinked 
+binary.)
+
+--Mark
+
+> Cheers,
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
