@@ -1,40 +1,40 @@
 Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id A238A6DDF5
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 578046DDF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 11:02:23 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id u57so221960wes.0
+	Tue, 14 Jan 2014 11:02:25 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id hm2so526602wib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 03:02:24 -0800 (PST)
+	Tue, 14 Jan 2014 03:02:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=UleQ58GD9T9hlw4+hMuHR/+CeuLpvzvWUOODpKPCSPo=;
-	b=fDOP+11WSiCI+o9AlvnVNzYDS4qa+DrQXassISh7YLjcxPwO7e2AADqFB9l+dK5V1i
-	Pe7TRafKyGY1k1qELa33NVdHgZjHDC0ZtxqaU5tKRai72AF3OVLrjs4EGQHuSCWlXMOB
-	5iu08kMQlIfFR739SVzc4jDS8ja+8QuZCMtTEWRSuCQ3YMEO5GsSPgY7sKfjCzockzkM
-	JsY3ZGV28uCZqVOjsKJBSWoxaqYviq/Cjot3xwkqYLmLhgYflt4fuwZIpnaGNCUML1sR
-	qcHyYka4ijdqU9gv/oZQ0b2L8ANiJctPp3QVC58kQyh0Xz4s5vxsbj26r7T9zS+L32Dy
-	buJw==
-X-Gm-Message-State: ALoCoQnBJttrugB8pDJbV93TA4qKD16xNLP0hgClUp5850U/bQBXfknJrVOWPC6qrdGZ4d1gHeE+
-X-Received: by 10.180.187.36 with SMTP id fp4mr19873416wic.9.1389697344270;
-	Tue, 14 Jan 2014 03:02:24 -0800 (PST)
+	bh=mAcILS7aST9B9jFgcq/ih1LTRSTtY/KcycWyl+7x2EU=;
+	b=XzCWd0JLjR2rNnzgEaCTC39Y+6GvFeOeZn1qvncD9IC6NdJ4K9ULkYQk//F2rvvkbY
+	kQIyY/UWvhKFgKXd/I+Q/rJ7CWmnpi/3NRCu6OpKIavEN5KKhSD2zmc9prY74RNsWUl+
+	PAGtZZkw+WgxMGozA/FeU5BLhLjHQorV40wafYM3uGoYP3gmVcTm9pYBTg30wuX6e8/i
+	xzDdUExElchJVesekollDyslzlfcu1OWtf5k+36b/BQb8r0br5ENcWx/YNibKoZZhPdO
+	tRn8sBRiJJJdJA5EPpwGta7uP0estEU12Nt6ZzQRtRd82rsiHYmVCI0UjvTl9Yv6WDaX
+	OtNQ==
+X-Gm-Message-State: ALoCoQmmD6/eW5zqflZrD7oJFoPBCAxvd+5PSJiKqC3zyrA42z0qNctFH7seuKpgnCFJmiMUWUcT
+X-Received: by 10.194.219.232 with SMTP id pr8mr26309030wjc.6.1389697345928;
+	Tue, 14 Jan 2014 03:02:25 -0800 (PST)
 Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id j3sm904361wiy.3.2014.01.14.03.02.23
+	by mx.google.com with ESMTPSA id z2sm878771wiy.11.2014.01.14.03.02.25
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Jan 2014 03:02:23 -0800 (PST)
+	Tue, 14 Jan 2014 03:02:25 -0800 (PST)
 From: Koen Kooi <koen.kooi@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2014 12:00:47 +0100
-Message-Id: <1389697249-4062-3-git-send-email-koen.kooi@linaro.org>
+Date: Tue, 14 Jan 2014 12:00:48 +0100
+Message-Id: <1389697249-4062-4-git-send-email-koen.kooi@linaro.org>
 X-Mailer: git-send-email 1.8.4.2
 In-Reply-To: <1389697249-4062-1-git-send-email-koen.kooi@linaro.org>
 References: <1389697249-4062-1-git-send-email-koen.kooi@linaro.org>
 Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH 3/5] distrodata bbclass: add support for lz4 archives
+Subject: [PATCH 4/5] kernel.bbclass: add support for LZ4 initramfs files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 11:02:24 -0000
+X-List-Received-Date: Tue, 14 Jan 2014 11:02:26 -0000
 
 Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- meta/classes/distrodata.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/kernel.bbclass | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 2c365f9..b47358b 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -289,9 +289,9 @@ python do_checkpkg() {
-         ver_regex = "(([A-Z]*\d+[a-zA-Z]*[\.\-_]*)+)"#"((\d+[\.\-_[a-z]])+)"
-         # src.rpm extension was added only for rpm package. Can be removed if the rpm
-         # packaged will always be considered as having to be manually upgraded
--        suffix = "(tar\.gz|tgz|tar\.bz2|zip|xz|rpm|bz2|orig\.tar\.gz|tar\.xz|src\.tar\.gz|src\.tgz|svnr\d+\.tar\.bz2|stable\.tar\.gz|src\.rpm)"
-+        suffix = "(tar\.gz|tgz|tar\.bz2|tar\.lz4|zip|xz|rpm|bz2|lz4|orig\.tar\.gz|tar\.xz|src\.tar\.gz|src\.tgz|svnr\d+\.tar\.bz2|stable\.tar\.gz|src\.rpm)"
- 
--        suffixtuple = ("tar.gz", "tgz", "zip", "tar.bz2", "tar.xz", "bz2", "orig.tar.gz", "src.tar.gz", "src.rpm", "src.tgz", "svnr\d+.tar.bz2", "stable.tar.gz", "src.rpm")
-+        suffixtuple = ("tar.gz", "tgz", "zip", "tar.bz2", "tar.xz", "tar.lz4", "bz2", "lz4", "orig.tar.gz", "src.tar.gz", "src.rpm", "src.tgz", "svnr\d+.tar.bz2", "stable.tar.gz", "src.rpm")
-         sinterstr = "(?P<name>%s?)v?(?P<ver>%s)(\-source)?" % (prefix, ver_regex)
-         sdirstr = "(?P<name>%s)\.?v?(?P<ver>%s)(\-source)?[\.\-](?P<type>%s$)" % (prefix, ver_regex, suffix)
- 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 5fef446..f2a5ec5 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -87,7 +87,7 @@ copy_initramfs() {
+ 	mkdir -p ${B}/usr
+ 	# Find and use the first initramfs image archive type we find
+ 	rm -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+-	for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
++	for img in cpio.gz cpio.lz4 cpio.lzo cpio.lzma cpio.xz; do
+ 		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
+ 			cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${B}/usr/.
+ 			case $img in
+@@ -96,6 +96,11 @@ copy_initramfs() {
+ 				gunzip -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
+ 				break
+ 				;;
++			*lz4)
++				echo "lz4 decompressing image"
++				lz4 -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
++				break
++				;;
+ 			*lzo)
+ 				echo "lzo decompressing image"
+ 				lzop -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
 -- 
 1.8.4.2
 
