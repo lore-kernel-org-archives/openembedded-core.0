@@ -1,40 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 305F16A566;
-	Tue, 14 Jan 2014 13:33:25 +0000 (UTC)
-Received: by mail-ea0-f181.google.com with SMTP id m10so3976299eaj.12
-	for <multiple recipients>; Tue, 14 Jan 2014 05:33:25 -0800 (PST)
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qe0-f52.google.com (mail-qe0-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D6076A566
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jan 2014 13:36:52 +0000 (UTC)
+Received: by mail-qe0-f52.google.com with SMTP id s1so4747338qeb.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jan 2014 05:36:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=S68Ch5KggF9aTqI/k2ez9R7a7uXwbuTXTdlQRH2Bbvg=;
-	b=xXX0gbTK2JMsD3rN4IHOChSCg0I+QnmTfc8S2x8k94es+ekNVw2wQnFWoTqZnxckro
-	zKj8eUslG/I7SS+M59NVT7URCB3orhPdzYK1JnqNTIWlt+JEy2UEiNev9FBVzYPKyGDH
-	a9KeTRJG39cYUkmvE1i1EH5XpbXd44gTm0zby9x2+y8fnxt+Jk+uR8OAM9TVxLPhC+kk
-	w02FX6aezFeeqXkAYae1ZNtJiNjxZ6pChUqch7/P4j5d2O4SxUOh3sxi2jY4dyMZfxFW
-	swrDQESnSljK819R2MN1kUX6qQxfveay4WS2IZcnyuOkQaJ+oRQYaSKTR5kIV2eOHtM+
-	6Xag==
-X-Received: by 10.14.113.199 with SMTP id a47mr2191046eeh.41.1389706405768;
-	Tue, 14 Jan 2014 05:33:25 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 4sm1669095eed.14.2014.01.14.05.33.22
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Jan 2014 05:33:24 -0800 (PST)
-Date: Tue, 14 Jan 2014 14:33:39 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20140114133339.GC3717@jama>
-References: <7166127.YkfX3aIoNI@helios> <20140114121347.GB3717@jama>
-	<1389704128.19023.11.camel@phil-desktop.brightsign>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=lyHMZuycvLk0tholwYBfiPgGz47ZUj8FFZhBwR5Ijv0=;
+	b=WzYtFn+UOpir/da4RjT6e/aJXkZzio3dJReoD3J7tANPXkWWByGfYaqpisnZ7UC+xQ
+	EBb8cviJFZJ++Ts1ZGU4XUf9MDjqf+nzLaxtLjXNHp2GaRjHcamMLcPeEstElk8WzV/V
+	/K6c+Xq24l8HKbu9MlYGj2L/kKwlNPQvuh8mQra9IYzx9H35Z/rRB6pbX3Ifg01XktvJ
+	DMbBK8rOYeBxlDpoxmpJk+DAXyd0zfE9FrSgFEzacd+MZ5Hj7yjHVC0gmFlNw3zPAOLv
+	pMkWahjSznwSGCHxDdhrXu6Fm13wlK7/cw6ZjWv3wCGXAuVEa9SRC2AUneyTSX33Vl6D
+	/DgQ==
 MIME-Version: 1.0
-In-Reply-To: <1389704128.19023.11.camel@phil-desktop.brightsign>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Public TSC / OE Workgroup meeting today
+X-Received: by 10.224.2.6 with SMTP id 6mr3203398qah.12.1389706613753; Tue, 14
+	Jan 2014 05:36:53 -0800 (PST)
+Received: by 10.96.177.105 with HTTP; Tue, 14 Jan 2014 05:36:53 -0800 (PST)
+In-Reply-To: <CANyK_8cntHRL7rRSUibaCX_1L3zDmYhx_P=pa6S7RA4G_LeG5w@mail.gmail.com>
+References: <CADV-EXEygnQGWan8VLtZbieUozXPnfRNytXg9TBv1ALwJ_y3cA@mail.gmail.com>
+	<CANyK_8cntHRL7rRSUibaCX_1L3zDmYhx_P=pa6S7RA4G_LeG5w@mail.gmail.com>
+Date: Tue, 14 Jan 2014 15:36:53 +0200
+Message-ID: <CADV-EXEOb5NrhOG80QmsRE7hBshiSfchL=62qpBHnSKzA8Yt+w@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Failed to build opkg with curl support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,51 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 13:33:26 -0000
-X-Groupsio-MsgNum: 48968
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="lCAWRPmW1mITcIfM"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 14 Jan 2014 13:36:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---lCAWRPmW1mITcIfM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Paul,
 
-On Tue, Jan 14, 2014 at 12:55:28PM +0000, Phil Blundell wrote:
-> On Tue, 2014-01-14 at 13:13 +0100, Martin Jansa wrote:
-> > Not sure if it's worth new item on agenda, but maybe we should move
-> > meta/classes/image-prelink.bbclass functionality to package.bbclass,
-> > maybe we have more cases like this where image build is changing files
-> > which are provided by normal packages (such cases are lost after
-> > upgrading on device with packagemanager).
->=20
-> How would that work?  I'm not sure that it's possible (in the general
-> case) to prelink in any sensible way prior to rootfs construction.  The
-> same applies to image-mklibs.bbclass.
+2014/1/10 Paul Barker <paul@paulbarker.me.uk>:
+> On 9 January 2014 12:04, Yevhen Kyriukha <kirgene@gmail.com> wrote:
+>> I define "curl" in PACKAGECONFIG for opkg.
+>> After that I'm getting circular dependency errors during building opkg.
+>>
+>> Best regards,
+>> Yevhen
+>
+> Sorry, this is a known problem.
+>
+> The update-alternatives script needs to be moved out of opkg, either
+> to opkg-utils or to its own recipe as it is the use of
+> update-alternatives that is causing the circular dependencies. This is
+> what I am planning to work on next as soon as I get some time.
+>
+> This is required for my ongoing development work on opkg so it should
+> get sorted out soon. (Future versions of opkg will depend on
+> libarchive which also indirectly depends on update-alternatives).
+>
+> Related to this is the fact that no other providers of
+> update-alternatives seem to work, again due to circular dependencies.
+>
+> See http://thread.gmane.org/gmane.comp.handhelds.openembedded.core/45321
+>
+> Thanks,
+>
+> --
+> Paul Barker
+>
+> Email: paul@paulbarker.me.uk
+> http://www.paulbarker.me.uk
 
-Hmm, you're right.
+Can you give some estimates on how long the implementation of this
+feature will take?
 
-The reason why I was thinking about this, is that someone reported to me
-that libc-dbg doesn't work after prelink changed libc headers in
-do_rootfs (external toolchain).
+-- 
+Best regards,
+Yevhen
 
-IIRC there was some discussion about issues caused by prelink changing head=
-ers,
-I'll try to find it in archives, sorry for noise.
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---lCAWRPmW1mITcIfM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLVPLMACgkQN1Ujt2V2gBznHwCeNQpU3XEyex7+zvDqiPYuCriY
-lAcAoKwZ9GO5NxcIv1eVj0DR0UGkmz+x
-=wGXx
------END PGP SIGNATURE-----
-
---lCAWRPmW1mITcIfM--
