@@ -1,36 +1,34 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BFC296AE73
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 74CA060172
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 16:29:31 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id va2so1832182obc.22
+	Tue, 14 Jan 2014 16:58:40 +0000 (UTC)
+Received: by mail-ie0-f180.google.com with SMTP id ar20so698842iec.39
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 08:29:32 -0800 (PST)
+	Tue, 14 Jan 2014 08:58:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=6l/tLipK5A1Xmuxl8Bi/aZ9LSnAAc6B1xJkh8wIzV4g=;
-	b=OZsI0hX4lgzzkiJux9eOM69vGPkPUMzGVgFaUrkKzssKpIz7uRnGqwEWtGsqOEqBIR
-	WQrSwVB45MPh7C9FL67yzDe4do6NGUf9PmvtziL5Fv18/7Hde5xMTme7PwSJ6uyOamQy
-	UTdDWoxfTOFrD4P9MNVKDvf4nz+/kol0NP0mhIyFskH3r7cWmxP/V+4pm5Dz1Cj+xVV6
-	UYmgr4Q+kS9QKkaUohMwv08fJZZzBhXP6NDS8I99FiHX8+z49q4gQVDgon0nIyyCkKnP
-	pBuEU6zSslF0Bhovz9Sq07zw5PvgaDS0Yr5ztWsiOZhd4rAktCt33hZMlReyGuqxP1Va
-	OlfQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=0IEzLllsvQHVWogEDWF9/pDh+rWFm+ce7bXb8DxbbAg=;
+	b=TycfxuTNz0UGkEZhohgGT0m+E8aqY0x2LrI2L0ynD3DrbKSPD6fkRW0IW8ff+yzPeh
+	DrJ/w6veSdBQVY8DhzfdTJrG2lnQUJaLWKJNddhUuuEENQMkYOpNg6U2W9/arDLlZB1L
+	mXo8r6bqEn3eetrRBrAZVfsUqwnGAknJSXb9jbV/ndEfAzWetT0Z7vPrWK5m6Q1A2pC5
+	5JIxxSgos8tPNtlBzWHnKMYLJ0a7VF3gppp15QFzqFma3cQ1uimBwio74+oZcVXNcR9I
+	MZdfyQ4m/6qQEmWSskuHbjo5ZJkX9886Hz8kDQNEDlBP0vQRchChfe7EgvulWh7fLTpI
+	w1+g==
+X-Received: by 10.43.182.74 with SMTP id pl10mr3107321icc.70.1389718721203;
+	Tue, 14 Jan 2014 08:58:41 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.60.56.70 with SMTP id y6mr1850454oep.32.1389716972516; Tue,
-	14 Jan 2014 08:29:32 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Tue, 14 Jan 2014 08:29:32 -0800 (PST)
+Received: by 10.50.79.167 with HTTP; Tue, 14 Jan 2014 08:58:11 -0800 (PST)
 In-Reply-To: <1389716791-22080-1-git-send-email-otavio@ossystems.com.br>
 References: <1389716791-22080-1-git-send-email-otavio@ossystems.com.br>
-Date: Tue, 14 Jan 2014 14:29:32 -0200
-X-Google-Sender-Auth: _V_n-wZmUxaXNb4jeS7sZxhVv9E
-Message-ID: <CAP9ODKptsDqbRyYJq8NcvBMAK1QZ8rAkks575owrvbmMMZkQRQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 14 Jan 2014 08:58:11 -0800
+Message-ID: <CAMKF1so-Jeoi2bq3=r77uzQ6HFDbwimQpuopzRqjGs00mNUQZQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
 Subject: Re: [for-dora][PATCH] gcc-4.8: Backport PR c++/57532 fix from 4.8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,18 +42,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 16:29:31 -0000
-Content-Type: multipart/alternative; boundary=001a11c253807c3c8b04eff0b26f
+X-List-Received-Date: Tue, 14 Jan 2014 16:58:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
---001a11c253807c3c8b04eff0b26f
-Content-Type: text/plain; charset=ISO-8859-1
+looks good to me.
 
-Hello,
-
-I am adding Khem and Robert in Cc so they can review the patch...
-
-On Tue, Jan 14, 2014 at 2:26 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
-
+On Tue, Jan 14, 2014 at 8:26 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
 > Bug: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=57532
 >
 > Log:
@@ -66,47 +59,71 @@ On Tue, Jan 14, 2014 at 2:26 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
 >         a ref-qualifier in C++98 mode.
 >
 > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
+>  .../gcc/gcc-4.8/0048-PR57532.patch                 |   36 ++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+>  create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
 >
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
---001a11c253807c3c8b04eff0b26f
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hello,</div><div class=3D"gmail=
-_extra"><br></div><div class=3D"gmail_extra">I am adding Khem and Robert in=
- Cc so they can review the patch...<br><br><div class=3D"gmail_quote">On Tu=
-e, Jan 14, 2014 at 2:26 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.=
-br</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">Bug: <a href=3D"http://gcc.gnu.org/bugzilla/=
-show_bug.cgi?id=3D57532" target=3D"_blank">http://gcc.gnu.org/bugzilla/show=
-_bug.cgi?id=3D57532</a><br>
-
-<br>
-Log:<br>
-r200836 | jason | 2013-07-09 14:52:17 -0300 (Tue, 09 Jul 2013) | 3 lines<br=
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> index 8d50bf7..b34c7ae 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+> @@ -77,6 +77,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+>            file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
+>            file://0046-libatomic-deptracking.patch \
+>            file://0047-repomembug.patch \
+> +          file://0048-PR57532.patch \
+>           "
+>  SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
+>  SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
+> new file mode 100644
+> index 0000000..4a05d33
+> --- /dev/null
+> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
+> @@ -0,0 +1,36 @@
+> +Upstream-Status: Backport
+> +Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> +
+> +r200836 | jason | 2013-07-09 14:52:17 -0300 (Tue, 09 Jul 2013) | 3 lines
+> +
+> +        PR c++/57532
+> +        * parser.c (cp_parser_ref_qualifier_opt): Don't tentatively parse
+> +        a ref-qualifier in C++98 mode.
+> +
+> +Index: gcc/testsuite/g++.dg/parse/ref-qual2.C
+> +===================================================================
+> +--- a/gcc/testsuite/g++.dg/parse/ref-qual2.C   (revision 0)
+> ++++ b/gcc/testsuite/g++.dg/parse/ref-qual2.C   (revision 200836)
+> +@@ -0,0 +1,6 @@
+> ++// PR c++/57532
+> ++
+> ++int main()
+> ++{
+> ++    return (int() & int());
+> ++}
+> +Index: gcc/cp/parser.c
+> +===================================================================
+> +--- a/gcc/cp/parser.c  (revision 200835)
+> ++++ b/gcc/cp/parser.c  (revision 200836)
+> +@@ -16986,6 +16986,11 @@
+> + {
+> +   cp_ref_qualifier ref_qual = REF_QUAL_NONE;
+> +   cp_token *token = cp_lexer_peek_token (parser->lexer);
+> ++
+> ++  /* Don't try to parse bitwise '&' as a ref-qualifier (c++/57532).  */
+> ++  if (cxx_dialect < cxx11 && cp_parser_parsing_tentatively (parser))
+> ++    return ref_qual;
+> ++
+> +   switch (token->type)
+> +     {
+> +     case CPP_AND:
+> --
+> 1.7.10.4
 >
-<br>
-=A0 =A0 =A0 =A0 PR c++/57532<br>
-=A0 =A0 =A0 =A0 * parser.c (cp_parser_ref_qualifier_opt): Don&#39;t tentati=
-vely parse<br>
-=A0 =A0 =A0 =A0 a ref-qualifier in C++98 mode.<br>
-<br>
-Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.b=
-r">otavio@ossystems.com.br</a>&gt;<br></blockquote></div><div><br></div>-- =
-<br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blank">=
-http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossys=
-tems.com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>
-<span>Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: <span id=3D=
-"gc-number-311" class=3D"gc-cs-link" title=3D"Call with Google Voice">+1 (3=
-47) 903-9750</span></span><br>
-</div></div>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---001a11c253807c3c8b04eff0b26f--
