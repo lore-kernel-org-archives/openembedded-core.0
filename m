@@ -1,31 +1,27 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D09F6D1D2
+	by mail.openembedded.org (Postfix) with ESMTP id 08D0F6DC3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 11:43:27 +0000 (UTC)
+	Tue, 14 Jan 2014 11:49:15 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0EBhMXY011812 for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 11:43:22 GMT
+	s0EBmYci011988; Tue, 14 Jan 2014 11:49:04 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id zlV4Ooc6T5Lj
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 11:43:22 +0000 (GMT)
+	with LMTP id prFvc0aYYf-0; Tue, 14 Jan 2014 11:49:04 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0EBhKAq011808
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 11:43:22 GMT
-Message-ID: <1389699794.14987.43.camel@ted>
+	s0EBn09i011999
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Tue, 14 Jan 2014 11:49:02 GMT
+Message-ID: <1389700134.14987.44.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jan 2014 11:43:14 +0000
+Date: Tue, 14 Jan 2014 11:48:54 +0000
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] ptest: d.keys() is slow, use a list instead
+Subject: [PATCH] nativesdk-packagegroup-sdk-host: Cleanup strange darwin override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,28 +34,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 11:43:28 -0000
+X-List-Received-Date: Tue, 14 Jan 2014 11:49:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Unfortunately d.keys is extremely slow. Using a list in this case should be
-fine since the addtask lines are immediately above the code and aren't
-going to change often.
+The cross-canadian packages were split into their own package group
+some time ago. These two are leftovers and can be safely removed.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index e5bbb89..caf7101 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -55,6 +55,6 @@ python () {
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index e6631d8..9581ef3 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -26,8 +26,6 @@ RDEPENDS_${PN} = "\
+     "
  
-     # Remove all '*ptest_base' tasks when ptest is not enabled
-     if not(d.getVar('PTEST_ENABLED', True) == "1"):
--        for i in filter(lambda k: d.getVarFlag(k, "task") and k.endswith("ptest_base"), d.keys()):
-+        for i in ['do_configure_ptest_base', 'do_compile_ptest_base', 'do_install_ptest_base']:
-             bb.build.deltask(i, d)
- }
+ RDEPENDS_${PN}_darwin = "\
+-    odcctools-cross-canadian \
+-    llvm-cross-canadian \
+     nativesdk-pkgconfig \
+     nativesdk-opkg \
+     nativesdk-libtool \
 
 
 
