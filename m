@@ -1,25 +1,37 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 866F86AF0C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 12:09:31 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 14 Jan 2014 04:09:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,658,1384329600"; d="scan'208";a="334129593"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Jan 2014 04:09:30 -0800
-Received: from localhost.localdomain (unknown [10.237.112.161])
-	by linux.intel.com (Postfix) with ESMTP id 7BBF06A4094;
-	Tue, 14 Jan 2014 04:09:25 -0800 (PST)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2014 14:21:21 +0100
-Message-Id: <1389705681-17841-3-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1389705681-17841-1-git-send-email-corneliux.stoicescu@intel.com>
-References: <1389705681-17841-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: [PATCH 3/3] oe-selftest: separated the SStateBase and SStateTests in different modules
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 9468A6AE73;
+	Tue, 14 Jan 2014 12:13:27 +0000 (UTC)
+Received: by mail-ee0-f45.google.com with SMTP id b15so91343eek.18
+	for <multiple recipients>; Tue, 14 Jan 2014 04:13:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=9lY88ePVmB8JF6TRXj8Kltc/1Ps7yHOLxrU3scY/M/g=;
+	b=lcqQ76MJY+XdnJ9ZELQpGgxhMStUvH42JZROS7R6MtN8kE4/94NWg68IlzBu0JARp6
+	0kRSwD9yrXFZl/a0HLbVCvREEHTVDp5MvfyGT3xtSDe7bhFCDh05z+KjP3M5dqdmZ0y3
+	5l/sXzwaHwxAEQDySUlZweU+mnHmoUl+EQEJB5CRMcRT/X94nCQIQ/meBx/w4CUrn3mN
+	i1uOPnCE4ugtyyLTjybp3By24md91Nblc4naEMO5FWBV/KsIaJrTNe3+bkfljoH04OfA
+	1f4PVVvDB7KyDaZoclX5vcB5kZnSgjpwW8V9YJ92B12fiJDdbKMiGXmn+iGXzPaimCG2
+	vjOQ==
+X-Received: by 10.15.45.135 with SMTP id b7mr1781652eew.88.1389701608252;
+	Tue, 14 Jan 2014 04:13:28 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id a51sm1107997eeh.8.2014.01.14.04.13.27
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 Jan 2014 04:13:27 -0800 (PST)
+Date: Tue, 14 Jan 2014 13:13:47 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20140114121347.GB3717@jama>
+References: <7166127.YkfX3aIoNI@helios>
+MIME-Version: 1.0
+In-Reply-To: <7166127.YkfX3aIoNI@helios>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] Public TSC / OE Workgroup meeting today
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,132 +44,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 12:09:31 -0000
+X-List-Received-Date: Tue, 14 Jan 2014 12:13:28 -0000
+X-Groupsio-MsgNum: 48963
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="tjCHc7DPkfUGtrlw"
+Content-Disposition: inline
 
-- SStateBase now has its own module to be imported by itself by other modules like sstatetests.py
+--tjCHc7DPkfUGtrlw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta/lib/oeqa/selftest/sstate.py      |   53 +++++++++++++++++++++++++++++++++
- meta/lib/oeqa/selftest/sstatetests.py |   43 +-------------------------
- 2 files changed, 54 insertions(+), 42 deletions(-)
- create mode 100644 meta/lib/oeqa/selftest/sstate.py
+On Tue, Jan 14, 2014 at 10:08:35AM +0000, Paul Eggleton wrote:
+> Hi all,
+>=20
+> There will be a public OpenEmbedded TSC/workgroup meeting today - there=
+=20
+> wouldn't normally be one scheduled but there was quite a lot of discussio=
+n=20
+> last time (which is a good thing!). If you're interested in discussing lo=
+ng-
+> term technical efforts around the OpenEmbedded project please join us on=
+=20
+> irc.freenode.net in channel #oe at=20
+> 17:00 GMT (9am PST, 11am CST, 12 EST, 18:00 CET) today.
+>=20
+> Topics we covered last meeting:
+>=20
+> * Qt 4 / 5 recipes in OE-Core
+> * Rising bug count in Bugzilla and what we can do about it
+> * (briefly) Patch review/merging process
+> * Absentee layer maintainers
+>=20
+> Issues we didn't get to last time (that weren't resolved on the mailing l=
+ist):
+> - janitorial day/week?
+> - "bitbake world" failures scrub
+> - initrdscripts/init-live needs work
+> - lava evaluation
+> - website and other infrastructure issues
+> - next release
+>=20
+> New issues for discussion are also welcome.
 
-diff --git a/meta/lib/oeqa/selftest/sstate.py b/meta/lib/oeqa/selftest/sstate.py
-new file mode 100644
-index 0000000..5989724
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/sstate.py
-@@ -0,0 +1,53 @@
-+import datetime
-+import unittest
-+import os
-+import re
-+import shutil
-+
-+import oeqa.utils.ftools as ftools
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
-+
-+
-+class SStateBase(oeSelfTest):
-+
-+    def setUpLocal(self):
-+        self.temp_sstate_location = None
-+        self.sstate_path = get_bb_var('SSTATE_DIR')
-+        self.distro = get_bb_var('NATIVELSBSTRING')
-+        self.distro_specific_sstate = os.path.join(self.sstate_path, self.distro)
-+
-+    # Creates a special sstate configuration with the option to add sstate mirrors
-+    def config_sstate(self, temp_sstate_location=False, add_local_mirrors=[]):
-+        self.temp_sstate_location = temp_sstate_location
-+
-+        if self.temp_sstate_location:
-+            temp_sstate_path = os.path.join(self.builddir, "temp_sstate_%s" % datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
-+            config_temp_sstate = "SSTATE_DIR = \"%s\"" % temp_sstate_path
-+            self.append_config(config_temp_sstate)
-+            self.track_for_cleanup(temp_sstate_path)
-+        self.sstate_path = get_bb_var('SSTATE_DIR')
-+        self.distro = get_bb_var('NATIVELSBSTRING')
-+        self.distro_specific_sstate = os.path.join(self.sstate_path, self.distro)
-+
-+        if add_local_mirrors:
-+            config_set_sstate_if_not_set = 'SSTATE_MIRRORS ?= ""'
-+            self.append_config(config_set_sstate_if_not_set)
-+            for local_mirror in add_local_mirrors:
-+                self.assertFalse(os.path.join(local_mirror) == os.path.join(self.sstate_path), msg='Cannot add the current sstate path as a sstate mirror')
-+                config_sstate_mirror = "SSTATE_MIRRORS += \"file://.* file:///%s/PATH\"" % local_mirror
-+                self.append_config(config_sstate_mirror)
-+
-+    # Returns a list containing sstate files
-+    def search_sstate(self, filename_regex, distro_specific=True, distro_nonspecific=True):
-+        result = []
-+        for root, dirs, files in os.walk(self.sstate_path):
-+            if distro_specific and re.search("%s/[a-z0-9]{2}$" % self.distro, root):
-+                for f in files:
-+                    if re.search(filename_regex, f):
-+                        result.append(f)
-+            if distro_nonspecific and re.search("%s/[a-z0-9]{2}$" % self.sstate_path, root):
-+                for f in files:
-+                    if re.search(filename_regex, f):
-+                        result.append(f)
-+        return result
-diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
-index a0489fe..4b2c26d 100644
---- a/meta/lib/oeqa/selftest/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/sstatetests.py
-@@ -7,49 +7,8 @@ import shutil
- import oeqa.utils.ftools as ftools
- from oeqa.selftest.base import oeSelfTest
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_test_layer
-+from oeqa.selftest.sstate import SStateBase
- 
--class SStateBase(oeSelfTest):
--
--    def setUpLocal(self):
--        self.temp_sstate_location = None
--        self.sstate_path = get_bb_var('SSTATE_DIR')
--        self.distro = get_bb_var('NATIVELSBSTRING')
--        self.distro_specific_sstate = os.path.join(self.sstate_path, self.distro)
--
--    # Creates a special sstate configuration with the option to add sstate mirrors
--    def config_sstate(self, temp_sstate_location=False, add_local_mirrors=[]):
--        self.temp_sstate_location = temp_sstate_location
--
--        if self.temp_sstate_location:
--            temp_sstate_path = os.path.join(self.builddir, "temp_sstate_%s" % datetime.datetime.now().strftime('%Y%m%d%H%M%S'))
--            config_temp_sstate = "SSTATE_DIR = \"%s\"" % temp_sstate_path
--            self.append_config(config_temp_sstate)
--            self.track_for_cleanup(temp_sstate_path)
--        self.sstate_path = get_bb_var('SSTATE_DIR')
--        self.distro = get_bb_var('NATIVELSBSTRING')
--        self.distro_specific_sstate = os.path.join(self.sstate_path, self.distro)
--
--        if add_local_mirrors:
--            config_set_sstate_if_not_set = 'SSTATE_MIRRORS ?= ""'
--            self.append_config(config_set_sstate_if_not_set)
--            for local_mirror in add_local_mirrors:
--                self.assertFalse(os.path.join(local_mirror) == os.path.join(self.sstate_path), msg='Cannot add the current sstate path as a sstate mirror')
--                config_sstate_mirror = "SSTATE_MIRRORS += \"file://.* file:///%s/PATH\"" % local_mirror
--                self.append_config(config_sstate_mirror)
--
--    # Returns a list containing sstate files
--    def search_sstate(self, filename_regex, distro_specific=True, distro_nonspecific=True):
--        result = []
--        for root, dirs, files in os.walk(self.sstate_path):
--            if distro_specific and re.search("%s/[a-z0-9]{2}$" % self.distro, root):
--                for f in files:
--                    if re.search(filename_regex, f):
--                        result.append(f)
--            if distro_nonspecific and re.search("%s/[a-z0-9]{2}$" % self.sstate_path, root):
--                for f in files:
--                    if re.search(filename_regex, f):
--                        result.append(f)
--        return result
- 
- class SStateTests(SStateBase):
- 
--- 
-1.7.9.5
+Not sure if it's worth new item on agenda, but maybe we should move
+meta/classes/image-prelink.bbclass functionality to package.bbclass,
+maybe we have more cases like this where image build is changing files
+which are provided by normal packages (such cases are lost after
+upgrading on device with packagemanager).
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--tjCHc7DPkfUGtrlw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLVKfsACgkQN1Ujt2V2gBwYYQCgtcmHMctvoPP+jto2qQbE9R/b
+nk4An1+VCh457MOoMdK39wKokUpTOQv4
+=nqT5
+-----END PGP SIGNATURE-----
+
+--tjCHc7DPkfUGtrlw--
