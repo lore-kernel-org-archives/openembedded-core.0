@@ -1,41 +1,28 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CD356B7B1
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id E70696BF85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 22:24:46 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id m12so8692189iga.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 14:24:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:content-type:content-transfer-encoding;
-	bh=DatWsQ881HBdzH0Sa2wehzywjxYti0q2R/7ILTxXsQM=;
-	b=hIgfDMLwjIHOr20gK8Y2pUA+Q/gk1qWkWjSfjCO79VW3VqyUtTyxSh9L72OFjAUzlS
-	lZcK3F4zNOQke+rOwTukCGsFN0RlsF/bMsmz9ftVOMHy1K8ZFS/ThRaS4Gq6Q98aepZt
-	/PtpOPD+3Yw3ZTClVZ4gAF1aYQ6O+tsrPbga/v4LsjeSCLLlYC6vco0GbkL24W18UjCe
-	94qNh8wfXzw9aV2hdcdIEkNAZ/VUsoPBzBxmeCL3vkBgy54IPv06YCs8V40PgIViiI91
-	G58Ht40YGbJo9P9g2TXjS6q3IUyKirpJcmiw2S8jjdG1VafFbue6oslpOvUlqPAgWBx1
-	Azpw==
-X-Gm-Message-State: ALoCoQlAYExCJnv0XvWUhpiqfebsrmcirXKmrisgJNETpVUSVp52LuulRyOApdh8tynE76yemtb8
-X-Received: by 10.42.40.83 with SMTP id k19mr661352ice.3.1389738287306;
-	Tue, 14 Jan 2014 14:24:47 -0800 (PST)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id d18sm26118572igz.0.2014.01.14.14.24.45
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 14 Jan 2014 14:24:46 -0800 (PST)
-Message-ID: <52D5B92C.5040001@linaro.org>
-Date: Tue, 14 Jan 2014 17:24:44 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
+	Tue, 14 Jan 2014 23:45:37 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 24940F811DB; Tue, 14 Jan 2014 16:45:35 -0700 (MST)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id BEBD8F81199;
+	Tue, 14 Jan 2014 16:45:32 -0700 (MST)
+Message-ID: <52D5CC1F.2080009@mlbassoc.com>
+Date: Tue, 14 Jan 2014 16:45:35 -0700
+From: Gary Thomas <gary@mlbassoc.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org, yocto@yoctoproject.org
-Subject: ** bug squashing weekend - Jan 17 to 20, 2014
+To: openembedded-core@lists.openembedded.org
+References: <CAHQALceZv29NspjAzN5TEcOV8kiJ9YNyTD8acph-sJTnyfOyVg@mail.gmail.com>
+In-Reply-To: <CAHQALceZv29NspjAzN5TEcOV8kiJ9YNyTD8acph-sJTnyfOyVg@mail.gmail.com>
+Subject: Re: bitbake error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,55 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 22:24:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 14 Jan 2014 23:45:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello all OE/Yocto enthusiasts!
+On 2014-01-14 10:24, johan wadefalk wrote:
+> Hi
+>
+> My target HW is a Wandboard-quad and I have followed this tutorial (http://wiki.wandboard.org/index.php/Getting_started_with_Yocto_on_Wandboard).
+>
+>
+> My host system is gentoo which isn't a validated system for yocto but if someone can help me anyway I would be very happy.
+> I have downgraded make from 3.82 to 3.81 because I couldn't find a patch for 3.82.
+>
+> When I try to bitbake the 1.5 DORA branch it fails on eglibc(shlib.lds:150).
+>
+>
+> Here is the log: http://tny.cz/766db2d2
 
-https://bugzilla.yoctoproject.org/
+This email probably belongs on the Yocto list since it's more user-oriented.
 
-It has been noted that the number of unresolved issues in our bugzilla
-has been rising which, if left unchecked, will lead to an
-ever-increasing bug count. In an effort to raise awareness of the number
-of unresolved bugs and work to reduce them, we'd like to plan a "bug
-squashing weekend" for this upcoming Friday to Monday (January 17th to
-20th, 2014).
+Anyway, I just ran this same scenario with no problems on the master branch.
+You might try that.
 
-If you work with OE/Yocto during the week then you'll have two days to
-look at issues, or if you have more time on weekends you'll also have
-two potential days for this activity.
+One thing that might be different - I used the Yocto toolchain package from
+   http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/toolchain/
+to get the right version of make, etc.  That also might help you.
 
-It would be nice if anyone involved in OE/Yocto could take some time
-between now and Monday to have a look at the bugzilla database and
-consider contributing towards reducing the number of opened issues.
-Obviously if you're a maintainer or some sort of a developer there are,
-most likely, obvious issues you could consider addressing. But there are
-also lots of issues an OE/Yocto "user" could investigate as well -- for
-example there are documentation issues, there are several issues in the
-"NEEDINFO" state, and sometimes just being able to reproduce a bug (or
-not) and confirm (or not) that an issue can be demonstrated on more than
-one host can be valuable information for the person who does eventually
-get assigned to solve the problem.
+>
+>
+> I work as a software developer but I have very little Linux experience.
 
-Please take the opportunity to have a look at the opened issues in the
-bugzilla database. If you don't have an account, please consider signing
-up. Play with the "Search" capability (you'll probably want to try an
-advanced search,
-https://bugzilla.yoctoproject.org/query.cgi?format=advanced) and see if
-there are issues to which you might want to contribute.
+I wonder why you are using gentoo which is not validated for Yocto?  Ubuntu
+and Fedora are much friendlier and are known to work.
 
-In an effort to keep multiple people from working on the same issues
-during this sprint, please let the community know on which bugs you'd
-like to work. You could reply to this email (keeping all the mailing
-lists CC'ed), and/or you could re-assign a bug to yourself.
+I wouldn't wish that (gentoo) on my worst enemy, let alone a Linux novice!
 
-There are usually plenty of friendly, knowledgeable people around who
-can help. You can use the mailing lists, IRC channels, or bugzilla
-itself to communicate.
-https://www.yoctoproject.org/tools-resources/community
-
-Thanks for your participation! :-)
-
-https://bugzilla.yoctoproject.org/
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
