@@ -1,28 +1,30 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id E70696BF85
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D17876AE73
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 23:45:37 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 24940F811DB; Tue, 14 Jan 2014 16:45:35 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id BEBD8F81199;
-	Tue, 14 Jan 2014 16:45:32 -0700 (MST)
-Message-ID: <52D5CC1F.2080009@mlbassoc.com>
-Date: Tue, 14 Jan 2014 16:45:35 -0700
-From: Gary Thomas <gary@mlbassoc.com>
+	Wed, 15 Jan 2014 01:24:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0F1OuAn005368
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 Jan 2014 17:24:56 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Tue, 14 Jan 2014 17:24:55 -0800
+Message-ID: <52D5E364.2080800@windriver.com>
+Date: Wed, 15 Jan 2014 09:24:52 +0800
+From: Lu Chong <Chong.Lu@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAHQALceZv29NspjAzN5TEcOV8kiJ9YNyTD8acph-sJTnyfOyVg@mail.gmail.com>
-In-Reply-To: <CAHQALceZv29NspjAzN5TEcOV8kiJ9YNyTD8acph-sJTnyfOyVg@mail.gmail.com>
-Subject: Re: bitbake error
+To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1389259902.git.Chong.Lu@windriver.com>
+	<6422a763adc5b9909e47c2354a58d4b7a0dd017a.1389259902.git.Chong.Lu@windriver.com>
+	<52D40D43.9040407@linux.intel.com> <52D4A8D0.8020602@windriver.com>
+	<52D554BE.4020802@linux.intel.com>
+In-Reply-To: <52D554BE.4020802@linux.intel.com>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH 1/1] attr: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +37,246 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2014 23:45:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 15 Jan 2014 01:24:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2014-01-14 10:24, johan wadefalk wrote:
-> Hi
->
-> My target HW is a Wandboard-quad and I have followed this tutorial (http://wiki.wandboard.org/index.php/Getting_started_with_Yocto_on_Wandboard).
->
->
-> My host system is gentoo which isn't a validated system for yocto but if someone can help me anyway I would be very happy.
-> I have downgraded make from 3.82 to 3.81 because I couldn't find a patch for 3.82.
->
-> When I try to bitbake the 1.5 DORA branch it fails on eglibc(shlib.lds:150).
->
->
-> Here is the log: http://tny.cz/766db2d2
 
-This email probably belongs on the Yocto list since it's more user-oriented.
+On 01/14/2014 11:16 PM, Saul Wold wrote:
+> On 01/13/2014 07:02 PM, Lu Chong wrote:
+>>
+>> On 01/13/2014 11:58 PM, Saul Wold wrote:
+>>> On 01/09/2014 02:02 AM, Chong Lu wrote:
+>>>> Install attr test suite and run it as ptest.
+>>>>
+>>>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+>>>> ---
+>>>>   meta/recipes-support/attr/attr.inc                 | 15 +++-
+>>>>   .../attr/files/attr-make-ptest-pass.patch          | 82
+>>>> ++++++++++++++++++++++
+>>>>   meta/recipes-support/attr/files/run-ptest          |  5 ++
+>>>>   3 files changed, 101 insertions(+), 1 deletion(-)
+>>>>   create mode 100644
+>>>> meta/recipes-support/attr/files/attr-make-ptest-pass.patch
+>>>>   create mode 100644 meta/recipes-support/attr/files/run-ptest
+>>>>
+>>>> diff --git a/meta/recipes-support/attr/attr.inc
+>>>> b/meta/recipes-support/attr/attr.inc
+>>>> index 4961ba7..8cb08e4 100644
+>>>> --- a/meta/recipes-support/attr/attr.inc
+>>>> +++ b/meta/recipes-support/attr/attr.inc
+>>>> @@ -11,7 +11,10 @@ LIC_FILES_CHKSUM =
+>>>> "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
+>>>> file://attr/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
+>>>> file://libattr/libattr.c;endline=17;md5=7970f77049f8fa1199fff62a7ab724fb" 
+>>>>
+>>>>
+>>>>
+>>>> -SRC_URI =
+>>>> "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz"
+>>>> +SRC_URI =
+>>>> "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz \
+>>>> +           file://attr-make-ptest-pass.patch \
+>>>> +           file://run-ptest \
+>>>> +"
+>>>>
+>>>>   require ea-acl.inc
+>>>>
+>>>> @@ -20,3 +23,13 @@ do_install_append() {
+>>>>       sed -i ${D}${libdir}/libattr.la -e \
+>>>> s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
+>>>>   }
+>>>> +
+>>>> +inherit ptest
+>>>> +
+>>>> +do_install_ptest() {
+>>>> +    cp -r ${S}/test ${D}${PTEST_PATH}
+>>>> +    mkdir ${D}${PTEST_PATH}/include
+>>>> +    cp ${S}/include/builddefs ${S}/include/buildmacros
+>>>> ${S}/include/buildrules ${D}${PTEST_PATH}/include/
+>>>> +}
+>>>> +
+>>>> +RDEPENDS_${PN}-ptest = "coreutils perl-module-filehandle
+>>>> perl-module-getopt-std perl-module-posix"
+>>>> diff --git
+>>>> a/meta/recipes-support/attr/files/attr-make-ptest-pass.patch
+>>>> b/meta/recipes-support/attr/files/attr-make-ptest-pass.patch
+>>>> new file mode 100644
+>>>> index 0000000..e2da8b0
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-support/attr/files/attr-make-ptest-pass.patch
+>>>> @@ -0,0 +1,82 @@
+>>>> +attr: make ptest pass
+>>>> +
+>>>> +Upstream-Status: Inappropriate [embedded specific]
+>>>> +
+>>>> +Delete the second '@' character of the same row in test/Makefile, 
+>>>> else
+>>>> +we would get the error as below:
+>>>> +    @echo: command not found
+>>>> +In fs.test file, the result of `ls -s' is incorrect. Change it to 
+>>>> make
+>>>> +ext-tests pass.
+>>>> +
+>>> Can you please verify that these tests are actually wrong, it seems
+>>> incorrect to be changing the test results to make the test pass.
+>>>
+>>> Are we missing a setting (like the acl) or something else?
+>>>
+>>> Sau!
+>>>
+>> Saul,
+>>
+>> I tested attr from upstream tar package on some distributions.(Ubuntu
+>> Desktop 12.04 and Fedora 20)
+>> test/ext/fs.test is actually wrong.
+>
+> If the test fails on distributions, then it's not an embedded specific 
+> problem, the patch should be submitted upstream.
+>
+> Sau!
+I have already sent email to upstream last month, but they don't reply.
 
-Anyway, I just ran this same scenario with no problems on the master branch.
-You might try that.
-
-One thing that might be different - I used the Yocto toolchain package from
-   http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/toolchain/
-to get the right version of make, etc.  That also might help you.
-
+Best Regards
+Chong
+>
+>> In target, I have already added acl setting. My test likes following:(in
+>> target)
+>>      root@qemuarm:/usr/lib/attr/ptest# ./run-ptest
+>>      make: Entering directory '/usr/lib/attr/ptest/test'
+>>      ......
+>>      PASS: $ rm f
+>>      PASS: $ touch f g h
+>>      PASS: $ setfattr -n user.novalue f g h
+>>      PASS: $ ls -s f g h
+>>      PASS: $ setfattr -n user.name -v value f
+>>      PASS: $ ls -s f g h
+>>      PASS: $ getfattr -d f g h
+>>      PASS: $ setfattr -n user.name -v value g
+>>      PASS: $ ls -s f g h
+>>      PASS: $ setfattr -x user.novalue h
+>>      PASS: $ ls -s f g h
+>>      PASS: $ setfattr -n user.name -v other-value g
+>>      PASS: $ setfattr -n user.name -v value g
+>>      PASS: $ setfattr -x user.name f g
+>>      PASS: $ setfattr -x user.novalue f g
+>>      PASS: $ ls -s f g h
+>>      PASS: $ rm f g h
+>>      20 commands (20 passed, 0 failed)
+>>      make: Leaving directory '/usr/lib/attr/ptest/test'
+>>      root@qemuarm:/usr/lib/attr/ptest# mount
+>>      rootfs on / type rootfs (rw)
+>>      /dev/root on / type ext3
+>> (rw,relatime,errors=continue,user_xattr,acl,barrier=1,data=ordered)
+>>      devtmpfs on /dev type devtmpfs
+>> (rw,relatime,size=60172k,nr_inodes=15043,mode=755)
+>>      proc on /proc type proc (rw,relatime)
+>>      tmpfs on /mnt/.psplash type tmpfs (rw,relatime,size=40k)
+>>      sysfs on /sys type sysfs (rw,relatime)
+>>      debugfs on /sys/kernel/debug type debugfs (rw,relatime)
+>>      tmpfs on /run type tmpfs (rw,nosuid,nodev,mode=755)
+>>      tmpfs on /var/volatile type tmpfs (rw,relatime)
+>>      devpts on /dev/pts type devpts (rw,relatime,gid=5,mode=620)
+>>      nfsd on /proc/fs/nfsd type nfsd (rw,relatime)
+>>
+>> Best Regards
+>> Chong
+>>
+>>
+>>
+>>>> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+>>>> +---
+>>>> + test/Makefile    |    4 ++--
+>>>> + test/ext/fs.test |   22 +++++++++++-----------
+>>>> + 2 files changed, 13 insertions(+), 13 deletions(-)
+>>>> +
+>>>> +diff --git a/test/Makefile b/test/Makefile
+>>>> +index b7bd8db..d916bf4 100644
+>>>> +--- a/test/Makefile
+>>>> ++++ b/test/Makefile
+>>>> +@@ -40,10 +40,10 @@ $(TEST):
+>>>> +     @echo "*** $@ ***"; perl run $@
+>>>> +
+>>>> + $(EXT):
+>>>> +-    @echo "EXT specific tests"; @echo "*** $@ ***"; perl run $@
+>>>> ++    @echo "EXT specific tests"; echo "*** $@ ***"; perl run $@
+>>>> +
+>>>> + $(ROOT):
+>>>> +-    @echo "Note: Tests must run as root"; @echo "*** $@ ***"; perl
+>>>> run $@
+>>>> ++    @echo "Note: Tests must run as root"; echo "*** $@ ***"; perl
+>>>> run $@
+>>>> +
+>>>> + .PHONY: $(TEST) $(EXT) $(ROOT)
+>>>> + .NOTPARALLEL:
+>>>> +diff --git a/test/ext/fs.test b/test/ext/fs.test
+>>>> +index cc28fec..381d54b 100644
+>>>> +--- a/test/ext/fs.test
+>>>> ++++ b/test/ext/fs.test
+>>>> +@@ -19,15 +19,15 @@ Test extended attribute block sharing
+>>>> +     $ touch f g h
+>>>> +     $ setfattr -n user.novalue f g h
+>>>> +     $ ls -s f g h
+>>>> +-    > 4 f
+>>>> +-    > 4 g
+>>>> +-    > 4 h
+>>>> ++    > 0 f
+>>>> ++    > 0 g
+>>>> ++    > 0 h
+>>>> +
+>>>> +     $ setfattr -n user.name -v value f
+>>>> +     $ ls -s f g h
+>>>> +-    > 4 f
+>>>> +-    > 4 g
+>>>> +-    > 4 h
+>>>> ++    > 0 f
+>>>> ++    > 0 g
+>>>> ++    > 0 h
+>>>> +
+>>>> +     $ getfattr -d f g h
+>>>> +     > # file: f
+>>>> +@@ -43,14 +43,14 @@ Test extended attribute block sharing
+>>>> +
+>>>> +     $ setfattr -n user.name -v value g
+>>>> +     $ ls -s f g h
+>>>> +-    > 4 f
+>>>> +-    > 4 g
+>>>> +-    > 4 h
+>>>> ++    > 0 f
+>>>> ++    > 0 g
+>>>> ++    > 0 h
+>>>> +
+>>>> +     $ setfattr -x user.novalue h
+>>>> +     $ ls -s f g h
+>>>> +-    > 4 f
+>>>> +-    > 4 g
+>>>> ++    > 0 f
+>>>> ++    > 0 g
+>>>> +     > 0 h
+>>>> +
+>>>> +     $ setfattr -n user.name -v other-value g
+>>>> +--
+>>>> +1.7.9.5
+>>>> +
+>>>> diff --git a/meta/recipes-support/attr/files/run-ptest
+>>>> b/meta/recipes-support/attr/files/run-ptest
+>>>> new file mode 100644
+>>>> index 0000000..f0bd9fc
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-support/attr/files/run-ptest
+>>>> @@ -0,0 +1,5 @@
+>>>> +#!/bin/sh
+>>>> +
+>>>> +make -C test -k tests root-tests ext-tests |sed \
+>>>> + -e 's|^\[.*\] \(.*\) -- ok$|PASS: \1|' \
+>>>> + -e 's|^\[.*\] \(.*\) -- failed|FAIL: \1|'
+>>>>
+>>>
+>>>
+>>
+>>
+>>
 >
 >
-> I work as a software developer but I have very little Linux experience.
 
-I wonder why you are using gentoo which is not validated for Yocto?  Ubuntu
-and Fedora are much friendlier and are known to work.
-
-I wouldn't wish that (gentoo) on my worst enemy, let alone a Linux novice!
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
 
