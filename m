@@ -1,38 +1,38 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 486CE6E2E9
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C7AF6E2E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 16:13:52 +0000 (UTC)
-Received: by mail-ob0-f174.google.com with SMTP id wo20so1354611obc.19
+	Wed, 15 Jan 2014 16:16:49 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id va2so1362522obc.36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 08:13:53 -0800 (PST)
+	Wed, 15 Jan 2014 08:16:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=GDzJ2OXL1Lmvxw1aFsmFrkeJMwTL39r3ysigBijAGf8=;
-	b=DpiLo0NM8zojqHiNcevplU4Mt7AQ8SmUJgIDDcV4NZxu91VL8FliR2NtVAuvlLkBRL
-	t0f4aAqhODCM3Yf+eICwLTlbjuqc/0F1jCJDCjNACwrnD4cRypdNlP60G3IU2FBoM1Kt
-	g1q64qxLuYH3MGkl0Xyr1KyYWE8EpMLPX+iho80RrdTwk3auUUSaTidTbGHP0SYTXrVT
-	15W4AaAQyc51FtezGfXzlaaTBCNnhqN5gR0m6GYfL8/U2FhGqi/ApJAiWI8sHwT/WbG4
-	BwzfxlJ97Ig7YaQrT5mh1u+TE0OsvNB/tgf/LfNgAEZMgHvM5SD9kSUr5RC5BOtJQPRt
-	Y+wA==
-X-Received: by 10.182.241.8 with SMTP id we8mr2153810obc.62.1389802432952;
-	Wed, 15 Jan 2014 08:13:52 -0800 (PST)
+	bh=hWC+KcsYascs8ObwwBiu0nUpHpFjuPzv9aeIVZgTwcY=;
+	b=d1ij01gCm+8Kt+3GL4//JTyK00KyDz6+Sqb/zMySaxPLPUcnoi/m97ob8bkDMuFCyM
+	f9o6wFYLhSyxqPVgPNeVrQoCQm8OaMQpbU8n2INfwgF8VviSDEUfqDtCBFC5rA4AT5Wv
+	oUa37IwF8IMUsqk5nhribS1pMTWCiWa9R6Qyrp2zWvbwaCWZJd+8apfqPtbl73wdK/aF
+	RLz8TSDQMFb57wPVsGtoSq7e13a3dcLPVUWJQJuyXJmQ+Nxfph7Qh9Jfdnq5Fr4m2En7
+	clQLVm+DW7HXyf+kiB6IDoT+sdLkPjhTFRGfnyYRGi+Gtugn9PEicOdGzN+AgBbF22eT
+	Oa5g==
+X-Received: by 10.182.19.132 with SMTP id f4mr2481692obe.14.1389802610542;
+	Wed, 15 Jan 2014 08:16:50 -0800 (PST)
 MIME-Version: 1.0
 Sender: paul.betafive@gmail.com
-Received: by 10.76.122.171 with HTTP; Wed, 15 Jan 2014 08:13:12 -0800 (PST)
-In-Reply-To: <52D6A554.2050705@linux.intel.com>
+Received: by 10.76.122.171 with HTTP; Wed, 15 Jan 2014 08:16:10 -0800 (PST)
+In-Reply-To: <39BBD84D-0924-4FD9-8585-3C7C231A1CC2@dominion.thruhere.net>
 References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
-	<1389752246-4296-4-git-send-email-paul@paulbarker.me.uk>
-	<52D6A554.2050705@linux.intel.com>
+	<1389752246-4296-2-git-send-email-paul@paulbarker.me.uk>
+	<39BBD84D-0924-4FD9-8585-3C7C231A1CC2@dominion.thruhere.net>
 From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 15 Jan 2014 16:13:12 +0000
-X-Google-Sender-Auth: J1-8GWS9dSpAGI6lrFyLyTrJGyw
-Message-ID: <CANyK_8cBWSps_v=eF-ktk6YbUKo76KfGTufa09m2gVsgQk7NRQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
+Date: Wed, 15 Jan 2014 16:16:10 +0000
+X-Google-Sender-Auth: 2gCg3Iyc92WcPtQ26luQMRlFHl4
+Message-ID: <CANyK_8cNLp54e5x+yxOAqX9T3PwPE_NJWO51t81OdRoe1L+KLA@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] opkg: No longer PROVIDES update-alternatives
+Subject: Re: [PATCH 1/3] opkg-utils: Upgrade to latest git HEAD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 16:13:52 -0000
+X-List-Received-Date: Wed, 15 Jan 2014 16:16:49 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On 15 January 2014 15:12, Saul Wold <sgw@linux.intel.com> wrote:
-> On 01/14/2014 06:17 PM, Paul Barker wrote:
->>
->> The new provider is the opkg-utils recipe.
->>
-> This seems to have triggered a failure on the AB:
+On 15 January 2014 10:04, Koen Kooi <koen@dominion.thruhere.net> wrote:
 >
-> | Computing transaction...error: Can't install
-> nativesdk-shadow-4.1.4.3-r13@i686_nativesdk: no package provides
-> nativesdk-update-alternatives-opkg
+> Op 15 jan. 2014, om 03:17 heeft Paul Barker <paul@paulbarker.me.uk> het volgende geschreven:
 >
 
-I've not really done much with nativesdk, but my guess is I just need to change
+>> LICENSE = "GPLv2+"
+>> LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>>                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
+>> +PROVIDES += "virtual/update-alternatives"
+>> +RPROVIDES_update-alternatives-opkg = "update-alternatives"
+>
+> R* variables do below do_install since they deal with packaging
+>
 
-    BBCLASSEXTEND = "native"
-
-to
-
-    BBCLASSEXTEND = "native nativesdk"
-
-in the opkg-utils recipe so that nativesdk-* packages are built for
-that recipe. Does that sound correct? If so, I'll re-spin the patches
-with that change.
+I was following the list in
+http://www.openembedded.org/wiki/Styleguide which is probably out of
+date. I'll re-order it to follow the list in
+https://wiki.yoctoproject.org/wiki/Recipe_%26_Patch_Style_Guide.
 
 -- 
 Paul Barker
