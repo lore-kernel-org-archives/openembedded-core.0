@@ -1,31 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 34F7C6E2E9
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E20D96B4F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 17:48:01 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0FHlu8d008066 for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 17:47:56 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id AAIUEQWPXBFN
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 17:47:56 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0FHlo3g008062
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 17:47:52 GMT
-Message-ID: <1389808065.14987.88.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Jan 2014 17:47:45 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] package_rpm: Fix a race with package_deb/package_ipk
+	Wed, 15 Jan 2014 22:38:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 15 Jan 2014 14:37:53 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,665,1384329600"; d="scan'208";a="439477852"
+Received: from unknown (HELO [10.255.12.135]) ([10.255.12.135])
+	by orsmga001.jf.intel.com with ESMTP; 15 Jan 2014 14:37:52 -0800
+Message-ID: <52D70DC0.3060709@linux.intel.com>
+Date: Wed, 15 Jan 2014 14:37:52 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
+MIME-Version: 1.0
+To: Paul Barker <paul@paulbarker.me.uk>
+References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
+	<1389752246-4296-4-git-send-email-paul@paulbarker.me.uk>
+	<52D6A554.2050705@linux.intel.com>
+	<CANyK_8cBWSps_v=eF-ktk6YbUKo76KfGTufa09m2gVsgQk7NRQ@mail.gmail.com>
+In-Reply-To: <CANyK_8cBWSps_v=eF-ktk6YbUKo76KfGTufa09m2gVsgQk7NRQ@mail.gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] opkg: No longer PROVIDES update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,46 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 17:48:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 15 Jan 2014 22:38:30 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-We have the odd situation where the CONTROL/DEBIAN directory can be removed
-in the middle of the walk, the isdir() test would then fail and the walk code
-would assume its a file hence we check for the names in files too.
+On 01/15/2014 08:13 AM, Paul Barker wrote:
+> On 15 January 2014 15:12, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 01/14/2014 06:17 PM, Paul Barker wrote:
+>>>
+>>> The new provider is the opkg-utils recipe.
+>>>
+>> This seems to have triggered a failure on the AB:
+>>
+>> | Computing transaction...error: Can't install
+>> nativesdk-shadow-4.1.4.3-r13@i686_nativesdk: no package provides
+>> nativesdk-update-alternatives-opkg
+>>
+>
+> I've not really done much with nativesdk, but my guess is I just need to change
+>
+>      BBCLASSEXTEND = "native"
+>
+> to
+>
+>      BBCLASSEXTEND = "native nativesdk"
+>
+> in the opkg-utils recipe so that nativesdk-* packages are built for
+> that recipe. Does that sound correct? If so, I'll re-spin the patches
+> with that change.
+>
+Yup, that's it, aslo why did you locate opkg-utils in a separate 
+directory from opkgs itself?  Is there a reason they can't co-locate?
 
-This resolves the autobuilder failure:
-
-error: File not found: /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-fsl-arm/build/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/xinit/1_1.3.3-r0/package/DEBIAN
-
-RPM build errors:
-     File not found: /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-fsl-arm/build/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/xinit/1_1.3.3-r0/package/DEBIAN
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index fcde73e..acbb18d 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -659,6 +659,9 @@ python write_specfile () {
-         # We can race against the ipk/deb backends which create CONTROL or DEBIAN directories
-         # when packaging. We just ignore these files which are created in 
-         # packages-split/ and not package/
-+        # We have the odd situation where the CONTROL/DEBIAN directory can be removed in the middle of
-+        # of the walk, the isdir() test would then fail and the walk code would assume its a file
-+        # hence we check for the names in files too.
-         for rootpath, dirs, files in os.walk(walkpath):
-             path = rootpath.replace(walkpath, "")
-             if path.endswith("DEBIAN") or path.endswith("CONTROL"):
-@@ -669,6 +672,8 @@ python write_specfile () {
-                 # All packages own the directories their files are in...
-                 target.append('%dir "' + path + '/' + dir + '"')
-             for file in files:
-+                if file == "CONTROL" or file == "DEBIAN":
-+                    continue
-                 if conffiles.count(path + '/' + file):
-                     target.append('%config "' + path + '/' + file + '"')
-                 else:
-
+Sau!
 
 
