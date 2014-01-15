@@ -1,32 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 243C46E2E9
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 486CE6E2E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 15:47:03 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0FFkxH0002770; Wed, 15 Jan 2014 15:46:59 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id T1eeMQ438bwq; Wed, 15 Jan 2014 15:46:58 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0FFktAb002767
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Wed, 15 Jan 2014 15:46:57 GMT
-Message-ID: <1389800809.14987.82.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Wed, 15 Jan 2014 15:46:49 +0000
-In-Reply-To: <52D6A528.5020909@windriver.com>
-References: <cover.1389765320.git.bruce.ashfield@windriver.com>
-	<d42eed80edc6fbaec7b8dbd614ba2292dd91ba5a.1389765320.git.bruce.ashfield@windriver.com>
-	<1389798400.14987.81.camel@ted> <52D6A528.5020909@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] linux-yocto/3.10: update to 3.10.25
+	Wed, 15 Jan 2014 16:13:52 +0000 (UTC)
+Received: by mail-ob0-f174.google.com with SMTP id wo20so1354611obc.19
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jan 2014 08:13:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=GDzJ2OXL1Lmvxw1aFsmFrkeJMwTL39r3ysigBijAGf8=;
+	b=DpiLo0NM8zojqHiNcevplU4Mt7AQ8SmUJgIDDcV4NZxu91VL8FliR2NtVAuvlLkBRL
+	t0f4aAqhODCM3Yf+eICwLTlbjuqc/0F1jCJDCjNACwrnD4cRypdNlP60G3IU2FBoM1Kt
+	g1q64qxLuYH3MGkl0Xyr1KyYWE8EpMLPX+iho80RrdTwk3auUUSaTidTbGHP0SYTXrVT
+	15W4AaAQyc51FtezGfXzlaaTBCNnhqN5gR0m6GYfL8/U2FhGqi/ApJAiWI8sHwT/WbG4
+	BwzfxlJ97Ig7YaQrT5mh1u+TE0OsvNB/tgf/LfNgAEZMgHvM5SD9kSUr5RC5BOtJQPRt
+	Y+wA==
+X-Received: by 10.182.241.8 with SMTP id we8mr2153810obc.62.1389802432952;
+	Wed, 15 Jan 2014 08:13:52 -0800 (PST)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.76.122.171 with HTTP; Wed, 15 Jan 2014 08:13:12 -0800 (PST)
+In-Reply-To: <52D6A554.2050705@linux.intel.com>
+References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
+	<1389752246-4296-4-git-send-email-paul@paulbarker.me.uk>
+	<52D6A554.2050705@linux.intel.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 15 Jan 2014 16:13:12 +0000
+X-Google-Sender-Auth: J1-8GWS9dSpAGI6lrFyLyTrJGyw
+Message-ID: <CANyK_8cBWSps_v=eF-ktk6YbUKo76KfGTufa09m2gVsgQk7NRQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] opkg: No longer PROVIDES update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,54 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 15:47:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Jan 2014 16:13:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, 2014-01-15 at 10:11 -0500, Bruce Ashfield wrote:
-> On 14-01-15 10:06 AM, Richard Purdie wrote:
-> > On Wed, 2014-01-15 at 00:57 -0500, Bruce Ashfield wrote:
-> >> Updating the 3.10 tree to the 3.10.25 korg -stable release.
-> >>
-> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >> ---
-> >>   meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   | 10 ++++------
-> >>   meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  6 +++---
-> >>   meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++++++---------
-> >>   3 files changed, 16 insertions(+), 18 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-> >> index e81a77ba4ea5..d301c06eae37 100644
-> >> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-> >> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-> >> @@ -3,13 +3,11 @@ require recipes-kernel/linux/linux-yocto.inc
-> >>   KBRANCH = "standard/preempt-rt/base"
-> >>   KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
-> >>
-> >> -SRCREV_machine ?= "ee9480cd91b2b46325a2da9aa6ae779d8e4163c0"
-> >> -SRCREV_machine_qemuppc ?= "5c126504c0a2f72d80bae9d96cea7eb9d7854290"
-> >> -SRCREV_meta ?= "d9cd83c0292bd4e2a6754a96761027252e726a42"
-> >> +SRCREV_machine ?= "957ba6ae6c1d81b57da6a36b93f1b2a0ced2f45d"
-> >> +SRCREV_machine_qemuppc ?= "37e40b7017a9c78d676b19716011494dc7cb6369"
-> >> +SRCREV_meta ?= "778d5f6259f0b8e28a46d8a764979e20e5a8ffc4"
-> >>
-> >> -SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-> >> -
-> >
-> > I'm guessing this shouldn't remove the above line? It triggers parse
-> > failures...
-> 
-> urk. He who rebases patch series late at night, shouldn't hit send until
-> the morning.
-> 
-> That was aggressive trailing whitespace cleanup gone bad. If you can
-> restore it, I'll be eternally grateful. Or I can resend, but that
-> seems like excessive overhead for an obvious mess up.
+On 15 January 2014 15:12, Saul Wold <sgw@linux.intel.com> wrote:
+> On 01/14/2014 06:17 PM, Paul Barker wrote:
+>>
+>> The new provider is the opkg-utils recipe.
+>>
+> This seems to have triggered a failure on the AB:
+>
+> | Computing transaction...error: Can't install
+> nativesdk-shadow-4.1.4.3-r13@i686_nativesdk: no package provides
+> nativesdk-update-alternatives-opkg
+>
 
-I've tweaked it in master-next.
+I've not really done much with nativesdk, but my guess is I just need to change
 
-Cheers,
+    BBCLASSEXTEND = "native"
 
-Richard
+to
 
+    BBCLASSEXTEND = "native nativesdk"
+
+in the opkg-utils recipe so that nativesdk-* packages are built for
+that recipe. Does that sound correct? If so, I'll re-spin the patches
+with that change.
+
+-- 
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
