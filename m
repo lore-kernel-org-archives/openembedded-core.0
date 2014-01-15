@@ -1,39 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f44.google.com (mail-oa0-f44.google.com
-	[209.85.219.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E546D6E362
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 66628610CA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 11:51:15 +0000 (UTC)
-Received: by mail-oa0-f44.google.com with SMTP id g12so1060447oah.3
+	Wed, 15 Jan 2014 12:13:58 +0000 (UTC)
+Received: by mail-we0-f177.google.com with SMTP id x55so1690196wes.36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 03:51:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=L1qJaiLtXG3JfYy9fa0zIOmiDu+WdeXQIjbOm/9aS4k=;
-	b=tT9WSe6Zx9i3b/XSmLNXUZQn5ZdoJgO+GHMFo14iXrW7e8YZ5v3tZtjkRWE+xX/ZKx
-	RTyxFt5Or1LIY2PMD0OgowVDRwqtWuL31YbIMbA7q1V8JO+XAasqZQqk5KE2UHaaOlnX
-	EnHlNRaVmZKF8NdkxiM54wSaNo1w+BQPxsJhKNgRC1Iqm5Yy2yg2MMMHGUKYl1sGy1kG
-	vVwOqad1Kfeh2EfC6yXv6cyRElrSNN3wcnXCFcZWc2rL0Tq5yPYqwRW4PyuTw5NdLmDI
-	RsnStcfksv0tTGGvfkEdl9XlNfW71OVlB+Yie3Nv6kRAGpXR5RMbgUe25m/ApfZmNl/j
-	YEzQ==
-MIME-Version: 1.0
-X-Received: by 10.182.241.8 with SMTP id we8mr1129034obc.62.1389786676860;
-	Wed, 15 Jan 2014 03:51:16 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 15 Jan 2014 03:51:16 -0800 (PST)
-In-Reply-To: <CAP9ODKoL7vgZAk_k20AdHZyeohdDjqjGm4gYJqGepXMONkJUCQ@mail.gmail.com>
-References: <cover.1389769773.git.Qi.Chen@windriver.com>
-	<4975a4727b07aa321bb8d19429efc0796a115ecc.1389769773.git.Qi.Chen@windriver.com>
-	<CAP9ODKoL7vgZAk_k20AdHZyeohdDjqjGm4gYJqGepXMONkJUCQ@mail.gmail.com>
-Date: Wed, 15 Jan 2014 09:51:16 -0200
-X-Google-Sender-Auth: HXnNyINeIARS5c0SCEBXvtsq0GU
-Message-ID: <CAP9ODKrpaUoUP9obJ9vYXoyHboTManEMEw1zRtxL+5TD=_Wjwg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] shutdown-desktop: use poweroff for the Exec field in the shutdown.desktop
+	Wed, 15 Jan 2014 04:13:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=xmaLoXD8b88SvPIgZXeAJhsuwK6UQBiUdQ5G36ATi38=;
+	b=duc2OiAZE5jgC1engviDxaGCMcTM2sPpEzCvhSg0s3DigP8Tsm3XCWxQvSXSEnl43W
+	Xcw9TdMAJPk0QlVQ/9FVurazykIUECB3MH9d1xOJHtI/OKQw0mbK6s85R/9LnYmNN1mx
+	BWM5qB1RoVgc3tPjEJ5SnkGfzeAH1dmQyjRUQ1uQxowUdyiJUQPljbhiulH1lKlKKEYJ
+	xaP103orhYlSEfZfOQXHCilr0E4EF/MvRxLiG9COxI71RYVciYgMTdvXTHokQLs3tKUs
+	npHdGVSc1/5TFz8IZs8Dlnfa9fRFBl88E6TBprmEZBggx7EP/eNtHoS1uph6McNbg2Zu
+	iT3g==
+X-Gm-Message-State: ALoCoQl/JqB1Md5va3SsLcWDf78uaH6p4bqva/nn4iZzMHeyZtTt9+Z7+qNvLxBAJsCGh3cPEMUs
+X-Received: by 10.180.84.166 with SMTP id a6mr1892993wiz.49.1389788038535;
+	Wed, 15 Jan 2014 04:13:58 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id k10sm3115213wjf.11.2014.01.15.04.13.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Jan 2014 04:13:57 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2014 12:13:54 +0000
+Message-Id: <1389788034-3426-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] dbus-ptest: disable systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 11:51:16 -0000
-Content-Type: multipart/alternative; boundary=001a11c322c0301ce004f000ed27
+X-List-Received-Date: Wed, 15 Jan 2014 12:14:00 -0000
 
---001a11c322c0301ce004f000ed27
-Content-Type: text/plain; charset=ISO-8859-1
+Explicitly disable systemd support so that it isn't a floating dependency and
+libsystemd-login doesn't become a runtime dependency on non-systemd images.
 
-On Wed, Jan 15, 2014 at 9:38 AM, Otavio Salvador <otavio@ossystems.com.br>wrote:
+Also don't bother setting the systemd unit directory as we're not installing
+anything.
 
-> RB_HATL_SYSTEM
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/dbus/dbus-ptest_1.6.18.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-typo in the commit log :) (Spot by Mario)
-
-
+diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+index c54e957..567d995 100644
+--- a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
++++ b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+@@ -39,7 +39,8 @@ EXTRA_OECONF = "--enable-tests \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+                 --with-xml=expat \
+-                --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
++                --without-systemd \
++                --without-systemdsystemunitdir \
+                 --with-dbus-test-dir=${PTEST_PATH} \
+                 ${EXTRA_OECONF_X}"
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.10.4
 
---001a11c322c0301ce004f000ed27
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jan 15, 2014 at 9:38 AM, Otavio Salvador <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.c=
-om.br</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">RB_HATL_SYSTEM</blockquote></div><br>typo in=
- the commit log :) (Spot by Mario)<br><br clear=3D"all"><div><br></div>-- <=
-br>
-Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S=
-. Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blank">http=
-://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossystems=
-.com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
-<br>
-</div></div>
-
---001a11c322c0301ce004f000ed27--
