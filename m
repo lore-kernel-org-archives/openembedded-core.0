@@ -1,30 +1,35 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D17876AE73
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A68F36AE73
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 01:24:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0F1OuAn005368
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 14 Jan 2014 17:24:56 -0800 (PST)
-Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Tue, 14 Jan 2014 17:24:55 -0800
-Message-ID: <52D5E364.2080800@windriver.com>
-Date: Wed, 15 Jan 2014 09:24:52 +0800
-From: Lu Chong <Chong.Lu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1389259902.git.Chong.Lu@windriver.com>
-	<6422a763adc5b9909e47c2354a58d4b7a0dd017a.1389259902.git.Chong.Lu@windriver.com>
-	<52D40D43.9040407@linux.intel.com> <52D4A8D0.8020602@windriver.com>
-	<52D554BE.4020802@linux.intel.com>
-In-Reply-To: <52D554BE.4020802@linux.intel.com>
-X-Originating-IP: [128.224.162.204]
-Subject: Re: [PATCH 1/1] attr: enable ptest support
+	Wed, 15 Jan 2014 02:17:37 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id n12so1195752wgh.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jan 2014 18:17:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=7I9PhE4h4CHdyUwUBw9L6zXY0CYyA21xfV2GCKY60IY=;
+	b=l31naaW02ypiFo/oeBS3LBcKV04dE5obdb+fsIBiVzKjNZocanpAvKQuOXGLxnjFVj
+	kYv0MVs5f274YY8LUiiratztJVYKo6F6AOOeCxdyk3TL/GtoNMqNyR8kXP9MfmKy50G9
+	KH4vIocBtwGaGILRYguuQaPRjlXgTYaBb1M0r5jcCoYg5WxIwgh6caMp182OwO/lccAT
+	E9ssevDpZQ1ccwLEDPE9WcrHDX3cvTd3vnnY2jSj7UVe6Q+zwRmgIQyo+JVJSge/GFdA
+	DbreTNuG8MMtcxvLX3FFV3yQEZFFYNBlW8/enqQnj1r6XTlCqGmU0JbQMFdLNnHCL2v3
+	hwzw==
+X-Received: by 10.180.39.2 with SMTP id l2mr11941450wik.47.1389752257871;
+	Tue, 14 Jan 2014 18:17:37 -0800 (PST)
+Received: from netbook.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
+	[94.192.12.83])
+	by mx.google.com with ESMTPSA id gd5sm26004632wic.0.2014.01.14.18.17.36
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 14 Jan 2014 18:17:37 -0800 (PST)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2014 02:17:23 +0000
+Message-Id: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.8.5.2
+Subject: [PATCH 0/3] Change update-alternatives provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,246 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 01:24:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Jan 2014 02:17:38 -0000
 
+The update-alternatives script has been copied from opkg to opkg-utils so the
+openembedded recipe for opkg-utils is updated accordingly. Changing the default
+provider of update-alternatives to opkg-utils allows dependencies to be added to
+the opkg recipe without causing circular dependency loops. This series partially
+solves Yocto Project issue 4836.
 
-On 01/14/2014 11:16 PM, Saul Wold wrote:
-> On 01/13/2014 07:02 PM, Lu Chong wrote:
->>
->> On 01/13/2014 11:58 PM, Saul Wold wrote:
->>> On 01/09/2014 02:02 AM, Chong Lu wrote:
->>>> Install attr test suite and run it as ptest.
->>>>
->>>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->>>> ---
->>>>   meta/recipes-support/attr/attr.inc                 | 15 +++-
->>>>   .../attr/files/attr-make-ptest-pass.patch          | 82
->>>> ++++++++++++++++++++++
->>>>   meta/recipes-support/attr/files/run-ptest          |  5 ++
->>>>   3 files changed, 101 insertions(+), 1 deletion(-)
->>>>   create mode 100644
->>>> meta/recipes-support/attr/files/attr-make-ptest-pass.patch
->>>>   create mode 100644 meta/recipes-support/attr/files/run-ptest
->>>>
->>>> diff --git a/meta/recipes-support/attr/attr.inc
->>>> b/meta/recipes-support/attr/attr.inc
->>>> index 4961ba7..8cb08e4 100644
->>>> --- a/meta/recipes-support/attr/attr.inc
->>>> +++ b/meta/recipes-support/attr/attr.inc
->>>> @@ -11,7 +11,10 @@ LIC_FILES_CHKSUM =
->>>> "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
->>>> file://attr/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
->>>> file://libattr/libattr.c;endline=17;md5=7970f77049f8fa1199fff62a7ab724fb" 
->>>>
->>>>
->>>>
->>>> -SRC_URI =
->>>> "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz"
->>>> +SRC_URI =
->>>> "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz \
->>>> +           file://attr-make-ptest-pass.patch \
->>>> +           file://run-ptest \
->>>> +"
->>>>
->>>>   require ea-acl.inc
->>>>
->>>> @@ -20,3 +23,13 @@ do_install_append() {
->>>>       sed -i ${D}${libdir}/libattr.la -e \
->>>> s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
->>>>   }
->>>> +
->>>> +inherit ptest
->>>> +
->>>> +do_install_ptest() {
->>>> +    cp -r ${S}/test ${D}${PTEST_PATH}
->>>> +    mkdir ${D}${PTEST_PATH}/include
->>>> +    cp ${S}/include/builddefs ${S}/include/buildmacros
->>>> ${S}/include/buildrules ${D}${PTEST_PATH}/include/
->>>> +}
->>>> +
->>>> +RDEPENDS_${PN}-ptest = "coreutils perl-module-filehandle
->>>> perl-module-getopt-std perl-module-posix"
->>>> diff --git
->>>> a/meta/recipes-support/attr/files/attr-make-ptest-pass.patch
->>>> b/meta/recipes-support/attr/files/attr-make-ptest-pass.patch
->>>> new file mode 100644
->>>> index 0000000..e2da8b0
->>>> --- /dev/null
->>>> +++ b/meta/recipes-support/attr/files/attr-make-ptest-pass.patch
->>>> @@ -0,0 +1,82 @@
->>>> +attr: make ptest pass
->>>> +
->>>> +Upstream-Status: Inappropriate [embedded specific]
->>>> +
->>>> +Delete the second '@' character of the same row in test/Makefile, 
->>>> else
->>>> +we would get the error as below:
->>>> +    @echo: command not found
->>>> +In fs.test file, the result of `ls -s' is incorrect. Change it to 
->>>> make
->>>> +ext-tests pass.
->>>> +
->>> Can you please verify that these tests are actually wrong, it seems
->>> incorrect to be changing the test results to make the test pass.
->>>
->>> Are we missing a setting (like the acl) or something else?
->>>
->>> Sau!
->>>
->> Saul,
->>
->> I tested attr from upstream tar package on some distributions.(Ubuntu
->> Desktop 12.04 and Fedora 20)
->> test/ext/fs.test is actually wrong.
->
-> If the test fails on distributions, then it's not an embedded specific 
-> problem, the patch should be submitted upstream.
->
-> Sau!
-I have already sent email to upstream last month, but they don't reply.
+Tested on Raspberry Pi hardware both with and without "gpg" added to
+PACKAGECONFIG for opkg.
 
-Best Regards
-Chong
->
->> In target, I have already added acl setting. My test likes following:(in
->> target)
->>      root@qemuarm:/usr/lib/attr/ptest# ./run-ptest
->>      make: Entering directory '/usr/lib/attr/ptest/test'
->>      ......
->>      PASS: $ rm f
->>      PASS: $ touch f g h
->>      PASS: $ setfattr -n user.novalue f g h
->>      PASS: $ ls -s f g h
->>      PASS: $ setfattr -n user.name -v value f
->>      PASS: $ ls -s f g h
->>      PASS: $ getfattr -d f g h
->>      PASS: $ setfattr -n user.name -v value g
->>      PASS: $ ls -s f g h
->>      PASS: $ setfattr -x user.novalue h
->>      PASS: $ ls -s f g h
->>      PASS: $ setfattr -n user.name -v other-value g
->>      PASS: $ setfattr -n user.name -v value g
->>      PASS: $ setfattr -x user.name f g
->>      PASS: $ setfattr -x user.novalue f g
->>      PASS: $ ls -s f g h
->>      PASS: $ rm f g h
->>      20 commands (20 passed, 0 failed)
->>      make: Leaving directory '/usr/lib/attr/ptest/test'
->>      root@qemuarm:/usr/lib/attr/ptest# mount
->>      rootfs on / type rootfs (rw)
->>      /dev/root on / type ext3
->> (rw,relatime,errors=continue,user_xattr,acl,barrier=1,data=ordered)
->>      devtmpfs on /dev type devtmpfs
->> (rw,relatime,size=60172k,nr_inodes=15043,mode=755)
->>      proc on /proc type proc (rw,relatime)
->>      tmpfs on /mnt/.psplash type tmpfs (rw,relatime,size=40k)
->>      sysfs on /sys type sysfs (rw,relatime)
->>      debugfs on /sys/kernel/debug type debugfs (rw,relatime)
->>      tmpfs on /run type tmpfs (rw,nosuid,nodev,mode=755)
->>      tmpfs on /var/volatile type tmpfs (rw,relatime)
->>      devpts on /dev/pts type devpts (rw,relatime,gid=5,mode=620)
->>      nfsd on /proc/fs/nfsd type nfsd (rw,relatime)
->>
->> Best Regards
->> Chong
->>
->>
->>
->>>> +Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
->>>> +---
->>>> + test/Makefile    |    4 ++--
->>>> + test/ext/fs.test |   22 +++++++++++-----------
->>>> + 2 files changed, 13 insertions(+), 13 deletions(-)
->>>> +
->>>> +diff --git a/test/Makefile b/test/Makefile
->>>> +index b7bd8db..d916bf4 100644
->>>> +--- a/test/Makefile
->>>> ++++ b/test/Makefile
->>>> +@@ -40,10 +40,10 @@ $(TEST):
->>>> +     @echo "*** $@ ***"; perl run $@
->>>> +
->>>> + $(EXT):
->>>> +-    @echo "EXT specific tests"; @echo "*** $@ ***"; perl run $@
->>>> ++    @echo "EXT specific tests"; echo "*** $@ ***"; perl run $@
->>>> +
->>>> + $(ROOT):
->>>> +-    @echo "Note: Tests must run as root"; @echo "*** $@ ***"; perl
->>>> run $@
->>>> ++    @echo "Note: Tests must run as root"; echo "*** $@ ***"; perl
->>>> run $@
->>>> +
->>>> + .PHONY: $(TEST) $(EXT) $(ROOT)
->>>> + .NOTPARALLEL:
->>>> +diff --git a/test/ext/fs.test b/test/ext/fs.test
->>>> +index cc28fec..381d54b 100644
->>>> +--- a/test/ext/fs.test
->>>> ++++ b/test/ext/fs.test
->>>> +@@ -19,15 +19,15 @@ Test extended attribute block sharing
->>>> +     $ touch f g h
->>>> +     $ setfattr -n user.novalue f g h
->>>> +     $ ls -s f g h
->>>> +-    > 4 f
->>>> +-    > 4 g
->>>> +-    > 4 h
->>>> ++    > 0 f
->>>> ++    > 0 g
->>>> ++    > 0 h
->>>> +
->>>> +     $ setfattr -n user.name -v value f
->>>> +     $ ls -s f g h
->>>> +-    > 4 f
->>>> +-    > 4 g
->>>> +-    > 4 h
->>>> ++    > 0 f
->>>> ++    > 0 g
->>>> ++    > 0 h
->>>> +
->>>> +     $ getfattr -d f g h
->>>> +     > # file: f
->>>> +@@ -43,14 +43,14 @@ Test extended attribute block sharing
->>>> +
->>>> +     $ setfattr -n user.name -v value g
->>>> +     $ ls -s f g h
->>>> +-    > 4 f
->>>> +-    > 4 g
->>>> +-    > 4 h
->>>> ++    > 0 f
->>>> ++    > 0 g
->>>> ++    > 0 h
->>>> +
->>>> +     $ setfattr -x user.novalue h
->>>> +     $ ls -s f g h
->>>> +-    > 4 f
->>>> +-    > 4 g
->>>> ++    > 0 f
->>>> ++    > 0 g
->>>> +     > 0 h
->>>> +
->>>> +     $ setfattr -n user.name -v other-value g
->>>> +--
->>>> +1.7.9.5
->>>> +
->>>> diff --git a/meta/recipes-support/attr/files/run-ptest
->>>> b/meta/recipes-support/attr/files/run-ptest
->>>> new file mode 100644
->>>> index 0000000..f0bd9fc
->>>> --- /dev/null
->>>> +++ b/meta/recipes-support/attr/files/run-ptest
->>>> @@ -0,0 +1,5 @@
->>>> +#!/bin/sh
->>>> +
->>>> +make -C test -k tests root-tests ext-tests |sed \
->>>> + -e 's|^\[.*\] \(.*\) -- ok$|PASS: \1|' \
->>>> + -e 's|^\[.*\] \(.*\) -- failed|FAIL: \1|'
->>>>
->>>
->>>
->>
->>
->>
->
->
+Paul Barker (3):
+  opkg-utils: Upgrade to latest git HEAD
+  default-providers: Change update-alternatives provider to opkg-utils
+  opkg: No longer PROVIDES update-alternatives
+
+ meta/conf/distro/include/default-providers.inc     |  6 +++---
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  7 ++++++-
+ meta/recipes-devtools/opkg/opkg.inc                | 12 +++---------
+ 3 files changed, 12 insertions(+), 13 deletions(-)
+
+-- 
+1.8.5.2
 
 
