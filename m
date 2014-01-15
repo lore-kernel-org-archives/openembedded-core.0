@@ -1,26 +1,21 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9520461FE4
+Return-Path: <anders@chargestorm.se>
+Received: from stoexhub03.domain01.net (STOEXHUB03.domain01.net
+	[83.145.59.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A97C360155
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 07:10:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0F7AF7T001548
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 23:10:15 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 14 Jan 2014 23:10:15 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
+	Wed, 15 Jan 2014 07:31:03 +0000 (UTC)
+Received: from localhost (213.114.79.21) by stoexhub03.domain01.net
+	(10.12.10.3) with Microsoft SMTP Server id 8.3.279.1; Wed, 15 Jan 2014
+	08:30:49 +0100
+From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Jan 2014 15:10:14 +0800
-Message-ID: <4975a4727b07aa321bb8d19429efc0796a115ecc.1389769773.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1389769773.git.Qi.Chen@windriver.com>
-References: <cover.1389769773.git.Qi.Chen@windriver.com>
+Date: Wed, 15 Jan 2014 08:30:25 +0100
+Message-ID: <cover.1389770944.git.anders@chargestorm.se>
+X-Mailer: git-send-email 1.8.5.2
 MIME-Version: 1.0
-Subject: [PATCH 1/1] shutdown-desktop: use poweroff for the Exec field in the shutdown.desktop
+X-GFI-SMTP-Submission: 1
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: [PATCH 0/1] systemd-compat-unts: remove dnsmasq from masked list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +28,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 07:10:14 -0000
+X-List-Received-Date: Wed, 15 Jan 2014 07:31:05 -0000
 Content-Type: text/plain
 
-Use 'poweroff' instead of 'halt' for the Exec field in the shutdown.desktop.
 
-The purpose of this patch is to make the 'shutdown' icon on on our sato
-images work as expected for both sysvinit and systemd images. Previously,
-the Exec field was 'halt'. The `halt' command could poweroff the system
-in sysvinit images but it only could halt the system in systemd images.
-The difference is due to the different implementations of the `halt' command.
+systemd-compat-units: remove dnsmasq from sysv disabled list
+    
+The dnsmasq recipe in meta-networking ships a dnsmasq.service file, that will
+correctly override the SysV init script. Thus, as pointed out by Ross Burton,
+we should remove dnsmasq from the list.
 
-In sysvinit, the `halt' command will effective execute `/sbin/init 0'. This
-is for the compatibility with sysvinit 2.4, as stated in the comments of the
-source code. In systemd, the `halt' command will effectively execute the
-reboot(RB_HATL_SYSTEM).
 
-As the 'shutdown' icon is expected to actually shutdown the system, we should
-use poweroff instead of halt for its Exec field.
+This was discovered when adding dnsmasq to our dora-based builds. The fix itself
+is ported to master. Even though our issue is solved by the previous pathc, which
+add systemd_unitdir/system as a path to check for service files; dnsmasq should
+be removed from the list nevertheless.
+The following changes since commit c4c5ec52effc2ff97ac17270c1aa7884c808f5a9:
 
-[YOCTO #4347]
+  dropbear: Refresh pam patch so it applies against recent version (2014-01-14 21:57:18 +0000)
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../shutdown-desktop/shutdown.desktop              |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-index 2726889..99bee4c 100644
---- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-+++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-@@ -3,7 +3,7 @@ Encoding=UTF-8
- Type=Application
- Name=Shutdown
- Comment=Close down the machine safely
--Exec=halt
-+Exec=poweroff
- Icon=system-shutdown
- Terminal=false
- Categories=Utility;
+  git://github.com/darander/oe-core systemd-compat-units
+  https://github.com/darander/oe-core/tree/systemd-compat-units
+
+Anders Darander (1):
+  systemd-compat-units: remove dnsmasq from sysv disabled list
+
+ meta/recipes-core/systemd/systemd-compat-units.bb | 1 -
+ 1 file changed, 1 deletion(-)
+
 -- 
-1.7.9.5
+1.8.5.2
 
 
