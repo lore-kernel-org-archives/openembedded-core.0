@@ -1,35 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DC356E2E9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 34F7C6E2E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 17:32:15 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id y10so2103084wgg.10
+	Wed, 15 Jan 2014 17:48:01 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0FHlu8d008066 for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jan 2014 17:47:56 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id AAIUEQWPXBFN
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 09:32:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ix2t28ETtaf9uOVxGlf3ITMibIjbJh/F5+rYa7HG8uw=;
-	b=UYWpBITF8uUG2PzQa6/uhD26ogOupMXC7peIMW5F6NXZRSQe6h0Fa2VxsIgo7RlMfc
-	MbXEGFWwpD344Xqr0Hh/mvStWkZWseJOyTbQcjEIDOXA6FEiVgXu/pdA0RZh2QtrW8x5
-	4+DQYd5T2S0tvdY/Lz6LetnA6HK4DhO4V0VlO7996MUXcLY9IXeKupVCdU51N1ILkHhm
-	99gkz+CXfEkuNYqWGeEHgLe+SEh2n4rgh/lF5BTLJiluTsrlNCAj5Q78lwyssuWuaATY
-	3y9enPC/U6Te2n2lN8kSLoy5T6Ffv8eTLVFfDjJjrbIV8iVm4/C6qPzmbRuLud8ZrEF2
-	Va7A==
-X-Gm-Message-State: ALoCoQmc3Ct/kWQd+ob0FjNfDuADOGK0Po6ADEBMMX79gj4Mk/dT1clLq6JWH/I6rWk6YXWFMHYa
-X-Received: by 10.180.160.166 with SMTP id xl6mr3481594wib.43.1389807136200;
-	Wed, 15 Jan 2014 09:32:16 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id hy8sm3857058wjb.2.2014.01.15.09.32.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Jan 2014 09:32:15 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jan 2014 17:32:11 +0000
-Message-Id: <1389807131-22392-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] glib: add missing dependencies for ptest
+	Wed, 15 Jan 2014 17:47:56 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0FHlo3g008062
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jan 2014 17:47:52 GMT
+Message-ID: <1389808065.14987.88.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Jan 2014 17:47:45 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] package_rpm: Fix a race with package_deb/package_ipk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +38,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 17:32:16 -0000
+X-List-Received-Date: Wed, 15 Jan 2014 17:48:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Some of the GLib tests that we run under ptest are missing runtime dependencies.
+We have the odd situation where the CONTROL/DEBIAN directory can be removed
+in the middle of the walk, the isdir() test would then fail and the walk code
+would assume its a file hence we check for the names in files too.
 
-iochannel-test needs the EUC-JP encoding.
+This resolves the autobuilder failure:
 
-convert needs the ISO-8859-1 and ISO-8859-15 encodings.
+error: File not found: /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-fsl-arm/build/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/xinit/1_1.3.3-r0/package/DEBIAN
 
-contenttype needs shared-mime-info.
+RPM build errors:
+     File not found: /home/pokybuild/yocto-autobuilder/yocto-slave/nightly-fsl-arm/build/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/xinit/1_1.3.3-r0/package/DEBIAN
 
-Add these to the RDEPENDS so that these tests pass.
-
-[ YOCTO #5696 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/glib-2.0/glib.inc |    4 ++++
- 1 file changed, 4 insertions(+)
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index fcde73e..acbb18d 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -659,6 +659,9 @@ python write_specfile () {
+         # We can race against the ipk/deb backends which create CONTROL or DEBIAN directories
+         # when packaging. We just ignore these files which are created in 
+         # packages-split/ and not package/
++        # We have the odd situation where the CONTROL/DEBIAN directory can be removed in the middle of
++        # of the walk, the isdir() test would then fail and the walk code would assume its a file
++        # hence we check for the names in files too.
+         for rootpath, dirs, files in os.walk(walkpath):
+             path = rootpath.replace(walkpath, "")
+             if path.endswith("DEBIAN") or path.endswith("CONTROL"):
+@@ -669,6 +672,8 @@ python write_specfile () {
+                 # All packages own the directories their files are in...
+                 target.append('%dir "' + path + '/' + dir + '"')
+             for file in files:
++                if file == "CONTROL" or file == "DEBIAN":
++                    continue
+                 if conffiles.count(path + '/' + file):
+                     target.append('%config "' + path + '/' + file + '"')
+                 else:
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index c690ba9..7b471e7 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -78,6 +78,7 @@ RDEPENDS_${PN}-ptest += "\
-             tzdata-posix \
-             python-pygobject \
-             python-dbus \
-+            shared-mime-info \
-            "
- 
- RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-@@ -87,6 +88,9 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-             eglibc-charmap-cp1255 \
-             eglibc-gconv-utf-32 \
-             eglibc-gconv-utf-7 \
-+            eglibc-gconv-euc-jp \
-+            eglibc-gconv-iso8859-1 \
-+            eglibc-gconv-iso8859-15 \
-             eglibc-charmap-invariant \
-             eglibc-localedata-translit-cjk-variants \
-            "
--- 
-1.7.10.4
 
 
