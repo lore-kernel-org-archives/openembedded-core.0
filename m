@@ -1,38 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C7AF6E2E9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E150A6E2E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 16:16:49 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id va2so1362522obc.36
+	Wed, 15 Jan 2014 16:32:45 +0000 (UTC)
+Received: by mail-wi0-f171.google.com with SMTP id cc10so4337596wib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 08:16:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=hWC+KcsYascs8ObwwBiu0nUpHpFjuPzv9aeIVZgTwcY=;
-	b=d1ij01gCm+8Kt+3GL4//JTyK00KyDz6+Sqb/zMySaxPLPUcnoi/m97ob8bkDMuFCyM
-	f9o6wFYLhSyxqPVgPNeVrQoCQm8OaMQpbU8n2INfwgF8VviSDEUfqDtCBFC5rA4AT5Wv
-	oUa37IwF8IMUsqk5nhribS1pMTWCiWa9R6Qyrp2zWvbwaCWZJd+8apfqPtbl73wdK/aF
-	RLz8TSDQMFb57wPVsGtoSq7e13a3dcLPVUWJQJuyXJmQ+Nxfph7Qh9Jfdnq5Fr4m2En7
-	clQLVm+DW7HXyf+kiB6IDoT+sdLkPjhTFRGfnyYRGi+Gtugn9PEicOdGzN+AgBbF22eT
-	Oa5g==
-X-Received: by 10.182.19.132 with SMTP id f4mr2481692obe.14.1389802610542;
-	Wed, 15 Jan 2014 08:16:50 -0800 (PST)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.76.122.171 with HTTP; Wed, 15 Jan 2014 08:16:10 -0800 (PST)
-In-Reply-To: <39BBD84D-0924-4FD9-8585-3C7C231A1CC2@dominion.thruhere.net>
-References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
-	<1389752246-4296-2-git-send-email-paul@paulbarker.me.uk>
-	<39BBD84D-0924-4FD9-8585-3C7C231A1CC2@dominion.thruhere.net>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 15 Jan 2014 16:16:10 +0000
-X-Google-Sender-Auth: 2gCg3Iyc92WcPtQ26luQMRlFHl4
-Message-ID: <CANyK_8cNLp54e5x+yxOAqX9T3PwPE_NJWO51t81OdRoe1L+KLA@mail.gmail.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] opkg-utils: Upgrade to latest git HEAD
+	Wed, 15 Jan 2014 08:32:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=mTHFugA7OPmqWdbnLw04y2qKPgOBkZvI2gdpJPgZZEs=;
+	b=HR8y6QU5scmytXn/X4N9gH9CE+5yuf2r014fJEx1FXsio4rGkOqX9jSs10/Xnht5rB
+	O+BsTKqmRiHpcP5oFpnNiiXnlm0q73AikkCbh9UOcA8tEDWiE3Ig8Pz4NpYIw82S52O9
+	odO7/OmtFqi/thiPUkdSZqwBB3lihq/ngh6mt8G/VkgrTVklUesCN0k5GC2xkcJXo45P
+	f8M3++zrm549DUEtk2MA8s0MPzih9CS/HXtyPEnhCDYCfL/T5u6Cc9IUGIYk6063c8M7
+	i+jNENbchKXUjyJXuG4dpKf0127Iunumdq02q+xAUTljZZHsO61z7qMhSsc/usOqGrfU
+	AOuQ==
+X-Gm-Message-State: ALoCoQlMa8JtKU4eV5SRMglE/O9hy3Wif9i2MbCfS+e1VqVaNGDnHecA5M18y0/OaQ1suqjY1vdb
+X-Received: by 10.195.12.200 with SMTP id es8mr58710wjd.77.1389803565052;
+	Wed, 15 Jan 2014 08:32:45 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id gd5sm29118552wic.0.2014.01.15.08.32.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Jan 2014 08:32:44 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2014 16:32:33 +0000
+Message-Id: <1389803553-21768-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] dbus-ptest: fix incorrect option name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,31 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 16:16:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 15 Jan 2014 16:32:47 -0000
 
-On 15 January 2014 10:04, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 15 jan. 2014, om 03:17 heeft Paul Barker <paul@paulbarker.me.uk> het volgende geschreven:
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/dbus/dbus-ptest_1.6.18.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->> LICENSE = "GPLv2+"
->> LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
->>                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
->> +PROVIDES += "virtual/update-alternatives"
->> +RPROVIDES_update-alternatives-opkg = "update-alternatives"
->
-> R* variables do below do_install since they deal with packaging
->
-
-I was following the list in
-http://www.openembedded.org/wiki/Styleguide which is probably out of
-date. I'll re-order it to follow the list in
-https://wiki.yoctoproject.org/wiki/Recipe_%26_Patch_Style_Guide.
-
+diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+index 567d995..386f561 100644
+--- a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
++++ b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+@@ -39,7 +39,7 @@ EXTRA_OECONF = "--enable-tests \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+                 --with-xml=expat \
+-                --without-systemd \
++                --disable-systemd \
+                 --without-systemdsystemunitdir \
+                 --with-dbus-test-dir=${PTEST_PATH} \
+                 ${EXTRA_OECONF_X}"
 -- 
-Paul Barker
+1.7.10.4
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
