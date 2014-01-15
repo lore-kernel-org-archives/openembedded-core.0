@@ -1,38 +1,37 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8796AE73
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id DA6126BD14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 02:17:40 +0000 (UTC)
-Received: by mail-wi0-f175.google.com with SMTP id hr1so1593731wib.14
+	Wed, 15 Jan 2014 02:17:41 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id l18so1202368wgh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 18:17:40 -0800 (PST)
+	Tue, 14 Jan 2014 18:17:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=cXWspMlGA2dv3HnBiMBvSfD7Ak8jr84AH7wiHziBMWg=;
-	b=QEOGfgO9vgQGeViTqnQYu9+L3LV9JoWCl9FJURNttSM/PsbHRFwLFww6lEG4ZCAQpF
-	icQXBjmcR0Pu4y+wPbERcYpXoXq50TUm3fZJ2CmIFdtMityEi9WTCE2s6dziL19/FySe
-	flybWv7f4Wv7FJ0/xfh4OQD08Vsp6Lakp9EZJawdK9yzWrt7jhRXdm9ndldSOOae0xt8
-	ScpTjPtsNZSLWqSXzDqVZbOJygtUUYc1CMJuJJzlTkZo4tGoTNatkn8N0tg3X5V7jQrl
-	xWB1omWaw0ZVvjb8DmVy0WWI3NiPtr661NXOWwMdqh8sp960VId9G3NU/ebX2g7tA2po
-	GYvQ==
-X-Received: by 10.194.78.210 with SMTP id d18mr1415424wjx.27.1389752260771;
-	Tue, 14 Jan 2014 18:17:40 -0800 (PST)
+	bh=mViQsNoxhVoCgg1GFNvTvT9+ks37YIz/pgDlqERP1xQ=;
+	b=zPpfNdHnA8r5/nZlKMELSIeT8FhXoUtB7luDPItfJCF35vyoN7OfPdviiB5pc7WtxG
+	VdJDEA/BAjb2MWZRlJKjaYqiZqhF8b/UEO/T0GlVLo22lZg26LD3h5pxZdMN+EoL/FMs
+	X0PM4UhbDTHe0jAMgGk2f4Hq7PW/b+pw7zS1bgZdMh6vcMK2ywQvicHjBf6Ki2BBTNei
+	GzM3PoocZAxxJ3DTIR6+5kUm5YnD9wDLi6I+89EZ9juSNAJEItGlcreDmtkbl49lkiXZ
+	FSlX1G7xENGVenPV2mDEloXWYUzGAkBqqgD/85pLSnMOsgc5egsKUfFG/bQDCkiI7uU0
+	GOpg==
+X-Received: by 10.195.13.113 with SMTP id ex17mr1579551wjd.0.1389752262326;
+	Tue, 14 Jan 2014 18:17:42 -0800 (PST)
 Received: from netbook.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
 	[94.192.12.83])
-	by mx.google.com with ESMTPSA id gd5sm26004632wic.0.2014.01.14.18.17.39
+	by mx.google.com with ESMTPSA id gd5sm26004632wic.0.2014.01.14.18.17.40
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Jan 2014 18:17:40 -0800 (PST)
+	Tue, 14 Jan 2014 18:17:41 -0800 (PST)
 Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jan 2014 02:17:25 +0000
-Message-Id: <1389752246-4296-3-git-send-email-paul@paulbarker.me.uk>
+Date: Wed, 15 Jan 2014 02:17:26 +0000
+Message-Id: <1389752246-4296-4-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.8.5.2
 In-Reply-To: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
 References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH 2/3] default-providers: Change update-alternatives provider to opkg-utils
+Subject: [PATCH 3/3] opkg: No longer PROVIDES update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 02:17:40 -0000
+X-List-Received-Date: Wed, 15 Jan 2014 02:17:42 -0000
 
-This allows dependencies to be added to the opkg recipe without causing circular
-dependency loops. As opkg-utils has minimal dependencies it is the best recipe
-to provide update-alternatives.
-
-This partially solves Yocto Project issue 4836. More work is still needed for a
-complete solution.
+The new provider is the opkg-utils recipe.
 
 Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- meta/conf/distro/include/default-providers.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/opkg/opkg.inc | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index e2b0892..419ffcd 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -10,15 +10,15 @@ PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
- PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
--PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg"
--PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
-+PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg-utils"
-+PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-utils-native"
- PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
- PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index c9fb505..527fe5d 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -39,17 +39,13 @@ EXTRA_OECONF = "\
+   --with-opkglibdir=${OPKGLIBDIR} \
+ "
  
- #
- # Default virtual runtime providers
- #
--VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
-+VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-opkg"
- VIRTUAL-RUNTIME_apm ?= "apm"
- VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
+-PROVIDES += "virtual/update-alternatives"
+-RPROVIDES_update-alternatives-cworth += "update-alternatives"
+-RCONFLICTS_update-alternatives-cworth = "update-alternatives-dpkg"
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-config-base"
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}_class-nativesdk = ""
+ RREPLACES_${PN} = "opkg-nogpg"
  
+-PACKAGES =+ "libopkg-dev libopkg-staticdev libopkg update-alternatives-cworth"
++PACKAGES =+ "libopkg-dev libopkg-staticdev libopkg"
+ 
+-FILES_update-alternatives-cworth = "${bindir}/update-alternatives"
+ FILES_libopkg-dev = "${libdir}/*.la ${libdir}/*.so ${includedir}/libopkg"
+ FILES_libopkg-staticdev = "${libdir}/*.a"
+ FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
+@@ -74,10 +70,8 @@ do_install_append() {
+ 	ln -sf opkg-cl ${D}${bindir}/opkg
+ }
+ 
+-do_install_append_class-native() {
+-	if [ "${PREFERRED_PROVIDER_virtual/update-alternatives-native}" != "${PN}" ]; then
+-		rm ${D}${bindir}/update-alternatives
+-	fi
++do_install_append() {
++	rm ${D}${bindir}/update-alternatives
+ }
+ 
+ pkg_postinst_${PN} () {
 -- 
 1.8.5.2
 
