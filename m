@@ -1,29 +1,26 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C43F6AE73
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 03:23:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0F3N9sM016078
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 14 Jan 2014 19:23:09 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 14 Jan 2014 19:23:09 -0800
-Message-ID: <52D5FF1B.9070009@windriver.com>
-Date: Wed, 15 Jan 2014 11:23:07 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1389716791-22080-1-git-send-email-otavio@ossystems.com.br>
-	<CAMKF1so-Jeoi2bq3=r77uzQ6HFDbwimQpuopzRqjGs00mNUQZQ@mail.gmail.com>
-In-Reply-To: <CAMKF1so-Jeoi2bq3=r77uzQ6HFDbwimQpuopzRqjGs00mNUQZQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-dora][PATCH] gcc-4.8: Backport PR c++/57532 fix from 4.8.2
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 221B86B4F7;
+	Wed, 15 Jan 2014 05:22:42 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 14 Jan 2014 21:22:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,660,1384329600"; 
+	d="asc'?scan'208";a="458996556"
+Received: from unknown (HELO [10.255.12.195]) ([10.255.12.195])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jan 2014 21:22:42 -0800
+Message-ID: <1389763343.3092.17.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 14 Jan 2014 21:22:23 -0800
+In-Reply-To: <20140109144245.GF3709@jama>
+References: <20140106112936.C3F0C50472@opal> <20140109144245.GF3709@jama>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : autogen-native: upgrade to 5.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,103 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 03:23:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 15 Jan 2014 05:22:42 -0000
+X-Groupsio-MsgNum: 48996
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-WsC6bwxqRjgUtOIetivM"
+
+--=-WsC6bwxqRjgUtOIetivM
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, 2014-01-09 at 15:42 +0100, Martin Jansa wrote:
+> On Mon, Jan 06, 2014 at 11:29:36AM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: 6bcd2dafa379badab11bff9d7b607f7f5d72fc94
+> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
+it;h=3D6bcd2dafa379badab11bff9d7b607f7f5d72fc94
+> >=20
+> > Author: Robert Yang <liezhi.yang@windriver.com>
+> > Date:   Fri Dec 27 01:05:14 2013 +0800
+> >=20
+> > autogen-native: upgrade to 5.18.2
+> >=20
+> > * Upgrade from 5.17.4 to 5.18.2
+> > * Rename files -> autogen
+> >=20
+> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>=20
+> Fails in world builds:
+
+Guessing I'm behind somewhere - seeing this as well. I thought it was an
+sstate issue, but doesn't appear to be. Is this addressed in a MUT build
+or something already?
+
+
+--=20
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
+
+--=-WsC6bwxqRjgUtOIetivM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-Hi Otavio,
+iQEcBAABAgAGBQJS1hsPAAoJEKbMaAwKp364uzcIAI8ikqxRWpv4EEt4w3P1JTtF
+GKUAJDp6dwhXx/Jqhr9YR3t6K/YQsqGxL+zSuHgQ4GgFXbKBHJzNU5ebIBXOPl/+
+hSX++rJzRVNeKqgNLLz4wYJ/3GYTyRmq/hYbEDaeFvmhLyCngqtjmHqQJv0O2iwE
+MuVPT/jOQqHiBMwK/ZVEnpQJMn3coAUn/syxl3+VCz3jCotksgVmvbTi7xQy1l2B
+SD12qXu1Q/azhqCVrruoqlkcJ2XR8GBDFD2qmRZq2hvYO7/kg/5cgvDhwZ2UwtM3
+/LidWZRYDYaGH71Z6P4aRwGh0NBshlwv5Rfj6KGx+hD3KrsIaYi9rdALDN+bZo0=
+=LKCj
+-----END PGP SIGNATURE-----
 
-Thanks, I will add it dora-next.
-
-// Robert
-
-On 01/15/2014 12:58 AM, Khem Raj wrote:
-> looks good to me.
->
-> On Tue, Jan 14, 2014 at 8:26 AM, Otavio Salvador
-> <otavio@ossystems.com.br> wrote:
->> Bug: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=57532
->>
->> Log:
->> r200836 | jason | 2013-07-09 14:52:17 -0300 (Tue, 09 Jul 2013) | 3 lines
->>
->>          PR c++/57532
->>          * parser.c (cp_parser_ref_qualifier_opt): Don't tentatively parse
->>          a ref-qualifier in C++98 mode.
->>
->> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> ---
->>   meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
->>   .../gcc/gcc-4.8/0048-PR57532.patch                 |   36 ++++++++++++++++++++
->>   2 files changed, 37 insertions(+)
->>   create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
->> index 8d50bf7..b34c7ae 100644
->> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
->> @@ -77,6 +77,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
->>             file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
->>             file://0046-libatomic-deptracking.patch \
->>             file://0047-repomembug.patch \
->> +          file://0048-PR57532.patch \
->>            "
->>   SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
->>   SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
->> new file mode 100644
->> index 0000000..4a05d33
->> --- /dev/null
->> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
->> @@ -0,0 +1,36 @@
->> +Upstream-Status: Backport
->> +Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->> +
->> +r200836 | jason | 2013-07-09 14:52:17 -0300 (Tue, 09 Jul 2013) | 3 lines
->> +
->> +        PR c++/57532
->> +        * parser.c (cp_parser_ref_qualifier_opt): Don't tentatively parse
->> +        a ref-qualifier in C++98 mode.
->> +
->> +Index: gcc/testsuite/g++.dg/parse/ref-qual2.C
->> +===================================================================
->> +--- a/gcc/testsuite/g++.dg/parse/ref-qual2.C   (revision 0)
->> ++++ b/gcc/testsuite/g++.dg/parse/ref-qual2.C   (revision 200836)
->> +@@ -0,0 +1,6 @@
->> ++// PR c++/57532
->> ++
->> ++int main()
->> ++{
->> ++    return (int() & int());
->> ++}
->> +Index: gcc/cp/parser.c
->> +===================================================================
->> +--- a/gcc/cp/parser.c  (revision 200835)
->> ++++ b/gcc/cp/parser.c  (revision 200836)
->> +@@ -16986,6 +16986,11 @@
->> + {
->> +   cp_ref_qualifier ref_qual = REF_QUAL_NONE;
->> +   cp_token *token = cp_lexer_peek_token (parser->lexer);
->> ++
->> ++  /* Don't try to parse bitwise '&' as a ref-qualifier (c++/57532).  */
->> ++  if (cxx_dialect < cxx11 && cp_parser_parsing_tentatively (parser))
->> ++    return ref_qual;
->> ++
->> +   switch (token->type)
->> +     {
->> +     case CPP_AND:
->> --
->> 1.7.10.4
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-
+--=-WsC6bwxqRjgUtOIetivM--
