@@ -1,37 +1,38 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0544A6AE73
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B8796AE73
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 02:17:38 +0000 (UTC)
-Received: by mail-wg0-f44.google.com with SMTP id l18so1189682wgh.35
+	Wed, 15 Jan 2014 02:17:40 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id hr1so1593731wib.14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 18:17:39 -0800 (PST)
+	Tue, 14 Jan 2014 18:17:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VpzS/hJ3Fld4o6n3F5je88SgQ4B9Jx2Ws6/+gPWU7Xg=;
-	b=GqXVPL0FVvapzjAgKY9r9v5POr/2nufwkzyueJuW37GZgpoP1mFXXrD82gkiHfG3dY
-	rzRox9cTFg6gxQUh6cBZvjztXg5SzMdGnZ47Ms6jV41i/5ELH1c4IwoL7jHsRWiBuVOc
-	GlA4s5UBZwRfImFrDJsV6sG4lo8Rz8FCuiZtUC/Dzvn7B2LOfyJAWYgBZgUTTVNVsXRa
-	+WNV1NYCxDBXUUY0b7ECPKWkGbd35QuqD1HXnpqB03etxN8kd/0pOGWijcu9+Akjv6vZ
-	K91qZhJQB6UopRi3cMUyKYa+w6ZF1zRZY14/V6b0jMQb8pjGIeLbTq7Be3AqxyL7FdND
-	QmJA==
-X-Received: by 10.180.11.34 with SMTP id n2mr23725311wib.40.1389752259356;
-	Tue, 14 Jan 2014 18:17:39 -0800 (PST)
+	bh=cXWspMlGA2dv3HnBiMBvSfD7Ak8jr84AH7wiHziBMWg=;
+	b=QEOGfgO9vgQGeViTqnQYu9+L3LV9JoWCl9FJURNttSM/PsbHRFwLFww6lEG4ZCAQpF
+	icQXBjmcR0Pu4y+wPbERcYpXoXq50TUm3fZJ2CmIFdtMityEi9WTCE2s6dziL19/FySe
+	flybWv7f4Wv7FJ0/xfh4OQD08Vsp6Lakp9EZJawdK9yzWrt7jhRXdm9ndldSOOae0xt8
+	ScpTjPtsNZSLWqSXzDqVZbOJygtUUYc1CMJuJJzlTkZo4tGoTNatkn8N0tg3X5V7jQrl
+	xWB1omWaw0ZVvjb8DmVy0WWI3NiPtr661NXOWwMdqh8sp960VId9G3NU/ebX2g7tA2po
+	GYvQ==
+X-Received: by 10.194.78.210 with SMTP id d18mr1415424wjx.27.1389752260771;
+	Tue, 14 Jan 2014 18:17:40 -0800 (PST)
 Received: from netbook.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
 	[94.192.12.83])
-	by mx.google.com with ESMTPSA id gd5sm26004632wic.0.2014.01.14.18.17.37
+	by mx.google.com with ESMTPSA id gd5sm26004632wic.0.2014.01.14.18.17.39
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Jan 2014 18:17:38 -0800 (PST)
+	Tue, 14 Jan 2014 18:17:40 -0800 (PST)
 Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jan 2014 02:17:24 +0000
-Message-Id: <1389752246-4296-2-git-send-email-paul@paulbarker.me.uk>
+Date: Wed, 15 Jan 2014 02:17:25 +0000
+Message-Id: <1389752246-4296-3-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 1.8.5.2
 In-Reply-To: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
 References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH 1/3] opkg-utils: Upgrade to latest git HEAD
+Subject: [PATCH 2/3] default-providers: Change update-alternatives provider to opkg-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 02:17:39 -0000
+X-List-Received-Date: Wed, 15 Jan 2014 02:17:40 -0000
 
-The latest version of opkg-utils PROVIDES virtual/update-alternatives via a
-script copied from opkg.
+This allows dependencies to be added to the opkg recipe without causing circular
+dependency loops. As opkg-utils has minimal dependencies it is the best recipe
+to provide update-alternatives.
+
+This partially solves Yocto Project issue 4836. More work is still needed for a
+complete solution.
 
 Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/default-providers.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 714fc51..4ae6970 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -4,8 +4,10 @@ HOMEPAGE = "http://code.google.com/p/opkg/"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://opkg.py;beginline=1;endline=18;md5=15917491ad6bf7acc666ca5f7cc1e083"
-+PROVIDES += "virtual/update-alternatives"
-+RPROVIDES_update-alternatives-opkg = "update-alternatives"
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index e2b0892..419ffcd 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -10,15 +10,15 @@ PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
+-PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg"
+-PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
++PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg-utils"
++PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-utils-native"
+ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
+ PREFERRED_PROVIDER_xf86-video-intel ?= "xf86-video-intel"
  
--SRCREV = "757a1664a440c60e8126443bf984e4bdf374c327"
-+SRCREV = "fd4a3a4c20ada47b19e89849ddb6ff87904f01d2"
- PV = "0.1.8+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/opkg-utils"
-@@ -21,6 +23,9 @@ do_install() {
- # Avoid circular dependencies from package_ipk.bbclass
- PACKAGES_class-native = ""
- 
-+PACKAGES =+ "update-alternatives-opkg"
-+FILES_update-alternatives-opkg = "${bindir}/update-alternatives"
-+
- RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
- RDEPENDS_${PN}_class-native = ""
+ #
+ # Default virtual runtime providers
+ #
+-VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-cworth"
++VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-opkg"
+ VIRTUAL-RUNTIME_apm ?= "apm"
+ VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
  
 -- 
 1.8.5.2
