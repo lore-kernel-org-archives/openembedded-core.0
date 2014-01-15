@@ -1,42 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f180.google.com (mail-ea0-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id A7E576B4F7;
-	Wed, 15 Jan 2014 10:30:39 +0000 (UTC)
-Received: by mail-ea0-f180.google.com with SMTP id f15so353383eak.25
-	for <multiple recipients>; Wed, 15 Jan 2014 02:30:40 -0800 (PST)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A6616BF4E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jan 2014 11:21:06 +0000 (UTC)
+Received: by mail-ob0-f176.google.com with SMTP id va2so980381obc.21
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jan 2014 03:21:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Pm6jy16D8nQUm3Lgi+ZPQ/4aKjzaMjMj1N9kFQ9TEdw=;
-	b=lVfEc5p2ZWb6PkhSsqwgvzps/39K63onAIHVsVhcHm7SX8pTWvG7V3ZPVZ0BJpLOIz
-	L+hy1i5El5H74hr4XnFsygVUgmGED8y4GBorb+jH0+z+lL/VqdZv0mXKETiSY7D8WVKf
-	TcUGS/g0JBSToE1I5OE5UPGWVYsKMy/u2sl4nETWIh19fO/zOk8JKQfrwDpzWQdh8i24
-	igQTAuS5qgnRPVP3oYc9znN5bjdlio5cunDK0jWv9y5O1KD64lWtW0ilihuyzP4taMPb
-	976XRp0/192tWlUMvtzVildQGvEjnW1g/9koG0pgeb7Uo34iSYnNRYS3Fl55xypEC1VW
-	MZ6Q==
-X-Received: by 10.14.210.65 with SMTP id t41mr2473714eeo.53.1389781840245;
-	Wed, 15 Jan 2014 02:30:40 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 4sm9072177eed.14.2014.01.15.02.30.38
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 Jan 2014 02:30:39 -0800 (PST)
-Date: Wed, 15 Jan 2014 11:30:59 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20140115103059.GH3717@jama>
-References: <20140106112936.C3F0C50472@opal> <20140109144245.GF3709@jama>
-	<1389763343.3092.17.camel@dvhart-mobl4.amr.corp.intel.com>
-	<52D62433.8020402@windriver.com>
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=5bNjfKQ6Ut+w8/ic2ZVyGWA9jBgrBjeUZuBTKYHYIYo=;
+	b=LsuGsBCu3p4VrI05NXaftkrUYYNYgT2nABd8DO372SYqMGbrIe4Uy71W+ZmrEblYj2
+	vJPpZZwDACq+ANM1lJfIi9jqLMJ9OjoIDiqE5WmP4vHfuXfeM/W+kkNE51PusxHTyHTB
+	G5I60ijFV0MtwsC/8yidlwdWys1FwVOBrEkmz+eNPLRJQCiuI6bNJHkxDZEmLX8FMnQR
+	OiNHWjzXboyLoKtwLABW6NL9kE+AbC99tD+zojKGm3U8jCaggCTNs2IA+D40dxHMmL37
+	qAiE96/KJpn0ngw7Ou2OiAGChxEflGVod9p2YGPYn10E/yOsboeM1+a0XWsOKO2YVox7
+	fhfQ==
 MIME-Version: 1.0
-In-Reply-To: <52D62433.8020402@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Robert Yang : autogen-native: upgrade to 5.18.2
+X-Received: by 10.182.241.8 with SMTP id we8mr1026784obc.62.1389784867082;
+	Wed, 15 Jan 2014 03:21:07 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 15 Jan 2014 03:21:07 -0800 (PST)
+In-Reply-To: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
+References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
+Date: Wed, 15 Jan 2014 09:21:07 -0200
+X-Google-Sender-Auth: o5E1ryeA_GqHjFHzMUOsEARNRK0
+Message-ID: <CAP9ODKqxc2h2nFByXnfFbitotd+UDADe0Sj8+U5eU=Za75G45Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Change update-alternatives provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,68 +44,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 10:30:41 -0000
-X-Groupsio-MsgNum: 49019
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5vjQsMS/9MbKYGLq"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 15 Jan 2014 11:21:06 -0000
+Content-Type: multipart/alternative; boundary=001a11c322c051181204f000813d
 
---5vjQsMS/9MbKYGLq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11c322c051181204f000813d
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Wed, Jan 15, 2014 at 12:17 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
+
+> The update-alternatives script has been copied from opkg to opkg-utils so
+> the
+> openembedded recipe for opkg-utils is updated accordingly. Changing the
+> default
+> provider of update-alternatives to opkg-utils allows dependencies to be
+> added to
+> the opkg recipe without causing circular dependency loops. This series
+> partially
+> solves Yocto Project issue 4836.
+>
+> Tested on Raspberry Pi hardware both with and without "gpg" added to
+> PACKAGECONFIG for opkg.
+>
+
+Nice; I didn't test the patchset but I couldn't spot any mistake.
+
+I will try to put it in my builder for testing...
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+--001a11c322c051181204f000813d
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 15, 2014 at 02:01:23PM +0800, Robert Yang wrote:
->=20
->=20
-> On 01/15/2014 01:22 PM, Darren Hart wrote:
-> > On Thu, 2014-01-09 at 15:42 +0100, Martin Jansa wrote:
-> >> On Mon, Jan 06, 2014 at 11:29:36AM +0000, git@git.openembedded.org wro=
-te:
-> >>> Module: openembedded-core.git
-> >>> Branch: master
-> >>> Commit: 6bcd2dafa379badab11bff9d7b607f7f5d72fc94
-> >>> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dco=
-mmit;h=3D6bcd2dafa379badab11bff9d7b607f7f5d72fc94
-> >>>
-> >>> Author: Robert Yang <liezhi.yang@windriver.com>
-> >>> Date:   Fri Dec 27 01:05:14 2013 +0800
-> >>>
-> >>> autogen-native: upgrade to 5.18.2
-> >>>
-> >>> * Upgrade from 5.17.4 to 5.18.2
-> >>> * Rename files -> autogen
-> >>>
-> >>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> >>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> >>
-> >> Fails in world builds:
-> >
-> > Guessing I'm behind somewhere - seeing this as well. I thought it was an
-> > sstate issue, but doesn't appear to be. Is this addressed in a MUT build
-> > or something already?
-> >
->=20
-> Hi Darren,
->=20
-> I'm trying to figure out the reason, but haven't got much progress yet.
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Wed, Jan 15, 2014 at 12:17 AM, Paul Barker <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:paul@paulbarker.me.uk" target=3D"_blank">paul@paulbarker=
+.me.uk</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">The update-alternatives script has been copi=
+ed from opkg to opkg-utils so the<br>
+openembedded recipe for opkg-utils is updated accordingly. Changing the def=
+ault<br>
+provider of update-alternatives to opkg-utils allows dependencies to be add=
+ed to<br>
+the opkg recipe without causing circular dependency loops. This series part=
+ially<br>
+solves Yocto Project issue 4836.<br>
+<br>
+Tested on Raspberry Pi hardware both with and without &quot;gpg&quot; added=
+ to<br>
+PACKAGECONFIG for opkg.<br></blockquote><div><br></div><div>Nice; I didn&#3=
+9;t test the patchset but I couldn&#39;t spot any mistake.</div><div><br></=
+div><div>I will try to put it in my builder for testing...</div><div>=A0</d=
+iv>
+</div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.com.br" target=
+=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http:=
+//code.ossystems.com.br" target=3D"_blank">http://code.ossystems.com.br</a>=
+<br>
+<span>Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: <span id=3D=
+"gc-number-3" class=3D"gc-cs-link" title=3D"Call with Google Voice">+1 (347=
+) 903-9750</span></span><br>
+</div></div>
 
-Does autogen autodetect guile like make-4 does? RP fixed it in make
-yesterday.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---5vjQsMS/9MbKYGLq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLWY2MACgkQN1Ujt2V2gBxS+wCgk6CsSwU2NrD2gxucX5y5X9QH
-xfIAn09G/nu13ErNy7A5Bz18BEH0H058
-=6n/w
------END PGP SIGNATURE-----
-
---5vjQsMS/9MbKYGLq--
+--001a11c322c051181204f000813d--
