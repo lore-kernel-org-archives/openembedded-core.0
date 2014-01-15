@@ -1,43 +1,31 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id BDD6F6B4F7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 275DA6B4F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 09:31:58 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id p61so1481514wes.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 01:31:59 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=gxh4XrccKGuT4RPoQTgGTvO0HqnILHOtnp0RckSyWiU=;
-	b=H5WQg5u0IQI8CCLnWa1/Q1sMhqywDw56160tFJwunwYWn6UktafuxxWRSpZZFtvRj8
-	u6CHwR5MNJRDUJ7A962rq0b6N8cvzq4WX+qjt5XfswXQXiPh6b8KlD+MubUqLHtdRZP4
-	Cpxf82rBBClzwOtpfOhDdwQds9cZev+05fnmJRIAG7t1TfLth3FTIbzaTpd58BBT75zV
-	qgEu27th4Qex5Xx00y5bYTduCTtiqkBnw/GPtKLOeq4SLgWM28k30Za9OKqQ957RNrbf
-	lHnHaceTDeAnTJM66ErI/UHbmu//lEq0/3JX2NuMve8BHo5FPHHQEhZHeq3ylvQ2oIVN
-	vVaA==
-X-Gm-Message-State: ALoCoQlUpA8RljNvqN4oyGsVJU/l3++RNgkW9GW1F7EHpqU8H3GWxO+m+FEjvg8H2TXX2yQ1B9Xx
-X-Received: by 10.194.171.34 with SMTP id ar2mr777973wjc.81.1389778319215;
-	Wed, 15 Jan 2014 01:31:59 -0800 (PST)
-Received: from ?IPv6:2001:610:612:0:5e51:4fff:fec8:7c15?
-	([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id hy8sm2724911wjb.2.2014.01.15.01.31.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 15 Jan 2014 01:31:58 -0800 (PST)
-Message-ID: <52D6558D.3080709@linaro.org>
-Date: Wed, 15 Jan 2014 10:31:57 +0100
-From: Koen Kooi <koen.kooi@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1389777920-28884-1-git-send-email-koen.kooi@linaro.org>
-In-Reply-To: <1389777920-28884-1-git-send-email-koen.kooi@linaro.org>
-Subject: Re: [RFC][PATCHv2] grub-efi: add git version
+	Wed, 15 Jan 2014 09:41:10 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0F9f6oZ020620; Wed, 15 Jan 2014 09:41:06 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HrKXzjkrE97g; Wed, 15 Jan 2014 09:41:05 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0F9f1uK020601
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Wed, 15 Jan 2014 09:41:04 GMT
+Message-ID: <1389778855.14987.66.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Wed, 15 Jan 2014 09:40:55 +0000
+In-Reply-To: <5b2e657a4ee50d238838edc474b12590d7d61a28.1389769700.git.liezhi.yang@windriver.com>
+References: <cover.1389769700.git.liezhi.yang@windriver.com>
+	<5b2e657a4ee50d238838edc474b12590d7d61a28.1389769700.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] sstate.bbclass: remove previous version's stamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,106 +38,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 09:31:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Wed, 15 Jan 2014 09:41:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Ignore this one as well, it fails on non-x86 :( Grub is really great for 
-triggering different errors on different arches.
-
-On 01/15/2014 10:25 AM, Koen Kooi wrote:
-> This allows building both non-EFI (via grub_git.bb) and EFI versions of grub for platforms like i586 and armv7a which are usually non-EFI.
->
-> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+On Wed, 2014-01-15 at 15:09 +0800, Robert Yang wrote:
+> There is a potential problem if we don't remove the previous version's
+> stamp, for example:
+> 
+> The depend chain is:
+> libtool-native -> autoconf-native -> m4-native
+> We have two m4-native: 1.4.9 and 1.4.7
+> 
+> 1) Clean all of them to make a fresh build so that we can reproduce the
+>    problem
+> $ bitbake m4-native autoconf-native libtool-native -ccleansstate
+> 
+> 2) Build libtool-native so that the m4-native_1.4.17 will be built
+> $ bitbake libtool-native
+> 
+> 3) Set PREFERRED_VERSION_m4-native = "1.4.9" and build again
+> $ bitbake libtool-native
+> 
+> 4) Set PREFERRED_VERSION_m4-native = "1.4.17" and build again
+> $ bitbake libtool-native -ccleansstate && bitbake libtool-native
+> 
+> Then the build will fail:
+> [snip]
+> | m4: unrecognized option '--gnu'
+> | Try `m4 --help' for more information.
+> | autom4te: m4 failed with exit status: 1
+> [snip]
+> 
+> The is because when we change m4-native to 1.4.17 and build
+> libtool-native again:
+> 5) libtool-native depends on autoconf-native, and autoconf-native's
+>    version isn't change, so it can remove the current stamp and mirror
+>    the sstate (the one depends on m4-native_1.4.9) from the SSTATE_DIR
+>    correctly.
+> 
+> 6) The mirrored autoconf-native depends on m4-native_1.4.17's
+>    do_populate_sysroot, and the stamp is already there (which is made
+>    by step 2), so it would do nothing, but this is incorrect, since
+>    the one that really in the sysroot is m4-native_1.4.9, then the
+>    error happens.
+> 
+> Remove previous version's stamp in sstate_clean() will fix the problem.
+> 
+> [YOCTO #5422]
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > ---
->   meta/recipes-bsp/grub/grub-efi_git.bb | 72 +++++++++++++++++++++++++++++++++++
->   1 file changed, 72 insertions(+)
->   create mode 100644 meta/recipes-bsp/grub/grub-efi_git.bb
->
-> diff --git a/meta/recipes-bsp/grub/grub-efi_git.bb b/meta/recipes-bsp/grub/grub-efi_git.bb
-> new file mode 100644
-> index 0000000..e8f859e
-> --- /dev/null
-> +++ b/meta/recipes-bsp/grub/grub-efi_git.bb
-> @@ -0,0 +1,72 @@
-> +SUMMARY = "GRUB2 is the next-generation GRand Unified Bootloader"
-> +
-> +DESCRIPTION = "GRUB2 is the next generaion of a GPLed bootloader \
-> +intended to unify bootloading across x86 operating systems. In \
-> +addition to loading the Linux kernel, it implements the Multiboot \
-> +standard, which allows for flexible loading of multiple boot images."
-> +
-> +HOMEPAGE = "http://www.gnu.org/software/grub/"
-> +SECTION = "bootloaders"
-> +
-> +LICENSE = "GPLv3"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-> +
-> +DEPENDS = "autogen-native flex-native bison-native xz freetype"
-> +
-> +DEFAULT_PREFERENCE = "-1"
-> +DEFAULT_PREFERENCE_arm = "1"
-> +
-> +PV = "2.00+${SRCPV}"
-> +SRCREV = "0776112c5311196889a15058a3b1be4c81ba5e05"
-> +SRC_URI = "git://git.savannah.gnu.org/grub.git \
-> +          "
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
-> +
-> +inherit autotools
-> +inherit gettext
-> +
-> +PACKAGECONFIG ??= ""
-> +PACKAGECONFIG[grub-mount] = "--enable-grub-mount,--disable-grub-mount,fuse"
-> +PACKAGECONFIG[device-mapper] = "--enable-device-mapper,--disable-device-mapper,lvm2"
-> +
-> +# configure.ac has code to set this automagically from the target tuple
-> +# but the OE freeform one (core2-foo-bar-linux) don't work with that.
-> +
-> +GRUBPLATFORM = "efi"
-> +
-> +EXTRA_OECONF = "--with-platform=${GRUBPLATFORM} --disable-grub-mkfont --program-prefix="" \
-> +                --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
-> +
-> +do_configure_prepend() {
-> +    ( cd ${S}
-> +      ${S}/autogen.sh )
-> +}
-> +
-> +do_install_class-native() {
-> +        install -d ${D}${bindir}
-> +        install -m 755 grub-mkimage ${D}${bindir}
-> +}
-> +
-> +do_deploy() {
-> +	# Search for the grub.cfg on the local boot media by using the
-> +	# built in cfg file provided via this recipe
-> +	grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
-> +	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
-> +	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
-> +	install -m 644 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
-> +}
-> +
-> +do_deploy_class-native() {
-> +	:
-> +}
-> +
-> +addtask deploy after do_install before do_build
-> +
-> +RDEPENDS_${PN} = "diffutils freetype"
-> +FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
-> +
-> +INSANE_SKIP_${PN} = "arch"
-> +INSANE_SKIP_${PN}-dbg = "arch"
->
+>  meta/classes/sstate.bbclass | 19 ++++++++++---------
+>  1 file changed, 10 insertions(+), 9 deletions(-)
+> 
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 35c3f85..8802d79 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -331,6 +331,8 @@ def sstate_clean_manifest(manifest, d):
+>  
+>  def sstate_clean(ss, d):
+>      import oe.path
+> +    import glob
+> +    import re
+>  
+>      d2 = d.createCopy()
+>      extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info', True)
+> @@ -350,15 +352,14 @@ def sstate_clean(ss, d):
+>          for lock in locks:
+>              bb.utils.unlockfile(lock)
+>  
+> -    stfile = d.getVar("STAMP", True) + ".do_" + ss['task']
+> -    oe.path.remove(stfile)
+> -    oe.path.remove(stfile + "_setscene")
+> -    if extrainf:
+> -        oe.path.remove(stfile + ".*" + extrainf)
+> -        oe.path.remove(stfile + "_setscene" + ".*" + extrainf)
+> -    else:
+> -        oe.path.remove(stfile + ".*")
+> -        oe.path.remove(stfile + "_setscene" + ".*")
+> +    stamp_dir = os.path.dirname(d.getVar("STAMP", True))
+> +    # Remove the current and previous stamps, but keep the sigdata
+> +    wildcard_stfile = "%s/*.do_%s*" % (stamp_dir, ss['task'])
+> +    re_stfile_sigdata = "%s/.*\.do_%s\.sigdata\.*" % (stamp_dir, ss['task'])
+> +    for stfile in glob.glob(wildcard_stfile):
+> +        # Keep the sigdata
+> +        if not re.match(re_stfile_sigdata, stfile):
+> +            oe.path.remove(stfile)
+>  
 
+You can't do this, the extrainf data *is* important since for tasks
+which are machine specific, you must not trample on another machine's
+stamp files.
 
+Please use STAMPCLEAN here instead of STAMP, setup an appropriate glob
+or two glob expressions based on that, search for it, then iterate the
+result and only delete anything that doesn't have sigdata in it.
 
--- 
-Koen Kooi
-Builds and Baselines | Release Manager
-Linaro.org | Open source software for ARM SoCs
+Cheers,
+
+Richard
+
 
