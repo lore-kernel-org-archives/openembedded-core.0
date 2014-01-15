@@ -1,22 +1,24 @@
-Return-Path: <anders@chargestorm.se>
-Received: from STOEXHUB01.domain01.net (STOEXHUB01.domain01.net
-	[83.145.59.142])
-	by mail.openembedded.org (Postfix) with ESMTP id CB87261FE4
+Return-Path: <Fahad_Arslan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BCE16E36F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 07:31:05 +0000 (UTC)
-Received: from localhost (213.114.79.21) by STOEXHUB01.domain01.net
-	(10.12.10.1) with Microsoft SMTP Server id 8.3.279.1; Wed, 15 Jan 2014
-	08:30:50 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Jan 2014 08:31:02 +0100
-Message-ID: <c66dfbf119c73bbb6585287daa376ab14bf11662.1389770944.git.anders@chargestorm.se>
-X-Mailer: git-send-email 1.8.5.2
-In-Reply-To: <cover.1389770944.git.anders@chargestorm.se>
-References: <cover.1389770944.git.anders@chargestorm.se>
-MIME-Version: 1.0
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: [PATCH 1/1] systemd-compat-units: remove dnsmasq from sysv disabled list
+	Wed, 15 Jan 2014 09:14:55 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1W3MYo-0000Md-PV from Fahad_Arslan@mentor.com ;
+	Wed, 15 Jan 2014 01:14:54 -0800
+Received: from svr-pkl-eng-06.pkl.mentorg.com ([137.202.156.65]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Wed, 15 Jan 2014 01:14:52 -0800
+From: Fahad Arslan <fahad_arslan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2014 14:14:30 +0500
+Message-Id: <1389777270-58378-1-git-send-email-fahad_arslan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+X-OriginalArrivalTime: 15 Jan 2014 09:14:52.0535 (UTC)
+	FILETIME=[3FA0F070:01CF11D2]
+Cc: koen@dominion.thruhere.net
+Subject: [PATCH] speex: enable floating point support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,31 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 07:31:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 15 Jan 2014 09:14:55 -0000
 
-The dnsmasq recipe in meta-networking ships a dnsmasq.service file, that will
-correctly override the SysV init script. Thus, as pointed out by Ross Burton,
-we should remove dnsmasq from the list.
+From: Fahad Arslan <Fahad_Arslan@mentor.com>
 
-Signed-off-by: Anders Darander <anders@chargestorm.se>
+Speex configured in fixed point mode is not able to covert flaot
+input in range of +/-1 passed by Pulseaudio. As a result streams
+that need to be resampled are not playedback (no voice). Avoid
+this situation by configuring Speex in floating point mode.
+
+Signed-off-by: Fahad Arslan <Fahad_Arslan@mentor.com>
 ---
- meta/recipes-core/systemd/systemd-compat-units.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-multimedia/speex/speex_1.2rc1.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index e32ad79..d8cc3f7 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -23,7 +23,6 @@ do_install() {
+diff --git a/meta/recipes-multimedia/speex/speex_1.2rc1.bb b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
+index 5de0169..f1ea547 100644
+--- a/meta/recipes-multimedia/speex/speex_1.2rc1.bb
++++ b/meta/recipes-multimedia/speex/speex_1.2rc1.bb
+@@ -18,6 +18,6 @@ PARALLEL_MAKE = ""
  
- SYSTEMD_DISABLED_SYSV_SERVICES = " \
-   busybox-udhcpc \
--  dnsmasq \
-   hwclock \
-   networking \
-   syslog.busybox \
+ inherit autotools pkgconfig lib_package
+ 
+-EXTRA_OECONF = " --enable-fixed-point --with-ogg-libraries=${STAGING_LIBDIR} \
+-                 --disable-float-api --disable-vbr \
++EXTRA_OECONF = " --with-ogg-libraries=${STAGING_LIBDIR} \
++                 --enable-float-api --disable-vbr \
+                  --with-ogg-includes=${STAGING_INCDIR} --disable-oggtest"
 -- 
-1.8.5.2
+1.7.9.5
 
 
