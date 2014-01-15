@@ -1,42 +1,38 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D0676BE62
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ea0-f175.google.com (mail-ea0-f175.google.com
+	[209.85.215.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C2676B4F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 10:04:20 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id y10so1542000wgg.10
+	Wed, 15 Jan 2014 10:11:17 +0000 (UTC)
+Received: by mail-ea0-f175.google.com with SMTP id z10so343967ead.20
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 02:04:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=uzFZ1pf9MMOYXumPPxVt8kmJSKgrfB9/+nbhyYPTFCw=;
-	b=IUexIiOMxBqHva3CpVmiKNyp2tgXfo6or7Nd0MRF1yt9sv5L3NOQwbdopDEzoO7YmU
-	eKBI3o3BbI4hoTUG/aj4m4kiP8396j+qZ6LSxH9o0XF+tQsCSE+C1T5eSrQPKWsp4BSw
-	mz8bBi8m8OJaPdiLGwKUXvZAo+cTfCAIqHLVe71+s6+LDxD8wJZO74/4Xlj06g49pOW4
-	YxIthja9rFL8NIZEEmBwqtUCHLQHHLWiKrdQKjpvCo7ODHbx/gQek4jPHgXqufBq5Ylo
-	Pwmy8aExhGBhIy6O6l7I5C9IgMCvbxh8DXszJHOn0VtklKhRVi9h7NYDJnXAEoe/kAYc
-	BD4g==
-X-Gm-Message-State: ALoCoQke2HdQdbKGfoop6pOANQHM3nGy3UituTJVS1cSEWVpfzaXU5zf5W1H2BZbF/aSI/iV+rQU
-X-Received: by 10.194.82.68 with SMTP id g4mr556265wjy.85.1389780261066;
-	Wed, 15 Jan 2014 02:04:21 -0800 (PST)
-Received: from ?IPv6:2001:610:612::2076:f88f:7a13:7ab2?
-	([2001:610:612:0:2076:f88f:7a13:7ab2])
-	by mx.google.com with ESMTPSA id
-	kr10sm2790517wjc.22.2014.01.15.02.04.19 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 15 Jan 2014 02:04:20 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1389752246-4296-2-git-send-email-paul@paulbarker.me.uk>
-Date: Wed, 15 Jan 2014 11:04:20 +0100
-Message-Id: <39BBD84D-0924-4FD9-8585-3C7C231A1CC2@dominion.thruhere.net>
-References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
-	<1389752246-4296-2-git-send-email-paul@paulbarker.me.uk>
-To: Paul Barker <paul@paulbarker.me.uk>
-X-Mailer: Apple Mail (2.1827)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] opkg-utils: Upgrade to latest git HEAD
+	Wed, 15 Jan 2014 02:11:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=iqUqfQ5iISVT1OzcHRoSbnr5oWnh1y46yI9053hUm/o=;
+	b=E9AZjqIxqeeCGPSxk9ZDf7XnLO/jQQ8F62ajH/cGDINW1aiIfTXe/+w3Ya3arzcqup
+	+YIwVS8Ziq5PhLV1fxQM+q84HZwW1mC/8QqTuWEJTlPn9RkNIO5eC3DVH7onZXbIVkrR
+	QoPXfBmtUZW3ceMKmOSPlHlVhT/wSmHP+yWy+tpSUJKiJje/pUGqoDEgNNrqrRHx4WAT
+	l0zvD//hzb2jh62sRWFlC5RCljwttpL4NzxC/DNrGP6hAl8+ASECR59YBIuESQu5Rrzg
+	ns2AadGy8h1daIacqNu32WAnb2/Lkg4dTnjMtCna1qgQUrC4tXQzEmgZN5Ho+PUuLy35
+	lFBQ==
+X-Received: by 10.15.32.73 with SMTP id z49mr2364922eeu.27.1389780677889;
+	Wed, 15 Jan 2014 02:11:17 -0800 (PST)
+Received: from localhost.localdomain (ip-109-91-251-248.unitymediagroup.de.
+	[109.91.251.248])
+	by mx.google.com with ESMTPSA id v1sm8933076eef.9.2014.01.15.02.11.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Jan 2014 02:11:17 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2014 11:11:10 +0100
+Message-Id: <1389780670-29935-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [PATCH] weston: cleanup mesa depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,65 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 10:04:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 15 Jan 2014 10:11:19 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+* do not depend by default
+* depend on virtual/mesa instead of mesa
 
-Op 15 jan. 2014, om 03:17 heeft Paul Barker <paul@paulbarker.me.uk> het =
-volgende geschreven:
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-graphics/wayland/weston_1.3.1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> The latest version of opkg-utils PROVIDES virtual/update-alternatives =
-via a
-> script copied from opkg.
->=20
-> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-> ---
-> meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 7 ++++++-
-> 1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb =
-b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> index 714fc51..4ae6970 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> @@ -4,8 +4,10 @@ HOMEPAGE =3D "http://code.google.com/p/opkg/"
-> LICENSE =3D "GPLv2+"
-> LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19f \
->                     =
-file://opkg.py;beginline=3D1;endline=3D18;md5=3D15917491ad6bf7acc666ca5f7c=
-c1e083"
-> +PROVIDES +=3D "virtual/update-alternatives"
-> +RPROVIDES_update-alternatives-opkg =3D "update-alternatives"
-
-R* variables do below do_install since they deal with packaging
-
->=20
-> -SRCREV =3D "757a1664a440c60e8126443bf984e4bdf374c327"
-> +SRCREV =3D "fd4a3a4c20ada47b19e89849ddb6ff87904f01d2"
-> PV =3D "0.1.8+git${SRCPV}"
->=20
-> SRC_URI =3D "git://git.yoctoproject.org/opkg-utils"
-> @@ -21,6 +23,9 @@ do_install() {
-> # Avoid circular dependencies from package_ipk.bbclass
-> PACKAGES_class-native =3D ""
->=20
-> +PACKAGES =3D+ "update-alternatives-opkg"
-> +FILES_update-alternatives-opkg =3D "${bindir}/update-alternatives"
-> +
-> RDEPENDS_${PN} =3D "python python-shell python-io python-math =
-python-crypt python-logging python-fcntl python-subprocess python-pickle =
-python-compression python-textutils python-stringold"
-> RDEPENDS_${PN}_class-native =3D ""
->=20
-> --=20
-> 1.8.5.2
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
+diff --git a/meta/recipes-graphics/wayland/weston_1.3.1.bb b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+index d97f6af..8e555ee 100644
+--- a/meta/recipes-graphics/wayland/weston_1.3.1.bb
++++ b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "f7141334b141ae1a6435bd03bfdb01b7fb628f39259164f201e7e71c8d
+ inherit autotools pkgconfig useradd
+ 
+ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
+-DEPENDS += "wayland virtual/mesa virtual/egl pango"
++DEPENDS += "wayland virtual/egl pango"
+ 
+ EXTRA_OECONF = "--enable-setuid-install \
+                 --disable-tablet-shell \
+@@ -37,9 +37,9 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms wayland',
+ # Compositor choices
+ #
+ # Weston on KMS
+-PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev mesa mtdev"
++PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa mtdev"
+ # Weston on Wayland (nested Weston)
+-PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,mesa"
++PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
+ # Weston on X11
+ PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
+ # Headless Weston
+-- 
+1.8.3.1
 
 
