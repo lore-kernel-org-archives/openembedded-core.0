@@ -1,30 +1,36 @@
-Return-Path: <shanevolpe@gmail.com>
-Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
-	[74.125.82.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 58D186B4F7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id E277D6DA89
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 13:16:59 +0000 (UTC)
-Received: by mail-we0-f169.google.com with SMTP id u57so1778607wes.14
+	Wed, 15 Jan 2014 14:11:03 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id g10so4157087wiw.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 05:17:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=hTbvdbNesUiXPrNf9ihfvHMClE4kXiPWrjmIW3cJzGI=;
-	b=ruL6vpz4lIkgMhhd7i+q1G97MzvsIxKQhiMX2id66PP+EvZfUHvWfFlz0GLN50ShU8
-	fGTnJaUlWLG3J4krprclZ6U+X5uNk/s0Pnf5CAOSjMqI5tMc7+GjbKExYYLzg4OEusRA
-	Zqj0qFkxSV2RCJz5kJPlpbyF+u/X40v9AVWhoXC7YqbhxSVFDIQNdXXFjXtmT50uSfZs
-	Kd3+meVFqQnlIfx5tAxeQ8u/jKHRL9lMy6b1Q5vQvB75OKxvmr94lFEk8w84PShdJgDa
-	bPoJDnv5fGb+PRhw4Ml2w4yjcvzGzmnYXT7E/cTVHVIPEOBmMHcUB21Sa39AU2+Tvcn4
-	WFEg==
-X-Received: by 10.180.188.100 with SMTP id fz4mr2281128wic.57.1389791816844;
-	Wed, 15 Jan 2014 05:16:56 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.194.85.133 with HTTP; Wed, 15 Jan 2014 05:16:36 -0800 (PST)
-From: Shane Volpe <shanevolpe@gmail.com>
-Date: Wed, 15 Jan 2014 08:16:36 -0500
-Message-ID: <CAMgc3zNOyfSfz=jUmO2sCDOOJ8=MRwD+EZyAc3t-C6gzn3Ehnw@mail.gmail.com>
+	Wed, 15 Jan 2014 06:10:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ylvJ7j0xn3UQKqomoWc4Eq67wKlNOeP3FOEknmyMqtY=;
+	b=Ad/+5FnTy+bymUqPc7QLlaqtIVJ+SY0NeF7k7d56K/gjHftngo/bXpSowCfZL1ZzkG
+	oQb4VMgECOIojipw1D8wKqU75QCJLHNEL/hY9GltNZ3d7Akj2etqREyhFnPb8g5GahZg
+	zEsOBgDZbs40mPMxTslzXWi0yPPx8IGVS2I5Sm/Bk0GFd6m2cuLSCj+th+kOSJnd+jJY
+	Hk9dtrcPl+Ve7dE9BQVF6HfQ/exDEByKYi64INz2jFf5IDLniVY328DyEJkeL1iHeCDq
+	pw1xdCjb21NjYawvX7cHHKXPlsXA/XqWgsKR/9L7XqYeTHP/4sY783J1dNMBQ6IRVNk1
+	bmFg==
+X-Gm-Message-State: ALoCoQmKeCxj1JExZym9OMJaaOzaSnW4W6oJelLloDHCyq9BQ5MQK+Vd8nyTjQjhXl05UhypXxiJ
+X-Received: by 10.195.13.234 with SMTP id fb10mr2656389wjd.50.1389795058205;
+	Wed, 15 Jan 2014 06:10:58 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id e5sm3377987wja.15.2014.01.15.06.10.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Jan 2014 06:10:57 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Re: unable to use bitbake -c populate_sdk core-image-minimal on dora
+Date: Wed, 15 Jan 2014 14:10:54 +0000
+Message-Id: <1389795054-16993-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] ltp: fix makefile race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 13:17:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 15 Jan 2014 14:11:05 -0000
 
-I believe I'm also having the same problem Nicolas has reported in
-this thread, here is my output:
+There is a Makefile dependency race causing occasional build failures:
 
-Issue 1:
-update-alternatives: Error: cannot register alternative opkg to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/usr/bin/opkg
-since it is already registered to /usr/bin/opkg
+*** No rule to make target `.../work/core2-poky-linux/ltp/20130904-r0/git/testcases/kernel/include/linux_syscall_numbers.h.23161.sh', needed by `linux_syscall_numbers.h'.  Stop.
 
+This is due to a bad dependency wildcard that is matching more than the one file
+it should match, so replace it with a concrete filename.
 
-Issue 2:
-update-alternatives: Error: cannot register alternative passwd to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/usr/bin/passwd
-since it is already registered to /usr/bin/passwd
-update-alternatives: Error: cannot register alternative chfn to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/usr/bin/chfn
-since it is already registered to /usr/bin/chfn
-update-alternatives: Error: cannot register alternative newgrp to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/usr/bin/newgrp
-since it is already registered to /usr/bin/newgrp
-update-alternatives: Error: cannot register alternative chsh to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/usr/bin/chsh
-since it is already registered to /usr/bin/chsh
-update-alternatives: Error: cannot register alternative groups to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/usr/bin/groups
-since it is already registered to /usr/bin/groups
-update-alternatives: Error: cannot register alternative chpasswd to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/usr/sbin/chpasswd
-since it is already registered to /usr/sbin/chpasswd
-update-alternatives: Error: cannot register alternative login to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/bin/login since
-it is already registered to /bin/login
-update-alternatives: Error: cannot register alternative vipw to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/sbin/vipw since
-it is already registered to /sbin/vipw
-update-alternatives: Error: cannot register alternative vigr to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/sbin/vigr since
-it is already registered to /sbin/vigr
-update-alternatives: Error: cannot register alternative su to
-/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/bin/su since it
-is already registered to /bin/su
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/ltp/ltp/regen-makefile.patch |   22 ++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20130904.bb          |    1 +
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/regen-makefile.patch
+
+diff --git a/meta/recipes-extended/ltp/ltp/regen-makefile.patch b/meta/recipes-extended/ltp/ltp/regen-makefile.patch
+new file mode 100644
+index 0000000..3e114a1
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/regen-makefile.patch
+@@ -0,0 +1,22 @@
++Fix the dependencies for linux_syscall_numbers.h where in a parallel build it was
++finding the temporary file linux_syscall_numbers.h.[pid].sh (where sh is an
++architecture name).  Instead don't wildcard *.sh as the only .sh we care about
++here is regen.sh, so hard-code that.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/testcases/kernel/include/Makefile b/testcases/kernel/include/Makefile
++index db21a2a..585eb5e 100644
++--- a/testcases/kernel/include/Makefile
+++++ b/testcases/kernel/include/Makefile
++@@ -28,7 +28,7 @@ INSTALL_DIR		:= $(includedir)
++ 
++ MAKE_TARGETS		:= linux_syscall_numbers.h
++ 
++-linux_syscall_numbers.h: $(wildcard $(abs_srcdir)/*.sh $(abs_srcdir)/*.in)
++-	$(SHELL) "$(abs_srcdir)/regen.sh"
+++linux_syscall_numbers.h: $(abs_srcdir)/regen.sh $(wildcard $(abs_srcdir)/*.in)
+++	$(SHELL) "$<"
++ 
++ include $(top_srcdir)/include/mk/generic_leaf_target.mk
+diff --git a/meta/recipes-extended/ltp/ltp_20130904.bb b/meta/recipes-extended/ltp/ltp_20130904.bb
+index 4722a38..c346c5c 100644
+--- a/meta/recipes-extended/ltp/ltp_20130904.bb
++++ b/meta/recipes-extended/ltp/ltp_20130904.bb
+@@ -23,6 +23,7 @@ DEPENDS = "attr libaio libcap acl openssl"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
++           file://regen-makefile.patch \
+ "
+ 
+ SRCREV = "a8c42db5f9314211811c36275a21f83902830dc5"
+-- 
+1.7.10.4
+
 
