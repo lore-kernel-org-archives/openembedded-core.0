@@ -1,26 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AE816B4F7
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 44A9D61FE4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 07:09:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0F79nR7001485
+	Wed, 15 Jan 2014 07:10:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0F7ADoD002214
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2014 23:09:49 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 14 Jan 2014 23:09:49 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
+	Tue, 14 Jan 2014 23:10:13 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 14 Jan 2014 23:10:14 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 15 Jan 2014 15:09:29 +0800
-Message-ID: <5b2e657a4ee50d238838edc474b12590d7d61a28.1389769700.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1389769700.git.liezhi.yang@windriver.com>
-References: <cover.1389769700.git.liezhi.yang@windriver.com>
+Date: Wed, 15 Jan 2014 15:10:13 +0800
+Message-ID: <cover.1389769773.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sstate.bbclass: remove previous version's stamp
+Subject: [PATCH 0/1] shutdown-desktop: use poweroff for the Exec field in the shutdown.desktop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,96 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 07:09:48 -0000
+X-List-Received-Date: Wed, 15 Jan 2014 07:10:13 -0000
 Content-Type: text/plain
 
-There is a potential problem if we don't remove the previous version's
-stamp, for example:
+The following changes since commit e4c23f7bcb79072ea6028fbdf8f3f0dc17a63371:
 
-The depend chain is:
-libtool-native -> autoconf-native -> m4-native
-We have two m4-native: 1.4.9 and 1.4.7
+  dropbear: Refresh pam patch so it applies against recent version (2014-01-14 21:57:22 +0000)
 
-1) Clean all of them to make a fresh build so that we can reproduce the
-   problem
-$ bitbake m4-native autoconf-native libtool-native -ccleansstate
+are available in the git repository at:
 
-2) Build libtool-native so that the m4-native_1.4.17 will be built
-$ bitbake libtool-native
+  git://git.pokylinux.org/poky-contrib ChenQi/shutdown-desktop
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/shutdown-desktop
 
-3) Set PREFERRED_VERSION_m4-native = "1.4.9" and build again
-$ bitbake libtool-native
+Chen Qi (1):
+  shutdown-desktop: use poweroff for the Exec field in the
+    shutdown.desktop
 
-4) Set PREFERRED_VERSION_m4-native = "1.4.17" and build again
-$ bitbake libtool-native -ccleansstate && bitbake libtool-native
+ .../shutdown-desktop/shutdown.desktop              |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Then the build will fail:
-[snip]
-| m4: unrecognized option '--gnu'
-| Try `m4 --help' for more information.
-| autom4te: m4 failed with exit status: 1
-[snip]
-
-The is because when we change m4-native to 1.4.17 and build
-libtool-native again:
-5) libtool-native depends on autoconf-native, and autoconf-native's
-   version isn't change, so it can remove the current stamp and mirror
-   the sstate (the one depends on m4-native_1.4.9) from the SSTATE_DIR
-   correctly.
-
-6) The mirrored autoconf-native depends on m4-native_1.4.17's
-   do_populate_sysroot, and the stamp is already there (which is made
-   by step 2), so it would do nothing, but this is incorrect, since
-   the one that really in the sysroot is m4-native_1.4.9, then the
-   error happens.
-
-Remove previous version's stamp in sstate_clean() will fix the problem.
-
-[YOCTO #5422]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/sstate.bbclass | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 35c3f85..8802d79 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -331,6 +331,8 @@ def sstate_clean_manifest(manifest, d):
- 
- def sstate_clean(ss, d):
-     import oe.path
-+    import glob
-+    import re
- 
-     d2 = d.createCopy()
-     extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info', True)
-@@ -350,15 +352,14 @@ def sstate_clean(ss, d):
-         for lock in locks:
-             bb.utils.unlockfile(lock)
- 
--    stfile = d.getVar("STAMP", True) + ".do_" + ss['task']
--    oe.path.remove(stfile)
--    oe.path.remove(stfile + "_setscene")
--    if extrainf:
--        oe.path.remove(stfile + ".*" + extrainf)
--        oe.path.remove(stfile + "_setscene" + ".*" + extrainf)
--    else:
--        oe.path.remove(stfile + ".*")
--        oe.path.remove(stfile + "_setscene" + ".*")
-+    stamp_dir = os.path.dirname(d.getVar("STAMP", True))
-+    # Remove the current and previous stamps, but keep the sigdata
-+    wildcard_stfile = "%s/*.do_%s*" % (stamp_dir, ss['task'])
-+    re_stfile_sigdata = "%s/.*\.do_%s\.sigdata\.*" % (stamp_dir, ss['task'])
-+    for stfile in glob.glob(wildcard_stfile):
-+        # Keep the sigdata
-+        if not re.match(re_stfile_sigdata, stfile):
-+            oe.path.remove(stfile)
- 
- CLEANFUNCS += "sstate_cleanall"
- 
 -- 
-1.8.3.1
+1.7.9.5
 
 
