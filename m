@@ -1,38 +1,39 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
-	[209.85.214.178])
-	by mail.openembedded.org (Postfix) with ESMTP id ECA196E362
+Received: from mail-oa0-f44.google.com (mail-oa0-f44.google.com
+	[209.85.219.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E546D6E362
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 11:39:14 +0000 (UTC)
-Received: by mail-ob0-f178.google.com with SMTP id uz6so987539obc.37
+	Wed, 15 Jan 2014 11:51:15 +0000 (UTC)
+Received: by mail-oa0-f44.google.com with SMTP id g12so1060447oah.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 03:39:16 -0800 (PST)
+	Wed, 15 Jan 2014 03:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=Edce3N4sNT6tXLh7jl3i9L3GSZ9PO64Cc14Vt0KF2HE=;
-	b=Wes+KkJxeffXY1pW+UX/Wh2HEtdhtcUcuj7V9Golp4NKtJ+u0lC325+FOasPVn0uTb
-	+GHLdcrs2RiybBCkopMZuxNNBWT//0wD/I7Uk/MyBOAE88Y2f3tBtjJ8HCRDtpndS9F1
-	4cqkrT227vQcE/Y1c0e08D681I8tLAEQdWWFD6ODQjMNUM8Mfja5VbAv0eYry6qEcrjw
-	ZwzbHcpy55iEh0RmPVJ0ektAPquV5qn+XSatv9yp+yNUOJg1vaxfBn4IMTu5As+Jf4WC
-	PHcEejFWG9uHHPMm0RILBPZv9mnL8C/Pa0eOcg8E2UjOoj4hpF3K80bD5IeuqsfJQYWp
-	CqDw==
+	bh=L1qJaiLtXG3JfYy9fa0zIOmiDu+WdeXQIjbOm/9aS4k=;
+	b=tT9WSe6Zx9i3b/XSmLNXUZQn5ZdoJgO+GHMFo14iXrW7e8YZ5v3tZtjkRWE+xX/ZKx
+	RTyxFt5Or1LIY2PMD0OgowVDRwqtWuL31YbIMbA7q1V8JO+XAasqZQqk5KE2UHaaOlnX
+	EnHlNRaVmZKF8NdkxiM54wSaNo1w+BQPxsJhKNgRC1Iqm5Yy2yg2MMMHGUKYl1sGy1kG
+	vVwOqad1Kfeh2EfC6yXv6cyRElrSNN3wcnXCFcZWc2rL0Tq5yPYqwRW4PyuTw5NdLmDI
+	RsnStcfksv0tTGGvfkEdl9XlNfW71OVlB+Yie3Nv6kRAGpXR5RMbgUe25m/ApfZmNl/j
+	YEzQ==
 MIME-Version: 1.0
-X-Received: by 10.182.117.195 with SMTP id kg3mr1317879obb.17.1389785955933;
-	Wed, 15 Jan 2014 03:39:15 -0800 (PST)
+X-Received: by 10.182.241.8 with SMTP id we8mr1129034obc.62.1389786676860;
+	Wed, 15 Jan 2014 03:51:16 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 15 Jan 2014 03:39:15 -0800 (PST)
-In-Reply-To: <88e97c2d22d5289b4be49c0b7bb57295d959bfa7.1389768606.git.Qi.Chen@windriver.com>
-References: <cover.1389768606.git.Qi.Chen@windriver.com>
-	<88e97c2d22d5289b4be49c0b7bb57295d959bfa7.1389768606.git.Qi.Chen@windriver.com>
-Date: Wed, 15 Jan 2014 09:39:15 -0200
-X-Google-Sender-Auth: lXlQ6i_eYScKYl9TpcDDDt5fiBs
-Message-ID: <CAP9ODKofxQ3gvXaRjTtd18JBqp+y2AyonpLq2R4931mXv8OvQA@mail.gmail.com>
+Received: by 10.182.232.166 with HTTP; Wed, 15 Jan 2014 03:51:16 -0800 (PST)
+In-Reply-To: <CAP9ODKoL7vgZAk_k20AdHZyeohdDjqjGm4gYJqGepXMONkJUCQ@mail.gmail.com>
+References: <cover.1389769773.git.Qi.Chen@windriver.com>
+	<4975a4727b07aa321bb8d19429efc0796a115ecc.1389769773.git.Qi.Chen@windriver.com>
+	<CAP9ODKoL7vgZAk_k20AdHZyeohdDjqjGm4gYJqGepXMONkJUCQ@mail.gmail.com>
+Date: Wed, 15 Jan 2014 09:51:16 -0200
+X-Google-Sender-Auth: HXnNyINeIARS5c0SCEBXvtsq0GU
+Message-ID: <CAP9ODKrpaUoUP9obJ9vYXoyHboTManEMEw1zRtxL+5TD=_Wjwg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libtool: remove the unrecognized configure option
+Subject: Re: [PATCH 1/1] shutdown-desktop: use poweroff for the Exec field in the shutdown.desktop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,53 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 11:39:15 -0000
-Content-Type: multipart/alternative; boundary=089e0149c50637a2c004f000c2ee
+X-List-Received-Date: Wed, 15 Jan 2014 11:51:16 -0000
+Content-Type: multipart/alternative; boundary=001a11c322c0301ce004f000ed27
 
---089e0149c50637a2c004f000c2ee
+--001a11c322c0301ce004f000ed27
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, Jan 15, 2014 at 4:51 AM, Chen Qi <Qi.Chen@windriver.com> wrote:
+On Wed, Jan 15, 2014 at 9:38 AM, Otavio Salvador <otavio@ossystems.com.br>wrote:
 
-> Remove the unrecognized configure option '--with-sysroot' to avoid
-> build time warnings.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->
+> RB_HATL_SYSTEM
 
-Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
+
+typo in the commit log :) (Spot by Mario)
+
 
 -- 
 Otavio Salvador                             O.S. Systems
 http://www.ossystems.com.br        http://code.ossystems.com.br
 Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---089e0149c50637a2c004f000c2ee
+--001a11c322c0301ce004f000ed27
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Wed, Jan 15, 2014 at 4:51 AM, Chen Qi <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.co=
-m</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex">Remove the unrecognized configure option &#39;--with-sysro=
-ot&#39; to avoid<br>
-
-build time warnings.<br>
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
-@windriver.com</a>&gt;<br></blockquote><div><br></div><div>Reviewed-by: Ota=
-vio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystem=
-s.com.br</a>&gt;</div>
-</div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
-m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
-ref=3D"http://code.ossystems.com.br" target=3D"_blank">http://code.ossystem=
-s.com.br</a><br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Jan 15, 2014 at 9:38 AM, Otavio Salvador <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.c=
+om.br</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">RB_HATL_SYSTEM</blockquote></div><br>typo in=
+ the commit log :) (Spot by Mario)<br><br clear=3D"all"><div><br></div>-- <=
+br>
+Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S=
+. Systems<br><a href=3D"http://www.ossystems.com.br" target=3D"_blank">http=
+://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://code.ossystems=
+.com.br" target=3D"_blank">http://code.ossystems.com.br</a><br>
 Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
 <br>
 </div></div>
 
---089e0149c50637a2c004f000c2ee--
+--001a11c322c0301ce004f000ed27--
