@@ -1,26 +1,24 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 221B86B4F7;
-	Wed, 15 Jan 2014 05:22:42 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Jan 2014 21:22:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,660,1384329600"; 
-	d="asc'?scan'208";a="458996556"
-Received: from unknown (HELO [10.255.12.195]) ([10.255.12.195])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Jan 2014 21:22:42 -0800
-Message-ID: <1389763343.3092.17.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 14 Jan 2014 21:22:23 -0800
-In-Reply-To: <20140109144245.GF3709@jama>
-References: <20140106112936.C3F0C50472@opal> <20140109144245.GF3709@jama>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Robert Yang : autogen-native: upgrade to 5.18.2
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CB6F6B4F7
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jan 2014 05:57:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0F5vhW1026110
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 Jan 2014 21:57:43 -0800 (PST)
+Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 14 Jan 2014 21:57:43 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 15 Jan 2014 00:57:41 -0500
+Message-ID: <cover.1389765320.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] linux-yocto/3.10: consolidated update pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +31,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 05:22:42 -0000
-X-Groupsio-MsgNum: 48996
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-WsC6bwxqRjgUtOIetivM"
+X-List-Received-Date: Wed, 15 Jan 2014 05:57:44 -0000
+Content-Type: text/plain
 
---=-WsC6bwxqRjgUtOIetivM
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard/Saul,
 
-On Thu, 2014-01-09 at 15:42 +0100, Martin Jansa wrote:
-> On Mon, Jan 06, 2014 at 11:29:36AM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master
-> > Commit: 6bcd2dafa379badab11bff9d7b607f7f5d72fc94
-> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
-it;h=3D6bcd2dafa379badab11bff9d7b607f7f5d72fc94
-> >=20
-> > Author: Robert Yang <liezhi.yang@windriver.com>
-> > Date:   Fri Dec 27 01:05:14 2013 +0800
-> >=20
-> > autogen-native: upgrade to 5.18.2
-> >=20
-> > * Upgrade from 5.17.4 to 5.18.2
-> > * Rename files -> autogen
-> >=20
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
->=20
-> Fails in world builds:
+Here are three updates to the 3.10 kernel that I've had for a while. I'm
+about to merge the 3.10 LTSI content, so it is time to get these out of
+my queue. I had them for long enough, that muliple updates are squashed
+into the three patches.
 
-Guessing I'm behind somewhere - seeing this as well. I thought it was an
-sstate issue, but doesn't appear to be. Is this addressed in a MUT build
-or something already?
+I've build and boot tested the various qemu boards and kernel types, basic
+sanity has passed.
 
+Cheers,
 
---=20
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+Bruce
+
+The following changes since commit 1b636173ca88e5ccca1992f9a12367a1189fa674:
+
+  bitbake: toaster: Toaster GUI, generic search, filter and order (2014-01-10 15:20:26 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/3.10: update meta data for media fragments
+  linux-yocto/3.10: update to 3.10.25
+  linux-yocto/3.10: mohonpeak bsp config and scc files
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   | 10 ++++------
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  7 ++++---
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 18 +++++++++---------
+ 3 files changed, 17 insertions(+), 18 deletions(-)
+
+-- 
+1.8.1.2
 
 
---=-WsC6bwxqRjgUtOIetivM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQEcBAABAgAGBQJS1hsPAAoJEKbMaAwKp364uzcIAI8ikqxRWpv4EEt4w3P1JTtF
-GKUAJDp6dwhXx/Jqhr9YR3t6K/YQsqGxL+zSuHgQ4GgFXbKBHJzNU5ebIBXOPl/+
-hSX++rJzRVNeKqgNLLz4wYJ/3GYTyRmq/hYbEDaeFvmhLyCngqtjmHqQJv0O2iwE
-MuVPT/jOQqHiBMwK/ZVEnpQJMn3coAUn/syxl3+VCz3jCotksgVmvbTi7xQy1l2B
-SD12qXu1Q/azhqCVrruoqlkcJ2XR8GBDFD2qmRZq2hvYO7/kg/5cgvDhwZ2UwtM3
-/LidWZRYDYaGH71Z6P4aRwGh0NBshlwv5Rfj6KGx+hD3KrsIaYi9rdALDN+bZo0=
-=LKCj
------END PGP SIGNATURE-----
-
---=-WsC6bwxqRjgUtOIetivM--
