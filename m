@@ -1,27 +1,40 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EB7CA6B2E6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 47F256B678
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 08:42:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0G8g9Kh022776
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 16 Jan 2014 00:42:09 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 16 Jan 2014 00:42:08 -0800
-Message-ID: <52D79B5E.9090002@windriver.com>
-Date: Thu, 16 Jan 2014 16:42:06 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Thu, 16 Jan 2014 09:25:43 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id d49so618936eek.20
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jan 2014 01:25:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=0/As+9eJWLkrJA+aFR5nvSxRfk7zK83YS9YDCsPki8A=;
+	b=IecJMN/442gBVnCv1936EFeGAy+v6r+lhlzQiQuUGZYCT2kHA3NJatnnRFcyZyJnBO
+	ynES75tTEFmY0zE3TmPze9f+cy/sgSZ2rMd+ezr+lJF+7ET/kzbBxrnZ8lNAB451qkjo
+	zweoVy96hkAl+CQ8PYptczvf/29jPX4tBhusS/d4xEcMOQhmWl8nvME/k5BPF5RtLWAD
+	bihQlw1cb07IOiVOap9aNbZi7thvRoSdUkrGlFDtgH6PrB9Zp8sWzo+XhgPvdUbzZfr+
+	ZggoEBzOLxO6a6YwEWXo8XxWPySRmPSOsY75tx/DiEQX0zkiBom63+OJbFjhHHhk52RJ
+	CqHg==
+X-Received: by 10.15.32.73 with SMTP id z49mr10774219eeu.27.1389864336350;
+	Thu, 16 Jan 2014 01:25:36 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id 4sm16838704eed.14.2014.01.16.01.25.34
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Jan 2014 01:25:34 -0800 (PST)
+Date: Thu, 16 Jan 2014 10:25:56 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140116092556.GD3742@jama>
+References: <cover.1389629682.git.liezhi.yang@windriver.com>
+	<20140115165513.GB3742@jama> <52D74086.4030602@windriver.com>
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <1384229235-11557-1-git-send-email-raj.khem@gmail.com>
-	<52D798C9.5080006@windriver.com>
-In-Reply-To: <52D798C9.5080006@windriver.com>
-Subject: Re: [PATCH V2] tcl: Install header into 8.6 instead of PN-PV in user/include
+In-Reply-To: <52D74086.4030602@windriver.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,416 +47,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 08:42:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Jan 2014 09:25:44 -0000
+X-Groupsio-MsgNum: 49053
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ffoCPvUAPMgSXi6H"
+Content-Disposition: inline
 
+--ffoCPvUAPMgSXi6H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Jan 16, 2014 at 10:14:30AM +0800, Robert Yang wrote:
+>=20
+>=20
+> On 01/16/2014 12:55 AM, Martin Jansa wrote:
+> > On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
+> >> * The archive*.bbclass didn't work, and there were a few problems, for
+> >>    example:
+> >>    1) There were a few duplicated code
+> >>    2) There was no src_dir.org (or orig), but the diff command still u=
+se
+> >>       it, and it is not easy to fix this issue if we don't change a lot
+> >>       of the code.
+> >>    3) It didn't archive the source for the native or gcc
+> >>    4) The work flow is not very well
+> >>    5) The "subprocess.call('fakeroot cp xxxx'" should be removed
+> >>    6) And others ...
+> >>
+> >> * So that we have to refactor it, the benefits are:
+> >>    1) Fix the problems and make it work well.
+> >>    2) Reduce more than 400 lines in total.
+> >>    3) Make it easy to use.
+> >>
+> >> // Robert
+> >>
+> >> The following changes since commit 1b636173ca88e5ccca1992f9a12367a1189=
+fa674:
+> >>
+> >>    bitbake: toaster: Toaster GUI, generic search, filter and order (20=
+14-01-10 15:20:26 +0000)
+> >>
+> >> are available in the git repository at:
+> >>
+> >>    git://git.pokylinux.org/poky-contrib rbt/archiver
+> >>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Drbt/archiver
+> >
+> > Can you send pull-request for oe-core?
+> >
+>=20
+> Here it is:
+> git://git.pokylinux.org/poky-contrib rbt/ar_oe
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Drbt/ar_oe
 
-On 01/16/2014 04:31 PM, Robert Yang wrote:
->
-> On 11/12/2013 12:07 PM, Khem Raj wrote:
->> This helps in compiling other programs like expect which
->> depend on private headers but 8.5, 8.6 and so on is enough
->> granularity and currently we had 8.6.x and so on which
->> means that expect recipe will need to be touched whenever there
->> is minor update of tcl.
->>
->> + # Directory in which to install the include file tcl.h:
->> +-INCLUDE_INSTALL_DIR    = $(INSTALL_ROOT)$(includedir)
->> ++INCLUDE_INSTALL_DIR    = $(INSTALL_ROOT)$(includedir)/tcl$(VERSION)
->> +
->
-> Hi Khem,
->
-> I think that the tcl headers like tcl.h wass installed to:
->
-> /usr/include/tcl.h
->
-> with this patch, it will be installed:
->
-> /usr/include/tcl8.6/tcl.h
->
+This still looks like poky-contrib (so it will download whole
+poky-contrib when I add it as remote to oe-core repo).
 
-And what's worse is that some recipe like rrdtool may use:
-
-#include <tcl.h>
-
-will fail to, it has to use #include <tcl8.6/tcl.h> or something else similar.
-
-I think that we'd better change it back, I'd like to send a patch for this if
-you are fine with it.
-
-// Robert
-
-
-> The problem is that, the tcl.h can't be found normally now, it breaks
-> the recipe which depends on tcl, the recipe which depends on tcl
-> has to use something like:
->
-> --with-tclinclude=${STAGING_INCDIR}/tcl8.6
->
-> once we upgrade the tcl to 8.7, then the recipe has to use:
->
->
-> --with-tclinclude=${STAGING_INCDIR}/tcl8.7
->
-> Seems that this is not good, can we change it back, please ?
->
 > // Robert
->
->
->
->> + # Path to the private tcl header dir:
->> + PRIVATE_INCLUDE_DIR    = @PRIVATE_INCLUDE_DIR@
->> +Index: unix/configure.in
->> +===================================================================
->> +--- unix.orig/configure.in    2013-11-11 01:00:36.467550403 -0800
->> ++++ unix/configure.in    2013-11-11 01:00:36.503550404 -0800
->> +@@ -791,7 +791,7 @@
->> + eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
->> +
->> + TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
->> +-PRIVATE_INCLUDE_DIR='$(includedir)'
->> ++PRIVATE_INCLUDE_DIR='$(includedir)/tcl$(VERSION)'
->> + HTML_DIR='$(DISTDIR)/html'
->> +
->> + # Note:  in the following variable, it's important to use the absolute
->> +Index: unix/configure
->> +===================================================================
->> +--- unix.orig/configure    2013-11-11 01:00:36.467550403 -0800
->> ++++ unix/configure    2013-11-11 01:00:36.503550404 -0800
->> +@@ -19134,7 +19134,7 @@
->> + eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
->> +
->> + TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
->> +-PRIVATE_INCLUDE_DIR='$(includedir)'
->> ++PRIVATE_INCLUDE_DIR='$(includedir)/tcl$(VERSION)'
->> + HTML_DIR='$(DISTDIR)/html'
->> +
->> + # Note:  in the following variable, it's important to use the absolute
->> diff --git
->> a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
->> b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
->> index ed58175..be27341 100644
->> --- a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
->> +++ b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
->> @@ -15,11 +15,11 @@ Fixes tcl target recipe build on old distros which have
->> glibc older than 2.14
->>   Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
->>   2012/04/26
->>
->> -diff --git unix.orig/Makefile.in unix/Makefile.in
->> -index 571d53f..16351f6 100644
->> ---- unix.orig/Makefile.in
->> -+++ unix/Makefile.in
->> -@@ -679,7 +679,7 @@ topDirName:
->> +Index: unix/Makefile.in
->> +===================================================================
->> +--- unix.orig/Makefile.in    2013-11-10 23:38:01.787425628 -0800
->> ++++ unix/Makefile.in    2013-11-10 23:37:59.807425578 -0800
->> +@@ -686,7 +686,7 @@
->>    # tcltest executable gets the build directory burned into its ld search path.
->>    # This keeps tcltest from picking up an already installed version of the Tcl
->>    # library.
->> @@ -28,7 +28,7 @@ index 571d53f..16351f6 100644
->>            TCLLIBPATH="@abs_builddir@/pkgs" \
->>            TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"
->>
->> -@@ -705,7 +705,7 @@ test-tcl: ${TCLTEST_EXE}
->> +@@ -712,7 +712,7 @@
->>        $(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
->>
->>    gdb-test: ${TCLTEST_EXE}
->> diff --git a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
->> b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
->> index 80d718c..c60eb75 100644
->> --- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
->> +++ b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
->> @@ -1,10 +1,10 @@
->>   Upstream-Status: Pending
->>
->> -diff --git unix.orig/Makefile.in unix/Makefile.in
->> -index df05759..571d53f 100644
->> ---- unix.orig/Makefile.in
->> -+++ unix/Makefile.in
->> -@@ -702,23 +702,23 @@ tcltest-real:
->> +Index: unix/Makefile.in
->> +===================================================================
->> +--- unix.orig/Makefile.in    2013-11-10 23:37:34.243424934 -0800
->> ++++ unix/Makefile.in    2013-11-10 23:37:34.243424934 -0800
->> +@@ -709,23 +709,23 @@
->>    test: test-tcl test-packages
->>
->>    test-tcl: ${TCLTEST_EXE}
->> @@ -32,7 +32,7 @@ index df05759..571d53f 100644
->>
->>    # The following target generates the shared libraries in dltest/ that are used
->>    # for testing; they are included as part of the "tcltest" target (via the
->> -@@ -736,23 +736,23 @@ dltest.marker: ${STUB_LIB_FILE}
->> +@@ -743,23 +743,23 @@
->>    # This target can be used to run tclsh from the build directory
->>    # via `make shell SCRIPT=/tmp/foo.tcl`
->>    shell: ${TCL_EXE}
->> diff --git a/meta/recipes-devtools/tcltk/tcl/no_packages.patch
->> b/meta/recipes-devtools/tcltk/tcl/no_packages.patch
->> index b045814..ab6cc43 100644
->> --- a/meta/recipes-devtools/tcltk/tcl/no_packages.patch
->> +++ b/meta/recipes-devtools/tcltk/tcl/no_packages.patch
->> @@ -5,11 +5,11 @@ Upstream-Status:Inappropriate [embedded specific]
->>
->>   Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
->>
->> -diff --git unix.orig/Makefile.in unix/Makefile.in
->> -index 16351f6..76ccadb 100644
->> ---- unix.orig/Makefile.in
->> -+++ unix/Makefile.in
->> -@@ -601,7 +601,7 @@ SRCS = $(GENERIC_SRCS) $(TOMMATH_SRCS) $(UNIX_SRCS)
->> $(NOTIFY_SRCS) \
->> +Index: unix/Makefile.in
->> +===================================================================
->> +--- unix.orig/Makefile.in    2013-11-10 23:38:12.235425891 -0800
->> ++++ unix/Makefile.in    2013-11-10 23:38:12.231425891 -0800
->> +@@ -611,7 +611,7 @@
->>    # Start of rules
->>    #--------------------------------------------------------------------------
->>
->> @@ -18,7 +18,7 @@ index 16351f6..76ccadb 100644
->>
->>    binaries: ${LIB_FILE} $(STUB_LIB_FILE) ${TCL_EXE}
->>
->> -@@ -646,12 +646,12 @@ Makefile: $(UNIX_DIR)/Makefile.in
->> $(DLTEST_DIR)/Makefile.in
->> +@@ -653,12 +653,12 @@
->>    #tclConfig.h: $(UNIX_DIR)/tclConfig.h.in
->>    #    $(SHELL) config.status
->>
->> @@ -33,7 +33,7 @@ index 16351f6..76ccadb 100644
->>        rm -rf Makefile config.status config.cache config.log tclConfig.sh \
->>            tclConfig.h *.plist Tcl.framework tcl.pc
->>        cd dltest ; $(MAKE) distclean
->> -@@ -699,7 +699,7 @@ tcltest-real:
->> +@@ -706,7 +706,7 @@
->>    # tcltest, ie:
->>    #    % make test TESTFLAGS="-verbose bps -file fileName.test"
->>
->> @@ -42,7 +42,7 @@ index 16351f6..76ccadb 100644
->>
->>    test-tcl: ${TCLTEST_EXE}
->>        $(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
->> -@@ -764,7 +764,7 @@ INSTALL_PACKAGE_TARGETS = install-packages
->> +@@ -771,7 +771,7 @@
->>    INSTALL_DEV_TARGETS = install-headers
->>    INSTALL_EXTRA_TARGETS = @EXTRA_INSTALL@
->>    INSTALL_TARGETS = $(INSTALL_BASE_TARGETS) $(INSTALL_DOC_TARGETS)
->> $(INSTALL_DEV_TARGETS) \
->> diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
->> b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
->> index d3691f6..96276ea 100644
->> --- a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
->> +++ b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
->> @@ -2,29 +2,23 @@ Upstream-Status: Pending
->>
->>   Index: unix/configure
->>   ===================================================================
->> ---- unix.orig/configure    2013-09-19 23:17:13.000000000 +0300
->> -+++ unix/configure    2013-10-16 15:58:37.450136217 +0300
->> -@@ -6899,6 +6899,7 @@
->> -         LIBS="$LIBS -lc"
->> -         SHLIB_CFLAGS=""
->> -         SHLIB_SUFFIX=".so"
->> -+        SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.so.0'
->> +--- unix.orig/configure    2013-09-19 13:17:13.000000000 -0700
->> ++++ unix/configure    2013-11-11 00:20:51.519490342 -0800
->> +@@ -7599,6 +7599,9 @@
->> +         # get rid of the warnings.
->> +         #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES
->> -D__NO_MATH_INLINES"
->>
->> ++        # following line added by CW for Debian GNU/Linux
->> ++        TCL_SHLIB_LD_EXTRAS="-Wl,-soname,\${TCL_LIB_FILE}.0"
->> ++
->> +         SHLIB_LD='${CC} -shared ${CFLAGS} ${LDFLAGS}'
->>            DL_OBJS="tclLoadDl.o"
->> -         LD_LIBRARY_PATH_VAR="LIBPATH"
->> +         DL_LIBS="-ldl"
->>   Index: unix/tcl.m4
->>   ===================================================================
->> ---- unix.orig/tcl.m4    2013-09-19 23:17:13.000000000 +0300
->> -+++ unix/tcl.m4    2013-10-16 16:18:50.719586228 +0300
->> -@@ -1408,6 +1408,7 @@
->> -     Linux*|GNU*|NetBSD-Debian)
->> -         SHLIB_CFLAGS="-fPIC"
->> -         SHLIB_SUFFIX=".so"
->> -+        SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.0'
->> -
->> -         CFLAGS_OPTIMIZE="-O2"
->> -         # egcs-2.91.66 on Redhat Linux 6.0 generates lots of warnings
->> -@@ -1415,12 +1416,15 @@
->> +--- unix.orig/tcl.m4    2013-09-19 13:17:13.000000000 -0700
->> ++++ unix/tcl.m4    2013-11-11 00:17:24.263485123 -0800
->> +@@ -1415,6 +1415,9 @@
->>            # get rid of the warnings.
->>            #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES
->> -D__NO_MATH_INLINES"
->>
->> @@ -34,19 +28,19 @@ Index: unix/tcl.m4
->>            SHLIB_LD='${CC} -shared ${CFLAGS} ${LDFLAGS}'
->>            DL_OBJS="tclLoadDl.o"
->>            DL_LIBS="-ldl"
->> -         LDFLAGS="$LDFLAGS -Wl,--export-dynamic"
->> -         AS_IF([test $doRpath = yes], [
->> --        CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'])
->> -+        CC_SEARCH_FLAGS=''])
->> -         LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
->> -         AS_IF([test "`uname -m`" = "alpha"], [CFLAGS="$CFLAGS -mieee"])
->> -         AS_IF([test $do64bit = yes], [
->> -@@ -2050,7 +2054,7 @@
->> -
->> -     AS_IF([test "${SHARED_BUILD}" = 1 -a "${SHLIB_SUFFIX}" != ""], [
->> -         LIB_SUFFIX=${SHARED_LIB_SUFFIX}
->> --        MAKE_LIB='${SHLIB_LD} -o [$]@ ${OBJS} ${TCL_SHLIB_LD_EXTRAS}
->> ${SHLIB_LD_LIBS} ${TK_SHLIB_LD_EXTRAS} ${LD_SEARCH_FLAGS}'
->> -+        MAKE_LIB='${SHLIB_LD} -o $@ ${OBJS} ${SHLIB_LD_LIBS}
->> ${TCL_SHLIB_LD_EXTRAS} ${TK_SHLIB_LD_EXTRAS} ${LD_SEARCH_FLAGS}'
->> -         AS_IF([test "${SHLIB_SUFFIX}" = ".dll"], [
->> -             INSTALL_LIB='$(INSTALL_LIBRARY) $(LIB_FILE)
->> "$(BIN_INSTALL_DIR)/$(LIB_FILE)"'
->> -             DLL_INSTALL_DIR="\$(BIN_INSTALL_DIR)"
->> +Index: unix/Makefile.in
->> +===================================================================
->> +--- unix.orig/Makefile.in    2013-09-19 13:17:13.000000000 -0700
->> ++++ unix/Makefile.in    2013-11-11 00:20:32.423489861 -0800
->> +@@ -796,7 +796,10 @@
->> +         done;
->> +     @echo "Installing $(LIB_FILE) to $(DLL_INSTALL_DIR)/"
->> +     @@INSTALL_LIB@
->> +-    @chmod 555 "$(DLL_INSTALL_DIR)/$(LIB_FILE)"
->> ++    mv "$(DLL_INSTALL_DIR)"/$(LIB_FILE) "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0
->> ++    ln -sf $(LIB_FILE).0 "$(DLL_INSTALL_DIR)"/$(LIB_FILE)
->> ++    ln -sf "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0 ./
->> ++    @chmod 555 "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0
->> +     @echo "Installing ${TCL_EXE} as
->> $(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
->> +     @$(INSTALL_PROGRAM) ${TCL_EXE}
->> "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
->> +     @echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
->> diff --git
->> a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
->> b/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
->> index afdd880..16f7c80 100644
->> --- a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
->> +++ b/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
->> @@ -19,11 +19,24 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>    configure |    2 +-
->>    1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> -diff --git a/configure b/configure
->> -index 478a4d5..79c2979 100755
->> ---- a/configure
->> -+++ b/configure
->> -@@ -18772,7 +18772,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
->> +Index: unix/configure
->> +===================================================================
->> +--- unix.orig/configure    2013-11-10 23:38:33.643426430 -0800
->> ++++ unix/configure    2013-11-10 23:39:51.347428387 -0800
->> +@@ -19134,7 +19134,7 @@
->> +
->> + eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
->> +
->> +-TCL_LIBRARY='$(prefix)/lib/tcl$(VERSION)'
->> ++TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
->> + PRIVATE_INCLUDE_DIR='$(includedir)'
->> + HTML_DIR='$(DISTDIR)/html'
->> +
->> +Index: unix/configure.in
->> +===================================================================
->> +--- unix.orig/configure.in    2013-11-10 23:20:50.000000000 -0800
->> ++++ unix/configure.in    2013-11-10 23:39:41.199428131 -0800
->> +@@ -790,7 +790,7 @@
->>
->>    eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
->>
->> @@ -32,6 +45,3 @@ index 478a4d5..79c2979 100755
->>    PRIVATE_INCLUDE_DIR='$(includedir)'
->>    HTML_DIR='$(DISTDIR)/html'
->>
->> ---
->> -1.7.9.5
->> -
->> diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
->> b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
->> index e239708..f40475d 100644
->> --- a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
->> +++ b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
->> @@ -15,11 +15,12 @@ BASE_SRC_URI =
->> "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
->>                   file://tcl-add-soname.patch"
->>
->>   SRC_URI = "${BASE_SRC_URI} \
->> -       file://fix_non_native_build_issue.patch \
->> -       file://fix_issue_with_old_distro_glibc.patch \
->> -       file://no_packages.patch \
->> -       file://tcl-remove-hardcoded-install-path.patch \
->> -       "
->> +           file://fix_non_native_build_issue.patch \
->> +           file://fix_issue_with_old_distro_glibc.patch \
->> +           file://no_packages.patch \
->> +           file://tcl-remove-hardcoded-install-path.patch \
->> +           file://alter-includedir.patch \
->> +          "
->>   SRC_URI[md5sum] = "aae4b701ee527c6e4e1a6f9c7399882e"
->>   SRC_URI[sha256sum] =
->> "16ee769248e64ba1cae6b4834fcc4e4edd7470d881410e8d58f7dd1434343514"
->>
->> @@ -27,6 +28,8 @@ SRC_URI_class-native = "${BASE_SRC_URI}"
->>
->>   S = "${WORKDIR}/tcl${PV}/unix"
->>
->> +VER = "8.6"
->> +
->>   inherit autotools
->>
->>   DEPENDS_class-native = ""
->> @@ -43,9 +46,8 @@ do_compile_prepend() {
->>   }
->>
->>   do_install() {
->> -    autotools_do_install
->> -    oe_libinstall -so libtcl8.6 ${D}${libdir}
->> -    ln -sf ./tclsh8.6 ${D}${bindir}/tclsh
->> +    autotools_do_install install-private-headers
->> +    ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
->>       sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
->>       sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
->>       sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
->> @@ -54,8 +56,8 @@ do_install() {
->>       cd ..
->>       for dir in compat generic unix
->>       do
->> -        install -d ${D}${includedir}/tcl${PV}/$dir
->> -        install -m 0644 ${S}/../$dir/*.h ${D}${includedir}/tcl${PV}/$dir/
->> +        install -d ${D}${includedir}/${BPN}${VER}/$dir
->> +        install -m 0644 ${S}/../$dir/*.h ${D}${includedir}/${BPN}${VER}/$dir/
->>       done
->>   }
->>
->> @@ -65,8 +67,8 @@ tcl_sysroot_preprocess () {
->>   }
->>
->>   PACKAGES =+ "tcl-lib"
->> -FILES_tcl-lib = "${libdir}/libtcl8.6.so*"
->> -FILES_${PN} += "${libdir}/tcl8.6 ${libdir}/tcl8"
->> +FILES_tcl-lib = "${libdir}/libtcl${VER}.so.*"
->> +FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8"
->>   FILES_${PN}-dev += "${libdir}/tclConfig.sh ${libdir}/tclooConfig.sh"
->>
->>   # isn't getting picked up by shlibs code
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+>=20
+> >> Robert Yang (5):
+> >>    classes/archive*.bbclass: remove archive-*-source.bbclass
+> >>    archiver.bbclass: refactor it
+> >>    package_rpm.bbclass: archive the source to srpm package
+> >>    archiver.bbclass: move a few code to copyleft_compliance.bbclass
+> >>    local.conf.sample.extended: update for the archiver
+> >>
+> >>   meta-yocto/conf/local.conf.sample.extended     |  72 +--
+> >>   meta/classes/archive-configured-source.bbclass |  65 ---
+> >>   meta/classes/archive-original-source.bbclass   |  65 ---
+> >>   meta/classes/archive-patched-source.bbclass    |  65 ---
+> >>   meta/classes/archiver.bbclass                  | 723 ++++++++-------=
+----------
+> >>   meta/classes/copyleft_compliance.bbclass       |  55 +-
+> >>   meta/classes/package_rpm.bbclass               |  31 +-
+> >>   7 files changed, 316 insertions(+), 760 deletions(-)
+> >>   delete mode 100644 meta/classes/archive-configured-source.bbclass
+> >>   delete mode 100644 meta/classes/archive-original-source.bbclass
+> >>   delete mode 100644 meta/classes/archive-patched-source.bbclass
+> >>
+> >> --
+> >> 1.8.3.1
+> >>
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--ffoCPvUAPMgSXi6H
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLXpaQACgkQN1Ujt2V2gBysjACgtzoY8u3QIfhJYXWyriIsbplC
+MCkAn2qiTCzqnKyBnl+QmbUn32+KQIR8
+=mAr7
+-----END PGP SIGNATURE-----
+
+--ffoCPvUAPMgSXi6H--
