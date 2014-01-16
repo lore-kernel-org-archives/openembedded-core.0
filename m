@@ -1,34 +1,44 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F9BB6E20F
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from anubis.se.axis.com (anubis.se.axis.com [195.60.68.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 904846E30D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 13:44:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jan 2014 05:40:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,667,1384329600"; 
-	d="scan'208,217";a="439815894"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by orsmga001.jf.intel.com with ESMTP; 16 Jan 2014 05:44:09 -0800
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.215]) by
-	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
-	14.03.0123.003; Thu, 16 Jan 2014 13:43:51 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: John Stirling <ap.john.stirling@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
+	Thu, 16 Jan 2014 13:58:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by anubis.se.axis.com (Postfix) with ESMTP id C3E941A01C;
+	Thu, 16 Jan 2014 14:58:38 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at anubis.se.axis.com
+Received: from anubis.se.axis.com ([127.0.0.1])
+	by localhost (anubis.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 70WHDqoonExC; Thu, 16 Jan 2014 14:58:36 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by anubis.se.axis.com (Postfix) with ESMTP id 6875219E0D;
+	Thu, 16 Jan 2014 14:58:31 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 141D9CC4;
+	Thu, 16 Jan 2014 14:58:31 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id F2241A5E;
+	Thu, 16 Jan 2014 14:58:30 +0100 (CET)
+Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
+	by seth.se.axis.com (Postfix) with ESMTP id EF9193E06F;
+	Thu, 16 Jan 2014 14:58:30 +0100 (CET)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
+	([10.0.5.75]) with mapi; Thu, 16 Jan 2014 14:58:31 +0100
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "OE Core (openembedded-core@lists.openembedded.org)"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] avahi + latest airplay release from apple
-Thread-Index: AQHPErjvUgTmyZ0u10uM1yeir3XrY5qHWtoA
-Date: Thu, 16 Jan 2014 13:43:51 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CDCC0F@IRSMSX105.ger.corp.intel.com>
-References: <CABuzA3P2x+_N6ssGGR4zBEZNHiXBCYOf=-u-gSRs4QcanK74JQ@mail.gmail.com>
-In-Reply-To: <CABuzA3P2x+_N6ssGGR4zBEZNHiXBCYOf=-u-gSRs4QcanK74JQ@mail.gmail.com>
-Accept-Language: en-US
+Date: Thu, 16 Jan 2014 14:58:31 +0100
+Thread-Topic: RFC: Maintain backwards compatibility or not for
+	module-base.bbclass
+Thread-Index: Ac8SwwkG10iw4EZqQy+4iUHICRBSww==
+Message-ID: <A612847CFE53224C91B23E3A5B48BAC7A5548F1DCE@xmail3.se.axis.com>
+Accept-Language: en-US, sv-SE
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-Subject: Re: avahi + latest airplay release from apple
+Cc: Phil Blundell <philb@gnu.org>
+Subject: RFC: Maintain backwards compatibility or not for module-base.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,223 +51,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 13:44:09 -0000
+X-List-Received-Date: Thu, 16 Jan 2014 13:58:43 -0000
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB16CDCC0FIRSMSX105gercor_"
-
---_000_969F26A8BAB325438E7EB80D3C3134FB16CDCC0FIRSMSX105gercor_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
-By Airplay released by Apple, are you referring to an SDK or something like=
- that to build devices with Airplay (sinker) support?
-In my opinion, I think your question should be better directed to the avahi=
- developers.
-Regards,
-Cristian Iorga
-YP
-Intel
+Background: Back in September, Richard made a commit to=20
+linux-libc-headers.inc describing why one should not fork the=20
+linux-libc-headers recipe:
 
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of John Stirling
-Sent: Thursday, January 16, 2014 2:46 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] avahi + latest airplay release from apple
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Dbabbf7a46acaefd=
+9b36031483cafce053f607e66
 
-I'm attempting to use avahi (0.6.31) with the latest airplay release from a=
-pple. Is anyone else attempting the same thing ?
+As a result I created a local bbclass for our layer called=20
+kernel-headers, which provides a recipe with kernel headers=20
+that match the actually used version of the Linux kernel.
+This was needed for packages that need to access hardware=20
+specific features that are not present in the generic kernel=20
+headers provided by linux-libc-headers.
 
-There are some issues -
+My intention for this class was that it should be generic=20
+enough to be able to upstream it to OE Core.
 
-avahi dns_sd.h is missing a few defines needed by airplay (patch attached)
-DNSServiceGetAddrInfo doesn't exist in avahi and is called from airplay
+Now, the other day a colleague of mine had a build failure due=20
+to this class. It turned out that even though the class adds a=20
+dependency on virtual/kernel and then uses the files that are=20
+installed to ${STAGING_KERNEL_DIR} when running oe_runmake=20
+headers_install, the command could fail because the=20
+${STAGING_KERNEL_DIR}/scripts was not populated. After asking=20
+Richard about this, I learned that this is due to problems=20
+with the sstate cache and not knowing whether a 32 bit host or=20
+a 64 bit host was used to generate the files. Thus I also=20
+learned that the scripts are actually built as a result of=20
+building modules.
 
-avahi HEAD doesn't seem to implement this function either and there doesn't=
- seem to have been much activity since the 0.6.31 release
+Since I did not want my class to depend on modules having been=20
+built, I looked into modules.bbclass and modules-base.bbclass.=20
+There I found the function do_make_scripts() which is=20
+responsible for building  the kernel scripts. However, the=20
+current setup doesn't lend itself very well to use the=20
+modules-base.bbclass for something other than modules.
 
-Any advice ?
+My idea then was to break this part out into a separate class,=20
+kernel-scripts, which I did. You can find both the=20
+kernel-scripts and kernel-headers classes here:=20
 
-Thanks
-John
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dpkj/kernel-=
+headers
+
+When I showed this to Richard he noted that my change was not=20
+backwards compatible (as I no longer provide the=20
+do_make_scripts() function from the module-base.bbclass).=20
+However, there is nothing besides module.bbclass in OE Core=20
+and meta-oe that use the module-base.bbclass.
+
+Anyway, I made a modified version that does maintain backwards=20
+compatibility for module-base.bbclass here:
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dpkj/kernel-=
+headers-backwards-compatible
+
+This time Richard complained about the extra class=20
+(kernel-scripts-base.bbclass), and noted that there was no=20
+way to win... He then suggested that I take the question of=20
+whether we need to maintain backwards compatibility for=20
+modules-base.bbclass to the mailing list.
+
+So, here I am now. I do not know who else use the=20
+do_make_scripts() function from module-base.bbclass and in what=20
+way, and whether restructuring the functionality into the new=20
+kernel-scripts.bbclass without maintaining backwards=20
+compatibility would be a problem. If you know anything about=20
+this, please let me know.
+
+Any comments appreciated.
+
+//Peter
 
 
-
-
-
-
-
-
-
-
---_000_969F26A8BAB325438E7EB80D3C3134FB16CDCC0FIRSMSX105gercor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:12.0pt;
-	font-family:"Times New Roman","serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-reply;
-	font-family:"Calibri","sans-serif";
-	color:#1F497D;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Hello,<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D">By Airplay released by Ap=
-ple, are you referring to an SDK or something like that to build devices wi=
-th Airplay (sinker) support?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D">In my opinion, I think yo=
-ur question should be better directed to the avahi developers.<o:p></o:p></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Regards,<o:p></o:p></span=
-></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Cristian Iorga<o:p></o:p>=
-</span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D">YP<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Intel<o:p></o:p></span></=
-p>
-<p class=3D"MsoNormal"><a name=3D"_MailEndCompose"><span style=3D"font-size=
-:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;color:#1F497=
-D"><o:p>&nbsp;</o:p></span></a></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
-;Calibri&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-=
-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;"> openem=
-bedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounce=
-s@lists.openembedded.org]
-<b>On Behalf Of </b>John Stirling<br>
-<b>Sent:</b> Thursday, January 16, 2014 2:46 PM<br>
-<b>To:</b> openembedded-core@lists.openembedded.org<br>
-<b>Subject:</b> [OE-core] avahi &#43; latest airplay release from apple<o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div>
-<p class=3D"MsoNormal">I'm attempting to use avahi (0.6.31) with the latest=
- airplay release from apple. Is anyone else attempting the same thing ?&nbs=
-p;<o:p></o:p></p>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">There are some issues -<o:p></o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">avahi dns_sd.h is missing a few defines needed by ai=
-rplay (patch attached)<o:p></o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">DNSServiceGetAddrInfo doesn't exist in avahi and is =
-called from airplay<o:p></o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">avahi HEAD doesn't seem to implement this function e=
-ither and there doesn't seem to have been much activity since the 0.6.31 re=
-lease<o:p></o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Any advice ?<o:p></o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Thanks<o:p></o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal">John<o:p></o:p></p>
-</div>
-<div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_969F26A8BAB325438E7EB80D3C3134FB16CDCC0FIRSMSX105gercor_--
