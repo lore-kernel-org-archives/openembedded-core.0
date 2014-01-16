@@ -1,42 +1,34 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E89CC6E3AA
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F9BB6E20F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 13:39:01 +0000 (UTC)
-Received: by mail-pd0-f172.google.com with SMTP id z10so2600221pdj.31
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 05:39:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=fKZU4lRTzkJjYErxm41opwDWJweAnRM60xK95o6p1Qw=;
-	b=kZmIPMY6+jXd9KdIIP6fClEuBseeXeGr6u+DBT/VgO4eEoRe4GunElnGVtWFTHXdvn
-	i9EC7fy2LFDDBajWWKko+1l6dGrSF5hrmau6LssNDDA8uRkFLv6XJoejz5wxyemyer+R
-	ypLxJGgcykiqcVM+SQamM1hl23eZV6TtWew1XrvAXhHrhoriIoAWTyTKTAvD/Iq1khRg
-	5Ry5i4e6Fs15gsOqtByyOU6MdeNhecHGG8c2uWz1qRgMXitYMJcCPx2FAkX58rfMX9bE
-	F9CsuGq6BdHFiaK5hdxx5iT7yaLisvbbyGurbl0Gt56Qs3GfTEPQ319rnfdKq5dvW4v3
-	DBow==
-X-Gm-Message-State: ALoCoQmSODr5MnXcW4umTMaykItousJsg6ISnzrZpLaE0Hk3uXvN29fiaXg5GsyDbs91liU0meXe
+	Thu, 16 Jan 2014 13:44:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 16 Jan 2014 05:40:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,667,1384329600"; 
+	d="scan'208,217";a="439815894"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by orsmga001.jf.intel.com with ESMTP; 16 Jan 2014 05:44:09 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.215]) by
+	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
+	14.03.0123.003; Thu, 16 Jan 2014 13:43:51 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: John Stirling <ap.john.stirling@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] avahi + latest airplay release from apple
+Thread-Index: AQHPErjvUgTmyZ0u10uM1yeir3XrY5qHWtoA
+Date: Thu, 16 Jan 2014 13:43:51 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CDCC0F@IRSMSX105.ger.corp.intel.com>
+References: <CABuzA3P2x+_N6ssGGR4zBEZNHiXBCYOf=-u-gSRs4QcanK74JQ@mail.gmail.com>
+In-Reply-To: <CABuzA3P2x+_N6ssGGR4zBEZNHiXBCYOf=-u-gSRs4QcanK74JQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-X-Received: by 10.66.4.130 with SMTP id k2mr9953015pak.95.1389879542891; Thu,
-	16 Jan 2014 05:39:02 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.22.3 with HTTP; Thu, 16 Jan 2014 05:39:02 -0800 (PST)
-In-Reply-To: <CAOMwXhNqTUpR6EutkNF0Co8Lbz90NpWd7RK=ekbZ4xu9BcEW0g@mail.gmail.com>
-References: <1387889050-25592-1-git-send-email-lpapp@kde.org>
-	<CAOMwXhOfJEkntBTQLDGWjRYA6jorCWNEUF1+t8n5RJJoozcVJA@mail.gmail.com>
-	<52CB29BA.5050404@linux.intel.com>
-	<EB17154F-A59B-4283-8F03-FC8DEFDC8285@dominion.thruhere.net>
-	<CAOMwXhNqTUpR6EutkNF0Co8Lbz90NpWd7RK=ekbZ4xu9BcEW0g@mail.gmail.com>
-Date: Thu, 16 Jan 2014 13:39:02 +0000
-X-Google-Sender-Auth: 3WfoGu9WbBzzUreQ3XlJSEOaUGI
-Message-ID: <CAOMwXhO0Gpg-fuZ9kzha=Gw8FO9HQm-aNROh1wMWb5woo1iF9Q@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe/patch.py: Prefer "git am" over "git apply" when applying git patches
+Subject: Re: avahi + latest airplay release from apple
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,57 +41,223 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 13:39:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 16 Jan 2014 13:44:09 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB16CDCC0FIRSMSX105gercor_"
 
-Hi everyone,
+--_000_969F26A8BAB325438E7EB80D3C3134FB16CDCC0FIRSMSX105gercor_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-the patch was sent about three weeks ago, and I have not seen any
-objections so far.
+Hello,
+By Airplay released by Apple, are you referring to an SDK or something like=
+ that to build devices with Airplay (sinker) support?
+In my opinion, I think your question should be better directed to the avahi=
+ developers.
+Regards,
+Cristian Iorga
+YP
+Intel
 
-What is the issue for progressing? Please let me know.
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of John Stirling
+Sent: Thursday, January 16, 2014 2:46 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] avahi + latest airplay release from apple
 
-Cheers, L.
+I'm attempting to use avahi (0.6.31) with the latest airplay release from a=
+pple. Is anyone else attempting the same thing ?
 
-On Thu, Jan 9, 2014 at 4:53 PM, Laszlo Papp <lpapp@kde.org> wrote:
-> On Tue, Jan 7, 2014 at 12:16 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>
->> Op 6 jan. 2014, om 23:10 heeft Saul Wold <sgw@linux.intel.com> het volgende geschreven:
->>
->>> On 12/31/2013 06:18 AM, Laszlo Papp wrote:
->>>> Ping?
->>>>
->>>> Alternatively, the system could also have an option for further
->>>> fine-tuning what to do with git patches
->>>>
->>>> On Tue, Dec 24, 2013 at 12:44 PM, Laszlo Papp <lpapp@kde.org> wrote:
->>>>> It is better to use "git am" when possible to preserve the commit messages and
->>>>> the mail format in general for patches when those are present. A typical use
->>>>> case is when developers would like to keep the changes on top of the latest
->>>>> upstream, and they may occasionally need to rebase. This is not possible with
->>>>> "git diff" and "diff" generated patches.
->>>>>
->>>>> Since this is not always the case, the fallback would be the "git apply"
->>>>> operation which is currently available.
->>>>>
->>> Looking at this, is it possible to detect a git patch and only then use git am?  Since most of the patches carried in oe-core and other layers the 'git am' will typically fail
->>
->> All the patches I add are git am'able since I use a patch similar to this :)
->
-> Cool.
->
->> A big timesaver is to check for  a .git/ in $WORKDIR otherwise git am will try to use a top level git tree (e.g. combo repo) and that's not what we want.
->
-> Hmm, yeah, I agree.
->
-> However, I do not have time currently for this, nor is this
-> high-priority for me since it just works for me, and I am happy with
-> that. Would it be possible to optimize it later?
->
-> Failing that, what is the best practice to keep my changes separate
-> from Yocto? I am referring to changes that are not upstreamed for
-> whatever reason, like the maintainer saying that here it could be a
-> performance regression (although non-measured at this point).
->
-> Cheers ...
+There are some issues -
 
+avahi dns_sd.h is missing a few defines needed by airplay (patch attached)
+DNSServiceGetAddrInfo doesn't exist in avahi and is called from airplay
+
+avahi HEAD doesn't seem to implement this function either and there doesn't=
+ seem to have been much activity since the 0.6.31 release
+
+Any advice ?
+
+Thanks
+John
+
+
+
+
+
+
+
+
+
+
+--_000_969F26A8BAB325438E7EB80D3C3134FB16CDCC0FIRSMSX105gercor_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-reply;
+	font-family:"Calibri","sans-serif";
+	color:#1F497D;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Hello,<o:p></o:p></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">By Airplay released by Ap=
+ple, are you referring to an SDK or something like that to build devices wi=
+th Airplay (sinker) support?<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">In my opinion, I think yo=
+ur question should be better directed to the avahi developers.<o:p></o:p></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Regards,<o:p></o:p></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Cristian Iorga<o:p></o:p>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">YP<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,&quot;sans-serif&quot;;color:#1F497D">Intel<o:p></o:p></span></=
+p>
+<p class=3D"MsoNormal"><a name=3D"_MailEndCompose"><span style=3D"font-size=
+:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;;color:#1F497=
+D"><o:p>&nbsp;</o:p></span></a></p>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-=
+size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;"> openem=
+bedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounce=
+s@lists.openembedded.org]
+<b>On Behalf Of </b>John Stirling<br>
+<b>Sent:</b> Thursday, January 16, 2014 2:46 PM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org<br>
+<b>Subject:</b> [OE-core] avahi &#43; latest airplay release from apple<o:p=
+></o:p></span></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<p class=3D"MsoNormal">I'm attempting to use avahi (0.6.31) with the latest=
+ airplay release from apple. Is anyone else attempting the same thing ?&nbs=
+p;<o:p></o:p></p>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">There are some issues -<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">avahi dns_sd.h is missing a few defines needed by ai=
+rplay (patch attached)<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">DNSServiceGetAddrInfo doesn't exist in avahi and is =
+called from airplay<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">avahi HEAD doesn't seem to implement this function e=
+ither and there doesn't seem to have been much activity since the 0.6.31 re=
+lease<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Any advice ?<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Thanks<o:p></o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">John<o:p></o:p></p>
+</div>
+<div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_969F26A8BAB325438E7EB80D3C3134FB16CDCC0FIRSMSX105gercor_--
