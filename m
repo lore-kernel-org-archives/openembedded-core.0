@@ -1,36 +1,36 @@
-Return-Path: <ap.john.stirling@gmail.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 31C876E20F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CA446D899
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 14:29:08 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id x55so3225886wes.19
+	Thu, 16 Jan 2014 15:25:21 +0000 (UTC)
+Received: by mail-ie0-f171.google.com with SMTP id to1so3988255ieb.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 06:29:08 -0800 (PST)
+	Thu, 16 Jan 2014 07:25:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=DGTZc4UuwmF3uTeW7AlVTzYHx+YRXD3MhJ4L/FZ9dEU=;
-	b=viZgl9K45jIqWVKJ6Q60RK0stjDQlyU4OWLM+vqKngoag6dCn/aPbmt0nfNxnoIEoG
-	CpO6VS7vqCsj15rCo2F0ZUMDiyrQFGbftAhRscl+5JeoNNLZiwYZpbrbmrWSypeVll/w
-	mEvpuHu2cX+A2JO1DStTmLoxpatraufLawikkCiwyd9RYFVnXHMsy1OS4UxX3cCyneTE
-	Ork5ODm4K22HdpCmr5eF3sT4z8ygKRwyPz1luj38+LObHqtjhSQVP/ACagebsdxoVzoF
-	egiAApMSvGUO3UYAbSCAXUClQ0xd32SUSzgkxEmb2FY82w6KA47YscG3QbYybqsBf3jW
-	4ajw==
+	bh=gFBtA9+/HVOiyAw/YZf0P5XOWmloYtT1GU8ZbB1EG6k=;
+	b=fhzM7t+ljSW+cmRoWhMcbZODDldR7DZmQAB8ib2+i65bdCMwrBLwdLmvfNAIIGFMLO
+	X2mqP6rp2uARuZW3KrzEkF1aKLy8vp4VjZzLw0LBZ4p+OfWZXpegyZ4XlCpn4h3CdjXA
+	HQqOpKIr38QAiTav05Az4L92HhujFlbYIlgUuVLP+CrLnBo1KtBye5xNoDc65L5meMa3
+	SCKrdf4xHvfRU3ArPMDXoH58rVWIGlX/o/5uZ0sYFStYqKzJuTzqGuvxp8iM3POMAPpS
+	xywEDDS3KUoV6X86S1RdspdGXAPidN0nRabrFsCCsNJjtWV11458LL/bPeRseVIWLN0E
+	2Rlw==
+X-Received: by 10.50.79.138 with SMTP id j10mr10287994igx.2.1389885922269;
+	Thu, 16 Jan 2014 07:25:22 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.194.236.9 with SMTP id uq9mr8632539wjc.31.1389882548554;
-	Thu, 16 Jan 2014 06:29:08 -0800 (PST)
-Received: by 10.194.201.102 with HTTP; Thu, 16 Jan 2014 06:29:08 -0800 (PST)
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16CDCC0F@IRSMSX105.ger.corp.intel.com>
-References: <CABuzA3P2x+_N6ssGGR4zBEZNHiXBCYOf=-u-gSRs4QcanK74JQ@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16CDCC0F@IRSMSX105.ger.corp.intel.com>
-Date: Thu, 16 Jan 2014 14:29:08 +0000
-Message-ID: <CABuzA3MnAYopgygx8QTokmm6yaWoYLz94Ev6dFyuXjf8_q3=EQ@mail.gmail.com>
-From: John Stirling <ap.john.stirling@gmail.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.50.79.167 with HTTP; Thu, 16 Jan 2014 07:24:52 -0800 (PST)
+In-Reply-To: <52D79B5E.9090002@windriver.com>
+References: <1384229235-11557-1-git-send-email-raj.khem@gmail.com>
+	<52D798C9.5080006@windriver.com> <52D79B5E.9090002@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Jan 2014 07:24:52 -0800
+Message-ID: <CAMKF1sooAp5kZx8mYQr7+DHgF0MUQFEZZpZ=PPoh4_R3dTEY7g@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: avahi + latest airplay release from apple
+Subject: Re: [PATCH V2] tcl: Install header into 8.6 instead of PN-PV in user/include
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,244 +43,447 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 14:29:08 -0000
-Content-Type: multipart/alternative; boundary=089e01493de096122004f0173f4e
+X-List-Received-Date: Thu, 16 Jan 2014 15:25:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
---089e01493de096122004f0173f4e
-Content-Type: text/plain; charset=ISO-8859-1
+On Thu, Jan 16, 2014 at 12:42 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>
+>
+> On 01/16/2014 04:31 PM, Robert Yang wrote:
+>>
+>>
+>> On 11/12/2013 12:07 PM, Khem Raj wrote:
+>>>
+>>> This helps in compiling other programs like expect which
+>>> depend on private headers but 8.5, 8.6 and so on is enough
+>>> granularity and currently we had 8.6.x and so on which
+>>> means that expect recipe will need to be touched whenever there
+>>> is minor update of tcl.
+>>>
+>>> + # Directory in which to install the include file tcl.h:
+>>> +-INCLUDE_INSTALL_DIR    = $(INSTALL_ROOT)$(includedir)
+>>> ++INCLUDE_INSTALL_DIR    = $(INSTALL_ROOT)$(includedir)/tcl$(VERSION)
+>>> +
+>>
+>>
+>> Hi Khem,
+>>
+>> I think that the tcl headers like tcl.h wass installed to:
+>>
+>> /usr/include/tcl.h
+>>
+>> with this patch, it will be installed:
+>>
+>> /usr/include/tcl8.6/tcl.h
+>>
+>
+> And what's worse is that some recipe like rrdtool may use:
+>
+> #include <tcl.h>
+>
+> will fail to, it has to use #include <tcl8.6/tcl.h> or something else
+> similar.
+>
+> I think that we'd better change it back, I'd like to send a patch for this
+> if
+> you are fine with it.
 
-Yes, this is the airplay source release from apple that will allow us to
-support airplay on our devices. It needs a bonjour port but looks like
-avahi does not implement the full API required.
-
-I expect you're right -  I will try the avahi lists as well.
-
-But if anyone is trying to do the same thing let me know.
-
-Thanks
-John
-
-
-
-On 16 January 2014 13:43, Iorga, Cristian <cristian.iorga@intel.com> wrote:
-
->  Hello,
->
-> By Airplay released by Apple, are you referring to an SDK or something
-> like that to build devices with Airplay (sinker) support?
->
-> In my opinion, I think your question should be better directed to the
-> avahi developers.
->
-> Regards,
->
-> Cristian Iorga
->
-> YP
->
-> Intel
->
->
->
-> *From:* openembedded-core-bounces@lists.openembedded.org [mailto:
-> openembedded-core-bounces@lists.openembedded.org] *On Behalf Of *John
-> Stirling
-> *Sent:* Thursday, January 16, 2014 2:46 PM
-> *To:* openembedded-core@lists.openembedded.org
-> *Subject:* [OE-core] avahi + latest airplay release from apple
->
->
->
-> I'm attempting to use avahi (0.6.31) with the latest airplay release from
-> apple. Is anyone else attempting the same thing ?
->
->
->
-> There are some issues -
->
->
->
-> avahi dns_sd.h is missing a few defines needed by airplay (patch attached)
->
-> DNSServiceGetAddrInfo doesn't exist in avahi and is called from airplay
->
->
->
-> avahi HEAD doesn't seem to implement this function either and there
-> doesn't seem to have been much activity since the 0.6.31 release
->
->
->
-> Any advice ?
->
->
->
-> Thanks
->
-> John
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
->
-
---089e01493de096122004f0173f4e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Yes, this is the airplay source release from apple that wi=
-ll allow us to support airplay on our devices. It needs a bonjour port but =
-looks like avahi does not implement the full API required.<div><br></div><d=
-iv>
-I expect you&#39;re right - =A0I will try the avahi lists as well.</div><di=
-v><br></div><div>But if anyone is trying to do the same thing let me know.<=
-/div><div><br></div><div>Thanks</div><div>John<br><div><br></div><div><div>
-<div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On 16 January=
- 2014 13:43, Iorga, Cristian <span dir=3D"ltr">&lt;<a href=3D"mailto:cristi=
-an.iorga@intel.com" target=3D"_blank">cristian.iorga@intel.com</a>&gt;</spa=
-n> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
+from build aspect it might sound like that but you will have runtime problems
+if you silently upgraded tcl many applications don't upgrade to newer
+versions immediately. compile failures are easier to detect then
+runtime
+issues. But if all apps that we have use 8.6 right now and you are sure
+that as you move to 8.7 all of them will work with it. I am fine with moving
+it back to /usr/include
 
 
+>
+> // Robert
+>
+>
+>> The problem is that, the tcl.h can't be found normally now, it breaks
+>> the recipe which depends on tcl, the recipe which depends on tcl
+>> has to use something like:
+>>
+>> --with-tclinclude=${STAGING_INCDIR}/tcl8.6
+>>
+>> once we upgrade the tcl to 8.7, then the recipe has to use:
+>>
+>>
+>> --with-tclinclude=${STAGING_INCDIR}/tcl8.7
+>>
+>> Seems that this is not good, can we change it back, please ?
+>>
+>> // Robert
+>>
+>>
+>>
+>>> + # Path to the private tcl header dir:
+>>> + PRIVATE_INCLUDE_DIR    = @PRIVATE_INCLUDE_DIR@
+>>> +Index: unix/configure.in
+>>> +===================================================================
+>>> +--- unix.orig/configure.in    2013-11-11 01:00:36.467550403 -0800
+>>> ++++ unix/configure.in    2013-11-11 01:00:36.503550404 -0800
+>>> +@@ -791,7 +791,7 @@
+>>> + eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
+>>> +
+>>> + TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
+>>> +-PRIVATE_INCLUDE_DIR='$(includedir)'
+>>> ++PRIVATE_INCLUDE_DIR='$(includedir)/tcl$(VERSION)'
+>>> + HTML_DIR='$(DISTDIR)/html'
+>>> +
+>>> + # Note:  in the following variable, it's important to use the absolute
+>>> +Index: unix/configure
+>>> +===================================================================
+>>> +--- unix.orig/configure    2013-11-11 01:00:36.467550403 -0800
+>>> ++++ unix/configure    2013-11-11 01:00:36.503550404 -0800
+>>> +@@ -19134,7 +19134,7 @@
+>>> + eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
+>>> +
+>>> + TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
+>>> +-PRIVATE_INCLUDE_DIR='$(includedir)'
+>>> ++PRIVATE_INCLUDE_DIR='$(includedir)/tcl$(VERSION)'
+>>> + HTML_DIR='$(DISTDIR)/html'
+>>> +
+>>> + # Note:  in the following variable, it's important to use the absolute
+>>> diff --git
+>>> a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
+>>> b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
+>>> index ed58175..be27341 100644
+>>> ---
+>>> a/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
+>>> +++
+>>> b/meta/recipes-devtools/tcltk/tcl/fix_issue_with_old_distro_glibc.patch
+>>> @@ -15,11 +15,11 @@ Fixes tcl target recipe build on old distros which
+>>> have
+>>> glibc older than 2.14
+>>>   Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>>   2012/04/26
+>>>
+>>> -diff --git unix.orig/Makefile.in unix/Makefile.in
+>>> -index 571d53f..16351f6 100644
+>>> ---- unix.orig/Makefile.in
+>>> -+++ unix/Makefile.in
+>>> -@@ -679,7 +679,7 @@ topDirName:
+>>> +Index: unix/Makefile.in
+>>> +===================================================================
+>>> +--- unix.orig/Makefile.in    2013-11-10 23:38:01.787425628 -0800
+>>> ++++ unix/Makefile.in    2013-11-10 23:37:59.807425578 -0800
+>>> +@@ -686,7 +686,7 @@
+>>>    # tcltest executable gets the build directory burned into its ld
+>>> search path.
+>>>    # This keeps tcltest from picking up an already installed version of
+>>> the Tcl
+>>>    # library.
+>>> @@ -28,7 +28,7 @@ index 571d53f..16351f6 100644
+>>>            TCLLIBPATH="@abs_builddir@/pkgs" \
+>>>            TCL_LIBRARY="${TCL_BUILDTIME_LIBRARY}"
+>>>
+>>> -@@ -705,7 +705,7 @@ test-tcl: ${TCLTEST_EXE}
+>>> +@@ -712,7 +712,7 @@
+>>>        $(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
+>>>
+>>>    gdb-test: ${TCLTEST_EXE}
+>>> diff --git
+>>> a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+>>> b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+>>> index 80d718c..c60eb75 100644
+>>> --- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+>>> +++ b/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+>>> @@ -1,10 +1,10 @@
+>>>   Upstream-Status: Pending
+>>>
+>>> -diff --git unix.orig/Makefile.in unix/Makefile.in
+>>> -index df05759..571d53f 100644
+>>> ---- unix.orig/Makefile.in
+>>> -+++ unix/Makefile.in
+>>> -@@ -702,23 +702,23 @@ tcltest-real:
+>>> +Index: unix/Makefile.in
+>>> +===================================================================
+>>> +--- unix.orig/Makefile.in    2013-11-10 23:37:34.243424934 -0800
+>>> ++++ unix/Makefile.in    2013-11-10 23:37:34.243424934 -0800
+>>> +@@ -709,23 +709,23 @@
+>>>    test: test-tcl test-packages
+>>>
+>>>    test-tcl: ${TCLTEST_EXE}
+>>> @@ -32,7 +32,7 @@ index df05759..571d53f 100644
+>>>
+>>>    # The following target generates the shared libraries in dltest/ that
+>>> are used
+>>>    # for testing; they are included as part of the "tcltest" target (via
+>>> the
+>>> -@@ -736,23 +736,23 @@ dltest.marker: ${STUB_LIB_FILE}
+>>> +@@ -743,23 +743,23 @@
+>>>    # This target can be used to run tclsh from the build directory
+>>>    # via `make shell SCRIPT=/tmp/foo.tcl`
+>>>    shell: ${TCL_EXE}
+>>> diff --git a/meta/recipes-devtools/tcltk/tcl/no_packages.patch
+>>> b/meta/recipes-devtools/tcltk/tcl/no_packages.patch
+>>> index b045814..ab6cc43 100644
+>>> --- a/meta/recipes-devtools/tcltk/tcl/no_packages.patch
+>>> +++ b/meta/recipes-devtools/tcltk/tcl/no_packages.patch
+>>> @@ -5,11 +5,11 @@ Upstream-Status:Inappropriate [embedded specific]
+>>>
+>>>   Signed-off-by: Bogdan Marinescu <bogdan.a.marinescu@intel.com>
+>>>
+>>> -diff --git unix.orig/Makefile.in unix/Makefile.in
+>>> -index 16351f6..76ccadb 100644
+>>> ---- unix.orig/Makefile.in
+>>> -+++ unix/Makefile.in
+>>> -@@ -601,7 +601,7 @@ SRCS = $(GENERIC_SRCS) $(TOMMATH_SRCS) $(UNIX_SRCS)
+>>> $(NOTIFY_SRCS) \
+>>> +Index: unix/Makefile.in
+>>> +===================================================================
+>>> +--- unix.orig/Makefile.in    2013-11-10 23:38:12.235425891 -0800
+>>> ++++ unix/Makefile.in    2013-11-10 23:38:12.231425891 -0800
+>>> +@@ -611,7 +611,7 @@
+>>>    # Start of rules
+>>>
+>>> #--------------------------------------------------------------------------
+>>>
+>>> @@ -18,7 +18,7 @@ index 16351f6..76ccadb 100644
+>>>
+>>>    binaries: ${LIB_FILE} $(STUB_LIB_FILE) ${TCL_EXE}
+>>>
+>>> -@@ -646,12 +646,12 @@ Makefile: $(UNIX_DIR)/Makefile.in
+>>> $(DLTEST_DIR)/Makefile.in
+>>> +@@ -653,12 +653,12 @@
+>>>    #tclConfig.h: $(UNIX_DIR)/tclConfig.h.in
+>>>    #    $(SHELL) config.status
+>>>
+>>> @@ -33,7 +33,7 @@ index 16351f6..76ccadb 100644
+>>>        rm -rf Makefile config.status config.cache config.log tclConfig.sh
+>>> \
+>>>            tclConfig.h *.plist Tcl.framework tcl.pc
+>>>        cd dltest ; $(MAKE) distclean
+>>> -@@ -699,7 +699,7 @@ tcltest-real:
+>>> +@@ -706,7 +706,7 @@
+>>>    # tcltest, ie:
+>>>    #    % make test TESTFLAGS="-verbose bps -file fileName.test"
+>>>
+>>> @@ -42,7 +42,7 @@ index 16351f6..76ccadb 100644
+>>>
+>>>    test-tcl: ${TCLTEST_EXE}
+>>>        $(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAGS)
+>>> -@@ -764,7 +764,7 @@ INSTALL_PACKAGE_TARGETS = install-packages
+>>> +@@ -771,7 +771,7 @@
+>>>    INSTALL_DEV_TARGETS = install-headers
+>>>    INSTALL_EXTRA_TARGETS = @EXTRA_INSTALL@
+>>>    INSTALL_TARGETS = $(INSTALL_BASE_TARGETS) $(INSTALL_DOC_TARGETS)
+>>> $(INSTALL_DEV_TARGETS) \
+>>> diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+>>> b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+>>> index d3691f6..96276ea 100644
+>>> --- a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+>>> +++ b/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+>>> @@ -2,29 +2,23 @@ Upstream-Status: Pending
+>>>
+>>>   Index: unix/configure
+>>>   ===================================================================
+>>> ---- unix.orig/configure    2013-09-19 23:17:13.000000000 +0300
+>>> -+++ unix/configure    2013-10-16 15:58:37.450136217 +0300
+>>> -@@ -6899,6 +6899,7 @@
+>>> -         LIBS="$LIBS -lc"
+>>> -         SHLIB_CFLAGS=""
+>>> -         SHLIB_SUFFIX=".so"
+>>> -+        SHARED_LIB_SUFFIX='${VERSION}\$\{DBGX\}.so.0'
+>>> +--- unix.orig/configure    2013-09-19 13:17:13.000000000 -0700
+>>> ++++ unix/configure    2013-11-11 00:20:51.519490342 -0800
+>>> +@@ -7599,6 +7599,9 @@
+>>> +         # get rid of the warnings.
+>>> +         #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES
+>>> -D__NO_MATH_INLINES"
+>>>
+>>> ++        # following line added by CW for Debian GNU/Linux
+>>> ++        TCL_SHLIB_LD_EXTRAS="-Wl,-soname,\${TCL_LIB_FILE}.0"
+>>> ++
+>>> +         SHLIB_LD='${CC} -shared ${CFLAGS} ${LDFLAGS}'
+>>>            DL_OBJS="tclLoadDl.o"
+>>> -         LD_LIBRARY_PATH_VAR="LIBPATH"
+>>> +         DL_LIBS="-ldl"
+>>>   Index: unix/tcl.m4
+>>>   ===================================================================
+>>> ---- unix.orig/tcl.m4    2013-09-19 23:17:13.000000000 +0300
+>>> -+++ unix/tcl.m4    2013-10-16 16:18:50.719586228 +0300
+>>> -@@ -1408,6 +1408,7 @@
+>>> -     Linux*|GNU*|NetBSD-Debian)
+>>> -         SHLIB_CFLAGS="-fPIC"
+>>> -         SHLIB_SUFFIX=".so"
+>>> -+        SHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.so.0'
+>>> -
+>>> -         CFLAGS_OPTIMIZE="-O2"
+>>> -         # egcs-2.91.66 on Redhat Linux 6.0 generates lots of warnings
+>>> -@@ -1415,12 +1416,15 @@
+>>> +--- unix.orig/tcl.m4    2013-09-19 13:17:13.000000000 -0700
+>>> ++++ unix/tcl.m4    2013-11-11 00:17:24.263485123 -0800
+>>> +@@ -1415,6 +1415,9 @@
+>>>            # get rid of the warnings.
+>>>            #CFLAGS_OPTIMIZE="${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES
+>>> -D__NO_MATH_INLINES"
+>>>
+>>> @@ -34,19 +28,19 @@ Index: unix/tcl.m4
+>>>            SHLIB_LD='${CC} -shared ${CFLAGS} ${LDFLAGS}'
+>>>            DL_OBJS="tclLoadDl.o"
+>>>            DL_LIBS="-ldl"
+>>> -         LDFLAGS="$LDFLAGS -Wl,--export-dynamic"
+>>> -         AS_IF([test $doRpath = yes], [
+>>> --        CC_SEARCH_FLAGS='-Wl,-rpath,${LIB_RUNTIME_DIR}'])
+>>> -+        CC_SEARCH_FLAGS=''])
+>>> -         LD_SEARCH_FLAGS=${CC_SEARCH_FLAGS}
+>>> -         AS_IF([test "`uname -m`" = "alpha"], [CFLAGS="$CFLAGS -mieee"])
+>>> -         AS_IF([test $do64bit = yes], [
+>>> -@@ -2050,7 +2054,7 @@
+>>> -
+>>> -     AS_IF([test "${SHARED_BUILD}" = 1 -a "${SHLIB_SUFFIX}" != ""], [
+>>> -         LIB_SUFFIX=${SHARED_LIB_SUFFIX}
+>>> --        MAKE_LIB='${SHLIB_LD} -o [$]@ ${OBJS} ${TCL_SHLIB_LD_EXTRAS}
+>>> ${SHLIB_LD_LIBS} ${TK_SHLIB_LD_EXTRAS} ${LD_SEARCH_FLAGS}'
+>>> -+        MAKE_LIB='${SHLIB_LD} -o $@ ${OBJS} ${SHLIB_LD_LIBS}
+>>> ${TCL_SHLIB_LD_EXTRAS} ${TK_SHLIB_LD_EXTRAS} ${LD_SEARCH_FLAGS}'
+>>> -         AS_IF([test "${SHLIB_SUFFIX}" = ".dll"], [
+>>> -             INSTALL_LIB='$(INSTALL_LIBRARY) $(LIB_FILE)
+>>> "$(BIN_INSTALL_DIR)/$(LIB_FILE)"'
+>>> -             DLL_INSTALL_DIR="\$(BIN_INSTALL_DIR)"
+>>> +Index: unix/Makefile.in
+>>> +===================================================================
+>>> +--- unix.orig/Makefile.in    2013-09-19 13:17:13.000000000 -0700
+>>> ++++ unix/Makefile.in    2013-11-11 00:20:32.423489861 -0800
+>>> +@@ -796,7 +796,10 @@
+>>> +         done;
+>>> +     @echo "Installing $(LIB_FILE) to $(DLL_INSTALL_DIR)/"
+>>> +     @@INSTALL_LIB@
+>>> +-    @chmod 555 "$(DLL_INSTALL_DIR)/$(LIB_FILE)"
+>>> ++    mv "$(DLL_INSTALL_DIR)"/$(LIB_FILE)
+>>> "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0
+>>> ++    ln -sf $(LIB_FILE).0 "$(DLL_INSTALL_DIR)"/$(LIB_FILE)
+>>> ++    ln -sf "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0 ./
+>>> ++    @chmod 555 "$(DLL_INSTALL_DIR)"/$(LIB_FILE).0
+>>> +     @echo "Installing ${TCL_EXE} as
+>>> $(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
+>>> +     @$(INSTALL_PROGRAM) ${TCL_EXE}
+>>> "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
+>>> +     @echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
+>>> diff --git
+>>> a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
+>>> b/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
+>>> index afdd880..16f7c80 100644
+>>> ---
+>>> a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
+>>> +++
+>>> b/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
+>>> @@ -19,11 +19,24 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>>    configure |    2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> -diff --git a/configure b/configure
+>>> -index 478a4d5..79c2979 100755
+>>> ---- a/configure
+>>> -+++ b/configure
+>>> -@@ -18772,7 +18772,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
+>>> +Index: unix/configure
+>>> +===================================================================
+>>> +--- unix.orig/configure    2013-11-10 23:38:33.643426430 -0800
+>>> ++++ unix/configure    2013-11-10 23:39:51.347428387 -0800
+>>> +@@ -19134,7 +19134,7 @@
+>>> +
+>>> + eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
+>>> +
+>>> +-TCL_LIBRARY='$(prefix)/lib/tcl$(VERSION)'
+>>> ++TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
+>>> + PRIVATE_INCLUDE_DIR='$(includedir)'
+>>> + HTML_DIR='$(DISTDIR)/html'
+>>> +
+>>> +Index: unix/configure.in
+>>> +===================================================================
+>>> +--- unix.orig/configure.in    2013-11-10 23:20:50.000000000 -0800
+>>> ++++ unix/configure.in    2013-11-10 23:39:41.199428131 -0800
+>>> +@@ -790,7 +790,7 @@
+>>>
+>>>    eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
+>>>
+>>> @@ -32,6 +45,3 @@ index 478a4d5..79c2979 100755
+>>>    PRIVATE_INCLUDE_DIR='$(includedir)'
+>>>    HTML_DIR='$(DISTDIR)/html'
+>>>
+>>> ---
+>>> -1.7.9.5
+>>> -
+>>> diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
+>>> b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
+>>> index e239708..f40475d 100644
+>>> --- a/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
+>>> +++ b/meta/recipes-devtools/tcltk/tcl_8.6.1.bb
+>>> @@ -15,11 +15,12 @@ BASE_SRC_URI =
+>>> "${SOURCEFORGE_MIRROR}/tcl/tcl${PV}-src.tar.gz \
+>>>                   file://tcl-add-soname.patch"
+>>>
+>>>   SRC_URI = "${BASE_SRC_URI} \
+>>> -       file://fix_non_native_build_issue.patch \
+>>> -       file://fix_issue_with_old_distro_glibc.patch \
+>>> -       file://no_packages.patch \
+>>> -       file://tcl-remove-hardcoded-install-path.patch \
+>>> -       "
+>>> +           file://fix_non_native_build_issue.patch \
+>>> +           file://fix_issue_with_old_distro_glibc.patch \
+>>> +           file://no_packages.patch \
+>>> +           file://tcl-remove-hardcoded-install-path.patch \
+>>> +           file://alter-includedir.patch \
+>>> +          "
+>>>   SRC_URI[md5sum] = "aae4b701ee527c6e4e1a6f9c7399882e"
+>>>   SRC_URI[sha256sum] =
+>>> "16ee769248e64ba1cae6b4834fcc4e4edd7470d881410e8d58f7dd1434343514"
+>>>
+>>> @@ -27,6 +28,8 @@ SRC_URI_class-native = "${BASE_SRC_URI}"
+>>>
+>>>   S = "${WORKDIR}/tcl${PV}/unix"
+>>>
+>>> +VER = "8.6"
+>>> +
+>>>   inherit autotools
+>>>
+>>>   DEPENDS_class-native = ""
+>>> @@ -43,9 +46,8 @@ do_compile_prepend() {
+>>>   }
+>>>
+>>>   do_install() {
+>>> -    autotools_do_install
+>>> -    oe_libinstall -so libtcl8.6 ${D}${libdir}
+>>> -    ln -sf ./tclsh8.6 ${D}${bindir}/tclsh
+>>> +    autotools_do_install install-private-headers
+>>> +    ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
+>>>       sed -i "s+${WORKDIR}+${STAGING_INCDIR}+g" tclConfig.sh
+>>>       sed -i "s,-L${libdir},-L=${libdir},g" tclConfig.sh
+>>>       sed -i "s,-I${includedir},-I=${includedir},g" tclConfig.sh
+>>> @@ -54,8 +56,8 @@ do_install() {
+>>>       cd ..
+>>>       for dir in compat generic unix
+>>>       do
+>>> -        install -d ${D}${includedir}/tcl${PV}/$dir
+>>> -        install -m 0644 ${S}/../$dir/*.h
+>>> ${D}${includedir}/tcl${PV}/$dir/
+>>> +        install -d ${D}${includedir}/${BPN}${VER}/$dir
+>>> +        install -m 0644 ${S}/../$dir/*.h
+>>> ${D}${includedir}/${BPN}${VER}/$dir/
+>>>       done
+>>>   }
+>>>
+>>> @@ -65,8 +67,8 @@ tcl_sysroot_preprocess () {
+>>>   }
+>>>
+>>>   PACKAGES =+ "tcl-lib"
+>>> -FILES_tcl-lib = "${libdir}/libtcl8.6.so*"
+>>> -FILES_${PN} += "${libdir}/tcl8.6 ${libdir}/tcl8"
+>>> +FILES_tcl-lib = "${libdir}/libtcl${VER}.so.*"
+>>> +FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8"
+>>>   FILES_${PN}-dev += "${libdir}/tclConfig.sh ${libdir}/tclooConfig.sh"
+>>>
+>>>   # isn't getting picked up by shlibs code
+>>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>
 
-
-
-<div lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">Hello,<u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">By Airplay released by Ap=
-ple, are you referring to an SDK or something like that to build devices wi=
-th Airplay (sinker) support?<u></u><u></u></span></p>
-
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">In my opinion, I think yo=
-ur question should be better directed to the avahi developers.<u></u><u></u=
-></span></p>
-
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">Regards,<u></u><u></u></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">Cristian Iorga<u></u><u><=
-/u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">YP<u></u><u></u></span></=
-p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">Intel<u></u><u></u></span=
-></p>
-<p class=3D"MsoNormal"><a name=3D"1439b4b792fdfd32__MailEndCompose"><span s=
-tyle=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&q=
-uot;;color:#1f497d"><u></u>=A0<u></u></span></a></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
-;Calibri&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-=
-size:11.0pt;font-family:&quot;Calibri&quot;,&quot;sans-serif&quot;"> <a hre=
-f=3D"mailto:openembedded-core-bounces@lists.openembedded.org" target=3D"_bl=
-ank">openembedded-core-bounces@lists.openembedded.org</a> [mailto:<a href=
-=3D"mailto:openembedded-core-bounces@lists.openembedded.org" target=3D"_bla=
-nk">openembedded-core-bounces@lists.openembedded.org</a>]
-<b>On Behalf Of </b>John Stirling<br>
-<b>Sent:</b> Thursday, January 16, 2014 2:46 PM<br>
-<b>To:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> [OE-core] avahi + latest airplay release from apple<u></u><=
-u></u></span></p><div><div class=3D"h5">
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal">I&#39;m attempting to use avahi (0.6.31) with the la=
-test airplay release from apple. Is anyone else attempting the same thing ?=
-=A0<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">There are some issues -<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">avahi dns_sd.h is missing a few defines needed by ai=
-rplay (patch attached)<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">DNSServiceGetAddrInfo doesn&#39;t exist in avahi and=
- is called from airplay<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">avahi HEAD doesn&#39;t seem to implement this functi=
-on either and there doesn&#39;t seem to have been much activity since the 0=
-.6.31 release<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Any advice ?<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Thanks<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">John<u></u><u></u></p>
-</div>
-<div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=A0<u></u></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div></div></div>
-</div>
-
-</blockquote></div><br></div></div></div></div></div>
-
---089e01493de096122004f0173f4e--
