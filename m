@@ -1,29 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8631E6E472
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 6693A6C9B4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 16:37:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0GGbrmA011428
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 16 Jan 2014 17:59:39 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id hi8so2628820wib.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 08:37:54 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 16 Jan 2014 08:37:53 -0800
-Message-ID: <52D80AE0.2020306@windriver.com>
-Date: Thu, 16 Jan 2014 10:37:52 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1386700055.git.mark.hatle@windriver.com>
-	<52CEFD48.5070901@windriver.com>
-In-Reply-To: <52CEFD48.5070901@windriver.com>
-Subject: Re: [RFC PATCH 0/2] RFC: Implement deterministic uid/gid
+	Thu, 16 Jan 2014 09:59:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=BGQpQtu+VGaBxb0+L+tNpfiQ+0U76k4TcmDtIDsMzMQ=;
+	b=v9orJTjvsngRS9PV1wN0sURtggA/Aw1IBnIPJtHJ7bi5ZUlCcfVMm3ieZOny186jQi
+	tdqjnFYLgqTXZADYTHcbTDGYJUshmz6WSK7KxEtk9V7qwa1Ywi00/FJT0bnGMWOkdoSV
+	KNM4OmK+c3uz2X6p4X8kL78PW0CU8wux5mt5idr5PLB3dg4H44ntr69HIU1yolX4ma5b
+	vPi4HeGInSeVJQBL/c8y9HLvvCaGPLMMRu3PlGxd6NzbyEnqmoQTcEoFsaj+Mdnh9DiV
+	W0xp9iS0LJeCkBpW2jy+O/qP3ddq8Xvtq468eR2+hSQ/PhHc0UIOo29tl7CNjUIylFaN
+	n1pQ==
+X-Received: by 10.181.13.112 with SMTP id ex16mr9307906wid.23.1389895179466;
+	Thu, 16 Jan 2014 09:59:39 -0800 (PST)
+Received: from netbook.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
+	[94.192.12.83])
+	by mx.google.com with ESMTPSA id ua8sm6926729wjc.4.2014.01.16.09.59.37
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 16 Jan 2014 09:59:38 -0800 (PST)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Jan 2014 17:59:23 +0000
+Message-Id: <1389895166-2459-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.8.5.2
+Subject: [PATCH v2 0/3] Change update-alternatives provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,94 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 16:37:53 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Jan 2014 17:59:39 -0000
 
-On 1/9/14, 1:49 PM, Mark Hatle wrote:
-> I have updated the git://git.yoctoproject.org/poky-contrib mhatle/uidgid to the
-> latest oe-core master.
->
-> I haven't seen any comments on this RFC yet.  Does anyone have any opinion
-> either way on the code referenced here?
->
-> I'm confident patch 01/02 should be added to master.
->
-> The patch 02/02 works properly in all of my testing and does implement support
-> for 'deterministic uid/gid' with dynamic passwd/group file construction during
-> package install.  The code is only activated if USERADD_REWRITE_PARAMS is set to
-> '1', so it's low risk -- but it does add a fairly large chunk of code to be
-> maintained over time.
+The update-alternatives script has been copied from opkg to opkg-utils so the
+openembedded recipe for opkg-utils is updated accordingly. Changing the default
+provider of update-alternatives to opkg-utils allows dependencies to be added to
+the opkg recipe without causing circular dependency loops. This series partially
+solves Yocto Project issue 4836.
 
-I'm replying to myself on behalf of an external reviewer who is not on this 
-mailing list.  They identified one item that they would like to see:
+Changes in v2:
 
-> Looking at how to override the passwd fields, it seems like it's an
-> 'all-or-nothing' scenario for each user?
-> E.g., if you specify a passwd line for a user, all fields has to be set
-> and will be overridden?
-> Look at lines like 227 and 248-252 in the patched file (I looked at
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/tree/meta/classes/useradd.bbclass?h=mhatle/uidgid&id=21a7d772b9aee15d16ee8e29cb00a22e5fe21aac
->
-> ).
-> We've discussed the possibility to have this kind of scenario where we
-> only want to e.g. override the default shell for the user (that is, not
-> override uid, comment, etc). Is it maybe possible to e.g. add some kind
-> of special marker to fields that should be discarded in the overridden
-> file (like username:#:#:#:#:#:/bin/tcsh). That way we can automatically
-> track upstream changes of the user but still override the shell.
+    - Reordered variables in opkg-utils recipe
+    - Added nativesdk class to opkg-utils
 
-It should be pretty easy for me to generate a third commit that implements this 
-type of functional.  Does anyone have any opinions on a proper marker to 
-indicate re-use the dynamic value?  (I'd like to stay away from a blank, as 
-there are valid reasons to set fields to blank.  They're suggesting in the above 
-a single '#' statement -- does this seem reasonable?
+Paul Barker (3):
+  opkg-utils: Upgrade to latest git HEAD
+  default-providers: Change update-alternatives provider to opkg-utils
+  opkg: No longer PROVIDES update-alternatives
 
---Mark
+ meta/conf/distro/include/default-providers.inc     |  6 +++---
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  9 +++++++--
+ meta/recipes-devtools/opkg/opkg.inc                | 12 +++---------
+ 3 files changed, 13 insertions(+), 14 deletions(-)
 
-> --Mark
->
-> On 12/10/13, 12:31 PM, Mark Hatle wrote:
->> The following series implements the deterministic uid/gid setting for a
->> distribution.  Currently when a filesystem is generated the uid/gid values
->> are generally set at install time, so the install order determines what
->> the actual uid/gid values become.  In order to create a deterministic uid/gid
->> set, that still dynamically constructs the passwd/group file, we add an
->> option to read a special passwd/group file to allow the system to determine
->> the values.
->>
->> It uses the existing parameters, and the values from the special passwd/group
->> files to reconstruct the parameter set to ensure these items are fully
->> defined with static values.
->>
->> The first patch (01/02) is generally applicable.  It fixes a real bug in
->> the way the user/group adds occur today within the system.
->>
->> Patch 02/02 implements the new functionality.
->>
->>
->> The following changes since commit 8505f0fa48cc79d51616b923c6e2c778c4b46a44:
->>
->>     libmatchbox: use PACKAGECONFIG (2013-12-10 14:13:01 +0000)
->>
->> are available in the git repository at:
->>
->>     git://git.yoctoproject.org/poky-contrib mhatle/uidgid
->>     http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/uidgid
->>
->> Mark Hatle (2):
->>     useradd.bbclass: Fix build time install issues
->>     useradd.bbclass: Add ability to select a static uid/gid automatically
->>
->>    meta/classes/useradd.bbclass         | 247 ++++++++++++++++++++++++++++++++++-
->>    meta/conf/local.conf.sample.extended |  24 ++++
->>    2 files changed, 265 insertions(+), 6 deletions(-)
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+-- 
+1.8.5.2
 
 
