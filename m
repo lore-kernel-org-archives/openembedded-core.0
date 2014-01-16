@@ -1,46 +1,29 @@
-Return-Path: <Fahad_Arslan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DD666B8C5
+Return-Path: <ap.john.stirling@gmail.com>
+Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 31C756B8C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 12:08:29 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1W3lkK-0005Dm-Nz from Fahad_Arslan@mentor.com ;
-	Thu, 16 Jan 2014 04:08:28 -0800
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Thu, 16 Jan 2014 04:08:28 -0800
-Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.95]) by
-	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
-	14.02.0247.003; Thu, 16 Jan 2014 12:08:26 +0000
-From: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Thread-Topic: [OE-core] [PATCH] pulseaudio: rescale input being passed to
-	float method of speex
-Thread-Index: AQHPALXAcs6RXqPcQEiQqEFDYqrdcJpjkBUAgAxA636AAgPcAIAHR3brgAABugCAAAVGAIAEiXblgACEcQCACSxlmA==
-Date: Thu, 16 Jan 2014 12:08:25 +0000
-Message-ID: <2B9C97B395470A40B9E9E5D469BCD9FA01562414@EU-MBX-03.mgc.mentorg.com>
-References: <1387895862-15110-1-git-send-email-fahad_arslan@mentor.com>,
-	<52B9BC2C.7080709@linux.intel.com>
-	<2B9C97B395470A40B9E9E5D469BCD9FA015601C3@EU-MBX-03.mgc.mentorg.com>,
-	<52C5B458.5060409@linux.intel.com>
-	<2B9C97B395470A40B9E9E5D469BCD9FA01560D68@EU-MBX-03.mgc.mentorg.com>
-	<C5CA80B4-8C75-4CA6-9D2B-89404927D417@dominion.thruhere.net>,
-	<D570F160-9E98-4C99-BCE3-BDB6123DBDDC@dominion.thruhere.net>
-	<2B9C97B395470A40B9E9E5D469BCD9FA01561532@EU-MBX-03.mgc.mentorg.com>,
-	<A55D17AE-AD06-4296-805E-55B822E27858@dominion.thruhere.net>
-In-Reply-To: <A55D17AE-AD06-4296-805E-55B822E27858@dominion.thruhere.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.69]
+	Thu, 16 Jan 2014 12:45:55 +0000 (UTC)
+Received: by mail-wg0-f54.google.com with SMTP id x13so3158005wgg.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jan 2014 04:45:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=Tjc0i8uFWQvsSXPrGj8qJxGaQB9Faa6chmF5ErXdYNQ=;
+	b=Zuf7Ks/ou3RUeEkx2w3MZ0Ut/7b1ALlhVScRlmVOfdLF6Y/nd6UDh9hSERbIO1kxSC
+	utnq+GApwivLQTpB1oMj6Wo2mhSzsSDpXeussgbHK4duP4t1RU7GqRRVFA13QUJI1wr6
+	3X0rdQ7E9ccvrz229N+XDFA6Zq4I0jzrbABsuj2MIVja8K65Qin64F7+mXLHmm8EzJIJ
+	m6np+pFGjBUKZ8onDAsv8I1g25ck9Y9PmGf9a2Obaf0uKyrI15/jUnOmR3OH+g3+2IA+
+	4P+jZY24lOmx7V6P7kdZkR9qwZ9MSy25BzQzLlczZhP8iDnnXbYEW3isuZDjQiimpr8d
+	F45A==
 MIME-Version: 1.0
-X-OriginalArrivalTime: 16 Jan 2014 12:08:28.0556 (UTC)
-	FILETIME=[AA795CC0:01CF12B3]
-Cc: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio: rescale input being passed to float method of speex
+X-Received: by 10.194.78.141 with SMTP id b13mr8048675wjx.32.1389876354185;
+	Thu, 16 Jan 2014 04:45:54 -0800 (PST)
+Received: by 10.194.201.102 with HTTP; Thu, 16 Jan 2014 04:45:53 -0800 (PST)
+Date: Thu, 16 Jan 2014 12:45:53 +0000
+Message-ID: <CABuzA3P2x+_N6ssGGR4zBEZNHiXBCYOf=-u-gSRs4QcanK74JQ@mail.gmail.com>
+From: John Stirling <ap.john.stirling@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: avahi + latest airplay release from apple
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,143 +36,200 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 12:08:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 16 Jan 2014 12:45:56 -0000
+X-Groupsio-MsgNum: 49064
+Content-Type: multipart/mixed; boundary=047d7bfcfc8260775c04f015ce27
+
+--047d7bfcfc8260775c04f015ce27
+Content-Type: multipart/alternative; boundary=047d7bfcfc8260775704f015ce25
+
+--047d7bfcfc8260775704f015ce25
+Content-Type: text/plain; charset=ISO-8859-1
+
+I'm attempting to use avahi (0.6.31) with the latest airplay release from
+apple. Is anyone else attempting the same thing ?
+
+There are some issues -
+
+avahi dns_sd.h is missing a few defines needed by airplay (patch attached)
+DNSServiceGetAddrInfo doesn't exist in avahi and is called from airplay
+
+avahi HEAD doesn't seem to implement this function either and there doesn't
+seem to have been much activity since the 0.6.31 release
+
+Any advice ?
+
+Thanks
+John
+
+--047d7bfcfc8260775704f015ce25
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
->It's also 10-50x slower on ARM, so always enabling float is a bad option. =
-Just patch it to work, no matter what upstream says :)=0A=
-=0A=
-Seems I misunderstood the statement earlier. So to confirm, do you mean I s=
-hould submit patch here for original bug in Speex source code?=0A=
-=0A=
-________________________________________=0A=
-From: Koen Kooi [koen@dominion.thruhere.net]=0A=
-Sent: Friday, January 10, 2014 8:33 PM=0A=
-To: Arslan, Fahad=0A=
-Cc: Saul Wold; openembedded-core@lists.openembedded.org; Marcin Juszkiewicz=
-=0A=
-Subject: Re: [OE-core] [PATCH] pulseaudio: rescale input being passed to fl=
-oat method of speex=0A=
-=0A=
-Op 10 jan. 2014, om 08:48 heeft Arslan, Fahad <Fahad_Arslan@mentor.com> het=
- volgende geschreven:=0A=
-=0A=
->> def get_speex_fpu_setting(bb, d):=0A=
->>       if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:=0A=
->>               return "--enable-fixed-point --disable-float-api --disable=
--vbr"=0A=
->>       return ""=0A=
->=0A=
-> If we are using Pulseaudio with default settings (speex-float-1) and=0A=
-> the if condition in above method is evaluated true, we will end up facing=
-=0A=
-> the original issue: streams that need to be resampled are not playedback=
-=0A=
-> since input to speex is zeroed out when float input passed by Pulseaudio=
-=0A=
-> in range of +/-1 is converted to int.=0A=
->=0A=
-> So isn't Case 2 appropriate, thoughts?=0A=
-=0A=
-It's also 10-50x slower on ARM, so always enabling float is a bad option. J=
-ust patch it to work, no matter what upstream says :)=0A=
-=0A=
-=0A=
->=0A=
-> Regards,=0A=
-> Fahad=0A=
->=0A=
-> ________________________________________=0A=
-> From: Koen Kooi [koen@dominion.thruhere.net]=0A=
-> Sent: Tuesday, January 07, 2014 3:22 PM=0A=
-> To: Arslan, Fahad=0A=
-> Cc: Saul Wold; openembedded-core@lists.openembedded.org; marcin@juszkiewi=
-cz.pl=0A=
-> Subject: Re: [OE-core] [PATCH] pulseaudio: rescale input being passed to =
-float method of speex=0A=
->=0A=
-> Marcins linaro mail address has expired, adding the other one=0A=
->=0A=
-> Op 7 jan. 2014, om 11:03 heeft Koen Kooi <koen@dominion.thruhere.net> het=
- volgende geschreven:=0A=
->=0A=
->>=0A=
->> Op 7 jan. 2014, om 10:59 heeft Arslan, Fahad <Fahad_Arslan@mentor.com> h=
-et volgende geschreven:=0A=
->>=0A=
->>>> What affect does it have on the overall size of speex=0A=
->>>=0A=
->>> If we enable floating point support, there is decrease in size of libs.=
-=0A=
->>> libspeexdsp.so is ~480 KB in fixed point configuration=0A=
->>> libspeexdsp.so is ~220 KB in floating point configuration=0A=
->>>=0A=
->>> Further details are shown below:=0A=
->>>=0A=
->>>=0A=
->>> Case-1 (current configuration)=0A=
->>> =3D=3D=3D=3D=3D=3D=0A=
->>>=0A=
->>> EXTRA_OECONF =3D " --enable-fixed-point --with-ogg-libraries=3D${STAGIN=
-G_LIBDIR} \=0A=
->>>               --disable-float-api --disable-vbr \=0A=
->>>               --with-ogg-includes=3D${STAGING_INCDIR} --disable-oggtest=
-"=0A=
->>>=0A=
->>> build$=0A=
->>> build$ ls -l src/.libs/speex*=0A=
->>> -rwxr-xr-x 1 farslan farslan 75112 Jan  7 14:09 src/.libs/speexdec=0A=
->>> -rwxr-xr-x 1 farslan farslan 76989 Jan  7 14:09 src/.libs/speexenc=0A=
->>> build$ file src/.libs/speex*=0A=
->>> src/.libs/speexdec: ELF 32-bit LSB executable, ARM, version 1 (SYSV), d=
-ynamically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
->>> src/.libs/speexenc: ELF 32-bit LSB executable, ARM, version 1 (SYSV), d=
-ynamically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
->>> build$=0A=
->>> build$=0A=
->>> build$ ls -l libspeex/.libs/libspeex*.so.1.5.0=0A=
->>> -rwxr-xr-x 1 farslan farslan 484940 Jan  7 14:09 libspeex/.libs/libspee=
-xdsp.so.1.5.0=0A=
->>> -rwxr-xr-x 1 farslan farslan 370309 Jan  7 14:09 libspeex/.libs/libspee=
-x.so.1.5.0=0A=
->>> build$=0A=
->>> build$ file libspeex/.libs/libspeex*.so.1.5.0=0A=
->>> libspeex/.libs/libspeexdsp.so.1.5.0: ELF 32-bit LSB shared object, ARM,=
- version 1 (SYSV), dynamically linked, not stripped=0A=
->>> libspeex/.libs/libspeex.so.1.5.0:    ELF 32-bit LSB shared object, ARM,=
- version 1 (SYSV), dynamically linked, not stripped=0A=
->>> build$=0A=
->>>=0A=
->>>=0A=
->>> Case-2 (suggested configuration)=0A=
->>> =3D=3D=3D=3D=3D=3D=0A=
->>>=0A=
->>> EXTRA_OECONF =3D " --with-ogg-libraries=3D${STAGING_LIBDIR} \=0A=
->>>               --enable-float-api --disable-vbr \=0A=
->>>               --with-ogg-includes=3D${STAGING_INCDIR} --disable-oggtest=
-"=0A=
->>=0A=
->> Or case 3, which I implemented 3 years ago in https://github.com/openemb=
-edded/openembedded/commit/e06553979d23531397af3dd71870abb80718c681 :=0A=
->>=0A=
->> def get_speex_fpu_setting(bb, d):=0A=
->>       if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:=0A=
->>               return "--enable-fixed-point --disable-float-api --disable=
--vbr"=0A=
->>       return ""=0A=
->>=0A=
->>=0A=
->> EXTRA_OECONF +=3D "${@get_speex_fpu_setting(bb, d)}=0A=
->>=0A=
->> That OE-classic recipe also has support for arm asm which speed things u=
-p a lot.=0A=
->>=0A=
->> regards,=0A=
->>=0A=
->> Koen=0A=
->=0A=
->=0A=
-=0A=
+<div dir=3D"ltr">I&#39;m attempting to use avahi (0.6.31) with the latest a=
+irplay release from apple. Is anyone else attempting the same thing ?=A0<di=
+v><br></div><div>There are some issues -</div><div><br></div><div>avahi dns=
+_sd.h is missing a few defines needed by airplay (patch attached)<br>
+</div><div>DNSServiceGetAddrInfo doesn&#39;t exist in avahi and is called f=
+rom airplay</div><div><br></div><div>avahi HEAD doesn&#39;t seem to impleme=
+nt this function either and there doesn&#39;t seem to have been much activi=
+ty since the 0.6.31 release</div>
+<div><br></div><div>Any advice ?</div><div><br></div><div>Thanks</div><div>=
+John</div><div><div><br></div><div><br><div><br></div><div><br><div><br></d=
+iv><div><br></div><div><br></div><div><br></div><div><br></div></div></div>
+</div></div>
 
+--047d7bfcfc8260775704f015ce25--
+
+--047d7bfcfc8260775c04f015ce27
+Content-Type: application/octet-stream; 
+	name="fix-airplay-compile-errors.patch"
+Content-Disposition: attachment; filename="fix-airplay-compile-errors.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_hqi0bzch0
+
+LS0tIGF2YWhpLTAuNi4zMS9hdmFoaS1jb21wYXQtbGliZG5zX3NkL2Ruc19zZC5oLm9yaWcJMjAx
+NC0wMS0xMyAxMjo1Mzo0My45Mzk4Nzg4NjkgKzAwMDAKKysrIGF2YWhpLTAuNi4zMS9hdmFoaS1j
+b21wYXQtbGliZG5zX3NkL2Ruc19zZC5oCTIwMTQtMDEtMTMgMTI6NTM6NTIuMDgzODE2NDUwICsw
+MDAwCkBAIC0xNTEsMTAgKzE1MSwxMTMgQEAKICAgICAgKiBldmVuIGZvciBhIG5hbWUgaW4gYSBk
+b21haW4gKGUuZy4gZm9vLmFwcGxlLmNvbS4pIHRoYXQgd291bGQgbm9ybWFsbHkgaW1wbHkgdW5p
+Y2FzdCBETlMuCiAgICAgICovCiAKLSAgICBrRE5TU2VydmljZUZsYWdzUmV0dXJuQ05BTUUgICAg
+ICAgICA9IDB4ODAwCisgICAga0ROU1NlcnZpY2VGbGFnc1JldHVybkNOQU1FICAgICAgICAgPSAw
+eDgwMCwKICAgICAvKiBGbGFnIGZvciByZXR1cm5pbmcgQ05BTUUgcmVjb3JkcyBpbiB0aGUgRE5T
+U2VydmljZVF1ZXJ5UmVjb3JkIGNhbGwuIENOQU1FIHJlY29yZHMgYXJlCiAgICAgICogbm9ybWFs
+bHkgZm9sbG93ZWQgd2l0aG91dCBpbmRpY2F0aW5nIHRvIHRoZSBjbGllbnQgdGhhdCB0aGVyZSB3
+YXMgYSBDTkFNRSByZWNvcmQuCiAgICAgICovCisKKyAgICBrRE5TU2VydmljZUZsYWdzUmV0dXJu
+SW50ZXJtZWRpYXRlcyA9IDB4MTAwMCwKKyAgICAvKiBGbGFnIGZvciByZXR1cm5pbmcgaW50ZXJt
+ZWRpYXRlIHJlc3VsdHMuCisgICAgICogRm9yIGV4YW1wbGUsIGlmIGEgcXVlcnkgcmVzdWx0cyBp
+biBhbiBhdXRob3JpdGF0aXZlIE5YRG9tYWluIChuYW1lIGRvZXMgbm90IGV4aXN0KQorICAgICAq
+IHRoZW4gdGhhdCByZXN1bHQgaXMgcmV0dXJuZWQgdG8gdGhlIGNsaWVudC4gSG93ZXZlciB0aGUg
+cXVlcnkgaXMgbm90IGltcGxpY2l0bHkKKyAgICAgKiBjYW5jZWxsZWQgLS0gaXQgcmVtYWlucyBh
+Y3RpdmUgYW5kIGlmIHRoZSBhbnN3ZXIgc3Vic2VxdWVudGx5IGNoYW5nZXMKKyAgICAgKiAoZS5n
+LiBiZWNhdXNlIGEgVlBOIHR1bm5lbCBpcyBzdWJzZXF1ZW50bHkgZXN0YWJsaXNoZWQpIHRoZW4g
+dGhhdCBwb3NpdGl2ZQorICAgICAqIHJlc3VsdCB3aWxsIHN0aWxsIGJlIHJldHVybmVkIHRvIHRo
+ZSBjbGllbnQuCisgICAgICogU2ltaWxhcmx5LCBpZiBhIHF1ZXJ5IHJlc3VsdHMgaW4gYSBDTkFN
+RSByZWNvcmQsIHRoZW4gaW4gYWRkaXRpb24gdG8gZm9sbG93aW5nCisgICAgICogdGhlIENOQU1F
+IHJlZmVycmFsLCB0aGUgaW50ZXJtZWRpYXRlIENOQU1FIHJlc3VsdCBpcyBhbHNvIHJldHVybmVk
+IHRvIHRoZSBjbGllbnQuCisgICAgICogV2hlbiB0aGlzIGZsYWcgaXMgbm90IHNldCwgTlhEb21h
+aW4gZXJyb3JzIGFyZSBub3QgcmV0dXJuZWQsIGFuZCBDTkFNRSByZWNvcmRzCisgICAgICogYXJl
+IGZvbGxvd2VkIHNpbGVudGx5IHdpdGhvdXQgaW5mb3JtaW5nIHRoZSBjbGllbnQgb2YgdGhlIGlu
+dGVybWVkaWF0ZSBzdGVwcy4KKyAgICAgKiAoSW4gZWFybGllciBidWlsZHMgdGhpcyBmbGFnIHdh
+cyBicmllZmx5IGNhbGxlZGtETlNTZXJ2aWNlRmxhZ3NSZXR1cm5DTkFNRSkKKyAgICAgKi8KKwor
+ICAgIGtETlNTZXJ2aWNlRmxhZ3NOb25Ccm93c2FibGUgICAgICAgID0gMHgyMDAwLAorICAgIC8q
+IEEgc2VydmljZSByZWdpc3RlcmVkIHdpdGggdGhlIE5vbkJyb3dzYWJsZSBmbGFnIHNldCBjYW4g
+YmUgcmVzb2x2ZWQgdXNpbmcKKyAgICAgKiBETlNTZXJ2aWNlUmVzb2x2ZSgpLCBidXQgd2lsbCBu
+b3QgYmUgZGlzY292ZXJhYmxlIHVzaW5nIEROU1NlcnZpY2VCcm93c2UoKS4KKyAgICAgKiBUaGlz
+IGlzIGZvciBjYXNlcyB3aGVyZSB0aGUgbmFtZSBpcyBhY3R1YWxseSBhIEdVSUQ7IGl0IGlzIGZv
+dW5kIGJ5IG90aGVyIG1lYW5zOworICAgICAqIHRoZXJlIGlzIG5vIGVuZC11c2VyIGJlbmVmaXQg
+dG8gYnJvd3NpbmcgdG8gZmluZCBhIGxvbmcgbGlzdCBvZiBvcGFxdWUgR1VJRHMuCisgICAgICog
+VXNpbmcgdGhlIE5vbkJyb3dzYWJsZSBmbGFnIGNyZWF0ZXMgU1JWK1RYVCB3aXRob3V0IHRoZSBj
+b3N0IG9mIGFsc28gYWR2ZXJ0aXNpbmcKKyAgICAgKiBhbiBhc3NvY2lhdGVkIFBUUiByZWNvcmQu
+CisgICAgICovCisKKyAgICBrRE5TU2VydmljZUZsYWdzU2hhcmVDb25uZWN0aW9uICAgICA9IDB4
+NDAwMCwKKyAgICAvKiBGb3IgZWZmaWNpZW5jeSwgY2xpZW50cyB0aGF0IHBlcmZvcm0gbWFueSBj
+b25jdXJyZW50IG9wZXJhdGlvbnMgbWF5IHdhbnQgdG8gdXNlIGEKKyAgICAgKiBzaW5nbGUgVW5p
+eCBEb21haW4gU29ja2V0IGNvbm5lY3Rpb24gd2l0aCB0aGUgYmFja2dyb3VuZCBkYWVtb24sIGlu
+c3RlYWQgb2YgaGF2aW5nIGEKKyAgICAgKiBzZXBhcmF0ZSBjb25uZWN0aW9uIGZvciBlYWNoIGlu
+ZGVwZW5kZW50IG9wZXJhdGlvbi4gVG8gdXNlIHRoaXMgbW9kZSwgY2xpZW50cyBmaXJzdAorICAg
+ICAqIGNhbGwgRE5TU2VydmljZUNyZWF0ZUNvbm5lY3Rpb24oJk1haW5SZWYpIHRvIGluaXRpYWxp
+emUgdGhlIG1haW4gRE5TU2VydmljZVJlZi4KKyAgICAgKiBGb3IgZWFjaCBzdWJzZXF1ZW50IG9w
+ZXJhdGlvbiB0aGF0IGlzIHRvIHNoYXJlIHRoYXQgc2FtZSBjb25uZWN0aW9uLCB0aGUgY2xpZW50
+IGNvcGllcworICAgICAqIHRoZSBNYWluUmVmLCBhbmQgdGhlbiBwYXNzZXMgdGhlIGFkZHJlc3Mg
+b2YgdGhhdCBjb3B5LCBzZXR0aW5nIHRoZSBTaGFyZUNvbm5lY3Rpb24gZmxhZworICAgICAqIHRv
+IHRlbGwgdGhlIGxpYnJhcnkgdGhhdCB0aGlzIEROU1NlcnZpY2VSZWYgaXMgbm90IGEgdHlwaWNh
+bCB1bmluaXRpYWxpemVkIEROU1NlcnZpY2VSZWY7CisgICAgICogaXQncyBhIGNvcHkgb2YgYW4g
+ZXhpc3RpbmcgRE5TU2VydmljZVJlZiB3aG9zZSBjb25uZWN0aW9uIGluZm9ybWF0aW9uIHNob3Vs
+ZCBiZSByZXVzZWQuCisgICAgICoKKyAgICAgKiBGb3IgZXhhbXBsZToKKyAgICAgKgorICAgICAq
+IEROU1NlcnZpY2VFcnJvclR5cGUgZXJyb3I7CisgICAgICogRE5TU2VydmljZVJlZiBNYWluUmVm
+OworICAgICAqIGVycm9yID0gRE5TU2VydmljZUNyZWF0ZUNvbm5lY3Rpb24oJk1haW5SZWYpOwor
+ICAgICAqIGlmIChlcnJvcikgLi4uCisgICAgICogRE5TU2VydmljZVJlZiBCcm93c2VSZWYgPSBN
+YWluUmVmOyAgLy8gSW1wb3J0YW50OiBDT1BZIHRoZSBwcmltYXJ5IEROU1NlcnZpY2VSZWYgZmly
+c3QuLi4KKyAgICAgKiBlcnJvciA9IEROU1NlcnZpY2VCcm93c2UoJkJyb3dzZVJlZiwga0ROU1Nl
+cnZpY2VGbGFnc1NoYXJlQ29ubmVjdGlvbiwgLi4uKTsgLy8gdGhlbiB1c2UgdGhlIGNvcHkKKyAg
+ICAgKiBpZiAoZXJyb3IpIC4uLgorICAgICAqIC4uLgorICAgICAqIEROU1NlcnZpY2VSZWZEZWFs
+bG9jYXRlKEJyb3dzZVJlZik7IC8vIFRlcm1pbmF0ZSB0aGUgYnJvd3NlIG9wZXJhdGlvbgorICAg
+ICAqIEROU1NlcnZpY2VSZWZEZWFsbG9jYXRlKE1haW5SZWYpOyAgIC8vIFRlcm1pbmF0ZSB0aGUg
+c2hhcmVkIGNvbm5lY3Rpb24KKyAgICAgKgorICAgICAqIE5vdGVzOgorICAgICAqCisgICAgICog
+MS4gQ29sbGVjdGl2ZSBrRE5TU2VydmljZUZsYWdzTW9yZUNvbWluZyBmbGFnCisgICAgICogV2hl
+biBjYWxsYmFja3MgYXJlIGludm9rZWQgdXNpbmcgYSBzaGFyZWQgRE5TU2VydmljZVJlZiwgdGhl
+CisgICAgICoga0ROU1NlcnZpY2VGbGFnc01vcmVDb21pbmcgZmxhZyBhcHBsaWVzIGNvbGxlY3Rp
+dmVseSB0byAqYWxsKiBhY3RpdmUKKyAgICAgKiBvcGVyYXRpb25zIHNoYXJpbmcgdGhlIHNhbWUg
+cGFyZW50IEROU1NlcnZpY2VSZWYuIElmIHRoZSBNb3JlQ29taW5nIGZsYWcgaXMKKyAgICAgKiBz
+ZXQgaXQgbWVhbnMgdGhhdCB0aGVyZSBhcmUgbW9yZSByZXN1bHRzIHF1ZXVlZCBvbiB0aGlzIHBh
+cmVudCBETlNTZXJ2aWNlUmVmLAorICAgICAqIGJ1dCBub3QgbmVjZXNzYXJpbHkgbW9yZSByZXN1
+bHRzIGZvciB0aGlzIHBhcnRpY3VsYXIgY2FsbGJhY2sgZnVuY3Rpb24uIAorICAgICAqIFRoZSBp
+bXBsaWNhdGlvbiBvZiB0aGlzIGZvciBjbGllbnQgcHJvZ3JhbW1lcnMgaXMgdGhhdCB3aGVuIGEg
+Y2FsbGJhY2sKKyAgICAgKiBpcyBpbnZva2VkIHdpdGggdGhlIE1vcmVDb21pbmcgZmxhZyBzZXQs
+IHRoZSBjb2RlIHNob3VsZCB1cGRhdGUgaXRzCisgICAgICogaW50ZXJuYWwgZGF0YSBzdHJ1Y3R1
+cmVzIHdpdGggdGhlIG5ldyByZXN1bHQsIGFuZCBzZXQgYSB2YXJpYWJsZSBpbmRpY2F0aW5nCisg
+ICAgICogdGhhdCBpdHMgVUkgbmVlZHMgdG8gYmUgdXBkYXRlZC4gVGhlbiwgbGF0ZXIgd2hlbiBh
+IGNhbGxiYWNrIGlzIGV2ZW50dWFsbHkKKyAgICAgKiBpbnZva2VkIHdpdGggdGhlIE1vcmVDb21p
+bmcgZmxhZyBub3Qgc2V0LCB0aGUgY29kZSBzaG91bGQgdXBkYXRlICphbGwqCisgICAgICogc3Rh
+bGUgVUkgZWxlbWVudHMgcmVsYXRlZCB0byB0aGF0IHNoYXJlZCBwYXJlbnQgRE5TU2VydmljZVJl
+ZiB0aGF0IG5lZWQKKyAgICAgKiB1cGRhdGluZywgbm90IGp1c3QgdGhlIFVJIGVsZW1lbnRzIHJl
+bGF0ZWQgdG8gdGhlIHBhcnRpY3VsYXIgY2FsbGJhY2sKKyAgICAgKiB0aGF0IGhhcHBlbmVkIHRv
+IGJlIHRoZSBsYXN0IG9uZSB0byBiZSBpbnZva2VkLgorICAgICAqCisgICAgICogMi4gQ2FuY2Vs
+aW5nIG9wZXJhdGlvbnMgYW5kIGtETlNTZXJ2aWNlRmxhZ3NNb3JlQ29taW5nCisgICAgICogV2hl
+bmV2ZXIgeW91IGNhbmNlbCBhbnkgb3BlcmF0aW9uIGZvciB3aGljaCB5b3UgaGFkIGRlZmVycmVk
+IFVJIHVwZGF0ZXMKKyAgICAgKiB3YWl0aW5nIGJlY2F1c2Ugb2YgYSBrRE5TU2VydmljZUZsYWdz
+TW9yZUNvbWluZyBmbGFnLCB5b3Ugc2hvdWxkIHBlcmZvcm0KKyAgICAgKiB0aG9zZSBkZWZlcnJl
+ZCBVSSB1cGRhdGVzLiBUaGlzIGlzIGJlY2F1c2UsIGFmdGVyIGNhbmNlbGxpbmcgdGhlIG9wZXJh
+dGlvbiwKKyAgICAgKiB5b3UgY2FuIG5vIGxvbmdlciB3YWl0IGZvciBhIGNhbGxiYWNrICp3aXRo
+b3V0KiBNb3JlQ29taW5nIHNldCwgdG8gdGVsbAorICAgICAqIHlvdSBkbyBwZXJmb3JtIHlvdXIg
+ZGVmZXJyZWQgVUkgdXBkYXRlcyAodGhlIG9wZXJhdGlvbiBoYXMgYmVlbiBjYW5jZWxlZCwKKyAg
+ICAgKiBzbyB0aGVyZSB3aWxsIGJlIG5vIG1vcmUgY2FsbGJhY2tzKS4gQW4gaW1wbGljYXRpb24g
+b2YgdGhlIGNvbGxlY3RpdmUKKyAgICAgKiBrRE5TU2VydmljZUZsYWdzTW9yZUNvbWluZyBmbGFn
+IGZvciBzaGFyZWQgY29ubmVjdGlvbnMgaXMgdGhhdCB0aGlzCisgICAgICogZ3VpZGVsaW5lIGFw
+cGxpZXMgbW9yZSBicm9hZGx5IC0tIGFueSB0aW1lIHlvdSBjYW5jZWwgYW4gb3BlcmF0aW9uIG9u
+CisgICAgICogYSBzaGFyZWQgY29ubmVjdGlvbiwgeW91IHNob3VsZCBwZXJmb3JtIGFsbCBkZWZl
+cnJlZCBVSSB1cGRhdGVzIGZvciBhbGwKKyAgICAgKiBvcGVyYXRpb25zIHNoYXJpbmcgdGhhdCBj
+b25uZWN0aW9uLiBUaGlzIGlzIGJlY2F1c2UgdGhlIE1vcmVDb21pbmcgZmxhZworICAgICAqIG1p
+Z2h0IGhhdmUgYmVlbiByZWZlcnJpbmcgdG8gZXZlbnRzIGNvbWluZyBmb3IgdGhlIG9wZXJhdGlv
+biB5b3UgY2FuY2VsZWQsCisgICAgICogd2hpY2ggd2lsbCBub3cgbm90IGJlIGNvbWluZyBiZWNh
+dXNlIHRoZSBvcGVyYXRpb24gaGFzIGJlZW4gY2FuY2VsZWQuCisgICAgICoKKyAgICAgKiAzLiBP
+bmx5IHNoYXJlIEROU1NlcnZpY2VSZWYncyBjcmVhdGVkIHdpdGggRE5TU2VydmljZUNyZWF0ZUNv
+bm5lY3Rpb24KKyAgICAgKiBDYWxsaW5nIEROU1NlcnZpY2VDcmVhdGVDb25uZWN0aW9uKCZyZWYp
+IGNyZWF0ZXMgYSBzcGVjaWFsIHNoYXJlYWJsZSBETlNTZXJ2aWNlUmVmLgorICAgICAqIEROU1Nl
+cnZpY2VSZWYncyBjcmVhdGVkIGJ5IG90aGVyIGNhbGxzIGxpa2UgRE5TU2VydmljZUJyb3dzZSgp
+IG9yIEROU1NlcnZpY2VSZXNvbHZlKCkKKyAgICAgKiBjYW5ub3QgYmUgc2hhcmVkIGJ5IGNvcHlp
+bmcgdGhlbSBhbmQgdXNpbmcga0ROU1NlcnZpY2VGbGFnc1NoYXJlQ29ubmVjdGlvbi4KKyAgICAg
+KgorICAgICAqIDQuIERvbid0IERvdWJsZS1EZWFsbG9jYXRlCisgICAgICogQ2FsbGluZyBETlNT
+ZXJ2aWNlUmVmRGVhbGxvY2F0ZShyZWYpIGZvciBhIHBhcnRpY3VsYXIgb3BlcmF0aW9uJ3MgRE5T
+U2VydmljZVJlZiB0ZXJtaW5hdGVzCisgICAgICoganVzdCB0aGF0IG9wZXJhdGlvbi4gQ2FsbGlu
+ZyBETlNTZXJ2aWNlUmVmRGVhbGxvY2F0ZShyZWYpIGZvciB0aGUgbWFpbiBzaGFyZWQgRE5TU2Vy
+dmljZVJlZgorICAgICAqICh0aGUgcGFyZW50IEROU1NlcnZpY2VSZWYsIG9yaWdpbmFsbHkgY3Jl
+YXRlZCBieSBETlNTZXJ2aWNlQ3JlYXRlQ29ubmVjdGlvbigmcmVmKSkKKyAgICAgKiBhdXRvbWF0
+aWNhbGx5IHRlcm1pbmF0ZXMgdGhlIHNoYXJlZCBjb25uZWN0aW9uIGFuZCBhbGwgb3BlcmF0aW9u
+cyB0aGF0IHdlcmUgc3RpbGwgdXNpbmcgaXQuCisgICAgICogQWZ0ZXIgZG9pbmcgdGhpcywgRE8g
+Tk9UIHRoZW4gYXR0ZW1wdCB0byBkZWFsbG9jYXRlIGFueSByZW1haW5pbmcgc3Vib3JkaW5hdGUg
+RE5TU2VydmljZVJlZidzLgorICAgICAqIFRoZSBtZW1vcnkgdXNlZCBieSB0aG9zZSBzdWJvcmRp
+bmF0ZSBETlNTZXJ2aWNlUmVmJ3MgaGFzIGFscmVhZHkgYmVlbiBmcmVlZCwgc28gYW55IGF0dGVt
+cHQKKyAgICAgKiB0byBkbyBhIEROU1NlcnZpY2VSZWZEZWFsbG9jYXRlIChvciBhbnkgb3RoZXIg
+b3BlcmF0aW9uKSBvbiB0aGVtIHdpbGwgcmVzdWx0IGluIGFjY2Vzc2VzCisgICAgICogdG8gZnJl
+ZWQgbWVtb3J5LCBsZWFkaW5nIHRvIGNyYXNoZXMgb3Igb3RoZXIgZXF1YWxseSB1bmRlc2lyYWJs
+ZSByZXN1bHRzLgorICAgICAqCisgICAgICogNS4gVGhyZWFkIFNhZmV0eQorICAgICAqIFRoZSBk
+bnNfc2QuaCBBUEkgZG9lcyBub3QgcHJlc3VwcG9zZSBhbnkgcGFydGljdWxhciB0aHJlYWRpbmcg
+bW9kZWwsIGFuZCBjb25zZXF1ZW50bHkKKyAgICAgKiBkb2VzIG5vIGxvY2tpbmcgb2YgaXRzIG93
+biAod2hpY2ggd291bGQgcmVxdWlyZSBsaW5raW5nIHNvbWUgc3BlY2lmaWMgdGhyZWFkaW5nIGxp
+YnJhcnkpLgorICAgICAqIElmIGNsaWVudCBjb2RlIGNhbGxzIEFQSSByb3V0aW5lcyBvbiB0aGUg
+c2FtZSBETlNTZXJ2aWNlUmVmIGNvbmN1cnJlbnRseQorICAgICAqIGZyb20gbXVsdGlwbGUgdGhy
+ZWFkcywgaXQgaXMgdGhlIGNsaWVudCdzIHJlc3BvbnNpYmlsaXR5IHRvIHVzZSBhIG11dGV4dAor
+ICAgICAqIGxvY2sgb3IgdGFrZSBzaW1pbGFyIGFwcHJvcHJpYXRlIHByZWNhdXRpb25zIHRvIHNl
+cmlhbGl6ZSB0aG9zZSBjYWxscy4KKyAgICAgKi8KKworICAgIGtETlNTZXJ2aWNlRmxhZ3NTdXBw
+cmVzc1VudXNhYmxlICAgID0gMHg4MDAwCisKICAgICB9OwogCiAvKgpAQCAtMjUxLDcgKzM1NCwx
+NiBAQAogICAgIGtETlNTZXJ2aWNlRXJyX05vU3VjaEtleSAgICAgICAgICAgPSAtNjU1NTYsCiAg
+ICAga0ROU1NlcnZpY2VFcnJfTkFUVHJhdmVyc2FsICAgICAgICA9IC02NTU1NywKICAgICBrRE5T
+U2VydmljZUVycl9Eb3VibGVOQVQgICAgICAgICAgID0gLTY1NTU4LAotICAgIGtETlNTZXJ2aWNl
+RXJyX0JhZFRpbWUgICAgICAgICAgICAgPSAtNjU1NTkKKyAgICBrRE5TU2VydmljZUVycl9CYWRU
+aW1lICAgICAgICAgICAgID0gLTY1NTU5LAorICAgIGtETlNTZXJ2aWNlRXJyX0JhZFNpZyAgICAg
+ICAgICAgICAgPSAtNjU1NjAsCisgICAga0ROU1NlcnZpY2VFcnJfQmFkS2V5ICAgICAgICAgICAg
+ICA9IC02NTU2MSwKKyAgICBrRE5TU2VydmljZUVycl9UcmFuc2llbnQgICAgICAgICAgID0gLTY1
+NTYyLAorICAgIGtETlNTZXJ2aWNlRXJyX1NlcnZpY2VOb3RSdW5uaW5nICAgPSAtNjU1NjMsCisg
+ICAga0ROU1NlcnZpY2VFcnJfTkFUUG9ydE1hcHBpbmdVbnN1cHBvcnRlZCA9IC02NTU2NCwKKyAg
+ICBrRE5TU2VydmljZUVycl9OQVRQb3J0TWFwcGluZ0Rpc2FibGVkID0gLTY1NTY1LAorICAgIGtE
+TlNTZXJ2aWNlRXJyX05vUm91dGVyICAgICAgICAgICAgPSAtNjU1NjYsCisgICAga0ROU1NlcnZp
+Y2VFcnJfUG9sbGluZ01vZGUgICAgICAgICA9IC02NTU2NywKKyAgICBrRE5TU2VydmljZUVycl9U
+aW1lb3V0ICAgICAgICAgICAgID0gLTY1NTY4CiAgICAgLyogbUROUyBFcnJvciBjb2RlcyBhcmUg
+aW4gdGhlIHJhbmdlCiAgICAgICogRkZGRSBGRjAwICgtNjU3OTIpIHRvIEZGRkUgRkZGRiAoLTY1
+NTM3KSAqLwogICAgIH07Cg==
+
+--047d7bfcfc8260775c04f015ce27--
