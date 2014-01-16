@@ -1,24 +1,46 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 404A26B8C5
+Return-Path: <Fahad_Arslan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DD666B8C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 11:17:01 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jan 2014 03:17:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,667,1384329600"; d="scan'208";a="466056807"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jan 2014 03:17:01 -0800
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jan 2014 13:16:56 +0200
-Message-Id: <f0bc23d8113efff6037a1e4530ce3992e8abf953.1389870944.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1389870944.git.laurentiu.palcu@intel.com>
-References: <cover.1389870944.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1389870944.git.laurentiu.palcu@intel.com>
-References: <cover.1389870944.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 2/2] nativesdk-packagegroup-sdk-host: reverse inherit order
+	Thu, 16 Jan 2014 12:08:29 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1W3lkK-0005Dm-Nz from Fahad_Arslan@mentor.com ;
+	Thu, 16 Jan 2014 04:08:28 -0800
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 16 Jan 2014 04:08:28 -0800
+Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.95]) by
+	SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) with mapi id
+	14.02.0247.003; Thu, 16 Jan 2014 12:08:26 +0000
+From: "Arslan, Fahad" <Fahad_Arslan@mentor.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Thread-Topic: [OE-core] [PATCH] pulseaudio: rescale input being passed to
+	float method of speex
+Thread-Index: AQHPALXAcs6RXqPcQEiQqEFDYqrdcJpjkBUAgAxA636AAgPcAIAHR3brgAABugCAAAVGAIAEiXblgACEcQCACSxlmA==
+Date: Thu, 16 Jan 2014 12:08:25 +0000
+Message-ID: <2B9C97B395470A40B9E9E5D469BCD9FA01562414@EU-MBX-03.mgc.mentorg.com>
+References: <1387895862-15110-1-git-send-email-fahad_arslan@mentor.com>,
+	<52B9BC2C.7080709@linux.intel.com>
+	<2B9C97B395470A40B9E9E5D469BCD9FA015601C3@EU-MBX-03.mgc.mentorg.com>,
+	<52C5B458.5060409@linux.intel.com>
+	<2B9C97B395470A40B9E9E5D469BCD9FA01560D68@EU-MBX-03.mgc.mentorg.com>
+	<C5CA80B4-8C75-4CA6-9D2B-89404927D417@dominion.thruhere.net>,
+	<D570F160-9E98-4C99-BCE3-BDB6123DBDDC@dominion.thruhere.net>
+	<2B9C97B395470A40B9E9E5D469BCD9FA01561532@EU-MBX-03.mgc.mentorg.com>,
+	<A55D17AE-AD06-4296-805E-55B822E27858@dominion.thruhere.net>
+In-Reply-To: <A55D17AE-AD06-4296-805E-55B822E27858@dominion.thruhere.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.69]
+MIME-Version: 1.0
+X-OriginalArrivalTime: 16 Jan 2014 12:08:28.0556 (UTC)
+	FILETIME=[AA795CC0:01CF12B3]
+Cc: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pulseaudio: rescale input being passed to float method of speex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +53,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 11:17:01 -0000
+X-List-Received-Date: Thu, 16 Jan 2014 12:08:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Currently, tow successive toolchain builds for different hosts, will
-issue a warning:
-
-WARNING: The recipe nativesdk-packagegroup-sdk-host is trying to install
-files into a shared area when those files already exist. Those files and
-their manifest location are:
-   /ssd/work/yp1/build/tmp/deploy/ipk/all/nativesdk-packagegroup-sdk-host_1.0-r11_all.ipk
-   Matched in manifest-x86_64-nativesdk-packagegroup-sdk-host.package_write_ipk
-Please verify which package should provide the above files.
-
-That's because packagegroup is manually inherited after nativesdk which
-is usually a BBCLASSEXTEND operation, done last.
-
-[YOCTO #5396]
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../nativesdk-packagegroup-sdk-host.bb             |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index 9581ef3..1065f30 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -6,7 +6,7 @@ SUMMARY = "Host packages for the standalone SDK or external toolchain"
- PR = "r11"
- LICENSE = "MIT"
- 
--inherit nativesdk packagegroup
-+inherit packagegroup nativesdk
- 
- PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
- 
--- 
-1.7.9.5
-
+>It's also 10-50x slower on ARM, so always enabling float is a bad option. =
+Just patch it to work, no matter what upstream says :)=0A=
+=0A=
+Seems I misunderstood the statement earlier. So to confirm, do you mean I s=
+hould submit patch here for original bug in Speex source code?=0A=
+=0A=
+________________________________________=0A=
+From: Koen Kooi [koen@dominion.thruhere.net]=0A=
+Sent: Friday, January 10, 2014 8:33 PM=0A=
+To: Arslan, Fahad=0A=
+Cc: Saul Wold; openembedded-core@lists.openembedded.org; Marcin Juszkiewicz=
+=0A=
+Subject: Re: [OE-core] [PATCH] pulseaudio: rescale input being passed to fl=
+oat method of speex=0A=
+=0A=
+Op 10 jan. 2014, om 08:48 heeft Arslan, Fahad <Fahad_Arslan@mentor.com> het=
+ volgende geschreven:=0A=
+=0A=
+>> def get_speex_fpu_setting(bb, d):=0A=
+>>       if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:=0A=
+>>               return "--enable-fixed-point --disable-float-api --disable=
+-vbr"=0A=
+>>       return ""=0A=
+>=0A=
+> If we are using Pulseaudio with default settings (speex-float-1) and=0A=
+> the if condition in above method is evaluated true, we will end up facing=
+=0A=
+> the original issue: streams that need to be resampled are not playedback=
+=0A=
+> since input to speex is zeroed out when float input passed by Pulseaudio=
+=0A=
+> in range of +/-1 is converted to int.=0A=
+>=0A=
+> So isn't Case 2 appropriate, thoughts?=0A=
+=0A=
+It's also 10-50x slower on ARM, so always enabling float is a bad option. J=
+ust patch it to work, no matter what upstream says :)=0A=
+=0A=
+=0A=
+>=0A=
+> Regards,=0A=
+> Fahad=0A=
+>=0A=
+> ________________________________________=0A=
+> From: Koen Kooi [koen@dominion.thruhere.net]=0A=
+> Sent: Tuesday, January 07, 2014 3:22 PM=0A=
+> To: Arslan, Fahad=0A=
+> Cc: Saul Wold; openembedded-core@lists.openembedded.org; marcin@juszkiewi=
+cz.pl=0A=
+> Subject: Re: [OE-core] [PATCH] pulseaudio: rescale input being passed to =
+float method of speex=0A=
+>=0A=
+> Marcins linaro mail address has expired, adding the other one=0A=
+>=0A=
+> Op 7 jan. 2014, om 11:03 heeft Koen Kooi <koen@dominion.thruhere.net> het=
+ volgende geschreven:=0A=
+>=0A=
+>>=0A=
+>> Op 7 jan. 2014, om 10:59 heeft Arslan, Fahad <Fahad_Arslan@mentor.com> h=
+et volgende geschreven:=0A=
+>>=0A=
+>>>> What affect does it have on the overall size of speex=0A=
+>>>=0A=
+>>> If we enable floating point support, there is decrease in size of libs.=
+=0A=
+>>> libspeexdsp.so is ~480 KB in fixed point configuration=0A=
+>>> libspeexdsp.so is ~220 KB in floating point configuration=0A=
+>>>=0A=
+>>> Further details are shown below:=0A=
+>>>=0A=
+>>>=0A=
+>>> Case-1 (current configuration)=0A=
+>>> =3D=3D=3D=3D=3D=3D=0A=
+>>>=0A=
+>>> EXTRA_OECONF =3D " --enable-fixed-point --with-ogg-libraries=3D${STAGIN=
+G_LIBDIR} \=0A=
+>>>               --disable-float-api --disable-vbr \=0A=
+>>>               --with-ogg-includes=3D${STAGING_INCDIR} --disable-oggtest=
+"=0A=
+>>>=0A=
+>>> build$=0A=
+>>> build$ ls -l src/.libs/speex*=0A=
+>>> -rwxr-xr-x 1 farslan farslan 75112 Jan  7 14:09 src/.libs/speexdec=0A=
+>>> -rwxr-xr-x 1 farslan farslan 76989 Jan  7 14:09 src/.libs/speexenc=0A=
+>>> build$ file src/.libs/speex*=0A=
+>>> src/.libs/speexdec: ELF 32-bit LSB executable, ARM, version 1 (SYSV), d=
+ynamically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
+>>> src/.libs/speexenc: ELF 32-bit LSB executable, ARM, version 1 (SYSV), d=
+ynamically linked (uses shared libs), for GNU/Linux 2.6.16, not stripped=0A=
+>>> build$=0A=
+>>> build$=0A=
+>>> build$ ls -l libspeex/.libs/libspeex*.so.1.5.0=0A=
+>>> -rwxr-xr-x 1 farslan farslan 484940 Jan  7 14:09 libspeex/.libs/libspee=
+xdsp.so.1.5.0=0A=
+>>> -rwxr-xr-x 1 farslan farslan 370309 Jan  7 14:09 libspeex/.libs/libspee=
+x.so.1.5.0=0A=
+>>> build$=0A=
+>>> build$ file libspeex/.libs/libspeex*.so.1.5.0=0A=
+>>> libspeex/.libs/libspeexdsp.so.1.5.0: ELF 32-bit LSB shared object, ARM,=
+ version 1 (SYSV), dynamically linked, not stripped=0A=
+>>> libspeex/.libs/libspeex.so.1.5.0:    ELF 32-bit LSB shared object, ARM,=
+ version 1 (SYSV), dynamically linked, not stripped=0A=
+>>> build$=0A=
+>>>=0A=
+>>>=0A=
+>>> Case-2 (suggested configuration)=0A=
+>>> =3D=3D=3D=3D=3D=3D=0A=
+>>>=0A=
+>>> EXTRA_OECONF =3D " --with-ogg-libraries=3D${STAGING_LIBDIR} \=0A=
+>>>               --enable-float-api --disable-vbr \=0A=
+>>>               --with-ogg-includes=3D${STAGING_INCDIR} --disable-oggtest=
+"=0A=
+>>=0A=
+>> Or case 3, which I implemented 3 years ago in https://github.com/openemb=
+edded/openembedded/commit/e06553979d23531397af3dd71870abb80718c681 :=0A=
+>>=0A=
+>> def get_speex_fpu_setting(bb, d):=0A=
+>>       if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:=0A=
+>>               return "--enable-fixed-point --disable-float-api --disable=
+-vbr"=0A=
+>>       return ""=0A=
+>>=0A=
+>>=0A=
+>> EXTRA_OECONF +=3D "${@get_speex_fpu_setting(bb, d)}=0A=
+>>=0A=
+>> That OE-classic recipe also has support for arm asm which speed things u=
+p a lot.=0A=
+>>=0A=
+>> regards,=0A=
+>>=0A=
+>> Koen=0A=
+>=0A=
+>=0A=
+=0A=
 
