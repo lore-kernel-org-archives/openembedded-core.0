@@ -1,23 +1,40 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E176E30D
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-oa0-f49.google.com (mail-oa0-f49.google.com
+	[209.85.219.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A26F6E20F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 12:48:08 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jan 2014 04:44:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,667,1384329600"; d="scan'208";a="439792482"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 16 Jan 2014 04:48:08 -0800
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
-	by linux.intel.com (Postfix) with ESMTP id E2F586A4093;
-	Thu, 16 Jan 2014 04:48:03 -0800 (PST)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jan 2014 14:48:59 +0200
-Message-Id: <1389876539-31534-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.4.2
-Subject: [PATCH] lib/oeqa: allow a layer to provide it's own TEST_TARGET class
+	Thu, 16 Jan 2014 13:31:30 +0000 (UTC)
+Received: by mail-oa0-f49.google.com with SMTP id i7so599399oag.22
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jan 2014 05:31:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=zti3Wt9ctBoRXwHbOTbecqj5wlMWP6JaEzRB5IJDdtE=;
+	b=KfxNjTBimwo2dimG3X8Bm9CVqOEX167j3p4RibXvmnxPRJfRedy2GxCU3JuCRTKvoA
+	alLwEqe5qlHR7hxYV20nY1H29TEmdgSBNItdCqy1Supf3Szo9ypSrfrtAm7RdbRpHKJ4
+	jhIJVsoQuA6BBYVu8XmY8+ORP0cwY1i8mWRIq5vXzr08lfMMIZi+6xv3SkkubXitVp4H
+	RUmCjsCkWH9SyEQPFszamLiK7PLAbw7od43fdKux6FQw37apwQXBz3USZqZunBHGtNCi
+	h0cyvLErQkwBKXvF8xocBqCg6K7/9BOxlb2ScxB2UWOHXFcxjVTAwhUQ6WQY/t0Z036u
+	4vJQ==
+X-Received: by 10.182.19.132 with SMTP id f4mr7003113obe.14.1389879091392;
+	Thu, 16 Jan 2014 05:31:31 -0800 (PST)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.76.122.171 with HTTP; Thu, 16 Jan 2014 05:30:51 -0800 (PST)
+In-Reply-To: <52D70DC0.3060709@linux.intel.com>
+References: <1389752246-4296-1-git-send-email-paul@paulbarker.me.uk>
+	<1389752246-4296-4-git-send-email-paul@paulbarker.me.uk>
+	<52D6A554.2050705@linux.intel.com>
+	<CANyK_8cBWSps_v=eF-ktk6YbUKo76KfGTufa09m2gVsgQk7NRQ@mail.gmail.com>
+	<52D70DC0.3060709@linux.intel.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Thu, 16 Jan 2014 13:30:51 +0000
+X-Google-Sender-Auth: mSwbRSjNAzgFgcmQD7J9xDCLFHw
+Message-ID: <CANyK_8f=okR8sc_XkuaHHC7L6++UTT_qFWZ7MM=nqF9BOxOicg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] opkg: No longer PROVIDES update-alternatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,70 +47,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 12:48:08 -0000
+X-List-Received-Date: Thu, 16 Jan 2014 13:31:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Allows a layer to define new classes in <layer>/lib/oeqa/utils/controllers.py
-and completely control or extend deployment of a target. (core currently
-has QemuTarget and SimpleRemoteTarget).
-The value of TEST_TARGET must be the name of the new class.
+On 15 January 2014 22:37, Saul Wold <sgw@linux.intel.com> wrote:
+> On 01/15/2014 08:13 AM, Paul Barker wrote:
+>>
+>> On 15 January 2014 15:12, Saul Wold <sgw@linux.intel.com> wrote:
+>>>
+>>> On 01/14/2014 06:17 PM, Paul Barker wrote:
+>>>>
+>>>>
+>>>> The new provider is the opkg-utils recipe.
+>>>>
+>>> This seems to have triggered a failure on the AB:
+>>>
+>>> | Computing transaction...error: Can't install
+>>> nativesdk-shadow-4.1.4.3-r13@i686_nativesdk: no package provides
+>>> nativesdk-update-alternatives-opkg
+>>>
+>>
+>> I've not really done much with nativesdk, but my guess is I just need to
+>> change
+>>
+>>      BBCLASSEXTEND = "native"
+>>
+>> to
+>>
+>>      BBCLASSEXTEND = "native nativesdk"
+>>
+>> in the opkg-utils recipe so that nativesdk-* packages are built for
+>> that recipe. Does that sound correct? If so, I'll re-spin the patches
+>> with that change.
+>>
+> Yup, that's it, aslo why did you locate opkg-utils in a separate directory
+> from opkgs itself?  Is there a reason they can't co-locate?
+>
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/targetcontrol.py  | 23 +++++++++++++++++++----
- meta/lib/oeqa/utils/__init__.py |  3 +++
- 2 files changed, 22 insertions(+), 4 deletions(-)
+I've just modified the existing recipes, I haven't moved anything.
+They can probably be merged into one directory if that's beneficial.
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index dee38ec..757f9d3 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -8,18 +8,33 @@ import os
- import shutil
- import subprocess
- import bb
--
-+import traceback
- from oeqa.utils.sshcontrol import SSHControl
- from oeqa.utils.qemurunner import QemuRunner
- 
- 
- def get_target_controller(d):
--    if d.getVar("TEST_TARGET", True) == "qemu":
-+    testtarget = d.getVar("TEST_TARGET", True)
-+    # old, simple names
-+    if testtarget == "qemu":
-         return QemuTarget(d)
--    elif d.getVar("TEST_TARGET", True) == "simpleremote":
-+    elif testtarget == "simpleremote":
-         return SimpleRemoteTarget(d)
-     else:
--        bb.fatal("Please set a valid TEST_TARGET")
-+        # use the class name
-+        try:
-+            # is it a core class defined here?
-+            controller = getattr(__name__, testtarget)
-+        except AttributeError:
-+            # nope, perhaps a layer defined one
-+            try:
-+                module = __import__("oeqa.utils.controllers", globals(), locals(), [testtarget])
-+                controller = getattr(module, testtarget)
-+            except ImportError as e:
-+                bb.fatal("Failed to import oeqa.utils.controllers:\n%s" % traceback.format_exc())
-+            except AttributeError:
-+                bb.fatal("\"%s\" is not a valid value for TEST_TARGET" % testtarget)
-+        return controller(d)
- 
- 
- class BaseTarget(object):
-diff --git a/meta/lib/oeqa/utils/__init__.py b/meta/lib/oeqa/utils/__init__.py
-index e69de29..8eda927 100644
---- a/meta/lib/oeqa/utils/__init__.py
-+++ b/meta/lib/oeqa/utils/__init__.py
-@@ -0,0 +1,3 @@
-+# Enable other layers to have modules in the same named directory
-+from pkgutil import extend_path
-+__path__ = extend_path(__path__, __name__)
+Cheers,
+
 -- 
-1.8.4.2
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
