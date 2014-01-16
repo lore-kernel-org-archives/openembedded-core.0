@@ -1,33 +1,28 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C02D6B186
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FA736B186
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 01:45:05 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1W3c11-0006JM-3r for openembedded-core@lists.openembedded.org;
-	Thu, 16 Jan 2014 02:45:03 +0100
-Received: from t2.fujitsu.co.jp ([164.71.1.147])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 02:45:03 +0100
-Received: from lizhijian by t2.fujitsu.co.jp with local (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 02:45:03 +0100
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: lizhijian <lizhijian@cn.fujitsu.com>
-Date: Thu, 16 Jan 2014 01:40:19 +0000 (UTC)
-Message-ID: <loom.20140116T023635-533@post.gmane.org>
-References: <CAAA4K6LV4bPEV2QXUMgwV6NMQSU2h=2Qon08F9hnRjRZUejMgA@mail.gmail.com>
-	<CAAA4K6L1f77Jh=5-16TMQmGDtki447oj_+Q5ydWER52iKb8Ryg@mail.gmail.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: sea.gmane.org
-User-Agent: Loom/3.14 (http://gmane.org/)
-X-Loom-IP: 164.71.1.147 (Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36
-	(KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36)
-Subject: Re: [yocto] Is there anyway to get patched source tar file for gcc while building srpm?
+	Thu, 16 Jan 2014 02:14:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0G2EWQV016144
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 15 Jan 2014 18:14:32 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 15 Jan 2014 18:14:31 -0800
+Message-ID: <52D74086.4030602@windriver.com>
+Date: Thu, 16 Jan 2014 10:14:30 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1389629682.git.liezhi.yang@windriver.com>
+	<20140115165513.GB3742@jama>
+In-Reply-To: <20140115165513.GB3742@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,71 +35,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 01:45:06 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-Jegan Chandru <pcjegan@...> writes:
-
-> 
-> 
-> <<bump>>
-> Added poky and oe-core.
-> 
-> anyone?On Thu, Jun 7, 2012 at 8:23 PM, Jegan Chandru <pcjegan-
-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:Hi,
-> Framework - poky-denzil-7.0
-> arch - x86_64
-> 
-> Is there anyway to get patched source tar file for gcc while building 
-srpm? I have checked the srpms created and found gcc srpms has only the 
-logs_with_scripts tar file and not the patched source. I have configured 
-"archive-patched-source" in local.conf. Upon checking on archiver.bbclass, 
-noticed "not_tarball" function is excluding work-shared dir.This dir is used 
-by gcc only for building. I can see the obvious reason here that(correct me 
-if I am wrong) since this source has been used by, say gcc-cross-
-intermediate, gcc-cross-4.6.3 and gcc-runtime-4.6.3 bb files and you dont 
-want to archive that source. But anyone can tell me the exact reason on why 
-work-shared is being omitted for archiving? Also, I must include that, there 
-are total 40 patches for gcc and all patches getting applied in gcc-4.6.inc. 
-So I think there is no harm in archiving that source.
-> 
-> 
-> 
-> As a try and error, I have created a dummy function for not_tarball and 
-tried to build, but that didnt work! ;(
-> 
-> So please anyone shed some light on this matter. It is much appreciated.
-> 
-> 
-> I need srpm with source for stabilizing and do some testing.
-> 
-> Also there is a high chance that I missed something, so feel free to 
-correct me. ;)
-> 
-> Thanks,
-> -JC
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> 
-> _______________________________________________
-> poky mailing list
-> poky@...
-> https://lists.yoctoproject.org/listinfo/poky
-> 
-
-I got the same issue. and before see your thread, i have sent a email
-to yocto. Do you have solved it
-
-thx
-li.
+X-List-Received-Date: Thu, 16 Jan 2014 02:14:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
+On 01/16/2014 12:55 AM, Martin Jansa wrote:
+> On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
+>> * The archive*.bbclass didn't work, and there were a few problems, for
+>>    example:
+>>    1) There were a few duplicated code
+>>    2) There was no src_dir.org (or orig), but the diff command still use
+>>       it, and it is not easy to fix this issue if we don't change a lot
+>>       of the code.
+>>    3) It didn't archive the source for the native or gcc
+>>    4) The work flow is not very well
+>>    5) The "subprocess.call('fakeroot cp xxxx'" should be removed
+>>    6) And others ...
+>>
+>> * So that we have to refactor it, the benefits are:
+>>    1) Fix the problems and make it work well.
+>>    2) Reduce more than 400 lines in total.
+>>    3) Make it easy to use.
+>>
+>> // Robert
+>>
+>> The following changes since commit 1b636173ca88e5ccca1992f9a12367a1189fa674:
+>>
+>>    bitbake: toaster: Toaster GUI, generic search, filter and order (2014-01-10 15:20:26 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pokylinux.org/poky-contrib rbt/archiver
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/archiver
+>
+> Can you send pull-request for oe-core?
+>
 
+Here it is:
+git://git.pokylinux.org/poky-contrib rbt/ar_oe
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=rbt/ar_oe
+
+// Robert
+
+>> Robert Yang (5):
+>>    classes/archive*.bbclass: remove archive-*-source.bbclass
+>>    archiver.bbclass: refactor it
+>>    package_rpm.bbclass: archive the source to srpm package
+>>    archiver.bbclass: move a few code to copyleft_compliance.bbclass
+>>    local.conf.sample.extended: update for the archiver
+>>
+>>   meta-yocto/conf/local.conf.sample.extended     |  72 +--
+>>   meta/classes/archive-configured-source.bbclass |  65 ---
+>>   meta/classes/archive-original-source.bbclass   |  65 ---
+>>   meta/classes/archive-patched-source.bbclass    |  65 ---
+>>   meta/classes/archiver.bbclass                  | 723 ++++++++-----------------
+>>   meta/classes/copyleft_compliance.bbclass       |  55 +-
+>>   meta/classes/package_rpm.bbclass               |  31 +-
+>>   7 files changed, 316 insertions(+), 760 deletions(-)
+>>   delete mode 100644 meta/classes/archive-configured-source.bbclass
+>>   delete mode 100644 meta/classes/archive-original-source.bbclass
+>>   delete mode 100644 meta/classes/archive-patched-source.bbclass
+>>
+>> --
+>> 1.8.3.1
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
