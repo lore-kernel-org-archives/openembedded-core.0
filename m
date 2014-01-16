@@ -1,28 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FA736B186
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C5FC6B665
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 02:14:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0G2EWQV016144
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Jan 2014 18:14:32 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 15 Jan 2014 18:14:31 -0800
-Message-ID: <52D74086.4030602@windriver.com>
-Date: Thu, 16 Jan 2014 10:14:30 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1389629682.git.liezhi.yang@windriver.com>
-	<20140115165513.GB3742@jama>
-In-Reply-To: <20140115165513.GB3742@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
+	Thu, 16 Jan 2014 04:05:50 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 15 Jan 2014 20:01:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,666,1384329600"; d="scan'208";a="467450326"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.135])
+	by orsmga002.jf.intel.com with ESMTP; 15 Jan 2014 20:05:51 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2014 20:05:50 -0800
+Message-Id: <1389845150-9226-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] linux-firmware: add firmware for additional iwlwifi devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,75 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 02:14:34 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Jan 2014 04:05:51 -0000
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 99ce95b..123da65 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -66,7 +66,9 @@ PACKAGES =+ "${PN}-ralink \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
+              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
+-             ${PN}-iwlwifi-license ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2b-6 ${PN}-iwlwifi-7260-7"
++             ${PN}-iwlwifi-license ${PN}-iwlwifi-6000g2a-5 ${PN}-iwlwifi-6000g2b-6 ${PN}-iwlwifi-7260-7 \
++             ${PN}-iwlwifi-6000g2a-6 ${PN}-iwlwifi-135-6"
++
+ 
+ FILES_${PN}-atheros-license = "/lib/firmware/LICENCE.atheros_firmware"
+ 
+@@ -187,12 +189,16 @@ ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
+ ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334.bin"
+ 
+ RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-6000g2a-6 = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-6000g2b-6 = "${PN}-iwlwifi-license"
++RDEPENDS_${PN}-iwlwifi-135-6 = "${PN}-iwlwifi-license"
+ RDEPENDS_${PN}-iwlwifi-7260-7 = "${PN}-iwlwifi-license"
+ 
+ FILES_${PN}-iwlwifi-license =   "/lib/firmware/LICENCE.iwlwifi_firmware"
+ FILES_${PN}-iwlwifi-6000g2a-5 = "/lib/firmware/iwlwifi-6000g2a-5.ucode"
++FILES_${PN}-iwlwifi-6000g2a-6 = "/lib/firmware/iwlwifi-6000g2a-6.ucode"
+ FILES_${PN}-iwlwifi-6000g2b-6 = "/lib/firmware/iwlwifi-6000g2b-6.ucode"
++FILES_${PN}-iwlwifi-135-6 =     "/lib/firmware/iwlwifi-135-6.ucode"
+ FILES_${PN}-iwlwifi-7260-7 = "/lib/firmware/iwlwifi-7260-7.ucode"
+ 
+ FILES_${PN} += "/lib/firmware/*"
+-- 
+1.8.3.1
 
-On 01/16/2014 12:55 AM, Martin Jansa wrote:
-> On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
->> * The archive*.bbclass didn't work, and there were a few problems, for
->>    example:
->>    1) There were a few duplicated code
->>    2) There was no src_dir.org (or orig), but the diff command still use
->>       it, and it is not easy to fix this issue if we don't change a lot
->>       of the code.
->>    3) It didn't archive the source for the native or gcc
->>    4) The work flow is not very well
->>    5) The "subprocess.call('fakeroot cp xxxx'" should be removed
->>    6) And others ...
->>
->> * So that we have to refactor it, the benefits are:
->>    1) Fix the problems and make it work well.
->>    2) Reduce more than 400 lines in total.
->>    3) Make it easy to use.
->>
->> // Robert
->>
->> The following changes since commit 1b636173ca88e5ccca1992f9a12367a1189fa674:
->>
->>    bitbake: toaster: Toaster GUI, generic search, filter and order (2014-01-10 15:20:26 +0000)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib rbt/archiver
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/archiver
->
-> Can you send pull-request for oe-core?
->
-
-Here it is:
-git://git.pokylinux.org/poky-contrib rbt/ar_oe
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=rbt/ar_oe
-
-// Robert
-
->> Robert Yang (5):
->>    classes/archive*.bbclass: remove archive-*-source.bbclass
->>    archiver.bbclass: refactor it
->>    package_rpm.bbclass: archive the source to srpm package
->>    archiver.bbclass: move a few code to copyleft_compliance.bbclass
->>    local.conf.sample.extended: update for the archiver
->>
->>   meta-yocto/conf/local.conf.sample.extended     |  72 +--
->>   meta/classes/archive-configured-source.bbclass |  65 ---
->>   meta/classes/archive-original-source.bbclass   |  65 ---
->>   meta/classes/archive-patched-source.bbclass    |  65 ---
->>   meta/classes/archiver.bbclass                  | 723 ++++++++-----------------
->>   meta/classes/copyleft_compliance.bbclass       |  55 +-
->>   meta/classes/package_rpm.bbclass               |  31 +-
->>   7 files changed, 316 insertions(+), 760 deletions(-)
->>   delete mode 100644 meta/classes/archive-configured-source.bbclass
->>   delete mode 100644 meta/classes/archive-original-source.bbclass
->>   delete mode 100644 meta/classes/archive-patched-source.bbclass
->>
->> --
->> 1.8.3.1
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
