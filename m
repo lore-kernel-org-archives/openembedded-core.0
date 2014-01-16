@@ -1,38 +1,33 @@
-Return-Path: <andrew.mcdermott@linaro.org>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 47C4E6B4F7
+Return-Path: <gchoc-openembedded-core@m.gmane.org>
+Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C02D6B186
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 23:04:08 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id w62so2441164wes.38
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2014 15:04:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=HKP9Obq4tjXB499GD/sa+0xwSSrDkfaqStL0aMRS7lQ=;
-	b=MN0TVm3uczl2cDrEwKy8vLUw4/3ANFgkN+MSL6NsgaliaH8LFs+5cU2XaFMIti9XTM
-	PNXOYyXmBbaKBtAR59dgRkdH6PBz7maeArNN+2Gn/QJByobCcX+rrmpcjHHta6M0EYxq
-	HFbSm91KrlX9QQJcOOmIBOd8ADEVD+hcE7MHhxT1w1RSwdq/EmFUK1MABCIWhEzd9r+F
-	mcvB04Oz0bmlhKLT+La0n4nC1AYqn23zG1fiDk/TI5s1j3la07MCWtaQU706uH5j7UVP
-	XwVjo2POyYe1Zc462yN0831oNNYp1K+oqzdCGVB9NXsHa0uuy93WBCxVAptJCjjkQ0GM
-	WsJg==
-X-Gm-Message-State: ALoCoQm1QI+iher3P/DDB379qwvJH8ybLJAn3tVgE/Th556ZG30iqYdMQQQDbCAhN9tFSDWYhSqn
-X-Received: by 10.194.171.34 with SMTP id ar2mr189175wjc.81.1389827048300;
-	Wed, 15 Jan 2014 15:04:08 -0800 (PST)
-Received: from spicy.frobware.com
-	(host86-156-191-132.range86-156.btcentralplus.com. [86.156.191.132])
-	by mx.google.com with ESMTPSA id eh7sm30611924wic.2.2014.01.15.15.04.07
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 15 Jan 2014 15:04:07 -0800 (PST)
-From: Andrew McDermott <andrew.mcdermott@linaro.org>
-To: openembedded-core@lists.openembedded.org,
-	patches@linaro.org
-Date: Wed, 15 Jan 2014 23:03:51 +0000
-Message-Id: <1389827031-16929-1-git-send-email-andrew.mcdermott@linaro.org>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] alsa-lib: remove hard-coded /usr/include in dev package
+	Thu, 16 Jan 2014 01:45:05 +0000 (UTC)
+Received: from list by plane.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1W3c11-0006JM-3r for openembedded-core@lists.openembedded.org;
+	Thu, 16 Jan 2014 02:45:03 +0100
+Received: from t2.fujitsu.co.jp ([164.71.1.147])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jan 2014 02:45:03 +0100
+Received: from lizhijian by t2.fujitsu.co.jp with local (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jan 2014 02:45:03 +0100
+X-Injected-Via-Gmane: http://gmane.org/
+To: openembedded-core@lists.openembedded.org
+From: lizhijian <lizhijian@cn.fujitsu.com>
+Date: Thu, 16 Jan 2014 01:40:19 +0000 (UTC)
+Message-ID: <loom.20140116T023635-533@post.gmane.org>
+References: <CAAA4K6LV4bPEV2QXUMgwV6NMQSU2h=2Qon08F9hnRjRZUejMgA@mail.gmail.com>
+	<CAAA4K6L1f77Jh=5-16TMQmGDtki447oj_+Q5ydWER52iKb8Ryg@mail.gmail.com>
+Mime-Version: 1.0
+X-Complaints-To: usenet@ger.gmane.org
+X-Gmane-NNTP-Posting-Host: sea.gmane.org
+User-Agent: Loom/3.14 (http://gmane.org/)
+X-Loom-IP: 164.71.1.147 (Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36
+	(KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36)
+Subject: Re: [yocto] Is there anyway to get patched source tar file for gcc while building srpm?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,31 +40,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2014 23:04:08 -0000
+X-List-Received-Date: Thu, 16 Jan 2014 01:45:06 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Specify the location of the alsa headers using ${includedir}. Without
-this no headers get added to the image when the alsa-lib-dev package is
-included.
+Jegan Chandru <pcjegan@...> writes:
 
-Signed-off-by: Andrew McDermott <andrew.mcdermott@linaro.org>
----
- meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> 
+> <<bump>>
+> Added poky and oe-core.
+> 
+> anyone?On Thu, Jun 7, 2012 at 8:23 PM, Jegan Chandru <pcjegan-
+Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:Hi,
+> Framework - poky-denzil-7.0
+> arch - x86_64
+> 
+> Is there anyway to get patched source tar file for gcc while building 
+srpm? I have checked the srpms created and found gcc srpms has only the 
+logs_with_scripts tar file and not the patched source. I have configured 
+"archive-patched-source" in local.conf. Upon checking on archiver.bbclass, 
+noticed "not_tarball" function is excluding work-shared dir.This dir is used 
+by gcc only for building. I can see the obvious reason here that(correct me 
+if I am wrong) since this source has been used by, say gcc-cross-
+intermediate, gcc-cross-4.6.3 and gcc-runtime-4.6.3 bb files and you dont 
+want to archive that source. But anyone can tell me the exact reason on why 
+work-shared is being omitted for archiving? Also, I must include that, there 
+are total 40 patches for gcc and all patches getting applied in gcc-4.6.inc. 
+So I think there is no harm in archiving that source.
+> 
+> 
+> 
+> As a try and error, I have created a dummy function for not_tarball and 
+tried to build, but that didnt work! ;(
+> 
+> So please anyone shed some light on this matter. It is much appreciated.
+> 
+> 
+> I need srpm with source for stabilizing and do some testing.
+> 
+> Also there is a high chance that I missed something, so feel free to 
+correct me. ;)
+> 
+> Thanks,
+> -JC
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> 
+> _______________________________________________
+> poky mailing list
+> poky@...
+> https://lists.yoctoproject.org/listinfo/poky
+> 
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-index 910e72d..cbe0448 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-@@ -38,7 +38,7 @@ FILES_${PN}-dev += "${libdir}/${BPN}/smixer/*.la"
- FILES_libasound = "${libdir}/libasound.so.*"
- FILES_alsa-server = "${bindir}/*"
- FILES_alsa-conf = "${datadir}/alsa/"
--FILES_alsa-dev += "${libdir}/pkgconfig/ /usr/include/ ${datadir}/aclocal/*"
-+FILES_alsa-dev += "${libdir}/pkgconfig/ ${includedir}/alsa ${datadir}/aclocal/*"
- FILES_alsa-conf-base = "\
- ${datadir}/alsa/alsa.conf \
- ${datadir}/alsa/cards/aliases.conf \
--- 
-1.7.9.5
+I got the same issue. and before see your thread, i have sent a email
+to yocto. Do you have solved it
+
+thx
+li.
+
+
+
 
 
