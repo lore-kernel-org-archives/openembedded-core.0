@@ -1,48 +1,24 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BD346D899
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 16E446D899
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 21:39:11 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.4])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1W3ued-0003zM-7i; Thu, 16 Jan 2014 22:39:11 +0100
-Message-ID: <1389908340.2467.11.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Date: Thu, 16 Jan 2014 21:39:00 +0000
-In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC7A5548F1DCE@xmail3.se.axis.com>
-References: <A612847CFE53224C91B23E3A5B48BAC7A5548F1DCE@xmail3.se.axis.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Thu, 2014-01-16 at 14:58 +0100,
-	Peter Kjellerstedt wrote: > So,
-	here I am now. I do not know who else use the > do_make_scripts()
-	function from module-base.bbclass and in what > way,
-	and whether restructuring the
-	functionality into the new > kernel-scripts.bbclass without maintaining
-	backwards
-	> compatibility would be a problem. If you know anything about > this,
-	please let me know. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Maintain backwards compatibility or not for module-base.bbclass
+	Thu, 16 Jan 2014 21:55:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0GLtmxp001911
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Jan 2014 13:55:48 -0800 (PST)
+Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 16 Jan 2014 13:55:48 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Thu, 16 Jan 2014 16:55:47 -0500
+Message-ID: <cover.1389909212.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] linux-yocto-dev: update to 3.13-rc8+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 21:39:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Jan 2014 21:55:50 -0000
+Content-Type: text/plain
 
-On Thu, 2014-01-16 at 14:58 +0100, Peter Kjellerstedt wrote:
-> So, here I am now. I do not know who else use the 
-> do_make_scripts() function from module-base.bbclass and in what 
-> way, and whether restructuring the functionality into the new 
-> kernel-scripts.bbclass without maintaining backwards 
-> compatibility would be a problem. If you know anything about 
-> this, please let me know.
+Richard/Saul,
 
-I'm not entirely clear why you couldn't maintain compatibility by moving
-the task in question to a new class but keeping its name the same (i.e.
-refrain from renaming "do_make_scripts" to "do_kernel_scripts") and
-having module-base.bbclass simply inherit the newly-added class.  That
-seems like it ought to be fairly straightforward and uncontroversial.
+I've bumped the linux-yocto-dev kernel to 3.13-rcX, so it is worthwhile having
+the version of the recipe reflect that.
 
-That said, though, I don't think there is any pressing need to maintain
-backwards compatibility around module-base.bbclass.  In fact, I think it
-would probably be fine for module-base.bbclass to simply go away
-altogether and have its functionality subsumed into module.bbclass; the
-split between those two classes is mostly a relic of yesteryear and I
-can't think of any good purpose that it serves nowadays.  So I would be
-happy enough to see that (and the tangly mess that is the kernel classes
-in general) cleaned up irrespective of what happens with
-do_make_scripts.
+I case anyone is wondering, I've built and booted all the reference boards with
+this -dev kernel (minimal and sato) and everything is in order for my tests.
 
-p.
+Other version bumps like libc-headers will follow in the future.
 
+Cheers,
+
+Bruce
+
+The following changes since commit cfd1520b4b492ab27b2900ba3510abe6f288097e:
+
+  oe-selftest: separated the SStateBase and SStateTests in different modules (2014-01-16 12:18:52 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto-dev: bump version to 3.13+
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.8.1.2
 
 
