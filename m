@@ -1,40 +1,46 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 47F256B678
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id DC2DA6B8C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 09:25:43 +0000 (UTC)
-Received: by mail-ee0-f47.google.com with SMTP id d49so618936eek.20
+	Thu, 16 Jan 2014 09:27:14 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id cc10so3357852wib.17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 01:25:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0/As+9eJWLkrJA+aFR5nvSxRfk7zK83YS9YDCsPki8A=;
-	b=IecJMN/442gBVnCv1936EFeGAy+v6r+lhlzQiQuUGZYCT2kHA3NJatnnRFcyZyJnBO
-	ynES75tTEFmY0zE3TmPze9f+cy/sgSZ2rMd+ezr+lJF+7ET/kzbBxrnZ8lNAB451qkjo
-	zweoVy96hkAl+CQ8PYptczvf/29jPX4tBhusS/d4xEcMOQhmWl8nvME/k5BPF5RtLWAD
-	bihQlw1cb07IOiVOap9aNbZi7thvRoSdUkrGlFDtgH6PrB9Zp8sWzo+XhgPvdUbzZfr+
-	ZggoEBzOLxO6a6YwEWXo8XxWPySRmPSOsY75tx/DiEQX0zkiBom63+OJbFjhHHhk52RJ
-	CqHg==
-X-Received: by 10.15.32.73 with SMTP id z49mr10774219eeu.27.1389864336350;
-	Thu, 16 Jan 2014 01:25:36 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 4sm16838704eed.14.2014.01.16.01.25.34
+	Thu, 16 Jan 2014 01:27:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=kODsKX9Ac1K62qjUKQAC3RVAeopcPJVuqw27UY4lU0Q=;
+	b=f2Jv3ZjlJlltLFSNHAz0JS6V2j8Kj7KP/XfBMxyCD49BHuDAd1RIJk5LAfwyo8WJD0
+	RMxENfQwVEyhq8Yh/B8vn06blWjwN0Yatadcpw/MJwOyz8VtDKYAgAd1t6xztLnNO7yq
+	5E/hrFipnxJsF8xRCeemagpgTnj1PUBC3nBFhyzqJqnY+GOtW4rFRO0kXoRlT9rs5SG4
+	QqcQhiQgGWETGfpuBnmLNMMaIIrWQOQYqPsHLQL0y7LzfTkZbw0Py2W8ybrHU1FPZWMW
+	mM4MscwIg4HuW8/Kox+yprmAQvkYzoaYF2SccMmSPpqFf4fZ4S9VP42oZnBfPEmDiXrW
+	d0zg==
+X-Gm-Message-State: ALoCoQnJOnENdEZlQx6EGEZbH7Ls0+BJRuR2hN7venwJ0/3Tk08vriKrfNel6gMhVYVuOID+Nq3v
+X-Received: by 10.180.21.166 with SMTP id w6mr6906318wie.31.1389864433869;
+	Thu, 16 Jan 2014 01:27:13 -0800 (PST)
+Received: from ?IPv6:2001:610:612:0:5e51:4fff:fec8:7c15?
+	([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id gd5sm32600837wic.0.2014.01.16.01.27.12
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Jan 2014 01:25:34 -0800 (PST)
-Date: Thu, 16 Jan 2014 10:25:56 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20140116092556.GD3742@jama>
-References: <cover.1389629682.git.liezhi.yang@windriver.com>
-	<20140115165513.GB3742@jama> <52D74086.4030602@windriver.com>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 16 Jan 2014 01:27:13 -0800 (PST)
+Message-ID: <52D7A5F0.6090501@linaro.org>
+Date: Thu, 16 Jan 2014 10:27:12 +0100
+From: Koen Kooi <koen.kooi@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-In-Reply-To: <52D74086.4030602@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1389780926-20901-1-git-send-email-koen.kooi@linaro.org>
+	<CAP9ODKoCuuPHq2OyktCAX9C5tpWwjStJR4qJMEq8_fCheb2Y6g@mail.gmail.com>
+In-Reply-To: <CAP9ODKoCuuPHq2OyktCAX9C5tpWwjStJR4qJMEq8_fCheb2Y6g@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] grub git: workaround debugedit problems for 64 bit targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,106 +53,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 09:25:44 -0000
-X-Groupsio-MsgNum: 49053
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ffoCPvUAPMgSXi6H"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 16 Jan 2014 09:27:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---ffoCPvUAPMgSXi6H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 01/15/2014 12:22 PM, Otavio Salvador wrote:
+>
+>
+>
+> On Wed, Jan 15, 2014 at 8:15 AM, Koen Kooi <koen.kooi@linaro.org
+> <mailto:koen.kooi@linaro.org>> wrote:
+>
+>     I've limited it to 64bit targets, but to be honest debug splitting
+>     doesn't make sense for grub since it won't run in your rootfs and
+>     attaching gdb is pretty much impossible.
+>
+>     Signed-off-by: Koen Kooi <koen.kooi@linaro.org
+>     <mailto:koen.kooi@linaro.org>>
+>
+>
+> I'd prefer to remove the debug systems than skip the split. What others
+> think?
 
-On Thu, Jan 16, 2014 at 10:14:30AM +0800, Robert Yang wrote:
->=20
->=20
-> On 01/16/2014 12:55 AM, Martin Jansa wrote:
-> > On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
-> >> * The archive*.bbclass didn't work, and there were a few problems, for
-> >>    example:
-> >>    1) There were a few duplicated code
-> >>    2) There was no src_dir.org (or orig), but the diff command still u=
-se
-> >>       it, and it is not easy to fix this issue if we don't change a lot
-> >>       of the code.
-> >>    3) It didn't archive the source for the native or gcc
-> >>    4) The work flow is not very well
-> >>    5) The "subprocess.call('fakeroot cp xxxx'" should be removed
-> >>    6) And others ...
-> >>
-> >> * So that we have to refactor it, the benefits are:
-> >>    1) Fix the problems and make it work well.
-> >>    2) Reduce more than 400 lines in total.
-> >>    3) Make it easy to use.
-> >>
-> >> // Robert
-> >>
-> >> The following changes since commit 1b636173ca88e5ccca1992f9a12367a1189=
-fa674:
-> >>
-> >>    bitbake: toaster: Toaster GUI, generic search, filter and order (20=
-14-01-10 15:20:26 +0000)
-> >>
-> >> are available in the git repository at:
-> >>
-> >>    git://git.pokylinux.org/poky-contrib rbt/archiver
-> >>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Drbt/archiver
-> >
-> > Can you send pull-request for oe-core?
-> >
->=20
-> Here it is:
-> git://git.pokylinux.org/poky-contrib rbt/ar_oe
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Drbt/ar_oe
+I'm not sure what you mean by that, do you mean using 
+INHIBIT_PACKAGE_STRIP or something else?
 
-This still looks like poky-contrib (so it will download whole
-poky-contrib when I add it as remote to oe-core repo).
+regards,
 
-> // Robert
->=20
-> >> Robert Yang (5):
-> >>    classes/archive*.bbclass: remove archive-*-source.bbclass
-> >>    archiver.bbclass: refactor it
-> >>    package_rpm.bbclass: archive the source to srpm package
-> >>    archiver.bbclass: move a few code to copyleft_compliance.bbclass
-> >>    local.conf.sample.extended: update for the archiver
-> >>
-> >>   meta-yocto/conf/local.conf.sample.extended     |  72 +--
-> >>   meta/classes/archive-configured-source.bbclass |  65 ---
-> >>   meta/classes/archive-original-source.bbclass   |  65 ---
-> >>   meta/classes/archive-patched-source.bbclass    |  65 ---
-> >>   meta/classes/archiver.bbclass                  | 723 ++++++++-------=
-----------
-> >>   meta/classes/copyleft_compliance.bbclass       |  55 +-
-> >>   meta/classes/package_rpm.bbclass               |  31 +-
-> >>   7 files changed, 316 insertions(+), 760 deletions(-)
-> >>   delete mode 100644 meta/classes/archive-configured-source.bbclass
-> >>   delete mode 100644 meta/classes/archive-original-source.bbclass
-> >>   delete mode 100644 meta/classes/archive-patched-source.bbclass
-> >>
-> >> --
-> >> 1.8.3.1
-> >>
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
+Koen
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+>
+>     ---
+>       meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb> | 5 +++++
+>       1 file changed, 5 insertions(+)
+>
+>     diff --git a/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>     b/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>     index 1796e7f..bc79cfa 100644
+>     --- a/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>     +++ b/meta/recipes-bsp/grub/grub_git.bb <http://grub_git.bb>
+>     @@ -51,8 +51,13 @@ do_configure_prepend() {
+>       do_install_append () {
+>           install -d ${D}${sysconfdir}/grub.d
+>           install -m 0755 ${WORKDIR}/40_custom
+>     ${D}${sysconfdir}/grub.d/40_custom
+>     +
+>       }
+>
+>
+> Please remove this.
+>
+>     +# debugedit chokes on 64 bit platforms
+>     +INHIBIT_PACKAGE_DEBUG_SPLIT_aarch64 = "1"
+>     +INHIBIT_PACKAGE_DEBUG_SPLIT_x86-64 = "1"
+>     +
+>       RDEPENDS_${PN} = "diffutils freetype"
+>       FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+>
+>     --
+>     1.8.4.2
+>
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---ffoCPvUAPMgSXi6H
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlLXpaQACgkQN1Ujt2V2gBysjACgtzoY8u3QIfhJYXWyriIsbplC
-MCkAn2qiTCzqnKyBnl+QmbUn32+KQIR8
-=mAr7
------END PGP SIGNATURE-----
+-- 
+Koen Kooi
+Builds and Baselines | Release Manager
+Linaro.org | Open source software for ARM SoCs
 
---ffoCPvUAPMgSXi6H--
