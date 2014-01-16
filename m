@@ -1,38 +1,38 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 658216E7CF
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BB166002A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 17:59:44 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id hi8so2591898wib.14
+	Thu, 16 Jan 2014 18:09:54 +0000 (UTC)
+Received: by mail-ea0-f177.google.com with SMTP id n15so1317648ead.36
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 09:59:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mViQsNoxhVoCgg1GFNvTvT9+ks37YIz/pgDlqERP1xQ=;
-	b=sqkxdloYX3AKecGFs557EQHp5RAGE348RH7lLPncKO75vLf0JA4LRskTQNMyv5lJAf
-	0R+W5tBx8HyMqo6j1IqrUbCuIVMAeLIkcPmR/D8cRlhaJM4aAJdvcdzpRvXm0nGEU5Cp
-	wu/MVLINHxLqqlK11AKoN6QnVqaBGlQCVAjdAo8LM1BiLbf/CXtwRRy3DgE8HpeyUHIM
-	YzJzbWhkJgwr9Ea7Vyhe4FCCg59uR0tufTbWshXGSUQfSJHg9YFLd6nhpPEAeqiSD150
-	8WWcNGvQiOEsReC0meESkXx9KZTTtT73Rivrzku+caaIqPrjffOJh0bTYF7pvYeuJ5jM
-	yyMA==
-X-Received: by 10.180.12.238 with SMTP id b14mr9361284wic.42.1389895185008;
-	Thu, 16 Jan 2014 09:59:45 -0800 (PST)
-Received: from netbook.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
-	[94.192.12.83])
-	by mx.google.com with ESMTPSA id ua8sm6926729wjc.4.2014.01.16.09.59.42
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Jan 2014 09:59:44 -0800 (PST)
-Sender: Paul Barker <paul.betafive@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
+	Thu, 16 Jan 2014 10:09:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=aBS40s7u//sycoKh56gNyvEQ7kqDbrTRIxNVVk4xzrM=;
+	b=qp6s7o+aZ4vN+dClySKI5GqCEPUoL/6euxUxUIqNEinrV8xk10sO0N6ZdPzOYkVjw+
+	iUETjHZ70ZX+5zlZPXbo5fBJ4R+Ldzm9/0XJOkXmqOtaDXPVWZXxwDYqc84AkzUsVYs3
+	l7DJ6wRt+S6gM7zlQi6j+ZEbdGasOrz6ccyTM+tIiB/r/iM2IZ83rRD09rQnSdI57PBI
+	nhmGuyxDjMsMyD/9P/Zs6q1on3CdI6RYhvGiz592NSWRbu3bmWtcal+qzxptt/y65m6i
+	r77zxnwsO3vuTPrU3q4brKdTEvZ0i5j+kTGKefh/raorm/nNffAfWTHYD1RPYx315/NX
+	SsvA==
+X-Received: by 10.14.172.69 with SMTP id s45mr14115660eel.9.1389895795190;
+	Thu, 16 Jan 2014 10:09:55 -0800 (PST)
+Received: from localhost.localdomain (ip-109-91-251-248.unitymediagroup.de.
+	[109.91.251.248])
+	by mx.google.com with ESMTPSA id n7sm20175147eef.5.2014.01.16.10.09.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Jan 2014 10:09:54 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jan 2014 17:59:26 +0000
-Message-Id: <1389895166-2459-4-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 1.8.5.2
-In-Reply-To: <1389895166-2459-1-git-send-email-paul@paulbarker.me.uk>
-References: <1389895166-2459-1-git-send-email-paul@paulbarker.me.uk>
-Subject: [PATCH v2 3/3] opkg: No longer PROVIDES update-alternatives
+Date: Thu, 16 Jan 2014 19:09:44 +0100
+Message-Id: <1389895784-13844-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [PATCH] weston: depend on drm for 'launch' packageconfig enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,52 +45,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2014 17:59:44 -0000
+X-List-Received-Date: Thu, 16 Jan 2014 18:09:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The new provider is the opkg-utils recipe.
+configure fails with:
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+| configure:15654: checking for WESTON_LAUNCH
+| configure:15661: $PKG_CONFIG --exists --print-errors "libdrm"
+| Package libdrm was not found in the pkg-config search path.
+| Perhaps you should add the directory containing `libdrm.pc'
+| to the PKG_CONFIG_PATH environment variable
+| No package 'libdrm' found
+| configure:15664: $? = 1
+| configure:15678: $PKG_CONFIG --exists --print-errors "libdrm"
+| Package libdrm was not found in the pkg-config search path.
+| Perhaps you should add the directory containing `libdrm.pc'
+| to the PKG_CONFIG_PATH environment variable
+| No package 'libdrm' found
+| configure:15681: $? = 1
+| configure:15695: result: no
+| No package 'libdrm' found
+| configure:15711: error: Package requirements (libdrm) were not met:
+|
+| No package 'libdrm' found
+
+and configure.ac says:
+
+| if test x$enable_weston_launch == xyes; then
+|  PKG_CHECK_MODULES(WESTON_LAUNCH, [libdrm])
+
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-devtools/opkg/opkg.inc | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ meta/recipes-graphics/wayland/weston_1.3.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
-index c9fb505..527fe5d 100644
---- a/meta/recipes-devtools/opkg/opkg.inc
-+++ b/meta/recipes-devtools/opkg/opkg.inc
-@@ -39,17 +39,13 @@ EXTRA_OECONF = "\
-   --with-opkglibdir=${OPKGLIBDIR} \
- "
+diff --git a/meta/recipes-graphics/wayland/weston_1.3.1.bb b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+index 8e555ee..585de66 100644
+--- a/meta/recipes-graphics/wayland/weston_1.3.1.bb
++++ b/meta/recipes-graphics/wayland/weston_1.3.1.bb
+@@ -47,7 +47,7 @@ PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compo
+ # Weston on framebuffer
+ PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
+ # weston-launch
+-PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam"
++PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam drm"
+ # VA-API desktop recorder
+ PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
  
--PROVIDES += "virtual/update-alternatives"
--RPROVIDES_update-alternatives-cworth += "update-alternatives"
--RCONFLICTS_update-alternatives-cworth = "update-alternatives-dpkg"
- RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-config-base"
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-nativesdk = ""
- RREPLACES_${PN} = "opkg-nogpg"
- 
--PACKAGES =+ "libopkg-dev libopkg-staticdev libopkg update-alternatives-cworth"
-+PACKAGES =+ "libopkg-dev libopkg-staticdev libopkg"
- 
--FILES_update-alternatives-cworth = "${bindir}/update-alternatives"
- FILES_libopkg-dev = "${libdir}/*.la ${libdir}/*.so ${includedir}/libopkg"
- FILES_libopkg-staticdev = "${libdir}/*.a"
- FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
-@@ -74,10 +70,8 @@ do_install_append() {
- 	ln -sf opkg-cl ${D}${bindir}/opkg
- }
- 
--do_install_append_class-native() {
--	if [ "${PREFERRED_PROVIDER_virtual/update-alternatives-native}" != "${PN}" ]; then
--		rm ${D}${bindir}/update-alternatives
--	fi
-+do_install_append() {
-+	rm ${D}${bindir}/update-alternatives
- }
- 
- pkg_postinst_${PN} () {
 -- 
-1.8.5.2
+1.8.3.1
 
 
