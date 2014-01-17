@@ -1,23 +1,39 @@
-Return-Path: <corneliux.stoicescu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 257036C72D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 09C9C6AE73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 10:11:24 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Jan 2014 02:11:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,670,1384329600"; d="scan'208";a="440327650"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 17 Jan 2014 02:11:25 -0800
-Received: from localhost.localdomain (unknown [10.237.112.161])
-	by linux.intel.com (Postfix) with ESMTP id 41E2D6A4007;
-	Fri, 17 Jan 2014 02:11:20 -0800 (PST)
-From: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2014 12:23:29 +0100
-Message-Id: <1389957809-32261-1-git-send-email-corneliux.stoicescu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH V2] oe-selftest: Patch sstate tests to work with new sstate-cache naming and content
+	Fri, 17 Jan 2014 10:20:00 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id e53so2036598eek.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2014 02:20:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ZKB3vgayL2uApb0+lLISuSv5y2ZTBX0sfx1E/+xqdRA=;
+	b=Ypf7AxdjPvfmDJZR8tFCEADdT7AVa9UGENnhxpGyzevgbjW1VpYSh21oZi81EQWykZ
+	DHINFnIcd6JUIpTHEi6pK7MRF2XCY5AzSSOX0CxMIaIX2nt/4jiX/JijxdCpNEqqXz2m
+	AdhPp6gd+VJafjjvKsEtGtwwClqB9os8+aKt7++OexS0/qtSdTPnFX6fpjXwL8bDJHa9
+	RSPY4LEAoxZrtaYRm+MY6nd65haIO4v4CHmxLFfxIFHgWrc4cQBKTbUllN2azliCYfAi
+	DpMxUaf8e88jmg9ZiKtW02jB8uoNlXwECoQgmM2k7xO6wQPQfxlNZhF479wgYn8dkOsr
+	8QYg==
+X-Received: by 10.15.49.193 with SMTP id j41mr1476918eew.10.1389954001300;
+	Fri, 17 Jan 2014 02:20:01 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id l4sm25516258een.13.2014.01.17.02.19.59
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 Jan 2014 02:20:00 -0800 (PST)
+Date: Fri, 17 Jan 2014 11:20:23 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Message-ID: <20140117102023.GL3742@jama>
+References: <cover.1389941136.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <cover.1389941136.git.Qi.Chen@windriver.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] systemd misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,93 +46,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 10:11:24 -0000
+X-List-Received-Date: Fri, 17 Jan 2014 10:20:01 -0000
+X-Groupsio-MsgNum: 49110
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="00sTfE/IIAT5d2r5"
+Content-Disposition: inline
 
-Made modifications to account for:
-- .siginfo files present in sstate-cache from non sstate-enabled tasks
-- new naming format for sstate files
+--00sTfE/IIAT5d2r5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
----
- meta/lib/oeqa/selftest/sstatetests.py |   28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
+On Fri, Jan 17, 2014 at 02:46:33PM +0800, Chen Qi wrote:
+> The following changes since commit cfd1520b4b492ab27b2900ba3510abe6f28809=
+7e:
+>=20
+>   oe-selftest: separated the SStateBase and SStateTests in different modu=
+les (2014-01-16 12:18:52 +0000)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.pokylinux.org/poky-contrib ChenQi/systemd-misc-fixes
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3DChenQi/systemd-=
+misc-fixes
 
-diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
-index 4b2c26d..acc0c27 100644
---- a/meta/lib/oeqa/selftest/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/sstatetests.py
-@@ -48,12 +48,15 @@ class SStateTests(SStateBase):
-         bitbake(['-ccleansstate'] + targets)
- 
-         bitbake(targets)
--        file_tracker_1 = self.search_sstate('|'.join(map(str, targets)), distro_specific, distro_nonspecific)
--        self.assertTrue(file_tracker_1, msg="Could not find sstate files for: %s" % ', '.join(map(str, targets)))
-+        tgz_created = self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific, distro_nonspecific)
-+        self.assertTrue(tgz_created, msg="Could not find sstate .tgz files for: %s" % ', '.join(map(str, targets)))
-+
-+        siginfo_created = self.search_sstate('|'.join(map(str, [s + '.*?\.siginfo$' for s in targets])), distro_specific, distro_nonspecific)
-+        self.assertTrue(siginfo_created, msg="Could not find sstate .siginfo files for: %s" % ', '.join(map(str, targets)))
- 
-         bitbake(['-ccleansstate'] + targets)
--        file_tracker_2 = self.search_sstate('|'.join(map(str, targets)), distro_specific, distro_nonspecific)
--        self.assertTrue(not file_tracker_2)
-+        tgz_removed = self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific, distro_nonspecific)
-+        self.assertTrue(not tgz_removed, msg="do_cleansstate didn't remove .tgz sstate files for: %s" % ', '.join(map(str, targets)))
- 
-     def test_cleansstate_task_distro_specific_nonspecific(self):
-         self.run_test_cleansstate_task(['binutils-cross', 'binutils-native', 'eglibc-initial'], distro_specific=True, distro_nonspecific=True, temp_sstate_location=True)
-@@ -72,9 +75,9 @@ class SStateTests(SStateBase):
-         bitbake(['-ccleansstate'] + targets)
- 
-         bitbake(targets)
--        self.assertTrue(self.search_sstate('|'.join(map(str, targets)), distro_specific=False, distro_nonspecific=True) == [], msg="Found distro non-specific sstate for: %s" % ', '.join(map(str, targets)))
--        file_tracker_1 = self.search_sstate('|'.join(map(str, targets)), distro_specific=True, distro_nonspecific=False)
--        self.assertTrue(len(file_tracker_1) > len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
-+        self.assertTrue(self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific=False, distro_nonspecific=True) == [], msg="Found distro non-specific sstate for: %s" % ', '.join(map(str, targets)))
-+        file_tracker_1 = self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
-+        self.assertTrue(len(file_tracker_1) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
- 
-         self.track_for_cleanup(self.distro_specific_sstate + "_old")
-         shutil.copytree(self.distro_specific_sstate, self.distro_specific_sstate + "_old")
-@@ -82,8 +85,8 @@ class SStateTests(SStateBase):
- 
-         bitbake(['-cclean'] + targets)
-         bitbake(targets)
--        file_tracker_2 = self.search_sstate('|'.join(map(str, targets)), distro_specific=True, distro_nonspecific=False)
--        self.assertTrue(len(file_tracker_2) > len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
-+        file_tracker_2 = self.search_sstate('|'.join(map(str, [s + '.*?\.tgz$' for s in targets])), distro_specific=True, distro_nonspecific=False)
-+        self.assertTrue(len(file_tracker_2) >= len(targets), msg = "Not all sstate files ware created for: %s" % ', '.join(map(str, targets)))
- 
-         not_recreated = [x for x in file_tracker_1 if x not in file_tracker_2]
-         self.assertTrue(not_recreated == [], msg="The following sstate files ware not recreated: %s" % ', '.join(map(str, not_recreated)))
-@@ -121,18 +124,18 @@ class SStateTests(SStateBase):
-             self.append_config(global_config[idx])
-             self.append_recipeinc(target, target_config[idx])
-             if target_config[idx] == target_config[-1]:
--                target_sstate_before_build = self.search_sstate(target)
-+                target_sstate_before_build = self.search_sstate(target + '.*?\.tgz$')
-             bitbake("-cclean %s" % target)
-             result = bitbake(target, ignore_status=True)
-             if target_config[idx] == target_config[-1]:
--                target_sstate_after_build = self.search_sstate(target)
-+                target_sstate_after_build = self.search_sstate(target + '.*?\.tgz$')
-                 expected_remaining_sstate += [x for x in target_sstate_after_build if x not in target_sstate_before_build]
-             self.remove_config(global_config[idx])
-             self.remove_recipeinc(target, target_config[idx])
-             self.assertEqual(result.status, 0)
- 
-         runCmd("sstate-cache-management.sh -y --cache-dir=%s --remove-duplicated" % self.sstate_path)
--        actual_remaining_sstate = self.search_sstate(target)
-+        actual_remaining_sstate = self.search_sstate(target + '.*?\.tgz$')
- 
-         actual_not_expected = [x for x in actual_remaining_sstate if x not in expected_remaining_sstate]
-         self.assertFalse(actual_not_expected, msg="Files should have been removed but ware not: %s" % ', '.join(map(str, actual_not_expected)))
-@@ -183,4 +186,3 @@ class SStateTests(SStateBase):
- 
- 
- 
--
--- 
-1.7.9.5
+Can you send pull-request from oe-core?
 
+> Chen Qi (5):
+>   systemd: add 'less' to its RDEPENDS
+>   dropbear: add systemd unit files
+>   openssh: fixes for systemd
+>   distcc: add systemd support
+>   at: add systemd support
 
+Thank you, openssh fix for sshd@.service in SYSTEMD_SERVICE was
+requested since it was introduced, good to see the fix now.
+
+Can you please send cleanup patches for meta-systemd after this patchset
+is merged? Thanks
+
+>  .../openssh/openssh-6.4p1/sshd.socket              |    1 -
+>  .../openssh/openssh-6.4p1/sshd@.service            |    1 +
+>  .../openssh/openssh-6.4p1/sshdgenkeys.service      |    8 ++++----
+>  meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    4 ++--
+>  meta/recipes-core/dropbear/dropbear.inc            |   17 ++++++++++++++=
+++-
+>  .../recipes-core/dropbear/dropbear/dropbear.socket |   10 ++++++++++
+>  .../dropbear/dropbear/dropbear@.service            |   11 +++++++++++
+>  .../dropbear/dropbear/dropbearkey.service          |    8 ++++++++
+>  meta/recipes-core/systemd/systemd_208.bb           |    3 ++-
+>  meta/recipes-devtools/distcc/distcc_3.1.bb         |   14 +++++++++++---
+>  meta/recipes-devtools/distcc/files/default         |    5 +++++
+>  meta/recipes-devtools/distcc/files/distccd.service |   11 +++++++++++
+>  meta/recipes-extended/at/at_3.1.14.bb              |   10 +++++++++-
+>  meta/recipes-extended/at/files/atd.service         |    9 +++++++++
+>  14 files changed, 99 insertions(+), 13 deletions(-)
+>  create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
+>  create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
+>  create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.servi=
+ce
+>  create mode 100644 meta/recipes-devtools/distcc/files/distccd.service
+>  create mode 100644 meta/recipes-extended/at/files/atd.service
+>=20
+> --=20
+> 1.7.9.5
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--00sTfE/IIAT5d2r5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLZA+cACgkQN1Ujt2V2gBzTVQCfTV/abVWNUWT1VbBaktoYZpIb
++3oAnRgY0vO7XayhWIiQzXGtI8kN5VPC
+=c+8J
+-----END PGP SIGNATURE-----
+
+--00sTfE/IIAT5d2r5--
