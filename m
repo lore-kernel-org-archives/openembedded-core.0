@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 206CD6E799
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 60B626E799
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 06:46:37 +0000 (UTC)
+	Fri, 17 Jan 2014 06:46:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0H6kddV011466
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0H6kdWg021855
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 16 Jan 2014 22:46:39 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 16 Jan 2014 22:46:37 -0800
+	14.2.347.0; Thu, 16 Jan 2014 22:46:39 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 14:46:35 +0800
-Message-ID: <ab917c7ff22a375e4476f3eab970e43555503b7a.1389941136.git.Qi.Chen@windriver.com>
+Date: Fri, 17 Jan 2014 14:46:36 +0800
+Message-ID: <6c4a7d97d851239671854c5f4522859fa9d3e8e1.1389941136.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1389941136.git.Qi.Chen@windriver.com>
 References: <cover.1389941136.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] dropbear: add systemd unit files
+Subject: [PATCH 3/5] openssh: fixes for systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,117 +33,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 06:46:37 -0000
+X-List-Received-Date: Fri, 17 Jan 2014 06:46:38 -0000
 Content-Type: text/plain
 
-This patch mainly comes from meta-systemd with a few modifications.
-The purpose is to get rid of the LSB init scripts in systemd images.
+This patch contains a few fixes for the systemd unit files of openssh.
+The fixes use the same unit files in Fedora 20 as a reference.
 
-[YOCTO #4420]
+1) Remove sshdgenkeys.service and sshd@.service from SYSTEMD_SERVICE.
+2) Fix the dependency and logic of sshdgenkeys.service.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/dropbear/dropbear.inc            |   17 ++++++++++++++++-
- .../recipes-core/dropbear/dropbear/dropbear.socket |   10 ++++++++++
- .../dropbear/dropbear/dropbear@.service            |   11 +++++++++++
- .../dropbear/dropbear/dropbearkey.service          |    8 ++++++++
- 4 files changed, 45 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
+ .../openssh/openssh-6.4p1/sshd.socket              |    1 -
+ .../openssh/openssh-6.4p1/sshd@.service            |    1 +
+ .../openssh/openssh-6.4p1/sshdgenkeys.service      |    8 ++++----
+ meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index e85a9e6..d5fceec 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -19,17 +19,22 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://0004-fix-2kb-keys.patch \
-            file://0007-dropbear-fix-for-x32-abi.patch \
-            file://init \
-+           file://dropbearkey.service \
-+           file://dropbear@.service \
-+           file://dropbear.socket \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket
+index d19ab2a..12c39b2 100644
+--- a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket
++++ b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket
+@@ -8,4 +8,3 @@ Accept=yes
  
- PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
-                file://0006-dropbear-configuration-file.patch \
-                file://dropbear"
+ [Install]
+ WantedBy=sockets.target
+-Also=sshdgenkeys.service
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service
+index 64e009f..4eda659 100644
+--- a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service
++++ b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service
+@@ -1,5 +1,6 @@
+ [Unit]
+ Description=OpenSSH Per-Connection Daemon
++Wants=sshdgenkeys.service
+ After=sshdgenkeys.service
  
--inherit autotools update-rc.d
-+inherit autotools update-rc.d systemd
+ [Service]
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service
+index 2fd8a9a..c21d70b 100644
+--- a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service
++++ b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service
+@@ -1,10 +1,10 @@
+ [Unit]
+-Description=SSH Key Generation
++Description=OpenSSH Key Generation
++ConditionPathExists=|!/etc/ssh/ssh_host_rsa_key
++ConditionPathExists=|!/etc/ssh/ssh_host_dsa_key
++ConditionPathExists=|!/etc/ssh/ssh_host_ecdsa_key
  
- INITSCRIPT_NAME = "dropbear"
- INITSCRIPT_PARAMS = "defaults 10"
+ [Service]
+ ExecStart=@BINDIR@/ssh-keygen -A
+ Type=oneshot
+ RemainAfterExit=yes
+-
+-[Install]
+-WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+index c61d16f..1f78566 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+@@ -44,7 +44,7 @@ INITSCRIPT_NAME_${PN}-sshd = "sshd"
+ INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
  
-+SYSTEMD_SERVICE_${PN} = "dropbear.socket"
-+
- CFLAGS_prepend = " -I. "
- LD = "${CC}"
+ SYSTEMD_PACKAGES = "${PN}-sshd"
+-SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket sshd@.service sshdgenkeys.service"
++SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
  
-@@ -66,6 +71,16 @@ do_install() {
- 		install -d ${D}${sysconfdir}/pam.d
- 		install -m 0644 ${WORKDIR}/dropbear  ${D}${sysconfdir}/pam.d/
- 	fi
-+
-+	# deal with systemd unit files
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/dropbearkey.service ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/dropbear@.service ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/dropbear.socket ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-+	       -e 's,@BINDIR@,${bindir},g' \
-+	       -e 's,@SBINDIR@,${sbindir},g' \
-+	       ${D}${systemd_unitdir}/system/dropbear.socket ${D}${systemd_unitdir}/system/*.service
- }
- 
- inherit update-alternatives
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear.socket b/meta/recipes-core/dropbear/dropbear/dropbear.socket
-new file mode 100644
-index 0000000..e5c61b7
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/dropbear.socket
-@@ -0,0 +1,10 @@
-+[Unit]
-+Conflicts=dropbear.service
-+
-+[Socket]
-+ListenStream=22
-+Accept=yes
-+
-+[Install]
-+WantedBy=sockets.target
-+Also=dropbearkey.service
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbear@.service b/meta/recipes-core/dropbear/dropbear/dropbear@.service
-new file mode 100644
-index 0000000..6fe9942
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/dropbear@.service
-@@ -0,0 +1,11 @@
-+[Unit]
-+Description=SSH Per-Connection Server
-+Wants=dropbearkey.service
-+After=syslog.target dropbearkey.service
-+
-+[Service]
-+EnvironmentFile=-/etc/default/dropbear
-+ExecStart=-@SBINDIR@/dropbear -i -r /etc/dropbear/dropbear_rsa_host_key $DROPBEAR_EXTRA_ARGS
-+ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
-+StandardInput=socket
-+KillMode=process
-diff --git a/meta/recipes-core/dropbear/dropbear/dropbearkey.service b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
-new file mode 100644
-index 0000000..ccc21d5
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
-@@ -0,0 +1,8 @@
-+[Unit]
-+Description=SSH Key Generation
-+ConditionPathExists=|!/etc/dropbear/dropbear_rsa_host_key
-+
-+[Service]
-+Type=oneshot
-+ExecStart=@SBINDIR@/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
-+RemainAfterExit=yes
+ PACKAGECONFIG ??= "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
+@@ -114,7 +114,7 @@ ALLOW_EMPTY_${PN} = "1"
+ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
+ FILES_${PN}-scp = "${bindir}/scp.${BPN}"
+ FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
+-FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
++FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd ${systemd_unitdir}/system"
+ FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd"
+ FILES_${PN}-sftp = "${bindir}/sftp"
+ FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
 -- 
 1.7.9.5
 
