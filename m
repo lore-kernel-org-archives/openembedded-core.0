@@ -1,11 +1,11 @@
 Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E2EB96E751
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 88BE961FE4
 	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 16:41:03 +0000 (UTC)
+	Fri, 17 Jan 2014 16:41:04 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0HGf5BF013702
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0HGf5N5021713
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <Openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jan 2014 08:41:05 -0800 (PST)
@@ -14,8 +14,8 @@ Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
 	Fri, 17 Jan 2014 08:41:05 -0800
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 10:38:01 -0600
-Message-ID: <1389976685-25802-4-git-send-email-jason.wessel@windriver.com>
+Date: Fri, 17 Jan 2014 10:38:02 -0600
+Message-ID: <1389976685-25802-5-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1389976685-25802-1-git-send-email-jason.wessel@windriver.com>
 References: <1389976685-25802-1-git-send-email-jason.wessel@windriver.com>
