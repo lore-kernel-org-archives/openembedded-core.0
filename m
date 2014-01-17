@@ -1,28 +1,26 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 954A96AE73
+Return-Path: <jplum@devonit.com>
+Received: from mx1.devonhealth.com (unknown [8.20.30.154])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E3C96AE73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 15:45:23 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 21BDBF811E4; Fri, 17 Jan 2014 08:45:23 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 31CD4F811E2;
-	Fri, 17 Jan 2014 08:45:21 -0700 (MST)
-Message-ID: <52D95018.5010602@mlbassoc.com>
-Date: Fri, 17 Jan 2014 08:45:28 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Fri, 17 Jan 2014 15:45:39 +0000 (UTC)
+Received: from emfserver.devonintlgroup.com (10.0.7.48) by mx1.devonhealth.com
+	(10.0.20.154) with Microsoft SMTP Server id 8.3.327.1;
+	Fri, 17 Jan 2014 10:43:12 -0500
+Received: from [10.0.2.7] by emfserver.devonintlgroup.com over TLS secured
+	channel with ESMTP (Devon Health Services, Inc Email Firewall SMTP Relay
+	(Email Firewall v6.5)); Fri, 17 Jan 2014 10:45:27 -0500
+X-Server-Uuid: 6CB55748-6642-4D3C-9211-397BC4E7A815
+Received: from whse-mobile.Development.com (10.0.15.115) by
+	boddingtons.devonintlgroup.com (10.0.2.15) with Microsoft SMTP Server (
+	TLS) id 8.3.327.1; Fri, 17 Jan 2014 10:45:27 -0500
+From: Jason Plum <jplum@devonit.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Jan 2014 10:45:35 -0500
+Message-ID: <1389973536-9479-1-git-send-email-jplum@devonit.com>
+X-Mailer: git-send-email 1.8.5.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1389973156-9421-1-git-send-email-jplum@devonit.com>
-In-Reply-To: <1389973156-9421-1-git-send-email-jplum@devonit.com>
-Subject: Re: [Patch] lib/oe: copyhardlinktree - detect mount points
+X-WSS-ID: 7EC78F9D2B8407077-01-01
+Subject: [Patch v2] lib/oe: copyhardlinktree - detect mount points
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,22 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 15:45:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 17 Jan 2014 15:45:39 -0000
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 2014-01-17 08:39, Jason Plum wrote:
->
-> Add function getmount to detect the mount point of the path, as
-> os.stat(path).st_dev in copyhardlinktree fails in lxc containers
-> to detect different paths as separate mounted filesystems
-> (cp -l failure)
 
-Patch missing?
+    lib/oe: copyhardlinktree - detect mount points
+    Add function getmount to detect the mount point of the path, as
+    os.stat(path).st_dev in copyhardlinktree fails in lxc containers
+    to detect different paths as separate mounted filesystems
+    (cp -l failure)
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+    Signed-off-by: Jason Plum <jplum@devonit.com>
+
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 1310e38..f1905c3 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -90,7 +90,7 @@ def copyhardlinktree(src, dst):
+     if os.path.isdir(src) and not len(os.listdir(src)):
+         return
+
+-    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
++    if (getmount(src) ==  getmount(dst)):
+         # Need to copy directories only with tar first since cp will error if tw
+         # writers try and create a directory at the same time
+         cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from -
+@@ -259,3 +259,12 @@ def realpath(file, root, use_physdir = True, loop_cnt = 100,
+         raise
+
+     return file
++
++def getmount(path):
++    """ Returns the mount point of the path, using realpath """
++    path = realpath(path)
++    while path != os.path.sep:
++        if os.path.ismount(path):
++            return path
++        path = os.path.abspath(os.path.join(path, os.pardir))
++    return path
+
 
