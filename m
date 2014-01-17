@@ -1,26 +1,26 @@
 Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 88BE961FE4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 567F26E82A
 	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 16:41:04 +0000 (UTC)
+	Fri, 17 Jan 2014 16:41:05 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0HGf5N5021713
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0HGf6pt013711
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 08:41:05 -0800 (PST)
+	Fri, 17 Jan 2014 08:41:06 -0800 (PST)
 Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 17 Jan 2014 08:41:05 -0800
+	Fri, 17 Jan 2014 08:41:06 -0800
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 10:38:02 -0600
-Message-ID: <1389976685-25802-5-git-send-email-jason.wessel@windriver.com>
+Date: Fri, 17 Jan 2014 10:38:03 -0600
+Message-ID: <1389976685-25802-6-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1389976685-25802-1-git-send-email-jason.wessel@windriver.com>
 References: <1389976685-25802-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] runqemu: Use the newer unfs3 for serving user space nfs
+Subject: [PATCH 4/6] unfs-server: Remove unfs-server recipe and patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,125 +33,4972 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 16:41:04 -0000
+X-List-Received-Date: Fri, 17 Jan 2014 16:41:06 -0000
 Content-Type: text/plain
 
-From: Saul Wold <sgw@linux.intel.com>
+The unfs-server only supports NFS v2 and it is not useful any longer
+with the advent of 64 bit inodes and the fact that the server has only
+a 32 bit key for the NFS hash which is hardcoded back to the inode.
 
-This new version correctly handles the 64bit ext3 / ext4 issues we
-were seeing with the older unfs-server which did not handle 64bit file
-systems correctly, producing the duplicate cookies.
+This recipe is replaced with a user mode NFS server using v3.
 
 [YOCTO #5639]
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- scripts/runqemu-export-rootfs |   53 ++++-------------------------------------
- scripts/runqemu-internal      |    2 +-
- 2 files changed, 6 insertions(+), 49 deletions(-)
+ .../001-2.2b47-2.2b51.patch                        | 2349 --------------------
+ .../unfs-server-2.1+2.2beta47/002-destdir.patch    |   73 -
+ .../unfs-server-2.1+2.2beta47/003-manpages.patch   |   33 -
+ .../unfs-server-2.1+2.2beta47/004-strsignal.patch  |   53 -
+ .../unfs-server-2.1+2.2beta47/005-sys-time.patch   |   34 -
+ .../unfs-server-2.1+2.2beta47/006-reiserfs.patch   | 1277 -----------
+ .../unfs-server-2.1+2.2beta47/007-map.patch        |   83 -
+ .../unfs-server-2.1+2.2beta47/008-configure.patch  |   18 -
+ .../unfs-server-2.1+2.2beta47/009-multirw.patch    |   20 -
+ .../unfs-server-2.1+2.2beta47/010-realpath.patch   |   35 -
+ .../011-fno-strict-aliasing.patch                  |   18 -
+ .../unfs-server-2.1+2.2beta47/012-nostrip.patch    |   18 -
+ .../unfs-server-2.1+2.2beta47/013-mntpathlen.patch |   37 -
+ .../014-uninitialized.patch                        |   17 -
+ .../unfs-server-2.1+2.2beta47/015-setattr.patch    |   31 -
+ .../016-makefile.in.patch                          |   19 -
+ .../017-wrs-dynamic-rpc.patch                      |  263 ---
+ .../018-remove-tcp-wrappers.patch                  |   25 -
+ .../019-pid-before-fork.patch                      |  130 --
+ .../020-undefined-chmod-fix.patch                  |   23 -
+ .../unfs-server-2.1+2.2beta47/021-nolibwrap.patch  |   25 -
+ .../022-add-close-on-exec-descriptors.patch        |   66 -
+ .../023-no-rpc-register.patch                      |   34 -
+ .../unfs-server/unfs-server_2.1+2.2beta47.bb       |   78 -
+ 24 files changed, 4759 deletions(-)
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
 
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index bbdaf5b..2d87996 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -88,8 +88,7 @@ MOUNT_PORT=$[ 3048 + 2 * $NFS_INSTANCE ]
- 
- ## For debugging you would additionally add
- ## --debug all
--MOUNTD_OPTS="--allow-non-root --mount-pid $MOUNTPID -f $EXPORTS --rmtab $RMTAB --prog $NFS_MOUNTPROG -r -P $MOUNT_PORT"
--NFSD_OPTS="--allow-non-root --nfs-pid $NFSPID -f $EXPORTS --prog $NFS_NFSPROG -P $NFS_PORT -r"
-+UNFSD_OPTS="-p -N -i $NFSPID -e $EXPORTS -x $NFS_NFSPROG -n $NFS_PORT -y $NFS_MOUNTPROG -m $MOUNT_PORT"
- 
- # Setup the exports file
- if [ "$1" = "start" ]; then
-@@ -115,53 +114,18 @@ case "$1" in
- 		exit 1
- 	fi
- 
--	echo "Starting User Mode rpc.mountd"
--	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/rpc.mountd $MOUNTD_OPTS"
--	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/rpc.mountd $MOUNTD_OPTS
--	if [ ! $? = 0 ]; then
--		echo "====================="
--		echo "Error starting MOUNTD"
--		echo "====================="
--		if [ ! "x$RPCBIND_RUNNING" = "x" ] ; then
--			echo "  If you see an error above that says:"
--			echo "    RPC: Authentication error; why = Client credential too weak"
--			echo "  You need to add the -i option when running rpcbind"
--			echo "==============================================="
--			echo "For recent Fedora/RedHat hosts:"
--			echo "Add RPCBIND_ARGS=-i to /etc/sysconfig/rpcbind"
--			echo "  or"
--			echo "Add RPCBIND_OPTIONS=-i to /etc/sysconfig/rpcbind"
--			echo "Then run as root: /etc/init.d/rpcbind restart"
--			echo "==============================================="
--			echo "For recent Debian/Ubuntu hosts:"
--			echo "Add OPTIONS=\"-i -w\"  to /etc/default/rpcbind"
--			echo "sudo service portmap restart"
--		fi
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
+deleted file mode 100644
+index b2cdc5e..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
++++ /dev/null
+@@ -1,2349 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
 -
--		exit 1
--	fi
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
 -
- 	echo "Starting User Mode nfsd"
--	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/rpc.nfsd $NFSD_OPTS"
--	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/rpc.nfsd $NFSD_OPTS
-+	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/unfsd $UNFSD_OPTS"
-+	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/unfsd $UNFSD_OPTS
- 	if [ ! $? = 0 ]; then
- 		echo "Error starting nfsd"
- 		exit 1
- 	fi
--	# Check to make sure everything started ok.
--	if [ ! -f $MOUNTPID ]; then
--		echo "rpc.mountd did not start correctly"
--		exit 1
--	fi
-+	 Check to make sure everything started ok.
- 	if [ ! -f $NFSPID ]; then
- 		echo "rpc.nfsd did not start correctly"
- 		exit 1
- 	fi
--	ps -fp `cat $MOUNTPID` > /dev/null 2> /dev/null
--	if [ ! $? = 0 ]; then
--		echo "rpc.mountd did not start correctly"
--		exit 1
--	fi
- 	ps -fp `cat $NFSPID` > /dev/null 2> /dev/null
- 	if [ ! $? = 0 ]; then
- 		echo "rpc.nfsd did not start correctly"
-@@ -169,16 +133,9 @@ case "$1" in
- 	fi
- 	echo " "
- 	echo "On your target please remember to add the following options for NFS"
--	echo "nfsroot=IP_ADDRESS:$NFS_EXPORT_DIR,nfsvers=2,mountprog=$NFS_MOUNTPROG,nfsprog=$NFS_NFSPROG,udp"
-+	echo "nfsroot=IP_ADDRESS:$NFS_EXPORT_DIR,nfsvers=3,port=$NFSD_PORT,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,mountport=$MOUNTD_PORT"
- 	;;
-   stop)
--	if [ -f "$MOUNTPID" ]; then
--		echo "Stopping rpc.mountd"
--		kill `cat $MOUNTPID`
--		rm -f $MOUNTPID
--	else
--		echo "No PID file, not stopping rpc.mountd"
--	fi
- 	if [ -f "$NFSPID" ]; then
- 		echo "Stopping rpc.nfsd"
- 		kill `cat $NFSPID`
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 284b88c..cecb527 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -308,7 +308,7 @@ if [ "$FSTYPE" = "nfs" ]; then
-     NFSD_RPCPORT=$[ 11111 + $NFS_INSTANCE ]
-     NFSD_PORT=$[ 3049 + 2 * $NFS_INSTANCE ]
-     MOUNTD_PORT=$[ 3048 + 2 * $NFS_INSTANCE ]
--    UNFS_OPTS="nfsvers=2,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,port=$NFSD_PORT,mountport=$MOUNTD_PORT"
-+    UNFS_OPTS="nfsvers=3,port=$NFSD_PORT,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,mountport=$MOUNTD_PORT"
- 
-     PSEUDO_LOCALSTATEDIR=~/.runqemu-sdk/pseudo
-     export PSEUDO_LOCALSTATEDIR
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+-diff -urN nfs-server-2.2beta47/.version nfs-server-2.2beta51/.version
+---- nfs-server-2.2beta47/.version	Tue Sep  7 09:47:27 1999
+-+++ nfs-server-2.2beta51/.version	Fri Nov  8 14:45:36 2002
+-@@ -1 +1 @@
+--2.2beta46
+-+2.2beta51
+-diff -urN nfs-server-2.2beta47/ChangeLog nfs-server-2.2beta51/ChangeLog
+---- nfs-server-2.2beta47/ChangeLog	Wed Nov 10 10:17:51 1999
+-+++ nfs-server-2.2beta51/ChangeLog	Fri Nov  8 14:45:36 2002
+-@@ -1,8 +1,59 @@
+-+Thu Nov  9 17:03:05 2000
+-+
+-+	* No longer use OPEN_MAX
+-+
+-+	* Reworked configure.in, BUILD script no longer needed
+-+	  (nor functioning)
+-+
+-+	* Be more anal about matching cached fh's and real files.
+-+	  In addition to the psi, we also store dev/ino/type now
+-+	  and match that in fh_find.
+-+
+-+	* Write pidfiles
+-+
+-+	* Support nosetuid
+-+
+-+Wed Feb  9 14:52:34 2000
+-+
+-+	* auth_init.c didn't properly parse options--rot_squash
+-+	  which is obviously a typo was parsed as ro.
+-+	  Thanks to Jan Steffan for complaining about this :-)
+-+
+-+Mon Jan 31 11:48:34 2000
+-+
+-+	* Fixed Y2K bug in logging.c.
+-+	  Thanks to Jonathan Hankins <jhankins@homewood.k12.al.us>.
+-+
+-+Thu Dec  9 11:14:21 1999
+-+
+-+	* Fix handling of NFS-mounted and /proc directories.
+-+	  They weren't properly hidden.
+-+	  Thanks to Dick Streefland <dick_streefland@tasking.com>
+-+	  for the report and a first patch.
+-+
+- Wed Nov 10 10:17:16 1999
+- 
+- 	* Security fix for buffer overflow in fh_buildpath
+- 	  No thanks to Mariusz who reported it to bugtraq
+- 	  rather than me.
+-+
+-+Wed Nov 09 17:10:00 1999
+-+
+-+	* Workaround for broken Solaris clients that can't handle
+-+	  atime/mtime/ctime of 0.
+-+	  Thanks to Frank Wuebbelin for his problem report and
+-+	  testing the fix.
+-+
+-+	* Fixed typo in exports.man
+-+
+-+Tue Nov  2 10:31:14 1999
+-+
+-+	* Patch for mode 0100 and 0100 executables by
+-+	  Michael Deutschmann <michael@talamasca.wkpowerlink.com>
+-+
+-+	* Common startup stuff for all daemons.
+-+	  Inspired by code sent to me by someone (sorry, I forgot
+-+	  your name, and the mail's gone!)
+- 
+- Wed Sep  8 09:07:38 1999
+- 
+-diff -urN nfs-server-2.2beta47/Makefile.in nfs-server-2.2beta51/Makefile.in
+---- nfs-server-2.2beta47/Makefile.in	Tue Jun 22 14:53:10 1999
+-+++ nfs-server-2.2beta51/Makefile.in	Fri Nov  8 14:45:36 2002
+-@@ -17,23 +17,30 @@
+- 
+- #### Start of system configuration section. ####
+- 
+--srcdir = @srcdir@
+--VPATH = @srcdir@
+-+srcdir		= @srcdir@
+-+VPATH		= @srcdir@
+- 
+--CC = @CC@
+--AR = ar
+--RANLIB = @RANLIB@
+--
+--INSTALL = @INSTALL@
+--INSTALL_PROGRAM = @INSTALL_PROGRAM@ -m 755
+--INSTALL_DATA = @INSTALL_DATA@
+--MAKEINFO = makeinfo
+--TEXI2DVI = texi2dvi
+--RPCGEN = @RPCGEN@ @RPCGEN_C@
+-+CC		= @CC@
+-+AR		= ar
+-+RANLIB		= @RANLIB@
+-+
+-+INSTALL		= @INSTALL@
+-+INSTALL_PROGRAM	= @INSTALL_PROGRAM@ -m 755
+-+INSTALL_DATA	= @INSTALL_DATA@
+-+MAKEINFO	= makeinfo
+-+TEXI2DVI	= texi2dvi
+-+RPCGEN		= @RPCGEN@ @RPCGEN_C@
+- 
+- # General compile options and libs:
+--DEFS = @DEFS@ $(NFSD_DEFS)
+--LIBS = libnfs.a @LIBS@
+-+DEFS		= @DEFS@ $(NFSD_DEFS)
+-+LIBS		= libnfs.a @LIBS@
+-+
+-+# Ugidd support
+-+UGIDD_PROG	= @UGIDD_PROG@
+-+UGIDD_MAN	= @UGIDD_MAN@
+-+
+-+# New inode mapping scheme
+-+DEVTAB_FILE	= $(install_prefix)@PATH_DEVTAB@
+- 
+- # Compile options for nfsd:
+- # CALL_PROFILING
+-@@ -80,9 +87,6 @@
+- 
+- #### End of system configuration section. ####
+- 
+--# include site-specific defintions generated by BUILD.
+--include site.mk
+--
+- SHELL = /bin/sh
+- 
+- SRCS		= version.c logging.c fh.c devtab.c \
+-@@ -96,19 +100,19 @@
+- 		  utimes.c mkdir.c rename.c getopt.c getopt_long.c \
+- 		  alloca.c mountlist.c xmalloc.c \
+- 		  xstrdup.c strdup.c strstr.c nfsmounted.c faccess.c \
+--		  haccess.c failsafe.c signals.c
+-+		  haccess.c daemon.c signals.c
+- XDRFILES	= mount.x nfs_prot.x
+- GENFILES	= mount.h mount_xdr.c mount_svc.c nfs_prot.h nfs_prot_xdr.c \
+- 		  ugid.h ugid_xdr.c ugid_clnt.c
+- HDRS		= system.h nfsd.h auth.h fh.h logging.h fakefsuid.h \
+- 		  rpcmisc.h faccess.h rquotad.h rquota.h haccess.h
+--LIBHDRS		= fsusage.h getopt.h mountlist.h failsafe.h signals.h
+-+LIBHDRS		= fsusage.h getopt.h mountlist.h daemon.h signals.h
+- MANPAGES5	= exports
+- MANPAGES8p	= mountd nfsd $(UGIDD_MAN)
+- MANPAGES8	= showmount
+- MANPAGES	= $(MANPAGES5) $(MANPAGES8p) $(MANPAGES8)
+- LIBOBJS		= version.o fsusage.o mountlist.o xmalloc.o xstrdup.o \
+--		  nfsmounted.o faccess.o haccess.o failsafe.o \
+-+		  nfsmounted.o faccess.o haccess.o daemon.o \
+- 		  signals.o @LIBOBJS@ @ALLOCA@
+- OBJS		= logging.o fh.o devtab.o auth_init.o auth_clnt.o auth.o
+- NFSD_OBJS	= nfsd.o rpcmisc.o nfs_dispatch.o getattr.o setattr.o \
+-@@ -174,15 +178,13 @@
+- 	${srcdir}/mkinstalldirs $(bindir) $(man5dir) $(man8dir)
+- 
+- $(rpcprefix)mountd: $(MOUNTD_OBJS) libnfs.a
+--	$(CC) $(LDFLAGS) -o $@ $(MOUNTD_OBJS) $(LIBS) \
+--		$(LIBWRAP_DIR) $(LIBWRAP_LIB)
+-+	$(CC) $(LDFLAGS) -o $@ $(MOUNTD_OBJS) $(LIBS)
+- 
+- $(rpcprefix)nfsd: $(NFSD_OBJS) libnfs.a
+- 	$(CC) $(LDFLAGS) -o $@ $(NFSD_OBJS) $(LIBS)
+- 
+- $(rpcprefix)ugidd: $(UGIDD_OBJS) libnfs.a
+--	$(CC) $(LDFLAGS) -o $@ $(UGIDD_OBJS) $(LIBS) \
+--		$(LIBWRAP_DIR) $(LIBWRAP_LIB)
+-+	$(CC) $(LDFLAGS) -o $@ $(UGIDD_OBJS) $(LIBS)
+- 
+- showmount: $(SHOWMOUNT_OBJS) libnfs.a
+- 	$(CC) $(LDFLAGS) -o $@ $(SHOWMOUNT_OBJS) $(LIBS)
+-diff -urN nfs-server-2.2beta47/aclocal.m4 nfs-server-2.2beta51/aclocal.m4
+---- nfs-server-2.2beta47/aclocal.m4	Fri Jun 11 12:04:22 1999
+-+++ nfs-server-2.2beta51/aclocal.m4	Fri Nov  8 14:45:36 2002
+-@@ -221,20 +221,14 @@
+- ])dnl
+- dnl *********** libwrap bug **************
+- define(AC_LIBWRAP_BUG,
+--  [if test -f site.mk; then
+--    . ./site.mk
+--  fi
+--  if test ! -z "$LIBWRAP_DIR"; then
+-+  [if test "$ac_cv_lib_wrap_main" = yes; then
+-     AC_MSG_CHECKING(for link problem with libwrap.a)
+-     AC_CACHE_VAL(nfsd_cv_lib_wrap_bug,
+--      [ac_save_LIBS=$LIBS
+--      LIBS="$LIBS $LIBWRAP_DIR $LIBWRAP_LIB"
+--      AC_TRY_LINK([
+-+      [AC_TRY_LINK([
+-         extern int deny_severity;
+-       ],[
+-         deny_severity=1;
+-       ], nfsd_cv_lib_wrap_bug=no, nfsd_cv_lib_wrap_bug=yes)
+--      LIBS=$ac_save_LIBS
+-     ]) dnl
+-     AC_MSG_RESULT($nfsd_cv_lib_wrap_bug)
+-     test $nfsd_cv_lib_wrap_bug = yes && AC_DEFINE(HAVE_LIBWRAP_BUG)
+-diff -urN nfs-server-2.2beta47/auth.c nfs-server-2.2beta51/auth.c
+---- nfs-server-2.2beta47/auth.c	Mon Sep 13 16:56:03 1999
+-+++ nfs-server-2.2beta51/auth.c	Fri Nov  8 14:45:36 2002
+-@@ -84,8 +84,9 @@
+- 					0,		/* relative links */
+- 					0,		/* noaccess */
+- 					1,		/* cross_mounts */
+--					(uid_t)-2,	/* default uid */
+--					(gid_t)-2,	/* default gid */
+-+					1,		/* allow setuid */
+-+					65534,		/* default uid */
+-+					65534,		/* default gid */
+- 					0,		/* no NIS domain */
+- 				};
+- 
+-@@ -99,8 +100,9 @@
+- 					0,		/* relative links */
+- 					0,		/* noaccess */
+- 					1,		/* cross_mounts */
+--					(uid_t)-2,	/* default uid */
+--					(gid_t)-2,	/* default gid */
+-+					0,		/* allow setuid */
+-+					65534,		/* default uid */
+-+					65534,		/* default gid */
+- 					0,		/* no NIS domain */
+- 				};
+- 
+-@@ -673,6 +675,7 @@
+- 		cpp = &unknown_clients;
+- 	} else {
+- 		cpp = &known_clients;
+-+		cp->clnt_addr = *(struct in_addr *) hp->h_addr;
+- 		auth_hash_host(cp, hp);
+- 	}
+- 	cp->next = *cpp;
+-diff -urN nfs-server-2.2beta47/auth.h nfs-server-2.2beta51/auth.h
+---- nfs-server-2.2beta47/auth.h	Thu Apr  8 14:47:56 1999
+-+++ nfs-server-2.2beta51/auth.h	Fri Nov  8 14:45:36 2002
+-@@ -23,14 +23,6 @@
+- extern char *			public_root_path;
+- extern struct nfs_fh		public_root;
+- 
+--#if defined(linux) && defined(i386) && !defined(HAVE_SETFSUID)
+--#   define MAYBE_HAVE_SETFSUID
+--#endif
+--
+--#ifdef MAYBE_HAVE_SETFSUID
+--extern int			have_setfsuid;
+--#endif
+--
+- /*
+-  * These externs are set in the dispatcher (dispatch.c) and auth_fh
+-  * (nfsd.c) so that we can determine access rights, export options,
+-@@ -59,6 +51,7 @@
+- 	int			link_relative;
+- 	int			noaccess;
+- 	int			cross_mounts;
+-+	int			allow_setuid;
+- 	uid_t			nobody_uid;
+- 	gid_t			nobody_gid;
+- 	char *			clnt_nisdomain;
+-@@ -112,7 +105,7 @@
+- extern void	  auth_free_lists(void);
+- extern nfs_client *auth_clnt(struct svc_req *rqstp);
+- extern nfs_mount  *auth_path(nfs_client *, struct svc_req *, char *);
+--extern void       auth_user(nfs_mount *, struct svc_req *);
+-+extern int	  auth_user(nfs_mount *, struct svc_req *);
+- 
+- extern nfs_client *auth_get_client(char *);
+- extern nfs_mount  *auth_match_mount(nfs_client *, char *);
+-diff -urN nfs-server-2.2beta47/auth_clnt.c nfs-server-2.2beta51/auth_clnt.c
+---- nfs-server-2.2beta47/auth_clnt.c	Wed Nov 10 10:18:06 1999
+-+++ nfs-server-2.2beta51/auth_clnt.c	Fri Nov  8 14:45:36 2002
+-@@ -12,20 +12,17 @@
+-  */
+- 
+- 
+-+#include <sys/fsuid.h>
+- #include "system.h"
+- #include "nfsd.h"
+--#include "fakefsuid.h"
+--
+--#ifndef svc_getcaller
+--#define svc_getcaller(x) ((struct sockaddr_in *) &(x)->xp_rtaddr.buf)
+--#endif
+-+#include "rpcmisc.h"
+- 
+- 
+--#if defined(HAVE_SETFSUID) || defined(MAYBE_HAVE_SETFSUID)
+--static void setfsids(uid_t, gid_t, gid_t *, int);
+-+#if defined(HAVE_SETFSUID)
+-+static int	setfsids(uid_t, gid_t, gid_t *, int);
+- #endif
+- #ifndef HAVE_SETFSUID
+--static void seteids(uid_t, gid_t, gid_t *, int);
+-+static int	seteids(uid_t, gid_t, gid_t *, int);
+- #endif
+- 
+- uid_t		auth_uid = 0;		/* Current effective user ids */
+-@@ -43,6 +40,17 @@
+- 				short *gid, short *nrgids, int *groups);
+- #endif
+- 
+-+/*
+-+ * The following crap is required for glibc 2.1 which has 32bit uids
+-+ * in user land mapped to 16bit uids in the Linux kernel
+-+ */
+-+#if defined(HAVE_BROKEN_SETFSUID)
+-+# define	native_uid(u)	((unsigned short)(u))
+-+# define	native_gid(g)	((unsigned short)(g))
+-+#else
+-+# define	native_uid(u)	(u)
+-+# define	native_gid(g)	(g)
+-+#endif
+- 
+- /*
+-  * For an RPC request, look up the NFS client info along with the
+-@@ -92,8 +100,9 @@
+- 	}
+- 
+- 	if (logging_enabled(D_AUTH)) {
+--		Dprintf(D_AUTH, "auth_path(%s): mount point %s, (%s%s%s%s%s)\n",
+--			path, mp->path,
+-+		Dprintf(D_AUTH, "auth_path(%s, %s): "
+-+				"mount point %s, (%s%s%s%s%s)\n",
+-+			inet_ntoa(cp->clnt_addr), path, mp->path,
+- 			mp->o.all_squash? "all_squash " : (
+- 			 mp->o.root_squash? "root_squash " : ""),
+- 			(mp->o.uidmap == map_daemon)? "uidmap " : "",
+-@@ -105,7 +114,8 @@
+- 	return mp;
+- }
+- 
+--void auth_user(nfs_mount *mp, struct svc_req *rqstp)
+-+int
+-+auth_user(nfs_mount *mp, struct svc_req *rqstp)
+- {
+- 	uid_t		cuid;
+- 	gid_t		cgid;
+-@@ -160,23 +170,18 @@
+- 		else if (cred_len > NGRPS)
+- 			cred_len = NGRPS;
+- 
+--		cuid = luid(cred_uid, mp, rqstp);
+--		cgid = lgid(cred_gid, mp, rqstp);
+-+		cuid = luid(native_uid(cred_uid), mp, rqstp);
+-+		cgid = lgid(native_gid(cred_gid), mp, rqstp);
+- 		clen = cred_len;
+- 		for (i = 0; i < cred_len; i++)
+--			cgids[i] = lgid(cred_gids[i], mp, rqstp);
+-+			cgids[i] = lgid(native_gid(cred_gids[i]), mp, rqstp);
+- 	} else {
+- 		/* On systems that have 32bit uid_t in user space but
+- 		 * 16bit in the kernel, we need to truncate the
+- 		 * nobody ID (default -2).
+- 		 */
+--#if !defined(HAVE_BROKEN_SETFSUID)
+--		cuid = mp->o.nobody_uid;
+--		cgid = mp->o.nobody_gid;
+--#else
+--		cuid = (unsigned short) mp->o.nobody_uid;
+--		cgid = (unsigned short) mp->o.nobody_gid;
+--#endif
+-+		cuid = native_uid(mp->o.nobody_uid);
+-+		cgid = native_gid(mp->o.nobody_gid);
+- 		/* Construct a list of one gid. */
+- 		cgids[0] = cgid;
+- 		clen = 1;
+-@@ -193,14 +198,9 @@
+- 	 * upper 16 bits set (including our default nobody uid -2).
+- 	 */
+- #if defined(HAVE_SETFSUID)
+--	setfsids(cuid, cgid, cgids, clen);
+-+	return setfsids(cuid, cgid, cgids, clen);
+- #else
+--#if defined(MAYBE_HAVE_SETFSUID)
+--	if (have_setfsuid)
+--		setfsids(cuid, cgid, cgids, clen);
+--	else
+--#endif
+--		seteids(cuid, cgid, cgids, clen);
+-+	return seteids(cuid, cgid, cgids, clen);
+- #endif
+- }
+- 
+-@@ -210,6 +210,8 @@
+- void
+- auth_override_uid(uid_t uid)
+- {
+-+	int	res;
+-+
+- 	/* extension hooks: */
+- 	efs_setfsuid(uid);
+- 
+-@@ -217,19 +219,18 @@
+- 	uid = (unsigned short) uid;
+- #endif
+- #if defined(HAVE_SETFSUID)
+--	setfsuid(uid);
+-+	res = setfsuid(uid);
+- #else
+--#if defined(MAYBE_HAVE_SETFSUID)
+--	if (have_setfsuid)
+--		setfsuid(uid);
+--	else
+--#endif
+--		seteuid(uid);
+-+	res = seteuid(uid);
+- #endif
+-+	/* should never happen */
+-+	if (res < 0)
+-+		Dprintf(L_FATAL, "auth_override_uid(%d) failed: %s",
+-+				uid, strerror(errno));
+- }
+- 
+--#if defined(HAVE_SETFSUID) || defined(MAYBE_HAVE_SETFSUID)
+--static void
+-+#if defined(HAVE_SETFSUID)
+-+static int
+- setfsids(uid_t cred_uid, gid_t cred_gid, gid_t *cred_gids, int cred_len)
+- {
+- 	/* extension hooks: */
+-@@ -238,43 +239,47 @@
+- 
+- 	/* First, set the user ID. */
+- 	if (auth_uid != cred_uid) {
+--		if (setfsuid(cred_uid) < 0)
+-+		if (setfsuid(cred_uid) < 0) {
+- 			Dprintf(L_ERROR, "Unable to setfsuid %d: %s\n",
+- 			    cred_uid, strerror(errno));
+--		else
+--			auth_uid = cred_uid;
+-+			return 0;
+-+		}
+-+		auth_uid = cred_uid;
+- 	}
+- 
+- 	/* Next, the group ID. */
+- 	if (auth_gid != cred_gid) {
+--		if (setfsgid(cred_gid) < 0)
+-+		if (setfsgid(cred_gid) < 0) {
+- 			Dprintf(L_ERROR, "Unable to setfsgid %d: %s\n",
+- 			    cred_gid, strerror(errno));
+--		else
+--			auth_gid = cred_gid;
+-+			return 0;
+-+		}
+-+		auth_gid = cred_gid;
+- 	}
+- 
+- #ifdef HAVE_SETGROUPS
+- 	/* Finally, set the supplementary group IDs if possible. */
+--	if (cred_len < 0 || cred_len > NGRPS)
+-+	if (cred_len < 0 || cred_len > NGRPS) {
+- 		Dprintf(L_ERROR, "Negative or huge cred_len: %d\n", cred_len);
+--	else if (cred_len != auth_gidlen
+--	    || memcmp(cred_gids, auth_gids, auth_gidlen*sizeof(gid_t))) {
+--		if (setgroups(cred_len, cred_gids) < 0)
+-+		return 0;
+-+	}
+-+	if (cred_len != auth_gidlen
+-+	 || memcmp(cred_gids, auth_gids, auth_gidlen*sizeof(gid_t))) {
+-+		if (setgroups(cred_len, cred_gids) < 0) {
+- 			Dprintf(L_ERROR, "Unable to setgroups: %s\n",
+- 			    strerror(errno));
+--		else {
+--			memcpy(auth_gids, cred_gids, cred_len*sizeof(gid_t));
+--			auth_gidlen = cred_len;
+-+			return 0;
+- 		}
+-+		memcpy(auth_gids, cred_gids, cred_len*sizeof(gid_t));
+-+		auth_gidlen = cred_len;
+- 	}
+- #endif /* HAVE_SETGROUPS */
+--
+-+	return 1;
+- }
+- #endif
+- 
+- #if !defined(HAVE_SETFSUID)
+--static void
+-+static int
+- seteids(uid_t cred_uid, gid_t cred_gid, gid_t *cred_gids, int cred_len)
+- {
+- 	/* extension hooks: */
+-@@ -286,52 +291,62 @@
+- 	/* First set the group ID. */
+- 	if (auth_gid != cred_gid) {
+- 		if (auth_uid != ROOT_UID) {
+--			if (seteuid(ROOT_UID) < 0)
+-+			if (seteuid(ROOT_UID) < 0) {
+- 				Dprintf(L_ERROR, "Unable to seteuid(%d): %s\n",
+- 				    ROOT_UID, strerror(errno));
+--			else
+--				auth_uid = ROOT_UID;
+-+				return 0;
+-+			}
+-+			auth_uid = ROOT_UID;
+- 		}
+--		if (setegid(cred_gid) < 0)
+-+		if (setegid(cred_gid) < 0) {
+- 			Dprintf(L_ERROR, "Unable to setegid(%d): %s\n",
+- 			    cred_gid, strerror(errno));
+--		else
+--			auth_gid = cred_gid;
+-+			return 0;
+-+		}
+-+		auth_gid = cred_gid;
+- 	}
+- 
+- #ifdef HAVE_SETGROUPS
+- 	/* Next set the supplementary group IDs if possible. */
+--	if (cred_len < 0 || cred_len > NGRPS)
+-+	if (cred_len < 0 || cred_len > NGRPS) {
+- 		Dprintf(L_ERROR, "Negative or huge cred_len: %d\n", cred_len);
+--	else if (cred_len != auth_gidlen
+--	    || memcmp(cred_gids, auth_gids, auth_gidlen*sizeof(gid_t))) {
+-+		return 0;
+-+	}
+-+	if (cred_len != auth_gidlen
+-+	 || memcmp(cred_gids, auth_gids, auth_gidlen*sizeof(gid_t))) {
+- 		if (auth_uid != ROOT_UID) {
+--			if (seteuid(ROOT_UID) < 0)
+-+			if (seteuid(ROOT_UID) < 0) {
+- 				Dprintf(L_ERROR, "Unable to seteuid(%d): %s\n",
+- 				    ROOT_UID, strerror(errno));
+--			else
+--				auth_uid = ROOT_UID;
+-+				return 0;
+-+			}
+-+			auth_uid = ROOT_UID;
+- 		}
+--		if (setgroups(cred_len, cred_gids) < 0)
+-+		if (setgroups(cred_len, cred_gids) < 0) {
+- 			Dprintf(L_ERROR, "Unable to setgroups: %s\n",
+- 			    strerror(errno));
+--		else {
+--			memcpy(auth_gids, cred_gids, cred_len*sizeof(gid_t));
+--			auth_gidlen = cred_len;
+-+			return 0;
+- 		}
+-+		memcpy(auth_gids, cred_gids, cred_len*sizeof(gid_t));
+-+		auth_gidlen = cred_len;
+- 	}
+- #endif /* HAVE_SETGROUPS */
+- 
+- 	/* Finally, set the user ID. */
+- 	if (auth_uid != cred_uid) {
+--		if (auth_uid != ROOT_UID && seteuid(ROOT_UID) < 0)
+-+		if (auth_uid != ROOT_UID && seteuid(ROOT_UID) < 0) {
+- 			Dprintf(L_ERROR, "Unable to seteuid(%d): %s\n", 
+- 				ROOT_UID, strerror(errno));
+--		if (seteuid(cred_uid) < 0)
+-+			return 0;
+-+		}
+-+		if (seteuid(cred_uid) < 0) {
+- 			Dprintf(L_ERROR, "Unable to seteuid(%d): %s\n",
+- 			    cred_uid, strerror(errno));
+--		else
+--			auth_uid = cred_uid;
+-+			return 0;
+-+		}
+-+		auth_uid = cred_uid;
+- 	}
+-+
+-+	return 1;
+- }
+- #endif
+-diff -urN nfs-server-2.2beta47/auth_init.c nfs-server-2.2beta51/auth_init.c
+---- nfs-server-2.2beta47/auth_init.c	Mon Apr 19 14:01:21 1999
+-+++ nfs-server-2.2beta51/auth_init.c	Fri Nov  8 14:45:36 2002
+-@@ -13,7 +13,6 @@
+-  */
+- 
+- #include "nfsd.h"
+--#include "fakefsuid.h"
+- #include <pwd.h>
+- 
+- #define LINE_SIZE	1024
+-@@ -263,55 +262,63 @@
+- 		cp++;
+- 	while (*cp != terminator) {
+- 		kwd = cp;
+--		while (isalpha(*cp) || *cp == '_' || *cp == '=') {
+--			/* break out of loop after = sign */
+--			if (*cp++ == '=')
+--				break;
+--		}
+-+		/* Gobble up keyword and "=" if there is one */
+-+		while (isalpha(*cp) || *cp == '_')
+-+			++cp;
+-+		if (*cp == '=')
+-+			++cp;
+-+
+- 		klen = cp - kwd;
+- 
+- 		/* process keyword */
+--		if (strncmp(kwd, "secure", 6) == 0)
+-+#define ifkwd(n, string) \
+-+	if (klen == (n) && !strncmp(kwd, string, (n)))
+-+
+-+		ifkwd(2, "ro")
+-+			mp->o.read_only = 1;
+-+		else ifkwd(2, "rw")
+-+			mp->o.read_only = 0;
+-+		else ifkwd(6, "secure")
+- 			mp->o.secure_port = 1;
+--		else if (strncmp(kwd, "insecure", 8) == 0)
+-+		else ifkwd(8, "insecure")
+- 			mp->o.secure_port = 0;
+--		else if (strncmp(kwd, "root_squash", 11) == 0)
+-+		else ifkwd(11, "root_squash")
+- 			mp->o.root_squash = 1;
+--		else if (strncmp(kwd, "no_root_squash", 14) == 0)
+-+		else ifkwd(14, "no_root_squash")
+- 			mp->o.root_squash = 0;
+--		else if (strncmp(kwd, "ro", 2) == 0)
+--			mp->o.read_only = 1;
+--		else if (strncmp(kwd, "rw", 2) == 0)
+--			mp->o.read_only = 0;
+--		else if (strncmp(kwd, "link_relative", 13) == 0)
+-+		else ifkwd(13, "link_relative")
+- 			mp->o.link_relative = 1;
+--		else if (strncmp(kwd, "link_absolute", 13) == 0)
+-+		else ifkwd(13, "link_absolute")
+- 			mp->o.link_relative = 0;
+--		else if (strncmp(kwd, "map_daemon", 10) == 0)
+-+		else ifkwd(10, "map_daemon")
+- 			mp->o.uidmap = map_daemon;
+--		else if (strncmp(kwd, "map_nis=", 8) == 0)
+-+		else ifkwd(8, "map_nis=")
+- 			parse_nis_uidmap(mp, &cp);
+--		else if (strncmp(kwd, "map_static=", 11) == 0)
+-+		else ifkwd(11, "map_static=")
+- 			parse_static_uidmap(mp, &cp);
+--		else if (strncmp(kwd, "map_identity", 12) == 0)
+-+		else ifkwd(12, "map_identity")
+- 			mp->o.uidmap = identity;
+--		else if (strncmp(kwd, "all_squash", 10) == 0)
+-+		else ifkwd(10, "all_squash")
+- 			mp->o.all_squash = 1;
+--		else if (strncmp(kwd, "no_all_squash", 13) == 0)
+-+		else ifkwd(13, "no_all_squash")
+- 			mp->o.all_squash = 0;
+--		else if (strncmp(kwd, "noaccess", 8) == 0)
+-+		else ifkwd(8, "noaccess")
+- 			mp->o.noaccess = 1;
+--		else if (strncmp(kwd, "squash_uids=", 12) == 0)
+-+		else ifkwd(12, "squash_uids=")
+- 			parse_squash(mp, 1, &cp);
+--		else if (strncmp(kwd, "squash_gids=", 12) == 0)
+-+		else ifkwd(12, "squash_gids=")
+- 			parse_squash(mp, 0, &cp);
+--		else if (strncmp(kwd, "anonuid=", 8) == 0)
+-+		else ifkwd(8, "anonuid=")
+- 			mp->o.nobody_uid = parse_num(&cp);
+--		else if (strncmp(kwd, "anongid=", 8) == 0)
+-+		else ifkwd(8, "anongid=")
+- 			mp->o.nobody_gid = parse_num(&cp);
+--		else if (strncmp(kwd, "async", 5) == 0)
+-+		else ifkwd(6, "setuid")
+-+			mp->o.allow_setuid = 1;
+-+		else ifkwd(8, "nosetuid")
+-+			mp->o.allow_setuid = 0;
+-+		else ifkwd(5, "async")
+- 			/* knfsd compatibility, ignore */;
+--		else if (strncmp(kwd, "sync", 4) == 0)
+-+		else ifkwd(4, "sync")
+- 			/* knfsd compatibility, ignore */;
+- 		else {
+- 			Dprintf(L_ERROR,
+-@@ -566,11 +573,6 @@
+- 	auth_check_all_wildcards();
+- 	auth_sort_all_mountlists();
+- 	auth_log_all();
+--
+--#if defined(MAYBE_HAVE_SETFSUID) && !defined(HAVE_SETFSUID)
+--	/* check if the a.out setfsuid syscall works on this machine */
+--	have_setfsuid = (setfsuid(0) >= 0);
+--#endif
+- 
+- 	auth_initialized = 1;
+- }
+-diff -urN nfs-server-2.2beta47/config.h.in nfs-server-2.2beta51/config.h.in
+---- nfs-server-2.2beta47/config.h.in	Fri Jun 11 12:01:22 1999
+-+++ nfs-server-2.2beta51/config.h.in	Fri Nov  8 14:45:36 2002
+-@@ -3,7 +3,7 @@
+- /* Define if on AIX 3.
+-    System headers sometimes define this.
+-    We just want to avoid a redefinition error message.  */
+--#ifndef _ALL_SOURCE
+-+#ifdef _ALL_SOURCE
+- #undef _ALL_SOURCE
+- #endif
+- 
+-diff -urN nfs-server-2.2beta47/configure.in nfs-server-2.2beta51/configure.in
+---- nfs-server-2.2beta47/configure.in	Fri Jun 11 11:58:10 1999
+-+++ nfs-server-2.2beta51/configure.in	Fri Nov  8 14:45:36 2002
+-@@ -2,7 +2,36 @@
+- dnl Updated for autoconf 2.
+- dnl
+- AC_INIT(nfsd.c)
+--AC_CONFIG_HEADER(config.h)
+-+AC_CONFIG_HEADER(config.h site.h)
+-+
+-+dnl **************************************************************
+-+dnl * handle --enable options
+-+dnl **************************************************************
+-+AC_ARG_ENABLE(new-inodes,
+-+   [  --enable-new-inodes     Enable new-style inode inodes])
+-+AC_ARG_WITH(devtab,
+-+   [  --with-devtab=file      Specify location for devtab [/var/lib/nfs/devtab]],
+-+   PATH_DEVTAB=$withval,
+-+   PATH_DEVTAB=/var/lib/nfs/devtab)
+-+AC_ARG_ENABLE(ugid-dynamic,
+-+   [  --enable-ugid-dynamic   Enable uid mapping using rpc.ugidd (not recommended)])
+-+AC_ARG_ENABLE(ugid-nis,
+-+   [  --enable-ugid-nis       Enable NIS-based uid mapping])
+-+AC_ARG_ENABLE(host-access,
+-+   [  --enable-host-access    Enable host access checking])
+-+AC_ARG_ENABLE(mount-logging,
+-+   [  --disable-mount-logging Do not log mount operations to syslog],,
+-+   enable_mount_logging=yes)
+-+AC_ARG_WITH(exports-uid,
+-+   [  --with-exports-uid=N    Make sure that /etc/exports is owned by uid N],,
+-+   with_exports_uid=0)
+-+AC_ARG_WITH(exports-gid,
+-+   [  --with-exports-gid=N    Make sure that /etc/exports is owned by gid N],,
+-+   with_exports_gid=0)
+-+
+-+dnl **************************************************************
+-+dnl * Check for all kinds of stuff
+-+dnl **************************************************************
+- AC_PROG_CC
+- # If we're using gcc, we want warning flags
+- test -n "$GCC" &&
+-@@ -19,7 +48,7 @@
+- AC_MINIX
+- AC_ISC_POSIX
+- AC_PROG_INSTALL
+--AC_CROSS_CHECK
+-+dnl AC_CROSS_CHECK
+- AC_STDC_HEADERS
+- AC_GNULIBC
+- AC_CONST
+-@@ -52,14 +81,45 @@
+- AC_CHECK_LIB(rpc, main)
+- AC_CHECK_LIB(crypt, main)
+- AC_CHECK_LIB(nys, main)
+--AC_REPLACE_FUNCS(strerror realpath mkdir rename utimes strdup strstr getopt getopt_long)
+- AC_HAVE_FUNCS(getcwd seteuid setreuid getdtablesize setgroups lchown setsid setfsuid setfsgid innetgr quotactl authdes_getucred)
+- AC_AUTHDES_GETUCRED
+- AC_BROKEN_SETFSUID
+- AC_MOUNTLIST
+- AC_FSUSAGE
+-+AC_CHECK_LIB(wrap, main)
+- AC_LIBWRAP_BUG
+- AC_BSD_SIGNALS
+-+
+-+dnl **************************************************************
+-+dnl * Munge user specified options
+-+dnl **************************************************************
+-+if test "$enable_new_inodes" = yes; then
+-+	AC_DEFINE(ENABLE_DEVTAB)
+-+fi
+-+if test "$enable_ugid_dynamic" = yes; then
+-+	AC_DEFINE(ENABLE_UGID_DAEMON)
+-+	UGIDD_PROG=\${rpcprefix}.ugidd
+-+	UGIDD_MAN=ugidd
+-+fi
+-+if test "$enable_ugid_nis" = yes; then
+-+	AC_DEFINE(ENABLE_UGID_NIS)
+-+fi
+-+if test "$enable_host_access" = yes; then
+-+	AC_DEFINE(HOSTS_ACCESS)
+-+fi
+-+if test "$enable_mount_logging" = yes; then
+-+	AC_DEFINE(WANT_LOG_MOUNTS)
+-+fi
+-+AC_DEFINE_UNQUOTED(EXPORTSOWNERUID, $with_exports_uid)
+-+AC_DEFINE_UNQUOTED(EXPORTSOWNERGID, $with_exports_gid)
+-+AC_SUBST(PATH_DEVTAB)
+-+AC_SUBST(UGIDD_PROG)
+-+AC_SUBST(UGIDD_MAN)
+-+
+-+dnl **************************************************************
+-+dnl * Output CFLAGS and LDFLAGS
+-+dnl **************************************************************
+- AC_SUBST(LDFLAGS)
+- AC_SUBST(CFLAGS)
+-+
+- AC_OUTPUT(Makefile)
+-diff -urN nfs-server-2.2beta47/daemon.c nfs-server-2.2beta51/daemon.c
+---- nfs-server-2.2beta47/daemon.c	Thu Jan  1 01:00:00 1970
+-+++ nfs-server-2.2beta51/daemon.c	Fri Nov  8 14:45:52 2002
+-@@ -0,0 +1,270 @@
+-+/*
+-+ * daemon.c
+-+ *
+-+ * Copyright (C) 1998, <okir@monad.swb.de>
+-+ *
+-+ * Implements common daemon stuff and
+-+ * fail-safe mode for nfsd/mountd.
+-+ */
+-+
+-+#include "system.h"
+-+#include "logging.h"
+-+#include "signals.h"
+-+#include <sys/wait.h>
+-+
+-+static const char *	pidfilename = 0;
+-+static const char *	get_signame(int signo);
+-+
+-+/*
+-+ * Do the Crawley Thing
+-+ */
+-+void
+-+daemonize(void)
+-+{
+-+	int	c;
+-+
+-+	/* Ignore SIGHUP so the parent can exit while we're still
+-+	 * in limbo */
+-+	ignore_signal(SIGHUP);
+-+
+-+	/* Now fork */
+-+	c = fork();
+-+	if (c < 0)
+-+		Dprintf(L_FATAL, "unable to fork: %s", strerror(errno));
+-+
+-+	/* Parent process: exit */
+-+	if (c > 0)
+-+		exit(0);
+-+
+-+	/* Do the session stuff */
+-+	close(0);
+-+	close(1);
+-+	close(2);
+-+#ifdef HAVE_SETSID
+-+	setsid();
+-+#else
+-+	if ((c = open("/dev/tty", O_RDWR)) >= 0) {
+-+		ioctl(c, TIOCNOTTY, (char *) NULL);
+-+		close(c);
+-+	}
+-+#endif
+-+
+-+	/* Stop stderr logging */
+-+	background_logging();
+-+}
+-+
+-+void
+-+setpidpath(const char *filename)
+-+{
+-+	pidfilename = filename;
+-+}
+-+
+-+void
+-+writepid(pid_t pid, int clear)
+-+{
+-+	FILE	*fp;
+-+
+-+	fp = fopen(pidfilename, clear? "w" : "a");
+-+	if (fp == NULL)
+-+		Dprintf(L_FATAL, "Unable to open %s: %m", pidfilename);
+-+	fprintf(fp, "%d\n", pid);
+-+	fclose(fp);
+-+	return;
+-+}
+-+
+-+void
+-+failsafe(int level, int ncopies)
+-+{
+-+	int	*servers, running, child, i;
+-+	int	pid, signo, status;
+-+	time_t	last_restart = 0, now;
+-+	int	restarts = 0, backoff = 60;
+-+
+-+	servers = (int *) xmalloc(ncopies * sizeof(int));
+-+	memset(servers, 0, ncopies * sizeof(int));
+-+
+-+	/* Loop forever, until we get SIGTERM */
+-+	running = 0;
+-+	while (1) {
+-+		/* Rewrite the pidfile */
+-+		writepid(getpid(), 1);
+-+		for (i = 0; i < ncopies; i++) {
+-+			if (servers[i] != 0)
+-+				writepid(servers[i], 0);
+-+		}
+-+
+-+		while (running < ncopies) {
+-+			if ((now = time(NULL)) == last_restart) {
+-+				if (++restarts > 2 * ncopies) {
+-+					Dprintf(L_ERROR,
+-+						"Servers restarting too "
+-+						"quickly, backing off.");
+-+					if (backoff < 60 * 60)
+-+						backoff <<= 1;
+-+					sleep(backoff);
+-+				}
+-+			} else {
+-+				last_restart = now;
+-+				restarts = 0;
+-+				backoff = 60;
+-+			}
+-+
+-+			/* Locate a free pid slot */
+-+			for (i = 0, child = -1; i < ncopies; i++) {
+-+				if (servers[i] == 0) {
+-+					child = i;
+-+					break;
+-+				}
+-+			}
+-+
+-+			if (child < 0)
+-+				Dprintf(L_FATAL, "failsafe: no pid slot?!");
+-+
+-+			Dprintf(D_GENERAL,
+-+				"starting server thread %d...\n", child + 1);
+-+
+-+			pid = fork();
+-+			if (pid < 0)
+-+				Dprintf(L_FATAL,
+-+					"Unable to fork for failsafe: %s",
+-+					strerror(errno));
+-+
+-+			if (pid == 0) {
+-+				/* Child process: continue with execution. */
+-+				return;
+-+			}
+-+
+-+			writepid(pid, 0);
+-+			servers[child] = pid;
+-+			running++;
+-+		}
+-+
+-+		/* Ignore some signals */
+-+		ignore_signal(SIGTERM);
+-+		ignore_signal(SIGHUP);
+-+		ignore_signal(SIGINT);
+-+		ignore_signal(SIGCHLD);
+-+
+-+		if ((pid = wait(&status)) < 0) {
+-+			Dprintf((errno == ECHILD)? L_FATAL : L_WARNING,
+-+				"failsafe: wait(): %s", strerror(errno));
+-+			continue;
+-+		}
+-+
+-+		/* Locate the child */
+-+		for (i = 0, child = -1; i < ncopies; i++) {
+-+			if (servers[i] == pid) {
+-+				child = i;
+-+				break;
+-+			}
+-+		}
+-+
+-+		if (child < 0) {
+-+			Dprintf(L_WARNING,
+-+				"failsafe: unknown child (pid %d) terminated",
+-+				pid);
+-+			continue;
+-+		}
+-+
+-+		/* Book-keeping */
+-+		servers[child] = 0;
+-+		running--;
+-+
+-+		if (WIFSIGNALED(status)) {
+-+			signo = WTERMSIG(status);
+-+			if (signo == SIGTERM) {
+-+				Dprintf(L_NOTICE, "failsafe: "
+-+					"child %d terminated by SIGTERM. %s.",
+-+					pid, running? "Continue" : "Exit");
+-+			} else {
+-+				Dprintf(L_WARNING, "failsafe: "
+-+					"child %d terminated by %s. "
+-+					"Restarting.",
+-+					pid, get_signame(signo));
+-+				child = -1; /* Restart */
+-+			}
+-+		} else if (WIFEXITED(status)) {
+-+			Dprintf(L_NOTICE, "failsafe: "
+-+				"child %d exited, status %d.",
+-+				pid, WEXITSTATUS(status));
+-+		} else {
+-+			Dprintf(L_ERROR, "failsafe: "
+-+				"abnormal child termination, "
+-+				"pid=%d status=%d. Restarting.",
+-+				pid, status);
+-+			child = -1; /* Restart */
+-+		}
+-+
+-+		/* If child >= 0, we should not restart */
+-+		if (child >= 0) {
+-+			if (!running) {
+-+				Dprintf(D_GENERAL,
+-+					"No more children, exiting.");
+-+				exit(0);
+-+			}
+-+			for (i = child; i < ncopies-1; i++)
+-+				servers[i] = servers[i+1];
+-+			ncopies--; /* Make sure we start no new servers */
+-+		}
+-+	}
+-+}
+-+
+-+/*
+-+ * Failsafe session, catch core file.
+-+ *
+-+ * Not yet implemented.
+-+ * General outline: we need to fork first, because nfsd changes
+-+ * uids frequently, and the kernel won't write out a core file after
+-+ * that. The forked proc starts out with a clean dumpable flag though.
+-+ *
+-+ * After the fork, we might want to make sure we end up in some common
+-+ * directory that the failsafe loop knows about.
+-+ */
+-+void
+-+failsafe_loop(int level, void (*function)(void))
+-+{
+-+	/* NOP */
+-+}
+-+
+-+static const char *
+-+get_signame(int signo)
+-+{
+-+	static char	namebuf[30];
+-+
+-+	switch (signo) {
+-+	case SIGHUP:	return "SIGHUP";
+-+	case SIGINT:	return "SIGINT";
+-+	case SIGQUIT:	return "SIGQUIT";
+-+	case SIGILL:	return "SIGILL";
+-+	case SIGTRAP:	return "SIGTRAP";
+-+	case SIGIOT:	return "SIGIOT";
+-+	case SIGBUS:	return "SIGBUS";
+-+	case SIGFPE:	return "SIGFPE";
+-+	case SIGKILL:	return "SIGKILL";
+-+	case SIGUSR1:	return "SIGUSR1";
+-+	case SIGSEGV:	return "SIGSEGV";
+-+	case SIGUSR2:	return "SIGUSR2";
+-+	case SIGPIPE:	return "SIGPIPE";
+-+	case SIGALRM:	return "SIGALRM";
+-+	case SIGTERM:	return "SIGTERM";
+-+	case SIGCHLD:	return "SIGCHLD";
+-+	case SIGCONT:	return "SIGCONT";
+-+	case SIGSTOP:	return "SIGSTOP";
+-+	case SIGTSTP:	return "SIGTSTP";
+-+	case SIGTTIN:	return "SIGTTIN";
+-+	case SIGTTOU:	return "SIGTTOU";
+-+	case SIGURG:	return "SIGURG";
+-+	case SIGXCPU:	return "SIGXCPU";
+-+	case SIGXFSZ:	return "SIGXFSZ";
+-+	case SIGVTALRM:	return "SIGVTALRM";
+-+	case SIGPROF:	return "SIGPROF";
+-+	case SIGWINCH:	return "SIGWINCH";
+-+	case SIGIO:	return "SIGIO";
+-+#ifdef SIGPWR
+-+	case SIGPWR:	return "SIGPWR";
+-+#endif
+-+	}
+-+
+-+	sprintf(namebuf, "signal #%d", signo);
+-+	return namebuf;
+-+}
+-diff -urN nfs-server-2.2beta47/daemon.h nfs-server-2.2beta51/daemon.h
+---- nfs-server-2.2beta47/daemon.h	Thu Jan  1 01:00:00 1970
+-+++ nfs-server-2.2beta51/daemon.h	Fri Nov  8 14:45:52 2002
+-@@ -0,0 +1,18 @@
+-+/*
+-+ * daemon.h
+-+ *
+-+ * Daemon support
+-+ */
+-+
+-+#ifndef CRAWLEY_H
+-+#define CRAWLEY_H
+-+
+-+#define _PATH_NFSD_PIDFILE	"/var/run/nfsd.pid"
+-+#define _PATH_MOUNTD_PIDFILE	"/var/run/mountd.pid"
+-+
+-+extern void	daemonize(void);
+-+extern void	setpidpath(const char *);
+-+extern void	writepid(pid_t, int);
+-+extern void	failsafe(int level, int ncopies);
+-+
+-+#endif /* CRAWLEY_H */
+-diff -urN nfs-server-2.2beta47/exports.man nfs-server-2.2beta51/exports.man
+---- nfs-server-2.2beta47/exports.man	Wed Nov 10 10:18:49 1999
+-+++ nfs-server-2.2beta51/exports.man	Fri Nov  8 14:45:36 2002
+-@@ -45,6 +45,12 @@
+- simultaneously. This is done by specifying an IP address and netmask pair
+- as
+- .IR address/netmask .
+-+.IP "world
+-+You can export a directory to the world (i.e. to all computers that
+-+are able to reach your NFS server network-wise) by using the empty
+-+hostname. When exporting to the world, the
+-+.BR root_squash ", " all_squash ", " ro " and " nosetuid
+-+options are turned on by default.
+- .TP
+- .B =public
+- This is a special ``hostname'' that identifies the given directory name
+-@@ -81,6 +87,12 @@
+- by using the
+- .IR ro " option.
+- .TP
+-+.I setuid
+-+This allows clients to assert the setuid and setgid bits on regular
+-+files. For non-anonymous exports, this option is on by default.
+-+For anonymous exports, the default is
+-+.IR nosetuid .
+-+.TP
+- .I noaccess
+- This makes everything below the directory inaccessible for the named
+- client.  This is useful when you want to export a directory hierarchy to
+-@@ -296,6 +308,22 @@
+- .I /usr/X11R6 
+- entry apply. This is also true when the latter is a wildcard or netgroup
+- entry.
+-+.PP
+-+You should also be careful about where you place spaces in the
+-+exports file. For instance, the following may appear as if you've
+-+exported
+-+.BR /pub " readonly to host " foozle ,
+-+but what this does in fact is export the directory to
+-+.B foozle
+-+with the default options,
+-+.I and
+-+export it to the world with the readonly option:
+-+.PP
+-+.nf
+-+.ta +3i
+-+# bad: export to the world
+-+/pub            foozle (ro)
+-+.fi
+- .SH FILES
+- /etc/exports
+- .SH DIAGNOSTICS
+-diff -urN nfs-server-2.2beta47/fh.c nfs-server-2.2beta51/fh.c
+---- nfs-server-2.2beta47/fh.c	Wed Nov 10 10:41:14 1999
+-+++ nfs-server-2.2beta51/fh.c	Fri Nov  8 14:45:36 2002
+-@@ -95,17 +95,14 @@
+- static int			fh_list_size;
+- static time_t			curtime;
+- 
+--#ifndef FOPEN_MAX
+--#define FOPEN_MAX		256
+--#endif
+--
+- #ifndef FHTRACE
+- #undef	D_FHTRACE
+- #define D_FHTRACE		D_FHCACHE
+- #endif
+- 
+--static fhcache *		fd_cache[FOPEN_MAX] = { NULL };
+-+static fhcache **		fd_cache = NULL;
+- static int			fd_cache_size = 0;
+-+static int			fd_cache_max = 0;
+- 
+- #ifndef NFSERR_INVAL			/* that Sun forgot */
+- #define NFSERR_INVAL	22
+-@@ -141,10 +138,13 @@
+- 
+- /* Forward declared local functions */
+- static psi_t	path_psi(char *, nfsstat *, struct stat *, int);
+-+static psi_t	path_psi_m(char *, nfsstat *, struct stat *,
+-+					      struct stat *, int);
+- static int	fh_flush_fds(void);
+- static char *	fh_dump(svc_fh *);
+- static void	fh_insert_fdcache(fhcache *fhc);
+- static void	fh_unlink_fdcache(fhcache *fhc);
+-+static void	fh_complain(const char *msg, fhcache *fhc);
+- 
+- static void
+- fh_move_to_front(fhcache *fhc)
+-@@ -192,6 +192,13 @@
+- static void
+- fh_insert_fdcache(fhcache *fhc)
+- {
+-+#ifdef FHTRACE
+-+	Dprintf(D_FHTRACE, "insert fh %x into fdcache @%d\n", fhc->h.psi, fhc->fd);
+-+	if (fhc->fd < 0) {
+-+		fh_complain("fd cache bug: bad fd", fhc);
+-+		return;
+-+	}
+-+#endif
+- 	if (fhc == fd_lru_head)
+- 		return;
+- 	if (fhc->fd_next || fhc->fd_prev)
+-@@ -203,9 +210,20 @@
+- 	fhc->fd_next = fd_lru_head;
+- 	fd_lru_head = fhc;
+- 
+-+	if (fhc->fd >= fd_cache_max) {
+-+		int	oldmax = fd_cache_max, newmax;
+-+
+-+		newmax = (fhc->fd + 8) & ~7;
+-+		fd_cache = (fhcache **) xrealloc(fd_cache, newmax * sizeof(fhcache *));
+-+		memset(fd_cache + oldmax, 0, (newmax - oldmax) * sizeof(fhcache *));
+-+		fd_cache_max = newmax;
+-+	}
+-+
+- #ifdef FHTRACE
+- 	if (fd_cache[fhc->fd] != NULL) {
+--		Dprintf(L_ERROR, "fd cache inconsistency!\n");
+-+		Dprintf(L_ERROR, "fd cache inconsistency (two fh's for same fd)");
+-+		fh_complain("new fh", fhc);
+-+		fh_complain("old fh", fd_cache[fhc->fd]);
+- 		return;
+- 	}
+- #endif
+-@@ -225,7 +243,7 @@
+- 	} else if (fd_lru_tail == fhc) {
+- 		fd_lru_tail = prev;
+- 	} else {
+--		Dprintf(L_ERROR, "fd cache inconsistency\n");
+-+		fh_complain("fd cache inconsistency (no next and not at tail)", fhc);
+- 		return;
+- 	}
+- 	if (prev) {
+-@@ -233,13 +251,13 @@
+- 	} else if (fd_lru_head == fhc) {
+- 		fd_lru_head = next;
+- 	} else {
+--		Dprintf(L_ERROR, "fd cache inconsistency\n");
+-+		fh_complain("fd cache inconsistency (no prev and not at head)", fhc);
+- 		return;
+- 	}
+- 
+- #ifdef FHTRACE
+- 	if (fd_cache[fhc->fd] != fhc) {
+--		Dprintf(L_ERROR, "fd cache inconsistency!\n");
+-+		fh_complain("fd cache inconsistency (fd cache ptr mismatch)", fhc);
+- 		return;
+- 	}
+- #endif
+-@@ -285,7 +303,7 @@
+- 		hash_slot = &((*hash_slot)->hash_next);
+- 	if (*hash_slot == NULL)
+- 		Dprintf(L_ERROR,
+--			"internal inconsistency -- fhc(%x) not in hash table\n",
+-+			"internal inconsistency -- fhc(%x) not in hash table!\n",
+- 			fhc);
+- 	else
+- 		*hash_slot = fhc->hash_next;
+-@@ -572,7 +590,7 @@
+- 				efs_seekdir(dir, cookie_stack[i]);
+- 			while ((dp = efs_readdir(dir))) {
+- 				char	*name = dp->d_name;
+--				int	n = strlen(name);
+-+				int	n = strlen(name); /* or: dp->d_reclen */
+- 
+- 				if (pathlen + n + 1 >= NFS_MAXPATHLEN
+- 				 || (name[0] == '.'
+-@@ -738,7 +756,16 @@
+- static psi_t
+- path_psi(char *path, nfsstat *status, struct stat *sbp, int svalid)
+- {
+--	struct stat sbuf;
+-+	struct stat smounted;
+-+
+-+	return path_psi_m(path, status, sbp, &smounted, svalid);
+-+}
+-+
+-+static psi_t
+-+path_psi_m(char *path, nfsstat *status,
+-+		struct stat *sbp, struct stat *mbp, int svalid)
+-+{
+-+	struct stat sbuf, ddbuf;
+- 
+- 	if (sbp == NULL)
+- 		sbp = &sbuf;
+-@@ -746,10 +773,10 @@
+- 		*status = nfs_errno();
+- 		return (0);
+- 	}
+-+	*mbp = *sbp;
+- 	if (S_ISDIR(sbp->st_mode) && strcmp(path, "/") != 0) {
+- 		/* Special case for directories--test for mount point. */
+--		struct stat ddbuf;
+--		char *fname;
+-+		char	*fname;
+- 
+- 		/* Find start of last component of path. */
+- #if 1
+-@@ -819,6 +846,19 @@
+- 	return (pseudo_inode(sbp->st_ino, sbp->st_dev));
+- }
+- 
+-+/*
+-+ * Match attributes to make sure we're still referring to the original file
+-+ */
+-+static inline int
+-+fh_attrmatch(struct fhcache *fhc, struct stat *attr)
+-+{
+-+	if (fhc->dev == attr->st_dev
+-+	 && fhc->ino == attr->st_ino
+-+	 && fhc->type == (attr->st_mode & S_IFMT))
+-+		return 1;
+-+	return 0;
+-+}
+-+
+- fhcache *
+- fh_find(svc_fh *h, int mode)
+- {
+-@@ -838,6 +878,9 @@
+- 	ex_state = active;
+- 	time(&curtime);
+- 	while ((fhc = fh_lookup(h->psi)) != NULL) {
+-+		struct stat	sbuf, *s = NULL;
+-+		nfsstat		dummy;
+-+
+- 		Dprintf(D_FHCACHE, "fh_find: psi=%lx... found '%s', fd=%d\n",
+- 			(unsigned long) h->psi,
+- 			fhc->path ? fhc->path : "<unnamed>",
+-@@ -857,33 +900,27 @@
+- 		 * If it doesn't try to rebuild the path.
+- 		 */
+- 		if (check) {
+--			struct stat	*s = &fhc->attrs;
+--			psi_t		psi;
+--			nfsstat		dummy;
+--
+-+			s = &sbuf;
+- 			if (efs_lstat(fhc->path, s) < 0) {
+- 				Dprintf(D_FHTRACE,
+- 					"fh_find: stale fh: lstat: %m\n");
+- 			} else {
+--				fhc->flags |= FHC_ATTRVALID;
+--				/* If pseudo-inos don't match, we fhc->path
+--				 * may be a mount point (hence lstat() returns
+-+				/* If device/ino don't match, fhc->path may
+-+				 * be a mount point (hence lstat() returns
+- 				 * a different inode number than the readdir()
+- 				 * stuff used in path_psi)
+- 				 */
+--				psi = pseudo_inode(s->st_ino, s->st_dev);
+--				if (h->psi == psi)
+-+				if (fh_attrmatch(fhc, s))
+- 					goto fh_return;
+- 
+--				/* Try again by computing the path psi */
+--				psi = path_psi(fhc->path, &dummy, s, 1);
+--				if (h->psi == psi)
+-+				/* Get the dev/ino of the underlying
+-+				 * mount point. */
+-+				path_psi(fhc->path, &dummy, s, 1);
+-+				if (fh_attrmatch(fhc, s))
+- 					goto fh_return;
+- 
+--				Dprintf(D_FHTRACE, "fh_find: stale fh: "
+--					"dev/ino %x/%lx psi %lx",
+--					s->st_dev, s->st_ino,
+--					(unsigned long) psi);
+-+				Dprintf(D_FHTRACE, "fh_find: stale fh: %lx",
+-+					(unsigned long) h->psi);
+- 			}
+- 
+- 		fh_discard:
+-@@ -896,6 +933,12 @@
+- 		}
+- 
+- 	fh_return:
+-+		/* Valid attributes; cache them */
+-+		if (s != NULL) {
+-+			memcpy(&fhc->attrs, s, sizeof(*s));
+-+			fhc->flags |= FHC_ATTRVALID;
+-+		}
+-+
+- 		/* The cached fh seems valid */
+- 		if (fhc != fh_head.next)
+- 			fh_move_to_front(fhc);
+-@@ -905,7 +948,8 @@
+- 	}
+- 
+- 	Dprintf(D_FHCACHE, "fh_find: psi=%lx... not found\n",
+--		(unsigned long) h->psi);
+-+			(unsigned long) h->psi);
+-+
+- 	if (mode == FHFIND_FCACHED) {
+- 		ex_state = inactive;
+- 		return NULL;
+-@@ -918,6 +962,7 @@
+- 		fhc = flush->prev;
+- 		fh_delete(flush);
+- 	}
+-+
+- 	fhc = (fhcache *) xmalloc(sizeof *fhc);
+- 	if (mode == FHFIND_FCREATE) {
+- 		/* File will be created */
+-@@ -937,11 +982,31 @@
+- 		}
+- 		fhc->path = path;
+- 	}
+-+
+- 	fhc->flags = 0;
+- 	if (fhc->path && efs_lstat(fhc->path, &fhc->attrs) >= 0) {
+--		if (re_export && nfsmounted(fhc->path, &fhc->attrs))
+-+		if (nfsmounted(fhc->path, &fhc->attrs)) {
+- 			fhc->flags |= FHC_NFSMOUNTED;
+-+#if 0
+-+			/* We must allow the client to send us the
+-+			 * file handle for the NFS mount point itself,
+-+			 * but not for entries within an NFS mount.
+-+			 * XXX: needs fixing.
+-+			 */
+-+			if (!re_export) {
+-+				Dprintf(D_FHTRACE,
+-+					"Attempt to use %s (non-exportable)\n",
+-+					fhc->path);
+-+				free(fhc);
+-+				ex_state = inactive;
+-+				return NULL;
+-+			}
+-+#endif
+-+		}
+- 		fhc->flags |= FHC_ATTRVALID;
+-+		fhc->dev   = fhc->attrs.st_dev;
+-+		fhc->ino   = fhc->attrs.st_ino;
+-+		fhc->type  = fhc->attrs.st_mode & S_IFMT;
+- 	}
+- 	fhc->fd = -1;
+- 	fhc->last_used = curtime;
+-@@ -993,6 +1058,14 @@
+- 	return buf;
+- }
+- 
+-+static void
+-+fh_complain(const char *msg, fhcache *fhc)
+-+{
+-+	Dprintf(L_ERROR, "%s: ptr=%p fd=%d path=%s\n", msg,
+-+			fhc, fhc->fd,
+-+			fhc->path? fhc->path : "<unnamed>");
+-+}
+-+
+- /*
+-  * This routine is only used by the mount daemon.
+-  * It creates the initial file handle.
+-@@ -1000,23 +1073,25 @@
+- int
+- fh_create(nfs_fh *fh, char *path)
+- {
+--	svc_fh	key;
+--	fhcache	*h;
+--	psi_t	psi;
+--	nfsstat	status;
+--	char	*s;
+-+	struct stat	stb;
+-+	svc_fh		key;
+-+	fhcache		*h;
+-+	psi_t		psi;
+-+	nfsstat		status;
+-+	char		*s;
+- 
+- 	memset(&key, 0, sizeof(key));
+- 	status = NFS_OK;
+--	if ((psi = path_psi("/", &status, NULL, 0)) == 0)
+-+	if ((psi = path_psi("/", &status, &stb, 0)) == 0)
+- 		return ((int) status);
+-+
+- 	s = path;
+- 	while ((s = strchr(s + 1, '/')) != NULL) {
+- 		if (++(key.hash_path[0]) >= HP_LEN)
+- 			return ((int) NFSERR_NAMETOOLONG);
+- 		key.hash_path[key.hash_path[0]] = hash_psi(psi);
+- 		*s = '\0';
+--		if ((psi = path_psi(path, &status, NULL, 0)) == 0)
+-+		if ((psi = path_psi(path, &status, &stb, 0)) == 0)
+- 			return ((int) status);
+- 		*s = '/';
+- 	}
+-@@ -1024,7 +1099,7 @@
+- 		if (++(key.hash_path[0]) >= HP_LEN)
+- 			return ((int) NFSERR_NAMETOOLONG);
+- 		key.hash_path[key.hash_path[0]] = hash_psi(psi);
+--		if ((psi = path_psi(path, &status, NULL, 0)) == 0)
+-+		if ((psi = path_psi(path, &status, &stb, 0)) == 0)
+- 			return ((int) status);
+- 	}
+- 	key.psi = psi;
+-@@ -1037,9 +1112,12 @@
+- 
+- 	/* assert(h != NULL); */
+- 	if (h->path == NULL) {
+--		h->fd = -1;
+--		h->path = xstrdup(path);
+-+		h->fd    = -1;
+-+		h->path  = xstrdup(path);
+- 		h->flags = 0;
+-+		h->dev   = stb.st_dev;
+-+		h->ino   = stb.st_ino;
+-+		h->type  = stb.st_mode & S_IFMT;
+- 	}
+- 	memcpy(fh, &key, sizeof(key));
+- 	return ((int) status);
+-@@ -1064,6 +1142,44 @@
+- 	return ((nfs_fh*)&(h->h));
+- }
+- 
+-+
+-+static inline int
+-+access_override(int omode, int perm, struct stat *buf)
+-+{
+-+	/* Be suspicous of flags, particularly O_CREAT/O_TRUNC.  A previous 
+-+	 * comment said:
+-+	 *
+-+	 * "[Not checking this] would truncate read-only files on creat() 
+-+	 * calls. Of course, ftruncate(fd, 0) should still be legal for
+-+	 * the user when the file was chmoded *after* opening it, but we
+-+	 * have no way to tell, and a semi-succeding `cp foo readonly-file'
+-+	 * is much more unintuitive and destructive than a failing
+-+	 * ftruncate()."
+-+	 */
+-+	if (omode & ~O_ACCMODE)
+-+		return 0;
+-+
+-+	/* Users can do anything to their own files.  Harmless (since they 
+-+	 * could chown anyway), and helps to mask NFSes statelessness.
+-+	 *
+-+	 * (in passing, this also handles mode 0100 execution)
+-+	 */
+-+	if (buf->st_uid == auth_uid)
+-+		return 1;
+-+
+-+	/* Henceforth, we are considering granting read access to facilitate 
+-+	 * exec access. This is read only */
+-+	if (omode != O_RDONLY)
+-+		return 0;
+-+
+-+	/* Mode 0110 execution */
+-+	if (buf->st_gid == auth_gid)
+-+		return (buf->st_mode & S_IXGRP) != 0;
+-+
+-+	/* Mode 0111 execution */
+-+	return (buf->st_mode & S_IXOTH) != 0;
+-+}
+-+	
+- int
+- path_open(char *path, int omode, int perm)
+- {
+-@@ -1113,30 +1229,15 @@
+- 	 * lishes two things: first, it gives the file owner r/w access to
+- 	 * the file whatever the permissions are, so that files are still
+- 	 * accessible after an fchown(fd, 0). The second part of the
+--	 * condition allows read access to mode 0111 executables.
+--	 *
+--	 * The old conditon read like this:
+--	 * if (fd < 0 && oerrno == EACCES) {
+--	 *	if (oerrno == EACCES && (buf.st_uid == auth_uid
+--	 *	    || (omode == O_RDONLY && (buf.st_mode & S_IXOTH)))) {
+--	 *		override uid; etc...
+--	 *	}
+--	 * }
+--	 * This would truncate read-only files on creat() calls. Now
+--	 * ftruncate(fd, 0) should still be legal for the user when the
+--	 * file was chmoded *after* opening it, but we have no way to tell,
+--	 * and a semi-succeding `cp foo readonly-file' is much more
+--	 * unintuitive and destructive than a failing ftruncate().
+-+	 * condition allows read access to `execute-only' files.
+- 	 */
+--	if (fd < 0 && oerrno == EACCES && !(omode & (O_CREAT|O_TRUNC))) {
+--		if ((buf.st_uid == auth_uid && (omode & O_ACCMODE) == omode)
+--		 || ((buf.st_mode & S_IXOTH) && omode == O_RDONLY)) {
+--			auth_override_uid(ROOT_UID);
+--			fd = efs_open(path, omode, perm);
+--			oerrno = errno;
+--			auth_override_uid(auth_uid);
+--		}
+-+	if (fd < 0 && oerrno == EACCES && access_override(omode, perm, &buf)) {
+-+		auth_override_uid(ROOT_UID);
+-+		fd = efs_open(path, omode, perm);
+-+		oerrno = errno;
+-+		auth_override_uid(auth_uid);
+- 	}
+-+	
+- 
+- 	if (fd < 0) {
+- 		Dprintf(D_FHCACHE,
+-@@ -1241,7 +1342,7 @@
+- 	char		*sindx;
+- 	int		is_dd;
+- 	nfsstat		ret;
+--	struct stat	sbuf;
+-+	struct stat	sbuf, smount;
+- 	char		pathbuf[PATH_MAX + NAME_MAX + 1], *fname;
+- 
+- 	/* should not happen */
+-@@ -1318,7 +1419,7 @@
+- 
+- 	*new_fh = dopa->dir;
+- 	key = (svc_fh *) new_fh;
+--	if ((key->psi = path_psi(pathbuf, &ret, sbp, 0)) == 0)
+-+	if ((key->psi = path_psi_m(pathbuf, &ret, sbp, &smount, 0)) == 0)
+- 		return (ret);
+- 
+- 	if (is_dd) {
+-@@ -1344,6 +1445,10 @@
+- 					h->h.hash_path[0]);
+- 		return NFSERR_STALE;
+- 	}
+-+	if (sbp->st_dev != smount.st_dev) {
+-+		Dprintf(D_FHTRACE, "fh_compose: %s hit%s mount point\n",
+-+			pathbuf, nfsmounted(pathbuf, &smount)? " NFS" : "");
+-+	}
+- #endif
+- 
+- 	/* New code added by Don Becker */
+-@@ -1356,7 +1461,8 @@
+- 		if (!h) return NFSERR_STALE;
+- #endif
+- 		if (h->path)
+--			Dprintf(L_ERROR, "Internal inconsistency: double entry (path '%s', now '%s').\n",
+-+			Dprintf(L_ERROR,
+-+				"internal inconsistency: double entry (path '%s', now '%s').\n",
+- 				h->path, pathbuf);
+- 	}
+- 	Dprintf(D_FHCACHE, "fh_compose: using  handle %x ('%s', fd=%d)\n",
+-@@ -1365,9 +1471,18 @@
+- 
+- 	/* assert(h != NULL); */
+- 	if (h->path == 0) {
+--		h->path = xstrdup(pathbuf);
+-+		h->path  = xstrdup(pathbuf);
+- 		h->flags = 0;
+--		if (!re_export && nfsmounted(pathbuf, sbp))
+-+		h->dev   = sbp->st_dev;
+-+		h->ino   = sbp->st_ino;
+-+		h->type  = sbp->st_mode & S_IFMT;
+-+
+-+		/* Note: in the case of a mount point,
+-+		 * sbp contains the stats of the mount point, while
+-+		 * ddbuf has the dev/ino of the underlying directory
+-+		 */
+-+		if (sbp->st_dev != smount.st_dev
+-+		 && nfsmounted(pathbuf, &smount))
+- 			h->flags |= FHC_NFSMOUNTED;
+- #ifdef FHTRACE
+- 		Dprintf(D_FHTRACE, "fh_compose: created handle %s\n", h->path);
+-diff -urN nfs-server-2.2beta47/fh.h nfs-server-2.2beta51/fh.h
+---- nfs-server-2.2beta47/fh.h	Mon Nov 23 12:15:43 1998
+-+++ nfs-server-2.2beta51/fh.h	Fri Nov  8 14:45:36 2002
+-@@ -97,7 +97,13 @@
+- 	struct fhcache *	hash_next;
+- 	struct fhcache *	fd_next;
+- 	struct fhcache *	fd_prev;
+-+
+-+	/* These are fixed during the lifetime of this object */
+- 	svc_fh			h;
+-+	dev_t			dev;
+-+	ino_t			ino;
+-+	mode_t			type;	/* st_mode & S_IFMT */
+-+
+- 	int			fd;
+- 	int			omode;
+- 	char *			path;
+-diff -urN nfs-server-2.2beta47/getattr.c nfs-server-2.2beta51/getattr.c
+---- nfs-server-2.2beta47/getattr.c	Fri Oct 30 18:10:11 1998
+-+++ nfs-server-2.2beta51/getattr.c	Fri Nov  8 14:45:36 2002
+-@@ -115,6 +115,16 @@
+- 	attr->fsid   = 1;
+- 	attr->fileid = fh_psi((nfs_fh *)&(fhc->h));
+- #endif
+-+
+-+	/* This may be needed by some Suns... testing */
+-+#define MINTIME	(24 * 2600)
+-+	if (s->st_atime < MINTIME)
+-+		s->st_atime = MINTIME;
+-+	if (s->st_mtime < MINTIME)
+-+		s->st_mtime = MINTIME;
+-+	if (s->st_ctime < MINTIME)
+-+		s->st_ctime = MINTIME;
+-+
+- 	attr->atime.seconds = s->st_atime;
+- 	attr->atime.useconds = 0;
+- 	attr->mtime.seconds = s->st_mtime;
+-diff -urN nfs-server-2.2beta47/logging.c nfs-server-2.2beta51/logging.c
+---- nfs-server-2.2beta47/logging.c	Fri Oct 30 17:11:22 1998
+-+++ nfs-server-2.2beta51/logging.c	Fri Nov  8 14:45:36 2002
+-@@ -147,8 +147,9 @@
+- 		(void) time(&now);
+- 		tm = localtime(&now);
+- 		fprintf(log_fp, "%s %02d/%02d/%02d %02d:%02d %s",
+--		      log_name, tm->tm_mon + 1, tm->tm_mday, tm->tm_year,
+--			tm->tm_hour, tm->tm_min, buff);
+-+		      log_name, tm->tm_mon + 1, tm->tm_mday,
+-+		      tm->tm_year % 100,
+-+		      tm->tm_hour, tm->tm_min, buff);
+- 		if (strchr(buff, '\n') == NULL)
+- 			fputc('\n', log_fp);
+- 	}
+-@@ -182,7 +183,8 @@
+- 		tm = localtime(&unix_cred->aup_time);
+- 		snprintf(buffer + len, total - len,
+- 			"%d/%d/%d %02d:%02d:%02d %s %d.%d",
+--			tm->tm_year, tm->tm_mon + 1, tm->tm_mday,
+-+			tm->tm_year %100,
+-+			tm->tm_mon + 1, tm->tm_mday,
+- 			tm->tm_hour, tm->tm_min, tm->tm_sec,
+- 			unix_cred->aup_machname,
+- 			unix_cred->aup_uid,
+-diff -urN nfs-server-2.2beta47/mountd.c nfs-server-2.2beta51/mountd.c
+---- nfs-server-2.2beta47/mountd.c	Wed Jun  2 14:10:33 1999
+-+++ nfs-server-2.2beta51/mountd.c	Fri Nov  8 14:45:36 2002
+-@@ -32,7 +32,7 @@
+- #include "rpcmisc.h"
+- #include "rmtab.h"
+- #include "haccess.h"
+--#include "failsafe.h"
+-+#include "daemon.h"
+- #include "signals.h"
+- #include <rpc/pmap_clnt.h>
+- 
+-@@ -44,6 +44,8 @@
+- /*
+-  * Option table for mountd
+-  */
+-+#define OPT_NOTCP	300
+-+#define OPT_LOOPBACK	301
+- static struct option longopts[] =
+- {
+-       { "debug",		required_argument,	0,	'd' },
+-@@ -56,6 +58,8 @@
+-       {	"no-spoof-trace",	0,			0,	't' },
+-       { "version",		0,			0,	'v' },
+-       { "fail-safe",		optional_argument,	0,	'z' },
+-+      { "no-tcp",		0,			0,	OPT_NOTCP },
+-+      {	"loopback-only",	0,			0,	OPT_LOOPBACK },
+- 
+-       { NULL,			0,			0,	0 }
+- };
+-@@ -358,6 +362,12 @@
+- 			break;
+- 		case 0:
+- 			break;
+-+		case OPT_NOTCP:
+-+			udp_only = 1;
+-+			break;
+-+		case OPT_LOOPBACK:
+-+			loopback_only = 1;
+-+			break;
+- 		case '?':
+- 		default:
+- 			usage(stderr, 1);
+-@@ -384,38 +394,27 @@
+- 	/* Create services and register with portmapper */
+- 	rpc_init("mountd", MOUNTPROG, mountd_versions, mount_dispatch, port, 0);
+- 
+--	if (!foreground && !_rpcpmstart) {
+--#ifndef RPC_SVC_FG
+--		/* We first fork off a child. */
+--		if ((c = fork()) > 0)
+--			exit(0);
+--		if (c < 0) {
+--			Dprintf(L_FATAL, "mountd: cannot fork: %s\n",
+--						strerror(errno));
+--		}
+--		/* No more logging to stderr */
+--		background_logging();
+-+	if (_rpcpmstart) {
+-+		/* Always foreground mode */
+-+		foreground = 1;
+- 
+--		/* Now we remove ourselves from the foreground. */
+--		(void) close(0);
+--		(void) close(1);
+--		(void) close(2);
+--#ifdef TIOCNOTTY
+--		if ((c = open("/dev/tty", O_RDWR)) >= 0) {
+--			(void) ioctl(c, TIOCNOTTY, (char *) NULL);
+--			(void) close(c);
+--		}
+--#else
+--		setsid();
+--#endif
+--#endif /* not RPC_SVC_FG */
+-+		/* ... but no logging */
+-+		background_logging();
+- 	}
+- 
+-+	/* Become a daemon */
+-+	if (!foreground)
+-+		daemonize();
+-+
+- 	/* Initialize the FH module. */
+- 	fh_init();
+- 
+- 	/* Initialize the AUTH module. */
+- 	auth_init(auth_file);
+-+
+-+	/* Write pidfile */
+-+	setpidpath(_PATH_MOUNTD_PIDFILE);
+-+	writepid(getpid(), 1);
+- 
+- 	/* Failsafe mode */
+- 	if (failsafe_level)
+-diff -urN nfs-server-2.2beta47/mountd.man nfs-server-2.2beta51/mountd.man
+---- nfs-server-2.2beta47/mountd.man	Wed Jun  2 14:12:21 1999
+-+++ nfs-server-2.2beta51/mountd.man	Fri Nov  8 14:45:36 2002
+-@@ -14,6 +14,8 @@
+- .B "[\ \-\-allow\-non\-root\ ]"
+- .B "[\ \-\-re\-export\ ]"
+- .B "[\ \-\-no\-spoof\-trace\ ]"
+-+.B "[\ \-\-no\-tcp ]"
+-+.B "[\ \-\-loopback\-only ]"
+- .B "[\ \-\-version\ ]"
+- .ad b
+- .SH DESCRIPTION
+-@@ -123,6 +125,18 @@
+- .TP
+- .BR \-v " or " \-\-version
+- Report the current version number of the program.
+-+.TP
+-+.BR \-\-no\-tcp
+-+Force
+-+.I mountd
+-+to register only the UDP transport, but no TCP.
+-+This is an experimental option.
+-+.TP
+-+.BR \-\-loopback\-only
+-+Force
+-+.I mountd
+-+to bind to the loopback interface.
+-+This is an experimental option.
+- .SS Access Control
+- For enhanced security, access to
+- .I mountd
+-diff -urN nfs-server-2.2beta47/nfsd.c nfs-server-2.2beta51/nfsd.c
+---- nfs-server-2.2beta47/nfsd.c	Wed Nov 10 10:33:28 1999
+-+++ nfs-server-2.2beta51/nfsd.c	Fri Nov  8 14:45:36 2002
+-@@ -21,7 +21,7 @@
+- #include "getopt.h"
+- #include "fsusage.h"
+- #include "rpcmisc.h"
+--#include "failsafe.h"
+-+#include "daemon.h"
+- #include "signals.h"
+- #ifdef __linux__ /* XXX - MvS: for UNIX sockets. */
+- #  include <sys/un.h>
+-@@ -30,7 +30,6 @@
+- # include <syslog.h>
+- #endif
+- 
+--#define MULTIPLE_SERVERS
+- 
+- /* Flags for auth_fh */
+- #define CHK_READ	0
+-@@ -51,6 +50,8 @@
+- /*
+-  * Option table
+-  */
+-+#define OPT_NOTCP	300
+-+#define OPT_LOOPBACK	301
+- static struct option longopts[] = {
+-       { "auth-deamon",		required_argument,	0,	'a' },
+-       { "debug",		required_argument,	0,	'd' },
+-@@ -68,6 +69,9 @@
+-       { "version",		0,			0,	'v' },
+-       { "no-cross-mounts",	0,			0,	'x' },
+-       { "fail-safe",		optional_argument,	0,	'z' }, 
+-+      { "no-tcp",		0,			0,	OPT_NOTCP },
+-+      { "udp-only",		0,			0,	OPT_NOTCP },
+-+      {	"loopback-only",	0,			0,	OPT_LOOPBACK },
+- 
+-       { NULL,		0,	0, 0 }
+- };
+-@@ -173,7 +177,10 @@
+- 		return NULL;
+- 	}
+- 
+--	auth_user(nfsmount, rqstp);
+-+	if (!auth_user(nfsmount, rqstp)) {
+-+		*statp = NFSERR_ACCES;
+-+		return NULL;
+-+	}
+- 
+- 	*statp = NFS_OK;
+- 	return fhc;
+-@@ -211,7 +218,11 @@
+- 
+- 	if ((nfsmount = auth_path(nfsclient, rqstp, path)) == NULL)
+- 		return NFSERR_ACCES;
+--	auth_user(nfsmount, rqstp);
+-+
+-+	/* XXX: really need to call it again here?
+-+	 * Already invoked in auth_fh */
+-+	if (!auth_user(nfsmount, rqstp))
+-+		return NFSERR_ACCES;
+- 
+- 	return (NFS_OK);
+- }
+-@@ -575,7 +586,8 @@
+- #endif
+- 
+- 			/* MvS: Some clients use chardev 0xFFFF for a FIFO. */
+--			if (S_ISCHR(argp->attributes.mode) && dev == 0xFFFF) {
+-+			if (S_ISCHR(argp->attributes.mode)
+-+			 && (dev == 0xFFFF || dev == (dev_t) -1)) {
+- 				is_borc = 0;
+- 				dev = 0;
+- 				argp->attributes.mode &= ~S_IFMT;
+-@@ -623,7 +635,7 @@
+- 		flags = (argp->attributes.size == 0 ?
+- 			CREATE_OMODE | O_TRUNC : CREATE_OMODE);
+- 		if (!exists)
+--			flags |= O_CREAT;
+-+			flags |= O_CREAT|O_EXCL;
+- 		tmpfd = path_open(pathbuf, flags, 
+- 				argp->attributes.mode & ~S_IFMT);
+- 		if (tmpfd < 0)
+-@@ -965,9 +977,7 @@
+- 	int	nfsport = 0;
+- 	int	failsafe_level = 0;
+- 	int	c;
+--#ifdef MULTIPLE_SERVERS
+- 	int	i, ncopies = 1;
+--#endif
+- 
+- 	program_name = argv[0];
+- 	chdir("/");
+-@@ -1031,12 +1041,17 @@
+- 			break;
+- 		case 0:
+- 			break;
+-+		case OPT_NOTCP:
+-+			udp_only = 1;
+-+			break;
+-+		case OPT_LOOPBACK:
+-+			loopback_only = 1;
+-+			break;
+- 		case '?':
+- 		default:
+- 			usage(stderr, 1);
+- 		}
+- 
+--#ifdef MULTIPLE_SERVERS
+- 	if (optind == argc-1 && isdigit(argv[optind][0])) {
+- 		ncopies = atoi(argv[optind++]);
+- 		if (ncopies <= 0) {
+-@@ -1051,7 +1066,6 @@
+- 			ncopies = 1;
+- 		}
+- 	}
+--#endif
+- 
+- 	/* No more arguments allowed. */
+- 	if (optind != argc)
+-@@ -1075,72 +1089,54 @@
+- 	rpc_init("nfsd", NFS_PROGRAM, nfsd_versions, nfs_dispatch,
+- 				nfsport, NFS_MAXDATA);
+- 
+--	/* No more than 1 copy when run from inetd */
+--	if (_rpcpmstart && ncopies > 1) {
+--		Dprintf(L_WARNING,
+--				"nfsd: warning: can run only "
+--				"one server in inetd mode\n");
+--		ncopies = 1;
+-+	if (_rpcpmstart) {
+-+		/* Always do foreground mode */
+-+		foreground = 1;
+-+
+-+		/* ... but don't log to stderr */
+-+		background_logging();
+-+
+-+		/* No more than 1 copy when run from inetd */
+-+		if (ncopies > 1) {
+-+			Dprintf(L_WARNING,
+-+					"nfsd: warning: can run only "
+-+					"one server in inetd mode\n");
+-+			ncopies = 1;
+-+		}
+- 	}
+- 
+--#ifndef MULTIPLE_SERVERS_READWRITE
+- 	if (ncopies > 1)
+- 		read_only = 1;
+--#endif
+- 
+--	/* We first fork off a child. */
+--	if (!foreground) {
+--		if ((c = fork()) > 0)
+--			exit(0);
+--		if (c < 0) {
+--			Dprintf(L_FATAL, "nfsd: cannot fork: %s\n",
+--						strerror(errno));
+--		}
+--	}
+-+	/*
+-+	 * We first fork off a child and detach from tty
+-+	 */
+-+	if (!foreground)
+-+		daemonize();
+- 
+- 	/* Initialize the AUTH module. */
+- 	auth_init(auth_file);
+- 
+-+	setpidpath(_PATH_NFSD_PIDFILE);
+- 	if (failsafe_level == 0) {
+- 		/* Start multiple copies of the server */
+-+		writepid(getpid(), 1);
+- 		for (i = 1; i < ncopies; i++) {
+-+			pid_t	pid;
+-+
+- 			Dprintf(D_GENERAL, "Forking server thread...\n");
+--			if ((c = fork()) < 0) {
+-+			if ((pid = fork()) < 0) {
+- 				Dprintf(L_ERROR, "Unable to fork: %s",
+- 					strerror(errno));
+--			} else if (c == 0) {
+--				/* Child process */
+--				break;
+-+			} else if (pid != 0) {
+-+				writepid(pid, 0);
+-+			} else {
+-+				break; /* Child process */
+- 			}
+- 		}
+- 	} else {
+- 		/* Init for failsafe mode */
+- 		failsafe(failsafe_level, ncopies);
+--	}
+--
+--	/* Now that we've done all the required forks, we make do all the
+--	 * session magic.
+--	 */
+--	if (!foreground) {
+--		/* No more logging to stderr */
+--		background_logging();
+--
+--		/* Now we remove ourselves from the foreground. */
+--		close(0);
+--		close(1);
+--		close(2);
+--#ifdef HAVE_SETSID
+--		setsid();
+--#else
+--		{
+--			int fd;
+--	
+--			if ((fd = open("/dev/tty", O_RDWR)) >= 0) {
+--				ioctl(fd, TIOCNOTTY, (char *) NULL);
+--				close(fd);
+--			}
+--		}
+--#endif
+- 	}
+- 
+- 	/*
+-diff -urN nfs-server-2.2beta47/nfsd.man nfs-server-2.2beta51/nfsd.man
+---- nfs-server-2.2beta47/nfsd.man	Wed Jun  2 14:13:37 1999
+-+++ nfs-server-2.2beta51/nfsd.man	Fri Nov  8 14:45:36 2002
+-@@ -8,7 +8,7 @@
+- .B "[\ \-d\ facility\ ]"
+- .B "[\ \-P\ port\ ]"
+- .B "[\ \-R\ dirname\ ]"
+--.B "[\ \-Fhlnprstv\ ]"
+-+.B "[\ \-Fhlnprstuv\ ]"
+- .B "[\ \-\-debug\ facility\ ]"
+- .B "[\ \-\-exports\-file=file\ ]"
+- .B "[\ \-\-foreground\ ]"
+-@@ -18,6 +18,8 @@
+- .B "[\ \-\-public\-root\ dirname\ ]"
+- .\".B "[\ \-\-synchronous\-writes\ ]"
+- .B "[\ \-\-no\-spoof\-trace\ ]"
+-+.B "[\ \-\-no\-tcp ]"
+-+.B "[\ \-\-loopback-only ]"
+- .B "[\ \-\-port\ port\ ]"
+- .B "[\ \-\-log-transfers\ ]"
+- .B "[\ \-\-version\ ]"
+-@@ -56,7 +58,7 @@
+- .PP
+- When run from
+- .IR inetd ,
+--.i nfsd
+-+.I nfsd
+- will terminate after a certain period of inactivity.
+- .SH OPTIONS
+- .TP
+-@@ -167,6 +169,14 @@
+- .BR \-v " or " \-\-version
+- Report the current version number of the program.
+- .TP
+-+.BR \-\-no\-tcp
+-+Force nfsd to only register a UDP transport, but not TCP.
+-+This is an experimental option.
+-+.TP
+-+.BR \-\-loopback\-only
+-+Force nfsd to bind to the loopback interface.
+-+This is an experimental option.
+-+.TP
+- .BR numcopies
+- This is an experimental feature that lets you run several instances of
+- .I nfsd
+-@@ -174,15 +184,8 @@
+- .B numcopies
+- greater than one, 
+- .I nfsd
+--will fork as many times as specified by this value.
+--However, the servers do not share a common file handle
+--cache, which makes certain file operations impossible. 
+--.IP
+--For this reason,
+--.I nfsd
+--will disallow all write operations when invoked with this option. Although
+--this is very limiting, this feature may still prove useful for exporting
+--public FTP areas or Usenet News spools.
+-+will fork as many times as specified by this value so it is able to
+-+handle that many NFS requests in parallel.
+- .SS WebNFS Support
+- WebNFS is an extension to the normal NFS protocol developed by Sun
+- that is particularly well-suited for file retrieval over the
+-@@ -268,6 +271,19 @@
+- .I nfsd
+- writes out a transfer record whenever it encounters a READ or WRITE
+- request at offset zero.
+-+.SS Generating a debug trace
+-+When suspecting a bug in nfsd, it is helpful to look at a debug trace
+-+of what's going on. You can create such a trace by first killing nfsd,
+-+and then restarting it as
+-+.PP
+-+.nf
+-+.ta +3i
+-+/usr/sbin/rpc.nfsd -F -d all
+-+.fi
+-+.PP
+-+Instead of
+-+.BR all ,
+-+you can use less verbose debug facilities as described above.
+- .SH "SEE ALSO"
+- exports(5), mountd(8), ugidd(8C)
+- .SH AUTHORS
+-diff -urN nfs-server-2.2beta47/rmtab.c nfs-server-2.2beta51/rmtab.c
+---- nfs-server-2.2beta47/rmtab.c	Fri Feb  6 09:43:25 1998
+-+++ nfs-server-2.2beta51/rmtab.c	Fri Nov  8 14:45:36 2002
+-@@ -8,6 +8,7 @@
+- 
+- #include "nfsd.h"
+- #include "rmtab.h"
+-+#include "rpcmisc.h"
+- 
+- static char *	rmtab_gethost(struct svc_req *);
+- static int	rmtab_insert(char *, char *);
+-diff -urN nfs-server-2.2beta47/rpcmisc.c nfs-server-2.2beta51/rpcmisc.c
+---- nfs-server-2.2beta47/rpcmisc.c	Tue Sep  7 10:42:58 1999
+-+++ nfs-server-2.2beta51/rpcmisc.c	Fri Nov  8 14:45:36 2002
+-@@ -39,6 +39,8 @@
+- int		_rpcfdtype = 0;
+- int		_rpcsvcdirty = 0;
+- const char *	auth_daemon = 0;
+-+int		udp_only = 0;
+-+int		loopback_only = 0;
+- 
+- #ifdef AUTH_DAEMON
+- static bool_t	(*tcp_rendevouser)(SVCXPRT *, struct rpc_msg *);
+-@@ -96,7 +98,7 @@
+- 		}
+- 	}
+- 
+--	if ((_rpcfdtype == 0) || (_rpcfdtype == SOCK_STREAM)) {
+-+	if ((_rpcfdtype == 0 && !udp_only) || (_rpcfdtype == SOCK_STREAM)) {
+- 		if (_rpcfdtype == 0 && defport != 0)
+- 			sock = makesock(defport, IPPROTO_TCP, bufsiz);
+- 		transp = svctcp_create(sock, 0, 0);
+-@@ -199,6 +201,9 @@
+- 	sin.sin_family = AF_INET;
+- 	sin.sin_addr.s_addr = INADDR_ANY;
+- 	sin.sin_port = htons(port);
+-+
+-+	if (loopback_only)
+-+		sin.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+- 
+- #ifdef DEBUG
+- 	{
+-diff -urN nfs-server-2.2beta47/rpcmisc.h nfs-server-2.2beta51/rpcmisc.h
+---- nfs-server-2.2beta47/rpcmisc.h	Tue Sep  7 10:37:38 1999
+-+++ nfs-server-2.2beta51/rpcmisc.h	Fri Nov  8 14:45:36 2002
+-@@ -9,6 +9,8 @@
+- extern int		_rpcpmstart;
+- extern int		_rpcfdtype;
+- extern int		_rpcsvcdirty;
+-+extern int		udp_only;
+-+extern int		loopback_only;
+- extern const char *	auth_daemon;
+- 
+- extern void		rpc_init(const char *name, int prog, int *verstbl,
+-@@ -16,5 +18,13 @@
+- 					int defport, int bufsize);
+- extern void		rpc_exit(int prog, int *verstbl);
+- extern void		rpc_closedown(void);
+-+
+-+/*
+-+ * Some older systems don't have svc_getcaller.
+-+ * Some, like glibc 2.2, have it but it returns some type that's
+-+ * not a sockaddr_in anymore.
+-+ */
+-+#undef svc_getcaller
+-+#define svc_getcaller(xprt)	((struct sockaddr_in *) (&(xprt)->xp_raddr))
+- 
+- #endif /* RPCMISC_H */
+-diff -urN nfs-server-2.2beta47/setattr.c nfs-server-2.2beta51/setattr.c
+---- nfs-server-2.2beta47/setattr.c	Fri Oct 30 18:29:42 1998
+-+++ nfs-server-2.2beta51/setattr.c	Fri Nov  8 14:45:36 2002
+-@@ -103,6 +103,10 @@
+- 	if (flags & SATTR_CHMOD) {
+- 		unsigned int	mode = attr->mode;
+- 
+-+		/* If setuid is not allowed, silently squash them */
+-+		if (!nfsmount->o.allow_setuid && S_ISREG(s->st_mode))
+-+			mode &= ~(S_ISUID|S_ISGID) | s->st_mode;
+-+
+- 		if (mode != -1 && mode != 0xFFFF /* ultrix bug */
+- 		 && (mode & 07777) != (s->st_mode & 07777)) {
+- 			if (efs_chmod(path, mode) < 0)
+-diff -urN nfs-server-2.2beta47/showmount.c nfs-server-2.2beta51/showmount.c
+---- nfs-server-2.2beta47/showmount.c	Wed Jun 12 22:31:04 1996
+-+++ nfs-server-2.2beta51/showmount.c	Fri Nov  8 14:45:36 2002
+-@@ -162,17 +162,13 @@
+- 		break;
+- 	}
+- 
+--	if (hostname[0] >= '0' && hostname[0] <= '9') {
+--		server_addr.sin_family = AF_INET;
+--		server_addr.sin_addr.s_addr = inet_addr(hostname);
+--	}
+--	else {
+-+	server_addr.sin_family = AF_INET;
+-+	if (!inet_aton(hostname, &server_addr.sin_addr)) {
+- 		if ((hp = gethostbyname(hostname)) == NULL) {
+- 			fprintf(stderr, "%s: can't get address for %s\n",
+- 				program_name, hostname);
+- 			exit(1);
+- 		}
+--		server_addr.sin_family = AF_INET;
+- 		memcpy(&server_addr.sin_addr, hp->h_addr, hp->h_length);
+- 	}
+- 
+-diff -urN nfs-server-2.2beta47/site.h.in nfs-server-2.2beta51/site.h.in
+---- nfs-server-2.2beta47/site.h.in	Thu Jan  1 01:00:00 1970
+-+++ nfs-server-2.2beta51/site.h.in	Fri Nov  8 14:45:57 2002
+-@@ -0,0 +1,50 @@
+-+/*
+-+ * Site-specific configuration options generated by BUILD.
+-+ * Please do not edit.
+-+ */
+-+
+-+/*
+-+ * If ENABLE_DEVTAB is defined, nfsd will use the new inode
+-+ * number generation scheme for avoiding inode number clashes
+-+ * on big hard disks.
+-+ */
+-+#undef ENABLE_DEVTAB
+-+
+-+/*
+-+ * If MULTIPLE_SERVER_READWRITE is defined, you will be able 
+-+ * to run several nfsd process in parallel servicing all NFS 
+-+ * requests.
+-+ */
+-+#define MULTIPLE_SERVERS_READWRITE
+-+
+-+/*
+-+ * If ENABLE_UGID_DAEMON is defined, the real rpc.ugidd is built, 
+-+ * nfsd is built to support ugidd queries.
+-+ * Otherwise, a dummy program is created
+-+ */
+-+#undef ENABLE_UGID_DAEMON 
+-+
+-+/*
+-+ * If ENABLE_UGID_NIS is defined, nfsd will support user mapping 
+-+ * vie the client's NIS server.
+-+ */
+-+#undef ENABLE_UGID_NIS
+-+
+-+/*
+-+ * if HOSTS_ACCESS is defined, ugidd uses host access control
+-+ * provided by libwrap.a from tcp_wrappers
+-+ */
+-+#define HOSTS_ACCESS
+-+
+-+/*
+-+ * Define correct ownership of export control file
+-+ */
+-+#define EXPORTSOWNERUID  0
+-+#define EXPORTSOWNERGID  0
+-+
+-+/*
+-+ * If WANT_LOG_MOUNTS is defined, every mount request will be logged
+-+ * to syslogd with the name of source site and a path that was
+-+ * it requested
+-+ */
+-+#define WANT_LOG_MOUNTS
+-diff -urN nfs-server-2.2beta47/ugidd.c nfs-server-2.2beta51/ugidd.c
+---- nfs-server-2.2beta47/ugidd.c	Wed Dec 10 12:34:16 1997
+-+++ nfs-server-2.2beta51/ugidd.c	Fri Nov  8 14:45:36 2002
+-@@ -43,9 +43,7 @@
+- };
+- 
+- int
+--main(argc, argv)
+--int	argc;
+--char	**argv;
+-+main(int argc, char **argv)
+- {
+- 	SVCXPRT	*transp;
+- 	int	c, longind;
+-@@ -92,32 +90,11 @@
+-                 exit(1);
+-         }
+- 
+--	if (!foreground) {
+--		if ((c = fork()) > 0)
+--			exit(0);
+--		if (c < 0) {
+--			fprintf(stderr, "ugidd: cannot fork: %s\n",
+--						strerror(errno));
+--			exit(-1);
+--		}
+--		close(0);
+--		close(1);
+--		close(2);
+--#ifdef HAVE_SETSID
+--		setsid();
+--#else
+--		{
+--			int fd;
+--
+--			if ((fd = open("/dev/tty", O_RDWR)) >= 0) {
+--				ioctl(fd, TIOCNOTTY, (char *) NULL);
+--				close(fd);
+--			}
+--		}
+--#endif
+--	}
+--
+- 	log_open("ugidd", foreground);
+-+
+-+	/* Become a daemon */
+-+	if (!foreground)
+-+		daemonize();
+- 
+- 	svc_run();
+- 	Dprintf(L_ERROR, "svc_run returned\n");
+-diff -urN nfs-server-2.2beta47/version.c nfs-server-2.2beta51/version.c
+---- nfs-server-2.2beta47/version.c	Wed Nov 10 10:33:33 1999
+-+++ nfs-server-2.2beta51/version.c	Fri Nov  8 14:45:36 2002
+-@@ -1 +1 @@
+--char version[] = "Universal NFS Server 2.2beta47";
+-+char version[] = "Universal NFS Server 2.2beta51";
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
+deleted file mode 100644
+index df290f2..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
++++ /dev/null
+@@ -1,73 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/Makefile.in	2002/11/07 16:56:07	1.1
+-+++ nfs-server/Makefile.in	2002/11/07 17:08:41
+-@@ -74,10 +74,10 @@
+- 
+- bindir	= $(exec_prefix)/sbin
+- #vardir = $(install_prefix)/var/lib/nfs
+--infodir = $(prefix)/info
+--man5dir = $(prefix)/man/man5
+-+infodir = $(prefix)/share/info
+-+man5dir = $(prefix)/share/man/man5
+- man5ext = .5
+--man8dir = $(prefix)/man/man8
+-+man8dir = $(prefix)/share/man/man8
+- man8ext = .8
+- 
+- # Prefix to be prepended to each installed RPC program, normally `rpc.'.
+-@@ -145,37 +145,37 @@
+- .PHONY: install installdirs
+- install: $(DAEMONS) $(CLIENTS) installdirs
+- 	@for prog in $(DAEMONS) $(CLIENTS); do \
+--	    echo "installing $$prog in $(bindir)";	\
+--	    $(INSTALL_PROGRAM) $$prog $(bindir)/$$prog;	\
+-+	    echo "installing $$prog in $(DESTDIR)$(bindir)";	\
+-+	    $(INSTALL_PROGRAM) $$prog $(DESTDIR)$(bindir)/$$prog;	\
+- 	done
+- 	@for manp in $(MANPAGES5); do			\
+--	    echo "installing $$manp$(man5ext) in $(man5dir)";	\
+-+	    echo "installing $$manp$(man5ext) in $(DESTDIR)$(man5dir)";	\
+- 	    $(INSTALL_DATA) $(srcdir)/$$manp.man	\
+--	        $(man5dir)/$$manp$(man5ext); \
+-+	        $(DESTDIR)$(man5dir)/$$manp$(man5ext); \
+- 	done
+- 	@for manp in $(MANPAGES8p); do			\
+--	    echo "installing $$manp$(man8ext) in $(man8dir)";	\
+-+	    echo "installing $$manp$(man8ext) in $(DESTDIR)$(man8dir)";	\
+- 	    $(INSTALL_DATA) $(srcdir)/$$manp.man	\
+--	        $(man8dir)/$$manp$(man8ext); 		\
+-+	        $(DESTDIR)$(man8dir)/$$manp$(man8ext); 		\
+- 	    if [ 'x$(rpcprefix)' != 'x' ]; then \
+- 	        rm -f $(man8dir)/$(rpcprefix)$$manp$(man8ext); \
+- 	        ln -s $$manp$(man8ext) \
+--	            $(man8dir)/$(rpcprefix)$$manp$(man8ext); \
+-+	            $(DESTDIR)$(man8dir)/$(rpcprefix)$$manp$(man8ext); \
+- 	    fi; \
+- 	done
+- 	@for manp in $(MANPAGES8); do			\
+--	    echo "installing $$manp$(man8ext) in $(man8dir)";	\
+-+	    echo "installing $$manp$(man8ext) in $(DESTDIR)$(man8dir)";	\
+- 	    $(INSTALL_DATA) $(srcdir)/$$manp.man	\
+--	        $(man8dir)/$$manp$(man8ext); 		\
+-+	        $(DESTDIR)$(man8dir)/$$manp$(man8ext); 		\
+- 	done
+- 	@if [ -n "$(DEVTAB_FILE)" -a ! -f "$(DEVTAB_FILE)" ]; then \
+- 	    echo "Initializing $(DEVTAB_FILE)"; \
+--	    $(INSTALL) -m 755 -d `dirname $(DEVTAB_FILE)`; \
+--	    echo "# Device mapping for unfsd" > "$(DEVTAB_FILE)"; \
+-+	    $(INSTALL) -m 755 -d `dirname $(DESTDIR)$(DEVTAB_FILE)`; \
+-+	    echo "# Device mapping for unfsd" > $(DESTDIR)"$(DEVTAB_FILE)"; \
+- 	fi
+- 
+- installdirs:
+--	${srcdir}/mkinstalldirs $(bindir) $(man5dir) $(man8dir)
+-+	${srcdir}/mkinstalldirs $(DESTDIR)$(bindir) $(DESTDIR)$(man5dir) $(DESTDIR)$(man8dir)
+- 
+- $(rpcprefix)mountd: $(MOUNTD_OBJS) libnfs.a
+- 	$(CC) $(LDFLAGS) -o $@ $(MOUNTD_OBJS) $(LIBS)
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
+deleted file mode 100644
+index 412dbf6..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/exports.man	2002/11/07 17:15:59	1.1
+-+++ nfs-server/exports.man	2002/11/07 17:17:19
+-@@ -110,6 +110,14 @@
+- .TP
+- .IR link_absolute
+- Leave all symbolic link as they are. This is the default operation.
+-+.SS Anonymous Entries
+-+.PP
+-+Entries where hosts are not specified are known as anonymous entries.  They
+-+have different default settings compared to normal entries.  The differences
+-+include
+-+.IR all_squash ,
+-+.IR no_secure ", and"
+-+.IR ro .
+- .SS User ID Mapping
+- .PP
+- .I nfsd
+-@@ -231,7 +239,7 @@
+- # Mapping for client foobar:
+- #    remote     local
+- uid  0-99       -       # squash these
+--uid  100-500    1000    # map 100-500 to 1000-1500
+-+uid  100-500    1000    # map 100-500 to 1000-1400
+- gid  0-49       -       # squash these
+- gid  50-100     700     # map 50-100 to 700-750
+- .fi
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
+deleted file mode 100644
+index 6982b47..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
++++ /dev/null
+@@ -1,53 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/failsafe.c	2002/11/07 17:12:46	1.1
+-+++ nfs-server/failsafe.c	2002/11/07 17:15:16
+-@@ -10,8 +10,12 @@
+- #include "logging.h"
+- #include "signals.h"
+- #include <sys/wait.h>
+-+#ifdef HAVE_STRSIGNAL
+-+#include <string.h>
+-+#else
+- 
+- static const char *	get_signame(int signo);
+-+#endif
+- 
+- void
+- failsafe(int level, int ncopies)
+-@@ -111,9 +115,17 @@
+- 					pid, running? "Continue" : "Exit");
+- 			} else {
+- 				Dprintf(L_WARNING, "failsafe: "
+-+#ifdef HAVE_STRSIGNAL
+-+					"child %d terminated by: %s. "
+-+#else
+- 					"child %d terminated by %s. "
+-+#endif
+- 					"Restarting.",
+-+#ifdef HAVE_STRSIGNAL
+-+					pid, strsignal(signo));
+-+#else
+- 					pid, get_signame(signo));
+-+#endif
+- 				child = -1; /* Restart */
+- 			}
+- 		} else if (WIFEXITED(status)) {
+-@@ -159,6 +171,7 @@
+- 	/* NOP */
+- }
+- 
+-+#ifndef HAVE_STRSIGNAL
+- static const char *
+- get_signame(int signo)
+- {
+-@@ -199,3 +212,4 @@
+- 	sprintf(namebuf, "signal #%d", signo);
+- 	return namebuf;
+- }
+-+#endif
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
+deleted file mode 100644
+index 17208d8..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/system.h	2002/11/07 17:10:47	1.1
+-+++ nfs-server/system.h	2002/11/07 17:11:53
+-@@ -66,20 +66,16 @@
+- # include <grp.h>			/* for setgroups */
+- #endif
+- 
+--#ifdef TIME_WITH_SYS_TIME
+-+#ifdef HAVE_SYS_TIME_H
+- # include <sys/time.h>
+- # include <time.h>
+--#else /* not TIME_WITH_SYS_TIME */
+--# ifdef HAVE_SYS_TIME_H
+--#  include <sys/time.h>
+--# else /* not HAVE_SYS_TIME_H */
+--#  include <time.h>
+-+#else /* not HAVE_SYS_TIME_H */
+-+# include <time.h>
+- struct timeval {
+- 	long tv_sec;
+- 	long tv_usec;
+- };
+--# endif /* not HAVE_SYS_TIME_H */
+--#endif /* not TIME_WITH_SYS_TIME */
+-+#endif /* not HAVE_SYS_TIME_H */
+- #ifdef HAVE_SYS_FILE_H
+- # include <sys/file.h>
+- #endif
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
+deleted file mode 100644
+index 22dcc42..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
++++ /dev/null
+@@ -1,1277 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/Makefile.in
+-+++ nfs-server/Makefile.in	2002/11/08 13:59:16
+-@@ -100,7 +100,7 @@
+- 		  utimes.c mkdir.c rename.c getopt.c getopt_long.c \
+- 		  alloca.c mountlist.c xmalloc.c \
+- 		  xstrdup.c strdup.c strstr.c nfsmounted.c faccess.c \
+--		  haccess.c daemon.c signals.c
+-+		  haccess.c daemon.c signals.c teahash3.c
+- XDRFILES	= mount.x nfs_prot.x
+- GENFILES	= mount.h mount_xdr.c mount_svc.c nfs_prot.h nfs_prot_xdr.c \
+- 		  ugid.h ugid_xdr.c ugid_clnt.c
+-@@ -112,7 +112,7 @@
+- MANPAGES8	= showmount
+- MANPAGES	= $(MANPAGES5) $(MANPAGES8p) $(MANPAGES8)
+- LIBOBJS		= version.o fsusage.o mountlist.o xmalloc.o xstrdup.o \
+--		  nfsmounted.o faccess.o haccess.o daemon.o \
+-+		  nfsmounted.o faccess.o haccess.o daemon.o teahash3.o \
+- 		  signals.o @LIBOBJS@ @ALLOCA@
+- OBJS		= logging.o fh.o devtab.o auth_init.o auth_clnt.o auth.o
+- NFSD_OBJS	= nfsd.o rpcmisc.o nfs_dispatch.o getattr.o setattr.o \
+---- nfs-server/auth.c
+-+++ nfs-server/auth.c	2002/11/08 13:59:16
+-@@ -83,6 +83,7 @@
+- 					0,		/* read-only */
+- 					0,		/* relative links */
+- 					0,		/* noaccess */
+-+					0,		/* hashed inodes */
+- 					1,		/* cross_mounts */
+- 					1,		/* allow setuid */
+- 					65534,		/* default uid */
+-@@ -100,6 +101,7 @@
+- 					0,		/* relative links */
+- 					0,		/* noaccess */
+- 					1,		/* cross_mounts */
+-+					0,		/* hashed inodes */
+- 					0,		/* allow setuid */
+- 					65534,		/* default uid */
+- 					65534,		/* default gid */
+-@@ -991,6 +993,7 @@
+- 	if (mp == 0) {
+- 		mp = (nfs_mount*) xmalloc(sizeof(nfs_mount));
+- 		memset(mp, 0, sizeof(*mp));
+-+		mp->mount_dev = 0;
+- 		mp->origin = cp;
+- 		mp->client = cp;
+- 		mp->path   = xstrdup(path);
+-@@ -1169,6 +1172,8 @@
+- 	default_options.nobody_gid = anon_gid;
+- 	anonymous_options.nobody_uid = anon_uid;
+- 	anonymous_options.nobody_gid = anon_gid;
+-+	default_options.cross_mounts = cross_mounts;
+-+	default_options.hashed_inodes = hashed_inodes;
+- 
+- 	memset(cached_clients, 0, sizeof(cached_clients));
+- 	cached_next = 0;
+---- nfs-server/auth.h
+-+++ nfs-server/auth.h	2002/11/08 13:59:16
+-@@ -43,15 +43,16 @@
+- 
+- typedef struct nfs_options {
+- 	ugid_mapping_t		uidmap;		/* uid/gid mapping behavior */
+--	int			root_squash;
+--	int			all_squash;
+--	int			some_squash;	/* speed up luid() etc. */
+--	int			secure_port;
+--	int			read_only;
+--	int			link_relative;
+--	int			noaccess;
+--	int			cross_mounts;
+--	int			allow_setuid;
+-+	unsigned		root_squash : 1;
+-+	unsigned		all_squash : 1;
+-+	unsigned		some_squash : 1;	/* speed up luid() etc. */
+-+	unsigned		secure_port : 1;
+-+	unsigned		read_only : 1;
+-+	unsigned		link_relative : 1;
+-+	unsigned		noaccess : 1;
+-+	unsigned		cross_mounts : 1;
+-+	unsigned		hashed_inodes : 1;
+-+	unsigned		allow_setuid : 1;
+- 	uid_t			nobody_uid;
+- 	gid_t			nobody_gid;
+- 	char *			clnt_nisdomain;
+-@@ -64,6 +65,7 @@
+- 	int			length;
+- 	char *			path;
+- 	nfs_options		o;
+-+	dev_t			mount_dev;
+- 	/* Original NFS client */
+- 	struct nfs_client *	origin;
+- } nfs_mount;
+-@@ -121,6 +123,8 @@
+- extern void       auth_check_all_netmasks(void);
+- extern void	  auth_sort_all_mountlists(void);
+- extern void	  auth_log_all(void);
+-+extern int	  auth_checkdev(nfs_mount *, dev_t dev);
+-+extern int	  auth_checkpathdev(char *, dev_t dev);
+- 
+- /* This function lets us set our euid/fsuid temporarily */
+- extern void       auth_override_uid(uid_t);
+---- nfs-server/auth_clnt.c
+-+++ nfs-server/auth_clnt.c	2002/11/08 13:59:16
+-@@ -89,6 +89,13 @@
+- 		return NULL;
+- 	}
+- 
+-+	if (!mp->o.cross_mounts && !mp->mount_dev) {
+-+		struct stat st;
+-+		if (!lstat(mp->path, &st) < 0)
+-+			return NULL;
+-+		mp->mount_dev = st.st_dev;
+-+	}
+-+
+- 	/* Check request originated on a privileged port. */
+- 	if (!allow_non_root && mp->o.secure_port
+- 	 && !SECURE_PORT(svc_getcaller(rqstp->rq_xprt)->sin_port)) {
+-@@ -350,3 +357,28 @@
+- 	return 1;
+- }
+- #endif
+-+
+-+int auth_checkpathdev(char *path, dev_t dev)
+-+{
+-+	nfs_mount *mp = auth_match_mount(nfsclient, path);
+-+	if (!mp)
+-+		return 0;
+-+	return auth_checkdev(mp, dev);
+-+}
+-+
+-+int auth_checkdev(nfs_mount *mp, dev_t dev)
+-+{
+-+	if (!mp->mount_dev)
+-+		return 1;
+-+	if (mp->mount_dev != dev) {
+-+		struct stat st;
+-+		/* Restat in case the cd switched */
+-+		if (efs_lstat(mp->path, &st) < 0) {
+-+			Dprintf(L_ERROR, "Unable to stat mount point %s\n", mp->path);
+-+			return 0;
+-+		}
+-+		mp->mount_dev = st.st_dev;
+-+	}
+-+	return mp->mount_dev == dev;
+-+}
+-+
+---- nfs-server/auth_init.c
+-+++ nfs-server/auth_init.c	2002/11/08 13:59:16
+-@@ -320,6 +320,14 @@
+- 			/* knfsd compatibility, ignore */;
+- 		else ifkwd(4, "sync")
+- 			/* knfsd compatibility, ignore */;
+-+		else ifkwd(13, "hashed_inodes")
+-+			mp->o.hashed_inodes = 1;
+-+		else ifkwd(16, "no_hashed_inodes")
+-+			mp->o.hashed_inodes = 0;
+-+		else ifkwd(12, "cross_mounts")
+-+			mp->o.cross_mounts = 1;
+-+		else ifkwd(15, "no_cross_mounts")
+-+			mp->o.cross_mounts = 0;
+- 		else {
+- 			Dprintf(L_ERROR,
+- 				"Unknown keyword \"%.*s\" in export file\n",
+---- nfs-server/exports.man
+-+++ nfs-server/exports.man	2002/11/08 13:59:16
+-@@ -208,6 +208,17 @@
+- .IR no_all_squash ,
+- which is the default setting.
+- .TP
+-+.IR hashed_inodes
+-+Use a special scheme to generate inode numbers that may work better with
+-+reiserfs filesystems.
+-+.IR no_hashed_inodes
+-+which uses a direct mapping is the default.
+-+.TP
+-+.IR cross_mounts
+-+Do not cross mount points in exports. Turning this off with
+-+.IR no_cross_mounts
+-+avoids inode number space conflicts when there are too many files.
+-+.TP
+- .IR map_daemon
+- This option turns on dynamic uid/gid mapping. Each uid in an NFS request
+- will be translated to the equivalent server uid, and each uid in an
+---- nfs-server/fh.c
+-+++ nfs-server/fh.c	2002/11/08 14:11:31
+-@@ -4,8 +4,9 @@
+-  *
+-  *		Interfaces:
+-  *		    pseudo_inode
+-- *			mostly used internally, but also called from unfsd.c
+-- *			when reporting directory contents.
+-+ *			mostly used internally, for hash tables
+-+ *		    visible_inode
+-+ *			generate visible inode shown to the client in the fattr.
+-  *		    fh_init
+-  *			Initializes the queues and 'flush' timer
+-  *		    fh_pr
+-@@ -47,6 +48,8 @@
+-  * Note: the original code mistakenly assumes that the overall path
+-  *	length remains within the value given by PATH_MAX... that leads
+-  *	to interesting buffer overflows all over the place.
+-+ *
+-+ *	Depends that dev_t only uses 16bits.
+-  */
+- 
+- #include <assert.h>
+-@@ -137,9 +140,9 @@
+- };
+- 
+- /* Forward declared local functions */
+--static psi_t	path_psi(char *, nfsstat *, struct stat *, int);
+-+static psi_t	path_psi(char *, nfsstat *, struct stat *, int, int *);
+- static psi_t	path_psi_m(char *, nfsstat *, struct stat *,
+--					      struct stat *, int);
+-+					      struct stat *, int, int *);
+- static int	fh_flush_fds(void);
+- static char *	fh_dump(svc_fh *);
+- static void	fh_insert_fdcache(fhcache *fhc);
+-@@ -173,19 +176,22 @@
+- 	fh_list_size++;
+- 
+- 	/* Insert into hash tab. */
+--	hash_slot = &(fh_hashed[fhc->h.psi % HASH_TAB_SIZE]);
+-+	hash_slot = &(fh_hashed[pseudo_inode(fhc->h.ino,fhc->h.dev) % HASH_TAB_SIZE]);
+- 	fhc->hash_next = *hash_slot;
+- 	*hash_slot = fhc;
+- }
+- 
+- static fhcache *
+--fh_lookup(psi_t psi)
+-+fh_lookup(ino_t ino, dev_t dev)
+- {
+- 	register fhcache *fhc;
+- 
+--	fhc = fh_hashed[psi % HASH_TAB_SIZE];
+--	while (fhc != NULL && fhc->h.psi != psi)
+-+	fhc = fh_hashed[pseudo_inode(ino,dev) % HASH_TAB_SIZE];
+-+	while (fhc != NULL) {
+-+		if (fhc->h.ino == ino && fhc->h.dev == dev)
+-+			break;
+- 		fhc = fhc->hash_next;
+-+	}
+- 	return (fhc);
+- }
+- 
+-@@ -193,7 +199,8 @@
+- fh_insert_fdcache(fhcache *fhc)
+- {
+- #ifdef FHTRACE
+--	Dprintf(D_FHTRACE, "insert fh %x into fdcache @%d\n", fhc->h.psi, fhc->fd);
+-+	Dprintf(D_FHTRACE, "insert fh %x,%x into fdcache @%d\n",
+-+			fhc->h.ino, fhc->h.dev, fhc->fd);
+- 	if (fhc->fd < 0) {
+- 		fh_complain("fd cache bug: bad fd", fhc);
+- 		return;
+-@@ -289,8 +296,9 @@
+- #endif
+- 
+- 	Dprintf(D_FHTRACE|D_FHCACHE,
+--		"fh_delete: deleting handle %x ('%s', fd=%d)\n",
+--		fhc, fhc->path ? fhc->path : "<unnamed>", fhc->fd);
+-+		"fh_delete: deleting handle %x [%x,%x] ('%s', fd=%d)\n",
+-+		fhc, fhc->h.dev, fhc->h.ino, fhc->path ? fhc->path : "<unnamed>",
+-+			fhc->fd);
+- 
+- 	/* Remove from current posn */
+- 	fhc->prev->next = fhc->next;
+-@@ -298,7 +306,7 @@
+- 	fh_list_size--;
+- 
+- 	/* Remove from hash tab */
+--	hash_slot = &(fh_hashed[fhc->h.psi % HASH_TAB_SIZE]);
+-+	hash_slot = &(fh_hashed[pseudo_inode(fhc->h.ino,fhc->h.dev) % HASH_TAB_SIZE]);
+- 	while (*hash_slot != NULL && *hash_slot != fhc)
+- 		hash_slot = &((*hash_slot)->hash_next);
+- 	if (*hash_slot == NULL)
+-@@ -528,6 +536,7 @@
+- 		index -= 8;
+- 	}
+- 
+-+#if 0
+- 	/* If we have an XXL inode number, spew out warning (but at most
+- 	 * once a second) */
+- 	if (inode & ~mask) {
+-@@ -541,14 +550,34 @@
+- 		}
+- 		inode &= mask;
+- 	}
+--
+-+#endif
+- 	return (psi_t) (prefix | inode);
+- #endif
+- }
+- 
+-+/* Inode as handed out by attr calls. */
+-+psi_t
+-+visible_inode(ino_t ino, dev_t dev, nfs_mount *mount)
+-+{
+-+	if (!mount->o.cross_mounts)
+-+		return ino;
+-+
+-+	if (mount->o.hashed_inodes) {
+-+		extern __u32 teahash3(/*u32 k[2], *//*u8*/const char *msg, int len);
+-+
+-+		struct {
+-+			ino_t ino;
+-+			dev_t dev;
+-+		} tup = { ino,dev };
+-+		return teahash3((char *) &tup, sizeof tup);
+-+	}
+-+
+-+	return pseudo_inode(ino, dev);
+-+}
+-+
+- #if 1
+- static char *
+--fh_buildpath(svc_fh *h)
+-+fh_buildpath(svc_fh *h, dev_t basedev)
+- {
+- 	char		pathbuf[PATH_MAX + NAME_MAX + 1], *path;
+- 	long		cookie_stack[HP_LEN + 1];
+-@@ -565,13 +594,17 @@
+- 
+- 	if (efs_stat("/", &sbuf) < 0)
+- 		return (NULL);
+--	psi = pseudo_inode(sbuf.st_ino, sbuf.st_dev);
+- 	if (h->hash_path[0] == 0) {
+--		if (psi != h->psi)
+--			return (NULL);
+--		return xstrdup("/");
+-+		if (sbuf.st_ino == h->ino && sbuf.st_dev == h->dev)
+-+			;
+-+		else
+-+			return NULL;
+-+		strcpy(pathbuf,"/");
+-+		path = xstrdup(pathbuf);
+-+		return (path);
+- 	}
+- 
+-+	psi = pseudo_inode(sbuf.st_ino, sbuf.st_dev);
+- 	if (hash_psi(psi) != h->hash_path[1])
+- 		return (NULL);
+- 
+-@@ -599,11 +632,18 @@
+- 
+- 				psi = pseudo_inode(dp->d_ino, sbuf.st_dev);
+- 				if (i == h->hash_path[0] + 1) {
+--					if (psi != h->psi)
+-+					if (sbuf.st_dev != h->dev || dp->d_ino != h->ino)
+- 						continue;
+- 					/* GOT IT */
+- 					strcpy(pathbuf + pathlen, dp->d_name);
+--					path = xstrdup(pathbuf);
+-+					if (!basedev || sbuf.st_dev == basedev ||
+-+						auth_checkpathdev(pathbuf, sbuf.st_dev)) {
+-+						path = xstrdup(pathbuf);
+-+					} else {
+-+						dprintf(L_ERROR,  "fh_buildpath: basedev %x != dev %x for %s\n",
+-+								(unsigned)basedev,(unsigned)sbuf.st_dev,pathbuf);
+-+						path = NULL;
+-+					}
+- 					efs_closedir(dir);
+- 					auth_override_uid(auth_uid);
+- 					return (path);
+-@@ -754,16 +794,16 @@
+- #endif
+- 
+- static psi_t
+--path_psi(char *path, nfsstat *status, struct stat *sbp, int svalid)
+-+path_psi(char *path, nfsstat *status, struct stat *sbp, int svalid, int *mp)
+- {
+- 	struct stat smounted;
+- 
+--	return path_psi_m(path, status, sbp, &smounted, svalid);
+-+	return path_psi_m(path, status, sbp, &smounted, svalid, mp);
+- }
+- 
+- static psi_t
+- path_psi_m(char *path, nfsstat *status,
+--		struct stat *sbp, struct stat *mbp, int svalid)
+-+		struct stat *sbp, struct stat *mbp, int svalid, int *mp)
+- {
+- 	struct stat sbuf, ddbuf;
+- 
+-@@ -815,6 +855,8 @@
+- 			DIR *dirp;
+- 			struct dirent *dp;
+- 
+-+			if (mp) *mp = 1;
+-+
+- 			errno = 0;
+- 			dirp = efs_opendir(dname);
+- 			fname[-1] = '/';	/* Restore path */
+-@@ -860,9 +902,70 @@
+- }
+- 
+- fhcache *
+--fh_find(svc_fh *h, int mode)
+-+fh_newfh(svc_fh *h, int mode, dev_t basedev)
+-+{
+-+	fhcache *fhc, *flush;
+-+
+-+	ex_state = active;
+-+	for (flush = fh_tail.prev; fh_list_size > FH_CACHE_LIMIT; flush = fhc) {
+-+		/* Don't flush current head. */
+-+		if (flush == &fh_head)
+-+			break;
+-+		fhc = flush->prev;
+-+		fh_delete(flush);
+-+	}
+-+	fhc = (fhcache *) xmalloc(sizeof *fhc);
+-+	if (mode == FHFIND_FCREATE) {
+-+		/* File will be created */
+-+		fhc->path = NULL;
+-+	} else {
+-+		/* File must exist. Attempt to construct from hash_path */
+-+		char *path;
+-+
+-+		if ((path = fh_buildpath(h, basedev)) == NULL) {
+-+#ifdef FHTRACE
+-+			Dprintf(D_FHTRACE, "fh_find: stale fh (hash path)\n");
+-+			Dprintf(D_FHTRACE, "\tdata: %s\n", fh_dump(h));
+-+#endif
+-+			free(fhc);
+-+			ex_state = inactive;
+-+			return NULL;
+-+		}
+-+		fhc->path = path;
+-+	}
+-+	fhc->flags = 0;
+-+	if (fhc->path && efs_lstat(fhc->path, &fhc->attrs) >= 0) {
+-+		if (re_export && nfsmounted(fhc->path, &fhc->attrs))
+-+			fhc->flags |= FHC_NFSMOUNTED;
+-+		fhc->flags |= FHC_ATTRVALID;
+-+	}
+-+	fhc->fd = -1;
+-+	fhc->last_used = curtime;
+-+	fhc->h = *h;
+-+	fhc->last_clnt = NULL;
+-+	fhc->last_mount = NULL;
+-+	fhc->last_uid = (uid_t)-1;
+-+	fhc->fd_next = fhc->fd_prev = NULL;
+-+	fh_inserthead(fhc);
+-+	Dprintf(D_FHCACHE,
+-+		"fh_find: created new handle %x (path `%s' ino:%x dev:%x)\n",
+-+		fhc, fhc->path ? fhc->path : "<unnamed>", fhc->h.ino, fhc->h.dev);
+-+	ex_state = inactive;
+-+	if (fh_list_size > FH_CACHE_LIMIT)
+-+		flush_cache(0);
+-+#ifdef FHTRACE
+-+	if (fhc->h.hash_path[0] == 0xFF) {
+-+		Dprintf(L_ERROR, "newly created fh instantly flushed?!");
+-+		return NULL;
+-+	}
+-+#endif
+-+	return (fhc);
+-+}
+-+
+-+fhcache *
+-+fh_find(svc_fh *h, int mode, dev_t basedev)
+- {
+--	register fhcache *fhc, *flush;
+-+	register fhcache *fhc;
+- 	int		 check;
+- 
+- 	check = (mode & FHFIND_CHECK);
+-@@ -877,12 +980,12 @@
+- 
+- 	ex_state = active;
+- 	time(&curtime);
+--	while ((fhc = fh_lookup(h->psi)) != NULL) {
+-+	while ((fhc = fh_lookup(h->ino,h->dev)) != NULL) {
+- 		struct stat	sbuf, *s = NULL;
+- 		nfsstat		dummy;
+- 
+--		Dprintf(D_FHCACHE, "fh_find: psi=%lx... found '%s', fd=%d\n",
+--			(unsigned long) h->psi,
+-+		Dprintf(D_FHCACHE, "fh_find: (%u,%u)... found '%s', fd=%d\n",
+-+			h->ino, h->dev,
+- 			fhc->path ? fhc->path : "<unnamed>",
+- 			fhc->fd);
+- 
+-@@ -905,6 +1008,7 @@
+- 				Dprintf(D_FHTRACE,
+- 					"fh_find: stale fh: lstat: %m\n");
+- 			} else {
+-+				int mp = 0;
+- 				/* If device/ino don't match, fhc->path may
+- 				 * be a mount point (hence lstat() returns
+- 				 * a different inode number than the readdir()
+-@@ -915,19 +1019,26 @@
+- 
+- 				/* Get the dev/ino of the underlying
+- 				 * mount point. */
+--				path_psi(fhc->path, &dummy, s, 1);
+--				if (fh_attrmatch(fhc, s))
+--					goto fh_return;
+-+				if (path_psi(fhc->path, &dummy, s, 1, &mp) &&
+-+					fh_attrmatch(fhc, s)) {
+-+					if (!mp)
+-+						Dprintf(D_FHTRACE,"fh_find: should be mount point %x,%x\n",
+-+								h->dev,h->ino);
+-+					
+-+				}
+- 
+--				Dprintf(D_FHTRACE, "fh_find: stale fh: %lx",
+--					(unsigned long) h->psi);
+-+				Dprintf(D_FHTRACE, "fh_find: stale fh: "
+-+					"dev/ino %x/%lx ino:%x dev:%x",
+-+					s->st_dev, s->st_ino,
+-+					(unsigned)h->ino, (unsigned)h->dev);
+- 			}
+- 
+- 		fh_discard:
+- #ifdef FHTRACE
+- 			Dprintf(D_FHTRACE, "\tdata: %s\n", fh_dump(h));
+- #endif
+--			Dprintf(D_FHCACHE, "fh_find: delete cached handle\n");
+-+			Dprintf(D_FHCACHE, "fh_find: delete cached handle %x,%x <%x>\n",
+-+					fhc->h.dev,fhc->h.ino,fhc->path ? fhc->path : "no path");
+- 			fh_delete(fhc);
+- 			break;
+- 		}
+-@@ -947,88 +1058,13 @@
+- 		return (fhc);
+- 	}
+- 
+--	Dprintf(D_FHCACHE, "fh_find: psi=%lx... not found\n",
+--			(unsigned long) h->psi);
+--
+--	if (mode == FHFIND_FCACHED) {
+--		ex_state = inactive;
+--		return NULL;
+--	}
+--
+--	for (flush = fh_tail.prev; fh_list_size > FH_CACHE_LIMIT; flush = fhc) {
+--		/* Don't flush current head. */
+--		if (flush == &fh_head)
+--			break;
+--		fhc = flush->prev;
+--		fh_delete(flush);
+--	}
+--
+--	fhc = (fhcache *) xmalloc(sizeof *fhc);
+--	if (mode == FHFIND_FCREATE) {
+--		/* File will be created */
+--		fhc->path = NULL;
+--	} else {
+--		/* File must exist. Attempt to construct from hash_path */
+--		char *path;
+--
+--		if ((path = fh_buildpath(h)) == NULL) {
+--#ifdef FHTRACE
+--			Dprintf(D_FHTRACE, "fh_find: stale fh (hash path)\n");
+--			Dprintf(D_FHTRACE, "\tdata: %s\n", fh_dump(h));
+--#endif
+--			free(fhc);
+--			ex_state = inactive;
+--			return NULL;
+--		}
+--		fhc->path = path;
+--	}
+--
+--	fhc->flags = 0;
+--	if (fhc->path && efs_lstat(fhc->path, &fhc->attrs) >= 0) {
+--		if (nfsmounted(fhc->path, &fhc->attrs)) {
+--			fhc->flags |= FHC_NFSMOUNTED;
+--#if 0
+--			/* We must allow the client to send us the
+--			 * file handle for the NFS mount point itself,
+--			 * but not for entries within an NFS mount.
+--			 * XXX: needs fixing.
+--			 */
+--			if (!re_export) {
+--				Dprintf(D_FHTRACE,
+--					"Attempt to use %s (non-exportable)\n",
+--					fhc->path);
+--				free(fhc);
+--				ex_state = inactive;
+--				return NULL;
+--			}
+--#endif
+--		}
+--		fhc->flags |= FHC_ATTRVALID;
+--		fhc->dev   = fhc->attrs.st_dev;
+--		fhc->ino   = fhc->attrs.st_ino;
+--		fhc->type  = fhc->attrs.st_mode & S_IFMT;
+--	}
+--	fhc->fd = -1;
+--	fhc->last_used = curtime;
+--	fhc->h = *h;
+--	fhc->last_clnt = NULL;
+--	fhc->last_mount = NULL;
+--	fhc->last_uid = (uid_t)-1;
+--	fhc->fd_next = fhc->fd_prev = NULL;
+--	fh_inserthead(fhc);
+--	Dprintf(D_FHCACHE,
+--		"fh_find: created new handle %x (path `%s' psi %08x)\n",
+--		fhc, fhc->path ? fhc->path : "<unnamed>", fhc->h.psi);
+- 	ex_state = inactive;
+--	if (fh_list_size > FH_CACHE_LIMIT)
+--		flush_cache(0);
+--#ifdef FHTRACE
+--	if (fhc->h.hash_path[0] == 0xFF) {
+--		Dprintf(L_ERROR, "newly created fh instantly flushed?!");
+-+
+-+	Dprintf(D_FHCACHE, "fh_find: (%u,%u) ... not found\n",
+-+		h->ino, h->dev);
+-+	if (mode == FHFIND_FCACHED)
+- 		return NULL;
+--	}
+--#endif
+--	return (fhc);
+-+	return fh_newfh(h, mode, basedev);
+- }
+- 
+- /*
+-@@ -1040,7 +1076,7 @@
+- {
+- 	fhcache *h;
+- 
+--	if ((h = fh_find((svc_fh *) fh, FHFIND_FCACHED)) == NULL)
+-+	if ((h = fh_find((svc_fh *) fh, FHFIND_FCACHED, 0)) == NULL)
+- 		return fh_dump((svc_fh *) fh);
+- 	return (h->path);
+- }
+-@@ -1050,10 +1086,10 @@
+- {
+- 	static char	buf[65];
+- 	char		*sp;
+--	int		i, n = fh->hash_path[0];
+-+	int		i, n = fh->hash_path[0], l;
+- 
+--	sprintf(buf, "%08x %02x ", fh->psi, fh->hash_path[0]);
+--	for (i = 1, sp = buf + 12; i <= n && i < HP_LEN; i++, sp += 2)
+-+	l = sprintf(buf, "%08x %04x %02x ", fh->ino, fh->dev, fh->hash_path[0]);
+-+	for (i = 1, sp = buf + l; i <= n && i < HP_LEN; i++, sp += 2)
+- 		sprintf(sp, "%02x", fh->hash_path[i]);
+- 	return buf;
+- }
+-@@ -1082,7 +1118,7 @@
+- 
+- 	memset(&key, 0, sizeof(key));
+- 	status = NFS_OK;
+--	if ((psi = path_psi("/", &status, &stb, 0)) == 0)
+-+	if ((psi = path_psi("/", &status, &stb, 0, NULL)) == 0)
+- 		return ((int) status);
+- 
+- 	s = path;
+-@@ -1091,7 +1127,7 @@
+- 			return ((int) NFSERR_NAMETOOLONG);
+- 		key.hash_path[key.hash_path[0]] = hash_psi(psi);
+- 		*s = '\0';
+--		if ((psi = path_psi(path, &status, &stb, 0)) == 0)
+-+		if ((psi = path_psi(path, &status, &stb, 0, NULL)) == 0)
+- 			return ((int) status);
+- 		*s = '/';
+- 	}
+-@@ -1099,11 +1135,12 @@
+- 		if (++(key.hash_path[0]) >= HP_LEN)
+- 			return ((int) NFSERR_NAMETOOLONG);
+- 		key.hash_path[key.hash_path[0]] = hash_psi(psi);
+--		if ((psi = path_psi(path, &status, &stb, 0)) == 0)
+-+		if ((psi = path_psi(path, &status, &stb, 0, NULL)) == 0)
+- 			return ((int) status);
+- 	}
+--	key.psi = psi;
+--	h = fh_find(&key, FHFIND_FCREATE);
+-+	key.dev = stb.st_dev;
+-+	key.ino = stb.st_ino;
+-+	h = fh_find(&key, FHFIND_FCREATE, 0);
+- 
+- #ifdef FHTRACE
+- 	if (!h)
+-@@ -1123,6 +1160,7 @@
+- 	return ((int) status);
+- }
+- 
+-+#if 0
+- char *
+- fh_path(nfs_fh *fh, nfsstat *status)
+- {
+-@@ -1135,6 +1173,7 @@
+- 	*status = NFS_OK;
+- 	return (h->path);
+- }
+-+#endif
+- 
+- nfs_fh *
+- fh_handle(fhcache *h)
+-@@ -1349,7 +1388,7 @@
+- 	if (sbp == NULL)
+- 		sbp = &sbuf;
+- 
+--	if ((dirh = fh_find((svc_fh *) &dopa->dir, FHFIND_FEXISTS)) == NULL)
+-+	if ((dirh = fh_find((svc_fh *) &dopa->dir, FHFIND_FEXISTS, 0)) == NULL)
+- 		return NFSERR_STALE;
+- 
+- 	/*
+-@@ -1419,8 +1458,22 @@
+- 
+- 	*new_fh = dopa->dir;
+- 	key = (svc_fh *) new_fh;
+--	if ((key->psi = path_psi_m(pathbuf, &ret, sbp, &smount, 0)) == 0)
+-+
+-+	if (path_psi_m(pathbuf, &ret, sbp, &smount, 0, NULL) == 0)
+- 		return (ret);
+-+	key->ino = sbp->st_ino;
+-+	key->dev = sbp->st_dev;
+-+
+-+	if (sbp->st_dev != dirh->h.dev) {
+-+		nfs_mount *mp = dirh->last_mount;
+-+		if (!mp)
+-+			Dprintf(L_ERROR, "no last mount in fh_compose for %s\n", pathbuf);
+-+		else if (auth_checkdev(mp, sbp->st_dev) == 0) {
+-+			Dprintf(L_ERROR, "access to no cross path below mountpoint (<%s>, %x<->%x)\n",
+-+					pathbuf, mp->mount_dev, sbp->st_dev);
+-+			return NFSERR_STALE;
+-+		}
+-+	}
+- 
+- 	if (is_dd) {
+- 		/* Don't cd .. from root, or mysterious ailments will
+-@@ -1430,11 +1483,12 @@
+- 	} else {
+- 		if (++(key->hash_path[0]) >= HP_LEN)
+- 			return NFSERR_NAMETOOLONG;
+--		key->hash_path[key->hash_path[0]] = hash_psi(dirh->h.psi);
+-+		key->hash_path[key->hash_path[0]] = hash_psi(pseudo_inode(dirh->h.ino,
+-+			dirh->h.dev));
+- 	}
+- 	/* FIXME: when crossing a mount point, we'll find the real
+- 	 * dev/ino in sbp and can store it in h... */
+--	h = fh_find(key, FHFIND_FCREATE);
+-+	h = fh_find(key, FHFIND_FCREATE, 0);
+- 
+- #ifdef FHTRACE
+- 	if (h == NULL)
+-@@ -1456,7 +1510,7 @@
+- 		/* We must have cached an old file under the same inode # */
+- 		Dprintf(D_FHTRACE, "Disposing of fh with bad path.\n");
+- 		fh_delete(h);
+--		h = fh_find(key, FHFIND_FCREATE);
+-+		h = fh_find(key, FHFIND_FCREATE, dirh->last_mount ? dirh->last_mount->mount_dev : 0);
+- #ifdef FHTRACE
+- 		if (!h) return NFSERR_STALE;
+- #endif
+-@@ -1511,12 +1565,14 @@
+- 	return (NFS_OK);
+- }
+- 
+-+#if 0
+- psi_t
+- fh_psi(nfs_fh *fh)
+- {
+- 	svc_fh *h = (svc_fh *) fh;
+- 	return (h->psi);
+- }
+-+#endif
+- 
+- void
+- fh_remove(char *path)
+-@@ -1524,12 +1580,13 @@
+- 	psi_t	psi;
+- 	nfsstat status;
+- 	fhcache *fhc;
+-+	struct stat st;
+- 
+--	psi = path_psi(path, &status, NULL, 0);
+-+	psi = path_psi(path, &status, &st, 0, NULL);
+- 	if (psi == 0)
+- 		return;
+- 	ex_state = active;
+--	fhc = fh_lookup(psi);
+-+	fhc = fh_lookup(st.st_ino,st.st_dev);
+- 	if (fhc != NULL)
+- 		fh_delete(fhc);
+- 
+-@@ -1634,6 +1691,11 @@
+- fh_init(void)
+- {
+- 	static int	initialized = 0;
+-+
+-+	if (sizeof(svc_fh) > 32) {
+-+		fprintf(stderr, "filehandle wrong size %d\n", sizeof(svc_fh));
+-+		exit(10);
+-+	}
+- 
+- 	if (initialized)
+- 		return;
+---- nfs-server/fh.h
+-+++ nfs-server/fh.h	2002/11/08 13:59:16
+-@@ -20,6 +20,7 @@
+- #define	FHC_XONLY_PATH		001	/* NOT USED ANYMORE */
+- #define	FHC_ATTRVALID		002
+- #define FHC_NFSMOUNTED		004
+-+#define FHC_CROSS		010
+- 
+- /* Modes for fh_find */
+- #define FHFIND_FEXISTS	0	/* file must exist */
+-@@ -65,11 +66,12 @@
+-  *
+-  * hash_path[hash_path[0]+1] ... hash_path[HP_LEN-1] == 0
+-  */
+--#define	HP_LEN		(NFS_FHSIZE - sizeof(psi_t))
+-+#define        HP_LEN          (NFS_FHSIZE-sizeof(u_int32_t)-sizeof(u_int16_t))
+- typedef struct {
+--	psi_t		psi;
+-+	u_int32_t	ino;
+-+	u_int16_t	dev;
+- 	__u8		hash_path[HP_LEN];
+--} svc_fh;
+-+} svc_fh __attribute__((packed));
+- 
+- typedef enum { inactive, active } mutex;
+- 
+-@@ -100,6 +102,7 @@
+- 
+- 	/* These are fixed during the lifetime of this object */
+- 	svc_fh			h;
+-+	psi_t			psi;
+- 	dev_t			dev;
+- 	ino_t			ino;
+- 	mode_t			type;	/* st_mode & S_IFMT */
+-@@ -122,10 +125,11 @@
+- /* Global function prototypes. */
+- extern nfsstat	nfs_errno(void);
+- extern psi_t	pseudo_inode(ino_t inode, dev_t dev);
+-+extern psi_t	visible_inode(ino_t inode, dev_t dev, nfs_mount *);
+- extern void	fh_init(void);
+- extern char	*fh_pr(nfs_fh *fh);
+- extern int	fh_create(nfs_fh *fh, char *path);
+--extern fhcache	*fh_find(svc_fh *h, int create);
+-+extern fhcache	*fh_find(svc_fh *h, int create, dev_t basedev);
+- extern char	*fh_path(nfs_fh *fh, nfsstat *status);
+- extern int	path_open(char *path, int omode, int perm);
+- extern int	fh_fd(fhcache *fhc, nfsstat *status, int omode);
+-@@ -139,6 +143,7 @@
+- extern void	fh_flush(int force);
+- extern RETSIGTYPE flush_cache(int sig);
+- extern int	nfsmounted(const char *path, struct stat *sbp);
+-+extern fhcache *fh_newfh(svc_fh *fh, int mode, dev_t basedev);
+- 
+- #ifdef ENABLE_DEVTAB
+- extern unsigned int	devtab_index(dev_t);
+---- nfs-server/getattr.c
+-+++ nfs-server/getattr.c	2002/11/08 13:59:16
+-@@ -43,7 +43,7 @@
+- {
+- 	fhcache *fhc;
+- 
+--	if ((fhc = fh_find((svc_fh*)fh, FHFIND_FEXISTS)) == NULL) {
+-+	if ((fhc = fh_find((svc_fh*)fh, FHFIND_FEXISTS, 0)) == NULL) {
+- 		Dprintf(D_CALL, "getattr: failed! No such file.\n");
+- 		return (NFSERR_STALE);
+- 	}
+-@@ -103,18 +103,8 @@
+- #else
+- 	attr->blocks = st_blocks(s);
+- #endif
+--#if 0
+--	if (nfsmount->o.cross_mounts) {
+--		attr->fsid = 1;
+--		attr->fileid = fh_psi((nfs_fh *)&(fhc->h));
+--	} else {
+--		attr->fsid = s->st_dev;
+--		attr->fileid = covered_ino(fhc->path);
+--	}
+--#else
+--	attr->fsid   = 1;
+--	attr->fileid = fh_psi((nfs_fh *)&(fhc->h));
+--#endif
+-+	attr->fsid   = 1; // XXX
+-+	attr->fileid = visible_inode(fhc->h.ino, fhc->h.dev, nfsmount);
+- 
+- 	/* This may be needed by some Suns... testing */
+- #define MINTIME	(24 * 2600)
+---- nfs-server/mountd.c
+-+++ nfs-server/mountd.c	2002/11/08 13:59:16
+-@@ -36,6 +36,8 @@
+- #include "signals.h"
+- #include <rpc/pmap_clnt.h>
+- 
+-+int cross_mounts = 1;
+-+int hashed_inodes; /* dummy */
+- 
+- static void	usage(FILE *, int);
+- static void	terminate(void);
+-@@ -58,9 +60,9 @@
+-       {	"no-spoof-trace",	0,			0,	't' },
+-       { "version",		0,			0,	'v' },
+-       { "fail-safe",		optional_argument,	0,	'z' },
+-+      { "no-cross-mounts",	0,			0,	'x' },
+-       { "no-tcp",		0,			0,	OPT_NOTCP },
+-       {	"loopback-only",	0,			0,	OPT_LOOPBACK },
+--
+-       { NULL,			0,			0,	0 }
+- };
+- static const char *	shortopts = "Fd:f:hnpP:rtvz::";
+-@@ -80,6 +82,7 @@
+- int		need_reinit = 0;
+- int		need_flush = 0;
+- extern char	version[];
+-+nfs_client *nfsclient; /* dummy */
+- 
+- /*
+-  * NULL
+-@@ -319,6 +322,9 @@
+- 	opterr = 0;
+- 	while ((c = getopt_long(argc, argv, shortopts, longopts, NULL)) != EOF)
+- 		switch (c) {
+-+		case 'x':
+-+			cross_mounts = 0;
+-+			break;
+- 		case 'F':
+- 			foreground = 1;
+- 			break;
+-@@ -444,7 +450,7 @@
+- 				program_name);
+- 	fprintf(fp, "       [--debug kind] [--help] [--allow-non-root]\n");
+- 	fprintf(fp, "       [--promiscuous] [--version] [--port portnum]\n");
+--	fprintf(fp, "       [--exports-file=file]\n");
+-+	fprintf(fp, "       [--exports-file=file] [--no-cross-mounts]\n");
+- 	exit(n);
+- }
+- 
+---- nfs-server/nfsd.c
+-+++ nfs-server/nfsd.c	2002/11/08 14:20:57
+-@@ -72,7 +72,7 @@
+-       { "no-tcp",		0,			0,	OPT_NOTCP },
+-       { "udp-only",		0,			0,	OPT_NOTCP },
+-       {	"loopback-only",	0,			0,	OPT_LOOPBACK },
+--
+-+      { "hashed-inodes",	0,			0,	'I' },
+-       { NULL,		0,	0, 0 }
+- };
+- static const char *	shortopts = "a:d:Ff:hlnP:prR:tvz::";
+-@@ -91,6 +91,7 @@
+- int			need_flush = 0;		/* flush fh cache */
+- int			read_only = 0;		/* Global ro forced */
+- int			cross_mounts = 1;	/* Transparently cross mnts */
+-+int			hashed_inodes = 0;
+- int			log_transfers = 0;	/* Log transfers */
+- static svc_fh		public_fh;		/* Public NFSv2 FH */
+- 
+-@@ -122,12 +123,17 @@
+- {
+- 	static int	total = 0, cached = 0;
+- 	fhcache		*fhc;
+-+	int		newfh = 0;
+- 
+--	/* Try to map FH. If not cached, reconstruct path with root priv */
+--	fhc = fh_find((svc_fh *)fh, FHFIND_FEXISTS|FHFIND_CHECK);
+--	if (fhc == NULL) {
+--		*statp = NFSERR_STALE;
+--		return NULL;
+-+	/* Try to map FH. */
+-+	fhc = fh_find((svc_fh *)fh, FHFIND_FCACHED|FHFIND_CHECK, 0);
+-+	if (!fhc) {
+-+		fhc = fh_newfh((svc_fh*)fh, FHFIND_FEXISTS|FHFIND_CHECK, 0);
+-+		if (!fhc) {
+-+			*statp = NFSERR_STALE;
+-+			return NULL;
+-+		}
+-+		newfh = 1;
+- 	}
+- 
+- 	/* Try to retrieve last client who accessed this fh */
+-@@ -163,6 +169,16 @@
+- 			100 * (double) cached / total);
+- 	 */
+- 
+-+	/* Trust the crossmount check of the parent directory for creates */
+-+	if (newfh &&
+-+		(fhc->flags & FHC_ATTRVALID) &&
+-+		auth_checkdev(nfsmount, fhc->attrs.st_dev) == 0) {
+-+		Dprintf(L_ERROR, "auth_fh: fh crossed mount %s: %x<->%x\n",
+-+				fhc->path ? fhc->path : "???", nfsmount->mount_dev, fhc->attrs.st_dev);
+-+		*statp = NFSERR_STALE; /* or ACCES? */
+-+		return NULL;
+-+	}
+-+
+- 	if (nfsmount->o.noaccess &&
+- 	    ((flags & CHK_NOACCESS) || strcmp(nfsmount->path, fhc->path))) {
+- 		struct in_addr	addr = svc_getcaller(rqstp->rq_xprt)->sin_addr;
+-@@ -195,6 +211,7 @@
+- 	fhcache		*fhc;
+- 	nfsstat		status;
+- 	char		*path = buf, *sp;
+-+	struct stat	st;
+- 
+- 	/* Authenticate directory file handle */
+- 	if ((fhc = auth_fh(rqstp, &dopa->dir, &status, flags)) == NULL)
+-@@ -219,6 +236,9 @@
+- 	if ((nfsmount = auth_path(nfsclient, rqstp, path)) == NULL)
+- 		return NFSERR_ACCES;
+- 
+-+	if (efs_lstat(path, &st) >= 0 && !auth_checkdev(nfsmount, st.st_dev))
+-+		return NFSERR_ACCES;
+-+
+- 	/* XXX: really need to call it again here?
+- 	 * Already invoked in auth_fh */
+- 	if (!auth_user(nfsmount, rqstp))
+-@@ -318,7 +338,8 @@
+- 	int		ispublic = 0;
+- 
+- 	/* First check whether this is the public FH */
+--	if (((svc_fh *) fh)->psi == 0 && !memcmp(fh, &public_fh, FHSIZE)) {
+-+	if (((svc_fh *) fh)->dev == 0 && ((svc_fh*)fh)->ino == 0 &&
+-+		!memcmp(fh, &public_fh, FHSIZE)) {
+- 		if (public_root_path == NULL)
+- 			return NFSERR_ACCES;
+- 		memcpy(&argp->dir, &public_root, NFS_FHSIZE);
+-@@ -333,6 +354,7 @@
+- 	if (!(fhc = auth_fh(rqstp, fh, &status, CHK_READ)))
+- 		return status;
+- 
+-+	/* FIXME: does too many stats */
+- 	status = fh_compose(argp, &dp->file, &sbuf, -1, -1, ispublic);
+- 	if (status != NFS_OK)
+- 		return status;
+-@@ -896,6 +918,9 @@
+- 	errno = 0;
+- 	if (efs_lstat(h->path, &sbuf) < 0 || !(S_ISDIR(sbuf.st_mode)))
+- 		return (NFSERR_NOTDIR);
+-+	if (!auth_checkdev(h->last_mount, sbuf.st_dev))
+-+		dotsonly = 1;
+-+
+- 	if ((dirp = efs_opendir(h->path)) == NULL)
+- 		return ((errno ? nfs_errno() : NFSERR_NAMETOOLONG));
+- 
+-@@ -923,7 +948,7 @@
+- 		}
+- 
+- 		e = *ep = (entry *) xmalloc(sizeof(entry));
+--		e->fileid = pseudo_inode(dp->d_ino, sbuf.st_dev);
+-+		e->fileid = visible_inode(dp->d_ino, sbuf.st_dev, h->last_mount);
+- 		e->name = xmalloc(NLENGTH(dp) + 1);
+- 		strcpy(e->name, dp->d_name);
+- 		dloc = htonl(efs_telldir(dirp));
+-@@ -1033,6 +1058,9 @@
+- 		case 'x':
+- 			cross_mounts = 0;
+- 			break;
+-+		case 'I':
+-+			hashed_inodes = 1;
+-+			break;
+- 		case 'z':
+- 			if (optarg)
+- 				failsafe_level = atoi(optarg);
+-@@ -1189,7 +1217,7 @@
+- "       [--debug kind] [--exports-file=file] [--port port]\n"
+- "       [--allow-non-root] [--promiscuous] [--version] [--foreground]\n"
+- "       [--re-export] [--log-transfers] [--public-root path]\n"
+--"       [--no-spoof-trace] [--help]\n"
+-+"       [--no-spoof-trace] [--no-cross-mounts] [--hashed-inodes] [--help]\n"
+- 						, program_name);
+- 	exit(n);
+- }
+---- nfs-server/nfsd.h
+-+++ nfs-server/nfsd.h	2002/11/08 13:59:16
+-@@ -51,6 +51,7 @@
+- extern int			need_reinit;
+- extern int			need_flush;
+- extern time_t			nfs_dispatch_time;
+-+extern int cross_mounts, hashed_inodes;
+- 
+- /* Include the other module definitions. */
+- #include "auth.h"
+---- nfs-server/setattr.c
+-+++ nfs-server/setattr.c	2002/11/08 13:59:16
+-@@ -17,6 +17,7 @@
+- 
+- #define IGNORE_TIME	((unsigned int) -1)
+- 
+-+#if 0
+- /*
+-  * Set file attributes based on file handle
+-  */
+-@@ -33,6 +34,7 @@
+- 	}
+- 	return setattr(path, attr, s, rqstp, flags);
+- }
+-+#endif
+- 
+- /*
+-  * Set file attributes given the path. The flags argument
+---- nfs-server/teahash3.c
+-+++ nfs-server/teahash3.c	2002/11/08 13:59:16
+-@@ -0,0 +1,168 @@
+-+/* Taken from the reiserfs source code and hacked slightly by AK.
+-+ * This is GPLed.  */ 
+-+/*
+-+ * Keyed 32-bit hash function using TEA in a Davis-Meyer function
+-+ *   H0 = Key
+-+ *   Hi = E Mi(Hi-1) + Hi-1
+-+ *
+-+ * (see Applied Cryptography, 2nd edition, p448).
+-+ *
+-+ * Jeremy Fitzhardinge <jeremy@zip.com.au> 1998
+-+ * 
+-+ * Jeremy has agreed to the contents of reiserfs/README. -Hans
+-+ */
+-+
+-+#include <assert.h>
+-+
+-+#if 0 
+-+/* OK for Intel */
+-+typedef unsigned long u32;
+-+typedef const unsigned char u8;
+-+#else
+-+#include <inttypes.h>
+-+typedef uint32_t u32;
+-+typedef uint8_t u8;
+-+#endif
+-+
+-+
+-+#define DELTA 0x9E3779B9
+-+#define FULLROUNDS 10		/* 32 is overkill, 16 is strong crypto */
+-+#define PARTROUNDS 6		/* 6 gets complete mixing */
+-+
+-+/* a, b, c, d - data; h0, h1 - accumulated hash */
+-+#define TEACORE(rounds)							\
+-+	do {								\
+-+		u32 sum = 0;						\
+-+		int n = rounds;						\
+-+		u32 b0, b1;						\
+-+									\
+-+		b0 = h0;						\
+-+		b1 = h1;						\
+-+									\
+-+		do							\
+-+		{							\
+-+			sum += DELTA;					\
+-+			b0 += ((b1 << 4)+a) ^ (b1+sum) ^ ((b1 >> 5)+b);	\
+-+			b1 += ((b0 << 4)+c) ^ (b0+sum) ^ ((b0 >> 5)+d);	\
+-+		} while(--n);						\
+-+									\
+-+		h0 += b0;						\
+-+		h1 += b1;						\
+-+	} while(0)
+-+
+-+u32 teahash3(/*u32 k[2], *//*u8*/const char *msg, int len)
+-+{
+-+	u32 k[] = { 0x9464a485, 0x542e1a94, 0x3e846bff, 0xb75bcfc3}; 
+-+
+-+	u32 h0 = k[0], h1 = k[1];
+-+	u32 a, b, c, d;
+-+	u32 pad;
+-+	int i;
+-+ 
+-+	assert(len >= 0 && len < 256);
+-+
+-+	pad = (u32)len | ((u32)len << 8);
+-+	pad |= pad << 16;
+-+
+-+	while(len >= 16)
+-+	{
+-+		a = (u32)msg[ 0]      |
+-+		    (u32)msg[ 1] << 8 |
+-+		    (u32)msg[ 2] << 16|
+-+		    (u32)msg[ 3] << 24;
+-+		b = (u32)msg[ 4]      |
+-+		    (u32)msg[ 5] << 8 |
+-+		    (u32)msg[ 6] << 16|
+-+		    (u32)msg[ 7] << 24;
+-+		c = (u32)msg[ 8]      |
+-+		    (u32)msg[ 9] << 8 |
+-+		    (u32)msg[10] << 16|
+-+		    (u32)msg[11] << 24;
+-+		d = (u32)msg[12]      |
+-+		    (u32)msg[13] << 8 |
+-+		    (u32)msg[14] << 16|
+-+		    (u32)msg[15] << 24;
+-+		
+-+		TEACORE(PARTROUNDS);
+-+
+-+		len -= 16;
+-+		msg += 16;
+-+	}
+-+
+-+	if (len >= 12)
+-+	{
+-+		assert(len < 16);
+-+
+-+		a = (u32)msg[ 0]      |
+-+		    (u32)msg[ 1] << 8 |
+-+		    (u32)msg[ 2] << 16|
+-+		    (u32)msg[ 3] << 24;
+-+		b = (u32)msg[ 4]      |
+-+		    (u32)msg[ 5] << 8 |
+-+		    (u32)msg[ 6] << 16|
+-+		    (u32)msg[ 7] << 24;
+-+		c = (u32)msg[ 8]      |
+-+		    (u32)msg[ 9] << 8 |
+-+		    (u32)msg[10] << 16|
+-+		    (u32)msg[11] << 24;
+-+
+-+		d = pad;
+-+		for(i = 12; i < len; i++)
+-+		{
+-+			d <<= 8;
+-+			d |= msg[i];
+-+		}
+-+	}
+-+	else if (len >= 8)
+-+	{
+-+		assert(len < 12);
+-+
+-+		a = (u32)msg[ 0]      |
+-+		    (u32)msg[ 1] << 8 |
+-+		    (u32)msg[ 2] << 16|
+-+		    (u32)msg[ 3] << 24;
+-+		b = (u32)msg[ 4]      |
+-+		    (u32)msg[ 5] << 8 |
+-+		    (u32)msg[ 6] << 16|
+-+		    (u32)msg[ 7] << 24;
+-+
+-+		c = d = pad;
+-+		for(i = 8; i < len; i++)
+-+		{
+-+			c <<= 8;
+-+			c |= msg[i];
+-+		}
+-+	}
+-+	else if (len >= 4)
+-+	{
+-+		assert(len < 8);
+-+
+-+		a = (u32)msg[ 0]      |
+-+		    (u32)msg[ 1] << 8 |
+-+		    (u32)msg[ 2] << 16|
+-+		    (u32)msg[ 3] << 24;
+-+
+-+		b = c = d = pad;
+-+		for(i = 4; i < len; i++)
+-+		{
+-+			b <<= 8;
+-+			b |= msg[i];
+-+		}
+-+	}
+-+	else
+-+	{
+-+		assert(len < 4);
+-+
+-+		a = b = c = d = pad;
+-+		for(i = 0; i < len; i++)
+-+		{
+-+			a <<= 8;
+-+			a |= msg[i];
+-+		}
+-+	}
+-+
+-+	TEACORE(FULLROUNDS);
+-+
+-+/*	return 0;*/
+-+	return h0^h1;
+-+}
+---- nfs-server/ugid_map.c
+-+++ nfs-server/ugid_map.c	2002/11/08 13:59:16
+-@@ -276,8 +276,10 @@
+- 	if ((gid == 0 && mountp->o.root_squash) || mountp->o.all_squash)
+- 		retgid = mountp->o.nobody_gid;
+- 
+-+#if 0
+- 	Dprintf(D_UGID, "lgid(%s, %d) = %d\n",
+- 			inet_ntoa(mountp->client->clnt_addr), gid, retgid);
+-+#endif
+- 	return retgid;
+- }
+- 
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
+deleted file mode 100644
+index e031fef..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
++++ /dev/null
+@@ -1,83 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/auth.c
+-+++ nfs-server/auth.c	2002/11/08 12:49:13
+-@@ -595,7 +595,6 @@
+- 	cp->clnt_addr.s_addr = INADDR_ANY;
+- 	cp->flags = 0;
+- 	cp->m = NULL;
+--	cp->umap = NULL;
+- 
+- 	if (hname == NULL) {
+- 		if (anonymous_client != NULL) {
+-@@ -1200,10 +1199,9 @@
+- 			free (mp->path);
+- 			if (mp->o.clnt_nisdomain)
+- 				free(mp->o.clnt_nisdomain);
+-+			if (mp->umap)
+-+				ugid_free_map(mp->umap);
+- 			free (mp);
+--		}
+--		if (cp->umap != NULL) {
+--			ugid_free_map(cp->umap);
+- 		}
+- 		free (cp);
+- 	}
+---- nfs-server/auth.h
+-+++ nfs-server/auth.h	2002/11/08 12:50:24
+-@@ -66,6 +66,11 @@
+- 	char *			path;
+- 	nfs_options		o;
+- 	dev_t			mount_dev;
+-+	/*
+-+	 * This is the uid/gid map.
+-+	 * See ugid_map.c for details
+-+	 */
+-+	struct ugid_map *	umap;
+- 	/* Original NFS client */
+- 	struct nfs_client *	origin;
+- } nfs_mount;
+-@@ -77,12 +82,6 @@
+- 	char *			clnt_name;
+- 	unsigned short		flags;
+- 	nfs_mount *		m;
+--
+--	/*
+--	 * This is the uid/gid map.
+--	 * See ugid_map.c for details
+--	 */
+--	struct ugid_map *	umap;
+- } nfs_client;
+- 
+- #define AUTH_CLNT_WILDCARD	0x0001
+---- nfs-server/ugid_map.c
+-+++ nfs-server/ugid_map.c	2002/11/08 12:49:14
+-@@ -401,12 +401,11 @@
+- static ugid_map *
+- ugid_get_map(nfs_mount *mountp)
+- {
+--	nfs_client	*clientp = mountp->client;
+- 	struct ugid_map	*umap;
+- 	unsigned int	how;
+- 
+--	if (clientp->umap == NULL) {
+--		clientp->umap = umap = (ugid_map *) xmalloc(sizeof(ugid_map));
+-+	if (mountp->umap == NULL) {
+-+		mountp->umap = umap = (ugid_map *) xmalloc(sizeof(ugid_map));
+- 		memset(umap, 0, sizeof(ugid_map));
+- 
+- 		for (how = 0; how < 4; how++) {
+-@@ -415,7 +414,7 @@
+- 		}
+- 	}
+- 
+--	return clientp->umap;
+-+	return mountp->umap;
+- }
+- 
+- static void
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
+deleted file mode 100644
+index 98405ea..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/configure.in	2002/11/08 14:24:55	1.1
+-+++ nfs-server/configure.in	2002/11/08 14:25:27
+-@@ -98,7 +98,7 @@
+- fi
+- if test "$enable_ugid_dynamic" = yes; then
+- 	AC_DEFINE(ENABLE_UGID_DAEMON)
+--	UGIDD_PROG=\${rpcprefix}.ugidd
+-+	UGIDD_PROG=\${rpcprefix}ugidd
+- 	UGIDD_MAN=ugidd
+- fi
+- if test "$enable_ugid_nis" = yes; then
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
+deleted file mode 100644
+index a4cf1f5..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/nfsd.c
+-+++ nfs-server/nfsd.c
+-@@ -1133,8 +1133,8 @@
+- 		}
+- 	}
+- 
+--	if (ncopies > 1)
+--		read_only = 1;
+-+	/* if (ncopies > 1)
+-+		read_only = 1; */
+- 
+- 	/*
+- 	 * We first fork off a child and detach from tty
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
+deleted file mode 100644
+index 2e53b37..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/configure.in
+-+++ nfs-server/configure.in
+-@@ -81,7 +81,7 @@
+- AC_CHECK_LIB(rpc, main)
+- AC_CHECK_LIB(crypt, main)
+- AC_CHECK_LIB(nys, main)
+--AC_HAVE_FUNCS(getcwd seteuid setreuid getdtablesize setgroups lchown setsid setfsuid setfsgid innetgr quotactl authdes_getucred)
+-+AC_HAVE_FUNCS(getcwd seteuid setreuid getdtablesize setgroups lchown setsid setfsuid setfsgid innetgr quotactl authdes_getucred realpath)
+- AC_AUTHDES_GETUCRED
+- AC_BROKEN_SETFSUID
+- AC_MOUNTLIST
+---- nfs-server/realpath.c
+-+++ nfs-server/realpath.c
+-@@ -53,6 +53,8 @@
+- 
+- #define MAX_READLINKS 32
+- 
+-+#ifndef HAVE_REALPATH
+-+
+- #ifdef __STDC__
+- char *realpath(const char *path, char resolved_path [])
+- #else
+-@@ -173,3 +175,5 @@
+- 	strcpy (resolved_path, got_path);
+- 	return resolved_path;
+- }
+-+
+-+#endif /* HAVE_REALPATH */
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
+deleted file mode 100644
+index 1d0535b..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/Makefile.in
+-+++ nfs-server/Makefile.in
+-@@ -225,7 +225,7 @@
+- 	$(RPCGEN) -l -o $@ $?
+- 
+- nfs_prot_xdr.o: nfs_prot_xdr.c
+--	$(COMPILE) $(RPC_WARNFLAGS) -c nfs_prot_xdr.c
+-+	$(COMPILE) $(RPC_WARNFLAGS) -fno-strict-aliasing -c nfs_prot_xdr.c
+- mount_xdr.o: mount_xdr.c
+- 	$(COMPILE) $(RPC_WARNFLAGS) -c mount_xdr.c
+- mount_svc.o: mount_svc.c
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
+deleted file mode 100644
+index d04e0d1..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/Makefile.in.xx	2006-01-12 12:43:09.000000000 +0100
+-+++ nfs-server/Makefile.in	2006-01-12 12:43:10.000000000 +0100
+-@@ -64,7 +64,7 @@
+- NFSD_DEFS =
+- 
+- CFLAGS = @CFLAGS@
+--LDFLAGS = @LDFLAGS@ -s
+-+LDFLAGS = @LDFLAGS@
+- WARNFLAGS = @WARNFLAGS@
+- RPC_WARNFLAGS = @RPC_WARNFLAGS@
+- TRANSPORTFLAGS = @RPCGEN_I@ -s udp -s tcp
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
+deleted file mode 100644
+index b161fe4..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/mountd.c	2006/01/12 14:00:13	1.13
+-+++ nfs-server/mountd.c	2006/01/12 14:37:35
+-@@ -76,7 +76,7 @@
+- 	0
+- };
+- 
+--char		argbuf[MNTPATHLEN + 1];
+-+char		argbuf[PATH_MAX + 1];
+- char		*auth_file = NULL;
+- static char	*program_name;
+- int		need_reinit = 0;
+-@@ -97,6 +97,9 @@
+- /*
+-  * MOUNT
+-  * This is what the whole protocol is all about
+-+ *
+-+ * Note: librpc gets us MNTPATHLEN length strings, but realpath
+-+ * needs a PATH_MAX length output buffer.
+-  */
+- fhstatus *
+- mountproc_mnt_1_svc(dirpath *argp, struct svc_req *rqstp)
+-@@ -105,7 +108,7 @@
+- 	struct stat	stbuf;
+- 	nfs_client	*cp;
+- 	nfs_mount	*mp;
+--	char		nargbuf[MNTPATHLEN + 1];
+-+	char		nargbuf[PATH_MAX + 1];
+- 	int		saved_errno = 0;
+- #ifdef WANT_LOG_MOUNTS
+- 	struct in_addr	addr;
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
+deleted file mode 100644
+index 370f440..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/mountd.c
+-+++ nfs-server/mountd.c
+-@@ -278,6 +278,7 @@
+- 	  || (mp = auth_path(cp, rqstp, dir)) == NULL
+- 	  || mp->o.noaccess) {
+- #ifdef WANT_LOG_MOUNTS
+-+		addr = svc_getcaller(rqstp->rq_xprt)->sin_addr;
+- 		Dprintf(L_WARNING, "Blocked attempt of %s to pathconf(%s)\n",
+- 			             inet_ntoa(addr), dir);		
+- #endif /* WANT_LOG_MOUNTS */
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
+deleted file mode 100644
+index 3b86d43..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Patch origin: nfs-server source RPM from openSUSE 10.3
+-
+---- nfs-server/setattr.c.orig	2006-07-28 16:38:26.000000000 +0200
+-+++ nfs-server/setattr.c	2006-07-28 16:42:28.000000000 +0200
+-@@ -97,7 +97,20 @@
+- 				tvp[1].tv_sec  = s->st_mtime;
+- 				tvp[1].tv_usec = 0;
+- 			}
+--			if (efs_utimes(path, tvp) < 0)
+-+			if (m_secs != IGNORE_TIME && attr->mtime.useconds == 1000000) {
+-+		/*      
+-+		 * from kernel/fs/nfsd/nfsxdr.c:
+-+                 * Passing the invalid value useconds=1000000 for mtime
+-+                 * is a Sun convention for "set both mtime and atime to
+-+                 * current server time".  It's needed to make permissions
+-+                 * checks for the "touch" program across v2 mounts to
+-+                 * Solaris and Irix boxes work correctly. See description of
+-+                 * sattr in section 6.1 of "NFS Illustrated" by
+-+                 * Brent Callaghan, Addison-Wesley, ISBN 0-201-32750-5
+-+                 */
+-+				if (utime(path, (struct utimbuf *)0) < 0)
+-+					goto failure;
+-+			} else if (efs_utimes(path, tvp) < 0)
+- 				goto failure;
+- 		}
+- 	}
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
+deleted file mode 100644
+index 211aa0b..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Makefile fix for staging to work correctly.
+-# Scott Garman <scott.a.garman@intel.com>
+-
+---- nfs-server-2.2beta47/Makefile.in.orig	2010-08-03 20:55:05.000000000 -0700
+-+++ nfs-server-2.2beta47/Makefile.in	2010-08-03 20:55:42.000000000 -0700
+-@@ -69,7 +69,7 @@
+- RPC_WARNFLAGS = @RPC_WARNFLAGS@
+- TRANSPORTFLAGS = @RPCGEN_I@ -s udp -s tcp
+- 
+--prefix	= $(install_prefix)/usr
+-+prefix	= @prefix@
+- exec_prefix = $(prefix)
+- 
+- bindir	= $(exec_prefix)/sbin
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
+deleted file mode 100644
+index 99cd6b1..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
++++ /dev/null
+@@ -1,263 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Add the ability to choose alternate RPC ports at runtime and disable
+-# security so that it can run as a userland process
+-# Patch origin: Wind River
+-
+-Index: nfs-server-2.2beta47/auth_init.c
+-===================================================================
+---- nfs-server-2.2beta47.orig/auth_init.c
+-+++ nfs-server-2.2beta47/auth_init.c
+-@@ -409,6 +409,7 @@ auth_init(char *fname)
+- 		fname = EXPORTSFILE;
+- 	auth_file = fname;	/* Save for re-initialization */
+- 
+-+#ifdef ROOT_LEVEL_SECURITY
+- 	/* Check protection of exports file. */
+- 	switch(iCheckAccess(auth_file, EXPORTSOWNERUID, EXPORTSOWNERGID)) {
+- 	case FACCESSWRITABLE:
+-@@ -424,6 +425,7 @@ auth_init(char *fname)
+- 		Dprintf(L_ERROR, "exiting because of security violation.\n");
+- 		exit(1);
+- 	}
+-+#endif
+- 
+- 	if ((ef = fopen(fname, "r")) == NULL) {
+- 		Dprintf(L_ERROR, "Could not open exports file %s: %s\n",
+-Index: nfs-server-2.2beta47/nfsd.c
+-===================================================================
+---- nfs-server-2.2beta47.orig/nfsd.c
+-+++ nfs-server-2.2beta47/nfsd.c
+-@@ -46,6 +46,7 @@ static char pathbuf_1[NFS_MAXPATHLEN + N
+- 
+- extern char version[];
+- static char *program_name;
+-+static int nfs_prog = NFS_PROGRAM;
+- 
+- /*
+-  * Option table
+-@@ -60,6 +61,7 @@ static struct option longopts[] = {
+-       { "help",			0,			0,	'h' },
+-       { "log-transfers",	0,			0,	'l' },
+-       { "allow-non-root",	0,			0,	'n' },
+-+      { "prog",			required_argument,	0,	'g' },
+-       { "port",			required_argument,	0,	'P' },
+-       { "promiscuous",		0,			0,	'p' },
+-       { "re-export",		0,			0,	'r' },
+-@@ -73,9 +75,10 @@ static struct option longopts[] = {
+-       { "udp-only",		0,			0,	OPT_NOTCP },
+-       {	"loopback-only",	0,			0,	OPT_LOOPBACK },
+-       { "hashed-inodes",	0,			0,	'I' },
+-+      { "nfs-pid",	required_argument,			0,	'N' },
+-       { NULL,		0,	0, 0 }
+- };
+--static const char *	shortopts = "a:d:Ff:hlnP:prR:tvz::";
+-+static const char *	shortopts = "a:d:Ff:g:hlnN:P:prR:tvz::";
+- 
+- /*
+-  * Table of supported versions
+-@@ -1003,6 +1006,8 @@ main(int argc, char **argv)
+- 	int	failsafe_level = 0;
+- 	int	c;
+- 	int	i, ncopies = 1;
+-+    char *nfs_pid_file = NULL;
+-+
+- 
+- 	program_name = argv[0];
+- 	chdir("/");
+-@@ -1026,9 +1031,15 @@ main(int argc, char **argv)
+- 		case 'f':
+- 			auth_file = optarg;
+- 			break;
+-+		case 'g':
+-+			nfs_prog = atoi(optarg);
+-+			break;
+- 		case 'l':
+- 			log_transfers = 1;
+- 			break;
+-+        case 'N':
+-+            nfs_pid_file = strdup(optarg);
+-+            break;
+- 		case 'n':
+- 			allow_non_root = 1;
+- 			break;
+-@@ -1114,7 +1125,7 @@ main(int argc, char **argv)
+- 	log_open("nfsd", foreground);
+- 
+- 	/* Initialize RPC stuff */
+--	rpc_init("nfsd", NFS_PROGRAM, nfsd_versions, nfs_dispatch,
+-+	rpc_init("nfsd", nfs_prog, nfsd_versions, nfs_dispatch,
+- 				nfsport, NFS_MAXDATA);
+- 
+- 	if (_rpcpmstart) {
+-@@ -1145,7 +1156,10 @@ main(int argc, char **argv)
+- 	/* Initialize the AUTH module. */
+- 	auth_init(auth_file);
+- 
+--	setpidpath(_PATH_NFSD_PIDFILE);
+-+    if (nfs_pid_file == 0)
+-+        nfs_pid_file = _PATH_NFSD_PIDFILE;
+-+    setpidpath(nfs_pid_file);
+-+
+- 	if (failsafe_level == 0) {
+- 		/* Start multiple copies of the server */
+- 		writepid(getpid(), 1);
+-@@ -1215,9 +1229,11 @@ usage(FILE *fp, int n)
+- 	fprintf(fp,
+- "Usage: %s [-Fhnpv] [-d kind] [-f exports-file] [-P port] [--version]\n"
+- "       [--debug kind] [--exports-file=file] [--port port]\n"
+-+"       [--prog alternate_rpc_port_nubmer]\n"
+- "       [--allow-non-root] [--promiscuous] [--version] [--foreground]\n"
+- "       [--re-export] [--log-transfers] [--public-root path]\n"
+- "       [--no-spoof-trace] [--no-cross-mounts] [--hashed-inodes] [--help]\n"
+-+"       [--nfs-pid file]\n"
+- 						, program_name);
+- 	exit(n);
+- }
+-@@ -1234,7 +1250,7 @@ sigterm(int sig)
+- static void
+- terminate(void)
+- {
+--	rpc_exit(NFS_PROGRAM, nfsd_versions);
+-+	rpc_exit(nfs_prog, nfsd_versions);
+- 	efs_shutdown();
+- }
+- 
+-Index: nfs-server-2.2beta47/mountd.c
+-===================================================================
+---- nfs-server-2.2beta47.orig/mountd.c
+-+++ nfs-server-2.2beta47/mountd.c
+-@@ -42,6 +42,7 @@ int hashed_inodes; /* dummy */
+- static void	usage(FILE *, int);
+- static void	terminate(void);
+- static RETSIGTYPE sigterm(int sig);
+-+int mount_prog = MOUNTPROG;
+- 
+- /*
+-  * Option table for mountd
+-@@ -55,6 +56,7 @@ static struct option longopts[] =
+-       { "help",			0,			0,	'h' },
+-       { "allow-non-root",	0,			0,	'n' },
+-       { "port",			required_argument,	0,	'P' },
+-+      { "prog",			required_argument,	0,	'g' },
+-       { "promiscous",		0,			0,	'p' },
+-       { "re-export",		0,			0,	'r' },
+-       {	"no-spoof-trace",	0,			0,	't' },
+-@@ -63,9 +65,11 @@ static struct option longopts[] =
+-       { "no-cross-mounts",	0,			0,	'x' },
+-       { "no-tcp",		0,			0,	OPT_NOTCP },
+-       {	"loopback-only",	0,			0,	OPT_LOOPBACK },
+-+      { "mount-pid",	required_argument,			0,	'N' },
+-+      { "rmtab",	required_argument,			0,	'R' },
+-       { NULL,			0,			0,	0 }
+- };
+--static const char *	shortopts = "Fd:f:hnpP:rtvz::";
+-+static const char *	shortopts = "Fd:f:g:hnN:pP:rRtvz::";
+- 
+- /*
+-  * Table of supported versions
+-@@ -318,6 +322,7 @@ main(int argc, char **argv)
+- 	int failsafe_level = 0;
+- 	int port = 0;
+- 	int c;
+-+    char *mount_pid_file = NULL;
+- 
+- 	program_name = argv[0];
+- 
+-@@ -340,9 +345,15 @@ main(int argc, char **argv)
+- 		case 'f':
+- 			auth_file = optarg;
+- 			break;
+-+		case 'g':
+-+			mount_prog = port = atoi(optarg);
+-+			break;
+- 		case 'n':
+- 			allow_non_root = 1;
+- 			break;
+-+        case 'N':
+-+            mount_pid_file = strdup(optarg);
+-+            break;
+- 		case 'P':
+- 			port = atoi(optarg);
+- 			if (port <= 0 || port > 65535) {
+-@@ -354,6 +365,9 @@ main(int argc, char **argv)
+- 		case 'p':
+- 			promiscuous = 1;
+- 			break;
+-+        case 'R':
+-+            _PATH_RMTAB = strdup(optarg);
+-+            break;
+- 		case 'r':
+- 			re_export = 1;
+- 			break;
+-@@ -401,7 +415,7 @@ main(int argc, char **argv)
+- 	log_open("mountd", foreground);
+- 
+- 	/* Create services and register with portmapper */
+--	rpc_init("mountd", MOUNTPROG, mountd_versions, mount_dispatch, port, 0);
+-+	rpc_init("mountd", mount_prog, mountd_versions, mount_dispatch, port, 0);
+- 
+- 	if (_rpcpmstart) {
+- 		/* Always foreground mode */
+-@@ -422,7 +436,9 @@ main(int argc, char **argv)
+- 	auth_init(auth_file);
+- 
+- 	/* Write pidfile */
+--	setpidpath(_PATH_MOUNTD_PIDFILE);
+-+    if (mount_pid_file == 0)
+-+        mount_pid_file = _PATH_MOUNTD_PIDFILE;
+-+    setpidpath(mount_pid_file);
+- 	writepid(getpid(), 1);
+- 
+- 	/* Failsafe mode */
+-@@ -453,7 +469,9 @@ usage(FILE *fp, int n)
+- 				program_name);
+- 	fprintf(fp, "       [--debug kind] [--help] [--allow-non-root]\n");
+- 	fprintf(fp, "       [--promiscuous] [--version] [--port portnum]\n");
+-+	fprintf(fp, "       [--prog alternate_rpc_port_nubmer]\n");
+- 	fprintf(fp, "       [--exports-file=file] [--no-cross-mounts]\n");
+-+    fprintf(fp, "       [--mount-pid file] [--rmtab file]\n");
+- 	exit(n);
+- }
+- 
+-@@ -467,7 +485,7 @@ sigterm(int sig)
+- static void
+- terminate(void)
+- {
+--	rpc_exit(MOUNTPROG, mountd_versions);
+-+	rpc_exit(mount_prog, mountd_versions);
+- }
+- 
+- RETSIGTYPE
+-Index: nfs-server-2.2beta47/rmtab.c
+-===================================================================
+---- nfs-server-2.2beta47.orig/rmtab.c
+-+++ nfs-server-2.2beta47/rmtab.c
+-@@ -14,6 +14,8 @@ static char *	rmtab_gethost(struct svc_r
+- static int	rmtab_insert(char *, char *);
+- static void	rmtab_file(char);
+- 
+-+char *_PATH_RMTAB = _PATH_RMTAB_VAL;
+-+
+- /*
+-  * global top to linklist
+-  */
+-Index: nfs-server-2.2beta47/rmtab.h
+-===================================================================
+---- nfs-server-2.2beta47.orig/rmtab.h
+-+++ nfs-server-2.2beta47/rmtab.h
+-@@ -11,8 +11,9 @@
+-  * Location of rmtab file. /etc/rmtab is the standard on most systems.
+-  */
+- #include <paths.h>
+--#ifndef _PATH_RMTAB
+--#define _PATH_RMTAB	"/etc/rmtab"
+-+extern char *_PATH_RMTAB;
+-+#ifndef _PATH_RMTAB_VAL
+-+#define _PATH_RMTAB_VAL	"/etc/rmtab"
+- #endif
+- 
+- extern void 		rmtab_add_client(dirpath, struct svc_req *);
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
+deleted file mode 100644
+index 1b407e4..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Remove the requirement to link with libwrap
+-# Patch origin: Wind River
+-
+-Index: nfs-server-2.2beta47/haccess.c
+-===================================================================
+---- nfs-server-2.2beta47.orig/haccess.c	1999-04-08 08:47:19.000000000 -0400
+-+++ nfs-server-2.2beta47/haccess.c	2006-08-07 17:05:31.868221639 -0400
+-@@ -79,8 +79,12 @@
+- 		clients[hash] = hp;
+- 
+- 		hp->clnt_addr = addr;
+-+#ifdef USE_TCP_WRAPPERS
+- 		hp->status = hosts_ctl(rpcprog, "unknown",
+- 					inet_ntoa(addr), "root");
+-+#else
+-+		hp->status = 1;
+-+#endif
+- 		nrhosts++;
+- 	}
+- 
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
+deleted file mode 100644
+index 1b9c06a..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
++++ /dev/null
+@@ -1,130 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Write a pid file before forking
+-# Patch origin: Wind River
+-
+-Index: nfs-server-2.2beta47/daemon.c
+-===================================================================
+---- nfs-server-2.2beta47.orig/daemon.c
+-+++ nfs-server-2.2beta47/daemon.c
+-@@ -15,6 +15,19 @@
+- static const char *	pidfilename = 0;
+- static const char *	get_signame(int signo);
+- 
+-+void
+-+writepid(pid_t pid, int clear)
+-+{
+-+	FILE	*fp;
+-+
+-+	fp = fopen(pidfilename, clear? "w" : "a");
+-+	if (fp == NULL)
+-+		Dprintf(L_FATAL, "Unable to open %s: %m", pidfilename);
+-+	fprintf(fp, "%d\n", pid);
+-+	fclose(fp);
+-+	return;
+-+}
+-+
+- /*
+-  * Do the Crawley Thing
+-  */
+-@@ -33,8 +46,10 @@ daemonize(void)
+- 		Dprintf(L_FATAL, "unable to fork: %s", strerror(errno));
+- 
+- 	/* Parent process: exit */
+--	if (c > 0)
+-+	if (c > 0) {
+-+		writepid(c, 1);
+- 		exit(0);
+-+	}
+- 
+- 	/* Do the session stuff */
+- 	close(0);
+-@@ -60,19 +75,6 @@ setpidpath(const char *filename)
+- }
+- 
+- void
+--writepid(pid_t pid, int clear)
+--{
+--	FILE	*fp;
+--
+--	fp = fopen(pidfilename, clear? "w" : "a");
+--	if (fp == NULL)
+--		Dprintf(L_FATAL, "Unable to open %s: %m", pidfilename);
+--	fprintf(fp, "%d\n", pid);
+--	fclose(fp);
+--	return;
+--}
+--
+--void
+- failsafe(int level, int ncopies)
+- {
+- 	int	*servers, running, child, i;
+-Index: nfs-server-2.2beta47/mountd.c
+-===================================================================
+---- nfs-server-2.2beta47.orig/mountd.c
+-+++ nfs-server-2.2beta47/mountd.c
+-@@ -425,9 +425,6 @@ main(int argc, char **argv)
+- 		background_logging();
+- 	}
+- 
+--	/* Become a daemon */
+--	if (!foreground)
+--		daemonize();
+- 
+- 	/* Initialize the FH module. */
+- 	fh_init();
+-@@ -435,11 +432,15 @@ main(int argc, char **argv)
+- 	/* Initialize the AUTH module. */
+- 	auth_init(auth_file);
+- 
+--	/* Write pidfile */
+-     if (mount_pid_file == 0)
+-         mount_pid_file = _PATH_MOUNTD_PIDFILE;
+-     setpidpath(mount_pid_file);
+--	writepid(getpid(), 1);
+-+
+-+	/* Become a daemon */
+-+	if (!foreground)
+-+		daemonize();
+-+	else
+-+		writepid(getpid(), 1);
+- 
+- 	/* Failsafe mode */
+- 	if (failsafe_level)
+-Index: nfs-server-2.2beta47/nfsd.c
+-===================================================================
+---- nfs-server-2.2beta47.orig/nfsd.c
+-+++ nfs-server-2.2beta47/nfsd.c
+-@@ -1147,11 +1147,6 @@ main(int argc, char **argv)
+- 	/* if (ncopies > 1)
+- 		read_only = 1; */
+- 
+--	/*
+--	 * We first fork off a child and detach from tty
+--	 */
+--	if (!foreground)
+--		daemonize();
+- 
+- 	/* Initialize the AUTH module. */
+- 	auth_init(auth_file);
+-@@ -1160,9 +1155,16 @@ main(int argc, char **argv)
+-         nfs_pid_file = _PATH_NFSD_PIDFILE;
+-     setpidpath(nfs_pid_file);
+- 
+-+	/*
+-+	 * We first fork off a child and detach from tty
+-+	 */
+-+	if (!foreground)
+-+		daemonize();
+-+	else
+-+		writepid(getpid(), 1);
+-+
+- 	if (failsafe_level == 0) {
+- 		/* Start multiple copies of the server */
+--		writepid(getpid(), 1);
+- 		for (i = 1; i < ncopies; i++) {
+- 			pid_t	pid;
+- 
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
+deleted file mode 100644
+index fb51300..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Fix a problem with chmod attributes when using no_squash_all
+-# Patch origin: Wind River
+-
+----
+- setattr.c |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+---- a/setattr.c
+-+++ b/setattr.c
+-@@ -115,7 +115,7 @@ nfsstat setattr(char *path, sattr *attr,
+- 		}
+- 	}
+- 
+--	if (flags & SATTR_CHMOD) {
+-+	if (flags & SATTR_CHMOD && attr->mode != -1) {
+- 		unsigned int	mode = attr->mode;
+- 
+- 		/* If setuid is not allowed, silently squash them */
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
+deleted file mode 100644
+index 335d098..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Remove libwrap linkage
+-# Patch origin: Wind River
+-
+----
+- configure.in |    4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+---- a/configure.in
+-+++ b/configure.in
+-@@ -86,8 +86,8 @@ AC_AUTHDES_GETUCRED
+- AC_BROKEN_SETFSUID
+- AC_MOUNTLIST
+- AC_FSUSAGE
+--AC_CHECK_LIB(wrap, main)
+--AC_LIBWRAP_BUG
+-+dnl AC_CHECK_LIB(wrap, main)
+-+dnl AC_LIBWRAP_BUG
+- AC_BSD_SIGNALS
+- 
+- dnl **************************************************************
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
+deleted file mode 100644
+index c35bb7c..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
++++ /dev/null
+@@ -1,66 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+-
+-# Force socket fds to close on exec when used in conjunction with pseudo
+-# Patch origin: Wind River
+-
+----
+- nfsd.c    |    8 ++++++++
+- rpcmisc.c |    9 +++++++++
+- ugidd.c   |    8 ++++++++
+- 3 files changed, 25 insertions(+)
+-
+---- a/nfsd.c
+-+++ b/nfsd.c
+-@@ -630,6 +630,14 @@ nfsd_nfsproc_create_2(createargs *argp, 
+- 			if (S_ISSOCK(argp->attributes.mode)) {
+- 			  if ((s = socket(AF_UNIX, SOCK_STREAM, 0)) < 0)
+- 			          return(nfs_errno());
+-+			  /* if there is a pseudo exec mark the socket to be
+-+			   * closed automatically
+-+			   */
+-+			  {
+-+				  long f_flags;
+-+				  f_flags = fcntl(s, F_GETFD);
+-+				  f_flags = fcntl(s, F_SETFD, f_flags | FD_CLOEXEC);
+-+			  }
+- 			  sa.sun_family = AF_UNIX;
+- 			  strncpy(sa.sun_path, pathbuf, sizeof(sa.sun_path));
+- 			  sa.sun_path[sizeof(sa.sun_path)-1] = '\0';
+---- a/rpcmisc.c
+-+++ b/rpcmisc.c
+-@@ -197,6 +197,15 @@ makesock(int port, int proto, int socksz
+- 		Dprintf(L_FATAL, "Could not make a %s socket: %s\n",
+- 					prot_name, strerror(errno));
+- 
+-+	/* if there is a pseudo exec mark the socket to be
+-+	 * closed automatically
+-+	 */
+-+	{
+-+		long f_flags;
+-+		f_flags = fcntl(s, F_GETFD);
+-+		f_flags = fcntl(s, F_SETFD, f_flags | FD_CLOEXEC);
+-+	}
+-+	fcntl(s, FD_CLOEXEC, 1);
+- 	memset((char *) &sin, 0, sizeof(sin));
+- 	sin.sin_family = AF_INET;
+- 	sin.sin_addr.s_addr = INADDR_ANY;
+---- a/ugidd.c
+-+++ b/ugidd.c
+-@@ -195,6 +195,14 @@ authenticate_1_svc(argp, rqstp)
+- 	destaddr.sin_port = htons(*argp);
+- 	if ((s = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+- 		goto bad;
+-+	/* if there is a pseudo exec mark the socket to be
+-+	 * closed automatically
+-+	 */
+-+	{
+-+		long f_flags;
+-+		f_flags = fcntl(s, F_GETFD);
+-+		f_flags = fcntl(s, F_SETFD, f_flags | FD_CLOEXEC);
+-+	}
+- 	setsockopt(s, SOL_SOCKET, SO_LINGER, 0, 0);
+- 	bzero((char *) &sendaddr, sizeof sendaddr);
+- 	/* find a reserved port */
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch b/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
+deleted file mode 100644
+index 50f23fc..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Upstream-Status: Inappropriate [other]
+-Upstream is not making further releases of this software.
+-
+-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+-
+-# Allow user mode NFS to work without rpcbind / portmap
+-# Patch origin: Wind River
+-
+----
+- rpcmisc.c |    6 ++++--
+- 1 file changed, 4 insertions(+), 2 deletions(-)
+-
+---- a/rpcmisc.c
+-+++ b/rpcmisc.c
+-@@ -91,7 +91,8 @@ not_inetd:
+- 		if (transp == NULL)
+- 			Dprintf(L_FATAL, "cannot create udp service.");
+- 		for (i = 0; (vers = verstbl[i]) != 0; i++) {
+--			if (!svc_register(transp, prog, vers, dispatch, IPPROTO_UDP)) {
+-+			if (!(svc_register(transp, prog, vers, dispatch, IPPROTO_UDP) ||
+-+			      svc_register(transp, prog, vers, dispatch, 0))) {
+- 				Dprintf(L_FATAL,
+- 					"unable to register (%s, %d, udp).",
+- 					name, vers);
+-@@ -110,7 +111,8 @@ not_inetd:
+- 		transp->xp_ops->xp_recv = auth_rendevouser;
+- #endif
+- 		for (i = 0; (vers = verstbl[i]) != 0; i++) {
+--			if (!svc_register(transp, prog, vers, dispatch, IPPROTO_TCP)) {
+-+			if (!(svc_register(transp, prog, vers, dispatch, IPPROTO_TCP) ||
+-+			      svc_register(transp, prog, vers, dispatch, 0))) {
+- 				Dprintf(L_FATAL,
+- 					"unable to register (%s, %d, tcp).",
+- 					name, vers);
+diff --git a/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb b/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
+deleted file mode 100644
+index 226a645..0000000
+--- a/meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
++++ /dev/null
+@@ -1,78 +0,0 @@
+-SUMMARY = "Userspace NFS server"
+-SECTION = "console/network"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+-
+-RDEPENDS_${PN} = "pseudo"
+-RDEPENDS_${PN}_class-native = "pseudo-native"
+-RDEPENDS_${PN}_class-nativesdk = "nativesdk-pseudo"
+-BASEPV = "2.2beta47"
+-PR = "r1"
+-
+-SRC_URI = "ftp://linux.mathematik.tu-darmstadt.de/pub/linux/oldstuff/people/okir/nfs-server-${BASEPV}.tar.gz \
+-           file://001-2.2b47-2.2b51.patch \
+-           file://002-destdir.patch \
+-           file://003-manpages.patch \
+-           file://004-strsignal.patch \
+-           file://005-sys-time.patch \
+-           file://006-reiserfs.patch \
+-           file://007-map.patch \
+-           file://008-configure.patch \
+-           file://009-multirw.patch \
+-           file://010-realpath.patch \
+-           file://011-fno-strict-aliasing.patch \
+-           file://012-nostrip.patch \
+-           file://013-mntpathlen.patch \
+-           file://014-uninitialized.patch \
+-           file://015-setattr.patch \
+-           file://016-makefile.in.patch \
+-           file://017-wrs-dynamic-rpc.patch \
+-           file://018-remove-tcp-wrappers.patch \
+-           file://019-pid-before-fork.patch \
+-           file://020-undefined-chmod-fix.patch \
+-           file://021-nolibwrap.patch \
+-           file://022-add-close-on-exec-descriptors.patch \
+-           file://023-no-rpc-register.patch \
+-          "
+-
+-SRC_URI[md5sum] = "79a29fe9f79b2f3241d4915767b8c511"
+-SRC_URI[sha256sum] = "7eeaf3cf0b9d96167a5ba03bf1046e39b4585de1339a55b285e673c06ba415cb"
+-
+-S = "${WORKDIR}/nfs-server-${BASEPV}/"
+-
+-inherit autotools
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
+-CFLAGS = "-fPIE -fstack-protector-all"
+-LDFLAGS = "-pie"
+-
+-EXTRA_OECONF = "--enable-ugid-dynamic \
+-                --enable-ugid-nis \
+-                --enable-host-access \
+-                --with-exports-uid=0 \
+-                --with-exports-gid=0 \
+-                --enable-mount-logging \
+-                --with-devtab=${DESTDIR}${base_prefix}/var/lib/nfs/devtab \
+-               "
+-
+-do_configure_prepend () {
+-    # Remove pregenerated xdr functions. They use long
+-    # instead of u32, which produces incorrect code on
+-    # 64-bit architectures:
+-    rm -f *_xdr.c
+-
+-    if [ ! -f ${S}/acinclude.m4 ]; then
+-        mv ${S}/aclocal.m4 ${S}/acinclude.m4
+-    fi
+-}
+-
+-# This recipe is intended for -native and -nativesdk builds only,
+-# not target installs:
+-python __anonymous () {
+-    import re
+-
+-    pn = d.getVar("PN", True)
+-    if not pn.endswith('-native') and not pn.startswith('nativesdk-'):
+-        raise bb.parse.SkipPackage("unfs-server is intended for native/nativesdk builds only")
+-}
 -- 
 1.7.9.5
 
