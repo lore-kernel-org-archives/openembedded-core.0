@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E2396C72D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 535C16E7E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 10:39:21 +0000 (UTC)
+	Fri, 17 Jan 2014 10:39:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0HAdLOP018640
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0HAdMfC014749
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jan 2014 02:39:22 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 17 Jan 2014 02:39:21 -0800
+	14.2.347.0; Fri, 17 Jan 2014 02:39:22 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 18:39:20 +0800
-Message-ID: <cover.1389955027.git.Qi.Chen@windriver.com>
+Date: Fri, 17 Jan 2014 18:39:21 +0800
+Message-ID: <db9b22bb0dfe7977362d7d546e752e8d0b9eb5c3.1389955027.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1389955027.git.Qi.Chen@windriver.com>
+References: <cover.1389955027.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/5] systemd misc fixes
+Subject: [PATCH V2 1/5] systemd: add 'less' to its RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 10:39:21 -0000
+X-List-Received-Date: Fri, 17 Jan 2014 10:39:22 -0000
 Content-Type: text/plain
 
-The following changes since commit 8163854adf87ac42a8f08ee25685d0ce1efb4724:
+The less command provided by busybox cannot interpret the control
+character, resulting in obscure output of the journalctl command
+in a systemd based image.
 
-  oe-selftest: separated the SStateBase and SStateTests in different modules (2014-01-16 12:18:44 +0000)
+Add the 'less' package to systemd's RDEPENDS so that the output
+of 'journalctl' looks clear to users.
 
-are available in the git repository at:
+[YOCTO #5723]
 
-  git://git.pokylinux.org/poky-contrib ChenQi/systemd-misc-fixes2
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-misc-fixes2
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_208.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Chen Qi (5):
-  systemd: add 'less' to its RDEPENDS
-  dropbear: add systemd unit files
-  openssh: fixes for systemd
-  distcc: add systemd support
-  at: add systemd support
-
- .../openssh/openssh-6.4p1/sshd.socket              |    1 -
- .../openssh/openssh-6.4p1/sshd@.service            |    1 +
- .../openssh/openssh-6.4p1/sshdgenkeys.service      |    8 ++++----
- meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    4 ++--
- meta/recipes-core/dropbear/dropbear.inc            |   17 ++++++++++++++++-
- .../recipes-core/dropbear/dropbear/dropbear.socket |   10 ++++++++++
- .../dropbear/dropbear/dropbear@.service            |   11 +++++++++++
- .../dropbear/dropbear/dropbearkey.service          |    8 ++++++++
- meta/recipes-core/systemd/systemd_208.bb           |    3 ++-
- meta/recipes-devtools/distcc/distcc_3.1.bb         |   14 +++++++++++---
- meta/recipes-devtools/distcc/files/default         |    5 +++++
- meta/recipes-devtools/distcc/files/distccd.service |   11 +++++++++++
- meta/recipes-extended/at/at_3.1.14.bb              |   10 +++++++++-
- meta/recipes-extended/at/files/atd.service         |    9 +++++++++
- 14 files changed, 99 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
- create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
- create mode 100644 meta/recipes-devtools/distcc/files/distccd.service
- create mode 100644 meta/recipes-extended/at/files/atd.service
-
+diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
+index 6590235..3659abd 100644
+--- a/meta/recipes-core/systemd/systemd_208.bb
++++ b/meta/recipes-core/systemd/systemd_208.bb
+@@ -217,7 +217,8 @@ FILES_${PN} = " ${base_bindir}/* \
+ FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
+ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+ 
+-RDEPENDS_${PN} += "kmod dbus util-linux-mount"
++# less package is needed to correctly display the contents of 'journalctl'
++RDEPENDS_${PN} += "kmod dbus util-linux-mount less"
+ 
+ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units \
+                       util-linux-agetty \
 -- 
 1.7.9.5
 
