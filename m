@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 050666E751
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B02A6E751
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 10:39:24 +0000 (UTC)
+	Fri, 17 Jan 2014 10:39:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0HAdPWB014752
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0HAdRoD018646
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 02:39:25 -0800 (PST)
+	Fri, 17 Jan 2014 02:39:27 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 17 Jan 2014 02:39:25 -0800
+	14.2.347.0; Fri, 17 Jan 2014 02:39:27 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 18:39:23 +0800
-Message-ID: <f7ba34766266f73fa5d9c87d806c70ebccf47a5d.1389955027.git.Qi.Chen@windriver.com>
+Date: Fri, 17 Jan 2014 18:39:24 +0800
+Message-ID: <c215fb4c397d6e9e1cec62925ed5d4771b7f93f1.1389955027.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1389955027.git.Qi.Chen@windriver.com>
 References: <cover.1389955027.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 3/5] openssh: fixes for systemd
+Subject: [PATCH V2 4/5] distcc: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,81 +36,98 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 17 Jan 2014 10:39:26 -0000
 Content-Type: text/plain
 
-This patch contains a few fixes for the systemd unit files of openssh.
-The fixes use the same unit files in Fedora 20 as a reference.
+Add systemd support for distcc.
 
-1) Remove sshdgenkeys.service and sshd@.service from SYSTEMD_SERVICE.
-2) Fix the dependency and logic of sshdgenkeys.service.
+These unit files mainly use the same files in Fedora 20 as a reference.
+
+[YOCTO #4420]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../openssh/openssh-6.4p1/sshd.socket              |    1 -
- .../openssh/openssh-6.4p1/sshd@.service            |    1 +
- .../openssh/openssh-6.4p1/sshdgenkeys.service      |    8 ++++----
- meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
+ meta/recipes-devtools/distcc/distcc_3.1.bb         |   14 +++++++++++---
+ meta/recipes-devtools/distcc/files/default         |    5 +++++
+ meta/recipes-devtools/distcc/files/distccd.service |   11 +++++++++++
+ 3 files changed, 27 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/distcc/files/distccd.service
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket
-index d19ab2a..12c39b2 100644
---- a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket
-+++ b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd.socket
-@@ -8,4 +8,3 @@ Accept=yes
+diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.1.bb
+index e351a58..c3cbd05 100644
+--- a/meta/recipes-devtools/distcc/distcc_3.1.bb
++++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
+@@ -22,12 +22,13 @@ SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
+            file://separatebuilddir.patch \
+            file://default \
+            file://distccmon-gnome.desktop \
+-           file://distcc"
++           file://distcc \
++           file://distccd.service"
  
- [Install]
- WantedBy=sockets.target
--Also=sshdgenkeys.service
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service
-index 64e009f..4eda659 100644
---- a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service
-+++ b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshd@.service
-@@ -1,5 +1,6 @@
- [Unit]
- Description=OpenSSH Per-Connection Daemon
-+Wants=sshdgenkeys.service
- After=sshdgenkeys.service
+ SRC_URI[md5sum] = "a1a9d3853df7133669fffec2a9aab9f3"
+ SRC_URI[sha256sum] = "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724fcd2d53f934ddd89"
  
- [Service]
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service
-index 2fd8a9a..c21d70b 100644
---- a/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service
-+++ b/meta/recipes-connectivity/openssh/openssh-6.4p1/sshdgenkeys.service
-@@ -1,10 +1,10 @@
- [Unit]
--Description=SSH Key Generation
-+Description=OpenSSH Key Generation
-+ConditionPathExists=|!/etc/ssh/ssh_host_rsa_key
-+ConditionPathExists=|!/etc/ssh/ssh_host_dsa_key
-+ConditionPathExists=|!/etc/ssh/ssh_host_ecdsa_key
+-inherit autotools pkgconfig update-rc.d useradd
++inherit autotools pkgconfig update-rc.d useradd systemd
  
- [Service]
- ExecStart=@BINDIR@/ssh-keygen -A
- Type=oneshot
- RemainAfterExit=yes
--
--[Install]
--WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-index c61d16f..1f78566 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-@@ -44,7 +44,7 @@ INITSCRIPT_NAME_${PN}-sshd = "sshd"
- INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
+ EXTRA_OECONF += "--disable-Werror PYTHON=/dev/null"
  
- SYSTEMD_PACKAGES = "${PN}-sshd"
--SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket sshd@.service sshdgenkeys.service"
-+SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
+@@ -40,11 +41,17 @@ USERADD_PARAM_${PN} = "--system \
  
- PACKAGECONFIG ??= "tcp-wrappers"
- PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
-@@ -114,7 +114,7 @@ ALLOW_EMPTY_${PN} = "1"
- PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc ${PN}-sftp-server"
- FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
--FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
-+FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd ${systemd_unitdir}/system"
- FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
+ INITSCRIPT_NAME = "distcc"
+ 
++SYSTEMD_PACKAGES = "${PN}"
++SYSTEMD_SERVICE_${PN} = "distccd.service"
++
+ do_install_append() {
+     install -d ${D}${sysconfdir}/init.d/
+     install -d ${D}${sysconfdir}/default
+     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
+     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
++    install -d ${D}${systemd_unitdir}/system/
++    install -m 0644 ${WORKDIR}/distccd.service ${D}${systemd_unitdir}/system
++    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/distccd.service
+     ${DESKTOPINSTALL}
+ }
+ DESKTOPINSTALL = ""
+@@ -58,7 +65,8 @@ FILES_${PN} = " ${sysconfdir} \
+ 		${bindir}/distcc \
+     ${bindir}/lsdistcc \
+ 		${bindir}/distccd \
+-		${bindir}/distccmon-text"
++		${bindir}/distccmon-text \
++		${systemd_unitdir}/system/distccd.service"
+ FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
+ 				${datadir}/distcc"
+ 
+diff --git a/meta/recipes-devtools/distcc/files/default b/meta/recipes-devtools/distcc/files/default
+index 95290f8..63c4159 100644
+--- a/meta/recipes-devtools/distcc/files/default
++++ b/meta/recipes-devtools/distcc/files/default
+@@ -17,3 +17,8 @@ STARTDISTCC="true"
+ # ALLOWEDNETS="127.0.0.1"
+ 
+ ALLOWEDNETS="192.168.7.0/24"
++
++#
++# OPTIONS is used for the systemd service file
++#
++OPTIONS="--allow 192.168.7.0/24"
+diff --git a/meta/recipes-devtools/distcc/files/distccd.service b/meta/recipes-devtools/distcc/files/distccd.service
+new file mode 100644
+index 0000000..0253ddf
+--- /dev/null
++++ b/meta/recipes-devtools/distcc/files/distccd.service
+@@ -0,0 +1,11 @@
++[Unit]
++Description=Distccd A Distributed Compilation Server
++After=network.target
++
++[Service]
++User=distcc
++EnvironmentFile=-/etc/default/distcc
++ExecStart=@BINDIR@/distccd --verbose --no-detach --daemon $OPTIONS
++
++[Install]
++WantedBy=multi-user.target
 -- 
 1.7.9.5
 
