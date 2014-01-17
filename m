@@ -1,23 +1,24 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id AB6F261624
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 15:56:43 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 17 Jan 2014 07:56:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,674,1384329600"; d="scan'208";a="460554942"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Jan 2014 07:56:43 -0800
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
-	by linux.intel.com (Postfix) with ESMTP id 8FF2B6A4007;
-	Fri, 17 Jan 2014 07:56:38 -0800 (PST)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2014 17:57:47 +0200
-Message-Id: <1389974267-12667-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.4.2
-Subject: [PATCH] lib/oeqa: sshcontrol: fix false timeout failures
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B007061FE4
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2014 16:41:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0HGf2xf021707
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2014 08:41:03 -0800 (PST)
+Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 17 Jan 2014 08:41:02 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Jan 2014 10:37:58 -0600
+Message-ID: <1389976685-25802-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/6] Replace unfs-server with unfs3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,42 +31,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 15:56:43 -0000
+X-List-Received-Date: Fri, 17 Jan 2014 16:41:03 -0000
+Content-Type: text/plain
 
-Ocasionally AB shows odd false fails like:
-http://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/1/steps/Running%20Sanity%20Tests/logs/stdio
-This should fix that by checking for eof instead of
-polling the return code of the ssh process, because the process
-might still be there.
+[YOCTO #5639]
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/utils/sshcontrol.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The goal of this patchset it to upgrade the user mode NFS server from
+NFSv2 to NFSv3.  To do so requires the use of a new server.  The key
+reason this update needs to occurs is that the old server uses the
+inode from the file system for the NFS hash value.  The former is now
+64 bits on modern kernels while the later is only 32 bits due to the
+protocol and implementation with in the the unfs-server.  This causes
+all sorts of problem with directory loops and duplicate file system
+references that had been reported in the bugzilla.
 
-diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
-index a0dcf02..3e53ec3 100644
---- a/meta/lib/oeqa/utils/sshcontrol.py
-+++ b/meta/lib/oeqa/utils/sshcontrol.py
-@@ -77,7 +77,7 @@ class SSHControl(object):
-                         endtime = time.time() + tdelta
- 
-             # process hasn't returned yet
--            if sshconn.poll() is None:
-+            if not eof:
-                 sshconn.terminate()
-                 time.sleep(3)
-                 try:
-@@ -86,7 +86,7 @@ class SSHControl(object):
-                     pass
-                 output += "\n[!!! SSH command killed - no output for %d seconds. Total running time: %d seconds." % (tdelta, time.time() - self._starttime)
- 
--        self._ret = sshconn.poll()
-+        self._ret = sshconn.wait()
-         # strip the last LF so we can test the output
-         self._out = output.rstrip()
-         self.log("%s" % self._out)
--- 
-1.8.4.2
+That should also make it possible to extract a rootfs and run it as a
+non-root user.
 
+Example:
+
+runqemu-extract-sdk tmp-eglibc/deploy/images/qemux86-64/core-image-minimal-qemux86-64.tar.bz2 rootfs
+
+runqemu qemux86-64 `pwd`/rootfs nographic slirp
+
+
+Cheers,
+Jason.
+
+----------------------------------------------------------------
+Jason Wessel (5):
+      unfs3: Add a NFSv3 user mode server for use with runqemu
+      unfs3,unfs-server: Replace all instances of unfs-server with unfs3
+      unfs-server: Remove unfs-server recipe and patches
+      runqemu-export-rootfs: update for unfs3
+      runqemu,runqemu-internal: Allow slirp for NFS and KVM use
+
+Saul Wold (1):
+      runqemu: Use the newer unfs3 for serving user space nfs
+
+ meta/conf/distro/include/seperatebuilddir.inc      |    4 +-
+ meta/files/common-licenses/unfs3                   |   24 +
+ meta/recipes-core/meta/meta-ide-support.bb         |    2 +-
+ .../nativesdk-packagegroup-sdk-host.bb             |    2 +-
+ .../adt-installer/scripts/adt_installer_internal   |    2 +-
+ .../001-2.2b47-2.2b51.patch                        | 2349 --------------------
+ .../unfs-server-2.1+2.2beta47/002-destdir.patch    |   73 -
+ .../unfs-server-2.1+2.2beta47/003-manpages.patch   |   33 -
+ .../unfs-server-2.1+2.2beta47/004-strsignal.patch  |   53 -
+ .../unfs-server-2.1+2.2beta47/005-sys-time.patch   |   34 -
+ .../unfs-server-2.1+2.2beta47/006-reiserfs.patch   | 1277 -----------
+ .../unfs-server-2.1+2.2beta47/007-map.patch        |   83 -
+ .../unfs-server-2.1+2.2beta47/008-configure.patch  |   18 -
+ .../unfs-server-2.1+2.2beta47/009-multirw.patch    |   20 -
+ .../unfs-server-2.1+2.2beta47/010-realpath.patch   |   35 -
+ .../011-fno-strict-aliasing.patch                  |   18 -
+ .../unfs-server-2.1+2.2beta47/012-nostrip.patch    |   18 -
+ .../unfs-server-2.1+2.2beta47/013-mntpathlen.patch |   37 -
+ .../014-uninitialized.patch                        |   17 -
+ .../unfs-server-2.1+2.2beta47/015-setattr.patch    |   31 -
+ .../016-makefile.in.patch                          |   19 -
+ .../017-wrs-dynamic-rpc.patch                      |  263 ---
+ .../018-remove-tcp-wrappers.patch                  |   25 -
+ .../019-pid-before-fork.patch                      |  130 --
+ .../020-undefined-chmod-fix.patch                  |   23 -
+ .../unfs-server-2.1+2.2beta47/021-nolibwrap.patch  |   25 -
+ .../022-add-close-on-exec-descriptors.patch        |   66 -
+ .../023-no-rpc-register.patch                      |   34 -
+ .../unfs-server/unfs-server_2.1+2.2beta47.bb       |   78 -
+ .../unfs3/unfs3/alternate_rpc_ports.patch          |  156 ++
+ .../unfs3/unfs3/fix_compile_warning.patch          |   16 +
+ .../fix_pid_race_parent_writes_child_pid.patch     |   47 +
+ .../unfs3/unfs3/fix_warnings.patch                 |   51 +
+ .../unfs3/force_4_byte_long_on_64_bit_host.patch   |   39 +
+ .../unfs3/unfs3/relative_max_socket_path_len.patch |   70 +
+ .../unfs3/unfs3/rename_fh_cache.patch              |   62 +
+ .../unfs3/unfs3/tcp_no_delay.patch                 |   50 +
+ .../unfs3/unfs3/unfs3_parallel_build.patch         |   36 +
+ meta/recipes-devtools/unfs3/unfs3_0.9.22.bb        |   48 +
+ .../packagegroups/packagegroup-toolset-native.bb   |    2 +-
+ meta/site/ix86-common                              |    2 +-
+ meta/site/x86_64-linux                             |    2 +-
+ scripts/runqemu                                    |   10 +-
+ scripts/runqemu-export-rootfs                      |   57 +-
+ scripts/runqemu-internal                           |   21 +-
+ 45 files changed, 632 insertions(+), 4830 deletions(-)
+ create mode 100644 meta/files/common-licenses/unfs3
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/001-2.2b47-2.2b51.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/002-destdir.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/003-manpages.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/004-strsignal.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/005-sys-time.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/006-reiserfs.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/007-map.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/008-configure.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/009-multirw.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/010-realpath.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/011-fno-strict-aliasing.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/012-nostrip.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/013-mntpathlen.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/014-uninitialized.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/015-setattr.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/016-makefile.in.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/017-wrs-dynamic-rpc.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/018-remove-tcp-wrappers.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/019-pid-before-fork.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/020-undefined-chmod-fix.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/021-nolibwrap.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/022-add-close-on-exec-descriptors.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server-2.1+2.2beta47/023-no-rpc-register.patch
+ delete mode 100644 meta/recipes-devtools/unfs-server/unfs-server_2.1+2.2beta47.bb
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/alternate_rpc_ports.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/fix_compile_warning.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/fix_pid_race_parent_writes_child_pid.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/force_4_byte_long_on_64_bit_host.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/relative_max_socket_path_len.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/rename_fh_cache.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/tcp_no_delay.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3/unfs3_parallel_build.patch
+ create mode 100644 meta/recipes-devtools/unfs3/unfs3_0.9.22.bb
 
