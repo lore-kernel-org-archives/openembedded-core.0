@@ -1,31 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E86B6B4C4
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id BEB8F6AE73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 11:41:33 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0HBfS8b014247 for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 11:41:29 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QLdvwgaAjlDh
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 11:41:29 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0HBfCs2014225
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 11:41:14 GMT
-Message-ID: <1389958866.14987.112.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 11:41:06 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] opkg-utils: Remove strange PACKAGES native override
+	Fri, 17 Jan 2014 11:57:48 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s0HBvjWs028090
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Fri, 17 Jan 2014 12:57:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1389959868;
+	bh=x4xx2T1rw7NjjHzmt5DaCBusMLSOaQVhvpzFxhpFmaE=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=iFYwYNQKIwVngOTqvHUAy7SYuYYi/g46HAXgU0mJI4YdA/vOqkBlcMFjAjhdutsEy
+	jCXv25MzdvO+SD9s0dfTeJG9eSzN5lref1RJ+UbEJ1p/wB6ReWEdK4kv+WzHj5BdgK
+	7EynTXTOefqCgvn6IGzAyff+pr6Wqh+5cUudZ+Bs=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s0HBveVa029669
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Fri, 17 Jan 2014 12:57:42 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1W483Q-0003Ex-KT; Fri, 17 Jan 2014 12:57:40 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <cover.1389941136.git.Qi.Chen@windriver.com>
+	<ebe4c661db437203a8120ba13ed7b1ae1275c9b3.1389941136.git.Qi.Chen@windriver.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Fri, 17 Jan 2014 12:57:40 +0100
+In-Reply-To: <ebe4c661db437203a8120ba13ed7b1ae1275c9b3.1389941136.git.Qi.Chen@windriver.com>
+	(Chen Qi's message of "Fri, 17 Jan 2014 14:46:34 +0800")
+Message-ID: <lytxd2yg5n.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.84
+X-Spam-Score: -5.1
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Cc: Chen Qi <Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
+Subject: Re: [PATCH 1/5] systemd: add 'less' to its RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +58,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 11:41:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Jan 2014 11:57:50 -0000
+Content-Type: text/plain
+
+Chen Qi <Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+
+> +# less package is needed to correctly display the contents of 'journalctl'
+> +RDEPENDS_${PN} += "kmod dbus util-linux-mount less"
+
+please make this an RRECOMMENDS; people can set 'SYSTEMD_PAGER=' or pipe
+the journalctl output and do not need 'less' then.
 
 
 
-This code makes no sense, native.bbclass clears PACKAGES anyway. Drop
-it.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 6a3cf55..80efa8f 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -26,9 +26,6 @@ do_install() {
- 	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
- }
- 
--# Avoid circular dependencies from package_ipk.bbclass
--PACKAGES_class-native = ""
--
- PACKAGES =+ "update-alternatives-opkg"
- FILES_update-alternatives-opkg = "${bindir}/update-alternatives"
- RPROVIDES_update-alternatives-opkg = "update-alternatives"
-
-
+Enrico
 
