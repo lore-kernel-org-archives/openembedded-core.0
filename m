@@ -1,29 +1,27 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D9C96AA18
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EB896A467
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 13:55:16 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.95,670,1384297200"; d="scan'208";a="39656634"
-Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 17 Jan 2014 14:55:14 +0100
-Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.138]) by
-	COSNADEXC22.usr.ingenico.loc ([10.31.4.222]) with mapi id
-	14.02.0318.001; Fri, 17 Jan 2014 14:55:14 +0100
-From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] util-linux: add reset.1 manpage in update-alternatives
-Thread-Index: AQHPETtmycmcX1lm2E2DcPXI9k6EsJqI9J3g
-Date: Fri, 17 Jan 2014 13:55:13 +0000
-Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B574CDD74@COSNADEXC13.usr.ingenico.loc>
-References: <1389712187-28648-1-git-send-email-Matthieu.Crapet@ingenico.com>
-In-Reply-To: <1389712187-28648-1-git-send-email-Matthieu.Crapet@ingenico.com>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.31.16.119]
+	Fri, 17 Jan 2014 14:16:41 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jan 2014 06:16:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,670,1384329600"; d="scan'208";a="460512916"
+Received: from ssaevars-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.195])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jan 2014 06:11:41 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Date: Fri, 17 Jan 2014 14:11:39 +0000
+Message-ID: <66190526.u9bvojJavk@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.11.5 (Linux/3.12.7-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
+In-Reply-To: <0522b744ff3e02f6ef1f794294f759ec1f176923.1388992959.git.Qi.Chen@windriver.com>
+References: <cover.1388992959.git.Qi.Chen@windriver.com>
+	<0522b744ff3e02f6ef1f794294f759ec1f176923.1388992959.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] util-linux: add reset.1 manpage in update-alternatives
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 2/2] Add missing RDEPENDS of initscripts-functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +34,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 13:55:17 -0000
-Content-Language: fr-FR
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 17 Jan 2014 14:16:41 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Should I create an entry in https://bugzilla.yoctoproject.org/ (OE-Core com=
-ponent)?
+Hi Qi,
 
------Message d'origine-----
-De=A0: Matthieu Crapet [mailto:Matthieu.Crapet@ingenico.com]=20
-Envoy=E9=A0: mardi 14 janvier 2014 16:10
-=C0=A0: openembedded-core@lists.openembedded.org
-Cc=A0: Matthieu CRAPET
-Objet=A0: [PATCH] util-linux: add reset.1 manpage in update-alternatives
+On Monday 06 January 2014 15:27:35 Chen Qi wrote:
+> Now that the initscripts-functions has been packaged separately,
+> packages which may use the functions script should have a runtime
+> dependency on it.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-bsp/alsa-state/alsa-state.bb          |    2 +-
+>  meta/recipes-bsp/apmd/apmd_3.2.2-14.bb             |    1 +
+>  .../irda-utils/irda-utils_0.9.18.bb                |    2 ++
+>  .../nfs-utils/nfs-utils_1.2.9.bb                   |    4 ++--
+>  meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    2 +-
+>  meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    1 +
+>  meta/recipes-core/dbus/dbus.inc                    |    2 +-
+>  meta/recipes-core/systemd/systemd_208.bb           |    2 +-
+>  meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    2 +-
+>  meta/recipes-devtools/distcc/distcc_3.1.bb         |    1 +
+>  meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    2 +-
+>  meta/recipes-extended/at/at_3.1.14.bb              |    3 +--
+>  meta/recipes-extended/cronie/cronie_1.4.11.bb      |    2 ++
+>  meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |    2 ++
+>  meta/recipes-extended/sysklogd/sysklogd.inc        |    2 ++
+>  meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    1 +
+>  .../oprofile/oprofileui-server_git.bb              |    2 +-
+>  17 files changed, 22 insertions(+), 11 deletions(-)
 
-Adding "doc-pkgs" to IMAGE_FEATURES (in an image recipe) reports a conflict=
- with reset.1 file, present both in util-linux and ncurses-doc packages.
+Sorry to come back on this patchset again, but could we not detect 
+installation of an initscript requiring these functions in update-rc.d.bbclass 
+and just add the RDEPENDS automatically? Otherwise it's just another thing 
+people can get wrong when writing a recipe, not to mention all of the existing 
+recipes outside OE-Core that install initscripts.
 
-<log>
-| Collected errors:
-|  * check_data_file_clashes: Package util-linux-doc wants to install file =
-/home/matt/tmp/oe-p/build/tmp-eglibc/work/qemux86_64-tiny-linux/test-image/=
-1.0-r3/rootfs/usr/share/man/man1/reset.1
-|       But that file is already provided by package  * ncurses-doc
-|  * opkg_install_cmd: Cannot install package util-linux-doc.
-| WARNING: /home/matt/tmp/oe-p/build/tmp-eglibc/work/qemux86_64-tiny-linux/=
-test-image/1.0-r3/temp/run.do_rootfs.13877:1 exit 255 from
-|   opkg-cl -f $INSTALL_CONF_IPK -o $INSTALL_ROOTFS_IPK --force_postinstall=
- --prefer-arch-to-version install `cat $1`
-| ERROR: Function failed: do_rootfs (log file is located at /home/matt/tmp/=
-oe-p/build/tmp-eglibc/work/qemux86_64-tiny-linux/test-image/1.0-r3/temp/log=
-.do_rootfs.13877)
-</log>
+Cheers,
+Paul
 
-Same issue already occured few months ago:
-Re: [OE-core] Clashing man pages
-https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg38=
-590.html
+-- 
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-cor=
-e/util-linux/util-linux.inc
-index aaa7ec3..8b39240 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -175,11 +175,12 @@ ALTERNATIVE_LINK_NAME[eject] =3D "${bindir}/eject"
- ALTERNATIVE_LINK_NAME[getopt] =3D "${base_bindir}/getopt"
- ALTERNATIVE_TARGET[getopt] =3D "${bindir}/getopt"
-=20
--ALTERNATIVE_${PN}-doc =3D "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utm=
-pdump.1"
-+ALTERNATIVE_${PN}-doc =3D "mountpoint.1 last.1 mesg.1 wall.1 sulogin.8 utm=
-pdump.1 reset.1"
-=20
- ALTERNATIVE_LINK_NAME[last.1] =3D "${mandir}/man1/last.1"
- ALTERNATIVE_LINK_NAME[mesg.1] =3D "${mandir}/man1/mesg.1"
- ALTERNATIVE_LINK_NAME[mountpoint.1] =3D "${mandir}/man1/mountpoint.1"
-+ALTERNATIVE_LINK_NAME[reset.1] =3D "${mandir}/man1/reset.1"
- ALTERNATIVE_LINK_NAME[sulogin.8] =3D "${mandir}/man8/sulogin.8"
- ALTERNATIVE_LINK_NAME[utmpdump.1] =3D "${mandir}/man1/utmpdump.1"
- ALTERNATIVE_LINK_NAME[wall.1] =3D "${mandir}/man1/wall.1"
---=20
-1.8.2.1
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
