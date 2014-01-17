@@ -1,51 +1,37 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id BEB8F6AE73
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 4355561FE4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 11:57:48 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	s0HBvjWs028090
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Fri, 17 Jan 2014 12:57:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1389959868;
-	bh=x4xx2T1rw7NjjHzmt5DaCBusMLSOaQVhvpzFxhpFmaE=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=iFYwYNQKIwVngOTqvHUAy7SYuYYi/g46HAXgU0mJI4YdA/vOqkBlcMFjAjhdutsEy
-	jCXv25MzdvO+SD9s0dfTeJG9eSzN5lref1RJ+UbEJ1p/wB6ReWEdK4kv+WzHj5BdgK
-	7EynTXTOefqCgvn6IGzAyff+pr6Wqh+5cUudZ+Bs=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s0HBveVa029669
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 17 Jan 2014 12:57:42 +0100
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1W483Q-0003Ex-KT; Fri, 17 Jan 2014 12:57:40 +0100
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1389941136.git.Qi.Chen@windriver.com>
-	<ebe4c661db437203a8120ba13ed7b1ae1275c9b3.1389941136.git.Qi.Chen@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Fri, 17 Jan 2014 12:57:40 +0100
-In-Reply-To: <ebe4c661db437203a8120ba13ed7b1ae1275c9b3.1389941136.git.Qi.Chen@windriver.com>
-	(Chen Qi's message of "Fri, 17 Jan 2014 14:46:34 +0800")
-Message-ID: <lytxd2yg5n.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Fri, 17 Jan 2014 12:16:27 +0000 (UTC)
+Received: by mail-ob0-f179.google.com with SMTP id wp4so4178882obc.38
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2014 04:16:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=LVR1MOGkE/tHOuapSc2+r7BdCPG+mfMcJnKhitbrW0Y=;
+	b=0r6z8CViVcVYhgRGlipeA5OyHlhqfDH1Bt6WJXJsCza1l8HjdDiyadAGtzreLAj8ka
+	Uv0+X64FJVlrD/6ICDxVhAPXo7E6ha5OXvWdrDXRXoE6lSJfNEKP6i7ZnJUfzY1nzQh2
+	TL3aU28kmC1mLDtiOjVmy5uAPreHk1WP5ziE858ASEAlK4/zLXbbj4Dg7wbEPCh8cGos
+	yeuU4mhd3d3EbiS6+GWtf/M6J2ScO8gwrp1hPTHFHrV/LGbA2afkqnzYBxvYF1lk2yjI
+	/bf7Xolz/SsU0+enrZW5Dens2cZwzRKX02GmiUGYWQMLarsu+dmkPZQvOHJzlrg/1muE
+	ifJg==
+X-Received: by 10.60.246.139 with SMTP id xw11mr1295680oec.36.1389960988091;
+	Fri, 17 Jan 2014 04:16:28 -0800 (PST)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.84
-X-Spam-Score: -5.1
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Cc: Chen Qi <Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
-Subject: Re: [PATCH 1/5] systemd: add 'less' to its RDEPENDS
+Sender: paul.betafive@gmail.com
+Received: by 10.76.122.171 with HTTP; Fri, 17 Jan 2014 04:15:48 -0800 (PST)
+In-Reply-To: <1389955623.14987.109.camel@ted>
+References: <1389895166-2459-1-git-send-email-paul@paulbarker.me.uk>
+	<1389955623.14987.109.camel@ted>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Fri, 17 Jan 2014 12:15:48 +0000
+X-Google-Sender-Auth: FtMNAz0lFkosSoMRsqkulTTjLMs
+Message-ID: <CANyK_8f0_8PopbKNpp+gRmtKktiSrVGeJrjBLegkVCr7BPwe0g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/3] Change update-alternatives provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,18 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 11:57:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Jan 2014 12:16:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Chen Qi <Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+On 17 January 2014 10:47, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2014-01-16 at 17:59 +0000, Paul Barker wrote:
+>> The update-alternatives script has been copied from opkg to opkg-utils so the
+>> openembedded recipe for opkg-utils is updated accordingly. Changing the default
+>> provider of update-alternatives to opkg-utils allows dependencies to be added to
+>> the opkg recipe without causing circular dependency loops. This series partially
+>> solves Yocto Project issue 4836.
+>>
+>> Changes in v2:
+>>
+>>     - Reordered variables in opkg-utils recipe
+>>     - Added nativesdk class to opkg-utils
+>
+> The errors still occurred on the autobuilder with the revised patchset.
+> I tracked down a couple of issues and have sent out patches for those.
+>
 
-> +# less package is needed to correctly display the contents of 'journalctl'
-> +RDEPENDS_${PN} += "kmod dbus util-linux-mount less"
+Ok, let me know if there's anything left that I need to fix after the
+next autobuilder run.
 
-please make this an RRECOMMENDS; people can set 'SYSTEMD_PAGER=' or pipe
-the journalctl output and do not need 'less' then.
+> We do however have one more problematic regression:
+>
+> http://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/1/steps/BuildImages/logs/stdio
+>
+> Basically, the tiny configuration is quite cut down and we can't build
+> python with it. Before this change we were able to build opkg and all
+> was well. Now we need to build opkg-utils which depends on python.
+>
+> We're therefore building python when we never used to (due to the python
+> scripts in opkg-utils).
+>
+> I suspect to resolve this and allow tiny to work again we'll have to put
+> a PACKAGECONFIG on opkg-utils and disable python for tiny...
+>
 
+Most of the functionality of opkg-utils (other than
+update-alternatives) does depend on python so I think this would
+result in an opkg-utils package which doesn't run if installed on the
+target. For tiny it might be better to have an
+'update-alternatives-only' PACKAGECONFIG which is set for the target
+class only and prevents the installation and packaging of all the
+package creation & inspection tools.
 
+-- 
+Paul Barker
 
-Enrico
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
