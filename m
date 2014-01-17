@@ -1,24 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BCDE66B4C4
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EDDC6B4C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 21:34:00 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Jan 2014 13:34:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,676,1384329600"; d="scan'208";a="468488348"
-Received: from unknown (HELO [10.255.12.195]) ([10.255.12.195])
-	by orsmga002.jf.intel.com with ESMTP; 17 Jan 2014 13:34:00 -0800
-Message-ID: <52D9A1C8.7040400@linux.intel.com>
-Date: Fri, 17 Jan 2014 13:34:00 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Jason Plum <jplum@devonit.com>, openembedded-core@lists.openembedded.org
-References: <1389910093-8950-1-git-send-email-jplum@devonit.com>
-In-Reply-To: <1389910093-8950-1-git-send-email-jplum@devonit.com>
-Subject: Re: [PATCH] lib/oe: copyhardlinktree - detect mount points Add function getmount to detect the mount point of the path, as os.stat(path).st_dev in copyhardlinktree fails in lxc containers to detect different paths as separate mounted filesystems (cp -l failure)
+	Fri, 17 Jan 2014 21:57:12 +0000 (UTC)
+Received: by mail-lb0-f172.google.com with SMTP id c11so3425275lbj.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2014 13:57:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Ky2Znd1PA+ZdjblF+Fr0kkeMt8AN2k7IEcmSpBSzuVA=;
+	b=HgSEaOB2N2tgjNSM5zRdUYMJ2GNKnhlem+fDgPiWruoA9ms7wURxniENXzWdmQ+mVr
+	VG54aZjYbHEWFPnG294qzjDuiSn9iuIpKdFf26Jd+2rpZYSCGsnERS4a9ehphsW3c3tO
+	iJ05CR8IEFAaeN2qOGAxaAR220tZ37ua8PMuwb+hvoF+7kKxrUU9/pSFPKb3AT7QrV9+
+	vGuAVQ/D16Z8yQHZ91HMmOSTBFk5Q8No0rbHopq04q8d/g5oN18LwWE2HDmBDOnPzy6N
+	LTDIj/4bS7+UofJFGaP9pyHpnYADMMoqg27mqtHaB24OxtAZW6SLL+QZ05Ge1HIBWv4u
+	/v+A==
+X-Gm-Message-State: ALoCoQmAfkkBURlHOQtgQD9Hb/lJY5CmrqPwgRez+PhbYjaw8Mu2NpTcdqfdPZoQ5S6vI7BIT+eH
+X-Received: by 10.152.44.133 with SMTP id e5mr2204948lam.37.1389995832543;
+	Fri, 17 Jan 2014 13:57:12 -0800 (PST)
+Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
+	[91.152.78.194])
+	by mx.google.com with ESMTPSA id bl6sm7612764lbb.5.2014.01.17.13.57.11
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 17 Jan 2014 13:57:12 -0800 (PST)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Jan 2014 23:56:57 +0200
+Message-Id: <1389995824-9066-1-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/7] Update LTP to 20140115 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 21:34:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Jan 2014 21:57:13 -0000
 
-On 01/16/2014 02:08 PM, Jason Plum wrote:
-> Signed-off-by: Jason Plum <jplum@devonit.com>
-> ---
->   meta/lib/oe/path.py | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
->
-This patch did not apply cleanly, it's possible you patched against an 
-older version of master.
+This patchset update LTP to latest release and fix various style, cross-compilation issues.
 
-> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-> index 1310e38..f1905c3 100644
-> --- a/meta/lib/oe/path.py
-> +++ b/meta/lib/oe/path.py
-> @@ -90,7 +90,7 @@ def copyhardlinktree(src, dst):
->       if os.path.isdir(src) and not len(os.listdir(src)):
->           return	
->
-> -    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
-> +    if (getmount(src) ==  getmount(dst)):
+Fathi Boudra (7):
+  rename recipe to ltp_20140115.bb
+  Fix style using oe-stylize (no changes in the content of the recipe
+    itself)
+  drop do_unpack_append/do_extract_tarball
+  Update SRC_REV to LTP 20140115 release
+  Update ffsb-6.0-rc2 license file path
+  Fix comment to refer to oe-core instead of poky
+  Fix ffsb ftbfs on arm64 and cross-compiled environment
 
-Can you measure the affect on build time with this change?
->           # Need to copy directories only with tar first since cp will error if two
->           # writers try and create a directory at the same time
->           cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from - | tar -xf - -C %s' % (src, src, dst)
-> @@ -259,3 +259,12 @@ def realpath(file, root, use_physdir = True, loop_cnt = 100, assume_dir = False)
->           raise
->
->       return file
-> +
-> +def getmount(path):
-> +    """ Returns the mount point of the path, using realpath """
-> +    path = realpath(path)
-In current master, realpath() seems to need 2 args:
+ meta/recipes-extended/ltp/ltp/ffsb-arm64.patch | 1412 ++++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20130904.bb      |   78 --
+ meta/recipes-extended/ltp/ltp_20140115.bb      |   75 ++
+ 3 files changed, 1487 insertions(+), 78 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/ffsb-arm64.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp_20130904.bb
+ create mode 100644 meta/recipes-extended/ltp/ltp_20140115.bb
 
-Exception: TypeError: realpath() takes at least 2 arguments (1 given)
+-- 
+1.8.1.2
 
-Sau!
-
-
-
-> +    while path != os.path.sep:
-> +        if os.path.ismount(path):
-> +            return path
-> +        path = os.path.abspath(os.path.join(path, os.pardir))
-> +    return path
->
 
