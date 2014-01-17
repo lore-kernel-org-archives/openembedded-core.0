@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D393B6E36D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 206CD6E799
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 06:46:35 +0000 (UTC)
+	Fri, 17 Jan 2014 06:46:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0H6kaCE021852
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0H6kddV011466
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 22:46:37 -0800 (PST)
+	Thu, 16 Jan 2014 22:46:39 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 16 Jan 2014 22:46:36 -0800
+	14.2.347.0; Thu, 16 Jan 2014 22:46:37 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 14:46:34 +0800
-Message-ID: <ebe4c661db437203a8120ba13ed7b1ae1275c9b3.1389941136.git.Qi.Chen@windriver.com>
+Date: Fri, 17 Jan 2014 14:46:35 +0800
+Message-ID: <ab917c7ff22a375e4476f3eab970e43555503b7a.1389941136.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1389941136.git.Qi.Chen@windriver.com>
 References: <cover.1389941136.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] systemd: add 'less' to its RDEPENDS
+Subject: [PATCH 2/5] dropbear: add systemd unit files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +33,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 06:46:36 -0000
+X-List-Received-Date: Fri, 17 Jan 2014 06:46:37 -0000
 Content-Type: text/plain
 
-The less command provided by busybox cannot interpret the control
-character, resulting in obscure output of the journalctl command
-in a systemd based image.
+This patch mainly comes from meta-systemd with a few modifications.
+The purpose is to get rid of the LSB init scripts in systemd images.
 
-Add the 'less' package to systemd's RDEPENDS so that the output
-of 'journalctl' looks clear to users.
-
-[YOCTO #5723]
+[YOCTO #4420]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/systemd/systemd_208.bb |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-core/dropbear/dropbear.inc            |   17 ++++++++++++++++-
+ .../recipes-core/dropbear/dropbear/dropbear.socket |   10 ++++++++++
+ .../dropbear/dropbear/dropbear@.service            |   11 +++++++++++
+ .../dropbear/dropbear/dropbearkey.service          |    8 ++++++++
+ 4 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
 
-diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
-index 6590235..3659abd 100644
---- a/meta/recipes-core/systemd/systemd_208.bb
-+++ b/meta/recipes-core/systemd/systemd_208.bb
-@@ -217,7 +217,8 @@ FILES_${PN} = " ${base_bindir}/* \
- FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
+index e85a9e6..d5fceec 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -19,17 +19,22 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://0004-fix-2kb-keys.patch \
+            file://0007-dropbear-fix-for-x32-abi.patch \
+            file://init \
++           file://dropbearkey.service \
++           file://dropbear@.service \
++           file://dropbear.socket \
+            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} "
  
--RDEPENDS_${PN} += "kmod dbus util-linux-mount"
-+# less package is needed to correctly display the contents of 'journalctl'
-+RDEPENDS_${PN} += "kmod dbus util-linux-mount less"
+ PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+                file://0006-dropbear-configuration-file.patch \
+                file://dropbear"
  
- RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units \
-                       util-linux-agetty \
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
+ 
+ INITSCRIPT_NAME = "dropbear"
+ INITSCRIPT_PARAMS = "defaults 10"
+ 
++SYSTEMD_SERVICE_${PN} = "dropbear.socket"
++
+ CFLAGS_prepend = " -I. "
+ LD = "${CC}"
+ 
+@@ -66,6 +71,16 @@ do_install() {
+ 		install -d ${D}${sysconfdir}/pam.d
+ 		install -m 0644 ${WORKDIR}/dropbear  ${D}${sysconfdir}/pam.d/
+ 	fi
++
++	# deal with systemd unit files
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/dropbearkey.service ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/dropbear@.service ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/dropbear.socket ${D}${systemd_unitdir}/system
++	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
++	       -e 's,@BINDIR@,${bindir},g' \
++	       -e 's,@SBINDIR@,${sbindir},g' \
++	       ${D}${systemd_unitdir}/system/dropbear.socket ${D}${systemd_unitdir}/system/*.service
+ }
+ 
+ inherit update-alternatives
+diff --git a/meta/recipes-core/dropbear/dropbear/dropbear.socket b/meta/recipes-core/dropbear/dropbear/dropbear.socket
+new file mode 100644
+index 0000000..e5c61b7
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/dropbear.socket
+@@ -0,0 +1,10 @@
++[Unit]
++Conflicts=dropbear.service
++
++[Socket]
++ListenStream=22
++Accept=yes
++
++[Install]
++WantedBy=sockets.target
++Also=dropbearkey.service
+diff --git a/meta/recipes-core/dropbear/dropbear/dropbear@.service b/meta/recipes-core/dropbear/dropbear/dropbear@.service
+new file mode 100644
+index 0000000..6fe9942
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/dropbear@.service
+@@ -0,0 +1,11 @@
++[Unit]
++Description=SSH Per-Connection Server
++Wants=dropbearkey.service
++After=syslog.target dropbearkey.service
++
++[Service]
++EnvironmentFile=-/etc/default/dropbear
++ExecStart=-@SBINDIR@/dropbear -i -r /etc/dropbear/dropbear_rsa_host_key $DROPBEAR_EXTRA_ARGS
++ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
++StandardInput=socket
++KillMode=process
+diff --git a/meta/recipes-core/dropbear/dropbear/dropbearkey.service b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
+new file mode 100644
+index 0000000..ccc21d5
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/dropbearkey.service
+@@ -0,0 +1,8 @@
++[Unit]
++Description=SSH Key Generation
++ConditionPathExists=|!/etc/dropbear/dropbear_rsa_host_key
++
++[Service]
++Type=oneshot
++ExecStart=@SBINDIR@/dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key
++RemainAfterExit=yes
 -- 
 1.7.9.5
 
