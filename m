@@ -1,35 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id B23E86B4C4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id B20226AE73
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 11:09:41 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id y10so4366823wgg.20
+	Fri, 17 Jan 2014 11:40:28 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0HBeNnQ014085 for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2014 11:40:24 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3hOqoh7zz_Gw
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 03:09:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=pNKit7oHkfGr5ZxII+/PdAVwgEE1EXpifSK1zdn3SkE=;
-	b=KmnfnrDTIUoHydxtxjlRdkuOuNPmy5+CZC1SgVY/lSFx355Az8MHELmX6JcPvrFS5a
-	T/7J3GhK7ZZbf/G8byuqUJkWb5Kyflr62q6kl+8nbDoNZ1ZDhCCO6e74a9p/fI7KmsFx
-	6fjbrEUIBRPwX/c8Xy86v4CZlGF3B4wWjG6HSCDbtpzesch/hu4InzcQu0Ahe5dg8PZP
-	GYFu4UwAxbMlj7ejHK1JPirBHOhmoqLjz8fFHoyW7btS+FGpdaxx/XDr6OEQW/AZuevs
-	NvhtElg7QcSndT4X9CMhlrDQXC29MJxnVo1cHGqIEdVBpXYPdbyAbHspCkVJfGVqYB4t
-	mauQ==
-X-Gm-Message-State: ALoCoQmiG2x3hR9qig22V+dFkcPHsmLHiPkO8dSSObbJTAOyaV+INfGoFCzsKlL/OXXjkjCmO+Si
-X-Received: by 10.180.189.211 with SMTP id gk19mr1244371wic.29.1389956981926; 
-	Fri, 17 Jan 2014 03:09:41 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id hv3sm2633123wib.5.2014.01.17.03.09.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 Jan 2014 03:09:41 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2014 11:09:32 +0000
-Message-Id: <1389956972-18688-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH V2] glib-2.0: add explicit build dependency on DBus when ptest is enabled
+	Fri, 17 Jan 2014 11:40:23 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0HBdknP014042
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2014 11:39:47 GMT
+Message-ID: <1389958780.14987.110.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Jan 2014 11:39:40 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] opkg-utils: Add basic PACKAGECONFIG for python dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +38,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 11:09:42 -0000
+X-List-Received-Date: Fri, 17 Jan 2014 11:40:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If the tests are enabled then configure will check for the presence DBus.  It's
-generally present through the runtime dependencies so this often succeeds but as
-it isn't a build dependency it's possible for DBus to be present at configure
-time but removed at compile time, resulting in build failures.
+In small configurations its useful not to have python dependencies. This
+patch adds code to disable those using PACKAGECONFIG. This allows us to
+fix poky-tiny after the recent move of update-alternatives to opkg-utils.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/glib-2.0/glib.inc |    2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 7b471e7..33d30c1 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -16,8 +16,10 @@ SECTION = "libs"
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 6aa5fb8..6a3cf55 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -16,6 +16,12 @@ S = "${WORKDIR}/git"
  
- DEPENDS = "glib-2.0-native virtual/libiconv libffi zlib"
-+DEPENDS_append_class-target = "${@base_contains('DISTRO_FEATURES', 'ptest', ' dbus', '', d)}"
- DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native"
- DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-libffi nativesdk-zlib ${BPN}-native"
+ TARGET_CC_ARCH += "${LDFLAGS}"
+ 
++PYTHONRDEPS = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
++PYTHONRDEPS_class-native = ""
 +
- PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
++PACKAGECONFIG = "python"
++PACKAGECONFIG[python] = ",,,${PYTHONRDEPS}"
++
+ do_install() {
+ 	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
+ }
+@@ -25,9 +31,6 @@ PACKAGES_class-native = ""
  
- LEAD_SONAME = "libglib-2.0.*"
--- 
-1.7.10.4
+ PACKAGES =+ "update-alternatives-opkg"
+ FILES_update-alternatives-opkg = "${bindir}/update-alternatives"
+-
+-RDEPENDS_${PN} = "python python-shell python-io python-math python-crypt python-logging python-fcntl python-subprocess python-pickle python-compression python-textutils python-stringold"
+-RDEPENDS_${PN}_class-native = ""
+ RPROVIDES_update-alternatives-opkg = "update-alternatives"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+
 
 
