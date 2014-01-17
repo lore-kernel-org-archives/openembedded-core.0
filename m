@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 012A96E710
+	by mail.openembedded.org (Postfix) with ESMTP id 003FD6DC62
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jan 2014 10:26:10 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0HAQ60v011697 for <openembedded-core@lists.openembedded.org>;
+	s0HAQ6tk011698 for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jan 2014 10:26:06 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id u8WhyvXEdsT5
+	with LMTP id jwtDHR3zAavC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jan 2014 10:26:05 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0HAPOw5011680
+	s0HAPxVh011683
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 10:25:26 GMT
-Message-ID: <1389954318.14987.103.camel@ted>
+	Fri, 17 Jan 2014 10:26:01 GMT
+Message-ID: <1389954353.14987.104.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 10:25:18 +0000
+Date: Fri, 17 Jan 2014 10:25:53 +0000
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] update-alternatives: We now use u-a in nativesdk so make sure the dependency is present
+Subject: [PATCH] opkg/opkg-utils/chkconfig: Clean up u-a-cworth references
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,27 +42,45 @@ X-List-Received-Date: Fri, 17 Jan 2014 10:26:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-When update-alternatives was part of opkg which got built in most nativesdk
-scenarios, this missing dependency wasn't an issue. We now need nativesdk-opkg-utils
-so we need to ensure the dependency is present in nativesdk cases.
-
-This avoids build failures with the recent u-a move to opkg-utils.
+Catch some u-a-cworth references that slipped through the move of u-a
+to opkg-utils and its rename to -opkg.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index f75f5b6..9f2c250 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -89,7 +89,7 @@ def ua_extend_depends(d):
- 
- python __anonymous() {
-     # Update Alternatives only works on target packages...
--    if bb.data.inherits_class('native', d) or bb.data.inherits_class('nativesdk', d) or \
-+    if bb.data.inherits_class('native', d) or \
-        bb.data.inherits_class('cross', d) or bb.data.inherits_class('crosssdk', d) or \
-        bb.data.inherits_class('cross-canadian', d):
-         return
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index eb54a81..6aa5fb8 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -1,4 +1,5 @@
+ SUMMARY = "Additional utilities for the opkg package manager"
++SUMMARY_update-alternatives-opkg = "Utility for managing the alternatives system"
+ SECTION = "base"
+ HOMEPAGE = "http://code.google.com/p/opkg/"
+ LICENSE = "GPLv2+"
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index 527fe5d..7bea26d 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -1,6 +1,5 @@
+ SUMMARY = "Open Package Manager"
+ SUMMARY_libopkg = "Open Package Manager library"
+-SUMMARY_update-alternatives-cworth = "Utility for managing the alternatives system"
+ SECTION = "base"
+ HOMEPAGE = "http://code.google.com/p/opkg/"
+ BUGTRACKER = "http://code.google.com/p/opkg/issues/list"
+diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+index 4560298..d285c50 100644
+--- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
++++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+@@ -56,7 +56,7 @@ SUMMARY_${PN}-alternatives-doc = "${SUMMARY_${PN}-alternatives} - Documentation
+ DESCRIPTION_${PN}-alternatives-doc = "${DESCRIPTION_${PN}-alternatives}  \
+ This package contains documentation."
+ RPROVIDES_${PN}-alternatives += "update-alternatives"
+-RCONFLICTS_${PN}-alternatives = "update-alternatives-cworth update-alternatives-dpkg"
++RCONFLICTS_${PN}-alternatives = "update-alternatives-opkg update-alternatives-dpkg"
+ FILES_${PN}-alternatives = "${sbindir}/alternatives ${sbindir}/update-alternatives \
+ 			    ${sysconfdir}/alternatives ${localstatedir}/lib/alternatives"
+ FILES_${PN}-alternatives-doc = "${mandir}/man8/alternatives.8 \
 
 
 
