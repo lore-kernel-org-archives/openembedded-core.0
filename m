@@ -1,26 +1,29 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 932F66E778
+	by mail.openembedded.org (Postfix) with ESMTP id 890466DC62
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 10:39:27 +0000 (UTC)
+	Fri, 17 Jan 2014 10:41:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0HAdRNC014755
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 02:39:28 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 17 Jan 2014 02:39:28 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 18:39:25 +0800
-Message-ID: <4764905b11d75125b6a164942e2f5234578b9158.1389955027.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1389955027.git.Qi.Chen@windriver.com>
-References: <cover.1389955027.git.Qi.Chen@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0HAfWCa014799
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 17 Jan 2014 02:41:32 -0800 (PST)
+Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Fri, 17 Jan 2014 02:41:32 -0800
+Message-ID: <52D908DF.2040007@windriver.com>
+Date: Fri, 17 Jan 2014 18:41:35 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH V2 5/5] at: add systemd support
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1389941136.git.Qi.Chen@windriver.com>
+	<20140117102023.GL3742@jama>
+In-Reply-To: <20140117102023.GL3742@jama>
+X-Originating-IP: [128.224.162.164]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] systemd misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 10:39:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Jan 2014 10:41:33 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add systemd support for at.
+On 01/17/2014 06:20 PM, Martin Jansa wrote:
+> On Fri, Jan 17, 2014 at 02:46:33PM +0800, Chen Qi wrote:
+>> The following changes since commit cfd1520b4b492ab27b2900ba3510abe6f288097e:
+>>
+>>    oe-selftest: separated the SStateBase and SStateTests in different modules (2014-01-16 12:18:52 +0000)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.pokylinux.org/poky-contrib ChenQi/systemd-misc-fixes
+>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-misc-fixes
+> Can you send pull-request from oe-core?
+>
 
-This patch mainly comes from meta-systemd.
+I've sent out V2. But the remote branch is still poky-contrib. Is it OK?
 
-[YOCTO #4420]
+>> Chen Qi (5):
+>>    systemd: add 'less' to its RDEPENDS
+>>    dropbear: add systemd unit files
+>>    openssh: fixes for systemd
+>>    distcc: add systemd support
+>>    at: add systemd support
+> Thank you, openssh fix for sshd@.service in SYSTEMD_SERVICE was
+> requested since it was introduced, good to see the fix now.
+>
+> Can you please send cleanup patches for meta-systemd after this patchset
+> is merged? Thanks
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/at/at_3.1.14.bb      |   10 +++++++++-
- meta/recipes-extended/at/files/atd.service |    9 +++++++++
- 2 files changed, 18 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/at/files/atd.service
+Yes, of course.
 
-diff --git a/meta/recipes-extended/at/at_3.1.14.bb b/meta/recipes-extended/at/at_3.1.14.bb
-index 0a13157..480e732 100644
---- a/meta/recipes-extended/at/at_3.1.14.bb
-+++ b/meta/recipes-extended/at/at_3.1.14.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
-     file://posixtm.h \
-     file://file_replacement_with_gplv2.patch \
-     file://S99at \
-+    file://atd.service \
-     ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
- 
- PAM_SRC_URI = "file://pam.conf.patch \
-@@ -37,7 +38,9 @@ EXTRA_OECONF += "ac_cv_path_SENDMAIL=/bin/true \
-                  --with-atspool=/var/spool/at/spool \
-                  ac_cv_header_security_pam_appl_h=${@base_contains('DISTRO_FEATURES', 'pam', 'yes', 'no', d)} "
- 
--inherit autotools
-+inherit autotools systemd
-+
-+SYSTEMD_SERVICE_${PN} = "atd.service"
- 
- PARALLEL_MAKE = ""
- 
-@@ -53,6 +56,11 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/S99at		${D}${sysconfdir}/init.d/atd
- 	ln -sf ../init.d/atd ${D}${sysconfdir}/rcS.d/S99at
- 
-+	# install systemd unit files
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/atd.service ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/atd.service
-+
- 	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
- 		install -D -m 0644 ${WORKDIR}/${BP}/pam.conf ${D}${sysconfdir}/pam.d/atd
- 	fi
-diff --git a/meta/recipes-extended/at/files/atd.service b/meta/recipes-extended/at/files/atd.service
-new file mode 100644
-index 0000000..6dc8445
---- /dev/null
-+++ b/meta/recipes-extended/at/files/atd.service
-@@ -0,0 +1,9 @@
-+[Unit]
-+Description=Job spooling tools
-+After=syslog.target
-+
-+[Service]
-+ExecStart=@SBINDIR@/atd -f
-+
-+[Install]
-+WantedBy=multi-user.target
--- 
-1.7.9.5
+Best Regards,
+Chen Qi
+
+>>   .../openssh/openssh-6.4p1/sshd.socket              |    1 -
+>>   .../openssh/openssh-6.4p1/sshd@.service            |    1 +
+>>   .../openssh/openssh-6.4p1/sshdgenkeys.service      |    8 ++++----
+>>   meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    4 ++--
+>>   meta/recipes-core/dropbear/dropbear.inc            |   17 ++++++++++++++++-
+>>   .../recipes-core/dropbear/dropbear/dropbear.socket |   10 ++++++++++
+>>   .../dropbear/dropbear/dropbear@.service            |   11 +++++++++++
+>>   .../dropbear/dropbear/dropbearkey.service          |    8 ++++++++
+>>   meta/recipes-core/systemd/systemd_208.bb           |    3 ++-
+>>   meta/recipes-devtools/distcc/distcc_3.1.bb         |   14 +++++++++++---
+>>   meta/recipes-devtools/distcc/files/default         |    5 +++++
+>>   meta/recipes-devtools/distcc/files/distccd.service |   11 +++++++++++
+>>   meta/recipes-extended/at/at_3.1.14.bb              |   10 +++++++++-
+>>   meta/recipes-extended/at/files/atd.service         |    9 +++++++++
+>>   14 files changed, 99 insertions(+), 13 deletions(-)
+>>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
+>>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
+>>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
+>>   create mode 100644 meta/recipes-devtools/distcc/files/distccd.service
+>>   create mode 100644 meta/recipes-extended/at/files/atd.service
+>>
+>> -- 
+>> 1.7.9.5
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
