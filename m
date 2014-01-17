@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AD98E6E710
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EED516E80F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 06:46:39 +0000 (UTC)
+	Fri, 17 Jan 2014 06:46:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0H6kfaS011469
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0H6kglS021858
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2014 22:46:41 -0800 (PST)
+	Thu, 16 Jan 2014 22:46:42 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 16 Jan 2014 22:46:40 -0800
+	14.2.347.0; Thu, 16 Jan 2014 22:46:41 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jan 2014 14:46:37 +0800
-Message-ID: <511708c68bd9da396771449e0d633b64882745f6.1389941136.git.Qi.Chen@windriver.com>
+Date: Fri, 17 Jan 2014 14:46:38 +0800
+Message-ID: <f9389353cec62b02b7cce35825ee70ec2ec337f2.1389941136.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1389941136.git.Qi.Chen@windriver.com>
 References: <cover.1389941136.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] distcc: add systemd support
+Subject: [PATCH 5/5] at: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,98 +33,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 06:46:39 -0000
+X-List-Received-Date: Fri, 17 Jan 2014 06:46:41 -0000
 Content-Type: text/plain
 
-Add systemd support for distcc.
+Add systemd support for at.
 
-These unit files mainly use the same files in Fedora 20 as a reference.
+This patch mainly comes from meta-systemd.
 
 [YOCTO #4420]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-devtools/distcc/distcc_3.1.bb         |   14 +++++++++++---
- meta/recipes-devtools/distcc/files/default         |    5 +++++
- meta/recipes-devtools/distcc/files/distccd.service |   11 +++++++++++
- 3 files changed, 27 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/distcc/files/distccd.service
+ meta/recipes-extended/at/at_3.1.14.bb      |   10 +++++++++-
+ meta/recipes-extended/at/files/atd.service |    9 +++++++++
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/at/files/atd.service
 
-diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.1.bb
-index e351a58..c3cbd05 100644
---- a/meta/recipes-devtools/distcc/distcc_3.1.bb
-+++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
-@@ -22,12 +22,13 @@ SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
-            file://separatebuilddir.patch \
-            file://default \
-            file://distccmon-gnome.desktop \
--           file://distcc"
-+           file://distcc \
-+           file://distccd.service"
+diff --git a/meta/recipes-extended/at/at_3.1.14.bb b/meta/recipes-extended/at/at_3.1.14.bb
+index 0a13157..480e732 100644
+--- a/meta/recipes-extended/at/at_3.1.14.bb
++++ b/meta/recipes-extended/at/at_3.1.14.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
+     file://posixtm.h \
+     file://file_replacement_with_gplv2.patch \
+     file://S99at \
++    file://atd.service \
+     ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
  
- SRC_URI[md5sum] = "a1a9d3853df7133669fffec2a9aab9f3"
- SRC_URI[sha256sum] = "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724fcd2d53f934ddd89"
+ PAM_SRC_URI = "file://pam.conf.patch \
+@@ -37,7 +38,9 @@ EXTRA_OECONF += "ac_cv_path_SENDMAIL=/bin/true \
+                  --with-atspool=/var/spool/at/spool \
+                  ac_cv_header_security_pam_appl_h=${@base_contains('DISTRO_FEATURES', 'pam', 'yes', 'no', d)} "
  
--inherit autotools pkgconfig update-rc.d useradd
-+inherit autotools pkgconfig update-rc.d useradd systemd
- 
- EXTRA_OECONF += "--disable-Werror PYTHON=/dev/null"
- 
-@@ -40,11 +41,17 @@ USERADD_PARAM_${PN} = "--system \
- 
- INITSCRIPT_NAME = "distcc"
- 
-+SYSTEMD_PACKAGES = "${PN}"
-+SYSTEMD_SERVICE_${PN} = "distccd.service"
+-inherit autotools
++inherit autotools systemd
 +
- do_install_append() {
-     install -d ${D}${sysconfdir}/init.d/
-     install -d ${D}${sysconfdir}/default
-     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
-     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
-+    install -d ${D}${systemd_unitdir}/system/
-+    install -m 0644 ${WORKDIR}/distccd.service ${D}${systemd_unitdir}/system
-+    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/distccd.service
-     ${DESKTOPINSTALL}
- }
- DESKTOPINSTALL = ""
-@@ -58,7 +65,8 @@ FILES_${PN} = " ${sysconfdir} \
- 		${bindir}/distcc \
-     ${bindir}/lsdistcc \
- 		${bindir}/distccd \
--		${bindir}/distccmon-text"
-+		${bindir}/distccmon-text \
-+		${systemd_unitdir}/system/distccd.service"
- FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
- 				${datadir}/distcc"
++SYSTEMD_SERVICE_${PN} = "atd.service"
  
-diff --git a/meta/recipes-devtools/distcc/files/default b/meta/recipes-devtools/distcc/files/default
-index 95290f8..63c4159 100644
---- a/meta/recipes-devtools/distcc/files/default
-+++ b/meta/recipes-devtools/distcc/files/default
-@@ -17,3 +17,8 @@ STARTDISTCC="true"
- # ALLOWEDNETS="127.0.0.1"
+ PARALLEL_MAKE = ""
  
- ALLOWEDNETS="192.168.7.0/24"
+@@ -53,6 +56,11 @@ do_install () {
+ 	install -m 0755    ${WORKDIR}/S99at		${D}${sysconfdir}/init.d/atd
+ 	ln -sf ../init.d/atd ${D}${sysconfdir}/rcS.d/S99at
+ 
++	# install systemd unit files
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/atd.service ${D}${systemd_unitdir}/system
++	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/atd.service
 +
-+#
-+# OPTIONS is used for the systemd service file
-+#
-+OPTIONS="--allow 192.168.7.0/24"
-diff --git a/meta/recipes-devtools/distcc/files/distccd.service b/meta/recipes-devtools/distcc/files/distccd.service
+ 	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
+ 		install -D -m 0644 ${WORKDIR}/${BP}/pam.conf ${D}${sysconfdir}/pam.d/atd
+ 	fi
+diff --git a/meta/recipes-extended/at/files/atd.service b/meta/recipes-extended/at/files/atd.service
 new file mode 100644
-index 0000000..0253ddf
+index 0000000..6dc8445
 --- /dev/null
-+++ b/meta/recipes-devtools/distcc/files/distccd.service
-@@ -0,0 +1,11 @@
++++ b/meta/recipes-extended/at/files/atd.service
+@@ -0,0 +1,9 @@
 +[Unit]
-+Description=Distccd A Distributed Compilation Server
-+After=network.target
++Description=Job spooling tools
++After=syslog.target
 +
 +[Service]
-+User=distcc
-+EnvironmentFile=-/etc/default/distcc
-+ExecStart=@BINDIR@/distccd --verbose --no-detach --daemon $OPTIONS
++ExecStart=@SBINDIR@/atd -f
 +
 +[Install]
 +WantedBy=multi-user.target
