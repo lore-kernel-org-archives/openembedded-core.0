@@ -1,29 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 890466DC62
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id D75C36C72D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 10:41:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0HAfWCa014799
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 17 Jan 2014 02:41:32 -0800 (PST)
-Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Fri, 17 Jan 2014 02:41:32 -0800
-Message-ID: <52D908DF.2040007@windriver.com>
-Date: Fri, 17 Jan 2014 18:41:35 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1389941136.git.Qi.Chen@windriver.com>
-	<20140117102023.GL3742@jama>
-In-Reply-To: <20140117102023.GL3742@jama>
-X-Originating-IP: [128.224.162.164]
+	Fri, 17 Jan 2014 10:47:55 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0HAlpgG012379; Fri, 17 Jan 2014 10:47:51 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id IN9fw6WGDx43; Fri, 17 Jan 2014 10:47:50 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0HAl9wB012369
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Fri, 17 Jan 2014 10:47:10 GMT
+Message-ID: <1389955623.14987.109.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Fri, 17 Jan 2014 10:47:03 +0000
+In-Reply-To: <1389895166-2459-1-git-send-email-paul@paulbarker.me.uk>
+References: <1389895166-2459-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] systemd misc fixes
+Subject: Re: [PATCH v2 0/3] Change update-alternatives provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,69 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 10:41:33 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 17 Jan 2014 10:47:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 01/17/2014 06:20 PM, Martin Jansa wrote:
-> On Fri, Jan 17, 2014 at 02:46:33PM +0800, Chen Qi wrote:
->> The following changes since commit cfd1520b4b492ab27b2900ba3510abe6f288097e:
->>
->>    oe-selftest: separated the SStateBase and SStateTests in different modules (2014-01-16 12:18:52 +0000)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib ChenQi/systemd-misc-fixes
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-misc-fixes
-> Can you send pull-request from oe-core?
->
+On Thu, 2014-01-16 at 17:59 +0000, Paul Barker wrote:
+> The update-alternatives script has been copied from opkg to opkg-utils so the
+> openembedded recipe for opkg-utils is updated accordingly. Changing the default
+> provider of update-alternatives to opkg-utils allows dependencies to be added to
+> the opkg recipe without causing circular dependency loops. This series partially
+> solves Yocto Project issue 4836.
+> 
+> Changes in v2:
+> 
+>     - Reordered variables in opkg-utils recipe
+>     - Added nativesdk class to opkg-utils
+> 
+> Paul Barker (3):
+>   opkg-utils: Upgrade to latest git HEAD
+>   default-providers: Change update-alternatives provider to opkg-utils
+>   opkg: No longer PROVIDES update-alternatives
+> 
+>  meta/conf/distro/include/default-providers.inc     |  6 +++---
+>  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  9 +++++++--
+>  meta/recipes-devtools/opkg/opkg.inc                | 12 +++---------
+>  3 files changed, 13 insertions(+), 14 deletions(-)
 
-I've sent out V2. But the remote branch is still poky-contrib. Is it OK?
+The errors still occurred on the autobuilder with the revised patchset.
+I tracked down a couple of issues and have sent out patches for those.
 
->> Chen Qi (5):
->>    systemd: add 'less' to its RDEPENDS
->>    dropbear: add systemd unit files
->>    openssh: fixes for systemd
->>    distcc: add systemd support
->>    at: add systemd support
-> Thank you, openssh fix for sshd@.service in SYSTEMD_SERVICE was
-> requested since it was introduced, good to see the fix now.
->
-> Can you please send cleanup patches for meta-systemd after this patchset
-> is merged? Thanks
+We do however have one more problematic regression:
 
-Yes, of course.
+http://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/1/steps/BuildImages/logs/stdio
 
-Best Regards,
-Chen Qi
+Basically, the tiny configuration is quite cut down and we can't build
+python with it. Before this change we were able to build opkg and all
+was well. Now we need to build opkg-utils which depends on python.
 
->>   .../openssh/openssh-6.4p1/sshd.socket              |    1 -
->>   .../openssh/openssh-6.4p1/sshd@.service            |    1 +
->>   .../openssh/openssh-6.4p1/sshdgenkeys.service      |    8 ++++----
->>   meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    4 ++--
->>   meta/recipes-core/dropbear/dropbear.inc            |   17 ++++++++++++++++-
->>   .../recipes-core/dropbear/dropbear/dropbear.socket |   10 ++++++++++
->>   .../dropbear/dropbear/dropbear@.service            |   11 +++++++++++
->>   .../dropbear/dropbear/dropbearkey.service          |    8 ++++++++
->>   meta/recipes-core/systemd/systemd_208.bb           |    3 ++-
->>   meta/recipes-devtools/distcc/distcc_3.1.bb         |   14 +++++++++++---
->>   meta/recipes-devtools/distcc/files/default         |    5 +++++
->>   meta/recipes-devtools/distcc/files/distccd.service |   11 +++++++++++
->>   meta/recipes-extended/at/at_3.1.14.bb              |   10 +++++++++-
->>   meta/recipes-extended/at/files/atd.service         |    9 +++++++++
->>   14 files changed, 99 insertions(+), 13 deletions(-)
->>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
->>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
->>   create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
->>   create mode 100644 meta/recipes-devtools/distcc/files/distccd.service
->>   create mode 100644 meta/recipes-extended/at/files/atd.service
->>
->> -- 
->> 1.7.9.5
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+We're therefore building python when we never used to (due to the python
+scripts in opkg-utils).
+
+I suspect to resolve this and allow tiny to work again we'll have to put
+a PACKAGECONFIG on opkg-utils and disable python for tiny...
+
+Cheers,
+
+Richard
+
+
 
 
