@@ -1,29 +1,35 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EAA2B6E710
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B23E86B4C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2014 11:04:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0HB4P5Y021016
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 17 Jan 2014 03:04:26 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 17 Jan 2014 03:01:27 -0800
-Message-ID: <52D90D85.7010106@windriver.com>
-Date: Fri, 17 Jan 2014 19:01:25 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1389940146.git.liezhi.yang@windriver.com>	
-	<981567c4dfef59be08373f124b36739449a546a1.1389940146.git.liezhi.yang@windriver.com>
-	<1389954978.14987.106.camel@ted>
-In-Reply-To: <1389954978.14987.106.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sstate.bbclass: remove previous version's stamp
+	Fri, 17 Jan 2014 11:09:41 +0000 (UTC)
+Received: by mail-wg0-f53.google.com with SMTP id y10so4366823wgg.20
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2014 03:09:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=pNKit7oHkfGr5ZxII+/PdAVwgEE1EXpifSK1zdn3SkE=;
+	b=KmnfnrDTIUoHydxtxjlRdkuOuNPmy5+CZC1SgVY/lSFx355Az8MHELmX6JcPvrFS5a
+	T/7J3GhK7ZZbf/G8byuqUJkWb5Kyflr62q6kl+8nbDoNZ1ZDhCCO6e74a9p/fI7KmsFx
+	6fjbrEUIBRPwX/c8Xy86v4CZlGF3B4wWjG6HSCDbtpzesch/hu4InzcQu0Ahe5dg8PZP
+	GYFu4UwAxbMlj7ejHK1JPirBHOhmoqLjz8fFHoyW7btS+FGpdaxx/XDr6OEQW/AZuevs
+	NvhtElg7QcSndT4X9CMhlrDQXC29MJxnVo1cHGqIEdVBpXYPdbyAbHspCkVJfGVqYB4t
+	mauQ==
+X-Gm-Message-State: ALoCoQmiG2x3hR9qig22V+dFkcPHsmLHiPkO8dSSObbJTAOyaV+INfGoFCzsKlL/OXXjkjCmO+Si
+X-Received: by 10.180.189.211 with SMTP id gk19mr1244371wic.29.1389956981926; 
+	Fri, 17 Jan 2014 03:09:41 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id hv3sm2633123wib.5.2014.01.17.03.09.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 Jan 2014 03:09:41 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Jan 2014 11:09:32 +0000
+Message-Id: <1389956972-18688-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH V2] glib-2.0: add explicit build dependency on DBus when ptest is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2014 11:04:27 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Jan 2014 11:09:42 -0000
 
+If the tests are enabled then configure will check for the presence DBus.  It's
+generally present through the runtime dependencies so this often succeeds but as
+it isn't a build dependency it's possible for DBus to be present at configure
+time but removed at compile time, resulting in build failures.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/glib-2.0/glib.inc |    2 ++
+ 1 file changed, 2 insertions(+)
 
-On 01/17/2014 06:36 PM, Richard Purdie wrote:
-> On Fri, 2014-01-17 at 14:43 +0800, Robert Yang wrote:
->> +        # Keep the sigdata
->> +        if not re.match(re_sigdata, stfile):
->> +            oe.path.remove(stfile)
->
-> I'm not sure its worth the overhead of using regexps here. Can we not do
-> something simple like:
->
-> if ".sigdata." not in stfile:
->
-
-Sounds better, I've updated the PULL:
-
-git://git.pokylinux.org/poky-contrib rbt/clean_stamp
-
-and here is the patch:
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 35c3f85..d4e0dcb 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -331,11 +331,17 @@ def sstate_clean_manifest(manifest, d):
-
-  def sstate_clean(ss, d):
-      import oe.path
-+    import glob
-
-      d2 = d.createCopy()
-+    stamp_clean = d.getVar("STAMPCLEAN", True)
-      extrainf = d.getVarFlag("do_" + ss['task'], 'stamp-extra-info', True)
-      if extrainf:
-          d2.setVar("SSTATE_MANMACH", extrainf)
-+        wildcard_stfile = "%s.do_%s*.%s" % (stamp_clean, ss['task'], extrainf)
-+    else:
-+        wildcard_stfile = "%s.do_%s*" % (stamp_clean, ss['task'])
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 7b471e7..33d30c1 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -16,8 +16,10 @@ SECTION = "libs"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ DEPENDS = "glib-2.0-native virtual/libiconv libffi zlib"
++DEPENDS_append_class-target = "${@base_contains('DISTRO_FEATURES', 'ptest', ' dbus', '', d)}"
+ DEPENDS_class-native = "pkgconfig-native gettext-native libffi-native"
+ DEPENDS_class-nativesdk = "nativesdk-libtool nativesdk-libffi nativesdk-zlib ${BPN}-native"
 +
-      manifest = d2.expand("${SSTATE_MANFILEPREFIX}.%s" % ss['name'])
+ PACKAGES =+ "${PN}-utils ${PN}-bash-completion ${PN}-codegen"
+ 
+ LEAD_SONAME = "libglib-2.0.*"
+-- 
+1.7.10.4
 
-      if os.path.exists(manifest):
-@@ -350,15 +356,11 @@ def sstate_clean(ss, d):
-          for lock in locks:
-              bb.utils.unlockfile(lock)
-
--    stfile = d.getVar("STAMP", True) + ".do_" + ss['task']
--    oe.path.remove(stfile)
--    oe.path.remove(stfile + "_setscene")
--    if extrainf:
--        oe.path.remove(stfile + ".*" + extrainf)
--        oe.path.remove(stfile + "_setscene" + ".*" + extrainf)
--    else:
--        oe.path.remove(stfile + ".*")
--        oe.path.remove(stfile + "_setscene" + ".*")
-+    # Remove the current and previous stamps, but keep the sigdata
-+    for stfile in glob.glob(wildcard_stfile):
-+        # Keep the sigdata
-+        if ".sigdata." not in stfile:
-+            oe.path.remove(stfile)
-
-  CLEANFUNCS += "sstate_cleanall"
-
-// Robert
-
-> Cheers,
->
-> Richard
->
->
->
 
