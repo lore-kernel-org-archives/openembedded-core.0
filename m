@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f179.google.com (mail-ea0-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B824D6E722
+Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D488B6E7E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 14:02:05 +0000 (UTC)
-Received: by mail-ea0-f179.google.com with SMTP id q10so1409539ead.38
+	Sat, 18 Jan 2014 14:02:06 +0000 (UTC)
+Received: by mail-ea0-f174.google.com with SMTP id b10so2231568eae.19
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 06:02:06 -0800 (PST)
+	Sat, 18 Jan 2014 06:02:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=PxV406f3mIF+NJ1PXcY4TJPromnbUdOo+u38FknNgBA=;
-	b=Y1DNh2kQE1Mk52qi5NLr/DhZdXvtVjX99NoWUvqO8zU6jva7MTLVb8ofn82t5FUVul
-	+9qupQ/6G/o+luXT45PnuY+FIR7fZ1OBmaaZZb9Q9gLzVWb+eQ896HTEkNs/Udyos2y5
-	y9MIpd5IwCJbSfbr2wgO+461dOsOt/XKwmAvpyoQrqWZQ2sHvodfu+rB6qneLRdSwgYC
-	bTPzQ7HagWVqwGe7v8j/IzuI9whDdln5bYHdt+ILFnwTeQIeCxZk8dvafJuk7/T9xucr
-	kM1ewshEXeOHsZ24tfBWGfqNYlX/vlAn7ofaJjoD6aydmy3GxqvEU0MgQy8QqcSydBtK
-	U0Hw==
-X-Received: by 10.15.41.140 with SMTP id s12mr8219567eev.50.1390053726367;
-	Sat, 18 Jan 2014 06:02:06 -0800 (PST)
+	:references; bh=auE4hvxSPBT2I8HPvX6GHcthFfll4k1ettm8dACbw7U=;
+	b=QrZ43mOZSxT2UmNZ5O02luVVIXXDUfPpe2RjOqQRflE7DS7vO1YF3pOU/SVMoaF57m
+	z8XKu75vAdYUxXnw6nge3METtcbKIOiY9cuQYH1fD5b1bht17jEjLjN9VavOEXDPAY+z
+	Sk4vf301CNVr1enT0xTBSarD59Et8ebxdRnwncADgUpvWNCsGxYgs1WV8RBkGT38lprQ
+	ZcMu7gwQM00wwQgEaEgWS8J50PAkmFTYanMqIHi+Ja0VIeAK/Gfu1GvqLT82N+l/wBYb
+	Zzh6fGrsdzdZiDvZ6xCezO9X84KbfQHepxx/0sA1eMW9PLIdeyW07ck5OFSdNFDpBfob
+	zpmw==
+X-Received: by 10.15.23.139 with SMTP id h11mr8184868eeu.25.1390053727413;
+	Sat, 18 Jan 2014 06:02:07 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id k41sm11544500eey.0.2014.01.18.06.02.05
+	by mx.google.com with ESMTPSA id k41sm11545646eey.0.2014.01.18.06.02.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 Jan 2014 06:02:05 -0800 (PST)
+	Sat, 18 Jan 2014 06:02:06 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jan 2014 15:02:07 +0100
-Message-Id: <c121197f51f33bbfe6a4322597205d51287bc261.1390052636.git.Martin.Jansa@gmail.com>
+Date: Sat, 18 Jan 2014 15:02:08 +0100
+Message-Id: <f689af01e81dd9a6387b8f424ddf55358f846024.1390052636.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.5.2
 In-Reply-To: <cover.1390052636.git.Martin.Jansa@gmail.com>
 References: <cover.1390052636.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1390052636.git.Martin.Jansa@gmail.com>
 References: <cover.1390052636.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 2/5] package.bbclass: show warning when package is trying to provide already provided shlib
+Subject: [PATCH 3/5] package.bbclass: add SHLIBSSEARCHDIRS to define where to search for shlib providers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +46,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2014 14:02:06 -0000
+X-List-Received-Date: Sat, 18 Jan 2014 14:02:07 -0000
 
-* move read_shlib_providers before registering package as provider
-  and don't change provider if it already exists, show warning instead
+* when package contains some files matching "^.*\.so", but in directory
+  not default linker search paths (e.g. /opt/package/bundled-lib/libfoo.so)
+  don't register it as libfoo provider, because it's possible that there
+  is different package providing libfoo.so in ${libdir} and that would
+  be better shlib provider for other packages to depend on
+* recipes providing libs intentionally in some other directory can
+  define own SHLIBSSEARCHDIRS value
 
 [YOCTO #4628]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/package.bbclass | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ meta/classes/package.bbclass | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 7dcec5e..aa8156d 100644
+index aa8156d..fe25a6b 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
-@@ -1356,6 +1356,7 @@ python package_do_shlibs() {
-         list_re = re.compile('^(.*)\.list$')
-         # Go from least to most specific since the last one found wins
-         for dir in reversed(shlibs_dirs):
-+            bb.debug(2, "Reading shlib providers in %s" % (dir))
-             if not os.path.exists(dir):
-                 continue
-             for file in os.listdir(dir):
-@@ -1471,6 +1472,8 @@ python package_do_shlibs() {
+@@ -1322,6 +1322,9 @@ python package_do_filedeps() {
+ SHLIBSDIRS = "${PKGDATA_DIR}/${MLPREFIX}shlibs"
+ SHLIBSWORKDIR = "${PKGDESTWORK}/${MLPREFIX}shlibs"
  
-     needed = {}
-     shlib_provider = {}
-+    read_shlib_providers()
++# default search path when searching for shlibs provided by package
++SHLIBSSEARCHDIRS ?= "${baselib} ${libdir}"
 +
-     for pkg in packages.split():
-         private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getVar('PRIVATE_LIBS', True)
-         needs_ldconfig = False
-@@ -1504,6 +1507,12 @@ python package_do_shlibs() {
-         if len(sonames):
-             fd = open(shlibs_file, 'w')
-             for s in sonames:
-+                if s in shlib_provider:
-+                    (old_pkg, old_pkgver) = shlib_provider[s]
-+                    if old_pkg != pkg:
-+                        bb.warn('%s-%s is already registered as shlib provider for %s, ignoring %s-%s trying to register the same' % (old_pkg, old_pkgver, s, pkg, pkgver))
-+                        continue
-+                bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s))
-                 fd.write(s + '\n')
-                 shlib_provider[s] = (pkg, pkgver)
-             fd.close()
-@@ -1517,8 +1526,7 @@ python package_do_shlibs() {
-                 postinst = '#!/bin/sh\n'
-             postinst += d.getVar('ldconfig_postinst_fragment', True)
-             d.setVar('pkg_postinst_%s' % pkg, postinst)
--
--    read_shlib_providers()
-+        bb.debug(1, 'LIBNAMES: pkg %s sonames %s' % (pkg, sonames))
+ python package_do_shlibs() {
+     import re, pipes
  
-     bb.utils.unlockfile(lf)
+@@ -1332,6 +1335,20 @@ python package_do_shlibs() {
  
+     lib_re = re.compile("^.*\.so")
+     libdir_re = re.compile(".*/%s$" % d.getVar('baselib', True))
++    
++    shlibs_search_dirs = d.getVar('SHLIBSSEARCHDIRS', True)
++    shlibs_search_dirs_re_txt = ""
++    for dir in shlibs_search_dirs.split(' '):
++        # strip leading and trailing slash, it's added in regexp
++        if dir.endswith("/"):
++            dir = dir[:-1]
++        if dir.startswith("/"):
++            dir = dir[1:]
++        if shlibs_search_dirs_re_txt:
++            shlibs_search_dirs_re_txt += "|"
++        shlibs_search_dirs_re_txt += "(^.*/%s/.*$)" % dir
++    shlibs_search_dirs_re = re.compile(shlibs_search_dirs_re_txt)
++    bb.debug(2, "will use following RE to search for provides sonames %s" % shlibs_search_dirs_re_txt)
+ 
+     packages = d.getVar('PACKAGES', True)
+     targetos = d.getVar('TARGET_OS', True)
+@@ -1390,9 +1407,12 @@ python package_do_shlibs() {
+             if m:
+                 this_soname = m.group(1)
+                 if not this_soname in sonames:
+-                    # if library is private (only used by package) then do not build shlib for it
+-                    if not private_libs or -1 == private_libs.find(this_soname):
+-                        sonames.append(this_soname)
++                    if shlibs_search_dirs_re.match(file):
++                        # if library is private (only used by package) then do not build shlib for it
++                        if not private_libs or -1 == private_libs.find(this_soname):
++                            sonames.append(this_soname)
++                    else:
++                        bb.debug(2, "ignoring soname %s from %s, because path doesn't match %s" % (this_soname, file, shlibs_search_dirs_re_txt))
+                 if libdir_re.match(os.path.dirname(file)):
+                     needs_ldconfig = True
+                 if snap_symlinks and (os.path.basename(file) != this_soname):
 -- 
 1.8.5.2
 
