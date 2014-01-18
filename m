@@ -1,34 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 89E466B9DD
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AA206B9DD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 11:20:38 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0IBKO5f017058; Sat, 18 Jan 2014 11:20:24 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id jOnl_MM3kyxY; Sat, 18 Jan 2014 11:20:24 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0IBKDh2017051
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Sat, 18 Jan 2014 11:20:16 GMT
-Message-ID: <1390044007.14987.151.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
-Date: Sat, 18 Jan 2014 11:20:07 +0000
-In-Reply-To: <55ea22e5d71c47f3b812e845106f2d19@DM2PR03MB368.namprd03.prod.outlook.com>
-References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
-	<1389366908.19102.223.camel@ted> <52D3DDFB.8080803@gmail.com>
-	<1389616915.14987.4.camel@ted> <52D53A6C.30808@gmail.com>
-	<55ea22e5d71c47f3b812e845106f2d19@DM2PR03MB368.namprd03.prod.outlook.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "cross-canadian: Handle powerpc linux verses linux-gnuspe"
+	Sat, 18 Jan 2014 12:26:32 +0000 (UTC)
+Received: by mail-ee0-f44.google.com with SMTP id c13so2551736eek.17
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Jan 2014 04:26:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=OwFk+w+fv+PWxkPA4b9jADsmVwJAAKkSlmuNBYOrBzc=;
+	b=dXBkTfe04DtEL3aD3a7TqaDXKdgDHrBHoAgdP4ha6sGvsFUJGI3migveOsRVi27SNU
+	z/7Cws76w/PKqNlz8HMkNyonPzsmXh1C9X3pEYJEqfLz0OohJJ8Zg06nlcFvEX6VBnEk
+	ETANfeqiMedc4NNZDyDpIaUIK+fLkXHD5jzafsnSfJ5BD2UmS76VMjEbpkz0kaRlEzek
+	th1+1ygpFl8sQeSkLcPO6o4qDxCl4sXwIntWn4BHCQn6iP7OPj9X9BzRpvbd1jCm3Que
+	PcbDs1tzJyL9KMbgEWdQr/da18nTfd3R3m6abytx67py43MXq7ukDNwhXDVCc1WbH2Vs
+	kO5A==
+X-Received: by 10.15.36.65 with SMTP id h41mr8027718eev.0.1390047992910;
+	Sat, 18 Jan 2014 04:26:32 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id k41sm10921165eey.0.2014.01.18.04.26.31
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 18 Jan 2014 04:26:32 -0800 (PST)
+Date: Sat, 18 Jan 2014 13:26:57 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140118122657.GU3742@jama>
+References: <cover.1389629682.git.liezhi.yang@windriver.com>
+	<20140115165513.GB3742@jama> <52D74086.4030602@windriver.com>
+	<20140116092556.GD3742@jama> <52D7A760.4040804@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <52D7A760.4040804@windriver.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,37 +48,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2014 11:20:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 18 Jan 2014 12:26:32 -0000
+X-Groupsio-MsgNum: 49164
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ptMYGWplstB9CqWP"
+Content-Disposition: inline
 
-On Fri, 2014-01-17 at 14:43 +0000, alexandru.sardan@freescale.com wrote:
-> e500v1/v2 uses SPE to handle floating point operations
-> using general purpose regs.
-> So using the non-SPE compiler with SPE libraries won't work.
-> However the soft-fp libraries are compatible with the e500 
-> ABI (with a considerable performance penalty).
-> 
-> From what I can see, eglibc is built with SPE. So GCC should 
-> be built also for SPE (target powerpc-poky-linux-gnuspe).
+--ptMYGWplstB9CqWP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The key question is this:
+On Thu, Jan 16, 2014 at 05:33:20PM +0800, Robert Yang wrote:
+>=20
+>=20
+> On 01/16/2014 05:25 PM, Martin Jansa wrote:
+> > On Thu, Jan 16, 2014 at 10:14:30AM +0800, Robert Yang wrote:
+> >>
+> >>
+> >> On 01/16/2014 12:55 AM, Martin Jansa wrote:
+> >>> On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
+> >>>> * The archive*.bbclass didn't work, and there were a few problems, f=
+or
+> >>>>     example:
+> >>>>     1) There were a few duplicated code
+> >>>>     2) There was no src_dir.org (or orig), but the diff command stil=
+l use
+> >>>>        it, and it is not easy to fix this issue if we don't change a=
+ lot
+> >>>>        of the code.
+> >>>>     3) It didn't archive the source for the native or gcc
+> >>>>     4) The work flow is not very well
+> >>>>     5) The "subprocess.call('fakeroot cp xxxx'" should be removed
+> >>>>     6) And others ...
+> >>>>
+> >>>> * So that we have to refactor it, the benefits are:
+> >>>>     1) Fix the problems and make it work well.
+> >>>>     2) Reduce more than 400 lines in total.
+> >>>>     3) Make it easy to use.
+> >>>>
+> >>>> // Robert
+> >>>>
+> >>>> The following changes since commit 1b636173ca88e5ccca1992f9a12367a11=
+89fa674:
+> >>>>
+> >>>>     bitbake: toaster: Toaster GUI, generic search, filter and order =
+(2014-01-10 15:20:26 +0000)
+> >>>>
+> >>>> are available in the git repository at:
+> >>>>
+> >>>>     git://git.pokylinux.org/poky-contrib rbt/archiver
+> >>>>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Drbt/arch=
+iver
+> >>>
+> >>> Can you send pull-request for oe-core?
+> >>>
+> >>
+> >> Here it is:
+> >> git://git.pokylinux.org/poky-contrib rbt/ar_oe
+> >> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Drbt/ar=
+_oe
+> >
+> > This still looks like poky-contrib (so it will download whole
+> > poky-contrib when I add it as remote to oe-core repo).
+> >
+>=20
+> Sorry, I can't create repo on oe-contrib, seems that I lost my key.
 
-Can one gcc binary generate code for both non-SPE and SPE targets,
-assuming its pointed at an appropriate sysroot containing appropriate
-libraries?
+That's sad, you should send new one to khem to replace it, before
+someone else finds your old key.
 
-If we can have one such binary, how do we configure it? If we can't, we
-need to redo the way gcc-cross-canadian is working on powerpc.
+> How about:
+>=20
+> git fetch git://git.pokylinux.org/poky-contrib rbt/ar_oe
 
-The change there was to have one gcc for each different target
-architecture rather than each "tune" since that was horribly
-inefficient.
+That still fetches whole poky repo I'm not interested in.
 
-Cheers,
+So I've downloaded just archiver.bbclass manually and tested it on my
+use-case, I can confirm that it doesn't remove required file anymore,
+but it seems that there is something terribly broken when used in
+combination with rm_work or multimachine builds.
 
-Richard
+I haven't debugged it yet, but 2nd build (in the same directory) with
+this new archiver included almost every recipe failed in do_patch task.
 
+> >> // Robert
+> >>
+> >>>> Robert Yang (5):
+> >>>>     classes/archive*.bbclass: remove archive-*-source.bbclass
+> >>>>     archiver.bbclass: refactor it
+> >>>>     package_rpm.bbclass: archive the source to srpm package
+> >>>>     archiver.bbclass: move a few code to copyleft_compliance.bbclass
+> >>>>     local.conf.sample.extended: update for the archiver
+> >>>>
+> >>>>    meta-yocto/conf/local.conf.sample.extended     |  72 +--
+> >>>>    meta/classes/archive-configured-source.bbclass |  65 ---
+> >>>>    meta/classes/archive-original-source.bbclass   |  65 ---
+> >>>>    meta/classes/archive-patched-source.bbclass    |  65 ---
+> >>>>    meta/classes/archiver.bbclass                  | 723 ++++++++----=
+-------------
+> >>>>    meta/classes/copyleft_compliance.bbclass       |  55 +-
+> >>>>    meta/classes/package_rpm.bbclass               |  31 +-
+> >>>>    7 files changed, 316 insertions(+), 760 deletions(-)
+> >>>>    delete mode 100644 meta/classes/archive-configured-source.bbclass
+> >>>>    delete mode 100644 meta/classes/archive-original-source.bbclass
+> >>>>    delete mode 100644 meta/classes/archive-patched-source.bbclass
+> >>>>
+> >>>> --
+> >>>> 1.8.3.1
+> >>>>
+> >>>> _______________________________________________
+> >>>> Openembedded-core mailing list
+> >>>> Openembedded-core@lists.openembedded.org
+> >>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>>
+> >
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--ptMYGWplstB9CqWP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLacxEACgkQN1Ujt2V2gBxhhwCcCB38qB7Gdt51mC9Ieg/X+vrM
+23oAnRJswpFvORr/OYgbBxUCDlthXXU/
+=E25b
+-----END PGP SIGNATURE-----
+
+--ptMYGWplstB9CqWP--
