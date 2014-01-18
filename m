@@ -1,38 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id DA2D66E7A0
+Received: from mail-ea0-f180.google.com (mail-ea0-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 644E06E7E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 14:01:38 +0000 (UTC)
-Received: by mail-ee0-f51.google.com with SMTP id b57so2607333eek.10
+	Sat, 18 Jan 2014 14:01:39 +0000 (UTC)
+Received: by mail-ea0-f180.google.com with SMTP id f15so2248190eak.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 06:01:39 -0800 (PST)
+	Sat, 18 Jan 2014 06:01:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=hB44ns4sZKvHdFXbsvV3bha6eoG2R+KLeFMJEkKoCSo=;
-	b=ucgmooNz8aJlie3HZ67inIXzY9ZyEgwFQypnsL7uFYta/DYNtYY6SK98AWFM7PjRJ8
-	m8oj82IKeZqnZV4rPm3KK1hXzqE+KSr3134EBgcxDmmjME/Pmxl26Hl5ugZfZlCO7sqF
-	SUtSaIBVeknIcaP2GZ6rMNsXay2PE+imywKrOA483jnKH+s8LvTw+CBP7XeYiJXOQ34F
-	HH0vFyxHWZpqaYuUHzycA0r/MTNE7lw7LvBqUMqru7ZI/FdcZs+folCNyNLILmAANBqU
-	sOHMKTGbUJeKHW5UIIM/gA+oHSrmUeHxEkXy9geTUryN1opwCYRaM/ljCb4R6DuejqO1
-	Szgg==
-X-Received: by 10.15.74.200 with SMTP id j48mr158646eey.102.1390053699646;
-	Sat, 18 Jan 2014 06:01:39 -0800 (PST)
+	:references; bh=sc0gAgUBH54aNAmcG0oKfXGOOCmp0SFv3wCGgNlMK4A=;
+	b=x7vRsxvodYtuBmOYfydymuvYvDkSSydDSGSwyoe0czHqAB80YCJtu0kP3XoDypm0OS
+	KV6B5NEyLG/T+fcH5ddhC+s1o17qEcAPmCvzJLVetNTNEXbzBYl8DJu7gNrucpzy7kZl
+	1qwsJ5tkQ2l14S8NwuAKQclW0v05zgmUmZKqUcSwQtiNtYMaXdIhepaQt3+ZYAERZHB7
+	PsC1uwV/Ub74nVcna+8uXJbwwPvRvsitNS+pZHIcLC920uWzUwqmBaHAfCeep2HbxnhW
+	DnE5j8j9gLVKbF/z/Htwy/yJM/CYmuNpL88kqud5Ostrq/occl9L6JbU/oNqSjy9SI5x
+	bxQg==
+X-Received: by 10.14.127.132 with SMTP id d4mr2843853eei.66.1390053683395;
+	Sat, 18 Jan 2014 06:01:23 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id x45sm35466575eee.3.2014.01.18.06.01.39
+	by mx.google.com with ESMTPSA id n7sm35473055eef.5.2014.01.18.06.01.22
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 Jan 2014 06:01:39 -0800 (PST)
+	Sat, 18 Jan 2014 06:01:22 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jan 2014 15:01:53 +0100
-Message-Id: <06fa0f2499c76db72f5fc00fb20a075c85b098eb.1390052402.git.Martin.Jansa@gmail.com>
+Date: Sat, 18 Jan 2014 15:01:43 +0100
+Message-Id: <929c7c10ad8efd6391a3bca0104f8e0eea617ac3.1390052658.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.5.2
-In-Reply-To: <cover.1390052402.git.Martin.Jansa@gmail.com>
-References: <cover.1390052402.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1390052402.git.Martin.Jansa@gmail.com>
-References: <cover.1390052402.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 3/4] icecc: Fix allarch and native recipes having different signatures
+In-Reply-To: <cover.1390052658.git.Martin.Jansa@gmail.com>
+References: <cover.1390052658.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1390052658.git.Martin.Jansa@gmail.com>
+References: <cover.1390052658.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 1/2] package.bbclass: add getter of additional metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +48,54 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 18 Jan 2014 14:01:39 -0000
 
-* for different MACHINES
-* is there more elegant way to have "overridable" function so that
-  signature handler properly uses only the branch without
-  STAGING_BINDIR_TOOLCHAIN?
+From: Leonid Borisenko <ive.found@gmail.com>
 
+Two variables are searched for value of additional package metadata:
+
+  * PACKAGE_ADD_METADATA_<PKGTYPE>
+  * PACKAGE_ADD_METADATA
+
+First found variable with defined value wins.
+
+<PKGTYPE> is a parameter of getter and expected to be a distinct name
+of specific package type. For example: 'DEB' or 'RPM'.
+
+Variable can contain multiple [one-line] metadata fields, separated by
+literal sequence '\n'. Separator can be redefined through variable flag
+'separator'. Getter returns found value with separator replaced with
+newline character.
+
+As side-effect, searched variables acquired flags 'type' (equals to
+'list') and 'separator'.
+
+Signed-off-by: Leonid Borisenko <ive.found@gmail.com>
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/icecc.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/package.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 054e25c..549bd69 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -142,6 +142,8 @@ def icc_is_native(bb, d):
-         bb.data.inherits_class("cross", d) or \
-         bb.data.inherits_class("native", d);
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 768047c..561800a 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -363,6 +363,17 @@ def get_package_mapping (pkg, basepkg, d):
  
-+# Don't pollute allarch signatures with TARGET_FPU
-+icc_version[vardepsexclude] += "TARGET_FPU"
- def icc_version(bb, d):
-     if use_icc(bb, d) == "no":
-         return ""
-@@ -182,6 +184,8 @@ def icc_get_external_tool(bb, d, tool):
-     target_prefix = d.expand('${TARGET_PREFIX}')
-     return os.path.join(external_toolchain_bindir, '%s%s' % (target_prefix, tool))
+     return pkg
  
-+# Don't pollute native signatures with target TUNE_PKGARCH through STAGING_BINDIR_TOOLCHAIN
-+icc_get_tool[vardepsexclude] += "STAGING_BINDIR_TOOLCHAIN"
- def icc_get_tool(bb, d, tool):
-     if icc_is_native(bb, d):
-         return bb.utils.which(os.getenv("PATH"), tool)
++def get_package_additional_metadata (pkg_type, d):
++    base_key = "PACKAGE_ADD_METADATA"
++    for key in ("%s_%s" % (base_key, pkg_type.upper()), base_key):
++        if d.getVar(key) is None:
++            continue
++        d.setVarFlag(key, "type", "list")
++        if d.getVarFlag(key, "separator") is None:
++            d.setVarFlag(key, "separator", "\\n")
++        metadata_fields = [field.strip() for field in oe.data.typed_value(key, d)]
++        return "\n".join(metadata_fields).strip()
++
+ def runtime_mapping_rename (varname, pkg, d):
+     #bb.note("%s before: %s" % (varname, d.getVar(varname, True)))
+ 
 -- 
 1.8.5.2
 
