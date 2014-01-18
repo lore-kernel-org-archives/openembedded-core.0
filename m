@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id F3C276E722
+Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FBB46E7B0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 14:02:20 +0000 (UTC)
-Received: by mail-ea0-f173.google.com with SMTP id o10so2186243eaj.18
+	Sat, 18 Jan 2014 14:02:23 +0000 (UTC)
+Received: by mail-ea0-f178.google.com with SMTP id a15so1090414eae.23
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 06:02:21 -0800 (PST)
+	Sat, 18 Jan 2014 06:02:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=rIbPzxGrnwMTeYeNOpGxpIz+848DdG9i+dBZJyrSNcI=;
-	b=uV+7+4aoW9aFGdP/NjQix9m9BugChNb1wUTMKTVVR9romqilsg1ZbNGQXSYJirvHQh
-	/vOJ+kOcaU8mJYdpN3tsjbuHD9+PPj602nHu7Jg+e/uh5l8519E6cPKyolX+5jn6aKov
-	FmaWiBVKrb0oo7QXllp4oB7AgHo+FE5b57zogFlLAOdWvsp99RtPwHP6fFhZ0WtVnQ+Z
-	kAISlxFOiLEdIYsIyjl81arbzhPZu/+hPBmFHdcREYS4betyd4ypJePpQo9/ewWUrZqQ
-	BQ4nnvcot625HbmNdxwahQxzfxMc+jVbY1ZIGyqU36Yxm4mjjNEzaV98o/BbsYtm+Lhn
-	oPtg==
-X-Received: by 10.14.251.68 with SMTP id a44mr2858738ees.64.1390053741730;
-	Sat, 18 Jan 2014 06:02:21 -0800 (PST)
+	:references; bh=4RzLB/dWdC3rW6W+90rU8r/A4j2bxVvfA/qmguWbg60=;
+	b=yEM81ScuvLPEGTNoL8Fk2oMLJ9zCNmS4YNEnrNtfzDBDX0NLF4zEY7KW4+Oh5TSRNY
+	FrNAKPa7jLmeFxNcmmHMRxmNG5pg7I0ZkehGKY6AV2GwvdpjTIsrjPyS57cuXwc7kNKM
+	BNKdWKcQtO4RDyKW5j5iwwSsMx+ltNoZA8SnzOs2mMWQ6Fk8YdlYXMudfW/0rd8L21yL
+	dTxRe/HVbYdpTB521GmcVmCRLHPXIzBq2d/WewUv6yxxX1gIEQPA/qt/j39+btZm8YCd
+	lYm3OJUTPqzHtNxqpBHpGeCWIdBlVEJBoi+qS2obS1qH/H64piwTCAF2k+VbooKZb/4L
+	9IXw==
+X-Received: by 10.15.26.6 with SMTP id m6mr1867520eeu.80.1390053744325;
+	Sat, 18 Jan 2014 06:02:24 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id n7sm35474263eef.5.2014.01.18.06.02.20
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	o13sm35502542eex.19.2014.01.18.06.02.22
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 Jan 2014 06:02:21 -0800 (PST)
+	Sat, 18 Jan 2014 06:02:23 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jan 2014 15:02:39 +0100
-Message-Id: <981d02338666c368a371adb1bc0a5417b4a39138.1390052619.git.Martin.Jansa@gmail.com>
+Date: Sat, 18 Jan 2014 15:02:40 +0100
+Message-Id: <5ab2ec42ef117ebff89094ce0c5e30c07c58a1cf.1390052619.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.5.2
 In-Reply-To: <cover.1390052619.git.Martin.Jansa@gmail.com>
 References: <cover.1390052619.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1390052619.git.Martin.Jansa@gmail.com>
 References: <cover.1390052619.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 1/2] sstatesig: include native/cross/nativesdk deps in target signatures
+Subject: [PATCH 2/2] allarch: Set empty TARGET_PREFIX and TARGET_FPU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2014 14:02:21 -0000
+X-List-Received-Date: Sat, 18 Jan 2014 14:02:24 -0000
 
-* I don't have any real evidence or good statistics for this, but when
-  comparing signature dumps from my big bitbake world builds I usually
-  see a lot of rebuilds caused by changes in .bbclasses and only very
-  rare would be the case where oe-core upgrade brings changes in -native
-  recipes and no change in .bbclasses used from target recipes
-* changing the default to include them shouldn't cause significant
-  increase in rebuilds and sstate reuse a bit safer
-* people working on toolchain (e.g. using gcc from AUTOREV) can easily
-  extend sstate_rundepfilter to ignore them again (it's easier than
-  removing existing filter), example how add own signature handler in
-  your layer is here:
-  https://github.com/openwebos/meta-webos/commit/9ac3a7c803e7793b3274e4998f167b6278db8042
+* set empty TARGET_PREFIX
+  This has a bit weird reason caused by unsupported setup where
+  external-toolchain is used in some DISTRO only for some MACHINEs
+  and internal is used for other MACHINEs.
+  Because external-toolchain usually comes with different TARGET_PREFIX
+  it was causing allarch recipes to have different signatures even
+  when they don't use toolchain at all.
+  Empty TARGET_PREFIX also helps to find allarch recipes which still
+  have default dependency on e.g. virtual/${TARGET_PREFIX}gcc.
+* add TARGET_FPU just for completeness (it was used in icecc.bbclass
+  but now it's vardepexcluded there as well)
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oe/sstatesig.py | 4 ----
- 1 file changed, 4 deletions(-)
+ meta/classes/allarch.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 3011f16..8b0e344 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -36,10 +36,6 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     if isPackageGroup(fn):
-         return False  
- 
--    # Drop native/cross/nativesdk dependencies from target recipes
--    if isNative(depname) or isCross(depname) or isNativeSDK(depname):
--        return False
--
-     # Exclude well defined machine specific configurations which don't change ABI
-     if depname in siggen.abisaferecipes and not isImage(fn):
-         return False
+diff --git a/meta/classes/allarch.bbclass b/meta/classes/allarch.bbclass
+index 3ef1e9c..d41dd4b 100644
+--- a/meta/classes/allarch.bbclass
++++ b/meta/classes/allarch.bbclass
+@@ -22,6 +22,8 @@ python () {
+         d.setVar("TARGET_CC_ARCH", "none")
+         d.setVar("TARGET_LD_ARCH", "none")
+         d.setVar("TARGET_AS_ARCH", "none")
++        d.setVar("TARGET_FPU", "")
++        d.setVar("TARGET_PREFIX", "")
+         d.setVar("PACKAGE_EXTRA_ARCHS", "")
+         d.setVar("SDK_ARCH", "none")
+         d.setVar("SDK_CC_ARCH", "none")
 -- 
 1.8.5.2
 
