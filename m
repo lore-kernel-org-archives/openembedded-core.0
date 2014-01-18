@@ -1,41 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AA206B9DD
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id EB7266CBA5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 12:26:32 +0000 (UTC)
-Received: by mail-ee0-f44.google.com with SMTP id c13so2551736eek.17
+	Sat, 18 Jan 2014 13:10:15 +0000 (UTC)
+Received: by mail-la0-f46.google.com with SMTP id b8so4393495lan.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2014 04:26:33 -0800 (PST)
+	Sat, 18 Jan 2014 05:10:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=OwFk+w+fv+PWxkPA4b9jADsmVwJAAKkSlmuNBYOrBzc=;
-	b=dXBkTfe04DtEL3aD3a7TqaDXKdgDHrBHoAgdP4ha6sGvsFUJGI3migveOsRVi27SNU
-	z/7Cws76w/PKqNlz8HMkNyonPzsmXh1C9X3pEYJEqfLz0OohJJ8Zg06nlcFvEX6VBnEk
-	ETANfeqiMedc4NNZDyDpIaUIK+fLkXHD5jzafsnSfJ5BD2UmS76VMjEbpkz0kaRlEzek
-	th1+1ygpFl8sQeSkLcPO6o4qDxCl4sXwIntWn4BHCQn6iP7OPj9X9BzRpvbd1jCm3Que
-	PcbDs1tzJyL9KMbgEWdQr/da18nTfd3R3m6abytx67py43MXq7ukDNwhXDVCc1WbH2Vs
-	kO5A==
-X-Received: by 10.15.36.65 with SMTP id h41mr8027718eev.0.1390047992910;
-	Sat, 18 Jan 2014 04:26:32 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id k41sm10921165eey.0.2014.01.18.04.26.31
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 Jan 2014 04:26:32 -0800 (PST)
-Date: Sat, 18 Jan 2014 13:26:57 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20140118122657.GU3742@jama>
-References: <cover.1389629682.git.liezhi.yang@windriver.com>
-	<20140115165513.GB3742@jama> <52D74086.4030602@windriver.com>
-	<20140116092556.GD3742@jama> <52D7A760.4040804@windriver.com>
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=HfLIvKkhZ1vDvzFmf0Pg7x/reqps6q3S1H1SLlUdo7o=;
+	b=XPpTFJiLwHmjXIAauL2UBXBmEV3sz1FcP9TIY4MLma1OY6IZP2G/QmaYEAv1pwP5CL
+	RJODTKZy25o8u40XSQj5uhLiektNatAcT76FI7r9wk0bFNqg9pOzMAQaUDC69Spa/TQc
+	FUlAF+4cKcJqUY0bR5lrFKKamhrxpxGDTU6iuZHU+PuBAWFiKLs3tRhEhob+IaFUDxlR
+	gF+hJbr9tgTSI8w75l6q0dp1XO37/C80IiFYUms1h2RXqUDGHvmkw9nBNg0i5pxWNEIM
+	fMVuI8/Hl2W7cNDv4LA2Kq0VjUQGH9AhMnAcgBj59tgrg6eeS/27ybDxrCbZMbHYWV0J
+	fPHQ==
 MIME-Version: 1.0
-In-Reply-To: <52D7A760.4040804@windriver.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
+X-Received: by 10.112.148.70 with SMTP id tq6mr960830lbb.40.1390050615636;
+	Sat, 18 Jan 2014 05:10:15 -0800 (PST)
+Received: by 10.112.145.6 with HTTP; Sat, 18 Jan 2014 05:10:15 -0800 (PST)
+Date: Sat, 18 Jan 2014 14:10:15 +0100
+Message-ID: <CAPbeDCk26BE-b_ckrR7TEOSC5Y16Vh6DVEGEzdCjG0m1BtkwUQ@mail.gmail.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Getting rid of warning when running perl from the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,135 +37,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2014 12:26:32 -0000
-X-Groupsio-MsgNum: 49164
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ptMYGWplstB9CqWP"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 18 Jan 2014 13:10:17 -0000
+Content-Type: multipart/alternative; boundary=047d7b3a88722a38c104f03e614e
 
---ptMYGWplstB9CqWP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--047d7b3a88722a38c104f03e614e
+Content-Type: text/plain; charset=ISO-8859-1
+
+Hi,
+When running perl from the SDK created by OE I get this warning:
+
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+    LANGUAGE = (unset),
+    LC_ALL = (unset),
+    LANG = "en_US.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+
+The following change sets LC_ALL to "C" in the SDK setup script.
+
+ diff --git a/meta/classes/toolchain-scripts.bbclass
+b/meta/classes/toolchain-scripts.bbclass
+index b9f2aea9..0737253 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -13,6 +13,7 @@ toolchain_create_sdk_env_script () {
+
+script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-$multimach_target_sys}
+     rm -f $script
+     touch $script
++    echo 'export LC_ALL=C' >> $script
+     echo 'export SDKTARGETSYSROOT='"$sysroot" >> $script
+     echo 'export
+PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}:$PATH'
+>> $script
+     echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+
+and gets rid of the perl warning.
+
+Is this change something that would be appropriate for upstream OE-Core ?
+
+  -- Jacob
+
+--047d7b3a88722a38c104f03e614e
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 16, 2014 at 05:33:20PM +0800, Robert Yang wrote:
->=20
->=20
-> On 01/16/2014 05:25 PM, Martin Jansa wrote:
-> > On Thu, Jan 16, 2014 at 10:14:30AM +0800, Robert Yang wrote:
-> >>
-> >>
-> >> On 01/16/2014 12:55 AM, Martin Jansa wrote:
-> >>> On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
-> >>>> * The archive*.bbclass didn't work, and there were a few problems, f=
-or
-> >>>>     example:
-> >>>>     1) There were a few duplicated code
-> >>>>     2) There was no src_dir.org (or orig), but the diff command stil=
-l use
-> >>>>        it, and it is not easy to fix this issue if we don't change a=
- lot
-> >>>>        of the code.
-> >>>>     3) It didn't archive the source for the native or gcc
-> >>>>     4) The work flow is not very well
-> >>>>     5) The "subprocess.call('fakeroot cp xxxx'" should be removed
-> >>>>     6) And others ...
-> >>>>
-> >>>> * So that we have to refactor it, the benefits are:
-> >>>>     1) Fix the problems and make it work well.
-> >>>>     2) Reduce more than 400 lines in total.
-> >>>>     3) Make it easy to use.
-> >>>>
-> >>>> // Robert
-> >>>>
-> >>>> The following changes since commit 1b636173ca88e5ccca1992f9a12367a11=
-89fa674:
-> >>>>
-> >>>>     bitbake: toaster: Toaster GUI, generic search, filter and order =
-(2014-01-10 15:20:26 +0000)
-> >>>>
-> >>>> are available in the git repository at:
-> >>>>
-> >>>>     git://git.pokylinux.org/poky-contrib rbt/archiver
-> >>>>     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3Drbt/arch=
-iver
-> >>>
-> >>> Can you send pull-request for oe-core?
-> >>>
-> >>
-> >> Here it is:
-> >> git://git.pokylinux.org/poky-contrib rbt/ar_oe
-> >> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Drbt/ar=
-_oe
-> >
-> > This still looks like poky-contrib (so it will download whole
-> > poky-contrib when I add it as remote to oe-core repo).
-> >
->=20
-> Sorry, I can't create repo on oe-contrib, seems that I lost my key.
+<div dir=3D"ltr">Hi,<br><div>When running perl from the SDK created by OE I=
+ get this warning:<br><br>perl: warning: Setting locale failed.<br>perl: wa=
+rning: Please check that your locale settings:<br>=A0=A0=A0 LANGUAGE =3D (u=
+nset),<br>
+=A0=A0=A0 LC_ALL =3D (unset),<br>=A0=A0=A0 LANG =3D &quot;en_US.UTF-8&quot;=
+<br>=A0=A0=A0 are supported and installed on your system.<br>perl: warning:=
+ Falling back to the standard locale (&quot;C&quot;).<br><br></div><div>The=
+ following change sets LC_ALL to &quot;C&quot; in the SDK setup script.<br>
+<br>=A0diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/t=
+oolchain-scripts.bbclass<br>index b9f2aea9..0737253 100644<br>--- a/meta/cl=
+asses/toolchain-scripts.bbclass<br>+++ b/meta/classes/toolchain-scripts.bbc=
+lass<br>
+@@ -13,6 +13,7 @@ toolchain_create_sdk_env_script () {<br>=A0=A0=A0=A0 scri=
+pt=3D${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-$multimach_target_sys}=
+<br>=A0=A0=A0=A0 rm -f $script<br>=A0=A0=A0=A0 touch $script<br>+=A0=A0=A0 =
+echo &#39;export LC_ALL=3DC&#39; &gt;&gt; $script<br>
+=A0=A0=A0=A0 echo &#39;export SDKTARGETSYSROOT=3D&#39;&quot;$sysroot&quot; =
+&gt;&gt; $script<br>=A0=A0=A0=A0 echo &#39;export PATH=3D${SDKPATHNATIVE}${=
+bindir_nativesdk}:${SDKPATHNATIVE}${bindir_nativesdk}/${TARGET_SYS}:$PATH&#=
+39; &gt;&gt; $script<br>
+=A0=A0=A0=A0 echo &#39;export PKG_CONFIG_SYSROOT_DIR=3D$SDKTARGETSYSROOT&#3=
+9; &gt;&gt; $script<br><br></div><div>and gets rid of the perl warning.<br>=
+<br></div><div>Is this change something that would be appropriate for upstr=
+eam OE-Core ?<br>
+<br></div><div>=A0 -- Jacob
+</div></div>
 
-That's sad, you should send new one to khem to replace it, before
-someone else finds your old key.
-
-> How about:
->=20
-> git fetch git://git.pokylinux.org/poky-contrib rbt/ar_oe
-
-That still fetches whole poky repo I'm not interested in.
-
-So I've downloaded just archiver.bbclass manually and tested it on my
-use-case, I can confirm that it doesn't remove required file anymore,
-but it seems that there is something terribly broken when used in
-combination with rm_work or multimachine builds.
-
-I haven't debugged it yet, but 2nd build (in the same directory) with
-this new archiver included almost every recipe failed in do_patch task.
-
-> >> // Robert
-> >>
-> >>>> Robert Yang (5):
-> >>>>     classes/archive*.bbclass: remove archive-*-source.bbclass
-> >>>>     archiver.bbclass: refactor it
-> >>>>     package_rpm.bbclass: archive the source to srpm package
-> >>>>     archiver.bbclass: move a few code to copyleft_compliance.bbclass
-> >>>>     local.conf.sample.extended: update for the archiver
-> >>>>
-> >>>>    meta-yocto/conf/local.conf.sample.extended     |  72 +--
-> >>>>    meta/classes/archive-configured-source.bbclass |  65 ---
-> >>>>    meta/classes/archive-original-source.bbclass   |  65 ---
-> >>>>    meta/classes/archive-patched-source.bbclass    |  65 ---
-> >>>>    meta/classes/archiver.bbclass                  | 723 ++++++++----=
--------------
-> >>>>    meta/classes/copyleft_compliance.bbclass       |  55 +-
-> >>>>    meta/classes/package_rpm.bbclass               |  31 +-
-> >>>>    7 files changed, 316 insertions(+), 760 deletions(-)
-> >>>>    delete mode 100644 meta/classes/archive-configured-source.bbclass
-> >>>>    delete mode 100644 meta/classes/archive-original-source.bbclass
-> >>>>    delete mode 100644 meta/classes/archive-patched-source.bbclass
-> >>>>
-> >>>> --
-> >>>> 1.8.3.1
-> >>>>
-> >>>> _______________________________________________
-> >>>> Openembedded-core mailing list
-> >>>> Openembedded-core@lists.openembedded.org
-> >>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >>>
-> >
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ptMYGWplstB9CqWP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLacxEACgkQN1Ujt2V2gBxhhwCcCB38qB7Gdt51mC9Ieg/X+vrM
-23oAnRJswpFvORr/OYgbBxUCDlthXXU/
-=E25b
------END PGP SIGNATURE-----
-
---ptMYGWplstB9CqWP--
+--047d7b3a88722a38c104f03e614e--
