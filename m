@@ -1,39 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B90F6DDA8
+Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 93F2B6CC2E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2014 13:13:02 +0000 (UTC)
-Received: by mail-ee0-f51.google.com with SMTP id b57so2911737eek.38
+	Sun, 19 Jan 2014 13:28:49 +0000 (UTC)
+Received: by mail-ea0-f171.google.com with SMTP id h10so2582373eak.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2014 05:13:02 -0800 (PST)
+	Sun, 19 Jan 2014 05:28:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=8qzKU684//fET4kM+hPVpNMiqpsHqfggS+iM6+uZQqA=;
-	b=QcOPCYvzZNK+qK2tT/bxzXMdr/aWn7QuDtQTGBoL5v6rNOnYP8FY1pdaWl69vqd3AX
-	NxSD9fVLvuE7PEa8deABZWVwhGXrovj96/dNUyTMY4iud2w28rp4+zdFlxbOlgQmgDXa
-	2q5cXKYAvCkPuGUkFoo33GvSO3H/shDb7iNuakTqqTR1KTWQ468KIl5UinNZM5B0J6dU
-	9cPZfHSQRGSatdcbCQr4KNGWUlKZ8OwUHp/a9D1RnEH7EDnko4EIZfv9DydxcqtphbS/
-	7lxOZN3HjAw7iOzXue5efEkDPD4LFS//lgDqO0LHKQ6d+iaCmTNDXDAgkkXaBll4OiaA
-	dz7w==
-X-Received: by 10.15.50.129 with SMTP id l1mr45982eew.114.1390137182207;
-	Sun, 19 Jan 2014 05:13:02 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=P799wsLXzh1k4Mwn9XZt0y/H1FWF68+pj9V7B6c3N8w=;
+	b=DMZp8s/ekR99RoGGoLIVryseAMFs1lfljyDSGqAxM+UD3uCMCztmkfCfOD1yd6RQv8
+	pY17ygk2I2cz1z/oGJpyW26x3xHROdnKg2NLp4eXbwfzi1SH8Aw4XsgfKGZJ25uO6lOP
+	Hj4OksuiL2EDWHSVLfM0Yhz++SnBGkQwrZCfKdkjEggpI4HtiemFSKar4Uw85y1Z6tF3
+	/0yufzyLs047cVlkghbT5K+qgOekWj/opmHaPzh7V+ECay8/hD3NoHnRv94kfGronHv6
+	q/5484j6Io2gfXxAqTBrf6f4WSGe3Qt72G/ZCR7M8i5qQ6mtJAAXFCDbAeROegQCAh5X
+	DCnA==
+X-Received: by 10.15.98.73 with SMTP id bi49mr33384eeb.115.1390138130004;
+	Sun, 19 Jan 2014 05:28:50 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id m47sm43574506eey.7.2014.01.19.05.13.00
-	for <openembedded-core@lists.openembedded.org>
+	by mx.google.com with ESMTPSA id 46sm27332085ees.4.2014.01.19.05.28.48
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 Jan 2014 05:13:01 -0800 (PST)
-Date: Sun, 19 Jan 2014 14:13:00 +0100
+	Sun, 19 Jan 2014 05:28:49 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20140119131300.GA5565@jama>
-References: <cover.1390052636.git.Martin.Jansa@gmail.com>
-	<c121197f51f33bbfe6a4322597205d51287bc261.1390052636.git.Martin.Jansa@gmail.com>
-MIME-Version: 1.0
+Date: Sun, 19 Jan 2014 14:28:47 +0100
+Message-Id: <45a8519a8075d557e8c12db5632ea20e527c1f5f.1390138091.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.5.2
 In-Reply-To: <c121197f51f33bbfe6a4322597205d51287bc261.1390052636.git.Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Subject: Re: [PATCH 2/5] package.bbclass: show warning when package is trying to provide already provided shlib
+References: <c121197f51f33bbfe6a4322597205d51287bc261.1390052636.git.Martin.Jansa@gmail.com>
+In-Reply-To: <cover.1390138091.git.Martin.Jansa@gmail.com>
+References: <cover.1390138091.git.Martin.Jansa@gmail.com>
+Subject: [PATCHv2 2/5] package.bbclass: show warning when package is trying to provide already provided shlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,100 +47,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2014 13:13:03 -0000
-X-Groupsio-MsgNum: 49183
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 19 Jan 2014 13:28:50 -0000
 
---5vNYLRcllDrimb99
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* move read_shlib_providers before registering package as provider
+  and don't change provider if it already exists, show warning instead
 
-On Sat, Jan 18, 2014 at 03:02:07PM +0100, Martin Jansa wrote:
-> * move read_shlib_providers before registering package as provider
->   and don't change provider if it already exists, show warning instead
->=20
-> [YOCTO #4628]
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/package.bbclass | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> index 7dcec5e..aa8156d 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1356,6 +1356,7 @@ python package_do_shlibs() {
->          list_re =3D re.compile('^(.*)\.list$')
->          # Go from least to most specific since the last one found wins
->          for dir in reversed(shlibs_dirs):
-> +            bb.debug(2, "Reading shlib providers in %s" % (dir))
->              if not os.path.exists(dir):
->                  continue
->              for file in os.listdir(dir):
-> @@ -1471,6 +1472,8 @@ python package_do_shlibs() {
-> =20
->      needed =3D {}
->      shlib_provider =3D {}
-> +    read_shlib_providers()
-> +
->      for pkg in packages.split():
->          private_libs =3D d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getV=
-ar('PRIVATE_LIBS', True)
->          needs_ldconfig =3D False
-> @@ -1504,6 +1507,12 @@ python package_do_shlibs() {
->          if len(sonames):
->              fd =3D open(shlibs_file, 'w')
->              for s in sonames:
-> +                if s in shlib_provider:
-> +                    (old_pkg, old_pkgver) =3D shlib_provider[s]
-> +                    if old_pkg !=3D pkg:
-> +                        bb.warn('%s-%s is already registered as shlib pr=
-ovider for %s, ignoring %s-%s trying to register the same' % (old_pkg, old_=
-pkgver, s, pkg, pkgver))
-> +                        continue
+[YOCTO #4628]
 
-I'll drop continue and update warning message, changing registered
-provider for last built is still undeterministic but slightly better
-e.g. when changing packaging and the shlib is moved between packages
-(I've run into this in efl, when moving to split packages and they were
-still getting runtime dependency on old efl package).
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/package.bbclass | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-> +                bb.debug(1, 'registering %s-%s as shlib provider for %s'=
- % (pkg, pkgver, s))
->                  fd.write(s + '\n')
->                  shlib_provider[s] =3D (pkg, pkgver)
->              fd.close()
-> @@ -1517,8 +1526,7 @@ python package_do_shlibs() {
->                  postinst =3D '#!/bin/sh\n'
->              postinst +=3D d.getVar('ldconfig_postinst_fragment', True)
->              d.setVar('pkg_postinst_%s' % pkg, postinst)
-> -
-> -    read_shlib_providers()
-> +        bb.debug(1, 'LIBNAMES: pkg %s sonames %s' % (pkg, sonames))
-> =20
->      bb.utils.unlockfile(lf)
-> =20
-> --=20
-> 1.8.5.2
->=20
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 7dcec5e..9b511a6 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1356,6 +1356,7 @@ python package_do_shlibs() {
+         list_re = re.compile('^(.*)\.list$')
+         # Go from least to most specific since the last one found wins
+         for dir in reversed(shlibs_dirs):
++            bb.debug(2, "Reading shlib providers in %s" % (dir))
+             if not os.path.exists(dir):
+                 continue
+             for file in os.listdir(dir):
+@@ -1471,6 +1472,8 @@ python package_do_shlibs() {
+ 
+     needed = {}
+     shlib_provider = {}
++    read_shlib_providers()
++
+     for pkg in packages.split():
+         private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getVar('PRIVATE_LIBS', True)
+         needs_ldconfig = False
+@@ -1504,6 +1507,11 @@ python package_do_shlibs() {
+         if len(sonames):
+             fd = open(shlibs_file, 'w')
+             for s in sonames:
++                if s in shlib_provider:
++                    (old_pkg, old_pkgver) = shlib_provider[s]
++                    if old_pkg != pkg:
++                        bb.warn('%s-%s was registered as shlib provider for %s, changing it to %s-%s because it was built later' % (old_pkg, old_pkgver, s, pkg, pkgver))
++                bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s))
+                 fd.write(s + '\n')
+                 shlib_provider[s] = (pkg, pkgver)
+             fd.close()
+@@ -1517,8 +1525,7 @@ python package_do_shlibs() {
+                 postinst = '#!/bin/sh\n'
+             postinst += d.getVar('ldconfig_postinst_fragment', True)
+             d.setVar('pkg_postinst_%s' % pkg, postinst)
+-
+-    read_shlib_providers()
++        bb.debug(1, 'LIBNAMES: pkg %s sonames %s' % (pkg, sonames))
+ 
+     bb.utils.unlockfile(lf)
+ 
+-- 
+1.8.5.2
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---5vNYLRcllDrimb99
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLbz1wACgkQN1Ujt2V2gBzh7QCfaPukp/6l9n66a/u6nrqtATfm
-NCQAoI+SNiBujDLhvdJgjpr2h1F0MOpX
-=nJGB
------END PGP SIGNATURE-----
-
---5vNYLRcllDrimb99--
