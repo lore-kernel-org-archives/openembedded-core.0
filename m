@@ -1,44 +1,35 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C0716CC2E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 713346DB6F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2014 14:42:40 +0000 (UTC)
-Received: from [12.157.112.67] (helo=[10.71.2.210])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1W4taC-00074i-6K; Sun, 19 Jan 2014 15:42:40 +0100
-Message-ID: <1390142552.2467.48.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 19 Jan 2014 14:42:32 +0000
-In-Reply-To: <45a8519a8075d557e8c12db5632ea20e527c1f5f.1390138091.git.Martin.Jansa@gmail.com>
-References: <c121197f51f33bbfe6a4322597205d51287bc261.1390052636.git.Martin.Jansa@gmail.com>
-	<45a8519a8075d557e8c12db5632ea20e527c1f5f.1390138091.git.Martin.Jansa@gmail.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Sun, 2014-01-19 at 14:28 +0100,
-	Martin Jansa wrote: > *
-	move read_shlib_providers before registering package as provider > and
-	don't change provider if it already exists,
-	show warning instead This new patch
-	doesn't seem to match the commit message any more. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 2/5] package.bbclass: show warning when package is trying to provide already provided shlib
+	Sun, 19 Jan 2014 15:23:40 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id e53so2204714eek.41
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Jan 2014 07:23:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to;
+	bh=x/pyrVO4MGY+SCJu9qOBz7gjhl68kc1q1fe/Y5yQ5bA=;
+	b=GubfPGzZ1Kg6Q51INQbuW7rP1oFM7Q3WIb/9tQw3DS/n6Cz32IjNUqHGRjTo2c4yPq
+	e6Do93p7ZdSN5uUKOy1fMCpTxzae/RKRew6n+MmZ+RpwjLcE2DqrLzD40MAFFU/jfnpx
+	RPeyFNcgX/Y9wpTiRgjlImCvPeKlL4J1SuxCEFN+ZtbveWGiKdDlCjm2uFXve774C++5
+	qjTFGmHB8Ur7m9fxUEUU+WGKQWjdW7xEc/q0WMPsf/c1H0oWHlFxdJ0OJ/1lfsiDeX/q
+	uGydyhXlDUV7oMZ+v+ok1o06kS/a5xS9eDgTjt+jonoiVJEKlx2t+dlLZzuAl5r6YN7l
+	/flg==
+X-Received: by 10.14.122.5 with SMTP id s5mr13022171eeh.28.1390145020676;
+	Sun, 19 Jan 2014 07:23:40 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id x45sm44439034eee.3.2014.01.19.07.23.39
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 19 Jan 2014 07:23:40 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 Jan 2014 16:23:35 +0100
+Message-Id: <6b2c74bfb8b8a787273dc0a2f75ddc91573d1c8b.1390144972.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.5.2
+In-Reply-To: <1390142552.2467.48.camel@e130.pbcl.net>
+Subject: [PATCHv2 3/5] package.bbclass: add SHLIBSSEARCHDIRS to define where to search for shlib providers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,23 +42,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2014 14:42:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 Jan 2014 15:23:40 -0000
 
-On Sun, 2014-01-19 at 14:28 +0100, Martin Jansa wrote:
-> * move read_shlib_providers before registering package as provider
->   and don't change provider if it already exists, show warning instead
+* when package contains some files matching "^.*\.so", but in directory
+  not default linker search paths (e.g. /opt/package/bundled-lib/libfoo.so)
+  don't register it as libfoo provider, because it's possible that there
+  is different package providing libfoo.so in ${libdir} and that would
+  be better shlib provider for other packages to depend on
+* recipes providing libs intentionally in some other directory can
+  define own SHLIBSSEARCHDIRS value
 
-This new patch doesn't seem to match the commit message any more.
+[YOCTO #4628]
 
-p.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/package.bbclass | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
 
-> +                if s in shlib_provider:
-> +                    (old_pkg, old_pkgver) = shlib_provider[s]
-> +                    if old_pkg != pkg:
-> +                        bb.warn('%s-%s was registered as shlib provider for %s, changing it to %s-%s because it was built later' % (old_pkg, old_pkgver, s, pkg, pkgver))
-> +                bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s))
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 9b511a6..a9e32f2 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1322,6 +1322,9 @@ python package_do_filedeps() {
+ SHLIBSDIRS = "${PKGDATA_DIR}/${MLPREFIX}shlibs"
+ SHLIBSWORKDIR = "${PKGDESTWORK}/${MLPREFIX}shlibs"
+ 
++# default search path when searching for shlibs provided by package
++SHLIBSSEARCHDIRS ?= "${baselib} ${libdir}"
++
+ python package_do_shlibs() {
+     import re, pipes
+ 
+@@ -1332,6 +1335,20 @@ python package_do_shlibs() {
+ 
+     lib_re = re.compile("^.*\.so")
+     libdir_re = re.compile(".*/%s$" % d.getVar('baselib', True))
++    
++    shlibs_search_dirs = d.getVar('SHLIBSSEARCHDIRS', True)
++    shlibs_search_dirs_re_txt = ""
++    for dir in shlibs_search_dirs.split(' '):
++        # strip leading and trailing slash, it's added in regexp
++        if dir.endswith("/"):
++            dir = dir[:-1]
++        if dir.startswith("/"):
++            dir = dir[1:]
++        if shlibs_search_dirs_re_txt:
++            shlibs_search_dirs_re_txt += "|"
++        shlibs_search_dirs_re_txt += "(^.*/%s/.*$)" % dir
++    shlibs_search_dirs_re = re.compile(shlibs_search_dirs_re_txt)
++    bb.debug(2, "will use following RE to search for provides sonames %s" % shlibs_search_dirs_re_txt)
+ 
+     packages = d.getVar('PACKAGES', True)
+     targetos = d.getVar('TARGET_OS', True)
+@@ -1390,9 +1407,12 @@ python package_do_shlibs() {
+             if m:
+                 this_soname = m.group(1)
+                 if not this_soname in sonames:
+-                    # if library is private (only used by package) then do not build shlib for it
+-                    if not private_libs or -1 == private_libs.find(this_soname):
+-                        sonames.append(this_soname)
++                    if shlibs_search_dirs_re.match(file):
++                        # if library is private (only used by package) then do not build shlib for it
++                        if not private_libs or -1 == private_libs.find(this_soname):
++                            sonames.append(this_soname)
++                    else:
++                        bb.debug(2, "ignoring soname %s from %s, because path doesn't match %s" % (this_soname, file, shlibs_search_dirs_re_txt))
+                 if libdir_re.match(os.path.dirname(file)):
+                     needs_ldconfig = True
+                 if snap_symlinks and (os.path.basename(file) != this_soname):
+-- 
+1.8.5.2
 
 
