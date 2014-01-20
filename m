@@ -1,26 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 086B36E745
+Return-Path: <Ting.Wang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CC8E61011
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 02:23:01 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0K2N3oS022068
+	Mon, 20 Jan 2014 05:29:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0K5TUxH020922
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2014 18:23:03 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 19 Jan 2014 18:23:02 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Jan 2014 10:23:03 +0800
-Message-ID: <012718e4442527cdeab3b1f28faaa0ccd53229c3.1390184362.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1390184362.git.Qi.Chen@windriver.com>
-References: <cover.1390184362.git.Qi.Chen@windriver.com>
+	Sun, 19 Jan 2014 21:29:31 -0800 (PST)
+Received: from [128.224.158.200] (128.224.158.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Sun, 19 Jan 2014 21:29:30 -0800
+Message-ID: <52DCB309.4000603@windriver.com>
+Date: Mon, 20 Jan 2014 13:24:25 +0800
+From: wangting <ting.wang@windriver.com>
+User-Agent: Thunderbird 2.0.0.24 (X11/20101027)
 MIME-Version: 1.0
-Subject: [PATCH V3 5/5] at: add systemd support
+To: <openembedded-core@lists.openembedded.org>
+References: <1389255953-8202-1-git-send-email-ting.wang@windriver.com>
+In-Reply-To: <1389255953-8202-1-git-send-email-ting.wang@windriver.com>
+X-Originating-IP: [128.224.158.200]
+Subject: Re: [oeqa][PATCH] lib/oeqa/runtime: add test for gzip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +34,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2014 02:23:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Jan 2014 05:29:31 -0000
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add systemd support for at.
+Any issues about this case ?
 
-This patch mainly comes from meta-systemd.
+Thanks
+Ting
 
-[YOCTO #4420]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/at/at_3.1.14.bb      |   10 +++++++++-
- meta/recipes-extended/at/files/atd.service |    9 +++++++++
- 2 files changed, 18 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/at/files/atd.service
-
-diff --git a/meta/recipes-extended/at/at_3.1.14.bb b/meta/recipes-extended/at/at_3.1.14.bb
-index 0a13157..480e732 100644
---- a/meta/recipes-extended/at/at_3.1.14.bb
-+++ b/meta/recipes-extended/at/at_3.1.14.bb
-@@ -22,6 +22,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/at/at_${PV}.orig.tar.gz \
-     file://posixtm.h \
-     file://file_replacement_with_gplv2.patch \
-     file://S99at \
-+    file://atd.service \
-     ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
- 
- PAM_SRC_URI = "file://pam.conf.patch \
-@@ -37,7 +38,9 @@ EXTRA_OECONF += "ac_cv_path_SENDMAIL=/bin/true \
-                  --with-atspool=/var/spool/at/spool \
-                  ac_cv_header_security_pam_appl_h=${@base_contains('DISTRO_FEATURES', 'pam', 'yes', 'no', d)} "
- 
--inherit autotools
-+inherit autotools systemd
-+
-+SYSTEMD_SERVICE_${PN} = "atd.service"
- 
- PARALLEL_MAKE = ""
- 
-@@ -53,6 +56,11 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/S99at		${D}${sysconfdir}/init.d/atd
- 	ln -sf ../init.d/atd ${D}${sysconfdir}/rcS.d/S99at
- 
-+	# install systemd unit files
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/atd.service ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/atd.service
-+
- 	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
- 		install -D -m 0644 ${WORKDIR}/${BP}/pam.conf ${D}${sysconfdir}/pam.d/atd
- 	fi
-diff --git a/meta/recipes-extended/at/files/atd.service b/meta/recipes-extended/at/files/atd.service
-new file mode 100644
-index 0000000..6dc8445
---- /dev/null
-+++ b/meta/recipes-extended/at/files/atd.service
-@@ -0,0 +1,9 @@
-+[Unit]
-+Description=Job spooling tools
-+After=syslog.target
-+
-+[Service]
-+ExecStart=@SBINDIR@/atd -f
-+
-+[Install]
-+WantedBy=multi-user.target
--- 
-1.7.9.5
+ting.wang@windriver.com wrote:
+> From: Ting Wang <ting.wang@windriver.com>
+>
+> Function tests:
+> 1)gzip compress file
+> 2)compressed file integrity check
+> 3)zcat compress file
+> 4)gzip decompress file
+> ---
+>  meta/classes/testimage.bbclass |    4 ++--
+>  meta/lib/oeqa/runtime/gzip.py  |   32 ++++++++++++++++++++++++++++++++
+>  2 files changed, 34 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/lib/oeqa/runtime/gzip.py
+>
+> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+> index 4777e14..0d861e6 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -27,8 +27,8 @@ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+>  
+>  DEFAULT_TEST_SUITES = "ping auto"
+>  DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
+> -DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date rpm smart dmesg python"
+> -DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc rpm smart kernelmodule dmesg python"
+> +DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date rpm smart dmesg python gzip"
+> +DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc rpm smart kernelmodule dmesg python gzip"
+>  
+>  TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
+>  
+> diff --git a/meta/lib/oeqa/runtime/gzip.py b/meta/lib/oeqa/runtime/gzip.py
+> new file mode 100644
+> index 0000000..50e3b8f
+> --- /dev/null
+> +++ b/meta/lib/oeqa/runtime/gzip.py
+> @@ -0,0 +1,32 @@
+> +import unittest
+> +import os
+> +from oeqa.oetest import oeRuntimeTest, skipModule
+> +from oeqa.utils.decorators import *
+> +
+> +class GzipFunctionTest(oeRuntimeTest):
+> +
+> +    @skipUnlessPassed('test_ssh')
+> +    def test_gzip_create_testfile(self):
+> +        (status, output) = self.target.run('echo It is a test file > /tmp/testfile.gzip')
+> +        self.assertEqual(status, 0, msg="gzip test file create failed")
+> +
+> +    @skipUnlessPassed('test_gzip_create_testfile')
+> +    def test_gzip_fun1_compress(self):
+> +        (status, output) = self.target.run('gzip /tmp/testfile.gzip')
+> +        self.assertEqual(status, 0, msg="gzip compress file failed.")
+> +
+> +    def test_gzip_fun2_integrity_check(self):
+> +        (status, output) = self.target.run('gzip -t /tmp/testfile.gzip.gz')
+> +        self.assertEqual(status, 0, msg="Check the compressed file integrity failed")
+> +
+> +    def test_gzip_fun3_zcat(self):
+> +        (status, output) = self.target.run('zcat /tmp/testfile.gzip.gz')
+> +        self.assertEqual(output, "It is a test file", msg="Incorrect output: %s" % output)
+> +
+> +    def test_gzip_fun4_decompress(self):
+> +        (status, output) = self.target.run('gunzip /tmp/testfile.gzip.gz && ls /tmp/testfile.gzip')
+> +        self.assertEqual(status, 0, msg="gzip decompress file failed.")
+> +
+> +    @classmethod
+> +    def tearDownClass(self):
+> +        oeRuntimeTest.tc.target.run("rm /tmp/testfile.gzip")
+>   
 
 
