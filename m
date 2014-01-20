@@ -1,42 +1,26 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id A05DE6B678
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 249AB6CE09
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 15:31:50 +0000 (UTC)
-Received: from [12.157.112.67] (helo=[10.71.2.210])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W5GpI-0000BB-RM
-	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jan 2014 16:31:50 +0100
-Message-ID: <1390231901.2441.5.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Jan 2014 15:31:41 +0000
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview: We will run depmod so we need it to be in the sysroot.
-	(We
-	do depend on depmodwrapper-cross already but this doesn't have any
-	dependency
-	on depmod itself.) SIgned-off-by: Phil Blundell <pb@pbcl.net> ---
-	meta/classes/image.bbclass
-	| 2 +- 1 file changed, 1 insertion(+), 1 deletion(-) [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] image: Add kmod-native to DEPENDS
+	Mon, 20 Jan 2014 15:35:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Jan 2014 07:31:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,691,1384329600"; d="scan'208";a="441715961"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.122.239])
+	by orsmga001.jf.intel.com with ESMTP; 20 Jan 2014 07:35:44 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <pb@pbcl.net>
+Date: Mon, 20 Jan 2014 15:35:43 +0000
+Message-ID: <3689607.VoMDkuYTJy@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.11.5 (Linux/3.12.7-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
+In-Reply-To: <1390231901.2441.5.camel@e130.pbcl.net>
+References: <1390231901.2441.5.camel@e130.pbcl.net>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image: Add kmod-native to DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,35 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2014 15:31:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jan 2014 15:35:55 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-We will run depmod so we need it to be in the sysroot.  (We do depend on
-depmodwrapper-cross already but this doesn't have any dependency on
-depmod itself.)
+Hi Phil,
 
-SIgned-off-by: Phil Blundell <pb@pbcl.net>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Monday 20 January 2014 15:31:41 Phil Blundell wrote:
+> We will run depmod so we need it to be in the sysroot.  (We do depend on
+> depmodwrapper-cross already but this doesn't have any dependency on
+> depmod itself.)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index a954b69..1c8ad28 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -10,7 +10,7 @@ inherit gzipnative
- 
- LICENSE = "MIT"
- PACKAGES = ""
--DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross"
-+DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross kmod-native"
- RDEPENDS += "${PACKAGE_INSTALL} ${LINGUAS_INSTALL}"
- RRECOMMENDS += "${PACKAGE_INSTALL_ATTEMPTONLY}"
- 
+Perhaps I'm not grasping the subtleties but shouldn't the dependency be added 
+to depmodwrapper-cross rather than here?
+
+Cheers,
+Paul
+
 -- 
-1.8.4.3
 
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
