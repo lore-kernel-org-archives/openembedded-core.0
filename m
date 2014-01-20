@@ -1,39 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C21B36CBD7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 21:07:40 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id p61so7448611wes.34
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 13:07:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=+15R9sHAKMJL9zGn8enADKnLEtrsgg2v8IlxzSdFACg=;
-	b=UvojUFXa2zC+oRAvD3iLR6UMp6U0RhAu46xejd+0EqxfCUKVhzyLsTPNvV0gMMERXA
-	8/Ffu643sWImE8d9rn/BOKO/kdhkfcr2aeaHuDA6i5XwAYj5/nS6j+li5eyv7ncl8dNf
-	+zhHvTkapEuM1vXLvJEdLkqUoNTJq4CXLg1f9044JKNNMJWqYNadN2JKAzyCre3XvErN
-	UgxTA3Qcpop58uos5DK6N+H6oiPih0kZ1i3THxP4TD9ZrdI7miLYfXIh6rIGoxLgKkM8
-	UOJPsbMcxUOMVrEU5uJzCBmqY9qByOJgdfFLjJi4lrjjU4RDKFkEqUm3yjgqjB+oEEMj
-	d4kw==
-X-Gm-Message-State: ALoCoQl8joYA1l63vZ/gEZLhoiwf3HD69oHoHId7iIpQpEuQkinnD7V2qqzDZDRc+f/0ojF/7TXA
-X-Received: by 10.194.71.47 with SMTP id r15mr3249346wju.19.1390252061457;
-	Mon, 20 Jan 2014 13:07:41 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id n3sm5061547wix.10.2014.01.20.13.07.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Jan 2014 13:07:40 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2014 21:07:34 +0000
-Message-Id: <1390252054-9399-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1390252054-9399-1-git-send-email-ross.burton@intel.com>
-References: <1390252054-9399-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] libxcb: upgrade to 1.10
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 9268F6C7FE;
+	Mon, 20 Jan 2014 21:58:17 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0KLw3da024508; Mon, 20 Jan 2014 21:58:04 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eLv1FVx9DBsm; Mon, 20 Jan 2014 21:58:03 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0KLvkKC024498
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Mon, 20 Jan 2014 21:57:47 GMT
+Message-ID: <1390255059.874.52.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Darren Hart <dvhart@linux.intel.com>
+Date: Mon, 20 Jan 2014 21:57:39 +0000
+In-Reply-To: <1390242540.3441.36.camel@dvhart-mobl4.amr.corp.intel.com>
+References: <20140106112936.C3F0C50472@opal> <20140109144245.GF3709@jama>
+	<1389763343.3092.17.camel@dvhart-mobl4.amr.corp.intel.com>
+	<52D62433.8020402@windriver.com> <20140115103059.GH3717@jama>
+	<CANR6C55w4BGDQadD5+Udv=2ae6nBUZiO8UdfVnFdSDkHGb2L9w@mail.gmail.com>
+	<1390242540.3441.36.camel@dvhart-mobl4.amr.corp.intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : autogen-native: upgrade to 5.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2014 21:07:41 -0000
+X-List-Received-Date: Mon, 20 Jan 2014 21:58:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Remove spurious libxcb-xinerama addition to PACKAGES, this is handled by the
-dynamic split_packages() now.
+On Mon, 2014-01-20 at 10:29 -0800, Darren Hart wrote:
+> Reverting the patch allows me to move forward, but yes, I'm surprised we
+> aren't seeing more build failures.... I wonder what makes us special?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-lib/libxcb_1.10.bb  |   10 ++++++++++
- meta/recipes-graphics/xorg-lib/libxcb_1.9.3.bb |   12 ------------
- meta/recipes-graphics/xorg-lib/libxcb_git.bb   |    2 --
- 3 files changed, 10 insertions(+), 14 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxcb_1.10.bb
- delete mode 100644 meta/recipes-graphics/xorg-lib/libxcb_1.9.3.bb
+Can someone share a copy of
+sysroots/x86_64-linux/usr/include/guile/2.0/libguile/error.h please? I'd
+like to understand what code is there triggering errors. If that line
+has marcro like things in, it would be good to understand what those are
+expanding to.
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.10.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.10.bb
-new file mode 100644
-index 0000000..d88b025
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_1.10.bb
-@@ -0,0 +1,10 @@
-+include libxcb.inc
-+
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
-+
-+
-+DEPENDS += "libxdmcp"
-+
-+SRC_URI[md5sum] = "074c335cc4453467eeb234e3dadda700"
-+SRC_URI[sha256sum] = "98d9ab05b636dd088603b64229dd1ab2d2cc02ab807892e107d674f9c3f2d5b5"
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.9.3.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.9.3.bb
-deleted file mode 100644
-index 7374f10..0000000
---- a/meta/recipes-graphics/xorg-lib/libxcb_1.9.3.bb
-+++ /dev/null
-@@ -1,12 +0,0 @@
--include libxcb.inc
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
--
--
--DEPENDS += "libxdmcp"
--
--PACKAGES =+ "libxcb-xinerama"
--
--SRC_URI[md5sum] = "1ca999ca94f760d917ef2d8466a88742"
--SRC_URI[sha256sum] = "aad09d223fcb5bd345ce4d1737f178a557b6f2e201128e1ee3c83af46028018b"
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_git.bb b/meta/recipes-graphics/xorg-lib/libxcb_git.bb
-index 1482b7a..186636e 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb_git.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_git.bb
-@@ -8,5 +8,3 @@ PR = "r1"
- 
- SRC_URI = "git://anongit.freedesktop.org/git/xcb/libxcb"
- S = "${WORKDIR}/git"
--
--PACKAGES =+ "libxcb-xinerama"
--- 
-1.7.10.4
+A config.log from a failing build would also be interesting.
+
+Cheers,
+
+Richard
 
 
