@@ -1,28 +1,26 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D4476D315;
-	Mon, 20 Jan 2014 18:29:00 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Jan 2014 10:24:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,691,1384329600"; d="scan'208";a="441800298"
-Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.196.58]) ([10.7.196.58])
-	by orsmga001.jf.intel.com with ESMTP; 20 Jan 2014 10:29:00 -0800
-Message-ID: <1390242540.3441.36.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Nick D'Ademo <nickdademo@gmail.com>
-Date: Mon, 20 Jan 2014 10:29:00 -0800
-In-Reply-To: <CANR6C55w4BGDQadD5+Udv=2ae6nBUZiO8UdfVnFdSDkHGb2L9w@mail.gmail.com>
-References: <20140106112936.C3F0C50472@opal> <20140109144245.GF3709@jama>
-	<1389763343.3092.17.camel@dvhart-mobl4.amr.corp.intel.com>
-	<52D62433.8020402@windriver.com> <20140115103059.GH3717@jama>
-	<CANR6C55w4BGDQadD5+Udv=2ae6nBUZiO8UdfVnFdSDkHGb2L9w@mail.gmail.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Robert Yang : autogen-native: upgrade to 5.18.2
+Return-Path: <jplum@devonit.com>
+Received: from mx1.devonhealth.com (unknown [8.20.30.154])
+	by mail.openembedded.org (Postfix) with ESMTP id EAB586B678
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2014 19:23:09 +0000 (UTC)
+Received: from emfserver.devonintlgroup.com (10.0.7.48) by mx1.devonhealth.com
+	(10.0.20.154) with Microsoft SMTP Server id 8.3.327.1;
+	Mon, 20 Jan 2014 14:23:05 -0500
+Received: from [10.0.2.7] by emfserver.devonintlgroup.com over TLS secured
+	channel with ESMTP (Devon Health Services, Inc Email Firewall SMTP Relay
+	(Email Firewall v6.5)); Mon, 20 Jan 2014 14:23:04 -0500
+X-Server-Uuid: 6CB55748-6642-4D3C-9211-397BC4E7A815
+Received: from whse-beast.Development.com (10.0.15.96) by
+	boddingtons.devonintlgroup.com (10.0.2.15) with Microsoft SMTP Server (
+	TLS) id 8.3.327.1; Mon, 20 Jan 2014 14:23:03 -0500
+From: Jason Plum <jplum@devonit.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Jan 2014 14:22:58 -0500
+Message-ID: <1390245778-9252-1-git-send-email-jplum@devonit.com>
+X-Mailer: git-send-email 1.8.5.3
+MIME-Version: 1.0
+X-WSS-ID: 7EC3A8122B8410941-01-01
+Subject: [PATCH v3] meta/oe/lib/path.py - check mount points, not device
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,83 +33,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2014 18:29:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 20 Jan 2014 19:23:10 -0000
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-Reverting the patch allows me to move forward, but yes, I'm surprised we
-aren't seeing more build failures.... I wonder what makes us special?
+Signed-off-by: Jason Plum <jplum@devonit.com>
+---
+ meta/lib/oe/path.py | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-On Tue, 2014-01-21 at 00:08 +1100, Nick D'Ademo wrote:
-> Any update on this one? (it's actually a showstopper to my build)
-> Is a fix in progress? Alternatively, I can try and tackle it.
-> 
-> 
-> Nick
-> 
-> 
-> 
-> On Wed, Jan 15, 2014 at 9:30 PM, Martin Jansa <martin.jansa@gmail.com>
-> wrote:
->         On Wed, Jan 15, 2014 at 02:01:23PM +0800, Robert Yang wrote:
->         >
->         >
->         > On 01/15/2014 01:22 PM, Darren Hart wrote:
->         > > On Thu, 2014-01-09 at 15:42 +0100, Martin Jansa wrote:
->         > >> On Mon, Jan 06, 2014 at 11:29:36AM +0000,
->         git@git.openembedded.org wrote:
->         > >>> Module: openembedded-core.git
->         > >>> Branch: master
->         > >>> Commit: 6bcd2dafa379badab11bff9d7b607f7f5d72fc94
->         > >>> URL:
->          http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=6bcd2dafa379badab11bff9d7b607f7f5d72fc94
->         > >>>
->         > >>> Author: Robert Yang <liezhi.yang@windriver.com>
->         > >>> Date:   Fri Dec 27 01:05:14 2013 +0800
->         > >>>
->         > >>> autogen-native: upgrade to 5.18.2
->         > >>>
->         > >>> * Upgrade from 5.17.4 to 5.18.2
->         > >>> * Rename files -> autogen
->         > >>>
->         > >>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->         > >>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->         > >>
->         > >> Fails in world builds:
->         > >
->         > > Guessing I'm behind somewhere - seeing this as well. I
->         thought it was an
->         > > sstate issue, but doesn't appear to be. Is this addressed
->         in a MUT build
->         > > or something already?
->         > >
->         >
->         > Hi Darren,
->         >
->         > I'm trying to figure out the reason, but haven't got much
->         progress yet.
->         
->         
->         Does autogen autodetect guile like make-4 does? RP fixed it in
->         make
->         yesterday.
->         
->         --
->         Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->         
->         
->         _______________________________________________
->         Openembedded-core mailing list
->         Openembedded-core@lists.openembedded.org
->         http://lists.openembedded.org/mailman/listinfo/openembedded-core
->         
-> 
-> 
-
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 46783f8..dab20fc 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -90,7 +90,7 @@ def copyhardlinktree(src, dst):
+     if os.path.isdir(src) and not len(os.listdir(src)):
+         return	
+ 
+-    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
++    if (getmount(src) ==  getmount(dst)):
+         # Need to copy directories only with tar first since cp will error if two 
+         # writers try and create a directory at the same time
+         cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
+@@ -257,3 +257,14 @@ def realpath(file, root, use_physdir = True, loop_cnt = 100, assume_dir = False)
+         raise
+ 
+     return file
++
++def getmount(path):
++    """ getmount takes a path parameter, uses os.path.realpath with os.path.abspath to
++    handle symlink resolution, and returns the path to the mount point of the input path
++    """
++    path = os.path.realpath(os.path.abspath(path))
++    while path != os.path.sep:
++        if os.path.ismount(path):
++            return path
++        path = os.path.abspath(os.path.join(path, os.pardir))
++    return path
+\ No newline at end of file
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+1.8.5.3
 
 
 
