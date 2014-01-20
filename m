@@ -1,38 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 927856CD4B
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 22:45:10 +0000 (UTC)
-Received: by mail-wg0-f42.google.com with SMTP id l18so4415806wgh.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 14:45:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=hoTSDoiLJXU9dM1uh80qPnw9YBZVOmeDE3DLFd1UNh8=;
-	b=ZfN8jVjKwqWVYi2soodjIIq+YiU3OAbuQhKMhmOxrHOngnmjP1MBOMS5Ci7JxcebGx
-	cWHbS8tqJgEg9HXJVp9HqM5qSZuO63e3Cp6Hei1t3QMCBysOET9k4ez2TVMYXfCCTEML
-	e6K6pEoCsxUnSEdAcVnMPDn57BcZ6kQ4fHWLTlnnyyYbq5tCopqU8QJsfISPt4Rf6lPC
-	PQ2pdMp2jrXfqkI9FHBMj2ML9Ksec4vMQ/Q6+WnHJDk8/hNIgCjZ1Yxmt2+rvARzsvWf
-	7SkqlmPO4Ytx5cRPd23LccGDFqpAiiNP/0c0+gY6KEvBNkUaN1x4NAPLhj6i0FVRcrrA
-	zJaQ==
-X-Gm-Message-State: ALoCoQkPjPDk0s/2CivXYQ0R9CjVj7I0vncPjRjdLMDjRUzK4+9tsSdG89kF4xoobhWynP0G9x+c
-X-Received: by 10.180.79.106 with SMTP id i10mr11735851wix.23.1390257910911;
-	Mon, 20 Jan 2014 14:45:10 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id uc9sm5733776wib.2.2014.01.20.14.45.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Jan 2014 14:45:10 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2014 22:45:02 +0000
-Message-Id: <1390257902-31739-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1390257902-31739-1-git-send-email-ross.burton@intel.com>
-References: <1390257902-31739-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 3/3] gdk-pixbuf: use PACKAGECONFIG to control loaders with external dependencies
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id BC17E6186D;
+	Mon, 20 Jan 2014 23:57:11 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0KNqr3W028230; Mon, 20 Jan 2014 23:56:57 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id aEqaIFsI_LeG; Mon, 20 Jan 2014 23:56:57 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0KNuYfx028268
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Mon, 20 Jan 2014 23:56:36 GMT
+Message-ID: <1390262187.874.76.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Darren Hart <dvhart@linux.intel.com>, Robert Yang
+	<liezhi.yang@windriver.com>
+Date: Mon, 20 Jan 2014 23:56:27 +0000
+In-Reply-To: <1390242540.3441.36.camel@dvhart-mobl4.amr.corp.intel.com>
+References: <20140106112936.C3F0C50472@opal> <20140109144245.GF3709@jama>
+	<1389763343.3092.17.camel@dvhart-mobl4.amr.corp.intel.com>
+	<52D62433.8020402@windriver.com> <20140115103059.GH3717@jama>
+	<CANR6C55w4BGDQadD5+Udv=2ae6nBUZiO8UdfVnFdSDkHGb2L9w@mail.gmail.com>
+	<1390242540.3441.36.camel@dvhart-mobl4.amr.corp.intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : autogen-native: upgrade to 5.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,57 +42,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2014 22:45:10 -0000
+X-List-Received-Date: Mon, 20 Jan 2014 23:57:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb |   19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+On Mon, 2014-01-20 at 10:29 -0800, Darren Hart wrote:
+> Reverting the patch allows me to move forward, but yes, I'm surprised we
+> aren't seeing more build failures.... I wonder what makes us special?
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb
-index 4c4d207..187af46 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
+For some reason I still don't have the email I can see you sent from the
+list archives. What is interesting is that:
+
+a) you have gcc 4.6, I have gcc 4.8
+b) the error appears to come from error.h in SCM_NORETURN definitions
+c) the config log for autogen shows different results for
+   "checking for working stdnoreturn.h", yes in my case, no in yours.
+
+The definition of SCM_NORETURN is from __scm.h:
  
- SECTION = "libs"
- 
--DEPENDS = "libpng glib-2.0 jpeg"
-+DEPENDS = "glib-2.0"
- DEPENDS_append_linuxstdbase = " virtual/libx11"
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-@@ -25,19 +25,22 @@ inherit autotools pkgconfig gettext pixbufcache
- 
- LIBV = "2.10.0"
- 
--PACKAGECONFIG ??= ""
--PACKAGECONFIG_linuxstdbase = "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
--PACKAGECONFIG_class-native = ""
-+GDK_PIXBUF_LOADERS ?= "png jpeg"
-+
-+PACKAGECONFIG ??= "${GDK_PIXBUF_LOADERS}"
-+PACKAGECONFIG_linuxstdbase = "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} ${GDK_PIXBUF_LOADERS}"
-+PACKAGECONFIG_class-native = "${GDK_PIXBUF_LOADERS}"
-+
-+PACKAGECONFIG[png] = "--with-libpng,--without-libpng,libpng"
-+PACKAGECONFIG[jpeg] = "--with-libjpeg,--without-libjpeg,jpeg"
-+PACKAGECONFIG[tiff] = "--with-libtiff,--without-libtiff,tiff"
-+PACKAGECONFIG[jpeg2000] = "--with-libjasper,--without-libjasper,jasper"
- 
- # Use GIO to sniff image format instead of trying all loaders
- PACKAGECONFIG[gio-sniff] = "--enable-gio-sniffing,--disable-gio-sniffing,,shared-mime-info"
- PACKAGECONFIG[x11] = "--with-x11,--without-x11,virtual/libx11"
- 
- EXTRA_OECONF = "\
--  --with-libpng \
--  --with-libjpeg \
--  --without-libtiff \
--  --without-libjasper \
-   --disable-introspection \
- "
- 
--- 
-1.7.10.4
+#define SCM_NORETURN __attribute__ ((noreturn))
+
+and the dummy stdnoreturn.h that autogen would generate does:
+
+#define noreturn _Noreturn
+
+and then _Noreturn.h defines:
+
+#  define _Noreturn __attribute__ ((__noreturn__))
+
+so I think what is happening is there is double macro overlap with
+
+#define SCM_NORETURN __attribute__ ((noreturn))
+
+becoming
+
+#define SCM_NORETURN __attribute__ ((__attribute__ ((__noreturn__))))
+
+How we fix it I have no idea. We should check and see if someone fixed
+this upstream to start with. Robert, now we know what to look for, can
+you help?
+
+Cheers,
+
+Richard
 
 
