@@ -1,30 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 221F56CC49
+	by mail.openembedded.org (Postfix) with ESMTP id 99DF76CC49
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 02:17:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0K2CKbV008180
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 19 Jan 2014 18:12:21 -0800 (PST)
-Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Sun, 19 Jan 2014 18:12:20 -0800
-Message-ID: <52DC860A.4020309@windriver.com>
-Date: Mon, 20 Jan 2014 10:12:26 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Mon, 20 Jan 2014 02:22:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0K2Mt1x009049
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Jan 2014 18:22:55 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Sun, 19 Jan 2014 18:22:55 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Jan 2014 10:22:58 +0800
+Message-ID: <cover.1390184362.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1388992959.git.Qi.Chen@windriver.com>
-	<0522b744ff3e02f6ef1f794294f759ec1f176923.1388992959.git.Qi.Chen@windriver.com>
-	<66190526.u9bvojJavk@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <66190526.u9bvojJavk@peggleto-mobl5.ger.corp.intel.com>
-X-Originating-IP: [128.224.162.164]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 2/2] Add missing RDEPENDS of initscripts-functions
+Subject: [PATCH V3 0/5] systemd misc fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2014 02:17:20 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jan 2014 02:22:55 -0000
+Content-Type: text/plain
 
-On 01/17/2014 10:11 PM, Paul Eggleton wrote:
-> Hi Qi,
->
-> On Monday 06 January 2014 15:27:35 Chen Qi wrote:
->> Now that the initscripts-functions has been packaged separately,
->> packages which may use the functions script should have a runtime
->> dependency on it.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/recipes-bsp/alsa-state/alsa-state.bb          |    2 +-
->>   meta/recipes-bsp/apmd/apmd_3.2.2-14.bb             |    1 +
->>   .../irda-utils/irda-utils_0.9.18.bb                |    2 ++
->>   .../nfs-utils/nfs-utils_1.2.9.bb                   |    4 ++--
->>   meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    2 +-
->>   meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    1 +
->>   meta/recipes-core/dbus/dbus.inc                    |    2 +-
->>   meta/recipes-core/systemd/systemd_208.bb           |    2 +-
->>   meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    2 +-
->>   meta/recipes-devtools/distcc/distcc_3.1.bb         |    1 +
->>   meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    2 +-
->>   meta/recipes-extended/at/at_3.1.14.bb              |    3 +--
->>   meta/recipes-extended/cronie/cronie_1.4.11.bb      |    2 ++
->>   meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |    2 ++
->>   meta/recipes-extended/sysklogd/sysklogd.inc        |    2 ++
->>   meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    1 +
->>   .../oprofile/oprofileui-server_git.bb              |    2 +-
->>   17 files changed, 22 insertions(+), 11 deletions(-)
-> Sorry to come back on this patchset again, but could we not detect
-> installation of an initscript requiring these functions in update-rc.d.bbclass
-> and just add the RDEPENDS automatically? Otherwise it's just another thing
-> people can get wrong when writing a recipe, not to mention all of the existing
-> recipes outside OE-Core that install initscripts.
->
-> Cheers,
-> Paul
->
+Changes since V2:
+1. Recommend the 'less' package instead of depend on it.
 
-Got it. I'll try that out.
+The following changes since commit 8163854adf87ac42a8f08ee25685d0ce1efb4724:
 
-Best Regards,
-Chen Qi
+  oe-selftest: separated the SStateBase and SStateTests in different modules (2014-01-16 12:18:44 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/systemd-misc-fixes2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-misc-fixes2
+
+Chen Qi (5):
+  systemd: add 'less' to its RRECOMMENDS
+  dropbear: add systemd unit files
+  openssh: fixes for systemd
+  distcc: add systemd support
+  at: add systemd support
+
+ .../openssh/openssh-6.4p1/sshd.socket              |    1 -
+ .../openssh/openssh-6.4p1/sshd@.service            |    1 +
+ .../openssh/openssh-6.4p1/sshdgenkeys.service      |    8 ++++----
+ meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    4 ++--
+ meta/recipes-core/dropbear/dropbear.inc            |   17 ++++++++++++++++-
+ .../recipes-core/dropbear/dropbear/dropbear.socket |   10 ++++++++++
+ .../dropbear/dropbear/dropbear@.service            |   11 +++++++++++
+ .../dropbear/dropbear/dropbearkey.service          |    8 ++++++++
+ meta/recipes-core/systemd/systemd_208.bb           |    2 ++
+ meta/recipes-devtools/distcc/distcc_3.1.bb         |   14 +++++++++++---
+ meta/recipes-devtools/distcc/files/default         |    5 +++++
+ meta/recipes-devtools/distcc/files/distccd.service |   11 +++++++++++
+ meta/recipes-extended/at/at_3.1.14.bb              |   10 +++++++++-
+ meta/recipes-extended/at/files/atd.service         |    9 +++++++++
+ 14 files changed, 99 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear.socket
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbear@.service
+ create mode 100644 meta/recipes-core/dropbear/dropbear/dropbearkey.service
+ create mode 100644 meta/recipes-devtools/distcc/files/distccd.service
+ create mode 100644 meta/recipes-extended/at/files/atd.service
+
+-- 
+1.7.9.5
+
 
