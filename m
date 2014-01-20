@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 931256CBD7
+Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
+	[74.125.82.174])
+	by mail.openembedded.org (Postfix) with ESMTP id BA7096CD4B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 21:07:38 +0000 (UTC)
-Received: by mail-wi0-f171.google.com with SMTP id cc10so3670637wib.16
+	Mon, 20 Jan 2014 21:07:39 +0000 (UTC)
+Received: by mail-we0-f174.google.com with SMTP id x55so7253124wes.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 13:07:39 -0800 (PST)
+	Mon, 20 Jan 2014 13:07:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xLZjhJLMhP2ruUEC+bFYy7eTaqcRLVW75m9vZMw3y5o=;
-	b=ctfcItqe8hPe/Dmso2H24BLUkUOPnlYDPcfCXf1hhaqx/kgjuSlA1GN423f3ZXeAdH
-	BdwfMtP6UBaGgFlIoOCSHWpAWWE8NaqTyqKWFhvKR5m4KgHMejRZBq3XgSXxt1Di/Kaz
-	Uw9L/oKlglewcVH8pv8GS1KaKEMADWVSOP0JNDHEP4htqn5OeV9Ok/LvIq6URryIk4No
-	vvH6knTQumngefbO9pwL1/11cXdpyFEsQ7C0Ia6sKGmLnGqCy7VDECW/6rz2nDiX1Hbn
-	7r631Q0uweJpD94De4ly9Dsf12xDKzePCYfNLdC0cyZDxNaY5z0FNCVtUvijr4E1lY92
-	yGiQ==
-X-Gm-Message-State: ALoCoQktFqACRvY9Scti8xwTvPGMJ7c6CYRtw2+5FvCNqKFj6Sva3gokwiRQrcuyLfFxTDsLW6/Z
-X-Received: by 10.194.57.243 with SMTP id l19mr3798489wjq.54.1390252059143;
-	Mon, 20 Jan 2014 13:07:39 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=4c8JhccQswdx4CYErU1C51zh05sfXXyyt2AK08q2PMc=;
+	b=inTX8obWOMnzOnpeErEHuBa5GUoO3FWnnNUeAuj6LBFE+p9wsBIMAuFl8eEdI2dNBr
+	syq70MhE/0dkf/XaJTOAaLJbNfDBgSUXevq4R0JpfBaOQy3Is1TReZp1N+1UN1RE3zh8
+	NYUzg5aSEj4BCol3XsWGckzCSKz7/G2E3Gi4GVAtzhAQRWggkl1iSZcPakJvoSJH21V4
+	yHkgC+NvaVhJthx2h1XrekURTdEd77NC1GaglMetEyopOppP3VN3DvWlpozshme6vN+q
+	k+PP1c8RJcAs4ZZp4qInyQ8q+dEG70qu9vO5SVVO3wTbKx4wRVzVpM3hdYf+1eRjI1y9
+	vbhQ==
+X-Gm-Message-State: ALoCoQle62YYhenm2JgkacRSfGzLLAnfDOn8gCfUGywvjgYFDiz0XtIJQPD2iVinBJdY2tAcKDt3
+X-Received: by 10.180.188.141 with SMTP id ga13mr11427393wic.55.1390252060326; 
+	Mon, 20 Jan 2014 13:07:40 -0800 (PST)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id n3sm5061547wix.10.2014.01.20.13.07.37
+	by mx.google.com with ESMTPSA id n3sm5061547wix.10.2014.01.20.13.07.39
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Jan 2014 13:07:38 -0800 (PST)
+	Mon, 20 Jan 2014 13:07:39 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2014 21:07:32 +0000
-Message-Id: <1390252054-9399-1-git-send-email-ross.burton@intel.com>
+Date: Mon, 20 Jan 2014 21:07:33 +0000
+Message-Id: <1390252054-9399-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/3] glproto: upgrade to 1.4.17
+In-Reply-To: <1390252054-9399-1-git-send-email-ross.burton@intel.com>
+References: <1390252054-9399-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/3] xcb-proto: upgrade to 1.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,25 +50,25 @@ X-List-Received-Date: Mon, 20 Jan 2014 21:07:40 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../xorg-proto/{glproto_1.4.16.bb => glproto_1.4.17.bb}            |    4 ++--
+ .../xorg-proto/{xcb-proto_1.9.bb => xcb-proto_1.10.bb}             |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{glproto_1.4.16.bb => glproto_1.4.17.bb} (76%)
+ rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.9.bb => xcb-proto_1.10.bb} (60%)
 
-diff --git a/meta/recipes-graphics/xorg-proto/glproto_1.4.16.bb b/meta/recipes-graphics/xorg-proto/glproto_1.4.17.bb
-similarity index 76%
-rename from meta/recipes-graphics/xorg-proto/glproto_1.4.16.bb
-rename to meta/recipes-graphics/xorg-proto/glproto_1.4.17.bb
-index 7cb4233..eb03d33 100644
---- a/meta/recipes-graphics/xorg-proto/glproto_1.4.16.bb
-+++ b/meta/recipes-graphics/xorg-proto/glproto_1.4.17.bb
-@@ -14,5 +14,5 @@ PE = "1"
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.9.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.10.bb
+similarity index 60%
+rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.9.bb
+rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.10.bb
+index 617501d..0b67b57 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.9.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.10.bb
+@@ -5,5 +5,5 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
  
- BBCLASSEXTEND = "nativesdk"
  
--SRC_URI[md5sum] = "3847963c1b88fd04a030b932b0aece07"
--SRC_URI[sha256sum] = "54dd663a7f5ed702f2ff035b79edf770c2f850867ac0d55742f696bfc8b2598d"
-+SRC_URI[md5sum] = "5565f1b0facf4a59c2778229c1f70d10"
-+SRC_URI[sha256sum] = "adaa94bded310a2bfcbb9deb4d751d965fcfe6fb3a2f6d242e2df2d6589dbe40"
+-SRC_URI[md5sum] = "311817f844c45c0c3d76dd72e6560c10"
+-SRC_URI[sha256sum] = "895afe21793e6e26c5ce999b1900c02a5984c201d96d55cc42c182d3c3bde43c"
++SRC_URI[md5sum] = "ade74b8e9c870dc7515adfa209e66063"
++SRC_URI[sha256sum] = "7ef40ddd855b750bc597d2a435da21e55e502a0fefa85b274f2c922800baaf05"
 -- 
 1.7.10.4
 
