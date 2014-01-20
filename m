@@ -1,40 +1,41 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C25461011
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 774D76CCF4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2014 05:31:00 +0000 (UTC)
-Received: from [12.157.112.67] (helo=[10.71.2.210])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W57Rq-0008Bn-BZ
-	for openembedded-core@lists.openembedded.org;
-	Mon, 20 Jan 2014 06:31:00 +0100
-Message-ID: <1390195849.2441.1.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2014 05:30:49 +0000
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview: Commit b92a3e9d093bc9421aa38a40bc6bfd559a16b3be
-	introduced a dependency on udev,
-	which is undesirable for distros which don't otherwise
-	require or build udev (and, as such,
-	don't have any interest in the rules.d files). [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] alsa-utils: Add PACKAGECONFIG for udev
+	Mon, 20 Jan 2014 08:06:24 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id d49so2469071eek.20
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2014 00:06:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:date:message-id:in-reply-to:references:user-agent:subject
+	:mime-version:content-type:content-transfer-encoding;
+	bh=4aCNrT0HAeRp731GYDYCVgq+Te24eqHZtd4jjyWrzhg=;
+	b=A7UHYfU4NJS44YMKeMReCTFnWL43OpvhrizVw2PfxtAT4y29U2sANvvUYaIfe5qOzC
+	d/CCURT4vLijdE6dLYV13BATAHMHOYYHrcoLc4UajQuP7lKTeQbEQXW/Sj4jG+L5vUpi
+	/cRLp89oJgPmcyx62VNXegcwLd0nVfXfmHhHlAa+jmrphWvnZiXFeRLITHjG/RMlLE1v
+	KYO5Zuh3ZigJyoO9Zx4EmQl43gMcCxpLRqyIpr0PbFcO7CpPhazNMrXsLbg7AfbkxN52
+	dg4TRkEsc+NW6vzthr4s9tfJc8NF1q4BD59QVA5WlBD11kTAKVSt+ZClwdtLN/CSYvN8
+	4ePA==
+X-Received: by 10.14.109.137 with SMTP id s9mr13359544eeg.6.1390205184559;
+	Mon, 20 Jan 2014 00:06:24 -0800 (PST)
+Received: from [46.206.172.200] (046206172200.atmpu0022.highway.a1.net.
+	[46.206.172.200])
+	by mx.google.com with ESMTPSA id b41sm758040eef.16.2014.01.20.00.06.23
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 20 Jan 2014 00:06:23 -0800 (PST)
+From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Jan 2014 09:06:28 +0100
+Message-ID: <143aeafa800.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+In-Reply-To: <a023434c6cc916907f190acd62af34ea5a6eaca0.1390184362.git.Qi.Chen@windriver.com>
+References: <cover.1390184362.git.Qi.Chen@windriver.com>
+	<a023434c6cc916907f190acd62af34ea5a6eaca0.1390184362.git.Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.3.8 (build:
+	2100414)
+MIME-Version: 1.0
+Subject: Re: [PATCH V3 1/5] systemd: add 'less' to its RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,59 +48,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2014 05:31:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jan 2014 08:06:24 -0000
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Commit b92a3e9d093bc9421aa38a40bc6bfd559a16b3be introduced a dependency
-on udev, which is undesirable for distros which don't otherwise require 
-or build udev (and, as such, don't have any interest in the rules.d files).
+On 20 January 2014 03:23:02 Chen Qi <Qi.Chen@windriver.com> wrote:
 
-Make this conditional on a PACKAGECONFIG setting so that it can be turned
-off.  If it's off, we don't depend on udev and don't ship the rules.
+> The less command provided by busybox cannot interpret the control
+> character, resulting in obscure output of the journalctl command
+> in a systemd based image.
 
-Signed-off-by: Phil Blundell <pb@pbcl.net>
----
- meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+Can you send me the input containing this control character, please?
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
-index 831b9b8..3384453 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
-@@ -7,6 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
- DEPENDS = "alsa-lib ncurses libsamplerate0 udev"
- 
-+PACKAGECONFIG ??= "udev"
-+PACKAGECONFIG[udev] = "--with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d,,udev"
-+
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-           "
-@@ -18,7 +21,7 @@ SRC_URI[sha256sum] = "02bfac39092f3b68d743c23ad3d688d6c5aa8df69f2ccd692c5b8282ed
- # http://bugs.openembedded.org/show_bug.cgi?id=2348
- # please close bug and remove this comment when properly fixed
- #
--EXTRA_OECONF = "--disable-xmlto --with-udev-rules-dir=`pkg-config --variable=udevdir udev`/rules.d "
-+EXTRA_OECONF = "--disable-xmlto"
- EXTRA_OECONF_append_libc-uclibc = " --disable-nls"
- 
- inherit autotools gettext
-@@ -82,4 +85,10 @@ do_install() {
- 	# We don't ship this here because it requires a dependency on bash.
- 	# See alsa-utils-alsaconf_${PV}.bb
- 	rm ${D}${sbindir}/alsaconf
-+
-+	if ${@base_contains('PACKAGECONFIG', 'udev', 'false', 'true', d)}; then
-+	   # This is where alsa-utils will install its rules if we don't tell it anything else.
-+	   rm -rf ${D}/lib/udev
-+	   rmdir --ignore-fail-on-non-empty ${D}/lib
-+	fi
- }
--- 
-1.8.5
+Perhaps we can do something sensible about it..
+TIA,
+>
+> Add the 'less' package to systemd's RRECOMMENDS so that the output
+> of 'journalctl' looks clear to users.
+>
+> [YOCTO #5723]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/systemd/systemd_208.bb |    2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_208.bb 
+> b/meta/recipes-core/systemd/systemd_208.bb
+> index 6590235..3c44dec 100644
+> --- a/meta/recipes-core/systemd/systemd_208.bb
+> +++ b/meta/recipes-core/systemd/systemd_208.bb
+> @@ -219,10 +219,12 @@ FILES_${PN}-dev += "${base_libdir}/security/*.la 
+> ${datadir}/dbus-1/interfaces/ $
+>
+>  RDEPENDS_${PN} += "kmod dbus util-linux-mount"
+>
+> +# Recommend the less package to correctly display the contents of 'journalctl'
+>  RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units \
+>                        util-linux-agetty \
+>                        util-linux-fsck e2fsprogs-e2fsck \
+>                        kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 \
+> +                      less \
+>  "
+>
+>  PACKAGES =+ "udev-dbg udev udev-utils udev-hwdb"
+> --
+> 1.7.9.5
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+
+
+Sent with AquaMail for Android
+http://www.aqua-mail.com
 
 
 
