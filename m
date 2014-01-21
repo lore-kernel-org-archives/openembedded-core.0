@@ -1,31 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 50D9E6157A
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BCA66E70F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 10:42:32 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0LAgHQe009522; Tue, 21 Jan 2014 10:42:18 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id g3EZVGvDDCWU; Tue, 21 Jan 2014 10:42:17 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0LAfeE3009504
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Tue, 21 Jan 2014 10:41:41 GMT
-Message-ID: <1390300893.874.79.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Tue, 21 Jan 2014 10:41:33 +0000
-In-Reply-To: <1390218017-10423-2-git-send-email-fathi.boudra@linaro.org>
-References: <1390218017-10423-1-git-send-email-fathi.boudra@linaro.org>
-	<1390218017-10423-2-git-send-email-fathi.boudra@linaro.org>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 1/7] ltp: rename recipe to ltp_20140115.bb
+	Tue, 21 Jan 2014 11:01:34 +0000 (UTC)
+Received: by mail-wi0-f181.google.com with SMTP id hi8so4182462wib.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jan 2014 03:01:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/q46jNw0ZYmPtjJsfSnKcCspruY0zJX1a1QpRDS0Epc=;
+	b=NqLb1UQhab3cHS7BroUbue6njeKsXTN19VRoHHmN6ZW6JtPUSQk7RvAEcP6KVnnTaH
+	IJIRxx5i52capQH6grJKAnZ6I8sAvLNW/5J+5/Gm3TpZ8+OiKE/Y1qju5wDGkgq2YAre
+	xnerPyOXeSxVkalfHNgNAm+msTXRRHIg1eaqUyQgE9y23tKF7/w60nrW6y940y2sk1jt
+	0C4TYN9wNtnzByiow+YyDmVSDSXqcFIvfnF32tprtKz13ptXYi09c4C6R14UZfGKZJyv
+	uRqDONaDLdzfylCLTngd+uo2oR5KMg339Vlfr+qan+SHc782ZG1xh+I7vGpLXDyqYBL9
+	8+3g==
+X-Gm-Message-State: ALoCoQkrec4F8z90fU6MNYj59hb3m+ThPqCMc0KqhGzDt+86616lyeRwA2en68wD4hdgUTckQ1xm
+X-Received: by 10.194.62.111 with SMTP id x15mr1562312wjr.55.1390302093460;
+	Tue, 21 Jan 2014 03:01:33 -0800 (PST)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id dd3sm7070677wjb.9.2014.01.21.03.01.32
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Jan 2014 03:01:32 -0800 (PST)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jan 2014 12:01:21 +0100
+Message-Id: <1390302081-29499-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] systemd 208: move stray /usr/lib/systemd/* into /lib/systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,26 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 10:42:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jan 2014 11:01:34 -0000
 
-On Mon, 2014-01-20 at 13:40 +0200, Fathi Boudra wrote:
-> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
-> ---
->  meta/recipes-extended/ltp/ltp_20130904.bb | 78 -------------------------------
->  meta/recipes-extended/ltp/ltp_20140115.bb | 78 +++++++++++++++++++++++++++++++
->  2 files changed, 78 insertions(+), 78 deletions(-)
->  delete mode 100644 meta/recipes-extended/ltp/ltp_20130904.bb
->  create mode 100644 meta/recipes-extended/ltp/ltp_20140115.bb
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-So we rename the recipe but don't actually change the SRCREV to the new
-version (since you do that in 3/7)? 
+Apps testing for systemd config get confused when both /usr/lib/systemd and /lib/systemd exist. This fixes (among other things) dracut systemd detections.
 
-This seems a little confusing?
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-core/systemd/systemd_208.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
+index 6590235..710624c 100644
+--- a/meta/recipes-core/systemd/systemd_208.bb
++++ b/meta/recipes-core/systemd/systemd_208.bb
+@@ -113,6 +113,12 @@ do_install() {
+ 
+         # Delete journal README, as log can be symlinked inside volatile.
+         rm -f ${D}/${localstatedir}/log/README
++
++	# fix up libdir confusion
++	if [ -d ${D}${libdir}/systemd ] ; then
++		cp -a ${D}${libdir}/systemd/* ${D}${systemd_unitdir}
++		rm -rf ${D}${libdir}/systemd
++	fi
+ }
+ 
+ do_install_ptest () {
+-- 
+1.8.4.2
 
 
