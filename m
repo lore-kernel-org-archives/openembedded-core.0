@@ -1,36 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
-	[74.125.82.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 724846007C
+Received: from mail-vb0-f49.google.com (mail-vb0-f49.google.com
+	[209.85.212.49])
+	by mail.openembedded.org (Postfix) with ESMTP id C7C8F6007C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 11:37:40 +0000 (UTC)
-Received: by mail-we0-f177.google.com with SMTP id x55so7990369wes.36
+	Tue, 21 Jan 2014 11:39:45 +0000 (UTC)
+Received: by mail-vb0-f49.google.com with SMTP id x14so3346799vbb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 03:37:41 -0800 (PST)
+	Tue, 21 Jan 2014 03:39:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=iaCD5gp7c00dkrpHS11ndCoNraVvBsywpwRZ4arZskU=;
-	b=KtvlW86ik29x4BCdI+HLPGHLyUxLU/COmUSfPjTG2PTrfY7Y3irill5bFgwH0OXF/r
-	p+BkP/+bcMn6F7gZx4k3m8V17cQiCAa41bwMCt2qnUX9I6Ptlnt/Kd6NO0K9io/r2E8f
-	tWnVbXXbZiA2s4sXePoaAzTARCtIgzFrEnMiWkxulyKfjgKuvsWYIU/N0TwPbKoMytWF
-	mKBgBZOlBR4LazAve6IEez/wERuqosCUWbvlE3/dJlh5Fc1TdJczTIC5b6K+Y+Y6Uppz
-	MmG2Vprdzqus+vCuNWEgW16FYOX9S/Ci3MKY+zAqYPMm147hFHqQialHnY4YlLmum/g3
-	hVTA==
-X-Gm-Message-State: ALoCoQl6x9hnZXYCssuROb8OWSwsLCeVDvB2N7p043w1cf/HL7OlGPi9cFUO+QQLe5mZ9GGD0ywc
-X-Received: by 10.194.92.7 with SMTP id ci7mr1396290wjb.58.1390304260916;
-	Tue, 21 Jan 2014 03:37:40 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id k10sm7236797wjf.11.2014.01.21.03.37.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Jan 2014 03:37:39 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2014 11:37:36 +0000
-Message-Id: <1390304257-32484-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] cmake.bbclass: fix note when warning about deprecated variables
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Z4TWv0Qfb5lDoodv5upR71lRoPyvg7v3qvWu5vGXE7U=;
+	b=UMVLSTuo6MxzXoudxxpdssPPokWpY5wKsNZe0crI6AOmBQo8wKyu0qbCUtuIBKA8Z4
+	CsyEiieILXpnuoanGrjj3vmMR8a8MYg67yGDnkm+RXHXad8CKydpJ++zllfifInvmDZv
+	wIVxL9ytiUsegLSniFvmVe7I5LUp4x0OseG/z4akJJFhbR4DeK9J8ofkONhKjRpsHuRX
+	lRX0kXd9luPQIzyfx1TkmjGFmGJ9wJaiKloUwnssgQ3FA3Zx+0xDbJ92IlU40ex1lY+m
+	aGXpXYLg4xfuGP0LMeGMhdcSVr0kmfTp7gH8gAxGnriy9CAAlxa43/g2iccwbnMI35Lt
+	zuAg==
+X-Gm-Message-State: ALoCoQmLsint2IXBVRbdd5Zuyc4WKxlxavGBUKMlISY+pbqz5GwRzY6WtNo70oukrYKt8rJfZb9q
+X-Received: by 10.220.193.70 with SMTP id dt6mr14129489vcb.17.1390304386062;
+	Tue, 21 Jan 2014 03:39:46 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.96.84 with HTTP; Tue, 21 Jan 2014 03:39:25 -0800 (PST)
+In-Reply-To: <52D7B3EA.6090308@herbrechtsmeier.net>
+References: <1389376488-22286-1-git-send-email-ross.burton@intel.com>
+	<1389376488-22286-4-git-send-email-ross.burton@intel.com>
+	<52D7B3EA.6090308@herbrechtsmeier.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 21 Jan 2014 11:39:25 +0000
+Message-ID: <CAJTo0LZm8e2kN4KX6QnGn9Aa1q=t42E=2G3QCo3QLHMD6YYaTg@mail.gmail.com>
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] cmake: default to out-of-tree builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +45,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 11:37:41 -0000
+X-List-Received-Date: Tue, 21 Jan 2014 11:39:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The note issues when OECMAKE_BUILDPATH and OECMAKE_SOURCEPATH were being used
-stated that an in-tree build would be done, but the default is in fact an
-out-of-tree build.
+Good point, thanks.  Patch sent.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/cmake.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ross
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 7ff9984..c9c15f3 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -66,7 +66,7 @@ addtask generate_toolchain_file after do_patch before do_configure
- 
- cmake_do_configure() {
- 	if [ "${OECMAKE_BUILDPATH}" -o "${OECMAKE_SOURCEPATH}" ]; then
--		bbnote "cmake.bbclass no longer uses OECMAKE_SOURCEPATH and OECMAKE_BUILDPATH. This recipe now will do in-tree builds, to do out-of-tree builds set S and B."
-+		bbnote "cmake.bbclass no longer uses OECMAKE_SOURCEPATH and OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
- 	fi
- 
- 	if [ "${S}" != "${B}" ]; then
--- 
-1.7.10.4
-
+On 16 January 2014 10:26, Stefan Herbrechtsmeier
+<stefan@herbrechtsmeier.net> wrote:
+> Am 10.01.2014 18:54, schrieb Ross Burton:
+>
+>> Set B=${WORKDIR}/build in cmake.bbclass so that recipes using
+>> cmake.bbclass do
+>> out-of-tree builds by default.
+>
+> You should update the note to reflect the new behaviour.
+>
 
