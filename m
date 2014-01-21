@@ -1,38 +1,21 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 745506157A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 358C360155
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 12:17:26 +0000 (UTC)
-Received: by mail-lb0-f179.google.com with SMTP id l4so4296984lbv.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 04:17:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=K5HC3gB0kt0FmBxHTA4b/fH4FLTc06pn71XhkUyf1Gw=;
-	b=PJsKnoN6J5/ZdMSSL5zZfh2qUXgNsazOQ5anEZdSu+mcdCfz+8u3TW68s6aKEltJ5R
-	Ery4g9J/Iu5GPkhWCnmnIbxbZxHhjtIK6bUV4k9Od2hYwlwi0CsA6YwVWLPnTZU5/s5H
-	xxI9aSJt0A4g8A2RQWaYlI+ZrGdmKQPwgG9Wib6zL8TA+PviTYDv78ItW7I3joe58Diz
-	QxvYFcVd6m4ILmkmxaunCOQOkS7+lW8RxpI6xXh3RwutxoDiKuHIZTu5hG/8VqmfhMFi
-	T93knxzwnU2m12i2T5bSx7ThUOYyo6C1iYH2bTxbnzlMfiEAePR85H2dJIuX6kbk/G2U
-	UgwA==
-X-Gm-Message-State: ALoCoQlnkG7NzCNvrPmLp8mA0/6Q8NPpSbIOw5X9o6fetxt6L1v2mOhEdWweqpdje7fZepw0YeO+
-MIME-Version: 1.0
-X-Received: by 10.112.155.106 with SMTP id vv10mr810600lbb.53.1390306646472;
-	Tue, 21 Jan 2014 04:17:26 -0800 (PST)
-Received: by 10.112.45.230 with HTTP; Tue, 21 Jan 2014 04:17:26 -0800 (PST)
-In-Reply-To: <1390300893.874.79.camel@ted>
-References: <1390218017-10423-1-git-send-email-fathi.boudra@linaro.org>
-	<1390218017-10423-2-git-send-email-fathi.boudra@linaro.org>
-	<1390300893.874.79.camel@ted>
-Date: Tue, 21 Jan 2014 14:17:26 +0200
-Message-ID: <CAGNsrLBebkDZcLk91x1XPAGW2XzK0opYgRJ7u8s4+Du32t_R9A@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/7] ltp: rename recipe to ltp_20140115.bb
+	Tue, 21 Jan 2014 12:18:02 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Jan 2014 04:18:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,696,1384329600"; d="scan'208";a="468321261"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.212])
+	by fmsmga002.fm.intel.com with ESMTP; 21 Jan 2014 04:18:02 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jan 2014 12:17:53 +0000
+Message-Id: <1390306673-9822-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.2
+Subject: [PATCH] conf/bitbake.conf: default HOMEPAGE to blank instead of unknown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +28,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 12:17:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 21 Jan 2014 12:18:02 -0000
 
-On 21 January 2014 12:41, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Mon, 2014-01-20 at 13:40 +0200, Fathi Boudra wrote:
->> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
->> ---
->>  meta/recipes-extended/ltp/ltp_20130904.bb | 78 -------------------------------
->>  meta/recipes-extended/ltp/ltp_20140115.bb | 78 +++++++++++++++++++++++++++++++
->>  2 files changed, 78 insertions(+), 78 deletions(-)
->>  delete mode 100644 meta/recipes-extended/ltp/ltp_20130904.bb
->>  create mode 100644 meta/recipes-extended/ltp/ltp_20140115.bb
->
-> So we rename the recipe but don't actually change the SRCREV to the new
-> version (since you do that in 3/7)?
->
-> This seems a little confusing?
+The default value for HOMEPAGE of "unknown" has been in place since the
+early OE-Classic days, but it doesn't really make sense - "unknown" is
+not a valid URL and it just means we have to explicitly check for this
+hardcoded string if we're displaying the value in some form of UI, such
+as Toaster. There is some code in the unmaintained oelint.bbclass to
+check for this value, presumably on the assumption that the recipe will
+explicitly set it to "" if there really isn't a homepage, but looking at
+recipes in OE-Core and meta-oe suggests that we haven't been using this
+convention for some time (with one exception in the latter) and it's
+rather uncommon these days to have no URL to associate with a recipe.
 
-could be :) I sent the patchset as-is. I can squash the 2 patches if you prefer.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Cheers,
->
-> Richard
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 57668e1..4fb6a1c 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -241,7 +241,7 @@ This package contains documentation."
+ 
+ LICENSE = "INVALID"
+ MAINTAINER = "OE-Core Developers <openembedded-core@lists.openembedded.org>"
+-HOMEPAGE = "unknown"
++HOMEPAGE = ""
+ 
+ # Package dependencies and provides.
+ 
+-- 
+1.8.4.2
+
 
