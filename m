@@ -1,46 +1,38 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id A25326157A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A971560644
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 13:02:35 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id cc10so4300832wib.11
+	Tue, 21 Jan 2014 13:02:43 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id d49so3300182eek.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 05:02:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=mJrXOQcOQH9adtr0Hc+pN/NiLbytGNOVBYX6wXALEkY=;
-	b=JT+S/Qns5wxnS8E9w9U9rpimsp0vhohYnLOarkN6izluwGEaTLASBQz1x/1qWK4TmF
-	IgwQ5ad3G90YRQapwm42mYs0rtlEtpcHsXvN7WEAOK8jeYfjtEUWE9FoemdWrdAsV+YD
-	I9DSLeWM9+S8ueZVj/Fx1ECJt28UIaErPN7qM35iDHhFiY2HauexzYWAIfpn5WAYtMJM
-	epkzfWS/qaYjbu2RKjF14UnTz5zTFoSmk0gZqOnL9CElK1+Fo+qfoeQy7zU5wUVAXldi
-	MdI7qVkk28fj7VGIvWoFvpUyjL/93bwvoGe2P0bdVtIg0aTAbY2EhfryocoWi/RJ5ck2
-	9EQQ==
-X-Gm-Message-State: ALoCoQl/Vp17L5gs7sySqJ1z1hFPrSK8UTEc/3uI5mZyF3HIiYtaHTreZm4JUOGHiMkLyGg7+Nbu
-X-Received: by 10.194.20.33 with SMTP id k1mr15781019wje.40.1390309355873;
-	Tue, 21 Jan 2014 05:02:35 -0800 (PST)
-Received: from ?IPv6:2001:610:612:0:5e51:4fff:fec8:7c15?
-	([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id hy8sm7683948wjb.2.2014.01.21.05.02.34
+	Tue, 21 Jan 2014 05:02:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=QtTNQBpA/fJbVBe/BoN19ekSg5RN2A941rEGkino85I=;
+	b=Q2rYyE4KFiF+FlMqnuNH6tfL1MDmJbDMgVuUiBbqYdtp+I7+TIpffgLsGutzSxKA2P
+	Ws3jKfCAlWlfIxCWOgT0Q6DATi5Tf3O6Ap76ikCUiAQZEIq+08i9vTwY9jK1Ea0wkeu+
+	DvOVMop5WhEmW4SKXQ2frrSQ1L1D1mDOmHlm8m+Nsp+jKnP1JxVwYBjbNNYpOdIH6+5U
+	2yh2XuK7mmNq+ZeVSv2PNujeaT+WzXOlYuhWIRLYFwMzinDtfioYysT13bpfgOeniLGi
+	uxp2OmCLQBiMhCB35tdT5MiNbTroF3AkZNkDNNb13AbFFwU22bIBIX2QMYdHpic2I17A
+	FWLw==
+X-Received: by 10.15.24.142 with SMTP id j14mr23914730eeu.52.1390309364303;
+	Tue, 21 Jan 2014 05:02:44 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id h3sm14595447eem.15.2014.01.21.05.02.43
 	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 21 Jan 2014 05:02:34 -0800 (PST)
-Message-ID: <52DE6FEA.5070300@linaro.org>
-Date: Tue, 21 Jan 2014 14:02:34 +0100
-From: Koen Kooi <koen.kooi@linaro.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Jan 2014 05:02:43 -0800 (PST)
+Date: Tue, 21 Jan 2014 14:02:43 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20140121130243.GD4100@jama>
+References: <1389547991-3456-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1390302081-29499-1-git-send-email-koen.kooi@linaro.org>
-	<20140121130110.GC4100@jama>
-In-Reply-To: <20140121130110.GC4100@jama>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd 208: move stray /usr/lib/systemd/* into /lib/systemd
+In-Reply-To: <1389547991-3456-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: Re: [PATCH] cmake: Fix freetype detection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +45,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 13:02:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jan 2014 13:02:44 -0000
+X-Groupsio-MsgNum: 49263
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="WChQLJJJfbwij+9x"
+Content-Disposition: inline
 
-On 01/21/2014 02:01 PM, Martin Jansa wrote:
-> On Tue, Jan 21, 2014 at 12:01:21PM +0100, Koen Kooi wrote:
->> From: Koen Kooi <koen@dominion.thruhere.net>
->>
->> Apps testing for systemd config get confused when both /usr/lib/systemd and /lib/systemd exist. This fixes (among other things) dracut systemd detections.
->>
->> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->> ---
->>   meta/recipes-core/systemd/systemd_208.bb | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
->> index 6590235..710624c 100644
->> --- a/meta/recipes-core/systemd/systemd_208.bb
->> +++ b/meta/recipes-core/systemd/systemd_208.bb
->> @@ -113,6 +113,12 @@ do_install() {
->>
->>           # Delete journal README, as log can be symlinked inside volatile.
->>           rm -f ${D}/${localstatedir}/log/README
->> +
->> +	# fix up libdir confusion
->> +	if [ -d ${D}${libdir}/systemd ] ; then
->> +		cp -a ${D}${libdir}/systemd/* ${D}${systemd_unitdir}
->> +		rm -rf ${D}${libdir}/systemd
->> +	fi
->
-> It's not your fault, but the indentation looks inconsistent with rest of
-> do_install()
+--WChQLJJJfbwij+9x
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-And I did especially pay attention to use tabs after all the meta-oe 
-patches I did :)
+On Sun, Jan 12, 2014 at 06:33:11PM +0100, Martin Jansa wrote:
+> * since last freetype upgrade cmake cannot detect it
+> * e.g. webkit-efl requires freetype and is failing because of this
 
+ping
+
++ Ross as he is working on cmake as well as freetype
+
+>=20
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/recipes-devtools/cmake/cmake.inc              |  1 +
+>  .../cmake/cmake/cmake-2.8.11.2-FindFreetype.patch  | 47 ++++++++++++++++=
+++++++
+>  2 files changed, 48 insertions(+)
+>  create mode 100644 meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-Find=
+Freetype.patch
+>=20
+> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtool=
+s/cmake/cmake.inc
+> index 69f4fe2..f76f68b 100644
+> --- a/meta/recipes-devtools/cmake/cmake.inc
+> +++ b/meta/recipes-devtools/cmake/cmake.inc
+> @@ -16,6 +16,7 @@ SRC_URI =3D "http://www.cmake.org/files/v${CMAKE_MAJOR_=
+VERSION}/cmake-${PV}.tar.gz
+>             file://aarch64-cmake.patch \
+>             file://aarch64-kwsys.patch \
+>             file://qt4-fail-silent.patch \
+> +           file://cmake-2.8.11.2-FindFreetype.patch \
+>             "
+> =20
+>  inherit autotools
+> diff --git a/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetyp=
+e.patch b/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.pat=
+ch
+> new file mode 100644
+> index 0000000..1b523c0
+> --- /dev/null
+> +++ b/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.patch
+> @@ -0,0 +1,47 @@
+> +From: Julian Ospald <hasufell@gentoo.org>
+> +Date: Sun Dec  8 13:38:06 UTC 2013
+> +Subject: fix check for freetype-2.5.1
+> +
+> +Upstream-Status: Submitted http://www.cmake.org/Bug/view.php?id=3D14601
+> +
+> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> +
+> +--- old/Modules/FindFreetype.cmake
+> ++++ new/Modules/FindFreetype.cmake
+> +@@ -64,6 +64,19 @@
+> +   PATH_SUFFIXES include/freetype2 include
+> + )
+> +=20
+> ++if(NOT FREETYPE_INCLUDE_DIR_freetype2)
+> ++  find_path(FREETYPE_INCLUDE_DIR_freetype2 config/ftheader.h
+> ++    HINTS
+> ++      ENV FREETYPE_DIR
+> ++    PATHS
+> ++      /usr/X11R6
+> ++      /usr/local/X11R6
+> ++      /usr/local/X11
+> ++      /usr/freeware
+> ++    PATH_SUFFIXES include/freetype2 include
+> ++  )
+> ++endif()
+> ++
+> + find_library(FREETYPE_LIBRARY
+> +   NAMES freetype libfreetype freetype219
+> +   HINTS
+> +@@ -82,8 +95,14 @@
+> + endif()
+> + set(FREETYPE_LIBRARIES "${FREETYPE_LIBRARY}")
+> +=20
+> +-if(FREETYPE_INCLUDE_DIR_freetype2 AND EXISTS "${FREETYPE_INCLUDE_DIR_fr=
+eetype2}/freetype/freetype.h")
+> +-    file(STRINGS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetype.h=
+" freetype_version_str
+> ++if(EXISTS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetype.h")
+> ++  set(FREETYPE_H "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetype.h=
+")
+> ++elseif(EXISTS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype.h")
+> ++  set(FREETYPE_H "${FREETYPE_INCLUDE_DIR_freetype2}/freetype.h")
+> ++endif()
+> ++
+> ++if(FREETYPE_INCLUDE_DIR_freetype2 AND FREETYPE_H)
+> ++    file(STRINGS "${FREETYPE_H}" freetype_version_str
+> +          REGEX "^#[\t ]*define[\t ]+FREETYPE_(MAJOR|MINOR|PATCH)[\t ]+[=
+0-9]+$")
+> +=20
+> +     unset(FREETYPE_VERSION_STRING)
+> --=20
+> 1.8.5.2
+>=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--WChQLJJJfbwij+9x
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLeb/MACgkQN1Ujt2V2gBzdqgCgs+scjl/Wzk2+ICGjy+ML0Lob
++q4AoI5rkHlw3X+CqsvFGeibtWAN6491
+=+XED
+-----END PGP SIGNATURE-----
+
+--WChQLJJJfbwij+9x--
