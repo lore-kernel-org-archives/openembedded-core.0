@@ -1,25 +1,44 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DE2996E747
+Return-Path: <alexandru.sardan@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1blp0187.outbound.protection.outlook.com [207.46.163.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4046E708
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 17:30:25 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 21 Jan 2014 09:26:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,696,1384329600"; d="scan'208";a="470222862"
-Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.212])
-	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2014 09:30:25 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2014 17:30:04 +0000
-Message-Id: <f705fb2cb896efe02bbf74f965a3d740dcbc5b50.1390325320.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.2
-In-Reply-To: <cover.1390325320.git.paul.eggleton@linux.intel.com>
-References: <cover.1390325320.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1390325320.git.paul.eggleton@linux.intel.com>
-References: <cover.1390325320.git.paul.eggleton@linux.intel.com>
-Subject: [dylan][PATCH 2/2] guile: fix build with Texinfo 5.0
+	Tue, 21 Jan 2014 17:39:16 +0000 (UTC)
+Received: from DM2PR03MB368.namprd03.prod.outlook.com (10.141.55.22) by
+	DM2PR03MB397.namprd03.prod.outlook.com (10.141.84.139) with Microsoft
+	SMTP Server (TLS) id 15.0.847.13; Tue, 21 Jan 2014 17:39:15 +0000
+Received: from DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) by
+	DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) with mapi id
+	15.00.0847.008; Tue, 21 Jan 2014 17:39:15 +0000
+From: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc linux
+	verses linux-gnuspe"
+Thread-Index: AQHPDhbUXOT9PA+PXESDVVjRhy4ospqCnDKAgAABToCAAZ4SAIAExmYAgAFgVoCABReK0A==
+Date: Tue, 21 Jan 2014 17:39:14 +0000
+Message-ID: <3ea5b5ff002e4f98b60997229cc31300@DM2PR03MB368.namprd03.prod.outlook.com>
+References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
+	<1389366908.19102.223.camel@ted> <52D3DDFB.8080803@gmail.com>
+	<1389616915.14987.4.camel@ted> <52D53A6C.30808@gmail.com>
+	<55ea22e5d71c47f3b812e845106f2d19@DM2PR03MB368.namprd03.prod.outlook.com>
+	<1390044007.14987.151.camel@ted>
+In-Reply-To: <1390044007.14987.151.camel@ted>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.88.166.1]
+x-forefront-prvs: 0098BA6C6C
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009001)(6009001)(199002)(189002)(24454002)(13464003)(377424004)(71364002)(377454003)(51704005)(76786001)(79102001)(47446002)(74662001)(74502001)(56776001)(81542001)(59766001)(77982001)(76576001)(81342001)(76796001)(65816001)(74706001)(66066001)(80022001)(74876001)(63696002)(69226001)(56816005)(74366001)(74316001)(81816001)(85852003)(47736001)(51856001)(49866001)(81686001)(53806001)(47976001)(83072002)(50986001)(4396001)(46102001)(2656002)(87936001)(19580405001)(93136001)(80976001)(54316002)(33646001)(31966008)(92566001)(93516002)(76482001)(86362001)(90146001)(19580395003)(83322001)(54356001)(87266001)(85306002)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM2PR03MB397;
+	H:DM2PR03MB368.namprd03.prod.outlook.com; CLIP:192.88.166.1;
+	FPR:; RD:InfoNoRecords; A:1; MX:1; LANG:en; 
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: "catalin.udma@freescale.com" <catalin.udma@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Revert "cross-canadian: Handle powerpc linux verses linux-gnuspe"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,110 +51,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 17:30:26 -0000
+X-List-Received-Date: Tue, 21 Jan 2014 17:39:16 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Backport a patch from upstream which fixes failures building
-guile-native on newer distros such as Ubuntu 13.10. (This does not
-affect dora or master because we are using Guile 2.0.9 there, which
-already contains this patch.)
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../0001-doc-Fix-build-with-Texinfo-5.0.patch      | 71 ++++++++++++++++++++++
- meta/recipes-devtools/guile/guile_2.0.7.bb         |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-devtools/guile/files/0001-doc-Fix-build-with-Texinfo-5.0.patch
-
-diff --git a/meta/recipes-devtools/guile/files/0001-doc-Fix-build-with-Texinfo-5.0.patch b/meta/recipes-devtools/guile/files/0001-doc-Fix-build-with-Texinfo-5.0.patch
-new file mode 100644
-index 0000000..f39905c
---- /dev/null
-+++ b/meta/recipes-devtools/guile/files/0001-doc-Fix-build-with-Texinfo-5.0.patch
-@@ -0,0 +1,71 @@
-+From 183d2ace576710079a2bcf2a8bfcbc39b7d9becc Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Ludovic=20Court=C3=A8s?= <ludo@gnu.org>
-+Date: Fri, 1 Mar 2013 17:49:24 +0100
-+Subject: [PATCH] doc: Fix build with Texinfo 5.0.
-+
-+* doc/ref/api-control.texi (Handling Errors): Move misplaced description
-+  for `scm_memory_error' & co.
-+* doc/ref/r6rs.texi (rnrs base): Change `deffnx' of `let-syntax' and
-+  `letrec-syntax' to fit on one line.
-+
-+Upstream-Status: Backport [in 2.0.9 release]
-+
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+---
-+ doc/ref/api-control.texi | 6 +++---
-+ doc/ref/r6rs.texi        | 8 +++-----
-+ 2 files changed, 6 insertions(+), 8 deletions(-)
-+
-+diff --git a/doc/ref/api-control.texi b/doc/ref/api-control.texi
-+index 95c4925..ea943d3 100644
-+--- a/doc/ref/api-control.texi
-++++ b/doc/ref/api-control.texi
-+@@ -1,7 +1,7 @@
-+ @c -*-texinfo-*-
-+ @c This is part of the GNU Guile Reference Manual.
-+-@c Copyright (C)  1996, 1997, 2000, 2001, 2002, 2003, 2004, 2009, 2010, 2011, 2012
-+-@c   Free Software Foundation, Inc.
-++@c Copyright (C)  1996, 1997, 2000, 2001, 2002, 2003, 2004, 2009, 2010,
-++@c   2011, 2012, 2013 Free Software Foundation, Inc.
-+ @c See the file guile.texi for copying conditions.
-+ 
-+ @node Control Mechanisms
-+@@ -1732,8 +1732,8 @@ and the call to these routines doesn't change @code{errno}.
-+ @deftypefnx {C Function} void scm_wrong_type_arg (char *@var{subr}, int @var{argnum}, SCM @var{bad_value})
-+ @deftypefnx {C Function} void scm_wrong_type_arg_msg (char *@var{subr}, int @var{argnum}, SCM @var{bad_value}, const char *@var{expected})
-+ @deftypefnx {C Function} void scm_memory_error (char *@var{subr})
-+-Throw an error with the various keys described above.
-+ @deftypefnx {C Function} void scm_misc_error (const char *@var{subr}, const char *@var{message}, SCM @var{args})
-++Throw an error with the various keys described above.
-+ 
-+ In @code{scm_wrong_num_args}, @var{proc} should be a Scheme symbol
-+ which is the name of the procedure incorrectly invoked.  The other
-+diff --git a/doc/ref/r6rs.texi b/doc/ref/r6rs.texi
-+index 2028ada..13f9e20 100644
-+--- a/doc/ref/r6rs.texi
-++++ b/doc/ref/r6rs.texi
-+@@ -1,6 +1,6 @@
-+ @c -*-texinfo-*-
-+ @c This is part of the GNU Guile Reference Manual.
-+-@c Copyright (C)  2010, 2011, 2012
-++@c Copyright (C)  2010, 2011, 2012, 2013
-+ @c   Free Software Foundation, Inc.
-+ @c See the file guile.texi for copying conditions.
-+ 
-+@@ -273,10 +273,8 @@ grouped below by the existing manual sections to which they correspond.
-+ @end deffn
-+ 
-+ @deffn {Scheme Syntax} define-syntax keyword expression
-+-@deffnx {Scheme Syntax} let-syntax ((keyword transformer) @dots{})
-+-                        exp1 exp2 @dots{}
-+-@deffnx {Scheme Syntax} letrec-syntax ((keyword transformer) @dots{})
-+-                        exp1 exp2 @dots{}
-++@deffnx {Scheme Syntax} let-syntax ((keyword transformer) @dots{}) exp1 exp2 @dots{}
-++@deffnx {Scheme Syntax} letrec-syntax ((keyword transformer) @dots{}) exp1 exp2 @dots{}
-+ @xref{Defining Macros}, for documentation.
-+ @end deffn
-+ 
-+-- 
-+1.8.4.2
-+
-diff --git a/meta/recipes-devtools/guile/guile_2.0.7.bb b/meta/recipes-devtools/guile/guile_2.0.7.bb
-index 5863014..e7191a7 100644
---- a/meta/recipes-devtools/guile/guile_2.0.7.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.7.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
-            file://guile_2.0.6_fix_sed_error.patch \
-            file://arm_endianness.patch \
-            file://fix_parallel_build_issue.patch \
-+           file://0001-doc-Fix-build-with-Texinfo-5.0.patch \
-            "
- 
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
--- 
-1.8.4.2
-
+SGksDQoNClllcywgdGhlIGdjYyBjb25maWd1cmVkIGZvciBTUEUgKC0tdGFyZ2V0PXBvd2VycGMt
+ZnNsX25ldHdvcmtpbmctbGludXgtZ251c3BlKQ0KY2FuIGdlbmVyYXRlIGJvdGggU1BFIGFuZCBu
+b24tU1BFIGNvZGUgcHJvdmlkZWQgdGhhdCBzb2Z0d2FyZSANCmZsb2F0aW5nIHBvaW50IGlzIHVz
+ZWQuDQoNClRoZXJlIGFyZSBhIGNvdXBsZSBvZiBwYXJhbWV0ZXJzICgtbWFiaT1uby1zcGUgLW1u
+by1zcGUpIHRoYXQgd2lsbCB0dXJuDQpvZmYgU1BFIHZlY3RvciBpbnN0cnVjdGlvbnMgZ2VuZXJh
+dGlvbi4gSWYgdGhlIGNvZGUgY29udGFpbnMgZmxvYXRpbmcNCnBvaW50IGFyaXRobWV0aGljIC1t
+c29mdC1mbG9hdCBuZWVkcyB0byBiZSB1c2VkIGFzIHdlbGwuIFRoaXMgbWVhbnMgdGhhdA0KdGhl
+IEdDQyBtdWx0aWxpYiBzZXR1cCBoYXMgdG8gYmUgY29uZmlndXJlZCB0byBpbmNsdWRlIHNvZnQg
+ZmxvYXQgYW5kDQpidWlsZCBjb3Jlc3BvbmRpbmcgdmVyc2lvbiBvZiBsaWJnY2MgYW5kIHRhcmdl
+dCBmcmFnbWVudHMuDQpCdXQgd2h5IHdvdWxkIHdlIHdhbnQgdG8gZ2VuZXJhdGUgY29kZSB3aXRo
+b3V0IFNQRSBmb3IgZTUwMHYxL3YyPyANClNvZnQtZmxvYXQgY29tZXMgd2l0aCBhIG1ham9yIHBl
+cmZvcm1hbmNlIHBlbmFsdHkuDQoNCk1heWJlIEkgZGlkbid0IHVuZGVyc3RhbmQgY29ycmVjdGx5
+IHdoYXQga2luZCBvZiB0b29sY2hhaW4geW91IHdhbnQgdG8NCmJlIGJ1aWx0IGluIHRoZSBlbmQu
+IERvIHlvdSB3YW50IHRvIGhhdmUgYSBzaW5nbGUgR0NDIHRoYXQgYnVpbGRzIGFsbA0KcG93ZXJw
+YyB0YXJnZXRzIChlNTAwdjIsIGU1NTAwLCBlNjUwMCBldGMpIGFuZCBhIHNlcGFyYXRlIHN5c3Jv
+b3QgZm9yIGVhY2ggDQp0YXJnZXQ/IA0KVGhpcyBtYXkgYmUgcHJvYmxlbWF0aWMgc2luY2UsIGZv
+ciBleGFtcGxlLCB0aGUgY29tcGlsZXIgdGhhdCBjYW4gZ2VuZXJhdGUgDQpTUEUgKGZvciBlNTAw
+djIpIGNhbid0IGdlbmVyYXRlIGFsdGl2ZWMgaW5zdHJ1Y3Rpb25zIChmb3IgZTY1MDApLg0KDQpL
+aW5kIHJlZ2FyZHMsDQpBbGV4DQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBG
+cm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlv
+bi5vcmddDQo+IFNlbnQ6IFNhdHVyZGF5LCBKYW51YXJ5IDE4LCAyMDE0IDE6MjAgUE0NCj4gVG86
+IFNhcmRhbiBBbGV4YW5kcnUgQ2V6YXItQjQxNzAwDQo+IENjOiBEYXZpZCBOeXN0csO2bTsgTHVv
+IFpoZW5odWEtQjE5NTM3OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gUmV2ZXJ0ICJjcm9zcy1jYW5h
+ZGlhbjogSGFuZGxlIHBvd2VycGMNCj4gbGludXggdmVyc2VzIGxpbnV4LWdudXNwZSINCj4gDQo+
+IE9uIEZyaSwgMjAxNC0wMS0xNyBhdCAxNDo0MyArMDAwMCwgYWxleGFuZHJ1LnNhcmRhbkBmcmVl
+c2NhbGUuY29tIHdyb3RlOg0KPiA+IGU1MDB2MS92MiB1c2VzIFNQRSB0byBoYW5kbGUgZmxvYXRp
+bmcgcG9pbnQgb3BlcmF0aW9ucw0KPiA+IHVzaW5nIGdlbmVyYWwgcHVycG9zZSByZWdzLg0KPiA+
+IFNvIHVzaW5nIHRoZSBub24tU1BFIGNvbXBpbGVyIHdpdGggU1BFIGxpYnJhcmllcyB3b24ndCB3
+b3JrLg0KPiA+IEhvd2V2ZXIgdGhlIHNvZnQtZnAgbGlicmFyaWVzIGFyZSBjb21wYXRpYmxlIHdp
+dGggdGhlIGU1MDANCj4gPiBBQkkgKHdpdGggYSBjb25zaWRlcmFibGUgcGVyZm9ybWFuY2UgcGVu
+YWx0eSkuDQo+ID4NCj4gPiBGcm9tIHdoYXQgSSBjYW4gc2VlLCBlZ2xpYmMgaXMgYnVpbHQgd2l0
+aCBTUEUuIFNvIEdDQyBzaG91bGQNCj4gPiBiZSBidWlsdCBhbHNvIGZvciBTUEUgKHRhcmdldCBw
+b3dlcnBjLXBva3ktbGludXgtZ251c3BlKS4NCj4gDQo+IFRoZSBrZXkgcXVlc3Rpb24gaXMgdGhp
+czoNCj4gDQo+IENhbiBvbmUgZ2NjIGJpbmFyeSBnZW5lcmF0ZSBjb2RlIGZvciBib3RoIG5vbi1T
+UEUgYW5kIFNQRSB0YXJnZXRzLA0KPiBhc3N1bWluZyBpdHMgcG9pbnRlZCBhdCBhbiBhcHByb3By
+aWF0ZSBzeXNyb290IGNvbnRhaW5pbmcgYXBwcm9wcmlhdGUNCj4gbGlicmFyaWVzPw0KPiANCj4g
+SWYgd2UgY2FuIGhhdmUgb25lIHN1Y2ggYmluYXJ5LCBob3cgZG8gd2UgY29uZmlndXJlIGl0PyBJ
+ZiB3ZSBjYW4ndCwgd2UNCj4gbmVlZCB0byByZWRvIHRoZSB3YXkgZ2NjLWNyb3NzLWNhbmFkaWFu
+IGlzIHdvcmtpbmcgb24gcG93ZXJwYy4NCj4gDQo+IFRoZSBjaGFuZ2UgdGhlcmUgd2FzIHRvIGhh
+dmUgb25lIGdjYyBmb3IgZWFjaCBkaWZmZXJlbnQgdGFyZ2V0DQo+IGFyY2hpdGVjdHVyZSByYXRo
+ZXIgdGhhbiBlYWNoICJ0dW5lIiBzaW5jZSB0aGF0IHdhcyBob3JyaWJseQ0KPiBpbmVmZmljaWVu
+dC4NCj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCj4gDQo+IA0KPiANCj4gDQoNCg==
 
