@@ -1,18 +1,18 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 634DF6157A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B88E46157A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 10:40:06 +0000 (UTC)
+	Tue, 21 Jan 2014 10:41:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0LAe6KJ017900
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0LAf6MQ003951
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Jan 2014 02:40:06 -0800 (PST)
+	Tue, 21 Jan 2014 02:41:06 -0800 (PST)
 Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 21 Jan 2014 02:40:05 -0800
-Message-ID: <52DE4E84.7090400@windriver.com>
-Date: Tue, 21 Jan 2014 18:40:04 +0800
+	Tue, 21 Jan 2014 02:41:06 -0800
+Message-ID: <52DE4EC0.0@windriver.com>
+Date: Tue, 21 Jan 2014 18:41:04 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:24.0) Gecko/20100101 Thunderbird/24.0
@@ -37,17 +37,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 10:40:06 -0000
+X-List-Received-Date: Tue, 21 Jan 2014 10:41:08 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Hi Mark,
+Hi Martin,
 
 I've tested the archiver.bbclass with rm_work.bbclasss again, it works for me,
 it seems that you only downloaded the archiver.bbclass was not enough, would
-you please try this PULL? It is really on oe-core-contrib now:-) And if the
-error occurs, would you please show the configuration and error logs ?
+you please try this PULL? It is based on oe-core and on oe-core-contrib now:-)
+And if the error occurs, would you please show the configuration and error
+logs ?
 
 git://git.openembedded.org/openembedded-core-contrib rbt/archiver
 
