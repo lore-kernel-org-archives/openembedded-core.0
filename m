@@ -1,26 +1,26 @@
 Return-Path: <dvhart@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E1F7760144
+	by mail.openembedded.org (Postfix) with ESMTP id 0BA046E7C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 22:34:04 +0000 (UTC)
+	Tue, 21 Jan 2014 22:34:05 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 21 Jan 2014 14:34:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="442541262"
+X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="442541267"
 Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
-	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2014 14:34:05 -0800
+	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2014 14:34:06 -0800
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	Poky <poky@yoctoproject.org>
-Date: Tue, 21 Jan 2014 14:39:47 -0800
-Message-Id: <67cb4be16feef75539c802c61a71e99278220841.1390342768.git.dvhart@linux.intel.com>
+Date: Tue, 21 Jan 2014 14:39:53 -0800
+Message-Id: <84c2422d3bad7600e3ffbc58ca32c2630ebdb5d7.1390342768.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <67cb4be16feef75539c802c61a71e99278220841.1390342768.git.dvhart@linux.intel.com>
+References: <67cb4be16feef75539c802c61a71e99278220841.1390342768.git.dvhart@linux.intel.com>
 In-Reply-To: <cover.1390342768.git.dvhart@linux.intel.com>
 References: <cover.1390342768.git.dvhart@linux.intel.com>
-Cc: Richard Purdie <richard.purdie@intel.com>,
-	Darren Hart <dvhart@linux.intel.com>,
-	Paul Eggleton <paul.eggleton@intel.com>
-Subject: [PATCH 01/15] x86: Replace ia32 with x86 when referring to the generic architecture
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 07/15] tune: Remove tune-x86_64.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,149 +35,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 21 Jan 2014 22:34:05 -0000
 
-ia32 implies 32bit, while these files provide descriptions for IA32,
-X86_64, and X32 architectures. The term "x86" fits this used better
-without resorting to using the term "Intel" which isn't quite right as
-it excludes things like the tune-c3 file describing a Via CPU.
+The tune-x86_64.inc file is conceptually flawed. x86_64 is more akin to
+the x86 and x86-32 ABIs defined in arch-x86.inc than it is a concrete
+tune file, such as i586 or core2 - to the extent that everything but the
+default tune is defined in the arch-x86.inc file. This becomes very
+apparant when attempting to include tune-x86_64.inc in the x86 tune
+hierarchy.
+
+Remove the tune-x86_64.inc tune file in favor of it being an ABI
+definition in arch-x86.inc and relying on the linear hierarchy of
+concrete cpu-types in tune-i586, tune-core2, and tune-corei7.
+
+core2_64 should suffice in lieu of x86_64 for all but a couple esoteric
+corner cases involving older pre-core2 CPUs. In these cases, if they
+exist at all, the BSP can replace the include tune-x86_64.inc with
+arch-x86.inc and set the default tune to x86_64.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: Richard Purdie <richard.purdie@intel.com>
-Cc: Paul Eggleton <paul.eggleton@intel.com>
-Cc: Tom Zanussi <tom.zanussi@intel.com>
-Cc: Nitin Kamble <nitin.a.kamble@intel.com>
-Cc: Mark Hatle <mark.hatle@windriver.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/conf/machine/include/tune-c3.inc              |    2 +-
- meta/conf/machine/include/tune-i586.inc            |    2 +-
- meta/conf/machine/include/tune-x86_64.inc          |    2 +-
- .../include/{ia32-base.inc => x86-base.inc}        |   16 ++++++++--------
- meta/conf/machine/include/{ia32 => x86}/README     |    6 +++---
- .../{ia32/arch-ia32.inc => x86/arch-x86.inc}       |    2 +-
- 6 files changed, 15 insertions(+), 15 deletions(-)
- rename meta/conf/machine/include/{ia32-base.inc => x86-base.inc} (75%)
- rename meta/conf/machine/include/{ia32 => x86}/README (81%)
- rename meta/conf/machine/include/{ia32/arch-ia32.inc => x86/arch-x86.inc} (97%)
+ meta/conf/machine/include/tune-x86_64.inc |    4 ----
+ 1 file changed, 4 deletions(-)
+ delete mode 100644 meta/conf/machine/include/tune-x86_64.inc
 
-diff --git a/meta/conf/machine/include/tune-c3.inc b/meta/conf/machine/include/tune-c3.inc
-index 18865b7..fafc28a 100644
---- a/meta/conf/machine/include/tune-c3.inc
-+++ b/meta/conf/machine/include/tune-c3.inc
-@@ -1,4 +1,4 @@
--require conf/machine/include/ia32/arch-ia32.inc
-+require conf/machine/include/x86/arch-x86.inc
- 
- TUNEVALID[c3] = "VIA Cyrix III or VIA C3 specific optimizations"
- TUNECONFLICTS[c3] = "m64 mx32"
-diff --git a/meta/conf/machine/include/tune-i586.inc b/meta/conf/machine/include/tune-i586.inc
-index 4542b9b..a315b35 100644
---- a/meta/conf/machine/include/tune-i586.inc
-+++ b/meta/conf/machine/include/tune-i586.inc
-@@ -1,6 +1,6 @@
- DEFAULTTUNE ?= "i586"
- 
--require conf/machine/include/ia32/arch-ia32.inc
-+require conf/machine/include/x86/arch-x86.inc
- 
- # Extra tune features
- TUNEVALID[i586] = "Enable i586 specific processor optimizations"
 diff --git a/meta/conf/machine/include/tune-x86_64.inc b/meta/conf/machine/include/tune-x86_64.inc
-index 31e06da..ae48124 100644
+deleted file mode 100644
+index ae48124..0000000
 --- a/meta/conf/machine/include/tune-x86_64.inc
-+++ b/meta/conf/machine/include/tune-x86_64.inc
-@@ -1,4 +1,4 @@
- DEFAULTTUNE ?= "x86-64"
- 
--require conf/machine/include/ia32/arch-ia32.inc
-+require conf/machine/include/x86/arch-x86.inc
- 
-diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/x86-base.inc
-similarity index 75%
-rename from meta/conf/machine/include/ia32-base.inc
-rename to meta/conf/machine/include/x86-base.inc
-index e15f927..421bdee 100644
---- a/meta/conf/machine/include/ia32-base.inc
-+++ b/meta/conf/machine/include/x86-base.inc
-@@ -1,5 +1,5 @@
- #
--# base machine settings for ia32-architecture BSPs
-+# Base machine settings for Intel architecture BSPs
- #
- 
- #
-@@ -25,28 +25,28 @@ PREFERRED_VERSION_linux-yocto ??= "3.0%"
- #
- # XSERVER subcomponents, used to build the XSERVER variable
- #
--XSERVER_IA32_BASE = "xserver-xorg \
-+XSERVER_INTEL_BASE = "xserver-xorg \
-            xf86-input-mouse \
-            xf86-input-keyboard \
-            xf86-input-evdev \
-            xf86-input-synaptics \
-            "
- 
--XSERVER_IA32_EXT = " \
-+XSERVER_INTEL_EXT = " \
-            ${@base_contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
-            xserver-xorg-module-libint10 \
-            "
- 
--XSERVER_IA32_I915 = "xf86-video-intel \
-+XSERVER_INTEL_I915 = "xf86-video-intel \
-            ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i915', '', d)} \
-            "
- 
--XSERVER_IA32_I965 = "xf86-video-intel \
-+XSERVER_INTEL_I965 = "xf86-video-intel \
-            ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i965', '', d)} \
-            "
- 
--XSERVER_IA32_VESA = "xf86-video-vesa"
-+XSERVER_INTEL_VESA = "xf86-video-vesa"
- 
--XSERVER_IA32_FBDEV = "xf86-video-fbdev"
-+XSERVER_INTEL_FBDEV = "xf86-video-fbdev"
- 
--XSERVER_IA32_MODESETTING = "xf86-video-modesetting"
-+XSERVER_INTEL_MODESETTING = "xf86-video-modesetting"
-diff --git a/meta/conf/machine/include/ia32/README b/meta/conf/machine/include/x86/README
-similarity index 81%
-rename from meta/conf/machine/include/ia32/README
-rename to meta/conf/machine/include/x86/README
-index 8f80a5b..d8b6793 100644
---- a/meta/conf/machine/include/ia32/README
-+++ b/meta/conf/machine/include/x86/README
-@@ -1,12 +1,12 @@
- 2012/03/30 - Mark Hatle <mark.hatle@windriver.com>
-  - Initial version
- 
--Most of the items for the IA architecture are defined in the single 
--arch-ia32 file.
-+Most of the items for the Intel architectures are defined in the single 
-+arch-x86 file.
- 
- Three ABIs are define, m32, mx32 and m64.
- 
--The following is the list of ia32 specific variables:
-+The following is the list of intel specific variables:
- 
- X86ARCH32 - This is the 32-bit architecture GNU canonical arch, TUNE_ARCH.
- 
-diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/x86/arch-x86.inc
-similarity index 97%
-rename from meta/conf/machine/include/ia32/arch-ia32.inc
-rename to meta/conf/machine/include/x86/arch-x86.inc
-index aa83896..298bddc 100644
---- a/meta/conf/machine/include/ia32/arch-ia32.inc
-+++ b/meta/conf/machine/include/x86/arch-x86.inc
-@@ -1,5 +1,5 @@
- #
--# IA32 Architecture definition
-+# X86 Architecture definition (IA32, X86_64, and X32)
- #
- 
- DEFAULTTUNE ?= "x86"
++++ /dev/null
+@@ -1,4 +0,0 @@
+-DEFAULTTUNE ?= "x86-64"
+-
+-require conf/machine/include/x86/arch-x86.inc
+-
 -- 
 1.7.9.5
 
