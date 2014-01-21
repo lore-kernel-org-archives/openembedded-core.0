@@ -1,37 +1,36 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BCA66E70F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f177.google.com (mail-we0-f177.google.com
+	[74.125.82.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 724846007C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 11:01:34 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id hi8so4182462wib.8
+	Tue, 21 Jan 2014 11:37:40 +0000 (UTC)
+Received: by mail-we0-f177.google.com with SMTP id x55so7990369wes.36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 03:01:33 -0800 (PST)
+	Tue, 21 Jan 2014 03:37:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/q46jNw0ZYmPtjJsfSnKcCspruY0zJX1a1QpRDS0Epc=;
-	b=NqLb1UQhab3cHS7BroUbue6njeKsXTN19VRoHHmN6ZW6JtPUSQk7RvAEcP6KVnnTaH
-	IJIRxx5i52capQH6grJKAnZ6I8sAvLNW/5J+5/Gm3TpZ8+OiKE/Y1qju5wDGkgq2YAre
-	xnerPyOXeSxVkalfHNgNAm+msTXRRHIg1eaqUyQgE9y23tKF7/w60nrW6y940y2sk1jt
-	0C4TYN9wNtnzByiow+YyDmVSDSXqcFIvfnF32tprtKz13ptXYi09c4C6R14UZfGKZJyv
-	uRqDONaDLdzfylCLTngd+uo2oR5KMg339Vlfr+qan+SHc782ZG1xh+I7vGpLXDyqYBL9
-	8+3g==
-X-Gm-Message-State: ALoCoQkrec4F8z90fU6MNYj59hb3m+ThPqCMc0KqhGzDt+86616lyeRwA2en68wD4hdgUTckQ1xm
-X-Received: by 10.194.62.111 with SMTP id x15mr1562312wjr.55.1390302093460;
-	Tue, 21 Jan 2014 03:01:33 -0800 (PST)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id dd3sm7070677wjb.9.2014.01.21.03.01.32
-	for <multiple recipients>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=iaCD5gp7c00dkrpHS11ndCoNraVvBsywpwRZ4arZskU=;
+	b=KtvlW86ik29x4BCdI+HLPGHLyUxLU/COmUSfPjTG2PTrfY7Y3irill5bFgwH0OXF/r
+	p+BkP/+bcMn6F7gZx4k3m8V17cQiCAa41bwMCt2qnUX9I6Ptlnt/Kd6NO0K9io/r2E8f
+	tWnVbXXbZiA2s4sXePoaAzTARCtIgzFrEnMiWkxulyKfjgKuvsWYIU/N0TwPbKoMytWF
+	mKBgBZOlBR4LazAve6IEez/wERuqosCUWbvlE3/dJlh5Fc1TdJczTIC5b6K+Y+Y6Uppz
+	MmG2Vprdzqus+vCuNWEgW16FYOX9S/Ci3MKY+zAqYPMm147hFHqQialHnY4YlLmum/g3
+	hVTA==
+X-Gm-Message-State: ALoCoQl6x9hnZXYCssuROb8OWSwsLCeVDvB2N7p043w1cf/HL7OlGPi9cFUO+QQLe5mZ9GGD0ywc
+X-Received: by 10.194.92.7 with SMTP id ci7mr1396290wjb.58.1390304260916;
+	Tue, 21 Jan 2014 03:37:40 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id k10sm7236797wjf.11.2014.01.21.03.37.39
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Jan 2014 03:01:32 -0800 (PST)
-From: Koen Kooi <koen.kooi@linaro.org>
+	Tue, 21 Jan 2014 03:37:39 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2014 12:01:21 +0100
-Message-Id: <1390302081-29499-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.8.4.2
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] systemd 208: move stray /usr/lib/systemd/* into /lib/systemd
+Date: Tue, 21 Jan 2014 11:37:36 +0000
+Message-Id: <1390304257-32484-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] cmake.bbclass: fix note when warning about deprecated variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 11:01:34 -0000
+X-List-Received-Date: Tue, 21 Jan 2014 11:37:41 -0000
 
-From: Koen Kooi <koen@dominion.thruhere.net>
+The note issues when OECMAKE_BUILDPATH and OECMAKE_SOURCEPATH were being used
+stated that an in-tree build would be done, but the default is in fact an
+out-of-tree build.
 
-Apps testing for systemd config get confused when both /usr/lib/systemd and /lib/systemd exist. This fixes (among other things) dracut systemd detections.
-
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/systemd/systemd_208.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/cmake.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
-index 6590235..710624c 100644
---- a/meta/recipes-core/systemd/systemd_208.bb
-+++ b/meta/recipes-core/systemd/systemd_208.bb
-@@ -113,6 +113,12 @@ do_install() {
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 7ff9984..c9c15f3 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -66,7 +66,7 @@ addtask generate_toolchain_file after do_patch before do_configure
  
-         # Delete journal README, as log can be symlinked inside volatile.
-         rm -f ${D}/${localstatedir}/log/README
-+
-+	# fix up libdir confusion
-+	if [ -d ${D}${libdir}/systemd ] ; then
-+		cp -a ${D}${libdir}/systemd/* ${D}${systemd_unitdir}
-+		rm -rf ${D}${libdir}/systemd
-+	fi
- }
+ cmake_do_configure() {
+ 	if [ "${OECMAKE_BUILDPATH}" -o "${OECMAKE_SOURCEPATH}" ]; then
+-		bbnote "cmake.bbclass no longer uses OECMAKE_SOURCEPATH and OECMAKE_BUILDPATH. This recipe now will do in-tree builds, to do out-of-tree builds set S and B."
++		bbnote "cmake.bbclass no longer uses OECMAKE_SOURCEPATH and OECMAKE_BUILDPATH.  The default behaviour is now out-of-tree builds with B=WORKDIR/build."
+ 	fi
  
- do_install_ptest () {
+ 	if [ "${S}" != "${B}" ]; then
 -- 
-1.8.4.2
+1.7.10.4
 
 
