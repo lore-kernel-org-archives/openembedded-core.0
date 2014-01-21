@@ -1,33 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C896E60155;
-	Tue, 21 Jan 2014 07:21:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0L7LpqC014356
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Jan 2014 23:21:51 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 20 Jan 2014 23:21:51 -0800
-Message-ID: <52DE200D.9020906@windriver.com>
-Date: Tue, 21 Jan 2014 15:21:49 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 5523760155
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jan 2014 09:40:34 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id e4so5293221wiv.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jan 2014 01:40:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=VnOGwycEPg4U7U1c0mhLcIUq/re0kUzDC1Ocnt9O+TE=;
+	b=G5OPenPwSvGGb6X1Ir0i4PtcR6rMSjTq/gFMQA7tRIlHVgWcBo174cOmng/h6ZsK+h
+	aNveibOQxAQOCvdPA9UmpIJIpctbzApzCmK0ZwlqAPxxeG9ln6A6QNYz/STtBrpB1OFR
+	EMXpCodfINPIKfF1AxjD4VuctSWE4107hoRS7itxbF6nsZdgSS6W9yahHlzH0l6POesh
+	oKlW42RflXH1zlDOJs9Y5+ukNEzKElZqM8jpdTVJKRWf1MkpQbaoLQ6KliTJ5BxZvH65
+	H9fg2ZLPlKEf2IiOucGE6XQCbtRszFwuj5V4+HLIV7bqUqqPMyHwBQZdH6t9HKFDhrkK
+	n1qw==
+X-Gm-Message-State: ALoCoQlG1dQ5gqey9wk8jVd8DRt/kDXtENmZUrVGz8urPnLxeMY/pgtNvLZDGmNe4GmJlIpkfIqi
+X-Received: by 10.194.2.70 with SMTP id 6mr18154484wjs.25.1390297234530;
+	Tue, 21 Jan 2014 01:40:34 -0800 (PST)
+Received: from ?IPv6:2001:610:612:0:5e51:4fff:fec8:7c15?
+	([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id z1sm6641754wjq.19.2014.01.21.01.40.33
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 21 Jan 2014 01:40:34 -0800 (PST)
+Message-ID: <52DE4091.8000104@linaro.org>
+Date: Tue, 21 Jan 2014 10:40:33 +0100
+From: Koen Kooi <koen.kooi@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Darren Hart
-	<dvhart@linux.intel.com>
-References: <20140106112936.C3F0C50472@opal> <20140109144245.GF3709@jama>	
-	<1389763343.3092.17.camel@dvhart-mobl4.amr.corp.intel.com>	
-	<52D62433.8020402@windriver.com> <20140115103059.GH3717@jama>	
-	<CANR6C55w4BGDQadD5+Udv=2ae6nBUZiO8UdfVnFdSDkHGb2L9w@mail.gmail.com>	
-	<1390242540.3441.36.camel@dvhart-mobl4.amr.corp.intel.com>
-	<1390262187.874.76.camel@ted>
-In-Reply-To: <1390262187.874.76.camel@ted>
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Robert Yang : autogen-native: upgrade to 5.18.2
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1389780926-20901-1-git-send-email-koen.kooi@linaro.org>	<CAP9ODKoCuuPHq2OyktCAX9C5tpWwjStJR4qJMEq8_fCheb2Y6g@mail.gmail.com>	<52D7A5F0.6090501@linaro.org>	<CAP9ODKq+XKYP3ae=2tFdj5BATBUHUt6E-Wq8SzMpPebt9cN51g@mail.gmail.com>	<38155A0E-22FF-4A3A-916A-5C0D2C256AA9@linaro.org>
+	<CAP9ODKoLqJ63=wKJpbE3ezEN2QXO0We_yJcmdRL9qoCc0zp1+A@mail.gmail.com>
+In-Reply-To: <CAP9ODKoLqJ63=wKJpbE3ezEN2QXO0We_yJcmdRL9qoCc0zp1+A@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] grub git: workaround debugedit problems for 64 bit targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,64 +53,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 07:21:55 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 21 Jan 2014 09:40:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 01/16/2014 11:47 AM, Otavio Salvador wrote:
+> On Thu, Jan 16, 2014 at 8:46 AM, Koen Kooi <koen.kooi@linaro.org
+> <mailto:koen.kooi@linaro.org>> wrote:
+>
+>     Op 16 jan. 2014, om 11:38 heeft Otavio Salvador
+>     <otavio@ossystems.com.br <mailto:otavio@ossystems.com.br>> het
+>     volgende geschreven:
+>      > On Thu, Jan 16, 2014 at 7:27 AM, Koen Kooi <koen.kooi@linaro.org
+>     <mailto:koen.kooi@linaro.org>> wrote:
+>      > On 01/15/2014 12:22 PM, Otavio Salvador wrote:
+>      > On Wed, Jan 15, 2014 at 8:15 AM, Koen Kooi <koen.kooi@linaro.org
+>     <mailto:koen.kooi@linaro.org>
+>      > <mailto:koen.kooi@linaro.org <mailto:koen.kooi@linaro.org>>> wrote:
+>      >
+>      >     I've limited it to 64bit targets, but to be honest debug
+>     splitting
+>      >     doesn't make sense for grub since it won't run in your rootfs and
+>      >     attaching gdb is pretty much impossible.
+>      >
+>      >     Signed-off-by: Koen Kooi <koen.kooi@linaro.org
+>     <mailto:koen.kooi@linaro.org>
+>      >     <mailto:koen.kooi@linaro.org <mailto:koen.kooi@linaro.org>>>
+>      >
+>      >
+>      >
+>      > I'd prefer to remove the debug systems than skip the split. What
+>     others
+>      > think?
+>      >
+>      > I'm not sure what you mean by that, do you mean using
+>     INHIBIT_PACKAGE_STRIP or something else?
+>      >
+>      >
+>      > Yes and be sure it has been stripped during build.
+>
+>     That seems to be a lot more work for the same effect. Stripping
+>     isn't the problem, it's debugedit trying to do its magic that fails.
+>
+>
+> Well, if not stripped the symbols will be left in the binaries which is
+> not expected.
 
+I've looked into package.bbclass and it's a classic case of code not 
+matching docs :(
 
-On 01/21/2014 07:56 AM, Richard Purdie wrote:
-> On Mon, 2014-01-20 at 10:29 -0800, Darren Hart wrote:
->> Reverting the patch allows me to move forward, but yes, I'm surprised we
->> aren't seeing more build failures.... I wonder what makes us special?
->
-> For some reason I still don't have the email I can see you sent from the
-> list archives. What is interesting is that:
->
-> a) you have gcc 4.6, I have gcc 4.8
-> b) the error appears to come from error.h in SCM_NORETURN definitions
-> c) the config log for autogen shows different results for
->     "checking for working stdnoreturn.h", yes in my case, no in yours.
->
-> The definition of SCM_NORETURN is from __scm.h:
->
-> #define SCM_NORETURN __attribute__ ((noreturn))
->
-> and the dummy stdnoreturn.h that autogen would generate does:
->
-> #define noreturn _Noreturn
->
-> and then _Noreturn.h defines:
->
-> #  define _Noreturn __attribute__ ((__noreturn__))
->
-> so I think what is happening is there is double macro overlap with
->
-> #define SCM_NORETURN __attribute__ ((noreturn))
->
-> becoming
->
-> #define SCM_NORETURN __attribute__ ((__attribute__ ((__noreturn__))))
->
-
-Yes, indeeded, I removed the stdnoreturn.h from my host, then I can reproduce
-the error, and the upstream has a patch to fix it:
-
-http://git.savannah.gnu.org/gitweb/?p=guile.git;a=patch;h=36c40440078c005cd5e239cca487d29f6f60007d
-
-I will send the PR sooner.
-
-// Robert
-
-
-> How we fix it I have no idea. We should check and see if someone fixed
-> this upstream to start with. Robert, now we know what to look for, can
-> you help?
->
-> Cheers,
->
-> Richard
->
->
->
+-- 
+Koen Kooi
+Builds and Baselines | Release Manager
+Linaro.org | Open source software for ARM SoCs
 
