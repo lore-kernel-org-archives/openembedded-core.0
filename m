@@ -1,24 +1,21 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id 08E8C6CBD3
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BD946E708
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 17:01:12 +0000 (UTC)
-Received: (qmail 16228 invoked by uid 1003); 21 Jan 2014 17:01:13 -0000
-Received: from unknown (HELO ?192.168.1.122?)
-	(philip@opensdr.com@71.171.41.155)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	21 Jan 2014 17:01:10 -0000
-Message-ID: <52DEA7C9.9040005@balister.org>
-Date: Tue, 21 Jan 2014 12:00:57 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-X-Enigmail-Version: 1.6
-Subject: Membership in the OpenEmbedded eV
+	Tue, 21 Jan 2014 17:30:25 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 Jan 2014 09:26:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,696,1384329600"; d="scan'208";a="470222815"
+Received: from mmckenna-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.122.212])
+	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2014 09:30:21 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jan 2014 17:30:02 +0000
+Message-Id: <cover.1390325320.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.2
+Subject: [dylan][PATCH 0/2] Texinfo fixes for dylan
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 17:01:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jan 2014 17:30:25 -0000
 
-The OpenEmbedded eV is the organizational structure of the OpenEmbedded
-project. See:
+One backport from master (already in dora) and one dylan-specific patch
+to fix failures building dylan on newer distributions such as Ubuntu 13.10.
 
-http://www.openembedded.org/wiki/Organization
 
-The Organization itself doesn't have much to do with the day to day work
-of the project, but does provide contact points for outside entities and
-the membership selects members of the Technical Steering Commmittee (and
-the eV board).
+The following changes since commit bca606597de6c5c2de98ae1949857e4481623939:
 
-If you are interested in the long term operation of the project and like
-a louder voice, I'd like to invite you to join the eV.
+  build-appliance-image: Update to dylan head revision (2014-01-15 17:49:59 +0000)
 
-The process is send me a short (one paragraph) bio including some
-information about your involvement with the project. I'll package these
-bios into a list and submit them to the current membership for approval
-via the eV online voting process. (The process takes about a month, due
-to the length of the discussion and voting periods).
+are available in the git repository at:
 
-Philip
+  git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-next
+
+Paul Eggleton (1):
+  guile: fix build with Texinfo 5.0
+
+Saul Wold (1):
+  grep: Add patch for texinfo 5.1
+
+ .../0001-doc-Fix-build-with-Texinfo-5.0.patch      | 71 ++++++++++++++++++++++
+ meta/recipes-devtools/guile/guile_2.0.7.bb         |  1 +
+ .../grep/grep-2.5.1a/fix-for-texinfo-5.1.patch     | 13 ++++
+ meta/recipes-extended/grep/grep_2.5.1a.bb          |  1 +
+ 4 files changed, 86 insertions(+)
+ create mode 100644 meta/recipes-devtools/guile/files/0001-doc-Fix-build-with-Texinfo-5.0.patch
+ create mode 100644 meta/recipes-extended/grep/grep-2.5.1a/fix-for-texinfo-5.1.patch
+
+-- 
+1.8.4.2
+
 
