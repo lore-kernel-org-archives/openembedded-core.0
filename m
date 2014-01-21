@@ -1,37 +1,24 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A96160155
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 85F5F6A463
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 09:47:21 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id hr1so4118281wib.0
+	Tue, 21 Jan 2014 10:22:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0LAM7Ng017645
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 01:47:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/xCPbvE4xt24cKtoOdJGvUqaeyIXxF9VjLMcD/apPrI=;
-	b=X2Hp4aTlTzhUYl6ubotlPbfIusoCQYR82Jht0r55wx+dD8+y4we8zuojXXEmGyd6ci
-	aiWR4L/dRYrb29gTfElmcYJPQdA/mGHj6HrPjpeysYN+CviURfARQpvqQ1Lor0pUUOPa
-	jjeg5y/aegjS740sSWfXU0nwTjUcijB8IoVpHTZYdnW0cro9+hVYU7TQpb9k41VhZhEO
-	LjcH4KZOgR8SgX4Djr0F+wckPZcpycj0naYeuEvL/HAFCO7B9AFjZFDLwHRwvugiC4wx
-	zT0J7G88qha593JfQrJ+AdwI3ql52UxCT/tU8O/jl5QFDHu6VGjRRJ6IaVRxUw4xklM7
-	i2/Q==
-X-Gm-Message-State: ALoCoQmtok/sUPZE03cRBo+5tP/prjCAvZn0zYPMGtKKBNUzts0bQvwkIbf/w1Segr7kRdqurXkU
-X-Received: by 10.180.85.6 with SMTP id d6mr13801253wiz.48.1390297641787;
-	Tue, 21 Jan 2014 01:47:21 -0800 (PST)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id q15sm6686517wjw.18.2014.01.21.01.47.20
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Jan 2014 01:47:21 -0800 (PST)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2014 10:47:12 +0100
-Message-Id: <1390297632-9966-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.8.4.2
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [RFC][PATCH] package.bbclass: fix strip and split logic
+	Tue, 21 Jan 2014 02:22:07 -0800 (PST)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 21 Jan 2014 02:22:07 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Jan 2014 18:22:20 +0800
+Message-ID: <cover.1390298848.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] guile: don't use the identifier 'noreturn'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 09:47:21 -0000
+X-List-Received-Date: Tue, 21 Jan 2014 10:22:07 -0000
+Content-Type: text/plain
 
-Marks original commit message and variable documentation state that stripping and splitting are independent of eachother, but package.bbclass ANDs the two INHIBIT flags to see which files can be stripped and/or split.
+The following changes since commit eb0dc3fca77d82c21ad05330b006258ef363dba2:
 
-Original behaviour:
+  e2fsprogs/populate-extfs.sh: fix a problem on dash (2014-01-20 17:25:58 +0800)
 
-INHIBIT_PACKAGE_STRIP: no strip, no debug split
-INHIBIT_PACAKGE_DEBUG_SPLIT: no strip, no debug split
+are available in the git repository at:
 
-Behaviour after this patch:
+  git://git.pokylinux.org/poky-contrib rbt/ag
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/ag
 
-INHIBIT_PACKAGE_STRIP: no strip, no debug split
-INHIBIT_PACKAGE_DEBUG_SPLIT: strip, no split
+Robert Yang (1):
+  guile: don't use the identifier 'noreturn'
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/classes/package.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ .../guile/files/guile_2.0.9_fix_noreturn.patch     | 65 ++++++++++++++++++++++
+ meta/recipes-devtools/guile/guile_2.0.9.bb         |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-devtools/guile/files/guile_2.0.9_fix_noreturn.patch
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 768047c..fa0b7eb 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -781,8 +781,7 @@ python split_and_strip_files () {
-     kernmods = []
-     libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir", True))
-     baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir", True))
--    if (d.getVar('INHIBIT_PACKAGE_DEBUG_SPLIT', True) != '1') and \
--            (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
-+    if (d.getVar('INHIBIT_PACKAGE_STRIP', True) != '1'):
-         for root, dirs, files in cpath.walk(dvar):
-             for f in files:
-                 file = os.path.join(root, f)
 -- 
-1.8.4.2
+1.8.3.1
 
 
