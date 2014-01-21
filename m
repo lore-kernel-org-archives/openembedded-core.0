@@ -1,30 +1,34 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 853036CB7C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 872F860144
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 23:19:15 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 21 Jan 2014 15:19:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; 
-	d="asc'?scan'208";a="462527669"
-Received: from dvhart-mobl4.jf.intel.com (HELO [10.24.1.180]) ([10.24.1.180])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jan 2014 15:19:14 -0800
-Message-ID: <1390346352.13672.18.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 21 Jan 2014 15:19:12 -0800
-In-Reply-To: <20140121225520.GL4100@jama>
-References: <cover.1390342768.git.dvhart@linux.intel.com>
-	<67cb4be16feef75539c802c61a71e99278220841.1390342768.git.dvhart@linux.intel.com>
-	<20140121225520.GL4100@jama>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: Richard Purdie <richard.purdie@intel.com>, Poky <poky@yoctoproject.org>,
-	Paul Eggleton <paul.eggleton@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/15] x86: Replace ia32 with x86 when referring to the generic architecture
+	Tue, 21 Jan 2014 23:43:14 +0000 (UTC)
+Received: by mail-ee0-f46.google.com with SMTP id c13so4255973eek.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jan 2014 15:43:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=E3WyGXQ7LYLT8NPt6Uq/uw+37uUSEABmToJNTerK6L8=;
+	b=dUeMtRSbhY3Rw6bt1SD9vbkDTMPuXrpKbn0qwWD0oM0nTxC0inOhyPlwkyn8CTpfjA
+	9574w0PlGZU/dYvpy6QCy/R1h32yeMoiN15zAGiwgsbJeJtuEHXeLUq6A4FMMg1yGb5x
+	gmAuynjgWJ+8w8OPkXkVrBjnYEWflgJBaxuX45YFyejzdXMPXd73M+q7SeSBl2UmoLwi
+	/+UF3YzGosjC/ZNSi6QNV4tYm7Qsb5nsP2jTYPeHxZ48toZroCZccL8Zil1INsSOX7nM
+	RHxKlIL0asmNDtOxnQR3buwcAOYCdDfVqFU/kJs2nF9FyLAOa5UTs8oSG/Hzb5tCgFOX
+	2wRw==
+X-Received: by 10.15.35.194 with SMTP id g42mr26246916eev.20.1390347794942;
+	Tue, 21 Jan 2014 15:43:14 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id n7sm20233748eef.5.2014.01.21.15.43.14
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Jan 2014 15:43:14 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jan 2014 00:43:11 +0100
+Message-Id: <1390347792-24649-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH 1/2] opkg-utils: Add RPROVIDES/RREPLACES/RCONFLICTS to fix upgrade-path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,125 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 23:19:15 -0000
-X-Groupsio-MsgNum: 49313
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-eoNrDzCFRYk0F/7XbfRo"
+X-List-Received-Date: Tue, 21 Jan 2014 23:43:15 -0000
 
---=-eoNrDzCFRYk0F/7XbfRo
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* now with update-alternatives-cworth completely gone should correctly
+  replace it on target as well
 
-On Tue, 2014-01-21 at 23:55 +0100, Martin Jansa wrote:
-> On Tue, Jan 21, 2014 at 02:39:47PM -0800, Darren Hart wrote:
-> > ia32 implies 32bit, while these files provide descriptions for IA32,
-> > X86_64, and X32 architectures. The term "x86" fits this used better
-> > without resorting to using the term "Intel" which isn't quite right as
-> > it excludes things like the tune-c3 file describing a Via CPU.
-> >=20
-> > Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> > Cc: Richard Purdie <richard.purdie@intel.com>
-> > Cc: Paul Eggleton <paul.eggleton@intel.com>
-> > Cc: Tom Zanussi <tom.zanussi@intel.com>
-> > Cc: Nitin Kamble <nitin.a.kamble@intel.com>
-> > Cc: Mark Hatle <mark.hatle@windriver.com>
-> > Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-> > ---
-> >  meta/conf/machine/include/tune-c3.inc              |    2 +-
-> >  meta/conf/machine/include/tune-i586.inc            |    2 +-
-> >  meta/conf/machine/include/tune-x86_64.inc          |    2 +-
-> >  .../include/{ia32-base.inc =3D> x86-base.inc}        |   16 ++++++++--=
-------
-> >  meta/conf/machine/include/{ia32 =3D> x86}/README     |    6 +++---
-> >  .../{ia32/arch-ia32.inc =3D> x86/arch-x86.inc}       |    2 +-
-> >  6 files changed, 15 insertions(+), 15 deletions(-)
-> >  rename meta/conf/machine/include/{ia32-base.inc =3D> x86-base.inc} (75=
-%)
-> >  rename meta/conf/machine/include/{ia32 =3D> x86}/README (81%)
-> >  rename meta/conf/machine/include/{ia32/arch-ia32.inc =3D> x86/arch-x86=
-.inc} (97%)
-> >=20
-> > diff --git a/meta/conf/machine/include/tune-c3.inc b/meta/conf/machine/=
-include/tune-c3.inc
-> > index 18865b7..fafc28a 100644
-> > --- a/meta/conf/machine/include/tune-c3.inc
-> > +++ b/meta/conf/machine/include/tune-c3.inc
-> > @@ -1,4 +1,4 @@
-> > -require conf/machine/include/ia32/arch-ia32.inc
-> > +require conf/machine/include/x86/arch-x86.inc
-> > =20
-> >  TUNEVALID[c3] =3D "VIA Cyrix III or VIA C3 specific optimizations"
-> >  TUNECONFLICTS[c3] =3D "m64 mx32"
-> > diff --git a/meta/conf/machine/include/tune-i586.inc b/meta/conf/machin=
-e/include/tune-i586.inc
-> > index 4542b9b..a315b35 100644
-> > --- a/meta/conf/machine/include/tune-i586.inc
-> > +++ b/meta/conf/machine/include/tune-i586.inc
-> > @@ -1,6 +1,6 @@
-> >  DEFAULTTUNE ?=3D "i586"
-> > =20
-> > -require conf/machine/include/ia32/arch-ia32.inc
-> > +require conf/machine/include/x86/arch-x86.inc
-> > =20
-> >  # Extra tune features
-> >  TUNEVALID[i586] =3D "Enable i586 specific processor optimizations"
-> > diff --git a/meta/conf/machine/include/tune-x86_64.inc b/meta/conf/mach=
-ine/include/tune-x86_64.inc
-> > index 31e06da..ae48124 100644
-> > --- a/meta/conf/machine/include/tune-x86_64.inc
-> > +++ b/meta/conf/machine/include/tune-x86_64.inc
-> > @@ -1,4 +1,4 @@
-> >  DEFAULTTUNE ?=3D "x86-64"
-> > =20
-> > -require conf/machine/include/ia32/arch-ia32.inc
-> > +require conf/machine/include/x86/arch-x86.inc
-> > =20
-> > diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machin=
-e/include/x86-base.inc
-> > similarity index 75%
-> > rename from meta/conf/machine/include/ia32-base.inc
-> > rename to meta/conf/machine/include/x86-base.inc
-> > index e15f927..421bdee 100644
-> > --- a/meta/conf/machine/include/ia32-base.inc
-> > +++ b/meta/conf/machine/include/x86-base.inc
-> > @@ -1,5 +1,5 @@
-> >  #
-> > -# base machine settings for ia32-architecture BSPs
-> > +# Base machine settings for Intel architecture BSPs
->=20
-> does it apply for AMD, Cyrix as well?
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Blarg, yes it does. Apologies. I had originally done some of this in
-meta-intel and was persuaded it was better to do this in oe-core. I
-missed removing some of the intel-isms. Thanks for catching this.
-
-Replacing INTEL with X86 for everything that isn't a specific recipe
-name (xf86-video-intel). Thanks Martin.
-
-Will include in the inevitable v2.
-
---=20
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 80efa8f..c2509c4 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -28,6 +28,8 @@ do_install() {
+ 
+ PACKAGES =+ "update-alternatives-opkg"
+ FILES_update-alternatives-opkg = "${bindir}/update-alternatives"
+-RPROVIDES_update-alternatives-opkg = "update-alternatives"
++RPROVIDES_update-alternatives-opkg = "update-alternatives update-alternatives-cworth"
++RREPLACES_update-alternatives-opkg = "update-alternatives-cworth"
++RCONFLICTS_update-alternatives-opkg = "update-alternatives-cworth"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+1.8.5.3
 
 
---=-eoNrDzCFRYk0F/7XbfRo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQEcBAABAgAGBQJS3wBwAAoJEKbMaAwKp364AXQH/A98Fe2nzwPt+QF9lwcQ99lr
-APwIhQW1ZZ7uFwOaNMqFa8WNnwbtFGOmhB0g0kjD5LdqczE6gi0PoAJC7GnuUEdX
-JiJcGxNAl/9mum/PG+Mms3RFzxAMBJ/m9Vr3J7y6r3YKEaKWqlzvK7kwSSFBbPut
-HDn+vR5vHnWPQHuljevlKYT5DgYqIwuLQSALdZCYHPfGJtkxu/A+5JozHzZJbJ4l
-SziHp/1B2VgipDskxvvmYrDeWO/FoEPafCL5KpfnkumwM2bKH+JGnB+YvQguK/wg
-GFt5nuEl/IhAqHaj+lTpyq/OwSYCOKsjmsJdHESVQnx5Oc19+6JNiZo/XIAAddU=
-=8Nb4
------END PGP SIGNATURE-----
-
---=-eoNrDzCFRYk0F/7XbfRo--
