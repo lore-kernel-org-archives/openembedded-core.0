@@ -1,26 +1,30 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C8C96A463
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 634DF6157A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 10:22:08 +0000 (UTC)
+	Tue, 21 Jan 2014 10:40:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0LAM9A4001860
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 02:22:09 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0LAe6KJ017900
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 21 Jan 2014 02:40:06 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 21 Jan 2014 02:22:08 -0800
+	Tue, 21 Jan 2014 02:40:05 -0800
+Message-ID: <52DE4E84.7090400@windriver.com>
+Date: Tue, 21 Jan 2014 18:40:04 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Jan 2014 18:22:21 +0800
-Message-ID: <9d1f573c27a5ff44c8cb8718ea50d9c9b7f7b48f.1390298848.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1390298848.git.liezhi.yang@windriver.com>
-References: <cover.1390298848.git.liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] guile: don't use the identifier 'noreturn'
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1389629682.git.liezhi.yang@windriver.com>
+	<20140115165513.GB3742@jama> <52D74086.4030602@windriver.com>
+	<20140116092556.GD3742@jama> <52D7A760.4040804@windriver.com>
+	<20140118122657.GU3742@jama>
+In-Reply-To: <20140118122657.GU3742@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,108 +37,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 10:22:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 21 Jan 2014 10:40:06 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix the build error of autogen-native which depends on guile-native:
 
-ysroots/x86_64-linux/usr/include/guile/2.0/libguile/error.h:40:24: error: expected ')' before '__attribute__'
-sysroots/x86_64-linux/usr/include/guile/2.0/libguile/error.h:40:24: error: expected ',' or ';' before ')' token
-sysroots/x86_64-linux/usr/include/guile/2.0/libguile/error.h:42:27: error: expected ')' before '__attribute__'
+Hi Mark,
 
-[YOCTO #5743]
+I've tested the archiver.bbclass with rm_work.bbclasss again, it works for me,
+it seems that you only downloaded the archiver.bbclass was not enough, would
+you please try this PULL? It is really on oe-core-contrib now:-) And if the
+error occurs, would you please show the configuration and error logs ?
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../guile/files/guile_2.0.9_fix_noreturn.patch     | 65 ++++++++++++++++++++++
- meta/recipes-devtools/guile/guile_2.0.9.bb         |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-devtools/guile/files/guile_2.0.9_fix_noreturn.patch
+git://git.openembedded.org/openembedded-core-contrib rbt/archiver
 
-diff --git a/meta/recipes-devtools/guile/files/guile_2.0.9_fix_noreturn.patch b/meta/recipes-devtools/guile/files/guile_2.0.9_fix_noreturn.patch
-new file mode 100644
-index 0000000..3f65dce
---- /dev/null
-+++ b/meta/recipes-devtools/guile/files/guile_2.0.9_fix_noreturn.patch
-@@ -0,0 +1,65 @@
-+From 36c40440078c005cd5e239cca487d29f6f60007d Mon Sep 17 00:00:00 2001
-+From: Mark H Weaver <mhw@netris.org>
-+Date: Mon, 4 Nov 2013 19:41:52 -0500
-+Subject: [PATCH] Don't use the identifier 'noreturn'.
-+
-+Fixes <http://bugs.gnu.org/15798>.
-+Reported by Matt Sicker <boards@gmail.com>.
-+
-+* libguile/__scm.h (SCM_NORETURN): Use ((__noreturn__)) instead of
-+  ((noreturn)).
-+
-+* libguile/throw.h (scm_ithrow): Rename formal parameter from 'noreturn'
-+  to 'no_return'.
-+
-+* libguile/throw.c (scm_ithrow): Rename formal parameter from 'noreturn'
-+  to 'no_return'.
-+---
-+ libguile/__scm.h |    2 +-
-+ libguile/throw.c |    2 +-
-+ libguile/throw.h |    2 +-
-+ 3 files changed, 3 insertions(+), 3 deletions(-)
-+
-+Upstream-Status: Backport
-+
-+diff --git a/libguile/__scm.h b/libguile/__scm.h
-+index ed35d53..a0b02b6 100644
-+--- a/libguile/__scm.h
-++++ b/libguile/__scm.h
-+@@ -77,7 +77,7 @@
-+  *   1) int foo (char arg) SCM_NORETURN;
-+  */
-+ #ifdef __GNUC__
-+-#define SCM_NORETURN __attribute__ ((noreturn))
-++#define SCM_NORETURN __attribute__ ((__noreturn__))
-+ #else
-+ #define SCM_NORETURN
-+ #endif
-+diff --git a/libguile/throw.c b/libguile/throw.c
-+index 9c29351..7fc9edf 100644
-+--- a/libguile/throw.c
-++++ b/libguile/throw.c
-+@@ -436,7 +436,7 @@ scm_handle_by_throw (void *handler_data SCM_UNUSED, SCM tag, SCM args)
-+ }
-+ 
-+ SCM
-+-scm_ithrow (SCM key, SCM args, int noreturn SCM_UNUSED)
-++scm_ithrow (SCM key, SCM args, int no_return SCM_UNUSED)
-+ {
-+   return scm_throw (key, args);
-+ }
-+diff --git a/libguile/throw.h b/libguile/throw.h
-+index 6cf6790..62592d2 100644
-+--- a/libguile/throw.h
-++++ b/libguile/throw.h
-+@@ -79,7 +79,7 @@ SCM_API int scm_exit_status (SCM args);
-+ SCM_API SCM scm_catch_with_pre_unwind_handler (SCM tag, SCM thunk, SCM handler, SCM lazy_handler);
-+ SCM_API SCM scm_catch (SCM tag, SCM thunk, SCM handler);
-+ SCM_API SCM scm_with_throw_handler (SCM tag, SCM thunk, SCM handler);
-+-SCM_API SCM scm_ithrow (SCM key, SCM args, int noreturn);
-++SCM_API SCM scm_ithrow (SCM key, SCM args, int no_return);
-+ 
-+ SCM_API SCM scm_throw (SCM key, SCM args);
-+ SCM_INTERNAL void scm_init_throw (void);
-+-- 
-+1.7.2.5
-diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb b/meta/recipes-devtools/guile/guile_2.0.9.bb
-index 9845682..e1504bb 100644
---- a/meta/recipes-devtools/guile/guile_2.0.9.bb
-+++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
-            file://opensuse/guile-64bit.patch \
-            file://guile_2.0.6_fix_sed_error.patch \
-            file://arm_endianness.patch \
-+           file://guile_2.0.9_fix_noreturn.patch \
-            "
- 
- #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
--- 
-1.8.3.1
+// Robert
 
+On 01/18/2014 08:26 PM, Martin Jansa wrote:
+> On Thu, Jan 16, 2014 at 05:33:20PM +0800, Robert Yang wrote:
+>>
+>>
+>> On 01/16/2014 05:25 PM, Martin Jansa wrote:
+>>> On Thu, Jan 16, 2014 at 10:14:30AM +0800, Robert Yang wrote:
+>>>>
+>>>>
+>>>> On 01/16/2014 12:55 AM, Martin Jansa wrote:
+>>>>> On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
+>>>>>> * The archive*.bbclass didn't work, and there were a few problems, for
+>>>>>>      example:
+>>>>>>      1) There were a few duplicated code
+>>>>>>      2) There was no src_dir.org (or orig), but the diff command still use
+>>>>>>         it, and it is not easy to fix this issue if we don't change a lot
+>>>>>>         of the code.
+>>>>>>      3) It didn't archive the source for the native or gcc
+>>>>>>      4) The work flow is not very well
+>>>>>>      5) The "subprocess.call('fakeroot cp xxxx'" should be removed
+>>>>>>      6) And others ...
+>>>>>>
+>>>>>> * So that we have to refactor it, the benefits are:
+>>>>>>      1) Fix the problems and make it work well.
+>>>>>>      2) Reduce more than 400 lines in total.
+>>>>>>      3) Make it easy to use.
+>>>>>>
+>>>>>> // Robert
+>>>>>>
+>>>>>> The following changes since commit 1b636173ca88e5ccca1992f9a12367a1189fa674:
+>>>>>>
+>>>>>>      bitbake: toaster: Toaster GUI, generic search, filter and order (2014-01-10 15:20:26 +0000)
+>>>>>>
+>>>>>> are available in the git repository at:
+>>>>>>
+>>>>>>      git://git.pokylinux.org/poky-contrib rbt/archiver
+>>>>>>      http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/archiver
+>>>>>
+>>>>> Can you send pull-request for oe-core?
+>>>>>
+>>>>
+>>>> Here it is:
+>>>> git://git.pokylinux.org/poky-contrib rbt/ar_oe
+>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=rbt/ar_oe
+>>>
+>>> This still looks like poky-contrib (so it will download whole
+>>> poky-contrib when I add it as remote to oe-core repo).
+>>>
+>>
+>> Sorry, I can't create repo on oe-contrib, seems that I lost my key.
+>
+> That's sad, you should send new one to khem to replace it, before
+> someone else finds your old key.
+>
+>> How about:
+>>
+>> git fetch git://git.pokylinux.org/poky-contrib rbt/ar_oe
+>
+> That still fetches whole poky repo I'm not interested in.
+>
+> So I've downloaded just archiver.bbclass manually and tested it on my
+> use-case, I can confirm that it doesn't remove required file anymore,
+> but it seems that there is something terribly broken when used in
+> combination with rm_work or multimachine builds.
+>
+> I haven't debugged it yet, but 2nd build (in the same directory) with
+> this new archiver included almost every recipe failed in do_patch task.
+>
+>>>> // Robert
+>>>>
+>>>>>> Robert Yang (5):
+>>>>>>      classes/archive*.bbclass: remove archive-*-source.bbclass
+>>>>>>      archiver.bbclass: refactor it
+>>>>>>      package_rpm.bbclass: archive the source to srpm package
+>>>>>>      archiver.bbclass: move a few code to copyleft_compliance.bbclass
+>>>>>>      local.conf.sample.extended: update for the archiver
+>>>>>>
+>>>>>>     meta-yocto/conf/local.conf.sample.extended     |  72 +--
+>>>>>>     meta/classes/archive-configured-source.bbclass |  65 ---
+>>>>>>     meta/classes/archive-original-source.bbclass   |  65 ---
+>>>>>>     meta/classes/archive-patched-source.bbclass    |  65 ---
+>>>>>>     meta/classes/archiver.bbclass                  | 723 ++++++++-----------------
+>>>>>>     meta/classes/copyleft_compliance.bbclass       |  55 +-
+>>>>>>     meta/classes/package_rpm.bbclass               |  31 +-
+>>>>>>     7 files changed, 316 insertions(+), 760 deletions(-)
+>>>>>>     delete mode 100644 meta/classes/archive-configured-source.bbclass
+>>>>>>     delete mode 100644 meta/classes/archive-original-source.bbclass
+>>>>>>     delete mode 100644 meta/classes/archive-patched-source.bbclass
+>>>>>>
+>>>>>> --
+>>>>>> 1.8.3.1
+>>>>>>
+>>>>>> _______________________________________________
+>>>>>> Openembedded-core mailing list
+>>>>>> Openembedded-core@lists.openembedded.org
+>>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>>>
+>>>
+>
 
