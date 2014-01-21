@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 90F626DC53
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 08E8C6CBD3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:13:17 +0000 (UTC)
-Received: by mail-vc0-f171.google.com with SMTP id le5so3728324vcb.30
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 08:13:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=mFBOYOLXXHzFkEFuz3vokoHwwiA6PihwN5S5t5a66PM=;
-	b=F9toEtzSr/+gtRmVQO2jIZbaCqYwE4cu4Peig/c5bJkRWtVFftE+cQoVMzoFPpmxV2
-	IvuC8hpXMdJUs70HXPE+IinwVwdQs9tZ6GhZPRaZHc2PXtZr0CrPtPb6aYiLm6WnikPq
-	F+8zb9EyUQ9JI1foMtI+CiRTAeyu0KKAqLtaWRj8pNmEXX4YD3tUYrZ6XVu5SHoALUH6
-	Sp+W1SLWfJL6at97jFDamjD/jKrvHJsWp47J+EKHgOvjo5wCiq7jdVTy71ezAv5gwyGe
-	dv6UDnbOGZ8XAEXoqdseEGbbYJXZ6ETWnJRiUKv0O3f9R7YwYyKwYGUr0RsD+ZtVnoxo
-	Qq/w==
-X-Gm-Message-State: ALoCoQlyqh2xppfdN9sDvAcQL2nrWHBlgw6gb8SLnlB3CUOx2rZfsOJ/YgTQbP67//KFR+CPQt3k
-X-Received: by 10.221.66.73 with SMTP id xp9mr1955527vcb.27.1390320798033;
-	Tue, 21 Jan 2014 08:13:18 -0800 (PST)
+	Tue, 21 Jan 2014 17:01:12 +0000 (UTC)
+Received: (qmail 16228 invoked by uid 1003); 21 Jan 2014 17:01:13 -0000
+Received: from unknown (HELO ?192.168.1.122?)
+	(philip@opensdr.com@71.171.41.155)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	21 Jan 2014 17:01:10 -0000
+Message-ID: <52DEA7C9.9040005@balister.org>
+Date: Tue, 21 Jan 2014 12:00:57 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.220.96.84 with HTTP; Tue, 21 Jan 2014 08:12:57 -0800 (PST)
-In-Reply-To: <20140121130243.GD4100@jama>
-References: <1389547991-3456-1-git-send-email-Martin.Jansa@gmail.com>
-	<20140121130243.GD4100@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Jan 2014 16:12:57 +0000
-Message-ID: <CAJTo0LZ4+Lo5ZgjBeON1FBeddKu4tr2EPs3Kccx+k+vioVniKA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cmake: Fix freetype detection
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.6
+Subject: Membership in the OpenEmbedded eV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 16:13:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 21 Jan 2014 17:01:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 21 January 2014 13:02, Martin Jansa <martin.jansa@gmail.com> wrote:
-> + Ross as he is working on cmake as well as freetype
+The OpenEmbedded eV is the organizational structure of the OpenEmbedded
+project. See:
 
-I think I need to state for the record that I only fixed up cmake's
-S/B stuff because it was driving me insane, and hate cmake. :)
+http://www.openembedded.org/wiki/Organization
 
-Ross
+The Organization itself doesn't have much to do with the day to day work
+of the project, but does provide contact points for outside entities and
+the membership selects members of the Technical Steering Commmittee (and
+the eV board).
+
+If you are interested in the long term operation of the project and like
+a louder voice, I'd like to invite you to join the eV.
+
+The process is send me a short (one paragraph) bio including some
+information about your involvement with the project. I'll package these
+bios into a list and submit them to the current membership for approval
+via the eV online voting process. (The process takes about a month, due
+to the length of the discussion and voting periods).
+
+Philip
 
