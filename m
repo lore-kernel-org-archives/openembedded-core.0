@@ -1,28 +1,30 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 424386E706
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id F01A3615AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 15:04:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0LF4Qig019142
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 07:04:26 -0800 (PST)
-Received: from [147.11.117.157] (147.11.117.157) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 21 Jan 2014 07:04:26 -0800
-Message-ID: <52DE8C76.8020701@windriver.com>
-Date: Tue, 21 Jan 2014 09:04:22 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1390297632-9966-1-git-send-email-koen.kooi@linaro.org>	<1390312633.874.84.camel@ted>
-	<52DE7E17.2090301@linaro.org>
+	Tue, 21 Jan 2014 15:10:51 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0LFAiKT020851; Tue, 21 Jan 2014 15:10:45 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sRmnYni2Uer0; Tue, 21 Jan 2014 15:10:45 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0LFA0ka020841
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Tue, 21 Jan 2014 15:10:02 GMT
+Message-ID: <1390316993.874.85.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Koen Kooi <koen.kooi@linaro.org>
+Date: Tue, 21 Jan 2014 15:09:53 +0000
 In-Reply-To: <52DE7E17.2090301@linaro.org>
+References: <1390297632-9966-1-git-send-email-koen.kooi@linaro.org>
+	<1390312633.874.84.camel@ted> <52DE7E17.2090301@linaro.org>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [RFC][PATCH] package.bbclass: fix strip and split logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,62 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 15:04:27 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 21 Jan 2014 15:10:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 1/21/14, 8:03 AM, Koen Kooi wrote:
+On Tue, 2014-01-21 at 15:03 +0100, Koen Kooi wrote:
 > On 01/21/2014 02:57 PM, Richard Purdie wrote:
->> On Tue, 2014-01-21 at 10:47 +0100, Koen Kooi wrote:
->>> Marks original commit message and variable documentation state that stripping and splitting are independent of eachother, but package.bbclass ANDs the two INHIBIT flags to see which files can be stripped and/or split.
->>>
->>> Original behaviour:
->>>
->>> INHIBIT_PACKAGE_STRIP: no strip, no debug split
->>> INHIBIT_PACAKGE_DEBUG_SPLIT: no strip, no debug split
->>>
->>> Behaviour after this patch:
->>>
->>> INHIBIT_PACKAGE_STRIP: no strip, no debug split
->>> INHIBIT_PACKAGE_DEBUG_SPLIT: strip, no split
-
-My memory of the original theory was that there would be three different uses:
-
-1 - I want no debug (stripped) software on the target and debug binaries (split)
-
-2 - I want debug (not-stripped/not-split) software on the target
-
-3 - I want no debug (stripped) software on the target, and I don't want debug 
-binaries
-
-So based on that, it looks like your change fixes things.  As the original 
-implementation didn't allow for #3.
-
---Mark
-
->>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
->>> ---
->>>    meta/classes/package.bbclass | 3 +--
->>>    1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> FWIW this resulted in a failure on minnow:
->>
->> http://autobuilder.yoctoproject.org/main/builders/minnow/builds/15/steps/BuildImages/logs/stdio
->>
->> So we may have some fixing up to do before this change can be merged...
->
-> I have that QA issue as warning not as error. I guess that's why my
+> > On Tue, 2014-01-21 at 10:47 +0100, Koen Kooi wrote:
+> >> Marks original commit message and variable documentation state that stripping and splitting are independent of eachother, but package.bbclass ANDs the two INHIBIT flags to see which files can be stripped and/or split.
+> >>
+> >> Original behaviour:
+> >>
+> >> INHIBIT_PACKAGE_STRIP: no strip, no debug split
+> >> INHIBIT_PACAKGE_DEBUG_SPLIT: no strip, no debug split
+> >>
+> >> Behaviour after this patch:
+> >>
+> >> INHIBIT_PACKAGE_STRIP: no strip, no debug split
+> >> INHIBIT_PACKAGE_DEBUG_SPLIT: strip, no split
+> >>
+> >> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+> >> ---
+> >>   meta/classes/package.bbclass | 3 +--
+> >>   1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > FWIW this resulted in a failure on minnow:
+> >
+> > http://autobuilder.yoctoproject.org/main/builders/minnow/builds/15/steps/BuildImages/logs/stdio
+> >
+> > So we may have some fixing up to do before this change can be merged...
+> 
+> I have that QA issue as warning not as error. I guess that's why my 
 > builds kept working :)
->
+> 
 > Aside from that, what are your thoughts on this patch?
->
-> regards,
->
-> Koen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+
+I'm ok with it in principle but I'd like to see known build issues fixed
+before it goes in since red autobuilders cause me enough grief
+already ;-).
+
+Cheers,
+
+Richard
 
 
