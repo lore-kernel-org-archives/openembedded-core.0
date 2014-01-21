@@ -1,27 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BA136E367
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E1F7760144
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 22:24:08 +0000 (UTC)
+	Tue, 21 Jan 2014 22:34:04 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 21 Jan 2014 14:20:04 -0800
+	by orsmga101.jf.intel.com with ESMTP; 21 Jan 2014 14:34:06 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="442537524"
-Received: from unknown (HELO [10.255.12.29]) ([10.255.12.29])
-	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2014 14:24:07 -0800
-Message-ID: <52DEF386.6040701@linux.intel.com>
-Date: Tue, 21 Jan 2014 14:24:06 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1390306673-9822-1-git-send-email-paul.eggleton@linux.intel.com>
-	<52DEF00C.20608@linux.intel.com>
-	<2733074.aO9SOLRWn4@peggleto-mobl5.ger.corp.intel.com>
-In-Reply-To: <2733074.aO9SOLRWn4@peggleto-mobl5.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] conf/bitbake.conf: default HOMEPAGE to blank instead of unknown
+X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="442541262"
+Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
+	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2014 14:34:05 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	Poky <poky@yoctoproject.org>
+Date: Tue, 21 Jan 2014 14:39:47 -0800
+Message-Id: <67cb4be16feef75539c802c61a71e99278220841.1390342768.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1390342768.git.dvhart@linux.intel.com>
+References: <cover.1390342768.git.dvhart@linux.intel.com>
+Cc: Richard Purdie <richard.purdie@intel.com>,
+	Darren Hart <dvhart@linux.intel.com>,
+	Paul Eggleton <paul.eggleton@intel.com>
+Subject: [PATCH 01/15] x86: Replace ia32 with x86 when referring to the generic architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,104 +33,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 22:24:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jan 2014 22:34:05 -0000
 
-On 01/21/2014 02:12 PM, Paul Eggleton wrote:
-> Hi Saul,
->
-> On Tuesday 21 January 2014 14:09:16 Saul Wold wrote:
->> On 01/21/2014 04:17 AM, Paul Eggleton wrote:
->>> The default value for HOMEPAGE of "unknown" has been in place since the
->>> early OE-Classic days, but it doesn't really make sense - "unknown" is
->>> not a valid URL and it just means we have to explicitly check for this
->>> hardcoded string if we're displaying the value in some form of UI, such
->>> as Toaster. There is some code in the unmaintained oelint.bbclass to
->>> check for this value, presumably on the assumption that the recipe will
->>> explicitly set it to "" if there really isn't a homepage, but looking at
->>> recipes in OE-Core and meta-oe suggests that we haven't been using this
->>> convention for some time (with one exception in the latter) and it's
->>> rather uncommon these days to have no URL to associate with a recipe.
->>>
->>> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
->>> ---
->>>
->>>    meta/conf/bitbake.conf | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->>> index 57668e1..4fb6a1c 100644
->>> --- a/meta/conf/bitbake.conf
->>> +++ b/meta/conf/bitbake.conf
->>> @@ -241,7 +241,7 @@ This package contains documentation."
->>>
->>>    LICENSE = "INVALID"
->>>    MAINTAINER = "OE-Core Developers
->>>    <openembedded-core@lists.openembedded.org>">
->>> -HOMEPAGE = "unknown"
->>> +HOMEPAGE = ""
->>
->> This seems to have caused a couple of problems with shadow-securetty,
->> updaterc and depmodwrapper.
->>
->> There may be more.
->
-> Can you perhaps be more specific as to what the problem is?
->
+ia32 implies 32bit, while these files provide descriptions for IA32,
+X86_64, and X32 architectures. The term "x86" fits this used better
+without resorting to using the term "Intel" which isn't quite right as
+it excludes things like the tune-c3 file describing a Via CPU.
 
-Sorry, thought perhaps you would see the autobuilder failures.
-> ERROR: Task 1962 (/home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/meta/recipes-core/update-rc.d/update-rc.d_0.7.bb, do_package_write_rpm) failed with exit code '1'
-> NOTE: recipe shadow-securetty-4.1.4.3-r2: task do_package_write_deb: Started
-> ERROR: Function failed: dpkg-deb execution failed
-> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/temp/log.do_package_write_deb.8751
-> Log data follows:
-> | DEBUG: Executing python function sstate_task_prefunc
-> | DEBUG: Python function sstate_task_prefunc finished
-> | DEBUG: Executing python function do_package_write_deb
-> | DEBUG: Executing python function read_subpackage_metadata
-> | DEBUG: Python function read_subpackage_metadata finished
-> | DEBUG: Executing python function do_package_deb
-> | dpkg-deb: error: parsing file '/home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/packages-split/shadow-securetty-dbg/DEBIAN/control' near line 11 package 'shadow-securetty-dbg':
-> |  EOF before value of field `Homepage' (missing final newline)
-> | DEBUG: Python function do_package_deb finished
-> | DEBUG: Python function do_package_write_deb finished
-> | ERROR: Function failed: dpkg-deb execution failed
-> NOTE: recipe shadow-securetty-4.1.4.3-r2: task do_package_write_deb: Failed
-> ERROR: Task 4847 (/home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/meta/recipes-extended/shadow/shadow-securetty_4.1.4.3.bb, do_package_write_deb) failed with exit code '1'
-> ERROR: Function failed: BUILDSPEC (log file is located at /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/temp/log.do_package_write_rpm.8020)
-> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/temp/log.do_package_write_rpm.8020
-> Log data follows:
-> | DEBUG: Executing python function sstate_task_prefunc
-> | DEBUG: Python function sstate_task_prefunc finished
-> | DEBUG: Executing python function do_package_write_rpm
-> | DEBUG: Executing python function read_subpackage_metadata
-> | DEBUG: Python function read_subpackage_metadata finished
-> | DEBUG: Executing python function do_package_rpm
-> | DEBUG: Executing python function write_specfile
-> | NOTE: Creating EMPTY RPM Package for shadow-securetty-dbg
-> | NOTE: Not creating empty RPM package for shadow-securetty-staticdev
-> | NOTE: Creating EMPTY RPM Package for shadow-securetty-dev
-> | NOTE: Not creating empty RPM package for shadow-securetty-doc
-> | NOTE: Not creating empty RPM package for shadow-securetty-locale
-> | NOTE: Creating RPM package for shadow-securetty
-> | NOTE: Creating RPM package for shadow-securetty
-> | DEBUG: Python function write_specfile finished
-> | DEBUG: Executing shell function BUILDSPEC
-> | error: line 8: Empty tag: URL:
-> | error: Package has no %description: shadow-securetty-4.1.4.3-r2.qemuarm
-> | Building target platforms: qemuarm-poky-linux-gnueabi
-> | WARNING: /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/temp/run.BUILDSPEC.8020:1 exit 1 from
-> |   rpmbuild --nodeps --short-circuit --target qemuarm-poky-linux-gnueabi --buildroot /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/package --define '_topdir /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2' --define '_rpmdir /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/deploy-rpms/qemuarm' --define '_build_name_fmt %%{NAME}-%%{VERSION}-%%{RELEASE}.%%{ARCH}.rpm' --define '_use_internal_dependency_generator 0' --define '__find_requires %{nil}' --define '__find_provides %{nil}' --define '_unpackaged_files_terminate_build 0' --define 'debug_package %{nil}' --define '_rpmfc_magic_path /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/sysroots/x86_64-linux/usr/share/misc/magic.mgc' --define 
-'_tmppath /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2' -bb /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/shadow-securetty.spec
-> | DEBUG: Python function do_package_rpm finished
-> | DEBUG: Python function do_package_write_rpm finished
-> | ERROR: Function failed: BUILDSPEC (log file is located at /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-arm/build/build/tmp/work/qemuarm-poky-linux-gnueabi/shadow-securetty/4.1.4.3-r2/temp/log.do_package_write_rpm.8020)
-> NOTE: recipe shadow-securetty-4.1.4.3-r2: task do_package_write_rpm: Failed
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Richard Purdie <richard.purdie@intel.com>
+Cc: Paul Eggleton <paul.eggleton@intel.com>
+Cc: Tom Zanussi <tom.zanussi@intel.com>
+Cc: Nitin Kamble <nitin.a.kamble@intel.com>
+Cc: Mark Hatle <mark.hatle@windriver.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/conf/machine/include/tune-c3.inc              |    2 +-
+ meta/conf/machine/include/tune-i586.inc            |    2 +-
+ meta/conf/machine/include/tune-x86_64.inc          |    2 +-
+ .../include/{ia32-base.inc => x86-base.inc}        |   16 ++++++++--------
+ meta/conf/machine/include/{ia32 => x86}/README     |    6 +++---
+ .../{ia32/arch-ia32.inc => x86/arch-x86.inc}       |    2 +-
+ 6 files changed, 15 insertions(+), 15 deletions(-)
+ rename meta/conf/machine/include/{ia32-base.inc => x86-base.inc} (75%)
+ rename meta/conf/machine/include/{ia32 => x86}/README (81%)
+ rename meta/conf/machine/include/{ia32/arch-ia32.inc => x86/arch-x86.inc} (97%)
 
+diff --git a/meta/conf/machine/include/tune-c3.inc b/meta/conf/machine/include/tune-c3.inc
+index 18865b7..fafc28a 100644
+--- a/meta/conf/machine/include/tune-c3.inc
++++ b/meta/conf/machine/include/tune-c3.inc
+@@ -1,4 +1,4 @@
+-require conf/machine/include/ia32/arch-ia32.inc
++require conf/machine/include/x86/arch-x86.inc
+ 
+ TUNEVALID[c3] = "VIA Cyrix III or VIA C3 specific optimizations"
+ TUNECONFLICTS[c3] = "m64 mx32"
+diff --git a/meta/conf/machine/include/tune-i586.inc b/meta/conf/machine/include/tune-i586.inc
+index 4542b9b..a315b35 100644
+--- a/meta/conf/machine/include/tune-i586.inc
++++ b/meta/conf/machine/include/tune-i586.inc
+@@ -1,6 +1,6 @@
+ DEFAULTTUNE ?= "i586"
+ 
+-require conf/machine/include/ia32/arch-ia32.inc
++require conf/machine/include/x86/arch-x86.inc
+ 
+ # Extra tune features
+ TUNEVALID[i586] = "Enable i586 specific processor optimizations"
+diff --git a/meta/conf/machine/include/tune-x86_64.inc b/meta/conf/machine/include/tune-x86_64.inc
+index 31e06da..ae48124 100644
+--- a/meta/conf/machine/include/tune-x86_64.inc
++++ b/meta/conf/machine/include/tune-x86_64.inc
+@@ -1,4 +1,4 @@
+ DEFAULTTUNE ?= "x86-64"
+ 
+-require conf/machine/include/ia32/arch-ia32.inc
++require conf/machine/include/x86/arch-x86.inc
+ 
+diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/x86-base.inc
+similarity index 75%
+rename from meta/conf/machine/include/ia32-base.inc
+rename to meta/conf/machine/include/x86-base.inc
+index e15f927..421bdee 100644
+--- a/meta/conf/machine/include/ia32-base.inc
++++ b/meta/conf/machine/include/x86-base.inc
+@@ -1,5 +1,5 @@
+ #
+-# base machine settings for ia32-architecture BSPs
++# Base machine settings for Intel architecture BSPs
+ #
+ 
+ #
+@@ -25,28 +25,28 @@ PREFERRED_VERSION_linux-yocto ??= "3.0%"
+ #
+ # XSERVER subcomponents, used to build the XSERVER variable
+ #
+-XSERVER_IA32_BASE = "xserver-xorg \
++XSERVER_INTEL_BASE = "xserver-xorg \
+            xf86-input-mouse \
+            xf86-input-keyboard \
+            xf86-input-evdev \
+            xf86-input-synaptics \
+            "
+ 
+-XSERVER_IA32_EXT = " \
++XSERVER_INTEL_EXT = " \
+            ${@base_contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
+            xserver-xorg-module-libint10 \
+            "
+ 
+-XSERVER_IA32_I915 = "xf86-video-intel \
++XSERVER_INTEL_I915 = "xf86-video-intel \
+            ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i915', '', d)} \
+            "
+ 
+-XSERVER_IA32_I965 = "xf86-video-intel \
++XSERVER_INTEL_I965 = "xf86-video-intel \
+            ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i965', '', d)} \
+            "
+ 
+-XSERVER_IA32_VESA = "xf86-video-vesa"
++XSERVER_INTEL_VESA = "xf86-video-vesa"
+ 
+-XSERVER_IA32_FBDEV = "xf86-video-fbdev"
++XSERVER_INTEL_FBDEV = "xf86-video-fbdev"
+ 
+-XSERVER_IA32_MODESETTING = "xf86-video-modesetting"
++XSERVER_INTEL_MODESETTING = "xf86-video-modesetting"
+diff --git a/meta/conf/machine/include/ia32/README b/meta/conf/machine/include/x86/README
+similarity index 81%
+rename from meta/conf/machine/include/ia32/README
+rename to meta/conf/machine/include/x86/README
+index 8f80a5b..d8b6793 100644
+--- a/meta/conf/machine/include/ia32/README
++++ b/meta/conf/machine/include/x86/README
+@@ -1,12 +1,12 @@
+ 2012/03/30 - Mark Hatle <mark.hatle@windriver.com>
+  - Initial version
+ 
+-Most of the items for the IA architecture are defined in the single 
+-arch-ia32 file.
++Most of the items for the Intel architectures are defined in the single 
++arch-x86 file.
+ 
+ Three ABIs are define, m32, mx32 and m64.
+ 
+-The following is the list of ia32 specific variables:
++The following is the list of intel specific variables:
+ 
+ X86ARCH32 - This is the 32-bit architecture GNU canonical arch, TUNE_ARCH.
+ 
+diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/machine/include/x86/arch-x86.inc
+similarity index 97%
+rename from meta/conf/machine/include/ia32/arch-ia32.inc
+rename to meta/conf/machine/include/x86/arch-x86.inc
+index aa83896..298bddc 100644
+--- a/meta/conf/machine/include/ia32/arch-ia32.inc
++++ b/meta/conf/machine/include/x86/arch-x86.inc
+@@ -1,5 +1,5 @@
+ #
+-# IA32 Architecture definition
++# X86 Architecture definition (IA32, X86_64, and X32)
+ #
+ 
+ DEFAULTTUNE ?= "x86"
+-- 
+1.7.9.5
 
-
-> Thanks,
-> Paul
->
 
