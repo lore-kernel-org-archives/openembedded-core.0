@@ -1,53 +1,33 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from anubis.se.axis.com (anubis.se.axis.com [195.60.68.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A2986E7F0
+Return-Path: <henning@itconsulting-heinold.de>
+Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
+	by mail.openembedded.org (Postfix) with ESMTP id CBC9160DBB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 15:23:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by anubis.se.axis.com (Postfix) with ESMTP id D681A19FF4
+	Tue, 21 Jan 2014 15:50:41 +0000 (UTC)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 4C08F22331C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:23:48 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at anubis.se.axis.com
-X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
-Received: from anubis.se.axis.com ([127.0.0.1])
-	by localhost (anubis.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ppt73sZuNWUh
+	Tue, 21 Jan 2014 16:50:40 +0100 (CET)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id 3DCCE22331BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:23:45 +0100 (CET)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by anubis.se.axis.com (Postfix) with ESMTP id 463B51A049
+	Tue, 21 Jan 2014 16:50:39 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from mail.itconsulting-heinold.de (p5099b351.dip0.t-ipconnect.de
+	[80.153.179.81]) by mail.familie-heinold.de (Postfix) with ESMTPSA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:22:38 +0100 (CET)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 2D776A9E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:22:38 +0100 (CET)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 14B94A9A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:22:38 +0100 (CET)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 08BF33E06F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:22:38 +0100 (CET)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id s0LFMcbJ015070
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:22:38 +0100
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id s0LFMchR015069
-	for openembedded-core@lists.openembedded.org;
-	Tue, 21 Jan 2014 16:22:38 +0100
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Tue, 21 Jan 2014 16:50:39 +0100 (CET)
+Date: Tue, 21 Jan 2014 16:50:33 +0100
+From: Henning Heinold <henning@itconsulting-heinold.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2014 16:22:33 +0100
-Message-Id: <025ae93411ca8e80b900d116369c74d2abc3f477.1390317718.git.pkj@axis.com>
-X-Mailer: git-send-email 1.8.4
-In-Reply-To: <cover.1390317718.git.pkj@axis.com>
-References: <cover.1390317718.git.pkj@axis.com>
-In-Reply-To: <cover.1390317718.git.pkj@axis.com>
-References: <cover.1390317718.git.pkj@axis.com>
-Subject: [PATCH 3/5] pybootchartgui: Simplify adding processes to the trace
+Message-ID: <20140121155032.GA21712@mail.itconsulting-heinold.de>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: strange directories inside sdk build with with dora
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,79 +40,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 15:23:48 -0000
+X-List-Received-Date: Tue, 21 Jan 2014 15:50:42 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- scripts/pybootchartgui/pybootchartgui/parsing.py | 39 +++++++++---------------
- 1 file changed, 14 insertions(+), 25 deletions(-)
+Hi,
 
-diff --git a/scripts/pybootchartgui/pybootchartgui/parsing.py b/scripts/pybootchartgui/pybootchartgui/parsing.py
-index 0600b51..1cb4466 100644
---- a/scripts/pybootchartgui/pybootchartgui/parsing.py
-+++ b/scripts/pybootchartgui/pybootchartgui/parsing.py
-@@ -96,6 +96,16 @@ class Trace:
-         return self.headers != None and self.disk_stats != None and \
-                self.ps_stats != None and self.cpu_stats != None
- 
-+    def add_process(self, process, start, end):
-+        self.processes[process] = [start, end]
-+        if start not in self.start:
-+            self.start[start] = []
-+        if process not in self.start[start]:
-+            self.start[start].append(process)
-+        if end not in self.end:
-+            self.end[end] = []
-+        if process not in self.end[end]:
-+            self.end[end].append(process)
- 
-     def compile(self, writer):
- 
-@@ -645,16 +655,7 @@ def _do_parse(writer, state, filename, file):
-         elif line.startswith("Ended:"):
-             end = int(float(line.split()[-1]))
-     if start and end:
--        k = pn + ":" + task
--        state.processes[pn + ":" + task] = [start, end]
--        if start not in state.start:
--            state.start[start] = []
--        if k not in state.start[start]:
--            state.start[start].append(pn + ":" + task)
--        if end not in state.end:
--            state.end[end] = []
--        if k not in state.end[end]:
--            state.end[end].append(pn + ":" + task)
-+        state.add_process(pn + ":" + task, start, end)
-     t2 = clock()
-     writer.info("  %s seconds" % str(t2-t1))
-     return state
-@@ -716,22 +717,10 @@ def split_res(res, n):
-         while start < end:
-             state = Trace(None, [], None)
-             for i in range(start, end):
--                # Add these lines for reference
--                #state.processes[pn + ":" + task] = [start, end]
--                #state.start[start] = pn + ":" + task
--                #state.end[end] = pn + ":" + task
-+                # Add this line for reference
-+                #state.add_process(pn + ":" + task, start, end)
-                 for p in res.start[s_list[i]]:
--                    s = s_list[i]
--                    e = res.processes[p][1]
--                    state.processes[p] = [s, e]
--                    if s not in state.start:
--                        state.start[s] = []
--                    if p not in state.start[s]:
--                        state.start[s].append(p)
--                    if e not in state.end:
--                        state.end[e] = []
--                    if p not in state.end[e]:
--                        state.end[e].append(p)
-+                    state.add_process(p, s_list[i], res.processes[p][1])
-             start = end
-             end = end + frag_size
-             if end > len(s_list):
--- 
-1.8.4
+I build a sdk with latest stable dora and in includes some x86 directories in the arm sysroot:
 
+pwd
+
+/opt/poky/1.5.1/sysroots/armv5te-poky-linux-gnueabi
+
+find | grep "/opt"
+
+./opt
+./opt/poky
+./opt/poky/1.5.1
+./opt/poky/1.5.1/sysroots
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chsh
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/newgrp
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/passwd
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/opkg
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chfn
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/groups
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin/chpasswd
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/su
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/login
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d/S98run-postinsts
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vigr
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vipw
+
+Are the really used or are the just got wrongly included?
+
+Bye Henning
 
