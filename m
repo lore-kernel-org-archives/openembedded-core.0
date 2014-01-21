@@ -1,33 +1,37 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id CBC9160DBB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 90F626DC53
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 15:50:41 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 4C08F22331C0
+	Tue, 21 Jan 2014 16:13:17 +0000 (UTC)
+Received: by mail-vc0-f171.google.com with SMTP id le5so3728324vcb.30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:50:40 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 3DCCE22331BF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:50:39 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from mail.itconsulting-heinold.de (p5099b351.dip0.t-ipconnect.de
-	[80.153.179.81]) by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 16:50:39 +0100 (CET)
-Date: Tue, 21 Jan 2014 16:50:33 +0100
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20140121155032.GA21712@mail.itconsulting-heinold.de>
+	Tue, 21 Jan 2014 08:13:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=mFBOYOLXXHzFkEFuz3vokoHwwiA6PihwN5S5t5a66PM=;
+	b=F9toEtzSr/+gtRmVQO2jIZbaCqYwE4cu4Peig/c5bJkRWtVFftE+cQoVMzoFPpmxV2
+	IvuC8hpXMdJUs70HXPE+IinwVwdQs9tZ6GhZPRaZHc2PXtZr0CrPtPb6aYiLm6WnikPq
+	F+8zb9EyUQ9JI1foMtI+CiRTAeyu0KKAqLtaWRj8pNmEXX4YD3tUYrZ6XVu5SHoALUH6
+	Sp+W1SLWfJL6at97jFDamjD/jKrvHJsWp47J+EKHgOvjo5wCiq7jdVTy71ezAv5gwyGe
+	dv6UDnbOGZ8XAEXoqdseEGbbYJXZ6ETWnJRiUKv0O3f9R7YwYyKwYGUr0RsD+ZtVnoxo
+	Qq/w==
+X-Gm-Message-State: ALoCoQlyqh2xppfdN9sDvAcQL2nrWHBlgw6gb8SLnlB3CUOx2rZfsOJ/YgTQbP67//KFR+CPQt3k
+X-Received: by 10.221.66.73 with SMTP id xp9mr1955527vcb.27.1390320798033;
+	Tue, 21 Jan 2014 08:13:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: strange directories inside sdk build with with dora
+Received: by 10.220.96.84 with HTTP; Tue, 21 Jan 2014 08:12:57 -0800 (PST)
+In-Reply-To: <20140121130243.GD4100@jama>
+References: <1389547991-3456-1-git-send-email-Martin.Jansa@gmail.com>
+	<20140121130243.GD4100@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 21 Jan 2014 16:12:57 +0000
+Message-ID: <CAJTo0LZ4+Lo5ZgjBeON1FBeddKu4tr2EPs3Kccx+k+vioVniKA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake: Fix freetype detection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,46 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 15:50:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 21 Jan 2014 16:13:17 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
+On 21 January 2014 13:02, Martin Jansa <martin.jansa@gmail.com> wrote:
+> + Ross as he is working on cmake as well as freetype
 
-I build a sdk with latest stable dora and in includes some x86 directories in the arm sysroot:
+I think I need to state for the record that I only fixed up cmake's
+S/B stuff because it was driving me insane, and hate cmake. :)
 
-pwd
-
-/opt/poky/1.5.1/sysroots/armv5te-poky-linux-gnueabi
-
-find | grep "/opt"
-
-./opt
-./opt/poky
-./opt/poky/1.5.1
-./opt/poky/1.5.1/sysroots
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chsh
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/newgrp
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/passwd
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/opkg
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chfn
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/groups
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin/chpasswd
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/su
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/login
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d/S98run-postinsts
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vigr
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vipw
-
-Are the really used or are the just got wrongly included?
-
-Bye Henning
+Ross
 
