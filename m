@@ -1,30 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B88E46157A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 50D9E6157A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 10:41:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0LAf6MQ003951
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Jan 2014 02:41:06 -0800 (PST)
-Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 21 Jan 2014 02:41:06 -0800
-Message-ID: <52DE4EC0.0@windriver.com>
-Date: Tue, 21 Jan 2014 18:41:04 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1389629682.git.liezhi.yang@windriver.com>
-	<20140115165513.GB3742@jama> <52D74086.4030602@windriver.com>
-	<20140116092556.GD3742@jama> <52D7A760.4040804@windriver.com>
-	<20140118122657.GU3742@jama>
-In-Reply-To: <20140118122657.GU3742@jama>
+	Tue, 21 Jan 2014 10:42:32 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0LAgHQe009522; Tue, 21 Jan 2014 10:42:18 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id g3EZVGvDDCWU; Tue, 21 Jan 2014 10:42:17 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0LAfeE3009504
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Tue, 21 Jan 2014 10:41:41 GMT
+Message-ID: <1390300893.874.79.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Date: Tue, 21 Jan 2014 10:41:33 +0000
+In-Reply-To: <1390218017-10423-2-git-send-email-fathi.boudra@linaro.org>
+References: <1390218017-10423-1-git-send-email-fathi.boudra@linaro.org>
+	<1390218017-10423-2-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
+Subject: Re: [PATCHv2 1/7] ltp: rename recipe to ltp_20140115.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,119 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 10:41:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 21 Jan 2014 10:42:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2014-01-20 at 13:40 +0200, Fathi Boudra wrote:
+> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+> ---
+>  meta/recipes-extended/ltp/ltp_20130904.bb | 78 -------------------------------
+>  meta/recipes-extended/ltp/ltp_20140115.bb | 78 +++++++++++++++++++++++++++++++
+>  2 files changed, 78 insertions(+), 78 deletions(-)
+>  delete mode 100644 meta/recipes-extended/ltp/ltp_20130904.bb
+>  create mode 100644 meta/recipes-extended/ltp/ltp_20140115.bb
 
-Hi Martin,
+So we rename the recipe but don't actually change the SRCREV to the new
+version (since you do that in 3/7)? 
 
-I've tested the archiver.bbclass with rm_work.bbclasss again, it works for me,
-it seems that you only downloaded the archiver.bbclass was not enough, would
-you please try this PULL? It is based on oe-core and on oe-core-contrib now:-)
-And if the error occurs, would you please show the configuration and error
-logs ?
+This seems a little confusing?
 
-git://git.openembedded.org/openembedded-core-contrib rbt/archiver
+Cheers,
 
-// Robert
+Richard
 
-On 01/18/2014 08:26 PM, Martin Jansa wrote:
-> On Thu, Jan 16, 2014 at 05:33:20PM +0800, Robert Yang wrote:
->>
->>
->> On 01/16/2014 05:25 PM, Martin Jansa wrote:
->>> On Thu, Jan 16, 2014 at 10:14:30AM +0800, Robert Yang wrote:
->>>>
->>>>
->>>> On 01/16/2014 12:55 AM, Martin Jansa wrote:
->>>>> On Tue, Jan 14, 2014 at 12:20:14AM +0800, Robert Yang wrote:
->>>>>> * The archive*.bbclass didn't work, and there were a few problems, for
->>>>>>      example:
->>>>>>      1) There were a few duplicated code
->>>>>>      2) There was no src_dir.org (or orig), but the diff command still use
->>>>>>         it, and it is not easy to fix this issue if we don't change a lot
->>>>>>         of the code.
->>>>>>      3) It didn't archive the source for the native or gcc
->>>>>>      4) The work flow is not very well
->>>>>>      5) The "subprocess.call('fakeroot cp xxxx'" should be removed
->>>>>>      6) And others ...
->>>>>>
->>>>>> * So that we have to refactor it, the benefits are:
->>>>>>      1) Fix the problems and make it work well.
->>>>>>      2) Reduce more than 400 lines in total.
->>>>>>      3) Make it easy to use.
->>>>>>
->>>>>> // Robert
->>>>>>
->>>>>> The following changes since commit 1b636173ca88e5ccca1992f9a12367a1189fa674:
->>>>>>
->>>>>>      bitbake: toaster: Toaster GUI, generic search, filter and order (2014-01-10 15:20:26 +0000)
->>>>>>
->>>>>> are available in the git repository at:
->>>>>>
->>>>>>      git://git.pokylinux.org/poky-contrib rbt/archiver
->>>>>>      http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/archiver
->>>>>
->>>>> Can you send pull-request for oe-core?
->>>>>
->>>>
->>>> Here it is:
->>>> git://git.pokylinux.org/poky-contrib rbt/ar_oe
->>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=rbt/ar_oe
->>>
->>> This still looks like poky-contrib (so it will download whole
->>> poky-contrib when I add it as remote to oe-core repo).
->>>
->>
->> Sorry, I can't create repo on oe-contrib, seems that I lost my key.
->
-> That's sad, you should send new one to khem to replace it, before
-> someone else finds your old key.
->
->> How about:
->>
->> git fetch git://git.pokylinux.org/poky-contrib rbt/ar_oe
->
-> That still fetches whole poky repo I'm not interested in.
->
-> So I've downloaded just archiver.bbclass manually and tested it on my
-> use-case, I can confirm that it doesn't remove required file anymore,
-> but it seems that there is something terribly broken when used in
-> combination with rm_work or multimachine builds.
->
-> I haven't debugged it yet, but 2nd build (in the same directory) with
-> this new archiver included almost every recipe failed in do_patch task.
->
->>>> // Robert
->>>>
->>>>>> Robert Yang (5):
->>>>>>      classes/archive*.bbclass: remove archive-*-source.bbclass
->>>>>>      archiver.bbclass: refactor it
->>>>>>      package_rpm.bbclass: archive the source to srpm package
->>>>>>      archiver.bbclass: move a few code to copyleft_compliance.bbclass
->>>>>>      local.conf.sample.extended: update for the archiver
->>>>>>
->>>>>>     meta-yocto/conf/local.conf.sample.extended     |  72 +--
->>>>>>     meta/classes/archive-configured-source.bbclass |  65 ---
->>>>>>     meta/classes/archive-original-source.bbclass   |  65 ---
->>>>>>     meta/classes/archive-patched-source.bbclass    |  65 ---
->>>>>>     meta/classes/archiver.bbclass                  | 723 ++++++++-----------------
->>>>>>     meta/classes/copyleft_compliance.bbclass       |  55 +-
->>>>>>     meta/classes/package_rpm.bbclass               |  31 +-
->>>>>>     7 files changed, 316 insertions(+), 760 deletions(-)
->>>>>>     delete mode 100644 meta/classes/archive-configured-source.bbclass
->>>>>>     delete mode 100644 meta/classes/archive-original-source.bbclass
->>>>>>     delete mode 100644 meta/classes/archive-patched-source.bbclass
->>>>>>
->>>>>> --
->>>>>> 1.8.3.1
->>>>>>
->>>>>> _______________________________________________
->>>>>> Openembedded-core mailing list
->>>>>> Openembedded-core@lists.openembedded.org
->>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>>>
->>>
->
 
