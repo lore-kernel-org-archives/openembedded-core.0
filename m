@@ -1,35 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 2451F6E7FD
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EEA660CEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 23:43:16 +0000 (UTC)
-Received: by mail-ee0-f44.google.com with SMTP id c13so4423283eek.17
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 15:43:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OlZq0rqnlvQXlUTmvtfbKVUantE+U8zQ2AEr6jlmcRk=;
-	b=JkeuEIFeJFE+oUHm6pPC+nryaLnmUq6J5a0w2r9uLck5JDvaLWBAQ46e8T/XHpbJ4A
-	BQxrYUtFmQVHDayPxWu7KYv/O+YcfWltenLmHI9cEMk6bbUZzgfTe/bkX8IzwIL74xGm
-	ip5Ca4lvEUyBdcAw8DVfPTlDmsCiVh0u2QsTrLlk/1XQq6r0GBDTyTYkE3nIekPDBIc3
-	3NLDQPgHHUAPj2ZpydC3ooK0CFpHGx/zUNVSCgCcrYZHO5Dm0+bYNE2hoMdRw7ZWBc6U
-	/smhTIO9aq8QyEc0N8PWiqcGHxWBU/FfjBc1ZKv+A2rtyA25Wjcpj8ojKgl7VIHH8qzB
-	QGgg==
-X-Received: by 10.14.39.3 with SMTP id c3mr26761545eeb.4.1390347797497;
-	Tue, 21 Jan 2014 15:43:17 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107]) by mx.google.com with ESMTPSA id
-	z49sm20233970eeo.10.2014.01.21.15.43.16 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 Jan 2014 15:43:17 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue, 21 Jan 2014 23:55:54 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 21 Jan 2014 15:55:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="462540967"
+Received: from dvhart-mobl4.jf.intel.com (HELO [10.24.1.180]) ([10.24.1.180])
+	by fmsmga001.fm.intel.com with ESMTP; 21 Jan 2014 15:55:54 -0800
+Message-ID: <1390348553.13672.22.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2014 00:43:12 +0100
-Message-Id: <1390347792-24649-2-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <1390347792-24649-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1390347792-24649-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCH 2/2] feature-arm-thumb: Fix missing t2 suffix for armv7a MACHINEs
+Date: Tue, 21 Jan 2014 15:55:53 -0800
+In-Reply-To: <cover.1390342768.git.dvhart@linux.intel.com>
+References: <cover.1390342768.git.dvhart@linux.intel.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: Richard Purdie <richard.purdie@intel.com>, Poky <poky@yoctoproject.org>,
+	Paul Eggleton <paul.eggleton@intel.com>
+Subject: Re: [PATCH 00/15] Update x86 tune files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,44 +33,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 23:43:18 -0000
+X-List-Received-Date: Tue, 21 Jan 2014 23:55:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* unfortunatelly that note about armv7 matching also armv7a is no
-  longer valid since armv7 include in armv7 was replaced with
-  armv6+neon in this commit:
+On Tue, 2014-01-21 at 14:40 -0800, Darren Hart wrote:
+> All,
+> 
+> The following lays the groundwork for some rethinking of support for x86
+> platforms. In particular, the meta-intel layer will undergo some major
+> refactoring once this is merged. We believe it is of value to keep as much
+> of the tune files available in oe-core as possible, rather than isolating
+> them all in meta-intel.
+> 
+> This series renames the x86-related tune files, documents best practices,
+> updates the core2 tune file, adds a corei7 tune file, and updates the dependent
+> machine configs. This spans oe-core and poky and I feel is best viewed as a
+> whole. Please forgive the cross-post.
+> 
+> The new corei7 tune file applies to Nehalem and Silvermont (Bay Trail) CPUs
+> which support up to SSE4.2. This provides an appropriate demarcation line while
+> maximizing compatibility as well as including optimal support for the current
+> generation of the embedded CPUs (Bay Trail) by including it in the new tune. AVX
+> (Sandy Bridge and beyond) is not included as that would not apply to Bay Trail,
+> although it can easily be added in a corei7-avx tune file as an additional
+> patch for users who care more about the last few percent of performance over
+> compatibility and consolidation.
+> 
+> An important note and likely a point of contention: The core2 update changes the
+> core2 arch to core2-32, making the 32 bit explicit rather than implied in order
+> to provide a consistent naming scheme going forward with newer tunes where
+> 64 bit would be logical assumption if not explicitly stated. See patch 5/15 for
+> details on this bit.
+> 
+> Finally, update the machines dependent on these tune files to use the new names.
+> As we remove x86_64, the 64b x86 machines now build as core2-64 for maximum
+> compatibility.
 
-  commit 75b8adbc042e0f65fb1286bc550d02becd3b6aea
-  Author: Khem Raj <raj.khem@gmail.com>
-  Date:   Tue Mar 27 18:37:45 2012 -0700
 
-    tune/armv7: Delete
+I missed a couple things I'm getting to now:
 
-  since then thumb and arm feeds had the same architecture
-* be aware that this will rename lots of feeds
+* the yocto-bsp substrates
+* the inclusion of XSERVER_IA32_* in the genericx86 BSPs
+* the eglibc-ld.inc file .... I need some help here, but am 
+  updating the core2 references and adding corei7... do we 
+  really have to do this for every tune file!?!?
+* profile-manual core2 references
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/machine/include/arm/feature-arm-thumb.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Coming in v2
 
-diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-index bd754be..fa3a4e5 100644
---- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-@@ -9,11 +9,10 @@ ARM_THUMB_M_OPT = "${@['-marm', '-mthumb'][d.getVar('ARM_INSTRUCTION_SET', True)
- TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "thumb", " ${ARM_THUMB_M_OPT}", "", d)}"
- OVERRIDES .= "${@bb.utils.contains("TUNE_FEATURES", "thumb", ":thumb", "", d)}"
- 
--# Note armv7 will hit on armv7a as well
- ARMPKGSFX_THUMB .= "${@bb.utils.contains("TUNE_FEATURES", [ "armv4", "thumb" ], "t", "", d)}"
- ARMPKGSFX_THUMB .= "${@bb.utils.contains("TUNE_FEATURES", [ "armv5", "thumb" ], "t", "", d)}"
- ARMPKGSFX_THUMB .= "${@bb.utils.contains("TUNE_FEATURES", [ "armv6", "thumb" ], "t", "", d)}"
--ARMPKGSFX_THUMB .= "${@bb.utils.contains("TUNE_FEATURES", [ "armv7", "thumb" ], "t2", "", d)}"
-+ARMPKGSFX_THUMB .= "${@bb.utils.contains("TUNE_FEATURES", [ "armv7a", "thumb" ], "t2", "", d)}"
- 
- # Whether to compile with code to allow interworking between the two
- # instruction sets. This allows thumb code to be executed on a primarily
 -- 
-1.8.5.3
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
 
 
