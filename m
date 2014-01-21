@@ -1,26 +1,39 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3884E60144
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id ACDF66CB7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 23:12:27 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jan 2014 15:12:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; 
-	d="asc'?scan'208";a="468669668"
-Received: from dvhart-mobl4.jf.intel.com (HELO [10.24.1.180]) ([10.24.1.180])
-	by fmsmga002.fm.intel.com with ESMTP; 21 Jan 2014 15:12:27 -0800
-Message-ID: <1390345935.13672.13.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 21 Jan 2014 15:12:15 -0800
-In-Reply-To: <20140121225825.GM4100@jama>
+	Tue, 21 Jan 2014 23:18:52 +0000 (UTC)
+Received: by mail-ee0-f51.google.com with SMTP id b57so4415160eek.38
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jan 2014 15:18:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=B7LR91ButTQBuRxcBvO0yj29g4Phqj76tfPokoAiWXI=;
+	b=rBWQqfUU1lN2saBp5D0oh9fqHOG+/UrWy9QRH3vuTjvWFdRiw7Ik+DnbaMGvXHlqua
+	mf1hKXUkr55v++NV3bn4QqS1MA+hyn+H9KiPvvyKjoBIQv3ktCFGMkx7UEpdGuP2GQ9B
+	FsymKvudOt1zbpKO3H2tmznOXoPXYoNH3AaDdKQOiuUlkPAQvCK+TWFANS6dgfCCBcXu
+	3MZHGghxbpb47sWp5FfwROyZGDfxsmsnQBN4v5qYRBLR2SOIuF+BriPdGablZefs3jbt
+	dWuQRvN8X66pJImUy1R1qcydsgNeYH9RdJ/K70qKClq2YwnCwneN+NYpAzRW/lEW0N5K
+	CJDA==
+X-Received: by 10.15.52.136 with SMTP id p8mr26180550eew.11.1390346333301;
+	Tue, 21 Jan 2014 15:18:53 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	o47sm20050899eem.21.2014.01.21.15.18.52 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Jan 2014 15:18:52 -0800 (PST)
+Date: Wed, 22 Jan 2014 00:18:52 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Message-ID: <20140121231852.GN4100@jama>
 References: <cover.1390342768.git.dvhart@linux.intel.com>
 	<c65b846c5d5882f4adcb504ca01291173bd4bcf8.1390342768.git.dvhart@linux.intel.com>
 	<20140121225825.GM4100@jama>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
+	<1390345935.13672.13.camel@dvhart-mobl4.amr.corp.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1390345935.13672.13.camel@dvhart-mobl4.amr.corp.intel.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 Cc: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 12/15] genericx86: Use the core2 tune file
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -35,86 +48,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 23:12:27 -0000
-X-Groupsio-MsgNum: 49311
-Content-Type: multipart/signed; micalg="pgp-sha1";
-	protocol="application/pgp-signature"; 
-	boundary="=-GvLNsQzIgkuEizrIUKkZ"
+X-List-Received-Date: Tue, 21 Jan 2014 23:18:53 -0000
+X-Groupsio-MsgNum: 49312
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="yAzUYvkKIfeS0jQX"
+Content-Disposition: inline
 
---=-GvLNsQzIgkuEizrIUKkZ
-Content-Type: text/plain; charset="UTF-8"
+--yAzUYvkKIfeS0jQX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2014-01-21 at 23:58 +0100, Martin Jansa wrote:
-> On Tue, Jan 21, 2014 at 02:39:58PM -0800, Darren Hart wrote:
-> > Aside from the movbe and specialized instruction scheduling for the lac=
-k
-> > of out-of-order scheduling in the older Atom CPUs, the core2 tune cover=
-s
-> > these CPUs adequately. Since the current atom tune just uses core2
-> > anyway, go ahead and make this explicit here.
+On Tue, Jan 21, 2014 at 03:12:15PM -0800, Darren Hart wrote:
+> On Tue, 2014-01-21 at 23:58 +0100, Martin Jansa wrote:
+> > On Tue, Jan 21, 2014 at 02:39:58PM -0800, Darren Hart wrote:
+> > > Aside from the movbe and specialized instruction scheduling for the l=
+ack
+> > > of out-of-order scheduling in the older Atom CPUs, the core2 tune cov=
+ers
+> > > these CPUs adequately. Since the current atom tune just uses core2
+> > > anyway, go ahead and make this explicit here.
+> > >=20
+> > > Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> > > ---
+> > >  meta-yocto-bsp/conf/machine/genericx86.conf |    3 ++-
+> > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > >=20
+> > > diff --git a/meta-yocto-bsp/conf/machine/genericx86.conf b/meta-yocto=
+-bsp/conf/machine/genericx86.conf
+> > > index 9d29f62..549fc8e 100644
+> > > --- a/meta-yocto-bsp/conf/machine/genericx86.conf
+> > > +++ b/meta-yocto-bsp/conf/machine/genericx86.conf
 > >=20
-> > Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> > ---
-> >  meta-yocto-bsp/conf/machine/genericx86.conf |    3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > This isn't for oe-core, is it?
 > >=20
-> > diff --git a/meta-yocto-bsp/conf/machine/genericx86.conf b/meta-yocto-b=
-sp/conf/machine/genericx86.conf
-> > index 9d29f62..549fc8e 100644
-> > --- a/meta-yocto-bsp/conf/machine/genericx86.conf
-> > +++ b/meta-yocto-bsp/conf/machine/genericx86.conf
 >=20
-> This isn't for oe-core, is it?
->=20
+> Nope. I called this out in the cover letter. It spans oe-core and poky,
+> but I felt they were best viewed as a whole, rather than splitting them
+> apart and worrying about the order in which they were applied. I
+> understand the desire to not cross post and generally agree and avoid it
+> - on rare occasions such as this, it seems the least awful way to go
+> about it...
 
-Nope. I called this out in the cover letter. It spans oe-core and poky,
-but I felt they were best viewed as a whole, rather than splitting them
-apart and worrying about the order in which they were applied. I
-understand the desire to not cross post and generally agree and avoid it
-- on rare occasions such as this, it seems the least awful way to go
-about it...
-
-> > @@ -3,5 +3,6 @@
-> > =20
-> >  #@DESCRIPTION: Machine configuration for generic X86 (32-bit) PCs. Sup=
-ports a moderately wide range of drivers that should boot and be usable on =
-"typical" hardware.
-> > =20
-> > -include conf/machine/include/tune-atom.inc
-> > +DEFAULTTUNE ?=3D "core2-32"
-> > +include conf/machine/include/tune-core2.inc
-> >  include conf/machine/include/genericx86-common.inc
-> > --=20
-> > 1.7.9.5
-> >=20
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
+OK, sorry I see it now, for some reason cover letter arrived to my
+maildir last.
 
 --=20
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-
---=-GvLNsQzIgkuEizrIUKkZ
+--yAzUYvkKIfeS0jQX
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQEcBAABAgAGBQJS3v7PAAoJEKbMaAwKp364068IAIwgR+nR7cdxe07XEYEphjYm
-KWsCMiRXp9gP3/MZx3ktBIBVYOtE804gNU8KcwX5b1wSSxoAaMRO/Jmv15lGAOt0
-eNNx38eRbid8I9q63c0r+GKuhKRP10pXtDcd0ZwiGUZaLsGSF9G99ZAUSAf2q6Il
-1S2+79g++r+PWJis63vvTOYc86AjiNwAJseLgzkGQEqqx1tt8NHFPhyKKEh73Ntf
-WCR/RBPtAHrH4wmepn6E+NBJRHSvkpAubwCaS6/p+aMeLdSkcl6TJFGg8dW8hglo
-H3Cwcx3y8ueqzejVr8Kdm9cZYBDd3CeakbBxoFuYFbEZFRQonlA0/HlA5lqmjkM=
-=I1ha
+iEYEARECAAYFAlLfAFwACgkQN1Ujt2V2gBz5+wCeOf1Z4pSlmYdpQXYdrKWYvzHH
+0LUAoJ54gtvM/kxZG3jHbJUL2KIwH6M4
+=cEow
 -----END PGP SIGNATURE-----
 
---=-GvLNsQzIgkuEizrIUKkZ--
+--yAzUYvkKIfeS0jQX--
