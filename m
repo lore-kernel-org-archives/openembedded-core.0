@@ -1,38 +1,37 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D719E6E367
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 04AAE60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 15:49:03 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id u14so465419lbd.29
+	Wed, 22 Jan 2014 17:04:30 +0000 (UTC)
+Received: by mail-vc0-f174.google.com with SMTP id im17so384838vcb.33
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 07:49:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=Qub0k74XI6RBkoYqWtlVIhCcRXv9Rn8xnNzuPj3SNHc=;
-	b=TgLIxJwuh9tmEeNFSBo0R2tfouRtytfKpjhz/c7R7FMCwWObBllnW2QYYfSvfeiFhl
-	QkCtKiusn5Wjrtcw3qUjYkhHQ9bFFWZ+ktueEMjXCxlMbmi/535oUv3Sf5tP3XzjX80w
-	iDTBvMXDdZQmwGAmWXDNXJU/tCSGeQobhfuHGJQm+GYNmQOh08nMhvxPHRTVRS+cSLKJ
-	9kEFQ6YhtdQB8mJMM9piuuaqngHkwGlaIZJWOi0YDcj1nKSuMaACtq6ypZTmTH4iAjpg
-	lhFKmhdwU5hda+5RNhjwsrftQpym841ugT0Yad0B/wt9YXq6ByZ7UyTdmO6SoJWA8Lxl
-	u3vg==
-X-Received: by 10.152.26.37 with SMTP id i5mr612464lag.60.1390405743869;
-	Wed, 22 Jan 2014 07:49:03 -0800 (PST)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id m5sm10818053laj.4.2014.01.22.07.49.02
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 22 Jan 2014 07:49:02 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id 01E621C61BD; Wed, 22 Jan 2014 16:48:54 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2014 16:48:51 +0100
-Message-Id: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
+	Wed, 22 Jan 2014 09:04:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Z7Zu07VnhokPePNjpINEoDfqSMP7XoMYPx0iKqYRqjY=;
+	b=EMQHg7CVGjc+fDPXeuSKP7a2x660zUQKBNSAcWsKZ617KJ7Eh1wvedbyT4jpFyeTxM
+	XrtDoheAdt6Rl5iBpk3gSozBSy4eAUST9Y4zAVLfK0ZgIoZS0yRYmq86hhMp8yGK/9z+
+	ptYtsMCXO0c47xnpOfpRl9qLvYCD8KBocrS/RFZe/x1NLv77qmkJqU7cr29wqECQDxXt
+	L/8Fzp/i2wN3RQuu59e5bVvqhDjMA/EaLUU20GO2uhsqFy0uS5daHUFEZTN8KV22pxBz
+	t1lgE31WRCIVvWUd4FD7vlF72vwOt+8VnHhDlnwgwgoUCd3xKI0bO1zFVeGXrCN26Kjt
+	LS9w==
+X-Gm-Message-State: ALoCoQnRncGzxXAXiCemtsPZMt1QH+HYgT3/4+8/LwzDcmy0Ng6HHV3aNgTpDlpuunBD7jt/6HKn
+X-Received: by 10.220.99.7 with SMTP id s7mr1559219vcn.19.1390410271441; Wed,
+	22 Jan 2014 09:04:31 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] packagegroup-core-standalone-sdk-target: Add qemuwrapper-cross to target sysroot
+Received: by 10.220.96.84 with HTTP; Wed, 22 Jan 2014 09:04:11 -0800 (PST)
+In-Reply-To: <CAP71WjwVdruoAvkjtO7mPTVE0bNQfCWYUrEC2TZdjagXCBRkrQ@mail.gmail.com>
+References: <CAP71WjwVdruoAvkjtO7mPTVE0bNQfCWYUrEC2TZdjagXCBRkrQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Jan 2014 17:04:11 +0000
+Message-ID: <CAJTo0LZ_dNVaBQpA2J2GPEZ4VHLM=dDpp1HcvRDPoa0Yz=7ALw@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: libsdl and opengl DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 15:49:04 -0000
+X-List-Received-Date: Wed, 22 Jan 2014 17:04:32 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Some postinstall scripts use the qemuwrapper script, so to be able to
-offline install these packages outside of the bitbake environment, this script
-needs to be exposed also in the SDK.
+On 13 January 2014 09:58, Nicolas Dechesne <nicolas.dechesne@linaro.org> wrote:
+> if we make it a PACKAGECONFIG instead, would that be considered the right
+> fix for this bug?
 
-This to enable rootfs generation from a package repository using only a
-package repository and the toolchain tarball.
+Yeah, until we have a replacement for the "opengl" DISTRO_FEATURE then
+you'll want to use explicit PACKAGECONFIG options for GL and GLES.
 
-See https://github.com/nysan/rootfs-sandbox for examples.
-
-Signed-off-by: David Nyström <david.nystrom@enea.com>
----
- .../packagegroups/packagegroup-core-standalone-sdk-target.bb             | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-index 57480b9..3325ef6 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
-@@ -18,4 +18,5 @@ RDEPENDS_${PN} = "\
-     libstdc++ \
-     libstdc++-dev \
-     ${LIBC_DEPENDENCIES} \
-+    qemuwrapper-cross \
-     "
--- 
-1.8.3.2
-
+Ross
 
