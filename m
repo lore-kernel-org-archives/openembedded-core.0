@@ -1,39 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 291826C921
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B0DB76D02F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 18:07:04 +0000 (UTC)
-Received: by mail-vc0-f177.google.com with SMTP id if11so424656vcb.8
+	Wed, 22 Jan 2014 18:08:17 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id wm4so833802obc.27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 10:07:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=K1BMPlWCym6QVKWpaCFwWeiX6AynKQiODK+IiQjz+GQ=;
-	b=WRK1AANLBEbsgM7PZJqLm88CKIcqk7W8sYLFYGjbeROJLdaMRu8UrvUBe7Cp9IrATN
-	Y2X5OM3QFuBkKwpF5qDJVz6CYhGTybXYlrD86w0mC2TLVaMbh6oXKqBKl5MD5W6T6NQp
-	Jp3NVa/1K2oZcXf4Zb8IhEpET47zmIl5Z4l5hM9BGDYWfFwWVFkS1X7O6ai0UXT5uNyT
-	jwd0FnFVTUV1XWGJD2v6/s7BN+ws8b2xmpsBAcxAUbtXFus24VxcMuIWbyAprcTJYIGn
-	ADtFjXH7naTF1SnhSpQ+mUflAsLhwTlr8hb+p9EHW0Xpns3dtqI5c/AiAbQCyU1FqZ+f
-	R5SQ==
-X-Gm-Message-State: ALoCoQnxYlMiUHtCo5xgyTXuj+0nrXVGV+mF7HkCfrEmmj9SVXY80SRLQVxFl0cYGXl5PO6tz6E2
-X-Received: by 10.220.98.143 with SMTP id q15mr964780vcn.38.1390414024848;
-	Wed, 22 Jan 2014 10:07:04 -0800 (PST)
+	Wed, 22 Jan 2014 10:08:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=+Mcjvac5HqKa1wMDhHIyCGvZjmpjv04rZb8KZUwETwE=;
+	b=ariAmEHA721nA28h5UxoHVLrxTL8Cfhng43HnmqkGbsnEaVtTz5dCnXWOv4/aVWSGD
+	QEIoBklduZh9klRZI/1qkkul2AdFTgQs6JE/IaK1pGT8jvOdibeGabZVClk7PSwDbEUx
+	ivvz373vYT7s/OM6AY6fyP4HpJEdNJv3W0Xg8lS+9OOlKoK0+CMe7trU4ovmEA6RQKfn
+	3C7i+qevRd8wL9PT86BReqO5IkMd0m/VvrnXh8o9WpYDHZF1y0Yd+eL3l9W0nkZPswUm
+	kwFa75Z5ONgajAKOimj3dIERT3+XVR4xJUhrnmBKavRwxWIACmuhKE7oj+k01FgzgrTh
+	9pxQ==
 MIME-Version: 1.0
-Received: by 10.220.96.84 with HTTP; Wed, 22 Jan 2014 10:06:44 -0800 (PST)
-In-Reply-To: <CAJTo0LYvzkHrODzpx7CMWM1hEGAjXDEtukvP8aNbCDYHvY7t8Q@mail.gmail.com>
-References: <5278C502.1080100@cn.fujitsu.com>
-	<008701cee4ce$d0b805c0$72281140$@cn.fujitsu.com>
-	<CAJTo0LYvzkHrODzpx7CMWM1hEGAjXDEtukvP8aNbCDYHvY7t8Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Jan 2014 18:06:44 +0000
-Message-ID: <CAJTo0LZh6a+Dh3OAK4iaq4KTRxQFE66+fSYi1JuQAn5dsvDh1A@mail.gmail.com>
-To: Li Zhijian <lizhijian@cn.fujitsu.com>
+X-Received: by 10.60.56.70 with SMTP id y6mr2494985oep.32.1390414098493; Wed,
+	22 Jan 2014 10:08:18 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 22 Jan 2014 10:08:18 -0800 (PST)
+In-Reply-To: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
+References: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
+Date: Wed, 22 Jan 2014 16:08:18 -0200
+X-Google-Sender-Auth: l8W_zG1SWUJshWJkTEi3ogFqtKg
+Message-ID: <CAP9ODKqQ1Y-p_tAyMY=Rmw8t4ct7jXqxV=mBaqLdLXXpW+er1g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] systemd.bbclass: only restart the service when it is active at systemd_postinst
+Subject: Re: [PATCH] packagegroup-core-standalone-sdk-target: Add qemuwrapper-cross to target sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,19 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 18:07:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Jan 2014 18:08:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 22 January 2014 17:56, Burton, Ross <ross.burton@intel.com> wrote:
-> Whoops, this fell out of my inbox.   Whilst the is-active check now
-> means that the service is restarted on upgrades, if the package is
-> being installed it's now not started if AUTO_ENABLE is set to true.
+On Wed, Jan 22, 2014 at 1:48 PM, David Nystr=F6m
+<david.c.nystrom@gmail.com> wrote:
+> Some postinstall scripts use the qemuwrapper script, so to be able to
+> offline install these packages outside of the bitbake environment, this s=
+cript
+> needs to be exposed also in the SDK.
 >
-> I think the logic should be "$D unset and (auto enable or is-active)"
+> This to enable rootfs generation from a package repository using only a
+> package repository and the toolchain tarball.
+>
+> See https://github.com/nysan/rootfs-sandbox for examples.
+>
+> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
 
-Also, before doing systemctl reload, systemd needs to be told to
-re-load the services with systemctl --system daemon-reload (thanks
-Koen for pointing this out).
+Shouldn't this be a RDEPENDS of the postinst package?
 
-Ross
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
