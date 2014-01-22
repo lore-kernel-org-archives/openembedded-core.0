@@ -1,38 +1,42 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id CEFAA6E71F
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B7046E717
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 15:09:04 +0000 (UTC)
-Received: by mail-la0-f54.google.com with SMTP id y1so424897lam.13
+	Wed, 22 Jan 2014 15:15:17 +0000 (UTC)
+Received: by mail-la0-f42.google.com with SMTP id hr13so435322lab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 07:09:05 -0800 (PST)
+	Wed, 22 Jan 2014 07:15:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=3nsK/WOgXZlBNyX8w7rEXR+261pQoBVXeurckZVumEQ=;
-	b=uumLU5qoO7KAZJM0ydsh7worBlAedfjFwkteojO4lvwcy24LkxOlqyo+sU+gywMQOH
-	d+wgTfh5nyvcr22MVgLObNXc2/0zwFaqwQ8pmFbk0ih42zhv8xrxlgZuek0AwfFEQOf3
-	w3876pIswxVwRn2ETTBwaQky8fpoV703JKCoBy7pUWXShGcVOw8WMsbCM4Gi9a0i5iuF
-	PJePil82GJu3E2tg6KYyqYM7Gqe2PfhsOuw7P5MeAD9tQfUI93k6ACreM27rZ32g5GUD
-	ro+ZULM59q30pDyw3zdy5BGCX1ks3YXXH9e3mG7g0OSO+40W0cBSogmLcepXz6MDVRqc
-	tUEw==
-X-Received: by 10.112.155.106 with SMTP id vv10mr1284006lbb.53.1390403345231; 
-	Wed, 22 Jan 2014 07:09:05 -0800 (PST)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id ox6sm7876522lbb.6.2014.01.22.07.09.03
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=n/r/2nAdEj+WazdgqKdfzqmc5vo4hzGOsHaOE7LsXf4=;
+	b=fd2KT1xhnvK/JxqkkrbIXz0z5NpmmPVljCTMxW3syhQy1lt4upJbjrO6h9SXXKguKN
+	OK7pua+7CB7JWX7OlcessWSZbyrYbcn9okTSlSz6hinOKlq1TvT7fM+oMg21lHTCzuyj
+	dvLT4EGge5lGYfwBkrIvenbLtpeEejqWLwEuD3uE+vpKuwFzDG1SGCy/EPQ7lw3TfBA+
+	MGJ+9iRSQt3icmB8d9hoFpDbGv00HzQ4Hm5Z1DS5G6riy8zKteARfMv+6wP1Me4T+24m
+	eulMC59f3iG1x6TKPR/e24d1eXdh1Vk5n2cA1TS+SwLXoJLlKbrsmO3OG1bJ3BDkWPfZ
+	PDTw==
+X-Received: by 10.112.198.65 with SMTP id ja1mr5614lbc.75.1390403717675;
+	Wed, 22 Jan 2014 07:15:17 -0800 (PST)
+Received: from [172.16.141.123] (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPSA id c15sm7873749lbq.11.2014.01.22.07.15.15
 	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 22 Jan 2014 07:09:03 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id 68A0E1C61BD; Wed, 22 Jan 2014 16:08:56 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2014 16:08:54 +0100
-Message-Id: <1390403335-14487-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 22 Jan 2014 07:15:16 -0800 (PST)
+Message-ID: <52DFE07C.9040500@gmail.com>
+Date: Wed, 22 Jan 2014 16:15:08 +0100
+From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCHv2 1/2] postinst-intercept: New recipe to include postinstall intercepts in nativesdk
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1390395885-5078-1-git-send-email-david.nystrom@enea.com>
+	<CAP9ODKrKYdn-cTfX=yiz5GKhLBBrVk4Dk8vsiCjibXKpZhrw2w@mail.gmail.com>
+In-Reply-To: <CAP9ODKrKYdn-cTfX=yiz5GKhLBBrVk4Dk8vsiCjibXKpZhrw2w@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] postinst-intercept: New recipe to include postinstall intercepts in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,50 +49,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 15:09:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Jan 2014 15:15:17 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Adding ability to use postinstalls intercepts in the nativesdk env, and
-making sure the correlate between repo + SDK.
+On ons 22 jan 2014 15:53:18, Otavio Salvador wrote:
+> On Wed, Jan 22, 2014 at 11:04 AM, David Nyström
+> <david.c.nystrom@gmail.com> wrote:
+>> Adding ability to use postinstalls intercepts in the nativesdk env, and
+>> making sure the correlate between repo + SDK.
+>>
+>> Signed-off-by: David Nyström <david.nystrom@enea.com>
+>
+> Can you extend the commit log a little bit to explain the reasoning behind this?
+>
 
-This to enable rootfs generation from a package repository using only a
-package repository and the toolchain tarball.
+v2 sent to list.
+rootfs-sandbox is a template intended to figure out whats necessary to 
+make this work properly.
+At a later stage we have discussed adapting the Tizen MIC2 to OE based 
+distros to do this in a cleaner way.
 
-See https://github.com/nysan/rootfs-sandbox for examples.
-
-Signed-off-by: David Nyström <david.nystrom@enea.com>
----
- .../postinst-intercept/postinst-intercept_1.0.bb      | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
-
-diff --git a/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb b/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
-new file mode 100644
-index 0000000..41b9a6e
---- /dev/null
-+++ b/meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
-@@ -0,0 +1,19 @@
-+SUMMARY = "Postinstall scriptlets"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+FILES_${PN}_append_class-nativesdk = " ${datadir}/postinst-intercepts/*"
-+
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
-+
-+do_install_append_class-nativesdk() {
-+	install -d ${D}${datadir}/postinst-intercepts
-+	install -m 755 ${COREBASE}/scripts/postinst-intercepts/postinst_intercept ${D}${datadir}/postinst-intercepts/
-+	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_font_cache ${D}${datadir}/postinst-intercepts/
-+	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_icon_cache ${D}${datadir}/postinst-intercepts/
-+	install -m 755 ${COREBASE}/scripts/postinst-intercepts/update_pixbuf_cache ${D}${datadir}/postinst-intercepts/
-+}
-+
-+BBCLASSEXTEND = "nativesdk"
-+INHIBIT_DEFAULT_DEPS = "1"
--- 
-1.8.3.2
-
+Br,
+David
 
