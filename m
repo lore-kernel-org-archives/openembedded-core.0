@@ -1,26 +1,35 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EEA660CEB
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
+	[209.85.215.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CBA3615AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 23:55:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 21 Jan 2014 15:55:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="462540967"
-Received: from dvhart-mobl4.jf.intel.com (HELO [10.24.1.180]) ([10.24.1.180])
-	by fmsmga001.fm.intel.com with ESMTP; 21 Jan 2014 15:55:54 -0800
-Message-ID: <1390348553.13672.22.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
+	Wed, 22 Jan 2014 00:36:13 +0000 (UTC)
+Received: by mail-ea0-f182.google.com with SMTP id r15so3333189ead.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jan 2014 16:36:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=TBT+rz+h4Rg5qsvI1N3XuUhnZAiNryXIPAIamNc7K0M=;
+	b=bMxaJPwEktzMvQEtgA8UiV6cLV4xc2WUp1f3yqu1zgnoqoQVzqBSZtanxDoLtunhrU
+	CkgmOLEtoTjH6ALeE/+WmXmDGji7zzFuBqJaPctdtoywriR/Nz9ESJdpeSGPE/OgG4qI
+	9CPwUbPwYm/y1v+qeEhjpFixidQ7qNuK5EY6dJGDlNBvSTV8vuJE5IJwsvRAeH4RJshJ
+	RMlQ43i2ZdklM5Vttrg+vXRjY21IDfqM2DQH2B25GtM+y3AR1mSrjJKvHrquhqPyMIfN
+	OHiXzjpwU1tMjmzLvz8AWTcxZ3AlyxamOhpmSpUlsgGCWBTfIwj9ZL3qlFaBV2Cru1rD
+	97IA==
+X-Received: by 10.15.91.3 with SMTP id r3mr27004214eez.18.1390350974176;
+	Tue, 21 Jan 2014 16:36:14 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id n7sm20616612eef.5.2014.01.21.16.36.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Jan 2014 16:36:13 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2014 15:55:53 -0800
-In-Reply-To: <cover.1390342768.git.dvhart@linux.intel.com>
-References: <cover.1390342768.git.dvhart@linux.intel.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: Richard Purdie <richard.purdie@intel.com>, Poky <poky@yoctoproject.org>,
-	Paul Eggleton <paul.eggleton@intel.com>
-Subject: Re: [PATCH 00/15] Update x86 tune files
+Date: Wed, 22 Jan 2014 01:36:05 +0100
+Message-Id: <cover.1390350823.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH][RFC][WIP 0/6] thumb tune feature improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2014 23:55:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jan 2014 00:36:14 -0000
 
-On Tue, 2014-01-21 at 14:40 -0800, Darren Hart wrote:
-> All,
-> 
-> The following lays the groundwork for some rethinking of support for x86
-> platforms. In particular, the meta-intel layer will undergo some major
-> refactoring once this is merged. We believe it is of value to keep as much
-> of the tune files available in oe-core as possible, rather than isolating
-> them all in meta-intel.
-> 
-> This series renames the x86-related tune files, documents best practices,
-> updates the core2 tune file, adds a corei7 tune file, and updates the dependent
-> machine configs. This spans oe-core and poky and I feel is best viewed as a
-> whole. Please forgive the cross-post.
-> 
-> The new corei7 tune file applies to Nehalem and Silvermont (Bay Trail) CPUs
-> which support up to SSE4.2. This provides an appropriate demarcation line while
-> maximizing compatibility as well as including optimal support for the current
-> generation of the embedded CPUs (Bay Trail) by including it in the new tune. AVX
-> (Sandy Bridge and beyond) is not included as that would not apply to Bay Trail,
-> although it can easily be added in a corei7-avx tune file as an additional
-> patch for users who care more about the last few percent of performance over
-> compatibility and consolidation.
-> 
-> An important note and likely a point of contention: The core2 update changes the
-> core2 arch to core2-32, making the 32 bit explicit rather than implied in order
-> to provide a consistent naming scheme going forward with newer tunes where
-> 64 bit would be logical assumption if not explicitly stated. See patch 5/15 for
-> details on this bit.
-> 
-> Finally, update the machines dependent on these tune files to use the new names.
-> As we remove x86_64, the 64b x86 machines now build as core2-64 for maximum
-> compatibility.
+Only first patch was properly tested, the rest is just something I've
+noticed when looking at feature-arm-thumb.inc and there was similar
+request from Andrei last week
 
+http://lists.openembedded.org/pipermail/openembedded-core/2014-January/088207.html
 
-I missed a couple things I'm getting to now:
+The following changes since commit 4659d29b1040349116549644e45035a5b37d9311:
 
-* the yocto-bsp substrates
-* the inclusion of XSERVER_IA32_* in the genericx86 BSPs
-* the eglibc-ld.inc file .... I need some help here, but am 
-  updating the core2 references and adding corei7... do we 
-  really have to do this for every tune file!?!?
-* profile-manual core2 references
+  sstate.bbclass: remove previous version's stamp (2014-01-21 10:36:23 +0000)
 
-Coming in v2
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/tune
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/tune
+
+Andrei Gherzan (1):
+  tune-cortexm3.inc: Cortex-M3 doesn't support ARM instructions
+
+Martin Jansa (5):
+  feature-arm-thumb.inc: Fix missing t2 suffix for armv7a MACHINEs
+  feature-arm-thumb.inc: Replace inner quotes with apostrophes
+  feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb
+    suffix
+  feature-arm-thumb.inc, arch-armv4.inc: Add "arm" to TUNE_FEATURES
+  tune-cortexr4.inc: Add thumb and arm to TUNE_FEATURES
+
+ meta/conf/machine/include/arm/arch-armv4.inc       |  2 +-
+ .../conf/machine/include/arm/feature-arm-thumb.inc | 30 ++++++++++++++--------
+ meta/conf/machine/include/tune-cortexm3.inc        |  2 +-
+ meta/conf/machine/include/tune-cortexr4.inc        |  2 +-
+ 4 files changed, 23 insertions(+), 13 deletions(-)
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
+1.8.5.3
 
 
