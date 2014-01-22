@@ -1,42 +1,39 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 204946AE73
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 291826C921
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 18:02:59 +0000 (UTC)
-Received: by mail-lb0-f182.google.com with SMTP id w7so593850lbi.41
+	Wed, 22 Jan 2014 18:07:04 +0000 (UTC)
+Received: by mail-vc0-f177.google.com with SMTP id if11so424656vcb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 10:03:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=VnVgBJYhvs6jNqtx8HNS0g/iRvaTJyi7mZ7lYsmxmN8=;
-	b=M1FCHUoPZnyOfa5Ooih/NfQoeOvvVpehdS1rf6Y+RsxM5IMz+SNHMqyoCsDgzipyxz
-	gXSUWAI2OIDGGHOncEZthUAdAxHs+r7HJqD4Slyw7ObakN5l6b5NUTHIL8hNsHR7n1lp
-	fOd22/l9wt+hGazYMvSDHm6pFuzkb6naeOh3/UOp6CaphFw0GQrH391vVKlqXtLPoDH2
-	6IhteVtg4qqmulASf+Y/p9YOFXBRCCb9zz9PbqIfMAAPUF4zDpcv81uefZRIcMP95fXC
-	Sr88GDmLbQE+ZuJoFecPZ01HKNzuOuWAs/6vhD1ed5s+hTB17mCKjbrv40aJ1H7AeGmT
-	oIzg==
-X-Received: by 10.152.8.47 with SMTP id o15mr2052781laa.20.1390413780461;
-	Wed, 22 Jan 2014 10:03:00 -0800 (PST)
-Received: from [172.16.141.123] (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id m3sm8350913lbp.13.2014.01.22.10.02.59
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 22 Jan 2014 10:02:59 -0800 (PST)
-Message-ID: <52E007CC.5070405@gmail.com>
-Date: Wed, 22 Jan 2014 19:02:52 +0100
-From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Wed, 22 Jan 2014 10:07:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=K1BMPlWCym6QVKWpaCFwWeiX6AynKQiODK+IiQjz+GQ=;
+	b=WRK1AANLBEbsgM7PZJqLm88CKIcqk7W8sYLFYGjbeROJLdaMRu8UrvUBe7Cp9IrATN
+	Y2X5OM3QFuBkKwpF5qDJVz6CYhGTybXYlrD86w0mC2TLVaMbh6oXKqBKl5MD5W6T6NQp
+	Jp3NVa/1K2oZcXf4Zb8IhEpET47zmIl5Z4l5hM9BGDYWfFwWVFkS1X7O6ai0UXT5uNyT
+	jwd0FnFVTUV1XWGJD2v6/s7BN+ws8b2xmpsBAcxAUbtXFus24VxcMuIWbyAprcTJYIGn
+	ADtFjXH7naTF1SnhSpQ+mUflAsLhwTlr8hb+p9EHW0Xpns3dtqI5c/AiAbQCyU1FqZ+f
+	R5SQ==
+X-Gm-Message-State: ALoCoQnxYlMiUHtCo5xgyTXuj+0nrXVGV+mF7HkCfrEmmj9SVXY80SRLQVxFl0cYGXl5PO6tz6E2
+X-Received: by 10.220.98.143 with SMTP id q15mr964780vcn.38.1390414024848;
+	Wed, 22 Jan 2014 10:07:04 -0800 (PST)
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1390403335-14487-1-git-send-email-david.nystrom@enea.com>
-	<CAP9ODKr4WxcPVkxGMR+ZZ98b6mLbmUyr9Qs=BWe-S5HVJSn=hg@mail.gmail.com>
-In-Reply-To: <CAP9ODKr4WxcPVkxGMR+ZZ98b6mLbmUyr9Qs=BWe-S5HVJSn=hg@mail.gmail.com>
+Received: by 10.220.96.84 with HTTP; Wed, 22 Jan 2014 10:06:44 -0800 (PST)
+In-Reply-To: <CAJTo0LYvzkHrODzpx7CMWM1hEGAjXDEtukvP8aNbCDYHvY7t8Q@mail.gmail.com>
+References: <5278C502.1080100@cn.fujitsu.com>
+	<008701cee4ce$d0b805c0$72281140$@cn.fujitsu.com>
+	<CAJTo0LYvzkHrODzpx7CMWM1hEGAjXDEtukvP8aNbCDYHvY7t8Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Jan 2014 18:06:44 +0000
+Message-ID: <CAJTo0LZh6a+Dh3OAK4iaq4KTRxQFE66+fSYi1JuQAn5dsvDh1A@mail.gmail.com>
+To: Li Zhijian <lizhijian@cn.fujitsu.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/2] postinst-intercept: New recipe to include postinstall intercepts in nativesdk
+Subject: Re: [PATCH v2] systemd.bbclass: only restart the service when it is active at systemd_postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,57 +46,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 18:03:00 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 22 Jan 2014 18:07:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On ons 22 jan 2014 16:47:06, Otavio Salvador wrote:
-> On Wed, Jan 22, 2014 at 1:08 PM, David Nyström
-> <david.c.nystrom@gmail.com> wrote:
->> Adding ability to use postinstalls intercepts in the nativesdk env, and
->> making sure the correlate between repo + SDK.
->>
->> This to enable rootfs generation from a package repository using only a
->> package repository and the toolchain tarball.
->>
->> See https://github.com/nysan/rootfs-sandbox for examples.
->>
->> Signed-off-by: David Nyström <david.nystrom@enea.com>
+On 22 January 2014 17:56, Burton, Ross <ross.burton@intel.com> wrote:
+> Whoops, this fell out of my inbox.   Whilst the is-active check now
+> means that the service is restarted on upgrades, if the package is
+> being installed it's now not started if AUTO_ENABLE is set to true.
 >
-> Much better. Thanks.
->
-> Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
->
-> Regarding the rootfs-sandbox, how are you intending to proper
-> integrate it with the toolchain?
->
+> I think the logic should be "$D unset and (auto enable or is-active)"
 
-Search the oe-core list for the previous discussions with Tom Zanussi.
-I believe the long term goals is to redo rootfs_*.bbclass in python, 
-and let both bitbake and MIC(WIC) use
-the same code for image creation.(SDK env + bitbake env.)
+Also, before doing systemctl reload, systemd needs to be told to
+re-load the services with systemctl --system daemon-reload (thanks
+Koen for pointing this out).
 
-I'm fine with continued dev/inclusion of rootfs-sandbox, but I think 
-that might not be acceptable as a long term solution since
-it may be maintenance heavy, since it uses alot of oe-core internal 
-env. vars.
-
-Possible routes are:
-1. Use common code for rootfs assembly. (WIC)
-2. Cleanup env. var. usage in postinstall hooks, and be aggressive in 
-denying new additions. (Continue dev. on rootfs-sandbox)
-
-Off-topic:
-With above patches, I'm down to 1 postinstall failures for 
-packagegroup-core-lsb:
-1. missing shlibsign, (nss), cant get the damn thing to compile for 
-nativesdk yet.
-
-There are 2 other failures as well, but they fail when bitbake:ing as 
-well.
-Only works well with ipk sofar.
-
-Br,
-David
-
+Ross
 
