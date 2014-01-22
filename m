@@ -1,24 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 77BFE6002A
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A1E486002A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 08:57:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0M8vL5l006581
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 00:57:21 -0800 (PST)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 22 Jan 2014 00:57:20 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jan 2014 16:57:38 +0800
-Message-ID: <1390381058-5640-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Subject: [PATCH] initscripts: define failure/success/warning/pass functions
+	Wed, 22 Jan 2014 09:02:10 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Jan 2014 00:58:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,698,1384329600"; d="scan'208";a="442767913"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga001.jf.intel.com with ESMTP; 22 Jan 2014 01:01:46 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jan 2014 11:04:22 +0200
+Message-Id: <edd9dd0d71775cc36546dfb43809c904f6a15766.1390381388.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <cover.1390381388.git.cristian.iorga@intel.com>
+References: <cover.1390381388.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1390381388.git.cristian.iorga@intel.com>
+References: <cover.1390381388.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/4] neard: upgrade to 0.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,69 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 08:57:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Jan 2014 09:02:11 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+switched from git version to tarball,
+as new releases are now versioned.
 
-define failure/success/warning/pass functions, some packages' initscript
-need them, and /etc/core-lsb/lsb_log_message from lsb needs them too.
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../initscripts/initscripts-1.0/functions          |   31 ++++++++++++++++++++
- 1 file changed, 31 insertions(+)
- mode change 100644 => 100755 meta/recipes-core/initscripts/initscripts-1.0/functions
+ meta/recipes-connectivity/neard/neard_0.10.bb | 10 ----------
+ meta/recipes-connectivity/neard/neard_0.14.bb |  9 +++++++++
+ 2 files changed, 9 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/neard/neard_0.10.bb
+ create mode 100644 meta/recipes-connectivity/neard/neard_0.14.bb
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b/meta/recipes-core/initscripts/initscripts-1.0/functions
-old mode 100644
-new mode 100755
-index 8e15762..01ad1ed
---- a/meta/recipes-core/initscripts/initscripts-1.0/functions
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
-@@ -3,6 +3,14 @@
- # functions     This file contains functions to be used by most or all
- #               shell scripts in the /etc/init.d directory.
- #
+diff --git a/meta/recipes-connectivity/neard/neard_0.10.bb b/meta/recipes-connectivity/neard/neard_0.10.bb
+deleted file mode 100644
+index 3a1c368..0000000
+--- a/meta/recipes-connectivity/neard/neard_0.10.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require neard.inc
+-
+-SRC_URI = "git://git.kernel.org/pub/scm/network/nfc/neard.git \
+-           file://neard.in \
+-           file://neard.service.in \
+-          "
+-
+-S = "${WORKDIR}/git"
+-SRCREV = "eb486bf35e24d7d1db61350f5ab393a0c880523d"
+-PV = "0.10+git${SRCPV}"
+diff --git a/meta/recipes-connectivity/neard/neard_0.14.bb b/meta/recipes-connectivity/neard/neard_0.14.bb
+new file mode 100644
+index 0000000..ac9aaf1
+--- /dev/null
++++ b/meta/recipes-connectivity/neard/neard_0.14.bb
+@@ -0,0 +1,9 @@
++require neard.inc
 +
-+NORMAL="\\033[0;39m"         # Standard console grey
-+SUCCESS="\\033[1;32m"        # Success is green
-+WARNING="\\033[1;33m"        # Warnings are yellow
-+FAILURE="\\033[1;31m"        # Failures are red
-+INFO="\\033[1;36m"           # Information is light cyan
-+BRACKET="\\033[1;34m"        # Brackets are blue
++SRC_URI = "${KERNELORG_MIRROR}/linux/network/nfc/${BPN}-${PV}.tar.xz \
++           file://neard.in \
++           file://neard.service.in \
++          "
++SRC_URI[md5sum] = "692ba2653d60155255244c87396c486b"
++SRC_URI[sha256sum] = "6ea724b443d39d679168fc7776a965d1f64727c3735391df2c01469ee7cd8cca"
 +
- # NOTE: The pidofproc () doesn't support the process which is a script unless
- #       the pidof supports "-x" option. If you want to use it for such a
- #       process:
-@@ -58,3 +66,26 @@ status() {
-     fi
-     return 3
- }
-+
-+success() {
-+    echo -n -e "${BRACKET}[${SUCCESS}  OK  ${BRACKET}]${NORMAL}"
-+    return 0
-+}
-+
-+failure() {
-+    local rc=$*
-+    echo -n -e "${BRACKET}[${FAILURE} FAIL ${BRACKET}]${NORMAL}"
-+    return $rc
-+}
-+
-+warning() {
-+    local rc=$*
-+    echo -n -e "${BRACKET}[${WARNING} WARN ${BRACKET}]${NORMAL}"
-+    return $rc
-+}
-+
-+passed() {
-+    local rc=$*
-+    echo -n -e "${BRACKET}[${SUCCESS} PASS ${BRACKET}]${NORMAL}"
-+    return $rc
-+}
 -- 
-1.7.10.4
+1.8.3.2
 
 
