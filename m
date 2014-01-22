@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
-	[209.85.212.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A33A6DBF9
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
+	[209.85.219.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CC9B6DBF9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 15:46:41 +0000 (UTC)
-Received: by mail-vb0-f44.google.com with SMTP id f12so315365vbg.17
+	Wed, 22 Jan 2014 15:47:05 +0000 (UTC)
+Received: by mail-oa0-f46.google.com with SMTP id n16so629340oag.19
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 07:46:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=PlIriOp0qHbpg3u9tAQOC2eJH8V3DZyyqreZEGxTp7c=;
-	b=bn4J9G/29QlI/FIJkjjVC3hLeF1w4aMHezqfA/UO2Q1Xi4Fd74USH5M8+C6VwoJdJq
-	fI7zxzQv0QbhojzZcDLXVVjEFDwmMKfveOa9pkrEYnr2yKObn35Z3HIO6cUz6mGCRXQc
-	a0odrMXyQAOJr2miUDA8+zQ5GFwa8awTlM0MDBbXHC+lHLMOmpJQYYW0peDzbwcpjEdp
-	FlGBpiGbdwheUnLVmW/tzgivheN/3rf14+5maD461AMv+7HY4sLVwI8TgDriVL6QN3Ks
-	FRWq923UxWRr9OqnlPRYdWfp/TrXj7bwWqxUNhCkbTRALrBLZNyTVYEBfJBrUVmEU2Ru
-	u8Cw==
-X-Gm-Message-State: ALoCoQmATpp70/UIB/8xdJYQFlUIkrHNiKU5bMjz1autxqafxnB4od2Pv6ChNPOrI1LsYk6N/Z6B
-X-Received: by 10.58.116.239 with SMTP id jz15mr1368581veb.26.1390405602434;
-	Wed, 22 Jan 2014 07:46:42 -0800 (PST)
+	Wed, 22 Jan 2014 07:47:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=zBTeLC6YkBAZ4jlgNB0ffVKB47QrWVmegSxNOXEMmOE=;
+	b=OXb+kB1RBlP7Vbku98h/9cltJWoiMS71vUXljGpZUw8LqR/88ihZDQ9nfBVlFyNW68
+	WgYSKIW3DCnPyLBLJk3YwfzOKrJ3IZ6YbCwuVq6XiylRiFtewpxEJKoqOYaT+dplrJUz
+	8l2+M4Tka4npAiUCPRnQ+2EyqTDrp5zJevImb4gSc9qdzSlLlRtFBuGJuMos3Q96Y4G1
+	8QCQeFW1adVl6NOqJ+m1R5Au2y5TN2jlZp7IvcLNG8DEAxM7hPOyACrgE8TNd6I7W17k
+	HcECxjwq4NauUM94+LsqK64UWR1n27Z1HJYJV9gsgdQQJv2LIZKai5j1dUJ8xTZO01QI
+	0LYw==
 MIME-Version: 1.0
-Received: by 10.220.96.84 with HTTP; Wed, 22 Jan 2014 07:46:22 -0800 (PST)
-In-Reply-To: <1387461777-25101-1-git-send-email-valentin.popa@intel.com>
-References: <1387461777-25101-1-git-send-email-valentin.popa@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Jan 2014 15:46:22 +0000
-Message-ID: <CAJTo0LYyvpbqXDLXH6vGjG+K+w-ZNi4Lu0UAvXFxnb6Emx=D5A@mail.gmail.com>
-To: Valentin Popa <valentin.popa@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: Allow user to set -vga option with qemuparams
+X-Received: by 10.182.241.8 with SMTP id we8mr1841317obc.62.1390405626360;
+	Wed, 22 Jan 2014 07:47:06 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 22 Jan 2014 07:47:06 -0800 (PST)
+In-Reply-To: <1390403335-14487-1-git-send-email-david.nystrom@enea.com>
+References: <1390403335-14487-1-git-send-email-david.nystrom@enea.com>
+Date: Wed, 22 Jan 2014 13:47:06 -0200
+X-Google-Sender-Auth: 0UajGhKsXpolbWzXBXk3wk-U2ik
+Message-ID: <CAP9ODKr4WxcPVkxGMR+ZZ98b6mLbmUyr9Qs=BWe-S5HVJSn=hg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 1/2] postinst-intercept: New recipe to include postinstall intercepts in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,72 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 15:46:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 22 Jan 2014 15:47:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Just noticed that this was merged but doesn't add anything to the
-usage() function in runqemu - can you quickly add something?
+On Wed, Jan 22, 2014 at 1:08 PM, David Nystr=F6m
+<david.c.nystrom@gmail.com> wrote:
+> Adding ability to use postinstalls intercepts in the nativesdk env, and
+> making sure the correlate between repo + SDK.
+>
+> This to enable rootfs generation from a package repository using only a
+> package repository and the toolchain tarball.
+>
+> See https://github.com/nysan/rootfs-sandbox for examples.
+>
+> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
 
-Ross
+Much better. Thanks.
 
-On 19 December 2013 14:02, Valentin Popa <valentin.popa@intel.com> wrote:
-> At the moment, the user cannot to set -vga other then vmware
-> (because "vmware" is set by default); and the first argument
-> in qemuparams has higher precedence.
->
-> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-> ---
->  scripts/runqemu          |  1 +
->  scripts/runqemu-internal | 12 ++++++++++--
->  2 files changed, 11 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 9c0a03b..dcb2931 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -156,6 +156,7 @@ while true; do
->              # to use simplified options instead
->              serial_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-serial\)'`
->              kvm_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-enable-kvm\)'`
-> +            vga_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-vga\)'`
->              [ ! -z "$serial_option" -o ! -z "$kvm_option" ] && \
->                  echo "Please use simplified serial or kvm options instead"
->              ;;
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index 74b0c35..284b88c 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -357,7 +357,11 @@ fi
->
->  if [ "$MACHINE" = "qemux86" ]; then
->      QEMU=qemu-system-i386
-> -    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
-> +    if [ ! -z "$vga_option" ]; then
-> +        QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-> +    else
-> +        QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
-> +    fi
->      if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
->          KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
->          QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-> @@ -381,7 +385,11 @@ fi
->
->  if [ "$MACHINE" = "qemux86-64" ]; then
->      QEMU=qemu-system-x86_64
-> -    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
-> +    if [ ! -z "$vga_option" ]; then
-> +        QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-> +    else
-> +        QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
-> +    fi
->      if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
->          KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
->          QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-> --
-> 1.8.3.2
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
+
+Regarding the rootfs-sandbox, how are you intending to proper
+integrate it with the toolchain?
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
