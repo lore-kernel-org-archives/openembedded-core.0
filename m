@@ -1,27 +1,41 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E8EBB6E71E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D016C615AE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 00:53:38 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 21 Jan 2014 16:49:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="470435611"
-Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
-	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2014 16:53:09 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	Poky <poky@yoctoproject.org>
-Date: Tue, 21 Jan 2014 16:58:53 -0800
-Message-Id: <52e9f44f6277cf913fbe414c534a849c05c9292f.1390351667.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <e6c72bf867006ab15d62d0beb1cd8aafe19db72a.1390351667.git.dvhart@linux.intel.com>
-References: <e6c72bf867006ab15d62d0beb1cd8aafe19db72a.1390351667.git.dvhart@linux.intel.com>
-In-Reply-To: <cover.1390351667.git.dvhart@linux.intel.com>
+	Wed, 22 Jan 2014 01:02:55 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id d17so4539345eek.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jan 2014 17:02:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=gOrz4FdsEmfZWPZyCc7fGeZQnGGlBemKOOlaitar+C0=;
+	b=Wxyy9bbopYHRcs3BGzKIx3Mr8KG44yLMko7p7IZ9Dm63WKk/s8xqwXa/LFL7UV69JK
+	PrEexuMn5K+T5GRm0Rpy4GobF/mkxSzd+G2xag8ktN4ZuLwZyVYLz0zCz6CRKFCwXbEI
+	l9/gmCzhTk6Q9n71kJSkljBgTj1LrUPu5MlG5940XdgAvftKIQG71S8jEkEaBknRQhMh
+	pcJ2C5ZG75KjYM0BYegqJl/Xb03BJae5rmuTQl63SVRqq791lzSItuWO/KPzHZ83Z/9i
+	h5/C37xDTqZVJISGw5LRtXiRZUOFTHjhqBnR+zZLG4FBCTR2OHtptqhghjw/aPDMD7+R
+	s9+w==
+X-Received: by 10.14.0.201 with SMTP id 49mr27075972eeb.38.1390352576406;
+	Tue, 21 Jan 2014 17:02:56 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107])
+	by mx.google.com with ESMTPSA id 46sm20797727ees.4.2014.01.21.17.02.55
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 Jan 2014 17:02:55 -0800 (PST)
+Date: Wed, 22 Jan 2014 02:02:55 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Message-ID: <20140122010255.GP4100@jama>
 References: <cover.1390351667.git.dvhart@linux.intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>,
+	<e6c72bf867006ab15d62d0beb1cd8aafe19db72a.1390351667.git.dvhart@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <e6c72bf867006ab15d62d0beb1cd8aafe19db72a.1390351667.git.dvhart@linux.intel.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core@lists.openembedded.org, Poky <poky@yoctoproject.org>,
 	Paul Eggleton <paul.eggleton@intel.com>
-Subject: [PATCH 08/19] tune: README: Whitespace cleanup
+Subject: Re: [PATCH 01/19] x86: Replace ia32 with x86 when referring to the generic architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,152 +48,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 00:53:39 -0000
+X-List-Received-Date: Wed, 22 Jan 2014 01:02:56 -0000
+X-Groupsio-MsgNum: 49345
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="5/6IVfYouxg+lu1D"
+Content-Disposition: inline
 
-Before making content changes, cleanup the various whitespace errors in
-this file. Mostly end-of-line whitepsace.
+--5/6IVfYouxg+lu1D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Paul Eggleton <paul.eggleton@intel.com>
-Cc: Tom Zanussi <tom.zanussi@intel.com>
-Cc: Nitin Kamble <nitin.a.kamble@intel.com>
-Cc: Mark Hatle <mark.hatle@windriver.com>
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
----
- meta/conf/machine/include/README |   88 +++++++++++++++++++-------------------
- 1 file changed, 44 insertions(+), 44 deletions(-)
+On Tue, Jan 21, 2014 at 04:58:46PM -0800, Darren Hart wrote:
+> ia32 implies 32bit, while these files provide descriptions for IA32,
+> X86_64, and X32 architectures. The term "x86" fits this used better
+> without resorting to using the term "Intel" which isn't quite right as
+> it excludes things like the tune-c3 file describing a Via CPU.
+>=20
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Paul Eggleton <paul.eggleton@intel.com>
+> Cc: Tom Zanussi <tom.zanussi@intel.com>
+> Cc: Nitin Kamble <nitin.a.kamble@intel.com>
+> Cc: Mark Hatle <mark.hatle@windriver.com>
+> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Cc: Martin Jansa <martin.jansa@gmail.com>
+> ---
+>  meta/conf/machine/include/tune-c3.inc              |    2 +-
+>  meta/conf/machine/include/tune-i586.inc            |    2 +-
+>  meta/conf/machine/include/tune-x86_64.inc          |    2 +-
+>  .../include/{ia32-base.inc =3D> x86-base.inc}        |   18 +++++++++---=
+------
+>  meta/conf/machine/include/{ia32 =3D> x86}/README     |    6 +++---
+>  .../{ia32/arch-ia32.inc =3D> x86/arch-x86.inc}       |    2 +-
+>  6 files changed, 16 insertions(+), 16 deletions(-)
+>  rename meta/conf/machine/include/{ia32-base.inc =3D> x86-base.inc} (72%)
+>  rename meta/conf/machine/include/{ia32 =3D> x86}/README (81%)
+>  rename meta/conf/machine/include/{ia32/arch-ia32.inc =3D> x86/arch-x86.i=
+nc} (97%)
+>=20
+> diff --git a/meta/conf/machine/include/tune-c3.inc b/meta/conf/machine/in=
+clude/tune-c3.inc
+> index 18865b7..fafc28a 100644
+> --- a/meta/conf/machine/include/tune-c3.inc
+> +++ b/meta/conf/machine/include/tune-c3.inc
+> @@ -1,4 +1,4 @@
+> -require conf/machine/include/ia32/arch-ia32.inc
+> +require conf/machine/include/x86/arch-x86.inc
+> =20
+>  TUNEVALID[c3] =3D "VIA Cyrix III or VIA C3 specific optimizations"
+>  TUNECONFLICTS[c3] =3D "m64 mx32"
+> diff --git a/meta/conf/machine/include/tune-i586.inc b/meta/conf/machine/=
+include/tune-i586.inc
+> index 4542b9b..a315b35 100644
+> --- a/meta/conf/machine/include/tune-i586.inc
+> +++ b/meta/conf/machine/include/tune-i586.inc
+> @@ -1,6 +1,6 @@
+>  DEFAULTTUNE ?=3D "i586"
+> =20
+> -require conf/machine/include/ia32/arch-ia32.inc
+> +require conf/machine/include/x86/arch-x86.inc
+> =20
+>  # Extra tune features
+>  TUNEVALID[i586] =3D "Enable i586 specific processor optimizations"
+> diff --git a/meta/conf/machine/include/tune-x86_64.inc b/meta/conf/machin=
+e/include/tune-x86_64.inc
+> index 31e06da..ae48124 100644
+> --- a/meta/conf/machine/include/tune-x86_64.inc
+> +++ b/meta/conf/machine/include/tune-x86_64.inc
+> @@ -1,4 +1,4 @@
+>  DEFAULTTUNE ?=3D "x86-64"
+> =20
+> -require conf/machine/include/ia32/arch-ia32.inc
+> +require conf/machine/include/x86/arch-x86.inc
+> =20
+> diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/=
+include/x86-base.inc
+> similarity index 72%
+> rename from meta/conf/machine/include/ia32-base.inc
+> rename to meta/conf/machine/include/x86-base.inc
+> index e15f927..d6c4d60 100644
+> --- a/meta/conf/machine/include/ia32-base.inc
+> +++ b/meta/conf/machine/include/x86-base.inc
+> @@ -1,9 +1,9 @@
+>  #
+> -# base machine settings for ia32-architecture BSPs
+> +# Base machine settings for X86 architecture BSPs
+>  #
+> =20
+>  #
+> -# common settings for Intel-based machines
+> +# common settings for X86 machines
+>  #
+>  MACHINE_FEATURES +=3D "screen keyboard pci usbhost ext2 ext3 x86 \
+>                       acpi serial usbgadget alsa"
+> @@ -25,28 +25,28 @@ PREFERRED_VERSION_linux-yocto ??=3D "3.0%"
+>  #
+>  # XSERVER subcomponents, used to build the XSERVER variable
+>  #
+> -XSERVER_IA32_BASE =3D "xserver-xorg \
+> +XSERVER_X86_BASE =3D "xserver-xorg \
+>             xf86-input-mouse \
+>             xf86-input-keyboard \
+>             xf86-input-evdev \
+>             xf86-input-synaptics \
+>             "
+> =20
+> -XSERVER_IA32_EXT =3D " \
+> +XSERVER_X86_EXT =3D " \
+>             ${@base_contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-e=
+xtension-glx', '', d)} \
+>             xserver-xorg-module-libint10 \
+>             "
+> =20
+> -XSERVER_IA32_I915 =3D "xf86-video-intel \
+> +XSERVER_X86_I915 =3D "xf86-video-intel \
+>             ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i9=
+15', '', d)} \
+>             "
+> =20
+> -XSERVER_IA32_I965 =3D "xf86-video-intel \
+> +XSERVER_X86_I965 =3D "xf86-video-intel \
+>             ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i9=
+65', '', d)} \
+>             "
+> =20
+> -XSERVER_IA32_VESA =3D "xf86-video-vesa"
+> +XSERVER_X86_VESA =3D "xf86-video-vesa"
+> =20
+> -XSERVER_IA32_FBDEV =3D "xf86-video-fbdev"
+> +XSERVER_X86_FBDEV =3D "xf86-video-fbdev"
+> =20
+> -XSERVER_IA32_MODESETTING =3D "xf86-video-modesetting"
+> +XSERVER_X86_MODESETTING =3D "xf86-video-modesetting"
+> diff --git a/meta/conf/machine/include/ia32/README b/meta/conf/machine/in=
+clude/x86/README
+> similarity index 81%
+> rename from meta/conf/machine/include/ia32/README
+> rename to meta/conf/machine/include/x86/README
+> index 8f80a5b..d8b6793 100644
+> --- a/meta/conf/machine/include/ia32/README
+> +++ b/meta/conf/machine/include/x86/README
+> @@ -1,12 +1,12 @@
+>  2012/03/30 - Mark Hatle <mark.hatle@windriver.com>
+>   - Initial version
+> =20
+> -Most of the items for the IA architecture are defined in the single=20
+> -arch-ia32 file.
+> +Most of the items for the Intel architectures are defined in the single=
+=20
+> +arch-x86 file.
 
-diff --git a/meta/conf/machine/include/README b/meta/conf/machine/include/README
-index e4b59c9..65d0942 100644
---- a/meta/conf/machine/include/README
-+++ b/meta/conf/machine/include/README
-@@ -1,27 +1,27 @@
- 2012/03/30 - Mark Hatle <mark.hatle@windriver.com>
-  - Initial Revision
- 
--The individual CPU, and ABI tunings are contained in this directory.  A 
--number of local and global variables are used to control the way the 
--tunings are setup and how they work together to specify an optimized 
-+The individual CPU, and ABI tunings are contained in this directory.  A
-+number of local and global variables are used to control the way the
-+tunings are setup and how they work together to specify an optimized
- configuration.
- 
--The following is brief summary of the generic components that are used 
-+The following is brief summary of the generic components that are used
- in these tunings.
- 
--AVAILTUNES - This is a list of all of the tuning definitions currently 
--available in the system.  Not all tunes in this list may be compatible 
--with the machine configuration, or each other in a multilib 
--configuration.  Each tuning file can add to this list using "+=", but 
-+AVAILTUNES - This is a list of all of the tuning definitions currently
-+available in the system.  Not all tunes in this list may be compatible
-+with the machine configuration, or each other in a multilib
-+configuration.  Each tuning file can add to this list using "+=", but
- should never replace the list using "=".
- 
--DEFAULTTUNE - This specifies the tune to use for a particular build.  
--Each tune should specify a reasonable default, which can be overriden by 
--a machine or multilib configuration.  The specified tune must be listed 
-+DEFAULTTUNE - This specifies the tune to use for a particular build.
-+Each tune should specify a reasonable default, which can be overriden by
-+a machine or multilib configuration.  The specified tune must be listed
- in the AVAILTUNES.
- 
--TUNEVALID[feature] - The <feature> is defined with a human readable 
--explanation for what it does.  All architectural, cpu, abi, etc tuning 
-+TUNEVALID[feature] - The <feature> is defined with a human readable
-+explanation for what it does.  All architectural, cpu, abi, etc tuning
- features must be defined using TUNEVALID.
- 
- TUNECONFLICTS[feature] - A list of features which conflict with <feature>.
-@@ -31,51 +31,51 @@ tuning ends up with features which conflict with each other.
- TUNE_FEATURES - This is automatically defined as TUNE_FEATURES_tune-<tune>.
- See TUNE_FEATURES_tune-<tune> for more information.
- 
--TUNE_FEATURES_tune-<tune> - Specify the features used to describe a 
--specific tune.  This is a list of features that a tune support, each 
--feature must be in the TUNEVALID list.  Note: the tune and a given 
--feature name may be the same, but they have different purposes.  Only 
--features may be used to change behavior, while tunes are used to 
-+TUNE_FEATURES_tune-<tune> - Specify the features used to describe a
-+specific tune.  This is a list of features that a tune support, each
-+feature must be in the TUNEVALID list.  Note: the tune and a given
-+feature name may be the same, but they have different purposes.  Only
-+features may be used to change behavior, while tunes are used to
- describe an overall set of features.
- 
--ABIEXTENSION - An ABI extension may be specified by a specific feature 
--or other tuning setting, such as TARGET_FPU.  Any ABI extensions either 
--need to be defined in the architectures base arch file, i.e.  
--ABIEXTENSION = "eabi" in the arm case, or appended to in specific tune 
-+ABIEXTENSION - An ABI extension may be specified by a specific feature
-+or other tuning setting, such as TARGET_FPU.  Any ABI extensions either
-+need to be defined in the architectures base arch file, i.e.
-+ABIEXTENSION = "eabi" in the arm case, or appended to in specific tune
- files with a ".=".  Spaces are not allowed in this variable.
- 
--TUNE_CCARGS - Setup the cflags based on the TUNE_FEATURES settings.  
--These should be additive when defined using "+=".  All items in this 
--list should be dynamic! i.e. 
-+TUNE_CCARGS - Setup the cflags based on the TUNE_FEATURES settings.
-+These should be additive when defined using "+=".  All items in this
-+list should be dynamic! i.e.
- ${@bb.utils.contains("TUNE_FEATURES", "feature", "cflag", "!cflag", d)}
- 
--TUNE_ARCH - The GNU canonical arch for a specific architecture.  i.e. 
--arm, armeb, mips, mips64, etc.  This value is by bitbake to setup 
--configure. TUNE_ARCH definitions are specific to a given architecture.  
--They may be a single static definitions, or may be dynamically adjusted.  
-+TUNE_ARCH - The GNU canonical arch for a specific architecture.  i.e.
-+arm, armeb, mips, mips64, etc.  This value is by bitbake to setup
-+configure. TUNE_ARCH definitions are specific to a given architecture.
-+They may be a single static definitions, or may be dynamically adjusted.
- See each architectures README for details for that CPU family.
- 
--TUNE_PKGARCH - The package architecture used by the packaging systems to 
--define the architecture, abi and tuning of a particular package.  
--Similarly to TUNE_ARCH, the definition of TUNE_PKGARCH is specific to 
--each architecture. See each architectures README for details for that 
-+TUNE_PKGARCH - The package architecture used by the packaging systems to
-+define the architecture, abi and tuning of a particular package.
-+Similarly to TUNE_ARCH, the definition of TUNE_PKGARCH is specific to
-+each architecture. See each architectures README for details for that
- CPU family.
- 
--PACKAGE_EXTRA_ARCHS - Lists all runtime compatible package 
--architectures.  By default this is equal to 
--PACKAGE_EXTRA_ARCHS_tune-<tune>.  If an architecture deviates from the 
-+PACKAGE_EXTRA_ARCHS - Lists all runtime compatible package
-+architectures.  By default this is equal to
-+PACKAGE_EXTRA_ARCHS_tune-<tune>.  If an architecture deviates from the
- default it will be listed in the architecture README.
- 
--PACKAGE_EXTRA_ARCHS_tune-<tune> - List all of the package architectures 
--that are compatible with this specific tune.  The package arch of this 
-+PACKAGE_EXTRA_ARCHS_tune-<tune> - List all of the package architectures
-+that are compatible with this specific tune.  The package arch of this
- tune must be in the list.
- 
--TARGET_FPU - The FPU setting for a given tune, hard (generate floating 
--point instructions), soft (generate internal gcc calls), "other" 
--architecture specific floating point.  This is synchronized with the 
--compiler and other toolchain items.  This should be dynamically 
-+TARGET_FPU - The FPU setting for a given tune, hard (generate floating
-+point instructions), soft (generate internal gcc calls), "other"
-+architecture specific floating point.  This is synchronized with the
-+compiler and other toolchain items.  This should be dynamically
- configured in the same way that TUNE_CCARGS is.
- 
--BASE_LIB_tune-<tune> - The "/lib" location for a specific ABI.  This is 
--used in a multilib configuration to place the libraries in the correct, 
-+BASE_LIB_tune-<tune> - The "/lib" location for a specific ABI.  This is
-+used in a multilib configuration to place the libraries in the correct,
- non-conflicting locations.
--- 
-1.7.9.5
+still few intel-isms left
 
+>  Three ABIs are define, m32, mx32 and m64.
+> =20
+> -The following is the list of ia32 specific variables:
+> +The following is the list of intel specific variables:
 
+still few intel-isms left
+
+>  X86ARCH32 - This is the 32-bit architecture GNU canonical arch, TUNE_ARC=
+H.
+> =20
+> diff --git a/meta/conf/machine/include/ia32/arch-ia32.inc b/meta/conf/mac=
+hine/include/x86/arch-x86.inc
+> similarity index 97%
+> rename from meta/conf/machine/include/ia32/arch-ia32.inc
+> rename to meta/conf/machine/include/x86/arch-x86.inc
+> index aa83896..298bddc 100644
+> --- a/meta/conf/machine/include/ia32/arch-ia32.inc
+> +++ b/meta/conf/machine/include/x86/arch-x86.inc
+> @@ -1,5 +1,5 @@
+>  #
+> -# IA32 Architecture definition
+> +# X86 Architecture definition (IA32, X86_64, and X32)
+>  #
+> =20
+>  DEFAULTTUNE ?=3D "x86"
+> --=20
+> 1.7.9.5
+>=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--5/6IVfYouxg+lu1D
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLfGL8ACgkQN1Ujt2V2gByl4gCeI6c0lHY8IuuMNWgL+Paj+Pks
+vUsAn1ZuP8F26CgNQi5kkhRD9czjibXR
+=r+S7
+-----END PGP SIGNATURE-----
+
+--5/6IVfYouxg+lu1D--
