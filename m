@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DA156002A
+	by mail.openembedded.org (Postfix) with ESMTP id 163F26B389
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 10:45:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0MAjPWb008037
+	Wed, 22 Jan 2014 10:50:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0MAo1ZT008093
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 02:45:25 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 22 Jan 2014 02:45:24 -0800
+	Wed, 22 Jan 2014 02:50:01 -0800 (PST)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 22 Jan 2014 02:50:00 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jan 2014 18:45:42 +0800
-Message-ID: <fbf6ea2201a4e7042980a82b6c342280df2fbbc8.1390387510.git.liezhi.yang@windriver.com>
+Date: Wed, 22 Jan 2014 18:50:19 +0800
+Message-ID: <cover.1390387731.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1390387510.git.liezhi.yang@windriver.com>
-References: <cover.1390387510.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sanity.bbclass: check required perl modules
+Subject: [PATCH 0/1] sanity.bbclass: check that TMPDIR is not located on nfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 10:45:23 -0000
+X-List-Received-Date: Wed, 22 Jan 2014 10:50:00 -0000
 Content-Type: text/plain
 
-Several required perl modules may missing on the host, for example the
-Text::ParseWords, Thread::Queue and Data::Dumper are not installed by
-default on recent Fedora releases (19 and 20 AFAIK). There would be wild
-errors if they don't exist, so check them in sanity.bbclass.
+The following changes since commit fbf6ea2201a4e7042980a82b6c342280df2fbbc8:
 
-And add perl to SANITY_REQUIRED_UTILITIES.
+  sanity.bbclass: check required perl modules (2014-01-22 18:44:18 +0800)
 
-[YOCTO #5744]
+are available in the git repository at:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/sanity.bbclass | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+  git://git.pokylinux.org/poky-contrib rbt/nfs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=rbt/nfs
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 8531df1..e5bf970 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -2,7 +2,8 @@
- # Sanity check the users setup for common misconfigurations
- #
- 
--SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk chrpath wget cpio"
-+SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar \
-+    gzip gawk chrpath wget cpio perl"
- 
- def bblayers_conf_file(d):
-     return os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
-@@ -378,6 +379,17 @@ def check_git_version(sanity_data):
-         return "Your version of git is older than 1.7.5 and has bugs which will break builds. Please install a newer version of git.\n"
-     return None
- 
-+# Check the required perl modules which may not be installed by default
-+def check_perl_modules(sanity_data):
-+    ret = ""
-+    modules = ( "Text::ParseWords", "Thread::Queue", "Data::Dumper" )
-+    for m in modules:
-+        status, result = oe.utils.getstatusoutput("perl -e 'use %s' 2> /dev/null" % m)
-+        if status != 0:
-+            ret += "%s " % m
-+    if ret:
-+        return "Required perl module(s) not found: %s\n" % ret
-+    return None
- 
- def sanity_check_conffiles(status, d):
-     # Check we are using a valid local.conf
-@@ -488,6 +500,7 @@ def check_sanity_version_change(status, d):
-     status.addresult(check_make_version(d))
-     status.addresult(check_tar_version(d))
-     status.addresult(check_git_version(d))
-+    status.addresult(check_perl_modules(d))
- 
-     missing = ""
- 
+Robert Yang (1):
+  sanity.bbclass: check that TMPDIR is not located on nfs
+
+ meta/classes/sanity.bbclass | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
 -- 
 1.8.3.1
 
