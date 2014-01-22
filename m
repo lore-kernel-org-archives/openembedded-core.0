@@ -1,46 +1,24 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 322BD60017
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 77BFE6002A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 07:08:20 +0000 (UTC)
-Received: from [12.157.112.67] (helo=[10.71.2.210])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1W5rv8-00020h-KJ; Wed, 22 Jan 2014 08:08:19 +0100
-Message-ID: <1390374490.24755.2.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Kai Kang <kai.kang@windriver.com>
-Date: Wed, 22 Jan 2014 07:08:10 +0000
-In-Reply-To: <1390360372-10947-1-git-send-email-kai.kang@windriver.com>
-References: <1390360372-10947-1-git-send-email-kai.kang@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Wed, 2014-01-22 at 11:12 +0800,
-	Kai Kang wrote: > Update
-	eglibc-package.inc to let eglibc-dbg provides libc6-dbg. > > The use
-	case
-	is that when libc6-dbg is needded to be installed into > image, we don't
-	need change glibc-dbg to uclibc-dbg in recipe when we > change to use
-	package
-	uclibc as default C library. > -RPROVIDES_${PN}-dbg = "glibc-dbg" >
-	+RPROVIDES_${PN}-dbg = "glibc-dbg libc6-dbg" [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc-dbg: provides libc6-dbg
+	Wed, 22 Jan 2014 08:57:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0M8vL5l006581
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jan 2014 00:57:21 -0800 (PST)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 22 Jan 2014 00:57:20 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Jan 2014 16:57:38 +0800
+Message-ID: <1390381058-5640-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH] initscripts: define failure/success/warning/pass functions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,24 +31,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 07:08:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jan 2014 08:57:21 -0000
+Content-Type: text/plain
 
-On Wed, 2014-01-22 at 11:12 +0800, Kai Kang wrote:
-> Update eglibc-package.inc to let eglibc-dbg provides libc6-dbg.
-> 
-> The use case is that when libc6-dbg is needded to be installed into
-> image, we don't need change glibc-dbg to uclibc-dbg in recipe when we
-> change to use package uclibc as default C library.
-> -RPROVIDES_${PN}-dbg = "glibc-dbg"
-> +RPROVIDES_${PN}-dbg = "glibc-dbg libc6-dbg"
+From: Roy Li <rongqing.li@windriver.com>
 
-Isn't PKG_${PN}-dbg set to libc6-dbg anyway (by libc-common.bbclass)?
-Can you explain the use case and justification for this change a bit
-more clearly?
+define failure/success/warning/pass functions, some packages' initscript
+need them, and /etc/core-lsb/lsb_log_message from lsb needs them too.
 
-p.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../initscripts/initscripts-1.0/functions          |   31 ++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ mode change 100644 => 100755 meta/recipes-core/initscripts/initscripts-1.0/functions
 
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/functions b/meta/recipes-core/initscripts/initscripts-1.0/functions
+old mode 100644
+new mode 100755
+index 8e15762..01ad1ed
+--- a/meta/recipes-core/initscripts/initscripts-1.0/functions
++++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
+@@ -3,6 +3,14 @@
+ # functions     This file contains functions to be used by most or all
+ #               shell scripts in the /etc/init.d directory.
+ #
++
++NORMAL="\\033[0;39m"         # Standard console grey
++SUCCESS="\\033[1;32m"        # Success is green
++WARNING="\\033[1;33m"        # Warnings are yellow
++FAILURE="\\033[1;31m"        # Failures are red
++INFO="\\033[1;36m"           # Information is light cyan
++BRACKET="\\033[1;34m"        # Brackets are blue
++
+ # NOTE: The pidofproc () doesn't support the process which is a script unless
+ #       the pidof supports "-x" option. If you want to use it for such a
+ #       process:
+@@ -58,3 +66,26 @@ status() {
+     fi
+     return 3
+ }
++
++success() {
++    echo -n -e "${BRACKET}[${SUCCESS}  OK  ${BRACKET}]${NORMAL}"
++    return 0
++}
++
++failure() {
++    local rc=$*
++    echo -n -e "${BRACKET}[${FAILURE} FAIL ${BRACKET}]${NORMAL}"
++    return $rc
++}
++
++warning() {
++    local rc=$*
++    echo -n -e "${BRACKET}[${WARNING} WARN ${BRACKET}]${NORMAL}"
++    return $rc
++}
++
++passed() {
++    local rc=$*
++    echo -n -e "${BRACKET}[${SUCCESS} PASS ${BRACKET}]${NORMAL}"
++    return $rc
++}
+-- 
+1.7.10.4
 
 
