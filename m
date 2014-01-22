@@ -1,19 +1,19 @@
 Return-Path: <dvhart@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 744C26CDF2
+	by mail.openembedded.org (Postfix) with ESMTP id 8B4F26E6B7
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 Jan 2014 00:53:38 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga102.jf.intel.com with ESMTP; 21 Jan 2014 16:49:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="470435606"
+X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; d="scan'208";a="470435619"
 Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
-	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2014 16:53:09 -0800
+	by orsmga002.jf.intel.com with ESMTP; 21 Jan 2014 16:53:10 -0800
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	Poky <poky@yoctoproject.org>
-Date: Tue, 21 Jan 2014 16:58:50 -0800
-Message-Id: <063e274c29765319b8db44b21ea516ddd0e3c032.1390351667.git.dvhart@linux.intel.com>
+Date: Tue, 21 Jan 2014 16:59:02 -0800
+Message-Id: <f0dae94754c45b461ec889cc88180aece12e5fa5.1390351667.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <e6c72bf867006ab15d62d0beb1cd8aafe19db72a.1390351667.git.dvhart@linux.intel.com>
 References: <e6c72bf867006ab15d62d0beb1cd8aafe19db72a.1390351667.git.dvhart@linux.intel.com>
@@ -21,7 +21,7 @@ In-Reply-To: <cover.1390351667.git.dvhart@linux.intel.com>
 References: <cover.1390351667.git.dvhart@linux.intel.com>
 Cc: Darren Hart <dvhart@linux.intel.com>,
 	Paul Eggleton <paul.eggleton@intel.com>
-Subject: [PATCH 05/19] tune: Make 32b or 64b explicit in tune name for core2
+Subject: [PATCH 17/19] eglibc-ld.inc: Update the inc file to match the new x86 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,15 +36,9 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 Jan 2014 00:53:38 -0000
 
-Core2 has both a 32b and a 64b variant. Currently, core2 implies 32b,
-while core2_64 is the 64b version. This implicit 32b mode will become
-confusing in later architectures, such as corei7, where it would be
-natural for people to assume "corei7" meant 64 bit.
-
-Rather than carrying forward an implicit 32b mode and rather than
-changing the naming scheme part way through the architecture hiearchy,
-make the 32b and 64b variant explicit in the tune name by changing core2
-to core2_32.
+I created this after a git grep to look for files impacted by the x86
+tune changes. I need a careful review here to determine if this is in
+fact the right thing to do.
 
 Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -55,39 +49,28 @@ Cc: Mark Hatle <mark.hatle@windriver.com>
 Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
 Cc: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/conf/machine/include/tune-core2.inc |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-core/eglibc/eglibc-ld.inc |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
-index 2500a74..11517dc 100644
---- a/meta/conf/machine/include/tune-core2.inc
-+++ b/meta/conf/machine/include/tune-core2.inc
-@@ -6,7 +6,7 @@
- # This tune is recommended for the Intel Core 2 CPU family, including Conroe,
- # Merom and beyond, as well as the first Atom CPUs, Diamondville, and beyond.
- #
--DEFAULTTUNE ?= "core2"
-+DEFAULTTUNE ?= "core2-32"
+diff --git a/meta/recipes-core/eglibc/eglibc-ld.inc b/meta/recipes-core/eglibc/eglibc-ld.inc
+index b1701f00..6261ae3 100644
+--- a/meta/recipes-core/eglibc/eglibc-ld.inc
++++ b/meta/recipes-core/eglibc/eglibc-ld.inc
+@@ -22,11 +22,13 @@ def eglibc_dl_info(d):
+         "powerpc-nf": ["ld.so.1", "FLAG_ELF_LIBC6"],
+         "powerpc64": ["ld64.so.1", "FLAG_ELF_LIBC6"],
+         "powerpc64-nf": ["ld64.so.1", "FLAG_ELF_LIBC6"],
+-        "core2": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
++        "core2-32": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
+         "core2-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
+         "x86": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
+         "x86-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
+         "i586": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
++        "corei7-32": ["ld-linux.so.2", "FLAG_ELF_LIBC6"],
++        "corei7-64": ["ld-linux-x86-64.so.2", "FLAG_ELF_LIBC6"],
+     }
  
- # Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
- require conf/machine/include/tune-i586.inc
-@@ -16,11 +16,11 @@ TUNEVALID[core2] = "Enable core2 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "core2", " -march=core2 -mtune=core2 -msse3 -mfpmath=sse", "", d)}"
- 
- # Extra tune selections
--AVAILTUNES += "core2"
--TUNE_FEATURES_tune-core2 = "${TUNE_FEATURES_tune-x86} core2"
--BASE_LIB_tune-core2 = "lib"
--TUNE_PKGARCH_tune-core2 = "core2"
--PACKAGE_EXTRA_ARCHS_tune-core2 = "${PACKAGE_EXTRA_ARCHS_tune-i586} core2"
-+AVAILTUNES += "core2-32"
-+TUNE_FEATURES_tune-core2-32 = "${TUNE_FEATURES_tune-x86} core2"
-+BASE_LIB_tune-core2-32 = "lib"
-+TUNE_PKGARCH_tune-core2-32 = "core2_32"
-+PACKAGE_EXTRA_ARCHS_tune-core2-32 = "${PACKAGE_EXTRA_ARCHS_tune-i586} core2_32"
- 
- AVAILTUNES += "core2-64"
- TUNE_FEATURES_tune-core2-64 = "${TUNE_FEATURES_tune-x86-64} core2"
+     infos = {'ldconfig':set(), 'lddrewrite':set()}
 -- 
 1.7.9.5
 
