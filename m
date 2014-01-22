@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 97C286E744
+	by mail.openembedded.org (Postfix) with ESMTP id A684E6E7D0
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 Jan 2014 09:02:13 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 22 Jan 2014 00:58:09 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,698,1384329600"; d="scan'208";a="442767944"
+X-IronPort-AV: E=Sophos;i="4.95,698,1384329600"; d="scan'208";a="442767939"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 22 Jan 2014 01:01:51 -0800
+	by orsmga001.jf.intel.com with ESMTP; 22 Jan 2014 01:01:50 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2014 11:04:25 +0200
-Message-Id: <285f2de5b05b5ff1275a017d92f1feee7da4b48b.1390381388.git.cristian.iorga@intel.com>
+Date: Wed, 22 Jan 2014 11:04:24 +0200
+Message-Id: <114421bbb85da68b4bef4e7c440f61ce3ae1ed04.1390381388.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1390381388.git.cristian.iorga@intel.com>
 References: <cover.1390381388.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1390381388.git.cristian.iorga@intel.com>
 References: <cover.1390381388.git.cristian.iorga@intel.com>
-Subject: [PATCH 4/4] connman: upgrade to 1.21
+Subject: [PATCH 3/4] minicom: upgrade to 2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,67 +33,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 Jan 2014 09:02:14 -0000
 
-This is mainly a bug fix release.
-
-- gtk-doc infrastructure has been removed
-starting with connman 1.21; as such, support
-for it has been removed from the recipe;
-- Updated bug tracker site;
-- Cosmetic cleanup;
-
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-connectivity/connman/connman.inc                      | 7 ++-----
- .../connman/{connman_1.20.bb => connman_1.21.bb}                   | 5 ++---
- 2 files changed, 4 insertions(+), 8 deletions(-)
- rename meta/recipes-connectivity/connman/{connman_1.20.bb => connman_1.21.bb} (68%)
+ .../0001-fix-minicom-h-v-return-value-is-not-0.patch                | 0
+ .../{minicom-2.6.2 => minicom}/allow.to.disable.lockdev.patch       | 0
+ meta/recipes-extended/minicom/{minicom_2.6.2.bb => minicom_2.7.bb}  | 6 +++---
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/minicom/{minicom-2.6.2 => minicom}/0001-fix-minicom-h-v-return-value-is-not-0.patch (100%)
+ rename meta/recipes-extended/minicom/{minicom-2.6.2 => minicom}/allow.to.disable.lockdev.patch (100%)
+ rename meta/recipes-extended/minicom/{minicom_2.6.2.bb => minicom_2.7.bb} (77%)
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index f2c42fc..84d8d1d 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -8,7 +8,7 @@ to support all kinds of wired or wireless technologies. Also, \
- configuration methods, like DHCP and domain name resolving, are \
- implemented using plug-ins."
- HOMEPAGE = "http://connman.net/"
--BUGTRACKER = "http://bugs.meego.com/buglist.cgi?quicksearch=connman"
-+BUGTRACKER = "https://01.org/jira/browse/CM"
- LICENSE  = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://src/main.c;beginline=1;endline=20;md5=d6a1ac98a6791c5294e8a7f176ecd66d"
-@@ -66,13 +66,10 @@ SYSTEMD_SERVICE_${PN} = "connman.service"
- SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
- SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
+diff --git a/meta/recipes-extended/minicom/minicom-2.6.2/0001-fix-minicom-h-v-return-value-is-not-0.patch b/meta/recipes-extended/minicom/minicom/0001-fix-minicom-h-v-return-value-is-not-0.patch
+similarity index 100%
+rename from meta/recipes-extended/minicom/minicom-2.6.2/0001-fix-minicom-h-v-return-value-is-not-0.patch
+rename to meta/recipes-extended/minicom/minicom/0001-fix-minicom-h-v-return-value-is-not-0.patch
+diff --git a/meta/recipes-extended/minicom/minicom-2.6.2/allow.to.disable.lockdev.patch b/meta/recipes-extended/minicom/minicom/allow.to.disable.lockdev.patch
+similarity index 100%
+rename from meta/recipes-extended/minicom/minicom-2.6.2/allow.to.disable.lockdev.patch
+rename to meta/recipes-extended/minicom/minicom/allow.to.disable.lockdev.patch
+diff --git a/meta/recipes-extended/minicom/minicom_2.6.2.bb b/meta/recipes-extended/minicom/minicom_2.7.bb
+similarity index 77%
+rename from meta/recipes-extended/minicom/minicom_2.6.2.bb
+rename to meta/recipes-extended/minicom/minicom_2.7.bb
+index 071682d..9f8ebe4 100644
+--- a/meta/recipes-extended/minicom/minicom_2.6.2.bb
++++ b/meta/recipes-extended/minicom/minicom_2.7.bb
+@@ -7,13 +7,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
+                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
  
--UNKNOWN_CONFIGURE_WHITELIST += "--disable-gtk-doc-pdf --disable-gtk-doc-html"
--
--inherit autotools gtk-doc pkgconfig systemd update-rc.d
-+inherit autotools pkgconfig systemd update-rc.d
  
- do_configure_append () {
- 	sed -i "s#ExecStart=#${SYSTEMD_WIRED_SETUP}\nExecStart=#" ${S}/src/connman.service
--
- }
+-SRC_URI = "http://alioth.debian.org/frs/download.php/3869/minicom-${PV}.tar.gz \
++SRC_URI = "http://alioth.debian.org/frs/download.php/file/3977/${PN}-${PV}.tar.gz \
+            file://allow.to.disable.lockdev.patch \
+            file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
+ "
  
- # This allows *everyone* to access ConnMan over DBus, without any access
-diff --git a/meta/recipes-connectivity/connman/connman_1.20.bb b/meta/recipes-connectivity/connman/connman_1.21.bb
-similarity index 68%
-rename from meta/recipes-connectivity/connman/connman_1.20.bb
-rename to meta/recipes-connectivity/connman/connman_1.21.bb
-index 4af71e2..48ed20e 100644
---- a/meta/recipes-connectivity/connman/connman_1.20.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.21.bb
-@@ -5,8 +5,7 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://add_xuser_dbus_permission.patch \
-             file://connman \
-             "
--
--SRC_URI[md5sum] = "15f5e0d89e01b81c79306f54a2014efd"
--SRC_URI[sha256sum] = "4e638443be959913a5ce0d51df10018448ed08d06e4f8a47ce4b3c705bc78ac1"
-+SRC_URI[md5sum] = "483633162b819c8b99fec970f92e311d"
-+SRC_URI[sha256sum] = "e80f4e9c639ef016e9c497c122c349dbc9e6dc78a9976f986134739ee208c08a"
+-SRC_URI[md5sum] = "203c56c4b447f45e2301b0cc4e83da3c"
+-SRC_URI[sha256sum] = "f3cf215f7914ffa5528e398962176102ad74df27ba38958142f56aa6d15c9168"
++SRC_URI[md5sum] = "7044ca3e291268c33294f171d426dc2d"
++SRC_URI[sha256sum] = "9ac3a663b82f4f5df64114b4792b9926b536c85f59de0f2d2b321c7626a904f4"
  
- RRECOMMENDS_${PN} = "connman-conf"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[lockdev] = "--enable-lockdev,--disable-lockdev,lockdev"
 -- 
 1.8.3.2
 
