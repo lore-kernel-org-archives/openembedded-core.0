@@ -1,41 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 033E06E787
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D1E476E4CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 18:33:21 +0000 (UTC)
-Received: by mail-ob0-f170.google.com with SMTP id va2so867882obc.29
+	Wed, 22 Jan 2014 19:37:18 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id hi8so6062910wib.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 10:33:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=MAT6Gs3sm+01NhYqs8QPDsGcGRyju9DQ4oyqaBsl1ow=;
-	b=uDVrx1sboIJwJwVoNE8o6asmleYW/zBxn7yqQtGzdAMU4FsBWx7RocvGiVlGUvYtlU
-	PzvQDaX52Nfd7tZB/uvoIje9EsGljr1flyhPGNquUBJiYHiZoNFAnVph9Ah3V5Ad8R2m
-	D9qHVcqI7FoFNfNzMx+Hcu4atpHuBYMpavV9Bt8UJuOkEQJcX0p2Se2tCCHXxKMedqBS
-	xTzMoHno3jWhFRgTdh3tdimQkpkmIufNkkVxx20eC/2Bjp9qHljfa6klNRNP6hUcMqI8
-	z0IfuL9vOZi4WTq2By1tC5Jb/lG80AVJiE6H3e76xSt6DJV/EC38w9xedElPlAufw2vw
-	8tEw==
-MIME-Version: 1.0
-X-Received: by 10.60.63.102 with SMTP id f6mr1692965oes.76.1390415602642; Wed,
-	22 Jan 2014 10:33:22 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 22 Jan 2014 10:33:22 -0800 (PST)
-In-Reply-To: <52E00E23.8090605@gmail.com>
-References: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
-	<CAP9ODKqQ1Y-p_tAyMY=Rmw8t4ct7jXqxV=mBaqLdLXXpW+er1g@mail.gmail.com>
-	<52E00ACA.10502@enea.com>
-	<CAP9ODKp2yX_rw0GJEmntuhjwr-zzOYVW3Hk3ZS1Yf7Zy3zr1xQ@mail.gmail.com>
-	<52E00E23.8090605@gmail.com>
-Date: Wed, 22 Jan 2014 16:33:22 -0200
-X-Google-Sender-Auth: EWmgeYKRzLwAv50DIspg7NSZz3c
-Message-ID: <CAP9ODKqHtSfJi9BpH1D7KKCy=DT4GGywcw7sqA1BcdZr28UgUA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] packagegroup-core-standalone-sdk-target: Add qemuwrapper-cross to target sysroot
+	Wed, 22 Jan 2014 11:37:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kN6oIjaLQpbMyeo/QPd46JXPikZoGLsywjXI1Gjq2bQ=;
+	b=DYZ32kz599gM1sBB6lQNyXhv6GsnLOuTcLmfXYYfRt4GCm07ylPOKtY+caoqM1Awyi
+	fHBqZBAKPHRF45tSuOKc6ZDJkMwK9o1lHM9/wanxbRxRTt90g+S6Mp7O1Ae9WwtqD+YI
+	IQAO/skcjbffR3tAaR7OinfIs3K/1GV5rGnSADmPk+exAOllSgBlGUE1LcN8pN8H++Y4
+	eud6/TdA+OUTtfx7h2Z4rmtQxOU5/xRnAJx0heCClrUtjK721ER02yUgd4clCHUKmBko
+	KOxuXas2oviecn+wy6BUCLQhUyrgmxmY31jFKzkWSlDf3n/zt5iVUtaORYB8J2Ij2Sy6
+	wtKQ==
+X-Gm-Message-State: ALoCoQn0zGJI2UFLka/SJ5EvQ6nHe2TVMR9QTyKF//J3iV18/Rr620VOT1e5UgmWPrSIfC7t2jA4
+X-Received: by 10.194.60.103 with SMTP id g7mr3317886wjr.37.1390419439027;
+	Wed, 22 Jan 2014 11:37:19 -0800 (PST)
+Received: from localhost ([2001:610:612:0:21f:c6ff:feaa:c5fb])
+	by mx.google.com with ESMTPSA id v7sm21405920wix.5.2014.01.22.11.37.17
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=RC4-SHA bits=128/128);
+	Wed, 22 Jan 2014 11:37:18 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jan 2014 20:37:12 +0100
+Message-Id: <1390419432-19402-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.7.10
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] linux-firmware: split out ATI/AMD Radeon firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,71 +44,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 18:33:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Jan 2014 19:37:19 -0000
 
-On Wed, Jan 22, 2014 at 4:29 PM, David Nystr=F6m
-<david.c.nystrom@gmail.com> wrote:
-> On ons 22 jan 2014 19:24:47, Otavio Salvador wrote:
->>
->> On Wed, Jan 22, 2014 at 4:15 PM, David Nystr=F6m <david.nystrom@enea.com=
->
->> wrote:
->>>
->>> On 2014-01-22 19:08, Otavio Salvador wrote:
->>>>
->>>>
->>>> On Wed, Jan 22, 2014 at 1:48 PM, David Nystr=F6m
->>>> <david.c.nystrom@gmail.com> wrote:
->>>>>
->>>>>
->>>>> Some postinstall scripts use the qemuwrapper script, so to be able to
->>>>> offline install these packages outside of the bitbake environment, th=
-is
->>>>> script
->>>>> needs to be exposed also in the SDK.
->>>>>
->>>>> This to enable rootfs generation from a package repository using only=
- a
->>>>> package repository and the toolchain tarball.
->>>>>
->>>>> See https://github.com/nysan/rootfs-sandbox for examples.
->>>>>
->>>>> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
->>>>
->>>>
->>>>
->>>> Shouldn't this be a RDEPENDS of the postinst package?
->>>>
->>>
->>> Do you mean a RDEPENDS on the run-postinsts package ?
->>> In that case no.
->>>
->>> When $D is set, postinstalls interpret this as a offline install,
->>> some postinstalls call postinstall-intercepts, which in turn use the
->>> qemuwrapper script _only_ if $D is set.
->>>
->>> run-postinsts should be installed if there are postinstalls which faile=
-d
->>> to
->>> run during the offline install.
->>>
->>> Just to clarify this, the qemuwrapper-cross will only be installed to t=
-he
->>> target SDK sysroot, never on the target rootfs.
->>
->>
->> No; in postinstall-intercepts RDEPENDS.
->>
->
-> Ah, now I get it.
-> If I do that, will it not end up on the target rootfs ?
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-I don't think so.
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 3b5c7eb..470f930 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -61,6 +61,7 @@ do_install() {
+ 
+ 
+ PACKAGES =+ "${PN}-ralink \
++             ${PN}-radeon \
+              ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8787 ${PN}-sd8797 \
+              ${PN}-wl12xx ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+@@ -105,6 +106,12 @@ FILES_${PN}-ralink = " \
+   /lib/firmware/LICENCE.ralink-firmware.txt \
+ "
+ 
++LICENSE_${PN}-radeon = "Firmware-radeon"
++FILES_${PN}-radeon = " \
++  /lib/firmware/radeon \
++  /lib/firmware/LICENCE.radeon \
++"
++
+ FILES_${PN}-marvell-license = "/lib/firmware/LICENCE.Marvell"
+ 
+ LICENSE_${PN}-sd8686 = "Firmware-Marvell"
+-- 
+1.8.3.4
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
