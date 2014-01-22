@@ -1,25 +1,29 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DE4A960CEB
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id EFCBA6D02F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 03:13:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0M3D2ps002967
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 19:13:02 -0800 (PST)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Tue, 21 Jan 2014 19:13:02 -0800
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jan 2014 11:12:52 +0800
-Message-ID: <1390360372-10947-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Subject: [PATCH] eglibc-dbg: provides libc6-dbg
+	Wed, 22 Jan 2014 04:07:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Jan 2014 20:07:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,697,1384329600"; 
+	d="asc'?scan'208";a="442666134"
+Received: from unknown (HELO [10.255.13.10]) ([10.255.13.10])
+	by orsmga001.jf.intel.com with ESMTP; 21 Jan 2014 20:07:29 -0800
+Message-ID: <1390363648.13672.33.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 21 Jan 2014 20:07:28 -0800
+In-Reply-To: <20140122010255.GP4100@jama>
+References: <cover.1390351667.git.dvhart@linux.intel.com>
+	<e6c72bf867006ab15d62d0beb1cd8aafe19db72a.1390351667.git.dvhart@linux.intel.com>
+	<20140122010255.GP4100@jama>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org, Poky <poky@yoctoproject.org>,
+	Paul Eggleton <paul.eggleton@intel.com>
+Subject: Re: [PATCH 01/19] x86: Replace ia32 with x86 when referring to the generic architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +36,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 03:13:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Jan 2014 04:07:30 -0000
+X-Groupsio-MsgNum: 49353
+Content-Type: multipart/signed; micalg="pgp-sha1";
+	protocol="application/pgp-signature"; 
+	boundary="=-TBmo3iIHEsOSeHXm7HZ/"
 
-Update eglibc-package.inc to let eglibc-dbg provides libc6-dbg.
+--=-TBmo3iIHEsOSeHXm7HZ/
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The use case is that when libc6-dbg is needded to be installed into
-image, we don't need change glibc-dbg to uclibc-dbg in recipe when we
-change to use package uclibc as default C library.
+On Wed, 2014-01-22 at 02:02 +0100, Martin Jansa wrote:
+> > --- a/meta/conf/machine/include/ia32/README
+> > +++ b/meta/conf/machine/include/x86/README
+> > @@ -1,12 +1,12 @@
+> >  2012/03/30 - Mark Hatle <mark.hatle@windriver.com>
+> >   - Initial version
+> > =20
+> > -Most of the items for the IA architecture are defined in the
+> single=20
+> > -arch-ia32 file.
+> > +Most of the items for the Intel architectures are defined in the
+> single=20
+> > +arch-x86 file.
+>=20
+> still few intel-isms left
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/eglibc/eglibc-package.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Right you are - at least this time it wasn't made any worse ;-) Fixed
+though.
 
-diff --git a/meta/recipes-core/eglibc/eglibc-package.inc b/meta/recipes-core/eglibc/eglibc-package.inc
-index 3adf1a9..220832a 100644
---- a/meta/recipes-core/eglibc/eglibc-package.inc
-+++ b/meta/recipes-core/eglibc/eglibc-package.inc
-@@ -30,7 +30,7 @@ RPROVIDES_${PN}-doc = "glibc-doc"
- RPROVIDES_eglibc-extra-nss = "glibc-extra-nss"
- RPROVIDES_eglibc-thread-db = "glibc-thread-db"
- RPROVIDES_${PN}-pcprofile = "glibc-pcprofile"
--RPROVIDES_${PN}-dbg = "glibc-dbg"
-+RPROVIDES_${PN}-dbg = "glibc-dbg libc6-dbg"
- libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
- 
- FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
--- 
-1.8.1.2
+>=20
+> >  Three ABIs are define, m32, mx32 and m64.
+> > =20
+> > -The following is the list of ia32 specific variables:
+> > +The following is the list of intel specific variables:
+>=20
+> still few intel-isms left
+
+Oi, thanks Martin - I appreciate the careful review.
 
 
+I've pushed the following to the same contrib branch.
+
+$ git diff origin/dvhart/x86-tune-ng-v2
+diff --git a/meta/conf/machine/include/x86/README b/meta/conf/machine/inclu=
+de/x86/READ
+index d8b6793..2b6c46c 100644
+--- a/meta/conf/machine/include/x86/README
++++ b/meta/conf/machine/include/x86/README
+@@ -1,12 +1,12 @@
+ 2012/03/30 - Mark Hatle <mark.hatle@windriver.com>
+  - Initial version
+=20
+-Most of the items for the Intel architectures are defined in the single=
+=20
++Most of the items for the X86 architectures are defined in the single
+ arch-x86 file.
+=20
+ Three ABIs are define, m32, mx32 and m64.
+=20
+-The following is the list of intel specific variables:
++The following is the list of X86 specific variables:
+=20
+ X86ARCH32 - This is the 32-bit architecture GNU canonical arch, TUNE_ARCH.
+
+
+--=20
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
+
+--=-TBmo3iIHEsOSeHXm7HZ/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEcBAABAgAGBQJS30QAAAoJEKbMaAwKp364hnwH/38K5tHsuJH5mE6I8N0x1wnL
+DjBGX6LpFNlTF2pk8nx2GPcA3HMpUjVh+GDEfqjtbuofeXgQ2Il8zeOR2XiyAxnU
+yUJbDecIa7AQUGmA3BBx3LikkHq3z7Gxwo1Ui0lc/jQVWMXnqqkEpHC6MC8jLVwd
+AVrk6gS+QQYqDjCgRHidTidnhGK4u7oDFoQPahaqsisTqj0MlYTxUugp5m2WmiKH
+tdvSQZO5avQsbqeiFRT8ylFYzUNhnQILVb/ibzf3kf3gik81uLViRC6dAcHkaKby
+Qyx9+lSSKmYPTKH0/rTEfL+i0R5CskULfUpt4e0kHas/Z7F6pUCM60xGbIGYf20=
+=/fni
+-----END PGP SIGNATURE-----
+
+--=-TBmo3iIHEsOSeHXm7HZ/--
