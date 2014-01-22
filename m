@@ -1,37 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 04AAE60017
+Received: from mail-vb0-f43.google.com (mail-vb0-f43.google.com
+	[209.85.212.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 69DDA60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 17:04:30 +0000 (UTC)
-Received: by mail-vc0-f174.google.com with SMTP id im17so384838vcb.33
+	Wed, 22 Jan 2014 17:08:53 +0000 (UTC)
+Received: by mail-vb0-f43.google.com with SMTP id p5so382055vbn.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 09:04:31 -0800 (PST)
+	Wed, 22 Jan 2014 09:08:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Z7Zu07VnhokPePNjpINEoDfqSMP7XoMYPx0iKqYRqjY=;
-	b=EMQHg7CVGjc+fDPXeuSKP7a2x660zUQKBNSAcWsKZ617KJ7Eh1wvedbyT4jpFyeTxM
-	XrtDoheAdt6Rl5iBpk3gSozBSy4eAUST9Y4zAVLfK0ZgIoZS0yRYmq86hhMp8yGK/9z+
-	ptYtsMCXO0c47xnpOfpRl9qLvYCD8KBocrS/RFZe/x1NLv77qmkJqU7cr29wqECQDxXt
-	L/8Fzp/i2wN3RQuu59e5bVvqhDjMA/EaLUU20GO2uhsqFy0uS5daHUFEZTN8KV22pxBz
-	t1lgE31WRCIVvWUd4FD7vlF72vwOt+8VnHhDlnwgwgoUCd3xKI0bO1zFVeGXrCN26Kjt
-	LS9w==
-X-Gm-Message-State: ALoCoQnRncGzxXAXiCemtsPZMt1QH+HYgT3/4+8/LwzDcmy0Ng6HHV3aNgTpDlpuunBD7jt/6HKn
-X-Received: by 10.220.99.7 with SMTP id s7mr1559219vcn.19.1390410271441; Wed,
-	22 Jan 2014 09:04:31 -0800 (PST)
+	bh=4GdfFoja6mdQo85l/SlrygAbeU/mi38K5+znei0uQIM=;
+	b=c8Vbd+vdHlRoXoTz4g8M0IolBrzvht6NAwIqvVFd7QLhH08WJMkot7uEgmziJ30VW2
+	3r+74vXbmhd/5xgzGjtv4z+rvTN0xoxhvtGfsgflOBfagy8Bs/pIUdD2OAsVCjoCpxBR
+	kqHgu97T9Ok+1QtW+JcbObPer/brXOEmH4Llp/2KTqnRRMNWG9cRzm+4mpkGMfNsRljQ
+	1z53McuFMdScdkIqvhMsnldknAi0EwCP1R1KDApYSYhAS9PYkZ0O0pe2X2wgu5Gz03Yr
+	JdfqOAZBhwFm/T5t8oh03uPGvSOpmu52YPYZUg24cOKn4qIA0pp9AEM8u5mh7JF4mTr+
+	hwzg==
+X-Gm-Message-State: ALoCoQk6aC2au38ySzRMUR30xUqhFYqYj08LWiBjPIIHkPzSmIYWcemhNOfgM2DJW0nQKbhGXVcS
+X-Received: by 10.58.37.232 with SMTP id b8mr1612036vek.27.1390410534463; Wed,
+	22 Jan 2014 09:08:54 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.220.96.84 with HTTP; Wed, 22 Jan 2014 09:04:11 -0800 (PST)
-In-Reply-To: <CAP71WjwVdruoAvkjtO7mPTVE0bNQfCWYUrEC2TZdjagXCBRkrQ@mail.gmail.com>
-References: <CAP71WjwVdruoAvkjtO7mPTVE0bNQfCWYUrEC2TZdjagXCBRkrQ@mail.gmail.com>
+Received: by 10.220.96.84 with HTTP; Wed, 22 Jan 2014 09:08:34 -0800 (PST)
+In-Reply-To: <52D497EA.20301@windriver.com>
+References: <cover.1389598673.git.Qi.Chen@windriver.com>
+	<1d073230c282c6e62cd24b164bc42f383a55544a.1389598673.git.Qi.Chen@windriver.com>
+	<CAJTo0Lb3ysqtjm-fN5vCqpOONEAUH-N+eeC3a=t+PqG8bOWe1g@mail.gmail.com>
+	<52D497EA.20301@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Jan 2014 17:04:11 +0000
-Message-ID: <CAJTo0LZ_dNVaBQpA2J2GPEZ4VHLM=dDpp1HcvRDPoa0Yz=7ALw@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: libsdl and opengl DISTRO_FEATURE
+Date: Wed, 22 Jan 2014 17:08:34 +0000
+Message-ID: <CAJTo0Lbs0CswS8pQ0D-HudN-B8e6F0z8dBH694xxkrGocexBHA@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] systemd-compat-units: make run-postinsts.service work correctly on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +46,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 17:04:32 -0000
+X-List-Received-Date: Wed, 22 Jan 2014 17:08:54 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 January 2014 09:58, Nicolas Dechesne <nicolas.dechesne@linaro.org> wrote:
-> if we make it a PACKAGECONFIG instead, would that be considered the right
-> fix for this bug?
+On 14 January 2014 01:50, ChenQi <Qi.Chen@windriver.com> wrote:
+> As you have started working on this problem, I think I'll just drop this
+> patch.
+>
+> After looking at your branch, I think there's only one thing to look out
+> for. When we're using ipk/dpkg as the package back-end, and
+> 'package-management' is in IMAGE_FEATURES, there would be no
+> /etc/*-postinsts.
 
-Yeah, until we have a replacement for the "opengl" DISTRO_FEATURE then
-you'll want to use explicit PACKAGECONFIG options for GL and GLES.
+I started but didn't finish - as you've taken the systemd bugs could
+you finish this off?  Pretty sure I filed a bug to go with it.
 
 Ross
 
