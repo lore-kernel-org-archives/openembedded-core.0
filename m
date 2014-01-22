@@ -1,26 +1,45 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A9E6E6E30D
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D25F460017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 04:55:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0M4tb7m003796
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 22 Jan 2014 06:43:11 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id q58so9003780wes.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2014 20:55:37 -0800 (PST)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 21 Jan 2014 20:55:37 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jan 2014 12:55:34 +0800
-Message-ID: <b40f906d0553210df97d848dfc3ba956b2b05ff6.1390366473.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1390366473.git.Chong.Lu@windriver.com>
-References: <cover.1390366473.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] gawk: enable ptest support
+	Tue, 21 Jan 2014 22:43:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=QuF0lg0/BQiT+sN2ka6pBHjr3dZFlBfW9mdbQb8WP+4=;
+	b=lHLzvblzQodQMiX543ti5KTdnvEkbDmdbod9VU+BMNcJUpgwUiYlKeTaLjyrAfMzuU
+	xMBdt1BH8Z1JpAyS1Nd+fHA1VvuBm7M+9zUbS5qdjenEe8Jw5rAcsQ+AZbpbVoTC7Yo+
+	DvriHNkbgEjM2HucSR0QtMu165jeJjMP6TQm/LRs/WE9yt0D9vjkdLjxO5aMz9McwFqZ
+	H0iNt/R6YhbaAO4pZ8WLjzpDoSyknVFr7cBYrie1TpkFMGNky3ySRF0LmcF6qs+K3RDk
+	SoO+6Ca8Affhiq+byYbRKEqEbA0qiZ2RvotvMovJC7o1YEawLDXJQSAyKWTVvTFLF3rN
+	BouA==
+X-Gm-Message-State: ALoCoQkEEEgx6e6FUkNEXwpat441dT9Uhq0bzLOpfvvMrjniIpmrYubF/mmS6yUwUBdzx+fb4fwu
+X-Received: by 10.194.216.68 with SMTP id oo4mr162184wjc.79.1390372991768;
+	Tue, 21 Jan 2014 22:43:11 -0800 (PST)
+Received: from ?IPv6:2001:610:612::dcc9:ea33:697f:4168?
+	([2001:610:612:0:dcc9:ea33:697f:4168])
+	by mx.google.com with ESMTPSA id q5sm16344531wia.2.2014.01.21.22.43.10
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 21 Jan 2014 22:43:11 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <20140122004909.GO4100@jama>
+Date: Wed, 22 Jan 2014 07:43:19 +0100
+Message-Id: <D8C17D3D-12B9-41E5-AB9D-A2E916ACAB23@dominion.thruhere.net>
+References: <1390347792-24649-1-git-send-email-Martin.Jansa@gmail.com>
+	<1390347792-24649-2-git-send-email-Martin.Jansa@gmail.com>
+	<20140122004909.GO4100@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1827)
+Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] feature-arm-thumb: Fix missing t2 suffix for armv7a MACHINEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +52,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 04:55:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Jan 2014 06:43:12 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Install gawk test suite and run it as ptest.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-extended/gawk/gawk-4.0.2/run-ptest | 10 ++++++++++
- meta/recipes-extended/gawk/gawk_4.0.2.bb        | 13 ++++++++++++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/gawk/gawk-4.0.2/run-ptest
+Op 22 jan. 2014, om 01:49 heeft Martin Jansa <martin.jansa@gmail.com> =
+het volgende geschreven:
 
-diff --git a/meta/recipes-extended/gawk/gawk-4.0.2/run-ptest b/meta/recipes-extended/gawk/gawk-4.0.2/run-ptest
-new file mode 100644
-index 0000000..7d214ea
---- /dev/null
-+++ b/meta/recipes-extended/gawk/gawk-4.0.2/run-ptest
-@@ -0,0 +1,10 @@
-+#!/bin/sh
-+
-+cd test
-+for i in `grep -vE "@|^$|#|Gt-dummy" Maketests |awk -F: '{print $1}'`; \
-+  do LC_ALL=${GAWKLOCALE:-C} LANG=${GAWKLOCALE:-C} srcdir=`pwd` AWK=gawk CMP=cmp \
-+  make -f Maketests $i &>$i.tmp; \
-+  grep -q "Error" $i.tmp; \
-+  if [ $? == 0 ]; then echo "FAIL: $i"; \
-+  else echo "PASS: $i"; rm -f $i.tmp; fi; \
-+done
-diff --git a/meta/recipes-extended/gawk/gawk_4.0.2.bb b/meta/recipes-extended/gawk/gawk_4.0.2.bb
-index 424b6b0..eb86af3 100644
---- a/meta/recipes-extended/gawk/gawk_4.0.2.bb
-+++ b/meta/recipes-extended/gawk/gawk_4.0.2.bb
-@@ -16,7 +16,9 @@ DEPENDS += "readline"
- RDEPENDS_gawk += "gawk-common"
- RDEPENDS_pgawk += "gawk-common"
- 
--SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-+           file://run-ptest \
-+"
- 
- SRC_URI[md5sum] = "4d505dc2c9f1eb3e9f8d6cac87d4bd1a"
- SRC_URI[sha256sum] = "6e0de117c3713aa8d7fa347fc9fd645b10038ae49d8cf947d8c1d51cbb76141a"
-@@ -39,3 +41,12 @@ do_install_append() {
- 	# remove the link since we don't package it
- 	rm ${D}${bindir}/awk
- }
-+
-+inherit ptest
-+
-+do_install_ptest() {
-+	mkdir ${D}${PTEST_PATH}/test
-+	for i in `grep -vE "@|^$|#|Gt-dummy" ${S}/test/Maketests |awk -F: '{print $1}'` Maketests; \
-+	  do cp ${S}/test/$i* ${D}${PTEST_PATH}/test; \
-+	done
-+}
--- 
-1.8.1.2
+> On Wed, Jan 22, 2014 at 12:43:12AM +0100, Martin Jansa wrote:
+>> * unfortunatelly that note about armv7 matching also armv7a is no
+>>  longer valid since armv7 include in armv7 was replaced with
+>>  armv6+neon in this commit:
+>>=20
+>>  commit 75b8adbc042e0f65fb1286bc550d02becd3b6aea
+>>  Author: Khem Raj <raj.khem@gmail.com>
+>>  Date:   Tue Mar 27 18:37:45 2012 -0700
+>>=20
+>>    tune/armv7: Delete
+>>=20
+>>  since then thumb and arm feeds had the same architecture
+>> * be aware that this will rename lots of feeds
+>=20
+> Can someone confirm that t2 should be included for armv7m or armv7r?
+
+cortex-M is thumb2 only, no idea about cortex-r.
+
+regards,
+
+Koen
+
+>=20
+> It looks like armv7m definitely should include it, but it doesn't even =
+have
+> thumb in TUNE_FEATURES for the only armv7m user we have in oe-core =
+cortexm3:
+>=20
+> tune-cortexm3.inc:TUNE_FEATURES_tune-cortexm3 =3D "armv7m vfp =
+cortexm3"
+> tune-cortexm3.inc:PACKAGE_EXTRA_ARCHS_tune-cortexm3 =3D =
+"${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7m-vfp"
+>=20
+> tune-cortexr4.inc:TUNE_FEATURES_tune-cortexr4 =3D "armv7r vfp =
+cortexr4"
+> tune-cortexr4.inc:PACKAGE_EXTRA_ARCHS_tune-cortexr4 =3D =
+"${PACKAGE_EXTRA_ARCHS_tune-armv7at} armv7r-vfp"
+>=20
+> Anyway I'm sending a bit bigger RFC/WIP patchset to address this.
+>=20
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>> meta/conf/machine/include/arm/feature-arm-thumb.inc | 3 +--
+>> 1 file changed, 1 insertion(+), 2 deletions(-)
+>>=20
+>> diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc =
+b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+>> index bd754be..fa3a4e5 100644
+>> --- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
+>> +++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+>> @@ -9,11 +9,10 @@ ARM_THUMB_M_OPT =3D "${@['-marm', =
+'-mthumb'][d.getVar('ARM_INSTRUCTION_SET', True)
+>> TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "thumb", " =
+${ARM_THUMB_M_OPT}", "", d)}"
+>> OVERRIDES .=3D "${@bb.utils.contains("TUNE_FEATURES", "thumb", =
+":thumb", "", d)}"
+>>=20
+>> -# Note armv7 will hit on armv7a as well
+>> ARMPKGSFX_THUMB .=3D "${@bb.utils.contains("TUNE_FEATURES", [ =
+"armv4", "thumb" ], "t", "", d)}"
+>> ARMPKGSFX_THUMB .=3D "${@bb.utils.contains("TUNE_FEATURES", [ =
+"armv5", "thumb" ], "t", "", d)}"
+>> ARMPKGSFX_THUMB .=3D "${@bb.utils.contains("TUNE_FEATURES", [ =
+"armv6", "thumb" ], "t", "", d)}"
+>> -ARMPKGSFX_THUMB .=3D "${@bb.utils.contains("TUNE_FEATURES", [ =
+"armv7", "thumb" ], "t2", "", d)}"
+>> +ARMPKGSFX_THUMB .=3D "${@bb.utils.contains("TUNE_FEATURES", [ =
+"armv7a", "thumb" ], "t2", "", d)}"
+>>=20
+>> # Whether to compile with code to allow interworking between the two
+>> # instruction sets. This allows thumb code to be executed on a =
+primarily
+>> --=20
+>> 1.8.5.3
+>>=20
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
