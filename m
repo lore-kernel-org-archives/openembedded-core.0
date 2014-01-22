@@ -1,37 +1,38 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
-	[209.85.219.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CC9B6DBF9
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D719E6E367
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 15:47:05 +0000 (UTC)
-Received: by mail-oa0-f46.google.com with SMTP id n16so629340oag.19
+	Wed, 22 Jan 2014 15:49:03 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id u14so465419lbd.29
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 07:47:06 -0800 (PST)
+	Wed, 22 Jan 2014 07:49:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=zBTeLC6YkBAZ4jlgNB0ffVKB47QrWVmegSxNOXEMmOE=;
-	b=OXb+kB1RBlP7Vbku98h/9cltJWoiMS71vUXljGpZUw8LqR/88ihZDQ9nfBVlFyNW68
-	WgYSKIW3DCnPyLBLJk3YwfzOKrJ3IZ6YbCwuVq6XiylRiFtewpxEJKoqOYaT+dplrJUz
-	8l2+M4Tka4npAiUCPRnQ+2EyqTDrp5zJevImb4gSc9qdzSlLlRtFBuGJuMos3Q96Y4G1
-	8QCQeFW1adVl6NOqJ+m1R5Au2y5TN2jlZp7IvcLNG8DEAxM7hPOyACrgE8TNd6I7W17k
-	HcECxjwq4NauUM94+LsqK64UWR1n27Z1HJYJV9gsgdQQJv2LIZKai5j1dUJ8xTZO01QI
-	0LYw==
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=Qub0k74XI6RBkoYqWtlVIhCcRXv9Rn8xnNzuPj3SNHc=;
+	b=TgLIxJwuh9tmEeNFSBo0R2tfouRtytfKpjhz/c7R7FMCwWObBllnW2QYYfSvfeiFhl
+	QkCtKiusn5Wjrtcw3qUjYkhHQ9bFFWZ+ktueEMjXCxlMbmi/535oUv3Sf5tP3XzjX80w
+	iDTBvMXDdZQmwGAmWXDNXJU/tCSGeQobhfuHGJQm+GYNmQOh08nMhvxPHRTVRS+cSLKJ
+	9kEFQ6YhtdQB8mJMM9piuuaqngHkwGlaIZJWOi0YDcj1nKSuMaACtq6ypZTmTH4iAjpg
+	lhFKmhdwU5hda+5RNhjwsrftQpym841ugT0Yad0B/wt9YXq6ByZ7UyTdmO6SoJWA8Lxl
+	u3vg==
+X-Received: by 10.152.26.37 with SMTP id i5mr612464lag.60.1390405743869;
+	Wed, 22 Jan 2014 07:49:03 -0800 (PST)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPSA id m5sm10818053laj.4.2014.01.22.07.49.02
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 22 Jan 2014 07:49:02 -0800 (PST)
+Received: by nysan (Postfix, from userid 1000)
+	id 01E621C61BD; Wed, 22 Jan 2014 16:48:54 +0100 (CET)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jan 2014 16:48:51 +0100
+Message-Id: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-X-Received: by 10.182.241.8 with SMTP id we8mr1841317obc.62.1390405626360;
-	Wed, 22 Jan 2014 07:47:06 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 22 Jan 2014 07:47:06 -0800 (PST)
-In-Reply-To: <1390403335-14487-1-git-send-email-david.nystrom@enea.com>
-References: <1390403335-14487-1-git-send-email-david.nystrom@enea.com>
-Date: Wed, 22 Jan 2014 13:47:06 -0200
-X-Google-Sender-Auth: 0UajGhKsXpolbWzXBXk3wk-U2ik
-Message-ID: <CAP9ODKr4WxcPVkxGMR+ZZ98b6mLbmUyr9Qs=BWe-S5HVJSn=hg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/2] postinst-intercept: New recipe to include postinstall intercepts in nativesdk
+Subject: [PATCH] packagegroup-core-standalone-sdk-target: Add qemuwrapper-cross to target sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,31 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2014 15:47:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Jan 2014 15:49:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 22, 2014 at 1:08 PM, David Nystr=F6m
-<david.c.nystrom@gmail.com> wrote:
-> Adding ability to use postinstalls intercepts in the nativesdk env, and
-> making sure the correlate between repo + SDK.
->
-> This to enable rootfs generation from a package repository using only a
-> package repository and the toolchain tarball.
->
-> See https://github.com/nysan/rootfs-sandbox for examples.
->
-> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
+Some postinstall scripts use the qemuwrapper script, so to be able to
+offline install these packages outside of the bitbake environment, this script
+needs to be exposed also in the SDK.
 
-Much better. Thanks.
+This to enable rootfs generation from a package repository using only a
+package repository and the toolchain tarball.
 
-Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
+See https://github.com/nysan/rootfs-sandbox for examples.
 
-Regarding the rootfs-sandbox, how are you intending to proper
-integrate it with the toolchain?
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ .../packagegroups/packagegroup-core-standalone-sdk-target.bb             | 1 +
+ 1 file changed, 1 insertion(+)
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+index 57480b9..3325ef6 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+@@ -18,4 +18,5 @@ RDEPENDS_${PN} = "\
+     libstdc++ \
+     libstdc++-dev \
+     ${LIBC_DEPENDENCIES} \
++    qemuwrapper-cross \
+     "
+-- 
+1.8.3.2
+
 
