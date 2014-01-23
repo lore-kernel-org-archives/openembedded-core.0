@@ -1,26 +1,58 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A5666E876
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 99C326B05F
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 14:35:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0NEZwMP003510
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 06:35:58 -0800 (PST)
-Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 23 Jan 2014 06:35:58 -0800
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 08:32:46 -0600
-Message-ID: <1390487566-13569-7-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1390487566-13569-1-git-send-email-jason.wessel@windriver.com>
+	Thu, 23 Jan 2014 15:01:26 +0000 (UTC)
+Received: from [12.157.112.67] (helo=[10.71.2.210])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1W6LmX-0003Bo-OT; Thu, 23 Jan 2014 16:01:27 +0100
+Message-ID: <1390489278.24755.16.camel@e130.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Jason Wessel <jason.wessel@windriver.com>
+Date: Thu, 23 Jan 2014 15:01:18 +0000
+In-Reply-To: <1390487566-13569-2-git-send-email-jason.wessel@windriver.com>
 References: <1390487566-13569-1-git-send-email-jason.wessel@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH v2 6/6] runqemu, runqemu-internal: Allow slirp for NFS and KVM use
+	<1390487566-13569-2-git-send-email-jason.wessel@windriver.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Thu, 2014-01-23 at 08:32 -0600,
+	Jason Wessel wrote: > +++
+	b/meta/files/common-licenses/unfs3 > @@ -0, 0 +1,
+	24 @@ > +UNFS3 user-space
+	NFSv3 server > +(C) 2003, Pascal Schmidt <unfs3-server@ewetel.net> > + >
+	+Redistribution and use in source and binary forms,
+	with or without > +modification, 
+	are permitted provided that the following conditions are met: > + > +1.
+	Redistributions
+	of source code must retain the above copyright notice,
+	> + this list of conditions
+	and the following disclaimer. > +2. Redistributions in binary form must
+	reproduce the above copyright notice,
+	> + this list of conditions and the following
+	disclaimer in the documentation > + and/or other materials provided
+	with
+	the distribution. > +3. The name of the author may not be used to
+	endorse
+	or promote products > + derived from this software without specific
+	prior written permission. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/6] unfs3: Add a NFSv3 user mode server for use with runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,102 +65,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 14:35:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Jan 2014 15:01:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The default slirp address for the NFS server is 10.0.2.2.  If not
-using a tap interface this address must be used or the target system
-cannot connect properly.  Also the ip=... kernel arguments need to be
-set to dhcp when using slirp or the root NFS will not get setup
-properly.
+On Thu, 2014-01-23 at 08:32 -0600, Jason Wessel wrote:
+> +++ b/meta/files/common-licenses/unfs3
+> @@ -0,0 +1,24 @@
+> +UNFS3 user-space NFSv3 server
+> +(C) 2003, Pascal Schmidt <unfs3-server@ewetel.net>
+> +
+> +Redistribution and use in source and binary forms, with or without
+> +modification, are permitted provided that the following conditions are met:
+> +
+> +1. Redistributions of source code must retain the above copyright notice,
+> +   this list of conditions and the following disclaimer.
+> +2. Redistributions in binary form must reproduce the above copyright notice,
+> +   this list of conditions and the following disclaimer in the documentation
+> +   and/or other materials provided with the distribution.
+> +3. The name of the author may not be used to endorse or promote products
+> +   derived from this software without specific prior written permission.
 
-The call to cleanup() results in a routine which is not defined when
-setting up the NFS because it is called before acquire() for the
-locking of the tap interfaces, the solution being to simply not call
-cleanup() that early.
+Isn't this just the 3-clause BSD licence?
 
-When using slirp, kvm should not execute the vhost net checks because
-the vhost net will not be configure or used.
+>--- /dev/null
+>+++ b/meta/recipes-devtools/unfs3/unfs3/alternate_rpc_ports.patch
+>@@ -0,0 +1,158 @@
+>+Add ability to specify rcp port numbers
+>+
+>+In order to run more than one unfs server on a host system, you must
+>+be able to specify alternate rpc port numbers.
+>+
+>+Jason Wessel <jason.wessel@windriver.com>
+>+
+>+Upstream-Status: Pending
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- scripts/runqemu          |   10 ++++++----
- scripts/runqemu-internal |   19 +++++++++++--------
- 2 files changed, 17 insertions(+), 12 deletions(-)
+I think you said in the cover letter that the patches had been sent
+upstream.  If that's the case then it should be Upstream-Status:
+Submitted.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index dcb2931..9272b6f 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -279,10 +279,12 @@ if [ "x$KVM_ENABLED" = "xyes" ]; then
-         exit 1;
-     fi
-     if [ ! -w /dev/vhost-net -o ! -r /dev/vhost-net ]; then
--        echo "You have no rights on /dev/vhost-net."
--        echo "Please change the ownership of this file as described at:"
--        echo "$YOCTO_PARAVIRT_KVM_WIKI";
--        exit 1;
-+	if [ "$SLIRP_ENABLED" != "yes" ] ; then
-+            echo "You have no rights on /dev/vhost-net."
-+            echo "Please change the ownership of this file as described at:"
-+            echo "$YOCTO_PARAVIRT_KVM_WIKI";
-+            exit 1;
-+	fi
-     fi
- fi
- 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index cecb527..e3b0729 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -114,7 +114,7 @@ NFSRUNNING="false"
- ORIG_STTY=$(stty -g)
- 
- if [ "$SLIRP_ENABLED" = "yes" ]; then
--    KERNEL_NETWORK_CMD=""
-+    KERNEL_NETWORK_CMD="ip=dhcp"
-     QEMU_TAP_CMD=""
-     QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
-     if [ "$KVM_ACTIVE" = "yes" ]; then
-@@ -301,9 +301,18 @@ if [ "$FSTYPE" != "nfs" -a "$FSTYPE" != "vmdk" -a ! -f "$ROOTFS" ]; then
-     return 1
- fi
- 
--if [ "$FSTYPE" = "nfs" ]; then
-+if [ "$NFS_SERVER" = "" ]; then
-     NFS_SERVER="192.168.7.1"
-+    if [ "$SLIRP_ENABLED" = "yes" ]; then
-+	NFS_SERVER="10.0.2.2"
-+    fi
-+fi
-+
-+if [ "$FSTYPE" = "nfs" ]; then
-     NFS_DIR=`echo $ROOTFS | sed 's/^[^:]*:\(.*\)/\1/'`
-+    if [ "$NFS_INSTANCE" = "" ] ; then
-+	NFS_INSTANCE=0
-+    fi
-     MOUNTD_RPCPORT=$[ 21111 + $NFS_INSTANCE ]
-     NFSD_RPCPORT=$[ 11111 + $NFS_INSTANCE ]
-     NFSD_PORT=$[ 3049 + 2 * $NFS_INSTANCE ]
-@@ -317,17 +326,11 @@ if [ "$FSTYPE" = "nfs" ]; then
-     echo "runqemu-export-rootfs restart $ROOTFS"
-     runqemu-export-rootfs restart $ROOTFS
-     if [ $? != 0 ]; then
--        cleanup
-         return 1
-     fi
-     NFSRUNNING="true"
- fi
- 
--if [ "$NFS_SERVER" = "" ]; then
--    NFS_SERVER="192.168.7.1"
--    NFS_DIR=$ROOTFS
--fi
--
- if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarmv7" ]; then
-     QEMU=qemu-system-arm
-     MACHINE_SUBTYPE=versatilepb
--- 
-1.7.9.5
+>+RDEPENDS_${PN} = "pseudo"
+>+RDEPENDS_${PN}_class-native = "pseudo-native"
+>+RDEPENDS_${PN}_class-nativesdk = "pseudo-nativesdk"
+
+That looks a bit odd.  Are the latter two lines doing anything very
+useful?
+
+>+# This recipe is intended for -native and -nativesdk builds only,
+>+# not target installs:
+
+Why?  If this is really the case, shouldn't it be named unfs3-native in
+the first place?
+
+p.
+
 
 
