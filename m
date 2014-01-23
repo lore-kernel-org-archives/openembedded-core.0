@@ -1,40 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5821A6B05F
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 15:23:17 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id z12so1669181wgg.30
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 07:23:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=d+t8k7QIWGaQ1qeFb9v2mwpMgHwpKO+tCX5gltJQ5tg=;
-	b=QCETLbptJyNCFqq8Yi+5luAh8Sh/vjbz5fOcRKkLK9VWgYUbZS+KzA/FQVHAaAnAFT
-	IyQ19PCBoZsjhrRj6SUn7pWkasf6iZRCPz5osWZeKVKqSYL5ITuJeMS817j4N0mqHCWG
-	cVHmomdSQrZlEYvMizEpVZDFOjT/wF20BTuGeUqM4Vv1sqGjzL8/zEJqGxYjjohvXcWa
-	+itFEY7oEP4krMVMZImnM14rutIXQeg0vNwzPLu7pCL2E24LEUdAPPcSjHZCIPgB7C30
-	z7WEq9M4gxb9LrlpcLj6cMS5Qg9clylPGQViKp9PuJNhJ3hxa3iFX0T1o0nlAFgNuKC5
-	lJfw==
-X-Received: by 10.180.101.230 with SMTP id fj6mr7176866wib.27.1390490597995;
-	Thu, 23 Jan 2014 07:23:17 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id dm2sm28597429wib.8.2014.01.23.07.23.17
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jan 2014 07:23:17 -0800 (PST)
-Date: Thu, 23 Jan 2014 16:23:18 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20140123152318.GG3704@jama>
-References: <CAP9ODKpdT9yypcEReFj2mDuL4UEuj5_0xOOJqnO4Q3qfS=NcdQ@mail.gmail.com>
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A0256B05F
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2014 15:35:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0NFZEQH004517
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 23 Jan 2014 07:35:15 -0800 (PST)
+Received: from [172.25.32.36] (172.25.32.36) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 23 Jan 2014 07:35:14 -0800
+Message-ID: <52E136B1.5020805@windriver.com>
+Date: Thu, 23 Jan 2014 09:35:13 -0600
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKpdT9yypcEReFj2mDuL4UEuj5_0xOOJqnO4Q3qfS=NcdQ@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: update-alternatives WARNING
+To: Phil Blundell <pb@pbcl.net>
+References: <1390487566-13569-1-git-send-email-jason.wessel@windriver.com>	
+	<1390487566-13569-3-git-send-email-jason.wessel@windriver.com>
+	<1390489330.24755.17.camel@e130.pbcl.net>
+In-Reply-To: <1390489330.24755.17.camel@e130.pbcl.net>
+X-Enigmail-Version: 1.6
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/6] unfs3, unfs-server: Replace all instances of unfs-server with unfs3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,52 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 15:23:17 -0000
-X-Groupsio-MsgNum: 49469
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="mhjHhnbe5PrRcwjY"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 23 Jan 2014 15:35:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---mhjHhnbe5PrRcwjY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 01/23/2014 09:02 AM, Phil Blundell wrote:
+> On Thu, 2014-01-23 at 08:32 -0600, Jason Wessel wrote:
+>>  # Not automake, no out of tree build support
+>> -#B_pn-unfs-server-native = "${SEPB}"
+>> +#B_pn-unfs3-native = "${SEPB}"
+> Is that still true?  The unfs3 recipe makes it look like it does use
+> autotools.
 
-On Thu, Jan 23, 2014 at 11:41:12AM -0200, Otavio Salvador wrote:
-> Hello,
->=20
-> I am seeing this:
->=20
-> WARNING: The recipe opkg-utils-native is trying to install files into
-> a shared area when those files already exist. Those files and their
-> manifest location are:
->    /home/otavio/hacking/fsl/yocto/build/tmp/sysroots/x86_64-linux/usr/bin=
-/update-alternatives
->    Matched in manifest-x86_64-opkg-native.populate_sysroot
->=20
-> In todays' tip.
->=20
-> Is it a known issue?
 
-If it's incremental build, then it's expected.
+With v1 no, with v2 yes.  I had done a global search and replace.  I would say we can dump these commented out lines.
 
-/usr/bin/update-alternatives was moved from opkg to opkg-utils and
-sstate doesn't know that opkg-native should be rebuilt befor opkg-utils,
-because they don't have any dependency.
+Thanks,
+Jason.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---mhjHhnbe5PrRcwjY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlLhM+YACgkQN1Ujt2V2gBw1ZgCffkDmIucQeu2n+4fg/X+FO8rN
-JhoAn3+zJno2OVNIY3Z0f6RvmvZ8j3JI
-=7wo0
------END PGP SIGNATURE-----
-
---mhjHhnbe5PrRcwjY--
