@@ -1,44 +1,24 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CD9D6B05F
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EC5E66C765
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 07:04:08 +0000 (UTC)
-Received: from [12.157.112.67] (helo=[10.71.2.210])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1W6EKe-0002t7-97; Thu, 23 Jan 2014 08:04:08 +0100
-Message-ID: <1390460640.24755.11.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Thu, 23 Jan 2014 07:04:00 +0000
-In-Reply-To: <1390459814-15764-1-git-send-email-sgw@linux.intel.com>
-References: <1390459814-15764-1-git-send-email-sgw@linux.intel.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Wed, 2014-01-22 at 22:50 -0800,
-	Saul Wold wrote: > +IS_VMDK
-	= '${@base_contains("IMAGE_FSTYPES", "vmdk", "true", "false", d)}' > + >
-	+ if [ "${IS_VMDK}" ];
-	then Does that really work? I can't quite see how it would,
-	but I might be overlooking something. Presumably you did test this,
-	right? [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boot-directdisk: fix the support of vmdk
+	Thu, 23 Jan 2014 07:10:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0N7AQsd025141
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jan 2014 23:10:27 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 22 Jan 2014 23:10:25 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Jan 2014 15:10:38 +0800
+Message-ID: <cover.1390461001.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/1] udev: fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,19 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 07:04:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jan 2014 07:10:26 -0000
+Content-Type: text/plain
 
-On Wed, 2014-01-22 at 22:50 -0800, Saul Wold wrote:
-> +IS_VMDK = '${@base_contains("IMAGE_FSTYPES", "vmdk", "true", "false", d)}'
-> +
-> +	if [ "${IS_VMDK}" ]; then
+The following changes since commit 4659d29b1040349116549644e45035a5b37d9311:
 
-Does that really work?  I can't quite see how it would, but I might be
-overlooking something.  Presumably you did test this, right?
+  sstate.bbclass: remove previous version's stamp (2014-01-21 10:36:23 +0000)
 
-p.
+are available in the git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/udev-typo
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/udev-typo
+
+Chen Qi (1):
+  udev: fix typo
+
+ meta/recipes-core/udev/udev.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.7.9.5
 
 
