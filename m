@@ -1,30 +1,26 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B79F6B05F
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 16:52:58 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0NGqx5P005744
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Jan 2014 08:52:59 -0800 (PST)
-Received: from [172.25.32.36] (172.25.32.36) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 23 Jan 2014 08:52:59 -0800
-Message-ID: <52E148E8.2030407@windriver.com>
-Date: Thu, 23 Jan 2014 10:52:56 -0600
-From: Jason Wessel <jason.wessel@windriver.com>
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id F309C6B05F
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2014 17:54:40 +0000 (UTC)
+Received: (qmail 9956 invoked by uid 1003); 23 Jan 2014 17:54:41 -0000
+Received: from unknown (HELO ?192.168.1.122?)
+	(philip@opensdr.com@71.171.41.155)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	23 Jan 2014 17:54:41 -0000
+Message-ID: <52E15760.8050606@balister.org>
+Date: Thu, 23 Jan 2014 12:54:40 -0500
+From: Philip Balister <philip@balister.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1390487566-13569-1-git-send-email-jason.wessel@windriver.com>	
-	<1390487566-13569-2-git-send-email-jason.wessel@windriver.com>
-	<1390489278.24755.16.camel@e130.pbcl.net>
-In-Reply-To: <1390489278.24755.16.camel@e130.pbcl.net>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+References: <52E10247.8050700@pseudoterminal.org>
+In-Reply-To: <52E10247.8050700@pseudoterminal.org>
 X-Enigmail-Version: 1.6
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/6] unfs3: Add a NFSv3 user mode server for use with runqemu
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Berkeley DB fails to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,85 +33,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 16:52:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 Jan 2014 17:54:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 01/23/2014 09:01 AM, Phil Blundell wrote:
-> On Thu, 2014-01-23 at 08:32 -0600, Jason Wessel wrote:
->> +++ b/meta/files/common-licenses/unfs3
->> @@ -0,0 +1,24 @@
->> +UNFS3 user-space NFSv3 server
->> +(C) 2003, Pascal Schmidt <unfs3-server@ewetel.net>
->> +
->> +Redistribution and use in source and binary forms, with or without
->> +modification, are permitted provided that the following conditions are met:
->> +
->> +1. Redistributions of source code must retain the above copyright notice,
->> +   this list of conditions and the following disclaimer.
->> +2. Redistributions in binary form must reproduce the above copyright notice,
->> +   this list of conditions and the following disclaimer in the documentation
->> +   and/or other materials provided with the distribution.
->> +3. The name of the author may not be used to endorse or promote products
->> +   derived from this software without specific prior written permission.
-> Isn't this just the 3-clause BSD licence?
+On 01/23/2014 06:51 AM, Carlos Rafael Giani wrote:
+> Hello,
+> 
+> I noticed that since the C++ bindings for the berkeley DB were included
+> in commit 23f29027db73d5759889b48fabdea7f6173217a7 , I cannot build db
+> anymore.
+> The error is:
+> 
+>     /usr/lib/libstdc++.so: file not recognized: File format not recognized
+> 
+> this is the offending part in the log.do_compile file:
 
-Because it did not diff between the two (the words are different) I included the license.
+What distro is your build machine running? I've this from people using
+Arch Linux.
 
-It appears Pascal modified it ever so slightly.  Perhaps legally they mean the same thing, but given I am not a lawyer I opted to include it.
+Philip
 
--- The one from above
-3. The name of the author may not be used to endorse or promote products
-   derived from this software without specific prior written permission.
-
---- vs BSD listed in YP
-3. Neither the name of the University nor the names of its contributors
-   may be used to endorse or promote products derived from this software
-   without specific prior written permission.
-
-
-
-There were other subtle changes too.
-
-
->
->> --- /dev/null
->> +++ b/meta/recipes-devtools/unfs3/unfs3/alternate_rpc_ports.patch
->> @@ -0,0 +1,158 @@
->> +Add ability to specify rcp port numbers
->> +
->> +In order to run more than one unfs server on a host system, you must
->> +be able to specify alternate rpc port numbers.
->> +
->> +Jason Wessel <jason.wessel@windriver.com>
->> +
->> +Upstream-Status: Pending
-> I think you said in the cover letter that the patches had been sent
-> upstream.  If that's the case then it should be Upstream-Status:
-> Submitted.
-
-
-
-
-Thanks,  I'll make a v3, these are all submitted and pending upstream review.
-
->> +RDEPENDS_${PN} = "pseudo"
->> +RDEPENDS_${PN}_class-native = "pseudo-native"
->> +RDEPENDS_${PN}_class-nativesdk = "pseudo-nativesdk"
-> That looks a bit odd.  Are the latter two lines doing anything very
-> useful?
-
-
-The usnfs3 is useless without pseudo.   The 2nd of the two might not be needed, but it had been there since the YP 1.3 days.   For building the nativesdk and having a working unfs3 the 3rd one was required.   I'll leave this in there for the v3.
-
-
->
->> +# This recipe is intended for -native and -nativesdk builds only,
->> +# not target installs:
-> Why?  If this is really the case, shouldn't it be named unfs3-native in
-> the first place?
-
-Now that the autoconf pieces are fixed in the v2, I can remove this restriction in v3.   It does work on the target system now.
-
-Jason.
+> 
+> | libtool: link: arm-poky-linux-gnueabi-g++  -march=armv7-a
+> -mthumb-interwork -mfloat-abi=hard -mfpu=neon -mtune=cortex-a9
+> --sysroot=/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd
+> -fPIC -DPIC -shared -nostdlib
+> /home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/crti.o
+> /home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/arm-poky-linux-gnueabi/4.8.2/crtbeginS.o
+> .libs/cxx_channel.o .libs/cxx_db.o .libs/cxx_dbc.o .libs/cxx_dbt.o
+> .libs/cxx_env.o .libs/cxx_except.o .libs/cxx_lock.o .libs/cxx_logc.o
+> .libs/cxx_mpool.o .libs/cxx_multi.o .libs/cxx_rid.o .libs/cxx_seq.o
+> .libs/cxx_site.o .libs/cxx_txn.o .libs/mut_tas.o .libs/bt_compare.o
+> .libs/bt_compress.o .libs/bt_conv.o .libs/bt_curadj.o .libs/bt_cursor.o
+> .libs/bt_delete.o .libs/bt_method.o .libs/bt_open.o .libs/bt_put.o
+> .libs/bt_rec.o .libs/bt_reclaim.o .libs/bt_recno.o .libs/bt_rsearch.o
+> .libs/bt_search.o .libs/bt_split.o .libs/bt_stat.o .libs/bt_compact.o
+> .libs/bt_upgrade.o .libs/btree_auto.o .libs/hash.o .libs/hash_auto.o
+> .libs/hash_compact.o .libs/hash_conv.o .libs/hash_dup.o
+> .libs/hash_meta.o .libs/hash_method.o .libs/hash_open.o
+> .libs/hash_page.o .libs/hash_rec.o .libs/hash_reclaim.o
+> .libs/hash_stat.o .libs/hash_upgrade.o .libs/heap.o .libs/heap_auto.o
+> .libs/heap_backup.o .libs/heap_conv.o .libs/heap_method.o
+> .libs/heap_open.o .libs/heap_rec.o .libs/heap_reclaim.o
+> .libs/heap_stat.o .libs/qam_stub.o .libs/rep_stub.o .libs/repmgr_stub.o
+> .libs/db_vrfy_stub.o .libs/log_verify_stub.o .libs/lock.o
+> .libs/lock_deadlock.o .libs/lock_failchk.o .libs/lock_id.o
+> .libs/lock_list.o .libs/lock_method.o .libs/lock_region.o
+> .libs/lock_stat.o .libs/lock_timer.o .libs/lock_util.o .libs/mut_alloc.o
+> .libs/mut_failchk.o .libs/mut_method.o .libs/mut_region.o
+> .libs/mut_stat.o .libs/crypto_stub.o .libs/clock.o .libs/crdel_auto.o
+> .libs/crdel_rec.o .libs/db.o .libs/db_am.o .libs/db_auto.o
+> .libs/db_backup.o .libs/db_byteorder.o .libs/db_cam.o .libs/db_cds.o
+> .libs/db_compact.o .libs/db_compint.o .libs/db_conv.o .libs/db_copy.o
+> .libs/db_dispatch.o .libs/db_dup.o .libs/db_err.o .libs/db_getlong.o
+> .libs/db_idspace.o .libs/db_iface.o .libs/db_join.o .libs/db_log2.o
+> .libs/db_meta.o .libs/db_method.o .libs/db_open.o .libs/db_overflow.o
+> .libs/db_pr.o .libs/db_rec.o .libs/db_reclaim.o .libs/db_remove.o
+> .libs/db_rename.o .libs/db_ret.o .libs/db_setid.o .libs/db_setlsn.o
+> .libs/db_shash.o .libs/db_sort_multiple.o .libs/db_stati.o
+> .libs/db_truncate.o .libs/db_upg.o .libs/db_upg_opd.o .libs/dbreg.o
+> .libs/dbreg_stat.o .libs/dbreg_auto.o .libs/dbreg_rec.o
+> .libs/dbreg_util.o .libs/dbt.o .libs/env_alloc.o .libs/env_config.o
+> .libs/env_backup.o .libs/env_failchk.o .libs/env_file.o
+> .libs/env_globals.o .libs/env_open.o .libs/env_method.o .libs/env_name.o
+> .libs/env_recover.o .libs/env_region.o .libs/env_register.o
+> .libs/env_sig.o .libs/env_stat.o .libs/fileops_auto.o .libs/fop_basic.o
+> .libs/fop_rec.o .libs/fop_util.o .libs/hash_func.o .libs/hmac.o
+> .libs/log.o .libs/log_archive.o .libs/log_compare.o .libs/log_debug.o
+> .libs/log_get.o .libs/log_method.o .libs/log_print.o .libs/log_put.o
+> .libs/log_stat.o .libs/mkpath.o .libs/mp_alloc.o .libs/mp_backup.o
+> .libs/mp_bh.o .libs/mp_fget.o .libs/mp_fmethod.o .libs/mp_fopen.o
+> .libs/mp_fput.o .libs/mp_fset.o .libs/mp_method.o .libs/mp_mvcc.o
+> .libs/mp_region.o .libs/mp_register.o .libs/mp_resize.o .libs/mp_stat.o
+> .libs/mp_sync.o .libs/mp_trickle.o .libs/openflags.o .libs/os_abort.o
+> .libs/os_abs.o .libs/os_alloc.o .libs/os_clock.o .libs/os_cpu.o
+> .libs/os_ctime.o .libs/os_config.o .libs/os_dir.o .libs/os_errno.o
+> .libs/os_fid.o .libs/os_flock.o .libs/os_fsync.o .libs/os_getenv.o
+> .libs/os_handle.o .libs/os_map.o .libs/os_method.o .libs/os_mkdir.o
+> .libs/os_open.o .libs/os_path.o .libs/os_pid.o .libs/os_rename.o
+> .libs/os_root.o .libs/os_rpath.o .libs/os_rw.o .libs/os_seek.o
+> .libs/os_stack.o .libs/os_stat.o .libs/os_tmpdir.o .libs/os_truncate.o
+> .libs/os_uid.o .libs/os_unlink.o .libs/os_yield.o .libs/partition.o
+> .libs/seq_stat.o .libs/sequence.o .libs/sha1.o .libs/snprintf.o
+> .libs/txn.o .libs/txn_auto.o .libs/txn_chkpt.o .libs/txn_failchk.o
+> .libs/txn_method.o .libs/txn_rec.o .libs/txn_recover.o
+> .libs/txn_region.o .libs/txn_stat.o .libs/txn_util.o .libs/xa.o
+> .libs/xa_map.o .libs/zerofill.o   -lpthread
+> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/x86_64-linux/usr/lib/cortexa9hf-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.8.2
+> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/lib
+> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/arm-poky-linux-gnueabi/4.8.2
+> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib
+> /usr/lib/libstdc++.so -lm -lc -lgcc_s
+> /home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/arm-poky-linux-gnueabi/4.8.2/crtendS.o
+> /home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/crtn.o
+> -march=armv7-a -mthumb-interwork -mfloat-abi=hard -mfpu=neon
+> -mtune=cortex-a9
+> --sysroot=/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd
+> -O2 -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed   -Wl,-soname
+> -Wl,libdb_cxx-5.3.so -o .libs/libdb_cxx-5.3.so
+> 
+> Note this part:
+> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib
+> /usr/lib/libstdc++.so -lm -lc
+> 
+> I do not know where this stray "/usr/lib/libstdc++.so" comes from.
+> Perhaps it is caused by the fact that db is already installed on the host.
+> 
+> Reverting the commit fixes the problem for me.
+> 
+> Cheers
+> 
 
