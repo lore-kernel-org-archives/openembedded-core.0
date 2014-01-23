@@ -1,32 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 32F4B6D02F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B63246D02F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 01:28:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0N1S115021854
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 Jan 2014 17:28:01 -0800 (PST)
-Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Wed, 22 Jan 2014 17:28:00 -0800
-Message-ID: <52E0702C.4050402@windriver.com>
-Date: Thu, 23 Jan 2014 09:28:12 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Thu, 23 Jan 2014 01:40:56 +0000 (UTC)
+Received: by mail-ob0-f179.google.com with SMTP id wo20so1369794obc.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jan 2014 17:40:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=myGwqeOOIVdN2Muvn3xeYt1IPbGWYCBOPcbTH8tbyCo=;
+	b=nTP5bRkzl2K9cDaAJzVoWpFGcL6vgOXhRpr0/yWHRNsotK7q678dOHzfFCWyzOKzLP
+	QaptdvAcJOk8z+H+FfOcopw4yYEEiv+uPum/XPo0pOfWNY9H3ZBoV+6qP3Xn+/rLpPt7
+	3T+5/xWaQhVpnLBuFkRQiSaYwq2LQS9Ly7kl1amKRbGvaikn2xs9l2rvjB2bWvVxli00
+	IFjcLcx56W/qAP1ilKgUsR83oSzFBshrFw7huqe3WHXlc45xZsq9gIYF9DanOlAYbOkO
+	Ds37dPbhM7JpUx6RyfquEWaXBkvaPo3+QubYtYeklyyuM+G00nhNbov1j23qSnmIUXqd
+	mrtg==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1389598673.git.Qi.Chen@windriver.com>
-	<1d073230c282c6e62cd24b164bc42f383a55544a.1389598673.git.Qi.Chen@windriver.com>
-	<CAJTo0Lb3ysqtjm-fN5vCqpOONEAUH-N+eeC3a=t+PqG8bOWe1g@mail.gmail.com>
-	<52D497EA.20301@windriver.com>
-	<CAJTo0Lbs0CswS8pQ0D-HudN-B8e6F0z8dBH694xxkrGocexBHA@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbs0CswS8pQ0D-HudN-B8e6F0z8dBH694xxkrGocexBHA@mail.gmail.com>
-X-Originating-IP: [128.224.162.164]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] systemd-compat-units: make run-postinsts.service work correctly on target
+X-Received: by 10.60.47.116 with SMTP id c20mr114475oen.60.1390441257508; Wed,
+	22 Jan 2014 17:40:57 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 22 Jan 2014 17:40:57 -0800 (PST)
+In-Reply-To: <1390419432-19402-1-git-send-email-koen@dominion.thruhere.net>
+References: <1390419432-19402-1-git-send-email-koen@dominion.thruhere.net>
+Date: Wed, 22 Jan 2014 23:40:57 -0200
+X-Google-Sender-Auth: PVgOBXt26HH6zln87_DAF3JM8wE
+Message-ID: <CAP9ODKqK0W1-KpfPSOVzXYXre1LvNE3_FzuNnXBwOyqSxW4d8w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-firmware: split out ATI/AMD Radeon firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,28 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 01:28:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jan 2014 01:40:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 01/23/2014 01:08 AM, Burton, Ross wrote:
-> On 14 January 2014 01:50, ChenQi <Qi.Chen@windriver.com> wrote:
->> As you have started working on this problem, I think I'll just drop this
->> patch.
->>
->> After looking at your branch, I think there's only one thing to look out
->> for. When we're using ipk/dpkg as the package back-end, and
->> 'package-management' is in IMAGE_FEATURES, there would be no
->> /etc/*-postinsts.
-> I started but didn't finish - as you've taken the systemd bugs could
-> you finish this off?  Pretty sure I filed a bug to go with it.
->
-> Ross
->
->
+On Wed, Jan 22, 2014 at 5:37 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 
-OK.
+Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Best Regards,
-Chen Qi
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
