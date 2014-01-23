@@ -1,45 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
-	[209.85.214.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A0A16C742
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A348A6C742
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 12:01:48 +0000 (UTC)
-Received: by mail-ob0-f178.google.com with SMTP id wn1so1912131obc.9
+	Thu, 23 Jan 2014 12:02:07 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id n12so1336581wgh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 04:01:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=TKbmeQXcDVDvSzvVH9ZPvNcGQ39JIDMIsKHaKDIdwG0=;
-	b=o2jYDxg6r3dcjd8a0lhySPd6PAsy1KnvI+hVvunDqtATCkE1+kl5s5sB3zNOaqI+ox
-	vEUpsyYEmyEwvZ2EH0QrpnvNEaSinxMFvuQvfXK7qaX5Vf3xGYSyBPt5yJby+xrgrpS4
-	Vfjn90kEQWXD55jq8Pze8cg6+7xJnevmUEqgOt8hDCucFX+iBrzqWcKkJxZGJ+0YLvD3
-	Erc0/7Al91r698S0xf3tF+yLfUKTBKK4K6ILuetBIXWbEngj0mYB4z47DPAHnrmIGcsF
-	G+eFa6WFOOxl52HMdaexGjIFd3P9S8JWJDDe7wOPIMf+OK/sKD2f5fUm5feKGr+FtIkE
-	+NgA==
-MIME-Version: 1.0
-X-Received: by 10.182.250.163 with SMTP id zd3mr6511515obc.20.1390478509297;
-	Thu, 23 Jan 2014 04:01:49 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 23 Jan 2014 04:01:49 -0800 (PST)
-In-Reply-To: <CAJTo0LYNfpP6k9e8GTEgX=fr99BxG-sEv-BUJVzSO3uFnBeYPg@mail.gmail.com>
-References: <1390467988-25693-1-git-send-email-koen.kooi@linaro.org>
-	<CAP9ODKoU+va9SbCJAfZ4HMkz+==Ec9va0KjJX07c4d4cZ90bjg@mail.gmail.com>
-	<17C27E68-3F62-414D-A02A-8AD06ACE0B66@dominion.thruhere.net>
-	<CAP9ODKrUBJJJHTTBkRmq9j+yOrgGyUfX3TC5L69-ynaDbefo0A@mail.gmail.com>
-	<B6D70178-C80E-4804-9786-47A67B9EB230@dominion.thruhere.net>
-	<CAJTo0Lb3xQTSJdfXHpMyGTPMALcCHki4pgG5MvEFHiX-yNYezw@mail.gmail.com>
-	<CAP9ODKoOqcghweT8ta5tx4=5hqxHdt6Hi75ksuegxikvYFAj+Q@mail.gmail.com>
-	<CAJTo0LYNfpP6k9e8GTEgX=fr99BxG-sEv-BUJVzSO3uFnBeYPg@mail.gmail.com>
-Date: Thu, 23 Jan 2014 10:01:49 -0200
-X-Google-Sender-Auth: G1E7oy9DdLDl2UwTYaW7sH7RfR8
-Message-ID: <CAP9ODKp1SOXfKojD1TmRtWmRueZ9+eZaKeG2DLEHJRS-zWT1YQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>, Koen Kooi <koen.kooi@linaro.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lz4: actually install things
+	Thu, 23 Jan 2014 04:02:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=cQXATuK8jnZVurvrBJ50wHEwEtAGBnkQ9wx3FGUJ9Nw=;
+	b=LwfffBKi7b79hRzPFntuzYGZJHjnZlDkXpiYDz4wr7sv8rTP9GfEU3e3hU0fGRQLgZ
+	g7I/sfwJLMfE6ec/NC4RnTnR+1MFoBUEZZ7eoEGwLC4P4VL5Df10FKll0kfQooO9UiMs
+	Nd95grUYfgS/0WtvUeQCiznFzXWnlaZUICUQJtZLi1KIYNb1ue2VS8nf/9cyyIfF3LoI
+	xKmTYfywnuS3adJdlAeeVwwQ4fia2aQPWNOV91Mvb4AZJfE4HXTIak40rF265tudi51J
+	9wBkoIAY+OZpdHIGvf3qDQ7isjAKGJ/bkAQ42ydVN3tLhLGYhgbBisJsATTFfsnBDS5g
+	LCuQ==
+X-Gm-Message-State: ALoCoQl+aNMPhR9ikko3YFlpgmX3bP+nbM2cCH1j6BI1JWf7o4oNQ4RBhi7LZqKnIc78BS7jYJvB
+X-Received: by 10.180.107.1 with SMTP id gy1mr7475943wib.47.1390478528071;
+	Thu, 23 Jan 2014 04:02:08 -0800 (PST)
+Received: from localhost.localdomain (gau06-1-78-243-126-63.fbx.proxad.net.
+	[78.243.126.63]) by mx.google.com with ESMTPSA id
+	ci4sm21793194wjc.21.2014.01.23.04.02.06 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 23 Jan 2014 04:02:07 -0800 (PST)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jan 2014 13:02:04 +0100
+Message-Id: <1390478526-12041-1-git-send-email-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 1.8.5.3
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>, patches@linaro.org
+Subject: [PATCH 0/2] Fix SDL recipes with regards to GL/GLES/EGL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,27 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 12:01:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 23 Jan 2014 12:02:08 -0000
 
-On Thu, Jan 23, 2014 at 9:53 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 23 January 2014 11:49, Otavio Salvador <otavio@ossystems.com.br> wrote:
->>> Personally a recipe should only inherit autotools if it actually uses
->>> autotools.  Hand crafted makefiles should mean hand-crafted recipes.
->>
->> I will respect your opinions but I see no reason to not use autoconf
->> if do_configure checks for it.
->
-> Extra build dependencies, extra logic beyond what is needed, the need
-> to be careful in the future when we can't assume that
-> autotools.bbclass is used with autotools-using recipes.
+As discussed on the list, SDL fails to build on ARM platforms where
+'opengl' DISTRO FEATURES means gles/egl, since SDL assumes that
+'opengl' provides gl/glx. So until we find a better mechanism to
+support GL vs GLES at the DISTRO FEATURE level, this serie create the
+proper PACKAGECONFIG so that SDL enable-video-opengl can be disabled
+more easily in .bbappend or .conf file.
 
-Ok; you won.
+If this gets merged, I will send a backport for dora, and a slightly
+different backport for dylan which does not have the _remove feature,
+hence i will be using an intermediate variable like PACKACONFIG_GL.
 
-heheh
+Nicolas Dechesne (2):
+  libsdl: add PACKAGECONFIG for opengl
+  libsdl2: add PACKAGECONFIG for opengl
+
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb  | 12 +++++++++---
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.1.bb | 12 +++++++++---
+ 2 files changed, 18 insertions(+), 6 deletions(-)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.5.3
+
 
