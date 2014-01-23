@@ -1,11 +1,11 @@
 Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EDF86E3D8
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 01EEE6BC92
 	for <Openembedded-core@lists.openembedded.org>;
 	Thu, 23 Jan 2014 14:35:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0NEZuRF027205
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0NEZuYI003501
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <Openembedded-core@lists.openembedded.org>;
 	Thu, 23 Jan 2014 06:35:56 -0800 (PST)
@@ -14,13 +14,13 @@ Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
 	Thu, 23 Jan 2014 06:35:56 -0800
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 08:32:42 -0600
-Message-ID: <1390487566-13569-3-git-send-email-jason.wessel@windriver.com>
+Date: Thu, 23 Jan 2014 08:32:43 -0600
+Message-ID: <1390487566-13569-4-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1390487566-13569-1-git-send-email-jason.wessel@windriver.com>
 References: <1390487566-13569-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 2/6] unfs3, unfs-server: Replace all instances of unfs-server with unfs3
+Subject: [PATCH v2 3/6] runqemu: Use the newer unfs3 for serving user space nfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,127 +33,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 14:35:55 -0000
+X-List-Received-Date: Thu, 23 Jan 2014 14:35:56 -0000
 Content-Type: text/plain
 
-Other recipes dependencies and even some comments need to be updated
-for the removal of unfs-server and the replacement with unfs3.  The
-unfs3 is a complete drop in replacement providing all the prior
-functionality of NFSv2 but also adding NFSv3.
+From: Saul Wold <sgw@linux.intel.com>
+
+This new version correctly handles the 64bit ext3 / ext4 issues we
+were seeing with the older unfs-server which did not handle 64bit file
+systems correctly, producing the duplicate cookies.
 
 [YOCTO #5639]
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/conf/distro/include/seperatebuilddir.inc      |    4 ++--
- meta/recipes-core/meta/meta-ide-support.bb         |    2 +-
- .../nativesdk-packagegroup-sdk-host.bb             |    2 +-
- .../adt-installer/scripts/adt_installer_internal   |    2 +-
- .../packagegroups/packagegroup-toolset-native.bb   |    2 +-
- meta/site/ix86-common                              |    2 +-
- meta/site/x86_64-linux                             |    2 +-
- 7 files changed, 8 insertions(+), 8 deletions(-)
+ scripts/runqemu-export-rootfs |   53 ++++-------------------------------------
+ scripts/runqemu-internal      |    2 +-
+ 2 files changed, 6 insertions(+), 49 deletions(-)
 
-diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-index 3c36c22..64e8f6d 100644
---- a/meta/conf/distro/include/seperatebuilddir.inc
-+++ b/meta/conf/distro/include/seperatebuilddir.inc
-@@ -528,7 +528,7 @@ B_pn-nativesdk-renderproto = "${SEPB}"
- B_pn-nativesdk-sqlite3 = "${SEPB}"
- B_pn-nativesdk-systemtap = "${SEPB}"
- # Not automake, no out of tree build support
--#B_pn-nativesdk-unfs-server = "${SEPB}"
-+#B_pn-nativesdk-unfs3 = "${SEPB}"
- B_pn-nativesdk-util-macros = "${SEPB}"
- B_pn-nativesdk-xcb-proto = "${SEPB}"
- B_pn-nativesdk-xcmiscproto = "${SEPB}"
-@@ -676,7 +676,7 @@ B_pn-tremor = "${SEPB}"
- B_pn-tslib = "${SEPB}"
- B_pn-udev = "${SEPB}"
- # Not automake, no out of tree build support
--#B_pn-unfs-server-native = "${SEPB}"
-+#B_pn-unfs3-native = "${SEPB}"
- B_pn-usbutils = "${SEPB}"
- B_pn-util-linux = "${SEPB}"
- B_pn-util-linux-native = "${SEPB}"
-diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recipes-core/meta/meta-ide-support.bb
-index d4c410e..40bda28 100644
---- a/meta/recipes-core/meta/meta-ide-support.bb
-+++ b/meta/recipes-core/meta/meta-ide-support.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
+index bbdaf5b..2d87996 100755
+--- a/scripts/runqemu-export-rootfs
++++ b/scripts/runqemu-export-rootfs
+@@ -88,8 +88,7 @@ MOUNT_PORT=$[ 3048 + 2 * $NFS_INSTANCE ]
  
--DEPENDS = "virtual/libc gdb-cross qemu-native qemu-helper-native unfs-server-native"
-+DEPENDS = "virtual/libc gdb-cross qemu-native qemu-helper-native unfs3-native"
- PR = "r3"
+ ## For debugging you would additionally add
+ ## --debug all
+-MOUNTD_OPTS="--allow-non-root --mount-pid $MOUNTPID -f $EXPORTS --rmtab $RMTAB --prog $NFS_MOUNTPROG -r -P $MOUNT_PORT"
+-NFSD_OPTS="--allow-non-root --nfs-pid $NFSPID -f $EXPORTS --prog $NFS_NFSPROG -P $NFS_PORT -r"
++UNFSD_OPTS="-p -N -i $NFSPID -e $EXPORTS -x $NFS_NFSPROG -n $NFS_PORT -y $NFS_MOUNTPROG -m $MOUNT_PORT"
  
- inherit meta toolchain-scripts
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index 1065f30..855fe4e 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -15,7 +15,7 @@ RDEPENDS_${PN} = "\
-     nativesdk-qemu \
-     nativesdk-qemu-helper \
-     nativesdk-pseudo \
--    nativesdk-unfs-server \
-+    nativesdk-unfs3 \
-     nativesdk-opkg \
-     nativesdk-libtool \
-     nativesdk-autoconf \
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-index 2fef7b0..e3422f5 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-@@ -146,7 +146,7 @@ fi
+ # Setup the exports file
+ if [ "$1" = "start" ]; then
+@@ -115,53 +114,18 @@ case "$1" in
+ 		exit 1
+ 	fi
  
- if [ "$YOCTOADT_NFS_UTIL" == "Y" ] || [ "$YOCTOADT_NFS_UTIL" == "y" ]; then
-   echo_info "\nInstalling unfs ..."
--  $OPKG_INSTALL_NATIVE_CMD nativesdk-unfs-server &>> $YOCTOADT_INSTALL_LOG_FILE
-+  $OPKG_INSTALL_NATIVE_CMD nativesdk-unfs3 &>> $YOCTOADT_INSTALL_LOG_FILE
-   check_result
- fi
+-	echo "Starting User Mode rpc.mountd"
+-	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/rpc.mountd $MOUNTD_OPTS"
+-	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/rpc.mountd $MOUNTD_OPTS
+-	if [ ! $? = 0 ]; then
+-		echo "====================="
+-		echo "Error starting MOUNTD"
+-		echo "====================="
+-		if [ ! "x$RPCBIND_RUNNING" = "x" ] ; then
+-			echo "  If you see an error above that says:"
+-			echo "    RPC: Authentication error; why = Client credential too weak"
+-			echo "  You need to add the -i option when running rpcbind"
+-			echo "==============================================="
+-			echo "For recent Fedora/RedHat hosts:"
+-			echo "Add RPCBIND_ARGS=-i to /etc/sysconfig/rpcbind"
+-			echo "  or"
+-			echo "Add RPCBIND_OPTIONS=-i to /etc/sysconfig/rpcbind"
+-			echo "Then run as root: /etc/init.d/rpcbind restart"
+-			echo "==============================================="
+-			echo "For recent Debian/Ubuntu hosts:"
+-			echo "Add OPTIONS=\"-i -w\"  to /etc/default/rpcbind"
+-			echo "sudo service portmap restart"
+-		fi
+-
+-		exit 1
+-	fi
+-
+ 	echo "Starting User Mode nfsd"
+-	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/rpc.nfsd $NFSD_OPTS"
+-	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/rpc.nfsd $NFSD_OPTS
++	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/unfsd $UNFSD_OPTS"
++	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/sbin/unfsd $UNFSD_OPTS
+ 	if [ ! $? = 0 ]; then
+ 		echo "Error starting nfsd"
+ 		exit 1
+ 	fi
+-	# Check to make sure everything started ok.
+-	if [ ! -f $MOUNTPID ]; then
+-		echo "rpc.mountd did not start correctly"
+-		exit 1
+-	fi
++	 Check to make sure everything started ok.
+ 	if [ ! -f $NFSPID ]; then
+ 		echo "rpc.nfsd did not start correctly"
+ 		exit 1
+ 	fi
+-	ps -fp `cat $MOUNTPID` > /dev/null 2> /dev/null
+-	if [ ! $? = 0 ]; then
+-		echo "rpc.mountd did not start correctly"
+-		exit 1
+-	fi
+ 	ps -fp `cat $NFSPID` > /dev/null 2> /dev/null
+ 	if [ ! $? = 0 ]; then
+ 		echo "rpc.nfsd did not start correctly"
+@@ -169,16 +133,9 @@ case "$1" in
+ 	fi
+ 	echo " "
+ 	echo "On your target please remember to add the following options for NFS"
+-	echo "nfsroot=IP_ADDRESS:$NFS_EXPORT_DIR,nfsvers=2,mountprog=$NFS_MOUNTPROG,nfsprog=$NFS_NFSPROG,udp"
++	echo "nfsroot=IP_ADDRESS:$NFS_EXPORT_DIR,nfsvers=3,port=$NFSD_PORT,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,mountport=$MOUNTD_PORT"
+ 	;;
+   stop)
+-	if [ -f "$MOUNTPID" ]; then
+-		echo "Stopping rpc.mountd"
+-		kill `cat $MOUNTPID`
+-		rm -f $MOUNTPID
+-	else
+-		echo "No PID file, not stopping rpc.mountd"
+-	fi
+ 	if [ -f "$NFSPID" ]; then
+ 		echo "Stopping rpc.nfsd"
+ 		kill `cat $NFSPID`
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 284b88c..cecb527 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -308,7 +308,7 @@ if [ "$FSTYPE" = "nfs" ]; then
+     NFSD_RPCPORT=$[ 11111 + $NFS_INSTANCE ]
+     NFSD_PORT=$[ 3049 + 2 * $NFS_INSTANCE ]
+     MOUNTD_PORT=$[ 3048 + 2 * $NFS_INSTANCE ]
+-    UNFS_OPTS="nfsvers=2,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,port=$NFSD_PORT,mountport=$MOUNTD_PORT"
++    UNFS_OPTS="nfsvers=3,port=$NFSD_PORT,mountprog=$MOUNTD_RPCPORT,nfsprog=$NFSD_RPCPORT,udp,mountport=$MOUNTD_PORT"
  
-diff --git a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-index c88f82a..07d4f1d 100644
---- a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-+++ b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-@@ -213,7 +213,7 @@ DEPENDS = "\
-     tiff-native \
-     tzcode-native \
-     u-boot-mkimage-native \
--    unfs-server-native \
-+    unfs3-native \
-     unifdef-native \
-     unzip-native \
-     update-rc.d-native \
-diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index 21fcf38..5cd2ce2 100644
---- a/meta/site/ix86-common
-+++ b/meta/site/ix86-common
-@@ -216,7 +216,7 @@ moz_cv_size_of_JS_BYTES_PER_DOUBLE=8
- #ofono
- ac_cv_lib_c_signalfd=${ac_cv_lib_c_signalfd=yes}
- 
--#unfs-server
-+#unfs3
- nfsd_cv_broken_setfsuid=${nfsd_cv_broken_setfsuid=0}
- nfsd_cv_func_statfs=${nfsd_cv_func_statfs=statfs2_bsize}
- nfsd_cv_bsd_signals=${nfsd_cv_bsd_signals=yes}
-diff --git a/meta/site/x86_64-linux b/meta/site/x86_64-linux
-index b4434fe..573a907 100644
---- a/meta/site/x86_64-linux
-+++ b/meta/site/x86_64-linux
-@@ -98,7 +98,7 @@ ac_cv_alignof_CORBA_wchar=2
- lf_cv_sane_realloc=yes
- as_cv_unaligned_access=${as_cv_unaligned_access=yes}
- 
--#unfs-server
-+#unfs3
- nfsd_cv_broken_setfsuid=${nfsd_cv_broken_setfsuid=0}
- nfsd_cv_func_statfs=${nfsd_cv_func_statfs=statfs2_bsize}
- nfsd_cv_bsd_signals=${nfsd_cv_bsd_signals=yes}
+     PSEUDO_LOCALSTATEDIR=~/.runqemu-sdk/pseudo
+     export PSEUDO_LOCALSTATEDIR
 -- 
 1.7.9.5
 
