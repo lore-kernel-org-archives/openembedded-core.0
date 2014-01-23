@@ -1,28 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 550E36C742
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f45.google.com (mail-vb0-f45.google.com
+	[209.85.212.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 572D76C742
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 11:47:22 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Jan 2014 03:47:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,705,1384329600"; d="scan'208";a="469579201"
-Received: from acdivito-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.15])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2014 03:47:00 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Thu, 23 Jan 2014 11:46:55 +0000
-Message-ID: <4969192.gMxUe1Bi1Y@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
-In-Reply-To: <CAP9ODKrUBJJJHTTBkRmq9j+yOrgGyUfX3TC5L69-ynaDbefo0A@mail.gmail.com>
+	Thu, 23 Jan 2014 11:47:52 +0000 (UTC)
+Received: by mail-vb0-f45.google.com with SMTP id m10so966513vbh.18
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2014 03:47:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=NWDs6zScJhEJ9I5orNV0VHh6NrL0MHBIBUHFzw+3uf4=;
+	b=MajrsZqf9xyVBRkAsZ0grAv7KY16VXGqgVIvuyDvSt/007vf6R43XK4YHFdIqSJ65k
+	Mle4/CPrVHxKxj4/LgdRRSioQ3461SMBdfPCr4aj89Iy/W66AGnMPz2LAf7YgmipZNfx
+	B3eMknlgrG0fapWDOQS0I6QX/ONl92N6FBjovDzEi7882YfoqLbjAYkkpX+wp9WZ3diL
+	TfUovKzgteGW7hawEAuktObfRkFh4CMoJt+v/bkFBQoREUI4CeXoGl24vI+DT1tJcblL
+	6szbqhWj0f8EDT7mARpnBgX9d2uQbXYH0avlcT5NBaDhRgZpwC2Mv25ACsAIkdpVKdkE
+	c/Jw==
+X-Gm-Message-State: ALoCoQlAd45GPOzhLQM/lyljTLz5UdQRo4rcEi3DgZSs45943ELPwXbJLlTW8rIBjzs2NP00sWIa
+X-Received: by 10.58.50.71 with SMTP id a7mr4180808veo.32.1390477672816; Thu,
+	23 Jan 2014 03:47:52 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.220.96.84 with HTTP; Thu, 23 Jan 2014 03:47:32 -0800 (PST)
+In-Reply-To: <B6D70178-C80E-4804-9786-47A67B9EB230@dominion.thruhere.net>
 References: <1390467988-25693-1-git-send-email-koen.kooi@linaro.org>
+	<CAP9ODKoU+va9SbCJAfZ4HMkz+==Ec9va0KjJX07c4d4cZ90bjg@mail.gmail.com>
 	<17C27E68-3F62-414D-A02A-8AD06ACE0B66@dominion.thruhere.net>
 	<CAP9ODKrUBJJJHTTBkRmq9j+yOrgGyUfX3TC5L69-ynaDbefo0A@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Koen Kooi <koen@dominion.thruhere.net>, Koen Kooi <koen.kooi@linaro.org>,
-	openembedded-core@lists.openembedded.org
+	<B6D70178-C80E-4804-9786-47A67B9EB230@dominion.thruhere.net>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 23 Jan 2014 11:47:32 +0000
+Message-ID: <CAJTo0Lb3xQTSJdfXHpMyGTPMALcCHki4pgG5MvEFHiX-yNYezw@mail.gmail.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Cc: Koen Kooi <koen.kooi@linaro.org>, Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] lz4: actually install things
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,39 +49,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 11:47:22 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 23 Jan 2014 11:47:52 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thursday 23 January 2014 09:36:09 Otavio Salvador wrote:
-> On Thu, Jan 23, 2014 at 9:35 AM, Koen Kooi <koen@dominion.thruhere.net>
-> wrote:
-> > Op 23 jan. 2014, om 12:31 heeft Otavio Salvador <otavio@ossystems.com.br>
-> het volgende geschreven:
-> >> On Thu, Jan 23, 2014 at 7:06 AM, Koen Kooi <koen.kooi@linaro.org> wrote:
-> >>> This failure was masked by having lz4 installed on the host system :(
-> >>> 
-> >>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
-> >> 
-> >> Couldn't it inherit autotools?
-> > 
-> > It's a handcrafted Makefile, not autotools :(
-> 
-> No problem, it works as well.
-> 
-> The do_configure checks for configure.ac/configure.in and it avoid you
-> to handcraft do_install and like.
+On 23 January 2014 11:40, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>>> Couldn't it inherit autotools?
+>>>
+>>> It's a handcrafted Makefile, not autotools :(
+>>
+>> No problem, it works as well.
+>>
+>> The do_configure checks for configure.ac/configure.in and it avoid you
+>> to handcraft do_install and like.
+>
+> The recipes that used such a workaround have all been changed to remote autotools.bbclass over the years, so I'm not sure how encouraged it is.
 
-Do _not_ inherit autotools if the software being built doesn't use 
-autoconf/automake. Whilst it may work now in some situations, there's 
-absolutely no guarantee it won't break in the future. autotools.bbclass needs 
-to be able to assume it's actually being used with autotools.
 
-Cheers,
-Paul
+Personally a recipe should only inherit autotools if it actually uses
+autotools.  Hand crafted makefiles should mean hand-crafted recipes.
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
