@@ -1,27 +1,43 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 567936B05F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 20DFD6E30D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 10:12:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 23 Jan 2014 02:08:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,705,1384329600"; d="scan'208";a="471218266"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.47])
-	([10.237.105.47])
-	by orsmga002.jf.intel.com with ESMTP; 23 Jan 2014 02:12:09 -0800
-Message-ID: <52E0EB0B.1090201@intel.com>
-Date: Thu, 23 Jan 2014 12:12:27 +0200
-From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Thu, 23 Jan 2014 10:52:48 +0000 (UTC)
+Received: by mail-ob0-f171.google.com with SMTP id wp4so1836573obc.30
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2014 02:52:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=WN8xfk6QGE1gtkMXlQoRYM6pQ5lRrFB9yZuKWXWDBvY=;
+	b=yPhqwZ8ObcDQIA8TDo26pHZhxlQ7EesjXvHnyvxBmBTnPJA0Ej/SNa66gQ3tfB1D1t
+	W6RXHnReHMoCMyixe8JA5bnI7wQfXXcQDNJsfaUUmvquqMgbMvRgE7WA+RyvXCrTmyuW
+	TjKKQ8AK78wutMpleHYUg6W8QN+QAs7END9MJe0qrh4rObKykpOFlUFcP9bggcz9Gnw0
+	PEnlQc7y+KhO8t0xLo8XlBCDxupEd9bY5Er38Z1CYgcLQcZemrNscP5T2/sKVG16xOnk
+	HQPovOgyBfs7sJtXEt9skZsM6dsqXhvQa7rDDIiBpoKpgJA8rFFbHk+UpbP+CBuPbczx
+	Fc5w==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1387461777-25101-1-git-send-email-valentin.popa@intel.com>
-	<CAJTo0LYyvpbqXDLXH6vGjG+K+w-ZNi4Lu0UAvXFxnb6Emx=D5A@mail.gmail.com>
-In-Reply-To: <CAJTo0LYyvpbqXDLXH6vGjG+K+w-ZNi4Lu0UAvXFxnb6Emx=D5A@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: Allow user to set -vga option with qemuparams
+X-Received: by 10.182.102.7 with SMTP id fk7mr6098793obb.28.1390474369099;
+	Thu, 23 Jan 2014 02:52:49 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 23 Jan 2014 02:52:49 -0800 (PST)
+In-Reply-To: <52E0D235.2060605@gmail.com>
+References: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
+	<CAP9ODKqQ1Y-p_tAyMY=Rmw8t4ct7jXqxV=mBaqLdLXXpW+er1g@mail.gmail.com>
+	<52E00ACA.10502@enea.com>
+	<CAP9ODKp2yX_rw0GJEmntuhjwr-zzOYVW3Hk3ZS1Yf7Zy3zr1xQ@mail.gmail.com>
+	<52E00E23.8090605@gmail.com>
+	<CAP9ODKqHtSfJi9BpH1D7KKCy=DT4GGywcw7sqA1BcdZr28UgUA@mail.gmail.com>
+	<52E0D235.2060605@gmail.com>
+Date: Thu, 23 Jan 2014 08:52:49 -0200
+X-Google-Sender-Auth: orUsKfzWC1hvMdFmRklaqilc6fE
+Message-ID: <CAP9ODKqzXxz1VL7QCcoY7gDkHQ_onXYQodxAr5dreBtGCwtR1g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] packagegroup-core-standalone-sdk-target: Add qemuwrapper-cross to target sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,82 +50,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 10:12:12 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jan 2014 10:52:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 01/22/2014 05:46 PM, Burton, Ross wrote:
-> Just noticed that this was merged but doesn't add anything to the
-> usage() function in runqemu - can you quickly add something?
+On Thu, Jan 23, 2014 at 6:26 AM, David Nystr=F6m
+<david.c.nystrom@gmail.com> wrote:
+> On ons 22 jan 2014 19:33:22, Otavio Salvador wrote:
+>>
+>> On Wed, Jan 22, 2014 at 4:29 PM, David Nystr=F6m
+>> <david.c.nystrom@gmail.com> wrote:
+>>>
+>>> On ons 22 jan 2014 19:24:47, Otavio Salvador wrote:
+>>>>
+>>>>
+>>>> On Wed, Jan 22, 2014 at 4:15 PM, David Nystr=F6m <david.nystrom@enea.c=
+om>
+>>>> wrote:
+>>>>>
+>>>>>
+>>>>> On 2014-01-22 19:08, Otavio Salvador wrote:
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> On Wed, Jan 22, 2014 at 1:48 PM, David Nystr=F6m
+>>>>>> <david.c.nystrom@gmail.com> wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> Some postinstall scripts use the qemuwrapper script, so to be able =
+to
+>>>>>>> offline install these packages outside of the bitbake environment,
+>>>>>>> this
+>>>>>>> script
+>>>>>>> needs to be exposed also in the SDK.
+>>>>>>>
+>>>>>>> This to enable rootfs generation from a package repository using on=
+ly
+>>>>>>> a
+>>>>>>> package repository and the toolchain tarball.
+>>>>>>>
+>>>>>>> See https://github.com/nysan/rootfs-sandbox for examples.
+>>>>>>>
+>>>>>>> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> Shouldn't this be a RDEPENDS of the postinst package?
+>>>>>>
+>>>>>
+>>>>> Do you mean a RDEPENDS on the run-postinsts package ?
+>>>>> In that case no.
+>>>>>
+>>>>> When $D is set, postinstalls interpret this as a offline install,
+>>>>> some postinstalls call postinstall-intercepts, which in turn use the
+>>>>> qemuwrapper script _only_ if $D is set.
+>>>>>
+>>>>> run-postinsts should be installed if there are postinstalls which
+>>>>> failed
+>>>>> to
+>>>>> run during the offline install.
+>>>>>
+>>>>> Just to clarify this, the qemuwrapper-cross will only be installed to
+>>>>> the
+>>>>> target SDK sysroot, never on the target rootfs.
+>>>>
+>>>>
+>>>>
+>>>> No; in postinstall-intercepts RDEPENDS.
+>>>>
+>>>
+>>> Ah, now I get it.
+>>> If I do that, will it not end up on the target rootfs ?
+>>
+>>
+>> I don't think so.
+>>
 >
-> Ross
+> 1. RDEPENDS_${PN} =3D "qemuwrapper-cross" wont work since TARGET_ARCH det=
+ected
+> in qemuwrapper-cross recipe will be SDKMACHINE when
+> compiled as nativesdk-qemuwrapper-cross. (I know, nativesdk-*-cross shoul=
+d
+> not be done).
+> I have not found a way to retrieve the real target architecture during a
+> nativesdk build.
 >
-> On 19 December 2013 14:02, Valentin Popa <valentin.popa@intel.com> wrote:
->> At the moment, the user cannot to set -vga other then vmware
->> (because "vmware" is set by default); and the first argument
->> in qemuparams has higher precedence.
->>
->> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
->> ---
->>   scripts/runqemu          |  1 +
->>   scripts/runqemu-internal | 12 ++++++++++--
->>   2 files changed, 11 insertions(+), 2 deletions(-)
->>
->> diff --git a/scripts/runqemu b/scripts/runqemu
->> index 9c0a03b..dcb2931 100755
->> --- a/scripts/runqemu
->> +++ b/scripts/runqemu
->> @@ -156,6 +156,7 @@ while true; do
->>               # to use simplified options instead
->>               serial_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-serial\)'`
->>               kvm_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-enable-kvm\)'`
->> +            vga_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-vga\)'`
->>               [ ! -z "$serial_option" -o ! -z "$kvm_option" ] && \
->>                   echo "Please use simplified serial or kvm options instead"
->>               ;;
->> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
->> index 74b0c35..284b88c 100755
->> --- a/scripts/runqemu-internal
->> +++ b/scripts/runqemu-internal
->> @@ -357,7 +357,11 @@ fi
->>
->>   if [ "$MACHINE" = "qemux86" ]; then
->>       QEMU=qemu-system-i386
->> -    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
->> +    if [ ! -z "$vga_option" ]; then
->> +        QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
->> +    else
->> +        QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
->> +    fi
->>       if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
->>           KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
->>           QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
->> @@ -381,7 +385,11 @@ fi
->>
->>   if [ "$MACHINE" = "qemux86-64" ]; then
->>       QEMU=qemu-system-x86_64
->> -    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
->> +    if [ ! -z "$vga_option" ]; then
->> +        QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
->> +    else
->> +        QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -vga vmware"
->> +    fi
->>       if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
->>           KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
->>           QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
->> --
->> 1.8.3.2
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-That patch doesn't add -vga as a simplified options, it just do what
-"qemuparams=\"xyz\" - specify custom parameters to QEMU" in usage() 
-says. So, it's a fix.
-The problem was that you couldn't set a custom -vga for qemux86 and 
-qemux86_64 because the default value (vmware) had a higher precedence in 
-the command line. For qemumips* the behavior remains, but - I think -  
-this is because nothing else but cirrus works with it. If you know 
-something about this just let me know; maybe this has to be fixed also.
+> Also, we can't add qemuwrapper to the nativesdk sysroot, since we may hav=
+e
+> mutiple target sysroots which have different
+> qemuwrapper settings.
+
+I see. I didn't expect it but OK.
+
+Sorry for the hassle :-(
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
