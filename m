@@ -1,26 +1,46 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id F309C6B05F
+Return-Path: <alexandru.sardan@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2lp0237.outbound.protection.outlook.com [207.46.163.237])
+	by mail.openembedded.org (Postfix) with ESMTP id D5CB66E38B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 17:54:40 +0000 (UTC)
-Received: (qmail 9956 invoked by uid 1003); 23 Jan 2014 17:54:41 -0000
-Received: from unknown (HELO ?192.168.1.122?)
-	(philip@opensdr.com@71.171.41.155)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	23 Jan 2014 17:54:41 -0000
-Message-ID: <52E15760.8050606@balister.org>
-Date: Thu, 23 Jan 2014 12:54:40 -0500
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+	Thu, 23 Jan 2014 18:23:02 +0000 (UTC)
+Received: from BLUPR03MB357.namprd03.prod.outlook.com (10.141.75.151) by
+	BLUPR03MB165.namprd03.prod.outlook.com (10.255.212.139) with Microsoft
+	SMTP Server (TLS) id 15.0.859.15; Thu, 23 Jan 2014 18:23:00 +0000
+Received: from BLUPR03MB357.namprd03.prod.outlook.com ([10.141.75.151]) by
+	BLUPR03MB357.namprd03.prod.outlook.com ([10.141.75.151]) with mapi id
+	15.00.0847.008; Thu, 23 Jan 2014 18:23:00 +0000
+From: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc linux
+	verses linux-gnuspe"
+Thread-Index: AQHPDhbUXOT9PA+PXESDVVjRhy4ospqCnDKAgAABToCAAZ4SAIAExmYAgAFgVoCABReK0IAACoyAgAMsSfA=
+Date: Thu, 23 Jan 2014 18:22:59 +0000
+Message-ID: <c5873e086bd941e68daa26cbcdca573e@BLUPR03MB357.namprd03.prod.outlook.com>
+References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
+	<1389366908.19102.223.camel@ted> <52D3DDFB.8080803@gmail.com>
+	<1389616915.14987.4.camel@ted> <52D53A6C.30808@gmail.com>
+	<55ea22e5d71c47f3b812e845106f2d19@DM2PR03MB368.namprd03.prod.outlook.com>
+	<1390044007.14987.151.camel@ted>
+	<3ea5b5ff002e4f98b60997229cc31300@DM2PR03MB368.namprd03.prod.outlook.com>
+	<1390326205.874.95.camel@ted>
+In-Reply-To: <1390326205.874.95.camel@ted>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.88.166.1]
+x-forefront-prvs: 0100732B76
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009001)(6009001)(51704005)(377454003)(24454002)(189002)(199002)(13464003)(377424004)(31966008)(76576001)(59766001)(69226001)(63696002)(74502001)(15975445006)(81542001)(81816001)(87266001)(79102001)(76786001)(94316002)(54316002)(77982001)(56776001)(76796001)(74662001)(4396001)(47976001)(53806001)(2656002)(83072002)(47736001)(49866001)(74876001)(19580395003)(15202345003)(51856001)(33646001)(50986001)(86362001)(83322001)(19580405001)(54356001)(46102001)(74706001)(66066001)(56816005)(85306002)(65816001)(85852003)(47446002)(80022001)(76482001)(74366001)(81342001)(87936001)(80976001)(92566001)(93136001)(81686001)(93516002)(90146001)(74316001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BLUPR03MB165;
+	H:BLUPR03MB357.namprd03.prod.outlook.com; CLIP:192.88.166.1;
+	FPR:; InfoNoRecordsMX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-References: <52E10247.8050700@pseudoterminal.org>
-In-Reply-To: <52E10247.8050700@pseudoterminal.org>
-X-Enigmail-Version: 1.6
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Berkeley DB fails to build
+X-OriginatorOrg: freescale.com
+Cc: "catalin.udma@freescale.com" <catalin.udma@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Revert "cross-canadian: Handle powerpc linux verses linux-gnuspe"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,115 +53,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 17:54:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jan 2014 18:23:05 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 01/23/2014 06:51 AM, Carlos Rafael Giani wrote:
-> Hello,
-> 
-> I noticed that since the C++ bindings for the berkeley DB were included
-> in commit 23f29027db73d5759889b48fabdea7f6173217a7 , I cannot build db
-> anymore.
-> The error is:
-> 
->     /usr/lib/libstdc++.so: file not recognized: File format not recognized
-> 
-> this is the offending part in the log.do_compile file:
+Hi,
 
-What distro is your build machine running? I've this from people using
-Arch Linux.
+See my comment inline.
 
-Philip
+Alex
 
-> 
-> | libtool: link: arm-poky-linux-gnueabi-g++  -march=armv7-a
-> -mthumb-interwork -mfloat-abi=hard -mfpu=neon -mtune=cortex-a9
-> --sysroot=/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd
-> -fPIC -DPIC -shared -nostdlib
-> /home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/crti.o
-> /home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/arm-poky-linux-gnueabi/4.8.2/crtbeginS.o
-> .libs/cxx_channel.o .libs/cxx_db.o .libs/cxx_dbc.o .libs/cxx_dbt.o
-> .libs/cxx_env.o .libs/cxx_except.o .libs/cxx_lock.o .libs/cxx_logc.o
-> .libs/cxx_mpool.o .libs/cxx_multi.o .libs/cxx_rid.o .libs/cxx_seq.o
-> .libs/cxx_site.o .libs/cxx_txn.o .libs/mut_tas.o .libs/bt_compare.o
-> .libs/bt_compress.o .libs/bt_conv.o .libs/bt_curadj.o .libs/bt_cursor.o
-> .libs/bt_delete.o .libs/bt_method.o .libs/bt_open.o .libs/bt_put.o
-> .libs/bt_rec.o .libs/bt_reclaim.o .libs/bt_recno.o .libs/bt_rsearch.o
-> .libs/bt_search.o .libs/bt_split.o .libs/bt_stat.o .libs/bt_compact.o
-> .libs/bt_upgrade.o .libs/btree_auto.o .libs/hash.o .libs/hash_auto.o
-> .libs/hash_compact.o .libs/hash_conv.o .libs/hash_dup.o
-> .libs/hash_meta.o .libs/hash_method.o .libs/hash_open.o
-> .libs/hash_page.o .libs/hash_rec.o .libs/hash_reclaim.o
-> .libs/hash_stat.o .libs/hash_upgrade.o .libs/heap.o .libs/heap_auto.o
-> .libs/heap_backup.o .libs/heap_conv.o .libs/heap_method.o
-> .libs/heap_open.o .libs/heap_rec.o .libs/heap_reclaim.o
-> .libs/heap_stat.o .libs/qam_stub.o .libs/rep_stub.o .libs/repmgr_stub.o
-> .libs/db_vrfy_stub.o .libs/log_verify_stub.o .libs/lock.o
-> .libs/lock_deadlock.o .libs/lock_failchk.o .libs/lock_id.o
-> .libs/lock_list.o .libs/lock_method.o .libs/lock_region.o
-> .libs/lock_stat.o .libs/lock_timer.o .libs/lock_util.o .libs/mut_alloc.o
-> .libs/mut_failchk.o .libs/mut_method.o .libs/mut_region.o
-> .libs/mut_stat.o .libs/crypto_stub.o .libs/clock.o .libs/crdel_auto.o
-> .libs/crdel_rec.o .libs/db.o .libs/db_am.o .libs/db_auto.o
-> .libs/db_backup.o .libs/db_byteorder.o .libs/db_cam.o .libs/db_cds.o
-> .libs/db_compact.o .libs/db_compint.o .libs/db_conv.o .libs/db_copy.o
-> .libs/db_dispatch.o .libs/db_dup.o .libs/db_err.o .libs/db_getlong.o
-> .libs/db_idspace.o .libs/db_iface.o .libs/db_join.o .libs/db_log2.o
-> .libs/db_meta.o .libs/db_method.o .libs/db_open.o .libs/db_overflow.o
-> .libs/db_pr.o .libs/db_rec.o .libs/db_reclaim.o .libs/db_remove.o
-> .libs/db_rename.o .libs/db_ret.o .libs/db_setid.o .libs/db_setlsn.o
-> .libs/db_shash.o .libs/db_sort_multiple.o .libs/db_stati.o
-> .libs/db_truncate.o .libs/db_upg.o .libs/db_upg_opd.o .libs/dbreg.o
-> .libs/dbreg_stat.o .libs/dbreg_auto.o .libs/dbreg_rec.o
-> .libs/dbreg_util.o .libs/dbt.o .libs/env_alloc.o .libs/env_config.o
-> .libs/env_backup.o .libs/env_failchk.o .libs/env_file.o
-> .libs/env_globals.o .libs/env_open.o .libs/env_method.o .libs/env_name.o
-> .libs/env_recover.o .libs/env_region.o .libs/env_register.o
-> .libs/env_sig.o .libs/env_stat.o .libs/fileops_auto.o .libs/fop_basic.o
-> .libs/fop_rec.o .libs/fop_util.o .libs/hash_func.o .libs/hmac.o
-> .libs/log.o .libs/log_archive.o .libs/log_compare.o .libs/log_debug.o
-> .libs/log_get.o .libs/log_method.o .libs/log_print.o .libs/log_put.o
-> .libs/log_stat.o .libs/mkpath.o .libs/mp_alloc.o .libs/mp_backup.o
-> .libs/mp_bh.o .libs/mp_fget.o .libs/mp_fmethod.o .libs/mp_fopen.o
-> .libs/mp_fput.o .libs/mp_fset.o .libs/mp_method.o .libs/mp_mvcc.o
-> .libs/mp_region.o .libs/mp_register.o .libs/mp_resize.o .libs/mp_stat.o
-> .libs/mp_sync.o .libs/mp_trickle.o .libs/openflags.o .libs/os_abort.o
-> .libs/os_abs.o .libs/os_alloc.o .libs/os_clock.o .libs/os_cpu.o
-> .libs/os_ctime.o .libs/os_config.o .libs/os_dir.o .libs/os_errno.o
-> .libs/os_fid.o .libs/os_flock.o .libs/os_fsync.o .libs/os_getenv.o
-> .libs/os_handle.o .libs/os_map.o .libs/os_method.o .libs/os_mkdir.o
-> .libs/os_open.o .libs/os_path.o .libs/os_pid.o .libs/os_rename.o
-> .libs/os_root.o .libs/os_rpath.o .libs/os_rw.o .libs/os_seek.o
-> .libs/os_stack.o .libs/os_stat.o .libs/os_tmpdir.o .libs/os_truncate.o
-> .libs/os_uid.o .libs/os_unlink.o .libs/os_yield.o .libs/partition.o
-> .libs/seq_stat.o .libs/sequence.o .libs/sha1.o .libs/snprintf.o
-> .libs/txn.o .libs/txn_auto.o .libs/txn_chkpt.o .libs/txn_failchk.o
-> .libs/txn_method.o .libs/txn_rec.o .libs/txn_recover.o
-> .libs/txn_region.o .libs/txn_stat.o .libs/txn_util.o .libs/xa.o
-> .libs/xa_map.o .libs/zerofill.o   -lpthread
-> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/x86_64-linux/usr/lib/cortexa9hf-vfp-neon-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/4.8.2
-> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/lib
-> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/arm-poky-linux-gnueabi/4.8.2
-> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib
-> /usr/lib/libstdc++.so -lm -lc -lgcc_s
-> /home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/arm-poky-linux-gnueabi/4.8.2/crtendS.o
-> /home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib/crtn.o
-> -march=armv7-a -mthumb-interwork -mfloat-abi=hard -mfpu=neon
-> -mtune=cortex-a9
-> --sysroot=/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd
-> -O2 -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed   -Wl,-soname
-> -Wl,libdb_cxx-5.3.so -o .libs/libdb_cxx-5.3.so
-> 
-> Note this part:
-> -L/home/dv/misc/yocto-setup-dora-c1/yocto/.build-yocto/tmp/sysroots/imx6dlsabresd/usr/lib
-> /usr/lib/libstdc++.so -lm -lc
-> 
-> I do not know where this stray "/usr/lib/libstdc++.so" comes from.
-> Perhaps it is caused by the fact that db is already installed on the host.
-> 
-> Reverting the commit fixes the problem for me.
-> 
-> Cheers
-> 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Richard Purdie
+> Sent: Tuesday, January 21, 2014 7:43 PM
+> To: Sardan Alexandru Cezar-B41700
+> Cc: Udma Catalin-Dan-B32721; openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc
+> linux verses linux-gnuspe"
+>=20
+> On Tue, 2014-01-21 at 17:39 +0000, alexandru.sardan@freescale.com wrote:
+> > Yes, the gcc configured for SPE (--target=3Dpowerpc-fsl_networking-linu=
+x-
+> gnuspe)
+> > can generate both SPE and non-SPE code provided that software
+> > floating point is used.
+> >
+> > There are a couple of parameters (-mabi=3Dno-spe -mno-spe) that will tu=
+rn
+> > off SPE vector instructions generation. If the code contains floating
+> > point arithmethic -msoft-float needs to be used as well. This means
+> that
+> > the GCC multilib setup has to be configured to include soft float and
+> > build coresponding version of libgcc and target fragments.
+> > But why would we want to generate code without SPE for e500v1/v2?
+> > Soft-float comes with a major performance penalty.
+> >
+> > Maybe I didn't understand correctly what kind of toolchain you want to
+> > be built in the end. Do you want to have a single GCC that builds all
+> > powerpc targets (e500v2, e5500, e6500 etc) and a separate sysroot for
+> each
+> > target?
+>=20
+> Yes, this is exactly what is wanted. This is how the SDK is intended to
+> operate. The alternative and what we had before was a separate compiler
+> for each target which is rather wasteful.
+>=20
+> > This may be problematic since, for example, the compiler that can
+> generate
+> > SPE (for e500v2) can't generate altivec instructions (for e6500).
+>=20
+> Is there no way to configure gcc so it can generate for the different
+> targets assuming you pass in the right runtime target options?
+
+[Alex Sardan] No. The more generic target powerpc-none-linux will not
+generate SPE code and the powerpc-none-linux-gnuspe target that generates
+SPE will not be able to generate Altivec.
+Maybe an exception can be added for e500v1/v2 targets so that a separate
+compiler can be generated for them? All the other targets will work fine
+with powerpc-none-linux using different runtime command line options.
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+
 
