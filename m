@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EC5E66C765
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F04796E7B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 07:10:24 +0000 (UTC)
+	Thu, 23 Jan 2014 07:10:26 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0N7AQsd025141
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0N7ARAW023768
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 Jan 2014 23:10:27 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 22 Jan 2014 23:10:25 -0800
+	14.2.347.0; Wed, 22 Jan 2014 23:10:27 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 15:10:38 +0800
-Message-ID: <cover.1390461001.git.Qi.Chen@windriver.com>
+Date: Thu, 23 Jan 2014 15:10:39 +0800
+Message-ID: <704399111268889109191be3033345e4231d8b0c.1390461001.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1390461001.git.Qi.Chen@windriver.com>
+References: <cover.1390461001.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] udev: fix typo
+Subject: [PATCH 1/1] udev: fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 07:10:26 -0000
+X-List-Received-Date: Thu, 23 Jan 2014 07:10:27 -0000
 Content-Type: text/plain
 
-The following changes since commit 4659d29b1040349116549644e45035a5b37d9311:
+Fix the typo in the RDEPENDS statement to make it have real effect.
 
-  sstate.bbclass: remove previous version's stamp (2014-01-21 10:36:23 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/udev-typo
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/udev-typo
-
-Chen Qi (1):
-  udev: fix typo
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-core/udev/udev.inc |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index 3190731..1b22525 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -31,7 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
+            file://init"
+ 
+ inherit autotools pkgconfig update-rc.d ptest
+-+RDEPENDS_${PN}-ptest += "make"
++RDEPENDS_${PN}-ptest += "make"
+ 
+ libexecdir = "${base_libdir}"
+ EXTRA_OECONF = "--disable-introspection \
 -- 
 1.7.9.5
 
