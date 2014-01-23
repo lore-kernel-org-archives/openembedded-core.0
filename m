@@ -1,26 +1,42 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F04796E7B2
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id C15EC6C765
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 07:10:26 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0N7ARAW023768
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2014 23:10:27 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 22 Jan 2014 23:10:27 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 15:10:39 +0800
-Message-ID: <704399111268889109191be3033345e4231d8b0c.1390461001.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1390461001.git.Qi.Chen@windriver.com>
-References: <cover.1390461001.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] udev: fix typo
+	Thu, 23 Jan 2014 07:14:29 +0000 (UTC)
+Received: from [12.157.112.67] (helo=[10.71.2.210])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1W6EUf-0002tc-3I; Thu, 23 Jan 2014 08:14:29 +0100
+Message-ID: <1390461261.24755.12.camel@e130.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Ming Liu <ming.liu@windriver.com>
+Date: Thu, 23 Jan 2014 07:14:21 +0000
+In-Reply-To: <1390459548-21038-1-git-send-email-ming.liu@windriver.com>
+References: <1390459548-21038-1-git-send-email-ming.liu@windriver.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Thu, 2014-01-23 at 14:45 +0800,
+	Ming Liu wrote: > > +CACHED_CONFIGUREVARS
+	+= "ac_cv_path_BASH=/bin/bash" > > -CACHED_CONFIGUREVARS +=
+	"ac_cv_path_BASH=${base_bindir}/bash"
+	Why did you change this from ${base_bindir} to a hardcoded path? [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2] quilt: add ac_cv_path_BASH to CACHED_CONFIGUREVARS also for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +49,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 07:10:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 Jan 2014 07:14:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fix the typo in the RDEPENDS statement to make it have real effect.
+On Thu, 2014-01-23 at 14:45 +0800, Ming Liu wrote:
+>  
+> +CACHED_CONFIGUREVARS += "ac_cv_path_BASH=/bin/bash"
+>  
+> -CACHED_CONFIGUREVARS += "ac_cv_path_BASH=${base_bindir}/bash"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/udev/udev.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Why did you change this from ${base_bindir} to a hardcoded path?
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 3190731..1b22525 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -31,7 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/hotplug/udev-${PV}.tar.gz \
-            file://init"
- 
- inherit autotools pkgconfig update-rc.d ptest
--+RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make"
- 
- libexecdir = "${base_libdir}"
- EXTRA_OECONF = "--disable-introspection \
--- 
-1.7.9.5
+p.
+
 
 
