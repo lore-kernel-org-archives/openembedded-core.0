@@ -1,31 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DBEA96DC8B
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-bk0-f52.google.com (mail-bk0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 961E66C742
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 12:21:50 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0NCLdNa004568; Thu, 23 Jan 2014 12:21:39 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Zmn-82y8kQ9X; Thu, 23 Jan 2014 12:21:39 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0NCLVIH004560
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Thu, 23 Jan 2014 12:21:33 GMT
-Message-ID: <1390479686.17424.100.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Phil Blundell <pb@pbcl.net>
-Date: Thu, 23 Jan 2014 12:21:26 +0000
-In-Reply-To: <1390460640.24755.11.camel@e130.pbcl.net>
-References: <1390459814-15764-1-git-send-email-sgw@linux.intel.com>
-	<1390460640.24755.11.camel@e130.pbcl.net>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boot-directdisk: fix the support of vmdk
+	Thu, 23 Jan 2014 12:31:34 +0000 (UTC)
+Received: by mail-bk0-f52.google.com with SMTP id e11so330021bkh.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2014 04:31:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XNDRJ5xpe/tWiUtzW1NYYUt4nq8eVSbTAKw3DTaeiuI=;
+	b=iZT8QzYw+iPbUY/ZpBHvyBpVRbHl8/ILBv8h96e1duptY9o8d6zz7zBJw1PiipMBxV
+	RrQ8wmIALoRplav4CS6eBxs1lXeRGCMdldOT0RUyz4xID5POAy/GWSl2S0GmeEUBA7eH
+	N4PH4owYPh9W4dXYpi6ZwIF0CT9wn9ssThuo+0rRjGHzgpFGXT1SOo4bQpwd/bHkmRlg
+	1BIAtwQ3WLTN7IpBh4Vl6Q35MRIQMwscz7uuW8G78C572k8RI0senI1I3+pEWJX8mNJs
+	f/tvIBKz1w8PkcgmhyCd0Q0xt7O6NvUm8L+cGQlt6lHm4YuIZ7uvkNEhXiPWZZVsE1oh
+	r7Ew==
+X-Gm-Message-State: ALoCoQmC0665rzSERBHgvEW9QH3/6wIL+F9fxAGRRbpvW552vngeviFAD2z1nr1rMeiMuv8ZM6XW
+X-Received: by 10.205.92.201 with SMTP id br9mr139461bkc.138.1390480294631;
+	Thu, 23 Jan 2014 04:31:34 -0800 (PST)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id bf8sm8990710bkb.14.2014.01.23.04.31.33
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Jan 2014 04:31:34 -0800 (PST)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jan 2014 13:31:26 +0100
+Message-Id: <1390480286-17368-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] scons bbclass: enable parallel make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,25 +44,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 12:21:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jan 2014 12:31:35 -0000
 
-On Thu, 2014-01-23 at 07:04 +0000, Phil Blundell wrote:
-> On Wed, 2014-01-22 at 22:50 -0800, Saul Wold wrote:
-> > +IS_VMDK = '${@base_contains("IMAGE_FSTYPES", "vmdk", "true", "false", d)}'
-> > +
-> > +	if [ "${IS_VMDK}" ]; then
-> 
-> Does that really work?  I can't quite see how it would, but I might be
-> overlooking something.  Presumably you did test this, right?
+Scons supports -jX parallel make, so let's use that. A small scale test of a few recipes shows no failures!
 
-I've merged this since I really would like to try and get the builds
-stabilised. I did fix the patch since it would always evaluate as true
-the way it was...
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/classes/scons.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
+index a07a366..fc0f26b 100644
+--- a/meta/classes/scons.bbclass
++++ b/meta/classes/scons.bbclass
+@@ -3,7 +3,7 @@ DEPENDS += "python-scons-native"
+ EXTRA_OESCONS ?= ""
+ 
+ scons_do_compile() {
+-        ${STAGING_BINDIR_NATIVE}/scons PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
++        ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
+         bbfatal "scons build execution failed."
+ }
+ 
+-- 
+1.8.4.2
 
 
