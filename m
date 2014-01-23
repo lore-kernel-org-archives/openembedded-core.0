@@ -1,30 +1,47 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 38D956B05F
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id AEB6B6B05F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 08:23:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0N8NHQR026035
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Jan 2014 00:23:18 -0800 (PST)
-Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Thu, 23 Jan 2014 00:23:16 -0800
-Message-ID: <52E0D180.7030402@windriver.com>
-Date: Thu, 23 Jan 2014 16:23:28 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Thu, 23 Jan 2014 08:26:32 +0000 (UTC)
+Received: by mail-lb0-f173.google.com with SMTP id y6so1202488lbh.32
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2014 00:26:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=U3NJzw5ZEjUWayfYvAbBvv4KUczmoLNZ83RfVC3a8Is=;
+	b=yuC4I8KCWeXHy1220PXOFMBIWnfdMl72Ppd6+0Ca528IY56LLlnZduHI3QTyTNKBJy
+	mfRKXVl/3OsjoqdBAjDEutBN1i7Ofa8RNcNiyIm93ZoUExWfCJmSM3gv6SDGmjqZ4LS2
+	Zuu+pq2khZeJuAAehC2SyAmrK1ufCr5WWz9NX3cpdDHr9UdqhnEOQ7fOMTiUTD8g/EOm
+	dHbKg99UN585lzYXOoDDX+x7Cmdi+YX8tMe680CTqDVPAsfPkI+SzIhWs9Wm/NiCtfYD
+	6oTFoSTMv9+Supr7VGMgSHhUTLzm5YF0KHweqCYOuAZXu/PfrAv9K3PY2TPsTvV4OOC8
+	rSdQ==
+X-Received: by 10.112.64.166 with SMTP id p6mr4089904lbs.10.1390465592134;
+	Thu, 23 Jan 2014 00:26:32 -0800 (PST)
+Received: from [79.102.97.51] (c-4f666133-74736162.cust.telenor.se.
+	[79.102.97.51])
+	by mx.google.com with ESMTPSA id a8sm14471224lae.5.2014.01.23.00.26.30
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 23 Jan 2014 00:26:30 -0800 (PST)
+Message-ID: <52E0D235.2060605@gmail.com>
+Date: Thu, 23 Jan 2014 09:26:29 +0100
+From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-References: <cover.1390184362.git.Qi.Chen@windriver.com>	<a023434c6cc916907f190acd62af34ea5a6eaca0.1390184362.git.Qi.Chen@windriver.com>	<143aeafa800.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>	<52DCDFB6.2070801@windriver.com>	<CAC1BbcQN63w956H2=kYmUbzGs1t5=V81-4_uKWfZtHJjJX9+uQ@mail.gmail.com>	<52DF98A1.4090206@windriver.com>
-	<CAC1BbcRWE7cEpnfBA5JwVKgmXwSMWW85GjPPMVW9C5Y=HFZS5A@mail.gmail.com>
-In-Reply-To: <CAC1BbcRWE7cEpnfBA5JwVKgmXwSMWW85GjPPMVW9C5Y=HFZS5A@mail.gmail.com>
-X-Originating-IP: [128.224.162.164]
-Cc: "openembedded-core@lists.openembedded.org"
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
+	<CAP9ODKqQ1Y-p_tAyMY=Rmw8t4ct7jXqxV=mBaqLdLXXpW+er1g@mail.gmail.com>
+	<52E00ACA.10502@enea.com>
+	<CAP9ODKp2yX_rw0GJEmntuhjwr-zzOYVW3Hk3ZS1Yf7Zy3zr1xQ@mail.gmail.com>
+	<52E00E23.8090605@gmail.com>
+	<CAP9ODKqHtSfJi9BpH1D7KKCy=DT4GGywcw7sqA1BcdZr28UgUA@mail.gmail.com>
+In-Reply-To: <CAP9ODKqHtSfJi9BpH1D7KKCy=DT4GGywcw7sqA1BcdZr28UgUA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/5] systemd: add 'less' to its RRECOMMENDS
+Subject: Re: [PATCH] packagegroup-core-standalone-sdk-target: Add qemuwrapper-cross to target sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,92 +54,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 08:23:18 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jan 2014 08:26:34 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 01/22/2014 06:18 PM, Bernhard Reutner-Fischer wrote:
-> On 22 January 2014 11:08, ChenQi <Qi.Chen@windriver.com> wrote:
->> On 01/22/2014 06:00 PM, Bernhard Reutner-Fischer wrote:
->>> On 20 January 2014 09:35, ChenQi <Qi.Chen@windriver.com> wrote:
->>>> On 01/20/2014 04:06 PM, Bernhard Reutner-Fischer wrote:
->>>>> On 20 January 2014 03:23:02 Chen Qi <Qi.Chen@windriver.com> wrote:
->>>>>
->>>>>> The less command provided by busybox cannot interpret the control
->>>>>> character, resulting in obscure output of the journalctl command
->>>>>> in a systemd based image.
->>>>>
->>>>> Can you send me the input containing this control character, please?
->>>>>
->>>>> Perhaps we can do something sensible about it..
->>>>> TIA,
+On ons 22 jan 2014 19:33:22, Otavio Salvador wrote:
+> On Wed, Jan 22, 2014 at 4:29 PM, David Nyström
+> <david.c.nystrom@gmail.com> wrote:
+>> On ons 22 jan 2014 19:24:47, Otavio Salvador wrote:
+>>>
+>>> On Wed, Jan 22, 2014 at 4:15 PM, David Nyström <david.nystrom@enea.com>
+>>> wrote:
 >>>>
->>>> For more details, please refer to
->>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5723.
->>>> You can also add you comments there.
->>> Can you please try:
->>> http://marc.info/?l=busybox&m=139038437907397&w=2
->>> and let me know if this fixes your issue?
+>>>> On 2014-01-22 19:08, Otavio Salvador wrote:
+>>>>>
+>>>>>
+>>>>> On Wed, Jan 22, 2014 at 1:48 PM, David Nyström
+>>>>> <david.c.nystrom@gmail.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>> Some postinstall scripts use the qemuwrapper script, so to be able to
+>>>>>> offline install these packages outside of the bitbake environment, this
+>>>>>> script
+>>>>>> needs to be exposed also in the SDK.
+>>>>>>
+>>>>>> This to enable rootfs generation from a package repository using only a
+>>>>>> package repository and the toolchain tarball.
+>>>>>>
+>>>>>> See https://github.com/nysan/rootfs-sandbox for examples.
+>>>>>>
+>>>>>> Signed-off-by: David Nyström <david.nystrom@enea.com>
+>>>>>
+>>>>>
+>>>>>
+>>>>> Shouldn't this be a RDEPENDS of the postinst package?
+>>>>>
+>>>>
+>>>> Do you mean a RDEPENDS on the run-postinsts package ?
+>>>> In that case no.
+>>>>
+>>>> When $D is set, postinstalls interpret this as a offline install,
+>>>> some postinstalls call postinstall-intercepts, which in turn use the
+>>>> qemuwrapper script _only_ if $D is set.
+>>>>
+>>>> run-postinsts should be installed if there are postinstalls which failed
+>>>> to
+>>>> run during the offline install.
+>>>>
+>>>> Just to clarify this, the qemuwrapper-cross will only be installed to the
+>>>> target SDK sysroot, never on the target rootfs.
 >>>
->>> thanks,
 >>>
+>>> No; in postinstall-intercepts RDEPENDS.
 >>>
->> Hi,
 >>
->> I cannot open the link.
->> Could you please send me your patches as attachment? I'll try them out
->> tomorrow and let you know the results.
-> http://marc.info/?l=busybox&m=139038437907397&q=raw
-> or, just for you:
-> http://busybox.net/~aldot/tmp/0001-less-Add-R.patch
+>> Ah, now I get it.
+>> If I do that, will it not end up on the target rootfs ?
 >
-> thanks,
+> I don't think so.
+>
 
-Hi Bernhard,
+1. RDEPENDS_${PN} = "qemuwrapper-cross" wont work since TARGET_ARCH 
+detected in qemuwrapper-cross recipe will be SDKMACHINE when
+compiled as nativesdk-qemuwrapper-cross. (I know, nativesdk-*-cross 
+should not be done).
+I have not found a way to retrieve the real target architecture during 
+a nativesdk build.
 
-I just tried this patch out.
+Also, we can't add qemuwrapper to the nativesdk sysroot, since we may 
+have mutiple target sysroots which have different
+qemuwrapper settings.
 
-1) Test 1
-Command: journalctl
-Result: control characters not interpreted
-Log:
-Jan 23 07:35:49 qemux86 kernel: [[1;39mACPI: RSDP 000f1610 00014 (v00 
-BOCHS )[[
-0m
-Jan 23 07:35:49 qemux86 kernel: [[1;39mACPI: RSDT 0fffe450 00034 (v01 
-BOCHS  BX
-PCRSDT 00000001 BXPC 00000001)[[0m
-Jan 23 07:35:49 qemux86 kernel: [[1;39mACPI: FACP 0fffff80 00074 (v01 
-BOCHS  BX
-PCFACP 00000001 BXPC 00000001)[[0m
-Jan 23 07:35:49 qemux86 kernel: [[1;39mACPI: DSDT 0fffe490 01137 (v01   
-BXPC
-BXDSDT 00000001 INTL 20120913)[[0m
-Jan 23 07:35:49 qemux86 kernel: [[1;39mACPI: FACS 0fffff40 00040[[0m
-Jan 23 07:35:49 qemux86 kernel: [[1;39mACPI: SSDT 0ffff700 00838 (v01 
-BOCHS  BX
-PCSSDT 00000001 BXPC 00000001)[[0m
-Jan 23 07:35:49 qemux86 kernel: [[1;39mACPI: APIC 0ffff610 00078 (v01 
-BOCHS  BX
-PCAPIC 00000001 BXPC 00000001)[[0m
-Jan 23 07:35:49 qemux86 kernel: [[1;39mACPI: HPET 0ffff5d0 00038 (v01 
-BOCHS  BX
-PCHPET 00000001 BXPC 00000001)[[0m
-Jan 23 07:35:49 qemux86 kernel: ACPI: Local APIC address 0xfee00000
-Jan 23 07:35:49 qemux86 kernel: [[1;39m0MB HIGHMEM available.[[0m
-Jan 23 07:35:49 qemux86 kernel: [[1;39m255MB LOWMEM available.[[0m
+Br,
+David
 
-2) Test 2
-Command: export SYSTEMD_PAGER="less -R"; journalctl
-Result: control characters interpreted
-
-I know the behavior of `less' command from busybox is different from 
-that of the 'less' package. And we can't ask too much.
-But do you think it's possible to make 'journalctl' work correctly 
-without setting SYSTEMD_PAGER to "less -R"? I'm wondering why busybox's 
-'less' doesn't use the '-R' behaviour as its default. If so, we would 
-not need this '-R' option at all.
-
-Best Regards,
-Chen Qi
 
