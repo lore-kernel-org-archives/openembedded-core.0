@@ -1,43 +1,41 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 20DFD6E30D
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id DA1C36E368
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 10:52:48 +0000 (UTC)
-Received: by mail-ob0-f171.google.com with SMTP id wp4so1836573obc.30
+	Thu, 23 Jan 2014 10:56:51 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id wp18so1800950obc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 02:52:49 -0800 (PST)
+	Thu, 23 Jan 2014 02:56:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type:content-transfer-encoding;
-	bh=WN8xfk6QGE1gtkMXlQoRYM6pQ5lRrFB9yZuKWXWDBvY=;
-	b=yPhqwZ8ObcDQIA8TDo26pHZhxlQ7EesjXvHnyvxBmBTnPJA0Ej/SNa66gQ3tfB1D1t
-	W6RXHnReHMoCMyixe8JA5bnI7wQfXXcQDNJsfaUUmvquqMgbMvRgE7WA+RyvXCrTmyuW
-	TjKKQ8AK78wutMpleHYUg6W8QN+QAs7END9MJe0qrh4rObKykpOFlUFcP9bggcz9Gnw0
-	PEnlQc7y+KhO8t0xLo8XlBCDxupEd9bY5Er38Z1CYgcLQcZemrNscP5T2/sKVG16xOnk
-	HQPovOgyBfs7sJtXEt9skZsM6dsqXhvQa7rDDIiBpoKpgJA8rFFbHk+UpbP+CBuPbczx
-	Fc5w==
+	bh=Rs6ndkeesMr09MBUeaPdDL5uAXXKOuRpLBkFxF1JYqY=;
+	b=nkDPuypGnGncysolAfDhzErquD4TWwINRGO4Rend2NmWeW8L7+ukgu1N3CNUX1nkPA
+	tKoTXJYCRq6k07fRGnm1SZWbNmI/lVVxBfIsQHbGSJ2Xi7jSoKPhKPLD/Jgoo0N09yqj
+	9I37il7PUi61b4s2Ni0dKHptccmSVDxZa3KWaeum1WPL2MvxLRFrGK4+WdCDlfu86z8h
+	S5nRXVxg+bV7aIcZjykMJ1KXXQyDwh07vo9Wy2sR4VXOCNbSsZcmDuASaRPBeTluCLIl
+	WRU+GvRKlctHUaG7S8G5+jvHQdR+2MpdfU/z0NKE4Mxv3qJl8RiNY7QahaJKlTUXzarX
+	/1hQ==
 MIME-Version: 1.0
-X-Received: by 10.182.102.7 with SMTP id fk7mr6098793obb.28.1390474369099;
-	Thu, 23 Jan 2014 02:52:49 -0800 (PST)
+X-Received: by 10.60.65.5 with SMTP id t5mr5391403oes.19.1390474612711; Thu,
+	23 Jan 2014 02:56:52 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 23 Jan 2014 02:52:49 -0800 (PST)
-In-Reply-To: <52E0D235.2060605@gmail.com>
-References: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
-	<CAP9ODKqQ1Y-p_tAyMY=Rmw8t4ct7jXqxV=mBaqLdLXXpW+er1g@mail.gmail.com>
-	<52E00ACA.10502@enea.com>
-	<CAP9ODKp2yX_rw0GJEmntuhjwr-zzOYVW3Hk3ZS1Yf7Zy3zr1xQ@mail.gmail.com>
-	<52E00E23.8090605@gmail.com>
-	<CAP9ODKqHtSfJi9BpH1D7KKCy=DT4GGywcw7sqA1BcdZr28UgUA@mail.gmail.com>
-	<52E0D235.2060605@gmail.com>
-Date: Thu, 23 Jan 2014 08:52:49 -0200
-X-Google-Sender-Auth: orUsKfzWC1hvMdFmRklaqilc6fE
-Message-ID: <CAP9ODKqzXxz1VL7QCcoY7gDkHQ_onXYQodxAr5dreBtGCwtR1g@mail.gmail.com>
+Received: by 10.182.232.166 with HTTP; Thu, 23 Jan 2014 02:56:52 -0800 (PST)
+In-Reply-To: <52E0D539.9090402@gmail.com>
+References: <1390403335-14487-1-git-send-email-david.nystrom@enea.com>
+	<CAP9ODKr4WxcPVkxGMR+ZZ98b6mLbmUyr9Qs=BWe-S5HVJSn=hg@mail.gmail.com>
+	<52E007CC.5070405@gmail.com>
+	<CAP9ODKpAQDTg-UV-vR4419Q+6zvt=xNL=Wo5dH+feQi4wsWiGQ@mail.gmail.com>
+	<52E0D539.9090402@gmail.com>
+Date: Thu, 23 Jan 2014 08:56:52 -0200
+X-Google-Sender-Auth: syrn4whvnQjEybMF7KLYjPRLtYY
+Message-ID: <CAP9ODKqD-Xe4emQY8t6s4i_kbVGZFh4+2_y7h4+qiYfH_eSzVA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] packagegroup-core-standalone-sdk-target: Add qemuwrapper-cross to target sysroot
+Subject: Re: [PATCHv2 1/2] postinst-intercept: New recipe to include postinstall intercepts in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,101 +48,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 10:52:49 -0000
+X-List-Received-Date: Thu, 23 Jan 2014 10:56:52 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 23, 2014 at 6:26 AM, David Nystr=F6m
+On Thu, Jan 23, 2014 at 6:39 AM, David Nystr=F6m
 <david.c.nystrom@gmail.com> wrote:
-> On ons 22 jan 2014 19:33:22, Otavio Salvador wrote:
+> On ons 22 jan 2014 19:11:21, Otavio Salvador wrote:
 >>
->> On Wed, Jan 22, 2014 at 4:29 PM, David Nystr=F6m
+>> On Wed, Jan 22, 2014 at 4:02 PM, David Nystr=F6m
 >> <david.c.nystrom@gmail.com> wrote:
 >>>
->>> On ons 22 jan 2014 19:24:47, Otavio Salvador wrote:
+>>> On ons 22 jan 2014 16:47:06, Otavio Salvador wrote:
 >>>>
 >>>>
->>>> On Wed, Jan 22, 2014 at 4:15 PM, David Nystr=F6m <david.nystrom@enea.c=
-om>
->>>> wrote:
+>>>> On Wed, Jan 22, 2014 at 1:08 PM, David Nystr=F6m
+>>>> <david.c.nystrom@gmail.com> wrote:
 >>>>>
 >>>>>
->>>>> On 2014-01-22 19:08, Otavio Salvador wrote:
->>>>>>
->>>>>>
->>>>>>
->>>>>> On Wed, Jan 22, 2014 at 1:48 PM, David Nystr=F6m
->>>>>> <david.c.nystrom@gmail.com> wrote:
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> Some postinstall scripts use the qemuwrapper script, so to be able =
-to
->>>>>>> offline install these packages outside of the bitbake environment,
->>>>>>> this
->>>>>>> script
->>>>>>> needs to be exposed also in the SDK.
->>>>>>>
->>>>>>> This to enable rootfs generation from a package repository using on=
-ly
->>>>>>> a
->>>>>>> package repository and the toolchain tarball.
->>>>>>>
->>>>>>> See https://github.com/nysan/rootfs-sandbox for examples.
->>>>>>>
->>>>>>> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
->>>>>>
->>>>>>
->>>>>>
->>>>>>
->>>>>> Shouldn't this be a RDEPENDS of the postinst package?
->>>>>>
+>>>>> Adding ability to use postinstalls intercepts in the nativesdk env, a=
+nd
+>>>>> making sure the correlate between repo + SDK.
 >>>>>
->>>>> Do you mean a RDEPENDS on the run-postinsts package ?
->>>>> In that case no.
+>>>>> This to enable rootfs generation from a package repository using only=
+ a
+>>>>> package repository and the toolchain tarball.
 >>>>>
->>>>> When $D is set, postinstalls interpret this as a offline install,
->>>>> some postinstalls call postinstall-intercepts, which in turn use the
->>>>> qemuwrapper script _only_ if $D is set.
+>>>>> See https://github.com/nysan/rootfs-sandbox for examples.
 >>>>>
->>>>> run-postinsts should be installed if there are postinstalls which
->>>>> failed
->>>>> to
->>>>> run during the offline install.
->>>>>
->>>>> Just to clarify this, the qemuwrapper-cross will only be installed to
->>>>> the
->>>>> target SDK sysroot, never on the target rootfs.
+>>>>> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
 >>>>
 >>>>
 >>>>
->>>> No; in postinstall-intercepts RDEPENDS.
+>>>> Much better. Thanks.
+>>>>
+>>>> Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
+>>>>
+>>>> Regarding the rootfs-sandbox, how are you intending to proper
+>>>> integrate it with the toolchain?
 >>>>
 >>>
->>> Ah, now I get it.
->>> If I do that, will it not end up on the target rootfs ?
->>
->>
->> I don't think so.
->>
->
-> 1. RDEPENDS_${PN} =3D "qemuwrapper-cross" wont work since TARGET_ARCH det=
-ected
-> in qemuwrapper-cross recipe will be SDKMACHINE when
-> compiled as nativesdk-qemuwrapper-cross. (I know, nativesdk-*-cross shoul=
+>>> Search the oe-core list for the previous discussions with Tom Zanussi.
+>>> I believe the long term goals is to redo rootfs_*.bbclass in python, an=
 d
-> not be done).
-> I have not found a way to retrieve the real target architecture during a
-> nativesdk build.
+>>> let
+>>> both bitbake and MIC(WIC) use
+>>> the same code for image creation.(SDK env + bitbake env.)
+>>>
+>>> I'm fine with continued dev/inclusion of rootfs-sandbox, but I think th=
+at
+>>> might not be acceptable as a long term solution since
+>>> it may be maintenance heavy, since it uses alot of oe-core internal env=
+.
+>>> vars.
+>>>
+>>> Possible routes are:
+>>> 1. Use common code for rootfs assembly. (WIC)
+>>> 2. Cleanup env. var. usage in postinstall hooks, and be aggressive in
+>>> denying new additions. (Continue dev. on rootfs-sandbox)
+>>>
+>>> Off-topic:
+>>> With above patches, I'm down to 1 postinstall failures for
+>>> packagegroup-core-lsb:
+>>> 1. missing shlibsign, (nss), cant get the damn thing to compile for
+>>> nativesdk yet.
+>>>
+>>> There are 2 other failures as well, but they fail when bitbake:ing as
+>>> well.
+>>> Only works well with ipk sofar.
+>>
+>>
+>> So I think we ought to work on this in a layer and put things in
+>> OE-Core when it is ready.
+>>
+>> What do you think?
+>>
 >
-> Also, we can't add qemuwrapper to the nativesdk sysroot, since we may hav=
-e
-> mutiple target sysroots which have different
-> qemuwrapper settings.
+> Sorry, read your mail again, I think I misunderstood.
+> For rootfs-sandbox I agree, this is WIP.
+>
+> I suspect that others already have these features, and regardless of WIC =
+or
+> rootfs-sandbox or other.
+> they will need the same functionality exposed in the SDK.
+> We are working on the same thing here, and as such, I think the small pie=
+ces
+> needed to do this should be centralized in oe-core so
+> we can cooperate around them, and define interfaces between the SDK and
+> bitbake env in an open environment.
 
-I see. I didn't expect it but OK.
+I agree with the principle but I think we can accomplish the same with
+a layer, if properly announced and put in layer index.
 
-Sorry for the hassle :-(
+The reason I dislike this WIP to be in OE-Core is that implementation
+starts to be considered stable and people and projects starts to
+depends on it so changing it radically is hard as we need to carry
+backward compatibility.
+
+Don't take me wrong, I do think this is important and I do think this
+ought to be in OE-Core but I am unsure about it being mature enough
+for it.
 
 --=20
 Otavio Salvador                             O.S. Systems
