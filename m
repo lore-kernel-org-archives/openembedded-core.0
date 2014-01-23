@@ -1,40 +1,27 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id C15EC6C765
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A10C26B05F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 07:14:29 +0000 (UTC)
-Received: from [12.157.112.67] (helo=[10.71.2.210])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1W6EUf-0002tc-3I; Thu, 23 Jan 2014 08:14:29 +0100
-Message-ID: <1390461261.24755.12.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Ming Liu <ming.liu@windriver.com>
-Date: Thu, 23 Jan 2014 07:14:21 +0000
-In-Reply-To: <1390459548-21038-1-git-send-email-ming.liu@windriver.com>
+	Thu, 23 Jan 2014 07:22:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0N7MeGu025281
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 22 Jan 2014 23:22:40 -0800 (PST)
+Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Wed, 22 Jan 2014 23:22:38 -0800
+Message-ID: <52E0C33B.3090605@windriver.com>
+Date: Thu, 23 Jan 2014 15:22:35 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Phil Blundell <pb@pbcl.net>
 References: <1390459548-21038-1-git-send-email-ming.liu@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Thu, 2014-01-23 at 14:45 +0800,
-	Ming Liu wrote: > > +CACHED_CONFIGUREVARS
-	+= "ac_cv_path_BASH=/bin/bash" > > -CACHED_CONFIGUREVARS +=
-	"ac_cv_path_BASH=${base_bindir}/bash"
-	Why did you change this from ${base_bindir} to a hardcoded path? [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+	<1390461261.24755.12.camel@e130.pbcl.net>
+In-Reply-To: <1390461261.24755.12.camel@e130.pbcl.net>
+X-Originating-IP: [128.224.162.153]
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH V2] quilt: add ac_cv_path_BASH to CACHED_CONFIGUREVARS also for native
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -49,19 +36,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 07:14:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 Jan 2014 07:22:38 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2014-01-23 at 14:45 +0800, Ming Liu wrote:
->  
-> +CACHED_CONFIGUREVARS += "ac_cv_path_BASH=/bin/bash"
->  
-> -CACHED_CONFIGUREVARS += "ac_cv_path_BASH=${base_bindir}/bash"
+On 01/23/2014 03:14 PM, Phil Blundell wrote:
+> On Thu, 2014-01-23 at 14:45 +0800, Ming Liu wrote:
+>>   
+>> +CACHED_CONFIGUREVARS += "ac_cv_path_BASH=/bin/bash"
+>>   
+>> -CACHED_CONFIGUREVARS += "ac_cv_path_BASH=${base_bindir}/bash"
+> Why did you change this from ${base_bindir} to a hardcoded path?
+Because base_bindir would be expanded as '${base_prefix}/bin' for native 
+recipe, then it has to set DEPENDS on bash-native which I think is not 
+what it supposed to be, the change would let it locate bash from host 
+environment.
 
-Why did you change this from ${base_bindir} to a hardcoded path?
-
-p.
-
+//Ming Liu
+>
+> p.
+>
+>
+>
+>
 
 
