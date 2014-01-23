@@ -1,46 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FCE36B05F
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 16:43:17 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id kp14so2062704pab.23
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 08:43:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
-	:references:mime-version:content-type;
-	bh=JZpboaRkenuceXfceehAcS3K5espy1UzDl5D1b7yH8k=;
-	b=X7Do5qLrIDcyesPnWt1S7K7+5qsbnUWZ4JysQc1y02qf+cCiat/voxotYyi7XoZ1oq
-	varXm0ATM4crlahpJStgbmLI2bcIg9rAO2GzfzIk4LmLAuXbxU9MZt8tOtrCwxle7Zty
-	+ZbWYL0Ghk9TxPVgRMuHHy1sDp89utoUMKcG4qTa7eDevehkw72hqB5gaSATYolSeNZz
-	NsrZfKAj5ehjMrg07P3EAkxYaiYtmKR6eAtOV++7lYyYvlVHK1Zk+wGKdmeeLL01rhea
-	P3TJFUuEK0xjllqId9KZZ1ADOgAuljTkXKeq2XGveGl8xyG+tlCK/zIMeLISo6uFzOkL
-	Stew==
-X-Received: by 10.66.26.236 with SMTP id o12mr9338718pag.15.1390495397878;
-	Thu, 23 Jan 2014 08:43:17 -0800 (PST)
-Received: from leo.localnet (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	qq5sm38562156pbb.24.2014.01.23.08.43.15 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jan 2014 08:43:15 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: Chris Larson <clarson@kergoth.com>
-Date: Thu, 23 Jan 2014 08:43:29 -0800
-Message-ID: <5712962.WyPAeLeASC@leo>
-X-Face: (*D:+-|[O9m:a&dKxg#R`m^Nxy<HmNPV<Ic-_>RMPm0'o70t~39kUjcE\?l`>41l^%&x; O
-	ss*RIK.m#<6OwX.R&K={4[\RYyqeUgI^7G0BRJfLXVkrEjSlX5rk\rOt"ur?`%"2}`hDBt
-	QHQ|<@r6-hq"([T&r02ayw^tEXBwsh6g%qt!Q?)*H$OE6mk^BUm30s`G[u:_wi&vIUh&Lh
-	L_.\+; 0Q:nB(8TJq\bWseix)aav+[*-wMDT5+55W^jS%u-J{Hv)&lSoaU^m_+*>]"
-User-Agent: KMail/4.12.1 (Linux/3.12.8-1-ARCH; KDE/4.12.1; x86_64; ; )
-In-Reply-To: <CABcZANk3D=dL=73=spKrnL-YeOmcxng1EN5ucQu0LD-O48Vd5g@mail.gmail.com>
-References: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
-	<1760931.7HjZTF9m8R@leo>
-	<CABcZANk3D=dL=73=spKrnL-YeOmcxng1EN5ucQu0LD-O48Vd5g@mail.gmail.com>
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B79F6B05F
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2014 16:52:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0NGqx5P005744
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 23 Jan 2014 08:52:59 -0800 (PST)
+Received: from [172.25.32.36] (172.25.32.36) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 23 Jan 2014 08:52:59 -0800
+Message-ID: <52E148E8.2030407@windriver.com>
+Date: Thu, 23 Jan 2014 10:52:56 -0600
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: Convert ??= weaker assingment to weak ?= assignment
+To: Phil Blundell <pb@pbcl.net>
+References: <1390487566-13569-1-git-send-email-jason.wessel@windriver.com>	
+	<1390487566-13569-2-git-send-email-jason.wessel@windriver.com>
+	<1390489278.24755.16.camel@e130.pbcl.net>
+In-Reply-To: <1390489278.24755.16.camel@e130.pbcl.net>
+X-Enigmail-Version: 1.6
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/6] unfs3: Add a NFSv3 user mode server for use with runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,79 +37,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 16:43:18 -0000
-X-Groupsio-MsgNum: 49472
-Content-Type: multipart/signed; boundary="nextPart2228375.4JbiU4UDPc";
-	micalg="pgp-sha1"; protocol="application/pgp-signature"
+X-List-Received-Date: Thu, 23 Jan 2014 16:52:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---nextPart2228375.4JbiU4UDPc
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="us-ascii"
+On 01/23/2014 09:01 AM, Phil Blundell wrote:
+> On Thu, 2014-01-23 at 08:32 -0600, Jason Wessel wrote:
+>> +++ b/meta/files/common-licenses/unfs3
+>> @@ -0,0 +1,24 @@
+>> +UNFS3 user-space NFSv3 server
+>> +(C) 2003, Pascal Schmidt <unfs3-server@ewetel.net>
+>> +
+>> +Redistribution and use in source and binary forms, with or without
+>> +modification, are permitted provided that the following conditions are met:
+>> +
+>> +1. Redistributions of source code must retain the above copyright notice,
+>> +   this list of conditions and the following disclaimer.
+>> +2. Redistributions in binary form must reproduce the above copyright notice,
+>> +   this list of conditions and the following disclaimer in the documentation
+>> +   and/or other materials provided with the distribution.
+>> +3. The name of the author may not be used to endorse or promote products
+>> +   derived from this software without specific prior written permission.
+> Isn't this just the 3-clause BSD licence?
 
-On Thursday, January 23, 2014 09:31:47 AM Chris Larson wrote:
-> On Wed, Jan 22, 2014 at 6:16 PM, Khem Raj <raj.khem@gmail.com> wrote:=
+Because it did not diff between the two (the words are different) I included the license.
 
-> > On Friday, December 06, 2013 05:42:26 PM Khem Raj wrote:
-> > > ??=3D does not react at all with
-> > > BOOST_LIBS +=3D "${@base_contains('PACKAGECONFIG', 'python', 'pyt=
-hon', '',
-> > > d)}"
-> > >=20
-> > > even though we have
-> > >=20
-> > > PACKAGECONFIG ??=3D "" it does not honor it and always add python=
- to
-> > > BOOST_LIBS but the dependency is not added so it fails to build
-> > > complaining for missing python headers which is a understood outc=
-ome
-> > >=20
-> > > When converted to ?=3D it works as expected and only add --with-p=
-ython
-> > > in bjam when python is specified in PACKAGECONFIG otherwise not.
-> > >=20
-> > > Is it a bitbake bug ? in anycase ?=3D should be enough of loose r=
-ope
-> > > to let user/distro configure the packageconfig policy
-> >=20
-> > OK so the problem is that I have meta-ros in my layer-mix and in th=
-at
-> > layer
-> > it defines PACKAGECONFIG ?=3D "python" IMO it should have appended =
-instead
-> > of
-> > redefining. Thats why I was seeing what I was seeing.
->=20
-> It's worth noting that recipes, in general, should use ?=3D rather th=
-an ??=3D,
-> but config files, in general, should use ??=3D. Otherwise it becomes
-> impossible for the config metadata to define an overriding default --=
- the
-> last ??=3D wins, after all, and that would always be the recipe. IMO =
-default
-> values in the recipe are there to give sane behavior when there's no
-> configuration coming in from elsewhere, not to override configuration=
+It appears Pascal modified it ever so slightly.  Perhaps legally they mean the same thing, but given I am not a lawyer I opted to include it.
 
-> defaults.
+-- The one from above
+3. The name of the author may not be used to endorse or promote products
+   derived from this software without specific prior written permission.
 
-yes I think thats a good point. so lets consider this patch for inclusi=
-on
-now we know the reason, I can resubmit with proper subject and patch he=
-ader
+--- vs BSD listed in YP
+3. Neither the name of the University nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
 
-=2D-=20
-=2DKhem
 
---nextPart2228375.4JbiU4UDPc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+There were other subtle changes too.
 
-iEYEABECAAYFAlLhRrEACgkQuwUzVZGdMxS9lgCghLjifXEjVCIgTTu4E5jkwosO
-uwUAn2AeP4G02JZp4B9XjL5RzB7ZAFiG
-=2W+3
------END PGP SIGNATURE-----
 
---nextPart2228375.4JbiU4UDPc--
+>
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/unfs3/unfs3/alternate_rpc_ports.patch
+>> @@ -0,0 +1,158 @@
+>> +Add ability to specify rcp port numbers
+>> +
+>> +In order to run more than one unfs server on a host system, you must
+>> +be able to specify alternate rpc port numbers.
+>> +
+>> +Jason Wessel <jason.wessel@windriver.com>
+>> +
+>> +Upstream-Status: Pending
+> I think you said in the cover letter that the patches had been sent
+> upstream.  If that's the case then it should be Upstream-Status:
+> Submitted.
+
+
+
+
+Thanks,  I'll make a v3, these are all submitted and pending upstream review.
+
+>> +RDEPENDS_${PN} = "pseudo"
+>> +RDEPENDS_${PN}_class-native = "pseudo-native"
+>> +RDEPENDS_${PN}_class-nativesdk = "pseudo-nativesdk"
+> That looks a bit odd.  Are the latter two lines doing anything very
+> useful?
+
+
+The usnfs3 is useless without pseudo.   The 2nd of the two might not be needed, but it had been there since the YP 1.3 days.   For building the nativesdk and having a working unfs3 the 3rd one was required.   I'll leave this in there for the v3.
+
+
+>
+>> +# This recipe is intended for -native and -nativesdk builds only,
+>> +# not target installs:
+> Why?  If this is really the case, shouldn't it be named unfs3-native in
+> the first place?
+
+Now that the autoconf pieces are fixed in the v2, I can remove this restriction in v3.   It does work on the target system now.
+
+Jason.
+
