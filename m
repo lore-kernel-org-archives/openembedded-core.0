@@ -1,47 +1,38 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id AEB6B6B05F
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EE046B389
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 08:26:32 +0000 (UTC)
-Received: by mail-lb0-f173.google.com with SMTP id y6so1202488lbh.32
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 00:26:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=U3NJzw5ZEjUWayfYvAbBvv4KUczmoLNZ83RfVC3a8Is=;
-	b=yuC4I8KCWeXHy1220PXOFMBIWnfdMl72Ppd6+0Ca528IY56LLlnZduHI3QTyTNKBJy
-	mfRKXVl/3OsjoqdBAjDEutBN1i7Ofa8RNcNiyIm93ZoUExWfCJmSM3gv6SDGmjqZ4LS2
-	Zuu+pq2khZeJuAAehC2SyAmrK1ufCr5WWz9NX3cpdDHr9UdqhnEOQ7fOMTiUTD8g/EOm
-	dHbKg99UN585lzYXOoDDX+x7Cmdi+YX8tMe680CTqDVPAsfPkI+SzIhWs9Wm/NiCtfYD
-	6oTFoSTMv9+Supr7VGMgSHhUTLzm5YF0KHweqCYOuAZXu/PfrAv9K3PY2TPsTvV4OOC8
-	rSdQ==
-X-Received: by 10.112.64.166 with SMTP id p6mr4089904lbs.10.1390465592134;
-	Thu, 23 Jan 2014 00:26:32 -0800 (PST)
-Received: from [79.102.97.51] (c-4f666133-74736162.cust.telenor.se.
-	[79.102.97.51])
-	by mx.google.com with ESMTPSA id a8sm14471224lae.5.2014.01.23.00.26.30
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 23 Jan 2014 00:26:30 -0800 (PST)
-Message-ID: <52E0D235.2060605@gmail.com>
-Date: Thu, 23 Jan 2014 09:26:29 +0100
-From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Thu, 23 Jan 2014 08:29:36 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 23 Jan 2014 00:25:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,705,1384329600"; d="scan'208";a="471176610"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by orsmga002.jf.intel.com with ESMTP; 23 Jan 2014 00:29:35 -0800
+Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
+	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 23 Jan 2014 08:27:32 +0000
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.215]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.169]) with mapi id
+	14.03.0123.003; Thu, 23 Jan 2014 08:27:31 +0000
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: "sipke.vriend@xilinx.com" <sipke.vriend@xilinx.com>
+Thread-Topic: [OE-core] [PATCH] lib/oeqa: allow a layer to provide it's own
+	TEST_TARGET class
+Thread-Index: AQHPErk5n+IMGNg1ok+3lTc4eEoEp5qRxyuAgAA9nwA=
+Date: Thu, 23 Jan 2014 08:27:31 +0000
+Message-ID: <1390465720.1197.8.camel@firebird.rb.intel.com>
+References: <1389876539-31534-1-git-send-email-stefanx.stanacar@intel.com>
+	<e7ee03fa-b951-4d84-afd9-3a0cb987b18f@AM1EHSMHS005.ehs.local>
+In-Reply-To: <e7ee03fa-b951-4d84-afd9-3a0cb987b18f@AM1EHSMHS005.ehs.local>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.105.156]
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1390405731-19334-1-git-send-email-david.nystrom@enea.com>
-	<CAP9ODKqQ1Y-p_tAyMY=Rmw8t4ct7jXqxV=mBaqLdLXXpW+er1g@mail.gmail.com>
-	<52E00ACA.10502@enea.com>
-	<CAP9ODKp2yX_rw0GJEmntuhjwr-zzOYVW3Hk3ZS1Yf7Zy3zr1xQ@mail.gmail.com>
-	<52E00E23.8090605@gmail.com>
-	<CAP9ODKqHtSfJi9BpH1D7KKCy=DT4GGywcw7sqA1BcdZr28UgUA@mail.gmail.com>
-In-Reply-To: <CAP9ODKqHtSfJi9BpH1D7KKCy=DT4GGywcw7sqA1BcdZr28UgUA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] packagegroup-core-standalone-sdk-target: Add qemuwrapper-cross to target sysroot
+Subject: Re: [PATCH] lib/oeqa: allow a layer to provide it's own TEST_TARGET class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,78 +45,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 08:26:34 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 23 Jan 2014 08:29:36 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4BC999DE5A144D49816C1B7EE9B9C0CA@intel.com>
+Content-Transfer-Encoding: base64
 
-On ons 22 jan 2014 19:33:22, Otavio Salvador wrote:
-> On Wed, Jan 22, 2014 at 4:29 PM, David Nyström
-> <david.c.nystrom@gmail.com> wrote:
->> On ons 22 jan 2014 19:24:47, Otavio Salvador wrote:
->>>
->>> On Wed, Jan 22, 2014 at 4:15 PM, David Nyström <david.nystrom@enea.com>
->>> wrote:
->>>>
->>>> On 2014-01-22 19:08, Otavio Salvador wrote:
->>>>>
->>>>>
->>>>> On Wed, Jan 22, 2014 at 1:48 PM, David Nyström
->>>>> <david.c.nystrom@gmail.com> wrote:
->>>>>>
->>>>>>
->>>>>> Some postinstall scripts use the qemuwrapper script, so to be able to
->>>>>> offline install these packages outside of the bitbake environment, this
->>>>>> script
->>>>>> needs to be exposed also in the SDK.
->>>>>>
->>>>>> This to enable rootfs generation from a package repository using only a
->>>>>> package repository and the toolchain tarball.
->>>>>>
->>>>>> See https://github.com/nysan/rootfs-sandbox for examples.
->>>>>>
->>>>>> Signed-off-by: David Nyström <david.nystrom@enea.com>
->>>>>
->>>>>
->>>>>
->>>>> Shouldn't this be a RDEPENDS of the postinst package?
->>>>>
->>>>
->>>> Do you mean a RDEPENDS on the run-postinsts package ?
->>>> In that case no.
->>>>
->>>> When $D is set, postinstalls interpret this as a offline install,
->>>> some postinstalls call postinstall-intercepts, which in turn use the
->>>> qemuwrapper script _only_ if $D is set.
->>>>
->>>> run-postinsts should be installed if there are postinstalls which failed
->>>> to
->>>> run during the offline install.
->>>>
->>>> Just to clarify this, the qemuwrapper-cross will only be installed to the
->>>> target SDK sysroot, never on the target rootfs.
->>>
->>>
->>> No; in postinstall-intercepts RDEPENDS.
->>>
->>
->> Ah, now I get it.
->> If I do that, will it not end up on the target rootfs ?
->
-> I don't think so.
->
-
-1. RDEPENDS_${PN} = "qemuwrapper-cross" wont work since TARGET_ARCH 
-detected in qemuwrapper-cross recipe will be SDKMACHINE when
-compiled as nativesdk-qemuwrapper-cross. (I know, nativesdk-*-cross 
-should not be done).
-I have not found a way to retrieve the real target architecture during 
-a nativesdk build.
-
-Also, we can't add qemuwrapper to the nativesdk sysroot, since we may 
-have mutiple target sysroots which have different
-qemuwrapper settings.
-
-Br,
-David
-
+SGkgU2lwa2UsDQoNCk9uIFRodSwgMjAxNC0wMS0yMyBhdCAxNDo0OCArMTAwMCwgU2lwa2UgVnJp
+ZW5kIHdyb3RlOg0KPiBIaSBTdGVmYW4sDQo+IA0KPiBJIGhhdmUgc3RhcnRlZCB1c2luZyB0aGlz
+IHBhdGNoIGluIG1hc3RlciB0byBleHRlbmQgdGVzdCB0YXJnZXRzIHRvIG91cg0KPiBic3AgbGF5
+ZXIsIGFuZCBpdCB3b3JrcyB3ZWxsLiBUaGFua3MuDQo+IFdpbGwgdGhlIGV4dGVuc2lvbiBvZiBh
+IGNvbnRyb2xsZXJzLnB5IGZpbGUgd29yayBmb3IgbXVsdGlwbGUgYnNwIGxheWVycw0KPiBpbiBh
+IHNpbmdsZSBidWlsZC9jb25mL2JibGF5ZXJzLmNvbmY/DQo+IEkgZGlkIGEgcXVpY2sgdGVzdCBh
+bmQgdGhpbmsgdGhhdCB0aGUgZmlyc3QgY29udHJvbGxlci5weSBmb3VuZCBpcyB0aGUNCj4gb25s
+eSBvbmUgImV4dGVuZGVkIi4gSWYgdGhpcyBpcyB0cnVlIHRoZW4gIHRoZSBjdXJyZW50IGltcGxl
+bWVudGF0aW9uDQo+IGNvdWxkIGdldCBhIGZhbHNlIG5lZ2F0aXZlIGZvciBhIGdpdmVuIFRFU1Rf
+VEFSR0VULCBpZiBtb3JlIHRoYW4gb25lDQo+IGxheWVyIGltcGxlbWVudHMgY29udHJvbGxlcnMu
+cHkuDQoNCkdvb2QgY2F0Y2ghDQpZb3UgYXJlIHJpZ2h0LCBvbmx5IHRoZSBmaXJzdCBvbmUgZm91
+bmQgaXMgaW1wb3J0ZWQgKGFuZCB0aGF0IHByb2JhYmx5DQpoYXMgdG8gZG8gd2l0aCBob3cgaW1w
+b3J0cyBhcmUgbWFkZSBhbmQgdGhlIG9yZGVyIG9mIGxheWVycyAtIGxpYi8gaXMNCmFkZGVkIHRv
+IHB5dGhvbnBhdGggZm9yIGFsbCBsYXllcnMgQUZBSUspDQoNCj4gDQo+IEkgdHJpZWQgYSBtaW5v
+ciBtb2RpZmljYXRpb24gd2hpY2ggYXNzdW1lcyBlYWNoIHRlc3R0YXJnZXQgY2xhc3MgaXMgaW4N
+Cj4gaXRzIG93biBmaWxlIHdpdGggdGhlIG5hbWUgPHRlc3R0YXJnZXQ+LnB5IChsb3dlciBjYXNl
+KS4gVGhpcyBleHRlbmRlZA0KPiBhY3Jvc3MgbXVsdGlwbGUgbGF5ZXJzLCBhc3N1bWluZyBubyBk
+dXBsaWNhdGlvbiBvZiB0ZXN0IHRhcmdldCBuYW1lcy4gSQ0KPiBwdXQgdGhlbSBpbiB0aGUgdXRp
+bHMgZGlyZWN0b3J5IGZvciB0aGUgdGVzdCwgYnV0IHRoZXkgY291bGQgZ28gaW50byBhDQo+IGNv
+bnRyb2xsZXJzIGZvbGRlciBhcyB0aGF0IG1pZ2h0IG1ha2UgbW9yZSBzZW5zZS4NCg0KTG9va3Mg
+Z29vZCwgYW5kIHllcywgYSBvZXFhLmNvbnRyb2xsZXJzIHBhY2thZ2UgbWlnaHQgbWFrZSBtb3Jl
+IHNlbnNlLg0KTm93LCB0aGUgb25seSB0aGluZyB0aGF0IGJvdGhlcnMgbWUgaXMgdXNpbmcgdGVz
+dHRhcmdldCdzIHZhbHVlIGFzIHRoZQ0KZmlsZW5hbWUgKGFzIGl0IGlzIG5vdyBpdCB3YXMgc3Vw
+cG9zZWQgdG8gYmUgdGhlIGNsYXNzIG5hbWUpLiBOYW1pbmcNCnRoaW5ncyBpcyBoYXJkLi4uDQpB
+bnl3YXksIGNvdWxkIHlvdSBwbGVhc2Ugc2VuZCBpdCBhcyBhIHBhdGNoPw0KDQpDaGVlcnMsDQpT
+dGVmYW4NCg0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvdGFyZ2V0Y29udHJvbC5w
+eSBiL21ldGEvbGliL29lcWEvdGFyZ2V0Y29udHJvbC5weQ0KPiBpbmRleCA3NTdmOWQzLi5kN2Nh
+YjdlIDEwMDY0NA0KPiAtLS0gYS9tZXRhL2xpYi9vZXFhL3RhcmdldGNvbnRyb2wucHkNCj4gKysr
+IGIvbWV0YS9saWIvb2VxYS90YXJnZXRjb250cm9sLnB5DQo+IEBAIC0yOCwxMCArMjgsMTEgQEAg
+ZGVmIGdldF90YXJnZXRfY29udHJvbGxlcihkKToNCj4gICAgICAgICAgIGV4Y2VwdCBBdHRyaWJ1
+dGVFcnJvcjoNCj4gICAgICAgICAgICAgICAjIG5vcGUsIHBlcmhhcHMgYSBsYXllciBkZWZpbmVk
+IG9uZQ0KPiAgICAgICAgICAgICAgIHRyeToNCj4gLSAgICAgICAgICAgICAgICBtb2R1bGUgPSBf
+X2ltcG9ydF9fKCJvZXFhLnV0aWxzLmNvbnRyb2xsZXJzIiwNCj4gZ2xvYmFscygpLCBsb2NhbHMo
+KSwgW3Rlc3R0YXJnZXRdKQ0KPiArICAgICAgICAgICAgICAgIG1vZHVsZW5hbWUgPSAib2VxYS51
+dGlscy57MH0iLmZvcm1hdCh0ZXN0dGFyZ2V0Lmxvd2VyKCkpDQo+ICsgICAgICAgICAgICAgICAg
+bW9kdWxlID0gX19pbXBvcnRfXyhtb2R1bGVuYW1lLCBnbG9iYWxzKCksIGxvY2FscygpLA0KPiBb
+dGVzdHRhcmdldF0pDQo+ICAgICAgICAgICAgICAgICAgIGNvbnRyb2xsZXIgPSBnZXRhdHRyKG1v
+ZHVsZSwgdGVzdHRhcmdldCkNCj4gICAgICAgICAgICAgICBleGNlcHQgSW1wb3J0RXJyb3IgYXMg
+ZToNCj4gLSAgICAgICAgICAgICAgICBiYi5mYXRhbCgiRmFpbGVkIHRvIGltcG9ydCBvZXFhLnV0
+aWxzLmNvbnRyb2xsZXJzOlxuJXMiDQo+ICUgdHJhY2ViYWNrLmZvcm1hdF9leGMoKSkNCj4gKyAg
+ICAgICAgICAgICAgICBiYi5mYXRhbCgiRmFpbGVkIHRvIGltcG9ydA0KPiB7MH06XG57MX0iLmZv
+cm1hdChtb2R1bGVuYW1lLHRyYWNlYmFjay5mb3JtYXRfZXhjKCkpKQ0KPiAgICAgICAgICAgICAg
+IGV4Y2VwdCBBdHRyaWJ1dGVFcnJvcjoNCj4gICAgICAgICAgICAgICAgICAgYmIuZmF0YWwoIlwi
+JXNcIiBpcyBub3QgYSB2YWxpZCB2YWx1ZSBmb3IgVEVTVF9UQVJHRVQiDQo+ICUgdGVzdHRhcmdl
+dCkNCj4gICAgICAgICAgIHJldHVybiBjb250cm9sbGVyKGQpDQo+IA0KPiBDaGVlcnMNCj4gU2lw
+a2UNCj4gDQo+IE9uIDE2LzAxLzIwMTQgMTA6NDggUE0sIFN0ZWZhbiBTdGFuYWNhciB3cm90ZToN
+Cj4gPiBBbGxvd3MgYSBsYXllciB0byBkZWZpbmUgbmV3IGNsYXNzZXMgaW48bGF5ZXI+L2xpYi9v
+ZXFhL3V0aWxzL2NvbnRyb2xsZXJzLnB5DQo+ID4gYW5kIGNvbXBsZXRlbHkgY29udHJvbCBvciBl
+eHRlbmQgZGVwbG95bWVudCBvZiBhIHRhcmdldC4gKGNvcmUgY3VycmVudGx5DQo+ID4gaGFzIFFl
+bXVUYXJnZXQgYW5kIFNpbXBsZVJlbW90ZVRhcmdldCkuDQo+ID4gVGhlIHZhbHVlIG9mIFRFU1Rf
+VEFSR0VUIG11c3QgYmUgdGhlIG5hbWUgb2YgdGhlIG5ldyBjbGFzcy4NCj4gPg0KPiA+IFNpZ25l
+ZC1vZmYtYnk6IFN0ZWZhbiBTdGFuYWNhcjxzdGVmYW54LnN0YW5hY2FyQGludGVsLmNvbT4NCj4g
+PiAtLS0NCj4gPiAgIG1ldGEvbGliL29lcWEvdGFyZ2V0Y29udHJvbC5weSAgfCAyMyArKysrKysr
+KysrKysrKysrKysrLS0tLQ0KPiA+ICAgbWV0YS9saWIvb2VxYS91dGlscy9fX2luaXRfXy5weSB8
+ICAzICsrKw0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCAyMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0
+aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvbGliL29lcWEvdGFyZ2V0Y29udHJv
+bC5weSBiL21ldGEvbGliL29lcWEvdGFyZ2V0Y29udHJvbC5weQ0KPiA+IGluZGV4IGRlZTM4ZWMu
+Ljc1N2Y5ZDMgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9saWIvb2VxYS90YXJnZXRjb250cm9sLnB5
+DQo+ID4gKysrIGIvbWV0YS9saWIvb2VxYS90YXJnZXRjb250cm9sLnB5DQo+ID4gQEAgLTgsMTgg
+KzgsMzMgQEAgaW1wb3J0IG9zDQo+ID4gICBpbXBvcnQgc2h1dGlsDQo+ID4gICBpbXBvcnQgc3Vi
+cHJvY2Vzcw0KPiA+ICAgaW1wb3J0IGJiDQo+ID4gLQ0KPiA+ICtpbXBvcnQgdHJhY2ViYWNrDQo+
+ID4gICBmcm9tIG9lcWEudXRpbHMuc3NoY29udHJvbCBpbXBvcnQgU1NIQ29udHJvbA0KPiA+ICAg
+ZnJvbSBvZXFhLnV0aWxzLnFlbXVydW5uZXIgaW1wb3J0IFFlbXVSdW5uZXINCj4gPg0KPiA+DQo+
+ID4gICBkZWYgZ2V0X3RhcmdldF9jb250cm9sbGVyKGQpOg0KPiA+IC0gICAgaWYgZC5nZXRWYXIo
+IlRFU1RfVEFSR0VUIiwgVHJ1ZSkgPT0gInFlbXUiOg0KPiA+ICsgICAgdGVzdHRhcmdldCA9IGQu
+Z2V0VmFyKCJURVNUX1RBUkdFVCIsIFRydWUpDQo+ID4gKyAgICAjIG9sZCwgc2ltcGxlIG5hbWVz
+DQo+ID4gKyAgICBpZiB0ZXN0dGFyZ2V0ID09ICJxZW11IjoNCj4gPiAgICAgICAgICAgcmV0dXJu
+IFFlbXVUYXJnZXQoZCkNCj4gPiAtICAgIGVsaWYgZC5nZXRWYXIoIlRFU1RfVEFSR0VUIiwgVHJ1
+ZSkgPT0gInNpbXBsZXJlbW90ZSI6DQo+ID4gKyAgICBlbGlmIHRlc3R0YXJnZXQgPT0gInNpbXBs
+ZXJlbW90ZSI6DQo+ID4gICAgICAgICAgIHJldHVybiBTaW1wbGVSZW1vdGVUYXJnZXQoZCkNCj4g
+PiAgICAgICBlbHNlOg0KPiA+IC0gICAgICAgIGJiLmZhdGFsKCJQbGVhc2Ugc2V0IGEgdmFsaWQg
+VEVTVF9UQVJHRVQiKQ0KPiA+ICsgICAgICAgICMgdXNlIHRoZSBjbGFzcyBuYW1lDQo+ID4gKyAg
+ICAgICAgdHJ5Og0KPiA+ICsgICAgICAgICAgICAjIGlzIGl0IGEgY29yZSBjbGFzcyBkZWZpbmVk
+IGhlcmU/DQo+ID4gKyAgICAgICAgICAgIGNvbnRyb2xsZXIgPSBnZXRhdHRyKF9fbmFtZV9fLCB0
+ZXN0dGFyZ2V0KQ0KPiA+ICsgICAgICAgIGV4Y2VwdCBBdHRyaWJ1dGVFcnJvcjoNCj4gPiArICAg
+ICAgICAgICAgIyBub3BlLCBwZXJoYXBzIGEgbGF5ZXIgZGVmaW5lZCBvbmUNCj4gPiArICAgICAg
+ICAgICAgdHJ5Og0KPiA+ICsgICAgICAgICAgICAgICAgbW9kdWxlID0gX19pbXBvcnRfXygib2Vx
+YS51dGlscy5jb250cm9sbGVycyIsIGdsb2JhbHMoKSwgbG9jYWxzKCksIFt0ZXN0dGFyZ2V0XSkN
+Cj4gPiArICAgICAgICAgICAgICAgIGNvbnRyb2xsZXIgPSBnZXRhdHRyKG1vZHVsZSwgdGVzdHRh
+cmdldCkNCj4gPiArICAgICAgICAgICAgZXhjZXB0IEltcG9ydEVycm9yIGFzIGU6DQo+ID4gKyAg
+ICAgICAgICAgICAgICBiYi5mYXRhbCgiRmFpbGVkIHRvIGltcG9ydCBvZXFhLnV0aWxzLmNvbnRy
+b2xsZXJzOlxuJXMiICUgdHJhY2ViYWNrLmZvcm1hdF9leGMoKSkNCj4gPiArICAgICAgICAgICAg
+ZXhjZXB0IEF0dHJpYnV0ZUVycm9yOg0KPiA+ICsgICAgICAgICAgICAgICAgYmIuZmF0YWwoIlwi
+JXNcIiBpcyBub3QgYSB2YWxpZCB2YWx1ZSBmb3IgVEVTVF9UQVJHRVQiICUgdGVzdHRhcmdldCkN
+Cj4gPiArICAgICAgICByZXR1cm4gY29udHJvbGxlcihkKQ0KPiA+DQo+ID4NCj4gPiAgIGNsYXNz
+IEJhc2VUYXJnZXQob2JqZWN0KToNCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9saWIvb2VxYS91dGls
+cy9fX2luaXRfXy5weSBiL21ldGEvbGliL29lcWEvdXRpbHMvX19pbml0X18ucHkNCj4gPiBpbmRl
+eCBlNjlkZTI5Li44ZWRhOTI3IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvbGliL29lcWEvdXRpbHMv
+X19pbml0X18ucHkNCj4gPiArKysgYi9tZXRhL2xpYi9vZXFhL3V0aWxzL19faW5pdF9fLnB5DQo+
+ID4gQEAgLTAsMCArMSwzIEBADQo+ID4gKyMgRW5hYmxlIG90aGVyIGxheWVycyB0byBoYXZlIG1v
+ZHVsZXMgaW4gdGhlIHNhbWUgbmFtZWQgZGlyZWN0b3J5DQo+ID4gK2Zyb20gcGtndXRpbCBpbXBv
+cnQgZXh0ZW5kX3BhdGgNCj4gPiArX19wYXRoX18gPSBleHRlbmRfcGF0aChfX3BhdGhfXywgX19u
+YW1lX18pDQo+ID4NCj4gDQo+IA0KPiANCj4gVGhpcyBlbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRz
+IGFyZSBpbnRlbmRlZCBmb3IgdGhlIHNvbGUgdXNlIG9mIHRoZSBuYW1lZCByZWNpcGllbnQocykg
+YW5kIGNvbnRhaW4ocykgY29uZmlkZW50aWFsIGluZm9ybWF0aW9uIHRoYXQgbWF5IGJlIHByb3By
+aWV0YXJ5LCBwcml2aWxlZ2VkIG9yIGNvcHlyaWdodGVkIHVuZGVyIGFwcGxpY2FibGUgbGF3LiBJ
+ZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50LCBkbyBub3QgcmVhZCwgY29weSwg
+b3IgZm9yd2FyZCB0aGlzIGVtYWlsIG1lc3NhZ2Ugb3IgYW55IGF0dGFjaG1lbnRzLiBEZWxldGUg
+dGhpcyBlbWFpbCBtZXNzYWdlIGFuZCBhbnkgYXR0YWNobWVudHMgaW1tZWRpYXRlbHkuDQo+IA0K
+PiANCg0K
 
