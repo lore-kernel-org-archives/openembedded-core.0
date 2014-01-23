@@ -1,39 +1,36 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 577996BC92
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 66E146C742
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 11:35:02 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id e49so357012eek.1
+	Thu, 23 Jan 2014 11:36:08 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id wm4so1864216obc.41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 03:35:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=bam5JzOUbAgNRLtfCecVOi/Mnkuc8DFjm/I1mX4b58k=;
-	b=Zw+ELTn1L+Mzk7wZNVV34Zllp6nUe70ZXbUryRJfdWiz07BIwec7pAWXfru8Hb1RB+
-	a1qWnxe76ItltEVMRC39rLIiujohNK7URhlsvTUc3q5cPynzIf/+AcWX9yy/VPvtf77h
-	//+I/V4bsBaQfnJkzbL5hMOTj7PPOZbSW73jVtaURCufM7ONgUFL4aewk197wzCCch0v
-	kHvG97TEDmCld44yGGKM2L1Tr6tKvQ+8nNLuRCSaBj+ftgw4nslXaBCY6BqJPyPOToV6
-	o/h/+reA8hs2cAtF0w0GcbBXrjuEDz3UmyWddCTqCkFJmd+xt+LdhlB2F17E3jXqWnzM
-	55uA==
-X-Gm-Message-State: ALoCoQnF5lJ0mlMk8+qHHlp47OdpMDDOGEevJMkm++0Z9uvcJ+GZXgzi/26pdppzyF1uQVlr658M
-X-Received: by 10.15.50.129 with SMTP id l1mr107439eew.114.1390476902415;
-	Thu, 23 Jan 2014 03:35:02 -0800 (PST)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id v1sm38587230eef.9.2014.01.23.03.35.01
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 23 Jan 2014 03:35:01 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAP9ODKoU+va9SbCJAfZ4HMkz+==Ec9va0KjJX07c4d4cZ90bjg@mail.gmail.com>
-Date: Thu, 23 Jan 2014 12:35:13 +0100
-Message-Id: <17C27E68-3F62-414D-A02A-8AD06ACE0B66@dominion.thruhere.net>
+	Thu, 23 Jan 2014 03:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=U9DzP8/R/pUK2XkeSr8S2x+papjnL+vEaW0vn/JyKTc=;
+	b=VEfHVGf36OzFSCyx3iQ6U8gOmiyBa8I04lPC4WXDN3XHZ2w831zZxz9PVzhBCPgTA4
+	g+chzeIcvwdYzWueuPlcAcrE3Kf+VfA53u0CjVXGc86owYS1HlndUJOKvmJ0YQPcFWCV
+	YMXIppeRBxIpgyXV2RYGOf0xtyUK0aKQ9vBynyvaF5jZ5azFmHptRkq5LaPpE+/utR9P
+	KIjEUbwk98BWhamn79nKQXyc0GUQ+qHd9jn58K/VswoWPgSP+X/YRKtNT8WoMKsI0Lzc
+	cZHMhaAhGULerPq0A/zDeusRSmA+SQ7Nr3SfARgYrEWUiP4L2MmarXF5qrL3FfcWRgOM
+	KZyQ==
+MIME-Version: 1.0
+X-Received: by 10.182.250.163 with SMTP id zd3mr6429312obc.20.1390476969476;
+	Thu, 23 Jan 2014 03:36:09 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 23 Jan 2014 03:36:09 -0800 (PST)
+In-Reply-To: <17C27E68-3F62-414D-A02A-8AD06ACE0B66@dominion.thruhere.net>
 References: <1390467988-25693-1-git-send-email-koen.kooi@linaro.org>
 	<CAP9ODKoU+va9SbCJAfZ4HMkz+==Ec9va0KjJX07c4d4cZ90bjg@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-X-Mailer: Apple Mail (2.1827)
+	<17C27E68-3F62-414D-A02A-8AD06ACE0B66@dominion.thruhere.net>
+Date: Thu, 23 Jan 2014 09:36:09 -0200
+X-Google-Sender-Auth: MzS1ABA9ru0Uy-EqKg6Qsjcp_5w
+Message-ID: <CAP9ODKrUBJJJHTTBkRmq9j+yOrgGyUfX3TC5L69-ynaDbefo0A@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Koen Kooi <koen@dominion.thruhere.net>
 Cc: Koen Kooi <koen.kooi@linaro.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -50,25 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 11:35:02 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 23 Jan 2014 11:36:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Thu, Jan 23, 2014 at 9:35 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>
+> Op 23 jan. 2014, om 12:31 heeft Otavio Salvador <otavio@ossystems.com.br> het volgende geschreven:
+>
+>> On Thu, Jan 23, 2014 at 7:06 AM, Koen Kooi <koen.kooi@linaro.org> wrote:
+>>> This failure was masked by having lz4 installed on the host system :(
+>>>
+>>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+>>
+>> Couldn't it inherit autotools?
+>
+> It's a handcrafted Makefile, not autotools :(
 
-Op 23 jan. 2014, om 12:31 heeft Otavio Salvador =
-<otavio@ossystems.com.br> het volgende geschreven:
+No problem, it works as well.
 
-> On Thu, Jan 23, 2014 at 7:06 AM, Koen Kooi <koen.kooi@linaro.org> =
-wrote:
->> This failure was masked by having lz4 installed on the host system :(
->>=20
->> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
->=20
-> Couldn't it inherit autotools?
+The do_configure checks for configure.ac/configure.in and it avoid you
+to handcraft do_install and like.
 
-It's a handcrafted Makefile, not autotools :(
-
-regards,
-
-Koen=
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
