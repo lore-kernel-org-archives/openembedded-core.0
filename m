@@ -1,33 +1,42 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 143856DC8B
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
+	[74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 719336DC8B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 12:14:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0NCESP6001829
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 Jan 2014 04:14:28 -0800 (PST)
-Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Thu, 23 Jan 2014 04:14:28 -0800
-Message-ID: <52E107AF.4010507@windriver.com>
-Date: Thu, 23 Jan 2014 20:14:39 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Thu, 23 Jan 2014 12:17:37 +0000 (UTC)
+Received: by mail-we0-f170.google.com with SMTP id u57so1058608wes.29
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2014 04:17:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=X4FmgUJVgWY8mAYbffugKEILqY5nPxl6Oft5oeAr8jE=;
+	b=ksVV2Nr4VQdVsYl1l+f6QP8fGhci5tHFXfU9XdROVw5cB41lSY2x5JTd3KeMA6diVv
+	gnTH5MQX8KrBO8tFMFthSnu88bg9RzmnxvBLr8lfEXWw0Ch+9MLwh0GoOXVvrFd4ESXZ
+	wTd8mUnLPP5zl87K2ga8K4Y4bxs+v/waenx2NFDqnWfTjXg/jopCf+Ansywo9mDMIz3+
+	A2Q2l2RlkjnTJfOBeaFiiKfluE4IUM6eYlQKiLlH4oyW40aaSeT2IFnZ6lmlePd07Bke
+	OSAt2cUmsWEHgaRAUe2gf0sVrsiFsVobK2j6Lfx0uCZ/D2HG+80FK7oIs4X/ZQnfSXF9
+	OMvw==
+X-Gm-Message-State: ALoCoQk017PdPAKNcx5WzAIrZH5PTR25rpItzsHekkNSVSMrBbciYGBoju7LP3JxsVA3RyDQPZQ/
+X-Received: by 10.194.86.130 with SMTP id p2mr183630wjz.88.1390479458066;
+	Thu, 23 Jan 2014 04:17:38 -0800 (PST)
+Received: from ?IPv6:2001:610:612:0:5e51:4fff:fec8:7c15?
+	([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id
+	jw4sm21881452wjc.20.2014.01.23.04.17.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 23 Jan 2014 04:17:37 -0800 (PST)
+Message-ID: <52E1085F.3060607@linaro.org>
+Date: Thu, 23 Jan 2014 13:17:35 +0100
+From: Koen Kooi <koen.kooi@linaro.org>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1388992959.git.Qi.Chen@windriver.com>
-	<0522b744ff3e02f6ef1f794294f759ec1f176923.1388992959.git.Qi.Chen@windriver.com>
-	<66190526.u9bvojJavk@peggleto-mobl5.ger.corp.intel.com>
-	<20140117153740.GN3742@jama> <52DC86CD.3040302@windriver.com>
-	<20140120101820.GF5565@jama>
-In-Reply-To: <20140120101820.GF5565@jama>
-X-Originating-IP: [128.224.162.164]
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 2/2] Add missing RDEPENDS of initscripts-functions
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [RFC] 'EFI' machine feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,88 +49,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 12:14:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 23 Jan 2014 12:17:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Martin & Paul,
+Hi,
 
-I've reworked on this issue, and patches have been sent out.
-It would be really appreciated if you could have a look at the patches.
+While working on the ARM support for GRUB I noticed that the EFI support 
+in OE-core is a mess. A lot of it is due to GRUB insisting on its 
+byzantine config/install/skynet system and the rest is due to the 
+EFI==x86 assumption.
 
-Best Regards,
-Chen Qi
+To improve this I'd like to start with adding an 'efi' MACHINE_FEATURE, 
+which will:
 
-On 01/20/2014 06:18 PM, Martin Jansa wrote:
-> On Mon, Jan 20, 2014 at 10:15:41AM +0800, ChenQi wrote:
->> On 01/17/2014 11:37 PM, Martin Jansa wrote:
->>> On Fri, Jan 17, 2014 at 02:11:39PM +0000, Paul Eggleton wrote:
->>>> Hi Qi,
->>>>
->>>> On Monday 06 January 2014 15:27:35 Chen Qi wrote:
->>>>> Now that the initscripts-functions has been packaged separately,
->>>>> packages which may use the functions script should have a runtime
->>>>> dependency on it.
->>>>>
->>>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>>>> ---
->>>>>    meta/recipes-bsp/alsa-state/alsa-state.bb          |    2 +-
->>>>>    meta/recipes-bsp/apmd/apmd_3.2.2-14.bb             |    1 +
->>>>>    .../irda-utils/irda-utils_0.9.18.bb                |    2 ++
->>>>>    .../nfs-utils/nfs-utils_1.2.9.bb                   |    4 ++--
->>>>>    meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    2 +-
->>>>>    meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    1 +
->>>>>    meta/recipes-core/dbus/dbus.inc                    |    2 +-
->>>>>    meta/recipes-core/systemd/systemd_208.bb           |    2 +-
->>>>>    meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    2 +-
->>>>>    meta/recipes-devtools/distcc/distcc_3.1.bb         |    1 +
->>>>>    meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    2 +-
->>>>>    meta/recipes-extended/at/at_3.1.14.bb              |    3 +--
->>>>>    meta/recipes-extended/cronie/cronie_1.4.11.bb      |    2 ++
->>>>>    meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |    2 ++
->>>>>    meta/recipes-extended/sysklogd/sysklogd.inc        |    2 ++
->>>>>    meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    1 +
->>>>>    .../oprofile/oprofileui-server_git.bb              |    2 +-
->>>>>    17 files changed, 22 insertions(+), 11 deletions(-)
->>>> Sorry to come back on this patchset again, but could we not detect
->>>> installation of an initscript requiring these functions in update-rc.d.bbclass
->>>> and just add the RDEPENDS automatically? Otherwise it's just another thing
->>>> people can get wrong when writing a recipe, not to mention all of the existing
->>>> recipes outside OE-Core that install initscripts.
->>> Agreed, my current list of components where I've reverted this (to get
->>> my images building again) is:
->>>
->>> dbus, systemd, apmd, rpcbind, nfs-utils, alsa-state, openssh, ppp,
->>> cronie, irda-utils
->> Hi Martin,
->>
->> Could you please give me some more information why to revert this?
->> I really don't want to mess things up. So I really wish I could be aware
->> of some potential problems before I start working on this.
-> I'm using systemd only, so on my image there aren't sysvinit scripts
-> installed and to make sure that everything stays that way I've
-> blacklisted initscripts recipe in distro configuration.
->
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-January/088116.html
->
-> So including it only when update-rc.d is enabled and the sysvinit script
-> isn't masked by systemd service or disabled by
-> openembedded-core/meta/recipes-core/systemd/systemd-compat-units.bb
-> looks like good compromise.
->
-> Changing it to RRECOMMENDS isn't really
-> correct (because it's either mandatory required or not at all), but it
-> would also make "disabling" it a bit easier.
->
-> Regards,
->
->> Best Regards,
->> Chen Qi
->>
->>> To be fair, it's possible that some of these need it and I just don't
->>> use their script in runtime (e.g. irda-utils is included only in image
->>> on "spitz" MACHINE and I've never used irda here - it's pulled through
->>> some packagegroup because MACHINE_FEATURES have irda)
->>>
+* Mask non-EFI configs like grub-pc/grub-uboot
+* allow PACKAGECONFIG instead of distro/arch/machine overrides in grub2
+* Activate logic in image classes to create a GPT EFI System Partition
 
+Further steps to address EFI support would be:
+
+* integrate gummiboot into OE-core (meta-intel has an old version)
+* deprecate grub-(not really)native
+* create an efi bbclass that does the above ESP dance and knows how to 
+populate it further e.g. grub.cfg and bootloader-spec entries for gummiboot.
+* postinst magic to update bootloader config on kernel upgrade
+
+Opinions/Flames/ACPI rants?
+
+-- 
+Koen Kooi
+Builds and Baselines | Release Manager
+Linaro.org | Open source software for ARM SoCs
 
