@@ -1,39 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
-	[209.85.160.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 365856DC8B
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 22D416DC8B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 12:11:10 +0000 (UTC)
-Received: by mail-yk0-f176.google.com with SMTP id 131so2237775ykp.7
+	Thu, 23 Jan 2014 12:12:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0NCCNEp001781
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 04:11:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=eGsdj8OkOPyGJ3alJLCybrIPbF1iR4Xu/zoFNAqvO7Y=;
-	b=SMICXXz5F9iuDY3eJ1VpEFHLoqrqKUxTDcviaByIBELvLeLOZx0stR+GgA93OI+fVb
-	UllDh6OpfZwqXG//dR6rzSW+LlJfEFsbuYEyDNweztN/PkUHcGoIKJ0mD01gft/olX1Z
-	QQcHoO334yiq0MfBrYDqvGFSq2erQJmfgdgNU2kiB+qp86NemYOlUdqbSFgWkqLXE2+n
-	EaiKRK9AVAyfexDxH+VFOUFDgEa2Fgi5JAh8Wx3dLbRG61Ofp+L5d6yCt7AbkDsKcTDv
-	dcEMhSWoPt9bPzPT7ymq+jm5I6wClCelKWPfnrwXeRG5COVCUi1Cw7L7fncHyjRwM5GZ
-	vdDw==
-X-Received: by 10.236.85.237 with SMTP id u73mr7306279yhe.67.1390479070512;
-	Thu, 23 Jan 2014 04:11:10 -0800 (PST)
-Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id h23sm35374732yhc.0.2014.01.23.04.11.08
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jan 2014 04:11:09 -0800 (PST)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 73F8217B128AA; Thu, 23 Jan 2014 10:11:06 -0200 (BRST)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 10:11:05 -0200
-Message-Id: <1390479065-24299-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.5.3
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] buildhistory.bbclass: Improve robustness in image file listing
+	Thu, 23 Jan 2014 04:12:23 -0800 (PST)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 23 Jan 2014 04:12:23 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Jan 2014 20:12:33 +0800
+Message-ID: <cover.1390479069.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/4] Rework initscripts-functions dependency issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,44 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2014 12:11:11 -0000
+X-List-Received-Date: Thu, 23 Jan 2014 12:12:23 -0000
+Content-Type: text/plain
 
-The filenames sometimes may have strange names. With the 'awk' script
-it handled a limited number of spaces in the filename and a package
-installing a file named "test file with spaces" would have its name
-truncated.
+The following changes since commit c36607b62fa7eef5d0494df5aa77666605559723:
 
-This patch uses the find's printf formating to simplify the code and
-proper handle this case. From a testing image, the only diff produced
-is:
+  Revert "e2fsprogs/populate-extfs.sh: fix a problem on dash" (2014-01-23 10:29:32 +0000)
 
-,----[ files-in-image.txt diff ]
-| --rwxr-xr-x root       root                0 ./usr/bin/test\ file\ with\
-| +-rwxr-xr-x root       root                0 ./usr/bin/test file with spaces
-`----
+are available in the git repository at:
 
-The options used are available since findutils 4.2.5, released in 19
-Nov 2004, making it available in all supported host distributions.
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/initscripts-functions-rework
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/initscripts-functions-rework
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/buildhistory.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Chen Qi (4):
+  Revert "Add missing RDEPENDS of initscripts-functions"
+  update-rc.d: automatically rdepend on initscripts-funtions
+  sysvinit: add initscripts-functions to RDEPENDS
+  initscripts: add initscripts-functions-dev package
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index e9a9c3b..545a42f 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -385,7 +385,7 @@ buildhistory_get_sdk_installed() {
- buildhistory_list_files() {
- 	# List the files in the specified directory, but exclude date/time etc.
- 	# This awk script is somewhat messy, but handles where the size is not printed for device files under pseudo
--	( cd $1 && find . -ls | awk '{ if ( $7 ~ /[0-9]/ ) printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, $7, $11, $12, $13 ; else printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, 0, $10, $11, $12 }' | sort -k5 | sed 's/ *$//' > $2 )
-+	( cd $1 && find . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
- }
- 
- 
+ meta/classes/update-rc.d.bbclass                   |   12 ++++++++++++
+ meta/recipes-bsp/alsa-state/alsa-state.bb          |    2 +-
+ meta/recipes-bsp/apmd/apmd_3.2.2-14.bb             |    1 -
+ .../irda-utils/irda-utils_0.9.18.bb                |    2 --
+ .../nfs-utils/nfs-utils_1.2.9.bb                   |    4 ++--
+ meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    2 +-
+ meta/recipes-connectivity/ppp/ppp_2.4.5.bb         |    1 -
+ meta/recipes-core/dbus/dbus.inc                    |    2 +-
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    4 +++-
+ meta/recipes-core/systemd/systemd_208.bb           |    2 +-
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |    4 ++--
+ meta/recipes-devtools/distcc/distcc_3.1.bb         |    1 -
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb   |    2 +-
+ meta/recipes-extended/at/at_3.1.14.bb              |    3 ++-
+ meta/recipes-extended/cronie/cronie_1.4.11.bb      |    2 --
+ meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |    2 --
+ meta/recipes-extended/sysklogd/sysklogd.inc        |    2 --
+ meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |    1 -
+ .../oprofile/oprofileui-server_git.bb              |    2 +-
+ 19 files changed, 27 insertions(+), 24 deletions(-)
+
 -- 
-1.8.5.3
+1.7.9.5
 
 
