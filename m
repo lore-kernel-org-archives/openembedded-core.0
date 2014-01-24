@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E7126E721
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 012AC6E81B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Jan 2014 10:04:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0OA4Akl019506
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0OA4Bcb018759
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 02:04:10 -0800 (PST)
+	Fri, 24 Jan 2014 02:04:11 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 24 Jan 2014 02:04:10 -0800
+	14.2.347.0; Fri, 24 Jan 2014 02:04:11 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Jan 2014 18:04:20 +0800
-Message-ID: <cover.1390557768.git.Qi.Chen@windriver.com>
+Date: Fri, 24 Jan 2014 18:04:21 +0800
+Message-ID: <120acacab7c2b3a91227da2f8b1ac7c11cfbc7e6.1390557768.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1390557768.git.Qi.Chen@windriver.com>
+References: <cover.1390557768.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/5] Fixes for run-postinsts
+Subject: [PATCH 1/5] run-postinsts: remove the init script after a clean start-up
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +36,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 24 Jan 2014 10:04:11 -0000
 Content-Type: text/plain
 
-This patchset is target to making run-postinsts work on systemd based images
-no matter 'package-management' is in IMAGE_FEATURES or not.
+If we enable ipk/deb package back-end, and we have 'package-management'
+in our IMAGE_FEATURES, then the /etc/rcS.d/S99run-postinsts would
+still exist in our system after a clean start-up.
 
-//Chen Qi
+The initial design for run-postinsts requires the related init script
+to be removed if there's no more post-install script left in the system.
 
-The following changes since commit 24d5b449e5f4d91119f0d8e13c457618811aadfc:
+This patch fixes this problem.
 
-  libtool-cross/native: Force usage of bash due to sstate inconsistencies (2014-01-23 12:14:34 +0000)
+[YOCTO #5718]
 
-are available in the git repository at:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ .../run-postinsts/run-postinsts/run-postinsts      |   15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/postinsts-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/postinsts-fixes
-
-Chen Qi (2):
-  run-postinsts: remove the init script after a clean start-up
-  dpkg: use systemd service for first boot configuration
-
-Ross Burton (3):
-  run-postinsts: Add systemd service file
-  systemd-compat-units: remove run-postints service
-  image.bbclass: fix paths to run-postinsts
-
- meta/classes/image.bbclass                         |    4 ++--
- meta/recipes-core/systemd/systemd-compat-units.bb  |   19 +----------------
- meta/recipes-devtools/dpkg/dpkg.inc                |   21 +++++++++++++++++--
- .../dpkg/dpkg/dpkg-configure.service               |   17 +++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.17.4.bb          |    1 +
- .../run-postinsts/run-postinsts/run-postinsts      |   15 +++++++++----
- .../run-postinsts/run-postinsts/run-postinsts.init |    3 +++
- .../run-postinsts}/run-postinsts.service           |    8 +++----
- .../run-postinsts/run-postinsts_1.0.bb             |   22 ++++++++++++++++----
- 9 files changed, 76 insertions(+), 34 deletions(-)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
- create mode 100644 meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.init
- rename meta/{recipes-core/systemd/systemd-compat-units => recipes-devtools/run-postinsts/run-postinsts}/run-postinsts.service (63%)
-
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+index c94c3e9..11141ec 100755
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+@@ -16,7 +16,16 @@ for pm in rpm deb ipk; do
+ 	fi
+ done
+ 
+-[ -z "$pi_dir" ] && exit 0
++remove_rcsd_link () {
++	if [ -n "`which update-rc.d`" ]; then
++		update-rc.d -f run-postinsts remove
++	fi
++}
++
++if [ -z "$pi_dir" ]; then
++	remove_rcsd_link
++	exit 0
++fi
+ 
+ [ -e #SYSCONFDIR#/default/postinst ] && . #SYSCONFDIR#/default/postinst
+ 
+@@ -43,7 +52,5 @@ done
+ # and the rcS.d link
+ if [ $remove_pi_dir = 1 ]; then
+ 	rm -rf $pi_dir
+-	if [ -n "`which update-rc.d`" ]; then
+-		update-rc.d -f run-postinsts remove
+-	fi
++	remove_rcsd_link
+ fi
 -- 
 1.7.9.5
 
