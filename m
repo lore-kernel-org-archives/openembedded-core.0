@@ -1,41 +1,41 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-gg0-f172.google.com (mail-gg0-f172.google.com
-	[209.85.161.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F2976E947
+Received: from mail-gg0-f182.google.com (mail-gg0-f182.google.com
+	[209.85.161.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C3BB86E938
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Jan 2014 01:26:29 +0000 (UTC)
-Received: by mail-gg0-f172.google.com with SMTP id x14so761034ggx.31
+Received: by mail-gg0-f182.google.com with SMTP id e27so761870gga.13
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 23 Jan 2014 17:26:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=q0RY9OiDiW8s3x/juij8uykdWRW1z/Nijs5wBRAlhcQ=;
-	b=vd6VCEKxh7taT4vOvdsFSYmU/rkSGnIIsq1ByBmYV5HcORzmhruKnV1P51/01jyS0/
-	AZU8QPOSueqC+yijf91IYhnUDQZwRXNwpibWuF8T9O+z8glzj3Zn3BGKYkoh24TIA0XK
-	635c5lHXNH7IMN4oZX1sMe1d/8NOe/gW0V8IniUwqaFhY/P4SiNr3N7/PTNnxHjDZNss
-	DkUL6I2VgfX1RVxFA0iHQsqTXSHLg+qPuBAg4ejG3sJLvn6OveRkSkvHqiPdkc+EVzgT
-	vTy8LbN9CiYufB7rr4vAmUfkgpG0DuAFQR1ejwAlDJuD1s8svGAChO2Yeqm53ti26JZX
-	/NkA==
-X-Received: by 10.236.87.239 with SMTP id y75mr10430216yhe.50.1390526790073;
+	:organization; bh=57dx8d4MfZl78aixj/vr8cw8QwBC+B/IGAWFOi20ONY=;
+	b=l2yX9KlUscsIUpaj6QmJIBXB2gslCPNJT/ug1cfYFP8RYSIrQEm2QIXnXtLOfU5XMy
+	7S5mzQLAHoTkpjkcdGqCPqLwxh2puovJuNWS7zpvQ/Lv25CXM9tz8QBGF80C2UTFT9UQ
+	AkZSWJzEPzEtxl/jNt5gNXkFgKXVcI426dEuCXUdIakLpzLvrEqmbWUAg6Ar9fWQtea2
+	e0C7iBTdKTVGtjMnwUdt2aCXzuK6iY/L83G27BslABke1EIqOyBJrT8ep0UYZFlxnC48
+	mYIlBUmg5BfQJuOU3lpaabjC26FZWpTjoGE7fse3EKmW8vDNkZLQMPmyOPRwHCwu9mu9
+	ILmg==
+X-Received: by 10.236.131.19 with SMTP id l19mr10324231yhi.0.1390526790877;
 	Thu, 23 Jan 2014 17:26:30 -0800 (PST)
 Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id
-	o27sm42493872yhb.19.2014.01.23.17.26.25 for <multiple recipients>
+	by mx.google.com with ESMTPSA id d7sm42526409yhd.24.2014.01.23.17.26.26
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Thu, 23 Jan 2014 17:26:27 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 1BB9A17BF8CFB; Thu, 23 Jan 2014 23:26:19 -0200 (BRST)
+	id 1E9CC17BF8CFD; Thu, 23 Jan 2014 23:26:19 -0200 (BRST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 23:26:12 -0200
-Message-Id: <1390526775-26036-9-git-send-email-otavio@ossystems.com.br>
+Date: Thu, 23 Jan 2014 23:26:13 -0200
+Message-Id: <1390526775-26036-10-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
 References: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [meta-fsl-arm][PATCH v3 08/11] libfslcodec: Enable/disable the VPU support based on SoC
+Subject: [meta-fsl-arm][PATCH v3 09/11] libfslcodec: Add 'test-bin' and 'test-sources' packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,39 +48,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 01:26:29 -0000
+X-List-Received-Date: Fri, 24 Jan 2014 01:26:30 -0000
 
-This enables the VPU support for all SoCs but MX23, MX28 and MX6SL.
+Add the libfslcodec-test-bin (with built binaries for testing) and
+libfslcodec-test-sources (with testing applications source code).
 
-Change-Id: I82bc80b4540ed2a83aeb2ac4545b47f3e7e37d9b
+Change-Id: Ic785fb73852530f98e4b4e238d67ee0ffbd3cfea
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- recipes-multimedia/libfslcodec/libfslcodec.inc | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ recipes-multimedia/libfslcodec/libfslcodec.inc | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/recipes-multimedia/libfslcodec/libfslcodec.inc b/recipes-multimedia/libfslcodec/libfslcodec.inc
-index aa5282c..35fc713 100644
+index 35fc713..a935341 100644
 --- a/recipes-multimedia/libfslcodec/libfslcodec.inc
 +++ b/recipes-multimedia/libfslcodec/libfslcodec.inc
-@@ -1,4 +1,4 @@
--# Copyright (C) 2012-2013 Freescale Semiconductor
-+# Copyright (C) 2012-2014 Freescale Semiconductor
- # Released under the MIT license (see COPYING.MIT for the terms)
- DESCRIPTION = "Freescale Multimedia codec libs"
- LICENSE = "Proprietary"
-@@ -20,6 +20,12 @@ ALLOW_EMPTY_${PN}-meta = "1"
- # Choose between Soft Float-Point and Hard Float-Point
- EXTRA_OECONF = "${@bb.utils.contains('TUNE_FEATURES', 'callconvention-hard', '--enable-fhw', '', d)}"
+@@ -12,7 +12,7 @@ SRC_URI = "${FSL_MIRROR}/${PN}-${PV}.bin;fsl-eula=true"
+ PACKAGES_DYNAMIC = "${PN}-*"
+ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
  
-+# VPU Hardware acceleration
-+VPU_SUPPORT = "--enable-vpu"
-+VPU_SUPPORT_mx6sl = "--disable-vpu"
-+VPU_SUPPORT_mxs = "--disable-vpu"
-+EXTRA_OECONF += "${VPU_SUPPORT}"
+-PACKAGES += "${PN}-meta"
++PACKAGES += "${PN}-meta ${PN}-test-bin ${PN}-test-source"
+ 
+ ALLOW_EMPTY_${PN} = "1"
+ ALLOW_EMPTY_${PN}-meta = "1"
+@@ -36,8 +36,6 @@ do_install_append() {
+     done
+     rmdir ${D}${libdir}/imx-mm/video-codec
+ 
+-	# FIXME: Drop examples
+-	rm -r ${D}${datadir}/imx-mm
+ }
+ 
+ python populate_packages_prepend() {
+@@ -57,6 +55,8 @@ python populate_packages_prepend() {
+     # Allow addition of all codecs in a image; useful specially for
+     # debugging.
+     codec_pkgs = oe.utils.packages_filter_out_system(d)
++    codec_pkgs = filter(lambda x: x not in ['libfslcodec-test-bin', 'libfslcodec-test-source'],
++                        codec_pkgs)
+     d.appendVar('RDEPENDS_libfslcodec-meta', ' ' + ' '.join(codec_pkgs))
+ }
+ 
+@@ -67,6 +67,12 @@ FILES_${PN}-dev += "${libdir}/imx-mm/*/*${SOLIBSDEV} \
+                     ${libdir}/imx-mm/*/*/*${SOLIBSDEV} \
+                     ${libdir}/pkgconfig/*.pc ${includedir}/imx-mm/*"
+ 
++# FIXME: -test-bin includes the DUT .so files so we need to deploy those
++INSANE_SKIP_${PN}-test-bin_append = " libdir"
++FILES_${PN}-test-bin += "${datadir}/imx-mm/*/examples/*/bin"
 +
- do_install_append() {
- 	# FIXME: This link points to nowhere
- 	rm ${D}${libdir}/imx-mm/audio-codec/lib_src_ppp_arm11_elinux.so
++FILES_${PN}-test-source += "${datadir}/imx-mm/*"
++
+ # FIXME: The wrap and lib names does not match
+ FILES_${PN}-oggvorbis += "${libdir}/imx-mm/audio-codec/wrap/lib_vorbisd_wrap_arm*_elinux.so.*"
+ 
 -- 
 1.8.5.3
 
