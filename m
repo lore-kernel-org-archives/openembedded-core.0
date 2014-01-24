@@ -1,28 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 283AB610F6
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
+	[209.85.219.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CA69560E7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 01:38:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0O1c6Lw004243
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 24 Jan 2014 01:46:15 +0000 (UTC)
+Received: by mail-oa0-f43.google.com with SMTP id h16so3118581oag.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 17:38:06 -0800 (PST)
-Received: from [128.224.162.164] (128.224.162.164) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Thu, 23 Jan 2014 17:38:05 -0800
-Message-ID: <52E1C40A.1020601@windriver.com>
-Date: Fri, 24 Jan 2014 09:38:18 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Thu, 23 Jan 2014 17:46:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:content-type;
+	bh=wr+A6H2K45j8oQz8/0D/mGT9O/eE1QjBn4XQ1SkJrjg=;
+	b=hJiijFef0O9vA6HBTrqck1JwfzwPdue/nXzs6egMGcpQR+ejHatQ/Agy1cbiu4Kc2S
+	aJwOGHLaCdbLLmuBHt5XbFvtMt+zQrWKLi3j8aZ2mhYotKAjGqmrZAgbumWPsPTgof0m
+	QEC0xnHkVqJX5/OoeNz4+UGblxkeUqWgVKflflG0lJ8zUWKtWdy7mATWIbmjYt7CqOgy
+	ck22TKfrChngS+3O1e1EBS8wNkXGDa7FFO+UBS4EhxpyOByRghlFuVuJsMIko8k7wM3Z
+	T8LjRlGMhksYZPErHzZRFBrMO7UYt9GXVMjA4sdR6UV/ep5JnKq1vGkqWr6xiL302Roc
+	1Npg==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CADV-EXE1HK6Qrg9ksCxdrEzvGEnBiAPFtoy4B967Jr1axtofTQ@mail.gmail.com>
-In-Reply-To: <CADV-EXE1HK6Qrg9ksCxdrEzvGEnBiAPFtoy4B967Jr1axtofTQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.164]
-Subject: Re: update-alternatives: symlinks are not created
+X-Received: by 10.182.84.132 with SMTP id z4mr9978272oby.49.1390527976572;
+	Thu, 23 Jan 2014 17:46:16 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 23 Jan 2014 17:46:16 -0800 (PST)
+In-Reply-To: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
+References: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
+Date: Thu, 23 Jan 2014 23:46:16 -0200
+X-Google-Sender-Auth: ako2VyIthztKMcg7PnJluhzQQWw
+Message-ID: <CAP9ODKq7g-VRdie+6XyT1sxfc8KmkFgnKHKgV2=_3RoSmYArCg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-fsl-arm][PATCH v3 00/11] Freescale 3.10.17-1.0.0-beta - part 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 01:38:07 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Jan 2014 01:46:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 01/24/2014 08:48 AM, Yevhen Kyriukha wrote:
-> I've built custom image with busybox included and noticed that
-> symlinks for mkdir, ls, rm and other programs are not created.
+Hello,
+
+On Thu, Jan 23, 2014 at 11:26 PM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> I did some small fixes that I found during test at O.S. Systems'
+> autobuilder and I dropped some fixes that were pushed to master (as
+> you've probably noticed from the e-mail to the mailing list).
 >
-> In do_rootfs log I have the following error messages:
-> ...
-> update-alternatives: error: alternative path /bin/busybox.suid doesn't exist
-> ...
-> update-alternatives: error: alternative path /bin/busybox.nosuid doesn't exist
-> ...
+> I am awaiting people's feedback for the patches as this upgrades
+> package versions and we should have a better test coverage.
 >
+> Please give a try in the 'master-next' branch and comment in anything
+> that could be improved in the patches. All comments are welcome...
 
-I encountered the same problem.
-The above error is because we're using update-alternatives from host.
-It seems to be caused by recent changes about 
-opkg/opkg-utils/update-alternatives.
+Sorry, I ended sending it to this mailing list by mistake.
 
-I used the following steps to work around it.
-bitbake opkg-utils-native -cpopulate_sysroot -f
-bitbake <your-image> -crootfs -f
+I will send it to the proper mailing list...
 
-//Chen Qi
+Sorry for the noise...
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
