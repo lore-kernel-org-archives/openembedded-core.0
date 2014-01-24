@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ECAD96E721
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A76416E8D4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 10:04:11 +0000 (UTC)
+	Fri, 24 Jan 2014 10:04:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0OA4D3V019518
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0OA4EIL018762
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 02:04:13 -0800 (PST)
+	Fri, 24 Jan 2014 02:04:14 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 24 Jan 2014 02:04:12 -0800
+	14.2.347.0; Fri, 24 Jan 2014 02:04:13 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Jan 2014 18:04:22 +0800
-Message-ID: <f834d10bac02c65e57fe63ed8b57b579a6164bf0.1390557768.git.Qi.Chen@windriver.com>
+Date: Fri, 24 Jan 2014 18:04:23 +0800
+Message-ID: <7c1d7a02ead7fea9d78d4cf75ce0661b400e1f52.1390557768.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1390557768.git.Qi.Chen@windriver.com>
 References: <cover.1390557768.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] run-postinsts: Add systemd service file
+Subject: [PATCH 3/5] systemd-compat-units: remove run-postints service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,106 +33,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 10:04:12 -0000
+X-List-Received-Date: Fri, 24 Jan 2014 10:04:14 -0000
 Content-Type: text/plain
 
 From: Ross Burton <ross.burton@intel.com>
 
-This patch mainly adds a systmd service file for run-postinsts,
-which is started at first boot to run the post-install scripts.
-
-Apart from this, this patch also modifies the installation location
-of run-postinsts to ${sbindir}. This is because this script would be
-used by both sysvinit and systemd based images. So it's more reasonable
-to make it locate under ${sbindir}.
+Remove this service as it's moved to the run-postinsts recipe.
 
 [YOCTO #5719]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../run-postinsts/run-postinsts/run-postinsts.init |    3 +++
- .../run-postinsts/run-postinsts.service            |   17 +++++++++++++++
- .../run-postinsts/run-postinsts_1.0.bb             |   22 ++++++++++++++++----
- 3 files changed, 38 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.init
- create mode 100644 meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
+ meta/recipes-core/systemd/systemd-compat-units.bb  |   19 +------------------
+ .../systemd-compat-units/run-postinsts.service     |   17 -----------------
+ 2 files changed, 1 insertion(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
 
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.init b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.init
-new file mode 100644
-index 0000000..473a1f7
---- /dev/null
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.init
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+run-postinsts
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-new file mode 100644
-index 0000000..822327a
---- /dev/null
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts.service
-@@ -0,0 +1,17 @@
-+[Unit]
-+Description=Run pending postinsts
-+DefaultDependencies=no
-+After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
-+Before=sysinit.target
-+ConditionPathExistsGlob=#SYSCONFDIR#/*-postinsts
-+
-+[Service]
-+Type=oneshot
-+ExecStart=#SBINDIR#/run-postinsts
-+ExecStartPost=#BASE_BINDIR#/systemctl disable run-postinsts.service
-+RemainAfterExit=No
-+TimeoutSec=0
-+
-+[Install]
-+WantedBy=basic.target
-+WantedBy=sysinit.target
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-index 03989ab..64f85c2 100644
---- a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-@@ -5,12 +5,16 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d690 \
-                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
+index d8cc3f7..e653470 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units.bb
++++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+@@ -9,17 +9,7 @@ DEPENDS = "systemd-systemctl-native"
  
--SRC_URI = "file://run-postinsts"
-+SRC_URI = "file://run-postinsts \
-+           file://run-postinsts.init \
-+           file://run-postinsts.service"
-+
-+inherit allarch systemd update-rc.d
+ inherit allarch
  
- INITSCRIPT_NAME = "run-postinsts"
- INITSCRIPT_PARAMS = "start 99 S ."
+-SRC_URI = "file://*.service"
+-
+-do_install() {
+-	install -d ${D}${systemd_unitdir}/system/basic.target.wants
+-	install -d ${D}${systemd_unitdir}/system/sysinit.target.wants/
+-	sed -i -e 's,@POSTINSTALL_INITPOSITION@,${POSTINSTALL_INITPOSITION},g' \
+-			${WORKDIR}/run-postinsts.service
+-	install -m 0644 ${WORKDIR}/run-postinsts.service ${D}${systemd_unitdir}/system
+-	ln -sf ../run-postinsts.service ${D}${systemd_unitdir}/system/basic.target.wants/
+-	ln -sf ../run-postinsts.service ${D}${systemd_unitdir}/system/sysinit.target.wants/
+-}
++ALLOW_EMPTY_${PN} = "1"
  
--inherit update-rc.d
-+SYSTEMD_SERVICE_${PN} = "run-postinsts.service"
- 
- do_configure() {
- 	:
-@@ -21,8 +25,18 @@ do_compile () {
+ SYSTEMD_DISABLED_SYSV_SERVICES = " \
+   busybox-udhcpc \
+@@ -47,11 +37,4 @@ pkg_postinst_${PN} () {
+ 	done ; echo
  }
  
- do_install() {
-+	install -d ${D}${sbindir}
-+	install -m 0755 ${WORKDIR}/run-postinsts ${D}${sbindir}/
-+
- 	install -d ${D}${sysconfdir}/init.d/
--	install -m 0755 ${WORKDIR}/run-postinsts ${D}${sysconfdir}/init.d/
-+	install -m 0755 ${WORKDIR}/run-postinsts.init ${D}${sysconfdir}/init.d/run-postinsts
-+
-+	install -d ${D}${systemd_unitdir}/system/
-+	install -m 0644 ${WORKDIR}/run-postinsts.service ${D}${systemd_unitdir}/system/
- 
--	sed -i -e 's:#SYSCONFDIR#:${sysconfdir}:g' ${D}${sysconfdir}/init.d/run-postinsts
-+	sed -i -e 's:#SYSCONFDIR#:${sysconfdir}:g' \
-+               -e 's:#SBINDIR#:${sbindir}:g' \
-+               -e 's:#BASE_BINDIR#:${base_bindir}:g' \
-+               ${D}${sbindir}/run-postinsts \
-+               ${D}${systemd_unitdir}/system/run-postinsts.service
- }
+-FILES_${PN} = "${systemd_unitdir}/system ${bindir}"
+ RDPEPENDS_${PN} = "systemd"
+-
+-# Define a variable to allow distros to run configure earlier.
+-# (for example, to enable loading of ethernet kernel modules before networking starts)
+-# note: modifying name or default value for POSTINSTALL_INITPOSITION requires
+-# changes in opkg.inc
+-POSTINSTALL_INITPOSITION ?= "98"
+diff --git a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service b/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
+deleted file mode 100644
+index 35cf3d3..0000000
+--- a/meta/recipes-core/systemd/systemd-compat-units/run-postinsts.service
++++ /dev/null
+@@ -1,17 +0,0 @@
+-[Unit]
+-Description=Run pending postinsts
+-DefaultDependencies=no
+-ConditionPathExists=|/etc/rcS.d/S@POSTINSTALL_INITPOSITION@run-postinsts
+-After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
+-Before=sysinit.target
+-
+-[Service]
+-ExecStart=/etc/rcS.d/S@POSTINSTALL_INITPOSITION@run-postinsts
+-RemainAfterExit=No
+-Type=oneshot
+-StandardOutput=syslog
+-TimeoutSec=0
+-
+-[Install]
+-WantedBy=basic.target
+-WantedBy=sysinit.target
 -- 
 1.7.9.5
 
