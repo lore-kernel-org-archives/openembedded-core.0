@@ -1,34 +1,42 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id C7B146D89A
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id D8E486D89A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 07:57:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Jan 2014 23:57:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,711,1384329600"; d="scan'208";a="470105819"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Jan 2014 23:57:07 -0800
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.215]) by
-	IRSMSX102.ger.corp.intel.com ([169.254.2.210]) with mapi id
-	14.03.0123.003; Fri, 24 Jan 2014 07:57:05 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Paul Barker <paul@paulbarker.me.uk>, Philip Balister <philip@balister.org>
-Thread-Topic: [OE-core] Berkeley DB fails to build
-Thread-Index: AQHPGDE37H6zTKJoekes/I2ebM5Te5qSl/0AgAASngCAANgV4A==
-Date: Fri, 24 Jan 2014 07:57:04 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CE5DFE@IRSMSX105.ger.corp.intel.com>
-References: <52E10247.8050700@pseudoterminal.org>
-	<52E15760.8050606@balister.org>
-	<CANyK_8f__Lh=1VqfEb7YwNHZ=Cvy561J1aDMYgmoDtQT2w7QBA@mail.gmail.com>
-In-Reply-To: <CANyK_8f__Lh=1VqfEb7YwNHZ=Cvy561J1aDMYgmoDtQT2w7QBA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Fri, 24 Jan 2014 08:51:33 +0000 (UTC)
+Received: by mail-la0-f46.google.com with SMTP id b8so2308056lan.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jan 2014 00:51:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=LL7W+f35QYQVJQirFiO7gCMTI3rUS8jVZu9ONpcoTVo=;
+	b=cZPuG/GfhzRf9INX6SKVHmlxe4jXnGPr2yDo1EQtgAFgz6R5ksQHTZ1Ea9NtAngU7U
+	+luuWuY3Ry/WaLY6SArYzBv/DuM6FnpCLXfXd5xgREebitsOwgizToRYKPYUbJ6xojv+
+	Tsdce7g4UdyrNIxUGyX372vGxuQpHYHmvekCL6yBTIpihgFVMFvY9jpfJMnuAYY9K/Ju
+	natKQ3Otri3DXDy77cMk0kXYuRUrUJMuD7wUd1QaWwemnVtH51JGIzaTMHoPBQAjRRMJ
+	bvQhelFiWavo+dOtn9LJ49q6Jo6qOY17RFWUOv8ZUFTnKrLC3zrYaXFDTcqUxEKNgJik
+	VgGQ==
+X-Received: by 10.112.26.74 with SMTP id j10mr1965329lbg.10.1390553493853;
+	Fri, 24 Jan 2014 00:51:33 -0800 (PST)
+Received: from [10.59.1.149] (i59F7884F.versanet.de. [89.247.136.79])
+	by mx.google.com with ESMTPSA id cu8sm270978lbb.12.2014.01.24.00.51.31
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 24 Jan 2014 00:51:32 -0800 (PST)
+Message-ID: <52E22984.8010000@gmail.com>
+Date: Fri, 24 Jan 2014 09:51:16 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Berkeley DB fails to build
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1390403335-14487-1-git-send-email-david.nystrom@enea.com>	<CAP9ODKr4WxcPVkxGMR+ZZ98b6mLbmUyr9Qs=BWe-S5HVJSn=hg@mail.gmail.com>	<52E007CC.5070405@gmail.com>	<CAP9ODKpAQDTg-UV-vR4419Q+6zvt=xNL=Wo5dH+feQi4wsWiGQ@mail.gmail.com>	<52E0D539.9090402@gmail.com>
+	<CAP9ODKqD-Xe4emQY8t6s4i_kbVGZFh4+2_y7h4+qiYfH_eSzVA@mail.gmail.com>
+In-Reply-To: <CAP9ODKqD-Xe4emQY8t6s4i_kbVGZFh4+2_y7h4+qiYfH_eSzVA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 1/2] postinst-intercept: New recipe to include postinstall intercepts in nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,69 +49,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 07:57:09 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Jan 2014 08:51:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Carlos, Paul,
-
-If the issue is still reproducible, can you please open an issue on the bug=
-tracker?
-And add also the info that you have found?
-That is, if you didn't already opened a bug.
-
-Thanks,
-Cristian Iorga
-YP
-Intel
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Paul Barker
-Sent: Thursday, January 23, 2014 9:01 PM
-To: Philip Balister
-Cc: openembedded-core
-Subject: Re: [OE-core] Berkeley DB fails to build
-
-On 23 January 2014 17:54, Philip Balister <philip@balister.org> wrote:
-> On 01/23/2014 06:51 AM, Carlos Rafael Giani wrote:
->> Hello,
+On 2014-01-23 11:56, Otavio Salvador wrote:
+> On Thu, Jan 23, 2014 at 6:39 AM, David Nyström
+> <david.c.nystrom@gmail.com> wrote:
+>> On ons 22 jan 2014 19:11:21, Otavio Salvador wrote:
+>>>
+>>> On Wed, Jan 22, 2014 at 4:02 PM, David Nyström
+>>> <david.c.nystrom@gmail.com> wrote:
+>>>>
+>>>> On ons 22 jan 2014 16:47:06, Otavio Salvador wrote:
+>>>>>
+>>>>>
+>>>>> On Wed, Jan 22, 2014 at 1:08 PM, David Nyström
+>>>>> <david.c.nystrom@gmail.com> wrote:
+>>>>>>
+>>>>>>
+>>>>>> Adding ability to use postinstalls intercepts in the nativesdk env, and
+>>>>>> making sure the correlate between repo + SDK.
+>>>>>>
+>>>>>> This to enable rootfs generation from a package repository using only a
+>>>>>> package repository and the toolchain tarball.
+>>>>>>
+>>>>>> See https://github.com/nysan/rootfs-sandbox for examples.
+>>>>>>
+>>>>>> Signed-off-by: David Nyström <david.nystrom@enea.com>
+>>>>>
+>>>>>
+>>>>>
+>>>>> Much better. Thanks.
+>>>>>
+>>>>> Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
+>>>>>
+>>>>> Regarding the rootfs-sandbox, how are you intending to proper
+>>>>> integrate it with the toolchain?
+>>>>>
+>>>>
+>>>> Search the oe-core list for the previous discussions with Tom Zanussi.
+>>>> I believe the long term goals is to redo rootfs_*.bbclass in python, and
+>>>> let
+>>>> both bitbake and MIC(WIC) use
+>>>> the same code for image creation.(SDK env + bitbake env.)
+>>>>
+>>>> I'm fine with continued dev/inclusion of rootfs-sandbox, but I think that
+>>>> might not be acceptable as a long term solution since
+>>>> it may be maintenance heavy, since it uses alot of oe-core internal env.
+>>>> vars.
+>>>>
+>>>> Possible routes are:
+>>>> 1. Use common code for rootfs assembly. (WIC)
+>>>> 2. Cleanup env. var. usage in postinstall hooks, and be aggressive in
+>>>> denying new additions. (Continue dev. on rootfs-sandbox)
+>>>>
+>>>> Off-topic:
+>>>> With above patches, I'm down to 1 postinstall failures for
+>>>> packagegroup-core-lsb:
+>>>> 1. missing shlibsign, (nss), cant get the damn thing to compile for
+>>>> nativesdk yet.
+>>>>
+>>>> There are 2 other failures as well, but they fail when bitbake:ing as
+>>>> well.
+>>>> Only works well with ipk sofar.
+>>>
+>>>
+>>> So I think we ought to work on this in a layer and put things in
+>>> OE-Core when it is ready.
+>>>
+>>> What do you think?
+>>>
 >>
->> I noticed that since the C++ bindings for the berkeley DB were=20
->> included in commit 23f29027db73d5759889b48fabdea7f6173217a7 , I=20
->> cannot build db anymore.
->> The error is:
+>> Sorry, read your mail again, I think I misunderstood.
+>> For rootfs-sandbox I agree, this is WIP.
 >>
->>     /usr/lib/libstdc++.so: file not recognized: File format not=20
->> recognized
->>
->> this is the offending part in the log.do_compile file:
+>> I suspect that others already have these features, and regardless of WIC or
+>> rootfs-sandbox or other.
+>> they will need the same functionality exposed in the SDK.
+>> We are working on the same thing here, and as such, I think the small pieces
+>> needed to do this should be centralized in oe-core so
+>> we can cooperate around them, and define interfaces between the SDK and
+>> bitbake env in an open environment.
 >
-> What distro is your build machine running? I've this from people using=20
-> Arch Linux.
+> I agree with the principle but I think we can accomplish the same with
+> a layer, if properly announced and put in layer index.
 >
+> The reason I dislike this WIP to be in OE-Core is that implementation
+> starts to be considered stable and people and projects starts to
+> depends on it so changing it radically is hard as we need to carry
+> backward compatibility.
 
-I've tracked this down to libtool replacing '-lstdc++' with an explicit ref=
-erence to '/usr/lib/libstdc++.so' before it runs ld. So it's libtool not ld=
- at fault here. I did look at the recipe for Berkeley db and spotted that i=
-t overrides do_configure, allowing the shipped copies of libtool and relate=
-d files to be used rather than running the autoreconf stuff that replaces t=
-hem. That's my understanding at least.
+We  need to carry backward compatibility ?.
 
-At that point I ran away and reverted the commit in question locally as lib=
-tool terrifies me and I don't need the c++ bindings myself!
+In a stable branch I would agree to this, but not in master.
 
-Sorry I can't be more help but I hope that points someone in the right dire=
-ction.
+When the sstate was introduced and developed, you mean it never broke 
+the ABI from then till now ?
+Buildhistory DB ABI, license report formats, build output directory 
+renaming, naming conventions never broke the ABI ?
 
---
-Paul Barker
+Can you give any other examples of where new functionality additions 
+were rejected due to the non-stable clause ?
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Don't take me wrong, I do think this is important and I do think this
+> ought to be in OE-Core but I am unsure about it being mature enough
+> for it.
+
+This will be a quite minimal layer containing these 2 patches, and one 
+more upcoming nativesdk-nss patch.
+
+
 
