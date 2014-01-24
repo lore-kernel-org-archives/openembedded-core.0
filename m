@@ -1,26 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A5326E721
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 32CC56E764
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 10:04:16 +0000 (UTC)
+	Fri, 24 Jan 2014 10:18:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0OA4HE0018765
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 02:04:17 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.164) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 24 Jan 2014 02:04:17 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Jan 2014 18:04:25 +0800
-Message-ID: <9c10c09425172cc9ee22d662bc0c1aeabfcaf635.1390557768.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1390557768.git.Qi.Chen@windriver.com>
-References: <cover.1390557768.git.Qi.Chen@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0OAIdBu021248
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 Jan 2014 02:18:39 -0800 (PST)
+Received: from [128.224.162.226] (128.224.162.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 24 Jan 2014 02:18:39 -0800
+Message-ID: <52E23DFD.50204@windriver.com>
+Date: Fri, 24 Jan 2014 18:18:37 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-Subject: [PATCH 5/5] dpkg: use systemd service for first boot configuration
+To: Paul Barker <paul@paulbarker.me.uk>, Philip Balister <philip@balister.org>
+References: <52E10247.8050700@pseudoterminal.org>	<52E15760.8050606@balister.org>
+	<CANyK_8f__Lh=1VqfEb7YwNHZ=Cvy561J1aDMYgmoDtQT2w7QBA@mail.gmail.com>
+In-Reply-To: <CANyK_8f__Lh=1VqfEb7YwNHZ=Cvy561J1aDMYgmoDtQT2w7QBA@mail.gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Berkeley DB fails to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,101 +35,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 10:04:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Jan 2014 10:18:51 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Use a systemd service file for first boot configuration for dpkg
-based images which has 'package-management' in its IMAGE_FEATURES.
 
-[YOCTO #5719]
+Seems that it is caused by the libtool, but I'm not very sure, we can
+reproduce it by:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/dpkg/dpkg.inc                |   21 ++++++++++++++++++--
- .../dpkg/dpkg/dpkg-configure.service               |   17 ++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.17.4.bb          |    1 +
- 3 files changed, 37 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
+$ sudo touch /usr/lib/libstdc++.so
+$ bitbake db
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 0ccfd74..044a8eb 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -14,7 +14,13 @@ S = "${WORKDIR}/${BPN}-${PV}"
- 
- PARALLEL_MAKE = ""
- 
--inherit autotools gettext perlnative pkgconfig
-+inherit autotools gettext perlnative pkgconfig systemd
-+
-+python () {
-+    if not oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-+        pn = d.getVar('PN', True)
-+        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'dpkg-configure.service')
-+}
- 
- export PERL = "${bindir}/perl"
- PERL_class-native = "${STAGING_BINDIR_NATIVE}/perl-native/perl"
-@@ -48,11 +54,22 @@ do_install_append () {
- 		mv ${D}${bindir}/update-alternatives ${D}${sbindir}
- 		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
- 	fi
-+
-+	if ${@base_contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
-+		install -d ${D}${systemd_unitdir}/system
-+		install -m 0644 ${WORKDIR}/dpkg-configure.service ${D}${systemd_unitdir}/system/
-+		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-+			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
-+			-e 's,@BINDIR@,${bindir},g' \
-+			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
-+			${D}${systemd_unitdir}/system/dpkg-configure.service
-+	fi
- }
- 
- pkg_postinst_${PN} () {
- #!/bin/sh
--if [ "x$D" != "x" ] && [ -f $D/var/lib/dpkg/status ]; then
-+if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)} && \
-+	[ "x$D" != "x" ] && [ -f $D/var/lib/dpkg/status ]; then
- 	install -d $D${sysconfdir}/rcS.d
- 
- 	# this happens at S98 where our good 'ole packages script used to run
-diff --git a/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
-new file mode 100644
-index 0000000..f0b0789
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/dpkg-configure.service
-@@ -0,0 +1,17 @@
-+[Unit]
-+Description=dpkg first boot configure
-+DefaultDependencies=no
-+After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
-+Before=sysinit.target
-+
-+[Service]
-+Type=oneshot
-+EnvironmentFile=-@SYSCONFDIR@/default/postinst
-+ExecStart=-@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/dpkg --configure -a > $LOGFILE 2>&1; else @BINDIR@/dpkg --configure -a; fi"
-+ExecStartPost=@BASE_BINDIR@/systemctl disable dpkg-configure.service
-+StandardOutput=syslog
-+RemainAfterExit=No
-+
-+[Install]
-+WantedBy=basic.target
-+WantedBy=sysinit.target
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-index 9e2392c..b27e6f4 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://noman.patch \
-             file://remove-tar-no-timestamp.patch \
-             file://fix-abs-redefine.patch \
-             file://arch_pm.patch \
-+            file://dpkg-configure.service \
-            "
- 
- SRC_URI[md5sum] = "cc25086e1e3bd9512a95f14cfe9002e1"
--- 
-1.7.9.5
+// Robert
 
+On 01/24/2014 03:01 AM, Paul Barker wrote:
+> On 23 January 2014 17:54, Philip Balister <philip@balister.org> wrote:
+>> On 01/23/2014 06:51 AM, Carlos Rafael Giani wrote:
+>>> Hello,
+>>>
+>>> I noticed that since the C++ bindings for the berkeley DB were included
+>>> in commit 23f29027db73d5759889b48fabdea7f6173217a7 , I cannot build db
+>>> anymore.
+>>> The error is:
+>>>
+>>>      /usr/lib/libstdc++.so: file not recognized: File format not recognized
+>>>
+>>> this is the offending part in the log.do_compile file:
+>>
+>> What distro is your build machine running? I've this from people using
+>> Arch Linux.
+>>
+>
+> I've tracked this down to libtool replacing '-lstdc++' with an
+> explicit reference to '/usr/lib/libstdc++.so' before it runs ld. So
+> it's libtool not ld at fault here. I did look at the recipe for
+> Berkeley db and spotted that it overrides do_configure, allowing the
+> shipped copies of libtool and related files to be used rather than
+> running the autoreconf stuff that replaces them. That's my
+> understanding at least.
+>
+> At that point I ran away and reverted the commit in question locally
+> as libtool terrifies me and I don't need the c++ bindings myself!
+>
+> Sorry I can't be more help but I hope that points someone in the right
+> direction.
+>
 
