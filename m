@@ -1,41 +1,40 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
-	[209.85.160.178])
-	by mail.openembedded.org (Postfix) with ESMTP id BBC146E6FB
+Received: from mail-gg0-f174.google.com (mail-gg0-f174.google.com
+	[209.85.161.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A3D786E498
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Jan 2014 01:26:23 +0000 (UTC)
-Received: by mail-yk0-f178.google.com with SMTP id 79so4155499ykr.9
+Received: by mail-gg0-f174.google.com with SMTP id g10so756870gga.19
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 23 Jan 2014 17:26:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=tWpujnPp2+1xx1BjPzl0e7KjhDGc3VrT/pw+T/NOLOY=;
-	b=MpfSgrEcRFd3OBYSyNsCTN7fJk9SHWutuDvSCp2nBTxo4gTDpnydua6E43Fg/Qyas6
-	MbXyOjDGqWKtxIlYsscBvy6BjW6TNKpUKiSGVDEI3ppo9/ri/Kpoy/PxeE/vM7xkeZu/
-	cI9E2TCdFHO0CTjaaZiSxE9M1YTgD5X+C3FOLJAHmcMBweiYqVolztpkwfb8UyEFOB2C
-	6BvuoURTMSa8UAo71kNFVwCCBHYDOZVE9OGQHHlDQ/b5ZBK2Xz1ABaZvMo1WTP+31f0L
-	/o8j9PoDrj8vk1za9/iQNF3sIX2RANReIlpHBYAZXmyHXkNs/+ZdAj/if3AtbiMVgdIm
-	NVVw==
-X-Received: by 10.236.74.73 with SMTP id w49mr285503yhd.87.1390526784523;
-	Thu, 23 Jan 2014 17:26:24 -0800 (PST)
+	:organization; bh=F0Z09sUGC349RCk/zsf006rirajVIRk96igoaycQEdY=;
+	b=nc1P1VXdz0wvcym3yAnLz7TPtQnI1sT4AfWyhfmG/FqZDwJJwbdKYOAEG7NvDf2HeT
+	vpPNg/yfrNL2JTvxNWfpw7v5ccdWUoUeEMXhZ2hBoCMahh54N5LQDCR9q0QoE0hxbvBc
+	84Jl1Hmob1Q6GkAOYi4ayvJ65WxJJh/WpCc5r2x4HpU54tvtbeJLiMjbklmEJQ412gFk
+	kACncGoMsXXAfqcoJfRk4Jd/kVEt840Mv3yp9zOaoxtkdUGTzK8RVLiWa1roBh4SfEx1
+	gRtaYbBOIjArzbT2kABfP92XaXuVuikoE7k5ShHch9CHdRgIiJpOfr6i+JNTbtmZym85
+	yl6Q==
+X-Received: by 10.236.123.193 with SMTP id v41mr401635yhh.68.1390526783978;
+	Thu, 23 Jan 2014 17:26:23 -0800 (PST)
 Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id
-	c44sm42495629yho.20.2014.01.23.17.26.21 for <multiple recipients>
+	by mx.google.com with ESMTPSA id 57sm42437943yhl.4.2014.01.23.17.26.21
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Thu, 23 Jan 2014 17:26:22 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 045B617BF8CED; Thu, 23 Jan 2014 23:26:19 -0200 (BRST)
+	id 07EBF17BF8CEF; Thu, 23 Jan 2014 23:26:19 -0200 (BRST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 23:26:05 -0200
-Message-Id: <1390526775-26036-2-git-send-email-otavio@ossystems.com.br>
+Date: Thu, 23 Jan 2014 23:26:06 -0200
+Message-Id: <1390526775-26036-3-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
 References: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [meta-fsl-arm][PATCH v3 01/11] libfslcodec: Drop sanity check override for .so files
+Subject: [meta-fsl-arm][PATCH v3 02/11] imx-test: Update to 3.10.17-1.0.0 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,32 +49,56 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 24 Jan 2014 01:26:24 -0000
 
-The .so files are not being deployed in the regular packages, just the
--dev ones, so we can drop this sanity check workaround and the
-respective FIXME entry.
+From: Lauren Post <lauren.post@freescale.com>
 
-Change-Id: I9ad5c8db3b156398884ba9b63943eb56394c868f
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Release in 3.10.17-1.0.0_beta version.
+
+Change-Id: I0a841cbfaac1b94fd389121d42575e88e55dc52a
+Signed-off-by: Lauren Post <lauren.post@freescale.com>
 ---
- recipes-multimedia/libfslcodec/libfslcodec.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ recipes-bsp/imx-test/imx-test_3.10.17-1.0.0.bb | 15 +++++++++++++++
+ recipes-bsp/imx-test/imx-test_3.10.9-1.0.0.bb  | 10 ----------
+ 2 files changed, 15 insertions(+), 10 deletions(-)
+ create mode 100644 recipes-bsp/imx-test/imx-test_3.10.17-1.0.0.bb
+ delete mode 100644 recipes-bsp/imx-test/imx-test_3.10.9-1.0.0.bb
 
-diff --git a/recipes-multimedia/libfslcodec/libfslcodec.inc b/recipes-multimedia/libfslcodec/libfslcodec.inc
-index e787d3a..aa5282c 100644
---- a/recipes-multimedia/libfslcodec/libfslcodec.inc
-+++ b/recipes-multimedia/libfslcodec/libfslcodec.inc
-@@ -44,10 +44,9 @@ python populate_packages_prepend() {
- 
-     # FIXME: All binaries lack GNU_HASH in elf binary but as we don't have
-     # the source we cannot fix it. Disable the insane check for now.
--    # FIXME: gst-fsl-plugin looks for the .so files so we need to deploy those
-     for p in d.getVar('PACKAGES', True).split():
--        d.setVar("INSANE_SKIP_%s" % p, "ldflags textrel dev-so")
-         d.setVar("DEBIAN_NOAUTONAME_%s" % p, "1")
-+        d.setVar("INSANE_SKIP_%s" % p, "ldflags textrel")
- 
-     # Allow addition of all codecs in a image; useful specially for
-     # debugging.
+diff --git a/recipes-bsp/imx-test/imx-test_3.10.17-1.0.0.bb b/recipes-bsp/imx-test/imx-test_3.10.17-1.0.0.bb
+new file mode 100644
+index 0000000..b4362b8
+--- /dev/null
++++ b/recipes-bsp/imx-test/imx-test_3.10.17-1.0.0.bb
+@@ -0,0 +1,15 @@
++# Copyright (C) 2013, 2014 Freescale Semiconductor
++
++include imx-test.inc
++
++# FIXME: Drop 'beta' suffix for GA release
++SRC_URI = "${FSL_MIRROR}/${PN}-${PV}_beta.tar.gz \
++           file://clocks.sh"
++S="${WORKDIR}/${PN}-${PV}_beta"
++
++PE = "1"
++
++SRC_URI[md5sum] = "fd3de6e882a7b5425853083ec8d4951e"
++SRC_URI[sha256sum] = "1e86cfe800fbf2db2a52ce0155ab2d2ba70913a30974b3f66879198eaf9da21b"
++
++COMPATIBLE_MACHINE = "(mx6)"
+diff --git a/recipes-bsp/imx-test/imx-test_3.10.9-1.0.0.bb b/recipes-bsp/imx-test/imx-test_3.10.9-1.0.0.bb
+deleted file mode 100644
+index 5b0722f..0000000
+--- a/recipes-bsp/imx-test/imx-test_3.10.9-1.0.0.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# Copyright (C) 2013 Freescale Semiconductor
+-
+-include imx-test.inc
+-
+-PE = "1"
+-
+-SRC_URI[md5sum] = "518ce3fba668a09993d53b3b0df85944"
+-SRC_URI[sha256sum] = "576ffd963cc8ea82e6f17e55ac467448286df014408b23a59ecf9d8072955d7a"
+-
+-COMPATIBLE_MACHINE = "(mx6)"
 -- 
 1.8.5.3
 
