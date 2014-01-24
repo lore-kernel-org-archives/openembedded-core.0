@@ -1,31 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id E9E9B610F6
+Return-Path: <jplum@devonit.com>
+Received: from mx1.devonhealth.com (unknown [8.20.30.154])
+	by mail.openembedded.org (Postfix) with ESMTP id 808DE6E811
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 13:43:54 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0ODhAS7019385; Fri, 24 Jan 2014 13:43:50 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qzUCM-CFVLl9; Fri, 24 Jan 2014 13:43:49 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0ODhiNE019406
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Fri, 24 Jan 2014 13:43:46 GMT
-Message-ID: <1390571019.17424.173.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 24 Jan 2014 13:43:39 +0000
-In-Reply-To: <0fbf5062299128b4b654de870a54f22a7cf8633a.1390220655.git.liezhi.yang@windriver.com>
-References: <cover.1390220655.git.liezhi.yang@windriver.com>
-	<0fbf5062299128b4b654de870a54f22a7cf8633a.1390220655.git.liezhi.yang@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] e2fsprogs/populate-extfs.sh: fix a problem on dash
+	Fri, 24 Jan 2014 14:05:33 +0000 (UTC)
+Received: from emfserver.devonintlgroup.com (10.0.7.48) by mx1.devonhealth.com
+	(10.0.20.154) with Microsoft SMTP Server id 8.3.327.1;
+	Fri, 24 Jan 2014 09:05:14 -0500
+Received: from [10.0.2.7] by emfserver.devonintlgroup.com over TLS secured
+	channel with ESMTP (Devon Health Services, Inc Email Firewall SMTP Relay
+	(Email Firewall v6.5)); Fri, 24 Jan 2014 09:05:28 -0500
+X-Server-Uuid: 6CB55748-6642-4D3C-9211-397BC4E7A815
+Received: from [10.0.15.96] (10.0.15.96) by boddingtons.devonintlgroup.com
+	(10.0.2.15) with Microsoft SMTP Server ( TLS) id 8.3.327.1;
+	Fri, 24 Jan 2014 09:05:28 -0500
+Message-ID: <52E27327.2000703@devonit.com>
+Date: Fri, 24 Jan 2014 09:05:27 -0500
+From: Jason Plum <jplum@devonit.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101
+	Thunderbird/24.2.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1390245778-9252-1-git-send-email-jplum@devonit.com>
+In-Reply-To: <1390245778-9252-1-git-send-email-jplum@devonit.com>
+X-Forwarded-Message-Id: <1390245778-9252-1-git-send-email-jplum@devonit.com>
+X-WSS-ID: 7EFCACA22B8418899-01-01
+Subject: [PATCH v3] meta/oe/lib/path.py - check mount points, not device
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,55 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 13:43:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 24 Jan 2014 14:05:33 -0000
+Content-Type: text/plain; charset="iso-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2014-01-20 at 20:24 +0800, Robert Yang wrote:
-> The dash can't handle the or [[ in parameter expansion, for example:
-> 
-> A=/usr/bin/[[
-> B=[[
-> C="${A%$B}"
-> 
-> The C should be "/usr/bin" in common, but it will be /usr/bin/[[ on
-> dash, use dirname to fix it.
-> 
-> NOTE:
-> There are 3 lines about parameter expansion, only fix the
-> DIR="${DIR%$TGT}" since the other 2 works will and are very useful in
-> this case.
-> 
-> [YOCTO #5712]
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Jason Plum <jplum@devonit.com>
+---
+  meta/lib/oe/path.py | 13 ++++++++++++-
+  1 file changed, 12 insertions(+), 1 deletion(-)
 
-I'm afraid I had to revert this as it caused other build failures:
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 46783f8..dab20fc 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -90,7 +90,7 @@ def copyhardlinktree(src, dst):
+      if os.path.isdir(src) and not len(os.listdir(src)):
+          return	
+  
+-    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
++    if (getmount(src) ==  getmount(dst)):
+          # Need to copy directories only with tar first since cp will error if two
+          # writers try and create a directory at the same time
+          cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
+@@ -257,3 +257,14 @@ def realpath(file, root, use_physdir = True, loop_cnt = 100, assume_dir = False)
+          raise
+  
+      return file
++
++def getmount(path):
++    """ getmount takes a path parameter, uses os.path.realpath with os.path.abspath to
++    handle symlink resolution, and returns the path to the mount point of the input path
++    """
++    path = os.path.realpath(os.path.abspath(path))
++    while path != os.path.sep:
++        if os.path.ismount(path):
++            return path
++        path = os.path.abspath(os.path.join(path, os.pardir))
++    return path
+\ No newline at end of file
+-- 
+1.8.5.3
 
-http://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/18/steps/BuildImages_1/logs/stdio
 
-Can you look into why that happened and resent the patch please?
-
-Cheers,
-
-Richard
-
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh b/meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh
-> index 7de720b..9b55a4b 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/populate-extfs.sh
-> @@ -23,7 +23,7 @@ DEBUGFS="debugfs"
->  	find $SRCDIR | while read FILE; do
->                  TGT="${FILE##*/}"
->                  DIR="${FILE#$SRCDIR}"
-> -                DIR="${DIR%$TGT}"
-> +                DIR="$(dirname $DIR)"
->  
->  		# Skip the root dir
->  		[ ! -z "$DIR" ] || continue
 
 
 
