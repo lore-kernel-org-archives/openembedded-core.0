@@ -1,40 +1,40 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-gg0-f171.google.com (mail-gg0-f171.google.com
-	[209.85.161.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C1FB610F6
+Received: from mail-gg0-f182.google.com (mail-gg0-f182.google.com
+	[209.85.161.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 839C56E940
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 01:26:27 +0000 (UTC)
-Received: by mail-gg0-f171.google.com with SMTP id q4so754148ggn.2
+	Fri, 24 Jan 2014 01:26:28 +0000 (UTC)
+Received: by mail-gg0-f182.google.com with SMTP id e27so769057gga.27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 17:26:28 -0800 (PST)
+	Thu, 23 Jan 2014 17:26:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=PP7QcUA5IAFdv/HJxxgniQS6a8LcUqaJEWrpphx5koc=;
-	b=Ru3/GngpVt8AGQy36dNIG/OcuYo9R0EI3qIAOAwpW+Se2YviCDKWj+wo8lYNWViX4g
-	t5QFtng4EPtf8RmOjCuyZNWtGF4QQFrMP2dHEH4adC8pvU6rHMyRpch/XCdMkNwRf8aE
-	lpDjuHEmH7mP/bUieUoV2SXfc/qJtyRjtVT2tu4GIcry7lFPH5lbiVcgiXrHAR5Heqpv
-	j5PBkTdHGwlCPKQyNSblCIBDcucYvpI5O3vqr8MsWFWx7p0j5B86s8t+RQtBt+wvr3n1
-	L4GcXHo9x1mkRFTxK03TeiScZMISKZFEa/A5KNZv/jfmMvSoUO/yN0Mr3Zak+K88X3v4
-	9umQ==
-X-Received: by 10.236.190.100 with SMTP id d64mr397942yhn.76.1390526788226;
-	Thu, 23 Jan 2014 17:26:28 -0800 (PST)
+	:organization; bh=ugsPyE2pR27Y+EhNOw61L/0vsyesRZaOVCkeb+0h8pU=;
+	b=X+r2rLkgqaLaTwpvcDZLBDx6bThnO0RxP3G0FcBmIVjnxjJnlXrDMvM37Yz/WS+L8e
+	85zFxLOoBzPRUAIaKJx7VdKSX2jSZTcTZqiTO0Z0yUl04o7s2CftkeUjmEdqcbLCzNlx
+	VWo1NoncsZg3nveLE9O60QutlmIE3RYGHHXcyuu1LxmvG5f/RUX61vqDh/A02ZPtcotU
+	8lBZuoDxvdwghWv1k94GZiQnfXsUO/sMoryC4i43VSNMFykzpODKn+JIc7RiIk2GKSmd
+	gHI0Y3Gms844EckxrUIt3/nLQTfLqCiXx2H5eeLKd2LTLHHPV6o/DnU9d/0B1gdjSybg
+	Wsbw==
+X-Received: by 10.236.79.129 with SMTP id i1mr353333yhe.80.1390526789447;
+	Thu, 23 Jan 2014 17:26:29 -0800 (PST)
 Received: from nano.lab.ossystems.com.br ([177.194.208.225])
 	by mx.google.com with ESMTPSA id
-	m68sm42510019yhj.22.2014.01.23.17.26.25 for <multiple recipients>
+	a67sm42461199yhj.10.2014.01.23.17.26.25 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Thu, 23 Jan 2014 17:26:26 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 11A0417BF8CF5; Thu, 23 Jan 2014 23:26:19 -0200 (BRST)
+	id 17E7217BF8CF9; Thu, 23 Jan 2014 23:26:19 -0200 (BRST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 23:26:09 -0200
-Message-Id: <1390526775-26036-6-git-send-email-otavio@ossystems.com.br>
+Date: Thu, 23 Jan 2014 23:26:11 -0200
+Message-Id: <1390526775-26036-8-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
 References: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
-Subject: [meta-fsl-arm][PATCH v3 05/11] libfslparser: Upgrade to 3.0.10 version
+Subject: [meta-fsl-arm][PATCH v3 07/11] libfslcodec: Upgrade to 3.0.10 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,54 +47,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 01:26:27 -0000
+X-List-Received-Date: Fri, 24 Jan 2014 01:26:29 -0000
 
 From: Lauren Post <lauren.post@freescale.com>
 
-Package is from 3.10.17-1.0.0_beta release
+Released in 3.10.17-1.0.0_beta release
 
-Change-Id: I74b7f818e51cc570b0bb5be3d2892eb4ca8cdb2f
+Change-Id: I64f0b493ec73a32396b921f13affab3e11e48e41
 Signed-off-by: Lauren Post <lauren.post@freescale.com>
 ---
- recipes-multimedia/libfslparser/libfslparser_3.0.10.bb | 10 ++++++++++
- recipes-multimedia/libfslparser/libfslparser_3.0.9.bb  | 13 -------------
+ recipes-multimedia/libfslcodec/libfslcodec_3.0.10.bb | 10 ++++++++++
+ recipes-multimedia/libfslcodec/libfslcodec_3.0.9.bb  | 13 -------------
  2 files changed, 10 insertions(+), 13 deletions(-)
- create mode 100644 recipes-multimedia/libfslparser/libfslparser_3.0.10.bb
- delete mode 100644 recipes-multimedia/libfslparser/libfslparser_3.0.9.bb
+ create mode 100644 recipes-multimedia/libfslcodec/libfslcodec_3.0.10.bb
+ delete mode 100644 recipes-multimedia/libfslcodec/libfslcodec_3.0.9.bb
 
-diff --git a/recipes-multimedia/libfslparser/libfslparser_3.0.10.bb b/recipes-multimedia/libfslparser/libfslparser_3.0.10.bb
+diff --git a/recipes-multimedia/libfslcodec/libfslcodec_3.0.10.bb b/recipes-multimedia/libfslcodec/libfslcodec_3.0.10.bb
 new file mode 100644
-index 0000000..6c72259
+index 0000000..a606ba6
 --- /dev/null
-+++ b/recipes-multimedia/libfslparser/libfslparser_3.0.10.bb
++++ b/recipes-multimedia/libfslcodec/libfslcodec_3.0.10.bb
 @@ -0,0 +1,10 @@
 +# Copyright (C) 2013, 2014 Freescale Semiconductor
 +# Released under the MIT license (see COPYING.MIT for the terms)
 +
-+require libfslparser.inc
++require libfslcodec.inc
 +
 +SRC_URI = "${FSL_MIRROR}/${PN}-${PV}.bin;fsl-eula=true"
-+SRC_URI[md5sum] = "8c80f20532ae178077f59d38f4e8f9b7"
-+SRC_URI[sha256sum] = "ae3fcdc42f59ddb6c451e42f1f81860eaa540cbfba260ecf55fc457b49f1a65d"
++SRC_URI[md5sum] = "59c81f7da3440409e7e058edd0cdbb2a"
++SRC_URI[sha256sum] = "130f69e47b52a02988df64211c2e42c54f0d07f00d8c1229d20d41b2a9d784a2"
 +
 +COMPATIBLE_MACHINE = "(mx28|mx5|mx6)"
-diff --git a/recipes-multimedia/libfslparser/libfslparser_3.0.9.bb b/recipes-multimedia/libfslparser/libfslparser_3.0.9.bb
+diff --git a/recipes-multimedia/libfslcodec/libfslcodec_3.0.9.bb b/recipes-multimedia/libfslcodec/libfslcodec_3.0.9.bb
 deleted file mode 100644
-index b497ae6..0000000
---- a/recipes-multimedia/libfslparser/libfslparser_3.0.9.bb
+index 1cb84d1..0000000
+--- a/recipes-multimedia/libfslcodec/libfslcodec_3.0.9.bb
 +++ /dev/null
 @@ -1,13 +0,0 @@
 -# Copyright (C) 2013 Freescale Semiconductor
 -# Released under the MIT license (see COPYING.MIT for the terms)
 -
--require libfslparser.inc
+-require libfslcodec.inc
 -
 -# FIXME: Inspecting the source code the content is in fact 3.0.9
 -SRC_URI = "${FSL_MIRROR}/${PN}-3.10.9-1.0.0.bin;fsl-eula=true"
 -S = "${WORKDIR}/${PN}-3.10.9-1.0.0"
 -
--SRC_URI[md5sum] = "655970eb7389860a58cfd3c1e7d3efcf"
--SRC_URI[sha256sum] = "bcef8a03d935ac52d2cba8b9aec664906d63cea31d37c05b0bad11dd38fbefca"
+-SRC_URI[md5sum] = "8fd6f1f4f7a504adfc27c1f73de554b4"
+-SRC_URI[sha256sum] = "76a8a93d452db07e2531fbbc6dc1cbdf21943e6b3dfa1b2435faf5b356819f95"
 -
 -COMPATIBLE_MACHINE = "(mx28|mx5|mx6)"
 -- 
