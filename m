@@ -1,20 +1,23 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id AB64A6B05F
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 18:26:35 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jan 2014 10:22:29 -0800
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A3666B05F;
+	Fri, 24 Jan 2014 19:07:15 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Jan 2014 11:06:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,714,1384329600"; d="scan'208";a="471993311"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga002.jf.intel.com with ESMTP; 24 Jan 2014 10:26:07 -0800
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jan 2014 20:28:51 +0200
-Message-Id: <cover.1390588074.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH v2 0/1] rpcbind: fix crash at start
+X-IronPort-AV: E=Sophos;i="4.95,714,1384329600"; d="scan'208";a="470374203"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.123.57])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Jan 2014 11:06:56 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Date: Fri, 24 Jan 2014 19:06:55 +0000
+Message-ID: <2517159.s5K5La3RH6@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
+MIME-Version: 1.0
+Subject: FOSDEM 2014
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,26 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 18:26:37 -0000
+X-List-Received-Date: Fri, 24 Jan 2014 19:07:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The following changes since commit 1a9226f140f578f11696abf1a3c989fae1d4c14a:
+Hi folks,
 
-  libtool-cross/native: Force usage of bash due to sstate inconsistencies (2014-01-23 12:18:05 +0000)
+As previously discussed, OpenEmbedded will be present at FOSDEM this year in 
+Brussels in a week's time:
 
-are available in the git repository at:
+https://fosdem.org/2014/
 
-  git://git.yoctoproject.org/poky-contrib ciorga/YB5733
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB5733
+If you will be at the conference, please add yourself to the appropriate 
+section on the following wiki page (or ask me to if you have trouble editing):
 
-Cristian Iorga (1):
-  rpcbind: fixes crash during start
+http://openembedded.org/wiki/FOSDEM_2014
 
- ...bind-rpcuser-not-being-set-in-Makefile.am.patch | 34 ++++++++++++++++++++++
- meta/recipes-extended/rpcbind/rpcbind_0.2.1.bb     |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-rpcbind-rpcuser-not-being-set-in-Makefile.am.patch
+We're still keen to have people bring hardware running OE to show off at the 
+booth (and folks willing to stand behind the booth and talk to people about 
+OE). We have two tables this year so there should be plenty of room :)
+
+Cheers,
+Paul
 
 -- 
-1.8.3.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
