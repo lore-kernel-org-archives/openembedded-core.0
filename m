@@ -1,30 +1,46 @@
-Return-Path: <jplum@devonit.com>
-Received: from mx1.devonhealth.com (unknown [8.20.30.154])
-	by mail.openembedded.org (Postfix) with ESMTP id 808DE6E811
+Return-Path: <olof.johansson@axis.com>
+Received: from anubis.se.axis.com (anubis.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FF096E8D3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 14:05:33 +0000 (UTC)
-Received: from emfserver.devonintlgroup.com (10.0.7.48) by mx1.devonhealth.com
-	(10.0.20.154) with Microsoft SMTP Server id 8.3.327.1;
-	Fri, 24 Jan 2014 09:05:14 -0500
-Received: from [10.0.2.7] by emfserver.devonintlgroup.com over TLS secured
-	channel with ESMTP (Devon Health Services, Inc Email Firewall SMTP Relay
-	(Email Firewall v6.5)); Fri, 24 Jan 2014 09:05:28 -0500
-X-Server-Uuid: 6CB55748-6642-4D3C-9211-397BC4E7A815
-Received: from [10.0.15.96] (10.0.15.96) by boddingtons.devonintlgroup.com
-	(10.0.2.15) with Microsoft SMTP Server ( TLS) id 8.3.327.1;
-	Fri, 24 Jan 2014 09:05:28 -0500
-Message-ID: <52E27327.2000703@devonit.com>
-Date: Fri, 24 Jan 2014 09:05:27 -0500
-From: Jason Plum <jplum@devonit.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101
-	Thunderbird/24.2.0
+	Fri, 24 Jan 2014 15:17:07 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by anubis.se.axis.com (Postfix) with ESMTP id 9CDEF1A012;
+	Fri, 24 Jan 2014 16:17:05 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at anubis.se.axis.com
+Received: from anubis.se.axis.com ([127.0.0.1])
+	by localhost (anubis.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id AzMINe5-TBo0; Fri, 24 Jan 2014 16:17:04 +0100 (CET)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by anubis.se.axis.com (Postfix) with ESMTP id 601271A019;
+	Fri, 24 Jan 2014 16:17:03 +0100 (CET)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 01212BE0;
+	Fri, 24 Jan 2014 16:17:03 +0100 (CET)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id EA208BD9;
+	Fri, 24 Jan 2014 16:17:02 +0100 (CET)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by seth.se.axis.com (Postfix) with ESMTP id E7EFE3E06F;
+	Fri, 24 Jan 2014 16:17:02 +0100 (CET)
+Received: from axis.com (10.92.17.1) by xmail2.se.axis.com (10.0.5.74) with
+	Microsoft SMTP Server (TLS) id 8.2.255.0;
+	Fri, 24 Jan 2014 16:17:02 +0100
+Date: Fri, 24 Jan 2014 16:17:01 +0100
+From: Olof Johansson <olof.johansson@axis.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140124151701.GJ15815@axis.com>
+References: <cover.1390220655.git.liezhi.yang@windriver.com>
+	<0fbf5062299128b4b654de870a54f22a7cf8633a.1390220655.git.liezhi.yang@windriver.com>
+	<1390571019.17424.173.camel@ted>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1390245778-9252-1-git-send-email-jplum@devonit.com>
-In-Reply-To: <1390245778-9252-1-git-send-email-jplum@devonit.com>
-X-Forwarded-Message-Id: <1390245778-9252-1-git-send-email-jplum@devonit.com>
-X-WSS-ID: 7EFCACA22B8418899-01-01
-Subject: [PATCH v3] meta/oe/lib/path.py - check mount points, not device
+In-Reply-To: <1390571019.17424.173.camel@ted>
+Thread-Topic: [OE-core] [PATCH 1/1] e2fsprogs/populate-extfs.sh: fix a
+	problem on dash
+Accept-Language: en-US, sv-SE
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] e2fsprogs/populate-extfs.sh: fix a problem on dash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +53,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 14:05:33 -0000
-Content-Type: text/plain; charset="iso-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Jan 2014 15:17:08 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+Content-Language: en-US
 
-Signed-off-by: Jason Plum <jplum@devonit.com>
----
-  meta/lib/oe/path.py | 13 ++++++++++++-
-  1 file changed, 12 insertions(+), 1 deletion(-)
+On 14-01-24 14:43 +0100, Richard Purdie wrote:
+> On Mon, 2014-01-20 at 20:24 +0800, Robert Yang wrote:
+> > The dash can't handle the or [[ in parameter expansion, for example:
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 46783f8..dab20fc 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -90,7 +90,7 @@ def copyhardlinktree(src, dst):
-      if os.path.isdir(src) and not len(os.listdir(src)):
-          return	
-  
--    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
-+    if (getmount(src) ==  getmount(dst)):
-          # Need to copy directories only with tar first since cp will error if two
-          # writers try and create a directory at the same time
-          cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
-@@ -257,3 +257,14 @@ def realpath(file, root, use_physdir = True, loop_cnt = 100, assume_dir = False)
-          raise
-  
-      return file
-+
-+def getmount(path):
-+    """ getmount takes a path parameter, uses os.path.realpath with os.path.abspath to
-+    handle symlink resolution, and returns the path to the mount point of the input path
-+    """
-+    path = os.path.realpath(os.path.abspath(path))
-+    while path != os.path.sep:
-+        if os.path.ismount(path):
-+            return path
-+        path = os.path.abspath(os.path.join(path, os.pardir))
-+    return path
-\ No newline at end of file
+Good to know. Interesting! Noting that escaping the [ would work,
+but not applicable in this case.
+
+> > 
+> > A=/usr/bin/[[
+> > B=[[
+> > C="${A%$B}"
+
+Would ${A%/*}/ work?
+
+-                DIR="${DIR%$TGT}"
++                DIR="${DIR%/*}/"
+
+It also has the advantage that it doesn't cause a fork (afaict,
+the loop is being executed for every file in a rootfs directory
+structure, that could cause a lot of forks).
+
+(Disclaimer: I haven't tested this)
+
 -- 
-1.8.5.3
-
-
-
-
+olofjn
 
