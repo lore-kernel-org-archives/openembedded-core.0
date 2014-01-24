@@ -1,40 +1,40 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-gg0-f175.google.com (mail-gg0-f175.google.com
-	[209.85.161.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 494236E702
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id B8BD26E6FB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 01:26:24 +0000 (UTC)
-Received: by mail-gg0-f175.google.com with SMTP id c2so762474ggn.34
+	Fri, 24 Jan 2014 01:26:26 +0000 (UTC)
+Received: by mail-yk0-f170.google.com with SMTP id 9so4178064ykp.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2014 17:26:25 -0800 (PST)
+	Thu, 23 Jan 2014 17:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=GYoDs7UGjtlrzbQIIgpMrcRQi/keK9y8PI0ovSxdJIk=;
-	b=qqkRjBXEf+wMHvwCuK2Dov0pBxE6vHFGNgSCh/JQcSt28/cT2pnNkgSuvNBq9ggU1v
-	nSAex1fgjiJeoVzfjg0DSbK2CjpIZBAScoaaoniX0ryRMVWmk+pC5wEuc99Y/KlrQEei
-	JVHkox9308ZdVlO4T0z9/D3sEiVI3DorqQcMiwOezAhhIvK4ZkvOOdzsR20jiYPlyiO/
-	ao9P8BICD2j6rfecI40Jd1Tj93je8PTsCFFVnSPiU00C+rIfGTcX+dtv//ov2Je4kf0z
-	a6nR6J51QCAJBUP1xgrWzStkSUwaL2b4G9R9Ra2joo7++lRJMRws/TdVhQd2V80Zknej
-	hkfA==
-X-Received: by 10.236.20.75 with SMTP id o51mr402463yho.65.1390526785006;
-	Thu, 23 Jan 2014 17:26:25 -0800 (PST)
+	:organization; bh=Q5hW9K3zQrz4WS3GH2QCoAfGe6MfcbvCkLorV8C27Cs=;
+	b=xRKumqz9IRxSv6cYS0RVkOC+dGcwo35OYePFszLPhy9PwgHUsI7fdCuD+0o6xcwHp2
+	JqL40j4jOjc+3gwKkZ8O+Ff3BAVBJXJJASt2qtvleuAX6WHQ5pW1KRG2stoUrTyDGNRL
+	+tDU0U3Eu5f345wvijqv2QLKOhvXBfi3BeaSWsfvInHS65s+MxckKIyx1B5LvNK8qG1R
+	gm4VH+tBsCnvcUCc8Kq2akHvP0IaKcsKZdrLD/6ePetZr96K9dtvIh/X8ksK+1LxpicU
+	hOa95jDQ2tQor9IcYHCvVpHEd+noH9DSggOe7fgRiPPIXOKJCUg4KtHsri6tgKmd/tHa
+	8SIg==
+X-Received: by 10.236.194.40 with SMTP id l28mr401890yhn.63.1390526787761;
+	Thu, 23 Jan 2014 17:26:27 -0800 (PST)
 Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id
-	d32sm42563584yhq.27.2014.01.23.17.26.21 for <multiple recipients>
+	by mx.google.com with ESMTPSA id h66sm42456725yhb.7.2014.01.23.17.26.25
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jan 2014 17:26:22 -0800 (PST)
+	Thu, 23 Jan 2014 17:26:26 -0800 (PST)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
-	id 0E64417BF8CF3; Thu, 23 Jan 2014 23:26:19 -0200 (BRST)
+	id 14F4F17BF8CF7; Thu, 23 Jan 2014 23:26:19 -0200 (BRST)
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 23 Jan 2014 23:26:08 -0200
-Message-Id: <1390526775-26036-5-git-send-email-otavio@ossystems.com.br>
+Date: Thu, 23 Jan 2014 23:26:10 -0200
+Message-Id: <1390526775-26036-7-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
 References: <1390526775-26036-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
-Subject: [meta-fsl-arm][PATCH v3 04/11] imx-vpu: Upgrade to 3.10.17-1.0.0_beta
+Subject: [meta-fsl-arm][PATCH v3 06/11] libfslvpuwrap: Upgrade to 1.0.45 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,97 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2014 01:26:24 -0000
+X-List-Received-Date: Fri, 24 Jan 2014 01:26:27 -0000
 
 From: Lauren Post <lauren.post@freescale.com>
 
-Change-Id: I107c967a1cc2f27669806572cc05ec2ce265b5a3
+Package is from 3.10.17-1.0.0_beta release
+
+Change-Id: I9822ff9c09d0644459f8cfba8cd5459783b200aa
 Signed-off-by: Lauren Post <lauren.post@freescale.com>
 ---
- .../build-Allow-CC-and-AR-to-be-overriden.patch    | 33 ----------------------
- recipes-bsp/imx-vpu/imx-vpu_3.10.17-1.0.0.bb       | 14 +++++++++
- recipes-bsp/imx-vpu/imx-vpu_3.10.9-1.0.0.bb        | 11 --------
- 3 files changed, 14 insertions(+), 44 deletions(-)
- delete mode 100644 recipes-bsp/imx-vpu/imx-vpu-3.10.9-1.0.0/build-Allow-CC-and-AR-to-be-overriden.patch
- create mode 100644 recipes-bsp/imx-vpu/imx-vpu_3.10.17-1.0.0.bb
- delete mode 100644 recipes-bsp/imx-vpu/imx-vpu_3.10.9-1.0.0.bb
+ .../{libfslvpuwrap_1.0.40.bb => libfslvpuwrap_1.0.45.bb}      | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+ rename recipes-multimedia/libfslvpuwrap/{libfslvpuwrap_1.0.40.bb => libfslvpuwrap_1.0.45.bb} (57%)
 
-diff --git a/recipes-bsp/imx-vpu/imx-vpu-3.10.9-1.0.0/build-Allow-CC-and-AR-to-be-overriden.patch b/recipes-bsp/imx-vpu/imx-vpu-3.10.9-1.0.0/build-Allow-CC-and-AR-to-be-overriden.patch
-deleted file mode 100644
-index 1a014aa..0000000
---- a/recipes-bsp/imx-vpu/imx-vpu-3.10.9-1.0.0/build-Allow-CC-and-AR-to-be-overriden.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 97cb0b711ce1a9d0dd3de51480d2e3a1399ce34c Mon Sep 17 00:00:00 2001
--From: Otavio Salvador <otavio@ossystems.com.br>
--Date: Tue, 5 Nov 2013 15:20:15 -0200
--Subject: [PATCH] build: Allow CC and AR to be overriden
--Organization: O.S. Systems Software LTDA.
--
--This is need to allow proper building when using Yocto and multiple
--machines sharing sstate-cache, otherwise the toolchain is going to
--default to use the first build machine sysroot due lack of '-sysroot'
--option.
--
--Upstream-Status: Pending
--
--Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-----
-- vpu/Makefile | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/vpu/Makefile b/vpu/Makefile
--index b106631..dec2429 100644
----- a/vpu/Makefile
--+++ b/vpu/Makefile
--@@ -1,5 +1,5 @@
---CC=$(CROSS_COMPILE)gcc
---AR=$(CROSS_COMPILE)ar
--+CC ?= $(CROSS_COMPILE)gcc
--+AR ?= $(CROSS_COMPILE)ar
-- 
-- # list of platforms which want this test case
-- INCLUDE_LIST:= IMX27ADS IMX51 IMX53 IMX6Q
---- 
--1.8.4.rc3
--
-diff --git a/recipes-bsp/imx-vpu/imx-vpu_3.10.17-1.0.0.bb b/recipes-bsp/imx-vpu/imx-vpu_3.10.17-1.0.0.bb
-new file mode 100644
-index 0000000..fe8c5a6
---- /dev/null
-+++ b/recipes-bsp/imx-vpu/imx-vpu_3.10.17-1.0.0.bb
-@@ -0,0 +1,14 @@
-+# Copyright (C) 2013, 2014 Freescale Semiconductor
-+
-+require imx-vpu.inc
-+
-+PE = "1"
-+
-+# FIXME: Drop 'beta' suffix for GA release
-+SRC_URI = "${FSL_MIRROR}/${PN}-${PV}_beta.bin;fsl-eula=true"
-+S = "${WORKDIR}/${PN}-${PV}_beta"
-+
-+SRC_URI[md5sum] = "7ba78483bd1cf61bb6fce4ed9e9287d6"
-+SRC_URI[sha256sum] = "589500bcc1c871d688ec23f11b930cd49079a689ed85d974ee8b32540c601cdd"
-+
-+COMPATIBLE_MACHINE = "(mx6)"
-diff --git a/recipes-bsp/imx-vpu/imx-vpu_3.10.9-1.0.0.bb b/recipes-bsp/imx-vpu/imx-vpu_3.10.9-1.0.0.bb
-deleted file mode 100644
-index c4705c7..0000000
---- a/recipes-bsp/imx-vpu/imx-vpu_3.10.9-1.0.0.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
+diff --git a/recipes-multimedia/libfslvpuwrap/libfslvpuwrap_1.0.40.bb b/recipes-multimedia/libfslvpuwrap/libfslvpuwrap_1.0.45.bb
+similarity index 57%
+rename from recipes-multimedia/libfslvpuwrap/libfslvpuwrap_1.0.40.bb
+rename to recipes-multimedia/libfslvpuwrap/libfslvpuwrap_1.0.45.bb
+index 95322ea..41a0ee3 100644
+--- a/recipes-multimedia/libfslvpuwrap/libfslvpuwrap_1.0.40.bb
++++ b/recipes-multimedia/libfslvpuwrap/libfslvpuwrap_1.0.45.bb
+@@ -1,4 +1,4 @@
 -# Copyright (C) 2013 Freescale Semiconductor
--require imx-vpu.inc
++# Copyright (C) 2013, 2014 Freescale Semiconductor
+ # Released under the MIT license (see COPYING.MIT for the terms)
+ DESCRIPTION = "Freescale Multimedia VPU wrapper"
+ DEPENDS = "imx-vpu"
+@@ -6,12 +6,9 @@ LICENSE = "Proprietary"
+ SECTION = "multimedia"
+ LIC_FILES_CHKSUM = "file://EULA.txt;md5=93b784b1c11b3fffb1638498a8dde3f6"
+ 
+-# FIXME: Inspecting the source code the content is in fact 1.0.40
+-SRC_URI = "${FSL_MIRROR}/${PN}-3.10.9-1.0.0.bin;fsl-eula=true"
+-SRC_URI[md5sum] = "25891ef8d92e82d9b2e999a74a327971"
+-SRC_URI[sha256sum] = "84d610c478963e7b6a9660a38547b5365ca910159972b3860d7356aee33b9b41"
 -
--PE = "1"
--
--SRC_URI += "file://build-Allow-CC-and-AR-to-be-overriden.patch"
--
--SRC_URI[md5sum] = "61331c9ed2d4c1b3aeab9c35fd034ac3"
--SRC_URI[sha256sum] = "5dd86a26c8d3013e0d78308b1ccd8815730818e465787f55013b492d2d3c7710"
--
--COMPATIBLE_MACHINE = "(mx6)"
+-S = "${WORKDIR}/${PN}-3.10.9-1.0.0"
++SRC_URI = "${FSL_MIRROR}/${PN}-${PV}.bin;fsl-eula=true"
++SRC_URI[md5sum] = "99d866c979c8a798c843f32632293f14"
++SRC_URI[sha256sum] = "c6ca189216bc60c53d342bcd9d9e7899229b96b54ae48ebfcf5f573096c34dcd"
+ 
+ inherit fsl-eula-unpack autotools pkgconfig
+ 
 -- 
 1.8.5.3
 
