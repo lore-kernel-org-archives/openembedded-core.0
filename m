@@ -1,35 +1,38 @@
-Return-Path: <tylerwhall@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 47BC760071
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id CC9136E83C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2014 04:14:30 +0000 (UTC)
-Received: by mail-ig0-f170.google.com with SMTP id m12so6641479iga.1
+	Sat, 25 Jan 2014 11:22:32 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id hq11so2436863vcb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2014 20:14:31 -0800 (PST)
+	Sat, 25 Jan 2014 03:22:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=0vT5jvfAma5rSCdD4RknzMZTkd0FQn6ZJPaOyrhzJIc=;
-	b=FjNQ9rjdcyqH2EcdxvkrJkLRt6Htd5cb2dbLqJ14Z0XWXGQs4pMVdI3sCEuqdwW71v
-	HBn6SvEPLCu5q1xofNujCwnEluJAmgTDk7PmiKt4JPv1mAzXHaaRZ4AH94jFnsZSfk3B
-	XvTyKlkAVs5LVZqjWTyCjunKySaEJ1Cq9Tx/vt1vbxYcPmNpO/U+1Gc6Xu7kAdYOm7D9
-	wcP85Vo05hD51j97451MHaOH/aR9FKzaG9OsDjE1WKfMcof5CQrdvqqrKbhi9UPYBem2
-	ojFB3eE5ftntSwh6XT84E9/cBJBnMtJfBsXBGELogJW/pWWG5pKwXYWRR3t+cYYNW9y0
-	mrYg==
-X-Received: by 10.50.43.199 with SMTP id y7mr7756532igl.43.1390623271019;
-	Fri, 24 Jan 2014 20:14:31 -0800 (PST)
-Received: from localhost.localdomain (CPE-76-177-97-210.natcky.res.rr.com.
-	[76.177.97.210])
-	by mx.google.com with ESMTPSA id qb3sm16077572igb.7.2014.01.24.20.14.29
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 24 Jan 2014 20:14:30 -0800 (PST)
-From: Tyler Hall <tylerwhall@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jan 2014 23:14:03 -0500
-Message-Id: <1390623243-28674-1-git-send-email-tylerwhall@gmail.com>
-X-Mailer: git-send-email 1.8.5.2
-Subject: [PATCH] db: Fix libtool linking against local libstdc++.so
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=7lT6H63yDfP0l+rMh72dA67OPBfmWIpd9vz6afMFSaQ=;
+	b=B5zVMECpoDwH/NQQW3KfHI4Rx+sf4gJXnkUMybEUi1VpvLrku/DJ7psTiyjVvxJw+j
+	uiDwwoTbFZRHEJdSJqSCrDLd0P4rE6ITm9EjPhlrPIVVyrWoQJhqnYa+QL2QbY2rWquX
+	aDsGy/S2ANcqapkkcgUaonfNHJrdjvobfB114STjmlVEsX1xl0u95o9YVHDPP/Azc3z6
+	I74cw82+qhPtCdrwW/NsfNnFuvU7gnKDOs0EzRCKr7fJb8GyxiI2+1vVUq81s5WYriJs
+	f91UFWfIiL/H1KNX24wtXeaUiVljS+zN6d+u1tWntABiL1F+47YMaiMuocKfbY/nBZPF
+	Wp9g==
+X-Received: by 10.58.58.3 with SMTP id m3mr5587080veq.32.1390648952926; Sat,
+	25 Jan 2014 03:22:32 -0800 (PST)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Sat, 25 Jan 2014 03:21:52 -0800 (PST)
+In-Reply-To: <52E2C97A.8010906@pseudoterminal.org>
+References: <52E10247.8050700@pseudoterminal.org>
+	<52E15760.8050606@balister.org>
+	<52E2C97A.8010906@pseudoterminal.org>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Sat, 25 Jan 2014 11:21:52 +0000
+X-Google-Sender-Auth: 2LiKf33HRDawooCUhXoGNAZzfYs
+Message-ID: <CANyK_8dtZROz++1h+pHiram1bhJbeP1YJaV+DeZS20MJMyd=vA@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Berkeley DB fails to build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,35 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jan 2014 04:14:30 -0000
+X-List-Received-Date: Sat, 25 Jan 2014 11:22:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Building the C++ bindings in a484b35b818768487ff27cf06b8c5d4e128126af
-introduced this error on systems with /usr/lib/libstdc++.so present:
+On 24 January 2014 20:13, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+> On 2014-01-23 18:54, Philip Balister wrote:
+>>
+>> On 01/23/2014 06:51 AM, Carlos Rafael Giani wrote:
+>>>
+>>> Hello,
+>>>
+>>> I noticed that since the C++ bindings for the berkeley DB were included
+>>> in commit 23f29027db73d5759889b48fabdea7f6173217a7 , I cannot build db
+>>> anymore.
+>>> The error is:
+>>>
+>>>      /usr/lib/libstdc++.so: file not recognized: File format not
+>>> recognized
+>>>
+>>> this is the offending part in the log.do_compile file:
+>>
+>> What distro is your build machine running? I've this from people using
+>> Arch Linux.
+>>
+>> Philip
+>>
+>>
+>
+> Indeed I am using Arch Linux. I also checked the logs, and did not find any
+> isolated /usr/include or /usr/lib/ paths.
+>
 
-    /usr/lib/libstdc++.so: file not recognized: File format not recognized
+It looks like the patch Tyler Hall just posted to the mailing list
+solves this problem for me - give it a try!
 
-The shipped libtool is sysroot aware, so pass --with-sysroot so it will
-extract the sysroot from the compiler.
+Thanks,
 
-Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
----
- meta/recipes-support/db/db_5.3.21.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/db/db_5.3.21.bb b/meta/recipes-support/db/db_5.3.21.bb
-index 8ec8870..caf6890 100644
---- a/meta/recipes-support/db/db_5.3.21.bb
-+++ b/meta/recipes-support/db/db_5.3.21.bb
-@@ -63,7 +63,7 @@ FILES_SOLIBSDEV = "${libdir}/libdb.so ${libdir}/libdb_cxx.so"
- # All the --disable-* options replace --enable-smallbuild, which breaks a bunch of stuff (eg. postfix)
- DB5_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disable-replication --disable-verify --disable-compat185 --disable-sql"
- 
--EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx"
-+EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot"
- 
- # Override the MUTEX setting here, the POSIX library is
- # the default - "POSIX/pthreads/library".
 -- 
-1.8.5.3
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
