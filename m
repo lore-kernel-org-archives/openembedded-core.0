@@ -1,51 +1,21 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id E098A6E7A5
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 0567A6E3C1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2014 19:30:52 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.5])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1W78wM-0000yP-I6; Sat, 25 Jan 2014 20:30:50 +0100
-Message-ID: <1390678245.24755.51.camel@e130.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Kang Kai <Kai.Kang@windriver.com>
-Date: Sat, 25 Jan 2014 19:30:45 +0000
-In-Reply-To: <52DF8A1E.9050306@windriver.com>
-References: <1390360372-10947-1-git-send-email-kai.kang@windriver.com>
-	<1390374490.24755.2.camel@e130.pbcl.net>
-	<52DF8A1E.9050306@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Wed, 2014-01-22 at 17:06 +0800,
-	Kang Kai wrote: > Use glib-dbg
-	does work. But if I use it in a recipe, when uclibc is > used, I have to
-	edit the recipe. Isn't that still true of "libc6-dbg"? Worse,
-	it isn't even
-	guaranteed that the eglibc-debug package will be named libc6-dbg on all
-	targets; 
-	it would probably end up as libc6.1-dbg on alpha-linux or ia64-linux
-	for
-	example. Encouraging people to hardcode "libc6" doesn't seem very
-	wholesome. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc-dbg: provides libc6-dbg
+	Sat, 25 Jan 2014 21:25:21 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 25 Jan 2014 13:25:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,720,1384329600"; d="scan'208";a="464717991"
+Received: from garethcl-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.28])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jan 2014 13:25:08 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 25 Jan 2014 21:25:05 +0000
+Message-Id: <1390685105-16717-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] classes/buildhistory: fix expansion of escape sequences
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,21 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jan 2014 19:30:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 25 Jan 2014 21:25:22 -0000
 
-On Wed, 2014-01-22 at 17:06 +0800, Kang Kai wrote:
-> Use glib-dbg does work. But if I use it in a recipe, when uclibc is
-> used, I have to edit the recipe.
+OE-Core commit 259b8718a31b886f8a158aeb5de164840c9a28b2 fixed UTF-8
+errors but broke decoding of escape sequences in strings (e.g.
+pkg_postinst scripts had \n \t in them instead of newlines and tabs.)
+We need a second call to decode() here as specifying 'string_escape' as
+the second parameter won't do anything.
 
-Isn't that still true of "libc6-dbg"?  Worse, it isn't even guaranteed
-that the eglibc-debug package will be named libc6-dbg on all targets; it
-would probably end up as libc6.1-dbg on alpha-linux or ia64-linux for
-example.  Encouraging people to hardcode "libc6" doesn't seem very
-wholesome.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/buildhistory.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-p.
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index e9a9c3b..debeea8 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -190,7 +190,7 @@ python buildhistory_emit_pkghistory() {
+                 key = item[0]
+                 if key.endswith('_' + pkg):
+                     key = key[:-len(pkg)-1]
+-                pkgdata[key] = item[1].decode('utf-8', 'string_escape')
++                pkgdata[key] = item[1].decode('utf-8').decode('string_escape')
+ 
+         pkge = pkgdata.get('PKGE', '0')
+         pkgv = pkgdata['PKGV']
+-- 
+1.8.5.3
 
 
