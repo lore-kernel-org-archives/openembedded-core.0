@@ -1,38 +1,36 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id CC9136E83C
+Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 657A36E754
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2014 11:22:32 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id hq11so2436863vcb.14
+	Sat, 25 Jan 2014 11:25:15 +0000 (UTC)
+Received: by mail-ve0-f179.google.com with SMTP id jx11so2557436veb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2014 03:22:33 -0800 (PST)
+	Sat, 25 Jan 2014 03:25:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=7lT6H63yDfP0l+rMh72dA67OPBfmWIpd9vz6afMFSaQ=;
-	b=B5zVMECpoDwH/NQQW3KfHI4Rx+sf4gJXnkUMybEUi1VpvLrku/DJ7psTiyjVvxJw+j
-	uiDwwoTbFZRHEJdSJqSCrDLd0P4rE6ITm9EjPhlrPIVVyrWoQJhqnYa+QL2QbY2rWquX
-	aDsGy/S2ANcqapkkcgUaonfNHJrdjvobfB114STjmlVEsX1xl0u95o9YVHDPP/Azc3z6
-	I74cw82+qhPtCdrwW/NsfNnFuvU7gnKDOs0EzRCKr7fJb8GyxiI2+1vVUq81s5WYriJs
-	f91UFWfIiL/H1KNX24wtXeaUiVljS+zN6d+u1tWntABiL1F+47YMaiMuocKfbY/nBZPF
-	Wp9g==
-X-Received: by 10.58.58.3 with SMTP id m3mr5587080veq.32.1390648952926; Sat,
-	25 Jan 2014 03:22:32 -0800 (PST)
+	bh=+LTP/1F6O4jkVC/bOoA+wEpOCmnjd29tG5cECXLICRw=;
+	b=T+wvhgFBZvehBhONk5zFExvy9QqrvFVV8aL6oxE/hac623oknBlJ19rIHo5tCWQmEp
+	/YaHgDlFNFgg3qifk/EIz7GilgcHeeDCwLAclOKI0gRLwsoX0oO592hnWwRrZmc3fBVQ
+	DTIdyjkxRCT8+YkJ/RyXSAMyIt7VhC010ujSYAnFiZwb4O2g67hqHpSeowvaaq9xGv/g
+	0lwacx3QynFabXeQgoFi8Hkt2ArVY70XDnmgkMrcQJT/cZn87zZx5owbZupz7trSEz43
+	WFTW4Bla8IwXDCfJH0wPyRpncHvEt2A70rTF+9Ov5H+30LVkwrsuV1Q2C7Cp3+KP4u4V
+	lw2g==
+X-Received: by 10.220.88.204 with SMTP id b12mr10026155vcm.3.1390649116212;
+	Sat, 25 Jan 2014 03:25:16 -0800 (PST)
 MIME-Version: 1.0
 Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Sat, 25 Jan 2014 03:21:52 -0800 (PST)
-In-Reply-To: <52E2C97A.8010906@pseudoterminal.org>
-References: <52E10247.8050700@pseudoterminal.org>
-	<52E15760.8050606@balister.org>
-	<52E2C97A.8010906@pseudoterminal.org>
+Received: by 10.220.239.135 with HTTP; Sat, 25 Jan 2014 03:24:36 -0800 (PST)
+In-Reply-To: <1390623243-28674-1-git-send-email-tylerwhall@gmail.com>
+References: <1390623243-28674-1-git-send-email-tylerwhall@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
-Date: Sat, 25 Jan 2014 11:21:52 +0000
-X-Google-Sender-Auth: 2LiKf33HRDawooCUhXoGNAZzfYs
-Message-ID: <CANyK_8dtZROz++1h+pHiram1bhJbeP1YJaV+DeZS20MJMyd=vA@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Date: Sat, 25 Jan 2014 11:24:36 +0000
+X-Google-Sender-Auth: TkNYIJ3Aoqn1P9gP1_AkMZCiY2c
+Message-ID: <CANyK_8fHJMUAm=hDfq55fcH4pLSM_=9iP6p0CqMyk9h6ngOsJw@mail.gmail.com>
+To: Tyler Hall <tylerwhall@gmail.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Berkeley DB fails to build
+Subject: Re: [PATCH] db: Fix libtool linking against local libstdc++.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,41 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jan 2014 11:22:33 -0000
+X-List-Received-Date: Sat, 25 Jan 2014 11:25:15 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On 24 January 2014 20:13, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
-> On 2014-01-23 18:54, Philip Balister wrote:
->>
->> On 01/23/2014 06:51 AM, Carlos Rafael Giani wrote:
->>>
->>> Hello,
->>>
->>> I noticed that since the C++ bindings for the berkeley DB were included
->>> in commit 23f29027db73d5759889b48fabdea7f6173217a7 , I cannot build db
->>> anymore.
->>> The error is:
->>>
->>>      /usr/lib/libstdc++.so: file not recognized: File format not
->>> recognized
->>>
->>> this is the offending part in the log.do_compile file:
->>
->> What distro is your build machine running? I've this from people using
->> Arch Linux.
->>
->> Philip
->>
->>
+On 25 January 2014 04:14, Tyler Hall <tylerwhall@gmail.com> wrote:
+> Building the C++ bindings in a484b35b818768487ff27cf06b8c5d4e128126af
+> introduced this error on systems with /usr/lib/libstdc++.so present:
 >
-> Indeed I am using Arch Linux. I also checked the logs, and did not find any
-> isolated /usr/include or /usr/lib/ paths.
+>     /usr/lib/libstdc++.so: file not recognized: File format not recognized
 >
+> The shipped libtool is sysroot aware, so pass --with-sysroot so it will
+> extract the sysroot from the compiler.
+>
+> Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
 
-It looks like the patch Tyler Hall just posted to the mailing list
-solves this problem for me - give it a try!
+This fixes the issue I was having, I can now build db without having
+to revert the previous patch to enable C++ bindings.
 
-Thanks,
+Tested-by: Paul Barker <paul@paulbarker.me.uk>
 
 -- 
 Paul Barker
