@@ -1,40 +1,51 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-bk0-f44.google.com (mail-bk0-f44.google.com
-	[209.85.214.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 113776E7CF
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id E098A6E7A5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2014 12:16:59 +0000 (UTC)
-Received: by mail-bk0-f44.google.com with SMTP id mz12so1834184bkb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2014 04:17:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=xhe0QLd0sr3mGfXGXi8yWiSLfHnCny9s61gG54D2L8g=;
-	b=ggnLvyqVzJPNRbK4XAMkdnXRnQV9HSFpaPIUrL7iNWwPrgQwPpC4N+cj4JrqmV07nk
-	+S6y/fHXBuPmjGGNZ/Vc2105VJKu/C0fy66e9W5Ww2xw2CQLJ1GorpmCTVeyblweAvM5
-	klZkfvo1aIigR7D3PWeiXOYkbiGYBUwiLK3Kjz94vPoFCrx3OcrbFcTNL0abZrjS98pC
-	13sSHaS6oqTQBSexz6oK0uGkI9/l6wGFiH7+p0X2BOOJIpjF/RoPwrcjJ8jfwt6VDRW2
-	FCZAfLD3X95xAaSAazMA1zPYad4TAs3ULfJ9iAxU+QFPXtwWoFsOlSnTkCrF1xAGMfYr
-	mBeg==
-X-Gm-Message-State: ALoCoQkypGms6JWZcAhQsHeWtc8NQpQd5TWRwkGxO9Xx5VntHYMJDQijys8JOH5DBqBOo72SFaf9
-X-Received: by 10.204.64.65 with SMTP id d1mr122112bki.108.1390652220401;
-	Sat, 25 Jan 2014 04:17:00 -0800 (PST)
-Received: from localhost ([2001:610:612:0:21f:c6ff:feaa:c5fb])
-	by mx.google.com with ESMTPSA id f3sm6187727bkk.4.2014.01.25.04.16.59
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=RC4-SHA bits=128/128);
-	Sat, 25 Jan 2014 04:16:59 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Jan 2014 13:16:52 +0100
-Message-Id: <1390652212-30440-2-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.7.10
-In-Reply-To: <1390652212-30440-1-git-send-email-koen@dominion.thruhere.net>
-References: <1390652212-30440-1-git-send-email-koen@dominion.thruhere.net>
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH 2/2] openssh: drag in required PAM modules.
+	Sat, 25 Jan 2014 19:30:52 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1W78wM-0000yP-I6; Sat, 25 Jan 2014 20:30:50 +0100
+Message-ID: <1390678245.24755.51.camel@e130.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Kang Kai <Kai.Kang@windriver.com>
+Date: Sat, 25 Jan 2014 19:30:45 +0000
+In-Reply-To: <52DF8A1E.9050306@windriver.com>
+References: <1390360372-10947-1-git-send-email-kai.kang@windriver.com>
+	<1390374490.24755.2.camel@e130.pbcl.net>
+	<52DF8A1E.9050306@windriver.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Wed, 2014-01-22 at 17:06 +0800,
+	Kang Kai wrote: > Use glib-dbg
+	does work. But if I use it in a recipe, when uclibc is > used, I have to
+	edit the recipe. Isn't that still true of "libc6-dbg"? Worse,
+	it isn't even
+	guaranteed that the eglibc-debug package will be named libc6-dbg on all
+	targets; 
+	it would probably end up as libc6.1-dbg on alpha-linux or ia64-linux
+	for
+	example. Encouraging people to hardcode "libc6" doesn't seem very
+	wholesome. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc-dbg: provides libc6-dbg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,30 +58,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jan 2014 12:17:00 -0000
+X-List-Received-Date: Sat, 25 Jan 2014 19:30:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-/etc/pam.d/opensshd lists keyinit and uid as required, so add them to
-RDEPENDS when PAM is enabled.
+On Wed, 2014-01-22 at 17:06 +0800, Kang Kai wrote:
+> Use glib-dbg does work. But if I use it in a recipe, when uclibc is
+> used, I have to edit the recipe.
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
----
- meta/recipes-connectivity/openssh/openssh_6.4p1.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Isn't that still true of "libc6-dbg"?  Worse, it isn't even guaranteed
+that the eglibc-debug package will be named libc6-dbg on all targets; it
+would probably end up as libc6.1-dbg on alpha-linux or ia64-linux for
+example.  Encouraging people to hardcode "libc6" doesn't seem very
+wholesome.
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-index b124c8b..94d0efe 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-@@ -122,7 +122,7 @@ FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
- FILES_${PN}-keygen = "${bindir}/ssh-keygen"
- 
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
--RDEPENDS_${PN}-sshd += "${PN}-keygen initscripts-functions"
-+RDEPENDS_${PN}-sshd += "${PN}-keygen initscripts-functions ${@base_contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
- 
- CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
- CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
--- 
-1.7.10
+p.
+
 
 
