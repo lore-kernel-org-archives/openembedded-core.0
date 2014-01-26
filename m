@@ -1,26 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 880A86002A
+Return-Path: <Baogen.Shang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 483356002A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jan 2014 07:50:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0Q7oI1G017225
+	Sun, 26 Jan 2014 07:55:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0Q7tmto015396
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2014 23:50:18 -0800 (PST)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Sat, 25 Jan 2014 23:50:18 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
+	Sat, 25 Jan 2014 23:55:48 -0800 (PST)
+Received: from pek-bshang-d1.wrs.com (128.224.162.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Sat, 25 Jan 2014 23:55:47 -0800
+From: Baogen Shang <baogen.shang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Jan 2014 15:50:14 +0800
-Message-ID: <31bde1f3800810ad5898b52ab8b59e6b8502a180.1390722297.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1390722297.git.Chong.Lu@windriver.com>
-References: <cover.1390722297.git.Chong.Lu@windriver.com>
+Date: Sun, 26 Jan 2014 15:55:05 +0800
+Message-ID: <1390722905-9709-1-git-send-email-baogen.shang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH v3 1/1] acl: enable ptest support
+Subject: [PATCH] curl:Fix multilib header conflict - curl/curlbuild.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2014 07:50:17 -0000
+X-List-Received-Date: Sun, 26 Jan 2014 07:55:47 -0000
 Content-Type: text/plain
 
-Install acl test suite and run it as ptest.
-nfs test cases need depend on nfs service. So exclude them order to
-make ptest all pass.
+curl/curlbuild.h conflicts between 32-bit and 64-bit versions.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+Signed-off-by: Baogen Shang <baogen.shang@windriver.com>
 ---
- meta/recipes-support/attr/acl.inc       | 14 +++++++++++++-
- meta/recipes-support/attr/acl/run-ptest |  7 +++++++
- 2 files changed, 20 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/attr/acl/run-ptest
+ meta/recipes-support/curl/curl_7.34.0.bb |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/attr/acl.inc b/meta/recipes-support/attr/acl.inc
-index a461232..04967a6 100644
---- a/meta/recipes-support/attr/acl.inc
-+++ b/meta/recipes-support/attr/acl.inc
-@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
-                     file://doc/COPYING.LGPL;md5=9e9a206917f8af112da634ce3ab41764"
+diff --git a/meta/recipes-support/curl/curl_7.34.0.bb b/meta/recipes-support/curl/curl_7.34.0.bb
+index c4e722d..b49c6e4 100644
+--- a/meta/recipes-support/curl/curl_7.34.0.bb
++++ b/meta/recipes-support/curl/curl_7.34.0.bb
+@@ -21,7 +21,7 @@ SRC_URI += " file://configure_ac.patch"
+ SRC_URI[md5sum] = "88491df2bb32e9146e776ae6ac2f8327"
+ SRC_URI[sha256sum] = "10beade56b48311499e444783df3413405b22f20a147ed4a1d8a8125f1cc829b"
  
- DEPENDS = "attr"
--SRC_URI = "http://download.savannah.gnu.org/releases/acl/${BP}.src.tar.gz"
-+SRC_URI = "http://download.savannah.gnu.org/releases/acl/${BP}.src.tar.gz \
-+           file://run-ptest \
-+"
+-inherit autotools pkgconfig binconfig
++inherit autotools pkgconfig binconfig multilib_header
  
- require ea-acl.inc
- 
-@@ -24,3 +26,13 @@ do_install_append() {
- 	sed -i ${D}${libdir}/libacl.la -e \
- 	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
+ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+                 --without-libssh2 \
+@@ -41,6 +41,10 @@ do_configure_prepend() {
+ 	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g ${S}/configure.ac
  }
-+
-+inherit ptest
-+
-+do_install_ptest() {
-+	tar -cf - test/ --exclude nfs | ( cd ${D}${PTEST_PATH} && tar -xf - )
-+	mkdir ${D}${PTEST_PATH}/include
-+	cp ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
+ 
++do_install_append() {
++	oe_multilib_header curl/curlbuild.h
 +}
 +
-+RDEPENDS_${PN}-ptest = "bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
-diff --git a/meta/recipes-support/attr/acl/run-ptest b/meta/recipes-support/attr/acl/run-ptest
-new file mode 100644
-index 0000000..3b31cc9
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/run-ptest
-@@ -0,0 +1,7 @@
-+#!/bin/sh
-+
-+gpasswd -a daemon bin
-+make -C test -k tests root-tests |sed \
-+ -e 's|^\[.*\] \(.*\) -- ok$|PASS: \1|' \
-+ -e 's|^\[.*\] \(.*\) -- failed|FAIL: \1|'
-+gpasswd -d daemon bin
+ PACKAGES =+ "${PN}-certs libcurl libcurl-dev libcurl-staticdev libcurl-doc"
+ 
+ FILES_${PN}-certs = "${datadir}/curl/curl-*"
 -- 
-1.8.1.2
+1.7.9.5
 
 
