@@ -1,30 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FF8F6CBB4
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 603AD6CBB4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jan 2014 12:31:55 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0QCVg3f005176; Sun, 26 Jan 2014 12:31:43 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nI7Rr3OZYC_Y; Sun, 26 Jan 2014 12:31:42 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0QCVaJ1005173
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Sun, 26 Jan 2014 12:31:38 GMT
-Message-ID: <1390739491.17424.223.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrew Blackburn <andyblac@icloud.com>
-Date: Sun, 26 Jan 2014 12:31:31 +0000
-In-Reply-To: <5DF1C6C6-FAB2-4BAE-ACE6-9F1DFDA43BDD@icloud.com>
-References: <5DF1C6C6-FAB2-4BAE-ACE6-9F1DFDA43BDD@icloud.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	Sun, 26 Jan 2014 15:57:30 +0000 (UTC)
+Received: (qmail 3575 invoked by uid 1003); 26 Jan 2014 15:57:30 -0000
+Received: from unknown (HELO ?192.168.1.122?)
+	(philip@opensdr.com@71.171.41.155)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	26 Jan 2014 15:57:30 -0000
+Message-ID: <52E53069.4050508@balister.org>
+Date: Sun, 26 Jan 2014 10:57:29 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Tyler Hall <tylerwhall@gmail.com>
+References: <1390623243-28674-1-git-send-email-tylerwhall@gmail.com>
+In-Reply-To: <1390623243-28674-1-git-send-email-tylerwhall@gmail.com>
+X-Enigmail-Version: 1.6
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: how do i auto increase a package PR on every build.
+Subject: Re: [PATCH] db: Fix libtool linking against local libstdc++.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2014 12:31:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 26 Jan 2014 15:57:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2014-01-26 at 11:40 +0000, Andrew Blackburn wrote:
-> hi guys,
+On 01/24/2014 11:14 PM, Tyler Hall wrote:
+> Building the C++ bindings in a484b35b818768487ff27cf06b8c5d4e128126af
+> introduced this error on systems with /usr/lib/libstdc++.so present:
 > 
-> i hoping someone can help me on this, i am wanting to have a build
-> number for my project, atm i am manually increase the PR from the main
-> bb, but this mean i have update the GIT on each build, and is this
-> flooded with unnecessary commits. this they away i can get it to auto
-> increase the PR on each and every build ?, i would also need to tell
-> it a start point from what to increase.
+>     /usr/lib/libstdc++.so: file not recognized: File format not recognized
 > 
+> The shipped libtool is sysroot aware, so pass --with-sysroot so it will
+> extract the sysroot from the compiler.
 > 
-> hope someone can help.
+> Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
 
-Have a look at the PR server code. That currently increases the PR
-number when the hash of the task changes.
+Tested-by: Philip Balister <philip@balister.org>
 
-You could therefore either:
+It didn't seem to break anything on my build. (Which worked already)
+Packaging looks OK still.
 
-a) hack the PR server to always increase the PR of your recipe
-
-b) add a dependency on the DATETIME variable in your recipe's do_package
-task so the hash always changes.
-
-Cheers,
-
-Richard
-
+> ---
+>  meta/recipes-support/db/db_5.3.21.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-support/db/db_5.3.21.bb b/meta/recipes-support/db/db_5.3.21.bb
+> index 8ec8870..caf6890 100644
+> --- a/meta/recipes-support/db/db_5.3.21.bb
+> +++ b/meta/recipes-support/db/db_5.3.21.bb
+> @@ -63,7 +63,7 @@ FILES_SOLIBSDEV = "${libdir}/libdb.so ${libdir}/libdb_cxx.so"
+>  # All the --disable-* options replace --enable-smallbuild, which breaks a bunch of stuff (eg. postfix)
+>  DB5_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disable-replication --disable-verify --disable-compat185 --disable-sql"
+>  
+> -EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx"
+> +EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot"
+>  
+>  # Override the MUTEX setting here, the POSIX library is
+>  # the default - "POSIX/pthreads/library".
+> 
 
