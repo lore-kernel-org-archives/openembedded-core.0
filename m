@@ -1,26 +1,24 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F28986AE39
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E95F56002A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jan 2014 05:56:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0Q5uCZv016436
+	Sun, 26 Jan 2014 06:16:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0Q6GBCc011190
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2014 21:56:12 -0800 (PST)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sat, 25 Jan 2014 21:56:12 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
+	Sat, 25 Jan 2014 22:16:11 -0800 (PST)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Sat, 25 Jan 2014 22:16:10 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 26 Jan 2014 13:56:09 +0800
-Message-ID: <a901087ec74163558f429d5df254173ef39ee8e4.1390715716.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1390715716.git.Chong.Lu@windriver.com>
-References: <cover.1390715716.git.Chong.Lu@windriver.com>
+Date: Sun, 26 Jan 2014 14:16:51 +0800
+Message-ID: <cover.1390716716.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] parted: enable ptest support
+Subject: [PATCH 00/58] [dora-next] fixes for dora (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,362 +31,219 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2014 05:56:12 -0000
+X-List-Received-Date: Sun, 26 Jan 2014 06:16:10 -0000
 Content-Type: text/plain
 
-Install parted test suite and run it as ptest.
+Note:
+This PULL is based on oe-core, and here is another one based on poky:
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-extended/parted/parted-3.1/Makefile  | 285 ++++++++++++++++++++++
- meta/recipes-extended/parted/parted-3.1/run-ptest |   3 +
- meta/recipes-extended/parted/parted_3.1.bb        |  25 +-
- 3 files changed, 311 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/parted/parted-3.1/Makefile
- create mode 100644 meta/recipes-extended/parted/parted-3.1/run-ptest
+git://git.yoctoproject.org/poky-contrib robert/dora-next
 
-diff --git a/meta/recipes-extended/parted/parted-3.1/Makefile b/meta/recipes-extended/parted/parted-3.1/Makefile
-new file mode 100644
-index 0000000..ee90be0
---- /dev/null
-+++ b/meta/recipes-extended/parted/parted-3.1/Makefile
-@@ -0,0 +1,285 @@
-+am__tty_colors_dummy = \
-+  mgn= red= grn= lgn= blu= brg= std=; \
-+  am__color_tests=no
-+
-+am__tty_colors = \
-+$(am__tty_colors_dummy); \
-+test "X$(AM_COLOR_TESTS)" != Xno \
-+&& test "X$$TERM" != Xdumb \
-+&& { test "X$(AM_COLOR_TESTS)" = Xalways || test -t 1 2>/dev/null; } \
-+&& { \
-+  am__color_tests=yes; \
-+  red='[0;31m'; \
-+  grn='[0;32m'; \
-+  lgn='[1;32m'; \
-+  blu='[1;34m'; \
-+  mgn='[0;35m'; \
-+  brg='[1m'; \
-+  std='[m'; \
-+}
-+
-+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-+am__vpath_adj = case $$p in \
-+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-+    *) f=$$p;; \
-+  esac;
-+am__rst_title = { sed 's/.*/   &   /;h;s/./=/g;p;x;s/ *$$//;p;g' && echo; }
-+am__rst_section = { sed 'p;s/./=/g;' && echo; }
-+am__sh_e_setup = case $$- in *e*) set +e;; esac
-+
-+am__common_driver_flags = \
-+  --color-tests "$$am__color_tests" \
-+  --enable-hard-errors "$$am__enable_hard_errors" \
-+  --expect-failure "$$am__expect_failure"
-+am__check_pre = \
-+$(am__sh_e_setup);					\
-+$(am__vpath_adj_setup) $(am__vpath_adj)			\
-+$(am__tty_colors);					\
-+srcdir=$(srcdir); export srcdir;			\
-+am__odir=`echo "./$@" | sed 's|/[^/]*$$||'`;		\
-+test "x$$am__odir" = x. || $(MKDIR_P) "$$am__odir" || exit $$?;	\
-+if test -f "./$$f"; then dir=./;			\
-+elif test -f "$$f"; then dir=;				\
-+else dir="$(srcdir)/"; fi;				\
-+tst=$$dir$$f; log='$@'; 				\
-+if test -n '$(DISABLE_HARD_ERRORS)'; then		\
-+  am__enable_hard_errors=no; 				\
-+else							\
-+  am__enable_hard_errors=yes; 				\
-+fi; 							\
-+$(AM_TESTS_ENVIRONMENT) $(TESTS_ENVIRONMENT)
-+
-+am__set_TESTS_bases = \
-+  bases='$(TEST_LOGS)'; \
-+  bases=`for i in $$bases; do echo $$i; done | sed 's/\.log$$//'`; \
-+  bases=`echo $$bases`
-+
-+RECHECK_LOGS = $(TEST_LOGS)
-+TEST_SUITE_LOG = test-suite.log
-+am__test_logs1 = $(TESTS:=.log)
-+am__test_logs2 = $(am__test_logs1:.log=.log)
-+TEST_LOGS = $(am__test_logs2:.sh.log=.log)
-+SH_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
-+SH_LOG_COMPILE = $(SH_LOG_COMPILER)
-+
-+am__set_b = \
-+  case '$@' in \
-+    */*) \
-+      case '$*' in \
-+        */*) b='$*';; \
-+          *) b=`echo '$@' | sed 's/\.log$$//'`; \
-+       esac;; \
-+    *) \
-+      b='$*';; \
-+  esac
-+
-+MKDIR_P = /bin/mkdir -p
-+SHELL = /bin/bash
-+VERSION = 3.1
-+PACKAGE_STRING = GNU parted 3.1
-+PACKAGE_BUGREPORT = bug-parted@gnu.org
-+abs_srcdir = $(PWD)
-+abs_top_builddir = $(PWD)/..
-+abs_top_srcdir = $(PWD)/..
-+srcdir = .
-+top_srcdir = ..
-+subdir = tests
-+SH_LOG_COMPILER = $(SHELL)
-+
-+TESTS = \
-+  help-version.sh \
-+  t0000-basic.sh \
-+  t0001-tiny.sh \
-+  t0010-script-no-ctrl-chars.sh \
-+  t0100-print.sh \
-+  t0101-print-empty.sh \
-+  t0200-gpt.sh \
-+  t0201-gpt.sh \
-+  t0202-gpt-pmbr.sh \
-+  t0203-gpt-tiny-device-abort.sh \
-+  t0203-gpt-shortened-device-primary-valid.sh \
-+  t0205-gpt-list-clobbers-pmbr.sh \
-+  t0206-gpt-print-with-corrupt-primary-clobbers-pmbr.sh \
-+  t0207-IEC-binary-notation.sh \
-+  t0208-mkpart-end-in-IEC.sh \
-+  t0209-gpt-pmbr_boot.sh \
-+  t0210-gpt-resized-partition-entry-array.sh \
-+  t0211-gpt-rewrite-header.sh \
-+  t0212-gpt-many-partitions.sh \
-+  t0220-gpt-msftres.sh \
-+  t0250-gpt.sh \
-+  t0280-gpt-corrupt.sh \
-+  t0300-dos-on-gpt.sh \
-+  t0400-loop-clobber-infloop.sh \
-+  t0500-dup-clobber.sh \
-+  t0501-duplicate.sh \
-+  t1100-busy-label.sh \
-+  t1101-busy-partition.sh \
-+  t1700-probe-fs.sh \
-+  t2200-dos-label-recog.sh \
-+  t2201-pc98-label-recog.sh \
-+  t2300-dos-label-extended-bootcode.sh \
-+  t2310-dos-extended-2-sector-min-offset.sh \
-+  t2400-dos-hfs-partition-type.sh \
-+  t2500-probe-corrupt-hfs.sh \
-+  t3000-resize-fs.sh \
-+  t3200-type-change.sh \
-+  t3300-palo-prep.sh \
-+  t3310-flags.sh \
-+  t3400-whole-disk-FAT-partition.sh \
-+  t4000-sun-raid-type.sh \
-+  t4001-sun-vtoc.sh \
-+  t4100-msdos-partition-limits.sh \
-+  t4100-dvh-partition-limits.sh \
-+  t4100-msdos-starting-sector.sh \
-+  t4200-partprobe.sh \
-+  t4300-nilfs2-tiny.sh \
-+  t5000-tags.sh \
-+  t6000-dm.sh \
-+  t6001-psep.sh \
-+  t6100-mdraid-partitions.sh \
-+  t7000-scripting.sh \
-+  t8000-loop.sh \
-+  t8001-loop-blkpg.sh \
-+  t9010-big-sector.sh \
-+  t9020-alignment.sh \
-+  t9021-maxima.sh \
-+  t9022-one-unit-snap.sh \
-+  t9023-value-lt-one.sh \
-+  t9030-align-check.sh \
-+  t9040-many-partitions.sh \
-+  t9041-undetected-in-use-16th-partition.sh \
-+  t9042-dos-partition-limit.sh \
-+  t9050-partition-table-types.sh
-+
-+TESTS_ENVIRONMENT = \
-+  export					\
-+  abs_top_builddir='$(abs_top_builddir)'	\
-+  abs_top_srcdir='$(abs_top_srcdir)'		\
-+  abs_srcdir='$(abs_srcdir)'			\
-+  built_programs=parted				\
-+  srcdir='$(srcdir)'				\
-+  top_srcdir='$(top_srcdir)'			\
-+  VERSION=$(VERSION)				\
-+  ; 9>&2
-+
-+.SUFFIXES: .log
-+
-+$(TEST_SUITE_LOG): $(TEST_LOGS)
-+	@$(am__sh_e_setup); $(am__tty_colors); $(am__set_TESTS_bases); \
-+	ws='[ 	]'; \
-+	results=`for b in $$bases; do echo $$b.trs; done`; \
-+	test -n "$$results" || results=/dev/null; \
-+	all=`  grep "^$$ws*:test-result:"           $$results | wc -l`; \
-+	pass=` grep "^$$ws*:test-result:$$ws*PASS"  $$results | wc -l`; \
-+	fail=` grep "^$$ws*:test-result:$$ws*FAIL"  $$results | wc -l`; \
-+	skip=` grep "^$$ws*:test-result:$$ws*SKIP"  $$results | wc -l`; \
-+	xfail=`grep "^$$ws*:test-result:$$ws*XFAIL" $$results | wc -l`; \
-+	xpass=`grep "^$$ws*:test-result:$$ws*XPASS" $$results | wc -l`; \
-+	error=`grep "^$$ws*:test-result:$$ws*ERROR" $$results | wc -l`; \
-+	if test `expr $$fail + $$xpass + $$error` -eq 0; then \
-+	  success=true; \
-+	else \
-+	  success=false; \
-+	fi; \
-+	br='==================='; br=$$br$$br$$br$$br; \
-+	result_count () \
-+	{ \
-+	    if test x"$$1" = x"--maybe-color"; then \
-+	      maybe_colorize=yes; \
-+	    elif test x"$$1" = x"--no-color"; then \
-+	      maybe_colorize=no; \
-+	    else \
-+	      echo "$@: invalid 'result_count' usage" >&2; exit 4; \
-+	    fi; \
-+	    shift; \
-+	    desc=$$1 count=$$2; \
-+	    if test $$maybe_colorize = yes && test $$count -gt 0; then \
-+	      color_start=$$3 color_end=$$std; \
-+	    else \
-+	      color_start= color_end=; \
-+	    fi; \
-+	    echo "$${color_start}# $$desc $$count$${color_end}"; \
-+	}; \
-+	create_testsuite_report () \
-+	{ \
-+	  result_count $$1 "TOTAL:" $$all   "$$brg"; \
-+	  result_count $$1 "PASS: " $$pass  "$$grn"; \
-+	  result_count $$1 "SKIP: " $$skip  "$$blu"; \
-+	  result_count $$1 "XFAIL:" $$xfail "$$lgn"; \
-+	  result_count $$1 "FAIL: " $$fail  "$$red"; \
-+	  result_count $$1 "XPASS:" $$xpass "$$red"; \
-+	  result_count $$1 "ERROR:" $$error "$$mgn"; \
-+	}; \
-+	{								\
-+	  echo "$(PACKAGE_STRING): $(subdir)/$(TEST_SUITE_LOG)" |	\
-+	    $(am__rst_title);						\
-+	  create_testsuite_report --no-color;				\
-+	  echo;								\
-+	  echo ".. contents:: :depth: 2";				\
-+	  echo;								\
-+	  for i in $$bases; do						\
-+	    if grep "^$$ws*:copy-in-global-log:$$ws*no$$ws*$$" $$i.trs \
-+	         >/dev/null; then continue; \
-+	    fi; \
-+	    glob_res=`sed -n -e "s/$$ws*$$//" \
-+	                     -e "s/^$$ws*:global-test-result:$$ws*//p" \
-+		        $$i.trs`; \
-+	    test -n "$$glob_res" || glob_res=RUN; \
-+	    echo "$$glob_res: $$i" | $(am__rst_section); \
-+	    if test ! -r $$i.log; then \
-+	      echo "fatal: making $@: $$i.log is unreadable" >&2; \
-+	      exit 1; \
-+	    fi; \
-+	    cat $$i.log; echo; \
-+	  done;	\
-+	} >$(TEST_SUITE_LOG).tmp;					\
-+	mv $(TEST_SUITE_LOG).tmp $(TEST_SUITE_LOG);			\
-+	if $$success; then						\
-+	  col="$$grn";							\
-+	 else								\
-+	  col="$$red";							\
-+	  test x"$$VERBOSE" = x || cat $(TEST_SUITE_LOG);		\
-+	fi;								\
-+	echo "$${col}$$br$${std}"; 					\
-+	echo "$${col}Testsuite summary for $(PACKAGE_STRING)$${std}";	\
-+	echo "$${col}$$br$${std}"; 					\
-+	create_testsuite_report --maybe-color;				\
-+	echo "$$col$$br$$std";						\
-+	if $$success; then :; else					\
-+	  echo "$${col}See $(subdir)/$(TEST_SUITE_LOG)$${std}";		\
-+	  if test -n "$(PACKAGE_BUGREPORT)"; then			\
-+	    echo "$${col}Please report to $(PACKAGE_BUGREPORT)$${std}";	\
-+	  fi;								\
-+	  echo "$$col$$br$$std";					\
-+	fi;								\
-+	$$success || exit 1
-+
-+check-TESTS:
-+	@if test $@ != recheck; then \
-+	   list='$(RECHECK_LOGS)'; \
-+	   test -z "$$list" || rm -f $$list; \
-+	 fi
-+	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
-+	@ws='[ 	]'; \
-+	log_list='' trs_list=''; $(am__set_TESTS_bases); \
-+	for i in $$bases; do \
-+	  if test -z "$$log_list"; then \
-+	    log_list="$$i.log"; \
-+	  else \
-+	    log_list="$$log_list $$i.log"; \
-+	  fi; \
-+	  if test -z "$$trs_list"; then \
-+	    trs_list="$$i.trs"; \
-+	  else \
-+	    trs_list="$$trs_list $$i.trs"; \
-+	  fi; \
-+	done; \
-+	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) TEST_LOGS="$$log_list"
-+
-+.sh.log:
-+	@p='$<'; \
-+	$(am__set_b); \
-+	$(am__check_pre) $(SH_LOG_DRIVER) --test-name "$$f" \
-+	--log-file $$b.log --trs-file $$b.trs \
-+	$(am__common_driver_flags) -- $(SH_LOG_COMPILE) "$$tst"
-diff --git a/meta/recipes-extended/parted/parted-3.1/run-ptest b/meta/recipes-extended/parted/parted-3.1/run-ptest
-new file mode 100644
-index 0000000..695c5e8
---- /dev/null
-+++ b/meta/recipes-extended/parted/parted-3.1/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+make -C tests check-TESTS
-diff --git a/meta/recipes-extended/parted/parted_3.1.bb b/meta/recipes-extended/parted/parted_3.1.bb
-index 2d72027..1e07da4 100644
---- a/meta/recipes-extended/parted/parted_3.1.bb
-+++ b/meta/recipes-extended/parted/parted_3.1.bb
-@@ -11,13 +11,34 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://syscalls.patch \
-            file://fix-git-version-gen.patch \
-            file://fix-doc-mandir.patch \
--           file://fix-dvh-overflows.patch"
-+           file://fix-dvh-overflows.patch \
-+           file://run-ptest \
-+           file://Makefile \
-+"
- 
- SRC_URI[md5sum] = "5d89d64d94bcfefa9ce8f59f4b81bdcb"
- SRC_URI[sha256sum] = "5e9cc1f91eaf016e5033d85b9b893fd6d3ffaca532a48de1082df9b94225ca15"
- 
- EXTRA_OECONF = "--disable-device-mapper"
- 
--inherit autotools pkgconfig gettext
-+inherit autotools pkgconfig gettext ptest
- 
- BBCLASSEXTEND = "native"
-+
-+do_compile_ptest() {
-+	oe_runmake -C tests print-align print-max dup-clobber duplicate fs-resize
-+}
-+
-+do_install_ptest() {
-+	t=${D}${PTEST_PATH}
-+	mkdir $t/build-aux
-+	cp ${S}/build-aux/test-driver $t/build-aux/
-+	cp -r ${S}/tests $t
-+	cp ${WORKDIR}/Makefile $t/tests/
-+	for i in print-align print-max dup-clobber duplicate fs-resize; \
-+	  do cp ${B}/tests/.libs/$i $t/tests/; \
-+	done
-+	sed -e 's| ../parted||' -i $t/tests/*.sh
-+}
-+
-+RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup"
+// Robert
+
+
+The following changes since commit 198623d80d31f19c963e61d03cbcb12dd318dfdf:
+
+  ltp: set PREFERRED_PROVIDER and rename runtests_noltp.sh script (2014-01-24 12:48:15 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib robert/dora-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=robert/dora-next
+
+Alexandre Belloni (1):
+  wpa-supplicant-2.0: don't exit in pkg_postinst
+
+Anders Darander (1):
+  terminal.bbclass: do not export PS1
+
+Andreas Oberritter (1):
+  cogl-1.0: explicitly disable cairo
+
+Bruce Ashfield (1):
+  linux-libc-headers: fix MIPS klibc build error
+
+Chen Qi (1):
+  subversion: fix build problem when sysroot contains '-D' or '-I'
+
+Christopher Larson (4):
+  python, python-native: fix PARALLEL_MAKEINST failure
+  cairo: add/use packageconfig for valgrind support
+  pulseaudio: fix RDEPENDS traversal for consolekit
+  xz: make the LICENSE info more accurate
+
+Cristiana Voicu (1):
+  babeltrace: correct PV variable
+
+Enrico Scholz (1):
+  bluez4: added dependency on 'libsndfile1'
+
+Hongxu Jia (5):
+  kconfig-frontends: add python to kconfig-frontends's RDEPENDS
+  qemu: add PACKAGECONFIG for vnc, libcurl, nss, uuid, curses, gtk+,
+    libcap-ng
+  qemu: add bash and python to qemu's RDEPENDS
+  license.bbclass: fix copying license directories failed
+  nativesdk.bbclass: support nativesdk to override with the
+    PACKAGES_DYNAMIC statement
+
+Jackie Huang (3):
+  grub: add explicit dependency on bison-native
+  kconfig-frontends: fix the incorrect depends on gperf
+  guile: fix the depends for target recipes
+
+Jacob Kroon (1):
+  meta/lib/oe/terminal.py: Don't pass non-supported '--disable-factory'
+    flag to gnome-terminal
+
+Kai Kang (1):
+  x264: install libraries to right directory when enable multilib
+
+Krzysztof Sywula (1):
+  Minicom depends on libiconv
+
+Laurentiu Palcu (1):
+  x11vnc: fix CAPS_LOCK issues
+
+Li Wang (1):
+  xinetd: CVE-2013-4342
+
+Martin Jansa (3):
+  avahi: add leading space to RRECOMMENDS append
+  xinput-calibrator: add formfactor to RDEPENDS
+  base.bbclass: Set umask 022 also for do_unpack task
+
+Ming Liu (4):
+  qemu: use PACKAGECONFIG to address xfsprogs dependency
+  qemu: explicitly disable xen support
+  libpthread-stubs: should set ALLOW_EMPTY
+  grub: add PACKAGECONFIG for device-mapper
+
+Nick D'Ademo (1):
+  libav: install libraries to right directory when multilib is enabled
+
+Otavio Salvador (1):
+  gcc-4.8: Backport PR c++/57532 fix from 4.8.2
+
+Paul Eggleton (2):
+  linux-firmware: add missing linux-firmware-iwlwifi-7260-7 package
+  libav: add libpostproc to PROVIDES (for 0.8.x version only)
+
+Phil Blundell (2):
+  libsoup: Remove libproxy from DEPENDS
+  binutils: Also add autoconf-native to DEPENDS
+
+Richard Purdie (7):
+  base/gcc-common: Ensure umask setting is consistent for shared workdir
+  image.bbclass: Depend on virtual/kernel:do_deploy
+  gcc-cross-canadian: Fix fortran build
+  gcc-crosssdk.inc: Fix missing dependencies (such as libmpc-native)
+  eglibc-locale: Fix depends on binutils
+  eglibc-locale: Fix previous dependency change to properly work in
+    nativesdk case
+  eglibc-locale: Fix multilib builds to depend on the correct binutils
+
+Robert Yang (2):
+  coreutils 6.9: fix coreutils.texi
+  gcc-4.8/libstdc++-v3: disable sdt
+
+Ross Burton (3):
+  ptest: ensure do_install_ptest_base task runs in fakeroot context
+  useradd.bbclass: add dependency on base-files
+  dbus: use PACKAGECONFIG for X11 and systemd
+
+Roy Li (1):
+  multilib: Ensure we map the SYSTEMD_PACKAGES variable
+
+Saul Wold (1):
+  openssl: use PACKAGECONFIG to disable perl bits
+
+Scott Garman (1):
+  runqemu: remove core-image-* whitelist
+
+Tom Zanussi (1):
+  systemtap: Add --enable-prologues to configuration
+
+Yue Tao (3):
+  python: do not replace ccache in the middle of a path
+  acpid: CVE-2011-1159
+  icu: CVE-2013-2924
+
+mykhani (1):
+  openssl.inc: Install c_rehash utility with openssl
+
+yzhu1 (1):
+  populate_sdk: verify executable or dynamically linked library
+
+ meta/classes/base.bbclass                          |   9 +-
+ meta/classes/image.bbclass                         |   2 +
+ meta/classes/license.bbclass                       |   7 +-
+ meta/classes/multilib.bbclass                      |   1 +
+ meta/classes/nativesdk.bbclass                     |   1 +
+ meta/classes/populate_sdk_base.bbclass             |   2 +-
+ meta/classes/ptest.bbclass                         |   5 +
+ meta/classes/terminal.bbclass                      |   4 +
+ meta/classes/useradd.bbclass                       |   2 +
+ meta/lib/oe/terminal.py                            |   4 +-
+ meta/recipes-bsp/acpid/acpid.inc                   |   3 +-
+ .../acpid/acpid/set_socket_noblock.patch           |  10 +
+ meta/recipes-bsp/grub/grub_2.00.bb                 |   3 +-
+ meta/recipes-connectivity/avahi/avahi.inc          |   4 +-
+ meta/recipes-connectivity/bluez/bluez4.inc         |   2 +-
+ meta/recipes-connectivity/openssl/openssl.inc      |  16 +-
+ .../wpa-supplicant/wpa-supplicant-2.0.inc          |   5 +-
+ .../coreutils-6.9/coreutils-fix-texinfo.patch      | 375 +++++++++++++++++++++
+ meta/recipes-core/coreutils/coreutils_6.9.bb       |   1 +
+ meta/recipes-core/dbus/dbus.inc                    |  25 +-
+ meta/recipes-core/eglibc/eglibc-locale.inc         |   4 +-
+ meta/recipes-devtools/binutils/binutils.inc        |   2 +-
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
+ .../gcc/gcc-4.8/0031-Disable-sdt.patch             |  80 ++++-
+ .../gcc/gcc-4.8/0048-PR57532.patch                 |  36 ++
+ meta/recipes-devtools/gcc/gcc-common.inc           |   1 +
+ meta/recipes-devtools/gcc/gcc-cross-canadian.inc   |   1 +
+ meta/recipes-devtools/gcc/gcc-crosssdk.inc         |   2 +-
+ meta/recipes-devtools/guile/guile_2.0.9.bb         |   2 +-
+ .../kconfig-frontends_3.10.0.0.bb                  |   3 +-
+ .../recipes-devtools/python/python-native_2.7.3.bb |   1 +
+ .../python/parallel-makeinst-create-bindir.patch   |  19 ++
+ meta/recipes-devtools/python/python_2.7.3.bb       |   3 +-
+ meta/recipes-devtools/qemu/qemu.inc                |  19 +-
+ .../neon.m4-fix-includes-and-cflags.patch          |  32 ++
+ .../subversion/subversion_1.7.10.bb                |   1 +
+ meta/recipes-extended/minicom/minicom_2.6.2.bb     |   2 +-
+ .../xinetd/xinetd/xinetd-CVE-2013-4342.patch       |  32 ++
+ meta/recipes-extended/xinetd/xinetd_2.3.15.bb      |   1 +
+ meta/recipes-extended/xz/xz_5.1.2alpha.bb          |  17 +-
+ meta/recipes-graphics/cairo/cairo.inc              |   1 +
+ meta/recipes-graphics/cogl/cogl-1.0.inc            |   1 +
+ .../x11vnc/files/starting-fix.patch                |   6 +-
+ meta/recipes-graphics/xcb/libpthread-stubs_0.3.bb  |   2 +
+ .../xinput-calibrator/xinput-calibrator_git.bb     |   2 +-
+ .../linux-firmware/linux-firmware_git.bb           |   2 +-
+ ...lude-asm-byteorder.h-in-linux-raid-md_p.h.patch |  34 ++
+ .../linux-libc-headers/linux-libc-headers_3.10.bb  |   3 +
+ meta/recipes-kernel/lttng/babeltrace_1.1.1.bb      |   2 +-
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |   2 +-
+ meta/recipes-multimedia/libav/libav.inc            |   2 +
+ meta/recipes-multimedia/libav/libav_0.8.8.bb       |   2 +
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   6 +-
+ meta/recipes-multimedia/x264/x264_git.bb           |   1 +
+ ...fer_length_check_to_UTF_16_or_32_detector.patch |  33 ++
+ meta/recipes-support/icu/icu_51.2.bb               |   1 +
+ meta/recipes-support/libsoup/libsoup-2.4_2.42.1.bb |   2 +-
+ scripts/runqemu                                    |  17 +-
+ 58 files changed, 790 insertions(+), 69 deletions(-)
+ create mode 100644 meta/recipes-bsp/acpid/acpid/set_socket_noblock.patch
+ create mode 100644 meta/recipes-core/coreutils/coreutils-6.9/coreutils-fix-texinfo.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0048-PR57532.patch
+ create mode 100644 meta/recipes-devtools/python/python/parallel-makeinst-create-bindir.patch
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
+ create mode 100644 meta/recipes-extended/xinetd/xinetd/xinetd-CVE-2013-4342.patch
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/UAPI-include-asm-byteorder.h-in-linux-raid-md_p.h.patch
+ create mode 100644 meta/recipes-support/icu/icu-51.2/add_buffer_length_check_to_UTF_16_or_32_detector.patch
+
 -- 
-1.8.1.2
+1.8.3.1
 
 
