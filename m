@@ -1,25 +1,30 @@
-Return-Path: <andyblac@icloud.com>
-Received: from macmuppets.DiskStation.me
-	(host86-167-69-247.range86-167.btcentralplus.com [86.167.69.247])
-	by mail.openembedded.org (Postfix) with ESMTP id 60F3A6AEFA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FF8F6CBB4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jan 2014 11:40:31 +0000 (UTC)
-Received: from macbookpro.home (host86-167-69-247.range86-167.btcentralplus.com
-	[86.167.69.247]) (Authenticated sender: andyblac)
-	by macmuppets.DiskStation.me (Postfix) with ESMTPSA id 5E4D2246D
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jan 2014 11:40:38 +0000 (GMT)
-From: Andrew Blackburn <andyblac@icloud.com>
-Message-Id: <5DF1C6C6-FAB2-4BAE-ACE6-9F1DFDA43BDD@icloud.com>
-Date: Sun, 26 Jan 2014 11:40:26 +0000
-To: openembedded-core@lists.openembedded.org
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-X-Mailer: Apple Mail (2.1827)
-X-MailScanner-ID: 5E4D2246D.AB3A2
-X-MailScanner: Found to be clean
-X-MailScanner-From: andyblac@icloud.com
-X-Spam-Status: No
-Subject: how do i auto increase a package PR on every build.
+	Sun, 26 Jan 2014 12:31:55 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0QCVg3f005176; Sun, 26 Jan 2014 12:31:43 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id nI7Rr3OZYC_Y; Sun, 26 Jan 2014 12:31:42 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0QCVaJ1005173
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Sun, 26 Jan 2014 12:31:38 GMT
+Message-ID: <1390739491.17424.223.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrew Blackburn <andyblac@icloud.com>
+Date: Sun, 26 Jan 2014 12:31:31 +0000
+In-Reply-To: <5DF1C6C6-FAB2-4BAE-ACE6-9F1DFDA43BDD@icloud.com>
+References: <5DF1C6C6-FAB2-4BAE-ACE6-9F1DFDA43BDD@icloud.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: how do i auto increase a package PR on every build.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,22 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2014 11:40:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 26 Jan 2014 12:31:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-hi guys,
+On Sun, 2014-01-26 at 11:40 +0000, Andrew Blackburn wrote:
+> hi guys,
+> 
+> i hoping someone can help me on this, i am wanting to have a build
+> number for my project, atm i am manually increase the PR from the main
+> bb, but this mean i have update the GIT on each build, and is this
+> flooded with unnecessary commits. this they away i can get it to auto
+> increase the PR on each and every build ?, i would also need to tell
+> it a start point from what to increase.
+> 
+> 
+> hope someone can help.
 
-i hoping someone can help me on this, i am wanting to have a build =
-number for my project, atm i am manually increase the PR from the main =
-bb, but this mean i have update the GIT on each build, and is this =
-flooded with unnecessary commits. this they away i can get it to auto =
-increase the PR on each and every build ?, i would also need to tell it =
-a start point from what to increase.
+Have a look at the PR server code. That currently increases the PR
+number when the hash of the task changes.
 
+You could therefore either:
 
-hope someone can help.
+a) hack the PR server to always increase the PR of your recipe
 
+b) add a dependency on the DATETIME variable in your recipe's do_package
+task so the hash always changes.
 
-Andy.=
+Cheers,
+
+Richard
+
 
