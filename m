@@ -1,23 +1,52 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 01BEF6C76F
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 933CC6E8AD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 11:22:10 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 27 Jan 2014 03:22:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,728,1384329600"; d="scan'208";a="406364680"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 27 Jan 2014 03:22:10 -0800
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
-	by linux.intel.com (Postfix) with ESMTP id 8EBC86A4007;
-	Mon, 27 Jan 2014 03:22:04 -0800 (PST)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jan 2014 13:23:17 +0200
-Message-Id: <1390821797-12265-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] oeqa/runtime: syslog: update --help test
+	Mon, 27 Jan 2014 11:25:30 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1W7kJm-0002VU-2d; Mon, 27 Jan 2014 12:25:30 +0100
+Message-ID: <1390821929.19023.69.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Kang Kai <Kai.Kang@windriver.com>
+Date: Mon, 27 Jan 2014 11:25:29 +0000
+In-Reply-To: <52E5D069.5040209@windriver.com>
+References: <1390360372-10947-1-git-send-email-kai.kang@windriver.com>
+	<1390374490.24755.2.camel@e130.pbcl.net>
+	<52DF8A1E.9050306@windriver.com>
+	<1390678245.24755.51.camel@e130.pbcl.net>
+	<52E5D069.5040209@windriver.com>
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software, running on the system "hetzner.pbcl.net", has
+ identified this incoming email as possible spam.  The original message
+ has been attached to this so you can view it (if it isn't spam) or label
+ similar future email.  If you have any questions, see
+ @@CONTACT_ADDRESS@@ for details.
+ 
+ Content preview:  On Mon, 2014-01-27 at 11:20 +0800, Kang Kai wrote: > On 2014年01月26日
+    03:30, Phil Blundell wrote: > > On Wed, 2014-01-22 at 17:06 +0800, Kang Kai
+    wrote: > >> Use glib-dbg does work. But if I use it in a recipe, when uclibc
+    is > >> used, I have to edit the recipe. > > Isn't that still true of "libc6-dbg"?
+    Worse, it isn't even guaranteed > > that the eglibc-debug package will be
+    named libc6-dbg on all targets; it > > would probably end up as libc6.1-dbg
+    on alpha-linux or ia64-linux for > > example. Encouraging people to hardcode
+    "libc6" doesn't seem very > > wholesome. > > I think this is the way to deal
+    the "RPROVIDES" and please ref to > libc6-dev in eglibc-package.inc: > >
+   RPROVIDES_${PN}-dev = "glibc-dev libc6-dev virtual-libc-dev" [...] 
+ 
+ Content analysis details:   (-1.0 points, 5.0 required)
+ 
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc-dbg: provides libc6-dbg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +59,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2014 11:22:12 -0000
+X-List-Received-Date: Mon, 27 Jan 2014 11:25:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-busybox 1.22 now returns exitcode 0 instead of 1 for
---help options, so this test needs to be updated when
-busybox gets upgraded to 1.22.
+On Mon, 2014-01-27 at 11:20 +0800, Kang Kai wrote:
+> On 2014年01月26日 03:30, Phil Blundell wrote:
+> > On Wed, 2014-01-22 at 17:06 +0800, Kang Kai wrote:
+> >> Use glib-dbg does work. But if I use it in a recipe, when uclibc is
+> >> used, I have to edit the recipe.
+> > Isn't that still true of "libc6-dbg"?  Worse, it isn't even guaranteed
+> > that the eglibc-debug package will be named libc6-dbg on all targets; it
+> > would probably end up as libc6.1-dbg on alpha-linux or ia64-linux for
+> > example.  Encouraging people to hardcode "libc6" doesn't seem very
+> > wholesome.
+> 
+> I think this is the way to deal the "RPROVIDES" and please ref to
+> libc6-dev in eglibc-package.inc:
+> 
+> RPROVIDES_${PN}-dev = "glibc-dev libc6-dev virtual-libc-dev"
 
-https://bugs.busybox.net/show_bug.cgi?id=5612
-http://git.busybox.net/busybox/commit/?id=efd0698f74caab0a0c8a51228b923ee142e8e278
+I'm not quite sure I understand what you're saying here.  But, a few
+observations:
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/runtime/syslog.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+- the RPROVIDES that you mentioned is somewhat bogus since, as
+previously mentioned, the autonamer is not guaranteed to come up with
+"libc6" for eglibc on all platforms
 
-diff --git a/meta/lib/oeqa/runtime/syslog.py b/meta/lib/oeqa/runtime/syslog.py
-index 91d7963..b95b361 100644
---- a/meta/lib/oeqa/runtime/syslog.py
-+++ b/meta/lib/oeqa/runtime/syslog.py
-@@ -11,7 +11,7 @@ class SyslogTest(oeRuntimeTest):
-     @skipUnlessPassed("test_ssh")
-     def test_syslog_help(self):
-         (status,output) = self.target.run('/sbin/syslogd --help')
--        self.assertEqual(status, 1, msg="status and output: %s and %s" % (status,output))
-+        self.assertEqual(status, 0, msg="status and output: %s and %s" % (status,output))
- 
-     @skipUnlessPassed("test_syslog_help")
-     def test_syslog_running(self):
--- 
-1.8.5.3
+- uclibc doesn't include eglibc-package.inc anyway so it won't be
+affected by any RPROVIDES in that file
+
+- adding that RPROVIDES for uclibc would be especially bogus since there
+are no existing platforms where uclibc does get autonamed as "libc6" 
+
+So, I still don't really understand how adding this extra RPROVIDES does
+much to help with uclibc compatibility.
+
+p.
+
 
 
