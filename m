@@ -1,24 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 814746C76F
+Return-Path: <Baogen.Shang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E97E56C76F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 04:06:10 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Jan 2014 20:02:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,727,1384329600"; d="scan'208";a="472873521"
-Received: from unknown (HELO [10.255.13.56]) ([10.255.13.56])
-	by orsmga002.jf.intel.com with ESMTP; 26 Jan 2014 20:05:46 -0800
-Message-ID: <52E5DB19.3050802@linux.intel.com>
-Date: Sun, 26 Jan 2014 20:05:45 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Mon, 27 Jan 2014 07:35:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0R7ZoOM010168
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 26 Jan 2014 23:35:50 -0800 (PST)
+Received: from pek-bshang-d1.wrs.com (128.224.162.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Sun, 26 Jan 2014 23:35:49 -0800
+From: Baogen Shang <baogen.shang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 27 Jan 2014 15:35:20 +0800
+Message-ID: <1390808120-15299-1-git-send-email-baogen.shang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Yue Tao <Yue.Tao@windriver.com>, openembedded-core@lists.openembedded.org
-References: <1390715859-31491-1-git-send-email-Yue.Tao@windriver.com>
-In-Reply-To: <1390715859-31491-1-git-send-email-Yue.Tao@windriver.com>
-Subject: Re: [PATCH] setserial: package depends on groff-native to build
+Subject: [PATCH] e2fsprogs:fix build native package error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2014 04:06:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Jan 2014 07:35:51 -0000
+Content-Type: text/plain
 
-On 01/25/2014 09:57 PM, Yue Tao wrote:
-> Signed-off-by: Jonas Zetterberg <jonas.zetterberg@windriver.com>
-> Signed-off-by: Yue Tao <yue.tao@windriver.com>
-> ---
->   meta/recipes-bsp/setserial/setserial_2.17.bb |    4 +++-
->   1 files changed, 3 insertions(+), 1 deletions(-)
->
-> diff --git a/meta/recipes-bsp/setserial/setserial_2.17.bb b/meta/recipes-bsp/setserial/setserial_2.17.bb
-> index 8f112ed..505f63c 100644
-> --- a/meta/recipes-bsp/setserial/setserial_2.17.bb
-> +++ b/meta/recipes-bsp/setserial/setserial_2.17.bb
-> @@ -6,7 +6,9 @@ SECTION = "console/utils"
->
->   LICENSE = "GPLv2.0"
->   LIC_FILES_CHKSUM = "file://version.h;beginline=1;endline=6;md5=2e7c59cb9e57e356ae81f50f4e4dfd99"
-> -PR = "r3"
-> +PR = "r4"
-> +
-No PR Bump need, please resend.
+e2fsprogs requires pkgconfig to build native package
 
-Thanks
-	Sau!
+Signed-off-by: Baogen Shang <baogen.shang@windriver.com>
+---
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +DEPENDS += "groff-native"
->
->   inherit autotools
->
->
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+index aea74f7..a34df37 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+@@ -22,5 +22,5 @@ DEPENDS = "util-linux"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/e2fsprogs/e2fsprogs-${PV}.tar.gz \
+            file://mkdir.patch"
+ 
+-inherit autotools gettext
++inherit autotools gettext pkgconfig
+ 
+-- 
+1.7.9.5
+
 
