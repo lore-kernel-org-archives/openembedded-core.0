@@ -1,52 +1,35 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 933CC6E8AD
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 11D5E6C76F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 11:25:30 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1W7kJm-0002VU-2d; Mon, 27 Jan 2014 12:25:30 +0100
-Message-ID: <1390821929.19023.69.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Kang Kai <Kai.Kang@windriver.com>
-Date: Mon, 27 Jan 2014 11:25:29 +0000
-In-Reply-To: <52E5D069.5040209@windriver.com>
-References: <1390360372-10947-1-git-send-email-kai.kang@windriver.com>
-	<1390374490.24755.2.camel@e130.pbcl.net>
-	<52DF8A1E.9050306@windriver.com>
-	<1390678245.24755.51.camel@e130.pbcl.net>
-	<52E5D069.5040209@windriver.com>
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software, running on the system "hetzner.pbcl.net", has
- identified this incoming email as possible spam.  The original message
- has been attached to this so you can view it (if it isn't spam) or label
- similar future email.  If you have any questions, see
- @@CONTACT_ADDRESS@@ for details.
- 
- Content preview:  On Mon, 2014-01-27 at 11:20 +0800, Kang Kai wrote: > On 2014年01月26日
-    03:30, Phil Blundell wrote: > > On Wed, 2014-01-22 at 17:06 +0800, Kang Kai
-    wrote: > >> Use glib-dbg does work. But if I use it in a recipe, when uclibc
-    is > >> used, I have to edit the recipe. > > Isn't that still true of "libc6-dbg"?
-    Worse, it isn't even guaranteed > > that the eglibc-debug package will be
-    named libc6-dbg on all targets; it > > would probably end up as libc6.1-dbg
-    on alpha-linux or ia64-linux for > > example. Encouraging people to hardcode
-    "libc6" doesn't seem very > > wholesome. > > I think this is the way to deal
-    the "RPROVIDES" and please ref to > libc6-dev in eglibc-package.inc: > >
-   RPROVIDES_${PN}-dev = "glibc-dev libc6-dev virtual-libc-dev" [...] 
- 
- Content analysis details:   (-1.0 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] eglibc-dbg: provides libc6-dbg
+	Mon, 27 Jan 2014 12:01:54 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Jan 2014 04:01:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,728,1384329600"; d="scan'208";a="471363430"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jan 2014 04:01:53 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.202]) by
+	IRSMSX103.ger.corp.intel.com ([169.254.3.84]) with mapi id
+	14.03.0123.003; Mon, 27 Jan 2014 12:01:49 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Philip Balister <philip@balister.org>, Tyler Hall <tylerwhall@gmail.com>
+Thread-Topic: [OE-core] [PATCH] db: Fix libtool linking against local
+	libstdc++.so
+Thread-Index: AQHPGq9WcsrfvQsD906F7KFSBvsL9JqYeQjg
+Date: Mon, 27 Jan 2014 12:01:49 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CF574F@IRSMSX105.ger.corp.intel.com>
+References: <1390623243-28674-1-git-send-email-tylerwhall@gmail.com>
+	<52E53069.4050508@balister.org>
+In-Reply-To: <52E53069.4050508@balister.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] db: Fix libtool linking against local	libstdc++.so
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,43 +42,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2014 11:25:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Jan 2014 12:01:55 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2014-01-27 at 11:20 +0800, Kang Kai wrote:
-> On 2014年01月26日 03:30, Phil Blundell wrote:
-> > On Wed, 2014-01-22 at 17:06 +0800, Kang Kai wrote:
-> >> Use glib-dbg does work. But if I use it in a recipe, when uclibc is
-> >> used, I have to edit the recipe.
-> > Isn't that still true of "libc6-dbg"?  Worse, it isn't even guaranteed
-> > that the eglibc-debug package will be named libc6-dbg on all targets; it
-> > would probably end up as libc6.1-dbg on alpha-linux or ia64-linux for
-> > example.  Encouraging people to hardcode "libc6" doesn't seem very
-> > wholesome.
-> 
-> I think this is the way to deal the "RPROVIDES" and please ref to
-> libc6-dev in eglibc-package.inc:
-> 
-> RPROVIDES_${PN}-dev = "glibc-dev libc6-dev virtual-libc-dev"
+Hello,
 
-I'm not quite sure I understand what you're saying here.  But, a few
-observations:
+This fixes YB5759 if included in Build Appliance poky repo.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D5759
 
-- the RPROVIDES that you mentioned is somewhat bogus since, as
-previously mentioned, the autonamer is not guaranteed to come up with
-"libc6" for eglibc on all platforms
+Regards,
+Cristian Iorga
+YP
+Intel
 
-- uclibc doesn't include eglibc-package.inc anyway so it won't be
-affected by any RPROVIDES in that file
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Philip Balister
+Sent: Sunday, January 26, 2014 5:57 PM
+To: Tyler Hall
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] db: Fix libtool linking against local libstd=
+c++.so
 
-- adding that RPROVIDES for uclibc would be especially bogus since there
-are no existing platforms where uclibc does get autonamed as "libc6" 
+On 01/24/2014 11:14 PM, Tyler Hall wrote:
+> Building the C++ bindings in a484b35b818768487ff27cf06b8c5d4e128126af
+> introduced this error on systems with /usr/lib/libstdc++.so present:
+>=20
+>     /usr/lib/libstdc++.so: file not recognized: File format not=20
+> recognized
+>=20
+> The shipped libtool is sysroot aware, so pass --with-sysroot so it=20
+> will extract the sysroot from the compiler.
+>=20
+> Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
 
-So, I still don't really understand how adding this extra RPROVIDES does
-much to help with uclibc compatibility.
+Tested-by: Philip Balister <philip@balister.org>
 
-p.
+It didn't seem to break anything on my build. (Which worked already) Packag=
+ing looks OK still.
 
-
+> ---
+>  meta/recipes-support/db/db_5.3.21.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-support/db/db_5.3.21.bb=20
+> b/meta/recipes-support/db/db_5.3.21.bb
+> index 8ec8870..caf6890 100644
+> --- a/meta/recipes-support/db/db_5.3.21.bb
+> +++ b/meta/recipes-support/db/db_5.3.21.bb
+> @@ -63,7 +63,7 @@ FILES_SOLIBSDEV =3D "${libdir}/libdb.so ${libdir}/libdb=
+_cxx.so"
+>  # All the --disable-* options replace --enable-smallbuild, which=20
+> breaks a bunch of stuff (eg. postfix)  DB5_CONFIG ?=3D "--enable-o_direct=
+ --disable-cryptography --disable-queue --disable-replication --disable-ver=
+ify --disable-compat185 --disable-sql"
+> =20
+> -EXTRA_OECONF =3D "${DB5_CONFIG} --enable-shared --enable-cxx"
+> +EXTRA_OECONF =3D "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysr=
+oot"
+> =20
+>  # Override the MUTEX setting here, the POSIX library is  # the=20
+> default - "POSIX/pthreads/library".
+>=20
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
