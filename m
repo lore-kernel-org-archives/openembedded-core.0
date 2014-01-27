@@ -1,34 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 927CE6E831
+Return-Path: <david.c.stewart@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B5CCD6E831
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 16:45:00 +0000 (UTC)
-Received: by mail-ob0-f179.google.com with SMTP id wo20so6694423obc.38
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 08:45:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=3KZ/E6kTw9L8Jk1i8gC2YdkcdvYOhrUukXeYs8f10Vk=;
-	b=QPFj7FtLiqb82GbRFzCUqslG16Uk+fRHKjmbRzluf7AhLFb8r1ImeTZybBWUJkVZ6w
-	R2HweFj+MukZuLlse5p8OMdDbn46+s1eMzITq6o671wMMn4V+bt8Hcpw2OP5cGQ+lIIR
-	dGIpvAdEnLfXoLe0/8SIBJjYyHIAHmD7+XYNXct4nXtzUC39k/TQOQm3Ma9HUOm5S2nd
-	1XYI3JSX43CfUKBjmyMKvYcawQ/JW4CHwKezzyQVs68e7SUgxvU3j95i2ZT9xB6GnKFb
-	SbACM6s/i+7247ZkfKMIFtabuTmHkOJG4qd6WcX3/Tmo/qU5bcfAZX8LLG6+DU1I/MV9
-	aIdQ==
-MIME-Version: 1.0
-X-Received: by 10.60.76.227 with SMTP id n3mr1102868oew.52.1390841101495; Mon,
-	27 Jan 2014 08:45:01 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Mon, 27 Jan 2014 08:45:01 -0800 (PST)
-In-Reply-To: <1390833588.17424.254.camel@ted>
+	Mon, 27 Jan 2014 17:23:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 27 Jan 2014 09:19:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,730,1384329600"; d="scan'208";a="445323743"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by orsmga001.jf.intel.com with ESMTP; 27 Jan 2014 09:23:51 -0800
+Received: from orsmsx159.amr.corp.intel.com (10.22.240.24) by
+	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Mon, 27 Jan 2014 09:23:51 -0800
+Received: from orsmsx105.amr.corp.intel.com ([169.254.4.200]) by
+	ORSMSX159.amr.corp.intel.com ([169.254.11.247]) with mapi id
+	14.03.0123.003; Mon, 27 Jan 2014 09:23:51 -0800
+From: "Stewart, David C" <david.c.stewart@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] local.conf.sample: Add automatic defaults
+	for BB_NUMBER_THREADS and PARALLEL_MAKE
+Thread-Index: AQHPG2210aCo1l5FaEyMdtPDK+So/JqZTX6A//+EwQA=
+Date: Mon, 27 Jan 2014 17:23:50 +0000
+Message-ID: <CF0BD5FA.79232%david.c.stewart@intel.com>
 References: <1390833588.17424.254.camel@ted>
-Date: Mon, 27 Jan 2014 14:45:01 -0200
-X-Google-Sender-Auth: i7OIETYgvAbiY5lBsaSm2qltQ2w
-Message-ID: <CAP9ODKpr8ydsGUYdniyFwO1pgp9pOW4+RcU78SxhOhRRn4XEVw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAP9ODKpr8ydsGUYdniyFwO1pgp9pOW4+RcU78SxhOhRRn4XEVw@mail.gmail.com>
+In-Reply-To: <CAP9ODKpr8ydsGUYdniyFwO1pgp9pOW4+RcU78SxhOhRRn4XEVw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/14.3.9.131030
+x-originating-ip: [10.24.4.93]
+MIME-Version: 1.0
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] local.conf.sample: Add automatic defaults for BB_NUMBER_THREADS and PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,24 +46,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2014 16:45:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 27 Jan 2014 17:23:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <AC8C3542E75D9C43853645F3FE75EA0D@intel.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 27, 2014 at 12:39 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> Its rather sad that people don't appear to read local.conf and then complain
-> about slow builds when they're just using a single thread. Most systems have
-> more than one core now so we might as well use a more automatic default
-> for these values. This may lead to better experiences for new users.
->
-> [YOCTO #2528]
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+On 1/27/14, 8:45 AM, "Otavio Salvador" <otavio@ossystems.com.br> wrote:
+
+>On Mon, Jan 27, 2014 at 12:39 PM, Richard Purdie
+><richard.purdie@linuxfoundation.org> wrote:
+>> Its rather sad that people don't appear to read local.conf and then
+>>complain
+>> about slow builds when they're just using a single thread. Most systems
+>>have
+>> more than one core now so we might as well use a more automatic default
+>> for these values. This may lead to better experiences for new users.
+>>
+>> [YOCTO #2528]
+>>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Nice! Now if we could just convince people to configure their VM guests
+with enough cpus -=20
+
+:-)
+
+
 
