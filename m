@@ -1,40 +1,36 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-bk0-f41.google.com (mail-bk0-f41.google.com
-	[209.85.214.41])
-	by mail.openembedded.org (Postfix) with ESMTP id A3CBD6E831
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f54.google.com (mail-oa0-f54.google.com
+	[209.85.219.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 0801B6E831
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 16:18:31 +0000 (UTC)
-Received: by mail-bk0-f41.google.com with SMTP id na10so2961171bkb.14
+	Mon, 27 Jan 2014 16:44:19 +0000 (UTC)
+Received: by mail-oa0-f54.google.com with SMTP id i4so7087970oah.27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 08:18:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:content-type:content-transfer-encoding;
-	bh=qnBQFhnfH9GddFq6MFRa2XZW2u8H4Egy4iB/qmmnQ1k=;
-	b=Q3V6yWaqidtdWrcNEnrx4lSbzmK9IokEQM0EUm+bJ6ALf6z3rYY9zKiFbL1YBKQC3C
-	n5MO00hotth8XPIL58zizD0zznNymdQSMbq7AU7PmB+WSZQeuHwPBMu119uzIrl79+zp
-	5oZMqFY+vhfErlYFCyOuAkH93k3Z/8zEmHWg2W98jH6/OuiOUrl5fgGtWmyFCProK9hy
-	XV4AdlkVLcXNF8tQ8k3wD4QAfLk0uc7agn7MDNwBOqED3LQWRBdBOvEG+ILuPqhoD24k
-	XluRwu3UlIb+ssNm/ZOmncjeru3CoBu+Ij9zVg+ctiO0ULyezS05uoAAqStDEbVk5Obp
-	Uh9g==
-X-Gm-Message-State: ALoCoQniRaCobWUMA/fFMBngJb3X8MBJ9yuXtaODGNxCWbt/59TbQKewKZf1wwCsi4J4zObu9/Iz
-X-Received: by 10.204.126.74 with SMTP id b10mr187495bks.178.1390839511972;
-	Mon, 27 Jan 2014 08:18:31 -0800 (PST)
-Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
-	by mx.google.com with ESMTPSA id
-	dg4sm13957840bkc.10.2014.01.27.08.18.30 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 27 Jan 2014 08:18:31 -0800 (PST)
-Message-ID: <52E686D4.4040906@dresearch-fe.de>
-Date: Mon, 27 Jan 2014 17:18:28 +0100
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Mon, 27 Jan 2014 08:44:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=zuqbn787ve5Ef5ocOO9pLAlf/Oa42HRxyvloiz6OoEw=;
+	b=ph/zPa4+gbXYg13RBMkA7XNHOkm8rdY3ROAzjIpQncU3AOhuGTnD4MlXOFqUDpADhT
+	FDLZP7JU1vi7kSyhQSCvTyfzXETjfKwE0JyEWzHqgyLZM1sln8/fFV/QlYqovOKCTDFK
+	y4P4ybOFshDWBqw/MkkRd8+gkB4+bbFoaSmSgfRlzJs6RtxlfCzcUarD6khtNpteM/u8
+	boazH2/euJVD09opTKCuGw8NOAuVRVfL0xHp+XR7feanVmH437RAuRJKXeaUBG3feNqp
+	pAO1WJZJwaFPEzv+Ur2dpziGwCypuZ6hriMzzoUmfXdgWNZELN6Sg0pmNbeCO0TOpvaK
+	5Rjw==
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-X-Enigmail-Version: 1.6
-Subject: opencv QA issue
+X-Received: by 10.182.102.134 with SMTP id fo6mr4141964obb.10.1390841060261;
+	Mon, 27 Jan 2014 08:44:20 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 27 Jan 2014 08:44:20 -0800 (PST)
+In-Reply-To: <1390833488.17424.252.camel@ted>
+References: <1390833488.17424.252.camel@ted>
+Date: Mon, 27 Jan 2014 14:44:20 -0200
+X-Google-Sender-Auth: SekJyUlkU-M6ftiWTOLl2Fj7Dis
+Message-ID: <CAP9ODKpjJsFJgZ_3W10p22q23wqi2BmFawONNtCKGxZoFGB5ow@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] utils: Add a cpu_count wrapper function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,46 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2014 16:18:32 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Jan 2014 16:44:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-After the latest update of our build host (Fedora-18) the opencv build fails with an QA issue.
+On Mon, Jan 27, 2014 at 12:38 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Add a cpu_count wrapper function (useful from annonymous python where
+> the import would be trickier).
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
--------------> snip <-------------
-ERROR: QA Issue: non debug package contains .debug directory: opencv-apps path /work/cortexa9hf-vfp-neon-angstrom-linux-gnueabi/opencv/2.4.6+gitAUTOINC+c5afaa4e8d-r0/packages-split/opencv-apps/usr/share/OpenCV/java/.debug/libopencv_java246.so
-WARNING: QA Issue: opencv-apps: found library in wrong location: /usr/share/OpenCV/java/libopencv_java246.so
-opencv-apps: found library in wrong location: /usr/share/OpenCV/java/.debug/libopencv_java246.so
-ERROR: QA run found fatal errors. Please consider fixing them.
-ERROR: Function failed: do_package_qa
-ERROR: Logfile of failure stored in: /CACHE/jenkins-workspace/hipos-dfe-closed/build-closed/tmp-eglibc/work/cortexa9hf-vfp-neon-angstrom-linux-gnueabi/opencv/2.4.6+gitAUTOINC+c5afaa4e8d-r0/temp/log.do_package.15005
-NOTE: recipe opencv-2.4.6+gitAUTOINC+c5afaa4e8d-r0: task do_package: Failed
-ERROR: Task 502 (/CACHE/jenkins-workspace/hipos-dfe-closed/meta-openembedded/meta-oe/recipes-support/opencv/opencv_2.4.bb, do_package) failed with exit code '1'
--------------> snap <-------------
-
-After some research we found that the libopencv_java246.so wasn't build before the mentioned build host update. I'm not a cmake guru, so i can't determine why it is build after this update.
-
-But it seems to be clear that the path /usr/share/OpenCV/java/.debug/libopencv_java246.so is not covered by the package-split definition in meta-oe/recipes-support/opencv/opencv_2.4.bb:
-
--------------> snip <-------------
-FILES_${PN} = ""
-FILES_${PN}-apps = "${bindir}/* ${datadir}/OpenCV"
-FILES_${PN}-dbg += "${libdir}/.debug"
-FILES_${PN}-dev = "${includedir} ${libdir}/pkgconfig"
-FILES_${PN}-doc = "${datadir}/OpenCV/doc"
--------------> snap <-------------
-
-Can someone of the maintainers please have a look at that!
-
-Thx,
-Steffen
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
