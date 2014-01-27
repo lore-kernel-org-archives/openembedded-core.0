@@ -1,36 +1,36 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f54.google.com (mail-oa0-f54.google.com
-	[209.85.219.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 0801B6E831
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 927CE6E831
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 16:44:19 +0000 (UTC)
-Received: by mail-oa0-f54.google.com with SMTP id i4so7087970oah.27
+	Mon, 27 Jan 2014 16:45:00 +0000 (UTC)
+Received: by mail-ob0-f179.google.com with SMTP id wo20so6694423obc.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 08:44:20 -0800 (PST)
+	Mon, 27 Jan 2014 08:45:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=zuqbn787ve5Ef5ocOO9pLAlf/Oa42HRxyvloiz6OoEw=;
-	b=ph/zPa4+gbXYg13RBMkA7XNHOkm8rdY3ROAzjIpQncU3AOhuGTnD4MlXOFqUDpADhT
-	FDLZP7JU1vi7kSyhQSCvTyfzXETjfKwE0JyEWzHqgyLZM1sln8/fFV/QlYqovOKCTDFK
-	y4P4ybOFshDWBqw/MkkRd8+gkB4+bbFoaSmSgfRlzJs6RtxlfCzcUarD6khtNpteM/u8
-	boazH2/euJVD09opTKCuGw8NOAuVRVfL0xHp+XR7feanVmH437RAuRJKXeaUBG3feNqp
-	pAO1WJZJwaFPEzv+Ur2dpziGwCypuZ6hriMzzoUmfXdgWNZELN6Sg0pmNbeCO0TOpvaK
-	5Rjw==
+	bh=3KZ/E6kTw9L8Jk1i8gC2YdkcdvYOhrUukXeYs8f10Vk=;
+	b=QPFj7FtLiqb82GbRFzCUqslG16Uk+fRHKjmbRzluf7AhLFb8r1ImeTZybBWUJkVZ6w
+	R2HweFj+MukZuLlse5p8OMdDbn46+s1eMzITq6o671wMMn4V+bt8Hcpw2OP5cGQ+lIIR
+	dGIpvAdEnLfXoLe0/8SIBJjYyHIAHmD7+XYNXct4nXtzUC39k/TQOQm3Ma9HUOm5S2nd
+	1XYI3JSX43CfUKBjmyMKvYcawQ/JW4CHwKezzyQVs68e7SUgxvU3j95i2ZT9xB6GnKFb
+	SbACM6s/i+7247ZkfKMIFtabuTmHkOJG4qd6WcX3/Tmo/qU5bcfAZX8LLG6+DU1I/MV9
+	aIdQ==
 MIME-Version: 1.0
-X-Received: by 10.182.102.134 with SMTP id fo6mr4141964obb.10.1390841060261;
-	Mon, 27 Jan 2014 08:44:20 -0800 (PST)
+X-Received: by 10.60.76.227 with SMTP id n3mr1102868oew.52.1390841101495; Mon,
+	27 Jan 2014 08:45:01 -0800 (PST)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Mon, 27 Jan 2014 08:44:20 -0800 (PST)
-In-Reply-To: <1390833488.17424.252.camel@ted>
-References: <1390833488.17424.252.camel@ted>
-Date: Mon, 27 Jan 2014 14:44:20 -0200
-X-Google-Sender-Auth: SekJyUlkU-M6ftiWTOLl2Fj7Dis
-Message-ID: <CAP9ODKpjJsFJgZ_3W10p22q23wqi2BmFawONNtCKGxZoFGB5ow@mail.gmail.com>
+Received: by 10.182.232.166 with HTTP; Mon, 27 Jan 2014 08:45:01 -0800 (PST)
+In-Reply-To: <1390833588.17424.254.camel@ted>
+References: <1390833588.17424.254.camel@ted>
+Date: Mon, 27 Jan 2014 14:45:01 -0200
+X-Google-Sender-Auth: i7OIETYgvAbiY5lBsaSm2qltQ2w
+Message-ID: <CAP9ODKpr8ydsGUYdniyFwO1pgp9pOW4+RcU78SxhOhRRn4XEVw@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] utils: Add a cpu_count wrapper function
+Subject: Re: [PATCH] local.conf.sample: Add automatic defaults for BB_NUMBER_THREADS and PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,13 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2014 16:44:21 -0000
+X-List-Received-Date: Mon, 27 Jan 2014 16:45:01 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, Jan 27, 2014 at 12:38 PM, Richard Purdie
+On Mon, Jan 27, 2014 at 12:39 PM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
-> Add a cpu_count wrapper function (useful from annonymous python where
-> the import would be trickier).
+> Its rather sad that people don't appear to read local.conf and then complain
+> about slow builds when they're just using a single thread. Most systems have
+> more than one core now so we might as well use a more automatic default
+> for these values. This may lead to better experiences for new users.
+>
+> [YOCTO #2528]
 >
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
