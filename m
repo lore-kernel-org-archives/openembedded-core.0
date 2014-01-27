@@ -1,28 +1,47 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F2FFA6AE14
+Return-Path: <sipke.vriend@xilinx.com>
+Received: from am1outboundpool.messaging.microsoft.com
+	(am1ehsobe006.messaging.microsoft.com [213.199.154.209])
+	by mail.openembedded.org (Postfix) with ESMTP id B2DF26E719
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 21:52:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0RLqlZT014513
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 27 Jan 2014 13:52:48 -0800 (PST)
-Received: from [147.11.118.101] (147.11.118.101) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 27 Jan 2014 13:52:46 -0800
-Message-ID: <52E6D52D.4070908@windriver.com>
-Date: Mon, 27 Jan 2014 16:52:45 -0500
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Mon, 27 Jan 2014 22:25:37 +0000 (UTC)
+Received: from mail9-am1-R.bigfish.com (10.3.201.249) by
+	AM1EHSOBE019.bigfish.com (10.3.207.141) with Microsoft SMTP Server id
+	14.1.225.22; Mon, 27 Jan 2014 22:25:38 +0000
+Received: from mail9-am1 (localhost [127.0.0.1])	by mail9-am1-R.bigfish.com
+	(Postfix) with ESMTP id EBDBC3001B4;
+	Mon, 27 Jan 2014 22:25:37 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
+	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
+X-SpamScore: 1
+X-BigFish: VPS1(zzzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6hzz1de098h8275bh1de097hz2fh95h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e1dh1e23h1fe8h1ff5h2218h2216h226dh24afh2327h2336h2438h2461h2487h24d7h906i1155h)
+Received-SPF: pass (mail9-am1: domain of xilinx.com designates 149.199.60.83
+	as permitted sender) client-ip=149.199.60.83;
+	envelope-from=sipke.vriend@xilinx.com; helo=xsj-gw1 ;
+	helo=xsj-gw1 ; 
+Received: from mail9-am1 (localhost.localdomain [127.0.0.1]) by mail9-am1
+	(MessageSwitch) id 139086153653804_19691;
+	Mon, 27 Jan 2014 22:25:36 +0000 (UTC)
+Received: from AM1EHSMHS013.bigfish.com (unknown [10.3.201.231])	by
+	mail9-am1.bigfish.com (Postfix) with ESMTP id F1AD24004D;
+	Mon, 27 Jan 2014 22:25:35 +0000 (UTC)
+Received: from xsj-gw1 (149.199.60.83) by AM1EHSMHS013.bigfish.com
+	(10.3.207.151) with Microsoft SMTP Server id 14.16.227.3;
+	Mon, 27 Jan 2014 22:25:31 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
+	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
+	<sipke.vriend@xilinx.com>)	id
+	1W7ucU-0002g5-UZ; Mon, 27 Jan 2014 14:25:30 -0800
+From: Sipke Vriend <sipke.vriend@xilinx.com>
+To: <stefanx.stanacar@intel.com>
+Date: Tue, 28 Jan 2014 08:25:09 +1000
+X-Mailer: git-send-email 1.7.9.5
+X-RCIS-Action: ALLOW
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
-	<openembedded-core@lists.openembedded.org>
-References: <1390479065-24299-1-git-send-email-otavio@ossystems.com.br>
-In-Reply-To: <1390479065-24299-1-git-send-email-otavio@ossystems.com.br>
-X-Originating-IP: [147.11.118.101]
-Subject: Re: [PATCH] buildhistory.bbclass: Improve robustness in image file listing
+Message-ID: <7d308450-d9cc-4489-96e8-3e000d5b4818@AM1EHSMHS013.ehs.local>
+X-OriginatorOrg: xilinx.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] lib/oeqa: sshcontrol: Allow alternate port for SSHControl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +54,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2014 21:52:47 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Jan 2014 22:25:38 -0000
+Content-Type: text/plain
 
-On 14-01-23 07:11 AM, Otavio Salvador wrote:
-> The filenames sometimes may have strange names. With the 'awk' script
-> it handled a limited number of spaces in the filename and a package
-> installing a file named "test file with spaces" would have its name
-> truncated.
->
-> This patch uses the find's printf formating to simplify the code and
-> proper handle this case. From a testing image, the only diff produced
-s/proper/properly/
-   Yes, I'm with the grammar police; we're here to be helpful.
-> is:
->
-> ,----[ files-in-image.txt diff ]
-> | --rwxr-xr-x root       root                0 ./usr/bin/test\ file\ with\
-> | +-rwxr-xr-x root       root                0 ./usr/bin/test file with spaces
-> `----
->
-> The options used are available since findutils 4.2.5, released in 19
-> Nov 2004, making it available in all supported host distributions.
+Add an optional parameter to SSHControl so the user can specify
+and alternate port to the default (22).
 
-Acked-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+Signed-off-by: Sipke Vriend <sipke.vriend@xilinx.com>
+---
+ meta/lib/oeqa/utils/sshcontrol.py |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Works for me, even on CentOS/RHEL-5.9/10 which does indeed have
-findutils > 4.2.5:
-
-$ rpm -qf `which find`
-findutils-4.2.27-6.el5
-
-and the find command seems to work as intended:
-
-  $ find jj -printf "%M %-10u %-10g %10s %p -> %l\n"  | cut -c 44-
-  jj ->
-  jj/usr ->
-  jj/usr/bin ->
-  jj/usr/bin/test file with spaces ->
-
-../Randy
-
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->   meta/classes/buildhistory.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index e9a9c3b..545a42f 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -385,7 +385,7 @@ buildhistory_get_sdk_installed() {
->   buildhistory_list_files() {
->   	# List the files in the specified directory, but exclude date/time etc.
->   	# This awk script is somewhat messy, but handles where the size is not printed for device files under pseudo
-> -	( cd $1 && find . -ls | awk '{ if ( $7 ~ /[0-9]/ ) printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, $7, $11, $12, $13 ; else printf "%s %10-s %10-s %10s %s %s %s\n", $3, $5, $6, 0, $10, $11, $12 }' | sort -k5 | sed 's/ *$//' > $2 )
-> +	( cd $1 && find . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
->   }
->
->
->
-
-
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 3e53ec3..8913250 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -13,7 +13,7 @@ import select
+ 
+ class SSHControl(object):
+ 
+-    def __init__(self, ip=None, timeout=300, logfile=None):
++    def __init__(self, ip=None, timeout=300, logfile=None, port=None):
+         self.ip = ip
+         self.timeout = timeout
+         self._starttime = None
+@@ -26,6 +26,8 @@ class SSHControl(object):
+                 '-o', 'LogLevel=ERROR'
+                 ]
+         self.ssh = ['ssh', '-l', 'root'] + self.ssh_options
++        if port:
++            self.ssh = self.ssh + ['-p', str(port)]
+ 
+     def log(self, msg):
+         if self.logfile:
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350
+1.7.9.5
+
+
 
