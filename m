@@ -1,36 +1,33 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4037F6E7E2
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 26B4A6C765
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 12:45:06 +0000 (UTC)
-Received: by mail-we0-f182.google.com with SMTP id w62so5252080wes.27
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 04:45:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=56lbDPcy5tuJvdkzOT7bfiF+3YAbDOtZQAAZ96Pr/08=;
-	b=qusNgyW+1ZQh1U958m5USZIMhLaRGSjzCVVtK+2gxNHmlmZFQB6psb4mG7WVP8Ha9M
-	AmlzrVQJDEdsDxqKyCxXt590st/IwRoysK/Zg6UcxAfFvdSaFFbdLtIIXPdAp1HMjyDT
-	AEWf7px8RAQViQhevlDwjdrURNY55TFRijSVazi/iUtq3yeBDkZd5UZydeXMGWtLRc5I
-	Ecb1b2ksnV7kTZe/UWhnkoTKLK+of1Xy4X4rQ3rHEl/O9tR6iY5plWWzKPDLtwh221zq
-	/O75YhMZEhfF+ROKWiBi4lZnogJJkP6LvJYvdd+dlm5txvsRvoDCK6UX6/B+2IS++q5Y
-	rWUA==
-X-Received: by 10.194.178.135 with SMTP id cy7mr20187364wjc.21.1390826706853; 
-	Mon, 27 Jan 2014 04:45:06 -0800 (PST)
-Received: from turn.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
-	[94.192.12.83]) by mx.google.com with ESMTPSA id
-	bj3sm24967750wjb.14.2014.01.27.04.45.05 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 27 Jan 2014 04:45:06 -0800 (PST)
-Sender: Paul Barker <paul.betafive@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jan 2014 12:44:55 +0000
-Message-Id: <1390826695-5067-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 1.8.5.3
-Cc: Saul Wold <saul.wold@intel.com>
-Subject: [PATCH] [NEEDS TESTING] opkg: Fix add-exclude.patch
+	Mon, 27 Jan 2014 13:59:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 27 Jan 2014 05:59:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,729,1384329600"; d="scan'208";a="473091155"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by orsmga002.jf.intel.com with ESMTP; 27 Jan 2014 05:59:02 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.202]) by
+	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
+	14.03.0123.003; Mon, 27 Jan 2014 13:58:33 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/4] Comms PUs
+Thread-Index: AQHPF1CpQz9yWhMukkKmzxBTDbyNBJqYoQBg
+Date: Mon, 27 Jan 2014 13:58:33 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CF6C68@IRSMSX105.ger.corp.intel.com>
+References: <cover.1390381388.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1390381388.git.cristian.iorga@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/4] Comms PUs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,43 +40,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2014 12:45:06 -0000
+X-List-Received-Date: Mon, 27 Jan 2014 13:59:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The case statement for ARGS_OPT_ADD_EXCLUDE added to the argument handling
-switch statement in opkg was missing a "break;" at the end, so it was falling
-through into the handler for ARGS_OPT_NOACTION. Thus when "--add-exclude" was
-specified on the command line it was as if "--noaction" was also being
-specified. This appears to be the root cause of YP bug 5311.
+Ping.
 
-This patch should fix that behaviour and that bug.
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Cristian Iorga
+Sent: Wednesday, January 22, 2014 11:04 AM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH 0/4] Comms PUs
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-Cc: Mark Hatle <mark.hatle@windriver.com>
-Cc: Saul Wold <saul.wold@intel.com>
+The following changes since commit 6e7047434fc1570146ebc94254412b99b1c4cab4=
+:
+
+  poky.ent: Fixed broken OE_LISTS_URL. (2014-01-21 21:58:03 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dciorga/PUs
+
+Cristian Iorga (4):
+  neard: upgrade to 0.14
+  libpcap: upgrade to 1.5.3
+  minicom: upgrade to 2.7
+  connman: upgrade to 1.21
+
+ meta/recipes-connectivity/connman/connman.inc                  |  7 ++----=
+-
+ .../connman/{connman_1.20.bb =3D> connman_1.21.bb}               |  5 ++--=
+-
+ .../libpcap/{libpcap_1.5.2.bb =3D> libpcap_1.5.3.bb}             |  7 ++--=
 ---
+ meta/recipes-connectivity/neard/neard_0.10.bb                  | 10 ------=
+----
+ meta/recipes-connectivity/neard/neard_0.14.bb                  |  9 ++++++=
++++
+ .../0001-fix-minicom-h-v-return-value-is-not-0.patch           |  0
+ .../{minicom-2.6.2 =3D> minicom}/allow.to.disable.lockdev.patch  |  0
+ .../minicom/{minicom_2.6.2.bb =3D> minicom_2.7.bb}               |  6 +++-=
+--
+ 8 files changed, 18 insertions(+), 26 deletions(-)  rename meta/recipes-co=
+nnectivity/connman/{connman_1.20.bb =3D> connman_1.21.bb} (68%)  rename met=
+a/recipes-connectivity/libpcap/{libpcap_1.5.2.bb =3D> libpcap_1.5.3.bb} (77=
+%)  delete mode 100644 meta/recipes-connectivity/neard/neard_0.10.bb
+ create mode 100644 meta/recipes-connectivity/neard/neard_0.14.bb
+ rename meta/recipes-extended/minicom/{minicom-2.6.2 =3D> minicom}/0001-fix=
+-minicom-h-v-return-value-is-not-0.patch (100%)  rename meta/recipes-extend=
+ed/minicom/{minicom-2.6.2 =3D> minicom}/allow.to.disable.lockdev.patch (100=
+%)  rename meta/recipes-extended/minicom/{minicom_2.6.2.bb =3D> minicom_2.7=
+.bb} (77%)
 
-This patch needs testing against the cases where PACKAGE_EXCLUDE was failing, I
-haven't been able to test this myself beyond checking that opkg still builds
-with it applied. Saul and Mark initially discussed the bug with me so they're
-probably better placed to test it, I'm just sending this as a bump as the bug
-has been outstanding for a long time now.
+--
+1.8.3.2
 
- meta/recipes-devtools/opkg/opkg/add-exclude.patch | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-devtools/opkg/opkg/add-exclude.patch b/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-index 8489058..506de7b 100644
---- a/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-+++ b/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-@@ -99,6 +99,7 @@ Index: trunk/src/opkg-cl.c
- +				conf->exclude_list = realloc(conf->exclude_list, sizeof(char *) * conf->exclude_count);
- +				conf->exclude_list[conf->exclude_count - 1] = tuple;
- +			}
-++			break;
-  		case ARGS_OPT_NOACTION:
-  			conf->noaction = 1;
-  			break;
--- 
-1.8.5.3
-
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
