@@ -1,58 +1,38 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from va3outboundpool.messaging.microsoft.com
-	(va3ehsobe004.messaging.microsoft.com [216.32.180.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 321B96E881
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
+	[209.85.219.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4DC6E87E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 01:20:11 +0000 (UTC)
-Received: from mail202-va3-R.bigfish.com (10.7.14.252) by
-	VA3EHSOBE009.bigfish.com (10.7.40.29) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 28 Jan 2014 01:20:10 +0000
-Received: from mail202-va3 (localhost [127.0.0.1])	by
-	mail202-va3-R.bigfish.com (Postfix) with ESMTP id 4797ED80230	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 01:20:10 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VPS-2(zz9371I542I1432Izz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6hzz1de098h8275bh8275dh1de097hz2fh95h109h839h944hd24hf0ah119dh1220h1288h12a5h12a9h12bdh137ah13b6h1441h14ddh1504h1537h153bh162dh1631h1758h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5h2216h2336h2438h2461h2487h24d7h906i1155h)
-Received-SPF: pass (mail202-va3: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail202-va3 (localhost.localdomain [127.0.0.1]) by mail202-va3
-	(MessageSwitch) id 1390872009149106_19855;
-	Tue, 28 Jan 2014 01:20:09 +0000 (UTC)
-Received: from VA3EHSMHS044.bigfish.com (unknown [10.7.14.229])	by
-	mail202-va3.bigfish.com (Postfix) with ESMTP id EBE6C44004C	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 01:20:08 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by VA3EHSMHS044.bigfish.com
-	(10.7.99.54) with Microsoft SMTP Server id 14.16.227.3; Tue, 28 Jan 2014
-	01:20:05 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
-	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
-	<nathan.rossi@xilinx.com>)	id
-	1W7xLR-0007aH-NI	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jan 2014 17:20:05 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] kernel.bbclass: Fix empty modules directory QA issue
-Thread-Index: AQHPEMbqTIXCp29OKUCuI60SINr61ZqZa8ag
-Date: Tue, 28 Jan 2014 01:19:59 +0000
-References: <2bba5e79-d06e-4b11-98ab-59506c84f896@AM1EHSMHS006.ehs.local>
-	<1389662460-29515-1-git-send-email-nathan.rossi@xilinx.com>
-In-Reply-To: <1389662460-29515-1-git-send-email-nathan.rossi@xilinx.com>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.164.59]
+	Tue, 28 Jan 2014 01:53:02 +0000 (UTC)
+Received: by mail-oa0-f43.google.com with SMTP id h16so7734385oag.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Jan 2014 17:53:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=gCU1FjYQLJAOulaiSP9QMtNigyVFscnqREG3WZ4IRkU=;
+	b=chJt32+lBEhn5pl9amv4GmvFcZE4co0WR6vk7uhEfwaeeeOUA6kuOSo9yEWRYk/HPv
+	NCrI2agDU/oryynj8EdvbeaDsryFKTfAhH2W0VU9n6DPQchZUWcecUjL8RmEJNemJKCi
+	8+oB7AsOIIlJCJMkh2XHmZ2SYi/H4ZfiyT/V28b04cVDGQa9igqWnm3k5xDiLfDWQLAO
+	AG6pwLh1GXln94gj0wrnE6OIoWUDHBGXaWRbvZgMEF3SN2G5IXC8yXTyQ+MF+VAImmiD
+	pSWYrRFTvXsD0BH+BrUFbNSMJuF9BYA6jm6JEm/mpGSHG3OBegr2VL4FgvLp6InJWB7d
+	HUoQ==
 MIME-Version: 1.0
-X-RCIS-Action: ALLOW
-Message-ID: <47446eb5-b21a-46d3-af8c-03a1a61cdd06@VA3EHSMHS044.ehs.local>
-X-OriginatorOrg: xilinx.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: Re: [PATCH v2] kernel.bbclass: Fix empty modules directory QA issue
+X-Received: by 10.182.142.229 with SMTP id rz5mr26160126obb.12.1390873978870; 
+	Mon, 27 Jan 2014 17:52:58 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 27 Jan 2014 17:52:58 -0800 (PST)
+In-Reply-To: <52E6D52D.4070908@windriver.com>
+References: <1390479065-24299-1-git-send-email-otavio@ossystems.com.br>
+	<52E6D52D.4070908@windriver.com>
+Date: Mon, 27 Jan 2014 23:52:58 -0200
+X-Google-Sender-Auth: _B5qh1RiN9Ea5XF6-AGvPyd0N6c
+Message-ID: <CAP9ODKoD9kif9pGiZyf-P2aKpbMFTUM8c2XUg7QUSZi5+BKnaA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Randy MacLeod <randy.macleod@windriver.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] buildhistory.bbclass: Improve robustness in image file listing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,68 +45,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 01:20:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Jan 2014 01:53:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-> -----Original Message-----
-> From: Nathan Rossi [mailto:nathan.rossi@xilinx.com]
-> Sent: Tuesday, January 14, 2014 11:21 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Nathan Rossi; Robert Yang
-> Subject: [PATCH v2] kernel.bbclass: Fix empty modules directory QA issue
+On Mon, Jan 27, 2014 at 7:52 PM, Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+> On 14-01-23 07:11 AM, Otavio Salvador wrote:
+>>
+>> The filenames sometimes may have strange names. With the 'awk' script
+>> it handled a limited number of spaces in the filename and a package
+>> installing a file named "test file with spaces" would have its name
+>> truncated.
+>>
+>> This patch uses the find's printf formating to simplify the code and
+>> proper handle this case. From a testing image, the only diff produced
 >
-> If a kernel is built without any external modules (aka no CONFIG_*=3Dm),
-> then during a modules_install of the kernel an empty directory is
-> created at /lib/modules/${KERNEL_VERIONS}/kernel. This is behaviour of
-> the kernel infrastructure, the directory would normally be populated
-> with the modules that were built.
+> s/proper/properly/
+>   Yes, I'm with the grammar police; we're here to be helpful.
 >
-> However because of the expectations of kernel-modules-split, no packages
-> are created when there are no modules and an empty directory lingers.
-> This raises QA issues as warning or errors (depending on the distro).
+>> is:
+>>
+>> ,----[ files-in-image.txt diff ]
+>> | --rwxr-xr-x root       root                0 ./usr/bin/test\ file\ with\
+>> | +-rwxr-xr-x root       root                0 ./usr/bin/test file with
+>> spaces
+>> `----
+>>
+>> The options used are available since findutils 4.2.5, released in 19
+>> Nov 2004, making it available in all supported host distributions.
 >
-> The following patch changes the kernel_do_install task to check if the
-> directory is empty and if so removes it.
 >
-> Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
-> ---
->  meta/classes/kernel.bbclass |    2 ++
->  1 file changed, 2 insertions(+)
+> Acked-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 >
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 5fef446..f4dcba5 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -183,6 +183,8 @@ kernel_do_install() {
->               oe_runmake DEPMOD=3Decho INSTALL_MOD_PATH=3D"${D}" modules_=
-install
->               rm "${D}/lib/modules/${KERNEL_VERSION}/build"
->               rm "${D}/lib/modules/${KERNEL_VERSION}/source"
-> +             # If the kernel/ directory is empty remove it to prevent QA=
-
-> issues
-> +             rmdir --ignore-fail-on-non-empty
-> "${D}/lib/modules/${KERNEL_VERSION}/kernel"
->       else
->               bbnote "no modules to install"
->       fi
-> --
-> 1.7.9.5
+> Works for me, even on CentOS/RHEL-5.9/10 which does indeed have
+> findutils > 4.2.5:
 >
+> $ rpm -qf `which find`
+> findutils-4.2.27-6.el5
+>
+> and the find command seems to work as intended:
+>
+>  $ find jj -printf "%M %-10u %-10g %10s %p -> %l\n"  | cut -c 44-
+>  jj ->
+>  jj/usr ->
+>  jj/usr/bin ->
+>  jj/usr/bin/test file with spaces ->
 
-Ping, any additional concerns with this patch?
+Richard, do you want me to send a v2 or can you fix the typo when applying it?
 
-Regards,
-Nathan
-
-
-This email and any attachments are intended for the sole use of the named r=
-ecipient(s) and contain(s) confidential information that may be proprietary=
-, privileged or copyrighted under applicable law. If you are not the intend=
-ed recipient, do not read, copy, or forward this email message or any attac=
-hments. Delete this email message and any attachments immediately.
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
