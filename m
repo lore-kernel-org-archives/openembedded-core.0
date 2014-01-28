@@ -1,28 +1,27 @@
-Return-Path: <Mikhail_Durnev@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DE3D6E88D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A88976C921
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 07:40:45 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1W83Hq-0000Xk-LD from Mikhail_Durnev@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 27 Jan 2014 23:40:46 -0800
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 27 Jan 2014 23:40:46 -0800
-Received: from workstation.mgc.mentorg.com (147.34.91.1) by
-	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Mon, 27 Jan 2014 23:39:59 -0800
-From: <Mikhail_Durnev@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Jan 2014 18:40:35 +1100
-Message-ID: <1390894836-8800-1-git-send-email-Mikhail_Durnev@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 28 Jan 2014 08:59:50 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2014 00:59:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,735,1384329600"; d="scan'208";a="445694529"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.122.226])
+	by orsmga001.jf.intel.com with ESMTP; 28 Jan 2014 00:59:49 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 28 Jan 2014 08:59:47 +0000
+Message-ID: <1413594.S4HepKQVoQ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
+In-Reply-To: <52E6D52D.4070908@windriver.com>
+References: <1390479065-24299-1-git-send-email-otavio@ossystems.com.br>
+	<52E6D52D.4070908@windriver.com>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 28 Jan 2014 07:40:46.0719 (UTC)
-	FILETIME=[41D488F0:01CF1BFC]
-Subject: [PATCH] wpa-supplicant: Add dependency on openssl
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] buildhistory.bbclass: Improve robustness in image file listing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 07:40:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Jan 2014 08:59:51 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+On Monday 27 January 2014 16:52:45 Randy MacLeod wrote:
+> On 14-01-23 07:11 AM, Otavio Salvador wrote:
+> > The filenames sometimes may have strange names. With the 'awk' script
+> > it handled a limited number of spaces in the filename and a package
+> > installing a file named "test file with spaces" would have its name
+> > truncated.
+> > 
+> > This patch uses the find's printf formating to simplify the code and
+> > proper handle this case. From a testing image, the only diff produced
+> 
+> s/proper/properly/
+>    Yes, I'm with the grammar police; we're here to be helpful.
+> 
+> > is:
+> > 
+> > ,----[ files-in-image.txt diff ]
+> > 
+> > | --rwxr-xr-x root       root                0 ./usr/bin/test\ file\ with\
+> > | +-rwxr-xr-x root       root                0 ./usr/bin/test file with
+> > | spaces> 
+> > `----
+> > 
+> > The options used are available since findutils 4.2.5, released in 19
+> > Nov 2004, making it available in all supported host distributions.
+> 
+> Acked-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> 
+> Works for me, even on CentOS/RHEL-5.9/10 which does indeed have
+> findutils > 4.2.5:
+> 
+> $ rpm -qf `which find`
+> findutils-4.2.27-6.el5
+> 
+> and the find command seems to work as intended:
+> 
+>   $ find jj -printf "%M %-10u %-10g %10s %p -> %l\n"  | cut -c 44-
+>   jj ->
+>   jj/usr ->
+>   jj/usr/bin ->
+>   jj/usr/bin/test file with spaces ->
 
-Building of wpa-supplicant failed due to missing dependency on openssl:
-crypto_openssl.c:10:30: fatal error: openssl/opensslv.h: No such file or directory
+So I think this is mostly a good change, however, we don't want those -> if 
+the file isn't a symlink. Otavio, can you fix that?
 
-Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
----
- .../wpa-supplicant/wpa-supplicant-2.0.inc          |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
+Paul
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-index 9b722cb..f9c5ea7 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-@@ -6,7 +6,7 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ab87f20cd7e8c0d0a6539b34d3791d0e \
-                     file://README;md5=5cb758942d25f6f61fd4ac388fd446fa \
-                     file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=cba4fa09fa364da845ca546f21008909"
--DEPENDS = "gnutls dbus libnl"
-+DEPENDS = "gnutls dbus libnl openssl"
- RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
- 
- inherit systemd
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
