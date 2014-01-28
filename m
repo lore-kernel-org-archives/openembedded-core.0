@@ -1,38 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E6F1E6EA00
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DCFE6E82D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 14:26:16 +0000 (UTC)
-Received: by mail-ee0-f44.google.com with SMTP id c13so267175eek.17
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 06:26:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=2BUarGMbMb8Bdecw+9xrthJjt8SavgDnHEJ5FlN4osY=;
-	b=iZHwJGqPROcmyBx1bq5kSvgYPQN64cjWMc86ub6PbqtqDJAh0Pik7bF/6nnDB+BsXL
-	H0ePGHx6RllUtOImevfMi3yKua16HKu1GzarIgMSoGqTsRWdE83vikm3lksxduQjxY8C
-	UDODysjHu13cvTjNSeJi2L73Vkh0YCtujjhbWp0773DVt4ftuW7h2VuzB86MeTq5KwY/
-	bXRwU8cDoKWgZceBbfqtlRvU4LIVgzFY5vLI4SJecq0ybBZKuIO2nV4BrLaI6XxXbY59
-	4HSiUs9DFs4QQopljKBGZywE6iKMh6Gxd4n3FHAq7obEJY1Nm/C6rbsK0DzWEhfK6Wsm
-	igmQ==
-X-Received: by 10.15.61.7 with SMTP id h7mr2101597eex.49.1390919177649;
-	Tue, 28 Jan 2014 06:26:17 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id k41sm56244150eey.0.2014.01.28.06.26.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Jan 2014 06:26:16 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jan 2014 15:26:12 +0100
-Message-Id: <7ad9402d476b3efc1f3f20a7ec5de6b71e44be68.1390919033.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <cover.1390919033.git.Martin.Jansa@gmail.com>
-References: <cover.1390919033.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1390919033.git.Martin.Jansa@gmail.com>
-References: <cover.1390919033.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv3 3/3] package.bbclass: add SHLIBSSEARCHDIRS to define where to search for shlib providers
+	Tue, 28 Jan 2014 16:02:26 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2014 08:02:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,736,1384329600"; d="scan'208";a="473815154"
+Received: from unknown (HELO [10.255.13.56]) ([10.255.13.56])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jan 2014 08:01:01 -0800
+Message-ID: <52E7D43D.5030208@linux.intel.com>
+Date: Tue, 28 Jan 2014 08:01:01 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Mikhail_Durnev@mentor.com, openembedded-core@lists.openembedded.org
+References: <1390894749-8639-1-git-send-email-Mikhail_Durnev@mentor.com>
+In-Reply-To: <1390894749-8639-1-git-send-email-Mikhail_Durnev@mentor.com>
+Subject: Re: [PATCH] unzip: Pass LDFLAGS to the linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,75 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 14:26:17 -0000
+X-List-Received-Date: Tue, 28 Jan 2014 16:02:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* when package contains some files matching "^.*\.so", but in directory
-  not default linker search paths (e.g. /opt/package/bundled-lib/libfoo.so)
-  don't register it as libfoo provider, because it's possible that there
-  is different package providing libfoo.so in ${libdir} and that would
-  be better shlib provider for other packages to depend on
-* recipes providing libs intentionally in some other directory can
-  define own SHLIBSSEARCHDIRS value
+On 01/27/2014 11:39 PM, Mikhail_Durnev@mentor.com wrote:
+> From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+>
+> Change Makefile to use LDFLAGS
+>
+> Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+> ---
+>   .../unzip/unzip/define-ldflags.patch               |   16 ++++++++++++++++
+>   meta/recipes-extended/unzip/unzip_6.0.bb           |    5 +++--
+>   2 files changed, 19 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-extended/unzip/unzip/define-ldflags.patch
+>
+> diff --git a/meta/recipes-extended/unzip/unzip/define-ldflags.patch b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
+> new file mode 100644
+> index 0000000..a3e5178
+> --- /dev/null
+> +++ b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
+> @@ -0,0 +1,16 @@
+> +Pass LDFLAGS to the linker
+> +
+> +Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+> +
+Additionally this needs an Upstream-Status:
 
-[YOCTO #4628]
+Please review
+http://openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/package.bbclass | 26 +++++++++++++++++++++++---
- 1 file changed, 23 insertions(+), 3 deletions(-)
+Thanks
+	Sau!
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 1f73ad6..f9369b3 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1333,6 +1333,9 @@ python package_do_filedeps() {
- SHLIBSDIRS = "${PKGDATA_DIR}/${MLPREFIX}shlibs"
- SHLIBSWORKDIR = "${PKGDESTWORK}/${MLPREFIX}shlibs"
- 
-+# default search path when searching for shlibs provided by package
-+SHLIBSSEARCHDIRS ?= "${baselib} ${libdir}"
-+
- python package_do_shlibs() {
-     import re, pipes
- 
-@@ -1343,6 +1346,20 @@ python package_do_shlibs() {
- 
-     lib_re = re.compile("^.*\.so")
-     libdir_re = re.compile(".*/%s$" % d.getVar('baselib', True))
-+    
-+    shlibs_search_dirs = d.getVar('SHLIBSSEARCHDIRS', True)
-+    shlibs_search_dirs_re_txt = ""
-+    for dir in shlibs_search_dirs.split(' '):
-+        # strip leading and trailing slash, it's added in regexp
-+        if dir.endswith("/"):
-+            dir = dir[:-1]
-+        if dir.startswith("/"):
-+            dir = dir[1:]
-+        if shlibs_search_dirs_re_txt:
-+            shlibs_search_dirs_re_txt += "|"
-+        shlibs_search_dirs_re_txt += "(^.*/%s/.*$)" % dir
-+    shlibs_search_dirs_re = re.compile(shlibs_search_dirs_re_txt)
-+    bb.debug(2, "will use following RE to search for provides sonames %s" % shlibs_search_dirs_re_txt)
- 
-     packages = d.getVar('PACKAGES', True)
-     targetos = d.getVar('TARGET_OS', True)
-@@ -1404,9 +1421,12 @@ python package_do_shlibs() {
-             if m:
-                 this_soname = m.group(1)
-                 if not this_soname in sonames:
--                    # if library is private (only used by package) then do not build shlib for it
--                    if not private_libs or this_soname not in private_libs:
--                        sonames.append(this_soname)
-+                    if shlibs_search_dirs_re.match(file):
-+                        # if library is private (only used by package) then do not build shlib for it
-+                        if not private_libs or this_soname not in private_libs:
-+                            sonames.append(this_soname)
-+                    else:
-+                        bb.debug(2, "ignoring soname %s from %s, because path doesn't match %s" % (this_soname, file, shlibs_search_dirs_re_txt))
-                 if libdir_re.match(os.path.dirname(file)):
-                     needs_ldconfig = True
-                 if snap_symlinks and (os.path.basename(file) != this_soname):
--- 
-1.8.5.3
 
+> +diff -Naur old/unix/configure new/unix/configure
+> +--- old/unix/configure	2014-01-13 21:59:27.000000000 +1100
+> ++++ new/unix/configure	2014-01-14 16:36:02.000000000 +1100
+> +@@ -16,7 +16,7 @@
+> + CFLAGSR=${CFLAGS}
+> + IZ_BZIP2=${3}
+> + CFLAGS="${CFLAGS} -I. -DUNIX"
+> +-LFLAGS1=""
+> ++LFLAGS1=${LDFLAGS}
+> + LFLAGS2=""
+> + LN="ln -s"
+> +
+> diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+> index 584802a..33c20f8 100644
+> --- a/meta/recipes-extended/unzip/unzip_6.0.bb
+> +++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+> @@ -4,10 +4,11 @@ SECTION = "console/utils"
+>   LICENSE = "BSD-3-Clause"
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
+>   PE = "1"
+> -PR = "r4"
+> +PR = "r5"
+>
+>   SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
+> -	file://avoid-strip.patch"
+> +	file://avoid-strip.patch \
+> +	file://define-ldflags.patch"
+>
+>   SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+>   SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
+>
 
