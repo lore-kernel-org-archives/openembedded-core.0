@@ -1,35 +1,26 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FA196E7EF
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A9BB36E9BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 19:21:53 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id D66112232067
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 20:21:48 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 3BFAE2232066
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 20:21:48 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from mail.itconsulting-heinold.de (p5099b351.dip0.t-ipconnect.de
-	[80.153.179.81]) by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 20:21:48 +0100 (CET)
-Date: Tue, 28 Jan 2014 20:21:42 +0100
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20140128192141.GA3640@mail.itconsulting-heinold.de>
-References: <1390936531-11738-1-git-send-email-obi@opendreambox.org>
+	Tue, 28 Jan 2014 19:50:39 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Jan 2014 11:50:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,737,1384329600"; d="scan'208";a="472199230"
+Received: from unknown (HELO [10.255.13.109]) ([10.255.13.109])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2014 11:50:39 -0800
+Message-ID: <52E80A0F.5070003@linux.intel.com>
+Date: Tue, 28 Jan 2014 11:50:39 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-In-Reply-To: <1390936531-11738-1-git-send-email-obi@opendreambox.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: [PATCH] cogl: kms: include necessary header for size_t
+To: Ross Burton <ross.burton@intel.com>, 
+	openembedded-core@lists.openembedded.org, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1390931044-24421-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1390931044-24421-1-git-send-email-ross.burton@intel.com>
+Subject: Re: [PATCH] pkgconfig: remove out-dated configure options and dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,14 +33,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 19:21:53 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 28 Jan 2014 19:50:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 28, 2014 at 08:15:31PM +0100, Andreas Oberritter wrote:
-> Fixes compilation in cases where stddef.h is not alrady
-                                                   ^^^^^^
-nitpicking about spelling.
 
-Bye Henning
+Although not in this email a change to this patch seems to have removed 
+the glibconfig-sysdefs.h file but not the entry in SRC_URI for the _0,28 
+and _git recipes.
+
+Not sure what happened with this, but master is not working and we 
+should either revert this change or clean up the issue.
+
+Thanks
+	Sau!
+
+
+On 01/28/2014 09:44 AM, Ross Burton wrote:
+> 0.27 onwards uses a snapshot of glib 2 not glib 1, so drop the
+> do_configure_prepend and update the internal/installed options as appropriate.
+>
+> Legacy scripts were removed in 0.26.
+>
+> Use of popt was removed in 0.28.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   meta/recipes-devtools/pkgconfig/pkgconfig.inc |   12 ++++--------
+>   1 file changed, 4 insertions(+), 8 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig.inc b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
+> index 3e655a9..62c886f 100644
+> --- a/meta/recipes-devtools/pkgconfig/pkgconfig.inc
+> +++ b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
+> @@ -8,7 +8,7 @@ SECTION = "console/utils"
+>   LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>
+> -DEPENDS = "glib-2.0 popt"
+> +DEPENDS = "glib-2.0"
+>   DEPENDS_class-native = ""
+>   DEPENDS_class-nativesdk = ""
+>
+> @@ -18,15 +18,11 @@ S = "${WORKDIR}/pkg-config-${PV}/"
+>
+>   inherit autotools
+>
+> -EXTRA_OECONF = "--with-installed-glib --with-installed-popt --disable-legacy-scripts --with-internal-glib"
+> -EXTRA_OECONF_class-native = "--disable-legacy-scripts --with-internal-glib"
+> -EXTRA_OECONF_class-nativesdk = "--disable-legacy-scripts --with-internal-glib"
+> +EXTRA_OECONF = "--without-internal-glib"
+> +EXTRA_OECONF_class-native = "--with-internal-glib"
+> +EXTRA_OECONF_class-nativesdk = "--with-internal-glib"
+>
+>   acpaths = "-I ."
+> -do_configure_prepend () {
+> -	mkdir --parents ${B}/glib-1.2.10
+> -	install -m 0644 ${WORKDIR}/glibconfig-sysdefs.h ${B}/glib-1.2.10/
+> -}
+>
+>   BBCLASSEXTEND = "native nativesdk"
+>
+>
 
