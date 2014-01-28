@@ -1,35 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DC1B60CEB
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 91FEA60CEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 12:31:49 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0SCVfZu024870; Tue, 28 Jan 2014 12:31:41 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id wl8Us2XtQRR5; Tue, 28 Jan 2014 12:31:41 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0SCVaWR024866
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Tue, 28 Jan 2014 12:31:38 GMT
-Message-ID: <1390912291.24655.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Jan 2014 12:31:31 +0000
-In-Reply-To: <5712962.WyPAeLeASC@leo>
-References: <1386380546-13936-1-git-send-email-raj.khem@gmail.com>
-	<1760931.7HjZTF9m8R@leo>
-	<CABcZANk3D=dL=73=spKrnL-YeOmcxng1EN5ucQu0LD-O48Vd5g@mail.gmail.com>
-	<5712962.WyPAeLeASC@leo>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Chris Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] boost: Convert ??= weaker assingment to weak ?= assignment
+	Tue, 28 Jan 2014 12:41:58 +0000 (UTC)
+Received: by mail-lb0-f177.google.com with SMTP id z5so269739lbh.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jan 2014 04:41:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1x9nrMX6UsCxfXW9lCj+xPnck7NOBSOcedmrA8S+dl4=;
+	b=RfOeuJbTNpZwE0wcWGLiwyf93m3Mg9SHd2j60f2hazoIclqXTCuKQ2uz8S/Y0bp0QR
+	/jnLPFSPl2mv49ehC09ijNrC9JGIufYKBFKs4SjKsEeh4PqKiAbkIktuReL0uU3Ullsb
+	NXWBuuyZe743gcpp9E5DH+L63Vw7iLpgaRp5LP7wI1VR4af5uf2w3ml1wggM88KBVV/y
+	LIQBMgaXtDkhN6ecIKFHN/yFYM0ktSRbc9b37kJiTgrLJc6Udd243kszeZl1B5Xf7Ljg
+	PXwbzg6H2rg9hmLHuomO5Cych3oto+4ORzvrDeUlXsI96Cr8+qNh5yKC6rXW1Mxro59i
+	NvHw==
+X-Gm-Message-State: ALoCoQniOkSiWSG0OXoysYPwnMga1716Fr3Q+CpkwYbdtFcqJYHMh1mMZwigNqzWKj2SnOnN5/EB
+X-Received: by 10.152.4.74 with SMTP id i10mr91120lai.58.1390912918829;
+	Tue, 28 Jan 2014 04:41:58 -0800 (PST)
+Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
+	[91.152.78.194]) by mx.google.com with ESMTPSA id
+	mx3sm16345665lbc.14.2014.01.28.04.41.57 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 28 Jan 2014 04:41:58 -0800 (PST)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2014 14:41:48 +0200
+Message-Id: <1390912914-31576-1-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCHv3 0/6] ltp: update 20140115 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,53 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 12:31:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jan 2014 12:41:59 -0000
 
-On Thu, 2014-01-23 at 08:43 -0800, Khem Raj wrote:
-> On Thursday, January 23, 2014 09:31:47 AM Chris Larson wrote:
-> > On Wed, Jan 22, 2014 at 6:16 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> > > On Friday, December 06, 2013 05:42:26 PM Khem Raj wrote:
-> > > > ??= does not react at all with
-> > > > BOOST_LIBS += "${@base_contains('PACKAGECONFIG', 'python', 'python', '',
-> > > > d)}"
-> > > > 
-> > > > even though we have
-> > > > 
-> > > > PACKAGECONFIG ??= "" it does not honor it and always add python to
-> > > > BOOST_LIBS but the dependency is not added so it fails to build
-> > > > complaining for missing python headers which is a understood outcome
-> > > > 
-> > > > When converted to ?= it works as expected and only add --with-python
-> > > > in bjam when python is specified in PACKAGECONFIG otherwise not.
-> > > > 
-> > > > Is it a bitbake bug ? in anycase ?= should be enough of loose rope
-> > > > to let user/distro configure the packageconfig policy
-> > > 
-> > > OK so the problem is that I have meta-ros in my layer-mix and in that
-> > > layer
-> > > it defines PACKAGECONFIG ?= "python" IMO it should have appended instead
-> > > of
-> > > redefining. Thats why I was seeing what I was seeing.
-> > 
-> > It's worth noting that recipes, in general, should use ?= rather than ??=,
-> > but config files, in general, should use ??=. Otherwise it becomes
-> > impossible for the config metadata to define an overriding default -- the
-> > last ??= wins, after all, and that would always be the recipe. IMO default
-> > values in the recipe are there to give sane behavior when there's no
-> > configuration coming in from elsewhere, not to override configuration
-> > defaults.
-> 
-> yes I think thats a good point. so lets consider this patch for inclusion
-> now we know the reason, I can resubmit with proper subject and patch header
+This patchset update LTP to latest release and fix various style, cross-compilation issues.
 
-It might be worth trying to standardise this in OE-Core rather that pick
-off the recipes one by one. Most new PACKAGECONFIGs are cut and paste
-from others so the problem will spread until we fix them consistently.
+Fathi Boudra (6):
+  ltp: update SRC_REV to LTP 20140115 release
+  ltp: fix style using oe-stylize (no changes in the content of the
+    recipe itself)
+  ltp: drop do_unpack_append/do_extract_tarball
+  ltp: update ffsb-6.0-rc2 license file path
+  ltp: fix comment to refer to oe-core instead of poky
+  ltp: fix ffsb ftbfs on cross-compiled environment
 
-Cheers,
+ .../ltp/ltp/ffsb-remove-hardcoded-configure.patch  | 15 +++++
+ meta/recipes-extended/ltp/ltp_20130904.bb          | 78 ----------------------
+ meta/recipes-extended/ltp/ltp_20140115.bb          | 75 +++++++++++++++++++++
+ 3 files changed, 90 insertions(+), 78 deletions(-)
+ create mode 100644 meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp_20130904.bb
+ create mode 100644 meta/recipes-extended/ltp/ltp_20140115.bb
 
-Richard
+-- 
+1.8.1.2
 
 
