@@ -1,23 +1,49 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 527A36E7EF
+Return-Path: <alexandru.sardan@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2lp0236.outbound.protection.outlook.com [207.46.163.236])
+	by mail.openembedded.org (Postfix) with ESMTP id DBCE06E9E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 13:54:29 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Jan 2014 05:54:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,736,1384329600"; d="scan'208";a="472020868"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2014 05:54:29 -0800
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
-	by linux.intel.com (Postfix) with ESMTP id F34926A4092;
-	Tue, 28 Jan 2014 05:54:22 -0800 (PST)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jan 2014 15:55:32 +0200
-Message-Id: <1390917332-9975-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] oeqa/utils: sshcontrol: rewrite the SSHControl class
+	Tue, 28 Jan 2014 14:03:24 +0000 (UTC)
+Received: from DM2PR03MB368.namprd03.prod.outlook.com (10.141.55.22) by
+	BL2PR03MB162.namprd03.prod.outlook.com (10.255.230.145) with Microsoft
+	SMTP Server (TLS) id 15.0.868.8; Tue, 28 Jan 2014 14:03:23 +0000
+Received: from DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) by
+	DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) with mapi id
+	15.00.0859.020; Tue, 28 Jan 2014 14:03:23 +0000
+From: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
+To: Phil Blundell <pb@pbcl.net>
+Thread-Topic: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc linux
+	verses linux-gnuspe"
+Thread-Index: AQHPDhbUXOT9PA+PXESDVVjRhy4ospqCnDKAgAABToCAAZ4SAIAExmYAgAFgVoCABReK0IAACoyAgAMsSfCAAcCFgIAF0Mbw
+Date: Tue, 28 Jan 2014 14:03:22 +0000
+Message-ID: <f83172775cb74f1aba4c373b22287a90@DM2PR03MB368.namprd03.prod.outlook.com>
+References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
+	<1389366908.19102.223.camel@ted> <52D3DDFB.8080803@gmail.com>
+	<1389616915.14987.4.camel@ted> <52D53A6C.30808@gmail.com>
+	<55ea22e5d71c47f3b812e845106f2d19@DM2PR03MB368.namprd03.prod.outlook.com>
+	<1390044007.14987.151.camel@ted>
+	<3ea5b5ff002e4f98b60997229cc31300@DM2PR03MB368.namprd03.prod.outlook.com>
+	<1390326205.874.95.camel@ted>
+	<c5873e086bd941e68daa26cbcdca573e@BLUPR03MB357.namprd03.prod.outlook.com>
+	<1390596961.24755.21.camel@e130.pbcl.net>
+In-Reply-To: <1390596961.24755.21.camel@e130.pbcl.net>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.88.166.1]
+x-forefront-prvs: 0105DAA385
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009001)(6009001)(24454002)(377454003)(377424004)(199002)(189002)(13464003)(51704005)(81342001)(80976001)(81686001)(81816001)(81542001)(86362001)(94316002)(63696002)(50986001)(47976001)(47736001)(49866001)(93516002)(4396001)(80022001)(65816001)(66066001)(74876001)(74706001)(15202345003)(33646001)(56776001)(54316002)(54356001)(53806001)(76482001)(59766001)(47446002)(74662001)(77982001)(31966008)(74502001)(79102001)(51856001)(76576001)(93136001)(69226001)(46102001)(76786001)(76796001)(15975445006)(87936001)(2656002)(92566001)(19580395003)(90146001)(74316001)(19580405001)(56816005)(83322001)(85852003)(85306002)(83072002)(74366001)(87266001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BL2PR03MB162;
+	H:DM2PR03MB368.namprd03.prod.outlook.com; CLIP:192.88.166.1;
+	FPR:EEC4C885.900A6E2A.3AD0F5B3.8AE5DA40.202D3; InfoNoRecordsA:1;
+	MX:1; LANG:en; 
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+Cc: "catalin.udma@freescale.com" <catalin.udma@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Revert "cross-canadian: Handle powerpc linux verses linux-gnuspe"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,229 +56,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 13:54:30 -0000
+X-List-Received-Date: Tue, 28 Jan 2014 14:03:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Split the class in two, one to handle the process and the
-timeout based on output and one for the actual ssh/scp commands.
-The ssh/scp methods now use the same run method.
-It does the same thing as before but:
-- it looks cleaner.
-- adds support for using a different user than root
-- optionally, raises an exception when exit code != 0
-(that's useful for code outside of tests, where you wouldn't want
-to check the return code every time as the tests do)
+Hi,
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/utils/sshcontrol.py | 175 ++++++++++++++++++++------------------
- 1 file changed, 92 insertions(+), 83 deletions(-)
+See my comment inline.
 
-diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
-index 8913250..d355d5e 100644
---- a/meta/lib/oeqa/utils/sshcontrol.py
-+++ b/meta/lib/oeqa/utils/sshcontrol.py
-@@ -11,108 +11,117 @@ import time
- import os
- import select
- 
--class SSHControl(object):
- 
--    def __init__(self, ip=None, timeout=300, logfile=None, port=None):
-+class SSHProcess(object):
-+    def __init__(self, **options):
-+
-+        self.defaultopts = {
-+            "stdout": subprocess.PIPE,
-+            "stderr": subprocess.STDOUT,
-+            "stdin": None,
-+            "shell": False,
-+            "bufsize": -1,
-+            "preexec_fn": os.setsid,
-+        }
-+        self.options = dict(self.defaultopts)
-+        self.options.update(options)
-+        self.status = None
-+        self.output = None
-+        self.process = None
-+        self.starttime = None
-+
-+    def run(self, command, timeout=None):
-+        self.starttime = time.time()
-+        output = ''
-+        self.process = subprocess.Popen(command, **self.options)
-+        if timeout:
-+            endtime = self.starttime + timeout
-+            eof = False
-+            while time.time() < endtime and not eof:
-+                if select.select([self.process.stdout], [], [], 5)[0] != []:
-+                    data = os.read(self.process.stdout.fileno(), 1024)
-+                    if not data:
-+                        self.process.stdout.close()
-+                        eof = True
-+                    else:
-+                        output += data
-+                        endtime = time.time() + timeout
-+
-+            # process hasn't returned yet
-+            if not eof:
-+                self.process.terminate()
-+                time.sleep(5)
-+                try:
-+                    self.process.kill()
-+                except OSError:
-+                    pass
-+                output += "\nProcess killed - no output for %d seconds. Total running time: %d seconds." % (timeout, time.time() - self.starttime)
-+        else:
-+            output = self.process.communicate()[0]
-+
-+        self.status = self.process.wait()
-+        self.output = output.rstrip()
-+        return (self.status, self.output)
-+
-+
-+class SSHControl(object):
-+    def __init__(self, ip, logfile=None, timeout=300, user='root', port=None):
-         self.ip = ip
--        self.timeout = timeout
--        self._starttime = None
--        self._out = ''
--        self._ret = 126
-+        self.defaulttimeout = timeout
-+        self.ignore_status = True
-         self.logfile = logfile
-+        self.user = user
-         self.ssh_options = [
-                 '-o', 'UserKnownHostsFile=/dev/null',
-                 '-o', 'StrictHostKeyChecking=no',
-                 '-o', 'LogLevel=ERROR'
-                 ]
--        self.ssh = ['ssh', '-l', 'root'] + self.ssh_options
-+        self.ssh = ['ssh', '-l', self.user ] + self.ssh_options
-+        self.scp = ['scp'] + self.ssh_options
-         if port:
--            self.ssh = self.ssh + ['-p', str(port)]
-+            self.ssh = self.ssh + [ '-p', port ]
-+            self.scp = self.scp + [ '-P', port ]
- 
-     def log(self, msg):
-         if self.logfile:
-             with open(self.logfile, "a") as f:
-                 f.write("%s\n" % msg)
- 
--    def _internal_run(self, cmd):
--        # We need this for a proper PATH
--        cmd = ". /etc/profile; " + cmd
--        command = self.ssh + [self.ip, cmd]
-+    def _internal_run(self, command, timeout=None, ignore_status = True):
-         self.log("[Running]$ %s" % " ".join(command))
--        self._starttime = time.time()
--        # ssh hangs without os.setsid
--        proc = subprocess.Popen(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
--        return proc
--
--    def run(self, cmd, timeout=None):
--        """Run cmd and get it's return code and output.
--        Let it run for timeout seconds and then terminate/kill it,
--        if time is 0 will let cmd run until it finishes.
--        Time can be passed to here or can be set per class instance."""
--
--        if self.ip:
--            sshconn = self._internal_run(cmd)
--        else:
--            raise Exception("Remote IP hasn't been set, I can't run ssh without one.")
- 
--        # run the command forever
--        if timeout == 0:
--            output = sshconn.communicate()[0]
--        else:
--            # use the default timeout
--            if timeout is None:
--                tdelta = self.timeout
--            # use the specified timeout
--            else:
--                tdelta = timeout
--            endtime = self._starttime + tdelta
--            output = ''
--            eof = False
--            while time.time() < endtime and not eof:
--                if select.select([sshconn.stdout], [], [], 5)[0] != []:
--                    data = os.read(sshconn.stdout.fileno(), 1024)
--                    if not data:
--                        sshconn.stdout.close()
--                        eof = True
--                    else:
--                        output += data
--                        endtime = time.time() + tdelta
-+        proc = SSHProcess()
-+        status, output = proc.run(command, timeout)
- 
--            # process hasn't returned yet
--            if not eof:
--                sshconn.terminate()
--                time.sleep(3)
--                try:
--                    sshconn.kill()
--                except OSError:
--                    pass
--                output += "\n[!!! SSH command killed - no output for %d seconds. Total running time: %d seconds." % (tdelta, time.time() - self._starttime)
--
--        self._ret = sshconn.wait()
--        # strip the last LF so we can test the output
--        self._out = output.rstrip()
--        self.log("%s" % self._out)
--        self.log("[SSH command returned after %d seconds]: %s" % (time.time() - self._starttime, self._ret))
--        return (self._ret, self._out)
--
--    def _internal_scp(self, cmd):
--        cmd = ['scp'] + self.ssh_options + cmd
--        self.log("[Running SCP]$ %s" % " ".join(cmd))
--        self._starttime = time.time()
--        scpconn = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
--        out = scpconn.communicate()[0]
--        ret = scpconn.poll()
--        self.log("%s" % out)
--        self.log("[SCP command returned after %d seconds]: %s" % (time.time() - self._starttime, ret))
--        if ret != 0:
--            # we raise an exception so that tests fail in setUp and setUpClass without a need for an assert
--            raise Exception("Error running %s, output: %s" % ( " ".join(cmd), out))
--        return (ret, out)
-+        self.log("%s" % output)
-+        self.log("[Command returned '%d' after %.2f seconds]" % (status, time.time() - proc.starttime))
-+
-+        if status and not ignore_status:
-+            raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, status, output))
-+
-+        return (status, output)
-+
-+    def run(self, command, timeout=None):
-+        """
-+        command - ssh command to run
-+        timeout=<val> - kill command if there is no output after <val> seconds
-+        timeout=None - kill command if there is no output after a default value seconds
-+        timeout=0 - no timeout, let command run until it returns
-+        """
-+
-+        # We need to source /etc/profile for a proper PATH on the target
-+        command = self.ssh + [self.ip, ' . /etc/profile; ' + command]
-+
-+        if timeout is None:
-+            return self._internal_run(command, self.defaulttimeout, self.ignore_status)
-+        if timeout == 0:
-+            return self._internal_run(command, None, self.ignore_status)
-+        return self._internal_run(command, timeout, self.ignore_status)
- 
-     def copy_to(self, localpath, remotepath):
--        actualcmd = [localpath, 'root@%s:%s' % (self.ip, remotepath)]
--        return self._internal_scp(actualcmd)
-+        command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
-+        return self._internal_run(command, ignore_status=False)
- 
-     def copy_from(self, remotepath, localpath):
--        actualcmd = ['root@%s:%s' % (self.ip, remotepath), localpath]
--        return self._internal_scp(actualcmd)
-+        command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
-+        return self._internal_run(command, ignore_status=False)
--- 
-1.8.5.3
+Regards,
+Alex
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+> Phil Blundell
+> Sent: Friday, January 24, 2014 10:56 PM
+> To: Sardan Alexandru Cezar-B41700
+> Cc: Udma Catalin-Dan-B32721; openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc
+> linux verses linux-gnuspe"
+>=20
+> On Thu, 2014-01-23 at 18:22 +0000, alexandru.sardan@freescale.com wrote:
+> > [Alex Sardan] No. The more generic target powerpc-none-linux will not
+> > generate SPE code and the powerpc-none-linux-gnuspe target that
+> generates
+> > SPE will not be able to generate Altivec.
+>=20
+> Why not?  As far as I can tell from the gcc configury, the target string
+> only affects the defaults (i.e. powerpc-*-linux gets -mno-spe
+> -mno-altivec, powerpc-*-linuxaltivec gets -maltivec -mno-spec, and
+> powerpc-*-linuxspe gets -mno-altivec -mspe).  There doesn't seem to be
+> any real impact beyond this that would make the compiler binary
+> fundamentally incapable of generating either type of instruction if you
+> pass the appropriate options on the command line.
+>=20
+> p.
+[Alex Sardan] Trying to generate altivec instructions with the spe compiler
+will yield the following error:
+
+b41700@fsr-ub1264-102: [sandbox]$ powerpc-fsl_networking-linux-gnuspe-gcc -=
+mcpu=3De6500 -mabi=3Dno-spe -mno-spe -mabi=3Daltivec -maltivec -S -c double=
+.c=20
+double.c:1:0: error: AltiVec and E500 instructions cannot coexist
+
+Also trying to generate e500v2 code with powerpc-linux target:
+
+b41700@fsr-ub1264-102: [sandbox]$ powerpc-poky-linux-gcc -mcpu=3D8548 -mabi=
+=3Dspe -mspe -mfloat-gprs=3Ddouble -S -c double.c=20
+double.c:1:0: error: not configured for SPE ABI
+ double foo()
+ ^
+double.c:1:0: error: not configured for SPE instruction set
+
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
 
 
