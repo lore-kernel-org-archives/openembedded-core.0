@@ -1,26 +1,46 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A88976C921
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E5E36E6F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 08:59:50 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2014 00:59:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,735,1384329600"; d="scan'208";a="445694529"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.122.226])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jan 2014 00:59:49 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 28 Jan 2014 08:59:47 +0000
-Message-ID: <1413594.S4HepKQVoQ@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
-In-Reply-To: <52E6D52D.4070908@windriver.com>
+	Tue, 28 Jan 2014 09:20:08 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1W84py-0003z2-Vy; Tue, 28 Jan 2014 10:20:07 +0100
+Message-ID: <1390900799.3068.5.camel@e130.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Tue, 28 Jan 2014 09:19:59 +0000
+In-Reply-To: <1413594.S4HepKQVoQ@peggleto-mobl5.ger.corp.intel.com>
 References: <1390479065-24299-1-git-send-email-otavio@ossystems.com.br>
 	<52E6D52D.4070908@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<1413594.S4HepKQVoQ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Tue, 2014-01-28 at 08:59 +0000,
+	Paul Eggleton wrote: >
+	So I think this is mostly a good change, however,
+	we don't want those -> if > the file isn't a symlink. Otavio,
+	can you fix that? Isn't that what the
+	sed 's/ -> $//' in the original patch is dealing with? [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] buildhistory.bbclass: Improve robustness in image file listing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,59 +54,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 08:59:51 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 28 Jan 2014 09:20:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Monday 27 January 2014 16:52:45 Randy MacLeod wrote:
-> On 14-01-23 07:11 AM, Otavio Salvador wrote:
-> > The filenames sometimes may have strange names. With the 'awk' script
-> > it handled a limited number of spaces in the filename and a package
-> > installing a file named "test file with spaces" would have its name
-> > truncated.
-> > 
-> > This patch uses the find's printf formating to simplify the code and
-> > proper handle this case. From a testing image, the only diff produced
-> 
-> s/proper/properly/
->    Yes, I'm with the grammar police; we're here to be helpful.
-> 
-> > is:
-> > 
-> > ,----[ files-in-image.txt diff ]
-> > 
-> > | --rwxr-xr-x root       root                0 ./usr/bin/test\ file\ with\
-> > | +-rwxr-xr-x root       root                0 ./usr/bin/test file with
-> > | spaces> 
-> > `----
-> > 
-> > The options used are available since findutils 4.2.5, released in 19
-> > Nov 2004, making it available in all supported host distributions.
-> 
-> Acked-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> 
-> Works for me, even on CentOS/RHEL-5.9/10 which does indeed have
-> findutils > 4.2.5:
-> 
-> $ rpm -qf `which find`
-> findutils-4.2.27-6.el5
-> 
-> and the find command seems to work as intended:
-> 
->   $ find jj -printf "%M %-10u %-10g %10s %p -> %l\n"  | cut -c 44-
->   jj ->
->   jj/usr ->
->   jj/usr/bin ->
->   jj/usr/bin/test file with spaces ->
+On Tue, 2014-01-28 at 08:59 +0000, Paul Eggleton wrote:
+> So I think this is mostly a good change, however, we don't want those -> if 
+> the file isn't a symlink. Otavio, can you fix that?
 
-So I think this is mostly a good change, however, we don't want those -> if 
-the file isn't a symlink. Otavio, can you fix that?
+Isn't that what the sed 's/ -> $//' in the original patch is dealing
+with?
 
-Thanks,
-Paul
+p.
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
