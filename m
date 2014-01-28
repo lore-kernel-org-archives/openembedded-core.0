@@ -1,28 +1,42 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DA3B86E6F5
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-bk0-f51.google.com (mail-bk0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A8536E6F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 09:34:10 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jan 2014 01:34:11 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,735,1384329600"; d="scan'208";a="471927972"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.122.226])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2014 01:34:04 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>, Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 28 Jan 2014 09:34:02 +0000
-Message-ID: <1472782.f11FI8Cdpi@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
-In-Reply-To: <1390900799.3068.5.camel@e130.pbcl.net>
-References: <1390479065-24299-1-git-send-email-otavio@ossystems.com.br>
-	<1413594.S4HepKQVoQ@peggleto-mobl5.ger.corp.intel.com>
-	<1390900799.3068.5.camel@e130.pbcl.net>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] buildhistory.bbclass: Improve robustness in image file listing
+	Tue, 28 Jan 2014 10:08:12 +0000 (UTC)
+Received: by mail-bk0-f51.google.com with SMTP id w10so249087bkz.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jan 2014 02:08:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=tEEsEi225iQsxtWBs6imDXxpGLuuvq3c1zVO3uDNhGE=;
+	b=BzWWj87QB/4h4ReUS2avNSTRdNlyjXPrLSSl4meUAl7pYHAUTFx7xaCh9xytW7DgP9
+	VJJ+AiZeAMLIaLlsJJt0guDBW4DlzxWNLqDO+iyDVB7UO2M9HSgRJn2Z2om4O0JDhq1t
+	K0VHOvcUNOboR86oDTA8RNyLkQ5vUT9ry7ROnlWZHBdSWM0VmJi1xYdon7clWCSetew2
+	okbFBnIHFR18WwZ2y8Ge2W2drjudGIuSKjf1vP1yKn+LJ388QljDlv1nKOxso8gwC2oo
+	ghCsGcSu2JApz5ArIRPs3kMpnRooDYn+fqzMKj6wFd69MT16zcdPjEEJrORGBZ7B/VWA
+	PLkA==
+X-Gm-Message-State: ALoCoQlPyP7FLYKAyHagd3au95PnMhWXnI8RipxGPTkGHITD+Et8AxIeqIXR3ZmUiOel8+uxQ9u5
+X-Received: by 10.205.40.137 with SMTP id tq9mr4986bkb.168.1390903692103;
+	Tue, 28 Jan 2014 02:08:12 -0800 (PST)
+Received: from ?IPv6:2001:610:612::7047:93bc:eb13:30d0?
+	([2001:610:612:0:7047:93bc:eb13:30d0])
+	by mx.google.com with ESMTPSA id ch4sm16450583bkc.8.2014.01.28.02.08.10
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 28 Jan 2014 02:08:11 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1390833588.17424.254.camel@ted>
+Date: Tue, 28 Jan 2014 11:08:08 +0100
+Message-Id: <BEFD196E-8595-4DD1-BEAD-0183FBB61D55@dominion.thruhere.net>
+References: <1390833588.17424.254.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1827)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] local.conf.sample: Add automatic defaults for BB_NUMBER_THREADS and PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,25 +49,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 09:34:11 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 28 Jan 2014 10:08:13 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday 28 January 2014 09:19:59 Phil Blundell wrote:
-> On Tue, 2014-01-28 at 08:59 +0000, Paul Eggleton wrote:
-> > So I think this is mostly a good change, however, we don't want those ->
-> > if the file isn't a symlink. Otavio, can you fix that?
-> 
-> Isn't that what the sed 's/ -> $//' in the original patch is dealing
-> with?
 
-Oops, you're right. Ignore this :)
+Op 27 jan. 2014, om 15:39 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
 
-Cheers,
-Paul
+> Its rather sad that people don't appear to read local.conf and then =
+complain
+> about slow builds when they're just using a single thread. Most =
+systems have
+> more than one core now so we might as well use a more automatic =
+default
+> for these values. This may lead to better experiences for new users.
+>=20
+> [YOCTO #2528]
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+> index 71856b8..36d33e1 100644
+> --- a/meta/conf/local.conf.sample
+> +++ b/meta/conf/local.conf.sample
+> @@ -18,12 +18,18 @@
+> # option determines how many tasks bitbake should run in parallel:
+> #
+> #BB_NUMBER_THREADS ?=3D "4"
+> +#
+> +# Default to setting automatically based on cpu count
+> +BB_NUMBER_THREADS ?=3D "${@oe.utils.cpu_count()}"
 
--- 
+I've noticed that after 4 threads IO becomes a big bottleneck when you =
+have things like webkit, qt, asio etc in the buildqueue. Combine that =
+with issues like every make -j thread taking >2GB ram with asio and =
+webkit this default seems a bit high. I'd use 0.5*numcpu with a lower =
+bound of 2.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+regards,
+
+Koen
+
+> #=20
+> # The second option controls how many processes make should run in =
+parallel when
+> # running compile tasks:
+> #
+> #PARALLEL_MAKE ?=3D "-j 4"
+> #
+> +# Default to setting automatically based on cpu count
+> +PARALLEL_MAKE ?=3D "-j ${@oe.utils.cpu_count()}"
+> +#
+> # For a quad-core machine, BB_NUMBER_THREADS =3D "4", PARALLEL_MAKE =3D =
+"-j 4" would
+> # be appropriate for example.
+>=20
+>=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+
 
