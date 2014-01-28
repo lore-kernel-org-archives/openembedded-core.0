@@ -1,32 +1,23 @@
-Return-Path: <sebmennetrier@gmail.com>
-Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BC06F6E82D
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 527A36E7EF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 13:32:26 +0000 (UTC)
-Received: by mail-ie0-f181.google.com with SMTP id to1so341643ieb.26
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 05:32:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:message-id:subject:from:to:content-type;
-	bh=4GH6THanCHcgkWQpAC5KBE/LOq71hodYbGiy5ilFD68=;
-	b=wpj6bszFJ6P7FubVerpG+eD4srW9d3Py2biZm6T38SCCDTlPkgWNq9oNIfbnzbJ9eq
-	lv6/zWUI2sr8xrwEDoB0iNMHrc2UCBVK2E+h+TrnDuu7UfLPRhieSSa0S2sfqVZgFdyz
-	WRRPCww9Zq6w0aL+B3U/0E1SldthDN5JRwx1s8XT7+rxMQvP2U7gQ7kaBj3c1RWHz1OR
-	RdtCOUiXZB0bYIkPUUcQqdd+FVUAbXM22H85Bcj93x+EUl8/BjG21Jqd6cpUl1vmrI/m
-	1v2ZM4kkLYrmWOEMMboGpxPzeCMcdPhSYzCVdZZfyoYRprAKvnSTvGxA374498sE08iC
-	EO4A==
-MIME-Version: 1.0
-X-Received: by 10.50.72.36 with SMTP id a4mr23122258igv.40.1390915947181; Tue,
-	28 Jan 2014 05:32:27 -0800 (PST)
-Sender: sebmennetrier@gmail.com
-Received: by 10.43.141.70 with HTTP; Tue, 28 Jan 2014 05:32:27 -0800 (PST)
-Date: Tue, 28 Jan 2014 14:32:27 +0100
-X-Google-Sender-Auth: TWeeJenflIigx3jJ6PXkieryDLU
-Message-ID: <CABgO3_MAX9SC7uB=vBV3Q5ZDCO90K9x_JvroS1Rpe1FoxdUAwg@mail.gmail.com>
-From: Sebastien MENNETRIER <s.mennetrier@innotis.org>
+	Tue, 28 Jan 2014 13:54:29 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Jan 2014 05:54:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,736,1384329600"; d="scan'208";a="472020868"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2014 05:54:29 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
+	by linux.intel.com (Postfix) with ESMTP id F34926A4092;
+	Tue, 28 Jan 2014 05:54:22 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Incompatibility between compat-wireless and linux-firmware ??
+Date: Tue, 28 Jan 2014 15:55:32 +0200
+Message-Id: <1390917332-9975-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] oeqa/utils: sshcontrol: rewrite the SSHControl class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,58 +30,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 13:32:28 -0000
-Content-Type: multipart/alternative; boundary=047d7bdcab2cf1bb8004f107da0b
+X-List-Received-Date: Tue, 28 Jan 2014 13:54:30 -0000
 
---047d7bdcab2cf1bb8004f107da0b
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Split the class in two, one to handle the process and the
+timeout based on output and one for the actual ssh/scp commands.
+The ssh/scp methods now use the same run method.
+It does the same thing as before but:
+- it looks cleaner.
+- adds support for using a different user than root
+- optionally, raises an exception when exit code != 0
+(that's useful for code outside of tests, where you wouldn't want
+to check the return code every time as the tests do)
 
-Hi all,
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/utils/sshcontrol.py | 175 ++++++++++++++++++++------------------
+ 1 file changed, 92 insertions(+), 83 deletions(-)
 
-I use dora branch and I would like to use the TiWi-ble wifi module in
-multirole mode with linux kernel 3.0.35.
-The module works thanks to the wl12xx driver. The default driver in the
-kernel 3.0.35 doesn't work in multirole mode...
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 8913250..d355d5e 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -11,108 +11,117 @@ import time
+ import os
+ import select
+ 
+-class SSHControl(object):
+ 
+-    def __init__(self, ip=None, timeout=300, logfile=None, port=None):
++class SSHProcess(object):
++    def __init__(self, **options):
++
++        self.defaultopts = {
++            "stdout": subprocess.PIPE,
++            "stderr": subprocess.STDOUT,
++            "stdin": None,
++            "shell": False,
++            "bufsize": -1,
++            "preexec_fn": os.setsid,
++        }
++        self.options = dict(self.defaultopts)
++        self.options.update(options)
++        self.status = None
++        self.output = None
++        self.process = None
++        self.starttime = None
++
++    def run(self, command, timeout=None):
++        self.starttime = time.time()
++        output = ''
++        self.process = subprocess.Popen(command, **self.options)
++        if timeout:
++            endtime = self.starttime + timeout
++            eof = False
++            while time.time() < endtime and not eof:
++                if select.select([self.process.stdout], [], [], 5)[0] != []:
++                    data = os.read(self.process.stdout.fileno(), 1024)
++                    if not data:
++                        self.process.stdout.close()
++                        eof = True
++                    else:
++                        output += data
++                        endtime = time.time() + timeout
++
++            # process hasn't returned yet
++            if not eof:
++                self.process.terminate()
++                time.sleep(5)
++                try:
++                    self.process.kill()
++                except OSError:
++                    pass
++                output += "\nProcess killed - no output for %d seconds. Total running time: %d seconds." % (timeout, time.time() - self.starttime)
++        else:
++            output = self.process.communicate()[0]
++
++        self.status = self.process.wait()
++        self.output = output.rstrip()
++        return (self.status, self.output)
++
++
++class SSHControl(object):
++    def __init__(self, ip, logfile=None, timeout=300, user='root', port=None):
+         self.ip = ip
+-        self.timeout = timeout
+-        self._starttime = None
+-        self._out = ''
+-        self._ret = 126
++        self.defaulttimeout = timeout
++        self.ignore_status = True
+         self.logfile = logfile
++        self.user = user
+         self.ssh_options = [
+                 '-o', 'UserKnownHostsFile=/dev/null',
+                 '-o', 'StrictHostKeyChecking=no',
+                 '-o', 'LogLevel=ERROR'
+                 ]
+-        self.ssh = ['ssh', '-l', 'root'] + self.ssh_options
++        self.ssh = ['ssh', '-l', self.user ] + self.ssh_options
++        self.scp = ['scp'] + self.ssh_options
+         if port:
+-            self.ssh = self.ssh + ['-p', str(port)]
++            self.ssh = self.ssh + [ '-p', port ]
++            self.scp = self.scp + [ '-P', port ]
+ 
+     def log(self, msg):
+         if self.logfile:
+             with open(self.logfile, "a") as f:
+                 f.write("%s\n" % msg)
+ 
+-    def _internal_run(self, cmd):
+-        # We need this for a proper PATH
+-        cmd = ". /etc/profile; " + cmd
+-        command = self.ssh + [self.ip, cmd]
++    def _internal_run(self, command, timeout=None, ignore_status = True):
+         self.log("[Running]$ %s" % " ".join(command))
+-        self._starttime = time.time()
+-        # ssh hangs without os.setsid
+-        proc = subprocess.Popen(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
+-        return proc
+-
+-    def run(self, cmd, timeout=None):
+-        """Run cmd and get it's return code and output.
+-        Let it run for timeout seconds and then terminate/kill it,
+-        if time is 0 will let cmd run until it finishes.
+-        Time can be passed to here or can be set per class instance."""
+-
+-        if self.ip:
+-            sshconn = self._internal_run(cmd)
+-        else:
+-            raise Exception("Remote IP hasn't been set, I can't run ssh without one.")
+ 
+-        # run the command forever
+-        if timeout == 0:
+-            output = sshconn.communicate()[0]
+-        else:
+-            # use the default timeout
+-            if timeout is None:
+-                tdelta = self.timeout
+-            # use the specified timeout
+-            else:
+-                tdelta = timeout
+-            endtime = self._starttime + tdelta
+-            output = ''
+-            eof = False
+-            while time.time() < endtime and not eof:
+-                if select.select([sshconn.stdout], [], [], 5)[0] != []:
+-                    data = os.read(sshconn.stdout.fileno(), 1024)
+-                    if not data:
+-                        sshconn.stdout.close()
+-                        eof = True
+-                    else:
+-                        output += data
+-                        endtime = time.time() + tdelta
++        proc = SSHProcess()
++        status, output = proc.run(command, timeout)
+ 
+-            # process hasn't returned yet
+-            if not eof:
+-                sshconn.terminate()
+-                time.sleep(3)
+-                try:
+-                    sshconn.kill()
+-                except OSError:
+-                    pass
+-                output += "\n[!!! SSH command killed - no output for %d seconds. Total running time: %d seconds." % (tdelta, time.time() - self._starttime)
+-
+-        self._ret = sshconn.wait()
+-        # strip the last LF so we can test the output
+-        self._out = output.rstrip()
+-        self.log("%s" % self._out)
+-        self.log("[SSH command returned after %d seconds]: %s" % (time.time() - self._starttime, self._ret))
+-        return (self._ret, self._out)
+-
+-    def _internal_scp(self, cmd):
+-        cmd = ['scp'] + self.ssh_options + cmd
+-        self.log("[Running SCP]$ %s" % " ".join(cmd))
+-        self._starttime = time.time()
+-        scpconn = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
+-        out = scpconn.communicate()[0]
+-        ret = scpconn.poll()
+-        self.log("%s" % out)
+-        self.log("[SCP command returned after %d seconds]: %s" % (time.time() - self._starttime, ret))
+-        if ret != 0:
+-            # we raise an exception so that tests fail in setUp and setUpClass without a need for an assert
+-            raise Exception("Error running %s, output: %s" % ( " ".join(cmd), out))
+-        return (ret, out)
++        self.log("%s" % output)
++        self.log("[Command returned '%d' after %.2f seconds]" % (status, time.time() - proc.starttime))
++
++        if status and not ignore_status:
++            raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, status, output))
++
++        return (status, output)
++
++    def run(self, command, timeout=None):
++        """
++        command - ssh command to run
++        timeout=<val> - kill command if there is no output after <val> seconds
++        timeout=None - kill command if there is no output after a default value seconds
++        timeout=0 - no timeout, let command run until it returns
++        """
++
++        # We need to source /etc/profile for a proper PATH on the target
++        command = self.ssh + [self.ip, ' . /etc/profile; ' + command]
++
++        if timeout is None:
++            return self._internal_run(command, self.defaulttimeout, self.ignore_status)
++        if timeout == 0:
++            return self._internal_run(command, None, self.ignore_status)
++        return self._internal_run(command, timeout, self.ignore_status)
+ 
+     def copy_to(self, localpath, remotepath):
+-        actualcmd = [localpath, 'root@%s:%s' % (self.ip, remotepath)]
+-        return self._internal_scp(actualcmd)
++        command = self.scp + [localpath, '%s@%s:%s' % (self.user, self.ip, remotepath)]
++        return self._internal_run(command, ignore_status=False)
+ 
+     def copy_from(self, remotepath, localpath):
+-        actualcmd = ['root@%s:%s' % (self.ip, remotepath), localpath]
+-        return self._internal_scp(actualcmd)
++        command = self.scp + ['%s@%s:%s' % (self.user, self.ip, remotepath), localpath]
++        return self._internal_run(command, ignore_status=False)
+-- 
+1.8.5.3
 
-So, I build compat-wireless-all from meta-openembedded with linux-firmware
-from poky in order to use the wl12xx driver in compat-wireless.
 
-But when I start my board, the driver doesn't work and I have this error :
-wl12xx: ERROR Your WiFi FW version (6.3.10.0.133) is outdated.
-Please use at least FW 6.3.10.2.115.
-You can get more information at:
-http://wireless.kernel.org/en/users/Drivers/wl12xx
-
-Is it an issue of incompatibility between this two recipes ? Or must I use
-others recipes to use wl12xx driver in multirole mode ?
-
-Thank for your help.
---=20
-
-Regards,
-S=E9bastien
-
---047d7bdcab2cf1bb8004f107da0b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div>Hi all,<br><br></div>I use dora branch and I wou=
-ld like to use the TiWi-ble wifi module in multirole mode with linux kernel=
- 3.0.35.<br></div>The module works thanks to the wl12xx driver. The default=
- driver in the kernel 3.0.35 doesn&#39;t work in multirole mode...<br>
-<div><div><br>So, I build compat-wireless-all from meta-openembedded with l=
-inux-firmware from poky in order to use the wl12xx driver in compat-wireles=
-s. <br><br></div><div>But when I start my board, the driver doesn&#39;t wor=
-k and I have this error :<br>
-wl12xx: ERROR Your WiFi FW version (6.3.10.0.133) is outdated.<br>Please us=
-e at least FW 6.3.10.2.115.<br>You can get more information at:<br><a href=
-=3D"http://wireless.kernel.org/en/users/Drivers/wl12xx">http://wireless.ker=
-nel.org/en/users/Drivers/wl12xx</a><br>
-</div><div><br><div><div>Is it an issue of incompatibility between this two=
- recipes ? Or must I use others recipes to use wl12xx driver in multirole m=
-ode ?<br clear=3D"all"></div><div><br></div><div>Thank for your help.<br>
-</div><div>-- <br><div dir=3D"ltr"><div><br>Regards,<br></div>S=E9bastien<b=
-r></div></div></div></div></div></div>
-
---047d7bdcab2cf1bb8004f107da0b--
