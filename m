@@ -1,24 +1,14 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BEAF6E6F5
+Return-Path: <obi@opendreambox.org>
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id CF5076E87E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 18:49:32 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Jan 2014 10:45:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,737,1384329600"; d="scan'208";a="445953785"
-Received: from unknown (HELO [10.255.13.109]) ([10.255.13.109])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jan 2014 10:49:31 -0800
-Message-ID: <52E7FB3B.8000000@linux.intel.com>
-Date: Tue, 28 Jan 2014 10:47:23 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Jason Plum <jplum@devonit.com>, openembedded-core@lists.openembedded.org
-References: <1390245778-9252-1-git-send-email-jplum@devonit.com>
-In-Reply-To: <1390245778-9252-1-git-send-email-jplum@devonit.com>
-Subject: Re: [PATCH v3] meta/oe/lib/path.py - check mount points, not device
+	Tue, 28 Jan 2014 19:15:33 +0000 (UTC)
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2014 20:15:31 +0100
+Message-Id: <1390936531-11738-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] cogl: kms: include necessary header for size_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +21,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 18:49:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jan 2014 19:15:35 -0000
 
-On 01/20/2014 11:22 AM, Jason Plum wrote:
-> Signed-off-by: Jason Plum <jplum@devonit.com>
-> ---
->   meta/lib/oe/path.py | 13 ++++++++++++-
->   1 file changed, 12 insertions(+), 1 deletion(-)
->
+Fixes compilation in cases where stddef.h is not alrady
+included by EGL headers.
 
-This patch is still not applying cleanly to master, I am also still a 
-little concerned if this will affect performance since it's used often 
-in sstate code.
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+ meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb      |  2 ++
+ .../kms-include-stddef.h-before-drm.h.patch        | 33 ++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.16.0/kms-include-stddef.h-before-drm.h.patch
 
-Have you compared build times with and without this patch?
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
+index 5e5c82b..0ef9726 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
++++ b/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
+@@ -2,5 +2,7 @@ require cogl-1.0.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
++SRC_URI += "file://kms-include-stddef.h-before-drm.h.patch"
++
+ SRC_URI[archive.md5sum] = "611a61bed04354cbfffa3dc27feb6d4f"
+ SRC_URI[archive.sha256sum] = "75c2c4636a050fda7ee8722ce3d9c618b08799ed92bbb72b4fdff3e73b096094"
+diff --git a/meta/recipes-graphics/cogl/cogl-1.16.0/kms-include-stddef.h-before-drm.h.patch b/meta/recipes-graphics/cogl/cogl-1.16.0/kms-include-stddef.h-before-drm.h.patch
+new file mode 100644
+index 0000000..7cce279
+--- /dev/null
++++ b/meta/recipes-graphics/cogl/cogl-1.16.0/kms-include-stddef.h-before-drm.h.patch
+@@ -0,0 +1,33 @@
++Upstream-Status: Submitted [cogl@lists.freedesktop.org]
++
++From 5e4f4689308732a0570a1631169247157c59f064 Mon Sep 17 00:00:00 2001
++From: Andreas Oberritter <obi@saftware.de>
++Date: Tue, 28 Jan 2014 18:36:04 +0100
++Subject: [PATCH] kms: include stddef.h before drm.h
++
++Not doing so leads to the following error, if stddef.h is not included
++indirectly through EGL headers:
++
++| libdrm/drm.h:132:2: error: unknown type name 'size_t'
++|   size_t name_len;   /**< Length of name buffer */
++
++Signed-off-by: Andreas Oberritter <obi@saftware.de>
++---
++ cogl/winsys/cogl-winsys-egl-kms.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/cogl/winsys/cogl-winsys-egl-kms.c b/cogl/winsys/cogl-winsys-egl-kms.c
++index f7c9cfb..144ad9b 100644
++--- a/cogl/winsys/cogl-winsys-egl-kms.c
+++++ b/cogl/winsys/cogl-winsys-egl-kms.c
++@@ -40,6 +40,7 @@
++ 
++ #include <EGL/egl.h>
++ #include <EGL/eglext.h>
+++#include <stddef.h>
++ #include <drm.h>
++ #include <xf86drm.h>
++ #include <xf86drmMode.h>
++-- 
++1.8.3.2
++
+-- 
+1.8.3.2
 
-Sau!
-
-> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-> index 46783f8..dab20fc 100644
-> --- a/meta/lib/oe/path.py
-> +++ b/meta/lib/oe/path.py
-> @@ -90,7 +90,7 @@ def copyhardlinktree(src, dst):
->       if os.path.isdir(src) and not len(os.listdir(src)):
->           return	
->
-> -    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
-> +    if (getmount(src) ==  getmount(dst)):
->           # Need to copy directories only with tar first since cp will error if two
->           # writers try and create a directory at the same time
->           cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
-> @@ -257,3 +257,14 @@ def realpath(file, root, use_physdir = True, loop_cnt = 100, assume_dir = False)
->           raise
->
->       return file
-> +
-> +def getmount(path):
-> +    """ getmount takes a path parameter, uses os.path.realpath with os.path.abspath to
-> +    handle symlink resolution, and returns the path to the mount point of the input path
-> +    """
-> +    path = os.path.realpath(os.path.abspath(path))
-> +    while path != os.path.sep:
-> +        if os.path.ismount(path):
-> +            return path
-> +        path = os.path.abspath(os.path.join(path, os.pardir))
-> +    return path
-> \ No newline at end of file
->
 
