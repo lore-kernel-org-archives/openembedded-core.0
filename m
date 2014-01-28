@@ -1,24 +1,23 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DCFE6E82D
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FE516E82D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 16:02:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2014 08:02:19 -0800
+	Tue, 28 Jan 2014 16:13:14 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Jan 2014 08:13:15 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,736,1384329600"; d="scan'208";a="473815154"
-Received: from unknown (HELO [10.255.13.56]) ([10.255.13.56])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jan 2014 08:01:01 -0800
-Message-ID: <52E7D43D.5030208@linux.intel.com>
-Date: Tue, 28 Jan 2014 08:01:01 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Mikhail_Durnev@mentor.com, openembedded-core@lists.openembedded.org
-References: <1390894749-8639-1-git-send-email-Mikhail_Durnev@mentor.com>
-In-Reply-To: <1390894749-8639-1-git-send-email-Mikhail_Durnev@mentor.com>
-Subject: Re: [PATCH] unzip: Pass LDFLAGS to the linker
+X-IronPort-AV: E=Sophos;i="4.95,736,1384329600"; d="scan'208";a="472089080"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2014 08:13:14 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
+	by linux.intel.com (Postfix) with ESMTP id 7E1156A4092;
+	Tue, 28 Jan 2014 08:13:08 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2014 18:14:18 +0200
+Message-Id: <1390925658-13014-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] oeqa/runtime: rpm: fix finding the test rpm file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,70 +30,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 16:02:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jan 2014 16:13:15 -0000
 
-On 01/27/2014 11:39 PM, Mikhail_Durnev@mentor.com wrote:
-> From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
->
-> Change Makefile to use LDFLAGS
->
-> Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
-> ---
->   .../unzip/unzip/define-ldflags.patch               |   16 ++++++++++++++++
->   meta/recipes-extended/unzip/unzip_6.0.bb           |    5 +++--
->   2 files changed, 19 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-extended/unzip/unzip/define-ldflags.patch
->
-> diff --git a/meta/recipes-extended/unzip/unzip/define-ldflags.patch b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
-> new file mode 100644
-> index 0000000..a3e5178
-> --- /dev/null
-> +++ b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
-> @@ -0,0 +1,16 @@
-> +Pass LDFLAGS to the linker
-> +
-> +Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
-> +
-Additionally this needs an Upstream-Status:
+Translate TUNE_PKGARCH to find the right file (this
+used to work because tune for qemux86-64 used to be
+x86_64 now it's core2-64)
+Also, while using packagedata was nice, it's harder to make
+the test exportable and runnable outside of the
+build system. (where oe.packagedata isn't available)
 
-Please review
-http://openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/runtime/rpm.py | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-Thanks
-	Sau!
+diff --git a/meta/lib/oeqa/runtime/rpm.py b/meta/lib/oeqa/runtime/rpm.py
+index 154cad5..084d22f 100644
+--- a/meta/lib/oeqa/runtime/rpm.py
++++ b/meta/lib/oeqa/runtime/rpm.py
+@@ -1,8 +1,8 @@
+ import unittest
+ import os
++import fnmatch
+ from oeqa.oetest import oeRuntimeTest, skipModule
+ from oeqa.utils.decorators import *
+-import oe.packagedata
+ 
+ def setUpModule():
+     if not oeRuntimeTest.hasFeature("package-management"):
+@@ -27,11 +27,12 @@ class RpmInstallRemoveTest(oeRuntimeTest):
+ 
+     @classmethod
+     def setUpClass(self):
+-        deploydir = os.path.join(oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True), "rpm", oeRuntimeTest.tc.d.getVar('TUNE_PKGARCH', True))
+-        pkgdata = oe.packagedata.read_subpkgdata("rpm-doc", oeRuntimeTest.tc.d)
++        pkgarch = oeRuntimeTest.tc.d.getVar('TUNE_PKGARCH', True).replace("-", "_")
++        rpmdir = os.path.join(oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True), "rpm", pkgarch)
+         # pick rpm-doc as a test file to get installed, because it's small and it will always be built for standard targets
+-        testrpmfile = "rpm-doc-%s-%s.%s.rpm" % (pkgdata["PKGV"], pkgdata["PKGR"], oeRuntimeTest.tc.d.getVar('TUNE_PKGARCH', True))
+-        oeRuntimeTest.tc.target.copy_to(os.path.join(deploydir,testrpmfile), "/tmp/rpm-doc.rpm")
++        for f in fnmatch.filter(os.listdir(rpmdir), "rpm-doc-*.%s.rpm" % pkgarch):
++            testrpmfile = f
++        oeRuntimeTest.tc.target.copy_to(os.path.join(rpmdir,testrpmfile), "/tmp/rpm-doc.rpm")
+ 
+     @skipUnlessPassed('test_rpm_help')
+     def test_rpm_install(self):
+-- 
+1.8.5.3
 
-
-> +diff -Naur old/unix/configure new/unix/configure
-> +--- old/unix/configure	2014-01-13 21:59:27.000000000 +1100
-> ++++ new/unix/configure	2014-01-14 16:36:02.000000000 +1100
-> +@@ -16,7 +16,7 @@
-> + CFLAGSR=${CFLAGS}
-> + IZ_BZIP2=${3}
-> + CFLAGS="${CFLAGS} -I. -DUNIX"
-> +-LFLAGS1=""
-> ++LFLAGS1=${LDFLAGS}
-> + LFLAGS2=""
-> + LN="ln -s"
-> +
-> diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-> index 584802a..33c20f8 100644
-> --- a/meta/recipes-extended/unzip/unzip_6.0.bb
-> +++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-> @@ -4,10 +4,11 @@ SECTION = "console/utils"
->   LICENSE = "BSD-3-Clause"
->   LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
->   PE = "1"
-> -PR = "r4"
-> +PR = "r5"
->
->   SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
-> -	file://avoid-strip.patch"
-> +	file://avoid-strip.patch \
-> +	file://define-ldflags.patch"
->
->   SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
->   SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
->
 
