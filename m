@@ -1,25 +1,28 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 38A216E881
+Return-Path: <Mikhail_Durnev@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 659946E881
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 07:31:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0S7VjrM021028
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2014 23:31:45 -0800 (PST)
-Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Mon, 27 Jan 2014 23:31:45 -0800
-From: Ming Liu <ming.liu@windriver.com>
+	Tue, 28 Jan 2014 07:39:20 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1W83GT-0000Sd-0k from Mikhail_Durnev@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 27 Jan 2014 23:39:21 -0800
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 27 Jan 2014 23:39:21 -0800
+Received: from workstation.mgc.mentorg.com (147.34.91.1) by
+	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Mon, 27 Jan 2014 23:38:33 -0800
+From: <Mikhail_Durnev@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Jan 2014 15:31:15 +0800
-Message-ID: <1390894275-8072-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.3.3
+Date: Tue, 28 Jan 2014 18:39:09 +1100
+Message-ID: <1390894749-8639-1-git-send-email-Mikhail_Durnev@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.21]
-Subject: [PATCH] multilib.bbclass: fix Multilib QA Issue
+X-OriginalArrivalTime: 28 Jan 2014 07:39:21.0094 (UTC)
+	FILETIME=[0ECB3260:01CF1BFC]
+Subject: [PATCH] unzip: Pass LDFLAGS to the linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 07:31:46 -0000
+X-List-Received-Date: Tue, 28 Jan 2014 07:39:21 -0000
 Content-Type: text/plain
 
-Multilib QA warning was observed, as follows:
-------
-WARNING: Multilib QA Issue: lib32-oprofile package lib32-oprofile -
-suspicious values 'kernel-vmlinux' in RRECOMMENDS
-------
+From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
 
-The package starting with 'kernel-vmlinux' should be ok with multilib QA
-checking.
+Change Makefile to use LDFLAGS
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
 ---
- meta/classes/multilib.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../unzip/unzip/define-ldflags.patch               |   16 ++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |    5 +++--
+ 2 files changed, 19 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/unzip/unzip/define-ldflags.patch
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 5eb4a7b..9a1cb1d 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -120,7 +120,7 @@ python do_package_qa_multilib() {
-                 i = i[len('virtual/'):]
-             if (not i.startswith('kernel-module')) and (not i.startswith(mlprefix)) and \
-                 (not 'cross-canadian' in i) and (not i.startswith("nativesdk-")) and \
--                (not i.startswith("rtld")):
-+                (not i.startswith("rtld")) and (not i.startswith('kernel-vmlinux')):
-                 candidates.append(i)
-         if len(candidates) > 0:
-             bb.warn("Multilib QA Issue: %s package %s - suspicious values '%s' in %s" 
+diff --git a/meta/recipes-extended/unzip/unzip/define-ldflags.patch b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
+new file mode 100644
+index 0000000..a3e5178
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
+@@ -0,0 +1,16 @@
++Pass LDFLAGS to the linker 
++
++Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
++
++diff -Naur old/unix/configure new/unix/configure
++--- old/unix/configure	2014-01-13 21:59:27.000000000 +1100
+++++ new/unix/configure	2014-01-14 16:36:02.000000000 +1100
++@@ -16,7 +16,7 @@
++ CFLAGSR=${CFLAGS}
++ IZ_BZIP2=${3}
++ CFLAGS="${CFLAGS} -I. -DUNIX"
++-LFLAGS1=""
+++LFLAGS1=${LDFLAGS}
++ LFLAGS2=""
++ LN="ln -s"
++ 
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index 584802a..33c20f8 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -4,10 +4,11 @@ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
+ PE = "1"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
+-	file://avoid-strip.patch"
++	file://avoid-strip.patch \
++	file://define-ldflags.patch"
+ 
+ SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+ SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
 -- 
-1.8.3.3
+1.7.9.5
 
 
