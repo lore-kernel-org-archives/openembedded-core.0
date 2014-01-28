@@ -1,25 +1,35 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 329246E9D5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id DD4616E9D4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 17:24:45 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jan 2014 09:24:34 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,737,1384329600"; d="scan'208";a="445910914"
-Received: from dvhart-mobl.jf.intel.com (HELO [10.7.196.58]) ([10.7.196.58])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jan 2014 09:24:33 -0800
-Message-ID: <1390901608.13217.74.camel@dvhart-mobl.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Stefan Stanacar <stefanx.stanacar@intel.com>
-Date: Tue, 28 Jan 2014 01:33:28 -0800
-In-Reply-To: <1390929399-28383-1-git-send-email-stefanx.stanacar@intel.com>
-References: <1390929399-28383-1-git-send-email-stefanx.stanacar@intel.com>
-Organization: Intel
-X-Mailer: Evolution 3.10.3 (3.10.3-1.fc20) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] scripts/runqemu-internal: use -cpu core2duo for qemux86-64
+	Tue, 28 Jan 2014 17:32:01 +0000 (UTC)
+Received: by mail-wg0-f43.google.com with SMTP id y10so1406378wgg.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jan 2014 09:32:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=qM76ua8FN5FPYt8NRzPZwnXH7b4flCe8b2zqOKGj4Jg=;
+	b=PWYS3/sKM4ZF5lb6Yv4+EA1S+aDpfhpTnoEfIovhF1psAGQND1+Ni/hmuTCHkZK/4i
+	m1DYYBkCRIRoork1dCt3R8iyjOLEGWpcOFygvucVWsZM2pGqJvHT/XmQooP4U5gelLWE
+	HEz9dWGa2rqVRgY38hz25icrAUIw36qrAMH+OA1cHXl4rk2HBlwCxF5VE/NBdrbeYwBT
+	+6H8g2paWPexnUgvR7WqdwCZHMPdcHv/rCkQHl+3EjKUAOZohZdyz0hzH/V5Lc+AziM9
+	uwPr6y6I37xxgTEm/Y1FFe4/t4mnIVeGgeN5LKOwgxsIUOXRP45rjcbRJKZXivUx4bYf
+	Orjw==
+X-Gm-Message-State: ALoCoQmBNARmuLsB2v4A4B34j6dy9zyLdLzey5j7MOwFOF2zUwJ2IPEM+NjZtArck6U56ROjAmlQ
+X-Received: by 10.180.80.103 with SMTP id q7mr16676563wix.14.1390930321888;
+	Tue, 28 Jan 2014 09:32:01 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fo6sm35483123wib.7.2014.01.28.09.32.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 Jan 2014 09:32:00 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2014 17:31:55 +0000
+Message-Id: <1390930315-30693-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] python-numpy: don't search host directories for libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,53 +42,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 17:24:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jan 2014 17:32:03 -0000
 
-On Tue, 2014-01-28 at 19:16 +0200, Stefan Stanacar wrote:
-> Now that the tune for qemux86-64 changed to core2-64 we need to
-> tell the emulator to use a proper CPU model. With the default setting
-> of qemu64 we'll get things like:
-> 
-> root@qemux86-64:~# smart --help
-> traps: python[758] trap invalid opcode ip:7f2af01f6be7 sp:7fff49466ef0 error:0 in strop.so[7f2af01f5000+6000]
-> Illegal instruction
-> 
-> If the tune for qemux86 changes, that needs to be updated too.
-> 
-> Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
-> ---
->  scripts/runqemu-internal | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index e3b0729..0893107 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -388,6 +388,7 @@ fi
->  
->  if [ "$MACHINE" = "qemux86-64" ]; then
->      QEMU=qemu-system-x86_64
-> +    CPU_SUBTYPE=core2duo
+The build process hard-codes searches of various directories in /usr when
+looking for libraries, delete this to avoid host contamination.
 
-What is it set to by default? Just "" right?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../python/python-numpy/no-host-paths.patch        |   57 ++++++++++++++++++++
+ meta/recipes-devtools/python/python-numpy_1.7.0.bb |    1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python-numpy/no-host-paths.patch
 
->      if [ ! -z "$vga_option" ]; then
->          QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
->      else
-> @@ -395,7 +396,7 @@ if [ "$MACHINE" = "qemux86-64" ]; then
->      fi
->      if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
->          KERNCMDLINE="vga=0 uvesafb.mode_option=640x480-32 root=$DROOT rw mem=$QEMU_MEMORY $KERNEL_NETWORK_CMD"
-> -        QEMUOPTIONS="$QEMU_NETWORK_CMD $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-> +        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-
-So what happens here when it is empty? "-cpu ''" ?
-
+diff --git a/meta/recipes-devtools/python/python-numpy/no-host-paths.patch b/meta/recipes-devtools/python/python-numpy/no-host-paths.patch
+new file mode 100644
+index 0000000..0b992c3
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-numpy/no-host-paths.patch
+@@ -0,0 +1,57 @@
++Don't search /usr and so on for libraries by default to avoid host contamination.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++diff --git a/numpy/distutils/system_info.py b/numpy/distutils/system_info.py
++index bac90fb..a63d796 100644
++--- a/numpy/distutils/system_info.py
+++++ b/numpy/distutils/system_info.py
++@@ -191,41 +191,12 @@ if sys.platform == 'win32':
++     default_x11_lib_dirs = []
++     default_x11_include_dirs = []
++ else:
++-    default_lib_dirs = libpaths(['/usr/local/lib', '/opt/lib', '/usr/lib',
++-                                 '/opt/local/lib', '/sw/lib'], platform_bits)
++-    default_include_dirs = ['/usr/local/include',
++-                            '/opt/include', '/usr/include',
++-                            # path of umfpack under macports
++-                            '/opt/local/include/ufsparse',
++-                            '/opt/local/include', '/sw/include',
++-                            '/usr/include/suitesparse']
++-    default_src_dirs = ['.', '/usr/local/src', '/opt/src', '/sw/src']
++-
++-    default_x11_lib_dirs = libpaths(['/usr/X11R6/lib', '/usr/X11/lib',
++-                                     '/usr/lib'], platform_bits)
++-    default_x11_include_dirs = ['/usr/X11R6/include', '/usr/X11/include',
++-                                '/usr/include']
++-
++-    if os.path.exists('/usr/lib/X11'):
++-        globbed_x11_dir = glob('/usr/lib/*/libX11.so')
++-        if globbed_x11_dir:
++-            x11_so_dir = os.path.split(globbed_x11_dir[0])[0]
++-            default_x11_lib_dirs.extend([x11_so_dir, '/usr/lib/X11'])
++-            default_x11_include_dirs.extend(['/usr/lib/X11/include',
++-                                             '/usr/include/X11'])
++-
++-    import subprocess as sp
++-    try:
++-        p = sp.Popen(["gcc", "-print-multiarch"], stdout=sp.PIPE,
++-                stderr=open(os.devnull, 'w'))
++-    except OSError:
++-        pass # gcc is not installed
++-    else:
++-        triplet = str(p.communicate()[0].decode().strip())
++-        if p.returncode == 0:
++-            # gcc supports the "-print-multiarch" option
++-            default_x11_lib_dirs += [os.path.join("/usr/lib/", triplet)]
++-            default_lib_dirs += [os.path.join("/usr/lib/", triplet)]
+++    default_lib_dirs = libpaths(['/deadir/lib'], platform_bits)
+++    default_include_dirs = ['/deaddir/include']
+++    default_src_dirs = ['.', '/deaddir/src']
+++
+++    default_x11_lib_dirs = libpaths(['/deaddir/lib'], platform_bits)
+++    default_x11_include_dirs = ['/deaddir/include']
++ 
++ if os.path.join(sys.prefix, 'lib') not in default_lib_dirs:
++     default_lib_dirs.insert(0, os.path.join(sys.prefix, 'lib'))
+diff --git a/meta/recipes-devtools/python/python-numpy_1.7.0.bb b/meta/recipes-devtools/python/python-numpy_1.7.0.bb
+index 04cb2f1..c91cdf6 100644
+--- a/meta/recipes-devtools/python/python-numpy_1.7.0.bb
++++ b/meta/recipes-devtools/python/python-numpy_1.7.0.bb
+@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f87832d854acbade6e9f5c601c8b30b1"
+ PR = "r1"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/numpy/numpy-${PV}.tar.gz \
++           file://no-host-paths.patch \
+            ${CONFIGFILESURI} "
+ 
+ CONFIGFILESURI ?= ""
 -- 
-Darren Hart
-Yocto Project - Linux Kernel
-Intel Open Source Technology Center
+1.7.10.4
 
 
