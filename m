@@ -1,26 +1,16 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A9BB36E9BD
+Return-Path: <obi@opendreambox.org>
+Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 155FD6E9BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 19:50:39 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Jan 2014 11:50:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,737,1384329600"; d="scan'208";a="472199230"
-Received: from unknown (HELO [10.255.13.109]) ([10.255.13.109])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jan 2014 11:50:39 -0800
-Message-ID: <52E80A0F.5070003@linux.intel.com>
-Date: Tue, 28 Jan 2014 11:50:39 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>, 
-	openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1390931044-24421-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1390931044-24421-1-git-send-email-ross.burton@intel.com>
-Subject: Re: [PATCH] pkgconfig: remove out-dated configure options and dependencies
+	Tue, 28 Jan 2014 20:27:58 +0000 (UTC)
+From: Andreas Oberritter <obi@opendreambox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2014 21:27:54 +0100
+Message-Id: <1390940874-11839-1-git-send-email-obi@opendreambox.org>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <20140128192141.GA3640@mail.itconsulting-heinold.de>
+References: <20140128192141.GA3640@mail.itconsulting-heinold.de>
+Subject: [PATCH v2] cogl: kms: include necessary header for size_t
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,66 +23,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 19:50:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jan 2014 20:27:59 -0000
 
+Fixes compilation in cases where stddef.h is not already
+included by EGL headers.
 
-Although not in this email a change to this patch seems to have removed 
-the glibconfig-sysdefs.h file but not the entry in SRC_URI for the _0,28 
-and _git recipes.
+Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+---
+:-P
 
-Not sure what happened with this, but master is not working and we 
-should either revert this change or clean up the issue.
+ meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb      |  2 ++
+ .../kms-include-stddef.h-before-drm.h.patch        | 33 ++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.16.0/kms-include-stddef.h-before-drm.h.patch
 
-Thanks
-	Sau!
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
+index 5e5c82b..0ef9726 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
++++ b/meta/recipes-graphics/cogl/cogl-1.0_1.16.0.bb
+@@ -2,5 +2,7 @@ require cogl-1.0.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
++SRC_URI += "file://kms-include-stddef.h-before-drm.h.patch"
++
+ SRC_URI[archive.md5sum] = "611a61bed04354cbfffa3dc27feb6d4f"
+ SRC_URI[archive.sha256sum] = "75c2c4636a050fda7ee8722ce3d9c618b08799ed92bbb72b4fdff3e73b096094"
+diff --git a/meta/recipes-graphics/cogl/cogl-1.16.0/kms-include-stddef.h-before-drm.h.patch b/meta/recipes-graphics/cogl/cogl-1.16.0/kms-include-stddef.h-before-drm.h.patch
+new file mode 100644
+index 0000000..7cce279
+--- /dev/null
++++ b/meta/recipes-graphics/cogl/cogl-1.16.0/kms-include-stddef.h-before-drm.h.patch
+@@ -0,0 +1,33 @@
++Upstream-Status: Submitted [cogl@lists.freedesktop.org]
++
++From 5e4f4689308732a0570a1631169247157c59f064 Mon Sep 17 00:00:00 2001
++From: Andreas Oberritter <obi@saftware.de>
++Date: Tue, 28 Jan 2014 18:36:04 +0100
++Subject: [PATCH] kms: include stddef.h before drm.h
++
++Not doing so leads to the following error, if stddef.h is not included
++indirectly through EGL headers:
++
++| libdrm/drm.h:132:2: error: unknown type name 'size_t'
++|   size_t name_len;   /**< Length of name buffer */
++
++Signed-off-by: Andreas Oberritter <obi@saftware.de>
++---
++ cogl/winsys/cogl-winsys-egl-kms.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/cogl/winsys/cogl-winsys-egl-kms.c b/cogl/winsys/cogl-winsys-egl-kms.c
++index f7c9cfb..144ad9b 100644
++--- a/cogl/winsys/cogl-winsys-egl-kms.c
+++++ b/cogl/winsys/cogl-winsys-egl-kms.c
++@@ -40,6 +40,7 @@
++ 
++ #include <EGL/egl.h>
++ #include <EGL/eglext.h>
+++#include <stddef.h>
++ #include <drm.h>
++ #include <xf86drm.h>
++ #include <xf86drmMode.h>
++-- 
++1.8.3.2
++
+-- 
+1.8.3.2
 
-
-On 01/28/2014 09:44 AM, Ross Burton wrote:
-> 0.27 onwards uses a snapshot of glib 2 not glib 1, so drop the
-> do_configure_prepend and update the internal/installed options as appropriate.
->
-> Legacy scripts were removed in 0.26.
->
-> Use of popt was removed in 0.28.
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/recipes-devtools/pkgconfig/pkgconfig.inc |   12 ++++--------
->   1 file changed, 4 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/recipes-devtools/pkgconfig/pkgconfig.inc b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-> index 3e655a9..62c886f 100644
-> --- a/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-> +++ b/meta/recipes-devtools/pkgconfig/pkgconfig.inc
-> @@ -8,7 +8,7 @@ SECTION = "console/utils"
->   LICENSE = "GPLv2+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->
-> -DEPENDS = "glib-2.0 popt"
-> +DEPENDS = "glib-2.0"
->   DEPENDS_class-native = ""
->   DEPENDS_class-nativesdk = ""
->
-> @@ -18,15 +18,11 @@ S = "${WORKDIR}/pkg-config-${PV}/"
->
->   inherit autotools
->
-> -EXTRA_OECONF = "--with-installed-glib --with-installed-popt --disable-legacy-scripts --with-internal-glib"
-> -EXTRA_OECONF_class-native = "--disable-legacy-scripts --with-internal-glib"
-> -EXTRA_OECONF_class-nativesdk = "--disable-legacy-scripts --with-internal-glib"
-> +EXTRA_OECONF = "--without-internal-glib"
-> +EXTRA_OECONF_class-native = "--with-internal-glib"
-> +EXTRA_OECONF_class-nativesdk = "--with-internal-glib"
->
->   acpaths = "-I ."
-> -do_configure_prepend () {
-> -	mkdir --parents ${B}/glib-1.2.10
-> -	install -m 0644 ${WORKDIR}/glibconfig-sysdefs.h ${B}/glib-1.2.10/
-> -}
->
->   BBCLASSEXTEND = "native nativesdk"
->
->
 
