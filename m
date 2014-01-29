@@ -1,38 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 60B696EABF
+Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
+	[209.85.215.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 53BD760E07
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 21:03:42 +0000 (UTC)
-Received: by mail-ee0-f54.google.com with SMTP id e53so1191430eek.27
+	Wed, 29 Jan 2014 21:03:43 +0000 (UTC)
+Received: by mail-ea0-f182.google.com with SMTP id r15so1209429ead.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 13:03:43 -0800 (PST)
+	Wed, 29 Jan 2014 13:03:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=cV/tRg3mZzwRYt80IC8oxZGfjfaDw1wEJ56sUAoYywA=;
-	b=l7zHiHeqbChsgJe9e4F/VFx8cx5hJssTRXehjWyQ8GpPoTQ3HLy5POxL0wClTfRvw2
-	ag9GpZHAgWFKy4mP3QKKIUywoD39jNLudHlb3bGkmFkk+ISmMkqDVgDXLgRBdRByvooj
-	FEJxSh/AX6CiNoOhFXLQ41jEX1p8onDHD5/0n6vIOXMltWjI9P8VtispDNRN8UwDymM9
-	LbIGv90QsIl01N39OXOGunaKgMheZ/krWl0PaPxDBB3h22DHFvSrr4EAsWdxqYji+mZa
-	8UO0Xtz0nBjBxvCwNM7IcwX1a9XRi7Y1+AGfmWbSBS4mdZWEvPKeWluDrONQhv/ww5xp
-	rwOg==
-X-Received: by 10.14.3.130 with SMTP id 2mr12087343eeh.36.1391029422974;
-	Wed, 29 Jan 2014 13:03:42 -0800 (PST)
+	:references; bh=mQvx/IpVq+3LmUm2vKr7jTDXhL6esI9xDb5qCUE1VIQ=;
+	b=upt/2pvPvlQEQMaY5hVJe8Wrt7Txz0Q98ffwymHsm7Xxn4FvFNd1I54H9dYt9/6A5+
+	CtX9JLlmeOaVdwi8K2zpZqMciM5yO3fEpnJz+fTVKimfzvQDkXZpxc9YBNhmUYUizd9q
+	PBjeZseMHvep9stxcQEupxarcJB1PcFwjzlt/nzECXLsvmh3LpxlOn7Y6qDEfL7WQYZY
+	yO9QxOP4DdFhPBjNuv2zERlvLkeR0QbPiUFKZdtH7CdX9wiv+xtq7LejU646jGzhCU2P
+	K7hbTXL9ghOyztEHhArvL26gJ0h3a8SGP8oh4AoQnERqpMwkOvxv8bQRFcnDXoIQeMGm
+	fR0A==
+X-Received: by 10.14.207.194 with SMTP id n42mr163123eeo.76.1391029423965;
+	Wed, 29 Jan 2014 13:03:43 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id w4sm13717114eef.20.2014.01.29.13.03.42
+	by mx.google.com with ESMTPSA id 46sm13555286ees.4.2014.01.29.13.03.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Jan 2014 13:03:42 -0800 (PST)
+	Wed, 29 Jan 2014 13:03:43 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2014 22:03:42 +0100
-Message-Id: <5fa6969a52e0df5e5c0b32ebbb4284ecf8af6900.1391027849.git.Martin.Jansa@gmail.com>
+Date: Wed, 29 Jan 2014 22:03:43 +0100
+Message-Id: <b32992acfd3d49985f050d614681164b74e6f92b.1391027849.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <cover.1391027849.git.Martin.Jansa@gmail.com>
 References: <cover.1391027849.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1391027849.git.Martin.Jansa@gmail.com>
 References: <cover.1391027849.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 4/5] sstate-cache-management.sh: Fix available architectures
+Subject: [PATCH 5/5] sstate-cache-management.sh: don't remove all packagedata sstate archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,123 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 21:03:42 -0000
+X-List-Received-Date: Wed, 29 Jan 2014 21:03:43 -0000
 
-* grep for AVAILTUNES isn't enough in cases where AVAILTUNE doesn't
-  match exactly with TUNE_PKGARCH, e.g. AVAILTUNE "cortexa8thf-neon"
-  and TUNE_PKGARCH "cortexa8t2hf-vfp-neon", instead of trying to find
-  dynamically every available TUNE_PKGARCH (we have _a lot_ of them
-  even with oe-core only), add parameter --extra-archs where user can
-  define extra architectures he supports in given build
-* Don't replace '-' with '_' for extra-archs, it does apply to MACHINE
-  names and some AVAILTUNES, but e.g. cortexa8thf-neon shouldn't be
-  converted to cortexa8thf_neon
-* Add empty architecture for populate_lic sstate archives
-* Add ${build_arch}_${arch} combinations for toolchain recipes (e.g.
-  gcc-cross is using x86_64_i586
+* packagedata task was introduced in:
+  commit 6107ee294afde395e39d084c33e8e94013c625a9
+  Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+  Date:   Wed Jan 23 14:27:33 2013 +0000
+  Subject: Split do_packagedata task from do_package
+* rm_by_stamps wasn't using do_packagedata or do_packagedata_setscene
+  stamp files to find which sstate archives to keep, so it was removing
+  all of them
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- scripts/sstate-cache-management.sh | 49 +++++++++++++++++++++++++-------------
- 1 file changed, 33 insertions(+), 16 deletions(-)
+ scripts/sstate-cache-management.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index 035bb25..0d71bfe 100755
+index 0d71bfe..34483d0 100755
 --- a/scripts/sstate-cache-management.sh
 +++ b/scripts/sstate-cache-management.sh
-@@ -37,13 +37,19 @@ Options:
-         Specify sstate cache directory, will use the environment
-         variable SSTATE_CACHE_DIR if it is not specified.
+@@ -320,7 +320,7 @@ rm_by_stamps (){
+   local all_sums
  
-+  --extra-archs=<arch1>,<arch2>...<archn>
-+        Specify list of architectures which should be tested, this list
-+        will be extended with native arch, allarch and empty arch. The
-+        script won't be trying to generate list of available archs from
-+        AVAILTUNES in tune files.
-+
-   --extra-layer=<layer1>,<layer2>...<layern>
-         Specify the layer which will be used for searching the archs,
-         it will search the meta and meta-* layers in the top dir by
-         default, and will search meta, meta-*, <layer1>, <layer2>,
-         ...<layern> when specified. Use "," as the separator.
+   suffixes="populate_sysroot populate_lic package_write_ipk \
+-            package_write_rpm package_write_deb package deploy"
++            package_write_rpm package_write_deb package packagedata deploy"
  
--        This is useless for --stamps-dir.
-+        This is useless for --stamps-dir or when --extra-archs is used.
- 
-   -d, --remove-duplicated
-         Remove the duplicated sstate cache files of one package, only
-@@ -170,20 +176,23 @@ remove_duplicated () {
-   local fn_tmp
-   local list_suffix=`mktemp` || exit 1
- 
--  # Find out the archs in all the layers
--  echo -n "Figuring out the archs in the layers ... "
--  oe_core_dir=$(dirname $(dirname $(readlink -e $0)))
--  topdir=$(dirname $oe_core_dir)
--  tunedirs="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/include' 2>/dev/null`"
--  [ -n "$tunedirs" ] || echo_error "Can't find the tune directory"
--  all_machines="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/*' -name '*.conf' 2>/dev/null | sed -e 's/.*\///' -e 's/.conf$//'`"
--  all_archs=`grep -r -h "^AVAILTUNES .*=" $tunedirs | sed -e 's/.*=//' -e 's/\"//g'`
--  # Add the qemu and native archs
--  # Use the "_" to substitute "-", e.g., x86-64 to x86_64
-+  if [ -z "$extra_archs" ] ; then
-+    # Find out the archs in all the layers
-+    echo -n "Figuring out the archs in the layers ... "
-+    oe_core_dir=$(dirname $(dirname $(readlink -e $0)))
-+    topdir=$(dirname $oe_core_dir)
-+    tunedirs="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/include' 2>/dev/null`"
-+    [ -n "$tunedirs" ] || echo_error "Can't find the tune directory"
-+    all_machines="`find $topdir/meta* ${oe_core_dir}/meta* $layers -path '*/meta*/conf/machine/*' -name '*.conf' 2>/dev/null | sed -e 's/.*\///' -e 's/.conf$//'`"
-+    all_archs=`grep -r -h "^AVAILTUNES .*=" $tunedirs | sed -e 's/.*=//' -e 's/\"//g'`
-+  fi
-+
-+  # Use the "_" to substitute "-", e.g., x86-64 to x86_64, but not for extra_archs which can be something like cortexa9t2-vfp-neon
-   # Sort to remove the duplicated ones
--  # Add allarch
--  all_archs=$(echo allarch $all_archs $all_machines $(uname -m) \
--          | sed -e 's/-/_/g' -e 's/ /\n/g' | sort -u)
-+  # Add allarch and builder arch (native)
-+  builder_arch=$(uname -m)
-+  all_archs="$(echo allarch $all_archs $all_machines $builder_arch \
-+          | sed -e 's/-/_/g' -e 's/ /\n/g' | sort -u) $extra_archs"
-   echo "Done"
- 
-   # Total number of files including sstate-, sigdata and .done files
-@@ -204,6 +213,9 @@ remove_duplicated () {
-   for arch in $all_archs; do
-       grep -q ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:$arch:[^:]*:[^:]*\.tgz$" $sstate_list
-       [ $? -eq 0 ] && ava_archs="$ava_archs $arch"
-+      # ${builder_arch}_$arch used by toolchain sstate
-+      grep -q ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:${builder_arch}_$arch:[^:]*:[^:]*\.tgz$" $sstate_list
-+      [ $? -eq 0 ] && ava_archs="$ava_archs ${builder_arch}_$arch"
-   done
-   echo "Done"
-   echo "The following archs have been found in the cache dir:"
-@@ -229,7 +241,7 @@ remove_duplicated () {
-       rm_list="$remove_listdir/sstate:xxx_$suffix"
-       for fn in $file_names; do
-           [ -z "$verbose" ] || echo "Analyzing sstate:$fn-xxx_$suffix.tgz"
--          for arch in $ava_archs; do
-+          for arch in $ava_archs ""; do
-               grep -h ".*/sstate:$fn:[^:]*:[^:]*:[^:]*:$arch:[^:]*:[^:]*\.tgz$" $list_suffix >$fn_tmp
-               if [ -s $fn_tmp ] ; then
-                   [ $debug -gt 1 ] && echo "Available files for $fn-$arch- with suffix $suffix:" && cat $fn_tmp
-@@ -384,9 +396,14 @@ while [ -n "$1" ]; do
-       fsym="y"
-       shift
-         ;;
-+    --extra-archs=*)
-+      extra_archs=`echo $1 | sed -e 's#^--extra-archs=##' -e 's#,# #g'`
-+      [ -n "$extra_archs" ] || echo_error "Invalid extra arch parameter"
-+      shift
-+        ;;
-     --extra-layer=*)
-       extra_layers=`echo $1 | sed -e 's#^--extra-layer=##' -e 's#,# #g'`
--      [ -n "$extra_layers" ] || echo_error "Invalid extra layer $i"
-+      [ -n "$extra_layers" ] || echo_error "Invalid extra layer parameter"
-       for i in $extra_layers; do
-           l=`readlink -e $i`
-           if [ -d "$l" ]; then
+   # Figure out all the md5sums in the stamps dir.
+   echo -n "Figuring out all the md5sums in stamps dir ... "
 -- 
 1.8.5.3
 
