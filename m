@@ -1,24 +1,44 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id C14566E87E
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id AC68F6E87E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 12:34:16 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 29 Jan 2014 04:34:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,742,1384329600"; d="scan'208";a="466567685"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jan 2014 04:34:17 -0800
-Received: from thunderbird.rb.intel.com (thunderbird.rb.intel.com
-	[10.237.105.57])
-	by linux.intel.com (Postfix) with ESMTP id E0BC16A4094;
-	Wed, 29 Jan 2014 04:34:10 -0800 (PST)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2014 14:30:57 +0200
-Message-Id: <1390998657-29861-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] oeqa/runtime: smart: fix adding channels
+	Wed, 29 Jan 2014 12:37:22 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
+	helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1W8UOR-0005Xn-01; Wed, 29 Jan 2014 13:37:23 +0100
+Message-ID: <1390999042.19023.160.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Laszlo Papp <lpapp@kde.org>
+Date: Wed, 29 Jan 2014 12:37:22 +0000
+In-Reply-To: <CAOMwXhOUo7tUOdAno5-ebFxEqO9LW_C4bz1KghFfEg6_TUe40g@mail.gmail.com>
+References: <CAOMwXhOUo7tUOdAno5-ebFxEqO9LW_C4bz1KghFfEg6_TUe40g@mail.gmail.com>
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Wed, 2014-01-29 at 12:32 +0000,
+	Laszlo Papp wrote: > Is
+	there any obstacle why this cannot be /root as per default Unix >
+	philosophy
+	[1]? No. This is distro policy and you (or your DISTRO) can set it to
+	anything you like. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+Cc: daniel.elstner@kdab.com,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: ROOT_HOME: /home/root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +51,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 12:34:16 -0000
+X-List-Received-Date: Wed, 29 Jan 2014 12:37:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Without this it won't add core2-64 and similar channels, as the
-directory name in deploy_dir/rpm uses _ not - as the package arch.
+On Wed, 2014-01-29 at 12:32 +0000, Laszlo Papp wrote:
+> Is there any obstacle why this cannot be /root as per default Unix
+> philosophy [1]?
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/runtime/smart.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+No.  This is distro policy and you (or your DISTRO) can set it to
+anything you like.
 
-diff --git a/meta/lib/oeqa/runtime/smart.py b/meta/lib/oeqa/runtime/smart.py
-index 7ef4b0e..8299bf3 100644
---- a/meta/lib/oeqa/runtime/smart.py
-+++ b/meta/lib/oeqa/runtime/smart.py
-@@ -59,7 +59,7 @@ class SmartRepoTest(SmartTest):
-     def test_smart_channel_add(self):
-         image_pkgtype = self.tc.d.getVar('IMAGE_PKGTYPE', True)
-         deploy_url = 'http://%s:%s/%s' %(self.target.server_ip, self.repo_server.port, image_pkgtype)
--        pkgarchs = self.tc.d.getVar('PACKAGE_ARCHS', True)
-+        pkgarchs = self.tc.d.getVar('PACKAGE_ARCHS', True).replace("-","_").split()
-         for arch in os.listdir('%s/%s' % (self.repo_server.root_dir, image_pkgtype)):
-             if arch in pkgarchs:
-                 self.smart('channel -y --add {a} type=rpm-md baseurl={u}/{a}'.format(a=arch, u=deploy_url))
--- 
-1.8.5.3
+p.
+
 
 
