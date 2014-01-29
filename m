@@ -1,30 +1,29 @@
-Return-Path: <Mikhail_Durnev@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id D23936E9B9
+Return-Path: <Baogen.Shang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 467256D8FA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 06:04:05 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1W8OFq-00012B-Cp from Mikhail_Durnev@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 28 Jan 2014 22:04:06 -0800
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Tue, 28 Jan 2014 22:04:06 -0800
-Received: from workstation.mgc.mentorg.com (147.34.91.1) by
-	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Tue, 28 Jan 2014 22:03:14 -0800
-From: <Mikhail_Durnev@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Jan 2014 17:03:55 +1100
-Message-ID: <1390975435-4585-1-git-send-email-Mikhail_Durnev@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <52E7D43D.5030208@linux.intel.com>
-References: <52E7D43D.5030208@linux.intel.com>
+	Wed, 29 Jan 2014 08:02:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0T829Bq013266
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 Jan 2014 00:02:09 -0800 (PST)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Wed, 29 Jan 2014 00:02:09 -0800
+Message-ID: <52E8B55F.1090006@windriver.com>
+Date: Wed, 29 Jan 2014 16:01:35 +0800
+From: "shang,baogen" <baogen.shang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-OriginalArrivalTime: 29 Jan 2014 06:04:06.0293 (UTC)
-	FILETIME=[EAEB8450:01CF1CB7]
-Subject: [PATCH v2] unzip: Pass LDFLAGS to the linker
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1390808120-15299-1-git-send-email-baogen.shang@windriver.com>
+	<CAJTo0La92jbGsXxHF--BBnksNm4am0X=hxeho++rPavMf2E86A@mail.gmail.com>
+In-Reply-To: <CAJTo0La92jbGsXxHF--BBnksNm4am0X=hxeho++rPavMf2E86A@mail.gmail.com>
+X-Originating-IP: [128.224.162.228]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] e2fsprogs:fix build native package error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,63 +36,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 06:04:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 29 Jan 2014 08:02:10 -0000
+Content-Type: multipart/alternative;
+	boundary="------------040609060108010905010703"
 
-From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+--------------040609060108010905010703
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Change Makefile to use LDFLAGS
+On 2014年01月27日 18:37, Burton, Ross wrote:
+> On 27 January 2014 07:35, Baogen Shang <baogen.shang@windriver.com> wrote:
+>> e2fsprogs requires pkgconfig to build native package
+> Presumably this is also the case for non-native builds but ordering
+> ensures that pkgconfig is present?
+I‘m Sorry for the title is not comprehensive, It lead to you misunderstand.
+In fact,the patch also fix for non-native,Because the modify is in 
+e2fsprogs.inc file.
+  So it is valid for native and non-native.
 
-Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
----
- .../unzip/unzip/define-ldflags.patch               |   18 ++++++++++++++++++
- meta/recipes-extended/unzip/unzip_6.0.bb           |    5 +++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/unzip/unzip/define-ldflags.patch
+Thanks,
+-baogen
 
-diff --git a/meta/recipes-extended/unzip/unzip/define-ldflags.patch b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
-new file mode 100644
-index 0000000..659c6e3
---- /dev/null
-+++ b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
-@@ -0,0 +1,18 @@
-+Pass LDFLAGS to the linker 
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
-+
-+diff -Naur old/unix/configure new/unix/configure
-+--- old/unix/configure	2014-01-13 21:59:27.000000000 +1100
-++++ new/unix/configure	2014-01-14 16:36:02.000000000 +1100
-+@@ -16,7 +16,7 @@
-+ CFLAGSR=${CFLAGS}
-+ IZ_BZIP2=${3}
-+ CFLAGS="${CFLAGS} -I. -DUNIX"
-+-LFLAGS1=""
-++LFLAGS1=${LDFLAGS}
-+ LFLAGS2=""
-+ LN="ln -s"
-+ 
-diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
-index 584802a..33c20f8 100644
---- a/meta/recipes-extended/unzip/unzip_6.0.bb
-+++ b/meta/recipes-extended/unzip/unzip_6.0.bb
-@@ -4,10 +4,11 @@ SECTION = "console/utils"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
- PE = "1"
--PR = "r4"
-+PR = "r5"
- 
- SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
--	file://avoid-strip.patch"
-+	file://avoid-strip.patch \
-+	file://define-ldflags.patch"
- 
- SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
- SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
--- 
-1.7.9.5
+> Ross
 
 
+--------------040609060108010905010703
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 2014年01月27日 18:37, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0La92jbGsXxHF--BBnksNm4am0X=hxeho++rPavMf2E86A@mail.gmail.com"
+      type="cite">
+      <pre wrap="">On 27 January 2014 07:35, Baogen Shang <a class="moz-txt-link-rfc2396E" href="mailto:baogen.shang@windriver.com">&lt;baogen.shang@windriver.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">e2fsprogs requires pkgconfig to build native package
+</pre>
+      </blockquote>
+      <pre wrap="">
+Presumably this is also the case for non-native builds but ordering
+ensures that pkgconfig is present?
+</pre>
+    </blockquote>
+    I‘m Sorry for the title is not comprehensive, It lead to you
+    misunderstand. <br>
+    In fact,the patch also fix for non-native,Because the modify is in
+    e2fsprogs.inc file.<br>
+     So it is valid for native and non-native.<br>
+    <br>
+    Thanks,<br>
+    -baogen <br>
+    <br>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <blockquote
+cite="mid:CAJTo0La92jbGsXxHF--BBnksNm4am0X=hxeho++rPavMf2E86A@mail.gmail.com"
+      type="cite">
+      <pre wrap="">
+Ross
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------040609060108010905010703--
