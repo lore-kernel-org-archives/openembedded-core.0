@@ -1,29 +1,34 @@
-Return-Path: <alexandre.belloni@free-electrons.com>
-Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
-	by mail.openembedded.org (Postfix) with ESMTP id F35356E7DA
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id BA9F26021C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 18:47:04 +0000 (UTC)
-Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id 6A04E81E; Wed, 29 Jan 2014 19:47:06 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	mail.free-electrons.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
-	shortcircuit=ham autolearn=disabled version=3.3.2
-Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id B490B825;
-	Wed, 29 Jan 2014 19:46:33 +0100 (CET)
-Date: Wed, 29 Jan 2014 19:46:32 +0100
-From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140129184631.GC12108@piout.net>
-References: <1389879279-28203-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<20140129130632.GG24156@piout.net> <1391017302.24655.75.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1391017302.24655.75.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wpa-supplicant-2.0: don't exit in pkg_postinst
+	Wed, 29 Jan 2014 21:03:38 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id e49so1182778eek.29
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jan 2014 13:03:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=lnphmGUkh7TR6SgmnP2Vv+3K409sdeOZX0MGZ+r8y+M=;
+	b=KFXmVpsH/6ftjLjh+jlg/GwxCpc1pvxhxClTYzYzQoshOXJPuMlkU5SZx0J5vJcoep
+	P/0pzh1Fe57Hq3eQraBKy+8m4xImfxBh2FBOXOCLBgekoDtHn7kuwYYVGmMegPvpIBcf
+	so3kMMmTAKM6vBm5NoRggshFrG0cTK9YztmnFBKASAcLfr7JR0coonSnD87aWxRActHx
+	YYx5YKA7GorqdK2+AbxSVa2EidicFN5or5XqrdQP8s/5Yi0tC0uFFzZFKN5B8FYsabzi
+	VdJG2lVVlDYBkC2+2X6Ajc//KbzOQqXFZzic0dzEQ34uHS/w9bH6kR41/6b3beITHRNf
+	FaSw==
+X-Received: by 10.14.98.66 with SMTP id u42mr4089843eef.18.1391029418673;
+	Wed, 29 Jan 2014 13:03:38 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	o43sm13605273eef.12.2014.01.29.13.03.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 29 Jan 2014 13:03:37 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jan 2014 22:03:38 +0100
+Message-Id: <cover.1391027849.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH 0/5] sstate-cache-management fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,61 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 18:47:07 -0000
-X-Groupsio-MsgNum: 49679
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 29 Jan 2014 21:03:39 -0000
 
---EeQfGwPcQSOJBaQU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit c3f3fed1b397b6ee6d44e7d39e63d084e4a88e30:
 
-Oh right, I didn't get any notifications so I assumed nobody had a look
-at it.
+  toaster.bbclass: save original package name (2014-01-29 17:40:29 +0000)
 
-Thanks !
+are available in the git repository at:
 
-On 29/01/2014 at 17:41:42 +0000, Richard Purdie wrote :
-> On Wed, 2014-01-29 at 14:06 +0100, Alexandre Belloni wrote:
-> > Ping ?
->=20
-> Merged 10 days ago:
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3Dcac6f8148a88d07263=
-6bc1f9d54fed6de80dcb6d
->=20
-> Cheers,
->=20
-> Richard
->=20
+  git://git.openembedded.org/openembedded-core-contrib jansa/sstate-management
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/sstate-management
 
---=20
-Alexandre Belloni, Free Electrons
-Embedded Linux, Kernel and Android engineering
-http://free-electrons.com
+Martin Jansa (5):
+  sstate-cache-management.sh: Fix remove_duplicated() to work after
+    SSTATE_SWSPEC change
+  sstate-cache-management.sh: Fix rm_by_stamps() to work after
+    SSTATE_SWSPEC change
+  sstate-cache-management.sh: Show total number of files when showing
+    how many will be deleted
+  sstate-cache-management.sh: Fix available architectures
+  sstate-cache-management.sh: don't remove all packagedata sstate
+    archives
 
---EeQfGwPcQSOJBaQU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+ scripts/sstate-cache-management.sh | 99 +++++++++++++++++++++++++-------------
+ 1 file changed, 66 insertions(+), 33 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.14 (GNU/Linux)
+-- 
+1.8.5.3
 
-iQIcBAEBCAAGBQJS6UyHAAoJEKbNnwlvZCyz/UgP/3NYKPOnVUrDw8Pw0de+JpiV
-5i+gqcgXcwyyjGb8BaXyDgoxMEYaJmIRkc1i8QWAUC8I4Z8HKUaRbwG2OAD01HSS
-qSh4Nzurjmu2YgMQVf2bhREYZYWZorHPKwxB+OLfy+GkADTUs2AXE7cuEIp/rGJr
-Xy/4TCsrdP1ROJPYYsdCwpVY9qlF/aTa8tXyK5GHHK4jS01iKBhypaCGRCE3o0/1
-nLhXGd0PK3oU5JX1LtlKkv9PUiM1oypLUUhDgBexgUNSRgOqzf53OlSfmT5nKf7J
-grAcppBsJ46x9LPnrKpJoDtOhhHyfnz/Q1kYSiWw8YHJ8MizmVFv/q5uxQjPOCFC
-Rzqov1PB6AUGIR5/zJsq3hnD5wUVdyPvpKmNtahGCDV12zh7QQuION6Jd4drO0xK
-vOR8oe2WW7n54BaBuBDhjkt4rXw0MUdBXysVRmbW5ZSh0GDqaD0sSrS53Zhco0Jl
-IcoxWT0mUq+KhOXReXCgHXc9XCqEcvfWS2KVeUBPQdYfN4xAVgwPY3CvvSdhooF3
-/ShQK3skG4yzoghPHRvhmOwo7SqKjrpwvou7eWaLXRkdMcn9+Hk7n3OvmSk4WT3h
-B6QkqDkddg7dUErPALGve9c8m48Tpt0TfXDTr4+IwEFf0THzDCsfb7QYEmMM30ar
-cZJlpsUy1+gUJP5hIGC3
-=3I3C
------END PGP SIGNATURE-----
 
---EeQfGwPcQSOJBaQU--
