@@ -1,43 +1,25 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 39E2E6002A
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 14:06:06 +0000 (UTC)
-Received: by mail-wg0-f44.google.com with SMTP id l18so3542742wgh.23
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 06:06:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=C1RaLqww8WeuIXi9PUie+jRbc8COvL5L+arETBgl+1Y=;
-	b=bRWCOCiLkvbkKO31XTGIdsecOCJjR6/wAwsMB9dFUGNlJ7Wd2+CclnFFg/lgss03P3
-	P2fKw6uGEIrXI+okfJ7Djyol9Hi11D1KFyhgXMgbXBBPEGs7+G7weJgP2KTch7qTXEjD
-	QclRR3QnaxdVxsjULdVL2NyUloGrS+8khkePXknxkS5k+w7QEo2cTYuPhvtCP1gWJtQN
-	A3n/7T1Rr35Rn08n+bk5GIsLs1g9hQWKZKTIwGE+WkRsYi9IUuv6Ia4BvOBYE0QHol83
-	pSer+ntYNjwKq8SCI/DO0zdbnETLJR4++PIUU+fPyztI9FUnTcRbjuvYKOqVapvcc7KP
-	AFgQ==
-X-Gm-Message-State: ALoCoQkT2WxEjzhikpdZl7oxH6VBA+Hr1EetwhCkaLT9yuSfpVxmL5nnXEtdbdjScYn1XFxwkNDq
-X-Received: by 10.180.13.33 with SMTP id e1mr19887156wic.38.1391004366705;
-	Wed, 29 Jan 2014 06:06:06 -0800 (PST)
-Received: from [172.20.0.102] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id bm8sm5130559wjc.12.2014.01.29.06.06.04
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 29 Jan 2014 06:06:05 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAOMwXhP4y9MrxWDQzw8D9ukvoXSL1EBD0on3byix4cKu3-RdEQ@mail.gmail.com>
-Date: Wed, 29 Jan 2014 15:06:05 +0100
-Message-Id: <88EC4A0C-7B54-4385-845A-480394EEC20C@dominion.thruhere.net>
-References: <CAOMwXhOUo7tUOdAno5-ebFxEqO9LW_C4bz1KghFfEg6_TUe40g@mail.gmail.com>
-	<1390999042.19023.160.camel@phil-desktop.brightsign>
-	<CAOMwXhP4y9MrxWDQzw8D9ukvoXSL1EBD0on3byix4cKu3-RdEQ@mail.gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
-X-Mailer: Apple Mail (2.1827)
-Cc: daniel.elstner@kdab.com,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: ROOT_HOME: /home/root
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 524C96EA2D
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jan 2014 14:12:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0TEC5Dd018851
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 Jan 2014 06:12:05 -0800 (PST)
+Received: from ord-jrw.corp.ad.wrs.com (147.11.118.133) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 29 Jan 2014 06:12:05 -0800
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Jan 2014 08:12:01 -0600
+Message-ID: <1391004721-15474-2-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1391004721-15474-1-git-send-email-jason.wessel@windriver.com>
+References: <1391004721-15474-1-git-send-email-jason.wessel@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] unfs3: Fix dependencies and allow target builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,26 +32,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 14:06:07 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 Jan 2014 14:12:06 -0000
+Content-Type: text/plain
 
+Fixed in this patch:
+  * All patches marked as submitted to the upstream
+  * Remove the pseudo dependency because unfs3 can fully stand alone
+    or be used with pseudo and it does not link against pseudo
+  * Dependencies to flex for nativesdk and target builds are fixed
+    such that unfs3 can be deployed into an image
+  * Delete commented out unfs3 references in separatebuilddir.inc
+    because unfs3 works correctly with autotools.
 
-Op 29 jan. 2014, om 13:39 heeft Laszlo Papp <lpapp@kde.org> het volgende =
-geschreven:
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/conf/distro/include/seperatebuilddir.inc      |    2 --
+ .../unfs3/unfs3/alternate_rpc_ports.patch          |    2 +-
+ .../unfs3/unfs3/fix_compile_warning.patch          |    2 +-
+ .../fix_pid_race_parent_writes_child_pid.patch     |    2 +-
+ .../unfs3/unfs3/fix_warnings.patch                 |    2 +-
+ .../unfs3/unfs3/relative_max_socket_path_len.patch |    2 +-
+ .../unfs3/unfs3/rename_fh_cache.patch              |    2 +-
+ .../unfs3/unfs3/tcp_no_delay.patch                 |    2 +-
+ .../unfs3/unfs3/unfs3_parallel_build.patch         |    2 +-
+ meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb   |   17 ++---------------
+ 10 files changed, 10 insertions(+), 25 deletions(-)
 
-> On Wed, Jan 29, 2014 at 12:37 PM, Phil Blundell <pb@pbcl.net> wrote:
->> On Wed, 2014-01-29 at 12:32 +0000, Laszlo Papp wrote:
->>> Is there any obstacle why this cannot be /root as per default Unix
->>> philosophy [1]?
->>=20
->> No.  This is distro policy and you (or your DISTRO) can set it to
->> anything you like.
->=20
-> The email is not about distributions, but the default value in Yocto
-> (the distribution generator itself) ...
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index 64e8f6d..a4869c5 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -528,7 +528,6 @@ B_pn-nativesdk-renderproto = "${SEPB}"
+ B_pn-nativesdk-sqlite3 = "${SEPB}"
+ B_pn-nativesdk-systemtap = "${SEPB}"
+ # Not automake, no out of tree build support
+-#B_pn-nativesdk-unfs3 = "${SEPB}"
+ B_pn-nativesdk-util-macros = "${SEPB}"
+ B_pn-nativesdk-xcb-proto = "${SEPB}"
+ B_pn-nativesdk-xcmiscproto = "${SEPB}"
+@@ -676,7 +675,6 @@ B_pn-tremor = "${SEPB}"
+ B_pn-tslib = "${SEPB}"
+ B_pn-udev = "${SEPB}"
+ # Not automake, no out of tree build support
+-#B_pn-unfs3-native = "${SEPB}"
+ B_pn-usbutils = "${SEPB}"
+ B_pn-util-linux = "${SEPB}"
+ B_pn-util-linux-native = "${SEPB}"
+diff --git a/meta/recipes-devtools/unfs3/unfs3/alternate_rpc_ports.patch b/meta/recipes-devtools/unfs3/unfs3/alternate_rpc_ports.patch
+index 029582e..ff745d4 100644
+--- a/meta/recipes-devtools/unfs3/unfs3/alternate_rpc_ports.patch
++++ b/meta/recipes-devtools/unfs3/unfs3/alternate_rpc_ports.patch
+@@ -5,7 +5,7 @@ be able to specify alternate rpc port numbers.
+ 
+ Jason Wessel <jason.wessel@windriver.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+ 
+ ---
+  daemon.c |   44 +++++++++++++++++++++++++++++++-------------
+diff --git a/meta/recipes-devtools/unfs3/unfs3/fix_compile_warning.patch b/meta/recipes-devtools/unfs3/unfs3/fix_compile_warning.patch
+index 604824a..aada014 100644
+--- a/meta/recipes-devtools/unfs3/unfs3/fix_compile_warning.patch
++++ b/meta/recipes-devtools/unfs3/unfs3/fix_compile_warning.patch
+@@ -5,7 +5,7 @@ If this one does fail something is very, very wrong.
+ 
+ Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+ 
+ ---
+  daemon.c |    3 ++-
+diff --git a/meta/recipes-devtools/unfs3/unfs3/fix_pid_race_parent_writes_child_pid.patch b/meta/recipes-devtools/unfs3/unfs3/fix_pid_race_parent_writes_child_pid.patch
+index 76d7555..46b187e 100644
+--- a/meta/recipes-devtools/unfs3/unfs3/fix_pid_race_parent_writes_child_pid.patch
++++ b/meta/recipes-devtools/unfs3/unfs3/fix_pid_race_parent_writes_child_pid.patch
+@@ -10,7 +10,7 @@ on a busy system.
+ 
+ Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+ 
+ ---
+  daemon.c |   12 +++++++++---
+diff --git a/meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch b/meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch
+index ed61ea1..cda8655 100644
+--- a/meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch
++++ b/meta/recipes-devtools/unfs3/unfs3/fix_warnings.patch
+@@ -10,7 +10,7 @@ exports.y:350: warning: large integer implicitly truncated to unsigned type
+ 
+ Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+ 
+ ---
+  Config/exports.l |    3 +++
+diff --git a/meta/recipes-devtools/unfs3/unfs3/relative_max_socket_path_len.patch b/meta/recipes-devtools/unfs3/unfs3/relative_max_socket_path_len.patch
+index 17ad7b6..219dd35 100644
+--- a/meta/recipes-devtools/unfs3/unfs3/relative_max_socket_path_len.patch
++++ b/meta/recipes-devtools/unfs3/unfs3/relative_max_socket_path_len.patch
+@@ -12,7 +12,7 @@ heavy use of named sockets with long names.
+ 
+ Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+ 
+ ---
+  nfs.c |   29 +++++++++++++++++++++++++++--
+diff --git a/meta/recipes-devtools/unfs3/unfs3/rename_fh_cache.patch b/meta/recipes-devtools/unfs3/unfs3/rename_fh_cache.patch
+index 37de8c3..e6d8953 100644
+--- a/meta/recipes-devtools/unfs3/unfs3/rename_fh_cache.patch
++++ b/meta/recipes-devtools/unfs3/unfs3/rename_fh_cache.patch
+@@ -13,7 +13,7 @@ location of the inode, when it moves directories.
+ 
+ Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+ 
+ ---
+  fh_cache.c |   12 ++++++++++++
+diff --git a/meta/recipes-devtools/unfs3/unfs3/tcp_no_delay.patch b/meta/recipes-devtools/unfs3/unfs3/tcp_no_delay.patch
+index bc78dee..b3521c6 100644
+--- a/meta/recipes-devtools/unfs3/unfs3/tcp_no_delay.patch
++++ b/meta/recipes-devtools/unfs3/unfs3/tcp_no_delay.patch
+@@ -2,7 +2,7 @@ daemon.c: Add option for tcp no delay
+ 
+ Allow the NFS tcp sockets to conditionally use TCP_NODELAY
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+ 
+ ---
+  daemon.c |    9 ++++++++-
+diff --git a/meta/recipes-devtools/unfs3/unfs3/unfs3_parallel_build.patch b/meta/recipes-devtools/unfs3/unfs3/unfs3_parallel_build.patch
+index c7fe3d7..6777769 100644
+--- a/meta/recipes-devtools/unfs3/unfs3/unfs3_parallel_build.patch
++++ b/meta/recipes-devtools/unfs3/unfs3/unfs3_parallel_build.patch
+@@ -4,7 +4,7 @@ If building with make -j2 the lib.a will not get built in time.
+ 
+ Jason Wessel <jason.wessel@windriver.com>
+ 
+-Upstream-Status: Pending
++Upstream-Status: Submitted http://sourceforge.net/p/unfs3/bugs/5/
+ 
+ ---
+  Config/Makefile.in |    2 ++
+diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb
+index 3d88b42..af2f3bb 100644
+--- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb
++++ b/meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb
+@@ -3,11 +3,8 @@ SECTION = "console/network"
+ LICENSE = "unfs3"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9475885294e17c0cc0067820d042792e"
+ 
+-RDEPENDS_${PN} = "pseudo"
+-RDEPENDS_${PN}_class-native = "pseudo-native"
+-RDEPENDS_${PN}_class-nativesdk = "pseudo-nativesdk"
+-DEPENDS = "flex-native bison-native"
+-DEPENDS_class-nativesdk += "flex-nativesdk"
++DEPENDS = "flex-native bison-native flex"
++DEPENDS_append_class-nativesdk += "flex-nativesdk"
+ 
+ SRC_URI[md5sum] = "3687acc4ee992e536472365dd99712a7"
+ SRC_URI[sha256sum] = "274b43ada9c6eea1da26eb7010d72889c5278984ba0b50dff4e093057d4d64f8"
+@@ -32,13 +29,3 @@ inherit autotools
+ # will walk entire file systems and this is a real problem
+ # if you have 2 TB of files to walk in your file system
+ CACHED_CONFIGUREVARS = "ac_cv_header_mntent_h=no ac_cv_header_sys_mnttab_h=no"
+-
+-# This recipe is intended for -native and -nativesdk builds only,
+-# not target installs:
+-python __anonymous () {
+-    import re
+-
+-    pn = d.getVar("PN", True)
+-    if not pn.endswith('-native') and not pn.startswith('nativesdk-'):
+-        raise bb.parse.SkipPackage("unfs3 is intended for native/nativesdk builds only")
+-}
+-- 
+1.7.9.5
 
-You mean OE, right? Yocto is 10^-something, the Yocto *Project* is an =
-umbrella project contain lots of things, among which is OE, which can =
-build a distro for you.=
 
