@@ -1,36 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 7909B6EA3F
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C1CC56E2D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 23:12:17 +0000 (UTC)
-Received: by mail-ie0-f175.google.com with SMTP id ar20so1271395iec.6
+	Wed, 29 Jan 2014 03:27:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0T3RVxH010392
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 15:12:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=gErFD0AeRzKkSMQ9x2+SC6wvjL0Gp3lYFlREdiTSYJ0=;
-	b=l0eTeYum00Lz43/tMULlp2LMJajhwE2gW7CJ+qqusKbSJr2tDAWdF+HGZEv498aUeA
-	fu4eAB8WgJnpS/S7c7UCI1XZRQJtWeyZXglpPiCLNFXUAHXnZDgIwm8kvsjPXXzsVSpE
-	R2mhcPpFHdcQf9QIGR8py2isYzkPUjqlEPKakYhqFEOXTD4ZA8UoxvaQeoiZXADyEq0d
-	h+aPhs+X+dBFgjhiSoW5Z1//e6Ew0QfMWvotgjGta6f3PV1q6fr53SDSzkUtuhak/TjS
-	mqJdBBK2YB/W3CU11UC2NKRwEUo2zdiuYrkVx/PT9Ua+Ci0uBkKnS/f1gO3kuF8rm+jy
-	WVRg==
-X-Received: by 10.50.136.165 with SMTP id qb5mr25904815igb.2.1390950738093;
-	Tue, 28 Jan 2014 15:12:18 -0800 (PST)
+	Tue, 28 Jan 2014 19:27:31 -0800 (PST)
+Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Tue, 28 Jan 2014 19:27:29 -0800
+Message-ID: <52E8751D.50101@windriver.com>
+Date: Wed, 29 Jan 2014 11:27:25 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-Received: by 10.50.8.137 with HTTP; Tue, 28 Jan 2014 15:11:47 -0800 (PST)
-In-Reply-To: <1390912914-31576-7-git-send-email-fathi.boudra@linaro.org>
-References: <1390912914-31576-1-git-send-email-fathi.boudra@linaro.org>
-	<1390912914-31576-7-git-send-email-fathi.boudra@linaro.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Jan 2014 15:11:47 -0800
-Message-ID: <CAMKF1sqUSgy4ps58BWWX4ygCaOV+QbDSN4A=f8vXTPTMY6K7qw@mail.gmail.com>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 6/6] ltp: fix ffsb ftbfs on cross-compiled environment
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <1389257340-16166-1-git-send-email-ming.liu@windriver.com>
+	<52CEE4F2.7050409@windriver.com>
+In-Reply-To: <52CEE4F2.7050409@windriver.com>
+X-Originating-IP: [128.224.162.153]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] rpm: fix a endian incompatible error in generating tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,74 +37,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2014 23:12:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 29 Jan 2014 03:27:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 28, 2014 at 4:41 AM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
-> Add ffsb-remove-hardcoded-configure.patch: get rid of the hardcoded configure call preventing cross-compilation
-> Add do_configure_prepend to explicitly force regeneration the configure file and pass configure options as appropriate.
+On 01/10/2014 02:05 AM, Mark Hatle wrote:
+> On 1/9/14, 2:49 AM, Ming Liu wrote:
+>> A flaw was found in the way rpm generating arbitrary tags, which 
+>> leads to a
+>> incorrect query result, this issue is introduced by a incompatible 
+>> endianess
+>> when the generating process is executed on different architectures.
+>>
+>> This patch resolves it by taking a uniform byte order.
+>>
+>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>> ---
+>>   .../rpm-tag-generate-endian-conversion-fix.patch   |   29 
+>> ++++++++++++++++++++
+>>   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
+>>   2 files changed, 30 insertions(+), 0 deletions(-)
+>>   create mode 100644 
+>> meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+>>
+>> diff --git 
+>> a/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch 
+>> b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch 
+>>
+>> new file mode 100644
+>> index 0000000..4379515
+>> --- /dev/null
+>> +++ 
+>> b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+>> @@ -0,0 +1,29 @@
+>> +fix a endian incompatible error in generating rpm tag
+>> +
+>> +A flaw was found in the way rpm generating arbitrary tags, which 
+>> leads to a
+>> +incorrect query result, this issue is introduced by a incompatible 
+>> endianess
+>> +when the generating process is executed on different architectures.
+>> +
+>> +This patch resolves it by taking a uniform byte order.
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>> +---
+>> + tagname.c |    3 +++
+>> + 1 file changed, 3 insertions(+)
+>> +
+>> +diff -urpN a/rpmdb/tagname.c b/rpmdb/tagname.c
+>> +--- a/rpmdb/tagname.c
+>> ++++ b/rpmdb/tagname.c
+>> +@@ -152,7 +152,10 @@ static rpmTag _tagGenerate(const char *s
+>> +     xx = rpmDigestUpdate(ctx, s, nb);
+>> +     xx = rpmDigestFinal(ctx, &digest, &digestlen, 0);
+>> +     if (digest && digestlen > 4) {
+>> ++    /* The tag is stored in a uniform byte order for cross-endian 
+>> compatibility.
+>> ++       Swap to little-endian if appropriate. */
+>> +     memcpy(&tag, digest + (digestlen - 4), 4);
+>> ++    tag = htole32(tag);
+>> +     tag = (rpmTag) (tag & 0x3fffffff);
+>> +     tag = (rpmTag) (tag | 0x40000000);
 >
-> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
-> ---
->  .../ltp/ltp/ffsb-remove-hardcoded-configure.patch         | 15 +++++++++++++++
->  meta/recipes-extended/ltp/ltp_20140115.bb                 |  7 +++++++
->  2 files changed, 22 insertions(+)
->  create mode 100644 meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch
+> The above code doesn't look right to me.
 >
-> diff --git a/meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch b/meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch
-> new file mode 100644
-> index 0000000..9f02711
-> --- /dev/null
-> +++ b/meta/recipes-extended/ltp/ltp/ffsb-remove-hardcoded-configure.patch
-> @@ -0,0 +1,15 @@
-> +Get rid of the hardcoded configure call preventing cross-compilation
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
-> +
-> +--- a/utils/Makefile
-> ++++ b/utils/Makefile
-> +@@ -29,7 +29,6 @@ FILTER_OUT_DIRS              := $(FFSBDIR)
-> + FFSB                  := $(FFSBDIR)/ffsb
-> +
-> + $(FFSB): $(FFSBDIR)
-> +-      cd $^; ./configure
-> +       $(MAKE) -C $^ -f "$(abs_srcdir)/$^/Makefile" all
-> +       cp $(FFSBDIR)/ffsb ffsb
-> +
-> diff --git a/meta/recipes-extended/ltp/ltp_20140115.bb b/meta/recipes-extended/ltp/ltp_20140115.bb
-> index 4e20f24..2ab1d50 100644
-> --- a/meta/recipes-extended/ltp/ltp_20140115.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20140115.bb
-> @@ -25,6 +25,7 @@ SRCREV = "c8b3e28097e7d3208df9daceaf92c25eae87ebf0"
->  SRC_URI = "git://github.com/linux-test-project/ltp.git \
->      file://0001-Rename-runtests_noltp.sh-script-so-have-unique-name.patch \
->      file://regen-makefile.patch \
-> +    file://ffsb-remove-hardcoded-configure.patch \
->  "
+> If this is reading in from the RPM package, it should be an le32toh..
 >
->  S = "${WORKDIR}/git"
-> @@ -36,6 +37,12 @@ TARGET_CC_ARCH += "${LDFLAGS}"
->  export prefix = "/opt/ltp"
->  export exec_prefix = "/opt/ltp"
->
-> +# ltp doesn't regenerate ffsb-6.0-rc2 configure and hardcode configure call.
-> +# we explicitly force regeneration of that directory and pass configure options.
-> +do_configure_prepend() {
-> +    (cd utils/ffsb-6.0-rc2; autoreconf -fvi; ./configure ${CONFIGUREOPTS})
+> Otherwise if it's generating the digest info.. then the htole32 should 
+> be -after- the & and | operations, otherwise the wrong part of the 
+> value will be modified.
 
-you should pass ${CONFIGUREOPTS} to autoreconf as well
+Hi, Mark:
 
-> +}
-> +
->  do_install(){
->      install -d ${D}/opt/ltp/
->      oe_runmake DESTDIR=${D} SKIP_IDCHECK=1 install
-> --
-> 1.8.1.2
+I just saw your comments, sorry for the late feedback.
+I'd like to explain it more that _tagGenerate is called at both reading 
+and generating sides, so either of your recommended resolves only one 
+side of it based on my test, the tag is being counted as a number with 
+later & or | operator, but before that, we should transfer it to a 
+number with uniform byte order(big or little endian) after we get it 
+from a piece of memory, which in this case is the last 4 bytes of 
+digest, please think about the following scenario:
+
+x86 host (generating and querying)  -->  powerpc/mips (querying)
+
+Using le32toh or putting htole32 after the & and | operations both will 
+not satisfy it - to get a same result.
+
+//Ming Liu
+
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --Mark
+>
+>> +     }
+>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb 
+>> b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>> index 9d376a5..7921f40 100644
+>> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>> @@ -89,6 +89,7 @@ SRC_URI = 
+>> "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+>>          file://debugedit-valid-file-to-fix-segment-fault.patch \
+>>          file://rpm-platform-file-fix.patch \
+>>          file://rpm-lsb-compatibility.patch \
+>> +       file://rpm-tag-generate-endian-conversion-fix.patch \
+>>         "
+>>
+>>   # Uncomment the following line to enable platform score debugging
+>>
+>
+>
+>
+
 
