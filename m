@@ -1,31 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DC1396E9A4
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 14:19:39 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0TEHocR001621; Wed, 29 Jan 2014 14:19:34 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6ocI7ldICOPB; Wed, 29 Jan 2014 14:19:34 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0TEJROL001644
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Wed, 29 Jan 2014 14:19:29 GMT
-Message-ID: <1391005162.24655.73.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jason Wessel <jason.wessel@windriver.com>
-Date: Wed, 29 Jan 2014 14:19:22 +0000
-In-Reply-To: <1391004721-15474-2-git-send-email-jason.wessel@windriver.com>
-References: <1391004721-15474-1-git-send-email-jason.wessel@windriver.com>
-	<1391004721-15474-2-git-send-email-jason.wessel@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] unfs3: Fix dependencies and allow target builds
+Return-Path: <noor_ahsan@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 59D286E9A4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jan 2014 14:20:02 +0000 (UTC)
+Received: from pkl-ahsann-ubuntu.mgc.mentorg.com
+	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id s0TEJx6E016307; 
+	Wed, 29 Jan 2014 08:20:00 -0600
+From: "Noor, Ahsan" <noor_ahsan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jan 2014 19:17:46 +0500
+Message-Id: <1391005066-15501-1-git-send-email-noor_ahsan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] libcgroup: Add bison-native and flex-native in depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,59 +25,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 14:19:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jan 2014 14:20:02 -0000
 
-On Wed, 2014-01-29 at 08:12 -0600, Jason Wessel wrote:
-> Fixed in this patch:
->   * All patches marked as submitted to the upstream
->   * Remove the pseudo dependency because unfs3 can fully stand alone
->     or be used with pseudo and it does not link against pseudo
->   * Dependencies to flex for nativesdk and target builds are fixed
->     such that unfs3 can be deployed into an image
->   * Delete commented out unfs3 references in separatebuilddir.inc
->     because unfs3 works correctly with autotools.
-> 
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/conf/distro/include/seperatebuilddir.inc      |    2 --
->  .../unfs3/unfs3/alternate_rpc_ports.patch          |    2 +-
->  .../unfs3/unfs3/fix_compile_warning.patch          |    2 +-
->  .../fix_pid_race_parent_writes_child_pid.patch     |    2 +-
->  .../unfs3/unfs3/fix_warnings.patch                 |    2 +-
->  .../unfs3/unfs3/relative_max_socket_path_len.patch |    2 +-
->  .../unfs3/unfs3/rename_fh_cache.patch              |    2 +-
->  .../unfs3/unfs3/tcp_no_delay.patch                 |    2 +-
->  .../unfs3/unfs3/unfs3_parallel_build.patch         |    2 +-
->  meta/recipes-devtools/unfs3/unfs3_0.9.22.r490.bb   |   17 ++---------------
->  10 files changed, 10 insertions(+), 25 deletions(-)
-> 
-> diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-> index 64e8f6d..a4869c5 100644
-> --- a/meta/conf/distro/include/seperatebuilddir.inc
-> +++ b/meta/conf/distro/include/seperatebuilddir.inc
-> @@ -528,7 +528,6 @@ B_pn-nativesdk-renderproto = "${SEPB}"
->  B_pn-nativesdk-sqlite3 = "${SEPB}"
->  B_pn-nativesdk-systemtap = "${SEPB}"
->  # Not automake, no out of tree build support
-> -#B_pn-nativesdk-unfs3 = "${SEPB}"
->  B_pn-nativesdk-util-macros = "${SEPB}"
->  B_pn-nativesdk-xcb-proto = "${SEPB}"
->  B_pn-nativesdk-xcmiscproto = "${SEPB}"
-> @@ -676,7 +675,6 @@ B_pn-tremor = "${SEPB}"
->  B_pn-tslib = "${SEPB}"
->  B_pn-udev = "${SEPB}"
->  # Not automake, no out of tree build support
-> -#B_pn-unfs3-native = "${SEPB}"
->  B_pn-usbutils = "${SEPB}"
->  B_pn-util-linux = "${SEPB}"
->  B_pn-util-linux-native = "${SEPB}"
+From: Noor <noor_ahsan@mentor.com>
 
-If unfs is now autotools based, can we enable out of tree builds here?
+* libcgroup require native packages for bison and flex. Added those
+  in its DEPENDS.
 
-Cheers,
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+---
+ meta/recipes-core/libcgroup/libcgroup_0.38.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/recipes-core/libcgroup/libcgroup_0.38.bb b/meta/recipes-core/libcgroup/libcgroup_0.38.bb
+index 8bd0ead..711229f 100644
+--- a/meta/recipes-core/libcgroup/libcgroup_0.38.bb
++++ b/meta/recipes-core/libcgroup/libcgroup_0.38.bb
+@@ -10,7 +10,7 @@ PR = "r1"
+ 
+ inherit autotools pkgconfig
+ 
+-DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
++DEPENDS = "bison-native flex-native ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/libcg/${BPN}/v.038/${BPN}-${PV}.tar.bz2"
+ 
+-- 
+1.7.9.5
 
 
