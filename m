@@ -1,30 +1,30 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C1CC56E2D8
+Return-Path: <Mikhail_Durnev@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id D23936E9B9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 03:27:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0T3RVxH010392
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2014 19:27:31 -0800 (PST)
-Received: from [128.224.162.153] (128.224.162.153) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Tue, 28 Jan 2014 19:27:29 -0800
-Message-ID: <52E8751D.50101@windriver.com>
-Date: Wed, 29 Jan 2014 11:27:25 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+	Wed, 29 Jan 2014 06:04:05 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1W8OFq-00012B-Cp from Mikhail_Durnev@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 28 Jan 2014 22:04:06 -0800
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 28 Jan 2014 22:04:06 -0800
+Received: from workstation.mgc.mentorg.com (147.34.91.1) by
+	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Tue, 28 Jan 2014 22:03:14 -0800
+From: <Mikhail_Durnev@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Jan 2014 17:03:55 +1100
+Message-ID: <1390975435-4585-1-git-send-email-Mikhail_Durnev@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <52E7D43D.5030208@linux.intel.com>
+References: <52E7D43D.5030208@linux.intel.com>
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <1389257340-16166-1-git-send-email-ming.liu@windriver.com>
-	<52CEE4F2.7050409@windriver.com>
-In-Reply-To: <52CEE4F2.7050409@windriver.com>
-X-Originating-IP: [128.224.162.153]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] rpm: fix a endian incompatible error in generating tag
+X-OriginalArrivalTime: 29 Jan 2014 06:04:06.0293 (UTC)
+	FILETIME=[EAEB8450:01CF1CB7]
+Subject: [PATCH v2] unzip: Pass LDFLAGS to the linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,118 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 03:27:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jan 2014 06:04:06 -0000
+Content-Type: text/plain
 
-On 01/10/2014 02:05 AM, Mark Hatle wrote:
-> On 1/9/14, 2:49 AM, Ming Liu wrote:
->> A flaw was found in the way rpm generating arbitrary tags, which 
->> leads to a
->> incorrect query result, this issue is introduced by a incompatible 
->> endianess
->> when the generating process is executed on different architectures.
->>
->> This patch resolves it by taking a uniform byte order.
->>
->> Signed-off-by: Ming Liu <ming.liu@windriver.com>
->> ---
->>   .../rpm-tag-generate-endian-conversion-fix.patch   |   29 
->> ++++++++++++++++++++
->>   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
->>   2 files changed, 30 insertions(+), 0 deletions(-)
->>   create mode 100644 
->> meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
->>
->> diff --git 
->> a/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch 
->> b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch 
->>
->> new file mode 100644
->> index 0000000..4379515
->> --- /dev/null
->> +++ 
->> b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
->> @@ -0,0 +1,29 @@
->> +fix a endian incompatible error in generating rpm tag
->> +
->> +A flaw was found in the way rpm generating arbitrary tags, which 
->> leads to a
->> +incorrect query result, this issue is introduced by a incompatible 
->> endianess
->> +when the generating process is executed on different architectures.
->> +
->> +This patch resolves it by taking a uniform byte order.
->> +
->> +Upstream-Status: Pending
->> +
->> +Signed-off-by: Ming Liu <ming.liu@windriver.com>
->> +---
->> + tagname.c |    3 +++
->> + 1 file changed, 3 insertions(+)
->> +
->> +diff -urpN a/rpmdb/tagname.c b/rpmdb/tagname.c
->> +--- a/rpmdb/tagname.c
->> ++++ b/rpmdb/tagname.c
->> +@@ -152,7 +152,10 @@ static rpmTag _tagGenerate(const char *s
->> +     xx = rpmDigestUpdate(ctx, s, nb);
->> +     xx = rpmDigestFinal(ctx, &digest, &digestlen, 0);
->> +     if (digest && digestlen > 4) {
->> ++    /* The tag is stored in a uniform byte order for cross-endian 
->> compatibility.
->> ++       Swap to little-endian if appropriate. */
->> +     memcpy(&tag, digest + (digestlen - 4), 4);
->> ++    tag = htole32(tag);
->> +     tag = (rpmTag) (tag & 0x3fffffff);
->> +     tag = (rpmTag) (tag | 0x40000000);
->
-> The above code doesn't look right to me.
->
-> If this is reading in from the RPM package, it should be an le32toh..
->
-> Otherwise if it's generating the digest info.. then the htole32 should 
-> be -after- the & and | operations, otherwise the wrong part of the 
-> value will be modified.
+From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
 
-Hi, Mark:
+Change Makefile to use LDFLAGS
 
-I just saw your comments, sorry for the late feedback.
-I'd like to explain it more that _tagGenerate is called at both reading 
-and generating sides, so either of your recommended resolves only one 
-side of it based on my test, the tag is being counted as a number with 
-later & or | operator, but before that, we should transfer it to a 
-number with uniform byte order(big or little endian) after we get it 
-from a piece of memory, which in this case is the last 4 bytes of 
-digest, please think about the following scenario:
+Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+---
+ .../unzip/unzip/define-ldflags.patch               |   18 ++++++++++++++++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |    5 +++--
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/unzip/unzip/define-ldflags.patch
 
-x86 host (generating and querying)  -->  powerpc/mips (querying)
-
-Using le32toh or putting htole32 after the & and | operations both will 
-not satisfy it - to get a same result.
-
-//Ming Liu
-
->
-> --Mark
->
->> +     }
->> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb 
->> b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> index 9d376a5..7921f40 100644
->> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
->> @@ -89,6 +89,7 @@ SRC_URI = 
->> "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
->>          file://debugedit-valid-file-to-fix-segment-fault.patch \
->>          file://rpm-platform-file-fix.patch \
->>          file://rpm-lsb-compatibility.patch \
->> +       file://rpm-tag-generate-endian-conversion-fix.patch \
->>         "
->>
->>   # Uncomment the following line to enable platform score debugging
->>
->
->
->
+diff --git a/meta/recipes-extended/unzip/unzip/define-ldflags.patch b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
+new file mode 100644
+index 0000000..659c6e3
+--- /dev/null
++++ b/meta/recipes-extended/unzip/unzip/define-ldflags.patch
+@@ -0,0 +1,18 @@
++Pass LDFLAGS to the linker 
++
++Upstream-Status: Pending
++
++Signed-off-by: Mikhail Durnev <Mikhail_Durnev@mentor.com>
++
++diff -Naur old/unix/configure new/unix/configure
++--- old/unix/configure	2014-01-13 21:59:27.000000000 +1100
+++++ new/unix/configure	2014-01-14 16:36:02.000000000 +1100
++@@ -16,7 +16,7 @@
++ CFLAGSR=${CFLAGS}
++ IZ_BZIP2=${3}
++ CFLAGS="${CFLAGS} -I. -DUNIX"
++-LFLAGS1=""
+++LFLAGS1=${LDFLAGS}
++ LFLAGS2=""
++ LN="ln -s"
++ 
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index 584802a..33c20f8 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -4,10 +4,11 @@ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
+ PE = "1"
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
+-	file://avoid-strip.patch"
++	file://avoid-strip.patch \
++	file://define-ldflags.patch"
+ 
+ SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+ SRC_URI[sha256sum] = "036d96991646d0449ed0aa952e4fbe21b476ce994abc276e49d30e686708bd37"
+-- 
+1.7.9.5
 
 
