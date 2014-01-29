@@ -1,44 +1,38 @@
 Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6549C6EA0A
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id EAF446EA0A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 16:23:39 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id rd3so1948203pab.30
+	Wed, 29 Jan 2014 16:39:30 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id kp14so1973684pab.37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 08:23:40 -0800 (PST)
+	Wed, 29 Jan 2014 08:39:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
 	:message-id:subject:from:to:cc:content-type;
-	bh=pTSoUl+uhVAVSAIixIaKt7YyGP2Qzggwt4QvyYoLDvc=;
-	b=fQUQ/tzLOGq+fHaICXbzuxg5/FytKzggVF0Fm1CjQnUP515CeNhVuzAtPe7PIXxtlw
-	JbbdZiSLYWTleVDPxpNZrGD+zdIiSEUkt82dq4M4BbUJtgPfrOk7nP1FBvzejUJ1YAUB
-	p2c1MAo5YLDfecDr7po2RH/HHtKSXyDzEXjz+PlLKNtr8Cj0yDTv10dKLuCTOh3gRVlg
-	2TmNNVGTTe2ViRZJkHG26wDLyW/YNjfYVxZ641uzrYpNlJ+6mq48ju8PnoWSHRDb+9D0
-	Ph8R/RpfAU2sUVuHO43SLAN6G9XCknxFvp4PcqGgqGZ0BtDQfJ74A1gGM4DFRhECCgi5
-	6suQ==
-X-Gm-Message-State: ALoCoQl5nx9ISC5oXD6J5N2xmsUJwEsvJjKlZBk2aOwPkTxuW1EPshqHTFkYvxgrEH1ZLguwHLc4
+	bh=+MnV3RgJ9oQOk38g5p3NiYk4dNskGPkODeYkR2xL6ts=;
+	b=hafCl41ZpUmrlOg8FLg8SNxuo6zMZ4qO6RGS8azl9nBeGYd4pb31Sw5h6gHvH6y+Lh
+	IihyafZrjs0FfskoSKMA3UyCFq4sWxw8xeqTB8yFWwzxqZbHT+dOsKXKwq4/ibSadCxq
+	hAAfhxR9UUpeG7AgK+Du7H0PmZcj0MJmSzg1z+qRi8SJ2MRqk3CmyHGVbF5zDeGaRFcv
+	GJL1qV5Ge5WJoi7E46SzQnCn9NFLD1Ii0zd0tg3xTOuAIjtUVUqNt6y6o5j1l5ZiaWaC
+	gdGxNmY8qbo+ebPO2NPx/46P6win5rqJipT/FYOrOxRiPRQOTlfCb5LXdD7BK9nfub9B
+	HITQ==
+X-Gm-Message-State: ALoCoQlkA7FaP8WXxpto//6M0/jh4LGDBjAGiDfGixmg/nwB82L640K+Jc64BXwSVg73T3dZrXGX
 MIME-Version: 1.0
-X-Received: by 10.66.16.162 with SMTP id h2mr8774445pad.129.1391012620272;
-	Wed, 29 Jan 2014 08:23:40 -0800 (PST)
+X-Received: by 10.69.2.2 with SMTP id bk2mr8946139pbd.75.1391013571875; Wed,
+	29 Jan 2014 08:39:31 -0800 (PST)
 Sender: lpapp@archlinux.us
-Received: by 10.70.21.228 with HTTP; Wed, 29 Jan 2014 08:23:40 -0800 (PST)
-In-Reply-To: <FC0E2AF3-5859-45FB-B0C6-5B53EEC26EEE@dominion.thruhere.net>
-References: <CAOMwXhOUo7tUOdAno5-ebFxEqO9LW_C4bz1KghFfEg6_TUe40g@mail.gmail.com>
-	<1390999042.19023.160.camel@phil-desktop.brightsign>
-	<CAOMwXhP4y9MrxWDQzw8D9ukvoXSL1EBD0on3byix4cKu3-RdEQ@mail.gmail.com>
-	<88EC4A0C-7B54-4385-845A-480394EEC20C@dominion.thruhere.net>
-	<CAOMwXhN0yt248PMCst-mn3E7=4YQutVRpeyjH9=HmOC-0UXiBQ@mail.gmail.com>
-	<FC0E2AF3-5859-45FB-B0C6-5B53EEC26EEE@dominion.thruhere.net>
-Date: Wed, 29 Jan 2014 16:23:40 +0000
-X-Google-Sender-Auth: zMDG-mulCUScOeEHNEBMsXQ78vE
-Message-ID: <CAOMwXhOBp7c3nD9L4TAaZ-3CFfPyfFOB_kZWm-i3yCZeyf1UVA@mail.gmail.com>
+Received: by 10.70.21.228 with HTTP; Wed, 29 Jan 2014 08:39:31 -0800 (PST)
+In-Reply-To: <1390833588.17424.254.camel@ted>
+References: <1390833588.17424.254.camel@ted>
+Date: Wed, 29 Jan 2014 16:39:31 +0000
+X-Google-Sender-Auth: iu4Yamhck-uLYh8BNFIfx15b6Zc
+Message-ID: <CAOMwXhPmMXxV=u70f+X1EAA=X_1rdZfGqxbO9ut1Jz-ye+8eFQ@mail.gmail.com>
 From: Laszlo Papp <lpapp@kde.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: daniel.elstner@kdab.com,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: ROOT_HOME: /home/root
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] local.conf.sample: Add automatic defaults for BB_NUMBER_THREADS and PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,52 +45,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 16:23:40 -0000
+X-List-Received-Date: Wed, 29 Jan 2014 16:39:31 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, Jan 29, 2014 at 3:16 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->
-> Op 29 jan. 2014, om 16:04 heeft Laszlo Papp <lpapp@kde.org> het volgende geschreven:
->
->> On Wed, Jan 29, 2014 at 2:06 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>
->>> Op 29 jan. 2014, om 13:39 heeft Laszlo Papp <lpapp@kde.org> het volgende geschreven:
->>>
->>>> On Wed, Jan 29, 2014 at 12:37 PM, Phil Blundell <pb@pbcl.net> wrote:
->>>>> On Wed, 2014-01-29 at 12:32 +0000, Laszlo Papp wrote:
->>>>>> Is there any obstacle why this cannot be /root as per default Unix
->>>>>> philosophy [1]?
->>>>>
->>>>> No.  This is distro policy and you (or your DISTRO) can set it to
->>>>> anything you like.
->>>>
->>>> The email is not about distributions, but the default value in Yocto
->>>> (the distribution generator itself) ...
->>>
->>> You mean OE, right? Yocto is 10^-something, the Yocto *Project* is an umbrella project contain lots of things, among which is OE, which can build a distro for you.
->>
->> No, I mean Yocto.
->
-> So 10^-24. I have no idea how to convince the SI that 10^24 needs a home directory switch.
+Thank you for this contribution.
 
-I am not sure what you mean, really, but either way: I would prefer
-getting back on track.
+As a side note, please consider the documentation bits in the future
+as well. :-) I have just opened a separate ticket for that here:
 
->> I am not directly concerned about OE as I am not a direct user. I
->> would like to fix this in Yocto itself. It is fine if it is fixed in
->> OE proper or worked around in Yocto.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5770
+
+On Mon, Jan 27, 2014 at 2:39 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Its rather sad that people don't appear to read local.conf and then complain
+> about slow builds when they're just using a single thread. Most systems have
+> more than one core now so we might as well use a more automatic default
+> for these values. This may lead to better experiences for new users.
 >
-> Inconceivable!
+> [YOCTO #2528]
 >
-> I think you are confusing 'Yocto Project' and 'Poky' here. I Please read up on what words mean before using them.
-
-... or just listen to the user what he is writing... :-) I am a user
-of Yocto project. I am reporting issues against Yocto, on the Yocto
-issue tracker, etc. Fwiw, I am not even planning to use the "Poky"
-distribution...
-
-Either way, I do not wish to continue arguing over these words because
-it is not that useful for anyone IMHO.
-
-I would prefer more input about the actual proposal.
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+> index 71856b8..36d33e1 100644
+> --- a/meta/conf/local.conf.sample
+> +++ b/meta/conf/local.conf.sample
+> @@ -18,12 +18,18 @@
+>  # option determines how many tasks bitbake should run in parallel:
+>  #
+>  #BB_NUMBER_THREADS ?= "4"
+> +#
+> +# Default to setting automatically based on cpu count
+> +BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
+>  #
+>  # The second option controls how many processes make should run in parallel when
+>  # running compile tasks:
+>  #
+>  #PARALLEL_MAKE ?= "-j 4"
+>  #
+> +# Default to setting automatically based on cpu count
+> +PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
+> +#
+>  # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 4" would
+>  # be appropriate for example.
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
