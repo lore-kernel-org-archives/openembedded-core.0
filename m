@@ -1,40 +1,45 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pb0-f46.google.com (mail-pb0-f46.google.com
-	[209.85.160.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FDD06E87E
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 367ED6E87E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 12:39:53 +0000 (UTC)
-Received: by mail-pb0-f46.google.com with SMTP id um1so1717333pbc.33
+	Wed, 29 Jan 2014 12:46:57 +0000 (UTC)
+Received: by mail-wg0-f53.google.com with SMTP id y10so3434071wgg.20
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 04:39:54 -0800 (PST)
+	Wed, 29 Jan 2014 04:46:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=1DJbjXCW9lZ90qQ5tjUbD2awJjPIj3Z60mkh0ck227o=;
-	b=BL4HhfLWUFogr5ElNPnQC9+XMembWTTZU/BSpBJu3kPwlBUM4DUwGP1fytlcpQyxMg
-	dCFqTVsISfOiJl7Y6B0knKmzvzmWWxlklfcxJh1uq7lxaccj9ZeLGusJnfzjkUQ5H2/r
-	OI6BCm64w+pyZFcx9ykD/8QG0hNBHaOCZItXjLR/LySnOWQM3cMtW0EnYEt5iMpBOckW
-	0AmcLr022j4pxDfU5jEuXBMNaFtrtXaiQr8A7ceTr8IwWf2JZU252vfwa93JA6KzNG2s
-	3BHKmv2wCSdG68BijdyaJcLVnB8cpNq/KwlKZiAtnJG/8cDlai7TEfM9DU9YsiwaAqVx
-	vfDA==
-X-Gm-Message-State: ALoCoQl0TFbjVnyHO7QAB43RBB2I7cEstj+7YmIvmegCag0ZTPmi8keVwkNU9XfVK0CBYq2mwALM
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=U2e/Wg+lAHaGUueesY6/NP8J0plXf14eBaM2urdQxgE=;
+	b=FQUccwBgSwE/hzogbz/T3wm/mA6ZTpEJLcq2VVgrp1j0TXHq4ICI4qlGnP5Xxuc1Ar
+	OTP/toZ50MMhHVnoJWFOCE/6AXqHexomqaPJOABkcOn7rLm0s3R/kMzWXm027E+YcyEs
+	gsjRo/USi0bCX3bqaOWznLdZettrmPcyvt4ZCArBO/gs7z4Ypkm8XWR001pJGROjLvtR
+	9VtBjxmVuovzvgqsWLFsocc1/rIF+acfwHnJo72Nay8J4XttTijaueVfV4bwmEkqgGYk
+	xBKJW4M2VFoT8J/HXz/ecPZgpNMXB1GClMmu7tWsWu7YYUUYOsCETNEs169XAFemfC5g
+	LPJg==
+X-Gm-Message-State: ALoCoQnJZQRcaQhFQI0TUirTPFd9gfWnKcxpfrcLcm+N+TAQgg7pzbWpF6Gb4oQNBNLiJjAAm87f
+X-Received: by 10.180.20.100 with SMTP id m4mr19314640wie.32.1390999617738;
+	Wed, 29 Jan 2014 04:46:57 -0800 (PST)
+Received: from [172.29.23.6] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPSA id fz5sm5155848wic.11.2014.01.29.04.46.56
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 29 Jan 2014 04:46:56 -0800 (PST)
+Message-ID: <52E8F83F.7090300@dresearch-fe.de>
+Date: Wed, 29 Jan 2014 13:46:55 +0100
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.69.31.97 with SMTP id kl1mr7801301pbd.62.1390999194201; Wed,
-	29 Jan 2014 04:39:54 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.21.228 with HTTP; Wed, 29 Jan 2014 04:39:54 -0800 (PST)
-In-Reply-To: <1390999042.19023.160.camel@phil-desktop.brightsign>
-References: <CAOMwXhOUo7tUOdAno5-ebFxEqO9LW_C4bz1KghFfEg6_TUe40g@mail.gmail.com>
-	<1390999042.19023.160.camel@phil-desktop.brightsign>
-Date: Wed, 29 Jan 2014 12:39:54 +0000
-X-Google-Sender-Auth: ENclq24wItCBhiSlvvx2K4hD05U
-Message-ID: <CAOMwXhP4y9MrxWDQzw8D9ukvoXSL1EBD0on3byix4cKu3-RdEQ@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Phil Blundell <pb@pbcl.net>
-Cc: daniel.elstner@kdab.com,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: ROOT_HOME: /home/root
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1390833588.17424.254.camel@ted> <1390993195.24655.56.camel@ted>
+	<52E8EA6A.2020803@dresearch-fe.de>
+	<3453178.7rjKagprWh@peggleto-mobl5.ger.corp.intel.com>
+In-Reply-To: <3453178.7rjKagprWh@peggleto-mobl5.ger.corp.intel.com>
+X-Enigmail-Version: 1.6
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] local.conf.sample: Add automatic defaults for BB_NUMBER_THREADS and PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,17 +52,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 12:39:53 -0000
+X-List-Received-Date: Wed, 29 Jan 2014 12:46:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 29, 2014 at 12:37 PM, Phil Blundell <pb@pbcl.net> wrote:
-> On Wed, 2014-01-29 at 12:32 +0000, Laszlo Papp wrote:
->> Is there any obstacle why this cannot be /root as per default Unix
->> philosophy [1]?
->
-> No.  This is distro policy and you (or your DISTRO) can set it to
-> anything you like.
+On 29.01.2014 12:52, Paul Eggleton wrote:
+> On Wednesday 29 January 2014 12:47:54 Steffen Sledz wrote:
+>> On 29.01.2014 11:59, Richard Purdie wrote:
+>>> On Wed, 2014-01-29 at 11:14 +0100, Steffen Sledz wrote:
+>>>> On 27.01.2014 15:39, Richard Purdie wrote:
+>>>>> Its rather sad that people don't appear to read local.conf and then
+>>>>> complain about slow builds when they're just using a single thread.
+>>>>> Most systems have more than one core now so we might as well use a more
+>>>>> automatic default for these values. This may lead to better experiences
+>>>>> for new users.
+>>>>>
+>>>>> [YOCTO #2528]
+>>>>>
+>>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>>>> ---
+>>>>> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+>>>>> index 71856b8..36d33e1 100644
+>>>>> --- a/meta/conf/local.conf.sample
+>>>>> +++ b/meta/conf/local.conf.sample
+>>>>> @@ -18,12 +18,18 @@
+>>>>>
+>>>>>  # option determines how many tasks bitbake should run in parallel:
+>>>>>  #
+>>>>>  #BB_NUMBER_THREADS ?= "4"
+>>>>>
+>>>>> +#
+>>>>> +# Default to setting automatically based on cpu count
+>>>>> +BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
+>>>>>
+>>>>>  #
+>>>>>  # The second option controls how many processes make should run in
+>>>>>  parallel when # running compile tasks:
+>>>>>  #
+>>>>>  #PARALLEL_MAKE ?= "-j 4"
+>>>>>  #
+>>>>>
+>>>>> +# Default to setting automatically based on cpu count
+>>>>> +PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
+>>>>> +#
+>>>>>
+>>>>>  # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j
+>>>>>  4" would # be appropriate for example.
+>>>>
+>>>> On our Fedora-18 build host this change leads to the following exception.
+>>>> :(> 
+>>> Do you have:
+>>>
+>>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=721773072da08cf0f5e12
+>>> 06961ada3083b6722b4
+>> No.
+>>
+>> But now it becomes really interesting. As mentioned before it works well on
+>> our openSUSE-13.1 build host (without this commit)???
+> 
+> Are you sure you're not overriding BB_NUMBER_THREADS / PARALLEL_MAKE on the 
+> machine where it's "working"? You can use bitbake -e | less (variable history) 
+> to be sure.
 
-The email is not about distributions, but the default value in Yocto
-(the distribution generator itself) ...
+Yes, this was a good hint.
+
+Sorry for disturbance.
+
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
