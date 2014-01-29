@@ -1,39 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 31D7B6BAD9
+Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 644D86EAB9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 21:03:39 +0000 (UTC)
-Received: by mail-ea0-f170.google.com with SMTP id k10so1219133eaj.29
+	Wed, 29 Jan 2014 21:03:40 +0000 (UTC)
+Received: by mail-ee0-f51.google.com with SMTP id b57so1178599eek.38
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 13:03:39 -0800 (PST)
+	Wed, 29 Jan 2014 13:03:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=6BXRNz7S420jj8aywikUxTKg3Stol+QHGeFUvdQPEwQ=;
-	b=lS9J3mq9+4ywB1LLRAd4mk4wMzH5qykyl+pMwlk5XTPXJRug9dncPeUUnAj9B+WoPn
-	IeJrjK1tbevWlk2BKd4IFF40YMTtdjbxiljOK1jDpk67pO+bw0ugIcOdtFMlzDjV1SZl
-	1n6/PcbZrcwR3y7wg1uJnX5wPz0DYm0FGFQTeBGR+ISL4Pn/hhvdt8+3z1lpsC3FFOAz
-	1GMHilVSSKpA6Il9Vl3RfYAp0Ol997cuL6z44aWDdYWe3tr5hnKVYDmOleFg3mWK7zAB
-	558Q2ZxsEQ6DM256YBtaBWE0s8NqJaPQlCuG1RS0izIk3MsxwAjhtbiqclV2gjRaj2/a
-	0g5g==
-X-Received: by 10.14.29.6 with SMTP id h6mr157396eea.84.1391029419733;
-	Wed, 29 Jan 2014 13:03:39 -0800 (PST)
+	:references; bh=QMCy8TeZF4IVuq+lJiqwXL9FDjwX3oWcWBqXKn+qoU4=;
+	b=ptoe7tz2akjtNqPACaFTldIs00VfEmHEhVaQKqffUmycT0HPj4v0qcS5pc8Ah99BEk
+	I/IC+rtk0XrWmZvn7D9YaUTE4zOQtMxzbu7uOab5x9gS7NjZ6JWAO2lu2xlFRWhwSicO
+	ZDRiiXx2WHPSJd2eSm/1HeP7UsHBbBokObrqWLcvrc+2+fCGxqyQZycLc4wAjfvKOn73
+	x3yp+EGKxDIgmUUJzrUEcY/V5s8e+kveSWEUJA4JbGlq6oeroFre85L1PsatMA1zMtLb
+	HQYoohaLhbYt0k1EGfzpfOgI0riWmW77qOd8IP76gSjnNWOW9QmTDutefhCKASqr0A0u
+	vChw==
+X-Received: by 10.14.22.5 with SMTP id s5mr155442ees.85.1391029420897;
+	Wed, 29 Jan 2014 13:03:40 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id m9sm357857eeh.3.2014.01.29.13.03.39
+	by mx.google.com with ESMTPSA id m9sm359831eeh.3.2014.01.29.13.03.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Jan 2014 13:03:39 -0800 (PST)
+	Wed, 29 Jan 2014 13:03:40 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2014 22:03:39 +0100
-Message-Id: <baa39254e61c4fa5ea24cfac77ea4062746ad965.1391027849.git.Martin.Jansa@gmail.com>
+Date: Wed, 29 Jan 2014 22:03:40 +0100
+Message-Id: <6743a468ee4ec24dcbfad743aed12bafeb111b3e.1391027849.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <cover.1391027849.git.Martin.Jansa@gmail.com>
 References: <cover.1391027849.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1391027849.git.Martin.Jansa@gmail.com>
 References: <cover.1391027849.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 1/5] sstate-cache-management.sh: Fix remove_duplicated() to work after SSTATE_SWSPEC change
+Subject: [PATCH 2/5] sstate-cache-management.sh: Fix rm_by_stamps() to work after SSTATE_SWSPEC change
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,103 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 21:03:39 -0000
+X-List-Received-Date: Wed, 29 Jan 2014 21:03:41 -0000
 
 * format of filenames for sstate archives was changed in:
   commit 6f823a23c5f1d0ffa0a27db1c1bc1907de788505
   Author: Richard Purdie <richard.purdie@linuxfoundation.org>
   Date:   Fri Dec 20 12:06:02 2013 +0000
   Subject: sstate: Convert to use ':' as a filename sperator and use SSTATE_SWSPEC globally
-* remove_duplicated() wasn't able to find available architectures and
-  duplicate files since this change
-* add extra step to remove old sstate archives starting with sstate-
-  (instead of sstate:)
+* this one doesn't need special care for old sstate- names
+  they will be removed automatically as they don't match with
+  any checksum in rigth format from stamps directory
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- scripts/sstate-cache-management.sh | 36 +++++++++++++++++++++++-------------
- 1 file changed, 23 insertions(+), 13 deletions(-)
+ scripts/sstate-cache-management.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/sstate-cache-management.sh b/scripts/sstate-cache-management.sh
-index e2baf17..21ca470 100755
+index 21ca470..30ba8c6 100755
 --- a/scripts/sstate-cache-management.sh
 +++ b/scripts/sstate-cache-management.sh
-@@ -181,23 +181,26 @@ remove_duplicated () {
-   # Add the qemu and native archs
-   # Use the "_" to substitute "-", e.g., x86-64 to x86_64
-   # Sort to remove the duplicated ones
--  all_archs=$(echo $all_archs $all_machines $(uname -m) \
-+  # Add allarch
-+  all_archs=$(echo allarch $all_archs $all_machines $(uname -m) \
-           | sed -e 's/-/_/g' -e 's/ /\n/g' | sort -u)
+@@ -320,11 +320,11 @@ rm_by_stamps (){
    echo "Done"
  
-   # Save all the sstate files in a file
-   sstate_list=`mktemp` || exit 1
--  find $cache_dir -name 'sstate-*.tgz' >$sstate_list
-+  find $cache_dir -name 'sstate:*:*:*:*:*:*:*.tgz' >$sstate_list
+   # Save all the state file list to a file
+-  find $cache_dir -name 'sstate-*.tgz' | sort -u -o $cache_list
++  find $cache_dir -name 'sstate*.tgz' | sort -u -o $cache_list
  
-   echo -n "Figuring out the suffixes in the sstate cache dir ... "
--  sstate_suffixes="`sed 's/.*_\([^_]*\)\.tgz$/\1/g' $sstate_list | sort -u`"
-+  sstate_suffixes="`sed 's%.*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^_]*_\([^:]*\)\.tgz$%\1%g' $sstate_list | sort -u`"
-   echo "Done"
-   echo "The following suffixes have been found in the cache dir:"
-   echo $sstate_suffixes
- 
-   echo -n "Figuring out the archs in the sstate cache dir ... "
-+  # Using this SSTATE_PKGSPEC definition it's 6th colon separated field
-+  # SSTATE_PKGSPEC    = "sstate:${PN}:${PACKAGE_ARCH}${TARGET_VENDOR}-${TARGET_OS}:${PV}:${PR}:${SSTATE_PKGARCH}:${SSTATE_VERSION}:"
-   for arch in $all_archs; do
--      grep -q "\-$arch-" $sstate_list
-+      grep -q ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:$arch:[^:]*:[^:]*\.tgz$" $sstate_list
-       [ $? -eq 0 ] && ava_archs="$ava_archs $arch"
+   echo -n "Figuring out the files which will be removed ... "
+   for i in $all_sums; do
+-      grep ".*-${i}_.*" $cache_list >>$keep_list
++      grep ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:${i}_.*" $cache_list >>$keep_list
    done
    echo "Done"
-@@ -210,21 +213,20 @@ remove_duplicated () {
  
-   for suffix in $sstate_suffixes; do
-       # Save the file list to a file, some suffix's file may not exist
--      grep "sstate-.*_$suffix.tgz" $sstate_list >$list_suffix 2>/dev/null
-+      grep ".*/sstate:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:[^:_]*_$suffix.tgz" $sstate_list >$list_suffix 2>/dev/null
-       local deleted=0
--      echo -n "Figuring out the sstate-xxx_$suffix.tgz ... "
--      # There are at list 6 dashes (-) after arch, use this to avoid the
--      # greedy match of sed.
--      file_names=`for arch in $ava_archs; do
--          sed -ne 's#.*/\(sstate-.*\)-'"$arch"'-.*-.*-.*-.*-.*-.*#\1#p' $list_suffix
-+      echo -n "Figuring out the sstate:xxx_$suffix.tgz ... "
-+      # Uniq BPNs
-+      file_names=`for arch in $ava_archs ""; do
-+          sed -ne "s%.*/sstate:\([^:]*\):[^:]*:[^:]*:[^:]*:$arch:[^:]*:[^:]*\.tgz$%\1%p" $list_suffix
-       done | sort -u`
- 
-       fn_tmp=`mktemp` || exit 1
--      rm_list="$remove_listdir/sstate-xxx_$suffix"
-+      rm_list="$remove_listdir/sstate:xxx_$suffix"
-       for fn in $file_names; do
--          [ -z "$verbose" ] || echo "Analyzing $fn-xxx_$suffix.tgz"
-+          [ -z "$verbose" ] || echo "Analyzing sstate:$fn-xxx_$suffix.tgz"
-           for arch in $ava_archs; do
--              grep -h "/$fn-$arch-" $list_suffix >$fn_tmp
-+              grep -h ".*/sstate:$fn:[^:]*:[^:]*:[^:]*:$arch:[^:]*:[^:]*\.tgz$" $list_suffix >$fn_tmp
-               if [ -s $fn_tmp ] ; then
-                   [ $debug -gt 1 ] && echo "Available files for $fn-$arch- with suffix $suffix:" && cat $fn_tmp
-                   # Use the modification time
-@@ -259,6 +261,14 @@ remove_duplicated () {
-       echo "($deleted files will be removed)"
-       let total_deleted=$total_deleted+$deleted
-   done
-+  deleted=0
-+  rm_old_list=$remove_listdir/sstate-old-filenames
-+  find $cache_dir -name 'sstate-*.tgz' >$rm_old_list
-+  [ ! -s "$rm_old_list" ] || deleted=`cat $rm_old_list | wc -l`
-+  [ -s "$rm_old_list" -a $debug -gt 0 ] && cat $rm_old_list
-+  echo "($deleted files with old sstate-* filenames will be removed)"
-+  let total_deleted=$total_deleted+$deleted
-+
-   rm -f $list_suffix
-   rm -f $sstate_list
-   if [ $total_deleted -gt 0 ]; then
+@@ -332,7 +332,7 @@ rm_by_stamps (){
+       sort -u $keep_list -o $keep_list
+       to_del=`comm -1 -3 $keep_list $cache_list`
+       gen_rmlist $rm_list "$to_del"
+-      let total_deleted=(`cat $rm_list | wc -w`)
++      let total_deleted=`cat $rm_list | wc -w`
+       if [ $total_deleted -gt 0 ]; then
+           [ $debug -gt 0 ] && cat $rm_list
+           read_confirm
 -- 
 1.8.5.3
 
