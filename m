@@ -1,40 +1,28 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
-	[209.85.160.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 328D36E8A5
+Return-Path: <alexandre.belloni@free-electrons.com>
+Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 15E276E9A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 12:59:10 +0000 (UTC)
-Received: by mail-pb0-f49.google.com with SMTP id up15so1720073pbc.36
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 04:59:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=w8gljgeHcC2LsC1CBkuBl+6Jp3YKkk8wVU9kTipBI/U=;
-	b=In+Yd3e0pLg7sBKl3GLkeuAOL2R6jr10DQyDYxxMnzJ80fPrrLMf8y9oGAe1HrkGas
-	gmEFnvBZO87w+VRbciMlnRumJyKorP+BXjKiUt/hS5ZeMf2JXq5TxS2S+gKlcvx7mDLH
-	1s/KQuOjahzDCOA7jrjt9X+bQDSX1mEFwIiCoCe/NlujnP1PUMcCPml5NvyUYGUcM8Ww
-	VfZ0B2bIBB0U5BC04G0HrmB374nUBi0V9Gs/sk0D4TlUcGPa6XsgIcHh9uz5pq6Grp2Z
-	ND/rZ2DXcmoyROekrUhGiM+cAK6iaBaJyI3JcXK/ryHeReyMQzXJpjMR8juwDJWq/CY7
-	Wyxg==
-X-Gm-Message-State: ALoCoQmL2tFxoB6iq/bB/J1Vi8pxClOPOe9wBYdCtjIbVMK1DSelUfKmm6++5tH+EgV04zsHMNCp
+	Wed, 29 Jan 2014 13:06:18 +0000 (UTC)
+Received: by mail.free-electrons.com (Postfix, from userid 106)
+	id 0BD02811; Wed, 29 Jan 2014 14:06:17 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
+	shortcircuit=ham autolearn=disabled version=3.3.2
+Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
+	by mail.free-electrons.com (Postfix) with ESMTPSA id 7A81C7BF;
+	Wed, 29 Jan 2014 14:06:17 +0100 (CET)
+Date: Wed, 29 Jan 2014 14:06:16 +0100
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20140129130616.GF24156@piout.net>
+References: <1389953343-19029-1-git-send-email-alexandre.belloni@free-electrons.com>
 MIME-Version: 1.0
-X-Received: by 10.66.4.130 with SMTP id k2mr7733035pak.95.1391000351307; Wed,
-	29 Jan 2014 04:59:11 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.21.228 with HTTP; Wed, 29 Jan 2014 04:59:11 -0800 (PST)
-In-Reply-To: <1390999973.24655.64.camel@ted>
-References: <CAOMwXhOUo7tUOdAno5-ebFxEqO9LW_C4bz1KghFfEg6_TUe40g@mail.gmail.com>
-	<1390999973.24655.64.camel@ted>
-Date: Wed, 29 Jan 2014 12:59:11 +0000
-X-Google-Sender-Auth: BIUwr1xbDBJSx838aFyCY21d1rY
-Message-ID: <CAOMwXhNLza+hr=Df7dYfQh33wgWezHFtc5Grs9p1vUMiNkHx3w@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: daniel.elstner@kdab.com,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: ROOT_HOME: /home/root
+In-Reply-To: <1389953343-19029-1-git-send-email-alexandre.belloni@free-electrons.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] matchbox-keyboard: daemonize launch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,71 +35,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 12:59:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 29 Jan 2014 13:06:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Jan 29, 2014 at 12:52 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2014-01-29 at 12:32 +0000, Laszlo Papp wrote:
->> Hi,
->>
->> Is there any obstacle why this cannot be /root as per default Unix
->> philosophy [1]?
->>
->> It is not an unusual that the /home partition is a separate, and the
->> sysadmins would like to manage the core system without getting that
->> partition mounted, etc.
->>
->> It is true that it would be possible to work that around, but /root as
->> a default just feels so much more natural on a Unix system.
->>
->> What I currently see after talking to a few people, the people keep
->> changing it in their layer (distribution) config. It looks sub-optimal
->> at first, but perhaps there are still valid reasons to keep this
->> around?
->>
->> I was told on IRC the first embedded debian may have done it to keep
->> rootfs read-only. First, you can remount the root partition on jffs2,
->> ubifs, etc... as R/W.
->>
->> Even if you could not, you can have a separate /root partition which
->> is a good idea anyway to keep the super-user separate from the
->> "regular" users. If that is not OK, there is still the option for the
->> minority to override it to /home/root if really needed, but I
->> personally do not think it should be...
->>
->> So, all in all, I am in favor of changing this back to /root to be
->> more linux-y and well-separated from the normal users.
->>
->> Unfortunately, it would lead to some breakages out there when they
->> update Yocto, so it may not be acceptable in this project. I do not
->> know the rules. The migration could be aided though with some proper
->> documentation.
->
-> These directories can be configured by the user extremely easily.
+Ping ?
 
-To be fair, it would be just as extremely easy to configure it to
-"/home/root" as the other way around.
+On Fri, Jan 17, 2014 at 11:09:03 +0100, Alexandre Belloni wrote :
+> The .shbg extension is not properly supported by the Xsession script
+> provided by xserver-common.
+> 
+> Move the main part of the Xsession.d script to a script in usr/bin then
+> add a Xsession.d script to start it in the background.
+> 
+> See discussion here:
+> https://lists.yoctoproject.org/pipermail/poky/2013-December/009463.html
+> 
+> Bug here:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5546
+> 
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+> ---
+>  .../matchbox-keyboard/files/80matchboxkeyboard.sh  |  3 +++
+>  .../files/80matchboxkeyboard.shbg                  | 23 ----------------------
+>  .../files/matchbox-keyboard-daemon.sh              | 22 +++++++++++++++++++++
+>  .../matchbox-keyboard/matchbox-keyboard_git.bb     |  8 ++++++--
+>  4 files changed, 31 insertions(+), 25 deletions(-)
+>  create mode 100755 meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
+>  delete mode 100755 meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
+>  create mode 100755 meta/recipes-sato/matchbox-keyboard/files/matchbox-keyboard-daemon.sh
+> 
+> diff --git a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
+> new file mode 100755
+> index 000000000000..d10fd8c32c0e
+> --- /dev/null
+> +++ b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
+> @@ -0,0 +1,3 @@
+> +#!/bin/sh
+> +
+> +/usr/bin/matchbox-keyboard-daemon.sh &
+> diff --git a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
+> deleted file mode 100755
+> index 43c5d3ed6a32..000000000000
+> --- a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
+> +++ /dev/null
+> @@ -1,23 +0,0 @@
+> -#!/bin/sh
+> -
+> -. /etc/formfactor/config
+> -
+> -CMD=""
+> -
+> -if [ "$HAVE_KEYBOARD" = "0" ]; then
+> -    CMD="matchbox-keyboard -d"
+> -elif [ "$DISPLAY_CAN_ROTATE" = "1" ]; then
+> -    if [ "$HAVE_KEYBOARD_PORTRAIT" = "1" -a "$HAVE_KEYBOARD_LANDSCAPE" = "0" ]; then
+> -        CMD="matchbox-keyboard -d -o landscape"
+> -    elif [ "$HAVE_KEYBOARD_LANDSCAPE" = "1" -a "$HAVE_KEYBOARD_PORTRAIT" = "0" ]; then
+> -        CMD="matchbox-keyboard -d -o portrait"
+> -    fi
+> -fi
+> -					
+> -
+> -if [ "$CMD" ]; then
+> -    # Delay to make sure the window manager is active
+> -    # by waiting for the desktop to say its finished loading
+> -    dbus-wait org.matchbox_project.desktop Loaded
+> -    exec $CMD
+> -fi
+> diff --git a/meta/recipes-sato/matchbox-keyboard/files/matchbox-keyboard-daemon.sh b/meta/recipes-sato/matchbox-keyboard/files/matchbox-keyboard-daemon.sh
+> new file mode 100755
+> index 000000000000..2975cef7e38a
+> --- /dev/null
+> +++ b/meta/recipes-sato/matchbox-keyboard/files/matchbox-keyboard-daemon.sh
+> @@ -0,0 +1,22 @@
+> +#!/bin/sh
+> +
+> +. /etc/formfactor/config
+> +
+> +CMD=""
+> +
+> +if [ "$HAVE_KEYBOARD" = "0" ]; then
+> +    CMD="matchbox-keyboard -d"
+> +elif [ "$DISPLAY_CAN_ROTATE" = "1" ]; then
+> +    if [ "$HAVE_KEYBOARD_PORTRAIT" = "1" -a "$HAVE_KEYBOARD_LANDSCAPE" = "0" ]; then
+> +        CMD="matchbox-keyboard -d -o landscape"
+> +    elif [ "$HAVE_KEYBOARD_LANDSCAPE" = "1" -a "$HAVE_KEYBOARD_PORTRAIT" = "0" ]; then
+> +        CMD="matchbox-keyboard -d -o portrait"
+> +    fi
+> +fi
+> +
+> +if [ "$CMD" ]; then
+> +    # Delay to make sure the window manager is active
+> +    # by waiting for the desktop to say its finished loading
+> +    dbus-wait org.matchbox_project.desktop Loaded
+> +    exec $CMD
+> +fi
+> diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+> index 00a75af60eb0..66c89ad5da41 100644
+> --- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+> +++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+> @@ -16,7 +16,8 @@ PR = "r4"
+>  
+>  SRC_URI = "git://git.yoctoproject.org/${BPN};branch=matchbox-keyboard-0-1 \
+>             file://single-instance.patch \
+> -           file://80matchboxkeyboard.shbg"
+> +           file://matchbox-keyboard-daemon.sh \
+> +           file://80matchboxkeyboard.sh"
+>  
+>  S = "${WORKDIR}/git"
+>  
+> @@ -41,7 +42,10 @@ FILES_${PN}-applet = "${libdir}/matchbox-panel/*.so"
+>  
+>  do_install_append () {
+>  	install -d ${D}/${sysconfdir}/X11/Xsession.d/
+> -	install -m 755 ${WORKDIR}/80matchboxkeyboard.shbg ${D}/${sysconfdir}/X11/Xsession.d/
+> +	install -m 755 ${WORKDIR}/80matchboxkeyboard.sh ${D}/${sysconfdir}/X11/Xsession.d/
+> +
+> +	install -d ${D}${bindir}
+> +	install -m 755 ${WORKDIR}/matchbox-keyboard-daemon.sh ${D}${bindir}/
+>  
+>  	rm -f ${D}${libdir}/gtk-2.0/*/immodules/*.la
+>  	rm -f ${D}${libdir}/matchbox-panel/*.la
+> -- 
+> 1.8.3.2
+> 
 
-> By having a default of /home/root/ we can catch software that has issues
-> with relocation of that.
-
-I am not sure what you mean. Could you please elaborate?
-
-> Having the writeable user data in one directory like this is useful for several classes of embedded style devices.
-
-Could you please provide any examples?
-
-I have not seen any use cases myself out there, but after a quick poke
-around, other people seem to have similar experiences around me. As
-written in my initial email, I do not target "several" use cases. I am
-referring to the majority which, as per Unix philosophy, I am somewhat
-opinionated that is "/root".
-
-> So to be honest I don't see a pressing reason to change this.
-
-I do, because the earlier it is done, the fewer users that may have
-incompatible changes. As the time goes ahead, more and more users will
-stick to it as "default". I believe this means those who do not care
-about proper Unix separation.
+-- 
+Alexandre Belloni, Free Electrons
+Embedded Linux, Kernel and Android engineering
+http://free-electrons.com
 
