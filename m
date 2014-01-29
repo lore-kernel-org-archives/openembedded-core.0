@@ -1,23 +1,36 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A98A6E877
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C6B896E9AE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 12:23:02 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 29 Jan 2014 04:23:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,741,1384329600"; d="scan'208";a="406981437"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 29 Jan 2014 04:23:02 -0800
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
-	by linux.intel.com (Postfix) with ESMTP id 38C8E6A4093;
-	Wed, 29 Jan 2014 04:22:55 -0800 (PST)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2014 14:24:04 +0200
-Message-Id: <1390998244-25560-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] oeqa/runtime: drop restartTarget method
+	Wed, 29 Jan 2014 12:32:23 +0000 (UTC)
+Received: by mail-pd0-f177.google.com with SMTP id x10so1640035pdj.22
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jan 2014 04:32:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
+	:to:cc:content-type;
+	bh=yqQ8mANyrAucRrO7LIXQ+yD+n8Wicd60kkUXE+z/l3I=;
+	b=WATqinY3VpPXpKivo9HeUaQNx7GSpjMllT7nibQtFld43f/2s8ZalcYVURtSQkRyOp
+	Mochj0r/MNVuJK/lxtZOAnZG7R1rZu6MQUAfXMuszmZPkwXhcRMB3Vf4xg+2TcOXnQlS
+	Lpq3nBt0ypzU9XqeZevdWpdV0Xj5E2ctEWICZw9slWVX1XXE4VonecQPVDWu/1yT99Pl
+	VbzrxzCp0SKDlsffPPxw6P11+pEmGtuewMrDqOHhn3glHESNpbXlO3al1vA6kjrSQ/If
+	pe1uLKNWT0598MNjtQYv7ksug6deXHIPiF7+9mjIIg4n12IRXej5cv60moXksTkLtaaA
+	MITA==
+X-Gm-Message-State: ALoCoQl4G1Jzh7iG3+2/WFGElg7+io4ir96K6FvD1Io5VXABNdhUY+DEzBJyVFYoYMfSVhTL8PzR
+MIME-Version: 1.0
+X-Received: by 10.66.4.130 with SMTP id k2mr7607494pak.95.1390998744838; Wed,
+	29 Jan 2014 04:32:24 -0800 (PST)
+Sender: lpapp@archlinux.us
+Received: by 10.70.21.228 with HTTP; Wed, 29 Jan 2014 04:32:24 -0800 (PST)
+Date: Wed, 29 Jan 2014 12:32:24 +0000
+X-Google-Sender-Auth: zBusFAu-tTaaklCyaAjxLEId7LM
+Message-ID: <CAOMwXhOUo7tUOdAno5-ebFxEqO9LW_C4bz1KghFfEg6_TUe40g@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: daniel.elstner@kdab.com
+Subject: ROOT_HOME: /home/root
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,91 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 12:23:03 -0000
+X-List-Received-Date: Wed, 29 Jan 2014 12:32:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Restart is a property of a specific target, not
-of a test class, should a test really need to restart
-the target the direct method should be called.
-Also some tests used this to enforce more ram, which
-makes sense only for qemu targets only (and the inital
-reason this was needed isn't valid anymore, qemu machines had
-the default ram size bumped a while ago).
+Hi,
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/oetest.py                | 4 ----
- meta/lib/oeqa/runtime/buildcvs.py      | 2 --
- meta/lib/oeqa/runtime/buildiptables.py | 2 --
- meta/lib/oeqa/runtime/buildsudoku.py   | 2 --
- 4 files changed, 10 deletions(-)
+Is there any obstacle why this cannot be /root as per default Unix
+philosophy [1]?
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index ed545b4..0db6cb8 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -78,10 +78,6 @@ class oeRuntimeTest(oeTest):
-         self.target = oeRuntimeTest.tc.target
-         super(oeRuntimeTest, self).__init__(methodName)
- 
--    @classmethod
--    def restartTarget(self,params=None):
--        oeRuntimeTest.tc.target.restart(params)
--
- 
- def getmodule(pos=2):
-     # stack returns a list of tuples containg frame information
-diff --git a/meta/lib/oeqa/runtime/buildcvs.py b/meta/lib/oeqa/runtime/buildcvs.py
-index f024dfa..9bf764d 100644
---- a/meta/lib/oeqa/runtime/buildcvs.py
-+++ b/meta/lib/oeqa/runtime/buildcvs.py
-@@ -10,7 +10,6 @@ class BuildCvsTest(oeRuntimeTest):
- 
-     @classmethod
-     def setUpClass(self):
--        self.restartTarget("-m 512")
-         self.project = TargetBuildProject(oeRuntimeTest.tc.target,
-                         "http://ftp.gnu.org/non-gnu/cvs/source/feature/1.12.13/cvs-1.12.13.tar.bz2")
-         self.project.download_archive()
-@@ -29,4 +28,3 @@ class BuildCvsTest(oeRuntimeTest):
-     @classmethod
-     def tearDownClass(self):
-         self.project.clean()
--        self.restartTarget()
-diff --git a/meta/lib/oeqa/runtime/buildiptables.py b/meta/lib/oeqa/runtime/buildiptables.py
-index 88ece3b..50faf5d 100644
---- a/meta/lib/oeqa/runtime/buildiptables.py
-+++ b/meta/lib/oeqa/runtime/buildiptables.py
-@@ -10,7 +10,6 @@ class BuildIptablesTest(oeRuntimeTest):
- 
-     @classmethod
-     def setUpClass(self):
--        self.restartTarget("-m 512")
-         self.project = TargetBuildProject(oeRuntimeTest.tc.target,
-                         "http://netfilter.org/projects/iptables/files/iptables-1.4.13.tar.bz2")
-         self.project.download_archive()
-@@ -29,4 +28,3 @@ class BuildIptablesTest(oeRuntimeTest):
-     @classmethod
-     def tearDownClass(self):
-         self.project.clean()
--        self.restartTarget()
-diff --git a/meta/lib/oeqa/runtime/buildsudoku.py b/meta/lib/oeqa/runtime/buildsudoku.py
-index 0a7306d..61dc1ff 100644
---- a/meta/lib/oeqa/runtime/buildsudoku.py
-+++ b/meta/lib/oeqa/runtime/buildsudoku.py
-@@ -10,7 +10,6 @@ class SudokuTest(oeRuntimeTest):
- 
-     @classmethod
-     def setUpClass(self):
--        self.restartTarget("-m 512")
-         self.project = TargetBuildProject(oeRuntimeTest.tc.target,
-                         "http://downloads.sourceforge.net/project/sudoku-savant/sudoku-savant/sudoku-savant-1.3/sudoku-savant-1.3.tar.bz2")
-         self.project.download_archive()
-@@ -26,4 +25,3 @@ class SudokuTest(oeRuntimeTest):
-     @classmethod
-     def tearDownClass(self):
-         self.project.clean()
--        self.restartTarget()
--- 
-1.8.5.3
+It is not an unusual that the /home partition is a separate, and the
+sysadmins would like to manage the core system without getting that
+partition mounted, etc.
 
+It is true that it would be possible to work that around, but /root as
+a default just feels so much more natural on a Unix system.
+
+What I currently see after talking to a few people, the people keep
+changing it in their layer (distribution) config. It looks sub-optimal
+at first, but perhaps there are still valid reasons to keep this
+around?
+
+I was told on IRC the first embedded debian may have done it to keep
+rootfs read-only. First, you can remount the root partition on jffs2,
+ubifs, etc... as R/W.
+
+Even if you could not, you can have a separate /root partition which
+is a good idea anyway to keep the super-user separate from the
+"regular" users. If that is not OK, there is still the option for the
+minority to override it to /home/root if really needed, but I
+personally do not think it should be...
+
+So, all in all, I am in favor of changing this back to /root to be
+more linux-y and well-separated from the normal users.
+
+Unfortunately, it would lead to some breakages out there when they
+update Yocto, so it may not be acceptable in this project. I do not
+know the rules. The migration could be aided though with some proper
+documentation.
+
+Cheers, L.
+
+[1] FHS 2.3 still says  /root : Home directory for the root user (optional)
 
