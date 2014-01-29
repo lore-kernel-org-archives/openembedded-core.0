@@ -1,28 +1,32 @@
 Return-Path: <alexandre.belloni@free-electrons.com>
 Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 74AAF6E9A4
+	by mail.openembedded.org (Postfix) with ESMTP id E2E7D6E87E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 13:06:33 +0000 (UTC)
+	Wed, 29 Jan 2014 13:10:21 +0000 (UTC)
 Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id 9B726815; Wed, 29 Jan 2014 14:06:34 +0100 (CET)
+	id 0F4F5815; Wed, 29 Jan 2014 14:10:23 +0100 (CET)
 X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
 	mail.free-electrons.com
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
 	shortcircuit=ham autolearn=disabled version=3.3.2
 Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id 4403A7BB;
-	Wed, 29 Jan 2014 14:06:34 +0100 (CET)
-Date: Wed, 29 Jan 2014 14:06:33 +0100
+	by mail.free-electrons.com (Postfix) with ESMTPSA id B8E9F7BB;
+	Wed, 29 Jan 2014 14:10:22 +0100 (CET)
+Date: Wed, 29 Jan 2014 14:10:21 +0100
 From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20140129130632.GG24156@piout.net>
-References: <1389879279-28203-1-git-send-email-alexandre.belloni@free-electrons.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <20140129131021.GH24156@piout.net>
+References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
+	<52CC1E02.9070102@windriver.com>
+	<52CC633C.6000404@free-electrons.com>
+	<52CC65E5.6010003@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1389879279-28203-1-git-send-email-alexandre.belloni@free-electrons.com>
+In-Reply-To: <52CC65E5.6010003@windriver.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wpa-supplicant-2.0: don't exit in pkg_postinst
+Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,40 +39,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 13:06:33 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Wed, 29 Jan 2014 13:10:23 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Ping ?
+Hi Bruce,
 
-On Thu, Jan 16, 2014 at 14:34:39 +0100, Alexandre Belloni wrote :
-> Exiting explicitly in pkg_postinst makes it impossible to use the
-> update-rc.d class in a .bbappend because the link creation is appended
-> to the pkg_postinst script.
+Any news on that ?
+
+On Tue, Jan 07, 2014 at 15:39:01 -0500, Bruce Ashfield wrote :
+> On 14-01-07 03:27 PM, Alexandre Belloni wrote:
+> >On 07/01/2014 16:32, Bruce Ashfield wrote:
+> >>On 14-01-07 09:18 AM, Alexandre Belloni wrote:
+> >>>When using a defconfig, using yes '' | make oldconfig may not result in
+> >>>the correct configuration being set. For example:
+> >>>
+> >>>   $ grep USB_ETH .config
+> >>>   CONFIG_USB_ETH=y
+> >>>   CONFIG_USB_ETH_RNDIS=y
+> >>>   CONFIG_USB_ETH_EEM=y
+> >>>   $ make savedefconfig
+> >>>   scripts/kconfig/conf --savedefconfig=defconfig Kconfig
+> >>>   $ cp defconfig .config
+> >>>   ‘defconfig’ -> ‘.config’
+> >>>   $ yes '' | make oldconfig
+> >>>   [...]
+> >>>   #
+> >>>   # configuration written to .config
+> >>>   #
+> >>>   $ grep USB_ETH .config
+> >>>   CONFIG_USB_ETH=m
+> >>>   CONFIG_USB_ETH_RNDIS=y
+> >>>   CONFIG_USB_ETH_EEM=y
+> >>>
+> >>>Using make olddefconfig solves that but we'll use oldnoconfig for
+> >>>backward compatibility with older kernels.
+> >>>
+> >>>   $ cp defconfig .config
+> >>>   ‘defconfig’ -> ‘.config’
+> >>>   $ make oldnoconfig
+> >>>   scripts/kconfig/conf --olddefconfig Kconfig
+> >>>   #
+> >>>   # configuration written to .config
+> >>>   #
+> >>>   $ grep USB_ETH .config
+> >>>   CONFIG_USB_ETH=y
+> >>>   CONFIG_USB_ETH_RNDIS=y
+> >>>   CONFIG_USB_ETH_EEM=y
+> >>>
+> >>>For more information, please refer to:
+> >>>http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=fbe98bb9ed3dae23e320c6b113e35f129538d14a
+> >>>
+> >>
+> >>It was my understanding that this commit changed the Kconfig behaviour
+> >>to set the selected options to =y and prevent the menu choice from
+> >>"hiding" the options in a depedent choice menu. But maybe I'm remembering
+> >>wrong.
+> >>
+> >>The point being, that with that commit in place. Doesn't the behaviour
+> >>match what we want with yes and oldconfig ?
+> >>
+> >
+> >Nope, that commit is fixing the issue when using make <target>_defconfig
+> >or make olddefconfig. Note that using make menuconfig already had the
+> >correct behavior before that commit.
 > 
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-> ---
->  meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> right. I'm pretty familiar with that code, so I knew this worked.
 > 
-> diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-> index ce669a1ffa4f..ba28c6bd4528 100644
-> --- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-> +++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-> @@ -82,9 +82,8 @@ do_install () {
->  
->  pkg_postinst_wpa-supplicant () {
->  	# If we're offline, we don't need to do this.
-> -	if [ "x$D" != "x" ]; then
-> -		exit 0
-> +	if [ "x$D" = "x" ]; then
-> +		killall -q -HUP dbus-daemon || true
->  	fi
->  
-> -	killall -q -HUP dbus-daemon || true
->  }
-> -- 
-> 1.8.3.2
+> >
+> >As shown in my commit log, using yes '' | make oldconfig is still
+> >getting it wrong.
+> 
+> But that was also my point. Since the target suggested in this
+> patch hasn't always existed (and hence has a kernel version binding),
+> why not use olddefconfig with this patch, and leave the functionality
+> closer to its existing behaviour ? We'd still have a kernel capability
+> binding, but we'd not have the =y converted to =m, and the default of
+> 'y' for new functionality would be maintained.
+> 
+> >
+> >>.. I'll run some tests to confirm for myself, but I thought I'd throw
+> >>the question out as well. I don't typically use defconfigs, so I need
+> >>to do a bit of leg work.
+> >>
+> >
+> >Yeah, using a full .config doesn't trigger that behavior.
+> 
+> I don't use those either :) but the end result is the same.
+> 
+> Cheers,
+> 
+> Bruce
+> 
+> >
+> >>I don't have any big issues with the patch, but I just want to be sure,
+> >>since changing this default could change the configs of many defconfig
+> >>users, and they may have been unknowingly relying on the old behaviour.
+> >>
+> >
+> >I can understand that. But I don't see any other way to make the really
+> >expected behavior to work without risking breaking anything.
+> >
 > 
 
 -- 
