@@ -1,43 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 4146C6E9AE
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ECA3A6E87E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 14:44:22 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id y10so3745110wgg.20
+	Wed, 29 Jan 2014 14:51:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s0TEpDoE021176
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 06:44:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
-	:references:subject:mime-version:content-type;
-	bh=n23e68Dmj5fhf6r7QT0x57LwfvFJt+Q/C9FqGvPfceE=;
-	b=SuNkld9Y6APxohKsnJ4GxIFSoYqBzYblgCthrD1U48Gro4dFFi13AsboA7eoAiJ0u/
-	j3rdJTW2qy2FHSSNozc+qS89hoYKxiHy6vNiX20sn8ErJDUr9IZuoC4Heububm93mwy+
-	RRFihT/5Vhx5RfQeOEpp2v0fl1CDrO/hmlDGrdm8epzqZ8bby4316o/bVcL3t8Dvh5AA
-	NgC64YW5g8beioxFRoAPLpo79nakomgRV1TRqg2S7K+r/jEffLmIf5bKbPbo0d5hbTaZ
-	N8J66/1Ly0OpkL730aA8eb+U8VphALLscaMt8RvH7u+kVKpNFX/LE4+pZVX+Eps6Ljpu
-	37fg==
-X-Gm-Message-State: ALoCoQnoglWFzJHzKobFRQ08SHeV2Gvquz7nQTwfdbTpP1lCUV2IHg9xnosMp//iKPI2IY/+ySKk
-X-Received: by 10.195.13.234 with SMTP id fb10mr1749829wjd.50.1391006662829;
-	Wed, 29 Jan 2014 06:44:22 -0800 (PST)
-Received: from blackadder.local (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id f7sm5349825wjb.7.2014.01.29.06.44.21
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 29 Jan 2014 06:44:22 -0800 (PST)
-Date: Wed, 29 Jan 2014 14:44:19 +0000
-From: Ross Burton <ross.burton@intel.com>
-To: ulf@emagii.com
-Message-ID: <etPan.52e913c4.3d1b58ba.1e2d@blackadder.local>
-In-Reply-To: <52E902E4.1040607@emagii.com>
-References: <1390833588.17424.254.camel@ted>
-	<BEFD196E-8595-4DD1-BEAD-0183FBB61D55@dominion.thruhere.net>
-	<52E8EF66.5040609@emagii.com> <1391000162.24655.67.camel@ted>
-	<52E902E4.1040607@emagii.com>
-X-Mailer: Airmail (223)
+	Wed, 29 Jan 2014 06:51:13 -0800 (PST)
+Received: from [147.11.118.224] (147.11.118.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 29 Jan 2014 06:51:11 -0800
+Message-ID: <52E9155C.1070707@windriver.com>
+Date: Wed, 29 Jan 2014 08:51:08 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] local.conf.sample: Add automatic defaults for BB_NUMBER_THREADS and PARALLEL_MAKE
+To: Ming Liu <ming.liu@windriver.com>
+References: <1389257340-16166-1-git-send-email-ming.liu@windriver.com>
+	<52CEE4F2.7050409@windriver.com> <52E8751D.50101@windriver.com>
+In-Reply-To: <52E8751D.50101@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] rpm: fix a endian incompatible error in generating tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,60 +37,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 14:44:22 -0000
-Content-Type: multipart/alternative; boundary="52e913c4_507ed7ab_1e2d"
+X-List-Received-Date: Wed, 29 Jan 2014 14:51:12 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---52e913c4_507ed7ab_1e2d
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+On 1/28/14, 9:27 PM, Ming Liu wrote:
+> On 01/10/2014 02:05 AM, Mark Hatle wrote:
+>> On 1/9/14, 2:49 AM, Ming Liu wrote:
+>>> A flaw was found in the way rpm generating arbitrary tags, which
+>>> leads to a
+>>> incorrect query result, this issue is introduced by a incompatible
+>>> endianess
+>>> when the generating process is executed on different architectures.
+>>>
+>>> This patch resolves it by taking a uniform byte order.
+>>>
+>>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>>> ---
+>>>    .../rpm-tag-generate-endian-conversion-fix.patch   |   29
+>>> ++++++++++++++++++++
+>>>    meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
+>>>    2 files changed, 30 insertions(+), 0 deletions(-)
+>>>    create mode 100644
+>>> meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+>>> b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+>>>
+>>> new file mode 100644
+>>> index 0000000..4379515
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+>>> @@ -0,0 +1,29 @@
+>>> +fix a endian incompatible error in generating rpm tag
+>>> +
+>>> +A flaw was found in the way rpm generating arbitrary tags, which
+>>> leads to a
+>>> +incorrect query result, this issue is introduced by a incompatible
+>>> endianess
+>>> +when the generating process is executed on different architectures.
+>>> +
+>>> +This patch resolves it by taking a uniform byte order.
+>>> +
+>>> +Upstream-Status: Pending
+>>> +
+>>> +Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>>> +---
+>>> + tagname.c |    3 +++
+>>> + 1 file changed, 3 insertions(+)
+>>> +
+>>> +diff -urpN a/rpmdb/tagname.c b/rpmdb/tagname.c
+>>> +--- a/rpmdb/tagname.c
+>>> ++++ b/rpmdb/tagname.c
+>>> +@@ -152,7 +152,10 @@ static rpmTag _tagGenerate(const char *s
+>>> +     xx = rpmDigestUpdate(ctx, s, nb);
+>>> +     xx = rpmDigestFinal(ctx, &digest, &digestlen, 0);
+>>> +     if (digest && digestlen > 4) {
+>>> ++    /* The tag is stored in a uniform byte order for cross-endian
+>>> compatibility.
+>>> ++       Swap to little-endian if appropriate. */
+>>> +     memcpy(&tag, digest + (digestlen - 4), 4);
+>>> ++    tag = htole32(tag);
+>>> +     tag = (rpmTag) (tag & 0x3fffffff);
+>>> +     tag = (rpmTag) (tag | 0x40000000);
+>>
+>> The above code doesn't look right to me.
+>>
+>> If this is reading in from the RPM package, it should be an le32toh..
+>>
+>> Otherwise if it's generating the digest info.. then the htole32 should
+>> be -after- the & and | operations, otherwise the wrong part of the
+>> value will be modified.
+>
+> Hi, Mark:
+>
+> I just saw your comments, sorry for the late feedback.
+> I'd like to explain it more that _tagGenerate is called at both reading
+> and generating sides, so either of your recommended resolves only one
+> side of it based on my test, the tag is being counted as a number with
+> later & or | operator, but before that, we should transfer it to a
+> number with uniform byte order(big or little endian) after we get it
+> from a piece of memory, which in this case is the last 4 bytes of
+> digest, please think about the following scenario:
+>
+> x86 host (generating and querying)  -->  powerpc/mips (querying)
+>
+> Using le32toh or putting htole32 after the & and | operations both will
+> not satisfy it - to get a same result.
 
-webkit, node are also not running in parallell in later part of the build=
-=C2=A0
-WebKit does parallel builds internally so what you=E2=80=99re seeing here=
- is everything that doesn=E2=80=99t depend on webkit has finished, so the=
- remaining tasks are blocking on the webkit build.
+The general byte order of the RPM package should be little endian from my 
+memory.  So we'll want to make sure that on a load we do le32toh, and then on a 
+write we do htole32.
 
-Ross
+My confusion with the math is:
 
---=C2=A0
-Ross Burton
-Open Source Technology Centre
-Intel Corporation
+if the tag is stored as 0x0000138C (tag 5004) (little endian):
 
---52e913c4_507ed7ab_1e2d
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+1100 1000 0011 0001 0000 0000 0000 0000
 
-<html><head><style>body=7Bfont-family:Helvetica,Arial;font-size:13px=7D</=
-style></head><body style=3D=22word-wrap: break-word; -webkit-nbsp-mode: s=
-pace; -webkit-line-break: after-white-space;=22><div id=3D=22bloop=5Fcust=
-omfont=22 style=3D=22font-family:Helvetica,Arial;font-size:13px; color: r=
-gba(0,0,0,1.0); margin: 0px; line-height: auto;=22></div><div><blockquote=
- type=3D=22cite=22 class=3D=22clean=5Fbq=22 style=3D=22font-family: Helve=
-tica, Arial; font-size: 13px; font-style: normal; font-variant: normal; f=
-ont-weight: normal; letter-spacing: normal; line-height: normal; orphans:=
- auto; text-align: start; text-indent: 0px; text-transform: none; white-s=
-pace: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width:=
- 0px; background-color: rgb(255, 255, 255);=22><span><div><span style=3D=22=
-color: rgb(0, 0, 0); font-family: helvetica; font-size: 13px; font-style:=
- normal; font-variant: normal; font-weight: normal; letter-spacing: norma=
-l; line-height: normal; orphans: auto; text-align: start; text-indent: 0p=
-x; text-transform: none; white-space: normal; widows: auto; word-spacing:=
- 0px; -webkit-text-stroke-width: 0px; float: none; display: inline =21imp=
-ortant;=22>webkit, node are also not running in parallell in later part o=
-f the build<span class=3D=22Apple-converted-space=22>&nbsp;</span></span>=
-</div></span></blockquote></div><p>WebKit does parallel builds internally=
- so what you=E2=80=99re seeing here is everything that doesn=E2=80=99t de=
-pend on webkit has finished, so the remaining tasks are blocking on the w=
-ebkit build.</p><p>Ross</p> <div id=3D=22bloop=5Fsign=5F13910065796531200=
-00=22 class=3D=22bloop=5Fsign=22><div style=3D=22font-family:helvetica,ar=
-ial;font-size:13px=22>--&nbsp;<br>Ross Burton</div><div style=3D=22font-f=
-amily:helvetica,arial;font-size:13px=22><span style=3D=22font-family: hel=
-vetica; line-height: normal;=22>Open Source Technology Centre</span></div=
-><div style=3D=22font-family:helvetica,arial;font-size:13px=22><span styl=
-e=3D=22font-family: helvetica; line-height: normal;=22>Intel Corporation<=
-/span></div></div></body></html>
+C    8    3    1    0    0    0    0
 
---52e913c4_507ed7ab_1e2d--
+and then it's & 0x3fffffff (on a little endian machine), it stays as:
+
+1100 1000 0011 0001 0000 0000 0000 0000
+
+but if it's & 0x3fffffff on a big endian machine, it would suddenly become:
+
+
+0000 1000 0011 0001 0000 0000 0000 0000
+
+Which is incorrect.  This is why the math needs to happen before the endian convert.
+
+The | makes it even worse, as sets bit '30'.
+
+So what I think needs to happen is that on read of the 4 bytes of data, they 
+need to be converted to -from little endian- to host format.  Then the tag 
+function can remain as it is... when written back to the data struction it needs 
+to be converted from host back to little endian.
+
+Looking at the code, I expect that there is a byte swap when other tags are 
+generated and/or the tag is written into the file.
+
+I've not found the code, but the issue may be that the 
+rpmDigestUpdate/rpmDigestFinal may already be doing an endian conversion for 
+you.  Then when you copy the key out it needs to be converted back to the native 
+endian.  If this is the case then le32toh would be the correct conversion at 
+this point.
+
+Looking at the underlying implementation (for big endian machines):
+
+#  define htole32(x) __bswap_32 (x)
+
+#  define le32toh(x) __bswap_32 (x)
+
+So they are the same function in reality.  So perhaps the only real issue with 
+the patch is that it should be written as "le32toh" in order to avoid confusion 
+when people read the code.  As the conversion is identical.
+
+So my suggestion would be:
+
++     if (digest && digestlen > 4) {
+++    /* The tag is stored in little endian byte order for cross-endian 
+compatibility.
+++       Swap to host order if appropriate. */
++     memcpy(&tag, digest + (digestlen - 4), 4);
+++    tag = le32toh(tag);
+
+(generated code is the same, but this now makes sense to me, and the math works.)
+
+--Mark
+
+> //Ming Liu
+>
+>>
+>> --Mark
+>>
+>>> +     }
+>>> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>> b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>> index 9d376a5..7921f40 100644
+>>> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+>>> @@ -89,6 +89,7 @@ SRC_URI =
+>>> "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+>>>           file://debugedit-valid-file-to-fix-segment-fault.patch \
+>>>           file://rpm-platform-file-fix.patch \
+>>>           file://rpm-lsb-compatibility.patch \
+>>> +       file://rpm-tag-generate-endian-conversion-fix.patch \
+>>>          "
+>>>
+>>>    # Uncomment the following line to enable platform score debugging
+>>>
+>>
+>>
+>>
+>
+
+
