@@ -1,42 +1,31 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pb0-f52.google.com (mail-pb0-f52.google.com
-	[209.85.160.52])
-	by mail.openembedded.org (Postfix) with ESMTP id A62196E9A1
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E3FCD6E9A1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 15:04:11 +0000 (UTC)
-Received: by mail-pb0-f52.google.com with SMTP id jt11so1848471pbb.39
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 07:04:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=x0n0kaHDCFWYfSmR8nSgueFYaFRPhSWcEumC55+q0uI=;
-	b=KsOKNVRlGjO+tJIDO0V5JygX1Nk/Gq/JpVqNxqrxYrYOQAh363sxRIqZkFlU74CIeC
-	grHw7ifxE/A+puCVYSoHySfT0xeyH6C8yneXUDbC8SC3oYvt8q4KZqLP1ksi7MCc5yaJ
-	GHOX+d5njnYSds5sooCA9FGDJJFpdIKVe1elBsWNTCPM+oL06XtXCYUMHQmzDI/OG3wR
-	sR1l97bBuI86QuMBDRlofVkEMxa9BkV4jRzDxj5Rtz/UWSBw2kPmY8uUO7rIZafi3367
-	dRLdY7aGrHoI94x9Nrmdn3jY89S1eAQD6PjZtYrVOpZ5bFy7LEFS0isxIxZgrNqjkwT8
-	EO1w==
-X-Gm-Message-State: ALoCoQkyi1mXQk2s8M9zahLqpe24zdD4sgJ6VWf2HkB0nyVHK+IPrcoBCZoLP3SugCKUtYdxOKNm
+	Wed, 29 Jan 2014 15:04:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s0TF4Hdt001993
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 Jan 2014 07:04:17 -0800 (PST)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 29 Jan 2014 07:04:17 -0800
+Message-ID: <52E91857.6000003@windriver.com>
+Date: Wed, 29 Jan 2014 10:03:51 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.68.197.66 with SMTP id is2mr8460753pbc.96.1391007852379;
-	Wed, 29 Jan 2014 07:04:12 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.21.228 with HTTP; Wed, 29 Jan 2014 07:04:12 -0800 (PST)
-In-Reply-To: <88EC4A0C-7B54-4385-845A-480394EEC20C@dominion.thruhere.net>
-References: <CAOMwXhOUo7tUOdAno5-ebFxEqO9LW_C4bz1KghFfEg6_TUe40g@mail.gmail.com>
-	<1390999042.19023.160.camel@phil-desktop.brightsign>
-	<CAOMwXhP4y9MrxWDQzw8D9ukvoXSL1EBD0on3byix4cKu3-RdEQ@mail.gmail.com>
-	<88EC4A0C-7B54-4385-845A-480394EEC20C@dominion.thruhere.net>
-Date: Wed, 29 Jan 2014 15:04:12 +0000
-X-Google-Sender-Auth: sdmKdBrTafsmlerHB5VMUrRzkkg
-Message-ID: <CAOMwXhN0yt248PMCst-mn3E7=4YQutVRpeyjH9=HmOC-0UXiBQ@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Cc: daniel.elstner@kdab.com,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: ROOT_HOME: /home/root
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
+	<52CC1E02.9070102@windriver.com>
+	<52CC633C.6000404@free-electrons.com>
+	<52CC65E5.6010003@windriver.com> <20140129131021.GH24156@piout.net>
+In-Reply-To: <20140129131021.GH24156@piout.net>
+Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,29 +38,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2014 15:04:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 29 Jan 2014 15:04:22 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 29, 2014 at 2:06 PM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+On 14-01-29 08:10 AM, Alexandre Belloni wrote:
+> Hi Bruce,
 >
-> Op 29 jan. 2014, om 13:39 heeft Laszlo Papp <lpapp@kde.org> het volgende geschreven:
+> Any news on that ?
+
+Sorry, I hadn't intended for this to sit with no reply for this lenght
+of time. I was tied up working with 3.13 and 3.14 yocto kerenls. I'm
+now in a position to run some migration tests and will follow up with
+the results asap.
+
+Bruce
+
 >
->> On Wed, Jan 29, 2014 at 12:37 PM, Phil Blundell <pb@pbcl.net> wrote:
->>> On Wed, 2014-01-29 at 12:32 +0000, Laszlo Papp wrote:
->>>> Is there any obstacle why this cannot be /root as per default Unix
->>>> philosophy [1]?
+> On Tue, Jan 07, 2014 at 15:39:01 -0500, Bruce Ashfield wrote :
+>> On 14-01-07 03:27 PM, Alexandre Belloni wrote:
+>>> On 07/01/2014 16:32, Bruce Ashfield wrote:
+>>>> On 14-01-07 09:18 AM, Alexandre Belloni wrote:
+>>>>> When using a defconfig, using yes '' | make oldconfig may not result in
+>>>>> the correct configuration being set. For example:
+>>>>>
+>>>>>    $ grep USB_ETH .config
+>>>>>    CONFIG_USB_ETH=y
+>>>>>    CONFIG_USB_ETH_RNDIS=y
+>>>>>    CONFIG_USB_ETH_EEM=y
+>>>>>    $ make savedefconfig
+>>>>>    scripts/kconfig/conf --savedefconfig=defconfig Kconfig
+>>>>>    $ cp defconfig .config
+>>>>>    ‘defconfig’ -> ‘.config’
+>>>>>    $ yes '' | make oldconfig
+>>>>>    [...]
+>>>>>    #
+>>>>>    # configuration written to .config
+>>>>>    #
+>>>>>    $ grep USB_ETH .config
+>>>>>    CONFIG_USB_ETH=m
+>>>>>    CONFIG_USB_ETH_RNDIS=yThe enhancements in this release in comparison to previous releases are:
+>>>>>    CONFIG_USB_ETH_EEM=y
+>>>>>
+>>>>> Using make olddefconfig solves that but we'll use oldnoconfig for
+>>>>> backward compatibility with older kernels.
+>>>>>
+>>>>>    $ cp defconfig .config
+>>>>>    ‘defconfig’ -> ‘.config’
+>>>>>    $ make oldnoconfig
+>>>>>    scripts/kconfig/conf --olddefconfig Kconfig
+>>>>>    #
+>>>>>    # configuration written to .config
+>>>>>    #
+>>>>>    $ grep USB_ETH .config
+>>>>>    CONFIG_USB_ETH=y
+>>>>>    CONFIG_USB_ETH_RNDIS=y
+>>>>>    CONFIG_USB_ETH_EEM=y
+>>>>>
+>>>>> For more information, please refer to:
+>>>>> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=fbe98bb9ed3dae23e320c6b113e35f129538d14a
+>>>>>
+>>>>
+>>>> It was my understanding that this commit changed the Kconfig behaviour
+>>>> to set the selected options to =y and prevent the menu choice from
+>>>> "hiding" the options in a depedent choice menu. But maybe I'm remembering
+>>>> wrong.
+>>>>
+>>>> The point being, that with that commit in place. Doesn't the behaviour
+>>>> match what we want with yes and oldconfig ?
+>>>>
 >>>
->>> No.  This is distro policy and you (or your DISTRO) can set it to
->>> anything you like.
+>>> Nope, that commit is fixing the issue when using make <target>_defconfig
+>>> or make olddefconfig. Note that using make menuconfig already had the
+>>> correct behavior before that commit.
 >>
->> The email is not about distributions, but the default value in Yocto
->> (the distribution generator itself) ...
+>> right. I'm pretty familiar with that code, so I knew this worked.
+>>
+>>>
+>>> As shown in my commit log, using yes '' | make oldconfig is still
+>>> getting it wrong.
+>>
+>> But that was also my point. Since the target suggested in this
+>> patch hasn't always existed (and hence has a kernel version binding),
+>> why not use olddefconfig with this patch, and leave the functionality
+>> closer to its existing behaviour ? We'd still have a kernel capability
+>> binding, but we'd not have the =y converted to =m, and the default of
+>> 'y' for new functionality would be maintained.
+>>
+>>>
+>>>> .. I'll run some tests to confirm for myself, but I thought I'd throw
+>>>> the question out as well. I don't typically use defconfigs, so I need
+>>>> to do a bit of leg work.
+>>>>
+>>>
+>>> Yeah, using a full .config doesn't trigger that behavior.
+>>
+>> I don't use those either :) but the end result is the same.
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>>>
+>>>> I don't have any big issues with the patch, but I just want to be sure,
+>>>> since changing this default could change the configs of many defconfig
+>>>> users, and they may have been unknowingly relying on the old behaviour.
+>>>>
+>>>
+>>> I can understand that. But I don't see any other way to make the really
+>>> expected behavior to work without risking breaking anything.
+>>>
+>>
 >
-> You mean OE, right? Yocto is 10^-something, the Yocto *Project* is an umbrella project contain lots of things, among which is OE, which can build a distro for you.
 
-No, I mean Yocto.
-
-I am not directly concerned about OE as I am not a direct user. I
-would like to fix this in Yocto itself. It is fine if it is fixed in
-OE proper or worked around in Yocto.
 
