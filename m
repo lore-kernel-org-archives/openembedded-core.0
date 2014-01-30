@@ -1,37 +1,38 @@
 Return-Path: <lpapp@archlinux.us>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A7EA96E9AF
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B4F146E9AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2014 18:46:19 +0000 (UTC)
-Received: by mail-pd0-f172.google.com with SMTP id p10so3320574pdj.17
+	Thu, 30 Jan 2014 18:47:08 +0000 (UTC)
+Received: by mail-wg0-f53.google.com with SMTP id y10so6951257wgg.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2014 10:46:20 -0800 (PST)
+	Thu, 30 Jan 2014 10:47:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=HSFYHJN4zwKnD35un6KRw/UJFoDbNP/XdAbUcgf/aV4=;
-	b=LxkxLvADtP3yyNoS4zeUs9o/NCy8ABsAbnMoeBWPX+Mw7FspH1p6KbwBTqOokR2dWf
-	lIA+EUcKIo9Po311imsk/gATaiFrw27eVhS5jsjVYZeVHNer9iJ6DSmSJ1xwstXKGr8/
-	+HFOCgF49OtxNSnW6IyKK88a+4zfKGBmv0BnpHnVLH65nTycwVeg5GDtpUMgWma1R5Oj
-	1UX3XZAXOpuW2bYojx2/lbUEXIcxHhArQ300Of58C84juo76n0ytJ+/+2smLez3UEtst
-	P3iP08pYsT4N7rhI/DremMLn6lZWmVtWkXenLKBwM51DGcBYmZX98H22YL3sf0K1nrYn
-	2MsQ==
-X-Gm-Message-State: ALoCoQmlcZOG1/S2ex6z6Ptwr6P/njmfnqt37Fc1emQXD3LovR4NmiT+7Q3Uhms87rTaXrJJ1wZm
-MIME-Version: 1.0
-X-Received: by 10.66.139.100 with SMTP id qx4mr16023905pab.141.1391107580441; 
-	Thu, 30 Jan 2014 10:46:20 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.21.228 with HTTP; Thu, 30 Jan 2014 10:46:19 -0800 (PST)
-In-Reply-To: <CAOMwXhPNi357C8BvFjvVYtQUDepu5VK-c1phR=5UseZg79uJ6Q@mail.gmail.com>
-References: <CAOMwXhPNi357C8BvFjvVYtQUDepu5VK-c1phR=5UseZg79uJ6Q@mail.gmail.com>
-Date: Thu, 30 Jan 2014 18:46:19 +0000
-X-Google-Sender-Auth: Gu3i4gBxEWpFdKw_xrr_7uCiJ5E
-Message-ID: <CAOMwXhOH0m9PNL10c6gBNhCK+iMoiVtujX1_N3i2KaBAYBgFeQ@mail.gmail.com>
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=Q9rhWlVkr/TInDX/PGZvRMLzTaa5sX7GqujHvr4ZVmw=;
+	b=EaXOqUGO73WbgAFy0wa9I2gUNUpKXx/Ieg86uc5upPQ0W05uwjgnl2tQIu40ZrujTY
+	ccC4N7zxDc6IW+LQTVZClJQS2E0ETgWyYlsB0vdAashIg/aY6CtBsaT01BnS+MurA+qM
+	A6WhXlR9f/+ORp6PfFSY6IxhNyOxSJ49wibyNK0MHqV6h5OmUmSeTxaiYPdP6RTonxmV
+	FcyRrFgPZlrrFh8lqbmSZtelzu8IfXqDMb0sDaOPaPLsX5XDYHagOpm2B7FRBVJfbfon
+	Oo1cq/7AvcPdlqlCQoq86NiPpFjScHqMZkldto6NoRi5R6xhgtrwWeycA15OlfavWYH2
+	LVEw==
+X-Gm-Message-State: ALoCoQlauh5dIJ0O0sCRdMbUBnhRrcCbBdgmArxtmsOav3Cm/euEJLjEQUvdITYUN925CA+mi7sl
+X-Received: by 10.194.185.113 with SMTP id fb17mr8079830wjc.29.1391107629274; 
+	Thu, 30 Jan 2014 10:47:09 -0800 (PST)
+Received: from lpapp@archlinux.us (mail.polatis.com. [212.44.19.228])
+	by mx.google.com with ESMTPSA id
+	ha1sm11212749wjc.23.2014.01.30.10.47.06 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 Jan 2014 10:47:08 -0800 (PST)
+Sender: Laszlo Papp <lpapp@archlinux.us>
+Received: by lpapp@archlinux.us (sSMTP sendmail emulation);
+	Thu, 30 Jan 2014 18:41:42 +0000
 From: Laszlo Papp <lpapp@kde.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Putting fltk into oe-core (recipes-graphics)
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jan 2014 18:41:35 +0000
+Message-Id: <1391107295-15256-1-git-send-email-lpapp@kde.org>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +45,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2014 18:46:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 30 Jan 2014 18:47:09 -0000
 
-Ping?
+The current change contains two different logics resulting that users like me
+may need to partially override the behavior of it. It would be easier for end
+users to keep one change while dropping the other if needed, like in our case.
 
-I asked this a bit more than five months ago. Shall I take it as "No"?
+Signed-off-by: Laszlo Papp <lpapp@kde.org>
+---
+ meta/recipes-core/base-passwd/base-passwd/nobash.patch   | 10 +---------
+ meta/recipes-core/base-passwd/base-passwd/noshadow.patch | 14 ++++++++++++++
+ meta/recipes-core/base-passwd/base-passwd_3.5.29.bb      |  1 +
+ 3 files changed, 16 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-core/base-passwd/base-passwd/noshadow.patch
 
-On Tue, Aug 27, 2013 at 7:59 AM, Laszlo Papp <lpapp@kde.org> wrote:
-> Hi all,
->
-> was this thoroughly discussed before? I think the 'fltk' graphics library is
-> quite lightweight. We still use that instead of qt and gtk on limited
-> embedded platforms simply because it takes 1.2 MB or a bit more rather than
-> a full blown Qt with 10-12+ MB.
->
-> If I understand correctly there were discussions that gtk should not be
-> inside openembedded core which I agree about. However, I think it would be
-> useful to have some lightweight library like this in. Of course, this is
-> lacking some features that Qt has, but that is why it is lightweight after
-> all. :-)
->
-> It is currently in the openembedded layer. It has a couple of minor
-> dependencies which should probably be moved, but I do not see anything
-> major. I think it is a more "core" option for ui building than the
-> alternatives. This also supports opengl to a certain extent.
->
-> Cheers,
-> Laszlo
+diff --git a/meta/recipes-core/base-passwd/base-passwd/nobash.patch b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+index 6371576..eed87db 100644
+--- a/meta/recipes-core/base-passwd/base-passwd/nobash.patch
++++ b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+@@ -1,14 +1,6 @@
+ use /bin/sh instead of /bin/bash, since the latter may not be included in
+ some images such as minimal
+ 
+-comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+-
+-remove "*" for root since we don't have a /etc/shadow so far.
+-
+-by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+-
+-Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
+-
+ Upstream-Status: Invalid [configuration]
+ 
+ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+@@ -17,7 +9,7 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+ +++ base-passwd/passwd.master
+ @@ -1,4 +1,4 @@
+ -root:*:0:0:root:/root:/bin/bash
+-+root::0:0:root:/root:/bin/sh
+++root:*:0:0:root:/root:/bin/sh
+  daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+  bin:*:2:2:bin:/bin:/bin/sh
+  sys:*:3:3:sys:/dev:/bin/sh
+diff --git a/meta/recipes-core/base-passwd/base-passwd/noshadow.patch b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+new file mode 100644
+index 0000000..e1cded6
+--- /dev/null
++++ b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+@@ -0,0 +1,14 @@
++remove "*" for root since we don't have a /etc/shadow so far.
++
++Upstream-Status: Invalid [configuration]
++
++Signed-off-by: Scott Garman <scott.a.garman@intel.com>
++
++--- base-passwd/passwd.master~nobash
+++++ base-passwd/passwd.master
++@@ -1,4 +1,4 @@
++-root:*:0:0:root:/root:/bin/sh
+++root::0:0:root:/root:/bin/sh
++ daemon:*:1:1:daemon:/usr/sbin:/bin/sh
++ bin:*:2:2:bin:/bin:/bin/sh
++ sys:*:3:3:sys:/dev:/bin/sh
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+index 082037a..5b31fce 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+@@ -9,6 +9,7 @@ DEPENDS = "docbook-utils-native linuxdoc-tools-native"
+ SRC_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/base-passwd_${PV}.tar.gz \
+            file://add_shutdown.patch \
+            file://nobash.patch \
++           file://noshadow.patch \
+            file://input.patch \
+            file://disable-docs.patch \
+           "
+-- 
+1.8.5.3
+
 
