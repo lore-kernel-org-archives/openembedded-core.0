@@ -1,35 +1,36 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D754E6E9AF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 647F86E9AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2014 14:54:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 4DABF3148DD6;
-	Thu, 30 Jan 2014 15:54:54 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id XMliBCrJSTx2; Thu, 30 Jan 2014 15:54:52 +0100 (CET)
-Received: from [172.22.22.61] (unknown [212.255.236.47])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 4A1DB3148DD5;
-	Thu, 30 Jan 2014 15:54:52 +0100 (CET)
-Message-ID: <52EA67BC.7020908@opendreambox.org>
-Date: Thu, 30 Jan 2014 15:54:52 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Thu, 30 Jan 2014 18:14:58 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id i13so4897777qae.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jan 2014 10:14:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=002ifbsgi0wAtkLFY+jkLv72XPvLy9WK3QDqBx02p5A=;
+	b=PdwhYnGLi7Z+tlH04ehZMmFEMEGPpg1RJ7MkzfWXAaPPgjyIhZBnA9wXXaDPP2YcaL
+	f22MjpW2RcxwBMEGLGXAy7Bjy/x7W+a4z129eMKPOD/yMLCR196ZspMCiFbsbvdxQFXp
+	LLvZVdzxjbG8jeZ0rtDa9cEu9A74PtTmDcEo6BxXH7qK+LQ9lTV/WaN5RHqzdpLk4GfM
+	rIa9JMbdNaBCp8yXkGFtGLfZy/LOR5pW0sE/Q7d4QiQHGuEzUQX/iOEABShOwaD8W/Wf
+	i97HdS7Q61b3oPx4DTNOMSg9KWhbWxym497rjW2fiXTcX3t6FMaN+7OO3n1xstOFwAOH
+	Onfg==
+X-Gm-Message-State: ALoCoQm2VbMdfri8eyYV5ChcPB7BFZsKzxaIjSyI1euO9O7HWP1LvEEEW4hJdYMkLuKR0uvy9Uca
+X-Received: by 10.140.108.74 with SMTP id i68mr22628868qgf.87.1391105698625;
+	Thu, 30 Jan 2014 10:14:58 -0800 (PST)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20140128192141.GA3640@mail.itconsulting-heinold.de>	
-	<1390940874-11839-1-git-send-email-obi@opendreambox.org>
-	<1391091111.24655.196.camel@ted>
-In-Reply-To: <1391091111.24655.196.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] cogl: kms: include necessary header for size_t
+Received: by 10.140.48.79 with HTTP; Thu, 30 Jan 2014 10:14:38 -0800 (PST)
+In-Reply-To: <cover.1391054829.git.raj.khem@gmail.com>
+References: <cover.1391054829.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Jan 2014 18:14:38 +0000
+Message-ID: <CAJTo0Laed6Huugouio4F9=vfoNQyPHaa_-SKD_vXULy8iJwkOw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/15] Add python 3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2014 14:54:57 -0000
+X-List-Received-Date: Thu, 30 Jan 2014 18:14:59 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 30.01.2014 15:11, Richard Purdie wrote:
-> On Tue, 2014-01-28 at 21:27 +0100, Andreas Oberritter wrote:
->> Fixes compilation in cases where stddef.h is not already
->> included by EGL headers.
->>
->> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
->> ---
->> :-P
-> 
-> The sad thing is it appears this wasn't tested. We added it, it causes
-> warnings during parsing and build failures.
-> 
-> I've pushed a fix but its frustrating.
+On 30 January 2014 04:09, Khem Raj <raj.khem@gmail.com> wrote:
+>   classes: Add distutils for python3
+>   distutils3: Do build_ext as separate step during compile
+>   distutils3.bbclass: Fix typo and use proper values for target sysroot
+>   distutils3.bbclass: Use MACHINE for sysroot when not building for
+>     build host
 
-I'm sorry about that. I build-tested it on dora with cogl cherry-picked
-to master's version, and I verified that it applies cleanly to master.
-But I missed cherry-picking commit cc41cb6 to dora, which changed cogl's
-FILESPATH through clutter.bbclass.
+Please try and squash patches like this set that simply fix bugs in
+previous patches.
 
-Regards,
-Andreas
-
+Ross
 
