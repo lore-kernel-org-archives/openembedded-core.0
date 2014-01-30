@@ -1,18 +1,38 @@
-Return-Path: <noor_ahsan@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 858246E9CD
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 00FEB6E9CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2014 11:08:19 +0000 (UTC)
-Received: from pkl-ahsann-ubuntu.mgc.mentorg.com
-	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id s0UB8G8N009911; 
-	Thu, 30 Jan 2014 05:08:18 -0600
-From: "Noor, Ahsan" <noor_ahsan@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jan 2014 16:06:05 +0500
-Message-Id: <1391079965-12870-1-git-send-email-noor_ahsan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH V2] libcgroup: Add bison-native and flex-native in depends
+	Thu, 30 Jan 2014 11:08:50 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1W8pUI-0003OO-Mc from Noor_Ahsan@mentor.com ;
+	Thu, 30 Jan 2014 03:08:50 -0800
+Received: from SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 30 Jan 2014 03:08:50 -0800
+Received: from EU-MBX-03.mgc.mentorg.com ([169.254.2.95]) by
+	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
+	14.02.0247.003; Thu, 30 Jan 2014 11:07:32 +0000
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] libcgroup: Add bison-native and flex-native
+	in depends
+Thread-Index: AQHPHRiinLyWfKMNHkqZeAl2D6w8ZZqdHQEQ
+Date: Thu, 30 Jan 2014 11:08:47 +0000
+Message-ID: <365E1805BC95084CBE82381A0B869994E73E4DC6@EU-MBX-03.mgc.mentorg.com>
+References: <1391005066-15501-1-git-send-email-noor_ahsan@mentor.com>
+	<1391016950.24655.74.camel@ted>
+In-Reply-To: <1391016950.24655.74.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.76]
+MIME-Version: 1.0
+X-OriginalArrivalTime: 30 Jan 2014 11:08:50.0569 (UTC)
+	FILETIME=[A79C5F90:01CF1DAB]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libcgroup: Add bison-native and flex-native in depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,32 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2014 11:08:20 -0000
+X-List-Received-Date: Thu, 30 Jan 2014 11:08:51 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Noor <noor_ahsan@mentor.com>
+Sent another patch for version 0.41.
 
-* libcgroup requires native packages for bison and flex to configure
-  itself successfully. Added those in its DEPENDS.
+Noor
 
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
----
- meta/recipes-core/libcgroup/libcgroup_0.41.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Richard Purdie
+Sent: Wednesday, January 29, 2014 10:36 PM
+To: Ahsan, Noor
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] libcgroup: Add bison-native and flex-native =
+in depends
 
-diff --git a/meta/recipes-core/libcgroup/libcgroup_0.41.bb b/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-index 5db1079..76b0b58 100644
---- a/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-+++ b/meta/recipes-core/libcgroup/libcgroup_0.41.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
- inherit autotools pkgconfig
- 
--DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
-+DEPENDS = "bison-native flex-native ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/libcg/${BPN}/v0.41/${BPN}-${PV}.tar.bz2"
- 
--- 
-1.7.9.5
+On Wed, 2014-01-29 at 19:17 +0500, Noor, Ahsan wrote:
+> From: Noor <noor_ahsan@mentor.com>
+>=20
+> * libcgroup require native packages for bison and flex. Added those
+>   in its DEPENDS.
+>=20
+> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> ---
+>  meta/recipes-core/libcgroup/libcgroup_0.38.bb |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-core/libcgroup/libcgroup_0.38.bb=20
+> b/meta/recipes-core/libcgroup/libcgroup_0.38.bb
+> index 8bd0ead..711229f 100644
+> --- a/meta/recipes-core/libcgroup/libcgroup_0.38.bb
+> +++ b/meta/recipes-core/libcgroup/libcgroup_0.38.bb
 
+It appears we have version 0.41 in master. Could you send patches built and=
+ tested against master please.
+
+Cheers,
+
+Richard
+
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
