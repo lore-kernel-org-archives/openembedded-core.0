@@ -1,40 +1,35 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E715E6EA37
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2014 04:12:00 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id lj1so2615819pab.26
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2014 20:12:02 -0800 (PST)
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 922156CDF2;
+	Thu, 30 Jan 2014 04:34:14 +0000 (UTC)
+Received: by mail-ig0-f181.google.com with SMTP id j1so6400615iga.2
+	for <multiple recipients>; Wed, 29 Jan 2014 20:34:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=H4/iLKLF4Bh4vd/X2EcciT27WmytB15hxzDvFKH4DR4=;
-	b=0nACqfM6cmJg/IChT1OV4RYlu/h+ZSpWGR/1Qte/WSOZzgpasTtnuxHcXZdS6YjgQX
-	Ky4tdYSJdHhiRSJ8lOYNQh3egCTc2hQnl9UFklLKUoWyuhLp+wWaO6VEYzWzb8Ntmmxx
-	XDWGFi+yzKj2hCobtdXypmGKubzELIEFwvhywd0+hp3u9ztrJloWFZf4C/yjn7zToK4Z
-	ukxiB59nwX5FyemJBCxIjQN/kjFVDpSs9GLgJvf9ZQUF6zC1VWQBPGv4o8MFv5XMylxJ
-	vKdwkI6W+nK5zN4QhBAmNfbCbT1xIxs3t5OLbOB90RYAGA/xQHf7sjT5MArXzprFAmAm
-	o4ew==
-X-Received: by 10.68.232.132 with SMTP id to4mr11821954pbc.141.1391055122222; 
-	Wed, 29 Jan 2014 20:12:02 -0800 (PST)
-Received: from localhost.localdomain
-	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
-	by mx.google.com with ESMTPSA id
-	iu7sm12388951pbc.45.2014.01.29.20.12.01 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 Jan 2014 20:12:01 -0800 (PST)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=lExgPXmXdDKXz59FDqYdXeuwPyR29931s9KhJiSqW6I=;
+	b=MqfMdmqGbdPC6+htewzKAnH5aMuZfeNkcwa0/XWmHg8OCFOFNzkJTP/ULl+Gl6pjyg
+	+ZaOaDzL2Knd8ZZFydtvDs91xM0MSQAjJhTmRUiJGRCeC/qsOxsBguudxYhDCMJX2yox
+	QQCYzS/VlP+dZWUFwUMNxtAFi1YaYeSvH3x5kFLA7fRbKZguN1UQ0T95JbSYsFnRBSH/
+	WNdI1/mHJVisO3tFjy4O48nL4CBLCDnTQhYLdes2cwppPky9FF+1NNp84EMNdCpoVUV+
+	/63redD8DlaMfDrDbCwteaQKxwX08C3ICUUrzMnFeQ3IyPx43Kj89L8QZ2iVuU85PUnD
+	B3Eg==
+X-Received: by 10.42.246.131 with SMTP id ly3mr9222583icb.8.1391056455610;
+	Wed, 29 Jan 2014 20:34:15 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.8.137 with HTTP; Wed, 29 Jan 2014 20:33:45 -0800 (PST)
+In-Reply-To: <52B30EE5.6050901@linux.intel.com>
+References: <CAMKF1spWnFvXRAp-GuoBL9vXceg29h5Numv7PYhZNWUJu8rMRw@mail.gmail.com>
+	<52B30EE5.6050901@linux.intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2014 20:12:37 -0800
-Message-Id: <8dc13ec02f1187f60634311e2351a9cdbc433cd8.1391054829.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <c47e65e2da5790bc54aaf1bca87f2702dac64988.1391054829.git.raj.khem@gmail.com>
-References: <c47e65e2da5790bc54aaf1bca87f2702dac64988.1391054829.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1391054829.git.raj.khem@gmail.com>
-References: <cover.1391054829.git.raj.khem@gmail.com>
-Subject: [PATCH 15/15] python-setuptools: Remove its provided by python-distribute
+Date: Wed, 29 Jan 2014 20:33:45 -0800
+Message-ID: <CAMKF1sqABZeBKTBP-MB3HvOFfBadofBQaaaMf8u2F5ExmCiVrw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] Binutils upgrade to 2.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,124 +42,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2014 04:12:01 -0000
+X-List-Received-Date: Thu, 30 Jan 2014 04:34:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Use python-distribute-native in packagegroup-toolset-native
+On Thu, Dec 19, 2013 at 7:21 AM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 12/16/2013 12:03 PM, Khem Raj wrote:
+>>
+>> Hi
+>>
+>> I have pushed a contrib branch for binutils 2.24 upgrade here
+>>
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/binutils-2.24
+>>
+>> I have tested it on both uclibc/eglibc and qemu machines. But it would
+>> be nice if
+>> it gets more testing for machines I havent tested
+>>
+>
+> Looks like we tickled an LD bug of somekind, we are seeing the following
+> failure across all machines, this was a second build using binutils 2.24, so
+> there was some shared state usage.
+>
+> RP pointed out the --as-needed option was used with -lm as those symbols are
+> math related.
+>
+>> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400
+>> --sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc
+>> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>> -I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc7400-poky-linux/wireless-tools/1_29-r4/wireless_tools.29
+>> -O2 -pipe -g -feliminate-unused-debug-types -MMD     -o iwconfig iwconfig.o
+>> libiw.so.29 -lm
+>> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400
+>> --sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc
+>> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>> -I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc7400-poky-linux/wireless-tools/1_29-r4/wireless_tools.29
+>> -O2 -pipe -g -feliminate-unused-debug-types -MMD     -o iwlist iwlist.o
+>> libiw.so.29 -lm
+>> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400
+>> --sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc
+>> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>> -I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc7400-poky-linux/wireless-tools/1_29-r4/wireless_tools.29
+>> -O2 -pipe -g -feliminate-unused-debug-types -MMD     -o iwpriv iwpriv.o
+>> libiw.so.29 -lm
+>> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400
+>> --sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc
+>> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>> -I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc7400-poky-linux/wireless-tools/1_29-r4/wireless_tools.29
+>> -O2 -pipe -g -feliminate-unused-debug-types -MMD     -o iwspy iwspy.o
+>> libiw.so.29 -lm
+>> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400
+>> --sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc
+>> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>> -I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc7400-poky-linux/wireless-tools/1_29-r4/wireless_tools.29
+>> -O2 -pipe -g -feliminate-unused-debug-types -MMD     -o iwgetid iwgetid.o
+>> libiw.so.29 -lm
+>> | powerpc-poky-linux-gcc  -m32 -mhard-float -mcpu=7400
+>> --sysroot=/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/sysroots/qemuppc
+>> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
+>> -I/home/pokybuild/yocto-autobuilder/yocto-slave/nightly-ppc/build/build/tmp/work/ppc7400-poky-linux/wireless-tools/1_29-r4/wireless_tools.29
+>> -O2 -pipe -g -feliminate-unused-debug-types -MMD     -o iwevent iwevent.o
+>> libiw.so.29 -lm
+>> | libiw.so.29: undefined reference to `ceil'
+>> | libiw.so.29: undefined reference to `pow'
+>> | libiw.so.29: undefined reference to `log10'
+>> | libiw.so.29: undefined reference to `floor'
+>> | collect2: error: ld returned 1 exit status
+>> | make: *** [iwconfig] Error 1
+>> | make: *** Waiting for unfinished jobs....
+>> | libiw.so.29: undefined reference to `ceil'
+>> | libiw.so.29: undefined reference to `pow'
+>> | libiw.so.29: undefined reference to `log10'
+>> | libiw.so.29: undefined reference to `floor'
+>> | collect2: error: ld returned 1 exit status
+>> | make: *** [iwgetid] Error 1
+>> | libiw.so.29: undefined reference to `ceil'
+>> | libiw.so.29: undefined reference to `pow'
+>> | libiw.so.29: undefined reference to `log10'
+>> | libiw.so.29: undefined reference to `floor'
+>> | collect2: error: ld returned 1 exit status
+>> | make: *** [iwspy] Error 1
+>> | libiw.so.29: undefined reference to `ceil'
+>> | libiw.so.29: undefined reference to `pow'
+>> | libiw.so.29: undefined reference to `log10'
+>> | libiw.so.29: undefined reference to `floor'
+>> | collect2: error: ld returned 1 exit status
+>> | make: *** [iwpriv] Error 1
+>> | libiw.so.29: undefined reference to `ceil'
+>> | libiw.so.29: undefined reference to `pow'
+>> | libiw.so.29: undefined reference to `log10'
+>> | libiw.so.29: undefined reference to `floor'
+>> | collect2: error: ld returned 1 exit status
+>> | make: *** [iwlist] Error 1
+>> | libiw.so.29: undefined reference to `ceil'
+>> | libiw.so.29: undefined reference to `pow'
+>> | libiw.so.29: undefined reference to `log10'
+>> | libiw.so.29: undefined reference to `floor'
+>> | collect2: error: ld returned 1 exit status
+>> | make: *** [iwevent] Error 1
+>> | ERROR: oe_runmake failed
+>
+>
 
-Also fixes warnings like
+I tested OE-Core builds for qemuppc
 
-WARNING: The recipe python-setuptools is trying to install files into a
-shared area when those files already exist. Those files and their
-manifest location are:
+1. build from scratch  ( MACHINE=qemuppc bitbake wirelesstools)
+2. build from sstate ( MACHINE=qemuppc bitbake -cclean wirelesstools
+and then step 1)
+3. Build second time just wireless-tools ( MACHINE=qemuppc bitbake
+-ccleanall wirelesstools and then step 1 )
+4. Rebuild all from sstate ( rm -rf tmp/ and then step 1)
 
-/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/lib/python2.7/site-packages/setuptools.pth
-    Matched in manifest-qemux86-64-python-distribute
+I could not reproduce this issue at all. The differences are I did it
+with OE-Core and not with Poky autbuilders run with poky distro
+policies.
+we should also actually regress OE-Core alone
 
-/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/lib/python2.7/site-packages/site.pyc
-    Matched in manifest-qemux86-64-python-distribute
+My build machine here is debian/wheezy and ubuntu 12.04 both 64bit)
 
-/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/lib/python2.7/site-packages/site.py
-    Matched in manifest-qemux86-64-python-distribute
+I am on commit c3f3fed1b397b6ee6d44e7d39e63d084e4a88e30 of OE-Core
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+At this point I am out of ideas how to reproduce this.
 
-Conflicts:
-	meta/recipes-devtools/python/python-setuptools_1.4.bb
----
- .../python/python-distribute_0.6.32.bb             |    3 ++
- .../python/python-setuptools_1.4.bb                |   40 --------------------
- .../python/python3-distribute_0.6.32.bb            |    2 +
- .../packagegroups/packagegroup-toolset-native.bb   |    2 +-
- 4 files changed, 6 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-setuptools_1.4.bb
-
-diff --git a/meta/recipes-devtools/python/python-distribute_0.6.32.bb b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-index 86ac871..21af29d 100644
---- a/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-+++ b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-@@ -41,6 +41,9 @@ RDEPENDS_${PN} = "\
-   python-compression \
- "
- 
-+PROVIDES += "python-setuptools"
-+
-+
- SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
- SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
- 
-diff --git a/meta/recipes-devtools/python/python-setuptools_1.4.bb b/meta/recipes-devtools/python/python-setuptools_1.4.bb
-deleted file mode 100644
-index 4138d28..0000000
---- a/meta/recipes-devtools/python/python-setuptools_1.4.bb
-+++ /dev/null
-@@ -1,40 +0,0 @@
--SUMMARY = "Downloads, builds, installs, upgrades, and uninstalls Python packages"
--HOMEPAGE = "http://cheeseshop.python.org/pypi/setuptools"
--SECTION = "devel/python"
--LICENSE = "PSF"
--LIC_FILES_CHKSUM = "file://setup.py;beginline=107;endline=107;md5=8a314270dd7a8dbca741775415f1716e"
--
--SRCNAME = "setuptools"
--DEPENDS += "python"
--DEPENDS_class-native += "python-native"
--
--SRC_URI = "\
--  http://cheeseshop.python.org/packages/source/s/setuptools/${SRCNAME}-${PV}.tar.gz\
--"
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--inherit distutils
--
--DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
--
--do_install_prepend() {
--    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
--}
--
--RDEPENDS_${PN} = "\
--  python-stringold \
--  python-email \
--  python-shell \
--  python-distutils \
--  python-compression \
--"
--
--RDEPENDS_${PN}_class-native = "\
--  python-distutils \
--  python-compression \
--"
--
--SRC_URI[md5sum] = "5710464bc5a61d75f5087f15ce63cfe0"
--SRC_URI[sha256sum] = "75d288687066ed124311d6ca5f40ffa92a0e81adcd7fff318c6e84082713cf39"
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-index 31fc56d..79e3cfc 100644
---- a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-+++ b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-@@ -41,6 +41,8 @@ RDEPENDS_${PN} = "\
-   python3-compression \
- "
- 
-+PROVIDES += "python3-setuptools"
-+
- SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
- SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
- 
-diff --git a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-index 07d4f1d..f08cf1d 100644
---- a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-+++ b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-@@ -185,7 +185,7 @@ DEPENDS = "\
-     python-pygobject-native \
-     python-pyrex-native \
-     python-scons-native \
--    python-setuptools-native \
-+    python-distribute-native \
-     python-smartpm-native \
-     qemu-helper-native \
-     qemu-native \
--- 
-1.7.10.4
-
+If there is some other developer out there who can try this patch and
+get the same errors,that would be interesting and probably we
+will get to root of it.
 
