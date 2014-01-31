@@ -1,25 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 88BE66E987
+Return-Path: <alexandru.sardan@freescale.com>
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2lp0205.outbound.protection.outlook.com [207.46.163.205])
+	by mail.openembedded.org (Postfix) with ESMTP id 0736A6E996
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 18:07:39 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s0VI6lmS004518; Fri, 31 Jan 2014 18:07:26 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KIYRQBm9fQc1; Fri, 31 Jan 2014 18:07:26 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s0VI7GHP004539
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Fri, 31 Jan 2014 18:07:22 GMT
-Message-ID: <1391191631.28575.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
-Date: Fri, 31 Jan 2014 18:07:11 +0000
-In-Reply-To: <da5289aa6e744c99ac4cb134483cdec9@DM2PR03MB368.namprd03.prod.outlook.com>
+	Fri, 31 Jan 2014 18:17:20 +0000 (UTC)
+Received: from DM2PR03MB368.namprd03.prod.outlook.com (10.141.55.22) by
+	BN1PR03MB172.namprd03.prod.outlook.com (10.255.200.152) with Microsoft
+	SMTP Server (TLS) id 15.0.859.15; Fri, 31 Jan 2014 18:17:12 +0000
+Received: from DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) by
+	DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) with mapi id
+	15.00.0859.020; Fri, 31 Jan 2014 18:17:11 +0000
+From: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc linux
+	verses linux-gnuspe"
+Thread-Index: AQHPDhbUXOT9PA+PXESDVVjRhy4ospqCnDKAgAABToCAAZ4SAIAExmYAgAFgVoCABReK0IAACoyAgAMsSfCAAcCFgIAHP+YAgAOMSPCAAAT4gIAAAF3w
+Date: Fri, 31 Jan 2014 18:17:10 +0000
+Message-ID: <fca6c32db2694c3c9c8a3f0130a3c039@DM2PR03MB368.namprd03.prod.outlook.com>
 References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
 	<1389366908.19102.223.camel@ted> <52D3DDFB.8080803@gmail.com>
 	<1389616915.14987.4.camel@ted> <52D53A6C.30808@gmail.com>
@@ -31,8 +28,20 @@ References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
 	<1390596961.24755.21.camel@e130.pbcl.net>
 	<1390995512.24655.62.camel@ted>
 	<da5289aa6e744c99ac4cb134483cdec9@DM2PR03MB368.namprd03.prod.outlook.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	<1391191631.28575.7.camel@ted>
+In-Reply-To: <1391191631.28575.7.camel@ted>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.88.166.1]
+x-forefront-prvs: 0108A997B2
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009001)(6009001)(164054003)(377424004)(189002)(199002)(377454003)(51704005)(24454002)(13464003)(50986001)(49866001)(51856001)(81686001)(81542001)(81816001)(76482001)(74366001)(80976001)(46102001)(93136001)(47736001)(94946001)(47976001)(83322001)(19580405001)(53806001)(19580395003)(54356001)(4396001)(77982001)(59766001)(87266001)(87936001)(33646001)(85306002)(94316002)(54316002)(56776001)(81342001)(2656002)(47446002)(69226001)(74662001)(74316001)(31966008)(74706001)(74502001)(93516002)(86362001)(83072002)(79102001)(66066001)(76576001)(76786001)(76796001)(63696002)(65816001)(92566001)(74876001)(80022001)(90146001)(85852003)(56816005)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1PR03MB172;
+	H:DM2PR03MB368.namprd03.prod.outlook.com; CLIP:192.88.166.1;
+	FPR:; InfoNoRecordsMX:1; A:1; LANG:en; 
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
 Cc: "catalin.udma@freescale.com" <catalin.udma@freescale.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
@@ -49,78 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2014 18:07:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Jan 2014 18:17:22 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, 2014-01-31 at 17:53 +0000, alexandru.sardan@freescale.com wrote:
-> Hi Richard,
-> 
-> I've tested your patch for both altivec and spe and it works fine.
-
-Would you be able to put together a proper patch with the explanation
-and so on so we can get it merged and resolve this issue?
-
-Cheers,
-
-Richard
-
-> Regards,
-> Alex
-> 
-> > -----Original Message-----
-> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
-> > Sent: Wednesday, January 29, 2014 1:39 PM
-> > To: Phil Blundell
-> > Cc: Sardan Alexandru Cezar-B41700; Udma Catalin-Dan-B32721; openembedded-
-> > core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc
-> > linux verses linux-gnuspe"
-> > 
-> > On Fri, 2014-01-24 at 20:56 +0000, Phil Blundell wrote:
-> > > On Thu, 2014-01-23 at 18:22 +0000, alexandru.sardan@freescale.com
-> > wrote:
-> > > > [Alex Sardan] No. The more generic target powerpc-none-linux will not
-> > > > generate SPE code and the powerpc-none-linux-gnuspe target that
-> > generates
-> > > > SPE will not be able to generate Altivec.
-> > >
-> > > Why not?  As far as I can tell from the gcc configury, the target
-> > string
-> > > only affects the defaults (i.e. powerpc-*-linux gets -mno-spe
-> > > -mno-altivec, powerpc-*-linuxaltivec gets -maltivec -mno-spec, and
-> > > powerpc-*-linuxspe gets -mno-altivec -mspe).  There doesn't seem to be
-> > > any real impact beyond this that would make the compiler binary
-> > > fundamentally incapable of generating either type of instruction if you
-> > > pass the appropriate options on the command line.
-> > 
-> > I had a closer look at this. The config.gcc case statements for powerpc
-> > only appear to let you include rs6000/linuxaltivec.h or
-> > rs6000/linuxspe.h, there doesn't appear to be a target you can pass in
-> > to get both.
-> > 
-> > Looking at the code in those files, I don't see any reason why you can't
-> > actually include support for both however. As such, I just hacked a
-> > build with:
-> > 
-> > tm_file="${tm_file} rs6000/linuxaltivec.h"
-> > tm_file="${tm_file} rs6000/linuxspe.h rs6000/e500.h"
-> > 
-> > and it certainly seems to build ok and compile things (this was just for
-> > qemuppc). I didn't try building altivec or spe specific things but
-> > looking at the code, I can't see any reason it wouldn't work at least in
-> > theory.
-> > 
-> > I'd suggest the easiest way to resolve this may be to patch gcc to
-> > include support for all the modes.
-> > 
-> > Cheers,
-> > 
-> > Richard
-> > 
-> > 
-> 
-> 
-
-
+SGksDQoNClN1cmUsIEknbGwgZG8gdGhpcyBhbmQgYWxzbyBzb21lIG1vcmUgZXh0ZW5zaXZlIHRl
+c3RpbmcNCm9uIHRoZSBib2FyZHMuDQoNClRoYW5rcywNCkFsZXgNCg0KPiAtLS0tLU9yaWdpbmFs
+IE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVy
+ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IEZyaWRheSwgSmFudWFyeSAzMSwgMjAx
+NCA4OjA3IFBNDQo+IFRvOiBTYXJkYW4gQWxleGFuZHJ1IENlemFyLUI0MTcwMA0KPiBDYzogUGhp
+bCBCbHVuZGVsbDsgVWRtYSBDYXRhbGluLURhbi1CMzI3MjE7IG9wZW5lbWJlZGRlZC0NCj4gY29y
+ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
+XSBSZXZlcnQgImNyb3NzLWNhbmFkaWFuOiBIYW5kbGUgcG93ZXJwYw0KPiBsaW51eCB2ZXJzZXMg
+bGludXgtZ251c3BlIg0KPiANCj4gT24gRnJpLCAyMDE0LTAxLTMxIGF0IDE3OjUzICswMDAwLCBh
+bGV4YW5kcnUuc2FyZGFuQGZyZWVzY2FsZS5jb20gd3JvdGU6DQo+ID4gSGkgUmljaGFyZCwNCj4g
+Pg0KPiA+IEkndmUgdGVzdGVkIHlvdXIgcGF0Y2ggZm9yIGJvdGggYWx0aXZlYyBhbmQgc3BlIGFu
+ZCBpdCB3b3JrcyBmaW5lLg0KPiANCj4gV291bGQgeW91IGJlIGFibGUgdG8gcHV0IHRvZ2V0aGVy
+IGEgcHJvcGVyIHBhdGNoIHdpdGggdGhlIGV4cGxhbmF0aW9uDQo+IGFuZCBzbyBvbiBzbyB3ZSBj
+YW4gZ2V0IGl0IG1lcmdlZCBhbmQgcmVzb2x2ZSB0aGlzIGlzc3VlPw0KPiANCj4gQ2hlZXJzLA0K
+PiANCj4gUmljaGFyZA0KPiANCj4gPiBSZWdhcmRzLA0KPiA+IEFsZXgNCj4gPg0KPiA+ID4gLS0t
+LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIFttYWls
+dG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10NCj4gPiA+IFNlbnQ6IFdlZG5l
+c2RheSwgSmFudWFyeSAyOSwgMjAxNCAxOjM5IFBNDQo+ID4gPiBUbzogUGhpbCBCbHVuZGVsbA0K
+PiA+ID4gQ2M6IFNhcmRhbiBBbGV4YW5kcnUgQ2V6YXItQjQxNzAwOyBVZG1hIENhdGFsaW4tRGFu
+LUIzMjcyMTsNCj4gb3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnDQo+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gUmV2ZXJ0ICJjcm9zcy1j
+YW5hZGlhbjogSGFuZGxlIHBvd2VycGMNCj4gPiA+IGxpbnV4IHZlcnNlcyBsaW51eC1nbnVzcGUi
+DQo+ID4gPg0KPiA+ID4gT24gRnJpLCAyMDE0LTAxLTI0IGF0IDIwOjU2ICswMDAwLCBQaGlsIEJs
+dW5kZWxsIHdyb3RlOg0KPiA+ID4gPiBPbiBUaHUsIDIwMTQtMDEtMjMgYXQgMTg6MjIgKzAwMDAs
+IGFsZXhhbmRydS5zYXJkYW5AZnJlZXNjYWxlLmNvbQ0KPiA+ID4gd3JvdGU6DQo+ID4gPiA+ID4g
+W0FsZXggU2FyZGFuXSBOby4gVGhlIG1vcmUgZ2VuZXJpYyB0YXJnZXQgcG93ZXJwYy1ub25lLWxp
+bnV4IHdpbGwNCj4gbm90DQo+ID4gPiA+ID4gZ2VuZXJhdGUgU1BFIGNvZGUgYW5kIHRoZSBwb3dl
+cnBjLW5vbmUtbGludXgtZ251c3BlIHRhcmdldCB0aGF0DQo+ID4gPiBnZW5lcmF0ZXMNCj4gPiA+
+ID4gPiBTUEUgd2lsbCBub3QgYmUgYWJsZSB0byBnZW5lcmF0ZSBBbHRpdmVjLg0KPiA+ID4gPg0K
+PiA+ID4gPiBXaHkgbm90PyAgQXMgZmFyIGFzIEkgY2FuIHRlbGwgZnJvbSB0aGUgZ2NjIGNvbmZp
+Z3VyeSwgdGhlIHRhcmdldA0KPiA+ID4gc3RyaW5nDQo+ID4gPiA+IG9ubHkgYWZmZWN0cyB0aGUg
+ZGVmYXVsdHMgKGkuZS4gcG93ZXJwYy0qLWxpbnV4IGdldHMgLW1uby1zcGUNCj4gPiA+ID4gLW1u
+by1hbHRpdmVjLCBwb3dlcnBjLSotbGludXhhbHRpdmVjIGdldHMgLW1hbHRpdmVjIC1tbm8tc3Bl
+YywgYW5kDQo+ID4gPiA+IHBvd2VycGMtKi1saW51eHNwZSBnZXRzIC1tbm8tYWx0aXZlYyAtbXNw
+ZSkuICBUaGVyZSBkb2Vzbid0IHNlZW0gdG8NCj4gYmUNCj4gPiA+ID4gYW55IHJlYWwgaW1wYWN0
+IGJleW9uZCB0aGlzIHRoYXQgd291bGQgbWFrZSB0aGUgY29tcGlsZXIgYmluYXJ5DQo+ID4gPiA+
+IGZ1bmRhbWVudGFsbHkgaW5jYXBhYmxlIG9mIGdlbmVyYXRpbmcgZWl0aGVyIHR5cGUgb2YgaW5z
+dHJ1Y3Rpb24gaWYNCj4geW91DQo+ID4gPiA+IHBhc3MgdGhlIGFwcHJvcHJpYXRlIG9wdGlvbnMg
+b24gdGhlIGNvbW1hbmQgbGluZS4NCj4gPiA+DQo+ID4gPiBJIGhhZCBhIGNsb3NlciBsb29rIGF0
+IHRoaXMuIFRoZSBjb25maWcuZ2NjIGNhc2Ugc3RhdGVtZW50cyBmb3INCj4gcG93ZXJwYw0KPiA+
+ID4gb25seSBhcHBlYXIgdG8gbGV0IHlvdSBpbmNsdWRlIHJzNjAwMC9saW51eGFsdGl2ZWMuaCBv
+cg0KPiA+ID4gcnM2MDAwL2xpbnV4c3BlLmgsIHRoZXJlIGRvZXNuJ3QgYXBwZWFyIHRvIGJlIGEg
+dGFyZ2V0IHlvdSBjYW4gcGFzcw0KPiBpbg0KPiA+ID4gdG8gZ2V0IGJvdGguDQo+ID4gPg0KPiA+
+ID4gTG9va2luZyBhdCB0aGUgY29kZSBpbiB0aG9zZSBmaWxlcywgSSBkb24ndCBzZWUgYW55IHJl
+YXNvbiB3aHkgeW91DQo+IGNhbid0DQo+ID4gPiBhY3R1YWxseSBpbmNsdWRlIHN1cHBvcnQgZm9y
+IGJvdGggaG93ZXZlci4gQXMgc3VjaCwgSSBqdXN0IGhhY2tlZCBhDQo+ID4gPiBidWlsZCB3aXRo
+Og0KPiA+ID4NCj4gPiA+IHRtX2ZpbGU9IiR7dG1fZmlsZX0gcnM2MDAwL2xpbnV4YWx0aXZlYy5o
+Ig0KPiA+ID4gdG1fZmlsZT0iJHt0bV9maWxlfSByczYwMDAvbGludXhzcGUuaCByczYwMDAvZTUw
+MC5oIg0KPiA+ID4NCj4gPiA+IGFuZCBpdCBjZXJ0YWlubHkgc2VlbXMgdG8gYnVpbGQgb2sgYW5k
+IGNvbXBpbGUgdGhpbmdzICh0aGlzIHdhcyBqdXN0DQo+IGZvcg0KPiA+ID4gcWVtdXBwYykuIEkg
+ZGlkbid0IHRyeSBidWlsZGluZyBhbHRpdmVjIG9yIHNwZSBzcGVjaWZpYyB0aGluZ3MgYnV0DQo+
+ID4gPiBsb29raW5nIGF0IHRoZSBjb2RlLCBJIGNhbid0IHNlZSBhbnkgcmVhc29uIGl0IHdvdWxk
+bid0IHdvcmsgYXQgbGVhc3QNCj4gaW4NCj4gPiA+IHRoZW9yeS4NCj4gPiA+DQo+ID4gPiBJJ2Qg
+c3VnZ2VzdCB0aGUgZWFzaWVzdCB3YXkgdG8gcmVzb2x2ZSB0aGlzIG1heSBiZSB0byBwYXRjaCBn
+Y2MgdG8NCj4gPiA+IGluY2x1ZGUgc3VwcG9ydCBmb3IgYWxsIHRoZSBtb2Rlcy4NCj4gPiA+DQo+
+ID4gPiBDaGVlcnMsDQo+ID4gPg0KPiA+ID4gUmljaGFyZA0KPiA+ID4NCj4gPiA+DQo+ID4NCj4g
+Pg0KPiANCj4gDQo+IA0KDQo=
 
