@@ -1,51 +1,40 @@
-Return-Path: <alexandru.sardan@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2lp0205.outbound.protection.outlook.com [207.46.163.205])
-	by mail.openembedded.org (Postfix) with ESMTP id 0736A6E996
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E97B6E87D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 18:17:20 +0000 (UTC)
-Received: from DM2PR03MB368.namprd03.prod.outlook.com (10.141.55.22) by
-	BN1PR03MB172.namprd03.prod.outlook.com (10.255.200.152) with Microsoft
-	SMTP Server (TLS) id 15.0.859.15; Fri, 31 Jan 2014 18:17:12 +0000
-Received: from DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) by
-	DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) with mapi id
-	15.00.0859.020; Fri, 31 Jan 2014 18:17:11 +0000
-From: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc linux
-	verses linux-gnuspe"
-Thread-Index: AQHPDhbUXOT9PA+PXESDVVjRhy4ospqCnDKAgAABToCAAZ4SAIAExmYAgAFgVoCABReK0IAACoyAgAMsSfCAAcCFgIAHP+YAgAOMSPCAAAT4gIAAAF3w
-Date: Fri, 31 Jan 2014 18:17:10 +0000
-Message-ID: <fca6c32db2694c3c9c8a3f0130a3c039@DM2PR03MB368.namprd03.prod.outlook.com>
-References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
-	<1389366908.19102.223.camel@ted> <52D3DDFB.8080803@gmail.com>
-	<1389616915.14987.4.camel@ted> <52D53A6C.30808@gmail.com>
-	<55ea22e5d71c47f3b812e845106f2d19@DM2PR03MB368.namprd03.prod.outlook.com>
-	<1390044007.14987.151.camel@ted>
-	<3ea5b5ff002e4f98b60997229cc31300@DM2PR03MB368.namprd03.prod.outlook.com>
-	<1390326205.874.95.camel@ted>
-	<c5873e086bd941e68daa26cbcdca573e@BLUPR03MB357.namprd03.prod.outlook.com>
-	<1390596961.24755.21.camel@e130.pbcl.net>
-	<1390995512.24655.62.camel@ted>
-	<da5289aa6e744c99ac4cb134483cdec9@DM2PR03MB368.namprd03.prod.outlook.com>
-	<1391191631.28575.7.camel@ted>
-In-Reply-To: <1391191631.28575.7.camel@ted>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.88.166.1]
-x-forefront-prvs: 0108A997B2
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009001)(6009001)(164054003)(377424004)(189002)(199002)(377454003)(51704005)(24454002)(13464003)(50986001)(49866001)(51856001)(81686001)(81542001)(81816001)(76482001)(74366001)(80976001)(46102001)(93136001)(47736001)(94946001)(47976001)(83322001)(19580405001)(53806001)(19580395003)(54356001)(4396001)(77982001)(59766001)(87266001)(87936001)(33646001)(85306002)(94316002)(54316002)(56776001)(81342001)(2656002)(47446002)(69226001)(74662001)(74316001)(31966008)(74706001)(74502001)(93516002)(86362001)(83072002)(79102001)(66066001)(76576001)(76786001)(76796001)(63696002)(65816001)(92566001)(74876001)(80022001)(90146001)(85852003)(56816005)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1PR03MB172;
-	H:DM2PR03MB368.namprd03.prod.outlook.com; CLIP:192.88.166.1;
-	FPR:; InfoNoRecordsMX:1; A:1; LANG:en; 
+	Fri, 31 Jan 2014 18:46:38 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id d17so2456773eek.37
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jan 2014 10:46:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=wmkLfZoqmDoDg+PVuZOzJAyEyNXZym8jJtr8/CIuWyU=;
+	b=mmBbpnTKdHSvnoIrhMAeBwl356N0o3WgFsA/n+6MP3WF4R2tpfglo88D4K924qz7rb
+	GszmLSfWGOXj4WhLRRw7/1TYqUHRAJ1lLMWngLrAJqOtJpcSeQApo2hnpYiQpW0E6wVr
+	BUZIcKgyCZcPZtuXNWHLCvJfFykpnghLaRztHKEVe2m6gfcaSodv4/NLplCbvJmxR6Ry
+	AYNsX3+X/bCIDJIu6YgARXm/g99Xch0EDDI2FQmdHZCvxHTU/f+Gjg4Mpd+6PJT+gKbN
+	C0n7QAljEgykbyzdz9+Gc2LY+qPJvTrhxldR+15w80k5zaeROTUs09qLu4nrp53ZVdBJ
+	mxaQ==
+X-Received: by 10.14.109.71 with SMTP id r47mr4405421eeg.28.1391193998444;
+	Fri, 31 Jan 2014 10:46:38 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	o43sm40006129eef.12.2014.01.31.10.46.36
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 Jan 2014 10:46:37 -0800 (PST)
+Date: Fri, 31 Jan 2014 19:46:45 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20140131184645.GX3718@jama>
+References: <cover.1390350823.git.Martin.Jansa@gmail.com>
+	<9c945a5fa6dacd392f7b8af2367846450de8e8b2.1390350823.git.Martin.Jansa@gmail.com>
+	<20140131173800.GW3718@jama>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: "catalin.udma@freescale.com" <catalin.udma@freescale.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "cross-canadian: Handle powerpc linux verses linux-gnuspe"
+In-Reply-To: <20140131173800.GW3718@jama>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Subject: Re: [PATCH][RFC][WIP 3/6] feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,66 +47,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2014 18:17:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 31 Jan 2014 18:46:39 -0000
+X-Groupsio-MsgNum: 49739
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="6ysXqiu0yoUmUNJB"
+Content-Disposition: inline
 
-SGksDQoNClN1cmUsIEknbGwgZG8gdGhpcyBhbmQgYWxzbyBzb21lIG1vcmUgZXh0ZW5zaXZlIHRl
-c3RpbmcNCm9uIHRoZSBib2FyZHMuDQoNClRoYW5rcywNCkFsZXgNCg0KPiAtLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQucHVy
-ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IEZyaWRheSwgSmFudWFyeSAzMSwgMjAx
-NCA4OjA3IFBNDQo+IFRvOiBTYXJkYW4gQWxleGFuZHJ1IENlemFyLUI0MTcwMA0KPiBDYzogUGhp
-bCBCbHVuZGVsbDsgVWRtYSBDYXRhbGluLURhbi1CMzI3MjE7IG9wZW5lbWJlZGRlZC0NCj4gY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
-XSBSZXZlcnQgImNyb3NzLWNhbmFkaWFuOiBIYW5kbGUgcG93ZXJwYw0KPiBsaW51eCB2ZXJzZXMg
-bGludXgtZ251c3BlIg0KPiANCj4gT24gRnJpLCAyMDE0LTAxLTMxIGF0IDE3OjUzICswMDAwLCBh
-bGV4YW5kcnUuc2FyZGFuQGZyZWVzY2FsZS5jb20gd3JvdGU6DQo+ID4gSGkgUmljaGFyZCwNCj4g
-Pg0KPiA+IEkndmUgdGVzdGVkIHlvdXIgcGF0Y2ggZm9yIGJvdGggYWx0aXZlYyBhbmQgc3BlIGFu
-ZCBpdCB3b3JrcyBmaW5lLg0KPiANCj4gV291bGQgeW91IGJlIGFibGUgdG8gcHV0IHRvZ2V0aGVy
-IGEgcHJvcGVyIHBhdGNoIHdpdGggdGhlIGV4cGxhbmF0aW9uDQo+IGFuZCBzbyBvbiBzbyB3ZSBj
-YW4gZ2V0IGl0IG1lcmdlZCBhbmQgcmVzb2x2ZSB0aGlzIGlzc3VlPw0KPiANCj4gQ2hlZXJzLA0K
-PiANCj4gUmljaGFyZA0KPiANCj4gPiBSZWdhcmRzLA0KPiA+IEFsZXgNCj4gPg0KPiA+ID4gLS0t
-LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IFJpY2hhcmQgUHVyZGllIFttYWls
-dG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZ10NCj4gPiA+IFNlbnQ6IFdlZG5l
-c2RheSwgSmFudWFyeSAyOSwgMjAxNCAxOjM5IFBNDQo+ID4gPiBUbzogUGhpbCBCbHVuZGVsbA0K
-PiA+ID4gQ2M6IFNhcmRhbiBBbGV4YW5kcnUgQ2V6YXItQjQxNzAwOyBVZG1hIENhdGFsaW4tRGFu
-LUIzMjcyMTsNCj4gb3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
-b3JnDQo+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gUmV2ZXJ0ICJjcm9zcy1j
-YW5hZGlhbjogSGFuZGxlIHBvd2VycGMNCj4gPiA+IGxpbnV4IHZlcnNlcyBsaW51eC1nbnVzcGUi
-DQo+ID4gPg0KPiA+ID4gT24gRnJpLCAyMDE0LTAxLTI0IGF0IDIwOjU2ICswMDAwLCBQaGlsIEJs
-dW5kZWxsIHdyb3RlOg0KPiA+ID4gPiBPbiBUaHUsIDIwMTQtMDEtMjMgYXQgMTg6MjIgKzAwMDAs
-IGFsZXhhbmRydS5zYXJkYW5AZnJlZXNjYWxlLmNvbQ0KPiA+ID4gd3JvdGU6DQo+ID4gPiA+ID4g
-W0FsZXggU2FyZGFuXSBOby4gVGhlIG1vcmUgZ2VuZXJpYyB0YXJnZXQgcG93ZXJwYy1ub25lLWxp
-bnV4IHdpbGwNCj4gbm90DQo+ID4gPiA+ID4gZ2VuZXJhdGUgU1BFIGNvZGUgYW5kIHRoZSBwb3dl
-cnBjLW5vbmUtbGludXgtZ251c3BlIHRhcmdldCB0aGF0DQo+ID4gPiBnZW5lcmF0ZXMNCj4gPiA+
-ID4gPiBTUEUgd2lsbCBub3QgYmUgYWJsZSB0byBnZW5lcmF0ZSBBbHRpdmVjLg0KPiA+ID4gPg0K
-PiA+ID4gPiBXaHkgbm90PyAgQXMgZmFyIGFzIEkgY2FuIHRlbGwgZnJvbSB0aGUgZ2NjIGNvbmZp
-Z3VyeSwgdGhlIHRhcmdldA0KPiA+ID4gc3RyaW5nDQo+ID4gPiA+IG9ubHkgYWZmZWN0cyB0aGUg
-ZGVmYXVsdHMgKGkuZS4gcG93ZXJwYy0qLWxpbnV4IGdldHMgLW1uby1zcGUNCj4gPiA+ID4gLW1u
-by1hbHRpdmVjLCBwb3dlcnBjLSotbGludXhhbHRpdmVjIGdldHMgLW1hbHRpdmVjIC1tbm8tc3Bl
-YywgYW5kDQo+ID4gPiA+IHBvd2VycGMtKi1saW51eHNwZSBnZXRzIC1tbm8tYWx0aXZlYyAtbXNw
-ZSkuICBUaGVyZSBkb2Vzbid0IHNlZW0gdG8NCj4gYmUNCj4gPiA+ID4gYW55IHJlYWwgaW1wYWN0
-IGJleW9uZCB0aGlzIHRoYXQgd291bGQgbWFrZSB0aGUgY29tcGlsZXIgYmluYXJ5DQo+ID4gPiA+
-IGZ1bmRhbWVudGFsbHkgaW5jYXBhYmxlIG9mIGdlbmVyYXRpbmcgZWl0aGVyIHR5cGUgb2YgaW5z
-dHJ1Y3Rpb24gaWYNCj4geW91DQo+ID4gPiA+IHBhc3MgdGhlIGFwcHJvcHJpYXRlIG9wdGlvbnMg
-b24gdGhlIGNvbW1hbmQgbGluZS4NCj4gPiA+DQo+ID4gPiBJIGhhZCBhIGNsb3NlciBsb29rIGF0
-IHRoaXMuIFRoZSBjb25maWcuZ2NjIGNhc2Ugc3RhdGVtZW50cyBmb3INCj4gcG93ZXJwYw0KPiA+
-ID4gb25seSBhcHBlYXIgdG8gbGV0IHlvdSBpbmNsdWRlIHJzNjAwMC9saW51eGFsdGl2ZWMuaCBv
-cg0KPiA+ID4gcnM2MDAwL2xpbnV4c3BlLmgsIHRoZXJlIGRvZXNuJ3QgYXBwZWFyIHRvIGJlIGEg
-dGFyZ2V0IHlvdSBjYW4gcGFzcw0KPiBpbg0KPiA+ID4gdG8gZ2V0IGJvdGguDQo+ID4gPg0KPiA+
-ID4gTG9va2luZyBhdCB0aGUgY29kZSBpbiB0aG9zZSBmaWxlcywgSSBkb24ndCBzZWUgYW55IHJl
-YXNvbiB3aHkgeW91DQo+IGNhbid0DQo+ID4gPiBhY3R1YWxseSBpbmNsdWRlIHN1cHBvcnQgZm9y
-IGJvdGggaG93ZXZlci4gQXMgc3VjaCwgSSBqdXN0IGhhY2tlZCBhDQo+ID4gPiBidWlsZCB3aXRo
-Og0KPiA+ID4NCj4gPiA+IHRtX2ZpbGU9IiR7dG1fZmlsZX0gcnM2MDAwL2xpbnV4YWx0aXZlYy5o
-Ig0KPiA+ID4gdG1fZmlsZT0iJHt0bV9maWxlfSByczYwMDAvbGludXhzcGUuaCByczYwMDAvZTUw
-MC5oIg0KPiA+ID4NCj4gPiA+IGFuZCBpdCBjZXJ0YWlubHkgc2VlbXMgdG8gYnVpbGQgb2sgYW5k
-IGNvbXBpbGUgdGhpbmdzICh0aGlzIHdhcyBqdXN0DQo+IGZvcg0KPiA+ID4gcWVtdXBwYykuIEkg
-ZGlkbid0IHRyeSBidWlsZGluZyBhbHRpdmVjIG9yIHNwZSBzcGVjaWZpYyB0aGluZ3MgYnV0DQo+
-ID4gPiBsb29raW5nIGF0IHRoZSBjb2RlLCBJIGNhbid0IHNlZSBhbnkgcmVhc29uIGl0IHdvdWxk
-bid0IHdvcmsgYXQgbGVhc3QNCj4gaW4NCj4gPiA+IHRoZW9yeS4NCj4gPiA+DQo+ID4gPiBJJ2Qg
-c3VnZ2VzdCB0aGUgZWFzaWVzdCB3YXkgdG8gcmVzb2x2ZSB0aGlzIG1heSBiZSB0byBwYXRjaCBn
-Y2MgdG8NCj4gPiA+IGluY2x1ZGUgc3VwcG9ydCBmb3IgYWxsIHRoZSBtb2Rlcy4NCj4gPiA+DQo+
-ID4gPiBDaGVlcnMsDQo+ID4gPg0KPiA+ID4gUmljaGFyZA0KPiA+ID4NCj4gPiA+DQo+ID4NCj4g
-Pg0KPiANCj4gDQo+IA0KDQo=
+--6ysXqiu0yoUmUNJB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jan 31, 2014 at 06:38:00PM +0100, Martin Jansa wrote:
+> On Wed, Jan 22, 2014 at 01:36:08AM +0100, Martin Jansa wrote:
+> > * this means that recipes with ARM_INSTRUCTION_SET explicitly changed
+> >   to arm will be built in feed without thumb suffix
+> > * I'm not sure if the rest of system correctly supports different
+> >   TUNE_PKGARCHs for different recipes, this is one of the reasons why
+> >   this is WIP/RFC
+> >=20
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/conf/machine/include/arm/feature-arm-thumb.inc | 17 +++++++++++--=
+----
+> >  1 file changed, 11 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta=
+/conf/machine/include/arm/feature-arm-thumb.inc
+> > index d58c4b4..09a127a 100644
+> > --- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
+> > +++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+> > @@ -5,14 +5,19 @@
+> >  # but requires more instructions (140% for 70% smaller code) so may be
+> >  # slower.
+> >  TUNEVALID[thumb] =3D "Use thumb instructions instead of ARM"
+> > -ARM_THUMB_M_OPT =3D "${@['-marm', '-mthumb'][d.getVar('ARM_INSTRUCTION=
+_SET', True) =3D=3D 'thumb']}"
+> > -TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' ${A=
+RM_THUMB_M_OPT}', '', d)}"
+> > +ARM_THUMB_OPT =3D "${@['arm', 'thumb'][d.getVar('ARM_INSTRUCTION_SET',=
+ True) =3D=3D 'thumb']}"
+> > +ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv4', =
+ 't',  '', d)}"
+> > +ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv5', =
+ 't',  '', d)}"
+> > +ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv6', =
+ 't',  '', d)}"
+> > +ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7a',=
+ 't2', '', d)}"
+> > +ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7r',=
+ 't2', '', d)}"
+> > +ARM_THUMB_SUFFIX .=3D "${@bb.utils.contains('TUNE_FEATURES', 'armv7m',=
+ 't2', '', d)}"
+> > +
+> > +TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' -m$=
+{ARM_THUMB_OPT}', '', d)}"
+> >  OVERRIDES .=3D "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ':thumb=
+', '', d)}"
+> > =20
+> > -ARMPKGSFX_THUMB .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'armv4',=
+ 'thumb' ], 't', '', d)}"
+> > -ARMPKGSFX_THUMB .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'armv5',=
+ 'thumb' ], 't', '', d)}"
+> > -ARMPKGSFX_THUMB .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'armv6',=
+ 'thumb' ], 't', '', d)}"
+> > -ARMPKGSFX_THUMB .=3D "${@bb.utils.contains('TUNE_FEATURES', [ 'armv7a'=
+, 'thumb' ], 't2', '', d)}"
+> > +# Add suffix from ARM_THUMB_SUFFIX only if after all this we still set=
+ ARM_THUMB_OPT to thumb
+> > +ARMPKGSFX_THUMB .=3D "${@ d.getVar('ARM_THUMB_SUFFIX', True) if d.getV=
+ar('ARM_THUMB_OPT', True) =3D=3D 'thumb'] else ''}"
+>=20
+> In branch I've removed extra ']' in this line and moved this patch as
+> last in series, because it's really not ready for merge (eglibc-initial
+> fails).
+
+Ah, there was another issue in 4/6 and "arm" TUNE_FEATURE wasn't
+inherited by higher architectures, so it was correctly forcing "thumb"
+mode - that's why eglibc-initial was failing and now it isn't.
+=20
+> Any other comments before I send v2?
+>=20
+> >  # Whether to compile with code to allow interworking between the two
+> >  # instruction sets. This allows thumb code to be executed on a primari=
+ly
+> > --=20
+> > 1.8.5.3
+> >=20
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--6ysXqiu0yoUmUNJB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLr75UACgkQN1Ujt2V2gBwi6ACfXMFOVzAkunXfNDgH0BzkL20w
+NskAniFlJgKe9EMbgf7wjrRhyq7h9AGO
+=LI6r
+-----END PGP SIGNATURE-----
+
+--6ysXqiu0yoUmUNJB--
