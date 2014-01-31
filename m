@@ -1,20 +1,31 @@
-Return-Path: <marius.avram@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 244C96E988
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 95CA96E988
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 12:28:21 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 31 Jan 2014 04:28:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,757,1384329600"; d="scan'208";a="473825134"
-Received: from mavram-vostro.rb.intel.com ([10.237.105.158])
-	by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2014 04:28:20 -0800
-From: Marius Avram <marius.avram@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jan 2014 14:32:28 +0200
-Message-Id: <1391171549-22890-1-git-send-email-marius.avram@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 1/1] libpng: upgrade to 1.6.8
+	Fri, 31 Jan 2014 15:46:25 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0VFkJgB014858; Fri, 31 Jan 2014 15:46:19 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id R1dYv7Jpjl1Y; Fri, 31 Jan 2014 15:46:19 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0VFkG2x014854
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Fri, 31 Jan 2014 15:46:18 GMT
+Message-ID: <1391183171.24655.283.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: David =?ISO-8859-1?Q?Nystr=F6m?= <david.c.nystrom@gmail.com>
+Date: Fri, 31 Jan 2014 15:46:11 +0000
+In-Reply-To: <1391160604-23629-6-git-send-email-david.nystrom@enea.com>
+References: <1391160604-23629-1-git-send-email-david.nystrom@enea.com>
+	<1391160604-23629-6-git-send-email-david.nystrom@enea.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 5/5] nativesdk-packagegroup-sdk-host: Add nativesdk-nss to default inclusion in host SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,87 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2014 12:28:22 -0000
+X-List-Received-Date: Fri, 31 Jan 2014 15:46:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Note: license has not changed. MD5 sum of files changed because new
-contributors were added to LICENSE and png.h file contains the
-version of the new release.
+On Fri, 2014-01-31 at 10:30 +0100, David Nyström wrote:
+>                                                                                                                                                                                              Since shsignlibs is used from the nss postinstall hook. It should be 
+> included in nativesdk to make offline rootfs construction possible.
+> 
+> Signed-off-by: David Nyström <david.nystrom@enea.com>
+> ---
+>  meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> index 09e0aef..693437e 100644
+> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> @@ -24,6 +24,7 @@ RDEPENDS_${PN} = "\
+>      nativesdk-makedevs \
+>      nativesdk-smartpm \
+>      nativesdk-postinst-intercept \
+> +    nativesdk-nss \
+>      "
 
-Signed-off-by: Marius Avram <marius.avram@intel.com>
----
- meta/recipes-multimedia/libpng/libpng_1.6.7.bb |   27 ------------------------
- meta/recipes-multimedia/libpng/libpng_1.6.8.bb |   27 ++++++++++++++++++++++++
- 2 files changed, 27 insertions(+), 27 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.7.bb
- create mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.8.bb
+Do we really want/need to add nativesdk-nss to every sdk build? :/
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.7.bb b/meta/recipes-multimedia/libpng/libpng_1.6.7.bb
-deleted file mode 100644
-index f41b550..0000000
---- a/meta/recipes-multimedia/libpng/libpng_1.6.7.bb
-+++ /dev/null
-@@ -1,27 +0,0 @@
--SUMMARY = "PNG image format decoding library"
--HOMEPAGE = "http://www.libpng.org/"
--SECTION = "libs"
--LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=243135ddedf702158f9170807cbcfb66 \
--                    file://png.h;endline=15;md5=cb4981447519fe0bb87fbda5e8cd50be \
--                    file://png.h;beginline=209;endline=323;md5=f6b7821e0ddefaa4d71fdfa1f5a91fb7"
--DEPENDS = "zlib"
--LIBV = "16"
--
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
--           file://0001-configure-lower-automake-requirement.patch \
--          "
--
--SRC_URI[md5sum] = "7023a9eacd7b6a3eb95761a2f574d456"
--SRC_URI[sha256sum] = "13c9c853a9a600218fff9961658dc4f485ad2ef9b862315b434dd2fdbbe1f945"
--
--inherit autotools binconfig pkgconfig
--
--# Work around missing symbols
--EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
--
--PACKAGES =+ "${PN}-tools"
--
--FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.8.bb b/meta/recipes-multimedia/libpng/libpng_1.6.8.bb
-new file mode 100644
-index 0000000..d063495
---- /dev/null
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.8.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "PNG image format decoding library"
-+HOMEPAGE = "http://www.libpng.org/"
-+SECTION = "libs"
-+LICENSE = "Libpng"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=44bc22578be94b6536c8bdc3a01e5db9 \
-+                    file://png.h;endline=15;md5=aa42e53406a5ebb9500bae72fa314b6d \
-+                    file://png.h;beginline=209;endline=323;md5=83e13159b5bf0a4d9fb634acbda7cb5b"
-+DEPENDS = "zlib"
-+LIBV = "16"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
-+           file://0001-configure-lower-automake-requirement.patch \
-+          "
-+
-+SRC_URI[md5sum] = "51ce71a1642cdde1f4485a7ff82193c0"
-+SRC_URI[sha256sum] = "24f73d8b5e1d74a9482c81b65c3f93f96c7da7ed0417b8a948a75d2d99133081"
-+
-+inherit autotools binconfig pkgconfig
-+
-+# Work around missing symbols
-+EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
-+
-+PACKAGES =+ "${PN}-tools"
-+
-+FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix"
-+
-+BBCLASSEXTEND = "native nativesdk"
--- 
-1.7.9.5
+Cheers,
+
+Richard
 
 
