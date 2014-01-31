@@ -1,38 +1,20 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oa0-f47.google.com (mail-oa0-f47.google.com
-	[209.85.219.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B6C0A6E988
+Return-Path: <marius.avram@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 244C96E988
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 12:09:17 +0000 (UTC)
-Received: by mail-oa0-f47.google.com with SMTP id m1so5048331oag.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 04:09:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YUE/VqA4NBmi5cn5PuIMiCJZzGEtzqj7YWyp2E7Fmj0=;
-	b=Dnn+ZkaheKa9mZaFzCwXV2VOXwNeK1zXf+mLRkjaBDwZ4JrDB2echalEZk8DGytUOf
-	MUP1PiUHWB/pxZ+A+95PO06AHXe7MUvyky+3VnQ2qJ2fEJ3sTjb1YDngb3Fbohv+eUWW
-	OKmY1K2b4xU4Wkrx5Xm/3UsNZPRLza6vKP418dzFzzGpabNd1p4p05pMA9xQoOwH8zgo
-	LBshHHpkna3ursBb1K+BMT0+tJfuQ/vi7504pW0Lhux793JteJzpVJrVNUJMT7AH7LEf
-	0ZlSDF/t9frNnYVZb7uUl0n0qrvEt6GkZjxWOcLZg9WXNWvWxLIS5ID6gfdEqeJzJ+4U
-	yezw==
-X-Gm-Message-State: ALoCoQnfpueuMdoa9ami16aiK+8rY3Wjts5zQSoPVSlQkLbtCw8Brcwigd5qbQ4i/i9y370mHceW
-X-Received: by 10.182.18.102 with SMTP id v6mr343335obd.71.1391170158134; Fri,
-	31 Jan 2014 04:09:18 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.182.99 with HTTP; Fri, 31 Jan 2014 04:08:58 -0800 (PST)
-In-Reply-To: <cb4533215083bb4031c9bece55d526c54494e3d6.1384571787.git.Qi.Chen@windriver.com>
-References: <cover.1384571787.git.Qi.Chen@windriver.com>
-	<cb4533215083bb4031c9bece55d526c54494e3d6.1384571787.git.Qi.Chen@windriver.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Fri, 31 Jan 2014 13:08:58 +0100
-Message-ID: <CAP71WjyX_oYdQzv7uQdycQuq1tLxuNAsYAUPUm+S44z2Hg8jLw@mail.gmail.com>
-To: Qi.Chen@windriver.com, liezhi.yang@windriver.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] subversion: fix build problem when sysroot contains '-D' or '-I'
+	Fri, 31 Jan 2014 12:28:21 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jan 2014 04:28:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,757,1384329600"; d="scan'208";a="473825134"
+Received: from mavram-vostro.rb.intel.com ([10.237.105.158])
+	by fmsmga002.fm.intel.com with ESMTP; 31 Jan 2014 04:28:20 -0800
+From: Marius Avram <marius.avram@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Jan 2014 14:32:28 +0200
+Message-Id: <1391171549-22890-1-git-send-email-marius.avram@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/1] libpng: upgrade to 1.6.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,98 +27,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2014 12:09:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 31 Jan 2014 12:28:22 -0000
 
-Robert,
+Note: license has not changed. MD5 sum of files changed because new
+contributors were added to LICENSE and png.h file contains the
+version of the new release.
 
-can we get the patch below merged into dora? I just tried it, it
-applies cleanly as-is. the thing is i stumbled upon this issue on dora
-this week, and debugged it for a while to later figure out it was
-fixed in master ;-)
+Signed-off-by: Marius Avram <marius.avram@intel.com>
+---
+ meta/recipes-multimedia/libpng/libpng_1.6.7.bb |   27 ------------------------
+ meta/recipes-multimedia/libpng/libpng_1.6.8.bb |   27 ++++++++++++++++++++++++
+ 2 files changed, 27 insertions(+), 27 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.7.bb
+ create mode 100644 meta/recipes-multimedia/libpng/libpng_1.6.8.bb
 
-fwiw, you can add
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.7.bb b/meta/recipes-multimedia/libpng/libpng_1.6.7.bb
+deleted file mode 100644
+index f41b550..0000000
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.7.bb
++++ /dev/null
+@@ -1,27 +0,0 @@
+-SUMMARY = "PNG image format decoding library"
+-HOMEPAGE = "http://www.libpng.org/"
+-SECTION = "libs"
+-LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=243135ddedf702158f9170807cbcfb66 \
+-                    file://png.h;endline=15;md5=cb4981447519fe0bb87fbda5e8cd50be \
+-                    file://png.h;beginline=209;endline=323;md5=f6b7821e0ddefaa4d71fdfa1f5a91fb7"
+-DEPENDS = "zlib"
+-LIBV = "16"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
+-           file://0001-configure-lower-automake-requirement.patch \
+-          "
+-
+-SRC_URI[md5sum] = "7023a9eacd7b6a3eb95761a2f574d456"
+-SRC_URI[sha256sum] = "13c9c853a9a600218fff9961658dc4f485ad2ef9b862315b434dd2fdbbe1f945"
+-
+-inherit autotools binconfig pkgconfig
+-
+-# Work around missing symbols
+-EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
+-
+-PACKAGES =+ "${PN}-tools"
+-
+-FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.8.bb b/meta/recipes-multimedia/libpng/libpng_1.6.8.bb
+new file mode 100644
+index 0000000..d063495
+--- /dev/null
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.8.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "PNG image format decoding library"
++HOMEPAGE = "http://www.libpng.org/"
++SECTION = "libs"
++LICENSE = "Libpng"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=44bc22578be94b6536c8bdc3a01e5db9 \
++                    file://png.h;endline=15;md5=aa42e53406a5ebb9500bae72fa314b6d \
++                    file://png.h;beginline=209;endline=323;md5=83e13159b5bf0a4d9fb634acbda7cb5b"
++DEPENDS = "zlib"
++LIBV = "16"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
++           file://0001-configure-lower-automake-requirement.patch \
++          "
++
++SRC_URI[md5sum] = "51ce71a1642cdde1f4485a7ff82193c0"
++SRC_URI[sha256sum] = "24f73d8b5e1d74a9482c81b65c3f93f96c7da7ed0417b8a948a75d2d99133081"
++
++inherit autotools binconfig pkgconfig
++
++# Work around missing symbols
++EXTRA_OECONF_append_arm = " ${@bb.utils.contains("TUNE_FEATURES", "neon", "--enable-arm-neon=on", "--enable-arm-neon=off" ,d)}"
++
++PACKAGES =+ "${PN}-tools"
++
++FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+1.7.9.5
 
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-
-thanks
-
-nicolas
-
-On Sat, Nov 16, 2013 at 4:19 AM,  <Qi.Chen@windriver.com> wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> If sysroot contains '-D' or '-I' characters, the SVN_NEON_INCLUDES and
-> the corresponding CFLAGS will not get the correct value.
->
-> This will cause build failures.
->
-> This patch fixes the above problem.
->
-> [YOCTO #5458]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  .../neon.m4-fix-includes-and-cflags.patch          |   32 ++++++++++++++++++++
->  .../subversion/subversion_1.7.10.bb                |    1 +
->  2 files changed, 33 insertions(+)
->  create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
->
-> diff --git a/meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch b/meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
-> new file mode 100644
-> index 0000000..013d0c3
-> --- /dev/null
-> +++ b/meta/recipes-devtools/subversion/subversion-1.7.10/neon.m4-fix-includes-and-cflags.patch
-> @@ -0,0 +1,32 @@
-> +Fix to get correct SVN_NEON_CONFIG and CFLAGS when sysroot path contains '-D' and '-I'
-> +characters.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> +
-> +index f951039..a813145 100644
-> +--- a/build/ac-macros/neon.m4
-> ++++ b/build/ac-macros/neon.m4
-> +@@ -105,8 +105,8 @@ AC_DEFUN(SVN_NEON_CONFIG,
-> +            test "$svn_allowed_neon" = "any"; then
-> +             svn_allowed_neon_on_system="yes"
-> +             if test "$NEON_PKG_CONFIG" = "yes"; then
-> +-              SVN_NEON_INCLUDES=[`$PKG_CONFIG neon --cflags | $SED -e 's/-D[^ ]*//g'`]
-> +-              CFLAGS=["$CFLAGS `$PKG_CONFIG neon --cflags | $SED -e 's/-I[^ ]*//g'`"]
-> ++              SVN_NEON_INCLUDES=["`$PKG_CONFIG neon --cflags | $SED -e 's/^-D[^ ]*//g' -e 's/ -D[^ ]*//g'`"]
-> ++              CFLAGS=["$CFLAGS `$PKG_CONFIG neon --cflags | $SED -e 's/^-I[^ ]*//g' -e 's/ -I[^ ]*//g'`"]
-> +               old_CFLAGS="$CFLAGS"
-> +               old_LIBS="$LIBS"
-> +               NEON_LIBS=`$PKG_CONFIG neon --libs`
-> +@@ -126,8 +126,8 @@ int main()
-> +               CFLAGS="$old_CFLAGS"
-> +               LIBS="$old_LIBS"
-> +             else
-> +-              SVN_NEON_INCLUDES=[`$neon_config --cflags | $SED -e 's/-D[^ ]*//g'`]
-> +-              CFLAGS=["$CFLAGS `$neon_config --cflags | $SED -e 's/-I[^ ]*//g'`"]
-> ++              SVN_NEON_INCLUDES=[`$neon_config --cflags | $SED -e 's/^-D[^ ]*//g' -e 's/ -D[^ ]*//g'`]
-> ++              CFLAGS=["$CFLAGS `$neon_config --cflags | $SED -e 's/^-I[^ ]*//g' -e 's/ -I[^ ]*//g'`"]
-> +               NEON_LIBS=`$neon_config --libs`
-> +             fi
-> +             svn_lib_neon="yes"
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.7.10.bb b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-> index 4acd70b..489bddf 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-> @@ -13,6 +13,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://libtool2.patch \
->             file://fix-install-depends.patch \
->             file://allow-updated-neon.patch \
-> +           file://neon.m4-fix-includes-and-cflags.patch \
->  "
->  SRC_URI[md5sum] = "4088a77e14232876c9b4ff1541e6e200"
->  SRC_URI[sha256sum] = "c1df222bec83d014d17785e2ceba6bc80962f64b280967de0285836d8d77a8e7"
-> --
-> 1.7.9.5
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
