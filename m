@@ -1,38 +1,40 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id AEBB16E9BC
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id E69966EABF
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 31 Jan 2014 09:30:15 +0000 (UTC)
-Received: by mail-lb0-f169.google.com with SMTP id q8so3298276lbi.0
+Received: by mail-la0-f47.google.com with SMTP id hr17so3231298lab.6
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 31 Jan 2014 01:30:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=BGjthHdyUu5H81ufQUzP4Hu8hG6mtI/eTp/q3RliHxA=;
-	b=hjfePGaBCYFL/rOCa6y8UhXavwtxJLJ4ygYUTISUpBQzYScXlCYNNgD0Un8SrGfd3r
-	IiGKDfU+WiiGdVtjbpH/BFk1oMKpHhl/yfGU9qqx3XVFobxJ7klCH51sC9g5yACodDpf
-	aXNC/8R/DiKSffsuii6mlHaho6Rb8kSJKQhW6SY8FVCb4Ot5K+KLQs1mkOyw32xmcA7k
-	DoG5/zhRy6Nfrq7m501Vmm00687/qM5Smwfc46175e/QU0lbjH8SbcbW9GCojURKDo3C
-	VoSS+KQKw/HyPJhV8L8YPsBnhMC6xxAEKeIX0hMjvhcHXjTTdXB3h9LAu4UJJR69y1gE
-	7sog==
-X-Received: by 10.112.234.194 with SMTP id ug2mr24360lbc.86.1391160615934;
-	Fri, 31 Jan 2014 01:30:15 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=Q8Bhp5ZVY95PgBhjmizcyiTJCebB7eECG5a8CWS0WEs=;
+	b=Y2UOx4RNRptgpnBqdANt3vg0Bhz5/sEHDb7hkXea8kYKv/6a/CnMR1lfAZiDvh5ChM
+	1faxP0wfPYgH8FUexVbg7aXyYCuVm4rQrjh6Dr+CeEYKbcD+B1zB2fjoXQXlOl4ePOr8
+	W/Vnqu9TJJDw9RIgcKEDDbWQ2uUWI5QvmNFk+OeOWDmG0Xiaw6kdEAF2M461Nzh1ryvA
+	qU/zwvQyC+t6nQeSQuRsWrJERMWdGeIgfFPesPq19oqFyndQOge0O8HMPjQgjILKvjr3
+	VuAt5el0t/Evk0LMSeWJ4WAUoiNjx82e/guOnhdvP6Crpun8krHmMjjYEOCYQRWgnJoJ
+	QqCw==
+X-Received: by 10.112.133.3 with SMTP id oy3mr118426lbb.63.1391160616297;
+	Fri, 31 Jan 2014 01:30:16 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id rt7sm9529175lbb.0.2014.01.31.01.30.13
+	by mx.google.com with ESMTPSA id th3sm9511364lbb.11.2014.01.31.01.30.14
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
 	Fri, 31 Jan 2014 01:30:14 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id 670391C601B; Fri, 31 Jan 2014 10:30:08 +0100 (CET)
+	id 6D9E11C6022; Fri, 31 Jan 2014 10:30:08 +0100 (CET)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jan 2014 10:29:59 +0100
-Message-Id: <1391160604-23629-1-git-send-email-david.nystrom@enea.com>
+Date: Fri, 31 Jan 2014 10:30:02 +0100
+Message-Id: <1391160604-23629-4-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1391160604-23629-1-git-send-email-david.nystrom@enea.com>
+References: <1391160604-23629-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-Subject: [PATCHv2 0/5] Final patches for SDK rootfs creation.
+Subject: [PATCHv2 3/5] nspr: Added nativesdk to BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,26 +51,25 @@ X-List-Received-Date: Fri, 31 Jan 2014 09:30:16 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-With this pathset, All postinstall dependencies from oe-core will be 
-available in the nativeSDK tarball.
+nspr is a dependency of nss. Since shsignlibs is used
+from the nss postinstall hook. It should be included in 
+nativesdk to make offline rootfs construction possible. 
 
-David Nyström (5):
-  postinst-intercept: New recipe to include postinstall intercepts in
-    nativesdk
-  nativesdk-packagegroup-sdk-host: Adding nativesdk-postinst-intercept
-    to SDK
-  nspr: Added nativesdk to BBCLASSEXTEND
-  nss: Add nativesdk to BBCLASSEXTEND and bugfix
-  nativesdk-packagegroup-sdk-host: Add nativesdk-nss to default
-    inclusion in host SDK
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ meta/recipes-support/nspr/nspr_4.10.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .../packagegroups/nativesdk-packagegroup-sdk-host.bb  |  2 ++
- .../postinst-intercept/postinst-intercept_1.0.bb      | 19 +++++++++++++++++++
- meta/recipes-support/nspr/nspr_4.10.2.bb              |  2 +-
- meta/recipes-support/nss/nss.inc                      | 11 ++++++++++-
- 4 files changed, 32 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/postinst-intercept/postinst-intercept_1.0.bb
-
+diff --git a/meta/recipes-support/nspr/nspr_4.10.2.bb b/meta/recipes-support/nspr/nspr_4.10.2.bb
+index 4db506c..bb8912e 100644
+--- a/meta/recipes-support/nspr/nspr_4.10.2.bb
++++ b/meta/recipes-support/nspr/nspr_4.10.2.bb
+@@ -175,4 +175,4 @@ FILES_${PN}-dev = "${bindir}/* ${libdir}/nspr/tests/* ${libdir}/pkgconfig \
+                 ${includedir}/* ${datadir}/aclocal/* "
+ FILES_${PN}-dbg += "${libdir}/nspr/tests/.debug/*"
+ 
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 1.8.3.2
 
