@@ -1,40 +1,23 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 448746EABF
+Return-Path: <holger@moiji-mobile.com>
+Received: from mail.sysmocom.de (mail.sysmocom.de [144.76.43.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D3DED6E98A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 09:30:17 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id u14so3278776lbd.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 01:30:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=x9TeOSmLegSxTrUlVN6u8bNXvh0lJ3H2p+6uGta5imo=;
-	b=H4jAi9Id8V1+v0FFYENfLt8dg9bz7lJZzkmJ+dGXvszOtpcxE0WRasz+BuTTV1xDv9
-	/RhVuTjN0Gqr94+a8F5blhxxEE+gUHzOcnfTex5/eVnERQi6XwjYMfscvxcAT+iTWFm2
-	iF1E8yq686AT5sqRiccPqQ27cDthFXx4FyF6QgkDIaVdsmJIomPrB+ZA9u7gKuDjmpoj
-	+DwNjebne6n/YyhNSe+4ArF+yizDewHLBwtYBIw6v+BNYlJFSTWCILEWwSR+HxCKHTJe
-	8i9HTEf9OJberw/RKD/XBCcp47koUkRpdvXLWytiUkNLdCUHi/n7+SlG5i4iobFP9PyZ
-	EXUw==
-X-Received: by 10.112.126.164 with SMTP id mz4mr514300lbb.52.1391160617520;
-	Fri, 31 Jan 2014 01:30:17 -0800 (PST)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id z3sm13219216lag.10.2014.01.31.01.30.16
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 31 Jan 2014 01:30:16 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id 775AD1C6026; Fri, 31 Jan 2014 10:30:08 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+	Fri, 31 Jan 2014 09:45:57 +0000 (UTC)
+Received: from sangmingze-mail.local (p5099b351.dip0.t-ipconnect.de
+	[80.153.179.81])
+	by mail.sysmocom.de (Postfix) with ESMTPSA id 2F459410CD;
+	Fri, 31 Jan 2014 09:45:54 +0000 (UTC)
+Received: from localhost ([127.0.0.1] helo=xiaoyu.lan)
+	by sangmingze-mail.local with esmtp (Exim 4.82)
+	(envelope-from <holger@moiji-mobile.com>)
+	id 1W9AfT-0006gr-A9; Fri, 31 Jan 2014 10:45:47 +0100
+From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jan 2014 10:30:04 +0100
-Message-Id: <1391160604-23629-6-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1391160604-23629-1-git-send-email-david.nystrom@enea.com>
-References: <1391160604-23629-1-git-send-email-david.nystrom@enea.com>
-MIME-Version: 1.0
-Subject: [PATCHv2 5/5] nativesdk-packagegroup-sdk-host: Add nativesdk-nss to default inclusion in host SDK
+Date: Fri, 31 Jan 2014 10:45:17 +0100
+Message-Id: <1391161517-25628-1-git-send-email-holger@moiji-mobile.com>
+X-Mailer: git-send-email 1.8.5.2
+Cc: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+Subject: [PATCH] gcc: Include patch scheduled for GCC 4.8.3 to fix epilogue on ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +30,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2014 09:30:18 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 Jan 2014 09:45:58 -0000
 
-                                                                                                                                                                                             
-Since shsignlibs is used from the nss postinstall hook. It should be 
-included in nativesdk to make offline rootfs construction possible.
+GCC 4.8.0, 4.8.1 and 4.8.2 can generate broken epilogues for the
+ABI used by the kernel. Apply the patch that is included for GCC
+4.8.3 from http://gcc.gnu.org/bugzilla/show_bug.cgi?id=58854.
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
+The issue was found on Yocto/Dora and the patch should be backported
+to this branch. A kernel built with Dora's GCC 4.8.1 misbehaved on:
+
+ while true;
+ do
+    (for i in `seq 1 100`;
+        do
+            echo "Log message... $RANDOM";
+        done) | logger;
+ done
+
+busybox's syslogd would from time to read a huge negative value and
+then exit, strace would get stuck waiting on a syscall. After this
+patch it appears to work better.
+
+Signed-off-by: Holger Hans Peter Freyther <holger@moiji-mobile.com>
 ---
- meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |  1 +
+ .../0048-PR58854_fix_arm_apcs_epilogue.patch       | 23 ++++++++++++++++++++++
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0048-PR58854_fix_arm_apcs_epilogue.patch
 
-diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-index 09e0aef..693437e 100644
---- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-+++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-@@ -24,6 +24,7 @@ RDEPENDS_${PN} = "\
-     nativesdk-makedevs \
-     nativesdk-smartpm \
-     nativesdk-postinst-intercept \
-+    nativesdk-nss \
-     "
- 
- RDEPENDS_${PN}_darwin = "\
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index a140573..fdd0c12 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -68,6 +68,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
+ 	   file://0046-libatomic-deptracking.patch \
+ 	   file://0047-repomembug.patch \
++	   file://0048-PR58854_fix_arm_apcs_epilogue.patch \
+ 	  "
+ SRC_URI[md5sum] = "a3d7d63b9cb6b6ea049469a0c4a43c9d"
+ SRC_URI[sha256sum] = "09dc2276c73424bbbfda1dbddc62bbbf900c9f185acf7f3e1d773ce2d7e3cdc8"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0048-PR58854_fix_arm_apcs_epilogue.patch b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR58854_fix_arm_apcs_epilogue.patch
+new file mode 100644
+index 0000000..0ef245a
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0048-PR58854_fix_arm_apcs_epilogue.patch
+@@ -0,0 +1,23 @@
++Backport fix for PR target/58854
++
++2013-11-11  Ramana Radhakrishnan  <ramana.radhakrishnan@arm.com>
++
++       Backported from mainline
++        2013-10-30  Ramana Radhakrishnan  <ramana.radhakrishnan@arm.com>
++
++       PR target/58854
++       * config/arm/arm.c (arm_expand_epilogue_apcs_frame): Emit blockage
++
++
++Upstream-Status: Backport
++
++--- gcc-4_8-branch/gcc/config/arm/arm.c	2013/11/11 08:00:45	204664
+++++ gcc-4_8-branch/gcc/config/arm/arm.c	2013/11/11 09:38:14	204665
++@@ -23555,6 +23555,7 @@
++   num_regs = bit_count (saved_regs_mask);
++   if ((offsets->outgoing_args != (1 + num_regs)) || cfun->calls_alloca)
++     {
+++      emit_insn (gen_blockage ());
++       /* Unwind the stack to just below the saved registers.  */
++       emit_insn (gen_addsi3 (stack_pointer_rtx,
++                              hard_frame_pointer_rtx,
 -- 
-1.8.3.2
+1.8.5.2
 
 
