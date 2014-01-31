@@ -1,16 +1,20 @@
-Return-Path: <tobias@techne.local>
-Received: from techne.local (unknown [62.63.211.71])
-	by mail.openembedded.org (Postfix) with ESMTP id 432F96E988
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 49D9B6E8EC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 16:14:38 +0000 (UTC)
-Received: by techne.local (Postfix, from userid 501)
-	id 76C29B7C5F8; Fri, 31 Jan 2014 17:14:37 +0100 (CET)
-From: Tobias Blom <tobias.blom@techne-dev.se>
+	Fri, 31 Jan 2014 17:05:36 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Jan 2014 09:05:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,758,1384329600"; d="scan'208";a="467886822"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Jan 2014 09:04:47 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jan 2014 17:14:35 +0100
-Message-Id: <1391184875-7463-1-git-send-email-tobias.blom@techne-dev.se>
-X-Mailer: git-send-email 1.8.3.4 (Apple Git-47)
-Subject: [meta-oe][PATCH] apmd.service: Fix typo (not mandatory EnvironmentFile prefix)
+Date: Fri, 31 Jan 2014 19:07:36 +0200
+Message-Id: <cover.1391188004.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/1] Fix for YB5781
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,27 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2014 16:14:38 -0000
+X-List-Received-Date: Fri, 31 Jan 2014 17:05:36 -0000
 
-Prefix to EnvironmentFile should be preciding the filenamn.
+The following changes since commit d93620baea489c9b20f740c0d06dcb39cf364ecb:
 
-Signed-off-by: Tobias Blom <tobias.blom@techne-dev.se>
----
- meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  bitbake: runqueue: Fix race against tasks sharing stamp files (2014-01-31 15:52:17 +0000)
 
-diff --git a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
-index 62d6af1..ffab823 100644
---- a/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
-+++ b/meta/recipes-bsp/apmd/apmd-3.2.2-14/apmd.service
-@@ -3,5 +3,5 @@ Description=Advanced Power Management daemon
- After=remote-fs.target
- 
- [Service]
--EnvironmentFile-= @SYSCONFDIR@/default/apmd
-+EnvironmentFile=-@SYSCONFDIR@/default/apmd
- ExecStart=@SBINDIR@/apmd -P @SYSCONFDIR@/apm/apmd_proxy $APMD
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/YB5781
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB5781
+
+Cristian Iorga (1):
+  minicom: fix for multilib and x32 build crash
+
+ meta/recipes-extended/minicom/minicom_2.7.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
 -- 
-1.8.3.4 (Apple Git-47)
+1.8.3.2
 
 
