@@ -1,23 +1,25 @@
-Return-Path: <alexandru.sardan@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2lp0206.outbound.protection.outlook.com [207.46.163.206])
-	by mail.openembedded.org (Postfix) with ESMTP id A06436E8EC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 88BE66E987
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2014 17:53:48 +0000 (UTC)
-Received: from DM2PR03MB368.namprd03.prod.outlook.com (10.141.55.22) by
-	BLUPR03MB166.namprd03.prod.outlook.com (10.255.212.142) with Microsoft
-	SMTP Server (TLS) id 15.0.868.8; Fri, 31 Jan 2014 17:53:34 +0000
-Received: from DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) by
-	DM2PR03MB368.namprd03.prod.outlook.com ([10.141.55.22]) with mapi id
-	15.00.0859.020; Fri, 31 Jan 2014 17:53:34 +0000
-From: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Phil Blundell
-	<pb@pbcl.net>
-Thread-Topic: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc linux
-	verses linux-gnuspe"
-Thread-Index: AQHPDhbUXOT9PA+PXESDVVjRhy4ospqCnDKAgAABToCAAZ4SAIAExmYAgAFgVoCABReK0IAACoyAgAMsSfCAAcCFgIAHP+YAgAOMSPA=
-Date: Fri, 31 Jan 2014 17:53:33 +0000
-Message-ID: <da5289aa6e744c99ac4cb134483cdec9@DM2PR03MB368.namprd03.prod.outlook.com>
+	Fri, 31 Jan 2014 18:07:39 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s0VI6lmS004518; Fri, 31 Jan 2014 18:07:26 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KIYRQBm9fQc1; Fri, 31 Jan 2014 18:07:26 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s0VI7GHP004539
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Fri, 31 Jan 2014 18:07:22 GMT
+Message-ID: <1391191631.28575.7.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>
+Date: Fri, 31 Jan 2014 18:07:11 +0000
+In-Reply-To: <da5289aa6e744c99ac4cb134483cdec9@DM2PR03MB368.namprd03.prod.outlook.com>
 References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
 	<1389366908.19102.223.camel@ted> <52D3DDFB.8080803@gmail.com>
 	<1389616915.14987.4.camel@ted> <52D53A6C.30808@gmail.com>
@@ -28,20 +30,9 @@ References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>
 	<c5873e086bd941e68daa26cbcdca573e@BLUPR03MB357.namprd03.prod.outlook.com>
 	<1390596961.24755.21.camel@e130.pbcl.net>
 	<1390995512.24655.62.camel@ted>
-In-Reply-To: <1390995512.24655.62.camel@ted>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.88.166.1]
-x-forefront-prvs: 0108A997B2
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009001)(6009001)(51704005)(377454003)(24454002)(199002)(189002)(13464003)(377424004)(74662001)(80976001)(54356001)(54316002)(87266001)(53806001)(66066001)(59766001)(94316002)(79102001)(80022001)(69226001)(63696002)(65816001)(92566001)(74502001)(81816001)(2656002)(85306002)(56776001)(81686001)(31966008)(47446002)(76482001)(87936001)(85852003)(90146001)(56816005)(83072002)(47736001)(49866001)(47976001)(51856001)(77982001)(74706001)(86362001)(19580395003)(19580405001)(83322001)(81342001)(93516002)(74366001)(33646001)(74316001)(81542001)(76786001)(76576001)(46102001)(76796001)(4396001)(93136001)(74876001)(50986001)(94946001)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BLUPR03MB166;
-	H:DM2PR03MB368.namprd03.prod.outlook.com; CLIP:192.88.166.1;
-	FPR:EAC8C5C6.A62A96EA.32E1DD7B.C2EDD960.20341; InfoNoRecordsA:1;
-	MX:1; LANG:en; 
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
+	<da5289aa6e744c99ac4cb134483cdec9@DM2PR03MB368.namprd03.prod.outlook.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: "catalin.udma@freescale.com" <catalin.udma@freescale.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
@@ -58,48 +49,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2014 17:53:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 31 Jan 2014 18:07:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-SGkgUmljaGFyZCwNCg0KSSd2ZSB0ZXN0ZWQgeW91ciBwYXRjaCBmb3IgYm90aCBhbHRpdmVjIGFu
-ZCBzcGUgYW5kIGl0IHdvcmtzIGZpbmUuDQoNClJlZ2FyZHMsDQpBbGV4DQoNCj4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUmljaGFyZCBQdXJkaWUgW21haWx0bzpyaWNoYXJk
-LnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXQ0KPiBTZW50OiBXZWRuZXNkYXksIEphbnVhcnkg
-MjksIDIwMTQgMTozOSBQTQ0KPiBUbzogUGhpbCBCbHVuZGVsbA0KPiBDYzogU2FyZGFuIEFsZXhh
-bmRydSBDZXphci1CNDE3MDA7IFVkbWEgQ2F0YWxpbi1EYW4tQjMyNzIxOyBvcGVuZW1iZWRkZWQt
-DQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVd
-IFtQQVRDSF0gUmV2ZXJ0ICJjcm9zcy1jYW5hZGlhbjogSGFuZGxlIHBvd2VycGMNCj4gbGludXgg
-dmVyc2VzIGxpbnV4LWdudXNwZSINCj4gDQo+IE9uIEZyaSwgMjAxNC0wMS0yNCBhdCAyMDo1NiAr
-MDAwMCwgUGhpbCBCbHVuZGVsbCB3cm90ZToNCj4gPiBPbiBUaHUsIDIwMTQtMDEtMjMgYXQgMTg6
-MjIgKzAwMDAsIGFsZXhhbmRydS5zYXJkYW5AZnJlZXNjYWxlLmNvbQ0KPiB3cm90ZToNCj4gPiA+
-IFtBbGV4IFNhcmRhbl0gTm8uIFRoZSBtb3JlIGdlbmVyaWMgdGFyZ2V0IHBvd2VycGMtbm9uZS1s
-aW51eCB3aWxsIG5vdA0KPiA+ID4gZ2VuZXJhdGUgU1BFIGNvZGUgYW5kIHRoZSBwb3dlcnBjLW5v
-bmUtbGludXgtZ251c3BlIHRhcmdldCB0aGF0DQo+IGdlbmVyYXRlcw0KPiA+ID4gU1BFIHdpbGwg
-bm90IGJlIGFibGUgdG8gZ2VuZXJhdGUgQWx0aXZlYy4NCj4gPg0KPiA+IFdoeSBub3Q/ICBBcyBm
-YXIgYXMgSSBjYW4gdGVsbCBmcm9tIHRoZSBnY2MgY29uZmlndXJ5LCB0aGUgdGFyZ2V0DQo+IHN0
-cmluZw0KPiA+IG9ubHkgYWZmZWN0cyB0aGUgZGVmYXVsdHMgKGkuZS4gcG93ZXJwYy0qLWxpbnV4
-IGdldHMgLW1uby1zcGUNCj4gPiAtbW5vLWFsdGl2ZWMsIHBvd2VycGMtKi1saW51eGFsdGl2ZWMg
-Z2V0cyAtbWFsdGl2ZWMgLW1uby1zcGVjLCBhbmQNCj4gPiBwb3dlcnBjLSotbGludXhzcGUgZ2V0
-cyAtbW5vLWFsdGl2ZWMgLW1zcGUpLiAgVGhlcmUgZG9lc24ndCBzZWVtIHRvIGJlDQo+ID4gYW55
-IHJlYWwgaW1wYWN0IGJleW9uZCB0aGlzIHRoYXQgd291bGQgbWFrZSB0aGUgY29tcGlsZXIgYmlu
-YXJ5DQo+ID4gZnVuZGFtZW50YWxseSBpbmNhcGFibGUgb2YgZ2VuZXJhdGluZyBlaXRoZXIgdHlw
-ZSBvZiBpbnN0cnVjdGlvbiBpZiB5b3UNCj4gPiBwYXNzIHRoZSBhcHByb3ByaWF0ZSBvcHRpb25z
-IG9uIHRoZSBjb21tYW5kIGxpbmUuDQo+IA0KPiBJIGhhZCBhIGNsb3NlciBsb29rIGF0IHRoaXMu
-IFRoZSBjb25maWcuZ2NjIGNhc2Ugc3RhdGVtZW50cyBmb3IgcG93ZXJwYw0KPiBvbmx5IGFwcGVh
-ciB0byBsZXQgeW91IGluY2x1ZGUgcnM2MDAwL2xpbnV4YWx0aXZlYy5oIG9yDQo+IHJzNjAwMC9s
-aW51eHNwZS5oLCB0aGVyZSBkb2Vzbid0IGFwcGVhciB0byBiZSBhIHRhcmdldCB5b3UgY2FuIHBh
-c3MgaW4NCj4gdG8gZ2V0IGJvdGguDQo+IA0KPiBMb29raW5nIGF0IHRoZSBjb2RlIGluIHRob3Nl
-IGZpbGVzLCBJIGRvbid0IHNlZSBhbnkgcmVhc29uIHdoeSB5b3UgY2FuJ3QNCj4gYWN0dWFsbHkg
-aW5jbHVkZSBzdXBwb3J0IGZvciBib3RoIGhvd2V2ZXIuIEFzIHN1Y2gsIEkganVzdCBoYWNrZWQg
-YQ0KPiBidWlsZCB3aXRoOg0KPiANCj4gdG1fZmlsZT0iJHt0bV9maWxlfSByczYwMDAvbGludXhh
-bHRpdmVjLmgiDQo+IHRtX2ZpbGU9IiR7dG1fZmlsZX0gcnM2MDAwL2xpbnV4c3BlLmggcnM2MDAw
-L2U1MDAuaCINCj4gDQo+IGFuZCBpdCBjZXJ0YWlubHkgc2VlbXMgdG8gYnVpbGQgb2sgYW5kIGNv
-bXBpbGUgdGhpbmdzICh0aGlzIHdhcyBqdXN0IGZvcg0KPiBxZW11cHBjKS4gSSBkaWRuJ3QgdHJ5
-IGJ1aWxkaW5nIGFsdGl2ZWMgb3Igc3BlIHNwZWNpZmljIHRoaW5ncyBidXQNCj4gbG9va2luZyBh
-dCB0aGUgY29kZSwgSSBjYW4ndCBzZWUgYW55IHJlYXNvbiBpdCB3b3VsZG4ndCB3b3JrIGF0IGxl
-YXN0IGluDQo+IHRoZW9yeS4NCj4gDQo+IEknZCBzdWdnZXN0IHRoZSBlYXNpZXN0IHdheSB0byBy
-ZXNvbHZlIHRoaXMgbWF5IGJlIHRvIHBhdGNoIGdjYyB0bw0KPiBpbmNsdWRlIHN1cHBvcnQgZm9y
-IGFsbCB0aGUgbW9kZXMuDQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQo+IA0KPiANCg0K
+On Fri, 2014-01-31 at 17:53 +0000, alexandru.sardan@freescale.com wrote:
+> Hi Richard,
+> 
+> I've tested your patch for both altivec and spe and it works fine.
+
+Would you be able to put together a proper patch with the explanation
+and so on so we can get it merged and resolve this issue?
+
+Cheers,
+
+Richard
+
+> Regards,
+> Alex
+> 
+> > -----Original Message-----
+> > From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+> > Sent: Wednesday, January 29, 2014 1:39 PM
+> > To: Phil Blundell
+> > Cc: Sardan Alexandru Cezar-B41700; Udma Catalin-Dan-B32721; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] Revert "cross-canadian: Handle powerpc
+> > linux verses linux-gnuspe"
+> > 
+> > On Fri, 2014-01-24 at 20:56 +0000, Phil Blundell wrote:
+> > > On Thu, 2014-01-23 at 18:22 +0000, alexandru.sardan@freescale.com
+> > wrote:
+> > > > [Alex Sardan] No. The more generic target powerpc-none-linux will not
+> > > > generate SPE code and the powerpc-none-linux-gnuspe target that
+> > generates
+> > > > SPE will not be able to generate Altivec.
+> > >
+> > > Why not?  As far as I can tell from the gcc configury, the target
+> > string
+> > > only affects the defaults (i.e. powerpc-*-linux gets -mno-spe
+> > > -mno-altivec, powerpc-*-linuxaltivec gets -maltivec -mno-spec, and
+> > > powerpc-*-linuxspe gets -mno-altivec -mspe).  There doesn't seem to be
+> > > any real impact beyond this that would make the compiler binary
+> > > fundamentally incapable of generating either type of instruction if you
+> > > pass the appropriate options on the command line.
+> > 
+> > I had a closer look at this. The config.gcc case statements for powerpc
+> > only appear to let you include rs6000/linuxaltivec.h or
+> > rs6000/linuxspe.h, there doesn't appear to be a target you can pass in
+> > to get both.
+> > 
+> > Looking at the code in those files, I don't see any reason why you can't
+> > actually include support for both however. As such, I just hacked a
+> > build with:
+> > 
+> > tm_file="${tm_file} rs6000/linuxaltivec.h"
+> > tm_file="${tm_file} rs6000/linuxspe.h rs6000/e500.h"
+> > 
+> > and it certainly seems to build ok and compile things (this was just for
+> > qemuppc). I didn't try building altivec or spe specific things but
+> > looking at the code, I can't see any reason it wouldn't work at least in
+> > theory.
+> > 
+> > I'd suggest the easiest way to resolve this may be to patch gcc to
+> > include support for all the modes.
+> > 
+> > Cheers,
+> > 
+> > Richard
+> > 
+> > 
+> 
+> 
+
+
 
