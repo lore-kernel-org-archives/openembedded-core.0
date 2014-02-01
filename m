@@ -1,31 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C2E76E9AC
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Feb 2014 11:42:40 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s11BgQMl023765; Sat, 1 Feb 2014 11:42:27 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id pfWKcI65N66Y; Sat,  1 Feb 2014 11:42:26 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s11BgMMt023761
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Sat, 1 Feb 2014 11:42:24 GMT
-Message-ID: <1391254936.28575.26.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chong Lu <Chong.Lu@windriver.com>
-Date: Sat, 01 Feb 2014 11:42:16 +0000
-In-Reply-To: <31bde1f3800810ad5898b52ab8b59e6b8502a180.1390722297.git.Chong.Lu@windriver.com>
-References: <cover.1390722297.git.Chong.Lu@windriver.com>
-	<31bde1f3800810ad5898b52ab8b59e6b8502a180.1390722297.git.Chong.Lu@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "saul.wold" <saul.wold@intel.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 1/1] acl: enable ptest support
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D08A6E9A3
+	for <Openembedded-core@lists.openembedded.org>;
+	Sat,  1 Feb 2014 14:00:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s11E0VwQ027414
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 1 Feb 2014 06:00:31 -0800 (PST)
+Received: from [172.25.32.41] (172.25.32.41) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Sat, 1 Feb 2014 06:00:31 -0800
+Message-ID: <52ECFDFE.90302@windriver.com>
+Date: Sat, 1 Feb 2014 08:00:30 -0600
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1390487566-13569-1-git-send-email-jason.wessel@windriver.com>	
+	<1390487566-13569-2-git-send-email-jason.wessel@windriver.com>
+	<1391246532.28575.23.camel@ted>
+In-Reply-To: <1391246532.28575.23.camel@ted>
+X-Enigmail-Version: 1.6
+Cc: "saul.wold" <saul.wold@intel.com>, Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/6] unfs3: Add a NFSv3 user mode server for use with runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,72 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Feb 2014 11:42:43 -0000
+X-List-Received-Date: Sat, 01 Feb 2014 14:00:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2014-01-26 at 15:50 +0800, Chong Lu wrote:
-> Install acl test suite and run it as ptest.
-> nfs test cases need depend on nfs service. So exclude them order to
-> make ptest all pass.
-> 
-> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-> ---
->  meta/recipes-support/attr/acl.inc       | 14 +++++++++++++-
->  meta/recipes-support/attr/acl/run-ptest |  7 +++++++
->  2 files changed, 20 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-support/attr/acl/run-ptest
-> 
-> diff --git a/meta/recipes-support/attr/acl.inc b/meta/recipes-support/attr/acl.inc
-> index a461232..04967a6 100644
-> --- a/meta/recipes-support/attr/acl.inc
-> +++ b/meta/recipes-support/attr/acl.inc
-> @@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
->                      file://doc/COPYING.LGPL;md5=9e9a206917f8af112da634ce3ab41764"
->  
->  DEPENDS = "attr"
-> -SRC_URI = "http://download.savannah.gnu.org/releases/acl/${BP}.src.tar.gz"
-> +SRC_URI = "http://download.savannah.gnu.org/releases/acl/${BP}.src.tar.gz \
-> +           file://run-ptest \
-> +"
->  
->  require ea-acl.inc
->  
-> @@ -24,3 +26,13 @@ do_install_append() {
->  	sed -i ${D}${libdir}/libacl.la -e \
->  	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
->  }
-> +
-> +inherit ptest
-> +
-> +do_install_ptest() {
-> +	tar -cf - test/ --exclude nfs | ( cd ${D}${PTEST_PATH} && tar -xf - )
-> +	mkdir ${D}${PTEST_PATH}/include
-> +	cp ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
-> +}
-> +
-> +RDEPENDS_${PN}-ptest = "bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
+On 02/01/2014 03:22 AM, Richard Purdie wrote:
+> Hi Jason,
+>
+> We're seeing a parallel make race on the autobuilder and it seems its
+> from this patch:
 
-This set of dependencies is proving problematic. Firstly it is going to
-increase build times as perl gets pulled in. coreutils also pulls in gmp
-which doesn't appear to build on x32.
+You actually still need the patch or you get a different parallel build error with the lib file.  I tracked down the regression from the original.
 
-This patch is therefore why we keep seeing MUT builds of nightly-x32
-fail.
+The original patch looks like:
 
-http://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/9/steps/BuildImages/logs/stdio
+--- a/Config/Makefile.in
++++ b/Config/Makefile.in
+@@ -12,7 +12,9 @@ all: lib.a
+ lib.a: $(OBJS)
+        $(AR) crs lib.a $(OBJS)
+ 
+-y.tab.h y.tab.c: exports.y
++y.tab.h: y.tab.c
++
++y.tab.c: exports.y
+        $(YACC) -d exports.y
 
-No doubt we need to fix this, however it does also show how convoluted
-our dependency chains are and how a small change like this, raises other
-issues elsewhere.
 
-I opened a bug about the gmp issue:
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=5783
+So I am thinking something was "lost in porting/translation".  I'll send you a patch shortly.  Thanks for the pointer to the build error.
 
 Cheers,
-
-Richard
-
+Jason.
 
 
