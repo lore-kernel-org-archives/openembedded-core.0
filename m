@@ -1,18 +1,18 @@
 Return-Path: <pb@pbcl.net>
 Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 878D86EA40
+	by mail.openembedded.org (Postfix) with ESMTP id 64C9D6EA47
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Feb 2014 12:34:56 +0000 (UTC)
+	Sun,  2 Feb 2014 12:34:58 +0000 (UTC)
 Received: from [212.183.132.39] (helo=[192.168.42.139])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W9wGE-00027E-HW
+	(Exim 4.80) (envelope-from <pb@pbcl.net>) id 1W9wGH-00027E-8f
 	for openembedded-core@lists.openembedded.org;
-	Sun, 02 Feb 2014 13:34:56 +0100
-Message-ID: <1391341137.3068.55.camel@e130.pbcl.net>
+	Sun, 02 Feb 2014 13:34:59 +0100
+Message-ID: <1391343549.3068.58.camel@e130.pbcl.net>
 From: Phil Blundell <pb@pbcl.net>
 To: oe-core <openembedded-core@lists.openembedded.org>
 Organization: Phil Blundell Consulting Ltd
-Date: Sun, 02 Feb 2014 11:38:57 +0000
+Date: Sun, 02 Feb 2014 12:19:09 +0000
 Mime-Version: 1.0
 X-Mailer: Evolution 3.8.5-2+b1 
 X-Spam_score: -1.0
@@ -24,21 +24,20 @@ X-Spam_report: Spam detection software,
 	has been attached to this so you can view it (if it isn't spam) or
 	label similar future email.  If you have any questions, see
 	@@CONTACT_ADDRESS@@ for details.
-	Content preview: If the rootfs is read-only then we aren't going to be
-	updating
-	any alternatives or modifying the password file and these binaries will
-	be
-	redundant. In an ideal world we would be able to stop them from being
-	installed
-	in the first place but this is non-trivial to arrange. As a workaround
-	in the meantime,
-	let's just uninstall them once image construction is finished.
-	[...] Content analysis details:   (-1.0 points, 5.0 required)
+	Content preview: This helper script is used only during development and
+	is
+	not generally useful on the target. Inherit lib_package to move it to a
+	different
+	package from the libraries. Signed-off-by: Phil Blundell <pb@pbcl.net>
+	---
+	meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb | 2 +- 1 file changed,
+	1 insertion(+), 1 deletion(-) [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
 	pts rule name              description
 	---- ----------------------
 	--------------------------------------------------
 	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Subject: [PATCH] image.bbclass: Also uninstall update-alternatives and shadow for read-only-rootfs
+Subject: [PATCH] lttng-ust: Move lttng-gen-tp to ${PN}-bin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,31 +54,28 @@ X-List-Received-Date: Sun, 02 Feb 2014 12:34:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-If the rootfs is read-only then we aren't going to be updating any
-alternatives or modifying the password file and these binaries will
-be redundant.  In an ideal world we would be able to stop them from
-being installed in the first place but this is non-trivial to arrange.
-As a workaround in the meantime, let's just uninstall them once image
-construction is finished.
+This helper script is used only during development and is not generally
+useful on the target.  Inherit lib_package to move it to a different
+package from the libraries.
 
 Signed-off-by: Phil Blundell <pb@pbcl.net>
 ---
- meta/classes/image.bbclass | 2 +-
+ meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index d1283d2..25bc5f3 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -559,7 +559,7 @@ rootfs_uninstall_unneeded () {
- 			fi
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb b/meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb
+index bfcd3b6..5e2b04c 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.3.1.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c963eb366b781252b0bf0fdf1624d9e9 \
+                     file://snprintf/snprintf.c;endline=32;md5=d3d544959d8a3782b2e07451be0a903c \
+                     file://snprintf/various.h;endline=31;md5=89f2509b6b4682c4fc95255eec4abe44"
  
- 			# Remove package only if it's installed
--			pkgs_to_remove="update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-+			pkgs_to_remove="update-rc.d base-passwd update-alternatives shadow ${ROOTFS_BOOTSTRAP_INSTALL}"
- 			for pkg in $pkgs_to_remove; do
- 			    # regexp for pkg, to be used in grep and sed
- 			    pkg_regexp="^`echo $pkg | sed 's/\./\\\./'` "
+-inherit autotools
++inherit autotools lib_package
+ 
+ DEPENDS = "liburcu util-linux"
+ 
 -- 
 1.8.4.3
 
