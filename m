@@ -1,25 +1,37 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 90E936B6D1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 124BC6B6D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 16:47:20 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 Feb 2014 08:47:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,773,1384329600"; d="scan'208";a="448992753"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 03 Feb 2014 08:47:19 -0800
-Date: Mon, 3 Feb 2014 18:47:18 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: David =?iso-8859-1?Q?Nystr=F6m?= <david.nystrom@enea.com>
-Message-ID: <20140203164718.GA5112@lpalcu-linux>
-References: <cover.1391427313.git.laurentiu.palcu@intel.com>
-	<52EFA891.7060806@enea.com>
+	Mon,  3 Feb 2014 16:50:05 +0000 (UTC)
+Received: by mail-ig0-f175.google.com with SMTP id uq10so4518193igb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Feb 2014 08:50:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=zAcgpPUCUsRZ705j9AKXiePdOZFtIGzWWkKheConpPQ=;
+	b=Ome//wWw4GTzoXw/WJiYxZ7C+XMeXR5PGQT2Dyp4+uq8KpKXzQHm+dj3BX1BDQshBU
+	32XVs82THA8LzKCpifdRTzc9LLLEsNyTXNSAU0DZdgYkKtUNFE1kZ526VE18NubFnstb
+	UniANJaZpN4FrAE4EIfBi+PoZavnR6msYn6ithcF8UJ2ICCcD38pMPXgZvCIxNbZH/hL
+	FY922za6oIQ4U9Xllgjor+MFyklFMsyDS1w6EYZTtpqqIeLroES/srivpNSojHRmXqrj
+	xZXa7r3srAln39uqb3DwjZ8GMS5svdm9O61woT8DKZEKDuhd32WL969uFpZQ1aB+WkKX
+	RD7g==
+X-Received: by 10.50.79.138 with SMTP id j10mr13051705igx.2.1391446206163;
+	Mon, 03 Feb 2014 08:50:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <52EFA891.7060806@enea.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/49] Rootfs/image generation refactoring (cover letter only)
+Received: by 10.50.8.137 with HTTP; Mon, 3 Feb 2014 08:49:36 -0800 (PST)
+In-Reply-To: <5994492.lfGcDNr6jJ@peggleto-mobl5.ger.corp.intel.com>
+References: <cover.1391054829.git.raj.khem@gmail.com>
+	<5994492.lfGcDNr6jJ@peggleto-mobl5.ger.corp.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 3 Feb 2014 08:49:36 -0800
+Message-ID: <CAMKF1srJGVP2jDMCFOybHyzjX8XqBFe5Gmh-piSFr9z2nwoqCQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Scott Rifenbark <srifenbark@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/15] Add python 3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 16:47:20 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Feb 2014 16:50:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Feb 03, 2014 at 03:32:49PM +0100, David Nyström wrote:
-> On 2014-02-03 12:38, Laurentiu Palcu wrote:
-> >Hi all,
-> >
-> 
-> Have you tested that BUILD_IMAGES_FROM_FEEDS functionality is not
-> broken by these commits ?
-No, I did not test this. I tried to test it on master though and it
-doesn't seem to work... Anyway, if you have a working environment, can
-you give it a test? Technically, the feeds are added to the main
-opkg.conf file in OPKG_PREPROCESS_CMD. And this functionality is
-supposed to work.
+On Mon, Feb 3, 2014 at 4:03 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> Hi Khem,
+>
+> On Wednesday 29 January 2014 20:12:24 Khem Raj wrote:
+>> Post V5
+>>
+>> Upgrade to 3.3.3
+>
+> I see this series has been merged at last - great! Could you also send Scott
+> some information about documentation changes that we should have for this?
 
-laurentiu
+I will send another patch to define a python3 packagegroup and I think
+it would be then
+good to document how to include python3 feature in images.
 
-> 
-> Br,
-> David
-> 
+>
+> Thanks,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
