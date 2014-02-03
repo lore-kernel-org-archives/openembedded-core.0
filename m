@@ -1,35 +1,41 @@
-Return-Path: <krirobo@gmail.com>
-Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id AC3FF6D8F6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 18:50:02 +0000 (UTC)
-Received: by mail-vc0-f178.google.com with SMTP id ik5so4972723vcb.23
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2014 10:50:03 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 79E5B6D8F6;
+	Mon,  3 Feb 2014 19:02:16 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id b15so2006718eek.29
+	for <multiple recipients>; Mon, 03 Feb 2014 11:02:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=O9+nukKPabYMvCGj0ZJmokila18Qywtz/YxTB6gpHqQ=;
-	b=mdT+9t6jKfPBITs88tiUbAuPR1BqY5XDC6FqLDQnoKHm4ft51fk4Fjs4eHQ6uOgrMu
-	GtZ5xmv5Xm0ST4pCtr1TyAwO6MggM9Hyr33otGCYRffRNbgpbrVhd+wueOepgan5FPuK
-	yzIU124CbAI+C3XGyAyDO6QFr3l/7asIMMlywXqcBTWtNqwSpi0Jk4qphm2Es/3Ffkq7
-	Dw6j7bL33WCJuyoiAPYXBwoVHoL3sUBNwbbqvcrsC5+rmo9Qod8qEKfPYDtaaefPkeAh
-	R2JgO04wP0wI1ceEO+Qr85Fg2aLhpzXLuFoDOnT/FVoGX1qZnVfgI1nqUlAX0CnjUAWP
-	tulw==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=7udNUQ1IIwryqySTCN7mMGnCxGl2rTbSsUvbuCK98JU=;
+	b=sakcXjEo1pGH/vX+CQjC4K48GY4YKl/NRV31vAJ83gbg4+kcZUJ5qBbukzHnHGrOT4
+	6lSyyxmjmrmGADAz+bq7wq1SvmSFFfIUxSE+gERrxJChLsZ5kH7bHKQi0lGm7iS3K7dP
+	tTUoyXbWV69JTw1OGX7m4AvtLGHUN6ylgK9bYYcZOJDaf3ed3e19ApdxtJ5gYlxZOJhF
+	wZWf6Lc6YdDiZsdqkJyq+E4/xQuwnicYlDlCtueXBwhcEDK6Ee9e21QV97WNufDjh7g6
+	S458oGqR24LEcVRGQaTxZ6unYR//xpBZWQ+28Y4xOWFEKquEB8yVvOvXZcQVjeVrxmei
+	VEDA==
+X-Received: by 10.14.88.5 with SMTP id z5mr4510436eee.101.1391454137070;
+	Mon, 03 Feb 2014 11:02:17 -0800 (PST)
+Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
+	[89.176.104.107]) by mx.google.com with ESMTPSA id
+	d43sm78887335eep.18.2014.02.03.11.02.15 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 03 Feb 2014 11:02:15 -0800 (PST)
+Date: Mon, 3 Feb 2014 20:02:27 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20140203190227.GG3698@jama>
+References: <20140202223258.8D272503AA@opal> <20140203143127.GD3698@jama>
+	<CAMKF1sqMOgxUa2P4JQVJpTT1NeGNE7tSL-UqfjcMdPMVnQFKxA@mail.gmail.com>
+	<20140203173845.GF3698@jama>
 MIME-Version: 1.0
-X-Received: by 10.58.161.46 with SMTP id xp14mr25199veb.37.1391453403064; Mon,
-	03 Feb 2014 10:50:03 -0800 (PST)
-Received: by 10.58.133.233 with HTTP; Mon, 3 Feb 2014 10:50:03 -0800 (PST)
-In-Reply-To: <1389452899-633-2-git-send-email-andrei@gherzan.ro>
-References: <1389452899-633-1-git-send-email-andrei@gherzan.ro>
-	<1389452899-633-2-git-send-email-andrei@gherzan.ro>
-Date: Mon, 3 Feb 2014 19:50:03 +0100
-Message-ID: <CAFgGSN5skuFQsx_dLEETuO_kq7YCyFr6LbqgXkCAEmBx=8VRdQ@mail.gmail.com>
-From: Kristof Robot <krirobo@gmail.com>
-To: Andrei Gherzan <andrei@gherzan.ro>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] feature-arm-thumb.inc: Use thumb instruction by default if TUNE_FEATURES thumb
+In-Reply-To: <20140203173845.GF3698@jama>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Khem Raj : binutils: Upgrade to 2.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,20 +48,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 18:50:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 03 Feb 2014 19:02:18 -0000
+X-Groupsio-MsgNum: 49802
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="AzNpbZlgThVzWita"
+Content-Disposition: inline
 
-On Sat, Jan 11, 2014 at 4:08 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> Avoid a confusion when including thumb in TUNE_FATURES. In the curent behavior,
-> if I include thumb in TUNE_FATURES, ARM_THUMB_M_OPT will be "-marm" which makes
-> no sense for me as a default behavior.
+--AzNpbZlgThVzWita
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I agree that this is confusing, I actually fell for this - thinking I
-was using thumb instructions, while apparently I was not...
+On Mon, Feb 03, 2014 at 06:38:45PM +0100, Martin Jansa wrote:
+> On Mon, Feb 03, 2014 at 09:27:44AM -0800, Khem Raj wrote:
+> > On Mon, Feb 3, 2014 at 6:31 AM, Martin Jansa <martin.jansa@gmail.com> w=
+rote:
+> > > Hi Khem,
+> > >
+> > > can you please check following QA warning:
+> > >
+> > > NOTE: recipe binutils-2.24-r0: task do_package: Started
+> > > WARNING: QA Issue: binutils: Files/directories were installed but not=
+ shipped
+> > >   /usr/bin/ld.bfd
+> > >   /usr/bin/dwp
+> > > NOTE: recipe binutils-2.24-r0: task do_package: Succeeded
+> > >
+> > > ld.bfd is there for very long time, but I think that dwp is new with
+> > > 2.24
+> > >
+> >=20
+> > It seems you see these warnings when you have ld-is-gold in your
+> > distro features right ?
+> > since I don't see them normally. I have a patch here, can you test it
+> > out and report back ?
+> > I do not have gold setup here and it will be quicker in your setup to v=
+erify it
+> >=20
+> > http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/=
+binutils-2.24&id=3D33dd773b4b701dff8184a346d532b11f1bd5d327
+>=20
+> Yes I have ld-is-gold and will test it, thanks
 
-Any update on this patch?
 
-Thanks,
+Works for me, only issues is incorrect indentation, but that's not your
+fault.
 
-Kristof
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--AzNpbZlgThVzWita
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlLv58MACgkQN1Ujt2V2gByklACghZquCY8MrQ3/ATqhsTFmwtlR
++BQAn2sSihfK2c81RzsGKV14ii/0G+85
+=Izz/
+-----END PGP SIGNATURE-----
+
+--AzNpbZlgThVzWita--
