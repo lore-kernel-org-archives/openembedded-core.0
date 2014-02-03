@@ -1,36 +1,44 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
-	[209.85.160.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 66A376E934
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 20E356E934
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 00:23:10 +0000 (UTC)
-Received: by mail-yk0-f178.google.com with SMTP id 79so35492981ykr.9
+	Mon,  3 Feb 2014 00:51:40 +0000 (UTC)
+Received: by mail-ig0-f177.google.com with SMTP id k19so3203769igc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Feb 2014 16:23:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=0WW4yJR0nBsXXL9ndiUOfSVnUFASNr6trYd5diVBIC8=;
-	b=tHZjzV4DlYHH69yQMuQKaEtPJaNyf+sWdEknZXAkvLmayh0FvzaOfrT3/W+sgLrj3y
-	KcIMuqJtdaPMpu26XnEh5MVKgw9+0iQ0DTzUafW+7CqMBgGrklvGFrRRovFAjOVsmYRr
-	DJIepaSnEwPEp9h9WbFORmhWtOAJnKVnNDvD87yVdF7qT7lXwAHWjwXMuykaoV/0lRG8
-	hpftwBjPdEyJepAAlBMZ+JtxTEb3sJF8ZuGgrbFN4972GeGIXAI6SYVkpRCR28nSkLQ4
-	AFvLKWMrwHURF62cjUhxcCaLcy2JK8hpWqF1TewIXk86v9TbDqUPmWRLbeNC5316FaxX
-	/K5Q==
+	Sun, 02 Feb 2014 16:51:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=B4U7FzzyXgQm1Ivxr/Y1Sfuomh4gwXBNI60+mM3P01w=;
+	b=B14iQQ9wYrT7+/J4L6Xk2OeNHy4SEMjccoi7JbPuQfGbUlOs1z0pbBaQ5ZgQRj7bTk
+	fGwxfsx0KP8izOWDmbRgWfMzGBSlcve8UYIcXI2Ux9B/09w2sMn3HEErgcjUio504ubt
+	eTdrv7AHdT0wHmx9GzK9ScuPAFNi2obNiIAO8SWyh1FKkQXd4Et7AownAaVu6TeUDy8I
+	aY3kzPekfABvmsx+siZZgazRtdhuS0fZrjO4MS5BqmSpUSddkuki4n4T/d+eS2cWdoLh
+	eY/TwB3tgmr0+D5+puIOgdKaKySlrLKxfUvkxQgMtPEsdsJ0Dg3lALj2oSWNMmtxc8lY
+	RGUg==
+X-Gm-Message-State: ALoCoQloGLYU6JXR1eFHJGkOW/2CGuJCGHkibQNRhJb+ZFU4qHrG8hmH0NV49d2WZy7J7rrYNnfJ
+X-Received: by 10.50.18.41 with SMTP id t9mr9554512igd.26.1391388700323;
+	Sun, 02 Feb 2014 16:51:40 -0800 (PST)
+Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
+	[69.165.220.158])
+	by mx.google.com with ESMTPSA id fk5sm24836896igb.9.2014.02.02.16.51.39
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 02 Feb 2014 16:51:39 -0800 (PST)
+Message-ID: <52EEE81A.9080906@linaro.org>
+Date: Sun, 02 Feb 2014 19:51:38 -0500
+From: Trevor Woerner <trevor.woerner@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.236.190.100 with SMTP id d64mr1414703yhn.76.1391386990820;
-	Sun, 02 Feb 2014 16:23:10 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.62.84 with HTTP; Sun, 2 Feb 2014 16:23:10 -0800 (PST)
-In-Reply-To: <1391208456-23049-2-git-send-email-trevor.woerner@linaro.org>
-References: <1391208456-23049-1-git-send-email-trevor.woerner@linaro.org>
-	<1391208456-23049-2-git-send-email-trevor.woerner@linaro.org>
-Date: Sun, 2 Feb 2014 22:23:10 -0200
-X-Google-Sender-Auth: KWHzZjeBE0U9LAd_qtt1Ln-e8bo
-Message-ID: <CAP9ODKrULmq0BdYtPYqug34dReOfqtntFky_W2m4EKjLvVgb4g@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Trevor Woerner <trevor.woerner@linaro.org>
-Cc: patches@linaro.org, Patches and discussions about the oe-core layer
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1391208456-23049-1-git-send-email-trevor.woerner@linaro.org>	<1391208456-23049-2-git-send-email-trevor.woerner@linaro.org>
+	<CAP9ODKrULmq0BdYtPYqug34dReOfqtntFky_W2m4EKjLvVgb4g@mail.gmail.com>
+In-Reply-To: <CAP9ODKrULmq0BdYtPYqug34dReOfqtntFky_W2m4EKjLvVgb4g@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] scripts: add get_maintainer script
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,39 +53,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 00:23:11 -0000
+X-List-Received-Date: Mon, 03 Feb 2014 00:51:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Hello Trevor,
+Hi Otavio,
 
-On Fri, Jan 31, 2014 at 8:47 PM, Trevor Woerner
-<trevor.woerner@linaro.org> wrote:
-> Add the Linux kernel's "get_maintainer.pl" script so it is available for use
-> with OE/Yocto layers. This script departs from the Linux kernel's version in a
-> couple of minor ways:
->
->         - here there is no "penguin_chief", just an "oe_chief"
->         - it is very hard to determine if the user is located at the top of a
->           valid OE/Yocto layer or not (i.e. some layers have 'conf/local.conf'
->           files, but sometimes (e.g. openembedded-core the top-level
->           directory is a placeholder and the "real" layers are below)
->           therefore don't try to make this determination; the only
->           requirement is that there be a ".git" directory
->         - not all layers (yet!) contain a "MAINTAINERS" file, therefore be
->           able to work without one
->         - add all the patch tags specified in
->           http://www.linuxfoundation.org/content/54-patch-formatting
->         - remove Linux kernel-specific wording/references
->
-> Signed-off-by: Trevor Woerner <trevor.woerner@linaro.org>
+Thanks for taking a look at my patch.
 
-I like to idea and I second this pull request, the only thing I would
-like to see added is the possibility of grabing the maintainers for
-boards from the machine .conf file. This is the way we're using at
-meta-fsl-arm and meta-fsl-arm-extra. What do you think?
+On 02/02/14 19:23, Otavio Salvador wrote:
+> I like to idea and I second this pull request, the only thing I would
+> like to see added is the possibility of grabing the maintainers for
+> boards from the machine .conf file. This is the way we're using at
+> meta-fsl-arm and meta-fsl-arm-extra. What do you think? 
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+To be honest I don't have much experience with perl, this script is in
+perl simply because that's the way it comes to us from the Linux kernel
+(although I was able to understand enough of it to be able to make the
+changes required so it would fit into this project). I'm quite sure,
+with StackOverflow by my side, I'd be more than able to make these
+changes :-)
+
+However... the MAINTAINERS syntax[1] does allow for "F", "N", "X", and
+"K" clauses, to wit:
+
+	F: Files and directories with wildcard patterns.
+	   A trailing slash includes all files and subdirectory files.
+	   F:	drivers/net/	all files in and below drivers/net
+	   F:	drivers/net/*	all files in drivers/net, but not below
+	   F:	*/net/*		all files in "any top level directory"/net
+	   One pattern per line.  Multiple F: lines acceptable.
+	N: Files and directories with regex patterns.
+	   N:	[^a-z]tegra	all files whose path contains the word tegra
+	   One pattern per line.  Multiple N: lines acceptable.
+	   scripts/get_maintainer.pl has different behavior for files that
+	   match F: pattern and matches of N: patterns.  By default,
+	   get_maintainer will not look at git log history when an F: pattern
+	   match occurs.  When an N: match occurs, git log history is used
+	   to also notify the people that have git commit signatures.
+	X: Files and directories that are NOT maintained, same rules as F:
+	   Files exclusions are tested before file matches.
+	   Can be useful for excluding a specific subdirectory, for instance:
+	   F:	net/
+	   X:	net/ipv6/
+	   matches all files in and below net excluding net/ipv6/
+	K: Keyword perl extended regex pattern to match content in a
+	   patch or file.  For instance:
+	   K: of_get_profile
+	      matches patches or files that contain "of_get_profile"
+	   K: \b(printk|pr_(info|err))\b
+	      matches patches or files that contain one or more of the words
+	      printk, pr_info or pr_err
+	   One regex pattern per line.  Multiple K: lines acceptable.
+
+
+As you can see, use of these clauses would cover your use case.
+
+What I was hoping for is that this script would be added to the project,
+then I could go about creating MAINTAINERS files for the various layers
+which would incorporate the information to which you referred above in a
+more standard, cross-project way. If you feel strongly about keeping the
+maintainers information in these files and this is the only thing
+holding up the script's inclusion I'd be happy to make the necessary
+modifications. But personally I'd prefer to use the existing MAINTAINERS
+syntax instead.
+
+Would moving that information into a standard top-level MAINTAINERS file
+suffice? Is there a reason it needs to be in those files (perhaps some
+other tool is processing them that couldn't be switched to process a
+MAINTAINERS file instead)?
+
+Best regards,
+    Trevor
+
+
+[1] https://www.kernel.org/doc/linux/MAINTAINERS
 
