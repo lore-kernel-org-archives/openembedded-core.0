@@ -1,37 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 762426D491
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FB636D8F6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 06:58:35 +0000 (UTC)
-Received: by mail-ig0-f175.google.com with SMTP id uq10so3644590igb.2
+	Mon,  3 Feb 2014 08:34:15 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id l18so11529417wgh.35
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Feb 2014 22:58:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Dn76uGsIRmkNUK8x8QEUrOBtjwCPAscP2c2gzq7OJFI=;
-	b=buFnrkIof3fbINTBbhJaktnJ6hs3R6itwUdtiLmOwdcEp2kkmsYHCnLlN2G6QadxUp
-	vqEPLMBgtI5ndzPChl5XOsJG0TNYZqwNLUqS62u514HpGCyCNr6EYAWtnqZLCOeqWJXB
-	hU31pHCzUH+SlNWfrMcVYHH9PDV2phTgV+cEL+jE0YT6goJRQXjp0u11yfaneOeQ49yK
-	EKSJzm1vr3bhe9Lzte/AFEQjUqDGnyzMsjQkKAU7klkpol20KxFszj/zApRCHYY6smbc
-	8WSvPdCskXj0W7l9B3mooXfML90Bylh/oM0Y4SPg9H2ZwVlAnl1Q9bn65Y7a7/EWSKno
-	z1TQ==
-X-Received: by 10.42.227.195 with SMTP id jb3mr25443926icb.27.1391410715951;
-	Sun, 02 Feb 2014 22:58:35 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.8.137 with HTTP; Sun, 2 Feb 2014 22:58:05 -0800 (PST)
-In-Reply-To: <52EF3AE6.2000505@linux.intel.com>
-References: <454d9116b5fa6e0dbd35b594e1baec619f3ad0a2.1391245078.git.raj.khem@gmail.com>
-	<316623c1ac044a6286904cdc7d1f9c68ddb692c8.1391245078.git.raj.khem@gmail.com>
-	<52EF3AE6.2000505@linux.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 2 Feb 2014 22:58:05 -0800
-Message-ID: <CAMKF1sqyS6-c5Gd8DCcZtLO4_nACt_YOPB2CFXG0WChFJiVyUw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] wireless-tools: Upgrade 29 -> 30.pre9
+	Mon, 03 Feb 2014 00:34:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:content-type:content-transfer-encoding
+	:subject:message-id:date:to:mime-version;
+	bh=dLecPs1MHI70hqiLr479BqcnZK4hKms56kUoRV1CC5U=;
+	b=XkuXm/Fp9XrSJGwGUNbc+agAUJh9T3puxZ5PjdemhsxRQyfhR+IMEigA5IT9g+zzXd
+	Yd8blTvNnmSywdmbh9fr0Yv4epqId7FzpNEHBRZ4jUZfxTR7XoiZVt11o+i+VFQBIFjT
+	zmZka8jqxkpGi4ywwRCZuq+9PfbFvddn9gpLGnzh5xUS3LAoFDrTokLG42XOd8JrL2oO
+	BYZQLisjaiHptwNvHCDbCP9TFDepJgmRQvNx5vE4xSy5aqlQsC3/fKr+W9Zz3F0a5GOz
+	hs/PMUQRw0xaPzkvkqpidhht1i4hHBxZFmlgz711EABcjUkAVdu2bFNfPVH62465Ze+d
+	jd9w==
+X-Gm-Message-State: ALoCoQkm6JFHORTYNrSCIpcdlG1glQHCHiYm4dR3vGKsSN0D7qq6Q2HSdsKp7PLOK5zygHDCvxpC
+X-Received: by 10.194.192.233 with SMTP id hj9mr89288wjc.78.1391416456167;
+	Mon, 03 Feb 2014 00:34:16 -0800 (PST)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id uq2sm41809567wjc.5.2014.02.03.00.34.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 03 Feb 2014 00:34:15 -0800 (PST)
+From: Koen Kooi <koen@dominion.thruhere.net>
+Message-Id: <31FD0B2A-3965-4D1D-A6F2-FA0B1D276273@dominion.thruhere.net>
+Date: Mon, 3 Feb 2014 09:34:16 +0100
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+X-Mailer: Apple Mail (2.1827)
+Subject: [RFC] /etc/kernel/postinst.d/ support in kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 06:58:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 03 Feb 2014 08:34:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
->>
->> file://sample_enc.c;beginline=1;endline=4;md5=838372be07874260b566bae2f6ed33b6"
->>   SECTION = "base"
->> -PE = "1"
->> -PR = "r4"
->>
->
-> Did you really intend to remove the PE = "1", won't that make packages go
-> backwards?
->
+Hi,
 
-no. See my prior reply. Its been already taken care of and patch is on
-pull branch
+At FOSDEM last weekend I ran into Paul Barker and we chatted about our =
+wishlists for package management. One of the items on my lists was drop =
+in postinst scriplets. I've been working on support for the dracut =
+initramfs generator in Angstrom and I have it working. In contrast to =
+the current initramfs implementations in OE it does things a bit =
+different:
+
+1) The initramfs is generated at runtime using binaries from the target =
+(with ldd magic to sort out libs)
+2) It isn't builtin to the kernel[1]
+
+On Fedora dracut drops a postinst script into /etc/kernel/postinst.d/ to =
+ensure the initramfs gets regenerated every time the kernel packages =
+gets updated.
+
+My proposal is to add a few lines to pkg_postinst_kernel-image () in =
+kernel.bbclass to run the scriptlets if present. What are your thoughts =
+about that?
+
+thanks,
+
+Koen
+
+[1] If you have the bootloader (grub, u-boot, gummiboot etc) pas an =
+initrd and you do *NOT* set root to /dev/ram0, but to the one you want =
+(e.g. /dev/mmcblk0p2) the kernel will treat the initrd as initramfs.=
 
