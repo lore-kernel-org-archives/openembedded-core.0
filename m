@@ -1,23 +1,35 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 232BC6E88D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 017DB6E949
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 14:32:51 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Mon, 3 Feb 2014
-	15:32:49 +0100
-Message-ID: <52EFA891.7060806@enea.com>
-Date: Mon, 3 Feb 2014 15:32:49 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Mon,  3 Feb 2014 15:51:36 +0000 (UTC)
+Received: by mail-yk0-f172.google.com with SMTP id 200so14937210ykr.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Feb 2014 07:51:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:message-id:subject:from:to:content-type;
+	bh=7+YEzrZv4qbydhNEyrr7MrsedZVSRwabPaZ4i8IAIV0=;
+	b=bAW5bbvoeOUzfzFAzsixEcdXD7Ogme7M3ooIS/pTKmscDALTg5ksz4b0WWZysq608/
+	cEcMHPwOUHJAnjkgrXbjm+FUWi8IQGvAq5UgJJdOaqoBWXkkAR13B2gkv1IAV0lSrJ+e
+	RoAsixB/vIfTBX9Qj6X9nG8d8/1Q5G5IH9ledLXWYpInxs5VmvM2pAeR2SGN+uzSQbJX
+	ji9TtffKboVcYXSfdlu1XYD9wiDDg8ORd5cSZrCCtVD043MqmiDZ8YC24LNSps/gqM6P
+	NoHqy1Xp0jF8ooZWcZUcoJkthgr1m422aeQ5QTBupxup+005whnkETcx8rL6LuvVnRq3
+	t+vA==
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1391427313.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1391427313.git.laurentiu.palcu@intel.com>
-X-Originating-IP: [172.16.141.133]
-Subject: Re: [PATCH 00/49] Rootfs/image generation refactoring (cover letter only)
+X-Received: by 10.236.126.81 with SMTP id a57mr1764803yhi.95.1391442697273;
+	Mon, 03 Feb 2014 07:51:37 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.62.84 with HTTP; Mon, 3 Feb 2014 07:51:37 -0800 (PST)
+Date: Mon, 3 Feb 2014 13:51:37 -0200
+X-Google-Sender-Auth: uu19Nq-fQSAWfEnPjjtEyEli2J0
+Message-ID: <CAP9ODKoYRMKW70m6CBryNm3EoGdEMrOSn1hduAA0ROrQg8Cr4g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	yocto <yocto@yoctoproject.org>, Robert Yang <liezhi.yang@windriver.com>,
+	"Eggleton, Paul" <paul.eggleton@linux.intel.com>
+Subject: [for-dora] Dora backports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,18 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 14:32:53 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Feb 2014 15:51:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2014-02-03 12:38, Laurentiu Palcu wrote:
-> Hi all,
->
+Hello,
 
-Have you tested that BUILD_IMAGES_FROM_FEEDS functionality is not broken 
-by these commits ?
+I am adding OE-Core and Yocto mailing list as destination as this has
+fixes for both.
 
-Br,
-David
+While setting a build system, in a very clean host installation I
+found some issues which were fixed in master and ought to be
+backported to Dora:
 
+meta-yocto:
+ - 1893d1576c1e7acc9881b3392a838c575019f18d (poky.conf: add Debian 7.2
+to SANITY_TESTED_DISTROS)
+ - a452c02c880d1840f1150e59eede3f173f067c5f (poky.conf: add Debian 7.3
+to SANITY_TESTED_DISTROS)
+
+OE-Core:
+ - 97e1d84e2d1a74791ce6af88ddc27963bc0e1bec (base.bbclass: pull in
+file-native for src.rpm)
+
+Specially the missing 'file' took me some time to figure so it is
+horrible to have this error for new users. This could be fixed for
+older releases as well (dylan at least).
+
+Regards,
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
