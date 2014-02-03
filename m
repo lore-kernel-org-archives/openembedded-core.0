@@ -1,33 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 124BC6B6D1
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 32D536B6D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 16:50:05 +0000 (UTC)
-Received: by mail-ig0-f175.google.com with SMTP id uq10so4518193igb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2014 08:50:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=zAcgpPUCUsRZ705j9AKXiePdOZFtIGzWWkKheConpPQ=;
-	b=Ome//wWw4GTzoXw/WJiYxZ7C+XMeXR5PGQT2Dyp4+uq8KpKXzQHm+dj3BX1BDQshBU
-	32XVs82THA8LzKCpifdRTzc9LLLEsNyTXNSAU0DZdgYkKtUNFE1kZ526VE18NubFnstb
-	UniANJaZpN4FrAE4EIfBi+PoZavnR6msYn6ithcF8UJ2ICCcD38pMPXgZvCIxNbZH/hL
-	FY922za6oIQ4U9Xllgjor+MFyklFMsyDS1w6EYZTtpqqIeLroES/srivpNSojHRmXqrj
-	xZXa7r3srAln39uqb3DwjZ8GMS5svdm9O61woT8DKZEKDuhd32WL969uFpZQ1aB+WkKX
-	RD7g==
-X-Received: by 10.50.79.138 with SMTP id j10mr13051705igx.2.1391446206163;
-	Mon, 03 Feb 2014 08:50:06 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.8.137 with HTTP; Mon, 3 Feb 2014 08:49:36 -0800 (PST)
-In-Reply-To: <5994492.lfGcDNr6jJ@peggleto-mobl5.ger.corp.intel.com>
+	Mon,  3 Feb 2014 16:56:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Feb 2014 08:56:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,773,1384329600"; d="scan'208";a="475227443"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.123.157])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2014 08:55:57 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 03 Feb 2014 16:55:51 +0000
+Message-ID: <4183008.ogJDUr4ZCT@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
+In-Reply-To: <CAMKF1srJGVP2jDMCFOybHyzjX8XqBFe5Gmh-piSFr9z2nwoqCQ@mail.gmail.com>
 References: <cover.1391054829.git.raj.khem@gmail.com>
 	<5994492.lfGcDNr6jJ@peggleto-mobl5.ger.corp.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 3 Feb 2014 08:49:36 -0800
-Message-ID: <CAMKF1srJGVP2jDMCFOybHyzjX8XqBFe5Gmh-piSFr9z2nwoqCQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+	<CAMKF1srJGVP2jDMCFOybHyzjX8XqBFe5Gmh-piSFr9z2nwoqCQ@mail.gmail.com>
+MIME-Version: 1.0
 Cc: Scott Rifenbark <srifenbark@gmail.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -44,31 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 16:50:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 03 Feb 2014 16:56:58 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, Feb 3, 2014 at 4:03 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Hi Khem,
+On Monday 03 February 2014 08:49:36 Khem Raj wrote:
+> On Mon, Feb 3, 2014 at 4:03 AM, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+> > I see this series has been merged at last - great! Could you also send
+> > Scott some information about documentation changes that we should have
+> > for this?
 >
-> On Wednesday 29 January 2014 20:12:24 Khem Raj wrote:
->> Post V5
->>
->> Upgrade to 3.3.3
->
-> I see this series has been merged at last - great! Could you also send Scott
-> some information about documentation changes that we should have for this?
+> I will send another patch to define a python3 packagegroup and I think
+> it would be then
+> good to document how to include python3 feature in images.
 
-I will send another patch to define a python3 packagegroup and I think
-it would be then
-good to document how to include python3 feature in images.
+Well, there's that, but you've also additional variables (e.g. PYTHON_ABI and 
+PYTHON_PN).
 
->
-> Thanks,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
