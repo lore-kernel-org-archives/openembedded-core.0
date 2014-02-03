@@ -1,38 +1,26 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 96E266E954
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AE3F6E94E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 12:58:52 +0000 (UTC)
-Received: by mail-la0-f46.google.com with SMTP id b8so5388183lan.33
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2014 04:58:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=O0tkmkG8REBnFM/mUxrGHklHMv3Fe+3eINvLqrRveWI=;
-	b=rX2w+rt8rY0bsXgv+3NklesVpoGtJrQYLnHUyVjgO7rK4e2cG86o4lFbIrT1DGQdBY
-	Ddq1QTHoD0S6Xojs/Sb+c7SxO1lvEiCSOceuXHYy0KNnJ4oBkL4v7U52Jd/fpEe/qsUc
-	A/F3NyrysR+BhQkoTyQqjcykdbVDYshbY/l8Ty8sjaMPUO6Y/hLmc6kwzQ/834x7KT/j
-	hhkkeELHOkEu/rEoPbU5WfwIflJR4x7Vhd2lZgIiyYyzVrFQg1aGSJ9mqsANmEbkJJu2
-	tqNqZXzJHZimtVInl+lDWN0jmqoFBPA6L38E3jnBSMuFdDxVIyqZ9B3tQlXRvRgv/nz7
-	lkXA==
-X-Received: by 10.112.236.3 with SMTP id uq3mr12797978lbc.14.1391432332667;
-	Mon, 03 Feb 2014 04:58:52 -0800 (PST)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id e1sm3095535laa.8.2014.02.03.04.58.51
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 03 Feb 2014 04:58:51 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id 1D5631C698F; Mon,  3 Feb 2014 13:58:50 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Feb 2014 13:58:49 +0100
-Message-Id: <1391432329-1046-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
+	Mon,  3 Feb 2014 13:03:54 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 03 Feb 2014 05:03:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,772,1384329600"; d="scan'208";a="477138129"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.123.157])
+	by orsmga002.jf.intel.com with ESMTP; 03 Feb 2014 05:03:54 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: David =?ISO-8859-1?Q?Nystr=F6m?= <david.c.nystrom@gmail.com>
+Date: Mon, 03 Feb 2014 13:03:47 +0000
+Message-ID: <1846327.CZeKFxv0XS@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
+In-Reply-To: <1391432329-1046-1-git-send-email-david.nystrom@enea.com>
+References: <1391432329-1046-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-Subject: [RFC][PATCH] udev: add udev-utils to RDEPENDS
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] udev: add udev-utils to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 12:58:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Feb 2014 13:03:54 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-An intended fix for below error message with core-image-lsb, 
-Sending this as an RFC since I dont really know what constitutes 
-a RRECOMMENDS vs. RDEPENDS. 
-Is this clearly defined somewhere ?
-Below should be an RDEPENDS, no ?
+Hi David,
 
-INIT: version 2.88 booting
-Starting udev
-udevd[59]: starting version 182
-/etc/rcS.d/S04udev: line 108: udevadm: command not found
-/etc/rcS.d/S04udev: line 113: udevadm: command not found
-/etc/rcS.d/S04udev: line 114: udevadm: command not found
+On Monday 03 February 2014 13:58:49 David Nystr=F6m wrote:
+> An intended fix for below error message with core-image-lsb,
+> Sending this as an RFC since I dont really know what constitutes
+> a RRECOMMENDS vs. RDEPENDS.
+> Is this clearly defined somewhere ?
+> Below should be an RDEPENDS, no ?
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
----
- meta/recipes-core/udev/udev.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Does this actually fix the problem though? An RRECOMMENDS would only no=
+t be=20
+satisfied if the package ended up empty, or you were using BAD_RECOMMEN=
+DATIONS=20
+(or NO_RECOMMENDATIONS). I can't see this change actually accomplishing=
+=20
+anything.
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index 1b22525..b22c1c1 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -58,7 +58,8 @@ INITSCRIPT_NAME_udev-cache = "udev-cache"
- INITSCRIPT_PARAMS_udev-cache = "start 36 S ."
- 
- FILES_${PN} += "${libexecdir} ${libdir}/ConsoleKit ${nonarch_base_libdir}/udev"
--RRECOMMENDS_${PN} += "udev-utils udev-cache"
-+RRECOMMENDS_${PN} += "udev-cache"
-+RDEPENDS_${PN} += "udev-utils"
- 
- FILES_${PN}-dbg += "${libexecdir}/.debug"
- FILES_${PN}-dbg += "${base_libdir}/udev/.debug/"
--- 
-1.8.3.2
+Cheers,
+Paul
 
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
