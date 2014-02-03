@@ -1,36 +1,30 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A8EFF6B6D1
+Return-Path: <daniel.elstner@kdab.com>
+Received: from mail.kdab.com (mail.kdab.com [188.40.50.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D5656E3EC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 17:44:43 +0000 (UTC)
-Received: by mail-yk0-f174.google.com with SMTP id 10so40556512ykt.5
+	Mon,  3 Feb 2014 17:50:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.kdab.com (Postfix) with ESMTP id 43BCE14813D5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2014 09:44:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=YVcon/7k9RoEgUxfKOMM/IqklZbX+/b7beQ7gE8ACfw=;
-	b=xJ+qJXG1/Bt7MOgihLlkn4D0hYw9De899fdrZwCwgGmbntZgp+HaCv1njipx03zoFB
-	rpbDuvi5NOSELMjn/lYHLDXDz3AEslD4zsc5MTMt7jRQ/Mes9vNa5NPmXQSYPgaL7B5j
-	ZJfhxo9ocN0VDbY4EOA227YjIjz85GDkuPyawMTypB9mGjPBc26NnsdZtqY9ZCYh//pu
-	uZ5bb58fSx8D0ANv1zvPW8KjAi9Rr9dE+xB0Wn71/FB9lPSlJf9r2dP67LjhUWE7byGw
-	S1XOEW219HL5UwxJOiSVilLm/RxZTFr4+exWNHVgx182LGkW2FsV4BzLHHZgFQop+gEK
-	1/HQ==
-MIME-Version: 1.0
-X-Received: by 10.236.183.111 with SMTP id p75mr415417yhm.148.1391449484132;
-	Mon, 03 Feb 2014 09:44:44 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.62.84 with HTTP; Mon, 3 Feb 2014 09:44:44 -0800 (PST)
-In-Reply-To: <1391343549.3068.58.camel@e130.pbcl.net>
-References: <1391343549.3068.58.camel@e130.pbcl.net>
-Date: Mon, 3 Feb 2014 15:44:44 -0200
-X-Google-Sender-Auth: 6MxgVo63WHBFubQ3l4Za--QGtjA
-Message-ID: <CAP9ODKosEqvQ0ud5=rY5PAt1KHoiBetiAE9J1xCwrvQzg-a19A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Phil Blundell <pb@pbcl.net>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lttng-ust: Move lttng-gen-tp to ${PN}-bin
+	Mon,  3 Feb 2014 18:50:14 +0100 (CET)
+X-Virus-Scanned: by amavisd-new at kdab.com
+Received: from mail.kdab.com ([127.0.0.1])
+	by localhost (mail.kdab.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 56Z0NYaHiSyq
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Feb 2014 18:50:13 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.kdab.com (Postfix) with ESMTP id 5BC5F14813BF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  3 Feb 2014 18:50:13 +0100 (CET)
+Message-ID: <1391449812.24134.6.camel@deimos>
+From: Daniel Elstner <daniel.elstner@kdab.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 03 Feb 2014 18:50:12 +0100
+Organization: KDAB
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: Backport request: "icecc: Add dummy python version of set_icecc_env"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,20 +37,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 17:44:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 03 Feb 2014 17:50:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Feb 2, 2014 at 10:19 AM, Phil Blundell <pb@pbcl.net> wrote:
-> This helper script is used only during development and is not generally
-> useful on the target.  Inherit lib_package to move it to a different
-> package from the libraries.
->
-> Signed-off-by: Phil Blundell <pb@pbcl.net>
+Hi,
 
-Did you check if it provides an upgrade path, for package based distros?
+I'm using dora and have recently adopted Icecream to speed up my build
+times.  Unfortunately, icecc.bbclass breaks with the pslash recipe in a
+way that is not easily worked around.
 
+The problem has already been fixed in master, though:
+
+icecc: Add dummy python version of set_icecc_env
+
+        Bitbakes prepend mechanism for the tasks disregards the type of
+        the function. Thus bitbaking recipes using python functions for
+        configure, compile or install steps fail due to the missing
+        python version of set_icecc_env. Assuming that icecc doesn't
+        need to be used in such situations adding a dummy python version
+        of set_icecc_env fixes this.
+        
+        Signed-off-by: Tobias Henkel <tobias.henkel@bmw-carit.de>
+        Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Simply cherry-picking this commit made things work for me.  It would be
+great if it could be backported to dora.
+
+Cheers and thanks,
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Daniel Elstner | daniel.elstner@kdab.com | Software Engineer
+KDAB (Deutschland) GmbH & Co KG, a KDAB Group company
+Tel. Germany +49-30-521325470, Sweden (HQ) +46-563-540090
+KDAB - Qt Experts - Platform-independent software solutions
+
 
