@@ -1,41 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 11B586D8F6
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 166936D8F6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 19:06:16 +0000 (UTC)
-Received: by mail-ee0-f45.google.com with SMTP id b15so3839940eek.4
+	Mon,  3 Feb 2014 19:21:29 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 03 Feb 2014 11:21:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,774,1384329600"; d="scan'208";a="469208045"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2014 11:21:28 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
+	by linux.intel.com (Postfix) with ESMTP id B23296A4092
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2014 11:06:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=2r+OQcEE6haRUbvXBneQSzKbdbkzq2hFd8qFD95OXRo=;
-	b=MgA9Bbi2ZhTeiMbFEBbwn24VqweKnhwI1m4ykZew8Gs0nZJT0WigdCh073SpIrH53g
-	F6JvCqjaabKmLQ71fMpaRLVJyRJvMG+HccgH1+w23f+8a92lgczOq/cjkMM/FOV2JEqV
-	6p6VktrkQvW+6k9mK7sx0rGIRDDJMOazQdRS9rv2F1FqZlNipG0oC5G6qFF/0SMrX2L6
-	DtHPOy5mk3YoiRdxa/wq8MIK2mqMgtCRhQxF3bTGRJVWEwUVueTqORVgQEy0AutoVYce
-	pviQ6Ub61U6qh8oR49eOQVBp8pSZYaW/Xgs20kqsaoZcR4KgnRryn6T6hnb0oZntyYtE
-	i9rQ==
-X-Received: by 10.14.212.71 with SMTP id x47mr4602481eeo.98.1391454377562;
-	Mon, 03 Feb 2014 11:06:17 -0800 (PST)
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id 8sm78722892eeq.15.2014.02.03.11.06.15
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 03 Feb 2014 11:06:16 -0800 (PST)
-Date: Mon, 3 Feb 2014 20:06:27 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Kristof Robot <krirobo@gmail.com>
-Message-ID: <20140203190627.GH3698@jama>
-References: <1389452899-633-1-git-send-email-andrei@gherzan.ro>
-	<1389452899-633-2-git-send-email-andrei@gherzan.ro>
-	<CAFgGSN5skuFQsx_dLEETuO_kq7YCyFr6LbqgXkCAEmBx=8VRdQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAFgGSN5skuFQsx_dLEETuO_kq7YCyFr6LbqgXkCAEmBx=8VRdQ@mail.gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] feature-arm-thumb.inc: Use thumb instruction by default if TUNE_FEATURES thumb
+	Mon,  3 Feb 2014 11:21:21 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Feb 2014 21:22:29 +0200
+Message-Id: <e52a5e3e66a0534fe52c8ad61dfe92f8095ebc38.1391454072.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.5.3
+In-Reply-To: <cover.1391454072.git.stefanx.stanacar@intel.com>
+References: <cover.1391454072.git.stefanx.stanacar@intel.com>
+In-Reply-To: <cover.1391454072.git.stefanx.stanacar@intel.com>
+References: <cover.1391454072.git.stefanx.stanacar@intel.com>
+Subject: [PATCH 1/3] testimage: add ability to export tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,49 +35,243 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 19:06:17 -0000
-X-Groupsio-MsgNum: 49803
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KrHCbChajFcK0yQE"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 03 Feb 2014 19:21:30 -0000
 
---KrHCbChajFcK0yQE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add the ability to export the tests so that they can run independently of
+the build system, as is required if you want to be able to hand the test
+execution off to a scheduler.
+Booting/deployment of the target is still handled by the build system,
+as before, only the execution of the tests happens outside of the build system.
+Tests exported are the ones defined in TEST_SUITES.
 
-On Mon, Feb 03, 2014 at 07:50:03PM +0100, Kristof Robot wrote:
-> On Sat, Jan 11, 2014 at 4:08 PM, Andrei Gherzan <andrei@gherzan.ro> wrote:
-> > Avoid a confusion when including thumb in TUNE_FATURES. In the curent b=
-ehavior,
-> > if I include thumb in TUNE_FATURES, ARM_THUMB_M_OPT will be "-marm" whi=
-ch makes
-> > no sense for me as a default behavior.
->=20
-> I agree that this is confusing, I actually fell for this - thinking I
-> was using thumb instructions, while apparently I was not...
->=20
-> Any update on this patch?
+No tests have been changed as interesting parts of the data store have been
+exported and tests can continue to query them as before. Small adjustments were made
+for a couple of oeqa modules though.
 
-please test the patchset I've sent
-http://lists.openembedded.org/pipermail/openembedded-core/2014-January/0886=
-65.html
+[YOCTO #5613]
 
-it doesn't change the default, but it makes it easier to define thumb-only =
-MACHINE
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/classes/testimage.bbclass | 107 +++++++++++++++++++++++++++++++++++------
+ meta/lib/oeqa/oetest.py        |  17 +++----
+ 2 files changed, 98 insertions(+), 26 deletions(-)
 
---KrHCbChajFcK0yQE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 4777e14..75ab716 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -25,15 +25,16 @@
+ 
+ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+ 
++TEST_EXPORT_DIR ?= "${TMPDIR}/testimage/${PN}"
++TEST_EXPORT_ONLY ?= "0"
++
+ DEFAULT_TEST_SUITES = "ping auto"
+ DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
+ DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date rpm smart dmesg python"
+ DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc rpm smart kernelmodule dmesg python"
+-
+ TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
+ 
+ TEST_QEMUBOOT_TIMEOUT ?= "1000"
+-
+ TEST_TARGET ?= "qemu"
+ TEST_TARGET_IP ?= ""
+ TEST_SERVER_IP ?= ""
+@@ -85,6 +86,71 @@ def get_tests_list(d):
+ 
+     return testslist
+ 
++
++def exportTests(d,tc):
++    import json
++    import shutil
++    import pkgutil
++
++    exportpath = d.getVar("TEST_EXPORT_DIR", True)
++
++    savedata = {}
++    savedata["d"] = {}
++    savedata["target"] = {}
++    for key in tc.__dict__:
++        # special cases
++        if key != "d" and key != "target":
++            savedata[key] = getattr(tc, key)
++    savedata["target"]["ip"] = tc.target.ip or d.getVar("TEST_TARGET_IP", True)
++    savedata["target"]["server_ip"] = tc.target.server_ip or d.getVar("TEST_SERVER_IP", True)
++
++    keys = [ key for key in d.keys() if not key.startswith("_") and not key.startswith("BB") \
++            and not key.startswith("B_pn") and not key.startswith("do_") and not d.getVarFlag(key, "func")]
++    for key in keys:
++        try:
++            savedata["d"][key] = d.getVar(key, True)
++        except bb.data_smart.ExpansionError:
++            # we don't care about those anyway
++            pass
++
++    with open(os.path.join(exportpath, "testdata.json"), "w") as f:
++            json.dump(savedata, f, skipkeys=True, indent=4, sort_keys=True)
++
++    # now start copying files
++    # we'll basically copy everything under meta/lib/oeqa, with these exceptions
++    #  - oeqa/targetcontrol.py - not needed
++    #  - oeqa/selftest - something else
++    # That means:
++    #   - all tests from oeqa/runtime defined in TEST_SUITES (including from other layers)
++    #   - the contents of oeqa/utils and oeqa/runtime/files
++    #   - oeqa/oetest.py and oeqa/runexport.py (this will get copied to exportpath not exportpath/oeqa)
++    #   - __init__.py files
++    bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/runtime/files"))
++    bb.utils.mkdirhier(os.path.join(exportpath, "oeqa/utils"))
++    # copy test modules, this should cover tests in other layers too
++    for t in tc.testslist:
++        mod = pkgutil.get_loader(t)
++        shutil.copy2(mod.filename, os.path.join(exportpath, "oeqa/runtime"))
++    # copy __init__.py files
++    oeqadir = pkgutil.get_loader("oeqa").filename
++    shutil.copy2(os.path.join(oeqadir, "__init__.py"), os.path.join(exportpath, "oeqa"))
++    shutil.copy2(os.path.join(oeqadir, "runtime/__init__.py"), os.path.join(exportpath, "oeqa/runtime"))
++    # copy oeqa/oetest.py and oeqa/runexported.py
++    shutil.copy2(os.path.join(oeqadir, "oetest.py"), os.path.join(exportpath, "oeqa"))
++    shutil.copy2(os.path.join(oeqadir, "runexported.py"), exportpath)
++    # copy oeqa/utils/*.py
++    for root, dirs, files in os.walk(os.path.join(oeqadir, "utils")):
++        for f in files:
++            if f.endswith(".py"):
++                shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/utils"))
++    # copy oeqa/runtime/files/*
++    for root, dirs, files in os.walk(os.path.join(oeqadir, "runtime/files")):
++        for f in files:
++            shutil.copy2(os.path.join(root, f), os.path.join(exportpath, "oeqa/runtime/files"))
++
++    bb.plain("Exported tests to: %s" % exportpath)
++
++
+ def testimage_main(d):
+     import unittest
+     import os
+@@ -94,7 +160,11 @@ def testimage_main(d):
+     from oeqa.targetcontrol import get_target_controller
+ 
+     pn = d.getVar("PN", True)
++    export = oe.utils.conditional("TEST_EXPORT_ONLY", "1", True, False, d)
+     bb.utils.mkdirhier(d.getVar("TEST_LOG_DIR", True))
++    if export:
++        bb.utils.remove(d.getVar("TEST_EXPORT_DIR", True), recurse=True)
++        bb.utils.mkdirhier(d.getVar("TEST_EXPORT_DIR", True))
+ 
+     # tests in TEST_SUITES become required tests
+     # they won't be skipped even if they aren't suitable for a image (like xorg for minimal)
+@@ -105,13 +175,18 @@ def testimage_main(d):
+     # the robot dance
+     target = get_target_controller(d)
+ 
+-    class TestContext:
++    class TestContext(object):
+         def __init__(self):
+             self.d = d
+             self.testslist = testslist
+             self.testsrequired = testsrequired
+             self.filesdir = os.path.join(os.path.dirname(os.path.abspath(oeqa.runtime.__file__)),"files")
+             self.target = target
++            self.imagefeatures = d.getVar("IMAGE_FEATURES", True).split()
++            self.distrofeatures = d.getVar("DISTRO_FEATURES", True).split()
++            manifest = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("IMAGE_LINK_NAME", True) + ".manifest")
++            with open(manifest) as f:
++                self.pkgmanifest = f.read()
+ 
+     # test context
+     tc = TestContext()
+@@ -129,19 +204,21 @@ def testimage_main(d):
+ 
+     try:
+         target.start()
+-        # run tests and get the results
+-        starttime = time.time()
+-        result = runTests(tc)
+-        stoptime = time.time()
+-        if result.wasSuccessful():
+-            bb.plain("%s - Ran %d test%s in %.3fs" % (pn, result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
+-            msg = "%s - OK - All required tests passed" % pn
+-            skipped = len(result.skipped)
+-            if skipped:
+-                msg += " (skipped=%d)" % skipped
+-            bb.plain(msg)
++        if export:
++            exportTests(d,tc)
+         else:
+-            raise bb.build.FuncFailed("%s - FAILED - check the task log and the ssh log" % pn )
++            starttime = time.time()
++            result = runTests(tc)
++            stoptime = time.time()
++            if result.wasSuccessful():
++                bb.plain("%s - Ran %d test%s in %.3fs" % (pn, result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
++                msg = "%s - OK - All required tests passed" % pn
++                skipped = len(result.skipped)
++                if skipped:
++                    msg += " (skipped=%d)" % skipped
++                bb.plain(msg)
++            else:
++                raise bb.build.FuncFailed("%s - FAILED - check the task log and the ssh log" % pn )
+     finally:
+         target.stop()
+ 
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 23a3e5d..0db6cb8 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -10,8 +10,6 @@
+ import os, re, mmap
+ import unittest
+ import inspect
+-import bb
+-from oeqa.utils.sshcontrol import SSHControl
+ 
+ 
+ def loadTests(tc):
+@@ -31,15 +29,14 @@ def loadTests(tc):
+ def runTests(tc):
+ 
+     suite = loadTests(tc)
+-    bb.note("Test modules  %s" % tc.testslist)
+-    bb.note("Found %s tests" % suite.countTestCases())
++    print("Test modules  %s" % tc.testslist)
++    print("Found %s tests" % suite.countTestCases())
+     runner = unittest.TextTestRunner(verbosity=2)
+     result = runner.run(suite)
+ 
+     return result
+ 
+ 
+-
+ class oeTest(unittest.TestCase):
+ 
+     longMessage = True
+@@ -60,18 +57,16 @@ class oeTest(unittest.TestCase):
+ 
+     @classmethod
+     def hasPackage(self, pkg):
+-        manifest = os.path.join(oeTest.tc.d.getVar("DEPLOY_DIR_IMAGE", True), oeTest.tc.d.getVar("IMAGE_LINK_NAME", True) + ".manifest")
+-        with open(manifest) as f:
+-            data = f.read()
+-        if re.search(pkg, data):
++
++        if re.search(pkg, oeTest.tc.pkgmanifest):
+             return True
+         return False
+ 
+     @classmethod
+     def hasFeature(self,feature):
+ 
+-        if feature in oeTest.tc.d.getVar("IMAGE_FEATURES", True).split() or \
+-                feature in oeTest.tc.d.getVar("DISTRO_FEATURES", True).split():
++        if feature in oeTest.tc.imagefeatures or \
++                feature in oeTest.tc.distrofeatures:
+             return True
+         else:
+             return False
+-- 
+1.8.5.3
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlLv6LMACgkQN1Ujt2V2gBz7PQCguw04wXMvEMy4t5mvPcqI5H31
-eToAnAojOufGbgGvrfpgf+Jh0AjiN45a
-=SleM
------END PGP SIGNATURE-----
-
---KrHCbChajFcK0yQE--
