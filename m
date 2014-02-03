@@ -1,46 +1,26 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 20E356E934
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 691966D491
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 00:51:40 +0000 (UTC)
-Received: by mail-ig0-f177.google.com with SMTP id k19so3203769igc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Feb 2014 16:51:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=B4U7FzzyXgQm1Ivxr/Y1Sfuomh4gwXBNI60+mM3P01w=;
-	b=B14iQQ9wYrT7+/J4L6Xk2OeNHy4SEMjccoi7JbPuQfGbUlOs1z0pbBaQ5ZgQRj7bTk
-	fGwxfsx0KP8izOWDmbRgWfMzGBSlcve8UYIcXI2Ux9B/09w2sMn3HEErgcjUio504ubt
-	eTdrv7AHdT0wHmx9GzK9ScuPAFNi2obNiIAO8SWyh1FKkQXd4Et7AownAaVu6TeUDy8I
-	aY3kzPekfABvmsx+siZZgazRtdhuS0fZrjO4MS5BqmSpUSddkuki4n4T/d+eS2cWdoLh
-	eY/TwB3tgmr0+D5+puIOgdKaKySlrLKxfUvkxQgMtPEsdsJ0Dg3lALj2oSWNMmtxc8lY
-	RGUg==
-X-Gm-Message-State: ALoCoQloGLYU6JXR1eFHJGkOW/2CGuJCGHkibQNRhJb+ZFU4qHrG8hmH0NV49d2WZy7J7rrYNnfJ
-X-Received: by 10.50.18.41 with SMTP id t9mr9554512igd.26.1391388700323;
-	Sun, 02 Feb 2014 16:51:40 -0800 (PST)
-Received: from [192.168.141.83] (69-165-220-158.dsl.teksavvy.com.
-	[69.165.220.158])
-	by mx.google.com with ESMTPSA id fk5sm24836896igb.9.2014.02.02.16.51.39
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 02 Feb 2014 16:51:39 -0800 (PST)
-Message-ID: <52EEE81A.9080906@linaro.org>
-Date: Sun, 02 Feb 2014 19:51:38 -0500
-From: Trevor Woerner <trevor.woerner@linaro.org>
+	Mon,  3 Feb 2014 06:44:54 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 02 Feb 2014 22:40:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,770,1384329600"; d="scan'208";a="468881458"
+Received: from unknown (HELO [10.255.12.71]) ([10.255.12.71])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2014 22:44:54 -0800
+Message-ID: <52EF3AE6.2000505@linux.intel.com>
+Date: Sun, 02 Feb 2014 22:44:54 -0800
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1391208456-23049-1-git-send-email-trevor.woerner@linaro.org>	<1391208456-23049-2-git-send-email-trevor.woerner@linaro.org>
-	<CAP9ODKrULmq0BdYtPYqug34dReOfqtntFky_W2m4EKjLvVgb4g@mail.gmail.com>
-In-Reply-To: <CAP9ODKrULmq0BdYtPYqug34dReOfqtntFky_W2m4EKjLvVgb4g@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] scripts: add get_maintainer script
+To: Khem Raj <raj.khem@gmail.com>, 
+ openembedded-core@lists.openembedded.org
+References: <454d9116b5fa6e0dbd35b594e1baec619f3ad0a2.1391245078.git.raj.khem@gmail.com>
+	<316623c1ac044a6286904cdc7d1f9c68ddb692c8.1391245078.git.raj.khem@gmail.com>
+In-Reply-To: <316623c1ac044a6286904cdc7d1f9c68ddb692c8.1391245078.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 2/2] wireless-tools: Upgrade 29 -> 30.pre9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,79 +33,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 00:51:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 03 Feb 2014 06:44:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Otavio,
+On 02/01/2014 01:00 AM, Khem Raj wrote:
+> This also fixes the underlinking problems that
+> are unearthed with newer binutils 2.24
+> where one of the wireless-tools libraries is asking
+> for symbols from libm but all the symbols it asks
+> for are unfortunately weak and they do not let new
+> linker convince enough to link libm even though -lm
+> is on cmdline since we are using --as-needed by default
+> in linker, which means we end up with errors like
+>
+> | make: *** [iwconfig] Error 1
+> | libiw.so.30: undefined reference to `ceil'
+> | libiw.so.30: undefined reference to `pow'
+> | libiw.so.30: undefined reference to `log10'
+> | libiw.so.30: undefined reference to `floor'
+> | collect2: error: ld returned 1 exit status
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>   .../wireless-tools/wireless-tools/man.patch        | 24 ++++++++++----------
+>   ...eless-tools_29.bb => wireless-tools_30.pre9.bb} | 26 +++++++++++-----------
+>   2 files changed, 25 insertions(+), 25 deletions(-)
+>   rename meta/recipes-connectivity/wireless-tools/{wireless-tools_29.bb => wireless-tools_30.pre9.bb} (79%)
+>
+> diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools/man.patch b/meta/recipes-connectivity/wireless-tools/wireless-tools/man.patch
+> index 8e16215..6a757da 100644
+> --- a/meta/recipes-connectivity/wireless-tools/wireless-tools/man.patch
+> +++ b/meta/recipes-connectivity/wireless-tools/wireless-tools/man.patch
+> @@ -1,15 +1,15 @@
+>   Upstream-Status: Inappropriate [configuration]
+>
+> ---- wireless_tools.26/Makefile.orig	2003-06-18 03:38:58.000000000 +0200
+> -+++ wireless_tools.26/Makefile	2004-07-03 23:35:29.000000000 +0200
+> -@@ -57,8 +57,8 @@
+> - # Install directories
+> - INSTALL_DIR= $(PREFIX)/sbin/
+> - INSTALL_LIB= $(PREFIX)/lib/
+> --INSTALL_INC= $(PREFIX)/include/
+> --INSTALL_MAN= $(PREFIX)/man/
+> -+INSTALL_INC= $(PREFIX)/usr/include/
+> -+INSTALL_MAN= $(PREFIX)/usr/share/man/
+> +Index: wireless_tools.30/Makefile
+> +===================================================================
+> +--- wireless_tools.30.orig/Makefile	2014-02-01 00:21:04.148463382 -0800
+> ++++ wireless_tools.30/Makefile	2014-02-01 00:23:35.448072279 -0800
+> +@@ -76,7 +76,7 @@
+> + INSTALL_DIR= $(PREFIX)/sbin
+> + INSTALL_LIB= $(PREFIX)/lib
+> + INSTALL_INC= $(PREFIX)/include
+> +-INSTALL_MAN= $(PREFIX)/man
+> ++INSTALL_MAN= $(PREFIX)/share/man
+>
+> - # Use local header if the version of wireless extensions is specified
+> - ifdef FORCE_WEXT_VERSION
+> + # Various commands
+> + RM = rm -f
+> diff --git a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb b/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
+> similarity index 79%
+> rename from meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+> rename to meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
+> index 3aef24e..bae22a0 100644
+> --- a/meta/recipes-connectivity/wireless-tools/wireless-tools_29.bb
+> +++ b/meta/recipes-connectivity/wireless-tools/wireless-tools_30.pre9.bb
+> @@ -6,20 +6,19 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>   			file://iwevent.c;beginline=59;endline=72;md5=d66a10026d4394f0a5b1c5587bce4537 \
+>   			file://sample_enc.c;beginline=1;endline=4;md5=838372be07874260b566bae2f6ed33b6"
+>   SECTION = "base"
+> -PE = "1"
+> -PR = "r4"
+>
 
-Thanks for taking a look at my patch.
+Did you really intend to remove the PE = "1", won't that make packages 
+go backwards?
 
-On 02/02/14 19:23, Otavio Salvador wrote:
-> I like to idea and I second this pull request, the only thing I would
-> like to see added is the possibility of grabing the maintainers for
-> boards from the machine .conf file. This is the way we're using at
-> meta-fsl-arm and meta-fsl-arm-extra. What do you think? 
+Sau!
 
-To be honest I don't have much experience with perl, this script is in
-perl simply because that's the way it comes to us from the Linux kernel
-(although I was able to understand enough of it to be able to make the
-changes required so it would fit into this project). I'm quite sure,
-with StackOverflow by my side, I'd be more than able to make these
-changes :-)
-
-However... the MAINTAINERS syntax[1] does allow for "F", "N", "X", and
-"K" clauses, to wit:
-
-	F: Files and directories with wildcard patterns.
-	   A trailing slash includes all files and subdirectory files.
-	   F:	drivers/net/	all files in and below drivers/net
-	   F:	drivers/net/*	all files in drivers/net, but not below
-	   F:	*/net/*		all files in "any top level directory"/net
-	   One pattern per line.  Multiple F: lines acceptable.
-	N: Files and directories with regex patterns.
-	   N:	[^a-z]tegra	all files whose path contains the word tegra
-	   One pattern per line.  Multiple N: lines acceptable.
-	   scripts/get_maintainer.pl has different behavior for files that
-	   match F: pattern and matches of N: patterns.  By default,
-	   get_maintainer will not look at git log history when an F: pattern
-	   match occurs.  When an N: match occurs, git log history is used
-	   to also notify the people that have git commit signatures.
-	X: Files and directories that are NOT maintained, same rules as F:
-	   Files exclusions are tested before file matches.
-	   Can be useful for excluding a specific subdirectory, for instance:
-	   F:	net/
-	   X:	net/ipv6/
-	   matches all files in and below net excluding net/ipv6/
-	K: Keyword perl extended regex pattern to match content in a
-	   patch or file.  For instance:
-	   K: of_get_profile
-	      matches patches or files that contain "of_get_profile"
-	   K: \b(printk|pr_(info|err))\b
-	      matches patches or files that contain one or more of the words
-	      printk, pr_info or pr_err
-	   One regex pattern per line.  Multiple K: lines acceptable.
-
-
-As you can see, use of these clauses would cover your use case.
-
-What I was hoping for is that this script would be added to the project,
-then I could go about creating MAINTAINERS files for the various layers
-which would incorporate the information to which you referred above in a
-more standard, cross-project way. If you feel strongly about keeping the
-maintainers information in these files and this is the only thing
-holding up the script's inclusion I'd be happy to make the necessary
-modifications. But personally I'd prefer to use the existing MAINTAINERS
-syntax instead.
-
-Would moving that information into a standard top-level MAINTAINERS file
-suffice? Is there a reason it needs to be in those files (perhaps some
-other tool is processing them that couldn't be switched to process a
-MAINTAINERS file instead)?
-
-Best regards,
-    Trevor
-
-
-[1] https://www.kernel.org/doc/linux/MAINTAINERS
+> -SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.29.tar.gz \
+> -	   file://remove.ldconfig.call.patch \
+> -	   file://man.patch \
+> -	   file://wireless-tools.if-pre-up \
+> -	   file://zzz-wireless.if-pre-up \
+> -	   file://avoid_strip.patch \
+> -	   file://ldflags.patch"
+> +SRC_URI = "http://www.hpl.hp.com/personal/Jean_Tourrilhes/Linux/wireless_tools.${PV}.tar.gz \
+> +           file://wireless-tools.if-pre-up \
+> +           file://zzz-wireless.if-pre-up \
+> +           file://remove.ldconfig.call.patch \
+> +           file://man.patch \
+> +           file://avoid_strip.patch \
+> +           file://ldflags.patch \
+> +	  "
+> +SRC_URI[md5sum] = "ca91ba7c7eff9bfff6926b1a34a4697d"
+> +SRC_URI[sha256sum] = "abd9c5c98abf1fdd11892ac2f8a56737544fe101e1be27c6241a564948f34c63"
+>
+> -SRC_URI[md5sum] = "e06c222e186f7cc013fd272d023710cb"
+> -SRC_URI[sha256sum] = "6fb80935fe208538131ce2c4178221bab1078a1656306bce8909c19887e2e5a1"
+> -S = "${WORKDIR}/wireless_tools.29"
+> +S = "${WORKDIR}/wireless_tools.30"
+>
+>   CFLAGS =+ "-I${S}"
+>   EXTRA_OEMAKE = "-e 'BUILD_SHARED=y' \
+> @@ -29,7 +28,8 @@ EXTRA_OEMAKE = "-e 'BUILD_SHARED=y' \
+>   		'INSTALL_MAN=${D}${mandir}'"
+>
+>   do_compile() {
+> -	oe_runmake all libiw.a
+> +	oe_runmake libiw.a
+> +	oe_runmake all
+>   }
+>
+>   do_install() {
+>
 
