@@ -1,30 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 32D536B6D1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2014 16:56:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Feb 2014 08:56:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,773,1384329600"; d="scan'208";a="475227443"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.123.157])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Feb 2014 08:55:57 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 03 Feb 2014 16:55:51 +0000
-Message-ID: <4183008.ogJDUr4ZCT@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
-In-Reply-To: <CAMKF1srJGVP2jDMCFOybHyzjX8XqBFe5Gmh-piSFr9z2nwoqCQ@mail.gmail.com>
-References: <cover.1391054829.git.raj.khem@gmail.com>
-	<5994492.lfGcDNr6jJ@peggleto-mobl5.ger.corp.intel.com>
-	<CAMKF1srJGVP2jDMCFOybHyzjX8XqBFe5Gmh-piSFr9z2nwoqCQ@mail.gmail.com>
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id EA65F6B6D1;
+	Mon,  3 Feb 2014 17:28:13 +0000 (UTC)
+Received: by mail-ig0-f173.google.com with SMTP id c10so4614740igq.0
+	for <multiple recipients>; Mon, 03 Feb 2014 09:28:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=hIRjMcAD7fBUTqP34UETUHaWnm8ntPOqwznpwDmNebU=;
+	b=FxCXgXVcBlugvW/5Z3tJzGjreuUh7I2W8NVwoOgfID4FVMzPrJJ1fIwNHe7kOyfhnZ
+	1CJ904TQ5B/xundJpUwjfqP8mTSzYYuWLyzepU4virla605UG2hWIDx3MyBGpk9h2wnh
+	ayhsUUck4qfPAud7QRPFjWgukg7pp9Rbynkt3T8nv6WobfCbPr4t4B5kCyEzeRevQ42f
+	gn/uM0H/ATEIsOzKTrwb5iWbGn2WTmuwaerhuUPt/ply+Cv0BOKi3GRJ6/Q0UL/hfImo
+	Z00k5/FWZaS5nVC7VEPmVPM4u5Fe/g63YjENhsA3Ru9qAVzouZgFm8qiXh5n6e5xiz9K
+	/w4w==
+X-Received: by 10.43.182.74 with SMTP id pl10mr1296142icc.70.1391448494298;
+	Mon, 03 Feb 2014 09:28:14 -0800 (PST)
 MIME-Version: 1.0
-Cc: Scott Rifenbark <srifenbark@gmail.com>,
+Received: by 10.50.8.137 with HTTP; Mon, 3 Feb 2014 09:27:44 -0800 (PST)
+In-Reply-To: <20140203143127.GD3698@jama>
+References: <20140202223258.8D272503AA@opal> <20140203143127.GD3698@jama>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 3 Feb 2014 09:27:44 -0800
+Message-ID: <CAMKF1sqMOgxUa2P4JQVJpTT1NeGNE7tSL-UqfjcMdPMVnQFKxA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/15] Add python 3 support
+Subject: Re: [oe-commits] Khem Raj : binutils: Upgrade to 2.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +42,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2014 16:56:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 03 Feb 2014 17:28:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Monday 03 February 2014 08:49:36 Khem Raj wrote:
-> On Mon, Feb 3, 2014 at 4:03 AM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
-> > I see this series has been merged at last - great! Could you also send
-> > Scott some information about documentation changes that we should have
-> > for this?
+On Mon, Feb 3, 2014 at 6:31 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Hi Khem,
 >
-> I will send another patch to define a python3 packagegroup and I think
-> it would be then
-> good to document how to include python3 feature in images.
+> can you please check following QA warning:
+>
+> NOTE: recipe binutils-2.24-r0: task do_package: Started
+> WARNING: QA Issue: binutils: Files/directories were installed but not shipped
+>   /usr/bin/ld.bfd
+>   /usr/bin/dwp
+> NOTE: recipe binutils-2.24-r0: task do_package: Succeeded
+>
+> ld.bfd is there for very long time, but I think that dwp is new with
+> 2.24
+>
 
-Well, there's that, but you've also additional variables (e.g. PYTHON_ABI and 
-PYTHON_PN).
+It seems you see these warnings when you have ld-is-gold in your
+distro features right ?
+since I don't see them normally. I have a patch here, can you test it
+out and report back ?
+I do not have gold setup here and it will be quicker in your setup to verify it
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/binutils-2.24&id=33dd773b4b701dff8184a346d532b11f1bd5d327
 
