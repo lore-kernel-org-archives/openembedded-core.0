@@ -1,30 +1,31 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F2676CBB4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C1AB46E881
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 20:58:02 +0000 (UTC)
-Received: by mail-lb0-f175.google.com with SMTP id p9so6781510lbv.20
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2014 12:58:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=1AVIT0IgXyNHufhx8juTFMwAVuF4NXpmEyoGYHQcmlY=;
-	b=EkohcFg4Lnttj74GQDZgrj3w24o49Cqi20jDzGN2I0wFtvy78bU+HIDPcNDX0BTPMO
-	YyC2DAfN+CjxeQsvMUPSN8R/FlXUGkmigKY9J1fV010UF3iUHOMFDQuKtRISTi4kelkC
-	EJYqLtpw1/6D3GCxyaIzGQDVdc3ofy8RbpvSirk/NjJVb2e4dMzPE+7eIZzdEv+shNlg
-	rIukPoPKLnW2fGJpmSlbLoY75RNy+CGFHV+CKvd2VsE5Tqui86sgAwu1Q2Uyt8TnJvJE
-	M1aJAuGwqoXiS1bYRqZmTpG+c0R47JRgOgWXTsaHTq/CidHtojs98nx1CPrDAYU23JAX
-	+Vtw==
-MIME-Version: 1.0
-X-Received: by 10.112.131.100 with SMTP id ol4mr7126271lbb.38.1391547482238;
-	Tue, 04 Feb 2014 12:58:02 -0800 (PST)
-Received: by 10.112.145.6 with HTTP; Tue, 4 Feb 2014 12:58:02 -0800 (PST)
-Date: Tue, 4 Feb 2014 21:58:02 +0100
-Message-ID: <CAPbeDCnW5vdTHK2os11UdsOPrAcXv_3eqCepTe_ND_TTkq2hSw@mail.gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Busybox menuconfig on host without ncurse development package
+	Tue,  4 Feb 2014 23:27:12 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s14NR79i026635; Tue, 4 Feb 2014 23:27:08 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id h0xO4d_NrMwL; Tue,  4 Feb 2014 23:27:07 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s14NR0Js026631
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+	Tue, 4 Feb 2014 23:27:03 GMT
+Message-ID: <1391556415.15248.2.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Tue, 04 Feb 2014 23:26:55 +0000
+In-Reply-To: <8a4a98cc53998f6bbf08763359e1b560b2da3e54.1391534980.git.bruce.ashfield@windriver.com>
+References: <cover.1391534980.git.bruce.ashfield@windriver.com>
+	<8a4a98cc53998f6bbf08763359e1b560b2da3e54.1391534980.git.bruce.ashfield@windriver.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] kernel: stop using -exec rm for deleting files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,83 +38,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 20:58:03 -0000
-Content-Type: multipart/alternative; boundary=047d7b3441b45df15604f19ae594
+X-List-Received-Date: Tue, 04 Feb 2014 23:27:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---047d7b3441b45df15604f19ae594
-Content-Type: text/plain; charset=ISO-8859-1
+On Tue, 2014-02-04 at 12:34 -0500, Bruce Ashfield wrote:
+> Removing files from the source tree via find, exec and rm is not the
+> most efficient operation, due to (among other things) the many forked
+> processes.
+> 
+> If we use -delete, it saves a significant amount of time. But -delete
+> does not work with -prune (since it forces -depth). To maintain the
+> lib, tools and scripts source files, we can hide them temporarily,
+> skip their hidden directories and then finally restore them.
+> 
+> Time for install before this change:
+> 
+>  real    2m48.563s
+>  user    0m35.220s
+>  sys     0m33.036s
+> 
+> Time for install after this change:
+> 
+>  real    1m21.301s
+>  user    0m33.160s
+>  sys     0m28.388s
+> 
+> We could further speed this up by using inline perl to delete the files,
+> but that complexity is avoided for now.
+> 
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ---
+>  meta/classes/kernel.bbclass | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 51626b03f824..b76a65699755 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -260,9 +260,21 @@ kernel_do_install() {
+>  	# we clean the scripts dir while leaving the generated config
+>  	# and include files.
+>  	#
+> -	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+> -	make -C $kerneldir _mrproper_scripts
+> -	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
 
-Hi,
+If we wanted to keep the single expression like this, we could do
+something like:
 
-I ran into this problem since I didn't happen to have ncurses development
-package installed on my host at the time. "bitbake -c menuconfig busybox"
-and "make menuconfig" in a busybox devshell fails:
+find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -print0 | xargs -0 rm -f
 
-make -f scripts/Makefile.build obj=scripts/kconfig/lxdialog
-  gcc -Wp,-MD,scripts/kconfig/lxdialog/.checklist.o.d  -Wall
--Wstrict-prototypes -O2 -fomit-frame-pointer   -DCURSES_LOC="<curses.h>"
--DLOCALE    -c -o scripts/kconfig/lxdialog/checklist.o
-scripts/kconfig/lxdialog/checklist.c
-In file included from scripts/kconfig/lxdialog/checklist.c:24:0:
-scripts/kconfig/lxdialog/dialog.h:31:20: fatal error: curses.h: No such
-file or directory
- #include CURSES_LOC
-                    ^
-compilation terminated.
+?
 
-The following change fixes the problem on my system:
+I don't have strong feelings about it, I'm just curious if you tried it
+really. The xargs should batch things up enough that the fork overhead
+is much less.
 
---- busybox-1.22.1.orig/scripts/kconfig/lxdialog/Makefile
-+++ busybox-1.22.1/scripts/kconfig/lxdialog/Makefile
-@@ -5,8 +5,8 @@ check-lxdialog  := $(srctree)/$(src)/che
+Cheers,
 
- # Use reursively expanded variables so we do not call gcc unless
- # we really need to do so. (Do not call gcc as part of make mrproper)
--HOST_EXTRACFLAGS = $(shell $(CONFIG_SHELL) $(check-lxdialog) -ccflags)
--HOST_LOADLIBES   = $(shell $(CONFIG_SHELL) $(check-lxdialog) -ldflags
-$(HOSTCC))
-+HOST_EXTRACFLAGS += $(shell $(CONFIG_SHELL) $(check-lxdialog) -ccflags)
-+HOST_LOADLIBES   += $(shell $(CONFIG_SHELL) $(check-lxdialog) -ldflags
-$(HOSTCC))
+Richard
 
-But I'm no kconfig expert.. anyway, anyone have any comments on this ?
 
-"make menuconfig" for the linux kernel works as expected.
+> +	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts 
+> +
+> +	# hide directories that shouldn't have their .c, s and S files deleted
+> +	for d in tools scripts lib; do
+> +		mv $kerneldir/$d $kerneldir/.$d
+> +	done
+> +
+> +	# delete .c, .s and .S files, unless we hid a directory as .<dir>. This technique is 
+> +	# much faster than find -prune and -exec
+> +	find . -not -path '*/\.*' -type f -name "*.[csS]" -delete
+> +
+> +	# put the hidden dirs back
+> +	for d in tools scripts lib; do
+> +		mv $kerneldir/.$d $kerneldir/$d
+> +	done
+>  
+>  	# As of Linux kernel version 3.0.1, the clean target removes
+>  	# arch/powerpc/lib/crtsavres.o which is present in
 
-  -- Jacob
 
---047d7b3441b45df15604f19ae594
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div>Hi,<br><br>I ran into this problem since I didn&=
-#39;t happen to have ncurses development package installed on my host at th=
-e time. &quot;bitbake -c menuconfig busybox&quot; and &quot;make menuconfig=
-&quot; in a busybox devshell fails:<br>
-<br>make -f scripts/Makefile.build obj=3Dscripts/kconfig/lxdialog<br>=A0 gc=
-c -Wp,-MD,scripts/kconfig/lxdialog/.checklist.o.d=A0 -Wall -Wstrict-prototy=
-pes -O2 -fomit-frame-pointer=A0=A0 -DCURSES_LOC=3D&quot;&lt;curses.h&gt;&qu=
-ot; -DLOCALE=A0=A0=A0 -c -o scripts/kconfig/lxdialog/checklist.o scripts/kc=
-onfig/lxdialog/checklist.c<br>
-In file included from scripts/kconfig/lxdialog/checklist.c:24:0:<br>scripts=
-/kconfig/lxdialog/dialog.h:31:20: fatal error: curses.h: No such file or di=
-rectory<br>=A0#include CURSES_LOC<br>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 ^<br>compilation terminated.<br>
-<br></div><div>The following change fixes the problem on my system:<br><br>=
---- busybox-1.22.1.orig/scripts/kconfig/lxdialog/Makefile<br>+++ busybox-1.=
-22.1/scripts/kconfig/lxdialog/Makefile<br>@@ -5,8 +5,8 @@ check-lxdialog=A0=
- :=3D $(srctree)/$(src)/che<br>
-=A0<br>=A0# Use reursively expanded variables so we do not call gcc unless<=
-br>=A0# we really need to do so. (Do not call gcc as part of make mrproper)=
-<br>-HOST_EXTRACFLAGS =3D $(shell $(CONFIG_SHELL) $(check-lxdialog) -ccflag=
-s)<br>
--HOST_LOADLIBES=A0=A0 =3D $(shell $(CONFIG_SHELL) $(check-lxdialog) -ldflag=
-s $(HOSTCC))<br>+HOST_EXTRACFLAGS +=3D $(shell $(CONFIG_SHELL) $(check-lxdi=
-alog) -ccflags)<br>+HOST_LOADLIBES=A0=A0 +=3D $(shell $(CONFIG_SHELL) $(che=
-ck-lxdialog) -ldflags $(HOSTCC))<br>
-<br></div>But I&#39;m no kconfig expert.. anyway, anyone have any comments =
-on this ?<br><br></div>&quot;make menuconfig&quot; for the linux kernel wor=
-ks as expected.<br><br><div><div><div>=A0 -- Jacob
-</div></div></div></div>
-
---047d7b3441b45df15604f19ae594--
