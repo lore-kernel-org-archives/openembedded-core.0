@@ -1,26 +1,55 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DEDC36EC52
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 435966C73A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 17:34:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s14HYTb2023976
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Feb 2014 09:34:29 -0800 (PST)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 4 Feb 2014 09:34:29 -0800
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 4 Feb 2014 12:34:26 -0500
-Message-ID: <274bcde5bf629e3cbac8d32560ce916520a771af.1391534980.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1391534980.git.bruce.ashfield@windriver.com>
-References: <cover.1391534980.git.bruce.ashfield@windriver.com>
+	Tue,  4 Feb 2014 18:00:30 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	s14I0TD5026067
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Feb 2014 19:00:30 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1391536830;
+	bh=9ZeeuW2pXbGu2h7fTOLSbtrG/pxYGh3V+dcsf+KQKaU=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=U2VZfUsyv+CILzFNcsXAfg3HaFdxgYSOhkGR3/lU9BaOQF9dzi0Qjez9mzYrNDQ4f
+	EqD4bVZg6DX6t+xr6IW9cIBgbT4uzKc/tetNDaWppxwk02pyPCjyMslMGCpA13uLUO
+	rLIx7l8IkseTlF7TG7/C7fawf/54qToWJOM9qnw0=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id s14I0OGv032473
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Feb 2014 19:00:25 +0100
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1WAkIK-0004UE-CM
+	for openembedded-core@lists.openembedded.org;
+	Tue, 04 Feb 2014 19:00:24 +0100
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1390833588.17424.254.camel@ted>
+	<BEFD196E-8595-4DD1-BEAD-0183FBB61D55@dominion.thruhere.net>
+	<lyfvny500u.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<52F11C55.10108@windriver.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 04 Feb 2014 19:00:24 +0100
+In-Reply-To: <52F11C55.10108@windriver.com> (Mark Hatle's message of "Tue, 4
+	Feb 2014 10:59:01 -0600")
+Message-ID: <lybnym4v2f.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] linux-yocto/3.10: integrate LTSI
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 0.81
+X-Spam-Score: -5.2
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.74
+Subject: Re: [PATCH] local.conf.sample: Add automatic defaults for BB_NUMBER_THREADS and PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +62,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 17:34:31 -0000
+X-List-Received-Date: Tue, 04 Feb 2014 18:00:30 -0000
 Content-Type: text/plain
 
-Updating the SRCREVs of the 3.10 tree to reflect the integration of
-of commit 68054859 from:
+Mark Hatle <mark.hatle-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
 
-    git://git.linuxfoundation.org/ltsi-kernegit://git.linuxfoundation.org/ltsi-kernel.git
+>>> I've noticed that after 4 threads IO becomes a big bottleneck when
+>>> you have things like webkit, qt, asio etc in the buildqueue. Combine
+>>> that with issues like every make -j thread taking >2GB ram with asio
+>>> and webkit this default seems a bit high. I'd use 0.5*numcpu with a
+>>> lower bound of 2.
+>>
+>> limitting the load mitigates this (high i/o increases it); e.g.
+>>
+>> PARALLEL_MAKE = "\
+>>    ...
+>>    -l ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100} \
+>> "
+>
+> FYI, I think this points out the variability in system performance,
+> between CPU, RAM and I/o.
+>
+> As it stands the patch gives my machine the best performance.  So I
+> like it as it is.
 
-Build and boot tested on all qemu architectures.
+Point of my posting was not the exact scale (I just copied a piece of
+my ~/.bitbake.conf), but using '-l' in addition to '-j'.  Doing heavy
+i/o or being low on RAM (which causes swapping) increases the load and
+'make' will throttle then.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
- 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index 9bdd47ecbf65..dd1ec52626d1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-@@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
--SRCREV_machine ?= "957ba6ae6c1d81b57da6a36b93f1b2a0ced2f45d"
--SRCREV_machine_qemuppc ?= "37e40b7017a9c78d676b19716011494dc7cb6369"
-+SRCREV_machine ?= "14651317755a87f03f8399299f2eb0b4042a2d0c"
-+SRCREV_machine_qemuppc ?= "2918b5d9ee82304d67aae61a427fcb02d3edee8f"
- SRCREV_meta ?= "4d658aa580df62232a4a84957b02496436dc17c4"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index 6defed1c9464..a852f75ff443 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.10.25"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "79af968f2f26378798aec7a6d729ff5a371aae5f"
-+SRCREV_machine ?= "78d2a615b13a1c307d482eaa9499c1b2dee40599"
- SRCREV_meta ?= "4d658aa580df62232a4a84957b02496436dc17c4"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-index d0772fddc5f1..f7f4dabea8d5 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-@@ -11,13 +11,13 @@ KBRANCH_qemux86  = "standard/common-pc/base"
- KBRANCH_qemux86-64  = "standard/common-pc-64/base"
- KBRANCH_qemumips64 = "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "e3163012f3e09fe48374ef22bc676f8b19aeec1a"
--SRCREV_machine_qemumips ?= "01a71aaf8e545c3ef88da1fe02f53d1b96a2640e"
--SRCREV_machine_qemuppc ?= "ae1b9115975ff235038d5da22b4cc984b4d76aae"
--SRCREV_machine_qemux86 ?= "79af968f2f26378798aec7a6d729ff5a371aae5f"
--SRCREV_machine_qemux86-64 ?= "79af968f2f26378798aec7a6d729ff5a371aae5f"
--SRCREV_machine_qemumips64 ?= "67efb2993ec7726df5567e2572fd64e34e29b46d"
--SRCREV_machine ?= "79af968f2f26378798aec7a6d729ff5a371aae5f"
-+SRCREV_machine_qemuarm ?= "2a4d8c0884c8d08896c052a6e42c51e861cf48b5"
-+SRCREV_machine_qemumips ?= "08872a160571b9bf45b6cd262b977063f12aca46"
-+SRCREV_machine_qemuppc ?= "eba0c4fcc962ffddd384251b5b6ee0c61bd5ea4d"
-+SRCREV_machine_qemux86 ?= "78d2a615b13a1c307d482eaa9499c1b2dee40599"
-+SRCREV_machine_qemux86-64 ?= "78d2a615b13a1c307d482eaa9499c1b2dee40599"
-+SRCREV_machine_qemumips64 ?= "de555074575d2997a8cd7a4b2d6dbf22e7ddfc9b"
-+SRCREV_machine ?= "78d2a615b13a1c307d482eaa9499c1b2dee40599"
- SRCREV_meta ?= "4d658aa580df62232a4a84957b02496436dc17c4"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
--- 
-1.8.1.2
+> No setting is going to make everyone happy but something has to be
+> better then defaulting to '1'.
 
+That's true; but not due to performance gain but because it will help to
+detect races in the build process.
+
+
+Enrico
 
