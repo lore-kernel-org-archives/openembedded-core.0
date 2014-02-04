@@ -1,32 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B1196E901
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id CE05B6E8FC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 09:32:24 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s149WI4d023555; Tue, 4 Feb 2014 09:32:18 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 8trETT3VQceQ; Tue,  4 Feb 2014 09:32:18 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s149WCpH023544
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Tue, 4 Feb 2014 09:32:13 GMT
-Message-ID: <1391506325.22620.12.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue,  4 Feb 2014 10:10:46 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 04 Feb 2014 02:10:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,778,1384329600"; d="scan'208";a="469574333"
+Received: from gmacartn-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.79])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Feb 2014 02:10:20 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: Koen Kooi <koen.kooi@linaro.org>
-Date: Tue, 04 Feb 2014 09:32:05 +0000
+Date: Tue, 04 Feb 2014 10:10:19 +0000
+Message-ID: <1521180.2sXy9KK50E@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.11.5 (Linux/3.12.8-300.fc20.x86_64; KDE/4.11.5; x86_64; ; )
 In-Reply-To: <52F0ABC7.1010908@linaro.org>
 References: <1390297632-9966-1-git-send-email-koen.kooi@linaro.org>
-	<1390312633.874.84.camel@ted> <52DE7E17.2090301@linaro.org>
 	<1390316993.874.85.camel@ted> <52F0ABC7.1010908@linaro.org>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [RFC][PATCH] package.bbclass: fix strip and split logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -40,44 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 09:32:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Feb 2014 10:10:47 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 2014-02-04 at 09:58 +0100, Koen Kooi wrote:
-> On 01/21/2014 04:09 PM, Richard Purdie wrote:
-> > On Tue, 2014-01-21 at 15:03 +0100, Koen Kooi wrote:
-> >> On 01/21/2014 02:57 PM, Richard Purdie wrote:
-> >>> On Tue, 2014-01-21 at 10:47 +0100, Koen Kooi wrote:
-> > I'm ok with it in principle but I'd like to see known build issues fixed
-> > before it goes in since red autobuilders cause me enough grief
-> > already ;-).
-> 
-> What's the status on this? I know a fix went into meta-intel (albeit it 
-> in a legally questionable way, but that's their problem) and the other 
+On Tuesday 04 February 2014 09:58:47 Koen Kooi wrote:
+> What's the status on this? I know a fix went into meta-intel (albeit it
+> in a legally questionable way, but that's their problem) and the other
 > affected layers have received patches for it.
 
-The last test build I ran:
-
-http://autobuilder.yoctoproject.org/main/builders/nightly-fsl-arm/builds/10/steps/BuildImages_1/logs/stdio
-
-still shows an error in the fsl-arm layer which I suspect is from this.
-I was hoping that could get fixed before it merges, its very much still
-in the queue though.
-
-I won't wait forever, equally, maintaining the green builds is proving
-to consume a lot of my time and if I can avoid adding more failures, I'd
-prefer to do so.
+Legally questionable in what way? If you refer to your name being removed from 
+the patch, that was rectified before the patch was merged.
 
 Cheers,
+Paul
 
-Richard
+-- 
 
-
-
-
-
-
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
