@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 517FC6C73A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BB8E16C73A
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  4 Feb 2014 17:34:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s14HYRXO023973
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s14HYTh1028128
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Feb 2014 09:34:28 -0800 (PST)
+	Tue, 4 Feb 2014 09:34:29 -0800 (PST)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
 	14.2.347.0; Tue, 4 Feb 2014 09:34:28 -0800
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 4 Feb 2014 12:34:24 -0500
-Message-ID: <cover.1391534980.git.bruce.ashfield@windriver.com>
+Date: Tue, 4 Feb 2014 12:34:25 -0500
+Message-ID: <8a4a98cc53998f6bbf08763359e1b560b2da3e54.1391534980.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1391534980.git.bruce.ashfield@windriver.com>
+References: <cover.1391534980.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] kernel: consolidated pull request
+Subject: [PATCH 1/2] kernel: stop using -exec rm for deleting files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +36,64 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 04 Feb 2014 17:34:29 -0000
 Content-Type: text/plain
 
-Richard/Saul,
+Removing files from the source tree via find, exec and rm is not the
+most efficient operation, due to (among other things) the many forked
+processes.
 
-Consolidated is a bit of a strong word here, since there are
-only two patches .. but I'd rather send them as a series of
-my pending changes versus two separate pulls.
+If we use -delete, it saves a significant amount of time. But -delete
+does not work with -prune (since it forces -depth). To maintain the
+lib, tools and scripts source files, we can hide them temporarily,
+skip their hidden directories and then finally restore them.
 
-Once is an update of the 3.10 tree to include the 3.10 LTSI
-content, this gets us new BSP support and a few features. The
-merge was smooth, but I did build and boot all qemu boards to
-be sure.
+Time for install before this change:
 
-The second change is a tweak I made to speed up the kernel
-installation phase. It's a simple change that saves nearly a 
-minute on my local tests. As the patch states, I kept things
-simple instead of getting really arcane with find and mixing
-multiple options (it is already getting unreadible, and I
-didn't want to make it worse).
+ real    2m48.563s
+ user    0m35.220s
+ sys     0m33.036s
 
-From the patch:
+Time for install after this change:
 
-    Time for install before this change:
+ real    1m21.301s
+ user    0m33.160s
+ sys     0m28.388s
 
-     real    2m48.563s
-     user    0m35.220s
-     sys     0m33.036s
+We could further speed this up by using inline perl to delete the files,
+but that complexity is avoided for now.
 
-    Time for install after this change:
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel.bbclass | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-     real    1m21.301s
-     user    0m33.160s
-     sys     0m28.388s
-
-I've been running with the install change for quite some time
-now, and haven't seen any breakage.
-
-Bruce
-
-The following changes since commit 82f9c2bcff3e977beefde6048d2ba32d17acbbd0:
-
-  wic: Hook up --debug option (2014-02-04 12:57:36 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (2):
-  kernel: stop using -exec rm for deleting files
-  linux-yocto/3.10: integrate LTSI
-
- meta/classes/kernel.bbclass                        | 18 +++++++++++++++---
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 14 +++++++-------
- 4 files changed, 25 insertions(+), 13 deletions(-)
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 51626b03f824..b76a65699755 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -260,9 +260,21 @@ kernel_do_install() {
+ 	# we clean the scripts dir while leaving the generated config
+ 	# and include files.
+ 	#
+-	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+-	make -C $kerneldir _mrproper_scripts
+-	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
++	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts 
++
++	# hide directories that shouldn't have their .c, s and S files deleted
++	for d in tools scripts lib; do
++		mv $kerneldir/$d $kerneldir/.$d
++	done
++
++	# delete .c, .s and .S files, unless we hid a directory as .<dir>. This technique is 
++	# much faster than find -prune and -exec
++	find . -not -path '*/\.*' -type f -name "*.[csS]" -delete
++
++	# put the hidden dirs back
++	for d in tools scripts lib; do
++		mv $kerneldir/.$d $kerneldir/$d
++	done
+ 
+ 	# As of Linux kernel version 3.0.1, the clean target removes
+ 	# arch/powerpc/lib/crtsavres.o which is present in
 -- 
 1.8.1.2
 
