@@ -1,42 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f177.google.com (mail-yk0-f177.google.com
-	[209.85.160.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 46F716E944
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 65C7C6E944
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 12:12:17 +0000 (UTC)
-Received: by mail-yk0-f177.google.com with SMTP id 19so46958810ykq.8
+	Tue,  4 Feb 2014 12:41:19 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id u57so3969355wes.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2014 04:12:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=xwbGBeHeKR+Ss/UaRjWKiSEDuaGH1I+xkaB5TVMR+Zc=;
-	b=Aqxqtc9lb9WH8xT0cF7dzi47xldF9S6ffDR5xZi6DNYKUdXx3j6YEapeZ0FNHggwxD
-	51z3hcacmZB6u5LiRILL6Tx8luTGvVpDdY1EODGNoFUB4l/odx/VCiH7ygVckCBmj3oc
-	Jlr8xFv2MIVpndJ4hrvzz3IBoMzXrYNBqJWEE64XlyaGMBkX2MBIn7Ef7Z0G5M/aD0gL
-	LZ3D3/12y45jb0hufWzno4bmyEBaV4ohnJZnSnmLx/sag26oVG224PnbH1nbAK4fmvbJ
-	fmfBiBxITIHkRY88ws5YGtEO3uBYDCgKeaxgNrcYtsRy4yE+4a4lSUf64ntWgPrOWGlD
-	GD1g==
-MIME-Version: 1.0
-X-Received: by 10.236.158.226 with SMTP id q62mr38779814yhk.2.1391515937444;
-	Tue, 04 Feb 2014 04:12:17 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.62.84 with HTTP; Tue, 4 Feb 2014 04:12:17 -0800 (PST)
-In-Reply-To: <52F0CE9B.7060601@linaro.org>
-References: <1390297632-9966-1-git-send-email-koen.kooi@linaro.org>
-	<1390312633.874.84.camel@ted> <52DE7E17.2090301@linaro.org>
-	<1390316993.874.85.camel@ted> <52F0ABC7.1010908@linaro.org>
-	<1391506325.22620.12.camel@ted>
-	<CAP9ODKr7Ypt08VYjnZ=1rmmwh-Ri+qjWwc4L9yiF=iw8dE2ArQ@mail.gmail.com>
-	<52F0CE9B.7060601@linaro.org>
-Date: Tue, 4 Feb 2014 10:12:17 -0200
-X-Google-Sender-Auth: x81O0fHzmsNwiNCizjFy6sjUsks
-Message-ID: <CAP9ODKr7n45Drm0EG-VK=G2B-YQLaEsQk9wPjqckukw=ic7DwA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Koen Kooi <koen.kooi@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] package.bbclass: fix strip and split logic
+	Tue, 04 Feb 2014 04:41:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Rn4tWdtVglC4fjLiJrG4HbfutFdDNJAVuLMH9El5kz4=;
+	b=KIxGio0LwpTZV2DN3u2PhYFzK0XFxUU8iVLqDIWBfShrFopAKjgY2NTFvwve3PNY+l
+	NiFoAVqiEkH/THaI3WHh0pBRe3Wofed0JM+78xcNha5TQXDx4Sn2JbTMw40RxAU6ApiT
+	r/Yc1PH3UpRFcT26UMLUSiFGR0sUz4SfHR1XUuOKTU5svWEzokZlGhwDpfrvUyFq2ttW
+	IQnEDCPN28yu5ko4dYpr1DEXrrOOJmTU0Onb6ZQD/d6xo6zmAyqcjujk+BOGl1RJLnY7
+	5upyADPkfAfdVXfNGjMMc67bwhvHyl7oC2lgjt79srxu95tH93b1eZ6GgSnmLPNai0Ro
+	qEIQ==
+X-Gm-Message-State: ALoCoQm/aeuAYxK3BU9P9QB8eNfwYd2HU+H43t+ACqr2lQgegho6l6t4ufB24MB2SFQ0UwE2oR26
+X-Received: by 10.194.61.84 with SMTP id n20mr1341276wjr.61.1391517679952;
+	Tue, 04 Feb 2014 04:41:19 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	bj3sm52331357wjb.14.2014.02.04.04.41.18
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Feb 2014 04:41:19 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Feb 2014 12:41:15 +0000
+Message-Id: <1391517675-31524-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] oeqa/runtime/systemd: remove race in settle()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,61 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 12:12:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 04 Feb 2014 12:41:21 -0000
 
-On Tue, Feb 4, 2014 at 9:27 AM, Koen Kooi <koen.kooi@linaro.org> wrote:
-> On 02/04/2014 12:20 PM, Otavio Salvador wrote:
->>
->> Hello Richard,
->>
->> On Tue, Feb 4, 2014 at 7:32 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>>
->>> On Tue, 2014-02-04 at 09:58 +0100, Koen Kooi wrote:
->>>>
->>>> On 01/21/2014 04:09 PM, Richard Purdie wrote:
->>>>>
->>>>> On Tue, 2014-01-21 at 15:03 +0100, Koen Kooi wrote:
->>>>>>
->>>>>> On 01/21/2014 02:57 PM, Richard Purdie wrote:
->>>>>>>
->>>>>>> On Tue, 2014-01-21 at 10:47 +0100, Koen Kooi wrote:
->>>>>
->>>>> I'm ok with it in principle but I'd like to see known build issues
->>>>> fixed
->>>>> before it goes in since red autobuilders cause me enough grief
->>>>> already ;-).
->>>>
->>>>
->>>> What's the status on this? I know a fix went into meta-intel (albeit it
->>>> in a legally questionable way, but that's their problem) and the other
->>>> affected layers have received patches for it.
->>>
->>>
->>> The last test build I ran:
->>>
->>>
->>> http://autobuilder.yoctoproject.org/main/builders/nightly-fsl-arm/builds/10/steps/BuildImages_1/logs/stdio
->>>
->>> still shows an error in the fsl-arm layer which I suspect is from this.
->>> I was hoping that could get fixed before it merges, its very much still
->>> in the queue though.
->>>
->>> I won't wait forever, equally, maintaining the green builds is proving
->>> to consume a lot of my time and if I can avoid adding more failures, I'd
->>> prefer to do so.
->>
->> I asked two fixes for Koen in the patch and I am awaiting this to
->> apply his patches.
->
-> And I already said I'm not planning to jump through more hoops just to get
-> this patch into OE-core.
+The settle() function had a race where services could still be activating at two
+minutes but then when the final log is output, they've activated.
 
-Sorry Koen but I think as you send the patch you should send the reviewed one.
+Remove this race and generally clean up the code.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/lib/oeqa/runtime/systemd.py |   22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
+
+diff --git a/meta/lib/oeqa/runtime/systemd.py b/meta/lib/oeqa/runtime/systemd.py
+index 6414dd6..6de84f8 100644
+--- a/meta/lib/oeqa/runtime/systemd.py
++++ b/meta/lib/oeqa/runtime/systemd.py
+@@ -37,25 +37,19 @@ class SystemdBasicTests(SystemdTest):
+         Block until systemd has finished activating any units being activated,
+         or until two minutes has elapsed.
+ 
+-        Returns a tuple, either (True, None) if all units have finished
+-        acitvating, or (False, message string) if there are still units
++        Returns a tuple, either (True, '') if all units have finished
++        activating, or (False, message string) if there are still units
+         activating (generally, failing units that restart).
+         """
+         import time
+-        settled = False
+         endtime = time.time() + (60 * 2)
+-        while time.time() < endtime:
+-            status = self.target.run('systemctl --state=activating | grep -q "0 loaded units listed"')
+-            if status == 0:
+-                settled = True
+-                break
+-            time.sleep(10)
+-
+-        if settled:
+-            return (True, None)
+-        else:
++        while True:
+             status, output = self.target.run('systemctl --state=activating')
+-        return (settled, output)
++            if "0 loaded units listed" in output:
++                return (True, '')
++            if time.time() >= endtime:
++                return (False, output)
++            time.sleep(10)
+ 
+     @skipUnlessPassed('test_systemd_basic')
+     def test_systemd_failed(self):
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.10.4
+
 
