@@ -1,24 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A71C56E881
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F1D7F6E881
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 23:39:32 +0000 (UTC)
+	Tue,  4 Feb 2014 23:39:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s14NdXRW028236
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s14NdY9E027538
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Feb 2014 15:39:33 -0800 (PST)
+	Tue, 4 Feb 2014 15:39:35 -0800 (PST)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 4 Feb 2014 15:39:33 -0800
+	14.2.347.0; Tue, 4 Feb 2014 15:39:34 -0800
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Feb 2014 17:39:30 -0600
-Message-ID: <cover.1391555891.git.mark.hatle@windriver.com>
+Date: Tue, 4 Feb 2014 17:39:31 -0600
+Message-ID: <ac3f40023ec949d2cbba2833e1a11fdebf258cd0.1391555891.git.mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.5.3
+In-Reply-To: <cover.1391555891.git.mark.hatle@windriver.com>
+References: <cover.1391555891.git.mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [v2 PATCH 0/2] Implement deterministic uid/gid
+Subject: [v2 PATCH 1/2] useradd.bbclass: Fix build time install issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,98 +33,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 23:39:32 -0000
+X-List-Received-Date: Tue, 04 Feb 2014 23:39:34 -0000
 Content-Type: text/plain
 
-V2:
+When the system attempts to populate the sysroot's passwd/group files, it
+does so in a single block.  However, with the way it was previously
+implemented, the system would always run through the code necessary to
+populate the sysroot, even in the case of target packages.  This had
+the side effect that a cross-installed filesystem may not match a
+target installed filesystem.
 
-Rebase to latest master...
+The code was slightly reorganized to ensure that the cross/target installed
+pre-install script behavior is the same.  It also moves the block that
+configures the sysroot parameters to the sysroot specific section of
+the code.
 
-Rework the code a bit based on comments from a few people.  Specifically
-add a mode where passwd/group file entries are NOT overridden (blank info).
+Also some minor validation was occuring even on nativesdk packages.
+Nativesdk packages should be skipped when processing useradd ops.
 
-Clearly comment that the 'password' field is ignored, as is the group's
-member fields.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/classes/useradd.bbclass | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-Ensure that the 'enforcing' mode, doesn't trigger build failures, but simply
-excludes the recipe from the build list.  If the package is needed an error
-indicating the problem will be generated.  Makes for a cleaner build, and a
-more targeted passwd/group file.
-
-
-This was tested by doing the following:
-
-(not enabling any of the code), build core-image-sato
-
-copy the passwd/group file from tmp-eglibc/sysroots/<machine>/etc/ to meta/files/.
-
-Clear the build directory
-
-Enable the code adding the following to the conf/local.conf:
-USERADD_REWRITE_PARAMS = '1'
-
-Build, compare the rootfs  /etc/passwd and /etc/group to the version in meta/files.
-Verify the uid, gid and other information match.  (Note xuser will have a slight
-difference in the 'shell' field, but this is does to the difference between the
-configuration of the sysroot and the target filesystem.)
-
-Clear the build directory again
-
-Enable the code adding the following to conf/local.conf:
-USERADD_ERROR_DYNAMIC = '1'
-
-Repeat the validation steps.
-
-Clear the build directory again
-
-Modify the meta/files/passwd and remove the items in the comment, home_dir and
-shell fields.  i.e.:
-
-root::0:0:root:/home/root:/bin/sh
-
-becomes
-
-root::0:0:::
-
-Repeat the build, verify the fields are all correct in the final image.
-
-V1:
-
-The following series implements the deterministic uid/gid setting for a
-distribution.  Currently when a filesystem is generated the uid/gid values
-are generally set at install time, so the install order determines what
-the actual uid/gid values become.  In order to create a deterministic uid/gid
-set, that still dynamically constructs the passwd/group file, we add an
-option to read a special passwd/group file to allow the system to determine
-the values.
-
-It uses the existing parameters, and the values from the special passwd/group
-files to reconstruct the parameter set to ensure these items are fully
-defined with static values.
-
-The first patch (01/02) is generally applicable.  It fixes a real bug in
-the way the user/group adds occur today within the system.
-
-Patch 02/02 implements the new functionality.
-
-
-The following changes since commit 8461283a648d7c5affd51971ebd9b35a8a4c625f:
-
-  sstate: Improve funciton checksums (2014-02-04 22:49:58 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mhatle/uidgid
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/uidgid
-
-Mark Hatle (2):
-  useradd.bbclass: Fix build time install issues
-  useradd.bbclass: Add ability to select a static uid/gid automatically
-
- meta/classes/useradd.bbclass         | 279 ++++++++++++++++++++++++++++++++++-
- meta/conf/local.conf.sample.extended |  24 +++
- 2 files changed, 297 insertions(+), 6 deletions(-)
-
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index a2ad648..ad6f61a 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -24,12 +24,11 @@ if test "x$D" != "x"; then
+ 	# Installing into a sysroot
+ 	SYSROOT="$D"
+ 	OPT="--root $D"
++fi
+ 
+-	# Add groups and users defined for all recipe packages
+-	GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
+-	USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
+-	GROUPMEMS_PARAM="${@get_all_cmd_params(d, 'groupmems')}"
+-else
++# If we're not doing a special SSTATE/SYSROOT install
++# then set the values, otherwise use the environment
++if test "x$UA_SYSROOT" = "x"; then
+ 	# Installing onto a target
+ 	# Add groups and users defined only for this package
+ 	GROUPADD_PARAM="${GROUPADD_PARAM}"
+@@ -97,6 +96,15 @@ useradd_sysroot () {
+ 	# Explicitly set $D since it isn't set to anything
+ 	# before do_install
+ 	D=${STAGING_DIR_TARGET}
++
++	# Add groups and users defined for all recipe packages
++	GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
++	USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
++	GROUPMEMS_PARAM="${@get_all_cmd_params(d, 'groupmems')}"
++
++	# Tell the system to use the environment vars
++	UA_SYSROOT=1
++
+ 	useradd_preinst
+ }
+ 
+@@ -137,7 +145,8 @@ def update_useradd_after_parse(d):
+             bb.fatal("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE'), pkg))
+ 
+ python __anonymous() {
+-    update_useradd_after_parse(d)
++    if not bb.data.inherits_class('nativesdk', d):
++        update_useradd_after_parse(d)
+ }
+ 
+ # Return a single [GROUP|USER]ADD_PARAM formatted string which includes the
 -- 
 1.8.5.3
 
