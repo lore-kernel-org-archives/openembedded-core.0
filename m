@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id C1AB46E881
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A71C56E881
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 23:27:12 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s14NR79i026635; Tue, 4 Feb 2014 23:27:08 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id h0xO4d_NrMwL; Tue,  4 Feb 2014 23:27:07 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s14NR0Js026631
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-	Tue, 4 Feb 2014 23:27:03 GMT
-Message-ID: <1391556415.15248.2.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Tue, 04 Feb 2014 23:26:55 +0000
-In-Reply-To: <8a4a98cc53998f6bbf08763359e1b560b2da3e54.1391534980.git.bruce.ashfield@windriver.com>
-References: <cover.1391534980.git.bruce.ashfield@windriver.com>
-	<8a4a98cc53998f6bbf08763359e1b560b2da3e54.1391534980.git.bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] kernel: stop using -exec rm for deleting files
+	Tue,  4 Feb 2014 23:39:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s14NdXRW028236
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 4 Feb 2014 15:39:33 -0800 (PST)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 4 Feb 2014 15:39:33 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Feb 2014 17:39:30 -0600
+Message-ID: <cover.1391555891.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.5.3
+MIME-Version: 1.0
+Subject: [v2 PATCH 0/2] Implement deterministic uid/gid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,86 +31,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 23:27:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Feb 2014 23:39:32 -0000
+Content-Type: text/plain
 
-On Tue, 2014-02-04 at 12:34 -0500, Bruce Ashfield wrote:
-> Removing files from the source tree via find, exec and rm is not the
-> most efficient operation, due to (among other things) the many forked
-> processes.
-> 
-> If we use -delete, it saves a significant amount of time. But -delete
-> does not work with -prune (since it forces -depth). To maintain the
-> lib, tools and scripts source files, we can hide them temporarily,
-> skip their hidden directories and then finally restore them.
-> 
-> Time for install before this change:
-> 
->  real    2m48.563s
->  user    0m35.220s
->  sys     0m33.036s
-> 
-> Time for install after this change:
-> 
->  real    1m21.301s
->  user    0m33.160s
->  sys     0m28.388s
-> 
-> We could further speed this up by using inline perl to delete the files,
-> but that complexity is avoided for now.
-> 
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  meta/classes/kernel.bbclass | 18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 51626b03f824..b76a65699755 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -260,9 +260,21 @@ kernel_do_install() {
->  	# we clean the scripts dir while leaving the generated config
->  	# and include files.
->  	#
-> -	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
-> -	make -C $kerneldir _mrproper_scripts
-> -	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
+V2:
 
-If we wanted to keep the single expression like this, we could do
-something like:
+Rebase to latest master...
 
-find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -print0 | xargs -0 rm -f
+Rework the code a bit based on comments from a few people.  Specifically
+add a mode where passwd/group file entries are NOT overridden (blank info).
 
-?
+Clearly comment that the 'password' field is ignored, as is the group's
+member fields.
 
-I don't have strong feelings about it, I'm just curious if you tried it
-really. The xargs should batch things up enough that the fork overhead
-is much less.
-
-Cheers,
-
-Richard
+Ensure that the 'enforcing' mode, doesn't trigger build failures, but simply
+excludes the recipe from the build list.  If the package is needed an error
+indicating the problem will be generated.  Makes for a cleaner build, and a
+more targeted passwd/group file.
 
 
-> +	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts 
-> +
-> +	# hide directories that shouldn't have their .c, s and S files deleted
-> +	for d in tools scripts lib; do
-> +		mv $kerneldir/$d $kerneldir/.$d
-> +	done
-> +
-> +	# delete .c, .s and .S files, unless we hid a directory as .<dir>. This technique is 
-> +	# much faster than find -prune and -exec
-> +	find . -not -path '*/\.*' -type f -name "*.[csS]" -delete
-> +
-> +	# put the hidden dirs back
-> +	for d in tools scripts lib; do
-> +		mv $kerneldir/.$d $kerneldir/$d
-> +	done
->  
->  	# As of Linux kernel version 3.0.1, the clean target removes
->  	# arch/powerpc/lib/crtsavres.o which is present in
+This was tested by doing the following:
 
+(not enabling any of the code), build core-image-sato
+
+copy the passwd/group file from tmp-eglibc/sysroots/<machine>/etc/ to meta/files/.
+
+Clear the build directory
+
+Enable the code adding the following to the conf/local.conf:
+USERADD_REWRITE_PARAMS = '1'
+
+Build, compare the rootfs  /etc/passwd and /etc/group to the version in meta/files.
+Verify the uid, gid and other information match.  (Note xuser will have a slight
+difference in the 'shell' field, but this is does to the difference between the
+configuration of the sysroot and the target filesystem.)
+
+Clear the build directory again
+
+Enable the code adding the following to conf/local.conf:
+USERADD_ERROR_DYNAMIC = '1'
+
+Repeat the validation steps.
+
+Clear the build directory again
+
+Modify the meta/files/passwd and remove the items in the comment, home_dir and
+shell fields.  i.e.:
+
+root::0:0:root:/home/root:/bin/sh
+
+becomes
+
+root::0:0:::
+
+Repeat the build, verify the fields are all correct in the final image.
+
+V1:
+
+The following series implements the deterministic uid/gid setting for a
+distribution.  Currently when a filesystem is generated the uid/gid values
+are generally set at install time, so the install order determines what
+the actual uid/gid values become.  In order to create a deterministic uid/gid
+set, that still dynamically constructs the passwd/group file, we add an
+option to read a special passwd/group file to allow the system to determine
+the values.
+
+It uses the existing parameters, and the values from the special passwd/group
+files to reconstruct the parameter set to ensure these items are fully
+defined with static values.
+
+The first patch (01/02) is generally applicable.  It fixes a real bug in
+the way the user/group adds occur today within the system.
+
+Patch 02/02 implements the new functionality.
+
+
+The following changes since commit 8461283a648d7c5affd51971ebd9b35a8a4c625f:
+
+  sstate: Improve funciton checksums (2014-02-04 22:49:58 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib mhatle/uidgid
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/uidgid
+
+Mark Hatle (2):
+  useradd.bbclass: Fix build time install issues
+  useradd.bbclass: Add ability to select a static uid/gid automatically
+
+ meta/classes/useradd.bbclass         | 279 ++++++++++++++++++++++++++++++++++-
+ meta/conf/local.conf.sample.extended |  24 +++
+ 2 files changed, 297 insertions(+), 6 deletions(-)
+
+-- 
+1.8.5.3
 
 
