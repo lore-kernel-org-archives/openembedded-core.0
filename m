@@ -1,35 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
-	[209.85.160.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C26B06162B
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id F39116E8C8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 02:12:26 +0000 (UTC)
-Received: by mail-pb0-f47.google.com with SMTP id rp16so7813569pbb.34
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2014 18:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=S7dERRWz/ZISwWJxZIlYoM7140Y6LGj/0mejFGoh2r8=;
-	b=yUZbYKteUN7fSv2InMVSH+Nj9s61ZVmEdwlesdYxcWDLqfNJmQHKyTwnZekiYAi2gy
-	2uTcDFQILkkvdXO0C0QUPKgWDhAxQuVN4HPNaJoqSOndjvfc7/a+Yq4+uLb6UZEH4Fr1
-	jGUVNIObIuuU/d9oNbOHCO6CzpX3XVa3MC6mmyQfq/wjf6eKidslexBiZX69jw2HYhVw
-	ILjkZScsE/09HNYOhlnvUx6P2GD8vorX3KmdtF9Pb1Gq8ojI1M1lDqGMl+Q5ESXIsD7Q
-	Qo+x4EsDmIL/GG8I0G3aUO10690hqntcBc2EinSYlihvIFu00TwOmD5ZM8u2ZCQiwUxX
-	5RhA==
-X-Received: by 10.68.172.196 with SMTP id be4mr41044172pbc.12.1391479947848;
-	Mon, 03 Feb 2014 18:12:27 -0800 (PST)
-Received: from leo.gateway.pace.com
-	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
-	by mx.google.com with ESMTPSA id ja8sm20098927pbd.3.2014.02.03.18.12.25
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Feb 2014 18:12:26 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Feb 2014 18:12:19 -0800
-Message-Id: <1391479939-8259-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.9.rc1
-Subject: [PATCH] binutils: Package additional file when using ld-is-gold
+	Tue,  4 Feb 2014 07:48:13 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Feb 2014 23:48:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,777,1384329600"; d="scan'208";a="469509554"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2014 23:48:13 -0800
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.202]) by
+	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
+	14.03.0123.003; Tue, 4 Feb 2014 07:47:17 +0000
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Laszlo Papp <lpapp@kde.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] Putting fltk into oe-core (recipes-graphics)
+Thread-Index: AQHPHeuVl78Fa9bX9EWEP9b3Z4VP/pqgHM0AgAOaWwCAAQJV4A==
+Date: Tue, 4 Feb 2014 07:47:17 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CFC973@IRSMSX105.ger.corp.intel.com>
+References: <CAOMwXhPNi357C8BvFjvVYtQUDepu5VK-c1phR=5UseZg79uJ6Q@mail.gmail.com>
+	<CAOMwXhOH0m9PNL10c6gBNhCK+iMoiVtujX1_N3i2KaBAYBgFeQ@mail.gmail.com>
+	<1391245344.28575.19.camel@ted>
+	<CAOMwXhPwZyCbb3KR-_YZdqRfTaTcnwCazMYAqi1Vch7CeNqWuw@mail.gmail.com>
+In-Reply-To: <CAOMwXhPwZyCbb3KR-_YZdqRfTaTcnwCazMYAqi1Vch7CeNqWuw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Putting fltk into oe-core (recipes-graphics)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +43,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 02:12:26 -0000
+X-List-Received-Date: Tue, 04 Feb 2014 07:48:14 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes QA warnings like
+Hi Laszlo,
 
-WARNING: QA Issue: binutils: Files/directories were installed but not
-shipped
-  /usr/bin/ld.bfd
-  /usr/bin/dwp
+Maybe adding more information will make the case for it.
+For example, the fact that is used in a lot of OSS.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/binutils/binutils.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+A very good demo of the possibilities of FLTK is Giada, "A Hardcore Loop Ma=
+chine"
+http://www.giadamusic.com/
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index b6c9205..6380d54 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -40,7 +40,8 @@ USE_ALTERNATIVES_FOR = " \
- 	elfedit \
- 	gprof \
- 	ld \
--	${@base_contains('DISTRO_FEATURES', 'ld-is-gold', 'ld.gold', 'ld.bfd', d)} \
-+	ld.bfd \
-+	${@base_contains('DISTRO_FEATURES', 'ld-is-gold', 'ld.gold dwp', '', d)} \
- 	nm \
- 	objcopy \
- 	objdump \
--- 
-1.9.rc1
+In my opinion, it is one of the best looking apps written using FLTK for th=
+e graphical interface.
+Also, judging from the screenshots, I think it should be interesting to use=
+ it with a touch interface.
+However, I don't have any info regarding how well FLTK behaves in this aspe=
+ct.
+Example screenshot: http://www.giadamusic.com/screenshot-09
 
+Also, while Giada looks complex and with a lot of functionality built-in, t=
+he source code seems neat and tidy, which might be an argument regarding th=
+e fitness of FLTK in the embedded space.
+Giada's authors takes pride of the facts that the source code contains arou=
+nd 100 files and has around 30KLoC.
+
+Now, in my opinion, what is a little bit "strange" regarding FLTK is that i=
+t doesn't "fit in", because it doesn't have a native look'n'feel on any of =
+the supported platforms.
+But that's not really an issue in an embedded device, where FLTK might powe=
+r up the only GUI needed for that particular device.
+
+Regards,
+Cristian Iorga
+YP
+Intel
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Laszlo Papp
+Sent: Monday, February 3, 2014 6:04 PM
+To: Richard Purdie
+Cc: openembedded-core
+Subject: Re: [OE-core] Putting fltk into oe-core (recipes-graphics)
+
+On Sat, Feb 1, 2014 at 9:02 AM, Richard Purdie <richard.purdie@linuxfoundat=
+ion.org> wrote:
+> On Thu, 2014-01-30 at 18:46 +0000, Laszlo Papp wrote:
+>> Ping?
+>>
+>> I asked this a bit more than five months ago. Shall I take it as "No"?
+>
+> The lack of responses does indicate that its not something there is=20
+> strong support for so I don't think fltk will be moving, correct.
+
+Currently, I do not see any minimal gui library in openembedded core for bu=
+ilding some simple GUI on real embedded devices, but OK.
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
