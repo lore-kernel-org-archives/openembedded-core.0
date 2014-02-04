@@ -1,29 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F1086C73A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FB5F6C73A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 16:59:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s14Gx2AG019435
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  4 Feb 2014 17:30:32 +0000 (UTC)
+Received: by mail-we0-f179.google.com with SMTP id q58so4543183wes.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Feb 2014 08:59:02 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 4 Feb 2014 08:59:02 -0800
-Message-ID: <52F11C55.10108@windriver.com>
-Date: Tue, 4 Feb 2014 10:59:01 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1390833588.17424.254.camel@ted>	<BEFD196E-8595-4DD1-BEAD-0183FBB61D55@dominion.thruhere.net>
-	<lyfvny500u.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lyfvny500u.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Subject: Re: [PATCH] local.conf.sample: Add automatic defaults for BB_NUMBER_THREADS and PARALLEL_MAKE
+	Tue, 04 Feb 2014 09:30:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Fsv1Bh3T1suaie10h693wQkmp/bRktQe58ao9kkbjeY=;
+	b=YWGIRXQHnW/enCRuKyzZHY2u8iU+cXF/cBtJc3uOX9lgFxRAFWH7saub45pw004QJY
+	6LDV8zY2GEZCJX/ZAnyiNUp96BKYmIX7tuSJsOtXhfgrYwCVsKMh7j4jJqDuaFQgJPns
+	3DcsYWiQ5Ph/+24Y49m4w1uiBUT9vN3Zt8tE9aXMLilSanIXETUABi8MJZ7tuaVXPOqG
+	7MW1qT6hqcNIStPKKXBFen0liP6dfdt9NIgTF6hVOtTOyUBY3nz7g14rgkIXRxT+Ai62
+	ld+RUucRew8ya3txX3YbpMXr8F28TySalqHV3R7+PUJdmAJqTfyrfe37l3/2wb22hcAc
+	Iyjg==
+X-Gm-Message-State: ALoCoQnuTZdoj7AM6xpxQft2nBb/3+CvNwH0E5JtSsEf3lcGr5c0ve+QL8QwYOXPHpcglCICHnht
+X-Received: by 10.194.216.68 with SMTP id oo4mr1332214wjc.79.1391535033537;
+	Tue, 04 Feb 2014 09:30:33 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id 12sm54321112wjm.10.2014.02.04.09.30.32
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Feb 2014 09:30:32 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Feb 2014 17:30:29 +0000
+Message-Id: <1391535029-8403-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] distcc: rename systemd service to distcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 16:59:05 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Feb 2014 17:30:33 -0000
 
-On 2/4/14, 10:13 AM, Enrico Scholz wrote:
-> Koen Kooi <koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@public.gmane.org>
-> writes:
->
->>> +# Default to setting automatically based on cpu count
->>> +BB_NUMBER_THREADS ?= "${@oe.utils.cpu_count()}"
->>
->> I've noticed that after 4 threads IO becomes a big bottleneck when you
->> have things like webkit, qt, asio etc in the buildqueue. Combine that
->> with issues like every make -j thread taking >2GB ram with asio and
->> webkit this default seems a bit high. I'd use 0.5*numcpu with a lower
->> bound of 2.
->
-> limitting the load mitigates this (high i/o increases it); e.g.
->
-> PARALLEL_MAKE = "\
->    ...
->    -l ${@int(os.sysconf(os.sysconf_names['SC_NPROCESSORS_ONLN'])) * 150/100} \
-> "
+The sysv init script is called distcc, so rename the service to match so that in
+hybrid systemd/sysvinit images the service correctly masks the init script.
 
-FYI, I think this points out the variability in system performance, between CPU, 
-RAM and I/o.
+This prevents such images from failing to start the distccd unit with error code
+102, as the ports it wants to bind to are already taken.
 
-As it stands the patch gives my machine the best performance.  So I like it as 
-it is.  But my machine (dual 8-core w/ HT, 64 GB of RAM, and hardware raid). 
-But on hardware with less RAM, slower disk, it may not perform optimally.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/distcc/distcc_3.1.bb                   |   10 +++++-----
+ .../distcc/files/{distccd.service => distcc.service}         |    0
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/distcc/files/{distccd.service => distcc.service} (100%)
 
-So the catch is what is the proper optimal setting?  As I see it, assuming that 
-the system has enough ram and I/O to fill the CPUs is the best approach (what 
-was implemented.)  And then in the comments document that this may not be the 
-best setting for all systems, and the user should adjust it as necessary.  Even 
-suggesting some of the alternative systems such as the 150/100 above.
-
-No setting is going to make everyone happy, but something has to be better then 
-defaulting to '1'.
-
---Mark
-
-> Enrico
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.1.bb
+index e3b6cda..c69643c 100644
+--- a/meta/recipes-devtools/distcc/distcc_3.1.bb
++++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
+@@ -22,7 +22,7 @@ SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
+            file://default \
+            file://distccmon-gnome.desktop \
+            file://distcc \
+-           file://distccd.service"
++           file://distcc.service"
+ 
+ SRC_URI[md5sum] = "a1a9d3853df7133669fffec2a9aab9f3"
+ SRC_URI[sha256sum] = "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724fcd2d53f934ddd89"
+@@ -41,7 +41,7 @@ USERADD_PARAM_${PN} = "--system \
+ INITSCRIPT_NAME = "distcc"
+ 
+ SYSTEMD_PACKAGES = "${PN}"
+-SYSTEMD_SERVICE_${PN} = "distccd.service"
++SYSTEMD_SERVICE_${PN} = "distcc.service"
+ 
+ do_install_append() {
+     install -d ${D}${sysconfdir}/init.d/
+@@ -49,8 +49,8 @@ do_install_append() {
+     install -m 0755 ${WORKDIR}/distcc ${D}${sysconfdir}/init.d/
+     install -m 0755 ${WORKDIR}/default ${D}${sysconfdir}/default/distcc
+     install -d ${D}${systemd_unitdir}/system/
+-    install -m 0644 ${WORKDIR}/distccd.service ${D}${systemd_unitdir}/system
+-    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/distccd.service
++    install -m 0644 ${WORKDIR}/distcc.service ${D}${systemd_unitdir}/system
++    sed -i -e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/distcc.service
+     ${DESKTOPINSTALL}
+ }
+ DESKTOPINSTALL = ""
+@@ -65,7 +65,7 @@ FILES_${PN} = " ${sysconfdir} \
+     ${bindir}/lsdistcc \
+ 		${bindir}/distccd \
+ 		${bindir}/distccmon-text \
+-		${systemd_unitdir}/system/distccd.service"
++		${systemd_unitdir}/system/distcc.service"
+ FILES_distcc-distmon-gnome = "  ${bindir}/distccmon-gnome \
+ 				${datadir}/distcc"
+ 
+diff --git a/meta/recipes-devtools/distcc/files/distccd.service b/meta/recipes-devtools/distcc/files/distcc.service
+similarity index 100%
+rename from meta/recipes-devtools/distcc/files/distccd.service
+rename to meta/recipes-devtools/distcc/files/distcc.service
+-- 
+1.7.10.4
 
 
