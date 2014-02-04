@@ -1,36 +1,46 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F39116E8C8
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AC246E8C8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 07:48:13 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Feb 2014 23:48:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,777,1384329600"; d="scan'208";a="469509554"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Feb 2014 23:48:13 -0800
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.202]) by
-	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
-	14.03.0123.003; Tue, 4 Feb 2014 07:47:17 +0000
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Laszlo Papp <lpapp@kde.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] Putting fltk into oe-core (recipes-graphics)
-Thread-Index: AQHPHeuVl78Fa9bX9EWEP9b3Z4VP/pqgHM0AgAOaWwCAAQJV4A==
-Date: Tue, 4 Feb 2014 07:47:17 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16CFC973@IRSMSX105.ger.corp.intel.com>
-References: <CAOMwXhPNi357C8BvFjvVYtQUDepu5VK-c1phR=5UseZg79uJ6Q@mail.gmail.com>
-	<CAOMwXhOH0m9PNL10c6gBNhCK+iMoiVtujX1_N3i2KaBAYBgFeQ@mail.gmail.com>
-	<1391245344.28575.19.camel@ted>
-	<CAOMwXhPwZyCbb3KR-_YZdqRfTaTcnwCazMYAqi1Vch7CeNqWuw@mail.gmail.com>
-In-Reply-To: <CAOMwXhPwZyCbb3KR-_YZdqRfTaTcnwCazMYAqi1Vch7CeNqWuw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Tue,  4 Feb 2014 08:58:48 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id u57so3721409wes.41
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Feb 2014 00:58:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=hsGarv/4Fpuv2qyzOX7YN8QGBD0Z2w9pj5tyXpeK+lc=;
+	b=FYSRCOXaQkBDWT3g8RXBe3yhX+7yTHd10eKElCnWZIrCahUT6/yiMZgIxpws6WdL2H
+	Ns2ytH9RbjPfLoOTYmQ76fDxgM3ovIC41rgxpWHnwPj6+D0fi8BXkSxkuAwI2o42mq0R
+	Em5JIMPcRSs37fTgZQYgUk6q8VEV4nvH2z6SD0Qa7Cu9U2Sdl1+57fWsbaHjTbYKx56k
+	t7C1EJFHaFC/OceLr1E1Ilvbol6GZaHwRSazMeNpO8k7w0VNgVU27VS09fNkpP7NRA+h
+	6DVEUKUogdbAdumBRVPhsrhsGSi+ac+9n4JfCW+NYvwc9L/Z1/DIar9aTcOJ/h06mYIA
+	ErMQ==
+X-Gm-Message-State: ALoCoQn4HfZMLrem9mwR6/9+btyiGFtxQKxlkfe/oyFqb/ZoBpBhysfnTh3ZHignuWcK5XGKDEFI
+X-Received: by 10.194.71.47 with SMTP id r15mr27356422wju.19.1391504329120;
+	Tue, 04 Feb 2014 00:58:49 -0800 (PST)
+Received: from ?IPv6:2001:610:612:0:5e51:4fff:fec8:7c15?
+	([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id n3sm33720358wix.10.2014.02.04.00.58.48
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 04 Feb 2014 00:58:48 -0800 (PST)
+Message-ID: <52F0ABC7.1010908@linaro.org>
+Date: Tue, 04 Feb 2014 09:58:47 +0100
+From: Koen Kooi <koen.kooi@linaro.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Putting fltk into oe-core (recipes-graphics)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1390297632-9966-1-git-send-email-koen.kooi@linaro.org>	
+	<1390312633.874.84.camel@ted> <52DE7E17.2090301@linaro.org>
+	<1390316993.874.85.camel@ted>
+In-Reply-To: <1390316993.874.85.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] package.bbclass: fix strip and split logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,67 +53,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 07:48:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 04 Feb 2014 08:58:49 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laszlo,
-
-Maybe adding more information will make the case for it.
-For example, the fact that is used in a lot of OSS.
-
-A very good demo of the possibilities of FLTK is Giada, "A Hardcore Loop Ma=
-chine"
-http://www.giadamusic.com/
-
-In my opinion, it is one of the best looking apps written using FLTK for th=
-e graphical interface.
-Also, judging from the screenshots, I think it should be interesting to use=
- it with a touch interface.
-However, I don't have any info regarding how well FLTK behaves in this aspe=
-ct.
-Example screenshot: http://www.giadamusic.com/screenshot-09
-
-Also, while Giada looks complex and with a lot of functionality built-in, t=
-he source code seems neat and tidy, which might be an argument regarding th=
-e fitness of FLTK in the embedded space.
-Giada's authors takes pride of the facts that the source code contains arou=
-nd 100 files and has around 30KLoC.
-
-Now, in my opinion, what is a little bit "strange" regarding FLTK is that i=
-t doesn't "fit in", because it doesn't have a native look'n'feel on any of =
-the supported platforms.
-But that's not really an issue in an embedded device, where FLTK might powe=
-r up the only GUI needed for that particular device.
-
-Regards,
-Cristian Iorga
-YP
-Intel
-
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Laszlo Papp
-Sent: Monday, February 3, 2014 6:04 PM
-To: Richard Purdie
-Cc: openembedded-core
-Subject: Re: [OE-core] Putting fltk into oe-core (recipes-graphics)
-
-On Sat, Feb 1, 2014 at 9:02 AM, Richard Purdie <richard.purdie@linuxfoundat=
-ion.org> wrote:
-> On Thu, 2014-01-30 at 18:46 +0000, Laszlo Papp wrote:
->> Ping?
+On 01/21/2014 04:09 PM, Richard Purdie wrote:
+> On Tue, 2014-01-21 at 15:03 +0100, Koen Kooi wrote:
+>> On 01/21/2014 02:57 PM, Richard Purdie wrote:
+>>> On Tue, 2014-01-21 at 10:47 +0100, Koen Kooi wrote:
+>>>> Marks original commit message and variable documentation state that stripping and splitting are independent of eachother, but package.bbclass ANDs the two INHIBIT flags to see which files can be stripped and/or split.
+>>>>
+>>>> Original behaviour:
+>>>>
+>>>> INHIBIT_PACKAGE_STRIP: no strip, no debug split
+>>>> INHIBIT_PACAKGE_DEBUG_SPLIT: no strip, no debug split
+>>>>
+>>>> Behaviour after this patch:
+>>>>
+>>>> INHIBIT_PACKAGE_STRIP: no strip, no debug split
+>>>> INHIBIT_PACKAGE_DEBUG_SPLIT: strip, no split
+>>>>
+>>>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+>>>> ---
+>>>>    meta/classes/package.bbclass | 3 +--
+>>>>    1 file changed, 1 insertion(+), 2 deletions(-)
+>>>
+>>> FWIW this resulted in a failure on minnow:
+>>>
+>>> http://autobuilder.yoctoproject.org/main/builders/minnow/builds/15/steps/BuildImages/logs/stdio
+>>>
+>>> So we may have some fixing up to do before this change can be merged...
 >>
->> I asked this a bit more than five months ago. Shall I take it as "No"?
+>> I have that QA issue as warning not as error. I guess that's why my
+>> builds kept working :)
+>>
+>> Aside from that, what are your thoughts on this patch?
 >
-> The lack of responses does indicate that its not something there is=20
-> strong support for so I don't think fltk will be moving, correct.
+> I'm ok with it in principle but I'd like to see known build issues fixed
+> before it goes in since red autobuilders cause me enough grief
+> already ;-).
 
-Currently, I do not see any minimal gui library in openembedded core for bu=
-ilding some simple GUI on real embedded devices, but OK.
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+What's the status on this? I know a fix went into meta-intel (albeit it 
+in a legally questionable way, but that's their problem) and the other 
+affected layers have received patches for it.
+
+-- 
+Koen Kooi
+Builds and Baselines | Release Manager
+Linaro.org | Open source software for ARM SoCs
 
