@@ -1,20 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EE3526D491
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EB04F6D16E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 18:21:57 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Feb 2014 10:21:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,787,1384329600"; d="scan'208";a="450278014"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.76])
-	by orsmga001.jf.intel.com with ESMTP; 05 Feb 2014 10:21:41 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2014 10:21:40 -0800
-Message-Id: <1391624500-21372-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] rootfs_deb: Fix whitespace issue
+	Wed,  5 Feb 2014 18:45:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s15Ijs0k009675
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Feb 2014 10:45:55 -0800 (PST)
+Received: from fidler.corp.ad.wrs.com (147.11.116.28) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 5 Feb 2014 10:45:53 -0800
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Feb 2014 13:45:45 -0500
+Message-ID: <1391625945-2350-1-git-send-email-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 1.8.4.1
+MIME-Version: 1.0
+Subject: [PATCH] jpeg and directfb: cosmetic, fix perms for patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,30 +31,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 18:21:58 -0000
+X-List-Received-Date: Wed, 05 Feb 2014 18:45:55 -0000
+Content-Type: text/plain
 
-Fixing the following warning:
-WARNING: Variable rootfs_deb_bad_recommendations contains tabs, please remove these (/srv/ssd/sgw/poky/meta/recipes-extended/images/core-image-lsb-dev.bb)
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- meta/classes/rootfs_deb.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/jpeg/jpeg-8d/debian-libjpeg7_7-1.diff | 0
+ meta/recipes-graphics/directfb/directfb/fusion.patch    | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ mode change 100755 => 100644 meta/recipes-core/jpeg/jpeg-8d/debian-libjpeg7_7-1.diff
+ mode change 100755 => 100644 meta/recipes-graphics/directfb/directfb/fusion.patch
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index b837e4c..728ea0e 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -13,7 +13,7 @@ do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
- 
- python rootfs_deb_bad_recommendations() {
-     if d.getVar("BAD_RECOMMENDATIONS", True):
--	bb.warn("Debian package install does not support BAD_RECOMMENDATIONS")
-+        bb.warn("Debian package install does not support BAD_RECOMMENDATIONS")
- }
- do_rootfs[prefuncs] += "rootfs_deb_bad_recommendations"
- 
+diff --git a/meta/recipes-core/jpeg/jpeg-8d/debian-libjpeg7_7-1.diff b/meta/recipes-core/jpeg/jpeg-8d/debian-libjpeg7_7-1.diff
+old mode 100755
+new mode 100644
+diff --git a/meta/recipes-graphics/directfb/directfb/fusion.patch b/meta/recipes-graphics/directfb/directfb/fusion.patch
+old mode 100755
+new mode 100644
 -- 
-1.8.3.1
+1.8.4.1
 
 
