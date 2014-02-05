@@ -1,25 +1,40 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 251196D762
+Return-Path: <net147@gmail.com>
+Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
+	[209.85.160.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 359006D762
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 12:09:38 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Wed, 5 Feb 2014
-	13:09:05 +0100
-Message-ID: <52F229E1.3040204@enea.com>
-Date: Wed, 5 Feb 2014 13:09:05 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Wed,  5 Feb 2014 12:23:35 +0000 (UTC)
+Received: by mail-pb0-f54.google.com with SMTP id uo5so303110pbc.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Feb 2014 04:23:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=R3qWOTWqwdiSBBDGqqNHw3dyj/dveJb43GkvD8ulgPQ=;
+	b=R2Zi+WSc/5sqSqw+eeuMo7fg1kg3OCeKvjee3TCFbzsYBOYWrpKC7qzb2ywhu+vl7S
+	B6zFsY703uP2CIPNRD41+zl0rllPXRMw6MJFlZ974gNp7rFMkXGTkw5rqUs+9TO8MysU
+	G4NXFJP2yfPgzfA4kQmYav/RSU52UYLI82HqISnYAVXOApQtmzj690NmsCRHjvaZsML6
+	jrpTdFj0TGs7lpdaRXuI9XhtZ6d/ooK8nysDpPE20mOjdzS80awo67/iXkzBgk7G47hE
+	bXQWHs/NpIvOS2LtpG97w67PaiXC/9duLnE7pf4WjW9WXfox7Te+8E6QiFnp0RB6y7K9
+	ulKg==
+X-Received: by 10.66.164.229 with SMTP id yt5mr1324849pab.67.1391603015684;
+	Wed, 05 Feb 2014 04:23:35 -0800 (PST)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244]) by mx.google.com with ESMTPSA id
+	bz4sm76171386pbb.12.2014.02.05.04.23.33 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 05 Feb 2014 04:23:34 -0800 (PST)
+Message-ID: <52F22BC7.2050006@gmail.com>
+Date: Wed, 05 Feb 2014 23:17:11 +1100
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-References: <cover.1391427313.git.laurentiu.palcu@intel.com>	<cover.1391594312.git.laurentiu.palcu@intel.com>
-	<CAAKB1h3PL6oyL0VG70SVXSMEROxrwX0sJDc82WO+0e=QvSKiaw@mail.gmail.com>
-In-Reply-To: <CAAKB1h3PL6oyL0VG70SVXSMEROxrwX0sJDc82WO+0e=QvSKiaw@mail.gmail.com>
-X-Originating-IP: [172.16.141.133]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 00/50] Rootfs/image generation refactoring (cover letter only)
+To: Robert Yang <liezhi.yang@windriver.com>
+References: <1391317132-23608-1-git-send-email-net147@gmail.com>
+In-Reply-To: <1391317132-23608-1-git-send-email-net147@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] syslinux: fix booting memtest86+ using pxelinux regression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,110 +47,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 12:09:40 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 05 Feb 2014 12:23:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2014-02-05 11:58, David Nystrom wrote:
-> On Wed, Feb 5, 2014 at 11:07 AM, Laurentiu Palcu
-> <laurentiu.palcu@intel.com>wrote:
+Hi Robert,
+
+On 2/02/2014 3:58 PM, Jonathan Liu wrote:
+> After syslinux was updated from 4.07 to 6.01, booting memtest86+ using
+> pxelinux would fail:
+> PXELINUX 6.01 2013-07-04 Copyright (C) 1994-2013 H. Peter Anvin et al
+> Loading memtest86... ok
+> Booting kernel failed: invalid argument
 >
->> V2:
->>   * fix building from feeds for opkg;
->>   * rebase;
->>
+> This backports the necessary upstream patches to allow memtest86+ to
+> boot using pxelinux again.
 >
-> | NOTE: ###### Generate rootfs #######
-> | NOTE: Installing the following packages: run-postinsts
-> packagegroup-core-boot
-> | sed: -e expression #1, char 41: unterminated address regex
-> | sed: -e expression #1, char 42: unterminated address regex
-> | sed: -e expression #1, char 41: unterminated address regex
-> | sed: -e expression #1, char 42: unterminated address regex
+> [YOCTO #5501]
 >
-> [david] Why are these seds failing ?, I've seen this in master aswell
-> though.
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
 
-After testing with the yocto 1.5 repo, the postinstall sed failures 
-where not seen anymore. Added Bug:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=5789
+Can you please cherry pick this patch from master into dora branch?
 
->
-> | NOTE: Installing complementary packages ...
-> | NOTE: Installing the following packages:
-> | /media/sdb5/bld/tmp/sysroots/x86_64-linux/usr/bin/opkg-cl: the
-> ``install'' command requires at least one argument
-> | NOTE: Unable to install packages. Command
-> /media/sdb5/bld/tmp/sysroots/x86_64-linux/usr/bin/opkg-cl -f
-> /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/opkg.conf
-> -o
-> /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/rootfs
-> --force_postinstall --prefer-arch-to-version   install  returned 1
-> | NOTE: Running intercept scripts:
-> | NOTE: Executing write_package_manifest ...
-> | DEBUG: Executing python function write_package_manifest
-> | NOTE: Building from feeds activated!
-> | NOTE: Add all feed with URL
-> file:///media/sdb5/oel/build/tmp/deploy/ipk/all
-> | NOTE: Add qemuppc feed with URL
-> file:///media/sdb5/oel/build/tmp/deploy/ipk/qemuppc
-> | NOTE: Add ppc7400 feed with URL
-> file:///media/sdb5/oel/build/tmp/deploy/ipk/ppc7400
-> | DEBUG: Python function write_package_manifest finished
-> | NOTE: Executing license_create_manifest ...
-> | DEBUG: Executing shell function license_create_manifest
-> | ls: cannot access
-> /media/sdb5/bld/tmp/sysroots/qemuppc/pkgdata/runtime-reverse/base-files: No
-> such file or directory
-> | readlink: missing operand
-> | Try 'readlink --help' for more information.
-> | basename: missing operand
-> | Try 'basename --help' for more information.
-> | WARNING: exit code 1 from a shell command.
-> | DEBUG: Python function do_rootfs finished
-> | ERROR: Function failed: license_create_manifest (log file is located at
-> /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.29007)
-> ERROR: Task 6 (/media/sdb5/poky-contrib/meta/recipes-core/images/
-> core-image-minimal.bb, do_rootfs) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 504 tasks of which 503 didn't need to be
-> rerun and 1 failed.
->
-> Summary: 1 task failed:
->    /media/sdb5/poky-contrib/meta/recipes-core/images/core-image-minimal.bb,
-> do_rootfs
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code
->
-> Br,
-> David
->
-
-FYI: to easily recreate this testcase:
-
--Clean build env-
-
-$ grep -C 6 -r FEEDS conf/local.conf
-# Default to setting automatically based on cpu count
-PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
-#
-# For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 
-4" would
-# be appropriate for example.
-
-BUILD_IMAGES_FROM_FEEDS="1"
-IPK_FEED_URIS = " \
- 
-all##http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/ipk/all \
-	 
-${MACHINE}##http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/ipk/${MACHINE} 
-\
- 
-ppc7400##http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/ipk/ppc7400 
-\
-	   "
-
-PACKAGE_CLASSES="ipk" MACHINE="qemuppc" bitbake -c rootfs core-image-minimal
-
-Br,
-David
-
+Regards,
+Jonathan
 
