@@ -1,35 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id CFC836D491
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id B4C0C6E2D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 19:48:22 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id l18so629000wgh.17
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2014 11:48:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=FndWG+pY3WdatCEzs0lIEPgROBHHOTVDMh9qMX+FJ9g=;
-	b=AEi7DtBi1oylTANewTq2LvuosC5RmffPvZvnX+bXwL9aXL3KzoZ7iusiVt4AVCzEEY
-	AZXoRKecpVTYDMEm7XdvPqUPebImWURQtfMGRgDA6h5PN8ggnL16Ys6kVy1ylg8jxzJ0
-	BlcfBbyTmiWMhRTyiIyxYq4VoUBhrNw67fn835tKNueGveb16XD+TgRBJkYf4ZCodYNH
-	qs86j2GdcG/npu/z9RqLPdj1j2pW5sqXNgSBUUZa8MYKg9QCSgcRPJCoEZQ8Ez9hNg/W
-	9f/cR7PittdaFiMMKarYt83MHBG4ljE63bsYTjVd2yDkxpgOd0uqX5ut+C1zZANh8d+q
-	7new==
-X-Gm-Message-State: ALoCoQkQtAALCG9CAj5SI0X17hFKz1C2lcs+iAy0X/evGAfC3RoIuHjSgMAYSVISsoJ/qj0HyGL6
-X-Received: by 10.180.188.230 with SMTP id gd6mr3894873wic.15.1391629702925;
-	Wed, 05 Feb 2014 11:48:22 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id q2sm63891093wjq.0.2014.02.05.11.48.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Feb 2014 11:48:22 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2014 19:48:19 +0000
-Message-Id: <1391629699-2453-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] pcmanfm: apply a patch to the source, not a generated file
+	Wed,  5 Feb 2014 22:13:20 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 05 Feb 2014 14:13:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,789,1384329600"; d="scan'208";a="470504743"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.123.183])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2014 14:13:19 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Wed, 05 Feb 2014 22:13:18 +0000
+Message-ID: <5155905.zpccSNMN1P@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.12.9-301.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <52F29080.9080200@linux.intel.com>
+References: <1390685105-16717-1-git-send-email-paul.eggleton@linux.intel.com>
+	<CAMKF1sqEhyFP8VRTf1m_p3SdURHFeNswT_GtrE8aj6Pqwak2xQ@mail.gmail.com>
+	<52F29080.9080200@linux.intel.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] classes/buildhistory: fix expansion of escape sequences
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +36,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 19:48:23 -0000
+X-List-Received-Date: Wed, 05 Feb 2014 22:13:21 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-no-desktop.patch was applying to a generated file, not the true source, which
-meant it may not appear to be applied in the resulting package.
+On Wednesday 05 February 2014 11:26:56 Saul Wold wrote:
+> There still might be an issue:
+> > ERROR: Error executing a python function in
+> > /srv/hdd/poky/meta/recipes-support/ca-certificates/ca-certificates_201306
+> > 10.bb:
+> > 
+> > The stack trace of python calls that resulted in this exception/failure
+> > was: File: 'buildhistory_emit_pkghistory', lineno: 220, function:
+> > <module>> 
+> >      0216:
+> >      0217:        write_pkghistory(pkginfo, d)
+> >      0218:
+> >  
+> >      0219:
+> >  *** 0220:buildhistory_emit_pkghistory(d)
+> >  
+> >      0221:
+> > File: 'buildhistory_emit_pkghistory', lineno: 217, function:
+> > buildhistory_emit_pkghistory> 
+> >      0213:        pkginfo.filelist = " ".join(filelist)
+> >      0214:
+> >      0215:        pkginfo.size = int(pkgdata['PKGSIZE'])
+> >  
+> >      0216:
+> >  *** 0217:        write_pkghistory(pkginfo, d)
+> >  
+> >      0218:
+> >      0219:
+> >      0220:buildhistory_emit_pkghistory(d)
+> > 
+> >      0221:
+> > File: 'buildhistory.bbclass', lineno: 38, function: write_pkghistory
+> > 
+> >      0034:        if pkginfo.rconflicts:
+> >      0035:            f.write("RCONFLICTS = %s\n" %  pkginfo.rconflicts)
+> >      0036:        f.write("PKGSIZE = %d\n" %  pkginfo.size)
+> >      0037:        f.write("FILES = %s\n" %  pkginfo.files)
+> >  
+> >  *** 0038:        f.write("FILELIST = %s\n" %  pkginfo.filelist)
+> >  
+> >      0039:
+> >      0040:    for filevar in pkginfo.filevars:
+> >      0041:        filevarpath = os.path.join(pkgpath, "latest.%s" %
+> >      filevar)
+> >      0042:        val = pkginfo.filevars[filevar]
+> > 
+> > Exception: UnicodeEncodeError: 'ascii' codec can't encode character
+> > u'\xed' in position 337: ordinal not in range(128)
+>
+> I tried to delete the buildhistory for ca-certs and rebuild without any
+> sstate, but it still failed to build. correctly.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-sato/pcmanfm/files/no-desktop.patch |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I've now reproduced this, working on a fix.
 
-diff --git a/meta/recipes-sato/pcmanfm/files/no-desktop.patch b/meta/recipes-sato/pcmanfm/files/no-desktop.patch
-index cb4cae0..103d6d1 100644
---- a/meta/recipes-sato/pcmanfm/files/no-desktop.patch
-+++ b/meta/recipes-sato/pcmanfm/files/no-desktop.patch
-@@ -6,9 +6,9 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
- diff --git a/data/pcmanfm-desktop-pref.desktop b/data/pcmanfm-desktop-pref.desktop
- index ccf8abb..3f6fc1c 100644
----- a/data/pcmanfm-desktop-pref.desktop
--+++ b/data/pcmanfm-desktop-pref.desktop
--@@ -97,3 +97,4 @@ Exec=pcmanfm --desktop-pref
-+--- a/data/pcmanfm-desktop-pref.desktop.in
-++++ b/data/pcmanfm-desktop-pref.desktop.in
-+@@ -7,3 +7,4 @@ Exec=pcmanfm --desktop-pref
-  StartupNotify=true
-  Terminal=false
-  NotShowIn=GNOME;XFCE;KDE;
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
