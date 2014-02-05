@@ -1,25 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 00C106E2D8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 82C456E2D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 15:49:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Feb 2014 07:49:31 -0800
+	Wed,  5 Feb 2014 15:54:49 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 05 Feb 2014 07:54:43 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,787,1384329600"; d="scan'208";a="476439376"
-Received: from unknown (HELO [10.255.12.76]) ([10.255.12.76])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Feb 2014 07:49:25 -0800
-Message-ID: <52F25D84.6060501@linux.intel.com>
-Date: Wed, 05 Feb 2014 07:49:24 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+X-IronPort-AV: E=Sophos;i="4.95,787,1384329600"; d="scan'208";a="470312833"
+Received: from nithyasr-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.185])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2014 07:54:39 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+Date: Wed, 05 Feb 2014 15:54:39 +0000
+Message-ID: <2961487.HxgmY3F6ZV@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.12.9-301.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <52E74DA7.6000704@mentor.com>
+References: <mailman.2080.1390873106.1435.openembedded-core@lists.openembedded.org>
+	<52E74DA7.6000704@mentor.com>
 MIME-Version: 1.0
-To: Laszlo Papp <lpapp@kde.org>, 
- openembedded-core@lists.openembedded.org
-References: <1391598835-1631-1-git-send-email-lpapp@kde.org>
-In-Reply-To: <1391598835-1631-1-git-send-email-lpapp@kde.org>
-Subject: Re: [PATCH] meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: https://github.com/openembedded/oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,97 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 15:49:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Feb 2014 15:54:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 02/05/2014 03:13 AM, Laszlo Papp wrote:
-> The current change contains two different logics resulting that users like me
-> may need to partially override the behavior of it. It would be easier for end
-> users to keep one change while dropping the other if needed, like in our case.
->
+Hi Mikhail,
 
-I beleive that your first version of this was merged, is this different 
-that the one you send on 1/30?
+On Tuesday 28 January 2014 17:26:47 Mikhail Durnev wrote:
+> Does anyone accept pull requests from GitHub? Or should all patches be
+> submitted via this mailing list only?
 
-It seems that the line count in this patch is different than the first, 
-please rebase against master and update this patch please.
+Patches need to be submitted to this mailing list. However, you can do it 
+either in the form of raw patches or a pull request (the form produced by the 
+scripts in scripts/*-pull-request are preferred if you do the latter).
 
-Thanks
+Cheers,
+Paul
 
-Sau!
+-- 
 
-> Signed-off-by: Laszlo Papp <lpapp@kde.org>
-> ---
->   meta/recipes-core/base-passwd/base-passwd/nobash.patch | 10 +---------
->   .../base-passwd/base-passwd/noshadow.patch             | 18 ++++++++++++++++++
->   meta/recipes-core/base-passwd/base-passwd_3.5.29.bb    |  1 +
->   3 files changed, 20 insertions(+), 9 deletions(-)
->   create mode 100644 meta/recipes-core/base-passwd/base-passwd/noshadow.patch
->
-> diff --git a/meta/recipes-core/base-passwd/base-passwd/nobash.patch b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
-> index 6371576..eed87db 100644
-> --- a/meta/recipes-core/base-passwd/base-passwd/nobash.patch
-> +++ b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
-> @@ -1,14 +1,6 @@
->   use /bin/sh instead of /bin/bash, since the latter may not be included in
->   some images such as minimal
->
-> -comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
-> -
-> -remove "*" for root since we don't have a /etc/shadow so far.
-> -
-> -by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
-> -
-> -Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
-> -
->   Upstream-Status: Invalid [configuration]
->
->   Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-> @@ -17,7 +9,7 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
->   +++ base-passwd/passwd.master
->   @@ -1,4 +1,4 @@
->   -root:*:0:0:root:/root:/bin/bash
-> -+root::0:0:root:/root:/bin/sh
-> ++root:*:0:0:root:/root:/bin/sh
->    daemon:*:1:1:daemon:/usr/sbin:/bin/sh
->    bin:*:2:2:bin:/bin:/bin/sh
->    sys:*:3:3:sys:/dev:/bin/sh
-> diff --git a/meta/recipes-core/base-passwd/base-passwd/noshadow.patch b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
-> new file mode 100644
-> index 0000000..14e3959
-> --- /dev/null
-> +++ b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
-> @@ -0,0 +1,18 @@
-> +comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
-> +
-> +remove "*" for root since we don't have a /etc/shadow so far.
-> +
-> +by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
-> +
-> +Upstream-Status: Invalid [configuration]
-> +
-> +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-> +
-> +--- base-passwd/passwd.master~nobash
-> ++++ base-passwd/passwd.master
-> +@@ -1,4 +1,4 @@
-> +-root:*:0:0:root:/root:/bin/sh
-> ++root::0:0:root:/root:/bin/sh
-> + daemon:*:1:1:daemon:/usr/sbin:/bin/sh
-> + bin:*:2:2:bin:/bin:/bin/sh
-> + sys:*:3:3:sys:/dev:/bin/sh
-> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> index 082037a..5b31fce 100644
-> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> @@ -9,6 +9,7 @@ DEPENDS = "docbook-utils-native linuxdoc-tools-native"
->   SRC_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/base-passwd_${PV}.tar.gz \
->              file://add_shutdown.patch \
->              file://nobash.patch \
-> +           file://noshadow.patch \
->              file://input.patch \
->              file://disable-docs.patch \
->             "
->
+Paul Eggleton
+Intel Open Source Technology Centre
 
