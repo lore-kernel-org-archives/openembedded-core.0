@@ -1,37 +1,25 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 488A76E2D8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 00C106E2D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 15:10:22 +0000 (UTC)
-Received: by mail-la0-f54.google.com with SMTP id y1so427606lam.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2014 07:10:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6q/vFUxCg8XQd6X5GWq8HpN1rSifQsDEHovTx/JLN28=;
-	b=lZ47+9hzE49+1OU1KIsS+Ll+oij1znLFmtSmrwI6JMKIWuUHG0JdkuxUcytAbrik3x
-	Pdwg3p2Ge+HoLyDRUC7VQ96faCzmI/QeXMAC5UOYgb4sNnIc6n/RXhlK/dNs3MGNtaky
-	ET0G6S0/ocoIpqJ4jSCYa+iibDRPuEK6d+bwwJEwUi8NTVqEko1v6goiUE7/siz4+iig
-	8F8ciTdp5zhhbXHYdN5fnb8jIFoI4e0tkzal/WkdhRDqdSCJmiVRpbxAlYpF6bj2eczg
-	OGydukmccWqR3pc50HHNHc6H0G9hnJXZbwi4+I0EXClvz3LhAibxKjej830lhgO0/m3M
-	3GLQ==
-X-Gm-Message-State: ALoCoQlBM6MHihPBKh5yXIaWPB1zTBE+vwwIl2KJ0Y3Ljbvv1TFesjbFoekziJZng5tl6WiB0bKx
-X-Received: by 10.152.229.225 with SMTP id st1mr1557090lac.2.1391613022444;
-	Wed, 05 Feb 2014 07:10:22 -0800 (PST)
-Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
-	[91.152.78.194])
-	by mx.google.com with ESMTPSA id t5sm41121663lat.6.2014.02.05.07.10.21
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 05 Feb 2014 07:10:21 -0800 (PST)
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2014 17:10:14 +0200
-Message-Id: <1391613014-5792-1-git-send-email-fathi.boudra@linaro.org>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 1/1] systemtap: add aarch64 support
+	Wed,  5 Feb 2014 15:49:54 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Feb 2014 07:49:31 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,787,1384329600"; d="scan'208";a="476439376"
+Received: from unknown (HELO [10.255.12.76]) ([10.255.12.76])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Feb 2014 07:49:25 -0800
+Message-ID: <52F25D84.6060501@linux.intel.com>
+Date: Wed, 05 Feb 2014 07:49:24 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Laszlo Papp <lpapp@kde.org>, 
+ openembedded-core@lists.openembedded.org
+References: <1391598835-1631-1-git-send-email-lpapp@kde.org>
+In-Reply-To: <1391598835-1631-1-git-send-email-lpapp@kde.org>
+Subject: Re: [PATCH] meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +32,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 15:10:22 -0000
+X-List-Received-Date: Wed, 05 Feb 2014 15:49:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-bump SRCREV to include the relevant commits for aarch64 support
-update COMPATIBLE_HOST to include aarch64
-cleanup md5sum/sha256sum since we use git
+On 02/05/2014 03:13 AM, Laszlo Papp wrote:
+> The current change contains two different logics resulting that users like me
+> may need to partially override the behavior of it. It would be easier for end
+> users to keep one change while dropping the other if needed, like in our case.
+>
 
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
----
- meta/recipes-kernel/systemtap/systemtap_git.inc | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+I beleive that your first version of this was merged, is this different 
+that the one you send on 1/30?
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 9da5588..b87aa1a 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,7 +1,6 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--
--SRCREV = "aa7b1e00e6cb7058071ead0180de0541b1c6eccf"
-+SRCREV = "9190b3acfe706d3bfd66dec18133d28f98443321"
- PV = "2.4+git${SRCPV}"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-@@ -11,11 +10,8 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
- 
- FILESPATH = "${FILE_DIRNAME}/systemtap"
- 
--SRC_URI[md5sum]    = "cb202866ed704c44a876d041f788bdee"
--SRC_URI[sha256sum] = "8ffe35caec0d937bd23fd78a3a8d94b58907cc0de0330b35e38f9f764815c459"
--
- # systemtap doesn't support mips
--COMPATIBLE_HOST = '(x86_64.*|i.86.*|powerpc.*|arm.*)-linux'
-+COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64).*-linux'
- 
- S = "${WORKDIR}/git"
- 
-@@ -29,4 +25,3 @@ def get_optimization(d):
-     return selected_optimization
- 
- SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
--
--- 
-1.8.1.2
+It seems that the line count in this patch is different than the first, 
+please rebase against master and update this patch please.
 
+Thanks
+
+Sau!
+
+> Signed-off-by: Laszlo Papp <lpapp@kde.org>
+> ---
+>   meta/recipes-core/base-passwd/base-passwd/nobash.patch | 10 +---------
+>   .../base-passwd/base-passwd/noshadow.patch             | 18 ++++++++++++++++++
+>   meta/recipes-core/base-passwd/base-passwd_3.5.29.bb    |  1 +
+>   3 files changed, 20 insertions(+), 9 deletions(-)
+>   create mode 100644 meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+>
+> diff --git a/meta/recipes-core/base-passwd/base-passwd/nobash.patch b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+> index 6371576..eed87db 100644
+> --- a/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+> +++ b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+> @@ -1,14 +1,6 @@
+>   use /bin/sh instead of /bin/bash, since the latter may not be included in
+>   some images such as minimal
+>
+> -comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+> -
+> -remove "*" for root since we don't have a /etc/shadow so far.
+> -
+> -by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+> -
+> -Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
+> -
+>   Upstream-Status: Invalid [configuration]
+>
+>   Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> @@ -17,7 +9,7 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+>   +++ base-passwd/passwd.master
+>   @@ -1,4 +1,4 @@
+>   -root:*:0:0:root:/root:/bin/bash
+> -+root::0:0:root:/root:/bin/sh
+> ++root:*:0:0:root:/root:/bin/sh
+>    daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+>    bin:*:2:2:bin:/bin:/bin/sh
+>    sys:*:3:3:sys:/dev:/bin/sh
+> diff --git a/meta/recipes-core/base-passwd/base-passwd/noshadow.patch b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+> new file mode 100644
+> index 0000000..14e3959
+> --- /dev/null
+> +++ b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+> @@ -0,0 +1,18 @@
+> +comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+> +
+> +remove "*" for root since we don't have a /etc/shadow so far.
+> +
+> +by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+> +
+> +Upstream-Status: Invalid [configuration]
+> +
+> +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+> +
+> +--- base-passwd/passwd.master~nobash
+> ++++ base-passwd/passwd.master
+> +@@ -1,4 +1,4 @@
+> +-root:*:0:0:root:/root:/bin/sh
+> ++root::0:0:root:/root:/bin/sh
+> + daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+> + bin:*:2:2:bin:/bin:/bin/sh
+> + sys:*:3:3:sys:/dev:/bin/sh
+> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+> index 082037a..5b31fce 100644
+> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+> @@ -9,6 +9,7 @@ DEPENDS = "docbook-utils-native linuxdoc-tools-native"
+>   SRC_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/base-passwd_${PV}.tar.gz \
+>              file://add_shutdown.patch \
+>              file://nobash.patch \
+> +           file://noshadow.patch \
+>              file://input.patch \
+>              file://disable-docs.patch \
+>             "
+>
 
