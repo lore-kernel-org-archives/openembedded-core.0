@@ -1,29 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 73B8C6D16E
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id EE3526D491
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 18:15:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s15IEwtE004072
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 5 Feb 2014 10:14:58 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 5 Feb 2014 10:14:58 -0800
-Message-ID: <52F27FA1.50906@windriver.com>
-Date: Wed, 5 Feb 2014 12:14:57 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1391555891.git.mark.hatle@windriver.com>
-	<89dd3d4afb4616f47edf488f5d828a123c6c11ba.1391555891.git.mark.hatle@windriver.com>
-	<52F27C6C.3030408@linux.intel.com>
-In-Reply-To: <52F27C6C.3030408@linux.intel.com>
-Subject: Re: [v2 PATCH 2/2] useradd.bbclass: Add ability to select a static uid/gid automatically
+	Wed,  5 Feb 2014 18:21:57 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Feb 2014 10:21:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,787,1384329600"; d="scan'208";a="450278014"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.76])
+	by orsmga001.jf.intel.com with ESMTP; 05 Feb 2014 10:21:41 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Feb 2014 10:21:40 -0800
+Message-Id: <1391624500-21372-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] rootfs_deb: Fix whitespace issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,65 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 18:15:26 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Feb 2014 18:21:58 -0000
 
-On 2/5/14, 12:01 PM, Saul Wold wrote:
-> On 02/04/2014 03:39 PM, Mark Hatle wrote:
->> [YOCTO #5436]
->>
->> Automatic selection of static uid/gid is needed for a dynamically generated
->> passwd and group file to have a deterministic outcome.
->>
->> When a package is installed and instructs the system to add a new user or
->> group, unless it selects a static uid/gid value, the next available uid/gid
->> will be used.  The order in which packages are installed is dynamically
->> computed, and may change from one installation to the next.  This results
->> in a non-deterministic set of uid/gid values.
->>
->> Enabling USERADD_REWRITE_PARAMS, and providing a preconfigured passwd/group
->> file will allow the continued dynamic generation of the passwd/group file
->> on the target, but ensure a deterministic outcome.  (Dynamic generation is
->> desired so that user and groups that have no corresponding functionality
->> are not present within the final system image.)
->>
->> The rewrite params function will override each of the fields in the
->> useradd and groupadd calls with the values specified.  Note, the password
->> field is ignored as is the member groups field in the group file.  If the
->> field is empty, the value will not be overridden.  (Note, there is no way
->> to 'blank' a field, as this would only generally affect the 'comment' field
->> and there really is no reason to blank it.)
->>
->> Enabling USERADD_ERROR_DYNAMIC will cause packages without static uid/gid
->> to generate an error and be skipped for the purpose of building.  This is
->> used to prevent non-deterministic behavior.
->>
->> USERADD_UID_TABLES and USERADD_GID_TABLES may be used to specify the name
->> of the passwd and group files.  By default they are assumed to be
->> 'files/passwd' and 'files/group'.  Layers are searched in BBPATH order.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> ---
->>    meta/classes/useradd.bbclass         | 258 +++++++++++++++++++++++++++++++++++
->>    meta/conf/local.conf.sample.extended |  24 ++++
->>    2 files changed, 282 insertions(+)
->>
->
-> This need to be split to 2 patches one for oe-core and the
-> local.conf.sample.extended for poky.
->
+Fixing the following warning:
+WARNING: Variable rootfs_deb_bad_recommendations contains tabs, please remove these (/srv/ssd/sgw/poky/meta/recipes-extended/images/core-image-lsb-dev.bb)
 
-This patch is specific to oe-core, and was NOT generated to apply to poky.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/rootfs_deb.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This includes the changes to the local.conf.sample.extended (located in 
-meta/conf on oe-core).
-
-http://git.openembedded.org/openembedded-core/tree/meta/conf/local.conf.sample.extended
-
-Once this goes into oe-core, I can work on a patch for meta-yocto if desired, 
-likely the hunk will just apply there as well.
-
---Mark
+diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+index b837e4c..728ea0e 100644
+--- a/meta/classes/rootfs_deb.bbclass
++++ b/meta/classes/rootfs_deb.bbclass
+@@ -13,7 +13,7 @@ do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+ 
+ python rootfs_deb_bad_recommendations() {
+     if d.getVar("BAD_RECOMMENDATIONS", True):
+-	bb.warn("Debian package install does not support BAD_RECOMMENDATIONS")
++        bb.warn("Debian package install does not support BAD_RECOMMENDATIONS")
+ }
+ do_rootfs[prefuncs] += "rootfs_deb_bad_recommendations"
+ 
+-- 
+1.8.3.1
 
 
