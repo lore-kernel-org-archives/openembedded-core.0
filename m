@@ -1,36 +1,28 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CD486E2D8
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id EBD276E2D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 13:56:50 +0000 (UTC)
-Received: by mail-wg0-f42.google.com with SMTP id l18so5440536wgh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2014 05:56:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fH6mfChAElbbRMRTh9cCBFofUC4b3jplrKDYysD72ZQ=;
-	b=Xu4lYhwKiYRtf+mo4j7E8+uN2OJJLhosbz4AAXX8kZu1oPNTuijVQowqcCa3o58Dse
-	alAria0rQLsX835ST+8kEwe4h+QngGlFhx0XJSSJ4BVUbTFefXAMSe9d4S6TNrBrRC2q
-	AJFRdw6aOHRUiJ21gcBvBUthdQzOi+aocy5oFekVA2zg+EHoZPtFU7TGB2hDq9b/aKkp
-	YClW6Evh7w0O5G2OEbkuBtDWC4fUrLTBSHMQa/wUBnKHpLF9Vz7RxQAYPwTMdIJJyYA8
-	hGpjT95k2gf28ZgiEikVNMnED2p8m63rxxqc6KPEjWOwV51daejCjSajFlwCC4oGacTx
-	kqtA==
-X-Gm-Message-State: ALoCoQnYCSLkd7HOORejF28JtEOahOAMDQlEysu27XVkOuHj/5tMaT2YCIIsN72H2YeqyjW0EZvw
-X-Received: by 10.194.202.230 with SMTP id kl6mr1480660wjc.9.1391608610519;
-	Wed, 05 Feb 2014 05:56:50 -0800 (PST)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id po3sm61645966wjc.3.2014.02.05.05.56.49
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Feb 2014 05:56:49 -0800 (PST)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2014 14:56:34 +0100
-Message-Id: <1391608594-13680-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.8.4.2
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [RFC][PATCH] curl: point CA bundle to /etc/ssl/certs/ca-certificates.crt instead of using the buildhost location
+	Wed,  5 Feb 2014 14:43:35 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 05 Feb 2014 06:39:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,786,1384329600"; d="scan'208";a="478484725"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2014 06:43:35 -0800
+Date: Wed, 5 Feb 2014 16:43:34 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: David =?iso-8859-1?Q?Nystr=F6m?= <david.nystrom@enea.com>
+Message-ID: <20140205144334.GG5112@lpalcu-linux>
+References: <cover.1391427313.git.laurentiu.palcu@intel.com>
+	<cover.1391594312.git.laurentiu.palcu@intel.com>
+	<CAAKB1h3PL6oyL0VG70SVXSMEROxrwX0sJDc82WO+0e=QvSKiaw@mail.gmail.com>
+	<52F229E1.3040204@enea.com>
+MIME-Version: 1.0
+In-Reply-To: <52F229E1.3040204@enea.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 00/50] Rootfs/image generation refactoring (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,35 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 13:56:51 -0000
+X-List-Received-Date: Wed, 05 Feb 2014 14:43:36 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Configure would look at the buildhost and hardcode the bundle location for there into the target. This leads to non-working https support.
+On Wed, Feb 05, 2014 at 01:09:05PM +0100, David Nyström wrote:
+> >
+> >| NOTE: Installing complementary packages ...
+> >| NOTE: Installing the following packages:
+> >| /media/sdb5/bld/tmp/sysroots/x86_64-linux/usr/bin/opkg-cl: the
+> >``install'' command requires at least one argument
+> >| NOTE: Unable to install packages. Command
+> >/media/sdb5/bld/tmp/sysroots/x86_64-linux/usr/bin/opkg-cl -f
+> >/media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/opkg.conf
+> >-o
+> >/media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/rootfs
+> >--force_postinstall --prefer-arch-to-version   install  returned 1
+I'll send a quick fix for this. This, however, is not the reason of the
+build failure. It's complementary packages that are installed and an
+empty list is passed to install(). Since these are attempt only
+packages, the build does not fail because of this. Anyway, I added a
+simple check and I will send a v3.
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
+> >| NOTE: Running intercept scripts:
+> >| NOTE: Executing write_package_manifest ...
+> >| DEBUG: Executing python function write_package_manifest
+> >| NOTE: Building from feeds activated!
+> >| NOTE: Add all feed with URL
+> >file:///media/sdb5/oel/build/tmp/deploy/ipk/all
+> >| NOTE: Add qemuppc feed with URL
+> >file:///media/sdb5/oel/build/tmp/deploy/ipk/qemuppc
+> >| NOTE: Add ppc7400 feed with URL
+> >file:///media/sdb5/oel/build/tmp/deploy/ipk/ppc7400
+> >| DEBUG: Python function write_package_manifest finished
+> >| NOTE: Executing license_create_manifest ...
+> >| DEBUG: Executing shell function license_create_manifest
+> >| ls: cannot access
+> >/media/sdb5/bld/tmp/sysroots/qemuppc/pkgdata/runtime-reverse/base-files: No
+> >such file or directory
+> >| readlink: missing operand
+> >| Try 'readlink --help' for more information.
+> >| basename: missing operand
+> >| Try 'basename --help' for more information.
+> >| WARNING: exit code 1 from a shell command.
+> >| DEBUG: Python function do_rootfs finished
+> >| ERROR: Function failed: license_create_manifest (log file is located at
+> >/media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.29007)
+Now, this is the interesting part which, btw, happens on master too. That's
+because you're installing from feeds and you're installing an older
+version that has different packages than the latest (these are read from
+package.manifest). The YP 1.5 core-image-minimal package.manifest
+contains update-alternatives-cworth. The latest core-image-minimal does
+not contain this package anymore. It contains update-alternatives-opkg.
 
-This is marked as RFC since:
- 1) it needs to get tried on buildhosts where the bundle isn't located in /etc/ssl/certs
- 2) package dependencies need to get sorted out (curl-ca-certs vs ca-certificates)
- 
+The easiest way would be to add a check in license_create_manifest() to
+just ignore packages that cannot be found. However, since we're dealing
+with licenses here, I honestly don't know if this is the right way of
+doing it...
 
-
- meta/recipes-support/curl/curl_7.34.0.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-support/curl/curl_7.34.0.bb b/meta/recipes-support/curl/curl_7.34.0.bb
-index b49c6e4..3f20bb1 100644
---- a/meta/recipes-support/curl/curl_7.34.0.bb
-+++ b/meta/recipes-support/curl/curl_7.34.0.bb
-@@ -30,6 +30,7 @@ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
-                 --enable-crypto-auth \
-                 --disable-ldap \
-                 --disable-ldaps \
-+                --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
-                 ${CURLGNUTLS} \
-                 "
- 
--- 
-1.8.4.2
-
+laurentiu 
 
