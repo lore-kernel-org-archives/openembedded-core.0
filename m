@@ -1,26 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A91216E881
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9379B6E954
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2014 23:39:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s14NdZb2028239
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  5 Feb 2014 00:35:21 +0000 (UTC)
+Received: by mail-lb0-f172.google.com with SMTP id c11so7050791lbj.17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Feb 2014 15:39:35 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 4 Feb 2014 15:39:35 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Feb 2014 17:39:32 -0600
-Message-ID: <89dd3d4afb4616f47edf488f5d828a123c6c11ba.1391555891.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <cover.1391555891.git.mark.hatle@windriver.com>
-References: <cover.1391555891.git.mark.hatle@windriver.com>
+	Tue, 04 Feb 2014 16:35:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=xunnC2t/4Ln3YrjkyEsVEPqTvm/XL4mds6JCYBf+5Qc=;
+	b=FDylGywEyiTzIpdIUIRYn3144nCISkP2n1iMy+Xd3Aq9l2NJcmbhC/R4crl44Z65fL
+	p59lYjGmCGwz/s0huWWTb4Ifr+BlzrfLCExcu0pKiPtqZWZBHPsaHXQBgUDVollxPxXb
+	kgNDhX1JdCqm0HXRuWu9UFPtHTyOFVPwE+goDcWFsVyrtsbEsLgfC3y2CPCEdb5P/ObQ
+	uFGxJc1BGGh0c0mgKzw1oZFhtyblR5gMJEsGVNVSmTTQEUc2FnRc9Pna7EmEoGtV1WsE
+	X6wM6AW2yp05qb7E1TMuwXifuemvmEd8s5uiARWc06IAFSwOS1TdDwmqfs8EwVS+cH88
+	O7Xg==
 MIME-Version: 1.0
-Subject: [v2 PATCH 2/2] useradd.bbclass: Add ability to select a static uid/gid automatically
+X-Received: by 10.112.72.170 with SMTP id e10mr17610lbv.43.1391560521282; Tue,
+	04 Feb 2014 16:35:21 -0800 (PST)
+Received: by 10.112.24.162 with HTTP; Tue, 4 Feb 2014 16:35:21 -0800 (PST)
+In-Reply-To: <1391556415.15248.2.camel@ted>
+References: <cover.1391534980.git.bruce.ashfield@windriver.com>
+	<8a4a98cc53998f6bbf08763359e1b560b2da3e54.1391534980.git.bruce.ashfield@windriver.com>
+	<1391556415.15248.2.camel@ted>
+Date: Tue, 4 Feb 2014 19:35:21 -0500
+Message-ID: <CADkTA4PeY8XL=h7xSsBVYXEBUx56_sTXjhPQ-sV0pjAQHvHrEQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] kernel: stop using -exec rm for deleting files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,355 +44,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2014 23:39:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Feb 2014 00:35:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-[YOCTO #5436]
+On Tue, Feb 4, 2014 at 6:26 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2014-02-04 at 12:34 -0500, Bruce Ashfield wrote:
+>> Removing files from the source tree via find, exec and rm is not the
+>> most efficient operation, due to (among other things) the many forked
+>> processes.
+>>
+>> If we use -delete, it saves a significant amount of time. But -delete
+>> does not work with -prune (since it forces -depth). To maintain the
+>> lib, tools and scripts source files, we can hide them temporarily,
+>> skip their hidden directories and then finally restore them.
+>>
+>> Time for install before this change:
+>>
+>>  real    2m48.563s
+>>  user    0m35.220s
+>>  sys     0m33.036s
+>>
+>> Time for install after this change:
+>>
+>>  real    1m21.301s
+>>  user    0m33.160s
+>>  sys     0m28.388s
+>>
+>> We could further speed this up by using inline perl to delete the files,
+>> but that complexity is avoided for now.
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>  meta/classes/kernel.bbclass | 18 +++++++++++++++---
+>>  1 file changed, 15 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index 51626b03f824..b76a65699755 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -260,9 +260,21 @@ kernel_do_install() {
+>>       # we clean the scripts dir while leaving the generated config
+>>       # and include files.
+>>       #
+>> -     oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+>> -     make -C $kerneldir _mrproper_scripts
+>> -     find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
+>
+> If we wanted to keep the single expression like this, we could do
+> something like:
+>
+> find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -print0 | xargs -0 rm -f
+>
+> ?
+>
+> I don't have strong feelings about it, I'm just curious if you tried it
+> really. The xargs should batch things up enough that the fork overhead
+> is much less.
 
-Automatic selection of static uid/gid is needed for a dynamically generated
-passwd and group file to have a deterministic outcome.
+I did try xargs, and a few other things in between. I had a 7 hour plane flight
+to look into this (and packaging overhead .. that's next) and I tried
+a few other
+techniques. As I hinted in my commit message, the fastest is to actually
+locate the files with perl and calling unlink() directly .. but that's
+even more of
+a departure from what we had before :)
 
-When a package is installed and instructs the system to add a new user or
-group, unless it selects a static uid/gid value, the next available uid/gid
-will be used.  The order in which packages are installed is dynamically
-computed, and may change from one installation to the next.  This results
-in a non-deterministic set of uid/gid values.
+find, prune and friends get so unreadable, that when I found the faster way, I
+tossed them in the bin and didn't look back!
 
-Enabling USERADD_REWRITE_PARAMS, and providing a preconfigured passwd/group
-file will allow the continued dynamic generation of the passwd/group file
-on the target, but ensure a deterministic outcome.  (Dynamic generation is
-desired so that user and groups that have no corresponding functionality
-are not present within the final system image.)
+Cheers,
 
-The rewrite params function will override each of the fields in the
-useradd and groupadd calls with the values specified.  Note, the password
-field is ignored as is the member groups field in the group file.  If the
-field is empty, the value will not be overridden.  (Note, there is no way
-to 'blank' a field, as this would only generally affect the 'comment' field
-and there really is no reason to blank it.)
+Bruce
 
-Enabling USERADD_ERROR_DYNAMIC will cause packages without static uid/gid
-to generate an error and be skipped for the purpose of building.  This is
-used to prevent non-deterministic behavior.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>> +     oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
+>> +
+>> +     # hide directories that shouldn't have their .c, s and S files deleted
+>> +     for d in tools scripts lib; do
+>> +             mv $kerneldir/$d $kerneldir/.$d
+>> +     done
+>> +
+>> +     # delete .c, .s and .S files, unless we hid a directory as .<dir>. This technique is
+>> +     # much faster than find -prune and -exec
+>> +     find . -not -path '*/\.*' -type f -name "*.[csS]" -delete
+>> +
+>> +     # put the hidden dirs back
+>> +     for d in tools scripts lib; do
+>> +             mv $kerneldir/.$d $kerneldir/$d
+>> +     done
+>>
+>>       # As of Linux kernel version 3.0.1, the clean target removes
+>>       # arch/powerpc/lib/crtsavres.o which is present in
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-USERADD_UID_TABLES and USERADD_GID_TABLES may be used to specify the name
-of the passwd and group files.  By default they are assumed to be
-'files/passwd' and 'files/group'.  Layers are searched in BBPATH order.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/classes/useradd.bbclass         | 258 +++++++++++++++++++++++++++++++++++
- meta/conf/local.conf.sample.extended |  24 ++++
- 2 files changed, 282 insertions(+)
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index ad6f61a..ff14b27 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -144,9 +144,267 @@ def update_useradd_after_parse(d):
-         if not d.getVar('USERADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPMEMS_PARAM_%s' % pkg, True):
-             bb.fatal("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE'), pkg))
- 
-+# In order to support a deterministic set of 'dynamic' users/groups,
-+# we need a function to reformat the params based on a static file
-+def update_useradd_static_config(d):
-+    import argparse
-+    import re
-+
-+    class myArgumentParser( argparse.ArgumentParser ):
-+        def _print_message(self, message, file=None):
-+            bb.warn("%s - %s: %s" % (d.getVar('PN', True), pkg, message))
-+
-+        # This should never be called...
-+        def exit(self, status=0, message=None):
-+            message = message or ("%s - %s: useradd.bbclass: Argument parsing exited" % (d.getVar('PN', True), pkg))
-+            error(message)
-+
-+        def error(self, message):
-+            raise bb.build.FuncFailed(message)
-+
-+    # We parse and rewrite the useradd components
-+    def rewrite_useradd(params):
-+        # The following comes from --help on useradd from shadow
-+        parser = myArgumentParser(prog='useradd')
-+        parser.add_argument("-b", "--base-dir", metavar="BASE_DIR", help="base directory for the home directory of the new account")
-+        parser.add_argument("-c", "--comment", metavar="COMMENT", help="GECOS field of the new account")
-+        parser.add_argument("-d", "--home-dir", metavar="HOME_DIR", help="home directory of the new account")
-+        parser.add_argument("-D", "--defaults", help="print or change default useradd configuration", action="store_true")
-+        parser.add_argument("-e", "--expiredate", metavar="EXPIRE_DATE", help="expiration date of the new account")
-+        parser.add_argument("-f", "--inactive", metavar="INACTIVE", help="password inactivity period of the new account")
-+        parser.add_argument("-g", "--gid", metavar="GROUP", help="name or ID of the primary group of the new account")
-+        parser.add_argument("-G", "--groups", metavar="GROUPS", help="list of supplementary groups of the new account")
-+        parser.add_argument("-k", "--skel", metavar="SKEL_DIR", help="use this alternative skeleton directory")
-+        parser.add_argument("-K", "--key", metavar="KEY=VALUE", help="override /etc/login.defs defaults")
-+        parser.add_argument("-l", "--no-log-init", help="do not add the user to the lastlog and faillog databases", action="store_true")
-+        parser.add_argument("-m", "--create-home", help="create the user's home directory", action="store_true")
-+        parser.add_argument("-M", "--no-create-home", help="do not create the user's home directory", action="store_true")
-+        parser.add_argument("-N", "--no-user-group", help="do not create a group with the same name as the user", action="store_true")
-+        parser.add_argument("-o", "--non-unique", help="allow to create users with duplicate (non-unique UID)", action="store_true")
-+        parser.add_argument("-p", "--password", metavar="PASSWORD", help="encrypted password of the new account")
-+        parser.add_argument("-R", "--root", metavar="CHROOT_DIR", help="directory to chroot into")
-+        parser.add_argument("-r", "--system", help="create a system account", action="store_true")
-+        parser.add_argument("-s", "--shell", metavar="SHELL", help="login shell of the new account")
-+        parser.add_argument("-u", "--uid", metavar="UID", help="user ID of the new account")
-+        parser.add_argument("-U", "--user-group", help="create a group with the same name as the user", action="store_true")
-+        parser.add_argument("LOGIN", help="Login name of the new user")
-+
-+        # Return a list of configuration files based on either the default
-+        # files/passwd or the contents of USERADD_UID_TABLES
-+        # paths are resulved via BBPATH
-+        def get_passwd_list(d):
-+            str = ""
-+            bbpath = d.getVar('BBPATH', True)
-+            passwd_tables = d.getVar('USERADD_UID_TABLES', True)
-+            if not passwd_tables:
-+                passwd_tables = 'files/passwd'
-+            for conf_file in passwd_tables.split():
-+                str += " %s" % bb.utils.which(bbpath, conf_file)
-+            return str
-+
-+        newparams = []
-+        for param in re.split('''[ \t]*;[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
-+            param=param.strip()
-+            try:
-+                uaargs = parser.parse_args(re.split('''[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', param))
-+            except:
-+                raise bb.build.FuncFailed("%s: Unable to parse arguments for USERADD_PARAM_%s: '%s'" % (d.getVar('PN', True), pkg, param))
-+
-+            # files/passwd or the contents of USERADD_UID_TABLES
-+            # Use the standard passwd layout:
-+            #  username:password:user_id:group_id:comment:home_directory:login_shell
-+            # (we want to process in reverse order, as 'last found' in the list wins)
-+            #
-+            # If a field is left blank, the original value will be used.  The 'username'
-+            # field is required.
-+            #
-+            # Note: we ignore the password field, as including even the hashed password
-+            # in the useradd command may introduce a security hole.  It's assumed that
-+            # all new users get the default ('*' which prevents login) until the user is
-+            # specifically configured by the system admin.
-+            for conf in get_passwd_list(d).split()[::-1]:
-+                if os.path.exists(conf):
-+                    f = open(conf, "r")
-+                    for line in f:
-+                        if line.startswith('#'):
-+                            continue
-+                        field = line.rstrip().split(":")
-+                        if field[0] == uaargs.LOGIN:
-+                            if uaargs.uid and field[2] and (uaargs.uid != field[2]):
-+                                bb.warn("%s: Changing username %s's uid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.uid, field[2]))
-+                            uaargs.uid = [field[2], uaargs.uid][not field[2]]
-+
-+                            # Determine the possible groupname
-+                            # Unless the group name (or gid) is specified, we assume that the LOGIN is the groupname
-+                            #
-+                            # By default the system has creation of the matching groups enabled
-+                            # So if the implicit username-group creation is on, then the implicit groupname (LOGIN)
-+                            # is used, and we disable the user_group option.
-+                            #
-+                            uaargs.groupname = [uaargs.gid, uaargs.LOGIN][not uaargs.gid or uaargs.user_group]
-+                            uaargs.user_group = False
-+
-+                            uaargs.gid = [uaargs.gid, uaargs.groupname][not uaargs.gid]
-+                            uaargs.gid = [field[3], uaargs.gid][not field[3]]
-+
-+                            if uaargs.groupname == uaargs.gid:
-+                                # Nothing to do...
-+                                pass
-+                            elif (uaargs.groupname and uaargs.groupname.isdigit()) and (uaargs.gid and uaargs.gid.isdigit()) and (uaargs.groupname != uaargs.gid):
-+                                # We want to add a group, but we don't know it's name... so we can't add the group...
-+                                # We have to assume the group has previously been added or we'll fail on the adduser...
-+                                # Note: specifying the actual gid is very rare in OE, usually the group name is specified.
-+                                bb.warn("%s: Changing gid for login %s from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), uaargs.LOGIN, uaargs.groupname, uaargs.gid))
-+                            elif uaargs.groupname and (uaargs.gid and uaargs.gid.isdigit()):
-+                               bb.debug(1, "Adding group %s  gid (%s)!" % (uaargs.groupname, uaargs.gid))
-+                               groupadd = d.getVar("GROUPADD_PARAM_%s" % pkg, True)
-+                               newgroup = "-g %s %s" % (uaargs.gid, uaargs.groupname)
-+                               if groupadd:
-+                                   d.setVar("GROUPADD_PARAM_%s" % pkg, "%s ; %s" % (groupadd, newgroup))
-+                               else:
-+                                   d.setVar("GROUPADD_PARAM_%s" % pkg, newgroup)
-+
-+                            uaargs.comment = ["'%s'" % field[4], uaargs.comment][not field[4]]
-+                            uaargs.home_dir = [field[5], uaargs.home_dir][not field[5]]
-+                            uaargs.shell = [field[6], uaargs.shell][not field[6]]
-+                            break
-+
-+            # Should be an error if a specific option is set...
-+            if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and (not uaargs.uid or not uaargs.gid):
-+                raise bb.build.FuncFailed("%s - %s: Username %s does not have a static uid/gid defined." % (d.getVar('PN', True), pkg, uaargs.LOGIN))
-+
-+            # Reconstruct the args...
-+            newparam  = ['', ' --defaults'][uaargs.defaults]
-+            newparam += ['', ' --base-dir %s' % uaargs.base_dir][uaargs.base_dir != None]
-+            newparam += ['', ' --comment %s' % uaargs.comment][uaargs.comment != None]
-+            newparam += ['', ' --home-dir %s' % uaargs.home_dir][uaargs.home_dir != None]
-+            newparam += ['', ' --expiredata %s' % uaargs.expiredate][uaargs.expiredate != None]
-+            newparam += ['', ' --inactive %s' % uaargs.inactive][uaargs.inactive != None]
-+            newparam += ['', ' --gid %s' % uaargs.gid][uaargs.gid != None]
-+            newparam += ['', ' --groups %s' % uaargs.groups][uaargs.groups != None]
-+            newparam += ['', ' --skel %s' % uaargs.skel][uaargs.skel != None]
-+            newparam += ['', ' --key %s' % uaargs.key][uaargs.key != None]
-+            newparam += ['', ' --no-log-init'][uaargs.no_log_init]
-+            newparam += ['', ' --create-home'][uaargs.create_home]
-+            newparam += ['', ' --no-create-home'][uaargs.no_create_home]
-+            newparam += ['', ' --no-user-group'][uaargs.no_user_group]
-+            newparam += ['', ' --non-unique'][uaargs.non_unique]
-+            newparam += ['', ' --password %s' % uaargs.password][uaargs.password != None]
-+            newparam += ['', ' --root %s' % uaargs.root][uaargs.root != None]
-+            newparam += ['', ' --system'][uaargs.system]
-+            newparam += ['', ' --shell %s' % uaargs.shell][uaargs.shell != None]
-+            newparam += ['', ' --uid %s' % uaargs.uid][uaargs.uid != None]
-+            newparam += ['', ' --user-group'][uaargs.user_group]
-+            newparam += ' %s' % uaargs.LOGIN
-+
-+            newparams.append(newparam)
-+
-+        return " ;".join(newparams).strip()
-+
-+    # We parse and rewrite the groupadd components
-+    def rewrite_groupadd(params):
-+        # The following comes from --help on groupadd from shadow
-+        parser = myArgumentParser(prog='groupadd')
-+        parser.add_argument("-f", "--force", help="exit successfully if the group already exists, and cancel -g if the GID is already used", action="store_true")
-+        parser.add_argument("-g", "--gid", metavar="GID", help="use GID for the new group")
-+        parser.add_argument("-K", "--key", metavar="KEY=VALUE", help="override /etc/login.defs defaults")
-+        parser.add_argument("-o", "--non-unique", help="allow to create groups with duplicate (non-unique) GID", action="store_true")
-+        parser.add_argument("-p", "--password", metavar="PASSWORD", help="use this encrypted password for the new group")
-+        parser.add_argument("-R", "--root", metavar="CHROOT_DIR", help="directory to chroot into")
-+        parser.add_argument("-r", "--system", help="create a system account", action="store_true")
-+        parser.add_argument("GROUP", help="Group name of the new group")
-+
-+        # Return a list of configuration files based on either the default
-+        # files/group or the contents of USERADD_GID_TABLES
-+        # paths are resulved via BBPATH
-+        def get_group_list(d):
-+            str = ""
-+            bbpath = d.getVar('BBPATH', True)
-+            group_tables = d.getVar('USERADD_GID_TABLES', True)
-+            if not group_tables:
-+                group_tables = 'files/group'
-+            for conf_file in group_tables.split():
-+                str += " %s" % bb.utils.which(bbpath, conf_file)
-+            return str
-+
-+        newparams = []
-+        for param in re.split('''[ \t]*;[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
-+            param=param.strip()
-+            try:
-+                # If we're processing multiple lines, we could have left over values here...
-+                gaargs = parser.parse_args(re.split('''[ \t]*(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', param))
-+            except:
-+                raise bb.build.FuncFailed("%s: Unable to parse arguments for GROUPADD_PARAM_%s: '%s'" % (d.getVar('PN', True), pkg, param))
-+
-+            # Need to iterate over layers and open the right file(s)
-+            # Use the standard group layout:
-+            #  groupname:password:group_id:group_members
-+            #
-+            # If a field is left blank, the original value will be used. The 'groupname' field
-+            # is required.
-+            #
-+            # Note: similar to the passwd file, the 'password' filed is ignored
-+            # Note: group_members is ignored, group members must be configured with the GROUPMEMS_PARAM
-+            for conf in get_group_list(d).split()[::-1]:
-+                if os.path.exists(conf):
-+                    f = open(conf, "r")
-+                    for line in f:
-+                        if line.startswith('#'):
-+                            continue
-+                        field = line.rstrip().split(":")
-+                        if field[0] == gaargs.GROUP and field[2]:
-+                            if gaargs.gid and (gaargs.gid != field[2]):
-+                                bb.warn("%s: Changing groupname %s's gid from (%s) to (%s), verify configuration files!" % (d.getVar('PN', True), gaargs.GROUP, gaargs.gid, field[2]))
-+                            gaargs.gid = field[2]
-+                            break
-+
-+            if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not gaargs.gid:
-+                raise bb.build.FuncFailed("%s - %s: Groupname %s does not have a static gid defined." % (d.getVar('PN', True), pkg, gaargs.GROUP))
-+
-+            # Reconstruct the args...
-+            newparam  = ['', ' --force'][gaargs.force]
-+            newparam += ['', ' --gid %s' % gaargs.gid][gaargs.gid != None]
-+            newparam += ['', ' --key %s' % gaargs.key][gaargs.key != None]
-+            newparam += ['', ' --non-unique'][gaargs.non_unique]
-+            newparam += ['', ' --password %s' % gaargs.password][gaargs.password != None]
-+            newparam += ['', ' --root %s' % gaargs.root][gaargs.root != None]
-+            newparam += ['', ' --system'][gaargs.system]
-+            newparam += ' %s' % gaargs.GROUP
-+
-+            newparams.append(newparam)
-+
-+        return " ;".join(newparams).strip()
-+
-+    # Load and process the users and groups, rewriting the adduser/addgroup params
-+    useradd_packages = d.getVar('USERADD_PACKAGES', True)
-+
-+    for pkg in useradd_packages.split():
-+        # Groupmems doesn't have anything we might want to change, so simply validating
-+        # is a bit of a waste -- only process useradd/groupadd
-+        useradd_param = d.getVar('USERADD_PARAM_%s' % pkg, True)
-+        if useradd_param:
-+            #bb.warn("Before: 'USERADD_PARAM_%s' - '%s'" % (pkg, useradd_param))
-+            d.setVar('USERADD_PARAM_%s' % pkg, rewrite_useradd(useradd_param))
-+            #bb.warn("After:  'USERADD_PARAM_%s' - '%s'" % (pkg, d.getVar('USERADD_PARAM_%s' % pkg, True)))
-+
-+        groupadd_param = d.getVar('GROUPADD_PARAM_%s' % pkg, True)
-+        if groupadd_param:
-+            #bb.warn("Before: 'GROUPADD_PARAM_%s' - '%s'" % (pkg, groupadd_param))
-+            d.setVar('GROUPADD_PARAM_%s' % pkg, rewrite_groupadd(groupadd_param))
-+            #bb.warn("After:  'GROUPADD_PARAM_%s' - '%s'" % (pkg, d.getVar('GROUPADD_PARAM_%s' % pkg, True)))
-+
-+
-+
- python __anonymous() {
-     if not bb.data.inherits_class('nativesdk', d):
-         update_useradd_after_parse(d)
-+
-+        if d.getVar('USERADD_REWRITE_PARAMS', True) == '1':
-+            try:
-+                update_useradd_static_config(d)
-+            except bb.build.FuncFailed as f:
-+                bb.debug(1, "Skipping recipe %s: %s" % (d.getVar('PN', True), f))
-+                raise bb.parse.SkipPackage(f)
- }
- 
- # Return a single [GROUP|USER]ADD_PARAM formatted string which includes the
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index c7c4f40..b73a0a7 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -253,6 +253,30 @@
- #usermod -s /bin/sh tester; \
- #"
- 
-+# Various packages dynamically add users and groups to the system at package
-+# install time.  For programs that do not care what the uid/gid is of the
-+# resulting users/groups, the order of the install will determine the final
-+# uid/gid.  This can lead to non-deterministic uid/gid values from one build
-+# to another.  Use the following settings to specify that all user/group adds
-+# should be created based on a static passwd/group file.
-+#
-+# By default the system looks in the BBPATH for files/passwd and files/group
-+# the default can be overriden by spefying USERADD_UID/GID_TABLES.
-+#
-+# Note, if you change the value of the USERADD_REWRITE_PARAMS after starting
-+# to build.  The TMPDIR may have incompatible uid/gids in it.  You must 'rm'
-+# the TMPDIR to avoid this issue.
-+#
-+#USERADD_REWRITE_PARAMS = "1"
-+#USERADD_UID_TABLES = "files/passwd"
-+#USERADD_GID_TABLES = "files/group"
-+#
-+# In order to prevent generating a system where a dynamicly assigned uid/gid
-+# can exist, you can enable the following setting.  This will force the
-+# system to error out if the user/group name is not defined in the
-+# files/passwd or files/group (or specified replacements.)
-+#USERADD_ERROR_DYNAMIC = "1"
-+
- # Enabling FORTRAN
- # Note this is not officially supported and is just illustrated here to
- # show an example of how it can be done
 -- 
-1.8.5.3
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
