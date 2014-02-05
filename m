@@ -1,28 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 517706E3EC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id CFC836D491
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 19:26:56 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Feb 2014 11:26:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,788,1384329600"; d="scan'208";a="476565714"
-Received: from unknown (HELO [10.255.12.76]) ([10.255.12.76])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Feb 2014 11:26:56 -0800
-Message-ID: <52F29080.9080200@linux.intel.com>
-Date: Wed, 05 Feb 2014 11:26:56 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, 
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1390685105-16717-1-git-send-email-paul.eggleton@linux.intel.com>
-	<CAMKF1sqEhyFP8VRTf1m_p3SdURHFeNswT_GtrE8aj6Pqwak2xQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sqEhyFP8VRTf1m_p3SdURHFeNswT_GtrE8aj6Pqwak2xQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/buildhistory: fix expansion of escape sequences
+	Wed,  5 Feb 2014 19:48:22 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id l18so629000wgh.17
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Feb 2014 11:48:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=FndWG+pY3WdatCEzs0lIEPgROBHHOTVDMh9qMX+FJ9g=;
+	b=AEi7DtBi1oylTANewTq2LvuosC5RmffPvZvnX+bXwL9aXL3KzoZ7iusiVt4AVCzEEY
+	AZXoRKecpVTYDMEm7XdvPqUPebImWURQtfMGRgDA6h5PN8ggnL16Ys6kVy1ylg8jxzJ0
+	BlcfBbyTmiWMhRTyiIyxYq4VoUBhrNw67fn835tKNueGveb16XD+TgRBJkYf4ZCodYNH
+	qs86j2GdcG/npu/z9RqLPdj1j2pW5sqXNgSBUUZa8MYKg9QCSgcRPJCoEZQ8Ez9hNg/W
+	9f/cR7PittdaFiMMKarYt83MHBG4ljE63bsYTjVd2yDkxpgOd0uqX5ut+C1zZANh8d+q
+	7new==
+X-Gm-Message-State: ALoCoQkQtAALCG9CAj5SI0X17hFKz1C2lcs+iAy0X/evGAfC3RoIuHjSgMAYSVISsoJ/qj0HyGL6
+X-Received: by 10.180.188.230 with SMTP id gd6mr3894873wic.15.1391629702925;
+	Wed, 05 Feb 2014 11:48:22 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id q2sm63891093wjq.0.2014.02.05.11.48.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Feb 2014 11:48:22 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Feb 2014 19:48:19 +0000
+Message-Id: <1391629699-2453-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] pcmanfm: apply a patch to the source, not a generated file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,100 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 19:26:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Feb 2014 19:48:23 -0000
 
-On 01/25/2014 02:10 PM, Khem Raj wrote:
-> Thanks for fixing it. Looks correct to me
->
+no-desktop.patch was applying to a generated file, not the true source, which
+meant it may not appear to be applied in the resulting package.
 
-There still might be an issue:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-sato/pcmanfm/files/no-desktop.patch |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> ERROR: Error executing a python function in /srv/hdd/poky/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb:
->
-> The stack trace of python calls that resulted in this exception/failure was:
-> File: 'buildhistory_emit_pkghistory', lineno: 220, function: <module>
->      0216:
->      0217:        write_pkghistory(pkginfo, d)
->      0218:
->      0219:
->  *** 0220:buildhistory_emit_pkghistory(d)
->      0221:
-> File: 'buildhistory_emit_pkghistory', lineno: 217, function: buildhistory_emit_pkghistory
->      0213:        pkginfo.filelist = " ".join(filelist)
->      0214:
->      0215:        pkginfo.size = int(pkgdata['PKGSIZE'])
->      0216:
->  *** 0217:        write_pkghistory(pkginfo, d)
->      0218:
->      0219:
->      0220:buildhistory_emit_pkghistory(d)
->      0221:
-> File: 'buildhistory.bbclass', lineno: 38, function: write_pkghistory
->      0034:        if pkginfo.rconflicts:
->      0035:            f.write("RCONFLICTS = %s\n" %  pkginfo.rconflicts)
->      0036:        f.write("PKGSIZE = %d\n" %  pkginfo.size)
->      0037:        f.write("FILES = %s\n" %  pkginfo.files)
->  *** 0038:        f.write("FILELIST = %s\n" %  pkginfo.filelist)
->      0039:
->      0040:    for filevar in pkginfo.filevars:
->      0041:        filevarpath = os.path.join(pkgpath, "latest.%s" % filevar)
->      0042:        val = pkginfo.filevars[filevar]
-> Exception: UnicodeEncodeError: 'ascii' codec can't encode character u'\xed' in position 337: ordinal not in range(128)
->
+diff --git a/meta/recipes-sato/pcmanfm/files/no-desktop.patch b/meta/recipes-sato/pcmanfm/files/no-desktop.patch
+index cb4cae0..103d6d1 100644
+--- a/meta/recipes-sato/pcmanfm/files/no-desktop.patch
++++ b/meta/recipes-sato/pcmanfm/files/no-desktop.patch
+@@ -6,9 +6,9 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+ diff --git a/data/pcmanfm-desktop-pref.desktop b/data/pcmanfm-desktop-pref.desktop
+ index ccf8abb..3f6fc1c 100644
+---- a/data/pcmanfm-desktop-pref.desktop
+-+++ b/data/pcmanfm-desktop-pref.desktop
+-@@ -97,3 +97,4 @@ Exec=pcmanfm --desktop-pref
++--- a/data/pcmanfm-desktop-pref.desktop.in
+++++ b/data/pcmanfm-desktop-pref.desktop.in
++@@ -7,3 +7,4 @@ Exec=pcmanfm --desktop-pref
+  StartupNotify=true
+  Terminal=false
+  NotShowIn=GNOME;XFCE;KDE;
+-- 
+1.7.10.4
 
-
-
-I tried to delete the buildhistory for ca-certs and rebuild without any 
-sstate, but it still failed to build. correctly.
-
-
-Sau!
-
-
-> ERROR: Function failed: buildhistory_emit_pkghistory
-> ERROR: Logfile of failure stored in: /srv/hdd/builds/world/tmp/work/all-poky-linux/ca-certificates/20130610-r0/temp/log.do_packagedata.14089
-> ERROR: Task 9 (/srv/hdd/poky/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb, do_packagedata) failed with exit code '1'
-
-> Acked-by: Khem Raj <raj.khem@gmail.com>
->
-> On Sat, Jan 25, 2014 at 1:25 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
->> OE-Core commit 259b8718a31b886f8a158aeb5de164840c9a28b2 fixed UTF-8
->> errors but broke decoding of escape sequences in strings (e.g.
->> pkg_postinst scripts had \n \t in them instead of newlines and tabs.)
->> We need a second call to decode() here as specifying 'string_escape' as
->> the second parameter won't do anything.
->>
->> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
->> ---
->>   meta/classes/buildhistory.bbclass | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
->> index e9a9c3b..debeea8 100644
->> --- a/meta/classes/buildhistory.bbclass
->> +++ b/meta/classes/buildhistory.bbclass
->> @@ -190,7 +190,7 @@ python buildhistory_emit_pkghistory() {
->>                   key = item[0]
->>                   if key.endswith('_' + pkg):
->>                       key = key[:-len(pkg)-1]
->> -                pkgdata[key] = item[1].decode('utf-8', 'string_escape')
->> +                pkgdata[key] = item[1].decode('utf-8').decode('string_escape')
->>
->>           pkge = pkgdata.get('PKGE', '0')
->>           pkgv = pkgdata['PKGV']
->> --
->> 1.8.5.3
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
