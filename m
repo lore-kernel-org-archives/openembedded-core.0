@@ -1,40 +1,36 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
-	[209.85.160.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 359006D762
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CD486E2D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 12:23:35 +0000 (UTC)
-Received: by mail-pb0-f54.google.com with SMTP id uo5so303110pbc.13
+	Wed,  5 Feb 2014 13:56:50 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id l18so5440536wgh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2014 04:23:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=R3qWOTWqwdiSBBDGqqNHw3dyj/dveJb43GkvD8ulgPQ=;
-	b=R2Zi+WSc/5sqSqw+eeuMo7fg1kg3OCeKvjee3TCFbzsYBOYWrpKC7qzb2ywhu+vl7S
-	B6zFsY703uP2CIPNRD41+zl0rllPXRMw6MJFlZ974gNp7rFMkXGTkw5rqUs+9TO8MysU
-	G4NXFJP2yfPgzfA4kQmYav/RSU52UYLI82HqISnYAVXOApQtmzj690NmsCRHjvaZsML6
-	jrpTdFj0TGs7lpdaRXuI9XhtZ6d/ooK8nysDpPE20mOjdzS80awo67/iXkzBgk7G47hE
-	bXQWHs/NpIvOS2LtpG97w67PaiXC/9duLnE7pf4WjW9WXfox7Te+8E6QiFnp0RB6y7K9
-	ulKg==
-X-Received: by 10.66.164.229 with SMTP id yt5mr1324849pab.67.1391603015684;
-	Wed, 05 Feb 2014 04:23:35 -0800 (PST)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	bz4sm76171386pbb.12.2014.02.05.04.23.33 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 05 Feb 2014 04:23:34 -0800 (PST)
-Message-ID: <52F22BC7.2050006@gmail.com>
-Date: Wed, 05 Feb 2014 23:17:11 +1100
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <1391317132-23608-1-git-send-email-net147@gmail.com>
-In-Reply-To: <1391317132-23608-1-git-send-email-net147@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] syslinux: fix booting memtest86+ using pxelinux regression
+	Wed, 05 Feb 2014 05:56:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=fH6mfChAElbbRMRTh9cCBFofUC4b3jplrKDYysD72ZQ=;
+	b=Xu4lYhwKiYRtf+mo4j7E8+uN2OJJLhosbz4AAXX8kZu1oPNTuijVQowqcCa3o58Dse
+	alAria0rQLsX835ST+8kEwe4h+QngGlFhx0XJSSJ4BVUbTFefXAMSe9d4S6TNrBrRC2q
+	AJFRdw6aOHRUiJ21gcBvBUthdQzOi+aocy5oFekVA2zg+EHoZPtFU7TGB2hDq9b/aKkp
+	YClW6Evh7w0O5G2OEbkuBtDWC4fUrLTBSHMQa/wUBnKHpLF9Vz7RxQAYPwTMdIJJyYA8
+	hGpjT95k2gf28ZgiEikVNMnED2p8m63rxxqc6KPEjWOwV51daejCjSajFlwCC4oGacTx
+	kqtA==
+X-Gm-Message-State: ALoCoQnYCSLkd7HOORejF28JtEOahOAMDQlEysu27XVkOuHj/5tMaT2YCIIsN72H2YeqyjW0EZvw
+X-Received: by 10.194.202.230 with SMTP id kl6mr1480660wjc.9.1391608610519;
+	Wed, 05 Feb 2014 05:56:50 -0800 (PST)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id po3sm61645966wjc.3.2014.02.05.05.56.49
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 05 Feb 2014 05:56:49 -0800 (PST)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Feb 2014 14:56:34 +0100
+Message-Id: <1391608594-13680-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [RFC][PATCH] curl: point CA bundle to /etc/ssl/certs/ca-certificates.crt instead of using the buildhost location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,28 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 12:23:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Feb 2014 13:56:51 -0000
 
-Hi Robert,
+Configure would look at the buildhost and hardcode the bundle location for there into the target. This leads to non-working https support.
 
-On 2/02/2014 3:58 PM, Jonathan Liu wrote:
-> After syslinux was updated from 4.07 to 6.01, booting memtest86+ using
-> pxelinux would fail:
-> PXELINUX 6.01 2013-07-04 Copyright (C) 1994-2013 H. Peter Anvin et al
-> Loading memtest86... ok
-> Booting kernel failed: invalid argument
->
-> This backports the necessary upstream patches to allow memtest86+ to
-> boot using pxelinux again.
->
-> [YOCTO #5501]
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
 
-Can you please cherry pick this patch from master into dora branch?
+This is marked as RFC since:
+ 1) it needs to get tried on buildhosts where the bundle isn't located in /etc/ssl/certs
+ 2) package dependencies need to get sorted out (curl-ca-certs vs ca-certificates)
+ 
 
-Regards,
-Jonathan
+
+ meta/recipes-support/curl/curl_7.34.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/curl/curl_7.34.0.bb b/meta/recipes-support/curl/curl_7.34.0.bb
+index b49c6e4..3f20bb1 100644
+--- a/meta/recipes-support/curl/curl_7.34.0.bb
++++ b/meta/recipes-support/curl/curl_7.34.0.bb
+@@ -30,6 +30,7 @@ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+                 --enable-crypto-auth \
+                 --disable-ldap \
+                 --disable-ldaps \
++                --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
+                 ${CURLGNUTLS} \
+                 "
+ 
+-- 
+1.8.4.2
+
 
