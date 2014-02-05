@@ -1,39 +1,25 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D689A6E88D
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 251196D762
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 11:19:30 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id e4so451296wiv.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2014 03:19:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=MNRDJLBdPY8wvPActeD+L3sBQqPhFjNz3G+ZxgU5vbk=;
-	b=Y1EPhg091eq3hXOtfUp4yUyNi7uIPuHHjh5XSv0223+exX1tOqle4QvVO2wT/K5pfh
-	GuLlzoxPL+seE2btxLui1PSBR72bk9Z1fomaXg6izKGXiVLClXzwntuUfK1EdKNzbEEU
-	qBYl7lE1NDzyat+lJFViD04KC+fYvIsXp7JWAjNch/gU/yGUhfUPl+BiA6iMBJIIgFnV
-	1JZl/nZDQSiiTJR/PaZQtL0tyZ/s+FUlZYruobdHG74hfgPLbw46UfEbjcLjc65yOd8z
-	7dNVfrGqXLS27UIW4y95DXwWFtMOIsXvU+Y2FEkmYMlwxSM84pGn+0A9jRACxYXGK3XO
-	7HNA==
-X-Gm-Message-State: ALoCoQmptOV3fRPADHM4gIezdgJerkLQlfA25zZ4pUsiG1EKx67vm2IoMGIR7583Bh6SdyVGzlVP
-X-Received: by 10.180.207.10 with SMTP id ls10mr16655396wic.4.1391599170782;
-	Wed, 05 Feb 2014 03:19:30 -0800 (PST)
-Received: from lpapp@archlinux.us (mail.polatis.com. [212.44.19.228])
-	by mx.google.com with ESMTPSA id eo4sm44829034wib.9.2014.02.05.03.19.27
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Feb 2014 03:19:29 -0800 (PST)
-Sender: Laszlo Papp <lpapp@archlinux.us>
-Received: by lpapp@archlinux.us (sSMTP sendmail emulation);
-	Wed, 05 Feb 2014 11:13:56 +0000
-From: Laszlo Papp <lpapp@kde.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2014 11:13:55 +0000
-Message-Id: <1391598835-1631-1-git-send-email-lpapp@kde.org>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts
+	Wed,  5 Feb 2014 12:09:38 +0000 (UTC)
+Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Wed, 5 Feb 2014
+	13:09:05 +0100
+Message-ID: <52F229E1.3040204@enea.com>
+Date: Wed, 5 Feb 2014 13:09:05 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+References: <cover.1391427313.git.laurentiu.palcu@intel.com>	<cover.1391594312.git.laurentiu.palcu@intel.com>
+	<CAAKB1h3PL6oyL0VG70SVXSMEROxrwX0sJDc82WO+0e=QvSKiaw@mail.gmail.com>
+In-Reply-To: <CAAKB1h3PL6oyL0VG70SVXSMEROxrwX0sJDc82WO+0e=QvSKiaw@mail.gmail.com>
+X-Originating-IP: [172.16.141.133]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 00/50] Rootfs/image generation refactoring (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,85 +32,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 11:19:31 -0000
+X-List-Received-Date: Wed, 05 Feb 2014 12:09:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The current change contains two different logics resulting that users like me
-may need to partially override the behavior of it. It would be easier for end
-users to keep one change while dropping the other if needed, like in our case.
+On 2014-02-05 11:58, David Nystrom wrote:
+> On Wed, Feb 5, 2014 at 11:07 AM, Laurentiu Palcu
+> <laurentiu.palcu@intel.com>wrote:
+>
+>> V2:
+>>   * fix building from feeds for opkg;
+>>   * rebase;
+>>
+>
+> | NOTE: ###### Generate rootfs #######
+> | NOTE: Installing the following packages: run-postinsts
+> packagegroup-core-boot
+> | sed: -e expression #1, char 41: unterminated address regex
+> | sed: -e expression #1, char 42: unterminated address regex
+> | sed: -e expression #1, char 41: unterminated address regex
+> | sed: -e expression #1, char 42: unterminated address regex
+>
+> [david] Why are these seds failing ?, I've seen this in master aswell
+> though.
 
-Signed-off-by: Laszlo Papp <lpapp@kde.org>
----
- meta/recipes-core/base-passwd/base-passwd/nobash.patch | 10 +---------
- .../base-passwd/base-passwd/noshadow.patch             | 18 ++++++++++++++++++
- meta/recipes-core/base-passwd/base-passwd_3.5.29.bb    |  1 +
- 3 files changed, 20 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+After testing with the yocto 1.5 repo, the postinstall sed failures 
+where not seen anymore. Added Bug:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5789
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd/nobash.patch b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
-index 6371576..eed87db 100644
---- a/meta/recipes-core/base-passwd/base-passwd/nobash.patch
-+++ b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
-@@ -1,14 +1,6 @@
- use /bin/sh instead of /bin/bash, since the latter may not be included in
- some images such as minimal
+>
+> | NOTE: Installing complementary packages ...
+> | NOTE: Installing the following packages:
+> | /media/sdb5/bld/tmp/sysroots/x86_64-linux/usr/bin/opkg-cl: the
+> ``install'' command requires at least one argument
+> | NOTE: Unable to install packages. Command
+> /media/sdb5/bld/tmp/sysroots/x86_64-linux/usr/bin/opkg-cl -f
+> /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/opkg.conf
+> -o
+> /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/rootfs
+> --force_postinstall --prefer-arch-to-version   install  returned 1
+> | NOTE: Running intercept scripts:
+> | NOTE: Executing write_package_manifest ...
+> | DEBUG: Executing python function write_package_manifest
+> | NOTE: Building from feeds activated!
+> | NOTE: Add all feed with URL
+> file:///media/sdb5/oel/build/tmp/deploy/ipk/all
+> | NOTE: Add qemuppc feed with URL
+> file:///media/sdb5/oel/build/tmp/deploy/ipk/qemuppc
+> | NOTE: Add ppc7400 feed with URL
+> file:///media/sdb5/oel/build/tmp/deploy/ipk/ppc7400
+> | DEBUG: Python function write_package_manifest finished
+> | NOTE: Executing license_create_manifest ...
+> | DEBUG: Executing shell function license_create_manifest
+> | ls: cannot access
+> /media/sdb5/bld/tmp/sysroots/qemuppc/pkgdata/runtime-reverse/base-files: No
+> such file or directory
+> | readlink: missing operand
+> | Try 'readlink --help' for more information.
+> | basename: missing operand
+> | Try 'basename --help' for more information.
+> | WARNING: exit code 1 from a shell command.
+> | DEBUG: Python function do_rootfs finished
+> | ERROR: Function failed: license_create_manifest (log file is located at
+> /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.29007)
+> ERROR: Task 6 (/media/sdb5/poky-contrib/meta/recipes-core/images/
+> core-image-minimal.bb, do_rootfs) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 504 tasks of which 503 didn't need to be
+> rerun and 1 failed.
+>
+> Summary: 1 task failed:
+>    /media/sdb5/poky-contrib/meta/recipes-core/images/core-image-minimal.bb,
+> do_rootfs
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code
+>
+> Br,
+> David
+>
+
+FYI: to easily recreate this testcase:
+
+-Clean build env-
+
+$ grep -C 6 -r FEEDS conf/local.conf
+# Default to setting automatically based on cpu count
+PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
+#
+# For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE = "-j 
+4" would
+# be appropriate for example.
+
+BUILD_IMAGES_FROM_FEEDS="1"
+IPK_FEED_URIS = " \
  
--comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
--
--remove "*" for root since we don't have a /etc/shadow so far.
--
--by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
--
--Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
--
- Upstream-Status: Invalid [configuration]
+all##http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/ipk/all \
+	 
+${MACHINE}##http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/ipk/${MACHINE} 
+\
  
- Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-@@ -17,7 +9,7 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
- +++ base-passwd/passwd.master
- @@ -1,4 +1,4 @@
- -root:*:0:0:root:/root:/bin/bash
--+root::0:0:root:/root:/bin/sh
-++root:*:0:0:root:/root:/bin/sh
-  daemon:*:1:1:daemon:/usr/sbin:/bin/sh
-  bin:*:2:2:bin:/bin:/bin/sh
-  sys:*:3:3:sys:/dev:/bin/sh
-diff --git a/meta/recipes-core/base-passwd/base-passwd/noshadow.patch b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
-new file mode 100644
-index 0000000..14e3959
---- /dev/null
-+++ b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
-@@ -0,0 +1,18 @@
-+comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
-+
-+remove "*" for root since we don't have a /etc/shadow so far.
-+
-+by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
-+
-+Upstream-Status: Invalid [configuration]
-+
-+Signed-off-by: Scott Garman <scott.a.garman@intel.com>
-+
-+--- base-passwd/passwd.master~nobash
-++++ base-passwd/passwd.master
-+@@ -1,4 +1,4 @@
-+-root:*:0:0:root:/root:/bin/sh
-++root::0:0:root:/root:/bin/sh
-+ daemon:*:1:1:daemon:/usr/sbin:/bin/sh
-+ bin:*:2:2:bin:/bin:/bin/sh
-+ sys:*:3:3:sys:/dev:/bin/sh
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-index 082037a..5b31fce 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-@@ -9,6 +9,7 @@ DEPENDS = "docbook-utils-native linuxdoc-tools-native"
- SRC_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/base-passwd_${PV}.tar.gz \
-            file://add_shutdown.patch \
-            file://nobash.patch \
-+           file://noshadow.patch \
-            file://input.patch \
-            file://disable-docs.patch \
-           "
--- 
-1.8.5.3
+ppc7400##http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/ipk/ppc7400 
+\
+	   "
+
+PACKAGE_CLASSES="ipk" MACHINE="qemuppc" bitbake -c rootfs core-image-minimal
+
+Br,
+David
 
 
