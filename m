@@ -1,21 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 343566CBB2
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F24F60155
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 13:43:13 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 Feb 2014 05:43:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="479046679"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.123.186])
-	by orsmga002.jf.intel.com with ESMTP; 06 Feb 2014 05:43:13 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2014 13:42:53 +0000
-Message-Id: <1391694173-26080-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] iproute2: split out package for tc
+	Thu,  6 Feb 2014 13:48:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s16DmkiR021386
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 6 Feb 2014 05:48:46 -0800 (PST)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 6 Feb 2014 05:48:47 -0800
+Message-ID: <52F392BC.4040608@windriver.com>
+Date: Thu, 6 Feb 2014 08:48:44 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
+	<52CC1E02.9070102@windriver.com>
+	<52CC633C.6000404@free-electrons.com>
+	<52CC65E5.6010003@windriver.com> <20140129131021.GH24156@piout.net>
+In-Reply-To: <20140129131021.GH24156@piout.net>
+Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,39 +38,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 13:43:13 -0000
+X-List-Received-Date: Thu, 06 Feb 2014 13:48:52 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tc (the IP traffic control utility) isn't often used and makes up a
-reasonably large part of the iproute2 package as well as having a
-runtime dependency on iptables, so split it out into its own package.
+On 14-01-29 08:10 AM, Alexandre Belloni wrote:
+> Hi Bruce,
+>
+> Any news on that ?
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-connectivity/iproute2/iproute2.inc | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+And a update. I've been debugging some results that don't look
+right, so I have haven't followed up yet.
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index 3db21db..568aa5f 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -23,10 +23,13 @@ do_install () {
-     rm ${D}/share -rf || true
- }
- 
--# There are only .so files in iproute2
--INSANE_SKIP_${PN} = "dev-so"
-+# The .so files in iproute2-tc are modules, not traditional libraries
-+INSANE_SKIP_${PN}-tc = "dev-so"
-+
-+PACKAGES =+ "${PN}-tc"
-+FILES_${PN}-tc = "${base_sbindir}/tc* \
-+                  ${libdir}/tc/*.so"
- 
--FILES_${PN} += "${libdir}/tc"
- FILES_${PN}-dbg += "${libdir}/tc/.debug"
- 
- ALTERNATIVE_${PN} = "ip"
--- 
-1.8.5.3
+I'm hopeful to get a consistent set of results by the end of
+the day.
+
+Bruce
+
+>
+> On Tue, Jan 07, 2014 at 15:39:01 -0500, Bruce Ashfield wrote :
+>> On 14-01-07 03:27 PM, Alexandre Belloni wrote:
+>>> On 07/01/2014 16:32, Bruce Ashfield wrote:
+>>>> On 14-01-07 09:18 AM, Alexandre Belloni wrote:
+>>>>> When using a defconfig, using yes '' | make oldconfig may not result in
+>>>>> the correct configuration being set. For example:
+>>>>>
+>>>>>    $ grep USB_ETH .config
+>>>>>    CONFIG_USB_ETH=y
+>>>>>    CONFIG_USB_ETH_RNDIS=y
+>>>>>    CONFIG_USB_ETH_EEM=y
+>>>>>    $ make savedefconfig
+>>>>>    scripts/kconfig/conf --savedefconfig=defconfig Kconfig
+>>>>>    $ cp defconfig .config
+>>>>>    ‘defconfig’ -> ‘.config’
+>>>>>    $ yes '' | make oldconfig
+>>>>>    [...]
+>>>>>    #
+>>>>>    # configuration written to .config
+>>>>>    #
+>>>>>    $ grep USB_ETH .config
+>>>>>    CONFIG_USB_ETH=m
+>>>>>    CONFIG_USB_ETH_RNDIS=y
+>>>>>    CONFIG_USB_ETH_EEM=y
+>>>>>
+>>>>> Using make olddefconfig solves that but we'll use oldnoconfig for
+>>>>> backward compatibility with older kernels.
+>>>>>
+>>>>>    $ cp defconfig .config
+>>>>>    ‘defconfig’ -> ‘.config’
+>>>>>    $ make oldnoconfig
+>>>>>    scripts/kconfig/conf --olddefconfig Kconfig
+>>>>>    #
+>>>>>    # configuration written to .config
+>>>>>    #
+>>>>>    $ grep USB_ETH .config
+>>>>>    CONFIG_USB_ETH=y
+>>>>>    CONFIG_USB_ETH_RNDIS=y
+>>>>>    CONFIG_USB_ETH_EEM=y
+>>>>>
+>>>>> For more information, please refer to:
+>>>>> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=fbe98bb9ed3dae23e320c6b113e35f129538d14a
+>>>>>
+>>>>
+>>>> It was my understanding that this commit changed the Kconfig behaviour
+>>>> to set the selected options to =y and prevent the menu choice from
+>>>> "hiding" the options in a depedent choice menu. But maybe I'm remembering
+>>>> wrong.
+>>>>
+>>>> The point being, that with that commit in place. Doesn't the behaviour
+>>>> match what we want with yes and oldconfig ?
+>>>>
+>>>
+>>> Nope, that commit is fixing the issue when using make <target>_defconfig
+>>> or make olddefconfig. Note that using make menuconfig already had the
+>>> correct behavior before that commit.
+>>
+>> right. I'm pretty familiar with that code, so I knew this worked.
+>>
+>>>
+>>> As shown in my commit log, using yes '' | make oldconfig is still
+>>> getting it wrong.
+>>
+>> But that was also my point. Since the target suggested in this
+>> patch hasn't always existed (and hence has a kernel version binding),
+>> why not use olddefconfig with this patch, and leave the functionality
+>> closer to its existing behaviour ? We'd still have a kernel capability
+>> binding, but we'd not have the =y converted to =m, and the default of
+>> 'y' for new functionality would be maintained.
+>>
+>>>
+>>>> .. I'll run some tests to confirm for myself, but I thought I'd throw
+>>>> the question out as well. I don't typically use defconfigs, so I need
+>>>> to do a bit of leg work.
+>>>>
+>>>
+>>> Yeah, using a full .config doesn't trigger that behavior.
+>>
+>> I don't use those either :) but the end result is the same.
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>>>
+>>>> I don't have any big issues with the patch, but I just want to be sure,
+>>>> since changing this default could change the configs of many defconfig
+>>>> users, and they may have been unknowingly relying on the old behaviour.
+>>>>
+>>>
+>>> I can understand that. But I don't see any other way to make the really
+>>> expected behavior to work without risking breaking anything.
+>>>
+>>
+>
 
 
