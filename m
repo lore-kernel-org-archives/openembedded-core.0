@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D0F516E991
+	by mail.openembedded.org (Postfix) with ESMTP id 266486E991
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 15:30:01 +0000 (UTC)
+	Thu,  6 Feb 2014 15:30:02 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 06 Feb 2014 07:29:52 -0800
+	by orsmga101.jf.intel.com with ESMTP; 06 Feb 2014 07:29:51 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="450785192"
+X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="450785182"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 06 Feb 2014 07:29:51 -0800
+	by orsmga001.jf.intel.com with ESMTP; 06 Feb 2014 07:29:50 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2014 17:29:32 +0200
-Message-Id: <e2e1b80e4ff468cb6788fc958538e6d82016f2fa.1391699953.git.laurentiu.palcu@intel.com>
+Date: Thu,  6 Feb 2014 17:29:31 +0200
+Message-Id: <be549a5c1f514f0bf414f659eb1a340d159d1f15.1391699953.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1391699953.git.laurentiu.palcu@intel.com>
 References: <cover.1391699953.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1391699953.git.laurentiu.palcu@intel.com>
 References: <cover.1391699953.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 13/13] python-pycurl: upgrade to 7.19.3
+Subject: [PATCH 12/13] xserver-xorg: upgrade to 1.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,82 +33,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 06 Feb 2014 15:30:02 -0000
 
-Changes:
- * Refreshed no-static-link.patch;
- * LGPL&MIT license files changed names;
- * MIT license file added a contributor to the list;
- * README.rst license snippet changed to reflect the filename changes
-   and the new contributor;
+License file changed slightly: a new person has been added to the list
+of authors.
+
+Add dependency of presentproto.
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../python/python-pycurl/no-static-link.patch      |   20 +++++++++++---------
- ...-pycurl_7.19.0.2.bb => python-pycurl_7.19.3.bb} |   10 +++++-----
- 2 files changed, 16 insertions(+), 14 deletions(-)
- rename meta/recipes-devtools/python/{python-pycurl_7.19.0.2.bb => python-pycurl_7.19.3.bb} (59%)
+ .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    4 ++--
+ ...erver-xorg_1.14.4.bb => xserver-xorg_1.15.0.bb} |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.14.4.bb => xserver-xorg_1.15.0.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python-pycurl/no-static-link.patch b/meta/recipes-devtools/python/python-pycurl/no-static-link.patch
-index e8c0005..907380f 100644
---- a/meta/recipes-devtools/python/python-pycurl/no-static-link.patch
-+++ b/meta/recipes-devtools/python/python-pycurl/no-static-link.patch
-@@ -1,15 +1,17 @@
- Upstream-Status: Pending
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index a0283cd..2bacbe5 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -2,7 +2,7 @@ SUMMARY = "The X.Org X server"
+ HOMEPAGE = "http://www.x.org"
+ SECTION = "x11/base"
+ LICENSE = "MIT-X"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=bc098b9774ed096943f6c37b5beeef13"
++LIC_FILES_CHKSUM = "file://COPYING;md5=15b5bf9327341c81089137aec4830bfd"
  
--Index: pycurl-7.19.0.2/setup.py
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-+
-+Index: pycurl-7.19.3/setup.py
- ===================================================================
----- pycurl-7.19.0.2.orig/setup.py	2013-10-08 15:28:53.000000000 +0300
--+++ pycurl-7.19.0.2/setup.py	2013-11-04 13:46:47.928292585 +0200
--@@ -101,7 +101,7 @@
--     # support one or the other of these curl-config options, so gracefully
--     # tolerate failure of either, but not both.
-+--- pycurl-7.19.3.orig/setup.py	2014-01-10 08:04:40.000000000 +0200
-++++ pycurl-7.19.3/setup.py	2014-02-04 15:09:08.411552887 +0200
-+@@ -211,7 +211,7 @@
-+     # If neither --libs nor --static-libs work, fail.
-      optbuf = ""
-+     errtext = ''
- -    for option in ["--libs", "--static-libs"]:
- +    for option in ["--libs"]:
--         p = subprocess.Popen("'%s' %s" % (CURL_CONFIG, option), shell=True,
--             stdout=subprocess.PIPE)
--         (stdout, stderr) = p.communicate()
-+         p = subprocess.Popen((CURL_CONFIG, option),
-+             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-+         stdout, stderr = p.communicate()
-diff --git a/meta/recipes-devtools/python/python-pycurl_7.19.0.2.bb b/meta/recipes-devtools/python/python-pycurl_7.19.3.bb
-similarity index 59%
-rename from meta/recipes-devtools/python/python-pycurl_7.19.0.2.bb
-rename to meta/recipes-devtools/python/python-pycurl_7.19.3.bb
-index aceaab3..aee6cdd 100644
---- a/meta/recipes-devtools/python/python-pycurl_7.19.0.2.bb
-+++ b/meta/recipes-devtools/python/python-pycurl_7.19.3.bb
-@@ -2,9 +2,9 @@ SUMMARY = "Python bindings for libcurl"
- HOMEPAGE = "http://pycurl.sourceforge.net/"
- SECTION = "devel/python"
- LICENSE = "LGPLv2.1+ | MIT"
--LIC_FILES_CHKSUM = "file://README.rst;beginline=97;endline=111;md5=b5a5e531d80812bcbecbeb240fde63ef \
--                    file://COPYING;md5=3579a9fd0221d49a237aaa33492f988c \
--                    file://COPYING2;md5=ffaa1e283b7f9bf5aafd8d45db6f7518"
-+LIC_FILES_CHKSUM = "file://README.rst;beginline=204;endline=219;md5=57e5ab0c0f964533fc59d93dec5695bb \
-+                    file://COPYING-LGPL;md5=3579a9fd0221d49a237aaa33492f988c \
-+                    file://COPYING-MIT;md5=e8200955c773b2a0fd6cea36ea5e87be"
+ # xf86-*-* packages depend on an X server built with the xfree86 DDX
+ # so we have a virtual to represent that:
+@@ -23,7 +23,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
  
- DEPENDS = "curl python"
- RDEPENDS_${PN} = "python-core curl"
-@@ -15,8 +15,8 @@ SRC_URI = "\
-   file://no-static-link.patch \
- "
+ inherit autotools pkgconfig
  
--SRC_URI[archive.md5sum] = "518be33976dbc6838e42495ada64b43f"
--SRC_URI[archive.sha256sum] = "7a9e793b9181654d5eef3f6d22c244c57d2b51d38feb4c1b71d68efda99b0547"
-+SRC_URI[archive.md5sum] = "b9091b7438d3de1552e28862d2971cd1"
-+SRC_URI[archive.sha256sum] = "05e48835fe445ff327dcd373f49d9970e0b828a07cd4d08a23264507a742d616"
- S = "${WORKDIR}/${SRCNAME}-${PV}"
+-PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86vidmodeproto compositeproto recordproto resourceproto videoproto scrnsaverproto  xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto"
++PROTO_DEPS = "randrproto renderproto fixesproto damageproto xextproto xproto xf86dgaproto xf86miscproto xf86vidmodeproto compositeproto recordproto resourceproto videoproto scrnsaverproto  xineramaproto fontsproto kbproto inputproto bigreqsproto xcmiscproto presentproto"
+ LIB_DEPS = "pixman libxfont xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess openssl libgcrypt"
+ DEPENDS = "${PROTO_DEPS} ${LIB_DEPS} font-util"
  
- inherit distutils
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.4.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.4.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb
+index 22b1f82..a4dda4e 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.14.4.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.15.0.bb
+@@ -7,8 +7,8 @@ SRC_URI += "file://crosscompile.patch \
+             file://aarch64.patch \
+            "
+ 
+-SRC_URI[md5sum] = "9d68a30258c67faa3c036a4a85e8bf97"
+-SRC_URI[sha256sum] = "608ccfaafb845f6e559884a30f946d365209172416710d687b190e9e1ff65dc3"
++SRC_URI[md5sum] = "c2ace3697b32414094cf8c597c39d7d9"
++SRC_URI[sha256sum] = "613b2f2e7ee2a06d2f8e862c836dc70d319c52f1537749e027398f40086aabb8"
+ 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 -- 
 1.7.9.5
 
