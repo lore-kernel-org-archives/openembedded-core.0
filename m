@@ -1,29 +1,21 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id B4C0C6E2D8
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 87FFB6D14A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2014 22:13:20 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 05 Feb 2014 14:13:21 -0800
+	Thu,  6 Feb 2014 03:56:54 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 05 Feb 2014 19:52:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,789,1384329600"; d="scan'208";a="470504743"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.123.183])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Feb 2014 14:13:19 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 05 Feb 2014 22:13:18 +0000
-Message-ID: <5155905.zpccSNMN1P@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.2 (Linux/3.12.9-301.fc20.x86_64; KDE/4.12.2; x86_64; ; )
-In-Reply-To: <52F29080.9080200@linux.intel.com>
-References: <1390685105-16717-1-git-send-email-paul.eggleton@linux.intel.com>
-	<CAMKF1sqEhyFP8VRTf1m_p3SdURHFeNswT_GtrE8aj6Pqwak2xQ@mail.gmail.com>
-	<52F29080.9080200@linux.intel.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/buildhistory: fix expansion of escape sequences
+X-IronPort-AV: E=Sophos;i="4.95,791,1384329600"; d="scan'208";a="478852006"
+Received: from fear.jf.intel.com (HELO localhost) ([10.7.201.149])
+	by orsmga002.jf.intel.com with ESMTP; 05 Feb 2014 19:56:40 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Feb 2014 20:02:44 -0800
+Message-Id: <62909ce827461785e4f3f2ceaec04d08c7b47f17.1391659364.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH] linux-yocto: Use PACKAGE_ARCH in build dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,69 +28,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2014 22:13:21 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 06 Feb 2014 03:56:55 -0000
 
-On Wednesday 05 February 2014 11:26:56 Saul Wold wrote:
-> There still might be an issue:
-> > ERROR: Error executing a python function in
-> > /srv/hdd/poky/meta/recipes-support/ca-certificates/ca-certificates_201306
-> > 10.bb:
-> > 
-> > The stack trace of python calls that resulted in this exception/failure
-> > was: File: 'buildhistory_emit_pkghistory', lineno: 220, function:
-> > <module>> 
-> >      0216:
-> >      0217:        write_pkghistory(pkginfo, d)
-> >      0218:
-> >  
-> >      0219:
-> >  *** 0220:buildhistory_emit_pkghistory(d)
-> >  
-> >      0221:
-> > File: 'buildhistory_emit_pkghistory', lineno: 217, function:
-> > buildhistory_emit_pkghistory> 
-> >      0213:        pkginfo.filelist = " ".join(filelist)
-> >      0214:
-> >      0215:        pkginfo.size = int(pkgdata['PKGSIZE'])
-> >  
-> >      0216:
-> >  *** 0217:        write_pkghistory(pkginfo, d)
-> >  
-> >      0218:
-> >      0219:
-> >      0220:buildhistory_emit_pkghistory(d)
-> > 
-> >      0221:
-> > File: 'buildhistory.bbclass', lineno: 38, function: write_pkghistory
-> > 
-> >      0034:        if pkginfo.rconflicts:
-> >      0035:            f.write("RCONFLICTS = %s\n" %  pkginfo.rconflicts)
-> >      0036:        f.write("PKGSIZE = %d\n" %  pkginfo.size)
-> >      0037:        f.write("FILES = %s\n" %  pkginfo.files)
-> >  
-> >  *** 0038:        f.write("FILELIST = %s\n" %  pkginfo.filelist)
-> >  
-> >      0039:
-> >      0040:    for filevar in pkginfo.filevars:
-> >      0041:        filevarpath = os.path.join(pkgpath, "latest.%s" %
-> >      filevar)
-> >      0042:        val = pkginfo.filevars[filevar]
-> > 
-> > Exception: UnicodeEncodeError: 'ascii' codec can't encode character
-> > u'\xed' in position 337: ordinal not in range(128)
->
-> I tried to delete the buildhistory for ca-certs and rebuild without any
-> sstate, but it still failed to build. correctly.
+The current linux-yocto build dir (B) includes MACHINE. This has been
+appropriate as kernels are typically built machine-specific. We have
+recently introduced an intel-common type kernel which can be shared
+across multiple machines sharing a common base (intel-core2-32,
+intel-corei7-64). In these cases, the kernel is built for a something
+more generic than MACHINE, and the current mechanism results in
+something like this when building for MACHINE=sys940x (using intel-common):
 
-I've now reproduced this, working on a fix.
+tmp/work/core2-32-intel-common-poky-linux/linux-yocto-dev/ \
+3.13++gitAUTOINC+e5d23e7879_889c6bec6b-r0/linux-sys940x-noemgd-standard-build
 
-Cheers,
-Paul
+Note the descrepancy between core2-32-intel-common and
+linux-sys940x-noemgd-standard-build. This becomes counterintuitive at
+the very least when switching to another machine and attempting to reuse
+this build. This patch swaps MACHINE for PACKAGE_ARCH (which is
+typically MACHINE_ARCH for linux-yocto), resulting in the following
+build path:
 
+tmp/work/core2-32-intel-common-poky-linux/linux-yocto-dev/ \
+3.13++gitAUTOINC+e5d23e7879_889c6bec6b-r0/linux-core2-32-intel-common-standard-build
+
+The impact to existing MACHINEs is a replace of - with _ if MACHINE
+contains one or more - charachters.
+
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-kernel/linux/linux-yocto.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 2bee042..4ed3188 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -31,7 +31,7 @@ inherit kernel
+ inherit kernel-yocto
+ require linux-dtb.inc
+ 
+-B = "${WORKDIR}/linux-${MACHINE}-${LINUX_KERNEL_TYPE}-build"
++B = "${WORKDIR}/linux-${PACKAGE_ARCH}-${LINUX_KERNEL_TYPE}-build"
+ 
+ do_install_append(){
+ 	if [ -n "${KMETA}" ]; then
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
