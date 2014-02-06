@@ -1,29 +1,26 @@
-Return-Path: <Randy.MacLeod@windriver.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EF7AD6B5C9
+	by mail.openembedded.org (Postfix) with ESMTP id 71EA36B5C9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 18:49:05 +0000 (UTC)
+	Thu,  6 Feb 2014 19:26:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s16In3p1007561
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s16JQiP0019101
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Feb 2014 10:49:03 -0800 (PST)
-Received: from [147.11.119.223] (147.11.119.223) by ALA-HCA.corp.ad.wrs.com
+	Thu, 6 Feb 2014 11:26:44 -0800 (PST)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 6 Feb 2014 10:49:02 -0800
-Message-ID: <52F3D91D.5040009@windriver.com>
-Date: Thu, 6 Feb 2014 13:49:01 -0500
-From: Randy MacLeod <randy.macleod@windriver.com>
+	Thu, 6 Feb 2014 11:26:43 -0800
+Message-ID: <52F3E1F1.1030909@windriver.com>
+Date: Thu, 6 Feb 2014 14:26:41 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>, <diego.sueiro@gmail.com>,
-	Robert Yang <liezhi.yang@windriver.com>
-References: <1391245631-10681-1-git-send-email-diego.sueiro@gmail.com>
-	<CAMCfZKFMzmfNxOSF+_QymoQyDi_U0c+NMkGFt=9Kihw3swn0KQ@mail.gmail.com>
-In-Reply-To: <CAMCfZKFMzmfNxOSF+_QymoQyDi_U0c+NMkGFt=9Kihw3swn0KQ@mail.gmail.com>
-X-Originating-IP: [147.11.119.223]
-Subject: Re: [for-dora] systemd: journald fix ignored disk space restrictions
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [RFC][PATCH] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,187 +33,244 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 18:49:06 -0000
+X-List-Received-Date: Thu, 06 Feb 2014 19:26:46 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 14-02-06 05:34 AM, Diego Sueiro wrote:
-> Folks,
+On 14-02-06 05:05 AM, Khem Raj wrote:
+> This also make a change where for kernel
+> S != B, this is done because when S = B
+> and we use O= option or set KBUILD_OUTPUT
+> to point to objectdir, kernel build system
+> ends up denoting itself dirty and asking for
+> running mrproper during later build steps
+> after do_configure but works perfectly
+> for when S != B
 >
-> Any chance to get this up-streamed?
+> Additional fixes make sure that we do not
+> assume directory paths when accessing files
+>
+> Move exporting KBUILD_OUTPUT from kernel-yocto
+> into kernel class
 
-Hi *dS,  :)
+I worked through an external SRC build with B == S and B != S
+and came up with a smaller, but similar set of changes.
 
-Robert, who maintains dora, lives in China where they are
-currently enjoying the Spring Festival holiday week.
-I think Robert is back early next week. Please be patient.
+I'd prefer to split the patch into a few smaller chunks, just
+in case something goes wrong, or there are other missed use cases.
 
-../Randy
+If you want to continue with the patch, it looks like it is going in
+the right direction. Also, if you want, I can do some splits here
+and soak it for a bit .. completely up to you.
+
+Cheers,
+
+Bryce
 
 >
-> Regards,
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>   meta/classes/kernel-yocto.bbclass |  3 +-
+>   meta/classes/kernel.bbclass       | 71 ++++++++++++++++++++++-----------------
+>   2 files changed, 41 insertions(+), 33 deletions(-)
 >
-> --
-> *dS
-> Diego Sueiro
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 8f79932..73257e1 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -408,6 +408,5 @@ do_kernel_link_vmlinux() {
+>   	ln -sf ../../../vmlinux
+>   }
 >
-> Administrador do Embarcados
-> www.embarcados.com.br <http://www.embarcados.com.br>
+> -OE_TERMINAL_EXPORTS += "GUILT_BASE KBUILD_OUTPUT"
+> +OE_TERMINAL_EXPORTS += "GUILT_BASE"
+>   GUILT_BASE = "meta"
+> -KBUILD_OUTPUT = "${B}"
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 51626b0..b000147 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -10,6 +10,7 @@ KERNEL_IMAGETYPE ?= "zImage"
+>   INITRAMFS_IMAGE ?= ""
+>   INITRAMFS_TASK ?= ""
+>   INITRAMFS_IMAGE_BUNDLE ?= ""
+> +B = "${WORKDIR}/build"
 >
-> /*long live rock 'n roll*/
+>   python __anonymous () {
+>       kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
+> @@ -157,6 +158,7 @@ kernel_do_compile() {
+>   	# different initramfs image.  The way to do that in the kernel
+>   	# is to specify:
+>   	# make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
+> +	cd ${S}
+>   	if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
+>   		# The old style way of copying an prebuilt image and building it
+>   		# is turned on via INTIRAMFS_TASK != ""
+> @@ -165,13 +167,14 @@ kernel_do_compile() {
+>   	fi
+>   	oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+>   	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+> -		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+> +		gzip -9c < "${B}/${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+>   	fi
+>   }
 >
+>   do_compile_kernelmodules() {
+>   	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+> -	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+> +	cd ${S}
+> +	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+>   		oe_runmake ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+>   	else
+>   		bbnote "no modules to compile"
+> @@ -184,7 +187,8 @@ kernel_do_install() {
+>   	# First install the modules
+>   	#
+>   	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+> -	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+> +	cd ${S}
+> +	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+>   		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
+>   		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
+>   		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
+> @@ -200,10 +204,10 @@ kernel_do_install() {
+>   	install -d ${D}/${KERNEL_IMAGEDEST}
+>   	install -d ${D}/boot
+>   	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+> -	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+> -	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+> -	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+> -	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+> +	install -m 0644 ${B}/System.map ${D}/boot/System.map-${KERNEL_VERSION}
+> +	install -m 0644 ${B}/.config ${D}/boot/config-${KERNEL_VERSION}
+> +	install -m 0644 ${B}/vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+> +	[ -e ${B}/Module.symvers ] && install -m 0644 ${B}/Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
+>   	install -d ${D}${sysconfdir}/modules-load.d
+>   	install -d ${D}${sysconfdir}/modprobe.d
 >
-> On Sat, Feb 1, 2014 at 7:07 AM, Diego Sueiro <diego.sueiro@gmail.com
-> <mailto:diego.sueiro@gmail.com>> wrote:
+> @@ -232,20 +236,21 @@ kernel_do_install() {
+>   	# dir. This ensures the original Makefiles are used and not the
+>   	# redirecting Makefiles in the build directory.
+>   	#
+> +	pwd="$PWD"
+> +	cd "${B}"
+>   	find . -depth -not -name "*.cmd" -not -name "*.o" -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+> -	cp .config $kerneldir
+> +	cp ${B}/.config $kerneldir
+>   	if [ "${S}" != "${B}" ]; then
+> -		pwd="$PWD"
+>   		cd "${S}"
+>   		find . -depth -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
+> -		cd "$pwd"
+>   	fi
+> +	cd "$pwd"
 >
->     The upstream bug report can be seen at:
->     [Systemd #68161] -- https://bugs.freedesktop.org/show_bug.cgi?id=68161
+>   	# Test to ensure that the output file and image type are not actually
+>   	# the same file. If hardlinking is used, they will be the same, and there's
+>   	# no need to install.
+>   	! [ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
+> -	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
+> +	install -m 0644 ${B}/System.map $kerneldir/System.map-${KERNEL_VERSION}
 >
->     This backports patches come from 207 and need to address this in the
->     206 version for dora branch.
+>   	# Dummy Makefile so the clean below works
+>           mkdir $kerneldir/Documentation
+> @@ -260,24 +265,24 @@ kernel_do_install() {
+>   	# we clean the scripts dir while leaving the generated config
+>   	# and include files.
+>   	#
+> -	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+> -	make -C $kerneldir _mrproper_scripts
+> +	oe_runmake KBUILD_OUTPUT= -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+> +	make KBUILD_OUTPUT= -C $kerneldir _mrproper_scripts
+>   	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
 >
->     Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com
->     <mailto:diego.sueiro@gmail.com>>
->     ---
->       ...ournald-fix-fd-leak-in-journal_file_empty.patch |   27
->     ++++++++++++++
->       ...urnald-fix-vacuuming-of-archived-journals.patch |   37
->     ++++++++++++++++++++
->       meta/recipes-core/systemd/systemd_206.bb <http://systemd_206.bb>
->              |    2 ++
->       3 files changed, 66 insertions(+)
->       create mode 100644
->     meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_file_empty.patch
->       create mode 100644
->     meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-journals.patch
+>   	# As of Linux kernel version 3.0.1, the clean target removes
+>   	# arch/powerpc/lib/crtsavres.o which is present in
+>   	# KBUILD_LDFLAGS_MODULE, making it required to build external modules.
+>   	if [ ${ARCH} = "powerpc" ]; then
+> -		cp -l arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
+> +		cp -l ${B}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
+>   	fi
 >
->     diff --git
->     a/meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_file_empty.patch
->     b/meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_file_empty.patch
->     new file mode 100644
->     index 0000000..a83c858
->     --- /dev/null
->     +++
->     b/meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_file_empty.patch
->     @@ -0,0 +1,27 @@
->     +journald: fix fd leak in journal_file_empty
->     +Before my previous patch, journal_file_empty wasn't be called with the
->     +correct filename. Now that it's being called with the correct filename
->     +it leaks file descriptors. This patch closes the file descriptors
->     before
->     +returning.
->     +
->     +Signed-off-by: George McCollister <george.mccollister@gmail.com
->     <mailto:george.mccollister@gmail.com>>
->     +
->     +
->     +Index: systemd-206/src/journal/journal-vacuum.c
->     +===================================================================
->     +--- systemd-206.orig/src/journal/journal-vacuum.c      2013-07-21
->     19:43:28.146183128 -0300
->     ++++ systemd-206/src/journal/journal-vacuum.c   2014-01-29
->     20:43:27.492343295 -0200
->     +@@ -129,9 +129,9 @@
->     + }
->     +
->     + static int journal_file_empty(int dir_fd, const char *name) {
->     +-        int fd, r;
->     ++        int r;
->     +         le64_t n_entries;
->     +-
->     ++        _cleanup_close_ int fd;
->     +         fd = openat(dir_fd, name,
->     O_RDONLY|O_CLOEXEC|O_NOFOLLOW|O_NONBLOCK);
->     +         if (fd < 0)
->     +                 return -errno;
->     +
->     +Upstream-Status: Backport [207]
->     diff --git
->     a/meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-journals.patch
->     b/meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-journals.patch
->     new file mode 100644
->     index 0000000..7c59200
->     --- /dev/null
->     +++
->     b/meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-journals.patch
->     @@ -0,0 +1,37 @@
->     +journald: fix vacuuming of archived journals
->     +d_name is modified on line 227 so if the entire journal name is needed
->     +again p must be used. Before this change when journal_file_empty
->     was called
->     +on archived journals it would always return with -2.
->     +
->     +Signed-off-by: George McCollister <george.mccollister@gmail.com
->     <mailto:george.mccollister@gmail.com>>
->     +
->     +Index: systemd-206/src/journal/journal-vacuum.c
->     +===================================================================
->     +--- systemd-206.orig/src/journal/journal-vacuum.c      2014-01-29
->     20:43:27.492343295 -0200
->     ++++ systemd-206/src/journal/journal-vacuum.c   2014-01-29
->     20:48:55.076356876 -0200
->     +@@ -265,18 +265,18 @@
->     +                         /* We do not vacuum active files or
->     unknown files! */
->     +                         continue;
->     +
->     +-                if (journal_file_empty(dirfd(d), de->d_name)) {
->     ++                if (journal_file_empty(dirfd(d), p)) {
->     +
->     +                         /* Always vacuum empty non-online files. */
->     +
->     +-                        if (unlinkat(dirfd(d), de->d_name, 0) >= 0)
->     +-                                log_debug("Deleted empty journal
->     %s/%s.", directory, de->d_name);
->     ++                        if (unlinkat(dirfd(d), p, 0) >= 0)
->     ++                                log_debug("Deleted empty journal
->     %s/%s.", directory, p);
->     +                         else if (errno != ENOENT)
->     +-                                log_warning("Failed to delete
->     %s/%s: %m", directory, de->d_name);
->     ++                                log_warning("Failed to delete
->     %s/%s: %m", directory, p);
->     +                         continue;
->     +                 }
->     +
->     +-                patch_realtime(directory, de->d_name, &st, &realtime);
->     ++                patch_realtime(directory, p, &st, &realtime);
->     +
->     +                 GREEDY_REALLOC(list, n_allocated, n_list + 1);
->     +
->     +
->     +Upstream-Status: Backport [207]
->     diff --git a/meta/recipes-core/systemd/systemd_206.bb
->     <http://systemd_206.bb> b/meta/recipes-core/systemd/systemd_206.bb
->     <http://systemd_206.bb>
->     index a1a8bd7..e7d0f1f 100644
->     --- a/meta/recipes-core/systemd/systemd_206.bb <http://systemd_206.bb>
->     +++ b/meta/recipes-core/systemd/systemd_206.bb <http://systemd_206.bb>
->     @@ -21,6 +21,8 @@ SRC_URI =
->     "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
->                  file://0001-use-CAP_MKNOD-ConditionCapability.patch \
+>   	# Necessary for building modules like compat-wireless.
+> -	if [ -f include/generated/bounds.h ]; then
+> -		cp -l include/generated/bounds.h $kerneldir/include/generated/bounds.h
+> +	if [ -f ${B}/include/generated/bounds.h ]; then
+> +		cp -l ${B}/include/generated/bounds.h $kerneldir/include/generated/bounds.h
+>   	fi
+> -	if [ -d arch/${ARCH}/include/generated ]; then
+> +	if [ -d ${B}/arch/${ARCH}/include/generated ]; then
+>   		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
+> -		cp -flR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
+> +		cp -flR ${B}/arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
+>   	fi
 >
->     file://0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch \
->                  file://binfmt-install.patch \
->     +           file://journald-fix-fd-leak-in-journal_file_empty.patch \
->     +           file://journald-fix-vacuuming-of-archived-journals.patch \
->                  file://touchscreen.rules \
->                  ${UCLIBCPATCHES} \
->                  file://00-create-volatile.conf \
->     --
->     1.7.10.4
+>   	# Remove the following binaries which cause strip or arch QA errors
+> @@ -302,6 +307,7 @@ python sysroot_stage_all () {
+>   }
 >
+>   kernel_do_configure() {
+> +	cd ${S}
+>   	# fixes extra + in /lib/modules/2.6.37+
+>   	# $ scripts/setlocalversion . => +
+>   	# $ make kernelversion => 2.6.37
+> @@ -313,7 +319,7 @@ kernel_do_configure() {
+>   	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
+>   		cp "${WORKDIR}/defconfig" "${B}/.config"
+>   	fi
+> -	yes '' | oe_runmake oldconfig
+> +	oe_runmake olddefconfig
+>   }
 >
+>   do_savedefconfig() {
+> @@ -432,19 +438,19 @@ do_uboot_mkimage() {
+>   		if test "x${KEEPUIMAGE}" != "xyes" ; then
+>   			ENTRYPOINT=${UBOOT_ENTRYPOINT}
+>   			if test -n "${UBOOT_ENTRYSYMBOL}"; then
+> -				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
+> +				ENTRYPOINT=`${HOST_PREFIX}nm ${B}/vmlinux | \
+>   					awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
+>   			fi
+> -			if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
+> -				${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
+> -				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
+> -				rm -f linux.bin
+> +			if test -e ${B}/arch/${ARCH}/boot/compressed/vmlinux ; then
+> +				${OBJCOPY} -O binary -R .note -R .comment -S ${B}/arch/${ARCH}/boot/compressed/vmlinux ${B}/linux.bin
+> +				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d ${B}/linux.bin ${B}/arch/${ARCH}/boot/uImage
+> +				rm -f ${B}/linux.bin
+>   			else
+> -				${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
+> -				rm -f linux.bin.gz
+> -				gzip -9 linux.bin
+> -				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
+> -				rm -f linux.bin.gz
+> +				${OBJCOPY} -O binary -R .note -R .comment -S ${B}/vmlinux ${B}/linux.bin
+> +				rm -f ${B}/linux.bin.gz
+> +				gzip -9 ${B}/linux.bin > ${B}/linux.bin.gz
+> +				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d ${B}/linux.bin.gz ${B}/arch/${ARCH}/boot/uImage
+> +				rm -f ${B}/linux.bin.gz
+>   			fi
+>   		fi
+>   	fi
+> @@ -453,8 +459,8 @@ do_uboot_mkimage() {
+>   addtask uboot_mkimage before do_install after do_compile
 >
+>   kernel_do_deploy() {
+> -	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+> -	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+> +	install -m 0644 ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
+> +	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+>   		mkdir -p ${D}/lib
+>   		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
+>   		ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
+> @@ -483,3 +489,6 @@ addtask deploy before do_build after do_install
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>   EXPORT_FUNCTIONS do_deploy
+>
+> +OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
+> +export KBUILD_OUTPUT = "${B}"
+> +
 >
 
-
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350
 
