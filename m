@@ -1,31 +1,36 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F24F60155
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A949560155
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 13:48:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s16DmkiR021386
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Feb 2014 05:48:46 -0800 (PST)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 6 Feb 2014 05:48:47 -0800
-Message-ID: <52F392BC.4040608@windriver.com>
-Date: Thu, 6 Feb 2014 08:48:44 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<52CC1E02.9070102@windriver.com>
-	<52CC633C.6000404@free-electrons.com>
-	<52CC65E5.6010003@windriver.com> <20140129131021.GH24156@piout.net>
-In-Reply-To: <20140129131021.GH24156@piout.net>
-Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
+	Thu,  6 Feb 2014 14:13:16 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id u57so1347666wes.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Feb 2014 06:13:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=yTE3aOGwAywBPBVXUtQ2fLZV9lOCzljyOF2O2p3XOqY=;
+	b=XhMESalrM68me/AKvpcWZAOjWaSTydv7BgQqhCMOY9MXHgl90ahcOBsdiI2iN5mwGg
+	Vx/j/+Ijm099nIYbHGcwEg4/ph7CZU6hYZMaJ5dEOne30z0hslaj1Pp/zyBOF+D8QlUm
+	zX0EQkVyuBlhbvgmV7ZymwO1whdNSEEOL9EfbC13QkHoPP6FvL7Zl6LMF8FCZAm5d6LF
+	UBNH8e6qdy0ac0Cal0FmznmxW35tBlim/anOBoV/a7cGwA6w7LHB3kNC3S9oopmZfRK2
+	KtJRlqMPk1oE9csya9wrd1f5OoKsMC/ISbSQyca6GmsK3U9lMSNLXBLKdiUdXd2HEeyc
+	pCDA==
+X-Gm-Message-State: ALoCoQl7VstGSH3GvqkQq3YO/LFIMsBFWUYZ5F61QmwSEU0UZaMCY6LWdDi5zMLsnMYR1r4ZRXjH
+X-Received: by 10.180.160.206 with SMTP id xm14mr7042118wib.25.1391695996616; 
+	Thu, 06 Feb 2014 06:13:16 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id q2sm2738827wjq.0.2014.02.06.06.13.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 06 Feb 2014 06:13:15 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Feb 2014 14:13:12 +0000
+Message-Id: <1391695992-29453-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] systemd: add a hard dependency on udev=$EXTENDPKGV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,118 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 13:48:52 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 06 Feb 2014 14:13:17 -0000
 
-On 14-01-29 08:10 AM, Alexandre Belloni wrote:
-> Hi Bruce,
->
-> Any news on that ?
+If the systemd/sysvinit DISTRO_FEATURES are changed without wiping the package
+feeds it's possible to build an image that pulls in mismatching versions of
+systemd and udev.  This leads to images that are broken and don't boot
+correctly.
 
-And a update. I've been debugging some results that don't look
-right, so I have haven't followed up yet.
+Prevent this by adding a version-locked dependency on udev in systemd so that
+images that attempt to install mis-matching versions don't build.
 
-I'm hopeful to get a consistent set of results by the end of
-the day.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/systemd/systemd_208.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Bruce
-
->
-> On Tue, Jan 07, 2014 at 15:39:01 -0500, Bruce Ashfield wrote :
->> On 14-01-07 03:27 PM, Alexandre Belloni wrote:
->>> On 07/01/2014 16:32, Bruce Ashfield wrote:
->>>> On 14-01-07 09:18 AM, Alexandre Belloni wrote:
->>>>> When using a defconfig, using yes '' | make oldconfig may not result in
->>>>> the correct configuration being set. For example:
->>>>>
->>>>>    $ grep USB_ETH .config
->>>>>    CONFIG_USB_ETH=y
->>>>>    CONFIG_USB_ETH_RNDIS=y
->>>>>    CONFIG_USB_ETH_EEM=y
->>>>>    $ make savedefconfig
->>>>>    scripts/kconfig/conf --savedefconfig=defconfig Kconfig
->>>>>    $ cp defconfig .config
->>>>>    ‘defconfig’ -> ‘.config’
->>>>>    $ yes '' | make oldconfig
->>>>>    [...]
->>>>>    #
->>>>>    # configuration written to .config
->>>>>    #
->>>>>    $ grep USB_ETH .config
->>>>>    CONFIG_USB_ETH=m
->>>>>    CONFIG_USB_ETH_RNDIS=y
->>>>>    CONFIG_USB_ETH_EEM=y
->>>>>
->>>>> Using make olddefconfig solves that but we'll use oldnoconfig for
->>>>> backward compatibility with older kernels.
->>>>>
->>>>>    $ cp defconfig .config
->>>>>    ‘defconfig’ -> ‘.config’
->>>>>    $ make oldnoconfig
->>>>>    scripts/kconfig/conf --olddefconfig Kconfig
->>>>>    #
->>>>>    # configuration written to .config
->>>>>    #
->>>>>    $ grep USB_ETH .config
->>>>>    CONFIG_USB_ETH=y
->>>>>    CONFIG_USB_ETH_RNDIS=y
->>>>>    CONFIG_USB_ETH_EEM=y
->>>>>
->>>>> For more information, please refer to:
->>>>> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=fbe98bb9ed3dae23e320c6b113e35f129538d14a
->>>>>
->>>>
->>>> It was my understanding that this commit changed the Kconfig behaviour
->>>> to set the selected options to =y and prevent the menu choice from
->>>> "hiding" the options in a depedent choice menu. But maybe I'm remembering
->>>> wrong.
->>>>
->>>> The point being, that with that commit in place. Doesn't the behaviour
->>>> match what we want with yes and oldconfig ?
->>>>
->>>
->>> Nope, that commit is fixing the issue when using make <target>_defconfig
->>> or make olddefconfig. Note that using make menuconfig already had the
->>> correct behavior before that commit.
->>
->> right. I'm pretty familiar with that code, so I knew this worked.
->>
->>>
->>> As shown in my commit log, using yes '' | make oldconfig is still
->>> getting it wrong.
->>
->> But that was also my point. Since the target suggested in this
->> patch hasn't always existed (and hence has a kernel version binding),
->> why not use olddefconfig with this patch, and leave the functionality
->> closer to its existing behaviour ? We'd still have a kernel capability
->> binding, but we'd not have the =y converted to =m, and the default of
->> 'y' for new functionality would be maintained.
->>
->>>
->>>> .. I'll run some tests to confirm for myself, but I thought I'd throw
->>>> the question out as well. I don't typically use defconfigs, so I need
->>>> to do a bit of leg work.
->>>>
->>>
->>> Yeah, using a full .config doesn't trigger that behavior.
->>
->> I don't use those either :) but the end result is the same.
->>
->> Cheers,
->>
->> Bruce
->>
->>>
->>>> I don't have any big issues with the patch, but I just want to be sure,
->>>> since changing this default could change the configs of many defconfig
->>>> users, and they may have been unknowingly relying on the old behaviour.
->>>>
->>>
->>> I can understand that. But I don't see any other way to make the really
->>> expected behavior to work without risking breaking anything.
->>>
->>
->
+diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
+index 41a106a..5ed31c3 100644
+--- a/meta/recipes-core/systemd/systemd_208.bb
++++ b/meta/recipes-core/systemd/systemd_208.bb
+@@ -225,7 +225,7 @@ FILES_${PN} = " ${base_bindir}/* \
+ FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
+ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+ 
+-RDEPENDS_${PN} += "kmod dbus util-linux-mount"
++RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
+ 
+ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units \
+                       util-linux-agetty \
+-- 
+1.7.10.4
 
 
