@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9265260155
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A69136DCFF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 14:43:21 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id c9so3260630qcz.27
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2014 06:43:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9PUeOk3L2Ci1LYajdkd1T6qzMLHOjNdpAhFj27BvGZg=;
-	b=bUBOO2eAdRUpv1bNTxkEC41+mxa0EatiwR+CAPu5kitQ7EBuUw0UXXiLgBFgOpBHIA
-	/HldMJ5Z9mn849dM3JNTkT8mTrEJ/3sQ/xMPB6i5/yNSdqcgh6VyM84DwLZ7OhEoqQhJ
-	2/EkdMQ6ufFqffBfJBUnCNHerRwYcMAzATWsQ5VkFq3KbAsXjcFqq8mlW5C32eQXgvDs
-	VTr8RVp49jTWR338jKstMWtQigek7evlkjJ22UOGfNzKvPHq5Q9gflGBXD8IpmC5eYOW
-	ALaeFeb9m2C2CHbyKevfZUv/CF8A/YoReKAo3HMtTQw1kZVYxCE76EIJsnT4t+I/To45
-	tV/Q==
-X-Gm-Message-State: ALoCoQkz88qYgYQWLAOK3IuUKI1sNfzBRFUqMtFZtYE9c9vT6OLv/+RbFq2f2pqsWjNccLRkxFhi
-X-Received: by 10.224.97.67 with SMTP id k3mr13138954qan.17.1391697798350;
-	Thu, 06 Feb 2014 06:43:18 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Thu, 6 Feb 2014 06:42:58 -0800 (PST)
-In-Reply-To: <20140206142700.GG13035@mail.itconsulting-heinold.de>
-References: <1391695992-29453-1-git-send-email-ross.burton@intel.com>
-	<20140206142700.GG13035@mail.itconsulting-heinold.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 6 Feb 2014 14:42:58 +0000
-Message-ID: <CAJTo0LaZ0c+X7eNgKsGwpkkmu_s1vAUSs2o8rUp3yvS8dL-xeg@mail.gmail.com>
-To: Henning Heinold <henning@itconsulting-heinold.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: add a hard dependency on udev=$EXTENDPKGV
+	Thu,  6 Feb 2014 15:29:57 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 06 Feb 2014 07:29:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="450785147"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by orsmga001.jf.intel.com with ESMTP; 06 Feb 2014 07:29:40 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Feb 2014 17:29:22 +0200
+Message-Id: <720dd0e26e7940388d3f21160d6d5c8e61f703d0.1391699953.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1391699953.git.laurentiu.palcu@intel.com>
+References: <cover.1391699953.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1391699953.git.laurentiu.palcu@intel.com>
+References: <cover.1391699953.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 03/13] gdb: upgrade to 7.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,16 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 14:43:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 06 Feb 2014 15:29:58 -0000
 
-On 6 February 2014 14:27, Henning Heinold
-<henning@itconsulting-heinold.de> wrote:
-> which package manager did you test to verify it is working as expected?
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../gdb/{gdb-7.6.1.inc => gdb-7.6.2.inc}           |    4 ++--
+ ...nadian_7.6.1.bb => gdb-cross-canadian_7.6.2.bb} |    0
+ .../gdb/{gdb-cross_7.6.1.bb => gdb-cross_7.6.2.bb} |    0
+ .../gdb/{gdb_7.6.1.bb => gdb_7.6.2.bb}             |    0
+ 4 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/gdb/{gdb-7.6.1.inc => gdb-7.6.2.inc} (74%)
+ rename meta/recipes-devtools/gdb/{gdb-cross-canadian_7.6.1.bb => gdb-cross-canadian_7.6.2.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb-cross_7.6.1.bb => gdb-cross_7.6.2.bb} (100%)
+ rename meta/recipes-devtools/gdb/{gdb_7.6.1.bb => gdb_7.6.2.bb} (100%)
 
-I haven't attempted to replicate the failure case (because it involves
-quite a lot of building...) but the idiom of EXTENDPKGV is used in
-every -dbg and -dev package.
+diff --git a/meta/recipes-devtools/gdb/gdb-7.6.1.inc b/meta/recipes-devtools/gdb/gdb-7.6.2.inc
+similarity index 74%
+rename from meta/recipes-devtools/gdb/gdb-7.6.1.inc
+rename to meta/recipes-devtools/gdb/gdb-7.6.2.inc
+index 6fd953a..ea69b39 100644
+--- a/meta/recipes-devtools/gdb/gdb-7.6.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-7.6.2.inc
+@@ -8,5 +8,5 @@ SRC_URI += " file://gdb-fix-cygwin-check-in-configure-script.patch "
+ 
+ S = "${WORKDIR}/${BPN}-${PV}"
+ 
+-SRC_URI[md5sum] = "d42841167fd061d90fddf9a7212a1f9f"
+-SRC_URI[sha256sum] = "3ccf7f618536f89648ba89e322fc3c0946bc15c03ca09c32fd9e71bbca68104b"
++SRC_URI[md5sum] = "9ebf09fa76e4ca6034157086e9b20348"
++SRC_URI[sha256sum] = "17f7bcda1b24336aadcb1c5e703c355551e59467e221c6f4353b720dffad73a7"
+diff --git a/meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.1.bb b/meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross-canadian_7.6.2.bb
+diff --git a/meta/recipes-devtools/gdb/gdb-cross_7.6.1.bb b/meta/recipes-devtools/gdb/gdb-cross_7.6.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb-cross_7.6.1.bb
+rename to meta/recipes-devtools/gdb/gdb-cross_7.6.2.bb
+diff --git a/meta/recipes-devtools/gdb/gdb_7.6.1.bb b/meta/recipes-devtools/gdb/gdb_7.6.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/gdb/gdb_7.6.1.bb
+rename to meta/recipes-devtools/gdb/gdb_7.6.2.bb
+-- 
+1.7.9.5
 
-Ross
 
