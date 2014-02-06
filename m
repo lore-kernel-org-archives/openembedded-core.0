@@ -1,35 +1,36 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DB2E60155
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 9265260155
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 14:27:08 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 88B9122320A2
+	Thu,  6 Feb 2014 14:43:21 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id c9so3260630qcz.27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 15:27:06 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 6F2682232099
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 15:27:05 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from mail.itconsulting-heinold.de
-	(fb-n15-11.unbelievable-machine.net [94.198.62.204])
-	by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 15:27:05 +0100 (CET)
-Date: Thu, 6 Feb 2014 15:27:00 +0100
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20140206142700.GG13035@mail.itconsulting-heinold.de>
-References: <1391695992-29453-1-git-send-email-ross.burton@intel.com>
+	Thu, 06 Feb 2014 06:43:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9PUeOk3L2Ci1LYajdkd1T6qzMLHOjNdpAhFj27BvGZg=;
+	b=bUBOO2eAdRUpv1bNTxkEC41+mxa0EatiwR+CAPu5kitQ7EBuUw0UXXiLgBFgOpBHIA
+	/HldMJ5Z9mn849dM3JNTkT8mTrEJ/3sQ/xMPB6i5/yNSdqcgh6VyM84DwLZ7OhEoqQhJ
+	2/EkdMQ6ufFqffBfJBUnCNHerRwYcMAzATWsQ5VkFq3KbAsXjcFqq8mlW5C32eQXgvDs
+	VTr8RVp49jTWR338jKstMWtQigek7evlkjJ22UOGfNzKvPHq5Q9gflGBXD8IpmC5eYOW
+	ALaeFeb9m2C2CHbyKevfZUv/CF8A/YoReKAo3HMtTQw1kZVYxCE76EIJsnT4t+I/To45
+	tV/Q==
+X-Gm-Message-State: ALoCoQkz88qYgYQWLAOK3IuUKI1sNfzBRFUqMtFZtYE9c9vT6OLv/+RbFq2f2pqsWjNccLRkxFhi
+X-Received: by 10.224.97.67 with SMTP id k3mr13138954qan.17.1391697798350;
+	Thu, 06 Feb 2014 06:43:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1391695992-29453-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
+Received: by 10.140.48.79 with HTTP; Thu, 6 Feb 2014 06:42:58 -0800 (PST)
+In-Reply-To: <20140206142700.GG13035@mail.itconsulting-heinold.de>
+References: <1391695992-29453-1-git-send-email-ross.burton@intel.com>
+	<20140206142700.GG13035@mail.itconsulting-heinold.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 6 Feb 2014 14:42:58 +0000
+Message-ID: <CAJTo0LaZ0c+X7eNgKsGwpkkmu_s1vAUSs2o8rUp3yvS8dL-xeg@mail.gmail.com>
+To: Henning Heinold <henning@itconsulting-heinold.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] systemd: add a hard dependency on udev=$EXTENDPKGV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,41 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 14:27:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 06 Feb 2014 14:43:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Feb 06, 2014 at 02:13:12PM +0000, Ross Burton wrote:
-> If the systemd/sysvinit DISTRO_FEATURES are changed without wiping the package
-> feeds it's possible to build an image that pulls in mismatching versions of
-> systemd and udev.  This leads to images that are broken and don't boot
-> correctly.
-> 
-> Prevent this by adding a version-locked dependency on udev in systemd so that
-> images that attempt to install mis-matching versions don't build.
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-core/systemd/systemd_208.bb |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
-> index 41a106a..5ed31c3 100644
-> --- a/meta/recipes-core/systemd/systemd_208.bb
-> +++ b/meta/recipes-core/systemd/systemd_208.bb
-> @@ -225,7 +225,7 @@ FILES_${PN} = " ${base_bindir}/* \
->  FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
->  FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
->  
-> -RDEPENDS_${PN} += "kmod dbus util-linux-mount"
-> +RDEPENDS_${PN} += "kmod dbus util-linux-mount udev (= ${EXTENDPKGV})"
->  
->  RRECOMMENDS_${PN} += "systemd-serialgetty systemd-compat-units \
->                        util-linux-agetty \
+On 6 February 2014 14:27, Henning Heinold
+<henning@itconsulting-heinold.de> wrote:
+> which package manager did you test to verify it is working as expected?
 
-Hi Ross,
+I haven't attempted to replicate the failure case (because it involves
+quite a lot of building...) but the idiom of EXTENDPKGV is used in
+every -dbg and -dev package.
 
-which package manager did you test to verify it is working as expected?
-
-Bye Henning
+Ross
 
