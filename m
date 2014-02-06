@@ -1,36 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DA856D14A
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 304E56D14A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 10:04:22 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id kp14so1501656pab.9
+	Thu,  6 Feb 2014 10:34:37 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id i8so2714204qcq.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2014 02:04:23 -0800 (PST)
+	Thu, 06 Feb 2014 02:34:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=SCVlAF53+MOOeJ8hBSWg23z5e8nuBjsA2Vrw07mX5H8=;
-	b=SuHJ71zYtxYVmTRN1RHKvDs1qz/WSxzP2VgS3uNh7qJ8+qgnKZfqYpB3kVfTNn7SHN
-	ky0W6wpofNGCu0tWAsuzaimtIGQ/1Hnc/s+tLbD7aXx/0sZIsWIJSYov88fJIwjLsnT9
-	3qOlLNQI6KoeUUMAmbqEYGQ/wxnrhuge7QnxKtGyH55fVPkpJ/+YPKEX94Qf+VLvr9BW
-	sMnCQgaUoDojsbResjYZGsTCWrqmFGbM9tPew03XO2XsEkwGNiYtqRqWY4onBuIUTZxJ
-	k6WIe+YsKAw6ci1KMreryqsXoO/v/zQQUkiwIe/M2qC/kXMnjtEz1QNSINsLPKM+p9Oy
-	9qow==
-X-Received: by 10.68.66.33 with SMTP id c1mr11375551pbt.118.1391681063337;
-	Thu, 06 Feb 2014 02:04:23 -0800 (PST)
-Received: from localhost.localdomain
-	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
-	by mx.google.com with ESMTPSA id y9sm3242096pas.10.2014.02.06.02.04.22
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Feb 2014 02:04:22 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	bruce.ashfield@windriver.com
-Date: Thu,  6 Feb 2014 02:05:05 -0800
-Message-Id: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [RFC][PATCH] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=T8UHm242vJnXy2+Kh/nMhgsh8jfhn8sWTdKK/dS23xo=;
+	b=cRx8RRZhLDeTDYBGImeByjk9r1aGlAUAN+6aQHKGOZ6raqVkull20Da+4OcOmcrE7E
+	luntxj1nIt1pLL02iUUAxU6dqCZthQ6gp1xVL2SdJY2xV1MYeFXwmrXF4h1cr+JqudGg
+	wLEIcS97cQnog92PhpkKBfBgaxuIYehuCIZLB/utZ6SuBgdGlAuUgR75/zOuUPuRjxl1
+	LzfrUO2BrsvuLH4NgxE9pxSC61n+W7W7YrUVA1Q2Nt3fDNFYNAHIDLvtrLGFKsXz7dts
+	lEgVGp+fA1I2gjQVH7cdxePjOMWcZEZq2Oh1w5NmEF+IVLOhX/qgllsaCTYnLLHXIjBd
+	YBew==
+X-Received: by 10.140.21.179 with SMTP id 48mr10395100qgl.78.1391682877580;
+	Thu, 06 Feb 2014 02:34:37 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.25.47 with HTTP; Thu, 6 Feb 2014 02:34:17 -0800 (PST)
+In-Reply-To: <1391245631-10681-1-git-send-email-diego.sueiro@gmail.com>
+References: <1391245631-10681-1-git-send-email-diego.sueiro@gmail.com>
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Thu, 6 Feb 2014 08:34:17 -0200
+Message-ID: <CAMCfZKFMzmfNxOSF+_QymoQyDi_U0c+NMkGFt=9Kihw3swn0KQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [for-dora] systemd: journald fix ignored disk space restrictions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,227 +40,338 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 10:04:22 -0000
+X-List-Received-Date: Thu, 06 Feb 2014 10:34:38 -0000
+Content-Type: multipart/alternative; boundary=001a11c11fee8eef6804f1ba6bbb
 
-This also make a change where for kernel
-S != B, this is done because when S = B
-and we use O= option or set KBUILD_OUTPUT
-to point to objectdir, kernel build system
-ends up denoting itself dirty and asking for
-running mrproper during later build steps
-after do_configure but works perfectly
-for when S != B
+--001a11c11fee8eef6804f1ba6bbb
+Content-Type: text/plain; charset=ISO-8859-1
 
-Additional fixes make sure that we do not
-assume directory paths when accessing files
+Folks,
 
-Move exporting KBUILD_OUTPUT from kernel-yocto
-into kernel class
+Any chance to get this up-streamed?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/kernel-yocto.bbclass |  3 +-
- meta/classes/kernel.bbclass       | 71 ++++++++++++++++++++++-----------------
- 2 files changed, 41 insertions(+), 33 deletions(-)
+Regards,
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 8f79932..73257e1 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -408,6 +408,5 @@ do_kernel_link_vmlinux() {
- 	ln -sf ../../../vmlinux
- }
- 
--OE_TERMINAL_EXPORTS += "GUILT_BASE KBUILD_OUTPUT"
-+OE_TERMINAL_EXPORTS += "GUILT_BASE"
- GUILT_BASE = "meta"
--KBUILD_OUTPUT = "${B}"
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 51626b0..b000147 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -10,6 +10,7 @@ KERNEL_IMAGETYPE ?= "zImage"
- INITRAMFS_IMAGE ?= ""
- INITRAMFS_TASK ?= ""
- INITRAMFS_IMAGE_BUNDLE ?= ""
-+B = "${WORKDIR}/build"
- 
- python __anonymous () {
-     kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
-@@ -157,6 +158,7 @@ kernel_do_compile() {
- 	# different initramfs image.  The way to do that in the kernel
- 	# is to specify:
- 	# make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
-+	cd ${S}
- 	if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
- 		# The old style way of copying an prebuilt image and building it
- 		# is turned on via INTIRAMFS_TASK != ""
-@@ -165,13 +167,14 @@ kernel_do_compile() {
- 	fi
- 	oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
- 	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
--		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
-+		gzip -9c < "${B}/${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
- 	fi
- }
- 
- do_compile_kernelmodules() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
--	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-+	cd ${S}
-+	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
- 		oe_runmake ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
- 	else
- 		bbnote "no modules to compile"
-@@ -184,7 +187,8 @@ kernel_do_install() {
- 	# First install the modules
- 	#
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
--	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-+	cd ${S}
-+	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
- 		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
- 		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
- 		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
-@@ -200,10 +204,10 @@ kernel_do_install() {
- 	install -d ${D}/${KERNEL_IMAGEDEST}
- 	install -d ${D}/boot
- 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
--	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
--	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
--	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
--	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
-+	install -m 0644 ${B}/System.map ${D}/boot/System.map-${KERNEL_VERSION}
-+	install -m 0644 ${B}/.config ${D}/boot/config-${KERNEL_VERSION}
-+	install -m 0644 ${B}/vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
-+	[ -e ${B}/Module.symvers ] && install -m 0644 ${B}/Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
- 	install -d ${D}${sysconfdir}/modules-load.d
- 	install -d ${D}${sysconfdir}/modprobe.d
- 
-@@ -232,20 +236,21 @@ kernel_do_install() {
- 	# dir. This ensures the original Makefiles are used and not the
- 	# redirecting Makefiles in the build directory.
- 	#
-+	pwd="$PWD"
-+	cd "${B}"
- 	find . -depth -not -name "*.cmd" -not -name "*.o" -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
--	cp .config $kerneldir
-+	cp ${B}/.config $kerneldir
- 	if [ "${S}" != "${B}" ]; then
--		pwd="$PWD"
- 		cd "${S}"
- 		find . -depth -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
--		cd "$pwd"
- 	fi
-+	cd "$pwd"
- 
- 	# Test to ensure that the output file and image type are not actually
- 	# the same file. If hardlinking is used, they will be the same, and there's
- 	# no need to install.
- 	! [ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
--	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
-+	install -m 0644 ${B}/System.map $kerneldir/System.map-${KERNEL_VERSION}
- 
- 	# Dummy Makefile so the clean below works
-         mkdir $kerneldir/Documentation
-@@ -260,24 +265,24 @@ kernel_do_install() {
- 	# we clean the scripts dir while leaving the generated config
- 	# and include files.
- 	#
--	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
--	make -C $kerneldir _mrproper_scripts
-+	oe_runmake KBUILD_OUTPUT= -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
-+	make KBUILD_OUTPUT= -C $kerneldir _mrproper_scripts
- 	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
- 
- 	# As of Linux kernel version 3.0.1, the clean target removes
- 	# arch/powerpc/lib/crtsavres.o which is present in
- 	# KBUILD_LDFLAGS_MODULE, making it required to build external modules.
- 	if [ ${ARCH} = "powerpc" ]; then
--		cp -l arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
-+		cp -l ${B}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
- 	fi
- 
- 	# Necessary for building modules like compat-wireless.
--	if [ -f include/generated/bounds.h ]; then
--		cp -l include/generated/bounds.h $kerneldir/include/generated/bounds.h
-+	if [ -f ${B}/include/generated/bounds.h ]; then
-+		cp -l ${B}/include/generated/bounds.h $kerneldir/include/generated/bounds.h
- 	fi
--	if [ -d arch/${ARCH}/include/generated ]; then
-+	if [ -d ${B}/arch/${ARCH}/include/generated ]; then
- 		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
--		cp -flR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
-+		cp -flR ${B}/arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
- 	fi
- 
- 	# Remove the following binaries which cause strip or arch QA errors
-@@ -302,6 +307,7 @@ python sysroot_stage_all () {
- }
- 
- kernel_do_configure() {
-+	cd ${S}
- 	# fixes extra + in /lib/modules/2.6.37+
- 	# $ scripts/setlocalversion . => +
- 	# $ make kernelversion => 2.6.37
-@@ -313,7 +319,7 @@ kernel_do_configure() {
- 	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
- 		cp "${WORKDIR}/defconfig" "${B}/.config"
- 	fi
--	yes '' | oe_runmake oldconfig
-+	oe_runmake olddefconfig
- }
- 
- do_savedefconfig() {
-@@ -432,19 +438,19 @@ do_uboot_mkimage() {
- 		if test "x${KEEPUIMAGE}" != "xyes" ; then
- 			ENTRYPOINT=${UBOOT_ENTRYPOINT}
- 			if test -n "${UBOOT_ENTRYSYMBOL}"; then
--				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
-+				ENTRYPOINT=`${HOST_PREFIX}nm ${B}/vmlinux | \
- 					awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
- 			fi
--			if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
--				${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
--				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
--				rm -f linux.bin
-+			if test -e ${B}/arch/${ARCH}/boot/compressed/vmlinux ; then
-+				${OBJCOPY} -O binary -R .note -R .comment -S ${B}/arch/${ARCH}/boot/compressed/vmlinux ${B}/linux.bin
-+				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d ${B}/linux.bin ${B}/arch/${ARCH}/boot/uImage
-+				rm -f ${B}/linux.bin
- 			else
--				${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
--				rm -f linux.bin.gz
--				gzip -9 linux.bin
--				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
--				rm -f linux.bin.gz
-+				${OBJCOPY} -O binary -R .note -R .comment -S ${B}/vmlinux ${B}/linux.bin
-+				rm -f ${B}/linux.bin.gz
-+				gzip -9 ${B}/linux.bin > ${B}/linux.bin.gz
-+				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d ${B}/linux.bin.gz ${B}/arch/${ARCH}/boot/uImage
-+				rm -f ${B}/linux.bin.gz
- 			fi
- 		fi
- 	fi
-@@ -453,8 +459,8 @@ do_uboot_mkimage() {
- addtask uboot_mkimage before do_install after do_compile
- 
- kernel_do_deploy() {
--	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
--	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-+	install -m 0644 ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
-+	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
- 		mkdir -p ${D}/lib
- 		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
- 		ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
-@@ -483,3 +489,6 @@ addtask deploy before do_build after do_install
- 
- EXPORT_FUNCTIONS do_deploy
- 
-+OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
-+export KBUILD_OUTPUT = "${B}"
-+
--- 
-1.8.5.3
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br
+
+/*long live rock 'n roll*/
 
 
+On Sat, Feb 1, 2014 at 7:07 AM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
+
+> The upstream bug report can be seen at:
+> [Systemd #68161] -- https://bugs.freedesktop.org/show_bug.cgi?id=68161
+>
+> This backports patches come from 207 and need to address this in the 206
+> version for dora branch.
+>
+> Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com>
+> ---
+>  ...ournald-fix-fd-leak-in-journal_file_empty.patch |   27 ++++++++++++++
+>  ...urnald-fix-vacuuming-of-archived-journals.patch |   37
+> ++++++++++++++++++++
+>  meta/recipes-core/systemd/systemd_206.bb           |    2 ++
+>  3 files changed, 66 insertions(+)
+>  create mode 100644
+> meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_file_empty.patch
+>  create mode 100644
+> meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-journals.patch
+>
+> diff --git
+> a/meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_file_empty.patch
+> b/meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_file_empty.patch
+> new file mode 100644
+> index 0000000..a83c858
+> --- /dev/null
+> +++
+> b/meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_file_empty.patch
+> @@ -0,0 +1,27 @@
+> +journald: fix fd leak in journal_file_empty
+> +Before my previous patch, journal_file_empty wasn't be called with the
+> +correct filename. Now that it's being called with the correct filename
+> +it leaks file descriptors. This patch closes the file descriptors before
+> +returning.
+> +
+> +Signed-off-by: George McCollister <george.mccollister@gmail.com>
+> +
+> +
+> +Index: systemd-206/src/journal/journal-vacuum.c
+> +===================================================================
+> +--- systemd-206.orig/src/journal/journal-vacuum.c      2013-07-21
+> 19:43:28.146183128 -0300
+> ++++ systemd-206/src/journal/journal-vacuum.c   2014-01-29
+> 20:43:27.492343295 -0200
+> +@@ -129,9 +129,9 @@
+> + }
+> +
+> + static int journal_file_empty(int dir_fd, const char *name) {
+> +-        int fd, r;
+> ++        int r;
+> +         le64_t n_entries;
+> +-
+> ++        _cleanup_close_ int fd;
+> +         fd = openat(dir_fd, name,
+> O_RDONLY|O_CLOEXEC|O_NOFOLLOW|O_NONBLOCK);
+> +         if (fd < 0)
+> +                 return -errno;
+> +
+> +Upstream-Status: Backport [207]
+> diff --git
+> a/meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-journals.patch
+> b/meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-journals.patch
+> new file mode 100644
+> index 0000000..7c59200
+> --- /dev/null
+> +++
+> b/meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-journals.patch
+> @@ -0,0 +1,37 @@
+> +journald: fix vacuuming of archived journals
+> +d_name is modified on line 227 so if the entire journal name is needed
+> +again p must be used. Before this change when journal_file_empty was
+> called
+> +on archived journals it would always return with -2.
+> +
+> +Signed-off-by: George McCollister <george.mccollister@gmail.com>
+> +
+> +Index: systemd-206/src/journal/journal-vacuum.c
+> +===================================================================
+> +--- systemd-206.orig/src/journal/journal-vacuum.c      2014-01-29
+> 20:43:27.492343295 -0200
+> ++++ systemd-206/src/journal/journal-vacuum.c   2014-01-29
+> 20:48:55.076356876 -0200
+> +@@ -265,18 +265,18 @@
+> +                         /* We do not vacuum active files or unknown
+> files! */
+> +                         continue;
+> +
+> +-                if (journal_file_empty(dirfd(d), de->d_name)) {
+> ++                if (journal_file_empty(dirfd(d), p)) {
+> +
+> +                         /* Always vacuum empty non-online files. */
+> +
+> +-                        if (unlinkat(dirfd(d), de->d_name, 0) >= 0)
+> +-                                log_debug("Deleted empty journal
+> %s/%s.", directory, de->d_name);
+> ++                        if (unlinkat(dirfd(d), p, 0) >= 0)
+> ++                                log_debug("Deleted empty journal
+> %s/%s.", directory, p);
+> +                         else if (errno != ENOENT)
+> +-                                log_warning("Failed to delete %s/%s:
+> %m", directory, de->d_name);
+> ++                                log_warning("Failed to delete %s/%s:
+> %m", directory, p);
+> +                         continue;
+> +                 }
+> +
+> +-                patch_realtime(directory, de->d_name, &st, &realtime);
+> ++                patch_realtime(directory, p, &st, &realtime);
+> +
+> +                 GREEDY_REALLOC(list, n_allocated, n_list + 1);
+> +
+> +
+> +Upstream-Status: Backport [207]
+> diff --git a/meta/recipes-core/systemd/systemd_206.bbb/meta/recipes-core/systemd/
+> systemd_206.bb
+> index a1a8bd7..e7d0f1f 100644
+> --- a/meta/recipes-core/systemd/systemd_206.bb
+> +++ b/meta/recipes-core/systemd/systemd_206.bb
+> @@ -21,6 +21,8 @@ SRC_URI = "
+> http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+>             file://0001-use-CAP_MKNOD-ConditionCapability.patch \
+>             file://0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch \
+>             file://binfmt-install.patch \
+> +           file://journald-fix-fd-leak-in-journal_file_empty.patch \
+> +           file://journald-fix-vacuuming-of-archived-journals.patch \
+>             file://touchscreen.rules \
+>             ${UCLIBCPATCHES} \
+>             file://00-create-volatile.conf \
+> --
+> 1.7.10.4
+>
+>
+
+--001a11c11fee8eef6804f1ba6bbb
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Folks,<div><br></div><div style>Any chance to get this=A0u=
+p-streamed?</div><div class=3D"gmail_extra"><br clear=3D"all"><div><div dir=
+=3D"ltr"><div>Regards,</div><div><br></div>--<br>*dS<br>Diego Sueiro<br><br=
+>Administrador do Embarcados<br>
+
+<a href=3D"http://www.embarcados.com.br" target=3D"_blank">www.embarcados.c=
+om.br</a><br><br>/*long live rock &#39;n roll*/<br></div></div>
+<br><br><div class=3D"gmail_quote">On Sat, Feb 1, 2014 at 7:07 AM, Diego Su=
+eiro <span dir=3D"ltr">&lt;<a href=3D"mailto:diego.sueiro@gmail.com" target=
+=3D"_blank">diego.sueiro@gmail.com</a>&gt;</span> wrote:<br><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">
+
+The upstream bug report can be seen at:<br>
+[Systemd #68161] -- <a href=3D"https://bugs.freedesktop.org/show_bug.cgi?id=
+=3D68161" target=3D"_blank">https://bugs.freedesktop.org/show_bug.cgi?id=3D=
+68161</a><br>
+<br>
+This backports patches come from 207 and need to address this in the 206 ve=
+rsion for dora branch.<br>
+<br>
+Signed-off-by: Diego Sueiro &lt;<a href=3D"mailto:diego.sueiro@gmail.com">d=
+iego.sueiro@gmail.com</a>&gt;<br>
+---<br>
+=A0...ournald-fix-fd-leak-in-journal_file_empty.patch | =A0 27 ++++++++++++=
+++<br>
+=A0...urnald-fix-vacuuming-of-archived-journals.patch | =A0 37 ++++++++++++=
+++++++++<br>
+=A0meta/recipes-core/systemd/<a href=3D"http://systemd_206.bb" target=3D"_b=
+lank">systemd_206.bb</a> =A0 =A0 =A0 =A0 =A0 | =A0 =A02 ++<br>
+=A03 files changed, 66 insertions(+)<br>
+=A0create mode 100644 meta/recipes-core/systemd/systemd/journald-fix-fd-lea=
+k-in-journal_file_empty.patch<br>
+=A0create mode 100644 meta/recipes-core/systemd/systemd/journald-fix-vacuum=
+ing-of-archived-journals.patch<br>
+<br>
+diff --git a/meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-jour=
+nal_file_empty.patch b/meta/recipes-core/systemd/systemd/journald-fix-fd-le=
+ak-in-journal_file_empty.patch<br>
+new file mode 100644<br>
+index 0000000..a83c858<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/systemd/systemd/journald-fix-fd-leak-in-journal_fil=
+e_empty.patch<br>
+@@ -0,0 +1,27 @@<br>
++journald: fix fd leak in journal_file_empty<br>
++Before my previous patch, journal_file_empty wasn&#39;t be called with the=
+<br>
++correct filename. Now that it&#39;s being called with the correct filename=
+<br>
++it leaks file descriptors. This patch closes the file descriptors before<b=
+r>
++returning.<br>
++<br>
++Signed-off-by: George McCollister &lt;<a href=3D"mailto:george.mccollister=
+@gmail.com">george.mccollister@gmail.com</a>&gt;<br>
++<br>
++<br>
++Index: systemd-206/src/journal/journal-vacuum.c<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- systemd-206.orig/src/journal/journal-vacuum.c =A0 =A0 =A02013-07-21 19=
+:43:28.146183128 -0300<br>
+++++ systemd-206/src/journal/journal-vacuum.c =A0 2014-01-29 20:43:27.49234=
+3295 -0200<br>
++@@ -129,9 +129,9 @@<br>
++ }<br>
++<br>
++ static int journal_file_empty(int dir_fd, const char *name) {<br>
++- =A0 =A0 =A0 =A0int fd, r;<br>
+++ =A0 =A0 =A0 =A0int r;<br>
++ =A0 =A0 =A0 =A0 le64_t n_entries;<br>
++-<br>
+++ =A0 =A0 =A0 =A0_cleanup_close_ int fd;<br>
++ =A0 =A0 =A0 =A0 fd =3D openat(dir_fd, name, O_RDONLY|O_CLOEXEC|O_NOFOLLOW=
+|O_NONBLOCK);<br>
++ =A0 =A0 =A0 =A0 if (fd &lt; 0)<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 return -errno;<br>
++<br>
++Upstream-Status: Backport [207]<br>
+diff --git a/meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-ar=
+chived-journals.patch b/meta/recipes-core/systemd/systemd/journald-fix-vacu=
+uming-of-archived-journals.patch<br>
+new file mode 100644<br>
+index 0000000..7c59200<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/systemd/systemd/journald-fix-vacuuming-of-archived-=
+journals.patch<br>
+@@ -0,0 +1,37 @@<br>
++journald: fix vacuuming of archived journals<br>
++d_name is modified on line 227 so if the entire journal name is needed<br>
++again p must be used. Before this change when journal_file_empty was calle=
+d<br>
++on archived journals it would always return with -2.<br>
++<br>
++Signed-off-by: George McCollister &lt;<a href=3D"mailto:george.mccollister=
+@gmail.com">george.mccollister@gmail.com</a>&gt;<br>
++<br>
++Index: systemd-206/src/journal/journal-vacuum.c<br>
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
++--- systemd-206.orig/src/journal/journal-vacuum.c =A0 =A0 =A02014-01-29 20=
+:43:27.492343295 -0200<br>
+++++ systemd-206/src/journal/journal-vacuum.c =A0 2014-01-29 20:48:55.07635=
+6876 -0200<br>
++@@ -265,18 +265,18 @@<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 /* We do not vacuum activ=
+e files or unknown files! */<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue;<br>
++<br>
++- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (journal_file_empty(dirfd(d), de-&gt;d=
+_name)) {<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (journal_file_empty(dirfd(d), p)) {<br=
+>
++<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 /* Always vacuum empty no=
+n-online files. */<br>
++<br>
++- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (unlinkat(dirfd(d), de=
+-&gt;d_name, 0) &gt;=3D 0)<br>
++- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0log_debug=
+(&quot;Deleted empty journal %s/%s.&quot;, directory, de-&gt;d_name);<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (unlinkat(dirfd(d), p,=
+ 0) &gt;=3D 0)<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0log_debug=
+(&quot;Deleted empty journal %s/%s.&quot;, directory, p);<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 else if (errno !=3D ENOEN=
+T)<br>
++- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0log_warni=
+ng(&quot;Failed to delete %s/%s: %m&quot;, directory, de-&gt;d_name);<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0log_warni=
+ng(&quot;Failed to delete %s/%s: %m&quot;, directory, p);<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 continue;<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 }<br>
++<br>
++- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0patch_realtime(directory, de-&gt;d_name, =
+&amp;st, &amp;realtime);<br>
+++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0patch_realtime(directory, p, &amp;st, &am=
+p;realtime);<br>
++<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 GREEDY_REALLOC(list, n_allocated, n_list =
++ 1);<br>
++<br>
++<br>
++Upstream-Status: Backport [207]<br>
+diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_206.bb" ta=
+rget=3D"_blank">systemd_206.bb</a> b/meta/recipes-core/systemd/<a href=3D"h=
+ttp://systemd_206.bb" target=3D"_blank">systemd_206.bb</a><br>
+index a1a8bd7..e7d0f1f 100644<br>
+--- a/meta/recipes-core/systemd/<a href=3D"http://systemd_206.bb" target=3D=
+"_blank">systemd_206.bb</a><br>
++++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_206.bb" target=3D=
+"_blank">systemd_206.bb</a><br>
+@@ -21,6 +21,8 @@ SRC_URI =3D &quot;<a href=3D"http://www.freedesktop.org/s=
+oftware/systemd/systemd-${PV}.tar.xz" target=3D"_blank">http://www.freedesk=
+top.org/software/systemd/systemd-${PV}.tar.xz</a> \<br>
+=A0 =A0 =A0 =A0 =A0 =A0 file://0001-use-CAP_MKNOD-ConditionCapability.patch=
+ \<br>
+=A0 =A0 =A0 =A0 =A0 =A0 file://0001-Use-bin-mkdir-instead-of-host-mkdir-pat=
+h.patch \<br>
+=A0 =A0 =A0 =A0 =A0 =A0 file://binfmt-install.patch \<br>
++ =A0 =A0 =A0 =A0 =A0 file://journald-fix-fd-leak-in-journal_file_empty.pat=
+ch \<br>
++ =A0 =A0 =A0 =A0 =A0 file://journald-fix-vacuuming-of-archived-journals.pa=
+tch \<br>
+=A0 =A0 =A0 =A0 =A0 =A0 file://touchscreen.rules \<br>
+=A0 =A0 =A0 =A0 =A0 =A0 ${UCLIBCPATCHES} \<br>
+=A0 =A0 =A0 =A0 =A0 =A0 file://00-create-volatile.conf \<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.7.10.4<br>
+<br>
+</font></span></blockquote></div><br></div></div>
+
+--001a11c11fee8eef6804f1ba6bbb--
