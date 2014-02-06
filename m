@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8036C959
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 57D656C959
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 23:17:22 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id q59so1766302wes.23
+	Thu,  6 Feb 2014 23:37:25 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s16NbPxw019102
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2014 15:17:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=fD2KSvhSPrGW/L2Q+ZdM7kwt6BzzozZSYJa0/XX0U9w=;
-	b=RcvJIwjjr2zx/BQ5cogWxXfqtkKWYdlNkF5tj2pOIfnoek8C45vTh54/laGAEAMLI6
-	S+qOAaTbwtrkL5+NWEcDf46jE2CdrAeMOx8MTEjME81L6wX/vhVDHqnkBr54qSVtoKbE
-	NR1RbMHmnzAIpNC9wDZ5M3xBmILODmgFBXseuSQavcm/E0Gs0XMonpiZa+DIyvTBVIW9
-	ynglWlIXt028P9e2k+jm1bTQpb6QOq1UNFWNCMmk2Edg/yh7TK+VBvl140xw+3+FsJJQ
-	zZ5cGilf5k+9LO6tN51Q2D/eaozS3jDKyjN+NbhgbLIgc1mPY+tKGgRhA8MmpqzQ7Tce
-	zfdQ==
-X-Gm-Message-State: ALoCoQkv5iqWqbibaZ7vb5YP3fLYVBZA2HkiZhvFIs/yfjpAh0Q+hJ5qG96zJHzf+WScTodmTRiB
-X-Received: by 10.194.185.165 with SMTP id fd5mr30631wjc.95.1391728642077;
-	Thu, 06 Feb 2014 15:17:22 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id jd2sm987010wic.9.2014.02.06.15.17.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 06 Feb 2014 15:17:21 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2014 23:17:18 +0000
-Message-Id: <1391728638-12287-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] binconfig: mangle ${base_libdir}
+	Thu, 6 Feb 2014 15:37:26 -0800 (PST)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 6 Feb 2014 15:37:25 -0800
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Feb 2014 17:37:22 -0600
+Message-ID: <cover.1391729077.git.mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.5.3
+MIME-Version: 1.0
+Subject: [v3 PATCH 0/2] Implement deterministic uid/gid
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,58 +31,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 23:17:22 -0000
+X-List-Received-Date: Thu, 06 Feb 2014 23:37:26 -0000
+Content-Type: text/plain
 
-Some recipes are installing libraries into ${base_libdir} (typically /lib) and
-also use a foo-config binary to identify compile paths, for example
-libusb-compat.  Without mangling ${base_libdir} the ${base_libdir} path is
-passed to the compiler, where it looks like a host path and results in
-compile-host-path QA errors.
+V3:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/binconfig.bbclass |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Refactor the code into a new class specific with rewriting the adduser
+functions.  Otherwise the code is the same as before.
 
-diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
-index 4c42602..848c744 100644
---- a/meta/classes/binconfig.bbclass
-+++ b/meta/classes/binconfig.bbclass
-@@ -5,6 +5,7 @@ def get_binconfig_mangle(d):
- 	s = "-e ''"
- 	if not bb.data.inherits_class('native', d):
- 		optional_quote = r"\(\"\?\)"
-+		s += " -e 's:=%s${base_libdir}:=\\1OEBASELIBDIR:;'" % optional_quote
- 		s += " -e 's:=%s${libdir}:=\\1OELIBDIR:;'" % optional_quote
- 		s += " -e 's:=%s${includedir}:=\\1OEINCDIR:;'" % optional_quote
- 		s += " -e 's:=%s${datadir}:=\\1OEDATADIR:'" % optional_quote
-@@ -12,6 +13,7 @@ def get_binconfig_mangle(d):
- 		s += " -e 's:=%s${exec_prefix}/:=\\1OEEXECPREFIX/:'" % optional_quote
- 		s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
- 		s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
-+		s += " -e 's:OEBASELIBDIR:${STAGING_BASELIBDIR}:;'"
- 		s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
- 		s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
- 		s += " -e 's:OEDATADIR:${STAGING_DATADIR}:'"
-@@ -31,7 +33,8 @@ PACKAGE_PREPROCESS_FUNCS += "binconfig_package_preprocess"
- binconfig_package_preprocess () {
- 	for config in `find ${PKGD} -name '${BINCONFIG_GLOB}'`; do
- 		sed -i \
--		    -e 's:${STAGING_LIBDIR}:${libdir}:g;' \ 
-+		    -e 's:${STAGING_BASELIBDIR}:${base_libdir}:g;' \
-+		    -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
- 		    -e 's:${STAGING_INCDIR}:${includedir}:g;' \
- 		    -e 's:${STAGING_DATADIR}:${datadir}:' \
- 		    -e 's:${STAGING_DIR_HOST}${prefix}:${prefix}:' \
-@@ -39,6 +42,7 @@ binconfig_package_preprocess () {
- 	done
- 	for lafile in `find ${PKGD} -name "*.la"` ; do
- 		sed -i \
-+		    -e 's:${STAGING_BASELIBDIR}:${base_libdir}:g;' \
- 		    -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
- 		    -e 's:${STAGING_INCDIR}:${includedir}:g;' \
- 		    -e 's:${STAGING_DATADIR}:${datadir}:' \
+V2:
+
+Rebase to latest master...
+
+Rework the code a bit based on comments from a few people.  Specifically
+add a mode where passwd/group file entries are NOT overridden (blank info).
+
+Clearly comment that the 'password' field is ignored, as is the group's
+member fields.
+
+Ensure that the 'enforcing' mode, doesn't trigger build failures, but simply
+excludes the recipe from the build list.  If the package is needed an error
+indicating the problem will be generated.  Makes for a cleaner build, and a
+more targeted passwd/group file.
+
+
+This was tested by doing the following:
+
+(not enabling any of the code), build core-image-sato
+
+copy the passwd/group file from tmp-eglibc/sysroots/<machine>/etc/ to meta/files/.
+
+Clear the build directory
+
+Enable the code adding the following to the conf/local.conf:
+USERADD_REWRITE_PARAMS = '1'
+
+Build, compare the rootfs  /etc/passwd and /etc/group to the version in meta/files.
+Verify the uid, gid and other information match.  (Note xuser will have a slight
+difference in the 'shell' field, but this is does to the difference between the
+configuration of the sysroot and the target filesystem.)
+
+Clear the build directory again
+
+Enable the code adding the following to conf/local.conf:
+USERADD_ERROR_DYNAMIC = '1'
+
+Repeat the validation steps.
+
+Clear the build directory again
+
+Modify the meta/files/passwd and remove the items in the comment, home_dir and
+shell fields.  i.e.:
+
+root::0:0:root:/home/root:/bin/sh
+
+becomes
+
+root::0:0:::
+
+Repeat the build, verify the fields are all correct in the final image.
+
+V1:
+
+The following series implements the deterministic uid/gid setting for a
+distribution.  Currently when a filesystem is generated the uid/gid values
+are generally set at install time, so the install order determines what
+the actual uid/gid values become.  In order to create a deterministic uid/gid
+set, that still dynamically constructs the passwd/group file, we add an
+option to read a special passwd/group file to allow the system to determine
+the values.
+
+It uses the existing parameters, and the values from the special passwd/group
+files to reconstruct the parameter set to ensure these items are fully
+defined with static values.
+
+The first patch (01/02) is generally applicable.  It fixes a real bug in
+the way the user/group adds occur today within the system.
+
+Patch 02/02 implements the new functionality.
+
+The following changes since commit cda502815c6acf789e1a0db7a7a1a7015b4ef71d:
+
+  build-appliance-image: Update to poky commit b37dd451a52622d5b570183a81583cc34c2ff555 (2014-02-06 15:36:47 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib mhatle/uidgid
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mhatle/uidgid
+
+Mark Hatle (2):
+  useradd.bbclass: Fix build time install issues
+  useradd.bbclass: Add ability to select a static uid/gid automatically
+
+ meta/classes/useradd-staticids.bbclass | 259 +++++++++++++++++++++++++++++++++
+ meta/classes/useradd.bbclass           |  26 +++-
+ meta/conf/local.conf.sample.extended   |  24 +++
+ 3 files changed, 303 insertions(+), 6 deletions(-)
+ create mode 100644 meta/classes/useradd-staticids.bbclass
+
 -- 
-1.7.10.4
+1.8.5.3
 
 
