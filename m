@@ -1,21 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 58CAB6D14A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CCF460155
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 11:03:04 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Feb 2014 03:03:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="470758617"
-Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
-	([10.252.123.186])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Feb 2014 03:03:04 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu,  6 Feb 2014 13:15:45 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id u57so1294837wes.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Feb 2014 05:15:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=RGAnVWdd53zo297DYw/4CAiiJLRNYY2L7oDyGIl+ftc=;
+	b=bjLuW2LSsthU+JKrZZuB3UraL6U2LkM9qqvXLnOoP31g+UGoOinYgi+wJ/RJOMAT1d
+	GENh3Lbpb5DHOYTN3CpkFq+P2rUpEsEomJY6FVRU/PUU3whbNqCO+D/kwCwWv5zwH8cm
+	LvjYHxyrQ0CIdir6OsXG4NI+DVvg6IJJNfe5mwQ8aUfsdYi4DvHqtdoNCXh2U8KvdMrY
+	1IvFgZu7uKO2FKC5KZ2+4yROxe1I6Q4FPh85AUchArIdW/07/g22D+4NJn7YNn4gnM8P
+	ysCQN+G+eiZWVprOGPyF0oVimxcP+f5gxVQ9m81PrKfdP65cvVWZLgR5VJSycD2CG91F
+	KRnQ==
+X-Gm-Message-State: ALoCoQnU9V+IxchRVS3d8syY0QMOME+t2HM+C1MbpZNn5JTNi7GoGBeZPMFb9TK+YnUHv20jjmfm
+X-Received: by 10.180.82.193 with SMTP id k1mr21533795wiy.15.1391692546575;
+	Thu, 06 Feb 2014 05:15:46 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id cm5sm5648217wid.5.2014.02.06.05.15.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 06 Feb 2014 05:15:45 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2014 11:02:55 +0000
-Message-Id: <1391684575-14359-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] classes/buildhistory: write out files in UTF-8 format
+Date: Thu,  6 Feb 2014 13:15:39 +0000
+Message-Id: <1391692540-24139-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] dbus: mask the dbus-1 init script if using systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,110 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 11:03:04 -0000
+X-List-Received-Date: Thu, 06 Feb 2014 13:15:46 -0000
 
-If the package information contained unicode characters (for example, in
-the package file listing) then writing them out as ASCII would fail, so
-write them out using codecs.open() instead of open() using UTF-8. This
-fixes ca-certificates failing in do_packagedata when buildhistory is
-enabled.
+If the image is built with both systemd and sysvinit there'll be a dbus-1 init
+script and a dbus service. This means systemd can try and launch both, which
+won't work.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+There's a systemctl mask to stop this in systemd-compat-units, but the logical
+place for it to be is in the dbus recipe so it can't be left out of an image.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/buildhistory.bbclass | 46 +++++++++++++++++++++------------------
- 1 file changed, 25 insertions(+), 21 deletions(-)
+ meta/recipes-core/dbus/dbus.inc |    8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 6b097ea..6d1e74a 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -242,21 +242,25 @@ python buildhistory_emit_pkghistory() {
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index cf17b62..db47ede 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -62,6 +62,14 @@ RRECOMMENDS_${PN}-lib = "${PN}"
+ FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
  
- 
- def write_recipehistory(rcpinfo, d):
-+    import codecs
+ pkg_postinst_dbus() {
++	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
++        if ${@base_contains('DISTRO_FEATURES','systemd sysvinit','true','false',d)}; then
++		if [ -n "$D" ]; then
++			OPTS="--root=$D"
++		fi
++		systemctl $OPTS mask dbus-1.service
++	fi
 +
-     bb.debug(2, "Writing recipe history")
- 
-     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
- 
-     infofile = os.path.join(pkghistdir, "latest")
--    with open(infofile, "w") as f:
-+    with codecs.open(infofile, "w", encoding='utf8') as f:
-         if rcpinfo.pe != "0":
--            f.write("PE = %s\n" %  rcpinfo.pe)
--        f.write("PV = %s\n" %  rcpinfo.pv)
--        f.write("PR = %s\n" %  rcpinfo.pr)
--        f.write("DEPENDS = %s\n" %  rcpinfo.depends)
--        f.write("PACKAGES = %s\n" %  rcpinfo.packages)
-+            f.write(u"PE = %s\n" %  rcpinfo.pe)
-+        f.write(u"PV = %s\n" %  rcpinfo.pv)
-+        f.write(u"PR = %s\n" %  rcpinfo.pr)
-+        f.write(u"DEPENDS = %s\n" %  rcpinfo.depends)
-+        f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
- 
- 
- def write_pkghistory(pkginfo, d):
-+    import codecs
-+
-     bb.debug(2, "Writing package history for package %s" % pkginfo.name)
- 
-     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
-@@ -266,11 +270,11 @@ def write_pkghistory(pkginfo, d):
-         bb.utils.mkdirhier(pkgpath)
- 
-     infofile = os.path.join(pkgpath, "latest")
--    with open(infofile, "w") as f:
-+    with codecs.open(infofile, "w", encoding='utf8') as f:
-         if pkginfo.pe != "0":
--            f.write("PE = %s\n" %  pkginfo.pe)
--        f.write("PV = %s\n" %  pkginfo.pv)
--        f.write("PR = %s\n" %  pkginfo.pr)
-+            f.write(u"PE = %s\n" %  pkginfo.pe)
-+        f.write(u"PV = %s\n" %  pkginfo.pv)
-+        f.write(u"PR = %s\n" %  pkginfo.pr)
- 
-         pkgvars = {}
-         pkgvars['PKG'] = pkginfo.pkg if pkginfo.pkg != pkginfo.name else ''
-@@ -280,26 +284,26 @@ def write_pkghistory(pkginfo, d):
-         for pkgvar in pkgvars:
-             val = pkgvars[pkgvar]
-             if val:
--                f.write("%s = %s\n" % (pkgvar, val))
-+                f.write(u"%s = %s\n" % (pkgvar, val))
- 
--        f.write("RPROVIDES = %s\n" %  pkginfo.rprovides)
--        f.write("RDEPENDS = %s\n" %  pkginfo.rdepends)
--        f.write("RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
-+        f.write(u"RPROVIDES = %s\n" %  pkginfo.rprovides)
-+        f.write(u"RDEPENDS = %s\n" %  pkginfo.rdepends)
-+        f.write(u"RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
-         if pkginfo.rsuggests:
--            f.write("RSUGGESTS = %s\n" %  pkginfo.rsuggests)
-+            f.write(u"RSUGGESTS = %s\n" %  pkginfo.rsuggests)
-         if pkginfo.rreplaces:
--            f.write("RREPLACES = %s\n" %  pkginfo.rreplaces)
-+            f.write(u"RREPLACES = %s\n" %  pkginfo.rreplaces)
-         if pkginfo.rconflicts:
--            f.write("RCONFLICTS = %s\n" %  pkginfo.rconflicts)
--        f.write("PKGSIZE = %d\n" %  pkginfo.size)
--        f.write("FILES = %s\n" %  pkginfo.files)
--        f.write("FILELIST = %s\n" %  pkginfo.filelist)
-+            f.write(u"RCONFLICTS = %s\n" %  pkginfo.rconflicts)
-+        f.write(u"PKGSIZE = %d\n" %  pkginfo.size)
-+        f.write(u"FILES = %s\n" %  pkginfo.files)
-+        f.write(u"FILELIST = %s\n" %  pkginfo.filelist)
- 
-     for filevar in pkginfo.filevars:
-         filevarpath = os.path.join(pkgpath, "latest.%s" % filevar)
-         val = pkginfo.filevars[filevar]
-         if val:
--            with open(filevarpath, "w") as f:
-+            with codecs.open(filevarpath, "w", encoding='utf8') as f:
-                 f.write(val)
-         else:
-             if os.path.exists(filevarpath):
+ 	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+ 		/etc/init.d/populate-volatile.sh update
+ 	fi
 -- 
-1.8.5.3
+1.7.10.4
 
 
