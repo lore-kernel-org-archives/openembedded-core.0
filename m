@@ -1,36 +1,40 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 50BD76D14A
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 71E736D14A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 05:27:27 +0000 (UTC)
-Received: by mail-lb0-f177.google.com with SMTP id w6so100212lbh.36
+	Thu,  6 Feb 2014 08:16:52 +0000 (UTC)
+Received: by mail-lb0-f171.google.com with SMTP id c11so1205854lbj.30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2014 21:27:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=t/9ZGU0KClM4ICTGcbQKc+fR4lSJ4EbgS6UAzmwR3fE=;
-	b=K7cGscwhmr+2y3uBWjETTBrzQs1kevrJVWS5WKgi8Pe0AZJ1dnL3owPHCrG8htVWH3
-	K4Xap4S+tAfMaMTgdNyyFgBnkhmj8xTly2buaz40Failyz0NwLt7xLTGj6810K6mZqgF
-	8C0VhzxabQh+qNknX4waVKGAXNu7sMSEdLiuw/4XvF0OHeSuXfYmeR7V+aCtIrHER+Vv
-	Dw3LULbUeLLWUPOPooe3N8ppz20LotcCjlPvVzgW5Me31dNCzLt0MwVgOcpRIF2mqVzP
-	KcAdan7BLunqyHG0fmDUJphUmG4w0FKrIIcHWSlyOC//3rjNBvXUEREkv373Q6ivsLzj
-	EsCA==
+	Thu, 06 Feb 2014 00:16:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type
+	:content-transfer-encoding;
+	bh=PHciU8r41+4rTLrfQWqTTIPenruespGm6R52MXstqgQ=;
+	b=EyCYxdxvyDMetP7w6LbRLbnMMOzJHdC5Qp4DBlzLe/f83ljXbKNwSL6e1WpUIDQUul
+	YW5Rl5lXCUzLxodFY213y62dbOwqQSA0wgDa1w4h2V6qkP2GmVP6E+hHICQzW5uHizJs
+	chd9t0+VRB9YNEAjyaZdIoBD6GUMn67kMOtHJVa+eq0NLJCK8KY5V0RCXihAV3FuLEaL
+	rQRE/VRxdUNbpMjfNw/jVfMSxqnH7QK/WWKbKUYZYYwF4tJk2tWK0OVnzFdQXvYFuPVo
+	69nHAPxdrL9fC4DVWNgrJFBqL+Cv56TxtEzgSgSFR+SOiw+p8VXZO8+1OzyHtR50rBdh
+	v9LA==
+X-Gm-Message-State: ALoCoQmDMas6afJdiLG7ZvCKAjFSZuXuwGVwz73VgoKE74j3vJwCI+zStpPAWKxHMiPHmyZJUZlM
 MIME-Version: 1.0
-X-Received: by 10.152.42.196 with SMTP id q4mr58171lal.52.1391664447159; Wed,
-	05 Feb 2014 21:27:27 -0800 (PST)
-Received: by 10.112.170.166 with HTTP; Wed, 5 Feb 2014 21:27:27 -0800 (PST)
-In-Reply-To: <CF185AA7.62BD0%dvhart@linux.intel.com>
-References: <CADkTA4OVfau9egNsK_nd2O2gq=WQF89Zh=-2=-AncbgfVStbjw@mail.gmail.com>
-	<CF185AA7.62BD0%dvhart@linux.intel.com>
-Date: Thu, 6 Feb 2014 00:27:27 -0500
-Message-ID: <CADkTA4OiEgwRR=ffhX3F6n4vzPRtNieUZ0aBKUsVeGAYtpG+Hw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
+X-Received: by 10.112.204.104 with SMTP id kx8mr4417731lbc.12.1391674612150;
+	Thu, 06 Feb 2014 00:16:52 -0800 (PST)
+Received: by 10.112.91.227 with HTTP; Thu, 6 Feb 2014 00:16:52 -0800 (PST)
+In-Reply-To: <CAMKF1soNtssUgdfyxjiH0P02cJR4fGTnQ9_WojjN1zz4sDn8Bg@mail.gmail.com>
+References: <1390912914-31576-1-git-send-email-fathi.boudra@linaro.org>
+	<1390912914-31576-2-git-send-email-fathi.boudra@linaro.org>
+	<CAMKF1soNtssUgdfyxjiH0P02cJR4fGTnQ9_WojjN1zz4sDn8Bg@mail.gmail.com>
+Date: Thu, 6 Feb 2014 10:16:52 +0200
+Message-ID: <CAGNsrLChYwpzaaP5=hOykqaYgyRxaXybvatb4dkezns7sERCsQ@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-yocto: Use PACKAGE_ARCH in build dir
+Subject: Re: [PATCHv3 1/6] ltp: update SRC_REV to LTP 20140115 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,91 +47,273 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 05:27:27 -0000
+X-List-Received-Date: Thu, 06 Feb 2014 08:16:54 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 6, 2014 at 12:20 AM, Darren Hart <dvhart@linux.intel.com> wrote:
-> On 2/5/14, 20:30, "Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
+On 29 January 2014 01:06, Khem Raj <raj.khem@gmail.com> wrote:
+> On Tue, Jan 28, 2014 at 4:41 AM, Fathi Boudra <fathi.boudra@linaro.org> w=
+rote:
+>> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+>> ---
+>>  meta/recipes-extended/ltp/ltp_20130904.bb | 78 ------------------------=
+-------
+>>  meta/recipes-extended/ltp/ltp_20140115.bb | 78 ++++++++++++++++++++++++=
++++++++
+>>  2 files changed, 78 insertions(+), 78 deletions(-)
+>>  delete mode 100644 meta/recipes-extended/ltp/ltp_20130904.bb
+>>  create mode 100644 meta/recipes-extended/ltp/ltp_20140115.bb
 >
->>On Wed, Feb 5, 2014 at 11:02 PM, Darren Hart <dvhart@linux.intel.com>
->>wrote:
->>> The current linux-yocto build dir (B) includes MACHINE. This has been
->>> appropriate as kernels are typically built machine-specific. We have
->>> recently introduced an intel-common type kernel which can be shared
->>> across multiple machines sharing a common base (intel-core2-32,
->>> intel-corei7-64). In these cases, the kernel is built for a something
->>> more generic than MACHINE, and the current mechanism results in
->>> something like this when building for MACHINE=sys940x (using
->>>intel-common):
->>>
->>> tmp/work/core2-32-intel-common-poky-linux/linux-yocto-dev/ \
->>>
->>>3.13++gitAUTOINC+e5d23e7879_889c6bec6b-r0/linux-sys940x-noemgd-standard-b
->>>uild
->>>
->>> Note the descrepancy between core2-32-intel-common and
->>> linux-sys940x-noemgd-standard-build. This becomes counterintuitive at
->>> the very least when switching to another machine and attempting to reuse
->>> this build. This patch swaps MACHINE for PACKAGE_ARCH (which is
->>> typically MACHINE_ARCH for linux-yocto), resulting in the following
->>> build path:
->>>
->>> tmp/work/core2-32-intel-common-poky-linux/linux-yocto-dev/ \
->>>
->>>3.13++gitAUTOINC+e5d23e7879_889c6bec6b-r0/linux-core2-32-intel-common-sta
->>>ndard-build
->>>
->>> The impact to existing MACHINEs is a replace of - with _ if MACHINE
->>> contains one or more - charachters.
->>>
->>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->>> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
->>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> ---
->>>  meta/recipes-kernel/linux/linux-yocto.inc |    2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
->>>b/meta/recipes-kernel/linux/linux-yocto.inc
->>> index 2bee042..4ed3188 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto.inc
->>> +++ b/meta/recipes-kernel/linux/linux-yocto.inc
->>> @@ -31,7 +31,7 @@ inherit kernel
->>>  inherit kernel-yocto
->>>  require linux-dtb.inc
->>>
->>> -B = "${WORKDIR}/linux-${MACHINE}-${LINUX_KERNEL_TYPE}-build"
->>> +B = "${WORKDIR}/linux-${PACKAGE_ARCH}-${LINUX_KERNEL_TYPE}-build"
+> would be easier to revirew if it was generates with git format-patch -M
+>
 >>
->>But for truly machine specific kernel builds, won't this cause us
->>collisions ?
+>> diff --git a/meta/recipes-extended/ltp/ltp_20130904.bb b/meta/recipes-ex=
+tended/ltp/ltp_20130904.bb
+>> deleted file mode 100644
+>> index c346c5c..0000000
+>> --- a/meta/recipes-extended/ltp/ltp_20130904.bb
+>> +++ /dev/null
+>> @@ -1,78 +0,0 @@
+>> -SUMMARY =3D "Linux Test Project"
+>> -DESCRIPTION =3D "The Linux Test Project is a joint project with SGI, IB=
+M, OSDL, and Bull with a goal to deliver test suites to the open source com=
+munity that validate the reliability, robustness, and stability of Linux. T=
+he Linux Test Project is a collection of tools for testing the Linux kernel=
+ and related features."
+>> -HOMEPAGE =3D "http://ltp.sourceforge.net"
+>> -SECTION =3D "console/utils"
+>> -
+>> -LICENSE =3D "GPLv2 & GPLv2+ & LGPLv2+ & LGPLv2.1+ & BSD-2-Clause"
+>> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c31=
+7bb3 \
+>> -                   file://testcases/kernel/controllers/freezer/COPYING;=
+md5=3D0636e73ff0215e8d672dc4c32c317bb3 \
+>> -                   file://testcases/kernel/controllers/freezer/run_free=
+zer.sh;beginline=3D5;endline=3D17;md5=3D86a61d2c042d59836ffb353a21456498 \
+>> -                   file://testcases/kernel/fs/ext4-new-features/ffsb-6.=
+0-rc2/COPYING;md5=3Dc46082167a314d785d012a244748d803 \
+>> -                   file://testcases/kernel/hotplug/memory_hotplug/COPYI=
+NG;md5=3De04a2e542b2b8629bf9cd2ba29b0fe41 \
+>> -                   file://testcases/kernel/hotplug/cpu_hotplug/COPYING;=
+md5=3De04a2e542b2b8629bf9cd2ba29b0fe41 \
+>> -                   file://testcases/open_posix_testsuite/COPYING;md5=3D=
+216e43b72efbe4ed9017cc19c4c68b01 \
+>> -                   file://testcases/realtime/COPYING;md5=3D12f884d2ae1f=
+f87c09e5b7ccc2c4ca7e \
+>> -                   file://tools/netpipe-2.4/COPYING;md5=3D9e3781bb5fe78=
+7aa80e1f51f5006b6fa \
+>> -                   file://tools/netpipe-2.4-ipv6/COPYING;md5=3D9e3781bb=
+5fe787aa80e1f51f5006b6fa \
+>> -                   file://tools/top-LTP/proc/COPYING;md5=3Daefc88eb8a41=
+672fbfcfe6b69ab8c49c \
+>> -                   file://tools/pounder21/COPYING;md5=3D94d55d512a9ba36=
+caa9b7df079bae19f \
+>> -                   file://utils/benchmark/kernbench-0.42/COPYING;md5=3D=
+94d55d512a9ba36caa9b7df079bae19f \
+>> -               "
+>> -
+>> -DEPENDS =3D "attr libaio libcap acl openssl"
+>> -
+>> -SRC_URI =3D "git://github.com/linux-test-project/ltp.git \
+>> -           file://0001-Rename-runtests_noltp.sh-script-so-have-unique-n=
+ame.patch \
+>> -           file://regen-makefile.patch \
+>> -"
+>> -
+>> -SRCREV =3D "a8c42db5f9314211811c36275a21f83902830dc5"
+>> -S =3D "${WORKDIR}/git"
+>> -
+>> -export prefix =3D "/opt/ltp"
+>> -export exec_prefix =3D "/opt/ltp"
+>> -
+>> -inherit autotools
+>> -
+>> -RDEPENDS_${PN} =3D "perl e2fsprogs-mke2fs"
+>> -
+>> -FILES_${PN}-dbg +=3D "/opt/ltp/runtest/.debug"
+>> -FILES_${PN}-dbg +=3D "/opt/ltp/testcases/bin/.debug"
+>> -FILES_${PN}-dbg +=3D "/opt/ltp/testcases/bin/*/bin/.debug"
+>> -FILES_${PN}-dbg +=3D "/opt/ltp/testcases/bin/*/test/.debug"
+>> -FILES_${PN}-dbg +=3D "/opt/ltp/scenario_groups/.debug"
+>> -FILES_${PN}-dbg +=3D "/opt/ltp/testscripts/.debug"
+>> -FILES_${PN}-dbg +=3D "/opt/ltp/testscripts/open_posix_testsuite/.debug"
+>> -
+>> -FILES_${PN}-staticdev +=3D "/opt/ltp/lib/libmem.a"
+>> -
+>> -FILES_${PN} +=3D "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_group=
+s/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testsc=
+ripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_p=
+osix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Docume=
+ntation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/tes=
+tcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsui=
+te/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/test=
+cases/open_posix_testsuite/tools/*"
+>> -
+>> -TARGET_CC_ARCH +=3D "${LDFLAGS}"
+>> -
+>> -do_unpack_append() {
+>> -    bb.build.exec_func('do_extract_tarball', d)
+>> -}
+>> -
+>> -do_extract_tarball() {
+>> -       if test -f ${WORKDIR}/ltp-full-${PV} ; then
+>> -           tar x --no-same-owner -f ${WORKDIR}/ltp-full-${PV} -C ${WORK=
+DIR}
+>> -           rm -rf ${WORKDIR}/ltp-${PV}
+>> -           mv ${WORKDIR}/ltp-full-${PV} ${WORKDIR}/ltp-${PV}
+>> -       fi
+>> -}
+>> -
+>> -do_install(){
+>> -       install -d ${D}/opt/ltp/
+>> -       oe_runmake DESTDIR=3D${D} SKIP_IDCHECK=3D1 install
+>> -
+>> -       # Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
+>> -       cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+>> -
+>> -       # We need to remove all scripts which depend on /usr/bin/expect,=
+ since expect is not supported in poky
+>> -       # We will add expect for enhancement in future
+>> -       find ${D} -type f -print | xargs grep "\!.*\/usr\/bin\/expect" |=
+ awk -F":" '{print $1}' | xargs rm -f
+>> -}
+>> -
+>> -# Avoid generated binaries stripping. Otherwise some of the ltp tests s=
+uch as ldd01 & nm01 fails
+>> -INHIBIT_PACKAGE_STRIP =3D "1"
+>> diff --git a/meta/recipes-extended/ltp/ltp_20140115.bb b/meta/recipes-ex=
+tended/ltp/ltp_20140115.bb
+>> new file mode 100644
+>> index 0000000..e81fd7a
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/ltp/ltp_20140115.bb
+>> @@ -0,0 +1,78 @@
+>> +SUMMARY =3D "Linux Test Project"
+>> +DESCRIPTION =3D "The Linux Test Project is a joint project with SGI, IB=
+M, OSDL, and Bull with a goal to deliver test suites to the open source com=
+munity that validate the reliability, robustness, and stability of Linux. T=
+he Linux Test Project is a collection of tools for testing the Linux kernel=
+ and related features."
+>> +HOMEPAGE =3D "http://ltp.sourceforge.net"
+>> +SECTION =3D "console/utils"
+>> +
+>> +LICENSE =3D "GPLv2 & GPLv2+ & LGPLv2+ & LGPLv2.1+ & BSD-2-Clause"
+>> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c31=
+7bb3 \
+>> +                   file://testcases/kernel/controllers/freezer/COPYING;=
+md5=3D0636e73ff0215e8d672dc4c32c317bb3 \
+>> +                   file://testcases/kernel/controllers/freezer/run_free=
+zer.sh;beginline=3D5;endline=3D17;md5=3D86a61d2c042d59836ffb353a21456498 \
+>> +                   file://testcases/kernel/fs/ext4-new-features/ffsb-6.=
+0-rc2/COPYING;md5=3Dc46082167a314d785d012a244748d803 \
+>> +                   file://testcases/kernel/hotplug/memory_hotplug/COPYI=
+NG;md5=3De04a2e542b2b8629bf9cd2ba29b0fe41 \
+>> +                   file://testcases/kernel/hotplug/cpu_hotplug/COPYING;=
+md5=3De04a2e542b2b8629bf9cd2ba29b0fe41 \
+>> +                   file://testcases/open_posix_testsuite/COPYING;md5=3D=
+216e43b72efbe4ed9017cc19c4c68b01 \
+>> +                   file://testcases/realtime/COPYING;md5=3D12f884d2ae1f=
+f87c09e5b7ccc2c4ca7e \
+>> +                   file://tools/netpipe-2.4/COPYING;md5=3D9e3781bb5fe78=
+7aa80e1f51f5006b6fa \
+>> +                   file://tools/netpipe-2.4-ipv6/COPYING;md5=3D9e3781bb=
+5fe787aa80e1f51f5006b6fa \
+>> +                   file://tools/top-LTP/proc/COPYING;md5=3Daefc88eb8a41=
+672fbfcfe6b69ab8c49c \
+>> +                   file://tools/pounder21/COPYING;md5=3D94d55d512a9ba36=
+caa9b7df079bae19f \
+>> +                   file://utils/benchmark/kernbench-0.42/COPYING;md5=3D=
+94d55d512a9ba36caa9b7df079bae19f \
+>> +               "
+>> +
+>> +DEPENDS =3D "attr libaio libcap acl openssl"
+>> +
+>> +SRC_URI =3D "git://github.com/linux-test-project/ltp.git \
+>> +           file://0001-Rename-runtests_noltp.sh-script-so-have-unique-n=
+ame.patch \
+>> +           file://regen-makefile.patch \
+>> +"
+>> +
+>> +SRCREV =3D "c8b3e28097e7d3208df9daceaf92c25eae87ebf0"
+>> +S =3D "${WORKDIR}/git"
+>> +
+>> +export prefix =3D "/opt/ltp"
+>> +export exec_prefix =3D "/opt/ltp"
 >
-> I don't see how. Note the build paths above. For truly machine-specifc
-> builds, the WORKDIR is already machine-specific (because the PACKAGE_ARCH
-> is MACHINE_ARCH), so there is no need to specify the MACHINE in the S or B
-> dirs really at all. In fact, just calling this linux-build without any
-> other modifier would be fine I think. What I attempted here was in keeping
-> with the intent of the design: identify what we are building for in the B
-> dir.
+> can this be changed to something under /usr ?
 
-Right you are. For a machine specific kernel recipe, workdir will provide the
-separation. I missed that. And yes, even though it is a bit redundant,
-it is still
-nice to keep that extra identifier in the buildir name.
+I'll prefer to skip this change. IMO, LTP has never meant to be
+installed like many test suites.
+build system and install is just horrible. Many distro have dropped
+LTP packaging for this reason.
 
-So this is Ack'd from my side.
-
-Bruce
-
+>> +
+>> +inherit autotools
+>> +
+>> +RDEPENDS_${PN} =3D "perl e2fsprogs-mke2fs"
+>> +
+>> +FILES_${PN}-dbg +=3D "/opt/ltp/runtest/.debug"
+>> +FILES_${PN}-dbg +=3D "/opt/ltp/testcases/bin/.debug"
+>> +FILES_${PN}-dbg +=3D "/opt/ltp/testcases/bin/*/bin/.debug"
+>> +FILES_${PN}-dbg +=3D "/opt/ltp/testcases/bin/*/test/.debug"
+>> +FILES_${PN}-dbg +=3D "/opt/ltp/scenario_groups/.debug"
+>> +FILES_${PN}-dbg +=3D "/opt/ltp/testscripts/.debug"
+>> +FILES_${PN}-dbg +=3D "/opt/ltp/testscripts/open_posix_testsuite/.debug"
+>> +
+>> +FILES_${PN}-staticdev +=3D "/opt/ltp/lib/libmem.a"
+>> +
+>> +FILES_${PN} +=3D "/opt/ltp/* /opt/ltp/runtest/* /opt/ltp/scenario_group=
+s/* /opt/ltp/testcases/bin/* /opt/ltp/testcases/bin/*/bin/* /opt/ltp/testsc=
+ripts/* /opt/ltp/testcases/open_posix_testsuite/* /opt/ltp/testcases/open_p=
+osix_testsuite/conformance/* /opt/ltp/testcases/open_posix_testsuite/Docume=
+ntation/* /opt/ltp/testcases/open_posix_testsuite/functional/* /opt/ltp/tes=
+tcases/open_posix_testsuite/include/* /opt/ltp/testcases/open_posix_testsui=
+te/scripts/* /opt/ltp/testcases/open_posix_testsuite/stress/* /opt/ltp/test=
+cases/open_posix_testsuite/tools/*"
+>> +
+>> +TARGET_CC_ARCH +=3D "${LDFLAGS}"
 >
-> --
-> Darren
->
->
+> is above still needed may be ltp should be fixed for respecting
+> compiler/linker options
 
+I'll check.
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+>> +
+>> +do_unpack_append() {
+>> +    bb.build.exec_func('do_extract_tarball', d)
+>> +}
+>> +
+>> +do_extract_tarball() {
+>> +       if test -f ${WORKDIR}/ltp-full-${PV} ; then
+>> +           tar x --no-same-owner -f ${WORKDIR}/ltp-full-${PV} -C ${WORK=
+DIR}
+>> +           rm -rf ${WORKDIR}/ltp-${PV}
+>> +           mv ${WORKDIR}/ltp-full-${PV} ${WORKDIR}/ltp-${PV}
+>> +       fi
+>> +}
+>> +
+>> +do_install(){
+>> +       install -d ${D}/opt/ltp/
+>> +       oe_runmake DESTDIR=3D${D} SKIP_IDCHECK=3D1 install
+>> +
+>> +       # Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
+>> +       cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
+>> +
+>> +       # We need to remove all scripts which depend on /usr/bin/expect,=
+ since expect is not supported in poky
+>> +       # We will add expect for enhancement in future
+>> +       find ${D} -type f -print | xargs grep "\!.*\/usr\/bin\/expect" |=
+ awk -F":" '{print $1}' | xargs rm -f
+>> +}
+>> +
+>> +# Avoid generated binaries stripping. Otherwise some of the ltp tests s=
+uch as ldd01 & nm01 fails
+>> +INHIBIT_PACKAGE_STRIP =3D "1"
+>> --
+>> 1.8.1.2
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
