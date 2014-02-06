@@ -1,26 +1,21 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F84A6CBB2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 365EF6CBEB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 13:38:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s16DcgXC021305
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Feb 2014 05:38:42 -0800 (PST)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 6 Feb 2014 05:38:44 -0800
-Message-ID: <52F39061.9070701@windriver.com>
-Date: Thu, 6 Feb 2014 08:38:41 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
-In-Reply-To: <1391681105-8896-1-git-send-email-raj.khem@gmail.com>
-Subject: Re: [RFC][PATCH] kernel: Enable externalsrc on kernels which instantiate kernel.bbclass
+	Thu,  6 Feb 2014 13:39:21 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 06 Feb 2014 05:39:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="476966562"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.123.186])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Feb 2014 05:39:05 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Feb 2014 13:39:01 +0000
+Message-Id: <1391693941-25938-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] python-smartpm: really ignore conflicts during install with --attempt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,243 +28,193 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 13:38:45 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Feb 2014 13:39:21 -0000
 
-On 14-02-06 05:05 AM, Khem Raj wrote:
-> This also make a change where for kernel
-> S != B, this is done because when S = B
-> and we use O= option or set KBUILD_OUTPUT
-> to point to objectdir, kernel build system
-> ends up denoting itself dirty and asking for
-> running mrproper during later build steps
-> after do_configure but works perfectly
-> for when S != B
->
-> Additional fixes make sure that we do not
-> assume directory paths when accessing files
->
-> Move exporting KBUILD_OUTPUT from kernel-yocto
-> into kernel class
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->   meta/classes/kernel-yocto.bbclass |  3 +-
->   meta/classes/kernel.bbclass       | 71 ++++++++++++++++++++++-----------------
->   2 files changed, 41 insertions(+), 33 deletions(-)
->
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> index 8f79932..73257e1 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -408,6 +408,5 @@ do_kernel_link_vmlinux() {
->   	ln -sf ../../../vmlinux
->   }
->
-> -OE_TERMINAL_EXPORTS += "GUILT_BASE KBUILD_OUTPUT"
-> +OE_TERMINAL_EXPORTS += "GUILT_BASE"
->   GUILT_BASE = "meta"
-> -KBUILD_OUTPUT = "${B}"
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 51626b0..b000147 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -10,6 +10,7 @@ KERNEL_IMAGETYPE ?= "zImage"
->   INITRAMFS_IMAGE ?= ""
->   INITRAMFS_TASK ?= ""
->   INITRAMFS_IMAGE_BUNDLE ?= ""
-> +B = "${WORKDIR}/build"
+The original patch added in OE-Core commit
+bdf07b1698d228dc7ff555199a269b1ff8ceca19 was supposed to ignore
+conflicts, but it was unable to do so because it wasn't raising errors
+in the right place. When the --attempt option is used (as is done in
+complementary package installation for RPM), raise errors immediately
+on conflicts, catch errors at the right point so that requested packages
+and their dependencies can be ignored, and print appropriate warnings
+when doing so.
 
-We shouldn't be enforcing "${WORKDIR}/build" here, the name needs to be
-variable .. for instance all my kernel recipes already set it to
-something else.
+Fixes [YOCTO #5313].
 
-As for the rest, I don't get it. I've been doing split source and
-kernel builds for 4 years no, with no issues, so we shouldn't need
-all the directory shuffling and changing that is happening in this
-patch.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ .../python/python-smartpm/smart-attempt.patch      | 134 +++++++++++++++++++--
+ 1 file changed, 121 insertions(+), 13 deletions(-)
 
-Let me do some test builds and see what I can find.
-
-Bruce
-
->
->   python __anonymous () {
->       kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
-> @@ -157,6 +158,7 @@ kernel_do_compile() {
->   	# different initramfs image.  The way to do that in the kernel
->   	# is to specify:
->   	# make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
-> +	cd ${S}
->   	if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
->   		# The old style way of copying an prebuilt image and building it
->   		# is turned on via INTIRAMFS_TASK != ""
-> @@ -165,13 +167,14 @@ kernel_do_compile() {
->   	fi
->   	oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
->   	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
-> -		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
-> +		gzip -9c < "${B}/${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
->   	fi
->   }
->
->   do_compile_kernelmodules() {
->   	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> -	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-> +	cd ${S}
-> +	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
->   		oe_runmake ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
->   	else
->   		bbnote "no modules to compile"
-> @@ -184,7 +187,8 @@ kernel_do_install() {
->   	# First install the modules
->   	#
->   	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> -	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-> +	cd ${S}
-> +	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
->   		oe_runmake DEPMOD=echo INSTALL_MOD_PATH="${D}" modules_install
->   		rm "${D}/lib/modules/${KERNEL_VERSION}/build"
->   		rm "${D}/lib/modules/${KERNEL_VERSION}/source"
-> @@ -200,10 +204,10 @@ kernel_do_install() {
->   	install -d ${D}/${KERNEL_IMAGEDEST}
->   	install -d ${D}/boot
->   	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
-> -	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
-> -	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
-> -	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
-> -	[ -e Module.symvers ] && install -m 0644 Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
-> +	install -m 0644 ${B}/System.map ${D}/boot/System.map-${KERNEL_VERSION}
-> +	install -m 0644 ${B}/.config ${D}/boot/config-${KERNEL_VERSION}
-> +	install -m 0644 ${B}/vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
-> +	[ -e ${B}/Module.symvers ] && install -m 0644 ${B}/Module.symvers ${D}/boot/Module.symvers-${KERNEL_VERSION}
->   	install -d ${D}${sysconfdir}/modules-load.d
->   	install -d ${D}${sysconfdir}/modprobe.d
->
-> @@ -232,20 +236,21 @@ kernel_do_install() {
->   	# dir. This ensures the original Makefiles are used and not the
->   	# redirecting Makefiles in the build directory.
->   	#
-> +	pwd="$PWD"
-> +	cd "${B}"
->   	find . -depth -not -name "*.cmd" -not -name "*.o" -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
-> -	cp .config $kerneldir
-> +	cp ${B}/.config $kerneldir
->   	if [ "${S}" != "${B}" ]; then
-> -		pwd="$PWD"
->   		cd "${S}"
->   		find . -depth -not -path "./Documentation*" -not -path "./.*" -print0 | cpio --null -pdlu $kerneldir
-> -		cd "$pwd"
->   	fi
-> +	cd "$pwd"
->
->   	# Test to ensure that the output file and image type are not actually
->   	# the same file. If hardlinking is used, they will be the same, and there's
->   	# no need to install.
->   	! [ ${KERNEL_OUTPUT} -ef $kerneldir/${KERNEL_IMAGETYPE} ] && install -m 0644 ${KERNEL_OUTPUT} $kerneldir/${KERNEL_IMAGETYPE}
-> -	install -m 0644 System.map $kerneldir/System.map-${KERNEL_VERSION}
-> +	install -m 0644 ${B}/System.map $kerneldir/System.map-${KERNEL_VERSION}
->
->   	# Dummy Makefile so the clean below works
->           mkdir $kerneldir/Documentation
-> @@ -260,24 +265,24 @@ kernel_do_install() {
->   	# we clean the scripts dir while leaving the generated config
->   	# and include files.
->   	#
-> -	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
-> -	make -C $kerneldir _mrproper_scripts
-> +	oe_runmake KBUILD_OUTPUT= -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
-> +	make KBUILD_OUTPUT= -C $kerneldir _mrproper_scripts
->   	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
->
->   	# As of Linux kernel version 3.0.1, the clean target removes
->   	# arch/powerpc/lib/crtsavres.o which is present in
->   	# KBUILD_LDFLAGS_MODULE, making it required to build external modules.
->   	if [ ${ARCH} = "powerpc" ]; then
-> -		cp -l arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
-> +		cp -l ${B}/arch/powerpc/lib/crtsavres.o $kerneldir/arch/powerpc/lib/crtsavres.o
->   	fi
->
->   	# Necessary for building modules like compat-wireless.
-> -	if [ -f include/generated/bounds.h ]; then
-> -		cp -l include/generated/bounds.h $kerneldir/include/generated/bounds.h
-> +	if [ -f ${B}/include/generated/bounds.h ]; then
-> +		cp -l ${B}/include/generated/bounds.h $kerneldir/include/generated/bounds.h
->   	fi
-> -	if [ -d arch/${ARCH}/include/generated ]; then
-> +	if [ -d ${B}/arch/${ARCH}/include/generated ]; then
->   		mkdir -p $kerneldir/arch/${ARCH}/include/generated/
-> -		cp -flR arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
-> +		cp -flR ${B}/arch/${ARCH}/include/generated/* $kerneldir/arch/${ARCH}/include/generated/
->   	fi
->
->   	# Remove the following binaries which cause strip or arch QA errors
-> @@ -302,6 +307,7 @@ python sysroot_stage_all () {
->   }
->
->   kernel_do_configure() {
-> +	cd ${S}
->   	# fixes extra + in /lib/modules/2.6.37+
->   	# $ scripts/setlocalversion . => +
->   	# $ make kernelversion => 2.6.37
-> @@ -313,7 +319,7 @@ kernel_do_configure() {
->   	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
->   		cp "${WORKDIR}/defconfig" "${B}/.config"
->   	fi
-> -	yes '' | oe_runmake oldconfig
-> +	oe_runmake olddefconfig
->   }
->
->   do_savedefconfig() {
-> @@ -432,19 +438,19 @@ do_uboot_mkimage() {
->   		if test "x${KEEPUIMAGE}" != "xyes" ; then
->   			ENTRYPOINT=${UBOOT_ENTRYPOINT}
->   			if test -n "${UBOOT_ENTRYSYMBOL}"; then
-> -				ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
-> +				ENTRYPOINT=`${HOST_PREFIX}nm ${B}/vmlinux | \
->   					awk '$3=="${UBOOT_ENTRYSYMBOL}" {print $1}'`
->   			fi
-> -			if test -e arch/${ARCH}/boot/compressed/vmlinux ; then
-> -				${OBJCOPY} -O binary -R .note -R .comment -S arch/${ARCH}/boot/compressed/vmlinux linux.bin
-> -				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin arch/${ARCH}/boot/uImage
-> -				rm -f linux.bin
-> +			if test -e ${B}/arch/${ARCH}/boot/compressed/vmlinux ; then
-> +				${OBJCOPY} -O binary -R .note -R .comment -S ${B}/arch/${ARCH}/boot/compressed/vmlinux ${B}/linux.bin
-> +				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C none -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d ${B}/linux.bin ${B}/arch/${ARCH}/boot/uImage
-> +				rm -f ${B}/linux.bin
->   			else
-> -				${OBJCOPY} -O binary -R .note -R .comment -S vmlinux linux.bin
-> -				rm -f linux.bin.gz
-> -				gzip -9 linux.bin
-> -				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d linux.bin.gz arch/${ARCH}/boot/uImage
-> -				rm -f linux.bin.gz
-> +				${OBJCOPY} -O binary -R .note -R .comment -S ${B}/vmlinux ${B}/linux.bin
-> +				rm -f ${B}/linux.bin.gz
-> +				gzip -9 ${B}/linux.bin > ${B}/linux.bin.gz
-> +				uboot-mkimage -A ${UBOOT_ARCH} -O linux -T kernel -C gzip -a ${UBOOT_LOADADDRESS} -e $ENTRYPOINT -n "${DISTRO_NAME}/${PV}/${MACHINE}" -d ${B}/linux.bin.gz ${B}/arch/${ARCH}/boot/uImage
-> +				rm -f ${B}/linux.bin.gz
->   			fi
->   		fi
->   	fi
-> @@ -453,8 +459,8 @@ do_uboot_mkimage() {
->   addtask uboot_mkimage before do_install after do_compile
->
->   kernel_do_deploy() {
-> -	install -m 0644 ${KERNEL_OUTPUT} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
-> -	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-> +	install -m 0644 ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${DEPLOYDIR}/${KERNEL_IMAGE_BASE_NAME}.bin
-> +	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
->   		mkdir -p ${D}/lib
->   		tar -cvzf ${DEPLOYDIR}/${MODULE_TARBALL_BASE_NAME} -C ${D} lib
->   		ln -sf ${MODULE_TARBALL_BASE_NAME} ${DEPLOYDIR}/${MODULE_TARBALL_SYMLINK_NAME}
-> @@ -483,3 +489,6 @@ addtask deploy before do_build after do_install
->
->   EXPORT_FUNCTIONS do_deploy
->
-> +OE_TERMINAL_EXPORTS += "KBUILD_OUTPUT"
-> +export KBUILD_OUTPUT = "${B}"
-> +
->
+diff --git a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+index 0d603d3..1136182 100644
+--- a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
++++ b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+@@ -1,18 +1,27 @@
+-Add a mechanism to attempt the install operation, w/o failing.
++From 7ee23804a06f81476cc2b31a6db11b52d7af764e Mon Sep 17 00:00:00 2001
++From: Mark Hatle <mark.hatle@windriver.com>
++Date: Mon, 20 Jan 2014 14:30:52 +0000
++Subject: [PATCH] Add mechanism to attempt install without failing
+ 
+-For complementary and 'attemptonly' packages, we need a way to instruct smart to
+-try to install, but ignore any failures.
++In OpenEmbedded, for complementary and 'attemptonly' package processing,
++we need a way to instruct smart to try to install, but ignore any
++failures (usually conflicts).
+ 
+ This option only works for the install operation.
+ 
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
++---
++ smart/commands/install.py |  5 ++++
++ smart/transaction.py      | 65 +++++++++++++++++++++++++++++++++++------------
++ 2 files changed, 54 insertions(+), 16 deletions(-)
+ 
+-Index: smart-1.4.1/smart/commands/install.py
+-===================================================================
+---- smart-1.4.1.orig/smart/commands/install.py
+-+++ smart-1.4.1/smart/commands/install.py
++diff --git a/smart/commands/install.py b/smart/commands/install.py
++index 590222c..6ef9682 100644
++--- a/smart/commands/install.py
+++++ b/smart/commands/install.py
+ @@ -50,6 +50,8 @@ def option_parser():
+      parser = OptionParser(usage=USAGE,
+                            description=DESCRIPTION,
+@@ -32,11 +41,106 @@ Index: smart-1.4.1/smart/commands/install.py
+      if opts.explain:
+          sysconf.set("explain-changesets", True, soft=True)
+  
+-Index: smart-1.4.1/smart/transaction.py
+-===================================================================
+---- smart-1.4.1.orig/smart/transaction.py
+-+++ smart-1.4.1/smart/transaction.py
+-@@ -1216,9 +1216,17 @@ class Transaction(object):
++diff --git a/smart/transaction.py b/smart/transaction.py
++index 5730a42..e3e61c6 100644
++--- a/smart/transaction.py
+++++ b/smart/transaction.py
++@@ -555,6 +555,8 @@ class Transaction(object):
++         changeset.set(pkg, INSTALL)
++         isinst = changeset.installed
++ 
+++        attempt = sysconf.has("attempt-install", soft=True)
+++
++         # Remove packages conflicted by this one.
++         for cnf in pkg.conflicts:
++             for prv in cnf.providedby:
++@@ -564,11 +566,16 @@ class Transaction(object):
++                     if not isinst(prvpkg):
++                         locked[prvpkg] = (LOCKED_CONFLICT_BY, pkg)
++                         continue
++-                    if prvpkg in locked:
++-                        raise Failed, _("Can't install %s: conflicted package "
++-                                        "%s is locked") % (pkg, prvpkg)
++-                    self._remove(prvpkg, changeset, locked, pending, depth)
++-                    pending.append((PENDING_UPDOWN, prvpkg))
+++                    if attempt:
+++                        del changeset[pkg]
+++                        raise Failed, _("Can't install %s: it conflicts with package "
+++                                        "%s") % (pkg, prvpkg)
+++                    else:
+++                        if prvpkg in locked:
+++                            raise Failed, _("Can't install %s: conflicted package "
+++                                            "%s is locked") % (pkg, prvpkg)
+++                        self._remove(prvpkg, changeset, locked, pending, depth)
+++                        pending.append((PENDING_UPDOWN, prvpkg))
++ 
++         # Remove packages conflicting with this one.
++         for prv in pkg.provides:
++@@ -579,12 +586,18 @@ class Transaction(object):
++                     if not isinst(cnfpkg):
++                         locked[cnfpkg] = (LOCKED_CONFLICT, pkg)
++                         continue
++-                    if cnfpkg in locked:
+++                    if attempt:
+++                        del changeset[pkg]
++                         raise Failed, _("Can't install %s: it's conflicted by "
++-                                        "the locked package %s") \
++-                                      % (pkg, cnfpkg)
++-                    self._remove(cnfpkg, changeset, locked, pending, depth)
++-                    pending.append((PENDING_UPDOWN, cnfpkg))
+++                                        "the package %s") \
+++                                    % (pkg, cnfpkg)
+++                    else:
+++                        if cnfpkg in locked:
+++                            raise Failed, _("Can't install %s: it's conflicted by "
+++                                            "the locked package %s") \
+++                                        % (pkg, cnfpkg)
+++                        self._remove(cnfpkg, changeset, locked, pending, depth)
+++                        pending.append((PENDING_UPDOWN, cnfpkg))
++ 
++         # Remove packages with the same name that can't
++         # coexist with this one.
++@@ -594,10 +607,15 @@ class Transaction(object):
++                 if not isinst(namepkg):
++                     locked[namepkg] = (LOCKED_NO_COEXIST, pkg)
++                     continue
++-                if namepkg in locked:
+++                if attempt:
+++                    del changeset[pkg]
++                     raise Failed, _("Can't install %s: it can't coexist "
++                                     "with %s") % (pkg, namepkg)
++-                self._remove(namepkg, changeset, locked, pending, depth)
+++                else:
+++                    if namepkg in locked:
+++                        raise Failed, _("Can't install %s: it can't coexist "
+++                                        "with %s") % (pkg, namepkg)
+++                    self._remove(namepkg, changeset, locked, pending, depth)
++ 
++         # Install packages required by this one.
++         for req in pkg.requires + pkg.recommends:
++@@ -1176,6 +1194,8 @@ class Transaction(object):
++ 
++         self._policy.runStarting()
++ 
+++        attempt = sysconf.has("attempt-install", soft=True)
+++
++         try:
++             changeset = self._changeset.copy()
++             isinst = changeset.installed
++@@ -1190,7 +1210,11 @@ class Transaction(object):
++                     locked[pkg] = (LOCKED_KEEP, None)
++                 elif op is INSTALL:
++                     if not isinst(pkg) and pkg in locked:
++-                        raise Failed, _("Can't install %s: it's locked") % pkg
+++                        if attempt:
+++                            iface.warning(_("Can't install %s: it's locked") % pkg)
+++                            del changeset[pkg]
+++                        else:
+++                            raise Failed, _("Can't install %s: it's locked") % pkg
++                     changeset.set(pkg, INSTALL)
++                     locked[pkg] = (LOCKED_INSTALL, None)
++                 elif op is REMOVE:
++@@ -1216,9 +1240,18 @@ class Transaction(object):
+                      else:
+                          op = REMOVE
+                  if op is INSTALL or op is REINSTALL:
+@@ -48,7 +152,8 @@ Index: smart-1.4.1/smart/transaction.py
+ +                        if pkg in changeset:
+ +                            changeset.setRequested(pkg, True)
+ +                    except Failed, e:
+-+                        if sysconf.has("attempt-install", soft=True):
+++                        if attempt:
+++                            iface.warning(_("Can't install %s: %s") % (pkg, e))
+ +                            if pkg in changeset:
+ +                                del changeset[pkg]
+ +                            continue
+@@ -57,3 +162,6 @@ Index: smart-1.4.1/smart/transaction.py
+                  elif op is REMOVE:
+                      self._remove(pkg, changeset, locked, pending)
+                  elif op is UPGRADE:
++-- 
++1.8.4.2
++
+-- 
+1.8.5.3
 
 
