@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CF266E951
+	by mail.openembedded.org (Postfix) with ESMTP id 1C8FC6E940
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  6 Feb 2014 15:29:58 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 06 Feb 2014 07:29:43 -0800
+	by orsmga101.jf.intel.com with ESMTP; 06 Feb 2014 07:29:42 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="450785157"
+X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="450785153"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 06 Feb 2014 07:29:42 -0800
+	by orsmga001.jf.intel.com with ESMTP; 06 Feb 2014 07:29:41 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2014 17:29:24 +0200
-Message-Id: <e5715603ba199cd773f2383dfade132ff621c530.1391699953.git.laurentiu.palcu@intel.com>
+Date: Thu,  6 Feb 2014 17:29:23 +0200
+Message-Id: <a8816b364c453206df42282014c328210d166af4.1391699953.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1391699953.git.laurentiu.palcu@intel.com>
 References: <cover.1391699953.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1391699953.git.laurentiu.palcu@intel.com>
 References: <cover.1391699953.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 05/13] xtrans: upgrade to 1.3.3
+Subject: [PATCH 04/13] xcb-util-wm: upgrade to 0.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,25 +35,25 @@ X-List-Received-Date: Thu, 06 Feb 2014 15:29:58 -0000
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../xorg-lib/{xtrans_1.3.2.bb => xtrans_1.3.3.bb}  |    4 ++--
+ .../{xcb-util-wm_0.3.9.bb => xcb-util-wm_0.4.0.bb} |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{xtrans_1.3.2.bb => xtrans_1.3.3.bb} (82%)
+ rename meta/recipes-graphics/xorg-lib/{xcb-util-wm_0.3.9.bb => xcb-util-wm_0.4.0.bb} (73%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xtrans_1.3.2.bb b/meta/recipes-graphics/xorg-lib/xtrans_1.3.3.bb
-similarity index 82%
-rename from meta/recipes-graphics/xorg-lib/xtrans_1.3.2.bb
-rename to meta/recipes-graphics/xorg-lib/xtrans_1.3.3.bb
-index 7ddc841..9895ea3 100644
---- a/meta/recipes-graphics/xorg-lib/xtrans_1.3.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/xtrans_1.3.3.bb
-@@ -20,5 +20,5 @@ inherit gettext
+diff --git a/meta/recipes-graphics/xorg-lib/xcb-util-wm_0.3.9.bb b/meta/recipes-graphics/xorg-lib/xcb-util-wm_0.4.0.bb
+similarity index 73%
+rename from meta/recipes-graphics/xorg-lib/xcb-util-wm_0.3.9.bb
+rename to meta/recipes-graphics/xorg-lib/xcb-util-wm_0.4.0.bb
+index 944e0d8..2b4ee70 100644
+--- a/meta/recipes-graphics/xorg-lib/xcb-util-wm_0.3.9.bb
++++ b/meta/recipes-graphics/xorg-lib/xcb-util-wm_0.4.0.bb
+@@ -7,5 +7,5 @@ LIC_FILES_CHKSUM = "file://ewmh/ewmh.c;endline=27;md5=63fd80552d7dc886f4eb267610
+ 					file://icccm/xcb_icccm.h;beginline=4;endline=31;md5=393772b7b07b9868d479d538238c1d8a \
+ 					"
  
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[md5sum] = "050eb8f1d41e254f508bab72f1c10d6e"
--SRC_URI[sha256sum] = "94177c89b74f594bcddc6a12825e9b464e17ab1977de671d25f67a4ea922cb87"
-+SRC_URI[md5sum] = "2f14c31ab556fc91039f51a113b38aa2"
-+SRC_URI[sha256sum] = "622db4adce224581a44fbe41321bbb0bdc0c78aec586ba83548f1f1c6e8a09bf"
+-SRC_URI[md5sum] = "c612aae7ffe2e70fe743efab9c5548e9"
+-SRC_URI[sha256sum] = "038f9bdb917b1f6d98a164f57dfb32212a102d771ab6f03de49fef3786746030"
++SRC_URI[md5sum] = "1b5182b894753de63c9fad1ce6124534"
++SRC_URI[sha256sum] = "66f97c18f7d98d3c873fe5db5842d2fca34519274c31ee668551ab8995a2f51f"
 -- 
 1.7.9.5
 
