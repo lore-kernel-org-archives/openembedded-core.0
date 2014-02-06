@@ -1,20 +1,21 @@
-Return-Path: <marius.avram@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 84AD66D14A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 58CAB6D14A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2014 10:49:55 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 Feb 2014 02:49:56 -0800
+	Thu,  6 Feb 2014 11:03:04 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Feb 2014 03:03:05 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="478982832"
-Received: from mavram-vostro.rb.intel.com ([10.237.105.158])
-	by orsmga002.jf.intel.com with ESMTP; 06 Feb 2014 02:49:55 -0800
-From: Marius Avram <marius.avram@intel.com>
+X-IronPort-AV: E=Sophos;i="4.95,793,1384329600"; d="scan'208";a="470758617"
+Received: from unknown (HELO peggleto-mobl5.ger.corp.intel.com)
+	([10.252.123.186])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Feb 2014 03:03:04 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2014 12:54:11 +0200
-Message-Id: <1391684051-26510-1-git-send-email-marius.avram@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] puzzles: upgrade to r10116
+Date: Thu,  6 Feb 2014 11:02:55 +0000
+Message-Id: <1391684575-14359-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] classes/buildhistory: write out files in UTF-8 format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,146 +28,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2014 10:49:55 -0000
+X-List-Received-Date: Thu, 06 Feb 2014 11:03:04 -0000
 
-License has not changed.
-Contains changes to the building system.
+If the package information contained unicode characters (for example, in
+the package file listing) then writing them out as ASCII would fail, so
+write them out using codecs.open() instead of open() using UTF-8. This
+fixes ca-certificates failing in do_packagedata when buildhistory is
+enabled.
 
-Signed-off-by: Marius Avram <marius.avram@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-sato/puzzles/puzzles_r10116.bb |   53 +++++++++++++++++++++++
- meta/recipes-sato/puzzles/puzzles_r9765.bb  |   61 ---------------------------
- 2 files changed, 53 insertions(+), 61 deletions(-)
- create mode 100644 meta/recipes-sato/puzzles/puzzles_r10116.bb
- delete mode 100644 meta/recipes-sato/puzzles/puzzles_r9765.bb
+ meta/classes/buildhistory.bbclass | 46 +++++++++++++++++++++------------------
+ 1 file changed, 25 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_r10116.bb b/meta/recipes-sato/puzzles/puzzles_r10116.bb
-new file mode 100644
-index 0000000..842c648
---- /dev/null
-+++ b/meta/recipes-sato/puzzles/puzzles_r10116.bb
-@@ -0,0 +1,53 @@
-+SUMMARY = "Simon Tatham's Portable Puzzle Collection"
-+HOMEPAGE = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 6b097ea..6d1e74a 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -242,21 +242,25 @@ python buildhistory_emit_pkghistory() {
+ 
+ 
+ def write_recipehistory(rcpinfo, d):
++    import codecs
 +
-+DEPENDS = "gtk+ libxt"
-+MOD_PV = "${@d.getVar('PV',1)[1:]}"
+     bb.debug(2, "Writing recipe history")
+ 
+     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
+ 
+     infofile = os.path.join(pkghistdir, "latest")
+-    with open(infofile, "w") as f:
++    with codecs.open(infofile, "w", encoding='utf8') as f:
+         if rcpinfo.pe != "0":
+-            f.write("PE = %s\n" %  rcpinfo.pe)
+-        f.write("PV = %s\n" %  rcpinfo.pv)
+-        f.write("PR = %s\n" %  rcpinfo.pr)
+-        f.write("DEPENDS = %s\n" %  rcpinfo.depends)
+-        f.write("PACKAGES = %s\n" %  rcpinfo.packages)
++            f.write(u"PE = %s\n" %  rcpinfo.pe)
++        f.write(u"PV = %s\n" %  rcpinfo.pv)
++        f.write(u"PR = %s\n" %  rcpinfo.pr)
++        f.write(u"DEPENDS = %s\n" %  rcpinfo.depends)
++        f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
+ 
+ 
+ def write_pkghistory(pkginfo, d):
++    import codecs
 +
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=33bcd4bce8f3c197f2aefbdbd2d299bc"
-+
-+SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV}"
-+
-+S = "${WORKDIR}/${BPN}"
-+
-+inherit autotools
-+
-+do_configure_prepend () {
-+    ./mkfiles.pl
-+}
-+
-+FILES_${PN} = "${prefix}/bin/* ${datadir}/applications/*"
-+FILES_${PN}-dbg += "${prefix}/bin/.debug"
-+
-+do_install () {
-+    rm -rf ${D}/*
-+    export prefix=${D}
-+    export DESTDIR=${D}
-+    install -d ${D}/${prefix}/bin/
-+    oe_runmake install
-+
-+
-+    install -d ${D}/${datadir}/applications/
-+
-+    # Create desktop shortcuts
-+    cd ${D}/${prefix}/bin
-+    for prog in *; do
-+	if [ -x $prog ]; then
-+            # Convert prog to Title Case
-+            title=$(echo $prog | sed 's/\(^\| \)./\U&/g')
-+	    echo "making ${D}/${datadir}/applications/$prog.desktop"
-+	    cat <<STOP > ${D}/${datadir}/applications/$prog.desktop
-+[Desktop Entry]
-+Name=$title
-+Exec=${prefix}/bin/$prog
-+Icon=applications-games
-+Terminal=false
-+Type=Application
-+Categories=Game;
-+StartupNotify=true
-+X-MB-SingleInstance=true
-+STOP
-+        fi
-+    done
-+}
-diff --git a/meta/recipes-sato/puzzles/puzzles_r9765.bb b/meta/recipes-sato/puzzles/puzzles_r9765.bb
-deleted file mode 100644
-index 5e972ec..0000000
---- a/meta/recipes-sato/puzzles/puzzles_r9765.bb
-+++ /dev/null
-@@ -1,61 +0,0 @@
--SUMMARY = "Simon Tatham's Portable Puzzle Collection"
--HOMEPAGE = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/"
--
--DEPENDS = "gtk+ libxt"
--MOD_PV = "${@d.getVar('PV',1)[1:]}"
--
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=31790deb1e1aac4626e7d1bc04587eb0"
--
--# Upstream updates puzzles.tar.gz for the new release, so checksums seem to be changing regularly right now
--SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV}"
--S = "${WORKDIR}/${BPN}"
--
--#SRC_URI = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/puzzles-${PV}.tar.gz"
--#SRC_URI[md5sum] = "9d84769562007e0f99edac77a3b2d27c"
--#SRC_URI[sha256sum] = "b688b5196f8406a23741e973178bdde78e5f8af4d2a88c33ca1ae1cc1a069d15"
--#S = "${WORKDIR}/${BPN}-${PV}"
--
--do_configure () {
--	./mkfiles.pl
--}
--
--do_compile_prepend = " \
--        export XLDFLAGS='${LDFLAGS} `${STAGING_BINDIR_NATIVE}/pkg-config gtk+-2.0 --libs`'; \
--        export XLFLAGS=-lm \
--	export CFLAGS='${CFLAGS} -I./ `${STAGING_BINDIR_NATIVE}/pkg-config gtk+-2.0 --cflags`'; "
--
--FILES_${PN} = "${prefix}/games/* ${datadir}/applications/*"
--FILES_${PN}-dbg += "${prefix}/games/.debug"
--
--do_install () {
--    rm -rf ${D}/*
--    export prefix=${D}
--    export DESTDIR=${D}
--    install -d ${D}/${prefix}/
--    install -d ${D}/${prefix}/games/
--    oe_runmake install
--    
--    install -d ${D}/${datadir}/
--    install -d ${D}/${datadir}/applications/
--
--    cd ${D}/${prefix}/games 
--    for prog in *; do
--	if [ -x $prog ]; then
--            # Convert prog to Title Case
--            title=$(echo $prog | sed 's/\(^\| \)./\U&/g')
--	    echo "making ${D}/${datadir}/applications/$prog.desktop"
--	    cat <<STOP > ${D}/${datadir}/applications/$prog.desktop
--[Desktop Entry]
--Name=$title
--Exec=${prefix}/games/$prog
--Icon=applications-games
--Terminal=false
--Type=Application
--Categories=Game;
--StartupNotify=true
--X-MB-SingleInstance=true
--STOP
--        fi
--    done
--}
+     bb.debug(2, "Writing package history for package %s" % pkginfo.name)
+ 
+     pkghistdir = d.getVar('BUILDHISTORY_DIR_PACKAGE', True)
+@@ -266,11 +270,11 @@ def write_pkghistory(pkginfo, d):
+         bb.utils.mkdirhier(pkgpath)
+ 
+     infofile = os.path.join(pkgpath, "latest")
+-    with open(infofile, "w") as f:
++    with codecs.open(infofile, "w", encoding='utf8') as f:
+         if pkginfo.pe != "0":
+-            f.write("PE = %s\n" %  pkginfo.pe)
+-        f.write("PV = %s\n" %  pkginfo.pv)
+-        f.write("PR = %s\n" %  pkginfo.pr)
++            f.write(u"PE = %s\n" %  pkginfo.pe)
++        f.write(u"PV = %s\n" %  pkginfo.pv)
++        f.write(u"PR = %s\n" %  pkginfo.pr)
+ 
+         pkgvars = {}
+         pkgvars['PKG'] = pkginfo.pkg if pkginfo.pkg != pkginfo.name else ''
+@@ -280,26 +284,26 @@ def write_pkghistory(pkginfo, d):
+         for pkgvar in pkgvars:
+             val = pkgvars[pkgvar]
+             if val:
+-                f.write("%s = %s\n" % (pkgvar, val))
++                f.write(u"%s = %s\n" % (pkgvar, val))
+ 
+-        f.write("RPROVIDES = %s\n" %  pkginfo.rprovides)
+-        f.write("RDEPENDS = %s\n" %  pkginfo.rdepends)
+-        f.write("RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
++        f.write(u"RPROVIDES = %s\n" %  pkginfo.rprovides)
++        f.write(u"RDEPENDS = %s\n" %  pkginfo.rdepends)
++        f.write(u"RRECOMMENDS = %s\n" %  pkginfo.rrecommends)
+         if pkginfo.rsuggests:
+-            f.write("RSUGGESTS = %s\n" %  pkginfo.rsuggests)
++            f.write(u"RSUGGESTS = %s\n" %  pkginfo.rsuggests)
+         if pkginfo.rreplaces:
+-            f.write("RREPLACES = %s\n" %  pkginfo.rreplaces)
++            f.write(u"RREPLACES = %s\n" %  pkginfo.rreplaces)
+         if pkginfo.rconflicts:
+-            f.write("RCONFLICTS = %s\n" %  pkginfo.rconflicts)
+-        f.write("PKGSIZE = %d\n" %  pkginfo.size)
+-        f.write("FILES = %s\n" %  pkginfo.files)
+-        f.write("FILELIST = %s\n" %  pkginfo.filelist)
++            f.write(u"RCONFLICTS = %s\n" %  pkginfo.rconflicts)
++        f.write(u"PKGSIZE = %d\n" %  pkginfo.size)
++        f.write(u"FILES = %s\n" %  pkginfo.files)
++        f.write(u"FILELIST = %s\n" %  pkginfo.filelist)
+ 
+     for filevar in pkginfo.filevars:
+         filevarpath = os.path.join(pkgpath, "latest.%s" % filevar)
+         val = pkginfo.filevars[filevar]
+         if val:
+-            with open(filevarpath, "w") as f:
++            with codecs.open(filevarpath, "w", encoding='utf8') as f:
+                 f.write(val)
+         else:
+             if os.path.exists(filevarpath):
 -- 
-1.7.9.5
+1.8.5.3
 
 
