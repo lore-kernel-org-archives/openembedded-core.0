@@ -1,34 +1,33 @@
-Return-Path: <alexandre.belloni@free-electrons.com>
-Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
-	by mail.openembedded.org (Postfix) with ESMTP id BDA796E905
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A5CE36E81A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2014 15:43:19 +0000 (UTC)
-Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id 6EBE281E; Fri,  7 Feb 2014 16:43:22 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	mail.free-electrons.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
-	shortcircuit=ham autolearn=disabled version=3.3.2
-Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id 06FB67FE;
-	Fri,  7 Feb 2014 16:43:22 +0100 (CET)
-Date: Fri, 7 Feb 2014 16:43:19 +0100
-From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <20140207154319.GA3070@piout.net>
-References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
-	<52CC1E02.9070102@windriver.com>
-	<52CC633C.6000404@free-electrons.com>
-	<52CC65E5.6010003@windriver.com> <20140129131021.GH24156@piout.net>
-	<52F40344.907@windriver.com> <20140207140223.GA30901@piout.net>
-	<52F4F796.2070101@windriver.com>
+	Fri,  7 Feb 2014 16:03:31 +0000 (UTC)
+Received: by mail-ob0-f174.google.com with SMTP id uy5so4233993obc.33
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Feb 2014 08:03:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:message-id:subject:from:to:content-type;
+	bh=QLdqWTQg2/8y75HuWJbarVYOXw229mv7zLdRPa77cjY=;
+	b=tvatrcxC2GURClhvJdgkvq7DGLRrI7IfuUz8lps8oQh2eoC5IcPyCLjyt39UXf3l21
+	LrvEX53Z/LYRh1iUHKfuPc7017OOsQl/1uFiuaqZe7iryBe7pspsO6W59APTZrFS/1an
+	GSPoeAQsJvT2Y3e+ASXjHeBAYcXd0IQM6WgNmjRSsP1t0zT3IrAj5IoPRghWas+fTcZp
+	HgxqlFTzKL45XsrwsoFj1Tc2JpfI22bA2IBE1t1Ao/no19ZuLqfQDVZQl3zAeKSlJZnk
+	ITmAOCgyg8FR2DcPXS9qlN+Iuu2BUm9+Ep7KmYbdMh19EhPcOoiu/gV8g0EIL43gxiXC
+	DcFg==
 MIME-Version: 1.0
-In-Reply-To: <52F4F796.2070101@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
+X-Received: by 10.182.160.102 with SMTP id xj6mr13413127obb.19.1391789012165; 
+	Fri, 07 Feb 2014 08:03:32 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Fri, 7 Feb 2014 08:03:32 -0800 (PST)
+Date: Fri, 7 Feb 2014 14:03:32 -0200
+X-Google-Sender-Auth: g22CRucXv7xPxeEPBfA5pPNyKw0
+Message-ID: <CAP9ODKpbzOLQkQa5MDiCNdN9M9gAO054tE7X0E_p03C4OKQukw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: [RFC] Proposal for SDK/ADT toolchain changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,137 +40,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2014 15:43:22 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 07 Feb 2014 16:03:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 07/02/2014 at 10:11:18 -0500, Bruce Ashfield wrote :
-> On 14-02-07 09:02 AM, Alexandre Belloni wrote:
-> >>>cp defconfig .config
-> >>>make oldnoconfig
-> >>scripts/kconfig/conf --olddefconfig Kconfig
-> >>#
-> >># configuration written to .config
-> >>#
-> >>yow-bashfiel-d3 [/home/bruc...rnel/linux]> grep USB_ETH .config
-> >>CONFIG_USB_ETH=m
-> >>CONFIG_USB_ETH_RNDIS=y
-> >>CONFIG_USB_ETH_EEM=y
-> >>
-> >>.. CONFIG_USB_ETH is still =m.
-> >>
-> >
-> >That is where I end up with:
-> 
-> What's in your saved defconfig ? My point is that if you are saving
-> a defconfig, it is on the save where that value needs to be correct,
-> not on the application to the tree, since if it is set .. it will be
-> respected.
-> 
+Hello,
 
-Exactly my point, using yes "" | make oldconfig DOESN'T respect the
-provided defconfig because that doesn't go through the correct kconfig
-code that is solving the issue:
+I've written most of this proposal a while ago and I just forgot about
+it until I got working in some customer toolchains and see same
+problems which I had. So I revisited this and discussed this with some
+people to get initial feedback.
 
-$ make savedefconfig
-scripts/kconfig/conf --savedefconfig=defconfig Kconfig
-$ grep USB_ETH defconfig 
-CONFIG_USB_ETH=y
-CONFIG_USB_ETH_EEM=y
-$ cp defconfig .config
-‘defconfig’ -> ‘.config’
-$ yes '' | make oldconfig > /dev/null
-$ grep USB_ETH .config
-CONFIG_USB_ETH=m
-CONFIG_USB_ETH_RNDIS=y
-CONFIG_USB_ETH_EEM=y
+I think it is 'good enough' to get a wider discussion about those
+issues and possible solutions.
 
+Proposal:
 
-$ cp defconfig .config
-‘defconfig’ -> ‘.config’
-$ make oldnoconfig
-scripts/kconfig/conf --olddefconfig Kconfig
-#
-# configuration written to .config
-#
-$ grep USB_ETH .config
-CONFIG_USB_ETH=y
-CONFIG_USB_ETH_RNDIS=y
-CONFIG_USB_ETH_EEM=y
+The goal of this proposal is to fix 5 current issues in today's implementation:
 
+1. package specific environment settings in meta-toolchain recipes (qt and qte)
 
-> >I believe my commit message is actually right and something went wrong
-> >in your tests.
-> 
-> Heh, then we are at a stalemate. I used a stock 3.14 kernel, and my
-> results stand, and in my testing, your results with the savedefconfig
-> flow don't match.
-> 
+   The logic to populate the environment script, for later use in
+toolchain, is all done in the meta-toolchain-qt.inc file so if someone
+wants to make a new qt toolchain he/she will end duplicating all this
+logic in another meta-toolchain-foo-qt.bb.
 
-Please check again, maybe you had CONFIG_USB_ETH=m in your defconfig ?
+2. may a toolchain contain both qt and qte
 
+   Currently this is not supported without dirty hacks but the goal is
+to be able to produce a toolchain which has different runtime
+libraries support.
 
-> Use the mips example in the changelog then .. since that one actually
-> is a consistent result.
-> 
+3. allow unpack and use of a qte toolchain in addition to a qt one
 
-Ok, I can do that.
+   This currently does not work, if the toolchain is done for same
+arch as the environment script name will clash.
 
-> >
-> >I understand that it may change the behaviour for some existing
-> >configurations but I believe it is the correct behaviour to actually
-> >respect what is in the kernel config provided by the user.
-> 
-> On that point, I disagree. It is respecting the default values, not
-> the config provided by the user. If the user wants full control, they
-> can supply a full .config, or fragments.
-> 
+4. allow all this to work fine when calling from -c populate_sdk
 
-I'm not sure I follow you. I have a defconfig with CONFIG_USB_ETH=y and
-I ended with a kernel compiled with CONFIG_USB_ETH=m. I don't think this
-is sane. It would not be necessary to provide a full kernel .config if
-the config options provided in the defconfig were respected.
+    The use of specific toolchain recipes should be avoided as much as
+possible so all the problems (from 1 to 3) need to work fine from -c
+populate_sdk
 
+5. allow -c populate_sdk to fully replace SDK recipes by allowing SDK
+components to be added dynamically based on image contents
 
-> >
-> >>  kernel_do_configure() {
-> >>         # fixes extra + in /lib/modules/2.6.37+
-> >>         # $ scripts/setlocalversion . => +
-> >>@@ -325,7 +327,7 @@ kernel_do_configure() {
-> >>         if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
-> >>                 cp "${WORKDIR}/defconfig" "${B}/.config"
-> >>         fi
-> >>-       yes '' | oe_runmake oldconfig
-> >>+       eval ${KERNEL_CONFIG_COMMAND}
-> >>  }
-> >>--->----->--->----->--->----->--->----->
-> >>
-> >>Doing a v3 of the fallback version, with a checked commit log and
-> >>perhaps even the command flexibility would keep everyone happy and
-> >>I can add my Acked-by to that version.
-> >>
-> >
-> >BTW, I've been told by the kconfig maintainers that the preferred way of
-> >doing it would be to copy the provided defconfig to
-> >arch/${ARCH}/configs/oe_defconfig and then oe_runmake oe_defconfig. But
-> 
-> linux-yocto* doesn't use defconfigs, and defconfigs can cause plenty of
-> pain, so opinions vary on this and anyone with a custom kernel recipe
-> is free to use defconfigs from within the tree, but making the generic
-> build change to that .. risks jiggling things for no obvious gain.
-> 
+With those concerns in mind, I would like to propose the following changes:
 
-linux-yocto is not the only user of kernel.bbclass. meta-fsl-arm and
-meta-fs-arm-extra are using defconfigs and Otavio would prefer not
-having full configs which I understand (and isn't the name used by
-kernel.bbclass "defconfig" misleading then ?).
+a. Change of generated environment-setup script so it has support to
+source other scripts which will be placed at
+${datadir}/environment-setup.d inside of nativesdk package so the code
+from meta-toolchain-qt/qte will be moved to nativesdk-qt-tools
+allowing for it to be sourced by any build toolchain (fixes issue 1 &
+2 & 4)
 
-Anyway, let me prepare a v3 and see if we all agree on that (and I
-believe we will :) ).
+b. Change the qt environment script so it always knows about qt and
+qte; so at runtime it can check if both are installed and set the
+environment for one, depending on a user choice (fixes 3)
+
+c. Fix 5 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=5429)
+
+The change 'b' needs some more thinking as the better would be to have
+a generic way to have multiple runtime settings and be able to provide
+a choice system for user to choose when doing the environment-setup.
+It is not clear how it could be done in a clear way yet.
+
+Regards,
 
 -- 
-Alexandre Belloni, Free Electrons
-Embedded Linux, Kernel and Android engineering
-http://free-electrons.com
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
