@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A5B36CAD5
+	by mail.openembedded.org (Postfix) with ESMTP id AFDCE6CAD5
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  7 Feb 2014 10:10:30 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 07 Feb 2014 02:10:31 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 07 Feb 2014 02:10:32 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,799,1384329600"; d="scan'208";a="477473030"
+X-IronPort-AV: E=Sophos;i="4.95,799,1384329600"; d="scan'208";a="477473035"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2014 02:10:30 -0800
+	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2014 02:10:31 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Feb 2014 12:13:22 +0200
-Message-Id: <cover.1391767965.git.cristian.iorga@intel.com>
+Date: Fri,  7 Feb 2014 12:13:23 +0200
+Message-Id: <f84a7728beca0b45706581180a4b7e63876ea9e5.1391767965.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH 0/1] Final fix for YB5781
+In-Reply-To: <cover.1391767965.git.cristian.iorga@intel.com>
+References: <cover.1391767965.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1391767965.git.cristian.iorga@intel.com>
+References: <cover.1391767965.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/1] minicom: updated download link
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,21 +33,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 07 Feb 2014 10:10:30 -0000
 
-The following changes since commit 3a590e85808c6fae32f8a40aa003d373d097de9d:
+minicom tarball is now downloaded from
+the recommended web location.
 
-  build-appliance-image: Update to poky commit b37dd451a52622d5b570183a81583cc34c2ff555 (2014-02-06 15:36:50 +0000)
+Final fix for [YOCTO #5781].
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ciorga/YB5781
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB5781
-
-Cristian Iorga (1):
-  minicom: updated download link
-
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
  meta/recipes-extended/minicom/minicom_2.7.bb | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
+diff --git a/meta/recipes-extended/minicom/minicom_2.7.bb b/meta/recipes-extended/minicom/minicom_2.7.bb
+index 291b918..8b20ece 100644
+--- a/meta/recipes-extended/minicom/minicom_2.7.bb
++++ b/meta/recipes-extended/minicom/minicom_2.7.bb
+@@ -6,8 +6,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
+                     file://src/minicom.h;beginline=1;endline=12;md5=a58838cb709f0db517f4e42730c49e81"
+ 
+-
+-SRC_URI = "http://alioth.debian.org/frs/download.php/file/3977/${BP}.tar.gz \
++SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz \
+            file://allow.to.disable.lockdev.patch \
+            file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
+           "
 -- 
 1.8.3.2
 
