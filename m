@@ -1,33 +1,34 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A5CE36E81A
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E85C6E81A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2014 16:03:31 +0000 (UTC)
-Received: by mail-ob0-f174.google.com with SMTP id uy5so4233993obc.33
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Feb 2014 08:03:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:message-id:subject:from:to:content-type;
-	bh=QLdqWTQg2/8y75HuWJbarVYOXw229mv7zLdRPa77cjY=;
-	b=tvatrcxC2GURClhvJdgkvq7DGLRrI7IfuUz8lps8oQh2eoC5IcPyCLjyt39UXf3l21
-	LrvEX53Z/LYRh1iUHKfuPc7017OOsQl/1uFiuaqZe7iryBe7pspsO6W59APTZrFS/1an
-	GSPoeAQsJvT2Y3e+ASXjHeBAYcXd0IQM6WgNmjRSsP1t0zT3IrAj5IoPRghWas+fTcZp
-	HgxqlFTzKL45XsrwsoFj1Tc2JpfI22bA2IBE1t1Ao/no19ZuLqfQDVZQl3zAeKSlJZnk
-	ITmAOCgyg8FR2DcPXS9qlN+Iuu2BUm9+Ep7KmYbdMh19EhPcOoiu/gV8g0EIL43gxiXC
-	DcFg==
+	Fri,  7 Feb 2014 16:10:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s17GAGW7007019
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 7 Feb 2014 08:10:16 -0800 (PST)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 7 Feb 2014 08:10:16 -0800
+Message-ID: <52F50565.6090204@windriver.com>
+Date: Fri, 7 Feb 2014 11:10:13 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-X-Received: by 10.182.160.102 with SMTP id xj6mr13413127obb.19.1391789012165; 
-	Fri, 07 Feb 2014 08:03:32 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Fri, 7 Feb 2014 08:03:32 -0800 (PST)
-Date: Fri, 7 Feb 2014 14:03:32 -0200
-X-Google-Sender-Auth: g22CRucXv7xPxeEPBfA5pPNyKw0
-Message-ID: <CAP9ODKpbzOLQkQa5MDiCNdN9M9gAO054tE7X0E_p03C4OKQukw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [RFC] Proposal for SDK/ADT toolchain changes
+To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
+	<52CC1E02.9070102@windriver.com>
+	<52CC633C.6000404@free-electrons.com>
+	<52CC65E5.6010003@windriver.com>
+	<20140129131021.GH24156@piout.net> <52F40344.907@windriver.com>
+	<20140207140223.GA30901@piout.net> <52F4F796.2070101@windriver.com>
+	<20140207154319.GA3070@piout.net>
+In-Reply-To: <20140207154319.GA3070@piout.net>
+Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,74 +41,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2014 16:03:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 07 Feb 2014 16:10:22 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello,
+On 14-02-07 10:43 AM, Alexandre Belloni wrote:
+> On 07/02/2014 at 10:11:18 -0500, Bruce Ashfield wrote :
+>> On 14-02-07 09:02 AM, Alexandre Belloni wrote:
+>>>>> cp defconfig .config
+>>>>> make oldnoconfig
+>>>> scripts/kconfig/conf --olddefconfig Kconfig
+>>>> #
+>>>> # configuration written to .config
+>>>> #
+>>>> yow-bashfiel-d3 [/home/bruc...rnel/linux]> grep USB_ETH .config
+>>>> CONFIG_USB_ETH=m
+>>>> CONFIG_USB_ETH_RNDIS=y
+>>>> CONFIG_USB_ETH_EEM=y
+>>>>
+>>>> .. CONFIG_USB_ETH is still =m.
+>>>>
+>>>
+>>> That is where I end up with:
+>>
+>> What's in your saved defconfig ? My point is that if you are saving
+>> a defconfig, it is on the save where that value needs to be correct,
+>> not on the application to the tree, since if it is set .. it will be
+>> respected.
+>>
+>
+> Exactly my point, using yes "" | make oldconfig DOESN'T respect the
+> provided defconfig because that doesn't go through the correct kconfig
+> code that is solving the issue:
+>
+> $ make savedefconfig
+> scripts/kconfig/conf --savedefconfig=defconfig Kconfig
+> $ grep USB_ETH defconfig
+> CONFIG_USB_ETH=y
+> CONFIG_USB_ETH_EEM=y
+> $ cp defconfig .config
+> ‘defconfig’ -> ‘.config’
+> $ yes '' | make oldconfig > /dev/null
+> $ grep USB_ETH .config
+> CONFIG_USB_ETH=m
+> CONFIG_USB_ETH_RNDIS=y
+> CONFIG_USB_ETH_EEM=y
 
-I've written most of this proposal a while ago and I just forgot about
-it until I got working in some customer toolchains and see same
-problems which I had. So I revisited this and discussed this with some
-people to get initial feedback.
+There are actually multiple workflows that can get this wrong .. or
+right. So we are actually agreeing, it all just depends on how you
+are handling the configs. savedefconfig can get do strange things
+with the defaults as well:
 
-I think it is 'good enough' to get a wider discussion about those
-issues and possible solutions.
+  > git describe
+v3.13-11367-g38dbfb59d117
 
-Proposal:
+  > cp arch/mips/configs/qi_lb60_defconfig .config
+  > ARCH=mips make savedefconfig
+scripts/kconfig/conf --savedefconfig=defconfig Kconfig
+  > grep USB_ETH defconfig
+CONFIG_USB_ETH=m
+# CONFIG_USB_ETH_RNDIS is not set
 
-The goal of this proposal is to fix 5 current issues in today's implementation:
+.. but yes, as we've been saying ... if you run that through oldnoconfig
+first, then save the config, you get the =y propagating.
 
-1. package specific environment settings in meta-toolchain recipes (qt and qte)
+I'd argue that the oldconfig and savedefconfig are bugs, but I'm not
+motivated enough to actually try and fix them at the moment :P
 
-   The logic to populate the environment script, for later use in
-toolchain, is all done in the meta-toolchain-qt.inc file so if someone
-wants to make a new qt toolchain he/she will end duplicating all this
-logic in another meta-toolchain-foo-qt.bb.
+Having authored my fair share of Kconfig patches, it is a strange
+and wonderful world :)
 
-2. may a toolchain contain both qt and qte
+>
+>
+> $ cp defconfig .config
+> ‘defconfig’ -> ‘.config’
+> $ make oldnoconfig
+> scripts/kconfig/conf --olddefconfig Kconfig
+> #
+> # configuration written to .config
+> #
+> $ grep USB_ETH .config
+> CONFIG_USB_ETH=y
+> CONFIG_USB_ETH_RNDIS=y
+> CONFIG_USB_ETH_EEM=y
+>
+>
+>>> I believe my commit message is actually right and something went wrong
+>>> in your tests.
+>>
+>> Heh, then we are at a stalemate. I used a stock 3.14 kernel, and my
+>> results stand, and in my testing, your results with the savedefconfig
+>> flow don't match.
+>>
+>
+> Please check again, maybe you had CONFIG_USB_ETH=m in your defconfig ?
 
-   Currently this is not supported without dirty hacks but the goal is
-to be able to produce a toolchain which has different runtime
-libraries support.
+If you save it first, then yes, you do get it set to =m. It's all about
+the flow.
 
-3. allow unpack and use of a qte toolchain in addition to a qt one
+>
+>
+>> Use the mips example in the changelog then .. since that one actually
+>> is a consistent result.
+>>
+>
+> Ok, I can do that.
+>
+>>>
+>>> I understand that it may change the behaviour for some existing
+>>> configurations but I believe it is the correct behaviour to actually
+>>> respect what is in the kernel config provided by the user.
+>>
+>> On that point, I disagree. It is respecting the default values, not
+>> the config provided by the user. If the user wants full control, they
+>> can supply a full .config, or fragments.
+>>
+>
+> I'm not sure I follow you. I have a defconfig with CONFIG_USB_ETH=y and
+> I ended with a kernel compiled with CONFIG_USB_ETH=m. I don't think this
+> is sane. It would not be necessary to provide a full kernel .config if
+> the config options provided in the defconfig were respected.
 
-   This currently does not work, if the toolchain is done for same
-arch as the environment script name will clash.
+See above, it varies based on the workflow, at least in my experience.
 
-4. allow all this to work fine when calling from -c populate_sdk
+>
+>
+>>>
+>>>>   kernel_do_configure() {
+>>>>          # fixes extra + in /lib/modules/2.6.37+
+>>>>          # $ scripts/setlocalversion . => +
+>>>> @@ -325,7 +327,7 @@ kernel_do_configure() {
+>>>>          if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
+>>>>                  cp "${WORKDIR}/defconfig" "${B}/.config"
+>>>>          fi
+>>>> -       yes '' | oe_runmake oldconfig
+>>>> +       eval ${KERNEL_CONFIG_COMMAND}
+>>>>   }
+>>>> --->----->--->----->--->----->--->----->
+>>>>
+>>>> Doing a v3 of the fallback version, with a checked commit log and
+>>>> perhaps even the command flexibility would keep everyone happy and
+>>>> I can add my Acked-by to that version.
+>>>>
+>>>
+>>> BTW, I've been told by the kconfig maintainers that the preferred way of
+>>> doing it would be to copy the provided defconfig to
+>>> arch/${ARCH}/configs/oe_defconfig and then oe_runmake oe_defconfig. But
+>>
+>> linux-yocto* doesn't use defconfigs, and defconfigs can cause plenty of
+>> pain, so opinions vary on this and anyone with a custom kernel recipe
+>> is free to use defconfigs from within the tree, but making the generic
+>> build change to that .. risks jiggling things for no obvious gain.
+>>
+>
+> linux-yocto is not the only user of kernel.bbclass. meta-fsl-arm and
 
-    The use of specific toolchain recipes should be avoided as much as
-possible so all the problems (from 1 to 3) need to work fine from -c
-populate_sdk
+definitely not, that wasn't what I was trying to imply .. I'm looking
+for flexibility precisely because there are many different users.
 
-5. allow -c populate_sdk to fully replace SDK recipes by allowing SDK
-components to be added dynamically based on image contents
+> meta-fs-arm-extra are using defconfigs and Otavio would prefer not
+> having full configs which I understand (and isn't the name used by
+> kernel.bbclass "defconfig" misleading then ?).
 
-With those concerns in mind, I would like to propose the following changes:
+It's defconfig in the traditional sense, a collection of options that
+are the default / baseline configuration for a board. These new fangled
+savedefconfigs, olddeconfig, etc, options are all just too new :)
 
-a. Change of generated environment-setup script so it has support to
-source other scripts which will be placed at
-${datadir}/environment-setup.d inside of nativesdk package so the code
-from meta-toolchain-qt/qte will be moved to nativesdk-qt-tools
-allowing for it to be sourced by any build toolchain (fixes issue 1 &
-2 & 4)
+>
+> Anyway, let me prepare a v3 and see if we all agree on that (and I
+> believe we will :) ).
 
-b. Change the qt environment script so it always knows about qt and
-qte; so at runtime it can check if both are installed and set the
-environment for one, depending on a user choice (fixes 3)
+As do I!
 
-c. Fix 5 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=5429)
+Bruce
 
-The change 'b' needs some more thinking as the better would be to have
-a generic way to have multiple runtime settings and be able to provide
-a choice system for user to choose when doing the environment-setup.
-It is not clear how it could be done in a clear way yet.
+>
 
-Regards,
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
