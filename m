@@ -1,39 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id F211A6E908
+Return-Path: <alexandre.belloni@free-electrons.com>
+Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 974EC6E706
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2014 11:06:56 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id hn9so709821wib.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Feb 2014 03:06:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=ovomHihJ0868HvgaIEFROTQHY56QKna1Xdqcjg8kEIc=;
-	b=Fpp8zGbFbxaBfcB/CsXKsrJ/Ivp67IQ+FHhEDD/69eSwGqPMdqEE0P8HdAmVDWxtHB
-	ca1JcQaY+RDB0qLg/FeAGliev1QYV0+qoh7Sw4pMvVjE2YcRBj7whhfBaJr5Y397rTC1
-	Jb+KeRyKdpX4xNHrI3wk52vr3nz7TfYE+VksfxPQuifVWQrjSaRhqn3MobdUM7g0Up9D
-	LxfEBwvjWLPkF/JeQXsmNlPVKtBAIK4fFl9bh7NC+AXzUpKOnAVaUwFUD8+96/xYmduT
-	jzV9Vx0O1CRO/5vOOaw9JtKZu9cYj7H5MDuF3k8KhbVeyHy9GxnuteQWswUCGswFnSCd
-	+92g==
-X-Gm-Message-State: ALoCoQlI0HF0ujgS/Iht/lsiy+iLwe8nefg9/zRAkSZbgn9oSfP+hBRELIk5aukCnjxNUDl1eM4f
-X-Received: by 10.180.19.65 with SMTP id c1mr3297610wie.39.1391771217063;
-	Fri, 07 Feb 2014 03:06:57 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id h13sm9802647wjr.22.2014.02.07.03.06.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Feb 2014 03:06:56 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Feb 2014 11:06:50 +0000
-Message-Id: <1391771210-18624-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1391771210-18624-1-git-send-email-ross.burton@intel.com>
-References: <1391771210-18624-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] gdk-pixbuf: enable ptest
+	Fri,  7 Feb 2014 14:02:39 +0000 (UTC)
+Received: by mail.free-electrons.com (Postfix, from userid 106)
+	id B6F9384D; Fri,  7 Feb 2014 15:02:40 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
+	shortcircuit=ham autolearn=disabled version=3.3.2
+Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
+	by mail.free-electrons.com (Postfix) with ESMTPSA id 0110B81E;
+	Fri,  7 Feb 2014 15:02:26 +0100 (CET)
+Date: Fri, 7 Feb 2014 15:02:24 +0100
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <20140207140223.GA30901@piout.net>
+References: <1389104317-11042-1-git-send-email-alexandre.belloni@free-electrons.com>
+	<52CC1E02.9070102@windriver.com>
+	<52CC633C.6000404@free-electrons.com>
+	<52CC65E5.6010003@windriver.com> <20140129131021.GH24156@piout.net>
+	<52F40344.907@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <52F40344.907@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: darren.hart@intel.com, Darren Hart <dvhart@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel: use oldnoconfig instead of yes '' | make oldconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,553 +40,223 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2014 11:06:57 -0000
+X-List-Received-Date: Fri, 07 Feb 2014 14:02:40 -0000
+X-Groupsio-MsgNum: 49933
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="YZ5djTAD1cGYuMQK"
+Content-Disposition: inline
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest |    3 +
- .../gdk-pixbuf/gdk-pixbuf/tests-check.patch        |  465 ++++++++++++++++++++
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb |   17 +-
- 3 files changed, 483 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/tests-check.patch
+--YZ5djTAD1cGYuMQK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest
-new file mode 100644
-index 0000000..8f90723
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest
-@@ -0,0 +1,3 @@
-+#! /bin/sh
-+
-+gnome-desktop-testing-runner gdk-pixbuf
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/tests-check.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/tests-check.patch
-new file mode 100644
-index 0000000..31f3368
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/tests-check.patch
-@@ -0,0 +1,465 @@
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 9fa240c1ad5a815d63d8aa9126954152c2607f2e Mon Sep 17 00:00:00 2001
-+From: Matthias Clasen <mclasen@redhat.com>
-+Date: Sat, 25 Jan 2014 21:29:34 +0000
-+Subject: Make testsuite robust against disabled formats
-+
-+Skip tests if their file format is not supported by the
-+available loaders.
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=722651
-+---
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index de3442e..80840c2 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -42,17 +42,57 @@ dist_installed_test_data =		\
-+ 	icc-profile.png			\
-+ 	$(wildcard $(srcdir)/test-images/*)
-+ 
-++pixbuf_icc_SOURCES = 			\
-++	pixbuf-icc.c			\
-++	test-common.c			\
-++	test-common.h			\
-++	$(NULL)
-++
-++pixbuf_scale_SOURCES = 			\
-++	pixbuf-scale.c			\
-++	test-common.c			\
-++	test-common.h			\
-++	$(NULL)
-++
-++pixbuf_stream_SOURCES =			\
-++	pixbuf-stream.c			\
-++	test-common.c			\
-++	test-common.h			\
-++	$(NULL)
-++
-++pixbuf_threads_SOURCES =		\
-++	pixbuf-threads.c		\
-++	test-common.c			\
-++	test-common.h			\
-++	$(NULL)
-++
-++pixbuf_icon_serialize_SOURCES =		\
-++	pixbuf-icon-serialize.c		\
-++	test-common.c			\
-++	test-common.h			\
-++	$(NULL)
-++
-++pixbuf_save_SOURCES =			\
-++	pixbuf-save.c			\
-++	test-common.c			\
-++	test-common.h			\
-++	$(NULL)
-++
-+ pixbuf_resource_SOURCES = 		\
-+ 	pixbuf-resource.c		\
-++	test-common.c			\
-++	test-common.h			\
-+ 	resources.h			\
-+-	resources.c
-++	resources.c			\
-++	$(NULL)
-+ 
-+ BUILT_SOURCES += resources.h resources.c
-+ DISTCLEANFILES += 			\
-+ 	resources.h resources.c 	\
-+ 	pixbuf-save-options		\
-+ 	pixbuf-randomly-modified-image	\
-+-	pixbuf-save-roundtrip
-++	pixbuf-save-roundtrip		\
-++	$(NULL)
-+ 	
-+ EXTRA_DIST += resources.gresource.xml
-+ TESTS_ENVIRONMENT += GDK_PIXBUF_MODULE_FILE=$(top_builddir)/gdk-pixbuf/loaders.cache
-+diff --git a/tests/pixbuf-icc.c b/tests/pixbuf-icc.c
-+index 9cb9c90..3b95b09 100644
-+--- a/tests/pixbuf-icc.c
-++++ b/tests/pixbuf-icc.c
-+@@ -22,6 +22,7 @@
-+ 
-+ #include "config.h"
-+ #include "gdk-pixbuf/gdk-pixbuf.h"
-++#include "test-common.h"
-+ 
-+ static void
-+ test_incremental (gconstpointer data)
-+@@ -34,7 +35,12 @@ test_incremental (gconstpointer data)
-+   gchar *contents;
-+   gsize size;
-+ 
-+-  
-++  if (!format_supported (filename))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   g_file_get_contents (g_test_get_filename (G_TEST_DIST, filename, NULL), &contents, &size, &error);
-+   g_assert_no_error (error);
-+ 
-+@@ -62,6 +68,12 @@ test_nonincremental (gconstpointer data)
-+   GdkPixbuf *pixbuf;
-+   const gchar *profile;
-+ 
-++  if (!format_supported (filename))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   pixbuf = gdk_pixbuf_new_from_file (g_test_get_filename (G_TEST_DIST, filename, NULL), &error);
-+   g_assert_no_error (error);
-+ 
-+diff --git a/tests/pixbuf-icon-serialize.c b/tests/pixbuf-icon-serialize.c
-+index 20bf6e1..880c654 100644
-+--- a/tests/pixbuf-icon-serialize.c
-++++ b/tests/pixbuf-icon-serialize.c
-+@@ -1,5 +1,6 @@
-+ #include "config.h"
-+ #include "gdk-pixbuf/gdk-pixbuf.h"
-++#include "test-common.h"
-+ #include <string.h>
-+ #include <glib.h>
-+ 
-+@@ -13,6 +14,12 @@ test_serialize (void)
-+   GIcon *icon;
-+   GInputStream *stream;
-+ 
-++  if (!format_supported ("png"))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   pixbuf = gdk_pixbuf_new_from_file (g_test_get_filename (G_TEST_DIST, "test-image.png", NULL), &error);
-+   g_assert_no_error (error);
-+   g_assert (pixbuf != NULL);
-+diff --git a/tests/pixbuf-resource.c b/tests/pixbuf-resource.c
-+index a747bca..aa0bed8 100644
-+--- a/tests/pixbuf-resource.c
-++++ b/tests/pixbuf-resource.c
-+@@ -22,6 +22,7 @@
-+ 
-+ #include "config.h"
-+ #include "gdk-pixbuf/gdk-pixbuf.h"
-++#include "test-common.h"
-+ #include <string.h>
-+ 
-+ #define compare_option(p1, p2, key) \
-+@@ -77,6 +78,12 @@ test_resource (void)
-+   GError *error = NULL;
-+   GdkPixbuf *pixbuf, *ref;
-+ 
-++  if (!format_supported ("png"))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   path = g_test_get_filename (G_TEST_DIST, "icc-profile.png", NULL);
-+   ref = gdk_pixbuf_new_from_file (path, &error);
-+   g_assert_no_error (error);
-+@@ -111,6 +118,12 @@ test_resource_at_scale (void)
-+   GError *error = NULL;
-+   GdkPixbuf *pixbuf, *ref;
-+ 
-++  if (!format_supported ("png"))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   path = g_test_get_filename (G_TEST_DIST, "icc-profile.png", NULL);
-+   ref = gdk_pixbuf_new_from_file_at_scale (path, 40, 10, FALSE, &error);
-+   g_assert_no_error (error);
-+diff --git a/tests/pixbuf-save.c b/tests/pixbuf-save.c
-+index f7df29b..78ab288 100644
-+--- a/tests/pixbuf-save.c
-++++ b/tests/pixbuf-save.c
-+@@ -21,6 +21,7 @@
-+  */
-+ 
-+ #include "gdk-pixbuf/gdk-pixbuf.h"
-++#include "test-common.h"
-+ #include <string.h>
-+ 
-+ #define compare_option(p1, p2, key) \
-+@@ -76,6 +77,12 @@ test_save_roundtrip (void)
-+   GdkPixbuf *ref;
-+   GdkPixbuf *pixbuf;
-+ 
-++  if (!format_supported ("png"))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   ref = gdk_pixbuf_new_from_file (g_test_get_filename (G_TEST_DIST, "test-image.png", NULL), &error);
-+   g_assert_no_error (error);
-+ 
-+@@ -98,6 +105,12 @@ test_save_options (void)
-+   GdkPixbuf *pixbuf;
-+   GError *error = NULL;
-+ 
-++  if (!format_supported ("png"))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   ref = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE, 8, 10, 10);
-+   gdk_pixbuf_fill (ref, 0xff00ff00);
-+ 
-+diff --git a/tests/pixbuf-scale.c b/tests/pixbuf-scale.c
-+index 4fd9fd5..d57e56a 100644
-+--- a/tests/pixbuf-scale.c
-++++ b/tests/pixbuf-scale.c
-+@@ -22,6 +22,7 @@
-+ 
-+ #include "config.h"
-+ #include "gdk-pixbuf/gdk-pixbuf.h"
-++#include "test-common.h"
-+ 
-+ static void
-+ test_scale (gconstpointer data)
-+@@ -33,6 +34,12 @@ test_scale (gconstpointer data)
-+   GdkPixbuf *pixbuf;
-+   gint width, height;
-+ 
-++  if (!format_supported (filename))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
-+   ref = gdk_pixbuf_new_from_file (path, &error);
-+   g_assert_no_error (error);
-+diff --git a/tests/pixbuf-stream.c b/tests/pixbuf-stream.c
-+index 0c2cebe..d66ce3e 100644
-+--- a/tests/pixbuf-stream.c
-++++ b/tests/pixbuf-stream.c
-+@@ -22,6 +22,7 @@
-+ 
-+ #include "config.h"
-+ #include "gdk-pixbuf/gdk-pixbuf.h"
-++#include "test-common.h"
-+ #include <string.h>
-+ 
-+ #define compare_option(p1, p2, key) \
-+@@ -71,6 +72,12 @@ test_stream (gconstpointer data)
-+   GFile *file;
-+   GInputStream *stream;
-+ 
-++  if (!format_supported (filename))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
-+   ref = gdk_pixbuf_new_from_file (path, &error);
-+   g_assert_no_error (error);
-+@@ -116,6 +123,12 @@ test_stream_async (gconstpointer data)
-+   gsize size;
-+   GInputStream *stream;
-+ 
-++  if (!format_supported (filename))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
-+   ref = gdk_pixbuf_new_from_file (path, &error);
-+   g_assert_no_error (error);
-+@@ -138,6 +151,12 @@ test_stream_at_scale (gconstpointer data)
-+   GFile *file;
-+   GInputStream *stream;
-+ 
-++  if (!format_supported (filename))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
-+   ref = gdk_pixbuf_new_from_file_at_scale (path, 20, 30, TRUE, &error);
-+   g_assert_no_error (error);
-+@@ -167,6 +186,12 @@ test_stream_at_scale_async (gconstpointer data)
-+   gsize size;
-+   GInputStream *stream;
-+ 
-++  if (!format_supported (filename))
-++    {
-++      g_test_skip ("format not supported");
-++      return;
-++    }
-++
-+   path = g_test_get_filename (G_TEST_DIST, filename, NULL);
-+   ref = gdk_pixbuf_new_from_file_at_scale (path, 40, 10, FALSE, &error);
-+   g_assert_no_error (error);
-+diff --git a/tests/pixbuf-threads.c b/tests/pixbuf-threads.c
-+index 5eeb9dd..f2694fd 100644
-+--- a/tests/pixbuf-threads.c
-++++ b/tests/pixbuf-threads.c
-+@@ -18,7 +18,9 @@
-+  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-+  */
-+ 
-++#include "config.h"
-+ #include "gdk-pixbuf/gdk-pixbuf.h"
-++#include "test-common.h"
-+ 
-+ static void
-+ load_image (gpointer data, 
-+@@ -71,15 +73,24 @@ test_threads (void)
-+ 
-+   for (i = 0; i < iterations; i++)
-+     {
-+-      g_thread_pool_push (pool, "valid_jpeg_test", NULL);
-+-      g_thread_pool_push (pool, "valid_png_test", NULL);
-+-      g_thread_pool_push (pool, "valid_gif_test", NULL);
-+-      g_thread_pool_push (pool, "valid_bmp_test", NULL);
-+-      g_thread_pool_push (pool, "valid_jpeg_progressive_test", NULL);
-+-      g_thread_pool_push (pool, "valid_xpm_test", NULL);
-+-      g_thread_pool_push (pool, "valid_ras_test", NULL);
-+-      g_thread_pool_push (pool, "valid_tga_test", NULL);
-+-      g_thread_pool_push (pool, "valid_tiff1_test", NULL);
-++      if (format_supported ("jpeg"))
-++        g_thread_pool_push (pool, "valid_jpeg_test", NULL);
-++      if (format_supported ("png"))
-++        g_thread_pool_push (pool, "valid_png_test", NULL);
-++      if (format_supported ("gif"))
-++        g_thread_pool_push (pool, "valid_gif_test", NULL);
-++      if (format_supported ("bmp"))
-++        g_thread_pool_push (pool, "valid_bmp_test", NULL);
-++      if (format_supported ("jpeg"))
-++        g_thread_pool_push (pool, "valid_jpeg_progressive_test", NULL);
-++      if (format_supported ("xpm"))
-++        g_thread_pool_push (pool, "valid_xpm_test", NULL);
-++      if (format_supported ("ras"))
-++        g_thread_pool_push (pool, "valid_ras_test", NULL);
-++      if (format_supported ("tga"))
-++        g_thread_pool_push (pool, "valid_tga_test", NULL);
-++      if (format_supported ("tiff"))
-++        g_thread_pool_push (pool, "valid_tiff1_test", NULL);
-+     }
-+ 
-+   g_thread_pool_free (pool, FALSE, TRUE);
-+diff --git a/tests/test-common.c b/tests/test-common.c
-+new file mode 100644
-+index 0000000..c7673e3
-+--- /dev/null
-++++ b/tests/test-common.c
-+@@ -0,0 +1,65 @@
-++/* -*- Mode: C; c-basic-offset: 2; -*- */
-++/* GdkPixbuf library - test loaders
-++ *
-++ * Copyright (C) 2014 Red Hat, Inc.
-++ *
-++ * This program is free software; you can redistribute it and/or modify
-++ * it under the terms of the GNU General Public License as published by
-++ * the Free Software Foundation; either version 2 of the License, or
-++ * (at your option) any later version.
-++ *
-++ * This program is distributed in the hope that it will be useful,
-++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ * GNU General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU General Public License
-++ * along with this program; if not, write to the Free Software
-++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-++ *
-++ * Author: Matthias Clasen
-++ */
-++
-++#include "config.h"
-++#include "test-common.h"
-++#include "gdk-pixbuf/gdk-pixbuf.h"
-++
-++#include <string.h>
-++
-++gboolean
-++format_supported (const gchar *filename)
-++{
-++  const gchar *name = NULL;
-++  GSList *formats, *l;
-++  gboolean retval;
-++  const gchar *names[] = { "png", "jpeg", "bmp", "gif", "ras",
-++    "tga", "xpm", "xbm" };
-++  gint i;
-++
-++  for (i = 0; i < G_N_ELEMENTS (names); i++)
-++    {
-++      if (strstr (filename, names[i]))
-++        {
-++          name = names[i];
-++          break;
-++        }
-++    }
-++  if (name == NULL)
-++    return FALSE;
-++
-++  retval = FALSE;
-++  formats = gdk_pixbuf_get_formats ();
-++  for (l = formats; l; l = l->next)
-++    {
-++      GdkPixbufFormat *format = l->data;
-++
-++      if (g_str_equal (gdk_pixbuf_format_get_name (format), name))
-++        {
-++          retval = TRUE;
-++          break;
-++        }
-++    }
-++  g_slist_free (formats);
-++
-++  return retval;
-++}
-+diff --git a/tests/test-common.h b/tests/test-common.h
-+new file mode 100644
-+index 0000000..32ff35a
-+--- /dev/null
-++++ b/tests/test-common.h
-+@@ -0,0 +1,33 @@
-++/* -*- Mode: C; c-basic-offset: 2; -*- */
-++/* GdkPixbuf library - test loaders
-++ *
-++ * Copyright (C) 2014 Red Hat, Inc.
-++ *
-++ * This program is free software; you can redistribute it and/or modify
-++ * it under the terms of the GNU General Public License as published by
-++ * the Free Software Foundation; either version 2 of the License, or
-++ * (at your option) any later version.
-++ *
-++ * This program is distributed in the hope that it will be useful,
-++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++ * GNU General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU General Public License
-++ * along with this program; if not, write to the Free Software
-++ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
-++ *
-++ * Author: Matthias Clasen
-++ */
-++
-++#ifndef __TEST_COMMON_H__
-++
-++#include <glib.h>
-++
-++G_BEGIN_DECLS
-++
-++gboolean format_supported (const gchar *filename);
-++
-++G_END_DECLS
-++
-++#endif  /* __TEST_COMMON_H__ */
-+--
-+cgit v0.9.2
-\ No newline at end of file
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb
-index 187af46..85a7b43 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.3.bb
-@@ -16,12 +16,14 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://hardcoded_libtool.patch \
-            file://extending-libinstall-dependencies.patch \
-+           file://run-ptest \
-+           file://tests-check.patch \
-            "
- 
- SRC_URI[md5sum] = "81161cc895eb43afd9ae7354b87e2261"
- SRC_URI[sha256sum] = "c229c53f59573eab9410b53690a4b9db770312c80a4d84ecd6295aa894574494"
- 
--inherit autotools pkgconfig gettext pixbufcache
-+inherit autotools pkgconfig gettext pixbufcache ptest
- 
- LIBV = "2.10.0"
- 
-@@ -42,6 +44,7 @@ PACKAGECONFIG[x11] = "--with-x11,--without-x11,virtual/libx11"
- 
- EXTRA_OECONF = "\
-   --disable-introspection \
-+  ${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-installed-tests', '--disable-installed-tests', d)} \
- "
- 
- PACKAGES =+ "${PN}-xlib"
-@@ -64,6 +67,11 @@ FILES_${PN}-dbg += " \
- 	${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders/.debug/* \
- "
- 
-+FILES_${PN}-ptest += "${libdir}/gdk-pixbuf/installed-tests \
-+                      ${datadir}/installed-tests/gdk-pixbuf"
-+
-+RDEPENDS_${PN}-ptest += "gnome-desktop-testing"
-+
- PACKAGES_DYNAMIC += "^gdk-pixbuf-loader-.*"
- PACKAGES_DYNAMIC_class-native = ""
- 
-@@ -72,7 +80,12 @@ python populate_packages_prepend () {
- 
-     loaders_root = d.expand('${libdir}/gdk-pixbuf-2.0/${LIBV}/loaders')
- 
--    d.setVar('PIXBUF_PACKAGES', ' '.join(do_split_packages(d, loaders_root, '^libpixbufloader-(.*)\.so$', 'gdk-pixbuf-loader-%s', 'GDK pixbuf loader for %s')))
-+    packages = ' '.join(do_split_packages(d, loaders_root, '^libpixbufloader-(.*)\.so$', 'gdk-pixbuf-loader-%s', 'GDK pixbuf loader for %s'))
-+    d.setVar('PIXBUF_PACKAGES', packages)
-+
-+    # The test suite exercises all the loaders, so ensure they are all
-+    # dependencies of the ptest package.
-+    d.appendVar("RDEPENDS_gdk-pixbuf-ptest", " " + packages)
- }
- 
- do_install_append_class-native() {
--- 
-1.7.10.4
+Hi,
+
+So, I did the same tests with an x86_64 config and an ARM config.
+
+On 06/02/2014 at 16:48:52 -0500, Bruce Ashfield wrote :
+> > git branch --contains fbe98bb9ed3dae23e320c6b113e35f129538d14a
+> * master
+>=20
+> > grep -C 2 ^VERSION Makefile
+> VERSION =3D 3
+> PATCHLEVEL =3D 14
+> SUBLEVEL =3D 0
+>=20
+
+I'm also on 3.14, commit 9343224bfd4be6a02e6ae0c0d66426c955c7d76e
+
+> So we have all the relevant commits, and a up to date tree. Operating
+> on the .config from a 64 bit x86 build:
+>=20
+> > grep USB_ETH .config
+> CONFIG_USB_ETH=3Dy
+> CONFIG_USB_ETH_RNDIS=3Dy
+> CONFIG_USB_ETH_EEM=3Dy
+>=20
+> > make savedefconfig
+> scripts/kconfig/conf --savedefconfig=3Ddefconfig Kconfig
+> .config:5333:warning: override: USB_ETH changes choice state
+> .config:5336:warning: USB_G_NCM creates inconsistent choice state
+> .config:5337:warning: USB_GADGETFS creates inconsistent choice state
+> .config:5338:warning: USB_FUNCTIONFS creates inconsistent choice state
+> .config:5342:warning: USB_MASS_STORAGE creates inconsistent choice state
+> .config:5343:warning: USB_GADGET_TARGET creates inconsistent choice state
+> .config:5344:warning: USB_G_SERIAL creates inconsistent choice state
+> .config:5345:warning: USB_MIDI_GADGET creates inconsistent choice state
+> .config:5346:warning: USB_G_PRINTER creates inconsistent choice state
+> .config:5347:warning: USB_CDC_COMPOSITE creates inconsistent choice state
+> .config:5348:warning: USB_G_NOKIA creates inconsistent choice state
+> .config:5349:warning: USB_G_ACM_MS creates inconsistent choice state
+> .config:5351:warning: USB_G_HID creates inconsistent choice state
+> .config:5352:warning: USB_G_DBGP creates inconsistent choice state
+> .config:5355:warning: USB_G_WEBCAM creates inconsistent choice state
+> .config:6201:warning: symbol value 'm' invalid for VME_BUS
+>=20
+
+I don't get those warnings.
+
+> > cp defconfig .config
+>=20
+> > yes '' | make oldconfig
+>=20
+> > grep USB_ETH .config
+> CONFIG_USB_ETH=3Dm
+> CONFIG_USB_ETH_RNDIS=3Dy
+> CONFIG_USB_ETH_EEM=3Dy
+>=20
+> So far so good, this matches what I'd expect. Now with olddefconfig
+> / oldnoconfig
+>=20
+
+Exactly what I have and what I'm trying to fix.
+
+> > cp defconfig .config
+> > make oldnoconfig
+> scripts/kconfig/conf --olddefconfig Kconfig
+> #
+> # configuration written to .config
+> #
+> yow-bashfiel-d3 [/home/bruc...rnel/linux]> grep USB_ETH .config
+> CONFIG_USB_ETH=3Dm
+> CONFIG_USB_ETH_RNDIS=3Dy
+> CONFIG_USB_ETH_EEM=3Dy
+>=20
+> .. CONFIG_USB_ETH is still =3Dm.
+>=20
+
+That is where I end up with:
+
+$ grep USB_ETH .config
+CONFIG_USB_ETH=3Dy
+CONFIG_USB_ETH_RNDIS=3Dy
+CONFIG_USB_ETH_EEM=3Dy
+
+> I've also been running a whole series of configuration tests on the
+> defconfigs found in the various arch/platforms in the mainline kernel,
+> and on a modern (3.14-rc) kernel, getting the same results from
+> yes "" | oldconfig and olddefconfig. i.e. migrating their configs with
+> either technique results in the same resulting .config,
+>=20
+> Which if you recall the above question was my big concern, was the
+> migration between kernel versions using the different techniques going
+> to yield different results on the same .config.
+>=20
+> The answer to that is "it appears not", and really, taking a Kconfig's
+> default IS the right thing to do if you must make a choice, and aren't
+> familiar with the option.
+>=20
+
+But it should be different because using 'yes "" | oldconfig' is wrong.
+Let's have a look at qi_lb60_defconfig:
+
+$ ARCH=3Dmips make qi_lb60_defconfig
+#
+# configuration written to .config
+#
+$ grep USB_ETH .config
+CONFIG_USB_ETH=3Dy
+# CONFIG_USB_ETH_RNDIS is not set
+# CONFIG_USB_ETH_EEM is not set
+
+$ cp arch/mips/configs/qi_lb60_defconfig .config
+=E2=80=98arch/mips/configs/qi_lb60_defconfig=E2=80=99 -> =E2=80=98.config=
+=E2=80=99
+$ yes '' | make oldconfig
+[...]
+$ grep USB_ETH .config
+CONFIG_USB_ETH=3Dm
+# CONFIG_USB_ETH_RNDIS is not set
+# CONFIG_USB_ETH_EEM is not set
 
 
+> ** So, that leaves me with agreeing that the change should be ok from
+> that front, and that we definitely need the fallback to the yes "" |
+> oldconfig variant if the newer targets don't exist. But from my tests,
+> the commit log is slightly off .. again, maybe I messed something up
+> in my tests with 3.14, but it is worth double checking.
+>=20
+
+I believe my commit message is actually right and something went wrong
+in your tests.
+
+> And finally, to allow someone who really doesn't like the command full
+> flexibility, I'm running with the following change, and it offers
+> an easy way to change behaviour .. opinions ?
+>=20
+> --->----->--->----->--->----->--->----->
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index b76a65699755..9510996d52c1 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -313,6 +313,8 @@ python sysroot_stage_all () {
+>      oe.path.copyhardlinktree(d.expand("${D}${KERNEL_SRC_PATH}"),
+> d.expand("${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}"))
+>  }
+>=20
+> +KERNEL_CONFIG_COMMAND ?=3D "yes '' | oe_runmake oldconfig"
+> +
+
+If we go that route, shouldn't we have sane default and use
+KERNEL_CONFIG_COMMAND ?=3D "oe_runmake oldnoconfig || yes '' | oe_runmake o=
+ldconfig"
+
+I understand that it may change the behaviour for some existing
+configurations but I believe it is the correct behaviour to actually
+respect what is in the kernel config provided by the user.
+
+>  kernel_do_configure() {
+>         # fixes extra + in /lib/modules/2.6.37+
+>         # $ scripts/setlocalversion . =3D> +
+> @@ -325,7 +327,7 @@ kernel_do_configure() {
+>         if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
+>                 cp "${WORKDIR}/defconfig" "${B}/.config"
+>         fi
+> -       yes '' | oe_runmake oldconfig
+> +       eval ${KERNEL_CONFIG_COMMAND}
+>  }
+> --->----->--->----->--->----->--->----->
+>=20
+> Doing a v3 of the fallback version, with a checked commit log and
+> perhaps even the command flexibility would keep everyone happy and
+> I can add my Acked-by to that version.
+>=20
+
+BTW, I've been told by the kconfig maintainers that the preferred way of
+doing it would be to copy the provided defconfig to
+arch/${ARCH}/configs/oe_defconfig and then oe_runmake oe_defconfig. But
+unfortunately, that doesn't work for architectures without a 'configs'
+directory. For 3.14, this is only alpha and frv but x86 got it starting
+with 2266cfd50de3872e877eeca3dd4a6f940f22ba60, this is v2.6.24 and I
+remember being asked to support older kernels.
+
+
+--=20
+Alexandre Belloni, Free Electrons
+Embedded Linux, Kernel and Android engineering
+http://free-electrons.com
+
+--YZ5djTAD1cGYuMQK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.14 (GNU/Linux)
+
+iQIcBAEBCAAGBQJS9OdvAAoJEKbNnwlvZCyzEwkQAKTEQOAAgX4KKiT1X2n6JcAf
+3hhimVDQUk79N9WaOxqmqAz+24mtkyg1+jV6q+po5kSioP4SjJ8jzwGaDzKwgt2Y
+z3S/7+xM5vG1hTv3AweAyBjCm5bA7Y7Gn3Rl3w4iWqQ2weUr+/HncypsIWB5tBJq
+IRiG78z50tpwAIgTY6ZVmE5Ek7iAH4jBSMxDQJQSM7q2eMNyFHms2o3E7QQpwjOz
+8BpBqJXpE5M53hLEB7CIP4RBdwHDQXd++EvbznrnBDiRF8Uh9c6ZcmR4447q6NgV
+/Oxssv5yeWMuggk2A6EdTkmf6b4q92j/ZOW5CLthkzblLVHrwlCykFsqQHwUbnsf
+qnrT5SO76W757LI5HpDjnQcpTJCXHcNceDeg2c+JlFMQRQbUaO9wPyTdz6YL4Nsc
+phstqeSUBC0mAuapwPgIRSFhbdy67Kuz2S2+07vXtbvI2aOhxcy0twO0KP45K8cl
+GNRm+xRLKcwBRDGWe2fk/4AIePsR2byRZcgYw+Graw7UNh+kJ4lDJEVeOLcqW+1m
+4OO3Db3ebM+3CyFp8cTjjeqYGghr7w6/t0WY4rvzeqIJ6MIRirnFOUEz+B/G9T9y
+rb18ON2grcN6itoLt0wYJtQhY7bbTzD+HyLjb+SHBLtAmlEQjdF3MmiZIun4IdxZ
+qSCVTIDemdqXiNxSGGY4
+=GhOl
+-----END PGP SIGNATURE-----
+
+--YZ5djTAD1cGYuMQK--
