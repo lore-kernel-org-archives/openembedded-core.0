@@ -1,30 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 14D136E918
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E2436E918
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2014 17:22:52 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s17HMfRk021206; Fri, 7 Feb 2014 17:22:41 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id xYa76JyCNzZb; Fri,  7 Feb 2014 17:22:41 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s17HMYea021196
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Fri, 7 Feb 2014 17:22:35 GMT
-Message-ID: <1391793748.32614.48.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 07 Feb 2014 17:22:28 +0000
-In-Reply-To: <cover.1391791450.git.sgw@linux.intel.com>
-References: <cover.1391791450.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
+	Fri,  7 Feb 2014 17:24:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s17HOluJ009158
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 7 Feb 2014 09:24:47 -0800 (PST)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 7 Feb 2014 09:24:47 -0800
+Message-ID: <52F516DC.4080608@windriver.com>
+Date: Fri, 7 Feb 2014 12:24:44 -0500
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Darren Hart <dvhart@linux.intel.com>, Saul Wold <sgw@linux.intel.com>,
+	<richard.purdie@linuxfoundation.org>, "nitin.a.kamble"
+	<nitin.a.kamble@intel.com>
+References: <cover.1391534980.git.bruce.ashfield@windriver.com>
+	<274bcde5bf629e3cbac8d32560ce916520a771af.1391534980.git.bruce.ashfield@windriver.com>
+	<52F50D0F.7020101@linux.intel.com> <52F50D61.90308@windriver.com>
+	<CF1A4DD2.6A6E2%dvhart@linux.intel.com>
+	<CF1A4E01.6A6E3%dvhart@linux.intel.com>
+	<52F50E7B.50707@windriver.com>
+	<CF1A4F8F.6A6F9%dvhart@linux.intel.com>
+In-Reply-To: <CF1A4F8F.6A6F9%dvhart@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [Consolidated Pull 00/21] Various Patches & some updates
+Subject: Re: [PATCH 2/2] linux-yocto/3.10: integrate LTSI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,97 +42,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2014 17:22:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Feb 2014 17:24:52 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2014-02-07 at 08:55 -0800, Saul Wold wrote:
-> This patch set has been through the Autobuilder, the current failures
-> related to the kernel update as we had a clean master build prior to this.
+On 14-02-07 11:55 AM, Darren Hart wrote:
+> On 2/7/14, 8:48, "Bruce Ashfield" <bruce.ashfield@windriver.com> wrote:
+>>>>>>> | ERROR: Function failed: do_compile (log file is located at
+>>>>>>>
+>>>>>>>
+>>>>>>> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-x86/build/b
+>>>>>>> ui
+>>>>>>> l
+>>>>>>>
+>>>>>>> d/tmp/work/qemux86-poky-linux/linux-yocto/3.10.25+gitAUTOINC+4d658aa5
+>>>>>>> 80
+>>>>>>> _
+>>>>>>> 78d2a615b1-r0/temp/log.do_compile.1426)
+>
+> So since this is qemux86 that is failing, and Bruce has run the qemu
+> builds - so are we using the right SRCREVs?
+>
+> Machine: 78d2a615b1
+> Meta: 4d658aa580
 
-I'm not 100% convinced exactly which patches in the test build called
-which failures.
+Sorry for the spam, but is this the same issue that Nitin' fixed
+upstream that that I integrated this week ? I have another pending
+commit that updates the SRCREVs again, but I was waiting on LTSI to
+make it in before sending it.
 
-> The following changes since commit cda502815c6acf789e1a0db7a7a1a7015b4ef71d:
-> 
->   build-appliance-image: Update to poky commit b37dd451a52622d5b570183a81583cc34c2ff555 (2014-02-06 15:36:47 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Alexandre Belloni (1):
->   matchbox-keyboard: daemonize launch
+Bruce
 
-I'd keep meaning to ask someone about this, I'm not 100% sure its the
-right thing to do or if there is another underlying issue which should
-be fixed instead.
-
-> Bruce Ashfield (1):
->   kernel: stop using -exec rm for deleting files
-
-Did this trigger some of those failures?
-
-> Chen Qi (1):
->   initscripts: add initscripts-functions-dev package
-
-This is horrid, we need to fix the root problems, not hack around it.
-
-> Chong Lu (2):
->   acl: enable ptest support
->   attr: enable ptest support
-> 
-> Cristian Iorga (2):
->   sbc: upgrade to 1.2
->   bluez5: upgrade to 5.14
-> 
-> Fathi Boudra (1):
->   systemtap: add aarch64 support
-> 
-> Jason Plum (1):
->   meta/oe/lib/path.py - check mount points, not device
-
-This will kill performance. I'd like to understand which paths can get
-split over mounts. I suspect the end result is we'd not support such
-split mounts. Or we need two functions, one which is mount safe and one
-which is not.
-
-> Kai Kang (1):
->   eglibc-dbg: provides libc6-dbg
-
-No, see Phil's comments.
-
-> Khem Raj (1):
->   ossp-uuid: Use alternative source mirror
-> 
-> Koen Kooi (3):
->   systemd 208: move stray /usr/lib/systemd/* into /lib/systemd
->   openssh: package sshd PAM config inside openssh-sshd package
->   openssh: drag in required PAM modules.
-> 
-> Martin Jansa (1):
->   package.bbclass: add SHLIBSSEARCHDIRS to define where to search for
->     shlib providers
-
-See Martin's comment, we need to fix this one in a better way.
-
-> Paul Eggleton (1):
->   classes/populate_sdk_base: remove nostamp from do_populate_sdk
-> 
-> Randy MacLeod (1):
->   jpeg and directfb: cosmetic, fix perms for patches
-> 
-> Saul Wold (1):
->   rootfs_deb: Fix whitespace issue
-> 
-> Stefan Stanacar (3):
->   testimage: add ability to export tests
->   lib/oeqa: add module for running tests outside of the build system
->   oeqa/utils: targetbuild: don't use bb.fetch anymore
-
-Cheers,
-
-Richard
+>
+>>>>>>
+>>>>>> This can be seen on the AB
+>>>>>>
+>>>>>>
+>>>>>> http://autobuilder.yoctoproject.org/main/builders/nightly-x86/builds/2
+>>>>>> 0/
+>>>>>> s
+>>>>>> teps/BuildImages/logs/stdio
+>
+> --
+> Darren
+>
+>
 
 
