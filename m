@@ -1,23 +1,20 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BDCE6CAD5
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A5B36CAD5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2014 10:08:56 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 07 Feb 2014 02:08:56 -0800
+	Fri,  7 Feb 2014 10:10:30 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Feb 2014 02:10:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,799,1384329600"; d="scan'208";a="409142497"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 07 Feb 2014 02:08:56 -0800
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
-	by linux.intel.com (Postfix) with ESMTP id AA2476A4007;
-	Fri,  7 Feb 2014 02:08:48 -0800 (PST)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
+X-IronPort-AV: E=Sophos;i="4.95,799,1384329600"; d="scan'208";a="477473030"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Feb 2014 02:10:30 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Feb 2014 12:08:51 +0200
-Message-Id: <1391767731-10158-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.5.3
-Subject: [PATCH] scripts/oe-selftest: return based on the test results
+Date: Fri,  7 Feb 2014 12:13:22 +0200
+Message-Id: <cover.1391767965.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/1] Final fix for YB5781
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,34 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2014 10:08:56 -0000
+X-List-Received-Date: Fri, 07 Feb 2014 10:10:30 -0000
 
-Regardless if the tests passed or not the script returned 0,
-which isn't what one would expect.
+The following changes since commit 3a590e85808c6fae32f8a40aa003d373d097de9d:
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- scripts/oe-selftest | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+  build-appliance-image: Update to poky commit b37dd451a52622d5b570183a81583cc34c2ff555 (2014-02-06 15:36:50 +0000)
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 29fe010..8c4ea92 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -144,8 +144,10 @@ def main():
-     add_include()
-     result = runner.run(suite)
-     log.info("Finished")
--
--    return 0
-+    if result.wasSuccessful():
-+        return 0
-+    else:
-+        return 1
- 
- if __name__ == "__main__":
-     try:
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/YB5781
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB5781
+
+Cristian Iorga (1):
+  minicom: updated download link
+
+ meta/recipes-extended/minicom/minicom_2.7.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
 -- 
-1.8.5.3
+1.8.3.2
 
 
