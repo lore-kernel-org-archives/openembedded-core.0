@@ -1,23 +1,39 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D85AE6E903
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pb0-f46.google.com (mail-pb0-f46.google.com
+	[209.85.160.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C81036E396
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2014 22:19:28 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 Feb 2014 14:15:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,803,1384329600"; d="scan'208";a="479862269"
-Received: from unknown (HELO localhost) ([10.255.13.139])
-	by orsmga002.jf.intel.com with ESMTP; 07 Feb 2014 14:19:29 -0800
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Feb 2014 16:19:28 -0600
-Message-Id: <bffdae93a64a9b3a717eb09c57223ed44da26068.1391811371.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1391811371.git.tom.zanussi@linux.intel.com>
-References: <cover.1391811371.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 1/1] wic: Honor --size for --source partititions
+	Sat,  8 Feb 2014 11:50:26 +0000 (UTC)
+Received: by mail-pb0-f46.google.com with SMTP id um1so4305761pbc.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Feb 2014 03:50:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=kxtqVwkelkaLFpRaECoUfpEtnzmfjw2l+nrqUuVIPyA=;
+	b=Tf1Pb7iOWg9i9LctT4cQEMNoN0SvMz+9kDdHKLl2QdcZimh9t4KvRKg0dGQ1HI6t3O
+	1TE+2oMx0xMqcZrmsUCJ0f+lGxCQ5VZ5qMNdd6Nx22L7vOnKhlpgfZInmQaafIfRF3fE
+	7W5oYW6HQ+zG1HIP4ljnJDg/gmOxOmLNfSDDl0t9EGCcTYNcRkW8QOCDYLBDjaYUh1X6
+	by/UM9CYP3vUgja2b2/RYvzKCvoN09VBGg7mV10GROIOiRhMbu+SrNdGLNpYh3TjnY7/
+	cMclwPypuGVsTMIrvZ7RA/sABpKmGEFqkAneDWZYmN5OtSNOjOFDZeUkv6IohwpIujpC
+	BB5A==
+X-Gm-Message-State: ALoCoQnzYILb3apYTCs2WDi34W2ZcloV/oQDVZst2JsJ+RaFb/7j2d9w7YNvK9fNUVw82RbwA4vG
+MIME-Version: 1.0
+X-Received: by 10.66.163.138 with SMTP id yi10mr1028732pab.95.1391860227676;
+	Sat, 08 Feb 2014 03:50:27 -0800 (PST)
+Sender: lpapp@archlinux.us
+Received: by 10.70.21.228 with HTTP; Sat, 8 Feb 2014 03:50:27 -0800 (PST)
+In-Reply-To: <52F25D84.6060501@linux.intel.com>
+References: <1391598835-1631-1-git-send-email-lpapp@kde.org>
+	<52F25D84.6060501@linux.intel.com>
+Date: Sat, 8 Feb 2014 11:50:27 +0000
+X-Google-Sender-Auth: WRzP9bCWYQ3hXuvFhXRrFhYAOhs
+Message-ID: <CAOMwXhMUuS2-dV1xe0YWFxOeD08ByUHHm8DPaqeT=4jAFzHXVA@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,179 +46,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2014 22:19:29 -0000
+X-List-Received-Date: Sat, 08 Feb 2014 11:50:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Instead of simply creating partitions large enough to contain the
-contents of a --source partition (and adding a pre-specified amount of
-padding), use the --size used in the partition .wks statement.
+Saul, would it be possible that you leave a short message on the
+mailing list in the corresponding thread if a change is merged to
+avoid such things in the future?
 
-If --size isn't used, or is smaller than the actual --source size,
-retain the current behavior.
-
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
----
- .../lib/mic/kickstart/custom_commands/partition.py | 57 +++++++++++++++++++---
- scripts/lib/mic/plugins/source/bootimg-efi.py      | 10 +++-
- scripts/lib/mic/plugins/source/bootimg-pcbios.py   | 10 +++-
- scripts/lib/mic/utils/oe/misc.py                   |  1 +
- 4 files changed, 68 insertions(+), 10 deletions(-)
-
-diff --git a/scripts/lib/mic/kickstart/custom_commands/partition.py b/scripts/lib/mic/kickstart/custom_commands/partition.py
-index 4974a87..91d751e 100644
---- a/scripts/lib/mic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/mic/kickstart/custom_commands/partition.py
-@@ -56,6 +56,12 @@ class Wic_PartData(Mic_PartData):
- 
-         return retval
- 
-+    def get_size(self):
-+        """
-+        Accessor for partition size, 0 or --size before set_size().
-+        """
-+        return self.size
-+
-     def set_size(self, size):
-         """
-         Accessor for actual partition size, which must be set by source
-@@ -70,6 +76,29 @@ class Wic_PartData(Mic_PartData):
-         """
-         self.source_file = source_file
- 
-+    def get_extra_block_count(self, current_blocks):
-+        """
-+        The --size param is reflected in self.size (in MB), and we already
-+        have current_blocks (1k) blocks, calculate and return the
-+        number of (1k) blocks we need to add to get to --size, 0 if
-+        we're already there or beyond.
-+        """
-+        msger.debug("Requested partition size for %s: %d" % \
-+                    (self.mountpoint, self.size))
-+
-+        if not self.size:
-+            return 0
-+
-+        requested_blocks = self.size * 1024
-+
-+        msger.debug("Requested blocks %d, current_blocks %d" % \
-+                    (requested_blocks, current_blocks))
-+
-+        if requested_blocks > current_blocks:
-+            return requested_blocks - current_blocks
-+        else:
-+            return 0
-+
-     def prepare(self, cr, cr_workdir, oe_builddir, rootfs_dir, bootimg_dir,
-                 kernel_dir, native_sysroot):
-         """
-@@ -147,16 +176,22 @@ class Wic_PartData(Mic_PartData):
-         """
-         populate_script = "%s/usr/bin/populate-extfs.sh" % native_sysroot
- 
--        image_extra_space = 10240
--
-         image_rootfs = rootfs_dir
-         rootfs = "%s/rootfs.%s" % (cr_workdir, self.fstype)
- 
-         du_cmd = "du -ks %s" % image_rootfs
-         rc, out = exec_cmd(du_cmd)
--        actual_rootfs_size = out.split()[0]
-+        actual_rootfs_size = int(out.split()[0])
-+
-+        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
-+
-+        if extra_blocks < IMAGE_EXTRA_SPACE:
-+            extra_blocks = IMAGE_EXTRA_SPACE
-+
-+        rootfs_size = actual_rootfs_size + extra_blocks
- 
--        rootfs_size = int(actual_rootfs_size) + image_extra_space
-+        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-+                    (extra_blocks, self.mountpoint, rootfs_size))
- 
-         dd_cmd = "dd if=/dev/zero of=%s bs=1024 seek=%d count=0 bs=1k" % \
-             (rootfs, rootfs_size)
-@@ -187,16 +222,22 @@ class Wic_PartData(Mic_PartData):
- 
-         Currently handles ext2/3/4 and btrfs.
-         """
--        image_extra_space = 10240
--
-         image_rootfs = rootfs_dir
-         rootfs = "%s/rootfs.%s" % (cr_workdir, self.fstype)
- 
-         du_cmd = "du -ks %s" % image_rootfs
-         rc, out = exec_cmd(du_cmd)
--        actual_rootfs_size = out.split()[0]
-+        actual_rootfs_size = int(out.split()[0])
-+
-+        extra_blocks = self.get_extra_block_count(actual_rootfs_size)
-+
-+        if extra_blocks < IMAGE_EXTRA_SPACE:
-+            extra_blocks = IMAGE_EXTRA_SPACE
-+
-+        rootfs_size = actual_rootfs_size + extra_blocks
- 
--        rootfs_size = int(actual_rootfs_size) + image_extra_space
-+        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-+                    (extra_blocks, self.mountpoint, rootfs_size))
- 
-         dd_cmd = "dd if=/dev/zero of=%s bs=1024 seek=%d count=0 bs=1k" % \
-             (rootfs, rootfs_size)
-diff --git a/scripts/lib/mic/plugins/source/bootimg-efi.py b/scripts/lib/mic/plugins/source/bootimg-efi.py
-index 3e0997b..1974b06 100644
---- a/scripts/lib/mic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/mic/plugins/source/bootimg-efi.py
-@@ -131,7 +131,15 @@ class BootimgEFIPlugin(SourcePlugin):
-         rc, out = exec_cmd(du_cmd)
-         blocks = int(out.split()[0])
- 
--        blocks += BOOTDD_EXTRA_SPACE
-+        extra_blocks = part.get_extra_block_count(blocks)
-+
-+        if extra_blocks < BOOTDD_EXTRA_SPACE:
-+            extra_blocks = BOOTDD_EXTRA_SPACE
-+
-+        blocks += extra_blocks
-+
-+        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-+                    (extra_blocks, part.mountpoint, blocks))
- 
-         # Ensure total sectors is an integral number of sectors per
-         # track or mcopy will complain. Sectors are 512 bytes, and we
-diff --git a/scripts/lib/mic/plugins/source/bootimg-pcbios.py b/scripts/lib/mic/plugins/source/bootimg-pcbios.py
-index 3cd446f..fad150f 100644
---- a/scripts/lib/mic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/mic/plugins/source/bootimg-pcbios.py
-@@ -154,7 +154,15 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         rc, out = exec_cmd(du_cmd)
-         blocks = int(out.split()[0])
- 
--        blocks += BOOTDD_EXTRA_SPACE
-+        extra_blocks = part.get_extra_block_count(blocks)
-+
-+        if extra_blocks < BOOTDD_EXTRA_SPACE:
-+            extra_blocks = BOOTDD_EXTRA_SPACE
-+
-+        blocks += extra_blocks
-+
-+        msger.debug("Added %d extra blocks to %s to get to %d total blocks" % \
-+                    (extra_blocks, part.mountpoint, blocks))
- 
-         # Ensure total sectors is an integral number of sectors per
-         # track or mcopy will complain. Sectors are 512 bytes, and we
-diff --git a/scripts/lib/mic/utils/oe/misc.py b/scripts/lib/mic/utils/oe/misc.py
-index 77dfe03..6b01955 100644
---- a/scripts/lib/mic/utils/oe/misc.py
-+++ b/scripts/lib/mic/utils/oe/misc.py
-@@ -108,6 +108,7 @@ def add_wks_var(key, val):
-     wks_vars[key] = val
- 
- BOOTDD_EXTRA_SPACE = 16384
-+IMAGE_EXTRA_SPACE = 10240
- 
- __bitbake_env_lines = ""
- 
--- 
-1.8.3.1
-
+On Wed, Feb 5, 2014 at 3:49 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 02/05/2014 03:13 AM, Laszlo Papp wrote:
+>>
+>> The current change contains two different logics resulting that users like
+>> me
+>> may need to partially override the behavior of it. It would be easier for
+>> end
+>> users to keep one change while dropping the other if needed, like in our
+>> case.
+>>
+>
+> I beleive that your first version of this was merged, is this different that
+> the one you send on 1/30?
+>
+> It seems that the line count in this patch is different than the first,
+> please rebase against master and update this patch please.
+>
+> Thanks
+>
+> Sau!
+>
+>
+>> Signed-off-by: Laszlo Papp <lpapp@kde.org>
+>> ---
+>>   meta/recipes-core/base-passwd/base-passwd/nobash.patch | 10 +---------
+>>   .../base-passwd/base-passwd/noshadow.patch             | 18
+>> ++++++++++++++++++
+>>   meta/recipes-core/base-passwd/base-passwd_3.5.29.bb    |  1 +
+>>   3 files changed, 20 insertions(+), 9 deletions(-)
+>>   create mode 100644
+>> meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+>>
+>> diff --git a/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+>> b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+>> index 6371576..eed87db 100644
+>> --- a/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+>> +++ b/meta/recipes-core/base-passwd/base-passwd/nobash.patch
+>> @@ -1,14 +1,6 @@
+>>   use /bin/sh instead of /bin/bash, since the latter may not be included
+>> in
+>>   some images such as minimal
+>>
+>> -comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+>> -
+>> -remove "*" for root since we don't have a /etc/shadow so far.
+>> -
+>> -by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+>> -
+>> -Patch managed by http://www.mn-logistik.de/unsupported/pxa250/patcher
+>> -
+>>   Upstream-Status: Invalid [configuration]
+>>
+>>   Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+>> @@ -17,7 +9,7 @@ Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+>>   +++ base-passwd/passwd.master
+>>   @@ -1,4 +1,4 @@
+>>   -root:*:0:0:root:/root:/bin/bash
+>> -+root::0:0:root:/root:/bin/sh
+>> ++root:*:0:0:root:/root:/bin/sh
+>>    daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+>>    bin:*:2:2:bin:/bin:/bin/sh
+>>    sys:*:3:3:sys:/dev:/bin/sh
+>> diff --git a/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+>> b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+>> new file mode 100644
+>> index 0000000..14e3959
+>> --- /dev/null
+>> +++ b/meta/recipes-core/base-passwd/base-passwd/noshadow.patch
+>> @@ -0,0 +1,18 @@
+>> +comment added by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+>> +
+>> +remove "*" for root since we don't have a /etc/shadow so far.
+>> +
+>> +by Kevin Tian <kevin.tian@intel.com>, 2010-07-06
+>> +
+>> +Upstream-Status: Invalid [configuration]
+>> +
+>> +Signed-off-by: Scott Garman <scott.a.garman@intel.com>
+>> +
+>> +--- base-passwd/passwd.master~nobash
+>> ++++ base-passwd/passwd.master
+>> +@@ -1,4 +1,4 @@
+>> +-root:*:0:0:root:/root:/bin/sh
+>> ++root::0:0:root:/root:/bin/sh
+>> + daemon:*:1:1:daemon:/usr/sbin:/bin/sh
+>> + bin:*:2:2:bin:/bin:/bin/sh
+>> + sys:*:3:3:sys:/dev:/bin/sh
+>> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> index 082037a..5b31fce 100644
+>> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+>> @@ -9,6 +9,7 @@ DEPENDS = "docbook-utils-native linuxdoc-tools-native"
+>>   SRC_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/base-passwd_${PV}.tar.gz
+>> \
+>>              file://add_shutdown.patch \
+>>              file://nobash.patch \
+>> +           file://noshadow.patch \
+>>              file://input.patch \
+>>              file://disable-docs.patch \
+>>             "
+>>
+>
 
