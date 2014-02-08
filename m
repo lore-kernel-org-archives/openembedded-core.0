@@ -1,44 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D5196DE07
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2014 18:05:28 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id b15so2109331eek.15
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Feb 2014 10:05:28 -0800 (PST)
+Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id AD3FC6E30D;
+	Sat,  8 Feb 2014 18:37:32 +0000 (UTC)
+Received: by mail-ea0-f174.google.com with SMTP id b10so2180037eae.33
+	for <multiple recipients>; Sat, 08 Feb 2014 10:37:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=AAVSoWty1Ef0EUIgEhgH2oUQTwJb1n3ctUcFGmNwOAo=;
-	b=HU4ILYxBxNjvBARZNVFK0xW7gHH3PeyJ0AZCCO5Yf+6h9Z6ODbzrQh6Q9Wk1EvEXFO
-	DICeY6gQT6RKSZ07/AhP1CVeD2XaPqjJLdG1kXq95tUCbHV/wdt5LO6uaylkvyJMHhu3
-	Q5gO5STb519gACqnU1Ln5uIoe+N7KScmC1eleljuVTMimeYUtXhw0IK0yBgRbANhoD3k
-	BGxBLEZlH2GDfyPx0tGbpjX2Qhmq24HkauhwKW52uscd3GvuOSZtH9ZcaR62aMkbdcIJ
-	djnzP+Cv908RmGFZqwGyJs3/wsuS1VogKMuDH0fVTX8DlL/YoxeRYLZXekp1NFxM1O7P
-	qClg==
-X-Received: by 10.14.87.129 with SMTP id y1mr164899eee.38.1391882728402;
-	Sat, 08 Feb 2014 10:05:28 -0800 (PST)
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=DA1GigKCpACOtvf+TSKQk3fggTIcjxoEJvdmYUqSl1I=;
+	b=crQshuNfVZ7ZZY9QbruF1JoaixrNXDigswIN5gepcDz7K5g9l3/4shs0DciJFipzkz
+	z9ULR7wvjDzN9XGUdcjHginfKVQTEYqdqaJZkMlsr7dM6FESZ2nlmAdKMPRe7MmsSM9o
+	7oihZR9Y1dSQy7VhTE8yhOss/MOsGgMojjMLgwXmHV3vM8NGT8rCgrOKnU39ArKb6yPx
+	6W4x3LJDYj+ZHgDT6QVn5ZCQ3lVx+szGBObWN/pZeKGDeMFhAWlCol6LCljgpf/nNKqN
+	vpuG5k6H6MB1Kl96eHHu0bfyI9g/DFBZJV9qrN7hmC770jodY+ADynTFNu5Z/syA110A
+	pO2A==
+X-Received: by 10.15.45.194 with SMTP id b42mr257410eew.103.1391884652593;
+	Sat, 08 Feb 2014 10:37:32 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id x6sm31729218eew.20.2014.02.08.10.05.26
+	by mx.google.com with ESMTPSA id k6sm31962307eep.17.2014.02.08.10.37.31
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 08 Feb 2014 10:05:26 -0800 (PST)
-Date: Sat, 8 Feb 2014 19:05:43 +0100
+	Sat, 08 Feb 2014 10:37:31 -0800 (PST)
+Date: Sat, 8 Feb 2014 19:37:48 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140208180543.GN3698@jama>
-References: <1391598835-1631-1-git-send-email-lpapp@kde.org>
-	<52F25D84.6060501@linux.intel.com>
-	<CAOMwXhMUuS2-dV1xe0YWFxOeD08ByUHHm8DPaqeT=4jAFzHXVA@mail.gmail.com>
-	<1391860744.32614.52.camel@ted>
-	<CAOMwXhM8FgqC+z-fo9VNDyn=imUhomLmm+hQUSX4k9r7AsXJyA@mail.gmail.com>
-	<1391862015.32614.59.camel@ted>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20140208183748.GO3698@jama>
 MIME-Version: 1.0
-In-Reply-To: <1391862015.32614.59.camel@ted>
 User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts
+Subject: State of bitbake world, Failed tasks 2014-02-08
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,86 +43,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2014 18:05:28 -0000
-X-Groupsio-MsgNum: 49964
+X-List-Received-Date: Sat, 08 Feb 2014 18:37:34 -0000
+X-Groupsio-MsgNum: 49965
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Qa0ccP92Gc0Ko3P8"
+	protocol="application/pgp-signature"; boundary="uGrbifh0UoBBidu/"
 Content-Disposition: inline
 
---Qa0ccP92Gc0Ko3P8
+--uGrbifh0UoBBidu/
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Feb 08, 2014 at 12:20:15PM +0000, Richard Purdie wrote:
-> On Sat, 2014-02-08 at 12:07 +0000, Laszlo Papp wrote:
-> > Why is it a nightmare? For instance, maintainers in other projects
-> > leave a "Pushed, thanks" note.
-> >=20
-> > See how much discussion this generates already, instead of two words.
-> > While you are at the change to merge it, you are already in place to
-> > leave the comment. However, contributors need to go and find the
-> > corresponding url, etc. Please note that contributors may want to know
-> > whether their voluntary work got merged without even a checkout, for
-> > instance double checking from mobile, etc.
-> >=20
-> > ... or is the real problem the lack of maintainer man power?
->=20
-> Its both a man power problem and the process isn't as simple as
-> described.=20
->=20
-> The changes get batched together into large units, those get tested on
-> the autobuilder. If they work out ok, the changes go in, if they fail,
-> we pull out patches until we get a successful batch, then merge.
->=20
-> Upon failures, we do aim to mention those on list. Having to go back
-> through emails to find the ones which merge and "ack" them is a pain
-> though since we are "not already in place" as you put it.
->=20
-> There are only two people in general who do this on OE-Core, myself and
-> Saul. We do have a ton of other pressures on our time, we do the best we
-> can. If someone wants to ack patches that merge I'm happy for them to do
-> so, it would be just as much work for them as it would for me/Saul.
->=20
-> I am aware there are patch management tools out there which can show
-> status of patches. We've looked hard at them and in general they impose
-> more overhead and process onto people who don't want it.
+=3D=3D Failed tasks 2014-02-08 =3D=3D
 
-FWIW: for meta-oe I still use patchwork
-(http://patchwork.openembedded.org/) the main advantage for me as
-maintainer is that I can split incoming patches into different bundles
-(categories) and leave some bundles for sublayers with own dedicated
-maintainer for him to handle them.
+=3D=3D=3D common (17) =3D=3D=3D
+    * meta-openembedded/meta-efl/recipes-efl/e17/e-tasks_git.bb, do_compile
+    * meta-openembedded/meta-efl/recipes-efl/e17/emprint_svn.bb, do_compile
+    * meta-openembedded/meta-efl/recipes-efl/e17/news_svn.bb, do_compile
+    * meta-openembedded/meta-efl/recipes-efl/e17/rage_svn.bb, do_compile
+    * meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.=
+bb, do_compile
+    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_12.2.=
+bb, do_fetch
+    * meta-openembedded/meta-multimedia/recipes-multimedia/vlc/vlc_1.1.11.b=
+b, do_compile
+    * meta-openembedded/meta-networking/recipes-support/traceroute/tracerou=
+te_2.0.18.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.1.bb, do_i=
+nstall
+    * meta-openembedded/meta-oe/recipes-core/libxml/libxml++_2.35.3.bb, do_=
+compile
+    * meta-openembedded/meta-oe/recipes-devtools/packagekit/packagekit_0.8.=
+13.bb, do_configure
+    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
+ile
+    * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_c=
+ompile
+    * meta-qt5/recipes-qt/qt5/qtwebkit_5.2.0.bb, do_compile
+    * meta-smartphone/meta-fso/recipes-freesmartphone/freesmartphone/zhone_=
+git.bb, do_compile
+    * meta-smartphone/meta-shr/recipes-shr/themes/e-wm-theme-illume-neo_git=
+=2Ebb, do_compile
+    * openembedded-core/meta/recipes-devtools/cmake/cmake-native_2.8.12.1.b=
+b, do_configure
 
-The hook for automatic "Accepted" flag quite often doesn't close right
-patch or doesn't close anything at all and contributers very rarely
-update their own patches as well (e.g. when they send v2 they almost
-never mark v1 as superseded) so the overall benefit from patchwork is
-quite low, but still better than nothing for me.
+=3D=3D=3D common-x86 (4) =3D=3D=3D
+    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
+pile
+    * meta-openembedded/meta-oe/recipes-support/ode/ode_0.9.bb, do_configure
+    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
 
-=46rom contributor POV I don't see need for "ack/Pushed" e-mail, I rebase a=
-ll
-my local changes quite often, so when some are merged I'll notice that
-they are gone from my local branch. When some patch is stuck there for
-very long time, it's again easy to spot this and send reminder on that
-patch email. Another advantage of rebasing my submitted patches is that
-I'll see if my patch was modified prior to merge or when older revision
-of the patch was merged and rebase leaves me with some significant delta
-between v1 and v2 which I can easily submit as incremental patch.
+=3D=3D=3D qemuarm (3) =3D=3D=3D
+    * meta-openembedded/meta-filesystems/recipes-filesystems/smbnetfs/smbne=
+tfs_git.bb, do_packagedata
+    * openembedded-core/meta/recipes-bsp/grub/grub_git.bb, do_package
+    * openembedded-core/meta/recipes-support/ca-certificates/ca-certificate=
+s_20130610.bb, do_packagedata
+
+=3D=3D=3D qemux86 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-geo=
+de_2.11.14.bb, do_compile
+
+=3D=3D=3D qemux86_64 (1) =3D=3D=3D
+    * meta-openembedded/meta-oe/recipes-devtools/python/python-m2crypto_0.2=
+1.1.bb, do_compile
+
+=3D=3D=3D Number of failed tasks =3D=3D=3D
+{| class=3Dwikitable
+|-
+||qemuarm       ||20    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140205_201530.log/
+|-
+||qemux86       ||24    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140206_155623.log/
+|-
+||qemux86_64    ||22    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
+ore-branches//log.world.20140207_100027.log/
+|}
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Qa0ccP92Gc0Ko3P8
+--uGrbifh0UoBBidu/
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlL2cfcACgkQN1Ujt2V2gBxhBACfbYvMghfUKQCYr78TwPYug1NE
-qhIAnA8ezwfG98qYBLdF6bFeCavgN3wX
-=jpyc
+iEYEARECAAYFAlL2eXwACgkQN1Ujt2V2gBydIQCeJEfKaPMaH/5sKtMkfpAHjoyt
+yKIAoJO2JYWJONc4RCs0FGQFR7X5+mWP
+=5Zxa
 -----END PGP SIGNATURE-----
 
---Qa0ccP92Gc0Ko3P8--
+--uGrbifh0UoBBidu/--
