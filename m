@@ -1,37 +1,31 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CD036E908
+Return-Path: <rpurdie@rpsys.net>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id B28FE6E38C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Feb 2014 14:36:28 +0000 (UTC)
-Received: by mail-la0-f48.google.com with SMTP id mc6so3972335lab.21
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Feb 2014 06:36:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=eodXAmqDXDz0iKIPyslWK5EcZnEDXZuiBphEO1BhVr0=;
-	b=cEX4fF8Aot4rt3I5cO9S0iYDnmu0UrrNhT9urzkfYiMIpUrwDQH690WyBibZvb5u4r
-	FO3vfLjAW5NQHx8rZ4g+anqcN9dBxQ9GkNMmIY8LtsXu+M3fEA2em/JQvAwa/nDCCBr4
-	LX6W11hO6Kojkof9iy+So1DQr/c7S8wN2HVZPHQQJO2tBTMs8mizgJqvIIE3ol39Ahvg
-	VIx984gxgs1zwzcRl30mqbMzr7VTpfarxHUbz4y4GRL9F+161ik4hew0EnZV5glz45a+
-	CmZwZ52mN9p8XYbaEbrcKCpDIaXZsO819YaI8zrGiP38XozyF448vE/kaClKTJZgn/at
-	JZfg==
-MIME-Version: 1.0
-X-Received: by 10.112.134.38 with SMTP id ph6mr17307148lbb.16.1391956588365;
-	Sun, 09 Feb 2014 06:36:28 -0800 (PST)
-Received: by 10.112.170.166 with HTTP; Sun, 9 Feb 2014 06:36:28 -0800 (PST)
-In-Reply-To: <1391947592.7120.0.camel@ted>
-References: <cover.1391534980.git.bruce.ashfield@windriver.com>
-	<8a4a98cc53998f6bbf08763359e1b560b2da3e54.1391534980.git.bruce.ashfield@windriver.com>
-	<1391947592.7120.0.camel@ted>
-Date: Sun, 9 Feb 2014 09:36:28 -0500
-Message-ID: <CADkTA4P+zF=pPonakN+0EP+d7306RXXLWPcnexaOcvj9+ijssA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] kernel: stop using -exec rm for deleting files
+	Sun,  9 Feb 2014 23:25:45 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s19NPPJF014466; Sun, 9 Feb 2014 23:25:26 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id YBS3C4zLr84F; Sun,  9 Feb 2014 23:25:25 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s19NPHox014462
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sun, 9 Feb 2014 23:25:19 GMT
+Message-ID: <1391988311.7120.2.camel@ted>
+From: Richard Purdie <rpurdie@rpsys.net>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, Laurentiu Palcu
+	<laurentiu.palcu@intel.com>
+Date: Sun, 09 Feb 2014 23:25:11 +0000
+In-Reply-To: <1391693941-25938-1-git-send-email-paul.eggleton@linux.intel.com>
+References: <1391693941-25938-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python-smartpm: really ignore conflicts during install with --attempt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,95 +38,210 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Feb 2014 14:36:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 09 Feb 2014 23:25:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Feb 9, 2014 at 7:06 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2014-02-04 at 12:34 -0500, Bruce Ashfield wrote:
->> Removing files from the source tree via find, exec and rm is not the
->> most efficient operation, due to (among other things) the many forked
->> processes.
->>
->> If we use -delete, it saves a significant amount of time. But -delete
->> does not work with -prune (since it forces -depth). To maintain the
->> lib, tools and scripts source files, we can hide them temporarily,
->> skip their hidden directories and then finally restore them.
->>
->> Time for install before this change:
->>
->>  real    2m48.563s
->>  user    0m35.220s
->>  sys     0m33.036s
->>
->> Time for install after this change:
->>
->>  real    1m21.301s
->>  user    0m33.160s
->>  sys     0m28.388s
->>
->> We could further speed this up by using inline perl to delete the files,
->> but that complexity is avoided for now.
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> ---
->>  meta/classes/kernel.bbclass | 18 +++++++++++++++---
->>  1 file changed, 15 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 51626b03f824..b76a65699755 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -260,9 +260,21 @@ kernel_do_install() {
->>       # we clean the scripts dir while leaving the generated config
->>       # and include files.
->>       #
->> -     oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
->> -     make -C $kerneldir _mrproper_scripts
->> -     find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
->> +     oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
->> +
->> +     # hide directories that shouldn't have their .c, s and S files deleted
->> +     for d in tools scripts lib; do
->> +             mv $kerneldir/$d $kerneldir/.$d
->> +     done
->> +
->> +     # delete .c, .s and .S files, unless we hid a directory as .<dir>. This technique is
->> +     # much faster than find -prune and -exec
->> +     find . -not -path '*/\.*' -type f -name "*.[csS]" -delete
->> +
->> +     # put the hidden dirs back
->> +     for d in tools scripts lib; do
->> +             mv $kerneldir/.$d $kerneldir/$d
->> +     done
->>
->>       # As of Linux kernel version 3.0.1, the clean target removes
->>       # arch/powerpc/lib/crtsavres.o which is present in
->
->
-> I think this patch is resulting in:
->
-> http://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc-lsb/builds/22/steps/BuildImages/logs/stdio
->
+On Thu, 2014-02-06 at 13:39 +0000, Paul Eggleton wrote:
+> The original patch added in OE-Core commit
+> bdf07b1698d228dc7ff555199a269b1ff8ceca19 was supposed to ignore
+> conflicts, but it was unable to do so because it wasn't raising errors
+> in the right place. When the --attempt option is used (as is done in
+> complementary package installation for RPM), raise errors immediately
+> on conflicts, catch errors at the right point so that requested packages
+> and their dependencies can be ignored, and print appropriate warnings
+> when doing so.
+> 
+> Fixes [YOCTO #5313].
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  .../python/python-smartpm/smart-attempt.patch      | 134 +++++++++++++++++++--
+>  1 file changed, 121 insertions(+), 13 deletions(-)
 
-Could be. I'll launch a build and see if it happens here as well.
+Could you take a look at:
 
-Bruce
+http://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/22
 
-> Cheers,
->
-> Richard
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+please?
+
+I've not 100% confirmed it was this change, it could be something else
+(e.g. Laurentiu's rootfs changes) but something in master-next broke
+multilib :/
+
+Cheers,
+
+Richard
 
 
+> diff --git a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+> index 0d603d3..1136182 100644
+> --- a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+> +++ b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+> @@ -1,18 +1,27 @@
+> -Add a mechanism to attempt the install operation, w/o failing.
+> +From 7ee23804a06f81476cc2b31a6db11b52d7af764e Mon Sep 17 00:00:00 2001
+> +From: Mark Hatle <mark.hatle@windriver.com>
+> +Date: Mon, 20 Jan 2014 14:30:52 +0000
+> +Subject: [PATCH] Add mechanism to attempt install without failing
+>  
+> -For complementary and 'attemptonly' packages, we need a way to instruct smart to
+> -try to install, but ignore any failures.
+> +In OpenEmbedded, for complementary and 'attemptonly' package processing,
+> +we need a way to instruct smart to try to install, but ignore any
+> +failures (usually conflicts).
+>  
+>  This option only works for the install operation.
+>  
+>  Upstream-Status: Pending
+>  
+>  Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> +---
+> + smart/commands/install.py |  5 ++++
+> + smart/transaction.py      | 65 +++++++++++++++++++++++++++++++++++------------
+> + 2 files changed, 54 insertions(+), 16 deletions(-)
+>  
+> -Index: smart-1.4.1/smart/commands/install.py
+> -===================================================================
+> ---- smart-1.4.1.orig/smart/commands/install.py
+> -+++ smart-1.4.1/smart/commands/install.py
+> +diff --git a/smart/commands/install.py b/smart/commands/install.py
+> +index 590222c..6ef9682 100644
+> +--- a/smart/commands/install.py
+> ++++ b/smart/commands/install.py
+>  @@ -50,6 +50,8 @@ def option_parser():
+>       parser = OptionParser(usage=USAGE,
+>                             description=DESCRIPTION,
+> @@ -32,11 +41,106 @@ Index: smart-1.4.1/smart/commands/install.py
+>       if opts.explain:
+>           sysconf.set("explain-changesets", True, soft=True)
+>   
+> -Index: smart-1.4.1/smart/transaction.py
+> -===================================================================
+> ---- smart-1.4.1.orig/smart/transaction.py
+> -+++ smart-1.4.1/smart/transaction.py
+> -@@ -1216,9 +1216,17 @@ class Transaction(object):
+> +diff --git a/smart/transaction.py b/smart/transaction.py
+> +index 5730a42..e3e61c6 100644
+> +--- a/smart/transaction.py
+> ++++ b/smart/transaction.py
+> +@@ -555,6 +555,8 @@ class Transaction(object):
+> +         changeset.set(pkg, INSTALL)
+> +         isinst = changeset.installed
+> + 
+> ++        attempt = sysconf.has("attempt-install", soft=True)
+> ++
+> +         # Remove packages conflicted by this one.
+> +         for cnf in pkg.conflicts:
+> +             for prv in cnf.providedby:
+> +@@ -564,11 +566,16 @@ class Transaction(object):
+> +                     if not isinst(prvpkg):
+> +                         locked[prvpkg] = (LOCKED_CONFLICT_BY, pkg)
+> +                         continue
+> +-                    if prvpkg in locked:
+> +-                        raise Failed, _("Can't install %s: conflicted package "
+> +-                                        "%s is locked") % (pkg, prvpkg)
+> +-                    self._remove(prvpkg, changeset, locked, pending, depth)
+> +-                    pending.append((PENDING_UPDOWN, prvpkg))
+> ++                    if attempt:
+> ++                        del changeset[pkg]
+> ++                        raise Failed, _("Can't install %s: it conflicts with package "
+> ++                                        "%s") % (pkg, prvpkg)
+> ++                    else:
+> ++                        if prvpkg in locked:
+> ++                            raise Failed, _("Can't install %s: conflicted package "
+> ++                                            "%s is locked") % (pkg, prvpkg)
+> ++                        self._remove(prvpkg, changeset, locked, pending, depth)
+> ++                        pending.append((PENDING_UPDOWN, prvpkg))
+> + 
+> +         # Remove packages conflicting with this one.
+> +         for prv in pkg.provides:
+> +@@ -579,12 +586,18 @@ class Transaction(object):
+> +                     if not isinst(cnfpkg):
+> +                         locked[cnfpkg] = (LOCKED_CONFLICT, pkg)
+> +                         continue
+> +-                    if cnfpkg in locked:
+> ++                    if attempt:
+> ++                        del changeset[pkg]
+> +                         raise Failed, _("Can't install %s: it's conflicted by "
+> +-                                        "the locked package %s") \
+> +-                                      % (pkg, cnfpkg)
+> +-                    self._remove(cnfpkg, changeset, locked, pending, depth)
+> +-                    pending.append((PENDING_UPDOWN, cnfpkg))
+> ++                                        "the package %s") \
+> ++                                    % (pkg, cnfpkg)
+> ++                    else:
+> ++                        if cnfpkg in locked:
+> ++                            raise Failed, _("Can't install %s: it's conflicted by "
+> ++                                            "the locked package %s") \
+> ++                                        % (pkg, cnfpkg)
+> ++                        self._remove(cnfpkg, changeset, locked, pending, depth)
+> ++                        pending.append((PENDING_UPDOWN, cnfpkg))
+> + 
+> +         # Remove packages with the same name that can't
+> +         # coexist with this one.
+> +@@ -594,10 +607,15 @@ class Transaction(object):
+> +                 if not isinst(namepkg):
+> +                     locked[namepkg] = (LOCKED_NO_COEXIST, pkg)
+> +                     continue
+> +-                if namepkg in locked:
+> ++                if attempt:
+> ++                    del changeset[pkg]
+> +                     raise Failed, _("Can't install %s: it can't coexist "
+> +                                     "with %s") % (pkg, namepkg)
+> +-                self._remove(namepkg, changeset, locked, pending, depth)
+> ++                else:
+> ++                    if namepkg in locked:
+> ++                        raise Failed, _("Can't install %s: it can't coexist "
+> ++                                        "with %s") % (pkg, namepkg)
+> ++                    self._remove(namepkg, changeset, locked, pending, depth)
+> + 
+> +         # Install packages required by this one.
+> +         for req in pkg.requires + pkg.recommends:
+> +@@ -1176,6 +1194,8 @@ class Transaction(object):
+> + 
+> +         self._policy.runStarting()
+> + 
+> ++        attempt = sysconf.has("attempt-install", soft=True)
+> ++
+> +         try:
+> +             changeset = self._changeset.copy()
+> +             isinst = changeset.installed
+> +@@ -1190,7 +1210,11 @@ class Transaction(object):
+> +                     locked[pkg] = (LOCKED_KEEP, None)
+> +                 elif op is INSTALL:
+> +                     if not isinst(pkg) and pkg in locked:
+> +-                        raise Failed, _("Can't install %s: it's locked") % pkg
+> ++                        if attempt:
+> ++                            iface.warning(_("Can't install %s: it's locked") % pkg)
+> ++                            del changeset[pkg]
+> ++                        else:
+> ++                            raise Failed, _("Can't install %s: it's locked") % pkg
+> +                     changeset.set(pkg, INSTALL)
+> +                     locked[pkg] = (LOCKED_INSTALL, None)
+> +                 elif op is REMOVE:
+> +@@ -1216,9 +1240,18 @@ class Transaction(object):
+>                       else:
+>                           op = REMOVE
+>                   if op is INSTALL or op is REINSTALL:
+> @@ -48,7 +152,8 @@ Index: smart-1.4.1/smart/transaction.py
+>  +                        if pkg in changeset:
+>  +                            changeset.setRequested(pkg, True)
+>  +                    except Failed, e:
+> -+                        if sysconf.has("attempt-install", soft=True):
+> ++                        if attempt:
+> ++                            iface.warning(_("Can't install %s: %s") % (pkg, e))
+>  +                            if pkg in changeset:
+>  +                                del changeset[pkg]
+>  +                            continue
+> @@ -57,3 +162,6 @@ Index: smart-1.4.1/smart/transaction.py
+>                   elif op is REMOVE:
+>                       self._remove(pkg, changeset, locked, pending)
+>                   elif op is UPGRADE:
+> +-- 
+> +1.8.4.2
+> +
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
 
