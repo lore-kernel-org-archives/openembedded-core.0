@@ -1,36 +1,23 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C6556E951
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E8246ED34
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2014 21:56:28 +0000 (UTC)
-Received: by mail-pa0-f41.google.com with SMTP id fa1so4613718pad.14
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Feb 2014 13:56:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
-	:to:content-type;
-	bh=cYzvXnqOIVUtMjwMW3l6h1z6FSJ0tb8kP0JLxKgCBMo=;
-	b=ffQJ1GlhvAKFCaqpoKyGXgvXpPVlztTedzqKe/Is48IPNolgRKqMSIanizQWXbc7w0
-	k0lwTnDKug6LtBCMvS11y7+/WBsP/Jpke53NKiZRqPRbYX4UkZR6BayseesA2Nr3dHNb
-	KfXZ675aQACKuspq3BNCcVkd/TNh/2u/qpx0KpQB9jTvDTBSz+LEHDvRzYzECm8oH4t4
-	SkNIazphgAiq+926+0QdvN8Qvp6UP+kDeuU7lEQ7J91H2j0kcO9nFsVV6OH0K5RdlSQp
-	o7LFIOxMwvuOWSLZv5K7rfx4NOSsJAIVV2DreY4AHTGtt+0ecbB9a0Bg/u4DBwiHVpqi
-	fIPQ==
-X-Gm-Message-State: ALoCoQm2plCInTypuToK9Uwp8XGJF5ccg2tF3tixVg8rKlI6RNMOXzFv+/Lqs5X3IGt7y7RfGCBq
-MIME-Version: 1.0
-X-Received: by 10.66.179.143 with SMTP id dg15mr16449929pac.52.1391896588742; 
-	Sat, 08 Feb 2014 13:56:28 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.21.228 with HTTP; Sat, 8 Feb 2014 13:56:28 -0800 (PST)
-Date: Sat, 8 Feb 2014 21:56:28 +0000
-X-Google-Sender-Auth: 8y3xVBUg6ufKNhly9rfIFrB_FTA
-Message-ID: <CAOMwXhPDaK9NMx7z5Mgady7d4t1AA7dJVikC9w72r_EC3xbqgQ@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Patch workflow [was: meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts]
+	Sun,  9 Feb 2014 10:39:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 09 Feb 2014 02:35:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,812,1384329600"; d="scan'208";a="480418440"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 09 Feb 2014 02:39:39 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
+	by linux.intel.com (Postfix) with ESMTP id E35416A4007;
+	Sun,  9 Feb 2014 02:39:31 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  9 Feb 2014 12:39:30 +0200
+Message-Id: <1391942371-23953-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] oeqa/utils: targetbuild: take proxy into account
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,54 +30,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2014 21:56:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 09 Feb 2014 10:39:39 -0000
 
-On Sat, Feb 8, 2014 at 12:20 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sat, 2014-02-08 at 12:07 +0000, Laszlo Papp wrote:
->> Why is it a nightmare? For instance, maintainers in other projects
->> leave a "Pushed, thanks" note.
->>
->> See how much discussion this generates already, instead of two words.
->> While you are at the change to merge it, you are already in place to
->> leave the comment. However, contributors need to go and find the
->> corresponding url, etc. Please note that contributors may want to know
->> whether their voluntary work got merged without even a checkout, for
->> instance double checking from mobile, etc.
->>
->> ... or is the real problem the lack of maintainer man power?
->
-> Its both a man power problem and the process isn't as simple as
-> described.
->
-> The changes get batched together into large units, those get tested on
-> the autobuilder. If they work out ok, the changes go in, if they fail,
-> we pull out patches until we get a successful batch, then merge.
->
-> Upon failures, we do aim to mention those on list. Having to go back
-> through emails to find the ones which merge and "ack" them is a pain
-> though since we are "not already in place" as you put it.
+A previous commit broke downloads
+when proxies are involved, let's fix it.
 
-Hmm, that is unfortunate, and practically speaking: having contributed
-to several projects, it is also a bit outstanding. It feels like the
-tools do not do the ideal job.
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/runtime/buildcvs.py      |  2 +-
+ meta/lib/oeqa/runtime/buildiptables.py |  2 +-
+ meta/lib/oeqa/runtime/buildsudoku.py   |  2 +-
+ meta/lib/oeqa/utils/targetbuild.py     | 20 ++++++++++++++++++--
+ 4 files changed, 21 insertions(+), 5 deletions(-)
 
-> There are only two people in general who do this on OE-Core, myself and
-> Saul. We do have a ton of other pressures on our time, we do the best we
-> can. If someone wants to ack patches that merge I'm happy for them to do
-> so, it would be just as much work for them as it would for me/Saul.
->
-> I am aware there are patch management tools out there which can show
-> status of patches. We've looked hard at them and in general they impose
-> more overhead and process onto people who don't want it.
+diff --git a/meta/lib/oeqa/runtime/buildcvs.py b/meta/lib/oeqa/runtime/buildcvs.py
+index 9bf764d..f1fbf19 100644
+--- a/meta/lib/oeqa/runtime/buildcvs.py
++++ b/meta/lib/oeqa/runtime/buildcvs.py
+@@ -10,7 +10,7 @@ class BuildCvsTest(oeRuntimeTest):
+ 
+     @classmethod
+     def setUpClass(self):
+-        self.project = TargetBuildProject(oeRuntimeTest.tc.target,
++        self.project = TargetBuildProject(oeRuntimeTest.tc.target, oeRuntimeTest.tc.d,
+                         "http://ftp.gnu.org/non-gnu/cvs/source/feature/1.12.13/cvs-1.12.13.tar.bz2")
+         self.project.download_archive()
+ 
+diff --git a/meta/lib/oeqa/runtime/buildiptables.py b/meta/lib/oeqa/runtime/buildiptables.py
+index 50faf5d..f6061a7 100644
+--- a/meta/lib/oeqa/runtime/buildiptables.py
++++ b/meta/lib/oeqa/runtime/buildiptables.py
+@@ -10,7 +10,7 @@ class BuildIptablesTest(oeRuntimeTest):
+ 
+     @classmethod
+     def setUpClass(self):
+-        self.project = TargetBuildProject(oeRuntimeTest.tc.target,
++        self.project = TargetBuildProject(oeRuntimeTest.tc.target, oeRuntimeTest.tc.d,
+                         "http://netfilter.org/projects/iptables/files/iptables-1.4.13.tar.bz2")
+         self.project.download_archive()
+ 
+diff --git a/meta/lib/oeqa/runtime/buildsudoku.py b/meta/lib/oeqa/runtime/buildsudoku.py
+index 61dc1ff..a754f1d 100644
+--- a/meta/lib/oeqa/runtime/buildsudoku.py
++++ b/meta/lib/oeqa/runtime/buildsudoku.py
+@@ -10,7 +10,7 @@ class SudokuTest(oeRuntimeTest):
+ 
+     @classmethod
+     def setUpClass(self):
+-        self.project = TargetBuildProject(oeRuntimeTest.tc.target,
++        self.project = TargetBuildProject(oeRuntimeTest.tc.target, oeRuntimeTest.tc.d,
+                         "http://downloads.sourceforge.net/project/sudoku-savant/sudoku-savant/sudoku-savant-1.3/sudoku-savant-1.3.tar.bz2")
+         self.project.download_archive()
+ 
+diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
+index 77181b1..3229676 100644
+--- a/meta/lib/oeqa/utils/targetbuild.py
++++ b/meta/lib/oeqa/utils/targetbuild.py
+@@ -11,8 +11,9 @@ import subprocess
+ 
+ class TargetBuildProject():
+ 
+-    def __init__(self, target, uri, foldername=None):
++    def __init__(self, target, d, uri, foldername=None):
+         self.target = target
++        self.d = d
+         self.uri = uri
+         self.targetdir = "~/"
+         self.archive = os.path.basename(uri)
+@@ -23,7 +24,22 @@ class TargetBuildProject():
+ 
+     def download_archive(self):
+ 
+-        subprocess.check_call("wget -O %s %s" % (self.localarchive, self.uri), shell=True)
++        exportvars = ['HTTP_PROXY', 'http_proxy',
++                      'HTTPS_PROXY', 'https_proxy',
++                      'FTP_PROXY', 'ftp_proxy',
++                      'FTPS_PROXY', 'ftps_proxy',
++                      'NO_PROXY', 'no_proxy',
++                      'ALL_PROXY', 'all_proxy',
++                      'SOCKS5_USER', 'SOCKS5_PASSWD']
++
++        cmd = ''
++        for var in exportvars:
++            val = self.d.getVar(var, True)
++            if val:
++                cmd = 'export ' + var + '=\"%s\"; %s' % (val, cmd)
++
++        cmd = cmd + "wget -O %s %s" % (self.localarchive, self.uri)
++        subprocess.check_call(cmd, shell=True)
+ 
+         (status, output) = self.target.copy_to(self.localarchive, self.targetdir)
+         if status != 0:
+-- 
+1.8.5.3
 
-OK, can you please elaborate about the drawback of e.g. Gerrit?
-
-I was told before that it would not have the feature of off-line
-reading while flying on an airplane. Is this really such a common
-scenario for Yocto maintainers, or there are other reasons? I would
-imagine managers travel a lot more than maintainers. :-)
-
-Have you (Intel, Linux Foundation, etc) considered improving the existing tools?
 
