@@ -1,18 +1,18 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 927E36D762
+	by mail.openembedded.org (Postfix) with ESMTP id CF66F6E753
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 13:32:59 +0000 (UTC)
+	Mon, 10 Feb 2014 17:17:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1ADWwlc023912
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1AHHKOr026440
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Feb 2014 05:32:58 -0800 (PST)
+	Mon, 10 Feb 2014 09:17:20 -0800 (PST)
 Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 10 Feb 2014 05:32:58 -0800
-Message-ID: <52F8D506.9070306@windriver.com>
-Date: Mon, 10 Feb 2014 08:32:54 -0500
+	Mon, 10 Feb 2014 09:17:19 -0800
+Message-ID: <52F9099B.2010302@windriver.com>
+Date: Mon, 10 Feb 2014 12:17:15 -0500
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 13:32:59 -0000
+X-List-Received-Date: Mon, 10 Feb 2014 17:17:22 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -106,7 +106,9 @@ On 14-02-09 07:06 AM, Richard Purdie wrote:
 >
 > http://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc-lsb/builds/22/steps/BuildImages/logs/stdio
 
-I've reproduced the issue locally, patch should be incoming shortly.
+I've fixed this now.
+
+For staged patches, do you prefer a resend or an incremental update patch ?
 
 Bruce
 
