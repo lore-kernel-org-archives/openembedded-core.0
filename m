@@ -1,36 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id C66EB6E746;
-	Mon, 10 Feb 2014 07:31:56 +0000 (UTC)
-Received: by mail-ig0-f172.google.com with SMTP id k19so6061752igc.5
-	for <multiple recipients>; Sun, 09 Feb 2014 23:31:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=+rphmacguwuYXClqmWhioiFfMudzHVWYQId4YZRoq8g=;
-	b=Ngk6omCDdM2y0U6KV8m8vdgqGVuYVTi2Nz7PcQkDhF9AU1cYb2ZkfvRuw8DZsoIYfs
-	mCl/8bn+fac02ojVM1suCATGChqK5u6kvwHFoSZCiWFa9LiY5AxJgDUBFyidlf/RUMyh
-	TuVsctL11zwwHtPo5qvIZ8bSjCq7Ytt89o8i2hMciFLFRgQYWr5gjc3hMQYgZOwJ72Kq
-	9qOmp8xff6uhTrCDLwOtPm0fXsYMHS+g0OpZMU86R9rxqs6Oi2zwejrIbHFPDgfNIS/5
-	JBy2034vS8NMCAlsSGyRhMNZuQXpo2y2tj+hVYKzu6KLZIECtMqFNMNCKk67atvK/rFI
-	AaIQ==
-X-Received: by 10.43.65.145 with SMTP id xm17mr14324912icb.35.1392017517706;
-	Sun, 09 Feb 2014 23:31:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.8.137 with HTTP; Sun, 9 Feb 2014 23:31:27 -0800 (PST)
-In-Reply-To: <31681ec9-08a2-426e-b3d2-72f6c0d22073@AM1EHSMHS015.ehs.local>
-References: <CAMKF1sptnVxCrjm7PAOCtRWzmSsxPv4nc0nUO82jMPQ+BCz9Hg@mail.gmail.com>
-	<31681ec9-08a2-426e-b3d2-72f6c0d22073@AM1EHSMHS015.ehs.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 9 Feb 2014 23:31:27 -0800
-Message-ID: <CAMKF1srC03NP0XkoL2Qy9X7hRt_FhQy3tG_rf=mbqhYvJ=soig@mail.gmail.com>
-To: Nathan Rossi <nathan.rossi@xilinx.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] eglibc 2.19
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 973BF6E746
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2014 07:53:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Feb 2014 23:49:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,816,1384329600"; d="scan'208";a="452616026"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by orsmga001.jf.intel.com with ESMTP; 09 Feb 2014 23:53:41 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Feb 2014 09:53:40 +0200
+Message-Id: <cover.1392018405.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1391612528.git.laurentiu.palcu@intel.com>
+References: <cover.1391612528.git.laurentiu.palcu@intel.com>
+Subject: [PATCH v4 00/52] Rootfs/image generation refactoring (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,74 +29,262 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 07:31:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Feb 2014 07:53:42 -0000
 
-On Sun, Feb 9, 2014 at 9:32 PM, Nathan Rossi <nathan.rossi@xilinx.com> wrot=
-e:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Khem Raj
->> Sent: Sunday, February 09, 2014 2:08 AM
->> To: Patches and discussions about the oe-core layer; openembeded-devel;
->> yocto@yoctoproject.org
->> Subject: [OE-core] [RFT] eglibc 2.19
->>
->> Hi all
->>
->> I have staged a branch with eglibc 2.19 upgraded recipes here
->>
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/egli=
-bc-
->> 2.19
->>
->> These are not final recipes there may be tweaks needed like adjusting
->> SRC_URI
->> later on.
->>
->> please help testing it out in your environments and machines
->> I would be happy to help out with issues we find
->
-> Hi Khem,
->
-> I have given it a test with the machines on the meta-xilinx layer, specif=
-ically ARM Cortex A9 and MicroBlaze architectures. And there appears to be =
-no issues.
+V4:
+ * fix multilib build issue for RPM backend;
 
-Thanks for the report.
+V3:
+ * add simple check to just return if we're attempting to install packages and
+   the list is empty;
 
->
-> Also I couldn't access your eglibc source tarball because of pesky corpor=
-ate web filters, so I used a direct svn export of the upstream repo at the =
-revision 25243, I assume there should be no differences?
+V2:
+ * fix building from feeds for opkg;
+ * rebase;
 
-there are no functional differences.
+Hi all,
 
->
-> On a side note, I haven't seen any mention of what is next regarding oe-c=
-ore and eglibc. Since the eglibc project has closed its development (http:/=
-/www.eglibc.org/archives/patches/msg01327.html), and that 2.19 is the final=
- version. Are there any plans to switch oe-core to using glibc for the futu=
-re? Just curious is all.
+First off: this large patchset adds no change in the rootfs/image creation
+functionality. The main logic is supposed to be the same as before. Also, I
+decided not to spam the list with this large patchset (49 patches) and I sent
+only the cover-letter. Those who want to take a peak at the code, can have a
+look by clicking the link below.
 
-Sure there definitely are and we discussed it in Last OE meeting on
-IRC recently, we will plan moving to using glibc after 2.19, so these
-will be last 2.19 eglibc recipes.
+If people would like the patches sent to the list too, just say so.
 
->
-> Regards,
-> Nathan
->
->>
->> Thank you
->>
->> -Khem
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+Ok, what's it all about then? Here are the main changes:
+ * all the old bash shell code (more then 90% of it anyway) has been ported to
+   Python. This would, hopefully, make the code more readable and allows us to
+   use some of the Python powerful features. The following new files were born,
+   together with a fair amount of changes in some bbclass'es:
+
+    > meta/lib/oe/manifest.py - implements the initial manifest creation (for now).
+      This is a file containing the list of packages going into the final image.
+      In theory, we should be able to use this file later to re-generate the
+      rootfs from a package feed, outside bitbake environment;
+
+    > meta/lib/oe/package_manager.py - implements the basic package management
+      API: install/remove packages, update index DB/index file creation. This
+      is mainly used by Rootfs/Sdk classes in order to generate the rootfs;
+
+    > meta/lib/oe/rootfs.py - contains code for rootfs generation;
+
+    > meta/lib/oe/image.py - the image creation part;
+
+    > meta/lib/oe/sdk.py - populate the SDK target/host rootfs.
+
+   With the new code, the entire do_rootfs routine in image.bbclass has now just
+   3 function calls: create_manifest(), create_rootfs(), create_image(). In this
+   order. Easier to debug just a certain part of the rootfs/image creation process.
+
+ * Some performance improvement has been obtained in 2 areas: index file creation
+   and image generation. These operations were serial in the old code. Now, they're
+   done in parallel.
+
+ * People complained about intercept scripts being hard to debug. That was because
+   the old code used a log checking routine that scanned the logs for some
+   standart error strings which were not necessarily errors. Hence, the intercepts
+   had their stderr redirected to /dev/null. This was now removed since we can
+   easily handle intercepts errors in python. So, errors will go to the log file.
+
+That's about it. There is room for even further improvement, in the index creation
+part. I had some code in place for that but I had to remove it, temporarily, due
+to some synchronization issues. Hopefully, I'll find the issue and include that
+piece back.
+
+The code was tested on my machine and on a local AB for x86, x86-64, arm, ppc,
+mips and build appliance. The builds and sanity tests finished successfully.
+
+laurentiu
+
+The following changes since commit 4e9eb77108c7e628ebd00ec848b8bc034802e197:
+
+  sstate: Improve funciton checksums (2014-02-04 22:51:43 +0000)
+
+are available in the git repository at:
+
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib lpalcu/rootfs_refactoring_ship_oecore
+
+for you to fetch changes up to b4891e7c5e02e687f037babc823cdbf7cff471a4:
+
+  lib/oe/package_manager.py: RpmPM: fix issue with multilib builds (2014-02-10 09:38:45 +0200)
+
+----------------------------------------------------------------
+Hongxu Jia (18):
+      lib/oe/manifest.py: add rpm image manifest creation
+      lib/oe/package_manager.py: support RpmPM
+      lib/oe/rootfs.py: support RpmRootfs
+      lib/oe/rootfs.py: Tweak the rootfs removing operation
+      rootfs.py: fix uninstall uneeded pkgs failed
+      rootfs.py: strip kernel-abiversion useless readline
+      lib/oe/image.py: fix get rootfs_extra_space failed
+      image.bbclass/license.bbclass: ajustment list_installed_packages invoking
+      license.bbclass: fix license_create_manifest failed
+      lib/oe/sdk.py: support RpmRootfs
+      image.bbclass/populate_sdk_base.bbclass: shift position of sdk complementary install definition
+      Cleanup rootfs_rpm,package_rpm bbclass files
+      lib/oe/rootfs.py: fix invoking rpm _handle_intercept_failure failed
+      lib/oe/package_manager.py: fix invoking rpm save_rpmpostinist failed
+      lib/oe/rootfs.py: fix invoking _run_intercepts failed
+      populate_sdk_rpm.bbclass: remove old shell code
+      package_manger.py/rootfs.py: rename save_rpmpostinist with save_rpmpostinst
+      lib/oe/package_manager.py: moving global SCRIPTLET_FORMAT and DB_CONFIG_CONTENT to RpmPM
+
+Laurentiu Palcu (34):
+      lib/oe/utils.py: add pre/post process helper function
+      lib/oe/image.py: add new image creation library
+      lib/oe/manifest.py: add library for image manifest creation
+      lib/oe/package_manager.py: add new package management library
+      lib/oe/rootfs.py: add new library for rootfs creation
+      Activate the new python rootfs/image creation routines
+      oe/manifest.py: Add manifest creation for opkg
+      package_(deb|ipk).bbclass: remove the stamp when creating package from cache
+      lib/oe/manifest.py: create global variables for package types
+      lib/oe/package_manager.py: add deploy dir locking mechanism
+      lib/oe/package_manager.py: use the bitbake APT_ARGS variable
+      lib/oe/package_manager.py: add support for opkg backend
+      lib/oe/rootfs.py: add support for opkg backend
+      Cleanup image,rootfs_ipk,package_ipk bbclass files
+      image.bbclass, lib/oe/rootfs.py: remove intercept_scripts directory
+      lib/oe/manifest.py: create manifests for SDK too
+      lib/oe/rootfs.py: use Manifest.INSTALL_ORDER
+      lib/oe/package_manager.py: fixes for dpkg backend
+      lib/oe/sdk.py: add SDK class
+      populate_sdk_base.bbclass: activate the new python routines
+      image.bbclass: change POPULATE_SDK_POST_TARGET_COMMAND
+      populate_sdk_(deb|ipk).bbclass: remove old shell code
+      lib/oe/package_manager.py: RpmPM fixes
+      lib/oe/rootfs.py: warn the user if intercept hooks fail
+      scripts/postinst-intercepts: do not redirect errors to /dev/null
+      lib/oe/package_manager.py: DpkgPM, use lock on deploy dir
+      lib/oe/image.py: fix image size calculation routine
+      lib/oe/package_manager.py: OpkgPM/DpkgPM fixes
+      lib/oe/rootfs.py: OpkgRootfs, fix issue in _get_delayed_postinsts()
+      lib/oe/package_manager.py: do not use stamps
+      lib/oe/package_manager.py: OpkgPM, bad recommendation handling change
+      rootfs.py, package_manager.py, sdk.py: Fix building from feeds feature for opkg
+      lib/oe/package_manager.py: check that package list is not empty
+      lib/oe/package_manager.py: RpmPM: fix issue with multilib builds
+
+ meta/classes/image.bbclass                      |  329 +-----
+ meta/classes/image_types.bbclass                |  113 --
+ meta/classes/license.bbclass                    |   16 +-
+ meta/classes/package_deb.bbclass                |  151 +--
+ meta/classes/package_ipk.bbclass                |  202 +---
+ meta/classes/package_rpm.bbclass                |  472 --------
+ meta/classes/populate_sdk_base.bbclass          |   63 +-
+ meta/classes/populate_sdk_deb.bbclass           |   59 -
+ meta/classes/populate_sdk_ipk.bbclass           |   54 -
+ meta/classes/populate_sdk_rpm.bbclass           |  152 ---
+ meta/classes/rootfs_deb.bbclass                 |  115 --
+ meta/classes/rootfs_ipk.bbclass                 |  138 +--
+ meta/classes/rootfs_rpm.bbclass                 |  184 ---
+ meta/lib/oe/image.py                            |  239 ++++
+ meta/lib/oe/manifest.py                         |  291 +++++
+ meta/lib/oe/package_manager.py                  | 1374 +++++++++++++++++++++++
+ meta/lib/oe/rootfs.py                           |  681 +++++++++++
+ meta/lib/oe/sdk.py                              |  345 ++++++
+ meta/lib/oe/utils.py                            |   12 +-
+ scripts/postinst-intercepts/update_font_cache   |    2 +-
+ scripts/postinst-intercepts/update_pixbuf_cache |    2 +-
+ 21 files changed, 3016 insertions(+), 1978 deletions(-)
+ create mode 100644 meta/lib/oe/image.py
+ create mode 100644 meta/lib/oe/manifest.py
+ create mode 100644 meta/lib/oe/package_manager.py
+ create mode 100644 meta/lib/oe/rootfs.py
+ create mode 100644 meta/lib/oe/sdk.py
+
+Hongxu Jia (18):
+  lib/oe/manifest.py: add rpm image manifest creation
+  lib/oe/package_manager.py: support RpmPM
+  lib/oe/rootfs.py: support RpmRootfs
+  lib/oe/rootfs.py: Tweak the rootfs removing operation
+  rootfs.py: fix uninstall uneeded pkgs failed
+  rootfs.py: strip kernel-abiversion useless readline
+  lib/oe/image.py: fix get rootfs_extra_space failed
+  image.bbclass/license.bbclass: ajustment list_installed_packages
+    invoking
+  license.bbclass: fix license_create_manifest failed
+  lib/oe/sdk.py: support RpmRootfs
+  image.bbclass/populate_sdk_base.bbclass: shift position of sdk
+    complementary install definition
+  Cleanup rootfs_rpm,package_rpm bbclass files
+  lib/oe/rootfs.py: fix invoking rpm _handle_intercept_failure failed
+  lib/oe/package_manager.py: fix invoking rpm save_rpmpostinist failed
+  lib/oe/rootfs.py: fix invoking _run_intercepts failed
+  populate_sdk_rpm.bbclass: remove old shell code
+  package_manger.py/rootfs.py: rename save_rpmpostinist with
+    save_rpmpostinst
+  lib/oe/package_manager.py: moving global SCRIPTLET_FORMAT and
+    DB_CONFIG_CONTENT to RpmPM
+
+Laurentiu Palcu (34):
+  lib/oe/utils.py: add pre/post process helper function
+  lib/oe/image.py: add new image creation library
+  lib/oe/manifest.py: add library for image manifest creation
+  lib/oe/package_manager.py: add new package management library
+  lib/oe/rootfs.py: add new library for rootfs creation
+  Activate the new python rootfs/image creation routines
+  oe/manifest.py: Add manifest creation for opkg
+  package_(deb|ipk).bbclass: remove the stamp when creating package
+    from cache
+  lib/oe/manifest.py: create global variables for package types
+  lib/oe/package_manager.py: add deploy dir locking mechanism
+  lib/oe/package_manager.py: use the bitbake APT_ARGS variable
+  lib/oe/package_manager.py: add support for opkg backend
+  lib/oe/rootfs.py: add support for opkg backend
+  Cleanup image,rootfs_ipk,package_ipk bbclass files
+  image.bbclass, lib/oe/rootfs.py: remove intercept_scripts directory
+  lib/oe/manifest.py: create manifests for SDK too
+  lib/oe/rootfs.py: use Manifest.INSTALL_ORDER
+  lib/oe/package_manager.py: fixes for dpkg backend
+  lib/oe/sdk.py: add SDK class
+  populate_sdk_base.bbclass: activate the new python routines
+  image.bbclass: change POPULATE_SDK_POST_TARGET_COMMAND
+  populate_sdk_(deb|ipk).bbclass: remove old shell code
+  lib/oe/package_manager.py: RpmPM fixes
+  lib/oe/rootfs.py: warn the user if intercept hooks fail
+  scripts/postinst-intercepts: do not redirect errors to /dev/null
+  lib/oe/package_manager.py: DpkgPM, use lock on deploy dir
+  lib/oe/image.py: fix image size calculation routine
+  lib/oe/package_manager.py: OpkgPM/DpkgPM fixes
+  lib/oe/rootfs.py: OpkgRootfs, fix issue in _get_delayed_postinsts()
+  lib/oe/package_manager.py: do not use stamps
+  lib/oe/package_manager.py: OpkgPM, bad recommendation handling change
+  rootfs.py, package_manager.py, sdk.py: Fix building from feeds
+    feature for opkg
+  lib/oe/package_manager.py: check that package list is not empty
+  lib/oe/package_manager.py: RpmPM: fix issue with multilib builds
+
+ meta/classes/image.bbclass                      |  329 +-----
+ meta/classes/image_types.bbclass                |  113 --
+ meta/classes/license.bbclass                    |   16 +-
+ meta/classes/package_deb.bbclass                |  151 +--
+ meta/classes/package_ipk.bbclass                |  202 +---
+ meta/classes/package_rpm.bbclass                |  472 --------
+ meta/classes/populate_sdk_base.bbclass          |   63 +-
+ meta/classes/populate_sdk_deb.bbclass           |   59 -
+ meta/classes/populate_sdk_ipk.bbclass           |   54 -
+ meta/classes/populate_sdk_rpm.bbclass           |  152 ---
+ meta/classes/rootfs_deb.bbclass                 |  115 --
+ meta/classes/rootfs_ipk.bbclass                 |  138 +--
+ meta/classes/rootfs_rpm.bbclass                 |  184 ---
+ meta/lib/oe/image.py                            |  239 ++++
+ meta/lib/oe/manifest.py                         |  291 +++++
+ meta/lib/oe/package_manager.py                  | 1374 +++++++++++++++++++++++
+ meta/lib/oe/rootfs.py                           |  681 +++++++++++
+ meta/lib/oe/sdk.py                              |  345 ++++++
+ meta/lib/oe/utils.py                            |   12 +-
+ scripts/postinst-intercepts/update_font_cache   |    2 +-
+ scripts/postinst-intercepts/update_pixbuf_cache |    2 +-
+ 21 files changed, 3016 insertions(+), 1978 deletions(-)
+ create mode 100644 meta/lib/oe/image.py
+ create mode 100644 meta/lib/oe/manifest.py
+ create mode 100644 meta/lib/oe/package_manager.py
+ create mode 100644 meta/lib/oe/rootfs.py
+ create mode 100644 meta/lib/oe/sdk.py
+
+-- 
+1.7.9.5
+
 
