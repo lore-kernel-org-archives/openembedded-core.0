@@ -1,26 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D0D4C6EC73
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CACEB6EC55
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 19:28:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1AJST5M027916
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 11:28:30 -0800 (PST)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 10 Feb 2014 11:28:29 -0800
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Feb 2014 13:28:26 -0600
-Message-ID: <d6db736c28f68632eb05d94f254bcd0ca465a977.1392060196.git.mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <cover.1392060196.git.mark.hatle@windriver.com>
-References: <cover.1392060196.git.mark.hatle@windriver.com>
+	Mon, 10 Feb 2014 20:15:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1AKFX02029368
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Feb 2014 12:15:33 -0800 (PST)
+Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 10 Feb 2014 12:15:32 -0800
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Mon, 10 Feb 2014 15:15:29 -0500
+Message-ID: <1392063329-24706-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH 2/2] useradd-staticids: Adjust USERADD_ERROR_DYNAMIC condition and error message
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] kernel: stop using -exec rm for deleting files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 19:28:29 -0000
+X-List-Received-Date: Mon, 10 Feb 2014 20:15:34 -0000
 Content-Type: text/plain
 
-The USERADD_ERROR_DYNAMIC needs to check that both users and groups that are
-defined need to be represented as static ids, or an error should occur.
+Removing files from the source tree via find, exec and rm is not the
+most efficient operation, due to (among other things) the many forked
+processes.
 
-For the user check, we want to make sure the uid is a numeric value.  (The gid
-can be name, as the GROUPADD check will validate for a number there -- or
-during install useradd will fail if that group is not defined.)
+If we use -delete, it saves a significant amount of time. But -delete
+does not work with -prune (since it forces -depth). To maintain the
+lib, tools and scripts source files, we can hide them temporarily,
+skip their hidden directories and then finally restore them.
 
-For the group check, we verify that the gid is specified and not left as a name.
+Time for install before this change:
 
-Also two statements that can be uncommented for debugging were added so that
-future development work on this code would be easier to do.
+ real    2m48.563s
+ user    0m35.220s
+ sys     0m33.036s
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Time for install after this change:
+
+ real    1m21.301s
+ user    0m33.160s
+ sys     0m28.388s
+
+We could further speed this up by using inline perl to delete the files,
+but that complexity is avoided for now.
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/useradd-staticids.bbclass | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/classes/kernel.bbclass | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/useradd-staticids.bbclass b/meta/classes/useradd-staticids.bbclass
-index 5897fed..3efe2a8 100644
---- a/meta/classes/useradd-staticids.bbclass
-+++ b/meta/classes/useradd-staticids.bbclass
-@@ -134,8 +134,9 @@ def update_useradd_static_config(d):
-                             break
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 51626b03f824..db5d47900011 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -260,9 +260,21 @@ kernel_do_install() {
+ 	# we clean the scripts dir while leaving the generated config
+ 	# and include files.
+ 	#
+-	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
+-	make -C $kerneldir _mrproper_scripts
+-	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
++	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts 
++
++	# hide directories that shouldn't have their .c, s and S files deleted
++	for d in tools scripts lib; do
++		mv $kerneldir/$d $kerneldir/.$d
++	done
++
++	# delete .c, .s and .S files, unless we hid a directory as .<dir>. This technique is 
++	# much faster than find -prune and -exec
++	find $kerneldir -not -path '*/\.*' -type f -name "*.[csS]" -delete
++
++	# put the hidden dirs back
++	for d in tools scripts lib; do
++		mv $kerneldir/.$d $kerneldir/$d
++	done
  
-             # Should be an error if a specific option is set...
--            if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and (not uaargs.uid or not uaargs.gid):
--                raise bb.build.FuncFailed("%s - %s: Username %s does not have a static uid/gid defined." % (d.getVar('PN', True), pkg, uaargs.LOGIN))
-+            if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not ((uaargs.uid and uaargs.uid.isdigit()) and uaargs.gid):
-+                #bb.error("Skipping recipe %s, package %s which adds username %s does not have a static uid defined." % (d.getVar('PN', True),  pkg, uaargs.LOGIN))
-+                raise bb.build.FuncFailed("%s - %s: Username %s does not have a static uid defined." % (d.getVar('PN', True), pkg, uaargs.LOGIN))
- 
-             # Reconstruct the args...
-             newparam  = ['', ' --defaults'][uaargs.defaults]
-@@ -222,7 +223,8 @@ def update_useradd_static_config(d):
-                             gaargs.gid = field[2]
-                             break
- 
--            if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not gaargs.gid:
-+            if d.getVar('USERADD_ERROR_DYNAMIC', True) == '1' and not (gaargs.gid and gaargs.gid.isdigit()):
-+                #bb.error("Skipping recipe %s, package %s which adds groupname %s does not have a static gid defined." % (d.getVar('PN', True),  pkg, gaargs.GROUP))
-                 raise bb.build.FuncFailed("%s - %s: Groupname %s does not have a static gid defined." % (d.getVar('PN', True), pkg, gaargs.GROUP))
- 
-             # Reconstruct the args...
+ 	# As of Linux kernel version 3.0.1, the clean target removes
+ 	# arch/powerpc/lib/crtsavres.o which is present in
 -- 
-1.8.5.3
+1.8.1.2
 
 
