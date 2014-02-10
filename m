@@ -1,26 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BACD6E746
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 70A266E753
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 08:53:49 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1A8roat008549
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 00:53:50 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 10 Feb 2014 00:53:49 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Feb 2014 16:53:47 +0800
-Message-ID: <c5ee50d48c41d084887911553092daf62f8d7e3c.1392022374.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1392022374.git.Qi.Chen@windriver.com>
-References: <cover.1392022374.git.Qi.Chen@windriver.com>
+	Mon, 10 Feb 2014 10:02:28 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Feb 2014 02:02:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,816,1384329600"; d="scan'208";a="452687758"
+Received: from eharbiso-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.194])
+	by orsmga001.jf.intel.com with ESMTP; 10 Feb 2014 02:01:39 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Mon, 10 Feb 2014 10:01:32 +0000
+Message-ID: <1526681.3gOseygUtX@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.12.9-301.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <20140210075949.GA10078@lpalcu-linux>
+References: <1391693941-25938-1-git-send-email-paul.eggleton@linux.intel.com>
+	<20140210053712.GL5112@lpalcu-linux>
+	<20140210075949.GA10078@lpalcu-linux>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sysstat: upgrade to 10.2.1
+Cc: Richard Purdie <rpurdie@rpsys.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python-smartpm: really ignore conflicts during install with --attempt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +36,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 08:53:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Feb 2014 10:02:28 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Upgrade sysstat to stable release 10.2.1.
+On Monday 10 February 2014 09:59:49 Laurentiu Palcu wrote:
+> On Mon, Feb 10, 2014 at 07:37:12AM +0200, Laurentiu Palcu wrote:
+> > On Sun, Feb 09, 2014 at 11:25:11PM +0000, Richard Purdie wrote:
+> > > On Thu, 2014-02-06 at 13:39 +0000, Paul Eggleton wrote:
+> > > > The original patch added in OE-Core commit
+> > > > bdf07b1698d228dc7ff555199a269b1ff8ceca19 was supposed to ignore
+> > > > conflicts, but it was unable to do so because it wasn't raising errors
+> > > > in the right place. When the --attempt option is used (as is done in
+> > > > complementary package installation for RPM), raise errors immediately
+> > > > on conflicts, catch errors at the right point so that requested
+> > > > packages
+> > > > and their dependencies can be ignored, and print appropriate warnings
+> > > > when doing so.
+> > > > 
+> > > > Fixes [YOCTO #5313].
+> > > > 
+> > > > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > > > ---
+> > > > 
+> > > >  .../python/python-smartpm/smart-attempt.patch      | 134
+> > > >  +++++++++++++++++++-- 1 file changed, 121 insertions(+), 13
+> > > >  deletions(-)
+> > > 
+> > > Could you take a look at:
+> > > 
+> > > http://autobuilder.yoctoproject.org/main/builders/nightly-multilib/build
+> > > s/22
+> > > 
+> > > please?
+> > > 
+> > > I've not 100% confirmed it was this change, it could be something else
+> > > (e.g. Laurentiu's rootfs changes) but something in master-next broke
+> > > multilib :/
+> > 
+> > I'll do a build locally with your master-next changes and see what
+> > happens. At first sight, it looks like an issue with the rootfs
+> > changes. However, 'smart channel --add' is not the command I was
+> > expecting to fail...
+> 
+> I pushed a fix on poky-contrib:lpalcu/rootfs_refactoring_ship_oecore
+> 
+> lib/oe/package_manager.py: RpmPM: fix issue with multilib builds
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../{sysstat_10.2.0.bb => sysstat_10.2.1.bb}       |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sysstat/{sysstat_10.2.0.bb => sysstat_10.2.1.bb} (40%)
+The lack of detail in the error message is a little bit concerning - we're not 
+getting the output from smart in the log, so other than the return value it's 
+hard to determine what might have gone wrong. Is this something that could be 
+fixed as well?
 
-diff --git a/meta/recipes-extended/sysstat/sysstat_10.2.0.bb b/meta/recipes-extended/sysstat/sysstat_10.2.1.bb
-similarity index 40%
-rename from meta/recipes-extended/sysstat/sysstat_10.2.0.bb
-rename to meta/recipes-extended/sysstat/sysstat_10.2.1.bb
-index 5be68a0..654457d 100644
---- a/meta/recipes-extended/sysstat/sysstat_10.2.0.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_10.2.1.bb
-@@ -2,5 +2,5 @@ require sysstat.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
- 
--SRC_URI[md5sum] = "7a6e3df08590385113a27a76ce64a6ff"
--SRC_URI[sha256sum] = "2e0fee87cec7f56ba121c320327843278e2bda30bacd54851628eab0ba09429a"
-+SRC_URI[md5sum] = "039dcd235dfcfb3d4acc0a05730f9512"
-+SRC_URI[sha256sum] = "3bfd1b4c5b99314585709c092096234b6e181741729f601d18d0ed7f0612612a"
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
