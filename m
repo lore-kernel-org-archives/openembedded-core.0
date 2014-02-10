@@ -1,32 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 062806E753
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FA5D6D89A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 17:23:49 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1AHNiwd018460; Mon, 10 Feb 2014 17:23:45 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qD5pmSvhkE5x; Mon, 10 Feb 2014 17:23:44 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1AHNetH018456
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 10 Feb 2014 17:23:42 GMT
-Message-ID: <1392053015.7120.62.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Mon, 10 Feb 2014 17:23:35 +0000
-In-Reply-To: <52F9099B.2010302@windriver.com>
-References: <cover.1391534980.git.bruce.ashfield@windriver.com>
-	<8a4a98cc53998f6bbf08763359e1b560b2da3e54.1391534980.git.bruce.ashfield@windriver.com>
-	<1391947592.7120.0.camel@ted> <52F9099B.2010302@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] kernel: stop using -exec rm for deleting files
+	Mon, 10 Feb 2014 18:04:42 +0000 (UTC)
+Received: by mail-qc0-f182.google.com with SMTP id c9so11202403qcz.27
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2014 10:04:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+	:content-type;
+	bh=F1vNT7c0LqHTAnRgZUQkooi6emlI83rJuP07onjNCtk=;
+	b=hVnc5fLFxzFl5irVJr0J2SrHJsphNByVBJJye1KQCLqYGnurb+ieOWZ2seg4xSEUpo
+	lqMSNdaKtsYTFv0m+FEyav3QqlVwgngiXc2V741f5i70v30yOMu3uEnJO/cEZ/SoHuRR
+	EoJNM6J3HoYda80l35RVoN4XHivt1i649P5ftiAAOEk4lm5XRGZdVTZJhn2HayymEV3f
+	k+CStQqCsbJi7i8gHzPfgNST1BXhZt5v/nm9sCZCY0PTVmAumcEnjdVkqxzYLZY4EbvQ
+	znQ6b9hX7kRKQnZZJlVD+zeVLmALjoa6Cc3alEgkQEZfsHyvcozl9j+dRD+4EWD5hgfs
+	zy/w==
+X-Gm-Message-State: ALoCoQkW+4DMILWxjsxKF0D2Tw0IjhT19HAE954UZwoEGcTE2bcFl3iUqKHoOuSaS1I++XvpB8we
+X-Received: by 10.140.81.74 with SMTP id e68mr47000358qgd.99.1392055482483;
+	Mon, 10 Feb 2014 10:04:42 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.79 with HTTP; Mon, 10 Feb 2014 10:04:22 -0800 (PST)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Feb 2014 18:04:22 +0000
+Message-ID: <CAJTo0Lay3-E6TYssyTgya16SjyjAYk2MLFFcbOa+P1Mk3SYB8w@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	Robert Yang <liezhi.yang@windriver.com>
+Subject: Re: [PATCH][Dora] binconfig: mangle ${base_libdir}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,85 +41,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 17:23:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Feb 2014 18:04:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2014-02-10 at 12:17 -0500, Bruce Ashfield wrote:
-> On 14-02-09 07:06 AM, Richard Purdie wrote:
-> > On Tue, 2014-02-04 at 12:34 -0500, Bruce Ashfield wrote:
-> >> Removing files from the source tree via find, exec and rm is not the
-> >> most efficient operation, due to (among other things) the many forked
-> >> processes.
-> >>
-> >> If we use -delete, it saves a significant amount of time. But -delete
-> >> does not work with -prune (since it forces -depth). To maintain the
-> >> lib, tools and scripts source files, we can hide them temporarily,
-> >> skip their hidden directories and then finally restore them.
-> >>
-> >> Time for install before this change:
-> >>
-> >>   real    2m48.563s
-> >>   user    0m35.220s
-> >>   sys     0m33.036s
-> >>
-> >> Time for install after this change:
-> >>
-> >>   real    1m21.301s
-> >>   user    0m33.160s
-> >>   sys     0m28.388s
-> >>
-> >> We could further speed this up by using inline perl to delete the files,
-> >> but that complexity is avoided for now.
-> >>
-> >> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >> ---
-> >>   meta/classes/kernel.bbclass | 18 +++++++++++++++---
-> >>   1 file changed, 15 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> >> index 51626b03f824..b76a65699755 100644
-> >> --- a/meta/classes/kernel.bbclass
-> >> +++ b/meta/classes/kernel.bbclass
-> >> @@ -260,9 +260,21 @@ kernel_do_install() {
-> >>   	# we clean the scripts dir while leaving the generated config
-> >>   	# and include files.
-> >>   	#
-> >> -	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean
-> >> -	make -C $kerneldir _mrproper_scripts
-> >> -	find $kerneldir -path $kerneldir/lib -prune -o -path $kerneldir/tools -prune -o -path $kerneldir/scripts -prune -o -name "*.[csS]" -exec rm '{}' \;
-> >> +	oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
-> >> +
-> >> +	# hide directories that shouldn't have their .c, s and S files deleted
-> >> +	for d in tools scripts lib; do
-> >> +		mv $kerneldir/$d $kerneldir/.$d
-> >> +	done
-> >> +
-> >> +	# delete .c, .s and .S files, unless we hid a directory as .<dir>. This technique is
-> >> +	# much faster than find -prune and -exec
-> >> +	find . -not -path '*/\.*' -type f -name "*.[csS]" -delete
-> >> +
-> >> +	# put the hidden dirs back
-> >> +	for d in tools scripts lib; do
-> >> +		mv $kerneldir/.$d $kerneldir/$d
-> >> +	done
-> >>
-> >>   	# As of Linux kernel version 3.0.1, the clean target removes
-> >>   	# arch/powerpc/lib/crtsavres.o which is present in
-> >
-> >
-> > I think this patch is resulting in:
-> >
-> > http://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc-lsb/builds/22/steps/BuildImages/logs/stdio
-> 
-> I've fixed this now.
-> 
-> For staged patches, do you prefer a resend or an incremental update patch ?
+Hi Robert,
 
-A resend is fine thanks.
+Can this be considered for Dora?  (the oe-core commit is
+ccd9abdccb84d713427541b6ee29a0e217360e74)
 
 Cheers,
+Ross
 
-Richard
 
+On 6 February 2014 23:17, Ross Burton <ross.burton@intel.com> wrote:
+> Some recipes are installing libraries into ${base_libdir} (typically /lib) and
+> also use a foo-config binary to identify compile paths, for example
+> libusb-compat.  Without mangling ${base_libdir} the ${base_libdir} path is
+> passed to the compiler, where it looks like a host path and results in
+> compile-host-path QA errors.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/classes/binconfig.bbclass |    6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/binconfig.bbclass b/meta/classes/binconfig.bbclass
+> index 4c42602..848c744 100644
+> --- a/meta/classes/binconfig.bbclass
+> +++ b/meta/classes/binconfig.bbclass
+> @@ -5,6 +5,7 @@ def get_binconfig_mangle(d):
+>         s = "-e ''"
+>         if not bb.data.inherits_class('native', d):
+>                 optional_quote = r"\(\"\?\)"
+> +               s += " -e 's:=%s${base_libdir}:=\\1OEBASELIBDIR:;'" % optional_quote
+>                 s += " -e 's:=%s${libdir}:=\\1OELIBDIR:;'" % optional_quote
+>                 s += " -e 's:=%s${includedir}:=\\1OEINCDIR:;'" % optional_quote
+>                 s += " -e 's:=%s${datadir}:=\\1OEDATADIR:'" % optional_quote
+> @@ -12,6 +13,7 @@ def get_binconfig_mangle(d):
+>                 s += " -e 's:=%s${exec_prefix}/:=\\1OEEXECPREFIX/:'" % optional_quote
+>                 s += " -e 's:-L${libdir}:-LOELIBDIR:;'"
+>                 s += " -e 's:-I${includedir}:-IOEINCDIR:;'"
+> +               s += " -e 's:OEBASELIBDIR:${STAGING_BASELIBDIR}:;'"
+>                 s += " -e 's:OELIBDIR:${STAGING_LIBDIR}:;'"
+>                 s += " -e 's:OEINCDIR:${STAGING_INCDIR}:;'"
+>                 s += " -e 's:OEDATADIR:${STAGING_DATADIR}:'"
+> @@ -31,7 +33,8 @@ PACKAGE_PREPROCESS_FUNCS += "binconfig_package_preprocess"
+>  binconfig_package_preprocess () {
+>         for config in `find ${PKGD} -name '${BINCONFIG_GLOB}'`; do
+>                 sed -i \
+> -                   -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
+> +                   -e 's:${STAGING_BASELIBDIR}:${base_libdir}:g;' \
+> +                   -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
+>                     -e 's:${STAGING_INCDIR}:${includedir}:g;' \
+>                     -e 's:${STAGING_DATADIR}:${datadir}:' \
+>                     -e 's:${STAGING_DIR_HOST}${prefix}:${prefix}:' \
+> @@ -39,6 +42,7 @@ binconfig_package_preprocess () {
+>         done
+>         for lafile in `find ${PKGD} -name "*.la"` ; do
+>                 sed -i \
+> +                   -e 's:${STAGING_BASELIBDIR}:${base_libdir}:g;' \
+>                     -e 's:${STAGING_LIBDIR}:${libdir}:g;' \
+>                     -e 's:${STAGING_INCDIR}:${includedir}:g;' \
+>                     -e 's:${STAGING_DATADIR}:${datadir}:' \
+> --
+> 1.7.10.4
+>
 
