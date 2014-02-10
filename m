@@ -1,30 +1,20 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 04A8A6DCFF
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D06956E00C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 21:21:47 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id ec20so5192969lab.37
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 13:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=somzSpztNrLsXl+9vm2zILftyyX2djzAYvZwog61p1s=;
-	b=0ydyNIJIMg14pxUy+LShgUe2tSlLkeTFktUfpuhL6O1zobtvlp00Zf/B6+jsDrG8EO
-	PMfuef4y7ucGNOjyPeFvxzxuKz1yLkrJzBVVG5ghFUvmFzEilAvAvHyt/bxnwpuMk4l/
-	U1ZfuEI8DmyyJd/9Uf49lZb08uz/Xjev3n816JVsQm2M1oX7ejmjamHqMWHTHsnmArMM
-	y6YMye6trtqcDmG4I7AL7ZaO6I4j/gu3cUfheAYif/+soM207TIJ+Tqv4ADxwmrcqzT1
-	t7p8wFT0dO+TfrrIfFX/kPbItuj3k/UB9LdDpBpqWYGwNg/PzMyRnd7t4eM8loYf3GW2
-	1lLw==
-MIME-Version: 1.0
-X-Received: by 10.112.33.108 with SMTP id q12mr22406978lbi.8.1392067308176;
-	Mon, 10 Feb 2014 13:21:48 -0800 (PST)
-Received: by 10.112.53.35 with HTTP; Mon, 10 Feb 2014 13:21:48 -0800 (PST)
-Date: Mon, 10 Feb 2014 22:21:48 +0100
-Message-ID: <CAPbeDC=S-U3d=c5uZUYeDXqA0hWf56E5YwGii11pXZHAyo63WQ@mail.gmail.com>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Problem with libicudata.so in OE master
+	Mon, 10 Feb 2014 21:26:25 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 10 Feb 2014 13:26:26 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,820,1384329600"; d="scan'208";a="473023467"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.42])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Feb 2014 13:26:26 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Feb 2014 13:26:26 -0800
+Message-Id: <cover.1392067183.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [Consolidated Pull 00/11] Kernel Update and more ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,77 +27,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 21:21:48 -0000
-Content-Type: multipart/alternative; boundary=14dae947362f6848d604f213ed9e
+X-List-Received-Date: Mon, 10 Feb 2014 21:26:26 -0000
 
---14dae947362f6848d604f213ed9e
-Content-Type: text/plain; charset=ISO-8859-1
+Richard,
 
-Hi,
+These are changes that went through the Autobuild, I reviewed them. 
+The ptest changes have been pending for a bit, is there a reason that
+you have not taken them?
 
-I'm having problems with running Qt5 apps using OE master. I'm using a
-couple of other layers, but as the problem seems to be related to
-libicudata.so I figured I'd post it here, my apologies if the mail should
-go somewhere else.
+Thanks
+	Sau!
 
-When starting the Qt5 app I get:
-error while loading shared libraries: /usr/lib/libicudata.so.51: internal
-error
 
-I'm building for Wandboard Solo machine from meta-fsl-arm-extra layer.
+The following changes since commit b5b4898cd409036161c62891e9618d9ab3f891f9:
 
-TUNE_FEATURES = "armv7a vfp neon callconvention-hard cortexa9"
-TARGET_FPU = "vfp-neon"
+  python-pycurl: upgrade to 7.19.3 (2014-02-08 21:03:27 +0000)
 
-[jkroon@localhost oe-devel]$ readelf -A
-build/tmp-eglibc/sysroots/wandboard-solo/usr/lib/libicudata.so.51.2
-Attribute Section: aeabi
-File Attributes
-  Tag_CPU_name: "7-A"
-  Tag_CPU_arch: v7
-  Tag_CPU_arch_profile: Application
-  Tag_ARM_ISA_use: Yes
-  Tag_THUMB_ISA_use: Thumb-2
-  Tag_FP_arch: VFPv3
-  Tag_Advanced_SIMD_arch: NEONv1
+are available in the git repository at:
 
-Things work in oe-core 091d395e43836575587112ee1696a18c401505bb, although
-this was together with older versions of the additional layers as well.
-IIRC the readelf output was identical in this case. Not quite sure how to
-debug this, anyone have any pointers ?
-I tried looking for another application that uses libicudata, but couldn't
-find an easy one to try out.
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-  -- Jacob
+Bruce Ashfield (3):
+  kernel: stop using -exec rm for deleting files
+  linux-yocto/3.10: integrate LTSI
+  linux-yocto/3.10: add powermanagement config to 32 bit common-pc
 
---14dae947362f6848d604f213ed9e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Chong Lu (2):
+  acl: enable ptest support
+  attr: enable ptest support
 
-<div dir=3D"ltr"><div><div><div>Hi,<br><br></div>I&#39;m having problems wi=
-th running Qt5 apps using OE master. I&#39;m using a couple of other layers=
-, but as the problem seems to be related to libicudata.so I figured I&#39;d=
- post it here, my apologies if the mail should go somewhere else.<br>
-<br></div><div>When starting the Qt5 app I get:<br>error while loading shar=
-ed libraries: /usr/lib/libicudata.so.51: internal error<br><br></div><div>I=
-&#39;m building for Wandboard Solo machine from meta-fsl-arm-extra layer.<b=
-r>
-<br>TUNE_FEATURES =3D &quot;armv7a vfp neon callconvention-hard cortexa9&qu=
-ot;<br>TARGET_FPU =3D &quot;vfp-neon&quot;<br><br></div><div>[jkroon@localh=
-ost oe-devel]$ readelf -A build/tmp-eglibc/sysroots/wandboard-solo/usr/lib/=
-libicudata.so.51.2 <br>
-Attribute Section: aeabi<br>File Attributes<br>=A0 Tag_CPU_name: &quot;7-A&=
-quot;<br>=A0 Tag_CPU_arch: v7<br>=A0 Tag_CPU_arch_profile: Application<br>=
-=A0 Tag_ARM_ISA_use: Yes<br>=A0 Tag_THUMB_ISA_use: Thumb-2<br>=A0 Tag_FP_ar=
-ch: VFPv3<br>
-=A0 Tag_Advanced_SIMD_arch: NEONv1<br><br>Things work in oe-core 091d395e43=
-836575587112ee1696a18c401505bb, although this was together with older versi=
-ons of the additional layers as well. IIRC the readelf output was identical=
- in this case. Not quite sure how to debug this, anyone have any pointers ?=
-<br>
-</div></div>I tried looking for another application that uses libicudata, b=
-ut couldn&#39;t find an easy one to try out.<br><div><br><div><div><div><di=
-v>=A0 -- Jacob
-</div></div></div></div></div></div>
+Darren Hart (1):
+  linux-yocto: Use PACKAGE_ARCH in build dir
 
---14dae947362f6848d604f213ed9e--
+Dave Lerner (1):
+  valgrind: Integration of regression tests to ptest
+
+Marius Avram (1):
+  puzzles: upgrade to r10116
+
+Paul Eggleton (1):
+  conf/bitbake.conf: default HOMEPAGE to blank instead of unknown
+
+Stefan Stanacar (2):
+  oeqa/utils: targetbuild: take proxy into account
+  testimage: fail if no package manifest is found
+
+ meta/classes/kernel.bbclass                        |  18 +-
+ meta/classes/package_deb.bbclass                   |   3 +-
+ meta/classes/package_ipk.bbclass                   |   3 +-
+ meta/classes/package_rpm.bbclass                   |   3 +-
+ meta/classes/testimage.bbclass                     |   7 +-
+ meta/conf/bitbake.conf                             |   2 +-
+ meta/lib/oeqa/runtime/buildcvs.py                  |   2 +-
+ meta/lib/oeqa/runtime/buildiptables.py             |   2 +-
+ meta/lib/oeqa/runtime/buildsudoku.py               |   2 +-
+ meta/lib/oeqa/utils/targetbuild.py                 |  20 +-
+ .../valgrind/valgrind/add-ptest.patch              | 205 +++++++++++++++++++++
+ .../valgrind/valgrind/force-nostabs.patch          |  42 +++++
+ .../valgrind/remove-arm-variant-specific.patch     |  67 +++++++
+ .../valgrind/remove-ppc-tests-failing-build.patch  |  75 ++++++++
+ meta/recipes-devtools/valgrind/valgrind/run-ptest  |  11 ++
+ meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |  58 +++++-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   4 +-
+ meta/recipes-kernel/linux/linux-yocto.inc          |   2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |  16 +-
+ .../{puzzles_r9765.bb => puzzles_r10116.bb}        |  34 ++--
+ meta/recipes-support/attr/acl.inc                  |  14 +-
+ meta/recipes-support/attr/acl/run-ptest            |   7 +
+ meta/recipes-support/attr/attr.inc                 |  17 +-
+ meta/recipes-support/attr/files/run-ptest          |   5 +
+ 25 files changed, 572 insertions(+), 53 deletions(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/add-ptest.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/force-nostabs.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
+ create mode 100755 meta/recipes-devtools/valgrind/valgrind/run-ptest
+ rename meta/recipes-sato/puzzles/{puzzles_r9765.bb => puzzles_r10116.bb} (47%)
+ create mode 100644 meta/recipes-support/attr/acl/run-ptest
+ create mode 100644 meta/recipes-support/attr/files/run-ptest
+
+-- 
+1.8.3.1
+
+
