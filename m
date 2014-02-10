@@ -1,56 +1,26 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from am1outboundpool.messaging.microsoft.com
-	(am1ehsobe005.messaging.microsoft.com [213.199.154.208])
-	by mail.openembedded.org (Postfix) with ESMTP id 547006E713;
-	Mon, 10 Feb 2014 05:32:41 +0000 (UTC)
-Received: from mail107-am1-R.bigfish.com (10.3.201.232) by
-	AM1EHSOBE011.bigfish.com (10.3.207.133) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 10 Feb 2014 05:32:41 +0000
-Received: from mail107-am1 (localhost [127.0.0.1])	by
-	mail107-am1-R.bigfish.com (Postfix) with ESMTP id 0CC25E0A98;
-	Mon, 10 Feb 2014 05:32:41 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VPS-3(zz9371I542I1432I14ffIzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6hzz1de098h17326ah8275dh1de097h186068hz2fh95h109h839h944hc61hd24hf0ah119dh1220h1288h12a5h12a9h12bdh137ah13b6h1441h14ddh1504h1537h153bh162dh1631h1758h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5h2216h2336h2438h2461h2487h24d7h2516h2545h906i1155h)
-Received-SPF: pass (mail107-am1: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail107-am1 (localhost.localdomain [127.0.0.1]) by mail107-am1
-	(MessageSwitch) id 1392010358488178_7458;
-	Mon, 10 Feb 2014 05:32:38 +0000 (UTC)
-Received: from AM1EHSMHS015.bigfish.com (unknown [10.3.201.249])	by
-	mail107-am1.bigfish.com (Postfix) with ESMTP id F20CB20243;
-	Mon, 10 Feb 2014 05:32:23 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by AM1EHSMHS015.bigfish.com
-	(10.3.207.153) with Microsoft SMTP Server id 14.16.227.3;
-	Mon, 10 Feb 2014 05:32:22 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
-	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
-	<nathan.rossi@xilinx.com>)	id
-	1WCjTh-000875-Cs; Sun, 09 Feb 2014 21:32:21 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [RFT] eglibc 2.19
-Thread-Index: AQHPJOg8Y6qTLTUskESFpp3Wo78cvZqt67YQ
-Date: Mon, 10 Feb 2014 05:32:19 +0000
-References: <CAMKF1sptnVxCrjm7PAOCtRWzmSsxPv4nc0nUO82jMPQ+BCz9Hg@mail.gmail.com>
-In-Reply-To: <CAMKF1sptnVxCrjm7PAOCtRWzmSsxPv4nc0nUO82jMPQ+BCz9Hg@mail.gmail.com>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.164.59]
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 74B626E713
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2014 05:37:15 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Feb 2014 21:37:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,815,1384329600"; d="scan'208";a="472557762"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Feb 2014 21:37:13 -0800
+Date: Mon, 10 Feb 2014 07:37:12 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Richard Purdie <rpurdie@rpsys.net>
+Message-ID: <20140210053712.GL5112@lpalcu-linux>
+References: <1391693941-25938-1-git-send-email-paul.eggleton@linux.intel.com>
+	<1391988311.7120.2.camel@ted>
 MIME-Version: 1.0
-X-RCIS-Action: ALLOW
-Message-ID: <31681ec9-08a2-426e-b3d2-72f6c0d22073@AM1EHSMHS015.ehs.local>
-X-OriginatorOrg: xilinx.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] eglibc 2.19
+In-Reply-To: <1391988311.7120.2.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python-smartpm: really ignore conflicts during install with --attempt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,69 +33,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 05:32:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Feb 2014 05:37:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
-> Khem Raj
-> Sent: Sunday, February 09, 2014 2:08 AM
-> To: Patches and discussions about the oe-core layer; openembeded-devel;
-> yocto@yoctoproject.org
-> Subject: [OE-core] [RFT] eglibc 2.19
-> =
+On Sun, Feb 09, 2014 at 11:25:11PM +0000, Richard Purdie wrote:
+> On Thu, 2014-02-06 at 13:39 +0000, Paul Eggleton wrote:
+> > The original patch added in OE-Core commit
+> > bdf07b1698d228dc7ff555199a269b1ff8ceca19 was supposed to ignore
+> > conflicts, but it was unable to do so because it wasn't raising errors
+> > in the right place. When the --attempt option is used (as is done in
+> > complementary package installation for RPM), raise errors immediately
+> > on conflicts, catch errors at the right point so that requested packages
+> > and their dependencies can be ignored, and print appropriate warnings
+> > when doing so.
+> > 
+> > Fixes [YOCTO #5313].
+> > 
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > ---
+> >  .../python/python-smartpm/smart-attempt.patch      | 134 +++++++++++++++++++--
+> >  1 file changed, 121 insertions(+), 13 deletions(-)
+> 
+> Could you take a look at:
+> 
+> http://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/22
+> 
+> please?
+> 
+> I've not 100% confirmed it was this change, it could be something else
+> (e.g. Laurentiu's rootfs changes) but something in master-next broke
+> multilib :/
+I'll do a build locally with your master-next changes and see what
+happens. At first sight, it looks like an issue with the rootfs
+changes. However, 'smart channel --add' is not the command I was
+expecting to fail...
 
-> Hi all
-> =
-
-> I have staged a branch with eglibc 2.19 upgraded recipes here
-> =
-
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/eglib=
-c-
-> 2.19
-> =
-
-> These are not final recipes there may be tweaks needed like adjusting
-> SRC_URI
-> later on.
-> =
-
-> please help testing it out in your environments and machines
-> I would be happy to help out with issues we find
-
-Hi Khem,
-
-I have given it a test with the machines on the meta-xilinx layer, specific=
-ally ARM Cortex A9 and MicroBlaze architectures. And there appears to be no=
- issues.
-
-Also I couldn't access your eglibc source tarball because of pesky corporat=
-e web filters, so I used a direct svn export of the upstream repo at the re=
-vision 25243, I assume there should be no differences?
-
-On a side note, I haven't seen any mention of what is next regarding oe-cor=
-e and eglibc. Since the eglibc project has closed its development (http://w=
-ww.eglibc.org/archives/patches/msg01327.html), and that 2.19 is the final v=
-ersion. Are there any plans to switch oe-core to using glibc for the future=
-? Just curious is all.
-
-Regards,
-Nathan
-
-> =
-
-> Thank you
-> =
-
-> -Khem
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+laurentiu
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> > diff --git a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+> > index 0d603d3..1136182 100644
+> > --- a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+> > +++ b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
+> > @@ -1,18 +1,27 @@
+> > -Add a mechanism to attempt the install operation, w/o failing.
+> > +From 7ee23804a06f81476cc2b31a6db11b52d7af764e Mon Sep 17 00:00:00 2001
+> > +From: Mark Hatle <mark.hatle@windriver.com>
+> > +Date: Mon, 20 Jan 2014 14:30:52 +0000
+> > +Subject: [PATCH] Add mechanism to attempt install without failing
+> >  
+> > -For complementary and 'attemptonly' packages, we need a way to instruct smart to
+> > -try to install, but ignore any failures.
+> > +In OpenEmbedded, for complementary and 'attemptonly' package processing,
+> > +we need a way to instruct smart to try to install, but ignore any
+> > +failures (usually conflicts).
+> >  
+> >  This option only works for the install operation.
+> >  
+> >  Upstream-Status: Pending
+> >  
+> >  Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> > +Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > +---
+> > + smart/commands/install.py |  5 ++++
+> > + smart/transaction.py      | 65 +++++++++++++++++++++++++++++++++++------------
+> > + 2 files changed, 54 insertions(+), 16 deletions(-)
+> >  
+> > -Index: smart-1.4.1/smart/commands/install.py
+> > -===================================================================
+> > ---- smart-1.4.1.orig/smart/commands/install.py
+> > -+++ smart-1.4.1/smart/commands/install.py
+> > +diff --git a/smart/commands/install.py b/smart/commands/install.py
+> > +index 590222c..6ef9682 100644
+> > +--- a/smart/commands/install.py
+> > ++++ b/smart/commands/install.py
+> >  @@ -50,6 +50,8 @@ def option_parser():
+> >       parser = OptionParser(usage=USAGE,
+> >                             description=DESCRIPTION,
+> > @@ -32,11 +41,106 @@ Index: smart-1.4.1/smart/commands/install.py
+> >       if opts.explain:
+> >           sysconf.set("explain-changesets", True, soft=True)
+> >   
+> > -Index: smart-1.4.1/smart/transaction.py
+> > -===================================================================
+> > ---- smart-1.4.1.orig/smart/transaction.py
+> > -+++ smart-1.4.1/smart/transaction.py
+> > -@@ -1216,9 +1216,17 @@ class Transaction(object):
+> > +diff --git a/smart/transaction.py b/smart/transaction.py
+> > +index 5730a42..e3e61c6 100644
+> > +--- a/smart/transaction.py
+> > ++++ b/smart/transaction.py
+> > +@@ -555,6 +555,8 @@ class Transaction(object):
+> > +         changeset.set(pkg, INSTALL)
+> > +         isinst = changeset.installed
+> > + 
+> > ++        attempt = sysconf.has("attempt-install", soft=True)
+> > ++
+> > +         # Remove packages conflicted by this one.
+> > +         for cnf in pkg.conflicts:
+> > +             for prv in cnf.providedby:
+> > +@@ -564,11 +566,16 @@ class Transaction(object):
+> > +                     if not isinst(prvpkg):
+> > +                         locked[prvpkg] = (LOCKED_CONFLICT_BY, pkg)
+> > +                         continue
+> > +-                    if prvpkg in locked:
+> > +-                        raise Failed, _("Can't install %s: conflicted package "
+> > +-                                        "%s is locked") % (pkg, prvpkg)
+> > +-                    self._remove(prvpkg, changeset, locked, pending, depth)
+> > +-                    pending.append((PENDING_UPDOWN, prvpkg))
+> > ++                    if attempt:
+> > ++                        del changeset[pkg]
+> > ++                        raise Failed, _("Can't install %s: it conflicts with package "
+> > ++                                        "%s") % (pkg, prvpkg)
+> > ++                    else:
+> > ++                        if prvpkg in locked:
+> > ++                            raise Failed, _("Can't install %s: conflicted package "
+> > ++                                            "%s is locked") % (pkg, prvpkg)
+> > ++                        self._remove(prvpkg, changeset, locked, pending, depth)
+> > ++                        pending.append((PENDING_UPDOWN, prvpkg))
+> > + 
+> > +         # Remove packages conflicting with this one.
+> > +         for prv in pkg.provides:
+> > +@@ -579,12 +586,18 @@ class Transaction(object):
+> > +                     if not isinst(cnfpkg):
+> > +                         locked[cnfpkg] = (LOCKED_CONFLICT, pkg)
+> > +                         continue
+> > +-                    if cnfpkg in locked:
+> > ++                    if attempt:
+> > ++                        del changeset[pkg]
+> > +                         raise Failed, _("Can't install %s: it's conflicted by "
+> > +-                                        "the locked package %s") \
+> > +-                                      % (pkg, cnfpkg)
+> > +-                    self._remove(cnfpkg, changeset, locked, pending, depth)
+> > +-                    pending.append((PENDING_UPDOWN, cnfpkg))
+> > ++                                        "the package %s") \
+> > ++                                    % (pkg, cnfpkg)
+> > ++                    else:
+> > ++                        if cnfpkg in locked:
+> > ++                            raise Failed, _("Can't install %s: it's conflicted by "
+> > ++                                            "the locked package %s") \
+> > ++                                        % (pkg, cnfpkg)
+> > ++                        self._remove(cnfpkg, changeset, locked, pending, depth)
+> > ++                        pending.append((PENDING_UPDOWN, cnfpkg))
+> > + 
+> > +         # Remove packages with the same name that can't
+> > +         # coexist with this one.
+> > +@@ -594,10 +607,15 @@ class Transaction(object):
+> > +                 if not isinst(namepkg):
+> > +                     locked[namepkg] = (LOCKED_NO_COEXIST, pkg)
+> > +                     continue
+> > +-                if namepkg in locked:
+> > ++                if attempt:
+> > ++                    del changeset[pkg]
+> > +                     raise Failed, _("Can't install %s: it can't coexist "
+> > +                                     "with %s") % (pkg, namepkg)
+> > +-                self._remove(namepkg, changeset, locked, pending, depth)
+> > ++                else:
+> > ++                    if namepkg in locked:
+> > ++                        raise Failed, _("Can't install %s: it can't coexist "
+> > ++                                        "with %s") % (pkg, namepkg)
+> > ++                    self._remove(namepkg, changeset, locked, pending, depth)
+> > + 
+> > +         # Install packages required by this one.
+> > +         for req in pkg.requires + pkg.recommends:
+> > +@@ -1176,6 +1194,8 @@ class Transaction(object):
+> > + 
+> > +         self._policy.runStarting()
+> > + 
+> > ++        attempt = sysconf.has("attempt-install", soft=True)
+> > ++
+> > +         try:
+> > +             changeset = self._changeset.copy()
+> > +             isinst = changeset.installed
+> > +@@ -1190,7 +1210,11 @@ class Transaction(object):
+> > +                     locked[pkg] = (LOCKED_KEEP, None)
+> > +                 elif op is INSTALL:
+> > +                     if not isinst(pkg) and pkg in locked:
+> > +-                        raise Failed, _("Can't install %s: it's locked") % pkg
+> > ++                        if attempt:
+> > ++                            iface.warning(_("Can't install %s: it's locked") % pkg)
+> > ++                            del changeset[pkg]
+> > ++                        else:
+> > ++                            raise Failed, _("Can't install %s: it's locked") % pkg
+> > +                     changeset.set(pkg, INSTALL)
+> > +                     locked[pkg] = (LOCKED_INSTALL, None)
+> > +                 elif op is REMOVE:
+> > +@@ -1216,9 +1240,18 @@ class Transaction(object):
+> >                       else:
+> >                           op = REMOVE
+> >                   if op is INSTALL or op is REINSTALL:
+> > @@ -48,7 +152,8 @@ Index: smart-1.4.1/smart/transaction.py
+> >  +                        if pkg in changeset:
+> >  +                            changeset.setRequested(pkg, True)
+> >  +                    except Failed, e:
+> > -+                        if sysconf.has("attempt-install", soft=True):
+> > ++                        if attempt:
+> > ++                            iface.warning(_("Can't install %s: %s") % (pkg, e))
+> >  +                            if pkg in changeset:
+> >  +                                del changeset[pkg]
+> >  +                            continue
+> > @@ -57,3 +162,6 @@ Index: smart-1.4.1/smart/transaction.py
+> >                   elif op is REMOVE:
+> >                       self._remove(pkg, changeset, locked, pending)
+> >                   elif op is UPGRADE:
+> > +-- 
+> > +1.8.4.2
+> > +
+> 
+> 
 
