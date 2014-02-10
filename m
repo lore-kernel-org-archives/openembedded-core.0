@@ -1,41 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E0F76E7A3
+Return-Path: <Mats.Karrman@tritech.se>
+Received: from tritech.se (tritech.se [46.59.120.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FDBC6EC9E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 11:09:03 +0000 (UTC)
-Received: by mail-qa0-f48.google.com with SMTP id f11so9305854qae.35
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 03:09:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/s+n51rC7J2HzDT54IbcNWjTd232yW2iANyC6JFJDjM=;
-	b=j3czEvZX3Zs0twrCPBjO7TvQ8s1VopCW29BH1YkEEr5OSHYIxJH5z1Qga4ZX9gQpdJ
-	CA7ULeYRjREcMmaknMky0vN+ZVwwSIAPphM3GmEuOvbMuhTOygpHeI0mQ6fHEveIQ7+m
-	PXQFGZ6iU/nipahKtOdjMTL+AwassNNyi+H81MrNDXoavsBmoRu7ORqQHqbf4EpFhM3w
-	FWFBxhNwfcbGAEEIH5NTPtx2CjMoQRVrJV2u1Aq+2LCzFZxXtqfzBwF/6xZWTaUuPUYu
-	frJDhd2shUSAmNnPUqUKkuWLfI51z2PY1TPCmqWM9OIqKg2fdpvWBT/wXYXPftVaIWl2
-	oiag==
-X-Gm-Message-State: ALoCoQmUE9hH596vCdLpFnkFTZsFt74cmt97ldaPNSp0gC6YWyftDRQn9OOvFDMoej02NIwZCc8c
-X-Received: by 10.140.42.54 with SMTP id b51mr35273700qga.87.1392030544041;
-	Mon, 10 Feb 2014 03:09:04 -0800 (PST)
+	Mon, 10 Feb 2014 11:14:37 +0000 (UTC)
+Received: from post.tritech.se (post.tritech.se [10.75.60.100])
+	by tritech.se (8.14.3/8.14.3) with ESMTP id s1ABEV3V008119;
+	Mon, 10 Feb 2014 12:14:36 +0100
+Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
+	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
+	14.02.0387.000; Mon, 10 Feb 2014 12:14:31 +0100
+From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
+To: Chris Larson <clarson@kergoth.com>
+Thread-Topic: [OE-core] Premirrors and local VCS server
+Thread-Index: Ac8kD6shFuj4vLvFRJ+liH1sEuiwVAAAf/sAAI8YyBs=
+Date: Mon, 10 Feb 2014 11:14:30 +0000
+Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B15DE24@post.tritech.se>
+References: <ED3E0BCACD909541BA94A34C4A164D4C5B15D3EA@post.tritech.se>,
+	<CABcZANmYSBxirpEVNsX2zF6rpzv3LR0Xiay6uckaod+s0UHy+w@mail.gmail.com>
+In-Reply-To: <CABcZANmYSBxirpEVNsX2zF6rpzv3LR0Xiay6uckaod+s0UHy+w@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [194.132.137.82]
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Mon, 10 Feb 2014 03:08:43 -0800 (PST)
-In-Reply-To: <20140208180543.GN3698@jama>
-References: <1391598835-1631-1-git-send-email-lpapp@kde.org>
-	<52F25D84.6060501@linux.intel.com>
-	<CAOMwXhMUuS2-dV1xe0YWFxOeD08ByUHHm8DPaqeT=4jAFzHXVA@mail.gmail.com>
-	<1391860744.32614.52.camel@ted>
-	<CAOMwXhM8FgqC+z-fo9VNDyn=imUhomLmm+hQUSX4k9r7AsXJyA@mail.gmail.com>
-	<1391862015.32614.59.camel@ted> <20140208180543.GN3698@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 10 Feb 2014 11:08:43 +0000
-Message-ID: <CAJTo0LaXbTkt0fwsd8agLGPef1TN4frZ07kRqd0xJG9rki4Rkw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Premirrors and local VCS server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,24 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 11:09:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 10 Feb 2014 11:14:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On 8 February 2014 18:05, Martin Jansa <martin.jansa@gmail.com> wrote:
-> From contributor POV I don't see need for "ack/Pushed" e-mail, I rebase all
-> my local changes quite often, so when some are merged I'll notice that
-> they are gone from my local branch. When some patch is stuck there for
-> very long time, it's again easy to spot this and send reminder on that
-> patch email. Another advantage of rebasing my submitted patches is that
-> I'll see if my patch was modified prior to merge or when older revision
-> of the patch was merged and rebase leaves me with some significant delta
-> between v1 and v2 which I can easily submit as incremental patch.
-
-FWIW, this is my workflow too.  Lots of feature branches for each
-logical unit that I'm working, that get rebased every day (a basic
-git-rebase-all is less than ten lines of shell).  I get to notice
-patches that no longer apply and branches that are entirely merged
-this way.
-
-Ross
+On  Friday, February 07, 2014, Chris Larson [clarson@kergoth.com] wrote:=0A=
+=0A=
+> > I have also tried "svn://.*/.* svn://myserver" but this just goes mayhe=
+m,=0A=
+> > some recursion i guess; 9140 ERROR messages shown...=0A=
+> =0A=
+> I'm not sure if this use case is supported, but if it is, this would be t=
+he method to support it. I'd suggest opening a bug in the yocto bug trackin=
+g system.=0A=
+>=0A=
+=0A=
+Thanks for the feedback!=0A=
+=0A=
+It is indeed a recursion where the file name is getting prepended with the =
+=0A=
+mirror server name again and again... And the fetcher still tries to fetch=
+=0A=
+a tarball, not do the original check-out as I intended.=0A=
+=0A=
+I wonder; would it make sense to add a new conf variable, something like:=
+=0A=
+=0A=
+BB_FETCH_NETWORKWHITELIST =3D " \=0A=
+    10.64.0.0/16 \=0A=
+    ${MY_LOCAL_MIRROR} \=0A=
+    www.some-domain.org \=0A=
+"=0A=
+=0A=
+It would allow more fine-grained control of what is acceptable and at=0A=
+least it would not clash with (but perhaps make obsolete) the existing:=0A=
+=0A=
+BB_FETCH_PREMIRRORONLY=0A=
+BB_NO_NETWORK=0A=
+=0A=
+I was at first thinking about a simpler "BB_FETCH_LOCALNETWORKONLY"=0A=
+but that doesn't blend well with the existing options.=0A=
+=0A=
+BR // Mats=0A=
 
