@@ -1,31 +1,36 @@
-Return-Path: <Mats.Karrman@tritech.se>
-Received: from tritech.se (tritech.se [46.59.120.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FDBC6EC9E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 816986E7AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 11:14:37 +0000 (UTC)
-Received: from post.tritech.se (post.tritech.se [10.75.60.100])
-	by tritech.se (8.14.3/8.14.3) with ESMTP id s1ABEV3V008119;
-	Mon, 10 Feb 2014 12:14:36 +0100
-Received: from POST.tritech.se ([fe80::b4fc:968e:bbef:54cb]) by
-	post.tritech.se ([fe80::b4fc:968e:bbef:54cb%10]) with mapi id
-	14.02.0387.000; Mon, 10 Feb 2014 12:14:31 +0100
-From: =?iso-8859-1?Q?Mats_K=E4rrman?= <Mats.Karrman@tritech.se>
-To: Chris Larson <clarson@kergoth.com>
-Thread-Topic: [OE-core] Premirrors and local VCS server
-Thread-Index: Ac8kD6shFuj4vLvFRJ+liH1sEuiwVAAAf/sAAI8YyBs=
-Date: Mon, 10 Feb 2014 11:14:30 +0000
-Message-ID: <ED3E0BCACD909541BA94A34C4A164D4C5B15DE24@post.tritech.se>
-References: <ED3E0BCACD909541BA94A34C4A164D4C5B15D3EA@post.tritech.se>,
-	<CABcZANmYSBxirpEVNsX2zF6rpzv3LR0Xiay6uckaod+s0UHy+w@mail.gmail.com>
-In-Reply-To: <CABcZANmYSBxirpEVNsX2zF6rpzv3LR0Xiay6uckaod+s0UHy+w@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [194.132.137.82]
+	Mon, 10 Feb 2014 11:25:48 +0000 (UTC)
+Received: by mail-qc0-f172.google.com with SMTP id c9so10171025qcz.17
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2014 03:25:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=y3NIAU3hyt/VWyKa5syy0Z23xSKLXXO0T+rv397tSrM=;
+	b=DkyHRHzB5Tj82WfjPA3NAuP8hUQNH6pJMMhFQQqDA4tBNMpwFjH1Mm+17philtTrM0
+	fdP6lrV+Z85irruHPWkWL4OPN8ozkMK2fGq3pJkums9uAjBaBIzre70Ki+OWbVgL6JgE
+	FPqNr9ozPTnPBjzWy0acrCZOMPw3at/R6KhqxN8LHw1rbvH9UbOAGTvNOOUVP0Nm7z2H
+	3uwgbIhAXyi1xW1XLuTs/Xut3ykJ/rM0hWTxaj9H/6EtVmWA+AiVWknJRKwTvwmYhUfa
+	mdaYLALc/YpDdtxuCCyHO02ocMxWx5eW53+Z/1sV+wxryoNYrHQkawzUJZ/WbBcRu2aH
+	jhHg==
+X-Gm-Message-State: ALoCoQkQdgCp+y1AdD9OCuObOVCibMl4at72ALBRTKTc8R+SOyb/Wa18AL/R/EfQiA1z6UGpm5oo
+X-Received: by 10.224.89.4 with SMTP id c4mr46771005qam.64.1392031548738; Mon,
+	10 Feb 2014 03:25:48 -0800 (PST)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Premirrors and local VCS server
+Received: by 10.140.48.79 with HTTP; Mon, 10 Feb 2014 03:25:28 -0800 (PST)
+In-Reply-To: <CAOMwXhPDaK9NMx7z5Mgady7d4t1AA7dJVikC9w72r_EC3xbqgQ@mail.gmail.com>
+References: <CAOMwXhPDaK9NMx7z5Mgady7d4t1AA7dJVikC9w72r_EC3xbqgQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 10 Feb 2014 11:25:28 +0000
+Message-ID: <CAJTo0LYdRhvcnU+22Jb-gwX1OXLpA3pw4cdwYeyWSvKavDqaFg@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Patch workflow [was: meta/recipes-core/base-passwd/base-passwd/noshadow.patch: Split it into two parts]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,47 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 11:14:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Feb 2014 11:25:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On  Friday, February 07, 2014, Chris Larson [clarson@kergoth.com] wrote:=0A=
-=0A=
-> > I have also tried "svn://.*/.* svn://myserver" but this just goes mayhe=
-m,=0A=
-> > some recursion i guess; 9140 ERROR messages shown...=0A=
-> =0A=
-> I'm not sure if this use case is supported, but if it is, this would be t=
-he method to support it. I'd suggest opening a bug in the yocto bug trackin=
-g system.=0A=
->=0A=
-=0A=
-Thanks for the feedback!=0A=
-=0A=
-It is indeed a recursion where the file name is getting prepended with the =
-=0A=
-mirror server name again and again... And the fetcher still tries to fetch=
-=0A=
-a tarball, not do the original check-out as I intended.=0A=
-=0A=
-I wonder; would it make sense to add a new conf variable, something like:=
-=0A=
-=0A=
-BB_FETCH_NETWORKWHITELIST =3D " \=0A=
-    10.64.0.0/16 \=0A=
-    ${MY_LOCAL_MIRROR} \=0A=
-    www.some-domain.org \=0A=
-"=0A=
-=0A=
-It would allow more fine-grained control of what is acceptable and at=0A=
-least it would not clash with (but perhaps make obsolete) the existing:=0A=
-=0A=
-BB_FETCH_PREMIRRORONLY=0A=
-BB_NO_NETWORK=0A=
-=0A=
-I was at first thinking about a simpler "BB_FETCH_LOCALNETWORKONLY"=0A=
-but that doesn't blend well with the existing options.=0A=
-=0A=
-BR // Mats=0A=
+On 8 February 2014 21:56, Laszlo Papp <lpapp@kde.org> wrote:
+> OK, can you please elaborate about the drawback of e.g. Gerrit?
+
+This was discussed in July:
+
+https://www.yoctoproject.org/irc/%23yocto.2013-07-12.log.html
+
+Nothing has changed since then.
+
+Ross
 
