@@ -1,26 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B4676ED56
+Return-Path: <henning@itconsulting-heinold.de>
+Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EDC26EDDD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 07:16:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1B7GJv2003682
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 11 Feb 2014 08:02:33 +0000 (UTC)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id EB46322320A7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 23:16:20 -0800 (PST)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 10 Feb 2014 23:16:19 -0800
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Feb 2014 15:16:18 +0800
-Message-ID: <a0b049ae9fa7a0ad728ef2bebdb263dd287d0392.1392102889.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1392102889.git.Qi.Chen@windriver.com>
-References: <cover.1392102889.git.Qi.Chen@windriver.com>
+	Tue, 11 Feb 2014 09:02:29 +0100 (CET)
+Received: from mail.familie-heinold.de (localhost [127.0.0.1])
+	by mail.familie-heinold.de (Postfix) with ESMTP id F16BC22320A5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2014 09:02:28 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	h873313.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+Received: from mail.itconsulting-heinold.de
+	(fb-n15-11.unbelievable-machine.net [94.198.62.204])
+	by mail.familie-heinold.de (Postfix) with ESMTPSA
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2014 09:02:28 +0100 (CET)
+Date: Tue, 11 Feb 2014 09:02:22 +0100
+From: Henning Heinold <henning@itconsulting-heinold.de>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Message-ID: <20140211080222.GA27801@mail.itconsulting-heinold.de>
+References: <20140121155032.GA21712@mail.itconsulting-heinold.de>
+	<E32137DE-8B3E-42C9-BF29-487777BC4EE7@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] busybox-syslog: add more comments to systemd configuration file
+In-Reply-To: <E32137DE-8B3E-42C9-BF29-487777BC4EE7@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Virus-Scanned: ClamAV using ClamSMTP
+Subject: Re: strange directories inside sdk build with with dora
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 07:16:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Feb 2014 08:02:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add more comments to the systemd configuration file for busybox's
-syslogd utility. The purpose is to easy the life of system administrators.
+On Mon, Feb 10, 2014 at 09:46:47PM -0800, Khem Raj wrote:
+> 
+> On Jan 21, 2014, at 7:50 AM, Henning Heinold <henning@itconsulting-heinold.de> wrote:
+> 
+> > Hi,
+> > 
+> > I build a sdk with latest stable dora and in includes some x86 directories in the arm sysroot:
+> > 
+> > pwd
+> > 
+> > /opt/poky/1.5.1/sysroots/armv5te-poky-linux-gnueabi
+> > 
+> > find | grep "/opt"
+> > 
+> > ./opt
+> > ./opt/poky
+> > ./opt/poky/1.5.1
+> > ./opt/poky/1.5.1/sysroots
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chsh
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/newgrp
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/passwd
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/opkg
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chfn
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/groups
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin/chpasswd
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/su
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/login
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d/S98run-postinsts
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vigr
+> > ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vipw
+> > 
+> > Are the really used or are the just got wrongly included?
+> 
+> This seems wrong. firstly file a bug so it can be tracked. Secondly, seems
+> prefix has gone wrong for some nativesdk package 
+> 
 
-These comments are mostly derived from the comments in syslogd.c in
-busybox.
+I have filed a bug.
 
-[YOCTO #5722]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../busybox/files/busybox-syslog.default           |   24 ++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/meta/recipes-core/busybox/files/busybox-syslog.default b/meta/recipes-core/busybox/files/busybox-syslog.default
-index a3d51ca..e516caf 100644
---- a/meta/recipes-core/busybox/files/busybox-syslog.default
-+++ b/meta/recipes-core/busybox/files/busybox-syslog.default
-@@ -1 +1,25 @@
- OPTIONS="-C"
-+# The above option means syslogd will log to 16K shm circular buffer.
-+# You could use `logread' to read it.
-+
-+# All available options are:
-+# -O FILE       :      Log to FILE (default:/var/log/messages)
-+# -l N          :      Log only messages more urgent than prio N (1-8)
-+# -S            :      Smaller output
-+# -s SIZE       :      Max size (KB) before rotation (default:200KB, 0=off)
-+# -b N          :      N rotated logs to keep (default:1, max=99, 0=purge)
-+# -R HOST[:PORT]:      Log to HOST:PORT (default PORT:514)
-+# -L            :      Log locally and via network
-+# -D            :      Drop duplicates
-+# -C[size_kb]   :      Log to shared mem buffer (use logread to read it)
-+# -f FILE       :      Use FILE as config (default:/etc/syslog.conf)
-+# -m MIN        :      Minutes between mark lines (default:20, 0=off)
-+# -K            :      Log to kernel printk buffer (use dmesg to read it)
-+
-+# Example 1:
-+# Log to local file /var/log/mylog
-+# OPTIONS="-O /var/log/mylog"
-+#
-+# Example 2:
-+# Log to remote host
-+# OPTIONS="-R 192.168.1.1:601"
--- 
-1.7.9.5
-
+Bye Henning
 
