@@ -1,40 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
-	[209.85.160.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 407236E927
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id C8DC06E8E5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 03:33:07 +0000 (UTC)
-Received: by mail-pb0-f49.google.com with SMTP id up15so7123663pbc.36
+	Tue, 11 Feb 2014 03:44:04 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id hz1so7065409pad.36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 19:33:08 -0800 (PST)
+	Mon, 10 Feb 2014 19:44:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=mX636KQ6dmREFZnQoOzsTL6VZZ8PFXrylpTsYR0TUn4=;
-	b=wZdeKT5chH50YAcNO3mjTehRh97vpQ5FdwRrEDtBEXQFKkLylCoQ1fOdUKvgkc5wcY
-	9wNwYlOBJ3iHdqCoHNnQy/1iYmo+D8cty3SggMZ0a/GMQfWcuM8Mf75vOczw1zVVMBlu
-	OV7ccecfI5mkGcMLkWeKKQrETH6vNm156eVCWVYzJRwGL9lsJm4He/OKrA+FlEG9+QX7
-	FtnkCAAWUm9+NyBr/uugku11v0ra69NwO50uHfwTGcP3GdQ26eoHRcnMxlTsqvMeTs6X
-	0vmwlEFniS014//aEZakXunsBr/YYcsYjq5+pK+QqWSm8ofiigtQkB2VxwupCukv7ZFK
-	gjAQ==
-X-Received: by 10.66.25.101 with SMTP id b5mr29829380pag.101.1392089588471;
-	Mon, 10 Feb 2014 19:33:08 -0800 (PST)
-Received: from localhost.localdomain
-	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
-	by mx.google.com with ESMTPSA id
-	nv7sm47591469pbc.31.2014.02.10.19.33.06 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Feb 2014 19:33:07 -0800 (PST)
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=E2dS8vJj0A1Lx7e8l3Cu7jAcUoR5r5+Fw3zUIg3+aK4=;
+	b=DrbwE8BB08GwHVDF/wBzzTkG7/sucJY8XKIKuJcV/fFEvE47taDhlrDeZd6lXNjRkK
+	DM/FmUugSEXYdtEfrS8nA77t2JmOoNSrk56xTqyLHl7cH13Cdm/CGJzu+c5HnTJM4Xld
+	6Gp6n9kpnec4YeU2nAY0T98dHzS4OpJOoa8W/zVV38wU9t2F2u87gaPiBoGON7Fiom5J
+	cavlghyeO9eurNxGc8zCACxXLhQcxeHh+59BaDQrXe5Rgs82g3IYGaAbpWKYByWCEhGS
+	W7HhTlqQcNy+fmhMdWY2jch3oqZtg2wJowWNBGo07uUTlS26nveA1oN4p+tDP8U8XUEE
+	3IrQ==
+X-Received: by 10.66.197.164 with SMTP id iv4mr29916747pac.18.1392090245889;
+	Mon, 10 Feb 2014 19:44:05 -0800 (PST)
+Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.30]) by mx.google.com with ESMTPSA id
+	sy2sm47680336pbc.28.2014.02.10.19.44.04 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 10 Feb 2014 19:44:04 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Feb 2014 19:33:37 -0800
-Message-Id: <5eeeedfcaec0bd520449d7926da70085eb033991.1392089446.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <d26f2923a8f23a7fed4f22bdc6aaa178d39a5add.1392089446.git.raj.khem@gmail.com>
-References: <d26f2923a8f23a7fed4f22bdc6aaa178d39a5add.1392089446.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1392089446.git.raj.khem@gmail.com>
-References: <cover.1392089446.git.raj.khem@gmail.com>
-Subject: [PATCH 3/3] systemd: Enable building microhttpd
+In-Reply-To: <CAPbeDC=S-U3d=c5uZUYeDXqA0hWf56E5YwGii11pXZHAyo63WQ@mail.gmail.com>
+Date: Mon, 10 Feb 2014 19:44:03 -0800
+Message-Id: <2C7F328D-B676-40A7-997B-ED8C581FA288@gmail.com>
+References: <CAPbeDC=S-U3d=c5uZUYeDXqA0hWf56E5YwGii11pXZHAyo63WQ@mail.gmail.com>
+To: Jacob Kroon <jacob.kroon@gmail.com>
+X-Mailer: Apple Mail (2.1827)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Problem with libicudata.so in OE master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 03:33:07 -0000
+X-List-Received-Date: Tue, 11 Feb 2014 03:44:04 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-This enabled journald-gatewayd
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/systemd/systemd_208.bb |    2 ++
- 1 file changed, 2 insertions(+)
+On Feb 10, 2014, at 1:21 PM, Jacob Kroon <jacob.kroon@gmail.com> wrote:
 
-diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
-index f94ce56..fe88a7a 100644
---- a/meta/recipes-core/systemd/systemd_208.bb
-+++ b/meta/recipes-core/systemd/systemd_208.bb
-@@ -58,6 +58,7 @@ DEPENDS += "libgcrypt"
- PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
- PACKAGECONFIG[tcp-wrappers] = "--enable-tcpwrap,--disable-tcpwrap,tcp-wrappers"
- PACKAGECONFIG[cryptsetup] = "--enable-libcryptsetup,--disable-libcryptsetup,cryptsetup"
-+PACKAGECONFIG[microhttpd] = "--enable-microhttpd,,libmicrohttpd"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
-@@ -149,6 +150,7 @@ SYSTEMD_PACKAGES = "${PN}-binfmt"
- SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
- 
- USERADD_PACKAGES = "${PN}"
-+USERADD_PARAM_${PN} += "--system systemd-journal-gateway"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
- 
- FILES_${PN}-analyze = "${bindir}/systemd-analyze"
--- 
-1.7.10.4
+> Hi,
+>=20
+> I'm having problems with running Qt5 apps using OE master. I'm using a =
+couple of other layers, but as the problem seems to be related to =
+libicudata.so I figured I'd post it here, my apologies if the mail =
+should go somewhere else.
+>=20
+> When starting the Qt5 app I get:
+> error while loading shared libraries: /usr/lib/libicudata.so.51: =
+internal error
+>=20
+> I'm building for Wandboard Solo machine from meta-fsl-arm-extra layer.
+>=20
+> TUNE_FEATURES =3D "armv7a vfp neon callconvention-hard cortexa9"
+> TARGET_FPU =3D "vfp-neon"
+>=20
+> [jkroon@localhost oe-devel]$ readelf -A =
+build/tmp-eglibc/sysroots/wandboard-solo/usr/lib/libicudata.so.51.2=20
+> Attribute Section: aeabi
+> File Attributes
+>   Tag_CPU_name: "7-A"
+>   Tag_CPU_arch: v7
+>   Tag_CPU_arch_profile: Application
+>   Tag_ARM_ISA_use: Yes
+>   Tag_THUMB_ISA_use: Thumb-2
+>   Tag_FP_arch: VFPv3
+>   Tag_Advanced_SIMD_arch: NEONv1
+
+this does not seem to be complete output, the key piece thats =
+interesting here is what is value of Tag_ABI_VFP_args since you say you =
+have call convention-hard in TUNE_FEATURES
+I expect Tag_ABI_VFP_args =3D VFP registers
+
 
 
