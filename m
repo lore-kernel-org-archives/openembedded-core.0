@@ -1,29 +1,37 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 49FEB6E99A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A202A6E8E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 10:07:40 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
-	Tue, 11 Feb 2014 11:07:39 +0100
-Message-ID: <52F9F668.9020002@enea.com>
-Date: Tue, 11 Feb 2014 11:07:36 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Tue, 11 Feb 2014 10:43:27 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id x13so12428744qcv.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2014 02:43:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LQTY88psO4sT7FgtcNpnR4i6kJM6q2rWBKMcRqqQW80=;
+	b=WpP+xYvfDDNlAY5vPV1CKxCh9MJZVRPFt3Z8jzxICq7glTVOFIt5A1xQ5hYX3zmrY+
+	T3R+jYF1TCx1sN6CY54pbrOMhU0+XkqEUt04crhHwxqu8l/iprvrTn00qrxxDc7PzGw+
+	piJYxo/iwq4O+PgRXknlOX+GxpnVBgYBAfq/RzgWEpDgXkWJ1089cXGjNUJqnBfVR+GY
+	92ITKKyQf2b/OaZbLXZPNhRYaO+jgOsIRmIQzEZv9otj9WtMK3zkTNqy40r/CqTaaupN
+	2rnqTC9kpj1WjzuaDFAgpQmMBoIk9EDUsDBFNf8lwAsoixYIbxiwFVEt0mmNYMtfi9tJ
+	lPew==
+X-Gm-Message-State: ALoCoQmEjOPdIp4TBl2Tbd9n2ul/TAkQqR+WBoDVeYAd6t/Yb7l3tRXRsLI+CijWRP7Nceljloym
+X-Received: by 10.224.97.67 with SMTP id k3mr56605058qan.17.1392115408127;
+	Tue, 11 Feb 2014 02:43:28 -0800 (PST)
 MIME-Version: 1.0
-To: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>, Richard
-	Purdie <richard.purdie@linuxfoundation.org>
-References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>	<1389366908.19102.223.camel@ted>
-	<52D3DDFB.8080803@gmail.com>	<1389616915.14987.4.camel@ted>
-	<52D53A6C.30808@gmail.com>	<55ea22e5d71c47f3b812e845106f2d19@DM2PR03MB368.namprd03.prod.outlook.com>	<1390044007.14987.151.camel@ted>	<3ea5b5ff002e4f98b60997229cc31300@DM2PR03MB368.namprd03.prod.outlook.com>	<1390326205.874.95.camel@ted>	<c5873e086bd941e68daa26cbcdca573e@BLUPR03MB357.namprd03.prod.outlook.com>	<1390596961.24755.21.camel@e130.pbcl.net>	<1390995512.24655.62.camel@ted>	<da5289aa6e744c99ac4cb134483cdec9@DM2PR03MB368.namprd03.prod.outlook.com>	<1391191631.28575.7.camel@ted>
-	<fca6c32db2694c3c9c8a3f0130a3c039@DM2PR03MB368.namprd03.prod.outlook.com>
-In-Reply-To: <fca6c32db2694c3c9c8a3f0130a3c039@DM2PR03MB368.namprd03.prod.outlook.com>
-X-Originating-IP: [172.16.141.133]
-Cc: "catalin.udma@freescale.com" <catalin.udma@freescale.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "cross-canadian: Handle powerpc linux verses linux-gnuspe"
+Received: by 10.140.48.79 with HTTP; Tue, 11 Feb 2014 02:43:08 -0800 (PST)
+In-Reply-To: <5eeeedfcaec0bd520449d7926da70085eb033991.1392089446.git.raj.khem@gmail.com>
+References: <cover.1392089446.git.raj.khem@gmail.com>
+	<5eeeedfcaec0bd520449d7926da70085eb033991.1392089446.git.raj.khem@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Feb 2014 10:43:08 +0000
+Message-ID: <CAJTo0LYuEX-3iYUVcwKu_pppBN5o9bPDSwaJ870zHr1uZ_mjCg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] systemd: Enable building microhttpd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,24 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 10:07:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Feb 2014 10:43:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2014-01-31 19:17, alexandru.sardan@freescale.com wrote:
-> Hi,
->
-> Sure, I'll do this and also some more extensive testing
-> on the boards.
->
-> Thanks,
-> Alex
->
+On 11 February 2014 03:33, Khem Raj <raj.khem@gmail.com> wrote:
+> +PACKAGECONFIG[microhttpd] = "--enable-microhttpd,,libmicrohttpd"
 
-Hi Alex,
+There isn't a disabled option here, and you don't set PACKAGECONFIG to
+enable it so in theory it's disabled by default.  Is this sufficiently
+"core" to be in oe-core?  Alternatively we could have the
+packageconfig blocks in oe-core but libmicrohttpd in meta-oe.
 
-Whats the status on this ?
-
-Br,
-David
+Ross
 
