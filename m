@@ -1,41 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AF1C6E8FE
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 446C16E6B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 15:29:40 +0000 (UTC)
-Received: by mail-qa0-f48.google.com with SMTP id f11so11801108qae.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 07:29:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=M54ITzUAAjjgQeTQcRToEn84bggKyqDJS4q5tOaoQjQ=;
-	b=cSA4F6dj34rw93xNg+Upn6cNXP8otaRYJKuhJyaiPRYYIUcpOt3nHtM8KvrEgrf++O
-	29pWuIdahstBusRzQ+ZvWmeHlRqZW7mlW2krJRAq2atzHhLwOnJIx/VxkWqlErWE1+vm
-	MK4wzv/soZ7povhZqhkzOColVZQgnxSrU6+cz1RK668f7evfffF9J1aZWhLYJr01i6ES
-	wONwwIC5gNA8MzIBb1QPLDduhX8UkhryE2rbKTMovUCZSseZPvCDGmey2eXIXT4OJZJo
-	b8PVNCGlCQDkUBYymMiXWF4tWQ9nAh3EWddILkHzdhsBksYJaVWAdu+aK36HeXIb5oGo
-	SdoQ==
-X-Gm-Message-State: ALoCoQnIv6ac84MH4BkRp1Uj134h5RSov0W6EcQQwG8n2ksYZgL4XhLy16LRsocIIYREAp9sI3rm
-X-Received: by 10.140.106.225 with SMTP id e88mr54540733qgf.66.1392132580907; 
-	Tue, 11 Feb 2014 07:29:40 -0800 (PST)
+	Tue, 11 Feb 2014 15:56:45 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Tue, 11 Feb 2014 16:56:43 +0100
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 1A0AB28AEDD;
+	Tue, 11 Feb 2014 16:56:44 +0100 (CET)
+From: <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Feb 2014 16:56:34 +0100
+Message-ID: <1392134194-30350-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Tue, 11 Feb 2014 07:29:20 -0800 (PST)
-In-Reply-To: <CAMKF1so-_a8437RrW9FYbENVys5D6Qv8dxd1kNDF9TzZ0OKyng@mail.gmail.com>
-References: <cover.1392089446.git.raj.khem@gmail.com>
-	<5eeeedfcaec0bd520449d7926da70085eb033991.1392089446.git.raj.khem@gmail.com>
-	<CAJTo0LYuEX-3iYUVcwKu_pppBN5o9bPDSwaJ870zHr1uZ_mjCg@mail.gmail.com>
-	<CAMKF1srNpswQ2doGgkAeHDHnS=JuK1E4MGKqjOYRbP+TK3qSVw@mail.gmail.com>
-	<CAJTo0LaD4=NZTeLRKD=pOfi5sqGBVacKA-ObWmXkT0JbT2=Xwg@mail.gmail.com>
-	<CAMKF1so-_a8437RrW9FYbENVys5D6Qv8dxd1kNDF9TzZ0OKyng@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Feb 2014 15:29:20 +0000
-Message-ID: <CAJTo0LaB9HsxiYxRH3yA=f1pa5Xtp+EW2ofgwGHH3Uok-35v_Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] systemd: Enable building microhttpd
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] rt-tests: version bump to 0.87
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,25 +30,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 15:29:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 11 Feb 2014 15:56:46 -0000
+Content-Type: text/plain
 
-On 11 February 2014 15:07, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Feb 11, 2014 at 7:04 AM, Burton, Ross <ross.burton@intel.com> wrote:
->>> thats the default one can add --disable-microhttpd too
->>
->> Please add it for clarity.
->
-> Do you suggest to add it to configure cmdline or in comments
+From: "Maxin B. John" <maxin.john@enea.com>
 
-I meant this:
+- Drop PR and INC_PR.
+- license remains the same with cyclictest.c checksum change
 
-+PACKAGECONFIG[microhttpd] =
-"--enable-microhttpd,--disable-microhttpd,libmicrohttpd"
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ ...st-finish-removal-of-1-second-first-loops.patch |   61 --------------------
+ meta/recipes-rt/rt-tests/rt-tests.inc              |    9 +--
+ .../{rt-tests_0.85.bb => rt-tests_0.87.bb}         |    4 +-
+ 3 files changed, 3 insertions(+), 71 deletions(-)
+ delete mode 100644 meta/recipes-rt/rt-tests/files/cyclictest-finish-removal-of-1-second-first-loops.patch
+ rename meta/recipes-rt/rt-tests/{rt-tests_0.85.bb => rt-tests_0.87.bb} (90%)
 
-Clear to the person reading the .bb, and if systemd changes the
-behaviour when the option isn't specified (to enable, or automatically
-detect) then our build doesn't change.
+diff --git a/meta/recipes-rt/rt-tests/files/cyclictest-finish-removal-of-1-second-first-loops.patch b/meta/recipes-rt/rt-tests/files/cyclictest-finish-removal-of-1-second-first-loops.patch
+deleted file mode 100644
+index a9cc0e3..0000000
+--- a/meta/recipes-rt/rt-tests/files/cyclictest-finish-removal-of-1-second-first-loops.patch
++++ /dev/null
+@@ -1,61 +0,0 @@
+-From 8959451a8ec5dc83dcb2dba6701abe8bf419e12c Mon Sep 17 00:00:00 2001
+-Message-Id: <8959451a8ec5dc83dcb2dba6701abe8bf419e12c.1358783585.git.Jim.Somerville@windriver.com>
+-From: Jim Somerville <Jim.Somerville@windriver.com>
+-Date: Mon, 21 Jan 2013 10:50:18 -0500
+-Subject: [PATCH 1/1] cyclictest: finish removal of 1 second first loops
+-
+-Observation:
+-Huge latencies reported close to 1 second when certain options
+-are used in cyclictest.
+-
+-Problem:
+-[ commit da4956cbcaf7945554f30e4d3a9be09b1431b19a
+-    use interval on first loop instead of 1 second ]
+-removed the 1 second first timing loop out of the main path
+-in cyclictest but left it in two other paths, namely the ones
+-triggered by these two options:
+--r       --relative        use relative timer instead of absolute
+--s       --system          use sys_nanosleep and sys_setitimer
+-This causes huge latencies of close to 1 second to be reported
+-by cyclictest with certain uses of those two options.
+-
+-Fix:
+-Extend the original commit to remove the 1 second hardcoded
+-timer values from the RELTIME and ITIMER options.  Use the
+-the actual interval instead.
+-
+-Upstream-Status:  Accepted
+-[ https://git.kernel.org/cgit/linux/kernel/git/clrkwllms/rt-tests.git/commit/?h=work&id=1b92da30837e9552aba209cbdf938877f0fd3bbf ]
+-
+-Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
+----
+- src/cyclictest/cyclictest.c |    6 ++----
+- 1 files changed, 2 insertions(+), 4 deletions(-)
+-
+-diff --git a/src/cyclictest/cyclictest.c b/src/cyclictest/cyclictest.c
+-index 11b6cea..8487409 100644
+---- a/src/cyclictest/cyclictest.c
+-+++ b/src/cyclictest/cyclictest.c
+-@@ -741,17 +741,15 @@ void *timerthread(void *param)
+- 		if (par->timermode == TIMER_ABSTIME)
+- 			tspec.it_value = next;
+- 		else {
+--			tspec.it_value.tv_nsec = 0;
+--			tspec.it_value.tv_sec = 1;
+-+			tspec.it_value = interval;
+- 		}
+- 		timer_settime(timer, par->timermode, &tspec, NULL);
+- 	}
+- 
+- 	if (par->mode == MODE_SYS_ITIMER) {
+--		itimer.it_value.tv_sec = 1;
+--		itimer.it_value.tv_usec = 0;
+- 		itimer.it_interval.tv_sec = interval.tv_sec;
+- 		itimer.it_interval.tv_usec = interval.tv_nsec / 1000;
+-+		itimer.it_value = itimer.it_interval;
+- 		setitimer (ITIMER_REAL, &itimer, NULL);
+- 	}
+- 
+--- 
+-1.7.4.1
+-
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index 91e5028..81f4f2b 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -1,18 +1,13 @@
+-# Version v0.85
+-SRCREV = "210e625227d21e0b589b8eaa36cd81f1cb981819"
+-
+-PR = "r0"
++# Version v0.87
++SRCREV = "b0413ae5ed802004fb0c4af74a1757381fd2b91f"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git \
+            file://0001-rt-tests-Allow-for-user-specified-PYLIB.patch \
+            file://0002-rt-tests-Break-out-install_hwlatdetect.patch \
+            file://added-missing-dependencies.patch \
+-           file://cyclictest-finish-removal-of-1-second-first-loops.patch \
+            file://hackbench-fix-error-check.patch \
+ "
+ 
+-INC_PR = "r2"
+-
+ S = "${WORKDIR}/git"
+ 
+ # need to append rt-tests' default CFLAGS to ours
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.85.bb b/meta/recipes-rt/rt-tests/rt-tests_0.87.bb
+similarity index 90%
+rename from meta/recipes-rt/rt-tests/rt-tests_0.85.bb
+rename to meta/recipes-rt/rt-tests/rt-tests_0.87.bb
+index ae61092..df646de 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests_0.85.bb
++++ b/meta/recipes-rt/rt-tests/rt-tests_0.87.bb
+@@ -4,13 +4,11 @@ SECTION = "tests"
+ DEPENDS = "linux-libc-headers virtual/libc"
+ LICENSE = "GPLv2 & GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+-                    file://src/cyclictest/cyclictest.c;beginline=7;endline=9;md5=ce162fe491d19d2ec67dff6dbc938d50 \
++                    file://src/cyclictest/cyclictest.c;beginline=7;endline=9;md5=e768b8da44555fe63f65e5c497844cb5 \
+                     file://src/pi_tests/pi_stress.c;beginline=6;endline=19;md5=bd426a634a43ec612e9fbf125dfcc949"
+ 
+ require rt-tests.inc
+ 
+-PR = "${INC_PR}.0"
+-
+ # Do not install hwlatdetect
+ EXTRA_OEMAKE += "PYLIB=''"
+ 
+-- 
+1.7.10.4
 
-Ross
 
