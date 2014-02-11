@@ -1,30 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 742956EEE8
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id D2A2E6EEF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 12:35:13 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1BCZ0p3021629; Tue, 11 Feb 2014 12:35:00 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EowJFPZKJAcH; Tue, 11 Feb 2014 12:35:00 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1BCYrKr021606
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 11 Feb 2014 12:34:55 GMT
-Message-ID: <1392122088.7120.138.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 11 Feb 2014 12:34:48 +0000
-In-Reply-To: <cover.1392067183.git.sgw@linux.intel.com>
-References: <cover.1392067183.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [Consolidated Pull 00/11] Kernel Update and more ptest support
+	Tue, 11 Feb 2014 12:35:16 +0000 (UTC)
+Received: by mail-qc0-f173.google.com with SMTP id i8so12902720qcq.32
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2014 04:35:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	bh=Bj0sdblXYCrISuVn+XkK9tzl3AH1324h/RY0Ax0Y3tI=;
+	b=pFo6JRtv3yZZWNtjTFTuRumTCkaTewIBFNOzcaNXO3S4std8VV3M7FTLYF3QTn9iUk
+	SSippWREcdqi6QGIDBgQGqnLbtyvBcihEbSxFNxTsGw+XE4dZg3nhOYS1jzGE2GmaqL9
+	2MPEDwtDAc1mwSHCNb/fnw9hG9UmF9czlPXEEgnJTtLPjz1sQQe9VHRgojCrEJs9VCC6
+	QsyMNIH81EavBEBE5GZb2+Jr/wz6fj6w41szXWhKmci4Kexxa6kDemWMoTUYDBqMx/hz
+	Sj86i/Ycz9o80Pw4T4dCdpsMqjyiHFTJgo0uIC3hY7L3r8Ewle+/LgOY8wwoiYyWMFAa
+	B4oA==
+X-Received: by 10.140.21.179 with SMTP id 48mr53272966qgl.78.1392122117073;
+	Tue, 11 Feb 2014 04:35:17 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.25.47 with HTTP; Tue, 11 Feb 2014 04:34:56 -0800 (PST)
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Tue, 11 Feb 2014 10:34:56 -0200
+Message-ID: <CAMCfZKE1+RDpEE8HehL_GDp2WxrVWjpjVL0Fb94Y_729Zi0A=w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: qte-4.8.5 missing libQtUiToolsE.a on toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +37,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 12:35:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Feb 2014 12:35:17 -0000
+Content-Type: multipart/alternative; boundary=001a11c11fee45b22204f220b00e
 
-On Mon, 2014-02-10 at 13:26 -0800, Saul Wold wrote:
-> Richard,
-> 
-> These are changes that went through the Autobuild, I reviewed them. 
-> The ptest changes have been pending for a bit, is there a reason that
-> you have not taken them?
+--001a11c11fee45b22204f220b00e
+Content-Type: text/plain; charset=ISO-8859-1
 
-Did you look at the results of the autobuild? Several items failed. 
+Folks,
 
-Specifically on the ptest parts, did you read my reply to the previous
-pull request you sent? Or my emails on the list about some of these
-patches? There is a good reason I'm not taking the ptest ones. I was
-discussed in the bug triage meeting too.
+I was trying to use meta-toolchain-qte on dora branch, but when building
+some examples from Qt, the compiler raised this error:
 
-> The following changes since commit b5b4898cd409036161c62891e9618d9ab3f891f9:
-> 
->   python-pycurl: upgrade to 7.19.3 (2014-02-08 21:03:27 +0000)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> Bruce Ashfield (3):
->   kernel: stop using -exec rm for deleting files
-
-This version of the patch is broken and causes a build failure. There is
-a fixed version out there. I'll take that instead.
-
->   linux-yocto/3.10: integrate LTSI
->   linux-yocto/3.10: add powermanagement config to 32 bit common-pc
-> 
-> Chong Lu (2):
->   acl: enable ptest support
-
-This adds in perl as a dependency which breaks nightly-x32.
-
-The big problem here is I can't trust what you're doing in these pull
-requests :(
-
-Please either make time to do this properly, or just don't do it but
-please don't half do it.
-
-Cheers,
-
-Richard
+/usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/libexec/arm-angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.8.2/ld:
+cannot find -lQtUiToolsE
+collect2: error: ld returned 1 exit status
+make: *** [calculator] Error 1
 
 
+If I copy libQtUiToolsE.a
+to /usr/local/oecore-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi/usr/lib/
+the build works.
+
+libQtUiToolsE.a is just present at qt4-embedded-staticdev package.
+Shouldn't it needed to be added to meta-toolchain-qte?
+
+
+Regards,
+
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br
+
+/*long live rock 'n roll*/
+
+--001a11c11fee45b22204f220b00e
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Folks,<div><br></div><div style>I was trying to use meta-t=
+oolchain-qte on dora branch, but when building some examples from Qt, the c=
+ompiler raised this error:</div><blockquote style=3D"margin:0px 0px 0px 40p=
+x;border:none;padding:0px">
+
+/usr/local/oecore-x86_64/sysroots/x86_64-angstromsdk-linux/usr/libexec/arm-=
+angstrom-linux-gnueabi/gcc/arm-angstrom-linux-gnueabi/4.8.2/ld: cannot find=
+ -lQtUiToolsE<br>collect2: error: ld returned 1 exit status<br>make: *** [c=
+alculator] Error 1</blockquote>
+
+<div><br></div><div style>If I copy=A0libQtUiToolsE.a to=A0/usr/local/oecor=
+e-x86_64/sysroots/armv7ahf-vfp-neon-angstrom-linux-gnueabi/usr/lib/ the bui=
+ld works.</div><div style><br></div><div style>libQtUiToolsE.a is just pres=
+ent at=A0qt4-embedded-staticdev package. Shouldn&#39;t it needed to be adde=
+d to meta-toolchain-qte?<br>
+
+</div><div><br></div><div><br clear=3D"all"><div><div dir=3D"ltr"><div>Rega=
+rds,</div><div><br></div>--<br>*dS<br>Diego Sueiro<br><br>Administrador do =
+Embarcados<br><a href=3D"http://www.embarcados.com.br" target=3D"_blank">ww=
+w.embarcados.com.br</a><br>
+
+<br>/*long live rock &#39;n roll*/<br></div></div>
+</div></div>
+
+--001a11c11fee45b22204f220b00e--
