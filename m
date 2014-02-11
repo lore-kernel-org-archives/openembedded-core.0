@@ -1,20 +1,25 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DE4A6E928
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id DA6776E8E6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 08:59:50 +0000 (UTC)
-Received: from fensuse.internal.dresearch-fe.de
-	(fensuse.internal.dresearch-fe.de [172.29.23.6])
-	by zk223.dresearch-fe.de (Postfix) with ESMTP id 6BEA5E0061;
-	Tue, 11 Feb 2014 08:59:49 +0000 (UTC)
-Received: by fensuse.internal.dresearch-fe.de (Postfix, from userid 1000)
-	id A3A29702666; Tue, 11 Feb 2014 09:59:48 +0100 (CET)
-From: Steffen Sledz <sledz@dresearch-fe.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Feb 2014 09:59:31 +0100
-Message-Id: <1392109171-29549-1-git-send-email-sledz@dresearch-fe.de>
-X-Mailer: git-send-email 1.8.5.2
-Subject: [PATCH] lighttpd: introduce /etc/lighttpd.d subdir for config file includes
+	Tue, 11 Feb 2014 09:36:54 +0000 (UTC)
+Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Tue, 11 Feb 2014 10:36:54 +0100
+Message-ID: <52F9EF34.6050300@enea.com>
+Date: Tue, 11 Feb 2014 10:36:52 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>, =?ISO-8859-1?Q?David_N?=
+	=?ISO-8859-1?Q?ystr=F6m?= <david.nystrom@enea.com>
+References: <cover.1391427313.git.laurentiu.palcu@intel.com>	<cover.1392034327.git.laurentiu.palcu@intel.com>	<52F9E289.2080002@enea.com>
+	<20140211085037.GE10078@lpalcu-linux> <52F9E5C1.3050906@gmail.com>
+In-Reply-To: <52F9E5C1.3050906@gmail.com>
+X-Originating-IP: [172.16.141.133]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v5 00/53] Rootfs/image generation refactoring (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,51 +32,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 08:59:50 -0000
+X-List-Received-Date: Tue, 11 Feb 2014 09:36:55 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Extend default config file by a directive to include config file
-fragments from /etc/lighttpd.d. This allows other web application
-packages to put their configuration there.
+On 2014-02-11 09:56, David Nystr=F6m wrote:
+> On 2014-02-11 09:50, Laurentiu Palcu wrote:
+>> Hi David,
+>>
+>> On Tue, Feb 11, 2014 at 09:42:49AM +0100, David Nystr=F6m wrote:
+>>> File: '/media/sdb5/poky-contrib/meta/lib/oe/image.py', lineno: 158,
+>>> function: _write_script
+>>>       0154:        self.d.setVarFlag('img_creation_func', 'func', 1)
+>>>       0155:        self.d.setVarFlag('img_creation_func', 'fakeroot', 1=
+)
+>>>       0156:
+>>>       0157:        with open(script_name, "w+") as script:
+>>>   *** 0158:            script.write("%s" % bb.build.shell_trap_code())
+>>>       0159:            script.write("export ROOTFS_SIZE=3D%d\n" %
+>>> self._get_rootfs_size())
+>>>       0160:            bb.data.emit_func('img_creation_func', script,
+>>> self.d)
+>>>       0161:            script.write("img_creation_func\n")
+>>>       0162:
+>>> Exception: AttributeError: 'module' object has no attribute
+>>> 'shell_trap_code'
+>> I guess you're missing this commit:
+>>
+>> bitbake: build.py: create separate function for shell trap creation code
+>>
+>> which is already in master.
+>
+> Thanks,
+>
+> David
 
-Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
----
- meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf | 3 +++
- meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb     | 3 ++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf b/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf
-index 3342470..6e8402d 100644
---- a/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf
-+++ b/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf
-@@ -326,3 +326,6 @@ static-file.exclude-extensions = ( ".php", ".pl", ".fcgi" )
- #include_shell "echo var.a=1"
- ## the above is same as:
- #var.a=1
-+
-+# include other config file fragments from lighttpd.d subdir
-+include_shell "find /etc/lighttpd.d -maxdepth 1 -name '*.conf' -exec cat {} \;" 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
-index 2ddab16..2ea5f85 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
-@@ -5,6 +5,7 @@ BUGTRACKER = "http://redmine.lighttpd.net/projects/lighttpd/issues"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=e4dac5c6ab169aa212feb5028853a579"
- 
-+PR = "r1"
- 
- SECTION = "net"
- DEPENDS = "zlib libpcre"
-@@ -47,7 +48,7 @@ INITSCRIPT_PARAMS = "defaults 70"
- SYSTEMD_SERVICE_${PN} = "lighttpd.service"
- 
- do_install_append() {
--	install -d ${D}${sysconfdir}/init.d ${D}/www/pages/dav
-+	install -d ${D}${sysconfdir}/init.d ${D}${sysconfdir}/lighttpd.d ${D}/www/pages/dav
- 	install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
- 	install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
- 	install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
--- 
-1.8.5.2
+Tested-by: david.nystrom@enea.com
+
+With the manifest stub patch I sent and v5, FEEDS functionality for IPK=20
+is verified working again.
+
+Only below is generated when building from FEEDS:
+
+$ cat tmp/deploy/images/qemuppc/core-image-minimal-qemuppc.manifest
+busybox-syslog ppc7400 1.21.1-r0
+libc6 ppc7400 2.18-r0
+busybox ppc7400 1.21.1-r0
+busybox-udhcpc ppc7400 1.21.1-r0
+modutils-initscripts ppc7400 1.0-r6
+libuuid1 ppc7400 2.23.2-r0
+base-files qemuppc 3.0.14-r73
+sysvinit-inittab qemuppc 2.88dsf-r9
+initscripts ppc7400 1.0-r141
+update-alternatives-cworth ppc7400 1:0.1.8+svnr653-r13.0
+libblkid1 ppc7400 2.23.2-r0
+udev-utils ppc7400 182-r7
+libkmod2 ppc7400 14+git0+3b38c7fcb5-r0
+base-passwd ppc7400 3.5.26-r2
+busybox-hwclock ppc7400 1.21.1-r0
+packagegroup-core-boot qemuppc 1.0-r11
+udev ppc7400 182-r7
+sysvinit-pidof ppc7400 2.88dsf-r11
+update-rc.d all 0.7-r5
+netbase ppc7400 1:5.1-r0
+udev-cache ppc7400 182-r7
+run-postinsts ppc7400 1.0-r9
+init-ifupdown qemuppc 1.0-r3
+sysvinit ppc7400 2.88dsf-r11
+
+Br,
+David
+
+>> laurentiu
+>>
+>>
+>>>
+>>> ERROR: Function failed: do_rootfs
+>>> ERROR: Logfile of failure stored in:
+>>> /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/t=
+emp/log.do_rootfs.9994
+>>>
+>>> ERROR: Task 6
+>>> (/media/sdb5/poky-contrib/meta/recipes-core/images/core-image-minimal.b=
+b,
+>>>
+>>> do_rootfs) failed with exit code '1'
+>>>
+>>>
+>>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
 
 
