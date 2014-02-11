@@ -1,52 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D52CF6E8C6
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DF7E6E8C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 20:07:44 +0000 (UTC)
-Received: by mail-ea0-f173.google.com with SMTP id d10so3881726eaj.18
+	Tue, 11 Feb 2014 20:09:57 +0000 (UTC)
+Received: by mail-ee0-f48.google.com with SMTP id t10so3846525eei.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 12:07:45 -0800 (PST)
+	Tue, 11 Feb 2014 12:09:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=resent-from:resent-date:resent-message-id:resent-to:date:from:to:cc
-	:subject:message-id:references:mime-version:content-type
-	:content-disposition:in-reply-to:user-agent;
-	bh=3OV/IlmrTbHqTm0GN2W3iiuJa3jPFzgs9iG5PlEpkH8=;
-	b=FyPmwpjRQzxcwYMqGCxEnmqN4JlNrkMTHOJUjtrV67HIAMhNiavX2aOXZ/VRa7tAEv
-	xjkin9vHCVYL/8O35IIc8TjjkES5DJf9AhO3MYYAZ0+evtcaKiY9XFMuO+kPFgaxfvQq
-	UmQulaMb3Uw0n/S0/kgnj61k04BYYDO+4RKx4HKQmVT32LEhxdCadsT6nEkH2U5ms0Xj
-	ItcCjZB7gW/gHcHTqLShIGaeqq5u9QK9w7ZCNYEVYxvEff+x9Qbm5Lp6EkV8bsyrCeXO
-	BDTHFXM9q2swSwYYxkuA3hleAiixmRTFIdGvugLU3WfxXTH9gTSG1tAgwo+WhlEIWmSR
-	hM4g==
-X-Received: by 10.14.87.129 with SMTP id y1mr22322191eee.38.1392149264983;
-	Tue, 11 Feb 2014 12:07:44 -0800 (PST)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=WkTDLLekuRBE8uPwumQwks6fFC5aXL5f9KONpVlTsWo=;
+	b=fT2Xfb88HDiQew3qn3ntEl2EUrU1RqARTGHB4Gmas5BZfxAjsKEh8EYvCDiZeKvUAb
+	bfIaZTyMpKvw4StIxpohsD92ZO5qCXqfvQqV5oFZ4jL59Wz5AGu/pt/nbSF+A/CKex5g
+	tEMiXGoxWni5tSWxuJMMIMBEMk4mJiSaGb9yvr/pWo3ry5clN1VGe0at4YZP1p2fvIdY
+	wWLs71Lz8D+Z+p+70m2wZb5qqrHVe24QDHZKA3Ct7S59EF6gE27WSSAfncsY/N3AuONc
+	R0hOqwhM6/aWmh6U4nHsSPYx/TDgHqxzmmKCihUE+8x9Izo1XDFRRZEdJ9svylZN0lWM
+	GbgQ==
+X-Received: by 10.15.110.69 with SMTP id cg45mr5770774eeb.93.1392149397847;
+	Tue, 11 Feb 2014 12:09:57 -0800 (PST)
 Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
 	[89.176.104.107])
-	by mx.google.com with ESMTPSA id u6sm71568908eep.11.2014.02.11.12.07.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Feb 2014 12:07:44 -0800 (PST)
-Resent-From: Martin Jansa <Martin.Jansa@gmail.com>
-Resent-Date: Tue, 11 Feb 2014 21:08:04 +0100
-Resent-Message-ID: <20140211200804.GA3776@jama>
-Resent-To: openembedded-core@lists.openembedded.org
-Received: from localhost (ip-89-176-104-107.net.upcbroadband.cz.
-	[89.176.104.107])
-	by mx.google.com with ESMTPSA id g1sm47008111eet.6.2014.02.09.14.59.50
+	by mx.google.com with ESMTPSA id k6sm71953660eep.17.2014.02.11.12.09.54
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 09 Feb 2014 14:59:51 -0800 (PST)
-Date: Mon, 10 Feb 2014 00:00:09 +0100
+	Tue, 11 Feb 2014 12:09:55 -0800 (PST)
+Date: Tue, 11 Feb 2014 21:10:14 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20140209230009.GB3485@jama>
-References: <20140209110150.9093150320@opal>
+To: Valentin Popa <valentin.popa@intel.com>
+Message-ID: <20140211201014.GB3776@jama>
+References: <1392142093-9057-1-git-send-email-valentin.popa@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20140209110150.9093150320@opal>
+In-Reply-To: <1392142093-9057-1-git-send-email-valentin.popa@intel.com>
 User-Agent: Mutt/1.5.22 (2013-10-16)
-X-TUID: RUzVYSOUKGUG
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Christopher Larson : pulseaudio: fix RDEPENDS traversal for consolekit
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa: upgrade to 9.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,104 +46,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 20:07:46 -0000
-X-Groupsio-MsgNum: 50040
+X-List-Received-Date: Tue, 11 Feb 2014 20:09:57 -0000
+X-Groupsio-MsgNum: 50041
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="DBIVS5p969aUjpLe"
+	protocol="application/pgp-signature"; boundary="/9DWx/yDrRhgMJTb"
 Content-Disposition: inline
 
---DBIVS5p969aUjpLe
+--/9DWx/yDrRhgMJTb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 09, 2014 at 11:01:50AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: dora
-> Commit: 029b225cd7491a1efdc42593460a57d9eb865427
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D029b225cd7491a1efdc42593460a57d9eb865427
->=20
-> Author: Christopher Larson <chris_larson@mentor.com>
-> Date:   Wed Nov 27 11:07:07 2013 -0700
->=20
-> pulseaudio: fix RDEPENDS traversal for consolekit
->=20
-> Include the console-kit module in PACKSGES explicitly so bitbake can map =
-to
-> the RDEPENDS we define for it in this recipe, and thereby ensure that when
-> adding the console-kit module to an image, we also get the necessary
-> consolekit package produced.
->=20
-> (From OE-Core master rev: 7e7ff7d1e5e86f097ef40befcf00dd28657e26f8)
->=20
-> Signed-off-by: Christopher Larson <kergoth@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+On Tue, Feb 11, 2014 at 08:08:13PM +0200, Valentin Popa wrote:
+> tested on qemux86, genericx86 for core-image-sato
+> and core-image-weston.
 
-Robert, can you please cherry-pick fix for this from master as well?
-
-This commit:
-commit 3e148f863d55728bbfa2d94b602b03dc56b70d4c
-Author: Christopher Larson <kergoth@gmail.com>
-Date:   Fri Dec 13 07:47:11 2013 -0700
-
-    pulseaudio: only package consolekit module when x11 is enabled
-
-    As requested by Martin Jansa <martin.jansa@gmail.com>.
-
-    Signed-off-by: Christopher Larson <kergoth@gmail.com>
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
+Does it resolve
+http://lists.openembedded.org/pipermail/openembedded-core/2014-January/0887=
+27.html
+?
 
 >=20
+> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 > ---
+>  .../mesa/{mesa-gl_9.2.2.bb =3D> mesa-gl_9.2.5.bb}                |  0
+>  meta/recipes-graphics/mesa/{mesa_9.2.2.bb =3D> mesa_9.2.5.bb}    | 10 ++=
+++++++--
+>  meta/recipes-graphics/mesa/mesa_git.bb                         | 10 ++++=
+++++--
+>  3 files changed, 16 insertions(+), 4 deletions(-)
+>  rename meta/recipes-graphics/mesa/{mesa-gl_9.2.2.bb =3D> mesa-gl_9.2.5.b=
+b} (100%)
+>  rename meta/recipes-graphics/mesa/{mesa_9.2.2.bb =3D> mesa_9.2.5.bb} (38=
+%)
 >=20
->  meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/rec=
-ipes-multimedia/pulseaudio/pulseaudio.inc
-> index bb13f4b..b7a6eba 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -69,8 +69,12 @@ USERADD_PARAM_pulseaudio-server =3D "--system --home /=
-var/run/pulse \
->                                --no-create-home --shell /bin/false \
->                                --groups audio,pulse --gid pulse pulse"
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb b/meta/recipes-g=
+raphics/mesa/mesa-gl_9.2.5.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa_9.2.2.bb b/meta/recipes-grap=
+hics/mesa/mesa_9.2.5.bb
+> similarity index 38%
+> rename from meta/recipes-graphics/mesa/mesa_9.2.2.bb
+> rename to meta/recipes-graphics/mesa/mesa_9.2.5.bb
+> index 60eba01..8d7d88f 100644
+> --- a/meta/recipes-graphics/mesa/mesa_9.2.2.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
+> @@ -5,7 +5,13 @@ SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/Me=
+saLib-${PV}.tar.bz2 \
+>             file://0006-fix-out-of-tree-egl.patch \
+>             "
 > =20
-> +# The console-kit module is included here explicitly so bitbake can map =
-to the
-> +# RDEPENDS we define for it in this recipe, and thereby ensure that when
-> +# adding the console-kit module to an image, we also get the necessary
-> +# consolekit package produced.
->  PACKAGES =3D+ "libpulsecore libpulsecommon libpulse libpulse-simple libp=
-ulse-mainloop-glib \
-> -             pulseaudio-server pulseaudio-misc"
-> +             pulseaudio-server pulseaudio-misc pulseaudio-module-console=
--kit"
+> -SRC_URI[md5sum] =3D "20887f8020db7d1736a01ae9cd5d8c38"
+> -SRC_URI[sha256sum] =3D "c78a5035233672844cf2492fe82dc10877e12026be227d04=
+469d6ca6ac656a3d"
+> +SRC_URI[md5sum] =3D "9fb4de29ca1d9cfd03cbdefa123ba336"
+> +SRC_URI[sha256sum] =3D "b46ab9efed176df0591993397594d712ada9da6a47fd31bb=
+e75050fe28eb6bf0"
 > =20
->  #upgrade path:
->  RREPLACES_pulseaudio-server =3D "libpulse-bin libpulse-conf"
+>  S =3D "${WORKDIR}/Mesa-${PV}"
+> +
+> +#because we cannot rely on the fact that all apps will use pkgconfig,
+> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+> +do_configure_append() {
+> +    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('D=
+ISTRO_FEATURES', 'x11', '0', '1', d)}/' ${S}/include/EGL/eglplatform.h
+> +}
+> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphi=
+cs/mesa/mesa_git.bb
+> index 19d3e70..af499a9 100644
+> --- a/meta/recipes-graphics/mesa/mesa_git.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
+> @@ -5,8 +5,8 @@ DEFAULT_PREFERENCE =3D "-1"
+>  LIC_FILES_CHKSUM =3D "file://docs/license.html;md5=3Df69a4626e9efc40fa0d=
+3cc3b02c9eacf"
+> =20
+>  PR =3D "${INC_PR}.0"
+> -SRCREV =3D "8f0742051e8501e737affb392996aef172034ca8"
+> -PV =3D "9.2.2+git${SRCPV}"
+> +SRCREV =3D "4636e87191fddd492ed8c61ba61faf4b2d89b2e4"
+> +PV =3D "9.2.5+git${SRCPV}"
+> =20
+>  SRC_URI =3D "git://anongit.freedesktop.org/git/mesa/mesa \
+>             file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when=
+-HA.patch \
+> @@ -14,3 +14,9 @@ SRC_URI =3D "git://anongit.freedesktop.org/git/mesa/mes=
+a \
+>             "
+> =20
+>  S =3D "${WORKDIR}/git"
+> +
+> +#because we cannot rely on the fact that all apps will use pkgconfig,
+> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+> +do_configure_append() {
+> +    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('D=
+ISTRO_FEATURES', 'x11', '0', '1', d)}/' ${S}/include/EGL/eglplatform.h
+> +}
+> --=20
+> 1.8.3.2
 >=20
 > _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---DBIVS5p969aUjpLe
+--/9DWx/yDrRhgMJTb
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlL4CHkACgkQN1Ujt2V2gBxMGwCeJJv/MY2WdKYqvfHLdryKFVJB
-NVQAn2SN+uk0HUOnqyj+m+cxjjP6yBUV
-=9JHP
+iEYEARECAAYFAlL6g6YACgkQN1Ujt2V2gBwcpgCgnnLfqATzoc3uFEu0F99Jw8ES
+VqcAmgMPu5zYV2/DWLJbT0eiDfhvEKip
+=skoY
 -----END PGP SIGNATURE-----
 
---DBIVS5p969aUjpLe--
+--/9DWx/yDrRhgMJTb--
