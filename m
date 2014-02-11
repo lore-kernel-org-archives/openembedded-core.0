@@ -1,37 +1,29 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A3BB6E99A
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 49FEB6E99A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 09:55:00 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id q59so5356572wes.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 01:55:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+yQlA3aY+cNQavTpKiZI8HH/R8xmeWCKjOqsNqLZbrY=;
-	b=l9i2NSflLqpfYWdlLkYWrZddobN9RIO6drH0s5I9pv78HXh8hmIvKOYDiLX3wr8WKJ
-	zBZvHnX7+nZ4uWGu3PjAFQEhqf2u5yaeN4bSEk+KJES4TTqGLrgpOVXjuJQXX0bedWLo
-	yR7tr77uDfnbAdY7pGMohf+VEpbCm0Z79EnkvS02EHOoayEGf16ZW/+/1zhqssOD6hUG
-	AP1uF8PfcBLZID1CPZAJ4fVBLQfVCp7UJ4cMcpQIyaSNgWIQqALk5TSFY1LZ21wlSTT/
-	kg+UGuHJLf84f0ZtVJk9Pq0vPIYTcZ76JeMNIcls4vxmMNDvGsDWeUy2qOg0jVD2omFA
-	oXtw==
-X-Gm-Message-State: ALoCoQkLAyiC/gx0mri0IpAibSowRYVOo2F+BhfFBuGv33weCY42gjCBTbjtGLLBf2b0U4yegsnD
-X-Received: by 10.180.79.7 with SMTP id f7mr14262029wix.20.1392112500983;
-	Tue, 11 Feb 2014 01:55:00 -0800 (PST)
-Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
-	by mx.google.com with ESMTPSA id d6sm44621069wic.9.2014.02.11.01.55.00
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Feb 2014 01:55:00 -0800 (PST)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Feb 2014 10:54:54 +0100
-Message-Id: <1392112494-27144-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.8.4.2
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCHv2] curl: fix https certificate problems
+	Tue, 11 Feb 2014 10:07:40 +0000 (UTC)
+Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	Tue, 11 Feb 2014 11:07:39 +0100
+Message-ID: <52F9F668.9020002@enea.com>
+Date: Tue, 11 Feb 2014 11:07:36 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: "alexandru.sardan@freescale.com" <alexandru.sardan@freescale.com>, Richard
+	Purdie <richard.purdie@linuxfoundation.org>
+References: <1389365286-4830-1-git-send-email-david.nystrom@enea.com>	<1389366908.19102.223.camel@ted>
+	<52D3DDFB.8080803@gmail.com>	<1389616915.14987.4.camel@ted>
+	<52D53A6C.30808@gmail.com>	<55ea22e5d71c47f3b812e845106f2d19@DM2PR03MB368.namprd03.prod.outlook.com>	<1390044007.14987.151.camel@ted>	<3ea5b5ff002e4f98b60997229cc31300@DM2PR03MB368.namprd03.prod.outlook.com>	<1390326205.874.95.camel@ted>	<c5873e086bd941e68daa26cbcdca573e@BLUPR03MB357.namprd03.prod.outlook.com>	<1390596961.24755.21.camel@e130.pbcl.net>	<1390995512.24655.62.camel@ted>	<da5289aa6e744c99ac4cb134483cdec9@DM2PR03MB368.namprd03.prod.outlook.com>	<1391191631.28575.7.camel@ted>
+	<fca6c32db2694c3c9c8a3f0130a3c039@DM2PR03MB368.namprd03.prod.outlook.com>
+In-Reply-To: <fca6c32db2694c3c9c8a3f0130a3c039@DM2PR03MB368.namprd03.prod.outlook.com>
+X-Originating-IP: [172.16.141.133]
+Cc: "catalin.udma@freescale.com" <catalin.udma@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Revert "cross-canadian: Handle powerpc linux verses linux-gnuspe"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,48 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 09:55:01 -0000
+X-List-Received-Date: Tue, 11 Feb 2014 10:07:42 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-point CA bundle to /etc/ssl/certs/ca-certificates.crt instead of using the buildhost location, Configure would look at the buildhost and hardcode the bundle location for there into the target. This leads to non-working https support.
+On 2014-01-31 19:17, alexandru.sardan@freescale.com wrote:
+> Hi,
+>
+> Sure, I'll do this and also some more extensive testing
+> on the boards.
+>
+> Thanks,
+> Alex
+>
 
-Also remove the empty and now useless curl-certs packages since it's empty and no ALLOW_EMPTY has been set.
+Hi Alex,
 
-Apart from making https work again with curl cmdline this also fixes libcurl which means git can fetch https repos as well instead of erroring out.
+Whats the status on this ?
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/recipes-support/curl/curl_7.34.0.bb | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-support/curl/curl_7.34.0.bb b/meta/recipes-support/curl/curl_7.34.0.bb
-index b49c6e4..aba6649 100644
---- a/meta/recipes-support/curl/curl_7.34.0.bb
-+++ b/meta/recipes-support/curl/curl_7.34.0.bb
-@@ -30,6 +30,7 @@ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
-                 --enable-crypto-auth \
-                 --disable-ldap \
-                 --disable-ldaps \
-+                --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
-                 ${CURLGNUTLS} \
-                 "
- 
-@@ -45,13 +46,10 @@ do_install_append() {
- 	oe_multilib_header curl/curlbuild.h
- }
- 
--PACKAGES =+ "${PN}-certs libcurl libcurl-dev libcurl-staticdev libcurl-doc"
--
--FILES_${PN}-certs = "${datadir}/curl/curl-*"
--PACKAGE_ARCH_${PN}-certs = "all"
-+PACKAGES =+ "libcurl libcurl-dev libcurl-staticdev libcurl-doc"
- 
- FILES_lib${BPN} = "${libdir}/lib*.so.*"
--RRECOMMENDS_lib${BPN} += "${PN}-certs"
-+RRECOMMENDS_lib${BPN} += "ca-certificates"
- FILES_lib${BPN}-dev = "${includedir} \
-                       ${libdir}/lib*.so \
-                       ${libdir}/lib*.la \
--- 
-1.8.4.2
-
+Br,
+David
 
