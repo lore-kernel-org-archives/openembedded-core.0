@@ -1,39 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 86C2A6E938
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 242816ED56
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 05:46:50 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id v10so7098861pde.0
+	Tue, 11 Feb 2014 07:15:15 +0000 (UTC)
+Received: by mail-lb0-f181.google.com with SMTP id z11so4527046lbi.40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 21:46:51 -0800 (PST)
+	Mon, 10 Feb 2014 23:15:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=h6R+ZmHqNiyiMPJHptCwKOdIeluhadDLpTOZqAa7vM0=;
-	b=WsYGLLatw0FsMjgj+v7VhRRXYOMgV2fDQSeWt3s3Y6btCoRwGvtlSJCpausyVXsAqY
-	Pk7yI1pnLpUflPn8UC3rdf8o3MLP6rWcLiZPXn+IP+XWwsG9XmgsoR6jWIe4/ABlmcAq
-	pUNtCuJnSb4RtU/yTJPKO2YAWhh7pocbEeAUsUdGj8bqEqq4zujLguHCt+RvpmBBKsUC
-	k2Ndz6Anm7knwtoJtoqELvriEgfb6Y1cwTiv2+icKZQI6zCKL6wKYjuWbbEZ7YF7j6WU
-	bMIBmJYLKvgWz0fketIBrXRiiSM7O4pRDN/ut5g5TkH7ctoYUQMnB75m+Fh1PCMS3aB/
-	QXAg==
-X-Received: by 10.68.143.196 with SMTP id sg4mr12567669pbb.155.1392097611259; 
-	Mon, 10 Feb 2014 21:46:51 -0800 (PST)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	ug2sm127990425pac.21.2014.02.10.21.46.49 for <multiple recipients>
+	h=date:from:to:cc:subject:in-reply-to:message-id:references
+	:user-agent:mime-version:content-type;
+	bh=W3O7cUECrD0aHFq6HBSDI33+VzSvubJiswCsJu6DZL0=;
+	b=ivx5ZYLRJErRXg0SsvBgvruQAx0gRXCQS9QH0gljlNAUSw7PWpI8AR8em1SsGoUuOe
+	8LSzL5RNVxnXGSCqITPes5KwiOPvX67l98P0YJkjvKpVvp7Y/JufdGPam1pXd4ROH6NG
+	LdLXIG0DnrN21K1+wuUewl4qEyiRW2H8O2nga12MPDw7uNsML5R8a7XtltJSCf/SABZV
+	A71f0aGxx9JNRmPu94+CSEcyd5b0A6myUKa4I0YriMyy9yRRp6/jHY450fQXt6TFDyxk
+	UC0tdsNufAYcEBBuh0PSdoqttBFmjmoJH5M8sQc1dmXa8gQiceQCURILCBjAo8xpuBZ0
+	eBYg==
+X-Received: by 10.152.203.193 with SMTP id ks1mr25412381lac.0.1392102916298;
+	Mon, 10 Feb 2014 23:15:16 -0800 (PST)
+Received: from [172.16.17.230] ([193.15.174.198])
+	by mx.google.com with ESMTPSA id gi5sm18562922lbc.4.2014.02.10.23.15.15
+	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Feb 2014 21:46:49 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20140121155032.GA21712@mail.itconsulting-heinold.de>
-Date: Mon, 10 Feb 2014 21:46:47 -0800
-Message-Id: <E32137DE-8B3E-42C9-BF29-487777BC4EE7@gmail.com>
-References: <20140121155032.GA21712@mail.itconsulting-heinold.de>
-To: Henning Heinold <henning@itconsulting-heinold.de>
-X-Mailer: Apple Mail (2.1827)
+	Mon, 10 Feb 2014 23:15:16 -0800 (PST)
+Date: Tue, 11 Feb 2014 08:15:10 +0100 (CET)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+X-X-Sender: jkroon@localhost.localdomain
+To: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <2C7F328D-B676-40A7-997B-ED8C581FA288@gmail.com>
+Message-ID: <alpine.LFD.2.11.1402110808020.15456@localhost.localdomain>
+References: <CAPbeDC=S-U3d=c5uZUYeDXqA0hWf56E5YwGii11pXZHAyo63WQ@mail.gmail.com>
+	<2C7F328D-B676-40A7-997B-ED8C581FA288@gmail.com>
+User-Agent: Alpine 2.11 (LFD 23 2013-08-11)
+MIME-Version: 1.0
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: strange directories inside sdk build with with dora
+Subject: Re: Problem with libicudata.so in OE master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +48,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 05:46:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 11 Feb 2014 07:15:16 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
 
 
-On Jan 21, 2014, at 7:50 AM, Henning Heinold =
-<henning@itconsulting-heinold.de> wrote:
 
-> Hi,
->=20
-> I build a sdk with latest stable dora and in includes some x86 =
-directories in the arm sysroot:
->=20
-> pwd
->=20
-> /opt/poky/1.5.1/sysroots/armv5te-poky-linux-gnueabi
->=20
-> find | grep "/opt"
->=20
-> ./opt
-> ./opt/poky
-> ./opt/poky/1.5.1
-> ./opt/poky/1.5.1/sysroots
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chsh
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/newgrp
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/passwd
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/opkg
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chfn
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/groups
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin/chpasswd
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/su
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/login
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d
-> =
-./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d/S98run-postinsts
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vigr
-> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vipw
->=20
-> Are the really used or are the just got wrongly included?
+On Mon, 10 Feb 2014, Khem Raj wrote:
 
-This seems wrong. firstly file a bug so it can be tracked. Secondly, =
-seems
-prefix has gone wrong for some nativesdk package=20
+>
+> On Feb 10, 2014, at 1:21 PM, Jacob Kroon <jacob.kroon@gmail.com> wrote:
+>
+>> Hi,
+>>
+>> I'm having problems with running Qt5 apps using OE master. I'm using a couple of other layers, but as the problem seems to be related to libicudata.so I figured I'd post it here, my apologies if the mail should go somewhere else.
+>>
+>> When starting the Qt5 app I get:
+>> error while loading shared libraries: /usr/lib/libicudata.so.51: internal error
+>>
+>> I'm building for Wandboard Solo machine from meta-fsl-arm-extra layer.
+>>
+>> TUNE_FEATURES = "armv7a vfp neon callconvention-hard cortexa9"
+>> TARGET_FPU = "vfp-neon"
+>>
+>> [jkroon@localhost oe-devel]$ readelf -A build/tmp-eglibc/sysroots/wandboard-solo/usr/lib/libicudata.so.51.2
+>> Attribute Section: aeabi
+>> File Attributes
+>>   Tag_CPU_name: "7-A"
+>>   Tag_CPU_arch: v7
+>>   Tag_CPU_arch_profile: Application
+>>   Tag_ARM_ISA_use: Yes
+>>   Tag_THUMB_ISA_use: Thumb-2
+>>   Tag_FP_arch: VFPv3
+>>   Tag_Advanced_SIMD_arch: NEONv1
+>
+> this does not seem to be complete output, the key piece thats interesting here is what is value of Tag_ABI_VFP_args since you say you have call convention-hard in TUNE_FEATURES
+> I expect Tag_ABI_VFP_args = VFP registers
 
->=20
-> Bye Henning
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Maybe it's odd, but I get the same exact output for the older build,
+when things work. Most .so-files show the same output as libicuio.so (also 
+from the old build):
 
+[jkroon@localhost oe-devel]$ readelf -A 
+build/tmp-eglibc/sysroots/wandboard-solo/usr/lib/libicuio.so.51.2
+Attribute Section: aeabi
+File Attributes
+   Tag_CPU_name: "7-A"
+   Tag_CPU_arch: v7
+   Tag_CPU_arch_profile: Application
+   Tag_ARM_ISA_use: Yes
+   Tag_THUMB_ISA_use: Thumb-2
+   Tag_FP_arch: VFPv3
+   Tag_Advanced_SIMD_arch: NEONv1
+   Tag_ABI_PCS_wchar_t: 4
+   Tag_ABI_FP_denormal: Needed
+   Tag_ABI_FP_exceptions: Needed
+   Tag_ABI_FP_number_model: IEEE 754
+   Tag_ABI_align_needed: 8-byte
+   Tag_ABI_align_preserved: 8-byte, except leaf SP
+   Tag_ABI_enum_size: int
+   Tag_ABI_HardFP_use: SP and DP
+   Tag_ABI_VFP_args: VFP registers
+   Tag_CPU_unaligned_access: v6
+
+So I figure either libicudata.so is not used at 
+that point, but still incorrectly built, or my problem is not related to
+the ELF header flags..
+
+I don't have access to the wandboard right now but I'll try starting 
+the app via a gdb-server and see if that comes up with anything new.
+
+/Jacob
 
