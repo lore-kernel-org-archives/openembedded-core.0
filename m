@@ -1,42 +1,20 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 813326E928
+Return-Path: <sledz@dresearch-fe.de>
+Received: from zk223.dresearch-fe.de (zk223.dresearch-fe.de [217.92.177.116])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DE4A6E928
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 08:56:38 +0000 (UTC)
-Received: by mail-lb0-f182.google.com with SMTP id w7so5796641lbi.27
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 00:56:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=Un1sqLpYyStn5w5qXOAunLwcU7elo21S+9vuBWc4iXM=;
-	b=nW+unE29AfyRykd0sfywTwUsFb1IWdoJLQ9HjgKyBZXYy0mbmZ1HCknF2sgS/dVO0T
-	Q0N971CJdihHAqSUH3AaUeVWhIAo0XziiIOocTDwx8RuEycsq/mqMqUkHe0vscXHO3OV
-	Mkl6OrhLkETcqRDLTmJZca15LLtopuS6usAZz5BDWA3KfF7yfvd9MhRKXlEZ/YJ966Cf
-	q0JDX0G2L57+n0I4ziPyoO4HTRz0KPaIWse5SQX7Y1cfj31fTxmaf43OShi+enV3gf3S
-	J2/h3OcE15TXi/HUdbs+RU1scudYeUU5PxQ3E1zj5YQlZt7p+bp1MnD6EUfHpukurmtV
-	yjUw==
-X-Received: by 10.112.132.131 with SMTP id ou3mr24237696lbb.29.1392108998358; 
-	Tue, 11 Feb 2014 00:56:38 -0800 (PST)
-Received: from [172.16.141.133] (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id y2sm26517017lal.10.2014.02.11.00.56.36
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 11 Feb 2014 00:56:37 -0800 (PST)
-Message-ID: <52F9E5C1.3050906@gmail.com>
-Date: Tue, 11 Feb 2014 09:56:33 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>, =?ISO-8859-1?Q?David_N?=
-	=?ISO-8859-1?Q?ystr=F6m?= <david.nystrom@enea.com>
-References: <cover.1391427313.git.laurentiu.palcu@intel.com>	<cover.1392034327.git.laurentiu.palcu@intel.com>	<52F9E289.2080002@enea.com>
-	<20140211085037.GE10078@lpalcu-linux>
-In-Reply-To: <20140211085037.GE10078@lpalcu-linux>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5 00/53] Rootfs/image generation refactoring (cover letter only)
+	Tue, 11 Feb 2014 08:59:50 +0000 (UTC)
+Received: from fensuse.internal.dresearch-fe.de
+	(fensuse.internal.dresearch-fe.de [172.29.23.6])
+	by zk223.dresearch-fe.de (Postfix) with ESMTP id 6BEA5E0061;
+	Tue, 11 Feb 2014 08:59:49 +0000 (UTC)
+Received: by fensuse.internal.dresearch-fe.de (Postfix, from userid 1000)
+	id A3A29702666; Tue, 11 Feb 2014 09:59:48 +0100 (CET)
+From: Steffen Sledz <sledz@dresearch-fe.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Feb 2014 09:59:31 +0100
+Message-Id: <1392109171-29549-1-git-send-email-sledz@dresearch-fe.de>
+X-Mailer: git-send-email 1.8.5.2
+Subject: [PATCH] lighttpd: introduce /etc/lighttpd.d subdir for config file includes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,54 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 08:56:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Feb 2014 08:59:50 -0000
 
-On 2014-02-11 09:50, Laurentiu Palcu wrote:
-> Hi David,
->
-> On Tue, Feb 11, 2014 at 09:42:49AM +0100, David Nyström wrote:
->> File: '/media/sdb5/poky-contrib/meta/lib/oe/image.py', lineno: 158,
->> function: _write_script
->>       0154:        self.d.setVarFlag('img_creation_func', 'func', 1)
->>       0155:        self.d.setVarFlag('img_creation_func', 'fakeroot', 1)
->>       0156:
->>       0157:        with open(script_name, "w+") as script:
->>   *** 0158:            script.write("%s" % bb.build.shell_trap_code())
->>       0159:            script.write("export ROOTFS_SIZE=%d\n" %
->> self._get_rootfs_size())
->>       0160:            bb.data.emit_func('img_creation_func', script,
->> self.d)
->>       0161:            script.write("img_creation_func\n")
->>       0162:
->> Exception: AttributeError: 'module' object has no attribute
->> 'shell_trap_code'
-> I guess you're missing this commit:
->
-> bitbake: build.py: create separate function for shell trap creation code
->
-> which is already in master.
+Extend default config file by a directive to include config file
+fragments from /etc/lighttpd.d. This allows other web application
+packages to put their configuration there.
 
-Thanks,
+Signed-off-by: Steffen Sledz <sledz@dresearch-fe.de>
+---
+ meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf | 3 +++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb     | 3 ++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-David
-
-> laurentiu
->
->
->>
->> ERROR: Function failed: do_rootfs
->> ERROR: Logfile of failure stored in: /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.9994
->> ERROR: Task 6 (/media/sdb5/poky-contrib/meta/recipes-core/images/core-image-minimal.bb,
->> do_rootfs) failed with exit code '1'
->>
->>
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf b/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf
+index 3342470..6e8402d 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf
++++ b/meta/recipes-extended/lighttpd/lighttpd/lighttpd.conf
+@@ -326,3 +326,6 @@ static-file.exclude-extensions = ( ".php", ".pl", ".fcgi" )
+ #include_shell "echo var.a=1"
+ ## the above is same as:
+ #var.a=1
++
++# include other config file fragments from lighttpd.d subdir
++include_shell "find /etc/lighttpd.d -maxdepth 1 -name '*.conf' -exec cat {} \;" 
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
+index 2ddab16..2ea5f85 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.33.bb
+@@ -5,6 +5,7 @@ BUGTRACKER = "http://redmine.lighttpd.net/projects/lighttpd/issues"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e4dac5c6ab169aa212feb5028853a579"
+ 
++PR = "r1"
+ 
+ SECTION = "net"
+ DEPENDS = "zlib libpcre"
+@@ -47,7 +48,7 @@ INITSCRIPT_PARAMS = "defaults 70"
+ SYSTEMD_SERVICE_${PN} = "lighttpd.service"
+ 
+ do_install_append() {
+-	install -d ${D}${sysconfdir}/init.d ${D}/www/pages/dav
++	install -d ${D}${sysconfdir}/init.d ${D}${sysconfdir}/lighttpd.d ${D}/www/pages/dav
+ 	install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
+ 	install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
+-- 
+1.8.5.2
 
 
