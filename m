@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id C8DC06E8E5
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 86C2A6E938
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 03:44:04 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id hz1so7065409pad.36
+	Tue, 11 Feb 2014 05:46:50 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id v10so7098861pde.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 19:44:06 -0800 (PST)
+	Mon, 10 Feb 2014 21:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=E2dS8vJj0A1Lx7e8l3Cu7jAcUoR5r5+Fw3zUIg3+aK4=;
-	b=DrbwE8BB08GwHVDF/wBzzTkG7/sucJY8XKIKuJcV/fFEvE47taDhlrDeZd6lXNjRkK
-	DM/FmUugSEXYdtEfrS8nA77t2JmOoNSrk56xTqyLHl7cH13Cdm/CGJzu+c5HnTJM4Xld
-	6Gp6n9kpnec4YeU2nAY0T98dHzS4OpJOoa8W/zVV38wU9t2F2u87gaPiBoGON7Fiom5J
-	cavlghyeO9eurNxGc8zCACxXLhQcxeHh+59BaDQrXe5Rgs82g3IYGaAbpWKYByWCEhGS
-	W7HhTlqQcNy+fmhMdWY2jch3oqZtg2wJowWNBGo07uUTlS26nveA1oN4p+tDP8U8XUEE
-	3IrQ==
-X-Received: by 10.66.197.164 with SMTP id iv4mr29916747pac.18.1392090245889;
-	Mon, 10 Feb 2014 19:44:05 -0800 (PST)
+	bh=h6R+ZmHqNiyiMPJHptCwKOdIeluhadDLpTOZqAa7vM0=;
+	b=WsYGLLatw0FsMjgj+v7VhRRXYOMgV2fDQSeWt3s3Y6btCoRwGvtlSJCpausyVXsAqY
+	Pk7yI1pnLpUflPn8UC3rdf8o3MLP6rWcLiZPXn+IP+XWwsG9XmgsoR6jWIe4/ABlmcAq
+	pUNtCuJnSb4RtU/yTJPKO2YAWhh7pocbEeAUsUdGj8bqEqq4zujLguHCt+RvpmBBKsUC
+	k2Ndz6Anm7knwtoJtoqELvriEgfb6Y1cwTiv2+icKZQI6zCKL6wKYjuWbbEZ7YF7j6WU
+	bMIBmJYLKvgWz0fketIBrXRiiSM7O4pRDN/ut5g5TkH7ctoYUQMnB75m+Fh1PCMS3aB/
+	QXAg==
+X-Received: by 10.68.143.196 with SMTP id sg4mr12567669pbb.155.1392097611259; 
+	Mon, 10 Feb 2014 21:46:51 -0800 (PST)
 Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
 	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	sy2sm47680336pbc.28.2014.02.10.19.44.04 for <multiple recipients>
+	ug2sm127990425pac.21.2014.02.10.21.46.49 for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Feb 2014 19:44:04 -0800 (PST)
+	Mon, 10 Feb 2014 21:46:49 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAPbeDC=S-U3d=c5uZUYeDXqA0hWf56E5YwGii11pXZHAyo63WQ@mail.gmail.com>
-Date: Mon, 10 Feb 2014 19:44:03 -0800
-Message-Id: <2C7F328D-B676-40A7-997B-ED8C581FA288@gmail.com>
-References: <CAPbeDC=S-U3d=c5uZUYeDXqA0hWf56E5YwGii11pXZHAyo63WQ@mail.gmail.com>
-To: Jacob Kroon <jacob.kroon@gmail.com>
+In-Reply-To: <20140121155032.GA21712@mail.itconsulting-heinold.de>
+Date: Mon, 10 Feb 2014 21:46:47 -0800
+Message-Id: <E32137DE-8B3E-42C9-BF29-487777BC4EE7@gmail.com>
+References: <20140121155032.GA21712@mail.itconsulting-heinold.de>
+To: Henning Heinold <henning@itconsulting-heinold.de>
 X-Mailer: Apple Mail (2.1827)
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Problem with libicudata.so in OE master
+Subject: Re: strange directories inside sdk build with with dora
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,45 +46,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 03:44:04 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Tue, 11 Feb 2014 05:46:50 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-On Feb 10, 2014, at 1:21 PM, Jacob Kroon <jacob.kroon@gmail.com> wrote:
+On Jan 21, 2014, at 7:50 AM, Henning Heinold =
+<henning@itconsulting-heinold.de> wrote:
 
 > Hi,
 >=20
-> I'm having problems with running Qt5 apps using OE master. I'm using a =
-couple of other layers, but as the problem seems to be related to =
-libicudata.so I figured I'd post it here, my apologies if the mail =
-should go somewhere else.
+> I build a sdk with latest stable dora and in includes some x86 =
+directories in the arm sysroot:
 >=20
-> When starting the Qt5 app I get:
-> error while loading shared libraries: /usr/lib/libicudata.so.51: =
-internal error
+> pwd
 >=20
-> I'm building for Wandboard Solo machine from meta-fsl-arm-extra layer.
+> /opt/poky/1.5.1/sysroots/armv5te-poky-linux-gnueabi
 >=20
-> TUNE_FEATURES =3D "armv7a vfp neon callconvention-hard cortexa9"
-> TARGET_FPU =3D "vfp-neon"
+> find | grep "/opt"
 >=20
-> [jkroon@localhost oe-devel]$ readelf -A =
-build/tmp-eglibc/sysroots/wandboard-solo/usr/lib/libicudata.so.51.2=20
-> Attribute Section: aeabi
-> File Attributes
->   Tag_CPU_name: "7-A"
->   Tag_CPU_arch: v7
->   Tag_CPU_arch_profile: Application
->   Tag_ARM_ISA_use: Yes
->   Tag_THUMB_ISA_use: Thumb-2
->   Tag_FP_arch: VFPv3
->   Tag_Advanced_SIMD_arch: NEONv1
+> ./opt
+> ./opt/poky
+> ./opt/poky/1.5.1
+> ./opt/poky/1.5.1/sysroots
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chsh
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/newgrp
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/passwd
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/opkg
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/chfn
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/bin/groups
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/usr/sbin/chpasswd
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/su
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/bin/login
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d
+> =
+./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/etc/rcS.d/S98run-postinsts
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vigr
+> ./opt/poky/1.5.1/sysroots/x86_64-pokysdk-linux/sbin/vipw
+>=20
+> Are the really used or are the just got wrongly included?
 
-this does not seem to be complete output, the key piece thats =
-interesting here is what is value of Tag_ABI_VFP_args since you say you =
-have call convention-hard in TUNE_FEATURES
-I expect Tag_ABI_VFP_args =3D VFP registers
+This seems wrong. firstly file a bug so it can be tracked. Secondly, =
+seems
+prefix has gone wrong for some nativesdk package=20
 
+>=20
+> Bye Henning
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
