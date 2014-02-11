@@ -1,26 +1,35 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 164396E7F5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f53.google.com (mail-pb0-f53.google.com
+	[209.85.160.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 819126E8DE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 01:18:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1B1IiFY001368
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 11 Feb 2014 03:32:40 +0000 (UTC)
+Received: by mail-pb0-f53.google.com with SMTP id md12so7115425pbc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2014 17:18:44 -0800 (PST)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 10 Feb 2014 17:18:43 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Feb 2014 09:18:40 +0800
-Message-ID: <9c7870d0861639c47df0eb63107bdcd489e7fe28.1392081479.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1392081479.git.Chong.Lu@windriver.com>
-References: <cover.1392081479.git.Chong.Lu@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] diffstat: enable ptest support
+	Mon, 10 Feb 2014 19:32:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=QxRrF2xpkjXg5ebvCOo8F8L06NDrLJxEMwppwSkDNL8=;
+	b=PLjWdKcxL/B+gageRRsHTP+MnJjUAWDd/i32yOnDvT5bZBRDBkfusNE5MMP3Uv/9P/
+	bsejCpIvp4Kv7aO1CZxbBJuBtb9VW/O1rgcXNLw8KTqsyT1smfu65ETMtszbqHnX8Og9
+	Pg9Mllk3J71gDXgBeASBBpNra3Iz8qBcC19eAyc0D/gAMMEvQa9dPvdRKqnOxrIitmEj
+	r3TORQNRZvr6dVDHFM2JMVNrGwlZEXShLbvgxvydMpWtK3uTrajZGgU/5sNAWjUa18BC
+	ousv/4VgC6RarkemTj6yRcK76wRzoCOs32B9dVUSoVmIacJVuTqElE7ECCghWfECrkcA
+	m2Tg==
+X-Received: by 10.68.34.37 with SMTP id w5mr7640952pbi.159.1392089560763;
+	Mon, 10 Feb 2014 19:32:40 -0800 (PST)
+Received: from localhost.localdomain
+	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
+	by mx.google.com with ESMTPSA id
+	dr1sm47621883pbc.18.2014.02.10.19.32.39 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Feb 2014 19:32:39 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Feb 2014 19:33:08 -0800
+Message-Id: <cover.1392089446.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/3] Journald fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 01:18:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Feb 2014 03:32:40 -0000
 
-Install diffstat test suite and run it as ptest.
+This patchset does two things. Enables systemd-journald-gatewayd
+Fixes journald for various memory leaks and memory allocation problems
+as seen under stress and big-endian architectures.
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-devtools/diffstat/diffstat/run-ptest |  5 +++++
- meta/recipes-devtools/diffstat/diffstat_1.58.bb   | 10 ++++++++--
- 2 files changed, 13 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/diffstat/diffstat/run-ptest
+The following changes since commit b5b4898cd409036161c62891e9618d9ab3f891f9:
 
-diff --git a/meta/recipes-devtools/diffstat/diffstat/run-ptest b/meta/recipes-devtools/diffstat/diffstat/run-ptest
-new file mode 100644
-index 0000000..a936b3d
---- /dev/null
-+++ b/meta/recipes-devtools/diffstat/diffstat/run-ptest
-@@ -0,0 +1,5 @@
-+#!/bin/sh
-+
-+./testing/run_test.sh ./testing/case*.pat |sed \
-+  -e 's|** ok|PASS|' \
-+  -e 's|?? fail|FAIL|'
-diff --git a/meta/recipes-devtools/diffstat/diffstat_1.58.bb b/meta/recipes-devtools/diffstat/diffstat_1.58.bb
-index 8f73bfc..204473a 100644
---- a/meta/recipes-devtools/diffstat/diffstat_1.58.bb
-+++ b/meta/recipes-devtools/diffstat/diffstat_1.58.bb
-@@ -9,14 +9,16 @@ LIC_FILES_CHKSUM = "file://install-sh;endline=42;md5=b3549726c1022bee09c174c72a0
- 
- SRC_URI = "ftp://invisible-island.net/diffstat/diffstat-${PV}.tgz \
-            file://dirfix.patch \
--           file://aclocal.patch"
-+           file://aclocal.patch \
-+           file://run-ptest \
-+"
- 
- SRC_URI[md5sum] = "6d6e13f7dcfe4db5da65c5175260ea47"
- SRC_URI[sha256sum] = "fad5135199c3b9aea132c5d45874248f4ce0ff35f61abb8d03c3b90258713793"
- 
- S = "${WORKDIR}/diffstat-${PV}"
- 
--inherit autotools gettext
-+inherit autotools gettext ptest
- 
- do_configure () {
- 	if [ ! -e ${S}/acinclude.m4 ]; then
-@@ -24,3 +26,7 @@ do_configure () {
- 	fi
- 	autotools_do_configure
- }
-+
-+do_install_ptest() {
-+	cp -r ${S}/testing ${D}${PTEST_PATH}
-+}
+  python-pycurl: upgrade to 7.19.3 (2014-02-08 21:03:27 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/journald-fixes
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/journald-fixes
+
+Khem Raj (3):
+  systemd: Fix misc journald memory bugs
+  libmicrohttpd: add recipe
+  systemd: Enable building microhttpd
+
+ ...ournal-Add-missing-byte-order-conversions.patch |   60 ++++++++++++++
+ .../journal-file-protect-against-alloca-0.patch    |   23 ++++++
+ ...n-appending-to-journal-file-allocate-larg.patch |   83 ++++++++++++++++++++
+ .../systemd/journald-add-missing-error-check.patch |   16 ++++
+ .../systemd/journald-fix-minor-memory-leak.patch   |   16 ++++
+ meta/recipes-core/systemd/systemd_208.bb           |    7 ++
+ .../libmicrohttpd/libmicrohttpd_0.9.33.bb          |   18 +++++
+ 7 files changed, 223 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/journal-Add-missing-byte-order-conversions.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/journal-file-protect-against-alloca-0.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/journal-when-appending-to-journal-file-allocate-larg.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/journald-add-missing-error-check.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/journald-fix-minor-memory-leak.patch
+ create mode 100644 meta/recipes-support/libmicrohttpd/libmicrohttpd_0.9.33.bb
+
 -- 
-1.8.1.2
+1.7.10.4
 
 
