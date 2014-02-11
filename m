@@ -1,25 +1,37 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id DA6776E8E6
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A3BB6E99A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 09:36:54 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
-	Tue, 11 Feb 2014 10:36:54 +0100
-Message-ID: <52F9EF34.6050300@enea.com>
-Date: Tue, 11 Feb 2014 10:36:52 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>, =?ISO-8859-1?Q?David_N?=
-	=?ISO-8859-1?Q?ystr=F6m?= <david.nystrom@enea.com>
-References: <cover.1391427313.git.laurentiu.palcu@intel.com>	<cover.1392034327.git.laurentiu.palcu@intel.com>	<52F9E289.2080002@enea.com>
-	<20140211085037.GE10078@lpalcu-linux> <52F9E5C1.3050906@gmail.com>
-In-Reply-To: <52F9E5C1.3050906@gmail.com>
-X-Originating-IP: [172.16.141.133]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5 00/53] Rootfs/image generation refactoring (cover letter only)
+	Tue, 11 Feb 2014 09:55:00 +0000 (UTC)
+Received: by mail-we0-f178.google.com with SMTP id q59so5356572wes.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2014 01:55:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+yQlA3aY+cNQavTpKiZI8HH/R8xmeWCKjOqsNqLZbrY=;
+	b=l9i2NSflLqpfYWdlLkYWrZddobN9RIO6drH0s5I9pv78HXh8hmIvKOYDiLX3wr8WKJ
+	zBZvHnX7+nZ4uWGu3PjAFQEhqf2u5yaeN4bSEk+KJES4TTqGLrgpOVXjuJQXX0bedWLo
+	yR7tr77uDfnbAdY7pGMohf+VEpbCm0Z79EnkvS02EHOoayEGf16ZW/+/1zhqssOD6hUG
+	AP1uF8PfcBLZID1CPZAJ4fVBLQfVCp7UJ4cMcpQIyaSNgWIQqALk5TSFY1LZ21wlSTT/
+	kg+UGuHJLf84f0ZtVJk9Pq0vPIYTcZ76JeMNIcls4vxmMNDvGsDWeUy2qOg0jVD2omFA
+	oXtw==
+X-Gm-Message-State: ALoCoQkLAyiC/gx0mri0IpAibSowRYVOo2F+BhfFBuGv33weCY42gjCBTbjtGLLBf2b0U4yegsnD
+X-Received: by 10.180.79.7 with SMTP id f7mr14262029wix.20.1392112500983;
+	Tue, 11 Feb 2014 01:55:00 -0800 (PST)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id d6sm44621069wic.9.2014.02.11.01.55.00
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Feb 2014 01:55:00 -0800 (PST)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Feb 2014 10:54:54 +0100
+Message-Id: <1392112494-27144-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCHv2] curl: fix https certificate problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,100 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 09:36:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 11 Feb 2014 09:55:01 -0000
 
-On 2014-02-11 09:56, David Nystr=F6m wrote:
-> On 2014-02-11 09:50, Laurentiu Palcu wrote:
->> Hi David,
->>
->> On Tue, Feb 11, 2014 at 09:42:49AM +0100, David Nystr=F6m wrote:
->>> File: '/media/sdb5/poky-contrib/meta/lib/oe/image.py', lineno: 158,
->>> function: _write_script
->>>       0154:        self.d.setVarFlag('img_creation_func', 'func', 1)
->>>       0155:        self.d.setVarFlag('img_creation_func', 'fakeroot', 1=
-)
->>>       0156:
->>>       0157:        with open(script_name, "w+") as script:
->>>   *** 0158:            script.write("%s" % bb.build.shell_trap_code())
->>>       0159:            script.write("export ROOTFS_SIZE=3D%d\n" %
->>> self._get_rootfs_size())
->>>       0160:            bb.data.emit_func('img_creation_func', script,
->>> self.d)
->>>       0161:            script.write("img_creation_func\n")
->>>       0162:
->>> Exception: AttributeError: 'module' object has no attribute
->>> 'shell_trap_code'
->> I guess you're missing this commit:
->>
->> bitbake: build.py: create separate function for shell trap creation code
->>
->> which is already in master.
->
-> Thanks,
->
-> David
+point CA bundle to /etc/ssl/certs/ca-certificates.crt instead of using the buildhost location, Configure would look at the buildhost and hardcode the bundle location for there into the target. This leads to non-working https support.
 
+Also remove the empty and now useless curl-certs packages since it's empty and no ALLOW_EMPTY has been set.
 
-Tested-by: david.nystrom@enea.com
+Apart from making https work again with curl cmdline this also fixes libcurl which means git can fetch https repos as well instead of erroring out.
 
-With the manifest stub patch I sent and v5, FEEDS functionality for IPK=20
-is verified working again.
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/recipes-support/curl/curl_7.34.0.bb | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Only below is generated when building from FEEDS:
-
-$ cat tmp/deploy/images/qemuppc/core-image-minimal-qemuppc.manifest
-busybox-syslog ppc7400 1.21.1-r0
-libc6 ppc7400 2.18-r0
-busybox ppc7400 1.21.1-r0
-busybox-udhcpc ppc7400 1.21.1-r0
-modutils-initscripts ppc7400 1.0-r6
-libuuid1 ppc7400 2.23.2-r0
-base-files qemuppc 3.0.14-r73
-sysvinit-inittab qemuppc 2.88dsf-r9
-initscripts ppc7400 1.0-r141
-update-alternatives-cworth ppc7400 1:0.1.8+svnr653-r13.0
-libblkid1 ppc7400 2.23.2-r0
-udev-utils ppc7400 182-r7
-libkmod2 ppc7400 14+git0+3b38c7fcb5-r0
-base-passwd ppc7400 3.5.26-r2
-busybox-hwclock ppc7400 1.21.1-r0
-packagegroup-core-boot qemuppc 1.0-r11
-udev ppc7400 182-r7
-sysvinit-pidof ppc7400 2.88dsf-r11
-update-rc.d all 0.7-r5
-netbase ppc7400 1:5.1-r0
-udev-cache ppc7400 182-r7
-run-postinsts ppc7400 1.0-r9
-init-ifupdown qemuppc 1.0-r3
-sysvinit ppc7400 2.88dsf-r11
-
-Br,
-David
-
->> laurentiu
->>
->>
->>>
->>> ERROR: Function failed: do_rootfs
->>> ERROR: Logfile of failure stored in:
->>> /media/sdb5/bld/tmp/work/qemuppc-poky-linux/core-image-minimal/1.0-r0/t=
-emp/log.do_rootfs.9994
->>>
->>> ERROR: Task 6
->>> (/media/sdb5/poky-contrib/meta/recipes-core/images/core-image-minimal.b=
-b,
->>>
->>> do_rootfs) failed with exit code '1'
->>>
->>>
->>>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
+diff --git a/meta/recipes-support/curl/curl_7.34.0.bb b/meta/recipes-support/curl/curl_7.34.0.bb
+index b49c6e4..aba6649 100644
+--- a/meta/recipes-support/curl/curl_7.34.0.bb
++++ b/meta/recipes-support/curl/curl_7.34.0.bb
+@@ -30,6 +30,7 @@ EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+                 --enable-crypto-auth \
+                 --disable-ldap \
+                 --disable-ldaps \
++                --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
+                 ${CURLGNUTLS} \
+                 "
+ 
+@@ -45,13 +46,10 @@ do_install_append() {
+ 	oe_multilib_header curl/curlbuild.h
+ }
+ 
+-PACKAGES =+ "${PN}-certs libcurl libcurl-dev libcurl-staticdev libcurl-doc"
+-
+-FILES_${PN}-certs = "${datadir}/curl/curl-*"
+-PACKAGE_ARCH_${PN}-certs = "all"
++PACKAGES =+ "libcurl libcurl-dev libcurl-staticdev libcurl-doc"
+ 
+ FILES_lib${BPN} = "${libdir}/lib*.so.*"
+-RRECOMMENDS_lib${BPN} += "${PN}-certs"
++RRECOMMENDS_lib${BPN} += "ca-certificates"
+ FILES_lib${BPN}-dev = "${includedir} \
+                       ${libdir}/lib*.so \
+                       ${libdir}/lib*.la \
+-- 
+1.8.4.2
 
 
