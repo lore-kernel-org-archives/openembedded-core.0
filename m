@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id F1A1F6CBDF
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CD2C6E93C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 14:52:37 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1BEqWxw027225 for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 14:52:33 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yKAICnmGVhoF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 14:52:32 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1BEqRRZ027216
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 14:52:29 GMT
-Message-ID: <1392130342.7120.155.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Feb 2014 14:52:22 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] sstate: Exclude SSTATE_EXTRAPATH from checksums
+	Tue, 11 Feb 2014 14:58:06 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 11 Feb 2014 06:58:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,826,1384329600"; d="scan'208";a="473420836"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Feb 2014 06:58:04 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Feb 2014 16:58:01 +0200
+Message-Id: <cover.1392130382.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] gmp: add configure.ac patch to append user provided compilation flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,36 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 14:52:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Feb 2014 14:58:06 -0000
 
-After the change to allow target recipes to depend on native recipes, the
-native checksums becomes all the more critical. Add to this that we're now
-accounting for pre/postfuncs and we have a cache reuse issue since the
-distro LSB string is getting coded in when it shouldn't be.
+The following changes since commit 9c61b6392c991363b0399ed36d6dec3f0d0d6bcf:
 
-This excludes that string and allows one set of native sstate to share
-checksums with another set from a different host distro. They're separated
-into different directories so this is fine for our use cases.
+  bitbake: user-manual-metadata.xml: Edits to the "Sharing Functionality" section. (2014-02-11 12:17:06 +0000)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index ec9c546..f7bd117 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -17,6 +17,10 @@ SSTATE_EXTRAPATH   = ""
- SSTATE_EXTRAPATHWILDCARD = ""
- SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
- 
-+# We don't want the sstate to depend on things like the distro string
-+# of the system, we let the sstate paths take care of this.
-+SSTATE_EXTRAPATH[vardepvalue] = ""
-+
- SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/"
- # Also need to make cross recipes append to ${PN} and install once for any given PACAGE_ARCH so
- # can avoid multiple installs (e.g. routerstationpro+qemumips both using mips32)
+are available in the git repository at:
 
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib lpalcu/b5783_gmp_build_issue
+
+for you to fetch changes up to 185f9a3161f4dfe3cf1643b1e11d4780c304c424:
+
+  gmp: add configure.ac patch to append user provided compilation flags (2014-02-11 15:57:50 +0200)
+
+----------------------------------------------------------------
+Laurentiu Palcu (1):
+      gmp: add configure.ac patch to append user provided compilation flags
+
+ .../gmp/gmp-5.1.1/append_user_provided_flags.patch |   52 ++++++++++++++++++++
+ meta/recipes-support/gmp/gmp_5.1.1.bb              |    1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/gmp/gmp-5.1.1/append_user_provided_flags.patch
+
+Laurentiu Palcu (1):
+  gmp: add configure.ac patch to append user provided compilation flags
+
+ .../gmp/gmp-5.1.1/append_user_provided_flags.patch |   52 ++++++++++++++++++++
+ meta/recipes-support/gmp/gmp_5.1.1.bb              |    1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/gmp/gmp-5.1.1/append_user_provided_flags.patch
+
+-- 
+1.7.9.5
 
 
