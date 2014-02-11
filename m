@@ -1,36 +1,30 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vb0-f46.google.com (mail-vb0-f46.google.com
-	[209.85.212.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 258576E6FA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 742956EEE8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 11:33:14 +0000 (UTC)
-Received: by mail-vb0-f46.google.com with SMTP id o19so5793044vbm.33
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 03:33:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=PfOBzzM5NKx4Tdf6YQfyej6bY9J85Yqfzw+sgHkYS+U=;
-	b=OU3M9vpFxOTQby4ZXwbrbYQCicjKlorcxOwq5aIMEF8kaSvbeZp+D13Liq+JVghl/b
-	/CfqRw+OmhkGD4ZX0I3/pcUS0Szx6wWciE5+UEwVWpoWnNXkwCByHa0PBwdMZ0O2WuBn
-	E2WIDgDBxz57eJH0/JDDbLleQtFfKKrhi/rp6dUZWMp/Y65nXulpTm2HbzZEAU7dUns/
-	aon1erwVryGMVh1UW9aB4QcNRuI33UBUbEHlzs1Bvx3nL+dTKt593gNC3J+EgrUH3EET
-	n14OO+Zd0weTxQkLiHeJYsRyVSShz6s1FWI2/9o+gqzfHsREQ2y5n3tDocYqTmv5fvBr
-	d+jg==
-X-Received: by 10.221.34.211 with SMTP id st19mr28112765vcb.5.1392118394348;
-	Tue, 11 Feb 2014 03:33:14 -0800 (PST)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Tue, 11 Feb 2014 03:32:34 -0800 (PST)
-In-Reply-To: <1390826695-5067-1-git-send-email-paul@paulbarker.me.uk>
-References: <1390826695-5067-1-git-send-email-paul@paulbarker.me.uk>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 11 Feb 2014 11:32:34 +0000
-X-Google-Sender-Auth: SZZg2rKX7bulGym-R4_xUEV4CxM
-Message-ID: <CANyK_8ckL8bnrxf4RX3s2Rp2VEHcKPEYBpyuEi8bpfNsnSVFqg@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Cc: Saul Wold <saul.wold@intel.com>
-Subject: Re: [PATCH] [NEEDS TESTING] opkg: Fix add-exclude.patch
+	Tue, 11 Feb 2014 12:35:13 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1BCZ0p3021629; Tue, 11 Feb 2014 12:35:00 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id EowJFPZKJAcH; Tue, 11 Feb 2014 12:35:00 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1BCYrKr021606
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 11 Feb 2014 12:34:55 GMT
+Message-ID: <1392122088.7120.138.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 11 Feb 2014 12:34:48 +0000
+In-Reply-To: <cover.1392067183.git.sgw@linux.intel.com>
+References: <cover.1392067183.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [Consolidated Pull 00/11] Kernel Update and more ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 11:33:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 11 Feb 2014 12:35:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 27 January 2014 12:44, Paul Barker <paul@paulbarker.me.uk> wrote:
-> The case statement for ARGS_OPT_ADD_EXCLUDE added to the argument handling
-> switch statement in opkg was missing a "break;" at the end, so it was falling
-> through into the handler for ARGS_OPT_NOACTION. Thus when "--add-exclude" was
-> specified on the command line it was as if "--noaction" was also being
-> specified. This appears to be the root cause of YP bug 5311.
->
-> This patch should fix that behaviour and that bug.
->
-> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-> Cc: Mark Hatle <mark.hatle@windriver.com>
-> Cc: Saul Wold <saul.wold@intel.com>
+On Mon, 2014-02-10 at 13:26 -0800, Saul Wold wrote:
+> Richard,
+> 
+> These are changes that went through the Autobuild, I reviewed them. 
+> The ptest changes have been pending for a bit, is there a reason that
+> you have not taken them?
 
-I should have checked this more myself before sending - I didn't run
-'rediff' on the patch after manually editing it so it failed to apply
-cleanly. I'll update it and send v2.
+Did you look at the results of the autobuild? Several items failed. 
 
-I'm still not sure how best to test this one myself but it would be
-good to see it tested and fix the relevant bug. Once that's done I can
-look at upstreaming this feature into opkg.
+Specifically on the ptest parts, did you read my reply to the previous
+pull request you sent? Or my emails on the list about some of these
+patches? There is a good reason I'm not taking the ptest ones. I was
+discussed in the bug triage meeting too.
 
--- 
-Paul Barker
+> The following changes since commit b5b4898cd409036161c62891e9618d9ab3f891f9:
+> 
+>   python-pycurl: upgrade to 7.19.3 (2014-02-08 21:03:27 +0000)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Bruce Ashfield (3):
+>   kernel: stop using -exec rm for deleting files
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+This version of the patch is broken and causes a build failure. There is
+a fixed version out there. I'll take that instead.
+
+>   linux-yocto/3.10: integrate LTSI
+>   linux-yocto/3.10: add powermanagement config to 32 bit common-pc
+> 
+> Chong Lu (2):
+>   acl: enable ptest support
+
+This adds in perl as a dependency which breaks nightly-x32.
+
+The big problem here is I can't trust what you're doing in these pull
+requests :(
+
+Please either make time to do this properly, or just don't do it but
+please don't half do it.
+
+Cheers,
+
+Richard
+
 
