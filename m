@@ -1,24 +1,31 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 4C4AC6EE8E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id F1A1F6CBDF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2014 14:50:51 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
-	Tue, 11 Feb 2014 15:50:46 +0100
-Message-ID: <52FA38C3.2080709@enea.com>
-Date: Tue, 11 Feb 2014 15:50:43 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>, Laurentiu Palcu
-	<laurentiu.palcu@intel.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1391427313.git.laurentiu.palcu@intel.com>	<cover.1392034327.git.laurentiu.palcu@intel.com>
-	<52FA34D1.6040808@enea.com>
-In-Reply-To: <52FA34D1.6040808@enea.com>
-X-Originating-IP: [172.16.141.133]
-Subject: Re: [PATCH v5 00/53] Rootfs/image generation refactoring (cover letter only)
+	Tue, 11 Feb 2014 14:52:37 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1BEqWxw027225 for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2014 14:52:33 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id yKAICnmGVhoF
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2014 14:52:32 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1BEqRRZ027216
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2014 14:52:29 GMT
+Message-ID: <1392130342.7120.155.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Feb 2014 14:52:22 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] sstate: Exclude SSTATE_EXTRAPATH from checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +38,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 14:50:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 11 Feb 2014 14:52:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 2014-02-11 15:33, David Nystr=F6m wrote:
-> On 2014-02-10 13:15, Laurentiu Palcu wrote:
->> V5:
->>   * dump command output in case errors occur;
->>
->
-> rm -fr tmp/deploy/qemuppc/images/*
-> bitbake -c cleanall core-image-minimal; bitbake core-image-minimal
->
-> Above does not seem to regenerate the image ?
+After the change to allow target recipes to depend on native recipes, the
+native checksums becomes all the more critical. Add to this that we're now
+accounting for pre/postfuncs and we have a cache reuse issue since the
+distro LSB string is getting coded in when it shouldn't be.
 
-Sorry, Ignore this.
-My mistake.
+This excludes that string and allows one set of native sstate to share
+checksums with another set from a different host distro. They're separated
+into different directories so this is fine for our use cases.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index ec9c546..f7bd117 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -17,6 +17,10 @@ SSTATE_EXTRAPATH   = ""
+ SSTATE_EXTRAPATHWILDCARD = ""
+ SSTATE_PATHSPEC   = "${SSTATE_DIR}/${SSTATE_EXTRAPATHWILDCARD}*/${SSTATE_PKGSPEC}"
+ 
++# We don't want the sstate to depend on things like the distro string
++# of the system, we let the sstate paths take care of this.
++SSTATE_EXTRAPATH[vardepvalue] = ""
++
+ SSTATE_DUPWHITELIST = "${DEPLOY_DIR_IMAGE}/ ${DEPLOY_DIR}/licenses/"
+ # Also need to make cross recipes append to ${PN} and install once for any given PACAGE_ARCH so
+ # can avoid multiple installs (e.g. routerstationpro+qemumips both using mips32)
 
-> Br,
-> David
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
