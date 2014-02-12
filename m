@@ -1,30 +1,23 @@
-Return-Path: <fpiechocki@gmail.com>
-Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
-	[209.85.217.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 44FFC6E8E6
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 11:18:47 +0000 (UTC)
-Received: by mail-lb0-f176.google.com with SMTP id w7so6842051lbi.7
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 03:18:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=1pG/qcqHh/F0x/sh++vfPx/ibCoXv6w5rCuqvaZFhvw=;
-	b=mYxiXNOmE5OFJkPPA8FKSYBzDUyTLcPVoDVP7JAxQTqIJq1/v73uSxA6aSaIapRZzr
-	t+xvHS93IRXlyWsWlRfAGvZXc8ViJBRVjnMzBexL6lUUZ5MUkCJDO3YGxmVizfFMDdH4
-	zg+M5C3uicUF0anaoscgE/g15mcmvSuJcAgHc2dzEGj7eY0HXV31jVhrJxUlDlXSxQK9
-	yU2sDaD24OIP3Z7j/LDcX35431ypTT0FMtA8i6ruLm1k0RrhgShhd43HdizK1E21/51i
-	Uz8JHA7nVxmNfgfoB1vP1Gf+ni4UVajEIgM72lltkPpan695B52KqNM1xu1SaJCWuGVI
-	A2xQ==
-MIME-Version: 1.0
-X-Received: by 10.112.180.72 with SMTP id dm8mr29504296lbc.28.1392203927427;
-	Wed, 12 Feb 2014 03:18:47 -0800 (PST)
-Received: by 10.112.199.103 with HTTP; Wed, 12 Feb 2014 03:18:47 -0800 (PST)
-Date: Wed, 12 Feb 2014 12:18:47 +0100
-Message-ID: <CAALoMC3-u9W024+cQXwfuD4VF7xjqLO-itjk-X8YswdeaHWJHg@mail.gmail.com>
-From: Filip Piechocki <fpiechocki@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Subject: Re: Problem with libicudata.so in OE master
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E93F76DE07
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Feb 2014 11:49:44 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 12 Feb 2014 03:49:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,832,1384329600"; d="scan'208";a="454144178"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 12 Feb 2014 03:49:45 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
+	by linux.intel.com (Postfix) with ESMTP id 211916A4007;
+	Wed, 12 Feb 2014 03:49:36 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Feb 2014 13:49:40 +0200
+Message-Id: <1392205780-24534-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] oeqa/runtime: smart: don't run in auto mode when rpm is not the pm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 11:18:48 -0000
-Content-Type: multipart/alternative; boundary=089e011836be8c9f0104f233bcee
+X-List-Received-Date: Wed, 12 Feb 2014 11:49:45 -0000
 
---089e011836be8c9f0104f233bcee
-Content-Type: text/plain; charset=ISO-8859-1
+TEST_SUITES = "auto" would run smart tests even for non-rpm images,
+which is pointless.
 
-I am facing same problem on my RaspberryPi. I've build rpi-basic-image with
-some additional libraries including "icu". I've added them to
-IMAGE_INSTALL_append, then I've corss-compiled Qt 5.2.1 and I get the exact
-same error with libicudata.so:
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/runtime/smart.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-error while loading shared libraries: /usr/lib/libicudata.so.51: internal error
+diff --git a/meta/lib/oeqa/runtime/smart.py b/meta/lib/oeqa/runtime/smart.py
+index 8299bf3..195f117 100644
+--- a/meta/lib/oeqa/runtime/smart.py
++++ b/meta/lib/oeqa/runtime/smart.py
+@@ -9,6 +9,8 @@ def setUpModule():
+         skipModule("Image doesn't have package management feature")
+     if not oeRuntimeTest.hasPackage("smart"):
+         skipModule("Image doesn't have smart installed")
++    if "package_rpm" != oeRuntimeTest.tc.d.getVar("PACKAGE_CLASSES", True).split()[0]:
++        skipModule("Rpm is not the primary package manager")
+ 
+ class SmartTest(oeRuntimeTest):
+ 
+-- 
+1.8.5.3
 
 
-Does anybody know what is the cause of this error?
-
-Best regards,
-
-Filip Piechocki
-
---089e011836be8c9f0104f233bcee
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I am facing same problem on my RaspberryPi. I&#39;ve build=
- rpi-basic-image with some additional libraries including &quot;icu&quot;. =
-I&#39;ve added them to IMAGE_INSTALL_append, then I&#39;ve corss-compiled Q=
-t 5.2.1 and I get the exact same error with libicudata.so:<div>
-<br></div><div><pre style=3D"white-space:pre-wrap;color:rgb(0,0,0)">error w=
-hile loading shared libraries: /usr/lib/libicudata.so.51: internal error</p=
-re><pre style=3D"white-space:pre-wrap;color:rgb(0,0,0)"><br></pre><pre><fon=
-t face=3D"arial"><span style=3D"white-space:normal">Does anybody know what =
-is the cause of this error?</span></font></pre>
-<pre><font face=3D"arial"><span style=3D"white-space:normal">Best regards,<=
-/span></font></pre><pre><font face=3D"arial"><span style=3D"white-space:nor=
-mal">Filip Piechocki</span></font></pre></div></div>
-
---089e011836be8c9f0104f233bcee--
