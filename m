@@ -1,28 +1,20 @@
-Return-Path: <alexandre.belloni@free-electrons.com>
-Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C8CC6E8DE
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EA016C72D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 16:29:33 +0000 (UTC)
-Received: by mail.free-electrons.com (Postfix, from userid 106)
-	id A860287B; Wed, 12 Feb 2014 17:29:40 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	mail.free-electrons.com
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
-	shortcircuit=ham autolearn=disabled version=3.3.2
-Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
-	by mail.free-electrons.com (Postfix) with ESMTPSA id 484D67BA;
-	Wed, 12 Feb 2014 17:29:30 +0100 (CET)
-Date: Wed, 12 Feb 2014 17:29:21 +0100
-From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Message-ID: <20140212162920.GB11498@piout.net>
-References: <1392220457-23287-1-git-send-email-otavio@ossystems.com.br>
-MIME-Version: 1.0
-In-Reply-To: <1392220457-23287-1-git-send-email-otavio@ossystems.com.br>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass, base.bbclass: Fix support for old kernel configuration
+	Wed, 12 Feb 2014 16:39:37 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Feb 2014 08:39:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,833,1384329600"; d="scan'208";a="482281813"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga002.jf.intel.com with ESMTP; 12 Feb 2014 08:39:37 -0800
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Feb 2014 18:42:29 +0200
+Message-Id: <cover.1392223206.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH v2 0/3] PUs and telepathy-mission-control fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,77 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 16:29:33 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 12 Feb 2014 16:39:38 -0000
 
-On 12/02/2014 at 13:54:17 -0200, Otavio Salvador wrote :
-> This solves a regression introduced by OE-Core:9b75f6a (kernel:
-> use oldnoconfig before yes '' | make oldconfig).
-> 
-> The original oe_runmake explicitly calls 'die' command in case of
-> failure so the fallback code never runs. The fallback code needs
-> to handle the oe_runmake return code to call the backward
-> compatible callback so we introduced a new command called
-> oe_runmake_call which is used by oe_runmake.
-> 
-> This does not change the functional behaviour of oe_runmake so it
-> avoids any change except for the code which does need to handle
-> the oe_runmake exit code.
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+In V2, flac has some corrections related to typos and unneeded features.
 
-I'm fine with that patch and I'm sorry for the breakage. I tested
-"make oldnoconfig || yes '' | make oldconfig" outside of oe as I don't
-have any instance of yocto using a kernel older than 3.10 and assumed
-oe_runmake was simply calling make with the correct environment...
+The following changes since commit b70a10ca3ee4a0add90d387e2c8288e531aaa47c:
 
-Acked-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+  systemd-serialgetty: Update to match version in recent systemd (2014-02-11 22:59:38 +0000)
 
-> ---
->  meta/classes/base.bbclass   | 8 ++++++--
->  meta/classes/kernel.bbclass | 2 +-
->  2 files changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 81fc305..7837c89 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -53,9 +53,13 @@ die() {
->  	bbfatal "$*"
->  }
->  
-> -oe_runmake() {
-> +oe_runmake_call() {
->  	bbnote ${MAKE} ${EXTRA_OEMAKE} "$@"
-> -	${MAKE} ${EXTRA_OEMAKE} "$@" || die "oe_runmake failed"
-> +	${MAKE} ${EXTRA_OEMAKE} "$@"
-> +}
-> +
-> +oe_runmake() {
-> +	oe_runmake_call "$@" || die "oe_runmake failed"
->  }
->  
->  
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 3003fb1..6953109 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -313,7 +313,7 @@ python sysroot_stage_all () {
->      oe.path.copyhardlinktree(d.expand("${D}${KERNEL_SRC_PATH}"), d.expand("${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}"))
->  }
->  
-> -KERNEL_CONFIG_COMMAND ?= "oe_runmake oldnoconfig || yes '' | oe_runmake oldconfig"
-> +KERNEL_CONFIG_COMMAND ?= "oe_runmake_call oldnoconfig || yes '' | oe_runmake oldconfig"
->  
->  kernel_do_configure() {
->  	# fixes extra + in /lib/modules/2.6.37+
-> -- 
-> 1.8.5.3
-> 
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/PUs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
+
+Cristian Iorga (3):
+  telepathy-mission-control: typo in connectivity switch
+  harfbuzz: upgrade to 0.9.26
+  flac: upgrade to 1.3.0
+
+ .../telepathy/telepathy-mission-control_5.16.0.bb  |   2 +-
+ .../{harfbuzz_0.9.25.bb => harfbuzz_0.9.26.bb}     |   6 +-
+ .../flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch   |  78 -----------
+ .../flac/flac-1.2.1/asm-pic.patch                  |  99 --------------
+ .../flac/flac-1.2.1/disable-xmms-plugin.patch      |  25 ----
+ .../flac/flac-1.2.1/flac-gcc43-fixes.patch         |  15 ---
+ .../flac/flac-1.2.1/obsolete_automake_macros.patch |  14 --
+ meta/recipes-multimedia/flac/flac-1.2.1/xmms.m4    | 149 ---------------------
+ .../0001-Fix-Makefile.am-altivec-logic.patch       |  35 +++++
+ .../flac/{flac_1.2.1.bb => flac_1.3.0.bb}          |  50 +++----
+ 10 files changed, 56 insertions(+), 417 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.25.bb => harfbuzz_0.9.26.bb} (86%)
+ delete mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/0001-No-AltiVec-on-SPE.patch
+ delete mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/asm-pic.patch
+ delete mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/disable-xmms-plugin.patch
+ delete mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/flac-gcc43-fixes.patch
+ delete mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-multimedia/flac/flac-1.2.1/xmms.m4
+ create mode 100644 meta/recipes-multimedia/flac/flac-1.3.0/0001-Fix-Makefile.am-altivec-logic.patch
+ rename meta/recipes-multimedia/flac/{flac_1.2.1.bb => flac_1.3.0.bb} (42%)
 
 -- 
-Alexandre Belloni, Free Electrons
-Embedded Linux, Kernel and Android engineering
-http://free-electrons.com
+1.8.3.2
+
 
