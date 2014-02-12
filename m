@@ -1,37 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 365276EEFD
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id CEE8D6EE57
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 10:31:52 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id i8so14736940qcq.8
+	Wed, 12 Feb 2014 10:50:12 +0000 (UTC)
+Received: by mail-yk0-f172.google.com with SMTP id 200so14644653ykr.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 02:31:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=GCLpBc9OiV+uH87BmbvEUOXWVpLKRddtqhUsct3j49I=;
-	b=W/6pOcVyDz+oSLuMqity7SfRHrbzmW3OS4wnnPtRDZqqU2IGzDTTwGj1oQOv1tQQAS
-	MeawBDfXfRN+FYe4+Y9j6JSBzBfbxriT6u1pChwh+OGOi7AxsJ+ATWjAT3SIe2GV0hUT
-	yYG2SN/Ej2sWbM1giILqJmCEqUV07GKB3cNDL0X0Y5N/ppOSQHV3mNhhUhzPBpDVWeRW
-	wwTPgMx7gSzpPFpUwUvI/FuwNa2l7AWrHhxLUszItPx8zu+gJh7M6XtAvz+xlwionobH
-	YDfHOMVt4392zk33QaZXBVuGjK8RXpG76BbyuoPBjWOVzaqibacUhPu8X/Cv5rrXIrtG
-	0xKw==
-X-Gm-Message-State: ALoCoQlxi041L3JdY59KijfJHCnsanRWkWaXxvFZ9fyMpfZkDSl/QZSkakrb3EK8SJw0v/y1uBvU
-X-Received: by 10.224.97.67 with SMTP id k3mr66866413qan.17.1392201112084;
-	Wed, 12 Feb 2014 02:31:52 -0800 (PST)
+	Wed, 12 Feb 2014 02:50:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:date:message-id:subject:from:to:content-type;
+	bh=V7foyfee/n22fZ83R0XhfbVzL72INr480w4TS7hVXj8=;
+	b=s53XwYRC3MHkzBZhR/KsovqTBN5IJ4ah28k8tkCNKWLU5cj0ioK6GoYzlS0GtsBe9I
+	VasY6I4uFc0ysMwW7HR9rWRgevK6FJOutMkC0fVa3PD/MMJNPXznpPY+9wq/6Dyj1OHm
+	VEUVxq2Z7RsT1aQdz00X+jteMI4frEWKPWXg2Dwjmw/7R2MsMSkM7RYd0Ty62/YAkMmj
+	/G6sGxrpyjYq04iy7vrJyhuxjPMmKSrUhVZcMcTrXZuX6W6SiAp/6nEcJ5NhifbZF06W
+	RyJszJ7ntWpKk5a2snQHd2bCFN+x+uQzW5+aJDpJHzF6YgzMoCShaWR3fLmb4hhiU6bN
+	748Q==
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Wed, 12 Feb 2014 02:31:32 -0800 (PST)
-In-Reply-To: <667eb5bde49b6a37e220a73df265b7c52c89ac02.1392189255.git.cristian.iorga@intel.com>
-References: <cover.1392189255.git.cristian.iorga@intel.com>
-	<667eb5bde49b6a37e220a73df265b7c52c89ac02.1392189255.git.cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 12 Feb 2014 10:31:32 +0000
-Message-ID: <CAJTo0LY46wAFj+HmnsCx5jN8bp6G9dmJBJu4TDGYTvfWuCno+w@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] flac: upgrade to 1.3.0
+X-Received: by 10.236.126.162 with SMTP id b22mr1572995yhi.72.1392202213788;
+	Wed, 12 Feb 2014 02:50:13 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.161.3 with HTTP; Wed, 12 Feb 2014 02:50:13 -0800 (PST)
+Date: Wed, 12 Feb 2014 08:50:13 -0200
+X-Google-Sender-Auth: akQheLkVZlBYg7436ywy4qDA5lI
+Message-ID: <CAP9ODKpzN6HvJmTa62es0RY_Qr7LLk26mTkbiL6b8XmRPUHs7w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Robert Yang <liezhi.yang@windriver.com>
+Subject: [for-dora] Pulseaudio fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 10:31:52 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Feb 2014 10:50:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 12 February 2014 07:41, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> - Updated description, bugtracker and source;
-> - Switched to ${BP} variable;
-> - 0001-No-AltiVec-on-SPE.patch,
-> flac-gcc43-fixes.patch, asm-pic.patch,
-> obsolete_automake_macros.patch patches
-> removed, included in upstream;
-> - Licenses checksums changed due to added
-> copyright owners and street adresses changed;
-> - backported 1.3.0 specific fix;
-> - removed obsolete PPC fix;
-> - added support for SSE optimizations.
+Hello,
 
-Got to love a patch that is 90% removals!
+This change should be backported to dora as people are having problems
+using x11-less distros with pulseaudio:
 
-> +DESCRIPTION = "FLAC stands for Free Lossless Audio Codec, a losless audio compression format."
+otavio@nano ~/.../poky (git)-[dora] % git cherry-pick
+77c4f158c6dbc8a373d2064552224f5dfe1a7bd2
+[dora 19606eb] pulseaudio: fix RDEPENDS traversal for consolekit
+ Author: Christopher Larson <chris_larson@mentor.com>
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+otavio@nano ~/.../poky (git)-[dora] % git cherry-pick
+e230b4498790a3dfdc36ea5761807459fc96368e
+[dora 090424d] pulseaudio: only package consolekit module when x11 is enabled
+ Author: Christopher Larson <kergoth@gmail.com>
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-"losless" is a typo.
-
->  S = "${WORKDIR}/flac-${PV}"
-
-This is the default so you can remove this.
-
-> +                --disable-xmms-plugin \
->                  --without-xmms-prefix \
->                  --without-xmms-exec-prefix \
-
-Does the addition of --disable mean you can remove the two --without arguments?
-
-Ross
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
