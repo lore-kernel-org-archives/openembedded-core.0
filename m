@@ -1,41 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B8CB6EA4B;
-	Wed, 12 Feb 2014 17:14:19 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id kx10so9473300pab.35
-	for <multiple recipients>; Wed, 12 Feb 2014 09:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=6xAa/eeH/s7YbzTu7Vgy08o3bXZdH9v/PwRMKwb1K5g=;
-	b=OhsAbIYVRFJTOw6Osa4zrcMHqmmBZA7Mje4r22vFin5xdRfBHxmIJeR5FsvlLeabiz
-	teETL5aa8IoSQanGJLvUFJORYqqH5+CaotrKUXsZ+w8EUJiKTKu3A7AcxqshYvCTsi9P
-	vFYeSGJNhWNK1220VEijPXAV0mBmGPTKanWM6WH1ftOyRtQh7j/A8BCOnnrDNC35WRpr
-	6PiucaWTkS2ebucCXpO7WN8ArHlvlBL+QRU+MoiWkvhKyiPs6oREhw72499Pkz47ptuE
-	5NLYZTARwzMI+xl6CCZnX+9skmuUb0bRcT1hdPnpD+MDP195P1Df3vwNkMgxJ1AvWYxm
-	oWog==
-X-Received: by 10.68.242.68 with SMTP id wo4mr53260373pbc.32.1392225260182;
-	Wed, 12 Feb 2014 09:14:20 -0800 (PST)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	eb5sm165695356pad.22.2014.02.12.09.14.17 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 12 Feb 2014 09:14:18 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1392224030.14081.3.camel@ted>
-Date: Wed, 12 Feb 2014 09:14:16 -0800
-Message-Id: <11C15F6F-A819-4B43-B574-8D6B08214D4F@gmail.com>
-References: <CAMKF1sptnVxCrjm7PAOCtRWzmSsxPv4nc0nUO82jMPQ+BCz9Hg@mail.gmail.com>
-	<1392219682.14081.1.camel@ted> <1392224030.14081.3.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1827)
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] eglibc 2.19
+Return-Path: <valentin.popa@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A2EA26E7F5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Feb 2014 17:27:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 12 Feb 2014 09:23:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,833,1384329600"; d="scan'208";a="454320533"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.47])
+	by orsmga001.jf.intel.com with ESMTP; 12 Feb 2014 09:27:40 -0800
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Feb 2014 19:27:42 +0200
+Message-Id: <1392226062-3797-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH_V2] mesa: upgrade to 9.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,48 +27,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 17:14:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Feb 2014 17:27:42 -0000
 
+tested on qemux86, genericx86 for core-image-sato
+and core-image-weston.
 
-On Feb 12, 2014, at 8:53 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+---
+ .../mesa/{mesa-gl_9.2.2.bb => mesa-gl_9.2.5.bb}                |  0
+ meta/recipes-graphics/mesa/{mesa_9.2.2.bb => mesa_9.2.5.bb}    | 10 ++++++++--
+ meta/recipes-graphics/mesa/mesa_git.bb                         | 10 ++++++++--
+ 3 files changed, 16 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_9.2.2.bb => mesa-gl_9.2.5.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_9.2.2.bb => mesa_9.2.5.bb} (38%)
 
-> On Wed, 2014-02-12 at 15:41 +0000, Richard Purdie wrote:
->> On Sat, 2014-02-08 at 08:08 -0800, Khem Raj wrote:
->>> Hi all
->>>=20
->>> I have staged a branch with eglibc 2.19 upgraded recipes here
->>>=20
->>> =
-http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/eglibc=
--2.19
->>>=20
->>> These are not final recipes there may be tweaks needed like =
-adjusting SRC_URI
->>> later on.
->>>=20
->>> please help testing it out in your environments and machines
->>> I would be happy to help out with issues we find
->>=20
->> The autobuilder is still going but it found:
->>=20
->> =
-http://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/builds/2=
-5/steps/BuildImages/logs/stdio
->=20
-> the valgrind configure check breaks too:
->=20
-> =
-http://autobuilder.yoctoproject.org/main/builders/minnow/builds/25/steps/B=
-uildImages/logs/stdio
-
-For this I pushed a fix to pull branch just now.
-
->=20
-> Cheers,
->=20
-> Richard
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb b/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_9.2.2.bb b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
+similarity index 38%
+rename from meta/recipes-graphics/mesa/mesa_9.2.2.bb
+rename to meta/recipes-graphics/mesa/mesa_9.2.5.bb
+index 60eba01..f37586b 100644
+--- a/meta/recipes-graphics/mesa/mesa_9.2.2.bb
++++ b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
+@@ -5,7 +5,13 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+            file://0006-fix-out-of-tree-egl.patch \
+            "
+ 
+-SRC_URI[md5sum] = "20887f8020db7d1736a01ae9cd5d8c38"
+-SRC_URI[sha256sum] = "c78a5035233672844cf2492fe82dc10877e12026be227d04469d6ca6ac656a3d"
++SRC_URI[md5sum] = "9fb4de29ca1d9cfd03cbdefa123ba336"
++SRC_URI[sha256sum] = "b46ab9efed176df0591993397594d712ada9da6a47fd31bbe75050fe28eb6bf0"
+ 
+ S = "${WORKDIR}/Mesa-${PV}"
++
++#because we cannot rely on the fact that all apps will use pkgconfig,
++#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
++do_install_append() {
++    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++}
+diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+index 19d3e70..320b8d5 100644
+--- a/meta/recipes-graphics/mesa/mesa_git.bb
++++ b/meta/recipes-graphics/mesa/mesa_git.bb
+@@ -5,8 +5,8 @@ DEFAULT_PREFERENCE = "-1"
+ LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
+ 
+ PR = "${INC_PR}.0"
+-SRCREV = "8f0742051e8501e737affb392996aef172034ca8"
+-PV = "9.2.2+git${SRCPV}"
++SRCREV = "4636e87191fddd492ed8c61ba61faf4b2d89b2e4"
++PV = "9.2.5+git${SRCPV}"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
+            file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
+@@ -14,3 +14,9 @@ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
+            "
+ 
+ S = "${WORKDIR}/git"
++
++#because we cannot rely on the fact that all apps will use pkgconfig,
++#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
++do_install_append() {
++    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++}
+-- 
+1.8.3.2
 
 
