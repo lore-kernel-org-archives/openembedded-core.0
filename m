@@ -1,32 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DE806CAD5;
-	Wed, 12 Feb 2014 15:41:46 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1CFfeqW018712; Wed, 12 Feb 2014 15:41:40 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VhBxMpQU44MN; Wed, 12 Feb 2014 15:41:40 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1CFfSdG018688
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 12 Feb 2014 15:41:38 GMT
-Message-ID: <1392219682.14081.1.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Feb 2014 15:41:22 +0000
-In-Reply-To: <CAMKF1sptnVxCrjm7PAOCtRWzmSsxPv4nc0nUO82jMPQ+BCz9Hg@mail.gmail.com>
-References: <CAMKF1sptnVxCrjm7PAOCtRWzmSsxPv4nc0nUO82jMPQ+BCz9Hg@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT] eglibc 2.19
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f49.google.com (mail-yh0-f49.google.com
+	[209.85.213.49])
+	by mail.openembedded.org (Postfix) with ESMTP id A60DC6D89A
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Feb 2014 15:54:26 +0000 (UTC)
+Received: by mail-yh0-f49.google.com with SMTP id t59so8589535yho.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Feb 2014 07:54:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=jFznJW1Tl0MO76jRHDxyW0hZYnxWGcwBO+PNFaU9Igc=;
+	b=eR+xLVnVtSvg/oHawdRiGZ3y87+lM/PxFczFGMakXQIorj2Q63NsXN+oF3BNHcS6pg
+	BG7rZ+62wmBwMGcexJhAZ/kx2Rqfjawkti14OH58ApcZM01JlOEQEcYYyRckz/H5kXfT
+	MmfCaA1XCknQS4MAu3V6MsuOXk5N5fnXOknk8UIbNolwbDjwqFqH9E+TavY1TyndX4j3
+	MwnGMHvKSyU/kzvOYzdl75PusG2BDh+lpV5xhO71TTFFzF2U1JBqQQ1srQu7ydyJ+Pzu
+	LYeS5GMg9Nyt41kAx1I7AM3wNhDW2l2ZRB5t6lbQsqYP3w/qgsez7/G1g+gIDEy9/NN+
+	YZqw==
+X-Received: by 10.236.170.3 with SMTP id o3mr1038827yhl.143.1392220467063;
+	Wed, 12 Feb 2014 07:54:27 -0800 (PST)
+Received: from nano.lab.ossystems.com.br ([177.194.208.225])
+	by mx.google.com with ESMTPSA id g26sm72775022yhk.3.2014.02.12.07.54.25
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 12 Feb 2014 07:54:26 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by nano.lab.ossystems.com.br (Postfix, from userid 1000)
+	id 41024183C112B; Wed, 12 Feb 2014 13:54:22 -0200 (BRST)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Feb 2014 13:54:17 -0200
+Message-Id: <1392220457-23287-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.9.rc1
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] kernel.bbclass, base.bbclass: Fix support for old kernel configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,31 +46,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 15:41:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Feb 2014 15:54:28 -0000
 
-On Sat, 2014-02-08 at 08:08 -0800, Khem Raj wrote:
-> Hi all
-> 
-> I have staged a branch with eglibc 2.19 upgraded recipes here
-> 
-> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/eglibc-2.19
-> 
-> These are not final recipes there may be tweaks needed like adjusting SRC_URI
-> later on.
-> 
-> please help testing it out in your environments and machines
-> I would be happy to help out with issues we find
+This solves a regression introduced by OE-Core:9b75f6a (kernel:
+use oldnoconfig before yes '' | make oldconfig).
 
-The autobuilder is still going but it found:
+The original oe_runmake explicitly calls 'die' command in case of
+failure so the fallback code never runs. The fallback code needs
+to handle the oe_runmake return code to call the backward
+compatible callback so we introduced a new command called
+oe_runmake_call which is used by oe_runmake.
 
-http://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/builds/25/steps/BuildImages/logs/stdio
+This does not change the functional behaviour of oe_runmake so it
+avoids any change except for the code which does need to handle
+the oe_runmake exit code.
 
-so far.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/base.bbclass   | 8 ++++++--
+ meta/classes/kernel.bbclass | 2 +-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 81fc305..7837c89 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -53,9 +53,13 @@ die() {
+ 	bbfatal "$*"
+ }
+ 
+-oe_runmake() {
++oe_runmake_call() {
+ 	bbnote ${MAKE} ${EXTRA_OEMAKE} "$@"
+-	${MAKE} ${EXTRA_OEMAKE} "$@" || die "oe_runmake failed"
++	${MAKE} ${EXTRA_OEMAKE} "$@"
++}
++
++oe_runmake() {
++	oe_runmake_call "$@" || die "oe_runmake failed"
+ }
+ 
+ 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 3003fb1..6953109 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -313,7 +313,7 @@ python sysroot_stage_all () {
+     oe.path.copyhardlinktree(d.expand("${D}${KERNEL_SRC_PATH}"), d.expand("${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}"))
+ }
+ 
+-KERNEL_CONFIG_COMMAND ?= "oe_runmake oldnoconfig || yes '' | oe_runmake oldconfig"
++KERNEL_CONFIG_COMMAND ?= "oe_runmake_call oldnoconfig || yes '' | oe_runmake oldconfig"
+ 
+ kernel_do_configure() {
+ 	# fixes extra + in /lib/modules/2.6.37+
+-- 
+1.8.5.3
 
 
