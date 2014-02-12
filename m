@@ -1,28 +1,32 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EE91D6CAD5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 15:40:04 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 12 Feb 2014 07:40:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,832,1384329600"; d="scan'208";a="454250065"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 12 Feb 2014 07:40:03 -0800
-Date: Wed, 12 Feb 2014 17:40:01 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20140212154001.GG10078@lpalcu-linux>
-References: <cover.1392215552.git.laurentiu.palcu@intel.com>
-	<f1d4b1de74f2c69b444ed50977263245440ed071.1392215552.git.laurentiu.palcu@intel.com>
-	<1392216272.14769.270.camel@phil-desktop.brightsign>
-	<20140212145552.GF10078@lpalcu-linux>
-	<1392217651.14769.271.camel@phil-desktop.brightsign>
-MIME-Version: 1.0
-In-Reply-To: <1392217651.14769.271.camel@phil-desktop.brightsign>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] (image|rootfs_ipk).bbclass, rootfs.py: ipk multilib fixes
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DE806CAD5;
+	Wed, 12 Feb 2014 15:41:46 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1CFfeqW018712; Wed, 12 Feb 2014 15:41:40 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id VhBxMpQU44MN; Wed, 12 Feb 2014 15:41:40 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1CFfSdG018688
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 12 Feb 2014 15:41:38 GMT
+Message-ID: <1392219682.14081.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 12 Feb 2014 15:41:22 +0000
+In-Reply-To: <CAMKF1sptnVxCrjm7PAOCtRWzmSsxPv4nc0nUO82jMPQ+BCz9Hg@mail.gmail.com>
+References: <CAMKF1sptnVxCrjm7PAOCtRWzmSsxPv4nc0nUO82jMPQ+BCz9Hg@mail.gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT] eglibc 2.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 15:40:05 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 12 Feb 2014 15:41:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 12, 2014 at 03:07:31PM +0000, Phil Blundell wrote:
-> On Wed, 2014-02-12 at 16:55 +0200, Laurentiu Palcu wrote:
-> > * /usr/lib/opkg is where the alternatives go;
+On Sat, 2014-02-08 at 08:08 -0800, Khem Raj wrote:
+> Hi all
 > 
-> Isn't that a bug?
-I'm far from being an expert in opkg or update-alternatives, but,
-looking in /usr/bin/update-alternatives I can see:
+> I have staged a branch with eglibc 2.19 upgraded recipes here
+> 
+> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/eglibc-2.19
+> 
+> These are not final recipes there may be tweaks needed like adjusting SRC_URI
+> later on.
+> 
+> please help testing it out in your environments and machines
+> I would be happy to help out with issues we find
 
-# admin dir
-ad="$OPKG_OFFLINE_ROOT/usr/lib/opkg/alternatives"
+The autobuilder is still going but it found:
 
-Isn't that expected since the u-a provider is opkg-utils recipe?
+http://autobuilder.yoctoproject.org/main/builders/nightly-fsl-ppc/builds/25/steps/BuildImages/logs/stdio
 
-laurentiu
-> 
-> p.
-> 
-> 
+so far.
+
+Cheers,
+
+Richard
+
 
