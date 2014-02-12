@@ -1,29 +1,38 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C38256EAB8
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id E563B6E89A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 19:49:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1CJnRqS022638
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 12 Feb 2014 21:06:27 +0000 (UTC)
+Received: by mail-lb0-f172.google.com with SMTP id c11so7635563lbj.31
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 11:49:28 -0800 (PST)
-Received: from msp-dhcp11.wrs.com (172.25.34.11) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 12 Feb 2014 11:46:32 -0800
-Message-ID: <52FBCF97.6010405@windriver.com>
-Date: Wed, 12 Feb 2014 13:46:31 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Wed, 12 Feb 2014 13:06:28 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=IHT94s3+5pbkB0j2n3HwS/c8oq5Rp5QmEjE9v8iJ43g=;
+	b=accS9el8KkeG2xcHOyht5DCDGTI2DEp6l+X02HoOHBcXVhJExe7SEtLUGPKyVc6FQN
+	ixOPzGkraDkhVDF8s54/1VliNyDCExtf3eWB8PwcZPMaEmyeKQjsDsuWnReeWbPlpW77
+	Oeg/fdDENEmiwGOqSDiX6lsqSCcNfrvKOku2Eltk8hRwr+mdu9f/pOiVRK45/Vl4oLgD
+	ufT6eLfAETenx83LWQPqJy85S/kov/q4/CUZOoJgdGn2/TsHP4KAxrOT8CCP866t0bQS
+	ZDreUrFvVcHWrGzZaQiSydcFKD2nQGYLQ0xBlc1mYzo/u+bHGxjob2nOtx3CIQbDTgTE
+	nbGA==
+X-Gm-Message-State: ALoCoQmgvWh3NZWiaBj+9Db04WyigUY+BeSa5wFGwB+FbNSU7LvaPfziZCH5Pqhchv1zcqNuaaLq
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1392230968.git.laurentiu.palcu@intel.com>
-	<cc9a8b3a006120ba793051f1a790c3cb3681c28e.1392230968.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cc9a8b3a006120ba793051f1a790c3cb3681c28e.1392230968.git.laurentiu.palcu@intel.com>
-Subject: Re: [PATCH 1/1] lib/oe/rootfs.py: fix RPM multilib issue
+X-Received: by 10.112.236.3 with SMTP id uq3mr31091858lbc.14.1392239188213;
+	Wed, 12 Feb 2014 13:06:28 -0800 (PST)
+Received: by 10.112.91.227 with HTTP; Wed, 12 Feb 2014 13:06:28 -0800 (PST)
+In-Reply-To: <CAP9ODKpSTHUeGOkr=6zuXqRJUri-Tnrm9o0nb4LEx+-9FWjB4g@mail.gmail.com>
+References: <1391613014-5792-1-git-send-email-fathi.boudra@linaro.org>
+	<CAP9ODKpSTHUeGOkr=6zuXqRJUri-Tnrm9o0nb4LEx+-9FWjB4g@mail.gmail.com>
+Date: Wed, 12 Feb 2014 23:06:28 +0200
+Message-ID: <CAGNsrLDWToovXwCDKRzrLVf7obmG7Voz6tbMaMig5nZBNzTDWw@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] systemtap: add aarch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,94 +45,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 19:49:27 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Feb 2014 21:06:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2/12/14, 12:54 PM, Laurentiu Palcu wrote:
-> For some odd reason (at least I couldn't find an explanation to this,
-> yet), if a multilib version of a package is installed after the main one
-> (that is: in a different smart session), the main package binaries are
-> not overwritten.
-
-For two packages with the same name, but different architectures -- the non-ELF 
-files must be identical (or different file names in each package.)
-
-The ELF files are identified by type and there is a resolution mechanism within 
-RPM to determine which is the 'preferred' version.
-
-We do NOT have the resolution mechanism set, so the first package installed 
-'wins'.  So if you do two packages in two separate transactions, the first 
-version installed will be kept.  If you do it in one transaction, then I believe 
-it ends up being the last version [or maybe it's random due to sort order?]
-
-There is a Yocto Project defect to configure the RPM multilib settings, but so 
-far it's just sat there, as nobody has either needed it -- or cared enough to 
-implement it.  The reality is installed two packages with the same /bin, /sbin 
-binaries is rare these days.. it's much more useful to install the libraries.
-
-The code you have below may turn out to be a performance improvement.. (each 
-smart/rpm transaction takes setup and cleanup time, so multiple transactions are 
-slower then one larger transaction.)  But it's likely not fixing the actual 
-problem you have.
-
-#       The default transaction color. This value is a set of bits to
-#       determine file and dependency affinity for this arch.
-#               0       uncolored (i.e. use only arch as install hint)
-#               1       Elf32 permitted
-#               2       Elf64 permitted
-#               4       MIPS reserved
-%_transaction_color     3
-
-(4 BTW is MIPS64 - n32)
-
-_transaction_color of 3 indicates we allow Elf32 and Elf64 to be installed..
-
-There is a second item:
-
-_prefer_color that is used to define which item should be installed when there 
-is that ELF conflict.  The numbers above follow there as well.  By default I 
-believe it sets itself to '2' when doing a single transaction installed, 
-preferring Elf64.
-
---Mark
-
-> This commit restores the functionality to the original one, before
-> migrating to python: feed all the packages to smart, apart from attempt
-> only ones which are installed separately.
+On 12 February 2014 18:23, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> Hello,
 >
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->   meta/lib/oe/rootfs.py |   16 ++++++++++++----
->   1 file changed, 12 insertions(+), 4 deletions(-)
+> On Wed, Feb 5, 2014 at 1:10 PM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+>> bump SRCREV to include the relevant commits for aarch64 support
+>> update COMPATIBLE_HOST to include aarch64
+>> cleanup md5sum/sha256sum since we use git
+>>
+>> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 >
-> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> index b6baf77..9162e52 100644
-> --- a/meta/lib/oe/rootfs.py
-> +++ b/meta/lib/oe/rootfs.py
-> @@ -317,10 +317,18 @@ class RpmRootfs(Rootfs):
+> This broke master in our autobuilder:
 >
->           self.pm.update()
+>  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0r0/git/includes
+> -I./includes/sys -DSTAP_SDT_V2
+> -isystem.../build/tmp/sysroots/x86_64-linux/usr/include -Wall -Werror
+>  -isystem.../build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe
+> -fstack-protector-all -D_FORTIFY_SOURCE=2 -c -o stap-buildrun.o `test
+> -f 'buildrun.cxx' || echo
+> '.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/'`buildrun.cxx
+>  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:
+> In function 'void validate_module_elf(Dwfl_Module*, const char*,
+> base_query*)':
+>  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:1998:10:
+> error: 'EM_AARCH64' was not declared in this scope
+>  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:
+> In constructor 'sdt_uprobe_var_expanding_visitor::sdt_uprobe_var_expanding_visitor(systemtap_session&,
+> int, const string&, const string&, const string&, stap_sdt_probe_type,
+> const string&, int)':
+>  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:5613:31:
+> error: 'EM_AARCH64' was not declared in this scope
+>  | make[2]: *** [stap-tapsets.o] Error 1
+>  | make[2]: *** Waiting for unfinished jobs....
+>  | make[2]: Leaving directory
+> `.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/build'
+>  | make[1]: *** [all-recursive] Error 1
+>  | make[1]: Leaving directory
+> `.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/build'
+>  | make: *** [all] Error 2
+>  | ERROR: oe_runmake failed
+>  | WARNING: exit code 1 from a shell command.
 >
-> -        for pkg_type in self.install_order:
-> -            if pkg_type in pkgs_to_install:
-> -                self.pm.install(pkgs_to_install[pkg_type],
-> -                                [False, True][pkg_type == "aop"])
-> +        pkgs = []
-> +        pkgs_attempt = []
-> +        for pkg_type in pkgs_to_install:
-> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
-> +                pkgs_attempt = pkgs_to_install[pkg_type]
-> +                continue
-> +
-> +            pkgs += pkgs_to_install[pkg_type]
-> +
-> +        self.pm.install(pkgs)
-> +
-> +        self.pm.install(pkgs_attempt, True)
+> Regards,
 >
->           self.pm.install_complementary()
->
->
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
+It's fixed by a later commit: 508059f04842ed85d10bfbec8a9c688d57368860
+https://sourceware.org/git/gitweb.cgi?p=systemtap.git;a=commitdiff;h=508059f04842ed85d10bfbec8a9c688d57368860
+
+a patch is coming to bump the SRCREV.
+
+Cheers,
+Fathi
 
