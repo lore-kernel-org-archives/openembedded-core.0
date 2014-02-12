@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DD1C36EE57
+	by mail.openembedded.org (Postfix) with ESMTP id 0DEC66EEF6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 07:42:37 +0000 (UTC)
+	Wed, 12 Feb 2014 07:42:38 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga101.jf.intel.com with ESMTP; 11 Feb 2014 23:38:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,831,1384329600"; d="scan'208";a="482038615"
+X-IronPort-AV: E=Sophos;i="4.95,831,1384329600"; d="scan'208";a="482038618"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga002.jf.intel.com with ESMTP; 11 Feb 2014 23:38:46 -0800
+	by orsmga002.jf.intel.com with ESMTP; 11 Feb 2014 23:38:47 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Feb 2014 09:41:32 +0200
-Message-Id: <ac42da6818a84a64fff4e06824fff91409132604.1392189255.git.cristian.iorga@intel.com>
+Date: Wed, 12 Feb 2014 09:41:33 +0200
+Message-Id: <2158804e7598ae77c3fe96f8fe784bfa9e1a1761.1392189255.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1392189255.git.cristian.iorga@intel.com>
 References: <cover.1392189255.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1392189255.git.cristian.iorga@intel.com>
 References: <cover.1392189255.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/3] telepathy-mission-control: typo in connectivity switch
+Subject: [PATCH 2/3] harfbuzz: upgrade to 0.9.26
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +33,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 12 Feb 2014 07:42:38 -0000
 
-telepathy-mission-control connectivity switch was
-mistyped, defeating its purpose.
+switched to ${BP} variable.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../harfbuzz/{harfbuzz_0.9.25.bb => harfbuzz_0.9.26.bb}             | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.25.bb => harfbuzz_0.9.26.bb} (86%)
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.bb
-index b28b9ce..fbd8ba2 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.16.0.bb
-@@ -18,7 +18,7 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[upower] = "--enable-upower,--disable-upower,upower"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.26.bb
+similarity index 86%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_0.9.26.bb
+index ba637bc..61d54c6 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.25.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.26.bb
+@@ -10,11 +10,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
  
- # to select connman or nm you need to use "connectivity" and "connman" or "nm", default is to disable both
--PACKAGECONFIG[connectvity] = ",--with-connectivity=no"
-+PACKAGECONFIG[connectivity] = ",--with-connectivity=no"
- PACKAGECONFIG[connman] = "--with-connectivity=connman,,connman"
- PACKAGECONFIG[nm] = "--with-connectivity=nm,,networkmanager"
+ SECTION = "libs"
+ 
+-SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-${PV}.tar.bz2 \
++SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2 \
+ "
+ 
+-SRC_URI[md5sum] = "491b631239f51dcd4f7934775306c4e7"
+-SRC_URI[sha256sum] = "dc6e5997a569526cd28147a80a0f65466e87ae617753b38704a60184bc6d6bee"
++SRC_URI[md5sum] = "a2b6cbd437f22dd5dc93d377696c9204"
++SRC_URI[sha256sum] = "5ded7dc3d15fb5c9230d7a224b9256b67b35fde30193b4c3a4c3f6b13110e257"
+ 
+ inherit autotools pkgconfig lib_package
  
 -- 
 1.8.3.2
