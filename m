@@ -1,29 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D3DC6DE07
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f41.google.com (mail-yh0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id BE4F76E8DE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 16:00:42 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 5F1BCF811E1; Wed, 12 Feb 2014 09:00:43 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 7ECA8F811DD;
-	Wed, 12 Feb 2014 09:00:42 -0700 (MST)
-Message-ID: <52FB9AC0.3020108@mlbassoc.com>
-Date: Wed, 12 Feb 2014 09:01:04 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Wed, 12 Feb 2014 16:23:07 +0000 (UTC)
+Received: by mail-yh0-f41.google.com with SMTP id f73so8809688yha.28
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Feb 2014 08:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=5/IFOCwNFbddqNfOWS18J+EdEWKMpyaGBYOVw4yZuB8=;
+	b=TW88Bi3NmMXlADU0lR3Q1doZXKAFnr8IrCFKxzhrn/DZLAm1YOQ8rqY6f9N8ZwESfG
+	ySIQjXxvCK8Xtc/pabx7dgq3RyfBPcQ5lWZhZ9IgYxhrjzncnS/g11hVgRodJowH/aVr
+	7w2HZNivHOGxXsiPXM9y8wwTPFxMLwFW0BSRdgysoCPEJkR6qU2KTnUWOJ5n6A+4mJoP
+	hLT/SixX22jA9xbz1CC2QFAIGxmmkJvXE0R9K2MboF7Q9r5mN1FjvO0U1626Ffw68vRi
+	gXqMnCEVjcv0wyjrEk9aMaHSbaItFwcIf/eHtdTjcY5c/i/IP0SytpW2vDRgjEIaks76
+	XlFg==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1392220457-23287-1-git-send-email-otavio@ossystems.com.br>
-In-Reply-To: <1392220457-23287-1-git-send-email-otavio@ossystems.com.br>
-X-Enigmail-Version: 1.5.2
-Subject: Re: [PATCH] kernel.bbclass, base.bbclass: Fix support for old kernel configuration
+X-Received: by 10.236.158.226 with SMTP id q62mr40945323yhk.2.1392222188659;
+	Wed, 12 Feb 2014 08:23:08 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.161.3 with HTTP; Wed, 12 Feb 2014 08:23:08 -0800 (PST)
+In-Reply-To: <1391613014-5792-1-git-send-email-fathi.boudra@linaro.org>
+References: <1391613014-5792-1-git-send-email-fathi.boudra@linaro.org>
+Date: Wed, 12 Feb 2014 14:23:08 -0200
+X-Google-Sender-Auth: 9oK_m_0ZVlYPXafUGueTxwaLn6I
+Message-ID: <CAP9ODKpSTHUeGOkr=6zuXqRJUri-Tnrm9o0nb4LEx+-9FWjB4g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] systemtap: add aarch64 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 16:00:43 -0000
+X-List-Received-Date: Wed, 12 Feb 2014 16:23:08 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
-On 2014-02-12 08:54, Otavio Salvador wrote:
-> This solves a regression introduced by OE-Core:9b75f6a (kernel:
-> use oldnoconfig before yes '' | make oldconfig).
-> 
-> The original oe_runmake explicitly calls 'die' command in case of
-> failure so the fallback code never runs. The fallback code needs
-> to handle the oe_runmake return code to call the backward
-> compatible callback so we introduced a new command called
-> oe_runmake_call which is used by oe_runmake.
-> 
-> This does not change the functional behaviour of oe_runmake so it
-> avoids any change except for the code which does need to handle
-> the oe_runmake exit code.
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Hello,
 
-You might make it clear in this description that this change is necessary
-to handle older kernels where 'make oldnoconfig' is not supported.
+On Wed, Feb 5, 2014 at 1:10 PM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+> bump SRCREV to include the relevant commits for aarch64 support
+> update COMPATIBLE_HOST to include aarch64
+> cleanup md5sum/sha256sum since we use git
+>
+> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 
-> ---
->  meta/classes/base.bbclass   | 8 ++++++--
->  meta/classes/kernel.bbclass | 2 +-
->  2 files changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 81fc305..7837c89 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -53,9 +53,13 @@ die() {
->  	bbfatal "$*"
->  }
->  
-> -oe_runmake() {
-> +oe_runmake_call() {
->  	bbnote ${MAKE} ${EXTRA_OEMAKE} "$@"
-> -	${MAKE} ${EXTRA_OEMAKE} "$@" || die "oe_runmake failed"
-> +	${MAKE} ${EXTRA_OEMAKE} "$@"
-> +}
-> +
-> +oe_runmake() {
-> +	oe_runmake_call "$@" || die "oe_runmake failed"
->  }
->  
->  
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 3003fb1..6953109 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -313,7 +313,7 @@ python sysroot_stage_all () {
->      oe.path.copyhardlinktree(d.expand("${D}${KERNEL_SRC_PATH}"), d.expand("${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}"))
->  }
->  
-> -KERNEL_CONFIG_COMMAND ?= "oe_runmake oldnoconfig || yes '' | oe_runmake oldconfig"
-> +KERNEL_CONFIG_COMMAND ?= "oe_runmake_call oldnoconfig || yes '' | oe_runmake oldconfig"
->  
->  kernel_do_configure() {
->  	# fixes extra + in /lib/modules/2.6.37+
-> 
+This broke master in our autobuilder:
+
+ | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0r0/git/includes
+-I./includes/sys -DSTAP_SDT_V2
+-isystem.../build/tmp/sysroots/x86_64-linux/usr/include -Wall -Werror
+ -isystem.../build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe
+-fstack-protector-all -D_FORTIFY_SOURCE=2 -c -o stap-buildrun.o `test
+-f 'buildrun.cxx' || echo
+'.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/'`buildrun.cxx
+ | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:
+In function 'void validate_module_elf(Dwfl_Module*, const char*,
+base_query*)':
+ | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:1998:10:
+error: 'EM_AARCH64' was not declared in this scope
+ | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:
+In constructor 'sdt_uprobe_var_expanding_visitor::sdt_uprobe_var_expanding_visitor(systemtap_session&,
+int, const string&, const string&, const string&, stap_sdt_probe_type,
+const string&, int)':
+ | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:5613:31:
+error: 'EM_AARCH64' was not declared in this scope
+ | make[2]: *** [stap-tapsets.o] Error 1
+ | make[2]: *** Waiting for unfinished jobs....
+ | make[2]: Leaving directory
+`.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/build'
+ | make[1]: *** [all-recursive] Error 1
+ | make[1]: Leaving directory
+`.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/build'
+ | make: *** [all] Error 2
+ | ERROR: oe_runmake failed
+ | WARNING: exit code 1 from a shell command.
+
+Regards,
 
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
