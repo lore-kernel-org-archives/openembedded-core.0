@@ -1,26 +1,24 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C17416E898
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 82E966E8C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 00:45:05 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Feb 2014 16:45:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,835,1384329600"; d="scan'208";a="482527295"
-Received: from dvhart-mac01.jf.intel.com (HELO [10.24.159.36]) ([10.24.159.36])
-	by orsmga002.jf.intel.com with ESMTP; 12 Feb 2014 16:45:04 -0800
-User-Agent: Microsoft-MacOutlook/14.3.9.131030
-Date: Wed, 12 Feb 2014 16:45:24 -0800
-From: Darren Hart <dvhart@linux.intel.com>
-To: =?ISO-8859-1?B?Sm/jbw==?= Henrique Ferreira de Freitas <joaohf@gmail.com>, 
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <CF2152C5.6CB8D%dvhart@linux.intel.com>
-Thread-Topic: [PATCH 2/2] cml1.bbclass: Add fragmentconfig task to cml1
-References: <1392250819-10123-1-git-send-email-joaohf@gmail.com>
-	<1392250819-10123-3-git-send-email-joaohf@gmail.com>
-In-Reply-To: <1392250819-10123-3-git-send-email-joaohf@gmail.com>
-Mime-version: 1.0
-Subject: Re: [PATCH 2/2] cml1.bbclass: Add fragmentconfig task to cml1
+	Thu, 13 Feb 2014 02:56:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1D2uVLU021799
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Feb 2014 18:56:32 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 12 Feb 2014 18:54:10 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Feb 2014 10:54:04 +0800
+Message-ID: <cover.1392259689.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Cc: saul.wold@intel.com
+Subject: [PATCH 0/2] socat: upgrade to 1.7.2.3 and enable ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,119 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 00:45:05 -0000
-Content-type: text/plain;
-	charset="ISO-8859-1"
-Content-transfer-encoding: quoted-printable
+X-List-Received-Date: Thu, 13 Feb 2014 02:56:34 -0000
+Content-Type: text/plain
 
-On 2/12/14, 16:20, "Jo=E3o Henrique Ferreira de Freitas" <joaohf@gmail.com>
-wrote:
+Test Steps:
 
->fragmentconfig() is a new task that makes a diff between the
->old and new config files and writes to the fragment.cfg result file.
->menuconfig() always copy the original config file, so the user
->doesn't need to copy it.
+1. vim local.conf
+...
+IMAGE_INSTALL_append = " socat"
+DISTRO_FEATURES_append = " ptest"
+IMAGE_FEATURES += "ptest-pkgs"
+...
 
-Hi Jo=E3o,
+2. build core-image-minimal and runqemu
+bitbake core-image-minimal
+runqemu qemux86
 
-Generally looks pretty good. Some comments below, mostly about usability
-and robustness.
+3. start test
 
-I do have reservations about the task name, partly because it's long and
-hard to type.... I'm not coming up with something I like a lot better
-though.... Maybe....
+/usr/lib/socat/ptest/run-ptest
 
-$ bitbake linux-yocto -c diffcfg
+4. test result
+...
+summary: 314 tests; 255 ok, 25 failed, 31 could not be performed
+...
 
-Or
+//Hongxu
 
-$ bitbake linux-yocto -c diffconfig
+The following changes since commit 095bb006c3dbbfbdfa05f13d8d7b50e2a5ab2af0:
 
-I like the latter because it is consistent in naming, <action>config, with
-menuconfig.
+  bitbake: bitbake: build.py: create separate function for shell trap creation code (2014-02-09 10:01:38 +0000)
 
->
->Signed-off-by: Jo=E3o Henrique Ferreira de Freitas <joaohf@gmail.com>
->---
-> meta/classes/cml1.bbclass | 35 +++++++++++++++++++++++++++++++++++
-> 1 file changed, 35 insertions(+)
->
->diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
->index e292ecb..2053361 100644
->--- a/meta/classes/cml1.bbclass
->+++ b/meta/classes/cml1.bbclass
->@@ -16,8 +16,12 @@ HOST_LOADLIBES =3D "-lncurses"
-> TERMINFO =3D "${STAGING_DATADIR_NATIVE}/terminfo"
->=20
-> python do_menuconfig() {
->+    import os
->+    import shutil
->+
->     try:
->         mtime =3D os.path.getmtime(".config")
->+        shutil.copy(".config", ".config.orig")
->     except OSError:
->         mtime =3D 0
->=20
->@@ -38,3 +42,34 @@ do_menuconfig[depends] +=3D
->"ncurses-native:do_populate_sysroot"
-> do_menuconfig[nostamp] =3D "1"
-> addtask menuconfig after do_configure
->=20
->+python do_fragmentconfig() {
->+    import shutil
->+    import subprocess
->+
->+    workdir =3D d.getVar('WORKDIR', True)
->+    fragment =3D workdir + '/fragment.cfg'
->+    configorig =3D '.config.orig'
->+    config =3D '.config'
->+
->+    try:
->+        md5newconfig =3D bb.utils.md5_file(configorig)
->+        md5config =3D bb.utils.md5_file(config)
->+        isdiff =3D md5newconfig !=3D md5config
->+    except OSError:
+are available in the git repository at:
 
-We should be doing something to indicate failure here.
+  git://git.pokylinux.org/poky-contrib hongxu/socat
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/socat
 
->+        isdiff =3D 0
->+
->+    if isdiff:
->+        bb.note("Dumping config fragment into: '%s'." % fragment)
->+        bb.note("new '%s' old '%s'" % (md5newconfig,md5config))
+Hongxu Jia (2):
+  socat: upgrade to 1.7.2.3
+  socat: enable ptest
 
-Nit, add space after ","
+ .../socat/{files => socat}/compile.patch                 |  0
+ .../{files => socat}/fix-xxx_SHIFT-autoheader.patch      |  0
+ meta/recipes-connectivity/socat/socat/run-ptest          |  5 +++++
+ .../socat/{socat_1.7.2.2.bb => socat_1.7.2.3.bb}         | 16 ++++++++++++----
+ 4 files changed, 17 insertions(+), 4 deletions(-)
+ rename meta/recipes-connectivity/socat/{files => socat}/compile.patch (100%)
+ rename meta/recipes-connectivity/socat/{files => socat}/fix-xxx_SHIFT-autoheader.patch (100%)
+ create mode 100644 meta/recipes-connectivity/socat/socat/run-ptest
+ rename meta/recipes-connectivity/socat/{socat_1.7.2.2.bb => socat_1.7.2.3.bb} (77%)
 
->+
->+        statement =3D 'diff -Nurp ' + configorig + ' ' + config + '| sed
->-n "s/^\+//p" >' + fragment
->+        subprocess.call(statement, shell=3DTrue)
->+
->+        shutil.copy(configorig, config)
-
-We should be printing something to make it easy for the user to find the
-fragment.
-
->+    else:
->+        if os.path.exists(fragment):
->+            os.unlink(fragment)
->+}
->+
->+do_fragmentconfig[nostamp] =3D "1"
->+addtask fragmentconfig
->--=20
->1.8.3.2
->
->
-
-
---=20
-Darren Hart
-Yocto Project - Linux Kernel
-Intel Open Source Technology Center
-
-
-
+-- 
+1.8.1.2
 
 
