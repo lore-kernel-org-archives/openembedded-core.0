@@ -1,28 +1,32 @@
-Return-Path: <andreea.b.proca@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 4329E6EFE7
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 587946E9F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 15:25:07 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 13 Feb 2014 07:25:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,839,1384329600"; d="scan'208";a="410674901"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 13 Feb 2014 07:25:07 -0800
-Received: from andreea-Vostro-460.rb.intel.com (unknown [10.237.112.104])
-	by linux.intel.com (Postfix) with ESMTP id 65C706A4083
+	Thu, 13 Feb 2014 17:56:21 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id j5so16414594qaq.20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 07:24:59 -0800 (PST)
-From: Andreea Proca <andreea.b.proca@intel.com>
+	Thu, 13 Feb 2014 09:56:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type; bh=AUzxr8MrXqHIns2HE1Snm8YP11BL5Gxwp9Ohv5waCZk=;
+	b=pbLcGGg+NEs3DPWVPRokzAHoZ9KlvotA1PkvZ3zJX5uuCFfsRoxaFo4xs5YlrBkVdz
+	P0RzyazK9vsoIgEoJmphxwSnnXgwFfesCMvyObT75nORS5Be8XO+/zEpT78ZUjfoEDsJ
+	ImrR9fvC+1VN3YbzG/6OenV3p36Z/vJyY2VPCCS9rpAVx5PuLEHJ/2b2q7kYoeGpEm5w
+	CLy+rfhhZ5ks7zTO/7AmAqsn+t4NVZk7G7hemhxnNyppAaAc+eqD99pjmeWMHETNG29R
+	DkHgmjRrrwDjoDsKfV7VOGU7XjVaHaiO19e/PgkN28yoo7Wk+ejFoxTCp5Rzxyg8ikFl
+	rnlA==
+X-Received: by 10.224.160.83 with SMTP id m19mr4811670qax.21.1392314182217;
+	Thu, 13 Feb 2014 09:56:22 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.25.47 with HTTP; Thu, 13 Feb 2014 09:56:02 -0800 (PST)
+In-Reply-To: <CAMCfZKE1+RDpEE8HehL_GDp2WxrVWjpjVL0Fb94Y_729Zi0A=w@mail.gmail.com>
+References: <CAMCfZKE1+RDpEE8HehL_GDp2WxrVWjpjVL0Fb94Y_729Zi0A=w@mail.gmail.com>
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Thu, 13 Feb 2014 15:56:02 -0200
+Message-ID: <CAMCfZKFBnmFip9qdUxjf60F_T5yBBEUfENULR_Bxt_b+Hso77g@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2014 17:28:51 +0200
-Message-Id: <a4ffa9d1c2f040a1b78b5cbfa92ee7ad9e3402e0.1392303990.git.andreea.b.proca@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1392303990.git.andreea.b.proca@intel.com>
-References: <cover.1392303990.git.andreea.b.proca@intel.com>
-In-Reply-To: <cover.1392303990.git.andreea.b.proca@intel.com>
-References: <cover.1392303990.git.andreea.b.proca@intel.com>
-Subject: [PATCH 1/1] report-error.bbclass: new class to save build information when errors occur
+Subject: Re: qte-4.8.5 missing libQtUiToolsE.a on toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,184 +39,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 15:25:07 -0000
+X-List-Received-Date: Thu, 13 Feb 2014 17:56:21 -0000
+Content-Type: multipart/alternative; boundary=047d7bacb2aa3f367204f24d68f3
 
-Class is used to save data about errors after every task that failed.
-Debug data is saved in json files in ERROR_REPORT_DIR (defaults to tmp/log/error-report).
-To use this class one has to add INHERIT += "report-error" to local.conf.
+--047d7bacb2aa3f367204f24d68f3
+Content-Type: text/plain; charset=ISO-8859-1
 
-scripts/send-error-report is a simple script that sends the json file
-to a HTTP server that collects data (git://git.yoctoproject.org/error-report-web
-is a Django web interface that can be used to receive and visualize
-the error reports). The script will give you an URL where you can
-find your report.
+On Tue, Feb 11, 2014 at 10:34 AM, Diego Sueiro <diego.sueiro@gmail.com>wrote:
 
-Signed-off-by: Andreea Proca <andreea.b.proca@intel.com>
----
- meta/classes/report-error.bbclass |   67 +++++++++++++++++++++++++++++++
- scripts/send-error-report         |   78 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 145 insertions(+)
- create mode 100644 meta/classes/report-error.bbclass
- create mode 100755 scripts/send-error-report
-
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-new file mode 100644
-index 0000000..149b36c
---- /dev/null
-+++ b/meta/classes/report-error.bbclass
-@@ -0,0 +1,67 @@
-+#
-+# Collects debug information in order to create error report files.
-+#
-+# Copyright (C) 2013 Intel Corporation
-+# Author: Andreea Brandusa Proca <andreea.b.proca@intel.com>
-+#
-+# Licensed under the MIT license, see COPYING.MIT for details
-+
-+ERR_REPORT_DIR ?= "${LOG_DIR}/error-report"
-+
-+def getdata(e):
-+    logpath = e.data.getVar('ERR_REPORT_DIR', True)
-+    datafile = os.path.join(logpath, "error-report.txt")
-+    f = open(datafile, "r")
-+    data = f.read()
-+    f.close()
-+    return data
-+
-+def savedata(e, newdata, file):
-+    import json
-+    logpath = e.data.getVar('ERR_REPORT_DIR', True)
-+    bb.utils.mkdirhier(logpath)
-+    datafile = os.path.join(logpath, file)
-+    f = open(datafile, "w")
-+    json.dump(newdata, f, indent=4, sort_keys=True)
-+    f.close()
-+    return datafile
-+
-+python report () {
-+        import os, re, sys, json
-+
-+        if isinstance(e, bb.event.BuildStarted):
-+            data = {}
-+            machine = e.data.getVar("MACHINE")
-+            data['machine'] = machine
-+            data['build_sys'] = e.data.getVar("BUILD_SYS", True)
-+            data['nativelsb'] = e.data.getVar("NATIVELSBSTRING")
-+            data['distro'] = e.data.getVar("DISTRO")
-+            data['target_sys'] = e.data.getVar("TARGET_SYS", True)
-+            data['failures'] = []
-+            data['component'] = e.getPkgs()[0]
-+            data['branch_commit'] = base_detect_branch(e.data) + ": " + base_detect_revision(e.data)
-+            savedata(e, data, "error-report.txt")
-+
-+        elif isinstance(e, bb.build.TaskFailed):
-+            task = e.task
-+            taskdata={}
-+            log = e.data.getVar('BB_LOGFILE', True)
-+            logFile = open(log, 'r')
-+            taskdata['package'] = e.data.expand("${PF}")
-+            taskdata['task'] = task
-+            taskdata['log'] = logFile.read()
-+            logFile.close()
-+            jsondata = json.loads(getdata(e))
-+            jsondata['failures'].append(taskdata)
-+            savedata(e, jsondata, "error-report.txt")
-+
-+        elif isinstance(e, bb.event.BuildCompleted):
-+            jsondata = json.loads(getdata(e))
-+            failures = jsondata['failures']
-+            if(len(failures) > 0):
-+                filename = "error_report_" + e.data.getVar("BUILDNAME")+".txt"
-+                datafile = savedata(e, jsondata, filename)
-+                bb.note("The errors of this build are stored in: %s. You can send the errors to an upstream server by running: send-error-report %s [server]" % (datafile, datafile))
-+}
-+
-+addhandler report
-diff --git a/scripts/send-error-report b/scripts/send-error-report
-new file mode 100755
-index 0000000..0d85776
---- /dev/null
-+++ b/scripts/send-error-report
-@@ -0,0 +1,78 @@
-+#!/usr/bin/env python
-+
-+# Sends an error report (if the report-error class was enabled) to a remote server.
-+#
-+# Copyright (C) 2013 Intel Corporation
-+# Author: Andreea Proca <andreea.b.proca@intel.com>
-+
-+
-+
-+import httplib, urllib, os, sys, json
-+
-+
-+def sendData(json_file, server):
-+
-+    if os.path.isfile(json_file):
-+
-+        home = os.path.expanduser("~")
-+        userfile = os.path.join(home, ".oe-send-error")
-+        if os.path.isfile(userfile):
-+            with open(userfile) as g:
-+                username = g.readline()
-+                email = g.readline()
-+        else:
-+            print("Please enter your name and your email (optionally), they'll be saved in the file you send.")
-+            username = raw_input("Name: ")
-+            email = raw_input("E-mail (not required): ")
-+            if len(username) > 0 and len(username) < 50:
-+                with open(userfile, "w") as g:
-+                    g.write(username + "\n")
-+                    g.write(email + "\n")
-+            else:
-+                print("Invalid inputs, try again.")
-+                return
-+
-+        with open(json_file) as f:
-+            data = f.read()
-+
-+        try:
-+            jsondata = json.loads(data)
-+            jsondata['username'] = username.strip()
-+            jsondata['email'] = email.strip()
-+            data = json.dumps(jsondata, indent=4, sort_keys=True)
-+        except:
-+            print("Invalid json data")
-+            return
-+
-+        try:
-+            params = urllib.urlencode({'data': data})
-+            headers = {"Content-type": "application/json"}
-+            conn = httplib.HTTPConnection(server)
-+            conn.request("POST", "/ClientPost/", params, headers)
-+            response = conn.getresponse()
-+            print response.status, response.reason
-+            res = response.read()
-+            if response.status == 200:
-+                print res
-+            else:
-+                print("There was a problem submiting your data")
-+            conn.close()
-+        except:
-+                print("Server connection failed")
-+
-+    else:
-+        print("No data file found.")
-+
-+
-+if __name__ == '__main__':
-+    print ("\nSends an error report (if the report-error class was enabled) to a remote server.")
-+    if len(sys.argv) < 2:
-+        print("\nThis scripts sends the contents of a file to an upstream server.")
-+        print("\nUsage: send-error-report <error_fileName> [server]")
-+        print("\nIf this is the first when sending a report you'll be asked for your name and optionally your email address.")
-+        print("They will be associated with your report.\n")
-+
-+    elif len(sys.argv) == 3:
-+        sendData(sys.argv[1], sys.argv[2])
-+    else:
-+        sendData(sys.argv[1], "localhost:8000")
--- 
-1.7.9.5
+> libQtUiToolsE.a is just present at qt4-embedded-staticdev package.
+> Shouldn't it needed to be added to meta-toolchain-qte?
 
 
+Should I have to send a patch to fix this?
+
+
+Regards,
+
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br
+
+/*long live rock 'n roll*/
+
+--047d7bacb2aa3f367204f24d68f3
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Feb 11, 2014 at 10:34 AM, Diego Sueiro <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:diego.sueiro@gmail.com" target=3D"_blank">diego.sueiro@gmail.co=
+m</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">libQtUiToolsE.a is just present at=A0qt4-emb=
+edded-staticdev package. Shouldn&#39;t it needed to be added to meta-toolch=
+ain-qte?</blockquote>
+
+</div><br>Should I have to send a patch to fix this?</div><div class=3D"gma=
+il_extra"><br><br clear=3D"all"><div><div dir=3D"ltr"><div>Regards,</div><d=
+iv><br></div>--<br>*dS<br>Diego Sueiro<br><br>Administrador do Embarcados<b=
+r>
+
+<a href=3D"http://www.embarcados.com.br" target=3D"_blank">www.embarcados.c=
+om.br</a><br><br>/*long live rock &#39;n roll*/<br></div></div>
+</div></div>
+
+--047d7bacb2aa3f367204f24d68f3--
