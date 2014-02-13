@@ -1,38 +1,20 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A90BA6EB24
+Return-Path: <valentin.popa@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D8DB66EB24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 12:57:59 +0000 (UTC)
-Received: by mail-yk0-f173.google.com with SMTP id 10so19153062ykt.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 04:58:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=NDV8KBN4FvQtDwYuwii3uN2yXaaw0nH8Mfbs4mWBIpw=;
-	b=A7qhwTMfLbc5N2V/QECLK9qWXQKx6AbpGTqg41DDo42Lrqo56anHkDSSxkZ50i3RhI
-	QDrLknkolHXQhPfmu5eu/60kIB+8XNRD1sQtp6mIVpuIu6DCq0a8pLry8IF9ARFEVXHS
-	bG0+CLKa2Eq/MHErqa+Bhcf22zIx0rayx90On1wiP1Mu+UurZnE0p0E00Dj7EfKYPuqm
-	SIM+Z2f5F1ZHUBsaKZ6EmThiPe1wMmXH2gBTjyJDXNPIJe7z9bozK4/Sc2J/Je2tuq5p
-	kKnoghvtr0p3cnmLS1FpqoyEqDECttoLE6oqkWQSG/vKAnoIXhne57qC2lffVEboOItx
-	W28A==
-MIME-Version: 1.0
-X-Received: by 10.236.61.136 with SMTP id w8mr1212169yhc.14.1392296280310;
-	Thu, 13 Feb 2014 04:58:00 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.161.3 with HTTP; Thu, 13 Feb 2014 04:58:00 -0800 (PST)
-In-Reply-To: <1392295019.14081.17.camel@ted>
-References: <CAP9ODKpzN6HvJmTa62es0RY_Qr7LLk26mTkbiL6b8XmRPUHs7w@mail.gmail.com>
-	<1392295019.14081.17.camel@ted>
-Date: Thu, 13 Feb 2014 10:58:00 -0200
-X-Google-Sender-Auth: aTkox2mtRhpXlwhv-vY6axwY3os
-Message-ID: <CAP9ODKpDTSysGbnjxLA=wOBKCc1dC4i=ragZyuWFt-oxRqzHkw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-dora] Pulseaudio fix
+	Thu, 13 Feb 2014 13:45:19 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Feb 2014 05:45:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,838,1384329600"; d="scan'208";a="480885819"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.47])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Feb 2014 05:45:19 -0800
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Feb 2014 15:45:18 +0200
+Message-Id: <cover.1392298949.git.valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 0/2] weston and wayland upgrade to 1.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 12:57:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 13 Feb 2014 13:45:20 -0000
 
-Hello Richard,
 
-On Thu, Feb 13, 2014 at 10:36 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2014-02-12 at 08:50 -0200, Otavio Salvador wrote:
->> This change should be backported to dora as people are having problems
->> using x11-less distros with pulseaudio:
->>
->> otavio@nano ~/.../poky (git)-[dora] % git cherry-pick
->> 77c4f158c6dbc8a373d2064552224f5dfe1a7bd2
->> [dora 19606eb] pulseaudio: fix RDEPENDS traversal for consolekit
->>  Author: Christopher Larson <chris_larson@mentor.com>
->>  1 file changed, 5 insertions(+), 1 deletion(-)
->> otavio@nano ~/.../poky (git)-[dora] % git cherry-pick
->> e230b4498790a3dfdc36ea5761807459fc96368e
->> [dora 090424d] pulseaudio: only package consolekit module when x11 is enabled
->>  Author: Christopher Larson <kergoth@gmail.com>
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> With Robert being away, I've taken care of a few of the dora
-> backports...
+Note: weston upgrade patch depends on wayland upgrade patch.
 
-Thanks.
+
+The following changes since commit b70a10ca3ee4a0add90d387e2c8288e531aaa47c:
+
+  systemd-serialgetty: Update to match version in recent systemd (2014-02-11 22:59:38 +0000)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib vpopa/wayland_and_weston
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=vpopa/wayland_and_weston
+
+Valentin Popa (2):
+  wayland: upgrade to 1.4.0
+  weston: upgrade to 1.4.0
+
+ .../wayland/wayland/just-scanner.patch             | 21 ++++++++++++---
+ .../wayland/{wayland_1.3.0.bb => wayland_1.4.0.bb} |  6 ++---
+ ...emove-dependence-on-wayland-scanner-flags.patch | 30 ++++++++++++++++++++++
+ .../wayland/{weston_1.3.1.bb => weston_1.4.0.bb}   | 12 ++++-----
+ 4 files changed, 56 insertions(+), 13 deletions(-)
+ rename meta/recipes-graphics/wayland/{wayland_1.3.0.bb => wayland_1.4.0.bb} (87%)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-remove-dependence-on-wayland-scanner-flags.patch
+ rename meta/recipes-graphics/wayland/{weston_1.3.1.bb => weston_1.4.0.bb} (89%)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.3.2
+
 
