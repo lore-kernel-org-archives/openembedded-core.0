@@ -1,31 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 89FC86EE4A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
+	[209.85.216.177])
+	by mail.openembedded.org (Postfix) with ESMTP id F136B6EB24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 12:37:16 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1DCbBoD028618; Thu, 13 Feb 2014 12:37:11 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id saeDMbV9kwv2; Thu, 13 Feb 2014 12:37:10 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1DCb5Yo028614
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 13 Feb 2014 12:37:06 GMT
-Message-ID: <1392295019.14081.17.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Thu, 13 Feb 2014 12:36:59 +0000
-In-Reply-To: <CAP9ODKpzN6HvJmTa62es0RY_Qr7LLk26mTkbiL6b8XmRPUHs7w@mail.gmail.com>
-References: <CAP9ODKpzN6HvJmTa62es0RY_Qr7LLk26mTkbiL6b8XmRPUHs7w@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for-dora] Pulseaudio fix
+	Thu, 13 Feb 2014 12:51:25 +0000 (UTC)
+Received: by mail-qc0-f177.google.com with SMTP id i8so17469191qcq.36
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Feb 2014 04:51:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LgeXfXeEyPPcETljH5ZOdiMKqICEE25yyDLpqa5sCY0=;
+	b=FsXB+QasiYLhVzLveHgEN8M2LNbkQecbCcWi1AMKBC2RYNqrSbBXskzOG5GKuHdiqs
+	60R7FqQQiy8QntS7Kb/wS+FADAl6sLx0VoRmE/W49gLq4MX+JYrP09M00QFDyzU/jlbL
+	yyO8X4/iggHNJ0lpDVH+ABV1kAWXsrUIw5tagLTt/7TSgcQetmFhkOA0hP6J+3NtSO0O
+	QTqou0JkiptNETCy+Um76U7umr9VtmVQIRZFRJDhOhN31h6MlVajcNT7vgAKQR2wlNfg
+	/BD4nzkNtYLtM0DrBMyLIjlMM5oXE2Mm4BO//A6+F4C5zJq0PhpLNxE+HD4dsdkwpXXM
+	+RQA==
+X-Gm-Message-State: ALoCoQnJc/xWrzva10mOz45L4x7KzPZE5Pxpilm1TU0udHejx6A2MwkrDG6+OTfKj5zLVzWLKcZV
+X-Received: by 10.224.45.197 with SMTP id g5mr2160527qaf.52.1392295886059;
+	Thu, 13 Feb 2014 04:51:26 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.79 with HTTP; Thu, 13 Feb 2014 04:51:05 -0800 (PST)
+In-Reply-To: <7394b4a34e973a1655132709c054a272cf367252.1392276667.git.Qi.Chen@windriver.com>
+References: <cover.1392276667.git.Qi.Chen@windriver.com>
+	<7394b4a34e973a1655132709c054a272cf367252.1392276667.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 13 Feb 2014 12:51:05 +0000
+Message-ID: <CAJTo0LYt7ZpqiNnSa+gNPthXFDtZ=jLvajO6ZoSbXQvA0u4KzQ@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] alsa-state: do not install the init script in case of systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 12:37:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Feb 2014 12:51:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2014-02-12 at 08:50 -0200, Otavio Salvador wrote:
-> Hello,
-> 
-> This change should be backported to dora as people are having problems
-> using x11-less distros with pulseaudio:
-> 
-> otavio@nano ~/.../poky (git)-[dora] % git cherry-pick
-> 77c4f158c6dbc8a373d2064552224f5dfe1a7bd2
-> [dora 19606eb] pulseaudio: fix RDEPENDS traversal for consolekit
->  Author: Christopher Larson <chris_larson@mentor.com>
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> otavio@nano ~/.../poky (git)-[dora] % git cherry-pick
-> e230b4498790a3dfdc36ea5761807459fc96368e
-> [dora 090424d] pulseaudio: only package consolekit module when x11 is enabled
->  Author: Christopher Larson <kergoth@gmail.com>
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 13 February 2014 07:32, Chen Qi <Qi.Chen@windriver.com> wrote:
+> As the corresponding service files have already been provided by
+> the alsa-utils-alsactl package, the init script is really not needed.
+> So we do not install it in a systemd based image.
 
-With Robert being away, I've taken care of a few of the dora
-backports...
+Remember that the presence of the systemd DISTRO_FEATURE doesn't mean
+that systemd is actually being used: the distro could have systemd and
+sysvinit features, and the choice of init system is decided at image
+time.  In this case if a distro was using sysvinit and systemd, your
+patch has just deleted the init scripts that are required for sysvinit
+boots.
 
-Cheers,
+For every situation where there is both a service file and an init
+file you must always remember that it's possible that both are to be
+installed.  To avoid systemd invoking both the systemd unit and the
+sysvinit script on boot it's best to ensure they have the same name
+(systemd will then ignore the init script).  If that's not possible
+then you can use "systemctl mask" in a postinst to hide the init
+script from systemd.  There's plenty of examples for this in oe-core.
 
-Richard
-
+Ross
 
