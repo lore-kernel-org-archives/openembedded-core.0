@@ -1,38 +1,26 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 73A6C6E891
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C729B6EE90
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 07:39:46 +0000 (UTC)
-Received: by mail-la0-f45.google.com with SMTP id b8so7883921lan.18
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 23:39:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+m3fTbzl+2ykynHaeLGwP0XPaLzDV+7v2RaOzS1jCl0=;
-	b=jKbzTANaMWpUYOymoT59rhoLJ9Nj2hzL5gyUYufwJOwfcWjUrLlUZEgOXCo1e6FtVV
-	JTIeIDLSJCq5Qk6x5/D8RMdJH2+z51K+v0G3DY3lG2zMVSCiyAiP07BGL6XOcF4D2uP2
-	Ynsev1OAoB9IxkK+BOFD9UfJg39smt9NUMMFVyBAUut+10MENIwyopoZxcRGAK5BVQLT
-	4d9HEb4I7QlVeUgRtmbH1feU3IkyzNiyuhnjqSCmnGI+6Irq2FTru5l600RbfeWK7Fpn
-	/a6VdneaA1OlwB90oOLORj48mPc/Ms/oYX5Zrben92WafuciN27RLv75MmrWdm52fReV
-	y4Sw==
-X-Gm-Message-State: ALoCoQn/kPPuz8ZLQ6K4kXp2jJOj780McvAwSyeyVgo5XMXXDvEa7t8NWRIAtkWXRGS1Kxm85UmT
-X-Received: by 10.112.180.72 with SMTP id dm8mr67178lbc.28.1392277186589;
-	Wed, 12 Feb 2014 23:39:46 -0800 (PST)
-Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
-	[91.152.78.194])
-	by mx.google.com with ESMTPSA id bl8sm1115408lbb.3.2014.02.12.23.39.45
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 12 Feb 2014 23:39:46 -0800 (PST)
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2014 09:39:41 +0200
-Message-Id: <1392277181-19357-1-git-send-email-fathi.boudra@linaro.org>
-X-Mailer: git-send-email 1.8.1.2
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] systemtap: fix error: 'EM_AARCH64' was not declared in this scope
+	Thu, 13 Feb 2014 08:25:32 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 Feb 2014 00:21:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,837,1384329600"; d="scan'208";a="482699650"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by orsmga002.jf.intel.com with ESMTP; 13 Feb 2014 00:25:27 -0800
+Date: Thu, 13 Feb 2014 10:25:26 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20140213082526.GH10078@lpalcu-linux>
+References: <cover.1392230968.git.laurentiu.palcu@intel.com>
+	<cc9a8b3a006120ba793051f1a790c3cb3681c28e.1392230968.git.laurentiu.palcu@intel.com>
+	<52FBCF97.6010405@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <52FBCF97.6010405@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] lib/oe/rootfs.py: fix RPM multilib issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,29 +33,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 07:39:46 -0000
+X-List-Received-Date: Thu, 13 Feb 2014 08:25:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-bump SRCREV to commit 508059f04842ed85d10bfbec8a9c688d57368860
- Define EM_AARCH64 if elf.h doesn't.
+Hi Mark,
 
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
----
- meta/recipes-kernel/systemtap/systemtap_git.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Feb 12, 2014 at 01:46:31PM -0600, Mark Hatle wrote:
+> On 2/12/14, 12:54 PM, Laurentiu Palcu wrote:
+> >For some odd reason (at least I couldn't find an explanation to this,
+> >yet), if a multilib version of a package is installed after the main one
+> >(that is: in a different smart session), the main package binaries are
+> >not overwritten.
+> 
+> For two packages with the same name, but different architectures --
+> the non-ELF files must be identical (or different file names in each
+> package.)
+> 
+> The ELF files are identified by type and there is a resolution
+> mechanism within RPM to determine which is the 'preferred' version.
+> 
+> We do NOT have the resolution mechanism set, so the first package
+> installed 'wins'.  So if you do two packages in two separate
+> transactions, the first version installed will be kept.  If you do
+> it in one transaction, then I believe it ends up being the last
+> version [or maybe it's random due to sort order?]
+> 
+> There is a Yocto Project defect to configure the RPM multilib
+> settings, but so far it's just sat there, as nobody has either
+> needed it -- or cared enough to implement it.
+There are several rpm related multilib issues in bugzilla left hanging,
+unfortunately. :|
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index b87aa1a..962aef9 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,6 +1,6 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "9190b3acfe706d3bfd66dec18133d28f98443321"
-+SRCREV = "508059f04842ed85d10bfbec8a9c688d57368860"
- PV = "2.4+git${SRCPV}"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git \
--- 
-1.8.1.2
+> The reality is
+> installed two packages with the same /bin, /sbin binaries is rare
+> these days.. it's much more useful to install the libraries.
+Apparently, the multilib test we currently have on AB is to install
+lib32-connman-gnome and test the ELF class of the
+/usr/bin/connman-applet binary...
 
+> 
+> The code you have below may turn out to be a performance
+> improvement.. (each smart/rpm transaction takes setup and cleanup
+> time, so multiple transactions are slower then one larger
+> transaction.)  But it's likely not fixing the actual problem you
+> have.
+True, this problem should be properly fixed. This patch, however, just
+restores the behavior we already used in the old bash code which people
+seemed to have used for a long time now.
+
+> 
+> #       The default transaction color. This value is a set of bits to
+> #       determine file and dependency affinity for this arch.
+> #               0       uncolored (i.e. use only arch as install hint)
+> #               1       Elf32 permitted
+> #               2       Elf64 permitted
+> #               4       MIPS reserved
+> %_transaction_color     3
+> 
+> (4 BTW is MIPS64 - n32)
+> 
+> _transaction_color of 3 indicates we allow Elf32 and Elf64 to be installed..
+> 
+> There is a second item:
+> 
+> _prefer_color that is used to define which item should be installed
+> when there is that ELF conflict.  The numbers above follow there as
+> well.  By default I believe it sets itself to '2' when doing a
+> single transaction installed, preferring Elf64.
+If these parameters (_transaction_color and _prefer_color) can be easily
+set before each transaction, I suppose we could alter them accordingly,
+depending on the type of packages we're going to install. Doesn't seem
+very complicated, in theory...
+
+laurentiu
+
+> 
+> --Mark
+> 
+> >This commit restores the functionality to the original one, before
+> >migrating to python: feed all the packages to smart, apart from attempt
+> >only ones which are installed separately.
+> >
+> >Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> >---
+> >  meta/lib/oe/rootfs.py |   16 ++++++++++++----
+> >  1 file changed, 12 insertions(+), 4 deletions(-)
+> >
+> >diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> >index b6baf77..9162e52 100644
+> >--- a/meta/lib/oe/rootfs.py
+> >+++ b/meta/lib/oe/rootfs.py
+> >@@ -317,10 +317,18 @@ class RpmRootfs(Rootfs):
+> >
+> >          self.pm.update()
+> >
+> >-        for pkg_type in self.install_order:
+> >-            if pkg_type in pkgs_to_install:
+> >-                self.pm.install(pkgs_to_install[pkg_type],
+> >-                                [False, True][pkg_type == "aop"])
+> >+        pkgs = []
+> >+        pkgs_attempt = []
+> >+        for pkg_type in pkgs_to_install:
+> >+            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+> >+                pkgs_attempt = pkgs_to_install[pkg_type]
+> >+                continue
+> >+
+> >+            pkgs += pkgs_to_install[pkg_type]
+> >+
+> >+        self.pm.install(pkgs)
+> >+
+> >+        self.pm.install(pkgs_attempt, True)
+> >
+> >          self.pm.install_complementary()
+> >
+> >
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
