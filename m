@@ -1,21 +1,21 @@
 Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D5B056DC4C
+	by mail.openembedded.org (Postfix) with ESMTP id 71FA46E6B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 03:48:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1D3mheE026963
+	Thu, 13 Feb 2014 03:52:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1D3qjHd027209
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 19:48:44 -0800 (PST)
+	Wed, 12 Feb 2014 19:52:52 -0800 (PST)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 12 Feb 2014 19:48:06 -0800
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 12 Feb 2014 19:33:54 -0800
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Feb 2014 11:48:58 +0800
-Message-ID: <1392263338-9144-1-git-send-email-rongqing.li@windriver.com>
+Date: Thu, 13 Feb 2014 11:34:45 +0800
+Message-ID: <1392262485-26002-1-git-send-email-rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
 Subject: [PATCH] nss: avoid to use the hardcode kernel version
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 03:48:43 -0000
+X-List-Received-Date: Thu, 13 Feb 2014 03:52:52 -0000
 Content-Type: text/plain
 
 From: Roy Li <rongqing.li@windriver.com>
@@ -45,7 +45,7 @@ Signed-off-by: Roy Li <rongqing.li@windriver.com>
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index a6aeed8..3ad12cc 100644
+index a6aeed8..bd7352d 100644
 --- a/meta/recipes-support/nss/nss.inc
 +++ b/meta/recipes-support/nss/nss.inc
 @@ -23,7 +23,7 @@ SRC_URI_append_class-target = "\
@@ -62,7 +62,7 @@ index a6aeed8..3ad12cc 100644
      export NSS_ENABLE_ECC=1
  
 -    export OS_RELEASE=3.4
-+    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed 's/-.*//'`
++    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
      export OS_TARGET=Linux
      export OS_ARCH=Linux
  
@@ -71,7 +71,7 @@ index a6aeed8..3ad12cc 100644
      export NSS_ENABLE_ECC=1
  
 -    export OS_RELEASE=3.4
-+    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed 's/-.*//'`
++    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion`
      export OS_TARGET=Linux
      export OS_ARCH=Linux
  
