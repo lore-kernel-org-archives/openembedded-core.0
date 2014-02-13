@@ -1,37 +1,31 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f51.google.com (mail-yh0-f51.google.com
-	[209.85.213.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C5536E894
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E8346EA03
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 10:42:54 +0000 (UTC)
-Received: by mail-yh0-f51.google.com with SMTP id t59so9923000yho.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 02:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=XxdNutbnDcLk3YCkKygYesROdbtBDNfoCgKlC1yCaTc=;
-	b=GOkJkdcucDKHYvqgtpQzNeamDKnI1hhi5UyXXBhOtBJzbThDqD9ROfxoHy7OJf1lmO
-	MPxxd6Xf91LKnKKq3LICKpPHXr2Ana/yfrlnh+3aixV63TtDSaXYX+ax15+saZ4Maj2g
-	rJOVoEV5XB8Detl9auztsDB3H1FamchSGOc9rgamQhi93WQMH2eaGGdgS4i/w9MSMvJC
-	pzHeedO/KPCDB3aCjewEk6l+IEhvKAuZWFcP1OwEsIkHEDo7NZlHZt/WyYuZ7HqWxPEt
-	3rYroizlq8Zw15i/wXCIaJN7F4asrwKAXjH+a1w1/M4VJoDzEtXWkHiag5uJKlrzKeW1
-	4R0Q==
-MIME-Version: 1.0
-X-Received: by 10.236.157.102 with SMTP id n66mr614078yhk.41.1392288175211;
-	Thu, 13 Feb 2014 02:42:55 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.161.3 with HTTP; Thu, 13 Feb 2014 02:42:55 -0800 (PST)
-In-Reply-To: <1392277181-19357-1-git-send-email-fathi.boudra@linaro.org>
-References: <1392277181-19357-1-git-send-email-fathi.boudra@linaro.org>
-Date: Thu, 13 Feb 2014 08:42:55 -0200
-X-Google-Sender-Auth: 00MSDKOqLIiZL-F4i6Ep9VghuNs
-Message-ID: <CAP9ODKoYyYCBx4Ei7Fcf9KsKcWx1+E=98H72VQvxX28kH_j=WA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemtap: fix error: 'EM_AARCH64' was not declared in this scope
+	Thu, 13 Feb 2014 11:32:57 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1DBWigS025935; Thu, 13 Feb 2014 11:32:45 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id nWucCALfmYvL; Thu, 13 Feb 2014 11:32:44 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1DBWgkx025924
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 13 Feb 2014 11:32:43 GMT
+Message-ID: <1392291156.14081.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Thu, 13 Feb 2014 11:32:36 +0000
+In-Reply-To: <cc9a8b3a006120ba793051f1a790c3cb3681c28e.1392230968.git.laurentiu.palcu@intel.com>
+References: <cover.1392230968.git.laurentiu.palcu@intel.com>
+	<cc9a8b3a006120ba793051f1a790c3cb3681c28e.1392230968.git.laurentiu.palcu@intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] lib/oe/rootfs.py: fix RPM multilib issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +38,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 10:42:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 13 Feb 2014 11:32:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 13, 2014 at 5:39 AM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
-> bump SRCREV to commit 508059f04842ed85d10bfbec8a9c688d57368860
->  Define EM_AARCH64 if elf.h doesn't.
->
-> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+On Wed, 2014-02-12 at 20:54 +0200, Laurentiu Palcu wrote:
+> For some odd reason (at least I couldn't find an explanation to this,
+> yet), if a multilib version of a package is installed after the main one
+> (that is: in a different smart session), the main package binaries are
+> not overwritten.
+> 
+> This commit restores the functionality to the original one, before
+> migrating to python: feed all the packages to smart, apart from attempt
+> only ones which are installed separately.
+> 
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  meta/lib/oe/rootfs.py |   16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> index b6baf77..9162e52 100644
+> --- a/meta/lib/oe/rootfs.py
+> +++ b/meta/lib/oe/rootfs.py
+> @@ -317,10 +317,18 @@ class RpmRootfs(Rootfs):
+>  
+>          self.pm.update()
+>  
+> -        for pkg_type in self.install_order:
+> -            if pkg_type in pkgs_to_install:
+> -                self.pm.install(pkgs_to_install[pkg_type],
+> -                                [False, True][pkg_type == "aop"])
+> +        pkgs = []
+> +        pkgs_attempt = []
+> +        for pkg_type in pkgs_to_install:
+> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+> +                pkgs_attempt = pkgs_to_install[pkg_type]
 
-Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
+Should this be a += ?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+This might be clearer as an if: else:
+
+> +                continue
+> +
+> +            pkgs += pkgs_to_install[pkg_type]
+> +
+> +        self.pm.install(pkgs)
+> +
+> +        self.pm.install(pkgs_attempt, True)
+>  
+>          self.pm.install_complementary()
+>  
+
+
 
