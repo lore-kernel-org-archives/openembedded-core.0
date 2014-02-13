@@ -1,37 +1,37 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id C5E9E6E88D
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f51.google.com (mail-yh0-f51.google.com
+	[209.85.213.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C5536E894
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 10:15:08 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 28EE12232068
+	Thu, 13 Feb 2014 10:42:54 +0000 (UTC)
+Received: by mail-yh0-f51.google.com with SMTP id t59so9923000yho.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 11:15:07 +0100 (CET)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 2414F2232066
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 11:15:05 +0100 (CET)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from mail.itconsulting-heinold.de
-	(fb-n15-11.unbelievable-machine.net [94.198.62.204])
-	by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 11:15:04 +0100 (CET)
-Date: Thu, 13 Feb 2014 11:14:59 +0100
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20140213101459.GB2247@mail.itconsulting-heinold.de>
-References: <cover.1389629682.git.liezhi.yang@windriver.com>
-	<52FC966A.6060701@windriver.com>
+	Thu, 13 Feb 2014 02:42:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=XxdNutbnDcLk3YCkKygYesROdbtBDNfoCgKlC1yCaTc=;
+	b=GOkJkdcucDKHYvqgtpQzNeamDKnI1hhi5UyXXBhOtBJzbThDqD9ROfxoHy7OJf1lmO
+	MPxxd6Xf91LKnKKq3LICKpPHXr2Ana/yfrlnh+3aixV63TtDSaXYX+ax15+saZ4Maj2g
+	rJOVoEV5XB8Detl9auztsDB3H1FamchSGOc9rgamQhi93WQMH2eaGGdgS4i/w9MSMvJC
+	pzHeedO/KPCDB3aCjewEk6l+IEhvKAuZWFcP1OwEsIkHEDo7NZlHZt/WyYuZ7HqWxPEt
+	3rYroizlq8Zw15i/wXCIaJN7F4asrwKAXjH+a1w1/M4VJoDzEtXWkHiag5uJKlrzKeW1
+	4R0Q==
 MIME-Version: 1.0
-In-Reply-To: <52FC966A.6060701@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: Re: [PATCH 0/5] refactor the archive*.bbcalss
+X-Received: by 10.236.157.102 with SMTP id n66mr614078yhk.41.1392288175211;
+	Thu, 13 Feb 2014 02:42:55 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.161.3 with HTTP; Thu, 13 Feb 2014 02:42:55 -0800 (PST)
+In-Reply-To: <1392277181-19357-1-git-send-email-fathi.boudra@linaro.org>
+References: <1392277181-19357-1-git-send-email-fathi.boudra@linaro.org>
+Date: Thu, 13 Feb 2014 08:42:55 -0200
+X-Google-Sender-Auth: 00MSDKOqLIiZL-F4i6Ep9VghuNs
+Message-ID: <CAP9ODKoYyYCBx4Ei7Fcf9KsKcWx1+E=98H72VQvxX28kH_j=WA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Fathi Boudra <fathi.boudra@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemtap: fix error: 'EM_AARCH64' was not declared in this scope
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,21 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 10:15:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 13 Feb 2014 10:42:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Feb 13, 2014 at 05:54:50PM +0800, Robert Yang wrote:
-> 
-> Please hold on this, the recent changes of the prefuncs and postfuncs
-> on bitbake makes it doesn't work on gcc-*, I will send a V2.
-> 
-> // Robert
-> 
+On Thu, Feb 13, 2014 at 5:39 AM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+> bump SRCREV to commit 508059f04842ed85d10bfbec8a9c688d57368860
+>  Define EM_AARCH64 if elf.h doesn't.
+>
+> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 
-Hi Robert,
+Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
 
-do not forget the sstate problems which of course happens on dora branch too.
-
-Bye Henning
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
