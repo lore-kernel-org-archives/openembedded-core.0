@@ -1,36 +1,29 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id D47CE6E3EB
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BD546ECD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 18:38:24 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id u14so8692511lbd.29
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 10:38:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=lU3F3+yAPVuTr3Dn4u7oqRAi2SsFIezKwmFIyzGL8hk=;
-	b=bwmFisE0jc3Iafoqc/jZO4e22RmgmQ1j7uczz/niKXKA0qO0fZYc8EZGlVioTZuMXE
-	mVAmLal/VODqaXdPq6B7sVSnFrZk6h/HXBOy+/NcuyhCKeu/aM04VvoJhUrvIJeG5u8/
-	MCNRmXJidMQBROsU8ABTtNRvu81K4RhKedI5KRJPIR3uGcWYsA3iOCtZkzUvkpt0kgvF
-	gCWmqVlAVImnf3Hmv8BZPTodwYwyWCcPzzJv24XMFSLkhUPz2Lk/4qjUhtPHnIIJWQQv
-	wd984bhhH7dceJrMmEx1gYdHgoaOaG7g4uWwddTd8eEtRaC96FJjZFVXTRzqq9dU5FV9
-	1/5g==
-MIME-Version: 1.0
-X-Received: by 10.112.155.202 with SMTP id vy10mr1876727lbb.31.1392316704587; 
-	Thu, 13 Feb 2014 10:38:24 -0800 (PST)
-Received: by 10.112.170.166 with HTTP; Thu, 13 Feb 2014 10:38:24 -0800 (PST)
-In-Reply-To: <CF224B47.46363%Sanjay_Dorairaj@cable.comcast.com>
-References: <CAMCfZKE1+RDpEE8HehL_GDp2WxrVWjpjVL0Fb94Y_729Zi0A=w@mail.gmail.com>
-	<CF224B47.46363%Sanjay_Dorairaj@cable.comcast.com>
-Date: Thu, 13 Feb 2014 13:38:24 -0500
-Message-ID: <CADkTA4OuOY2bXBmzKUNEO6qc2Rpccv9A-1Ns3bdN5dMsMDo1og@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Dorairaj, Sanjay" <Sanjay_Dorairaj@cable.comcast.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: LXC - linux container support in OE
+	Thu, 13 Feb 2014 19:00:18 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 13 Feb 2014 10:56:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,840,1384329600"; d="scan'208";a="482993600"
+Received: from dvhart-mac01.jf.intel.com (HELO [10.7.196.61]) ([10.7.196.61])
+	by orsmga002.jf.intel.com with ESMTP; 13 Feb 2014 11:00:10 -0800
+User-Agent: Microsoft-MacOutlook/14.3.9.131030
+Date: Thu, 13 Feb 2014 11:00:33 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	=?ISO-8859-1?B?Sm/jbw==?= Henrique Ferreira de Freitas <joaohf@gmail.com>
+Message-ID: <CF225582.6D067%dvhart@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 2/2] cml1.bbclass: Add fragmentconfig task to
+	cml1
+References: <1392250819-10123-1-git-send-email-joaohf@gmail.com>
+	<1392250819-10123-3-git-send-email-joaohf@gmail.com>
+	<1392291238.14081.10.camel@ted>
+In-Reply-To: <1392291238.14081.10.camel@ted>
+Mime-version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] cml1.bbclass: Add fragmentconfig task to cml1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +36,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 18:38:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 13 Feb 2014 19:00:19 -0000
+Content-type: text/plain;
+	charset="ISO-8859-1"
+Content-transfer-encoding: quoted-printable
 
-On Thu, Feb 13, 2014 at 1:22 PM, Dorairaj, Sanjay
-<Sanjay_Dorairaj@cable.comcast.com> wrote:
-> Hi Folks,
->
-> Can someone let me know the current state of OE support for LXC containers?
-> Is the current implementation of LXC support stable enough to be used in a
-> fielded product? Has anyone implemented this in their products and if so,
-> are there any lessons-learnt or case studies that could be shared?
+On 2/13/14, 3:33, "Richard Purdie" <richard.purdie@linuxfoundation.org>
+wrote:
 
-Everything you need to created, deploy and manage LXC containers is part
-of oe-core + meta-virt (and dependencies).
+>On Wed, 2014-02-12 at 22:20 -0200, Jo=E3o Henrique Ferreira de Freitas
+>wrote:
+>> fragmentconfig() is a new task that makes a diff between the
+>> old and new config files and writes to the fragment.cfg result file.
+>> menuconfig() always copy the original config file, so the user
+>> doesn't need to copy it.
+>>=20
+>> Signed-off-by: Jo=E3o Henrique Ferreira de Freitas <joaohf@gmail.com>
+>> ---
+>>  meta/classes/cml1.bbclass | 35 +++++++++++++++++++++++++++++++++++
+>>  1 file changed, 35 insertions(+)
+>>=20
+>> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+>> index e292ecb..2053361 100644
+>> --- a/meta/classes/cml1.bbclass
+>> +++ b/meta/classes/cml1.bbclass
 
-After that, it really depends on what you want to do with the containers .. but
-yes, they've been used and deployed on top of a yocto base.
+One more thought on this. As this is currently linux-yocto specific, does
+it belong in cml1.bbclass? It may make sense in busybox as well, so maybe
+this is the right place.
 
-Cheers,
+RP, do you have a preference?
 
-Bruce
-
->
-> I see that there are recipes in place for this -
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-containers/lxc/lxc_0.9.0.bb?h=master
->
-> Appreciate the help!
->
-> Regards,
->
-> Sanjay Dorairaj
-> Comcast
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+--=20
+Darren Hart
+Yocto Project - Linux Kernel
+Intel Open Source Technology Center
 
 
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
 
