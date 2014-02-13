@@ -1,22 +1,26 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id B0A336EE4C
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id AB34D6EA4B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 11:45:34 +0000 (UTC)
-Received: from [172.16.141.133] (172.16.141.133) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
-	Thu, 13 Feb 2014 12:45:25 +0100
-Message-ID: <52FCB055.7050609@enea.com>
-Date: Thu, 13 Feb 2014 12:45:25 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Thu, 13 Feb 2014 11:51:04 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Feb 2014 03:51:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,838,1384329600"; d="scan'208";a="480839627"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Feb 2014 03:50:38 -0800
+Date: Thu, 13 Feb 2014 13:50:37 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140213115036.GK10078@lpalcu-linux>
+References: <cover.1392230968.git.laurentiu.palcu@intel.com>
+	<cc9a8b3a006120ba793051f1a790c3cb3681c28e.1392230968.git.laurentiu.palcu@intel.com>
+	<1392291156.14081.9.camel@ted>
 MIME-Version: 1.0
-To: <rongqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1392263338-9144-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1392263338-9144-1-git-send-email-rongqing.li@windriver.com>
-X-Originating-IP: [172.16.141.133]
-Subject: Re: [PATCH] nss: avoid to use the hardcode kernel version
+In-Reply-To: <1392291156.14081.9.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] lib/oe/rootfs.py: fix RPM multilib issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,58 +33,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 11:45:36 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Feb 2014 11:51:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2014-02-13 04:48, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> Read kernel version from ${STAGING_KERNEL_DIR}/kernel-abiversion, to avoid
-> to use the hardcode kernel version.
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->   meta/recipes-support/nss/nss.inc |    6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-> index a6aeed8..3ad12cc 100644
-> --- a/meta/recipes-support/nss/nss.inc
-> +++ b/meta/recipes-support/nss/nss.inc
-> @@ -23,7 +23,7 @@ SRC_URI_append_class-target = "\
->   "
->   inherit siteinfo
->   PR = "r0"
-> -DEPENDS = "sqlite3 nspr zlib nss-native"
-> +DEPENDS = "sqlite3 nspr zlib nss-native virtual/kernel"
->   DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
->   RDEPENDS_${PN} = "perl"
->
-> @@ -55,7 +55,7 @@ do_compile() {
->       export NSS_USE_SYSTEM_SQLITE=1
->       export NSS_ENABLE_ECC=1
->
-> -    export OS_RELEASE=3.4
-> +    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed 's/-.*//'`
+On Thu, Feb 13, 2014 at 11:32:36AM +0000, Richard Purdie wrote:
+> On Wed, 2014-02-12 at 20:54 +0200, Laurentiu Palcu wrote:
+> > For some odd reason (at least I couldn't find an explanation to this,
+> > yet), if a multilib version of a package is installed after the main one
+> > (that is: in a different smart session), the main package binaries are
+> > not overwritten.
+> > 
+> > This commit restores the functionality to the original one, before
+> > migrating to python: feed all the packages to smart, apart from attempt
+> > only ones which are installed separately.
+> > 
+> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> > ---
+> >  meta/lib/oe/rootfs.py |   16 ++++++++++++----
+> >  1 file changed, 12 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> > index b6baf77..9162e52 100644
+> > --- a/meta/lib/oe/rootfs.py
+> > +++ b/meta/lib/oe/rootfs.py
+> > @@ -317,10 +317,18 @@ class RpmRootfs(Rootfs):
+> >  
+> >          self.pm.update()
+> >  
+> > -        for pkg_type in self.install_order:
+> > -            if pkg_type in pkgs_to_install:
+> > -                self.pm.install(pkgs_to_install[pkg_type],
+> > -                                [False, True][pkg_type == "aop"])
+> > +        pkgs = []
+> > +        pkgs_attempt = []
+> > +        for pkg_type in pkgs_to_install:
+> > +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+> > +                pkgs_attempt = pkgs_to_install[pkg_type]
+> 
+> Should this be a += ?
+Indeed, I guess I was thinking that there can be only one attempt only
+list. Nevertheless, should be += there. Thanks!
 
-So if native or nativesdk versions compile before virtual/kernel 
-${STAGING_KERNEL_DIR}/kernel-abiversion is available  ?
+> 
+> This might be clearer as an if: else:
+Agreed.
 
-What will happen then ?
+Incoming v2...
 
->       export OS_TARGET=Linux
->       export OS_ARCH=Linux
->
-> @@ -95,7 +95,7 @@ do_install() {
->       export NSS_USE_SYSTEM_SQLITE=1
->       export NSS_ENABLE_ECC=1
->
-> -    export OS_RELEASE=3.4
-> +    export OS_RELEASE=`cat ${STAGING_KERNEL_DIR}/kernel-abiversion|sed 's/-.*//'`
->       export OS_TARGET=Linux
->       export OS_ARCH=Linux
->
->
-
+laurentiu
+> 
+> > +                continue
+> > +
+> > +            pkgs += pkgs_to_install[pkg_type]
+> > +
+> > +        self.pm.install(pkgs)
+> > +
+> > +        self.pm.install(pkgs_attempt, True)
+> >  
+> >          self.pm.install_complementary()
+> >  
+> 
+> 
 
