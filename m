@@ -1,38 +1,38 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E563B6E89A
+Return-Path: <joaohf@gmail.com>
+Received: from mail-yh0-f45.google.com (mail-yh0-f45.google.com
+	[209.85.213.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 77AD86E898
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 21:06:27 +0000 (UTC)
-Received: by mail-lb0-f172.google.com with SMTP id c11so7635563lbj.31
+	Thu, 13 Feb 2014 00:20:49 +0000 (UTC)
+Received: by mail-yh0-f45.google.com with SMTP id i57so9414233yha.32
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2014 13:06:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=IHT94s3+5pbkB0j2n3HwS/c8oq5Rp5QmEjE9v8iJ43g=;
-	b=accS9el8KkeG2xcHOyht5DCDGTI2DEp6l+X02HoOHBcXVhJExe7SEtLUGPKyVc6FQN
-	ixOPzGkraDkhVDF8s54/1VliNyDCExtf3eWB8PwcZPMaEmyeKQjsDsuWnReeWbPlpW77
-	Oeg/fdDENEmiwGOqSDiX6lsqSCcNfrvKOku2Eltk8hRwr+mdu9f/pOiVRK45/Vl4oLgD
-	ufT6eLfAETenx83LWQPqJy85S/kov/q4/CUZOoJgdGn2/TsHP4KAxrOT8CCP866t0bQS
-	ZDreUrFvVcHWrGzZaQiSydcFKD2nQGYLQ0xBlc1mYzo/u+bHGxjob2nOtx3CIQbDTgTE
-	nbGA==
-X-Gm-Message-State: ALoCoQmgvWh3NZWiaBj+9Db04WyigUY+BeSa5wFGwB+FbNSU7LvaPfziZCH5Pqhchv1zcqNuaaLq
+	Wed, 12 Feb 2014 16:20:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=d0tuSI+L/2bLBJS/NsL19Kv8P8EFGuD1BRWKpdL6udM=;
+	b=Hil9C1xB8E/XMWdnKtqFxe+quLORkBR4ohoF+4YQlWt4kAihELBSXNC9ZSvGGuudEx
+	WK+1RtH/YT3/Tum9f1hU1nqcioR3V/1Qn/7QH1tvWFE/W6lTCSQo6OkdXgYYmlRP52lK
+	0FPyjXWWYz0cTpYVmcqmpWAILCt5Ju6E3k0zsy3EHVaqwwN2iWnZ1FYQOaiZcvGRDzUX
+	p6VEdGvDxoOfrobu/5eZfB40cASfroLIDD6JR+Dvd7oYBz7zDLbPxMXdqSTQmbYbdgSp
+	8/22LjpEKUdBO5E6zDVxoZtbS1T4+sDISlWULcnKQC0nC5heVtx7QyjzjRVIiEuLYsOH
+	4dkA==
+X-Received: by 10.236.30.2 with SMTP id j2mr4935858yha.73.1392250849748;
+	Wed, 12 Feb 2014 16:20:49 -0800 (PST)
+Received: from localhost.localdomain ([201.53.197.242])
+	by mx.google.com with ESMTPSA id a67sm162469yhj.10.2014.02.12.16.20.47
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 12 Feb 2014 16:20:49 -0800 (PST)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Feb 2014 22:20:17 -0200
+Message-Id: <1392250819-10123-1-git-send-email-joaohf@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-X-Received: by 10.112.236.3 with SMTP id uq3mr31091858lbc.14.1392239188213;
-	Wed, 12 Feb 2014 13:06:28 -0800 (PST)
-Received: by 10.112.91.227 with HTTP; Wed, 12 Feb 2014 13:06:28 -0800 (PST)
-In-Reply-To: <CAP9ODKpSTHUeGOkr=6zuXqRJUri-Tnrm9o0nb4LEx+-9FWjB4g@mail.gmail.com>
-References: <1391613014-5792-1-git-send-email-fathi.boudra@linaro.org>
-	<CAP9ODKpSTHUeGOkr=6zuXqRJUri-Tnrm9o0nb4LEx+-9FWjB4g@mail.gmail.com>
-Date: Wed, 12 Feb 2014 23:06:28 +0200
-Message-ID: <CAGNsrLDWToovXwCDKRzrLVf7obmG7Voz6tbMaMig5nZBNzTDWw@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] systemtap: add aarch64 support
+Cc: dvhart@linux.intel.com
+Subject: [PATCH 0/2] Add task to create kernel config fragments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,62 +45,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 21:06:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 13 Feb 2014 00:20:50 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 12 February 2014 18:23, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> Hello,
->
-> On Wed, Feb 5, 2014 at 1:10 PM, Fathi Boudra <fathi.boudra@linaro.org> wrote:
->> bump SRCREV to include the relevant commits for aarch64 support
->> update COMPATIBLE_HOST to include aarch64
->> cleanup md5sum/sha256sum since we use git
->>
->> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
->
-> This broke master in our autobuilder:
->
->  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0r0/git/includes
-> -I./includes/sys -DSTAP_SDT_V2
-> -isystem.../build/tmp/sysroots/x86_64-linux/usr/include -Wall -Werror
->  -isystem.../build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe
-> -fstack-protector-all -D_FORTIFY_SOURCE=2 -c -o stap-buildrun.o `test
-> -f 'buildrun.cxx' || echo
-> '.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/'`buildrun.cxx
->  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:
-> In function 'void validate_module_elf(Dwfl_Module*, const char*,
-> base_query*)':
->  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:1998:10:
-> error: 'EM_AARCH64' was not declared in this scope
->  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:
-> In constructor 'sdt_uprobe_var_expanding_visitor::sdt_uprobe_var_expanding_visitor(systemtap_session&,
-> int, const string&, const string&, const string&, stap_sdt_probe_type,
-> const string&, int)':
->  | .../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/git/tapsets.cxx:5613:31:
-> error: 'EM_AARCH64' was not declared in this scope
->  | make[2]: *** [stap-tapsets.o] Error 1
->  | make[2]: *** Waiting for unfinished jobs....
->  | make[2]: Leaving directory
-> `.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/build'
->  | make[1]: *** [all-recursive] Error 1
->  | make[1]: Leaving directory
-> `.../build/tmp/work/x86_64-linux/systemtap-native/2.4+gitAUTOINC+9190b3acfe-r0/build'
->  | make: *** [all] Error 2
->  | ERROR: oe_runmake failed
->  | WARNING: exit code 1 from a shell command.
->
-> Regards,
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Hi,
 
-It's fixed by a later commit: 508059f04842ed85d10bfbec8a9c688d57368860
-https://sourceware.org/git/gitweb.cgi?p=systemtap.git;a=commitdiff;h=508059f04842ed85d10bfbec8a9c688d57368860
+These patches add a new task called fragmentconfig which should be used
+when the user need to extract a diff between two kernel config files.
 
-a patch is coming to bump the SRCREV.
+For instance:
 
-Cheers,
-Fathi
+  bitbake -c menuconfig linux-yoco
+
+  [do some changes and save]
+
+  bitbake -c fragmentconfig linux-yocto
+
+See the fragment.cfg in $WORKDIR/fragment.cfg
+
+This closes [YOCTO #3862]
+
+Thanks.
+
+João Henrique Ferreira de Freitas (2):
+  kernel-yocto: Add do_fragmentconfig task
+  cml1.bbclass: Add fragmentconfig task to cml1
+
+ meta/classes/cml1.bbclass         | 35 +++++++++++++++++++++++++++++++++++
+ meta/classes/kernel-yocto.bbclass |  2 ++
+ 2 files changed, 37 insertions(+)
+
+-- 
+1.8.3.2
+
 
