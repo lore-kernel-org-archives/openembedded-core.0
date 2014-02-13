@@ -1,24 +1,20 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FDFE6EE4C
+	by mail.openembedded.org (Postfix) with ESMTP id 1E7576EE50
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Feb 2014 11:55:46 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 13 Feb 2014 03:55:31 -0800
+	by orsmga101.jf.intel.com with ESMTP; 13 Feb 2014 03:55:29 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,838,1384329600"; d="scan'208";a="482780840"
+X-IronPort-AV: E=Sophos;i="4.95,838,1384329600"; d="scan'208";a="482780838"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 13 Feb 2014 03:55:29 -0800
+	by orsmga002.jf.intel.com with ESMTP; 13 Feb 2014 03:55:28 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2014 13:55:26 +0200
-Message-Id: <453395e793d0d5c30d4e8092ee6faf80484ad447.1392292446.git.laurentiu.palcu@intel.com>
+Date: Thu, 13 Feb 2014 13:55:25 +0200
+Message-Id: <cover.1392292446.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1392292446.git.laurentiu.palcu@intel.com>
-References: <cover.1392292446.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1392292446.git.laurentiu.palcu@intel.com>
-References: <cover.1392292446.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 1/1] lib/oe/rootfs.py: fix RPM multilib issue
+Subject: [PATCH v2 0/1] lib/oe/rootfs.py: fix RPM multilib issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +29,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 13 Feb 2014 11:55:46 -0000
 
-For some odd reason (at least I couldn't find an explanation to this,
-yet), if a multilib version of a package is installed after the main one
-(that is: in a different smart session), the main package binaries are
-not overwritten.
+v2:
+ * address RP's comments;
 
-This commit restores the functionality to the original one, before
-migrating to python: feed all the packages to smart, apart from attempt
-only ones which are installed separately.
+laurentiu
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
+The following changes since commit b70a10ca3ee4a0add90d387e2c8288e531aaa47c:
+
+  systemd-serialgetty: Update to match version in recent systemd (2014-02-11 22:59:38 +0000)
+
+are available in the git repository at:
+
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib lpalcu/rootfs_refactoring_rpm_multilib_fix
+
+for you to fetch changes up to 453395e793d0d5c30d4e8092ee6faf80484ad447:
+
+  lib/oe/rootfs.py: fix RPM multilib issue (2014-02-13 13:52:38 +0200)
+
+----------------------------------------------------------------
+Laurentiu Palcu (1):
+      lib/oe/rootfs.py: fix RPM multilib issue
+
  meta/lib/oe/rootfs.py |   15 +++++++++++----
  1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index b6baf77..5676275 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -317,10 +317,17 @@ class RpmRootfs(Rootfs):
- 
-         self.pm.update()
- 
--        for pkg_type in self.install_order:
--            if pkg_type in pkgs_to_install:
--                self.pm.install(pkgs_to_install[pkg_type],
--                                [False, True][pkg_type == "aop"])
-+        pkgs = []
-+        pkgs_attempt = []
-+        for pkg_type in pkgs_to_install:
-+            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
-+                pkgs_attempt += pkgs_to_install[pkg_type]
-+            else:
-+                pkgs += pkgs_to_install[pkg_type]
-+
-+        self.pm.install(pkgs)
-+
-+        self.pm.install(pkgs_attempt, True)
- 
-         self.pm.install_complementary()
- 
+Laurentiu Palcu (1):
+  lib/oe/rootfs.py: fix RPM multilib issue
+
+ meta/lib/oe/rootfs.py |   15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
 -- 
 1.7.9.5
 
