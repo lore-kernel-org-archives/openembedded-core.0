@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E8346EA03
+	by mail.openembedded.org (Postfix) with ESMTP id 5AD556EA03
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 11:32:57 +0000 (UTC)
+	Thu, 13 Feb 2014 11:34:24 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1DBWigS025935; Thu, 13 Feb 2014 11:32:45 GMT
+	s1DBYAEY026056; Thu, 13 Feb 2014 11:34:10 GMT
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nWucCALfmYvL; Thu, 13 Feb 2014 11:32:44 +0000 (GMT)
+	with LMTP id J5MrlG2FTNpz; Thu, 13 Feb 2014 11:34:10 +0000 (GMT)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1DBWgkx025924
+	s1DBY4i8026032
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 13 Feb 2014 11:32:43 GMT
-Message-ID: <1392291156.14081.9.camel@ted>
+	Thu, 13 Feb 2014 11:34:05 GMT
+Message-ID: <1392291238.14081.10.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Thu, 13 Feb 2014 11:32:36 +0000
-In-Reply-To: <cc9a8b3a006120ba793051f1a790c3cb3681c28e.1392230968.git.laurentiu.palcu@intel.com>
-References: <cover.1392230968.git.laurentiu.palcu@intel.com>
-	<cc9a8b3a006120ba793051f1a790c3cb3681c28e.1392230968.git.laurentiu.palcu@intel.com>
+To: =?ISO-8859-1?Q?Jo=E3o?= Henrique Ferreira de Freitas <joaohf@gmail.com>
+Date: Thu, 13 Feb 2014 11:33:58 +0000
+In-Reply-To: <1392250819-10123-3-git-send-email-joaohf@gmail.com>
+References: <1392250819-10123-1-git-send-email-joaohf@gmail.com>
+	<1392250819-10123-3-git-send-email-joaohf@gmail.com>
 X-Mailer: Evolution 3.8.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] lib/oe/rootfs.py: fix RPM multilib issue
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] cml1.bbclass: Add fragmentconfig task to cml1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,57 +38,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 11:32:59 -0000
+X-List-Received-Date: Thu, 13 Feb 2014 11:34:24 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2014-02-12 at 20:54 +0200, Laurentiu Palcu wrote:
-> For some odd reason (at least I couldn't find an explanation to this,
-> yet), if a multilib version of a package is installed after the main one
-> (that is: in a different smart session), the main package binaries are
-> not overwritten.
+On Wed, 2014-02-12 at 22:20 -0200, João Henrique Ferreira de Freitas
+wrote:
+> fragmentconfig() is a new task that makes a diff between the
+> old and new config files and writes to the fragment.cfg result file.
+> menuconfig() always copy the original config file, so the user
+> doesn't need to copy it.
 > 
-> This commit restores the functionality to the original one, before
-> migrating to python: feed all the packages to smart, apart from attempt
-> only ones which are installed separately.
-> 
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
 > ---
->  meta/lib/oe/rootfs.py |   16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
+>  meta/classes/cml1.bbclass | 35 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
 > 
-> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> index b6baf77..9162e52 100644
-> --- a/meta/lib/oe/rootfs.py
-> +++ b/meta/lib/oe/rootfs.py
-> @@ -317,10 +317,18 @@ class RpmRootfs(Rootfs):
+> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+> index e292ecb..2053361 100644
+> --- a/meta/classes/cml1.bbclass
+> +++ b/meta/classes/cml1.bbclass
+> @@ -16,8 +16,12 @@ HOST_LOADLIBES = "-lncurses"
+>  TERMINFO = "${STAGING_DATADIR_NATIVE}/terminfo"
 >  
->          self.pm.update()
->  
-> -        for pkg_type in self.install_order:
-> -            if pkg_type in pkgs_to_install:
-> -                self.pm.install(pkgs_to_install[pkg_type],
-> -                                [False, True][pkg_type == "aop"])
-> +        pkgs = []
-> +        pkgs_attempt = []
-> +        for pkg_type in pkgs_to_install:
-> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
-> +                pkgs_attempt = pkgs_to_install[pkg_type]
+>  python do_menuconfig() {
+> +    import os
 
-Should this be a += ?
+Don't import os please, this is always present so we don't need to.
 
-This might be clearer as an if: else:
-
-> +                continue
+> +    import shutil
 > +
-> +            pkgs += pkgs_to_install[pkg_type]
-> +
-> +        self.pm.install(pkgs)
-> +
-> +        self.pm.install(pkgs_attempt, True)
+>      try:
+>          mtime = os.path.getmtime(".config")
+> +        shutil.copy(".config", ".config.orig")
+>      except OSError:
+>          mtime = 0
 >  
->          self.pm.install_complementary()
+> @@ -38,3 +42,34 @@ do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
+>  do_menuconfig[nostamp] = "1"
+>  addtask menuconfig after do_configure
 >  
+> +python do_fragmentconfig() {
+> +    import shutil
+> +    import subprocess
+> +
+> +    workdir = d.getVar('WORKDIR', True)
+> +    fragment = workdir + '/fragment.cfg'
+> +    configorig = '.config.orig'
+> +    config = '.config'
+> +
+> +    try:
+> +        md5newconfig = bb.utils.md5_file(configorig)
+> +        md5config = bb.utils.md5_file(config)
+> +        isdiff = md5newconfig != md5config
+> +    except OSError:
+> +        isdiff = 0
+> +
+> +    if isdiff:
+> +        bb.note("Dumping config fragment into: '%s'." % fragment)
+> +        bb.note("new '%s' old '%s'" % (md5newconfig,md5config))
+> +
+> +        statement = 'diff -Nurp ' + configorig + ' ' + config + '| sed -n "s/^\+//p" >' + fragment
+> +        subprocess.call(statement, shell=True)
+> +
+> +        shutil.copy(configorig, config)
+> +    else:
+> +        if os.path.exists(fragment):
+> +            os.unlink(fragment)
+> +}
+> +
+> +do_fragmentconfig[nostamp] = "1"
+> +addtask fragmentconfig
 
 
 
