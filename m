@@ -1,30 +1,36 @@
-Return-Path: <sanjay_dorairaj@cable.comcast.com>
-Received: from cable.comcast.com (copdcavout01.cable.comcast.com
-	[76.96.32.253])
-	by mail.openembedded.org (Postfix) with ESMTP id 9751C6B5DA
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D47CE6E3EB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 18:22:14 +0000 (UTC)
-Received: from ([24.40.56.122])
-	by copdcavout01.cable.comcast.com with ESMTP  id C7WM3M1.117075354;
-	Thu, 13 Feb 2014 11:22:10 -0700
-Received: from PACDCEXMB12.cable.comcast.com ([169.254.6.149]) by
-	pacdcexhub05.cable.comcast.com ([fe80::3d40:bdea:7266:7f5a%18]) with
-	mapi id 14.03.0158.001; Thu, 13 Feb 2014 13:21:59 -0500
-From: "Dorairaj, Sanjay" <Sanjay_Dorairaj@cable.comcast.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: LXC - linux container support in OE
-Thread-Index: AQHPKOgkifFHtEZ8pkyY1m/JVFN00w==
-Date: Thu, 13 Feb 2014 18:22:09 +0000
-Message-ID: <CF224B47.46363%Sanjay_Dorairaj@cable.comcast.com>
-In-Reply-To: <CAMCfZKE1+RDpEE8HehL_GDp2WxrVWjpjVL0Fb94Y_729Zi0A=w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.3.4.130416
-x-originating-ip: [68.87.16.249]
+	Thu, 13 Feb 2014 18:38:24 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id u14so8692511lbd.29
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Feb 2014 10:38:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=lU3F3+yAPVuTr3Dn4u7oqRAi2SsFIezKwmFIyzGL8hk=;
+	b=bwmFisE0jc3Iafoqc/jZO4e22RmgmQ1j7uczz/niKXKA0qO0fZYc8EZGlVioTZuMXE
+	mVAmLal/VODqaXdPq6B7sVSnFrZk6h/HXBOy+/NcuyhCKeu/aM04VvoJhUrvIJeG5u8/
+	MCNRmXJidMQBROsU8ABTtNRvu81K4RhKedI5KRJPIR3uGcWYsA3iOCtZkzUvkpt0kgvF
+	gCWmqVlAVImnf3Hmv8BZPTodwYwyWCcPzzJv24XMFSLkhUPz2Lk/4qjUhtPHnIIJWQQv
+	wd984bhhH7dceJrMmEx1gYdHgoaOaG7g4uWwddTd8eEtRaC96FJjZFVXTRzqq9dU5FV9
+	1/5g==
 MIME-Version: 1.0
-Subject: LXC - linux container support in OE
+X-Received: by 10.112.155.202 with SMTP id vy10mr1876727lbb.31.1392316704587; 
+	Thu, 13 Feb 2014 10:38:24 -0800 (PST)
+Received: by 10.112.170.166 with HTTP; Thu, 13 Feb 2014 10:38:24 -0800 (PST)
+In-Reply-To: <CF224B47.46363%Sanjay_Dorairaj@cable.comcast.com>
+References: <CAMCfZKE1+RDpEE8HehL_GDp2WxrVWjpjVL0Fb94Y_729Zi0A=w@mail.gmail.com>
+	<CF224B47.46363%Sanjay_Dorairaj@cable.comcast.com>
+Date: Thu, 13 Feb 2014 13:38:24 -0500
+Message-ID: <CADkTA4OuOY2bXBmzKUNEO6qc2Rpccv9A-1Ns3bdN5dMsMDo1og@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Dorairaj, Sanjay" <Sanjay_Dorairaj@cable.comcast.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: LXC - linux container support in OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,87 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2014 18:22:15 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_CF224B4746363SanjayDorairajcablecomcastcom_"
+X-List-Received-Date: Thu, 13 Feb 2014 18:38:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---_000_CF224B4746363SanjayDorairajcablecomcastcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Folks,
-
-Can someone let me know the current state of OE support for LXC containers?=
- Is the current implementation of LXC support stable enough to be used in a=
- fielded product? Has anyone implemented this in their products and if so, =
-are there any lessons-learnt or case studies that could be shared?
-
-I see that there are recipes in place for this - http://git.yoctoproject.or=
-g/cgit/cgit.cgi/meta-virtualization/tree/recipes-containers/lxc/lxc_0.9.0.b=
-b?h=3Dmaster
-
-Appreciate the help!
-
-Regards,
-
-Sanjay Dorairaj
-Comcast
-
-
---_000_CF224B4746363SanjayDorairajcablecomcastcom_
-Content-Type: text/html; charset="us-ascii"
-Content-ID: <5A2FD3D7777BA94C951ECE952A1BAB84@cable.comcast.com>
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Thu, Feb 13, 2014 at 1:22 PM, Dorairaj, Sanjay
+<Sanjay_Dorairaj@cable.comcast.com> wrote:
+> Hi Folks,
 >
-</head>
-<body style=3D"word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-lin=
-e-break: after-white-space; color: rgb(0, 0, 0); font-size: 14px; font-fami=
-ly: Calibri, sans-serif; ">
-<div>
-<div>
-<div style=3D"font-family: Calibri, sans-serif; ">Hi Folks,</div>
-<div style=3D"font-family: Calibri, sans-serif; "><br>
-</div>
-<div style=3D"font-family: Calibri, sans-serif; ">Can someone let me know t=
-he current state of OE support for LXC containers? Is the current implement=
-ation of LXC support stable enough to be used in a fielded product? Has any=
-one implemented this in their products
- and if so, are there any lessons-learnt or case studies that could be shar=
-ed?</div>
-<div style=3D"font-family: Calibri, sans-serif; "><br>
-</div>
-<div style=3D"font-family: Calibri, sans-serif; ">I see that there are reci=
-pes in place for this -&nbsp;<a href=3D"http://git.yoctoproject.org/cgit/cg=
-it.cgi/meta-virtualization/tree/recipes-containers/lxc/lxc_0.9.0.bb?h=3Dmas=
-ter">http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/rec=
-ipes-containers/lxc/lxc_0.9.0.bb?h=3Dmaster</a></div>
-<div>
-<div style=3D"font-family: Calibri, sans-serif; "><br>
-</div>
-<div style=3D"font-family: Calibri, sans-serif; ">Appreciate the help!</div=
->
-<div style=3D"font-family: Calibri, sans-serif; "><br>
-</div>
-<div style=3D"font-family: Calibri, sans-serif; ">Regards,</div>
-<div style=3D"font-family: Calibri, sans-serif; "><br>
-</div>
-<div>
-<div style=3D"font-family: Consolas; font-size: medium; "><font face=3D"Con=
-solas,monospace">Sanjay Dorairaj</font></div>
-<div style=3D"font-size: medium; "><font face=3D"Consolas,monospace">Comcas=
-t</font></div>
-</div>
-</div>
-</div>
-</div>
-<div style=3D"font-family: Calibri, sans-serif; "><br>
-</div>
-</body>
-</html>
+> Can someone let me know the current state of OE support for LXC containers?
+> Is the current implementation of LXC support stable enough to be used in a
+> fielded product? Has anyone implemented this in their products and if so,
+> are there any lessons-learnt or case studies that could be shared?
 
---_000_CF224B4746363SanjayDorairajcablecomcastcom_--
+Everything you need to created, deploy and manage LXC containers is part
+of oe-core + meta-virt (and dependencies).
+
+After that, it really depends on what you want to do with the containers .. but
+yes, they've been used and deployed on top of a yocto base.
+
+Cheers,
+
+Bruce
+
+>
+> I see that there are recipes in place for this -
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-containers/lxc/lxc_0.9.0.bb?h=master
+>
+> Appreciate the help!
+>
+> Regards,
+>
+> Sanjay Dorairaj
+> Comcast
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
