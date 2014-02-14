@@ -1,43 +1,35 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 50AF76E4CC
+Return-Path: <josua.mayer97@gmail.com>
+Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 86E256D762
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2014 13:21:27 +0000 (UTC)
-Received: by mail-vc0-f171.google.com with SMTP id le5so9219357vcb.2
+	Fri, 14 Feb 2014 15:02:42 +0000 (UTC)
+Received: by mail-ea0-f178.google.com with SMTP id a15so5961144eae.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2014 05:21:28 -0800 (PST)
+	Fri, 14 Feb 2014 07:02:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=39KhPnkhTU7I8uOGvR+MirTup2oF6mv4dwzoWDEKZ98=;
-	b=TuN3cWM/hDXKH9vzzd6aXobjCjUhCQsiS8vJ6m3bPtftzfap0w4aUbWJAMdF8ozOVZ
-	bjgmCu2giH0yb9QIMe0U1T7i9nZo5jLlFT2/hyUUIOyD5Jv8olRHKwosGqw7lt5NdR9+
-	dA3Jo7ryBNjihxEm/rku1fj0Zkm7OzWws2b1oPax7eqbsnArjcPa8gYA193EeMFcHi4c
-	3F7X+QUmNchJP4+UUWU0PGAdDNbLhOnYWr4kvEVXpeT5kDwnYXksZwIu+RH83mD6MNmG
-	2Qq3W/p3McHxD5OLeEERBTBxktUsan/ycYNMa+oasgwAt8/reFZiGV4CSD72HofTP3Ib
-	fXPQ==
-X-Received: by 10.221.29.137 with SMTP id ry9mr5476372vcb.6.1392384088306;
-	Fri, 14 Feb 2014 05:21:28 -0800 (PST)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Fri, 14 Feb 2014 05:20:48 -0800 (PST)
-In-Reply-To: <CANyK_8cP8yn2f5ayjtWt_=sfckdRDqWjtdTdjMhWQOGJ4Fs+WA@mail.gmail.com>
-References: <cover.1392215552.git.laurentiu.palcu@intel.com>
-	<f1d4b1de74f2c69b444ed50977263245440ed071.1392215552.git.laurentiu.palcu@intel.com>
-	<1392216272.14769.270.camel@phil-desktop.brightsign>
-	<20140212145552.GF10078@lpalcu-linux>
-	<1392217651.14769.271.camel@phil-desktop.brightsign>
-	<20140212154001.GG10078@lpalcu-linux>
-	<1392291528.14081.12.camel@ted>
-	<CANyK_8cP8yn2f5ayjtWt_=sfckdRDqWjtdTdjMhWQOGJ4Fs+WA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 14 Feb 2014 13:20:48 +0000
-X-Google-Sender-Auth: Wqj2Pr6lEspp61-4KB98PMic3Rw
-Message-ID: <CANyK_8f48OYkGu2RFsECJnoLvxSWqLS9-gy+XnVX7hA27yatyQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] (image|rootfs_ipk).bbclass, rootfs.py: ipk multilib fixes
+	h=from:to:cc:subject:date:message-id;
+	bh=n861Wf6m37RfrznPPbH9Ec07zgBshyr8lxOF+t7sAwA=;
+	b=r5zHhgLjstiRjgx+Szx41fStd3ehXqIyAT/bphtgW3p1UxaMplICKRug7yl9BeSpxx
+	S81O1BeCzkJOHK5iajjtL450Fo3Gi4QFOlBASu+ZPfjULbUzuMqqom21/E5QapFgKwp/
+	W1BtGFW3vDQ7NgcX/HTJNZzaVQX4913GS3454F8kkcVHWcGMfj5zqB9m7sM5oVb4FkOi
+	RTi3VhhDsXyERt55bRT+a2thonHqIznFOS4QQTezZCs7kCaoHXfpPkWlgmIu/dl7TvlE
+	ich4Nc0Ej/ZcVlekFnB0R2NbuTfmmxaJGE96bJnWcpD80FCUt19zrilAv7E3HRzttEB5
+	kOTw==
+X-Received: by 10.15.45.194 with SMTP id b42mr42739eew.103.1392390162928;
+	Fri, 14 Feb 2014 07:02:42 -0800 (PST)
+Received: from linux-9174.triple-a.uni-kl.de (pD957B653.dip0.t-ipconnect.de.
+	[217.87.182.83])
+	by mx.google.com with ESMTPSA id m1sm20701764een.7.2014.02.14.07.02.40
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Feb 2014 07:02:41 -0800 (PST)
+From: Josua Mayer <josua.mayer97@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Feb 2014 16:02:24 +0100
+Message-Id: <1392390144-16540-1-git-send-email-josua.mayer97@gmail.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] package.bbclass: do_split_packages should always return something.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,58 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2014 13:21:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 14 Feb 2014 15:02:42 -0000
 
-On 14 February 2014 13:15, Paul Barker <paul@paulbarker.me.uk> wrote:
-> On 13 February 2014 11:38, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Wed, 2014-02-12 at 17:40 +0200, Laurentiu Palcu wrote:
->>> On Wed, Feb 12, 2014 at 03:07:31PM +0000, Phil Blundell wrote:
->>> > On Wed, 2014-02-12 at 16:55 +0200, Laurentiu Palcu wrote:
->>> > > * /usr/lib/opkg is where the alternatives go;
->>> >
->>> > Isn't that a bug?
->>> I'm far from being an expert in opkg or update-alternatives, but,
->>> looking in /usr/bin/update-alternatives I can see:
->>>
->>> # admin dir
->>> ad="$OPKG_OFFLINE_ROOT/usr/lib/opkg/alternatives"
->>>
->>> Isn't that expected since the u-a provider is opkg-utils recipe?
->>
->> Its certainly desirable to have one set of alternatives files on a
->> multilib system, not two. The variables/paths could probably do with
->> being better however I've prefer not to trigger autobuilder failures on
->> this until that gets resolved so I did take this.
->>
->> Cheers,
->>
->> Richard
->>
->
-> I should add some flexibility here. The problem is opkg-utils doesn't
-> know what value OPKGLIBDIR has in the opkg recipe. It also isn't
-> processed by a configure script to replace variables as it was in the
-> opkg recipe.
->
+So far, when do_split_packages is passed a non-existing folder, it will return nothing.
+While building Mesa with PACKAGECONFIG="egl gles" for qemux86, do_package threw a nice exception on a line reading "pkgs += do_split_packages":
+"Exception: TypeError: 'NoneType' object is not iterable"
+I think a function should always return something, and in this specific case, returning an empty list should be right.
+This patch simply fixes the return statement to do just that.
 
-Actually, OPKGLIBDIR is set in two places:
+Signed-off-by: Josua Mayer <josua.mayer97@gmail.com>
+---
+ meta/classes/package.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-meta/classes/package_ipk.bbclass:
-    OPKGLIBDIR = "${localstatedir}/lib"
-
-meta/recipes-devtools/opkg/opkg.inc:
-    target_localstatedir := "${localstatedir}"
-    OPKGLIBDIR = "${target_localstatedir}/lib"
-
-Should this be cleaned up so it's just set once globally and then we
-can substitute that variable into the update-alternatives script
-again?
-
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 042d74c..297d962 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -126,7 +126,7 @@ def do_split_packages(d, root, file_regex, output_pattern, description, postinst
+     # If the root directory doesn't exist, don't error out later but silently do
+     # no splitting.
+     if not os.path.exists(dvar + root):
+-        return
++        return []
+ 
+     ml = d.getVar("MLPREFIX", True)
+     if ml:
 -- 
-Paul Barker
+1.8.4.5
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
