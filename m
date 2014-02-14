@@ -1,22 +1,24 @@
 Return-Path: <Xudong.Zhu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E4E196EFA7
+	by mail.openembedded.org (Postfix) with ESMTP id BA94B6EFF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2014 03:30:00 +0000 (UTC)
+	Fri, 14 Feb 2014 03:30:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1E3U1CU005153
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1E3U9FS005156
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2014 19:30:02 -0800 (PST)
+	Thu, 13 Feb 2014 19:30:09 -0800 (PST)
 Received: from pek-xzhu-980.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 13 Feb 2014 19:30:00 -0800
+	14.2.347.0; Thu, 13 Feb 2014 19:30:09 -0800
 From: "Xudong.zhu" <xudong.zhu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Feb 2014 11:30:03 +0800
-Message-ID: <1392348604-4134-1-git-send-email-xudong.zhu@windriver.com>
+Date: Fri, 14 Feb 2014 11:30:04 +0800
+Message-ID: <1392348604-4134-2-git-send-email-xudong.zhu@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1392348604-4134-1-git-send-email-xudong.zhu@windriver.com>
+References: <1392348604-4134-1-git-send-email-xudong.zhu@windriver.com>
 MIME-Version: 1.0
 Subject: [PATCH] tar: fix a build error introduced by 1.27
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -31,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2014 03:30:01 -0000
+X-List-Received-Date: Fri, 14 Feb 2014 03:30:08 -0000
 Content-Type: text/plain
 
 From: "Xudong.zhu" <xzhu@windriver.com>
