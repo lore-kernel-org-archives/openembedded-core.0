@@ -1,24 +1,20 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B44E6F000
+	by mail.openembedded.org (Postfix) with ESMTP id 167D86EFB4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 14 Feb 2014 11:01:37 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Feb 2014 03:01:38 -0800
+	by orsmga101.jf.intel.com with ESMTP; 14 Feb 2014 03:01:36 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,844,1384329600"; d="scan'208";a="455436519"
+X-IronPort-AV: E=Sophos;i="4.95,844,1384329600"; d="scan'208";a="455436496"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 14 Feb 2014 03:01:12 -0800
+	by orsmga001.jf.intel.com with ESMTP; 14 Feb 2014 03:01:09 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Feb 2014 13:01:07 +0200
-Message-Id: <db1e6488ef483ab76f7eca961b214bd8f8758b2e.1392375539.git.laurentiu.palcu@intel.com>
+Date: Fri, 14 Feb 2014 13:01:04 +0200
+Message-Id: <cover.1392375539.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1392375539.git.laurentiu.palcu@intel.com>
-References: <cover.1392375539.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1392375539.git.laurentiu.palcu@intel.com>
-References: <cover.1392375539.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 3/3] package_*.bbclass: remove references to the old bash indexing routines
+Subject: [PATCH 0/3] fix package-index build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +29,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 14 Feb 2014 11:01:38 -0000
 
-Package indexing is done in python and package-index.bb uses the new
-routines.
+After rootfs code refactoring, 'bitbake package-index' fails because it's
+calling the old bash indexing routines. This patchset should fix that.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/classes/package_deb.bbclass |    1 -
- meta/classes/package_ipk.bbclass |    1 -
- meta/classes/package_rpm.bbclass |    1 -
- 3 files changed, 3 deletions(-)
+laurentiu
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index a0a31bd..b9d7978 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -309,6 +309,5 @@ do_package_write_deb[umask] = "022"
- addtask package_write_deb before do_package_write after do_packagedata do_package
- 
- 
--PACKAGEINDEXES += "[ ! -e ${DEPLOY_DIR_DEB} ] || package_update_index_deb;"
- PACKAGEINDEXDEPS += "dpkg-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "apt-native:do_populate_sysroot"
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index 516ec4b..7cf2c8a 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -255,6 +255,5 @@ do_package_write_ipk[cleandirs] = "${PKGWRITEDIRIPK}"
- do_package_write_ipk[umask] = "022"
- addtask package_write_ipk before do_package_write after do_packagedata do_package
- 
--PACKAGEINDEXES += "[ ! -e ${DEPLOY_DIR_IPK} ] || package_update_index_ipk;"
- PACKAGEINDEXDEPS += "opkg-utils-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "opkg-native:do_populate_sysroot"
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 82ea187..f267b8a 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -734,6 +734,5 @@ do_package_write_rpm[cleandirs] = "${PKGWRITEDIRRPM}"
- do_package_write_rpm[umask] = "022"
- addtask package_write_rpm before do_package_write after do_packagedata do_package
- 
--PACKAGEINDEXES += "[ ! -e ${DEPLOY_DIR_RPM} ] || package_update_index_rpm;"
- PACKAGEINDEXDEPS += "rpm-native:do_populate_sysroot"
- PACKAGEINDEXDEPS += "createrepo-native:do_populate_sysroot"
+The following changes since commit b60ed2d0fd86a3ae5ce7facbb044677aa7ec2889:
+
+  bitbake: runqueue: Ensure we do run 'masked' setscene tasks if specified as targets (2014-02-13 17:57:20 +0000)
+
+are available in the git repository at:
+
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib lpalcu/package_index_recipe_fix
+
+for you to fetch changes up to db1e6488ef483ab76f7eca961b214bd8f8758b2e:
+
+  package_*.bbclass: remove references to the old bash indexing routines (2014-02-14 12:47:53 +0200)
+
+----------------------------------------------------------------
+Laurentiu Palcu (3):
+      package_manager.py, rootfs.py, sdk.py: add Indexer class
+      package-index.bb: use the new python indexing routines
+      package_*.bbclass: remove references to the old bash indexing routines
+
+ meta/classes/package_deb.bbclass        |    1 -
+ meta/classes/package_ipk.bbclass        |    1 -
+ meta/classes/package_rpm.bbclass        |    1 -
+ meta/lib/oe/package_manager.py          |  339 ++++++++++++++++++++-----------
+ meta/lib/oe/rootfs.py                   |   58 ------
+ meta/lib/oe/sdk.py                      |   48 +----
+ meta/recipes-core/meta/package-index.bb |    7 +-
+ 7 files changed, 224 insertions(+), 231 deletions(-)
+
+Laurentiu Palcu (3):
+  package_manager.py, rootfs.py, sdk.py: add Indexer class
+  package-index.bb: use the new python indexing routines
+  package_*.bbclass: remove references to the old bash indexing
+    routines
+
+ meta/classes/package_deb.bbclass        |    1 -
+ meta/classes/package_ipk.bbclass        |    1 -
+ meta/classes/package_rpm.bbclass        |    1 -
+ meta/lib/oe/package_manager.py          |  339 ++++++++++++++++++++-----------
+ meta/lib/oe/rootfs.py                   |   58 ------
+ meta/lib/oe/sdk.py                      |   48 +----
+ meta/recipes-core/meta/package-index.bb |    7 +-
+ 7 files changed, 224 insertions(+), 231 deletions(-)
+
 -- 
 1.7.9.5
 
