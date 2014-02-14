@@ -1,24 +1,28 @@
 Return-Path: <andreea.b.proca@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A9466EC47
+	by mail.openembedded.org (Postfix) with ESMTP id 65B5F6EFDE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2014 11:54:55 +0000 (UTC)
+	Fri, 14 Feb 2014 11:54:57 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 14 Feb 2014 03:54:54 -0800
+	by azsmga102.ch.intel.com with ESMTP; 14 Feb 2014 03:54:58 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,844,1384329600"; d="scan'208";a="341020283"
+X-IronPort-AV: E=Sophos;i="4.95,844,1384329600"; d="scan'208";a="341020293"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 14 Feb 2014 03:54:54 -0800
+	by AZSMGA002.ch.intel.com with ESMTP; 14 Feb 2014 03:54:58 -0800
 Received: from andreea-Vostro-460.rb.intel.com (unknown [10.237.112.104])
-	by linux.intel.com (Postfix) with ESMTP id D3D666A4007
+	by linux.intel.com (Postfix) with ESMTP id 7F78D6A4007
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2014 03:54:45 -0800 (PST)
+	Fri, 14 Feb 2014 03:54:49 -0800 (PST)
 From: Andreea Proca <andreea.b.proca@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Feb 2014 13:58:42 +0200
-Message-Id: <cover.1392378926.git.andreea.b.proca@intel.com>
+Date: Fri, 14 Feb 2014 13:58:43 +0200
+Message-Id: <92350b03316a99bfacdb6757dac2cad06e17fa6a.1392378926.git.andreea.b.proca@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCHv2 0/1] Error reporting tool
+In-Reply-To: <cover.1392378926.git.andreea.b.proca@intel.com>
+References: <cover.1392378926.git.andreea.b.proca@intel.com>
+In-Reply-To: <cover.1392378926.git.andreea.b.proca@intel.com>
+References: <cover.1392378926.git.andreea.b.proca@intel.com>
+Subject: [PATCHv2 1/1] report-error.bbclass: new class to save build information when errors occur
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,57 +35,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2014 11:54:55 -0000
+X-List-Received-Date: Fri, 14 Feb 2014 11:54:57 -0000
 
+Class is used to save data about errors after every task that failed.
+Errors saved as json files in ERROR_REPORT_DIR (defaults to tmp/log/error-report).
+To use this class one has to add INHERIT += "report-error" to local.conf.
 
-Changes in v2:
-   - address RP's comments (rename methods, handler and add an eventmask)
+scripts/send-error-report is a simple script that sends the json file
+to a HTTP server that collects data (git://git.yoctoproject.org/error-report-web
+is a Django web interface that can be used to receive and visualize
+the error reports). The script will give you an URL where you can
+find your report.
 
-
-Hello,
-
-This patch together with the web app from git://git.yoctoproject.org/error-report-web.
-form an error reporting system similar to kernel-oops service.
-This tool proposes a way of keeping track of the errors appeared during builds
-by dumping the debug information of the build into a database which can be analyzed.
-
-The project will benefit from the multitude of build results published by quickly identifying the issues and the areas of interest for the contributors.
-The objectives of the application were achieved by creating a client-server system. The client (basically this bitbake class) collects all the information needed
-for solving the errors and the server receives that data and saves in a database (see the Django web app at git://git.yoctoproject.org/error-report-web).
-The data collected consists of the log file of the tasks that failed and common configuration variables
-(such as machine, distro, host distro, etc as well as the version of the build system - branch/commit id, which
-is commonly missing from bug reports :) ).
-
-All the debug information collected during a build which failed is stored on the user's machine, in a JSON format and its path is displayed
-in the output of the build as well as the command that the contributor can run to send the error report file to the server. The
-script will give the user a link corresponding to his entry in the database. The scripts accepts a parameter which is the hostname
-to the web app instance (by default it's localhost).
-Contributors can search by certain configurations (e.g. machine, component, error, task) and see statistics through the web interface.
-
-
-Thanks,
-Andreea
-
-
-The following changes since commit ee151ed6bc16312733c67b91bbf65959309b640d:
-
-  lib/oe/rootfs.py: fix RPM multilib issue (2014-02-13 12:06:01 +0000)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib andreeap/report-poky
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=andreeap/report-poky
-
-Andreea Proca (1):
-  report-error.bbclass: new class to save build information when errors
-    occur
-
+Signed-off-by: Andreea Proca <andreea.b.proca@intel.com>
+---
  meta/classes/report-error.bbclass |   66 +++++++++++++++++++++++++++++++
  scripts/send-error-report         |   78 +++++++++++++++++++++++++++++++++++++
  2 files changed, 144 insertions(+)
  create mode 100644 meta/classes/report-error.bbclass
  create mode 100755 scripts/send-error-report
 
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+new file mode 100644
+index 0000000..479b38d
+--- /dev/null
++++ b/meta/classes/report-error.bbclass
+@@ -0,0 +1,66 @@
++#
++# Collects debug information in order to create error report files.
++#
++# Copyright (C) 2013 Intel Corporation
++# Author: Andreea Brandusa Proca <andreea.b.proca@intel.com>
++#
++# Licensed under the MIT license, see COPYING.MIT for details
++
++ERR_REPORT_DIR ?= "${LOG_DIR}/error-report"
++
++def errorreport_getdata(e):
++    logpath = e.data.getVar('ERR_REPORT_DIR', True)
++    datafile = os.path.join(logpath, "error-report.txt")
++    with open(datafile) as f:
++        data = f.read()
++    return data
++
++def errorreport_savedata(e, newdata, file):
++    import json
++    logpath = e.data.getVar('ERR_REPORT_DIR', True)
++    bb.utils.mkdirhier(logpath)
++    datafile = os.path.join(logpath, file)
++    with open(datafile, "w") as f:
++        json.dump(newdata, f, indent=4, sort_keys=True)
++    return datafile
++
++python errorreport_handler () {
++        import json
++
++        if isinstance(e, bb.event.BuildStarted):
++            data = {}
++            machine = e.data.getVar("MACHINE")
++            data['machine'] = machine
++            data['build_sys'] = e.data.getVar("BUILD_SYS", True)
++            data['nativelsb'] = e.data.getVar("NATIVELSBSTRING")
++            data['distro'] = e.data.getVar("DISTRO")
++            data['target_sys'] = e.data.getVar("TARGET_SYS", True)
++            data['failures'] = []
++            data['component'] = e.getPkgs()[0]
++            data['branch_commit'] = base_detect_branch(e.data) + ": " + base_detect_revision(e.data)
++            errorreport_savedata(e, data, "error-report.txt")
++
++        elif isinstance(e, bb.build.TaskFailed):
++            task = e.task
++            taskdata={}
++            log = e.data.getVar('BB_LOGFILE', True)
++            logFile = open(log, 'r')
++            taskdata['package'] = e.data.expand("${PF}")
++            taskdata['task'] = task
++            taskdata['log'] = logFile.read()
++            logFile.close()
++            jsondata = json.loads(errorreport_getdata(e))
++            jsondata['failures'].append(taskdata)
++            errorreport_savedata(e, jsondata, "error-report.txt")
++
++        elif isinstance(e, bb.event.BuildCompleted):
++            jsondata = json.loads(errorreport_getdata(e))
++            failures = jsondata['failures']
++            if(len(failures) > 0):
++                filename = "error_report_" + e.data.getVar("BUILDNAME")+".txt"
++                datafile = errorreport_savedata(e, jsondata, filename)
++                bb.note("The errors of this build are stored in: %s. You can send the errors to an upstream server by running: send-error-report %s [server]" % (datafile, datafile))
++}
++
++addhandler errorreport_handler
++errorreport_handler[eventmask] = "bb.event.BuildStarted bb.event.BuildCompleted bb.build.TaskFailed"
+diff --git a/scripts/send-error-report b/scripts/send-error-report
+new file mode 100755
+index 0000000..0d85776
+--- /dev/null
++++ b/scripts/send-error-report
+@@ -0,0 +1,78 @@
++#!/usr/bin/env python
++
++# Sends an error report (if the report-error class was enabled) to a remote server.
++#
++# Copyright (C) 2013 Intel Corporation
++# Author: Andreea Proca <andreea.b.proca@intel.com>
++
++
++
++import httplib, urllib, os, sys, json
++
++
++def sendData(json_file, server):
++
++    if os.path.isfile(json_file):
++
++        home = os.path.expanduser("~")
++        userfile = os.path.join(home, ".oe-send-error")
++        if os.path.isfile(userfile):
++            with open(userfile) as g:
++                username = g.readline()
++                email = g.readline()
++        else:
++            print("Please enter your name and your email (optionally), they'll be saved in the file you send.")
++            username = raw_input("Name: ")
++            email = raw_input("E-mail (not required): ")
++            if len(username) > 0 and len(username) < 50:
++                with open(userfile, "w") as g:
++                    g.write(username + "\n")
++                    g.write(email + "\n")
++            else:
++                print("Invalid inputs, try again.")
++                return
++
++        with open(json_file) as f:
++            data = f.read()
++
++        try:
++            jsondata = json.loads(data)
++            jsondata['username'] = username.strip()
++            jsondata['email'] = email.strip()
++            data = json.dumps(jsondata, indent=4, sort_keys=True)
++        except:
++            print("Invalid json data")
++            return
++
++        try:
++            params = urllib.urlencode({'data': data})
++            headers = {"Content-type": "application/json"}
++            conn = httplib.HTTPConnection(server)
++            conn.request("POST", "/ClientPost/", params, headers)
++            response = conn.getresponse()
++            print response.status, response.reason
++            res = response.read()
++            if response.status == 200:
++                print res
++            else:
++                print("There was a problem submiting your data")
++            conn.close()
++        except:
++                print("Server connection failed")
++
++    else:
++        print("No data file found.")
++
++
++if __name__ == '__main__':
++    print ("\nSends an error report (if the report-error class was enabled) to a remote server.")
++    if len(sys.argv) < 2:
++        print("\nThis scripts sends the contents of a file to an upstream server.")
++        print("\nUsage: send-error-report <error_fileName> [server]")
++        print("\nIf this is the first when sending a report you'll be asked for your name and optionally your email address.")
++        print("They will be associated with your report.\n")
++
++    elif len(sys.argv) == 3:
++        sendData(sys.argv[1], sys.argv[2])
++    else:
++        sendData(sys.argv[1], "localhost:8000")
 -- 
 1.7.9.5
 
