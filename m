@@ -1,31 +1,31 @@
-Return-Path: <sanjay_dorairaj@cable.comcast.com>
-Received: from cable.comcast.com (copdcavout01.cable.comcast.com
-	[76.96.32.253])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B0606DEDA
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8729B6EF8A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2014 15:53:10 +0000 (UTC)
-Received: from ([24.40.56.115])
-	by copdcavout01.cable.comcast.com with ESMTP  id C7WM3M1.117196093;
-	Fri, 14 Feb 2014 08:53:07 -0700
-Received: from PACDCEXMB12.cable.comcast.com ([169.254.6.149]) by
-	PACDCEXHUB02.cable.comcast.com ([fe80::492e:3fa1:c2ad:e04e%13]) with
-	mapi id 14.03.0158.001; Fri, 14 Feb 2014 10:53:07 -0500
-From: "Dorairaj, Sanjay" <Sanjay_Dorairaj@cable.comcast.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] LXC - linux container support in OE
-Thread-Index: AQHPKOgkifFHtEZ8pkyY1m/JVFN005q0kgQAgAAjk4A=
-Date: Fri, 14 Feb 2014 15:53:06 +0000
-Message-ID: <CF237B21.468CA%Sanjay_Dorairaj@cable.comcast.com>
-In-Reply-To: <CAMKF1soewX7=PUH1Wn=D__TqhgDrPYjOVwuhWvsUC2e2BT8_nw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/14.3.4.130416
-x-originating-ip: [68.87.16.246]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: LXC - linux container support in OE
+	Fri, 14 Feb 2014 16:15:49 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 14 Feb 2014 08:11:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,845,1384329600"; d="scan'208";a="455596127"
+Received: from pas9-mobl2.gar.corp.intel.com (HELO [10.254.185.145])
+	([10.254.185.145])
+	by orsmga001.jf.intel.com with ESMTP; 14 Feb 2014 08:14:40 -0800
+User-Agent: Microsoft-MacOutlook/14.3.9.131030
+Date: Fri, 14 Feb 2014 08:15:03 -0800
+From: Darren Hart <dvhart@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <CF238059.6D5FB%dvhart@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 2/2] cml1.bbclass: Add fragmentconfig task to
+	cml1
+References: <1392250819-10123-1-git-send-email-joaohf@gmail.com>
+	<1392250819-10123-3-git-send-email-joaohf@gmail.com>
+	<1392291238.14081.10.camel@ted>
+	<CF225582.6D067%dvhart@linux.intel.com>
+	<1392392807.14081.51.camel@ted>
+In-Reply-To: <1392392807.14081.51.camel@ted>
+Mime-version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] cml1.bbclass: Add fragmentconfig task to cml1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,88 +38,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2014 15:53:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <75EA9B9833B4DA44B193A3619454DBE3@cable.comcast.com>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Feb 2014 16:15:50 -0000
+Content-type: text/plain;
+	charset="ISO-8859-1"
+Content-transfer-encoding: quoted-printable
 
-Khem/Bruce,
+On 2/14/14, 7:46, "Richard Purdie" <richard.purdie@linuxfoundation.org>
+wrote:
 
-Thanks for the input!
-
-We are not looking at using more than a handful of containers. Just need
-to secure a few of the more critical applications running on our set-tops,
-so, hopefully, this should not be a problem. I will keep the group posted
-on our progress and report on any issues we find.
-
-Regards,
-
-Sanjay Dorairaj
-Comcast
-
-
-
-
-
-On 2/13/14 9:45 PM, "Khem Raj" <raj.khem@gmail.com> wrote:
-
->Hi Sanjay
->
->On Thu, Feb 13, 2014 at 10:22 AM, Dorairaj, Sanjay
-><Sanjay_Dorairaj@cable.comcast.com> wrote:
->> Hi Folks,
->>
->> Can someone let me know the current state of OE support for LXC
->>containers?
->> Is the current implementation of LXC support stable enough to be used
->>in a
->> fielded product? Has anyone implemented this in their products and if
->>so,
->> are there any lessons-learnt or case studies that could be shared?
->>
->> I see that there are recipes in place for this -
+>On Thu, 2014-02-13 at 11:00 -0800, Darren Hart wrote:
+>> On 2/13/14, 3:33, "Richard Purdie" <richard.purdie@linuxfoundation.org>
+>> wrote:
 >>=20
->>http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipe
->>s-containers/lxc/lxc_0.9.0.bb?h=3Dmaster
->>
->> Appreciate the help!
+>> >On Wed, 2014-02-12 at 22:20 -0200, Jo=E3o Henrique Ferreira de Freitas
+>> >wrote:
+>> >> fragmentconfig() is a new task that makes a diff between the
+>> >> old and new config files and writes to the fragment.cfg result file.
+>> >> menuconfig() always copy the original config file, so the user
+>> >> doesn't need to copy it.
+>> >>=20
+>> >> Signed-off-by: Jo=E3o Henrique Ferreira de Freitas <joaohf@gmail.com>
+>> >> ---
+>> >>  meta/classes/cml1.bbclass | 35 +++++++++++++++++++++++++++++++++++
+>> >>  1 file changed, 35 insertions(+)
+>> >>=20
+>> >> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+>> >> index e292ecb..2053361 100644
+>> >> --- a/meta/classes/cml1.bbclass
+>> >> +++ b/meta/classes/cml1.bbclass
+>>=20
+>> One more thought on this. As this is currently linux-yocto specific,
+>>does
+>> it belong in cml1.bbclass? It may make sense in busybox as well, so
+>>maybe
+>> this is the right place.
+>>=20
+>> RP, do you have a preference?
 >
->I have deployed containers from yocto however it was using a different
->kernel version. We ran into issues when number of containers grew to
->be
->large, e.g. file sytem accesses on base kernel took the CPU, we also
->experienced severe degradation in network traffic when containers grew
->larger
->than 1000, we were using 1Gig link and there were plans to use 10Gig
->interfaces.
->
->We experimented first with containers made out of ubuntu system which
->were quite large in size and the problems  with file systems showed
->very easly
->however the yocto containers were very small in size approx 20M in
->size compared to 300M ubuntu containers, and we could launch 1000
->containers
->so the size of the container seemed to matter.
->
->The base system running the container was ubuntu system so we do not
->know if systemd could have helped us with resource allocation.
->
->The box underneath was with 16G of RAM with Haswell CPU.
->
->
->
->>
->> Regards,
->>
->> Sanjay Dorairaj
->> Comcast
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+>Its starting to head in a direction we could probably use a
+>kern-tools.bbclass to keep the code in a common place.
+
+I wonder if something like kconfig.bbclass, rather than tying it to the
+linux-yocto tooling (as it doesn't use any of the tooling to create the
+fragment). Busybox could then use this, for example (not that it couldn't
+include kern-tools.bbclass, it just seems a bit less natural to do so).
+
+--=20
+Darren Hart
+Yocto Project - Linux Kernel
+Intel Open Source Technology Center
+
+
+
 
 
