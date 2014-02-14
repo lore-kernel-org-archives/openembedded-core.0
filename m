@@ -1,26 +1,33 @@
 Return-Path: <Matthieu.CRAPET@ingenico.com>
 Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id EFB956EF8A
+	by mail.openembedded.org (Postfix) with ESMTP id 5096F6EADD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2014 16:39:36 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.95,845,1384297200"; d="scan'208";a="41198770"
+	Fri, 14 Feb 2014 16:42:33 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.95,845,1384297200"; d="scan'208";a="41198971"
 Received: from cosnadexc22.usr.ingenico.loc ([10.31.4.222])
-	by antispam1.usr.ingenico.loc with ESMTP; 14 Feb 2014 17:39:30 +0100
-Received: from COSNPREXC3.usr.ingenico.loc (10.1.1.182) by
+	by antispam1.usr.ingenico.loc with ESMTP; 14 Feb 2014 17:42:34 +0100
+Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
 	COSNADEXC22.usr.ingenico.loc (10.31.4.222) with Microsoft SMTP Server
-	id 14.2.318.1; Fri, 14 Feb 2014 17:39:29 +0100
-Received: from u85.usr.ingenico.loc ([10.23.7.85]) by
-	COSNPREXC3.usr.ingenico.loc with Microsoft SMTPSVC(6.0.3790.1830);
-	Fri, 14 Feb 2014 17:39:29 +0100
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Feb 2014 17:34:20 +0100
-Message-ID: <1392395660-28806-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.8.5.4
-X-OriginalArrivalTime: 14 Feb 2014 16:39:29.0582 (UTC)
-	FILETIME=[54C7C4E0:01CF29A3]
+	(TLS) id 14.2.318.1; Fri, 14 Feb 2014 17:42:33 +0100
+Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.243]) by
+	COSNADEXC12.usr.ingenico.loc ([10.31.4.212]) with mapi id
+	14.02.0328.009; Fri, 14 Feb 2014 17:42:33 +0100
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v1] recipes: convert remaining
+	SUMMARY/DESCRIPTION	cosmetic issues
+Thread-Index: AQHPKaNdevSbwDB690iC0LGH2zXiFpq08/nw
+Date: Fri, 14 Feb 2014 16:42:33 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B57540E22@COSNADEXC13.usr.ingenico.loc>
+References: <1392395660-28806-1-git-send-email-Matthieu.Crapet@ingenico.com>
+In-Reply-To: <1392395660-28806-1-git-send-email-Matthieu.Crapet@ingenico.com>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
 MIME-Version: 1.0
-Subject: [PATCH v1] recipes: convert remaining SUMMARY/DESCRIPTION cosmetic issues
+Subject: Re: [PATCH v1] recipes: convert remaining SUMMARY/DESCRIPTION	cosmetic issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +40,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2014 16:39:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Feb 2014 16:42:33 -0000
+Content-Language: fr-FR
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Rename SUMMARY with length > 80 to DESCRIPTION.
-Note: don't bump PR
+Hi,=20
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta/recipes-bsp/hostap/hostap-conf_1.0.bb           |  3 ++-
- meta/recipes-devtools/json-c/json-c_0.11.bb          |  3 ++-
- meta/recipes-graphics/xorg-proto/presentproto_git.bb | 14 ++++++--------
- meta/recipes-multimedia/x264/x264_git.bb             |  3 ++-
- 4 files changed, 12 insertions(+), 11 deletions(-)
+Few explanations ;) Seen in:
+https://wiki.yoctoproject.org/wiki/Janitors
 
-diff --git a/meta/recipes-bsp/hostap/hostap-conf_1.0.bb b/meta/recipes-bsp/hostap/hostap-conf_1.0.bb
-index 0208509..e2c7cc0 100644
---- a/meta/recipes-bsp/hostap/hostap-conf_1.0.bb
-+++ b/meta/recipes-bsp/hostap/hostap-conf_1.0.bb
-@@ -1,4 +1,5 @@
--SUMMARY = "PCMCIA-cs configuration files for wireless LAN cards based on Intersil's Prism2/2.5/3 chipset"
-+SUMMARY = "Configuration files for HostAP (wifi) driver"
-+DESCRIPTION = "PCMCIA-cs configuration files for wireless LAN cards based on Intersil's Prism2/2.5/3 chipset."
- SECTION = "kernel/modules"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
-diff --git a/meta/recipes-devtools/json-c/json-c_0.11.bb b/meta/recipes-devtools/json-c/json-c_0.11.bb
-index d1bf0e9..389e0f9 100644
---- a/meta/recipes-devtools/json-c/json-c_0.11.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.11.bb
-@@ -1,4 +1,5 @@
--SUMMARY = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C"
-+SUMMARY = "C bindings for apps which will manipulate JSON data"
-+DESCRIPTION = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C."
- HOMEPAGE = "https://github.com/json-c/json-c/wiki"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
-diff --git a/meta/recipes-graphics/xorg-proto/presentproto_git.bb b/meta/recipes-graphics/xorg-proto/presentproto_git.bb
-index 007824f..bd6c60a 100644
---- a/meta/recipes-graphics/xorg-proto/presentproto_git.bb
-+++ b/meta/recipes-graphics/xorg-proto/presentproto_git.bb
-@@ -1,13 +1,11 @@
- require xorg-proto-common.inc
- 
--SUMMARY = "The Present extension provides a way for applications to update their \
--           window contents from a pixmap in a well defined fashion, synchronizing \
--           with the display refresh and potentially using a more efficient \
--           mechanism than copying the contents of the source pixmap.\
--          "
--
--DESCRIPTION = "This package provides the basic headers for the X Window \
--System."
-+SUMMARY = "This package provides the basic headers for the X Window System"
-+DESCRIPTION = "The Present extension provides a way for applications to update their \
-+               window contents from a pixmap in a well defined fashion, synchronizing \
-+               with the display refresh and potentially using a more efficient \
-+               mechanism than copying the contents of the source pixmap.\
-+              "
- 
- LICENSE = "GPLv2"
- 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 406df30..5ebf885 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -1,4 +1,5 @@
--SUMMARY = "A free software library and application for encoding video streams into the H.264/MPEG-4 AVC format"
-+SUMMARY = "H.264/MPEG-4 AVC video encoder"
-+DESCRIPTION = "A free software library and application for encoding video streams into the H.264/MPEG-4 AVC format."
- HOMEPAGE = "http://www.videolan.org/developers/x264.html"
- 
- LICENSE = "GPLv2"
--- 
-1.8.5.4
+Didn't find any opened bugtracker.
 
+These recipes are "pending", i.e. 80 < len(SUMMARY) < 95:
+
+meta/recipes-support/libunistring/libunistring_0.9.3.bb
+meta/recipes-devtools/devel-config/nfs-export-root.bb
+meta/recipes-devtools/autogen/autogen-native_5.18.2.bb
+
+Should I translate them to DESCRIPTION ?
+
+Regards,
+Matthieu
 
