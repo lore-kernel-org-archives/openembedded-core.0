@@ -1,20 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 167D86EFB4
+	by mail.openembedded.org (Postfix) with ESMTP id 3DC676F001
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 14 Feb 2014 11:01:37 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 14 Feb 2014 03:01:36 -0800
+	by orsmga101.jf.intel.com with ESMTP; 14 Feb 2014 03:01:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,844,1384329600"; d="scan'208";a="455436496"
+X-IronPort-AV: E=Sophos;i="4.95,844,1384329600"; d="scan'208";a="455436510"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 14 Feb 2014 03:01:09 -0800
+	by orsmga001.jf.intel.com with ESMTP; 14 Feb 2014 03:01:11 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Feb 2014 13:01:04 +0200
-Message-Id: <cover.1392375539.git.laurentiu.palcu@intel.com>
+Date: Fri, 14 Feb 2014 13:01:06 +0200
+Message-Id: <46bdee08ca081303dc1a2eb3d560d8f2d16ecfc5.1392375539.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/3] fix package-index build issue
+In-Reply-To: <cover.1392375539.git.laurentiu.palcu@intel.com>
+References: <cover.1392375539.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1392375539.git.laurentiu.palcu@intel.com>
+References: <cover.1392375539.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 2/3] package-index.bb: use the new python indexing routines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,53 +33,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 14 Feb 2014 11:01:38 -0000
 
-After rootfs code refactoring, 'bitbake package-index' fails because it's
-calling the old bash indexing routines. This patchset should fix that.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/recipes-core/meta/package-index.bb |    7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-laurentiu
-
-The following changes since commit b60ed2d0fd86a3ae5ce7facbb044677aa7ec2889:
-
-  bitbake: runqueue: Ensure we do run 'masked' setscene tasks if specified as targets (2014-02-13 17:57:20 +0000)
-
-are available in the git repository at:
-
-  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib lpalcu/package_index_recipe_fix
-
-for you to fetch changes up to db1e6488ef483ab76f7eca961b214bd8f8758b2e:
-
-  package_*.bbclass: remove references to the old bash indexing routines (2014-02-14 12:47:53 +0200)
-
-----------------------------------------------------------------
-Laurentiu Palcu (3):
-      package_manager.py, rootfs.py, sdk.py: add Indexer class
-      package-index.bb: use the new python indexing routines
-      package_*.bbclass: remove references to the old bash indexing routines
-
- meta/classes/package_deb.bbclass        |    1 -
- meta/classes/package_ipk.bbclass        |    1 -
- meta/classes/package_rpm.bbclass        |    1 -
- meta/lib/oe/package_manager.py          |  339 ++++++++++++++++++++-----------
- meta/lib/oe/rootfs.py                   |   58 ------
- meta/lib/oe/sdk.py                      |   48 +----
- meta/recipes-core/meta/package-index.bb |    7 +-
- 7 files changed, 224 insertions(+), 231 deletions(-)
-
-Laurentiu Palcu (3):
-  package_manager.py, rootfs.py, sdk.py: add Indexer class
-  package-index.bb: use the new python indexing routines
-  package_*.bbclass: remove references to the old bash indexing
-    routines
-
- meta/classes/package_deb.bbclass        |    1 -
- meta/classes/package_ipk.bbclass        |    1 -
- meta/classes/package_rpm.bbclass        |    1 -
- meta/lib/oe/package_manager.py          |  339 ++++++++++++++++++++-----------
- meta/lib/oe/rootfs.py                   |   58 ------
- meta/lib/oe/sdk.py                      |   48 +----
- meta/recipes-core/meta/package-index.bb |    7 +-
- 7 files changed, 224 insertions(+), 231 deletions(-)
-
+diff --git a/meta/recipes-core/meta/package-index.bb b/meta/recipes-core/meta/package-index.bb
+index 3cc1239..27b6d8e 100644
+--- a/meta/recipes-core/meta/package-index.bb
++++ b/meta/recipes-core/meta/package-index.bb
+@@ -21,10 +21,9 @@ do_populate_sysroot[noexec] = "1"
+ do_package_index[nostamp] = "1"
+ do_package_index[depends] += "${PACKAGEINDEXDEPS}"
+ 
+-do_package_index() {
+-	set -ex
+-	${PACKAGEINDEXES}
+-	set +ex
++python do_package_index() {
++    from oe.rootfs import generate_index_files
++    generate_index_files(d)
+ }
+ addtask do_package_index before do_build
+ EXCLUDE_FROM_WORLD = "1"
 -- 
 1.7.9.5
 
