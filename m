@@ -1,43 +1,24 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C6C36E7E5
+Return-Path: <dave.lerner@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AA846ED66
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 10:23:18 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id w61so9505901wes.12
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 02:23:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:content-type:mime-version:subject:from
-	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=/1sVJCapQ9/sI/J7Ly85bG0nzBD1vWiek9+zXog2Yhs=;
-	b=LEqLsVIINkv9GKJ1S037xidDBnsTNnAr+kkSqsGkyTFr/MLlO95P15rVjPc3zrkv1h
-	IJ63yRI0fAxxbvVq+YPkW/AJKoWtDpFw4Uin08NkFavTA5D1VBKXcbZS9LWRStp0abqt
-	hah16UF5XrnDJUOLJDtIOwB+VT3s4Sr2MXUKjTV5C3S5Agpp1x4MJaM5jyyV4GmGO2my
-	QYUE1RP1row9KgdiKVVyJkFcIWH8P3aITBoZBNnpZXrPAh8ZlgvipjXsB3TxzE+DSaoG
-	LCR+W5gQACduf9wgy5cf19uclVMVy4XhgA+C3P9N4TX6tZtlJzh9+V9Y430/vVhANoQR
-	Tapg==
-X-Gm-Message-State: ALoCoQnmcVS/4eTMlguoeMhGSS6HFJnWSlR4MQPXBbOGzSmfMVPJB+bnDa+2rMdVTaBmnoX+MBTO
-X-Received: by 10.181.13.112 with SMTP id ex16mr5610513wid.23.1392459798554;
-	Sat, 15 Feb 2014 02:23:18 -0800 (PST)
-Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
-	by mx.google.com with ESMTPSA id t6sm12380598wix.4.2014.02.15.02.23.15
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 15 Feb 2014 02:23:17 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <1392193887.7120.191.camel@ted>
-Date: Sat, 15 Feb 2014 11:27:59 +0100
-Message-Id: <8F835027-D28B-42A9-B8A7-49E85688B376@dominion.thruhere.net>
-References: <1389780926-20901-1-git-send-email-koen.kooi@linaro.org>
-	<52FB2ADF.70209@linaro.org> <1392193887.7120.191.camel@ted>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.1827)
-Cc: Koen Kooi <koen.kooi@linaro.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] grub git: workaround debugedit problems for 64 bit targets
+	Sat, 15 Feb 2014 15:28:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1FFSJ3g014246
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 15 Feb 2014 07:28:20 -0800 (PST)
+Received: from ord-dlerner-l8.dgvlm.wrs.com (128.224.65.202) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Sat, 15 Feb 2014 07:28:19 -0800
+From: Dave Lerner <dave.lerner@windriver.com>
+To: <sgw@linux.intel.com>
+Date: Sat, 15 Feb 2014 09:27:30 -0600
+Message-ID: <1392478051-10530-1-git-send-email-dave.lerner@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 0/1] valgrind: integration of regression tests to ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,61 +31,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2014 10:23:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 15 Feb 2014 15:28:23 -0000
+Content-Type: text/plain
+
+Hello Saul,
+
+V2 patch includes following changes:
+1) no PR bump in recipe
+2) lower-cased commit header
+
+Regards,
+Dave Lerner
+
+--------------
+The attached patch adds PTEST integration to valgrind.  The patch
+was built and tested as shown in the "CONFIGURATION", "BUILD TESTS", and
+"RUNTIME TESTS" sections below. A summary of changes is shown in
+"COMMIT STAT".
+
+Thanks,
+Dave Lerner 
+
+COMMIT STAT
+===========
+commit 2e539fd064c4ef91a1b9593edfadffffe0f628d1
+Author: Dave Lerner <dave.lerner@windriver.com>
+Date:   Mon Jan 27 11:46:19 2014 -0600
+
+    valgrind: integration of regression tests to ptest
+    
+    Modifies valgrind's regression test framework to be compatible
+    with the yocto PTEST framework as follows:
+     * existing recipe valgrind*bb adds new methods: do_compile_ptest and
+       do_install_ptest.
+     * new file run-ptest adds the wrapper interface to the valgrind
+       regression test script vg_regtest.
+     * existing valgrind regression test script 'vg_regtest' changes
+       to report the status of the valgrind component tests in the
+       format that PTEST expects, instead of the valgrind formats, but only
+       when vg_regtest is invoked with an optional --yocto-ptest argument
+     * four new patches disable building tests that don't compile with
+       the yocto compiler and default options. See the patches for details.
+    
+    Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+
+ .../valgrind/valgrind/add-ptest.patch              |  205 ++++++++++++++++++++
+ .../valgrind/valgrind/force-nostabs.patch          |   42 ++++
+ .../valgrind/remove-arm-variant-specific.patch     |   67 +++++++
+ .../valgrind/remove-ppc-tests-failing-build.patch  |   75 +++++++
+ meta/recipes-devtools/valgrind/valgrind/run-ptest  |   11 ++
+ meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |   56 +++++-
+ 6 files changed, 455 insertions(+), 1 deletion(-)
 
 
-Op 12 feb. 2014, om 09:31 heeft Richard Purdie =
-<richard.purdie@linuxfoundation.org> het volgende geschreven:
+CONFIGURATION
+=============
+Appended to each conf/local.conf ...
+MACHINE = 'some-machine-name'
+SSTATE_DIR = "/ord-dlerner-l81/dlerner/poky_16/sstate-cache"
+DISTRO_FEATURES_append = " ptest"
+EXTRA_IMAGE_FEATURES  = "debug-tweaks dbg-pkgs ptest-pkgs"
+IMAGE_INSTALL_append  = " valgrind ptest-runner"
 
-> On Wed, 2014-02-12 at 09:03 +0100, Koen Kooi wrote:
->> On 01/15/2014 11:15 AM, Koen Kooi wrote:
->>> I've limited it to 64bit targets, but to be honest debug splitting =
-doesn't make sense for grub since it won't run in your rootfs and =
-attaching gdb is pretty much impossible.
->>>=20
->>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
->>> ---
->>>  meta/recipes-bsp/grub/grub_git.bb | 5 +++++
->>>  1 file changed, 5 insertions(+)
->>>=20
->>> diff --git a/meta/recipes-bsp/grub/grub_git.bb =
-b/meta/recipes-bsp/grub/grub_git.bb
->>> index 1796e7f..bc79cfa 100644
->>> --- a/meta/recipes-bsp/grub/grub_git.bb
->>> +++ b/meta/recipes-bsp/grub/grub_git.bb
->>> @@ -51,8 +51,13 @@ do_configure_prepend() {
->>>  do_install_append () {
->>>      install -d ${D}${sysconfdir}/grub.d
->>>      install -m 0755 ${WORKDIR}/40_custom =
-${D}${sysconfdir}/grub.d/40_custom
->>> +
->>>  }
->>>=20
->>> +# debugedit chokes on 64 bit platforms
->>> +INHIBIT_PACKAGE_DEBUG_SPLIT_aarch64 =3D "1"
->>> +INHIBIT_PACKAGE_DEBUG_SPLIT_x86-64 =3D "1"
->>> +
->>>  RDEPENDS_${PN} =3D "diffutils freetype"
->>>  FILES_${PN}-dbg +=3D "${libdir}/${BPN}/*/.debug"
->>>=20
->>>=20
->>=20
->> Since the package.bbclass change went in yesterday: ping
->=20
-> Should we just do this for 64 bit targets or should we be doing it
-> unconventionally?
 
-It is needed for every 'bare metal' binary we run through debugedit. But =
-for some reason debugedit doesn't choke on 32bit binaries. I'm not sure =
-what the right answer is here, I only fixed it for the archs I ran into =
-problems myself.=20
+BUILD TESTS
+===========
+Configuration fails with reports that valgrind is not supported for:
+    qemuarm, qemumips*, routerstationpro
+    ERROR: Nothing RPROVIDES 'valgrind' (but ...core-image-basic.bb
+        RDEPENDS on or otherwise requires it)
+    ERROR: valgrind was skipped: incompatible with host
+        mips-poky-linux (not in COMPATIBLE_HOST)
+    NOTE: Runtime target 'valgrind' is unbuildable, removing...
 
-I'd be happy to respin this patch if you let me know what the preferred =
-solution is.
+Configuration and 'bitbake core-image-basic' passes for:
+    beagleboard, mpc8316-rdb, qemuppc, qemux86, qemux86-64
 
-regards,
+RUNTIME TESTS
+=============
+The tests are divided into per tool tests and then a common set of
+tests across all tools in the directory 'none'.  
 
-Koen=
+The output per PTEST documentation looks like the following snippet:
+    PASS: cachegrind/tests/chdir
+    PASS: cachegrind/tests/clreq
+    PASS: cachegrind/tests/dlclose
+    PASS: cachegrind/tests/notpower2
+    FAIL: cachegrind/tests/wrap5
+    PASS: callgrind/tests/clreq
+
+
+Below is the output summarized for two bsps. Note that this is not
+the output produced by this commit.
+
+qemux86-64
+----------
+    cachegrind:
+      PASS count=4  FAIL count=1  SKIP count=0
+    callgrind:
+      PASS count=13  FAIL count=0  SKIP count=0
+    drd:
+      PASS count=106  FAIL count=10  SKIP count=7
+    helgrind:
+      PASS count=20  FAIL count=31  SKIP count=1
+    memcheck:
+      PASS count=116  FAIL count=78  SKIP count=4
+    massif:
+      PASS count=9  FAIL count=26  SKIP count=0
+    none:
+      PASS count=101  FAIL count=4  SKIP count=16
+
+qemux86
+------
+    cachegrind:
+      PASS count=5  FAIL count=1  SKIP count=0
+    callgrind:
+      PASS count=13  FAIL count=0  SKIP count=0
+    drd:
+      PASS count=106  FAIL count=11  SKIP count=6
+    helgrind:
+      PASS count=20  FAIL count=31  SKIP count=1
+    memcheck:
+      PASS count=126  FAIL count=78  SKIP count=2
+    massif:
+      PASS count=9  FAIL count=26  SKIP count=0
+    none:
+      PASS count=70  FAIL count=3  SKIP count=1
+
+
+qemuppc
+-------
+All of the tests fail for the valgrind tools cachegrind, drd, helgrind,
+massif, memcheck, that are not skipped due to preconditions failing.
+The failures of any test match the failure message for each valgrind
+tool run agains the program /bin/ls.
+
 
