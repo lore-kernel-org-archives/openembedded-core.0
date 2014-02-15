@@ -1,30 +1,27 @@
-Return-Path: <jcady92@gmail.com>
-Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id CF3436EA91
+Return-Path: <scott.a.garman@intel.com>
+Received: from masterfoo.zenlinux.com (masterfoo.zenlinux.com [207.192.74.254])
+	by mail.openembedded.org (Postfix) with ESMTP id 67FE56ED34
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 17:57:35 +0000 (UTC)
-Received: by mail-qa0-f48.google.com with SMTP id f11so19784914qae.7
+	Sat, 15 Feb 2014 19:05:18 +0000 (UTC)
+Received: from localhost (c-24-20-145-95.hsd1.or.comcast.net [24.20.145.95])
+	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by masterfoo.zenlinux.com (Postfix) with ESMTP id 43E042FDD7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 09:57:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=QHQNvwsVdqpxE05eB3lyqWw4TjvDIajWl7fy/mwiGCU=;
-	b=Jb8ckp1LZ/HBf2C4slF1sNIwH22aioG/m+mpDiqILrIacxcRZV/5XRzJj8Q5Dpw24e
-	+b0kq4+K/1oN83ZiAu5UeMz3B91jYiMwh04eNMcbcRxtdaCQvUYcBxPWxy5B5/lwDF6z
-	sciO3vz4iLEHWx3YloIcPlA+U+YSkBp4FZJ7K6qAPMDOEQzaq3Bi5kzplFnDXtUAh5LL
-	C7fOl4krF4HDyKZWVv2z2BgPfgBYnMtHPzkDn0IsBiHC/pusI9g1IiiHpKK91Z5Far61
-	L8EX+qSnt9mmXjUOl8/XO+OitkSSExcQoQKkLshYLN5VSaOBaYJp2jVrGrhohUZr/iIK
-	ebrQ==
-X-Received: by 10.224.98.139 with SMTP id q11mr23557982qan.64.1392487056481;
-	Sat, 15 Feb 2014 09:57:36 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.46.3 with HTTP; Sat, 15 Feb 2014 09:57:16 -0800 (PST)
-From: Jay Cady <jcady92@gmail.com>
-Date: Sat, 15 Feb 2014 12:57:16 -0500
-Message-ID: <CANP1U1xG6AkomoUcvm=chpQ=G7HY7ruFQRgYA5We6UsoFxvBLQ@mail.gmail.com>
+	Sat, 15 Feb 2014 14:04:56 -0500 (EST)
+From: Scott Garman <scott.a.garman@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: Problem with libicudata.so in OE master
+Date: Sat, 15 Feb 2014 11:04:46 -0800
+Message-Id: <cover.1392490959.git.scott.a.garman@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+X-MasterFoo-MailScanner-Information: Please contact the ISP for more
+	information
+X-MailScanner-ID: 43E042FDD7.A9557
+X-MasterFoo-MailScanner: Found to be clean
+X-MasterFoo-MailScanner-SpamCheck: not spam
+X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
+X-Spam-Status: No
+Subject: [PATCH 0/1] runqemu fix to skip tap devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2014 17:57:36 -0000
-Content-Type: multipart/alternative; boundary=089e01536d5c5b22c404f275a857
+X-List-Received-Date: Sat, 15 Feb 2014 19:05:18 -0000
 
---089e01536d5c5b22c404f275a857
-Content-Type: text/plain; charset=ISO-8859-1
+Hello,
 
-I'm having the exact same problem.
+This pull request adds the ability for runqemu to skip tap devices. It
+was developed to resolve bug #5815.
 
-Latest master branch of Yocto 1.5 2/13/14.  Built with the master branch of
-meta-qt5.  Wandboard-dual.
+Scott
 
-When running the Qt5_CinematicExperience app, I'm getting this error:
+The following changes since commit d3ba249aa1bf68aaeed226e934a4f4d5b7a19286:
 
-shared libraries: /usr/lib/libicudata.so.51: internal error
+  package_manager.py: move multilib prefix list computation function to RpmIndexer (2014-02-14 22:57:57 +0000)
 
-Any ideas how to fix this?
+are available in the git repository at:
 
---089e01536d5c5b22c404f275a857
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+  git://git.yoctoproject.org/poky-contrib sgarman/runqemu-skiptap-oe
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=sgarman/runqemu-skiptap-oe
 
-<div dir=3D"ltr">I&#39;m having the exact same problem.<div><br></div><div>=
-Latest master branch of Yocto 1.5 2/13/14. =A0Built with the master branch =
-of meta-qt5. =A0Wandboard-dual.</div><div><br></div><div>When running the Q=
-t5_CinematicExperience app, I&#39;m getting this error:</div>
+Scott Garman (1):
+  runqemu: add ability to skip using an existing tap device
 
-<div><br></div><div><div>shared libraries: /usr/lib/libicudata.so.51: inter=
-nal error</div></div><div><br></div><div>Any ideas how to fix this?</div></=
-div>
+ scripts/runqemu-internal | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
---089e01536d5c5b22c404f275a857--
+-- 
+1.8.3.2
+
+
