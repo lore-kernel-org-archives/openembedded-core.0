@@ -1,37 +1,25 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A028D6EC7B
+Return-Path: <alexandre.belloni@free-electrons.com>
+Received: from mail.free-electrons.com (top.free-electrons.com [176.31.233.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D7916EFA4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 15:29:00 +0000 (UTC)
-Received: by mail-wi0-f182.google.com with SMTP id f8so1253405wiw.9
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 07:29:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fZr9M6wDX5SefOnp7Ibxr32PXnD6IAfdaia+0Xfhf58=;
-	b=gbAopL17yQzhNI2VEie2L+ArPsM3xptosg/iyRKo7ESjDactb8iYPrKNvjv4RMl0Gl
-	ub4srZ2sFU7/8xYSmgiD/YjNtTDh82+JUqGT7hHmCP8L4KNtDhw42k4ne92xWJL4mteN
-	pdtE0VLQ57e/+CSZ3u4Qy68wKu5T7rRKvugWdpuxGZz/e5Z20u9R7epQ4+3Yz6Ht+LWf
-	5ZM7x7XT5UbihK+hA5bgtxclSDo6pL9YzaX4E+Lp6fuUlpQ8GbxsRxG10fUNSZi/2XsB
-	pDuqbgS9df1TZ/MzfwJdf1UO7Xmc1CxKCC8gHUw6THmDoCbmDQunByLnhWlUfkpN6ZuH
-	Zscw==
-X-Gm-Message-State: ALoCoQlANJVLbBkZ+6YsovxciQ2KWfHGb0KRVlXa8hGRG3fiV1NoUu/L3tkEqYCSeKmtrmL7ua0r
-X-Received: by 10.194.110.41 with SMTP id hx9mr10630231wjb.28.1392478139970;
-	Sat, 15 Feb 2014 07:28:59 -0800 (PST)
-Received: from localhost ([2001:610:612:0:21c:42ff:fef0:7f75])
-	by mx.google.com with ESMTPSA id
-	bj3sm21285662wjb.14.2014.02.15.07.28.58 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 15 Feb 2014 07:28:59 -0800 (PST)
-From: Koen Kooi <koen@dominion.thruhere.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Feb 2014 16:28:55 +0100
-Message-Id: <1392478135-10219-1-git-send-email-koen@dominion.thruhere.net>
-X-Mailer: git-send-email 1.8.5.3
-Cc: Koen Kooi <koen@dominion.thruhere.net>
-Subject: [PATCH] bitbake-prserv-tool: make help text show .conf suffix
+	Sat, 15 Feb 2014 16:34:50 +0000 (UTC)
+Received: by mail.free-electrons.com (Postfix, from userid 106)
+	id EBF39922; Sat, 15 Feb 2014 17:35:00 +0100 (CET)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	mail.free-electrons.com
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
+	shortcircuit=ham autolearn=disabled version=3.3.2
+Received: from localhost (128-79-216-6.hfc.dyn.abo.bbox.fr [128.79.216.6])
+	by mail.free-electrons.com (Postfix) with ESMTPSA id B7B41845;
+	Sat, 15 Feb 2014 17:34:23 +0100 (CET)
+From: Alexandre Belloni <alexandre.belloni@free-electrons.com>
+To: ross.burton@intel.com
+Date: Sat, 15 Feb 2014 17:34:03 +0100
+Message-Id: <1392482043-28060-1-git-send-email-alexandre.belloni@free-electrons.com>
+X-Mailer: git-send-email 1.8.3.2
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] matchbox-keyboard: daemonize launch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,48 +32,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2014 15:29:01 -0000
+X-List-Received-Date: Sat, 15 Feb 2014 16:34:51 -0000
 
-'export' will accept any output filename, but 'import' needs a '.conf'
-suffix to work. Otherwise you'll get:
+The .shbg extension is not properly supported by the Xsession script
+provided by xserver-common.
 
-koen@beast:/build/v2013.12$ bitbake-prserv-tool import x.txt
-ERROR: Traceback (most recent call last):
-  File "/build/v2013.12/sources/bitbake/lib/bb/cookerdata.py", line 162,
-in wrapped
-    return func(fn, *args)
-  File "/build/v2013.12/sources/bitbake/lib/bb/cookerdata.py", line 172,
-in parse_config_file
-    return bb.parse.handle(fn, data, include)
-  File "/build/v2013.12/sources/bitbake/lib/bb/parse/__init__.py", line
-100, in handle
-    raise ParseError("not a BitBake file", fn)
-ParseError: ParseError in x.txt: not a BitBake file
+Make the matchbox-keyboard startup script wait for matchbox desktop and
+start the matchbox-keyboard daemon in its own shell, in the background.
 
-ERROR: Unable to parse x.txt: ParseError in x.txt: not a BitBake file
-Importing from file x.txt failed!
+See discussion here:
+https://lists.yoctoproject.org/pipermail/poky/2013-December/009463.html
 
-Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+Bug here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5546
+
+Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 ---
- scripts/bitbake-prserv-tool | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/bitbake-prserv-tool b/scripts/bitbake-prserv-tool
-index 96a3470..28c2416 100755
---- a/scripts/bitbake-prserv-tool
-+++ b/scripts/bitbake-prserv-tool
-@@ -5,8 +5,8 @@ help ()
-     base=`basename $0`
-     echo -e "Usage: $base command"
-     echo "Avaliable commands:"
--    echo -e "\texport <file>: export and lock down the AUTOPR values from the PR service into a file for release."
--    echo -e "\timport <file>: import the AUTOPR values from the exported file into the PR service."
-+    echo -e "\texport <file.conf>: export and lock down the AUTOPR values from the PR service into a file for release."
-+    echo -e "\timport <file.conf>: import the AUTOPR values from the exported file into the PR service."
- }
+Changes since v1:
+ - stop using another script to start in the background and spawn a
+   background shell from the startup script
+
+ .../matchbox-keyboard/files/80matchboxkeyboard.sh  | 21 ++++++++++++++++++++
+ .../files/80matchboxkeyboard.shbg                  | 23 ----------------------
+ .../matchbox-keyboard/matchbox-keyboard_git.bb     |  4 ++--
+ 3 files changed, 23 insertions(+), 25 deletions(-)
+ create mode 100755 meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
+ delete mode 100755 meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
+
+diff --git a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
+new file mode 100755
+index 000000000000..d822efa6e70c
+--- /dev/null
++++ b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
+@@ -0,0 +1,21 @@
++#!/bin/sh
++
++. /etc/formfactor/config
++
++CMD=""
++
++if [ "$HAVE_KEYBOARD" = "0" ]; then
++    CMD="matchbox-keyboard -d"
++elif [ "$DISPLAY_CAN_ROTATE" = "1" ]; then
++    if [ "$HAVE_KEYBOARD_PORTRAIT" = "1" -a "$HAVE_KEYBOARD_LANDSCAPE" = "0" ]; then
++        CMD="matchbox-keyboard -d -o landscape"
++    elif [ "$HAVE_KEYBOARD_LANDSCAPE" = "1" -a "$HAVE_KEYBOARD_PORTRAIT" = "0" ]; then
++        CMD="matchbox-keyboard -d -o portrait"
++    fi
++fi
++
++if [ "$CMD" ]; then
++    # Delay to make sure the window manager is active
++    # by waiting for the desktop to say its finished loading
++	( dbus-wait org.matchbox_project.desktop Loaded && $CMD ) &
++fi
+diff --git a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
+deleted file mode 100755
+index 43c5d3ed6a32..000000000000
+--- a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
++++ /dev/null
+@@ -1,23 +0,0 @@
+-#!/bin/sh
+-
+-. /etc/formfactor/config
+-
+-CMD=""
+-
+-if [ "$HAVE_KEYBOARD" = "0" ]; then
+-    CMD="matchbox-keyboard -d"
+-elif [ "$DISPLAY_CAN_ROTATE" = "1" ]; then
+-    if [ "$HAVE_KEYBOARD_PORTRAIT" = "1" -a "$HAVE_KEYBOARD_LANDSCAPE" = "0" ]; then
+-        CMD="matchbox-keyboard -d -o landscape"
+-    elif [ "$HAVE_KEYBOARD_LANDSCAPE" = "1" -a "$HAVE_KEYBOARD_PORTRAIT" = "0" ]; then
+-        CMD="matchbox-keyboard -d -o portrait"
+-    fi
+-fi
+-					
+-
+-if [ "$CMD" ]; then
+-    # Delay to make sure the window manager is active
+-    # by waiting for the desktop to say its finished loading
+-    dbus-wait org.matchbox_project.desktop Loaded
+-    exec $CMD
+-fi
+diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+index ffcabcad2215..70caf6fc0222 100644
+--- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
++++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+@@ -17,7 +17,7 @@ PR = "r4"
+ SRC_URI = "git://git.yoctoproject.org/${BPN} \
+            file://configure_fix.patch;maxrev=1819 \
+            file://single-instance.patch \
+-           file://80matchboxkeyboard.shbg \
++           file://80matchboxkeyboard.sh \
+            file://png-fix.patch"
  
- clean_cache()
+ S = "${WORKDIR}/git"
+@@ -43,7 +43,7 @@ FILES_${PN}-applet = "${libdir}/matchbox-panel/*.so"
+ 
+ do_install_append () {
+ 	install -d ${D}/${sysconfdir}/X11/Xsession.d/
+-	install -m 755 ${WORKDIR}/80matchboxkeyboard.shbg ${D}/${sysconfdir}/X11/Xsession.d/
++	install -m 755 ${WORKDIR}/80matchboxkeyboard.sh ${D}/${sysconfdir}/X11/Xsession.d/
+ 
+ 	rm -f ${D}${libdir}/gtk-2.0/*/immodules/*.la
+ 	rm -f ${D}${libdir}/matchbox-panel/*.la
 -- 
-1.8.3.4
+1.8.3.2
 
 
