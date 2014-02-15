@@ -1,31 +1,40 @@
-Return-Path: <scott.a.garman@intel.com>
-Received: from masterfoo.zenlinux.com (masterfoo.zenlinux.com [207.192.74.254])
-	by mail.openembedded.org (Postfix) with ESMTP id F15CB6EFC0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 19:05:26 +0000 (UTC)
-Received: from localhost (c-24-20-145-95.hsd1.or.comcast.net [24.20.145.95])
-	(using TLSv1 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by masterfoo.zenlinux.com (Postfix) with ESMTP id BF2FE2FE0F
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 14:05:04 -0500 (EST)
-From: Scott Garman <scott.a.garman@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Feb 2014 11:04:47 -0800
-Message-Id: <bb53744a8568261f4cb548df08e7332aa8389edd.1392490959.git.scott.a.garman@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1392490959.git.scott.a.garman@intel.com>
-References: <cover.1392490959.git.scott.a.garman@intel.com>
-In-Reply-To: <cover.1392490959.git.scott.a.garman@intel.com>
-References: <cover.1392490959.git.scott.a.garman@intel.com>
-X-MasterFoo-MailScanner-Information: Please contact the ISP for more
-	information
-X-MailScanner-ID: BF2FE2FE0F.23D93
-X-MasterFoo-MailScanner: Found to be clean
-X-MasterFoo-MailScanner-SpamCheck: not spam
-X-MasterFoo-MailScanner-From: scott.a.garman@intel.com
-X-Spam-Status: No
-Subject: [PATCH 1/1] runqemu: add ability to skip using an existing tap device
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 69E7B6EC51;
+	Sat, 15 Feb 2014 21:40:14 +0000 (UTC)
+Received: by mail-pb0-f48.google.com with SMTP id rr13so13697287pbb.21
+	for <multiple recipients>; Sat, 15 Feb 2014 13:40:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to;
+	bh=Z33MTdrIBHHKUBtYXfTSZslqv99y2es0PvfcSc8Mh7w=;
+	b=WdSBl1EEz00BY1Od14kwwsxD4/WKTl0oG4teaBMQKIWX7oW/vInMOQNXvMfKQCZDKr
+	DNXXyc4Yyxveq/Mi+FSYV6zGxKNZsW5HVdXopt8wt19gEW3uj/OUffR7X8GrjKisTpMq
+	ruQaHdmh6/akQy9Lx55tnCzcUu8NQ8CJVwU2wr+GpsVl3KjK1RznXF8r5jCN3AfGUCb2
+	dgD+zBSu+y69WkYyumIloym9qZjYnrywpO/xE73OxW0CFcUphHu+nDUy+EJRch9MylkB
+	+v1eCvxhuwXYyceYkMQYUje35K2TP/X3A6rbEnWW0sJ/6ZS0nmSFLQt8alaFps129TOc
+	dL9A==
+X-Received: by 10.68.139.100 with SMTP id qx4mr17158789pbb.144.1392500415088; 
+	Sat, 15 Feb 2014 13:40:15 -0800 (PST)
+Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.30])
+	by mx.google.com with ESMTPSA id vf7sm30289525pbc.5.2014.02.15.13.40.13
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 15 Feb 2014 13:40:13 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAMKF1srght3j6YgXJq-f+pzCnRCbWTEVuxuss5KjPthUaq+JTg@mail.gmail.com>
+Date: Sat, 15 Feb 2014 13:40:11 -0800
+Message-Id: <FEBAFA47-8E03-4C04-AF2A-D06F269E77D2@gmail.com>
+References: <CAMKF1srght3j6YgXJq-f+pzCnRCbWTEVuxuss5KjPthUaq+JTg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Yocto list discussion <yocto@yoctoproject.org>
+X-Mailer: Apple Mail (2.1827)
+Subject: Re: Upcoming Bug blitz weekend ( Feb 21 - Feb 24)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +47,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2014 19:05:27 -0000
+X-List-Received-Date: Sat, 15 Feb 2014 21:40:14 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Support the sitauation where a user could have another VM running
-which uses tap devices. To prevent runqemu from trying to use the
-same tap device, runqemu will skip using a tap device if it finds
-a filename tapX.skip within its lock directory.
+Fellow Developers,
 
-This fixes [YOCTO #5815]
+Here I would like to remind us all that bug squash weekend is coming. In =
+addition to the bugs mentioned in bugzilla, if you are interested to fix
+bugs in other layers besides OE-Core then there are some world build =
+failures recorded on OE wiki
 
-Signed-off-by: Scott Garman <scott.a.garman@intel.com>
----
- scripts/runqemu-internal | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+http://www.openembedded.org/wiki/Bitbake_World_Status
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index f9ca380..d317dfd 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -178,6 +178,10 @@ else
-         USE_PRECONF_TAP="no"
-         for tap in $POSSIBLE; do
-             LOCKFILE="$LOCKDIR/$tap"
-+            if [ -e "$LOCKFILE.skip" ]; then
-+                echo "Found $LOCKFILE.skip, skipping $tap"
-+                continue
-+            fi
-             echo "Acquiring lockfile for $tap..."
-             acquire_lock $LOCKFILE
-             if [ $? -eq 0 ]; then
-@@ -214,7 +218,7 @@ else
-             fi 
-         else
-             echo "Using preconfigured tap device '$TAP'"
--            echo "If this is not intended, use flock on $LOCKFILE.lock to make runqemu skip $TAP."
-+            echo "If this is not intended, touch $LOCKFILE.skip to make runqemu skip $TAP."
-         fi
- 
-         cleanup() {
--- 
-1.8.3.2
+The links to failures logs are towards the end in above document.
+
+Thanks
+-Khem
+
+
+On Feb 5, 2014, at 9:21 AM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> Hi All
+>=20
+> I would like to invite everyone to the bug fixing weekend which is
+> coming in 3 weeks from Feb 21 to Feb 24
+>=20
+> Bugs in NEW status for OE-Core & related categories:
+>=20
+> http://tinyurl.com/pu8vlaf
+>=20
+> All bugs/enhancements in NEW status in interesting categories:
+>=20
+> http://tinyurl.com/pjhrpwr
+>=20
+> Please feel free to pick any of the bugs which you are interested in
+> and has no owner assigned to it
+> or no one committed to it in comments or so. If there is a doubt
+> please add a comment to bug or send email to existing assignee to
+> coordinate your fix.
+>=20
+> Please assign the bugs to yourself beforehand and set the status to =
+ACCEPTED
+>=20
+> This is a potential list but not exhaustive, you are free to pick any
+> bugs that are not listed here
+> and fix them,
+>=20
+> I also think it will be good to utilize IRC channel during the bug
+> blitz weekend for communicating
+> to supplement emails and mailing list communications
+>=20
+> I will send the reminders of the event as we come close to it.
+>=20
+> Looking forward to it
+>=20
+> -Khem
 
 
