@@ -1,46 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CA7666BC8C
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6717B6E6F5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2014 03:54:26 +0000 (UTC)
-Received: by mail-pd0-f179.google.com with SMTP id fp1so13148989pdb.38
+	Sun, 16 Feb 2014 11:48:06 +0000 (UTC)
+Received: by mail-la0-f50.google.com with SMTP id ec20so10651472lab.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2014 19:54:28 -0800 (PST)
+	Sun, 16 Feb 2014 03:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=E9cyrtajJlKWeAde2yC9NF/DIQR3c5RoG874XkGPKkY=;
-	b=oqAxWUrO+xp+B2SSObbYm/biplgokkw8awxX1p8zkXDQASiinLtpXRjQIYpfHQ9b+H
-	6liyU4LRyEISl3oQ8+NM0hjQFQVnilmtrCe/gkXiPv6x84R4OMgO0KembS+G9R3Ugj+K
-	BjbTVMBdC94ySuBlTq5A2yyZq+MuP1ffFSKdYlAvx2Oaq0bxE8h4gg31uSBHFi1BVSMD
-	TmumIH7YysW0y9uhbPU+6nPw74HwULd36AD07/U65D/hEj7FeqSxtiej3/Dwk8UcVvMk
-	x48hW1OhzmoA20wYrCQkP2pGAy8FM5SHtXKnPzGsHxGmydx94UMgCFNSqVyv/s8PSEBg
-	jASQ==
-X-Received: by 10.66.49.74 with SMTP id s10mr18763785pan.0.1392522867953;
-	Sat, 15 Feb 2014 19:54:27 -0800 (PST)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	nv7sm32046906pbc.31.2014.02.15.19.54.26 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 15 Feb 2014 19:54:27 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CANP1U1xz1_KVFRQ=ujhy72jCTLVXmNwweN6LSjzqzKmn4OmxHg@mail.gmail.com>
-Date: Sat, 15 Feb 2014 19:54:25 -0800
-Message-Id: <5113F5BE-A941-4F4F-A864-3FCC944B7414@gmail.com>
-References: <CANP1U1xG6AkomoUcvm=chpQ=G7HY7ruFQRgYA5We6UsoFxvBLQ@mail.gmail.com>
-	<A0921DE9-1EB3-4D7D-9D96-9092A7579041@gmail.com>
-	<CANP1U1z1d5CDar_NLDmnVX+EZJYfMnxbATip1_ejfe4E18pFVQ@mail.gmail.com>
-	<17C2FD1E-6342-4B44-B597-9960E0E4A20D@gmail.com>
-	<CANP1U1yJcXoGOymmMfa7wm4TOTD0TCCJxLE-L2NjddqH9RNXQw@mail.gmail.com>
-	<97399D49-FAF4-45E0-9AF2-EDF60A6CE258@gmail.com>
-	<CANP1U1xz1_KVFRQ=ujhy72jCTLVXmNwweN6LSjzqzKmn4OmxHg@mail.gmail.com>
-To: Jay Cady <jcady92@gmail.com>
-X-Mailer: Apple Mail (2.1827)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Problem with libicudata.so in OE master
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=zd40RTbHk0X8MjXWf/9xW/pAuC58rm28MvozQbNjajw=;
+	b=wY6zfvNzZs+NF4lE0Ys0KnaM5Ma92lzm39Sb6sEPQL4iTEthunUS6ZYmijdOKRabm+
+	nmciBg/u6AKf62eoNH1tJ5WptP3GvlBTtJ0RsQR4Oqv5BOfYfGP2lXhnNevtos1uJuHJ
+	QSNtrrtGXG63uH2JMX/pVbkalCykxLuW0Sl/YgJV+qwVQDaC9lpm6fgMdoFjSSJmmb8m
+	uZXo6Lxd90i4iY4DF9PE6/I7StkWnWx+zzUbV/CEQuG9cra+HSkpu/fj8eBnLDlta3d7
+	80fSt1ldfPnqH0kYoQFM2iV1+7jm8yKSFa1TDeyR4Wy95W1G3iP1KXo/0R17v7eoovMf
+	RwsQ==
+MIME-Version: 1.0
+X-Received: by 10.152.164.199 with SMTP id ys7mr13152501lab.31.1392551286320; 
+	Sun, 16 Feb 2014 03:48:06 -0800 (PST)
+Received: by 10.114.68.133 with HTTP; Sun, 16 Feb 2014 03:48:06 -0800 (PST)
+Received: by 10.114.68.133 with HTTP; Sun, 16 Feb 2014 03:48:06 -0800 (PST)
+In-Reply-To: <1392449004-2212-1-git-send-email-raj.khem@gmail.com>
+References: <1392449004-2212-1-git-send-email-raj.khem@gmail.com>
+Date: Sun, 16 Feb 2014 12:48:06 +0100
+Message-ID: <CAC1BbcS+tq0QfRRrBUwdDi5t-ZRDHQPZKbeC8mVUNnfub=jN3Q@mail.gmail.com>
+From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] rootfs.py: Check for LDCONFIGDEPEND being empty string
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,345 +42,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Feb 2014 03:54:26 -0000
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_601A5C52-5EE6-43E3-A63A-A5A4A3A99603"
+X-List-Received-Date: Sun, 16 Feb 2014 11:48:06 -0000
+Content-Type: multipart/alternative; boundary=001a11349626c0b1c904f2849ccd
 
---Apple-Mail=_601A5C52-5EE6-43E3-A63A-A5A4A3A99603
+--001a11349626c0b1c904f2849ccd
+Content-Type: text/plain; charset=ISO-8859-1
+
+On 15 Feb 2014 08:22, "Khem Raj" <raj.khem@gmail.com> wrote:
+>
+> We override LDCONFIGDEPEND to be empty string for uclibc
+> however the current check is for it being None as a result
+> the function is still executed but ldconfig-native is not
+> built as dependency for rootfs when building with uclibc
+>
+> Fixes errors like below
+>
+> File:
+>
+'/home/kraj/work/angstrom-repo/sources/openembedded-core/meta/lib/oe/rootfs.py',
+> lineno: 191, function: _run_ldconfig
+>      0187:    def _run_ldconfig(self):
+>      0188:        if self.d.getVar('LDCONFIGDEPEND', True) is not None:
+>      0189:            bb.note("Executing: ldconfig -r" +
+> self.image_rootfs + "-c new -v")
+>      0190:            self._exec_shell_cmd(['ldconfig', '-r',
+> self.image_rootfs, '-c',
+>  *** 0191:                                  'new', '-v'])
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/lib/oe/rootfs.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> index 6114f56..285c769 100644
+> --- a/meta/lib/oe/rootfs.py
+> +++ b/meta/lib/oe/rootfs.py
+> @@ -185,7 +185,7 @@ class Rootfs(object):
+>                          self._handle_intercept_failure(registered_pkgs)
+>
+>      def _run_ldconfig(self):
+> -        if self.d.getVar('LDCONFIGDEPEND', True) is not None:
+> +        if self.d.getVar('LDCONFIGDEPEND', True) != "":
+
+Why not just
+if self.d.getVar('LDCONFIGDEPEND', True):
+
+That ought to DTRT for all content evaluating to false.
+Thanks,
+
+--001a11349626c0b1c904f2849ccd
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=windows-1252
 
-
-On Feb 15, 2014, at 7:53 PM, Jay Cady <jcady92@gmail.com> wrote:
-
-> I can confirm that the runtime error is gone.  Qt5 images now run as =
-expected.
->=20
-
-
-thanks for testing
-
->=20
-> On Sat, Feb 15, 2014 at 10:52 PM, Khem Raj <raj.khem@gmail.com> wrote:
->=20
-> On Feb 15, 2014, at 7:46 PM, Jay Cady <jcady92@gmail.com> wrote:
->=20
->> I re-did the patch correctly and it works perfectly!  Problem solved.
->>=20
->=20
->=20
-> Can you reconfirm that runtime error on your target is gone now ?
-> I would like others who have been seeing this issue to test this patch =
-out as well
-> since I don=92t have the runtime env myself here. And then I will =
-propose the fix for inclusion into OE-Core
->=20
->=20
->> For others wondering, these were the steps Khem gave me to apply the =
-patch:
->>=20
->> cd into meta/
->> and then=20
->>=20
->> wget =
-http://git.openembedded.org/openembedded-core-contrib/patch/?id=3D07ff1b53=
-9a62053c6d41cd2814e8d0bca1991a63 -O a.patch
->> git am a.patch
->>=20
->> Thanks Khem!
->>=20
->>=20
->> On Sat, Feb 15, 2014 at 7:54 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>=20
->> On Feb 15, 2014, at 4:52 PM, Jay Cady <jcady92@gmail.com> wrote:
->>=20
->>> Hey, thanks for the reply!
->>>=20
->>> I tried it out and wasn't able to boot the image.  Here is the =
-output of the boot when it failed:
->>>=20
->>=20
->> Its not the patch. your image seems corrupt.=20
->>=20
->>> [    3.230529] Freeing init memory: 180K
->>> INIT: version 2.88 booting
->>> INIT: Entering runlevel: 5
->>> INIT: cannot execute "/etc/init.d/rc"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT:
->>> cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT:
->>> cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: Id "mxc0" respawning too fast: disabled for 5 minutes
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: cannot execute "/sbin/getty"
->>> INIT: Id "1" respawning too fast: disabled for 5 minutes
->>> INIT: no more processes left in this runlevel
->>>=20
->>> Any ideas why this is happening?  Perhaps I installed the patch =
-incorrectly?
->>>=20
->>>=20
->>> On Sat, Feb 15, 2014 at 5:14 PM, Khem Raj <raj.khem@gmail.com> =
-wrote:
->>> Hi
->>>=20
->>> can you try this patch
->>>=20
->>> =
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/icu=
-&id=3D07ff1b539a62053c6d41cd2814e8d0bca1991a63
->>>=20
->>> and report back
->>>=20
->>> -Khem
->>>=20
->>>=20
->>>=20
->>> On Feb 15, 2014, at 9:57 AM, Jay Cady <jcady92@gmail.com> wrote:
->>>=20
->>>> I'm having the exact same problem.
->>>>=20
->>>> Latest master branch of Yocto 1.5 2/13/14.  Built with the master =
-branch of meta-qt5.  Wandboard-dual.
->>>>=20
->>>> When running the Qt5_CinematicExperience app, I'm getting this =
-error:
->>>>=20
->>>> shared libraries: /usr/lib/libicudata.so.51: internal error
->>>>=20
->>>> Any ideas how to fix this?
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>=20
->>>=20
->>=20
->>=20
->=20
->=20
-
-
---Apple-Mail=_601A5C52-5EE6-43E3-A63A-A5A4A3A99603
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=windows-1252
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dwindows-1252"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: =
-after-white-space;"><br><div><div>On Feb 15, 2014, at 7:53 PM, Jay Cady =
-&lt;<a href=3D"mailto:jcady92@gmail.com">jcady92@gmail.com</a>&gt; =
-wrote:</div><br class=3D"Apple-interchange-newline"><blockquote =
-type=3D"cite"><div dir=3D"ltr">I can confirm that the runtime error is =
-gone. &nbsp;Qt5 images now run as expected.</div><div =
-class=3D"gmail_extra"><br></div></blockquote><div><br></div><div><br></div=
-><div>thanks for testing</div><br><blockquote type=3D"cite"><div =
-class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sat, Feb 15, =
-2014 at 10:52 PM, Khem Raj <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:raj.khem@gmail.com" =
-target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-style=3D"word-wrap:break-word"><br><div><div class=3D""><div>On Feb 15, =
-2014, at 7:46 PM, Jay Cady &lt;<a href=3D"mailto:jcady92@gmail.com" =
-target=3D"_blank">jcady92@gmail.com</a>&gt; wrote:</div>
-
-<br><blockquote type=3D"cite"><div dir=3D"ltr">I re-did the patch =
-correctly and it works perfectly! &nbsp;Problem =
-solved.<div><br></div></div></blockquote><div><br></div><div><br></div></d=
-iv><div>Can you reconfirm that runtime error on your target is gone now =
-?</div>
-
-<div>I would like others who have been seeing this issue to test this =
-patch out as well</div><div>since I don=92t have the runtime env myself =
-here. And then I will propose the fix for inclusion into =
-OE-Core</div><div><div class=3D"h5">
-
-<div><br></div><div><br></div><blockquote type=3D"cite"><div =
-dir=3D"ltr"><div>For others wondering, these were the steps Khem gave me =
-to apply the patch:</div><div><br></div><div><div =
-style=3D"font-family:arial,sans-serif;font-size:13px">
-
-
-
-cd into meta/</div><div =
-style=3D"font-family:arial,sans-serif;font-size:13px">and =
-then&nbsp;</div><div =
-style=3D"font-family:arial,sans-serif;font-size:13px"><br></div><div =
-style=3D"font-family:arial,sans-serif;font-size:13px"><div =
-style=3D"margin:0px;font-family:'PT Mono'">
-
-
-
-wget&nbsp;<a =
-href=3D"http://git.openembedded.org/openembedded-core-contrib/patch/?id=3D=
-07ff1b539a62053c6d41cd2814e8d0bca1991a63" =
-target=3D"_blank">http://git.openembedded.org/openembedded-core-contrib/pa=
-tch/?id=3D07ff1b539a62053c6d41cd2814e8d0bca1991a63</a>&nbsp;-O =
-a.patch</div>
-
-
-
-</div><div style=3D"font-family:arial,sans-serif;font-size:13px">git am =
-a.patch</div><div><br></div><div>Thanks Khem!</div></div></div><div =
-class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Sat, Feb 15, =
-2014 at 7:54 PM, Khem Raj <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:raj.khem@gmail.com" =
-target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br>
-
-
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-style=3D"word-wrap:break-word"><br><div><div><div>On Feb 15, 2014, at =
-4:52 PM, Jay Cady &lt;<a href=3D"mailto:jcady92@gmail.com" =
-target=3D"_blank">jcady92@gmail.com</a>&gt; wrote:</div>
-
-
-
-<br><blockquote type=3D"cite"><div dir=3D"ltr"><div>Hey, thanks for the =
-reply!</div><div><br></div>I tried it out and wasn't able to boot the =
-image. &nbsp;Here is the output of the boot when it =
-failed:<div><br></div></div></blockquote>
-
-
-
-<div><br></div></div><div>Its not the patch. your image seems =
-corrupt.&nbsp;</div><div><br><blockquote type=3D"cite"><div =
-dir=3D"ltr"><div><div>[ &nbsp; &nbsp;3.230529] Freeing init memory: =
-180K</div>
-
-
-<div>INIT: version 2.88 booting</div><div>INIT: Entering runlevel: =
-5</div><div>INIT: cannot execute "/etc/init.d/rc"</div><div>INIT: cannot =
-execute "/sbin/getty"</div><div>INIT: cannot execute "/sbin/getty"</div>
-
-
-
-
-
-
-<div>INIT:</div><div>cannot execute "/sbin/getty"</div><div>INIT: cannot =
-execute "/sbin/getty"</div><div>INIT: cannot execute =
-"/sbin/getty"</div><div>INIT: cannot execute "/sbin/getty"</div>
-
-
-
-
-
-
-<div>INIT: cannot execute "/sbin/getty"</div><div>INIT:</div><div>cannot =
-execute "/sbin/getty"</div><div>INIT: cannot execute =
-"/sbin/getty"</div><div>INIT: cannot execute "/sbin/getty"</div>
-
-
-
-
-
-
-<div>INIT: cannot execute "/sbin/getty"</div><div>INIT: cannot execute =
-"/sbin/getty"</div><div>INIT: cannot execute =
-"/sbin/getty"</div><div>INIT: Id "mxc0" respawning too fast: disabled =
-for 5 minutes</div>
-
-
-
-
-
-
-<div>INIT: cannot execute "/sbin/getty"</div><div>INIT: cannot execute =
-"/sbin/getty"</div><div>INIT: Id "1" respawning too fast: disabled for 5 =
-minutes</div><div>INIT: no more processes left in this runlevel</div>
-
-
-
-
-
-
-</div><div><br></div><div>Any ideas why this is happening? &nbsp;Perhaps =
-I installed the patch incorrectly?</div><div =
-class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Sat, Feb 15, =
-2014 at 5:14 PM, Khem Raj <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:raj.khem@gmail.com" =
-target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br>
-
-
-
-
-
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
-style=3D"word-wrap:break-word">Hi<div><br></div><div>can you try this =
-patch</div><div><br></div><div><a =
-href=3D"http://git.openembedded.org/openembedded-core-contrib/commit/?h=3D=
-kraj/icu&amp;id=3D07ff1b539a62053c6d41cd2814e8d0bca1991a63" =
-target=3D"_blank">http://git.openembedded.org/openembedded-core-contrib/co=
-mmit/?h=3Dkraj/icu&amp;id=3D07ff1b539a62053c6d41cd2814e8d0bca1991a63</a></=
-div>
-
-
-
-
-
-
-<div><br></div><div>and report =
-back</div><div><br></div><div>-Khem</div><div><br></div><div><br></div><di=
-v><br><div><div><div>On Feb 15, 2014, at 9:57 AM, Jay Cady &lt;<a =
-href=3D"mailto:jcady92@gmail.com" =
-target=3D"_blank">jcady92@gmail.com</a>&gt; wrote:</div>
-
-
-
-
-
-
-<br></div><blockquote type=3D"cite"><div><div dir=3D"ltr">I'm having the =
-exact same problem.<div><br></div><div>Latest master branch of Yocto 1.5 =
-2/13/14. &nbsp;Built with the master branch of meta-qt5. =
-&nbsp;Wandboard-dual.</div>
-
-
-
-
-
-
-<div><br></div><div>When running the Qt5_CinematicExperience app, I'm =
-getting this error:</div>
-
-<div><br></div><div>shared libraries: /usr/lib/libicudata.so.51: =
-internal error</div><div><br></div><div>Any ideas how to fix =
-this?</div></div></div>
-_______________________________________________<br>Openembedded-core =
-mailing list<br><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-target=3D"_blank">Openembedded-core@lists.openembedded.org</a><br><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
-target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembed=
-ded-core</a><br>
-
-
-
-
-
-
-</blockquote></div><br></div></div></blockquote></div><br></div></div>
-</blockquote></div></div><br></div></blockquote></div><br></div>
-</blockquote></div></div></div><br></div></blockquote></div><br></div>
-</blockquote></div><br></body></html>=
-
---Apple-Mail=_601A5C52-5EE6-43E3-A63A-A5A4A3A99603--
+<p dir=3D"ltr"><br>
+On 15 Feb 2014 08:22, &quot;Khem Raj&quot; &lt;<a href=3D"mailto:raj.khem@g=
+mail.com">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; We override LDCONFIGDEPEND to be empty string for uclibc<br>
+&gt; however the current check is for it being None as a result<br>
+&gt; the function is still executed but ldconfig-native is not<br>
+&gt; built as dependency for rootfs when building with uclibc<br>
+&gt;<br>
+&gt; Fixes errors like below<br>
+&gt;<br>
+&gt; File:<br>
+&gt; &#39;/home/kraj/work/angstrom-repo/sources/openembedded-core/meta/lib/=
+oe/rootfs.py&#39;,<br>
+&gt; lineno: 191, function: _run_ldconfig<br>
+&gt; =A0 =A0 =A00187: =A0 =A0def _run_ldconfig(self):<br>
+&gt; =A0 =A0 =A00188: =A0 =A0 =A0 =A0if self.d.getVar(&#39;LDCONFIGDEPEND&#=
+39;, True) is not None:<br>
+&gt; =A0 =A0 =A00189: =A0 =A0 =A0 =A0 =A0 =A0bb.note(&quot;Executing: ldcon=
+fig -r&quot; +<br>
+&gt; self.image_rootfs + &quot;-c new -v&quot;)<br>
+&gt; =A0 =A0 =A00190: =A0 =A0 =A0 =A0 =A0 =A0self._exec_shell_cmd([&#39;ldc=
+onfig&#39;, &#39;-r&#39;,<br>
+&gt; self.image_rootfs, &#39;-c&#39;,<br>
+&gt; =A0*** 0191: =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0&#39;new&#39;, &#39;-v&#39;])<br>
+&gt;<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.=
+khem@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =A0meta/lib/oe/rootfs.py | 2 +-<br>
+&gt; =A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py<br>
+&gt; index 6114f56..285c769 100644<br>
+&gt; --- a/meta/lib/oe/rootfs.py<br>
+&gt; +++ b/meta/lib/oe/rootfs.py<br>
+&gt; @@ -185,7 +185,7 @@ class Rootfs(object):<br>
+&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0self._handle_interc=
+ept_failure(registered_pkgs)<br>
+&gt;<br>
+&gt; =A0 =A0 =A0def _run_ldconfig(self):<br>
+&gt; - =A0 =A0 =A0 =A0if self.d.getVar(&#39;LDCONFIGDEPEND&#39;, True) is n=
+ot None:<br>
+&gt; + =A0 =A0 =A0 =A0if self.d.getVar(&#39;LDCONFIGDEPEND&#39;, True) !=3D=
+ &quot;&quot;:</p>
+<p dir=3D"ltr">Why not just<br>
+if self.d.getVar(&#39;LDCONFIGDEPEND&#39;, True):</p>
+<p dir=3D"ltr">That ought to DTRT for all content evaluating to false.<br>
+Thanks,</p>
+
+--001a11349626c0b1c904f2849ccd--
