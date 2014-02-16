@@ -1,41 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
-	[209.85.160.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D60B6EE11
+Return-Path: <joaohf@gmail.com>
+Received: from mail-yk0-f175.google.com (mail-yk0-f175.google.com
+	[209.85.160.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 1841E6EFA6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2014 16:32:36 +0000 (UTC)
-Received: by mail-pb0-f47.google.com with SMTP id rp16so14240133pbb.6
+	Sun, 16 Feb 2014 21:41:17 +0000 (UTC)
+Received: by mail-yk0-f175.google.com with SMTP id 131so29204234ykp.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2014 08:32:37 -0800 (PST)
+	Sun, 16 Feb 2014 13:41:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=97M2ZTT7PaZEVBZ/w547C4jQWwAjySsJtTkkLOFh+Pk=;
-	b=VKyNVeMxTkYTufgyfG46/B0VYXMhiHDW2PvaYlusIKtgn57nbLzfQFnkAuSq7KZkFu
-	nV1GjyAGvy26pfMJGXM/gwb+Jwss3BcbUw9Hf598NlEpCI/kTW0fFp/HeMSFVwonhx4D
-	jBEn70j1D4HPMCxp0297pvLRXtraHN5DftDm+gLICjbkq0zdqhdHr8OFraxIQqaI2wMZ
-	iPNV+n/9EIStqG7i/VvmeREFU7xiAXfFTCY5qXhjl1zg9UJDLZ8swdX8ebFMF4Hof4sV
-	DnHkfaVVu6Ye2MyoS+49xZimNbPfOeDUrOn+MqOB5fkxFqLGm50PdqWAg4LOmSSqlGbG
-	bOtg==
-X-Received: by 10.68.130.202 with SMTP id og10mr21277831pbb.133.1392568356839; 
-	Sun, 16 Feb 2014 08:32:36 -0800 (PST)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	eo11sm95408882pac.0.2014.02.16.08.32.33 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 16 Feb 2014 08:32:34 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1443aee84d0.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-Date: Sun, 16 Feb 2014 08:32:31 -0800
-Message-Id: <7E5E9405-A19A-46A8-9551-78D909886FE2@gmail.com>
-References: <1392432877-15003-1-git-send-email-raj.khem@gmail.com>
-	<1443aee84d0.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-X-Mailer: Apple Mail (2.1827)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] usbutils: Patch to detect iconv support
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=CFQcgYER3mDE0UrYz6RxFXM/4kXVDrlRXm06iajjtXg=;
+	b=tt21XDrIVFqdaUyGdm05Ifj5IyTMyMeU5WopTLmbvEQ4dAxB5YCXy9qO4QtoG/9fih
+	oVXB/iRd5TiUNLGxqnFUTXkqmT5l1d0/fBaI/uhkv/qgfIGw6UAUe2/eLVVUlSk1ANIy
+	ZsrDmraVv+ecGYF4Ge2LDkIEUJ0WE/KGdLNNKJ2k0a3bdr5+bUG9VG4BKV2TIR80+vFM
+	qSksBYQM9MOXToJoILBjWnorTh4A1bUurnmY9txXWdOsx6WegCQr+b4rntqvMCtqyVUo
+	kPToG5PhA3hxQlspuJg4LTY9y5lA4zF2b33zVt/akW9JZbQFrU54tEHk9nTHwYf0vFLe
+	Njmw==
+X-Received: by 10.236.37.105 with SMTP id x69mr22052356yha.15.1392586877627;
+	Sun, 16 Feb 2014 13:41:17 -0800 (PST)
+Received: from localhost.localdomain ([201.53.197.242])
+	by mx.google.com with ESMTPSA id n6sm41989930yha.20.2014.02.16.13.41.15
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 16 Feb 2014 13:41:17 -0800 (PST)
+From: =?UTF-8?q?Jo=C3=A3o=20Henrique=20Ferreira=20de=20Freitas?=
+	<joaohf@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 16 Feb 2014 18:40:56 -0300
+Message-Id: <1392586858-12205-1-git-send-email-joaohf@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+MIME-Version: 1.0
+Cc: dvhart@linux.intel.com
+Subject: [PATCH v2 0/2] Add task to create kernel config fragments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,29 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Feb 2014 16:32:36 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 16 Feb 2014 21:41:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Changes in v2:
+   - address Darren
+      - task name, using diffconfig
+      - except on failure
+      - space after ','
+      - printing the path to fragment
 
-On Feb 16, 2014, at 5:41 AM, Bernhard Reutner-Fischer =
-<rep.dot.nop@gmail.com> wrote:
+   - address RP's comments (import os)
 
-> On 15 February 2014 03:54:25 Khem Raj <raj.khem@gmail.com> wrote:
->=20
->> Fixes build failures on uclibc
->=20
-> Does this also handle SDK images?
-> I had to divert iconv.h ..
-> Thanks && cheers,
->=20
->=20
+Hi,
 
-I am able to generate SDK images yes.
+These patches add a new task called fragmentconfig which should be used
+when the user need to extract a diff between two kernel config files.
 
-> Sent with AquaMail for Android
-> http://www.aqua-mail.com
->=20
->=20
+For instance:
+
+  bitbake -c menuconfig linux-yoco
+
+  [do some changes and save]
+
+  bitbake -c fragmentconfig linux-yocto
+
+See the fragment.cfg in $WORKDIR/fragment.cfg
+
+This closes [YOCTO #3862]
+
+Thanks.
+
+João Henrique Ferreira de Freitas (2):
+  kernel-yocto: Add do_diffconfig task
+  cml1.bbclass: Add diffconfig task to cml1
+
+ meta/classes/cml1.bbclass         | 33 +++++++++++++++++++++++++++++++++
+ meta/classes/kernel-yocto.bbclass |  2 ++
+ 2 files changed, 35 insertions(+)
+
+-- 
+1.8.3.2
 
 
