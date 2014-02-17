@@ -1,24 +1,35 @@
-Return-Path: <Yanjun.Zhu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 536776E901
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A6196EFD7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 10:17:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1HAHY5X011722
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 17 Feb 2014 10:42:58 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id ld10so15114876pab.24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 02:17:34 -0800 (PST)
-Received: from wind-OptiPlex-780.corp.ad.wrs.com (128.224.162.219) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 17 Feb 2014 02:17:34 -0800
-From: Zhu Yanjun <yanjun.zhu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Feb 2014 18:17:37 +0800
-Message-ID: <1392632257-4669-1-git-send-email-yanjun.zhu@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] pseudo-1.5.1: keep install command directory mode
+	Mon, 17 Feb 2014 02:42:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=I8T+zcw3FHCQPIWhRSgYgjMxqOvK2QeMQsasb8YAv+g=;
+	b=BqDg5qytSdOP2vIe8QzK27RiJsYqca80jO7cjdaxAcavdykcz4uXQcGYTbUeC85xYG
+	eK87zEAF5WOdE4VyvOg5ebAsP588txt8EKNHprLWzFvEOXky3sUsNp2485EczKBfAkc4
+	to35peFnnc9CiB1wBMOdLLnG289foLvxh9ndJZYy0o2lst+mH29Lp5USeEVpdiF+vM3Y
+	+GUBixF8WjvMRlE70bdYweZMevZMdObsdLO27dgMHVxCKilA0Deg4UFTK3p4uI7CIrBI
+	+V2x8TeRBvsG7kxZerfLgOlaT5m1pFbzjMXXNfwUnJ6AtogSriau9lI7piBBquMsMTrw
+	oG/Q==
+X-Received: by 10.68.93.161 with SMTP id cv1mr26000229pbb.122.1392633779224;
+	Mon, 17 Feb 2014 02:42:59 -0800 (PST)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	ac7sm114477550pad.12.2014.02.17.02.42.56 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 17 Feb 2014 02:42:58 -0800 (PST)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Feb 2014 21:46:28 +1100
+Message-Id: <1392633988-14208-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.5.4
+Subject: [PATCH] lib/oe/image.py: fix working directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,58 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2014 10:17:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 17 Feb 2014 10:42:58 -0000
 
-From: "yanjun.zhu" <yanjun.zhu@windriver.com>
+The working directory needs to be changed before the image creation
+commands instead of afterwards.
 
-CQID:LIN5-17788
-
-when install command sets the created directory mode, pseudo will change
-the mode of the directory to 0700 incorrectly.
-
-Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- .../pseudo-1.5.1-install-directory-mode.patch      |   10 ++++++++++
- meta/recipes-devtools/pseudo/pseudo_1.5.1.bb       |    3 ++-
- 2 files changed, 12 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+ meta/lib/oe/image.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch b/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
-new file mode 100644
-index 0000000..02e3da2
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
-@@ -0,0 +1,10 @@
-+--- a/ports/unix/guts/mkdirat.c
-++++ b/ports/unix/guts/mkdirat.c
-+@@ -25,6 +25,7 @@
-+ 		stat_rc = base_fstatat(dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
-+ #endif
-+ 		if (stat_rc != -1) {
-++			buf.st_mode = PSEUDO_DB_MODE(buf.st_mode, mode);
-+ 			pseudo_client_op(OP_MKDIR, 0, -1, dirfd, path, &buf);
-+ 		} else {
-+ 			pseudo_debug(1, "mkdir of %s succeeded, but stat failed: %s\n",
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-index bc92856..64115ca 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-@@ -1,11 +1,12 @@
- require pseudo.inc
+diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+index c15296f..31193f2 100644
+--- a/meta/lib/oe/image.py
++++ b/meta/lib/oe/image.py
+@@ -176,8 +176,8 @@ class Image(object):
+             bb.data.update_data(localdata)
+             localdata.setVar('type', type)
  
--PR = "r4"
-+PR = "r5"
+-            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
+             cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
++            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
  
- SRC_URI = " \
-     http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
-     file://0001-pseudo_has_unload-add-function.patch \
-     file://shutdownping.patch \
-+    file://pseudo-1.5.1-install-directory-mode.patch \
- "
- 
- SRC_URI[md5sum] = "5ec67c7bff5fe68c56de500859c19172"
+             if type in cimages:
+                 for ctype in cimages[type]:
 -- 
-1.7.9.5
+1.8.5.4
 
 
