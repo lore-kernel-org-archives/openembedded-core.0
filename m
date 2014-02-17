@@ -1,25 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 61D386EFCF
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id BAFA86EFE2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 14:22:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Feb 2014 06:22:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,860,1384329600"; d="scan'208";a="484721938"
-Received: from nithyasr-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.246])
-	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2014 06:22:46 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Feb 2014 14:22:30 +0000
-Message-Id: <f37ab1438c543848bc626ab4ee39fa00c60ef607.1392646768.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <cover.1392646768.git.paul.eggleton@linux.intel.com>
-References: <cover.1392646768.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1392646768.git.paul.eggleton@linux.intel.com>
-References: <cover.1392646768.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/4] classes/populate_sdk_base: optimise task dependencies
+	Mon, 17 Feb 2014 14:43:40 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id x13so23512458qcv.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Feb 2014 06:43:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=LSBKCHQ+V7Nz/trPXIpiwy/+cx4hm0QjZ9DzqTOYCUM=;
+	b=CVHfRJ0NIcGWwWog0Xi93WQgSHGl0kAOfZw2okeqjgxHyYiQfpiz7+ADqUPKWXm+mh
+	JFsJfxJcAqcDrA4Th95sRW8i9Oh51KJ1fdEEHDOvWEdMOIooQl2ZyZ6qwe1TVqQtiMDZ
+	jWwjp/Voe1QyIunpFhafXIjkKW6anUjsH1hXnl7zyvy/InpgKCa7aVa00FbrDJ5YDnwd
+	D43qSKmQd63PbR65pL9NsR5GJe5x600F/r0oH8m1hNGRIFgHejZWPB3KIiiJYd/w13qr
+	eyIgyzUUr55jhq6r3mop1R0AjQzF2CmcdiuyOy3kOvQoAtrAFAZjAthML9L/ukI20gBY
+	9qnA==
+MIME-Version: 1.0
+X-Received: by 10.140.30.230 with SMTP id d93mr33282478qgd.51.1392648214975;
+	Mon, 17 Feb 2014 06:43:34 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.140.100.140 with HTTP; Mon, 17 Feb 2014 06:43:34 -0800 (PST)
+In-Reply-To: <CANFVK79owKYhh5z4+5FMcScZdMUxcff7eiHanFHvD0oXraP4=A@mail.gmail.com>
+References: <1392586858-12205-1-git-send-email-joaohf@gmail.com>
+	<CAP9ODKpexMC2MG9d4L56Hn3LJSS-dqdgBw4GDB1y56u-R8AEGg@mail.gmail.com>
+	<CANFVK79owKYhh5z4+5FMcScZdMUxcff7eiHanFHvD0oXraP4=A@mail.gmail.com>
+Date: Mon, 17 Feb 2014 11:43:34 -0300
+X-Google-Sender-Auth: oPFphVjYVaGbaS1gHFfodxTNh6Y
+Message-ID: <CAP9ODKpAk43yBz1suHgK55qxT7f+ZPRgu5K4yV0fNfjd0u8P+w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Jo=E3o_Henrique_Freitas?= <joaohf@gmail.com>
+Cc: Darren Hart <dvhart@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 0/2] Add task to create kernel config fragments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +47,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2014 14:22:46 -0000
+X-List-Received-Date: Mon, 17 Feb 2014 14:43:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-We don't need to depend on do_package anymore after the split out of
-do_packagedata (which happened a while back in OE-Core commit
-6107ee294afde395e39d084c33e8e94013c625a9). We do need dependencies on
-do_packagedata though since the SDK construction needs to make use of
-the pkgdata files.
+Hello Joao,
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/populate_sdk_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Feb 17, 2014 at 11:22 AM, Jo=E3o Henrique Freitas
+<joaohf@gmail.com> wrote:
+>> I do like the patchset except that his cover letter seems outdate as
+>> the task now is diffconfig.
+>
+> You are right.
+>
+>
+>>
+>> Maybe you could add another task too,
+>> which we use quite often in meta-fsl-arm, savedefconfig. This would
+>> easy people to generate strimmed versions for use.
+>
+>
+> Yes, after this patch is accepted, I will prepare the savedefconfig task
+> (cml1.bbclass).
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index e2e013a..235d672 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -333,5 +333,5 @@ populate_sdk_log_check() {
- do_populate_sdk[dirs] = "${TOPDIR}"
- do_populate_sdk[depends] += "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_DEPENDS', True).split()])}"
- do_populate_sdk[rdepends] = "${@' '.join([x + ':do_populate_sysroot' for x in d.getVar('SDK_RDEPENDS', True).split()])}"
--do_populate_sdk[recrdeptask] = "do_package_write"
-+do_populate_sdk[recrdeptask] += "do_packagedata"
- addtask populate_sdk
--- 
-1.8.5.3
+Great; thanks.
 
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
