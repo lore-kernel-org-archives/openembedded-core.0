@@ -1,38 +1,20 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A6196EFD7
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id ED42C6EE34
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 10:42:58 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id ld10so15114876pab.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 02:42:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=I8T+zcw3FHCQPIWhRSgYgjMxqOvK2QeMQsasb8YAv+g=;
-	b=BqDg5qytSdOP2vIe8QzK27RiJsYqca80jO7cjdaxAcavdykcz4uXQcGYTbUeC85xYG
-	eK87zEAF5WOdE4VyvOg5ebAsP588txt8EKNHprLWzFvEOXky3sUsNp2485EczKBfAkc4
-	to35peFnnc9CiB1wBMOdLLnG289foLvxh9ndJZYy0o2lst+mH29Lp5USeEVpdiF+vM3Y
-	+GUBixF8WjvMRlE70bdYweZMevZMdObsdLO27dgMHVxCKilA0Deg4UFTK3p4uI7CIrBI
-	+V2x8TeRBvsG7kxZerfLgOlaT5m1pFbzjMXXNfwUnJ6AtogSriau9lI7piBBquMsMTrw
-	oG/Q==
-X-Received: by 10.68.93.161 with SMTP id cv1mr26000229pbb.122.1392633779224;
-	Mon, 17 Feb 2014 02:42:59 -0800 (PST)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	ac7sm114477550pad.12.2014.02.17.02.42.56 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Feb 2014 02:42:58 -0800 (PST)
-From: Jonathan Liu <net147@gmail.com>
+	Mon, 17 Feb 2014 10:44:51 +0000 (UTC)
+Message-ID: <5301E81D.3070204@communistcode.co.uk>
+Date: Mon, 17 Feb 2014 10:44:45 +0000
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Feb 2014 21:46:28 +1100
-Message-Id: <1392633988-14208-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.5.4
-Subject: [PATCH] lib/oe/image.py: fix working directory
+Subject: SDK Issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -42,31 +24,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2014 10:42:58 -0000
+X-List-Received-Date: Mon, 17 Feb 2014 10:44:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-The working directory needs to be changed before the image creation
-commands instead of afterwards.
+I recently did a new build of my images and SDKs under master
+(b188bda18690dc1af) refreshing a 3 month old build. Now everything
+builds fine, but when trying to build our in house software with the
+SDK, the new SDK falls over citing issues failing to link with libdl. If
+I think switch back to using the old SDK, everything builds without
+issue. Can anybody think of anything which might have altered the SDK in
+the past few months in order to cause this to break? I have done a quick
+directory diff of the 2 SDKs and nothing radically different. GCC 4.81
+-> 4.82 and autotools 1.13  -> 1.14 are probably the big changes. From
+what I can see the command to build the application is linking with all
+the correct libraries and as it builds with previous versions I would be
+surprised if this was wrong. It also seems to be struggling with the
+-lcrypto libraries, but it hits the libdl issue first so it may just be
+a domino effect, or there could be a significant issue with the SDK
+generation.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/lib/oe/image.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+i586-oe-linux-gcc -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
+--sysroot=/scratch/jmitchell/oecore-sdk/1/sysroots/core2-32-oe-linux -I.
+-I/scratch/jmitchell/code.git/net-snmp/../include -Wall -pipe  -rdynamic
+-g -Wall -Wextra -Wl,--build-id -O2 -Wall -Wstrict-prototypes
+-Wwrite-strings -Wcast-qual -Wno-char-subscripts -Dlinux -o .libs/snmpd
+snmpd.o -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -rdynamic -rdynamic
+ ./.libs/libucdagent.so ./.libs/libucdmibs.so -lwrap
+../snmplib/.libs/libsnmp.so -lcrypto -ldl -lelf -ldl  -Wl,--rpath
+-Wl,/scratch/jmitchell/code.git/net-snmp/../net-snmp/usr/lib
+./.libs/libucdmibs.so: undefined reference to `dlopen'
+../snmplib/.libs/libsnmp.so: undefined reference to `EVP_md5'
+../snmplib/.libs/libsnmp.so: undefined reference to `EVP_sha1'
+../snmplib/.libs/libsnmp.so: undefined reference to `RAND_bytes'
+../snmplib/.libs/libsnmp.so: undefined reference to `EVP_DigestInit'
+./.libs/libucdmibs.so: undefined reference to `dlclose'
+../snmplib/.libs/libsnmp.so: undefined reference to `DES_ncbc_encrypt'
+../snmplib/.libs/libsnmp.so: undefined reference to `DES_cbc_encrypt'
+../snmplib/.libs/libsnmp.so: undefined reference to `EVP_DigestUpdate'
+../snmplib/.libs/libsnmp.so: undefined reference to `HMAC'
+../snmplib/.libs/libsnmp.so: undefined reference to `DES_key_sched'
+./.libs/libucdmibs.so: undefined reference to `dlerror'
+./.libs/libucdmibs.so: undefined reference to `dlsym'
+../snmplib/.libs/libsnmp.so: undefined reference to `EVP_DigestFinal'
 
-diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-index c15296f..31193f2 100644
---- a/meta/lib/oe/image.py
-+++ b/meta/lib/oe/image.py
-@@ -176,8 +176,8 @@ class Image(object):
-             bb.data.update_data(localdata)
-             localdata.setVar('type', type)
- 
--            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
-             cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
-+            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
- 
-             if type in cimages:
-                 for ctype in cimages[type]:
+Any light shed would be much appreciated!
+
+Cheers,
+
 -- 
-1.8.5.4
-
+  Jack Mitchell (jack@embed.me.uk)
+  Embedded Systems Engineer
+  Cambridgeshire, UK
+  http://www.embed.me.uk
+-- 
 
