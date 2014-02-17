@@ -1,38 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 77C446E8DD
+Return-Path: <Yanjun.Zhu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 536776E901
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 10:07:02 +0000 (UTC)
-Received: by mail-qa0-f52.google.com with SMTP id j15so21772825qaq.11
+	Mon, 17 Feb 2014 10:17:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1HAHY5X011722
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 02:07:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Jy6Rerd+79Vgoef9K0Op9osa/9YpkLQMyvrMsJBbjQE=;
-	b=Sd3cfy9N1TKsRz8yID4IK8tkbsiysdpCIOU5I1ORMw4qVnspv+1ELLDpJoc84ujJ4V
-	C7IsNX5DcZ2JFDadovdMSMQIRTo+b6UezMDr5cKea1IqhAiRyMO8efF19wWiWZC4zOyW
-	LX+d9oJawl50/8fvUm/BSgRpd0ZYMLCdxljbxAMJqhvoMcq0EmcIa0lXTJwCGx8AkZmK
-	dzUQ7MkXbA3XyLeqv/XseQQAdFgKNsI/moQKxRuAWuePaqwyjBVtEgqFzE6O/1OuHoeA
-	v0eD7YkEEfqIo1qPWBUkN0L0P0H9qG8ZA9QlhhI3t4ArXn0Bme03glgRhRgm8ut8mnHN
-	HQcg==
-X-Gm-Message-State: ALoCoQlaF07O5tioz7+jWn72OLrNLsUTtG7rw/gw40nDthNVghW+JTkf9kYtuqGTzsJdF4weqoko
-X-Received: by 10.229.127.72 with SMTP id f8mr33076782qcs.12.1392631622944;
-	Mon, 17 Feb 2014 02:07:02 -0800 (PST)
+	Mon, 17 Feb 2014 02:17:34 -0800 (PST)
+Received: from wind-OptiPlex-780.corp.ad.wrs.com (128.224.162.219) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 17 Feb 2014 02:17:34 -0800
+From: Zhu Yanjun <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Feb 2014 18:17:37 +0800
+Message-ID: <1392632257-4669-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Mon, 17 Feb 2014 02:06:42 -0800 (PST)
-In-Reply-To: <20140217085816.GO10078@lpalcu-linux>
-References: <cover.1392625337.git.sgw@linux.intel.com>
-	<cf0e00e6b461971018da7eb5d0369eac048ad15d.1392625337.git.sgw@linux.intel.com>
-	<20140217085816.GO10078@lpalcu-linux>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Feb 2014 10:06:42 +0000
-Message-ID: <CAJTo0LYFG8gbRtHanFKPUquqYjPmGpFC8JbXxwZjM4MG_6o10Q@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/7] lsbinitscripts: Update to 9.52
+Subject: [PATCH] pseudo-1.5.1: keep install command directory mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,14 +31,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2014 10:07:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Feb 2014 10:17:34 -0000
+Content-Type: text/plain
 
-On 17 February 2014 08:58, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> Am I missing something?
+From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 
-Looks like the remains from a rebase when there were two versions of
-the patch in circulation.
+CQID:LIN5-17788
 
-Ross
+when install command sets the created directory mode, pseudo will change
+the mode of the directory to 0700 incorrectly.
+
+Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+---
+ .../pseudo-1.5.1-install-directory-mode.patch      |   10 ++++++++++
+ meta/recipes-devtools/pseudo/pseudo_1.5.1.bb       |    3 ++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+
+diff --git a/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch b/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+new file mode 100644
+index 0000000..02e3da2
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+@@ -0,0 +1,10 @@
++--- a/ports/unix/guts/mkdirat.c
+++++ b/ports/unix/guts/mkdirat.c
++@@ -25,6 +25,7 @@
++ 		stat_rc = base_fstatat(dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
++ #endif
++ 		if (stat_rc != -1) {
+++			buf.st_mode = PSEUDO_DB_MODE(buf.st_mode, mode);
++ 			pseudo_client_op(OP_MKDIR, 0, -1, dirfd, path, &buf);
++ 		} else {
++ 			pseudo_debug(1, "mkdir of %s succeeded, but stat failed: %s\n",
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+index bc92856..64115ca 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+@@ -1,11 +1,12 @@
+ require pseudo.inc
+ 
+-PR = "r4"
++PR = "r5"
+ 
+ SRC_URI = " \
+     http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
+     file://0001-pseudo_has_unload-add-function.patch \
+     file://shutdownping.patch \
++    file://pseudo-1.5.1-install-directory-mode.patch \
+ "
+ 
+ SRC_URI[md5sum] = "5ec67c7bff5fe68c56de500859c19172"
+-- 
+1.7.9.5
+
 
