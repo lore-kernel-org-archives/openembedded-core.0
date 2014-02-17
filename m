@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C3A516E7BE
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F33A6C9B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 16:46:53 +0000 (UTC)
-Received: by mail-qc0-f171.google.com with SMTP id n7so24147186qcx.16
+	Mon, 17 Feb 2014 17:33:11 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id hm4so2662882wib.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 08:46:54 -0800 (PST)
+	Mon, 17 Feb 2014 09:33:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=bXzsXCoBxF4Nh2kPPo4YD6eqgfMUUX2mMkJJ9q9QA0Y=;
-	b=FueHpqNxpd9Kow4TyThDsildIRw2J6imKIJ9cgeVdLF2Yu0ZwvWo70NUnUXMiSmqfL
-	zyDudWNqOveA2ArjGSnJFosg8jamm/MHN6RnvIu0m8ghxjipgWJKhFE1Bl1ZKFnnaf5K
-	BMYVhThh1vOuSXMMHaeMMHyiyAn3rzvNpagARwvSypeNgOfeqLC8t+6ktvXkik7Xs6o7
-	C5AZ2f6C3LFeMeJV6Q5rt60iBQUIR0EIghPTgB3A1t7fMkl0aTvuNYNJUgi8txhlt0kb
-	S6gafL+vUONUGwX7ZfcttV12qaWnvzq4IhDOMRt43huueXDQbN99Jdfsm/RtHyPx05FP
-	uHtQ==
-X-Gm-Message-State: ALoCoQlWhH93Zbfsxvfh9pL3nKxFWBWIg5NOOK5LUXPGnMUbkZpDFRI8aCj3d6O0L3SEw0L+GPTP
-X-Received: by 10.224.43.144 with SMTP id w16mr3455232qae.93.1392655614565;
-	Mon, 17 Feb 2014 08:46:54 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Mon, 17 Feb 2014 08:46:34 -0800 (PST)
-In-Reply-To: <1392641399-8643-1-git-send-email-alexandre.belloni@free-electrons.com>
-References: <1392641399-8643-1-git-send-email-alexandre.belloni@free-electrons.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Feb 2014 16:46:34 +0000
-Message-ID: <CAJTo0LYmaVWXpwaqkDmLp-arQKHEEgpd8kewQfATM=Da0yLOZw@mail.gmail.com>
-To: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] matchbox-keyboard: daemonize launch
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=s/5Yd1h8lv4B7zsG9uhUn6n9UGt7J4cSiomE4qDNMrw=;
+	b=juw1oYzNgNzfE9U5kE7nh8uqRayIwWsCUhHuS6Eukutob668PAzs4iiV+27bZdWd3E
+	9dscpuF/s0rHqU4fi6oKms4HfQws/8djeo+XjZIMdwHOLhTz6o7ZZofdlK8GadKAG2Mw
+	mb+DoW/x8p1LDt4eACFrG8ci6vaIjTcGFgHhlCpXZnEGZ8SGMYVUQCoKQ00jAP05ZK4o
+	DpUh5JnKk6NZJngrq+cwJrOYzI8w1wEFtyD9yRVZRaxVL6uaVqZQWqh5CGRyOx+FQMRm
+	V/EtU0QjpNZJu78xqcp8lrGCoI2W0RgaFl3how4V2gEIa00OFzQWm+DyLF2/yXWAQmC1
+	eh/g==
+X-Gm-Message-State: ALoCoQkENwf4L2S3aVaySyAFspUy+shqcPvUedG21cPYFKgJ8HXfH2FWcECb/qPXo9/59nSTwpQX
+X-Received: by 10.180.163.206 with SMTP id yk14mr14072451wib.5.1392658391393; 
+	Mon, 17 Feb 2014 09:33:11 -0800 (PST)
+Received: from adamian-desk.corp.intel.com ([83.217.123.106])
+	by mx.google.com with ESMTPSA id q2sm38489473wjq.0.2014.02.17.09.33.10
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 17 Feb 2014 09:33:10 -0800 (PST)
+Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
+	id 7211F561700; Mon, 17 Feb 2014 17:33:11 +0000 (GMT)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Feb 2014 17:33:09 +0000
+Message-Id: <1392658389-19826-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH 1/1] sstate: list missing files for toaster
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,112 +46,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2014 16:46:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Feb 2014 17:33:12 -0000
 
-Acked-by: Ross Burton <ross.burton@intel.com>
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Ross
+Toaster needs to record the attempts to restore
+setscene tasks that don't have a sstate file.
 
-On 17 February 2014 12:49, Alexandre Belloni
-<alexandre.belloni@free-electrons.com> wrote:
-> The .shbg extension is not properly supported by the Xsession script
-> provided by xserver-common.
->
-> See discussion here:
-> https://lists.yoctoproject.org/pipermail/poky/2013-December/009463.html
->
-> Bug here:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=5546
->
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@free-electrons.com>
-> ---
->  .../matchbox-keyboard/files/80matchboxkeyboard.sh  | 21 ++++++++++++++++++++
->  .../files/80matchboxkeyboard.shbg                  | 23 ----------------------
->  .../matchbox-keyboard/matchbox-keyboard_git.bb     |  4 ++--
->  3 files changed, 23 insertions(+), 25 deletions(-)
->  create mode 100755 meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
->  delete mode 100755 meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
->
-> diff --git a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
-> new file mode 100755
-> index 000000000000..6cf188b2d006
-> --- /dev/null
-> +++ b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.sh
-> @@ -0,0 +1,21 @@
-> +#!/bin/sh
-> +
-> +. /etc/formfactor/config
-> +
-> +CMD=""
-> +
-> +if [ "$HAVE_KEYBOARD" = "0" ]; then
-> +    CMD="matchbox-keyboard -d"
-> +elif [ "$DISPLAY_CAN_ROTATE" = "1" ]; then
-> +    if [ "$HAVE_KEYBOARD_PORTRAIT" = "1" -a "$HAVE_KEYBOARD_LANDSCAPE" = "0" ]; then
-> +        CMD="matchbox-keyboard -d -o landscape"
-> +    elif [ "$HAVE_KEYBOARD_LANDSCAPE" = "1" -a "$HAVE_KEYBOARD_PORTRAIT" = "0" ]; then
-> +        CMD="matchbox-keyboard -d -o portrait"
-> +    fi
-> +fi
-> +
-> +if [ "$CMD" ]; then
-> +    # Delay to make sure the window manager is active
-> +    # by waiting for the desktop to say its finished loading
-> +    dbus-wait org.matchbox_project.desktop Loaded && $CMD &
-> +fi
-> diff --git a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg b/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
-> deleted file mode 100755
-> index 43c5d3ed6a32..000000000000
-> --- a/meta/recipes-sato/matchbox-keyboard/files/80matchboxkeyboard.shbg
-> +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -#!/bin/sh
-> -
-> -. /etc/formfactor/config
-> -
-> -CMD=""
-> -
-> -if [ "$HAVE_KEYBOARD" = "0" ]; then
-> -    CMD="matchbox-keyboard -d"
-> -elif [ "$DISPLAY_CAN_ROTATE" = "1" ]; then
-> -    if [ "$HAVE_KEYBOARD_PORTRAIT" = "1" -a "$HAVE_KEYBOARD_LANDSCAPE" = "0" ]; then
-> -        CMD="matchbox-keyboard -d -o landscape"
-> -    elif [ "$HAVE_KEYBOARD_LANDSCAPE" = "1" -a "$HAVE_KEYBOARD_PORTRAIT" = "0" ]; then
-> -        CMD="matchbox-keyboard -d -o portrait"
-> -    fi
-> -fi
-> -
-> -
-> -if [ "$CMD" ]; then
-> -    # Delay to make sure the window manager is active
-> -    # by waiting for the desktop to say its finished loading
-> -    dbus-wait org.matchbox_project.desktop Loaded
-> -    exec $CMD
-> -fi
-> diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-> index ffcabcad2215..70caf6fc0222 100644
-> --- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-> +++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-> @@ -17,7 +17,7 @@ PR = "r4"
->  SRC_URI = "git://git.yoctoproject.org/${BPN} \
->             file://configure_fix.patch;maxrev=1819 \
->             file://single-instance.patch \
-> -           file://80matchboxkeyboard.shbg \
-> +           file://80matchboxkeyboard.sh \
->             file://png-fix.patch"
->
->  S = "${WORKDIR}/git"
-> @@ -43,7 +43,7 @@ FILES_${PN}-applet = "${libdir}/matchbox-panel/*.so"
->
->  do_install_append () {
->         install -d ${D}/${sysconfdir}/X11/Xsession.d/
-> -       install -m 755 ${WORKDIR}/80matchboxkeyboard.shbg ${D}/${sysconfdir}/X11/Xsession.d/
-> +       install -m 755 ${WORKDIR}/80matchboxkeyboard.sh ${D}/${sysconfdir}/X11/Xsession.d/
->
->         rm -f ${D}${libdir}/gtk-2.0/*/immodules/*.la
->         rm -f ${D}${libdir}/matchbox-panel/*.la
-> --
-> 1.8.3.2
->
+We build a list of tasks for which we can't find an
+sstate file, and if we're running under Toaster data
+collection, we send it off with a MetadataEvent.
+
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+---
+ meta/classes/sstate.bbclass | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index f7bd117..f70c62f 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -621,6 +621,7 @@ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+ 
+     ret = []
++    missed = []
+ 
+     def getpathcomponents(task, d):
+         # Magic data from BB_HASHFILENAME
+@@ -642,11 +643,13 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+         spec, extrapath, tname = getpathcomponents(task, d)
+ 
+         sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tgz.siginfo")
++
+         if os.path.exists(sstatefile):
+             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
+             ret.append(task)
+             continue
+         else:
++            missed.append(task)
+             bb.debug(2, "SState: Looked for but didn't find file %s" % sstatefile)
+ 
+     mirrors = d.getVar("SSTATE_MIRRORS", True)
+@@ -684,9 +687,17 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
+                 ret.append(task)
+             except:
++                missed.append(task)
+                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
+                 pass     
+ 
++    inheritlist = d.getVar("INHERIT", True)
++    if "toaster" in inheritlist:
++        evdata = []
++        for task in missed:
++            evdata.append( (sq_fn[task], sq_task[task], sq_hash[task], generate_sstatefn(spec, sq_hash[task],d) ) )
++        bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
++
+     return ret
+ 
+ BB_SETSCENE_DEPVALID = "setscene_depvalid"
+-- 
+1.8.3.2
+
 
