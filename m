@@ -1,39 +1,25 @@
-Return-Path: <alexandru.damian@intel.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F33A6C9B4
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7503C6E6F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 17:33:11 +0000 (UTC)
-Received: by mail-wi0-f175.google.com with SMTP id hm4so2662882wib.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 09:33:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=s/5Yd1h8lv4B7zsG9uhUn6n9UGt7J4cSiomE4qDNMrw=;
-	b=juw1oYzNgNzfE9U5kE7nh8uqRayIwWsCUhHuS6Eukutob668PAzs4iiV+27bZdWd3E
-	9dscpuF/s0rHqU4fi6oKms4HfQws/8djeo+XjZIMdwHOLhTz6o7ZZofdlK8GadKAG2Mw
-	mb+DoW/x8p1LDt4eACFrG8ci6vaIjTcGFgHhlCpXZnEGZ8SGMYVUQCoKQ00jAP05ZK4o
-	DpUh5JnKk6NZJngrq+cwJrOYzI8w1wEFtyD9yRVZRaxVL6uaVqZQWqh5CGRyOx+FQMRm
-	V/EtU0QjpNZJu78xqcp8lrGCoI2W0RgaFl3how4V2gEIa00OFzQWm+DyLF2/yXWAQmC1
-	eh/g==
-X-Gm-Message-State: ALoCoQkENwf4L2S3aVaySyAFspUy+shqcPvUedG21cPYFKgJ8HXfH2FWcECb/qPXo9/59nSTwpQX
-X-Received: by 10.180.163.206 with SMTP id yk14mr14072451wib.5.1392658391393; 
-	Mon, 17 Feb 2014 09:33:11 -0800 (PST)
-Received: from adamian-desk.corp.intel.com ([83.217.123.106])
-	by mx.google.com with ESMTPSA id q2sm38489473wjq.0.2014.02.17.09.33.10
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 17 Feb 2014 09:33:10 -0800 (PST)
-Received: by adamian-desk.corp.intel.com (Postfix, from userid 1000)
-	id 7211F561700; Mon, 17 Feb 2014 17:33:11 +0000 (GMT)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Feb 2014 17:33:09 +0000
-Message-Id: <1392658389-19826-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH 1/1] sstate: list missing files for toaster
+	Mon, 17 Feb 2014 18:38:54 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 17 Feb 2014 10:38:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,862,1384329600"; d="scan'208";a="484819397"
+Received: from unknown (HELO [10.255.13.243]) ([10.255.13.243])
+	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2014 10:38:53 -0800
+Message-ID: <5302573B.6060707@linux.intel.com>
+Date: Mon, 17 Feb 2014 10:38:51 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Valentin Popa <valentin.popa@intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1392226062-3797-1-git-send-email-valentin.popa@intel.com>
+In-Reply-To: <1392226062-3797-1-git-send-email-valentin.popa@intel.com>
+Subject: Re: [PATCH_V2] mesa: upgrade to 9.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,67 +32,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2014 17:33:12 -0000
+X-List-Received-Date: Mon, 17 Feb 2014 18:38:54 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On 02/12/2014 09:27 AM, Valentin Popa wrote:
+> tested on qemux86, genericx86 for core-image-sato
+> and core-image-weston.
+>
+> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+> ---
+>   .../mesa/{mesa-gl_9.2.2.bb => mesa-gl_9.2.5.bb}                |  0
+>   meta/recipes-graphics/mesa/{mesa_9.2.2.bb => mesa_9.2.5.bb}    | 10 ++++++++--
+>   meta/recipes-graphics/mesa/mesa_git.bb                         | 10 ++++++++--
+>   3 files changed, 16 insertions(+), 4 deletions(-)
+>   rename meta/recipes-graphics/mesa/{mesa-gl_9.2.2.bb => mesa-gl_9.2.5.bb} (100%)
+>   rename meta/recipes-graphics/mesa/{mesa_9.2.2.bb => mesa_9.2.5.bb} (38%)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb b/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa_9.2.2.bb b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
+> similarity index 38%
+> rename from meta/recipes-graphics/mesa/mesa_9.2.2.bb
+> rename to meta/recipes-graphics/mesa/mesa_9.2.5.bb
+> index 60eba01..f37586b 100644
+> --- a/meta/recipes-graphics/mesa/mesa_9.2.2.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
+> @@ -5,7 +5,13 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+>              file://0006-fix-out-of-tree-egl.patch \
+>              "
+>
+> -SRC_URI[md5sum] = "20887f8020db7d1736a01ae9cd5d8c38"
+> -SRC_URI[sha256sum] = "c78a5035233672844cf2492fe82dc10877e12026be227d04469d6ca6ac656a3d"
+> +SRC_URI[md5sum] = "9fb4de29ca1d9cfd03cbdefa123ba336"
+> +SRC_URI[sha256sum] = "b46ab9efed176df0591993397594d712ada9da6a47fd31bbe75050fe28eb6bf0"
+>
+>   S = "${WORKDIR}/Mesa-${PV}"
+> +
+> +#because we cannot rely on the fact that all apps will use pkgconfig,
+> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+> +do_install_append() {
+> +    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
+> +}
+> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+> index 19d3e70..320b8d5 100644
+> --- a/meta/recipes-graphics/mesa/mesa_git.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
+> @@ -5,8 +5,8 @@ DEFAULT_PREFERENCE = "-1"
+>   LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
+>
+>   PR = "${INC_PR}.0"
+> -SRCREV = "8f0742051e8501e737affb392996aef172034ca8"
+> -PV = "9.2.2+git${SRCPV}"
+> +SRCREV = "4636e87191fddd492ed8c61ba61faf4b2d89b2e4"
+> +PV = "9.2.5+git${SRCPV}"
+>
+>   SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
+>              file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
+> @@ -14,3 +14,9 @@ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
+>              "
+>
+>   S = "${WORKDIR}/git"
+> +
+> +#because we cannot rely on the fact that all apps will use pkgconfig,
+> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+> +do_install_append() {
+> +    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
+> +}
+>
 
-Toaster needs to record the attempts to restore
-setscene tasks that don't have a sstate file.
+Possible issue with this on one of Minnow BSP build:
+> | make[2]: Nothing to be done for `install-exec-am'.
+> | make[2]: Nothing to be done for `install-data-am'.
+> | make[2]: Leaving directory `/home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/build'
+> | make[1]: Leaving directory `/home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/build'
+> | sed: can't read /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/image/usr/include/EGL/eglplatform.h: No such file or directory
+> | WARNING: /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/temp/run.do_install.4673:1 exit 2 from
+> |   sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if 0/' /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/image/usr/include/EGL/eglplatform.h
+> | ERROR: Function failed: do_install (log file is located at /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/temp/log.do_install.4673)
+> NOTE: recipe mesa-gl-2_9.2.5-r0: task do_install: Failed
 
-We build a list of tasks for which we can't find an
-sstate file, and if we're running under Toaster data
-collection, we send it off with a MetadataEvent.
 
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/classes/sstate.bbclass | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Can you please look into this and comment.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index f7bd117..f70c62f 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -621,6 +621,7 @@ BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
- def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
- 
-     ret = []
-+    missed = []
- 
-     def getpathcomponents(task, d):
-         # Magic data from BB_HASHFILENAME
-@@ -642,11 +643,13 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-         spec, extrapath, tname = getpathcomponents(task, d)
- 
-         sstatefile = d.expand("${SSTATE_DIR}/" + extrapath + generate_sstatefn(spec, sq_hash[task], d) + "_" + tname + ".tgz.siginfo")
-+
-         if os.path.exists(sstatefile):
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-             ret.append(task)
-             continue
-         else:
-+            missed.append(task)
-             bb.debug(2, "SState: Looked for but didn't find file %s" % sstatefile)
- 
-     mirrors = d.getVar("SSTATE_MIRRORS", True)
-@@ -684,9 +687,17 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
-                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
-                 ret.append(task)
-             except:
-+                missed.append(task)
-                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
-                 pass     
- 
-+    inheritlist = d.getVar("INHERIT", True)
-+    if "toaster" in inheritlist:
-+        evdata = []
-+        for task in missed:
-+            evdata.append( (sq_fn[task], sq_task[task], sq_hash[task], generate_sstatefn(spec, sq_hash[task],d) ) )
-+        bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
-+
-     return ret
- 
- BB_SETSCENE_DEPVALID = "setscene_depvalid"
--- 
-1.8.3.2
+Thanks
+    Sau!
+
 
 
