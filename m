@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 914406E8DD
+	by mail.openembedded.org (Postfix) with ESMTP id 8106A6EFCF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 14:22:43 +0000 (UTC)
+	Mon, 17 Feb 2014 14:22:44 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 17 Feb 2014 06:22:44 -0800
+	by orsmga101.jf.intel.com with ESMTP; 17 Feb 2014 06:22:45 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,860,1384329600"; d="scan'208";a="484721904"
+X-IronPort-AV: E=Sophos;i="4.95,860,1384329600"; d="scan'208";a="484721918"
 Received: from nithyasr-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.246])
-	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2014 06:22:44 -0800
+	by orsmga002.jf.intel.com with ESMTP; 17 Feb 2014 06:22:45 -0800
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Feb 2014 14:22:27 +0000
-Message-Id: <f74ef04aaf8057a788856023f22920456155486b.1392646768.git.paul.eggleton@linux.intel.com>
+Date: Mon, 17 Feb 2014 14:22:28 +0000
+Message-Id: <0cdf4c9dadeba69693d8bfa0c553817d0f8e8634.1392646768.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.5.3
 In-Reply-To: <cover.1392646768.git.paul.eggleton@linux.intel.com>
 References: <cover.1392646768.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1392646768.git.paul.eggleton@linux.intel.com>
 References: <cover.1392646768.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/4] bitbake.conf: add BBINCLUDED and BB_INVALIDCONF to config hash whitelist
+Subject: [PATCH 2/4] eglibc-locale: add eglibc-gconv to PACKAGES_DYNAMIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +32,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2014 14:22:43 -0000
+X-List-Received-Date: Mon, 17 Feb 2014 14:22:44 -0000
 
-These variables should not influence the config hash, i.e. changing them
-shouldn't trigger a reparse of the metadata, so whitelist them.
+If you try to add eglibc-gconv to an image, you'll get a NoProvider
+error because nothing at parse time states that it provides this (it's
+added to PACKAGES in populate_packages). This problem manifests itself
+in Hob for example when customising an image.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/eglibc/eglibc-locale.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 4fb6a1c..f81dea6 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -771,7 +771,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
-     WARN_QA ERROR_QA WORKDIR"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
--    PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV"
-+    PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED"
- BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc defaultval _append _prepend deps depends \
-     lockfiles type vardepsexclude vardeps vardepvalue file-checksums python \
-     func task export unexport noexec nostamp dirs cleandirs \
+diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
+index e615e51..4da5abd 100644
+--- a/meta/recipes-core/eglibc/eglibc-locale.inc
++++ b/meta/recipes-core/eglibc/eglibc-locale.inc
+@@ -35,7 +35,8 @@ PACKAGES = "localedef ${PN}-dbg"
+ 
+ PACKAGES_DYNAMIC = "^locale-base-.* \
+                     ^eglibc-gconv-.* ^eglibc-charmap-.* ^eglibc-localedata-.* ^eglibc-binary-localedata-.* \
+-                    ^glibc-gconv-.*  ^glibc-charmap-.*  ^glibc-localedata-.*  ^glibc-binary-localedata-.*"
++                    ^glibc-gconv-.*  ^glibc-charmap-.*  ^glibc-localedata-.*  ^glibc-binary-localedata-.* \
++                    ^${MLPREFIX}eglibc-gconv$"
+ 
+ # Create a eglibc-binaries package
+ ALLOW_EMPTY_${BPN}-binaries = "1"
 -- 
 1.8.5.3
 
