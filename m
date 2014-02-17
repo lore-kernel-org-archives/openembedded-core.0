@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B1436F070
+	by mail.openembedded.org (Postfix) with ESMTP id 453116E92E
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 17 Feb 2014 08:23:03 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga101.jf.intel.com with ESMTP; 17 Feb 2014 00:23:04 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,859,1384329600"; d="scan'208";a="476400711"
+X-IronPort-AV: E=Sophos;i="4.95,859,1384329600"; d="scan'208";a="476400716"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.197])
 	by fmsmga001.fm.intel.com with ESMTP; 17 Feb 2014 00:23:04 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Feb 2014 00:23:00 -0800
-Message-Id: <7ec39fd6f4ec67c53fa312ff031204d1d1bb786c.1392625337.git.sgw@linux.intel.com>
+Date: Mon, 17 Feb 2014 00:23:01 -0800
+Message-Id: <9d555c0495f871638446eaf57eff80bb3f42d02e.1392625337.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1392625337.git.sgw@linux.intel.com>
 References: <cover.1392625337.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1392625337.git.sgw@linux.intel.com>
 References: <cover.1392625337.git.sgw@linux.intel.com>
-Subject: [PATCH 5/7] libxkbcommon: Update to 0.3.2
+Subject: [PATCH 6/7] libcheck: Update to 0.9.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,27 +35,27 @@ X-List-Received-Date: Mon, 17 Feb 2014 08:23:03 -0000
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../xorg-lib/{libxkbcommon_0.3.2.bb => libxkbcommon_0.4.0.bb}         | 4 ++--
+ .../libcheck/{libcheck_0.9.11.bb => libcheck_0.9.12.bb}               | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.3.2.bb => libxkbcommon_0.4.0.bb} (78%)
+ rename meta/recipes-support/libcheck/{libcheck_0.9.11.bb => libcheck_0.9.12.bb} (79%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.3.2.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
-similarity index 78%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_0.3.2.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
-index 4a83b4f..2726302 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.3.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
-@@ -9,8 +9,8 @@ DEPENDS = "util-macros flex-native bison-native"
+diff --git a/meta/recipes-support/libcheck/libcheck_0.9.11.bb b/meta/recipes-support/libcheck/libcheck_0.9.12.bb
+similarity index 79%
+rename from meta/recipes-support/libcheck/libcheck_0.9.11.bb
+rename to meta/recipes-support/libcheck/libcheck_0.9.12.bb
+index 7fc352c..12ef1d4 100644
+--- a/meta/recipes-support/libcheck/libcheck_0.9.11.bb
++++ b/meta/recipes-support/libcheck/libcheck_0.9.12.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/check/check-${PV}.tar.gz \
+           "
  
- SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "fd5a03979bcab9fb80ba005b55f54178"
+-SRC_URI[sha256sum] = "ea4e8c7ffb00bb4ffb3f59f11744a71f1cc4212c79f3083c7d9a4b0953976936"
++SRC_URI[md5sum] = "46fe540d1a03714c7a1967dbc6d484e7"
++SRC_URI[sha256sum] = "c7d47e55e133a0ca19a52e08a99333ac55cb22618b53719b7f4117a1875b1ea3"
  
--SRC_URI[md5sum] = "935cf416354bf05210de2e389484f7e8"
--SRC_URI[sha256sum] = "cc378a47b01b00226ecf647b69e07df04091323846124b366cf835e5cdf5a88a"
-+SRC_URI[md5sum] = "bb782f1700e45b4f57c84ef513e3cf85"
-+SRC_URI[sha256sum] = "2dc018e830d1befaf4822615204138318da3fff0112f78f3a7c638fa617375b8"
- 
- inherit autotools pkgconfig
+ S = "${WORKDIR}/check-${PV}"
  
 -- 
 1.8.3.1
