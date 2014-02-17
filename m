@@ -1,24 +1,37 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E76E6EEFA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 77C446E8DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2014 08:58:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 17 Feb 2014 00:58:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.95,859,1384329600"; d="scan'208";a="456746583"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 17 Feb 2014 00:58:17 -0800
-Date: Mon, 17 Feb 2014 10:58:16 +0200
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20140217085816.GO10078@lpalcu-linux>
+	Mon, 17 Feb 2014 10:07:02 +0000 (UTC)
+Received: by mail-qa0-f52.google.com with SMTP id j15so21772825qaq.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Feb 2014 02:07:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Jy6Rerd+79Vgoef9K0Op9osa/9YpkLQMyvrMsJBbjQE=;
+	b=Sd3cfy9N1TKsRz8yID4IK8tkbsiysdpCIOU5I1ORMw4qVnspv+1ELLDpJoc84ujJ4V
+	C7IsNX5DcZ2JFDadovdMSMQIRTo+b6UezMDr5cKea1IqhAiRyMO8efF19wWiWZC4zOyW
+	LX+d9oJawl50/8fvUm/BSgRpd0ZYMLCdxljbxAMJqhvoMcq0EmcIa0lXTJwCGx8AkZmK
+	dzUQ7MkXbA3XyLeqv/XseQQAdFgKNsI/moQKxRuAWuePaqwyjBVtEgqFzE6O/1OuHoeA
+	v0eD7YkEEfqIo1qPWBUkN0L0P0H9qG8ZA9QlhhI3t4ArXn0Bme03glgRhRgm8ut8mnHN
+	HQcg==
+X-Gm-Message-State: ALoCoQlaF07O5tioz7+jWn72OLrNLsUTtG7rw/gw40nDthNVghW+JTkf9kYtuqGTzsJdF4weqoko
+X-Received: by 10.229.127.72 with SMTP id f8mr33076782qcs.12.1392631622944;
+	Mon, 17 Feb 2014 02:07:02 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.79 with HTTP; Mon, 17 Feb 2014 02:06:42 -0800 (PST)
+In-Reply-To: <20140217085816.GO10078@lpalcu-linux>
 References: <cover.1392625337.git.sgw@linux.intel.com>
 	<cf0e00e6b461971018da7eb5d0369eac048ad15d.1392625337.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <cf0e00e6b461971018da7eb5d0369eac048ad15d.1392625337.git.sgw@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
+	<20140217085816.GO10078@lpalcu-linux>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 17 Feb 2014 10:06:42 +0000
+Message-ID: <CAJTo0LYFG8gbRtHanFKPUquqYjPmGpFC8JbXxwZjM4MG_6o10Q@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/7] lsbinitscripts: Update to 9.52
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,49 +45,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2014 08:58:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 17 Feb 2014 10:07:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Saul,
+On 17 February 2014 08:58, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> Am I missing something?
 
-On Mon, Feb 17, 2014 at 12:22:58AM -0800, Saul Wold wrote:
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-extended/lsb/lsbinitscripts_9.52.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.52.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.52.bb
-> index 11deae2..bc3e620 100644
-> --- a/meta/recipes-extended/lsb/lsbinitscripts_9.52.bb
-> +++ b/meta/recipes-extended/lsb/lsbinitscripts_9.52.bb
-> @@ -6,7 +6,7 @@ DEPENDS = "popt glib-2.0"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
->  
->  S="${WORKDIR}/initscripts-${PV}"
-> -SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}.tar.bz2/2453811ec27a781a77f309f356663d9e/initscripts-${PV}.tar.bz2 \
-> +SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.52.tar.bz2/2453811ec27a781a77f309f356663d9e/initscripts-9.52.tar.bz2 \
-This doesn't look like an upgrade... Besides, I believe you already
-upgraded this recipe to 9.52:
+Looks like the remains from a rebase when there were two versions of
+the patch in circulation.
 
-Author: Saul Wold <sgw@linux.intel.com>
-Date:   Mon Jan 20 18:54:30 2014 -0800
-
-    lsbinitscripts: Update to 9.52
-
-Am I missing something?
-
-laurentiu
-
-
->             file://functions.patch \
->            " 
->  
-> -- 
-> 1.8.3.1
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
