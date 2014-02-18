@@ -1,26 +1,27 @@
-Return-Path: <mac@mcrowe.com>
-Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A55B6E8DE
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 149086EFC5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 21:24:42 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,503,1389744000"; d="scan'208";a="64617440"
-Received: from deneb.mcrowe.com ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 18 Feb 2014 21:24:42 +0000
-Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
-	(envelope-from <mac@mcrowe.com>)
-	id 1WFs9i-0005pS-Qc; Tue, 18 Feb 2014 21:24:42 +0000
-Date: Tue, 18 Feb 2014 21:24:42 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140218212442.GA22168@mcrowe.com>
-References: <20140218205346.GA21359@mcrowe.com>
-	<CAMKF1sr1Aa86Bpbkas6rBh_XPQtLLeraHO17jMDtggsZUh7-7w@mail.gmail.com>
+	Tue, 18 Feb 2014 21:31:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1ILVXwt020989
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Feb 2014 13:31:33 -0800 (PST)
+Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 18 Feb 2014 13:31:32 -0800
+Date: Tue, 18 Feb 2014 15:31:04 -0600
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20140218153104.08751227@e6410-2>
+In-Reply-To: <5303AFB8.2090605@linux.intel.com>
+References: <1392632257-4669-1-git-send-email-yanjun.zhu@windriver.com>
+	<5303AFB8.2090605@linux.intel.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr1Aa86Bpbkas6rBh_XPQtLLeraHO17jMDtggsZUh7-7w@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: boost: Ineffective compileflags and linkflags in user-config.jam
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pseudo-1.5.1: keep install command directory mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,24 +34,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 21:24:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 18 Feb 2014 21:31:33 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 18 February 2014 at 13:01:31 -0800, Khem Raj wrote:
-> On Tue, Feb 18, 2014 at 12:53 PM, Mike Crowe <mac@mcrowe.com> wrote:
-> > or should users of this recipe be given a convenient ability to override
-> > the compileflags, with perhaps something like:
-> >
-> >  'using gcc ; 4.3.1 : ${CXX} : <cflags>"${CFLAGS}" <cxxflags>"${CXXFLAGS}" ;'
-> 
-> this one. care to send a patch ?
+On Tue, 18 Feb 2014 11:08:40 -0800
+Saul Wold <sgw@linux.intel.com> wrote:
 
-Hi Khem,
+> There is no patch header here, also have you checked with Peter S on 
+> this change?
 
-I can do once I've tested it against current master.
+The change originated with me, and is in my current 1.6 pseudo branch. The
+backport was being submitted because I am on other projects actively enough
+that I haven't got the time to finish the work for getting 1.6 ready to
+submit.
 
-Thanks.
-
-Mike.
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
