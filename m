@@ -1,41 +1,24 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9521960DD7
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A51AC6E8E1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 09:17:24 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id w10so16025500pde.20
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 01:17:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=ck0k7VhXgplj2rb+kB987iaIRb9dCam7/G1HxBoL328=;
-	b=kD/vGiYCPWWs5Uo/3RG8qSYMoy1NXqiFE9vpuU4Q+WL1lSrhuIg49Q39FIrpqhGp3J
-	Zi5RsEVWsiraO8KANEORZ2gCiuNpNPQV9ogsNuY+FrECI2IJsoFGAAiP0mSOSn29QzGC
-	KxAPSmFPeL34A5+QzugIWsK7GUU73UUK1N8aeQK2p67cBPJOh4lzx9IURIUxuCe2VZXy
-	Xlyy6Z+n5TRU6GkIAmZzGKcf3185spNc/q6NfiOfQNyrAg54lr5QIbgl0Z8/sfeHUj6u
-	WmVhXZwjopi+zifAMJJCZGuWQlk02QuPJbTePc/5DnZg+S8pmnWIk7a1h3M2zsJ7R1br
-	cpzA==
-X-Received: by 10.66.142.132 with SMTP id rw4mr32312888pab.6.1392715044848;
-	Tue, 18 Feb 2014 01:17:24 -0800 (PST)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	iu7sm53778977pbc.45.2014.02.18.01.17.23 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 18 Feb 2014 01:17:24 -0800 (PST)
-Message-ID: <530323A8.8080100@gmail.com>
-Date: Tue, 18 Feb 2014 20:11:04 +1100
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Tue, 18 Feb 2014 09:42:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1I9gdSf013215
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Feb 2014 01:42:39 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 18 Feb 2014 01:42:38 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Feb 2014 17:42:23 +0800
+Message-ID: <cover.1392716065.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1392633988-14208-1-git-send-email-net147@gmail.com>
-	<1392712895.14081.197.camel@ted> <53032009.1030805@gmail.com>
-In-Reply-To: <53032009.1030805@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lib/oe/image.py: fix working directory
+Cc: saul.wold@intel.com
+Subject: [PATCH 0/5] package_manager.py/ootfs.py: support ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,66 +31,273 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 09:17:24 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Feb 2014 09:42:40 -0000
+Content-Type: text/plain
 
-On 18/02/2014 7:55 PM, Jonathan Liu wrote:
-> On 18/02/2014 7:41 PM, Richard Purdie wrote:
->> On Mon, 2014-02-17 at 21:46 +1100, Jonathan Liu wrote:
->>> The working directory needs to be changed before the image creation
->>> commands instead of afterwards.
->>>
->>> Signed-off-by: Jonathan Liu <net147@gmail.com>
->>> ---
->>>   meta/lib/oe/image.py | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
->>> index c15296f..31193f2 100644
->>> --- a/meta/lib/oe/image.py
->>> +++ b/meta/lib/oe/image.py
->>> @@ -176,8 +176,8 @@ class Image(object):
->>>               bb.data.update_data(localdata)
->>>               localdata.setVar('type', type)
->>>   -            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
->>>               cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
->>> +            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
->>>                 if type in cimages:
->>>                   for ctype in cimages[type]:
->> I applied this but ended up reverting it since its clear the image
->> commands assume a different working directory and this causes failures.
->>
->> I'd like to see more explanation about the problem this is trying to
->> solve.
->>
->> Cheers,
->>
->> Richard
->>
-> The sdimg image classes in meta-raspberrypi and meta-sunxi broke when 
-> I switched from dora to master branch.
-> See: 
-> https://github.com/djwillis/meta-raspberrypi/blob/master/classes/sdcard_image-rpi.bbclass#L43
-> It is using relative path to rootfs which assumes the working 
-> directory is DEPLOY_DIR_IMAGE.
-> I was able to build the SD card images fine after the fix.
-Also, it makes absolutely no sense whatsoever to change working 
-directory at the end of the function:
-img_creation_func() {
-     oe_mkext234fs ext4 -i 8192
-     cd /home/build/poky/build/tmp/deploy/images/qemux86
-}
+Test Cases
 
+---------------------------------------------
+Case 1: Rebuild in place
+1. Edit local.conf, enable multilib and ipk incremental image generation
+...
+ 46 MACHINE ?= "qemux86-64"
+254 require conf/multilib.conf
+255 MULTILIBS = "multilib:lib32"
+256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+257 
+258 IMAGE_INSTALL_append = " lib32-gzip"
+260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
+262 
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+2. Edit local.conf, add some spaces in IMAGE_INSTALL_append
+vim local.conf
+...
+258 IMAGE_INSTALL_append = " lib32-gzip "
 ...
 
-img_creation_func
+3. bb core-image-minimal, the image should not be rebuilt
+vim log.do_rootfs:
+...
+ 16 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
+ 17 Package opkg-collateral (1.0-r2) installed in root is up to date.
+ 18 Package run-postinsts (1.0-r9) installed in root is up to date.
+ 19 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
+ 20 Package opkg (1:0.2.0-r0) installed in root is up to date.
+ 21 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
+ ...
+ 53 NOTE: Package lib32-gzip (1.6-r7) installed in root is up to date.
+...
 
-This would mean the last command executed in create_image.ext4 (see temp 
-folder for image recipe) would be changing the directory.
+vim installed_pkgs.txt
+...
+lib32-gzip x86
+...
 
->
-> Regards,
-> Jonathan
+4. runqemu qemux86-64, ssh could work and lib32-gzip is installed
+On host:
+runqemu qemux86-64
+ssh root@192.168.7.2 and run 'opkg-cl list-installed'
+...
+lib32-gzip - 1.6-r7
+...
+
+---------------------------------------------
+Case 2: Decremental Rebuild
+1. Edit local.conf, enable multilib and ipk incremental image generation
+...
+ 46 MACHINE ?= "qemux86-64"
+254 require conf/multilib.conf
+255 MULTILIBS = "multilib:lib32"
+256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+257 
+258 IMAGE_INSTALL_append = " lib32-gzip openssl"
+260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
+262 
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+2. Edit local.conf, remove 'lib32-gzip openssl'
+vim local.conf
+...
+258 # IMAGE_INSTALL_append = " lib32-gzip openssl"
+...
+
+3. bb core-image-minimal, lib32-gzip and openssl should be removed.
+vim log.do_rootfs:
+...
+ 20 NOTE: Removing package lib32-eglibc from root...
+ 21 Removing package lib32-gzip from root...
+ 22 Removing package lib32-update-alternatives-opkg from root...
+ 23 Removing package libcrypto1.0.0 from root...
+ 24 Removing package libssl1.0.0 from root...
+ 25 Removing package openssl from root...
+ 26 Removing package openssl-conf from root...
+ ...
+ 31 Package opkg-collateral (1.0-r2) installed in root is up to date.
+ 32 Package run-postinsts (1.0-r9) installed in root is up to date.
+ 33 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
+ 34 Package opkg (1:0.2.0-r0) installed in root is up to date.
+ 35 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
+...
+
+---------------------------------------------
+Case 3: Incremental Rebuild
+1. Edit local.conf, enable multilib and ipk incremental image generation
+...
+ 46 MACHINE ?= "qemux86-64"
+254 require conf/multilib.conf
+255 MULTILIBS = "multilib:lib32"
+256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+257 
+258 # IMAGE_INSTALL_append = " lib32-gzip openssl"
+260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
+262 
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+2. Edit local.conf, append 'lib32-gzip openssl' to IMAGE_INSTALL
+vim local.conf
+...
+258 IMAGE_INSTALL_append = " lib32-gzip openssl"
+...
+
+3. bb core-image-minimal, lib32-gzip and openssl should be added.
+vim log.do_rootfs:
+...
+ 20 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
+ 21 Package opkg-collateral (1.0-r2) installed in root is up to date.
+ 22 Package run-postinsts (1.0-r9) installed in root is up to date.
+ 23 Installing openssl (1.0.1e-r15.0) to root...
+ ...
+ 31 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
+ 32 Package opkg (1:0.2.0-r0) installed in root is up to date.
+ 33 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
+ ...
+ 54 NOTE: Installing the following packages: lib32-gzip
+...
+
+---------------------------------------------
+Case 4: Rebuild in place and Upgrade package
+1. Edit local.conf, enable ipk incremental image generation
+...
+258 IMAGE_INSTALL_append = " gzip"
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+2. Edit local.conf, upgrade gzip's PR
+...
+258 PR_pn-gzip = "r1"
+...
+
+3. bb core-image-minimal, gzip should be upgraded to r1
+vim log.do_rootfs:
+...
+ 21 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
+ 22 Package opkg-collateral (1.0-r2) installed in root is up to date.
+ 23 Package run-postinsts (1.0-r9) installed in root is up to date.
+ 24 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
+ 25 Package opkg (1:0.2.0-r0) installed in root is up to date.
+ 26 Upgrading gzip on root from 1.6-r0 to 1.6-r1...
+...
+
+---------------------------------------------
+Case 5: Test BAD_RECOMMENDATIONS
+1. Edit local.conf, enable ipk incremental image generation
+...
+258 IMAGE_INSTALL_append = " util-linux"
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+The util-linux-fdisk is in util-linux's RRECOMMENDS
+vim installed_pkgs.txt
+...
+41 util-linux-fdisk core2-64
+...
+
+2. Edit local.conf, add some spaces to IMAGE_INSTALL and add
+util-linux-fdisk to core-image-minimal's BAD_RECOMMENDATIONS
+...
+260 IMAGE_INSTALL_append = " util-linux  "
+265 BAD_RECOMMENDATIONS_pn-core-image-minimal += "util-linux-fdisk"
+...
+
+3. bb core-image-minimal, util-linux-fdisk should not be installed
+vim log.do_rootfs:
+...
+34 NOTE: Requested ignored recommendation util-linux-fdisk is not a package
+    ...
+119 util-linux: ignoring recommendation for util-linux-fdisk at user request
+120 util-linux: unsatisfied recommendation for util-linux-fdisk
+...
+
+The util-linux-fdisk doesn't exist in installed_pkgs.txt any more.
+
+---------------------------------------------
+Case 5: Test NO_RECOMMENDATIONS
+1. Edit local.conf, enable ipk incremental image generation
+...
+258 IMAGE_INSTALL_append = " util-linux"
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+The util-linux-fdisk util-linux-cfdisk util-linux-sfdisk
+util-linux-mount util-linux-readprofile util-linux-mkfs are
+in util-linux's RRECOMMENDS
+
+vim installed_pkgs.txt
+...
+4 util-linux-mkfs core2-64
+18 util-linux-sfdisk core2-64
+20 util-linux-mount core2-64
+38 util-linux-cfdisk core2-64
+41 util-linux-fdisk core2-64
+46 util-linux-readprofile core2-64
+...
+
+2. Edit local.conf, add some spaces to IMAGE_INSTALL and
+   assign core-image-minimal's NO_RECOMMENDATIONS with 1
+...
+260 IMAGE_INSTALL_append = " util-linux  "
+267 NO_RECOMMENDATIONS_pn-core-image-minimal = "1"
+...
+
+3. bb core-image-minimal, The six packages should not be installed
+vim log.do_rootfs:
+...
+34 NOTE: Requested ignored recommendation util-linux-fdisk is not a package
+    ...
+113 util-linux: ignoring recommendation for util-linux-sfdisk at user request
+114 util-linux: unsatisfied recommendation for util-linux-sfdisk
+115 util-linux: ignoring recommendation for util-linux-cfdisk at user request
+116 util-linux: unsatisfied recommendation for util-linux-cfdisk
+117 util-linux: ignoring recommendation for util-linux-mount at user request
+118 util-linux: unsatisfied recommendation for util-linux-mount
+119 util-linux: ignoring recommendation for util-linux-fdisk at user request
+120 util-linux: unsatisfied recommendation for util-linux-fdisk
+121 util-linux: ignoring recommendation for util-linux-mkfs at user request
+122 util-linux: unsatisfied recommendation for util-linux-mkfs
+123 util-linux: ignoring recommendation for util-linux-readprofile at user request
+124 util-linux: unsatisfied recommendation for util-linux-readprofile
+...
+
+They don't exist in installed_pkgs.txt any more.
+
+//Hongxu
+
+
+
+The following changes since commit ac499f0b9f8a421a4e63d2de2a0b89f20c43d81c:
+
+  dev-manual: Fixed code block example for ARCHIVER. (2014-02-17 15:39:46 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/ipk-inc-gen
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/ipk-inc-gen
+
+Hongxu Jia (5):
+  package_manager.py: support ipk incremental image generation
+  package_manager.py: tweak handle_bad_recommendations for ipk
+    incremental image generation
+  rootfs.py: support ipk incremental image generation
+  rootfs.py: fix BAD_RECOMMENDATIONS for ipk incremental image
+    generation
+  rootfs.py: tweak _multilib_sanity_test for ipk incremental image    
+    generation
+
+ meta/lib/oe/package_manager.py | 124 +++++++++++++++++++++++++++++++++++---
+ meta/lib/oe/rootfs.py          | 134 ++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 242 insertions(+), 16 deletions(-)
+
+-- 
+1.8.1.2
 
 
