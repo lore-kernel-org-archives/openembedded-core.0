@@ -1,44 +1,22 @@
-Return-Path: <rep.dot.nop@gmail.com>
-Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EC8E6F070
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 2062B6E8DE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 20:23:05 +0000 (UTC)
-Received: by mail-ea0-f170.google.com with SMTP id g15so6393968eak.29
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 12:23:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:date:message-id:in-reply-to:references:user-agent
-	:subject:mime-version:content-type:content-transfer-encoding;
-	bh=MQuf+M8mnwzX3OAEY8lOoIjGJue3OUUH6VeyWz0nF9k=;
-	b=w4QeerYkzl9ml9AKjdnzcoJrHycIh7o/kjjhZGB2QPYbCw5iDzezX/C06s7VTbO+iS
-	GAicEBXTef6gCiPWiiOfFX8xFWjGrm3Q2VIYEhebxq7UM/2do86aUVb90SaLrdZU2RvA
-	dgTurYaoRZguFn0/La56a01TvP3X8w0QWsTgV9Chl67b7ilA4eCuRMOmbur9zT4R+eRI
-	bWzTr8lvxEaCQ/Hs3oUKB4pjCvxbPjOv/vaFHYClSmsFndQ+dBGy0H4vi27D2fAxiwm0
-	aK4Le8D2lO4sCSgH8DfM0nxCpCl78GSH0MiGLej6q54CSxZnYkisvmqvEfXo0Xzk2Tag
-	Ussg==
-X-Received: by 10.15.77.130 with SMTP id p2mr10738785eey.60.1392754986129;
-	Tue, 18 Feb 2014 12:23:06 -0800 (PST)
-Received: from [93.111.76.68] (093111076068.atmpu0043.highway.a1.net.
-	[93.111.76.68])
-	by mx.google.com with ESMTPSA id q44sm74046538eez.1.2014.02.18.12.23.02
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 18 Feb 2014 12:23:05 -0800 (PST)
-From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>, Jonathan Liu <net147@gmail.com>
-Date: Tue, 18 Feb 2014 21:23:05 +0100
-Message-ID: <14446aa6118.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
-In-Reply-To: <CAMKF1soAoZQg5=oGg_G3Cv5pnW=4ZFys3k=YFNsZ-6UhBfmpkQ@mail.gmail.com>
-References: <1392725322-15042-1-git-send-email-net147@gmail.com>
-	<CAMKF1soAoZQg5=oGg_G3Cv5pnW=4ZFys3k=YFNsZ-6UhBfmpkQ@mail.gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.3.8 (build:
-	2100414)
+	Tue, 18 Feb 2014 20:53:46 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,503,1389744000"; d="scan'208";a="56085153"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 18 Feb 2014 20:53:46 +0000
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>) id 1WFrfm-0005be-Ik
+	for openembedded-core@lists.openembedded.org;
+	Tue, 18 Feb 2014 20:53:46 +0000
+Date: Tue, 18 Feb 2014 20:53:46 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20140218205346.GA21359@mcrowe.com>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types.bbclass: fix cpio IMAGE_CMD to preserve working directory
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: boost: Ineffective compileflags and linkflags in user-config.jam
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,37 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 20:23:06 -0000
-Content-Type: text/plain; charset="us-ascii"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 18 Feb 2014 20:53:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 18 February 2014 15:56:41 Khem Raj <raj.khem@gmail.com> wrote:
+boost.inc's do_boostconfig task contains:
 
-> On Tue, Feb 18, 2014 at 4:08 AM, Jonathan Liu <net147@gmail.com> wrote:
-> >  }
-> >  IMAGE_CMD_cpio () {
-> >         ${CPIO_TOUCH_INIT}
-> > -       cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc 
-> >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
-> > +       (cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc 
-> >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio))
-> >  }
-> >
->
-> this would fork a new shell. you could also do something like
->  cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc
-> >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio) && cd -
+ # D2194:Fixing the failure of "error: duplicate initialization of gcc with the following parameters" during compilation.
+ if ! grep -qe "^using gcc : 4.3.1" ${S}/tools/build/v2/user-config.jam
+ then
+   echo 'using gcc : 4.3.1 : ${CXX} : compileflags -DBOOST_SP_USE_PTHREADS -I${includedir} linkflags -L${libdir} ;' >> ${S}/tools/build/v2/user-config.jam
+ fi
 
-Or just pull the cd into the find subshell... ;)
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The compileflags and linkflags have no effect as far as I can tell when
+passing -d+2 to bjam to display the command invocations. The "using gcc"
+line appears to date back into the mists of meta-oe.
 
+The correct syntax would appear to be:
 
+ 'using gcc ; 4.3.1 : ${CXX} : <compileflags>"-DBOOST_SP_USE_PTHREADS -I${includedir}" <linkflags>"-L${libdir}" ;'
 
-Sent with AquaMail for Android
-http://www.aqua-mail.com
+(this syntax can be seen in the -sBUILD part of BJAM_TOOLS and is
+documented at
+http://www.boost.org/boost-build2/doc/html/bbv2/reference/tools.html .)
 
+But, if those options have no effect then they can't be required so should they just be removed? i.e. just use:
+
+ 'using gcc ; 4.3.1 : ${CXX} : ;'
+
+or should users of this recipe be given a convenient ability to override
+the compileflags, with perhaps something like:
+
+ 'using gcc ; 4.3.1 : ${CXX} : <cflags>"${CFLAGS}" <cxxflags>"${CXXFLAGS}" ;'
+
+I'm mainly interested in this because I wish to pass "-std=gnu++11". I can
+confirm that the last suggestion solves my problem when I add this to my
+bbappend:
+
+CXXFLAGS += "-std=gnu++11"
+
+Any advice gratefully received. Thanks.
+
+Mike.
 
 
