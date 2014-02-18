@@ -1,31 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id D760B6EB0A
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
+	[209.85.213.47])
+	by mail.openembedded.org (Postfix) with ESMTP id D5F956EB0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 16:53:40 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id ar20so2833339iec.23
+	Tue, 18 Feb 2014 16:54:26 +0000 (UTC)
+Received: by mail-yh0-f47.google.com with SMTP id c41so15568531yho.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 08:53:41 -0800 (PST)
+	Tue, 18 Feb 2014 08:54:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=4sH/GmoDX0qeH0BZlT23NomPSzKZn3pRd47eASkAvLQ=;
-	b=IPoknmMBSeGxtLIWU6asmM4fOdU5cANXClgss7YPXb0cucHb0/0vtO2nX4Bh6WYdiQ
-	2QgrXP0G5bjw52pIE91AwJtGZIsCrCB3sybIcr+2tikN9bDPu0sPtTXlWea8J4H5hkGx
-	Y2INNwI9iwtsTJjmMLcRs8p2aF/637MTQOhG3zvDKy2eb9RPSZR8/ONMdLLVjkxIgkir
-	t7s6pspEot1fu2z7Ur2KS09tu6aiD5V6TiNS1kogOjsu1NznaPjDHbxnoYCX/ZXY7P32
-	Nb1u99W/t9o2fvmTnC//Np5MqEmvHbte73WjHi8pHU/yuz/5R/eMFOJhVPbFJnqSnpx7
-	gu5w==
-X-Received: by 10.43.182.74 with SMTP id pl10mr1428280icc.70.1392742421542;
-	Tue, 18 Feb 2014 08:53:41 -0800 (PST)
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=9IzFffnsKP5D+PRBcR0nd83tpR8WhpeAfRJ+1wlaV94=;
+	b=QDekjKpsm+dkobOYIvELXcZBkIjJINtUzJTdQglS2hRuFrjc85qzJUnNJFvHmWyvVo
+	KaolLGO9zO93qJA55+dNK7/1ntfgFvt7DBTklvrXevTwhY8YJFG2M8HDpa8cH0dQ3xBg
+	sb6fq1Y/BzrEnZB9/VLTRg33H/p/8JT1liw85vGQG8Shgf23PVAosiayIsGXhIq06Zme
+	B7EIU5u9h922eSYzFRzFCd0pIm6MVfffPT9XesZAFI180WpFadkArlfEF17UkNibHsiw
+	rv3TDuLfJrrTvXpI0n4rnNNI+ndspZtBv239WJ3NhCbkcoZInfTc9eh/+dYPAa14lL1l
+	ERKA==
 MIME-Version: 1.0
-Received: by 10.50.224.137 with HTTP; Tue, 18 Feb 2014 08:53:11 -0800 (PST)
+X-Received: by 10.236.129.36 with SMTP id g24mr11540492yhi.103.1392742467192; 
+	Tue, 18 Feb 2014 08:54:27 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.217.136 with HTTP; Tue, 18 Feb 2014 08:54:25 -0800 (PST)
 In-Reply-To: <1392742198-23333-1-git-send-email-diego.sueiro@gmail.com>
 References: <1392742198-23333-1-git-send-email-diego.sueiro@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Feb 2014 08:53:11 -0800
-Message-ID: <CAMKF1sox1wFEdRx2tdox_fAqVx_VGZwz_OEU=+02wzRaAcYP6Q@mail.gmail.com>
+Date: Tue, 18 Feb 2014 13:54:25 -0300
+X-Google-Sender-Auth: FwSBILkCeFv-_DMyFYYSlQUsTKI
+Message-ID: <CAP9ODKoi31F4Pqbu0j4DPk=3LC5+NZkeNhTV+u8+XkkbU4ZuHA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
 To: Diego Sueiro <diego.sueiro@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -42,14 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 16:53:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Feb 2014 16:54:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Feb 18, 2014 at 8:49 AM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
+On Tue, Feb 18, 2014 at 1:49 PM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
 > libQtUiTools[E].a needs to be installed on toolchain.
 > qt4[-embedded]-staticdev is the package which provides this library.
 >
 > Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com>
+
+Please change the short description to have the packagegroup inc file
+on it. And please expand the long description to explain /why/ you are
+doing it. Don't need to use contracted strings in the long description
+as it may be long as needed.
+
+
 > ---
 >  meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc |    1 +
 >  1 file changed, 1 insertion(+)
@@ -63,11 +72,7 @@ On Tue, Feb 18, 2014 at 8:49 AM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
 >          libsqlite3-dev \
 >          expat-dev \
 > +        qt4${QTLIBPREFIX}-staticdev \
->
-
-hmmm you just want this 1 static library not all. So lets first
-package the .a into a package of its own and then include that instead
-          "
+>          "
 > --
 > 1.7.10.4
 >
@@ -75,4 +80,11 @@ package the .a into a package of its own and then include that instead
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
