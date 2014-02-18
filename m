@@ -1,32 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 131976EC45
+Return-Path: <valentin.popa@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D136B6EE4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 09:56:16 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1I9suXB022827; Tue, 18 Feb 2014 09:56:10 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EPylcoOGnNaJ; Tue, 18 Feb 2014 09:56:10 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1I9u6En022850
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Tue, 18 Feb 2014 09:56:07 GMT
-Message-ID: <1392717359.14081.199.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jonathan Liu <net147@gmail.com>
-Date: Tue, 18 Feb 2014 09:55:59 +0000
-In-Reply-To: <530323A8.8080100@gmail.com>
-References: <1392633988-14208-1-git-send-email-net147@gmail.com>
-	<1392712895.14081.197.camel@ted> <53032009.1030805@gmail.com>
-	<530323A8.8080100@gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lib/oe/image.py: fix working directory
+	Tue, 18 Feb 2014 11:03:11 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Feb 2014 03:03:12 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,501,1389772800"; d="scan'208";a="457332365"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.47])
+	([10.237.105.47])
+	by orsmga001.jf.intel.com with ESMTP; 18 Feb 2014 03:02:39 -0800
+Message-ID: <53033DD1.9010500@intel.com>
+Date: Tue, 18 Feb 2014 13:02:41 +0200
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <1392226062-3797-1-git-send-email-valentin.popa@intel.com>
+	<5302573B.6060707@linux.intel.com>
+In-Reply-To: <5302573B.6060707@linux.intel.com>
+Subject: Re: [PATCH_V2] mesa: upgrade to 9.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,70 +33,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 09:56:18 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Feb 2014 11:03:12 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2014-02-18 at 20:11 +1100, Jonathan Liu wrote:
-> On 18/02/2014 7:55 PM, Jonathan Liu wrote:
-> > On 18/02/2014 7:41 PM, Richard Purdie wrote:
-> >> On Mon, 2014-02-17 at 21:46 +1100, Jonathan Liu wrote:
-> >>> The working directory needs to be changed before the image creation
-> >>> commands instead of afterwards.
-> >>>
-> >>> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> >>> ---
-> >>>   meta/lib/oe/image.py | 2 +-
-> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-> >>> index c15296f..31193f2 100644
-> >>> --- a/meta/lib/oe/image.py
-> >>> +++ b/meta/lib/oe/image.py
-> >>> @@ -176,8 +176,8 @@ class Image(object):
-> >>>               bb.data.update_data(localdata)
-> >>>               localdata.setVar('type', type)
-> >>>   -            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
-> >>>               cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
-> >>> +            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
-> >>>                 if type in cimages:
-> >>>                   for ctype in cimages[type]:
-> >> I applied this but ended up reverting it since its clear the image
-> >> commands assume a different working directory and this causes failures.
-> >>
-> >> I'd like to see more explanation about the problem this is trying to
-> >> solve.
-> >>
-> >> Cheers,
-> >>
-> >> Richard
-> >>
-> > The sdimg image classes in meta-raspberrypi and meta-sunxi broke when 
-> > I switched from dora to master branch.
-> > See: 
-> > https://github.com/djwillis/meta-raspberrypi/blob/master/classes/sdcard_image-rpi.bbclass#L43
-> > It is using relative path to rootfs which assumes the working 
-> > directory is DEPLOY_DIR_IMAGE.
-> > I was able to build the SD card images fine after the fix.
-> Also, it makes absolutely no sense whatsoever to change working 
-> directory at the end of the function:
-> img_creation_func() {
->      oe_mkext234fs ext4 -i 8192
->      cd /home/build/poky/build/tmp/deploy/images/qemux86
-> }
-> 
-> ...
-> 
-> img_creation_func
-> 
-> This would mean the last command executed in create_image.ext4 (see temp 
-> folder for image recipe) would be changing the directory.
+On 02/17/2014 08:38 PM, Saul Wold wrote:
+> On 02/12/2014 09:27 AM, Valentin Popa wrote:
+>> tested on qemux86, genericx86 for core-image-sato
+>> and core-image-weston.
+>>
+>> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+>> ---
+>>   .../mesa/{mesa-gl_9.2.2.bb => mesa-gl_9.2.5.bb}                |  0
+>>   meta/recipes-graphics/mesa/{mesa_9.2.2.bb => mesa_9.2.5.bb}    | 10 
+>> ++++++++--
+>>   meta/recipes-graphics/mesa/mesa_git.bb | 10 ++++++++--
+>>   3 files changed, 16 insertions(+), 4 deletions(-)
+>>   rename meta/recipes-graphics/mesa/{mesa-gl_9.2.2.bb => 
+>> mesa-gl_9.2.5.bb} (100%)
+>>   rename meta/recipes-graphics/mesa/{mesa_9.2.2.bb => mesa_9.2.5.bb} 
+>> (38%)
+>>
+>> diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb 
+>> b/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+>> similarity index 100%
+>> rename from meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb
+>> rename to meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
+>> diff --git a/meta/recipes-graphics/mesa/mesa_9.2.2.bb 
+>> b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
+>> similarity index 38%
+>> rename from meta/recipes-graphics/mesa/mesa_9.2.2.bb
+>> rename to meta/recipes-graphics/mesa/mesa_9.2.5.bb
+>> index 60eba01..f37586b 100644
+>> --- a/meta/recipes-graphics/mesa/mesa_9.2.2.bb
+>> +++ b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
+>> @@ -5,7 +5,13 @@ SRC_URI = 
+>> "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+>>              file://0006-fix-out-of-tree-egl.patch \
+>>              "
+>>
+>> -SRC_URI[md5sum] = "20887f8020db7d1736a01ae9cd5d8c38"
+>> -SRC_URI[sha256sum] = 
+>> "c78a5035233672844cf2492fe82dc10877e12026be227d04469d6ca6ac656a3d"
+>> +SRC_URI[md5sum] = "9fb4de29ca1d9cfd03cbdefa123ba336"
+>> +SRC_URI[sha256sum] = 
+>> "b46ab9efed176df0591993397594d712ada9da6a47fd31bbe75050fe28eb6bf0"
+>>
+>>   S = "${WORKDIR}/Mesa-${PV}"
+>> +
+>> +#because we cannot rely on the fact that all apps will use pkgconfig,
+>> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+>> +do_install_append() {
+>> +    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if 
+>> ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' 
+>> ${D}${includedir}/EGL/eglplatform.h
+>> +}
+>> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb 
+>> b/meta/recipes-graphics/mesa/mesa_git.bb
+>> index 19d3e70..320b8d5 100644
+>> --- a/meta/recipes-graphics/mesa/mesa_git.bb
+>> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
+>> @@ -5,8 +5,8 @@ DEFAULT_PREFERENCE = "-1"
+>>   LIC_FILES_CHKSUM = 
+>> "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
+>>
+>>   PR = "${INC_PR}.0"
+>> -SRCREV = "8f0742051e8501e737affb392996aef172034ca8"
+>> -PV = "9.2.2+git${SRCPV}"
+>> +SRCREV = "4636e87191fddd492ed8c61ba61faf4b2d89b2e4"
+>> +PV = "9.2.5+git${SRCPV}"
+>>
+>>   SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
+>> file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
+>> @@ -14,3 +14,9 @@ SRC_URI = 
+>> "git://anongit.freedesktop.org/git/mesa/mesa \
+>>              "
+>>
+>>   S = "${WORKDIR}/git"
+>> +
+>> +#because we cannot rely on the fact that all apps will use pkgconfig,
+>> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+>> +do_install_append() {
+>> +    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if 
+>> ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' 
+>> ${D}${includedir}/EGL/eglplatform.h
+>> +}
+>>
+>
+> Possible issue with this on one of Minnow BSP build:
+>> | make[2]: Nothing to be done for `install-exec-am'.
+>> | make[2]: Nothing to be done for `install-data-am'.
+>> | make[2]: Leaving directory 
+>> `/home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/build'
+>> | make[1]: Leaving directory 
+>> `/home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/build'
+>> | sed: can't read 
+>> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/image/usr/include/EGL/eglplatform.h: 
+>> No such file or directory
+>> | WARNING: 
+>> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/temp/run.do_install.4673:1 
+>> exit 2 from
+>> |   sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if 0/' 
+>> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/image/usr/include/EGL/eglplatform.h
+>> | ERROR: Function failed: do_install (log file is located at 
+>> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/temp/log.do_install.4673)
+>> NOTE: recipe mesa-gl-2_9.2.5-r0: task do_install: Failed
+>
+>
+> Can you please look into this and comment.
 
-Its being done for the compression code that immediately follows it. So
-it does make sense and its why changing it broke things.
+Had a look... seems that I misunderstood what ??= is really doing in 
+PACKAGECONFIG ??= "dri ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', 
+'', d)}".  I'll submit a new version. Thanks for the notice!
 
-Cheers,
-
-Richard
+>
+> Thanks
+>    Sau!
+>
+>
 
 
