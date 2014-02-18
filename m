@@ -1,26 +1,34 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D136B6EE4E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
+	[209.85.215.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 333536EE4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 11:03:11 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 18 Feb 2014 03:03:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,501,1389772800"; d="scan'208";a="457332365"
-Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.47])
-	([10.237.105.47])
-	by orsmga001.jf.intel.com with ESMTP; 18 Feb 2014 03:02:39 -0800
-Message-ID: <53033DD1.9010500@intel.com>
-Date: Tue, 18 Feb 2014 13:02:41 +0200
-From: Valentin Popa <valentin.popa@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
-References: <1392226062-3797-1-git-send-email-valentin.popa@intel.com>
-	<5302573B.6060707@linux.intel.com>
-In-Reply-To: <5302573B.6060707@linux.intel.com>
-Subject: Re: [PATCH_V2] mesa: upgrade to 9.2.5
+	Tue, 18 Feb 2014 11:04:34 +0000 (UTC)
+Received: by mail-ea0-f176.google.com with SMTP id b10so3690197eae.21
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Feb 2014 03:04:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=yU5jtqeabyJLle38MFfzA5BIPKe8q/MqEOP0lDj2RHE=;
+	b=cFFbC6vsTMKILOs1eOTZlAHU9Vqf5CGejqjWV8JvTLWgn2JH5Lx2r7Kln6Xkb7A+Z9
+	iwEOFwGjG91y/UVSjS483ImmBodbJWOpbO95ABpkaadMmDtgT37Cj5Vde8U+qRjRzO28
+	bONUsd/ZUzIGHsiV3o4Z0CTXOmCEEskvNlLc3HEqBiixByNbqY5rdz8qWDg5Cq5u495s
+	j7ec79NvrNrht9BcfYsZaL1ZDYQjp6oZVTkpjtRm4H4fwGvOjYqqUJVOmgZRhV6mqFN8
+	IpfzLgK21X/7l/k0ZjKcM7vhvZ0wxHv7AcVdm9gR4VIjwGMn0W7XaYuWs0am8PtTBps3
+	6I8w==
+X-Received: by 10.14.29.6 with SMTP id h6mr2856037eea.84.1392721474294;
+	Tue, 18 Feb 2014 03:04:34 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	j41sm68896004eey.15.2014.02.18.03.04.32 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Feb 2014 03:04:33 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Feb 2014 12:05:03 +0100
+Message-Id: <1392721503-27383-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] libxkbcommon: Add PACKAGECONFIG for x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,123 +41,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 11:03:12 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Feb 2014 11:04:34 -0000
 
-On 02/17/2014 08:38 PM, Saul Wold wrote:
-> On 02/12/2014 09:27 AM, Valentin Popa wrote:
->> tested on qemux86, genericx86 for core-image-sato
->> and core-image-weston.
->>
->> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
->> ---
->>   .../mesa/{mesa-gl_9.2.2.bb => mesa-gl_9.2.5.bb}                |  0
->>   meta/recipes-graphics/mesa/{mesa_9.2.2.bb => mesa_9.2.5.bb}    | 10 
->> ++++++++--
->>   meta/recipes-graphics/mesa/mesa_git.bb | 10 ++++++++--
->>   3 files changed, 16 insertions(+), 4 deletions(-)
->>   rename meta/recipes-graphics/mesa/{mesa-gl_9.2.2.bb => 
->> mesa-gl_9.2.5.bb} (100%)
->>   rename meta/recipes-graphics/mesa/{mesa_9.2.2.bb => mesa_9.2.5.bb} 
->> (38%)
->>
->> diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb 
->> b/meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
->> similarity index 100%
->> rename from meta/recipes-graphics/mesa/mesa-gl_9.2.2.bb
->> rename to meta/recipes-graphics/mesa/mesa-gl_9.2.5.bb
->> diff --git a/meta/recipes-graphics/mesa/mesa_9.2.2.bb 
->> b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
->> similarity index 38%
->> rename from meta/recipes-graphics/mesa/mesa_9.2.2.bb
->> rename to meta/recipes-graphics/mesa/mesa_9.2.5.bb
->> index 60eba01..f37586b 100644
->> --- a/meta/recipes-graphics/mesa/mesa_9.2.2.bb
->> +++ b/meta/recipes-graphics/mesa/mesa_9.2.5.bb
->> @@ -5,7 +5,13 @@ SRC_URI = 
->> "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
->>              file://0006-fix-out-of-tree-egl.patch \
->>              "
->>
->> -SRC_URI[md5sum] = "20887f8020db7d1736a01ae9cd5d8c38"
->> -SRC_URI[sha256sum] = 
->> "c78a5035233672844cf2492fe82dc10877e12026be227d04469d6ca6ac656a3d"
->> +SRC_URI[md5sum] = "9fb4de29ca1d9cfd03cbdefa123ba336"
->> +SRC_URI[sha256sum] = 
->> "b46ab9efed176df0591993397594d712ada9da6a47fd31bbe75050fe28eb6bf0"
->>
->>   S = "${WORKDIR}/Mesa-${PV}"
->> +
->> +#because we cannot rely on the fact that all apps will use pkgconfig,
->> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
->> +do_install_append() {
->> +    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if 
->> ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' 
->> ${D}${includedir}/EGL/eglplatform.h
->> +}
->> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb 
->> b/meta/recipes-graphics/mesa/mesa_git.bb
->> index 19d3e70..320b8d5 100644
->> --- a/meta/recipes-graphics/mesa/mesa_git.bb
->> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
->> @@ -5,8 +5,8 @@ DEFAULT_PREFERENCE = "-1"
->>   LIC_FILES_CHKSUM = 
->> "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
->>
->>   PR = "${INC_PR}.0"
->> -SRCREV = "8f0742051e8501e737affb392996aef172034ca8"
->> -PV = "9.2.2+git${SRCPV}"
->> +SRCREV = "4636e87191fddd492ed8c61ba61faf4b2d89b2e4"
->> +PV = "9.2.5+git${SRCPV}"
->>
->>   SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
->> file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
->> @@ -14,3 +14,9 @@ SRC_URI = 
->> "git://anongit.freedesktop.org/git/mesa/mesa \
->>              "
->>
->>   S = "${WORKDIR}/git"
->> +
->> +#because we cannot rely on the fact that all apps will use pkgconfig,
->> +#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
->> +do_install_append() {
->> +    sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if 
->> ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' 
->> ${D}${includedir}/EGL/eglplatform.h
->> +}
->>
->
-> Possible issue with this on one of Minnow BSP build:
->> | make[2]: Nothing to be done for `install-exec-am'.
->> | make[2]: Nothing to be done for `install-data-am'.
->> | make[2]: Leaving directory 
->> `/home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/build'
->> | make[1]: Leaving directory 
->> `/home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/build'
->> | sed: can't read 
->> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/image/usr/include/EGL/eglplatform.h: 
->> No such file or directory
->> | WARNING: 
->> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/temp/run.do_install.4673:1 
->> exit 2 from
->> |   sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if 0/' 
->> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/image/usr/include/EGL/eglplatform.h
->> | ERROR: Function failed: do_install (log file is located at 
->> /home/pokybuild/yocto-autobuilder-dev/yocto-slave/minnow/build/build/tmp/work/core2-32-emgd-poky-linux/mesa-gl/2_9.2.5-r0/temp/log.do_install.4673)
->> NOTE: recipe mesa-gl-2_9.2.5-r0: task do_install: Failed
->
->
-> Can you please look into this and comment.
+* allow to explicitly disable x11 with --disable-x11, otherwise
+  do_configure fails for DISTROs without x11 in DISTRO_FEATURES:
+  | No package 'xcb-xkb' found
+  | configure:18763: $? = 1
+  | configure:18777: result: no
+  | No package 'xcb' found
+  | No package 'xcb-xkb' found
+  | configure:18793: error: xkbcommon-x11 requires xcb-xkb >= 1.10 which
+    was not found. You can disable X11 support with --disable-x11.
 
-Had a look... seems that I misunderstood what ??= is really doing in 
-PACKAGECONFIG ??= "dri ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', 
-'', d)}".  I'll submit a new version. Thanks for the notice!
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
->
-> Thanks
->    Sau!
->
->
+diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
+index 2726302..2ad5448 100644
+--- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.4.0.bb
+@@ -15,3 +15,6 @@ SRC_URI[sha256sum] = "2dc018e830d1befaf4822615204138318da3fff0112f78f3a7c638fa61
+ inherit autotools pkgconfig
+ 
+ EXTRA_OECONF = "--disable-docs"
++
++PACKAGECONFIG ?= "${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
++PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,libxcb"
+-- 
+1.8.5.3
 
 
