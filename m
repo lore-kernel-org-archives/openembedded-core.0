@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C2B6B6F13F
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EB1076EFFD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 09:42:43 +0000 (UTC)
+	Tue, 18 Feb 2014 09:42:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1I9giAW013230
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1I9gkKc023350
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Feb 2014 01:42:44 -0800 (PST)
+	Tue, 18 Feb 2014 01:42:46 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 18 Feb 2014 01:42:44 -0800
+	14.2.347.0; Tue, 18 Feb 2014 01:42:46 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Feb 2014 17:42:25 +0800
-Message-ID: <1e5d48e5fd1de1a728a69398182242c1b05ec229.1392716065.git.hongxu.jia@windriver.com>
+Date: Tue, 18 Feb 2014 17:42:26 +0800
+Message-ID: <8e7aa03f832068e41f0142b15d18fa8f49b9055a.1392716065.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1392716065.git.hongxu.jia@windriver.com>
 References: <cover.1392716065.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 2/5] package_manager.py: tweak handle_bad_recommendations for ipk incremental image generation
+Subject: [PATCH 3/5] rootfs.py: support ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,66 +33,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 09:42:44 -0000
+X-List-Received-Date: Tue, 18 Feb 2014 09:42:46 -0000
 Content-Type: text/plain
 
-Let opkg_dir be configurable in handle_bad_recommendations,
-so it could work on other root fs.
+While incremental image generation enabled, if previous image existed,
+it restores the opkg database. Based on the previous image, it gets what
+need to remove for the current and remove them.
 
-Invoke handle_bad_recommendations in dump_install_solution
-which simulates package install on other root fs.
+The newly added and upgraded packages will be done since opkg install
+invoked.
 
 [YOCTO #1894]
+
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/lib/oe/package_manager.py | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ meta/lib/oe/rootfs.py | 50 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 47 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 4ea9677..3cfd4af 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1157,12 +1157,19 @@ class OpkgPM(PackageManager):
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index d149ca3..5561bb9 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -438,13 +438,25 @@ class OpkgRootfs(Rootfs):
+     def __init__(self, d, manifest_dir):
+         super(OpkgRootfs, self).__init__(d)
  
-         return output
+-        bb.utils.remove(self.image_rootfs, True)
+-        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
+         self.manifest = OpkgManifest(d, manifest_dir)
+         self.opkg_conf = self.d.getVar("IPKGCONF_TARGET", True)
+         self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True)
  
--    def handle_bad_recommendations(self):
--        bad_recommendations = self.d.getVar("BAD_RECOMMENDATIONS", True)
--        if bad_recommendations is None:
-+    def handle_bad_recommendations(self, opkg_dir=""):
-+        bad_recommendations = self.d.getVar("BAD_RECOMMENDATIONS", True) or ""
-+        if bad_recommendations.strip() == "":
-             return
- 
--        status_file = os.path.join(self.opkg_dir, "status")
-+        if opkg_dir == "":
-+            opkg_dir = self.opkg_dir
-+        status_file = os.path.join(opkg_dir, "status")
+-        self.pm = OpkgPM(d, self.image_rootfs, self.opkg_conf, self.pkg_archs)
++        self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN', True)
++        if self.inc_opkg_image_gen != "1":
++            bb.utils.remove(self.image_rootfs, True)
++            self.pm = OpkgPM(d,
++                             self.image_rootfs,
++                             self.opkg_conf,
++                             self.pkg_archs)
++        else:
++            self.pm = OpkgPM(d,
++                             self.image_rootfs,
++                             self.opkg_conf,
++                             self.pkg_archs)
++            self.pm.recovery_packaging_data()
 +
-+        # If status file existed, it means the bad recommendations has already
-+        # been handled
-+        if os.path.exists(status_file):
-+            return
++        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
  
-         cmd = "%s %s info " % (self.opkg_cmd, self.opkg_args)
+     """
+     This function was reused from the old implementation.
+@@ -508,6 +520,32 @@ class OpkgRootfs(Rootfs):
  
-@@ -1177,7 +1184,7 @@ class OpkgPM(PackageManager):
-                              "returned %d:\n%s" % (pkg_info, e.returncode, e.output))
+         self._multilib_sanity_test(dirs)
  
-                 if output == "":
--                    bb.note("Requested ignored recommendation $i is "
-+                    bb.note("Requested ignored recommendation %s is "
-                             "not a package" % pkg)
-                     continue
++    '''
++    While ipk incremental image generation is enabled, it will remove the
++    unneeded pkgs by comparing the new install solution manifest and the
++    old installed manifest.
++    '''
++    def _create_incremental(self, pkgs_initial_install):
++        if self.inc_opkg_image_gen == "1":
++
++            pkgs_to_install = list()
++            for pkg_type in pkgs_initial_install:
++                pkgs_to_install += pkgs_initial_install[pkg_type]
++
++            installed_manifest = self.pm.load_old_install_solution()
++            solution_manifest = self.pm.dump_install_solution(pkgs_to_install)
++
++            pkg_to_remove = list()
++            for pkg in installed_manifest:
++                if pkg not in solution_manifest:
++                    pkg_to_remove.append(pkg)
++
++            self.pm.update()
++
++            if pkg_to_remove != []:
++                bb.note('incremental removed: %s' % ' '.join(pkg_to_remove))
++                self.pm.remove(pkg_to_remove)
++
+     def _create(self):
+         pkgs_to_install = self.manifest.parse_initial_manifest()
+         opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS', True)
+@@ -518,6 +556,9 @@ class OpkgRootfs(Rootfs):
+         if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS', True) or "") != "1":
+             self.pm.write_index()
  
-@@ -1204,6 +1211,7 @@ class OpkgPM(PackageManager):
-         temp_rootfs = self.d.expand('${T}/opkg')
-         temp_opkg_dir = os.path.join(temp_rootfs, 'var/lib/opkg')
-         bb.utils.mkdirhier(temp_opkg_dir)
-+        self.handle_bad_recommendations(temp_opkg_dir)
++        if self.inc_opkg_image_gen == "1":
++            self._create_incremental(pkgs_to_install)
++
+         execute_pre_post_process(self.d, opkg_pre_process_cmds)
  
-         opkg_args = "-f %s -o %s " % (self.config_file, temp_rootfs)
-         opkg_args += self.d.getVar("OPKG_ARGS", True)
+         self.pm.update()
+@@ -540,6 +581,9 @@ class OpkgRootfs(Rootfs):
+         execute_pre_post_process(self.d, opkg_post_process_cmds)
+         execute_pre_post_process(self.d, rootfs_post_install_cmds)
+ 
++        if self.inc_opkg_image_gen == "1":
++            self.pm.backup_packaging_data()
++
+     def _get_delayed_postinsts(self):
+         pkg_list = []
+         status_file = os.path.join(self.image_rootfs,
 -- 
 1.8.1.2
 
