@@ -1,35 +1,36 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f46.google.com (mail-pb0-f46.google.com
-	[209.85.160.46])
-	by mail.openembedded.org (Postfix) with ESMTP id D5C3F6EE33
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
+	[74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id EC4C86EE33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 12:04:25 +0000 (UTC)
-Received: by mail-pb0-f46.google.com with SMTP id um1so16595973pbc.19
+	Tue, 18 Feb 2014 12:13:05 +0000 (UTC)
+Received: by mail-we0-f176.google.com with SMTP id q58so11380017wes.21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 04:04:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=TfRSqG3+ayVDRiY7VwrZwv3Yf/9qXajF0m/da5rhRec=;
-	b=LgaQEQGfH6YK0NTNimkEasDR7rixNd1oM+ZNxUfvL4M745HsdUMI6VofbFsYSaAoAZ
-	Arjys/eGsRGzdRgQHFQ2hNyE7wZ64Qm65fVKoptzYOOpjZeeUCq+5kO0EWyu05q1rubA
-	3k24glUlQabNsQzcX3gFoshlOwuRax4c33jpIMl5fnrxhsjEwaE/JX0Mdb66ITjjP2cZ
-	UCgMil+itpgfC/02xWWIPDzk8DZfWMZknizpTWpgmXe04sIfKexkAyPupslUt4ENK0Dd
-	S69Anquu1eJh3YaY1To8HiT/FpmlupelZbHAvP55p3OHVB8ksJLNZC7ZZf88+H6c3Tof
-	D2hw==
-X-Received: by 10.68.244.229 with SMTP id xj5mr32628445pbc.108.1392725066903; 
-	Tue, 18 Feb 2014 04:04:26 -0800 (PST)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	yh4sm27547166pbb.19.2014.02.18.04.04.24 for <multiple recipients>
+	Tue, 18 Feb 2014 04:13:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=DxARXYDIhjGO01iowDPDmaBXIhporDzTRg1EDgfTcps=;
+	b=ZcxZQWFQvzfQ7dEELAUaxmwPrNDR6ltjx6BlE7m5WIraRk4GuHSXb1h7jI/klHiJSd
+	CcYZ2Kz63pgxOY1l16kTgXMDpxr649B+db3VNmNnrmgXb71REFMIjjyhF23UEvCyAx3Y
+	6LCpHdM+NdNX0F8PEIZ61DW0nXhQJSw9BcvYeTgFzjWy3gB/tvpNnZEryqlAHiwbLYpM
+	CC3GmAgKlnkaIh4Na0uapgdanfWq97PFBqni2nJgVDvhx2v4wDCKAkQcuf5sy3wDmzwb
+	pkDzy8feM5U8P5UtQTieTIwk8a+/whFV9wwbWc/XrirlZkNPoQXF48o3fsuvwiriFPNd
+	Zghg==
+X-Gm-Message-State: ALoCoQmEIckgpIPyWMJnE6CsLVdZlVcEMB2BF5bhn+YoBPWctrvO2R8mya1DJlonf7WGoAOFQUTz
+X-Received: by 10.180.101.40 with SMTP id fd8mr17646365wib.1.1392725585646;
+	Tue, 18 Feb 2014 04:13:05 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id n15sm41569128wij.3.2014.02.18.04.13.04
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 18 Feb 2014 04:04:26 -0800 (PST)
-From: Jonathan Liu <net147@gmail.com>
+	Tue, 18 Feb 2014 04:13:04 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Feb 2014 23:08:42 +1100
-Message-Id: <1392725322-15042-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.5.4
-Subject: [PATCH] image_types.bbclass: fix cpio IMAGE_CMD to preserve working directory
+Date: Tue, 18 Feb 2014 12:13:01 +0000
+Message-Id: <1392725581-6817-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] avahi: handle SO_REUSEPORT not being available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +43,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 12:04:26 -0000
+X-List-Received-Date: Tue, 18 Feb 2014 12:13:07 -0000
 
-The working directory is changed in a subshell when executing cpio to
-preserve the working directory for any subsequent commands. This is to
-keep the working directory consistent when generating multiple image
-types.
+Linux < 3.9 doesn't have the SO_REUSEPORT option so instead of failing to start
+when built with >=3.9 kernel headers but booted on <3.9 kernels, continue as if
+SO_REUSEPORT wasn't available.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/avahi/avahi.inc          |    1 +
+ .../avahi/files/reuseport-check.patch              |   30 ++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-connectivity/avahi/files/reuseport-check.patch
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 944e6db..747a59b 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -74,7 +74,7 @@ CPIO_TOUCH_INIT () {
- }
- IMAGE_CMD_cpio () {
- 	${CPIO_TOUCH_INIT}
--	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
-+	(cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio))
- }
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 3a95b7f..e4ff26a 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -26,6 +26,7 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+           file://fix_for_automake_1.12.x.patch \
+           file://out-of-tree.patch \
+           file://0001-avahi-fix-avahi-status-command-error-prompt.patch \
++          file://reuseport-check.patch \
+           "
  
- ELF_KERNEL ?= "${STAGING_DIR_HOST}/usr/src/kernel/${KERNEL_IMAGETYPE}"
+ USERADD_PACKAGES = "avahi-daemon avahi-autoipd"
+diff --git a/meta/recipes-connectivity/avahi/files/reuseport-check.patch b/meta/recipes-connectivity/avahi/files/reuseport-check.patch
+new file mode 100644
+index 0000000..bb81c2c
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/reuseport-check.patch
+@@ -0,0 +1,30 @@
++Fix avahi-daemon when running on kernel < 3.9 (patch taken from Ubuntu).
++
++Upstream-Status: Pending (unmaintained upstream)
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++Description: SO_REUSEPORT may not exist in running kernel
++ When userspace defines SO_REUSEPORT we will attempt to enable socket
++ port number reuse.  However if the running kernel does not support
++ this call it will fail preventing daemon startup.  If this call is
++ present but fails ENOPROTOOPT then we know that actually the kernel
++ does not support it and we should continue as if we did not have the
++ call at all.  (LP: #1228204)
++ .
++ This patch could be removed from the debian package after jessie release.
++Author: Andy Whitcroft <apw@canonical.com>
++
++Index: avahi-0.6.31/avahi-core/socket.c
++===================================================================
++--- avahi-0.6.31.orig/avahi-core/socket.c	2013-09-20 16:36:50.000000000 +0100
+++++ avahi-0.6.31/avahi-core/socket.c	2013-09-20 16:38:23.781863644 +0100
++@@ -177,7 +177,8 @@
++     yes = 1;
++     if (setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &yes, sizeof(yes)) < 0) {
++         avahi_log_warn("SO_REUSEPORT failed: %s", strerror(errno));
++-        return -1;
+++        if (errno != ENOPROTOOPT)
+++            return -1;
++     }
++ #endif
++ 
 -- 
-1.8.5.4
+1.7.10.4
 
 
