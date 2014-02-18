@@ -1,34 +1,33 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f47.google.com (mail-yh0-f47.google.com
-	[209.85.213.47])
-	by mail.openembedded.org (Postfix) with ESMTP id D5F956EB0A
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 331E66EB0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 16:54:26 +0000 (UTC)
-Received: by mail-yh0-f47.google.com with SMTP id c41so15568531yho.6
+	Tue, 18 Feb 2014 17:21:18 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id j5so23508729qaq.20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 08:54:27 -0800 (PST)
+	Tue, 18 Feb 2014 09:21:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=9IzFffnsKP5D+PRBcR0nd83tpR8WhpeAfRJ+1wlaV94=;
-	b=QDekjKpsm+dkobOYIvELXcZBkIjJINtUzJTdQglS2hRuFrjc85qzJUnNJFvHmWyvVo
-	KaolLGO9zO93qJA55+dNK7/1ntfgFvt7DBTklvrXevTwhY8YJFG2M8HDpa8cH0dQ3xBg
-	sb6fq1Y/BzrEnZB9/VLTRg33H/p/8JT1liw85vGQG8Shgf23PVAosiayIsGXhIq06Zme
-	B7EIU5u9h922eSYzFRzFCd0pIm6MVfffPT9XesZAFI180WpFadkArlfEF17UkNibHsiw
-	rv3TDuLfJrrTvXpI0n4rnNNI+ndspZtBv239WJ3NhCbkcoZInfTc9eh/+dYPAa14lL1l
-	ERKA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=/6PGHVPIqcygjAtYeT40IwrsAJuwCtmL2ecGvdP8fOU=;
+	b=DE/EMrsfviai28qg05EWmjf9TIDgXFszPCTK7Nb9iZlrPhHAS2uo+u1oh7Y6/Uw1bo
+	PDKoyna4OuFXt/2ibjdf2LLQTf3Rpeyygrw8/eS7LWbTGAYTX/8BvzgJ7GSpcftdhkMW
+	HjUe7LoTqWoOnWI6N0iM6IN8oEHaqETqqZj9OPuKJJ6fzWY2juI8Lr3B4GVvBCW80Zev
+	thpdmvXtcnee0RdZwCvzqngzuN4/yBb+0BeG4qZZFj4HepuMajm5qLvjENzF7+5oxc3w
+	R8jUvk3cGuKZcCmOQqtqr6M6T7bHsxfVHg9H8lvJonYfgSe9OYQdTba9fSOWkjQAZpmo
+	E6Bg==
+X-Received: by 10.140.31.75 with SMTP id e69mr11734179qge.76.1392744078929;
+	Tue, 18 Feb 2014 09:21:18 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.236.129.36 with SMTP id g24mr11540492yhi.103.1392742467192; 
-	Tue, 18 Feb 2014 08:54:27 -0800 (PST)
-Sender: otavio.salvador@gmail.com
-Received: by 10.170.217.136 with HTTP; Tue, 18 Feb 2014 08:54:25 -0800 (PST)
-In-Reply-To: <1392742198-23333-1-git-send-email-diego.sueiro@gmail.com>
+Received: by 10.140.25.47 with HTTP; Tue, 18 Feb 2014 09:20:58 -0800 (PST)
+In-Reply-To: <CAMKF1sox1wFEdRx2tdox_fAqVx_VGZwz_OEU=+02wzRaAcYP6Q@mail.gmail.com>
 References: <1392742198-23333-1-git-send-email-diego.sueiro@gmail.com>
-Date: Tue, 18 Feb 2014 13:54:25 -0300
-X-Google-Sender-Auth: FwSBILkCeFv-_DMyFYYSlQUsTKI
-Message-ID: <CAP9ODKoi31F4Pqbu0j4DPk=3LC5+NZkeNhTV+u8+XkkbU4ZuHA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Diego Sueiro <diego.sueiro@gmail.com>
+	<CAMKF1sox1wFEdRx2tdox_fAqVx_VGZwz_OEU=+02wzRaAcYP6Q@mail.gmail.com>
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Tue, 18 Feb 2014 14:20:58 -0300
+Message-ID: <CAMCfZKFvNrOBenvt-KmOpzLjVdAf=qGDxJb-AB3h=Zvfix1iqQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] meta-toolchain-qt[e]: add qt4[-embedded]-staticdev
@@ -44,47 +43,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 16:54:27 -0000
+X-List-Received-Date: Tue, 18 Feb 2014 17:21:19 -0000
+Content-Type: multipart/alternative; boundary=001a113a96ca16901004f2b180b5
+
+--001a113a96ca16901004f2b180b5
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Feb 18, 2014 at 1:49 PM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
-> libQtUiTools[E].a needs to be installed on toolchain.
-> qt4[-embedded]-staticdev is the package which provides this library.
+Khem,
+On Tue, Feb 18, 2014 at 1:53 PM, Khem Raj <raj.khem@gmail.com> wrote:
+
+> hmmm you just want this 1 static library not all. So lets first
+> package the .a into a package of its own and then include that instead
 >
-> Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com>
-
-Please change the short description to have the packagegroup inc file
-on it. And please expand the long description to explain /why/ you are
-doing it. Don't need to use contracted strings in the long description
-as it may be long as needed.
+libQtUiTools[E].a is the only file in the package.
 
 
-> ---
->  meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc |    1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-> index fc1ccba..b040182 100644
-> --- a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-> +++ b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-> @@ -33,4 +33,5 @@ RDEPENDS_${PN} += " \
->          libqt${QTLIBPREFIX}xmlpatterns4-dev \
->          libsqlite3-dev \
->          expat-dev \
-> +        qt4${QTLIBPREFIX}-staticdev \
->          "
-> --
-> 1.7.10.4
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Regards,
+
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br
 
 
+/*long live rock 'n roll*/
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+--001a113a96ca16901004f2b180b5
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra">Khem,<br><div class=3D"gmail_qu=
+ote">On Tue, Feb 18, 2014 at 1:53 PM, Khem Raj <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
+;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div id=3D":47g" style=3D"overflow:hidden">hmmm you just w=
+ant this 1 static library not all. So lets first<br>
+
+
+package the .a into a package of its own and then include that instead</div=
+></blockquote></div><span style=3D"color:rgb(80,0,80);font-family:arial,san=
+s-serif;font-size:13px">libQtUiTools[E].a is the only file in the package.<=
+/span><br>
+
+<br><br clear=3D"all"><div><div dir=3D"ltr"><div>Regards,</div><div><br></d=
+iv>--<br>*dS<br>Diego Sueiro<br><br>Administrador do Embarcados<br><a href=
+=3D"http://www.embarcados.com.br" target=3D"_blank">www.embarcados.com.br</=
+a><br>
+
+<br><br>/*long live rock &#39;n roll*/</div></div>
+</div></div>
+
+--001a113a96ca16901004f2b180b5--
