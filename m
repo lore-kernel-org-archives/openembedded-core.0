@@ -1,36 +1,28 @@
-Return-Path: <diego.sueiro@gmail.com>
-Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 331E66EB0A
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 81C276EE32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 17:21:18 +0000 (UTC)
-Received: by mail-qa0-f47.google.com with SMTP id j5so23508729qaq.20
+	Tue, 18 Feb 2014 17:49:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1IHnBA3000619
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 09:21:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=/6PGHVPIqcygjAtYeT40IwrsAJuwCtmL2ecGvdP8fOU=;
-	b=DE/EMrsfviai28qg05EWmjf9TIDgXFszPCTK7Nb9iZlrPhHAS2uo+u1oh7Y6/Uw1bo
-	PDKoyna4OuFXt/2ibjdf2LLQTf3Rpeyygrw8/eS7LWbTGAYTX/8BvzgJ7GSpcftdhkMW
-	HjUe7LoTqWoOnWI6N0iM6IN8oEHaqETqqZj9OPuKJJ6fzWY2juI8Lr3B4GVvBCW80Zev
-	thpdmvXtcnee0RdZwCvzqngzuN4/yBb+0BeG4qZZFj4HepuMajm5qLvjENzF7+5oxc3w
-	R8jUvk3cGuKZcCmOQqtqr6M6T7bHsxfVHg9H8lvJonYfgSe9OYQdTba9fSOWkjQAZpmo
-	E6Bg==
-X-Received: by 10.140.31.75 with SMTP id e69mr11734179qge.76.1392744078929;
-	Tue, 18 Feb 2014 09:21:18 -0800 (PST)
+	Tue, 18 Feb 2014 09:49:12 -0800 (PST)
+Received: from Marks-MacBook-Pro.local (172.25.36.235) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 18 Feb 2014 09:49:11 -0800
+Message-ID: <53039D17.6040106@windriver.com>
+Date: Tue, 18 Feb 2014 11:49:11 -0600
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-Received: by 10.140.25.47 with HTTP; Tue, 18 Feb 2014 09:20:58 -0800 (PST)
-In-Reply-To: <CAMKF1sox1wFEdRx2tdox_fAqVx_VGZwz_OEU=+02wzRaAcYP6Q@mail.gmail.com>
-References: <1392742198-23333-1-git-send-email-diego.sueiro@gmail.com>
-	<CAMKF1sox1wFEdRx2tdox_fAqVx_VGZwz_OEU=+02wzRaAcYP6Q@mail.gmail.com>
-From: Diego Sueiro <diego.sueiro@gmail.com>
-Date: Tue, 18 Feb 2014 14:20:58 -0300
-Message-ID: <CAMCfZKFvNrOBenvt-KmOpzLjVdAf=qGDxJb-AB3h=Zvfix1iqQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta-toolchain-qt[e]: add qt4[-embedded]-staticdev
+To: <openembedded-core@lists.openembedded.org>
+References: <1392626895-14981-1-git-send-email-ming.liu@windriver.com>
+In-Reply-To: <1392626895-14981-1-git-send-email-ming.liu@windriver.com>
+Subject: Re: [PATCH V2] rpm: fix a endian incompatible error in generating tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,59 +35,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 17:21:19 -0000
-Content-Type: multipart/alternative; boundary=001a113a96ca16901004f2b180b5
+X-List-Received-Date: Tue, 18 Feb 2014 17:49:11 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113a96ca16901004f2b180b5
-Content-Type: text/plain; charset=ISO-8859-1
-
-Khem,
-On Tue, Feb 18, 2014 at 1:53 PM, Khem Raj <raj.khem@gmail.com> wrote:
-
-> hmmm you just want this 1 static library not all. So lets first
-> package the .a into a package of its own and then include that instead
+On 2/17/14, 2:48 AM, Ming Liu wrote:
+> A flaw was found in the way rpm generating arbitrary tags, which leads to a
+> incorrect query result, this issue is introduced by a incompatible endianess
+> when the generating process is executed on different architectures.
 >
-libQtUiTools[E].a is the only file in the package.
+> This patch resolves it by taking the byte order that host uses.
+>
+> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+
+This looks reasonable to me as well.
+
+Reviewed-by: Mark Hatle <mark.hatle@windriver.com>
+
+> ---
+>   .../rpm-tag-generate-endian-conversion-fix.patch   |   49 ++++++++++++++++++++
+>   meta/recipes-devtools/rpm/rpm_5.4.9.bb             |    1 +
+>   2 files changed, 50 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+>
+> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+> new file mode 100644
+> index 0000000..e487b82
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/rpm/rpm-tag-generate-endian-conversion-fix.patch
+> @@ -0,0 +1,49 @@
+> +fix a endian incompatible error in generating rpm tag
+> +
+> +A flaw was found in the way rpm generating arbitrary tags, which leads to a
+> +incorrect query result, this issue is introduced by a incompatible endianess
+> +when the generating process is executed on different architectures.
+> +
+> +This patch resolves it by taking the byte order that host uses.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> +---
+> + tagname.c |   16 ++++++++++++++++
+> + 1 file changed, 16 insertions(+)
+> +
+> +diff -urpN a/rpmdb/tagname.c b/rpmdb/tagname.c
+> +--- a/rpmdb/tagname.c
+> ++++ b/rpmdb/tagname.c
+> +@@ -3,6 +3,19 @@
+> +  */
+> +
+> + #include "system.h"
+> ++#include <endian.h>
+> ++
+> ++/* Don't redefine this macro if it already exists */
+> ++#ifndef le32toh
+> ++#ifdef __USE_BSD
+> ++#include <byteswap.h>
+> ++#if __BYTE_ORDER == __LITTLE_ENDIAN
+> ++#define le32toh(x) (x)
+> ++#else
+> ++#define le32toh(x) __bswap_32(x)
+> ++#endif
+> ++#endif /* __USE_BSD */
+> ++#endif /* le32toh */
+> +
+> + #include <rpmio_internal.h>	/* XXX DIGEST_CTX, xtolower, xstrcasecmp */
+> + #include <rpmmacro.h>
+> +@@ -152,7 +165,10 @@ static rpmTag _tagGenerate(const char *s
+> +     xx = rpmDigestUpdate(ctx, s, nb);
+> +     xx = rpmDigestFinal(ctx, &digest, &digestlen, 0);
+> +     if (digest && digestlen > 4) {
+> ++	/* The tag is stored in a uniform byte order for cross-endian compatibility.
+> ++	   Swap to the host uses. */
+> + 	memcpy(&tag, digest + (digestlen - 4), 4);
+> ++	tag = le32toh(tag);
+> + 	tag = (rpmTag) (tag & 0x3fffffff);
+> + 	tag = (rpmTag) (tag | 0x40000000);
+> +     }
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> index 9d376a5..7921f40 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
+> @@ -89,6 +89,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
+>   	   file://debugedit-valid-file-to-fix-segment-fault.patch \
+>   	   file://rpm-platform-file-fix.patch \
+>   	   file://rpm-lsb-compatibility.patch \
+> +	   file://rpm-tag-generate-endian-conversion-fix.patch \
+>   	  "
+>
+>   # Uncomment the following line to enable platform score debugging
+>
 
 
-Regards,
-
---
-*dS
-Diego Sueiro
-
-Administrador do Embarcados
-www.embarcados.com.br
-
-
-/*long live rock 'n roll*/
-
---001a113a96ca16901004f2b180b5
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Khem,<br><div class=3D"gmail_qu=
-ote">On Tue, Feb 18, 2014 at 1:53 PM, Khem Raj <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
-;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex"><div id=3D":47g" style=3D"overflow:hidden">hmmm you just w=
-ant this 1 static library not all. So lets first<br>
-
-
-package the .a into a package of its own and then include that instead</div=
-></blockquote></div><span style=3D"color:rgb(80,0,80);font-family:arial,san=
-s-serif;font-size:13px">libQtUiTools[E].a is the only file in the package.<=
-/span><br>
-
-<br><br clear=3D"all"><div><div dir=3D"ltr"><div>Regards,</div><div><br></d=
-iv>--<br>*dS<br>Diego Sueiro<br><br>Administrador do Embarcados<br><a href=
-=3D"http://www.embarcados.com.br" target=3D"_blank">www.embarcados.com.br</=
-a><br>
-
-<br><br>/*long live rock &#39;n roll*/</div></div>
-</div></div>
-
---001a113a96ca16901004f2b180b5--
