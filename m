@@ -1,26 +1,32 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AE29E6EE3A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 131976EC45
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 09:42:51 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1I9gpHA023353
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Feb 2014 01:42:51 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 18 Feb 2014 01:42:51 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Feb 2014 17:42:28 +0800
-Message-ID: <8581ec40c107111a8001742d8b636a76910f5f5f.1392716065.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1392716065.git.hongxu.jia@windriver.com>
-References: <cover.1392716065.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 5/5] rootfs.py: tweak _multilib_sanity_test for ipk incremental image generation
+	Tue, 18 Feb 2014 09:56:16 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1I9suXB022827; Tue, 18 Feb 2014 09:56:10 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id EPylcoOGnNaJ; Tue, 18 Feb 2014 09:56:10 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1I9u6En022850
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Tue, 18 Feb 2014 09:56:07 GMT
+Message-ID: <1392717359.14081.199.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jonathan Liu <net147@gmail.com>
+Date: Tue, 18 Feb 2014 09:55:59 +0000
+In-Reply-To: <530323A8.8080100@gmail.com>
+References: <1392633988-14208-1-git-send-email-net147@gmail.com>
+	<1392712895.14081.197.camel@ted> <53032009.1030805@gmail.com>
+	<530323A8.8080100@gmail.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lib/oe/image.py: fix working directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,121 +39,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 09:42:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Feb 2014 09:56:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The _multilib_sanity_test installs multilib packages in a temporary
-root fs, and compare with the current image to figure out duplicated
-file that comes from different packages.
+On Tue, 2014-02-18 at 20:11 +1100, Jonathan Liu wrote:
+> On 18/02/2014 7:55 PM, Jonathan Liu wrote:
+> > On 18/02/2014 7:41 PM, Richard Purdie wrote:
+> >> On Mon, 2014-02-17 at 21:46 +1100, Jonathan Liu wrote:
+> >>> The working directory needs to be changed before the image creation
+> >>> commands instead of afterwards.
+> >>>
+> >>> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> >>> ---
+> >>>   meta/lib/oe/image.py | 2 +-
+> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+> >>> index c15296f..31193f2 100644
+> >>> --- a/meta/lib/oe/image.py
+> >>> +++ b/meta/lib/oe/image.py
+> >>> @@ -176,8 +176,8 @@ class Image(object):
+> >>>               bb.data.update_data(localdata)
+> >>>               localdata.setVar('type', type)
+> >>>   -            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
+> >>>               cmds.append(localdata.expand("\tcd ${DEPLOY_DIR_IMAGE}"))
+> >>> +            cmds.append("\t" + localdata.getVar("IMAGE_CMD", True))
+> >>>                 if type in cimages:
+> >>>                   for ctype in cimages[type]:
+> >> I applied this but ended up reverting it since its clear the image
+> >> commands assume a different working directory and this causes failures.
+> >>
+> >> I'd like to see more explanation about the problem this is trying to
+> >> solve.
+> >>
+> >> Cheers,
+> >>
+> >> Richard
+> >>
+> > The sdimg image classes in meta-raspberrypi and meta-sunxi broke when 
+> > I switched from dora to master branch.
+> > See: 
+> > https://github.com/djwillis/meta-raspberrypi/blob/master/classes/sdcard_image-rpi.bbclass#L43
+> > It is using relative path to rootfs which assumes the working 
+> > directory is DEPLOY_DIR_IMAGE.
+> > I was able to build the SD card images fine after the fix.
+> Also, it makes absolutely no sense whatsoever to change working 
+> directory at the end of the function:
+> img_creation_func() {
+>      oe_mkext234fs ext4 -i 8192
+>      cd /home/build/poky/build/tmp/deploy/images/qemux86
+> }
+> 
+> ...
+> 
+> img_creation_func
+> 
+> This would mean the last command executed in create_image.ext4 (see temp 
+> folder for image recipe) would be changing the directory.
 
-While incremental image generation enabled and the previous image
-existed, there was a Multilib check error:
-...
-ERROR: Multilib check error: duplicate files tmp/work/qemux86_64-poky-
-linux/core-image-minimal/1.0-r0/multilib/lib32/lib/libc.so.6 tmp/work/
-qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/lib/libc.so.6
-is not the same
-...
+Its being done for the compression code that immediately follows it. So
+it does make sense and its why changing it broke things.
 
-The reason is the file in current image has been prelinked in previous
-image generation and the file in a temporary root fs is not prelinked,
-even though the files come from the same package, the Multilib check
-considers they are different.
+Cheers,
 
-[YOCTO #1894]
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/lib/oe/rootfs.py | 56 +++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 52 insertions(+), 4 deletions(-)
-
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 3d7adf9..5054d1e 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -3,6 +3,8 @@ from oe.utils import execute_pre_post_process
- from oe.utils import contains as base_contains
- from oe.package_manager import *
- from oe.manifest import *
-+import oe.path
-+import filecmp
- import shutil
- import os
- import subprocess
-@@ -458,13 +460,61 @@ class OpkgRootfs(Rootfs):
- 
-         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
- 
-+    def _prelink_file(self, root_dir, filename):
-+        bb.note('prelink %s in %s' % (filename, root_dir))
-+        prelink_cfg = oe.path.join(root_dir,
-+                                   self.d.expand('${sysconfdir}/prelink.conf'))
-+        if not os.path.exists(prelink_cfg):
-+            shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
-+                        prelink_cfg)
-+
-+        cmd_prelink = self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
-+        self._exec_shell_cmd([cmd_prelink,
-+                              '--root',
-+                              root_dir,
-+                              '-amR',
-+                              '-N',
-+                              '-c',
-+                              self.d.expand('${sysconfdir}/prelink.conf')])
-+
-+    '''
-+    Compare two files with the same key twice to see if they came
-+    from the same package. If they are not same, they are duplicated
-+    and come from different packages.
-+    1st: Comapre them directly;
-+    2nd: While incremental image creation is enabled, one of the
-+         files could be probaly prelinked in the previous image
-+         creation and the file has been changed, so we need to
-+         prelink the other one and compare them.
-+    '''
-+    def _file_duplicate(self, key, f1, f2):
-+
-+        if not os.path.exists(f1) or not os.path.exists(f2):
-+            return False
-+
-+        # f1 is the same with f2, both of them were not prelinked
-+        if filecmp.cmp(f1, f2):
-+            return False
-+
-+        if self.image_rootfs not in f1:
-+            self._prelink_file(f1.replace(key, ''), f1)
-+
-+        if self.image_rootfs not in f2:
-+            self._prelink_file(f2.replace(key, ''), f2)
-+
-+        # f1 is the same with f2, both of them were prelinked
-+        if filecmp.cmp(f1, f2):
-+            return False
-+
-+        # Duplicated
-+        return True
-+
-     """
-     This function was reused from the old implementation.
-     See commit: "image.bbclass: Added variables for multilib support." by
-     Lianhao Lu.
-     """
-     def _multilib_sanity_test(self, dirs):
--        import filecmp
- 
-         allow_replace = self.d.getVar("MULTILIBRE_ALLOW_REP", True)
-         if allow_replace is None:
-@@ -486,9 +536,7 @@ class OpkgRootfs(Rootfs):
-                         if allow_rep.match(key):
-                             valid = True
-                         else:
--                            if os.path.exists(files[key]) and \
--                               os.path.exists(item) and \
--                               not filecmp.cmp(files[key], item):
-+                            if self._file_duplicate(key, files[key], item):
-                                 valid = False
-                                 bb.fatal("%s duplicate files %s %s is not the same\n" %
-                                          (error_prompt, item, files[key]))
--- 
-1.8.1.2
+Richard
 
 
