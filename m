@@ -1,34 +1,35 @@
-Return-Path: <diego.sueiro@gmail.com>
-Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
-	[209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D57876EE36
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id D760B6EB0A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 16:50:28 +0000 (UTC)
-Received: by mail-yk0-f172.google.com with SMTP id 200so33975736ykr.3
+	Tue, 18 Feb 2014 16:53:40 +0000 (UTC)
+Received: by mail-ie0-f178.google.com with SMTP id ar20so2833339iec.23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 08:50:29 -0800 (PST)
+	Tue, 18 Feb 2014 08:53:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=kzvs/MSQm9UsaXyjGak4VFWK7YWmvp7PbjlqmvesiQA=;
-	b=e/mNWspvV54dACD2Ks6v0PAG85c+GC6P4tUmfAjPk1yyYGL+RQTWk7l6YQRzWUtcRy
-	1vL9vz1fw4cu38cYPrxaI3Bi7Zujh08ZuXpA/o6tMAavuvb95OpWjKdSKjlSvzNsnjAP
-	klopPcHnORt0RgpzKAQVHBDhTzuO9YcXLIMG3O33s0pAhbg/sTNBvIkWkd+X5s9j1YU0
-	60ezte1RUc3CR+7tIqXoL3/yc0auCh3YccZPr7ImY7Z+etq4ZN7Y2Dr9PbIa2PaStnik
-	YHyseZxM4h61nKBQe2JIi8ANV+yEVee3P6dlpX0x90bmobnDe+AhzZhz6bludAcotIRm
-	NTBQ==
-X-Received: by 10.236.189.202 with SMTP id c50mr4431577yhn.139.1392742228550; 
-	Tue, 18 Feb 2014 08:50:28 -0800 (PST)
-Received: from localhost.localdomain ([201.82.73.213])
-	by mx.google.com with ESMTPSA id
-	k76sm60630536yho.18.2014.02.18.08.50.27 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 18 Feb 2014 08:50:28 -0800 (PST)
-From: Diego Sueiro <diego.sueiro@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Feb 2014 13:49:58 -0300
-Message-Id: <1392742198-23333-1-git-send-email-diego.sueiro@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] meta-toolchain-qt[e]: add qt4[-embedded]-staticdev
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=4sH/GmoDX0qeH0BZlT23NomPSzKZn3pRd47eASkAvLQ=;
+	b=IPoknmMBSeGxtLIWU6asmM4fOdU5cANXClgss7YPXb0cucHb0/0vtO2nX4Bh6WYdiQ
+	2QgrXP0G5bjw52pIE91AwJtGZIsCrCB3sybIcr+2tikN9bDPu0sPtTXlWea8J4H5hkGx
+	Y2INNwI9iwtsTJjmMLcRs8p2aF/637MTQOhG3zvDKy2eb9RPSZR8/ONMdLLVjkxIgkir
+	t7s6pspEot1fu2z7Ur2KS09tu6aiD5V6TiNS1kogOjsu1NznaPjDHbxnoYCX/ZXY7P32
+	Nb1u99W/t9o2fvmTnC//Np5MqEmvHbte73WjHi8pHU/yuz/5R/eMFOJhVPbFJnqSnpx7
+	gu5w==
+X-Received: by 10.43.182.74 with SMTP id pl10mr1428280icc.70.1392742421542;
+	Tue, 18 Feb 2014 08:53:41 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.224.137 with HTTP; Tue, 18 Feb 2014 08:53:11 -0800 (PST)
+In-Reply-To: <1392742198-23333-1-git-send-email-diego.sueiro@gmail.com>
+References: <1392742198-23333-1-git-send-email-diego.sueiro@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 18 Feb 2014 08:53:11 -0800
+Message-ID: <CAMKF1sox1wFEdRx2tdox_fAqVx_VGZwz_OEU=+02wzRaAcYP6Q@mail.gmail.com>
+To: Diego Sueiro <diego.sueiro@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta-toolchain-qt[e]: add qt4[-embedded]-staticdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,27 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 16:50:29 -0000
+X-List-Received-Date: Tue, 18 Feb 2014 16:53:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-libQtUiTools[E].a needs to be installed on toolchain.
-qt4[-embedded]-staticdev is the package which provides this library.
+On Tue, Feb 18, 2014 at 8:49 AM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
+> libQtUiTools[E].a needs to be installed on toolchain.
+> qt4[-embedded]-staticdev is the package which provides this library.
+>
+> Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com>
+> ---
+>  meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
+> index fc1ccba..b040182 100644
+> --- a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
+> +++ b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
+> @@ -33,4 +33,5 @@ RDEPENDS_${PN} += " \
+>          libqt${QTLIBPREFIX}xmlpatterns4-dev \
+>          libsqlite3-dev \
+>          expat-dev \
+> +        qt4${QTLIBPREFIX}-staticdev \
+>
 
-Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com>
----
- meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-index fc1ccba..b040182 100644
---- a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-+++ b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-@@ -33,4 +33,5 @@ RDEPENDS_${PN} += " \
-         libqt${QTLIBPREFIX}xmlpatterns4-dev \
-         libsqlite3-dev \
-         expat-dev \
-+        qt4${QTLIBPREFIX}-staticdev \
-         "
--- 
-1.7.10.4
-
+hmmm you just want this 1 static library not all. So lets first
+package the .a into a package of its own and then include that instead
+          "
+> --
+> 1.7.10.4
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
