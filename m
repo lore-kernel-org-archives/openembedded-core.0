@@ -1,36 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id EC4C86EE33
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id CB4446EE37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 12:13:05 +0000 (UTC)
-Received: by mail-we0-f176.google.com with SMTP id q58so11380017wes.21
+	Tue, 18 Feb 2014 12:26:34 +0000 (UTC)
+Received: by mail-ea0-f177.google.com with SMTP id m10so5189346eaj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 04:13:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=DxARXYDIhjGO01iowDPDmaBXIhporDzTRg1EDgfTcps=;
-	b=ZcxZQWFQvzfQ7dEELAUaxmwPrNDR6ltjx6BlE7m5WIraRk4GuHSXb1h7jI/klHiJSd
-	CcYZ2Kz63pgxOY1l16kTgXMDpxr649B+db3VNmNnrmgXb71REFMIjjyhF23UEvCyAx3Y
-	6LCpHdM+NdNX0F8PEIZ61DW0nXhQJSw9BcvYeTgFzjWy3gB/tvpNnZEryqlAHiwbLYpM
-	CC3GmAgKlnkaIh4Na0uapgdanfWq97PFBqni2nJgVDvhx2v4wDCKAkQcuf5sy3wDmzwb
-	pkDzy8feM5U8P5UtQTieTIwk8a+/whFV9wwbWc/XrirlZkNPoQXF48o3fsuvwiriFPNd
-	Zghg==
-X-Gm-Message-State: ALoCoQmEIckgpIPyWMJnE6CsLVdZlVcEMB2BF5bhn+YoBPWctrvO2R8mya1DJlonf7WGoAOFQUTz
-X-Received: by 10.180.101.40 with SMTP id fd8mr17646365wib.1.1392725585646;
-	Tue, 18 Feb 2014 04:13:05 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id n15sm41569128wij.3.2014.02.18.04.13.04
-	for <openembedded-core@lists.openembedded.org>
+	Tue, 18 Feb 2014 04:26:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=5ItJg091v1SZIzRKqaXipTKb+edzdwS36zjtctiV0kc=;
+	b=xQ49oUjHwcNYK72o/QbrhbJzmHURltBoCZR1Pdfczs02ZjZTK68VqmUrWh/B4rZj7z
+	ulA0phpsh5UjCQVItutKTn2V6qorvtr1yEdYrmae4p7uUrWJeiZVXxInsDWAjn2RkIcJ
+	tge1WFFF4c8/z+R8At3pFZa4QH2VnbjS5U81hnWCBW4dV6mifj6eKyy0sHwpxVG6BHxh
+	scJO/XjV6JrArNgvm/x+gyTMBTIcP8ht+jeczEdv7v+dlekRR96U65BItA2hv6Y0ue0L
+	8DtR/0xMUSq7dgydNAiK1omaoAl6w0QzzMLEtg5dbUVMJqBzUywd+z6W4YMNqI6j2Wd4
+	DgFA==
+X-Received: by 10.15.52.66 with SMTP id o42mr3245574eew.89.1392726394741;
+	Tue, 18 Feb 2014 04:26:34 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	f45sm69463541eeg.5.2014.02.18.04.26.33 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 18 Feb 2014 04:13:04 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Tue, 18 Feb 2014 04:26:33 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Feb 2014 12:13:01 +0000
-Message-Id: <1392725581-6817-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] avahi: handle SO_REUSEPORT not being available
+Date: Tue, 18 Feb 2014 13:27:02 +0100
+Message-Id: <1392726422-6634-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] package.py: log rpmdeps call
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,68 +41,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 12:13:07 -0000
+X-List-Received-Date: Tue, 18 Feb 2014 12:26:35 -0000
 
-Linux < 3.9 doesn't have the SO_REUSEPORT option so instead of failing to start
-when built with >=3.9 kernel headers but booted on <3.9 kernels, continue as if
-SO_REUSEPORT wasn't available.
+* I've noticed errors like this in log.do_package:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+  DEBUG: Executing python function package_do_filedeps
+  sh: 1: Syntax error: "(" unexpected
+  sh: 1: Syntax error: "(" unexpected
+  DEBUG: Python function package_do_filedeps finished
+
+  which are actually caused by some filenames included in package
+  containing '()' characters
+
+  Maybe we should change meta/classes/package.bbclass to
+  fail when some filedeprunner call fails like this and fix
+  filedeprunner to escape '()' and other possibly dangerous chars
+  it's called like this:
+  processed = list(pool.imap(oe.package.filedeprunner, pkglist))
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-connectivity/avahi/avahi.inc          |    1 +
- .../avahi/files/reuseport-check.patch              |   30 ++++++++++++++++++++
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-connectivity/avahi/files/reuseport-check.patch
+ meta/lib/oe/package.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 3a95b7f..e4ff26a 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -26,6 +26,7 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://fix_for_automake_1.12.x.patch \
-           file://out-of-tree.patch \
-           file://0001-avahi-fix-avahi-status-command-error-prompt.patch \
-+          file://reuseport-check.patch \
-           "
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 9a0ddb8..1f78a8d 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -89,7 +89,9 @@ def filedeprunner(arg):
  
- USERADD_PACKAGES = "avahi-daemon avahi-autoipd"
-diff --git a/meta/recipes-connectivity/avahi/files/reuseport-check.patch b/meta/recipes-connectivity/avahi/files/reuseport-check.patch
-new file mode 100644
-index 0000000..bb81c2c
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/reuseport-check.patch
-@@ -0,0 +1,30 @@
-+Fix avahi-daemon when running on kernel < 3.9 (patch taken from Ubuntu).
-+
-+Upstream-Status: Pending (unmaintained upstream)
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+Description: SO_REUSEPORT may not exist in running kernel
-+ When userspace defines SO_REUSEPORT we will attempt to enable socket
-+ port number reuse.  However if the running kernel does not support
-+ this call it will fail preventing daemon startup.  If this call is
-+ present but fails ENOPROTOOPT then we know that actually the kernel
-+ does not support it and we should continue as if we did not have the
-+ call at all.  (LP: #1228204)
-+ .
-+ This patch could be removed from the debian package after jessie release.
-+Author: Andy Whitcroft <apw@canonical.com>
-+
-+Index: avahi-0.6.31/avahi-core/socket.c
-+===================================================================
-+--- avahi-0.6.31.orig/avahi-core/socket.c	2013-09-20 16:36:50.000000000 +0100
-++++ avahi-0.6.31/avahi-core/socket.c	2013-09-20 16:38:23.781863644 +0100
-+@@ -177,7 +177,8 @@
-+     yes = 1;
-+     if (setsockopt(fd, SOL_SOCKET, SO_REUSEPORT, &yes, sizeof(yes)) < 0) {
-+         avahi_log_warn("SO_REUSEPORT failed: %s", strerror(errno));
-+-        return -1;
-++        if (errno != ENOPROTOOPT)
-++            return -1;
-+     }
-+ #endif
-+ 
+         return provides, requires
+ 
+-    dep_pipe = os.popen(rpmdeps + " " + " ".join(pkgfiles))
++    rpmdepscmd = rpmdeps + " " + " ".join(pkgfiles)
++    bb.debug(1, "runrpmdeps: %s" % rpmdepscmd)
++    dep_pipe = os.popen(rpmdepscmd)
+ 
+     provides, requires = process_deps(dep_pipe, pkg, pkgdest, provides, requires)
+ 
 -- 
-1.7.10.4
+1.8.5.3
 
 
