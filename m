@@ -1,37 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 76B166E908
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D91B6E908
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 19:07:36 +0000 (UTC)
-Received: by mail-ig0-f182.google.com with SMTP id uy17so7758133igb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 11:07:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=ROeiyuPhl9yRvb0vlXv0aR5cIKyNazbwVwF45K8iZc8=;
-	b=Ss0Bk9AS1NuAQ+xMzIf1kPS4cmBA5XhIyL6pYGe89WyU4t7rK4IVNSTCi2gXTVi3yS
-	wFhgz6sTxPYYdbR0pS3VWIw0QRJs+RJtogrhKLaW6CYkTrbhnhCUJ954NPQpXBtkmX/i
-	QmKQgziBVCgXEQ1CxCvTmwXOwjLGZMtV6J2FNiN2C9IFsCsYlty46sNFqQWBzdNOBVMo
-	l7R9RWyt6+xU1fepQTKRbtFZVOIMmewAJCBrOVYaTfE4hsPXgLDhmGWp2z73XvJjILH2
-	BPrn4Nw4/xnsbByBsSUPlS6z5RSJFYeHtlwwbznQGmyjDLYxdRtlQ/yEOFyudCxhEgYP
-	EYyA==
-X-Received: by 10.42.176.195 with SMTP id bf3mr15631525icb.25.1392750457312;
-	Tue, 18 Feb 2014 11:07:37 -0800 (PST)
+	Tue, 18 Feb 2014 19:08:44 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 18 Feb 2014 11:08:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,502,1389772800"; d="scan'208";a="485361389"
+Received: from unknown (HELO [10.255.13.243]) ([10.255.13.243])
+	by orsmga002.jf.intel.com with ESMTP; 18 Feb 2014 11:08:41 -0800
+Message-ID: <5303AFB8.2090605@linux.intel.com>
+Date: Tue, 18 Feb 2014 11:08:40 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Received: by 10.50.224.137 with HTTP; Tue, 18 Feb 2014 11:07:07 -0800 (PST)
-In-Reply-To: <CAMCfZKGFs8-AEyFx4PCCu-t5c_fOLHi4ceJD+txO3woO4Mb0ZQ@mail.gmail.com>
-References: <1392745755-20315-1-git-send-email-diego.sueiro@gmail.com>
-	<CAMKF1srUcG1euTY2kzKroG5k5h7R-nUd7aFhqk2dVvcu-k8BrA@mail.gmail.com>
-	<CAMCfZKGFs8-AEyFx4PCCu-t5c_fOLHi4ceJD+txO3woO4Mb0ZQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Feb 2014 11:07:07 -0800
-Message-ID: <CAMKF1sr-cAni3FXQHMmiEY_tapzPVfcY2h6DGPTZ-zY5F7+Rjw@mail.gmail.com>
-To: Diego Sueiro <diego.sueiro@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v1] packagegroup-qt-toolchain-target.inc: add libQtUiTools static library
+To: Zhu Yanjun <yanjun.zhu@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1392632257-4669-1-git-send-email-yanjun.zhu@windriver.com>
+In-Reply-To: <1392632257-4669-1-git-send-email-yanjun.zhu@windriver.com>
+Subject: Re: [PATCH] pseudo-1.5.1: keep install command directory mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +32,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 19:07:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Feb 2014 19:08:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 18, 2014 at 10:55 AM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
-> Khem,
+On 02/17/2014 02:17 AM, Zhu Yanjun wrote:
+> From: "yanjun.zhu" <yanjun.zhu@windriver.com>
 >
-> On Tue, Feb 18, 2014 at 2:51 PM, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> can you also figure out what is the licensing terms of these static .a
->> archives please ?
->> and make a note of it in commit message or somewhere
+> CQID:LIN5-17788
 >
-> Looking at the main library header (tools/designer/src/uitools/quiloader.h)
-> it mentions the Digia Commercial License, LGPL v2.1, LGPL Exception and
-> GPLv3.
+> when install command sets the created directory mode, pseudo will change
+> the mode of the directory to 0700 incorrectly.
+>
+> Signed-off-by: yanjun.zhu <yanjun.zhu@windriver.com>
+> ---
+>   .../pseudo-1.5.1-install-directory-mode.patch      |   10 ++++++++++
+>   meta/recipes-devtools/pseudo/pseudo_1.5.1.bb       |    3 ++-
+>   2 files changed, 12 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+>
+> diff --git a/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch b/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+> new file mode 100644
+> index 0000000..02e3da2
 
-what would be the license of this given library is it all of above or
-some combination
-or choice ?
+There is no patch header here, also have you checked with Peter S on 
+this change?
 
+> --- /dev/null
+> +++ b/meta/recipes-devtools/pseudo/files/pseudo-1.5.1-install-directory-mode.patch
+> @@ -0,0 +1,10 @@
+> +--- a/ports/unix/guts/mkdirat.c
+> ++++ b/ports/unix/guts/mkdirat.c
+> +@@ -25,6 +25,7 @@
+> + 		stat_rc = base_fstatat(dirfd, path, &buf, AT_SYMLINK_NOFOLLOW);
+> + #endif
+> + 		if (stat_rc != -1) {
+> ++			buf.st_mode = PSEUDO_DB_MODE(buf.st_mode, mode);
+> + 			pseudo_client_op(OP_MKDIR, 0, -1, dirfd, path, &buf);
+> + 		} else {
+> + 			pseudo_debug(1, "mkdir of %s succeeded, but stat failed: %s\n",
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+> index bc92856..64115ca 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+> @@ -1,11 +1,12 @@
+>   require pseudo.inc
 >
-> I think it is not different from the other libraries and if you use this
-> library (in this case static library) in LGPL or GPL you should provide your
-> source code and follow the same license. Am I wrong?
+> -PR = "r4"
+> +PR = "r5"
+>
+No PR Bumps needed any longer
 
-static linking and dynamic linking has different implications,
+Sau!
 
+
+>   SRC_URI = " \
+>       http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
+>       file://0001-pseudo_has_unload-add-function.patch \
+>       file://shutdownping.patch \
+> +    file://pseudo-1.5.1-install-directory-mode.patch \
+>   "
 >
-> Regards,
+>   SRC_URI[md5sum] = "5ec67c7bff5fe68c56de500859c19172"
 >
-> --
-> *dS
-> Diego Sueiro
->
-> Administrador do Embarcados
-> www.embarcados.com.br
->
-> /*long live rock 'n roll*/
 
