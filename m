@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A51AC6E8E1
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 880576E8E1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 09:42:39 +0000 (UTC)
+	Tue, 18 Feb 2014 09:42:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1I9gdSf013215
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1I9ggap023347
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Feb 2014 01:42:39 -0800 (PST)
+	Tue, 18 Feb 2014 01:42:42 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 18 Feb 2014 01:42:38 -0800
+	14.2.347.0; Tue, 18 Feb 2014 01:42:41 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Feb 2014 17:42:23 +0800
-Message-ID: <cover.1392716065.git.hongxu.jia@windriver.com>
+Date: Tue, 18 Feb 2014 17:42:24 +0800
+Message-ID: <e35ba30b31bc2579f237c58c4d991c3f90657a1d.1392716065.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1392716065.git.hongxu.jia@windriver.com>
+References: <cover.1392716065.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 0/5] package_manager.py/ootfs.py: support ipk incremental image generation
+Subject: [PATCH 1/5] package_manager.py: support ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,272 +33,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 09:42:40 -0000
+X-List-Received-Date: Tue, 18 Feb 2014 09:42:41 -0000
 Content-Type: text/plain
 
-Test Cases
+While incremental image generation enabled, 'load_old_install_solution'
+is used to determine what we've got in the previous (existed) image and
+'dump_install_solution' to determine what we need to install in the
+current image.
 
----------------------------------------------
-Case 1: Rebuild in place
-1. Edit local.conf, enable multilib and ipk incremental image generation
-...
- 46 MACHINE ?= "qemux86-64"
-254 require conf/multilib.conf
-255 MULTILIBS = "multilib:lib32"
-256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-257 
-258 IMAGE_INSTALL_append = " lib32-gzip"
-260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
-262 
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
+The 'backup_packaging_data' is used to back up the current opkg database.
 
-2. Edit local.conf, add some spaces in IMAGE_INSTALL_append
-vim local.conf
-...
-258 IMAGE_INSTALL_append = " lib32-gzip "
-...
+The 'recovery_packaging_data' is used to recover the opkg database which
+backed up by the previous image creation.
 
-3. bb core-image-minimal, the image should not be rebuilt
-vim log.do_rootfs:
-...
- 16 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
- 17 Package opkg-collateral (1.0-r2) installed in root is up to date.
- 18 Package run-postinsts (1.0-r9) installed in root is up to date.
- 19 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
- 20 Package opkg (1:0.2.0-r0) installed in root is up to date.
- 21 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
- ...
- 53 NOTE: Package lib32-gzip (1.6-r7) installed in root is up to date.
-...
+Tweak 'remove' function in OpkgPM class, which the options for remove
+with dependencies was incorrect.
 
-vim installed_pkgs.txt
-...
-lib32-gzip x86
-...
+[YOCTO #1894]
 
-4. runqemu qemux86-64, ssh could work and lib32-gzip is installed
-On host:
-runqemu qemux86-64
-ssh root@192.168.7.2 and run 'opkg-cl list-installed'
-...
-lib32-gzip - 1.6-r7
-...
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/lib/oe/package_manager.py | 106 +++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 102 insertions(+), 4 deletions(-)
 
----------------------------------------------
-Case 2: Decremental Rebuild
-1. Edit local.conf, enable multilib and ipk incremental image generation
-...
- 46 MACHINE ?= "qemux86-64"
-254 require conf/multilib.conf
-255 MULTILIBS = "multilib:lib32"
-256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-257 
-258 IMAGE_INSTALL_append = " lib32-gzip openssl"
-260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
-262 
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-2. Edit local.conf, remove 'lib32-gzip openssl'
-vim local.conf
-...
-258 # IMAGE_INSTALL_append = " lib32-gzip openssl"
-...
-
-3. bb core-image-minimal, lib32-gzip and openssl should be removed.
-vim log.do_rootfs:
-...
- 20 NOTE: Removing package lib32-eglibc from root...
- 21 Removing package lib32-gzip from root...
- 22 Removing package lib32-update-alternatives-opkg from root...
- 23 Removing package libcrypto1.0.0 from root...
- 24 Removing package libssl1.0.0 from root...
- 25 Removing package openssl from root...
- 26 Removing package openssl-conf from root...
- ...
- 31 Package opkg-collateral (1.0-r2) installed in root is up to date.
- 32 Package run-postinsts (1.0-r9) installed in root is up to date.
- 33 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
- 34 Package opkg (1:0.2.0-r0) installed in root is up to date.
- 35 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
-...
-
----------------------------------------------
-Case 3: Incremental Rebuild
-1. Edit local.conf, enable multilib and ipk incremental image generation
-...
- 46 MACHINE ?= "qemux86-64"
-254 require conf/multilib.conf
-255 MULTILIBS = "multilib:lib32"
-256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-257 
-258 # IMAGE_INSTALL_append = " lib32-gzip openssl"
-260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
-262 
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-2. Edit local.conf, append 'lib32-gzip openssl' to IMAGE_INSTALL
-vim local.conf
-...
-258 IMAGE_INSTALL_append = " lib32-gzip openssl"
-...
-
-3. bb core-image-minimal, lib32-gzip and openssl should be added.
-vim log.do_rootfs:
-...
- 20 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
- 21 Package opkg-collateral (1.0-r2) installed in root is up to date.
- 22 Package run-postinsts (1.0-r9) installed in root is up to date.
- 23 Installing openssl (1.0.1e-r15.0) to root...
- ...
- 31 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
- 32 Package opkg (1:0.2.0-r0) installed in root is up to date.
- 33 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
- ...
- 54 NOTE: Installing the following packages: lib32-gzip
-...
-
----------------------------------------------
-Case 4: Rebuild in place and Upgrade package
-1. Edit local.conf, enable ipk incremental image generation
-...
-258 IMAGE_INSTALL_append = " gzip"
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-2. Edit local.conf, upgrade gzip's PR
-...
-258 PR_pn-gzip = "r1"
-...
-
-3. bb core-image-minimal, gzip should be upgraded to r1
-vim log.do_rootfs:
-...
- 21 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
- 22 Package opkg-collateral (1.0-r2) installed in root is up to date.
- 23 Package run-postinsts (1.0-r9) installed in root is up to date.
- 24 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
- 25 Package opkg (1:0.2.0-r0) installed in root is up to date.
- 26 Upgrading gzip on root from 1.6-r0 to 1.6-r1...
-...
-
----------------------------------------------
-Case 5: Test BAD_RECOMMENDATIONS
-1. Edit local.conf, enable ipk incremental image generation
-...
-258 IMAGE_INSTALL_append = " util-linux"
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-The util-linux-fdisk is in util-linux's RRECOMMENDS
-vim installed_pkgs.txt
-...
-41 util-linux-fdisk core2-64
-...
-
-2. Edit local.conf, add some spaces to IMAGE_INSTALL and add
-util-linux-fdisk to core-image-minimal's BAD_RECOMMENDATIONS
-...
-260 IMAGE_INSTALL_append = " util-linux  "
-265 BAD_RECOMMENDATIONS_pn-core-image-minimal += "util-linux-fdisk"
-...
-
-3. bb core-image-minimal, util-linux-fdisk should not be installed
-vim log.do_rootfs:
-...
-34 NOTE: Requested ignored recommendation util-linux-fdisk is not a package
-    ...
-119 util-linux: ignoring recommendation for util-linux-fdisk at user request
-120 util-linux: unsatisfied recommendation for util-linux-fdisk
-...
-
-The util-linux-fdisk doesn't exist in installed_pkgs.txt any more.
-
----------------------------------------------
-Case 5: Test NO_RECOMMENDATIONS
-1. Edit local.conf, enable ipk incremental image generation
-...
-258 IMAGE_INSTALL_append = " util-linux"
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-The util-linux-fdisk util-linux-cfdisk util-linux-sfdisk
-util-linux-mount util-linux-readprofile util-linux-mkfs are
-in util-linux's RRECOMMENDS
-
-vim installed_pkgs.txt
-...
-4 util-linux-mkfs core2-64
-18 util-linux-sfdisk core2-64
-20 util-linux-mount core2-64
-38 util-linux-cfdisk core2-64
-41 util-linux-fdisk core2-64
-46 util-linux-readprofile core2-64
-...
-
-2. Edit local.conf, add some spaces to IMAGE_INSTALL and
-   assign core-image-minimal's NO_RECOMMENDATIONS with 1
-...
-260 IMAGE_INSTALL_append = " util-linux  "
-267 NO_RECOMMENDATIONS_pn-core-image-minimal = "1"
-...
-
-3. bb core-image-minimal, The six packages should not be installed
-vim log.do_rootfs:
-...
-34 NOTE: Requested ignored recommendation util-linux-fdisk is not a package
-    ...
-113 util-linux: ignoring recommendation for util-linux-sfdisk at user request
-114 util-linux: unsatisfied recommendation for util-linux-sfdisk
-115 util-linux: ignoring recommendation for util-linux-cfdisk at user request
-116 util-linux: unsatisfied recommendation for util-linux-cfdisk
-117 util-linux: ignoring recommendation for util-linux-mount at user request
-118 util-linux: unsatisfied recommendation for util-linux-mount
-119 util-linux: ignoring recommendation for util-linux-fdisk at user request
-120 util-linux: unsatisfied recommendation for util-linux-fdisk
-121 util-linux: ignoring recommendation for util-linux-mkfs at user request
-122 util-linux: unsatisfied recommendation for util-linux-mkfs
-123 util-linux: ignoring recommendation for util-linux-readprofile at user request
-124 util-linux: unsatisfied recommendation for util-linux-readprofile
-...
-
-They don't exist in installed_pkgs.txt any more.
-
-//Hongxu
-
-
-
-The following changes since commit ac499f0b9f8a421a4e63d2de2a0b89f20c43d81c:
-
-  dev-manual: Fixed code block example for ARCHIVER. (2014-02-17 15:39:46 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/ipk-inc-gen
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/ipk-inc-gen
-
-Hongxu Jia (5):
-  package_manager.py: support ipk incremental image generation
-  package_manager.py: tweak handle_bad_recommendations for ipk
-    incremental image generation
-  rootfs.py: support ipk incremental image generation
-  rootfs.py: fix BAD_RECOMMENDATIONS for ipk incremental image
-    generation
-  rootfs.py: tweak _multilib_sanity_test for ipk incremental image    
-    generation
-
- meta/lib/oe/package_manager.py | 124 +++++++++++++++++++++++++++++++++++---
- meta/lib/oe/rootfs.py          | 134 ++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 242 insertions(+), 16 deletions(-)
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 6dc8fbd..4ea9677 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -934,12 +934,13 @@ class RpmPM(PackageManager):
+ 
+ 
+ class OpkgPM(PackageManager):
+-    def __init__(self, d, target_rootfs, config_file, archs):
++    def __init__(self, d, target_rootfs, config_file, archs, task_name='target'):
+         super(OpkgPM, self).__init__(d)
+ 
+         self.target_rootfs = target_rootfs
+         self.config_file = config_file
+         self.pkg_archs = archs
++        self.task_name = task_name
+ 
+         self.deploy_dir = self.d.getVar("DEPLOY_DIR_IPK", True)
+         self.deploy_lock_file = os.path.join(self.deploy_dir, "deploy.lock")
+@@ -956,6 +957,13 @@ class OpkgPM(PackageManager):
+ 
+         bb.utils.mkdirhier(self.opkg_dir)
+ 
++        self.solution_manifest = self.d.expand('${T}/saved/%s_solution' %
++                                               self.task_name)
++        self.saved_opkg_dir = self.d.expand('${T}/saved/%s' % self.task_name)
++        if not os.path.exists(self.d.expand('${T}/saved')):
++            bb.utils.mkdirhier(self.d.expand('${T}/saved'))
++
++
+         if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS', True) or "") != "1":
+             self._create_config()
+         else:
+@@ -1075,7 +1083,9 @@ class OpkgPM(PackageManager):
+ 
+         try:
+             bb.note("Installing the following packages: %s" % ' '.join(pkgs))
+-            subprocess.check_output(cmd.split())
++            bb.note(cmd)
++            output = subprocess.check_output(cmd.split())
++            bb.note(output)
+         except subprocess.CalledProcessError as e:
+             (bb.fatal, bb.note)[attempt_only]("Unable to install packages. "
+                                               "Command '%s' returned %d:\n%s" %
+@@ -1083,14 +1093,16 @@ class OpkgPM(PackageManager):
+ 
+     def remove(self, pkgs, with_dependencies=True):
+         if with_dependencies:
+-            cmd = "%s %s remove %s" % \
++            cmd = "%s %s --force-depends --force-remove --force-removal-of-dependent-packages remove %s" % \
+                 (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
+         else:
+             cmd = "%s %s --force-depends remove %s" % \
+                 (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
+ 
+         try:
+-            subprocess.check_output(cmd.split())
++            bb.note(cmd)
++            output = subprocess.check_output(cmd.split())
++            bb.note(output)
+         except subprocess.CalledProcessError as e:
+             bb.fatal("Unable to remove packages. Command '%s' "
+                      "returned %d:\n%s" % (e.cmd, e.returncode, e.output))
+@@ -1175,6 +1187,92 @@ class OpkgPM(PackageManager):
+                     else:
+                         status.write(line + "\n")
+ 
++    '''
++    If incremental install, we need to determine what we've got,
++    what we need to add, and what to remove...
++    The dump_install_solution will dump and save the new install
++    solution.
++    '''
++    def dump_install_solution(self, pkgs):
++        bb.note('creating new install solution for incremental install')
++        if len(pkgs) == 0:
++            return
++
++        install_pkgs = list()
++
++        # Create an temp dir as opkg root for simulating the installation
++        temp_rootfs = self.d.expand('${T}/opkg')
++        temp_opkg_dir = os.path.join(temp_rootfs, 'var/lib/opkg')
++        bb.utils.mkdirhier(temp_opkg_dir)
++
++        opkg_args = "-f %s -o %s " % (self.config_file, temp_rootfs)
++        opkg_args += self.d.getVar("OPKG_ARGS", True)
++
++        cmd = "%s %s update" % (self.opkg_cmd,
++                                opkg_args)
++        try:
++            subprocess.check_output(cmd, shell=True)
++        except subprocess.CalledProcessError as e:
++            bb.note("Unable to dump install packages. Command '%s' "
++                    "returned %d:\n%s" % (cmd, e.returncode, e.output))
++
++        # Simulate installation from zero
++        cmd = "%s %s --noaction install %s " % (self.opkg_cmd,
++                                                opkg_args,
++                                                ' '.join(pkgs))
++        cmd += "| awk '/^Installing/{print $2}' "
++        cmd += "| sort -u -o %s" % self.solution_manifest
++        try:
++            subprocess.check_output(cmd, shell=True)
++            with open(self.solution_manifest, 'r') as manifest:
++                for pkg in manifest.read().split('\n'):
++                    install_pkgs.append(pkg)
++        except subprocess.CalledProcessError as e:
++            bb.note("Unable to dump install packages. Command '%s' "
++                    "returned %d:\n%s" % (cmd, e.returncode, e.output))
++
++        bb.utils.remove(temp_rootfs, True)
++
++        return install_pkgs
++
++    '''
++    If incremental install, we need to determine what we've got,
++    what we need to add, and what to remove...
++    The load_old_install_solution will load the previous install
++    solution
++    '''
++    def load_old_install_solution(self):
++        bb.note('load old install solution for incremental install')
++        installed_pkgs = list()
++        if not os.path.exists(self.solution_manifest):
++            bb.note('old install solution not exist')
++            return installed_pkgs
++
++        with open(self.solution_manifest, 'r') as manifest:
++            for pkg in manifest.read().split('\n'):
++                installed_pkgs.append(pkg.strip())
++
++        return installed_pkgs
++
++    def backup_packaging_data(self):
++        # Save the opkglib for increment rpm image generation
++        if os.path.exists(self.saved_opkg_dir):
++            bb.utils.remove(self.saved_opkg_dir, True)
++        shutil.copytree(self.opkg_dir,
++                        self.saved_opkg_dir,
++                        symlinks=True)
++
++    def recovery_packaging_data(self):
++        # Move the opkglib back
++        if os.path.exists(self.saved_opkg_dir):
++            if os.path.exists(self.opkg_dir):
++                bb.utils.remove(self.opkg_dir, True)
++
++            bb.note('Recovery packaging data')
++            shutil.copytree(self.saved_opkg_dir,
++                            self.opkg_dir,
++                            symlinks=True)
++
+ 
+ class DpkgPM(PackageManager):
+     def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None):
 -- 
 1.8.1.2
 
