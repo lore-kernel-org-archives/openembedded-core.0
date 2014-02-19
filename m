@@ -1,36 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f52.google.com (mail-qa0-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C8A06EFA1
+Return-Path: <bkylerussell@gmail.com>
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id AF3A36EAB5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 17:20:40 +0000 (UTC)
-Received: by mail-qa0-f52.google.com with SMTP id j15so927829qaq.25
+	Wed, 19 Feb 2014 18:31:01 +0000 (UTC)
+Received: by mail-ie0-f170.google.com with SMTP id rl12so525070iec.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 09:20:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9yyW7DEZX2pFcR/7MKwPTxbBMxr8KaEyZ6r9NnBVO90=;
-	b=DM4gQ7eVF0QWBgU+QQUk58RALXYbujvhs7jzoiPElZD2wwA5l3Q9emdPmfOLpI2Rda
-	3vrW9olA/g3c1mg4RVkUKLYokdy6Go+JGhFhzzELdlK3g0xaZyAiN7YIqHb3FDdAmUZC
-	jwpHndNCMzfTd+9rRp/RJp+7CP4eCwBoBFp3XfWCiirW0Ud9Qvb4cp/Xho2H+yYjh3Fu
-	3EcqT4LCoLzpESgjV0PntfsfEhFttE8NeH3gnJki2fkM/HK6hgIszHIIz0ogiqkyF0k4
-	Ag9h/VyRVDjfwemkzJX/yHYNRWADrax/ayE5sa3/GxgUjq2WFnUwoWB3e5SUInzFxtC9
-	zxQw==
-X-Gm-Message-State: ALoCoQmJecselz06igB05EoXyfcMEE4gauG6DQqfjI9MqCZiul5QKS6UO2yVAUDFA5rdSa2lhkDe
-X-Received: by 10.224.98.139 with SMTP id q11mr3502831qan.64.1392830440936;
-	Wed, 19 Feb 2014 09:20:40 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Wed, 19 Feb 2014 09:20:20 -0800 (PST)
-In-Reply-To: <1392829988-5737-1-git-send-email-valentin.popa@intel.com>
-References: <1392829988-5737-1-git-send-email-valentin.popa@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Feb 2014 17:20:20 +0000
-Message-ID: <CAJTo0LY1xJfs6tvzqOotiZ6XivVtAPt+Un+d_0cNiMnzzjfszw@mail.gmail.com>
-To: Valentin Popa <valentin.popa@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gtk+3: upgrade to 3.10.7
+	Wed, 19 Feb 2014 10:31:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=1sjovcJ0nu+gZJrsu465gNPzHLlckzuKlwCF4y9L8Lk=;
+	b=k4wuAbEC1HutoB2I7PMiqmn/6bRRPkLFJ8MlIvNpLyVB4YAltgiFtUYohbUGR2uTd3
+	fnImMtXr8BxtmfMmtuf31j43asL5QYm1DpBTjN3dWmHu0D22qdGy0v4ri6kRobxGxrtA
+	TF/xvFFk3kChwZacknEBoi6vckmNxiBeI51qyRSMa4ARMuHEQlfbCKvBgWX7xcVpS/du
+	BZlVrJOjDizuYldNnThMkq7dN7cAGJlOjqPUsSDR3xA828WYWDihtHy+F5dfPTD0FPsp
+	y0IVmcRGOytqZ+vTVYpzLBQueyZJmsscR9Bo9w+WtZOmuuSIpad4iwoB40uCdykJ4s2q
+	u+yA==
+X-Received: by 10.50.61.147 with SMTP id p19mr2588763igr.49.1392834661822;
+	Wed, 19 Feb 2014 10:31:01 -0800 (PST)
+Received: from brrussell-Latitude-E6530.dhcp.lexmark.com ([192.146.101.8])
+	by mx.google.com with ESMTPSA id r4sm52086299igh.1.2014.02.19.10.31.00
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 19 Feb 2014 10:31:01 -0800 (PST)
+From: Kyle Russell <bkylerussell@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Feb 2014 13:30:32 -0500
+Message-Id: <1392834632-2867-1-git-send-email-bkylerussell@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] image-vmdk.bbclass: Don't force syslinux timeout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 17:20:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 19 Feb 2014 18:31:02 -0000
 
-On 19 February 2014 17:13, Valentin Popa <valentin.popa@intel.com> wrote:
-> +Upstream-status: pending
+Don't force SYSLINUX_TIMEOUT and SYSLINUX_PROMPT if overrides have
+been defined elsewhere for an image configuration.
 
-As there's an upstream bug and you've taken the patch from it, that
-should be Upstream-Status: Submitted
+Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
+---
+ meta/classes/image-vmdk.bbclass |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ross
+diff --git a/meta/classes/image-vmdk.bbclass b/meta/classes/image-vmdk.bbclass
+index 6983e5c..bdb9e18 100644
+--- a/meta/classes/image-vmdk.bbclass
++++ b/meta/classes/image-vmdk.bbclass
+@@ -2,8 +2,8 @@
+ #NOISO = "1"
+ 
+ SYSLINUX_ROOT = "root=/dev/hda2 "
+-SYSLINUX_PROMPT = "0"
+-SYSLINUX_TIMEOUT = "1"
++SYSLINUX_PROMPT ?= "0"
++SYSLINUX_TIMEOUT ?= "1"
+ SYSLINUX_LABELS = "boot"
+ LABELS_append = " ${SYSLINUX_LABELS} "
+ 
+-- 
+1.7.9.5
+
 
