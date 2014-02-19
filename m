@@ -1,25 +1,35 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 83D876C9B4
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D1A76E89C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 20:53:38 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 19 Feb 2014 12:49:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,507,1389772800"; d="scan'208";a="458364156"
-Received: from unknown (HELO localhost) ([10.255.12.82])
-	by orsmga001.jf.intel.com with ESMTP; 19 Feb 2014 12:53:39 -0800
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
+	Wed, 19 Feb 2014 22:01:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id A38343149963
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Feb 2014 23:01:49 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 864i0HhvqGuJ
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Feb 2014 23:01:47 +0100 (CET)
+Received: from [172.22.22.61] (unknown [212.255.233.85])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id F3F1E3149958
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Feb 2014 23:01:46 +0100 (CET)
+Message-ID: <530529CA.6000204@opendreambox.org>
+Date: Wed, 19 Feb 2014 23:01:46 +0100
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2014 14:53:37 -0600
-Message-Id: <a7c008e73062a7c69f228d651ca458f21b96f073.1392842779.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <722243f17b60f55830343be89dc2a80d0767d41d.1392842779.git.tom.zanussi@linux.intel.com>
-References: <722243f17b60f55830343be89dc2a80d0767d41d.1392842779.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1392842779.git.tom.zanussi@linux.intel.com>
-References: <cover.1392842779.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 2/2] wic: Make exec_native_command() fail if a command isn't found
+References: <1392799558-31118-1-git-send-email-koen.kooi@linaro.org>
+In-Reply-To: <1392799558-31118-1-git-send-email-koen.kooi@linaro.org>
+Subject: Re: [PATCH] openssh: enable PAM at runtime based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,53 +42,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 20:53:38 -0000
+X-List-Received-Date: Wed, 19 Feb 2014 22:01:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Because exec_cmd() return values can in certain cases be non-zero yet
-non-fatal, we don't want to automatically make them fatal (though
-there should at least be a warning in such cases, which this patch
-also does); non-zero return values are definitely fatal however if
-they mean that a native command wasn't found, so have
-exec_native_cmd() check the return value of exec_cmd() for that case,
-and bail out if so.
+Hello Koen,
 
-[YOCTO #5835]
+On 19.02.2014 09:45, Koen Kooi wrote:
+> diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+> index 9c0bb48..5b9ec10 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+> @@ -82,6 +82,8 @@ do_install_append () {
+>  	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
+>  		install -d ${D}${sysconfdir}/pam.d
+>  		install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
+> +		sed -i -e 's:#UsePAM no:UsePAM yes:' ${WORKDIR}/sshd_config
+> +		sed -i -e 's:#UsePAM no:UsePAM yes:' ${D}${sysconfdir}/ssh/sshd_config
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
----
- scripts/lib/mic/utils/oe/misc.py | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+is the first of the two new lines really necessary?
 
-diff --git a/scripts/lib/mic/utils/oe/misc.py b/scripts/lib/mic/utils/oe/misc.py
-index d65b77a..7ad3aa9 100644
---- a/scripts/lib/mic/utils/oe/misc.py
-+++ b/scripts/lib/mic/utils/oe/misc.py
-@@ -51,7 +51,7 @@ def exec_cmd(cmd_and_args, as_shell = False, catch = 3):
-         # parted always fails to reload part table with loop devices. This
-         # prevents us from distinguishing real errors based on return
-         # code.
--        msger.debug("WARNING: %s returned '%s' instead of 0" % (args[0], rc))
-+        msger.warning("WARNING: %s returned '%s' instead of 0" % (cmd_and_args, rc))
- 
-     return (rc, out)
- 
-@@ -82,7 +82,14 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch = 3):
-     args = cmd_and_args.split()
-     msger.debug(args)
- 
--    return exec_cmd(native_cmd_and_args, True, catch)
-+    rc, out = exec_cmd(native_cmd_and_args, True, catch)
-+
-+    if rc == 127: # shell command-not-found
-+        msger.error("A native (host) program required to build the image "
-+                    "was not found (see details above). Please make sure "
-+                    "it's installed and try again.")
-+
-+    return (rc, out)
- 
- 
- def exec_native_cmd_quiet(cmd_and_args, native_sysroot):
--- 
-1.8.3.1
-
+Regards,
+Andreas
 
