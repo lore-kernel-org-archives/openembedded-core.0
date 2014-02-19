@@ -1,23 +1,25 @@
 Return-Path: <tom.zanussi@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CED16C9B4
+	by mail.openembedded.org (Postfix) with ESMTP id 83D876C9B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 20:53:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 19 Feb 2014 12:49:19 -0800
+	Wed, 19 Feb 2014 20:53:38 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Feb 2014 12:49:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,507,1389772800"; d="scan'208";a="486107830"
+X-IronPort-AV: E=Sophos;i="4.97,507,1389772800"; d="scan'208";a="458364156"
 Received: from unknown (HELO localhost) ([10.255.12.82])
-	by orsmga002.jf.intel.com with ESMTP; 19 Feb 2014 12:53:37 -0800
+	by orsmga001.jf.intel.com with ESMTP; 19 Feb 2014 12:53:39 -0800
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2014 14:53:36 -0600
-Message-Id: <722243f17b60f55830343be89dc2a80d0767d41d.1392842779.git.tom.zanussi@linux.intel.com>
+Date: Wed, 19 Feb 2014 14:53:37 -0600
+Message-Id: <a7c008e73062a7c69f228d651ca458f21b96f073.1392842779.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <722243f17b60f55830343be89dc2a80d0767d41d.1392842779.git.tom.zanussi@linux.intel.com>
+References: <722243f17b60f55830343be89dc2a80d0767d41d.1392842779.git.tom.zanussi@linux.intel.com>
 In-Reply-To: <cover.1392842779.git.tom.zanussi@linux.intel.com>
 References: <cover.1392842779.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 1/2] wic: Fix exec_native_cmd() path
+Subject: [PATCH 2/2] wic: Make exec_native_command() fail if a command isn't found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,27 +34,50 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 19 Feb 2014 20:53:38 -0000
 
-The path exported in exec_native_cmd() includes bogus 'PATH=' which
-means the native paths for all but the first will be ignored.
+Because exec_cmd() return values can in certain cases be non-zero yet
+non-fatal, we don't want to automatically make them fatal (though
+there should at least be a warning in such cases, which this patch
+also does); non-zero return values are definitely fatal however if
+they mean that a native command wasn't found, so have
+exec_native_cmd() check the return value of exec_cmd() for that case,
+and bail out if so.
+
+[YOCTO #5835]
 
 Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
 ---
- scripts/lib/mic/utils/oe/misc.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/mic/utils/oe/misc.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/lib/mic/utils/oe/misc.py b/scripts/lib/mic/utils/oe/misc.py
-index 6b01955..d65b77a 100644
+index d65b77a..7ad3aa9 100644
 --- a/scripts/lib/mic/utils/oe/misc.py
 +++ b/scripts/lib/mic/utils/oe/misc.py
-@@ -74,7 +74,7 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch = 3):
-     Always need to execute native commands as_shell
-     """
-     native_paths = \
--        "export PATH=%s/sbin:PATH=%s/usr/sbin:PATH=%s/usr/bin:$PATH" % \
-+        "export PATH=%s/sbin:%s/usr/sbin:%s/usr/bin:$PATH" % \
-         (native_sysroot, native_sysroot, native_sysroot)
-     native_cmd_and_args = "%s;%s" % (native_paths, cmd_and_args)
-     msger.debug("exec_native_cmd: %s" % cmd_and_args)
+@@ -51,7 +51,7 @@ def exec_cmd(cmd_and_args, as_shell = False, catch = 3):
+         # parted always fails to reload part table with loop devices. This
+         # prevents us from distinguishing real errors based on return
+         # code.
+-        msger.debug("WARNING: %s returned '%s' instead of 0" % (args[0], rc))
++        msger.warning("WARNING: %s returned '%s' instead of 0" % (cmd_and_args, rc))
+ 
+     return (rc, out)
+ 
+@@ -82,7 +82,14 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch = 3):
+     args = cmd_and_args.split()
+     msger.debug(args)
+ 
+-    return exec_cmd(native_cmd_and_args, True, catch)
++    rc, out = exec_cmd(native_cmd_and_args, True, catch)
++
++    if rc == 127: # shell command-not-found
++        msger.error("A native (host) program required to build the image "
++                    "was not found (see details above). Please make sure "
++                    "it's installed and try again.")
++
++    return (rc, out)
+ 
+ 
+ def exec_native_cmd_quiet(cmd_and_args, native_sysroot):
 -- 
 1.8.3.1
 
