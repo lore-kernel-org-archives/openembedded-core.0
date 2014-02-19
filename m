@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 73CF56EFF7
+	by mail.openembedded.org (Postfix) with ESMTP id 722BC6EE67
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Feb 2014 14:12:01 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga101.jf.intel.com with ESMTP; 19 Feb 2014 06:12:02 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,505,1389772800"; d="scan'208";a="477667129"
+X-IronPort-AV: E=Sophos;i="4.97,505,1389772800"; d="scan'208";a="477667125"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2014 06:11:57 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2014 06:11:55 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2014 16:14:45 +0200
-Message-Id: <0e4c9c9ec0489b6fa72ebbcc9eef33eb30e408de.1392819236.git.cristian.iorga@intel.com>
+Date: Wed, 19 Feb 2014 16:14:44 +0200
+Message-Id: <5793439cdd1dee42bb668d00f1a16300cf4f2f9d.1392819236.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1392819236.git.cristian.iorga@intel.com>
 References: <cover.1392819236.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1392819236.git.cristian.iorga@intel.com>
 References: <cover.1392819236.git.cristian.iorga@intel.com>
-Subject: [PATCH 5/8] gstreamer1.0-plugins-ugly: upgrade to 1.2.3
+Subject: [PATCH 4/8] gstreamer1.0-plugins-good: upgrade to 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +37,27 @@ X-List-Received-Date: Wed, 19 Feb 2014 14:12:02 -0000
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- ...1.0-plugins-ugly_1.2.2.bb => gstreamer1.0-plugins-ugly_1.2.3.bb} | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.2.2.bb => gstreamer1.0-plugins-ugly_1.2.3.bb} (65%)
+ ...r1.0-plugins-good_1.2.2.bb => gstreamer1.0-plugins-good_1.2.3.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.2.2.bb => gstreamer1.0-plugins-good_1.2.3.bb} (73%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.3.bb
-similarity index 65%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.3.bb
-index 87927f9..33fd5ad 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.2.3.bb
-@@ -2,9 +2,7 @@ include gstreamer1.0-plugins-ugly.inc
- 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.3.bb
+similarity index 73%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.3.bb
+index 3ec70a4..d5e4b6a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.3.bb
+@@ -3,8 +3,7 @@ include gstreamer1.0-plugins-good.inc
  LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
+                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607 \
+                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
 -
--SRC_URI[md5sum] = "32f57ac91369bbb3299469cc418507d0"
--SRC_URI[sha256sum] = "4b6aac272a5be0d68f365ef6fba0f829fc5c1d1d601bb4dd9e85f5289b2b56c3"
--
-+SRC_URI[md5sum] = "7ae60e2f759f58f32af5fcdc3c9193c4"
-+SRC_URI[sha256sum] = "537b0a7607eee499026388bb705b5b68985a3fd59fe22ee09accaf8cdf57eb3b"
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+-SRC_URI[md5sum] = "f8a9be6c5362d13ee41b600c74e843f4"
+-SRC_URI[sha256sum] = "6c090f00e8e4588f12807bd9fbb06a03b84a512c93e84d928123ee4a42228a81"
++SRC_URI[md5sum] = "1a1f96bc27ad446e559474299160a9a8"
++SRC_URI[sha256sum] = "bfb33536a515bdcc34482f64b8d9cc3e47c753878b254923b419bc2f7485e470"
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
  
 -- 
 1.8.3.2
