@@ -1,37 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CCE26EE0D
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id DA6A86EE0D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 11:25:58 +0000 (UTC)
-Received: by mail-ea0-f170.google.com with SMTP id g15so289113eak.29
+	Wed, 19 Feb 2014 11:29:22 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id e4so458114wiv.16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 03:25:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=pKLr6XCqNUEEGlv4w59e2R31hBBu1zsSI3pkygQ/DAE=;
-	b=Nn/G0fzUSUKqTNdj0/g2yw7axtOcF1peFT5cpnPWjollqp8PkSxZYy/CoNyFKEhAwN
-	ybMDCyZaUfAKJ7CIZF4XruFlRiblmRtKgXFOyWu9sIZZTueodgTpPXKVt7Gz8AI/zLIU
-	dRTdthC/1VFwUQpdBCKKnERk4jYHISh4fjTRYFHS3ZPwsfBC8xo+e1s5Pp7PdnEJJDhX
-	OxrDol0PYK+NHzZdY0EFv8O0Lq3E5Eh1Zjcwg3QxqWuT1rglmOfK0FyEE7Tkne/8+l9n
-	7PphGIoQhhYwuZ/jUoZX59PW/CYtWMsndrb2V/M6TExX02ZqYEAXtyuH98vbMnphBrs6
-	UTVA==
-X-Received: by 10.14.93.199 with SMTP id l47mr14937959eef.58.1392809159033;
-	Wed, 19 Feb 2014 03:25:59 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	u6sm81987480eep.11.2014.02.19.03.25.57 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Feb 2014 03:25:57 -0800 (PST)
-Date: Wed, 19 Feb 2014 12:26:30 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140219112630.GC3854@jama>
-References: <1392807290.14081.267.camel@ted>
-MIME-Version: 1.0
+	Wed, 19 Feb 2014 03:29:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=VIPIO1Ltzv78krDnItptooy/drRjL13bQQncumeq7ng=;
+	b=OOlsaJ72ibiHp7otum8O8lMCVOAe/fatXwj3BJ5Mfu7+lRwFb5D+ZMmPcSnYp79EFH
+	kO2gnGzfJwevu2m+wgEgQJVRYDNg+d5i3ZFaLCWI7HidZq1qEawOlhzFdoQ509js8sAy
+	zTMdp6eOYqKnSY17a6VUejJYcdKbSFwLBI7dS5SwFRvxkklX6sOxDsuZ7PfXVE1vsW5q
+	smxmJXkP/Kgg2BoJlDYNeXo4iQEMRGMQ6/Y/C75IB0GWi6CwQej3EclgDr3i4tpogQBt
+	zPnFr1/8YHicQCgV1GBX70yN8Y1H6F6+Vz9+2rAqciUUk2VCWkLmiIg8odU1GPIqDVPp
+	UVzQ==
+X-Gm-Message-State: ALoCoQmEEWxwCT4LXPPnN5J5mSLUq6uIHCXkrnIeqTzxZO+JO4uqt8PIKpx4+EYEJjAORqf1YnAt
+X-Received: by 10.194.59.210 with SMTP id b18mr1633236wjr.60.1392809362994;
+	Wed, 19 Feb 2014 03:29:22 -0800 (PST)
+Received: from ?IPv6:2001:610:612::cdf4:6708:4555:49cf?
+	([2001:610:612:0:cdf4:6708:4555:49cf])
+	by mx.google.com with ESMTPSA id p1sm51023880wie.1.2014.02.19.03.29.21
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 19 Feb 2014 03:29:22 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Koen Kooi <koen@dominion.thruhere.net>
 In-Reply-To: <1392807290.14081.267.camel@ted>
-User-Agent: Mutt/1.5.22 (2013-10-16)
+Date: Wed, 19 Feb 2014 12:32:18 +0100
+Message-Id: <B0038D45-06D3-442D-BEB9-84AC354BD631@dominion.thruhere.net>
+References: <1392807290.14081.267.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1827)
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: RFC: systemd version - release or git?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,36 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 11:25:59 -0000
-X-Groupsio-MsgNum: 50335
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
-Content-Disposition: inline
-
---L6iaP+gRLNZHKoI4
+X-List-Received-Date: Wed, 19 Feb 2014 11:29:23 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 19, 2014 at 10:54:50AM +0000, Richard Purdie wrote:
-> As anyone looking at the autobuidler will know, we've been having a lot
+Op 19 feb. 2014, om 11:54 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
+
+> As anyone looking at the autobuidler will know, we've been having a =
+lot
 > of issues with instability with systemd tests under qemu.
->=20
+
+A number of those were (are?) caused by kernel config issues, like =
+CONFIG_FHANDLE missing, have those been addressed?=20
+
 > I believe these are real world issues, most likely races in systemd
 > itself.
 >=20
-> The last release of systemd, 208 was five months ago. There have been a
+> The last release of systemd, 208 was five months ago. There have been =
+a
 > ton of changes since including many bug fixes.
 >=20
-> Fedora 20 uses systemd 208 (the last release) with 200+ patches on top.
+> Fedora 20 uses systemd 208 (the last release) with 200+ patches on =
+top.
 >=20
 > I'm therefore wondering if we shouldn't bite the bullet and add a git
 > recipe rather than trying to patch 208 into some form of life.
 >=20
-> The proposal is therefore to add a more recent git recipe and make that
+> The proposal is therefore to add a more recent git recipe and make =
+that
 > the default.
 >=20
-> I have such a patch in master-next. I've debugged the toolchain issues,
+> I have such a patch in master-next. I've debugged the toolchain =
+issues,
 > missing kernel config and other issues with systemd master, it always
 > now seems to pass the autobuilder tests. I need to check on one
 > remaining automated QA test result to ensure its not a regression in
@@ -83,28 +89,19 @@ On Wed, Feb 19, 2014 at 10:54:50AM +0000, Richard Purdie wrote:
 >=20
 > Any objections to defaulting to a git version?
 
-I think we can wait few more days for new release:
-https://www.mail-archive.com/systemd-devel@lists.freedesktop.org/msg16738.h=
-tml
+In meta-oe we used to build systemd from a git tag instead of tarball =
+release and ran into the usual gtk-doc and docbook problems. Can you =
+build systemd git without docbook dtds installed on the buildhost?
 
-but otherwise I don't have strong objections for switching to git
-version temporary (if it really makes QA test results better).
+If the docbook issues have been fixed I have no objection to adding a =
+git recipe. I poked Lennart at FOSDEM about v209 and he said they need =
+to fix some issues in kdbus and networkd first before making a release, =
+"hopefully soon".
 
-Cheers,
+Speaking of networkd, any idea if our connman is recent enough to =
+support networkd -> connman handover?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+regards,
 
---L6iaP+gRLNZHKoI4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Koen=
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlMElOYACgkQN1Ujt2V2gBwFMACdEwhUGiCcvMnfc9uAbPRfXjGG
-6zkAniKrGstZyzp2k6maiog8liqyslKI
-=04Rv
------END PGP SIGNATURE-----
-
---L6iaP+gRLNZHKoI4--
