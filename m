@@ -1,42 +1,22 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id D53526E7D3
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 09FDA6E79B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 11:43:09 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1WG5YT-0005oR-6x; Wed, 19 Feb 2014 12:43:09 +0100
-Message-ID: <1392810188.14769.356.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
+	Wed, 19 Feb 2014 12:19:55 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 19 Feb 2014 04:19:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,505,1389772800"; d="scan'208";a="485770083"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by orsmga002.jf.intel.com with ESMTP; 19 Feb 2014 04:19:54 -0800
+Date: Wed, 19 Feb 2014 14:19:53 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: Kai Kang <kai.kang@windriver.com>
-Date: Wed, 19 Feb 2014 11:43:08 +0000
-In-Reply-To: <1392807566-15114-1-git-send-email-kai.kang@windriver.com>
+Message-ID: <20140219121953.GD22316@lpalcu-linux>
 References: <1392807566-15114-1-git-send-email-kai.kang@windriver.com>
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Wed, 2014-02-19 at 18:59 +0800,
-	Kai Kang wrote: > In update-rc.d.bbclass
-	it checks variable INITSCRIPT_PACKAGES to avoid > inherit this class.
-	But
-	it is wrong logic to check INITSCRIPT_PACKAGES. > When 'sysvinit' is in
-	'DISTRO_FEATURES', 
-	INITSCRIPT_PACKAGES will not be > checked. [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
+MIME-Version: 1.0
+In-Reply-To: <1392807566-15114-1-git-send-email-kai.kang@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] update-rc.d.bbclass: fix inhibit check
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -51,18 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 11:43:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Feb 2014 12:19:55 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2014-02-19 at 18:59 +0800, Kai Kang wrote:
+On Wed, Feb 19, 2014 at 06:59:26PM +0800, Kai Kang wrote:
 > In update-rc.d.bbclass it checks variable INITSCRIPT_PACKAGES to avoid
 > inherit this class. But it is wrong logic to check INITSCRIPT_PACKAGES.
 > When 'sysvinit' is in 'DISTRO_FEATURES', INITSCRIPT_PACKAGES will not be
 > checked.
+s/INITSCRIPT_PACKAGES/INHIBIT_UPDATERCD_BBCLASS/ above will make more
+sense, I guess.
 
-Er, really?  From the code you quoted...
+Because, as I see it, that 'if' will evaluate to True if 'sysvinit' is in
+DISTRO_FEATURES, irrespective of how INHIBIT_UPDATERCD_BBCLASS is set...
+which is a little bit wrong.
 
+So, I think you just need to adjust the commit message.
+
+laurentiu
+
+> 
+> Replace 'or' with 'and' to fix it.
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/classes/update-rc.d.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+> index 4b92d8d..0ac2af7 100644
+> --- a/meta/classes/update-rc.d.bbclass
+> +++ b/meta/classes/update-rc.d.bbclass
+> @@ -117,7 +117,7 @@ python populate_packages_updatercd () {
+>  
 >      # Check that this class isn't being inhibited (generally, by
 >      # systemd.bbclass) before doing any work.
 > -    if oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) or \
@@ -70,13 +72,11 @@ Er, really?  From the code you quoted...
 >         not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
 >          pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
 >          if pkgs == None:
-
-... it seems that if sysvinit is in DISTRO_FEATURES then the outer "if"
-will evaluate to true and it will indeed proceed to check
-INITSCRIPT_PACKAGES in the last quoted line.  Can you clarify what
-exactly is wrong here?
-
-p.
-
-
+> -- 
+> 1.8.1.2
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
