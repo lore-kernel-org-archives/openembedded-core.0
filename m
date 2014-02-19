@@ -1,29 +1,31 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B18F6E760
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id B7E0E6E760
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 15:19:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1JFJtFO014566
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Feb 2014 07:19:55 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.235) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 19 Feb 2014 07:19:54 -0800
-Message-ID: <5304CB9A.2030400@windriver.com>
-Date: Wed, 19 Feb 2014 09:19:54 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
-MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>,
-	<openembedded-core@lists.openembedded.org>
-References: <1392822917-23688-1-git-send-email-paul@paulbarker.me.uk>
-In-Reply-To: <1392822917-23688-1-git-send-email-paul@paulbarker.me.uk>
-Cc: Saul Wold <saul.wold@intel.com>
-Subject: Re: [PATCH v2] opkg: Fix add-exclude.patch
+	Wed, 19 Feb 2014 15:48:10 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1JFlOFY030115; Wed, 19 Feb 2014 15:47:24 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id at8D9Y3Hpc7X; Wed, 19 Feb 2014 15:47:24 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1JFlIPI030099
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Wed, 19 Feb 2014 15:47:20 GMT
+Message-ID: <1392824832.14081.274.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Anders Darander <anders@chargestorm.se>
+Date: Wed, 19 Feb 2014 15:47:12 +0000
+In-Reply-To: <20140219113705.GA9147@ad.chargestorm.se>
+References: <1392807290.14081.267.camel@ted> <20140219112630.GC3854@jama>
+	<20140219113705.GA9147@ad.chargestorm.se>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: RFC: systemd version - release or git?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,68 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 15:19:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 19 Feb 2014 15:48:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2/19/14, 9:15 AM, Paul Barker wrote:
-> The case statement for ARGS_OPT_ADD_EXCLUDE added to the argument handling
-> switch statement in opkg was missing a "break;" at the end, so it was falling
-> through into the handler for ARGS_OPT_NOACTION. Thus when "--add-exclude" was
-> specified on the command line it was as if "--noaction" was also being
-> specified. This appears to be the root cause of YP bug 5311.
->
-> Tested using the case described by Alexandru Georgescu in YP bug 5311:
->
->      MACHINE ??= "qemux86"
->      IMAGE_INSTALL_append = " man"
->      PACKAGE_EXCLUDE = "man"
->      PACKAGE_CLASSES ?= "package_ipk"
->
-> Built image and boot tested on qemu, ensured that man was not installed but the
-> rest of the system was installed correctly.
->
-> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-> Cc: Mark Hatle <mark.hatle@windriver.com>
+On Wed, 2014-02-19 at 12:37 +0100, Anders Darander wrote:
+> * Martin Jansa <martin.jansa@gmail.com> [140219 12:26]:
+> > On Wed, Feb 19, 2014 at 10:54:50AM +0000, Richard Purdie wrote:
+> > > Any objections to defaulting to a git version?
+> 
+> > I think we can wait few more days for new release:
+> > https://www.mail-archive.com/systemd-devel@lists.freedesktop.org/msg16738.html
+> 
+> I was just about to reply with the same e-mail link...
 
-Acked-by: Mark Hatle <mark.hatle@windriver.com>
+I asked about this a few days ago and scanned the archives and didn't
+find it. Typically, they sent it out after I did that :)
 
-> Cc: Saul Wold <saul.wold@intel.com>
-> Cc: Alexandru Georgescu <alexandru.c.georgescu@intel.com>
-> ---
-> Changes:
->
-> V2: Used 'editdiff' to ensure the patch offsets were updated.
->
->   meta/recipes-devtools/opkg/opkg/add-exclude.patch | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/opkg/opkg/add-exclude.patch b/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-> index 8489058..8d328d5 100644
-> --- a/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-> +++ b/meta/recipes-devtools/opkg/opkg/add-exclude.patch
-> @@ -84,7 +84,7 @@ Index: trunk/src/opkg-cl.c
->    	{"test", 0, 0, ARGS_OPT_NOACTION},
->    	{"tmp-dir", 1, 0, 't'},
->    	{"tmp_dir", 1, 0, 't'},
-> -@@ -198,6 +200,17 @@ args_parse(int argc, char *argv[])
-> +@@ -198,6 +200,18 @@ args_parse(int argc, char *argv[])
->    			}
->    			free(tuple);
->    			break;
-> @@ -99,10 +99,11 @@ Index: trunk/src/opkg-cl.c
->   +				conf->exclude_list = realloc(conf->exclude_list, sizeof(char *) * conf->exclude_count);
->   +				conf->exclude_list[conf->exclude_count - 1] = tuple;
->   +			}
-> ++			break;
->    		case ARGS_OPT_NOACTION:
->    			conf->noaction = 1;
->    			break;
-> -@@ -282,6 +295,7 @@ usage()
-> +@@ -282,6 +296,7 @@ usage()
->    	printf("\t--offline-root <dir>	offline installation of packages.\n");
->    	printf("\t--add-arch <arch>:<prio>	Register architecture with given priority\n");
->    	printf("\t--add-dest <name>:<path>	Register destination with given path\n");
->
+> > but otherwise I don't have strong objections for switching to git
+> > version temporary (if it really makes QA test results better).
+> 
+> Otherwise, I don't have any strong feelings against a git version. Not
+> as long as it works as it should.
+> 
+> One objection might be that it's easier for someone to update it to a
+> strange version in between the regular releases. As long as we try to
+> avoid making a release where systemd is too far of from a regular
+> release, that shouldn't be any issue, though.
+
+I agree its worth waiting for the release if it really is than imminent.
+I'd previously not been able to find a commitment or schedule.
+
+It might be useful to have a git based recipe anyway for
+debugging/testing...
+
+Cheers,
+
+Richard
 
 
