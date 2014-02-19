@@ -1,24 +1,40 @@
-Return-Path: <Yanjun.Zhu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 381006E9D8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E9A7D6E9D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 02:35:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1J2ZMNq005932
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 19 Feb 2014 02:40:59 +0000 (UTC)
+Received: by mail-pb0-f50.google.com with SMTP id rq2so17648150pbb.37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 18:35:22 -0800 (PST)
-Received: from wind-OptiPlex-780.corp.ad.wrs.com (128.224.162.219) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 18 Feb 2014 18:35:21 -0800
-From: Zhu Yanjun <yanjun.zhu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Feb 2014 10:35:27 +0800
-Message-ID: <1392777327-12786-1-git-send-email-yanjun.zhu@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] nmap: use native python and add python dependence
+	Tue, 18 Feb 2014 18:41:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=GDWloVYANH/LuUxKvS9Rg1OWaF7G9ktw0yYqPAA4nx4=;
+	b=clVnlQlc15yfkPrNkENIbyfSX9U/Q5tJFJGOLn3iDiXxzgPAKKVgtqXLxILSUpAT9q
+	Dw7KqIqMQwgbtUF1w1uB17JOR7USZ7WhPCzhf56//cpefBdDCoGAxPwkQWDBxAanMVZY
+	JqUNKGXFUdEtwam1jNo/1fsE/CvwAoWRVzEgbkBFGZbJOu82ydcgZDfCwgx2iKsA4hwm
+	87PmrR/y3D8CuQCAza+iyMosZt34lzPqfXJCJ5/3N6glpbFUnsiB5U7k0xwwY2QRYbdn
+	pEX+9WZee/1k6zf98ORJHcepTThyBmbIGa1hWqkaDDSRn3QkhZpT34YhEc/PYcHsf+2j
+	O6OA==
+X-Received: by 10.68.171.193 with SMTP id aw1mr36758178pbc.117.1392777661003; 
+	Tue, 18 Feb 2014 18:41:01 -0800 (PST)
+Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.30]) by mx.google.com with ESMTPSA id
+	id1sm60737954pbc.11.2014.02.18.18.40.53 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 18 Feb 2014 18:40:54 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1392777327-12786-1-git-send-email-yanjun.zhu@windriver.com>
+Date: Tue, 18 Feb 2014 18:40:51 -0800
+Message-Id: <DFFB071F-AB89-462B-97F6-95F4EE0A766B@gmail.com>
+References: <1392777327-12786-1-git-send-email-yanjun.zhu@windriver.com>
+To: Zhu Yanjun <yanjun.zhu@windriver.com>
+X-Mailer: Apple Mail (2.1827)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] nmap: use native python and add python dependence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +47,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 02:35:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Feb 2014 02:41:00 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
----
- recipes-security/nmap/nmap_6.25.bb |    9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-security/nmap/nmap_6.25.bb b/recipes-security/nmap/nmap_6.25.bb
-index aff5c63..8d7e853 100644
---- a/recipes-security/nmap/nmap_6.25.bb
-+++ b/recipes-security/nmap/nmap_6.25.bb
-@@ -11,12 +11,17 @@ SRC_URI = "http://nmap.org/dist/${PN}-${PV}.tar.bz2 \
- SRC_URI[md5sum] = "fcc80f94ff3adcb11eedf91092ea6f5e"
- SRC_URI[sha256sum] = "3349cc6d36b86b95ca2b8075d16615a3a598cef494920d6652f9a8bf9f7660b5"
- 
--inherit autotools
-+inherit autotools pythonnative
- 
--DEPENDS = "libpcap"
-+DEPENDS = "libpcap python"
- 
- EXTRA_OECONF = "--without-liblua --without-zenmap --without-subversion --with-pcap=linux"
- 
-+export BUILD_SYS
-+export HOST_SYS
-+export STAGING_LIBDIR
-+export STAGING_INCDIR
-+
- do_configure() {
-     autoconf
-     oe_runconf
--- 
-1.7.9.5
+On Feb 18, 2014, at 6:35 PM, Zhu Yanjun <yanjun.zhu@windriver.com> wrote:
 
+> +export BUILD_SYS
+> +export HOST_SYS
+> +export STAGING_LIBDIR
+> +export STAGING_INCDIR
+> +
+
+why are these needed ?
 
