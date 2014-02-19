@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 722BC6EE67
+	by mail.openembedded.org (Postfix) with ESMTP id E4BB86F1A4
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Feb 2014 14:12:01 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 19 Feb 2014 06:12:02 -0800
+	by orsmga101.jf.intel.com with ESMTP; 19 Feb 2014 06:12:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,505,1389772800"; d="scan'208";a="477667125"
+X-IronPort-AV: E=Sophos;i="4.97,505,1389772800"; d="scan'208";a="477667137"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2014 06:11:55 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 19 Feb 2014 06:11:58 -0800
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2014 16:14:44 +0200
-Message-Id: <5793439cdd1dee42bb668d00f1a16300cf4f2f9d.1392819236.git.cristian.iorga@intel.com>
+Date: Wed, 19 Feb 2014 16:14:46 +0200
+Message-Id: <9bd2bd16e714f95e20eccff540ed54c3b8c69d24.1392819236.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1392819236.git.cristian.iorga@intel.com>
 References: <cover.1392819236.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1392819236.git.cristian.iorga@intel.com>
 References: <cover.1392819236.git.cristian.iorga@intel.com>
-Subject: [PATCH 4/8] gstreamer1.0-plugins-good: upgrade to 1.2.3
+Subject: [PATCH 6/8] gstreamer1.0-plugins-bad: upgrade to 1.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +37,28 @@ X-List-Received-Date: Wed, 19 Feb 2014 14:12:02 -0000
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- ...r1.0-plugins-good_1.2.2.bb => gstreamer1.0-plugins-good_1.2.3.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.2.2.bb => gstreamer1.0-plugins-good_1.2.3.bb} (73%)
+ ...er1.0-plugins-bad_1.2.2.bb => gstreamer1.0-plugins-bad_1.2.3.bb} | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.2.2.bb => gstreamer1.0-plugins-bad_1.2.3.bb} (75%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.3.bb
-similarity index 73%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.3.bb
-index 3ec70a4..d5e4b6a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.2.3.bb
-@@ -3,8 +3,7 @@ include gstreamer1.0-plugins-good.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607 \
-                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.3.bb
+similarity index 75%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.3.bb
+index da71170..a19988c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.2.3.bb
+@@ -4,9 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
+                     file://gst/tta/filters.h;beginline=12;endline=29;md5=8a08270656f2f8ad7bb3655b83138e5a \
+                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 \
+                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=27db269c575d1e5317fffca2d33b3b50"
 -
--SRC_URI[md5sum] = "f8a9be6c5362d13ee41b600c74e843f4"
--SRC_URI[sha256sum] = "6c090f00e8e4588f12807bd9fbb06a03b84a512c93e84d928123ee4a42228a81"
-+SRC_URI[md5sum] = "1a1f96bc27ad446e559474299160a9a8"
-+SRC_URI[sha256sum] = "bfb33536a515bdcc34482f64b8d9cc3e47c753878b254923b419bc2f7485e470"
- S = "${WORKDIR}/gst-plugins-good-${PV}"
+-SRC_URI[md5sum] = "d519b7e8e570c4a22d6b79f2ab89765c"
+-SRC_URI[sha256sum] = "63e78db11b482d0529a0bde01e2ac23fd32c7cb99a5508b53ee4ca1051871b2c"
+-
++SRC_URI[md5sum] = "cfd6f303c8df2740b27cc63b945decef"
++SRC_URI[sha256sum] = "595d7911a9e6207dea37200587724bdbf841b81a5eb0730118be36976684278c"
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
  
 -- 
 1.8.3.2
