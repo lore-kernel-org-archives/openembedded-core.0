@@ -1,40 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E9A7D6E9D8
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AC60E6E904
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 02:40:59 +0000 (UTC)
-Received: by mail-pb0-f50.google.com with SMTP id rq2so17648150pbb.37
+	Wed, 19 Feb 2014 03:18:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1J3IELc003291
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 18:41:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=GDWloVYANH/LuUxKvS9Rg1OWaF7G9ktw0yYqPAA4nx4=;
-	b=clVnlQlc15yfkPrNkENIbyfSX9U/Q5tJFJGOLn3iDiXxzgPAKKVgtqXLxILSUpAT9q
-	Dw7KqIqMQwgbtUF1w1uB17JOR7USZ7WhPCzhf56//cpefBdDCoGAxPwkQWDBxAanMVZY
-	JqUNKGXFUdEtwam1jNo/1fsE/CvwAoWRVzEgbkBFGZbJOu82ydcgZDfCwgx2iKsA4hwm
-	87PmrR/y3D8CuQCAza+iyMosZt34lzPqfXJCJ5/3N6glpbFUnsiB5U7k0xwwY2QRYbdn
-	pEX+9WZee/1k6zf98ORJHcepTThyBmbIGa1hWqkaDDSRn3QkhZpT34YhEc/PYcHsf+2j
-	O6OA==
-X-Received: by 10.68.171.193 with SMTP id aw1mr36758178pbc.117.1392777661003; 
-	Tue, 18 Feb 2014 18:41:01 -0800 (PST)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	id1sm60737954pbc.11.2014.02.18.18.40.53 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 18 Feb 2014 18:40:54 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1392777327-12786-1-git-send-email-yanjun.zhu@windriver.com>
-Date: Tue, 18 Feb 2014 18:40:51 -0800
-Message-Id: <DFFB071F-AB89-462B-97F6-95F4EE0A766B@gmail.com>
-References: <1392777327-12786-1-git-send-email-yanjun.zhu@windriver.com>
-To: Zhu Yanjun <yanjun.zhu@windriver.com>
-X-Mailer: Apple Mail (2.1827)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nmap: use native python and add python dependence
+	Tue, 18 Feb 2014 19:18:15 -0800 (PST)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 18 Feb 2014 19:18:14 -0800
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Feb 2014 11:18:11 +0800
+Message-ID: <cover.1392779759.git.Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH 0/1] libpcre: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,18 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 02:41:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Feb 2014 03:18:15 -0000
+Content-Type: text/plain
 
+The following changes since commit 54562006c1327c5b99daa4cc05a3ba7e38412da1:
 
-On Feb 18, 2014, at 6:35 PM, Zhu Yanjun <yanjun.zhu@windriver.com> wrote:
+  image_types.bbclass: Fix tar IMAGE_CMD to not change directories (2014-02-18 08:38:52 +0000)
 
-> +export BUILD_SYS
-> +export HOST_SYS
-> +export STAGING_LIBDIR
-> +export STAGING_INCDIR
-> +
+are available in the git repository at:
 
-why are these needed ?
+  git://git.pokylinux.org/poky-contrib chonglu/libpcre
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=chonglu/libpcre
+
+Chong Lu (1):
+  libpcre: enable ptest support
+
+ meta/recipes-support/libpcre/libpcre/Makefile  | 183 +++++++++++++++++++++++++
+ meta/recipes-support/libpcre/libpcre/run-ptest |   3 +
+ meta/recipes-support/libpcre/libpcre_8.34.bb   |  19 ++-
+ 3 files changed, 203 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/libpcre/libpcre/Makefile
+ create mode 100644 meta/recipes-support/libpcre/libpcre/run-ptest
+
+-- 
+1.8.1.2
+
 
