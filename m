@@ -1,36 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 102486F1AB
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C495E6CBDF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 08:00:54 +0000 (UTC)
-Received: by mail-ea0-f169.google.com with SMTP id h10so160082eak.0
+	Wed, 19 Feb 2014 08:46:06 +0000 (UTC)
+Received: by mail-wg0-f46.google.com with SMTP id x13so68331wgg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 00:00:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=X0Dol/YVUhcCRWFZCp0lT/00kte4WyxaDzADpzhDl3I=;
-	b=ZtDZKA2t8V6poUFrW97PVywwdrMK8ZX6wLcNwfqzo6yfzLUELPX5ekhasWS1nJMjei
-	sFssc/a7cDWo+GiTP+o3ewpq9gY6nbxHqKxZb3zJNO39tNmD1DYI4363csqs05YfqQ6l
-	XkJ2pzlgXfxg92aLnoyaQBcEd3BdzOtt2MRjTRQPnHcsa+3SvavxPY0H+a7MmBGtBOqg
-	bYYdQN1lhmZFe4to9l3jJiayIX74Y9HxZrOq5rB/L3KiCTqDEKvoAUYRJKE/NgOGbR+o
-	d5xYX7RiQNKUa2kWSrBtR9IqkdiPgG54XwkTIwaq9Zvq/xg0LA6A5QrJr00EBen15zhh
-	qP8w==
-X-Received: by 10.14.246.68 with SMTP id p44mr1953122eer.72.1392796855462;
-	Wed, 19 Feb 2014 00:00:55 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	y47sm80100095eel.14.2014.02.19.00.00.54 for <multiple recipients>
+	Wed, 19 Feb 2014 00:46:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rQsAt6EymFhmP00Nlg9gVCyYzhAKn77JEDBaE1LBziU=;
+	b=mhxxWFOhI1BDcKO4kDAtI3VskfKcSkDxLUuJcadV6oliJKifjtCPNFoCeY4D3fqamT
+	PzHgS5NTwZ6rYSFpPrcKC2mzc7nSIZZjXh9bYuxshCGxuFOMVfq4cHm4ynSAnRZRUJ3H
+	aQt9n85Ea9ooo3BmjSOK9aEP49b9w9FDwDWmKZU9bKarFM/ssR9VXUHe6Rea0TwURqch
+	zIBStHgH74iK8Q2956I2MgZsujjjPo4IB8aw1QPeeUXB/kZx8ZvyklagHeMr0AnG1RXa
+	m8+FjEH+Lk3b63tv0Qn74N2nfAZZWCiIFKaL9yhMqLo7If7BMPQ/KwbINK87Qn/QWyfl
+	BGJw==
+X-Gm-Message-State: ALoCoQmY5PgBLIn+3qiPLxioSji5GICf9zNSMIAkM9jGXqPIE7mmEeLvPFfbxLQ4j5hc6VHj+QSa
+X-Received: by 10.194.175.202 with SMTP id cc10mr12773251wjc.48.1392799566676; 
+	Wed, 19 Feb 2014 00:46:06 -0800 (PST)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id di9sm49795077wid.6.2014.02.19.00.46.05
+	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Feb 2014 00:00:54 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 19 Feb 2014 00:46:05 -0800 (PST)
+From: Koen Kooi <koen.kooi@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2014 09:01:24 +0100
-Message-Id: <1392796884-8665-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <20140219075627.GA3854@jama>
-References: <20140219075627.GA3854@jama>
-Subject: [PATCH] package_manager.py: Fix $i -> %s in bb.note
+Date: Wed, 19 Feb 2014 09:45:58 +0100
+Message-Id: <1392799558-31118-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] openssh: enable PAM at runtime based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 08:00:55 -0000
+X-List-Received-Date: Wed, 19 Feb 2014 08:46:08 -0000
 
-* change the text a bit, because I have trouble parsing two
-  verbs at the beginning of sentence.
+Everything is setup to use PAM except for the server config. If 'pam' is
+in DISTRO_FEATURES the configs will be changed to enable it.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Syslog will now show:
+
+	Feb 19 09:28:36 beast sshd[2980]: pam_unix(sshd:session): session opened for user koen by (uid=0)
+
+And more importantly:
+
+	koen@beast:~$ loginctl
+	   SESSION        UID USER             SEAT
+	        c1       1000 koen             seat0
+	        c3       1000 koen             seat0
+	       c13       1000 koen
+
+	3 sessions listed.
+
+Systemd now registers the session properly so it won't kill things like 'screen'
+and 'tmux' when disconnecting the ssh session.
+
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- meta/lib/oe/package_manager.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssh/openssh_6.4p1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 6dc8fbd..0b376b7 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1165,7 +1165,7 @@ class OpkgPM(PackageManager):
-                              "returned %d:\n%s" % (pkg_info, e.returncode, e.output))
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+index 9c0bb48..5b9ec10 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+@@ -82,6 +82,8 @@ do_install_append () {
+ 	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
+ 		install -d ${D}${sysconfdir}/pam.d
+ 		install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
++		sed -i -e 's:#UsePAM no:UsePAM yes:' ${WORKDIR}/sshd_config
++		sed -i -e 's:#UsePAM no:UsePAM yes:' ${D}${sysconfdir}/ssh/sshd_config
+ 	fi
  
-                 if output == "":
--                    bb.note("Requested ignored recommendation $i is "
-+                    bb.note("Ignored bad recommendation: '%s' is "
-                             "not a package" % pkg)
-                     continue
- 
+ 	install -d ${D}${sysconfdir}/init.d
 -- 
-1.8.5.3
+1.8.4.2
 
 
