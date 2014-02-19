@@ -1,26 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 179D46EFC5
+Return-Path: <Yanjun.Zhu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 381006E9D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2014 22:31:47 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 18 Feb 2014 14:27:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,503,1389772800"; d="scan'208";a="485456703"
-Received: from unknown (HELO [10.255.13.243]) ([10.255.13.243])
-	by orsmga002.jf.intel.com with ESMTP; 18 Feb 2014 14:31:47 -0800
-Message-ID: <5303DF53.4000102@linux.intel.com>
-Date: Tue, 18 Feb 2014 14:31:47 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Wed, 19 Feb 2014 02:35:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1J2ZMNq005932
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Feb 2014 18:35:22 -0800 (PST)
+Received: from wind-OptiPlex-780.corp.ad.wrs.com (128.224.162.219) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 18 Feb 2014 18:35:21 -0800
+From: Zhu Yanjun <yanjun.zhu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Feb 2014 10:35:27 +0800
+Message-ID: <1392777327-12786-1-git-send-email-yanjun.zhu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Peter Seebach <peter.seebach@windriver.com>
-References: <1392632257-4669-1-git-send-email-yanjun.zhu@windriver.com>	<5303AFB8.2090605@linux.intel.com>
-	<20140218153104.08751227@e6410-2>
-In-Reply-To: <20140218153104.08751227@e6410-2>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pseudo-1.5.1: keep install command directory mode
+Subject: [PATCH] nmap: use native python and add python dependence
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 22:31:48 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Feb 2014 02:35:22 -0000
+Content-Type: text/plain
 
-On 02/18/2014 01:31 PM, Peter Seebach wrote:
-> On Tue, 18 Feb 2014 11:08:40 -0800
-> Saul Wold <sgw@linux.intel.com> wrote:
->
->> There is no patch header here, also have you checked with Peter S on
->> this change?
->
-> The change originated with me, and is in my current 1.6 pseudo branch. The
-> backport was being submitted because I am on other projects actively enough
-> that I haven't got the time to finish the work for getting 1.6 ready to
-> submit.
->
-Great, had the patch header been there, I would not have to second guess 
-and loop you in again.
+---
+ recipes-security/nmap/nmap_6.25.bb |    9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-Sau!
+diff --git a/recipes-security/nmap/nmap_6.25.bb b/recipes-security/nmap/nmap_6.25.bb
+index aff5c63..8d7e853 100644
+--- a/recipes-security/nmap/nmap_6.25.bb
++++ b/recipes-security/nmap/nmap_6.25.bb
+@@ -11,12 +11,17 @@ SRC_URI = "http://nmap.org/dist/${PN}-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "fcc80f94ff3adcb11eedf91092ea6f5e"
+ SRC_URI[sha256sum] = "3349cc6d36b86b95ca2b8075d16615a3a598cef494920d6652f9a8bf9f7660b5"
+ 
+-inherit autotools
++inherit autotools pythonnative
+ 
+-DEPENDS = "libpcap"
++DEPENDS = "libpcap python"
+ 
+ EXTRA_OECONF = "--without-liblua --without-zenmap --without-subversion --with-pcap=linux"
+ 
++export BUILD_SYS
++export HOST_SYS
++export STAGING_LIBDIR
++export STAGING_INCDIR
++
+ do_configure() {
+     autoconf
+     oe_runconf
+-- 
+1.7.9.5
 
-> -s
->
 
