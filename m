@@ -1,21 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id BE1456D8FA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EF896EE66
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 20:57:25 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Feb 2014 12:53:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,514,1389772800"; d="scan'208";a="486807908"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.1])
-	by orsmga002.jf.intel.com with ESMTP; 20 Feb 2014 12:57:25 -0800
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 20 Feb 2014 23:08:55 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id hi5so305147wib.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2014 15:08:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JePRJPsZVoKCsD+N2Ci/7bLrzDLM+vdt8iZMoZFzLaM=;
+	b=howyaf5lJkpuH3gcOxsInVmHhL7t9g+hDu5Hgwt25BmYaTLJKgwS7epjkv5Kee5mnC
+	7DeLmNfC1T10b5gXCbhKAYV8U4tkSHXVXvrbgbOwa70dYbeqPlKa2pXCK+WEExgUA9V5
+	1lq94JxiK1oXkte95I+ej6OTj0kz+4kGrqxfuPk2RS1W1eH5z4lp+mpuXOqSIh/UtJav
+	Q/M6xV4xWCnfy6uf7cEyHs/5EsuG4GM8bVXEAMps6mQjnU0K5euTdJIrbwYDWUZl25l/
+	JE0CdYhe0Ve19vPLzL9+tubVe/GY66VFlFUJzLHix1IdHDawW518LE9boF/Oijffpkte
+	aI0g==
+X-Gm-Message-State: ALoCoQllPm5zIMIEVV6q9YGPmgeR0zXv3WTI0Kf8hF7BfPRt9yry6MvX1dfp+IVVukA1Y41nHnUY
+X-Received: by 10.180.188.66 with SMTP id fy2mr544368wic.45.1392937735647;
+	Thu, 20 Feb 2014 15:08:55 -0800 (PST)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fm3sm2401669wib.8.2014.02.20.15.08.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 20 Feb 2014 15:08:54 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2014 12:57:25 -0800
-Message-Id: <1392929845-23411-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Cc: scott.garman@intel.com
-Subject: [PATCH] runqemu: Ensure ROOTFS path is absolute
+Date: Thu, 20 Feb 2014 23:08:51 +0000
+Message-Id: <1392937731-754-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] libglade: don't use gnome.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,34 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 20:57:26 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 23:08:57 -0000
 
-There is a problem if a relative path is passed to the kernel for NFS usage
-that it will not correctly find it, so ensure that the ROOTFS path is absolute.
+gnome.bbclass pulls in more functionality than this recipe needs (icon cache,
+MIME, GConf), so instead just use gnomebase.bbclass.
 
-[YOCTO #2807]
+[ YOCTO #5842 ]
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/runqemu | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-gnome/libglade/libglade_2.6.4.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 0db7ad6..57c5de4 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -462,7 +462,9 @@ if [ -z "$ROOTFS" -a "x$FSTYPE" != "xvmdk" ]; then
-         error "Unable to determine default rootfs for MACHINE [$MACHINE]"
-     fi
- fi
--# ROOTFS is now set for all cases
-+# ROOTFS is now set for all cases, now expand it to be an absolute path, it should exist at this point
-+
-+ROOTFS=`realpath $ROOTFS`
+diff --git a/meta/recipes-gnome/libglade/libglade_2.6.4.bb b/meta/recipes-gnome/libglade/libglade_2.6.4.bb
+index 72f4c56..681b856 100644
+--- a/meta/recipes-gnome/libglade/libglade_2.6.4.bb
++++ b/meta/recipes-gnome/libglade/libglade_2.6.4.bb
+@@ -11,7 +11,7 @@ SECTION = "libs"
+ PR = "r5"
+ DEPENDS = "zlib gdk-pixbuf gtk+"
  
- echo ""
- echo "Continuing with the following parameters:"
+-inherit autotools pkgconfig gnome gtk-doc
++inherit autotools pkgconfig gnomebase gtk-doc
+ 
+ SRC_URI += "file://glade-cruft.patch file://no-xml2.patch file://python_environment.patch"
+ 
 -- 
-1.8.3.1
+1.7.10.4
 
 
