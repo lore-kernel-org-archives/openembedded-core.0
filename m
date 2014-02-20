@@ -1,35 +1,30 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id A52586DC16
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 398536F002
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 13:03:34 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id kq14so1870665pab.31
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 05:03:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
-	:to:content-type;
-	bh=fYzoWm83DOP5iAQgNAy10YY7uOl92hZruXN2LkRgvLk=;
-	b=fSB/du8PuKhQnIP97O1eaX7nfYISdz+xIYgiAflY8vJzFl5GNNr0i/+BvecLB30u+0
-	2AWR+v1O4rJwXWBJjIjN4DO3W7ZdZWT8ftGwsst1PpUyM5Nt9kjjHSAK4DxtPdu6WKNl
-	obJ0wyGXbdnpIhNaNxd8NYJHknJamppFESiLfNyztSsX0CG46Zpnz+/rbTTHyNVwS92z
-	pO5DvJfQDlNncZfgyTOayePZGd0W9nOPVyO2xkGnTJLUc6518Rmfb0G5hRCBmFUZryXt
-	etPhO4vfS8KgdL9fuIYOH+JTdEjbIfWz8v/ntq/w9w5hFqGcRTX66GgfLACahGCyewo0
-	1Ejw==
-X-Gm-Message-State: ALoCoQmob2tAgasekhvTPGtsVfhwApnZ3xpi5VmdsxoDSlo9HLDPpvGw5MgI0z9Ukc5IAKtI2Ra2
-MIME-Version: 1.0
-X-Received: by 10.68.0.99 with SMTP id 3mr1948656pbd.68.1392901415277; Thu, 20
-	Feb 2014 05:03:35 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.21.228 with HTTP; Thu, 20 Feb 2014 05:03:35 -0800 (PST)
-Date: Thu, 20 Feb 2014 13:03:35 +0000
-X-Google-Sender-Auth: GAPezB2XflWeA6wsBjp4ZZG73Ss
-Message-ID: <CAOMwXhP68XUd-6ZSa3+t_OBMgr=mim0_9-yz0q1sNf1i90hgvA@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Removal of poky-feed-config-opkg_1.0.bb
+	Thu, 20 Feb 2014 14:30:46 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1KEUYv9007546; Thu, 20 Feb 2014 14:30:34 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CHBSbuZvLpQ8; Thu, 20 Feb 2014 14:30:34 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1KEUSg4007540
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 20 Feb 2014 14:30:30 GMT
+Message-ID: <1392906622.1560.1.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex DAMIAN <alexandru.damian@intel.com>
+Date: Thu, 20 Feb 2014 14:30:22 +0000
+In-Reply-To: <1392658389-19826-1-git-send-email-alexandru.damian@intel.com>
+References: <1392658389-19826-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] sstate: list missing files for toaster
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,16 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 13:03:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 20 Feb 2014 14:30:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 2014-02-17 at 17:33 +0000, Alex DAMIAN wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+> 
+> Toaster needs to record the attempts to restore
+> setscene tasks that don't have a sstate file.
+> 
+> We build a list of tasks for which we can't find an
+> sstate file, and if we're running under Toaster data
+> collection, we send it off with a MetadataEvent.
+> 
+> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+> ---
+>  meta/classes/sstate.bbclass | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 
-I had a quick discussion on IRC with Ross. Is there a reason against
-removing it?
+I'm wondering if we should perhaps do this in bitbake and add a setscene
+"missed" event type there based upon the return value of this function?
 
-../meta/recipes-devtools/opkg/opkg-config-base_1.0.bb seems to be
-already doing the job. Is there any compatibility to be kept?
+Ideally I'd like to be able to report the stats in knotty too.
 
-Cheers, L.
+Cheers,
+
+Richard
+
 
