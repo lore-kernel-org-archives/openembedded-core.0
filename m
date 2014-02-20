@@ -1,43 +1,45 @@
 Return-Path: <koen@dominion.thruhere.net>
 Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
 	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B54E6EFF8
+	by mail.openembedded.org (Postfix) with ESMTP id 52CF46F1E0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 06:51:27 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id bs8so1408280wib.12
+	Thu, 20 Feb 2014 06:52:03 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id bs8so1406685wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 22:51:27 -0800 (PST)
+	Wed, 19 Feb 2014 22:52:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:content-type:mime-version:subject:from
 	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
-	:to; bh=3miPVQumykx/fRrzKtitPMA876zf/sONqSBpU1foNqA=;
-	b=TwCQ2DJ42gajGXp7dARzDU7/wjJ85ksw0Y5Ndd0N6HPT/2/Yojtej0CgI0mYUuTbeg
-	lhbM0cPn1eVEg+TWfLpYMfqGyl+ZtSuuE0ONlz6di2SFn1Ps1isPStU+PXfN+XDWfeOw
-	2X9Y8Psmk5uByI8WOXV3pTRGhEpEfeeS0vz8PNX44sSA1jpQJwE3V7pDFbMFu4Wv50+V
-	AUqqns5L9xTITPO12Fg+Qefx5fP072jd1xTuUwQbWIGS7TKPRmshQiU2bqALJz0Sw6Vg
-	cwjECLS2r+qLFcP0/L/kbs0LBS+8AQTQNEHDMXlC/FHFgIIhnpkdC6BlQMi/GzjjZz2B
-	nOSA==
-X-Gm-Message-State: ALoCoQmW+Sg25Rc9+US8/RebRY3C5tJMrISYFn1ig32LFZrA9SDhA+yfM01MZa8NV6Cw7hpbX/9S
-X-Received: by 10.180.12.14 with SMTP id u14mr5446037wib.0.1392879087635;
-	Wed, 19 Feb 2014 22:51:27 -0800 (PST)
+	:to; bh=yHgYP+/JTHwtzkV5nHREhFhEj/rYzrDazM0k4z5MEoY=;
+	b=gPC2/sNdOEMMb6yNlAfaB/7YUKacbh8Zh7m62vzjazBtZb26ZBTwQtKmyJbpHbkgnL
+	bepbmne+qEKLHDL9clDIuAFiDkRC75dve/meB7Z8KFj0S5CGnIxpDxAcI/n4KHSQkE5m
+	wpIBV7/gAGo/TkY/IfAWBOIu7OMM4vErxuCxlLeRmi/1X3UDD/YhFV4foFbm1QVQGaDe
+	GwTcjQImOnBZk7bGBD/aUMU0UeEU0jd1kOuos77KMxNAQRhh2oSb/D52YnCRjuk4Dqhb
+	/+RF/KYjMrVp/7gCg7T70Wfkyp/elFpKuOpMePmm/m/wtRwv2alLvgmwdWtiXGYzfZKG
+	YJ3w==
+X-Gm-Message-State: ALoCoQkyLLUZM1RyZ+idDqMcKr2UnrX8OMHAmI+3jibE7VphSGQhjJCv+pr4zVxzZrZP0eOgL0Uu
+X-Received: by 10.194.57.239 with SMTP id l15mr189618wjq.40.1392879123784;
+	Wed, 19 Feb 2014 22:52:03 -0800 (PST)
 Received: from ?IPv6:2001:610:612::c69:26e9:6518:4aa6?
 	([2001:610:612:0:c69:26e9:6518:4aa6])
-	by mx.google.com with ESMTPSA id j9sm6463061wjz.13.2014.02.19.22.51.26
+	by mx.google.com with ESMTPSA id j9sm6463061wjz.13.2014.02.19.22.52.02
 	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 19 Feb 2014 22:51:26 -0800 (PST)
+	Wed, 19 Feb 2014 22:52:02 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
 From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <530529CA.6000204@opendreambox.org>
-Date: Thu, 20 Feb 2014 07:51:25 +0100
-Message-Id: <2B24AE58-6D97-48CF-BE81-D05B8EB05B16@dominion.thruhere.net>
-References: <1392799558-31118-1-git-send-email-koen.kooi@linaro.org>
-	<530529CA.6000204@opendreambox.org>
-To: Andreas Oberritter <obi@opendreambox.org>
+In-Reply-To: <1392824832.14081.274.camel@ted>
+Date: Thu, 20 Feb 2014 07:52:02 +0100
+Message-Id: <1D616F12-2D64-4760-A6D5-18996376F326@dominion.thruhere.net>
+References: <1392807290.14081.267.camel@ted> <20140219112630.GC3854@jama>
+	<20140219113705.GA9147@ad.chargestorm.se>
+	<1392824832.14081.274.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 X-Mailer: Apple Mail (2.1827)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: enable PAM at runtime based on DISTRO_FEATURES
+Cc: Anders Darander <anders@chargestorm.se>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: systemd version - release or git?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,45 +52,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 06:51:30 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 06:52:03 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-Op 19 feb. 2014, om 23:01 heeft Andreas Oberritter =
-<obi@opendreambox.org> het volgende geschreven:
+Op 19 feb. 2014, om 16:47 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
 
-> Hello Koen,
+> On Wed, 2014-02-19 at 12:37 +0100, Anders Darander wrote:
+>> * Martin Jansa <martin.jansa@gmail.com> [140219 12:26]:
+>>> On Wed, Feb 19, 2014 at 10:54:50AM +0000, Richard Purdie wrote:
+>>>> Any objections to defaulting to a git version?
+>>=20
+>>> I think we can wait few more days for new release:
+>>> =
+https://www.mail-archive.com/systemd-devel@lists.freedesktop.org/msg16738.=
+html
+>>=20
+>> I was just about to reply with the same e-mail link...
 >=20
-> On 19.02.2014 09:45, Koen Kooi wrote:
->> diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb =
-b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
->> index 9c0bb48..5b9ec10 100644
->> --- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
->> +++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
->> @@ -82,6 +82,8 @@ do_install_append () {
->> 	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" =
-=3D "pam" ]; then
->> 		install -d ${D}${sysconfdir}/pam.d
->> 		install -m 0755 ${WORKDIR}/sshd =
-${D}${sysconfdir}/pam.d/sshd
->> +		sed -i -e 's:#UsePAM no:UsePAM yes:' =
-${WORKDIR}/sshd_config
->> +		sed -i -e 's:#UsePAM no:UsePAM yes:' =
-${D}${sysconfdir}/ssh/sshd_config
->=20
-> is the first of the two new lines really necessary?
+> I asked about this a few days ago and scanned the archives and didn't
+> find it. Typically, they sent it out after I did that :)
 
-Yes, the recipe installs /etc/ssh/sshd_config in do_compile_append and  =
-/etc/ssh/sshd_config_readonly in do_install_append.
-
-regards,
-
-Koen
+And it has been released!
 
 >=20
-> Regards,
-> Andreas
+>>> but otherwise I don't have strong objections for switching to git
+>>> version temporary (if it really makes QA test results better).
+>>=20
+>> Otherwise, I don't have any strong feelings against a git version. =
+Not
+>> as long as it works as it should.
+>>=20
+>> One objection might be that it's easier for someone to update it to a
+>> strange version in between the regular releases. As long as we try to
+>> avoid making a release where systemd is too far of from a regular
+>> release, that shouldn't be any issue, though.
+>=20
+> I agree its worth waiting for the release if it really is than =
+imminent.
+> I'd previously not been able to find a commitment or schedule.
+>=20
+> It might be useful to have a git based recipe anyway for
+> debugging/testing...
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
