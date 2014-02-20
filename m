@@ -1,37 +1,20 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C11406EE90
+Return-Path: <valentin.popa@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FAE86F165
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 07:59:30 +0000 (UTC)
-Received: by mail-lb0-f175.google.com with SMTP id p9so1062203lbv.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 23:59:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=f7DswmvtHLbwrOB7pCA6ES+HnYIg5WAYPSMJhbOrj7k=;
-	b=CcIcPFKFByXNHbPPQrbjkWsUWT5yZEJ2706CP5CuYeyOnJfYM2pOFZ2r89RoqjVwn0
-	kD5ByNOdG1wo0JpIDA+XVVEomFIdRNsZuPmP9n5I3zPHTKZhhClHlIG8+sd++TOEI0Ut
-	Cv/PMe0Mt+wG/DtxEf6kBjGlkjpzC1kviN4KJadbKwhdyigUsye61B1jNbUs0j4WXOEp
-	OElsgoN5r3FyzmTyUweoTfnto7o9YExKX7zfIM+GTVouerd9OHxuSE+sDwX41FW6cJ04
-	hCv3FGhVP8bVOldW01s8841AnWjGm1P77LmB5ua6TMnCJNUkCQ7XLS5a551tVTjGgUCE
-	c5xw==
-X-Gm-Message-State: ALoCoQm2Z223w4iZBDC9CbduxeUSjFDYwrpE5Rqx8tJNgMrb5YxZffGrah3ejH4iB57ZEMwkizHc
-X-Received: by 10.112.142.161 with SMTP id rx1mr232214lbb.33.1392883170673;
-	Wed, 19 Feb 2014 23:59:30 -0800 (PST)
-Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
-	[91.152.78.194])
-	by mx.google.com with ESMTPSA id bl3sm3066771lbd.7.2014.02.19.23.59.29
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 19 Feb 2014 23:59:29 -0800 (PST)
-From: Fathi Boudra <fathi.boudra@linaro.org>
+	Thu, 20 Feb 2014 10:09:38 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Feb 2014 02:05:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,511,1389772800"; d="scan'208";a="458721286"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.47])
+	by orsmga001.jf.intel.com with ESMTP; 20 Feb 2014 02:09:36 -0800
+From: Valentin Popa <valentin.popa@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2014 09:59:21 +0200
-Message-Id: <1392883161-12070-1-git-send-email-fathi.boudra@linaro.org>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 1/1] git: update to 1.9.0 release
+Date: Thu, 20 Feb 2014 12:09:36 +0200
+Message-Id: <1392890976-22296-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH_V2] gtk+3: upgrade to 3.10.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +27,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 07:59:31 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 10:09:40 -0000
 
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+(*) removed patches that were already
+    commited upstream
+(*) added new patch to solve the build issue
+(*) changed the package URL because
+    the old one is unreliable.
+
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- meta/recipes-devtools/git/{git_1.8.5.2.bb => git_1.9.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/git/{git_1.8.5.2.bb => git_1.9.0.bb} (67%)
+ .../fix-build-when-wayland-backend-enabled.patch   | 43 ++++++++++++++++++++++
+ .../gtk+/gtk+3/no-x11-in-wayland.patch             | 32 ----------------
+ meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch | 42 ---------------------
+ .../gtk+/{gtk+3_3.8.2.bb => gtk+3_3.10.7.bb}       |  9 ++---
+ 4 files changed, 47 insertions(+), 79 deletions(-)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.8.2.bb => gtk+3_3.10.7.bb} (61%)
 
-diff --git a/meta/recipes-devtools/git/git_1.8.5.2.bb b/meta/recipes-devtools/git/git_1.9.0.bb
-similarity index 67%
-rename from meta/recipes-devtools/git/git_1.8.5.2.bb
-rename to meta/recipes-devtools/git/git_1.9.0.bb
-index 4777c46..4eb6c99 100644
---- a/meta/recipes-devtools/git/git_1.8.5.2.bb
-+++ b/meta/recipes-devtools/git/git_1.9.0.bb
-@@ -2,8 +2,8 @@ require git.inc
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch b/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
+new file mode 100644
+index 0000000..b4b1a09
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
+@@ -0,0 +1,43 @@
++Fix build when wayland backend enabled
++
++Upstream-Status: Submitted
++https://bugzilla.gnome.org/show_bug.cgi?id=710584
++
++Author: Emilio Pozuelo Monfort
++
++--- gtk+-3.10.7/gtk/gtkapplication.c
+++++ gtk+-3.10.7/gtk/gtkapplication.c
++@@ -144,7 +144,6 @@
++ 
++   gboolean register_session;
++ 
++-#ifdef GDK_WINDOWING_X11
++   guint next_id;
++ 
++   GDBusConnection *session_bus;
++@@ -161,7 +160,6 @@
++   GDBusProxy *client_proxy;
++   gchar *app_id;
++   gchar *client_path;
++-#endif
++ 
++ #ifdef GDK_WINDOWING_QUARTZ
++   GMenu *combined;
++@@ -299,6 +297,8 @@
++   g_free (application->priv->client_path);
++ }
++ 
+++#endif
+++
++ const gchar *
++ gtk_application_get_app_menu_object_path (GtkApplication *application)
++ {
++@@ -311,8 +311,6 @@
++   return application->priv->menubar_path;
++ }
++ 
++-#endif
++-
++ #ifdef GDK_WINDOWING_QUARTZ
++ 
++ typedef struct {
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch b/meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
+deleted file mode 100644
+index df0921a..0000000
+--- a/meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-The Wayland backend was including X11 headers, which won't work in a no-X11
+-distro.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 875b1d07ded377b20acbf1a10cae847f56de05b4 Mon Sep 17 00:00:00 2001
+-From: Matthias Clasen <mclasen@redhat.com>
+-Date: Thu, 23 May 2013 12:26:26 -0400
+-Subject: [PATCH] Don't include X11 headers in wayland
+-
+-The include of X11/keysyms.h in gdkdevice-wayland.c was just
+-a leftover.
+----
+- gdk/wayland/gdkdevice-wayland.c |    1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/gdk/wayland/gdkdevice-wayland.c b/gdk/wayland/gdkdevice-wayland.c
+-index c258be3..cd4a695 100644
+---- a/gdk/wayland/gdkdevice-wayland.c
+-+++ b/gdk/wayland/gdkdevice-wayland.c
+-@@ -32,7 +32,6 @@
+- #include "gdkdevicemanagerprivate.h"
+- 
+- #include <xkbcommon/xkbcommon.h>
+--#include <X11/keysym.h>
+- 
+- #include <sys/time.h>
+- #include <sys/mman.h>
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch b/meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
+deleted file mode 100644
+index fa0d0e6..0000000
+--- a/meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-Wayland 1.1 is enforcing the protocol whereas 1.0 was lenient.  Backport a patch
+-from git to fix repainting.
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-
+-From 0d2c4617203c8fe907c722c9cb53c0345e0405e7 Mon Sep 17 00:00:00 2001
+-From: Scott Moreau <oreaus@gmail.com>
+-Date: Sun, 10 Mar 2013 10:51:01 -0600
+-Subject: [PATCH] wayland: Always attach buffer before committing
+-
+-With recent changes in attach semantics, we always need to attach before
+-committing. Without this changes to the window contents to not get reflected
+-in the content of the surface.
+-
+-Signed-off-by: Rob Bradford <rob@linux.intel.com>
+----
+- gdk/wayland/gdkwindow-wayland.c |    7 -------
+- 1 file changed, 7 deletions(-)
+-
+-diff --git a/gdk/wayland/gdkwindow-wayland.c b/gdk/wayland/gdkwindow-wayland.c
+-index 112a1f4..fa01e90 100644
+---- a/gdk/wayland/gdkwindow-wayland.c
+-+++ b/gdk/wayland/gdkwindow-wayland.c
+-@@ -327,13 +327,6 @@ gdk_wayland_window_attach_image (GdkWindow *window)
+-   if (GDK_WINDOW_DESTROYED (window))
+-     return;
+- 
+--  /* The "drawn to" Cairo surface is the same as the Cairo surface from which
+--   * we are driving the buffer for the Wayland surface. Therefore we don't
+--   * need to do anything here
+--   */
+--  if (impl->server_surface == impl->cairo_surface)
+--    return;
+--
+-   /* The wayland surface is attached to a buffer that is from the old "drawn
+-    * to" surface. Unref the surface and restore the state.
+-    */
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb b/meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb
+similarity index 61%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb
+index 5db3745..9f8c6ab 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb
+@@ -2,13 +2,12 @@ require gtk+3.inc
  
- SRC_URI = "http://git-core.googlecode.com/files/git-${PV}.tar.gz"
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
--SRC_URI[md5sum] = "df8519044f9880f3687d863d99245282"
--SRC_URI[sha256sum] = "024694524b8be91fe29afca65bc3a9e40de1322dd5ef2b2c0babb6849c913e8a"
-+SRC_URI[md5sum] = "e16c14b27c644b8e0dd72bdb5ff77450"
-+SRC_URI[sha256sum] = "de3097fdc36d624ea6cf4bb853402fde781acdb860f12152c5eb879777389882"
+-SRC_URI = "http://download.gnome.org/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
++SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+            file://hardcoded_libtool.patch \
+-           file://no-x11-in-wayland.patch \
+-           file://wayland-attach.patch"
++           file://fix-build-when-wayland-backend-enabled.patch"
  
- EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
-                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-SRC_URI[md5sum] = "8e878e18fc385f2b813419dc7b40a968"
+-SRC_URI[sha256sum] = "1ca80c9c15a1df95d74cefb8c2afe4682ba272a4b489106f04877be2a7aff297"
++SRC_URI[md5sum] = "18a81944a8506231529a76bf2b68372b"
++SRC_URI[sha256sum] = "b7e9de15385031cff43897e7e59f6692eaabf500f36eef80e6b9d6486ad49427"
+ 
+ S = "${WORKDIR}/gtk+-${PV}"
+ 
 -- 
-1.8.1.2
+1.8.3.2
 
 
