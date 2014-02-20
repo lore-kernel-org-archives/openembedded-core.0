@@ -1,34 +1,35 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id A526E6C732
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 601986EC88
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 16:41:57 +0000 (UTC)
-Received: by mail-ve0-f180.google.com with SMTP id cz12so821215veb.25
+	Thu, 20 Feb 2014 16:59:36 +0000 (UTC)
+Received: by mail-qc0-f174.google.com with SMTP id x13so3546475qcv.19
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 08:41:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=b9ch+89wNAsBl+T1LmjYc/xo1B6IpteOHRW7HahN0l4=;
-	b=PwWYyHwJIFUw7FBTIKdwwyy/Sj9coBbIcCPXWj9DeeyefYkDlx2ArRGDrkeBziUXs/
-	N8NWWHZc6zEfnQqLn1CsYhm7pt3UCq30lQyqjMGNhBlqvTnvbj0W+KJnPal7+I3ci8Sa
-	I3VSJ68L2PAuoEGtOjJNqNzJcXJsP698ggYqI/oECsGR1UCC5/sRr0UMKpCszwUit6oe
-	QNLy91BSd6ytNcDUlL0wy3AKIrkeuBeePHXYO1NCmv7fWiGzI0zfpN3mhC82WrudsYwY
-	jlC+Nx/cyVMA1x2cyd30TzqF/JXaWPsDlaNWPSlYADAQdRmMlGj5H46uSMvTCSBq/c/B
-	OB7g==
-X-Received: by 10.220.84.193 with SMTP id k1mr1545799vcl.64.1392914517621;
-	Thu, 20 Feb 2014 08:41:57 -0800 (PST)
+	Thu, 20 Feb 2014 08:59:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=frBP1IgGwTakY+L/BNfeceKpNWJoQX6dAEA5A/0FZnE=;
+	b=OkUT3/h+UTHwrOAC5vcFWzadKLcKCbDgYs6zWNw+ZS7mo+4xnEXu3uPcBw4C0EOuTW
+	sUwlvwA7fhBIztPWxRBlUkPr/+1Qq4V3V6HdgYhBBTqx6AphYF4yN+x9KxGONofy5kyG
+	WO1/WY9R9qQTVOGOmNnHCCB/fN0CqRR91bO/8MfK5bnQ9ToAIgwMBayc/l8i+jmDP36R
+	XZPiKBgOAk6SvFIjLfx7+dbhGAlTdm075vQ2O/HHsQFYxlsimevwGCQk1nKUa1mZWPhn
+	fgv0YeNhwk2Rfa7DTL/0KHXzW8yZmFmurAqr0nQhIgEUGwl3zNb30aFrKNreXsufaKNY
+	zPLg==
+X-Gm-Message-State: ALoCoQl82TmnoAuGlYI1S77rqI0sLxHBnCM6YCk8slxPrH+wAHXd1Q8v4evLB/wcNam9bFmt9KdT
+X-Received: by 10.224.98.139 with SMTP id q11mr3096237qan.64.1392915577325;
+	Thu, 20 Feb 2014 08:59:37 -0800 (PST)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.239.135 with HTTP; Thu, 20 Feb 2014 08:41:17 -0800 (PST)
-In-Reply-To: <CAOMwXhP68XUd-6ZSa3+t_OBMgr=mim0_9-yz0q1sNf1i90hgvA@mail.gmail.com>
+Received: by 10.140.48.79 with HTTP; Thu, 20 Feb 2014 08:59:17 -0800 (PST)
+In-Reply-To: <CANyK_8d2i15W5s9-uAGWcG9kBcb1WMZDJovC-HAhzVwKuqUk4Q@mail.gmail.com>
 References: <CAOMwXhP68XUd-6ZSa3+t_OBMgr=mim0_9-yz0q1sNf1i90hgvA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 20 Feb 2014 16:41:17 +0000
-X-Google-Sender-Auth: Vgl3srfQWl_0RUFm4uCLvdMe7Ag
-Message-ID: <CANyK_8d2i15W5s9-uAGWcG9kBcb1WMZDJovC-HAhzVwKuqUk4Q@mail.gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
+	<CANyK_8d2i15W5s9-uAGWcG9kBcb1WMZDJovC-HAhzVwKuqUk4Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Feb 2014 16:59:17 +0000
+Message-ID: <CAJTo0LaeE+oqgU=U+eHvJ-X+ceNQnonV_Xcx0Y2ASes2JHe-wA@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Removal of poky-feed-config-opkg_1.0.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,29 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 16:42:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 20 Feb 2014 16:59:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 20 February 2014 13:03, Laszlo Papp <lpapp@kde.org> wrote:
-> Hi,
->
-> I had a quick discussion on IRC with Ross. Is there a reason against
-> removing it?
->
-> ../meta/recipes-devtools/opkg/opkg-config-base_1.0.bb seems to be
-> already doing the job. Is there any compatibility to be kept?
->
+On 20 February 2014 16:41, Paul Barker <paul@paulbarker.me.uk> wrote:
+> It does duplicate the creation of "${sysconfdir}/opkg/arch.conf" and
+> so that bit should go. I think it should probably be replaced by a
+> template recipe in meta-skeleton which shows a developer how to create
+> their own feed config in a recipe.
 
-It does duplicate the creation of "${sysconfdir}/opkg/arch.conf" and
-so that bit should go. I think it should probably be replaced by a
-template recipe in meta-skeleton which shows a developer how to create
-their own feed config in a recipe.
+Note that rootfs_ipk also has a way of constructing a feed config, and
+there's a recipe in meta-oe that constructs a feed config.
 
-Thanks,
+All but one of these need to go. As far as I'm aware they all only
+work for opkg too, so they should all go and be replaced with one
+cross-packaging recipe.
 
--- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Ross
 
