@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CE4836EE8A
+	by mail.openembedded.org (Postfix) with ESMTP id 09F8D6EE5C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 07:07:06 +0000 (UTC)
+	Thu, 20 Feb 2014 07:07:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1K776PG023686
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1K77BYY023689
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Feb 2014 23:07:06 -0800 (PST)
+	Wed, 19 Feb 2014 23:07:11 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 19 Feb 2014 23:07:06 -0800
+	14.2.347.0; Wed, 19 Feb 2014 23:07:11 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Feb 2014 15:06:51 +0800
-Message-ID: <754f90d6ffc10d27c5a9249837f2527f8bb44b68.1392877826.git.hongxu.jia@windriver.com>
+Date: Thu, 20 Feb 2014 15:06:53 +0800
+Message-ID: <df8d61e28d120da0bfc8e2f105e81f528a08d35c.1392877826.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1392877826.git.hongxu.jia@windriver.com>
 References: <cover.1392877826.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 1/5] manifest.py: add create_full for OpkgManifest class
+Subject: [PATCH 3/5] rootfs.py: support ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,140 +33,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 07:07:07 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 07:07:12 -0000
 Content-Type: text/plain
 
-The function create_full creates the manifest after the package in
-initial manifest has been dummy installed. It lists all *to be
-installed* packages. There is no real installation, just a test.
+The incremental image generation is based on the previous existing
+image, adds new packages, upgrades existing packages, and removes unused
+packages.
 
 [YOCTO #1894]
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/lib/oe/manifest.py | 65 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 64 insertions(+), 1 deletion(-)
+ meta/lib/oe/rootfs.py | 52 ++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 49 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
-index a4bc04b..6e40a9f 100644
---- a/meta/lib/oe/manifest.py
-+++ b/meta/lib/oe/manifest.py
-@@ -1,6 +1,8 @@
- from abc import ABCMeta, abstractmethod
-+from oe.package_manager import *
- import os
- import re
-+import bb
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 3bcb812..93106c2 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -438,13 +438,25 @@ class OpkgRootfs(Rootfs):
+     def __init__(self, d, manifest_dir):
+         super(OpkgRootfs, self).__init__(d)
  
+-        bb.utils.remove(self.image_rootfs, True)
+-        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
+         self.manifest = OpkgManifest(d, manifest_dir)
+         self.opkg_conf = self.d.getVar("IPKGCONF_TARGET", True)
+         self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True)
  
- class Manifest(object):
-@@ -69,6 +71,7 @@ class Manifest(object):
- 
-         self.initial_manifest = os.path.join(self.manifest_dir, "%s_initial_manifest" % manifest_type)
-         self.final_manifest = os.path.join(self.manifest_dir, "%s_final_manifest" % manifest_type)
-+        self.full_manifest = os.path.join(self.manifest_dir, "%s_full_manifest" % manifest_type)
- 
-         # packages in the following vars will be split in 'must install' and
-         # 'multilib'
-@@ -128,6 +131,15 @@ class Manifest(object):
-         pass
- 
-     """
-+    This creates the manifest after the package in initial manifest has been
-+    dummy installed. It lists all *to be installed* packages. There is no real
-+    installation, just a test.
-+    """
-+    @abstractmethod
-+    def create_full(self):
-+        pass
+-        self.pm = OpkgPM(d, self.image_rootfs, self.opkg_conf, self.pkg_archs)
++        self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN', True) or ""
++        if self.inc_opkg_image_gen != '1':
++            bb.utils.remove(self.image_rootfs, True)
++            self.pm = OpkgPM(d,
++                             self.image_rootfs,
++                             self.opkg_conf,
++                             self.pkg_archs)
++        else:
++            self.pm = OpkgPM(d,
++                             self.image_rootfs,
++                             self.opkg_conf,
++                             self.pkg_archs)
++            self.pm.recover_packaging_data()
 +
-+    """
-     The following function parses an initial manifest and returns a dictionary
-     object with the must install, attempt only, multilib and language packages.
-     """
-@@ -158,6 +170,22 @@ class Manifest(object):
++        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
  
-         return pkgs
+     """
+     This function was reused from the old implementation.
+@@ -508,6 +520,34 @@ class OpkgRootfs(Rootfs):
+ 
+         self._multilib_sanity_test(dirs)
  
 +    '''
-+    This following function parses a full manifest and return a list
-+    object with packages.
++    While ipk incremental image generation is enabled, it will remove the
++    unneeded pkgs by comparing the old full manifest in previous existing
++    image and the new full manifest in the current image.
 +    '''
-+    def parse_full_manifest(self):
-+        installed_pkgs = list()
-+        if not os.path.exists(self.full_manifest):
-+            bb.note('full manifest not exist')
-+            return installed_pkgs
++    def _create_incremental(self, pkgs_initial_install):
++        if self.inc_opkg_image_gen == "1":
++            # Parse full manifest in previous existing image creation session
++            old_full_manifest = self.manifest.parse_full_manifest()
 +
-+        with open(self.full_manifest, 'r') as manifest:
-+            for pkg in manifest.read().split('\n'):
-+                installed_pkgs.append(pkg.strip())
++            # Create full manifest for the current image session, the old one
++            # will be replaced by the new one.
++            self.manifest.create_full()
 +
-+        return installed_pkgs
++            # Parse full manifest in current image creation session
++            new_full_manifest = self.manifest.parse_full_manifest()
 +
++            pkg_to_remove = list()
++            for pkg in old_full_manifest:
++                if pkg not in new_full_manifest:
++                    pkg_to_remove.append(pkg)
++
++            self.pm.update()
++
++            if pkg_to_remove != []:
++                bb.note('decremental removed: %s' % ' '.join(pkg_to_remove))
++                self.pm.remove(pkg_to_remove)
++
+     def _create(self):
+         pkgs_to_install = self.manifest.parse_initial_manifest()
+         opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS', True)
+@@ -518,6 +558,9 @@ class OpkgRootfs(Rootfs):
+         if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS', True) or "") != "1":
+             self.pm.write_index()
  
- class RpmManifest(Manifest):
-     """
-@@ -202,10 +230,12 @@ class RpmManifest(Manifest):
-                 for pkg in pkgs[pkg_type].split():
-                     manifest.write("%s,%s\n" % (pkg_type, pkg))
++        if self.inc_opkg_image_gen == "1":
++            self._create_incremental(pkgs_to_install)
++
+         execute_pre_post_process(self.d, opkg_pre_process_cmds)
  
--
-     def create_final(self):
-         pass
+         self.pm.update()
+@@ -540,6 +583,9 @@ class OpkgRootfs(Rootfs):
+         execute_pre_post_process(self.d, opkg_post_process_cmds)
+         execute_pre_post_process(self.d, rootfs_post_install_cmds)
  
-+    def create_full(self):
-+        pass
++        if self.inc_opkg_image_gen == "1":
++            self.pm.backup_packaging_data()
 +
- 
- class OpkgManifest(Manifest):
-     """
-@@ -253,6 +283,36 @@ class OpkgManifest(Manifest):
-     def create_final(self):
-         pass
- 
-+    def create_full(self):
-+        if not os.path.exists(self.initial_manifest):
-+            self.create_initial()
-+
-+        initial_manifest = self.parse_initial_manifest()
-+        pkgs_to_install = list()
-+        for pkg_type in initial_manifest:
-+            pkgs_to_install += initial_manifest[pkg_type]
-+        if len(pkgs_to_install) == 0:
-+            return
-+
-+        image_rootfs = self.d.expand("${T}/opkg")
-+        opkg_conf = self.d.getVar("IPKGCONF_TARGET", True)
-+        pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True)
-+        pm = OpkgPM(self.d, image_rootfs, opkg_conf, pkg_archs)
-+
-+        pm.update()
-+        pm.handle_bad_recommendations()
-+        output = pm.dummy_install(pkgs_to_install)
-+
-+        with open(self.full_manifest, 'w+') as manifest:
-+            pkg_re = re.compile('^Installing ([^ ]+) [^ ].*')
-+            for line in set(output.split('\n')):
-+                m = pkg_re.match(line)
-+                if m:
-+                    manifest.write(m.group(1) + '\n')
-+
-+        bb.utils.remove(image_rootfs, True)
-+        return
-+
- 
- class DpkgManifest(Manifest):
-     def create_initial(self):
-@@ -272,6 +332,9 @@ class DpkgManifest(Manifest):
-     def create_final(self):
-         pass
- 
-+    def create_full(self):
-+        pass
-+
- 
- def create_manifest(d, final_manifest=False, manifest_dir=None,
-                     manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
+     def _get_delayed_postinsts(self):
+         pkg_list = []
+         status_file = os.path.join(self.image_rootfs,
 -- 
 1.8.1.2
 
