@@ -1,26 +1,36 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E966A6F1E0
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 376B16F1ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 07:07:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1K77Fo0023692
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Feb 2014 23:07:15 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 19 Feb 2014 23:07:15 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Feb 2014 15:06:55 +0800
-Message-ID: <462aa5e46663d9a7a47f69649e716dbecedb20f7.1392877826.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1392877826.git.hongxu.jia@windriver.com>
-References: <cover.1392877826.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 5/5] rootfs.py: support BAD_RECOMMENDATIONS for ipk incremental image generation
+	Thu, 20 Feb 2014 07:07:26 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id k14so281611wgh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Feb 2014 23:07:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=sTSTV8Y92riQhe/Qsdg4/eUO5Vs7s1HFpz2wH8BUA3o=;
+	b=GZj5d8A3afwz29sTVXi9LwyZnGPB7er2fpJhlHLwBVnkG1git+zWRQdBooMBcVVhxh
+	8mVCItcE7SaarpT3mtRfDL354J5JRpneVADM5gj2K9VcLejJ8xy3Xdc1LIlB7HFCi3/1
+	hWRLof02iCXzaNd/4xZ2i65ddI+YLnH8/4aeFtmRtJPaYSDtqo5uonjKfe3GAwhhp2+F
+	Zu+xZr674liWXCRreVMnjK5ZiG2SMYNdJaJBrY/ZjAM1zCw1c9hgdvmMaOi7nkTqfss7
+	sPkJNIytZmPDQNq4avBgA2LWQDdhYDFiO5Vh7cIJlT+pFrnpPyBafJTbzt+aeRWBqHXP
+	uihQ==
+X-Gm-Message-State: ALoCoQkU4gTRkUT9ynP72jtHAOKxPbg23yZL5ebG3jXH94QYluv3QJkPDMPIfYV99I8DEim1vpmk
+X-Received: by 10.194.170.133 with SMTP id am5mr246519wjc.42.1392880046945;
+	Wed, 19 Feb 2014 23:07:26 -0800 (PST)
+Received: from localhost ([2001:610:612:0:5e51:4fff:fec8:7c15])
+	by mx.google.com with ESMTPSA id
+	ff7sm58841831wic.10.2014.02.19.23.07.25 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 19 Feb 2014 23:07:26 -0800 (PST)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Feb 2014 08:07:22 +0100
+Message-Id: <1392880042-22584-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.8.4.2
+Cc: Koen Kooi <koen@dominion.thruhere.net>, Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCHv2] openssh: enable PAM at runtime based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 07:07:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Feb 2014 07:07:27 -0000
 
-While incremental image generation enabled and the previous image is
-existed, if BAD_RECOMMENDATIONS is changed, the operation on the
-existing image is complicated, so remove the existing image in this
-situation.
+From: Koen Kooi <koen@dominion.thruhere.net>
 
-The same with PACKAGE_EXCLUDE and NO_RECOMMENDATIONS.
+Everything is setup to use PAM except for the server config. If 'pam' is
+in DISTRO_FEATURES the configs will be changed to enable it.
 
-[YOCTO #1894]
+Syslog will now show:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+	Feb 19 09:28:36 beast sshd[2980]: pam_unix(sshd:session): session opened for user koen by (uid=0)
+
+And more importantly:
+
+	koen@beast:~$ loginctl
+	   SESSION        UID USER             SEAT
+	        c1       1000 koen             seat0
+	        c3       1000 koen             seat0
+	       c13       1000 koen
+
+	3 sessions listed.
+
+Systemd now registers the session properly so it won't kill things like 'screen'
+and 'tmux' when disconnecting the ssh session.
+
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- meta/lib/oe/rootfs.py | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/openssh/openssh_6.4p1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 6120bce..80be490 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -445,7 +445,7 @@ class OpkgRootfs(Rootfs):
-         self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True)
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+index 9c0bb48..b5e84d4 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
+@@ -80,8 +80,8 @@ do_compile_append () {
  
-         self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN', True) or ""
--        if self.inc_opkg_image_gen != '1':
-+        if self._remove_existing_image():
-             bb.utils.remove(self.image_rootfs, True)
-             self.pm = OpkgPM(d,
-                              self.image_rootfs,
-@@ -595,6 +595,33 @@ class OpkgRootfs(Rootfs):
-                 bb.note('decremental removed: %s' % ' '.join(pkg_to_remove))
-                 self.pm.remove(pkg_to_remove)
+ do_install_append () {
+ 	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
+-		install -d ${D}${sysconfdir}/pam.d
+-		install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
++		install -D -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
++		sed -i -e 's:#UsePAM no:UsePAM yes:' ${WORKDIR}/sshd_config ${D}${sysconfdir}/ssh/sshd_config
+ 	fi
  
-+    '''
-+    Compare with previous existing image creation, if some conditions
-+    triggered, the previous existing image should be removed.
-+    The conditions include any of 'PACKAGE_EXCLUDE, NO_RECOMMENDATIONS
-+    and BAD_RECOMMENDATIONS' has been changed.
-+    '''
-+    def _remove_existing_image(self):
-+        if self.inc_opkg_image_gen != "1":
-+            return True
-+
-+        vars_list_file = self.d.expand('${T}/vars_list')
-+
-+        old_vars_list = ""
-+        if os.path.exists(vars_list_file):
-+            old_vars_list = open(vars_list_file, 'r+').read()
-+
-+        new_vars_list = '%s:%s:%s\n' % \
-+                ((self.d.getVar('BAD_RECOMMENDATIONS', True) or '').strip(),
-+                 (self.d.getVar('NO_RECOMMENDATIONS', True) or '').strip(),
-+                 (self.d.getVar('PACKAGE_EXCLUDE', True) or '').strip())
-+        open(vars_list_file, 'w+').write(new_vars_list)
-+
-+        if old_vars_list != new_vars_list:
-+            return True
-+
-+        return False
-+
-     def _create(self):
-         pkgs_to_install = self.manifest.parse_initial_manifest()
-         opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS', True)
+ 	install -d ${D}${sysconfdir}/init.d
 -- 
-1.8.1.2
+1.8.4.2
 
 
