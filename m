@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 27AD06F1D3
+	by mail.openembedded.org (Postfix) with ESMTP id 67D006EE5C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 07:07:09 +0000 (UTC)
+	Thu, 20 Feb 2014 07:07:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1K779UZ006466
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1K77DeM006470
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Feb 2014 23:07:09 -0800 (PST)
+	Wed, 19 Feb 2014 23:07:13 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 19 Feb 2014 23:07:09 -0800
+	14.2.347.0; Wed, 19 Feb 2014 23:07:13 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Feb 2014 15:06:52 +0800
-Message-ID: <24bf195849ad2eb34cb1b91ef54e51ac9b3da31f.1392877826.git.hongxu.jia@windriver.com>
+Date: Thu, 20 Feb 2014 15:06:54 +0800
+Message-ID: <272f158e14f4673da13b948ccd09d6cbc38b5792.1392877826.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1392877826.git.hongxu.jia@windriver.com>
 References: <cover.1392877826.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 2/5] package_manager.py: support ipk incremental image generation
+Subject: [PATCH 4/5] rootfs.py: tweak _multilib_sanity_test for ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,165 +33,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 07:07:12 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 07:07:14 -0000
 Content-Type: text/plain
 
-Add the following three functions to OpkgPM class:
-- The 'dummy_install' is used to dummy install pkgs, and returns the log
-  of output;
-- The 'backup_packaging_data' is used to back up the current opkg
-  database;
-- The 'recover_packaging_data' is used to recover the opkg database
-  which backed up by the previous image creation;
+The _multilib_sanity_test installs multilib packages in a temporary
+root fs, and compare with the current image to figure out duplicated
+files that come from different packages.
 
-Tweak 'remove' function in OpkgPM class, which the options for remove
-with dependencies was incorrect.
+While incremental image generation enabled and the previous image
+was existed, there was an Multilib check error:
+...
+ERROR: Multilib check error: duplicate files tmp/work/qemux86_64-poky-
+linux/core-image-minimal/1.0-r0/multilib/lib32/lib/libc.so.6 tmp/work/
+qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/lib/libc.so.6
+is not the same
+...
 
-Tweak 'handle_bad_recommendations' function in OpkgPM class:
-- Fix none value check;
-- Add the existance check of opkg status file;
-- Fix the log format typo;
+The reason is the file in the existing image has been prelinked by
+previous image generation and the file in a temporary root fs is not
+prelinked, even though both of them came from the same package, the
+Multilib check failed.
 
 [YOCTO #1894]
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/lib/oe/package_manager.py | 66 +++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 59 insertions(+), 7 deletions(-)
+ meta/lib/oe/rootfs.py | 51 +++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 49 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 6dc8fbd..eb96727 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -934,12 +934,13 @@ class RpmPM(PackageManager):
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 93106c2..6120bce 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -3,6 +3,8 @@ from oe.utils import execute_pre_post_process
+ from oe.utils import contains as base_contains
+ from oe.package_manager import *
+ from oe.manifest import *
++import oe.path
++import filecmp
+ import shutil
+ import os
+ import subprocess
+@@ -458,13 +460,58 @@ class OpkgRootfs(Rootfs):
  
+         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
  
- class OpkgPM(PackageManager):
--    def __init__(self, d, target_rootfs, config_file, archs):
-+    def __init__(self, d, target_rootfs, config_file, archs, task_name='target'):
-         super(OpkgPM, self).__init__(d)
- 
-         self.target_rootfs = target_rootfs
-         self.config_file = config_file
-         self.pkg_archs = archs
-+        self.task_name = task_name
- 
-         self.deploy_dir = self.d.getVar("DEPLOY_DIR_IPK", True)
-         self.deploy_lock_file = os.path.join(self.deploy_dir, "deploy.lock")
-@@ -956,6 +957,10 @@ class OpkgPM(PackageManager):
- 
-         bb.utils.mkdirhier(self.opkg_dir)
- 
-+        self.saved_opkg_dir = self.d.expand('${T}/saved/%s' % self.task_name)
-+        if not os.path.exists(self.d.expand('${T}/saved')):
-+            bb.utils.mkdirhier(self.d.expand('${T}/saved'))
++    def _prelink_file(self, root_dir, filename):
++        bb.note('prelink %s in %s' % (filename, root_dir))
++        prelink_cfg = oe.path.join(root_dir,
++                                   self.d.expand('${sysconfdir}/prelink.conf'))
++        if not os.path.exists(prelink_cfg):
++            shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
++                        prelink_cfg)
 +
-         if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS', True) or "") != "1":
-             self._create_config()
-         else:
-@@ -1075,7 +1080,9 @@ class OpkgPM(PackageManager):
- 
-         try:
-             bb.note("Installing the following packages: %s" % ' '.join(pkgs))
--            subprocess.check_output(cmd.split())
-+            bb.note(cmd)
-+            output = subprocess.check_output(cmd.split())
-+            bb.note(output)
-         except subprocess.CalledProcessError as e:
-             (bb.fatal, bb.note)[attempt_only]("Unable to install packages. "
-                                               "Command '%s' returned %d:\n%s" %
-@@ -1083,14 +1090,16 @@ class OpkgPM(PackageManager):
- 
-     def remove(self, pkgs, with_dependencies=True):
-         if with_dependencies:
--            cmd = "%s %s remove %s" % \
-+            cmd = "%s %s --force-depends --force-remove --force-removal-of-dependent-packages remove %s" % \
-                 (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
-         else:
-             cmd = "%s %s --force-depends remove %s" % \
-                 (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
- 
-         try:
--            subprocess.check_output(cmd.split())
-+            bb.note(cmd)
-+            output = subprocess.check_output(cmd.split())
-+            bb.note(output)
-         except subprocess.CalledProcessError as e:
-             bb.fatal("Unable to remove packages. Command '%s' "
-                      "returned %d:\n%s" % (e.cmd, e.returncode, e.output))
-@@ -1146,12 +1155,17 @@ class OpkgPM(PackageManager):
-         return output
- 
-     def handle_bad_recommendations(self):
--        bad_recommendations = self.d.getVar("BAD_RECOMMENDATIONS", True)
--        if bad_recommendations is None:
-+        bad_recommendations = self.d.getVar("BAD_RECOMMENDATIONS", True) or ""
-+        if bad_recommendations.strip() == "":
-             return
- 
-         status_file = os.path.join(self.opkg_dir, "status")
- 
-+        # If status file existed, it means the bad recommendations has already
-+        # been handled
-+        if os.path.exists(status_file):
-+            return
++        cmd_prelink = self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
++        self._exec_shell_cmd([cmd_prelink,
++                              '--root',
++                              root_dir,
++                              '-amR',
++                              '-N',
++                              '-c',
++                              self.d.expand('${sysconfdir}/prelink.conf')])
 +
-         cmd = "%s %s info " % (self.opkg_cmd, self.opkg_args)
- 
-         with open(status_file, "w+") as status:
-@@ -1165,7 +1179,7 @@ class OpkgPM(PackageManager):
-                              "returned %d:\n%s" % (pkg_info, e.returncode, e.output))
- 
-                 if output == "":
--                    bb.note("Requested ignored recommendation $i is "
-+                    bb.note("Requested ignored recommendation %s is "
-                             "not a package" % pkg)
-                     continue
- 
-@@ -1175,6 +1189,44 @@ class OpkgPM(PackageManager):
-                     else:
-                         status.write(line + "\n")
- 
 +    '''
-+    The following function dummy installs pkgs and returns the log of output.
++    Compare two files with the same key twice to see if they are equal.
++    If they are not equal, it means they are duplicated and come from
++    different packages.
++    1st: Comapre them directly;
++    2nd: While incremental image creation is enabled, one of the
++         files could be probaly prelinked in the previous image
++         creation and the file has been changed, so we need to
++         prelink the other one and compare them.
 +    '''
-+    def dummy_install(self, pkgs):
-+        if len(pkgs) == 0:
-+            return
++    def _file_equal(self, key, f1, f2):
 +
-+        # Simulate installation
-+        cmd = "%s %s --noaction install %s " % (self.opkg_cmd,
-+                                                self.opkg_args,
-+                                                ' '.join(pkgs))
-+        try:
-+            output = subprocess.check_output(cmd, shell=True)
-+        except subprocess.CalledProcessError as e:
-+            bb.note("Unable to dummy install packages. Command '%s' "
-+                    "returned %d:\n%s" % (cmd, e.returncode, e.output))
++        # Both of them are not prelinked
++        if filecmp.cmp(f1, f2):
++            return True
 +
-+        return output
++        if self.image_rootfs not in f1:
++            self._prelink_file(f1.replace(key, ''), f1)
 +
-+    def backup_packaging_data(self):
-+        # Save the opkglib for increment ipk image generation
-+        if os.path.exists(self.saved_opkg_dir):
-+            bb.utils.remove(self.saved_opkg_dir, True)
-+        shutil.copytree(self.opkg_dir,
-+                        self.saved_opkg_dir,
-+                        symlinks=True)
++        if self.image_rootfs not in f2:
++            self._prelink_file(f2.replace(key, ''), f2)
 +
-+    def recover_packaging_data(self):
-+        # Move the opkglib back
-+        if os.path.exists(self.saved_opkg_dir):
-+            if os.path.exists(self.opkg_dir):
-+                bb.utils.remove(self.opkg_dir, True)
++        # Both of them are prelinked
++        if filecmp.cmp(f1, f2):
++            return True
 +
-+            bb.note('Recover packaging data')
-+            shutil.copytree(self.saved_opkg_dir,
-+                            self.opkg_dir,
-+                            symlinks=True)
++        # Not equal
++        return False
 +
+     """
+     This function was reused from the old implementation.
+     See commit: "image.bbclass: Added variables for multilib support." by
+     Lianhao Lu.
+     """
+     def _multilib_sanity_test(self, dirs):
+-        import filecmp
  
- class DpkgPM(PackageManager):
-     def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None):
+         allow_replace = self.d.getVar("MULTILIBRE_ALLOW_REP", True)
+         if allow_replace is None:
+@@ -488,7 +535,7 @@ class OpkgRootfs(Rootfs):
+                         else:
+                             if os.path.exists(files[key]) and \
+                                os.path.exists(item) and \
+-                               not filecmp.cmp(files[key], item):
++                               not self._file_equal(key, files[key], item):
+                                 valid = False
+                                 bb.fatal("%s duplicate files %s %s is not the same\n" %
+                                          (error_prompt, item, files[key]))
 -- 
 1.8.1.2
 
