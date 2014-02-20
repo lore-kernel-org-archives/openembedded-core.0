@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 67D006EE5C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E966A6F1E0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 07:07:14 +0000 (UTC)
+	Thu, 20 Feb 2014 07:07:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1K77DeM006470
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1K77Fo0023692
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Feb 2014 23:07:13 -0800 (PST)
+	Wed, 19 Feb 2014 23:07:15 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 19 Feb 2014 23:07:13 -0800
+	14.2.347.0; Wed, 19 Feb 2014 23:07:15 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Feb 2014 15:06:54 +0800
-Message-ID: <272f158e14f4673da13b948ccd09d6cbc38b5792.1392877826.git.hongxu.jia@windriver.com>
+Date: Thu, 20 Feb 2014 15:06:55 +0800
+Message-ID: <462aa5e46663d9a7a47f69649e716dbecedb20f7.1392877826.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1392877826.git.hongxu.jia@windriver.com>
 References: <cover.1392877826.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH 4/5] rootfs.py: tweak _multilib_sanity_test for ipk incremental image generation
+Subject: [PATCH 5/5] rootfs.py: support BAD_RECOMMENDATIONS for ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,115 +33,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 07:07:14 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 07:07:16 -0000
 Content-Type: text/plain
 
-The _multilib_sanity_test installs multilib packages in a temporary
-root fs, and compare with the current image to figure out duplicated
-files that come from different packages.
+While incremental image generation enabled and the previous image is
+existed, if BAD_RECOMMENDATIONS is changed, the operation on the
+existing image is complicated, so remove the existing image in this
+situation.
 
-While incremental image generation enabled and the previous image
-was existed, there was an Multilib check error:
-...
-ERROR: Multilib check error: duplicate files tmp/work/qemux86_64-poky-
-linux/core-image-minimal/1.0-r0/multilib/lib32/lib/libc.so.6 tmp/work/
-qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/lib/libc.so.6
-is not the same
-...
-
-The reason is the file in the existing image has been prelinked by
-previous image generation and the file in a temporary root fs is not
-prelinked, even though both of them came from the same package, the
-Multilib check failed.
+The same with PACKAGE_EXCLUDE and NO_RECOMMENDATIONS.
 
 [YOCTO #1894]
+
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/lib/oe/rootfs.py | 51 +++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 49 insertions(+), 2 deletions(-)
+ meta/lib/oe/rootfs.py | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 93106c2..6120bce 100644
+index 6120bce..80be490 100644
 --- a/meta/lib/oe/rootfs.py
 +++ b/meta/lib/oe/rootfs.py
-@@ -3,6 +3,8 @@ from oe.utils import execute_pre_post_process
- from oe.utils import contains as base_contains
- from oe.package_manager import *
- from oe.manifest import *
-+import oe.path
-+import filecmp
- import shutil
- import os
- import subprocess
-@@ -458,13 +460,58 @@ class OpkgRootfs(Rootfs):
+@@ -445,7 +445,7 @@ class OpkgRootfs(Rootfs):
+         self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True)
  
-         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
+         self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN', True) or ""
+-        if self.inc_opkg_image_gen != '1':
++        if self._remove_existing_image():
+             bb.utils.remove(self.image_rootfs, True)
+             self.pm = OpkgPM(d,
+                              self.image_rootfs,
+@@ -595,6 +595,33 @@ class OpkgRootfs(Rootfs):
+                 bb.note('decremental removed: %s' % ' '.join(pkg_to_remove))
+                 self.pm.remove(pkg_to_remove)
  
-+    def _prelink_file(self, root_dir, filename):
-+        bb.note('prelink %s in %s' % (filename, root_dir))
-+        prelink_cfg = oe.path.join(root_dir,
-+                                   self.d.expand('${sysconfdir}/prelink.conf'))
-+        if not os.path.exists(prelink_cfg):
-+            shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
-+                        prelink_cfg)
-+
-+        cmd_prelink = self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
-+        self._exec_shell_cmd([cmd_prelink,
-+                              '--root',
-+                              root_dir,
-+                              '-amR',
-+                              '-N',
-+                              '-c',
-+                              self.d.expand('${sysconfdir}/prelink.conf')])
-+
 +    '''
-+    Compare two files with the same key twice to see if they are equal.
-+    If they are not equal, it means they are duplicated and come from
-+    different packages.
-+    1st: Comapre them directly;
-+    2nd: While incremental image creation is enabled, one of the
-+         files could be probaly prelinked in the previous image
-+         creation and the file has been changed, so we need to
-+         prelink the other one and compare them.
++    Compare with previous existing image creation, if some conditions
++    triggered, the previous existing image should be removed.
++    The conditions include any of 'PACKAGE_EXCLUDE, NO_RECOMMENDATIONS
++    and BAD_RECOMMENDATIONS' has been changed.
 +    '''
-+    def _file_equal(self, key, f1, f2):
-+
-+        # Both of them are not prelinked
-+        if filecmp.cmp(f1, f2):
++    def _remove_existing_image(self):
++        if self.inc_opkg_image_gen != "1":
 +            return True
 +
-+        if self.image_rootfs not in f1:
-+            self._prelink_file(f1.replace(key, ''), f1)
++        vars_list_file = self.d.expand('${T}/vars_list')
 +
-+        if self.image_rootfs not in f2:
-+            self._prelink_file(f2.replace(key, ''), f2)
++        old_vars_list = ""
++        if os.path.exists(vars_list_file):
++            old_vars_list = open(vars_list_file, 'r+').read()
 +
-+        # Both of them are prelinked
-+        if filecmp.cmp(f1, f2):
++        new_vars_list = '%s:%s:%s\n' % \
++                ((self.d.getVar('BAD_RECOMMENDATIONS', True) or '').strip(),
++                 (self.d.getVar('NO_RECOMMENDATIONS', True) or '').strip(),
++                 (self.d.getVar('PACKAGE_EXCLUDE', True) or '').strip())
++        open(vars_list_file, 'w+').write(new_vars_list)
++
++        if old_vars_list != new_vars_list:
 +            return True
 +
-+        # Not equal
 +        return False
 +
-     """
-     This function was reused from the old implementation.
-     See commit: "image.bbclass: Added variables for multilib support." by
-     Lianhao Lu.
-     """
-     def _multilib_sanity_test(self, dirs):
--        import filecmp
- 
-         allow_replace = self.d.getVar("MULTILIBRE_ALLOW_REP", True)
-         if allow_replace is None:
-@@ -488,7 +535,7 @@ class OpkgRootfs(Rootfs):
-                         else:
-                             if os.path.exists(files[key]) and \
-                                os.path.exists(item) and \
--                               not filecmp.cmp(files[key], item):
-+                               not self._file_equal(key, files[key], item):
-                                 valid = False
-                                 bb.fatal("%s duplicate files %s %s is not the same\n" %
-                                          (error_prompt, item, files[key]))
+     def _create(self):
+         pkgs_to_install = self.manifest.parse_initial_manifest()
+         opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS', True)
 -- 
 1.8.1.2
 
