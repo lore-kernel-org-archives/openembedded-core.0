@@ -1,33 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id C44F26B6BC
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A526E6C732
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 16:07:18 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1KG775l011877; Thu, 20 Feb 2014 16:07:07 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9JtcGUj6s1is; Thu, 20 Feb 2014 16:07:07 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1KG71he011873
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 20 Feb 2014 16:07:03 GMT
-Message-ID: <1392912414.1560.8.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Damian, Alexandru" <alexandru.damian@intel.com>
-Date: Thu, 20 Feb 2014 16:06:54 +0000
-In-Reply-To: <CAJ2CSBtk4okj2Pn9-qcB-kQ+jBAMU53sxxvYyH9YXL43Go-Pxw@mail.gmail.com>
-References: <1392658389-19826-1-git-send-email-alexandru.damian@intel.com>
-	<1392906622.1560.1.camel@ted>
-	<CAJ2CSBtk4okj2Pn9-qcB-kQ+jBAMU53sxxvYyH9YXL43Go-Pxw@mail.gmail.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] sstate: list missing files for toaster
+	Thu, 20 Feb 2014 16:41:57 +0000 (UTC)
+Received: by mail-ve0-f180.google.com with SMTP id cz12so821215veb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2014 08:41:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=b9ch+89wNAsBl+T1LmjYc/xo1B6IpteOHRW7HahN0l4=;
+	b=PwWYyHwJIFUw7FBTIKdwwyy/Sj9coBbIcCPXWj9DeeyefYkDlx2ArRGDrkeBziUXs/
+	N8NWWHZc6zEfnQqLn1CsYhm7pt3UCq30lQyqjMGNhBlqvTnvbj0W+KJnPal7+I3ci8Sa
+	I3VSJ68L2PAuoEGtOjJNqNzJcXJsP698ggYqI/oECsGR1UCC5/sRr0UMKpCszwUit6oe
+	QNLy91BSd6ytNcDUlL0wy3AKIrkeuBeePHXYO1NCmv7fWiGzI0zfpN3mhC82WrudsYwY
+	jlC+Nx/cyVMA1x2cyd30TzqF/JXaWPsDlaNWPSlYADAQdRmMlGj5H46uSMvTCSBq/c/B
+	OB7g==
+X-Received: by 10.220.84.193 with SMTP id k1mr1545799vcl.64.1392914517621;
+	Thu, 20 Feb 2014 08:41:57 -0800 (PST)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Thu, 20 Feb 2014 08:41:17 -0800 (PST)
+In-Reply-To: <CAOMwXhP68XUd-6ZSa3+t_OBMgr=mim0_9-yz0q1sNf1i90hgvA@mail.gmail.com>
+References: <CAOMwXhP68XUd-6ZSa3+t_OBMgr=mim0_9-yz0q1sNf1i90hgvA@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Thu, 20 Feb 2014 16:41:17 +0000
+X-Google-Sender-Auth: Vgl3srfQWl_0RUFm4uCLvdMe7Ag
+Message-ID: <CANyK_8d2i15W5s9-uAGWcG9kBcb1WMZDJovC-HAhzVwKuqUk4Q@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Removal of poky-feed-config-opkg_1.0.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,34 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 16:07:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Feb 2014 16:42:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2014-02-20 at 15:41 +0000, Damian, Alexandru wrote:
-> I would think against it, because
+On 20 February 2014 13:03, Laszlo Papp <lpapp@kde.org> wrote:
+> Hi,
+>
+> I had a quick discussion on IRC with Ross. Is there a reason against
+> removing it?
+>
+> ../meta/recipes-devtools/opkg/opkg-config-base_1.0.bb seems to be
+> already doing the job. Is there any compatibility to be kept?
+>
 
-> - it's very inefficient to send a Skipped event for each missed task
-> than to collect all the data and send it in one shot
-> - it's faster to send the event from the sstate.bbclass than to return
-> the task ids and then call again a python function to generate the
-> sstate file names - basically replicating the sstate.bbclass code in
-> bitbake
-> - the queueTaskSkipped event has a different semantic than what we
-> need here to return a whole batch of data; creating a new event type
-> from scratch is a bit pointless since the inheritance would need to be
-> broken
-> - knotty can receive MetadataEvents just as well as sceneTaskSkipped
-> event, or any variation of it
+It does duplicate the creation of "${sysconfdir}/opkg/arch.conf" and
+so that bit should go. I think it should probably be replaced by a
+template recipe in meta-skeleton which shows a developer how to create
+their own feed config in a recipe.
 
-I guess I'd like to understand which information from this even you're
-particularly interested in?
+Thanks,
 
-Do I understand correctly that you want the actual filenames attempted?
+-- 
+Paul Barker
 
-Cheers,
-
-Richard
-
-
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
