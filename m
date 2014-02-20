@@ -1,25 +1,25 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A99D6F1A2
+	by mail.openembedded.org (Postfix) with ESMTP id 11ACB6E97D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 15:22:05 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 20 Feb 2014 07:22:06 -0800
+	Thu, 20 Feb 2014 15:22:22 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Feb 2014 07:22:23 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,512,1389772800"; d="scan'208";a="486630910"
+X-IronPort-AV: E=Sophos;i="4.97,512,1389772800"; d="scan'208";a="458889294"
 Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by orsmga002.jf.intel.com with ESMTP; 20 Feb 2014 07:22:05 -0800
-Date: Thu, 20 Feb 2014 17:22:04 +0200
+	by orsmga001.jf.intel.com with ESMTP; 20 Feb 2014 07:22:21 -0800
+Date: Thu, 20 Feb 2014 17:22:20 +0200
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20140220152204.GB30981@lpalcu-linux>
+Message-ID: <20140220152220.GC30981@lpalcu-linux>
 References: <cover.1392877826.git.hongxu.jia@windriver.com>
-	<24bf195849ad2eb34cb1b91ef54e51ac9b3da31f.1392877826.git.hongxu.jia@windriver.com>
+	<df8d61e28d120da0bfc8e2f105e81f528a08d35c.1392877826.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <24bf195849ad2eb34cb1b91ef54e51ac9b3da31f.1392877826.git.hongxu.jia@windriver.com>
+In-Reply-To: <df8d61e28d120da0bfc8e2f105e81f528a08d35c.1392877826.git.hongxu.jia@windriver.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] package_manager.py: support ipk incremental image generation
+Subject: Re: [PATCH 3/5] rootfs.py: support ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,170 +32,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 15:22:05 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 15:22:22 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Feb 20, 2014 at 03:06:52PM +0800, Hongxu Jia wrote:
-> Add the following three functions to OpkgPM class:
-> - The 'dummy_install' is used to dummy install pkgs, and returns the log
->   of output;
-> - The 'backup_packaging_data' is used to back up the current opkg
->   database;
-> - The 'recover_packaging_data' is used to recover the opkg database
->   which backed up by the previous image creation;
-> 
-> Tweak 'remove' function in OpkgPM class, which the options for remove
-> with dependencies was incorrect.
-> 
-> Tweak 'handle_bad_recommendations' function in OpkgPM class:
-> - Fix none value check;
-> - Add the existance check of opkg status file;
-> - Fix the log format typo;
+On Thu, Feb 20, 2014 at 03:06:53PM +0800, Hongxu Jia wrote:
+> The incremental image generation is based on the previous existing
+> image, adds new packages, upgrades existing packages, and removes unused
+> packages.
 > 
 > [YOCTO #1894]
 > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->  meta/lib/oe/package_manager.py | 66 +++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 59 insertions(+), 7 deletions(-)
+>  meta/lib/oe/rootfs.py | 52 ++++++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 49 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 6dc8fbd..eb96727 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -934,12 +934,13 @@ class RpmPM(PackageManager):
+> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+> index 3bcb812..93106c2 100644
+> --- a/meta/lib/oe/rootfs.py
+> +++ b/meta/lib/oe/rootfs.py
+> @@ -438,13 +438,25 @@ class OpkgRootfs(Rootfs):
+>      def __init__(self, d, manifest_dir):
+>          super(OpkgRootfs, self).__init__(d)
 >  
+> -        bb.utils.remove(self.image_rootfs, True)
+> -        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
+>          self.manifest = OpkgManifest(d, manifest_dir)
+>          self.opkg_conf = self.d.getVar("IPKGCONF_TARGET", True)
+>          self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True)
 >  
->  class OpkgPM(PackageManager):
-> -    def __init__(self, d, target_rootfs, config_file, archs):
-> +    def __init__(self, d, target_rootfs, config_file, archs, task_name='target'):
->          super(OpkgPM, self).__init__(d)
->  
->          self.target_rootfs = target_rootfs
->          self.config_file = config_file
->          self.pkg_archs = archs
-> +        self.task_name = task_name
->  
->          self.deploy_dir = self.d.getVar("DEPLOY_DIR_IPK", True)
->          self.deploy_lock_file = os.path.join(self.deploy_dir, "deploy.lock")
-> @@ -956,6 +957,10 @@ class OpkgPM(PackageManager):
->  
->          bb.utils.mkdirhier(self.opkg_dir)
->  
-> +        self.saved_opkg_dir = self.d.expand('${T}/saved/%s' % self.task_name)
-> +        if not os.path.exists(self.d.expand('${T}/saved')):
-> +            bb.utils.mkdirhier(self.d.expand('${T}/saved'))
+> -        self.pm = OpkgPM(d, self.image_rootfs, self.opkg_conf, self.pkg_archs)
+> +        self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN', True) or ""
+> +        if self.inc_opkg_image_gen != '1':
+> +            bb.utils.remove(self.image_rootfs, True)
+> +            self.pm = OpkgPM(d,
+> +                             self.image_rootfs,
+> +                             self.opkg_conf,
+> +                             self.pkg_archs)
+> +        else:
+> +            self.pm = OpkgPM(d,
+> +                             self.image_rootfs,
+> +                             self.opkg_conf,
+> +                             self.pkg_archs)
+> +            self.pm.recover_packaging_data()
 > +
->          if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS', True) or "") != "1":
->              self._create_config()
->          else:
-> @@ -1075,7 +1080,9 @@ class OpkgPM(PackageManager):
+> +        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
 >  
->          try:
->              bb.note("Installing the following packages: %s" % ' '.join(pkgs))
-> -            subprocess.check_output(cmd.split())
-> +            bb.note(cmd)
-> +            output = subprocess.check_output(cmd.split())
-> +            bb.note(output)
->          except subprocess.CalledProcessError as e:
->              (bb.fatal, bb.note)[attempt_only]("Unable to install packages. "
->                                                "Command '%s' returned %d:\n%s" %
-> @@ -1083,14 +1090,16 @@ class OpkgPM(PackageManager):
+>      """
+>      This function was reused from the old implementation.
+> @@ -508,6 +520,34 @@ class OpkgRootfs(Rootfs):
 >  
->      def remove(self, pkgs, with_dependencies=True):
->          if with_dependencies:
-> -            cmd = "%s %s remove %s" % \
-> +            cmd = "%s %s --force-depends --force-remove --force-removal-of-dependent-packages remove %s" % \
->                  (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
->          else:
->              cmd = "%s %s --force-depends remove %s" % \
->                  (self.opkg_cmd, self.opkg_args, ' '.join(pkgs))
+>          self._multilib_sanity_test(dirs)
 >  
->          try:
-> -            subprocess.check_output(cmd.split())
-> +            bb.note(cmd)
-> +            output = subprocess.check_output(cmd.split())
-> +            bb.note(output)
->          except subprocess.CalledProcessError as e:
->              bb.fatal("Unable to remove packages. Command '%s' "
->                       "returned %d:\n%s" % (e.cmd, e.returncode, e.output))
-> @@ -1146,12 +1155,17 @@ class OpkgPM(PackageManager):
->          return output
->  
->      def handle_bad_recommendations(self):
-> -        bad_recommendations = self.d.getVar("BAD_RECOMMENDATIONS", True)
-> -        if bad_recommendations is None:
-> +        bad_recommendations = self.d.getVar("BAD_RECOMMENDATIONS", True) or ""
-> +        if bad_recommendations.strip() == "":
->              return
->  
->          status_file = os.path.join(self.opkg_dir, "status")
->  
-> +        # If status file existed, it means the bad recommendations has already
-> +        # been handled
-> +        if os.path.exists(status_file):
-> +            return
-> +
->          cmd = "%s %s info " % (self.opkg_cmd, self.opkg_args)
->  
->          with open(status_file, "w+") as status:
-> @@ -1165,7 +1179,7 @@ class OpkgPM(PackageManager):
->                               "returned %d:\n%s" % (pkg_info, e.returncode, e.output))
->  
->                  if output == "":
-> -                    bb.note("Requested ignored recommendation $i is "
-> +                    bb.note("Requested ignored recommendation %s is "
-I already saw a patch fixing this on the mailing list. You might need to
-rebase.
+> +    '''
+> +    While ipk incremental image generation is enabled, it will remove the
+> +    unneeded pkgs by comparing the old full manifest in previous existing
+> +    image and the new full manifest in the current image.
+> +    '''
+> +    def _create_incremental(self, pkgs_initial_install):
+Can we name this function _remove_extra_packages()? Because it doesn't
+actually install anything... it just removes packages, correct?
 
->                              "not a package" % pkg)
->                      continue
+> +        if self.inc_opkg_image_gen == "1":
+> +            # Parse full manifest in previous existing image creation session
+> +            old_full_manifest = self.manifest.parse_full_manifest()
+> +
+> +            # Create full manifest for the current image session, the old one
+> +            # will be replaced by the new one.
+> +            self.manifest.create_full()
+> +
+> +            # Parse full manifest in current image creation session
+> +            new_full_manifest = self.manifest.parse_full_manifest()
+> +
+> +            pkg_to_remove = list()
+> +            for pkg in old_full_manifest:
+> +                if pkg not in new_full_manifest:
+> +                    pkg_to_remove.append(pkg)
+> +
+> +            self.pm.update()
+this update could be removed, if we move the function call below
+self.pm.handle_bad_recommendations(). See below.
+
+> +
+> +            if pkg_to_remove != []:
+> +                bb.note('decremental removed: %s' % ' '.join(pkg_to_remove))
+> +                self.pm.remove(pkg_to_remove)
+> +
+>      def _create(self):
+>          pkgs_to_install = self.manifest.parse_initial_manifest()
+>          opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS', True)
+> @@ -518,6 +558,9 @@ class OpkgRootfs(Rootfs):
+>          if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS', True) or "") != "1":
+>              self.pm.write_index()
 >  
-> @@ -1175,6 +1189,44 @@ class OpkgPM(PackageManager):
->                      else:
->                          status.write(line + "\n")
+> +        if self.inc_opkg_image_gen == "1":
+> +            self._create_incremental(pkgs_to_install)
+Why not move this piece lower, below
+self.pm.handle_bad_recommendations()? Correct me if I'm wrong, but I
+believe the rootfs pre process commands should be executed before we do
+anything on the rootfs generation.
+
+> + execute_pre_post_process(self.d, opkg_pre_process_cmds)
 >  
-> +    '''
-> +    The following function dummy installs pkgs and returns the log of output.
-> +    '''
-> +    def dummy_install(self, pkgs):
-> +        if len(pkgs) == 0:
-> +            return
-> +
-> +        # Simulate installation
-> +        cmd = "%s %s --noaction install %s " % (self.opkg_cmd,
-> +                                                self.opkg_args,
-> +                                                ' '.join(pkgs))
-> +        try:
-> +            output = subprocess.check_output(cmd, shell=True)
-> +        except subprocess.CalledProcessError as e:
-> +            bb.note("Unable to dummy install packages. Command '%s' "
-> +                    "returned %d:\n%s" % (cmd, e.returncode, e.output))
-> +
-> +        return output
-> +
-> +    def backup_packaging_data(self):
-> +        # Save the opkglib for increment ipk image generation
-> +        if os.path.exists(self.saved_opkg_dir):
-> +            bb.utils.remove(self.saved_opkg_dir, True)
-> +        shutil.copytree(self.opkg_dir,
-> +                        self.saved_opkg_dir,
-> +                        symlinks=True)
-> +
-> +    def recover_packaging_data(self):
-> +        # Move the opkglib back
-> +        if os.path.exists(self.saved_opkg_dir):
-> +            if os.path.exists(self.opkg_dir):
-> +                bb.utils.remove(self.opkg_dir, True)
-> +
-> +            bb.note('Recover packaging data')
-> +            shutil.copytree(self.saved_opkg_dir,
-> +                            self.opkg_dir,
-> +                            symlinks=True)
-> +
+>          self.pm.update()
+> @@ -540,6 +583,9 @@ class OpkgRootfs(Rootfs):
+>          execute_pre_post_process(self.d, opkg_post_process_cmds)
+>          execute_pre_post_process(self.d, rootfs_post_install_cmds)
 >  
->  class DpkgPM(PackageManager):
->      def __init__(self, d, target_rootfs, archs, base_archs, apt_conf_dir=None):
+> +        if self.inc_opkg_image_gen == "1":
+> +            self.pm.backup_packaging_data()
+> +
+>      def _get_delayed_postinsts(self):
+>          pkg_list = []
+>          status_file = os.path.join(self.image_rootfs,
 > -- 
 > 1.8.1.2
 > 
