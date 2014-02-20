@@ -1,27 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EE1136EE66
+Return-Path: <alexandru.damian@intel.com>
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E4AE6BD13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 17:42:28 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 20 Feb 2014 09:42:29 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,513,1389772800"; d="scan'208";a="478600149"
-Received: from pmckerno-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.159])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Feb 2014 09:42:27 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2014 17:42:18 +0000
-Message-ID: <2221142.EAVKtIV4p9@peggleto-mobl5.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.12.2 (Linux/3.13.3-201.fc20.x86_64; KDE/4.12.2; x86_64; ; )
-In-Reply-To: <CAJTo0LaeE+oqgU=U+eHvJ-X+ceNQnonV_Xcx0Y2ASes2JHe-wA@mail.gmail.com>
-References: <CAOMwXhP68XUd-6ZSa3+t_OBMgr=mim0_9-yz0q1sNf1i90hgvA@mail.gmail.com>
-	<CANyK_8d2i15W5s9-uAGWcG9kBcb1WMZDJovC-HAhzVwKuqUk4Q@mail.gmail.com>
-	<CAJTo0LaeE+oqgU=U+eHvJ-X+ceNQnonV_Xcx0Y2ASes2JHe-wA@mail.gmail.com>
+	Thu, 20 Feb 2014 20:29:53 +0000 (UTC)
+Received: by mail-ob0-f172.google.com with SMTP id uz6so2710270obc.31
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2014 12:29:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=jMjhrilGBJU881BkgxBk8+pmSsNaXa3W7kBk4hFxw70=;
+	b=gpd/az+6dtFobOJKtRM/i4kWF7fQXy91J4UacRxlvbV/gJiE03sbHnL3dHfTs5g8fN
+	IIHiubiioOBZhUuQjr+l/SCS7KXBM7oGiVzeQFC+cIdCGEaeoOkO3GK5KcjpihY82fdG
+	751XX1YRVPWfsdy4JBtSTBKv1n+nEtyMD9FnPYyOFhJhHJ4Pk+ACXOFdiU8GnNeJ+6bJ
+	PsDgo2Gd8BSaUGst5QJ30E5iVAfEQwxwK+/6oh+91lnlHnJf75F4tPNwbCuWDPYmoC6C
+	bczpUBLXfERF+nZLQMd0rdiO8CEdx5n6nWbhioiCI6zHUHm6KBbq/+3COziGjR8WHS9t
+	jgAQ==
+X-Gm-Message-State: ALoCoQntlhbjwokdK9eHuADC52sbWhkXVgNu5yRwzuJmVWzUabNFwAJ2j2naVMwecxcQBuZjg01v
+X-Received: by 10.60.51.230 with SMTP id n6mr3978536oeo.35.1392928194271; Thu,
+	20 Feb 2014 12:29:54 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: Removal of poky-feed-config-opkg_1.0.bb
+Received: by 10.76.124.146 with HTTP; Thu, 20 Feb 2014 12:29:34 -0800 (PST)
+In-Reply-To: <1392912414.1560.8.camel@ted>
+References: <1392658389-19826-1-git-send-email-alexandru.damian@intel.com>
+	<1392906622.1560.1.camel@ted>
+	<CAJ2CSBtk4okj2Pn9-qcB-kQ+jBAMU53sxxvYyH9YXL43Go-Pxw@mail.gmail.com>
+	<1392912414.1560.8.camel@ted>
+From: "Damian, Alexandru" <alexandru.damian@intel.com>
+Date: Thu, 20 Feb 2014 20:29:34 +0000
+Message-ID: <CAJ2CSBsdCyfZ+MJ91Wh=6EO_O6NJz5cQuzY8UhKCNeZXZDw3kw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] sstate: list missing files for toaster
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +47,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 17:42:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 20 Feb 2014 20:29:59 -0000
+Content-Type: multipart/alternative; boundary=001a11c30c7c37b6f404f2dc5e7e
 
-On Thursday 20 February 2014 16:59:17 Burton, Ross wrote:
-> On 20 February 2014 16:41, Paul Barker <paul@paulbarker.me.uk> wrote:
-> > It does duplicate the creation of "${sysconfdir}/opkg/arch.conf" and
-> > so that bit should go. I think it should probably be replaced by a
-> > template recipe in meta-skeleton which shows a developer how to create
-> > their own feed config in a recipe.
-> 
-> Note that rootfs_ipk also has a way of constructing a feed config, and
-> there's a recipe in meta-oe that constructs a feed config.
-> 
-> All but one of these need to go. As far as I'm aware they all only
-> work for opkg too, so they should all go and be replaced with one
-> cross-packaging recipe.
+--001a11c30c7c37b6f404f2dc5e7e
+Content-Type: text/plain; charset=UTF-8
 
-Agreed - FYI there is an enhancement bug open for this:
+Yep, tasks that were looked up, and actual filenames attempted.
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=5407
+Alex
 
-It's assigned to me but anyone would be welcome to take it if they felt so 
-inclined ;)
 
-Cheers,
-Paul
+On Thu, Feb 20, 2014 at 4:06 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Thu, 2014-02-20 at 15:41 +0000, Damian, Alexandru wrote:
+> > I would think against it, because
+>
+> > - it's very inefficient to send a Skipped event for each missed task
+> > than to collect all the data and send it in one shot
+> > - it's faster to send the event from the sstate.bbclass than to return
+> > the task ids and then call again a python function to generate the
+> > sstate file names - basically replicating the sstate.bbclass code in
+> > bitbake
+> > - the queueTaskSkipped event has a different semantic than what we
+> > need here to return a whole batch of data; creating a new event type
+> > from scratch is a bit pointless since the inheritance would need to be
+> > broken
+> > - knotty can receive MetadataEvents just as well as sceneTaskSkipped
+> > event, or any variation of it
+>
+> I guess I'd like to understand which information from this even you're
+> particularly interested in?
+>
+> Do I understand correctly that you want the actual filenames attempted?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
 
 -- 
+Alex Damian
+Yocto Project
+SSG / OTC
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--001a11c30c7c37b6f404f2dc5e7e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:tahoma,s=
+ans-serif">Yep, tasks that were looked up, and actual filenames attempted.<=
+/div><div class=3D"gmail_default" style=3D"font-family:tahoma,sans-serif"><=
+br>Alex</div>
+
+</div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Thu,=
+ Feb 20, 2014 at 4:06 PM, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@=
+linuxfoundation.org</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"">On Thu, 2014-02-20 at 15:41 =
++0000, Damian, Alexandru wrote:<br>
+&gt; I would think against it, because<br>
+<br>
+&gt; - it&#39;s very inefficient to send a Skipped event for each missed ta=
+sk<br>
+&gt; than to collect all the data and send it in one shot<br>
+&gt; - it&#39;s faster to send the event from the sstate.bbclass than to re=
+turn<br>
+&gt; the task ids and then call again a python function to generate the<br>
+&gt; sstate file names - basically replicating the sstate.bbclass code in<b=
+r>
+&gt; bitbake<br>
+&gt; - the queueTaskSkipped event has a different semantic than what we<br>
+&gt; need here to return a whole batch of data; creating a new event type<b=
+r>
+&gt; from scratch is a bit pointless since the inheritance would need to be=
+<br>
+&gt; broken<br>
+&gt; - knotty can receive MetadataEvents just as well as sceneTaskSkipped<b=
+r>
+&gt; event, or any variation of it<br>
+<br>
+</div>I guess I&#39;d like to understand which information from this even y=
+ou&#39;re<br>
+particularly interested in?<br>
+<br>
+Do I understand correctly that you want the actual filenames attempted?<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div dir=3D"=
+ltr">Alex Damian<div>Yocto Project<br></div><div>SSG / OTC=C2=A0</div></div=
+>
+</div>
+
+--001a11c30c7c37b6f404f2dc5e7e--
