@@ -1,20 +1,35 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FAE86F165
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EED16F1A3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 10:09:38 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 20 Feb 2014 02:05:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,511,1389772800"; d="scan'208";a="458721286"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.47])
-	by orsmga001.jf.intel.com with ESMTP; 20 Feb 2014 02:09:36 -0800
-From: Valentin Popa <valentin.popa@intel.com>
+	Thu, 20 Feb 2014 10:17:46 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id kp14so1732898pab.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2014 02:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=bRQEAQ4h1etDOWRRq85uLZ9gJd23ZgqVK2t9z2L+BFU=;
+	b=iiOYBB3MxIot487NvUuj0YEnI30OG6SgowqzCF2BhILD2UlOhDhR5nzxooeszxHzw1
+	dQRIAMVIcS9hK5l2S+DpEy0lnp38zuFaKvi/LJoKEPFkEOVxeOrQErLymYrEb+nBN18J
+	F+xKMNRwv8Wrpe/KNj/UGwQPRQGYxmaOR4deBxNEJbbuCHaZtsj9BB+6Fe2+Uh6yNd5N
+	f2dz0qv7JTDRS4LJM2V3aQ5v7fv0hnhEoT5h622kkpwZinzeAqfDgneqJzhy5aSbBSD+
+	XEzTxQU/EDDZaD7siyvMpp26SaQIQtYaE0Bvzr8ydh4HWlUXsqv3LOR+6aoK5F6TbKWh
+	fiGw==
+X-Received: by 10.68.171.4 with SMTP id aq4mr1068994pbc.150.1392891467216;
+	Thu, 20 Feb 2014 02:17:47 -0800 (PST)
+Received: from localhost.localdomain
+	(99-57-140-30.lightspeed.sntcca.sbcglobal.net. [99.57.140.30])
+	by mx.google.com with ESMTPSA id bc4sm9610257pbb.2.2014.02.20.02.17.44
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 20 Feb 2014 02:17:46 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2014 12:09:36 +0200
-Message-Id: <1392890976-22296-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH_V2] gtk+3: upgrade to 3.10.7
+Date: Thu, 20 Feb 2014 02:18:56 -0800
+Message-Id: <cover.1392891203.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [RFT][PATCH 0/2] Systemd 209
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,187 +42,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 10:09:40 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 10:17:47 -0000
 
-(*) removed patches that were already
-    commited upstream
-(*) added new patch to solve the build issue
-(*) changed the package URL because
-    the old one is unreliable.
+This patchset upgrades systemd to 209 as can be seen some enahancements
+to uclibc were neeed. As of now. It builds for me on both uclibc/eglibc
+Please test it out in your setups and report back any issues
 
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- .../fix-build-when-wayland-backend-enabled.patch   | 43 ++++++++++++++++++++++
- .../gtk+/gtk+3/no-x11-in-wayland.patch             | 32 ----------------
- meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch | 42 ---------------------
- .../gtk+/{gtk+3_3.8.2.bb => gtk+3_3.10.7.bb}       |  9 ++---
- 4 files changed, 47 insertions(+), 79 deletions(-)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
- rename meta/recipes-gnome/gtk+/{gtk+3_3.8.2.bb => gtk+3_3.10.7.bb} (61%)
+The following changes since commit 9a98b8bfe13b94d89a9e39cca821f26fdeaeffc3:
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch b/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
-new file mode 100644
-index 0000000..b4b1a09
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
-@@ -0,0 +1,43 @@
-+Fix build when wayland backend enabled
-+
-+Upstream-Status: Submitted
-+https://bugzilla.gnome.org/show_bug.cgi?id=710584
-+
-+Author: Emilio Pozuelo Monfort
-+
-+--- gtk+-3.10.7/gtk/gtkapplication.c
-++++ gtk+-3.10.7/gtk/gtkapplication.c
-+@@ -144,7 +144,6 @@
-+ 
-+   gboolean register_session;
-+ 
-+-#ifdef GDK_WINDOWING_X11
-+   guint next_id;
-+ 
-+   GDBusConnection *session_bus;
-+@@ -161,7 +160,6 @@
-+   GDBusProxy *client_proxy;
-+   gchar *app_id;
-+   gchar *client_path;
-+-#endif
-+ 
-+ #ifdef GDK_WINDOWING_QUARTZ
-+   GMenu *combined;
-+@@ -299,6 +297,8 @@
-+   g_free (application->priv->client_path);
-+ }
-+ 
-++#endif
-++
-+ const gchar *
-+ gtk_application_get_app_menu_object_path (GtkApplication *application)
-+ {
-+@@ -311,8 +311,6 @@
-+   return application->priv->menubar_path;
-+ }
-+ 
-+-#endif
-+-
-+ #ifdef GDK_WINDOWING_QUARTZ
-+ 
-+ typedef struct {
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch b/meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
-deleted file mode 100644
-index df0921a..0000000
---- a/meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--The Wayland backend was including X11 headers, which won't work in a no-X11
--distro.
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 875b1d07ded377b20acbf1a10cae847f56de05b4 Mon Sep 17 00:00:00 2001
--From: Matthias Clasen <mclasen@redhat.com>
--Date: Thu, 23 May 2013 12:26:26 -0400
--Subject: [PATCH] Don't include X11 headers in wayland
--
--The include of X11/keysyms.h in gdkdevice-wayland.c was just
--a leftover.
-----
-- gdk/wayland/gdkdevice-wayland.c |    1 -
-- 1 file changed, 1 deletion(-)
--
--diff --git a/gdk/wayland/gdkdevice-wayland.c b/gdk/wayland/gdkdevice-wayland.c
--index c258be3..cd4a695 100644
----- a/gdk/wayland/gdkdevice-wayland.c
--+++ b/gdk/wayland/gdkdevice-wayland.c
--@@ -32,7 +32,6 @@
-- #include "gdkdevicemanagerprivate.h"
-- 
-- #include <xkbcommon/xkbcommon.h>
---#include <X11/keysym.h>
-- 
-- #include <sys/time.h>
-- #include <sys/mman.h>
---- 
--1.7.10.4
--
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch b/meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
-deleted file mode 100644
-index fa0d0e6..0000000
---- a/meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--Wayland 1.1 is enforcing the protocol whereas 1.0 was lenient.  Backport a patch
--from git to fix repainting.
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--
--From 0d2c4617203c8fe907c722c9cb53c0345e0405e7 Mon Sep 17 00:00:00 2001
--From: Scott Moreau <oreaus@gmail.com>
--Date: Sun, 10 Mar 2013 10:51:01 -0600
--Subject: [PATCH] wayland: Always attach buffer before committing
--
--With recent changes in attach semantics, we always need to attach before
--committing. Without this changes to the window contents to not get reflected
--in the content of the surface.
--
--Signed-off-by: Rob Bradford <rob@linux.intel.com>
-----
-- gdk/wayland/gdkwindow-wayland.c |    7 -------
-- 1 file changed, 7 deletions(-)
--
--diff --git a/gdk/wayland/gdkwindow-wayland.c b/gdk/wayland/gdkwindow-wayland.c
--index 112a1f4..fa01e90 100644
----- a/gdk/wayland/gdkwindow-wayland.c
--+++ b/gdk/wayland/gdkwindow-wayland.c
--@@ -327,13 +327,6 @@ gdk_wayland_window_attach_image (GdkWindow *window)
--   if (GDK_WINDOW_DESTROYED (window))
--     return;
-- 
---  /* The "drawn to" Cairo surface is the same as the Cairo surface from which
---   * we are driving the buffer for the Wayland surface. Therefore we don't
---   * need to do anything here
---   */
---  if (impl->server_surface == impl->cairo_surface)
---    return;
---
--   /* The wayland surface is attached to a buffer that is from the old "drawn
--    * to" surface. Unref the surface and restore the state.
--    */
---- 
--1.7.10.4
--
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb b/meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb
-similarity index 61%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb
-index 5db3745..9f8c6ab 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.10.7.bb
-@@ -2,13 +2,12 @@ require gtk+3.inc
- 
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
--SRC_URI = "http://download.gnome.org/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
-+SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
-            file://hardcoded_libtool.patch \
--           file://no-x11-in-wayland.patch \
--           file://wayland-attach.patch"
-+           file://fix-build-when-wayland-backend-enabled.patch"
- 
--SRC_URI[md5sum] = "8e878e18fc385f2b813419dc7b40a968"
--SRC_URI[sha256sum] = "1ca80c9c15a1df95d74cefb8c2afe4682ba272a4b489106f04877be2a7aff297"
-+SRC_URI[md5sum] = "18a81944a8506231529a76bf2b68372b"
-+SRC_URI[sha256sum] = "b7e9de15385031cff43897e7e59f6692eaabf500f36eef80e6b9d6486ad49427"
- 
- S = "${WORKDIR}/gtk+-${PV}"
- 
+  image_types.bbclass: Fix tar IMAGE_CMD to not change directories (2014-02-18 08:37:03 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/systemd-209
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/systemd-209
+
+Khem Raj (2):
+  uclibc: Add new functionality needed for systemd 209
+  systemd: Upgrade 208 -> 209
+
+ ...-Use-bin-mkdir-instead-of-host-mkdir-path.patch |  31 --
+ ...1-uClibc-doesn-t-implement-pwritev-preadv.patch |  15 +-
+ ...ournal-Add-missing-byte-order-conversions.patch |  60 ----
+ .../journal-file-protect-against-alloca-0.patch    |  23 --
+ ...n-appending-to-journal-file-allocate-larg.patch |  83 -----
+ .../systemd/journald-add-missing-error-check.patch |  16 -
+ .../systemd/systemd/systemd-pam-fix-execvpe.patch  |  22 +-
+ .../systemd/systemd-pam-fix-fallocate.patch        |  24 +-
+ .../systemd/systemd-pam-fix-getty-unit.patch       |  20 +-
+ .../systemd/systemd/systemd-pam-fix-mkostemp.patch | 166 +--------
+ .../systemd/systemd/systemd-pam-fix-msformat.patch | 115 ++++---
+ .../systemd/systemd/uclibc-sysinfo_h.patch         |  19 ++
+ .../systemd/{systemd_208.bb => systemd_209.bb}     |  14 +-
+ meta/recipes-core/uclibc/uclibc-git.inc            |   3 +
+ .../0001-Add-eventfd_read-and-eventfd_write.patch  | 120 +++++++
+ .../uclibc-git/0002-wire-setns-syscall.patch       |  68 ++++
+ ...tl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch | 377 +++++++++++++++++++++
+ 17 files changed, 702 insertions(+), 474 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/journal-Add-missing-byte-order-conversions.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/journal-file-protect-against-alloca-0.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/journal-when-appending-to-journal-file-allocate-larg.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/journald-add-missing-error-check.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/uclibc-sysinfo_h.patch
+ rename meta/recipes-core/systemd/{systemd_208.bb => systemd_209.bb} (96%)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Add-eventfd_read-and-eventfd_write.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0002-wire-setns-syscall.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0003-fcntl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch
+
 -- 
-1.8.3.2
+1.9.0
 
 
