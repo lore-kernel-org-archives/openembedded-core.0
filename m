@@ -1,26 +1,35 @@
-Return-Path: <Chong.Lu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DE696EB1A
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id A52586DC16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 10:55:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1KAtEx9009040
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 20 Feb 2014 13:03:34 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id kq14so1870665pab.31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 02:55:14 -0800 (PST)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 20 Feb 2014 02:55:13 -0800
-From: Chong Lu <Chong.Lu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Feb 2014 18:55:10 +0800
-Message-ID: <8cfb36c4026790ca4a9848945a1b21429b6c434a.1392893636.git.Chong.Lu@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1392893636.git.Chong.Lu@windriver.com>
-References: <cover.1392893636.git.Chong.Lu@windriver.com>
+	Thu, 20 Feb 2014 05:03:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
+	:to:content-type;
+	bh=fYzoWm83DOP5iAQgNAy10YY7uOl92hZruXN2LkRgvLk=;
+	b=fSB/du8PuKhQnIP97O1eaX7nfYISdz+xIYgiAflY8vJzFl5GNNr0i/+BvecLB30u+0
+	2AWR+v1O4rJwXWBJjIjN4DO3W7ZdZWT8ftGwsst1PpUyM5Nt9kjjHSAK4DxtPdu6WKNl
+	obJ0wyGXbdnpIhNaNxd8NYJHknJamppFESiLfNyztSsX0CG46Zpnz+/rbTTHyNVwS92z
+	pO5DvJfQDlNncZfgyTOayePZGd0W9nOPVyO2xkGnTJLUc6518Rmfb0G5hRCBmFUZryXt
+	etPhO4vfS8KgdL9fuIYOH+JTdEjbIfWz8v/ntq/w9w5hFqGcRTX66GgfLACahGCyewo0
+	1Ejw==
+X-Gm-Message-State: ALoCoQmob2tAgasekhvTPGtsVfhwApnZ3xpi5VmdsxoDSlo9HLDPpvGw5MgI0z9Ukc5IAKtI2Ra2
 MIME-Version: 1.0
-Subject: [PATCH 1/1] insserv: enable ptest support
+X-Received: by 10.68.0.99 with SMTP id 3mr1948656pbd.68.1392901415277; Thu, 20
+	Feb 2014 05:03:35 -0800 (PST)
+Sender: lpapp@archlinux.us
+Received: by 10.70.21.228 with HTTP; Thu, 20 Feb 2014 05:03:35 -0800 (PST)
+Date: Thu, 20 Feb 2014 13:03:35 +0000
+X-Google-Sender-Auth: GAPezB2XflWeA6wsBjp4ZZG73Ss
+Message-ID: <CAOMwXhP68XUd-6ZSa3+t_OBMgr=mim0_9-yz0q1sNf1i90hgvA@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Removal of poky-feed-config-opkg_1.0.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +42,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 10:55:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Feb 2014 13:03:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Install insserv test suite and run it as ptest.
+Hi,
 
-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
----
- meta/recipes-devtools/insserv/files/run-ptest   | 17 +++++++++++++++++
- meta/recipes-devtools/insserv/insserv_1.14.0.bb | 14 +++++++++++++-
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/insserv/files/run-ptest
+I had a quick discussion on IRC with Ross. Is there a reason against
+removing it?
 
-diff --git a/meta/recipes-devtools/insserv/files/run-ptest b/meta/recipes-devtools/insserv/files/run-ptest
-new file mode 100644
-index 0000000..495d155
---- /dev/null
-+++ b/meta/recipes-devtools/insserv/files/run-ptest
-@@ -0,0 +1,17 @@
-+#!/bin/sh
-+
-+basedir=$(dirname $0)
-+. $basedir/common
-+
-+output() {
-+  if [ $? -eq 0 ]; \
-+    then echo "PASS: $i"; \
-+    else echo "FAIL: $i"; \
-+  fi;
-+}
-+
-+for i in test_simple_sequence test_undetected_loop; \
-+  do $i &>/dev/null ; output; \
-+done
-+
-+rm -rf ${tmpdir}
-diff --git a/meta/recipes-devtools/insserv/insserv_1.14.0.bb b/meta/recipes-devtools/insserv/insserv_1.14.0.bb
-index 1d1f59d..4a33e16 100644
---- a/meta/recipes-devtools/insserv/insserv_1.14.0.bb
-+++ b/meta/recipes-devtools/insserv/insserv_1.14.0.bb
-@@ -11,7 +11,9 @@ PR = "r1"
- SRC_URI = "ftp://ftp.suse.com/pub/projects/init/${BPN}-${PV}.tar.bz2 \
-            file://makefile.patch \
-            file://disable_runtests.patch \
--           file://insserv.conf"
-+           file://insserv.conf \
-+           file://run-ptest \
-+"
- 
- SRC_URI[md5sum] = "4a97d900855148842b1aa8f33b988b47"
- SRC_URI[sha256sum] = "89a0a093b1cf3d802ad40568e64b496b493f51ff9825905c8bd12738b374ca47"
-@@ -27,3 +29,13 @@ do_install_class-native () {
- }
- 
- BBCLASSEXTEND = "native"
-+
-+inherit ptest
-+
-+do_install_ptest() {
-+	for i in common suite; do cp ${S}/tests/$i ${D}${PTEST_PATH}; done
-+	sed -e 's|${\PWD}/insserv|insserv|;/trap/d' -i ${D}${PTEST_PATH}/suite
-+	sed -e '/test_simple_sequence$/d;/test_undetected_loop$/d' -i ${D}${PTEST_PATH}/common
-+}
-+
-+RDEPENDS_${PN}-ptest += "bash"
--- 
-1.8.1.2
+../meta/recipes-devtools/opkg/opkg-config-base_1.0.bb seems to be
+already doing the job. Is there any compatibility to be kept?
 
+Cheers, L.
 
