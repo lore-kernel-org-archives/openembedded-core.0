@@ -1,25 +1,25 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 11ACB6E97D
+	by mail.openembedded.org (Postfix) with ESMTP id 8FA046B206
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 15:22:22 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 20 Feb 2014 07:22:23 -0800
+	Thu, 20 Feb 2014 15:23:21 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 20 Feb 2014 07:23:22 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,512,1389772800"; d="scan'208";a="458889294"
+X-IronPort-AV: E=Sophos;i="4.97,512,1389772800"; d="scan'208";a="478515721"
 Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 20 Feb 2014 07:22:21 -0800
-Date: Thu, 20 Feb 2014 17:22:20 +0200
+	by fmsmga001.fm.intel.com with ESMTP; 20 Feb 2014 07:22:52 -0800
+Date: Thu, 20 Feb 2014 17:22:51 +0200
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20140220152220.GC30981@lpalcu-linux>
+Message-ID: <20140220152251.GD30981@lpalcu-linux>
 References: <cover.1392877826.git.hongxu.jia@windriver.com>
-	<df8d61e28d120da0bfc8e2f105e81f528a08d35c.1392877826.git.hongxu.jia@windriver.com>
+	<462aa5e46663d9a7a47f69649e716dbecedb20f7.1392877826.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <df8d61e28d120da0bfc8e2f105e81f528a08d35c.1392877826.git.hongxu.jia@windriver.com>
+In-Reply-To: <462aa5e46663d9a7a47f69649e716dbecedb20f7.1392877826.git.hongxu.jia@windriver.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: saul.wold@intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/5] rootfs.py: support ipk incremental image generation
+Subject: Re: [PATCH 5/5] rootfs.py: support BAD_RECOMMENDATIONS for ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,119 +32,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 15:22:22 -0000
+X-List-Received-Date: Thu, 20 Feb 2014 15:23:22 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Thu, Feb 20, 2014 at 03:06:53PM +0800, Hongxu Jia wrote:
-> The incremental image generation is based on the previous existing
-> image, adds new packages, upgrades existing packages, and removes unused
-> packages.
+On Thu, Feb 20, 2014 at 03:06:55PM +0800, Hongxu Jia wrote:
+> While incremental image generation enabled and the previous image is
+> existed, if BAD_RECOMMENDATIONS is changed, the operation on the
+> existing image is complicated, so remove the existing image in this
+> situation.
+> 
+> The same with PACKAGE_EXCLUDE and NO_RECOMMENDATIONS.
 > 
 > [YOCTO #1894]
+> 
 > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->  meta/lib/oe/rootfs.py | 52 ++++++++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 49 insertions(+), 3 deletions(-)
+>  meta/lib/oe/rootfs.py | 29 ++++++++++++++++++++++++++++-
+>  1 file changed, 28 insertions(+), 1 deletion(-)
 > 
 > diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> index 3bcb812..93106c2 100644
+> index 6120bce..80be490 100644
 > --- a/meta/lib/oe/rootfs.py
 > +++ b/meta/lib/oe/rootfs.py
-> @@ -438,13 +438,25 @@ class OpkgRootfs(Rootfs):
->      def __init__(self, d, manifest_dir):
->          super(OpkgRootfs, self).__init__(d)
->  
-> -        bb.utils.remove(self.image_rootfs, True)
-> -        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
->          self.manifest = OpkgManifest(d, manifest_dir)
->          self.opkg_conf = self.d.getVar("IPKGCONF_TARGET", True)
+> @@ -445,7 +445,7 @@ class OpkgRootfs(Rootfs):
 >          self.pkg_archs = self.d.getVar("ALL_MULTILIB_PACKAGE_ARCHS", True)
 >  
-> -        self.pm = OpkgPM(d, self.image_rootfs, self.opkg_conf, self.pkg_archs)
-> +        self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN', True) or ""
-> +        if self.inc_opkg_image_gen != '1':
-> +            bb.utils.remove(self.image_rootfs, True)
-> +            self.pm = OpkgPM(d,
-> +                             self.image_rootfs,
-> +                             self.opkg_conf,
-> +                             self.pkg_archs)
-> +        else:
-> +            self.pm = OpkgPM(d,
-> +                             self.image_rootfs,
-> +                             self.opkg_conf,
-> +                             self.pkg_archs)
-> +            self.pm.recover_packaging_data()
-> +
-> +        bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
->  
->      """
->      This function was reused from the old implementation.
-> @@ -508,6 +520,34 @@ class OpkgRootfs(Rootfs):
->  
->          self._multilib_sanity_test(dirs)
+>          self.inc_opkg_image_gen = self.d.getVar('INC_IPK_IMAGE_GEN', True) or ""
+> -        if self.inc_opkg_image_gen != '1':
+> +        if self._remove_existing_image():
+>              bb.utils.remove(self.image_rootfs, True)
+>              self.pm = OpkgPM(d,
+>                               self.image_rootfs,
+> @@ -595,6 +595,33 @@ class OpkgRootfs(Rootfs):
+>                  bb.note('decremental removed: %s' % ' '.join(pkg_to_remove))
+>                  self.pm.remove(pkg_to_remove)
 >  
 > +    '''
-> +    While ipk incremental image generation is enabled, it will remove the
-> +    unneeded pkgs by comparing the old full manifest in previous existing
-> +    image and the new full manifest in the current image.
+> +    Compare with previous existing image creation, if some conditions
+> +    triggered, the previous existing image should be removed.
+> +    The conditions include any of 'PACKAGE_EXCLUDE, NO_RECOMMENDATIONS
+> +    and BAD_RECOMMENDATIONS' has been changed.
 > +    '''
-> +    def _create_incremental(self, pkgs_initial_install):
-Can we name this function _remove_extra_packages()? Because it doesn't
-actually install anything... it just removes packages, correct?
+> +    def _remove_existing_image(self):
+Since we're not removing the image, but the old rootfs, a better name
+for this would be: _remove_old_rootfs().
 
-> +        if self.inc_opkg_image_gen == "1":
-> +            # Parse full manifest in previous existing image creation session
-> +            old_full_manifest = self.manifest.parse_full_manifest()
+> +        if self.inc_opkg_image_gen != "1":
+> +            return True
 > +
-> +            # Create full manifest for the current image session, the old one
-> +            # will be replaced by the new one.
-> +            self.manifest.create_full()
+> +        vars_list_file = self.d.expand('${T}/vars_list')
 > +
-> +            # Parse full manifest in current image creation session
-> +            new_full_manifest = self.manifest.parse_full_manifest()
+> +        old_vars_list = ""
+> +        if os.path.exists(vars_list_file):
+> +            old_vars_list = open(vars_list_file, 'r+').read()
 > +
-> +            pkg_to_remove = list()
-> +            for pkg in old_full_manifest:
-> +                if pkg not in new_full_manifest:
-> +                    pkg_to_remove.append(pkg)
+> +        new_vars_list = '%s:%s:%s\n' % \
+> +                ((self.d.getVar('BAD_RECOMMENDATIONS', True) or '').strip(),
+> +                 (self.d.getVar('NO_RECOMMENDATIONS', True) or '').strip(),
+> +                 (self.d.getVar('PACKAGE_EXCLUDE', True) or '').strip())
+> +        open(vars_list_file, 'w+').write(new_vars_list)
 > +
-> +            self.pm.update()
-this update could be removed, if we move the function call below
-self.pm.handle_bad_recommendations(). See below.
-
+> +        if old_vars_list != new_vars_list:
+> +            return True
 > +
-> +            if pkg_to_remove != []:
-> +                bb.note('decremental removed: %s' % ' '.join(pkg_to_remove))
-> +                self.pm.remove(pkg_to_remove)
+> +        return False
 > +
 >      def _create(self):
 >          pkgs_to_install = self.manifest.parse_initial_manifest()
 >          opkg_pre_process_cmds = self.d.getVar('OPKG_PREPROCESS_COMMANDS', True)
-> @@ -518,6 +558,9 @@ class OpkgRootfs(Rootfs):
->          if (self.d.getVar('BUILD_IMAGES_FROM_FEEDS', True) or "") != "1":
->              self.pm.write_index()
->  
-> +        if self.inc_opkg_image_gen == "1":
-> +            self._create_incremental(pkgs_to_install)
-Why not move this piece lower, below
-self.pm.handle_bad_recommendations()? Correct me if I'm wrong, but I
-believe the rootfs pre process commands should be executed before we do
-anything on the rootfs generation.
-
-> + execute_pre_post_process(self.d, opkg_pre_process_cmds)
->  
->          self.pm.update()
-> @@ -540,6 +583,9 @@ class OpkgRootfs(Rootfs):
->          execute_pre_post_process(self.d, opkg_post_process_cmds)
->          execute_pre_post_process(self.d, rootfs_post_install_cmds)
->  
-> +        if self.inc_opkg_image_gen == "1":
-> +            self.pm.backup_packaging_data()
-> +
->      def _get_delayed_postinsts(self):
->          pkg_list = []
->          status_file = os.path.join(self.image_rootfs,
 > -- 
 > 1.8.1.2
 > 
