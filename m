@@ -1,35 +1,29 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D1A76E89C
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C5736E7D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 22:01:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id A38343149963
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 23:01:49 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 864i0HhvqGuJ
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 23:01:47 +0100 (CET)
-Received: from [172.22.22.61] (unknown [212.255.233.85])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id F3F1E3149958
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2014 23:01:46 +0100 (CET)
-Message-ID: <530529CA.6000204@opendreambox.org>
-Date: Wed, 19 Feb 2014 23:01:46 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
+	Thu, 20 Feb 2014 01:32:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1K1W1I8007843
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Feb 2014 17:32:02 -0800 (PST)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Wed, 19 Feb 2014 17:32:01 -0800
+Message-ID: <53055B16.7090004@windriver.com>
+Date: Thu, 20 Feb 2014 09:32:06 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1392799558-31118-1-git-send-email-koen.kooi@linaro.org>
-In-Reply-To: <1392799558-31118-1-git-send-email-koen.kooi@linaro.org>
-Subject: Re: [PATCH] openssh: enable PAM at runtime based on DISTRO_FEATURES
+To: Phil Blundell <pb@pbcl.net>
+References: <1392807566-15114-1-git-send-email-kai.kang@windriver.com>
+	<1392810188.14769.356.camel@phil-desktop.brightsign>
+In-Reply-To: <1392810188.14769.356.camel@phil-desktop.brightsign>
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] update-rc.d.bbclass: fix inhibit check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,26 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2014 22:01:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Feb 2014 01:32:04 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello Koen,
+On 2014年02月19日 19:43, Phil Blundell wrote:
+> On Wed, 2014-02-19 at 18:59 +0800, Kai Kang wrote:
+>> In update-rc.d.bbclass it checks variable INITSCRIPT_PACKAGES to avoid
+>> inherit this class. But it is wrong logic to check INITSCRIPT_PACKAGES.
+>> When 'sysvinit' is in 'DISTRO_FEATURES', INITSCRIPT_PACKAGES will not be
+>> checked.
+> Er, really?  From the code you quoted...
+>
+>>       # Check that this class isn't being inhibited (generally, by
+>>       # systemd.bbclass) before doing any work.
+>> -    if oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) or \
+>> +    if oe.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) and \
+>>          not d.getVar("INHIBIT_UPDATERCD_BBCLASS", True):
+>>           pkgs = d.getVar('INITSCRIPT_PACKAGES', True)
+>>           if pkgs == None:
+> ... it seems that if sysvinit is in DISTRO_FEATURES then the outer "if"
+> will evaluate to true and it will indeed proceed to check
+> INITSCRIPT_PACKAGES in the last quoted line.  Can you clarify what
+> exactly is wrong here?
 
-On 19.02.2014 09:45, Koen Kooi wrote:
-> diff --git a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-> index 9c0bb48..5b9ec10 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_6.4p1.bb
-> @@ -82,6 +82,8 @@ do_install_append () {
->  	if [ "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
->  		install -d ${D}${sysconfdir}/pam.d
->  		install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
-> +		sed -i -e 's:#UsePAM no:UsePAM yes:' ${WORKDIR}/sshd_config
-> +		sed -i -e 's:#UsePAM no:UsePAM yes:' ${D}${sysconfdir}/ssh/sshd_config
+Sorry, as laurentiu comments, it is INHIBIT_UPDATERCD_BBCLASS which 
+variable will not be checked.
 
-is the first of the two new lines really necessary?
+I'll update the comment with V2.
 
 Regards,
-Andreas
+Kai
+
+>
+> p.
+>
+>
+>
+>
+
+
+-- 
+Regards,
+Neil | Kai Kang
+
 
