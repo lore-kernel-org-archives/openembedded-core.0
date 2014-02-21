@@ -1,20 +1,25 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C5E636E890
+Return-Path: <Chao.Han@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C3CD26B8D1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 06:52:05 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Feb 2014 22:52:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,517,1389772800"; d="scan'208";a="485317018"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.1])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2014 22:52:02 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2014 22:52:02 -0800
-Message-Id: <cover.1392965335.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [CONSOLIDATED PULL 00/10] Mostly Bugfixes
+	Fri, 21 Feb 2014 07:24:17 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1L7OIxq011507
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2014 23:24:18 -0800 (PST)
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 20 Feb 2014 23:24:18 -0800
+Message-ID: <5306FE6A.2020704@windriver.com>
+Date: Fri, 21 Feb 2014 15:21:14 +0800
+From: HanChao <chao.han@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.2.14) Gecko/20110223 Thunderbird/3.1.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+Subject: lsb: change script init-functions installed path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,93 +32,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 06:52:07 -0000
+X-List-Received-Date: Fri, 21 Feb 2014 07:24:19 -0000
+X-Groupsio-MsgNum: 50414
+Content-Type: multipart/mixed; boundary="------------050201090600030302080106"
 
-Richard,
-
-Ran this through the AB with Khem's systemd 209, but it had issues, so 
-sending you a sub-set of what was in MUT.
-
-Sau!
+--------------050201090600030302080106
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-The following changes since commit 43ac6e3216c5d985d6f90a28e727e397df616267:
 
-  wic: Make exec_native_command() fail if a command isn't found (2014-02-20 14:28:06 +0000)
+--------------050201090600030302080106
+Content-Type: text/x-patch;
+	name="0001-lsb-change-script-init-functions-installed-path.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="0001-lsb-change-script-init-functions-installed-path.patch"
 
-are available in the git repository at:
+From fbdcf88fe2d46e83f1e25a5681e16ea5c967a11a Mon Sep 17 00:00:00 2001
+From: Han Chao <chan@windriver.com>
+Date: Fri, 21 Feb 2014 10:44:35 +0800
+Subject: [PATCH] lsb: change script init-functions installed path
 
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+The bb code assume the target is 64bit, so some files can not be
+installed well. init-functions is a text script. Other script called
+it from /lib/lsb, but it is installed on /lib64/lsb.
+So this change fix the image path and packages.
 
-Chong Lu (1):
-  insserv: enable ptest support
+Signed-off-by: Han Chao <chan@windriver.com>
+---
+ meta/recipes-extended/lsb/lsb_4.1.bb |    9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-Dave Lerner (1):
-  valgrind: integration of regression tests to ptest
-
-Fathi Boudra (1):
-  git: update to 1.9.0 release
-
-Kai Kang (1):
-  update-rc.d.bbclass: fix inhibit check
-
-Khem Raj (1):
-  uclibc: Add new functionality needed for systemd 209
-
-Koen Kooi (1):
-  openssh: enable PAM at runtime based on DISTRO_FEATURES
-
-Ross Burton (1):
-  libglade: don't use gnome.bbclass
-
-Saul Wold (2):
-  runqemu: Ensure ROOTFS path is absolute
-  psmisc: Update to 22.21
-
-Valentin Popa (1):
-  gtk+3: upgrade to 3.10.7
-
- meta/classes/update-rc.d.bbclass                   |   2 +-
- meta/recipes-connectivity/openssh/openssh_6.4p1.bb |   4 +-
- meta/recipes-core/uclibc/uclibc-git.inc            |   3 +
- .../0001-Add-eventfd_read-and-eventfd_write.patch  | 120 +++++++
- .../uclibc-git/0002-wire-setns-syscall.patch       |  68 ++++
- ...tl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch | 377 +++++++++++++++++++++
- .../git/{git_1.8.5.2.bb => git_1.9.0.bb}           |   4 +-
- meta/recipes-devtools/insserv/files/run-ptest      |  17 +
- meta/recipes-devtools/insserv/insserv_1.14.0.bb    |  14 +-
- .../valgrind/valgrind/add-ptest.patch              | 205 +++++++++++
- .../valgrind/valgrind/force-nostabs.patch          |  42 +++
- .../valgrind/remove-arm-variant-specific.patch     |  67 ++++
- .../valgrind/remove-ppc-tests-failing-build.patch  |  75 ++++
- meta/recipes-devtools/valgrind/valgrind/run-ptest  |  11 +
- meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |  56 ++-
- .../psmisc/{psmisc_22.20.bb => psmisc_22.21.bb}    |   4 +-
- .../fix-build-when-wayland-backend-enabled.patch   |  43 +++
- .../gtk+/gtk+3/no-x11-in-wayland.patch             |  32 --
- meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch |  42 ---
- .../gtk+/{gtk+3_3.8.2.bb => gtk+3_3.10.7.bb}       |   9 +-
- meta/recipes-gnome/libglade/libglade_2.6.4.bb      |   2 +-
- scripts/runqemu                                    |   4 +-
- 22 files changed, 1111 insertions(+), 90 deletions(-)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Add-eventfd_read-and-eventfd_write.patch
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0002-wire-setns-syscall.patch
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0003-fcntl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch
- rename meta/recipes-devtools/git/{git_1.8.5.2.bb => git_1.9.0.bb} (67%)
- create mode 100644 meta/recipes-devtools/insserv/files/run-ptest
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/add-ptest.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/force-nostabs.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
- create mode 100755 meta/recipes-devtools/valgrind/valgrind/run-ptest
- rename meta/recipes-extended/psmisc/{psmisc_22.20.bb => psmisc_22.21.bb} (44%)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
- rename meta/recipes-gnome/gtk+/{gtk+3_3.8.2.bb => gtk+3_3.10.7.bb} (61%)
-
+diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
+index ecb4dcc..62a8077 100644
+--- a/meta/recipes-extended/lsb/lsb_4.1.bb
++++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+@@ -30,6 +30,7 @@ do_install(){
+ 
+ 	mkdir -p ${D}${base_bindir}
+ 	mkdir -p ${D}/${baselib}
++	mkdir -p ${D}/lib
+ 	mkdir -p ${D}${sysconfdir}/lsb-release.d
+ 	printf "LSB_VERSION=\"core-4.1-noarch:" > ${D}${sysconfdir}/lsb-release
+ 
+@@ -70,12 +71,12 @@ do_install(){
+ 
+ do_install_append(){
+        install -d ${D}${sysconfdir}/core-lsb
+-       install -d ${D}/${baselib}/lsb
++       install -d ${D}/lib/lsb
+        for i in lsb_killproc lsb_log_message lsb_pidofproc lsb_start_daemon
+        do
+            install -m 0755 ${WORKDIR}/${i} ${D}${sysconfdir}/core-lsb
+        done
+-       install -m 0755 ${WORKDIR}/init-functions ${D}/${baselib}/lsb
++       install -m 0755 ${WORKDIR}/init-functions ${D}/lib/lsb
+ 
+        # creat links for LSB test
+        install -d ${D}/usr/lib/lsb
+@@ -114,8 +115,8 @@ do_install_append(){
+                ln -sf ld.so.1 ld-lsb-ppc32.so.3
+        fi
+ }
+-FILES_${PN} += "/lib64 \
++FILES_${PN} += "/lib \
++		${baselib} \
+ 		/usr/lib/lsb \
+-                ${base_libdir}/lsb/* \
+ 		${libdir}/sendmail \
+                "
 -- 
-1.8.3.1
+1.7.9.5
 
 
+--------------050201090600030302080106--
