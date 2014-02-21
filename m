@@ -1,35 +1,20 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f53.google.com (mail-pb0-f53.google.com
-	[209.85.160.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 397AE6F0C9
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 499926EF9F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 04:39:17 +0000 (UTC)
-Received: by mail-pb0-f53.google.com with SMTP id ma3so264010pbc.26
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 20:39:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=zlc9AT2/QqAVcXth/lYsi2CSo7Kqn/290ALr2KyzbuA=;
-	b=DLBcpu8VPdf0eQOTiAbH4WbFxek1+SZqIHKBY8ugG/CHKaG5ggnc1Z5J/0GVI56qjl
-	jhrbV9R8/I/fwnbozwRjs2J60He+vOYTz24yyyxmHN//N+BgtGoJFiT4w6+mVtfXt8xs
-	bVgXBxUnEcZKtomVvWPHk/WX/We4MoTvIa08l9K+OAEgrPB83RsUAKorTHrASJpyNT0G
-	PndT9uNX80NhsOdIS7hApHfMoZkrCF3g3bqzTE4opGWbciFs01r0e8j+x3Tn6JTJqclr
-	CKtcvcjisDMD5roEqCxETjQOv5rGVORYqPVx9cq4KQoObqxpyuamRXQE5R9qB4c9Ob0i
-	lJOA==
-X-Received: by 10.69.0.10 with SMTP id au10mr6750888pbd.48.1392957558473;
-	Thu, 20 Feb 2014 20:39:18 -0800 (PST)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	qf7sm40196652pac.14.2014.02.20.20.39.16 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Feb 2014 20:39:17 -0800 (PST)
-From: Jonathan Liu <net147@gmail.com>
+	Fri, 21 Feb 2014 04:55:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 20 Feb 2014 20:51:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,516,1389772800"; d="scan'208";a="459255306"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.1])
+	by orsmga001.jf.intel.com with ESMTP; 20 Feb 2014 20:55:28 -0800
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Feb 2014 15:43:38 +1100
-Message-Id: <1392957818-1025-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.5.4
-Subject: [PATCH v3] image_types.bbclass: fix cpio IMAGE_CMD to preserve working directory
+Date: Thu, 20 Feb 2014 20:55:27 -0800
+Message-Id: <1392958527-5022-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] psmisc: Update to 22.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 04:39:18 -0000
+X-List-Received-Date: Fri, 21 Feb 2014 04:55:30 -0000
 
-The working directory is changed in a subshell when executing cpio to
-preserve the working directory for any subsequent commands. This is to
-keep the working directory consistent when generating multiple image
-types.
-
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/image_types.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/psmisc/psmisc_22.20.bb | 6 ------
+ meta/recipes-extended/psmisc/psmisc_22.21.bb | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-extended/psmisc/psmisc_22.20.bb
+ create mode 100644 meta/recipes-extended/psmisc/psmisc_22.21.bb
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 9577b1f..602c1f0 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -70,7 +70,7 @@ IMAGE_CMD_cpio () {
- 	if [ ! -L ${IMAGE_ROOTFS}/init ]; then
- 		touch ${IMAGE_ROOTFS}/init
- 	fi
--	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
-+	(cd ${IMAGE_ROOTFS} && find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
- }
- 
- ELF_KERNEL ?= "${STAGING_DIR_HOST}/usr/src/kernel/${KERNEL_IMAGETYPE}"
+diff --git a/meta/recipes-extended/psmisc/psmisc_22.20.bb b/meta/recipes-extended/psmisc/psmisc_22.20.bb
+deleted file mode 100644
+index 3dbd999..0000000
+--- a/meta/recipes-extended/psmisc/psmisc_22.20.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require psmisc.inc
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+-
+-SRC_URI[md5sum] = "a25fc99a6dc7fa7ae6e4549be80b401f"
+-SRC_URI[sha256sum] = "b17224e2385f6a799ffebba27eb7870771d42555e86814ef56b6d7e955765514"
+diff --git a/meta/recipes-extended/psmisc/psmisc_22.21.bb b/meta/recipes-extended/psmisc/psmisc_22.21.bb
+new file mode 100644
+index 0000000..22f65c5
+--- /dev/null
++++ b/meta/recipes-extended/psmisc/psmisc_22.21.bb
+@@ -0,0 +1,6 @@
++require psmisc.inc
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
++
++SRC_URI[md5sum] = "935c0fd6eb208288262b385fa656f1bf"
++SRC_URI[sha256sum] = "97323cad619210845b696d7d722c383852b2acb5c49b5b0852c4f29c77a8145a"
 -- 
-1.8.5.4
+1.8.3.1
 
 
