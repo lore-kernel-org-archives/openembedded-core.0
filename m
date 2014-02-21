@@ -1,26 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 09A656EF9F
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 06E006F0C9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 04:01:07 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Feb 2014 19:56:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,516,1389772800"; d="scan'208";a="486977003"
-Received: from unknown (HELO [10.255.14.1]) ([10.255.14.1])
-	by orsmga002.jf.intel.com with ESMTP; 20 Feb 2014 20:01:05 -0800
-Message-ID: <5306CF81.4040203@linux.intel.com>
-Date: Thu, 20 Feb 2014 20:01:05 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
-MIME-Version: 1.0
-To: Jason Plum <jplum@devonit.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1390245778-9252-1-git-send-email-jplum@devonit.com>	<52E7FB3B.8000000@linux.intel.com>
-	<52E91639.6010606@devonit.com> <52F878DE.6000609@linux.intel.com>
-In-Reply-To: <52F878DE.6000609@linux.intel.com>
-Subject: Re: [PATCH v3] meta/oe/lib/path.py - check mount points, not device
+	Fri, 21 Feb 2014 04:36:55 +0000 (UTC)
+Received: by mail-pd0-f174.google.com with SMTP id z10so2754057pdj.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2014 20:36:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=zlc9AT2/QqAVcXth/lYsi2CSo7Kqn/290ALr2KyzbuA=;
+	b=takEkT0QCw6I8RO0GdLRgwjWFxSxuU2cdbSBiksk39LJxJLokJ4NaOw2RGlMS95fda
+	qXrmP8HSAVwCClQCOX8jnB0M1Eh2cuj2l0490vOssGN6stnfYlXZjvgEN072+PC0NSSs
+	9DOT89jkd33ocNsNxWiYEv1QyGJMG340NR7Uj4q9WNUgNU8rSVmZyrIevbLT2IPYDZyF
+	SLNQTwEy3ML7OxCcFZ4rC2LQiB2DsjQq3Bl0VdNPSliBaXYh0hsvP/Ahsko9OX60SXed
+	pyfswkfqhY/OnAYFqcvOVg5bu82IuFS3ONzdYb4XNM1GX2Wq9wJk5rMZZgqceXwjZW8T
+	re9Q==
+X-Received: by 10.69.2.2 with SMTP id bk2mr6573804pbd.75.1392957416323;
+	Thu, 20 Feb 2014 20:36:56 -0800 (PST)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	ac5sm16702923pbc.37.2014.02.20.20.36.54 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 20 Feb 2014 20:36:55 -0800 (PST)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Feb 2014 15:41:12 +1100
+Message-Id: <1392957672-831-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.5.4
+Subject: [meta-oe][PATCH v3] image_types.bbclass: fix cpio IMAGE_CMD to preserve working directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,96 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 04:01:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Feb 2014 04:36:56 -0000
 
-On 02/09/2014 10:59 PM, Saul Wold wrote:
-> On 01/29/2014 06:54 AM, Jason Plum wrote:
->>
->> On 01/28/14 13:47, Saul Wold wrote:
->>> On 01/20/2014 11:22 AM, Jason Plum wrote:
->>>> Signed-off-by: Jason Plum <jplum@devonit.com>
->>>> ---
->>>>    meta/lib/oe/path.py | 13 ++++++++++++-
->>>>    1 file changed, 12 insertions(+), 1 deletion(-)
->>>>
->>> This patch is still not applying cleanly to master, I am also still a
->>> little concerned if this will affect performance since it's used often
->>> in sstate code.
->>>
->>> Have you compared build times with and without this patch?
->>>
->>> Sau!
->> Saul,
->>
->> I pulled a fresh copy of master when I made this particular send-email
->> patch, so it must keep changing from under me. I have the last commit to
->> master on this checkout as 9c8d9781794ed0886a79c8ce4544ba98be0ff858
->>
->> The performance difference should be quite minimal, but I have not
->> extensively tested with timing metrics in place.
->
-> Can you describe how much "quite minimal" really is, Richard is still
-> concerned with the impact this might has (see his comment to my
-> Consolidated Pull request).
->
+The working directory is changed in a subshell when executing cpio to
+preserve the working directory for any subsequent commands. This is to
+keep the working directory consistent when generating multiple image
+types.
 
-Jason,
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/image_types.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-As mentioned before, there is some concern about this patch, if you 
-could run before and after performance tests with the profile (-P) 
-option and review the results, that would help us feel better about this 
-patch.  Also an expanded commit messages explaining more about why this 
-patch is needed would help.
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 9577b1f..602c1f0 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -70,7 +70,7 @@ IMAGE_CMD_cpio () {
+ 	if [ ! -L ${IMAGE_ROOTFS}/init ]; then
+ 		touch ${IMAGE_ROOTFS}/init
+ 	fi
+-	cd ${IMAGE_ROOTFS} && (find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
++	(cd ${IMAGE_ROOTFS} && find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+ }
+ 
+ ELF_KERNEL ?= "${STAGING_DIR_HOST}/usr/src/kernel/${KERNEL_IMAGETYPE}"
+-- 
+1.8.5.4
 
-Thanks
-
-Sau!
-
-
-> Sau!
->
->>>> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
->>>> index 46783f8..dab20fc 100644
->>>> --- a/meta/lib/oe/path.py
->>>> +++ b/meta/lib/oe/path.py
->>>> @@ -90,7 +90,7 @@ def copyhardlinktree(src, dst):
->>>>        if os.path.isdir(src) and not len(os.listdir(src)):
->>>>            return
->>>>
->>>> -    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
->>>> +    if (getmount(src) ==  getmount(dst)):
->>>>            # Need to copy directories only with tar first since cp
->>>> will error if two
->>>>            # writers try and create a directory at the same time
->>>>            cmd = 'cd %s; find . -type d -print | tar -cf - -C %s -p
->>>> --files-from - --no-recursion | tar -xf - -C %s' % (src, src, dst)
->>>> @@ -257,3 +257,14 @@ def realpath(file, root, use_physdir = True,
->>>> loop_cnt = 100, assume_dir = False)
->>>>            raise
->>>>
->>>>        return file
->>>> +
->>>> +def getmount(path):
->>>> +    """ getmount takes a path parameter, uses os.path.realpath with
->>>> os.path.abspath to
->>>> +    handle symlink resolution, and returns the path to the mount
->>>> point of the input path
->>>> +    """
->>>> +    path = os.path.realpath(os.path.abspath(path))
->>>> +    while path != os.path.sep:
->>>> +        if os.path.ismount(path):
->>>> +            return path
->>>> +        path = os.path.abspath(os.path.join(path, os.pardir))
->>>> +    return path
->>>> \ No newline at end of file
->>>>
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
 
