@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C47DD6B206
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D767A6F167
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 06:38:31 +0000 (UTC)
+	Fri, 21 Feb 2014 06:38:33 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1L6cURv011176
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1L6cXfF006570
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Feb 2014 22:38:31 -0800 (PST)
+	Thu, 20 Feb 2014 22:38:33 -0800 (PST)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 20 Feb 2014 22:38:30 -0800
+	14.2.347.0; Thu, 20 Feb 2014 22:38:32 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 21 Feb 2014 14:38:16 +0800
-Message-ID: <cover.1392963956.git.hongxu.jia@windriver.com>
+Date: Fri, 21 Feb 2014 14:38:17 +0800
+Message-ID: <6054018911213afc476711fd9e9f8a08cd5f33ea.1392963956.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1392963956.git.hongxu.jia@windriver.com>
+References: <cover.1392963956.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: saul.wold@intel.com
-Subject: [PATCH V3 0/5] manifest.py/package_manager.py/rootfs.py: support ipk incremental image generation
+Subject: [PATCH 1/5] manifest.py: add create_full for OpkgManifest class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,286 +33,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 06:38:32 -0000
+X-List-Received-Date: Fri, 21 Feb 2014 06:38:34 -0000
 Content-Type: text/plain
 
-Change in V2:
-- Move dump_install_solution to Manifest class as create_full;
-- Move load_old_install_solution to Manifest class as parse_full_manifest;
-- Handle the output of dummy install in Python rather than shell;
-- Fix typos
-- Rename _file_duplicate with _file_equal to avoid confusion;
+The function create_full creates the manifest after the package in
+initial manifest has been dummy installed. It lists all *to be
+installed* packages. There is no real installation, just a test.
 
-Change in V3:
-- While create_full calls dummy_install, pass an instance to PM
-  as an argument rather than instantiate another PM object;
-- Rename _create_incremental with _remove_extra_packages;
-- Move the call of _remove_extra_packages below the call of
-  self.pm.handle_bad_recommendations();
-- Remove redundant self.pm.update in _remove_extra_packages;
-- Rename _remove_existing_image with _remove_old_rootfs;
+[YOCTO #1894]
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/lib/oe/manifest.py | 57 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 56 insertions(+), 1 deletion(-)
 
-Test Cases
-
----------------------------------------------
-Case 1: Rebuild in place
-1. Edit local.conf, enable multilib and ipk incremental image generation
-...
- 46 MACHINE ?= "qemux86-64"
-254 require conf/multilib.conf
-255 MULTILIBS = "multilib:lib32"
-256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-257 
-258 IMAGE_INSTALL_append = " lib32-gzip"
-260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
-262 
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-2. Edit local.conf, add some spaces in IMAGE_INSTALL_append
-vim local.conf
-...
-258 IMAGE_INSTALL_append = " lib32-gzip "
-...
-
-3. bb core-image-minimal, the image should not be rebuilt
-vim log.do_rootfs:
-...
- 16 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
- 17 Package opkg-collateral (1.0-r2) installed in root is up to date.
- 18 Package run-postinsts (1.0-r9) installed in root is up to date.
- 19 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
- 20 Package opkg (1:0.2.0-r0) installed in root is up to date.
- 21 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
- ...
- 53 NOTE: Package lib32-gzip (1.6-r7) installed in root is up to date.
-...
-
-vim installed_pkgs.txt
-...
-lib32-gzip x86
-...
-
-4. runqemu qemux86-64, ssh could work and lib32-gzip is installed
-On host:
-runqemu qemux86-64
-ssh root@192.168.7.2 and run 'opkg-cl list-installed'
-...
-lib32-gzip - 1.6-r7
-...
-
----------------------------------------------
-Case 2: Decremental Rebuild
-1. Edit local.conf, enable multilib and ipk incremental image generation
-...
- 46 MACHINE ?= "qemux86-64"
-254 require conf/multilib.conf
-255 MULTILIBS = "multilib:lib32"
-256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-257 
-258 IMAGE_INSTALL_append = " lib32-gzip openssl"
-260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
-262 
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-2. Edit local.conf, remove 'lib32-gzip openssl'
-vim local.conf
-...
-258 # IMAGE_INSTALL_append = " lib32-gzip openssl"
-...
-
-3. bb core-image-minimal, lib32-gzip and openssl should be removed.
-vim log.do_rootfs:
-...
- 20 NOTE: Removing package lib32-eglibc from root...
- 21 Removing package lib32-gzip from root...
- 22 Removing package lib32-update-alternatives-opkg from root...
- 23 Removing package libcrypto1.0.0 from root...
- 24 Removing package libssl1.0.0 from root...
- 25 Removing package openssl from root...
- 26 Removing package openssl-conf from root...
- ...
- 31 Package opkg-collateral (1.0-r2) installed in root is up to date.
- 32 Package run-postinsts (1.0-r9) installed in root is up to date.
- 33 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
- 34 Package opkg (1:0.2.0-r0) installed in root is up to date.
- 35 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
-...
-
----------------------------------------------
-Case 3: Incremental Rebuild
-1. Edit local.conf, enable multilib and ipk incremental image generation
-...
- 46 MACHINE ?= "qemux86-64"
-254 require conf/multilib.conf
-255 MULTILIBS = "multilib:lib32"
-256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-257 
-258 # IMAGE_INSTALL_append = " lib32-gzip openssl"
-260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
-262 
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-2. Edit local.conf, append 'lib32-gzip openssl' to IMAGE_INSTALL
-vim local.conf
-...
-258 IMAGE_INSTALL_append = " lib32-gzip openssl"
-...
-
-3. bb core-image-minimal, lib32-gzip and openssl should be added.
-vim log.do_rootfs:
-...
- 20 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
- 21 Package opkg-collateral (1.0-r2) installed in root is up to date.
- 22 Package run-postinsts (1.0-r9) installed in root is up to date.
- 23 Installing openssl (1.0.1e-r15.0) to root...
- ...
- 31 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
- 32 Package opkg (1:0.2.0-r0) installed in root is up to date.
- 33 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
- ...
- 54 NOTE: Installing the following packages: lib32-gzip
-...
-
----------------------------------------------
-Case 4: Rebuild in place and Upgrade package
-1. Edit local.conf, enable ipk incremental image generation
-...
-258 IMAGE_INSTALL_append = " gzip"
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-2. Edit local.conf, upgrade gzip's PR
-...
-258 PR_pn-gzip = "r1"
-...
-
-3. bb core-image-minimal, gzip should be upgraded to r1
-vim log.do_rootfs:
-...
- 21 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
- 22 Package opkg-collateral (1.0-r2) installed in root is up to date.
- 23 Package run-postinsts (1.0-r9) installed in root is up to date.
- 24 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
- 25 Package opkg (1:0.2.0-r0) installed in root is up to date.
- 26 Upgrading gzip on root from 1.6-r0 to 1.6-r1...
-...
-
----------------------------------------------
-Case 5: Test BAD_RECOMMENDATIONS
-1. Edit local.conf, enable ipk incremental image generation
-...
-258 IMAGE_INSTALL_append = " util-linux"
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-The util-linux-fdisk is in util-linux's RRECOMMENDS
-vim installed_pkgs.txt
-...
-41 util-linux-fdisk core2-64
-...
-
-2. Edit local.conf, add some spaces to IMAGE_INSTALL and add
-util-linux-fdisk to core-image-minimal's BAD_RECOMMENDATIONS
-...
-260 IMAGE_INSTALL_append = " util-linux  "
-265 BAD_RECOMMENDATIONS_pn-core-image-minimal += "util-linux-fdisk"
-...
-
-3. bb core-image-minimal, util-linux-fdisk should not be installed
-vim log.do_rootfs:
-...
-34 NOTE: Requested ignored recommendation util-linux-fdisk is not a package
-    ...
-119 util-linux: ignoring recommendation for util-linux-fdisk at user request
-120 util-linux: unsatisfied recommendation for util-linux-fdisk
-...
-
-The util-linux-fdisk doesn't exist in installed_pkgs.txt any more.
-
----------------------------------------------
-Case 6: Test NO_RECOMMENDATIONS
-1. Edit local.conf, enable ipk incremental image generation
-...
-258 IMAGE_INSTALL_append = " util-linux"
-263 INC_IPK_IMAGE_GEN = "1"
-...
-bb core-image-minimal
-
-The util-linux-fdisk util-linux-cfdisk util-linux-sfdisk
-util-linux-mount util-linux-readprofile util-linux-mkfs are
-in util-linux's RRECOMMENDS
-
-vim installed_pkgs.txt
-...
-4 util-linux-mkfs core2-64
-18 util-linux-sfdisk core2-64
-20 util-linux-mount core2-64
-38 util-linux-cfdisk core2-64
-41 util-linux-fdisk core2-64
-46 util-linux-readprofile core2-64
-...
-
-2. Edit local.conf, add some spaces to IMAGE_INSTALL and
-   assign core-image-minimal's NO_RECOMMENDATIONS with 1
-...
-260 IMAGE_INSTALL_append = " util-linux  "
-267 NO_RECOMMENDATIONS_pn-core-image-minimal = "1"
-...
-
-3. bb core-image-minimal, The six packages should not be installed
-vim log.do_rootfs:
-...
-34 NOTE: Requested ignored recommendation util-linux-fdisk is not a package
-    ...
-113 util-linux: ignoring recommendation for util-linux-sfdisk at user request
-114 util-linux: unsatisfied recommendation for util-linux-sfdisk
-115 util-linux: ignoring recommendation for util-linux-cfdisk at user request
-116 util-linux: unsatisfied recommendation for util-linux-cfdisk
-117 util-linux: ignoring recommendation for util-linux-mount at user request
-118 util-linux: unsatisfied recommendation for util-linux-mount
-119 util-linux: ignoring recommendation for util-linux-fdisk at user request
-120 util-linux: unsatisfied recommendation for util-linux-fdisk
-121 util-linux: ignoring recommendation for util-linux-mkfs at user request
-122 util-linux: unsatisfied recommendation for util-linux-mkfs
-123 util-linux: ignoring recommendation for util-linux-readprofile at user request
-124 util-linux: unsatisfied recommendation for util-linux-readprofile
-...
-
-They don't exist in installed_pkgs.txt any more.
-
-//Hongxu
-
-The following changes since commit bb0c26960d3b05070346cdfdfd05d6fd4ad0a7b1:
-
-  wic: Make exec_native_command() fail if a command isn't found (2014-02-20 14:28:13 +0000)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/ipk-inc-gen
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/ipk-inc-gen
-
-Hongxu Jia (5):
-  manifest.py: add create_full for OpkgManifest class
-  package_manager.py: support ipk incremental image generation
-  rootfs.py: support ipk incremental image generation
-  rootfs.py: support BAD_RECOMMENDATIONS for ipk incremental image
-    generation
-  rootfs.py: tweak _multilib_sanity_test for ipk incremental image
-    generation
-
- meta/lib/oe/manifest.py        |  57 +++++++++++++++++-
- meta/lib/oe/package_manager.py |  81 ++++++++++++++++++++++++--
- meta/lib/oe/rootfs.py          | 128 +++++++++++++++++++++++++++++++++++++++--
- 3 files changed, 254 insertions(+), 12 deletions(-)
-
+diff --git a/meta/lib/oe/manifest.py b/meta/lib/oe/manifest.py
+index a4bc04b..60c788e 100644
+--- a/meta/lib/oe/manifest.py
++++ b/meta/lib/oe/manifest.py
+@@ -1,6 +1,8 @@
+ from abc import ABCMeta, abstractmethod
++from oe.package_manager import *
+ import os
+ import re
++import bb
+ 
+ 
+ class Manifest(object):
+@@ -69,6 +71,7 @@ class Manifest(object):
+ 
+         self.initial_manifest = os.path.join(self.manifest_dir, "%s_initial_manifest" % manifest_type)
+         self.final_manifest = os.path.join(self.manifest_dir, "%s_final_manifest" % manifest_type)
++        self.full_manifest = os.path.join(self.manifest_dir, "%s_full_manifest" % manifest_type)
+ 
+         # packages in the following vars will be split in 'must install' and
+         # 'multilib'
+@@ -128,6 +131,15 @@ class Manifest(object):
+         pass
+ 
+     """
++    This creates the manifest after the package in initial manifest has been
++    dummy installed. It lists all *to be installed* packages. There is no real
++    installation, just a test.
++    """
++    @abstractmethod
++    def create_full(self, pm):
++        pass
++
++    """
+     The following function parses an initial manifest and returns a dictionary
+     object with the must install, attempt only, multilib and language packages.
+     """
+@@ -158,6 +170,22 @@ class Manifest(object):
+ 
+         return pkgs
+ 
++    '''
++    This following function parses a full manifest and return a list
++    object with packages.
++    '''
++    def parse_full_manifest(self):
++        installed_pkgs = list()
++        if not os.path.exists(self.full_manifest):
++            bb.note('full manifest not exist')
++            return installed_pkgs
++
++        with open(self.full_manifest, 'r') as manifest:
++            for pkg in manifest.read().split('\n'):
++                installed_pkgs.append(pkg.strip())
++
++        return installed_pkgs
++
+ 
+ class RpmManifest(Manifest):
+     """
+@@ -202,10 +230,12 @@ class RpmManifest(Manifest):
+                 for pkg in pkgs[pkg_type].split():
+                     manifest.write("%s,%s\n" % (pkg_type, pkg))
+ 
+-
+     def create_final(self):
+         pass
+ 
++    def create_full(self, pm):
++        pass
++
+ 
+ class OpkgManifest(Manifest):
+     """
+@@ -253,6 +283,28 @@ class OpkgManifest(Manifest):
+     def create_final(self):
+         pass
+ 
++    def create_full(self, pm):
++        if not os.path.exists(self.initial_manifest):
++            self.create_initial()
++
++        initial_manifest = self.parse_initial_manifest()
++        pkgs_to_install = list()
++        for pkg_type in initial_manifest:
++            pkgs_to_install += initial_manifest[pkg_type]
++        if len(pkgs_to_install) == 0:
++            return
++
++        output = pm.dummy_install(pkgs_to_install)
++
++        with open(self.full_manifest, 'w+') as manifest:
++            pkg_re = re.compile('^Installing ([^ ]+) [^ ].*')
++            for line in set(output.split('\n')):
++                m = pkg_re.match(line)
++                if m:
++                    manifest.write(m.group(1) + '\n')
++
++        return
++
+ 
+ class DpkgManifest(Manifest):
+     def create_initial(self):
+@@ -272,6 +324,9 @@ class DpkgManifest(Manifest):
+     def create_final(self):
+         pass
+ 
++    def create_full(self, pm):
++        pass
++
+ 
+ def create_manifest(d, final_manifest=False, manifest_dir=None,
+                     manifest_type=Manifest.MANIFEST_TYPE_IMAGE):
 -- 
 1.8.1.2
 
