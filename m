@@ -1,34 +1,44 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-oa0-f42.google.com (mail-oa0-f42.google.com
-	[209.85.219.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A9676EE5C
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id D16ED6B89F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 19:40:05 +0000 (UTC)
-Received: by mail-oa0-f42.google.com with SMTP id j17so2747890oag.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 11:40:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=zSpgs+/lYpbZVyAH3JD2ibA3E+sTFqO92XVFAkzefU4=;
-	b=C9StdmSIz61N1kqcgAkJNRBhpr0zLDvCbXGHqx3aY5Tea4omDfGeOsPx5iaWqnQDIH
-	ywWFLYC2vJrsAJs+bApuqM1zObdGTofGxeK2FvH8VNtMt+dqIgQApEuReI8rpbSE76CV
-	imtROFTK+CLebYfpNs8zORuMiZ3GjZdnjK7gwuwc7ICtxyTlAi+JMiACWLPdyQdkuEGO
-	N4lf6BJHmm45quoL+ho7fsdbq9C3tm5WeyyNz5eomplaJ9eC0kpJ90LEOuRdDtgVNLHG
-	ebi/faiZFqM1kr7AGdDkYxXUYT88uLNnFqvYtTQcJLJ9DZ75hfcownFUQZ4Jps75t/mw
-	HQ6Q==
-MIME-Version: 1.0
-X-Received: by 10.60.246.70 with SMTP id xu6mr2673354oec.33.1393011606595;
-	Fri, 21 Feb 2014 11:40:06 -0800 (PST)
-Received: by 10.60.40.200 with HTTP; Fri, 21 Feb 2014 11:40:06 -0800 (PST)
-Received: by 10.60.40.200 with HTTP; Fri, 21 Feb 2014 11:40:06 -0800 (PST)
-In-Reply-To: <53079ABF.2090204@linux.intel.com>
+	Fri, 21 Feb 2014 21:20:50 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1WGxWb-0001ic-2J; Fri, 21 Feb 2014 22:20:49 +0100
+Message-ID: <1393017641.2640.21.camel@e130.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: David Nystrom <david.c.nystrom@gmail.com>
+Date: Fri, 21 Feb 2014 21:20:41 +0000
+In-Reply-To: <CAAKB1h2Etg6DixU6fpO79GEhkV1mu5noDuXdzrjE9NmrnmPKvw@mail.gmail.com>
 References: <1392991017-3524-1-git-send-email-david.c.nystrom@gmail.com>
 	<53079ABF.2090204@linux.intel.com>
-Date: Fri, 21 Feb 2014 20:40:06 +0100
-Message-ID: <CAAKB1h2Etg6DixU6fpO79GEhkV1mu5noDuXdzrjE9NmrnmPKvw@mail.gmail.com>
-From: David Nystrom <david.c.nystrom@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
+	<CAAKB1h2Etg6DixU6fpO79GEhkV1mu5noDuXdzrjE9NmrnmPKvw@mail.gmail.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software,
+	running on the system "hetzner.pbcl.net", has
+	identified this incoming email as possible spam. The original message
+	has been attached to this so you can view it (if it isn't spam) or
+	label similar future email.  If you have any questions, see
+	@@CONTACT_ADDRESS@@ for details.
+	Content preview:  On Fri, 2014-02-21 at 20:40 +0100,
+	David Nystrom wrote: >
+	Perhaps you know this already, but e500v2 is a cpu arch,
+	same as > armv5.
+	Is that really true? I thought e500v2 was an actual core and the
+	equivalent architecture was Power v2.03 or something. [...] 
+	Content analysis details:   (-1.0 points, 5.0 required)
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] x264: SPE is not compatible with Altivec
@@ -44,103 +54,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 19:40:06 -0000
-Content-Type: multipart/alternative; boundary=001a11369c56faaf1004f2efc9ca
+X-List-Received-Date: Fri, 21 Feb 2014 21:20:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11369c56faaf1004f2efc9ca
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2014-02-21 at 20:40 +0100, David Nystrom wrote:
+> Perhaps you know this already, but e500v2 is a cpu arch, same as
+> armv5. 
 
-On Feb 21, 2014 7:28 PM, "Saul Wold" <sgw@linux.intel.com> wrote:
->
-> On 02/21/2014 05:56 AM, David Nystr=F6m wrote:
->>
->> Signed-off-by: David Nystr=F6m <david.c.nystrom@gmail.com>
->> ---
->>   meta/recipes-multimedia/x264/x264_git.bb | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-multimedia/x264/x264_git.bbb/meta/recipes-mult=
-imedia/x264/
-x264_git.bb
->> index 5ebf885..782c26e 100644
->> --- a/meta/recipes-multimedia/x264/x264_git.bb
->> +++ b/meta/recipes-multimedia/x264/x264_git.bb
->> @@ -23,6 +23,7 @@ inherit lib_package pkgconfig
->>   X264_DISABLE_ASM =3D ""
->>   X264_DISABLE_ASM_armv4 =3D "--disable-asm"
->>   X264_DISABLE_ASM_armv5 =3D "--disable-asm"
->> +X264_DISABLE_ASM_e500v2 =3D "--disable-asm"
->>
-> I think that this change really belongs in the e500v2 BSP, it's not
-generic enough to include in core.
+Is that really true?  I thought e500v2 was an actual core and the
+equivalent architecture was Power v2.03 or something.
 
-Perhaps you know this already, but e500v2 is a cpu arch, same as armv5.
+>For future reference, should all ppc related CPU-arch specific stuff 
+>be directed to the FSL bsp ?
 
-For future reference, should all ppc related CPU-arch specific stuff be
-directed to the FSL bsp ?
+Since we do ship tune-ppce500.inc in oe-core, I think it makes sense to
+also include the overrides necessary to make compilation work with SPE
+enabled.  It doesn't seem unreasonable that users would expect that the
+recipes in oe-core would work with a configuration that comes as
+standard.
 
-Br,
-David
+However, adding overrides for e500v2 specifically does seem like a bad
+plan since we will then end up having to duplicate the thing for every
+other non-altivec configuration.  Can you come up with some override
+that will apply to all SPE configurations, or failing that a patch for
+the configure script that will disable the altivec assembler if it
+notices that ${CC} is configured for SPE?
 
->
-> Thanks
->         Sau!
->
->
->
->>   EXTRA_OECONF =3D '--prefix=3D${prefix} \
->>                   --host=3D${HOST_SYS} \
->>
+p.
 
---001a11369c56faaf1004f2efc9ca
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr"><br>
-On Feb 21, 2014 7:28 PM, &quot;Saul Wold&quot; &lt;<a href=3D"mailto:sgw@li=
-nux.intel.com">sgw@linux.intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On 02/21/2014 05:56 AM, David Nystr=F6m wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: David Nystr=F6m &lt;<a href=3D"mailto:david.c.nystr=
-om@gmail.com">david.c.nystrom@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; =A0 meta/recipes-multimedia/x264/<a href=3D"http://x264_git.bb">x2=
-64_git.bb</a> | 1 +<br>
-&gt;&gt; =A0 1 file changed, 1 insertion(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/recipes-multimedia/x264/<a href=3D"http://x264_g=
-it.bb">x264_git.bb</a> b/meta/recipes-multimedia/x264/<a href=3D"http://x26=
-4_git.bb">x264_git.bb</a><br>
-&gt;&gt; index 5ebf885..782c26e 100644<br>
-&gt;&gt; --- a/meta/recipes-multimedia/x264/<a href=3D"http://x264_git.bb">=
-x264_git.bb</a><br>
-&gt;&gt; +++ b/meta/recipes-multimedia/x264/<a href=3D"http://x264_git.bb">=
-x264_git.bb</a><br>
-&gt;&gt; @@ -23,6 +23,7 @@ inherit lib_package pkgconfig<br>
-&gt;&gt; =A0 X264_DISABLE_ASM =3D &quot;&quot;<br>
-&gt;&gt; =A0 X264_DISABLE_ASM_armv4 =3D &quot;--disable-asm&quot;<br>
-&gt;&gt; =A0 X264_DISABLE_ASM_armv5 =3D &quot;--disable-asm&quot;<br>
-&gt;&gt; +X264_DISABLE_ASM_e500v2 =3D &quot;--disable-asm&quot;<br>
-&gt;&gt;<br>
-&gt; I think that this change really belongs in the e500v2 BSP, it&#39;s no=
-t generic enough to include in core.</p>
-<p dir=3D"ltr">Perhaps you know this already, but e500v2 is a cpu arch, sam=
-e as armv5. </p>
-<p dir=3D"ltr">For future reference, should all ppc related CPU-arch specif=
-ic stuff be directed to the FSL bsp ?</p>
-<p dir=3D"ltr">Br,<br>
-David</p>
-<p dir=3D"ltr">&gt;<br>
-&gt; Thanks<br>
-&gt; =A0 =A0 =A0 =A0 Sau!<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; =A0 EXTRA_OECONF =3D &#39;--prefix=3D${prefix} \<br>
-&gt;&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 --host=3D${HOST_SYS} \<br>
-&gt;&gt;<br>
-</p>
 
---001a11369c56faaf1004f2efc9ca--
