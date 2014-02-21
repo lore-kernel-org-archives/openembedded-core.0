@@ -1,33 +1,33 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
-	[209.85.219.48])
-	by mail.openembedded.org (Postfix) with ESMTP id BC6B26DC16
+Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
+	[209.85.219.43])
+	by mail.openembedded.org (Postfix) with ESMTP id CC1BA6F1A2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 16:33:18 +0000 (UTC)
-Received: by mail-oa0-f48.google.com with SMTP id l6so4567146oag.35
+	Fri, 21 Feb 2014 16:34:12 +0000 (UTC)
+Received: by mail-oa0-f43.google.com with SMTP id i7so1218677oag.16
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 08:33:19 -0800 (PST)
+	Fri, 21 Feb 2014 08:34:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=zQLV7wMt4KiJ8lB9JfQs3d7qv1ONApa6FX0EZKjg7A0=;
-	b=j9QMKPm8TMOeDvcQxOzv3eqaDFO9ZVXxNr7BWAgdtO+HxdDVsUlu9ZcJDnG5fCX7uz
-	u1cbrACqWew36s1loFfuMI3Itk4sI4pv/i2b7N1wPTtz05JOBD+v0O6DAT51TQcXWFRM
-	mI+3Y7n0Pzz/yMnE7CYozr3Sc9hVJ2otvXXm2lFewBlcQWmaBOsSTwd/yrG29jlNDcVM
-	DAsSjtHUdyzoTbf+58GL1ezVsUiFKaQ6Mgb70thXg26lEVy+r7ebuGrdUm1S6E6+ClPQ
-	hQdnoErUw6HKpP7txl01YdbSULXZcLS8QGF5spjtyLPVZ/4qSKlAI5cyyzB6Za+ScJmr
-	zEdw==
-X-Received: by 10.43.153.68 with SMTP id kz4mr3635651icc.29.1393000399668;
-	Fri, 21 Feb 2014 08:33:19 -0800 (PST)
+	bh=R6/U05r1UZkqGTxISEPr9iwzOaP99RN2vao/KZzevN0=;
+	b=JUuGqRxIvY4pQyuMyv2b3Dj0n7OqHgr8jcLyDgmtFPIGRN+4rba1Mv2a3UsbvQv4sB
+	7hNJ5cNUqmxAFhUR+Tieuc0d8DLainmcfZ8NgDZmuyGCLZScvODkgoQ322ZFdJmb/cu1
+	1kb4od+vdJ1Q8tKx88rtvK47GJv3QvYKkg0Zq9w1gf6aL88q4xYb51oGFWqKFse7SFrv
+	O02RrdejjvKH/osACJOM4UQXnSIUrRTUWchEWodw+UnWLsPmulwowX/7BRydiWYT4WZJ
+	J8gUy4OMdqwgLEq7qEo7JaEgQbN3/w0yOeT0Ijn12g8xePHbhv2kK19k5WrR6aoBlsIn
+	S7WQ==
+X-Received: by 10.50.60.103 with SMTP id g7mr1066311igr.20.1393000452985; Fri,
+	21 Feb 2014 08:34:12 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.50.224.137 with HTTP; Fri, 21 Feb 2014 08:32:49 -0800 (PST)
-In-Reply-To: <20140221151607.GG3854@jama>
+Received: by 10.50.224.137 with HTTP; Fri, 21 Feb 2014 08:33:42 -0800 (PST)
+In-Reply-To: <1392996116.1560.14.camel@ted>
 References: <cover.1392891203.git.raj.khem@gmail.com>
-	<20140221151607.GG3854@jama>
+	<20140221151607.GG3854@jama> <1392996116.1560.14.camel@ted>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 21 Feb 2014 08:32:49 -0800
-Message-ID: <CAMKF1srH-UE7rtqDZJGorWXwoQYdGwzTvZwK8mE5u0ooTikzjg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 21 Feb 2014 08:33:42 -0800
+Message-ID: <CAMKF1spukjj3Q1VECdKq5GpKR=wQOVjiqQp2+oCoGkHnX8by1w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [RFT][PATCH 0/2] Systemd 209
@@ -43,30 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 16:33:20 -0000
+X-List-Received-Date: Fri, 21 Feb 2014 16:34:14 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Feb 21, 2014 at 7:16 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+On Fri, Feb 21, 2014 at 7:21 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Thanks for upgrade
->
-> I've noticed pulseaudio failing to build when it tries to detect old
-> libsystemd-login lib:
->
-> | to the PKG_CONFIG_PATH environment variable
-> | No package 'libsystemd-login' found
-> | configure:26263: $? = 1
-> | configure:26277: result: no
-> | No package 'libsystemd-login' found
-> | configure:26310: error: *** Needed systemd support not found
->
-> do we want to enable compat libs or update pulseaudio to use new
-> libsystemd?
+> FWIW the git recipe I was using enabled compat-libs...
 
-I think we dont have such a big legacy with systemd yet may be if its
-few packages then lets fix the packages instead of enabling legacy
-support if we can. in my local tree ( not yet pushed ) I was
-explicitly enabling it and disabling kdbus support to see if I can fix
-the logind not finding dbus issue
-it seems to happen for all architectures
+I have tested both combinations. I would suggest that we drop compat-libs
+if there are few packages needing it lests fix the packages instead
 
