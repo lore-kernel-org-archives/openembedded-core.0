@@ -1,46 +1,24 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from va3outboundpool.messaging.microsoft.com
-	(va3ehsobe010.messaging.microsoft.com [216.32.180.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D3B760017
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C47DD6B206
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 05:38:26 +0000 (UTC)
-Received: from mail215-va3-R.bigfish.com (10.7.14.243) by
-	VA3EHSOBE014.bigfish.com (10.7.40.64) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 21 Feb 2014 05:38:25 +0000
-Received: from mail215-va3 (localhost [127.0.0.1])	by
-	mail215-va3-R.bigfish.com (Postfix) with ESMTP id A1DC94C027F;
-	Fri, 21 Feb 2014 05:38:25 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: 1
-X-BigFish: VPS1(zze0eahzz1f42h2148h208ch1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6hzz1de098h8275bh1de097hz2fh95h839hc61hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah224fh1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e1dh1e23h1fe8h1ff5h2218h2216h226dh24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh906i1155h)
-Received-SPF: pass (mail215-va3: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail215-va3 (localhost.localdomain [127.0.0.1]) by mail215-va3
-	(MessageSwitch) id 139296110359887_17490;
-	Fri, 21 Feb 2014 05:38:23 +0000 (UTC)
-Received: from VA3EHSMHS040.bigfish.com (unknown [10.7.14.238])	by
-	mail215-va3.bigfish.com (Postfix) with ESMTP id 08F7160021B;
-	Fri, 21 Feb 2014 05:38:23 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by VA3EHSMHS040.bigfish.com
-	(10.7.99.50) with Microsoft SMTP Server id 14.16.227.3; Fri, 21 Feb 2014
-	05:38:22 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-smtp1)	by
-	xsj-gw1 with esmtp (Exim 4.63)	(envelope-from
-	<nathan.rossi@xilinx.com>)	id
-	1WGioX-0008Pq-Ps; Thu, 20 Feb 2014 21:38:21 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
+	Fri, 21 Feb 2014 06:38:31 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1L6cURv011176
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 20 Feb 2014 22:38:31 -0800 (PST)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 20 Feb 2014 22:38:30 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 21 Feb 2014 15:37:31 +1000
-X-Mailer: git-send-email 1.7.9.5
-X-RCIS-Action: ALLOW
+Date: Fri, 21 Feb 2014 14:38:16 +0800
+Message-ID: <cover.1392963956.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Message-ID: <98dd26f3-a46a-451d-a445-93e8b1862377@VA3EHSMHS040.ehs.local>
-X-OriginatorOrg: xilinx.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH] kernel-yocto.bbclass: Force do_diffconfig depends to ${PN}
+Cc: saul.wold@intel.com
+Subject: [PATCH V3 0/5] manifest.py/package_manager.py/rootfs.py: support ipk incremental image generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,54 +31,287 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 05:38:27 -0000
+X-List-Received-Date: Fri, 21 Feb 2014 06:38:32 -0000
 Content-Type: text/plain
 
-Commit 07e59b5ff659bde6e6a60c4781c0a2deb406c667 added the task
-dependency of 'virtual/kernel:do_kernel_configme' for the do_diffconfig
-task. This dependency is only valid for linux recipes that inherit
-kernel-yocto (e.g. linux-yocto), however due to virtual/kernel being a
-virtual dependency it may not be providing a kernel which inherits
-kernel-yocto in which case the do_kernel_configme task might not exist.
+Change in V2:
+- Move dump_install_solution to Manifest class as create_full;
+- Move load_old_install_solution to Manifest class as parse_full_manifest;
+- Handle the output of dummy install in Python rather than shell;
+- Fix typos
+- Rename _file_duplicate with _file_equal to avoid confusion;
 
-In the case where virtual/kernel is provided by a non kernel-yocto
-recipe an error is thrown in relation to the dependency, e.g.
+Change in V3:
+- While create_full calls dummy_install, pass an instance to PM
+  as an argument rather than instantiate another PM object;
+- Rename _create_incremental with _remove_extra_packages;
+- Move the call of _remove_extra_packages below the call of
+  self.pm.handle_bad_recommendations();
+- Remove redundant self.pm.update in _remove_extra_packages;
+- Rename _remove_existing_image with _remove_old_rootfs;
 
-	ERROR: Task do_diffconfig in linux-yocto-tiny_3.8.bb depends
-	upon non-existent task do_kernel_configme in linux.bb
+Test Cases
 
-Changing the dependency to use '${PN}:do_kernel_configme' forces the
-dependency to only depend on the recipe which inherits
-kernel-yocto.bbclass.
+---------------------------------------------
+Case 1: Rebuild in place
+1. Edit local.conf, enable multilib and ipk incremental image generation
+...
+ 46 MACHINE ?= "qemux86-64"
+254 require conf/multilib.conf
+255 MULTILIBS = "multilib:lib32"
+256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+257 
+258 IMAGE_INSTALL_append = " lib32-gzip"
+260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
+262 
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
 
-Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
----
-This effects the linux-xlnx recipe in meta-xilinx, causing the above error to be
-shown when building the linux-xlnx recipe with PREFERRED_PROVIDER_virtual/kernel
- = "linux-xlnx".
+2. Edit local.conf, add some spaces in IMAGE_INSTALL_append
+vim local.conf
+...
+258 IMAGE_INSTALL_append = " lib32-gzip "
+...
 
-I am not sure if this change is entirely correct, there may be a reason for the
-dependence on virtual/kernel that I am not aware of, In which case I have cc'd
-all parties involved in the commit which added this dependency.
+3. bb core-image-minimal, the image should not be rebuilt
+vim log.do_rootfs:
+...
+ 16 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
+ 17 Package opkg-collateral (1.0-r2) installed in root is up to date.
+ 18 Package run-postinsts (1.0-r9) installed in root is up to date.
+ 19 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
+ 20 Package opkg (1:0.2.0-r0) installed in root is up to date.
+ 21 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
+ ...
+ 53 NOTE: Package lib32-gzip (1.6-r7) installed in root is up to date.
+...
 
-I did however do a test of the diffconfig feature with this dependency change
-in place, no regressions are apparent with the linux-yocto recipe.
----
- meta/classes/kernel-yocto.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+vim installed_pkgs.txt
+...
+lib32-gzip x86
+...
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index fab5d4c..ad80621 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -412,4 +412,4 @@ OE_TERMINAL_EXPORTS += "GUILT_BASE KBUILD_OUTPUT"
- GUILT_BASE = "meta"
- KBUILD_OUTPUT = "${B}"
- 
--do_diffconfig[depends] += "virtual/kernel:do_kernel_configme"
-+do_diffconfig[depends] += "${PN}:do_kernel_configme"
+4. runqemu qemux86-64, ssh could work and lib32-gzip is installed
+On host:
+runqemu qemux86-64
+ssh root@192.168.7.2 and run 'opkg-cl list-installed'
+...
+lib32-gzip - 1.6-r7
+...
+
+---------------------------------------------
+Case 2: Decremental Rebuild
+1. Edit local.conf, enable multilib and ipk incremental image generation
+...
+ 46 MACHINE ?= "qemux86-64"
+254 require conf/multilib.conf
+255 MULTILIBS = "multilib:lib32"
+256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+257 
+258 IMAGE_INSTALL_append = " lib32-gzip openssl"
+260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
+262 
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+2. Edit local.conf, remove 'lib32-gzip openssl'
+vim local.conf
+...
+258 # IMAGE_INSTALL_append = " lib32-gzip openssl"
+...
+
+3. bb core-image-minimal, lib32-gzip and openssl should be removed.
+vim log.do_rootfs:
+...
+ 20 NOTE: Removing package lib32-eglibc from root...
+ 21 Removing package lib32-gzip from root...
+ 22 Removing package lib32-update-alternatives-opkg from root...
+ 23 Removing package libcrypto1.0.0 from root...
+ 24 Removing package libssl1.0.0 from root...
+ 25 Removing package openssl from root...
+ 26 Removing package openssl-conf from root...
+ ...
+ 31 Package opkg-collateral (1.0-r2) installed in root is up to date.
+ 32 Package run-postinsts (1.0-r9) installed in root is up to date.
+ 33 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
+ 34 Package opkg (1:0.2.0-r0) installed in root is up to date.
+ 35 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
+...
+
+---------------------------------------------
+Case 3: Incremental Rebuild
+1. Edit local.conf, enable multilib and ipk incremental image generation
+...
+ 46 MACHINE ?= "qemux86-64"
+254 require conf/multilib.conf
+255 MULTILIBS = "multilib:lib32"
+256 DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+257 
+258 # IMAGE_INSTALL_append = " lib32-gzip openssl"
+260 IMAGE_FEATURES_append = " package-management ssh-server-dropbear "
+262 
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+2. Edit local.conf, append 'lib32-gzip openssl' to IMAGE_INSTALL
+vim local.conf
+...
+258 IMAGE_INSTALL_append = " lib32-gzip openssl"
+...
+
+3. bb core-image-minimal, lib32-gzip and openssl should be added.
+vim log.do_rootfs:
+...
+ 20 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
+ 21 Package opkg-collateral (1.0-r2) installed in root is up to date.
+ 22 Package run-postinsts (1.0-r9) installed in root is up to date.
+ 23 Installing openssl (1.0.1e-r15.0) to root...
+ ...
+ 31 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
+ 32 Package opkg (1:0.2.0-r0) installed in root is up to date.
+ 33 Package poky-feed-config-opkg (1.0-r2) installed in root is up to date.
+ ...
+ 54 NOTE: Installing the following packages: lib32-gzip
+...
+
+---------------------------------------------
+Case 4: Rebuild in place and Upgrade package
+1. Edit local.conf, enable ipk incremental image generation
+...
+258 IMAGE_INSTALL_append = " gzip"
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+2. Edit local.conf, upgrade gzip's PR
+...
+258 PR_pn-gzip = "r1"
+...
+
+3. bb core-image-minimal, gzip should be upgraded to r1
+vim log.do_rootfs:
+...
+ 21 NOTE: Package packagegroup-core-ssh-dropbear (1.0-r1) installed in root is up to date.
+ 22 Package opkg-collateral (1.0-r2) installed in root is up to date.
+ 23 Package run-postinsts (1.0-r9) installed in root is up to date.
+ 24 Package packagegroup-core-boot (1.0-r11) installed in root is up to date.
+ 25 Package opkg (1:0.2.0-r0) installed in root is up to date.
+ 26 Upgrading gzip on root from 1.6-r0 to 1.6-r1...
+...
+
+---------------------------------------------
+Case 5: Test BAD_RECOMMENDATIONS
+1. Edit local.conf, enable ipk incremental image generation
+...
+258 IMAGE_INSTALL_append = " util-linux"
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+The util-linux-fdisk is in util-linux's RRECOMMENDS
+vim installed_pkgs.txt
+...
+41 util-linux-fdisk core2-64
+...
+
+2. Edit local.conf, add some spaces to IMAGE_INSTALL and add
+util-linux-fdisk to core-image-minimal's BAD_RECOMMENDATIONS
+...
+260 IMAGE_INSTALL_append = " util-linux  "
+265 BAD_RECOMMENDATIONS_pn-core-image-minimal += "util-linux-fdisk"
+...
+
+3. bb core-image-minimal, util-linux-fdisk should not be installed
+vim log.do_rootfs:
+...
+34 NOTE: Requested ignored recommendation util-linux-fdisk is not a package
+    ...
+119 util-linux: ignoring recommendation for util-linux-fdisk at user request
+120 util-linux: unsatisfied recommendation for util-linux-fdisk
+...
+
+The util-linux-fdisk doesn't exist in installed_pkgs.txt any more.
+
+---------------------------------------------
+Case 6: Test NO_RECOMMENDATIONS
+1. Edit local.conf, enable ipk incremental image generation
+...
+258 IMAGE_INSTALL_append = " util-linux"
+263 INC_IPK_IMAGE_GEN = "1"
+...
+bb core-image-minimal
+
+The util-linux-fdisk util-linux-cfdisk util-linux-sfdisk
+util-linux-mount util-linux-readprofile util-linux-mkfs are
+in util-linux's RRECOMMENDS
+
+vim installed_pkgs.txt
+...
+4 util-linux-mkfs core2-64
+18 util-linux-sfdisk core2-64
+20 util-linux-mount core2-64
+38 util-linux-cfdisk core2-64
+41 util-linux-fdisk core2-64
+46 util-linux-readprofile core2-64
+...
+
+2. Edit local.conf, add some spaces to IMAGE_INSTALL and
+   assign core-image-minimal's NO_RECOMMENDATIONS with 1
+...
+260 IMAGE_INSTALL_append = " util-linux  "
+267 NO_RECOMMENDATIONS_pn-core-image-minimal = "1"
+...
+
+3. bb core-image-minimal, The six packages should not be installed
+vim log.do_rootfs:
+...
+34 NOTE: Requested ignored recommendation util-linux-fdisk is not a package
+    ...
+113 util-linux: ignoring recommendation for util-linux-sfdisk at user request
+114 util-linux: unsatisfied recommendation for util-linux-sfdisk
+115 util-linux: ignoring recommendation for util-linux-cfdisk at user request
+116 util-linux: unsatisfied recommendation for util-linux-cfdisk
+117 util-linux: ignoring recommendation for util-linux-mount at user request
+118 util-linux: unsatisfied recommendation for util-linux-mount
+119 util-linux: ignoring recommendation for util-linux-fdisk at user request
+120 util-linux: unsatisfied recommendation for util-linux-fdisk
+121 util-linux: ignoring recommendation for util-linux-mkfs at user request
+122 util-linux: unsatisfied recommendation for util-linux-mkfs
+123 util-linux: ignoring recommendation for util-linux-readprofile at user request
+124 util-linux: unsatisfied recommendation for util-linux-readprofile
+...
+
+They don't exist in installed_pkgs.txt any more.
+
+//Hongxu
+
+The following changes since commit bb0c26960d3b05070346cdfdfd05d6fd4ad0a7b1:
+
+  wic: Make exec_native_command() fail if a command isn't found (2014-02-20 14:28:13 +0000)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/ipk-inc-gen
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/ipk-inc-gen
+
+Hongxu Jia (5):
+  manifest.py: add create_full for OpkgManifest class
+  package_manager.py: support ipk incremental image generation
+  rootfs.py: support ipk incremental image generation
+  rootfs.py: support BAD_RECOMMENDATIONS for ipk incremental image
+    generation
+  rootfs.py: tweak _multilib_sanity_test for ipk incremental image
+    generation
+
+ meta/lib/oe/manifest.py        |  57 +++++++++++++++++-
+ meta/lib/oe/package_manager.py |  81 ++++++++++++++++++++++++--
+ meta/lib/oe/rootfs.py          | 128 +++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 254 insertions(+), 12 deletions(-)
+
 -- 
-1.7.9.5
-
+1.8.1.2
 
 
