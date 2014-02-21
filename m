@@ -1,36 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EF896EE66
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 01EBF6EE66
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 23:08:55 +0000 (UTC)
-Received: by mail-wi0-f170.google.com with SMTP id hi5so305147wib.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2014 15:08:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JePRJPsZVoKCsD+N2Ci/7bLrzDLM+vdt8iZMoZFzLaM=;
-	b=howyaf5lJkpuH3gcOxsInVmHhL7t9g+hDu5Hgwt25BmYaTLJKgwS7epjkv5Kee5mnC
-	7DeLmNfC1T10b5gXCbhKAYV8U4tkSHXVXvrbgbOwa70dYbeqPlKa2pXCK+WEExgUA9V5
-	1lq94JxiK1oXkte95I+ej6OTj0kz+4kGrqxfuPk2RS1W1eH5z4lp+mpuXOqSIh/UtJav
-	Q/M6xV4xWCnfy6uf7cEyHs/5EsuG4GM8bVXEAMps6mQjnU0K5euTdJIrbwYDWUZl25l/
-	JE0CdYhe0Ve19vPLzL9+tubVe/GY66VFlFUJzLHix1IdHDawW518LE9boF/Oijffpkte
-	aI0g==
-X-Gm-Message-State: ALoCoQllPm5zIMIEVV6q9YGPmgeR0zXv3WTI0Kf8hF7BfPRt9yry6MvX1dfp+IVVukA1Y41nHnUY
-X-Received: by 10.180.188.66 with SMTP id fy2mr544368wic.45.1392937735647;
-	Thu, 20 Feb 2014 15:08:55 -0800 (PST)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fm3sm2401669wib.8.2014.02.20.15.08.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Feb 2014 15:08:54 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2014 23:08:51 +0000
-Message-Id: <1392937731-754-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] libglade: don't use gnome.bbclass
+	Fri, 21 Feb 2014 00:03:25 +0000 (UTC)
+Received: (qmail 7561 invoked by uid 1003); 21 Feb 2014 00:03:25 -0000
+Received: from unknown (HELO ?192.168.1.146?)
+	(philip@opensdr.com@71.171.41.155)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	21 Feb 2014 00:03:25 -0000
+Message-ID: <530697CC.5050402@balister.org>
+Date: Thu, 20 Feb 2014 19:03:24 -0500
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Yocto Project <yocto@yoctoproject.org>
+X-Enigmail-Version: 1.6
+Subject: OEDAM: OpenEmbedded Developers (Americas) Meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2014 23:08:57 -0000
+X-List-Received-Date: Fri, 21 Feb 2014 00:03:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-gnome.bbclass pulls in more functionality than this recipe needs (icon cache,
-MIME, GConf), so instead just use gnomebase.bbclass.
+The OpenEmbedded Project is holding a developers meeting May 2-3,
+2014, in Santa Clara, CA. This meeting is immediately after the Embedded
+Linux Conference North America. All active OpenEmbedded and Yocto
+Project developers are invited to attend.
 
-[ YOCTO #5842 ]
+NOTE: this is a development meeting for the project itself, not a
+training session.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/libglade/libglade_2.6.4.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+May 2-3, 2014
+time TBD
 
-diff --git a/meta/recipes-gnome/libglade/libglade_2.6.4.bb b/meta/recipes-gnome/libglade/libglade_2.6.4.bb
-index 72f4c56..681b856 100644
---- a/meta/recipes-gnome/libglade/libglade_2.6.4.bb
-+++ b/meta/recipes-gnome/libglade/libglade_2.6.4.bb
-@@ -11,7 +11,7 @@ SECTION = "libs"
- PR = "r5"
- DEPENDS = "zlib gdk-pixbuf gtk+"
- 
--inherit autotools pkgconfig gnome gtk-doc
-+inherit autotools pkgconfig gnomebase gtk-doc
- 
- SRC_URI += "file://glade-cruft.patch file://no-xml2.patch file://python_environment.patch"
- 
--- 
-1.7.10.4
+Ettus Research/National Instruments
+4600 Patrick Henry Drive
+Santa Clara, CA 95054 USA
 
+Lunch will be provided on both days.
+
+For more information and to add yourself to the list of attendees, see
+the wiki page at
+http://openembedded.org/wiki/OEDAM
+
+Here are a couple of photos from 2009:
+
+http://www.flickr.com/photos/32615155@N00/sets/72157622653686647/
+
+I'd like to thank Jefro for help with this announcement. Any errors are
+mine though.
+
+Philip, OpenEmbedded eV Chair.
 
