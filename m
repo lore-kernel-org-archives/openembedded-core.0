@@ -1,26 +1,20 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B57F6B206
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C5E636E890
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 06:38:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1L6chcp006591
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Feb 2014 22:38:43 -0800 (PST)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 20 Feb 2014 22:38:43 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 21 Feb 2014 14:38:21 +0800
-Message-ID: <24ba83ec6b0e366533a6c1e4b78437bf262b7f05.1392963956.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1392963956.git.hongxu.jia@windriver.com>
-References: <cover.1392963956.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Cc: saul.wold@intel.com
-Subject: [PATCH 5/5] rootfs.py: tweak _multilib_sanity_test for ipk incremental image generation
+	Fri, 21 Feb 2014 06:52:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Feb 2014 22:52:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,517,1389772800"; d="scan'208";a="485317018"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.1])
+	by fmsmga002.fm.intel.com with ESMTP; 20 Feb 2014 22:52:02 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Feb 2014 22:52:02 -0800
+Message-Id: <cover.1392965335.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [CONSOLIDATED PULL 00/10] Mostly Bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,116 +27,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 06:38:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 21 Feb 2014 06:52:07 -0000
 
-The _multilib_sanity_test installs multilib packages in a temporary
-root fs, and compare with the current image to figure out duplicated
-files that come from different packages.
+Richard,
 
-While incremental image generation enabled and the previous image
-was existed, there was an Multilib check error:
-...
-ERROR: Multilib check error: duplicate files tmp/work/qemux86_64-poky-
-linux/core-image-minimal/1.0-r0/multilib/lib32/lib/libc.so.6 tmp/work/
-qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/lib/libc.so.6
-is not the same
-...
+Ran this through the AB with Khem's systemd 209, but it had issues, so 
+sending you a sub-set of what was in MUT.
 
-The reason is the file in the existing image has been prelinked by
-previous image generation and the file in a temporary root fs is not
-prelinked, even though both of them came from the same package, the
-Multilib check failed.
+Sau!
 
-[YOCTO #1894]
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/lib/oe/rootfs.py | 51 +++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 49 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 78e9627..2b2915e 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -3,6 +3,8 @@ from oe.utils import execute_pre_post_process
- from oe.utils import contains as base_contains
- from oe.package_manager import *
- from oe.manifest import *
-+import oe.path
-+import filecmp
- import shutil
- import os
- import subprocess
-@@ -458,13 +460,58 @@ class OpkgRootfs(Rootfs):
- 
-         bb.utils.remove(self.d.getVar('MULTILIB_TEMP_ROOTFS', True), True)
- 
-+    def _prelink_file(self, root_dir, filename):
-+        bb.note('prelink %s in %s' % (filename, root_dir))
-+        prelink_cfg = oe.path.join(root_dir,
-+                                   self.d.expand('${sysconfdir}/prelink.conf'))
-+        if not os.path.exists(prelink_cfg):
-+            shutil.copy(self.d.expand('${STAGING_DIR_NATIVE}${sysconfdir_native}/prelink.conf'),
-+                        prelink_cfg)
-+
-+        cmd_prelink = self.d.expand('${STAGING_DIR_NATIVE}${sbindir_native}/prelink')
-+        self._exec_shell_cmd([cmd_prelink,
-+                              '--root',
-+                              root_dir,
-+                              '-amR',
-+                              '-N',
-+                              '-c',
-+                              self.d.expand('${sysconfdir}/prelink.conf')])
-+
-+    '''
-+    Compare two files with the same key twice to see if they are equal.
-+    If they are not equal, it means they are duplicated and come from
-+    different packages.
-+    1st: Comapre them directly;
-+    2nd: While incremental image creation is enabled, one of the
-+         files could be probaly prelinked in the previous image
-+         creation and the file has been changed, so we need to
-+         prelink the other one and compare them.
-+    '''
-+    def _file_equal(self, key, f1, f2):
-+
-+        # Both of them are not prelinked
-+        if filecmp.cmp(f1, f2):
-+            return True
-+
-+        if self.image_rootfs not in f1:
-+            self._prelink_file(f1.replace(key, ''), f1)
-+
-+        if self.image_rootfs not in f2:
-+            self._prelink_file(f2.replace(key, ''), f2)
-+
-+        # Both of them are prelinked
-+        if filecmp.cmp(f1, f2):
-+            return True
-+
-+        # Not equal
-+        return False
-+
-     """
-     This function was reused from the old implementation.
-     See commit: "image.bbclass: Added variables for multilib support." by
-     Lianhao Lu.
-     """
-     def _multilib_sanity_test(self, dirs):
--        import filecmp
- 
-         allow_replace = self.d.getVar("MULTILIBRE_ALLOW_REP", True)
-         if allow_replace is None:
-@@ -488,7 +535,7 @@ class OpkgRootfs(Rootfs):
-                         else:
-                             if os.path.exists(files[key]) and \
-                                os.path.exists(item) and \
--                               not filecmp.cmp(files[key], item):
-+                               not self._file_equal(key, files[key], item):
-                                 valid = False
-                                 bb.fatal("%s duplicate files %s %s is not the same\n" %
-                                          (error_prompt, item, files[key]))
+The following changes since commit 43ac6e3216c5d985d6f90a28e727e397df616267:
+
+  wic: Make exec_native_command() fail if a command isn't found (2014-02-20 14:28:06 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Chong Lu (1):
+  insserv: enable ptest support
+
+Dave Lerner (1):
+  valgrind: integration of regression tests to ptest
+
+Fathi Boudra (1):
+  git: update to 1.9.0 release
+
+Kai Kang (1):
+  update-rc.d.bbclass: fix inhibit check
+
+Khem Raj (1):
+  uclibc: Add new functionality needed for systemd 209
+
+Koen Kooi (1):
+  openssh: enable PAM at runtime based on DISTRO_FEATURES
+
+Ross Burton (1):
+  libglade: don't use gnome.bbclass
+
+Saul Wold (2):
+  runqemu: Ensure ROOTFS path is absolute
+  psmisc: Update to 22.21
+
+Valentin Popa (1):
+  gtk+3: upgrade to 3.10.7
+
+ meta/classes/update-rc.d.bbclass                   |   2 +-
+ meta/recipes-connectivity/openssh/openssh_6.4p1.bb |   4 +-
+ meta/recipes-core/uclibc/uclibc-git.inc            |   3 +
+ .../0001-Add-eventfd_read-and-eventfd_write.patch  | 120 +++++++
+ .../uclibc-git/0002-wire-setns-syscall.patch       |  68 ++++
+ ...tl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch | 377 +++++++++++++++++++++
+ .../git/{git_1.8.5.2.bb => git_1.9.0.bb}           |   4 +-
+ meta/recipes-devtools/insserv/files/run-ptest      |  17 +
+ meta/recipes-devtools/insserv/insserv_1.14.0.bb    |  14 +-
+ .../valgrind/valgrind/add-ptest.patch              | 205 +++++++++++
+ .../valgrind/valgrind/force-nostabs.patch          |  42 +++
+ .../valgrind/remove-arm-variant-specific.patch     |  67 ++++
+ .../valgrind/remove-ppc-tests-failing-build.patch  |  75 ++++
+ meta/recipes-devtools/valgrind/valgrind/run-ptest  |  11 +
+ meta/recipes-devtools/valgrind/valgrind_3.9.0.bb   |  56 ++-
+ .../psmisc/{psmisc_22.20.bb => psmisc_22.21.bb}    |   4 +-
+ .../fix-build-when-wayland-backend-enabled.patch   |  43 +++
+ .../gtk+/gtk+3/no-x11-in-wayland.patch             |  32 --
+ meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch |  42 ---
+ .../gtk+/{gtk+3_3.8.2.bb => gtk+3_3.10.7.bb}       |   9 +-
+ meta/recipes-gnome/libglade/libglade_2.6.4.bb      |   2 +-
+ scripts/runqemu                                    |   4 +-
+ 22 files changed, 1111 insertions(+), 90 deletions(-)
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Add-eventfd_read-and-eventfd_write.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0002-wire-setns-syscall.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0003-fcntl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch
+ rename meta/recipes-devtools/git/{git_1.8.5.2.bb => git_1.9.0.bb} (67%)
+ create mode 100644 meta/recipes-devtools/insserv/files/run-ptest
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/add-ptest.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/force-nostabs.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-ppc-tests-failing-build.patch
+ create mode 100755 meta/recipes-devtools/valgrind/valgrind/run-ptest
+ rename meta/recipes-extended/psmisc/{psmisc_22.20.bb => psmisc_22.21.bb} (44%)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-build-when-wayland-backend-enabled.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/no-x11-in-wayland.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/wayland-attach.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.8.2.bb => gtk+3_3.10.7.bb} (61%)
+
 -- 
-1.8.1.2
+1.8.3.1
 
 
