@@ -1,24 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A116E6F170
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-oa0-f42.google.com (mail-oa0-f42.google.com
+	[209.85.219.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B1856F170
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 03:48:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 20 Feb 2014 19:43:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,516,1389772800"; d="scan'208";a="486973276"
-Received: from unknown (HELO [10.255.14.1]) ([10.255.14.1])
-	by orsmga002.jf.intel.com with ESMTP; 20 Feb 2014 19:48:12 -0800
-Message-ID: <5306CC7C.1010606@linux.intel.com>
-Date: Thu, 20 Feb 2014 19:48:12 -0800
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+	Fri, 21 Feb 2014 03:50:51 +0000 (UTC)
+Received: by mail-oa0-f42.google.com with SMTP id j17so1187975oag.15
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2014 19:50:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=bkue4Nty8kdswW+ITr++3vPMoIvTfGVKMfUSeb2XQV8=;
+	b=ZfThURrltOYgrf1m7l1yK8VSkMjDZ2jnFcPD/B5uPkHt0eFLN2787YaBwNYdz1EXrW
+	bmyfB6tPfaWh4EHYXucuE+n9Myd7so4izqU2sLB/77jokXN3sw/LSJaiVIepmP+/CFyr
+	LU9gtQi78H+WI2cR77oIXJvmaLZH4JTBq5S12yYEv3qiKm9HtJb5LW1D7bHQICb9S26u
+	FAAMxb3Jus0IZlk9lgrAEHDe9sZX+q4/8wHAg+V1hBGODi+l8qQw1fFUTifYpLBZdmde
+	+ZQ1bCkFoS0PckOQeI3p6Q9LgSQW9uC9FG+DVh7N1dRc47KKpGcIOIeGG7Tsznc8upjj
+	6erA==
+X-Received: by 10.43.182.74 with SMTP id pl10mr3316484icc.70.1392954652762;
+	Thu, 20 Feb 2014 19:50:52 -0800 (PST)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, 
- openembedded-core@lists.openembedded.org
+Received: by 10.50.224.137 with HTTP; Thu, 20 Feb 2014 19:50:21 -0800 (PST)
+In-Reply-To: <5306CC7C.1010606@linux.intel.com>
 References: <cover.1392891203.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1392891203.git.raj.khem@gmail.com>
+	<5306CC7C.1010606@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 20 Feb 2014 19:50:21 -0800
+Message-ID: <CAMKF1souTCmnJqDt4GbJnPDkp7e0ubNUPA4sdeiCKRHLEKUXxw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [RFT][PATCH 0/2] Systemd 209
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,74 +43,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 03:48:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Feb 2014 03:50:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 02/20/2014 02:18 AM, Khem Raj wrote:
-> This patchset upgrades systemd to 209 as can be seen some enahancements
-> to uclibc were neeed. As of now. It builds for me on both uclibc/eglibc
-> Please test it out in your setups and report back any issues
->
-> The following changes since commit 9a98b8bfe13b94d89a9e39cca821f26fdeaeffc3:
->
->    image_types.bbclass: Fix tar IMAGE_CMD to not change directories (2014-02-18 08:37:03 +0000)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib kraj/systemd-209
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/systemd-209
->
-> Khem Raj (2):
->    uclibc: Add new functionality needed for systemd 209
->    systemd: Upgrade 208 -> 209
->
->   ...-Use-bin-mkdir-instead-of-host-mkdir-path.patch |  31 --
->   ...1-uClibc-doesn-t-implement-pwritev-preadv.patch |  15 +-
->   ...ournal-Add-missing-byte-order-conversions.patch |  60 ----
->   .../journal-file-protect-against-alloca-0.patch    |  23 --
->   ...n-appending-to-journal-file-allocate-larg.patch |  83 -----
->   .../systemd/journald-add-missing-error-check.patch |  16 -
->   .../systemd/systemd/systemd-pam-fix-execvpe.patch  |  22 +-
->   .../systemd/systemd-pam-fix-fallocate.patch        |  24 +-
->   .../systemd/systemd-pam-fix-getty-unit.patch       |  20 +-
->   .../systemd/systemd/systemd-pam-fix-mkostemp.patch | 166 +--------
->   .../systemd/systemd/systemd-pam-fix-msformat.patch | 115 ++++---
->   .../systemd/systemd/uclibc-sysinfo_h.patch         |  19 ++
->   .../systemd/{systemd_208.bb => systemd_209.bb}     |  14 +-
->   meta/recipes-core/uclibc/uclibc-git.inc            |   3 +
->   .../0001-Add-eventfd_read-and-eventfd_write.patch  | 120 +++++++
->   .../uclibc-git/0002-wire-setns-syscall.patch       |  68 ++++
->   ...tl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch | 377 +++++++++++++++++++++
->   17 files changed, 702 insertions(+), 474 deletions(-)
->   delete mode 100644 meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/journal-Add-missing-byte-order-conversions.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/journal-file-protect-against-alloca-0.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/journal-when-appending-to-journal-file-allocate-larg.patch
->   delete mode 100644 meta/recipes-core/systemd/systemd/journald-add-missing-error-check.patch
->   create mode 100644 meta/recipes-core/systemd/systemd/uclibc-sysinfo_h.patch
->   rename meta/recipes-core/systemd/{systemd_208.bb => systemd_209.bb} (96%)
->   create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Add-eventfd_read-and-eventfd_write.patch
->   create mode 100644 meta/recipes-core/uclibc/uclibc-git/0002-wire-setns-syscall.patch
->   create mode 100644 meta/recipes-core/uclibc/uclibc-git/0003-fcntl.h-Define-F_SETPIPE_SZ-and-F_GETPIPE_SZ.patch
->
+On Thu, Feb 20, 2014 at 7:48 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> Seems like there might be an issue with ptest when I built this on the AB,
+> it might be build vs src dir split?
 
-Seems like there might be an issue with ptest when I built this on the 
-AB, it might be build vs src dir split?
-
-
-> NOTE: Running task 5039 of 5679 (ID: 3843, /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-qa-systemd/build/meta/recipes-support/libcroco/libcroco_0.6.8.bb, do_package_write_ipk)
-> ERROR: Function failed: do_install_ptest_base (log file is located at /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-qa-systemd/build/build/tmp/work/core2-64-poky-linux/systemd/1_209-r0/temp/log.do_install_ptest_base.24377)
-> ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-qa-systemd/build/build/tmp/work/core2-64-poky-linux/systemd/1_209-r0/temp/log.do_install_ptest_base.24377
-> Log data follows:
-> | DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-> | DEBUG: Executing shell function do_install_ptest_base
-> | cp: cannot stat '/home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-qa-systemd/build/build/tmp/work/core2-64-poky-linux/systemd/1_209-r0/build/rules': No such file or directory
-> | WARNING: /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-qa-systemd/build/build/tmp/work/core2-64-poky-linux/systemd/1_209-r0/temp/run.do_install_ptest_base.24377:1 exit 1 from
-> |   cp -rf /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-qa-systemd/build/build/tmp/work/core2-64-poky-linux/systemd/1_209-r0/build/rules /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-qa-systemd/build/build/tmp/work/core2-64-poky-linux/systemd/1_209-r0/image/usr/lib/systemd/ptest/
-> | ERROR: Function failed: do_install_ptest_base (log file is located at /home/pokybuild/yocto-autobuilder-dev/yocto-slave/nightly-qa-systemd/build/build/tmp/work/core2-64-poky-linux/systemd/1_209-r0/temp/log.do_install_ptest_base.24377)
-> NOTE: recipe systemd-1_209-r0: task do_install_ptest_base: Failed
-
-Sau!
-
+hmmm, could be. but there are more rutime issues as this point, I am
+waiting for 210 release which should happen soon
 
