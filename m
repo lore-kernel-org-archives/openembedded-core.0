@@ -1,36 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
-	[209.85.219.43])
-	by mail.openembedded.org (Postfix) with ESMTP id CC1BA6F1A2
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D59B36E9AD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 16:34:12 +0000 (UTC)
-Received: by mail-oa0-f43.google.com with SMTP id i7so1218677oag.16
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 08:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=R6/U05r1UZkqGTxISEPr9iwzOaP99RN2vao/KZzevN0=;
-	b=JUuGqRxIvY4pQyuMyv2b3Dj0n7OqHgr8jcLyDgmtFPIGRN+4rba1Mv2a3UsbvQv4sB
-	7hNJ5cNUqmxAFhUR+Tieuc0d8DLainmcfZ8NgDZmuyGCLZScvODkgoQ322ZFdJmb/cu1
-	1kb4od+vdJ1Q8tKx88rtvK47GJv3QvYKkg0Zq9w1gf6aL88q4xYb51oGFWqKFse7SFrv
-	O02RrdejjvKH/osACJOM4UQXnSIUrRTUWchEWodw+UnWLsPmulwowX/7BRydiWYT4WZJ
-	J8gUy4OMdqwgLEq7qEo7JaEgQbN3/w0yOeT0Ijn12g8xePHbhv2kK19k5WrR6aoBlsIn
-	S7WQ==
-X-Received: by 10.50.60.103 with SMTP id g7mr1066311igr.20.1393000452985; Fri,
-	21 Feb 2014 08:34:12 -0800 (PST)
+	Fri, 21 Feb 2014 18:28:15 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 21 Feb 2014 10:23:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,520,1389772800"; d="scan'208";a="459584478"
+Received: from unknown (HELO [10.255.14.1]) ([10.255.14.1])
+	by orsmga001.jf.intel.com with ESMTP; 21 Feb 2014 10:28:15 -0800
+Message-ID: <53079ABF.2090204@linux.intel.com>
+Date: Fri, 21 Feb 2014 10:28:15 -0800
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Received: by 10.50.224.137 with HTTP; Fri, 21 Feb 2014 08:33:42 -0800 (PST)
-In-Reply-To: <1392996116.1560.14.camel@ted>
-References: <cover.1392891203.git.raj.khem@gmail.com>
-	<20140221151607.GG3854@jama> <1392996116.1560.14.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 21 Feb 2014 08:33:42 -0800
-Message-ID: <CAMKF1spukjj3Q1VECdKq5GpKR=wQOVjiqQp2+oCoGkHnX8by1w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT][PATCH 0/2] Systemd 209
+To: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1392991017-3524-1-git-send-email-david.c.nystrom@gmail.com>
+In-Reply-To: <1392991017-3524-1-git-send-email-david.c.nystrom@gmail.com>
+Subject: Re: [PATCH] x264: SPE is not compatible with Altivec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2014 16:34:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 21 Feb 2014 18:28:18 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 21, 2014 at 7:21 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On 02/21/2014 05:56 AM, David Nyström wrote:
+> Signed-off-by: David Nyström <david.c.nystrom@gmail.com>
+> ---
+>   meta/recipes-multimedia/x264/x264_git.bb | 1 +
+>   1 file changed, 1 insertion(+)
 >
-> FWIW the git recipe I was using enabled compat-libs...
+> diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+> index 5ebf885..782c26e 100644
+> --- a/meta/recipes-multimedia/x264/x264_git.bb
+> +++ b/meta/recipes-multimedia/x264/x264_git.bb
+> @@ -23,6 +23,7 @@ inherit lib_package pkgconfig
+>   X264_DISABLE_ASM = ""
+>   X264_DISABLE_ASM_armv4 = "--disable-asm"
+>   X264_DISABLE_ASM_armv5 = "--disable-asm"
+> +X264_DISABLE_ASM_e500v2 = "--disable-asm"
+>
+I think that this change really belongs in the e500v2 BSP, it's not 
+generic enough to include in core.
 
-I have tested both combinations. I would suggest that we drop compat-libs
-if there are few packages needing it lests fix the packages instead
+Thanks
+	Sau!
+
+
+>   EXTRA_OECONF = '--prefix=${prefix} \
+>                   --host=${HOST_SYS} \
+>
 
