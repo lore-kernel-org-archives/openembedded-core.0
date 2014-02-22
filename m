@@ -1,41 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 978466ED4F
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 07C196EC6B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2014 05:57:38 +0000 (UTC)
-Received: by mail-pb0-f44.google.com with SMTP id rq2so4355532pbb.17
+	Sat, 22 Feb 2014 07:57:23 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id k14so3164276wgh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2014 21:57:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=LXabJ7LnxFEP59TcURZzGx1LgmGfPg0BT6vvpMgZzkw=;
-	b=o/mNZ/7Binl+079cJvFEZXzr8VJd/DyHvjZshgDCHaeTdAJ7BfUyLG8rfzJ58ofmp+
-	QXTDuBW/2FrfFZFzHCurJIgdV00/32m3tmlSulvI0ZxOcqbrFNwQSeKtLnLZJITYn+mT
-	oTF4ouDGSePSEJqiAS9L2a2LTVqE9cLQJSTmJ6QPkbqwALkYUl4gRCzooVUtqfKBOKwK
-	Mme5q8LDNvwb59F9HZEhNa8EyqEs60F3H5Sa2W7PLLTw5Stf+4C1hFRezvpQnOrnskFy
-	dUIlT6HVe+YU06uyrY1hGVUppwwOJSIWQSZWiZrm752cnNV3HZVWTvbMFdLe8nVY63Qg
-	Xv+g==
-X-Received: by 10.66.141.231 with SMTP id rr7mr12921184pab.41.1393048659281;
-	Fri, 21 Feb 2014 21:57:39 -0800 (PST)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30])
-	by mx.google.com with ESMTPSA id lb4sm5946821pbc.11.2014.02.21.21.57.37
+	Fri, 21 Feb 2014 23:57:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=lMC5wo7nyiaCxZDyzEQtab3lEEUYmCbQMqtszsoMRxA=;
+	b=XmGhstrfBSTm37cBg1544dDBUWH02iCu5Mk1OjtIT8t+8THRkz/eTQ/MZ5OQXhJSvp
+	P9ndLVFrLzu1yse/W0cUq+xQF2L7NjfgUIqJHZ7l0sh3k25JMI7XCyIHAlpBmrk8A0Hg
+	xsocIRPEMZbhV1BLjFnHuTDPlkyuRfYbptw17B58RP2thavwzLC477BdHT4Apdh+nYba
+	1duB/bLjcS3AtdUC0JKWEAnkTW5d8fwm2x6RKDuEyWUZ531R2eTHhFk9Yhdgbby+pcHG
+	cQog4jlHkeccEttTFvCDqQNKuFVwILTXkLd+kYwCefC4QVG/TUSRayuZuqgJ3Hk28HpO
+	MPew==
+X-Gm-Message-State: ALoCoQmHqNLCxcFNINU/e5QFjbCElINxhyiUQRyxnxExiKZIzToYdioAGlRzK26nC7VAEC2rwdg4
+X-Received: by 10.180.207.15 with SMTP id ls15mr6259671wic.50.1393055843074;
+	Fri, 21 Feb 2014 23:57:23 -0800 (PST)
+Received: from ?IPv6:2001:610:612::11df:8e30:212d:c407?
+	([2001:610:612:0:11df:8e30:212d:c407])
+	by mx.google.com with ESMTPSA id r1sm2615928wia.5.2014.02.21.23.57.21
 	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 21 Feb 2014 21:57:38 -0800 (PST)
+	Fri, 21 Feb 2014 23:57:21 -0800 (PST)
 Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1392929845-23411-1-git-send-email-sgw@linux.intel.com>
-Date: Fri, 21 Feb 2014 21:57:37 -0800
-Message-Id: <42DC4075-3C8F-4D01-AFDB-82AD3357C709@gmail.com>
-References: <1392929845-23411-1-git-send-email-sgw@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1392996116.1560.14.camel@ted>
+Date: Sat, 22 Feb 2014 08:57:19 +0100
+Message-Id: <8730C02B-B94E-4873-88D1-E5BA9063B585@dominion.thruhere.net>
+References: <cover.1392891203.git.raj.khem@gmail.com>
+	<20140221151607.GG3854@jama> <1392996116.1560.14.camel@ted>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 X-Mailer: Apple Mail (2.1827)
-Cc: scott.garman@intel.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: Ensure ROOTFS path is absolute
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT][PATCH 0/2] Systemd 209
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,67 +49,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2014 05:57:41 -0000
-X-Groupsio-MsgNum: 50437
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_C288F5CC-6C12-4F13-B7EA-E7604EADAE59";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_C288F5CC-6C12-4F13-B7EA-E7604EADAE59
+X-List-Received-Date: Sat, 22 Feb 2014 07:57:25 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
 
-On Feb 20, 2014, at 12:57 PM, Saul Wold <sgw@linux.intel.com> wrote:
+Op 21 feb. 2014, om 16:21 heeft Richard Purdie =
+<richard.purdie@linuxfoundation.org> het volgende geschreven:
 
-> There is a problem if a relative path is passed to the kernel for NFS =
-usage
-> that it will not correctly find it, so ensure that the ROOTFS path is =
-absolute.
+> On Fri, 2014-02-21 at 16:16 +0100, Martin Jansa wrote:
+>> On Thu, Feb 20, 2014 at 02:18:56AM -0800, Khem Raj wrote:
+>>> This patchset upgrades systemd to 209 as can be seen some =
+enahancements
+>>> to uclibc were neeed. As of now. It builds for me on both =
+uclibc/eglibc
+>>> Please test it out in your setups and report back any issues
+>>>=20
+>>> The following changes since commit =
+9a98b8bfe13b94d89a9e39cca821f26fdeaeffc3:
+>>>=20
+>>>  image_types.bbclass: Fix tar IMAGE_CMD to not change directories =
+(2014-02-18 08:37:03 +0000)
+>>>=20
+>>> are available in the git repository at:
+>>>=20
+>>>  git://git.openembedded.org/openembedded-core-contrib =
+kraj/systemd-209
+>>>  =
+http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=3Dk=
+raj/systemd-209
+>>>=20
+>>> Khem Raj (2):
+>>>  uclibc: Add new functionality needed for systemd 209
+>>>  systemd: Upgrade 208 -> 209
+>>=20
+>> Thanks for upgrade
+>>=20
+>> I've noticed pulseaudio failing to build when it tries to detect old
+>> libsystemd-login lib:
+>>=20
+>> | to the PKG_CONFIG_PATH environment variable
+>> | No package 'libsystemd-login' found
+>> | configure:26263: $? =3D 1
+>> | configure:26277: result: no
+>> | No package 'libsystemd-login' found
+>> | configure:26310: error: *** Needed systemd support not found
+>>=20
+>> do we want to enable compat libs or update pulseaudio to use new
+>> libsystemd?
 >=20
-> [YOCTO #2807]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> scripts/runqemu | 4 +++-
-> 1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 0db7ad6..57c5de4 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -462,7 +462,9 @@ if [ -z "$ROOTFS" -a "x$FSTYPE" !=3D "xvmdk" ]; =
-then
->         error "Unable to determine default rootfs for MACHINE =
-[$MACHINE]"
->     fi
-> fi
-> -# ROOTFS is now set for all cases
-> +# ROOTFS is now set for all cases, now expand it to be an absolute =
-path, it should exist at this point
-> +
-> +ROOTFS=3D`realpath $ROOTFS`
+> FWIW the git recipe I was using enabled compat-libs...
 
-I think this change also means we need to add dependency on realpath =
-package as prerequisite for build host.
+And that needs IFUNC which only x86 toolchains support :(=
 
-
-
---Apple-Mail=_C288F5CC-6C12-4F13-B7EA-E7604EADAE59
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlMIPFEACgkQuwUzVZGdMxSPeACdFk/aweKUUooFWmTlcpu86WYL
-WgkAn0RfwREXCrkrB+jhCY6cgmnoU1XQ
-=PrT1
------END PGP SIGNATURE-----
-
---Apple-Mail=_C288F5CC-6C12-4F13-B7EA-E7604EADAE59--
