@@ -1,42 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f53.google.com (mail-pb0-f53.google.com
-	[209.85.160.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 86DF56B5D9
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id EF54A6B6BC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2014 19:52:49 +0000 (UTC)
-Received: by mail-pb0-f53.google.com with SMTP id ma3so2198518pbc.40
+	Sat, 22 Feb 2014 20:46:34 +0000 (UTC)
+Received: by mail-ee0-f45.google.com with SMTP id e53so729809eek.18
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2014 11:52:50 -0800 (PST)
+	Sat, 22 Feb 2014 12:46:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=GgrGocQ4KiKsbv/hDX8FDgTfRN+Z4pQ7Jlt0/OyuzX4=;
-	b=g7ID25VTL9YKo0Ma+9+JUHrxUAtp8/1y4zaOOYlI9zUSJgBfopMz8hhk0iFgSnla6r
-	Zd34QOIp5JK5po8xtYBAv7XdOzGBVqbb9b8/ZuOcD1rq3kH4yH/MEBYQukdYJo/QJKSn
-	lar+qG35XmSfJm9wHpSyKom07LaI0LEM9KYnNc5uoE4OhZu7m47i9Gt+uNFf6eTrH2Df
-	GM+5fK9dWVoR81PgJ8rBrmK4hGEfjiF5yrEcTsIoizxXi+Ygk1N8i5S9EQaDxjRG6nBM
-	TrX5qGv4FXYy/pFyB5Fd9Hequ0g0Br2puw8GCHl4TfJyqxlb3gCzGhUdKiOwA1u2snkf
-	nppQ==
-X-Received: by 10.68.170.66 with SMTP id ak2mr16170139pbc.5.1393098770642;
-	Sat, 22 Feb 2014 11:52:50 -0800 (PST)
-Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.30]) by mx.google.com with ESMTPSA id
-	eo11sm79532728pac.0.2014.02.22.11.52.48 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 22 Feb 2014 11:52:49 -0800 (PST)
-Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1393092730.2640.25.camel@e130.pbcl.net>
-Date: Sat, 22 Feb 2014 11:52:47 -0800
-Message-Id: <A779E393-73D0-4FF8-A680-EA37F8CAFE3F@gmail.com>
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=PrKUMjSodmplur1Zbzb1CgZbVLPzeZcEdjhfnG+v9r8=;
+	b=cISc2B1JTKWvfrpepR4Gb2luCcLcTZWZJAaXAQgbP/8SvmxTNLZvF7+etuHyBa7yJ5
+	NCuZc3SQ0LbC/3g9CnWPsmpiSHPnVIcFZq8n9vb2Kon5kEHN3U3r21+Z4dnp1hxL04Xk
+	4R2aVVFtiM/ec9XbL+kihiEpRYpsnv+gHMGQKTo8KhMHFiEfQ+UMvb2dK7EWix/SX8/M
+	ZvbW+Tb9yR5LBNG6REdlp8S/FvSvYY+zQfDIJkIQU5ZjIYMxya6YAnMqZ6O6rsTVzlnQ
+	LixQI7+OjKgGAcx7VwZTCcGLGHC1tHhCW0tngwyyt0TMmI+ZnjQCc665dC0Q4tGea765
+	1ZuQ==
+X-Received: by 10.15.55.193 with SMTP id v41mr16183768eew.80.1393101994929;
+	Sat, 22 Feb 2014 12:46:34 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	o43sm42908018eef.12.2014.02.22.12.46.33 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 22 Feb 2014 12:46:33 -0800 (PST)
+Date: Sat, 22 Feb 2014 21:47:10 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+Message-ID: <20140222204710.GQ3854@jama>
 References: <cover.1392891203.git.raj.khem@gmail.com>
 	<20140221151607.GG3854@jama> <1392996116.1560.14.camel@ted>
 	<8730C02B-B94E-4873-88D1-E5BA9063B585@dominion.thruhere.net>
 	<1393058961.5181.4.camel@ted>
 	<FD6EC742-512D-4423-B59D-D88ECBF97AF1@gmail.com>
 	<1393092730.2640.25.camel@e130.pbcl.net>
-To: Phil Blundell <pb@pbcl.net>
-X-Mailer: Apple Mail (2.1827)
+MIME-Version: 1.0
+In-Reply-To: <1393092730.2640.25.camel@e130.pbcl.net>
+User-Agent: Mutt/1.5.22 (2013-10-16)
 Cc: Koen Kooi <koen@dominion.thruhere.net>,
 	openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [RFT][PATCH 0/2] Systemd 209
@@ -52,78 +51,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2014 19:52:50 -0000
-X-Groupsio-MsgNum: 50451
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_18ECF219-EDDE-4308-A2CE-9659A2BE6A4D";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sat, 22 Feb 2014 20:46:35 -0000
+X-Groupsio-MsgNum: 50452
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="oDto3OTLsk6uOlQH"
+Content-Disposition: inline
 
---Apple-Mail=_18ECF219-EDDE-4308-A2CE-9659A2BE6A4D
+--oDto3OTLsk6uOlQH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=windows-1252
 
-
-On Feb 22, 2014, at 10:12 AM, Phil Blundell <pb@pbcl.net> wrote:
-
+On Sat, Feb 22, 2014 at 06:12:10PM +0000, Phil Blundell wrote:
 > On Sat, 2014-02-22 at 01:31 -0800, Khem Raj wrote:
->> builds might work but they won=92t run and yes so far IFUNC support =
-is needed so it won=92t work on non-x86
->> architectures. One common runtime problem I am seeing is logind not =
-being able to talk to dbus
->> across all architectures. I have pushed my latest rework to pull =
-branch
+> > builds might work but they won=E2=80=99t run and yes so far IFUNC suppo=
+rt is needed so it won=E2=80=99t work on non-x86
+> > architectures. One common runtime problem I am seeing is logind not bei=
+ng able to talk to dbus
+> > across all architectures. I have pushed my latest rework to pull branch
 >=20
-> What is the problem with ifunc on non-x86? =20
-
-they are not enabled across all architectures, well specifically, its =
-not enabled on arm and seems also ppc is missing it.
-
-> As far as I know the
+> What is the problem with ifunc on non-x86?  As far as I know the
 > compiler, assembler, linker and ld.so for all reasonable architectures
 > support that nowadays (though prelink support is a bit patchy).  GCC
 > didn't have ifuncs enabled for some architectures until quite recently
 > but if that was the problem then you'd see compile-time failures.  So,
-> if it compiles then I can't think of any reason why it oughtn't to =
-run.
-
-systemd is using ifuncs to patch up the library migration it has done in =
-209
-so it only shows up when we enable compat lib support in systemd, and if =
-we patch the apps to forward port to systemd 209 then we don=92t need to =
-enable compat lib support and
-it could be left alone.
-
-if we want to enable compat libs/ifunc then we can think of adding =
---enable-gnu-indirect-function
-to gcc configure but then it may not work on all architectures that we =
-are interested in.
-
-
+> if it compiles then I can't think of any reason why it oughtn't to run.
 > Is this a uclibc thing?
 
-no
+I'm seeing lots of compile errors like this:
 
->=20
-> p.
->=20
->=20
+| arm-oe-linux-gnueabi-libtool: link: arm-oe-linux-gnueabi-ranlib .libs/lib=
+systemd-units.a
+| libsystemd-id128.c:6:6: error: ifunc is not supported in this configurati=
+on
+|  void sd_id128_to_string(void) __attribute__((ifunc("resolve_sd_id128_to_=
+string")));
+|       ^
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Apple-Mail=_18ECF219-EDDE-4308-A2CE-9659A2BE6A4D
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+--oDto3OTLsk6uOlQH
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlMJAA8ACgkQuwUzVZGdMxRLzgCcCO8bOTWAmEDMkDuZZAHDjlrD
-5C0An04YMQ3xrW8vQC/cFnYjjF63VclK
-=P3WV
+iEYEARECAAYFAlMJDM4ACgkQN1Ujt2V2gBw/IACghHLbkbOv38PItpGlrDVgqB4w
+togAoKc+4+3fqXRnrhWJz0tm2FJcmoaj
+=4RI7
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_18ECF219-EDDE-4308-A2CE-9659A2BE6A4D--
+--oDto3OTLsk6uOlQH--
