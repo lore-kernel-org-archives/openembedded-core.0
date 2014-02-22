@@ -1,34 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 5769B6C732;
-	Sat, 22 Feb 2014 12:07:08 +0000 (UTC)
-Received: by mail-ee0-f45.google.com with SMTP id e53so563729eek.18
-	for <multiple recipients>; Sat, 22 Feb 2014 04:07:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=KrUgdiUNnsNpAsA9LTF0mAClWiasSTCNpR6+aDnlgjg=;
-	b=hsem1zctXWKKHjiPN6PN45lJj06UBIGx9uLiZqGYq7MWMFogxg+2AvSKXfVBLfn4EK
-	QQZlkPzYUUzzv7pqnyshCKrmmC1RkPpKU5QBR+Uwtofvy5jIH5p3HJCETRR2GircSpF4
-	CdY/Xw5katJlXeATqGP4rimj5h02Y/GJW3NSKYCp+eyr9xW6PoXCI7YkJvobEwAfytWV
-	dMLlADJlHN8aOwqIDOPzSShemS9Fbtb/D4uG1E5muHcej9sDZKSIWNWPrB5Qi1c0hK23
-	76t3rkEMgvPLxyPHFR2hHrAHlJB/2w3hqzN70nbbVY8aCKpidkWB/ZIAtWugbARUqKdV
-	k7ig==
-X-Received: by 10.15.81.197 with SMTP id x45mr13550845eey.28.1393070829222;
-	Sat, 22 Feb 2014 04:07:09 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	o43sm38133098eef.12.2014.02.22.04.07.05 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 22 Feb 2014 04:07:08 -0800 (PST)
-Date: Sat, 22 Feb 2014 13:07:36 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20140222120736.GN3854@jama>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 48E956B89F
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Feb 2014 12:55:27 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Feb 2014 04:55:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,523,1389772800"; d="scan'208";a="486113281"
+Received: from akdissan-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.120.31])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Feb 2014 04:55:27 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>, Saul Wold <sgw@linux.intel.com>
+Date: Sat, 22 Feb 2014 12:55:26 +0000
+Message-ID: <2119167.FSmXca6tad@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.13.3-201.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <42DC4075-3C8F-4D01-AFDB-82AD3357C709@gmail.com>
+References: <1392929845-23411-1-git-send-email-sgw@linux.intel.com>
+	<42DC4075-3C8F-4D01-AFDB-82AD3357C709@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Subject: ValueError: insecure string pickle with latest bitbake
+Cc: scott.garman@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] runqemu: Ensure ROOTFS path is absolute
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,79 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2014 12:07:09 -0000
-X-Groupsio-MsgNum: 50442
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="nb8zVy0QMK3AA1xu"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 22 Feb 2014 12:55:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---nb8zVy0QMK3AA1xu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Friday 21 February 2014 21:57:37 Khem Raj wrote:
+> On Feb 20, 2014, at 12:57 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> > There is a problem if a relative path is passed to the kernel for NFS
+> > usage
+> > that it will not correctly find it, so ensure that the ROOTFS path is
+> > absolute.
+> > 
+> > [YOCTO #2807]
+> > 
+> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> > ---
+> > scripts/runqemu | 4 +++-
+> > 1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/scripts/runqemu b/scripts/runqemu
+> > index 0db7ad6..57c5de4 100755
+> > --- a/scripts/runqemu
+> > +++ b/scripts/runqemu
+> > @@ -462,7 +462,9 @@ if [ -z "$ROOTFS" -a "x$FSTYPE" != "xvmdk" ]; then
+> > 
+> >         error "Unable to determine default rootfs for MACHINE [$MACHINE]"
+> >     
+> >     fi
+> > 
+> > fi
+> > -# ROOTFS is now set for all cases
+> > +# ROOTFS is now set for all cases, now expand it to be an absolute path,
+> > it should exist at this point +
+> > +ROOTFS=`realpath $ROOTFS`
+> 
+> I think this change also means we need to add dependency on realpath package
+> as prerequisite for build host.
 
-Hi,
+realpath is part of coreutils. Another alternative would be readlink -f (but 
+that also appears to be part of coreutils.)
 
-last couple of days many of my jenkins builds failed with exception like
-this:
+Cheers,
+Paul
 
-ERROR: An uncaught exception occured in runqueue, please see the failure be=
-low:
-ERROR: Running idle function
-Traceback (most recent call last):
-  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/cooker.p=
-y", line 1182, in buildTargetsIdle(server=3D<ProcessServer(ProcessServer-2,=
- started)>, rq=3D<bb.runqueue.RunQueue instance at 0x16a95d40>, abort=3DFal=
-se):
-                 try:
-    >                retval =3D rq.execute_runqueue()
-                 except runqueue.TaskFailure as exc:
-  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue=
-=2Epy", line 1093, in RunQueue.execute_runqueue():
-                 try:
-    >                self.teardown_workers()
-                 except:
-  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue=
-=2Epy", line 925, in RunQueue.teardown_workers():
-             self.workerpipe =3D None
-    >        self._teardown_worker(self.fakeworker, self.fakeworkerpipe)
-             self.fakeworker =3D None
-  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue=
-=2Epy", line 906, in RunQueue._teardown_worker(worker=3D<subprocess.Popen o=
-bject at 0xcb4e690>, workerpipe=3D<bb.runqueue.runQueuePipe instance at 0x1=
-1c17710>):
-             while worker.returncode is None:
-    >            workerpipe.read()
-                 worker.poll()
-  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue=
-=2Epy", line 2095, in runQueuePipe.read():
-                 while index !=3D -1 and self.queue.startswith("<event>"):
-    >                event =3D pickle.loads(self.queue[7:index])
-                     bb.event.fire_from_worker(event, self.d)
-ValueError: insecure string pickle
+-- 
 
-and it repeats the same exception very quickly (generated 3GB log in ~ hour)
+Paul Eggleton
+Intel Open Source Technology Centre
 
-It doesn't happen always, it seems to be triggered in different places in b=
-uild.
-
-Anyone else seeing this as well?
-
-I'll add some debug output around it and wait for it to happen again.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---nb8zVy0QMK3AA1xu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlMIkwgACgkQN1Ujt2V2gBy6OwCgjW/owSkcC+LIN2Yx9IE6rHn5
-Jz4An1DDMeBjk71+xqMhmH/7yJom5iBF
-=alFC
------END PGP SIGNATURE-----
-
---nb8zVy0QMK3AA1xu--
