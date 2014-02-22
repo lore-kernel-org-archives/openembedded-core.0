@@ -1,37 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id CD05B6EEFA
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C1D66B7D2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2014 18:11:06 +0000 (UTC)
-Received: by mail-ig0-f173.google.com with SMTP id r1so1833432igi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2014 10:11:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=jzcmhUgb2gZOLDgvtM0Z3AiWtROY2ry6UrOzaM+LH9M=;
-	b=gryy/xeOORX2Ij9YHFLe7fbKNHtUY94Wk18vSZqzf62eOQSGx4lPjm0/b4LTCNlSBh
-	dBygDbEFPe1HIcFmifRCJoIyCF1Gzh85kt7U1X9ktTOX2KekkDTd32/d6UP9C9XTVcHF
-	oyUncISI0HdM/f31i53zXd1YAq/wxEgAtz82rjlsVdOiEH+y+/p/dzYBUxQiRz/mSOv3
-	j/6n9v5nCibJzQcsBQ74OP32sueXz04DWShvUbc8Dq9oke7PuokT92RYIru48mMlUa08
-	hivztix4fxOytRcrqJ60qRrbnLUxDIDsi5oEpQWq/kOZvZD4OGPTAi6g1yJe0P3avB0B
-	K10g==
-X-Received: by 10.43.153.68 with SMTP id kz4mr7942790icc.29.1393092666919;
-	Sat, 22 Feb 2014 10:11:06 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.50.224.137 with HTTP; Sat, 22 Feb 2014 10:10:36 -0800 (PST)
-In-Reply-To: <1393090150-28187-2-git-send-email-Martin.Jansa@gmail.com>
-References: <20140222120340.GM3854@jama>
-	<1393090150-28187-1-git-send-email-Martin.Jansa@gmail.com>
-	<1393090150-28187-2-git-send-email-Martin.Jansa@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 22 Feb 2014 10:10:36 -0800
-Message-ID: <CAMKF1srUQdPozeiOGv=dxD04NHA=g4qjV+mE-m0CnMd+uzpqBA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio: Make it compatible with systemd-209
+	Sat, 22 Feb 2014 18:12:19 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1WHH3i-0002K4-Lg; Sat, 22 Feb 2014 19:12:18 +0100
+Message-ID: <1393092730.2640.25.camel@e130.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 22 Feb 2014 18:12:10 +0000
+In-Reply-To: <FD6EC742-512D-4423-B59D-D88ECBF97AF1@gmail.com>
+References: <cover.1392891203.git.raj.khem@gmail.com>
+	<20140221151607.GG3854@jama> <1392996116.1560.14.camel@ted>
+	<8730C02B-B94E-4873-88D1-E5BA9063B585@dominion.thruhere.net>
+	<1393058961.5181.4.camel@ted>
+	<FD6EC742-512D-4423-B59D-D88ECBF97AF1@gmail.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.8.5-2+b1 
+Mime-Version: 1.0
+X-Spam_score: -1.0
+X-Spam_score_int: -9
+X-Spam_bar: -
+X-Spam_report: Spam detection software, running on the system "hetzner.pbcl.net", has
+ identified this incoming email as possible spam.  The original message
+ has been attached to this so you can view it (if it isn't spam) or label
+ similar future email.  If you have any questions, see
+ @@CONTACT_ADDRESS@@ for details.
+ 
+ Content preview:  On Sat, 2014-02-22 at 01:31 -0800, Khem Raj wrote: > builds
+    might work but they won’t run and yes so far IFUNC support is needed so
+    it won’t work on non-x86 > architectures. One common runtime problem I
+   am seeing is logind not being able to talk to dbus > across all architectures.
+    I have pushed my latest rework to pull branch [...] 
+ 
+ Content analysis details:   (-1.0 points, 5.0 required)
+ 
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT][PATCH 0/2] Systemd 209
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,75 +56,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2014 18:11:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 22 Feb 2014 18:12:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 22, 2014 at 9:29 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  ...c-Check-only-for-libsystemd-not-libsystem.patch | 30 ++++++++++++++++++++++
->  .../pulseaudio/pulseaudio_4.0.bb                   |  1 +
->  2 files changed, 31 insertions(+)
->  create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch
->
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch
-> new file mode 100644
-> index 0000000..467cd2c
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch
-> @@ -0,0 +1,30 @@
-> +From 002b16f0f2176b4c685e210e335bf69c02563ede Mon Sep 17 00:00:00 2001
-> +From: Martin Jansa <Martin.Jansa@gmail.com>
-> +Date: Sat, 22 Feb 2014 18:03:10 +0100
-> +Subject: [PATCH] configure.ac: Check only for libsystemd not libsystemd-login
-> +
-> +* they were merged into libsystemd in systemd-209
-> +
-> +Upstream-Status: Pending (it would need to be conditional on systemd version for upstream to accept this)
-> +
-> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> +---
+On Sat, 2014-02-22 at 01:31 -0800, Khem Raj wrote:
+> builds might work but they won’t run and yes so far IFUNC support is needed so it won’t work on non-x86
+> architectures. One common runtime problem I am seeing is logind not being able to talk to dbus
+> across all architectures. I have pushed my latest rework to pull branch
 
-while we fight to make it work in OE you can in parallel stage/get
-reviews on these patches in respective upstream projects.
+What is the problem with ifunc on non-x86?  As far as I know the
+compiler, assembler, linker and ld.so for all reasonable architectures
+support that nowadays (though prelink support is a bit patchy).  GCC
+didn't have ifuncs enabled for some architectures until quite recently
+but if that was the problem then you'd see compile-time failures.  So,
+if it compiles then I can't think of any reason why it oughtn't to run.
+Is this a uclibc thing?
+
+p.
 
 
-> + configure.ac | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index 388fae2..fff7a83 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -1160,7 +1160,7 @@ AC_ARG_ENABLE([systemd],
-> +     AS_HELP_STRING([--disable-systemd],[Disable optional systemd support]))
-> +
-> + AS_IF([test "x$enable_systemd" != "xno"],
-> +-    [PKG_CHECK_MODULES(SYSTEMD, [ libsystemd-login ], HAVE_SYSTEMD=1, HAVE_SYSTEMD=0)],
-> ++    [PKG_CHECK_MODULES(SYSTEMD, [ libsystemd ], HAVE_SYSTEMD=1, HAVE_SYSTEMD=0)],
-> +     HAVE_SYSTEMD=0)
-> +
-> + AS_IF([test "x$enable_systemd" = "xyes" && test "x$HAVE_SYSTEMD" = "x0"],
-> +--
-> +1.8.5.3
-> +
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
-> index b419c54..53dd494 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
-> @@ -1,6 +1,7 @@
->  require pulseaudio.inc
->
->  SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
-> +           file://0001-configure.ac-Check-only-for-libsystemd-not-libsystem.patch \
->             file://volatiles.04_pulse"
->
->  SRC_URI[md5sum] = "591f211db2790a7e4d222f2dc6858db3"
-> --
-> 1.8.5.3
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
