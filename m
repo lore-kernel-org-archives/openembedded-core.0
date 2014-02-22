@@ -1,42 +1,34 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E30C6EAC2
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2014 12:03:04 +0000 (UTC)
-Received: by mail-ea0-f170.google.com with SMTP id g15so2079463eak.15
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2014 04:03:04 -0800 (PST)
+Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5769B6C732;
+	Sat, 22 Feb 2014 12:07:08 +0000 (UTC)
+Received: by mail-ee0-f45.google.com with SMTP id e53so563729eek.18
+	for <multiple recipients>; Sat, 22 Feb 2014 04:07:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=JmRntKPn2LmhRalWTFV/zcTBOMgimhUzNaUixY14nAM=;
-	b=fLSmzKensL9NTozc9HetGu7AWqsX8XTlm32TFO6tltO5B1hI+Vjh4UrgZZ2X/e7lyq
-	jM40wcoTEFWLzOzj59WUJ4OcIe0w8k3jdGsRnwlnbJgbK62RgEg//OHv54iSKM28U6w3
-	zSNqN9OgaJuBlUk4ltNOb4dB2wLU4SyXNHc8q08lLAPXM+dw1hwtkpW0mV26LC2BT22u
-	wDNvH5QlXcWFtXmdfdIy1RZmxZTxjER4oOopZkmydATMrnrLeNEc31ZCOqquKQnXfaYf
-	HOElBheYqKujJcM40Jm6LUkq+tB0YVCCP8o/l8JtK8YjyWOpplBzr23hH7y9YpglHKtz
-	iC4A==
-X-Received: by 10.14.87.129 with SMTP id y1mr14157987eee.38.1393070584890;
-	Sat, 22 Feb 2014 04:03:04 -0800 (PST)
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=KrUgdiUNnsNpAsA9LTF0mAClWiasSTCNpR6+aDnlgjg=;
+	b=hsem1zctXWKKHjiPN6PN45lJj06UBIGx9uLiZqGYq7MWMFogxg+2AvSKXfVBLfn4EK
+	QQZlkPzYUUzzv7pqnyshCKrmmC1RkPpKU5QBR+Uwtofvy5jIH5p3HJCETRR2GircSpF4
+	CdY/Xw5katJlXeATqGP4rimj5h02Y/GJW3NSKYCp+eyr9xW6PoXCI7YkJvobEwAfytWV
+	dMLlADJlHN8aOwqIDOPzSShemS9Fbtb/D4uG1E5muHcej9sDZKSIWNWPrB5Qi1c0hK23
+	76t3rkEMgvPLxyPHFR2hHrAHlJB/2w3hqzN70nbbVY8aCKpidkWB/ZIAtWugbARUqKdV
+	k7ig==
+X-Received: by 10.15.81.197 with SMTP id x45mr13550845eey.28.1393070829222;
+	Sat, 22 Feb 2014 04:07:09 -0800 (PST)
 Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
 	by mx.google.com with ESMTPSA id
-	o43sm38094541eef.12.2014.02.22.04.03.02 for <multiple recipients>
+	o43sm38133098eef.12.2014.02.22.04.07.05 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 22 Feb 2014 04:03:03 -0800 (PST)
-Date: Sat, 22 Feb 2014 13:03:40 +0100
+	Sat, 22 Feb 2014 04:07:08 -0800 (PST)
+Date: Sat, 22 Feb 2014 13:07:36 +0100
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20140222120340.GM3854@jama>
-References: <cover.1392891203.git.raj.khem@gmail.com>
-	<20140221151607.GG3854@jama>
-	<CAMKF1srH-UE7rtqDZJGorWXwoQYdGwzTvZwK8mE5u0ooTikzjg@mail.gmail.com>
+To: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20140222120736.GN3854@jama>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srH-UE7rtqDZJGorWXwoQYdGwzTvZwK8mE5u0ooTikzjg@mail.gmail.com>
 User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT][PATCH 0/2] Systemd 209
+Subject: ValueError: insecure string pickle with latest bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,70 +41,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2014 12:03:05 -0000
-X-Groupsio-MsgNum: 50441
+X-List-Received-Date: Sat, 22 Feb 2014 12:07:09 -0000
+X-Groupsio-MsgNum: 50442
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vdqwC0msT4ilQ2it"
+	protocol="application/pgp-signature"; boundary="nb8zVy0QMK3AA1xu"
 Content-Disposition: inline
 
---vdqwC0msT4ilQ2it
+--nb8zVy0QMK3AA1xu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 21, 2014 at 08:32:49AM -0800, Khem Raj wrote:
-> On Fri, Feb 21, 2014 at 7:16 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
-> >
-> > Thanks for upgrade
-> >
-> > I've noticed pulseaudio failing to build when it tries to detect old
-> > libsystemd-login lib:
-> >
-> > | to the PKG_CONFIG_PATH environment variable
-> > | No package 'libsystemd-login' found
-> > | configure:26263: $? =3D 1
-> > | configure:26277: result: no
-> > | No package 'libsystemd-login' found
-> > | configure:26310: error: *** Needed systemd support not found
-> >
-> > do we want to enable compat libs or update pulseaudio to use new
-> > libsystemd?
->=20
-> I think we dont have such a big legacy with systemd yet may be if its
-> few packages then lets fix the packages instead of enabling legacy
-> support if we can. in my local tree ( not yet pushed ) I was
-> explicitly enabling it and disabling kdbus support to see if I can fix
-> the logind not finding dbus issue
-> it seems to happen for all architectures
+Hi,
 
-Agreed,
+last couple of days many of my jenkins builds failed with exception like
+this:
 
-I've found another one: polkit:
+ERROR: An uncaught exception occured in runqueue, please see the failure be=
+low:
+ERROR: Running idle function
+Traceback (most recent call last):
+  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/cooker.p=
+y", line 1182, in buildTargetsIdle(server=3D<ProcessServer(ProcessServer-2,=
+ started)>, rq=3D<bb.runqueue.RunQueue instance at 0x16a95d40>, abort=3DFal=
+se):
+                 try:
+    >                retval =3D rq.execute_runqueue()
+                 except runqueue.TaskFailure as exc:
+  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue=
+=2Epy", line 1093, in RunQueue.execute_runqueue():
+                 try:
+    >                self.teardown_workers()
+                 except:
+  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue=
+=2Epy", line 925, in RunQueue.teardown_workers():
+             self.workerpipe =3D None
+    >        self._teardown_worker(self.fakeworker, self.fakeworkerpipe)
+             self.fakeworker =3D None
+  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue=
+=2Epy", line 906, in RunQueue._teardown_worker(worker=3D<subprocess.Popen o=
+bject at 0xcb4e690>, workerpipe=3D<bb.runqueue.runQueuePipe instance at 0x1=
+1c17710>):
+             while worker.returncode is None:
+    >            workerpipe.read()
+                 worker.poll()
+  File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue=
+=2Epy", line 2095, in runQueuePipe.read():
+                 while index !=3D -1 and self.queue.startswith("<event>"):
+    >                event =3D pickle.loads(self.queue[7:index])
+                     bb.event.fire_from_worker(event, self.d)
+ValueError: insecure string pickle
 
-| checking for LIBSYSTEMD_LOGIN... no
-| configure: error: libsystemd-login support requested but libsystemd-login=
- library not found
-| Configure failed. The contents of all config.log files follows to aid deb=
-ugging
-| /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-li=
-nux-gnueabi/polkit/0.111-r0/polkit-0.111/config.log
-| This file contains any messages produced by compilers while
-| running configure, to aid debugging if configure makes a mistake.
+and it repeats the same exception very quickly (generated 3GB log in ~ hour)
+
+It doesn't happen always, it seems to be triggered in different places in b=
+uild.
+
+Anyone else seeing this as well?
+
+I'll add some debug output around it and wait for it to happen again.
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---vdqwC0msT4ilQ2it
+--nb8zVy0QMK3AA1xu
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlMIkhwACgkQN1Ujt2V2gBxhrwCgt13ISej0xfYS+f5cIHlWEZEN
-s4MAoI5pegpjLv5dRmzatc3Sspm30Zg3
-=guEq
+iEYEARECAAYFAlMIkwgACgkQN1Ujt2V2gBy6OwCgjW/owSkcC+LIN2Yx9IE6rHn5
+Jz4An1DDMeBjk71+xqMhmH/7yJom5iBF
+=alFC
 -----END PGP SIGNATURE-----
 
---vdqwC0msT4ilQ2it--
+--nb8zVy0QMK3AA1xu--
