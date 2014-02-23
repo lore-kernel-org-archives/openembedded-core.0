@@ -1,36 +1,43 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
-	[209.85.219.48])
-	by mail.openembedded.org (Postfix) with ESMTP id D77636F098
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id CD3C06F2C0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 06:34:22 +0000 (UTC)
-Received: by mail-oa0-f48.google.com with SMTP id g12so20672oah.21
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Feb 2014 22:34:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ZLwjpy/uA6PSZQjbsU/ckcVRS8vcWIhsy1IuKwc9zdU=;
-	b=ItZjkE99HXPj3zxm4B9wGhShmtQ5IHGVyH/cZL1AbQ6wtAYZCN9QIbC3Z2tYVPvgkm
-	Y0daXsNMBbK8jr9pudpv4E0ZLRcbyIGYgvSsmibKpWurTiV6kYIomu7CrmVHcwKjIGzA
-	nAIYcelo9WC8RzWOaSPcgAcGBxKJ9/SpzXd7gnFALU9j8ldlILDdvLw33LBnXU1pmot8
-	V4gR11Asw5WCINMucodGE+Z1QdQKJEii5lPx7a4DdxibGh1z6fIGIQgvQdmLkZtQjSNa
-	uaUPrw2vZpWTZG2Qmxoloqv2v67T7MJ75je6g8RofKLikVil+0HvkH6zGG3T321DFr4B
-	evWg==
-X-Gm-Message-State: ALoCoQlv5YGBVUAGugxoKhMpwhDT0xNTijwMf1wL6Efm5rCFULY+wpO9eAql9kGy2rnYMZsI5jGp
-X-Received: by 10.60.60.33 with SMTP id e1mr20021206oer.36.1393223663256; Sun,
-	23 Feb 2014 22:34:23 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.182.99 with HTTP; Sun, 23 Feb 2014 22:34:03 -0800 (PST)
-In-Reply-To: <CAOMwXhNMs7top-CBCDf8Hgsxxz7=oBocF6YjbC_PhH1PDgYG0Q@mail.gmail.com>
-References: <CAOMwXhNMs7top-CBCDf8Hgsxxz7=oBocF6YjbC_PhH1PDgYG0Q@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Mon, 24 Feb 2014 07:34:03 +0100
-Message-ID: <CAP71Wjy4kX15uoz=_42+zRKS7i91TYnGM=2u35+tNXf7CFoaww@mail.gmail.com>
-To: Laszlo Papp <lpapp@kde.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Conf notes
+	Mon, 24 Feb 2014 09:18:39 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,533,1389744000"; d="scan'208";a="65620642"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 24 Feb 2014 09:18:40 +0000
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>) id 1WHrgM-0002xv-Qk
+	for openembedded-core@lists.openembedded.org;
+	Mon, 24 Feb 2014 09:18:39 +0000
+Resent-From: Mike Crowe <mac@mcrowe.com>
+Resent-Date: Mon, 24 Feb 2014 09:18:38 +0000
+Resent-Message-ID: <20140224091838.GA11392@mcrowe.com>
+Resent-To: openembedded-core@lists.openembedded.org
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on deneb.mcrowe.com
+X-Spam-Level: **
+X-Spam-Status: No, score=2.2 required=5.0 tests=BAYES_00,RCVD_IN_PBL,
+	RCVD_IN_SORBS_DUL, RDNS_NONE,
+	T_RCVD_IN_SEMBLACK autolearn=no version=3.3.2
+Received: from [86.30.57.232] (helo=elite.brightsigndigital.co.uk)
+	by deneb.mcrowe.com with esmtps (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <mcrowe@brightsign.biz>)
+	id 1WHhQ8-00042B-BT
+	for mac@mcrowe.com; Sun, 23 Feb 2014 22:21:12 +0000
+Received: from chuckie.brightsign ([172.30.1.25])
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1WHhQ6-0000oK-G1; Sun, 23 Feb 2014 22:21:10 +0000
+Received: from mac by chuckie.brightsign with local (Exim 4.80)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1WHhQ6-0000cj-Es; Sun, 23 Feb 2014 22:21:10 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 23 Feb 2014 22:20:57 +0000
+Message-Id: <1393194057-2364-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] curl: upgrade to 7.35.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,29 +50,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 06:34:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 24 Feb 2014 09:18:44 -0000
 
-On Fri, Feb 21, 2014 at 8:06 PM, Laszlo Papp <lpapp@kde.org> wrote:
->
-> I have just put a conf notes file into my own layer, but when I source
-> the oe-init-build-env script, I am still getting the notes from Yocto
-> rather than my customized.
->
-> What am I doing wrong? I see this in the ./scripts/oe-setup-builddir file:
->
-> TEMPLATECONF=${TEMPLATECONF:-meta-yocto/conf}
->
-> and other references, but I have not pin the issue down just yet.
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
+---
+ meta/recipes-support/curl/curl_7.34.0.bb |   63 ------------------------------
+ meta/recipes-support/curl/curl_7.35.0.bb |   61 +++++++++++++++++++++++++++++
+ 2 files changed, 61 insertions(+), 63 deletions(-)
+ delete mode 100644 meta/recipes-support/curl/curl_7.34.0.bb
+ create mode 100644 meta/recipes-support/curl/curl_7.35.0.bb
 
-are you setting TEMPLATECONF variable? if so, how?
+diff --git a/meta/recipes-support/curl/curl_7.34.0.bb b/meta/recipes-support/curl/curl_7.34.0.bb
+deleted file mode 100644
+index aba6649..0000000
+--- a/meta/recipes-support/curl/curl_7.34.0.bb
++++ /dev/null
+@@ -1,63 +0,0 @@
+-SUMMARY = "Command line tool and library for client-side URL transfers"
+-HOMEPAGE = "http://curl.haxx.se/"
+-BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
+-SECTION = "console/network"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
+-
+-DEPENDS = "zlib gnutls"
+-DEPENDS_class-native = "zlib-native openssl-native"
+-DEPENDS_class-nativesdk = "nativesdk-zlib"
+-
+-SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+-           file://pkgconfig_fix.patch \
+-"
+-
+-# curl likes to set -g0 in CFLAGS, so we stop it
+-# from mucking around with debug options
+-#
+-SRC_URI += " file://configure_ac.patch"
+-
+-SRC_URI[md5sum] = "88491df2bb32e9146e776ae6ac2f8327"
+-SRC_URI[sha256sum] = "10beade56b48311499e444783df3413405b22f20a147ed4a1d8a8125f1cc829b"
+-
+-inherit autotools pkgconfig binconfig multilib_header
+-
+-EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
+-                --without-libssh2 \
+-                --with-random=/dev/urandom \
+-                --without-libidn \
+-                --enable-crypto-auth \
+-                --disable-ldap \
+-                --disable-ldaps \
+-                --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
+-                ${CURLGNUTLS} \
+-                "
+-
+-CURLGNUTLS = " --with-gnutls=${STAGING_LIBDIR}/../ --without-ssl"
+-CURLGNUTLS_class-native = "--without-gnutls --with-ssl"
+-CURLGNUTLS_class-nativesdk = "--without-gnutls --without-ssl"
+-
+-do_configure_prepend() {
+-	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g ${S}/configure.ac
+-}
+-
+-do_install_append() {
+-	oe_multilib_header curl/curlbuild.h
+-}
+-
+-PACKAGES =+ "libcurl libcurl-dev libcurl-staticdev libcurl-doc"
+-
+-FILES_lib${BPN} = "${libdir}/lib*.so.*"
+-RRECOMMENDS_lib${BPN} += "ca-certificates"
+-FILES_lib${BPN}-dev = "${includedir} \
+-                      ${libdir}/lib*.so \
+-                      ${libdir}/lib*.la \
+-                      ${libdir}/pkgconfig \
+-                      ${datadir}/aclocal \
+-                      ${bindir}/*-config"
+-FILES_lib${BPN}-staticdev = "${libdir}/lib*.a"
+-FILES_lib${BPN}-doc = "${mandir}/man3 \
+-                      ${mandir}/man1/curl-config.1"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/curl/curl_7.35.0.bb b/meta/recipes-support/curl/curl_7.35.0.bb
+new file mode 100644
+index 0000000..ddb0384
+--- /dev/null
++++ b/meta/recipes-support/curl/curl_7.35.0.bb
+@@ -0,0 +1,61 @@
++SUMMARY = "Command line tool and library for client-side URL transfers"
++HOMEPAGE = "http://curl.haxx.se/"
++BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
++SECTION = "console/network"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e664ac"
++
++DEPENDS = "zlib gnutls"
++DEPENDS_class-native = "zlib-native openssl-native"
++DEPENDS_class-nativesdk = "nativesdk-zlib"
++
++SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
++           file://pkgconfig_fix.patch \
++"
++
++# curl likes to set -g0 in CFLAGS, so we stop it
++# from mucking around with debug options
++#
++SRC_URI += " file://configure_ac.patch"
++
++SRC_URI[md5sum] = "c18fbdd031adb0529ae09fce399f2d10"
++SRC_URI[sha256sum] = "d774d1701454f1b7d331c2075fc4f6dd972bddc2d171f43645ef3647c7fc0d83"
++
++inherit autotools pkgconfig binconfig
++
++EXTRA_OECONF = "--with-zlib=${STAGING_LIBDIR}/../ \
++                --without-libssh2 \
++                --with-random=/dev/urandom \
++                --without-libidn \
++                --enable-crypto-auth \
++                --disable-ldap \
++                --disable-ldaps \
++                ${CURLGNUTLS} \
++                "
++
++CURLGNUTLS = " --with-gnutls=${STAGING_LIBDIR}/../ --without-ssl"
++CURLGNUTLS_class-native = "--without-gnutls --with-ssl"
++CURLGNUTLS_class-nativesdk = "--without-gnutls --without-ssl"
++
++do_configure_prepend() {
++	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g ${S}/configure.ac
++}
++
++PACKAGES =+ "${PN}-certs libcurl libcurl-dev libcurl-staticdev libcurl-doc"
++
++FILES_${PN}-certs = "${datadir}/curl/curl-*"
++PACKAGE_ARCH_${PN}-certs = "all"
++
++FILES_lib${BPN} = "${libdir}/lib*.so.*"
++RRECOMMENDS_lib${BPN} += "${PN}-certs"
++FILES_lib${BPN}-dev = "${includedir} \
++                      ${libdir}/lib*.so \
++                      ${libdir}/lib*.la \
++                      ${libdir}/pkgconfig \
++                      ${datadir}/aclocal \
++                      ${bindir}/*-config"
++FILES_lib${BPN}-staticdev = "${libdir}/lib*.a"
++FILES_lib${BPN}-doc = "${mandir}/man3 \
++                      ${mandir}/man1/curl-config.1"
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+1.7.10.4
 
-also, if you provide conf-notes.txt you need to provide
-local.conf.sample and bblayers.conf.sample.
 
-if TEMPLATECONF is set, it will use these files:
-
-    OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
-    OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
-    OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
 
