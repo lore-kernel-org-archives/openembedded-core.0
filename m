@@ -1,30 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 119016E85C;
-	Sun, 23 Feb 2014 09:25:47 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1N9PiHf021836; Sun, 23 Feb 2014 09:25:44 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id g8BGqnzz-ouL; Sun, 23 Feb 2014 09:25:44 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1N9PfmD021828
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Sun, 23 Feb 2014 09:25:42 GMT
-Message-ID: <1393147533.5181.10.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 23 Feb 2014 09:25:33 +0000
-In-Reply-To: <20140223090640.GR3854@jama>
-References: <20140222120736.GN3854@jama> <20140223090640.GR3854@jama>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [bitbake-devel] ValueError: insecure string pickle with latest bitbake
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 737DF6DC16
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Feb 2014 10:43:48 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id d17so2471844eek.37
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Feb 2014 02:43:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=zco3LnZdX41jxOORBQvGALlCJWNmRLy+w39Q/us8WXo=;
+	b=DfSsZLt4lSbQ7FBa+/pNOHtHQabfC6XwX9j2wLfWcgJHhkMbXsYP9VcyP9pmDU32hs
+	gZOGCRYyiGu3SXxsqZlll+YaVf9yfhSaQhDH1gZPD2QrB4YtXoAxqyG98jDLGPDjylcg
+	AjXPRUOD/W+s4fFTbk1WBQ04RS5eQenIiNecf77S+kTgbxxwxkVg7A4IsNGYoBASxW/C
+	cUI94wgY6gfuXpZo+PU5ljT6bDpUZ776ED0hFLXjftdazNbX+2WBq0XID7koxag3kxHY
+	51skW5xRj7cPhshW0x17GYfxay3pHrviI+C0i1rd54V4fVFLNfdqjIhSXi/EfMujF/if
+	2xFA==
+X-Received: by 10.14.88.131 with SMTP id a3mr19175543eef.64.1393152229132;
+	Sun, 23 Feb 2014 02:43:49 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	f45sm49637810eeg.5.2014.02.23.02.43.47 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 23 Feb 2014 02:43:48 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 23 Feb 2014 11:44:22 +0100
+Message-Id: <1393152262-30469-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.0
+In-Reply-To: <CABcZAN=PaZ+J4XQ6jp6GbTVTDmA2_pGTfdrA2mC52d7ZH2KdGw@mail.gmail.com>
+References: <CABcZAN=PaZ+J4XQ6jp6GbTVTDmA2_pGTfdrA2mC52d7ZH2KdGw@mail.gmail.com>
+Subject: [RFC][PATCH] package.py: use subprocess.Popen for rpmdeps call
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,67 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Feb 2014 09:25:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 23 Feb 2014 10:43:52 -0000
 
-On Sun, 2014-02-23 at 10:06 +0100, Martin Jansa wrote:
-> On Sat, Feb 22, 2014 at 01:07:36PM +0100, Martin Jansa wrote:
-> > Hi,
-> > 
-> > last couple of days many of my jenkins builds failed with exception like
-> > this:
-> > 
-> > ERROR: An uncaught exception occured in runqueue, please see the failure below:
-> > ERROR: Running idle function
-> > Traceback (most recent call last):
-> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/cooker.py", line 1182, in buildTargetsIdle(server=<ProcessServer(ProcessServer-2, started)>, rq=<bb.runqueue.RunQueue instance at 0x16a95d40>, abort=False):
-> >                  try:
-> >     >                retval = rq.execute_runqueue()
-> >                  except runqueue.TaskFailure as exc:
-> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue.py", line 1093, in RunQueue.execute_runqueue():
-> >                  try:
-> >     >                self.teardown_workers()
-> >                  except:
-> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue.py", line 925, in RunQueue.teardown_workers():
-> >              self.workerpipe = None
-> >     >        self._teardown_worker(self.fakeworker, self.fakeworkerpipe)
-> >              self.fakeworker = None
-> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue.py", line 906, in RunQueue._teardown_worker(worker=<subprocess.Popen object at 0xcb4e690>, workerpipe=<bb.runqueue.runQueuePipe instance at 0x11c17710>):
-> >              while worker.returncode is None:
-> >     >            workerpipe.read()
-> >                  worker.poll()
-> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue.py", line 2095, in runQueuePipe.read():
-> >                  while index != -1 and self.queue.startswith("<event>"):
-> >     >                event = pickle.loads(self.queue[7:index])
-> >                      bb.event.fire_from_worker(event, self.d)
-> > ValueError: insecure string pickle
-> > 
-> > and it repeats the same exception very quickly (generated 3GB log in ~ hour)
-> > 
-> > It doesn't happen always, it seems to be triggered in different places in build.
-> > 
-> > Anyone else seeing this as well?
-> > 
-> > I'll add some debug output around it and wait for it to happen again.
-> 
-> I got one example now (not sure if this is the only one):
-> 
-> Because it shows runrpmdeps and I'm the only one so far seeing this, I guess it's caused by:
-> http://lists.openembedded.org/pipermail/openembedded-core/2014-February/089632.html
-> I'll try to revert that one from my builds
+* I've noticed errors like this in log.do_package:
 
-Ah, it that function is called as:
+  DEBUG: Executing python function package_do_filedeps
+  sh: 1: Syntax error: "(" unexpected
+  sh: 1: Syntax error: "(" unexpected
+  DEBUG: Python function package_do_filedeps finished
 
-processed = list(pool.imap(oe.package.filedeprunner, pkglist))
+  which are actually caused by some filenames included in package
+  containing '()' characters
 
-i.e. we have multiple processes each running this function. If we print
-output, the output stream has no synchronisation and can hence be
-corrupted which would explain the value error. You can see an <event>
-appear half way through your output...
+  Maybe we should change meta/classes/package.bbclass to
+  fail when some filedeprunner call fails like this and fix
+  filedeprunner to escape '()' and other possibly dangerous chars
+  it's called like this:
+  processed = list(pool.imap(oe.package.filedeprunner, pkglist))
 
-Cheers,
+* don't use shell=True
+* show the command when it fails and let do_package task to fail
 
-Richard 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/lib/oe/package.py | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 9a0ddb8..f8b5322 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -54,7 +54,7 @@ def file_translate(file):
+     return ft
+ 
+ def filedeprunner(arg):
+-    import re
++    import re, subprocess, shlex
+ 
+     (pkg, pkgfiles, rpmdeps, pkgdest) = arg
+     provides = {}
+@@ -89,8 +89,11 @@ def filedeprunner(arg):
+ 
+         return provides, requires
+ 
+-    dep_pipe = os.popen(rpmdeps + " " + " ".join(pkgfiles))
+-
+-    provides, requires = process_deps(dep_pipe, pkg, pkgdest, provides, requires)
++    try:
++        dep_popen = subprocess.Popen(shlex.split(rpmdeps) + pkgfiles, stdout=subprocess.PIPE)
++        provides, requires = process_deps(dep_popen.stdout, pkg, pkgdest, provides, requires)
++    except OSError as e:
++        bb.error("rpmdeps: '%s' command failed, '%s'" % (shlex.split(rpmdeps) + pkgfiles, e))
++        raise e
+ 
+     return (pkg, provides, requires)
+-- 
+1.9.0
 
 
