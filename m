@@ -1,39 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f179.google.com (mail-ea0-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BD01605F8
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Feb 2014 09:07:16 +0000 (UTC)
-Received: by mail-ea0-f179.google.com with SMTP id q10so2456405ead.38
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Feb 2014 01:07:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=JAJtDKgeJu8x6Wf0yIJ0M4bUPx1QtBSONp1fEIESt6s=;
-	b=vAM7UiJrW67sNpNNPBA0sWnENZWD715FS1YY3YZPfFjBB8PIEPqESSogZAscx7pOoC
-	LOAyfPVhgOxkQDVCISa2YCcohvVYoa04lmf6X0wEjhfYBIBWb+1QCkiS3gdIWxXUfVfy
-	JPvDd8NOW/SKVbxXcwQr48WpPuMLjxStSis7IQIKEZq40DYmk1TL04AEbnHfYx6xW7oF
-	E6tFsytjQzbT+y9Grvgbg63HvuKytNEfRBb/37R3obD0C7hG4d895SWPuI9AKuNaNc+L
-	+s8IbfPaFXTLrVTvqv0QTcUkGW9n1plFM3swo9LuX/LyK22yTjTuAejwWZn8OZPe/EIT
-	Ny2A==
-X-Received: by 10.15.111.130 with SMTP id cj2mr18319829eeb.102.1393146437513; 
-	Sun, 23 Feb 2014 01:07:17 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	x2sm48754003eeo.8.2014.02.23.01.07.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 23 Feb 2014 01:07:16 -0800 (PST)
-Date: Sun, 23 Feb 2014 10:07:53 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20140223090753.GS3854@jama>
-References: <1392726422-6634-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1392726422-6634-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Subject: Re: [PATCH] package.py: log rpmdeps call
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 119016E85C;
+	Sun, 23 Feb 2014 09:25:47 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1N9PiHf021836; Sun, 23 Feb 2014 09:25:44 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id g8BGqnzz-ouL; Sun, 23 Feb 2014 09:25:44 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1N9PfmD021828
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Sun, 23 Feb 2014 09:25:42 GMT
+Message-ID: <1393147533.5181.10.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Sun, 23 Feb 2014 09:25:33 +0000
+In-Reply-To: <20140223090640.GR3854@jama>
+References: <20140222120736.GN3854@jama> <20140223090640.GR3854@jama>
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [bitbake-devel] ValueError: insecure string pickle with latest bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,78 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Feb 2014 09:07:19 -0000
-X-Groupsio-MsgNum: 50457
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vEk28Nl/eckWL8CC"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 23 Feb 2014 09:25:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---vEk28Nl/eckWL8CC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, 2014-02-23 at 10:06 +0100, Martin Jansa wrote:
+> On Sat, Feb 22, 2014 at 01:07:36PM +0100, Martin Jansa wrote:
+> > Hi,
+> > 
+> > last couple of days many of my jenkins builds failed with exception like
+> > this:
+> > 
+> > ERROR: An uncaught exception occured in runqueue, please see the failure below:
+> > ERROR: Running idle function
+> > Traceback (most recent call last):
+> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/cooker.py", line 1182, in buildTargetsIdle(server=<ProcessServer(ProcessServer-2, started)>, rq=<bb.runqueue.RunQueue instance at 0x16a95d40>, abort=False):
+> >                  try:
+> >     >                retval = rq.execute_runqueue()
+> >                  except runqueue.TaskFailure as exc:
+> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue.py", line 1093, in RunQueue.execute_runqueue():
+> >                  try:
+> >     >                self.teardown_workers()
+> >                  except:
+> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue.py", line 925, in RunQueue.teardown_workers():
+> >              self.workerpipe = None
+> >     >        self._teardown_worker(self.fakeworker, self.fakeworkerpipe)
+> >              self.fakeworker = None
+> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue.py", line 906, in RunQueue._teardown_worker(worker=<subprocess.Popen object at 0xcb4e690>, workerpipe=<bb.runqueue.runQueuePipe instance at 0x11c17710>):
+> >              while worker.returncode is None:
+> >     >            workerpipe.read()
+> >                  worker.poll()
+> >   File "/home/jenkins/oe/shr-core-branches/shr-core/bitbake/lib/bb/runqueue.py", line 2095, in runQueuePipe.read():
+> >                  while index != -1 and self.queue.startswith("<event>"):
+> >     >                event = pickle.loads(self.queue[7:index])
+> >                      bb.event.fire_from_worker(event, self.d)
+> > ValueError: insecure string pickle
+> > 
+> > and it repeats the same exception very quickly (generated 3GB log in ~ hour)
+> > 
+> > It doesn't happen always, it seems to be triggered in different places in build.
+> > 
+> > Anyone else seeing this as well?
+> > 
+> > I'll add some debug output around it and wait for it to happen again.
+> 
+> I got one example now (not sure if this is the only one):
+> 
+> Because it shows runrpmdeps and I'm the only one so far seeing this, I guess it's caused by:
+> http://lists.openembedded.org/pipermail/openembedded-core/2014-February/089632.html
+> I'll try to revert that one from my builds
 
-On Tue, Feb 18, 2014 at 01:27:02PM +0100, Martin Jansa wrote:
-> * I've noticed errors like this in log.do_package:
->=20
->   DEBUG: Executing python function package_do_filedeps
->   sh: 1: Syntax error: "(" unexpected
->   sh: 1: Syntax error: "(" unexpected
->   DEBUG: Python function package_do_filedeps finished
->=20
->   which are actually caused by some filenames included in package
->   containing '()' characters
->=20
->   Maybe we should change meta/classes/package.bbclass to
->   fail when some filedeprunner call fails like this and fix
->   filedeprunner to escape '()' and other possibly dangerous chars
->   it's called like this:
->   processed =3D list(pool.imap(oe.package.filedeprunner, pkglist))
+Ah, it that function is called as:
 
-Please don't merge this one yet, It's possible that it's causing
-ValueError: insecure string pickle:
-http://lists.openembedded.org/pipermail/openembedded-core/2014-February/089=
-805.html
+processed = list(pool.imap(oe.package.filedeprunner, pkglist))
 
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/lib/oe/package.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-> index 9a0ddb8..1f78a8d 100644
-> --- a/meta/lib/oe/package.py
-> +++ b/meta/lib/oe/package.py
-> @@ -89,7 +89,9 @@ def filedeprunner(arg):
-> =20
->          return provides, requires
-> =20
-> -    dep_pipe =3D os.popen(rpmdeps + " " + " ".join(pkgfiles))
-> +    rpmdepscmd =3D rpmdeps + " " + " ".join(pkgfiles)
-> +    bb.debug(1, "runrpmdeps: %s" % rpmdepscmd)
-> +    dep_pipe =3D os.popen(rpmdepscmd)
-> =20
->      provides, requires =3D process_deps(dep_pipe, pkg, pkgdest, provides=
-, requires)
-> =20
-> --=20
-> 1.8.5.3
->=20
+i.e. we have multiple processes each running this function. If we print
+output, the output stream has no synchronisation and can hence be
+corrupted which would explain the value error. You can see an <event>
+appear half way through your output...
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Cheers,
 
---vEk28Nl/eckWL8CC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Richard 
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iEYEARECAAYFAlMJumkACgkQN1Ujt2V2gBzVcACePEo4dGvBhMs5D+QOUD++q0iz
-9DEAn2CCxlDMJXPoKdnthuDhIT3oQKBQ
-=or3i
------END PGP SIGNATURE-----
-
---vEk28Nl/eckWL8CC--
