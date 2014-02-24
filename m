@@ -1,26 +1,39 @@
-Return-Path: <Matthieu.CRAPET@ingenico.com>
-Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
-	by mail.openembedded.org (Postfix) with ESMTP id 775356B4F7
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 444746E9D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 13:23:35 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.97,534,1389740400"; d="scan'208";a="41662834"
-Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
-	by antispam1.usr.ingenico.loc with ESMTP; 24 Feb 2014 14:23:36 +0100
-Received: from COSNADEXC12.usr.ingenico.loc (10.31.4.212) by
-	COSNADEXC21.usr.ingenico.loc (10.31.4.221) with Microsoft SMTP Server
-	(TLS) id 14.2.328.9; Mon, 24 Feb 2014 14:23:36 +0100
-Received: from u85.usr.ingenico.loc (10.23.7.85) by
-	COSNADEXC12.usr.ingenico.loc (10.31.4.212) with Microsoft SMTP Server
-	id 14.2.328.9; Mon, 24 Feb 2014 14:23:35 +0100
-From: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Feb 2014 14:18:24 +0100
-Message-ID: <1393247904-27286-1-git-send-email-Matthieu.Crapet@ingenico.com>
-X-Mailer: git-send-email 1.8.5.4
-In-Reply-To: <1393238980-18471-1-git-send-email-Matthieu.Crapet@ingenico.com>
-References: <1393238980-18471-1-git-send-email-Matthieu.Crapet@ingenico.com>
+	Mon, 24 Feb 2014 13:36:00 +0000 (UTC)
+Received: by mail-pd0-f178.google.com with SMTP id fp1so6353808pdb.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Feb 2014 05:36:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=pTXCPtw5xgvyKAiAmP62y/9Ou4vcCYksY0D9Z0pf6JA=;
+	b=WztNVDUX+w7ZLOhZVEbJS+iDvEP0S08WEQjMDoBuWrr5SNhsxWxhfORz++X566iU9Z
+	LnYwi0cVo9h8GoCfMSrhZT9mlp6Io4weoDymxzU/+Q+JIVgOCf+fK7f/0qIvGSdZ/z0F
+	VCBdD3AmG14elwlLInUpmEdn0B6S6aBmc4FHF3h5qHnFzqjXeHwD41wpKV5kTWlJ3jfO
+	7kpakkR53lk1C58Q+RSFeyulP9SwiZ8yNxYGTdP6/vRHDpcutRtzeukQEIJwTUggk8+p
+	OPzNyoTkAXCX71LA1n3SDxSaJhyt/a+gtvjNp20x4PjbFbF1aCC286SBnTYXiC76yHdq
+	FHXQ==
+X-Gm-Message-State: ALoCoQmEPaDAU0CH225+6AnfwaRpeFWfVtTv04NgD6csHoZnXaGFtnA5aWJ6GYji3e/XUlwUNh2x
 MIME-Version: 1.0
-Subject: [meta-oe][PATCH] vim: add (custom) license file
+X-Received: by 10.69.2.2 with SMTP id bk2mr25098141pbd.75.1393248962052; Mon,
+	24 Feb 2014 05:36:02 -0800 (PST)
+Sender: lpapp@archlinux.us
+Received: by 10.70.26.195 with HTTP; Mon, 24 Feb 2014 05:36:02 -0800 (PST)
+In-Reply-To: <CAJTo0LY6hsYxR2=aeRodKhZ+5VBEUh+q+7nRYU0E6XYc+Pn-NQ@mail.gmail.com>
+References: <CAOMwXhOmoLP_8+mv_c_4Eg8YG_T1JD-ao+P1S9FDKvityy_3mA@mail.gmail.com>
+	<CAJTo0LY6hsYxR2=aeRodKhZ+5VBEUh+q+7nRYU0E6XYc+Pn-NQ@mail.gmail.com>
+Date: Mon, 24 Feb 2014 13:36:02 +0000
+X-Google-Sender-Auth: KTK4nWCoviMPehWMUhFCN2RT63c
+Message-ID: <CAOMwXhN+D+kGw70ijEs_Zd9aNiLsmuts0B6SHf9QXkytgaQCPA@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: No versioning for existing images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,106 +46,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 13:23:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Feb 2014 13:36:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-This is will delete this message:
-WARNING: vim: No generic license file exists for: vim in any provider
+On Mon, Feb 24, 2014 at 1:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 24 February 2014 12:01, Laszlo Papp <lpapp@kde.org> wrote:
+>> For instance, the MeeGo Nokia phone had a software version information
+>> in the settings, and that is something I would personally consider as
+>> the image version, but again, there might be better ways. Please share
+>> good practices in here., or alternatively, feel free to point me to
+>> any documentation, examples, etc.
+>
+> This is an interesting example and a useful demonstration of why the
+> image version isn't always that useful.
 
-Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
----
- meta-oe/licenses/vim | 81 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
- create mode 100644 meta-oe/licenses/vim
+I am not sure about that; see below.
 
-diff --git a/meta-oe/licenses/vim b/meta-oe/licenses/vim
-new file mode 100644
-index 0000000..4aa818e
---- /dev/null
-+++ b/meta-oe/licenses/vim
-@@ -0,0 +1,81 @@
-+VIM LICENSE
-+
-+I)  There are no restrictions on distributing unmodified copies of Vim except
-+    that they must include this license text.  You can also distribute
-+    unmodified parts of Vim, likewise unrestricted except that they must
-+    include this license text.  You are also allowed to include executables
-+    that you made from the unmodified Vim sources, plus your own usage
-+    examples and Vim scripts.
-+
-+II) It is allowed to distribute a modified (or extended) version of Vim,
-+    including executables and/or source code, when the following four
-+    conditions are met:
-+    1) This license text must be included unmodified.
-+    2) The modified Vim must be distributed in one of the following five ways:
-+       a) If you make changes to Vim yourself, you must clearly describe in
-+	  the distribution how to contact you.  When the maintainer asks you
-+	  (in any way) for a copy of the modified Vim you distributed, you
-+	  must make your changes, including source code, available to the
-+	  maintainer without fee.  The maintainer reserves the right to
-+	  include your changes in the official version of Vim.  What the
-+	  maintainer will do with your changes and under what license they
-+	  will be distributed is negotiable.  If there has been no negotiation
-+	  then this license, or a later version, also applies to your changes.
-+	  The current maintainer is Bram Moolenaar <Bram@vim.org>.  If this
-+	  changes it will be announced in appropriate places (most likely
-+	  vim.sf.net, www.vim.org and/or comp.editors).  When it is completely
-+	  impossible to contact the maintainer, the obligation to send him
-+	  your changes ceases.  Once the maintainer has confirmed that he has
-+	  received your changes they will not have to be sent again.
-+       b) If you have received a modified Vim that was distributed as
-+	  mentioned under a) you are allowed to further distribute it
-+	  unmodified, as mentioned at I).  If you make additional changes the
-+	  text under a) applies to those changes.
-+       c) Provide all the changes, including source code, with every copy of
-+	  the modified Vim you distribute.  This may be done in the form of a
-+	  context diff.  You can choose what license to use for new code you
-+	  add.  The changes and their license must not restrict others from
-+	  making their own changes to the official version of Vim.
-+       d) When you have a modified Vim which includes changes as mentioned
-+	  under c), you can distribute it without the source code for the
-+	  changes if the following three conditions are met:
-+	  - The license that applies to the changes permits you to distribute
-+	    the changes to the Vim maintainer without fee or restriction, and
-+	    permits the Vim maintainer to include the changes in the official
-+	    version of Vim without fee or restriction.
-+	  - You keep the changes for at least three years after last
-+	    distributing the corresponding modified Vim.  When the maintainer
-+	    or someone who you distributed the modified Vim to asks you (in
-+	    any way) for the changes within this period, you must make them
-+	    available to him.
-+	  - You clearly describe in the distribution how to contact you.  This
-+	    contact information must remain valid for at least three years
-+	    after last distributing the corresponding modified Vim, or as long
-+	    as possible.
-+       e) When the GNU General Public License (GPL) applies to the changes,
-+	  you can distribute the modified Vim under the GNU GPL version 2 or
-+	  any later version.
-+    3) A message must be added, at least in the output of the ":version"
-+       command and in the intro screen, such that the user of the modified Vim
-+       is able to see that it was modified.  When distributing as mentioned
-+       under 2)e) adding the message is only required for as far as this does
-+       not conflict with the license used for the changes.
-+    4) The contact information as required under 2)a) and 2)d) must not be
-+       removed or changed, except that the person himself can make
-+       corrections.
-+
-+III) If you distribute a modified version of Vim, you are encouraged to use
-+     the Vim license for your changes and make them available to the
-+     maintainer, including the source code.  The preferred way to do this is
-+     by e-mail or by uploading the files to a server and e-mailing the URL.
-+     If the number of changes is small (e.g., a modified Makefile) e-mailing a
-+     context diff will do.  The e-mail address to be used is
-+     <maintainer@vim.org>
-+
-+IV)  It is not allowed to remove this license from the distribution of the Vim
-+     sources, parts of it or from a modified version.  You may use this
-+     license for previous Vim releases instead of the license that they came
-+     with, at your option.
-+
-+===
-+Read more about this license at http://vimdoc.sourceforge.net/htmldoc/uganda.html#license
--- 
-1.8.5.4
+> The software build number
+> covers *everything* that goes into the image, but the image version
+> number is just the version of the top-level image recipe.
 
+The problem is that build numbers, that I have seen at least, are
+human unreadable. A human readable number would be nicer to have;
+something that I have just double checked on my Blackberry Limited
+Edition phone, and it is so that the OS Version is 10.0.10.738 in the
+settings.
+
+Perhaps the build number can be made human readable... but currently,
+when I build an image, all I get is a long and not so convenient
+time-stamp. Is there a more gentle way of generating image version
+then?
+
+> If you bump
+> the version of eglibc your image version won't be increased.
+
+Yes, but see above.
+
+> There's nothing to stop you doing versioned images but as the version
+> doesn't represent anything beyond the image recipe version it's not as
+> useful as you'd think.
+
+Perhaps the image version is not the right way to address this issue;
+there might be other way, but it is still an important question for
+embedded system creators because I have seen that at several clients,
+and also on phones, that the software is shipped in one piece. I
+rarely see that individual packages are sent for a software upgrade. I
+rather see an incremental software update provided to the customers
+out there.
+
+The good example for this is the phones, tablets, etc (at least
+mine)... but there might be other examples, too.
+
+I would like to figure out a convenient and shared way or more of them
+how to deal with this generic issue. It is not vendor specific, I
+think.
 
