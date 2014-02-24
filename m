@@ -1,32 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D78876F328
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0734E6BF4E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 16:27:29 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1OGRH4t020826; Mon, 24 Feb 2014 16:27:17 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 8SCj8fmCmQdd; Mon, 24 Feb 2014 16:27:16 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1OGRB3c020821
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Mon, 24 Feb 2014 16:27:13 GMT
-Message-ID: <1393259224.31769.15.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 24 Feb 2014 16:27:04 +0000
-In-Reply-To: <20140224160954.GI26981@jama>
-References: <1393253881.31769.6.camel@ted> <20140224152753.GG26981@jama>
-	<CAJTo0LYBuZv5NDyM1gsQEL5KQfOvMsRpvOn5kjFaYBi5XL8wCw@mail.gmail.com>
-	<20140224160954.GI26981@jama>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Separate build dir for autotools
+	Mon, 24 Feb 2014 16:38:41 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2014 08:34:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,535,1389772800"; d="scan'208";a="461272552"
+Received: from mcmahond-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.208])
+	by orsmga001.jf.intel.com with ESMTP; 24 Feb 2014 08:38:40 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Feb 2014 16:38:39 +0000
+Message-ID: <19353110.0dHagEzKPJ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.13.3-201.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <5014991.yOqVctVWSl@helios>
+References: <cover.1388269205.git.paul.eggleton@linux.intel.com>
+	<52C0CDD6.4030904@windriver.com> <5014991.yOqVctVWSl@helios>
+MIME-Version: 1.0
+Cc: Saul Wold <saul.wold@intel.com>
+Subject: Re: [PATCH 01/38] *-basic: rename to *-standardlinux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,34 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 16:27:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Feb 2014 16:38:45 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 2014-02-24 at 17:09 +0100, Martin Jansa wrote:
-> On Mon, Feb 24, 2014 at 03:41:11PM +0000, Burton, Ross wrote:
-> > On 24 February 2014 15:27, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > > Can we start by adding
-> > > include conf/distro/include/seperatebuilddir.inc
-> > > to
-> > > conf/distro/defaultsetup.conf
-> > > ? so that more people start using it and possibly report issues in their
-> > > builds?
-> > 
-> > That list is opt-in and mainly covers oe-core, so this gets tested
-> > every time the YP autobuilder does a world build.  We need a meta-oe
-> > world build where autotools.bbclass sets B="${WORKDIR}/build": it's
-> > literally just this one-line patch.
+On Monday 30 December 2013 12:59:26 Paul Eggleton wrote:
+> On Monday 30 December 2013 09:35:18 Robert Yang wrote:
+> > I'm afraid that the standardlinux maybe a little confused with
+> > linuxstdbase, bu I don't have any better idea about it.
 > 
-> But doesn't cover oe-core built with different combinations for
-> PACKAGECONFIGs, .bbappends etc, so including this file in
-> defaultsetup.conf can still reveal few issues in oe-core recipes.
+> You could be right. I've thought for a long time about renaming this and
+> haven't been able to come up with anything better. On the other hand, in our
+> current configuration we are actually using the basic/standardlinux
+> packagegroup as part of our LSB images; although that might not be the
+> right thing to continue doing - LSB probably ought to be independent.
+> 
+> FWIW, let's consider this particular patch as RFC, maybe someone else has a
+> better idea of what to name it. I am very much convinced that "basic" is not
+> the right name though.
 
-Patch out for testing, I'll merge it if nobody objects...
+So, has anyone got any better ideas for the name of core-image-basic and 
+packagegroup-core-basic?
+
+The idea is that these are meant to contain things that you might have on a 
+more traditional or full-featured Linux system. Somehow "-traditionallinux" 
+doesn't really work either.
 
 Cheers,
+Paul
 
-Richard
+-- 
 
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
