@@ -1,43 +1,38 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id A4E646F12A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 069CF617AA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 15:26:22 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id hz1so6619432pad.8
+	Mon, 24 Feb 2014 15:28:14 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id e49so1041687eek.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 07:26:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=gTwQeFIzzLMdPHQWtAXp7RGSp4LU2GlVgaGQV6vZMac=;
-	b=J+TfLQzsFlDtGBi+gAixs+EgJSx+b8qvaAQvAf6d2azvRmnITROmLakio4z9AFCRP8
-	9u4JiAoRFgK+b2Vq0F/p4vkm7vgs8Ta+UWOdOdGW+C8AN1BUCzVu+UoWR9f/wmoctCHp
-	arJCuGJJNAKYHACXeP/I8XDyE8ki658PfnMqW9Pu8A4tmhXftPod8SMRSZiYy37YpHxx
-	NvaY9WtEg7ez/MviuX+ilFucrztx36TjOHknRjEpmtgNzmzT580QO5M2T8nBPuMZ4ImH
-	8WWZLyNGsQy1UA1EsWXJ3w4EUABiEEFNFGfoj2ritporHdqmS5gOZX7VOZeTOVg/VBQI
-	cdbw==
-X-Gm-Message-State: ALoCoQm67dzK/q76za18gxWnfHpw3EAhAMjXsUIQPYrNvfpJK5Axx26w446jdcPeWevr4Bx0sonf
+	Mon, 24 Feb 2014 07:28:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=aTYXyotVnE3/BcIlV/UkM1m5df+Q7c41u9yefDU9ilY=;
+	b=m2Ff62LEPTxbJYEpnMsgHUCk8KS8W9dt1zdXpgmM06s92N5TnCsz5+Imb0DeCply0y
+	JrbqLUqcXJyG2eY6PEkHxWCW5bkVfO+5T4uHIscGZcJsJBD60yS/GVOQu4vxB39jFSmo
+	A/MQdydJqsfMbbowezH2n6M51qkQyXkxWHa/gVvNvmtBhVYlRmeEDc4JM+8dRIzTamFe
+	43hzkrhEw9Vp9B55tjbD418+ueCOQWMB20xGSzMg56mdyDnjfBN69YXIEpXYKsS9x7h6
+	54DvpIsV8jRC9acw7E1NA0NXlsdMiuqKS6jiux/F5LPGBzgD4eqljHypoYe+zRf7Pn9Q
+	Zprg==
+X-Received: by 10.14.221.4 with SMTP id q4mr24787573eep.47.1393255695144;
+	Mon, 24 Feb 2014 07:28:15 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	a2sm49849023eem.18.2014.02.24.07.28.01 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Feb 2014 07:28:13 -0800 (PST)
+Date: Mon, 24 Feb 2014 16:27:53 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20140224152753.GG26981@jama>
+References: <1393253881.31769.6.camel@ted>
 MIME-Version: 1.0
-X-Received: by 10.66.121.164 with SMTP id ll4mr25695101pab.129.1393255583406; 
-	Mon, 24 Feb 2014 07:26:23 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.26.195 with HTTP; Mon, 24 Feb 2014 07:26:23 -0800 (PST)
-In-Reply-To: <20140224145117.GB26295@ad.chargestorm.se>
-References: <CAOMwXhOmoLP_8+mv_c_4Eg8YG_T1JD-ao+P1S9FDKvityy_3mA@mail.gmail.com>
-	<CAJTo0LY6hsYxR2=aeRodKhZ+5VBEUh+q+7nRYU0E6XYc+Pn-NQ@mail.gmail.com>
-	<CAOMwXhN+D+kGw70ijEs_Zd9aNiLsmuts0B6SHf9QXkytgaQCPA@mail.gmail.com>
-	<20140224135848.GA26295@ad.chargestorm.se>
-	<CAOMwXhMsjQ2v40hM5UCx1R_NHnop2G2z_kTDVCqV4dWPwXW9EQ@mail.gmail.com>
-	<20140224145117.GB26295@ad.chargestorm.se>
-Date: Mon, 24 Feb 2014 15:26:23 +0000
-X-Google-Sender-Auth: _KFMKaQHvffpW77ZMIueE26HjOA
-Message-ID: <CAOMwXhOOghbcYwYyn__0=RxgipM_mFz-d6vwmqtebCpiW8_R3Q@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Laszlo Papp <lpapp@kde.org>, "Burton, Ross" <ross.burton@intel.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: No versioning for existing images
+In-Reply-To: <1393253881.31769.6.camel@ted>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Separate build dir for autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,71 +45,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 15:26:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 24 Feb 2014 15:28:15 -0000
+X-Groupsio-MsgNum: 50506
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="kadn00tgSopKmJ1H"
+Content-Disposition: inline
 
-On Mon, Feb 24, 2014 at 2:51 PM, Anders Darander <anders@chargestorm.se> wrote:
-> * Laszlo Papp <lpapp@kde.org> [140224 15:12]:
->
->> On Mon, Feb 24, 2014 at 1:58 PM, Anders Darander <anders@chargestorm.se> wrote:
->> > * Laszlo Papp <lpapp@kde.org> [140224 14:37]:
->
->> >> On Mon, Feb 24, 2014 at 1:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
->> >> > On 24 February 2014 12:01, Laszlo Papp <lpapp@kde.org> wrote:
->> >> The problem is that build numbers, that I have seen at least, are
->> >> human unreadable. A human readable number would be nicer to have;
->> >> something that I have just double checked on my Blackberry Limited
->> >> Edition phone, and it is so that the OS Version is 10.0.10.738 in the
->> >> settings.
->
->> >> Perhaps the build number can be made human readable... but currently,
->> >> when I build an image, all I get is a long and not so convenient
->> >> time-stamp. Is there a more gentle way of generating image version
->> >> then?
->
->> > The git describe line is our main versioning. Using that line we get the
->> > abreviated SHA1 of our repo, the last tag, the number of commits after
->> > the last tag, and finally whether the repo was clean or dirty during the
->> > build.
->
->
->> > It might not be as pretty as the 10.0.10.738 in your example, though for
->> > us it's sufficient for the time being.
->
->> As you are writing, that is good for internal operation, but I would
->> dislike providing such "versioning" for customers.
->
-> Yes, for customer communication it might very well be preferred to use
-> some other version numbers.
->
-> I'd guess that the best bet then would be to either store the version
-> number in a config file in your repo, and have the build process take
-> that number and put it into the image in a way similar to what's above.
+--kadn00tgSopKmJ1H
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, I was thinking about a PRODUCT_VERSION or SOFTWARE_VERSION as a
-configuration option (and/or command line option).
+On Mon, Feb 24, 2014 at 02:58:01PM +0000, Richard Purdie wrote:
+> For a while poky and others have been using the seperatebuilddir.inc
+> file. This makes ${S} !=3D ${B} and means that ${B} can be wiped when
+> configuration changes.
+>=20
+> This helps deal with the fact that autotools and friends are not
+> particular good at rebuilding things that change. The recent libcheck
+> upgrade which broke bluez4 builds is but one example of the kind of
+> problem we can hit. Sadly bluez4 doesn't work for S!=3DB so it didn't
+> protect against that issue but it does protect other packages.
+>=20
+> I'd really love to switch the default in autotools.bbclass to make this
+> the default and then have broken packages opt out of it.
+>=20
+> I can deal with OE-Core and make sure the metadata there is updated, my
+> bigger worry is what this would do to other layers.
+>=20
+> The options I can see are therefore basically:
+>=20
+> a) We change the default in autotools.bbclass and fix things that break
 
-> Or to get the number from a tag.
+If there is patch to do that, I'm willing to run my world builds with it
+to generate updated
+www.openembedded.org/wiki/Bitbake_World_Status
+so that we have some estimate how many recipes will be broken.
 
-Hmm, actually, this is not such bad an idea.
+Can we start by adding
+include conf/distro/include/seperatebuilddir.inc
+to
+conf/distro/defaultsetup.conf
+? so that more people start using it and possibly report issues in their
+builds?
 
-> In either case, you'll need to make
-> sure that the release process updates the number correctly, thought that
-> issue will be there no matter how you retreive and store the number.
+> b) We introduce an "autotools2" class and have recipes inherit that.
+> This version would default to separate builddirs. It does mean change to
+> all the "good" recipes rather than the broken ones though and hence a
+> fair bit of churn.
 
-Yes, these things can be automated in release scripts, absolutely.
+or introduce "autotools-noseparatebuilddir" as easy to use fix for
+broken recipes from a), that will make it easier to search for recipes
+to fix (as some kind of janitor task).
 
-> Though, I still think that having the info above on the images are
-> usefull, not least when the customer comes back with more difficult to
-> isolate issues.
+> Have we got the willpower to fix a)? is b) an option? Other ideas?
 
-I am not sure what information you mean. If you identify the image
-appropriately with a version and the corresponding list of package and
-versions (e.g. "image" BUILDHISTORY_FEATURE), I think you are good to
-go.
+We don't have willpower to fix all issues in Bitbake_World_Status so I
+don't expect many people jumping on task of fixing separate B in some
+less used recipes/layers (but I can volunteer to replace
+"s/autotools/autotools-noseparatebuilddir/g" to keep my World_Status
+close to current state).
 
-Currently, I am not trying to solve such internal issues. It is more
-important for me at this stage to be able to provide a useful version
-to the end user and also for own sake, but admittedly, tag is actually
-a good idea, thanks.
+> One way or another I think we should try and switch things somehow...
 
+Agreed, it went quite smoothly with cmake, qmake5, so autotools is next
+:).
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--kadn00tgSopKmJ1H
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlMLZPkACgkQN1Ujt2V2gBxBoACaAmEtIcjeTJ88+suthlEKaBQA
+tRoAoJVlds1WPVMx7Ilrho7Oba7fHBSG
+=1QTK
+-----END PGP SIGNATURE-----
+
+--kadn00tgSopKmJ1H--
