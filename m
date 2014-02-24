@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E1A46F2E7
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f50.google.com (mail-yh0-f50.google.com
+	[209.85.213.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E18A56EFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 14:58:16 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1OEwBaZ015667 for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 14:58:12 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id UiSLQsJ04tlv
+	Mon, 24 Feb 2014 15:06:54 +0000 (UTC)
+Received: by mail-yh0-f50.google.com with SMTP id 29so5347080yhl.37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 14:58:11 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1OEw7JJ015664
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 14:58:09 GMT
-Message-ID: <1393253881.31769.6.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Feb 2014 14:58:01 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: RFC: Separate build dir for autotools
+	Mon, 24 Feb 2014 07:06:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=o2bOGJJLiy97uP40q0KQM0F+RKxxqj/2zmNyov+naRo=;
+	b=fkHc4++mueF77wgrMyMPrGMozWcVipe875IiUd0uG17U3kzFe0vNxSBf//BdhNn+9Q
+	113t677lHTp1BVUv8rE24K99dilroWjObhcm7STahWxRv0/uOwbzSPYCVf7ZAt7vhiwO
+	xA2AVZgST8Lsr/O6QkpapvusMmn4McOkqnt02D96nhAdshuOrVpEKqvzvjj9QsVwZpM5
+	pNX0ooX0P76c+mj4KLas4AocQFWpvs3my6ez9hI+4D8I4bBcmuynLLub6a7OMkG/E+QM
+	Xpr30GBw1gLZIN7WupyrW0t9qUZ2Eb7STev4bDH/HjqwjK7IH+A6gLnPfbmIUVkFMKfV
+	3D9g==
+MIME-Version: 1.0
+X-Received: by 10.236.158.226 with SMTP id q62mr31389451yhk.2.1393254415276;
+	Mon, 24 Feb 2014 07:06:55 -0800 (PST)
+Sender: otavio.salvador@gmail.com
+Received: by 10.170.217.136 with HTTP; Mon, 24 Feb 2014 07:06:55 -0800 (PST)
+In-Reply-To: <1393253881.31769.6.camel@ted>
+References: <1393253881.31769.6.camel@ted>
+Date: Mon, 24 Feb 2014 12:06:55 -0300
+X-Google-Sender-Auth: g4R5QEJjHOj3CuLue32UgkAT1eA
+Message-ID: <CAP9ODKpho5Pgp2=mmtho-UaZwPY6vFwKDNPiFudM_CDoW_njuQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Separate build dir for autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 14:58:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Feb 2014 15:06:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-For a while poky and others have been using the seperatebuilddir.inc
-file. This makes ${S} != ${B} and means that ${B} can be wiped when
-configuration changes.
+Hello Richard,
 
-This helps deal with the fact that autotools and friends are not
-particular good at rebuilding things that change. The recent libcheck
-upgrade which broke bluez4 builds is but one example of the kind of
-problem we can hit. Sadly bluez4 doesn't work for S!=B so it didn't
-protect against that issue but it does protect other packages.
+On Mon, Feb 24, 2014 at 11:58 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> For a while poky and others have been using the seperatebuilddir.inc
+> file. This makes ${S} != ${B} and means that ${B} can be wiped when
+> configuration changes.
+>
+> This helps deal with the fact that autotools and friends are not
+> particular good at rebuilding things that change. The recent libcheck
+> upgrade which broke bluez4 builds is but one example of the kind of
+> problem we can hit. Sadly bluez4 doesn't work for S!=B so it didn't
+> protect against that issue but it does protect other packages.
+>
+> I'd really love to switch the default in autotools.bbclass to make this
+> the default and then have broken packages opt out of it.
+>
+> I can deal with OE-Core and make sure the metadata there is updated, my
+> bigger worry is what this would do to other layers.
+>
+> The options I can see are therefore basically:
+>
+> a) We change the default in autotools.bbclass and fix things that break
 
-I'd really love to switch the default in autotools.bbclass to make this
-the default and then have broken packages opt out of it.
++1
 
-I can deal with OE-Core and make sure the metadata there is updated, my
-bigger worry is what this would do to other layers.
+I think it is better to fix this sooner than later. This indeed helps
+improve the build stability so I think this is better to default to
+the better options; adding an extra class for it is the wrong way in
+my point of view and we'll "support" the wrong use of it. I think the
+exceptions are better covered if we keep it explicit in a var and easy
+to spot in a git grep.
 
-The options I can see are therefore basically:
-
-a) We change the default in autotools.bbclass and fix things that break
-
-b) We introduce an "autotools2" class and have recipes inherit that.
-This version would default to separate builddirs. It does mean change to
-all the "good" recipes rather than the broken ones though and hence a
-fair bit of churn.
-
-Have we got the willpower to fix a)? is b) an option? Other ideas?
-
-One way or another I think we should try and switch things somehow...
-
-Cheers,
-
-Richard
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
