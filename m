@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 50A9A6EE66
+	by mail.openembedded.org (Postfix) with ESMTP id 08AAC6EE66
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 15:52:59 +0000 (UTC)
+	Mon, 24 Feb 2014 15:53:02 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1OFqxXU015109
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1OFr2HO015119
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 24 Feb 2014 07:52:59 -0800 (PST)
+	Mon, 24 Feb 2014 07:53:03 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 24 Feb 2014 07:52:59 -0800
+	Mon, 24 Feb 2014 07:53:02 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Feb 2014 23:56:07 +0800
-Message-ID: <5373cb83c0c437d62a6d7fbaeae05cc13307bf49.1393256563.git.liezhi.yang@windriver.com>
+Date: Mon, 24 Feb 2014 23:56:09 +0800
+Message-ID: <b53a98919a99e630554a196b5899cdd99769b2e8.1393256563.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1393256563.git.liezhi.yang@windriver.com>
 References: <cover.1393256563.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] package_rpm.bbclass: archive the source to srpm package
+Subject: [PATCH 5/5] local.conf.sample.extended: update for the archiver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,94 +32,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 15:53:02 -0000
+X-List-Received-Date: Mon, 24 Feb 2014 15:53:03 -0000
 Content-Type: text/plain
 
-The archiver.bbclass will put the sources to ARCHIVER_OUTDIR according
-to configuration, then the rpmbuild -bs will create the srpm.
+Updated it since we have refactored the archiver.bbclass.
 
-[YOCTO #4986]
 [YOCTO #5113]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/package_rpm.bbclass | 31 ++++++++++++-------------------
- 1 file changed, 12 insertions(+), 19 deletions(-)
+ meta/conf/local.conf.sample.extended | 72 +++++++++++++++++++-----------------
+ 1 file changed, 38 insertions(+), 34 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 82ea187..329ee06 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -6,7 +6,6 @@ RPM="rpm"
- RPMBUILD="rpmbuild"
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 5f10886..27d5932 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -188,40 +188,44 @@
+ # when the disk space reduces 50M (or the amount of inode reduces 5k).
+ #BB_DISKMON_WARNINTERVAL = "50M,5K"
  
- PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
--PKGWRITEDIRSRPM = "${DEPLOY_DIR}/sources/deploy-srpm"
+-# Archiving source code, configure what kind of sources will be archived
+-# and the output format. The output files will be put in
+-# ${DEPLOY_DIR}/sources/.
+-#
+-# You can add the following 3 lines to the conf file to get a quick
+-# usage:
+-#ARCHIVER_MODE ?= "original"
+-#ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
+-#INHERIT += "${ARCHIVER_CLASS}"
+-#
+-# Detailed configuration:
+-# What kind of sources will be archived, the ARCHIVER_MODE could be:
+-# original: the ${S} after do_unpack
+-# patched : the ${S} after do_patch
+-# configured: the ${S} after do_configure
+-#ARCHIVER_MODE ?= "original"
+-#
+-# The output format type, tar or srpm, the default is "tar".
+-#ARCHIVER_MODE[type] ?= "tar"
+-#
+-# Whether include the log file under ${T} and the recipe (.bb and .inc),
+-# the default is "logs_with_scripts".
+-#ARCHIVER_MODE[log_type] ?= "logs_with_scripts"
+-#
+-# license filter:
+-# yes: Only the COPYLEFT_LICENSE_INCLUDE recipe will be archived
+-# no: All kinds of license will be archived
+-# The default is "no"
+-#ARCHIVER_MODE[filter] ?= "no"
+-#
+-# The following lines should be added to your conf file verbatim
+-# (uncommented though of course):
+-#ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
+-#INHERIT += "${ARCHIVER_CLASS}"
++# Archive the source and put them to ${DEPLOY_DIR}/sources/.
++#
++#INHERIT += "archiver"
++#
++# The tarball for the configured source, the diff between do_unpack and
++# do_patch will be archived by default, and you can configure the
++# archiver when needed:
++#
++#The output format:
++# 1) tar: (default)
++#ARCHIVER_MODE[type] = "tar"
++# 2) srpm: (when PACKAGES != "")
++#ARCHIVER_MODE[type] = "srpm",
++# NOTE: The logs can't be packed into the srpm package because they are
++#       incompleted until the rpm package has been built.
++#
++# Archive the source:
++# 1) before do_patch:
++#ARCHIVER_MODE[src] = "unpacked"
++# 2) after do_patch:
++#ARCHIVER_MODE[src] = "patched"
++# 3) after do_configure: (default)
++#ARCHIVER_MODE[src] = "configured"
++#
++# 4) the patches between do_unpack and do_configure:
++#ARCHIVER_MODE[diff] = "1"
++# set the files that you'd like to exclude from the diff:
++#ARCHIVER_MODE[diff-exclude] ?= ".pc autom4te.cache patches"
++#
++# 5) the environment data, similar to 'bitbake -e recipe':
++#ARCHIVER_MODE[dumpdata] = "1"
++#
++# 6) the recipe (.bb and .inc):
++#ARCHIVER_MODE[recipe] = "1"
++#
++# 7) the log.* and run.* files under ${T}
++#ARCHIVER_MODE[log] = "1"
++#
  
- # Maintaining the perfile dependencies has singificant overhead when writing the 
- # packages. When set, this value merges them for efficiency.
-@@ -87,23 +86,26 @@ python write_specfile () {
- 
-     # append information for logs and patches to %prep
-     def add_prep(d,spec_files_bottom):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
-+        if d.getVarFlag('ARCHIVER_MODE', 'type', True) == 'srpm' and bb.data.inherits_class('archiver', d):
-             spec_files_bottom.append('%%prep -n %s' % d.getVar('PN', True) )
-             spec_files_bottom.append('%s' % "echo \"include logs and patches, Please check them in SOURCES\"")
-             spec_files_bottom.append('')
- 
-     # append the name of tarball to key word 'SOURCE' in xxx.spec.
-     def tail_source(d):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
--            source_list = get_package(d)
-+        if d.getVarFlag('ARCHIVER_MODE', 'type', True) == 'srpm' and bb.data.inherits_class('archiver', d):
-+            ar_dir = d.getVar('ARCHIVER_OUTDIR', True)
-+            if not os.path.exists(ar_dir):
-+                return
-+            source_list = os.listdir(ar_dir)
-             source_number = 0
--            workdir = d.getVar('WORKDIR', True)
-             for source in source_list:
-                 # The rpmbuild doesn't need the root permission, but it needs
-                 # to know the file's user and group name, the only user and
-                 # group in fakeroot is "root" when working in fakeroot.
--                os.chown("%s/%s" % (workdir, source), 0, 0)
--                spec_preamble_top.append('Source' + str(source_number) + ': %s' % source)
-+                f = os.path.join(ar_dir, source)
-+                os.chown(f, 0, 0)
-+                spec_preamble_top.append('Source%s: %s' % (source_number, source))
-                 source_number += 1
-     # We need a simple way to remove the MLPREFIX from the package name,
-     # and dependency information...
-@@ -611,15 +613,6 @@ python write_specfile () {
- }
- 
- python do_package_rpm () {
--    def creat_srpm_dir(d):
--        if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
--            clean_licenses = get_licenses(d)
--            pkgwritesrpmdir = bb.data.expand('${PKGWRITEDIRSRPM}/${PACKAGE_ARCH_EXTEND}', d)
--            pkgwritesrpmdir = pkgwritesrpmdir + '/' + clean_licenses
--            bb.utils.mkdirhier(pkgwritesrpmdir)
--            os.chmod(pkgwritesrpmdir, 0755)
--            return pkgwritesrpmdir
--            
-     # We need a simple way to remove the MLPREFIX from the package name,
-     # and dependency information...
-     def strip_multilib(name, d):
-@@ -687,9 +680,9 @@ python do_package_rpm () {
-     cmd = cmd + " --define 'debug_package %{nil}'"
-     cmd = cmd + " --define '_rpmfc_magic_path " + magicfile + "'"
-     cmd = cmd + " --define '_tmppath " + workdir + "'"
--    if d.getVar('SOURCE_ARCHIVE_PACKAGE_TYPE', True) == 'srpm':
--        cmd = cmd + " --define '_sourcedir " + workdir + "'"
--        cmdsrpm = cmd + " --define '_srcrpmdir " + creat_srpm_dir(d) + "'"
-+    if d.getVarFlag('ARCHIVER_MODE', 'type', True) == 'srpm' and bb.data.inherits_class('archiver', d):
-+        cmd = cmd + " --define '_sourcedir " + d.getVar('ARCHIVER_OUTDIR', True) + "'"
-+        cmdsrpm = cmd + " --define '_srcrpmdir " + d.getVar('ARCHIVER_OUTDIR', True) + "'"
-         cmdsrpm = cmdsrpm + " -bs " + outspecfile
-         # Build the .src.rpm
-         d.setVar('SBUILDSPEC', cmdsrpm + "\n")
+ # Remove the old image before the new one generated to save disk space
+ #RM_OLD_IMAGE = "1"
 -- 
 1.8.3.1
 
