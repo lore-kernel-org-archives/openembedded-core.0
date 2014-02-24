@@ -1,30 +1,36 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 50F3760172
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id DC52360172
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 13:15:45 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 7CC60F811E0; Mon, 24 Feb 2014 06:15:46 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 91A62F811F0;
-	Mon, 24 Feb 2014 06:15:45 -0700 (MST)
-Message-ID: <530B4609.7070307@mlbassoc.com>
-Date: Mon, 24 Feb 2014 06:15:53 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Mon, 24 Feb 2014 13:18:33 +0000 (UTC)
+Received: by mail-qg0-f45.google.com with SMTP id j5so14795666qga.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Feb 2014 05:18:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=qVLo3WRrvJdBhsztkXe/Yzs66Lyl4TeZCftJeiUZDf8=;
+	b=kFxLCMLgsMdqfT6Lp8w+EsXTndN/gCnZ5zt9a0Kh1zpfiKFySVgpIH1jVs0zOhvW80
+	WtHn0I9kHIFYSXfBSQPWfQmiW/DrbDzWAN59Sb7WqelwsqAANwX9HZv1yMsR6+zr8tM8
+	mmdqiovcgKvuYSXnBufA4OAGUJSiBrvppGVCRtTD2dxaKwoYx5k0sHd0KA/tkyJ06Dwq
+	HDxmm0+5Xc3DtIVVSRj5ArmtfU5+Y6hMoPes+OGGwQxrTHacTv0/ovl5oTq59uokTuRq
+	0cR3eFEEGPYdHEPuzPNe8IFaoj2+S2HohwX8WrLaHREFBsH2FQikkFH6YkrC5Q9QZUI4
+	DmrA==
+X-Gm-Message-State: ALoCoQmNwUReRKZWyfSEzR0RSSu1qTNV/osC2HBVfkjNDwJT0a1kSD/E6CEQF3EkrWvNstaC3MFR
+X-Received: by 10.140.42.54 with SMTP id b51mr27812266qga.87.1393247914197;
+	Mon, 24 Feb 2014 05:18:34 -0800 (PST)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CAOMwXhNMs7top-CBCDf8Hgsxxz7=oBocF6YjbC_PhH1PDgYG0Q@mail.gmail.com>	<CAP71Wjy4kX15uoz=_42+zRKS7i91TYnGM=2u35+tNXf7CFoaww@mail.gmail.com>	<CAOMwXhMxcr_EVZx4uVnnpGvcq2MrMchHVUL5ApBdC+4bH7q_Yg@mail.gmail.com>	<CAP71WjwR9Lrb1QeHPEXLGnPe+vcEnYtgMDoQZW-eNayOMubbKQ@mail.gmail.com>	<CAOMwXhMz+_KcMzY1Stwi2g8EyFg+8BVajqrrvAX7Xd02qVNG9g@mail.gmail.com>
-	<CAP71WjxHc6+9DDGeQsuAc3Cv7qN+bfPgNT-ju01z6pje3Q2qEg@mail.gmail.com>
-In-Reply-To: <CAP71WjxHc6+9DDGeQsuAc3Cv7qN+bfPgNT-ju01z6pje3Q2qEg@mail.gmail.com>
-X-Enigmail-Version: 1.5.2
-Subject: Re: Conf notes
+Received: by 10.140.48.79 with HTTP; Mon, 24 Feb 2014 05:18:13 -0800 (PST)
+In-Reply-To: <CAOMwXhOmoLP_8+mv_c_4Eg8YG_T1JD-ao+P1S9FDKvityy_3mA@mail.gmail.com>
+References: <CAOMwXhOmoLP_8+mv_c_4Eg8YG_T1JD-ao+P1S9FDKvityy_3mA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 24 Feb 2014 13:18:13 +0000
+Message-ID: <CAJTo0LY6hsYxR2=aeRodKhZ+5VBEUh+q+7nRYU0E6XYc+Pn-NQ@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: No versioning for existing images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 13:15:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Feb 2014 13:18:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2014-02-24 05:49, Nicolas Dechesne wrote:
-> On Mon, Feb 24, 2014 at 12:47 PM, Laszlo Papp <lpapp@kde.org> wrote:
->>> hmm. do you get any error message?
->>
->> Nope, I have been using this construction for several weeks now. The
->> local and bblayer samples have been extracted properly into the build
->> folder, so in that sense, there is no infrastructural change
->> introduced in here, just yet another file added in the folder.
-> 
-> well, i don't see what can possibly go wrong then... especially if
-> layers.conf.sample and bblayer sample files work fine... maybe adding
-> "set -x" in the script would reveal something..
+On 24 February 2014 12:01, Laszlo Papp <lpapp@kde.org> wrote:
+> For instance, the MeeGo Nokia phone had a software version information
+> in the settings, and that is something I would personally consider as
+> the image version, but again, there might be better ways. Please share
+> good practices in here., or alternatively, feel free to point me to
+> any documentation, examples, etc.
 
-I just tried this with the latest master and it is only looking in
-the meta-yocto layer even though there is a conf-notes.txt in one of
-my local layers as well.
+This is an interesting example and a useful demonstration of why the
+image version isn't always that useful.  The software build number
+covers *everything* that goes into the image, but the image version
+number is just the version of the top-level image recipe.  If you bump
+the version of eglibc your image version won't be increased.
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+There's nothing to stop you doing versioned images but as the version
+doesn't represent anything beyond the image recipe version it's not as
+useful as you'd think.
+
+Ross
 
