@@ -1,41 +1,37 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 71CA56E89C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
+	[209.85.216.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 65A426B7AD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 11:47:57 +0000 (UTC)
-Received: by mail-pb0-f41.google.com with SMTP id jt11so1093111pbb.28
+	Mon, 24 Feb 2014 11:54:43 +0000 (UTC)
+Received: by mail-qc0-f169.google.com with SMTP id e9so6765634qcy.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 03:47:59 -0800 (PST)
+	Mon, 24 Feb 2014 03:54:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=1zX6cP1mBvm43tLFYVoLQIsWVHXz56bFoANMFVZ0LvM=;
-	b=cbm++88BP/W0K7ioYDirtklnRNHbFmCw0cXkhQ41ngZo5fLpmGI+Rw+VqMPfeekiix
-	zBOVBm8HY1rk2FhT/hgEfukhub4FglOYZQaKAXKppap48/9Ec4yCTiBiJvPtU7zSFWks
-	Hw3o0Q8C8RYxwLliH3mY5yiwNQ52h1erome/TtHNxjHTs+B8qPWLOmhE2HA5hdVAVZzE
-	0oB/Djgu/fajPa6wOj8dNau0n7YdRrISBPUwITgxwdlRDlutif1w9jms0qdfbGsvua+f
-	+4ZgF5pizg2/odP3zDvgd7kzNi2B8AYuuwfnXRnZlIX/jiU8heBLWNJxS9QWCzUo4N+d
-	hltw==
-X-Gm-Message-State: ALoCoQlmY9U3UFVRXfk5AzNVTbu8UfgISeuQoCDCTVrUDvLq2SdKWImTphhbCmf+955MZtz6z3L7
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9W8TwazPnAjj1OFZdcEUlIerM0MZHLb/4qMQSYjJpAE=;
+	b=jMMced3rHsNRb3gUwHbpLjTCza4yyrNA6O/B7SBeG57Ux0TtqoKTi9S7XY9obUrX5z
+	lReqGDMaBmfG6l5XAeix2HvbgI79LyTXZQRa9PXEiPXzQSi8tEvTIZ2+WFVMRGzMKdcn
+	srG/fTMFGvWH8WCyjdmowT5+tsJw8ogruV4Xh9AZMXi0llvsB3lnjCA6GCjwbLPUU7BK
+	U0eSqpHG5UKPlG5URFOk8tkakiZbpfVb7gHIQTdu7tDcRGG95RQpXXzit8SFc0ak/LUG
+	AX1KBZkksx7ZndC1jeozLL9xBODyfzrJZo3h8NxbRtHaJ1orZcLEpXb43qdIgQidBh10
+	fALw==
+X-Gm-Message-State: ALoCoQlcqHVoUWp+PoQUR9m/TwKepJT8DmBFKVteCjT89RBuXFSgG1kL61ShUttigrfJ4LSHKRfa
+X-Received: by 10.140.42.138 with SMTP id c10mr27709395qga.24.1393242884910;
+	Mon, 24 Feb 2014 03:54:44 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.66.250.161 with SMTP id zd1mr25071805pac.136.1393242478926; 
-	Mon, 24 Feb 2014 03:47:58 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.26.195 with HTTP; Mon, 24 Feb 2014 03:47:58 -0800 (PST)
-In-Reply-To: <CAP71WjwR9Lrb1QeHPEXLGnPe+vcEnYtgMDoQZW-eNayOMubbKQ@mail.gmail.com>
-References: <CAOMwXhNMs7top-CBCDf8Hgsxxz7=oBocF6YjbC_PhH1PDgYG0Q@mail.gmail.com>
-	<CAP71Wjy4kX15uoz=_42+zRKS7i91TYnGM=2u35+tNXf7CFoaww@mail.gmail.com>
-	<CAOMwXhMxcr_EVZx4uVnnpGvcq2MrMchHVUL5ApBdC+4bH7q_Yg@mail.gmail.com>
-	<CAP71WjwR9Lrb1QeHPEXLGnPe+vcEnYtgMDoQZW-eNayOMubbKQ@mail.gmail.com>
-Date: Mon, 24 Feb 2014 11:47:58 +0000
-X-Google-Sender-Auth: XEUuL69jlMbcGOMDwwgvhKNvqoI
-Message-ID: <CAOMwXhMz+_KcMzY1Stwi2g8EyFg+8BVajqrrvAX7Xd02qVNG9g@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Conf notes
+Received: by 10.140.48.79 with HTTP; Mon, 24 Feb 2014 03:54:24 -0800 (PST)
+In-Reply-To: <CABuzA3Odaup7ZC1EZPMLEULzjpDxrhRq6Oq97Ben9uLjCOKNEA@mail.gmail.com>
+References: <CABuzA3Odaup7ZC1EZPMLEULzjpDxrhRq6Oq97Ben9uLjCOKNEA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 24 Feb 2014 11:54:24 +0000
+Message-ID: <CAJTo0LYxZpiSyyQoa_Q=dY8=ShTOc2=aq5Gn4nkqLn-jmbX_BA@mail.gmail.com>
+To: John Stirling <ap.john.stirling@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: qt4-embedded - jpeg, gif, tiff support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,29 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 11:47:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 24 Feb 2014 11:54:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Feb 24, 2014 at 10:28 AM, Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
-> On Mon, Feb 24, 2014 at 10:35 AM, Laszlo Papp <lpapp@kde.org> wrote:
->>> are you setting TEMPLATECONF variable? if so, how?
->>
->> cat setup.sh
->> #!/bin/bash
->>
->> TEMPLATECONF=meta-foo/conf . oe-init-build-env
->
-> hmm. do you get any error message?
+On 24 February 2014 11:39, John Stirling <ap.john.stirling@gmail.com> wrote:
+> I've just noticed jpeg, gif, tiff are not working for me.
 
-Nope, I have been using this construction for several weeks now. The
-local and bblayer samples have been extracted properly into the build
-folder, so in that sense, there is no infrastructural change
-introduced in here, just yet another file added in the folder.
+I suspect you're not pulling in the image decoder packages into your
+images: to reduce dependency creep these are split into separate
+packages:
 
-> meta-foo needs to be a folder in OEROOT (along with 'meta' folder), or
-> TEMPLATECONF can be an absolute path otherwise, as you can see from
-> this code snippet (from oe-setup-builddir)
+$ ls qt4-embedded-plugin-imageformat*
+qt4-embedded-plugin-imageformat-gif_4.8.5-r0_i586.ipk
+qt4-embedded-plugin-imageformat-ico_4.8.5-r0_i586.ipk
+qt4-embedded-plugin-imageformat-jpeg_4.8.5-r0_i586.ipk
+qt4-embedded-plugin-imageformat-mng_4.8.5-r0_i586.ipk
+qt4-embedded-plugin-imageformat-svg_4.8.5-r0_i586.ipk
+qt4-embedded-plugin-imageformat-tga_4.8.5-r0_i586.ipk
+qt4-embedded-plugin-imageformat-tiff_4.8.5-r0_i586.ipk
 
-Yes, meta-foo is beside meta.
+Ross
 
