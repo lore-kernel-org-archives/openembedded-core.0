@@ -1,24 +1,24 @@
 Return-Path: <cristiana.voicu@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 078B46F098
+	by mail.openembedded.org (Postfix) with ESMTP id 43F1D6F137
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 24 Feb 2014 11:34:57 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2014 03:30:34 -0800
+	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2014 03:30:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,534,1389772800"; d="scan'208";a="488717443"
+X-IronPort-AV: E=Sophos;i="4.97,534,1389772800"; d="scan'208";a="488717453"
 Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.62])
-	by orsmga002.jf.intel.com with ESMTP; 24 Feb 2014 03:34:51 -0800
+	by orsmga002.jf.intel.com with ESMTP; 24 Feb 2014 03:34:53 -0800
 From: Cristiana Voicu <cristiana.voicu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2014 13:42:41 +0200
-Message-Id: <dcae5d2bddf73f523394cfe9e7800fd50619c60a.1393228795.git.cristiana.voicu@intel.com>
+Date: Mon, 24 Feb 2014 13:42:42 +0200
+Message-Id: <e6e9e1f5d07b0495c0e58b6fe90590045eaca2a3.1393228795.git.cristiana.voicu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1393228795.git.cristiana.voicu@intel.com>
 References: <cover.1393228795.git.cristiana.voicu@intel.com>
 In-Reply-To: <cover.1393228795.git.cristiana.voicu@intel.com>
 References: <cover.1393228795.git.cristiana.voicu@intel.com>
-Subject: [PATCH 1/2] curl: upgrade to 7.35.0
+Subject: [PATCH 2/2] pango: upgrade to 1.36.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,28 +35,25 @@ X-List-Received-Date: Mon, 24 Feb 2014 11:34:57 -0000
 
 Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
 ---
- .../curl/{curl_7.34.0.bb => curl_7.35.0.bb}        |    4 ++--
+ .../pango/{pango_1.36.1.bb => pango_1.36.2.bb}     |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/curl/{curl_7.34.0.bb => curl_7.35.0.bb} (93%)
+ rename meta/recipes-graphics/pango/{pango_1.36.1.bb => pango_1.36.2.bb} (56%)
 
-diff --git a/meta/recipes-support/curl/curl_7.34.0.bb b/meta/recipes-support/curl/curl_7.35.0.bb
-similarity index 93%
-rename from meta/recipes-support/curl/curl_7.34.0.bb
-rename to meta/recipes-support/curl/curl_7.35.0.bb
-index aba6649..9cc60c8 100644
---- a/meta/recipes-support/curl/curl_7.34.0.bb
-+++ b/meta/recipes-support/curl/curl_7.35.0.bb
-@@ -18,8 +18,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
+diff --git a/meta/recipes-graphics/pango/pango_1.36.1.bb b/meta/recipes-graphics/pango/pango_1.36.2.bb
+similarity index 56%
+rename from meta/recipes-graphics/pango/pango_1.36.1.bb
+rename to meta/recipes-graphics/pango/pango_1.36.2.bb
+index c6377aa..e682038 100644
+--- a/meta/recipes-graphics/pango/pango_1.36.1.bb
++++ b/meta/recipes-graphics/pango/pango_1.36.2.bb
+@@ -8,5 +8,5 @@ SRC_URI += "file://no-tests.patch \
+             file://multilib-fix-clean.patch \
+ "
  
--SRC_URI[md5sum] = "88491df2bb32e9146e776ae6ac2f8327"
--SRC_URI[sha256sum] = "10beade56b48311499e444783df3413405b22f20a147ed4a1d8a8125f1cc829b"
-+SRC_URI[md5sum] = "c18fbdd031adb0529ae09fce399f2d10"
-+SRC_URI[sha256sum] = "d774d1701454f1b7d331c2075fc4f6dd972bddc2d171f43645ef3647c7fc0d83"
- 
- inherit autotools pkgconfig binconfig multilib_header
- 
+-SRC_URI[archive.md5sum] = "9e0d3a1ea395172f8c39ba98a4d2081a"
+-SRC_URI[archive.sha256sum] = "42e4b51cdc99e6878a9ea2a5ef2b31b79c1033f8518726df738a3c54c90e59f8"
++SRC_URI[archive.md5sum] = "253026c7132c22e52cefd998ba89a742"
++SRC_URI[archive.sha256sum] = "f07f9392c9cf20daf5c17a210b2c3f3823d517e1917b72f20bb19353b2bc2c63"
 -- 
 1.7.9.5
 
