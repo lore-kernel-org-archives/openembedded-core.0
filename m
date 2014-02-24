@@ -1,30 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 933A46F33F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 93C406F15E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 17:17:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1OHH8TT019801
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 09:17:08 -0800 (PST)
-Received: from Marks-MacBook-Pro.local (172.25.36.235) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 24 Feb 2014 09:17:07 -0800
-Message-ID: <530B7E92.9090109@windriver.com>
-Date: Mon, 24 Feb 2014 11:17:06 -0600
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Mon, 24 Feb 2014 17:23:44 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 24 Feb 2014 09:19:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,535,1389772800"; d="scan'208";a="488923282"
+Received: from mcmahond-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.208])
+	by orsmga002.jf.intel.com with ESMTP; 24 Feb 2014 09:23:44 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Mon, 24 Feb 2014 17:23:42 +0000
+Message-ID: <15834807.CLDoMVSnAx@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.13.3-201.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <1393261393-9602-2-git-send-email-sgw@linux.intel.com>
+References: <1393261393-9602-1-git-send-email-sgw@linux.intel.com>
+	<1393261393-9602-2-git-send-email-sgw@linux.intel.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1388269205.git.paul.eggleton@linux.intel.com>	<52C0CDD6.4030904@windriver.com>
-	<5014991.yOqVctVWSl@helios>	<19353110.0dHagEzKPJ@peggleto-mobl5.ger.corp.intel.com>
-	<1393261200.31769.17.camel@ted>
-In-Reply-To: <1393261200.31769.17.camel@ted>
-Subject: Re: [PATCH 01/38] *-basic: rename to *-standardlinux
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] sqlite: rename to match upstream versioning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 17:17:11 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Feb 2014 17:23:47 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 2/24/14, 11:00 AM, Richard Purdie wrote:
-> On Mon, 2014-02-24 at 16:38 +0000, Paul Eggleton wrote:
->> On Monday 30 December 2013 12:59:26 Paul Eggleton wrote:
->>> On Monday 30 December 2013 09:35:18 Robert Yang wrote:
->>>> I'm afraid that the standardlinux maybe a little confused with
->>>> linuxstdbase, bu I don't have any better idea about it.
->>>
->>> You could be right. I've thought for a long time about renaming this and
->>> haven't been able to come up with anything better. On the other hand, in our
->>> current configuration we are actually using the basic/standardlinux
->>> packagegroup as part of our LSB images; although that might not be the
->>> right thing to continue doing - LSB probably ought to be independent.
->>>
->>> FWIW, let's consider this particular patch as RFC, maybe someone else has a
->>> better idea of what to name it. I am very much convinced that "basic" is not
->>> the right name though.
->>
->> So, has anyone got any better ideas for the name of core-image-basic and
->> packagegroup-core-basic?
->>
->> The idea is that these are meant to contain things that you might have on a
->> more traditional or full-featured Linux system. Somehow "-traditionallinux"
->> doesn't really work either.
->
-> "fulllinux"?
->
-> "linuxcmdline"?
+On Monday 24 February 2014 19:03:13 Saul Wold wrote:
+> Since we are re-doing the version from a big number down to a dot
+> based number we have to bump the Package Epoch (PE).
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  .../sqlite/{sqlite3_3080301.bb => sqlite3_3.8.3.1.bb}               | 6
+> ++++-- 1 file changed, 4 insertions(+), 2 deletions(-)
+>  rename meta/recipes-support/sqlite/{sqlite3_3080301.bb =>
+> sqlite3_3.8.3.1.bb} (71%)
+> 
+> diff --git a/meta/recipes-support/sqlite/sqlite3_3080301.bb
+> b/meta/recipes-support/sqlite/sqlite3_3.8.3.1.bb similarity index 71%
+> rename from meta/recipes-support/sqlite/sqlite3_3080301.bb
+> rename to meta/recipes-support/sqlite/sqlite3_3.8.3.1.bb
+> index 8ed01a9..ca3a05c 100644
+> --- a/meta/recipes-support/sqlite/sqlite3_3080301.bb
+> +++ b/meta/recipes-support/sqlite/sqlite3_3.8.3.1.bb
+> @@ -2,12 +2,14 @@ require sqlite3.inc
+> 
+>  LIC_FILES_CHKSUM =
+> "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
+> 
+> -SRC_URI = "http://www.sqlite.org/2014/sqlite-autoconf-${PV}.tar.gz"
+> +PE = "1"
+> +SQLITE_PV = "3080301"
+> +SRC_URI = "http://www.sqlite.org/2014/sqlite-autoconf-${SQLITE_PV}.tar.gz"
 
-I've resolved this naming conundrum in the past by simply having a document that 
-explains what the name means.  "basic - basic command line utilities"
+Rather than hardcoding this, we could use inline python to compute it. 
+This should work:
 
-I agree basic isn't the most descriptive name, but I'm not sure what is.
+def sqlite_download_version(d):
+    pvsplit = d.getVar('PV', True).split('.')
+    return pvsplit[0] + ''.join([part.rjust(2,'0') for part in pvsplit[1:]])
 
---Mark
+SQLITE_PV = "${@sqlite_download_version(d)}"
 
-> Cheers,
->
-> Richard
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
