@@ -1,25 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CA0226F12A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f175.google.com (mail-ea0-f175.google.com
+	[209.85.215.175])
+	by mail.openembedded.org (Postfix) with ESMTP id BDD266E8E2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 16:06:25 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Feb 2014 08:06:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,535,1389772800"; d="scan'208";a="487168782"
-Received: from mcmahond-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.208])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Feb 2014 08:06:07 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2014 16:05:47 +0000
-Message-Id: <75eec57038feb9c85630c26958e3e116a2a66713.1393257867.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.5.3
-In-Reply-To: <cover.1393257867.git.paul.eggleton@linux.intel.com>
-References: <cover.1393257867.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1393257867.git.paul.eggleton@linux.intel.com>
-References: <cover.1393257867.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 4/4] documentation.conf: add a few missing task descriptions
+	Mon, 24 Feb 2014 16:09:57 +0000 (UTC)
+Received: by mail-ea0-f175.google.com with SMTP id z10so2882789ead.20
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Feb 2014 08:09:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=a5yvQFoNgAX2Zd/hxa0K/5ga8g+Cj2jnQeMLsSgiYUo=;
+	b=OqKjJYEu22PO/8zlWGu/f57NX0coP/FAdmgJ9rrAkzfJZWljDWYxOoZdpYMUdO6Eyy
+	Ppi0JwykDYySCQktfAftD6zqgJukZ7eADj6uxYpGyo2h6vw4HQE4aYCJlSJgYkBQ6KI0
+	/288k8JLvEWxp++zZ587PfsH3jm5XjWwtIn9MILofes4ViDWKdFjFwZl5WrQgOU05QKx
+	DF6SSKctMLd0tRk0PkukVLKXxv7wyklSh0o0x/g1+SI2f3N7L/GhZHR68Rvd1RNg2bUz
+	DiefEZXV8sOYOol0ppdFNO/PS73erK4KRNHeaSBX9J3CrO3UJNlZ0rK1YyaV7QAjQS9W
+	50PA==
+X-Received: by 10.15.34.71 with SMTP id d47mr1093223eev.107.1393258198054;
+	Mon, 24 Feb 2014 08:09:58 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	n48sm44475004eew.0.2014.02.24.08.09.55 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Feb 2014 08:09:56 -0800 (PST)
+Date: Mon, 24 Feb 2014 17:09:54 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20140224160954.GI26981@jama>
+References: <1393253881.31769.6.camel@ted> <20140224152753.GG26981@jama>
+	<CAJTo0LYBuZv5NDyM1gsQEL5KQfOvMsRpvOn5kjFaYBi5XL8wCw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LYBuZv5NDyM1gsQEL5KQfOvMsRpvOn5kjFaYBi5XL8wCw@mail.gmail.com>
+User-Agent: Mutt/1.5.22 (2013-10-16)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Separate build dir for autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 16:06:26 -0000
+X-List-Received-Date: Mon, 24 Feb 2014 16:09:58 -0000
+X-Groupsio-MsgNum: 50523
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="RwxaKO075aXzzOz0"
+Content-Disposition: inline
 
-We didn't really need these when the task descriptions were only used
-for Toaster, but now we're showing them in -c listtasks they are useful
-to have.
+--RwxaKO075aXzzOz0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/conf/documentation.conf | 4 ++++
- 1 file changed, 4 insertions(+)
+On Mon, Feb 24, 2014 at 03:41:11PM +0000, Burton, Ross wrote:
+> On 24 February 2014 15:27, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > Can we start by adding
+> > include conf/distro/include/seperatebuilddir.inc
+> > to
+> > conf/distro/defaultsetup.conf
+> > ? so that more people start using it and possibly report issues in their
+> > builds?
+>=20
+> That list is opt-in and mainly covers oe-core, so this gets tested
+> every time the YP autobuilder does a world build.  We need a meta-oe
+> world build where autotools.bbclass sets B=3D"${WORKDIR}/build": it's
+> literally just this one-line patch.
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index d1f491d..617fd2a 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -18,6 +18,8 @@ do_compile_ptest_base[doc] = "Compiles the runtime test suite included in the so
- do_configure[doc] = "Configures the source by enabling and disabling any build-time and configuration options for the software being built"
- do_configure_ptest_base[doc] = "Configures the runtime test suite included in the software being built"
- do_deploy[doc] = "Writes deployable output files to the deploy directory"
-+do_devshell[doc] = "Starts a shell with the environment set up for development/debugging"
-+do_diffconfig[doc] = "Compares the old and new config files after running do_menuconfig for the kernel"
- do_fetch[doc] = "Fetches the source code"
- do_fetchall[doc] = "Fetches all remote sources required to build a target"
- do_generate_qt_config_file[doc] = "Writes a qt.conf file for building a Qt-based application"
-@@ -27,6 +29,8 @@ do_kernel_checkout[doc] = "Checks out source/meta branches for a linux-yocto sty
- do_kernel_configcheck[doc] = "Validates the kernel configuration for a linux-yocto style kernel"
- do_kernel_configme[doc] = "Assembles the kernel configuration for a linux-yocto style kernel"
- do_kernel_link_vmlinux[doc] = "Creates a symbolic link in arch/$arch/boot for vmlinux kernel images"
-+do_listtasks[doc] = "Lists all defined tasks for a target"
-+do_menuconfig[doc] = "Runs 'make menuconfig' for the kernel"
- do_package[doc] = "Analyzes the content of the holding area and splits it into subsets based on available packages and files"
- do_package_index[doc] = "Creates or updates the index in the Package Feed area"
- do_package_write[doc] = "Creates the actual packages and places them in the Package Feed area"
--- 
-1.8.5.3
+But doesn't cover oe-core built with different combinations for
+PACKAGECONFIGs, .bbappends etc, so including this file in
+defaultsetup.conf can still reveal few issues in oe-core recipes.
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--RwxaKO075aXzzOz0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iEYEARECAAYFAlMLbtIACgkQN1Ujt2V2gBx0gwCfWCyYbnvegnfVLS5KlnJctkge
+YHQAnR0bh+omfp6N0dNRX+JXda+thWh1
+=yBQu
+-----END PGP SIGNATURE-----
+
+--RwxaKO075aXzzOz0--
