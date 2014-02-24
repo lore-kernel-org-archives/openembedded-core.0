@@ -1,25 +1,21 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 08AAC6EE66
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D5716EE66
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 15:53:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1OFr2HO015119
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 24 Feb 2014 07:53:03 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 24 Feb 2014 07:53:02 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Feb 2014 23:56:09 +0800
-Message-ID: <b53a98919a99e630554a196b5899cdd99769b2e8.1393256563.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1393256563.git.liezhi.yang@windriver.com>
-References: <cover.1393256563.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 5/5] local.conf.sample.extended: update for the archiver
+	Mon, 24 Feb 2014 16:06:22 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 24 Feb 2014 08:06:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,535,1389772800"; d="scan'208";a="487168722"
+Received: from mcmahond-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.208])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Feb 2014 08:06:03 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Feb 2014 16:05:43 +0000
+Message-Id: <cover.1393257867.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH 0/4] Misc core fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,102 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 15:53:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Feb 2014 16:06:22 -0000
 
-Updated it since we have refactored the archiver.bbclass.
+The following changes since commit 5eb0f6e03e5a543f7bad6fcf0cab4173cc8882d8:
 
-[YOCTO #5113]
+  lz4: fix CC (2014-02-24 11:57:28 +0000)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/conf/local.conf.sample.extended | 72 +++++++++++++++++++-----------------
- 1 file changed, 38 insertions(+), 34 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index 5f10886..27d5932 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -188,40 +188,44 @@
- # when the disk space reduces 50M (or the amount of inode reduces 5k).
- #BB_DISKMON_WARNINTERVAL = "50M,5K"
- 
--# Archiving source code, configure what kind of sources will be archived
--# and the output format. The output files will be put in
--# ${DEPLOY_DIR}/sources/.
--#
--# You can add the following 3 lines to the conf file to get a quick
--# usage:
--#ARCHIVER_MODE ?= "original"
--#ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
--#INHERIT += "${ARCHIVER_CLASS}"
--#
--# Detailed configuration:
--# What kind of sources will be archived, the ARCHIVER_MODE could be:
--# original: the ${S} after do_unpack
--# patched : the ${S} after do_patch
--# configured: the ${S} after do_configure
--#ARCHIVER_MODE ?= "original"
--#
--# The output format type, tar or srpm, the default is "tar".
--#ARCHIVER_MODE[type] ?= "tar"
--#
--# Whether include the log file under ${T} and the recipe (.bb and .inc),
--# the default is "logs_with_scripts".
--#ARCHIVER_MODE[log_type] ?= "logs_with_scripts"
--#
--# license filter:
--# yes: Only the COPYLEFT_LICENSE_INCLUDE recipe will be archived
--# no: All kinds of license will be archived
--# The default is "no"
--#ARCHIVER_MODE[filter] ?= "no"
--#
--# The following lines should be added to your conf file verbatim
--# (uncommented though of course):
--#ARCHIVER_CLASS = "${@'archive-${ARCHIVER_MODE}-source' if ARCHIVER_MODE != 'none' else ''}"
--#INHERIT += "${ARCHIVER_CLASS}"
-+# Archive the source and put them to ${DEPLOY_DIR}/sources/.
-+#
-+#INHERIT += "archiver"
-+#
-+# The tarball for the configured source, the diff between do_unpack and
-+# do_patch will be archived by default, and you can configure the
-+# archiver when needed:
-+#
-+#The output format:
-+# 1) tar: (default)
-+#ARCHIVER_MODE[type] = "tar"
-+# 2) srpm: (when PACKAGES != "")
-+#ARCHIVER_MODE[type] = "srpm",
-+# NOTE: The logs can't be packed into the srpm package because they are
-+#       incompleted until the rpm package has been built.
-+#
-+# Archive the source:
-+# 1) before do_patch:
-+#ARCHIVER_MODE[src] = "unpacked"
-+# 2) after do_patch:
-+#ARCHIVER_MODE[src] = "patched"
-+# 3) after do_configure: (default)
-+#ARCHIVER_MODE[src] = "configured"
-+#
-+# 4) the patches between do_unpack and do_configure:
-+#ARCHIVER_MODE[diff] = "1"
-+# set the files that you'd like to exclude from the diff:
-+#ARCHIVER_MODE[diff-exclude] ?= ".pc autom4te.cache patches"
-+#
-+# 5) the environment data, similar to 'bitbake -e recipe':
-+#ARCHIVER_MODE[dumpdata] = "1"
-+#
-+# 6) the recipe (.bb and .inc):
-+#ARCHIVER_MODE[recipe] = "1"
-+#
-+# 7) the log.* and run.* files under ${T}
-+#ARCHIVER_MODE[log] = "1"
-+#
- 
- # Remove the old image before the new one generated to save disk space
- #RM_OLD_IMAGE = "1"
+  git://git.openembedded.org/openembedded-core-contrib paule/fixes4
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/fixes4
+
+Paul Eggleton (4):
+  classes/sstate: fix taints being undone on execution of sstate tasks
+  classes/package_tar: fix conflicts with package_deb / package_ipk
+  classes/utility-tasks: make do_listtasks a little more friendly
+  documentation.conf: add a few missing task descriptions
+
+ meta/classes/package_tar.bbclass   |  7 ++++---
+ meta/classes/sstate.bbclass        |  3 +++
+ meta/classes/utility-tasks.bbclass | 17 ++++++++++++-----
+ meta/conf/documentation.conf       |  4 ++++
+ 4 files changed, 23 insertions(+), 8 deletions(-)
+
 -- 
-1.8.3.1
+1.8.5.3
 
 
