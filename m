@@ -1,35 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 737DF6DC16
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
+	[209.85.219.48])
+	by mail.openembedded.org (Postfix) with ESMTP id D77636F098
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Feb 2014 10:43:48 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id d17so2471844eek.37
+	Mon, 24 Feb 2014 06:34:22 +0000 (UTC)
+Received: by mail-oa0-f48.google.com with SMTP id g12so20672oah.21
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Feb 2014 02:43:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zco3LnZdX41jxOORBQvGALlCJWNmRLy+w39Q/us8WXo=;
-	b=DfSsZLt4lSbQ7FBa+/pNOHtHQabfC6XwX9j2wLfWcgJHhkMbXsYP9VcyP9pmDU32hs
-	gZOGCRYyiGu3SXxsqZlll+YaVf9yfhSaQhDH1gZPD2QrB4YtXoAxqyG98jDLGPDjylcg
-	AjXPRUOD/W+s4fFTbk1WBQ04RS5eQenIiNecf77S+kTgbxxwxkVg7A4IsNGYoBASxW/C
-	cUI94wgY6gfuXpZo+PU5ljT6bDpUZ776ED0hFLXjftdazNbX+2WBq0XID7koxag3kxHY
-	51skW5xRj7cPhshW0x17GYfxay3pHrviI+C0i1rd54V4fVFLNfdqjIhSXi/EfMujF/if
-	2xFA==
-X-Received: by 10.14.88.131 with SMTP id a3mr19175543eef.64.1393152229132;
-	Sun, 23 Feb 2014 02:43:49 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	f45sm49637810eeg.5.2014.02.23.02.43.47 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 23 Feb 2014 02:43:48 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Feb 2014 11:44:22 +0100
-Message-Id: <1393152262-30469-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.9.0
-In-Reply-To: <CABcZAN=PaZ+J4XQ6jp6GbTVTDmA2_pGTfdrA2mC52d7ZH2KdGw@mail.gmail.com>
-References: <CABcZAN=PaZ+J4XQ6jp6GbTVTDmA2_pGTfdrA2mC52d7ZH2KdGw@mail.gmail.com>
-Subject: [RFC][PATCH] package.py: use subprocess.Popen for rpmdeps call
+	Sun, 23 Feb 2014 22:34:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ZLwjpy/uA6PSZQjbsU/ckcVRS8vcWIhsy1IuKwc9zdU=;
+	b=ItZjkE99HXPj3zxm4B9wGhShmtQ5IHGVyH/cZL1AbQ6wtAYZCN9QIbC3Z2tYVPvgkm
+	Y0daXsNMBbK8jr9pudpv4E0ZLRcbyIGYgvSsmibKpWurTiV6kYIomu7CrmVHcwKjIGzA
+	nAIYcelo9WC8RzWOaSPcgAcGBxKJ9/SpzXd7gnFALU9j8ldlILDdvLw33LBnXU1pmot8
+	V4gR11Asw5WCINMucodGE+Z1QdQKJEii5lPx7a4DdxibGh1z6fIGIQgvQdmLkZtQjSNa
+	uaUPrw2vZpWTZG2Qmxoloqv2v67T7MJ75je6g8RofKLikVil+0HvkH6zGG3T321DFr4B
+	evWg==
+X-Gm-Message-State: ALoCoQlv5YGBVUAGugxoKhMpwhDT0xNTijwMf1wL6Efm5rCFULY+wpO9eAql9kGy2rnYMZsI5jGp
+X-Received: by 10.60.60.33 with SMTP id e1mr20021206oer.36.1393223663256; Sun,
+	23 Feb 2014 22:34:23 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.76.182.99 with HTTP; Sun, 23 Feb 2014 22:34:03 -0800 (PST)
+In-Reply-To: <CAOMwXhNMs7top-CBCDf8Hgsxxz7=oBocF6YjbC_PhH1PDgYG0Q@mail.gmail.com>
+References: <CAOMwXhNMs7top-CBCDf8Hgsxxz7=oBocF6YjbC_PhH1PDgYG0Q@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Mon, 24 Feb 2014 07:34:03 +0100
+Message-ID: <CAP71Wjy4kX15uoz=_42+zRKS7i91TYnGM=2u35+tNXf7CFoaww@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Conf notes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,61 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Feb 2014 10:43:52 -0000
+X-List-Received-Date: Mon, 24 Feb 2014 06:34:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-* I've noticed errors like this in log.do_package:
+On Fri, Feb 21, 2014 at 8:06 PM, Laszlo Papp <lpapp@kde.org> wrote:
+>
+> I have just put a conf notes file into my own layer, but when I source
+> the oe-init-build-env script, I am still getting the notes from Yocto
+> rather than my customized.
+>
+> What am I doing wrong? I see this in the ./scripts/oe-setup-builddir file:
+>
+> TEMPLATECONF=${TEMPLATECONF:-meta-yocto/conf}
+>
+> and other references, but I have not pin the issue down just yet.
 
-  DEBUG: Executing python function package_do_filedeps
-  sh: 1: Syntax error: "(" unexpected
-  sh: 1: Syntax error: "(" unexpected
-  DEBUG: Python function package_do_filedeps finished
+are you setting TEMPLATECONF variable? if so, how?
 
-  which are actually caused by some filenames included in package
-  containing '()' characters
+also, if you provide conf-notes.txt you need to provide
+local.conf.sample and bblayers.conf.sample.
 
-  Maybe we should change meta/classes/package.bbclass to
-  fail when some filedeprunner call fails like this and fix
-  filedeprunner to escape '()' and other possibly dangerous chars
-  it's called like this:
-  processed = list(pool.imap(oe.package.filedeprunner, pkglist))
+if TEMPLATECONF is set, it will use these files:
 
-* don't use shell=True
-* show the command when it fails and let do_package task to fail
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/lib/oe/package.py | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 9a0ddb8..f8b5322 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -54,7 +54,7 @@ def file_translate(file):
-     return ft
- 
- def filedeprunner(arg):
--    import re
-+    import re, subprocess, shlex
- 
-     (pkg, pkgfiles, rpmdeps, pkgdest) = arg
-     provides = {}
-@@ -89,8 +89,11 @@ def filedeprunner(arg):
- 
-         return provides, requires
- 
--    dep_pipe = os.popen(rpmdeps + " " + " ".join(pkgfiles))
--
--    provides, requires = process_deps(dep_pipe, pkg, pkgdest, provides, requires)
-+    try:
-+        dep_popen = subprocess.Popen(shlex.split(rpmdeps) + pkgfiles, stdout=subprocess.PIPE)
-+        provides, requires = process_deps(dep_popen.stdout, pkg, pkgdest, provides, requires)
-+    except OSError as e:
-+        bb.error("rpmdeps: '%s' command failed, '%s'" % (shlex.split(rpmdeps) + pkgfiles, e))
-+        raise e
- 
-     return (pkg, provides, requires)
--- 
-1.9.0
-
+    OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
+    OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
+    OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
 
