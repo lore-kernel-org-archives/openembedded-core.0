@@ -1,25 +1,27 @@
 Return-Path: <gary@mlbassoc.com>
 Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 4556F6B6FF
+	by mail.openembedded.org (Postfix) with ESMTP id 438196121F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 15:18:07 +0000 (UTC)
+	Mon, 24 Feb 2014 15:18:08 +0000 (UTC)
 Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 11EBFF811F2; Mon, 24 Feb 2014 08:18:09 -0700 (MST)
+	id 7A006F811E6; Mon, 24 Feb 2014 08:18:09 -0700 (MST)
 X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
 	hermes.chez-thomas.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
+	autolearn=ham version=3.3.2
 Received: from zeus.chez-thomas.org (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 753E9F811E6;
+	by mail.chez-thomas.org (Postfix) with ESMTP id 8F9AAF811F0;
 	Mon, 24 Feb 2014 08:18:07 -0700 (MST)
 From: Gary Thomas <gary@mlbassoc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2014 08:17:58 -0700
-Message-Id: <1393255080-12382-1-git-send-email-gary@mlbassoc.com>
+Date: Mon, 24 Feb 2014 08:17:59 -0700
+Message-Id: <1393255080-12382-2-git-send-email-gary@mlbassoc.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1393255080-12382-1-git-send-email-gary@mlbassoc.com>
+References: <1393255080-12382-1-git-send-email-gary@mlbassoc.com>
 Cc: Gary Thomas <gary@mlbassoc.com>
-Subject: [PATCH 0/2] Improve setup scripts
+Subject: [PATCH 1/2] oe-init-build-env: Improve script sourcing detection.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,19 +34,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 15:18:11 -0000
+X-List-Received-Date: Mon, 24 Feb 2014 15:18:12 -0000
 
-These changes improve the setup scripts which are initiated
-by the user via 'oe-init-build-env'.
+This script is only useful when sourced into a shell.  These
+changes improve the detection of this operation, no matter
+how the script is referenced.
 
-Gary Thomas (2):
-  oe-init-build-env: Improve script sourcing detection.
-  scripts/oe-setup-builddir: Keep track of TEMPLATECONF setting
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ oe-init-build-env |   42 +++++++++++++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 19 deletions(-)
 
- oe-init-build-env         |   42 +++++++++++++++++++++++-------------------
- scripts/oe-setup-builddir |    8 ++++++++
- 2 files changed, 31 insertions(+), 19 deletions(-)
-
+diff --git a/oe-init-build-env b/oe-init-build-env
+index 8ef32f3..5249513 100755
+--- a/oe-init-build-env
++++ b/oe-init-build-env
+@@ -25,27 +25,31 @@
+ # being sourced.   To workaround the shell limitation use "set arg1" prior 
+ # to sourcing this script.
+ #
+-if [ -z "$ZSH_NAME" ] && [ "x$0" = "x./oe-init-build-env" ]; then
+-   echo "Error: This script needs to be sourced. Please run as '. ./oe-init-build-env'"
++if [ -n "$BASH_SOURCE" ]; then
++   OEROOT="`dirname $BASH_SOURCE`"
++elif [ -n "$ZSH_NAME" ]; then
++   OEROOT="`dirname $0`"
+ else
+-   if [ -n "$BASH_SOURCE" ]; then
+-      OEROOT="`dirname $BASH_SOURCE`"
+-   elif [ -n "$ZSH_NAME" ]; then
+-      OEROOT="`dirname $0`"
+-   else
+-      OEROOT="`pwd`"
+-   fi
+-   if [ -n "$BBSERVER" ]; then
+-      unset BBSERVER
+-   fi
+-    OEROOT=`readlink -f "$OEROOT"`
+-   export OEROOT
+-   . $OEROOT/scripts/oe-buildenv-internal && \
+-        $OEROOT/scripts/oe-setup-builddir && \
+-        [ -n "$BUILDDIR" ] && cd $BUILDDIR
+-   unset OEROOT
+-   unset BBPATH
++   OEROOT="`pwd`"
+ fi
++if [ -n "$BBSERVER" ]; then
++   unset BBSERVER
++fi
++THIS_SCRIPT=$OEROOT/oe-init-build-env
++
++if [ -z "$ZSH_NAME" ] && [ "$0" = "$THIS_SCRIPT" ]; then
++   echo "Error: This script needs to be sourced. Please run as '. $THIS_SCRIPT'"
++   exit 1
++fi
++
++OEROOT=`readlink -f "$OEROOT"`
++export OEROOT
++. $OEROOT/scripts/oe-buildenv-internal && \
++     $OEROOT/scripts/oe-setup-builddir && \
++     [ -n "$BUILDDIR" ] && cd $BUILDDIR
++unset OEROOT
++unset BBPATH
++unset THIS_SCRIPT
+ 
+ # Shutdown any bitbake server if the BBSERVER variable is not set
+ if [ -z "$BBSERVER" ] && [ -f bitbake.lock ] ; then
 -- 
 1.7.9.5
 
