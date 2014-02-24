@@ -1,32 +1,25 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D43B605F8
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F59D6E00C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 15:42:39 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 562A4F811F1; Mon, 24 Feb 2014 08:42:40 -0700 (MST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=unavailable version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id C5EF6F811E6;
-	Mon, 24 Feb 2014 08:42:38 -0700 (MST)
-Message-ID: <530B6876.5040209@mlbassoc.com>
-Date: Mon, 24 Feb 2014 08:42:46 -0700
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Mon, 24 Feb 2014 15:52:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1OFqrww015098
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 24 Feb 2014 07:52:54 -0800 (PST)
+Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 24 Feb 2014 07:52:53 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Feb 2014 23:56:05 +0800
+Message-ID: <023c020c7e9d1f255fe89135004ce0b0b86a0a67.1393256563.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1393256563.git.liezhi.yang@windriver.com>
+References: <cover.1393256563.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1393255080-12382-1-git-send-email-gary@mlbassoc.com>	
-	<1393255080-12382-3-git-send-email-gary@mlbassoc.com>
-	<1393256224.31769.11.camel@ted>
-In-Reply-To: <1393256224.31769.11.camel@ted>
-X-Enigmail-Version: 1.5.2
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] scripts/oe-setup-builddir: Keep track of TEMPLATECONF setting
+Subject: [PATCH 1/5] classes/archive*.bbclass: remove archive-*-source.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,69 +32,328 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 15:42:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Feb 2014 15:52:55 -0000
+Content-Type: text/plain
 
-On 2014-02-24 08:37, Richard Purdie wrote:
-> On Mon, 2014-02-24 at 08:18 -0700, Gary Thomas wrote:
->> Keeping track of the TEMPLATECONF variable in the build
->> tree will let this script produce the same output when
->> listing 'conf-notes.txt' every time the script is run,
->> regardless of whether or not TEMPLATECONF has been provided
->> by the user.
->>
->> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
->> ---
->>  scripts/oe-setup-builddir |    8 ++++++++
->>  1 file changed, 8 insertions(+)
->>
->> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
->> index a869fdc..4322158 100755
->> --- a/scripts/oe-setup-builddir
->> +++ b/scripts/oe-setup-builddir
->> @@ -37,8 +37,16 @@ fi
->>  
->>  cd "$BUILDDIR"
->>  
->> +if (test -f "$BUILDDIR/conf/template.conf") then
->> +    TEMPLATECONF=$(cat $BUILDDIR/conf/template.conf)
->> +fi
->> +
->>  TEMPLATECONF=${TEMPLATECONF:-meta/conf}
->>  
->> +if ! (test -f "$BUILDDIR/conf/template.conf") then
->> +    echo "$TEMPLATECONF" >$BUILDDIR/conf/template.conf
->> +fi
->> +
-> 
-> Can you please call this something other than xxx.conf? I don't fancy
-> someone trying to load this ".conf" file with bitbake...
-> 
-> Since you're also looking in this area, there is one piece I've meant to
-> add for a long time but never quite got to. I think something like a
-> hidden top level ".templatepointer" style file might be a good idea for
-> repos like poky and for anyone else trying to customise the build. This
-> would allow us to point directly at poky's template configuration files
-> without having to hack the scripts which is currently what happens
-> there.
+Nearly all of the codes in the following 3 files are the same, we can
+move the code to archiver.bbclass and remove them:
 
-Do you mean for things like this line which is different in Poky?
-  TEMPLATECONF=${TEMPLATECONF:-meta/conf}
-vs.
-  TEMPLATECONF=${TEMPLATECONF:-meta-yocto/conf}
+  archive-configured-source.bbclass
+  archive-original-source.bbclass
+  archive-patched-source.bbclass
 
-Do you have a list of where such differences are so I can address them?
+[YOCTO #5113]
 
-> 
-> That hacking has long since bothered me, equally, I tend to have more
-> pressing issues to deal with so its never been done as yet.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/archive-configured-source.bbclass | 65 --------------------------
+ meta/classes/archive-original-source.bbclass   | 65 --------------------------
+ meta/classes/archive-patched-source.bbclass    | 65 --------------------------
+ meta/classes/archiver.bbclass                  | 63 ++++++++++++++++++++++++-
+ 4 files changed, 62 insertions(+), 196 deletions(-)
+ delete mode 100644 meta/classes/archive-configured-source.bbclass
+ delete mode 100644 meta/classes/archive-original-source.bbclass
+ delete mode 100644 meta/classes/archive-patched-source.bbclass
 
-I'll see what I can do to improve on this and send a new [set of] patches.
-
+diff --git a/meta/classes/archive-configured-source.bbclass b/meta/classes/archive-configured-source.bbclass
+deleted file mode 100644
+index 961a532..0000000
+--- a/meta/classes/archive-configured-source.bbclass
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# This file is for getting archiving packages with configured
+-# sources(archive ${S} after configure stage), logs(archive 'temp' after
+-# package_write_rpm), dump data and creating diff file(get all
+-# environment variables and functions in building and mapping all
+-# content in ${S} including patches to xxx.diff.gz. All archived
+-# packages will be deployed in ${DEPLOY_DIR}/sources
+-
+-inherit archiver
+-
+-# Get archiving package with configured sources including patches
+-addtask do_archive_configured_sources after do_configure
+-
+-# Get archiving package with temp(logs) and scripts(.bb and inc files)
+-addtask do_archive_scripts_logs
+-
+-# Get dump date and create diff file 
+-addtask do_dumpdata_create_diff_gz
+-
+-python () {
+-    pn = d.getVar('PN', True)
+-    packaging = d.getVar('IMAGE_PKGTYPE', True)
+-
+-    if tar_filter(d):
+-        return
+-
+-    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
+-    build_deps = ' %s:do_dumpdata_create_diff_gz' %pn
+-
+-    if d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True) == 'logs_with_scripts':
+-        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
+-        build_deps += ' %s:do_archive_scripts_logs' %pn
+-
+-    if not not_tarball(d):
+-        d.appendVarFlag('do_compile', 'depends', ' %s:do_archive_configured_sources' %pn)
+-        build_deps += ' %s:do_archive_configured_sources' %pn
+-
+-    if bb.data.inherits_class('image', d):
+-        d.appendVarFlag('do_rootfs', 'depends', build_deps)
+-    else:
+-        d.appendVarFlag('do_build', 'depends', build_deps)
+-}
+-
+-ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
+-ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+-ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
+-
+-SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+-do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_archive_scripts_logs_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_archive_scripts_logs_setscene
+-
+-SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+-do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_dumpdata_create_diff_gz_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archive-original-source.bbclass b/meta/classes/archive-original-source.bbclass
+deleted file mode 100644
+index e271a08..0000000
+--- a/meta/classes/archive-original-source.bbclass
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# This file is for getting archiving packages with original
+-# sources(archive ${S} after unpack stage), patches, logs(archive 'temp'
+-# after package_write_rpm), dump data and creating diff file(get all
+-# environment variables and functions in building and mapping all
+-# content in ${S} including patches to xxx.diff.gz. All archived packages
+-# will be deployed in ${DEPLOY_DIR}/sources
+-
+-inherit archiver
+-
+-# Get original sources archiving package with patches
+-addtask do_archive_original_sources_patches after do_unpack
+-
+-# Get archiving package with temp(logs) and scripts(.bb and inc files)
+-addtask do_archive_scripts_logs
+-
+-# Get dump date and create diff file 
+-addtask do_dumpdata_create_diff_gz
+-
+-python () {
+-    pn = d.getVar('PN', True)
+-    packaging = d.getVar('IMAGE_PKGTYPE', True)
+-
+-    if tar_filter(d):
+-        return
+-
+-    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
+-    build_deps = ' %s:do_dumpdata_create_diff_gz' %pn
+-
+-    if d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True) == 'logs_with_scripts':
+-        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
+-        build_deps += ' %s:do_archive_scripts_logs' %pn
+-
+-    if not not_tarball(d):
+-        d.appendVarFlag('do_patch', 'depends', ' %s:do_archive_original_sources_patches' %pn)
+-        build_deps += ' %s:do_archive_original_sources_patches' %pn
+-
+-    if bb.data.inherits_class('image', d):
+-        d.appendVarFlag('do_rootfs', 'depends', build_deps)
+-    else:
+-        d.appendVarFlag('do_build', 'depends', build_deps)
+-}
+-
+-ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
+-ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+-ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
+-
+-SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+-do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_archive_scripts_logs_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_archive_scripts_logs_setscene
+-
+-SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+-do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_dumpdata_create_diff_gz_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archive-patched-source.bbclass b/meta/classes/archive-patched-source.bbclass
+deleted file mode 100644
+index c5f5cca..0000000
+--- a/meta/classes/archive-patched-source.bbclass
++++ /dev/null
+@@ -1,65 +0,0 @@
+-# This file is for getting archiving packages with patched
+-# sources(archive ${S} before do_patch stage), logs(archive 'temp' after
+-# package_write_rpm), dump data and creating diff file(get all
+-# environment variables and functions in building and mapping all
+-# content in ${S} including patches to xxx.diff.gz. All archived
+-# packages will be deployed in ${DEPLOY_DIR}/sources
+-
+-inherit archiver
+-
+-# Get archiving package with patched sources including patches
+-addtask do_archive_patched_sources after do_patch
+-
+-# Get archiving package with logs(temp) and scripts(.bb and .inc files)
+-addtask do_archive_scripts_logs
+-
+-# Get dump date and create diff file 
+-addtask do_dumpdata_create_diff_gz
+-
+-python () {
+-    pn = d.getVar('PN', True)
+-    packaging = d.getVar('IMAGE_PKGTYPE', True)
+-
+-    if tar_filter(d):
+-        return
+-
+-    d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_' %pn + packaging)
+-    build_deps = ' %s:do_dumpdata_create_diff_gz' %pn
+-
+-    if d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True) == 'logs_with_scripts':
+-        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_' %pn + packaging)
+-        build_deps += ' %s:do_archive_scripts_logs' %pn
+-
+-    if not not_tarball(d):
+-        d.appendVarFlag('do_configure', 'depends', ' %s:do_archive_patched_sources' %pn)
+-        build_deps += ' %s:do_archive_patched_sources' %pn
+-
+-    if bb.data.inherits_class('image', d):
+-        d.appendVarFlag('do_rootfs', 'depends', build_deps)
+-    else:
+-        d.appendVarFlag('do_build', 'depends', build_deps)
+-}
+-
+-ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
+-ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
+-ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
+-
+-SSTATETASKS += "do_archive_scripts_logs"
+-do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
+-do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_archive_scripts_logs_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_archive_scripts_logs_setscene
+-
+-SSTATETASKS += "do_dumpdata_create_diff_gz"
+-do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
+-do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
+-
+-python do_dumpdata_create_diff_gz_setscene () {
+-    sstate_setscene(d)
+-}
+-
+-addtask do_dumpdata_create_diff_gz_setscene
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 66efe7d..43373ae 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -36,6 +36,33 @@ COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-
+ COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
+ COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
+ 
++python () {
++    pn = d.getVar('PN', True)
++    packaging = d.getVar('IMAGE_PKGTYPE', True)
++
++    if tar_filter(d):
++        return
++
++    if d.getVar('PACKAGES', True) != '':
++        d.appendVarFlag('do_dumpdata_create_diff_gz', 'depends', ' %s:do_package_write_%s' % (pn, packaging))
++
++    build_deps = ' %s:do_dumpdata_create_diff_gz' % pn
++
++    if d.getVar('SOURCE_ARCHIVE_LOG_WITH_SCRIPTS', True) == 'logs_with_scripts':
++        d.appendVarFlag('do_archive_scripts_logs', 'depends', ' %s:do_package_write_%s' % (pn, packaging))
++        build_deps += ' %s:do_archive_scripts_logs' % pn
++
++    if not not_tarball(d):
++        archiver_mode = d.getVar('ARCHIVER_MODE')
++        d.appendVarFlag('do_compile', 'depends', ' %s:do_archive_%s_sources' % (pn, archiver_mode))
++        build_deps += ' %s:do_archive_%s_sources' % (pn, archiver_mode)
++
++    if bb.data.inherits_class('image', d):
++        d.appendVarFlag('do_rootfs', 'depends', build_deps)
++    else:
++        d.appendVarFlag('do_build', 'depends', build_deps)
++}
++
+ def copyleft_recipe_type(d):
+     for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
+         if oe.utils.inherits(d, recipe_type):
+@@ -516,7 +543,7 @@ def create_diff_gz(d):
+ 
+ # This function will run when user want to get tarball for sources and
+ # patches after do_unpack
+-python do_archive_original_sources_patches(){
++python do_archive_original_sources(){
+     archive_sources_patches(d, 'prepatch')
+ }
+ 
+@@ -567,3 +594,37 @@ python do_delete_tarlist(){
+ }
+ do_delete_tarlist[deptask] = "do_archive_scripts_logs"
+ do_package_write_rpm[postfuncs] += "do_delete_tarlist "
++
++# Get archiving package with temp(logs) and scripts(.bb and .inc files)
++addtask do_archive_scripts_logs
++
++# Get dump date and create diff file
++addtask do_dumpdata_create_diff_gz
++
++ARCHIVE_SSTATE_OUTDIR = "${DEPLOY_DIR}/sources/"
++ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR = "${WORKDIR}/script-logs/"
++ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR = "${WORKDIR}/diffgz-envdata/"
++
++SSTATETASKS += "do_archive_scripts_logs"
++do_archive_scripts_logs[sstate-inputdirs] = "${ARCHIVE_SSTATE_SCRIPTS_LOGS_INDIR}"
++do_archive_scripts_logs[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_archive_scripts_logs_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_archive_scripts_logs_setscene
++
++SSTATETASKS += "do_dumpdata_create_diff_gz"
++do_dumpdata_create_diff_gz[sstate-inputdirs] = "${ARCHIVE_SSTATE_DIFFGZ_ENVDATA_INDIR}"
++do_dumpdata_create_diff_gz[sstate-outputdirs] = "${ARCHIVE_SSTATE_OUTDIR}"
++
++python do_dumpdata_create_diff_gz_setscene () {
++    sstate_setscene(d)
++}
++
++addtask do_dumpdata_create_diff_gz_setscene
++
++addtask do_archive_original_sources after do_unpack
++addtask do_archive_patched_sources after do_patch
++addtask do_archive_configured_sources after do_configure
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+1.8.3.1
+
 
