@@ -1,35 +1,31 @@
-Return-Path: <anders@chargestorm.se>
-Received: from stoexhubfe02.domain01.net (STOEXHUBFE02.domain01.net
-	[83.145.59.141])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FB556B4F7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E1A46F2E7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 14:51:21 +0000 (UTC)
-Received: from ad.chargestorm.se (2.71.241.194) by stoexhubfe02.domain01.net
-	(10.12.10.7) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Mon, 24 Feb 2014 15:51:34 +0100
-Date: Mon, 24 Feb 2014 15:51:19 +0100
-From: Anders Darander <anders@chargestorm.se>
-To: Laszlo Papp <lpapp@kde.org>
-Message-ID: <20140224145117.GB26295@ad.chargestorm.se>
-Mail-Followup-To: Laszlo Papp <lpapp@kde.org>,
-	"Burton, Ross" <ross.burton@intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <CAOMwXhOmoLP_8+mv_c_4Eg8YG_T1JD-ao+P1S9FDKvityy_3mA@mail.gmail.com>
-	<CAJTo0LY6hsYxR2=aeRodKhZ+5VBEUh+q+7nRYU0E6XYc+Pn-NQ@mail.gmail.com>
-	<CAOMwXhN+D+kGw70ijEs_Zd9aNiLsmuts0B6SHf9QXkytgaQCPA@mail.gmail.com>
-	<20140224135848.GA26295@ad.chargestorm.se>
-	<CAOMwXhMsjQ2v40hM5UCx1R_NHnop2G2z_kTDVCqV4dWPwXW9EQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAOMwXhMsjQ2v40hM5UCx1R_NHnop2G2z_kTDVCqV4dWPwXW9EQ@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: No versioning for existing images
+	Mon, 24 Feb 2014 14:58:16 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1OEwBaZ015667 for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Feb 2014 14:58:12 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id UiSLQsJ04tlv
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Feb 2014 14:58:11 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1OEw7JJ015664
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Feb 2014 14:58:09 GMT
+Message-ID: <1393253881.31769.6.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Feb 2014 14:58:01 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: RFC: Separate build dir for autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,58 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 14:51:23 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Feb 2014 14:58:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* Laszlo Papp <lpapp@kde.org> [140224 15:12]:
+For a while poky and others have been using the seperatebuilddir.inc
+file. This makes ${S} != ${B} and means that ${B} can be wiped when
+configuration changes.
 
-> On Mon, Feb 24, 2014 at 1:58 PM, Anders Darander <anders@chargestorm.se> wrote:
-> > * Laszlo Papp <lpapp@kde.org> [140224 14:37]:
+This helps deal with the fact that autotools and friends are not
+particular good at rebuilding things that change. The recent libcheck
+upgrade which broke bluez4 builds is but one example of the kind of
+problem we can hit. Sadly bluez4 doesn't work for S!=B so it didn't
+protect against that issue but it does protect other packages.
 
-> >> On Mon, Feb 24, 2014 at 1:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> >> > On 24 February 2014 12:01, Laszlo Papp <lpapp@kde.org> wrote:
-> >> The problem is that build numbers, that I have seen at least, are
-> >> human unreadable. A human readable number would be nicer to have;
-> >> something that I have just double checked on my Blackberry Limited
-> >> Edition phone, and it is so that the OS Version is 10.0.10.738 in the
-> >> settings.
+I'd really love to switch the default in autotools.bbclass to make this
+the default and then have broken packages opt out of it.
 
-> >> Perhaps the build number can be made human readable... but currently,
-> >> when I build an image, all I get is a long and not so convenient
-> >> time-stamp. Is there a more gentle way of generating image version
-> >> then?
+I can deal with OE-Core and make sure the metadata there is updated, my
+bigger worry is what this would do to other layers.
 
-> > The git describe line is our main versioning. Using that line we get the
-> > abreviated SHA1 of our repo, the last tag, the number of commits after
-> > the last tag, and finally whether the repo was clean or dirty during the
-> > build.
+The options I can see are therefore basically:
 
+a) We change the default in autotools.bbclass and fix things that break
 
-> > It might not be as pretty as the 10.0.10.738 in your example, though for
-> > us it's sufficient for the time being.
+b) We introduce an "autotools2" class and have recipes inherit that.
+This version would default to separate builddirs. It does mean change to
+all the "good" recipes rather than the broken ones though and hence a
+fair bit of churn.
 
-> As you are writing, that is good for internal operation, but I would
-> dislike providing such "versioning" for customers.
+Have we got the willpower to fix a)? is b) an option? Other ideas?
 
-Yes, for customer communication it might very well be preferred to use
-some other version numbers. 
-
-I'd guess that the best bet then would be to either store the version
-number in a config file in your repo, and have the build process take
-that number and put it into the image in a way similar to what's above.
-Or to get the number from a tag. In either case, you'll need to make
-sure that the release process updates the number correctly, thought that
-issue will be there no matter how you retreive and store the number.
-
-Though, I still think that having the info above on the images are
-usefull, not least when the customer comes back with more difficult to
-isolate issues.
+One way or another I think we should try and switch things somehow...
 
 Cheers,
-Anders
 
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+Richard
+
 
