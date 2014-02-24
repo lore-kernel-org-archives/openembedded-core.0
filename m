@@ -1,41 +1,46 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id DB6696E3E0
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
+	[209.85.219.48])
+	by mail.openembedded.org (Postfix) with ESMTP id C09ED6F2D4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 14:11:29 +0000 (UTC)
-Received: by mail-pd0-f182.google.com with SMTP id v10so6321508pde.41
+	Mon, 24 Feb 2014 14:13:54 +0000 (UTC)
+Received: by mail-oa0-f48.google.com with SMTP id g12so463869oah.35
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2014 06:11:30 -0800 (PST)
+	Mon, 24 Feb 2014 06:13:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=JzLXHV1QsMtbFm0gTfFLTKJdipiJwbrQ5fLUGHW2slw=;
-	b=CyHO+Aq3SqCjmiL9quwWibcxAGkuO81AW071i1wdzL34ggAWUf9KgXCkCs9WMseKD9
-	TqSg/EXmgcRXnuO9kNzPp0lv6LosuNerzsiAkfNMCDZ6l1d1FnZzSAyrm/qG9fWoz6y7
-	8Hv+BalZtKMi6w1VabhlHRBiyLaIZI6RD8W8jWmYPlsGbFoaXlWnz9i8xIUCZyzY3FWW
-	9LtQr5Tz0muqDlHiQNzz7YUshMdU/dH8ATsGkLKOQVTTxWlrFhGsUmaITjgolsvBG/84
-	Gho36Lm+5qhue49sgZX+QL/FQ64RFE9fimSbCGsHP47d7Szwzpqb04w1UOSMgpeUIZaQ
-	TFkw==
-X-Gm-Message-State: ALoCoQkpYl5ilvNiZGWikhWDttUWhTRU1vUfAptNU/2XmCQoeADkVU84ydWDY0Cuwqqh3AwXtXpB
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=FpC/uzEwsvfIdBshU8cYfQb+gyGV3yW/7hYo039+EOY=;
+	b=ThOFiCVlStohjDn0LHuT6ZUYMKOPYouw5VSfhv8O/ENZ55GhGvIm5sp/OArcSNMk2X
+	EZYiTvdeojxJpTViQJtz15Q6KZA4MOqvuzMgmiY5/+zgbG4ZS3wd/OPx4E4O5tvhq3Uh
+	YDqhwlJGojp9sVOa8q/lhjeEZIcwxasU0Jy1FMnsHNhzbE/z4wb0eyaw2dQUEZH2TMRV
+	xi71Igpup0A8jbY9Jh7soZgSbkpOyA6byMTl/81hbsePVkj1ffbzxLTGib0BXXvOJ95X
+	pLElscUQIVUeoP+oQfijFqxHiqJZHNYXCORwsGhn4f2pgjL7STHFEpNoQN2hjm3/tjQx
+	cEZA==
+X-Gm-Message-State: ALoCoQmSlkht4uQMvSX8xmmb0AqhabtIvpNam6eYP+aObZelyyqQ9em1Chpqsd80R0CQkx3KoTQx
+X-Received: by 10.60.130.234 with SMTP id oh10mr21620130oeb.60.1393251235164; 
+	Mon, 24 Feb 2014 06:13:55 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 10.66.49.74 with SMTP id s10mr25743929pan.0.1393251090203; Mon,
-	24 Feb 2014 06:11:30 -0800 (PST)
-Sender: lpapp@archlinux.us
-Received: by 10.70.26.195 with HTTP; Mon, 24 Feb 2014 06:11:30 -0800 (PST)
-In-Reply-To: <20140224135848.GA26295@ad.chargestorm.se>
-References: <CAOMwXhOmoLP_8+mv_c_4Eg8YG_T1JD-ao+P1S9FDKvityy_3mA@mail.gmail.com>
-	<CAJTo0LY6hsYxR2=aeRodKhZ+5VBEUh+q+7nRYU0E6XYc+Pn-NQ@mail.gmail.com>
-	<CAOMwXhN+D+kGw70ijEs_Zd9aNiLsmuts0B6SHf9QXkytgaQCPA@mail.gmail.com>
-	<20140224135848.GA26295@ad.chargestorm.se>
-Date: Mon, 24 Feb 2014 14:11:30 +0000
-X-Google-Sender-Auth: 4mTAQZjREephyO8EQRkncU5EdKM
-Message-ID: <CAOMwXhMsjQ2v40hM5UCx1R_NHnop2G2z_kTDVCqV4dWPwXW9EQ@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Laszlo Papp <lpapp@kde.org>, "Burton, Ross" <ross.burton@intel.com>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: No versioning for existing images
+Received: by 10.76.182.99 with HTTP; Mon, 24 Feb 2014 06:13:35 -0800 (PST)
+In-Reply-To: <CAOMwXhPiWGre5UiVtyVvVc2L7G3yf79LKF55VKwuLtTd6ZRBiw@mail.gmail.com>
+References: <CAOMwXhNMs7top-CBCDf8Hgsxxz7=oBocF6YjbC_PhH1PDgYG0Q@mail.gmail.com>
+	<CAP71Wjy4kX15uoz=_42+zRKS7i91TYnGM=2u35+tNXf7CFoaww@mail.gmail.com>
+	<CAOMwXhMxcr_EVZx4uVnnpGvcq2MrMchHVUL5ApBdC+4bH7q_Yg@mail.gmail.com>
+	<CAP71WjwR9Lrb1QeHPEXLGnPe+vcEnYtgMDoQZW-eNayOMubbKQ@mail.gmail.com>
+	<CAOMwXhMz+_KcMzY1Stwi2g8EyFg+8BVajqrrvAX7Xd02qVNG9g@mail.gmail.com>
+	<CAP71WjxHc6+9DDGeQsuAc3Cv7qN+bfPgNT-ju01z6pje3Q2qEg@mail.gmail.com>
+	<530B4609.7070307@mlbassoc.com>
+	<CAP71Wjx=6Ux7CWmr4FJcLPyp0xah3jFO=7v6izNi2dfNNcWWYQ@mail.gmail.com>
+	<CAOMwXhPiWGre5UiVtyVvVc2L7G3yf79LKF55VKwuLtTd6ZRBiw@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Mon, 24 Feb 2014 15:13:35 +0100
+Message-ID: <CAP71WjyOcDowMb_nv9+-pHsnMYhXoYmRi1tJOveZJ7V30otQOA@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: Gary Thomas <gary@mlbassoc.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Conf notes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,65 +53,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2014 14:11:30 -0000
+X-List-Received-Date: Mon, 24 Feb 2014 14:13:55 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, Feb 24, 2014 at 1:58 PM, Anders Darander <anders@chargestorm.se> wrote:
-> * Laszlo Papp <lpapp@kde.org> [140224 14:37]:
->
->> On Mon, Feb 24, 2014 at 1:18 PM, Burton, Ross <ross.burton@intel.com> wrote:
->> > On 24 February 2014 12:01, Laszlo Papp <lpapp@kde.org> wrote:
->> >> For instance, the MeeGo Nokia phone had a software version information
->> >> in the settings, and that is something I would personally consider as
->> >> the image version, but again, there might be better ways. Please share
->> >> good practices in here., or alternatively, feel free to point me to
->> >> any documentation, examples, etc.
->
->> > This is an interesting example and a useful demonstration of why the
->> > image version isn't always that useful.
->
->> I am not sure about that; see below.
->
->> > The software build number
->> > covers *everything* that goes into the image, but the image version
->> > number is just the version of the top-level image recipe.
->
->> The problem is that build numbers, that I have seen at least, are
->> human unreadable. A human readable number would be nicer to have;
->> something that I have just double checked on my Blackberry Limited
->> Edition phone, and it is so that the OS Version is 10.0.10.738 in the
->> settings.
->
->> Perhaps the build number can be made human readable... but currently,
->> when I build an image, all I get is a long and not so convenient
->> time-stamp. Is there a more gentle way of generating image version
->> then?
->
-> Human readable... I think that I've got to agree with Ross on this one.
->
-> Though, the big question is about human readable...
->
-> For our internal images, we're using
->
-> IMAGE_PREPROCESS_COMMAND += "rootfs_update_timestamp ;\
->              date +%Y%m%d%H%M >${IMAGE_ROOTFS}/etc/build ; \
->              git describe --dirty --long --always >${IMAGE_ROOTFS}/etc/version ;\
->              "
->
-> The first line is more or less the timestamp that you dislike.
->
-> The git describe line is our main versioning. Using that line we get the
-> abreviated SHA1 of our repo, the last tag, the number of commits after
-> the last tag, and finally whether the repo was clean or dirty during the
-> build.
->
-> This allows us internally to pinpoint the exact build setup (assuming
-> the build wasn't dirty, which it should never be on an autobuilder /
-> release build).
->
-> It might not be as pretty as the 10.0.10.738 in your example, though for
-> us it's sufficient for the time being.
+On Mon, Feb 24, 2014 at 3:09 PM, Laszlo Papp <lpapp@kde.org> wrote:
+> It works with dylan, too?
 
-As you are writing, that is good for internal operation, but I would
-dislike providing such "versioning" for customers.
+yep. same output using:
+
+commit e2bb4a70a99a057d45316bbac65d6044ea54c484
+Author: Chen Qi <Qi.Chen@windriver.com>
+Date:   Sat Nov 16 03:19:55 2013 +0000
+
+    subversion: fix build problem when sysroot contains '-D' or '-I'
 
