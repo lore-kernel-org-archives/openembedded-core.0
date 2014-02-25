@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 53D796F36B
+	by mail.openembedded.org (Postfix) with ESMTP id 5145A6F361
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 09:40:46 +0000 (UTC)
+	Tue, 25 Feb 2014 09:40:48 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1P9eljb028980
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1P9eo3v028985
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 01:40:47 -0800 (PST)
+	Tue, 25 Feb 2014 01:40:50 -0800 (PST)
 Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 25 Feb 2014 01:40:47 -0800
+	Tue, 25 Feb 2014 01:40:49 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Feb 2014 17:44:03 +0800
-Message-ID: <561a013c9d91e9c116800924eb9c5eebb3e28c70.1393321369.git.liezhi.yang@windriver.com>
+Date: Tue, 25 Feb 2014 17:44:05 +0800
+Message-ID: <df347f4fd57689fa8810efe6faf4ee366b9e26c2.1393321369.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1393321369.git.liezhi.yang@windriver.com>
 References: <cover.1393321369.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] grub: exclude .pc from POTFILES.in (fix build on CentOS 5.8)
+Subject: [PATCH 3/3] dpkg-compiler.m4: remove -Wvla (fix build on CentOS 5.8)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,71 +36,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 25 Feb 2014 09:40:49 -0000
 Content-Type: text/plain
 
-Exclude the .pc from po/POTFILES.in since quilt uses "patch --backup",
-which will create the backup file under .pc, this may cause unexpected
-errors, for example, on CentOS 5.x, if the backup file is null
-(newfile), it's mode will be 000, then we will get errors when xgettext
-try to read it.
+Remove the -Wvla flag from the set of compiler warning flags, since gcc
+on old host systems such as CentOS 5.8 doesn't support it, and it
+causes a build error for dpkg-native.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../grub/grub/autogen.sh-exclude-pc.patch          | 34 ++++++++++++++++++++++
- meta/recipes-bsp/grub/grub_git.bb                  |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/grub/autogen.sh-exclude-pc.patch
+ .../dpkg/dpkg/no-vla-warning.patch                 | 32 ++++++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.17.4.bb          |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
 
-diff --git a/meta/recipes-bsp/grub/grub/autogen.sh-exclude-pc.patch b/meta/recipes-bsp/grub/grub/autogen.sh-exclude-pc.patch
+diff --git a/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch b/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
 new file mode 100644
-index 0000000..fc5aa4e
+index 0000000..0e57dbc
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/grub/autogen.sh-exclude-pc.patch
-@@ -0,0 +1,34 @@
-+From ff8f68cc48fd3c30d55e1d570d51f2e0952c968e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
+@@ -0,0 +1,32 @@
++From e94474d805377d67c8b09664a602f20969e12b8a Mon Sep 17 00:00:00 2001
 +From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Sat, 25 Jan 2014 23:49:44 -0500
-+Subject: [PATCH] autogen.sh: exclude .pc from po/POTFILES.in
++Date: Thu, 23 Jan 2014 04:17:23 -0500
++Subject: [PATCH] dpkg-compiler.m4: remove -Wvla
 +
-+Exclude the .pc from po/POTFILES.in since quilt uses "patch --backup",
-+which will create the backup file under .pc, this may cause unexpected
-+errors, for example, on CentOS 5.x, if the backup file is null
-+(newfile), it's mode will be 000, then we will get errors when xgettext
-+try to read it.
++Remove the -Wvla flag from the set of compiler warning flags, since gcc
++on old host systems such as CentOS 5.8 doesn't support it, and it
++causes a build error for dpkg-native.
 +
-+Upstream-Status: Inappropriate [OE specific]
++Upstream-Status: Pending
 +
++Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
 +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 +---
-+ autogen.sh |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ m4/dpkg-compiler.m4 |    1 -
++ 1 file changed, 1 deletion(-)
 +
-+diff --git a/autogen.sh b/autogen.sh
-+index 7424428..843619e 100755
-+--- a/autogen.sh
-++++ b/autogen.sh
-+@@ -5,7 +5,7 @@ set -e
-+ export LC_COLLATE=C
-+ unset LC_ALL
-+ 
-+-find . -iname '*.[ch]' ! -ipath './grub-core/lib/libgcrypt-grub/*' ! -ipath './build-aux/*' ! -ipath './grub-core/lib/libgcrypt/src/misc.c' ! -ipath './grub-core/lib/libgcrypt/src/global.c' ! -ipath './grub-core/lib/libgcrypt/src/secmem.c'  ! -ipath './util/grub-gen-widthspec.c' ! -ipath './util/grub-gen-asciih.c' |sort > po/POTFILES.in
-++find . -iname '*.[ch]' ! -ipath './grub-core/lib/libgcrypt-grub/*' ! -ipath './build-aux/*' ! -ipath './grub-core/lib/libgcrypt/src/misc.c' ! -ipath './grub-core/lib/libgcrypt/src/global.c' ! -ipath './grub-core/lib/libgcrypt/src/secmem.c'  ! -ipath './util/grub-gen-widthspec.c' ! -ipath './util/grub-gen-asciih.c' ! -path './.pc/*' | sort > po/POTFILES.in
-+ find util -iname '*.in' ! -name Makefile.in  |sort > po/POTFILES-shell.in
-+ 
-+ echo "Importing unicode..."
++diff --git a/m4/dpkg-compiler.m4 b/m4/dpkg-compiler.m4
++index f1c760b..500b5ad 100644
++--- a/m4/dpkg-compiler.m4
+++++ b/m4/dpkg-compiler.m4
++@@ -72,7 +72,6 @@ if test "x$enable_compiler_warnings" = "xyes"; then
++   DPKG_WARNING_ALL([-Wformat-security])
++   DPKG_WARNING_ALL([-Wpointer-arith])
++   DPKG_WARNING_ALL([-Wlogical-op])
++-  DPKG_WARNING_ALL([-Wvla])
++   DPKG_WARNING_ALL([-Winit-self])
++   DPKG_WARNING_ALL([-Wwrite-strings])
++   DPKG_WARNING_ALL([-Wcast-align])
 +-- 
 +1.7.10.4
 +
-diff --git a/meta/recipes-bsp/grub/grub_git.bb b/meta/recipes-bsp/grub/grub_git.bb
-index 1796e7f..82a25c9 100644
---- a/meta/recipes-bsp/grub/grub_git.bb
-+++ b/meta/recipes-bsp/grub/grub_git.bb
-@@ -20,6 +20,7 @@ PV = "2.00+${SRCPV}"
- SRCREV = "0776112c5311196889a15058a3b1be4c81ba5e05"
- SRC_URI = "git://git.savannah.gnu.org/grub.git \
-            file://40_custom \
-+           file://autogen.sh-exclude-pc.patch \
-           "
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
+index 5e407ba..5507352 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
+@@ -11,6 +11,7 @@ SRC_URI += "file://noman.patch \
+             file://arch_pm.patch \
+             file://dpkg-configure.service \
+             file://glibc2.5-sync_file_range.patch \
++            file://no-vla-warning.patch \
+            "
  
- S = "${WORKDIR}/git"
+ SRC_URI[md5sum] = "cc25086e1e3bd9512a95f14cfe9002e1"
 -- 
 1.8.3.1
 
