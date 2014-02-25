@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qa0-f48.google.com (mail-qa0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id CA2FC6E7A1
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id DC93B6E7A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 12:39:10 +0000 (UTC)
-Received: by mail-qa0-f48.google.com with SMTP id o15so289014qap.35
+	Tue, 25 Feb 2014 12:41:16 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id e16so3570760qcx.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 04:39:10 -0800 (PST)
+	Tue, 25 Feb 2014 04:41:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=w9KoQXV1YujX96mmld6frZvQp28SzzFwScL8pXmk5FQ=;
-	b=EortHCespMY/4b/Gk76Ax5uUuGOCo0/jry4BN+oTgZieM5vHdFsDtmCOh5D8YMjcOm
-	lfBaOXftBoOT2zunx4WRtz7mkIRYRMA0RiNOmt+tC1Nx/M/LI6kkvoaGAV5sE6HcgDKK
-	STOnS+QyfzWc6yV2C2iVyl5gt6UMufIVL/snvI79OCKw/tP6A1r7wrX4+EZnrSPbyPxH
-	kHW5SiFlbVQ4A5k31CKiuIEnwn0ctnX/5vMkIAGFp2b5NMFADnJaLq0V3FUvqk49uzsp
-	d9YEnLnCUxXajs8QnOpIMmrNcrvaw7KTHFW3weSR8bwMvMMSp1efjAAO9DXtutVlTGBA
-	EYbw==
-X-Gm-Message-State: ALoCoQlXRBngbbQ5mmAI+s1xDv9fqs/Nhv4QTMKbzVkllepgEq3f/njRPpscRq3dHLEYU2YTJfuU
-X-Received: by 10.140.42.54 with SMTP id b51mr35119882qga.87.1393331950857;
-	Tue, 25 Feb 2014 04:39:10 -0800 (PST)
+	bh=/TPTpBO2+Qhayq0U1I+oZ3HeeQENpL+LawHL7cZYjhM=;
+	b=CJrLKqyCSA2aY73CWWSRoyt5/Zz4yVaP0FYEc/L9tmpQNXvvxXnO+oUhx1hlICZnar
+	Qa9ZCsJ66dKQghNYm1zzdJY68+Aj3rlTyVwfeGfls5t2CItFXQ/hekAIxhlYmzDZoiCy
+	hal6EZyzuOkG9/kJxiD4lXApbOnIB/0bugPtghos0aXShnJAP1fkmCpYpUDqQiih4fF0
+	osEoJ5WM2qKo0RyTyMte5JrSVizCpLyVH/CGSjGbsevcchYEBOBsCRF9OjA5lgd8ooey
+	fdi8yYBWHthB5MXHyaTdgoiCPPyJjj+XteOqpxviDETDrOgK0xpMeuvknH7i+5oeKlMt
+	txrg==
+X-Gm-Message-State: ALoCoQmBBnByG6S4tMo0NyZQVTIMck7GQU+pdhqorFk0n6IcJpwY+d32nwg+GKM0S/4NjXshBFEb
+X-Received: by 10.140.106.225 with SMTP id e88mr35185583qgf.66.1393332077707; 
+	Tue, 25 Feb 2014 04:41:17 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Tue, 25 Feb 2014 04:38:50 -0800 (PST)
-In-Reply-To: <1026f63b88e1781645e49bec5a1c53a4cd686adb.1393256563.git.liezhi.yang@windriver.com>
+Received: by 10.140.48.79 with HTTP; Tue, 25 Feb 2014 04:40:57 -0800 (PST)
+In-Reply-To: <cover.1393256563.git.liezhi.yang@windriver.com>
 References: <cover.1393256563.git.liezhi.yang@windriver.com>
-	<1026f63b88e1781645e49bec5a1c53a4cd686adb.1393256563.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 25 Feb 2014 12:38:50 +0000
-Message-ID: <CAJTo0LaOaN-wMhKPn2AgHyXvrUe5GJNTremFR2pQCGDOxp3Epg@mail.gmail.com>
+Date: Tue, 25 Feb 2014 12:40:57 +0000
+Message-ID: <CAJTo0LYcmGFV6kW0+fHO8mhP0anPkxFG4_zJfC5PQ1iOwU3zow@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] archiver.bbclass: refactor it
+Subject: Re: [PATCH 0/5 V2] refactor the archiver*.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +43,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 12:39:12 -0000
+X-List-Received-Date: Tue, 25 Feb 2014 12:41:19 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 24 February 2014 15:56, Robert Yang <liezhi.yang@windriver.com> wrote:
-> 1) unpacked source: ARCHIVER_MODE[src] = "unpacked"
+Hi,
 
-Why does this re-archive the unpacked sources?  When the source is a
-tarball, there's already a tarball in DL_DIR.  Only if the source
-isn't a tarball does it need to be packed up.
+One point: enabling the archiver causes the stamps for various steps
+to change (fetch, configure, package: wherever it hooks) which means a
+full rebuild.  Can the archiver hide itself from the stamps so this
+doesn't happen?
+
+This appears to be some of the work required:
+
++do_configure[vardepsexclude] += "do_deploy_archives"
++do_patch[vardepsexclude] += "do_create_diff_gz"
++do_unpack[vardepsexclude] += "do_ar_unpacked"
+
+But I'm still getting a stamp change in do_package that I haven't
+chased down yet.
 
 Ross
+
+On 24 February 2014 15:56, Robert Yang <liezhi.yang@windriver.com> wrote:
+> === V2:
+> * Fix the warning between different machines which is reported by Martin
+> * Fix the error when the archiver.bbclass is not inherited but
+>   ARCHIVER_MODE[type] = "srpm" is set, reported by Ross.
+> * Fix the archiving for gcc staff which uses the shared source according
+>   to the recently changes of prefuncs and postfuncs in bitbake, so it only
+>   works well with bitbake's up to date master branch, if we want to backport it,
+>   we also need backport the pre/postfuncs related patches.
+>
+> === V1:
+> * The archive*.bbclass didn't work, and there were a few problems, for
+>   example:
+>   1) There were a few duplicated code
+>   2) There was no src_dir.org (or orig), but the diff command still use
+>      it, and it is not easy to fix this issue if we don't change a lot
+>      of the code.
+>   3) It didn't archive the source for the native or gcc
+>   4) The work flow is not very well
+>   5) The "subprocess.call('fakeroot cp xxxx'" should be removed
+>   6) And others ...
+>
+> * So that we have to refactor it, the benefits are:
+>   1) Fix the problems and make it work well.
+>   2) Reduce more than 400 lines in total.
+>   3) Make it easy to use.
+>
+> // Robert
+>
+> The following changes since commit 0e5cfef90ff762b33da6dc301dfc9cb3947c8a02:
+>
+>   runqemu: enforce right CPU type for qemux86/x86-64 (2014-02-13 17:48:47 +0000)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib rbt/archiver
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/archiver
+>
+> Robert Yang (5):
+>   classes/archive*.bbclass: remove archive-*-source.bbclass
+>   archiver.bbclass: refactor it
+>   package_rpm.bbclass: archive the source to srpm package
+>   archiver.bbclass: move a few code to copyleft_compliance.bbclass
+>   local.conf.sample.extended: update for the archiver
+>
+>  meta/classes/archive-configured-source.bbclass |  65 ---
+>  meta/classes/archive-original-source.bbclass   |  65 ---
+>  meta/classes/archive-patched-source.bbclass    |  65 ---
+>  meta/classes/archiver.bbclass                  | 735 ++++++++-----------------
+>  meta/classes/copyleft_compliance.bbclass       |  55 +-
+>  meta/classes/package_rpm.bbclass               |  31 +-
+>  meta/conf/local.conf.sample.extended           |  72 +--
+>  7 files changed, 327 insertions(+), 761 deletions(-)
+>  delete mode 100644 meta/classes/archive-configured-source.bbclass
+>  delete mode 100644 meta/classes/archive-original-source.bbclass
+>  delete mode 100644 meta/classes/archive-patched-source.bbclass
+>
+> --
+> 1.8.3.1
+>
 
