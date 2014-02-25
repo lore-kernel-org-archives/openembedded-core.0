@@ -1,39 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B5576F0A6
+Return-Path: <thilo@cestona.ro>
+Received: from spielplatz.cestona.ro (85-10-192-88.clients.your-server.de
+	[85.10.192.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A05206BA1D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 18:44:10 +0000 (UTC)
-Received: by mail-qg0-f43.google.com with SMTP id f51so2188940qge.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 10:44:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=CGfu8RgBoGQbzFfV8Z9/4dPdsuswip2En0boub0Y2P4=;
-	b=eVKUITXNWwwkcYKXSQPbA962KaSQ120TaYoetrtpbRwGeQDwVOYNPLLd2upkKiCn60
-	MBL8zQWkImfgeptfY9vPKEkeZ2hkblyQna1N8FWZ9u1C4GB4dIZEEByIGXvi/fbNgsBY
-	ISWp2miGgijeptnOv9RaUj3swd3iOdYyQ0mfa3YpVgOJ1Iolpj6YT7RSsu1tKrk8EGN/
-	C77qk3+SYeipo32UwpSgPs8n+s8b30lE1ufdYw23joZHf8/lNOOA131rb03ugBenEfn6
-	vLfna7yUPsW2t5TWRRbQsrL7liXRfxTN+QGT5mCSUgdH+ngqOiEmp0ENolhaiTHo2xQO
-	WRig==
-X-Gm-Message-State: ALoCoQnnTMXS2AnXrNvj/KrATgwK0LuGiUb5TA0u5PJyzNkcN+4hK/TtelkogptsOIeD0ho6aw5B
-X-Received: by 10.140.42.138 with SMTP id c10mr2139981qga.24.1393353851379;
-	Tue, 25 Feb 2014 10:44:11 -0800 (PST)
+	Tue, 25 Feb 2014 20:24:08 +0000 (UTC)
+Received: from [192.168.178.33] (agsb-4d04814a.pool.mediaways.net
+	[::ffff:77.4.129.74]) (AUTH: LOGIN thilo@cestona.ro)
+	by spielplatz with ESMTPA; Tue, 25 Feb 2014 21:24:08 +0100
+	id 0000000001D48048.530CFBE8.000050F3
+Message-ID: <530CFBE7.5060103@cestona.ro>
+Date: Tue, 25 Feb 2014 21:24:07 +0100
+From: Thilo Cestonaro <thilo@cestona.ro>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Tue, 25 Feb 2014 10:43:51 -0800 (PST)
-In-Reply-To: <CAP71Wjxz0e7qzU4tVZ3XEpF1oZtCErqjD4pPnETVJLnoecq3QQ@mail.gmail.com>
-References: <1393253881.31769.6.camel@ted> <20140224152753.GG26981@jama>
-	<CAJTo0LYBuZv5NDyM1gsQEL5KQfOvMsRpvOn5kjFaYBi5XL8wCw@mail.gmail.com>
-	<20140224160954.GI26981@jama>
-	<CAP71Wjxz0e7qzU4tVZ3XEpF1oZtCErqjD4pPnETVJLnoecq3QQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 25 Feb 2014 18:43:51 +0000
-Message-ID: <CAJTo0LY=TinUmQ+=d0_3oc97OwZNpw4yghfvbztyVF3EcJuteQ@mail.gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Separate build dir for autotools
+To: Paul Barker <paul@paulbarker.me.uk>
+References: <530CB3A6.3060404@cestona.ro>
+	<CANyK_8dB_ZV61OkmuWM5TUjBgp7gTBGPU58-iVy6TXCJmCUv=Q@mail.gmail.com>
+In-Reply-To: <CANyK_8dB_ZV61OkmuWM5TUjBgp7gTBGPU58-iVy6TXCJmCUv=Q@mail.gmail.com>
+X-Enigmail-Version: 1.6
+Cc: Openembedded Core List <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg-build and dpkg-deb 1.17.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,23 +33,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 18:44:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 25 Feb 2014 20:24:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 25 February 2014 17:36, Nicolas Dechesne <nicolas.dechesne@linaro.org> wrote:
-> right. I have recently (on dora) noticed that mesa build is broken
-> when using separate build dir, i have the following extra config:
->
-> PACKAGECONFIG_append = " gallium gallium-egl gallium-gbm gallium-llvm"
->
-> since gallium-egl needs the egl.h files generated during mesa build.
-> the generated files stay in $B while gallium-egl is looking for them
-> in $S (or sysroot)
+Hey Paul,
 
-Pretty sure I fixed that:  oe-core fbc7092f0ae07538d4363679b1597ba4e556d1a8
+thx for your hints. I managed to get git send-email to work and send it
+with signed-off-by line.
 
-It looks like that's in Dora so we've possibly regressed again, can
-you file a bug (CCing me) with the build log?
+Regarding your question; The debian-binary needs to be the first member
+of the archive, then control.tar.gz and then the data.tar.gz.
 
-Ross
+Have a look at "man 5 deb" there is a detailed description how the
+archive should look like.
+
+Greetings,
+Thilo
+
+Am 25.02.2014 16:34, schrieb Paul Barker:
+> On 25 February 2014 15:15, Thilo Cestonaro <thilo@cestona.ro> wrote:
+>> Hey all,
+>>
+>> with a recent change in dpkg-deb (
+>> http://anonscm.debian.org/gitweb/?p=dpkg/dpkg.git;a=commitdiff;h=547dca4c3ff23df5dfa554f1943b371cd7056ee4
+>> ), the packages generated by opkg-build will not be accepted by dpkg-deb
+>> anymore. The change disallows that the data.tar.gz is packed into the
+>> ipk or deb before the control.tar.gz.
+>>
+>> Supplied patch for opkg-utils repo fixes this.
+>>
+>> Greetings
+>> Thilo
+>>
+> 
+> This needs to be sent to the yocto@yoctoproject.org mailing list
+> rather than the openembedded-core@lists.openembedded.org mailing list.
+> 
+> It should also be sent using 'git send-email' if possible and the
+> description of why this change is needed needs to be included in the
+> commit message for the patch.
+> 
+> You'll also need to add a 'Signed-off-by' line to the patch.
+> 
+> The full contribution guidelines for opkg-utils are now in the file
+> 'CONTRIBUTING' in the root of the source tree. See
+> https://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/tree/CONTRIBUTING
+> for an online copy.
+> 
+> Regarding the change itself, is the 'debian-binary' file still allowed
+> to be infront of the 'control.tar.gz' file in the archive? Other than
+> that question, the change looks good at first glance.
+> 
+> If any of that doesn't work for you, let me know and I'll try to help out.
+> 
+> Thanks,
+> 
+
 
