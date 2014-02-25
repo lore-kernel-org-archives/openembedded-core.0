@@ -1,32 +1,37 @@
-Return-Path: <alexandrux.palalau@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ACBB6F09E
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 119C56F167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 15:16:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Feb 2014 07:16:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,540,1389772800"; d="scan'208";a="487799820"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2014 07:16:41 -0800
-Received: from [10.237.108.41] (apalalax-mobl.ger.corp.intel.com
-	[10.237.108.41])
-	by linux.intel.com (Postfix) with ESMTP id 8DAD96A4007;
-	Tue, 25 Feb 2014 07:16:30 -0800 (PST)
-Message-ID: <530CB3D7.5090009@linux.intel.com>
-Date: Tue, 25 Feb 2014 17:16:39 +0200
-From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
-Organization: Intel OTC
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Tue, 25 Feb 2014 15:35:10 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id ks9so7387653vcb.39
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2014 07:35:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=z7JwZDkJzNgjySWvLTXsfOHdGsVjxsrhQuthy14bT0M=;
+	b=sdxXOtQefMsHSv4T4Gkkzq324xOvbLkDmRKPScLbTCDzwO5CcP/o0szQB/UefO/ewx
+	AsgkmY9m+8OM7EY2ihgS3qfaPhGZvCkoAvNsVxU6IIYrDPA3YkJ3TouzdxUV3DoNB30l
+	StACNaRhhKvwphg1VF4n4GhPYgEAUGiFHzZ/Rj0Djrmtl40ixiiMHtPP7LX6FvcX9Jox
+	81xoKSkXXxs6Xad6QcgYPl3dqlMzWaR+uQRoRNsq95vzF7z89e5Nq6XniebJwNlF1fie
+	PpPp5k9spq47tQtafX9VJK5wZEmFodbZL/pdML02Udh5z5xliZ+2iWrx9FdczuxnQKgs
+	3LOQ==
+X-Received: by 10.52.94.77 with SMTP id da13mr195751vdb.55.1393342511295; Tue,
+	25 Feb 2014 07:35:11 -0800 (PST)
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, 
-	Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1392929845-23411-1-git-send-email-sgw@linux.intel.com>	<42DC4075-3C8F-4D01-AFDB-82AD3357C709@gmail.com>	<2119167.FSmXca6tad@peggleto-mobl5.ger.corp.intel.com>	<E43D4A79-222F-4109-A77E-4121AF6DBE94@gmail.com>
-	<530CB27A.3050305@linux.intel.com>
-In-Reply-To: <530CB27A.3050305@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: Ensure ROOTFS path is absolute
+Sender: paul.betafive@gmail.com
+Received: by 10.220.239.135 with HTTP; Tue, 25 Feb 2014 07:34:31 -0800 (PST)
+In-Reply-To: <530CB3A6.3060404@cestona.ro>
+References: <530CB3A6.3060404@cestona.ro>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Tue, 25 Feb 2014 15:34:31 +0000
+X-Google-Sender-Auth: gVnWJwbyej54JFWSRsPmq-u4Wzo
+Message-ID: <CANyK_8dB_ZV61OkmuWM5TUjBgp7gTBGPU58-iVy6TXCJmCUv=Q@mail.gmail.com>
+To: Thilo Cestonaro <thilo@cestona.ro>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	Openembedded Core List <openembedded-core@lists.openembedded.org>
+Subject: Re: opkg-build and dpkg-deb 1.17.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,88 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 15:16:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Feb 2014 15:35:14 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 2/25/2014 5:10 PM, Alexandru Palalau wrote:
-> On 2/22/2014 6:34 PM, Khem Raj wrote:
->>
->> On Feb 22, 2014, at 4:55 AM, Paul Eggleton
->> <paul.eggleton@linux.intel.com> wrote:
->>
->>> On Friday 21 February 2014 21:57:37 Khem Raj wrote:
->>>> On Feb 20, 2014, at 12:57 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>>>> There is a problem if a relative path is passed to the kernel for NFS
->>>>> usage
->>>>> that it will not correctly find it, so ensure that the ROOTFS path is
->>>>> absolute.
->>>>>
->>>>> [YOCTO #2807]
->>>>>
->>>>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->>>>> ---
->>>>> scripts/runqemu | 4 +++-
->>>>> 1 file changed, 3 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/scripts/runqemu b/scripts/runqemu
->>>>> index 0db7ad6..57c5de4 100755
->>>>> --- a/scripts/runqemu
->>>>> +++ b/scripts/runqemu
->>>>> @@ -462,7 +462,9 @@ if [ -z "$ROOTFS" -a "x$FSTYPE" != "xvmdk" ]; then
->>>>>
->>>>>         error "Unable to determine default rootfs for MACHINE
->>>>> [$MACHINE]"
->>>>>
->>>>>     fi
->>>>>
->>>>> fi
->>>>> -# ROOTFS is now set for all cases
->>>>> +# ROOTFS is now set for all cases, now expand it to be an absolute
->>>>> path,
->>>>> it should exist at this point +
->>>>> +ROOTFS=`realpath $ROOTFS`
->>>>
->>>> I think this change also means we need to add dependency on realpath
->>>> package
->>>> as prerequisite for build host.
->>>
->>> realpath is part of coreutils.
->>
->> realpath is package of its own not coreutils, at least on ubuntu
+On 25 February 2014 15:15, Thilo Cestonaro <thilo@cestona.ro> wrote:
+> Hey all,
 >
-> On CentOS 6.5 realpath is not part of coreutils and is not part of a
-> default repo. I could find it only on RPMforge.
-Added https://bugzilla.yoctoproject.org/show_bug.cgi?id=5879 on this matter.
+> with a recent change in dpkg-deb (
+> http://anonscm.debian.org/gitweb/?p=dpkg/dpkg.git;a=commitdiff;h=547dca4c3ff23df5dfa554f1943b371cd7056ee4
+> ), the packages generated by opkg-build will not be accepted by dpkg-deb
+> anymore. The change disallows that the data.tar.gz is packed into the
+> ipk or deb before the control.tar.gz.
 >
->>
->>> Another alternative would be readlink -f (but
->>> that also appears to be part of coreutils.)
->>
->>
->> this might be better options since coreutils is more or less
->> given on any distro
->>
->>>
->>> Cheers,
->>> Paul
->>>
->>> --
->>>
->>> Paul Eggleton
->>> Intel Open Source Technology Centre
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+> Supplied patch for opkg-utils repo fixes this.
 >
+> Greetings
+> Thilo
 >
 
+This needs to be sent to the yocto@yoctoproject.org mailing list
+rather than the openembedded-core@lists.openembedded.org mailing list.
+
+It should also be sent using 'git send-email' if possible and the
+description of why this change is needed needs to be included in the
+commit message for the patch.
+
+You'll also need to add a 'Signed-off-by' line to the patch.
+
+The full contribution guidelines for opkg-utils are now in the file
+'CONTRIBUTING' in the root of the source tree. See
+https://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/tree/CONTRIBUTING
+for an online copy.
+
+Regarding the change itself, is the 'debian-binary' file still allowed
+to be infront of the 'control.tar.gz' file in the archive? Other than
+that question, the change looks good at first glance.
+
+If any of that doesn't work for you, let me know and I'll try to help out.
+
+Thanks,
 
 -- 
-Alexandru Palalau
+Paul Barker
+
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
