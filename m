@@ -1,26 +1,37 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5145A6F361
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E4A5F6F167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 09:40:48 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1P9eo3v028985
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 25 Feb 2014 09:52:52 +0000 (UTC)
+Received: by mail-qc0-f178.google.com with SMTP id i8so207586qcq.23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 01:40:50 -0800 (PST)
-Received: from pek-blade16.wrs.com (128.224.153.44) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 25 Feb 2014 01:40:49 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Feb 2014 17:44:05 +0800
-Message-ID: <df347f4fd57689fa8810efe6faf4ee366b9e26c2.1393321369.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1393321369.git.liezhi.yang@windriver.com>
-References: <cover.1393321369.git.liezhi.yang@windriver.com>
+	Tue, 25 Feb 2014 01:52:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=SLtjHnaWvif/0/JNxTgj8sva1yaDaJZyV5x2apBHOno=;
+	b=WPUJxo4bHuc629DJZ7z2tiF27H936qRymKu7jzJz+T6b4XFj+ho/Cc0Ic9liBFbbk+
+	snDhKtfDA3hVqUf5zEMp3ez1ks00FnM12cUCQx3J8a+NcQ8xDWTKH8r7jWc6tSqmAAyh
+	EdSVp0F3ht4mYKZjbwy7ACqcrVix+4ijBqB9AO6tic07UWXEvv9SryMcCo/WIC38R239
+	p7dfhWeEhRzqgRLlFKGrRg3kzBighc16tGX+Xdn/HKE7n8XwqHpSFSTC6cdsjzZ8v6W+
+	aFPEX5Xcx6azcPL3n6Ti5nc8OVjy5+6mkcDDDd+bQ5hVBOxuDrHWBOUH0w1OPQgRwgDQ
+	39gA==
+X-Gm-Message-State: ALoCoQkp6CZUoYi2HQYso2zhqhzoRbNu/3bp/56zKk0mpTSYfmO6u1FPXtdVAM1pSTM6hVmEbz8c
+X-Received: by 10.224.127.129 with SMTP id g1mr36237820qas.22.1393321963489;
+	Tue, 25 Feb 2014 01:52:43 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] dpkg-compiler.m4: remove -Wvla (fix build on CentOS 5.8)
+Received: by 10.140.48.79 with HTTP; Tue, 25 Feb 2014 01:52:23 -0800 (PST)
+In-Reply-To: <CAMKF1spGuggEKfnLchYMeU0ounonupUhsLkC0wU_7S6nX-W8KQ@mail.gmail.com>
+References: <1393253881.31769.6.camel@ted>
+	<CAMKF1spGuggEKfnLchYMeU0ounonupUhsLkC0wU_7S6nX-W8KQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 25 Feb 2014 09:52:23 +0000
+Message-ID: <CAJTo0LY1+hNB9hfjDTkB3N2uQZfgRSkP64F8=cBQxGWerT3W_w@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Separate build dir for autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,71 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 09:40:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Feb 2014 09:52:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Remove the -Wvla flag from the set of compiler warning flags, since gcc
-on old host systems such as CentOS 5.8 doesn't support it, and it
-causes a build error for dpkg-native.
+On 25 February 2014 05:46, Khem Raj <raj.khem@gmail.com> wrote:
+>> b) We introduce an "autotools2" class and have recipes inherit that.
+>> This version would default to separate builddirs. It does mean change to
+>> all the "good" recipes rather than the broken ones though and hence a
+>> fair bit of churn.
+>
+> probably a better migration path can happen over time. may be we can raname
+> existing autotools.bbclass to autotoolsold and have autotools.bbclass
+> default to S != B
+> that way the recipes which break can inherit autotoolsold and can have quick fix
+> then we can slowly remove inheriting autotoolsold and finally remove
+> the class itself.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../dpkg/dpkg/no-vla-warning.patch                 | 32 ++++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.17.4.bb          |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
+I really don't see the point of this churn.  If autotools defaults to
+B!=S then the recipe is going to need changing anyway, and adding
+B=${S} in the recipe is far lower impact than having a fork of
+autotools.bbclass that has one change and would need to remain (and be
+maintained) for several release cycles.
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch b/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
-new file mode 100644
-index 0000000..0e57dbc
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/no-vla-warning.patch
-@@ -0,0 +1,32 @@
-+From e94474d805377d67c8b09664a602f20969e12b8a Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 23 Jan 2014 04:17:23 -0500
-+Subject: [PATCH] dpkg-compiler.m4: remove -Wvla
-+
-+Remove the -Wvla flag from the set of compiler warning flags, since gcc
-+on old host systems such as CentOS 5.8 doesn't support it, and it
-+causes a build error for dpkg-native.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ m4/dpkg-compiler.m4 |    1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/m4/dpkg-compiler.m4 b/m4/dpkg-compiler.m4
-+index f1c760b..500b5ad 100644
-+--- a/m4/dpkg-compiler.m4
-++++ b/m4/dpkg-compiler.m4
-+@@ -72,7 +72,6 @@ if test "x$enable_compiler_warnings" = "xyes"; then
-+   DPKG_WARNING_ALL([-Wformat-security])
-+   DPKG_WARNING_ALL([-Wpointer-arith])
-+   DPKG_WARNING_ALL([-Wlogical-op])
-+-  DPKG_WARNING_ALL([-Wvla])
-+   DPKG_WARNING_ALL([-Winit-self])
-+   DPKG_WARNING_ALL([-Wwrite-strings])
-+   DPKG_WARNING_ALL([-Wcast-align])
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-index 5e407ba..5507352 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.4.bb
-@@ -11,6 +11,7 @@ SRC_URI += "file://noman.patch \
-             file://arch_pm.patch \
-             file://dpkg-configure.service \
-             file://glibc2.5-sync_file_range.patch \
-+            file://no-vla-warning.patch \
-            "
- 
- SRC_URI[md5sum] = "cc25086e1e3bd9512a95f14cfe9002e1"
--- 
-1.8.3.1
-
+Ross
 
