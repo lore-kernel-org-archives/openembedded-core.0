@@ -1,20 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AFA76B8DF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E809D6EAFA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 16:14:16 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 25 Feb 2014 08:14:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,540,1389772800"; d="scan'208";a="481538322"
-Received: from unknown (HELO localhost.localdomain) ([10.255.12.165])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Feb 2014 08:14:16 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2014 18:14:11 +0200
-Message-Id: <1393344851-20938-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH v2] sqlite: rename to match upstream versioning
+	Tue, 25 Feb 2014 16:33:04 +0000 (UTC)
+Received: by mail-ie0-f178.google.com with SMTP id ar20so500229iec.23
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2014 08:33:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=fgyY8rIQqctJXJzs0p9oL8xGKAjZRPLzErfPt/mydEo=;
+	b=fLVws0YZaQN4XOEMTAtobXd0lT+uVrAAQjoaVHllvKVpbqKMJoAdIoocgnUpYQ6zrH
+	bq0qlypVjbqyAF+VaWfqjRgOJE2dtLOmJylB+FPO+EoT5tURbhZ7kNAl3ce8W6FkUUG6
+	QXIc2feP5mnpdC/ELuZAOER5ZZ+oDNKX+yZCoRAQ/sedxMzj7mCAt5EVBruGiAKwcnEd
+	Zeiz9y2zGFRCR3rzaLfzSp8ppShgR5bNsXVhjsJMsonUeqffN+IWSki26W31pkCP0ILC
+	3tuh0nv7WqIFCmt0ufuhVuAUlTmYuuvbTdgigq8q3P5F+YHMBWrOOLwaem1X11yR1BR3
+	ruBA==
+X-Received: by 10.42.85.140 with SMTP id q12mr618688icl.51.1393345985679; Tue,
+	25 Feb 2014 08:33:05 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.50.224.137 with HTTP; Tue, 25 Feb 2014 08:32:35 -0800 (PST)
+In-Reply-To: <CAJTo0LY1+hNB9hfjDTkB3N2uQZfgRSkP64F8=cBQxGWerT3W_w@mail.gmail.com>
+References: <1393253881.31769.6.camel@ted>
+	<CAMKF1spGuggEKfnLchYMeU0ounonupUhsLkC0wU_7S6nX-W8KQ@mail.gmail.com>
+	<CAJTo0LY1+hNB9hfjDTkB3N2uQZfgRSkP64F8=cBQxGWerT3W_w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 25 Feb 2014 08:32:35 -0800
+Message-ID: <CAMKF1soVzSmgP9RGQDePhqr0EdVazL8L96z-=5Gb0Vf=Q==7rA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Separate build dir for autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,46 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 16:14:22 -0000
+X-List-Received-Date: Tue, 25 Feb 2014 16:33:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Since we are re-doing the version from a big number down to a dot
-based number we have to bump the Package Epoch (PE).
+On Tue, Feb 25, 2014 at 1:52 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 25 February 2014 05:46, Khem Raj <raj.khem@gmail.com> wrote:
+>>> b) We introduce an "autotools2" class and have recipes inherit that.
+>>> This version would default to separate builddirs. It does mean change to
+>>> all the "good" recipes rather than the broken ones though and hence a
+>>> fair bit of churn.
+>>
+>> probably a better migration path can happen over time. may be we can raname
+>> existing autotools.bbclass to autotoolsold and have autotools.bbclass
+>> default to S != B
+>> that way the recipes which break can inherit autotoolsold and can have quick fix
+>> then we can slowly remove inheriting autotoolsold and finally remove
+>> the class itself.
+>
+> I really don't see the point of this churn.  If autotools defaults to
+> B!=S then the recipe is going to need changing anyway, and adding
+> B=${S} in the recipe is far lower impact than having a fork of
+> autotools.bbclass
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../sqlite/{sqlite3_3080301.bb => sqlite3_3.8.3.1.bb}          | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
- rename meta/recipes-support/sqlite/{sqlite3_3080301.bb => sqlite3_3.8.3.1.bb} (53%)
+OK yes.
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3080301.bb b/meta/recipes-support/sqlite/sqlite3_3.8.3.1.bb
-similarity index 53%
-rename from meta/recipes-support/sqlite/sqlite3_3080301.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.8.3.1.bb
-index 8ed01a9..4f15f5d 100644
---- a/meta/recipes-support/sqlite/sqlite3_3080301.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.8.3.1.bb
-@@ -2,12 +2,18 @@ require sqlite3.inc
- 
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
- 
--SRC_URI = "http://www.sqlite.org/2014/sqlite-autoconf-${PV}.tar.gz"
-+def sqlite_download_version(d):
-+    pvsplit = d.getVar('PV', True).split('.')
-+    return pvsplit[0] + ''.join([part.rjust(2,'0') for part in pvsplit[1:]])
-+
-+PE = "1"
-+SQLITE_PV = "${@sqlite_download_version(d)}"
-+SRC_URI = "http://www.sqlite.org/2014/sqlite-autoconf-${SQLITE_PV}.tar.gz"
- 
- SRC_URI[md5sum] = "509ff98d8dc9729b618b7e96612079c6"
- SRC_URI[sha256sum] = "de5dc216e9289fabf027f78dbbface32ffc8c6341b7d841d0814b1a452ffdb8c"
- 
--S = "${WORKDIR}/sqlite-autoconf-${PV}"
-+S = "${WORKDIR}/sqlite-autoconf-${SQLITE_PV}"
- 
- # Provide column meta-data API
- BUILD_CFLAGS += "-DSQLITE_ENABLE_COLUMN_METADATA"
--- 
-1.8.3.1
-
+that has one change and would need to remain (and be
+> maintained) for several release cycles.
+>
+> Ross
 
