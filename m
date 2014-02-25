@@ -1,37 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E4A5F6F167
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A3A36E908
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 09:52:52 +0000 (UTC)
-Received: by mail-qc0-f178.google.com with SMTP id i8so207586qcq.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 01:52:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=SLtjHnaWvif/0/JNxTgj8sva1yaDaJZyV5x2apBHOno=;
-	b=WPUJxo4bHuc629DJZ7z2tiF27H936qRymKu7jzJz+T6b4XFj+ho/Cc0Ic9liBFbbk+
-	snDhKtfDA3hVqUf5zEMp3ez1ks00FnM12cUCQx3J8a+NcQ8xDWTKH8r7jWc6tSqmAAyh
-	EdSVp0F3ht4mYKZjbwy7ACqcrVix+4ijBqB9AO6tic07UWXEvv9SryMcCo/WIC38R239
-	p7dfhWeEhRzqgRLlFKGrRg3kzBighc16tGX+Xdn/HKE7n8XwqHpSFSTC6cdsjzZ8v6W+
-	aFPEX5Xcx6azcPL3n6Ti5nc8OVjy5+6mkcDDDd+bQ5hVBOxuDrHWBOUH0w1OPQgRwgDQ
-	39gA==
-X-Gm-Message-State: ALoCoQkp6CZUoYi2HQYso2zhqhzoRbNu/3bp/56zKk0mpTSYfmO6u1FPXtdVAM1pSTM6hVmEbz8c
-X-Received: by 10.224.127.129 with SMTP id g1mr36237820qas.22.1393321963489;
-	Tue, 25 Feb 2014 01:52:43 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Tue, 25 Feb 2014 01:52:23 -0800 (PST)
-In-Reply-To: <CAMKF1spGuggEKfnLchYMeU0ounonupUhsLkC0wU_7S6nX-W8KQ@mail.gmail.com>
-References: <1393253881.31769.6.camel@ted>
-	<CAMKF1spGuggEKfnLchYMeU0ounonupUhsLkC0wU_7S6nX-W8KQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 25 Feb 2014 09:52:23 +0000
-Message-ID: <CAJTo0LY1+hNB9hfjDTkB3N2uQZfgRSkP64F8=cBQxGWerT3W_w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Separate build dir for autotools
+	Tue, 25 Feb 2014 10:46:35 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 25 Feb 2014 02:42:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,539,1389772800"; d="scan'208";a="489396588"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 25 Feb 2014 02:46:12 -0800
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.156])
+	by linux.intel.com (Postfix) with ESMTP id AC9996A4083;
+	Tue, 25 Feb 2014 02:46:01 -0800 (PST)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Feb 2014 12:46:11 +0200
+Message-Id: <1393325171-2672-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.5.3
+Subject: [PATCH] oeqa/targetcontrol: properly get the host ip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 09:52:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 25 Feb 2014 10:46:36 -0000
 
-On 25 February 2014 05:46, Khem Raj <raj.khem@gmail.com> wrote:
->> b) We introduce an "autotools2" class and have recipes inherit that.
->> This version would default to separate builddirs. It does mean change to
->> all the "good" recipes rather than the broken ones though and hence a
->> fair bit of churn.
->
-> probably a better migration path can happen over time. may be we can raname
-> existing autotools.bbclass to autotoolsold and have autotools.bbclass
-> default to S != B
-> that way the recipes which break can inherit autotoolsold and can have quick fix
-> then we can slowly remove inheriting autotoolsold and finally remove
-> the class itself.
+For the SimpleRemote target where we need the host ip and
+it wasn't set in conf, we tried to determine it automatically.
+However ip route output isn't the same for every network, we
+need the last field from the first line.
 
-I really don't see the point of this churn.  If autotools defaults to
-B!=S then the recipe is going to need changing anyway, and adding
-B=${S} in the recipe is far lower impact than having a fork of
-autotools.bbclass that has one change and would need to remain (and be
-maintained) for several release cycles.
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/targetcontrol.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index ba5e6e5..46e5f7f 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -133,7 +133,7 @@ class SimpleRemoteTarget(BaseTarget):
+         self.server_ip = d.getVar("TEST_SERVER_IP", True)
+         if not self.server_ip:
+             try:
+-                self.server_ip = subprocess.check_output(['ip', 'route', 'get', self.ip ]).split()[6]
++                self.server_ip = subprocess.check_output(['ip', 'route', 'get', self.ip ]).split("\n")[0].split()[-1]
+             except Exception as e:
+                 bb.fatal("Failed to determine the host IP address (alternatively you can set TEST_SERVER_IP with the IP address of this machine): %s" % e)
+         bb.note("Server IP: %s" % self.server_ip)
+-- 
+1.8.5.3
+
 
