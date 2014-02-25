@@ -1,20 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DE0526BD75
+	by mail.openembedded.org (Postfix) with ESMTP id 092716F0E5
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 25 Feb 2014 12:36:23 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 25 Feb 2014 04:32:02 -0800
+	by orsmga102.jf.intel.com with ESMTP; 25 Feb 2014 04:32:03 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,540,1389772800"; d="scan'208";a="461888402"
+X-IronPort-AV: E=Sophos;i="4.97,540,1389772800"; d="scan'208";a="461888410"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
-	by orsmga001.jf.intel.com with ESMTP; 25 Feb 2014 04:36:23 -0800
+	by orsmga001.jf.intel.com with ESMTP; 25 Feb 2014 04:36:24 -0800
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2014 14:36:16 +0200
-Message-Id: <cover.1393331716.git.laurentiu.palcu@intel.com>
+Date: Tue, 25 Feb 2014 14:36:17 +0200
+Message-Id: <ae8627a6eb1d76b1535a222d9011093bdee79cdb.1393331716.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/1] package_manager.py: create index files for all backends in PACKAGE_CLASSES
+In-Reply-To: <cover.1393331716.git.laurentiu.palcu@intel.com>
+References: <cover.1393331716.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1393331716.git.laurentiu.palcu@intel.com>
+References: <cover.1393331716.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/1] package_manager.py: create index files for all backends in PACKAGE_CLASSES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,32 +33,57 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 25 Feb 2014 12:36:24 -0000
 
-The following changes since commit 72576e2d04dc8b43ae0d7f31cddd74318f52103e:
+The previous implementation was checking IMAGE_PKGTYPE and created the
+index files just for the backend used to create the image. Apparently,
+'bitbake package-index' should attempt to create the index files for all
+backends specified in PACKAGE_CLASSES.
 
-  bitbake: hob: replace the use of hob-toolchain with populate_sdk task (2014-02-25 08:06:11 +0000)
+[YOCTO #5827]
 
-are available in the git repository at:
-
-  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib lpalcu/b5827_package_index_fix
-
-for you to fetch changes up to ae8627a6eb1d76b1535a222d9011093bdee79cdb:
-
-  package_manager.py: create index files for all backends in PACKAGE_CLASSES (2014-02-25 14:25:35 +0200)
-
-----------------------------------------------------------------
-Laurentiu Palcu (1):
-      package_manager.py: create index files for all backends in PACKAGE_CLASSES
-
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
  meta/lib/oe/package_manager.py |   24 +++++++++++++++---------
  1 file changed, 15 insertions(+), 9 deletions(-)
 
-Laurentiu Palcu (1):
-  package_manager.py: create index files for all backends in
-    PACKAGE_CLASSES
-
- meta/lib/oe/package_manager.py |   24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
-
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index d29adac..ff4f1de 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1519,19 +1519,25 @@ class DpkgPM(PackageManager):
+ 
+ 
+ def generate_index_files(d):
+-    img_type = d.getVar('IMAGE_PKGTYPE', True)
++    classes = d.getVar('PACKAGE_CLASSES', True).replace("package_", "").split()
++
++    indexer_map = {
++        "rpm": (RpmIndexer, d.getVar('DEPLOY_DIR_RPM', True)),
++        "ipk": (OpkgIndexer, d.getVar('DEPLOY_DIR_IPK', True)),
++        "deb": (DpkgIndexer, d.getVar('DEPLOY_DIR_DEB', True))
++    }
+ 
+     result = None
+ 
+-    if img_type == "rpm":
+-        result = RpmIndexer(d, d.getVar('DEPLOY_DIR_RPM', True)).write_index()
+-    elif img_type == "ipk":
+-        result = OpkgIndexer(d, d.getVar('DEPLOY_DIR_IPK', True)).write_index()
+-    elif img_type == "deb":
+-        result = DpkgIndexer(d, d.getVar('DEPLOY_DIR_DEB', True)).write_index()
++    for pkg_class in classes:
++        if not pkg_class in indexer_map:
++            continue
++
++        if os.path.exists(indexer_map[pkg_class][1]):
++            result = indexer_map[pkg_class][0](d, indexer_map[pkg_class][1]).write_index()
+ 
+-    if result is not None:
+-        bb.fatal(result)
++            if result is not None:
++                bb.fatal(result)
+ 
+ if __name__ == "__main__":
+     """
 -- 
 1.7.9.5
 
