@@ -1,38 +1,31 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D682A6ED65
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EA2E6E71C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 17:36:59 +0000 (UTC)
-Received: by mail-ob0-f174.google.com with SMTP id uy5so9113335obc.5
+	Tue, 25 Feb 2014 17:41:34 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1PHetIk017818 for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2014 17:41:30 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id nPMBhMJzbkLD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 09:37:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=OcbtEfkAIbpZQK3vg+FesTefKSYYVEhlwmGswbJJs08=;
-	b=NxH3DoDKXmypWcBQnlKgPWNC+5nZiKRiZ1+S7jVDtGCdz0aldMmc2KJFL3sMSVkM3+
-	5QZOXe4cThfLSVwfdpftlpMXHNeRQTbEJozCL35X3XqbUQDxOqZb+YEELAompMtznXL1
-	fZDmrlftSnwUmQG80rJ4CTF2CX2qEvdTaTzg0oUZVgtve/rCGUtJMs5+RDfhYBexAJiB
-	Qfk1tv21z4i3en7uqZAEhyQT7qrLwSDnr0Aq1HONqxAztJ7nx/TDS1/k1bedLz3/jVL8
-	fG7LW4k/y23p4rSCKH6SlgFptKRL5i1FMagO7lyu8T2qKSpzJwHWXViVDP+D2Lk2GlwP
-	V6tQ==
-X-Gm-Message-State: ALoCoQlCICKWO1+/HVu3g8/9Nev9lCrNdo9Yzn0FmpuAOE0RsbRixlqj+htlmMdeNwdRacm/F1uT
-X-Received: by 10.60.130.234 with SMTP id oh10mr2424945oeb.60.1393349820283;
-	Tue, 25 Feb 2014 09:37:00 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.182.99 with HTTP; Tue, 25 Feb 2014 09:36:40 -0800 (PST)
-In-Reply-To: <20140224160954.GI26981@jama>
-References: <1393253881.31769.6.camel@ted> <20140224152753.GG26981@jama>
-	<CAJTo0LYBuZv5NDyM1gsQEL5KQfOvMsRpvOn5kjFaYBi5XL8wCw@mail.gmail.com>
-	<20140224160954.GI26981@jama>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 25 Feb 2014 18:36:40 +0100
-Message-ID: <CAP71Wjxz0e7qzU4tVZ3XEpF1oZtCErqjD4pPnETVJLnoecq3QQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Separate build dir for autotools
+	Tue, 25 Feb 2014 17:41:29 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1PHfOYp017842
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2014 17:41:26 GMT
+Message-ID: <1393350077.31769.102.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Feb 2014 17:41:17 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] base: Remove pointless createCopy/update_data calls
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 17:37:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 25 Feb 2014 17:41:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 24, 2014 at 5:09 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->>
->> That list is opt-in and mainly covers oe-core, so this gets tested
->> every time the YP autobuilder does a world build.  We need a meta-oe
->> world build where autotools.bbclass sets B="${WORKDIR}/build": it's
->> literally just this one-line patch.
->
-> But doesn't cover oe-core built with different combinations for
-> PACKAGECONFIGs, .bbappends etc, so including this file in
-> defaultsetup.conf can still reveal few issues in oe-core recipes.
+I was asked why we had these copy and update_data calls. I can
+offer no good explanation other than them perhaps once being needed
+for reasons long since forgotten and superceeded.
 
-right. I have recently (on dora) noticed that mesa build is broken
-when using separate build dir, i have the following extra config:
+With modern bitbake these should not be needed and shouldn't have been
+for a long time. Lets therefore remove them and simplify the code.
 
-PACKAGECONFIG_append = " gallium gallium-egl gallium-gbm gallium-llvm"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 7837c89..3e9051c 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -106,11 +106,8 @@ python base_do_fetch() {
+     if len(src_uri) == 0:
+         return
+ 
+-    localdata = bb.data.createCopy(d)
+-    bb.data.update_data(localdata)
+-
+     try:
+-        fetcher = bb.fetch2.Fetch(src_uri, localdata)
++        fetcher = bb.fetch2.Fetch(src_uri, d)
+         fetcher.download()
+     except bb.fetch2.BBFetchException as e:
+         raise bb.build.FuncFailed(e)
+@@ -124,13 +121,10 @@ python base_do_unpack() {
+     if len(src_uri) == 0:
+         return
+ 
+-    localdata = bb.data.createCopy(d)
+-    bb.data.update_data(localdata)
+-
+-    rootdir = localdata.getVar('WORKDIR', True)
++    rootdir = d.getVar('WORKDIR', True)
+ 
+     try:
+-        fetcher = bb.fetch2.Fetch(src_uri, localdata)
++        fetcher = bb.fetch2.Fetch(src_uri, d)
+         fetcher.unpack(rootdir)
+     except bb.fetch2.BBFetchException as e:
+         raise bb.build.FuncFailed(e)
+@@ -653,11 +647,8 @@ python do_cleanall() {
+     if len(src_uri) == 0:
+         return
+ 
+-    localdata = bb.data.createCopy(d)
+-    bb.data.update_data(localdata)
+-
+     try:
+-        fetcher = bb.fetch2.Fetch(src_uri, localdata)
++        fetcher = bb.fetch2.Fetch(src_uri, d)
+         fetcher.clean()
+     except bb.fetch2.BBFetchException, e:
+         raise bb.build.FuncFailed(e)
 
-since gallium-egl needs the egl.h files generated during mesa build.
-the generated files stay in $B while gallium-egl is looking for them
-in $S (or sysroot)
+
 
