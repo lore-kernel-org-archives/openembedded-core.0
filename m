@@ -1,36 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E809D6EAFA
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id DDC4A6E713
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 16:33:04 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id ar20so500229iec.23
+	Tue, 25 Feb 2014 16:41:46 +0000 (UTC)
+Received: by mail-ig0-f179.google.com with SMTP id r1so1741874igi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 08:33:05 -0800 (PST)
+	Tue, 25 Feb 2014 08:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=fgyY8rIQqctJXJzs0p9oL8xGKAjZRPLzErfPt/mydEo=;
-	b=fLVws0YZaQN4XOEMTAtobXd0lT+uVrAAQjoaVHllvKVpbqKMJoAdIoocgnUpYQ6zrH
-	bq0qlypVjbqyAF+VaWfqjRgOJE2dtLOmJylB+FPO+EoT5tURbhZ7kNAl3ce8W6FkUUG6
-	QXIc2feP5mnpdC/ELuZAOER5ZZ+oDNKX+yZCoRAQ/sedxMzj7mCAt5EVBruGiAKwcnEd
-	Zeiz9y2zGFRCR3rzaLfzSp8ppShgR5bNsXVhjsJMsonUeqffN+IWSki26W31pkCP0ILC
-	3tuh0nv7WqIFCmt0ufuhVuAUlTmYuuvbTdgigq8q3P5F+YHMBWrOOLwaem1X11yR1BR3
-	ruBA==
-X-Received: by 10.42.85.140 with SMTP id q12mr618688icl.51.1393345985679; Tue,
-	25 Feb 2014 08:33:05 -0800 (PST)
+	bh=zkrW7BAciwdBsnOTdcROTr09a6QslyPn5O1wFPtmSSA=;
+	b=RZv95+pt/UyoeAEGATjdeCqF2kw2i70hMAQaPpo8nk5mDCS6oc91vR/7Z/EiuebXi4
+	BUIliUVeJW1TeNXOAaJrIFOD+ahn7QEnZmg65Yj+Y2JEKdZXQzyB3MsH3cGA7e2cjQJG
+	PoOLmnY0cK5VfLrqv5T20MNh9DE+anHXsxKldHzU7OpuyhcbGyEFPl7K95r4v1SOlovc
+	ofn58ltWxh3GNtAgjVXfRiIggm1Q6P+x8Gs/eJ2Go2GXjzrN5aKEcEf61rWuvS4ZDsQT
+	2s3kFDrk2eR2Hi8vL5tWnUudZfvv8a+KI67jPH5O0a11BbJ3KsLc96x+Bo3IyOcjQMSb
+	xlYw==
+X-Received: by 10.50.143.69 with SMTP id sc5mr21138734igb.2.1393346507347;
+	Tue, 25 Feb 2014 08:41:47 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.50.224.137 with HTTP; Tue, 25 Feb 2014 08:32:35 -0800 (PST)
-In-Reply-To: <CAJTo0LY1+hNB9hfjDTkB3N2uQZfgRSkP64F8=cBQxGWerT3W_w@mail.gmail.com>
-References: <1393253881.31769.6.camel@ted>
-	<CAMKF1spGuggEKfnLchYMeU0ounonupUhsLkC0wU_7S6nX-W8KQ@mail.gmail.com>
-	<CAJTo0LY1+hNB9hfjDTkB3N2uQZfgRSkP64F8=cBQxGWerT3W_w@mail.gmail.com>
+Received: by 10.50.224.137 with HTTP; Tue, 25 Feb 2014 08:41:16 -0800 (PST)
+In-Reply-To: <CAP9ODKoCwUtYzbhnj2Ka1HOEdYo=UZk6vPVHxsCB43Z1k0hcFw@mail.gmail.com>
+References: <1393280958-18379-1-git-send-email-diego.sueiro@gmail.com>
+	<CAP9ODKpGE22EOaUgqnaYGF47dsidsAF5_zFxUdNz=EzfSeQOWg@mail.gmail.com>
+	<CAMCfZKG7ZQUdaFJ8MfCyyKR17p0w=MagQNMNeZR9cGTmiMasPw@mail.gmail.com>
+	<CAP9ODKoCwUtYzbhnj2Ka1HOEdYo=UZk6vPVHxsCB43Z1k0hcFw@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 25 Feb 2014 08:32:35 -0800
-Message-ID: <CAMKF1soVzSmgP9RGQDePhqr0EdVazL8L96z-=5Gb0Vf=Q==7rA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Separate build dir for autotools
+Date: Tue, 25 Feb 2014 08:41:16 -0800
+Message-ID: <CAMKF1srJ5Gi1j-m+rObvMwNYnrfgeKhJwy3LyLhCx=kNtWgsGA@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, "Eggleton,
+	Paul" <paul.eggleton@intel.com>
+Subject: Re: [PATCH v2] packagegroup-qt-toolchain-target.inc: add libQtUiTools static library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 16:33:05 -0000
+X-List-Received-Date: Tue, 25 Feb 2014 16:41:49 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Feb 25, 2014 at 1:52 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 25 February 2014 05:46, Khem Raj <raj.khem@gmail.com> wrote:
->>> b) We introduce an "autotools2" class and have recipes inherit that.
->>> This version would default to separate builddirs. It does mean change to
->>> all the "good" recipes rather than the broken ones though and hence a
->>> fair bit of churn.
+On Tue, Feb 25, 2014 at 5:50 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> Hello Diego,
+>
+> (adding Khem and Paul in Cc)
+>
+> On Tue, Feb 25, 2014 at 10:35 AM, Diego Sueiro <diego.sueiro@gmail.com> wrote:
+>> On Tue, Feb 25, 2014 at 10:24 AM, Otavio Salvador <otavio@ossystems.com.br>
+>> wrote:
+>>>
+>>> This license is the same of Qt itself so I don't think it needs to be
+>>> quoted here. Do you see any reason for it?
 >>
->> probably a better migration path can happen over time. may be we can raname
->> existing autotools.bbclass to autotoolsold and have autotools.bbclass
->> default to S != B
->> that way the recipes which break can inherit autotoolsold and can have quick fix
->> then we can slowly remove inheriting autotoolsold and finally remove
->> the class itself.
+>> I've just followed Khem's instructions:
+>> http://lists.openembedded.org/pipermail/openembedded-core/2014-February/089888.html
 >
-> I really don't see the point of this churn.  If autotools defaults to
-> B!=S then the recipe is going to need changing anyway, and adding
-> B=${S} in the recipe is far lower impact than having a fork of
-> autotools.bbclass
+> I see; however this license is no different of rest of Qt so we can
+> assume the user of Qt knows the license (and has reviewed possible
+> impacts of it with their legal department).
 
-OK yes.
+ofcourse, however all I was suggesting to make it a little more
+understood with some
+comments.
 
-that has one change and would need to remain (and be
-> maintained) for several release cycles.
 >
-> Ross
+> What others think?
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
