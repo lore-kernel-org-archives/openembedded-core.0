@@ -1,41 +1,27 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 296FB6028A
+Return-Path: <Matthieu.CRAPET@ingenico.com>
+Received: from smtp1.ingenico.com (smtp1.ingenico.com [217.108.148.240])
+	by mail.openembedded.org (Postfix) with ESMTP id 67B4060DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 10:59:03 +0000 (UTC)
-Received: by mail-ob0-f182.google.com with SMTP id uz6so594298obc.27
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 02:59:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=ytdvvDmJAtoxz5lF2HRqNbd7vbXqoZr3mItXj9noRB4=;
-	b=k0eiw0gqezIlhgI32oAkfreBWP4N46vHsjdN7PTbsBBPFSlYE4nvgFHweXQ/fgho10
-	0hHeEO0Vve6wKr0r8NMlBxJ46pTN+Z0jiuNU+HaTE7Z3Xg/nUxxpoco1TOqj46UOvZGl
-	C8XOpJ+naS4Ue3hPwPsqqD8jjJZsgyGUUN0zkU+yT/i2uUPckPVYKG+ZU5ouWRdpRKuQ
-	K0bMgna0KRxY93sAXV9KyxZJddoNY+DpKEMsH4Z7Sshs38Sd+H+PuXwng/t8M7HhWQ5Y
-	Ge10AAqWbLb5slB0D3mR5b2DHKtUJIAXZ0jkH/BU5FaYGXCn4JXsaMrK1pe+GqYgwJsD
-	2cIg==
-X-Gm-Message-State: ALoCoQmwPph2zc1H/bD9wsT+8Nahv5qtFtVbxO+TGCmP1gmO+cOnT0BM1M4Tpd+lf1GuL5FDnGdC
-X-Received: by 10.60.161.81 with SMTP id xq17mr6077731oeb.3.1393412343943;
-	Wed, 26 Feb 2014 02:59:03 -0800 (PST)
+	Wed, 26 Feb 2014 11:11:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.97,547,1389740400"; d="scan'208,217";a="41794871"
+Received: from cosnadexc21.usr.ingenico.loc ([10.31.4.221])
+	by antispam1.usr.ingenico.loc with ESMTP; 26 Feb 2014 12:11:31 +0100
+Received: from COSNADEXC13.usr.ingenico.loc ([169.254.1.243]) by
+	COSNADEXC21.usr.ingenico.loc ([10.31.4.221]) with mapi id
+	14.02.0328.009; Wed, 26 Feb 2014 12:11:29 +0100
+From: Matthieu CRAPET <Matthieu.CRAPET@ingenico.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: image.bbclass: USE_DEVFS is now useless
+Thread-Index: Ac8y4SVYYOAm1CkVQOWnvL0TlEKEvw==
+Date: Wed, 26 Feb 2014 11:11:28 +0000
+Message-ID: <8672BB614B4CCA40A6B3BDD6FD82050B575445A7@COSNADEXC13.usr.ingenico.loc>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.31.16.119]
 MIME-Version: 1.0
-Received: by 10.76.182.99 with HTTP; Wed, 26 Feb 2014 02:58:43 -0800 (PST)
-In-Reply-To: <CAP71Wjy0qRY1=xx4L7q-3TgR6f6oNdzVCk1vXm=46rwXPnUXAg@mail.gmail.com>
-References: <1393253881.31769.6.camel@ted> <20140224152753.GG26981@jama>
-	<CAJTo0LYBuZv5NDyM1gsQEL5KQfOvMsRpvOn5kjFaYBi5XL8wCw@mail.gmail.com>
-	<20140224160954.GI26981@jama>
-	<CAP71Wjxz0e7qzU4tVZ3XEpF1oZtCErqjD4pPnETVJLnoecq3QQ@mail.gmail.com>
-	<CAJTo0LY=TinUmQ+=d0_3oc97OwZNpw4yghfvbztyVF3EcJuteQ@mail.gmail.com>
-	<CAP71Wjy0qRY1=xx4L7q-3TgR6f6oNdzVCk1vXm=46rwXPnUXAg@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 26 Feb 2014 11:58:43 +0100
-Message-ID: <CAP71WjxjzbX2X+3s0YN+jv1QTEjZJaLOFvSzk83GX4tSXkLGZw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Separate build dir for autotools
+Subject: image.bbclass: USE_DEVFS is now useless
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,20 +34,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 10:59:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Feb 2014 11:11:32 -0000
+Content-Language: fr-FR
+Content-Type: multipart/alternative;
+	boundary="_000_8672BB614B4CCA40A6B3BDD6FD82050B575445A7COSNADEXC13usri_"
 
-Ross,
+--_000_8672BB614B4CCA40A6B3BDD6FD82050B575445A7COSNADEXC13usri_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 25, 2014 at 11:10 PM, Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
-> oops. you're right. it's fixed in both dora and master. in fact i got
-> hit by that on dylan... but they i switched to dora anyways... so this
-> one is fine.
+Hi,
 
-I guess i spoke too quickly... i just retried a dora and master after
-cleansstate on mesa, and master seems to build fine, but dora failed
-to build. see
+Since :
+http://cgit.openembedded.org/openembedded-core/commit/meta/classes/image.bb=
+class?id=3Da83144bac8d67704ff66f5dc0fc56f5b63979694
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=5882
+USE_DEVFS is not considered anymore.
 
+Setting IMAGE_DEVICE_TABLE or IMAGE_DEVICE_TABLES to empty string in an ima=
+ge recipe works (makedevs is not called)
+
+Should be we drop USE_DEVFS variable (meta/classes/image.bbclass) or (re)ad=
+d check in meta/lib/oe/rootfs.py?
+I can propose a patch.
+
+Regards,
+Matthieu
+
+--_000_8672BB614B4CCA40A6B3BDD6FD82050B575445A7COSNADEXC13usri_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"FR" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Since&nbsp;:<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"http://cgit.openembedded.org/openembedded=
+-core/commit/meta/classes/image.bbclass?id=3Da83144bac8d67704ff66f5dc0fc56f=
+5b63979694">http://cgit.openembedded.org/openembedded-core/commit/meta/clas=
+ses/image.bbclass?id=3Da83144bac8d67704ff66f5dc0fc56f5b63979694</a><o:p></o=
+:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB">USE_DEVFS is not considered any=
+more.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB">Setting IMAGE_DEVICE_TABLE or I=
+MAGE_DEVICE_TABLES to empty string in an image recipe works (makedevs is no=
+t called)<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB">Should be we drop USE_DEVFS var=
+iable (meta/classes/image.bbclass) or (re)add check in meta/lib/oe/rootfs.p=
+y?<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB">I can propose a patch.<o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB"><o:p>&nbsp;</o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB">Regards,<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-GB">Matthieu<o:p></o:p></span></p>
+</div>
+</body>
+</html>
+
+--_000_8672BB614B4CCA40A6B3BDD6FD82050B575445A7COSNADEXC13usri_--
