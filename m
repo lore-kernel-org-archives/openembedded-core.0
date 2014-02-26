@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6907C6E85E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 54B7E6E85E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 07:32:36 +0000 (UTC)
+	Wed, 26 Feb 2014 07:32:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1Q7Wbfj013192
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1Q7Wclu013115
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 23:32:37 -0800 (PST)
+	Tue, 25 Feb 2014 23:32:38 -0800 (PST)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.218) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 25 Feb 2014 23:32:36 -0800
+	14.2.347.0; Tue, 25 Feb 2014 23:32:37 -0800
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Feb 2014 15:33:00 +0800
-Message-ID: <cover.1393399942.git.Qi.Chen@windriver.com>
+Date: Wed, 26 Feb 2014 15:33:01 +0800
+Message-ID: <daee4480b735a557aaa314f9a1f9bf6fbb3f9a12.1393399942.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1393399942.git.Qi.Chen@windriver.com>
+References: <cover.1393399942.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] python-numpy: fix compile error for qemumips
+Subject: [PATCH 1/1] python-numpy: fix compile error for qemumips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 07:32:37 -0000
+X-List-Received-Date: Wed, 26 Feb 2014 07:32:38 -0000
 Content-Type: text/plain
 
-The following changes since commit 5a4b5c6b8ebd5f8d29888aafcd9608e03717bcd5:
+When building python-numpy for qemumips, the following error appeared.
 
-  runqemu: Use readlink instead of realpath (2014-02-25 21:29:51 +0000)
+cp: cannot stat `xxx/python-numpy/1.7.0-r1/*config.h': No such file or directory
 
-are available in the git repository at:
+This is because for qemumips, there are no such files in SRC_URI. And
+actually we don't need such files. So for qemumips, the `cp' command
+is expected to fail.
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/python-numpy
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/python-numpy
+The same problem appeared for qemumips64 and qemuppc.
 
-Chen Qi (1):
-  python-numpy: fix compile error for qemumips
+This patch fixes this compiling error.
 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-devtools/python/python-numpy_1.7.0.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/python/python-numpy_1.7.0.bb b/meta/recipes-devtools/python/python-numpy_1.7.0.bb
+index 3fa485e..43f5a40 100644
+--- a/meta/recipes-devtools/python/python-numpy_1.7.0.bb
++++ b/meta/recipes-devtools/python/python-numpy_1.7.0.bb
+@@ -45,7 +45,7 @@ do_compile_prepend_class-target() {
+     BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
+     ${STAGING_BINDIR_NATIVE}/python-native/python setup.py build ${DISTUTILS_BUILD_ARGS} || \
+     true
+-    cp ${WORKDIR}/*config.h ${S}/build/$(ls ${S}/build | grep src)/numpy/core/include/numpy/
++    cp ${WORKDIR}/*config.h ${S}/build/$(ls ${S}/build | grep src)/numpy/core/include/numpy/ || true
+ }
+ 
+ FILES_${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a"
 -- 
 1.7.9.5
 
