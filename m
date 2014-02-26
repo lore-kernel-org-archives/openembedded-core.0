@@ -1,40 +1,45 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
-	[209.85.219.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 114C86F18B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f45.google.com (mail-pb0-f45.google.com
+	[209.85.160.45])
+	by mail.openembedded.org (Postfix) with ESMTP id DCD7C6BC8B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 22:11:03 +0000 (UTC)
-Received: by mail-oa0-f46.google.com with SMTP id l6so1187414oag.33
+	Wed, 26 Feb 2014 07:14:20 +0000 (UTC)
+Received: by mail-pb0-f45.google.com with SMTP id un15so597187pbc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2014 14:11:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zCKYywuIUGBZol43nZAJ6lVQYcAHrX9Sg+wlLNsuc1A=;
-	b=Kpj0Kqf3yLX4QiWK03E8YtWaONBl0Hh+2Oat8Vt7S5noKnQx+4FzSY1LFFbje8Kk8L
-	9ij8qF6kylEnryGh0d5aUQtTHFSlZY0YfiFB/l+HitGN1PgllZczl1g0dVdRCv1zUseR
-	4T0AKU/XHCJhKRdTYa/i1I8YcPSnQetcUp3Uy8Vp28n+YtkE43bFzw/Fv+pib2p9wIbT
-	HfJnVi+ZU2qd8pMI6qQC2BtZI0AytE4/Shqq3zc0QCwsbDolBlczmuoi7HYG/An3kUFs
-	rUaN8r83iHQIapV/hzuRgw2uwhqVNFBWzgiNzWnH18SzU23H/oIv6nc745U+GeDgnsqQ
-	/G9Q==
-X-Gm-Message-State: ALoCoQnbCgat+PHqXcpt6P+dmXea1zhBhkWqpL4IVJi/0MsUYTsgtVRfsnHwXkaF7gaxft5Jxguj
-X-Received: by 10.60.233.198 with SMTP id ty6mr3467512oec.25.1393366264455;
-	Tue, 25 Feb 2014 14:11:04 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.76.182.99 with HTTP; Tue, 25 Feb 2014 14:10:44 -0800 (PST)
-In-Reply-To: <CAJTo0LY=TinUmQ+=d0_3oc97OwZNpw4yghfvbztyVF3EcJuteQ@mail.gmail.com>
-References: <1393253881.31769.6.camel@ted> <20140224152753.GG26981@jama>
-	<CAJTo0LYBuZv5NDyM1gsQEL5KQfOvMsRpvOn5kjFaYBi5XL8wCw@mail.gmail.com>
-	<20140224160954.GI26981@jama>
-	<CAP71Wjxz0e7qzU4tVZ3XEpF1oZtCErqjD4pPnETVJLnoecq3QQ@mail.gmail.com>
-	<CAJTo0LY=TinUmQ+=d0_3oc97OwZNpw4yghfvbztyVF3EcJuteQ@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 25 Feb 2014 23:10:44 +0100
-Message-ID: <CAP71Wjy0qRY1=xx4L7q-3TgR6f6oNdzVCk1vXm=46rwXPnUXAg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Separate build dir for autotools
+	Tue, 25 Feb 2014 23:14:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=Rvd2FKi98AAAQSgWF+W2NBlVDOzlDE8lCeAj4LBzJnk=;
+	b=pQsXyh3loG38vQ2PDOAPM5UvU4IgtOQcgZjYu8BHZIGAnupwlu8xUCVbC1NEHJNf3A
+	7vDVEG3fRFKOeDKmmMAhfMqmzcoXk3mdybJ+1HMmjEkRhSX+b7xcmos2Em45IAUQe/Li
+	n4Gm/DLpXG/22hXsWgpgPICZOtMHU1Vg2iY2ptbd4kvyYGxfesvXjBomFnAgzVE2T/Lf
+	2kBncKqbe7ik1adKzXmIIVlzyywnxh240eNsNDXKE+dFPlFAWmF0U+l4ZyGzmGFjEbA1
+	sVuidoCXLSSH1QXp6asxhC2nt9wt3++sW4laib99Lf3PCGL87n24bdi9JS3MSPVBk1fN
+	e2WA==
+X-Received: by 10.66.156.137 with SMTP id we9mr6913039pab.30.1393398861697;
+	Tue, 25 Feb 2014 23:14:21 -0800 (PST)
+Received: from [192.168.0.33] (99-57-140-30.lightspeed.sntcca.sbcglobal.net.
+	[99.57.140.30])
+	by mx.google.com with ESMTPSA id bc4sm110679pbb.2.2014.02.25.23.14.19
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 25 Feb 2014 23:14:20 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 7.1 \(1827\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <FD6EC742-512D-4423-B59D-D88ECBF97AF1@gmail.com>
+Date: Tue, 25 Feb 2014 23:14:21 -0800
+Message-Id: <6631D5B8-751A-458C-B9B2-7ACFDE88B065@gmail.com>
+References: <cover.1392891203.git.raj.khem@gmail.com>
+	<20140221151607.GG3854@jama> <1392996116.1560.14.camel@ted>
+	<8730C02B-B94E-4873-88D1-E5BA9063B585@dominion.thruhere.net>
+	<1393058961.5181.4.camel@ted>
+	<FD6EC742-512D-4423-B59D-D88ECBF97AF1@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.1827)
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT][PATCH 0/2] Systemd 209
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,26 +52,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2014 22:11:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Feb 2014 07:14:24 -0000
+X-Groupsio-MsgNum: 50590
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_DFD6152F-98AF-405E-8B63-1F0492F042AF";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Tue, Feb 25, 2014 at 7:43 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 25 February 2014 17:36, Nicolas Dechesne <nicolas.dechesne@linaro.org> wrote:
->> right. I have recently (on dora) noticed that mesa build is broken
->> when using separate build dir, i have the following extra config:
->>
->> PACKAGECONFIG_append = " gallium gallium-egl gallium-gbm gallium-llvm"
->>
->> since gallium-egl needs the egl.h files generated during mesa build.
->> the generated files stay in $B while gallium-egl is looking for them
->> in $S (or sysroot)
->
-> Pretty sure I fixed that:  oe-core fbc7092f0ae07538d4363679b1597ba4e556d1a8
->
-> It looks like that's in Dora so we've possibly regressed again, can
-> you file a bug (CCing me) with the build log?
+--Apple-Mail=_DFD6152F-98AF-405E-8B63-1F0492F042AF
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=windows-1252
 
-oops. you're right. it's fixed in both dora and master. in fact i got
-hit by that on dylan... but they i switched to dora anyways... so this
-one is fine.
+>>=20
+>> I did run test builds of the git version on the autobuilders and =
+didn't
+>> see any failures?=20
+>=20
+>=20
+> builds might work but they won=92t run and yes so far IFUNC support is =
+needed so it won=92t work on non-x86
+> architectures. One common runtime problem I am seeing is logind not =
+being able to talk to dbus
+> across all architectures. I have pushed my latest rework to pull =
+branch
 
+I have now refreshed my contrib tree
+
+=
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Dkraj/system=
+d-210
+
+I have documented additional change you might need in your distro if you =
+are not
+using OE-Core=92s fs-perms.txt, systemd now needs /var/run to be =
+symlinked to /run
+or else it won=92t be able to talk to d-bus and kdbus is too new to =
+enable yet.
+
+Please try this patch, it now builds and boots fine on x86 and arm here. =
+I am also
+testing out other architecture in meantime
+
+-Khem
+
+--Apple-Mail=_DFD6152F-98AF-405E-8B63-1F0492F042AF
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlMNlE0ACgkQuwUzVZGdMxRl9gCfTUfR9qoi/ndDJJtKDAgCh+xd
++lsAn0CzL4VbMwRxIZwu48tIBKP99x3s
+=C/Hs
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_DFD6152F-98AF-405E-8B63-1F0492F042AF--
