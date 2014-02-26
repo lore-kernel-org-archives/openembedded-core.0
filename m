@@ -1,20 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BB2806DB40
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oa0-f47.google.com (mail-oa0-f47.google.com
+	[209.85.219.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 21CF16F1A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 15:34:24 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2014 07:34:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,548,1389772800"; d="scan'208";a="462640710"
-Received: from unknown (HELO localhost.localdomain) ([10.255.12.179])
-	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2014 07:34:24 -0800
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Feb 2014 17:34:20 +0200
-Message-Id: <1393428860-11433-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] core-image-minimal-initramfs: cause the IMAGE_INSTALL variable to be a limited set
+	Wed, 26 Feb 2014 15:53:13 +0000 (UTC)
+Received: by mail-oa0-f47.google.com with SMTP id h16so1006260oag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2014 07:53:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Qq4dsEJHWDcAPGSFFw7Dk3/eECaO+sVshc4KVjlWt8A=;
+	b=SGiNnYAytzfbQAGRo5+X/K8WDfvcpUwGAUCkw2UuRCIhkdNgKSzuwX5BxFbpfYZjP6
+	WLuiDTp4iAONHAfDVviqG1pgi0JWU3k9gy8uB4c8niils1cGMw4YTakGfnj7pu0Nvm/8
+	jWJZ33iTCrRmjVFzj+AYIEOdh0qGC/MxOm5ovdAJ2Kq4pJ7cI6pIQCgsn/7ysuvMsRlE
+	EQXLtTu3nJnmI9L9c/qP8y8rHZvz+Rc1/v1DpBGqkwn9PeBcUMrkPNU/Kwo3KW9y6p3D
+	eA/RcXfoGIxAIxrLXO+2mHtuaxNl9eNvaoLt6ofE2PTSL82O/+PzZiP+hNKko30Gqh6A
+	5tag==
+X-Gm-Message-State: ALoCoQlq32TnFm1Icb5Js9ly26no1+wJlKF4kB7k3afczV5GlpN39+bSrNLbhGLHXfJAg/f6iFzx
+X-Received: by 10.60.70.239 with SMTP id p15mr7129034oeu.26.1393429994720;
+	Wed, 26 Feb 2014 07:53:14 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.76.182.99 with HTTP; Wed, 26 Feb 2014 07:52:54 -0800 (PST)
+In-Reply-To: <1393428647-9217-1-git-send-email-valentin.popa@intel.com>
+References: <1393428647-9217-1-git-send-email-valentin.popa@intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 26 Feb 2014 16:52:54 +0100
+Message-ID: <CAP71WjxeRWSVoV=-_Z7aAJNwvWNUW5i=Dxgj5GG+NgCH6Nq-4A@mail.gmail.com>
+To: Valentin Popa <valentin.popa@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [dora][PATCH] mesa: build fix for gallium-egl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,56 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 15:34:24 -0000
+X-List-Received-Date: Wed, 26 Feb 2014 15:53:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-This change causes the IMAGE_INSTALL to be a fixed set of packages
-that are know to work and wil not be affected by changes to the
-IMAGE_INSTALL variable from the user's local setting.
+On Wed, Feb 26, 2014 at 4:30 PM, Valentin Popa <valentin.popa@intel.com> wrote:
+> Avoid altering eglplatform.h from {top_srcdir}/include
+> using an alternative to
+> 0003-EGL-Mutate-NativeDisplayType-depending-on-config
+> patch.
 
-Since IMAGE_INSTALL is used for all images, but the initramfs needs
-to be a well-known sub-set use teh RecipeParsed to finalize it to that
-well-known subset.
+i don't think this is the right fix. i get the following build failures now:
 
-[YOCTO #5791]
+| i586-rdk-linux-libtool: compile:  i586-rdk-linux-gcc -m32
+-march=i586 --sysroot=/work/rdk-dora/build-qemux86/tmp/sysroots/qemux86
+-DPACKAGE_NAME=\"Mesa\" -DPACKAGE_TARNAME=\"mesa\"
+-DPACKAGE_VERSION=\"9.1.6\" "-DPACKAGE_STRING=\"Mesa 9.1.6\""
+"-DPACKAGE_BUGREPORT=\"https://bugs.freedesktop.org/enter_bug.cgi?product=Mesa\""
+-DPACKAGE_URL=\"\" -DPACKAGE=\"mesa\" -DVERSION=\"9.1.6\"
+-DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1
+-DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1
+-DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1
+-DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DLT_OBJDIR=\".libs/\"
+-DHAVE_CLOCK_GETTIME=1 -DHAVE_PTHREAD=1 -DHAVE_LIBEXPAT=1 -I.
+-I/work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/src/egl/main
+-I/work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/include
+-I../../../include
+-I/work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/src/gbm/main
+-D_GNU_SOURCE -DHAVE_PTHREAD -DHAVE_DLOPEN -DHAVE_POSIX_MEMALIGN
+-DIN_DRI_DRIVER -DUSE_EXTERNAL_DXTN_LIB=1 -DIN_DRI_DRIVER -DHAVE_ALIAS
+-DHAVE_MINCORE -DHAVE_LIBUDEV -DHAVE_LLVM=0x0303
+-D_EGL_NATIVE_PLATFORM=_EGL_PLATFORM_DRM
+-D_EGL_DRIVER_SEARCH_DIR=\"/usr/lib/egl\" -D_EGL_OS_UNIX=1
+-DHAVE_DRM_PLATFORM -DHAVE_FBDEV_PLATFORM -D_EGL_BUILT_IN_DRIVER_DRI2
+-DHAVE_XCB_DRI2 -O2 -pipe -g -feliminate-unused-debug-types
+-fno-omit-frame-pointer -Wall -std=c99
+-Werror=implicit-function-declaration -Werror=missing-prototypes
+-fno-strict-aliasing -fno-builtin-memcmp -c
+/work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/src/egl/main/eglconfig.c
+ -fPIC -DPIC -o .libs/eglconfig.o
+| make[3]: *** [eglapi.lo] Error 1
+| In file included from
+/work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/include/EGL/egl.h:36:0,
+|                  from
+/work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/src/egl/main/egltypedefs.h:36,
+|                  from
+/work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/src/egl/main/egllog.h:34,
+|                  from
+/work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/src/egl/main/eglarray.c:32:
+| /work/rdk-dora/build-qemux86/tmp/work/i586-rdk-linux/mesa/2_9.1.6-r0/Mesa-9.1.6/include/EGL/eglplatform.h:118:22:
+fatal error: X11/Xlib.h: No such file or directory
+|  #include <X11/Xlib.h>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../recipes-core/images/core-image-minimal-initramfs.bb | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 46a9dc4..68549f7 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "Small image capable of booting a device. The kernel includes \
- the Minimal RAM-based Initial Root Filesystem (initramfs), which finds the \
- first 'init' program more efficiently."
- 
--IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd"
-+FIXED_IMAGE_INSTALL = "initramfs-live-boot initramfs-live-install initramfs-live-install-efi busybox udev base-passwd"
- 
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
-@@ -19,3 +19,18 @@ inherit core-image
- IMAGE_ROOTFS_SIZE = "8192"
- 
- BAD_RECOMMENDATIONS += "busybox-syslog"
-+
-+python finalize_image_install_handler () {
-+    import bb.event
-+    if not e.data:
-+        return
-+
-+    if isinstance(e, bb.event.RecipeParsed):
-+        image_install = e.data.getVar('FIXED_IMAGE_INSTALL', True)
-+        e.data.setVar('IMAGE_INSTALL', image_install)
-+
-+}
-+
-+addhandler finalize_image_install_handler
-+finalize_image_install_handler[eventmask] = "bb.event.RecipeParsed"
-+
--- 
-1.8.3.1
-
+I am building with x11 removed from DISTRO_FEATURES, btw.
 
