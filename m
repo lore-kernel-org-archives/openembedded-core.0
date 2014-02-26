@@ -1,30 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id A472D6E92F
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 12:01:01 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1QC0uQg021429; Wed, 26 Feb 2014 12:00:57 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Gb3JPqa-EDmY; Wed, 26 Feb 2014 12:00:56 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1QC0rX7021412
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 26 Feb 2014 12:00:55 GMT
-Message-ID: <1393416046.31769.111.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Gary Thomas <gary@mlbassoc.com>
-Date: Wed, 26 Feb 2014 12:00:46 +0000
-In-Reply-To: <530DD29A.9030807@mlbassoc.com>
-References: <1393414543.31769.110.camel@ted> <530DD29A.9030807@mlbassoc.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] security-flags: Deal with powerpc build issues
+Return-Path: <fpiechocki@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2788F60C19
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2014 12:37:41 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id s7so581359lbd.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2014 04:37:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=VIS/WGLpQNtOtuJdXpb/iOiFtguXVywQyf+JLpWtVvA=;
+	b=VJdrDZPZtZGxEW5UNBR01Tv1evqRp4HOdooyqbMFdtOGNaCt3sNU+BC1oNOQndGl3O
+	KjHrCt7MjtAuv1xdFbGxrqJA4sw65IIEYu5cA5frSYslsWv2kDeiVk4NlYzTg6xExZeM
+	F1NHDWFqfmsItNTTgG55rQzliTDVOjLWTU92wa91dW1VryA/k7P314j90BjginAgHlHc
+	qnmb3QW5CjA/PcsDffDK353lD5k47Zwm6Wh2qQcse+4B4iRS4kcKFm4qjh734bnhzvaq
+	ksXqj3Bl8dqJOI4visdRA9RPNRjnwurQ5Nu3rjg5KV8epatiMekIjaxdc9ypC4QTWqpC
+	CAUw==
+MIME-Version: 1.0
+X-Received: by 10.152.87.140 with SMTP id ay12mr2320885lab.1.1393418261593;
+	Wed, 26 Feb 2014 04:37:41 -0800 (PST)
+Received: by 10.112.199.103 with HTTP; Wed, 26 Feb 2014 04:37:41 -0800 (PST)
+Date: Wed, 26 Feb 2014 13:37:41 +0100
+Message-ID: <CAALoMC0Q=On1S-w99bK_JFZxQLanBdR3BySa3fAYwKV6WLf4RA@mail.gmail.com>
+From: Filip Piechocki <fpiechocki@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Subject: how to install FreeSans.ttf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 12:01:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Feb 2014 12:37:42 -0000
+Content-Type: multipart/alternative; boundary=001a11c34e0c8182a404f34e780b
 
-On Wed, 2014-02-26 at 04:40 -0700, Gary Thomas wrote:
-> On 2014-02-26 04:35, Richard Purdie wrote:
-> > 
-> > 
-> > Building powerpc machines with the standard security flags generated numerous
-> > build failures. Use a reduced set of flags for now to avoid linker issues
-> > and other compile failures.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> > diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-> > index e7d4933a..b5489d8 100644
-> > --- a/meta/conf/distro/include/security_flags.inc
-> > +++ b/meta/conf/distro/include/security_flags.inc
-> > @@ -2,6 +2,14 @@ SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie -D_FORTIFY_SOURCE=2"
-> >  SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all -D_FORTIFY_SOURCE=2"
-> >  SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
-> >  
-> > +# powerpc does not get on with pie for reasons not looked into as yet
-> > +SECURITY_CFLAGS_powerpc = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
-> > +# Deal with ppc specific linker failures when using the cflags
-> > +SECURITY_CFLAGS_pn-dbus_powerpc = ""
-> > +SECURITY_CFLAGS_pn-dbus-ptest_powerpc = ""
-> > +SECURITY_CFLAGS_pn-libmatchbox_powerpc = ""
-> > +SECURITY_CFLAGS_pn-webkit-gtk = ""
-> 
-> The change for webkit doesn't seem to be PowerPC specific?  If it needs
-> to be here, shouldn't it be in a separate change, or at least documented
-> in the change log?
+--001a11c34e0c8182a404f34e780b
+Content-Type: text/plain; charset=ISO-8859-1
 
-Sorry, I'll make that powerpc specific, it was meant to be...
+Hi!
 
-Cheers,
+I've built rpi-basic-image from poky's dora branch with omxplayer installed
+but it complains that cannot find "fonts/FreeSans.ttf" font (and is right
+here). Also Qt5 apps display squares because cannot find any fonts. What
+recipe should I bake to get this font (or any fonts) installed in the image?
 
-Richard
+Best Regards,
+Filip Piechocki
 
+--001a11c34e0c8182a404f34e780b
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi!<div><br></div><div>I&#39;ve built rpi-basic-image from=
+ poky&#39;s dora branch with omxplayer installed but it complains that cann=
+ot find &quot;fonts/FreeSans.ttf&quot; font (and is right here). Also Qt5 a=
+pps display squares because cannot find any fonts. What recipe should I bak=
+e to get this font (or any fonts) installed in the image?</div>
+<div><br></div><div>Best Regards,</div><div>Filip Piechocki</div></div>
+
+--001a11c34e0c8182a404f34e780b--
