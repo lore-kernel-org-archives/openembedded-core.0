@@ -1,43 +1,26 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id B73716C72D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CF0C36AE14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 13:59:48 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginm.net ([86.30.57.232]
-	helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1WIf1X-0007g1-G3; Wed, 26 Feb 2014 14:59:49 +0100
-Message-ID: <1393423186.24424.55.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 26 Feb 2014 13:59:46 +0000
-In-Reply-To: <1393422041.31769.112.camel@ted>
-References: <1393422041.31769.112.camel@ted>
-X-Mailer: Evolution 3.8.5-2+b1 
-Mime-Version: 1.0
-X-Spam_score: -1.0
-X-Spam_score_int: -9
-X-Spam_bar: -
-X-Spam_report: Spam detection software,
-	running on the system "hetzner.pbcl.net", has
-	identified this incoming email as possible spam. The original message
-	has been attached to this so you can view it (if it isn't spam) or
-	label similar future email.  If you have any questions, see
-	@@CONTACT_ADDRESS@@ for details.
-	Content preview:  On Wed, 2014-02-26 at 13:40 +0000,
-	Richard Purdie wrote: >
-	Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org> Can
-	you
-	provide more details of what the issue that you're avoiding actually
-	is? [...] 
-	Content analysis details:   (-1.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-1.0 ALL_TRUSTED Passed through trusted hosts only via SMTP
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] security-flags: Avoid lttng-tools issue on arm
+	Wed, 26 Feb 2014 14:42:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Feb 2014 06:38:29 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,548,1389772800"; d="scan'208";a="462614587"
+Received: from jgkenna-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl5.ger.corp.intel.com) ([10.252.123.171])
+	by orsmga001.jf.intel.com with ESMTP; 26 Feb 2014 06:42:33 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Wed, 26 Feb 2014 14:42:32 +0000
+Message-ID: <2631264.Ll8XlRBBiZ@peggleto-mobl5.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.12.2 (Linux/3.13.3-201.fc20.x86_64; KDE/4.12.2; x86_64; ; )
+In-Reply-To: <1393419467-6018-1-git-send-email-diego.sueiro@gmail.com>
+References: <1393419467-6018-1-git-send-email-diego.sueiro@gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3] packagegroup-qt-toolchain-target.inc: add libQtUiTools static library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,17 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 13:59:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Feb 2014 14:42:54 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 2014-02-26 at 13:40 +0000, Richard Purdie wrote:
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Hi Diego,
 
-Can you provide more details of what the issue that you're avoiding
-actually is?
+On Wednesday 26 February 2014 09:57:47 Diego Sueiro wrote:
+> libQtUiTools.a and libQtUiToolsE.a needs to be installed on
+> meta-toolchain-qt and meta-toolchain-qte respectively.
+> Whitout this static library, compiling qt apps which needs uitools will
+> fail.
+> 
+> qt4[-embedded]-staticdev is the package that contains this library and is
+> the only file in it.
+> 
+> Since a static library is shipped, special attention regarding the lincese
+> should be taken.
+> 
+> Signed-off-by: Diego Sueiro <diego.sueiro@gmail.com>
+> ---
+>  meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc |    1 +
+> 1 file changed, 1 insertion(+)
+> 
+> diff --git
+> a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
+> b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc index
+> fc1ccba..b040182 100644
+> --- a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
+> +++ b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
+> @@ -33,4 +33,5 @@ RDEPENDS_${PN} += " \
+>          libqt${QTLIBPREFIX}xmlpatterns4-dev \
+>          libsqlite3-dev \
+>          expat-dev \
+> +        qt4${QTLIBPREFIX}-staticdev \
+>          "
 
-p.
+I know there's already been a bit of discussion about this patch already, so I 
+apologise if this has already been covered, but the commit message doesn't 
+completely justify this addition. Most people don't statically link to Qt, 
+which is why we haven't included any static libraries in the SDK (and as a 
+rule we typically don't include any static libraries in our SDKs). Why is this 
+individual library out of all of the libraries that Qt ships special?
 
+Cheers,
+Paul
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
