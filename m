@@ -1,22 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D95066EFCB
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C0CF6C72D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 13:51:38 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2014 05:51:40 -0800
+	Wed, 26 Feb 2014 13:54:47 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Feb 2014 05:54:48 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,548,1389772800"; d="scan'208";a="490107720"
-Received: from unknown (HELO localhost.localdomain) ([10.255.12.179])
-	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2014 05:51:39 -0800
-From: Saul Wold <sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.97,548,1389772800"; d="scan'208";a="488416000"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.45])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Feb 2014 05:54:47 -0800
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Feb 2014 15:51:32 +0200
-Message-Id: <1393422692-28184-3-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1393422692-28184-1-git-send-email-sgw@linux.intel.com>
-References: <1393422692-28184-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 3/3] systemd: sed installed file instead of original
+Date: Wed, 26 Feb 2014 15:54:44 +0200
+Message-Id: <cover.1393422829.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] adt_installer: fix issue with x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,37 +27,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 13:51:39 -0000
+X-List-Received-Date: Wed, 26 Feb 2014 13:54:50 -0000
 
-When we change the ROOT_HOME the sed regex does not match if we are running
-the do_install() a second time, so copy the units files first to a pre_sed,
-so that the next time, we can copy the the original so that the sed regex
-is matched correctly in the original
+The following changes since commit e47afff7d812c74f8091d85facfdf34d6a1b698e:
 
-[YOCTO #5765]
+  runqemu: Use readlink instead of realpath (2014-02-25 21:29:53 +0000)
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/systemd/systemd_208.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+are available in the git repository at:
 
-diff --git a/meta/recipes-core/systemd/systemd_208.bb b/meta/recipes-core/systemd/systemd_208.bb
-index 219607f..1bcedaa 100644
---- a/meta/recipes-core/systemd/systemd_208.bb
-+++ b/meta/recipes-core/systemd/systemd_208.bb
-@@ -89,6 +89,11 @@ EXTRA_OECONF_append_libc-uclibc = " --disable-myhostname "
- do_configure_prepend() {
- 	export CPP="${HOST_PREFIX}cpp ${TOOLCHAIN_OPTIONS} ${HOST_CC_ARCH}"
- 	export KMOD="${base_bindir}/kmod"
-+	if [ -d ${S}/units.pre_sed ] ; then
-+		cp -r ${S}/units.pre_sed ${S}/units
-+	else
-+		cp -r ${S}/units ${S}/units.pre_sed
-+	fi
- 	sed -i -e 's:=/root:=${ROOT_HOME}:g' ${S}/units/*.service*
- }
- 
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib lpalcu/b5806_adt_installer_fails_for_xf86_64
+
+for you to fetch changes up to 72cf90ecf51d88becfaf037b6233c78e8c6e4a9c:
+
+  adt_installer: fix issue with x86_64 (2014-02-26 15:36:44 +0200)
+
+----------------------------------------------------------------
+Laurentiu Palcu (1):
+      adt_installer: fix issue with x86_64
+
+ .../adt-installer/scripts/adt_installer_internal   |   61 +++++++++++---------
+ 1 file changed, 35 insertions(+), 26 deletions(-)
+
+Laurentiu Palcu (1):
+  adt_installer: fix issue with x86_64
+
+ .../adt-installer/scripts/adt_installer_internal   |   61 +++++++++++---------
+ 1 file changed, 35 insertions(+), 26 deletions(-)
+
 -- 
-1.8.3.1
+1.7.9.5
 
 
