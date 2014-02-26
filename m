@@ -1,30 +1,20 @@
-Return-Path: <fpiechocki@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2788F60C19
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 12:37:41 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id s7so581359lbd.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 04:37:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=VIS/WGLpQNtOtuJdXpb/iOiFtguXVywQyf+JLpWtVvA=;
-	b=VJdrDZPZtZGxEW5UNBR01Tv1evqRp4HOdooyqbMFdtOGNaCt3sNU+BC1oNOQndGl3O
-	KjHrCt7MjtAuv1xdFbGxrqJA4sw65IIEYu5cA5frSYslsWv2kDeiVk4NlYzTg6xExZeM
-	F1NHDWFqfmsItNTTgG55rQzliTDVOjLWTU92wa91dW1VryA/k7P314j90BjginAgHlHc
-	qnmb3QW5CjA/PcsDffDK353lD5k47Zwm6Wh2qQcse+4B4iRS4kcKFm4qjh734bnhzvaq
-	ksXqj3Bl8dqJOI4visdRA9RPNRjnwurQ5Nu3rjg5KV8epatiMekIjaxdc9ypC4QTWqpC
-	CAUw==
-MIME-Version: 1.0
-X-Received: by 10.152.87.140 with SMTP id ay12mr2320885lab.1.1393418261593;
-	Wed, 26 Feb 2014 04:37:41 -0800 (PST)
-Received: by 10.112.199.103 with HTTP; Wed, 26 Feb 2014 04:37:41 -0800 (PST)
-Date: Wed, 26 Feb 2014 13:37:41 +0100
-Message-ID: <CAALoMC0Q=On1S-w99bK_JFZxQLanBdR3BySa3fAYwKV6WLf4RA@mail.gmail.com>
-From: Filip Piechocki <fpiechocki@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Subject: how to install FreeSans.ttf
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 19CEF6DC27
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2014 12:48:22 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2014 04:48:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,547,1389772800"; d="scan'208";a="490080387"
+Received: from unknown (HELO localhost.localdomain) ([10.255.12.179])
+	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2014 04:48:21 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Feb 2014 14:48:17 +0200
+Message-Id: <1393418897-10829-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] security_flags: disable PIE flags for cups builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +27,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 12:37:42 -0000
-Content-Type: multipart/alternative; boundary=001a11c34e0c8182a404f34e780b
+X-List-Received-Date: Wed, 26 Feb 2014 12:48:23 -0000
 
---001a11c34e0c8182a404f34e780b
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/distro/include/security_flags.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Hi!
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index e7d4933a..93d6355 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -7,6 +7,7 @@ SECURITY_CFLAGS_pn-beecrypt = "${SECURITY_NO_PIE_CFLAGS}"
+ # Curl seems to check for FORTIFY_SOURCE in CFLAGS, but even assigned
+ # to CPPFLAGS it gets picked into CFLAGS in bitbake.
+ #TARGET_CPPFLAGS_pn-curl += "-D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-cups = "${SECURITY_NO_PIE_CLAGS}"
+ SECURITY_CFLAGS_pn-curl = "-fstack-protector-all -pie -fpie"
+ SECURITY_CFLAGS_pn-db = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-directfb = "${SECURITY_NO_PIE_CFLAGS}"
+-- 
+1.8.3.1
 
-I've built rpi-basic-image from poky's dora branch with omxplayer installed
-but it complains that cannot find "fonts/FreeSans.ttf" font (and is right
-here). Also Qt5 apps display squares because cannot find any fonts. What
-recipe should I bake to get this font (or any fonts) installed in the image?
 
-Best Regards,
-Filip Piechocki
-
---001a11c34e0c8182a404f34e780b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi!<div><br></div><div>I&#39;ve built rpi-basic-image from=
- poky&#39;s dora branch with omxplayer installed but it complains that cann=
-ot find &quot;fonts/FreeSans.ttf&quot; font (and is right here). Also Qt5 a=
-pps display squares because cannot find any fonts. What recipe should I bak=
-e to get this font (or any fonts) installed in the image?</div>
-<div><br></div><div>Best Regards,</div><div>Filip Piechocki</div></div>
-
---001a11c34e0c8182a404f34e780b--
