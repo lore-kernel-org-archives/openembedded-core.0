@@ -1,33 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id F24E06D305
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 296FB6028A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 10:45:12 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1QAixWL017221; Wed, 26 Feb 2014 10:44:59 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rm405fztSHOx; Wed, 26 Feb 2014 10:44:59 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1QAiqAu017216
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Wed, 26 Feb 2014 10:44:54 GMT
-Message-ID: <1393411485.31769.109.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ChenQi <Qi.Chen@windriver.com>
-Date: Wed, 26 Feb 2014 10:44:45 +0000
-In-Reply-To: <530DC059.5010608@windriver.com>
-References: <cover.1393399942.git.Qi.Chen@windriver.com>
-	<daee4480b735a557aaa314f9a1f9bf6fbb3f9a12.1393399942.git.Qi.Chen@windriver.com>
-	<CAJTo0LaOPBcyt-WfvXqKR4FEpVD3Lf5c04BXemFNC6_Pa-JMkQ@mail.gmail.com>
-	<530DC059.5010608@windriver.com>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] python-numpy: fix compile error for qemumips
+	Wed, 26 Feb 2014 10:59:03 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id uz6so594298obc.27
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2014 02:59:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ytdvvDmJAtoxz5lF2HRqNbd7vbXqoZr3mItXj9noRB4=;
+	b=k0eiw0gqezIlhgI32oAkfreBWP4N46vHsjdN7PTbsBBPFSlYE4nvgFHweXQ/fgho10
+	0hHeEO0Vve6wKr0r8NMlBxJ46pTN+Z0jiuNU+HaTE7Z3Xg/nUxxpoco1TOqj46UOvZGl
+	C8XOpJ+naS4Ue3hPwPsqqD8jjJZsgyGUUN0zkU+yT/i2uUPckPVYKG+ZU5ouWRdpRKuQ
+	K0bMgna0KRxY93sAXV9KyxZJddoNY+DpKEMsH4Z7Sshs38Sd+H+PuXwng/t8M7HhWQ5Y
+	Ge10AAqWbLb5slB0D3mR5b2DHKtUJIAXZ0jkH/BU5FaYGXCn4JXsaMrK1pe+GqYgwJsD
+	2cIg==
+X-Gm-Message-State: ALoCoQmwPph2zc1H/bD9wsT+8Nahv5qtFtVbxO+TGCmP1gmO+cOnT0BM1M4Tpd+lf1GuL5FDnGdC
+X-Received: by 10.60.161.81 with SMTP id xq17mr6077731oeb.3.1393412343943;
+	Wed, 26 Feb 2014 02:59:03 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.76.182.99 with HTTP; Wed, 26 Feb 2014 02:58:43 -0800 (PST)
+In-Reply-To: <CAP71Wjy0qRY1=xx4L7q-3TgR6f6oNdzVCk1vXm=46rwXPnUXAg@mail.gmail.com>
+References: <1393253881.31769.6.camel@ted> <20140224152753.GG26981@jama>
+	<CAJTo0LYBuZv5NDyM1gsQEL5KQfOvMsRpvOn5kjFaYBi5XL8wCw@mail.gmail.com>
+	<20140224160954.GI26981@jama>
+	<CAP71Wjxz0e7qzU4tVZ3XEpF1oZtCErqjD4pPnETVJLnoecq3QQ@mail.gmail.com>
+	<CAJTo0LY=TinUmQ+=d0_3oc97OwZNpw4yghfvbztyVF3EcJuteQ@mail.gmail.com>
+	<CAP71Wjy0qRY1=xx4L7q-3TgR6f6oNdzVCk1vXm=46rwXPnUXAg@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 26 Feb 2014 11:58:43 +0100
+Message-ID: <CAP71WjxjzbX2X+3s0YN+jv1QTEjZJaLOFvSzk83GX4tSXkLGZw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: Separate build dir for autotools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,42 +48,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 10:45:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Feb 2014 10:59:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, 2014-02-26 at 18:22 +0800, ChenQi wrote:
-> On 02/26/2014 06:02 PM, Burton, Ross wrote:
-> > On 26 February 2014 07:33, Chen Qi <Qi.Chen@windriver.com> wrote:
-> >> This is because for qemumips, there are no such files in SRC_URI. And
-> >> actually we don't need such files. So for qemumips, the `cp' command
-> >> is expected to fail.
-> > Those files contain the definitions of things like word size and byte
-> > ordering, so unless I've misunderstood the build process for numpy
-> > what's happening with this patch is that it's using the host
-> > environment.
-> >
-> > Ross
-> >
-> >
-> 
-> Those files are there already.
-> For archs like x86, we first replace them so that the build process 
-> doesn't fail (according to the comments in the recipe); but for 
-> mips/ppc, we don't need to do so, the build just succeeds.
-> 
-> chenqi@pek-hostel-vm07:~/poky/build-qemumips64 [0] $ ls 
-> tmp/work/mips64-poky-linux/python-numpy/1.7.0-r1/numpy-1.7.0/build/src.linux-i686-2.7/numpy/core/include/numpy/
-> config.h  __multiarray_api.c  __multiarray_api.h multiarray_api.txt  
-> _numpyconfig.h  __ufunc_api.c  __ufunc_api.h ufunc_api.txt  
-> __umath_generated.c
+Ross,
 
-Ross' point stands, its just using the values from the host (build)
-system. If your build system was mips it might stand a chance of
-working, I suspect you're building on x86 though and x86 != mips.
+On Tue, Feb 25, 2014 at 11:10 PM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> oops. you're right. it's fixed in both dora and master. in fact i got
+> hit by that on dylan... but they i switched to dora anyways... so this
+> one is fine.
 
-Cheers,
+I guess i spoke too quickly... i just retried a dora and master after
+cleansstate on mesa, and master seems to build fine, but dora failed
+to build. see
 
-Richard
-
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5882
 
