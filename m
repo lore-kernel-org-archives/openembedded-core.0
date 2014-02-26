@@ -1,20 +1,22 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BD776CA54
+	by mail.openembedded.org (Postfix) with ESMTP id 382886F249
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 13:51:36 +0000 (UTC)
+	Wed, 26 Feb 2014 13:51:37 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2014 05:51:37 -0800
+	by orsmga101.jf.intel.com with ESMTP; 26 Feb 2014 05:51:38 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,548,1389772800"; d="scan'208";a="490107703"
+X-IronPort-AV: E=Sophos;i="4.97,548,1389772800"; d="scan'208";a="490107710"
 Received: from unknown (HELO localhost.localdomain) ([10.255.12.179])
-	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2014 05:51:36 -0800
+	by orsmga002.jf.intel.com with ESMTP; 26 Feb 2014 05:51:37 -0800
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Feb 2014 15:51:30 +0200
-Message-Id: <1393422692-28184-1-git-send-email-sgw@linux.intel.com>
+Date: Wed, 26 Feb 2014 15:51:31 +0200
+Message-Id: <1393422692-28184-2-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH 1/3] base-files: sed installed file instead of original
+In-Reply-To: <1393422692-28184-1-git-send-email-sgw@linux.intel.com>
+References: <1393422692-28184-1-git-send-email-sgw@linux.intel.com>
+Subject: [PATCH 2/3] base-passwd: sed installed file instead of original
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +39,23 @@ so that the sed regex is matched correctly in the original
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/base-files/base-files_3.0.14.bb | 2 +-
+ meta/recipes-core/base-passwd/base-passwd_3.5.29.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
-index 726e0d5..dbf40fa 100644
---- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-+++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-@@ -90,8 +90,8 @@ do_install () {
- 	install -m 0644 ${WORKDIR}/fstab ${D}${sysconfdir}/fstab
- 	install -m 0644 ${WORKDIR}/filesystems ${D}${sysconfdir}/filesystems
- 	install -m 0644 ${WORKDIR}/usbd ${D}${sysconfdir}/default/usbd
--	sed -i "s#ROOTHOME#${ROOT_HOME}#" ${WORKDIR}/profile
- 	install -m 0644 ${WORKDIR}/profile ${D}${sysconfdir}/profile
-+	sed -i 's#ROOTHOME#${ROOT_HOME}#' ${D}${sysconfdir}/profile
- 	install -m 0644 ${WORKDIR}/shells ${D}${sysconfdir}/shells
- 	install -m 0755 ${WORKDIR}/share/dot.profile ${D}${sysconfdir}/skel/.profile
- 	install -m 0755 ${WORKDIR}/share/dot.bashrc ${D}${sysconfdir}/skel/.bashrc
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+index 0205f2e..59bd413 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+@@ -28,8 +28,8 @@ do_install () {
+ 		${D}${mandir}/pl/man8/update-passwd.8
+ 	gzip -9 ${D}${mandir}/man8/* ${D}${mandir}/pl/man8/*
+ 	install -d -m 755 ${D}${datadir}/base-passwd
+-	sed -i 's#:/root:#:${ROOT_HOME}:#' ${S}/passwd.master
+ 	install -o root -g root -p -m 644 ${S}/passwd.master ${D}${datadir}/base-passwd/
++	sed -i 's#:/root:#:${ROOT_HOME}:#' ${D}${datadir}/base-passwd/passwd.master
+ 	install -o root -g root -p -m 644 ${S}/group.master ${D}${datadir}/base-passwd/
+ 
+ 	install -d -m 755 ${D}${docdir}/${BPN}
 -- 
 1.8.3.1
 
