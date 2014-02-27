@@ -1,33 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 04C6660DD7
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id F0DD06E7D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 20:23:12 +0000 (UTC)
-Received: by mail-ee0-f47.google.com with SMTP id e49so1715467eek.34
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 12:23:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=XL6CmiiHqwMMpWMqMz7alayoBzFdadn+PJitcbWCkmY=;
-	b=k12KSbPO9q3QuYDO8L3FxfkSXaU4Mn4HuYryLjrtpNHc5Gn2YWcDdPlzEFupBtkaJy
-	jPEp1ZSJspgcsU2TEVgw0czyKUT5vf1q9T29C9njcirx1BXtVfc4t6fKj/KcLckLqMqf
-	36WDQR8HxEbroYMitvUtiN6T1+dDE8i0y/mkFUbAy1fxFJNbmIn1vv5jI5Ine3prGBB4
-	Z77OFcwIl0OjpofTJcqI7BLkxDxYXYi9ZhSe8undYhJrQRQWK3dPX/8GpaN6aQSPU7cp
-	g84AovueCIhyZ2+yK1bX/7p5smuiD4d0Y0a5pQwMhRhXkF/Btnn4WAi3JTcBToz71ofw
-	Kk2w==
-X-Received: by 10.14.99.196 with SMTP id x44mr15478760eef.65.1393532593209;
-	Thu, 27 Feb 2014 12:23:13 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id m1sm1655510een.7.2014.02.27.12.23.11
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Feb 2014 12:23:12 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2014 21:20:38 +0100
-Message-Id: <1393532438-20847-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.9.0
-Subject: [PATCH] pango: Fix postinst
+	Thu, 27 Feb 2014 20:51:21 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Feb 2014 12:51:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,557,1389772800"; d="scan'208";a="483134277"
+Received: from unknown (HELO [10.255.14.50]) ([10.255.14.50])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Feb 2014 12:51:20 -0800
+Message-ID: <530FA547.9020504@linux.intel.com>
+Date: Thu, 27 Feb 2014 22:51:19 +0200
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
+MIME-Version: 1.0
+To: =?UTF-8?B?U8OpYmFzdGllbiBNZW5uZXRyaWVy?= <s.mennetrier@innotis.org>, 
+	openembedded-core@lists.openembedded.org
+References: <1393509724-26931-1-git-send-email-s.mennetrier@innotis.org>
+In-Reply-To: <1393509724-26931-1-git-send-email-s.mennetrier@innotis.org>
+Subject: Re: [PATCH] libomxil: Fix link issue for gst-omx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,68 +32,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 20:23:13 -0000
+X-List-Received-Date: Thu, 27 Feb 2014 20:51:25 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-* do_split_packages was appending call to
-  ${bindir}/${MLPREFIX}pango-querymodules
-  without $D prefix or test if $D is empty, so it was always
-  failing on buildhostis without pango-querymodules and such
-  failure is fatal when rootfs is read-only (do_rootfs fails
-  because some packages weren't configured)
+On 02/27/2014 04:02 PM, Sébastien Mennetrier wrote:
+> gst-omx element can not load due to a missing symbol.
+> Missing symbol RM_Deinit.
+>
+> Signed-off-by: Sébastien Mennetrier <s.mennetrier@innotis.org>
+> ---
+>   .../libomxil/libomxil-0.9.3/dynamicloader-linking.patch       | 11 +++++++++++
+>   meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb            |  3 ++-
+>   2 files changed, 13 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
+>
+> diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
+> new file mode 100644
+> index 0000000..c0fa6d8
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/pango/pango.inc | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+This patch needs a Upstream-Status and Signed-off-by: tag
 
-diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
-index 17006d3..5fddff9 100644
---- a/meta/recipes-graphics/pango/pango.inc
-+++ b/meta/recipes-graphics/pango/pango.inc
-@@ -42,21 +42,25 @@ EXTRA_OECONF = "--disable-introspection \
- LEAD_SONAME = "libpango-1.0*"
- LIBV = "1.8.0"
- 
--postinst_prologue() {
-+pango_postinst() {
- if ! [ -e $D${sysconfdir}/pango ] ; then
- 	mkdir -p $D${sysconfdir}/pango
- fi
- 
--if [ "x$D" != "x" ]; then
-+if [ -n "$D" ]; then
- 	${@qemu_run_binary(d, '$D','${bindir}/${MLPREFIX}pango-querymodules')} \
- 		$D${libdir}/pango/${LIBV}/modules/*.so \
- 		> $D${sysconfdir}/pango/${MLPREFIX}pango.modules 2>/dev/null
- 
--	[ $? -ne 0 ] && exit 1
-+	if [ $? -ne 0 ] ; then
-+		echo "qemu_run_binary call ${bindir}/${MLPREFIX}pango-querymodules $D${libdir}/pango/${LIBV}/modules/*.so > $D${sysconfdir}/pango/${MLPREFIX}pango.modules failed"
-+		exit 1
- 
- 	sed -i -e "s:$D::" $D${sysconfdir}/pango/${MLPREFIX}pango.modules
- 
- 	exit 0
-+else
-+	${bindir}/${MLPREFIX}pango-querymodules > /etc/pango/${MLPREFIX}pango.modules
- fi
- }
- 
-@@ -68,11 +72,11 @@ do_install_append () {
- 
- 
- python populate_packages_prepend () {
--    prologue = d.getVar("postinst_prologue", True)
-+    pango_postinst = d.getVar("pango_postinst", True)
- 
-     modules_root = d.expand('${libdir}/pango/${LIBV}/modules')
- 
--    do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', prologue + '${bindir}/${MLPREFIX}pango-querymodules > /etc/pango/${MLPREFIX}pango.modules')
-+    do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', pango_postinst)
- }
- 
- FILES_${PN} = "${sysconfdir}/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
--- 
-1.9.0
+Sau!
 
+> @@ -0,0 +1,11 @@
+> +--- a/src/dynamic_loader/Makefile.am	2014-02-25 15:29:10.128549636 +0100
+> ++++ b/src/dynamic_loader/Makefile.am	2014-02-25 15:30:15.756548808 +0100
+> +@@ -3,7 +3,7 @@
+> + omxdynamicloader_LTLIBRARIES = libomxdynamicloader.la
+> + libomxdynamicloader_la_SOURCES = ste_dynamic_component_loader.c ste_dynamic_component_loader.h
+> +
+> +-libomxdynamicloader_la_LDFLAGS =
+> ++libomxdynamicloader_la_LDFLAGS = -lomxil-bellagio -L$(top_builddir)/src/.libs
+> + libomxdynamicloader_la_CFLAGS = -I$(top_srcdir)/include \
+> + 			-I$(top_srcdir)/src \
+> + 			-I$(top_srcdir)/src/base \
+> diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+> index f6c6a16..4a7633d 100644
+> --- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+> +++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+> @@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
+>   SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
+>              file://configure-fix.patch \
+>              file://parallel-make.patch \
+> -           file://makefile-docdir-fix.patch"
+> +           file://makefile-docdir-fix.patch \
+> +           file://dynamicloader-linking.patch"
+>
+>   SRC_URI[md5sum] = "a1de827fdb75c02c84e55f740ca27cb8"
+>   SRC_URI[sha256sum] = "593c0729c8ef8c1467b3bfefcf355ec19a46dd92e31bfc280e17d96b0934d74c"
+>
 
