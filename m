@@ -1,40 +1,38 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 9845860DD7
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id A535E6F1A8
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 27 Feb 2014 20:20:48 +0000 (UTC)
-Received: by mail-la0-f48.google.com with SMTP id gf5so2022323lab.7
+Received: by mail-la0-f50.google.com with SMTP id y1so2032550lam.37
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 12:20:48 -0800 (PST)
+	Thu, 27 Feb 2014 12:20:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=adwY67AplqNFnhELmObCvKLkJx7QAPa717YfhE71fcE=;
-	b=ddWeT3lb4ta2ZtEMho5xWU1LuYQg3gZUiC8PtAlwgELj4iasH5UpUJbFAHsia+tfAf
-	CLhR06eSeZ5/634GBEMX5FMP9xEmgF0rhhPRLplr45Zrk96R77eG57P5pg+WduzEGBMa
-	xFR9MDPHLwJ3Spl6u7qRu4uf5Crg0pbUbYJRCwlh8Ux8sR8yufOOoRiu+nCw3aOVhtSQ
-	sId0sULJXjeMFnAYx52GuYYjIEHOv1Ab/BfXjatu27T5OfFbvJEsfupmMNtpakXVJ/vF
-	ktnTP03i+RqfjElC6Oxw0okbcO7TdfpkMhUUpUpMk2tMtB3l7pUJyn13aexEPMoSlM85
-	5nAg==
-X-Received: by 10.112.125.225 with SMTP id mt1mr7544238lbb.35.1393532448877;
-	Thu, 27 Feb 2014 12:20:48 -0800 (PST)
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=D2dZohT+iLZZhO0E/XkKBypl4KG4pJeJq6XbjDTwMzw=;
+	b=ntkzttZDwPbYjP5ET6EgwC8aAhOPw11EXwlju568/XJMJ+LBhAbyW4ltNE548nN2JJ
+	gH7sPCZBbfvDt7WehfDEJ/KbuTMS//PBbLjBIv/+4M4Z8Ip31fm5OY7cOb6Eq4pE+dh/
+	ONGXXcVU8+DQUStxhkNpHOM5gvzc5hapcx9hYjso9SDsNNq6rdEPa/GYhHeEF+mAXhMd
+	bu85imEqTwvFMWIS/TjLTyE91UL7zTZ1Z4uRgXEzuJ6RBCRUApiOVDkvOclsQzh6jvzz
+	fH4iNdwVxBF0ZCImw5nux4tRlapF+HFRtMmH2udFsfgEpyO0ONOd9aagvClmJIdF3Hn9
+	n4hw==
+X-Received: by 10.152.3.8 with SMTP id 8mr2401547lay.30.1393532449364;
+	Thu, 27 Feb 2014 12:20:49 -0800 (PST)
 Received: from localhost (c-5eeaaa2a-74736162.cust.telenor.se. [94.234.170.42])
-	by mx.google.com with ESMTPSA id e1sm9376454laa.8.2014.02.27.12.20.47
+	by mx.google.com with ESMTPSA id o10sm9400518laj.2.2014.02.27.12.20.47
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
 	Thu, 27 Feb 2014 12:20:48 -0800 (PST)
 Received: by localhost (Postfix, from userid 1000)
-	id E2DBAB4001A; Thu, 27 Feb 2014 21:20:44 +0100 (CET)
+	id CC470B40060; Thu, 27 Feb 2014 21:20:44 +0100 (CET)
 From: =?UTF-8?q?David=20Nystr=C3=B6m?= <david.c.nystrom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2014 21:20:38 +0100
-Message-Id: <1393532438-6852-2-git-send-email-david.c.nystrom@gmail.com>
+Date: Thu, 27 Feb 2014 21:20:37 +0100
+Message-Id: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
-References: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] do_rootfs: Add PACKAGE_FEED_URIS as a vardep
+Subject: [PATCH 1/2] do_rootfs: Added PACKAGE_FEED_URIS functionality
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,55 +49,216 @@ X-List-Received-Date: Thu, 27 Feb 2014 20:20:50 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-A bit uncertain on where to put this, suggestions welcome.
-Needed to automatically rebuild do_rootfs when PACKAGE_FEED_URIS
-change.
+Adding a common interface to add predefined package manager
+channels to prebuilt rootfs:es.
+
+Adding PACKAGE_FEED_URIS = "http://myre.po/repo/, will
+assume repo directories named (rpm,ipk,deb) as subdirectories
+and statically add them to the rootfs, using the same PKG_ARCHs
+as the build which produced the images.
+
+Tested with RPM, IPK and DEB.
+
+deb feed functionality seem broken, is anyone using this ?
 
 Signed-off-by: David Nyström <david.c.nystrom@gmail.com>
 Signed-off-by: David Nyström <david.nystrom@enea.com>
-
 ---
- meta/classes/rootfs_deb.bbclass | 1 +
- meta/classes/rootfs_ipk.bbclass | 1 +
- meta/classes/rootfs_rpm.bbclass | 1 +
- 3 files changed, 3 insertions(+)
+ meta/lib/oe/package_manager.py | 89 +++++++++++++++++++++++++++++++++++++++++-
+ meta/lib/oe/rootfs.py          | 16 ++------
+ 2 files changed, 92 insertions(+), 13 deletions(-)
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index 728ea0e..a42a472 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -8,6 +8,7 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
- do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_deb"
- rootfs_deb_do_rootfs[vardepsexclude] += "BUILDNAME"
-+do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index ff4f1de..c930572 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -223,6 +223,7 @@ class PackageManager(object):
+         self.d = d
+         self.deploy_dir = None
+         self.deploy_lock = None
++        self.feed_uris = self.d.getVar('PACKAGE_FEED_URIS', True) or ""
  
- do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+     """
+     Update the package manager package database.
+@@ -262,6 +263,10 @@ class PackageManager(object):
+     def list_installed(self, format=None):
+         pass
  
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index 1887dd3..f5fef00 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -11,6 +11,7 @@ ROOTFS_PKGMANAGE_BOOTSTRAP  = "run-postinsts"
++    @abstractmethod
++    def insert_feeds_uris(self):
++        pass
++
+     """
+     Install complementary packages based upon the list of currently installed
+     packages e.g. locales, *-dev, *-dbg, etc. This will only attempt to install
+@@ -358,6 +363,46 @@ class RpmPM(PackageManager):
  
- do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_ipk"
-+do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
- rootfs_ipk_do_rootfs[vardepsexclude] += "BUILDNAME"
+         self.ml_prefix_list, self.ml_os_list = self.indexer.get_ml_prefix_and_os_list(arch_var, os_var)
  
- do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 032dabc..4b02247 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -23,6 +23,7 @@ do_rootfs[depends] += "createrepo-native:do_populate_sysroot"
++
++    def insert_feeds_uris(self):
++        if self.feed_uris == "":
++            return
++
++        # List must be prefered to least preferred order
++        default_platform_extra = set()
++        platform_extra = set()
++        bbextendvariant = self.d.getVar('BBEXTENDVARIANT', True) or ""
++        for mlib in self.ml_os_list:
++            for arch in self.ml_prefix_list[mlib]:
++                plt = arch.replace('-', '_') + '-.*-' + self.ml_os_list[mlib]
++                if mlib == bbextendvariant:
++                        default_platform_extra.add(plt)
++                else:
++                        platform_extra.add(plt)
++
++        platform_extra = platform_extra.union(default_platform_extra)
++
++        arch_list = []
++        for canonical_arch in platform_extra:
++            arch = canonical_arch.split('-')[0]
++            if not os.path.exists(os.path.join(self.deploy_dir, arch)):
++                continue
++            arch_list.append(arch)
++
++        uri_iterator = 0
++        channel_priority = 10 + 5 * len(self.feed_uris.split()) * len(arch_list)
++
++        for uri in self.feed_uris.split():
++            for arch in arch_list:
++                bb.note('Note: adding Smart channel url%d%s (%s)' %
++                        (uri_iterator, arch, channel_priority))
++                self._invoke_smart('channel --add url%d-%s type=rpm-md baseurl=%s/rpm/%s -y'
++                                   % (uri_iterator, arch, uri, arch))
++                self._invoke_smart('channel --set url%d-%s priority=%d' %
++                                   (uri_iterator, arch, channel_priority))
++                channel_priority -= 5
++            uri_iterator += 1
++
+     '''
+     Create configs for rpm and smart, and multilib is supported
+     '''
+@@ -944,7 +989,6 @@ class OpkgPM(PackageManager):
  
- do_rootfs[recrdeptask] += "do_package_write_rpm"
- rootfs_rpm_do_rootfs[vardepsexclude] += "BUILDNAME"
-+do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
+         self.deploy_dir = self.d.getVar("DEPLOY_DIR_IPK", True)
+         self.deploy_lock_file = os.path.join(self.deploy_dir, "deploy.lock")
+-
+         self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg-cl")
+         self.opkg_args = "-f %s -o %s " % (self.config_file, target_rootfs)
+         self.opkg_args += self.d.getVar("OPKG_ARGS", True)
+@@ -1050,6 +1094,29 @@ class OpkgPM(PackageManager):
+                     config_file.write("src oe-%s file:%s\n" %
+                                       (arch, pkgs_dir))
  
- # RPM doesn't work with multiple rootfs generation at once due to collisions in the use of files 
- # in ${DEPLOY_DIR_RPM}. This can be removed if package_update_index_rpm can be called concurrently
++    def insert_feeds_uris(self):
++        if self.feed_uris == "":
++            return
++
++        rootfs_config = os.path.join('%s/etc/opkg/base-feeds.conf'
++                                  % self.target_rootfs)
++
++        with open(rootfs_config, "w+") as config_file:
++            uri_iterator = 0
++            for uri in self.feed_uris.split():
++                config_file.write("src/gz url-%d %s/ipk\n" %
++                                  (uri_iterator, uri))
++
++                for arch in self.pkg_archs.split():
++                    if not os.path.exists(os.path.join(self.deploy_dir, arch)):
++                        continue
++                    bb.note('Note: adding opkg channel url-%s-%d (%s)' %
++                        (arch, uri_iterator, uri))
++
++                    config_file.write("src/gz uri-%s-%d %s/ipk/%s\n" %
++                                      (arch, uri_iterator, uri, arch))
++                uri_iterator += 1
++
+     def update(self):
+         self.deploy_dir_lock()
+ 
+@@ -1410,6 +1477,26 @@ class DpkgPM(PackageManager):
+         if result is not None:
+             bb.fatal(result)
+ 
++    def insert_feeds_uris(self):
++        if self.feed_uris == "":
++            return
++
++        sources_conf = os.path.join("%s/etc/apt/sources.list"
++                                    % self.target_rootfs)
++        arch_list = []
++        archs = self.d.getVar('PACKAGE_ARCHS', True)
++        for arch in archs.split():
++            if not os.path.exists(os.path.join(self.deploy_dir, arch)):
++                continue
++            arch_list.append(arch)
++
++        with open(sources_conf, "w+") as sources_file:
++            for uri in self.feed_uris.split():
++                for arch in arch_list:
++                    bb.note('Note: adding dpkg channel at (%s)' % uri)
++                    sources_file.write("deb %s/deb/%s ./\n" %
++                                       (uri, arch))
++
+     def _create_configs(self, archs, base_archs):
+         base_archs = re.sub("_", "-", base_archs)
+ 
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index be0afa6..cb0a739 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -41,9 +41,10 @@ class Rootfs(object):
+     def _log_check(self):
+         pass
+ 
+-    @abstractmethod
+     def _insert_feed_uris(self):
+-        pass
++        if base_contains("IMAGE_FEATURES", "package-management",
++                         True, False, self.d):
++            self.pm.insert_feeds_uris()
+ 
+     @abstractmethod
+     def _handle_intercept_failure(self, failed_script):
+@@ -349,9 +350,6 @@ class RpmRootfs(Rootfs):
+                 if found_error == 6:
+                     bb.fatal(message)
+ 
+-    def _insert_feed_uris(self):
+-        pass
+-
+     def _handle_intercept_failure(self, registered_pkgs):
+         rpm_postinsts_dir = self.image_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/')
+         bb.utils.mkdirhier(rpm_postinsts_dir)
+@@ -372,6 +370,7 @@ class DpkgRootfs(Rootfs):
+                          d.getVar('PACKAGE_ARCHS', True),
+                          d.getVar('DPKG_ARCH', True))
+ 
++
+     def _create(self):
+         pkgs_to_install = self.manifest.parse_initial_manifest()
+ 
+@@ -432,9 +431,6 @@ class DpkgRootfs(Rootfs):
+     def _log_check(self):
+         pass
+ 
+-    def _insert_feed_uris(self):
+-        pass
+-
+ 
+ class OpkgRootfs(Rootfs):
+     def __init__(self, d, manifest_dir):
+@@ -698,10 +694,6 @@ class OpkgRootfs(Rootfs):
+     def _log_check(self):
+         pass
+ 
+-    def _insert_feed_uris(self):
+-        pass
+-
+-
+ def create_rootfs(d, manifest_dir=None):
+     env_bkp = os.environ.copy()
+ 
 -- 
 1.8.3.2
 
