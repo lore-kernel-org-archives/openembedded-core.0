@@ -1,36 +1,43 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id DDC256116C
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id A31A66BD75
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:52:55 +0000 (UTC)
-Received: by mail-qg0-f49.google.com with SMTP id j107so6802538qga.8
+	Thu, 27 Feb 2014 19:59:18 +0000 (UTC)
+Received: by mail-lb0-f173.google.com with SMTP id p9so2018618lbv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 10:52:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0T94qvmEOGJYM68UHQAaGgTb4fGfwFKRWXkIHgFqpNI=;
-	b=JLnE4ck83wPIG7asQedCZtYP1ecPCEcEgkwNb2Xq4pZIu5ww+K2pj0h5nIt2qfKHSt
-	w01/Wo9QpfXUdpBGUF/pb5R0G1PWpoHjEbg1EFK1TN0YEHXwHQ0SdQfpS/BqMcbSqkX3
-	BqLI5E6PdEMxeB9mFZqrNKaGa1clyvc78/43lZmWgwgMWoIF//+l7eBClSVQBa7reW6/
-	nRNG9voitG+qAiwxBnWJPiiPNtlkPdPGcIhoOfX5kGB35ckRBVLdPI13Pd/RJ/AkCwg1
-	Pow3qo7Giewm23F1QMMTsgW7ZjhMADJGaYMORTSR47cC12a2+c2jhFn+xdsPQndqJ3Gp
-	b5Dg==
-X-Gm-Message-State: ALoCoQl7Byq3D+AsVoBrxQeIvV+wky+m021Bwwv7AQhpf2riHFIRhCBRwkCkSTg3i7IQ0v1BCdI5
-X-Received: by 10.224.98.139 with SMTP id q11mr19166144qan.64.1393527176048;
-	Thu, 27 Feb 2014 10:52:56 -0800 (PST)
+	Thu, 27 Feb 2014 11:59:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=VH5nY9bZlLQCSBM2BT0CM/vbI11/2dtX5osjyUi2Wa0=;
+	b=IxEjNjazQT3hrl8i5pcO4tIlGBaaly5hfV/d+CWU97NPoskEHS+vh17F9eojCtWc5G
+	L3srk91WmH79FBRzqpOmpfNXKguVXmHHamzLzcHmDyiskxFpTgcc3k2nM+xV16nyloki
+	4U6pX8rDau/8DZh1FZ1WbHzi+fFDuxsLf84kc3V5N4j9wz07TxifzTeO9CdSfmLt4Ks9
+	jD3eku14avj9RB19vV6Q/yP62OsM4iEjxmpCDfLWvxFwRlMiGlmt4OsZlf2/PZlYKEyN
+	W5W7tNzG2MDkXTue38DMR8X6oduAB45IKULfHusNa6AVuYBBCsjiDcyPUHWa+HGviQ4w
+	4Inw==
+X-Received: by 10.113.5.167 with SMTP id cn7mr7385544lbd.1.1393531158821;
+	Thu, 27 Feb 2014 11:59:18 -0800 (PST)
+Received: from [192.168.43.169] (c-5eeaaa2a-74736162.cust.telenor.se.
+	[94.234.170.42])
+	by mx.google.com with ESMTPSA id rt7sm722180lbb.0.2014.02.27.11.59.17
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 27 Feb 2014 11:59:17 -0800 (PST)
+Message-ID: <530F9913.4080704@gmail.com>
+Date: Thu, 27 Feb 2014 20:59:15 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
 MIME-Version: 1.0
-Received: by 10.140.48.79 with HTTP; Thu, 27 Feb 2014 10:52:35 -0800 (PST)
-In-Reply-To: <1393524104.31769.148.camel@ted>
-References: <1393524104.31769.148.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 27 Feb 2014 18:52:35 +0000
-Message-ID: <CAJTo0LaG9SeGd2Pi3-dksPd_FHH4TEWK2MGJU-d=2kte6aTg7Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools-brokensep: Mark recipes with broken separate build dir support
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>, =?ISO-8859-1?Q?David_N?=
+	=?ISO-8859-1?Q?ystr=F6m?= <david.nystrom@enea.com>
+References: <1393507701-22512-1-git-send-email-david.nystrom@enea.com>	<20140227142404.GB3534@lpalcu-linux>
+	<530F4D46.1060401@enea.com> <20140227151815.GC3534@lpalcu-linux>
+In-Reply-To: <20140227151815.GC3534@lpalcu-linux>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] Attempt to unify predefined package feed handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,16 +50,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 18:52:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 27 Feb 2014 19:59:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 27 February 2014 18:01, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> +inherit autotools
-> +B = "${S}"
 
-Why is this preferable to directly setting B in the recipe, which
-seems more obvious to me.
+On 2014-02-27 16:18, Laurentiu Palcu wrote:
+> On Thu, Feb 27, 2014 at 03:35:50PM +0100, David Nyström wrote:
+>> On 2014-02-27 15:24, Laurentiu Palcu wrote:
+>>> Hi David,
+>>>
+>>> My comments/questions below.
+>> Thank you for your detailed comments on the RFC.
+>> I will return with V2, where your comments are addressed when the
+>> general approach is Acked.
+>>
+>> What do you think about the general approach ?
+> I think the approach is ok. I don't know a simpler way than this to add
+> package feeds into the image.
 
-Ross
+OK, there seems to be no screaming objections from other parties either.
+
+I'll resend v2
+
+Br,
+David
 
