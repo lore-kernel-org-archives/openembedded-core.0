@@ -1,24 +1,38 @@
-Return-Path: <alexandrux.palalau@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 783D26EFCB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qa0-f54.google.com (mail-qa0-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5569A6E908
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 10:01:44 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 27 Feb 2014 02:01:45 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,553,1389772800"; d="scan'208";a="344116655"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Feb 2014 02:01:38 -0800
-Received: from localhost.localdomain (unknown [10.237.112.121])
-	by linux.intel.com (Postfix) with ESMTP id BF30F6A4083;
-	Thu, 27 Feb 2014 02:01:27 -0800 (PST)
-From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2014 12:05:41 +0200
-Message-Id: <1393495541-13473-1-git-send-email-alexandrux.palalau@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Cc: Alexandru Palalau <alexandrux.palalau@intel.com>
-Subject: [PATCH] libnotify: don't use gnome.bbclass
+	Thu, 27 Feb 2014 10:33:16 +0000 (UTC)
+Received: by mail-qa0-f54.google.com with SMTP id w8so1776221qac.27
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Feb 2014 02:33:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=BcGCxSRCqLPwP8HM+W/zQJiNw4MFW3R/iBs1iI1BGVk=;
+	b=FUxY/rlkFq8sJOan+DxTAr6K0Ix8zYg31pJNCOUkdqxjaQEBjQwzOLZwZYwL65t+xl
+	gZqcTjprIJTVvrHL/vtURzqh5TOqWys7kHo84owTDmF5EuM85VuhTzHlQieX9rt6BKsx
+	R/qkaSzwEmrKEfwaH2q0HSh3v5ZBw7TxQRoCRB5N4AuDQka1sr2L+FR0cGXf90+Nxkkv
+	qdf6PRdteEbFKENL67h/yt9W30vEyweWBM0Xi/ge2Hfi/GVIk1FRLoJunuzRR6oz1MPB
+	Mj5i+WsMf/Hg5XOdD/lPz7GDemMY5X+QB0AD2Lzo1Q+Sz0cUFHldsc90vljgU9+4oOol
+	gDKw==
+X-Gm-Message-State: ALoCoQlQ0/UiyHIqUYlhgfOgaGvBTktiNjCJUFlQaL3+8Wmk+EUTgEGgy0NFhhbeefBhAMWpNgpa
+X-Received: by 10.224.43.144 with SMTP id w16mr15192672qae.93.1393497197400;
+	Thu, 27 Feb 2014 02:33:17 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.79 with HTTP; Thu, 27 Feb 2014 02:32:57 -0800 (PST)
+In-Reply-To: <530F032E.8030804@windriver.com>
+References: <1393471408-29014-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0LYcdFjkgKH3fRdt8F3Tyfc2pxbAXMnP77pEc9CdnsMAgQ@mail.gmail.com>
+	<530F032E.8030804@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 27 Feb 2014 10:32:57 +0000
+Message-ID: <CAJTo0LZN50QA4+uNdaV0ntYJgoHiiBOS4aPcBTb_HSX9EEbSLA@mail.gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] dbus: proper error handler should be given after send_negotiate_unix_fd failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 10:01:44 -0000
+X-List-Received-Date: Thu, 27 Feb 2014 10:33:17 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Alexandru Palalau <alexandrux.palalau@intel.com>
+On 27 February 2014 09:19, Rongqing Li <rongqing.li@windriver.com> wrote:
+> I send it to freedesktop-dbus, but my mail seems block, I can not find it
+>
+> http://lists.freedesktop.org/archives/dbus/2014-February/thread.html
 
-gnome.bbclass pulls in more functionality than this recipe needs (icon cache,
-MIME, GConf), so instead just use gnomebase.bbclass.
+It's there now.  However the DBus web site states:
 
-Signed-off-by: Alexandru Palalau <alexandrux.palalau@intel.com>
----
- meta/recipes-gnome/libnotify/libnotify_0.6.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+"Please report bugs (and submit patches) through the freedesktop.org Bugzilla."
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-index 61ae5e6..d516e65 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-@@ -7,7 +7,7 @@ PR = "r1"
- 
- DEPENDS = "dbus gtk+"
- 
--inherit gnome
-+inherit gnomebase
- SRC_URI[archive.md5sum] = "732c9d2cd5eb6a9069264a319d330516"
- SRC_URI[archive.sha256sum] = "73b16a79bb2fed62dcf146b11c4405776cb96a09dce66379ca541da7dbd64210"
- 
--- 
-1.8.3.1
+So you should resubmit to there.  The list is currently flaming over
+kdbus and I expect the patch will disappear.
 
+Ross
 
