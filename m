@@ -1,20 +1,31 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 32C0E6F248
+Return-Path: <Chong.Lu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B6B26EFCB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 09:51:50 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 27 Feb 2014 01:47:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,553,1389772800"; d="scan'208";a="490798535"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.47])
-	by orsmga002.jf.intel.com with ESMTP; 27 Feb 2014 01:51:24 -0800
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2014 11:51:17 +0200
-Message-Id: <1393494677-26695-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [dora][PATCH_V2] mesa: build fix for gallium-egl
+	Thu, 27 Feb 2014 10:00:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1RA0kOr026840
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 27 Feb 2014 02:00:46 -0800 (PST)
+Received: from [128.224.162.204] (128.224.162.204) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Thu, 27 Feb 2014 02:00:45 -0800
+Message-ID: <530F0CCA.6090208@windriver.com>
+Date: Thu, 27 Feb 2014 18:00:42 +0800
+From: Lu Chong <Chong.Lu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Tudor Florea <Tudor.Florea@enea.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1392194903.git.Chong.Lu@windriver.com>	<117d903587f2a50aefa11a1271ce66f62e551a68.1392194903.git.Chong.Lu@windriver.com>
+	<530EE6AC.8070801@windriver.com>
+	<26724FB0BFCB3D4C91BDE184751AA3A4289C6EC8@sestoex05.enea.se>
+In-Reply-To: <26724FB0BFCB3D4C91BDE184751AA3A4289C6EC8@sestoex05.enea.se>
+X-Originating-IP: [128.224.162.204]
+Subject: Re: [PATCH 1/1] diffutils: enable ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,488 +38,374 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 09:51:51 -0000
+X-List-Received-Date: Thu, 27 Feb 2014 10:00:52 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-(*) add MESA_EGL_NO_X11_HEADERS to defines
-(*) avoid altering eglplatform.h from {top_srcdir}/include
-using an alternative to
-0003-EGL-Mutate-NativeDisplayType-depending-on-config
-patch.
+If use Makefile.am, many variables and paths need be modified.
+So I add a new Makefile for ptest.
 
-[YOCTO #5882]
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- ...01-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch |  39 +++
- ...ate-NativeDisplayType-depending-on-config.patch | 359 ---------------------
- meta/recipes-graphics/mesa/mesa_9.1.6.bb           |  10 +-
- meta/recipes-graphics/mesa/mesa_git.bb             |  10 +-
- 4 files changed, 57 insertions(+), 361 deletions(-)
- create mode 100644 meta/recipes-graphics/mesa/mesa/0001-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch
- delete mode 100644 meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+Chong
 
-diff --git a/meta/recipes-graphics/mesa/mesa/0001-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch b/meta/recipes-graphics/mesa/mesa/0001-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch
-new file mode 100644
-index 0000000..ca38075
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa/0001-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch
-@@ -0,0 +1,39 @@
-+From 63d5b4ec7a5853bbbae2e1963d406bb09e77dd60 Mon Sep 17 00:00:00 2001
-+From: Valentin Popa <valentin.popa@intel.com>
-+Date: Thu, 27 Feb 2014 10:32:17 +0200
-+Subject: [PATCH] Add MESA_EGL_NO_X11_HEADERS to defines
-+
-+MESA_EGL_NO_X11_HEADERS is used in eglplatform.h
-+but the preprocessor doesn't know about it.
-+Define MESA_EGL_NO_X11_HEADERS for builds without
-+x11 in DISTRO_FEATURES.
-+
-+Backport from 9.2.5.
-+
-+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
-+---
-+ configure.ac | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 2acf579..a1a8487 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1568,6 +1568,14 @@ AC_SUBST([EGL_NATIVE_PLATFORM])
-+ AC_SUBST([EGL_PLATFORMS])
-+ AC_SUBST([EGL_CFLAGS])
-+ 
-++# If we don't have the X11 platform, set this define so we don't try
-++# to include
-++# the X11 headers.
-++if ! echo "$egl_platforms" | grep -q 'x11'; then
-++    DEFINES="$DEFINES -DMESA_EGL_NO_X11_HEADERS"
-++    GL_PC_CFLAGS="$GL_PC_CFLAGS -DMESA_EGL_NO_X11_HEADERS"
-++fi
-++
-+ AC_ARG_WITH([egl-driver-dir],
-+     [AS_HELP_STRING([--with-egl-driver-dir=DIR],
-+                     [directory for EGL drivers [[default=${libdir}/egl]]])],
-+-- 
-+1.8.3.2
-+
-diff --git a/meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch b/meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
-deleted file mode 100644
-index 8a83f4b..0000000
---- a/meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
-+++ /dev/null
-@@ -1,359 +0,0 @@
--From 8d31ae23683394617c49301b039b3a069b9ea436 Mon Sep 17 00:00:00 2001
--From: Daniel Stone <daniel@fooishbar.org>
--Date: Fri, 24 May 2013 17:20:27 +0100
--Subject: [PATCH 3/4] EGL: Mutate NativeDisplayType depending on config
--
--If we go through ./configure without enabling X11 anywhere, then set the
--fallback types for EGL NativeDisplay and friends, rather than assuming
--X11/Xlib.
--
--Upstream-Status: Backport (slightly different solution was applied in master
--https://bugs.freedesktop.org/show_bug.cgi?id=64959)
--
--Signed-off-by: Daniel Stone <daniel@fooishbar.org>
--Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-----
-- configure.ac                 |   5 ++
-- include/EGL/eglplatform.h    | 146 -------------------------------------------
-- include/EGL/eglplatform.h.in | 146 +++++++++++++++++++++++++++++++++++++++++++
-- 3 files changed, 151 insertions(+), 146 deletions(-)
-- delete mode 100644 include/EGL/eglplatform.h
-- create mode 100644 include/EGL/eglplatform.h.in
--
--diff --git a/configure.ac b/configure.ac
--index 67b8c40..afc3217 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1499,6 +1499,9 @@ EGL_PLATFORMS="$egl_platforms"
-- 
-- if echo "$egl_platforms" | grep 'x11' >/dev/null 2>&1; then
--     NEED_WINSYS_XLIB=yes
--+    MESA_EGL_NO_X11_HEADERS=0
--+else
--+    MESA_EGL_NO_X11_HEADERS=1
-- fi
-- AM_CONDITIONAL(HAVE_EGL_PLATFORM_X11, echo "$egl_platforms" | grep 'x11' >/dev/null 2>&1)
-- AM_CONDITIONAL(HAVE_EGL_PLATFORM_WAYLAND, echo "$egl_platforms" | grep 'wayland' >/dev/null 2>&1)
--@@ -1512,6 +1515,7 @@ AM_CONDITIONAL(HAVE_EGL_DRIVER_GLX, test "x$HAVE_EGL_DRIVER_GLX" != "x")
-- AC_SUBST([EGL_NATIVE_PLATFORM])
-- AC_SUBST([EGL_PLATFORMS])
-- AC_SUBST([EGL_CFLAGS])
--+AC_SUBST([MESA_EGL_NO_X11_HEADERS])
-- 
-- AC_ARG_WITH([egl-driver-dir],
--     [AS_HELP_STRING([--with-egl-driver-dir=DIR],
--@@ -1991,6 +1995,7 @@ CXXFLAGS="$CXXFLAGS $USER_CXXFLAGS"
-- 
-- dnl Substitute the config
-- AC_CONFIG_FILES([Makefile
--+		include/EGL/eglplatform.h
-- 		src/Makefile
-- 		src/egl/Makefile
-- 		src/egl/drivers/Makefile
--diff --git a/include/EGL/eglplatform.h b/include/EGL/eglplatform.h
--deleted file mode 100644
--index 17fdc61..0000000
----- a/include/EGL/eglplatform.h
--+++ /dev/null
--@@ -1,146 +0,0 @@
---#ifndef __eglplatform_h_
---#define __eglplatform_h_
---
---/*
---** Copyright (c) 2007-2009 The Khronos Group Inc.
---**
---** Permission is hereby granted, free of charge, to any person obtaining a
---** copy of this software and/or associated documentation files (the
---** "Materials"), to deal in the Materials without restriction, including
---** without limitation the rights to use, copy, modify, merge, publish,
---** distribute, sublicense, and/or sell copies of the Materials, and to
---** permit persons to whom the Materials are furnished to do so, subject to
---** the following conditions:
---**
---** The above copyright notice and this permission notice shall be included
---** in all copies or substantial portions of the Materials.
---**
---** THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
---** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
---** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
---** IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
---** CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
---** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
---** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
---*/
---
---/* Platform-specific types and definitions for egl.h
--- * $Revision: 12306 $ on $Date: 2010-08-25 09:51:28 -0700 (Wed, 25 Aug 2010) $
--- *
--- * Adopters may modify khrplatform.h and this file to suit their platform.
--- * You are encouraged to submit all modifications to the Khronos group so that
--- * they can be included in future versions of this file.  Please submit changes
--- * by sending them to the public Khronos Bugzilla (http://khronos.org/bugzilla)
--- * by filing a bug against product "EGL" component "Registry".
--- */
---
---#include <KHR/khrplatform.h>
---
---/* Macros used in EGL function prototype declarations.
--- *
--- * EGL functions should be prototyped as:
--- *
--- * EGLAPI return-type EGLAPIENTRY eglFunction(arguments);
--- * typedef return-type (EXPAPIENTRYP PFNEGLFUNCTIONPROC) (arguments);
--- *
--- * KHRONOS_APICALL and KHRONOS_APIENTRY are defined in KHR/khrplatform.h
--- */
---
---#ifndef EGLAPI
---#define EGLAPI KHRONOS_APICALL
---#endif
---
---#ifndef EGLAPIENTRY
---#define EGLAPIENTRY  KHRONOS_APIENTRY
---#endif
---#define EGLAPIENTRYP EGLAPIENTRY*
---
---/* The types NativeDisplayType, NativeWindowType, and NativePixmapType
--- * are aliases of window-system-dependent types, such as X Display * or
--- * Windows Device Context. They must be defined in platform-specific
--- * code below. The EGL-prefixed versions of Native*Type are the same
--- * types, renamed in EGL 1.3 so all types in the API start with "EGL".
--- *
--- * Khronos STRONGLY RECOMMENDS that you use the default definitions
--- * provided below, since these changes affect both binary and source
--- * portability of applications using EGL running on different EGL
--- * implementations.
--- */
---
---#if defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
---#ifndef WIN32_LEAN_AND_MEAN
---#define WIN32_LEAN_AND_MEAN 1
---#endif
---#include <windows.h>
---
---typedef HDC     EGLNativeDisplayType;
---typedef HBITMAP EGLNativePixmapType;
---typedef HWND    EGLNativeWindowType;
---
---#elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
---
---typedef int   EGLNativeDisplayType;
---typedef void *EGLNativeWindowType;
---typedef void *EGLNativePixmapType;
---
---#elif defined(WL_EGL_PLATFORM)
---
---typedef struct wl_display     *EGLNativeDisplayType;
---typedef struct wl_egl_pixmap  *EGLNativePixmapType;
---typedef struct wl_egl_window  *EGLNativeWindowType;
---
---#elif defined(__GBM__)
---
---typedef struct gbm_device  *EGLNativeDisplayType;
---typedef struct gbm_bo      *EGLNativePixmapType;
---typedef void               *EGLNativeWindowType;
---
---#elif defined(ANDROID) /* Android */
---
---struct ANativeWindow;
---struct egl_native_pixmap_t;
---
---typedef struct ANativeWindow        *EGLNativeWindowType;
---typedef struct egl_native_pixmap_t  *EGLNativePixmapType;
---typedef void                        *EGLNativeDisplayType;
---
---#elif defined(__unix__)
---
---#ifdef MESA_EGL_NO_X11_HEADERS
---
---typedef void            *EGLNativeDisplayType;
---typedef khronos_uint32_t EGLNativePixmapType;
---typedef khronos_uint32_t EGLNativeWindowType;
---
---#else
---
---/* X11 (tentative)  */
---#include <X11/Xlib.h>
---#include <X11/Xutil.h>
---
---typedef Display *EGLNativeDisplayType;
---typedef Pixmap   EGLNativePixmapType;
---typedef Window   EGLNativeWindowType;
---
---#endif /* MESA_EGL_NO_X11_HEADERS */
---
---#else
---#error "Platform not recognized"
---#endif
---
---/* EGL 1.2 types, renamed for consistency in EGL 1.3 */
---typedef EGLNativeDisplayType NativeDisplayType;
---typedef EGLNativePixmapType  NativePixmapType;
---typedef EGLNativeWindowType  NativeWindowType;
---
---
---/* Define EGLint. This must be a signed integral type large enough to contain
--- * all legal attribute names and values passed into and out of EGL, whether
--- * their type is boolean, bitmask, enumerant (symbolic constant), integer,
--- * handle, or other.  While in general a 32-bit integer will suffice, if
--- * handles are 64 bit types, then EGLint should be defined as a signed 64-bit
--- * integer type.
--- */
---typedef khronos_int32_t EGLint;
---
---#endif /* __eglplatform_h */
--diff --git a/include/EGL/eglplatform.h.in b/include/EGL/eglplatform.h.in
--new file mode 100644
--index 0000000..5126c92
----- /dev/null
--+++ b/include/EGL/eglplatform.h.in
--@@ -0,0 +1,146 @@
--+#ifndef __eglplatform_h_
--+#define __eglplatform_h_
--+
--+/*
--+** Copyright (c) 2007-2009 The Khronos Group Inc.
--+**
--+** Permission is hereby granted, free of charge, to any person obtaining a
--+** copy of this software and/or associated documentation files (the
--+** "Materials"), to deal in the Materials without restriction, including
--+** without limitation the rights to use, copy, modify, merge, publish,
--+** distribute, sublicense, and/or sell copies of the Materials, and to
--+** permit persons to whom the Materials are furnished to do so, subject to
--+** the following conditions:
--+**
--+** The above copyright notice and this permission notice shall be included
--+** in all copies or substantial portions of the Materials.
--+**
--+** THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
--+** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
--+** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
--+** IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
--+** CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
--+** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
--+** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
--+*/
--+
--+/* Platform-specific types and definitions for egl.h
--+ * $Revision: 12306 $ on $Date: 2010-08-25 09:51:28 -0700 (Wed, 25 Aug 2010) $
--+ *
--+ * Adopters may modify khrplatform.h and this file to suit their platform.
--+ * You are encouraged to submit all modifications to the Khronos group so that
--+ * they can be included in future versions of this file.  Please submit changes
--+ * by sending them to the public Khronos Bugzilla (http://khronos.org/bugzilla)
--+ * by filing a bug against product "EGL" component "Registry".
--+ */
--+
--+#include <KHR/khrplatform.h>
--+
--+/* Macros used in EGL function prototype declarations.
--+ *
--+ * EGL functions should be prototyped as:
--+ *
--+ * EGLAPI return-type EGLAPIENTRY eglFunction(arguments);
--+ * typedef return-type (EXPAPIENTRYP PFNEGLFUNCTIONPROC) (arguments);
--+ *
--+ * KHRONOS_APICALL and KHRONOS_APIENTRY are defined in KHR/khrplatform.h
--+ */
--+
--+#ifndef EGLAPI
--+#define EGLAPI KHRONOS_APICALL
--+#endif
--+
--+#ifndef EGLAPIENTRY
--+#define EGLAPIENTRY  KHRONOS_APIENTRY
--+#endif
--+#define EGLAPIENTRYP EGLAPIENTRY*
--+
--+/* The types NativeDisplayType, NativeWindowType, and NativePixmapType
--+ * are aliases of window-system-dependent types, such as X Display * or
--+ * Windows Device Context. They must be defined in platform-specific
--+ * code below. The EGL-prefixed versions of Native*Type are the same
--+ * types, renamed in EGL 1.3 so all types in the API start with "EGL".
--+ *
--+ * Khronos STRONGLY RECOMMENDS that you use the default definitions
--+ * provided below, since these changes affect both binary and source
--+ * portability of applications using EGL running on different EGL
--+ * implementations.
--+ */
--+
--+#if defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
--+#ifndef WIN32_LEAN_AND_MEAN
--+#define WIN32_LEAN_AND_MEAN 1
--+#endif
--+#include <windows.h>
--+
--+typedef HDC     EGLNativeDisplayType;
--+typedef HBITMAP EGLNativePixmapType;
--+typedef HWND    EGLNativeWindowType;
--+
--+#elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
--+
--+typedef int   EGLNativeDisplayType;
--+typedef void *EGLNativeWindowType;
--+typedef void *EGLNativePixmapType;
--+
--+#elif defined(WL_EGL_PLATFORM)
--+
--+typedef struct wl_display     *EGLNativeDisplayType;
--+typedef struct wl_egl_pixmap  *EGLNativePixmapType;
--+typedef struct wl_egl_window  *EGLNativeWindowType;
--+
--+#elif defined(__GBM__)
--+
--+typedef struct gbm_device  *EGLNativeDisplayType;
--+typedef struct gbm_bo      *EGLNativePixmapType;
--+typedef void               *EGLNativeWindowType;
--+
--+#elif defined(ANDROID) /* Android */
--+
--+struct ANativeWindow;
--+struct egl_native_pixmap_t;
--+
--+typedef struct ANativeWindow        *EGLNativeWindowType;
--+typedef struct egl_native_pixmap_t  *EGLNativePixmapType;
--+typedef void                        *EGLNativeDisplayType;
--+
--+#elif defined(__unix__)
--+
--+#if @MESA_EGL_NO_X11_HEADERS@
--+
--+typedef void            *EGLNativeDisplayType;
--+typedef khronos_uint32_t EGLNativePixmapType;
--+typedef khronos_uint32_t EGLNativeWindowType;
--+
--+#else
--+
--+/* X11 (tentative)  */
--+#include <X11/Xlib.h>
--+#include <X11/Xutil.h>
--+
--+typedef Display *EGLNativeDisplayType;
--+typedef Pixmap   EGLNativePixmapType;
--+typedef Window   EGLNativeWindowType;
--+
--+#endif /* MESA_EGL_NO_X11_HEADERS */
--+
--+#else
--+#error "Platform not recognized"
--+#endif
--+
--+/* EGL 1.2 types, renamed for consistency in EGL 1.3 */
--+typedef EGLNativeDisplayType NativeDisplayType;
--+typedef EGLNativePixmapType  NativePixmapType;
--+typedef EGLNativeWindowType  NativeWindowType;
--+
--+
--+/* Define EGLint. This must be a signed integral type large enough to contain
--+ * all legal attribute names and values passed into and out of EGL, whether
--+ * their type is boolean, bitmask, enumerant (symbolic constant), integer,
--+ * handle, or other.  While in general a 32-bit integer will suffice, if
--+ * handles are 64 bit types, then EGLint should be defined as a signed 64-bit
--+ * integer type.
--+ */
--+typedef khronos_int32_t EGLint;
--+
--+#endif /* __eglplatform_h */
---- 
--1.8.2.1
--
-diff --git a/meta/recipes-graphics/mesa/mesa_9.1.6.bb b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-index b55fa02..6e9cd82 100644
---- a/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_9.1.6.bb
-@@ -2,8 +2,8 @@ require ${BPN}.inc
- 
- SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
-            file://0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch \
-+           file://0001-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch \
-            file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
--           file://0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch \
-            file://0004-glsl-fix-builtin_compiler-cross-compilation.patch \
-            file://0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch \
-            file://0005-fix-out-of-tree-builds-gallium.patch \
-@@ -14,3 +14,11 @@ SRC_URI[md5sum] = "443a2a352667294b53d56cb1a74114e9"
- SRC_URI[sha256sum] = "e632dff0acafad0a59dc208d16dedb37f7bd58f94c5d58c4b51912e41d005e3d"
- 
- S = "${WORKDIR}/Mesa-${PV}"
-+
-+#because we cannot rely on the fact that all apps will use pkgconfig,
-+#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
-+do_install_append() {
-+    if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
-+        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+    fi
-+}
-\ No newline at end of file
-diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-index 6397ece..1babcc0 100644
---- a/meta/recipes-graphics/mesa/mesa_git.bb
-+++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -10,11 +10,19 @@ PV = "9.1.3+git${SRCPV}"
- 
- SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa \
-            file://0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch \
-+           file://0001-Add-MESA_EGL_NO_X11_HEADERS-to-defines.patch \
-            file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
--           file://0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch \
-            file://0004-glsl-fix-builtin_compiler-cross-compilation.patch \
-            file://0005-fix-out-of-tree-builds-gallium.patch \
-            file://0006-fix-out-of-tree-egl.patch \
-            "
- 
- S = "${WORKDIR}/git"
-+
-+#because we cannot rely on the fact that all apps will use pkgconfig,
-+#make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
-+do_install_append() {
-+    if ${@base_contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
-+        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@base_contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
-+    fi
-+}
--- 
-1.8.3.2
+On 02/27/2014 04:14 PM, Tudor Florea wrote:
+> Isn't possible to modify Makefile.am and/or Makefile.in instead of Makefile?
+>   Regards,
+>     Tudor.
+>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Lu Chong
+> Sent: Thursday, February 27, 2014 09:18
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/1] diffutils: enable ptest support
+>
+> ping
+>
+> On 02/12/2014 04:49 PM, Chong Lu wrote:
+>> Install diffutils test suite and run it as ptest.
+>>
+>> Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+>> ---
+>>    .../diffutils/diffutils-3.3/Makefile               | 284 +++++++++++++++++++++
+>>    .../diffutils/diffutils-3.3/run-ptest              |   3 +
+>>    meta/recipes-extended/diffutils/diffutils_3.3.bb   |  15 +-
+>>    3 files changed, 301 insertions(+), 1 deletion(-)
+>>    create mode 100644 meta/recipes-extended/diffutils/diffutils-3.3/Makefile
+>>    create mode 100644 meta/recipes-extended/diffutils/diffutils-3.3/run-ptest
+>>
+>> diff --git a/meta/recipes-extended/diffutils/diffutils-3.3/Makefile b/meta/recipes-extended/diffutils/diffutils-3.3/Makefile
+>> new file mode 100644
+>> index 0000000..d3bb587
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/diffutils/diffutils-3.3/Makefile
+>> @@ -0,0 +1,284 @@
+>> +am__tty_colors_dummy = \
+>> +  mgn= red= grn= lgn= blu= brg= std=; \
+>> +  am__color_tests=no
+>> +am__tty_colors = { \
+>> +  $(am__tty_colors_dummy); \
+>> +  if test "X$(AM_COLOR_TESTS)" = Xno; then \
+>> +    am__color_tests=no; \
+>> +  elif test "X$(AM_COLOR_TESTS)" = Xalways; then \
+>> +    am__color_tests=yes; \
+>> +  elif test "X$$TERM" != Xdumb && { test -t 1; } 2>/dev/null; then \
+>> +    am__color_tests=yes; \
+>> +  fi; \
+>> +  if test $$am__color_tests = yes; then \
+>> +    red='[0;31m'; \
+>> +    grn='[0;32m'; \
+>> +    lgn='[1;32m'; \
+>> +    blu='[1;34m'; \
+>> +    mgn='[0;35m'; \
+>> +    brg='[1m'; \
+>> +    std='[m'; \
+>> +  fi; \
+>> +}
+>> +
+>> +am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+>> +am__vpath_adj = case $$p in \
+>> +    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+>> +    *) f=$$p;; \
+>> +  esac;
+>> +am__rst_title = { sed 's/.*/   &   /;h;s/./=/g;p;x;s/ *$$//;p;g' && echo; }
+>> +am__sh_e_setup = case $$- in *e*) set +e;; esac
+>> +am__common_driver_flags = \
+>> +  --color-tests "$$am__color_tests" \
+>> +  --enable-hard-errors "$$am__enable_hard_errors" \
+>> +  --expect-failure "$$am__expect_failure"
+>> +
+>> +am__check_pre = \
+>> +$(am__sh_e_setup); \
+>> +$(am__vpath_adj_setup) $(am__vpath_adj) \
+>> +$(am__tty_colors); \
+>> +srcdir=$(srcdir); export srcdir; \
+>> +case "$@" in \
+>> +  */*) am__odir=`echo "./$@" | sed 's|/[^/]*$$||'`;; \
+>> +    *) am__odir=.;; \
+>> +esac; \
+>> +test "x$$am__odir" = x"." || test -d "$$am__odir" \
+>> +  || $(MKDIR_P) "$$am__odir" || exit $$?; \
+>> +if test -f "./$$f"; then dir=./; \
+>> +elif test -f "$$f"; then dir=; \
+>> +else dir="$(srcdir)/"; fi; \
+>> +tst=$$dir$$f; log='$@'; \
+>> +if test -n '$(DISABLE_HARD_ERRORS)'; then \
+>> +  am__enable_hard_errors=no; \
+>> +else \
+>> +  am__enable_hard_errors=yes; \
+>> +fi; \
+>> +$(TESTS_ENVIRONMENT)
+>> +
+>> +am__set_TESTS_bases = \
+>> +  bases='$(TEST_LOGS)'; \
+>> +  bases=`for i in $$bases; do echo $$i; done | sed 's/\.log$$//'`; \
+>> +  bases=`echo $$bases`
+>> +
+>> +RECHECK_LOGS = $(TEST_LOGS)
+>> +TEST_SUITE_LOG = test-suite.log
+>> +LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
+>> +am__test_logs1 = $(TESTS:=.log)
+>> +am__test_logs2 = $(am__test_logs1:.log=.log)
+>> +TEST_LOGS = $(am__test_logs2:.test.log=.log)
+>> +TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/build-aux/test-driver
+>> +AWK = awk
+>> +MKDIR_P = /bin/mkdir -p
+>> +PACKAGE_BUGREPORT = bug-diffutils@gnu.org
+>> +PACKAGE_STRING = GNU diffutils 3.3
+>> +SHELL = /bin/sh
+>> +VERSION = 3.3
+>> +abs_srcdir = $(PWD)
+>> +abs_top_builddir = $(PWD)/..
+>> +abs_top_srcdir = $(PWD)/..
+>> +srcdir = .
+>> +top_srcdir = ..
+>> +subdir = tests
+>> +
+>> +TESTS = \
+>> +  basic \
+>> +  binary \
+>> +  colliding-file-names \
+>> +  excess-slash \
+>> +  help-version \
+>> +  function-line-vs-leading-space \
+>> +  label-vs-func	\
+>> +  new-file \
+>> +  no-dereference \
+>> +  no-newline-at-eof \
+>> +  stdin \
+>> +  filename-quoting
+>> +
+>> +TESTS_ENVIRONMENT = \
+>> +  tmp__=$$TMPDIR; test -d "$$tmp__" || tmp__=.; \
+>> +  TMPDIR=$$tmp__; export TMPDIR; \
+>> +  export \
+>> +  VERSION='$(VERSION)' \
+>> +  abs_top_builddir='$(abs_top_builddir)' \
+>> +  abs_top_srcdir='$(abs_top_srcdir)' \
+>> +  abs_srcdir='$(abs_srcdir)' \
+>> +  built_programs=diff \
+>> +  srcdir='$(srcdir)' \
+>> +  top_srcdir='$(top_srcdir)' \
+>> +  MAKE=$(MAKE) \
+>> +  PACKAGE_BUGREPORT='$(PACKAGE_BUGREPORT)' \
+>> +  PATH='$(abs_top_builddir)/src$(PATH_SEPARATOR)'"$$PATH" \
+>> +  ; 9>&2
+>> +
+>> +$(TEST_SUITE_LOG): $(TEST_LOGS)
+>> +	@$(am__set_TESTS_bases); \
+>> +	am__f_ok () { test -f "$$1" && test -r "$$1"; }; \
+>> +	redo_bases=`for i in $$bases; do \
+>> +	              am__f_ok $$i.trs && am__f_ok $$i.log || echo $$i; \
+>> +	            done`; \
+>> +	st=0;  \
+>> +	errmsg="fatal: making $(TEST_SUITE_LOG): failed to create"; \
+>> +	for i in $$redo_bases; do \
+>> +	    test -f $$i.trs && test -r $$i.trs \
+>> +	      || { echo "$$errmsg $$i.trs" >&2; st=1; }; \
+>> +	    test -f $$i.log && test -r $$i.log \
+>> +	      || { echo "$$errmsg $$i.log" >&2; st=1; }; \
+>> +	done; \
+>> +	test $$st -eq 0 || exit 1;
+>> +	@$(am__sh_e_setup); $(am__tty_colors); $(am__set_TESTS_bases); \
+>> +	ws='[ 	]'; \
+>> +	results=`for b in $$bases; do echo $$b.trs; done`; \
+>> +	test -n "$$results" || results=/dev/null; \
+>> +	all=`  grep "^$$ws*:test-result:"           $$results | wc -l`; \
+>> +	pass=` grep "^$$ws*:test-result:$$ws*PASS"  $$results | wc -l`; \
+>> +	fail=` grep "^$$ws*:test-result:$$ws*FAIL"  $$results | wc -l`; \
+>> +	skip=` grep "^$$ws*:test-result:$$ws*SKIP"  $$results | wc -l`; \
+>> +	xfail=`grep "^$$ws*:test-result:$$ws*XFAIL" $$results | wc -l`; \
+>> +	xpass=`grep "^$$ws*:test-result:$$ws*XPASS" $$results | wc -l`; \
+>> +	error=`grep "^$$ws*:test-result:$$ws*ERROR" $$results | wc -l`; \
+>> +	if test `expr $$fail + $$xpass + $$error` -eq 0; then \
+>> +	  success=true; \
+>> +	else \
+>> +	  success=false; \
+>> +	fi; \
+>> +	br='==================='; br=$$br$$br$$br$$br; \
+>> +	result_count () \
+>> +	{ \
+>> +	    if test x"$$1" = x"--maybe-color"; then \
+>> +	      maybe_colorize=yes; \
+>> +	    elif test x"$$1" = x"--no-color"; then \
+>> +	      maybe_colorize=no; \
+>> +	    else \
+>> +	      echo "$@: invalid 'result_count' usage" >&2; exit 4; \
+>> +	    fi; \
+>> +	    shift; \
+>> +	    desc=$$1 count=$$2; \
+>> +	    if test $$maybe_colorize = yes && test $$count -gt 0; then \
+>> +	      color_start=$$3 color_end=$$std; \
+>> +	    else \
+>> +	      color_start= color_end=; \
+>> +	    fi; \
+>> +	    echo "$${color_start}# $$desc $$count$${color_end}"; \
+>> +	}; \
+>> +	create_testsuite_report () \
+>> +	{ \
+>> +	  result_count $$1 "TOTAL:" $$all   "$$brg"; \
+>> +	  result_count $$1 "PASS: " $$pass  "$$grn"; \
+>> +	  result_count $$1 "SKIP: " $$skip  "$$blu"; \
+>> +	  result_count $$1 "XFAIL:" $$xfail "$$lgn"; \
+>> +	  result_count $$1 "FAIL: " $$fail  "$$red"; \
+>> +	  result_count $$1 "XPASS:" $$xpass "$$red"; \
+>> +	  result_count $$1 "ERROR:" $$error "$$mgn"; \
+>> +	}; \
+>> +	{								\
+>> +	  echo "$(PACKAGE_STRING): $(subdir)/$(TEST_SUITE_LOG)" |	\
+>> +	    $(am__rst_title);						\
+>> +	  create_testsuite_report --no-color;				\
+>> +	  echo;								\
+>> +	  echo ".. contents:: :depth: 2";				\
+>> +	  echo;								\
+>> +	  for b in $$bases; do echo $$b; done;				\
+>> +	} >$(TEST_SUITE_LOG).tmp || exit 1;				\
+>> +	mv $(TEST_SUITE_LOG).tmp $(TEST_SUITE_LOG);			\
+>> +	if $$success; then						\
+>> +	  col="$$grn";							\
+>> +	 else								\
+>> +	  col="$$red";							\
+>> +	  test x"$$VERBOSE" = x || cat $(TEST_SUITE_LOG);		\
+>> +	fi;								\
+>> +	echo "$${col}$$br$${std}"; 					\
+>> +	echo "$${col}Testsuite summary for $(PACKAGE_STRING)$${std}";	\
+>> +	echo "$${col}$$br$${std}"; 					\
+>> +	create_testsuite_report --maybe-color;				\
+>> +	echo "$$col$$br$$std";						\
+>> +	if $$success; then :; else					\
+>> +	  echo "$${col}See $(subdir)/$(TEST_SUITE_LOG)$${std}";		\
+>> +	  if test -n "$(PACKAGE_BUGREPORT)"; then			\
+>> +	    echo "$${col}Please report to $(PACKAGE_BUGREPORT)$${std}";	\
+>> +	  fi;								\
+>> +	  echo "$$col$$br$$std";					\
+>> +	fi;								\
+>> +	$$success || exit 1
+>> +
+>> +check-TESTS:
+>> +	@list='$(RECHECK_LOGS)';           test -z "$$list" || rm -f $$list
+>> +	@list='$(RECHECK_LOGS:.log=.trs)'; test -z "$$list" || rm -f $$list
+>> +	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
+>> +	@set +e; $(am__set_TESTS_bases); \
+>> +	log_list=`for i in $$bases; do echo $$i.log; done`; \
+>> +	trs_list=`for i in $$bases; do echo $$i.trs; done`; \
+>> +	log_list=`echo $$log_list`; trs_list=`echo $$trs_list`; \
+>> +	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) TEST_LOGS="$$log_list"; \
+>> +	exit $$?;
+>> +basic.log: basic
+>> +	@p='basic'; \
+>> +	b='basic'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +binary.log: binary
+>> +	@p='binary'; \
+>> +	b='binary'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +colliding-file-names.log: colliding-file-names
+>> +	@p='colliding-file-names'; \
+>> +	b='colliding-file-names'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +excess-slash.log: excess-slash
+>> +	@p='excess-slash'; \
+>> +	b='excess-slash'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +help-version.log: help-version
+>> +	@p='help-version'; \
+>> +	b='help-version'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +function-line-vs-leading-space.log: function-line-vs-leading-space
+>> +	@p='function-line-vs-leading-space'; \
+>> +	b='function-line-vs-leading-space'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +label-vs-func.log: label-vs-func
+>> +	@p='label-vs-func'; \
+>> +	b='label-vs-func'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +new-file.log: new-file
+>> +	@p='new-file'; \
+>> +	b='new-file'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +no-dereference.log: no-dereference
+>> +	@p='no-dereference'; \
+>> +	b='no-dereference'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +no-newline-at-eof.log: no-newline-at-eof
+>> +	@p='no-newline-at-eof'; \
+>> +	b='no-newline-at-eof'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +stdin.log: stdin
+>> +	@p='stdin'; \
+>> +	b='stdin'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> +filename-quoting.log: filename-quoting
+>> +	@p='filename-quoting'; \
+>> +	b='filename-quoting'; \
+>> +	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+>> +	--log-file $$b.log --trs-file $$b.trs \
+>> +	$(am__common_driver_flags) -- $(SHELL) "$$tst"
+>> diff --git a/meta/recipes-extended/diffutils/diffutils-3.3/run-ptest b/meta/recipes-extended/diffutils/diffutils-3.3/run-ptest
+>> new file mode 100644
+>> index 0000000..695c5e8
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/diffutils/diffutils-3.3/run-ptest
+>> @@ -0,0 +1,3 @@
+>> +#!/bin/sh
+>> +
+>> +make -C tests check-TESTS
+>> diff --git a/meta/recipes-extended/diffutils/diffutils_3.3.bb b/meta/recipes-extended/diffutils/diffutils_3.3.bb
+>> index 7a95c1a..ab6928a 100644
+>> --- a/meta/recipes-extended/diffutils/diffutils_3.3.bb
+>> +++ b/meta/recipes-extended/diffutils/diffutils_3.3.bb
+>> @@ -3,7 +3,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>>    
+>>    require diffutils.inc
+>>    
+>> -SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz"
+>> +SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz \
+>> +           file://Makefile \
+>> +           file://run-ptest \
+>> +"
+>>    
+>>    do_configure_prepend () {
+>>    	# Need to remove gettext macros with weird mix of versions
+>> @@ -14,3 +17,13 @@ do_configure_prepend () {
+>>    
+>>    SRC_URI[md5sum] = "99180208ec2a82ce71f55b0d7389f1b3"
+>>    SRC_URI[sha256sum] = "a25e89a8ab65fded1731e4186be1bb25cda967834b6df973599cdcd5abdfc19c"
+>> +
+>> +inherit ptest
+>> +
+>> +do_install_ptest() {
+>> +	t=${D}${PTEST_PATH}
+>> +	mkdir $t/build-aux
+>> +	cp ${S}/build-aux/test-driver $t/build-aux/
+>> +	cp -r ${S}/tests $t
+>> +	cp ${WORKDIR}/Makefile $t/tests/
+>> +}
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
 
