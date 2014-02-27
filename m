@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0285A6F1BA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id DDC256116C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:04:32 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1RI4Sbo022823 for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:04:28 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id k9-yFGcPuINB
+	Thu, 27 Feb 2014 18:52:55 +0000 (UTC)
+Received: by mail-qg0-f49.google.com with SMTP id j107so6802538qga.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:04:28 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1RI4NVf022815
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 18:04:25 GMT
-Message-ID: <1393524255.31769.151.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Feb 2014 18:04:15 +0000
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] libnotify: Fix separate build dir support
+	Thu, 27 Feb 2014 10:52:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=0T94qvmEOGJYM68UHQAaGgTb4fGfwFKRWXkIHgFqpNI=;
+	b=JLnE4ck83wPIG7asQedCZtYP1ecPCEcEgkwNb2Xq4pZIu5ww+K2pj0h5nIt2qfKHSt
+	w01/Wo9QpfXUdpBGUF/pb5R0G1PWpoHjEbg1EFK1TN0YEHXwHQ0SdQfpS/BqMcbSqkX3
+	BqLI5E6PdEMxeB9mFZqrNKaGa1clyvc78/43lZmWgwgMWoIF//+l7eBClSVQBa7reW6/
+	nRNG9voitG+qAiwxBnWJPiiPNtlkPdPGcIhoOfX5kGB35ckRBVLdPI13Pd/RJ/AkCwg1
+	Pow3qo7Giewm23F1QMMTsgW7ZjhMADJGaYMORTSR47cC12a2+c2jhFn+xdsPQndqJ3Gp
+	b5Dg==
+X-Gm-Message-State: ALoCoQl7Byq3D+AsVoBrxQeIvV+wky+m021Bwwv7AQhpf2riHFIRhCBRwkCkSTg3i7IQ0v1BCdI5
+X-Received: by 10.224.98.139 with SMTP id q11mr19166144qan.64.1393527176048;
+	Thu, 27 Feb 2014 10:52:56 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.140.48.79 with HTTP; Thu, 27 Feb 2014 10:52:35 -0800 (PST)
+In-Reply-To: <1393524104.31769.148.camel@ted>
+References: <1393524104.31769.148.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 27 Feb 2014 18:52:35 +0000
+Message-ID: <CAJTo0LaG9SeGd2Pi3-dksPd_FHH4TEWK2MGJU-d=2kte6aTg7Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] autotools-brokensep: Mark recipes with broken separate build dir support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 18:04:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Feb 2014 18:52:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fix ${B} != ${S} support for libnotify.
+On 27 February 2014 18:01, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> +inherit autotools
+> +B = "${S}"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Why is this preferable to directly setting B in the recipe, which
+seems more obvious to me.
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-index 61ae5e6..dd3ff31 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-@@ -12,6 +12,6 @@ SRC_URI[archive.md5sum] = "732c9d2cd5eb6a9069264a319d330516"
- SRC_URI[archive.sha256sum] = "73b16a79bb2fed62dcf146b11c4405776cb96a09dce66379ca541da7dbd64210"
- 
- do_configure_prepend() {
--    sed -i /GTK3/d configure.ac
--    sed -i -e /test-gtk3/d -e 's/test-xy-stress \\/test-xy-stress/' tests/Makefile.am
-+    sed -i /GTK3/d ${S}/configure.ac
-+    sed -i -e /test-gtk3/d -e 's/test-xy-stress \\/test-xy-stress/' ${S}/tests/Makefile.am
- }
-
-
+Ross
 
