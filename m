@@ -1,38 +1,33 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id A535E6F1A8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 04C6660DD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 20:20:48 +0000 (UTC)
-Received: by mail-la0-f50.google.com with SMTP id y1so2032550lam.37
+	Thu, 27 Feb 2014 20:23:12 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id e49so1715467eek.34
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 12:20:49 -0800 (PST)
+	Thu, 27 Feb 2014 12:23:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=D2dZohT+iLZZhO0E/XkKBypl4KG4pJeJq6XbjDTwMzw=;
-	b=ntkzttZDwPbYjP5ET6EgwC8aAhOPw11EXwlju568/XJMJ+LBhAbyW4ltNE548nN2JJ
-	gH7sPCZBbfvDt7WehfDEJ/KbuTMS//PBbLjBIv/+4M4Z8Ip31fm5OY7cOb6Eq4pE+dh/
-	ONGXXcVU8+DQUStxhkNpHOM5gvzc5hapcx9hYjso9SDsNNq6rdEPa/GYhHeEF+mAXhMd
-	bu85imEqTwvFMWIS/TjLTyE91UL7zTZ1Z4uRgXEzuJ6RBCRUApiOVDkvOclsQzh6jvzz
-	fH4iNdwVxBF0ZCImw5nux4tRlapF+HFRtMmH2udFsfgEpyO0ONOd9aagvClmJIdF3Hn9
-	n4hw==
-X-Received: by 10.152.3.8 with SMTP id 8mr2401547lay.30.1393532449364;
-	Thu, 27 Feb 2014 12:20:49 -0800 (PST)
-Received: from localhost (c-5eeaaa2a-74736162.cust.telenor.se. [94.234.170.42])
-	by mx.google.com with ESMTPSA id o10sm9400518laj.2.2014.02.27.12.20.47
+	h=from:to:cc:subject:date:message-id;
+	bh=XL6CmiiHqwMMpWMqMz7alayoBzFdadn+PJitcbWCkmY=;
+	b=k12KSbPO9q3QuYDO8L3FxfkSXaU4Mn4HuYryLjrtpNHc5Gn2YWcDdPlzEFupBtkaJy
+	jPEp1ZSJspgcsU2TEVgw0czyKUT5vf1q9T29C9njcirx1BXtVfc4t6fKj/KcLckLqMqf
+	36WDQR8HxEbroYMitvUtiN6T1+dDE8i0y/mkFUbAy1fxFJNbmIn1vv5jI5Ine3prGBB4
+	Z77OFcwIl0OjpofTJcqI7BLkxDxYXYi9ZhSe8undYhJrQRQWK3dPX/8GpaN6aQSPU7cp
+	g84AovueCIhyZ2+yK1bX/7p5smuiD4d0Y0a5pQwMhRhXkF/Btnn4WAi3JTcBToz71ofw
+	Kk2w==
+X-Received: by 10.14.99.196 with SMTP id x44mr15478760eef.65.1393532593209;
+	Thu, 27 Feb 2014 12:23:13 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id m1sm1655510een.7.2014.02.27.12.23.11
 	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 27 Feb 2014 12:20:48 -0800 (PST)
-Received: by localhost (Postfix, from userid 1000)
-	id CC470B40060; Thu, 27 Feb 2014 21:20:44 +0100 (CET)
-From: =?UTF-8?q?David=20Nystr=C3=B6m?= <david.c.nystrom@gmail.com>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Feb 2014 12:23:12 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2014 21:20:37 +0100
-Message-Id: <1393532438-6852-1-git-send-email-david.c.nystrom@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-MIME-Version: 1.0
-Subject: [PATCH 1/2] do_rootfs: Added PACKAGE_FEED_URIS functionality
+Date: Thu, 27 Feb 2014 21:20:38 +0100
+Message-Id: <1393532438-20847-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.9.0
+Subject: [PATCH] pango: Fix postinst
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,221 +40,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 20:20:50 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Feb 2014 20:23:13 -0000
 
-Adding a common interface to add predefined package manager
-channels to prebuilt rootfs:es.
+* do_split_packages was appending call to
+  ${bindir}/${MLPREFIX}pango-querymodules
+  without $D prefix or test if $D is empty, so it was always
+  failing on buildhostis without pango-querymodules and such
+  failure is fatal when rootfs is read-only (do_rootfs fails
+  because some packages weren't configured)
 
-Adding PACKAGE_FEED_URIS = "http://myre.po/repo/, will
-assume repo directories named (rpm,ipk,deb) as subdirectories
-and statically add them to the rootfs, using the same PKG_ARCHs
-as the build which produced the images.
-
-Tested with RPM, IPK and DEB.
-
-deb feed functionality seem broken, is anyone using this ?
-
-Signed-off-by: David Nyström <david.c.nystrom@gmail.com>
-Signed-off-by: David Nyström <david.nystrom@enea.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oe/package_manager.py | 89 +++++++++++++++++++++++++++++++++++++++++-
- meta/lib/oe/rootfs.py          | 16 ++------
- 2 files changed, 92 insertions(+), 13 deletions(-)
+ meta/recipes-graphics/pango/pango.inc | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index ff4f1de..c930572 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -223,6 +223,7 @@ class PackageManager(object):
-         self.d = d
-         self.deploy_dir = None
-         self.deploy_lock = None
-+        self.feed_uris = self.d.getVar('PACKAGE_FEED_URIS', True) or ""
+diff --git a/meta/recipes-graphics/pango/pango.inc b/meta/recipes-graphics/pango/pango.inc
+index 17006d3..5fddff9 100644
+--- a/meta/recipes-graphics/pango/pango.inc
++++ b/meta/recipes-graphics/pango/pango.inc
+@@ -42,21 +42,25 @@ EXTRA_OECONF = "--disable-introspection \
+ LEAD_SONAME = "libpango-1.0*"
+ LIBV = "1.8.0"
  
-     """
-     Update the package manager package database.
-@@ -262,6 +263,10 @@ class PackageManager(object):
-     def list_installed(self, format=None):
-         pass
+-postinst_prologue() {
++pango_postinst() {
+ if ! [ -e $D${sysconfdir}/pango ] ; then
+ 	mkdir -p $D${sysconfdir}/pango
+ fi
  
-+    @abstractmethod
-+    def insert_feeds_uris(self):
-+        pass
-+
-     """
-     Install complementary packages based upon the list of currently installed
-     packages e.g. locales, *-dev, *-dbg, etc. This will only attempt to install
-@@ -358,6 +363,46 @@ class RpmPM(PackageManager):
+-if [ "x$D" != "x" ]; then
++if [ -n "$D" ]; then
+ 	${@qemu_run_binary(d, '$D','${bindir}/${MLPREFIX}pango-querymodules')} \
+ 		$D${libdir}/pango/${LIBV}/modules/*.so \
+ 		> $D${sysconfdir}/pango/${MLPREFIX}pango.modules 2>/dev/null
  
-         self.ml_prefix_list, self.ml_os_list = self.indexer.get_ml_prefix_and_os_list(arch_var, os_var)
+-	[ $? -ne 0 ] && exit 1
++	if [ $? -ne 0 ] ; then
++		echo "qemu_run_binary call ${bindir}/${MLPREFIX}pango-querymodules $D${libdir}/pango/${LIBV}/modules/*.so > $D${sysconfdir}/pango/${MLPREFIX}pango.modules failed"
++		exit 1
  
-+
-+    def insert_feeds_uris(self):
-+        if self.feed_uris == "":
-+            return
-+
-+        # List must be prefered to least preferred order
-+        default_platform_extra = set()
-+        platform_extra = set()
-+        bbextendvariant = self.d.getVar('BBEXTENDVARIANT', True) or ""
-+        for mlib in self.ml_os_list:
-+            for arch in self.ml_prefix_list[mlib]:
-+                plt = arch.replace('-', '_') + '-.*-' + self.ml_os_list[mlib]
-+                if mlib == bbextendvariant:
-+                        default_platform_extra.add(plt)
-+                else:
-+                        platform_extra.add(plt)
-+
-+        platform_extra = platform_extra.union(default_platform_extra)
-+
-+        arch_list = []
-+        for canonical_arch in platform_extra:
-+            arch = canonical_arch.split('-')[0]
-+            if not os.path.exists(os.path.join(self.deploy_dir, arch)):
-+                continue
-+            arch_list.append(arch)
-+
-+        uri_iterator = 0
-+        channel_priority = 10 + 5 * len(self.feed_uris.split()) * len(arch_list)
-+
-+        for uri in self.feed_uris.split():
-+            for arch in arch_list:
-+                bb.note('Note: adding Smart channel url%d%s (%s)' %
-+                        (uri_iterator, arch, channel_priority))
-+                self._invoke_smart('channel --add url%d-%s type=rpm-md baseurl=%s/rpm/%s -y'
-+                                   % (uri_iterator, arch, uri, arch))
-+                self._invoke_smart('channel --set url%d-%s priority=%d' %
-+                                   (uri_iterator, arch, channel_priority))
-+                channel_priority -= 5
-+            uri_iterator += 1
-+
-     '''
-     Create configs for rpm and smart, and multilib is supported
-     '''
-@@ -944,7 +989,6 @@ class OpkgPM(PackageManager):
+ 	sed -i -e "s:$D::" $D${sysconfdir}/pango/${MLPREFIX}pango.modules
  
-         self.deploy_dir = self.d.getVar("DEPLOY_DIR_IPK", True)
-         self.deploy_lock_file = os.path.join(self.deploy_dir, "deploy.lock")
--
-         self.opkg_cmd = bb.utils.which(os.getenv('PATH'), "opkg-cl")
-         self.opkg_args = "-f %s -o %s " % (self.config_file, target_rootfs)
-         self.opkg_args += self.d.getVar("OPKG_ARGS", True)
-@@ -1050,6 +1094,29 @@ class OpkgPM(PackageManager):
-                     config_file.write("src oe-%s file:%s\n" %
-                                       (arch, pkgs_dir))
+ 	exit 0
++else
++	${bindir}/${MLPREFIX}pango-querymodules > /etc/pango/${MLPREFIX}pango.modules
+ fi
+ }
  
-+    def insert_feeds_uris(self):
-+        if self.feed_uris == "":
-+            return
-+
-+        rootfs_config = os.path.join('%s/etc/opkg/base-feeds.conf'
-+                                  % self.target_rootfs)
-+
-+        with open(rootfs_config, "w+") as config_file:
-+            uri_iterator = 0
-+            for uri in self.feed_uris.split():
-+                config_file.write("src/gz url-%d %s/ipk\n" %
-+                                  (uri_iterator, uri))
-+
-+                for arch in self.pkg_archs.split():
-+                    if not os.path.exists(os.path.join(self.deploy_dir, arch)):
-+                        continue
-+                    bb.note('Note: adding opkg channel url-%s-%d (%s)' %
-+                        (arch, uri_iterator, uri))
-+
-+                    config_file.write("src/gz uri-%s-%d %s/ipk/%s\n" %
-+                                      (arch, uri_iterator, uri, arch))
-+                uri_iterator += 1
-+
-     def update(self):
-         self.deploy_dir_lock()
+@@ -68,11 +72,11 @@ do_install_append () {
  
-@@ -1410,6 +1477,26 @@ class DpkgPM(PackageManager):
-         if result is not None:
-             bb.fatal(result)
  
-+    def insert_feeds_uris(self):
-+        if self.feed_uris == "":
-+            return
-+
-+        sources_conf = os.path.join("%s/etc/apt/sources.list"
-+                                    % self.target_rootfs)
-+        arch_list = []
-+        archs = self.d.getVar('PACKAGE_ARCHS', True)
-+        for arch in archs.split():
-+            if not os.path.exists(os.path.join(self.deploy_dir, arch)):
-+                continue
-+            arch_list.append(arch)
-+
-+        with open(sources_conf, "w+") as sources_file:
-+            for uri in self.feed_uris.split():
-+                for arch in arch_list:
-+                    bb.note('Note: adding dpkg channel at (%s)' % uri)
-+                    sources_file.write("deb %s/deb/%s ./\n" %
-+                                       (uri, arch))
-+
-     def _create_configs(self, archs, base_archs):
-         base_archs = re.sub("_", "-", base_archs)
+ python populate_packages_prepend () {
+-    prologue = d.getVar("postinst_prologue", True)
++    pango_postinst = d.getVar("pango_postinst", True)
  
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index be0afa6..cb0a739 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -41,9 +41,10 @@ class Rootfs(object):
-     def _log_check(self):
-         pass
+     modules_root = d.expand('${libdir}/pango/${LIBV}/modules')
  
--    @abstractmethod
-     def _insert_feed_uris(self):
--        pass
-+        if base_contains("IMAGE_FEATURES", "package-management",
-+                         True, False, self.d):
-+            self.pm.insert_feeds_uris()
+-    do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', prologue + '${bindir}/${MLPREFIX}pango-querymodules > /etc/pango/${MLPREFIX}pango.modules')
++    do_split_packages(d, modules_root, '^pango-(.*)\.so$', 'pango-module-%s', 'Pango module %s', pango_postinst)
+ }
  
-     @abstractmethod
-     def _handle_intercept_failure(self, failed_script):
-@@ -349,9 +350,6 @@ class RpmRootfs(Rootfs):
-                 if found_error == 6:
-                     bb.fatal(message)
- 
--    def _insert_feed_uris(self):
--        pass
--
-     def _handle_intercept_failure(self, registered_pkgs):
-         rpm_postinsts_dir = self.image_rootfs + self.d.expand('${sysconfdir}/rpm-postinsts/')
-         bb.utils.mkdirhier(rpm_postinsts_dir)
-@@ -372,6 +370,7 @@ class DpkgRootfs(Rootfs):
-                          d.getVar('PACKAGE_ARCHS', True),
-                          d.getVar('DPKG_ARCH', True))
- 
-+
-     def _create(self):
-         pkgs_to_install = self.manifest.parse_initial_manifest()
- 
-@@ -432,9 +431,6 @@ class DpkgRootfs(Rootfs):
-     def _log_check(self):
-         pass
- 
--    def _insert_feed_uris(self):
--        pass
--
- 
- class OpkgRootfs(Rootfs):
-     def __init__(self, d, manifest_dir):
-@@ -698,10 +694,6 @@ class OpkgRootfs(Rootfs):
-     def _log_check(self):
-         pass
- 
--    def _insert_feed_uris(self):
--        pass
--
--
- def create_rootfs(d, manifest_dir=None):
-     env_bkp = os.environ.copy()
- 
+ FILES_${PN} = "${sysconfdir}/pango/* ${bindir}/* ${libdir}/libpango*${SOLIBS}"
 -- 
-1.8.3.2
+1.9.0
 
 
