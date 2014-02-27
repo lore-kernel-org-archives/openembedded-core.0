@@ -1,40 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id ECB5A6E99E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id D07F66F2FE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 23:31:36 +0000 (UTC)
-Received: by mail-ea0-f169.google.com with SMTP id d10so2231438eaj.14
+	Fri, 28 Feb 2014 00:00:09 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
+	s1S004lW004154 for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2014 00:00:04 GMT
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id X_qb87ZlCuD1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 15:31:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=8q/+qIjD11vaKoa/RLBNv/Nd9pqO9D3Au9tTxhP8hHw=;
-	b=xuEGMWvwOTiNn9CYSbz43aXKaGjPZcmvWrG4B7HUbkw4j578rks0Y2/ZY9XI4pUoTv
-	qPfymWdA4tfhOGphMx9bg4UAQ9cXF4i0Die65AceN470xORVM//COvv6aTDxL1ywCS+X
-	nCKLNHjk49QEqx7MraqWRKjxyLIgw+WYiU62KqPwDGrjlA8S3ohc4s7UIFFFAvkxzULC
-	Edo32v7iKcMc/JCdjQoo9Hp5q3qYG1lXxIWD4hdl71Rqy6x13oNbCRVtp6ZMvouc8cCM
-	Y0YedZ0lx/3GI4MTXR9zt3lSD+kb+K9yFHQi1RBcvpnoy1LbpWXQC3nVF3Joq5lNckOF
-	gAcw==
-X-Received: by 10.15.65.68 with SMTP id p44mr16162185eex.63.1393543896970;
-	Thu, 27 Feb 2014 15:31:36 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	f45sm3304678eeg.5.2014.02.27.15.31.32 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Feb 2014 15:31:35 -0800 (PST)
-Date: Fri, 28 Feb 2014 00:31:27 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20140227233127.GF26981@jama>
-References: <1393532438-20847-1-git-send-email-Martin.Jansa@gmail.com>
-	<20140227221501.GE26981@jama> <1393539473.31769.192.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1393539473.31769.192.camel@ted>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pango: Fix postinst
+	Fri, 28 Feb 2014 00:00:03 +0000 (GMT)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	s1S000Gw004129
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2014 00:00:01 GMT
+Message-ID: <1393545592.31769.193.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Feb 2014 23:59:52 +0000
+X-Mailer: Evolution 3.8.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: dpkg: Fix dpkg-native dependency on target xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,67 +38,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 23:31:37 -0000
-X-Groupsio-MsgNum: 50695
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="M6zgnH1YaYMeZb4K"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 28 Feb 2014 00:00:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---M6zgnH1YaYMeZb4K
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+dpkg-native should not depend on the target xz. Fix this.
 
-On Thu, Feb 27, 2014 at 10:17:53PM +0000, Richard Purdie wrote:
-> On Thu, 2014-02-27 at 23:15 +0100, Martin Jansa wrote:
-> > On Thu, Feb 27, 2014 at 09:20:38PM +0100, Martin Jansa wrote:
-> > > * do_split_packages was appending call to
-> > >   ${bindir}/${MLPREFIX}pango-querymodules
-> > >   without $D prefix or test if $D is empty, so it was always
-> > >   failing on buildhostis without pango-querymodules and such
-> > >   failure is fatal when rootfs is read-only (do_rootfs fails
-> > >   because some packages weren't configured)
-> >=20
-> > Something is wrong, in theory the
-> > if [ "x$D" !=3D "x" ]; then
-> > case should always exit with 0 or 1 before it reaches the call added by
-> > do_split_packages so it has to be qemu_run_binary call failing and
-> > causing exit 1
->=20
-> Saul's error shows the shell parser in bitbake exiting. The function in
-> question isn't getting run, its never getting past the parsing stage. As
-> Saul mentions, it appears the if/fi balance isn't correct which would
-> upset the shell parser...
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 044a8eb..c0c897c 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -8,7 +8,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/dpkg/dpkg_${PV}.tar.xz \
+ DEPENDS = "zlib bzip2 perl ncurses"
+ DEPENDS_class-native = "bzip2-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz"
+-RDEPENDS_${PN}_class-native = "xz"
++RDEPENDS_${PN}_class-native = "xz-native"
+ 
+ S = "${WORKDIR}/${BPN}-${PV}"
+ 
 
-Saul is correct, this version was wrong.. I had fixed version locally,
-but than I've noticed that the exit calls should prevent the added
-pango-querymodules call to be executed in do_rootfs, so I have started
-checking what could be wrong and forgot to update status of this patch
-on e-mail (or send v2 with fixed parsing) now I'm testing if the failure
-is just because of missing qemu-native dependency.
 
-meta/classes/qemu.bbclass doesn't add the dependency on qemu-native and
-in image without any package which would be built with
-  meta/classes/fontcache.bbclass:DEPENDS +=3D "qemu-native"
-  meta/classes/pixbufcache.bbclass:DEPENDS +=3D "qemu-native"
-it's IMHO still possible to end with do_rootfs being executed without
-qemu-native being pulled into the build.
 
-So v2 will came later after more testing.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---M6zgnH1YaYMeZb4K
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlMPys8ACgkQN1Ujt2V2gByTNACeNc4Hzt9dVMrNvZARq4hdyhrB
-CqQAoLKOFz+WOrs+a+2UWlVEPNVat0IO
-=ihir
------END PGP SIGNATURE-----
-
---M6zgnH1YaYMeZb4K--
