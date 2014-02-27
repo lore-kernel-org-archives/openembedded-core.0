@@ -1,35 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E7736F1A4;
-	Wed, 26 Feb 2014 23:50:00 +0000 (UTC)
-Received: by mail-ea0-f178.google.com with SMTP id a15so1348071eae.23
-	for <multiple recipients>; Wed, 26 Feb 2014 15:50:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=BvdhzAqNuNCjtC8zz3nyUY5JZhRl+wi8cYlPtTCNz6Y=;
-	b=D1upzZsw4tUK05QdQRmGrRz+VcluHstDuCAHWGC31bMJJrUWA8GgPuM+A/8qhzvjDK
-	Qga9fG74XjMRAJ8yCmJhhHZt9xY2nFmdySrTTVyFcB5apIS4Uar5SI3/Ogsp0hoMt3Tt
-	ey54qM3BZUEc8JddjBeydn2Ks17RT4eaI3/1GrXMJ0MIkr+5wh2THQ45PtiAHIMTWr+6
-	0G+up/uqFdMLA3UIaosF1ykQx2vGtxCkol4bnRFq/ydYIj2A7RXlfI/gIDQsKxnGybh0
-	k35LO+aM/L/g0vzUHy5CSjRE66fXOmV1CC/yDM3uHa+/AO/nK21HqvvjtcmrPj3myTtU
-	JEpw==
-X-Received: by 10.15.73.134 with SMTP id h6mr9965699eey.15.1393458601629;
-	Wed, 26 Feb 2014 15:50:01 -0800 (PST)
-Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
-	by mx.google.com with ESMTPSA id
-	j42sm9856274eep.21.2014.02.26.15.49.59 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 26 Feb 2014 15:50:00 -0800 (PST)
-Date: Thu, 27 Feb 2014 00:50:01 +0100
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-ID: <20140226235001.GW26981@jama>
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 407B36F1BA
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Feb 2014 03:22:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1R3MODF018585
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2014 19:22:24 -0800 (PST)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 26 Feb 2014 19:22:24 -0800
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Feb 2014 11:23:28 +0800
+Message-ID: <1393471408-29014-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Subject: State of bitbake world, Failed tasks 2014-02-27
+Subject: [PATCH] dbus: proper error handler should be given after send_negotiate_unix_fd failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,98 +31,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 23:50:02 -0000
-X-Groupsio-MsgNum: 50633
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="hblleJHDxiLJUoyx"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 27 Feb 2014 03:22:30 -0000
+Content-Type: text/plain
 
---hblleJHDxiLJUoyx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Roy Li <rongqing.li@windriver.com>
 
-http://www.openembedded.org/wiki/Bitbake_World_Status
+Once send_negotiate_unix_fd failed, this failure will happen, since
+auth->guid_from_server has been set to some value before
+send_negotiate_unix_fd. send_negotiate_unix_fd failure will lead to
+this auth be handled by process_ok again, but this auth->guid_from_server
+is not zero.
 
-=3D=3D Failed tasks 2014-02-26 =3D=3D
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta/recipes-core/dbus/dbus-ptest_1.6.18.bb        |    1 +
+ meta/recipes-core/dbus/dbus.inc                    |    1 +
+ ...guid_from_server-if-send_negotiate_unix_f.patch |  104 ++++++++++++++++++++
+ 3 files changed, 106 insertions(+)
+ create mode 100644 meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
 
-=3D=3D=3D common (8) =3D=3D=3D
-    * meta-openembedded/meta-gnome/recipes-gnome/devilspie/devilspie2_0.24.=
-bb, do_compile
-    * meta-openembedded/meta-multimedia/recipes-multimedia/musicbrainz/libm=
-usicbrainz_git.bb, do_configure
-    * meta-openembedded/meta-multimedia/recipes-multimedia/vlc/vlc_1.1.11.b=
-b, do_compile
-    * meta-openembedded/meta-networking/recipes-support/traceroute/tracerou=
-te_2.0.18.bb, do_compile
-    * meta-openembedded/meta-oe/recipes-connectivity/networkmanager/network=
-manager_0.9.8.0.bb, do_configure
-    * meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
-ile
-    * meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_c=
-ompile
-    * meta-openembedded/meta-oe/recipes-support/inih/libinih_git.bb, do_ins=
-tall
+diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+index 30e8223..bc260de 100644
+--- a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
++++ b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://dbus-1.init  \
+            file://run-ptest \
+            file://python-config.patch \
++           file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
+ 
+ SRC_URI[md5sum] = "b02e9c95027a416987b81f9893831061"
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index db47ede..677ff78 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -14,6 +14,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://tmpdir.patch \
+            file://dbus-1.init \
+            file://os-test.patch \
++           file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+ "
+ 
+ inherit useradd autotools pkgconfig gettext update-rc.d
+diff --git a/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch b/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
+new file mode 100644
+index 0000000..6bb6d9c
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
+@@ -0,0 +1,104 @@
++From b8f84bd39485d3977625c9a8b8e8cff5d23be56f Mon Sep 17 00:00:00 2001
++From: Roy Li <rongqing.li@windriver.com>
++Date: Thu, 27 Feb 2014 09:05:02 +0800
++Subject: [PATCH] dbus: clear guid_from_server if send_negotiate_unix_fd
++ failed
++
++Upstream-Status: Submitted
++
++bus-test dispatch test failed with below information:
++    ./bus/bus-test: Running message dispatch test
++    Activating service name='org.freedesktop.DBus.TestSuiteEchoService'
++    Successfully activated service 'org.freedesktop.DBus.TestSuiteEchoService'
++    6363: assertion failed "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0" file "dbus-auth.c" line 1545 function process_ok
++      ./bus/bus-test(_dbus_print_backtrace+0x29) [0x80cb969]
++      ./bus/bus-test(_dbus_abort+0x14) [0x80cfb44]
++      ./bus/bus-test(_dbus_real_assert+0x53) [0x80b52c3]
++      ./bus/bus-test() [0x80e24da]
++      ./bus/bus-test(_dbus_auth_do_work+0x388) [0x80e3848]
++      ./bus/bus-test() [0x80aea49]
++      ./bus/bus-test() [0x80affde]
++      ./bus/bus-test(_dbus_transport_handle_watch+0xb1) [0x80ad841]
++      ./bus/bus-test(_dbus_connection_handle_watch+0x104) [0x8089174]
++      ./bus/bus-test(dbus_watch_handle+0xd8) [0x80b15e8]
++      ./bus/bus-test(_dbus_loop_iterate+0x4a9) [0x80d1509]
++      ./bus/bus-test(bus_test_run_clients_loop+0x5d) [0x808129d]
++      ./bus/bus-test() [0x806cab0]
++      ./bus/bus-test() [0x806e0ca]
++      ./bus/bus-test() [0x806da6f]
++      ./bus/bus-test(_dbus_test_oom_handling+0x18c) [0x80b5c8c]
++      ./bus/bus-test() [0x806f723]
++      ./bus/bus-test(bus_dispatch_test+0x3c) [0x8071aac]
++      ./bus/bus-test(main+0x1b7) [0x805acc7]
++      /lib/libc.so.6(__libc_start_main+0xf3) [0x45f919b3]
++      ./bus/bus-test() [0x805ae39]
++
++The stack is below:
++    #0  0xffffe425 in __kernel_vsyscall ()
++    #1  0x45fa62d6 in raise () from /lib/libc.so.6
++    #2  0x45fa9653 in abort () from /lib/libc.so.6
++    #3  0x080cfb65 in _dbus_abort () at dbus-sysdeps.c:94
++    #4  0x080b52c3 in _dbus_real_assert (condition=0,
++        condition_text=condition_text@entry=0x8117a38 "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0",
++        file=file@entry=0x8117273 "dbus-auth.c", line=line@entry=1545,
++        func=func@entry=0x8117f8e <__FUNCTION__.3492> "process_ok")
++        data=0x8157290) at dbus-connection.c:1515
++    #0  0x00000033fee353e9 in raise () from /lib64/libc.so.6
++    #1  0x00000033fee38508 in abort () from /lib64/libc.so.6
++    #2  0x000000000047d585 in _dbus_abort () at dbus-sysdeps.c:94
++    #3  0x0000000000466486 in _dbus_real_assert (condition=<optimized out>,
++        condition_text=condition_text@entry=0x4c2988 "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0",
++        file=file@entry=0x4c21a5 "dbus-auth.c", line=line@entry=1546,
++        func=func@entry=0x4c2fce <__FUNCTION__.3845> "process_ok")
++        at dbus-internals.c:931
++    #4  0x000000000048d424 in process_ok (args_from_ok=0x7fffffffe480,
++        auth=0x6ff340) at dbus-auth.c:1546
++    #5  handle_client_state_waiting_for_data (auth=0x6ff340,
++        command=<optimized out>, args=0x7fffffffe480) at dbus-auth.c:1996
++    #6  0x000000000048e789 in process_command (auth=0x6ff340) at dbus-auth.c:2208
++    #7  _dbus_auth_do_work (auth=0x6ff340) at dbus-auth.c:2458
++    #8  0x000000000046091d in do_authentication (
++        transport=transport@entry=0x6ffaa0, do_reading=do_reading@entry=1,
++        do_writing=do_writing@entry=0,
++        auth_completed=auth_completed@entry=0x7fffffffe55c)
++        at dbus-transport-socket.c:442
++    #9  0x0000000000461d08 in socket_handle_watch (transport=0x6ffaa0,
++        watch=0x6f4190, flags=1) at dbus-transport-socket.c:921
++    #10 0x000000000045fa3a in _dbus_transport_handle_watch (transport=0x6ffaa0,
++
++Once send_negotiate_unix_fd failed, this failure will happen, since
++auth->guid_from_server has been set to some value before
++send_negotiate_unix_fd. send_negotiate_unix_fd failure will lead to
++this auth be handled by process_ok again, but this auth->guid_from_server
++is not zero.
++
++So we should clear auth->guid_from_server if send_negotiate_unix_fd failed
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ dbus/dbus-auth.c |    9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/dbus/dbus-auth.c b/dbus/dbus-auth.c
++index d2c37a7..37b45c6 100644
++--- a/dbus/dbus-auth.c
+++++ b/dbus/dbus-auth.c
++@@ -1571,8 +1571,13 @@ process_ok(DBusAuth *auth,
++   _dbus_verbose ("Got GUID '%s' from the server\n",
++                  _dbus_string_get_const_data (& DBUS_AUTH_CLIENT (auth)->guid_from_server));
++ 
++-  if (auth->unix_fd_possible)
++-    return send_negotiate_unix_fd(auth);
+++  if (auth->unix_fd_possible) {
+++     if (!send_negotiate_unix_fd(auth)) {
+++         _dbus_string_set_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server, 0);
+++         return FALSE;
+++     }
+++     return TRUE;
+++  }
++ 
++   _dbus_verbose("Not negotiating unix fd passing, since not possible\n");
++   return send_begin (auth);
++-- 
++1.7.10.4
++
+-- 
+1.7.10.4
 
-=3D=3D=3D common-x86 (5) =3D=3D=3D
-    * meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
-    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
-b, do_compile
-    * meta-openembedded/meta-oe/recipes-connectivity/daq/daq_2.0.1.bb, do_i=
-nstall
-    * meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
-pile
-    * openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
 
-=3D=3D=3D qemuarm (7) =3D=3D=3D
-    * meta-openembedded/meta-efl/recipes-efl/webkit/webkit-efl_2.3.2+svnr15=
-9807.bb, do_compile
-    * meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_12.2.=
-bb, do_fetch
-    * meta-openembedded/meta-oe/recipes-core/libxml/libxml++_2.35.3.bb, do_=
-compile
-    * meta-openembedded/meta-oe/recipes-devtools/packagekit/packagekit_0.8.=
-13.bb, do_configure
-    * meta-openembedded/meta-oe/recipes-extended/gnuplot/gnuplot_4.4.4.bb, =
-do_compile
-    * meta-openembedded/meta-oe/recipes-support/mongodb/mongodb_git.bb, do_=
-compile
-    * openembedded-core/meta/recipes-bsp/grub/grub_git.bb, do_package
-
-=3D=3D=3D qemux86 (1) =3D=3D=3D
-    * meta-openembedded/meta-initramfs/recipes-kernel/linux/linux-yocto-tin=
-y-kexecboot_3.10.bb, do_compile
-
-=3D=3D=3D qemux86_64 (1) =3D=3D=3D
-    * meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
-obiledevice_1.1.4.bb, do_configure
-
-=3D=3D=3D Number of failed tasks =3D=3D=3D
-{| class=3Dwikitable
-|-
-||qemuarm       ||15    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140224_083255.log/
-|-
-||qemux86       ||14    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140224_180733.log/
-|-
-||qemux86_64    ||14    ||http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-c=
-ore-branches//log.world.20140225_233246.log/
-|}
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---hblleJHDxiLJUoyx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iEYEARECAAYFAlMOfakACgkQN1Ujt2V2gBwwDQCeP+C78zn1BArz5QzBSp5Pn1Xw
-3ssAoJhfn8ay99KxUfqOJfZS8l2V/9/t
-=9A27
------END PGP SIGNATURE-----
-
---hblleJHDxiLJUoyx--
