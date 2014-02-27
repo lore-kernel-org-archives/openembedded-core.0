@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E22F6F3A4
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CE4BD6EE30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 22:18:12 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu4) with ESMTP id
-	s1RMHO35001477; Thu, 27 Feb 2014 22:18:07 GMT
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id m7_RHqzGsQt6; Thu, 27 Feb 2014 22:18:06 +0000 (GMT)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	s1RMI0PY001518
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 27 Feb 2014 22:18:02 GMT
-Message-ID: <1393539473.31769.192.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 27 Feb 2014 22:17:53 +0000
-In-Reply-To: <20140227221501.GE26981@jama>
-References: <1393532438-20847-1-git-send-email-Martin.Jansa@gmail.com>
-	<20140227221501.GE26981@jama>
-X-Mailer: Evolution 3.8.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pango: Fix postinst
+	Thu, 27 Feb 2014 22:27:36 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 27 Feb 2014 14:23:14 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.97,557,1389772800"; d="scan'208";a="491174173"
+Received: from unknown (HELO swold-linux.amr.corp.intel.com) ([10.255.14.50])
+	by orsmga002.jf.intel.com with ESMTP; 27 Feb 2014 14:27:36 -0800
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Feb 2014 00:27:34 +0200
+Message-Id: <1393540055-13033-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 1/2] man-pages: Update to 3.60
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 22:18:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Feb 2014 22:27:38 -0000
 
-On Thu, 2014-02-27 at 23:15 +0100, Martin Jansa wrote:
-> On Thu, Feb 27, 2014 at 09:20:38PM +0100, Martin Jansa wrote:
-> > * do_split_packages was appending call to
-> >   ${bindir}/${MLPREFIX}pango-querymodules
-> >   without $D prefix or test if $D is empty, so it was always
-> >   failing on buildhostis without pango-querymodules and such
-> >   failure is fatal when rootfs is read-only (do_rootfs fails
-> >   because some packages weren't configured)
-> 
-> Something is wrong, in theory the
-> if [ "x$D" != "x" ]; then
-> case should always exit with 0 or 1 before it reaches the call added by
-> do_split_packages so it has to be qemu_run_binary call failing and
-> causing exit 1
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../man-pages/{man-pages_3.57.bb => man-pages_3.60.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_3.57.bb => man-pages_3.60.bb} (82%)
 
-Saul's error shows the shell parser in bitbake exiting. The function in
-question isn't getting run, its never getting past the parsing stage. As
-Saul mentions, it appears the if/fi balance isn't correct which would
-upset the shell parser...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/man-pages/man-pages_3.57.bb b/meta/recipes-extended/man-pages/man-pages_3.60.bb
+similarity index 82%
+rename from meta/recipes-extended/man-pages/man-pages_3.57.bb
+rename to meta/recipes-extended/man-pages/man-pages_3.60.bb
+index 2277270..a54d9b0 100644
+--- a/meta/recipes-extended/man-pages/man-pages_3.57.bb
++++ b/meta/recipes-extended/man-pages/man-pages_3.60.bb
+@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+ 
+-SRC_URI[md5sum] = "c56dce7f02bc980a03188276fb5e6f72"
+-SRC_URI[sha256sum] = "8183a3d5ffd4870d3af01390380c24f783501c49ff6b28f3d96f592c04f0b06d"
++SRC_URI[md5sum] = "5e64e4361b5ee1991e0ec5d44b6c5d69"
++SRC_URI[sha256sum] = "d62d10f2d75257c883118d388021e06d2193a61ae8951f94492ac53a07d83387"
+ 
+ RDEPENDS_${PN} = "man"
+ 
+-- 
+1.8.3.1
 
 
