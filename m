@@ -1,24 +1,31 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 407B36F1BA
+	by mail.openembedded.org (Postfix) with ESMTP id 307D760C02
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 03:22:23 +0000 (UTC)
+	Thu, 27 Feb 2014 03:24:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1R3MODF018585
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2014 19:22:24 -0800 (PST)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 26 Feb 2014 19:22:24 -0800
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Feb 2014 11:23:28 +0800
-Message-ID: <1393471408-29014-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1R3Oh7S018855
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 26 Feb 2014 19:24:43 -0800 (PST)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Wed, 26 Feb 2014 19:24:42 -0800
+Message-ID: <530EB012.1090800@windriver.com>
+Date: Thu, 27 Feb 2014 11:25:06 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.2.0
 MIME-Version: 1.0
-Subject: [PATCH] dbus: proper error handler should be given after send_negotiate_unix_fd failed
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1393399942.git.Qi.Chen@windriver.com>	
+	<daee4480b735a557aaa314f9a1f9bf6fbb3f9a12.1393399942.git.Qi.Chen@windriver.com>	
+	<CAJTo0LaOPBcyt-WfvXqKR4FEpVD3Lf5c04BXemFNC6_Pa-JMkQ@mail.gmail.com>	
+	<530DC059.5010608@windriver.com> <1393411485.31769.109.camel@ted>
+In-Reply-To: <1393411485.31769.109.camel@ted>
+X-Originating-IP: [128.224.162.218]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] python-numpy: fix compile error for qemumips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,160 +38,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 03:22:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 27 Feb 2014 03:24:44 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+On 02/26/2014 06:44 PM, Richard Purdie wrote:
+> On Wed, 2014-02-26 at 18:22 +0800, ChenQi wrote:
+>> On 02/26/2014 06:02 PM, Burton, Ross wrote:
+>>> On 26 February 2014 07:33, Chen Qi <Qi.Chen@windriver.com> wrote:
+>>>> This is because for qemumips, there are no such files in SRC_URI. And
+>>>> actually we don't need such files. So for qemumips, the `cp' command
+>>>> is expected to fail.
+>>> Those files contain the definitions of things like word size and byte
+>>> ordering, so unless I've misunderstood the build process for numpy
+>>> what's happening with this patch is that it's using the host
+>>> environment.
+>>>
+>>> Ross
+>>>
+>>>
+>> Those files are there already.
+>> For archs like x86, we first replace them so that the build process
+>> doesn't fail (according to the comments in the recipe); but for
+>> mips/ppc, we don't need to do so, the build just succeeds.
+>>
+>> chenqi@pek-hostel-vm07:~/poky/build-qemumips64 [0] $ ls
+>> tmp/work/mips64-poky-linux/python-numpy/1.7.0-r1/numpy-1.7.0/build/src.linux-i686-2.7/numpy/core/include/numpy/
+>> config.h  __multiarray_api.c  __multiarray_api.h multiarray_api.txt
+>> _numpyconfig.h  __ufunc_api.c  __ufunc_api.h ufunc_api.txt
+>> __umath_generated.c
+> Ross' point stands, its just using the values from the host (build)
+> system. If your build system was mips it might stand a chance of
+> working, I suspect you're building on x86 though and x86 != mips.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
-Once send_negotiate_unix_fd failed, this failure will happen, since
-auth->guid_from_server has been set to some value before
-send_negotiate_unix_fd. send_negotiate_unix_fd failure will lead to
-this auth be handled by process_ok again, but this auth->guid_from_server
-is not zero.
+Ross & Richard,
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-core/dbus/dbus-ptest_1.6.18.bb        |    1 +
- meta/recipes-core/dbus/dbus.inc                    |    1 +
- ...guid_from_server-if-send_negotiate_unix_f.patch |  104 ++++++++++++++++++++
- 3 files changed, 106 insertions(+)
- create mode 100644 meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
+Thanks for making it clear.
+Yesterday, I built it and tested it on target. As some basic tests 
+passed, I thought everything was OK.
+Now I've checked those files, and obviously I've made a mistake.
+I'll rework on this one.
 
-diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
-index 30e8223..bc260de 100644
---- a/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
-+++ b/meta/recipes-core/dbus/dbus-ptest_1.6.18.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://dbus-1.init  \
-            file://run-ptest \
-            file://python-config.patch \
-+           file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
-            "
- 
- SRC_URI[md5sum] = "b02e9c95027a416987b81f9893831061"
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index db47ede..677ff78 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -14,6 +14,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://tmpdir.patch \
-            file://dbus-1.init \
-            file://os-test.patch \
-+           file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
- "
- 
- inherit useradd autotools pkgconfig gettext update-rc.d
-diff --git a/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch b/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
-new file mode 100644
-index 0000000..6bb6d9c
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus/clear-guid_from_server-if-send_negotiate_unix_f.patch
-@@ -0,0 +1,104 @@
-+From b8f84bd39485d3977625c9a8b8e8cff5d23be56f Mon Sep 17 00:00:00 2001
-+From: Roy Li <rongqing.li@windriver.com>
-+Date: Thu, 27 Feb 2014 09:05:02 +0800
-+Subject: [PATCH] dbus: clear guid_from_server if send_negotiate_unix_fd
-+ failed
-+
-+Upstream-Status: Submitted
-+
-+bus-test dispatch test failed with below information:
-+    ./bus/bus-test: Running message dispatch test
-+    Activating service name='org.freedesktop.DBus.TestSuiteEchoService'
-+    Successfully activated service 'org.freedesktop.DBus.TestSuiteEchoService'
-+    6363: assertion failed "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0" file "dbus-auth.c" line 1545 function process_ok
-+      ./bus/bus-test(_dbus_print_backtrace+0x29) [0x80cb969]
-+      ./bus/bus-test(_dbus_abort+0x14) [0x80cfb44]
-+      ./bus/bus-test(_dbus_real_assert+0x53) [0x80b52c3]
-+      ./bus/bus-test() [0x80e24da]
-+      ./bus/bus-test(_dbus_auth_do_work+0x388) [0x80e3848]
-+      ./bus/bus-test() [0x80aea49]
-+      ./bus/bus-test() [0x80affde]
-+      ./bus/bus-test(_dbus_transport_handle_watch+0xb1) [0x80ad841]
-+      ./bus/bus-test(_dbus_connection_handle_watch+0x104) [0x8089174]
-+      ./bus/bus-test(dbus_watch_handle+0xd8) [0x80b15e8]
-+      ./bus/bus-test(_dbus_loop_iterate+0x4a9) [0x80d1509]
-+      ./bus/bus-test(bus_test_run_clients_loop+0x5d) [0x808129d]
-+      ./bus/bus-test() [0x806cab0]
-+      ./bus/bus-test() [0x806e0ca]
-+      ./bus/bus-test() [0x806da6f]
-+      ./bus/bus-test(_dbus_test_oom_handling+0x18c) [0x80b5c8c]
-+      ./bus/bus-test() [0x806f723]
-+      ./bus/bus-test(bus_dispatch_test+0x3c) [0x8071aac]
-+      ./bus/bus-test(main+0x1b7) [0x805acc7]
-+      /lib/libc.so.6(__libc_start_main+0xf3) [0x45f919b3]
-+      ./bus/bus-test() [0x805ae39]
-+
-+The stack is below:
-+    #0  0xffffe425 in __kernel_vsyscall ()
-+    #1  0x45fa62d6 in raise () from /lib/libc.so.6
-+    #2  0x45fa9653 in abort () from /lib/libc.so.6
-+    #3  0x080cfb65 in _dbus_abort () at dbus-sysdeps.c:94
-+    #4  0x080b52c3 in _dbus_real_assert (condition=0,
-+        condition_text=condition_text@entry=0x8117a38 "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0",
-+        file=file@entry=0x8117273 "dbus-auth.c", line=line@entry=1545,
-+        func=func@entry=0x8117f8e <__FUNCTION__.3492> "process_ok")
-+        data=0x8157290) at dbus-connection.c:1515
-+    #0  0x00000033fee353e9 in raise () from /lib64/libc.so.6
-+    #1  0x00000033fee38508 in abort () from /lib64/libc.so.6
-+    #2  0x000000000047d585 in _dbus_abort () at dbus-sysdeps.c:94
-+    #3  0x0000000000466486 in _dbus_real_assert (condition=<optimized out>,
-+        condition_text=condition_text@entry=0x4c2988 "_dbus_string_get_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server) == 0",
-+        file=file@entry=0x4c21a5 "dbus-auth.c", line=line@entry=1546,
-+        func=func@entry=0x4c2fce <__FUNCTION__.3845> "process_ok")
-+        at dbus-internals.c:931
-+    #4  0x000000000048d424 in process_ok (args_from_ok=0x7fffffffe480,
-+        auth=0x6ff340) at dbus-auth.c:1546
-+    #5  handle_client_state_waiting_for_data (auth=0x6ff340,
-+        command=<optimized out>, args=0x7fffffffe480) at dbus-auth.c:1996
-+    #6  0x000000000048e789 in process_command (auth=0x6ff340) at dbus-auth.c:2208
-+    #7  _dbus_auth_do_work (auth=0x6ff340) at dbus-auth.c:2458
-+    #8  0x000000000046091d in do_authentication (
-+        transport=transport@entry=0x6ffaa0, do_reading=do_reading@entry=1,
-+        do_writing=do_writing@entry=0,
-+        auth_completed=auth_completed@entry=0x7fffffffe55c)
-+        at dbus-transport-socket.c:442
-+    #9  0x0000000000461d08 in socket_handle_watch (transport=0x6ffaa0,
-+        watch=0x6f4190, flags=1) at dbus-transport-socket.c:921
-+    #10 0x000000000045fa3a in _dbus_transport_handle_watch (transport=0x6ffaa0,
-+
-+Once send_negotiate_unix_fd failed, this failure will happen, since
-+auth->guid_from_server has been set to some value before
-+send_negotiate_unix_fd. send_negotiate_unix_fd failure will lead to
-+this auth be handled by process_ok again, but this auth->guid_from_server
-+is not zero.
-+
-+So we should clear auth->guid_from_server if send_negotiate_unix_fd failed
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+---
-+ dbus/dbus-auth.c |    9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/dbus/dbus-auth.c b/dbus/dbus-auth.c
-+index d2c37a7..37b45c6 100644
-+--- a/dbus/dbus-auth.c
-++++ b/dbus/dbus-auth.c
-+@@ -1571,8 +1571,13 @@ process_ok(DBusAuth *auth,
-+   _dbus_verbose ("Got GUID '%s' from the server\n",
-+                  _dbus_string_get_const_data (& DBUS_AUTH_CLIENT (auth)->guid_from_server));
-+ 
-+-  if (auth->unix_fd_possible)
-+-    return send_negotiate_unix_fd(auth);
-++  if (auth->unix_fd_possible) {
-++     if (!send_negotiate_unix_fd(auth)) {
-++         _dbus_string_set_length (& DBUS_AUTH_CLIENT (auth)->guid_from_server, 0);
-++         return FALSE;
-++     }
-++     return TRUE;
-++  }
-+ 
-+   _dbus_verbose("Not negotiating unix fd passing, since not possible\n");
-+   return send_begin (auth);
-+-- 
-+1.7.10.4
-+
--- 
-1.7.10.4
-
+Best Regards,
+Chen Qi
 
