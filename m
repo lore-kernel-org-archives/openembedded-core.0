@@ -1,31 +1,25 @@
-Return-Path: <alexandrux.palalau@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D7D2C60C16
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id ED62660DDF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 15:02:59 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 Feb 2014 07:02:59 -0800
+	Thu, 27 Feb 2014 15:18:24 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Feb 2014 07:18:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,555,1389772800"; d="scan'208";a="490930106"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 27 Feb 2014 07:02:48 -0800
-Received: from [10.237.108.30] (apalalax-mobl.ger.corp.intel.com
-	[10.237.108.30])
-	by linux.intel.com (Postfix) with ESMTP id 8271C6A4083;
-	Thu, 27 Feb 2014 07:02:37 -0800 (PST)
-Message-ID: <530F5396.8060409@linux.intel.com>
-Date: Thu, 27 Feb 2014 17:02:46 +0200
-From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
-Organization: Intel OTC
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+X-IronPort-AV: E=Sophos;i="4.97,555,1389772800"; d="scan'208";a="489288538"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.45])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Feb 2014 07:18:23 -0800
+Date: Thu, 27 Feb 2014 17:18:23 +0200
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: David =?iso-8859-1?Q?Nystr=F6m?= <david.nystrom@enea.com>
+Message-ID: <20140227151815.GC3534@lpalcu-linux>
+References: <1393507701-22512-1-git-send-email-david.nystrom@enea.com>
+	<20140227142404.GB3534@lpalcu-linux> <530F4D46.1060401@enea.com>
 MIME-Version: 1.0
-To: Corneliu Stoicescu <corneliux.stoicescu@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1393509196-26371-1-git-send-email-corneliux.stoicescu@intel.com>
-	<530F445B.2030500@linux.intel.com>
-In-Reply-To: <530F445B.2030500@linux.intel.com>
-Subject: Re: [PATCH] oe-selftest: Fix for test_rm_old_image
+In-Reply-To: <530F4D46.1060401@enea.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] Attempt to unify predefined package feed handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,64 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 15:03:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Feb 2014 15:18:25 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-My bad, missed a line while reading the patch.
-Seems ok.
-On 2/27/2014 3:57 PM, Alexandru Palalau wrote:
-> On 2/27/2014 3:53 PM, Corneliu Stoicescu wrote:
->> After recent changes in poky this test was not working as it should.
->> This commit fixes and improves the test logic.
->>
->> Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
->> ---
->>   meta/lib/oeqa/selftest/buildoptions.py | 12 +++++++++---
->>   1 file changed, 9 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/lib/oeqa/selftest/buildoptions.py
->> b/meta/lib/oeqa/selftest/buildoptions.py
->> index ef6579b..93b02cf 100644
->> --- a/meta/lib/oeqa/selftest/buildoptions.py
->> +++ b/meta/lib/oeqa/selftest/buildoptions.py
->> @@ -26,10 +26,16 @@ class ImageOptionsTests(oeSelfTest):
->>           bitbake("core-image-minimal")
->>           deploydir = get_bb_var("DEPLOY_DIR_IMAGE",
->> target="core-image-minimal")
->>           imagename = get_bb_var("IMAGE_LINK_NAME",
->> target="core-image-minimal")
->> -        oldimgpath = os.path.realpath(os.path.join(deploydir,
->> imagename + ".ext3"))
->> +        deploydir_files = os.listdir(deploydir)
->> +        track_original_files = []
->> +        for image_file in deploydir_files:
->> +            if imagename in image_file and
->> os.path.islink(os.path.join(deploydir, image_file)):
->> +
->> track_original_files.append(os.path.realpath(os.path.join(deploydir,
->> image_file)))
->>           self.append_config("RM_OLD_IMAGE = \"1\"")
->> -        bitbake("core-image-minimal")
->> -        self.assertFalse(os.path.exists(oldimgpath), msg="Old image
->> path still exists: %s" % oldimgpath)
->> +        bitbake("-C rootfs core-image-minimal")
->> +        deploydir_files = os.listdir(deploydir)
-> The line above appears twice.
->> +        remaining_not_expected = [path for path in
->> track_original_files if os.path.basename(path) in deploydir_files]
->> +        self.assertFalse(remaining_not_expected, msg="\nThe following
->> image files ware not removed: %s" % ', '.join(map(str,
->> remaining_not_expected)))
->>
->>       def test_ccache_tool(self):
->>           bitbake("ccache-native")
->>
->
-> Cheers,
->
+On Thu, Feb 27, 2014 at 03:35:50PM +0100, David Nyström wrote:
+> On 2014-02-27 15:24, Laurentiu Palcu wrote:
+> >Hi David,
+> >
+> >My comments/questions below.
+> 
+> Thank you for your detailed comments on the RFC.
+> I will return with V2, where your comments are addressed when the
+> general approach is Acked.
+> 
+> What do you think about the general approach ?
+I think the approach is ok. I don't know a simpler way than this to add
+package feeds into the image.
 
+> I guess it was you who added the insert_feeds_uris stubs in rootfs.py ?
+Yes, I added the stubs in preparation for this. But I didn't know
+when/if this will be done. Thanks for taking care of this.
 
--- 
-Alexandru Palalau
+laurentiu
+
 
