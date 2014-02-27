@@ -1,30 +1,38 @@
-Return-Path: <alexandrux.palalau@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A0E060DDF
+Return-Path: <sebmennetrier@gmail.com>
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AD7B6F17C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2014 13:57:49 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 27 Feb 2014 05:57:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.97,555,1389772800"; d="scan'208";a="490900298"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 27 Feb 2014 05:57:48 -0800
-Received: from [10.237.108.30] (apalalax-mobl.ger.corp.intel.com
-	[10.237.108.30])
-	by linux.intel.com (Postfix) with ESMTP id 48E1A6A4083;
-	Thu, 27 Feb 2014 05:57:38 -0800 (PST)
-Message-ID: <530F445B.2030500@linux.intel.com>
-Date: Thu, 27 Feb 2014 15:57:47 +0200
-From: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
-Organization: Intel OTC
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.3.0
+	Thu, 27 Feb 2014 14:02:52 +0000 (UTC)
+Received: by mail-we0-f181.google.com with SMTP id q58so1540908wes.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Feb 2014 06:02:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=6pv3mn3Zk5TkFdl2mrkpBnXJRaezTQMGGmExTXL9tsc=;
+	b=IN19/lZuqK3VTooc8r7FjieSFrRGRExnRerHWaul9RK67Fr5jEYV0QaMv7gcdIEAey
+	wDCZSm93k68PY6NgCh4uOfPzXeG3/+y5Fur6ONwABnO7RsqNXh/FLQQ/iTGsqW/pDTdT
+	J7ozzI2mtng63Xoh3GEuFea75K11WjABEb+UxlrDIqL78qqsqwD74wpVZxtvT5PhGbaS
+	n8jYy9sv+zACWU8EImB2UuCtTh9hdSjHvsIEwUHxYbTxFRjLPd2jDKYPaKbsBaeZHT7i
+	DXprwLR4vzQbghBLoBSEzdpD6nd6EuPA3UxZ+mluqmvrSGMruUd0moez+QA6PbAdZuYc
+	nlqg==
+X-Received: by 10.180.93.74 with SMTP id cs10mr9982527wib.15.1393509773468;
+	Thu, 27 Feb 2014 06:02:53 -0800 (PST)
+Received: from smennetrier-desktop.mpl.mstarsemi.fr
+	(connected-labs-gw1.ter2.neodc.mpl.cust.as8218.eu. [94.103.137.126])
+	by mx.google.com with ESMTPSA id
+	ha1sm11461772wjc.23.2014.02.27.06.02.52 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 27 Feb 2014 06:02:52 -0800 (PST)
+Sender: Sebastien MENNETRIER <sebmennetrier@gmail.com>
+From: =?UTF-8?q?S=C3=A9bastien=20Mennetrier?= <s.mennetrier@innotis.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Feb 2014 15:02:04 +0100
+Message-Id: <1393509724-26931-1-git-send-email-s.mennetrier@innotis.org>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: Corneliu Stoicescu <corneliux.stoicescu@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1393509196-26371-1-git-send-email-corneliux.stoicescu@intel.com>
-In-Reply-To: <1393509196-26371-1-git-send-email-corneliux.stoicescu@intel.com>
-Subject: Re: [PATCH] oe-selftest: Fix for test_rm_old_image
+Subject: [PATCH] libomxil: Fix link issue for gst-omx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +45,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2014 13:57:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Feb 2014 14:02:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2/27/2014 3:53 PM, Corneliu Stoicescu wrote:
-> After recent changes in poky this test was not working as it should.
-> This commit fixes and improves the test logic.
->
-> Signed-off-by: Corneliu Stoicescu <corneliux.stoicescu@intel.com>
-> ---
->   meta/lib/oeqa/selftest/buildoptions.py | 12 +++++++++---
->   1 file changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-> index ef6579b..93b02cf 100644
-> --- a/meta/lib/oeqa/selftest/buildoptions.py
-> +++ b/meta/lib/oeqa/selftest/buildoptions.py
-> @@ -26,10 +26,16 @@ class ImageOptionsTests(oeSelfTest):
->           bitbake("core-image-minimal")
->           deploydir = get_bb_var("DEPLOY_DIR_IMAGE", target="core-image-minimal")
->           imagename = get_bb_var("IMAGE_LINK_NAME", target="core-image-minimal")
-> -        oldimgpath = os.path.realpath(os.path.join(deploydir, imagename + ".ext3"))
-> +        deploydir_files = os.listdir(deploydir)
-> +        track_original_files = []
-> +        for image_file in deploydir_files:
-> +            if imagename in image_file and os.path.islink(os.path.join(deploydir, image_file)):
-> +                track_original_files.append(os.path.realpath(os.path.join(deploydir, image_file)))
->           self.append_config("RM_OLD_IMAGE = \"1\"")
-> -        bitbake("core-image-minimal")
-> -        self.assertFalse(os.path.exists(oldimgpath), msg="Old image path still exists: %s" % oldimgpath)
-> +        bitbake("-C rootfs core-image-minimal")
-> +        deploydir_files = os.listdir(deploydir)
-The line above appears twice.
-> +        remaining_not_expected = [path for path in track_original_files if os.path.basename(path) in deploydir_files]
-> +        self.assertFalse(remaining_not_expected, msg="\nThe following image files ware not removed: %s" % ', '.join(map(str, remaining_not_expected)))
->
->       def test_ccache_tool(self):
->           bitbake("ccache-native")
->
+gst-omx element can not load due to a missing symbol.
+Missing symbol RM_Deinit.
 
-Cheers,
+Signed-off-by: Sébastien Mennetrier <s.mennetrier@innotis.org>
+---
+ .../libomxil/libomxil-0.9.3/dynamicloader-linking.patch       | 11 +++++++++++
+ meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb            |  3 ++-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
 
+diff --git a/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
+new file mode 100644
+index 0000000..c0fa6d8
+--- /dev/null
++++ b/meta/recipes-multimedia/libomxil/libomxil-0.9.3/dynamicloader-linking.patch
+@@ -0,0 +1,11 @@
++--- a/src/dynamic_loader/Makefile.am	2014-02-25 15:29:10.128549636 +0100
+++++ b/src/dynamic_loader/Makefile.am	2014-02-25 15:30:15.756548808 +0100
++@@ -3,7 +3,7 @@
++ omxdynamicloader_LTLIBRARIES = libomxdynamicloader.la
++ libomxdynamicloader_la_SOURCES = ste_dynamic_component_loader.c ste_dynamic_component_loader.h
++ 
++-libomxdynamicloader_la_LDFLAGS =
+++libomxdynamicloader_la_LDFLAGS = -lomxil-bellagio -L$(top_builddir)/src/.libs
++ libomxdynamicloader_la_CFLAGS = -I$(top_srcdir)/include \
++ 			-I$(top_srcdir)/src \
++ 			-I$(top_srcdir)/src/base \
+diff --git a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+index f6c6a16..4a7633d 100644
+--- a/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
++++ b/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb
+@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ae6f0f4dbc7ac193b50f323a6ae191cb \
+ SRC_URI = "${SOURCEFORGE_MIRROR}/omxil/libomxil-bellagio-${PV}.tar.gz \
+            file://configure-fix.patch \
+            file://parallel-make.patch \
+-           file://makefile-docdir-fix.patch"
++           file://makefile-docdir-fix.patch \
++           file://dynamicloader-linking.patch"
+ 
+ SRC_URI[md5sum] = "a1de827fdb75c02c84e55f740ca27cb8"
+ SRC_URI[sha256sum] = "593c0729c8ef8c1467b3bfefcf355ec19a46dd92e31bfc280e17d96b0934d74c"
 -- 
-Alexandru Palalau
+1.8.1.2
+
 
